@@ -17,7 +17,7 @@
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
  *   BG_SYS_PushTile 0x020409B4 arm
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  *   func_02040588 0x02040588 arm
  *   BG_SYS_Init 0x02040C14 arm
  *   BG_SYS_SetTileEntry 0x02041300 arm
@@ -36,7 +36,7 @@ extern const struct BgTemplate d_021DA690, d_021DA6B0, d_021DA6D0, d_021DA6F0, d
 extern void BG_SYS_InitBgLayer(u32, const struct BgTemplate *, u32);
 extern void BG_SYS_FreeSlot(u32);
 extern void BG_SYS_PushTile(u32);
-extern void BG_SYS_SetVisibleLayer(int, u16);
+extern void BG_SYS_SetPriority(int, u16);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_Init(u32, u32, u32, u32);
 extern void BG_SYS_SetTileEntry(u32, u32, u32, u32, u8, u8, u8);
@@ -47,7 +47,7 @@ void GSYNC_MENU_InitBgLayers(char *a0)
     BG_SYS_InitBgLayer(0, &b[4], 0);
     BG_SYS_FreeSlot(0);
     BG_SYS_PushTile(0);
-    BG_SYS_SetVisibleLayer(0, 0);
+    BG_SYS_SetPriority(0, 0);
     func_02040588(0, 1);
     b[3] = d_021DA6B0;
     BG_SYS_InitBgLayer(4, &b[3], 0);

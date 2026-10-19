@@ -13,7 +13,7 @@
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  *   HAND_ITEM_GetParam  0x021DCFF8  thumb  ov093
- *   BTLV_CORE_AddSlotIndex  0x021E8C50  thumb  ov093
+ *   BTL_SICKCONT_AddIndex  0x021E8C50  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -23,7 +23,7 @@ extern int BTL_EVENT_GetVar(int key);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 extern int HAND_ITEM_GetParam(int a, int b);
 union U;
-extern void BTLV_CORE_AddSlotIndex(union U *p, u32 v);
+extern void BTL_SICKCONT_AddIndex(union U *p, u32 v);
 
 void HAND_ITEM_LightClay_ExtendScreen(int a, int b, int c)
 {
@@ -33,7 +33,7 @@ void HAND_ITEM_LightClay_ExtendScreen(int a, int b, int c)
     if (c == BTL_EVENT_GetVar(2) && (u32)BTL_EVENT_GetVar(0x53) <= 1) {
         t = BTL_EVENT_GetVar(0x1e);
         k = HAND_ITEM_GetParam(a, 2);
-        BTLV_CORE_AddSlotIndex((union U *)(&t), k);
+        BTL_SICKCONT_AddIndex((union U *)(&t), k);
         BTL_EVENT_OverwriteVar(0x1e, t);
     }
 }

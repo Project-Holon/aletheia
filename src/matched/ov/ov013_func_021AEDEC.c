@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   gVctWork 0x021B3C80 data ov013 a4
- *   VCT_SESSION_RemoveMember 0x021B074C arm ov013
+ *   VCT_MIXER_RemoveMember 0x021B074C arm ov013
  *   VCT_SESSION_FreePeerRecord 0x021B1F54 arm ov013
  *   DWC_RAP_CleanupVchat 0x02156400 thumb ov009
  */
@@ -20,12 +20,12 @@
 typedef unsigned char u8;
 extern struct Work *gVctWork;
 struct Node;
-extern void VCT_SESSION_RemoveMember(void *);
+extern void VCT_MIXER_RemoveMember(void *);
 extern int VCT_SESSION_FreePeerRecord(struct Node *);
 extern void DWC_RAP_CleanupVchat(void);
 void VCT_MAIN_ReleasePeer(struct Node *p)
 {
-    VCT_SESSION_RemoveMember(p);
+    VCT_MIXER_RemoveMember(p);
     VCT_SESSION_FreePeerRecord(p);
     *(int *)(((u8 *)gVctWork) + 0x1A1C) = 0;
     DWC_RAP_CleanupVchat();

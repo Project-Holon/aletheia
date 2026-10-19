@@ -13,7 +13,7 @@
  *
  * symbols:
  *   RESEARCH_LIST_SetScrollY  0x021BC3B8  thumb  ov217
- *   BG_SYS_FillScrollArea  0x02040618  arm  arm9
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm  arm9
  *
  * Addresses are Black-image addresses.
  */
@@ -25,10 +25,10 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 void RESEARCH_LIST_SetScrollY(u32 a0)
 {
-    BG_SYS_FillScrollArea(2, 3, a0);
-    BG_SYS_FillScrollArea(3, 3, a0);
+    BG_SYS_ChangeScrollImmediate(2, 3, a0);
+    BG_SYS_ChangeScrollImmediate(3, 3, a0);
 }
 

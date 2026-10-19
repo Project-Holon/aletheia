@@ -21,20 +21,20 @@
  *   STA_ACT_LIGHT_CopyActorPos 0x021F8044 thumb ov112
  *   STA_ACT_LIGHT_GetElemPos 0x021F6F04 thumb ov112
  *   STA_ACT_AUDIENCE_SetBgScroll 0x021FA57C thumb ov132
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   STA_ACT_AUDIENCE_SetSlotValue 0x021FA558 thumb ov132
  *   STA_ACT_AUDIENCE_SetHighlight 0x021FA56C thumb ov132
  *   GFL_USE_GetRandomBelow 0x02005728 thumb
  *   d_021FDCC4 0x021FDCC4 data a4
  *   STA_ACTING_GetCameraPos 0x021F9DFC thumb ov132
  *   MUSICAL_PROGRAM_GetCategoryBonus 0x0215725C thumb ov010
- *   STA_ACTING_GetCameraTarget 0x021F9E04 thumb ov132
+ *   STA_ACTING_GetCameraScrollX 0x021F9E04 thumb ov132
  *   STA_ACTING_GetActorSystem 0x021F9DA0 thumb ov132
  *   STA_ACTING_GetActor 0x021F9DA4 thumb ov132
  *   STA_ACTING_GetCharSystem 0x021F9DD4 thumb ov132
  *   STA_ACTING_GetCharSlot 0x021F9DDC thumb ov132
  *   BG_SYS_SetTileEntry 0x02041300 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   d_021FDC16 0x021FDC16 data a2
  */
 #include "ov132_types.h"
@@ -53,7 +53,7 @@ extern unsigned GFL_USE_GetRandomBelow(unsigned);
 
 extern u8 MUSICAL_PROGRAM_GetCategoryBonus(u8 *, int);
 
-extern u16 STA_ACTING_GetCameraTarget(u8 *p);
+extern u16 STA_ACTING_GetCameraScrollX(u8 *p);
 
 extern void *STA_ACTING_GetActorSystem(char *p);
 
@@ -67,9 +67,9 @@ extern void STA_ACT_LIGHT_GetElemPos(void *,char *,Vec *);
 
 extern void BG_SYS_SetTileEntry(u32,u16,u8,u8,u8,u8,u8);
 
-extern void BG_SYS_SetFlagField06(u32);
+extern void BG_SYS_MarkTileDirty(u32);
 
-extern void BG_SYS_FillScrollArea(unsigned, unsigned, unsigned);
+extern void BG_SYS_ChangeScrollImmediate(unsigned, unsigned, unsigned);
 
 char *STA_ACT_AUDIENCE_Create(unsigned heap, void *a, unsigned b);
 
@@ -256,7 +256,7 @@ void STA_ACT_AUDIENCE_UpdateRecord(char *p,u8 *rec)
             else if(rec[6]<6) STA_ACT_AUDIENCE_DrawRecord(p,rec,1);
             else STA_ACT_AUDIENCE_DrawRecord(p,rec,0);
         } else {
-            STA_ACTING_GetCameraTarget(((struct ActAudience *)p)->scene);
+            STA_ACTING_GetCameraScrollX(((struct ActAudience *)p)->scene);
             x=((rec[6]*32-64)*4)/3;
             if(rec[0]!=255) {
                 a=STA_ACTING_GetActorSystem(((struct ActAudience *)p)->scene);
@@ -299,8 +299,8 @@ void STA_ACT_AUDIENCE_DrawRecord(char *p,u8 *rec,unsigned type)
             BG_SYS_SetTileEntry(6,t,x,row+rec[7]*4+5,1,1,0);
         }
     }
-    BG_SYS_SetFlagField06(4);
-    BG_SYS_SetFlagField06(6);
+    BG_SYS_MarkTileDirty(4);
+    BG_SYS_MarkTileDirty(6);
 }
 
 void STA_ACT_AUDIENCE_ApplyChoices(char *p)
@@ -347,7 +347,7 @@ void STA_ACT_AUDIENCE_SetHighlight(char *p, u8 actor)
 void STA_ACT_AUDIENCE_SetBgScroll(void *unused, int scroll)
 {
     u16 v = ((scroll << 7) / 256) + 64;
-    BG_SYS_FillScrollArea(4, 0, v);
-    BG_SYS_FillScrollArea(6, 0, v);
-    BG_SYS_FillScrollArea(5, 0, v);
+    BG_SYS_ChangeScrollImmediate(4, 0, v);
+    BG_SYS_ChangeScrollImmediate(6, 0, v);
+    BG_SYS_ChangeScrollImmediate(5, 0, v);
 }

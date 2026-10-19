@@ -23,13 +23,13 @@
  *   GFL_USE_AddMainTask  0x020056A0  thumb
  *   BTLV_BG_Delete 0x0220977C thumb ov094
  *   TCB_AddTask  0x02030DA8  arm
- *   TCBL_GetTaskUserData   0x02030EE8  arm
+ *   TCBL_IsDeletePending   0x02030EE8  arm
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   BG_SYS_GetScrollX  0x020407E8  arm
  *   BG_SYS_GetScrollY  0x02040804  arm
  *   BTLV_BG_SetScroll  0x02209784  thumb  ov094
  *   BTLV_BG_StartScroll  0x022097CC  thumb  ov094
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   BTLV_BG_IsScrolling 0x0220985C thumb ov094
  *   BTLV_EFFECT_RegisterTask 0x021F896C thumb ov094
  *   BTLV_EFFECT_DeleteTask 0x021F89BC thumb ov094
@@ -81,9 +81,9 @@ extern void BTLV_EFFECT_ComputeVectorStep(const BtlvVec3 *from, const BtlvVec3 *
 
 extern int BTLV_EFFECT_StepMover(BtlvMover *mover, BtlvVec3 *outPos);
 
-extern u32 TCBL_GetTaskUserData(void *task);
+extern u32 TCBL_IsDeletePending(void *task);
 
-extern void BG_SYS_FillScrollArea(u32 layer, u32 param, u32 value);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 param, u32 value);
 
 BtlvBg *BTLV_BG_Create(void *taskSystem, u16 heapId);
 
@@ -230,7 +230,7 @@ void BTLV_BG_ScrollTask(void *task, void *arg)
 
 void BTLV_BG_OnScrollJobEnd(void *task)
 {
-    BtlvBg *bg = *((BtlvBg **)TCBL_GetTaskUserData(task));
+    BtlvBg *bg = *((BtlvBg **)TCBL_IsDeletePending(task));
     bg->scrolling = 0;
 }
 
@@ -241,9 +241,9 @@ void BTLV_BG_OnScrollJobEnd(void *task)
  */
 void BTLV_BG_ApplyScrollTask(void *task)
 {
-    BtlvBgScrollArgs *args = (BtlvBgScrollArgs *)TCBL_GetTaskUserData(task);
+    BtlvBgScrollArgs *args = (BtlvBgScrollArgs *)TCBL_IsDeletePending(task);
 
-    BG_SYS_FillScrollArea(3, 0, args->scrollX);
-    BG_SYS_FillScrollArea(3, 3, args->scrollY);
+    BG_SYS_ChangeScrollImmediate(3, 0, args->scrollX);
+    BG_SYS_ChangeScrollImmediate(3, 3, args->scrollY);
     BTLV_EFFECT_DeleteTask(task);
 }

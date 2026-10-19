@@ -1,5 +1,5 @@
 /*
- * function: WIFIBATTLEMATCH_NET_IsCompCardReady
+ * function: WIFIBATTLEMATCH_NET_IsCompRegCardReady
  * address:  0x021D9868
  * packet:   pkt_021D9868
  * region:   ov175
@@ -20,7 +20,7 @@ typedef unsigned long u32;
 
 extern u32 WIFIBATTLEMATCH_VIEW_StepRecordWindow(u32 p);
 
-u32 WIFIBATTLEMATCH_NET_IsCompCardReady(char *obj)
+u32 WIFIBATTLEMATCH_NET_IsCompRegCardReady(char *obj)
 {
     return WIFIBATTLEMATCH_VIEW_StepRecordWindow(((struct Obj24304 *)obj)->f20);
 }

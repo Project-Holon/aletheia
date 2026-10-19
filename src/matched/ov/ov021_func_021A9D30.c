@@ -13,7 +13,7 @@
  * symbols:
  *   POKE_TOOL_CreatePersonalRnd  0x020186C8  thumb
  *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
- *   POKE_PERSONAL_IsPlaceholderAbility  0x0201AF6C  thumb
+ *   POKE_PERSONAL_IsFixedGender  0x0201AF6C  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -37,7 +37,7 @@ struct Slot14 { u16 f00; u8 pad02[3]; u8 f05; u8 f06; u8 pad07[9]; u8 f10; };
 
 struct Personal;
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
-extern u32 POKE_PERSONAL_IsPlaceholderAbility(u32 v);
+extern u32 POKE_PERSONAL_IsFixedGender(u32 v);
 extern u32 POKE_TOOL_CreatePersonalRnd(u32 a0, int a1, int a2, int a3, int a4, int a5);
 
 u32 FIELD_ENCOUNT_CreatePersonality(struct Unit *u, void *src, struct Slot14 *s)
@@ -46,7 +46,7 @@ u32 FIELD_ENCOUNT_CreatePersonality(struct Unit *u, void *src, struct Slot14 *s)
     u32 r;
     u32 x;
 
-    if (POKE_PERSONAL_IsPlaceholderAbility((u8)POKE_PERSONAL_GetParam(src, 0x14)) != 1) {
+    if (POKE_PERSONAL_IsFixedGender((u8)POKE_PERSONAL_GetParam(src, 0x14)) != 1) {
         if (u->b11) {
             if (u->f1C == 0)
                 gender = 1;

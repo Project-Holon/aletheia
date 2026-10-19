@@ -14,7 +14,7 @@
  *   BTLV_EFFVM_RefreshMcssOrtho  0x021FDB20  thumb  ov094
  *   BTLV_EFFECT_GetCamera  0x021F8684  thumb  ov094
  *   BTLV_CAMERA_RotateOrbit  0x021F6F20  thumb  ov094
- *   BTLV_CAMERA_ComputeOrbitOffset  0x021F7108  thumb  ov094
+ *   BTLV_CAMERA_AdvanceOrbitEye  0x021F7108  thumb  ov094
  *   BTLV_CAMERA_StartMove  0x021F6F48  thumb  ov094
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -29,7 +29,7 @@ extern u32 VM_GetU32(struct Cursor *p);
 extern void BTLV_EFFVM_RefreshMcssOrtho(Ctx *c);
 extern int BTLV_EFFECT_GetCamera(void);
 extern void BTLV_CAMERA_RotateOrbit(int cam, int a, int b);
-extern void BTLV_CAMERA_ComputeOrbitOffset(int *p, int a, int b, int *out, int *base);
+extern void BTLV_CAMERA_AdvanceOrbitEye(int *p, int a, int b, int *out, int *base);
 extern void BTLV_CAMERA_StartMove(int cam, int *a, int *b, int n, int s, int t);
 
 int BTLV_EFFVM_CmdRotateCameraOrbit(void *r, Ctx *c)
@@ -55,7 +55,7 @@ int BTLV_EFFVM_CmdRotateCameraOrbit(void *r, Ctx *c)
         BTLV_CAMERA_RotateOrbit(BTLV_EFFECT_GetCamera(), v1, v2);
         break;
     case 1:
-        BTLV_CAMERA_ComputeOrbitOffset((int *)BTLV_EFFECT_GetCamera(), v1, v2, E, F);
+        BTLV_CAMERA_AdvanceOrbitEye((int *)BTLV_EFFECT_GetCamera(), v1, v2, E, F);
         BTLV_CAMERA_StartMove(BTLV_EFFECT_GetCamera(), E, F, v3, v4, v5);
         break;
     }

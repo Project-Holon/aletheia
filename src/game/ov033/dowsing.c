@@ -18,7 +18,7 @@
  *   GFL_HEAP_Free 0x020307B0 arm
  *   ZONEDATA_CheckEventFlag 0x020142E8 thumb
  *   INTRUDE_FindOfferSlotAt 0x021CFAC0 thumb ov021
- *   EVENTDATA_SYSTEM_GetHiddenItemTable 0x0216476C thumb ov010
+ *   HIDDEN_ITEM_GetTable 0x0216476C thumb ov010
  *   INTRUDE_GetNextOfferSpot 0x021CFB68 thumb ov021
  *   ARC_UTIL_LoadMemberWithSize 0x0204A298 arm
  *   GFL_USE_AddMainTask 0x020056A0 thumb
@@ -54,7 +54,7 @@
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
@@ -67,8 +67,8 @@
  *   ARC_UTIL_UploadBgPaletteAddFromHandle 0x02049990 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BG_SYS_FillTileMap 0x020413B0 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
@@ -141,7 +141,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int align, const char *file, u
 extern u32 GFL_HEAP_Free(void *mem);
 extern u32 ZONEDATA_CheckEventFlag(void *flagBitmap, s32 flagId);
 extern int INTRUDE_FindOfferSlotAt(void *eventData, int zoneId, int x, int y, int z);
-extern const DowsingHiddenItem *EVENTDATA_SYSTEM_GetHiddenItemTable(u16 *count);
+extern const DowsingHiddenItem *HIDDEN_ITEM_GetTable(u16 *count);
 extern const DowsingMapEvent *INTRUDE_GetNextOfferSpot(void *eventData, unsigned *index);
 extern void *ARC_UTIL_LoadMemberWithSize(u32 arcId, u32 fileId, int compressed, u32 heapId, u32 *outSize);
 extern struct Task *GFL_USE_AddMainTask(void (*proc)(int, DowsingWork *), DowsingWork *work, u32 priority);
@@ -181,7 +181,7 @@ extern void PALANM_TransferPalettes(struct PalAnmSlot *palAnm);
 extern void BG_SYS_SetPlaneVisible(unsigned char bgId, unsigned char visible);
 extern void BG_SYS_InitBgLayer(unsigned int bgId, const struct BgTemplate *bgTemplate, unsigned int bgType);
 extern void BG_SYS_FreeSlot(unsigned char bgId);
-extern void BG_SYS_FillScrollArea(unsigned char bgId, unsigned attr, unsigned value);
+extern void BG_SYS_ChangeScrollImmediate(unsigned char bgId, unsigned attr, unsigned value);
 extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct ClactUnit *unit);
 extern void BG_SYS_SetSubPlaneVisible(unsigned, unsigned);
@@ -193,8 +193,8 @@ extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *archive, u32 fileId, u32 bgI
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *archive, u32 fileId, u32 bgId, u32 offset, u32 charRegion, u32 x, u32 y, u16 heapId);
 extern void ARC_TOOL_DeleteHandle(void *archive);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void BG_SYS_SetFlagField06(unsigned bgId);
-extern void BG_SYS_DeleteHalf(u32 bgId, u32 offset, u32 size);
+extern void BG_SYS_MarkTileDirty(unsigned bgId);
+extern void BG_SYS_FreeTileRun(u32 bgId, u32 offset, u32 size);
 extern s32 CLACT_RegisterPaletteEx(void *archive, u32 fileId, u32 slotCount, u32 offset, u16 e, u16 f, u16 heapId);
 extern s32 CLACT_RegisterCharacter(void *archive, u32 fileId, u32 compressed, u32 mode, u16 heapId);
 extern s32 CLACT_RegisterCellAnim(void *archive, u32 cellFileId, u32 animFileId, u32 heapId);
@@ -314,7 +314,7 @@ int DOWSING_FindNextTarget(DowsingSearch *search, DowsingTarget *out, int mode)
     int found;
 
     found = 0;
-    items = EVENTDATA_SYSTEM_GetHiddenItemTable(&itemCount);
+    items = HIDDEN_ITEM_GetTable(&itemCount);
     eventIndex = search->eventIndex;
     if (mode == 0 || mode == 1) {
         while (search->itemIndex < itemCount) {
@@ -691,8 +691,8 @@ void DOWSING_InitBgsAndActorUnit(DowsingWork *work)
         BG_SYS_InitBgLayer((unsigned char)bgId, (const struct BgTemplate *)setup->bgTemplate, (unsigned char)setup->bgType);
         BG_SYS_FreeSlot(bgId);
         BG_SYS_SetPlaneVisible((unsigned char)bgId, (unsigned char)setup->visible);
-        BG_SYS_FillScrollArea(bgId, 0, 0);
-        BG_SYS_FillScrollArea(bgId, 3, 0);
+        BG_SYS_ChangeScrollImmediate(bgId, 0, 0);
+        BG_SYS_ChangeScrollImmediate(bgId, 3, 0);
     }
     work->clactUnit = CLACT_CreateUnit(8, 0, work->heapId);
     CLACT_SetUnitDefaultRenderer(work->clactUnit);
@@ -718,14 +718,14 @@ void DOWSING_LoadBackground(DowsingWork *work)
     ARC_UTIL_UploadBgPaletteAddFromHandle(archive, 7, 7, 0, (unsigned short)charRegion, 0, 0, heapId);
     ARC_TOOL_DeleteHandle(archive);
     BG_SYS_FillTileMap(7, 0, 0, 0x20, 0x18, 1);
-    BG_SYS_SetFlagField06(7);
+    BG_SYS_MarkTileDirty(7);
     work->bgCharRegion7 = charRegion;
 }
 
 void DOWSING_FreeBackground(DowsingWork *work)
 {
     unsigned region = work->bgCharRegion7;
-    BG_SYS_DeleteHalf(7, (unsigned short)region, (unsigned short)(region >> 16));
+    BG_SYS_FreeTileRun(7, (unsigned short)region, (unsigned short)(region >> 16));
 }
 
 /*
@@ -820,7 +820,7 @@ void DOWSING_CreateCloseButton(DowsingWork *work)
             tiles[i] = (base + tiles[i]) | 0x2000;
         }
         BG_SYS_DrawTileEx(4, 0, 0x15, 0x20, 3, (u32)screen->tiles, 0, 0x15, 0x20, 0x18);
-        BG_SYS_SetFlagField06(4);
+        BG_SYS_MarkTileDirty(4);
         GFL_HEAP_Free(screenFile);
         work->buttonPalRes = CLACT_RegisterPaletteEx(archive, APP_ICON_GetMoveKindPaletteFileId(), 1, 0x20, 0, 3, work->heapId);
         work->buttonCharRes = CLACT_RegisterCharacter(archive, APP_ICON_GetMoveKindAnimFileId(), 0, 1, work->heapId);
@@ -844,7 +844,7 @@ void DOWSING_DeleteCloseButton(DowsingWork *work)
     CLACT_ReleaseCharacter(work->buttonCharRes);
     CLACT_ReleasePalette(work->buttonPalRes);
     region = work->bgCharRegion4;
-    BG_SYS_DeleteHalf(4, (unsigned short)region, (unsigned short)(region >> 16));
+    BG_SYS_FreeTileRun(4, (unsigned short)region, (unsigned short)(region >> 16));
     INFOWIN_Exit();
 }
 

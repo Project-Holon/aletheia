@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PROC_DaycareInitFromParty
+ * function: SCRCMD_PROC_ReceiveDaycareEgg
  * address: 0x0215CEBC
  * packet: pkt_ov010_0215CEBC
  * region: ov010
@@ -25,7 +25,7 @@ extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern void *FIELDMAP_GetSodateya(unsigned char *);
 extern void SODATEYA_ReceiveEgg(unsigned int *, unsigned int);
 
-int SCRCMD_PROC_DaycareInitFromParty(void *a, void *b)
+int SCRCMD_PROC_ReceiveDaycareEgg(void *a, void *b)
 {
     void *p = SCRCMD_WORK_GetGameSystem(b);
     void *q = GAME_DATA_GetMyParty(SCRCMD_WORK_GetGameData(b));

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "MICTEST_HasFreeSlot",
+   "name": "MICTEST_AreAllSpritesIdle",
    "address": "0x021845E0",
    "kind": "game",
    "region": "ov168",

@@ -26,7 +26,7 @@
  *   ZONEDATA_GetPlaceNameId 0x02013E4C thumb
  *   WORDSET_SetSlotFromMsg59 0x0201F158 thumb
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
- *   BEACON_CountFlags 0x0200C258 thumb
+ *   BEACON_CountBadges 0x0200C258 thumb
  *   GAME_DATA_GetEventWork 0x0201296C thumb
  *   ZONEDATA_CheckEventFlag 0x020142E8 thumb
  *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
@@ -42,7 +42,7 @@
  *   func_020086D8 0x020086D8 thumb
  *   func_020086E0 0x020086E0 thumb
  *   func_020086E8 0x020086E8 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
@@ -102,7 +102,7 @@ extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
 extern u32 ZONEDATA_GetPlaceNameId(u32);
 extern void WORDSET_SetSlotFromMsg59(struct WordSet *p, u32 i, u32 v);
 extern void *GAME_DATA_GetMiscSave(int *p);
-extern u32 BEACON_CountFlags(struct Blk34 *p);
+extern u32 BEACON_CountBadges(struct Blk34 *p);
 extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 extern u32 ZONEDATA_CheckEventFlag(void *,int);
 extern void *ZUKAN_SAVE_GetFromGameData(void *);
@@ -121,7 +121,7 @@ extern u32 func_020086D8(const struct PlayTime *p);
 extern u32 func_020086E0(const struct PlayTime *p);
 extern u32 func_020086E8(const struct PlayTime *p);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern const u8 sReportWindowLayouts[];
 static inline void print_record(u8 *p,u32 index,void *dst,void *s,u32 y,u16 color,u32 one)
@@ -171,7 +171,7 @@ void REPORT_InitWindows(u8 *p)
     WORDSET_CopyTaggedText(ws,dst,s3);
     print_record(p,3,dst,s3,0,0x3DC0,one);
     s4=func_02045EC0(bank,4);
-    WORDSET_SetSlotNumber(ws,0,BEACON_CountFlags(GAME_DATA_GetMiscSave(ctx)),2,0,1);
+    WORDSET_SetSlotNumber(ws,0,BEACON_CountBadges(GAME_DATA_GetMiscSave(ctx)),2,0,1);
     WORDSET_CopyTaggedText(ws,dst,s4);
     print_record(p,4,dst,s4,0,0x3DC0,one);
     if(ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(((struct Obj00166 *)p)->f0)),0x962)==1) {
@@ -198,6 +198,6 @@ void REPORT_InitWindows(u8 *p)
         print_record(p,7,dst,s7,4,0x3580,one);
     } else BMP_WIN_TransferChars((struct Descriptor *)((struct Obj00166 *)p)->f44);
     STRBUF_Delete(dst);
-    WORDSET_DeleteStrbufED04(ws);
+    WORDSET_Delete(ws);
     MSGDATA_Delete(bank);
 }

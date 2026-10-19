@@ -1,5 +1,5 @@
 /*
- * function: UNION_COMMAND_RecvAppQuitCancel
+ * function: UNION_COMMAND_RecvAppSettingRequest
  * address:  0x02173E90
  * packet:   pkt_ov012_02173E90
  * region:   ov012
@@ -23,7 +23,7 @@ extern u32 GFL_NET_IsParentAid(void);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void UNION_APP_AddSettingTarget(u8 *p, u8 a);
 
-void UNION_COMMAND_RecvAppQuitCancel(int a, int b, int c, u8 *p)
+void UNION_COMMAND_RecvAppSettingRequest(int a, int b, int c, u8 *p)
 {
     u8 *q;
     if (GFL_NET_IsParentAid() != 0) {

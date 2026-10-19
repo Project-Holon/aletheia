@@ -1,5 +1,5 @@
 /*
- * function: EVENTDATA_SYSTEM_GetHiddenItemFlag
+ * function: HIDDEN_ITEM_GetFlag
  * address:  0x02164708
  * packet:   pkt_ov010_02164708
  * region:   ov010
@@ -13,7 +13,7 @@
  * HiddenItemTable, offset by 900.
  *
  * symbols:
- *   EVENTDATA_SYSTEM_GetHiddenItemIndex  0x021646E8  thumb  ov010
+ *   HIDDEN_ITEM_GetIndex  0x021646E8  thumb  ov010
  *   HiddenItemTable     0x02171534  data
  */
 
@@ -25,10 +25,10 @@ typedef struct Rec10 {
 } Rec10;
 
 typedef unsigned int   u32;
-extern u16 EVENTDATA_SYSTEM_GetHiddenItemIndex(u32 n);
+extern u16 HIDDEN_ITEM_GetIndex(u32 n);
 extern const Rec10 HiddenItemTable[];
 
-u16 EVENTDATA_SYSTEM_GetHiddenItemFlag(u16 id)
+u16 HIDDEN_ITEM_GetFlag(u16 id)
 {
-    return HiddenItemTable[EVENTDATA_SYSTEM_GetHiddenItemIndex(id)].flag + 900;
+    return HiddenItemTable[HIDDEN_ITEM_GetIndex(id)].flag + 900;
 }

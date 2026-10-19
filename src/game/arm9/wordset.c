@@ -1,7 +1,7 @@
 /*
  * file:     wordset.c
  * unit:     yes
- * function: WORDSET_Create, WORDSET_DeleteStrbufED04, WORDSET_Init, WORDSET_ResetSlot, WORDSET_SetSlotText, WORDSET_SetSlotFromMessage, WORDSET_SetSlotTag, WORDSET_Callback, WORDSET_SetSlotMonName, WORDSET_SetSlotMonNameAlt, WORDSET_Callback_EEC4, WORDSET_SetSlotMonNameEx, WORDSET_SetSlotMonSpecies, WORDSET_SetSlotMonSpeciesAlt, WORDSET_SetSlotFromMsgCB, WORDSET_Callback_EF40, WORDSET_Callback_EF4C, WORDSET_SetSlotFromMsg118, WORDSET_SetSlotFromBank, WORDSET_SetSlotFromMsgB6, WORDSET_SetSlotFromMsg18, WORDSET_SetSlotNumber, WORDSET_SetSlotPmsWord, WORDSET_SetSlotMarkerFlag, WORDSET_SetSlotFromMsgC7, WORDSET_SetSlotMyStatus, WORDSET_SetSlotFromMsgE7, WORDSET_DeleteMsgdataF094, WORDSET_Set, WORDSET_SetSlotPokeData, WORDSET_Callback_F124, WORDSET_SetSlotFromMsgBE, WORDSET_SetSlotFromMsgB4, WORDSET_SetSlotFromMsg37, WORDSET_SetSlotFromMsg59, WORDSET_SetSlotBoxName, WORDSET_SetSlotFromMsgA0, WORDSET_SetSlotFromMsg2B, WORDSET_SetSlotFromMsg00, WORDSET_SetSlotFromMsg38, WORDSET_DrawF1E0, WORDSET_SetSlotMonth, WORDSET_CopyTaggedText, WORDSET_ClearAllSlots, WORDSET_LoadSpeciesNameBank, WORDSET_FormatNumber, WORDSET_CopyString, WORDSET_CheckF448, WORDSET_CheckF47C, WORDSET_ParsePackedLimits
+ * function: WORDSET_Create, WORDSET_Delete, WORDSET_Init, WORDSET_ResetSlot, WORDSET_SetSlotText, WORDSET_SetSlotFromMessage, WORDSET_SetSlotTag, WORDSET_SetSlotSpeciesName, WORDSET_SetSlotMonSpeciesName, WORDSET_SetSlotMonNameAlt, WORDSET_SetSlotFromMsg119, WORDSET_SetSlotMonNameEx, WORDSET_SetSlotMonNickname, WORDSET_SetSlotMonNicknameAlt, WORDSET_SetSlotFromMsgCB, WORDSET_SetSlotFromMsg36, WORDSET_SetSlotFromMsg117, WORDSET_SetSlotFromMsg118, WORDSET_SetSlotFromBank, WORDSET_SetSlotFromMsgB6, WORDSET_SetSlotFromMsg18, WORDSET_SetSlotNumber, WORDSET_SetSlotPmsWord, WORDSET_SetSlotMarkerFlag, WORDSET_SetSlotFromMsgC7, WORDSET_SetSlotMyStatus, WORDSET_SetSlotFromMsgE7, WORDSET_SetSlotFromKeyedMessage, WORDSET_SetSlotFromMsgBF, WORDSET_SetSlotPokeData, WORDSET_SetSlotFromMsg11B, WORDSET_SetSlotFromMsgBE, WORDSET_SetSlotFromMsgB4, WORDSET_SetSlotFromMsg37, WORDSET_SetSlotFromMsg59, WORDSET_SetSlotBoxName, WORDSET_SetSlotFromMsgA0, WORDSET_SetSlotFromMsg2B, WORDSET_SetSlotFromMsg00, WORDSET_SetSlotFromMsg38, WORDSET_SetSlotWeekday, WORDSET_SetSlotMonth, WORDSET_CopyTaggedText, WORDSET_ClearAllSlots, WORDSET_LoadSpeciesNameBank, WORDSET_FormatNumber, WORDSET_CopyString, WORDSET_IsStringEqual, WORDSET_IsPackedString, WORDSET_AppendUnpackedString
  * address:  0x0201EC74
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -23,7 +23,6 @@
  *   gSpeciesNameBank   0x020A7370  data
  *   PMSI_PARAM_ValidateDecoValue  0x0202473C  thumb
  *   BMP_OAM_Get  0x02025B94  thumb
- *   _u32_div_f     0x0209C2B0  arm
  *   gDigitGlyphsFullWidth     0x0209E784  data
  *   gDigitGlyphsHalfWidth     0x0209E758  data
  *   gPowersOfTen     0x0209E838  data
@@ -39,7 +38,7 @@
  *   MSGDATA_Delete  0x02045C04  arm
  *   TPOKE_DATA_GetRecordField  0x0202A230  thumb
  *   GF_FONT_GetTagChar 0x0201D5C4 thumb arm9
- *   GF_FONT_CheckD5CC 0x0201D5CC thumb arm9
+ *   GF_FONT_IsWordSlotTag 0x0201D5CC thumb arm9
  *   GF_FONT_AppendTag 0x0201D60C thumb arm9
  *   GF_FONT_GetTagParam 0x0201D670 thumb arm9
  *   GF_FONT_SkipTag 0x0201D688 thumb arm9
@@ -108,13 +107,12 @@ extern void BOX_SAVEDATA_GetBoxName(void *save, u32 box, struct Strbuf *dest);
 
 extern u16  STRBUF_GetEosChar(void);
 
-extern u32 _u32_div_f(u32 dividend, u32 divisor);
 
 extern void STRBUF_Append(struct Strbuf *dst, struct Strbuf *src);
 
 u32 GF_FONT_GetTagChar(void);
 
-u32 GF_FONT_CheckD5CC(const u16 *tag);
+u32 GF_FONT_IsWordSlotTag(const u16 *tag);
 
 void GF_FONT_AppendTag(struct Strbuf *text, u32 group, u32 kind, u16 paramCount, const u16 *params);
 
@@ -124,7 +122,7 @@ u16 *GF_FONT_SkipTag(u16 *tag);
 
 struct WordSet *WORDSET_Create(u32 slotCount, u32 textCapacity, u16 heapId);
 
-u32 WORDSET_DeleteStrbufED04(struct WordSet *words);
+u32 WORDSET_Delete(struct WordSet *words);
 
 void WORDSET_Init(struct WordTag *tag);
 
@@ -136,25 +134,25 @@ void WORDSET_SetSlotFromMessage(struct WordSet *words, u32 slot, u32 messageId, 
 
 void WORDSET_SetSlotTag(struct WordSet *words, u32 slot, struct Strbuf *src, u32 grammarCase, u32 isPlural, u32 gender);
 
-void WORDSET_Callback(struct WordSet *words, u32 slot, u16 speciesId);
+void WORDSET_SetSlotSpeciesName(struct WordSet *words, u32 slot, u16 speciesId);
 
-void WORDSET_SetSlotMonName(struct WordSet *words, u32 slot, void *mon);
+void WORDSET_SetSlotMonSpeciesName(struct WordSet *words, u32 slot, void *mon);
 
 void WORDSET_SetSlotMonNameAlt(struct WordSet *words, u32 slot, void *mon);
 
-void WORDSET_Callback_EEC4(struct WordSet *words, u32 slot, u32 entryIndex);
+void WORDSET_SetSlotFromMsg119(struct WordSet *words, u32 slot, u32 entryIndex);
 
 void WORDSET_SetSlotMonNameEx(struct WordSet *words, u32 slot, void *mon);
 
-void WORDSET_SetSlotMonSpecies(struct WordSet *words, u32 slot, void *mon);
+void WORDSET_SetSlotMonNickname(struct WordSet *words, u32 slot, void *mon);
 
-void WORDSET_SetSlotMonSpeciesAlt(struct WordSet *words, u32 slot, void *mon);
+void WORDSET_SetSlotMonNicknameAlt(struct WordSet *words, u32 slot, void *mon);
 
 void WORDSET_SetSlotFromMsgCB(struct WordSet *words, u32 slot, u32 entryIndex);
 
-void WORDSET_Callback_EF40(struct WordSet *words, u32 slot, u32 entryIndex);
+void WORDSET_SetSlotFromMsg36(struct WordSet *words, u32 slot, u32 entryIndex);
 
-void WORDSET_Callback_EF4C(struct WordSet *words, u32 slot, u32 entryIndex);
+void WORDSET_SetSlotFromMsg117(struct WordSet *words, u32 slot, u32 entryIndex);
 
 void WORDSET_SetSlotFromMsg118(struct WordSet *words, u32 slot, u32 entryIndex);
 
@@ -176,13 +174,13 @@ void WORDSET_SetSlotMyStatus(struct WordSet *words, u32 slot, void *source);
 
 void WORDSET_SetSlotFromMsgE7(struct WordSet *words, u32 slot, u32 entryIndex);
 
-void WORDSET_DeleteMsgdataF094(struct WordSet *words, u32 slot, u32 key, u32 entryIndex);
+void WORDSET_SetSlotFromKeyedMessage(struct WordSet *words, u32 slot, u32 key, u32 entryIndex);
 
-void WORDSET_Set(struct WordSet *words, u32 slot, u32 entryIndex);
+void WORDSET_SetSlotFromMsgBF(struct WordSet *words, u32 slot, u32 entryIndex);
 
 void WORDSET_SetSlotPokeData(struct WordSet *words, u32 slot, void *source);
 
-void WORDSET_Callback_F124(struct WordSet *words, u32 slot, u32 entryIndex);
+void WORDSET_SetSlotFromMsg11B(struct WordSet *words, u32 slot, u32 entryIndex);
 
 void WORDSET_SetSlotFromMsgBE(struct WordSet *words, u32 slot, u32 entryIndex);
 
@@ -202,7 +200,7 @@ void WORDSET_SetSlotFromMsg00(struct WordSet *words, u32 slot, u8 entryIndex);
 
 void WORDSET_SetSlotFromMsg38(struct WordSet *words, u32 slot, u32 entryIndex);
 
-void WORDSET_DrawF1E0(struct WordSet *words, u32 slot, u32 entryIndex);
+void WORDSET_SetSlotWeekday(struct WordSet *words, u32 slot, u32 entryIndex);
 
 void WORDSET_SetSlotMonth(struct WordSet *words, u32 slot, u32 entryIndex);
 
@@ -216,11 +214,11 @@ void WORDSET_FormatNumber(struct Strbuf *text, s32 number, u32 topDigitIndex, u3
 
 void WORDSET_CopyString(const u16 *src, u16 *dst, u32 maxLength);
 
-u32 WORDSET_CheckF448(const u16 *left, const u16 *right);
+u32 WORDSET_IsStringEqual(const u16 *left, const u16 *right);
 
-u32 WORDSET_CheckF47C(struct Strbuf *text);
+u32 WORDSET_IsPackedString(struct Strbuf *text);
 
-void WORDSET_ParsePackedLimits(struct Strbuf *dst, struct Strbuf *src);
+void WORDSET_AppendUnpackedString(struct Strbuf *dst, struct Strbuf *src);
 
 extern char gWordsetFileName[];
 
@@ -329,9 +327,9 @@ fail:
 /*
  * A whole translation unit, matched as one byte range.
  *
- *           WORDSET_SetSlotFromMessage, WORDSET_SetSlotTag, WORDSET_Callback, WORDSET_SetSlotMonName,
- *           WORDSET_SetSlotMonNameAlt, WORDSET_Callback_EEC4, WORDSET_SetSlotMonNameEx, WORDSET_SetSlotMonSpecies,
- *           WORDSET_SetSlotMonSpeciesAlt, WORDSET_SetSlotFromMsgCB, WORDSET_Callback_EF40, WORDSET_Callback_EF4C,
+ *           WORDSET_SetSlotFromMessage, WORDSET_SetSlotTag, WORDSET_SetSlotSpeciesName, WORDSET_SetSlotMonSpeciesName,
+ *           WORDSET_SetSlotMonNameAlt, WORDSET_SetSlotFromMsg119, WORDSET_SetSlotMonNameEx, WORDSET_SetSlotMonNickname,
+ *           WORDSET_SetSlotMonNicknameAlt, WORDSET_SetSlotFromMsgCB, WORDSET_SetSlotFromMsg36, WORDSET_SetSlotFromMsg117,
  *           WORDSET_SetSlotFromMsg118, WORDSET_SetSlotFromBank, WORDSET_SetSlotFromMsgB6, WORDSET_SetSlotFromMsg18,
  *           WORDSET_SetSlotNumber, WORDSET_SetSlotPmsWord
  *
@@ -361,7 +359,7 @@ fail:
  * what fixes the parameter type.  The two are the same address for an entry,
  * so the distinction is only visible at that one call site.
  *
- * WORDSET_Callback reaches a file-scope pointer at 0x020A7370.  Exactly two
+ * WORDSET_SetSlotSpeciesName reaches a file-scope pointer at 0x020A7370.  Exactly two
  * literal pools in the image hold that address, this function's and
  * WORDSET_LoadSpeciesNameBank's in src/matched/unit_0201F0F8.c, so each file is the other's
  * `literal` witness and the two may not be merged into one range.
@@ -380,7 +378,7 @@ fail:
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201ED04.c  *       --addr 0x0201ED04 --thumb
  */
-u32 WORDSET_DeleteStrbufED04(struct WordSet *words)
+u32 WORDSET_Delete(struct WordSet *words)
 {
     u32 slot;
 
@@ -446,39 +444,39 @@ void WORDSET_SetSlotTag(struct WordSet *words, u32 slot, struct Strbuf *src, u32
     WORDSET_SetSlotText(words, slot, src, &tag);
 }
 
-void WORDSET_Callback(struct WordSet *words, u32 slot, u16 speciesId)
+void WORDSET_SetSlotSpeciesName(struct WordSet *words, u32 slot, u16 speciesId)
 {
     MSGDATA_ReadString(gSpeciesNameBank, speciesId, words->scratch);
     WORDSET_SetSlotText(words, slot, words->scratch, 0);
 }
 
-void WORDSET_SetSlotMonName(struct WordSet *words, u32 slot, void *mon)
+void WORDSET_SetSlotMonSpeciesName(struct WordSet *words, u32 slot, void *mon)
 {
-    WORDSET_Callback(words, slot, POKE_TOOL_GetPartyValue(mon, 5, 0));
+    WORDSET_SetSlotSpeciesName(words, slot, POKE_TOOL_GetPartyValue(mon, 5, 0));
 }
 
 void WORDSET_SetSlotMonNameAlt(struct WordSet *words, u32 slot, void *mon)
 {
-    WORDSET_Callback(words, slot, POKE_TOOL_GetBoxValue(mon, 5, 0));
+    WORDSET_SetSlotSpeciesName(words, slot, POKE_TOOL_GetBoxValue(mon, 5, 0));
 }
 
-void WORDSET_Callback_EEC4(struct WordSet *words, u32 slot, u32 entryIndex)
+void WORDSET_SetSlotFromMsg119(struct WordSet *words, u32 slot, u32 entryIndex)
 {
     WORDSET_SetSlotFromMessage(words, slot, 0x119, entryIndex);
 }
 
 void WORDSET_SetSlotMonNameEx(struct WordSet *words, u32 slot, void *mon)
 {
-    WORDSET_Callback_EEC4(words, slot, (u16)POKE_TOOL_GetPartyValue(mon, 5, 0));
+    WORDSET_SetSlotFromMsg119(words, slot, (u16)POKE_TOOL_GetPartyValue(mon, 5, 0));
 }
 
-void WORDSET_SetSlotMonSpecies(struct WordSet *words, u32 slot, void *mon)
+void WORDSET_SetSlotMonNickname(struct WordSet *words, u32 slot, void *mon)
 {
     POKE_TOOL_GetPartyValue(mon, 0x73, (u32)words->scratch);
     WORDSET_SetSlotText(words, slot, words->scratch, 0);
 }
 
-void WORDSET_SetSlotMonSpeciesAlt(struct WordSet *words, u32 slot, void *mon)
+void WORDSET_SetSlotMonNicknameAlt(struct WordSet *words, u32 slot, void *mon)
 {
     POKE_TOOL_GetBoxValue(mon, 0x73, (u32)words->scratch);
     WORDSET_SetSlotText(words, slot, words->scratch, 0);
@@ -489,12 +487,12 @@ void WORDSET_SetSlotFromMsgCB(struct WordSet *words, u32 slot, u32 entryIndex)
     WORDSET_SetSlotFromMessage(words, slot, 0xCB, entryIndex);
 }
 
-void WORDSET_Callback_EF40(struct WordSet *words, u32 slot, u32 entryIndex)
+void WORDSET_SetSlotFromMsg36(struct WordSet *words, u32 slot, u32 entryIndex)
 {
     WORDSET_SetSlotFromMessage(words, slot, 0x36, entryIndex);
 }
 
-void WORDSET_Callback_EF4C(struct WordSet *words, u32 slot, u32 entryIndex)
+void WORDSET_SetSlotFromMsg117(struct WordSet *words, u32 slot, u32 entryIndex)
 {
     WORDSET_SetSlotFromMessage(words, slot, 0x117, entryIndex);
 }
@@ -511,10 +509,10 @@ void WORDSET_SetSlotFromBank(struct WordSet *words, u32 slot, u32 entryIndex, u3
         return;
     }
     if (useSecondBank != 0) {
-        WORDSET_Callback_EF4C(words, slot, entryIndex);
+        WORDSET_SetSlotFromMsg117(words, slot, entryIndex);
         return;
     }
-    WORDSET_Callback_EF40(words, slot, entryIndex);
+    WORDSET_SetSlotFromMsg36(words, slot, entryIndex);
 }
 
 void WORDSET_SetSlotFromMsgB6(struct WordSet *words, u32 slot, u32 entryIndex)
@@ -574,7 +572,7 @@ void WORDSET_SetSlotMarkerFlag(struct WordSet *words, u32 slot, u32 markerFlag)
 /*
  * Three of the wordset.c setters, cut off at 0x0201F094 because the function
  * there is the only caller of 0x02025B94 anywhere in the image and so cannot
- * be attested; see src/pending/WORDSET_DeleteMsgdataF094.c.  The rest of the run continues
+ * be attested; see src/pending/WORDSET_SetSlotFromKeyedMessage.c.  The rest of the run continues
  * in src/matched/unit_0201F0F8.c.
  *
  * WORDSET_SetSlotFromMsgE7 renders message 0xE7 with an argument and falls back to
@@ -619,7 +617,7 @@ void WORDSET_SetSlotFromMsgE7(struct WordSet *words, u32 slot, u32 entryIndex)
 }
 
 /*
- * Promoted from src/pending/WORDSET_DeleteMsgdataF094.c: every concrete byte was
+ * Promoted from src/pending/WORDSET_SetSlotFromKeyedMessage.c: every concrete byte was
  * already reproduced, and the one relocation, the call to
  * BMP_OAM_Get, was capped at MATCH because the only branch to that
  * address anywhere in the image is the one inside this function. Now
@@ -634,10 +632,10 @@ void WORDSET_SetSlotFromMsgE7(struct WordSet *words, u32 slot, u32 entryIndex)
  * it can now be folded back in on a future pass.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/WORDSET_DeleteMsgdataF094.c \
- *       --func WORDSET_DeleteMsgdataF094 --addr 0x0201F094 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/WORDSET_SetSlotFromKeyedMessage.c \
+ *       --func WORDSET_SetSlotFromKeyedMessage --addr 0x0201F094 --cc 1.1p1 --thumb
  */
-void WORDSET_DeleteMsgdataF094(struct WordSet *words, u32 slot, u32 key, u32 entryIndex)
+void WORDSET_SetSlotFromKeyedMessage(struct WordSet *words, u32 slot, u32 key, u32 entryIndex)
 {
     u32 messageId = BMP_OAM_Get(key);
     struct MsgBank *bank;
@@ -660,7 +658,7 @@ void WORDSET_DeleteMsgdataF094(struct WordSet *words, u32 slot, u32 key, u32 ent
 /*
  *           WORDSET_SetSlotFromMsgB4, WORDSET_SetSlotFromMsg37, WORDSET_SetSlotFromMsg59, WORDSET_SetSlotBoxName,
  *           WORDSET_SetSlotFromMsgA0, WORDSET_SetSlotFromMsg2B, WORDSET_SetSlotFromMsg00, WORDSET_SetSlotFromMsg38,
- *           WORDSET_DrawF1E0, WORDSET_SetSlotMonth
+ *           WORDSET_SetSlotWeekday, WORDSET_SetSlotMonth
  *
  * The second half of the wordset.c setter run, 0x0201F0F8..0x0201F250.
  * Every one of these is the same shape: clamp or range-check the caller's
@@ -673,7 +671,7 @@ void WORDSET_DeleteMsgdataF094(struct WordSet *words, u32 slot, u32 key, u32 ent
  * WORDSET_SetSlotFromMsgA0 clamps with a signed `blt`, so its value parameter is `s32`
  * while every other clamp in the file is an unsigned `bls`/`bhi`.
  *
- * WORDSET_DrawF1E0 clears the slot unconditionally before the range check and
+ * WORDSET_SetSlotWeekday clears the slot unconditionally before the range check and
  * only overwrites it when the id is in range, so a caller with an
  * out-of-range id leaks the rendered string; that is what the bytes say and
  * it is reproduced here rather than tidied.
@@ -686,17 +684,17 @@ void WORDSET_DeleteMsgdataF094(struct WordSet *words, u32 slot, u32 key, u32 ent
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201F0F8.c  *       --addr 0x0201F0F8 --thumb
  */
-void WORDSET_Set(struct WordSet *words, u32 slot, u32 entryIndex)
+void WORDSET_SetSlotFromMsgBF(struct WordSet *words, u32 slot, u32 entryIndex)
 {
     WORDSET_SetSlotFromMessage(words, slot, 0xBF, entryIndex);
 }
 
 void WORDSET_SetSlotPokeData(struct WordSet *words, u32 slot, void *source)
 {
-    WORDSET_Set(words, slot, (u8)TPOKE_DATA_GetRecordField(source, 1));
+    WORDSET_SetSlotFromMsgBF(words, slot, (u8)TPOKE_DATA_GetRecordField(source, 1));
 }
 
-void WORDSET_Callback_F124(struct WordSet *words, u32 slot, u32 entryIndex)
+void WORDSET_SetSlotFromMsg11B(struct WordSet *words, u32 slot, u32 entryIndex)
 {
     WORDSET_SetSlotFromMessage(words, slot, 0x11B, entryIndex);
 }
@@ -762,7 +760,7 @@ void WORDSET_SetSlotFromMsg38(struct WordSet *words, u32 slot, u32 entryIndex)
     WORDSET_SetSlotFromMessage(words, slot, 0x38, entryIndex);
 }
 
-void WORDSET_DrawF1E0(struct WordSet *words, u32 slot, u32 weekday)
+void WORDSET_SetSlotWeekday(struct WordSet *words, u32 slot, u32 weekday)
 {
     struct MsgBank *bank = MSGDATA_CreateFromArchive(0, 3, (u16)0x1CD, (u16)words->heapId);
 
@@ -792,7 +790,7 @@ void WORDSET_SetSlotMonth(struct WordSet *words, u32 slot, u32 month)
  * replaced by the stored word itself.
  *
  * The tag primitives it calls are the seven of src/matched/unit_0201D5C4.c:
- * GF_FONT_GetTagChar is the 0xF000 marker, GF_FONT_CheckD5CC says whether the tag is a
+ * GF_FONT_GetTagChar is the 0xF000 marker, GF_FONT_IsWordSlotTag says whether the tag is a
  * word reference, GF_FONT_GetTagParam reads parameter 0 (the word index),
  * GF_FONT_AppendTag writes a new tag, and GF_FONT_SkipTag steps the cursor past a
  * tag.  The word table hangs off the object at +8 and its entries are 0xC
@@ -845,7 +843,7 @@ void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct St
     tagMarker = GF_FONT_GetTagChar();
     while (cursor[0] != terminator) {
         if (cursor[0] == tagMarker) {
-            if (GF_FONT_CheckD5CC(cursor) != 0) {
+            if (GF_FONT_IsWordSlotTag(cursor) != 0) {
                 slot = GF_FONT_GetTagParam(cursor, 0);
                 entry = &words->slots[slot];
                 if (entry->tag.addsMarker != 0) {
@@ -854,7 +852,7 @@ void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct St
                     GF_FONT_AppendTag(entry->text, 0xBD, 6, 1, &tagParams[1]);
                     GF_FONT_AppendTag(words->slots[slot].text, 0xBD, 4, 1, &tagParams[0]);
                 }
-                WORDSET_ParsePackedLimits(dst, words->slots[slot].text);
+                WORDSET_AppendUnpackedString(dst, words->slots[slot].text);
                 cursor = GF_FONT_SkipTag(cursor);
             } else {
                 copyCursor = cursor;
@@ -872,7 +870,7 @@ void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct St
 /*
  * The wordset.c "clear every slot" walk and the one-line initialiser that
  * fills the file-scope template string at 0x020A7370.  That pointer is loaded
- * by WORDSET_Callback in src/matched/unit_0201ED04.c and by seven functions
+ * by WORDSET_SetSlotSpeciesName in src/matched/unit_0201ED04.c and by seven functions
  * outside this region, so the `literal` class has witnesses to spare.
  *
  * WORDSET_LoadSpeciesNameBank takes its heap id as a u16: the 4th argument of
@@ -933,7 +931,7 @@ void WORDSET_FormatNumber(struct Strbuf *text, s32 number, u32 topDigitIndex, u3
 
     divisor = gPowersOfTen[topDigitIndex];
     while (divisor != 0) {
-        digit = _u32_div_f((u32)number, divisor);
+        digit = (u32)number / divisor;
         digit = (u16)digit;
         number = number - divisor * digit;
         if (digit >= 10) {
@@ -953,7 +951,7 @@ void WORDSET_FormatNumber(struct Strbuf *text, s32 number, u32 topDigitIndex, u3
             }
             STRBUF_AppendChar(text, (u16)glyph);
         }
-        divisor = _u32_div_f(divisor, 10);
+        divisor = divisor / 10;
     }
 }
 
@@ -979,7 +977,7 @@ void WORDSET_FormatNumber(struct Strbuf *text, s32 number, u32 topDigitIndex, u3
 
 /*
  * Two wide-string helpers.  WORDSET_CopyString is a bounded copy that always
- * terminates the destination; WORDSET_CheckF448 is an equality test.  Both read
+ * terminates the destination; WORDSET_IsStringEqual is an equality test.  Both read
  * the terminator character from STRBUF_GetEosChar rather than from a constant,
  * and both hold it in a named local, which is what puts the call result in
  * the left slot of WORDSET_CopyString's `cmp r0, r1`
@@ -1013,7 +1011,7 @@ void WORDSET_CopyString(const u16 *src, u16 *dst, u32 maxLength)
     *(dst + maxLength - 1) = terminator;
 }
 
-u32 WORDSET_CheckF448(const u16 *left, const u16 *right)
+u32 WORDSET_IsStringEqual(const u16 *left, const u16 *right)
 {
     u16 terminator = STRBUF_GetEosChar();
 
@@ -1031,7 +1029,7 @@ u32 WORDSET_CheckF448(const u16 *left, const u16 *right)
 }
 
 /*
- * "Is this string a packed nine-bit run", the predicate WORDSET_ParsePackedLimits tests
+ * "Is this string a packed nine-bit run", the predicate WORDSET_AppendUnpackedString tests
  * before unpacking.  A non-empty string whose first character is 0xF100 is
  * one; the marker is materialised as `movs r0, #0xF1` / `lsls r0, #8` rather
  * than from a pool word, so it is a plain constant.
@@ -1041,10 +1039,10 @@ u32 WORDSET_CheckF448(const u16 *left, const u16 *right)
  * docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md:
  * written as two separate early returns the function grows a second epilogue.
  *
- * This is its own file rather than part of src/pending/WORDSET_ParsePackedLimits.c
- * because WORDSET_ParsePackedLimits holds the only call to it in the image.  Matched
+ * This is its own file rather than part of src/pending/WORDSET_AppendUnpackedString.c
+ * because WORDSET_AppendUnpackedString holds the only call to it in the image.  Matched
  * apart, that call is an ordinary `label` witness from outside this range,
- * and the `matched` class then carries the site in WORDSET_ParsePackedLimits itself.
+ * and the `matched` class then carries the site in WORDSET_AppendUnpackedString itself.
  *
  * Addresses are Black-image addresses.
  *
@@ -1052,7 +1050,7 @@ u32 WORDSET_CheckF448(const u16 *left, const u16 *right)
  *   python tools/match.py tu --src src/matched/unit_0201F47C.c \
  *       --addr 0x0201F47C --thumb
  */
-u32 WORDSET_CheckF47C(struct Strbuf *text)
+u32 WORDSET_IsPackedString(struct Strbuf *text)
 {
     if (STRBUF_GetLength(text) != 0 && *STRBUF_GetChars(text) == 0xF100) {
         return 1;
@@ -1064,7 +1062,7 @@ u32 WORDSET_CheckF47C(struct Strbuf *text)
  * Parked: byte correct, capped at MATCH by the evidence rather than by the C.
  *
  * The nine-bit unpacker.  A string whose first character is 0xF100
- * (WORDSET_CheckF47C, src/matched/unit_0201F47C.c) carries its text as a run of
+ * (WORDSET_IsPackedString, src/matched/unit_0201F47C.c) carries its text as a run of
  * nine-bit codes packed into the halfwords after the marker; this walks them
  * and appends one character at a time to the destination.  0x1FF is the
  * terminator as well as the field mask, codes 0x100..0x131 are translated
@@ -1095,9 +1093,9 @@ u32 WORDSET_CheckF47C(struct Strbuf *text)
  *    (docs/idioms/the-fall-through-arm-is-the-source-order.md).
  *
  * Verified with:
- *   python tools/match.py tu --src src/pending/WORDSET_ParsePackedLimits.c  *       --addr 0x0201F4A0 --thumb
+ *   python tools/match.py tu --src src/pending/WORDSET_AppendUnpackedString.c  *       --addr 0x0201F4A0 --thumb
  */
-void WORDSET_ParsePackedLimits(struct Strbuf *dst, struct Strbuf *src)
+void WORDSET_AppendUnpackedString(struct Strbuf *dst, struct Strbuf *src)
 {
     u32 codeMask = 0x1FF;
     struct PackedLimits limits;
@@ -1105,7 +1103,7 @@ void WORDSET_ParsePackedLimits(struct Strbuf *dst, struct Strbuf *src)
     s32 bitPos;
     u16 code;
 
-    if (WORDSET_CheckF47C(src) != 0) {
+    if (WORDSET_IsPackedString(src) != 0) {
         cursor = STRBUF_GetChars(src) + 1;
         limits.tableEndCode = codeMask;
         limits.tableEndCode -= 0xCD;

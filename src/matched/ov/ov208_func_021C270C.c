@@ -10,7 +10,7 @@
  * status: EXACT*
  * symbols:
  *   ZUKAN_DETAIL_COMMON_GetWorkPtr 0x021BC3B4 thumb ov208
- *   ZUKAN_DETAIL_COMMON_GetCursorValue 0x021BC3B8 thumb ov208
+ *   ZUKAN_DETAIL_COMMON_GetHeadbar 0x021BC3B8 thumb ov208
  *   func_021BC3BC 0x021BC3BC thumb ov208
  *   ZUKAN_DETAIL_COMMON_GetSource 0x021BC3A4 thumb ov208
  *   ZUKAN_DETAIL_VOICE_CreateNumberActors 0x021C2C44 thumb ov208
@@ -54,25 +54,25 @@
  *   func_021BC46C 0x021BC46C thumb ov208
  *   ZUKAN_DETAIL_COMMON_UpdatePaletteAnim 0x021BC678 thumb ov208
  *   ZUKAN_DETAIL_VOICE_UpdateBgmFade 0x021C2C1C thumb ov208
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  *   CLACT_SetActorObjMode 0x0204B688 arm
- *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
+ *   GAME_DATA_ContainsRecentId 0x02012BF8 thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Actor; struct Ov208Win; struct Ov208PalFade; struct Ov208Scene; struct Ov208Fade; struct Ov208Icon; struct Ov208Blend; struct Key;
 extern int ZUKAN_DETAIL_COMMON_GetWorkPtr(int *p);
-extern int ZUKAN_DETAIL_COMMON_GetCursorValue(char *p);
+extern int ZUKAN_DETAIL_COMMON_GetHeadbar(char *p);
 extern u16 func_021BC3BC(char *);
 extern int ZUKAN_DETAIL_COMMON_GetSource(int *p);
-extern void BG_SYS_FillScrollArea(u32,u32,u32);
+extern void BG_SYS_ChangeScrollImmediate(u32,u32,u32);
 extern void BG_SYS_FreeSlot(u8);
-extern void BG_SYS_SetVisibleLayer(int,u16);
+extern void BG_SYS_SetPriority(int,u16);
 extern void CLACT_SetActorObjMode(struct Actor *,u32);
-extern int GAME_DATA_CheckSaveFlag(int,int);
+extern int GAME_DATA_ContainsRecentId(int,int);
 struct S;
 extern void ZUKAN_DETAIL_VOICE_CreateNumberActors(u16 *heap, struct S *st, int a2);
 extern void ZUKAN_DETAIL_VOICE_LoadPokemonGraphics(u16 *,u8 *,int,u32);
@@ -124,22 +124,22 @@ int ZUKAN_DETAIL_VOICE_Main(void *unused,int *seq,u16 *heap,u8 *p,int key)
     u8 i;
     int ready;
     scene=(void *)ZUKAN_DETAIL_COMMON_GetWorkPtr((int *)key);
-    icon=(struct Ov208Icon *)ZUKAN_DETAIL_COMMON_GetCursorValue((char *)key);
+    icon=(struct Ov208Icon *)ZUKAN_DETAIL_COMMON_GetHeadbar((char *)key);
     switch(*seq){
     case 0:
         *seq=1;
         for(i=0;i<=7;i++){
             if(i!=1 && i!=5){
-                BG_SYS_FillScrollArea(i,0,0);
-                BG_SYS_FillScrollArea(i,3,0);
+                BG_SYS_ChangeScrollImmediate(i,0,0);
+                BG_SYS_ChangeScrollImmediate(i,3,0);
                 BG_SYS_FreeSlot(i);
             }
         }
-        BG_SYS_SetVisibleLayer(2,1);
-        BG_SYS_SetVisibleLayer(3,2);
-        BG_SYS_SetVisibleLayer(0,3);
-        BG_SYS_SetVisibleLayer(6,1);
-        BG_SYS_SetVisibleLayer(4,3);
+        BG_SYS_SetPriority(2,1);
+        BG_SYS_SetPriority(3,2);
+        BG_SYS_SetPriority(0,3);
+        BG_SYS_SetPriority(6,1);
+        BG_SYS_SetPriority(4,3);
         ZUKAN_DETAIL_VOICE_CreateNumberActors(heap,(struct S *)p,key);
         ZUKAN_DETAIL_VOICE_LoadPokemonGraphics(heap,p,key,W(0x5c));
         CLACT_SetActorObjMode((struct Actor *)(*(u32 *)((p+W(0x5c)*4)+0x54)),1);
@@ -169,7 +169,7 @@ int ZUKAN_DETAIL_VOICE_Main(void *unused,int *seq,u16 *heap,u8 *p,int key)
             func_021BDAD4(scene,0);
         }else func_021BDBB8(scene,2);
         ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(scene,0);
-        ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(scene,GAME_DATA_CheckSaveFlag(ZUKAN_DETAIL_COMMON_GetSource((int *)key),0x13));
+        ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(scene,GAME_DATA_ContainsRecentId(ZUKAN_DETAIL_COMMON_GetSource((int *)key),0x13));
         if(func_021BE840(icon)!=2){
             func_021BE82C(icon,2);
             func_021BE844(icon);

@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   BTL_CALC_ActionGetKind 0x021D8454 thumb ov093
+ *   BTL_ACTION_GetKind 0x021D8454 thumb ov093
  *   BTL_SERVER_FLOW_NotifyRotationEnd 0x021BDC2C thumb ov093
  *   BTL_SERVER_FLOW_ResortActionOrder 0x021BC0E8 thumb ov093
  *   BTL_SERVER_FLOW_ProcAction 0x021BCCE0 thumb ov093
@@ -24,7 +24,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u32 a, b, c; u8 d, f; unsigned short pad; } E;
 typedef struct { u8 pad[0x14]; u32 state; u8 pad2[0x76a]; u8 n; u8 pad3[0x5d]; E e[6]; } S;
-extern u32 BTL_CALC_ActionGetKind(u32 *);
+extern u32 BTL_ACTION_GetKind(u32 *);
 extern void BTL_SERVER_FLOW_NotifyRotationEnd(u8 *p);
 extern void BTL_SERVER_FLOW_ResortActionOrder(S *, E *, u32);
 extern u32 BTL_SERVER_FLOW_ProcAction(S *, E *);
@@ -39,7 +39,7 @@ u32 BTL_SERVER_FLOW_RunActionOrder(S *p, u32 i)
 {
     u32 previous = 0;
     for (; i < p->n; i++) {
-        u32 current = BTL_CALC_ActionGetKind(&p->e[i].b);
+        u32 current = BTL_ACTION_GetKind(&p->e[i].b);
         u8 stop;
         if (previous == 6 && current != 6) {
             BTL_SERVER_FLOW_NotifyRotationEnd((u8 *)p);

@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: CONFIG_ApplyAppliedFlag
+ * function: CONFIG_ApplyTextLanguage
  * address:  0x02008414
  * packet:   pkt_02008414
  * region:   arm9
@@ -35,7 +35,7 @@ struct Flags02008414 {
 
 extern u8 func_020461D4(u32 v);
 
-u8 CONFIG_ApplyAppliedFlag(const struct Flags02008414 *p)
+u8 CONFIG_ApplyTextLanguage(const struct Flags02008414 *p)
 {
     return func_020461D4((u8)p->b8);
 }

@@ -13,7 +13,7 @@
  *   MB_PARENT_SYS_GetChildStage 0x021F0D34 thumb ov107
  *   MB_PARENT_SYS_EndIfAllBootable 0x021F0B04 thumb ov107
  *   MB_PARENT_SYS_RejectRequest 0x021F0938 thumb ov107
- *   MB_PARENT_SYS_CheckRequest 0x021F08E4 thumb ov107
+ *   MB_PARENT_SYS_AcceptRequest 0x021F08E4 thumb ov107
  *   MB_PARENT_SYS_StartSending 0x021F09B0 thumb ov107
  *   MB_CommGetChildUser 0x021F1B64 arm ov107
  *   MB_PARENT_SYS_SetState 0x021F0D1C thumb ov107
@@ -41,7 +41,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern u16 MB_PARENT_SYS_GetState(void);
 extern int MB_PARENT_SYS_GetChildStage(u16);
-extern void MB_PARENT_SYS_EndIfAllBootable(void),MB_PARENT_SYS_RejectRequest(u16),MB_PARENT_SYS_CheckRequest(u16),MB_PARENT_SYS_StartSending(u16);
+extern void MB_PARENT_SYS_EndIfAllBootable(void),MB_PARENT_SYS_RejectRequest(u16),MB_PARENT_SYS_AcceptRequest(u16),MB_PARENT_SYS_StartSending(u16);
 extern void *MB_CommGetChildUser(u16);
 extern void MB_PARENT_SYS_SetState(u16);
 extern u32 OS_DisableInterrupts(void),OS_RestoreInterrupts(u32);
@@ -76,7 +76,7 @@ void MB_PARENT_SYS_EventCallback(u16 aid,u32 event,u8 *p)
   OS_RestoreInterrupts(state);MB_PARENT_SYS_EndIfAllBootable();break;
  case 10:
   if(MB_PARENT_SYS_GetState()!=2){MB_PARENT_SYS_RejectRequest(aid);break;}
-  H(12)|=(u16)(1<<aid);MB_PARENT_SYS_CheckRequest(aid);
+  H(12)|=(u16)(1<<aid);MB_PARENT_SYS_AcceptRequest(aid);
   q=MB_CommGetChildUser(aid);if(q)MI_CpuCopy8(q,(void *)((u32)gMbChildEntries+30*(aid-1)),22);break;
  case 14:
   H(12)&=(u16)~(1<<aid);H(14)|=(u16)(1<<aid);MB_PARENT_SYS_StartSending(aid);break;

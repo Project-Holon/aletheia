@@ -13,7 +13,7 @@
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
- *   EVENT_POKE_STATUS_SetFlag  0x0215A4EC  thumb  ov010
+ *   EVENT_TRAINER_SetDefeatedFlag  0x0215A4EC  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -24,7 +24,7 @@ extern void *SCRCMD_WORK_GetGameData(void *a0);
 struct BigObj;
 extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *, void *);
-extern int EVENT_POKE_STATUS_SetFlag();
+extern int EVENT_TRAINER_SetDefeatedFlag();
 
 int SCRCMD_WORK_CmdSetEventFlagOffset(int a0, int a1)
 {
@@ -47,7 +47,7 @@ a1 = t6 + 0;
 loc_0215B342:
 a1 = a0 + 0;
 a0 = t4 + 0;
-    a0 = EVENT_POKE_STATUS_SetFlag(a0, a1);
+    a0 = EVENT_TRAINER_SetDefeatedFlag(a0, a1);
 loc_0215B34A:
 a0 = 0;
     return a0;}

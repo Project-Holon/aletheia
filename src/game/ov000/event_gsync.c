@@ -30,7 +30,7 @@
  *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   GFL_USE_PopBgm  0x02005E9C  thumb
- *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb
+ *   GFL_USE_SetBgmPaused  0x02005DE4  thumb
  *   GFL_USE_PushBgm  0x02005E64  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
@@ -168,7 +168,7 @@ extern void  GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 fadeTarget);
 extern void GFL_USE_FadeInBgmFull(u32 frames);
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *gameSystem);
 extern int GFL_USE_PopBgm(void);
-extern void GFL_USE_SetBgmPlayerParam(void *param);
+extern void GFL_USE_SetBgmPaused(void *param);
 extern int GFL_USE_PushBgm(void);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
@@ -275,7 +275,7 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
     case 12:
         if (work->bgmPushed) {
             GFL_USE_PopBgm();
-            GFL_USE_SetBgmPlayerParam(0);
+            GFL_USE_SetBgmPaused(0);
             GFL_USE_FadeInBgmFull(0x3C);
             work->bgmPushed = 0;
         }
@@ -290,7 +290,7 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
             *seq = 19;
         } else {
             work->login.useSaveData = 0;
-            GFL_USE_SetBgmPlayerParam((void *)1);
+            GFL_USE_SetBgmPaused((void *)1);
             GFL_USE_PushBgm();
             work->bgmPushed = 1;
             (*seq)++;
@@ -388,7 +388,7 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
             *seq = 2;
             if (work->bgmPushed) {
                 GFL_USE_PopBgm();
-                GFL_USE_SetBgmPlayerParam(0);
+                GFL_USE_SetBgmPaused(0);
                 GFL_USE_FadeInBgmFull(0x3C);
                 work->bgmPushed = 0;
             }

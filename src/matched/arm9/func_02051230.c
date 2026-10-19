@@ -13,10 +13,10 @@
  *   SPL_EMITTER_FreeNodeToHeap  0x02052A50  arm
  *   PARTICLE_ApplyLoadHandlers  0x02051394  arm
  *   func_02030DA8  0x02030DA8  arm
- *   BUTTON_MAN_Func1A3C  0x02051A3C  arm
- *   BUTTON_MAN_AppendList0  0x02051A54  arm
- *   BUTTON_MAN_Func1AA0  0x02051AA0  arm
- *   BUTTON_MAN_AppendList1  0x02051AB8  arm
+ *   PARTICLE_AllocTexVramOffset  0x02051A3C  arm
+ *   PARTICLE_AllocTexVramTracked  0x02051A54  arm
+ *   PARTICLE_AllocVramOffset  0x02051AA0  arm
+ *   PARTICLE_AllocPlttVramTracked  0x02051AB8  arm
  *   PARTICLE_ApplyLoadHandlersTask  0x020513F8  arm
  */
 #include "../include/Obj02319.h"

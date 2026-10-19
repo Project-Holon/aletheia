@@ -1,5 +1,5 @@
 /*
- * function: MUSICAL_MCSS_NoOp7
+ * function: MUSICAL_MCSS_SetCameraBack
  * address:  0x021F621C
  * packet:   pkt_021F621C
  * region:   ov112
@@ -11,7 +11,7 @@
  */
 #include "../include/Obj13833.h"
 
-void MUSICAL_MCSS_NoOp7(void *p)
+void MUSICAL_MCSS_SetCameraBack(void *p)
 {
     unsigned int v = ((struct Obj13833 *)p)->f8;
     ((struct Obj13833 *)p)->f8 = (v & ~1u) | 1u;

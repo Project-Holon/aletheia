@@ -1,5 +1,5 @@
 /*
- * function: MYSTERY_ALBUM_UpdateSlots
+ * function: MYSTERY_ALBUM_DeleteSlotActors
  * address: 0x021DB528
  * packet: pkt_ov121_021DB528
  * region: ov121
@@ -17,4 +17,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void MYSTERY_ALBUM_DeleteSlotActor(char *,int,u16);
 extern void BG_SYS_PushTile(u32);
-void MYSTERY_ALBUM_UpdateSlots(char *p,int a) { int i; for(i=0;i<4;i++) MYSTERY_ALBUM_DeleteSlotActor(p,a,i); BG_SYS_PushTile(3); }
+void MYSTERY_ALBUM_DeleteSlotActors(char *p,int a) { int i; for(i=0;i<4;i++) MYSTERY_ALBUM_DeleteSlotActor(p,a,i); BG_SYS_PushTile(3); }

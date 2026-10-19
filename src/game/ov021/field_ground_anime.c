@@ -25,12 +25,10 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   NNS_G3dAnmObjInit  0x02069C74  arm
  *   NNS_G3dRenderObjAddAnmObj  0x02069E88  arm
- *   _s32_div_f  0x0209C0A4  arm
  *   G3D_SYSTEM_GetResourceSize  0x02046C94  arm
  *   G3D_SYSTEM_InitResourceByFile  0x02046CE0  arm
  *   NNS_GfdRegisterNewVramTransferTask  0x02061CA4  arm
  *   NNS_G3dGetResDictIdxByName  0x0206E7EC  arm
- *   _u32_div_f  0x0209C2B0  arm
  *   gTexDimensionTable     0x021D8B08  data  a2
  *   gTexPixelsPerByteTable     0x021D8B00  data  a1
  *   FIELD_GROUND_ANIME_GetEntryPosByMapKind  0x021A811C  thumb
@@ -333,7 +331,6 @@ extern int G3D_SYSTEM_GetResourceSize(void);
 extern void G3D_SYSTEM_InitResourceByFile(void *out, void *file);
 extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 extern int NNS_G3dGetResDictIdxByName(const Dict *dict, const void *name);
-extern u32 _u32_div_f(u32 a, u32 b);
 extern void *FLDMMDL_FreeAcmd(char *p);
 extern void *FIELDMAP_GetFieldPlayer(void *p);
 extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
@@ -809,7 +806,7 @@ u32 FIELD_GROUND_ANIME_GetTexSize(void *animRes, u32 texIdx)
     tex = DWCi_LSTlPopFront(animRes);
     texParam = tex ? DictGetByIdx(&tex->dict, texIdx) : 0;
     param = *texParam;
-    return _u32_div_f(gTexDimensionTable[(param & 0x700000) >> 20] * gTexDimensionTable[(param & 0x3800000) >> 23], gTexPixelsPerByteTable[(param & 0x1C000000) >> 26]);
+    return (u32)(gTexDimensionTable[(param & 0x700000) >> 20] * gTexDimensionTable[(param & 0x3800000) >> 23]) / gTexPixelsPerByteTable[(param & 0x1C000000) >> 26];
 }
 
 /* Texel data of texture texIdx. */

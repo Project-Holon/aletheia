@@ -42,7 +42,7 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "NNS_G2dCallVtableSlot0"
+    "NNS_FndAllocFromAllocator"
    ],
    "addresses": [
     "0x02061330"
@@ -60,7 +60,7 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "NNS_G2dInitCellBank",
+    "NNS_FndInitAllocatorForExpHeap",
     "NNS_G2dStubReturnZeroA",
     "NNS_G2dStubReturnMinusOneA",
     "NNS_G2dStubReturnZeroB",
@@ -75,7 +75,7 @@
    ]
   },
   {
-   "name": "NNS_G2dSetupCellBank",
+   "name": "NNSi_GfdSetTexVramSlotOrder",
    "address": "0x02061390",
    "kind": "game",
    "region": "arm9",

@@ -28,8 +28,8 @@
  *   GAME_DATA_GetSecondUnionInfo  0x020127C4  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   FIELD_WFBC_DATA_LOCAL_Init  0x021860D4  thumb  ov020
- *   EVENT_FIELD_PROCLINK_CheckZoneFlag  0x02161D64  thumb  ov010
- *   GAME_DATA_GetMysteryRecvFlagB  0x020127F0  thumb
+ *   EVENT_FIELD_PROCLINK_ApplyZoneChangeEnable  0x02161D64  thumb  ov010
+ *   GAME_DATA_GetMusicalShotExtraData  0x020127F0  thumb
  *   EVENT_FIELD_PROCLINK_GetReturnInfo  0x02161F14  thumb  ov010
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   SCRIPT_SYS_RunInitScript  0x02158A10  thumb  ov010
@@ -51,7 +51,7 @@
  *   GAME_BEACON_SetZone  0x0202735C  thumb
  *   FIELD_CLOCK_Update  0x02168EEC  thumb  ov010
  *   FIELD_MAP_CHANGE_MoveActiveEntries  0x02164474  thumb  ov010
- *   ISS_SWITCH_RefreshSubscreenMode  0x0202C860  thumb
+ *   WEATHER_RefreshStoredWeatherId  0x0202C860  thumb
  *   ZONEDATA_GetMapSubType  0x0201405C  thumb
  *   GAME_DATA_GetOccupyInfo  0x02012964  thumb
  *   FLDMMDL_SysLoadObjCodeParamCache  0x0216E29C  thumb  ov010
@@ -67,7 +67,7 @@
  *   CONSOLE_STAMP_GetDailyClock  0x02008B14  thumb
  *   DAILY_CLOCK_Refill  0x02008C00  thumb
  *   FORMCHANGE_RevertShayminAndRegister  0x0216A390  thumb  ov010
- *   GF_STANDARD_SetupRtc  0x0203F524  arm
+ *   GF_STANDARD_GetRtcTimestamp  0x0203F524  arm
  *   BEACON_SetLastTime  0x0200C384  thumb
  *   FORMCHANGE_UpdateSeasonForms  0x0216AAE4  thumb  ov010
  *   COMM_PLAYER_SUPPORT_IsSeasonChanged  0x0202E848  thumb
@@ -193,7 +193,7 @@
  *   ISS_SYS_ChangeZone  0x0202B544  thumb
  *   GAME_DATA_SetStartLocation  0x02012854  thumb
  *   GAME_DATA_SetWarpId  0x02012900  thumb
- *   ISS_SWITCH_ApplySubscreenMode  0x0202C83C  thumb
+ *   WEATHER_StoreZoneWeatherId  0x0202C83C  thumb
  *   MAP_REPLACE_FindFlyTargetIndex  0x02159FE0  thumb  ov010
  *   FIELD_MAP_CHANGE_SetupZone  0x021643E8  thumb  ov010
  *   MAP_REPLACE_SetArriveFlag  0x0215A014  thumb  ov010
@@ -203,7 +203,7 @@
  *   FLDMMDL_AddMmdlHeaderList  0x0216CEAC  thumb  ov010
  *   FIELD_STATUS_GetMapMode  0x0201444C  thumb
  *   GAME_DATA_GetUnionInfo  0x020127D0  thumb
- *   GAME_DATA_GetMysteryRecvFlagA  0x020127E0  thumb
+ *   GAME_DATA_GetMusicalShotTitle  0x020127E0  thumb
  *   GFL_HEAP_Free  0x020307B0  arm
  *   FIELD_WFBC_DATA_LOCAL_CreateMmdlHeaders  0x02186538  thumb  ov020
  *   FIELD_WFBC_DATA_LOCAL_CountPeople  0x02186278  thumb  ov020
@@ -374,8 +374,8 @@ extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 u16 *GAME_DATA_GetSecondUnionInfo(GameData *gameData);
 extern void *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern void FIELD_WFBC_DATA_LOCAL_Init(void *unionInfo, void *myStatus, int flag);
-extern int EVENT_FIELD_PROCLINK_CheckZoneFlag(void *unionInfo);
-extern void *GAME_DATA_GetMysteryRecvFlagB(struct GameData *gameData);
+extern int EVENT_FIELD_PROCLINK_ApplyZoneChangeEnable(void *unionInfo);
+extern void *GAME_DATA_GetMusicalShotExtraData(struct GameData *gameData);
 extern void EVENT_FIELD_PROCLINK_GetReturnInfo(void *out, void *unionInfo, int flag);
 extern struct EventWork *GAME_DATA_GetEventWork(struct GameData *gameData);
 extern void SCRIPT_SYS_RunInitScript(struct GameSystem *gameSystem, int scriptKind);
@@ -402,7 +402,7 @@ void EVENT_MAPCHANGE_StartSeasonEffect(GameData *gameData);
 extern void GAME_BEACON_SetZone(u32 zoneId, struct GameData *gameData);
 extern void FIELD_CLOCK_Update(struct GameData *gameData);
 extern void FIELD_MAP_CHANGE_MoveActiveEntries(struct GameData *gameData, int zoneId);
-extern void ISS_SWITCH_RefreshSubscreenMode(struct GameData *gameData, int zoneId);
+extern void WEATHER_RefreshStoredWeatherId(struct GameData *gameData, int zoneId);
 extern u8 ZONEDATA_GetMapSubType(u32 zoneId);
 extern MmdlSys *GAME_DATA_GetOccupyInfo(GameData *gameData);
 extern void FLDMMDL_SysLoadObjCodeParamCache(MmdlSys *mmdlSys, int objCodeSet);
@@ -418,7 +418,7 @@ extern int CONSOLE_STAMP_IsRtcOffsetCurrent(struct ConsoleInfo *consoleInfo);
 extern struct ConsoleInfoSession *CONSOLE_STAMP_GetDailyClock(struct SaveControl *saveControl);
 extern void DAILY_CLOCK_Refill(struct ConsoleInfoSession *session);
 extern void FORMCHANGE_RevertShayminAndRegister(struct GameData *gameData, void *party);
-extern u64 GF_STANDARD_SetupRtc();
+extern u64 GF_STANDARD_GetRtcTimestamp();
 extern void BEACON_SetLastTime(struct MiscSave *miscSave, u32 lo, u32 hi);
 extern void FORMCHANGE_UpdateSeasonForms(struct GameData *gameData, void *party, int season);
 extern int COMM_PLAYER_SUPPORT_IsSeasonChanged(struct GameData *gameData, u16 *outA, u16 *outB);
@@ -551,7 +551,7 @@ void GAME_DATA_SetPlayerMoveForm(PlayerWork *playerWork, u8 isRail);
 void ISS_SYS_ChangeZone(void *issSystem, u16 zoneId);
 void GAME_DATA_SetStartLocation(GameData *gameData, const Location *location);
 void GAME_DATA_SetWarpId(const GameData *gameData, u16 warpId);
-int ISS_SWITCH_ApplySubscreenMode(int gameSystem, int zoneId);
+int WEATHER_StoreZoneWeatherId(int gameSystem, int zoneId);
 int MAP_REPLACE_FindFlyTargetIndex(int zoneId);
 void FIELD_MAP_CHANGE_SetupZone(GameData *gameData, u16 zoneId);
 void MAP_REPLACE_SetArriveFlag(GameData *gameData, int zoneId);
@@ -561,7 +561,7 @@ u32 EVENTDATA_SYSTEM_GetNpcHeaders(EventData *eventData);
 void FLDMMDL_AddMmdlHeaderList(MmdlSys *mmdlSys, u8 *headers, u32 zoneId, u32 count, u32 eventWork);
 u32 FIELD_STATUS_GetMapMode(FieldStatus *fieldStatus);
 u16 *GAME_DATA_GetUnionInfo(GameData *gameData, u32 index);
-u16 *GAME_DATA_GetMysteryRecvFlagA(GameData *gameData);
+u16 *GAME_DATA_GetMusicalShotTitle(GameData *gameData);
 u32 GFL_HEAP_Free(void *memory);
 int FIELD_WFBC_DATA_LOCAL_CreateMmdlHeaders(unsigned short *wfbcData, int mapMode, int flag);
 int FIELD_WFBC_DATA_LOCAL_CountPeople(char *wfbcData, int mapMode);
@@ -767,8 +767,8 @@ void EVENT_MAPCHANGE_InitUnionInfo(struct GameSystem *gameSystem)
     void *recvInfo;
 
     FIELD_WFBC_DATA_LOCAL_Init(unionInfo, GAME_DATA_GetMyStatus(gameData), 1);
-    EVENT_FIELD_PROCLINK_CheckZoneFlag(GAME_DATA_GetSecondUnionInfo(gameData));
-    recvInfo = GAME_DATA_GetMysteryRecvFlagB(gameData);
+    EVENT_FIELD_PROCLINK_ApplyZoneChangeEnable(GAME_DATA_GetSecondUnionInfo(gameData));
+    recvInfo = GAME_DATA_GetMusicalShotExtraData(gameData);
     EVENT_FIELD_PROCLINK_GetReturnInfo(recvInfo, GAME_DATA_GetSecondUnionInfo(gameData), 1);
 }
 
@@ -829,7 +829,7 @@ struct GameEvent *EVENT_MAPCHANGE_CreateNewGameStartEvent(struct GameSystem *gam
 /* interface: 020127C4 forwards 020127D0's returned pointer in r0. */
 void EVENT_MAPCHANGE_RefreshUnionInfo(struct GameSystem *gameSystem)
 {
-    EVENT_FIELD_PROCLINK_CheckZoneFlag(GAME_DATA_GetSecondUnionInfo(GAMESYSTEM_GetGameData(gameSystem)));
+    EVENT_FIELD_PROCLINK_ApplyZoneChangeEnable(GAME_DATA_GetSecondUnionInfo(GAMESYSTEM_GetGameData(gameSystem)));
 }
 
 /* Continue event: restores the field state from the save and enters the saved map. */
@@ -863,7 +863,7 @@ int EVENT_MAPCHANGE_ContinueEvent(struct GameEvent *event, int *seq, ContinueWor
             EVENT_MAPCHANGE_StartSeasonEffect(gameData);
             FIELD_CLOCK_Update(gameData);
             FIELD_MAP_CHANGE_MoveActiveEntries(gameData, work->zoneId);
-            ISS_SWITCH_RefreshSubscreenMode(gameData, work->zoneId);
+            WEATHER_RefreshStoredWeatherId(gameData, work->zoneId);
             mapSubType = ZONEDATA_GetMapSubType(work->zoneId);
             mmdlSys = GAME_DATA_GetOccupyInfo(gameData);
             if (mapSubType < 16) {
@@ -928,7 +928,7 @@ struct GameEvent *EVENT_MAPCHANGE_CreateContinueEvent(struct GameSystem *gameSys
     if (!CONSOLE_STAMP_IsThisConsole(consoleInfo) || !CONSOLE_STAMP_IsRtcOffsetCurrent(consoleInfo)) {
         DAILY_CLOCK_Refill(CONSOLE_STAMP_GetDailyClock(saveControl));
         FORMCHANGE_RevertShayminAndRegister(work->gameData, partySave);
-        nowSeconds = GF_STANDARD_SetupRtc();
+        nowSeconds = GF_STANDARD_GetRtcTimestamp();
         BEACON_SetLastTime(miscSave, (u32)nowSeconds, (u32)(nowSeconds >> 32));
     }
     CONSOLE_STAMP_SetIdentity(consoleInfo);
@@ -2245,7 +2245,7 @@ void EVENT_MAPCHANGE_ApplyLocation(GameSystem *gameSystem, Location *warpLocatio
     EVENT_MAPCHANGE_AddEventDataMmdl(gameData, warpLocation);
     EVENT_MAPCHANGE_SetMapEffectMask(gameData, location.zoneId);
     EVENT_MAPCHANGE_ReloadMmdl(gameData, &location);
-    ISS_SWITCH_ApplySubscreenMode((int)gameSystem, (s16)location.zoneId);
+    WEATHER_StoreZoneWeatherId((int)gameSystem, (s16)location.zoneId);
     mapSubType = ZONEDATA_GetMapSubType(location.zoneId);
     mmdlSys = GAME_DATA_GetOccupyInfo(gameData);
     if (mapSubType < 16)
@@ -2304,7 +2304,7 @@ void EVENT_MAPCHANGE_AddWfbcMmdl(GameData *gameData, const Location *location)
     if (headers != 0)
         GFL_HEAP_Free((void *)headers);
 
-    itemSlots = (int)GAME_DATA_GetMysteryRecvFlagA(gameData);
+    itemSlots = (int)GAME_DATA_GetMusicalShotTitle(gameData);
     itemCount = FIELD_WFBC_DATA_LOCAL_CountItemSlots((u16 *)itemSlots);
     headers = FIELD_WFBC_DATA_LOCAL_CreateItemMmdlHeaders((u16 *)itemSlots, mapMode, wfbcData[1], 1);
     if (headers != 0 && itemCount != 0)

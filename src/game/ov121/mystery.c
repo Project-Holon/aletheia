@@ -50,7 +50,7 @@
  *   MYSTERY_UTIL_UpdateMenuWindow 0x021D9E50 thumb ov121
  *   MYSTERY_UTIL_IsWindowListDone 0x021DA2C8 thumb ov121
  *   MYSTERY_UTIL_Update 0x021DA840 thumb ov121
- *   MYSTERY_UTIL_GetTaskField04 0x021DA8AC thumb ov121
+ *   MYSTERY_UTIL_IsTaskDone 0x021DA8AC thumb ov121
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
@@ -85,7 +85,7 @@
  *   MYSTERY_UTIL_SetTaskHandler 0x021DA8B0 thumb ov121
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
- *   APP_ENV_InitParentalControl 0x0202EB44 thumb
+ *   APP_ENV_IsWirelessAvailable 0x0202EB44 thumb
  *   MYSTERY_UTIL_SetListValue 0x021DA84C thumb ov121
  *   MYSTERY_NET_GetResult 0x021DE4D8 thumb ov121
  *   MYSTERY_NET_SetAction 0x021DE308 thumb ov121
@@ -99,7 +99,7 @@
  *   MYSTERY_UTIL_UpdateMenu 0x021DA178 thumb ov121
  *   MYSTERY_UTIL_GetMenuState 0x021D9FF8 thumb ov121
  *   KEY_GetTrg 0x020362DC arm
- *   GF_STANDARD_SetField00_F4E4 0x0203F4E4 arm
+ *   GF_STANDARD_GetCachedDate 0x0203F4E4 arm
  *   MYSTERY_GRAPHIC_StartRender 0x021D9750 thumb ov121
  *   MYSTERY_DATA_SaveStart 0x0200A2B8 thumb
  *   MYSTERY_DATA_SaveMain 0x0200A2D8 thumb
@@ -157,7 +157,7 @@
  *   MYSTATUS_GetName 0x020084F4 thumb
  *   MYSTATUS_GetOutfitVariant 0x02008550 thumb
  *   MSGDATA_AllocString 0x02045EC0 arm
- *   POKE_TOOL_Dummy 0x020185F0 thumb
+ *   POKE_TOOL_CastToBoxParam 0x020185F0 thumb
  *   SAVE_EVENT_WriteWithDate 0x0202F2AC thumb
  *   POKE_TOOL_RecalcParam 0x020185C4 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
@@ -182,10 +182,10 @@
  *   CLACT_GetActorPos 0x0204B53C arm
  *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
  *   CLACT_SetActorPos 0x0204B528 arm
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  *   BMP_OAM_CreateSys 0x02025538 thumb
  *   MYSTERY_UTIL_CreateTaskEx 0x021DA8CC thumb ov121
- *   MYSTERY_UTIL_SetFlag 0x021DA9EC thumb ov121
+ *   MYSTERY_UTIL_SetActorPairColor 0x021DA9EC thumb ov121
  *   MYSTERY_UTIL_SetVec 0x021DA9F0 thumb ov121
  *   MYSTERY_UTIL_SetActorPairText 0x021DA994 thumb ov121
  *   MYSTERY_UTIL_UpdateActorPair 0x021DA978 thumb ov121
@@ -213,7 +213,7 @@
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb  arm9
  *   GF_FONT_Delete  0x0201D83C  thumb  arm9
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb  arm9
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
+ *   WORDSET_Delete  0x0201ED04  thumb  arm9
  */
 
 #define PALETTE ((void *)0x050003C0)
@@ -438,7 +438,7 @@ extern void GFL_USE_CancelChangeAndPlayBgm(int, int);
 extern void MYSTERY_NET_Delete(u8 *p);
 extern void MYSTERY_UTIL_DeleteMenuWindow(u8 *p);
 extern void MYSTERY_UTIL_DeleteTask(void *);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
@@ -459,7 +459,7 @@ extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void MYSTERY_UTIL_UpdateMenuWindow(u8 *p);
 extern int MYSTERY_UTIL_IsWindowListDone(u8 *p);
 extern int MYSTERY_UTIL_Update(void **);
-extern int MYSTERY_UTIL_GetTaskField04(u32 *p);
+extern int MYSTERY_UTIL_IsTaskDone(u32 *p);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole();
@@ -505,7 +505,7 @@ extern void MYSTERY_UTIL_GetTaskArg(u32 *p);
 extern int MYSTERY_UTIL_UpdateMenu(char *);
 extern unsigned MYSTERY_UTIL_GetMenuState(u8 *p);
 extern u32 KEY_GetTrg(void);
-extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
+extern void GF_STANDARD_GetCachedDate(struct RtcDate *date);
 extern int MYSTERY_DATA_IsEventFlag(char *p, unsigned int bit);
 extern int MYSTERY_DATA_AddCard(void *p, void *arg);
 extern void MYSTERY_DATA_SetEventFlag(void *p, unsigned int idx);
@@ -513,7 +513,7 @@ extern u32 MYSTERY_DATA_HasCardSpace(u8 *p);
 extern u32 MYSTERY_DATA_GetCardSlotNum(struct Obj *);
 extern int MYSTERY_DATA_IsCardReceived(char *p, unsigned int idx);
 extern int MYSTERY_DATA_IsMainSave(struct Obj *data);
-extern int APP_ENV_InitParentalControl(void);
+extern int APP_ENV_IsWirelessAvailable(void);
 extern void *MYSTERY_NET_GetResult(char *p);
 extern void MYSTERY_UTIL_SetListValue(u8 *p, u32 i, u32 value);
 extern void MYSTERY_GRAPHIC_StartRender(u8 *p);
@@ -568,7 +568,7 @@ extern u16 STRBUF_GetEosChar(void);
 extern const void *MYSTATUS_GetName(const void *p);
 extern u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern void *POKE_TOOL_Dummy(void *);
+extern void *POKE_TOOL_CastToBoxParam(void *);
 extern void SAVE_EVENT_WriteWithDate(void *,u32,u32,u32,u32);
 extern void POKE_TOOL_RecalcParam(void *);
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
@@ -587,10 +587,10 @@ extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u3
 extern void CLACT_GetActorPos(const struct Actor *actor, struct Pt *out);
 extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 extern void CLACT_SetActorPos(struct Actor *actor, const struct Pt *src);
-extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
+extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
 extern void *BMP_OAM_CreateSys(unsigned int heapId, void *clact);
 extern void *MYSTERY_UTIL_CreateTaskEx(const char *p, u16 a, u16 b, int c, u8 d, int e, void *f, void *g, u16 heap);
-extern void MYSTERY_UTIL_SetFlag(u8 *p, int a);
+extern void MYSTERY_UTIL_SetActorPairColor(u8 *p, int a);
 extern void MYSTERY_UTIL_SetVec(u32 *p, u32 a, u32 b, u32 c);
 extern void MYSTERY_UTIL_SetActorPairText(char *p, int a, int b, int c);
 extern void MYSTERY_UTIL_UpdateActorPair(char *p);
@@ -719,7 +719,7 @@ int MYSTERY_Delete(void *a, int b, int c, char *p)
     MYSTERY_NET_Delete(((MysteryWork *)p)->net);
     if (((MysteryWork *)p)->textBox) MYSTERY_UTIL_DeleteMenuWindow(((MysteryWork *)p)->textBox);
     MYSTERY_UTIL_DeleteTask(((MysteryWork *)p)->task);
-    WORDSET_DeleteStrbufED04(((MysteryWork *)p)->wordSet.ptr);
+    WORDSET_Delete(((MysteryWork *)p)->wordSet.ptr);
     MSGDATA_Delete(((MysteryWork *)p)->msgBankAlt.ptr);
     MSGDATA_Delete(((MysteryWork *)p)->msgBank.ptr);
     PRINTSYS_QUE_Delete(((MysteryWork *)p)->printQueue.ptr);
@@ -759,7 +759,7 @@ int MYSTERY_Main(int a, int b, int c, char *p)
     if (((MysteryWork *)p)->menuB) MYSTERY_UTIL_IsWindowListDone(((MysteryWork *)p)->menuB);
     if (((MysteryWork *)p)->menuA) MYSTERY_UTIL_IsWindowListDone(((MysteryWork *)p)->menuA);
     if (((MysteryWork *)p)->msgDialog) MYSTERY_UTIL_Update(*(void ** *)&((MysteryWork *)p)->msgDialog);
-    if (MYSTERY_UTIL_GetTaskField04(((MysteryWork *)p)->task)) return 1;
+    if (MYSTERY_UTIL_IsTaskDone(((MysteryWork *)p)->task)) return 1;
     return 0;
 }
 
@@ -1080,7 +1080,7 @@ void MYSTERY_TaskMenu(void *task,u32 *state,u8 *p)
                     MYSTERY_UTIL_SetTaskArg(task,0);*state=19;
                 } else *state=16;
             } else {
-                if(APP_ENV_InitParentalControl()==0) MYSTERY_UTIL_SetTaskHandler(task,(u32)MYSTERY_TaskMessage);
+                if(APP_ENV_IsWirelessAvailable()==0) MYSTERY_UTIL_SetTaskHandler(task,(u32)MYSTERY_TaskMessage);
                 else *state=2;
             }
         } else if(v==1) {
@@ -1280,7 +1280,7 @@ void MYSTERY_TaskReceive(void *task,u32 *state,u8 *p)
             if(v==0) {
                 MYSTERY_DeleteCardMenu((char *)p);
                 if(((MysteryPacketFlag *)(p+1152))->bit && MYSTERY_DATA_IsEventFlag(((MysteryWork *)p)->mysteryData.ptr,((MysteryWork *)p)->packet.eventFlag)) {*state=11;break;}
-                GF_STANDARD_SetField00_F4E4((struct RtcDate *)(&date));
+                GF_STANDARD_GetCachedDate((struct RtcDate *)(&date));
                 ((MysteryWork *)p)->packet.date=(((u32)date.y+2000)<<16)|(((u32)date.m<<24)>>16)|(u8)date.d;
                 MYSTERY_DATA_AddCard(((MysteryWork *)p)->mysteryData.ptr,p+972);
                 MYSTERY_DATA_SetEventFlag(((MysteryWork *)p)->mysteryData.ptr,((MysteryWork *)p)->packet.eventFlag);
@@ -2001,7 +2001,7 @@ void MYSTERY_CreateReceivedMon(u8 *out,void *owner,const u8 *desc,void *save,voi
         }
         year=(u16)((int)D(172)>>16);month=(u8)((int)D(172)>>8);day=(u8)D(172);
         if(desc[92]) place=H(56);else place=H(58);
-        SAVE_EVENT_WriteWithDate(POKE_TOOL_Dummy(allocated),place,year-2000,month,day);
+        SAVE_EVENT_WriteWithDate(POKE_TOOL_CastToBoxParam(allocated),place,year-2000,month,day);
         POKE_TOOL_RecalcParam(allocated);
         if(POKE_TOOL_GetPartyValue(allocated,3,0)!=0) {GFL_HEAP_Free(allocated);mon=0;}
         else mon=allocated;
@@ -2402,8 +2402,8 @@ void MYSTERY_UpdateScrollA(u8 *p)
         }
     }
     ((MysteryScroll *)p)->scroll=((MysteryScroll *)p)->scroll+((MysteryScroll *)p)->value;
-    BG_SYS_ResetSlot(3,3,((MysteryScroll *)p)->scroll>>12);
-    BG_SYS_ResetSlot(7,3,((MysteryScroll *)p)->scroll>>12);
+    BG_SYS_ChangeScroll(3,3,((MysteryScroll *)p)->scroll>>12);
+    BG_SYS_ChangeScroll(7,3,((MysteryScroll *)p)->scroll>>12);
 }
 
 
@@ -2428,8 +2428,8 @@ void MYSTERY_UpdateScrollB(u8 *p)
         else CLACT_SetActorDrawEnable(sprite,0);
     }
     ((MysteryScroll *)p)->scroll=((MysteryScroll *)p)->scroll+((MysteryScroll *)p)->value;
-    BG_SYS_ResetSlot(3,3,((MysteryScroll *)p)->scroll>>12);
-    BG_SYS_ResetSlot(7,3,((MysteryScroll *)p)->scroll>>12);
+    BG_SYS_ChangeScroll(3,3,((MysteryScroll *)p)->scroll>>12);
+    BG_SYS_ChangeScroll(7,3,((MysteryScroll *)p)->scroll>>12);
 }
 
 
@@ -2445,7 +2445,7 @@ void MYSTERY_CreateOamSprite(u8 *p,const void *q,int n,int k,int x,int y,int z,u
     MI_CpuFill8(&pos,0,8);
     pos.x=96; pos.y=169; pos.a=0; pos.b=0;
     ((MysteryOamSprite *)p)->sprite=MYSTERY_UTIL_CreateTaskEx((const char *)(&pos),8,2,(int)(*(void *const *)&((MysteryClactActor *)q)->palette.ptr),3,0,((MysteryOamSprite *)p)->sys,(void *)k,heap);
-    MYSTERY_UTIL_SetFlag(((MysteryOamSprite *)p)->sprite,1120);
+    MYSTERY_UTIL_SetActorPairColor(((MysteryOamSprite *)p)->sprite,1120);
     MYSTERY_UTIL_SetVec(((MysteryOamSprite *)p)->sprite,0,0,1);
     MYSTERY_UTIL_SetActorPairText(((MysteryOamSprite *)p)->sprite,x,y,z);
     CLACT_SetActorDrawEnable(MYSTERY_GetClactActor((u8 *)q,34),1);

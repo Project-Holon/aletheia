@@ -12,7 +12,7 @@
  * symbols:
  *   ITEMMENU_IsMessageFinished  0x021BADF0  thumb  ov070
  *   ITEMMENU_HandleQuantityInput  0x021B7DF4  thumb  ov070
- *   ITEMMENU_CheckTouchRelease  0x021B8DAC  thumb  ov070
+ *   ITEMMENU_GetYesNoTouchChoice  0x021B8DAC  thumb  ov070
  *   KEY_GetTrg  0x020362DC  arm
  *   UI_SetInputMode  0x020355D8  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
@@ -45,7 +45,7 @@ typedef struct Obj {
 struct MsgBank;
 extern int ITEMMENU_IsMessageFinished(int p);
 extern int ITEMMENU_HandleQuantityInput(Obj *o);
-extern int ITEMMENU_CheckTouchRelease(void);
+extern int ITEMMENU_GetYesNoTouchChoice(void);
 extern u32 KEY_GetTrg(void);
 typedef unsigned char  u8;
 struct WordSet;
@@ -70,7 +70,7 @@ void ITEMMENU_TaskTossQuantityInput(Obj *o)
         return;
     if (ITEMMENU_HandleQuantityInput(o) == 1)
         return;
-    r = ITEMMENU_CheckTouchRelease();
+    r = ITEMMENU_GetYesNoTouchChoice();
     if (r == -1) {
         if (KEY_GetTrg() & 1) {
             r = 0;

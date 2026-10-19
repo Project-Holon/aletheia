@@ -9,8 +9,8 @@
  * status: EXACT
  * symbols:
  *   func_02030734 0x02030734 arm
- *   BG_SYS_FillScrollArea 0x02040618 arm
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   func_021BDCF8 0x021BDCF8 thumb ov208
@@ -25,8 +25,8 @@ typedef unsigned short u16;
 struct Bank;struct Ov208Scene;
 extern const char d_021C8DE4[];
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
-extern void BG_SYS_FillScrollArea(unsigned,unsigned,unsigned);
-extern void BG_SYS_SetVisibleLayer(int,u16);
+extern void BG_SYS_ChangeScrollImmediate(unsigned,unsigned,unsigned);
+extern void BG_SYS_SetPriority(int,u16);
 extern struct Bank *CLACT_CreateUnit(int,unsigned char,unsigned);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *);
 extern void func_021BDCF8(struct Ov208Scene *);
@@ -40,7 +40,7 @@ char *ZUKAN_DETAIL_TOUCHBAR_Create(u16 heap,unsigned arg)
     ((struct Obj01080 *)p)->f0=heap;((struct Obj01080 *)p)->f4=arg;
     ((struct Obj01080 *)p)->f8=0;((struct Obj01080 *)p)->fC=0;((struct Obj01080 *)p)->f10=0;
     ((struct Obj01080 *)p)->f14=1;((struct Obj01080 *)p)->f18=0;((struct Obj01080 *)p)->f1C=0;((struct Obj01080 *)p)->f20=0;
-    BG_SYS_FillScrollArea(1,3,-24);BG_SYS_SetVisibleLayer(1,0);
+    BG_SYS_ChangeScrollImmediate(1,3,-24);BG_SYS_SetPriority(1,0);
     p[0x38]=0;((struct Obj01080 *)p)->f3C=0;
     *(struct Bank * *)&((struct Obj01080 *)p)->f28=CLACT_CreateUnit(16,0,((struct Obj01080 *)p)->f0);
     CLACT_SetUnitDefaultRenderer(*(struct Bank * *)&((struct Obj01080 *)p)->f28);

@@ -15,7 +15,7 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   gVctState     0x021B60CC  data  ov013
  *   gVctSession     0x021B60D8  data  ov013
- *   VCT_SESSION_Init  0x021B0508  arm  ov013
+ *   VCT_MIXER_Init  0x021B0508  arm  ov013
  *   VCT_SESSION_InitPeerPool  0x021B22B4  arm  ov013
  *   VCT_SESSION_ClearPeerLists  0x021B23C8  arm  ov013
  *   VCT_POOL_InitFrames  0x021B2ED8  arm  ov013
@@ -41,7 +41,7 @@ extern int  gVctState[];
 extern u8   gVctSession[];
 extern void OSi_ReferSymbol(const void *symbol);
 extern void MI_CpuFill8(void *dst, int c, int n);
-extern int  VCT_SESSION_Init(void);
+extern int  VCT_MIXER_Init(void);
 struct Config;
 extern int VCT_SESSION_InitPeerPool(struct Config *cfg);
 extern void VCT_SESSION_ClearPeerLists(void);
@@ -81,7 +81,7 @@ int VCT_Init(Param *p)
         VCT_POOL_Reset();
         return 0;
     }
-    if (VCT_SESSION_Init() != 0) {
+    if (VCT_MIXER_Init() != 0) {
         gVctState[2] = 1;
         return 1;
     }

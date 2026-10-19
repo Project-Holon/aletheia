@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "EVENTDATA_SYSTEM_ToggleSubscreenEvent",
+   "name": "FIELD_LINK_EVENT_ToggleSubscreenEventMain",
    "address": "0x021646A0",
    "kind": "game",
    "region": "ov010",

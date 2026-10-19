@@ -12,7 +12,7 @@
  * symbols:
  *   func_0200873C   0x0200873C  thumb
  *   BEACON_GetFromSave   0x0200C0E8  thumb
- *   BEACON_CountFlags   0x0200C258  thumb
+ *   BEACON_CountBadges   0x0200C258  thumb
  *   ZUKAN_SAVE_GetFromGameData   0x0200CA1C  thumb
  *   GAME_DATA_GetMapMatrix   0x02012924  thumb
  *   GAME_DATA_GetMyItem   0x0201292C  thumb
@@ -58,7 +58,7 @@ struct Blk34;
 struct Sub02008700Obj;
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern void *BEACON_GetFromSave(void *sys);
-extern u32 BEACON_CountFlags(struct Blk34 *p);
+extern u32 BEACON_CountBadges(struct Blk34 *p);
 extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 struct BigObj;
 extern u32 GAME_DATA_GetMapMatrix(const struct BigObj *p);
@@ -109,7 +109,7 @@ void BTL_SETUP_InitCommon(u8 *o, void *a1, const void *a2)
     t = (u32)GAME_DATA_GetSaveControl(a1);
     u = (u32)BEACON_GetFromSave((void *)t);
     ((struct Obj00155 *)o)->f5C = (u32)func_0200873C((void *)t);
-    *(o + 0x80) = (u8)BEACON_CountFlags((struct Blk34 *)u);
+    *(o + 0x80) = (u8)BEACON_CountBadges((struct Blk34 *)u);
     MI_CpuCopy8(a2, o + 8, 0x10);
     ((struct Obj00155 *)o)->f18 = 0x468;
     ((struct Obj00155 *)o)->f1A = 0x468 + 0x14;

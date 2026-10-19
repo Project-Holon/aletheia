@@ -14,7 +14,7 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
- *   WORDSET_Callback_EF40  0x0201EF40  thumb
+ *   WORDSET_SetSlotFromMsg36  0x0201EF40  thumb
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
  *   KEY_GetTrg  0x020362DC  arm
@@ -66,7 +66,7 @@ extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
-extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotFromMsg36(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void GAME_EVENT_ChangeEvent(struct S0201235C *o, u32 *out);
 extern u32   KEY_GetTrg(void);
@@ -106,7 +106,7 @@ int EVENT_COMM_COMMON_ItemSaleEventMain(void *a, int *state, Outer *c)
     case 0:
         WORDSET_SetSlotMyStatus(c->p10, 0, c->f78);
         h = c->h58;
-        WORDSET_Callback_EF40(c->p10, 1, h[0]);
+        WORDSET_SetSlotFromMsg36(c->p10, 1, h[0]);
         WORDSET_SetSlotNumber(c->p10, 2, h[1], 5, 0, 1);
         WORDSET_SetSlotMyStatus(c->p10, 3, GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(sub)));
         EVENT_COMM_COMMON_PrintMsg((u8 *)c + 0x10, d_021839E0[0][c->b42]);

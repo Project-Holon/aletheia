@@ -15,7 +15,7 @@
  * symbols:
  *   B_PLIST_MAIN_GetOrderIndex 0x022110D4 thumb ov198
  *   func_02045EC0 0x02045EC0 arm
- *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
+ *   WORDSET_SetSlotMonNickname 0x0201EEF4 thumb
  *   WORDSET_SetSlotFromMsgCB 0x0201EF34 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   STRBUF_Delete 0x02045808 arm
@@ -27,7 +27,7 @@ struct MsgBank;
 struct U16Vec;
 extern int B_PLIST_MAIN_GetOrderIndex(u8 *p, int i);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonNickname(struct WordSet *p, u32 i, void *mon);
 extern void WORDSET_SetSlotFromMsgCB(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -37,7 +37,7 @@ void B_PLIST_DRAW_FormatRowWord(u8 *p)
     void *t;
     row = p + 4 + B_PLIST_MAIN_GetOrderIndex(p, (*(u8 **)p)[32]) * 0x4c;
     t = func_02045EC0(*(struct MsgBank **)(p + 0x1ea0), 105);
-    WORDSET_SetSlotMonSpecies(*(struct WordSet **)(p + 0x1ea4), 0, *(void **)row);
+    WORDSET_SetSlotMonNickname(*(struct WordSet **)(p + 0x1ea4), 0, *(void **)row);
     WORDSET_SetSlotFromMsgCB(*(struct WordSet **)(p + 0x1ea4), 1, 373);
     WORDSET_CopyTaggedText(*(struct WordSet **)(p + 0x1ea4), *(void **)(p + 0x1ea8), t);
     STRBUF_Delete(t);

@@ -19,8 +19,8 @@
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   BG_SYS_FreeSlot  0x020414AC  arm
  *   func_02040588  0x02040588  arm
- *   BG_SYS_FillScrollArea  0x02040618  arm
- *   BG_SYS_SetVisibleLayer  0x0204047C  arm
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm
+ *   BG_SYS_SetPriority  0x0204047C  arm
  *   ZUKAN_DETAIL_AREA_LoadMapGraphics  0x021C0090  thumb  ov208
  *   ov208_func_021C0134  0x021C0134  thumb  ov208
  *   ZUKAN_DETAIL_AREA_CreateTownIconActors  0x021C0450  thumb  ov208
@@ -40,13 +40,13 @@
  *   ZUKAN_DETAIL_COMMON_StartBlendIn  0x021BC4D8  thumb  ov208
  *   ov208_func_021BC6D8  0x021BC6D8  thumb  ov208
  *   ZUKAN_DETAIL_TOUCHBAR_GetMode  0x021BDAD0  thumb  ov208
- *   ZUKAN_DETAIL_COMMON_GetMaxValue  0x021BC3BC  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_GetEntryCount  0x021BC3BC  thumb  ov208
  *   ZUKAN_DETAIL_TOUCHBAR_SetMode  0x021BDAAC  thumb  ov208
  *   ZUKAN_DETAIL_TOUCHBAR_SetEnabled  0x021BDAD4  thumb  ov208
  *   ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind  0x021BDBB8  thumb  ov208
  *   ov208_func_021BDC48  0x021BDC48  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_GetSource  0x021BC3A4  thumb  ov208
- *   GAME_DATA_CheckSaveFlag  0x02012BF8  thumb
+ *   GAME_DATA_ContainsRecentId  0x02012BF8  thumb
  *   ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq  0x021BDC14  thumb  ov208
  *   ZUKAN_DETAIL_HEADBAR_GetIconKind  0x021BE840  thumb  ov208
  *   ZUKAN_DETAIL_HEADBAR_SetIconKind  0x021BE82C  thumb  ov208
@@ -102,8 +102,8 @@ extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BG_SYS_InitBgLayer(u8 bgId, const struct BgTemplate *tmpl, u8 type);
 extern void BG_SYS_FreeSlot(u8 bgId);
 extern void func_02040588(u8 which, u8 enable);
-extern void BG_SYS_FillScrollArea(u32 bgId, u32 which, u32 value);
-extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+extern void BG_SYS_ChangeScrollImmediate(u32 bgId, u32 which, u32 value);
+extern void BG_SYS_SetPriority(int idx, unsigned short val);
 extern void ZUKAN_DETAIL_AREA_LoadMapGraphics(u16 *heap, u8 *p, int key);
 extern void ov208_func_021C0134(u16 *heap, u8 *p, int key);
 extern void ZUKAN_DETAIL_AREA_CreateTownIconActors(u16 *heap, u8 *p, int key);
@@ -124,13 +124,13 @@ extern void ZUKAN_DETAIL_AREA_SetIconsNormalMode(u16 *heap, u8 *p, int key);
 extern void ZUKAN_DETAIL_COMMON_StartBlendIn(u32 blend);
 extern void ov208_func_021BC6D8(u32 fade);
 extern int  ZUKAN_DETAIL_TOUCHBAR_GetMode(void *s);
-extern u16  ZUKAN_DETAIL_COMMON_GetMaxValue(char *p);
+extern u16  ZUKAN_DETAIL_COMMON_GetEntryCount(char *p);
 extern void ZUKAN_DETAIL_TOUCHBAR_SetMode(void *s, u32 mode, u32 kind, u32 flag);
 extern void ZUKAN_DETAIL_TOUCHBAR_SetEnabled(void *s, int v);
 extern void ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind(void *s, u32 kind);
 extern void ov208_func_021BDC48(void *s, u32 on);
 extern int  ZUKAN_DETAIL_COMMON_GetSource(int key);
-extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
+extern int GAME_DATA_ContainsRecentId(int a0, int a1);
 extern void ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(void *s, int b);
 extern int  ZUKAN_DETAIL_HEADBAR_GetIconKind(void *icon);
 extern void ZUKAN_DETAIL_HEADBAR_SetIconKind(void *icon, int kind);
@@ -184,17 +184,17 @@ int ZUKAN_DETAIL_AREA_Main(void *proc, int *seq, u16 *heap, u8 *p, int key)
         }
         for (i = 0; i <= 7; i++) {
             if (i != 1 && i != 5) {
-                BG_SYS_FillScrollArea(i, 0, 0);
-                BG_SYS_FillScrollArea(i, 3, 0);
+                BG_SYS_ChangeScrollImmediate(i, 0, 0);
+                BG_SYS_ChangeScrollImmediate(i, 3, 0);
                 BG_SYS_FreeSlot(i);
             }
         }
-        BG_SYS_SetVisibleLayer(2, 2);
-        BG_SYS_SetVisibleLayer(3, 3);
-        BG_SYS_SetVisibleLayer(0, 1);
-        BG_SYS_SetVisibleLayer(6, 1);
-        BG_SYS_SetVisibleLayer(7, 2);
-        BG_SYS_SetVisibleLayer(4, 3);
+        BG_SYS_SetPriority(2, 2);
+        BG_SYS_SetPriority(3, 3);
+        BG_SYS_SetPriority(0, 1);
+        BG_SYS_SetPriority(6, 1);
+        BG_SYS_SetPriority(7, 2);
+        BG_SYS_SetPriority(4, 3);
         ZUKAN_DETAIL_AREA_LoadMapGraphics(heap, p, key);
         ov208_func_021C0134(heap, p, key);
         ZUKAN_DETAIL_AREA_CreateTownIconActors(heap, p, key);
@@ -221,14 +221,14 @@ int ZUKAN_DETAIL_AREA_Main(void *proc, int *seq, u16 *heap, u8 *p, int key)
         ZUKAN_DETAIL_COMMON_StartBlendIn(W(0x418));
         ov208_func_021BC6D8(W(0x420));
         if (ZUKAN_DETAIL_TOUCHBAR_GetMode(scene) != 2) {
-            ZUKAN_DETAIL_TOUCHBAR_SetMode(scene, 0, 1, ZUKAN_DETAIL_COMMON_GetMaxValue((char *)key) > 1);
+            ZUKAN_DETAIL_TOUCHBAR_SetMode(scene, 0, 1, ZUKAN_DETAIL_COMMON_GetEntryCount((char *)key) > 1);
             ZUKAN_DETAIL_TOUCHBAR_SetEnabled(scene, 0);
         } else {
             ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind(scene, 1);
         }
         ov208_func_021BDC48(scene, 0);
         W(0x88) = 0;
-        ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(scene, GAME_DATA_CheckSaveFlag(ZUKAN_DETAIL_COMMON_GetSource(key), 18));
+        ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(scene, GAME_DATA_ContainsRecentId(ZUKAN_DETAIL_COMMON_GetSource(key), 18));
         if (ZUKAN_DETAIL_HEADBAR_GetIconKind(icon) != 2) {
             ZUKAN_DETAIL_HEADBAR_SetIconKind(icon, 1);
             ZUKAN_DETAIL_HEADBAR_SetIconSpecies(icon);

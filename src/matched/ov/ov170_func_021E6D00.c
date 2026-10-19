@@ -21,14 +21,14 @@
  *   BOX2_MAIN_CanPlaceInBox 0x021DD718 thumb
  *   BOX2_MAIN_RecalcPartyParam 0x021DD8A8 thumb
  *   BOX2_SEQ_ShowSlotIcon 0x021EC48C thumb
- *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb
+ *   BOX2_MAIN_RefreshCurrentBoxMonInfo 0x021DEFEC thumb
  *   BOX2_SEQ_SetSlotCharacter 0x021ED094 thumb
  *   BOX2_SEQ_SetActorAffineMode 0x021ED108 thumb
  *   BOX2_SEQ_SetActorAnimSeq 0x021EBFA8 thumb
  *   BOX2_SEQ_SetActorDrawEnable 0x021EC000 thumb
  *   BOX2_SEQ_CreateHandSlotActorsB 0x021ED1C8 thumb
  *   BOX2_SEQ_SetSeqThird 0x021E8FC0 thumb
- *   BOX2_MAIN_Check122C 0x021E122C thumb
+ *   BOX2_MAIN_StateMachineReturnHeld 0x021E122C thumb
  *
  * Twin of BOX2_SEQ_StateMoveItemScroll driven by the work fields: moves the held item from
  * slot 0xA16E to slot 0xA17E, swapping with what is there.
@@ -56,14 +56,14 @@ extern int BOX2_MAIN_GetMonAt(void ***p, int a, unsigned b);
 extern int BOX2_MAIN_CanPlaceInBox(void **pp, void *mon);
 extern void BOX2_MAIN_RecalcPartyParam(void **pp, u32 idx);
 extern void BOX2_SEQ_ShowSlotIcon(unsigned char *p, int box, int pos, int win);
-extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
+extern void BOX2_MAIN_RefreshCurrentBoxMonInfo(char *p, int b);
 extern void BOX2_SEQ_SetSlotCharacter(char *w, unsigned item);
 extern void BOX2_SEQ_SetActorAffineMode(char *w, int on);
 extern void BOX2_SEQ_SetActorAnimSeq(char *w, int i, int v);
 extern void BOX2_SEQ_SetActorDrawEnable(char *w, int i, int v);
 extern void BOX2_SEQ_CreateHandSlotActorsB(char *w);
 extern int BOX2_SEQ_SetSeqThird(char *p, int a, int b);
-extern int BOX2_MAIN_Check122C(unsigned char *p);
+extern int BOX2_MAIN_StateMachineReturnHeld(unsigned char *p);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 #define OBJ(p) (*(void **)(WORK(p) + 0x70))
@@ -93,7 +93,7 @@ int BOX2_SEQ_StatePlaceItem(unsigned char *p)
         BOX2_MAIN_RecalcPartyParam((void **)p, TGT(p));
         BOX2_SEQ_ShowSlotIcon(p, p[0x14], TGT(p), WIN(p, TGT(p)));
     }
-    BOX2_MAIN_ChangeBoxFormPreserve((char *)p, TGT(p));
+    BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p, TGT(p));
     ITEM(p) = item;
     BOX2_MAIN_SetBoxValueAt((int)p, CUR(p), p[0x17], 6, ITEM(p));
     if (BOX2_MAIN_CanPlaceInBox((void **)p, (void *)BOX2_MAIN_GetMonAt((void ***)p, p[0x17], CUR(p))) == 1) {
@@ -113,5 +113,5 @@ int BOX2_SEQ_StatePlaceItem(unsigned char *p)
     BOX2_SEQ_SetActorDrawEnable(WORK(p), 10, 1);
     BOX2_SEQ_CreateHandSlotActorsB(WORK(p));
     GFL_USE_PlaySeDefaultVolume(0x666);
-    return BOX2_SEQ_SetSeqThird((char *)p, (int)BOX2_MAIN_Check122C, 0x43);
+    return BOX2_SEQ_SetSeqThird((char *)p, (int)BOX2_MAIN_StateMachineReturnHeld, 0x43);
 }

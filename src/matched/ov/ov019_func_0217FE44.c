@@ -1,5 +1,5 @@
 /*
- * function: COLOSSEUM_GetStandPosIndex
+ * function: COLOSSEUM_IsOnStandPos
  * address:  0x0217FE44
  * packet:   pkt_ov019_0217FE44
  * region:   ov019
@@ -28,7 +28,7 @@ extern int FLDMMDL_GetGridNowZ(void *);
 extern s16 d_02180794[][2];
 extern s16 d_0218079C[][2];
 
-int COLOSSEUM_GetStandPosIndex(int a, int mode, unsigned *out)
+int COLOSSEUM_IsOnStandPos(int a, int mode, unsigned *out)
 {
     unsigned i;
     int x;

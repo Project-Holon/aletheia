@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BLINK_PALANM_ResetPhase  0x0202EB04  thumb
- *   BG_SYS_ResetSlot  0x02041EE4  arm
+ *   BG_SYS_ChangeScroll  0x02041EE4  arm
  *   STARTMENU_RowTileY  0x021BB840  thumb  ov088
  *   STARTMENU_PaintRowPalette  0x021BB810  thumb  ov088
  *   STARTMENU_ScrollRowActors  0x021BB858  thumb  ov088
@@ -21,7 +21,7 @@
 struct CodeIn;
 extern void BLINK_PALANM_ResetPhase(struct CodeIn *p);
 typedef unsigned int   u32;
-extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
+extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
 extern int STARTMENU_RowTileY(char *p, int y);
 typedef unsigned char  u8;
 extern void STARTMENU_PaintRowPalette(void *p, u8 row, int y, int pal);
@@ -42,8 +42,8 @@ int STARTMENU_StateScroll(char *p)
         ((struct Obj01228 *)p)->f130 += 0x200;
     else if (((struct Obj01228 *)p)->f130 >= 0x200)
         ((struct Obj01228 *)p)->f130 -= 0x200;
-    BG_SYS_ResetSlot(1, 3, ((struct Obj01228 *)p)->f130);
-    BG_SYS_ResetSlot(2, 3, ((struct Obj01228 *)p)->f130);
+    BG_SYS_ChangeScroll(1, 3, ((struct Obj01228 *)p)->f130);
+    BG_SYS_ChangeScroll(2, 3, ((struct Obj01228 *)p)->f130);
     STARTMENU_ScrollRowActors(p, -((struct Obj01228 *)p)->f138);
     ((struct Obj01228 *)p)->f134 = ((struct Obj01228 *)p)->f134 + 1;
     return 6;

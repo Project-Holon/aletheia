@@ -48,7 +48,7 @@
  *   WORLDTRADE_ADAPTER_DeletePrintStream 0x02202940 thumb ov135
  *   BMP_WIN_Delete 0x020452E8 arm
  *   STRBUF_Create 0x020457B0 arm
- *   WORLDTRADE_ADAPTER_IsStreamDone  0x02202840  thumb  ov135
+ *   WORLDTRADE_ADAPTER_IsStreamBusy  0x02202840  thumb  ov135
  *   MSGDATA_AllocString   0x02045EC0  arm
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   BMP_WIN_GetBmp   0x02045770  arm
@@ -74,12 +74,12 @@
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm  arm9
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  *   KEY_GetTrg  0x020362DC  arm  arm9
- *   WORLDTRADE_ClearBusyFlag  0x021F4EC8  thumb  ov135
+ *   WORLDTRADE_AdvanceScreenId  0x021F4EC8  thumb  ov135
  *   WORLDTRADE_SetStateAndReturn  0x021F4EC0  thumb
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm  arm9
- *   POKE_TOOL_Dummy 0x020185F0 thumb
+ *   POKE_TOOL_CastToBoxParam 0x020185F0 thumb
  *   MYSTATUS_GetName 0x020084F4 thumb
- *   WORLDTRADE_DEPOSIT_GetConditionIndex 0x021F886C thumb ov135
+ *   WORLDTRADE_DEPOSIT_FindLevelBracketIndex 0x021F886C thumb ov135
  *   WORLDTRADE_DEPOSIT_DrawRequestWindowAlt 0x021F8290 thumb ov135
  *   g_02203CF0  0x02203CF0  data  ov135
  *   g_022034AC  0x022034AC  data  ov135
@@ -97,8 +97,8 @@
  *   WORLDTRADE_OpenTaskMenuList 0x021F4D50 thumb ov135
  *   WORLDTRADE_UpdateTaskMenuList 0x021F4E30 thumb ov135
  *   WORLDTRADE_CloseTaskMenuList 0x021F4E64 thumb ov135
- *   WORLDTRADE_BOX_IsSpeciesFlagged 0x021F6DE8 thumb ov135
- *   WORDSET_SetSlotMonName  0x0201EE84  thumb
+ *   WORLDTRADE_BOX_IsHoldingMail 0x021F6DE8 thumb ov135
+ *   WORDSET_SetSlotMonSpeciesName  0x0201EE84  thumb
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   FILE_UTIL_ReadString  0x02020F84  thumb
  *   STRBUF_SetString  0x02045924  arm
@@ -194,7 +194,7 @@ extern const u32 tbl_02202EB0[];
 
 extern void *BMP_MENUWORK_Create(u32 n, u32 heap);
 
-extern void WORLDTRADE_ClearBusyFlag(Work *p);
+extern void WORLDTRADE_AdvanceScreenId(Work *p);
 
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 
@@ -212,13 +212,13 @@ extern void CLACT_SetActorAutoAnim(struct Obj *,u32);
 
 extern void *WORLDTRADE_NoOp(void *);
 
-extern void *POKE_TOOL_Dummy();
+extern void *POKE_TOOL_CastToBoxParam();
 
 extern void *MYSTATUS_GetName(void *);
 
 extern int WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 
-extern int WORLDTRADE_DEPOSIT_GetConditionIndex(int,int,int);
+extern int WORLDTRADE_DEPOSIT_FindLevelBracketIndex(int,int,int);
 
 extern void WORLDTRADE_DEPOSIT_DrawRequestWindowAlt(void *,void *,int,u8 *,u32,int,int,void *);
 
@@ -256,9 +256,9 @@ extern unsigned int WORLDTRADE_UpdateTaskMenuList(unsigned char *p);
 
 extern void WORLDTRADE_CloseTaskMenuList(unsigned char *p);
 
-extern int WORLDTRADE_BOX_IsSpeciesFlagged(unsigned int handle);
+extern int WORLDTRADE_BOX_IsHoldingMail(unsigned int handle);
 
-extern void WORDSET_SetSlotMonName(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonSpeciesName(struct WordSet *p, u32 i, void *mon);
 
 
 
@@ -349,7 +349,7 @@ void WORLDTRADE_TITLE_CreateMenuWindow(Work *p, u32 k);
 
 u32 WORLDTRADE_ADAPTER_CreateString(u32 a, u32 b, u32 c, u32 d);
 
-u32 WORLDTRADE_ADAPTER_IsStreamDone(PrintStreamCtx *p);
+u32 WORLDTRADE_ADAPTER_IsStreamBusy(PrintStreamCtx *p);
 
 u32 WORLDTRADE_ADAPTER_QueuePrintDefaultColor(void *p,u8 b,void *s,u32 x,u32 y,void *out);
 
@@ -383,9 +383,9 @@ int WORLDTRADE_DETAIL_Init(Work *p)
     WORLDTRADE_DETAIL_LoadBgGraphics(p);
     WORLDTRADE_DETAIL_CreateWindows((Work *)p);
     WORLDTRADE_DETAIL_CreateActors(p);
-    WORLDTRADE_DETAIL_PrintMonInfo(*(void **)((u8 *)p+0xB6C),*(void **)((u8 *)p+0xB70),*(void **)((u8 *)p+0xB68),(void **)((u8 *)p+0xD90),POKE_TOOL_Dummy(mon),(Rec *)((u8 *)p+0x1D0),(u8 *)p+0xFA0);
+    WORLDTRADE_DETAIL_PrintMonInfo(*(void **)((u8 *)p+0xB6C),*(void **)((u8 *)p+0xB70),*(void **)((u8 *)p+0xB68),(void **)((u8 *)p+0xD90),POKE_TOOL_CastToBoxParam(mon),(Rec *)((u8 *)p+0x1D0),(u8 *)p+0xFA0);
     WORLDTRADE_DETAIL_PrintMonName(*(void **)((u8 *)p+0xB6C),(Pane2 *)((u8 *)p+0xDAC),MYSTATUS_GetName(*(void **)(*(u8 **)(u8 *)p+0x1C)),mon,(Pane2 *)((u8 *)p+0xDC0),(u8 *)p+0xFA0);
-    index=WORLDTRADE_DEPOSIT_GetConditionIndex(*(s8 *)((u8 *)p+0x1D7),*(s8 *)((u8 *)p+0x1D8),0);
+    index=WORLDTRADE_DEPOSIT_FindLevelBracketIndex(*(s8 *)((u8 *)p+0x1D7),*(s8 *)((u8 *)p+0x1D8),0);
     WORLDTRADE_DEPOSIT_DrawRequestWindowAlt(*(void **)((u8 *)p+0xB6C),*(void **)((u8 *)p+0xB70),*(int *)((u8 *)p+0xB68),(u8 *)p+0xDB4,*(s16 *)((u8 *)p+0x1D4),*(s8 *)((u8 *)p+0x1D6),index,(u8 *)p+0xFA0);
     WORLDTRADE_DETAIL_LoadMonGraphics(mon);
     WIPE_SYS_Start((void *)3,1,1,0,6,1,0x48);
@@ -402,7 +402,7 @@ void WORLDTRADE_DETAIL_CallStateHandler(u8 *p)
     g_02203CF0[*(u32 *)(p + 0x28)](p);
 }
 
-int WORLDTRADE_DETAIL_Exit(Work *p) {WORLDTRADE_DETAIL_DeleteActors(p);WORLDTRADE_DETAIL_DeleteStrings(p);WORLDTRADE_DETAIL_DeleteWindows((char *)p);WORLDTRADE_DETAIL_ExitBgPlanes();WORLDTRADE_TITLE_ExitBgPlanes(p);CLACT_SetActorDrawEnable((*(void * *)&p->scrollBarObj),0);WORLDTRADE_ClearBusyFlag(p);return 0;}
+int WORLDTRADE_DETAIL_Exit(Work *p) {WORLDTRADE_DETAIL_DeleteActors(p);WORLDTRADE_DETAIL_DeleteStrings(p);WORLDTRADE_DETAIL_DeleteWindows((char *)p);WORLDTRADE_DETAIL_ExitBgPlanes();WORLDTRADE_TITLE_ExitBgPlanes(p);CLACT_SetActorDrawEnable((*(void * *)&p->scrollBarObj),0);WORLDTRADE_AdvanceScreenId(p);return 0;}
 
 /*
  * Three-layer bring-up after the display restore, with engine-B plane 0x16
@@ -617,7 +617,7 @@ int WORLDTRADE_DETAIL_StateMenuInput(Work *p)
         WORLDTRADE_CloseTaskMenuList((unsigned char *)p);
         BMP_MENUWORK_Delete(p->de8);
         q = WORLDTRADE_NoOp(**(void ** *)(void **)&p->ctx);
-        if (WORLDTRADE_BOX_IsSpeciesFlagged((unsigned int)q) && POKEPARTY_GetCount(p->ctx->party) == 6) {
+        if (WORLDTRADE_BOX_IsHoldingMail((unsigned int)q) && POKEPARTY_GetCount(p->ctx->party) == 6) {
             WORLDTRADE_DETAIL_PrintMessage((u8 *)p, 0x2a, 1, 0, 0xf0f, q);
             WORLDTRADE_SetNextState(p, 3, 1);
             return 2;
@@ -637,7 +637,7 @@ int WORLDTRADE_DETAIL_StateMenuInput(Work *p)
 
 int WORLDTRADE_DETAIL_StateWaitMessage(u8 *p)
 {
-    if (WORLDTRADE_ADAPTER_IsStreamDone((PrintStreamCtx *)(p + 0xfa0)) == 0) {
+    if (WORLDTRADE_ADAPTER_IsStreamBusy((PrintStreamCtx *)(p + 0xfa0)) == 0) {
         ((Work *)p)->state = ((Work *)p)->returnState;
     }
     return 2;
@@ -648,7 +648,7 @@ int WORLDTRADE_DETAIL_StateWaitMessage(u8 *p)
  */
 int WORLDTRADE_DETAIL_StateWaitMessageTimed(u8 *p)
 {
-    if (WORLDTRADE_ADAPTER_IsStreamDone((PrintStreamCtx *)(p + 0xfa0)) == 0) {
+    if (WORLDTRADE_ADAPTER_IsStreamBusy((PrintStreamCtx *)(p + 0xfa0)) == 0) {
         if (++((Work *)p)->cnt > 0x2d) {
             ((Work *)p)->cnt = 0;
             ((Work *)p)->state = ((Work *)p)->returnState;
@@ -667,7 +667,7 @@ void WORLDTRADE_DETAIL_PrintMessage(u8 *p, u32 msgId, u32 unused1, u32 unused2, 
     u32 v;
     u32 h;
 
-    WORDSET_SetSlotMonName(((Work *)p)->words, 0, (void *)mon);
+    WORDSET_SetSlotMonSpeciesName(((Work *)p)->words, 0, (void *)mon);
     v = (u32)MSGDATA_AllocString((struct MsgBank *)(*(u32 *)&((Work *)p)->bank_u), msgId);
     WORDSET_CopyTaggedText((struct WordSet *)(*(u32 *)&((Work *)p)->words), (void *)(((Work *)p)->str), (void *)v);
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((Work *)p)->frame)), 0xf);
@@ -786,7 +786,7 @@ void WORLDTRADE_DETAIL_LoadMonGraphics(void *mon)
     u32 shiny;
     u32 id;
 
-    h = (void *)POKEGRA_LoadCharDataPP(&pal, POKE_TOOL_Dummy(), 0, 0x48);
+    h = (void *)POKEGRA_LoadCharDataPP(&pal, POKE_TOOL_CastToBoxParam(), 0, 0x48);
     DC_FlushRange(pal->data, 0x1200);
     GX_LoadOBJ(pal->data, 0x3F80, 0x1200);
     GFL_HEAP_Free(h);
@@ -801,6 +801,6 @@ void WORLDTRADE_DETAIL_LoadMonGraphics(void *mon)
 void WORLDTRADE_DETAIL_DrawRequestWindow(Work *p)
 {
     int n;
-    n = WORLDTRADE_DEPOSIT_GetConditionIndex(((Deposit *)&p->single)->want.b3, ((Deposit *)&p->single)->want.b4, 0);
+    n = WORLDTRADE_DEPOSIT_FindLevelBracketIndex(((Deposit *)&p->single)->want.levelMin, ((Deposit *)&p->single)->want.levelMax, 0);
     WORLDTRADE_DEPOSIT_DrawRequestWindowAlt(p->bank, p->names, (int)(p->words), (u8 *)((char *)p + 0xdb4), ((Deposit *)&p->single)->want.species, ((Deposit *)&p->single)->want.form, n, (char *)p + 0xfa0);
 }

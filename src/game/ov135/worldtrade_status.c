@@ -20,9 +20,9 @@
  *   PROCSYS_Push  0x02031348  arm
  *   WORLDTRADE_ExitPlanes 0x021F50EC thumb ov135
  *   WORLDTRADE_ClearAndShowPlanes  0x021F5074  thumb  ov135
- *   WORLDTRADE_ClearBusyFlag  0x021F4EC8  thumb  ov135
+ *   WORLDTRADE_AdvanceScreenId  0x021F4EC8  thumb  ov135
  *   WORLDTRADE_SetStateAndReturn  0x021F4EC0  thumb
- *   WORLDTRADE_BOX_ClampSlot 0x021F6B34 thumb ov135
+ *   WORLDTRADE_BOX_IsPartyBox 0x021F6B34 thumb ov135
  *   WORLDTRADE_BOX_GetMonCount 0x021F6B80 thumb ov135
  *   WORLDTRADE_BOX_GetPartyMon 0x021F6B40 thumb ov135
  *   str_02203E30 0x02203E30 data a1
@@ -43,12 +43,12 @@ extern void WORLDTRADE_ExitPlanes(Work *);
 
 extern void WORLDTRADE_ClearAndShowPlanes(Work *p);
 
-extern void WORLDTRADE_ClearBusyFlag(Work *p);
+extern void WORLDTRADE_AdvanceScreenId(Work *p);
 
 
 extern void WORLDTRADE_SetStateAndReturn(void *p, u32 a, u32 b);
 
-extern int WORLDTRADE_BOX_ClampSlot(int);
+extern int WORLDTRADE_BOX_IsPartyBox(int);
 
 extern u32 WORLDTRADE_BOX_GetMonCount(u8 *p, u32 b, u32 c);
 
@@ -75,7 +75,7 @@ void WORLDTRADE_STATUS_Open(Work *p)
     r=p->statusReq;
     r->config=p->ctx->statusConfig;
     r->save=GAMESYSTEM_GetGameData(p->ctx->gameData);
-    if(WORLDTRADE_BOX_ClampSlot(p->box))
+    if(WORLDTRADE_BOX_IsPartyBox(p->box))
         r->slotCount=WORLDTRADE_BOX_GetMonCount(p->ctx->party,(u32)(p->ctx->box),p->box);
     else r->slotCount=30;
     r->slot=p->slot;
@@ -84,7 +84,7 @@ void WORLDTRADE_STATUS_Open(Work *p)
     r->mode=0;
     r->rules=p->ctx->statusRules;
     r->result=0;
-    if(WORLDTRADE_BOX_ClampSlot(p->box)) {
+    if(WORLDTRADE_BOX_IsPartyBox(p->box)) {
         r->mon=p->ctx->party;
         r->type=1;
     } else {
@@ -116,6 +116,6 @@ u32 WORLDTRADE_STATUS_Close(Work *p)
     p->slot = q->slot;
     GFL_HEAP_Free(q);
     WORLDTRADE_ClearAndShowPlanes(p);
-    WORLDTRADE_ClearBusyFlag(p);
+    WORLDTRADE_AdvanceScreenId(p);
     return 0;
 }

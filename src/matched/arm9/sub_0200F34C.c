@@ -1,5 +1,5 @@
 /*
- * function: GFL_NET_ERR_CompareFriend
+ * function: WIFILIST_CompareFriendData
  * address:  0x0200F34C
  * packet:   pkt_0200F17C
  * region:   arm9
@@ -22,15 +22,15 @@
  * (2) otherwise.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GFL_NET_ERR_CompareFriend.c \
- *       --func GFL_NET_ERR_CompareFriend --addr 0x0200F34C --cc 1.1p1
+ *   python tools/match.py one --src src/matched/WIFILIST_CompareFriendData.c \
+ *       --func WIFILIST_CompareFriendData --addr 0x0200F34C --cc 1.1p1
  */
 
 extern int DWC_IsEqualFriendData(void *b, void *c);
 struct DWCstAccUserData;
 extern int DWC_GetGsProfileId(struct DWCstAccUserData *userdata, void *frienddata);
 
-int GFL_NET_ERR_CompareFriend(void *a, void *b, void *c)
+int WIFILIST_CompareFriendData(void *a, void *b, void *c)
 {
     if (DWC_IsEqualFriendData(a, c) != 0) {
         return 0;

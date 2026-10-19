@@ -20,7 +20,7 @@
  *   sub_0202DE6C   0x0202DE6C  thumb
  *   sub_0202E430   0x0202E430  thumb
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   BG_SYS_Get  0x020416D4  arm
+ *   BG_SYS_GetPriority  0x020416D4  arm
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   CLACT_SetActorBgPriority  0x0204B84C  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
@@ -39,7 +39,7 @@ struct Descriptor;
 extern unsigned char BMP_WIN_GetBgLayer(struct Descriptor *p);
 typedef unsigned char  u8;
 struct Obj;
-extern u8 BG_SYS_Get(u32 layer);
+extern u8 BG_SYS_GetPriority(u32 layer);
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void  CLACT_SetActorBgPriority(void *h, u32 a);
@@ -57,6 +57,6 @@ void PMS_DRAW_PlaceDecoActor(void *h, struct Descriptor *cell, u32 b, u32 c,
     pt.y = (u16)pos.y;
     t = BMP_WIN_GetBgLayer(cell);
     CLACT_AddActorSurfacePos(h, (const struct Vec2 *)(&pt), (u16)sub_0202E430(t));
-    CLACT_SetActorBgPriority(h, BG_SYS_Get(t));
+    CLACT_SetActorBgPriority(h, BG_SYS_GetPriority(t));
     CLACT_SetActorAnimSeq(h, (u16)(n - 1));
 }

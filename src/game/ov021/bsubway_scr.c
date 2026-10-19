@@ -66,7 +66,6 @@
  *   BATTLE_BOX_GetFromSave  0x0200BAC8  thumb
  *   BATTLE_BOX_CreateParty  0x0200BAF4  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
- *   _s32_div_f  0x0209C0A4  arm
  *   GDS_PROFILE_CalcScoreRecScore  0x0200DC94  thumb
  *   GDS_PROFILE_SetScoreRecBlob  0x0200DC50  thumb
  *   SCRIPT_WORK_GetGameSystem  0x02158F54  thumb  ov010
@@ -95,8 +94,8 @@
  *   BSUBWAY_SAVEDATA_GetHistoryTagB  0x0200DF4C  thumb
  *   BSUBWAY_SAVEDATA_AllocHistoryCopy  0x0200DF58  thumb
  *   BSUBWAY_SAVEDATA_CountHistoryEntries  0x0200DF94  thumb
- *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
- *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb
+ *   MET_TRAINERS_GetFromSave  0x0200ED48  thumb
+ *   MET_TRAINERS_Insert  0x0200ED54  thumb
  *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb
  *   GFL_NET_ERR_RequestScreen  0x0200FB38  thumb
  *   VM_SetWait  0x020113D0  thumb
@@ -364,7 +363,6 @@ extern void GDS_PROFILE_DecScoreRecLevel(struct BsubwayScoreData *p);
 extern void *BATTLE_BOX_GetFromSave(void *p);
 extern void *BATTLE_BOX_CreateParty(int box, int heap);
 extern void *GAME_DATA_GetMyParty(const struct GameData *p);
-extern int _s32_div_f(int a, int b);
 extern void GDS_PROFILE_CalcScoreRecScore(struct BsubwayScoreData *p, const struct BsubwayRecordSrc *q);
 extern void GDS_PROFILE_SetScoreRecBlob(struct BsubwayScoreData *p, u32 which, const void *src);
 extern int SCRIPT_WORK_ResetFieldParam(int a0);
@@ -434,8 +432,8 @@ extern u32 COMM_ENTRY_MENU_Create(u32 a, void *b, u32 c, u32 d, u32 e, u32 f, u3
 extern void BSUBWAY_COMM_SetSendData(BsubwayScrWork *work, u32 cmd, u32 arg);
 extern void BSUBWAY_COMM_SetRecvMode(BsubwayScrWork *work, u8 v);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
-extern void MISC_SAVEDATA_InsertRecentValue(struct GdsProfileSave *l, u32 val);
-extern void *MISC_SAVEDATA_GetBlock44(void *p);
+extern void MET_TRAINERS_Insert(struct GdsProfileSave *l, u32 val);
+extern void *MET_TRAINERS_GetFromSave(void *p);
 extern void GFL_NET_ERR_RequestScreen(void);
 extern void GAMESYSTEM_SetFieldMapState(struct GameSystem *p, u32 v);
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
@@ -1271,7 +1269,7 @@ int BSUBWAY_SCR_IsTrainerNoUsed(const u16 *list, u16 value, u16 count)
 
 u16 BSUBWAY_SCR_GetStageNo(u16 winCount)
 {
-    return (u16)_s32_div_f(winCount, 7);
+    return (u16)(winCount / 7);
 }
 
 
@@ -2176,7 +2174,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         }
         break;
     case BSUBWAY_SCR_CMD_SET_PARTNER_PROFILE_ID:
-        MISC_SAVEDATA_InsertRecentValue(MISC_SAVEDATA_GetBlock44((void *)saveControl), work->partnerMyStatus.id);
+        MET_TRAINERS_Insert(MET_TRAINERS_GetFromSave((void *)saveControl), work->partnerMyStatus.id);
         break;
     case BSUBWAY_SCR_CMD_GET_LOOK_FIRST:
         *resultDst = FIELD_PLAYER_GetFormObjCode(GFL_NET_SYSTEM_GetCurrentAid() == 0 ? FIELD_PLAYER_GetSex(FIELDMAP_GetFieldPlayer((void *)fieldMap)) : work->partnerMyStatus.outfitVariant, 0);
@@ -2794,8 +2792,8 @@ static inline u16 RandInRange(BsubwayScrWork *work, u32 tbl, u32 round)
  * (r6, with round*4 in r4 and span in r5), and the arms' identical tails are
  * cross-jumped into one block. The integer base keeps `tbl + off` then `+2`
  * for hi instead of folding the field offset into a second pool word
- * (d_X + 2), and loads the base before the index shift. 0x0209C0A4 is
- * _s32_div_f, so the u16 % u16 modulo is signed (int promotion).
+ * (d_X + 2), and loads the base before the index shift. The signed
+ * divide helper is used: the u16 % u16 modulo is signed (int promotion).
  *
  * Addresses are Black-image addresses.
  */

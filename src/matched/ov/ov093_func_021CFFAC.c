@@ -12,7 +12,7 @@
  * symbols:
  *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
  *   BTL_POKEPARAM_GetSickContRaw 0x021D6314 thumb ov093
- *   BTLV_CORE_GetSlotValue 0x021E8B80 thumb ov093
+ *   BTL_SICKCONT_GetValue 0x021E8B80 thumb ov093
  *   BTL_POKEPARAM_GetTypePair 0x021D57FC thumb ov093
  *   BTL_CALC_GetTypeAffinityVsPair 0x021D799C thumb ov093
  *   BTL_CLIENT_AnyMemberHasMoveVsTarget 0x021D055C thumb ov093
@@ -29,7 +29,7 @@ typedef union { u32 v; } Word;
 struct Unk021D62A8;
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern Word BTL_POKEPARAM_GetSickContRaw(void *, int);
-extern u16 BTLV_CORE_GetSlotValue(Word);
+extern u16 BTL_SICKCONT_GetValue(Word);
 extern u32 WAZA_TOOL_IsDamaging(void *p);
 extern u8 WAZA_TOOL_GetType(void *p);
 extern u16 BTL_POKEPARAM_GetTypePair(void *);
@@ -43,7 +43,7 @@ int BTL_CLIENT_ShouldSwitchWhileLocked(struct G *g, void *mon, void *target)
     Word slot;
     if (BTL_POKEPARAM_HasSick(mon, 0x1b)) {
         slot = BTL_POKEPARAM_GetSickContRaw(mon, 0x1b);
-        id = BTLV_CORE_GetSlotValue(slot);
+        id = BTL_SICKCONT_GetValue(slot);
         if (id) {
             valid = WAZA_TOOL_IsDamaging((void *)id);
             kind = WAZA_TOOL_GetType((void *)id);

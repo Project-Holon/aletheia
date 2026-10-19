@@ -1,5 +1,5 @@
 /*
- * function: BTLV_CORE_EventQueueMoveNotice
+ * function: HAND_COMMON_EventQueueMoveNotice
  * address:  0x021E8804
  * packet:   pkt_ov093_021E8804
  * region:   ov093
@@ -30,7 +30,7 @@ struct S;
 extern void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *l, u32 v);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 
-void BTLV_CORE_EventQueueMoveNotice(int u, void *a, int b, int d)
+void HAND_COMMON_EventQueueMoveNotice(int u, void *a, int b, int d)
 {
     u8 *p;
     int z;

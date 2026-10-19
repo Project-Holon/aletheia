@@ -1,5 +1,5 @@
 /*
- * function: MUSICAL_MCSS_Main
+ * function: MUSICAL_SHOT_INFO_Main
  * address: 0x021F4350
  * packet: pkt_ov112_021F4350
  * region: ov112
@@ -12,8 +12,8 @@
  * symbols:
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
- *   MUSICAL_MCSS_PrintStream 0x021F4794 thumb ov112
- *   MUSICAL_MCSS_OpenMenu 0x021F485C thumb ov112
+ *   MUSICAL_SHOT_INFO_PrintMessageStream 0x021F4794 thumb ov112
+ *   MUSICAL_SHOT_INFO_OpenYesNoMenu 0x021F485C thumb ov112
  *   APP_TASKMENU_UpdateMenu 0x02027974 thumb
  *   APP_TASKMENU_IsFinish 0x020279E8 thumb
  *   APP_TASKMENU_GetCursorPos 0x02027A04 thumb
@@ -22,7 +22,7 @@
  *   MI_CpuCopy8 0x02082D44 arm
  *   MUS_COMM_FUNC_SetTimingSync 0x021FCDEC thumb ov132
  *   MUS_COMM_FUNC_CheckTimingSync 0x021FCE00 thumb ov132
- *   MUSICAL_MCSS_PrintQue 0x021F4804 thumb ov112
+ *   MUSICAL_SHOT_INFO_PrintMessageQueued 0x021F4804 thumb ov112
  *   func_0200FB24 0x0200FB24 thumb
  *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
@@ -36,7 +36,7 @@
  *   TIME_ICON_CreateNode 0x0202EE8C thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   TCBL_Main 0x020310C4 arm
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  *   d_021F8290 0x021F8290 data a1
  */
 #include "../include/Obj00226.h"
@@ -47,8 +47,8 @@ typedef struct { u8 b[8]; } Box;
 extern const Box d_021F8290;
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern u32 WIPE_SYS_EndCheck(void);
-extern void MUSICAL_MCSS_PrintStream(u8 *,u32);
-extern void MUSICAL_MCSS_OpenMenu(u8 *);
+extern void MUSICAL_SHOT_INFO_PrintMessageStream(u8 *,u32);
+extern void MUSICAL_SHOT_INFO_OpenYesNoMenu(u8 *);
 extern void APP_TASKMENU_UpdateMenu(void *);
 struct Actor;
 struct Descriptor;
@@ -64,7 +64,7 @@ extern void *MUSICAL_SAVE_NoOp(void *);
 extern void MI_CpuCopy8(const void *,void *,u32);
 extern void MUS_COMM_FUNC_SetTimingSync(int,int);
 extern int MUS_COMM_FUNC_CheckTimingSync(char *p, int id);
-extern void MUSICAL_MCSS_PrintQue(u8 *,u32);
+extern void MUSICAL_SHOT_INFO_PrintMessageQueued(u8 *,u32);
 extern u32 func_0200FB24(void);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_HitTrg(const void *p);
@@ -78,8 +78,8 @@ extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern u8 *TIME_ICON_CreateNode(u32,void *,u8,u8,u16);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void TCBL_Main(struct Tcbl *p);
-extern void BG_SYS_ResetSlot(u32,u32,u32);
-void MUSICAL_MCSS_Main(u8 *p)
+extern void BG_SYS_ChangeScroll(u32,u32,u32);
+void MUSICAL_SHOT_INFO_Main(u8 *p)
 {
     u8 v;
     switch (((struct Obj00226 *)p)->f4) {
@@ -89,14 +89,14 @@ void MUSICAL_MCSS_Main(u8 *p)
     case 1:
         if(WIPE_SYS_EndCheck()==1) {
             if(((struct Obj00226 *)p)->fC==1) {
-                MUSICAL_MCSS_PrintStream(p,3);
+                MUSICAL_SHOT_INFO_PrintMessageStream(p,3);
                 ((struct Obj00226 *)p)->f4=2;
             } else ((struct Obj00226 *)p)->f4=5;
         }
         break;
     case 2:
         if(!((struct Obj00226 *)p)->f24) {
-            MUSICAL_MCSS_OpenMenu(p);
+            MUSICAL_SHOT_INFO_OpenYesNoMenu(p);
             ((struct Obj00226 *)p)->f4=3;
         }
         break;
@@ -109,7 +109,7 @@ void MUSICAL_MCSS_Main(u8 *p)
             if(*(int *)&((struct Obj00226 *)p)->f44) {
                 ((struct Obj00226 *)p)->f4=4;
                 MUS_COMM_FUNC_SetTimingSync(*(int *)&((struct Obj00226 *)p)->f44,71);
-                MUSICAL_MCSS_PrintQue(p,6);
+                MUSICAL_SHOT_INFO_PrintMessageQueued(p,6);
             } else ((struct Obj00226 *)p)->f4=7;
         } else if(func_0200FB24()!=0) {
             APP_TASKMENU_CloseMenu(((struct Obj00226 *)p)->f3C);
@@ -147,7 +147,7 @@ void MUSICAL_MCSS_Main(u8 *p)
     (*(volatile u8 *)&((struct Obj00226 *)p)->f8)++;
     if(*(volatile u8 *)&((struct Obj00226 *)p)->f8>1) {
         *(volatile u8 *)&((struct Obj00226 *)p)->f8=0;
-        BG_SYS_ResetSlot(7,1,1);
-        BG_SYS_ResetSlot(7,5,1);
+        BG_SYS_ChangeScroll(7,1,1);
+        BG_SYS_ChangeScroll(7,5,1);
     }
 }

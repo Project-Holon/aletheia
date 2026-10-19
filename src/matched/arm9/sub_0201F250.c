@@ -16,7 +16,7 @@
  * replaced by the stored word itself.
  *
  * The tag primitives it calls are the seven of src/matched/unit_0201D5C4.c:
- * GF_FONT_GetTagChar is the 0xF000 marker, GF_FONT_CheckD5CC says whether the tag is a
+ * GF_FONT_GetTagChar is the 0xF000 marker, GF_FONT_IsWordSlotTag says whether the tag is a
  * word reference, GF_FONT_GetTagParam reads parameter 0 (the word index),
  * GF_FONT_AppendTag writes a new tag, and GF_FONT_SkipTag steps the cursor past a
  * tag.  The word table hangs off the object at +8 and its entries are 0xC
@@ -58,12 +58,12 @@
  *   STRBUF_GetChars  0x02045A90  arm
  *   STRBUF_AppendChar  0x02045AFC  arm
  *   STRBUF_GetEosChar  0x02045A98  arm
- *   GF_FONT_CheckD5CC  0x0201D5CC  thumb
+ *   GF_FONT_IsWordSlotTag  0x0201D5CC  thumb
  *   GF_FONT_GetTagChar  0x0201D5C4  thumb
  *   GF_FONT_AppendTag  0x0201D60C  thumb
  *   GF_FONT_GetTagParam  0x0201D670  thumb
  *   GF_FONT_SkipTag  0x0201D688  thumb
- *   WORDSET_ParsePackedLimits  0x0201F4A0  thumb
+ *   WORDSET_AppendUnpackedString  0x0201F4A0  thumb
  */
 
 typedef unsigned char  u8;
@@ -89,11 +89,11 @@ extern u16  STRBUF_GetEosChar(void);
 extern void STRBUF_AppendChar(struct U16Vec *vec, u16 value);
 
 extern u32   GF_FONT_GetTagChar(void);
-extern u32   GF_FONT_CheckD5CC(const u16 *p);
+extern u32   GF_FONT_IsWordSlotTag(const u16 *p);
 extern void  GF_FONT_AppendTag(void *s, u32 b, u32 c, u16 n, const u16 *arr);
 extern u32   GF_FONT_GetTagParam(const u16 *p, u32 i);
 extern u16  *GF_FONT_SkipTag(u16 *p);
-extern void  WORDSET_ParsePackedLimits(void *dst, void *src);
+extern void  WORDSET_AppendUnpackedString(void *dst, void *src);
 
 void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src)
 {
@@ -111,7 +111,7 @@ void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src)
     marker = GF_FONT_GetTagChar();
     while (p[0] != term) {
         if (p[0] == marker) {
-            if (GF_FONT_CheckD5CC(p) != 0) {
+            if (GF_FONT_IsWordSlotTag(p) != 0) {
                 i = GF_FONT_GetTagParam(p, 0);
                 e = &ws->unk08[i];
                 if (e->unk04 != 0) {
@@ -120,7 +120,7 @@ void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src)
                     GF_FONT_AppendTag(e->unk08, 0xBD, 6, 1, &buf[1]);
                     GF_FONT_AppendTag(ws->unk08[i].unk08, 0xBD, 4, 1, &buf[0]);
                 }
-                WORDSET_ParsePackedLimits(dst, ws->unk08[i].unk08);
+                WORDSET_AppendUnpackedString(dst, ws->unk08[i].unk08);
                 p = GF_FONT_SkipTag(p);
             } else {
                 q = p;

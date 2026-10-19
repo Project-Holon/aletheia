@@ -23,7 +23,7 @@
  *   POKEPARTY_GetSaveData  0x0201AD0C  thumb
  *   GAME_DATA_GetBoxManager  0x0201293C  thumb
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
- *   GAME_DATA_GetField1A0  0x0201283C  thumb
+ *   GAME_DATA_GetWifiList  0x0201283C  thumb
  *   func_02009470  0x02009470  thumb
  *   func_02008730  0x02008730  thumb
  *   func_0200873C  0x0200873C  thumb
@@ -61,7 +61,7 @@ struct Sub02008AECObj *func_02008B08(void *sys);
 void *POKEPARTY_GetSaveData(void *sys);
 u32 GAME_DATA_GetBoxManager(const struct BigObj *p);
 void *ZUKAN_SAVE_GetFromGameData(void *a);
-u32 GAME_DATA_GetField1A0(const struct BigObj *p);
+u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 struct Sub02009470Obj *func_02009470(void *sys);
 struct Sub0200852CObj *func_02008730(void *sys);
 struct Sub02008700Obj *func_0200873C(void *sys);
@@ -91,7 +91,7 @@ int EVENT_WORLDTRADE_Create(int a, int b, int c)
     p[5] = (int)POKEPARTY_GetSaveData((void *)p[18]);
     p[6] = GAME_DATA_GetBoxManager((const struct BigObj *)r6);
     p[7] = (int)ZUKAN_SAVE_GetFromGameData((void *)r6);
-    p[8] = GAME_DATA_GetField1A0((const struct BigObj *)r6);
+    p[8] = GAME_DATA_GetWifiList((const struct BigObj *)r6);
     p[9] = (int)func_02009470((void *)p[18]);
     p[10] = (int)func_02008730((void *)p[18]);
     p[11] = (int)func_0200873C((void *)p[18]);

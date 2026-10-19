@@ -11,7 +11,7 @@
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   GXx_SetMasterBrightness_ 0x0207D534 arm
  *   func_0207D63C 0x0207D63C arm
- *   MUSICAL_MCSS_Delete 0x021F4300 thumb ov112
+ *   MUSICAL_SHOT_INFO_Delete 0x021F4300 thumb ov112
  *   MUSICAL_SHOT_SYS_DeleteScene 0x021F3BF0 thumb ov112
  *   MUSICAL_SHOT_SYS_ExitGraphics 0x021F3AE0 thumb ov112
  *   func_02030EAC 0x02030EAC arm
@@ -32,7 +32,7 @@ struct Node;
 struct Proc;
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern void func_0207D63C(void *,int,int,int,int);
-extern void MUSICAL_MCSS_Delete(u8 *);
+extern void MUSICAL_SHOT_INFO_Delete(u8 *);
 extern void MUSICAL_SHOT_SYS_DeleteScene(u8 *);
 extern void MUSICAL_SHOT_SYS_ExitGraphics(void *);
 extern void func_02030EAC(struct Node *n);
@@ -46,7 +46,7 @@ int MUSICAL_SHOT_SYS_Exit(void *owner,void *arg,int flag,u8 *p) {
     GXx_SetMasterBrightness_((void *)0x0400006c,-16);
     GXx_SetMasterBrightness_((void *)0x0400106c,-16);
     func_0207D63C((void *)0x04000050,0,0,31,31);
-    MUSICAL_MCSS_Delete(*(u8 * *)&((struct Obj05308 *)p)->f10);
+    MUSICAL_SHOT_INFO_Delete(*(u8 * *)&((struct Obj05308 *)p)->f10);
     MUSICAL_SHOT_SYS_DeleteScene(*(u8 * *)&((struct Obj05308 *)p)->fC);
     MUSICAL_SHOT_SYS_ExitGraphics(p);
     func_02030EAC(((struct Obj05308 *)p)->f4);

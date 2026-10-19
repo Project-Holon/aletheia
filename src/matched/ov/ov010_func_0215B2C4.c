@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_WORK_CmdEventDataSetC
+ * function: SCRCMD_WORK_CmdSetNpcGridPos
  * address:  0x0215B2C4
  * packet:   pkt_ov010_0215B2C4
  * region:   ov010
@@ -26,7 +26,7 @@ extern void *SCRCMD_WORK_GetGameData(void *a0);
 struct BigObj;
 extern u32 GAME_DATA_GetEventData(const struct BigObj *p);
 extern int EVENTDATA_SYSTEM_SetNpcGridPos(int, int, int, u16, int, u16);
-int SCRCMD_WORK_CmdEventDataSetC(int a0, int a1)
+int SCRCMD_WORK_CmdSetNpcGridPos(int a0, int a1)
 {
     int a = (int)SCRIPT_WORK_ReadWorkValue((void *)a0, (void *)a1);
     int b = (int)SCRIPT_WORK_ReadWorkValue((void *)a0, (void *)a1);

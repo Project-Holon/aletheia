@@ -1,5 +1,5 @@
 /*
- * function: BUTTON_MAN_SetAngle
+ * function: PARTICLE_EMITTER_SetAngle
  * address:  0x0205189C
  * packet:   pkt_02051838
  * region:   arm9
@@ -20,7 +20,7 @@ struct Obj {
     u32 f6c;
 };
 
-void BUTTON_MAN_SetAngle(struct Obj *o, u32 v)
+void PARTICLE_EMITTER_SetAngle(struct Obj *o, u32 v)
 {
     o->f6c = v;
 }

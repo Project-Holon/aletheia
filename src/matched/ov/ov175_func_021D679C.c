@@ -1,5 +1,5 @@
 /*
- * function: WIFIBATTLEMATCH_NET_GetWaitResult
+ * function: WIFIBATTLEMATCH_NET_PollWaitResult
  * address:  0x021D679C
  * packet:   pkt_021D679C
  * region:   ov175
@@ -28,7 +28,7 @@ typedef unsigned long u32;
 extern void WIFIBATTLEMATCH_UTIL_InvokeCallback(u32 h);
 extern int WIFIBATTLEMATCH_UTIL_IsCallbackNull(u32 h);
 
-u32 WIFIBATTLEMATCH_NET_GetWaitResult(char *obj)
+u32 WIFIBATTLEMATCH_NET_PollWaitResult(char *obj)
 {
     WIFIBATTLEMATCH_UTIL_InvokeCallback(((struct Obj01562 *)obj)->f38);
     if (WIFIBATTLEMATCH_UTIL_IsCallbackNull(((struct Obj01562 *)obj)->f38) != 0)

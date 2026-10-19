@@ -1,5 +1,5 @@
 /*
- * function: MUSICAL_MCSS_PrintQue
+ * function: MUSICAL_SHOT_INFO_PrintMessageQueued
  * address: 0x021F4804
  * packet: pkt_ov112_021F4804
  * region: ov112
@@ -29,7 +29,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 extern void BMP_MENUWORK_DrawWindow(void *,int,int,int);
-void MUSICAL_MCSS_PrintQue(u8 *p,u32 index)
+void MUSICAL_SHOT_INFO_PrintMessageQueued(u8 *p,u32 index)
 {
     u32 win;
     if (((struct Obj02167 *)p)->f2C) {

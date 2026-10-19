@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "UNION_ONESELF_CheckNetErrorExit",
+   "name": "UNION_ONESELF_HandleNetErrorExit",
    "address": "0x0217BB20",
    "kind": "game",
    "region": "ov019",

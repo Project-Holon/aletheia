@@ -1,5 +1,5 @@
 /*
- * function: GF_STANDARD_Sin
+ * function: GF_STANDARD_CosFromDegreesWrapped
  * address:  0x0203F6D8
  * packet:   pkt_0203F540
  * region:   arm9
@@ -32,7 +32,7 @@ typedef int   s32;
 
 extern s16 FX_SinCosTable_[];
 
-s16 GF_STANDARD_Sin(s32 x)
+s16 GF_STANDARD_CosFromDegreesWrapped(s32 x)
 {
     return FX_SinCosTable_[2 * ((((x % 360) * 0xFFFF) / 360) >> 4) + 1];
 }

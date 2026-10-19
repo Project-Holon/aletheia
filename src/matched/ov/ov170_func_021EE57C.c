@@ -18,7 +18,7 @@
  *   KEY_GetTrg 0x020362DC arm
  *   UI_SetInputMode 0x020355D8 arm
  *   KEY_GetRepeat 0x0203633C arm
- *   BOX2_MAIN_PlayCursorSound 0x021DD238 thumb
+ *   BOX2_MAIN_ActivateKeyCursor 0x021DD238 thumb
  */
 
 typedef unsigned int u32;
@@ -36,7 +36,7 @@ extern void BOX2_UI_UpdateCursor(char *p, int v);
 extern u32 KEY_GetTrg(void);
 extern void UI_SetInputMode(u8 v);
 extern unsigned int KEY_GetRepeat(void);
-extern void BOX2_MAIN_PlayCursorSound(char *p);
+extern void BOX2_MAIN_ActivateKeyCursor(char *p);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 #define OBJ(p) (*(void **)(WORK(p) + 0x70))
@@ -70,11 +70,11 @@ unsigned BOX2_UI_UpdateCursorInputB(char *p)
     }
     if (r == -1) {
         if (KEY_GetRepeat() & 0x200) {
-            BOX2_MAIN_PlayCursorSound(p);
+            BOX2_MAIN_ActivateKeyCursor(p);
             return 0x1F;
         }
         if (KEY_GetRepeat() & 0x100) {
-            BOX2_MAIN_PlayCursorSound(p);
+            BOX2_MAIN_ActivateKeyCursor(p);
             return 0x20;
         }
     }

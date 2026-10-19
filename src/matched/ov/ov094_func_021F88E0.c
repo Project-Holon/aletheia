@@ -1,5 +1,5 @@
 /*
- * function: BTLV_EFFECT_GetFlag26
+ * function: BTLV_EFFECT_IsSeSuppressed
  * address:  0x021F88E0
  * packet:   pkt_ov094_021F88E0
  * region:   ov094
@@ -22,7 +22,7 @@ typedef struct {
 
 extern Work *gBtlvEff;
 
-int BTLV_EFFECT_GetFlag26(void)
+int BTLV_EFFECT_IsSeSuppressed(void)
 {
     return gBtlvEff->b26;
 }

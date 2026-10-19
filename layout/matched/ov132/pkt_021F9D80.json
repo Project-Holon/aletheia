@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "STA_ACTING_ShowAnim",
+   "name": "STA_ACTING_ShowButton",
    "address": "0x021F9D80",
    "kind": "game",
    "region": "ov132",

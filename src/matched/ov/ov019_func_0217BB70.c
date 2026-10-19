@@ -25,7 +25,7 @@
  *   UNION_CHARA_CheckTalkable  0x0217AF4C  thumb  ov019
  *   UNION_ONESELF_SetNextPlayCategory  0x0217B8E4  thumb  ov019
  *   UNION_ONESELF_SetFieldBusy  0x0217BAF0  thumb  ov019
- *   UNION_ONESELF_CheckNetError  0x0217BB04  thumb  ov019
+ *   UNION_ONESELF_HandleNetError  0x0217BB04  thumb  ov019
  *   UNION_ONESELF_IsPlayerAtReceptionSpot  0x0217F7E4  thumb  ov019
  *
  * Addresses are Black-image addresses.
@@ -66,7 +66,7 @@ extern int   UNION_CHARA_IsUnionObjId(u16 t);
 extern int UNION_CHARA_CheckTalkable(char *a, u16 key);
 extern int UNION_ONESELF_SetNextPlayCategory(char *p, int v);
 extern void UNION_ONESELF_SetFieldBusy(char *p, int x, unsigned int v);
-extern int UNION_ONESELF_CheckNetError(char *p);
+extern int UNION_ONESELF_HandleNetError(char *p);
 extern int UNION_ONESELF_IsPlayerAtReceptionSpot(u32 arg);
 
 int UNION_ONESELF_IdleMain(u8 *w, u8 *obj, void *q)
@@ -82,7 +82,7 @@ int UNION_ONESELF_IdleMain(u8 *w, u8 *obj, void *q)
 
     a = FIELDMAP_GetFieldPlayer(q);
     b = FIELDMAP_GetMmdlSys(q);
-    if (UNION_ONESELF_CheckNetError((char *)w) == 1) {
+    if (UNION_ONESELF_HandleNetError((char *)w) == 1) {
         return 1;
     }
     if (UNION_COMM_IsResetting(w) == 1) {

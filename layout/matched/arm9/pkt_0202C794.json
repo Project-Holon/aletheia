@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "ISS_SWITCH_GetSubscreenMode",
+   "name": "WEATHER_GetZoneWeatherId",
    "address": "0x0202C794",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "ISS_SWITCH_IsSeasonMatch",
+   "name": "WEATHER_IsSeasonSynced",
    "address": "0x0202C824",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "ISS_SWITCH_ApplySubscreenMode",
+   "name": "WEATHER_StoreZoneWeatherId",
    "address": "0x0202C83C",
    "kind": "game",
    "region": "arm9",

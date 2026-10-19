@@ -13,7 +13,7 @@
  *   ITEMMENU_PocketToSortFlag  0x021BB368  thumb  ov070
  *   ITEMMENU_UpdateInputGuardAnim  0x021BB5A4  thumb  ov070
  *   ITEMMENU_SetBackButtonAnim  0x021BB580  thumb  ov070
- *   GAME_DATA_CheckSaveFlag  0x02012BF8  thumb
+ *   GAME_DATA_ContainsRecentId  0x02012BF8  thumb
  *   func_020056BC  0x020056BC  thumb
  *   PALANM_RequestFade  0x0202173C  thumb
  *   PALANM_CopyHwPaletteToSlot  0x020216D4  thumb
@@ -33,7 +33,7 @@ struct Obj;
 struct PalAnmSlot;
 extern void ITEMMENU_UpdateInputGuardAnim(char *p);
 extern void ITEMMENU_SetBackButtonAnim(char *p, int v);
-extern int GAME_DATA_CheckSaveFlag(int, int);
+extern int GAME_DATA_ContainsRecentId(int, int);
 extern u32 func_020056BC(void);
 extern int PALANM_RequestFade(int p, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, u32 ctx);
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
@@ -49,7 +49,7 @@ void ITEMMENU_UpdateSideButtons(int p, int mode)
         return;
     }
     ((struct Obj00002 *)p)->f858 = mode;
-    r = GAME_DATA_CheckSaveFlag(*(int *)&((struct Obj00002 *)p)->f0, ITEMMENU_PocketToSortFlag(((struct Obj00002 *)p)->f80C));
+    r = GAME_DATA_ContainsRecentId(*(int *)&((struct Obj00002 *)p)->f0, ITEMMENU_PocketToSortFlag(((struct Obj00002 *)p)->f80C));
     if (mode == 1) {
         PALANM_RequestFade(((struct Obj00002 *)p)->f854, 4, 0x23CF, 0, 0, 0, 0, func_020056BC());
         PALANM_RequestFade(((struct Obj00002 *)p)->f854, 1, 1, 0, 0, 0, 0, func_020056BC());

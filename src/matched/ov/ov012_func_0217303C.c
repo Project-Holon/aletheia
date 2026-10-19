@@ -12,7 +12,7 @@
  * the guard uses r1 only when that input is explicitly forwarded.
  * symbols:
  *   UNION_MAIN_IsFieldReady  0x02173840  thumb  ov012
- *   UNION_MAIN_IsScenePending  0x02174268  thumb  ov012
+ *   UNION_SCENE_IsScenePending  0x02174268  thumb  ov012
  *   COMM_PLAYER_Update  0x02167590  thumb  ov010
  *   COMM_PLAYER_UpdateMyPackage  0x0216786C  thumb  ov010
  *   COLOSSEUM_SendPackage  0x02174C90  thumb  ov012
@@ -42,7 +42,7 @@ typedef struct {
 } Work;
 
 extern int UNION_MAIN_IsFieldReady(u8 *w);
-extern int UNION_MAIN_IsScenePending(u8 *p);
+extern int UNION_SCENE_IsScenePending(u8 *p);
 struct Report;
 struct Work;
 extern void COMM_PLAYER_Update(void *a, struct Work *w);
@@ -57,7 +57,7 @@ void UNION_COMM_UpdateColosseum(Work *w)
 {
     if (w->q != 0 && ((Sub *)((u8 *)w->q + 0xC8))->flag) {
     if (UNION_MAIN_IsFieldReady((u8 *)w) == 1) {
-        if (UNION_MAIN_IsScenePending((u8 *)w) == 0) {
+        if (UNION_SCENE_IsScenePending((u8 *)w) == 0) {
             COMM_PLAYER_Update((void *)w->head->f0c, (struct Work *)w->q->f0);
             if (w->q->f16F == 0) {
                 if (COMM_PLAYER_UpdateMyPackage((struct Work *)w->q->f0, (struct Report *)((u8 *)w->q + 4)) == 1) {

@@ -16,7 +16,7 @@
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   BMP_Clear 0x02043B5C arm
- *   WORLDTRADE_ENTER_ClearFlags 0x021F88B0 thumb ov135
+ *   WORLDTRADE_ENTER_SetCountryFilter 0x021F88B0 thumb ov135
  *   WORLDTRADE_DEPOSIT_PrintMessageLine 0x021F8010 thumb ov135
  *   d_02202EAC 0x02202EAC data a4
  *   BMP_WIN_GetBmp  0x02045770  arm  arm9
@@ -38,7 +38,7 @@ extern void BG_SYS_PushTile(u32 index);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern const int d_02202EAC;
-extern void WORLDTRADE_ENTER_ClearFlags(u8 *p, u32 n);
+extern void WORLDTRADE_ENTER_SetCountryFilter(u8 *p, u32 n);
 extern void WORLDTRADE_DEPOSIT_PrintMessageLine(void *, void *, void *, unsigned, unsigned, unsigned, u16, void *);
 int WORLDTRADE_SEARCH_StateConditionMenuInput(char *p)
 {
@@ -56,7 +56,7 @@ int WORLDTRADE_SEARCH_StateConditionMenuInput(char *p)
         ((struct Obj02204 *)p)->f28 = 0;
     } else {
         WORLDTRADE_SEARCH_SetBlendEffect(0);
-        WORLDTRADE_ENTER_ClearFlags((u8 *)p, r);
+        WORLDTRADE_ENTER_SetCountryFilter((u8 *)p, r);
         ((struct Obj02204 *)p)->f28 = 0;
         BMP_Clear(BMP_WIN_GetBmp(((struct Obj02204 *)p)->fDDC), 0);
         WORLDTRADE_DEPOSIT_PrintMessageLine(((struct Obj02204 *)p)->fDDC, ((struct Obj02204 *)p)->fB7C, ((struct Obj02204 *)p)->fB6C, ((struct Obj02204 *)p)->fF84, 0, 0, 0x3c40, p + 0xfa0);

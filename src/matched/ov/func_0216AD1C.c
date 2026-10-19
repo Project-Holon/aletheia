@@ -16,7 +16,7 @@
  *   SCRCMD_SYMBOL_CreateObjectPokemon  0x0216AF1C  thumb  ov010
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
- *   WORDSET_SetSlotMonName  0x0201EE84  thumb
+ *   WORDSET_SetSlotMonSpeciesName  0x0201EE84  thumb
  *   func_020307B0  0x020307B0  arm
  */
 
@@ -31,7 +31,7 @@ extern int SCRCMD_SYMBOL_CreateObjectPokemon();
 extern void *SCRCMD_WORK_GetScriptWork(void *p);
 extern void *SCRIPT_WORK_GetWordSet(void *p);
 struct WordSet;
-extern void WORDSET_SetSlotMonName(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonSpeciesName(struct WordSet *p, u32 i, void *mon);
 extern int func_020307B0();
 
 int SCRCMD_SYMBOL_SetObjectPokemonWord(int a0, int a1, int a2, int a3)
@@ -77,7 +77,7 @@ loc_0216AD5A:
 loc_0216AD5E:
 a1 = t7 + 0;
 a2 = t5 + 0;
-    WORDSET_SetSlotMonName((void *)a0, a1, (void *)a2);
+    WORDSET_SetSlotMonSpeciesName((void *)a0, a1, (void *)a2);
 loc_0216AD66:
 a0 = t5 + 0;
     a0 = func_020307B0(a0);

@@ -1,5 +1,5 @@
 /*
- * function: BUTTON_MAN_GetBlock
+ * function: PARTICLE_EMITTER_GetBlock
  * address:  0x02051788
  * packet:   pkt_02051788
  * region:   arm9
@@ -13,7 +13,7 @@
  */
 #include "../include/Obj16168.h"
 
-int BUTTON_MAN_GetBlock(char *p)
+int PARTICLE_EMITTER_GetBlock(char *p)
 {
     return ((struct Obj16168 *)p)->f20;
 }

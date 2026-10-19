@@ -17,25 +17,25 @@
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   GF_OVERLAY_Load 0x02034AC4 arm
  *   GFL_HEAP_Alloc 0x02030734 arm
- *   GF_STANDARD_SetField00_F4E4 0x0203F4E4 arm
+ *   GF_STANDARD_GetCachedDate 0x0203F4E4 arm
  *   STRBUF_GetEosChar 0x02045A98 arm
  *   KEY_GetCont 0x0203630C arm
  *   GFL_USE_AddMainTask 0x020056A0 thumb
- *   MUSICAL_MCSS_Create 0x021F4284 thumb ov112
+ *   MUSICAL_SHOT_INFO_Create 0x021F4284 thumb ov112
  *   WIPE_SYS_Start 0x0202208C thumb
  *   d_021F836C 0x021F836C data a4
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   GXx_SetMasterBrightness_ 0x0207D534 arm
  *   G2x_SetBlendAlpha_ 0x0207D63C arm
- *   MUSICAL_MCSS_Delete 0x021F4300 thumb ov112
+ *   MUSICAL_SHOT_INFO_Delete 0x021F4300 thumb ov112
  *   TCB_DeleteTask 0x02030EAC arm
  *   GF_OVERLAY_Unload 0x02034A5C arm
  *   GFL_HEAP_Free 0x020307B0 arm
  *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   ov_abs_84 0x00000084 data
- *   MUSICAL_MCSS_Main 0x021F4350 thumb ov112
- *   MUSICAL_MCSS_NoOp2 0x021F44E8 thumb ov112
+ *   MUSICAL_SHOT_INFO_Main 0x021F4350 thumb ov112
+ *   MUSICAL_SHOT_INFO_IsFinished 0x021F44E8 thumb ov112
  *   CLACT_DrawSystem 0x0204A600 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
@@ -88,7 +88,7 @@ extern int GF_OVERLAY_Load(int);
 
 extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 
-extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
+extern void GF_STANDARD_GetCachedDate(struct RtcDate *date);
 
 extern u16 STRBUF_GetEosChar(void);
 
@@ -96,7 +96,7 @@ extern u32 KEY_GetCont(void);
 
 extern void *GFL_USE_AddMainTask(u32,u32,u32);
 
-extern void *MUSICAL_MCSS_Create(u8 *,u32,u32,u32,u16);
+extern void *MUSICAL_SHOT_INFO_Create(u8 *,u32,u32,u32,u16);
 
 extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 
@@ -106,7 +106,7 @@ extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 
 extern void G2x_SetBlendAlpha_(void *,int,int,int,int);
 
-extern void MUSICAL_MCSS_Delete(u8 *);
+extern void MUSICAL_SHOT_INFO_Delete(u8 *);
 
 extern void TCB_DeleteTask(struct Node *n);
 
@@ -118,9 +118,9 @@ extern void PROCSYS_FreeProcWork(struct Proc *p);
 
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 
-extern void MUSICAL_MCSS_Main(u8 *p);
+extern void MUSICAL_SHOT_INFO_Main(u8 *p);
 
-extern int MUSICAL_MCSS_NoOp2(u32 *p);
+extern int MUSICAL_SHOT_INFO_IsFinished(u32 *p);
 
 extern void CLACT_DrawSystem(void);
 
@@ -190,7 +190,7 @@ int MUSICAL_SHOT_SYS_Create(void *owner,int unused,const Save *save)
   p->save->config=GFL_HEAP_Alloc(74,length,1,d_021F836C,111);
   p->save->b=0;
   cfg=p->save->config;
-  GF_STANDARD_SetField00_F4E4((struct RtcDate *)(&options));
+  GF_STANDARD_GetCachedDate((struct RtcDate *)(&options));
   ((MusicalShowRecord *)cfg)->programId=3;((MusicalShowRecord *)cfg)->winnerMask=(u8)2;
   ((MusicalShowRecord *)cfg)->year=options.x;((MusicalShowRecord *)cfg)->month=options.y;((MusicalShowRecord *)cfg)->day=options.z;
   *(u16 *)((u32)cfg+(length-0x4C))=0x30DD;
@@ -228,7 +228,7 @@ int MUSICAL_SHOT_SYS_Create(void *owner,int unused,const Save *save)
  p->task=GFL_USE_AddMainTask((u32)MUSICAL_SHOT_SYS_VBlank,(u32)p,64);
  MUSICAL_SHOT_SYS_InitGraphics((u8 *)p);
  p->scene=MUSICAL_SHOT_SYS_CreateScene(p->save->config,p->heap);
- p->actors=MUSICAL_MCSS_Create(p->save->config,p->save->c,p->save->a,p->save->d,p->heap);
+ p->actors=MUSICAL_SHOT_INFO_Create(p->save->config,p->save->c,p->save->a,p->save->d,p->heap);
  WIPE_SYS_Start(0,1,1,0,6,1,p->heap);return 1;
 }
 
@@ -237,7 +237,7 @@ int MUSICAL_SHOT_SYS_Exit(void *owner,void *arg,int flag,u8 *p) {
     GXx_SetMasterBrightness_((void *)0x0400006c,-16);
     GXx_SetMasterBrightness_((void *)0x0400106c,-16);
     G2x_SetBlendAlpha_((void *)0x04000050,0,0,31,31);
-    MUSICAL_MCSS_Delete(((State *)p)->actors);
+    MUSICAL_SHOT_INFO_Delete(((State *)p)->actors);
     MUSICAL_SHOT_SYS_DeleteScene(((State *)p)->scene);
     MUSICAL_SHOT_SYS_ExitGraphics(p);
     TCB_DeleteTask(((State *)p)->task);
@@ -255,9 +255,9 @@ int MUSICAL_SHOT_SYS_Exit(void *owner,void *arg,int flag,u8 *p) {
 int MUSICAL_SHOT_SYS_Update(int a,int b,int c,u8 *p)
 {
     MUSICAL_SHOT_SYS_DrawScene(((State *)p)->scene);
-    MUSICAL_MCSS_Main(((State *)p)->actors);
+    MUSICAL_SHOT_INFO_Main(((State *)p)->actors);
     CLACT_DrawSystem();
-    if(MUSICAL_MCSS_NoOp2(((State *)p)->actors)==1) {
+    if(MUSICAL_SHOT_INFO_IsFinished(((State *)p)->actors)==1) {
         WIPE_SYS_Start(0,0,0,0,6,1,((State *)p)->heap);
         return 1;
     }

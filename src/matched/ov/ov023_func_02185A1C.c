@@ -16,7 +16,7 @@
  *   OEKAKI_GetJoinedCount  0x0218654C  thumb  ov023
  *   OEKAKI_GetJoinedBits  0x02186558  thumb  ov023
  *   OEKAKI_ClearMessageWindow  0x021862F4  thumb  ov023
- *   OEKAKI_NotifyHostSync  0x02186304  thumb  ov023
+ *   OEKAKI_HostOpenGroupLimited  0x02186304  thumb  ov023
  *   OEKAKI_SetNextScene  0x02186444  thumb  ov023
  *   OEKAKI_ApplyRemoteStrokes  0x02185354  thumb  ov023
  */
@@ -31,7 +31,7 @@ extern unsigned char UNION_APP_GetJoinedBits(unsigned char *p);
 extern int  OEKAKI_GetJoinedCount(char *p);
 extern int  OEKAKI_GetJoinedBits(char *p);
 extern void OEKAKI_ClearMessageWindow(char *p);
-extern void OEKAKI_NotifyHostSync(char *p, int a);
+extern void OEKAKI_HostOpenGroupLimited(char *p, int a);
 extern void OEKAKI_SetNextScene(char *p, u32 v);
 extern void OEKAKI_ApplyRemoteStrokes(char *p);
 
@@ -46,7 +46,7 @@ int OEKAKI_StepWaitSyncTimer(char *p, int a1)
         OEKAKI_SetNextScene(p, 4);
         if (GFL_NET_SYSTEM_GetCurrentAid() == 0) {
             ((struct Obj02104 *)p)->f9E6C = 1;
-            OEKAKI_NotifyHostSync(p, 1);
+            OEKAKI_HostOpenGroupLimited(p, 1);
         }
         ((struct Obj02104 *)p)->f1AC = UNION_APP_GetMemberCount(**(unsigned char ** *)&((struct Obj02104 *)p)->f4);
         ((struct Obj02104 *)p)->f1B0 = UNION_APP_GetJoinedBits((unsigned char *)(**(u32 * *)&((struct Obj02104 *)p)->f4));

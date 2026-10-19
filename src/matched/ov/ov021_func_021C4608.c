@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PLAYER_GRID_EVENT_WaitB
+ * function: SCRCMD_PLAYER_GRID_EVENT_WaitJump
  * address:  0x021C4608
  * packet:   pkt_ov021_021C4608
  * region:   ov021
@@ -21,7 +21,7 @@ extern void *SCRCMD_WORK_GetTargetObject(void *a);
 extern int FIELD_PLAYER_GRID_EVENT_IsJumpDone(void *x);
 extern void FIELD_PLAYER_GRID_EVENT_DeleteJumpTask(void *x);
 
-int SCRCMD_PLAYER_GRID_EVENT_WaitB(void *a, void *b)
+int SCRCMD_PLAYER_GRID_EVENT_WaitJump(void *a, void *b)
 {
     void *x = SCRCMD_WORK_GetTargetObject(b);
 

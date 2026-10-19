@@ -1,5 +1,5 @@
 /*
- * function: BOX2_MAIN_IsSwapScene
+ * function: BOX2_MAIN_StepHandMotionToSlot
  * address:  0x021DEAFC
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   BOX2_MAIN_CheckSceneMode  0x021DEA6C  thumb  ov170
+ *   BOX2_MAIN_StepHandMotion  0x021DEA6C  thumb  ov170
  *
  * Set the flag on the object.
  */
 
-extern int BOX2_MAIN_CheckSceneMode(char *p, int a);
+extern int BOX2_MAIN_StepHandMotion(char *p, int a);
 
-int BOX2_MAIN_IsSwapScene(int a)
+int BOX2_MAIN_StepHandMotionToSlot(int a)
 {
-    return BOX2_MAIN_CheckSceneMode((char *)a, 1);
+    return BOX2_MAIN_StepHandMotion((char *)a, 1);
 }
 

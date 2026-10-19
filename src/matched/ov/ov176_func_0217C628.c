@@ -31,7 +31,7 @@
  *   LIVEBATTLEMATCH_IRC_WaitExit 0x0217E178 thumb ov176
  *   DIGITALCARDCHECK_SetBattleRecordValue 0x0217D388 thumb ov176
  *   LIVEBATTLEMATCH_IRC_SendRegulation 0x0217E1FC thumb ov176
- *   LIVEBATTLEMATCH_IRC_GetRegulation 0x0217E23C thumb ov176
+ *   LIVEBATTLEMATCH_IRC_TakeRegulation 0x0217E23C thumb ov176
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
  *   MI_CpuCopy8 0x02082D44 arm
  *   REGULATION_Card_GetValue 0x0200B078 thumb
@@ -79,7 +79,7 @@ extern void LIVEBATTLEMATCH_IRC_Exit(unsigned *);
 extern int LIVEBATTLEMATCH_IRC_WaitExit(int *);
 extern void DIGITALCARDCHECK_SetBattleRecordValue(int *,int *);
 extern int LIVEBATTLEMATCH_IRC_SendRegulation(int,int);
-extern int LIVEBATTLEMATCH_IRC_GetRegulation(char *,void **);
+extern int LIVEBATTLEMATCH_IRC_TakeRegulation(char *,void **);
 extern int POKE_REGULATION_GetDataSize(void);
 extern void MI_CpuCopy8(const void *,void *,u32);
 extern s32 REGULATION_Card_GetValue(struct Reg2 *p, u32 id);
@@ -127,7 +127,7 @@ void LIVEBATTLEMATCH_FLOW_Result(int *sys,u32 *state,u8 *p)
     case 13:DIGITALCARDCHECK_SetBattleRecordValue(*(int * *)&((struct Obj00241 *)p)->f1BC,(int *)p);if(LIVEBATTLEMATCH_IRC_SendRegulation(*(int *)&((struct Obj00241 *)p)->fC,*(int *)&((struct Obj00241 *)p)->f1BC))*state=14;break;
     case 14:{
         void *out;
-        if(LIVEBATTLEMATCH_IRC_GetRegulation(*(char * *)&((struct Obj00241 *)p)->fC,&out)){MI_CpuCopy8(out,((struct Obj00241 *)p)->f1C0,POKE_REGULATION_GetDataSize()+0xd4);*state=15;}break;
+        if(LIVEBATTLEMATCH_IRC_TakeRegulation(*(char * *)&((struct Obj00241 *)p)->fC,&out)){MI_CpuCopy8(out,((struct Obj00241 *)p)->f1C0,POKE_REGULATION_GetDataSize()+0xd4);*state=15;}break;
     }
     case 15:
         if(((struct Obj24412 *)(*(u8 * *)&((struct Obj00241 *)p)->f1BC))->f40==((struct Obj24413 *)(*(u8 * *)&((struct Obj00241 *)p)->f1C0))->f40){

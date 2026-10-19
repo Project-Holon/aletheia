@@ -1,7 +1,7 @@
 /*
  * file:     net_err_proc.c
  * unit:     yes
- * function: GFL_NET_SAVE_DeleteScreenWork, GFL_NET_SAVE_CreateScreenWork, GFL_NET_SAVE_ScreenMain
+ * function: GFL_NET_SAVE_DeleteScreenWork, GFL_NET_SAVE_CreateScreenWork, GFL_NET_SAVE_ScreenMain, GFL_NET_SAVE_ScreenExit
  * address:  0x02010B98
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Cut from net_err_proc.c, net_err_proc_exit.c by tools/splitfile.py.
  *
  * symbols:
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
@@ -27,16 +27,18 @@
  *   PROCSYS_Main  0x02031330  arm
  *   PROCSYS_Push  0x02031348  arm
  *   GFL_NET_ERR_ShowScreen  0x0200F7B8  thumb
- *   MI_CpuFill8    0x02082BCC  arm
  *   DWC_UpdateConnection  0x0205D074  arm
  *   GAME_DATA_Delete  0x02012704  thumb
  *   OS_ResetSystem  0x02087BCC  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   PROCSYS_FreeProcWork  0x020315D4  arm
+ *   PROCSYS_Delete  0x0203133C  arm
  */
 
 struct ProcSysProc;
+
 struct ProcSysParent;
+
 typedef unsigned char  u8;
 
 typedef unsigned short u16;
@@ -71,29 +73,48 @@ typedef struct NetSaveDeleteWork {
 } NetSaveDeleteWork;
 
 extern void GAME_DATA_Delete(unsigned char *p);
+
+extern void GFL_HEAP_DeleteChecked(unsigned int heapId);
+
 extern void PROCSYS_FreeProcWork(struct ProcSysProc *p);
+
 extern void  BG_SYS_SetMainVisiblePlanes(u32 a);
+
 extern void  BG_SYS_SetSubVisiblePlanes(u32 a);
+
 extern void  GFL_HEAP_CreateChildHeap(u32 a, u32 heap, u32 size);
+
 extern void *PROCSYS_AllocProcWork(struct ProcSysParent *obj, u32 size, u32 heap);
+
 extern void  MI_CpuFill8(void *dst, int val, unsigned n);
+
 extern void *PROCSYS_Create(int heapId);
+
 extern unsigned int PROCSYS_Main(void *p);
+
 extern void PROCSYS_Push(u32 h, void *ovl, void *proc, void *arg);
+
 extern u32 GFL_NET_ERR_ShowScreen(u32 isFatal);
+
 extern int DWC_UpdateConnection(void);
+
 int GFL_NET_SAVE_DeleteScreenWork(int proc, int seq, int pwork, int work);
+
 int GFL_NET_SAVE_CreateScreenWork(void *ctx, int seq, int pwork);
+
 int GFL_NET_SAVE_ScreenMain(u32 proc, u32 *seq, u32 pwork, u8 *ctx);
+
 extern u8 ov115_id[];
+
 extern u8 ov187_id[];
+
 extern u8 gNetSaveMainProc[];
+
 extern u8 d_0220B294[];
+
 extern u8 gNetSaveRetryProc[];
 
-
-int GFL_NET_SAVE_DeleteScreenWork(int proc, int seq, int pwork, int work){ int t2, t3; GAME_DATA_Delete((unsigned char *)((NetSaveDeleteWork *)(char *)(work))->gameData); PROCSYS_FreeProcWork((struct ProcSysProc *)((proc + 0) + 0)); t2 = GFL_HEAP_DeleteChecked((int)0x67); t3 = OS_ResetSystem((int)0); return 1; }
-
+int GFL_NET_SAVE_DeleteScreenWork(int proc, int seq, int pwork, int work){ int t3; GAME_DATA_Delete((unsigned char *)((NetSaveDeleteWork *)(char *)(work))->gameData); PROCSYS_FreeProcWork((struct ProcSysProc *)((proc + 0) + 0)); GFL_HEAP_DeleteChecked(0x67); t3 = OS_ResetSystem((int)0); return 1; }
 
 /*
  * The save-screen constructor of the net_save.c family (see
@@ -134,7 +155,6 @@ int GFL_NET_SAVE_CreateScreenWork(void *ctx, int seq, int pwork)
     ((NetSaveScreenWork *)p)->proc = (unsigned int)PROCSYS_Create(0x5b);
     return 1;
 }
-
 
 /*
  * history:  was MATCH on evidence only (every concrete byte matched).  Wave 17:
@@ -251,4 +271,18 @@ int GFL_NET_SAVE_ScreenMain(u32 proc, u32 *seq, u32 pwork, u8 *ctx)
         DWC_UpdateConnection();
     }
     return 0;
+}
+
+struct ProcSys;
+
+extern void PROCSYS_Delete(struct ProcSys *procSys);
+
+int GFL_NET_SAVE_ScreenExit(struct ProcSysProc *proc, u32 *seq, void *param, NetSaveScreenWork *work);
+
+int GFL_NET_SAVE_ScreenExit(struct ProcSysProc *proc, u32 *seq, void *param, NetSaveScreenWork *work)
+{
+    PROCSYS_Delete((struct ProcSys *)work->proc);
+    PROCSYS_FreeProcWork(proc);
+    GFL_HEAP_DeleteChecked(0x5b);
+    return 1;
 }

@@ -1,8 +1,8 @@
 /*
  * file:     sta_act_effect.c
  * unit:     yes
- * function: STA_ACT_EFFECT_Create, STA_ACT_EFFECT_Delete, STA_ACT_EFFECT_Update, STA_ACT_EFFECT_Draw, STA_ACT_EFFECT_StartSystem, STA_ACT_EFFECT_KillSystem, STA_ACT_EFFECT_StartEffect, STA_ACT_EFFECT_KillEffect, STA_ACT_EFFECT_SetEmitterPos
- * address:  0x021F9E50
+ * function: STA_ACTING_SetCameraHoldScript, STA_ACTING_GetElapsedTicks, STA_ACT_EFFECT_Noop, STA_ACT_EFFECT_Create, STA_ACT_EFFECT_Delete, STA_ACT_EFFECT_Update, STA_ACT_EFFECT_Draw, STA_ACT_EFFECT_StartSystem, STA_ACT_EFFECT_KillSystem, STA_ACT_EFFECT_StartEffect, STA_ACT_EFFECT_KillEffect, STA_ACT_EFFECT_SetEmitterPos
+ * address:  0x021F9E40
  * region:   ov132
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -35,7 +35,7 @@
  *   PARTICLE_DeleteSystem 0x02050DB8 arm
  *   PARTICLE_StartEffect 0x020515B4 arm
  *   PARTICLE_KillEffect  0x02051630  arm
- *   BUTTON_MAN_SetEmitterPos  0x02051838  arm
+ *   PARTICLE_EMITTER_SetEmitPos  0x02051838  arm
  */
 #include "ov132_types.h"
 #include "sta_acting_shared_types.h"
@@ -69,7 +69,17 @@ extern int PARTICLE_StartEffect(void *p, int b, int c);
 
 extern void PARTICLE_KillEffect(void **p, void *q);
 
-extern void BUTTON_MAN_SetEmitterPos(void *, int);
+extern void PARTICLE_EMITTER_SetEmitPos(void *, int);
+
+void STA_ACTING_SetCameraHoldScript(u8 *p,u32 v);
+
+u32 STA_ACTING_GetElapsedTicks(u8 *p);
+
+void STA_ACTING_SetCameraHoldScript(u8 *p,u32 hold) { ((struct ActingScene *)p)->cameraHoldScript=hold; }
+
+u32 STA_ACTING_GetElapsedTicks(u8 *p) { return ((struct ActingScene *)p)->elapsedTicks; }
+
+void STA_ACT_EFFECT_Noop(u8 *scene) { }
 
 char *STA_ACT_EFFECT_Create(unsigned heap);
 
@@ -173,5 +183,5 @@ void STA_ACT_EFFECT_SetEmitterPos(char *p, int index, int position)
     void *v = *(void **)(p + index * 16 + 0x4808);
 
     if (v != 0)
-        BUTTON_MAN_SetEmitterPos(v, position);
+        PARTICLE_EMITTER_SetEmitPos(v, position);
 }

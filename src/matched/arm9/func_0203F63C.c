@@ -1,5 +1,5 @@
 /*
- * function: GF_STANDARD_SinDeg
+ * function: GF_STANDARD_CosFromDegrees
  * address:  0x0203F63C
  * packet:   pkt_0203F63C
  * region:   arm9
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 
 extern s16 FX_SinCosTable_[];
 
-s16 GF_STANDARD_SinDeg(u32 x)
+s16 GF_STANDARD_CosFromDegrees(u32 x)
 {
     if (x >= 360) {
         return 0;

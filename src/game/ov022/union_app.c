@@ -26,7 +26,7 @@
  *   UNION_COMM_RequestShutdown  0x02172D38  thumb  ov012
  *   UNION_COMM_IsResetting  0x02172D68  thumb  ov012
  *   GFL_NET_IsConnectMember  0x0203D1C0  arm
- *   INTRUDE_CMD_RecvResultRecord  0x0217410C  thumb  ov011
+ *   UNION_COMMAND_SendAppNotice  0x0217410C  thumb  ov012
  *   UNION_COMMAND_SendAppSetting 0x02173F20 thumb ov012
  *   UNION_COMMAND_SendAppQuitAccept 0x02173E68 thumb ov012
  *   UNION_COMMAND_SendAppData 0x02174010 thumb ov012
@@ -63,7 +63,7 @@ extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern void UNION_COMM_RequestShutdown(UnionRoomWork *work);
 extern int UNION_COMM_IsResetting(UnionRoomWork *work);
 extern u32 GFL_NET_IsConnectMember(u32 index);
-extern int INTRUDE_CMD_RecvResultRecord(int a, int b);
+extern int UNION_COMMAND_SendAppNotice(u32 sendMask, u8 value);
 extern u32 UNION_COMMAND_SendAppSetting(void *p, u32 a);
 extern u32 UNION_COMMAND_SendAppQuitAccept(u32 a);
 extern u32 UNION_COMMAND_SendAppData(u32 a, void *p);
@@ -231,7 +231,7 @@ void UNION_APP_DropDisconnectedMembers(UnionAppWork *app)
                 bit = 1 << netId;
                 if (app->joinedBits & bit) {
                     if (!(stillConnected & bit)) {
-                        if (INTRUDE_CMD_RecvResultRecord(stillConnectedBits, netId & 0xff) == 1) {
+                        if (UNION_COMMAND_SendAppNotice(stillConnectedBits, netId & 0xff) == 1) {
                             UNION_APP_OnMemberDropped(app, (u8)netId);
                             app->joinedBits = app->joinedBits ^ (u8)bit;
                         }

@@ -12,7 +12,7 @@
  * symbols:
  *   CURSOR_MOVE_PollRepeatInput 0x02025DE8 thumb
  *   KEY_GetRepeat 0x0203633C arm
- *   BOX2_MAIN_PlayCursorSound 0x021DD238 thumb
+ *   BOX2_MAIN_ActivateKeyCursor 0x021DD238 thumb
  *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
  *   func_020077B8 0x020077B8 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
@@ -33,7 +33,7 @@ typedef unsigned char  u8;
 struct Sound;
 extern int CURSOR_MOVE_PollRepeatInput(struct Sound *obj);
 extern unsigned int KEY_GetRepeat(void);
-extern void BOX2_MAIN_PlayCursorSound(char *p);
+extern void BOX2_MAIN_ActivateKeyCursor(char *p);
 extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 extern int func_020077B8(void *save, u32 box);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
@@ -57,10 +57,10 @@ int BOX2_SEQ_StateListScroll(unsigned char *p)
     r = CURSOR_MOVE_PollRepeatInput(LIST(p));
     if (r == (unsigned)-1) {
         if (KEY_GetRepeat() & 0x200) {
-            BOX2_MAIN_PlayCursorSound((char *)p);
+            BOX2_MAIN_ActivateKeyCursor((char *)p);
             r = 2;
         } else if (KEY_GetRepeat() & 0x100) {
-            BOX2_MAIN_PlayCursorSound((char *)p);
+            BOX2_MAIN_ActivateKeyCursor((char *)p);
             r = 3;
         }
     }

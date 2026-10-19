@@ -1,5 +1,5 @@
 /*
- * function: VCT_SESSION_Init
+ * function: VCT_MIXER_Init
  * address: 0x021B0508
  * packet: pkt_ov013_021B0508
  * region: ov013
@@ -95,7 +95,7 @@ static inline u32 pairValue(u32 k)
     p = &gVctFrameSpecs[k];
     return a * 0x44 + p->b + 0xC;
 }
-int VCT_SESSION_Init(void)
+int VCT_MIXER_Init(void)
 {
     u32 i;
     u32 k;

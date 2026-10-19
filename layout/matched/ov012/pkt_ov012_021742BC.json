@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "UNION_MAIN_StepPokemonTrade",
+   "name": "UNION_SCENE_StepPokemonTrade",
    "address": "0x021742BC",
    "kind": "game",
    "region": "ov012",

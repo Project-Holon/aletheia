@@ -17,7 +17,7 @@
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093
  *   BTL_POKEPARAM_GetTypePair  0x021D57FC  thumb  ov093
- *   BTLV_CORE_BytesOverlap  0x021E8D48  thumb  ov093
+ *   BTL_TYPEPAIR_ShareType  0x021E8D48  thumb  ov093
  *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  *   d_021F283C     0x021F283C  data   a4
  */
@@ -27,7 +27,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 extern int BTL_EVENT_GetVar(int key);
 extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern u16 BTL_POKEPARAM_GetTypePair(void *p);
-extern int BTLV_CORE_BytesOverlap(int a, int b);
+extern int BTL_TYPEPAIR_ShareType(int a, int b);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 extern int d_021F283C[];
 
@@ -42,7 +42,7 @@ void HAND_WAZA_SynchronoiseFailWithoutSharedType(int a, int b, int c)
         x = BTL_SERVER_FLOW_GetPokeParam((int *)b, k);
         y = BTL_SERVER_FLOW_GetPokeParam((int *)b, c);
         u = BTL_POKEPARAM_GetTypePair(y);
-        if (BTLV_CORE_BytesOverlap(u, BTL_POKEPARAM_GetTypePair(x)) == 0)
+        if (BTL_TYPEPAIR_ShareType(u, BTL_POKEPARAM_GetTypePair(x)) == 0)
             BTL_EVENT_OverwriteVar(0x40, 1);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: BOX2_SEQ_ResetEntry
+ * function: BOX2_SEQ_RefreshBoxUiAndWait
  * address:  0x021EA83C
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -20,7 +20,7 @@
 
 extern void BOX2_MAIN_RefreshBoxUi(char *);
 extern int BOX2_SEQ_SetSeqThird(char *p, int a, int b);
-int BOX2_SEQ_ResetEntry(char *p, int a)
+int BOX2_SEQ_RefreshBoxUiAndWait(char *p, int a)
 {
     BOX2_MAIN_RefreshBoxUi(p);
     return BOX2_SEQ_SetSeqThird(p, 0x021E01C5, a);

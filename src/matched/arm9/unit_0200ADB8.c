@@ -23,7 +23,7 @@
  *   func_0200ADF0_File  0x020A71B4  data
  *   STRBUF_Create  0x020457B0  arm
  *   MSGDATA_Delete  0x02045C04  arm
- *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
+ *   GF_STANDARD_CalcCrc16  0x0203F1FC  arm
  *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb
  *
  * alias: the original source file is named in the image.  The constructor at
@@ -90,7 +90,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
+extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern const char func_0200ADF0_File[];
 
@@ -369,7 +369,7 @@ u32 REGULATION_Card_IsCrcValid(struct Reg2 *p)
 
 u16 REGULATION_Card_CalcCrc(struct Reg2 *p)
 {
-    return GF_STANDARD_SetupCalc((const u8 *)p, 0x15E);
+    return GF_STANDARD_CalcCrc16((const u8 *)p, 0x15E);
 }
 
 struct Rec160 *REGULATION_GetCard(struct Rec160 *arr, u32 index)

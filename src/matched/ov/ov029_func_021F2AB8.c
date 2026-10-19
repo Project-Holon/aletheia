@@ -1,5 +1,5 @@
 /*
- * function: C_GEAR_IsLastCommandKind5
+ * function: C_GEAR_IsLastCommandWifi
  * address:  0x021F2AB8
  * packet:   pkt_ov029_021F2AB8
  * region:   ov029
@@ -13,7 +13,7 @@
  */
 #include "../include/Obj20398.h"
 
-int C_GEAR_IsLastCommandKind5(char *p)
+int C_GEAR_IsLastCommandWifi(char *p)
 {
     if (p == 0)
         return 0;

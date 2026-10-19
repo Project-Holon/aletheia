@@ -1,5 +1,5 @@
 /*
- * function: VCT_SESSION_SetCodecMode
+ * function: VCT_MIXER_SetCodecMode
  * address:  0x021B0C64
  * packet:   pkt_ov013_021B0C64
  * region:   ov013
@@ -25,7 +25,7 @@ extern struct Sess g_021B60D8;
 extern const u8 g_021B3AD0[5][2];
 extern struct G_021B3C84 g_021B3C84;
 
-int VCT_SESSION_SetCodecMode(int x)
+int VCT_MIXER_SetCodecMode(int x)
 {
     if (x >= 5) {
         return 0;

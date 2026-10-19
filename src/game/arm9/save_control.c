@@ -1,7 +1,7 @@
 /*
  * file:     save_control.c
  * unit:     yes
- * function: SAVE_CONTROL_Create, SAVE_CONTROL_Delete, SAVE_CONTROL_Get, SAVE_CONTROL_Reload, SAVE_CONTROL_StartSave, SAVE_CONTROL_MainSave, SAVE_CONTROL_CancelSave, SAVE_CONTROL_GetWrittenSize, SAVE_CONTROL_GetBlock, SAVE_CONTROL_GetWorkArea, SAVE_CONTROL_IsNewGame, SAVE_CONTROL_GetLoadFlags, SAVE_CONTROL_HasFlashSave, SAVE_CONTROL_WouldOverwriteSave, SAVE_CONTROL_GetOutsideSaveLoaded, SAVE_CONTROL_SetOutsideSaveLoaded, SAVE_CONTROL_GetOutsideSaveBroken, SAVE_CONTROL_SetOutsideSaveBroken, SAVE_CONTROL_ResetToNewGame, SAVE_CONTROL_EraseMainSave, SAVE_CONTROL_GetDiffSize, SAVE_CONTROL_ReadRecordFromFlash, SAVE_CONTROL_LoadExtraSave, SAVE_CONTROL_DeleteExtraSave, SAVE_CONTROL_LoadExtraSaveWithBuffer, SAVE_CONTROL_CreateExtraSaveWithBuffer, SAVE_CONTROL_DeleteExtraSaveBuffered, SAVE_CONTROL_BeginExtraSaveWrite, SAVE_CONTROL_StepExtraSaveWrite, SAVE_CONTROL_GetExtraSaveRecord, SAVE_CONTROL_EraseExtraSave, SAVE_CONTROL_EraseOutsideSave, BOX_SAVEDATA_InitHeader, BOX_SAVEDATA_GetHeader, BOX_SAVEDATA_AddPokemon, BOX_SAVEDATA_AddPokemonToBox, BOX_SAVEDATA_SetPokemon, BOX_SAVEDATA_SwapPokemon, BOX_SAVEDATA_ClearPokemon, BOX_SAVEDATA_GetCurrentBox, BOX_SAVEDATA_GetUsableBoxCount, BOX_SAVEDATA_UnlockBoxes, BOX_SAVEDATA_FindFreeSlot, BOX_SAVEDATA_CountFreeSlots, BOX_SAVEDATA_CountFreeSlotsInBox, BOX_SAVEDATA_SetCurrentBox, BOX_SAVEDATA_GetWallpaper, BOX_SAVEDATA_SetWallpaper, BOX_SAVEDATA_GetBoxName, BOX_SAVEDATA_SetBoxName, BOX_SAVEDATA_CountPokemonInBox, BOX_SAVEDATA_CountNonEggPokemonInBox, BOX_SAVEDATA_CountPokemon, BOX_SAVEDATA_CountNonEggPokemon, BOX_SAVEDATA_GetPokemonValue, BOX_SAVEDATA_GetPokemon, BOX_SAVEDATA_SetFlags, BOX_SAVEDATA_CheckFlags, BOX_SAVEDATA_GetBoxPageSize, BOX_SAVEDATA_CreateWordHolder, BOX_SAVEDATA_Delete, BOX_SAVEDATA_ClearBoxPage, BOX_SAVEDATA_GetBoxDataSize, BOX_SAVEDATA_GetBoxPokemon, PERAPVOICE_GetSize, PERAPVOICE_Init, PERAPVOICE_Create, PERAPVOICE_GetFromSave, PERAPVOICE_IsRecorded, PERAPVOICE_ClearRecorded, PERAPVOICE_SetRecorded, PERAPVOICE_GetSamples, PERAPVOICE_Unpack, PERAPVOICE_Pack, PERAPVOICE_Copy, PERAPVOICE_ClearIfNoChatot, PERAPVOICE_GetVoiceKind, MYITEM_SAVEDATA_GetSize, MYITEM_SAVEDATA_Init, MYITEM_SAVEDATA_CopyPocket, MYITEM_SAVEDATA_GetPocket, MYITEM_SAVEDATA_GetPocketOfItem, MYITEM_SAVEDATA_FindAddSlot, MYITEM_SAVEDATA_FindAddSlotForItem, MYITEM_SAVEDATA_CanAddItem, MYITEM_SAVEDATA_AddItem, MYITEM_SAVEDATA_FindRemoveSlot, MYITEM_SAVEDATA_FindItemSlot, MYITEM_SAVEDATA_RemoveItem, MYITEM_SAVEDATA_HasItem, MYITEM_SAVEDATA_CountUsedSlots, MYITEM_SAVEDATA_CountUsedSlotsInPocket, MYITEM_SAVEDATA_GetItemQuantity, MYITEM_SAVEDATA_SwapSlots, MYITEM_SAVEDATA_MoveLastUsedToFront, MYITEM_SAVEDATA_ClearEmptyQuantities, MYITEM_SAVEDATA_CompactPocket, MYITEM_SAVEDATA_SortPocketById, MYITEM_SAVEDATA_SortPocketByItemOrder, MYITEM_SAVEDATA_CompactAllPockets, MYITEM_SAVEDATA_GetSlot, MYITEM_SAVEDATA_GetMaxStack, MYITEM_SAVEDATA_CreateBagCursor, MYITEM_SAVEDATA_GetFieldPocketCursor, MYITEM_SAVEDATA_GetLastFieldPocket, MYITEM_SAVEDATA_SetFieldPocketCursor, MYITEM_SAVEDATA_SetLastFieldPocket, MYITEM_SAVEDATA_GetBattlePocketCursor, MYITEM_SAVEDATA_GetLastBattleItem, MYITEM_SAVEDATA_GetLastBattleItemPocket, MYITEM_SAVEDATA_SetBattlePocketCursors, MYITEM_SAVEDATA_SetLastBattleItem
+ * function: SAVE_CONTROL_Create, SAVE_CONTROL_Delete, SAVE_CONTROL_Get, SAVE_CONTROL_Reload, SAVE_CONTROL_StartSave, SAVE_CONTROL_MainSave, SAVE_CONTROL_CancelSave, SAVE_CONTROL_GetWrittenSize, SAVE_CONTROL_GetBlock, SAVE_CONTROL_GetWorkArea, SAVE_CONTROL_IsNewGame, SAVE_CONTROL_GetLoadFlags, SAVE_CONTROL_HasFlashSave, SAVE_CONTROL_WouldOverwriteSave, SAVE_CONTROL_GetOutsideSaveLoaded, SAVE_CONTROL_SetOutsideSaveLoaded, SAVE_CONTROL_GetOutsideSaveBroken, SAVE_CONTROL_SetOutsideSaveBroken, SAVE_CONTROL_ResetToNewGame, SAVE_CONTROL_EraseMainSave, SAVE_CONTROL_GetDiffSize, SAVE_CONTROL_ReadRecordFromFlash, SAVE_CONTROL_LoadExtraSave, SAVE_CONTROL_DeleteExtraSave, SAVE_CONTROL_LoadExtraSaveWithBuffer, SAVE_CONTROL_CreateExtraSaveWithBuffer, SAVE_CONTROL_DeleteExtraSaveBuffered, SAVE_CONTROL_BeginExtraSaveWrite, SAVE_CONTROL_StepExtraSaveWrite, SAVE_CONTROL_GetExtraSaveRecord, SAVE_CONTROL_EraseExtraSave, SAVE_CONTROL_EraseOutsideSave
  * address:  0x02006F20
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Cut from save_control.c by tools/splitfile.py.
  *
  * symbols:
  *   GF_OVERLAY_Load   0x02034AC4  arm
@@ -37,15 +37,9 @@
  *   _EmptyString  0x020A7064  data
  *   GFL_HEAP_Free       0x020307B0  arm
  *   BACKUP_SYSTEM_Delete       0x0203195C  arm
- *   MUSICAL_SAVE_GetFromSave  0x0200A5F8  thumb
- *   MUSICAL_SAVE_SetHasDistData  0x0200A7EC  thumb
- *   SYSTEM_DATA_IsMarked  0x02008784  thumb
- *   SAVE_CONTROL_LoadExtraSave  0x0200725C  thumb
- *   SAVE_CONTROL_DeleteExtraSave  0x020072A4  thumb
  *   SYSTEM_DATA_ClearMark  0x020087C0  thumb
  *   SAVE_CONTROL_EraseOutsideSave  0x02007428  thumb
  *   BACKUP_SYSTEM_MainSave  0x02031BB4  arm
- *   SYSTEM_DATA_IsActive  0x02008754  thumb
  *   BACKUP_SYSTEM_GetWrittenSize 0x02031E68 arm
  *   BACKUP_SYSTEM_GetRecordWork  0x020319A4  arm
  *   BACKUP_SYSTEM_GetWork  0x02031994  arm
@@ -60,62 +54,19 @@
  *   BACKUP_SYSTEM_InitLinkedSave  0x02031C10  arm
  *   BACKUP_SYSTEM_MainLinkedSave  0x02031C30  arm
  *   BACKUP_SYSTEM_WriteFlash  0x02033478  arm
- *   _BoxEmptyString  0x020A7068  data
  *   SAVE_CONTROL_GetBlock       0x020071CC  thumb
- *   BOX_SAVEDATA_GetBoxPokemon       0x02007AF4  thumb
- *   POKE_TOOL_GetBoxValue       0x02017E88  thumb
- *   POKE_TOOL_RecoverBoxAllPP       0x020181A0  thumb
- *   MSGDATA_CreateFromArchive      0x02045B38  arm
- *   MSGDATA_Delete      0x02045C04  arm
- *   MSGDATA_ReadUnits      0x02045F5C  arm
- *   BOX_SAVEDATA_GetHeader       0x020074CC  thumb
- *   POKE_TOOL_ClearBoxParam  0x02017550  thumb
- *   STRBUF_SetString      0x02045924  arm
- *   STRBUF_ToChars      0x02045A38  arm
- *   _BoxSavedataFileName  0x020A706C  data
- *   _PerapVoiceFileName  0x020A707C  data
- *   MIi_CpuClear32      0x02082A7C  arm
- *   MI_CpuCopy8    0x02082D44  arm
- *   PERAPVOICE_IsRecorded   0x02007B50  thumb
- *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
- *   POKEPARTY_GetCount  0x0201AA18  thumb
- *   POKEPARTY_GetMember  0x0201AB28  thumb
- *   MI_CpuFill8    0x02082BCC  arm
- *   FILE_UTIL_Get_0FE4  0x02020FE4  thumb
- *   FILE_UTIL_Check1288  0x02021288  thumb
- *   FILE_UTIL_GetId  0x0202130C  thumb
- *   _MyItemSavedataFileName  0x020A708C  data
  *   BACKUP_SYSTEM_StartSave  0x02031B8C  arm
  *   BACKUP_SYSTEM_CancelSave  0x02031C04  arm
  *   SYSTEM_DATA_SetActive  0x02008764  thumb
  *   SYSTEM_DATA_ClearActive  0x02008774  thumb
- *   SYSTEM_DATA_SetMark  0x020087A8  thumb
- *   SYSTEM_DATA_ClearMark  0x020087C0  thumb
- *   SYSTEM_DATA_GetWordSlot  0x020087D4  thumb
  */
 #include "btl_setup_types.h"
-
-/*
- * save_control.c: the SaveControl object (the game's save manager) and,
- * after it in the same byte range, three block files that the image keeps
- * adjacent: box_savedata.c (PC boxes), perapvoice.c (Chatot recording) and
- * myitem_savedata.c (the bag).  The cuts are listed in the lane's cuts.tsv.
- */
-
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef signed char s8;
-typedef signed short s16;
-
-#define NULL ((void *)0)
+#include "save_control_shared_types.h"
 
 struct BackupSaveData;   /* backup_system.c: one flash save area (main or extra) */
+
 struct SaveOutside;      /* ov228 save_outside.c: the small save outside the main area */
-struct MsgData;
-struct Strbuf;
-struct PokeParty;
-struct Pokemon;
+
 struct MusicalSave;
 
 /*
@@ -123,15 +74,22 @@ struct MusicalSave;
  * 1 and 2 leave data in the work area; 2 means a copy had to be recovered.
  */
 #define SAVE_LOAD_NO_DATA 0
+
 #define SAVE_LOAD_OK 1
+
 #define SAVE_LOAD_RECOVERED 2
+
 #define SAVE_LOAD_BROKEN 3
+
 #define SAVE_LOAD_NO_FLASH 4
 
 /* Bits of SaveControl.loadFlags. */
 #define SAVE_FLAG_RECOVERED 0x1
+
 #define SAVE_FLAG_BROKEN 0x2
+
 #define SAVE_FLAG_EXTRA_SHIFT 2 /* bit (slot + 2): extra save slot failed to load */
+
 #define SAVE_FLAG_OUTSIDE_BROKEN 0x800
 
 /* Extra saves: nine separate flash save areas linked to the main save by a counter. */
@@ -167,191 +125,98 @@ struct SaveControl {
     struct BackupSaveData *extraSaves[EXTRA_SAVE_MAX]; /* 14: open extra saves, 0 when closed */
 };
 
-/* PC boxes. */
-#define MAX_BOXES 0x18
-#define BOX_CAPACITY 30
-#define BOX_CURRENT (-1) /* box argument meaning the current box */
-#define BOX_EXPAND_STEP 8
-
-/* One stored Pokemon, 0x88 bytes (4-aligned so that a copy is an ldm/stm loop). */
-struct BoxPokemon {
-    u32 personality;
-    u16 flags;
-    u16 checksum;
-    u8 blocks[0x80];
-};
-
-struct BoxName {
-    u16 chars[0x14];
-};
-
-/* Box block header (block id 0), 0x3DE bytes; the 30 Pokemon of each box are blocks 1..24. */
-struct BoxSaveHeader {
-    u32 currentBox;
-    struct BoxName names[MAX_BOXES];
-    u8 wallpaper[MAX_BOXES];
-    u8 flags;
-    u8 usableBoxCount; /* 8, 16 or 24 */
-};
-
-/* Chatot recording block, 0x3EC bytes. */
-struct PerapVoice {
-    u32 isRecorded;
-    u8 samples[1000]; /* two signed 4 bit samples per byte */
-};
-
-#define PERAP_PACKED_BYTES 1000
-#define PERAP_UNPACKED_BYTES (PERAP_PACKED_BYTES * 8)
-#define PERAP_UNPACKED_SIZE 0x1FF4
-
-/* Bag. */
-struct BagSlot {
-    u16 itemId;
-    u16 quantity;
-};
-
-#define BAG_POCKET_ITEMS 0
-#define BAG_POCKET_MEDICINE 1
-#define BAG_POCKET_TMHM 2
-#define BAG_POCKET_BERRIES 3
-#define BAG_POCKET_KEY_ITEMS 4
-
-#define BAG_ITEMS_COUNT 0x136
-#define BAG_KEY_ITEMS_COUNT 0x53
-#define BAG_TMHM_COUNT 0x6D
-#define BAG_MEDICINE_COUNT 0x30
-#define BAG_BERRIES_COUNT 0x40
-
-#define BAG_STACK_MAX 999
-
-/* Box Pokemon parameter ids. */
-#define MON_DATA_SPECIES 5
-#define MON_DATA_IS_EGG 0x4C
-#define MON_DATA_EXISTS 0xA9 /* nonzero when the slot holds a Pokemon */
-#define SPECIES_CHATOT 0x1B9
-
-/* Remembered bag cursor, 0x2C bytes. */
-struct BagCursor {
-    s16 fieldPocketPosition[5]; /* 00 */
-    s16 fieldPocketScroll[5];   /* 0A */
-    u16 lastFieldPocket;      /* 14 */
-    u16 pad16;                /* 16: not accessed */
-    s16 battlePocketPosition[4]; /* 18 */
-    s16 battlePocketScroll[4];   /* 20 */
-    u16 lastBattleItem;       /* 28 */
-    u16 lastBattleItemPocket; /* 2A */
-};
-
-/* The bag block as the pocket arrays lay out in it (0x9C0 bytes). */
-struct MyItem {
-    struct BagSlot items[BAG_ITEMS_COUNT];         /* 000 */
-    struct BagSlot keyItems[BAG_KEY_ITEMS_COUNT];  /* 4D8 */
-    struct BagSlot tmhm[BAG_TMHM_COUNT];           /* 624 */
-    struct BagSlot medicine[BAG_MEDICINE_COUNT];   /* 7D8 */
-    struct BagSlot berries[BAG_BERRIES_COUNT];     /* 898 */
-    u8 reserved[0x28];                             /* 998 */
-};
-
 /* Callees in other files, under their current names. */
 extern int GF_OVERLAY_Load(int overlayId);
+
 extern void GF_OVERLAY_Unload(int overlayId);
+
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+
 extern u32 GFL_HEAP_Free(void *memory);
+
 extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *message);
-extern void MIi_CpuClear32(u32 value, void *dest, u32 size);
-extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
-extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 
 extern struct BackupSaveData *BACKUP_SYSTEM_Create(const struct SaveAreaDesc *desc, u32 heapId);
+
 extern struct BackupSaveData *BACKUP_SYSTEM_CreateWithWork(const struct SaveAreaDesc *desc, u32 heapId,
                                             void *work, u32 workSize, u32 initMode);
+
 extern void BACKUP_SYSTEM_Delete(struct BackupSaveData *backup);
+
 extern void *BACKUP_SYSTEM_GetWork(struct BackupSaveData *backup, u32 *size);
+
 extern void *BACKUP_SYSTEM_GetRecordWork(struct BackupSaveData *backup, u32 recordId);
+
 extern void BACKUP_SYSTEM_ClearWork(struct BackupSaveData *backup);
+
 extern void *BACKUP_SYSTEM_GetDiffSize(struct BackupSaveData *backup);
+
 extern int BACKUP_SYSTEM_Erase(struct BackupSaveData *backup, u32 heapId);
+
 extern int BACKUP_SYSTEM_Load(struct BackupSaveData *backup, u32 heapId);
+
 extern int BACKUP_SYSTEM_StartSave(struct BackupSaveData *backup);
+
 extern int BACKUP_SYSTEM_MainSave(struct BackupSaveData *backup);
+
 extern void BACKUP_SYSTEM_CancelSave(struct BackupSaveData *backup);
+
 extern void BACKUP_SYSTEM_InitLinkedSave(struct BackupSaveData *mainSave, struct BackupSaveData *extraSave, u32 *linkCount);
+
 extern int BACKUP_SYSTEM_MainLinkedSave(struct BackupSaveData *mainSave, struct BackupSaveData *extraSave);
+
 extern int BACKUP_SYSTEM_LoadLinked(struct BackupSaveData *backup, u32 heapId, u32 linkCount);
+
 extern u32 BACKUP_SYSTEM_GetWrittenSize(struct BackupSaveData *backup);
+
 extern void BACKUP_SYSTEM_WriteFlash(u32 flashAddr, const void *src, u32 size);
+
 extern int BACKUP_SYSTEM_ReadRecordFromFlash(struct BackupSaveData *backup, u32 recordId, u32 areaIndex, u32 dest, u32 size);
 
 extern void *SAVE_OUTSIDE_Load(u32 heapId);
+
 extern u8 SAVE_OUTSIDE_IsLoaded(struct SaveOutside *outside);
+
 extern int SAVE_OUTSIDE_IsCorrupt(struct SaveOutside *outside);
+
 extern void SAVE_OUTSIDE_Free(struct SaveOutside *outside);
 
 extern u8 SYSTEM_DATA_IsActive(struct SaveControl *save);
-extern void SYSTEM_DATA_SetActive(struct SaveControl *save);
-extern void SYSTEM_DATA_ClearActive(struct SaveControl *save);
-extern int SYSTEM_DATA_IsMarked(struct SaveControl *save, u32 slot);
-extern void SYSTEM_DATA_SetMark(struct SaveControl *save, u32 slot);
-extern void SYSTEM_DATA_ClearMark(struct SaveControl *save, u32 slot);
-extern u32 *SYSTEM_DATA_GetWordSlot(struct SaveControl *save, u32 slot);
-extern struct MusicalSave *MUSICAL_SAVE_GetFromSave(struct SaveControl *save);
-extern void MUSICAL_SAVE_SetHasDistData(struct MusicalSave *musical, u8 hasDistData);
 
-extern u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *mon, u32 field, u32 arg);
-extern void POKE_TOOL_ClearBoxParam(struct BoxPokemon *mon);
-extern void POKE_TOOL_RecoverBoxAllPP(struct BoxPokemon *mon);
-extern u32 POKE_TOOL_GetPartyValue(struct Pokemon *mon, u32 field, u32 arg);
-extern u32 POKEPARTY_GetCount(struct PokeParty *party);
-extern struct Pokemon *POKEPARTY_GetMember(struct PokeParty *party, u32 index);
-extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 archiveId, u32 fileId, u32 heapId);
-extern void MSGDATA_Delete(struct MsgData *msg);
-extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 index, u16 *dest, u32 maxLen);
-extern void STRBUF_SetString(struct Strbuf *dest, const u16 *src);
-extern void STRBUF_ToChars(const struct Strbuf *src, u16 *dest, u32 length);
-extern u32 FILE_UTIL_Get_0FE4(u32 itemId, u32 param, u32 heapId);
-extern u32 FILE_UTIL_Check1288(u32 itemId);
-extern u32 FILE_UTIL_GetId(u32 itemId);
+extern void SYSTEM_DATA_SetActive(struct SaveControl *save);
+
+extern void SYSTEM_DATA_ClearActive(struct SaveControl *save);
+
+extern int SYSTEM_DATA_IsMarked(struct SaveControl *save, u32 slot);
+
+extern void SYSTEM_DATA_SetMark(struct SaveControl *save, u32 slot);
+
+extern void SYSTEM_DATA_ClearMark(struct SaveControl *save, u32 slot);
+
+extern u32 *SYSTEM_DATA_GetWordSlot(struct SaveControl *save, u32 slot);
+
+extern struct MusicalSave *MUSICAL_SAVE_GetFromSave(struct SaveControl *save);
+
+extern void MUSICAL_SAVE_SetHasDistData(struct MusicalSave *musical, u8 hasDistData);
 
 /* Data: symbols at fixed addresses (see the symbols block above). */
 extern u8 ov228_id[]; /* absolute symbol: overlay id 228, see the note at the constructor */
+
 extern struct SaveControl *_pSaveControl;
+
 extern struct SaveAreaDesc _MainSaveDesc;        /* 0x0209D938 */
+
 extern struct SaveAreaDesc _ExtraSaveDescs[];    /* 0x0209D950, follows _MainSaveDesc */
+
 extern const char _SaveControlFileName[];        /* "save_control.c" */
+
 extern const char _EmptyString[];                /* assert text of the first file, empty */
-extern const char _BoxEmptyString[];             /* assert text of box_savedata.c, empty */
-extern const char _BoxSavedataFileName[];
-extern const char _PerapVoiceFileName[];
-extern const char _MyItemSavedataFileName[];
 
 /* Own functions that are used before their definition. */
 void SAVE_CONTROL_EraseOutsideSave(void);
-void BOX_SAVEDATA_InitHeader(struct BoxSaveHeader *header);
-struct BoxSaveHeader *BOX_SAVEDATA_GetHeader(struct GameData *gameData);
-int BOX_SAVEDATA_AddPokemonToBox(struct GameData *gameData, u32 box, const struct BoxPokemon *mon);
-void BOX_SAVEDATA_Init(struct BoxSaveHeader *header);
-struct BoxPokemon *BOX_SAVEDATA_GetBoxPokemon(struct GameData *gameData, u32 box);
-void PERAPVOICE_Init(struct PerapVoice *voice);
-void PERAPVOICE_ClearRecorded(struct PerapVoice *voice);
-u32 PERAPVOICE_IsRecorded(struct PerapVoice *voice);
-int BOX_SAVEDATA_CountPokemonInBox(struct GameData *gameData, u32 box);
-int BOX_SAVEDATA_CountNonEggPokemonInBox(struct GameData *gameData, u32 box);
-u32 MYITEM_SAVEDATA_GetPocket(struct MyItem *bag, u32 pocket, struct BagSlot **slots, u32 *count);
-u32 MYITEM_SAVEDATA_GetPocketOfItem(struct MyItem *bag, u32 itemId, struct BagSlot **slots, u32 *count, u16 heapId);
-struct BagSlot *MYITEM_SAVEDATA_FindAddSlot(struct BagSlot *slots, u32 count, u16 itemId, u16 quantity, u16 maxQuantity);
-struct BagSlot *MYITEM_SAVEDATA_FindAddSlotForItem(struct MyItem *bag, u16 itemId, u16 quantity, u16 heapId);
-struct BagSlot *MYITEM_SAVEDATA_FindRemoveSlot(struct BagSlot *slots, u32 count, u16 itemId, u16 quantity);
-struct BagSlot *MYITEM_SAVEDATA_FindItemSlot(struct MyItem *bag, u16 itemId, u16 quantity, u16 heapId);
-u32 MYITEM_SAVEDATA_CountUsedSlots(const struct BagSlot *slots, u32 count);
-void MYITEM_SAVEDATA_SwapSlots(struct BagSlot *a, struct BagSlot *b);
-void MYITEM_SAVEDATA_MoveLastUsedToFront(struct BagSlot *slots, u32 count);
-void MYITEM_SAVEDATA_ClearEmptyQuantities(struct BagSlot *slots, u32 count);
-void MYITEM_SAVEDATA_CompactPocket(struct BagSlot *slots, u32 count);
-void MYITEM_SAVEDATA_SortPocketById(struct BagSlot *slots, u32 count);
-void MYITEM_SAVEDATA_SortPocketByItemOrder(struct BagSlot *slots, u32 count);
-
 
 u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *saveControl, u32 slot, u8 heapId);
+
 void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *saveControl, u32 slot);
 
 /*
@@ -462,7 +327,6 @@ struct SaveControl *SAVE_CONTROL_Create(int heapId)
     return saveControl;
 }
 
-
 /*
  * Teardown of the one global: a pointer at 0x02146168 to the control block.
  *
@@ -482,7 +346,6 @@ void SAVE_CONTROL_Delete(void)
     }
 }
 
-
 struct SaveControl *SAVE_CONTROL_Get(void)
 {
     if (_pSaveControl == 0) {
@@ -490,7 +353,6 @@ struct SaveControl *SAVE_CONTROL_Get(void)
     }
     return _pSaveControl;
 }
-
 
 /*
  * Reload the main save after the extra saves were touched: when it loads
@@ -541,7 +403,6 @@ end:
     return loadResult;
 }
 
-
 /*
  * Start a save: remember the system data "active" flag and clear it, then
  * start the main save sequence.  The caller passes GameData.saveControl.
@@ -555,7 +416,6 @@ int SAVE_CONTROL_StartSave(struct SaveControl *saveControl)
     SYSTEM_DATA_ClearActive(saveControl);
     return BACKUP_SYSTEM_StartSave(saveControl->mainSave);
 }
-
 
 /*
  * One step of the save sequence.  The two byte flags at +4 and +5 (outside
@@ -589,7 +449,6 @@ u32 SAVE_CONTROL_MainSave(struct SaveControl *saveControl)
     return saveResult;
 }
 
-
 /* Cancel the running save and restore the system data "active" flag. */
 int SAVE_CONTROL_CancelSave(struct SaveControl *saveControl)
 {
@@ -601,7 +460,6 @@ int SAVE_CONTROL_CancelSave(struct SaveControl *saveControl)
     }
 }
 
-
 /*
  * Thumb tail-call stub: loads the main save pointer and tail-calls
  * BACKUP_SYSTEM_GetWrittenSize (written size).  Witness leaf for ov034 REPORT_UpdateSaveAnim.
@@ -610,7 +468,6 @@ u32 SAVE_CONTROL_GetWrittenSize(struct SaveControl *saveControl)
 {
     return BACKUP_SYSTEM_GetWrittenSize(saveControl->mainSave);
 }
-
 
 /*
  * The block lookup every save accessor in this region goes through: a tail
@@ -625,13 +482,11 @@ void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId)
     return BACKUP_SYSTEM_GetRecordWork(saveControl->mainSave, blockId);
 }
 
-
 /* Unlabelled Thumb tail-call thunk: size and address of the main save work area. */
 void *SAVE_CONTROL_GetWorkArea(struct SaveControl *saveControl, u32 *size)
 {
     return BACKUP_SYSTEM_GetWork(saveControl->mainSave, size);
 }
-
 
 /*
  * Accessors of the control block.  Eight of the eleven carry no label: they
@@ -705,7 +560,6 @@ void *SAVE_CONTROL_GetDiffSize(struct SaveControl *saveControl)
     return BACKUP_SYSTEM_GetDiffSize(saveControl->mainSave);
 }
 
-
 /*
  * A five-argument forwarder: the fifth parameter is copied out of the
  * caller's frame into this function's own outgoing slot, so the small
@@ -722,7 +576,6 @@ int SAVE_CONTROL_ReadRecordFromFlash(struct SaveControl *saveControl, u32 record
 {
     return BACKUP_SYSTEM_ReadRecordFromFlash(saveControl->mainSave, recordId, areaIndex, dest, size);
 }
-
 
 /*
  * Open extra save `slot` (one of nine save areas the control block tracks at
@@ -757,7 +610,6 @@ u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *saveControl, u32 slot, u8 hea
     BACKUP_SYSTEM_LoadLinked(saveControl->extraSaves[slot], heapId, *SYSTEM_DATA_GetWordSlot(saveControl, slot));
 }
 
-
 /*
  * Delete extra save `slot`: the slot is asserted open and then cleared.  The
  * assertion message is the empty string at 0x020A7064, the same one six other
@@ -780,7 +632,6 @@ void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *saveControl, u32 slot)
     saveControl->extraSaves[slot] = 0;
 }
 
-
 /* Like SAVE_CONTROL_LoadExtraSave, but the area works in the caller's buffer (initMode 1) and is loaded. */
 u32 SAVE_CONTROL_LoadExtraSaveWithBuffer(struct SaveControl *saveControl, u32 slot, u8 heapId, void *work, u32 workSize)
 {
@@ -790,7 +641,6 @@ u32 SAVE_CONTROL_LoadExtraSaveWithBuffer(struct SaveControl *saveControl, u32 sl
     }
     return (u32)BACKUP_SYSTEM_LoadLinked(saveControl->extraSaves[slot], heapId, *SYSTEM_DATA_GetWordSlot(saveControl, slot));
 }
-
 
 /*
  * Open extra save `slot` for writing in the caller's buffer (initMode 0),
@@ -812,7 +662,6 @@ void SAVE_CONTROL_DeleteExtraSaveBuffered(struct SaveControl *saveControl, u32 s
     BACKUP_SYSTEM_Delete(saveControl->extraSaves[slot]);
     saveControl->extraSaves[slot] = 0;
 }
-
 
 /*
  * Begin writing extra save `slot`: mark the slot present in the system data
@@ -836,7 +685,6 @@ void SAVE_CONTROL_BeginExtraSaveWrite(struct SaveControl *saveControl, u32 slot)
     BACKUP_SYSTEM_InitLinkedSave(saveControl->mainSave, extraSaves[slot], SYSTEM_DATA_GetWordSlot(saveControl, slot));
 }
 
-
 /*
  * One step of writing extra save `slot`: assertion, then the linked save step
  * with the main save and the slot's area.  The shortest member of this
@@ -857,7 +705,6 @@ int SAVE_CONTROL_StepExtraSaveWrite(struct SaveControl *saveControl, u32 slot)
     return BACKUP_SYSTEM_MainLinkedSave(saveControl->mainSave, extraSaves[slot]);
 }
 
-
 /*
  * Record `recordId` of extra save `slot`: the slot is asserted open with the
  * empty string at 0x020A7064 and then handed to the ARM BACKUP_SYSTEM_GetRecordWork.
@@ -869,7 +716,6 @@ void *SAVE_CONTROL_GetExtraSaveRecord(struct SaveControl *saveControl, u32 slot,
     }
     return BACKUP_SYSTEM_GetRecordWork(saveControl->extraSaves[slot], recordId);
 }
-
 
 /*
  * Erase extra save `slot` (asserted open): the same twenty instructions as
@@ -891,7 +737,6 @@ void SAVE_CONTROL_EraseExtraSave(struct SaveControl *saveControl, u32 slot, u32 
     BACKUP_SYSTEM_Erase(extraSaves[slot], heapId);
 }
 
-
 /*
  * The last function of "save_control.c": erase the outside save, two four
  * byte writes of zero to its two flash copies at 0x0007F800 and 0x0007FC00
@@ -905,1318 +750,4 @@ void SAVE_CONTROL_EraseOutsideSave(void)
 
     BACKUP_SYSTEM_WriteFlash(0x7F800, &zero, 4);
     BACKUP_SYSTEM_WriteFlash(0x7FC00, &zero, 4);
-}
-
-
-/*
- * "box_savedata.c" starts here.  It starts at 0x02007454 and not at the
- * constructor: the pair 0x02007454 and 0x0200745C (the twelve bytes right
- * after the last function of "save_control.c") is the block file opening
- * idiom.  0x0200745C returns the header size, 0x3E0, and 0x02007464, the next
- * function, is the constructor that clears exactly that header.  The function
- * before them passes the empty string 0x020A7064 as its assertion message;
- * the first function of this file that names anything names 0x020A7068, the
- * empty string every assert of "box_savedata.c" passes.  So the seam is
- * between 0x02007428 and 0x02007454 and the two halves use different
- * assertion strings across it.
- *
- * The box functions take the GameData object: its first word is the
- * SaveControl pointer (BOX_SAVEDATA_GetHeader reads it).
- *
- * Details of the bytes:
- *
- *  - BOX_SAVEDATA_InitHeader seeds the 24 wallpaper bytes with a counter that wraps at
- *    sixteen, and the reset is `adds r4, r1, #0` off a register holding zero
- *    rather than a `movs`.  The counter is not a `u8`: a byte variable would
- *    carry a `lsls #24` / `lsrs #24` pair at the increment and there is none,
- *    so it is an unsigned `int` stored through a `u8` array.  The counter has
- *    to be cleared in the `for` initialiser alongside the index.
- *  - BOX_SAVEDATA_AddPokemonToBox copies a whole 0x88 byte Pokemon with an inline `ldm`/`stm`
- *    loop of seventeen iterations
- *    (docs/idioms/big-struct-assignment-is-an-ldm-stm-loop.md); the struct
- *    has to be four-aligned, because a byte-aligned declaration turns the
- *    same assignment into a 0x88 iteration `ldrb`/`strb` loop.
- *  - BOX_SAVEDATA_AddPokemon walks the boxes from the current one and stops when it
- *    comes back to it, so the loop is a `do`/`while` with no guard, and the
- *    box count it reads on the way round is still live after the loop: the
- *    `cmp r1, #0x18` that follows compares the last value read inside it.
- *    Its declaration order is load bearing for the same reason: with the
- *    header pointer declared first it lands in r4 and the box index in r5,
- *    and the original has them the other way round.
- *  - the statement that bumps the box count by eight re-reads the field even
- *    though the value is in r1.  Only the compound form does that; see
- *    docs/idioms/compound-assignment-rereads-the-field-plain-assignment-reuses-the-cached-load.md.
- */
-void BOX_SAVEDATA_Init(struct BoxSaveHeader *header)
-{
-    BOX_SAVEDATA_InitHeader(header);
-}
-
-u32 BOX_SAVEDATA_GetSize(void)
-{
-    return sizeof(struct BoxSaveHeader);
-}
-
-
-/* Empty the box block: wallpapers 0..15 repeating, default box names from the message archive. */
-void BOX_SAVEDATA_InitHeader(struct BoxSaveHeader *header)
-{
-    struct MsgData *boxNames;
-    u32 box;
-    u32 wallpaper;
-
-    for (box = 0, wallpaper = 0; box < MAX_BOXES; box++) {
-        header->wallpaper[box] = wallpaper;
-        wallpaper++;
-        if (wallpaper >= 0x10) {
-            wallpaper = 0;
-        }
-    }
-    header->flags = 0;
-    boxNames = MSGDATA_CreateFromArchive(0, 2, 9, 1);
-    if (boxNames != 0) {
-        for (box = 0; box < MAX_BOXES; box++) {
-            MSGDATA_ReadUnits(boxNames, box + 6, header->names[box].chars, 0x14);
-        }
-        MSGDATA_Delete(boxNames);
-    }
-    header->currentBox = 0;
-    header->usableBoxCount = 8;
-}
-
-struct BoxSaveHeader *BOX_SAVEDATA_GetHeader(struct GameData *gameData)
-{
-    return SAVE_CONTROL_GetBlock(gameData->saveControl, 0);
-}
-
-/* Put a Pokemon in the first free slot, starting at the current box; unlock 8 more boxes when full. */
-int BOX_SAVEDATA_AddPokemon(struct GameData *gameData, const struct BoxPokemon *mon)
-{
-    u32 box;
-    struct BoxSaveHeader *header;
-    u8 usableBoxCount;
-
-    header = BOX_SAVEDATA_GetHeader(gameData);
-    box = header->currentBox;
-
-    do {
-        if (BOX_SAVEDATA_AddPokemonToBox(gameData, box, mon) != 0) {
-            return 1;
-        }
-        box++;
-        usableBoxCount = header->usableBoxCount;
-        if (box >= usableBoxCount) {
-            box = 0;
-        }
-    } while (box != header->currentBox);
-    if (usableBoxCount != MAX_BOXES) {
-        header->usableBoxCount += BOX_EXPAND_STEP;
-        BOX_SAVEDATA_AddPokemonToBox(gameData, usableBoxCount, mon);
-        return 1;
-    }
-    return 0;
-}
-
-/* Put a Pokemon in the first free slot of one box (BOX_CURRENT for the current box). */
-int BOX_SAVEDATA_AddPokemonToBox(struct GameData *gameData, u32 box, const struct BoxPokemon *mon)
-{
-    struct BoxSaveHeader *header = BOX_SAVEDATA_GetHeader(gameData);
-    u32 slot;
-
-    if (box == BOX_CURRENT) {
-        box = header->currentBox;
-    } else if (box >= header->usableBoxCount) {
-        SAVEDATA_PanicFail(_BoxEmptyString, 0, _BoxEmptyString);
-    }
-    for (slot = 0; slot < BOX_CAPACITY; slot++) {
-        struct BoxPokemon *boxMons = BOX_SAVEDATA_GetBoxPokemon(gameData, box);
-
-        if (POKE_TOOL_GetBoxValue(&boxMons[slot], MON_DATA_SPECIES, 0) == 0) {
-            boxMons[slot] = *mon;
-            POKE_TOOL_RecoverBoxAllPP(&boxMons[slot]);
-            return 1;
-        }
-    }
-    return 0;
-}
-
-
-/*
- * Writing one box slot and swapping two of them.  Both reach the slot array
- * through BOX_SAVEDATA_GetBoxPokemon and copy a whole 0x88 byte Pokemon with the inline
- * eight byte ldm/stm loop (0x11 iterations of two words).
- *
- * BOX_SAVEDATA_SetPokemon bounds the box index against the header byte at 0x3DD rather
- * than against the constant 0x18 the rest of the file uses, and that byte is
- * past every Thumb immediate, so it arrives as a pool word and a register
- * offset ldrb.  The failure arm passes 0x020A7068 twice to SAVEDATA_PanicFail,
- * the same empty string and the same three argument assert shape as
- * BOX_SAVEDATA_CountFreeSlotsInBox.
- *
- * BOX_SAVEDATA_SwapPokemon is the three assignment swap through a 0x88 byte stack
- * temporary, and its fifth argument arrives on the stack: `ldr r1, [sp,
- * #0xa0]` is 0x88 of locals plus the six saved registers, not a local.
- */
-int BOX_SAVEDATA_SetPokemon(struct GameData *gameData, u32 box, u32 slot, const struct BoxPokemon *mon)
-{
-    struct BoxSaveHeader *header = BOX_SAVEDATA_GetHeader(gameData);
-
-    if (box == BOX_CURRENT) {
-        box = header->currentBox;
-    }
-    if (box < header->usableBoxCount && slot < BOX_CAPACITY) {
-        struct BoxPokemon *boxMons = BOX_SAVEDATA_GetBoxPokemon(gameData, box);
-
-        boxMons[slot] = *mon;
-        POKE_TOOL_RecoverBoxAllPP(&boxMons[slot]);
-        return 1;
-    }
-    SAVEDATA_PanicFail(_BoxEmptyString, 0, _BoxEmptyString);
-    return 0;
-}
-
-void BOX_SAVEDATA_SwapPokemon(struct GameData *gameData, u32 box1, u32 slot1, u32 box2, u32 slot2)
-{
-    struct BoxPokemon temp;
-    struct BoxPokemon *boxMons1 = BOX_SAVEDATA_GetBoxPokemon(gameData, box1);
-    struct BoxPokemon *boxMons2 = BOX_SAVEDATA_GetBoxPokemon(gameData, box2);
-
-    temp = boxMons1[slot1];
-    boxMons1[slot1] = boxMons2[slot2];
-    boxMons2[slot2] = temp;
-}
-
-
-/*
- * The box accessors: BOX_SAVEDATA_GetHeader turns the GameData into the 0x3DE byte box
- * header, and BOX_SAVEDATA_GetBoxPokemon turns a box index into that box's array of thirty
- * 0x88 byte Pokemon.
- *
- * The header's usableBoxCount sits past every Thumb immediate, so it arrives
- * as a pool word and a register offset `ldrb`, and BOX_SAVEDATA_UnlockBoxes loads that
- * same pool word twice, once for the read-modify-write and once for the value
- * it returns.  The slot index is scaled by 0x88, which is not a power of two,
- * so it is a real `muls` with the constant materialised by `movs r1, #0x88`.
- */
-void BOX_SAVEDATA_ClearPokemon(struct GameData *gameData, u32 box, u32 slot)
-{
-    struct BoxSaveHeader *header = BOX_SAVEDATA_GetHeader(gameData);
-
-    if (box == BOX_CURRENT) {
-        box = header->currentBox;
-    }
-    if (slot < BOX_CAPACITY && box < MAX_BOXES) {
-        POKE_TOOL_ClearBoxParam(&BOX_SAVEDATA_GetBoxPokemon(gameData, box)[slot]);
-    }
-}
-
-
-u32 BOX_SAVEDATA_GetCurrentBox(struct GameData *gameData)
-{
-    return BOX_SAVEDATA_GetHeader(gameData)->currentBox;
-}
-
-
-u8 BOX_SAVEDATA_GetUsableBoxCount(struct GameData *gameData)
-{
-    return BOX_SAVEDATA_GetHeader(gameData)->usableBoxCount;
-}
-
-
-/* Unlock 8 more boxes unless all are usable; returns the new count. */
-u8 BOX_SAVEDATA_UnlockBoxes(struct GameData *gameData)
-{
-    struct BoxSaveHeader *header = BOX_SAVEDATA_GetHeader(gameData);
-
-    if (header->usableBoxCount != MAX_BOXES) {
-        header->usableBoxCount += BOX_EXPAND_STEP;
-    }
-    return header->usableBoxCount;
-}
-
-
-/*
- * Given a box and a slot by reference, find the next free slot at or after
- * it, wrapping round the usable boxes, and write the answer back through the
- * two pointers; when every usable box is full, unlock 8 more boxes and answer
- * with the first slot of the first new box.  The field id MON_DATA_EXISTS
- * asked of an entry is the "is this entry empty" test, the same call the
- * counting functions use.
- *
- * Three things the shape says.  The box and slot are read out of the two
- * pointers once, before the outer loop, and are carried in registers: the
- * back edge lands on the BOX_SAVEDATA_GetBoxPokemon call and not on the loads, so a source
- * that re-read `*pBox` each time round would be a different function.  The
- * wrap comparison is signed (`blt`), so the index is an int even though the
- * bound is the unsigned byte in the header.  And that byte is loaded once for
- * the whole tail: the compiler keeps it live across the loop exit and uses
- * the same register for the `cmp #0x18` and for the value written back, so
- * only the increment reloads it.
- *
- * The four parameters and the header pointer are all spilled to the stack at
- * sp+0..sp+0xC.  That is register pressure with r4..r7 carrying the box, the
- * slot, the box array and the constant 0x88, not five pointers in the source.
- */
-int BOX_SAVEDATA_FindFreeSlot(struct GameData *gameData, int *pBox, int *pSlot)
-{
-    struct BoxSaveHeader *header = BOX_SAVEDATA_GetHeader(gameData);
-    int box;
-    int slot;
-
-    if (*pBox == -1) {
-        *pBox = header->currentBox;
-    }
-    box = *pBox;
-    slot = *pSlot;
-    while (1) {
-        struct BoxPokemon *boxMons = BOX_SAVEDATA_GetBoxPokemon(gameData, box);
-
-        while (slot < BOX_CAPACITY) {
-            if (POKE_TOOL_GetBoxValue(&boxMons[slot], MON_DATA_EXISTS, 0) == 0) {
-                *pBox = box;
-                *pSlot = slot;
-                return 1;
-            }
-            slot++;
-        }
-        box++;
-        if (box >= header->usableBoxCount) {
-            box = 0;
-        }
-        if (box == *pBox) {
-            break;
-        }
-        slot = 0;
-    }
-    if (header->usableBoxCount != MAX_BOXES) {
-        *pBox = header->usableBoxCount;
-        *pSlot = 0;
-        header->usableBoxCount += BOX_EXPAND_STEP;
-        return 1;
-    }
-    return 0;
-}
-
-
-/*
- * Free slots over all boxes and in one box, the current box setter, and the
- * getter and setter for the per box wallpaper byte.
- *
- * BOX_SAVEDATA_CountFreeSlots spills its outer loop counter to the stack even though it is
- * an ordinary `int`: r4 through r7 are already carrying the inner counter,
- * the running total, the box array and the constant 0x88, and the GameData
- * pointer is on the stack too.  The spill is register pressure.
- *
- * The failure path of BOX_SAVEDATA_CountFreeSlotsInBox passes the same pointer as the first and
- * the third argument of SAVEDATA_PanicFail, which is the shape of an assertion
- * helper taking a file name twice; see
- * docs/idioms/file-string-is-an-abs32-into-the-string-area.md.
- */
-int BOX_SAVEDATA_CountFreeSlots(struct GameData *gameData)
-{
-    int box;
-    int slot;
-    int freeCount = 0;
-
-    for (box = 0; box < MAX_BOXES; box++) {
-        struct BoxPokemon *boxMons = BOX_SAVEDATA_GetBoxPokemon(gameData, box);
-
-        for (slot = 0; slot < BOX_CAPACITY; slot++) {
-            if (POKE_TOOL_GetBoxValue(&boxMons[slot], MON_DATA_EXISTS, 0) == 0) {
-                freeCount++;
-            }
-        }
-    }
-    return freeCount;
-}
-
-
-int BOX_SAVEDATA_CountFreeSlotsInBox(struct GameData *gameData, u32 box)
-{
-    struct BoxSaveHeader *header = BOX_SAVEDATA_GetHeader(gameData);
-    struct BoxPokemon *boxMons;
-    int slot;
-    int freeCount;
-
-    if (box == BOX_CURRENT) {
-        box = header->currentBox;
-    }
-    if (box >= MAX_BOXES) {
-        SAVEDATA_PanicFail(_BoxEmptyString, 0, _BoxEmptyString);
-    }
-    freeCount = 0;
-    boxMons = BOX_SAVEDATA_GetBoxPokemon(gameData, box);
-    for (slot = 0; slot < BOX_CAPACITY; slot++) {
-        if (POKE_TOOL_GetBoxValue(&boxMons[slot], MON_DATA_EXISTS, 0) == 0) {
-            freeCount++;
-        }
-    }
-    return freeCount;
-}
-
-
-
-void BOX_SAVEDATA_SetCurrentBox(struct GameData *gameData, u32 box)
-{
-    struct BoxSaveHeader *header = BOX_SAVEDATA_GetHeader(gameData);
-
-    if (box < MAX_BOXES) {
-        header->currentBox = box;
-    }
-}
-
-
-
-u8 BOX_SAVEDATA_GetWallpaper(struct GameData *gameData, u32 box)
-{
-    struct BoxSaveHeader *header = BOX_SAVEDATA_GetHeader(gameData);
-
-    if (box < MAX_BOXES) {
-        return header->wallpaper[box];
-    }
-    return 0;
-}
-
-
-
-void BOX_SAVEDATA_SetWallpaper(struct GameData *gameData, u32 box, u8 wallpaper)
-{
-    struct BoxSaveHeader *header = BOX_SAVEDATA_GetHeader(gameData);
-
-    if (box == BOX_CURRENT) {
-        box = header->currentBox;
-    }
-    if (box < MAX_BOXES) {
-        header->wallpaper[box] = wallpaper;
-    }
-}
-
-
-/*
- * The box name getter and setter, two per box counts, and the whole-storage
- * totals that sum each of them over all 24 boxes.
- *
- * The range has to be exactly these six functions.  BOX_SAVEDATA_CountPokemonInBox is called
- * from one place in the image and BOX_SAVEDATA_CountNonEggPokemonInBox from one place, and those two
- * places are BOX_SAVEDATA_CountPokemon and BOX_SAVEDATA_CountNonEggPokemon respectively, so a file that
- * stopped before the summing loops would leave both counts with no witness
- * outside the compared range.  It cuts the other way too: the file cannot
- * start any later than 0x0200785C, because that is where the 0x28 byte name
- * array's first user is.
- *
- * The header's layout falls out of the shapes.  The name accessors do
- * `adds r2, r1, #4` and then multiply the box index by 0x28, so the names
- * are an array of 24 0x28 byte entries starting at offset 4 and ending at
- * 4 + 24 * 0x28 = 0x3C4, which is exactly where the per box byte starts.
- *
- * Two of the six needed their locals reordering before they matched, and the
- * evidence is only ever which register a value lands in.  BOX_SAVEDATA_CountNonEggPokemonInBox
- * declares its slot counter before the box array, the reverse of
- * BOX_SAVEDATA_CountPokemonInBox immediately above it.  The two summing loops initialise the
- * box index before the running total, which is why they are written
- * `for (box = 0, total = 0; ...)`: the order of the two `movs rN, #0` follows
- * the order of the initialisers.
- */
-void BOX_SAVEDATA_GetBoxName(struct GameData *gameData, u32 box, struct Strbuf *dest)
-{
-    struct BoxSaveHeader *header = BOX_SAVEDATA_GetHeader(gameData);
-
-    if (box == BOX_CURRENT) {
-        box = header->currentBox;
-    }
-    if (box < MAX_BOXES) {
-        STRBUF_SetString(dest, header->names[box].chars);
-        return;
-    }
-    SAVEDATA_PanicFail(_BoxEmptyString, 0, _BoxEmptyString);
-}
-
-
-void BOX_SAVEDATA_SetBoxName(struct GameData *gameData, u32 box, const struct Strbuf *name)
-{
-    struct BoxSaveHeader *header = BOX_SAVEDATA_GetHeader(gameData);
-
-    if (box == BOX_CURRENT) {
-        box = header->currentBox;
-    }
-    if (box < MAX_BOXES) {
-        STRBUF_ToChars(name, header->names[box].chars, 0x14);
-    }
-}
-
-
-/* Number of Pokemon in a box. */
-int BOX_SAVEDATA_CountPokemonInBox(struct GameData *gameData, u32 box)
-{
-    struct BoxSaveHeader *header = BOX_SAVEDATA_GetHeader(gameData);
-    struct BoxPokemon *boxMons;
-    int slot;
-    int count;
-
-    if (box == BOX_CURRENT) {
-        box = header->currentBox;
-    }
-    if (box < MAX_BOXES) {
-        count = 0;
-        boxMons = BOX_SAVEDATA_GetBoxPokemon(gameData, box);
-        for (slot = 0; slot < BOX_CAPACITY; slot++) {
-            if (POKE_TOOL_GetBoxValue(&boxMons[slot], MON_DATA_EXISTS, 0) != 0) {
-                count++;
-            }
-        }
-        return count;
-    }
-    SAVEDATA_PanicFail(_BoxEmptyString, 0, _BoxEmptyString);
-    return 0;
-}
-
-
-/* Number of Pokemon in a box that are not eggs. */
-int BOX_SAVEDATA_CountNonEggPokemonInBox(struct GameData *gameData, u32 box)
-{
-    struct BoxSaveHeader *header = BOX_SAVEDATA_GetHeader(gameData);
-    int slot;
-    struct BoxPokemon *boxMons;
-    int count;
-
-    if (box == BOX_CURRENT) {
-        box = header->currentBox;
-    }
-    if (box < MAX_BOXES) {
-        count = 0;
-        boxMons = BOX_SAVEDATA_GetBoxPokemon(gameData, box);
-        for (slot = 0; slot < BOX_CAPACITY; slot++) {
-            if (POKE_TOOL_GetBoxValue(&boxMons[slot], MON_DATA_EXISTS, 0) != 0 &&
-                POKE_TOOL_GetBoxValue(&boxMons[slot], MON_DATA_IS_EGG, 0) == 0) {
-                count++;
-            }
-        }
-        return count;
-    }
-    SAVEDATA_PanicFail(_BoxEmptyString, 0, _BoxEmptyString);
-    return 0;
-}
-
-
-/* Pokemon in all boxes. */
-int BOX_SAVEDATA_CountPokemon(struct GameData *gameData)
-{
-    int total;
-    u32 box;
-
-    for (box = 0, total = 0; box < MAX_BOXES; box++) {
-        total += BOX_SAVEDATA_CountPokemonInBox(gameData, box);
-    }
-    return total;
-}
-
-
-/* Pokemon in all boxes that are not eggs. */
-int BOX_SAVEDATA_CountNonEggPokemon(struct GameData *gameData)
-{
-    int total;
-    u32 box;
-
-    for (box = 0, total = 0; box < MAX_BOXES; box++) {
-        total += BOX_SAVEDATA_CountNonEggPokemonInBox(gameData, box);
-    }
-    return total;
-}
-
-
-/*
- * The checked slot accessor in its two forms, the flag byte in the header,
- * the size of one box page, and the four byte allocation the box code hangs
- * its per-save state on.
- *
- * The file identity is in the image.  BOX_SAVEDATA_CreateWordHolder passes 0x020A706C to the
- * debug allocator at 0x02030734, and the bytes at 0x020A706C spell
- * "box_savedata.c".  PERAPVOICE_Create, further down the same run, passes
- * 0x020A707C instead, and those bytes spell "perapvoice.c", so a translation
- * unit boundary falls between the two.  See "The string class" in
- * docs/MATCHING.md for why 0x020A706C is carried.
- *
- * BOX_SAVEDATA_GetBoxPageSize carries no label because it saves nothing: `movs r0, #0xFF`,
- * `lsls r0, r0, #4`, `bx lr`.  0xFF0 is 30 entries of 0x88 bytes, which is
- * one box, and it never reaches a literal pool because a byte shifted left
- * costs two halfwords against a pool word plus its `ldr`.
- */
-int BOX_SAVEDATA_GetPokemonValue(struct GameData *gameData, u32 box, u32 slot, int field, int arg)
-{
-    struct BoxSaveHeader *header = BOX_SAVEDATA_GetHeader(gameData);
-
-    if (box >= MAX_BOXES && box != BOX_CURRENT) {
-        SAVEDATA_PanicFail(_BoxEmptyString, 0, _BoxEmptyString);
-    }
-    if (slot >= BOX_CAPACITY) {
-        SAVEDATA_PanicFail(_BoxEmptyString, 0, _BoxEmptyString);
-    }
-    if (box == BOX_CURRENT) {
-        box = header->currentBox;
-    }
-    return POKE_TOOL_GetBoxValue(&BOX_SAVEDATA_GetBoxPokemon(gameData, box)[slot], field, arg);
-}
-
-
-struct BoxPokemon *BOX_SAVEDATA_GetPokemon(struct GameData *gameData, u32 box, u32 slot)
-{
-    struct BoxSaveHeader *header = BOX_SAVEDATA_GetHeader(gameData);
-
-    if (box >= MAX_BOXES && box != BOX_CURRENT) {
-        SAVEDATA_PanicFail(_BoxEmptyString, 0, _BoxEmptyString);
-    }
-    if (slot >= BOX_CAPACITY) {
-        SAVEDATA_PanicFail(_BoxEmptyString, 0, _BoxEmptyString);
-    }
-    if (box == BOX_CURRENT) {
-        box = header->currentBox;
-    }
-    return &BOX_SAVEDATA_GetBoxPokemon(gameData, box)[slot];
-}
-
-
-void BOX_SAVEDATA_SetFlags(struct GameData *gameData, u32 bits)
-{
-    struct BoxSaveHeader *header = BOX_SAVEDATA_GetHeader(gameData);
-
-    header->flags |= (u8)bits;
-}
-
-
-int BOX_SAVEDATA_CheckFlags(struct GameData *gameData, u32 bits)
-{
-    struct BoxSaveHeader *header = BOX_SAVEDATA_GetHeader(gameData);
-
-    if (header->flags & bits) {
-        return 1;
-    }
-    return 0;
-}
-
-
-/* Size of one box page. */
-u32 BOX_SAVEDATA_GetBoxPageSize(void)
-{
-    return BOX_CAPACITY * sizeof(struct BoxPokemon);
-}
-
-
-/* Allocate the four byte word holder (line 0x3B9 of box_savedata.c) and store `value` in it. */
-u32 *BOX_SAVEDATA_CreateWordHolder(u32 heapId, u32 value)
-{
-    u32 *word = GFL_HEAP_Alloc(heapId, 4, 0, _BoxSavedataFileName, 0x3B9);
-
-    *word = value;
-    return word;
-}
-
-
-/*
- * The two block lookups everything above goes through, the page clear, and a
- * constructor.  BOX_SAVEDATA_GetBoxDataSize and PERAPVOICE_GetSize return the two object sizes,
- * 0xFF0 and 0x3EC, each as `movs` plus `lsls` rather than a pool word;
- * BOX_SAVEDATA_GetBoxPokemon is a tail call through a pool word, and it is the function
- * every accessor above reaches the box array with.
- */
-void BOX_SAVEDATA_Delete(void *memory)
-{
-    GFL_HEAP_Free(memory);
-}
-
-
-/* Clear every Pokemon of a box page. */
-void BOX_SAVEDATA_ClearBoxPage(struct BoxPokemon *boxMons)
-{
-    u32 slot;
-
-    for (slot = 0; slot < BOX_CAPACITY; slot++) {
-        POKE_TOOL_ClearBoxParam(&boxMons[slot]);
-    }
-}
-
-u32 BOX_SAVEDATA_GetBoxDataSize(void)
-{
-    return BOX_CAPACITY * sizeof(struct BoxPokemon);
-}
-
-/* The Pokemon of one box: block box + 1 (block 0 is the header). */
-struct BoxPokemon *BOX_SAVEDATA_GetBoxPokemon(struct GameData *gameData, u32 box)
-{
-    return SAVE_CONTROL_GetBlock(gameData->saveControl, box + 1);
-}
-
-
-/*
- * "perapvoice.c" starts here (Perap is the Japanese name of Chatot).
- * PERAPVOICE_Create passes 0x020A707C to the debug allocator with the line number
- * 0x57, and the bytes at 0x020A707C spell "perapvoice.c".  The string is
- * named by one pool word in the whole image and it is this function's own,
- * so the `literal` class discards its only witness; the `string` class
- * closes it, because "box_savedata.c" ends with its NUL at 0x020A707A and
- * one byte of padding puts the next string at 0x020A707C by construction.
- *
- * PERAPVOICE_GetSize returns the block size 0x3EC, which is what PERAPVOICE_Init
- * clears and what PERAPVOICE_Create allocates.  The object is one `u32` flag
- * followed by 1000 bytes, and PERAPVOICE_IsRecorded reads the flag that PERAPVOICE_ClearRecorded
- * and PERAPVOICE_SetRecorded write.  Four of the functions carry no label, because
- * none of them saves lr.
- */
-u32 PERAPVOICE_GetSize(void)
-{
-    return sizeof(struct PerapVoice);
-}
-
-void PERAPVOICE_Init(struct PerapVoice *voice)
-{
-    MIi_CpuClear32(0, voice, sizeof(struct PerapVoice));
-    voice->isRecorded = 0;
-}
-
-struct PerapVoice *PERAPVOICE_Create(u32 heapId)
-{
-    struct PerapVoice *voice = GFL_HEAP_Alloc(heapId, sizeof(struct PerapVoice), 1, _PerapVoiceFileName, 0x57);
-
-    PERAPVOICE_Init(voice);
-    return voice;
-}
-
-/* The recording block of the save. */
-struct PerapVoice *PERAPVOICE_GetFromSave(struct SaveControl *saveControl)
-{
-    return SAVE_CONTROL_GetBlock(saveControl, 0x24);
-}
-
-u32 PERAPVOICE_IsRecorded(struct PerapVoice *voice)
-{
-    return voice->isRecorded;
-}
-
-
-/*
- * The payload is 1000 bytes holding two signed four bit samples each.
- * PERAPVOICE_Unpack expands them to 8000 bytes, four copies of each sample in the
- * high nibble of a byte, and zero fills to 0x1FF4; PERAPVOICE_Pack is the exact
- * inverse, 0x1F40 bytes in and 1000 out.  The bias of eight in both
- * directions is what makes the four bit field signed.
- *
- *  - the `lsls #28` / `asrs #24` pair at the end of each expansion is
- *    `(s8)(v << 4)` and not `v << 4`: the truncation is materialised because
- *    the value is assigned to an `s8` local before the inner store loop, and
- *    writing the shift straight into the store gives `lsls #4` alone.
- *  - PERAPVOICE_Pack packs the two nibbles into one byte with a plain store
- *    followed by an `|=`, which is why the byte is stored, reloaded with
- *    `ldrb` and stored again.  Neither half is masked on the way in, so the
- *    source is two `u8` statements and not a bitfield.
- *  - PERAPVOICE_Unpack reloads `src[i]` for the second nibble rather than keeping
- *    it: source and destination are both `s8 *`, so the stores in between may
- *    alias and the compiler has to re-read.
- */
-void PERAPVOICE_ClearRecorded(struct PerapVoice *voice)
-{
-    voice->isRecorded = 0;
-}
-
-void PERAPVOICE_SetRecorded(struct PerapVoice *voice)
-{
-    voice->isRecorded = 1;
-}
-
-u8 *PERAPVOICE_GetSamples(struct PerapVoice *voice)
-{
-    return voice->samples;
-}
-
-/* Unpack the 4 bit samples to 8 bit PCM, each sample repeated four times. */
-void PERAPVOICE_Unpack(s8 *dest, const s8 *src)
-{
-    int srcIndex;
-    int repeat;
-    int destIndex;
-
-    destIndex = 0;
-    for (srcIndex = 0; srcIndex < PERAP_PACKED_BYTES; srcIndex++) {
-        s8 lowSample = (s8)((s8)((u8)(src[srcIndex] & 0xF) - 8) << 4);
-
-        for (repeat = 0; repeat < 4; repeat++) {
-            dest[destIndex + repeat] = lowSample;
-        }
-        {
-            s8 highSample = (s8)((s8)((u8)(src[srcIndex] >> 4) - 8) << 4);
-
-            for (repeat = 4; repeat < 8; repeat++) {
-                dest[destIndex + repeat] = highSample;
-            }
-        }
-        destIndex += 8;
-    }
-    for (srcIndex = PERAP_UNPACKED_BYTES; srcIndex < PERAP_UNPACKED_SIZE; srcIndex++) {
-        dest[srcIndex] = 0;
-    }
-}
-
-/* Pack 8 bit PCM into the 4 bit samples (inverse of the above) and mark the voice recorded. */
-void PERAPVOICE_Pack(struct PerapVoice *voice, const s8 *src)
-{
-    int srcIndex;
-    int destIndex;
-
-    voice->isRecorded = 1;
-    destIndex = 0;
-    for (srcIndex = 0; srcIndex < PERAP_UNPACKED_BYTES; srcIndex += 8) {
-        u8 lowNibble = (u8)((s8)(src[srcIndex] / 16) + 8);
-
-        voice->samples[destIndex] = lowNibble;
-        {
-            u8 highNibble = (u8)((s8)(src[srcIndex + 4] / 16) + 8);
-
-            voice->samples[destIndex] |= (u8)(highNibble << 4);
-        }
-        destIndex++;
-    }
-}
-
-void PERAPVOICE_Copy(struct PerapVoice *dest, const struct PerapVoice *src)
-{
-    MI_CpuCopy8(src, dest, sizeof(struct PerapVoice));
-}
-
-/* Drop the recording when the party has no Chatot. */
-void PERAPVOICE_ClearIfNoChatot(struct PerapVoice *voice, struct PokeParty *party)
-{
-    int index;
-    int count = POKEPARTY_GetCount(party);
-
-    for (index = 0; index < count; index++) {
-        if (POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(party, index), MON_DATA_SPECIES, 0) == SPECIES_CHATOT) {
-            return;
-        }
-    }
-    PERAPVOICE_ClearRecorded(voice);
-}
-
-/* Classify a recording by a check value of three payload bytes: 1 below 100, 2 from 150, else 0. */
-u32 PERAPVOICE_GetVoiceKind(struct PerapVoice *voice)
-{
-    if (PERAPVOICE_IsRecorded(voice) == 1) {
-        u8 checkValue = (u8)(voice->samples[0x64] ^ voice->samples[0x1F4] ^ voice->samples[0x2BC]);
-
-        if (checkValue < 100) {
-            return 1;
-        }
-        if (checkValue >= 150 && checkValue < 256) {
-            return 2;
-        }
-    }
-    return 0;
-}
-
-
-/*
- * "myitem_savedata.c" starts here: the bag, a 0x9C0 byte block holding five
- * pockets of `{u16 itemId; u16 quantity;}` slots, and the add, take, count
- * and sort routines over them.  The file boundary at the low end is the block
- * file opening idiom: MYITEM_SAVEDATA_GetSize returns 0x9C0 and MYITEM_SAVEDATA_Init fills
- * exactly 0x9C0 bytes with zero, and the function before it belongs to
- * "perapvoice.c".  (The bag cursor allocated by MYITEM_SAVEDATA_CreateBagCursor passes
- * 0x020A708C, "myitem_savedata.c", so the cursor code is in this file too.)
- *
- * The pockets are named by the two switches, MYITEM_SAVEDATA_GetPocket and MYITEM_SAVEDATA_GetSlot,
- * which agree entry for entry:
- *
- *   pocket 0 items      offset 0x000   0x136 slots
- *   pocket 4 key items  offset 0x4D8   0x053 slots
- *   pocket 2 TM/HM      offset 0x624   0x06D slots (stack of 1)
- *   pocket 1 medicine   offset 0x7D8   0x030 slots
- *   pocket 3 berries    offset 0x898   0x040 slots
- *
- * and 0x898 + 0x40 * 4 is 0x998, which is the whole block bar 0x28 trailing
- * bytes.  The case bodies of both switches are emitted in the order 4, 0, 3,
- * 1, 2, and per docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md
- * that order is the order the source wrote the case labels in, so it is kept
- * here.  Neither switch has a `default:` that sets the count, and
- * MYITEM_SAVEDATA_GetSlot reads an uninitialised count on an unknown pocket: the
- * dispatch chain branches past the merged tail rather than into it, which is
- * the reading in docs/idioms/switch-arms-tail-merge.md.
- *
- *  - MYITEM_SAVEDATA_FindAddSlotForItem, MYITEM_SAVEDATA_AddItem and MYITEM_SAVEDATA_RemoveItem pass the address of a local
- *    pointer to MYITEM_SAVEDATA_GetPocketOfItem after having already used that pointer for
- *    something else, and the compiler gives both uses the same stack slot.
- *    Writing them as two variables produces two slots and moves every offset
- *    in the frame, so the source really does reuse the one variable.
- *  - the loop bound in MYITEM_SAVEDATA_CompactPocket and its two siblings is assigned after
- *    the induction variable, not before: `for (i = 0, lim = n - 1; ...)`.
- *    Written the other way round the compiler has no zero in hand at the
- *    point it needs one and materialises it from a literal pool, which costs
- *    four bytes of pool the original does not have.
- *  - MYITEM_SAVEDATA_SortPocketByItemOrder compares two calls to FILE_UTIL_GetId.  The first result is
- *    spilled across the second call and the comparison comes out `cmp r1, r0`
- *    with the spilled operand first, which is the same tell
- *    docs/idioms/cmp-operand-order-names-the-temporary.md records.
- *  - MYITEM_SAVEDATA_FindRemoveSlot returns `&slots[i]` from a second `return` statement rather
- *    than through a merged local.  MYITEM_SAVEDATA_FindAddSlot does use the merged form, and
- *    the difference is visible: the merged form reaches the shared epilogue
- *    with an extra `adds r0, rN, #0`.
- */
-u32 MYITEM_SAVEDATA_GetSize(void)
-{
-    return sizeof(struct MyItem);
-}
-
-
-void MYITEM_SAVEDATA_Init(struct MyItem *bag)
-{
-    MI_CpuFill8(bag, 0, sizeof(struct MyItem));
-}
-
-
-/* Copy a pocket to (toBuffer) or from the buffer. */
-void MYITEM_SAVEDATA_CopyPocket(struct MyItem *bag, void *buffer, u32 pocket, int toBuffer)
-{
-    struct BagSlot *slots;
-    u32 count;
-
-    MYITEM_SAVEDATA_GetPocket(bag, pocket, &slots, &count);
-    if (toBuffer) {
-        MI_CpuCopy8(slots, buffer, count * sizeof(struct BagSlot));
-    } else {
-        MI_CpuCopy8(buffer, slots, count * sizeof(struct BagSlot));
-    }
-}
-
-
-/* Array and size of a pocket. */
-u32 MYITEM_SAVEDATA_GetPocket(struct MyItem *bag, u32 pocket, struct BagSlot **slots, u32 *count)
-{
-    switch (pocket) {
-    case BAG_POCKET_KEY_ITEMS:
-        *slots = bag->keyItems;
-        *count = BAG_KEY_ITEMS_COUNT;
-        break;
-    case BAG_POCKET_ITEMS:
-        *slots = bag->items;
-        *count = BAG_ITEMS_COUNT;
-        break;
-    case BAG_POCKET_BERRIES:
-        *slots = bag->berries;
-        *count = BAG_BERRIES_COUNT;
-        break;
-    case BAG_POCKET_MEDICINE:
-        *slots = bag->medicine;
-        *count = BAG_MEDICINE_COUNT;
-        break;
-    case BAG_POCKET_TMHM:
-        *slots = bag->tmhm;
-        *count = BAG_TMHM_COUNT;
-        break;
-    default:
-        *slots = NULL;
-        break;
-    }
-    return pocket;
-}
-
-
-/* Pocket of an item (item parameter 5), with its array and size; returns the pocket. */
-u32 MYITEM_SAVEDATA_GetPocketOfItem(struct MyItem *bag, u32 itemId, struct BagSlot **slots, u32 *count, u16 heapId)
-{
-    u32 pocket = FILE_UTIL_Get_0FE4(itemId, 5, heapId);
-
-    MYITEM_SAVEDATA_GetPocket(bag, pocket, slots, count);
-    return pocket;
-}
-
-
-/* Slot to add `quantity` of an item to: its own slot if the total stays within the limit, else the first empty one. */
-struct BagSlot *MYITEM_SAVEDATA_FindAddSlot(struct BagSlot *slots, u32 count, u16 itemId, u16 quantity, u16 maxQuantity)
-{
-    u32 index;
-    u32 freeIndex = -1;
-
-    for (index = 0; index < count; index++) {
-        if (itemId == slots[index].itemId) {
-            struct BagSlot *slot = &slots[index];
-
-            if (quantity + slot->quantity > maxQuantity) {
-                slot = NULL;
-            }
-            return slot;
-        }
-        if (freeIndex == -1 && slots[index].itemId == 0 && slots[index].quantity == 0) {
-            freeIndex = index;
-        }
-    }
-    if (freeIndex == -1) {
-        return NULL;
-    }
-    return &slots[freeIndex];
-}
-
-/* Slot that can take the item; TM/HM stack to 1, the other pockets to 999. */
-struct BagSlot *MYITEM_SAVEDATA_FindAddSlotForItem(struct MyItem *bag, u16 itemId, u16 quantity, u16 heapId)
-{
-    struct BagSlot *slots;
-    u32 count;
-
-    if (MYITEM_SAVEDATA_GetPocketOfItem(bag, itemId, &slots, &count, heapId) == BAG_POCKET_TMHM) {
-        return MYITEM_SAVEDATA_FindAddSlot(slots, count, itemId, quantity, 1);
-    }
-    return MYITEM_SAVEDATA_FindAddSlot(slots, count, itemId, quantity, BAG_STACK_MAX);
-}
-
-u32 MYITEM_SAVEDATA_CanAddItem(struct MyItem *bag, u16 itemId, u16 quantity, u16 heapId)
-{
-    if (MYITEM_SAVEDATA_FindAddSlotForItem(bag, itemId, quantity, heapId) != NULL) {
-        return 1;
-    }
-    return 0;
-}
-
-/* Add items; the pocket is then re-sorted (berries by id, TM/HM by item order) or the new item moved to the front. */
-u32 MYITEM_SAVEDATA_AddItem(struct MyItem *bag, u16 itemId, u16 quantity, u16 heapId)
-{
-    struct BagSlot *slot; /* reused as the pocket array below: one stack slot in the original */
-    u32 count;
-    struct BagSlot *usedSlots;
-    u32 usedCount;
-    u16 oldQuantity;
-    u32 pocket;
-
-    slot = MYITEM_SAVEDATA_FindAddSlotForItem(bag, itemId, quantity, heapId);
-    if (slot == NULL) {
-        return 0;
-    }
-    oldQuantity = slot->quantity;
-    slot->itemId = itemId;
-    slot->quantity = (u16)(slot->quantity + quantity);
-    pocket = MYITEM_SAVEDATA_GetPocketOfItem(bag, itemId, &slot, &count, heapId);
-    if (pocket == BAG_POCKET_BERRIES) {
-        MYITEM_SAVEDATA_SortPocketById(slot, count);
-    } else if (pocket == BAG_POCKET_TMHM) {
-        MYITEM_SAVEDATA_SortPocketByItemOrder(slot, count);
-    } else if (oldQuantity == 0) {
-        MYITEM_SAVEDATA_GetPocket(bag, pocket, &usedSlots, &usedCount);
-        usedCount = MYITEM_SAVEDATA_CountUsedSlots(usedSlots, usedCount);
-        MYITEM_SAVEDATA_MoveLastUsedToFront(usedSlots, usedCount);
-    }
-    return 1;
-}
-
-/* Slot of an item holding at least `quantity`, else NULL. */
-struct BagSlot *MYITEM_SAVEDATA_FindRemoveSlot(struct BagSlot *slots, u32 count, u16 itemId, u16 quantity)
-{
-    u32 index;
-
-    for (index = 0; index < count; index++) {
-        if (itemId == slots[index].itemId) {
-            if (slots[index].quantity < quantity) {
-                return NULL;
-            }
-            return &slots[index];
-        }
-    }
-    return NULL;
-}
-
-struct BagSlot *MYITEM_SAVEDATA_FindItemSlot(struct MyItem *bag, u16 itemId, u16 quantity, u16 heapId)
-{
-    struct BagSlot *slots;
-    u32 count;
-
-    MYITEM_SAVEDATA_GetPocketOfItem(bag, itemId, &slots, &count, heapId);
-    return MYITEM_SAVEDATA_FindRemoveSlot(slots, count, itemId, quantity);
-}
-
-/* Remove items and compact the pocket. */
-u32 MYITEM_SAVEDATA_RemoveItem(struct MyItem *bag, u16 itemId, u16 quantity, u16 heapId)
-{
-    struct BagSlot *slot; /* reused as the pocket array below */
-    u32 count;
-
-    slot = MYITEM_SAVEDATA_FindItemSlot(bag, itemId, quantity, heapId);
-    if (slot == NULL) {
-        return 0;
-    }
-    slot->quantity = (u16)(slot->quantity - quantity);
-    if (slot->quantity == 0) {
-        slot->itemId = 0;
-    }
-    MYITEM_SAVEDATA_GetPocketOfItem(bag, itemId, &slot, &count, heapId);
-    MYITEM_SAVEDATA_CompactPocket(slot, count);
-    return 1;
-}
-
-u32 MYITEM_SAVEDATA_HasItem(struct MyItem *bag, u16 itemId, u16 quantity, u16 heapId)
-{
-    if (MYITEM_SAVEDATA_FindItemSlot(bag, itemId, quantity, heapId) != NULL) {
-        return 1;
-    }
-    return 0;
-}
-
-/* Number of slots in use. */
-u32 MYITEM_SAVEDATA_CountUsedSlots(const struct BagSlot *slots, u32 count)
-{
-    u32 used = 0;
-    u32 index;
-
-    if (slots != NULL) {
-        for (index = 0; index < count; index++) {
-            if (slots[index].itemId != 0) {
-                used++;
-            }
-        }
-    }
-    return used;
-}
-
-u32 MYITEM_SAVEDATA_CountUsedSlotsInPocket(struct MyItem *bag, u32 pocket)
-{
-    struct BagSlot *slots;
-    u32 count;
-
-    MYITEM_SAVEDATA_GetPocket(bag, pocket, &slots, &count);
-    return MYITEM_SAVEDATA_CountUsedSlots(slots, count);
-}
-
-/* Quantity of an item held. */
-u32 MYITEM_SAVEDATA_GetItemQuantity(struct MyItem *bag, u16 itemId, u16 heapId)
-{
-    struct BagSlot *slot = MYITEM_SAVEDATA_FindItemSlot(bag, itemId, 1, heapId);
-
-    if (slot == NULL) {
-        return 0;
-    }
-    return slot->quantity;
-}
-
-void MYITEM_SAVEDATA_SwapSlots(struct BagSlot *a, struct BagSlot *b)
-{
-    struct BagSlot temp;
-
-    temp = *a;
-    *a = *b;
-    *b = temp;
-}
-
-/* Move the last used slot to the front, shifting the slots before it up by one. */
-void MYITEM_SAVEDATA_MoveLastUsedToFront(struct BagSlot *slots, u32 count)
-{
-    struct BagSlot temp;
-    int index;
-
-    temp.itemId = 0;
-    if (count <= 1) {
-        return;
-    }
-    for (index = (int)count - 1; index >= 0; index--) {
-        if (temp.itemId == 0) {
-            MI_CpuCopy8(&slots[index], &temp, sizeof(struct BagSlot));
-        } else {
-            MI_CpuCopy8(&slots[index], &slots[index + 1], sizeof(struct BagSlot));
-        }
-    }
-    MI_CpuCopy8(&temp, slots, sizeof(struct BagSlot));
-}
-
-/* Zero the quantity of every empty slot. */
-void MYITEM_SAVEDATA_ClearEmptyQuantities(struct BagSlot *slots, u32 count)
-{
-    u32 index;
-
-    for (index = 0; index < count; index++) {
-        if (slots[index].itemId == 0) {
-            slots[index].quantity = 0;
-        }
-    }
-}
-
-/* Move empty slots to the end, keeping the order of the others. */
-void MYITEM_SAVEDATA_CompactPocket(struct BagSlot *slots, u32 count)
-{
-    u32 lastIndex;
-    u32 i;
-    u32 j;
-
-    MYITEM_SAVEDATA_ClearEmptyQuantities(slots, count);
-    for (i = 0, lastIndex = count - 1; i < lastIndex; i++) {
-        for (j = i + 1; j < count; j++) {
-            if (slots[i].quantity == 0) {
-                MYITEM_SAVEDATA_SwapSlots(&slots[i], &slots[j]);
-            }
-        }
-    }
-}
-
-/* Sort a pocket by item id, empty slots last. */
-void MYITEM_SAVEDATA_SortPocketById(struct BagSlot *slots, u32 count)
-{
-    u32 lastIndex;
-    u32 i;
-    u32 j;
-
-    MYITEM_SAVEDATA_ClearEmptyQuantities(slots, count);
-    for (i = 0, lastIndex = count - 1; i < lastIndex; i++) {
-        for (j = i + 1; j < count; j++) {
-            if (slots[i].quantity == 0 ||
-                (slots[j].quantity != 0 && slots[i].itemId > slots[j].itemId)) {
-                MYITEM_SAVEDATA_SwapSlots(&slots[i], &slots[j]);
-            }
-        }
-    }
-}
-
-/* Sort a pocket by the item sort key (FILE_UTIL_GetId), empty slots last. */
-void MYITEM_SAVEDATA_SortPocketByItemOrder(struct BagSlot *slots, u32 count)
-{
-    u32 lastIndex;
-    u32 i;
-    u32 j;
-
-    MYITEM_SAVEDATA_ClearEmptyQuantities(slots, count);
-    for (i = 0, lastIndex = count - 1; i < lastIndex; i++) {
-        for (j = i + 1; j < count; j++) {
-            if (slots[i].quantity == 0 ||
-                (slots[j].quantity != 0 &&
-                 FILE_UTIL_GetId(slots[i].itemId) > FILE_UTIL_GetId(slots[j].itemId))) {
-                MYITEM_SAVEDATA_SwapSlots(&slots[i], &slots[j]);
-            }
-        }
-    }
-}
-
-/* Compact every pocket. */
-void MYITEM_SAVEDATA_CompactAllPockets(struct MyItem *bag)
-{
-    struct BagSlot *slots;
-    u32 count;
-
-    MYITEM_SAVEDATA_GetPocket(bag, BAG_POCKET_KEY_ITEMS, &slots, &count);
-    MYITEM_SAVEDATA_CompactPocket(slots, count);
-    MYITEM_SAVEDATA_GetPocket(bag, BAG_POCKET_ITEMS, &slots, &count);
-    MYITEM_SAVEDATA_CompactPocket(slots, count);
-    MYITEM_SAVEDATA_GetPocket(bag, BAG_POCKET_BERRIES, &slots, &count);
-    MYITEM_SAVEDATA_CompactPocket(slots, count);
-    MYITEM_SAVEDATA_GetPocket(bag, BAG_POCKET_MEDICINE, &slots, &count);
-    MYITEM_SAVEDATA_CompactPocket(slots, count);
-    MYITEM_SAVEDATA_GetPocket(bag, BAG_POCKET_TMHM, &slots, &count);
-    MYITEM_SAVEDATA_CompactPocket(slots, count);
-}
-
-/* Slot `index` of a pocket, NULL past its end. */
-struct BagSlot *MYITEM_SAVEDATA_GetSlot(struct MyItem *bag, u32 pocket, u32 index)
-{
-    u32 count;
-    struct BagSlot *slots;
-
-    switch (pocket) {
-    case BAG_POCKET_KEY_ITEMS:
-        slots = bag->keyItems;
-        count = BAG_KEY_ITEMS_COUNT;
-        break;
-    case BAG_POCKET_ITEMS:
-        slots = bag->items;
-        count = BAG_ITEMS_COUNT;
-        break;
-    case BAG_POCKET_BERRIES:
-        slots = bag->berries;
-        count = BAG_BERRIES_COUNT;
-        break;
-    case BAG_POCKET_MEDICINE:
-        slots = bag->medicine;
-        count = BAG_MEDICINE_COUNT;
-        break;
-    case BAG_POCKET_TMHM:
-        slots = bag->tmhm;
-        count = BAG_TMHM_COUNT;
-        break;
-    }
-    if (index >= count) {
-        return NULL;
-    }
-    return &slots[index];
-}
-
-/* Largest stack of an item: 1 for items that FILE_UTIL_Check1288 flags, else 999. */
-u32 MYITEM_SAVEDATA_GetMaxStack(u32 itemId)
-{
-    if (FILE_UTIL_Check1288(itemId) == 1) {
-        return 1;
-    }
-    return BAG_STACK_MAX;
-}
-
-
-/*
- * The bag cursor (0x2C bytes, line 0x342 of "myitem_savedata.c"): the last
- * position and scroll of each field bag pocket and each of the four battle
- * bag pockets, plus the last pocket and the last item used in battle.  Nine
- * of the ten functions carry no label, because only the constructor saves lr.
- *
- * Every one of the four array reads is an `ldrsh` with a register offset,
- * which per docs/idioms/ldrsh-register-offset-is-signedness.md is the only
- * evidence that those elements are signed; the writers use plain `strh` and
- * say nothing.
- *
- * The range stops short of 0x020082DC, a six byte tail call whose pool words
- * are both unattestable (no other branch or pool word in the image names
- * either address); it closes the day anything else names them.
- */
-struct BagCursor *MYITEM_SAVEDATA_CreateBagCursor(u32 heapId)
-{
-    return GFL_HEAP_Alloc(heapId, sizeof(struct BagCursor), 1, _MyItemSavedataFileName, 0x342);
-}
-
-
-void MYITEM_SAVEDATA_GetFieldPocketCursor(struct BagCursor *cursor, int pocket, s16 *scroll, s16 *position)
-{
-    *scroll = cursor->fieldPocketScroll[pocket];
-    *position = cursor->fieldPocketPosition[pocket];
-}
-
-u16 MYITEM_SAVEDATA_GetLastFieldPocket(const struct BagCursor *cursor)
-{
-    return cursor->lastFieldPocket;
-}
-
-void MYITEM_SAVEDATA_SetFieldPocketCursor(struct BagCursor *cursor, int pocket, s16 scroll, s16 position)
-{
-    cursor->fieldPocketScroll[pocket] = scroll;
-    cursor->fieldPocketPosition[pocket] = position;
-}
-
-void MYITEM_SAVEDATA_SetLastFieldPocket(struct BagCursor *cursor, u16 lastFieldPocket)
-{
-    cursor->lastFieldPocket = lastFieldPocket;
-}
-
-void MYITEM_SAVEDATA_GetBattlePocketCursor(const struct BagCursor *cursor, int pocket, s16 *scroll, s16 *position)
-{
-    *scroll = cursor->battlePocketScroll[pocket];
-    *position = cursor->battlePocketPosition[pocket];
-}
-
-u16 MYITEM_SAVEDATA_GetLastBattleItem(const struct BagCursor *cursor)
-{
-    return cursor->lastBattleItem;
-}
-
-u16 MYITEM_SAVEDATA_GetLastBattleItemPocket(const struct BagCursor *cursor)
-{
-    return cursor->lastBattleItemPocket;
-}
-
-void MYITEM_SAVEDATA_SetBattlePocketCursors(struct BagCursor *cursor, const s16 *scrolls, const s16 *positions)
-{
-    u32 pocket;
-
-    for (pocket = 0; pocket < 4; pocket++) {
-        cursor->battlePocketScroll[pocket] = scrolls[pocket];
-        cursor->battlePocketPosition[pocket] = positions[pocket];
-    }
-}
-
-void MYITEM_SAVEDATA_SetLastBattleItem(struct BagCursor *cursor, u16 lastBattleItem, u16 lastBattleItemPocket)
-{
-    cursor->lastBattleItem = lastBattleItem;
-    cursor->lastBattleItemPocket = lastBattleItemPocket;
 }

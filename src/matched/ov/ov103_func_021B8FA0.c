@@ -11,7 +11,7 @@
  * symbols:
  * ARC_UTIL_LoadHandleMember 0x0204A380 arm
  * NNS_G2dGetUnpackedScreenData 0x02062B30 arm
- * BG_SYS_GetField16 0x0204169C arm
+ * BG_SYS_GetColorMode 0x0204169C arm
  * BG_SYS_GetBuf 0x0204162C arm
  * BG_SYS_DrawTileEx 0x020410D0 arm
  * BG_SYS_FillTileMap 0x020413B0 arm
@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *ARC_UTIL_LoadHandleMember(void *a0, u32 a1, u32 a2, u32 a3);
 extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
-extern u8 BG_SYS_GetField16(int channel);
+extern u8 BG_SYS_GetColorMode(int channel);
 extern u32 BG_SYS_GetBuf(int channel);
 extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void BG_SYS_FillTileMap(u8,u8,u8,u8,u8,u8);
@@ -37,7 +37,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_LoadScreenBlock(int a,int b,int c,int d,u8 e,u8 f
  int count;
  handle=ARC_UTIL_LoadHandleMember((void *)a,b,n,(u16)((o&0x7fff)|0x8000));
  NNS_G2dGetUnpackedScreenData(handle,(void **)(&data));
- if(d && !BG_SYS_GetField16((u8)c)) {
+ if(d && !BG_SYS_GetColorMode((u8)c)) {
   count=h*g;
   p=(u16 *)(data+12);
   for(t=0;t<(g*h);t++)p[t]+=(u16)d;

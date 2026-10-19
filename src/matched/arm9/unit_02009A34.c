@@ -17,7 +17,7 @@
  * symbols:
  *   MI_CpuFill8    0x02082BCC  arm
  *   MI_CpuCopy8    0x02082D44  arm
- *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
+ *   GF_STANDARD_GetCachedDate  0x0203F4E4  arm
  *   WIFILIST_IsFriendDataValid  0x02009A1C  thumb
  *
  * alias: wifilist.c's list maintenance.  The two parallel arrays of
@@ -50,7 +50,7 @@
  * stay live in callee-saved registers and the reload of `obj` from its stack
  * slot disappears.
  *
- * WIFILIST_SetFriendLastSeen stamps the entry with the date.  GF_STANDARD_SetField00_F4E4 fills a 0x10-byte
+ * WIFILIST_SetFriendLastSeen stamps the entry with the date.  GF_STANDARD_GetCachedDate fills a 0x10-byte
  * record on the stack whose first three words are year, month and day, and the
  * year is stored as `year + 2000`, which is the `movs r0, #0x7D; lsls r0, #4`
  * in front of the `strh`.
@@ -102,7 +102,7 @@ struct Sub0203F4E4Date {
 };
 
 struct RtcDate;
-extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
+extern void GF_STANDARD_GetCachedDate(struct RtcDate *date);
 extern int  WIFILIST_IsFriendDataValid(struct Sub020097BCObj *obj, u32 i);
 
 void WIFILIST_MoveFriendSlot(struct Sub020097BCObj *obj, u32 dest, u32 src);
@@ -186,7 +186,7 @@ void WIFILIST_SetFriendLastSeen(struct Sub020097BCObj *obj, int i)
 {
     struct Sub0203F4E4Date date;
 
-    GF_STANDARD_SetField00_F4E4((struct RtcDate *)(&date));
+    GF_STANDARD_GetCachedDate((struct RtcDate *)(&date));
     obj->unk1C0[i].unk2A = date.year + 2000;
     obj->unk1C0[i].unk2C = date.month;
     obj->unk1C0[i].unk2D = date.day;

@@ -15,8 +15,8 @@
  *   WIFIBATTLEMATCH_NET_DeleteNetContext 0x021D9EA0 thumb ov175
  *   WIFIBATTLEMATCH_NET_DeleteRegCard 0x021D644C thumb ov175
  *   WIFIBATTLEMATCH_NET_DeleteBoxRecord 0x021D639C thumb ov175
- *   WIFIBATTLEMATCH_NET_DeleteSprite 0x021D65C8 thumb ov175
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WIFIBATTLEMATCH_NET_DeleteChoiceMenu 0x021D65C8 thumb ov175
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -39,8 +39,8 @@ extern void WIFIBATTLEMATCH_UTIL_Delete(char *p);
 extern void WIFIBATTLEMATCH_NET_DeleteNetContext(u8 *p);
 extern void WIFIBATTLEMATCH_NET_DeleteRegCard(char *);
 extern void WIFIBATTLEMATCH_NET_DeleteBoxRecord(char *);
-extern void WIFIBATTLEMATCH_NET_DeleteSprite(char *);
-extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern void WIFIBATTLEMATCH_NET_DeleteChoiceMenu(char *);
+extern unsigned int WORDSET_Delete(struct WordSet *p);
 struct Rec;
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
@@ -62,8 +62,8 @@ int WIFIBATTLEMATCH_NET_TaskDestroy(int sys,int unused,int unused2,int *p)
     if(p[12]) WIFIBATTLEMATCH_NET_DeleteNetContext((u8 *)p[12]);
     WIFIBATTLEMATCH_NET_DeleteRegCard((char *)p);
     WIFIBATTLEMATCH_NET_DeleteBoxRecord((char *)p);
-    WIFIBATTLEMATCH_NET_DeleteSprite((char *)p);
-    WORDSET_DeleteStrbufED04((struct WordSet *)p[5]);
+    WIFIBATTLEMATCH_NET_DeleteChoiceMenu((char *)p);
+    WORDSET_Delete((struct WordSet *)p[5]);
     MSGDATA_Delete((void *)p[4]);
     PRINTSYS_QUE_Delete((struct PrintSys *)p[3]);
     GF_FONT_Delete((void *)p[2]);

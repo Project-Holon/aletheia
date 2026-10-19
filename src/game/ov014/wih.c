@@ -1,7 +1,7 @@
 /*
  * file:     wih.c
  * unit:     yes
- * function: WIH_ChangeSysState, WIH_SetError, WIH_StateInSetParentParam, WIH_StateOutSetParentParam, WIH_StateInStartParent, WIH_StateOutStartParent, WIH_StateInStartParentMP, WIH_StateOutStartParentMP, WIH_StateInEndParentMP, WIH_StateOutEndParentMP, DWCi_MOV_WH_StateInEndParent, DWCi_MOV_WH_StateOutEndParent, DWCi_MOV_WH_ChildConnectAuto, DWCi_MOV_WH_StartScan, DWCi_MOV_WH_StateInStartScan, WIH_SetScanTarget, WIH_IsMatchingParent, DWCi_MOV_WH_StateOutStartScan, DWCi_MOV_WH_EndScan, DWCi_MOV_WH_StateInEndScan, DWCi_MOV_WH_StateOutEndScan, DWCi_MOV_WH_StateInStartChild, DWCi_MOV_WH_StateOutStartChild, DWCi_MOV_WH_StateInStartChildMP, DWCi_MOV_WH_StateOutStartChildMP, WIH_StateInEndChildMP, WIH_StateOutEndChildMP, WIH_StateInEndChild, DWCi_MOV_WH_StateOutEndChild, WIH_StateInReset, WIH_StateOutReset, DWCi_MOV_WH_StateInSetMPData, WIH_StateOutSetMPData, DWCi_MOV_WH_PortReceiveCallback, WIH_StateOutEnd, WIH_SetGgid, DWCi_MOV_WH_SetUserGameInfo, WIH_GetBitmap, WIH_GetSysState, DWCi_MOV_WH_GetLastError, WIH_StartMeasureChannel, WIH_StateInMeasureChannel, WIH_StateOutMeasureChannel, WHi_MeasureChannel, WIH_GetMeasureChannel, WIH_PickRandomChannel, WIH_Initialize, WIH_FreeWork, WIH_IndicateHandler, WIH_StateInInitialize, DWCi_MOV_WH_StateOutSetLifeTime, WIH_StateOutInitialize, WIH_ParentConnect, WIH_SetJudgeAcceptFunc, DWCi_MOV_WH_SetReceiver, DWCi_MOV_WH_SendData, WIH_GetSharedDataAdr, WIH_StepDS, WIH_UpdateScanTimer, DWCi_MOV_WH_StateInEndKeyShare, WIH_Finalize, WIH_End, WIH_GetOwnAid, WIH_SetJudgeScanFunc, WIH_SetBeaconGameInfo, WIH_GetBeaconSendCount, WIH_SetConnectCallback, WIH_SetBeaconFoundCallback, WIH_SetScanWaitFrames, WIH_SetScanTimerPaused
+ * function: WIH_ChangeSysState, WIH_SetError, WIH_StateInSetParentParam, WIH_StateOutSetParentParam, WIH_StateInStartParent, WIH_StateOutStartParent, WIH_StateInStartParentMP, WIH_StateOutStartParentMP, WIH_StateInEndParentMP, WIH_StateOutEndParentMP, DWCi_MOV_WH_StateInEndParent, DWCi_MOV_WH_StateOutEndParent, DWCi_MOV_WH_ChildConnectAuto, DWCi_MOV_WH_StartScan, DWCi_MOV_WH_StateInStartScan, WIH_SetScanTarget, WIH_IsMatchingParent, DWCi_MOV_WH_StateOutStartScan, DWCi_MOV_WH_EndScan, DWCi_MOV_WH_StateInEndScan, DWCi_MOV_WH_StateOutEndScan, DWCi_MOV_WH_StateInStartChild, DWCi_MOV_WH_StateOutStartChild, DWCi_MOV_WH_StateInStartChildMP, DWCi_MOV_WH_StateOutStartChildMP, WIH_StateInEndChildMP, WIH_StateOutEndChildMP, WIH_StateInEndChild, DWCi_MOV_WH_StateOutEndChild, WIH_StateInReset, WIH_StateOutReset, DWCi_MOV_WH_StateInSetMPData, WIH_StateOutSetMPData, DWCi_MOV_WH_PortReceiveCallback, WIH_StateOutEnd, WIH_SetGgid, DWCi_MOV_WH_SetUserGameInfo, WIH_GetBitmap, WIH_GetSysState, DWCi_MOV_WH_GetLastError, WIH_StartMeasureChannel, WIH_StateInMeasureChannel, WIH_StateOutMeasureChannel, WHi_MeasureChannel, WIH_FinishMeasureChannel, WIH_PickRandomChannel, WIH_Initialize, WIH_FreeWork, WIH_IndicateHandler, WIH_StateInInitialize, DWCi_MOV_WH_StateOutSetLifeTime, WIH_StateOutInitialize, WIH_ParentConnect, WIH_SetJudgeAcceptFunc, DWCi_MOV_WH_SetReceiver, DWCi_MOV_WH_SendData, WIH_GetSharedDataAdr, WIH_StepDS, WIH_UpdateScanTimer, DWCi_MOV_WH_StateInEndKeyShare, WIH_Finalize, WIH_End, WIH_GetOwnAid, WIH_SetJudgeScanFunc, WIH_SetBeaconGameInfo, WIH_GetBeaconSendCount, WIH_SetConnectCallback, WIH_SetBeaconFoundCallback, WIH_SetScanWaitFrames, WIH_SetScanTimerPaused
  * address:  0x02178138
  * region:   ov014
  * compiler: dsi/1.1p1
@@ -402,7 +402,7 @@ int WIH_StateInMeasureChannel(u16 channel);
  */
 void WIH_StateOutMeasureChannel(const WMMeasureChannelCallback *arg);
 int WHi_MeasureChannel(void *callback, unsigned short channel);
-u16 WIH_GetMeasureChannel(void);
+u16 WIH_FinishMeasureChannel(void);
 int WIH_PickRandomChannel(u16 channelBitmap);
 BOOL WIH_Initialize(u32 heapId, int unused, int listening);
 void WIH_FreeWork(void);
@@ -1317,7 +1317,7 @@ int WHi_MeasureChannel(void *callback, unsigned short channel)
     return WM_MeasureChannel(callback, 3, 0x11, channel, 0x1E);
 }
 
-u16 WIH_GetMeasureChannel(void)
+u16 WIH_FinishMeasureChannel(void)
 {
     WIH_ChangeSysState(1);
     gWihWork->measuredChannel = WIH_PickRandomChannel(gWihWork->bestChannelBitmap);

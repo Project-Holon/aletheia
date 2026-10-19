@@ -15,7 +15,7 @@
  *   BTL_POKEPARAM_GetItem  0x021D5B40  thumb  ov093
  *   BTL_CALC_GetMonParamWithHeap  0x021D805C  thumb  ov093
  *   BTL_SERVER_FLOW_CanUseHeldItem  0x021C824C  thumb  ov093
- *   BTLV_CORE_CheckPartySlotPair  0x021E869C  thumb  ov093
+ *   HAND_COMMON_IsHeldItemBoundToOwnSpecies  0x021E869C  thumb  ov093
  *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -26,7 +26,7 @@ struct QI;
 extern u16 BTL_POKEPARAM_GetItem(struct QI *p);
 extern u32 BTL_CALC_GetMonParamWithHeap(void *p, u32 n);
 extern int BTL_SERVER_FLOW_CanUseHeldItem(u8 *p, int v);
-extern int BTLV_CORE_CheckPartySlotPair(void *p, int id);
+extern int HAND_COMMON_IsHeldItemBoundToOwnSpecies(void *p, int id);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
 void HAND_WAZA_FlingCheckFail(u8 *p, void *a, int b)
@@ -37,7 +37,7 @@ void HAND_WAZA_FlingCheckFail(u8 *p, void *a, int b)
         void *r = BTL_SERVER_FLOW_GetPokeParam(a, b);
         u16 v = (u32)BTL_POKEPARAM_GetItem(r);
         if (v == 0 || BTL_CALC_GetMonParamWithHeap((void *)v, 10) == 0 || BTL_SERVER_FLOW_CanUseHeldItem(a, b) == 0
-            || BTLV_CORE_CheckPartySlotPair(a, b) != 0)
+            || HAND_COMMON_IsHeldItemBoundToOwnSpecies(a, b) != 0)
             BTL_EVENT_OverwriteVar(0x22, 0x1a);
     }
 }

@@ -14,7 +14,7 @@
  * symbols:
  *   POKE_REGULATION_Load  0x0201A354  thumb
  *   SCRCMD_FLD_BATTLE_CreateAllowedSpeciesList  0x021B5824  thumb  ov021
- *   WORDSET_Callback  0x0201EE60  thumb
+ *   WORDSET_SetSlotSpeciesName  0x0201EE60  thumb
  *   func_020307B0  0x020307B0  arm
  */
 
@@ -25,7 +25,7 @@ typedef unsigned int u32;
 extern void *POKE_REGULATION_Load(int a, int b);
 extern u16 *SCRCMD_FLD_BATTLE_CreateAllowedSpeciesList(u8 *a0, void *a1, u16 *a2, int a3);
 struct WordSet;
-extern void WORDSET_Callback(struct WordSet *p, u32 i, u16 v);
+extern void WORDSET_SetSlotSpeciesName(struct WordSet *p, u32 i, u16 v);
 extern u32 func_020307B0(void *p);
 
 u16 SCRCMD_FLD_BATTLE_StoreAllowedSpeciesNames(void *a0, void *a1, u32 a2, int a3)
@@ -38,7 +38,7 @@ u16 SCRCMD_FLD_BATTLE_StoreAllowedSpeciesNames(void *a0, void *a1, u32 a2, int a
     t = POKE_REGULATION_Load(a2, a3);
     v = SCRCMD_FLD_BATTLE_CreateAllowedSpeciesList(t, a0, &n, a3);
     for (i = 0; i < n; i++) {
-        WORDSET_Callback(a1, i, v[i]);
+        WORDSET_SetSlotSpeciesName(a1, i, v[i]);
     }
     func_020307B0(v);
     func_020307B0(t);

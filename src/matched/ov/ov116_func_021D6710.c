@@ -36,7 +36,7 @@
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
- *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb  arm9
+ *   GFL_USE_SetBgmPaused  0x02005DE4  thumb  arm9
  *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb  arm9
  *   GFL_USE_FadeOutBgm  0x02005E30  thumb  arm9
  *   GFL_USE_IsBgmFading  0x02005E50  thumb  arm9
@@ -55,7 +55,7 @@ extern int WIFI_BSUBWAY_IsTransferReady(u8 *,int);
 extern int WIFI_BSUBWAY_AsyncHasError(u8 *p);
 extern u32 func_0200FB24(void);
 extern int GFL_USE_IsBgmFading(void);
-extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_SetBgmPaused(void *p);
 extern int GFL_USE_PushBgm(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
 extern void GFL_USE_FadeInBgmFull(unsigned);
@@ -82,7 +82,7 @@ int WIFI_BSUBWAY_Step(void *a,int *state,int b,u8 *p)
     }
     switch(*state) {
     case 0: GFL_USE_FadeOutBgm(6); ++*state; break;
-    case 1: if(GFL_USE_IsBgmFading()==0) { GFL_USE_SetBgmPlayerParam((void *)1); GFL_USE_PushBgm(); GFL_USE_CancelChangeAndPlayBgm(1153,65535); GFL_USE_FadeInBgmFull(6); ++*state; } break;
+    case 1: if(GFL_USE_IsBgmFading()==0) { GFL_USE_SetBgmPaused((void *)1); GFL_USE_PushBgm(); GFL_USE_CancelChangeAndPlayBgm(1153,65535); GFL_USE_FadeInBgmFull(6); ++*state; } break;
     case 2: WIFI_BSUBWAY_GRAPHIC_StartSaveProc(p); ++*state; break;
     case 3: if(WIFI_BSUBWAY_GRAPHIC_GetSaveState(p)==0) ++*state; else { ((struct Obj22612 *)(*(u8 * *)&((struct Obj00671 *)p)->f0))->f8=2; *state=17; } break;
     case 4: WIFI_BSUBWAY_GRAPHIC_CreateWindow(p+4,125); FADE_Start(3,16,0,1); ++*state; break;

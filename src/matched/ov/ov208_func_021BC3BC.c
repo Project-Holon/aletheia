@@ -1,5 +1,5 @@
 /*
- * function: ZUKAN_DETAIL_COMMON_GetMaxValue
+ * function: ZUKAN_DETAIL_COMMON_GetEntryCount
  * address:  0x021BC3BC
  * packet:   pkt_ov208_021BC3BC
  * region:   ov208
@@ -16,7 +16,7 @@
 
 typedef unsigned short u16;
 
-u16 ZUKAN_DETAIL_COMMON_GetMaxValue(char *p)
+u16 ZUKAN_DETAIL_COMMON_GetEntryCount(char *p)
 {
     return ((struct Obj25414 *)p)->f1C;
 }

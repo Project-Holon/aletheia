@@ -15,7 +15,7 @@
  *   OS_WaitVBlankIntr  0x02087AE4  arm
  *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   func_0207FDCC  0x0207FDCC  arm
- *   BG_SYS_SetVisibleLayer  0x0204047C  arm
+ *   BG_SYS_SetPriority  0x0204047C  arm
  *   func_02040588  0x02040588  arm
  *   SYMBOL_MAP_StartBg2Scale  0x02166B0C  thumb  ov010
  *   sCaptureDispConfig     0x021D9F50  data  ov021  a4
@@ -35,7 +35,7 @@ extern void OS_WaitVBlankIntr(void);
 struct DispConfig;
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void func_0207FDCC(u32 a);
-extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+extern void BG_SYS_SetPriority(int idx, unsigned short val);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void SYMBOL_MAP_StartBg2Scale(void);
 extern S16 sCaptureDispConfig;
@@ -54,7 +54,7 @@ int EVENT_FIELDMAP_CONTROL_RunDefaultFadeOut(u32 p0, int *st, u8 *q)
         BG_SYS_SetGraphicsMode((struct DispConfig *)(&loc));
         *(volatile u16 *)0x0400000C = 0x4084 | (*(volatile u16 *)0x0400000C & 0x43);
         func_0207FDCC(8);
-        BG_SYS_SetVisibleLayer(2, 0);
+        BG_SYS_SetPriority(2, 0);
         func_02040588(2, 1);
         SYMBOL_MAP_StartBg2Scale();
         return 1;

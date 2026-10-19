@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTLV_EFFVM_CmdJumpIfNot",
+   "name": "BTLV_EFFVM_CmdJumpIfCondCompare",
    "address": "0x021FBD88",
    "kind": "game",
    "region": "ov094",

@@ -11,7 +11,7 @@
  * symbols:
  *   INTRUDE_COMM_SetWordSetMemberName  0x021762C0  thumb  ov011
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
- *   WORDSET_Callback_EF40  0x0201EF40  thumb
+ *   WORDSET_SetSlotFromMsg36  0x0201EF40  thumb
  *   WORDSET_SetSlotFromMsgA0  0x0201F184  thumb
  */
 
@@ -37,7 +37,7 @@ extern void INTRUDE_COMM_SetWordSetMemberName(void *a, int b, void *c, void *d);
 typedef signed int     s32;
 struct WordSet;
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotFromMsg36(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_SetSlotFromMsgA0(struct WordSet *p, u32 i, s32 v);
 
 void INTRUDE_COMM_SetWordSetRequest(const Obj *obj, void *a1, void *a2, void *a3)
@@ -60,12 +60,12 @@ void INTRUDE_COMM_SetWordSetRequest(const Obj *obj, void *a1, void *a2, void *a3
     case 3: {
         const Pos *pos = &obj->pos;
         INTRUDE_COMM_SetWordSetMemberName(a2, 0, a1, a3);
-        WORDSET_Callback_EF40(a2, 1, pos->x);
+        WORDSET_SetSlotFromMsg36(a2, 1, pos->x);
         WORDSET_SetSlotNumber(a2, 2, pos->y, 5, 0, 1);
         break;
     }
     case 4:
-        WORDSET_Callback_EF40(a2, 0, obj->pos.y);
+        WORDSET_SetSlotFromMsg36(a2, 0, obj->pos.y);
         INTRUDE_COMM_SetWordSetMemberName(a2, 1, a1, a3);
         break;
     case 5:

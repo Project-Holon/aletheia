@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GAME_DATA_GetBoxSave",
+   "name": "GAME_DATA_GetPerapVoiceSave",
    "address": "0x02012F98",
    "kind": "game",
    "region": "arm9",

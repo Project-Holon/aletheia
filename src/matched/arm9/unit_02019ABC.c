@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: POKE_TOOL_IsDefaultName
+ * function: POKE_TOOL_HasNickname
  *
  * "Is the name in substruct C still the species' default name": it renders the
  * species name for substruct A's species id into the shared 0x20 halfword
@@ -34,7 +34,7 @@
  *   gSpeciesNameBank   0x020A7370  data
  *   gNameBuf   0x021462F0  data
  *   MSGDATA_ReadUnits  0x02045F5C  arm
- *   WORDSET_CheckF448  0x0201F448  thumb
+ *   WORDSET_IsStringEqual  0x0201F448  thumb
  *   POKE_TOOL_GetBoxSubstruct  0x02019C38  thumb
  */
 
@@ -52,19 +52,19 @@ struct BlockA {
 extern void *POKE_TOOL_GetBoxSubstruct(struct Mon *p, u32 pid, u32 n);
 struct MsgData;
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
-extern u32 WORDSET_CheckF448(const u16 *a, const u16 *b);
+extern u32 WORDSET_IsStringEqual(const u16 *a, const u16 *b);
 
 extern void *gSpeciesNameBank;
 extern u16   gNameBuf[];
 
-u32 POKE_TOOL_IsDefaultName(struct Mon *p)
+u32 POKE_TOOL_HasNickname(struct Mon *p)
 {
     u32 r = 0;
     struct BlockA *a = (struct BlockA *)POKE_TOOL_GetBoxSubstruct(p, p->unk00, 0);
     void *c = POKE_TOOL_GetBoxSubstruct(p, p->unk00, 2);
 
     MSGDATA_ReadUnits(gSpeciesNameBank, a->species, gNameBuf, 0x20);
-    if (WORDSET_CheckF448(gNameBuf, c) == 0) {
+    if (WORDSET_IsStringEqual(gNameBuf, c) == 0) {
         r = 1;
     }
     return r;

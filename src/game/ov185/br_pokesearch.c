@@ -67,7 +67,7 @@
  *   BR_SIDEBAR_SetVisibleBySpace   0x021FEEC0  thumb
  *   BR_RES_ApplyBgSet   0x021FBDA4  thumb
  *   BR_RES_ReleaseUiPalette   0x021FC1F8  thumb
- *   WORLDTRADE_DETAIL_StateStartWipeOut   0x021FC610  thumb  ov135
+ *   BR_GRAPHIC_Begin3d   0x021FC610  thumb  ov186
  *   MUSICAL_SHOT_SYS_CreateScene   0x021F3AF0  thumb
  *   MUSICAL_SHOT_SYS_DeleteScene 0x021F3BF0 thumb ov112
  *   BR_GRAPHIC_End3d 0x021FC640 thumb ov186
@@ -161,7 +161,7 @@ extern void BR_UTIL_SetTextFromMessage(char *,void *,void *,void *,unsigned shor
 extern void BR_SIDEBAR_SetVisibleBySpace(int, int, int);
 extern void BR_RES_ApplyBgSet(int, int);
 extern void BR_RES_ReleaseUiPalette(int, int);
-extern int WORLDTRADE_DETAIL_StateStartWipeOut(u8 *p, int a1);
+extern int BR_GRAPHIC_Begin3d(u8 *p, int a1);
 extern int MUSICAL_SHOT_SYS_CreateScene(int, int);
 extern void MUSICAL_SHOT_SYS_DeleteScene(u8 *);
 extern void BR_GRAPHIC_End3d(void *,unsigned);
@@ -620,7 +620,7 @@ void BR_POKESEARCH_CreateSidebar(char *work, int *owner)
         BR_SIDEBAR_SetVisibleBySpace(((struct BrDownloadOwner *)owner)->sidebar, 0, 0);
         BR_RES_ApplyBgSet(((struct BrDownloadOwner *)owner)->res.resHandle, 0);
         BR_RES_ReleaseUiPalette(((struct BrDownloadOwner *)owner)->res.resHandle, 0);
-        WORLDTRADE_DETAIL_StateStartWipeOut((u8 *)(((struct BrDownloadOwner *)owner)->graphic.graphic), ((struct BrPokeSearchWork *)work)->heapId);
+        BR_GRAPHIC_Begin3d((u8 *)(((struct BrDownloadOwner *)owner)->graphic.graphic), ((struct BrPokeSearchWork *)work)->heapId);
         ((struct BrPokeSearchWork *)work)->scene.sceneHandle = MUSICAL_SHOT_SYS_CreateScene(
             (int)((struct BrPokeSearchWork *)work)->table[((struct BrPokeSearchWork *)work)->listIndex] + 0x80,
             ((struct BrPokeSearchWork *)work)->heapId);

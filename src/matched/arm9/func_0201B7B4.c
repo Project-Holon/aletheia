@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   FILE_UTIL_Get_0FE4  0x02020FE4  thumb
+ *   FILE_UTIL_GetItemParam  0x02020FE4  thumb
  *   NATSUKI_Apply  0x0201B850  thumb
  *
  * Three bytes are built one selector at a time - selectors 0x3C, 0x3D, 0x3E
@@ -28,7 +28,7 @@ typedef unsigned short u16;
 typedef signed char    s8;
 typedef unsigned int   u32;
 
-extern u32 FILE_UTIL_Get_0FE4(void *a, u32 sel, u32 id);
+extern u32 FILE_UTIL_GetItemParam(void *a, u32 sel, u32 id);
 extern void NATSUKI_Apply(void *mon, const s8 *tbl, int a2, u32 a3);
 
 void NATSUKI_CalcUseItem(void *a0, int a1, u16 a2, u16 a3)
@@ -37,7 +37,7 @@ void NATSUKI_CalcUseItem(void *a0, int a1, u16 a2, u16 a3)
     int i;
 
     for (i = 0; i < 3; i++) {
-        buf[i] = (u8)FILE_UTIL_Get_0FE4((void *)(u32)a1, (u16)(i + 0x3C), a3);
+        buf[i] = (u8)FILE_UTIL_GetItemParam((void *)(u32)a1, (u16)(i + 0x3C), a3);
     }
     NATSUKI_Apply(a0, (const s8 *)buf, a2, a3);
 }

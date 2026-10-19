@@ -10,7 +10,7 @@
  * Enum position preserves the full-width update and repeated signed-halfword argument conversions.
  * symbols:
  *   ZUKAN_SAVE_GetViewGenderAndForm 0x0200CC40 thumb
- *   ZUKAN_LIST_IsActorHidden 0x021BE25C thumb ov209
+ *   ZUKAN_LIST_FindHiddenSpeciesActor 0x021BE25C thumb ov209
  *   ZUKAN_LIST_TransferSpeciesGraphics 0x021BE1B8 thumb ov209
  *   ZUKAN_LIST_SetActorVisible 0x021BD8D8 thumb ov209
  *   ZUKAN_LIST_StartActorAnim 0x021BD890 thumb ov209
@@ -22,7 +22,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void ZUKAN_SAVE_GetViewGenderAndForm(u8 *p, u16 id, u32 *out1, u32 *out2, u32 *outForm, u16 a5);
-extern int ZUKAN_LIST_IsActorHidden(int,int);
+extern int ZUKAN_LIST_FindHiddenSpeciesActor(int,int);
 extern void ZUKAN_LIST_TransferSpeciesGraphics(char *,int,unsigned,u16,u16,int);
 extern void ZUKAN_LIST_SetActorVisible(char *p, u32 idx, u32 value);
 extern void ZUKAN_LIST_StartActorAnim(char *,int,int);
@@ -33,7 +33,7 @@ void ZUKAN_LIST_ShowSpeciesActor(char *p,u16 species,enum Position pos,int mode)
     unsigned out1,outForm,out2;
     int index;
     ZUKAN_SAVE_GetViewGenderAndForm(*(u8 * *)&((struct Obj25579 *)(*(char * *)&((struct Obj25578 *)p)->f0))->f4,species,&out1,&out2,&outForm,0x806b);
-    index=ZUKAN_LIST_IsActorHidden((int)p,mode);
+    index=ZUKAN_LIST_FindHiddenSpeciesActor((int)p,mode);
     ZUKAN_LIST_TransferSpeciesGraphics(p,index,species,outForm,out1,mode);
     ZUKAN_LIST_SetActorVisible(p,index,1);
     ZUKAN_LIST_StartActorAnim(p,index,0);

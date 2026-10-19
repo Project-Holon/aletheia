@@ -23,7 +23,7 @@
  *   POKE_REGULATION_Load  0x0201A354  thumb
  *   GFL_HEAP_Free  0x020307B0  arm
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
- *   WORDSET_Callback  0x0201EE60  thumb
+ *   WORDSET_SetSlotSpeciesName  0x0201EE60  thumb
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   ZUKAN_SAVE_IsCaught  0x0200CED4  thumb
  *   GFL_HEAP_Alloc  0x02030734  arm
@@ -83,7 +83,7 @@ extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 extern void *POKE_REGULATION_Load(int a, int b);
 extern u32 GFL_HEAP_Free(void *p);
 extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
-extern void WORDSET_Callback(struct WordSet *p, u32 i, u16 v);
+extern void WORDSET_SetSlotSpeciesName(struct WordSet *p, u32 i, u16 v);
 extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 extern u32 ZUKAN_SAVE_IsCaught(struct ZukanSave *p, u16 id);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -175,7 +175,7 @@ u16 SCRCMD_FLD_BATTLE_StoreAllowedSpeciesNames(void *gameData, void *wordSet, u3
     regulation = POKE_REGULATION_Load(regulationNo, heapId);
     speciesList = SCRCMD_FLD_BATTLE_CreateAllowedSpeciesList(regulation, gameData, &count, heapId);
     for (i = 0; i < count; i++) {
-        WORDSET_Callback(wordSet, i, speciesList[i]);
+        WORDSET_SetSlotSpeciesName(wordSet, i, speciesList[i]);
     }
     GFL_HEAP_Free(speciesList);
     GFL_HEAP_Free(regulation);

@@ -24,7 +24,7 @@
  *   PARTICLE_CreateSystemDefault  0x02050C04  arm  arm9
  *   PARTICLE_LoadArchiveMember  0x0205121C  arm  arm9
  *   PARTICLE_GetEffectCount  0x02051614  arm  arm9
- *   BUTTON_MAN_GetBlock  0x02051788  arm  arm9
+ *   PARTICLE_EMITTER_GetBlock  0x02051788  arm  arm9
  */
 #include "fld3d_ci_types.h"
 
@@ -34,7 +34,7 @@ extern void PARTICLE_InitManager(u32);
 
 extern void *PARTICLE_CreateSystemDefault(int a, int b, int c, int d);
 
-extern void *BUTTON_MAN_GetBlock(void *effect);
+extern void *PARTICLE_EMITTER_GetBlock(void *effect);
 
 extern void G3D_CAMERA_SetNear(void *effect, const u32 *in);
 
@@ -93,7 +93,7 @@ void *FLD_PARTICLE_CreateEffect(FldParticle *particle)
     void *effect;
 
     particle->effect = PARTICLE_CreateSystemDefault((int)particle->workBuffer, 0x4800, 1, particle->heapId);
-    effect = BUTTON_MAN_GetBlock(particle->effect);
+    effect = PARTICLE_EMITTER_GetBlock(particle->effect);
     effectScale = 1 << 12;
     effectRange = 0x384000;
     G3D_CAMERA_SetNear(effect, &effectScale);

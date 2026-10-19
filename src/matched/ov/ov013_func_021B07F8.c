@@ -1,5 +1,5 @@
 /*
- * function: VCT_SESSION_QueueFrame
+ * function: VCT_MIXER_QueueFrame
  * address: 0x021B07F8
  * packet: pkt_ov013_021B07F8
  * region: ov013
@@ -66,7 +66,7 @@ extern struct Ctx42C0 gVctSendBuffer;
 extern void MIi_CpuCopyFast(const void *src, void *dst, u32 n);
 extern u64 func_020870D0(void);
 #pragma opt_propagation off
-int VCT_SESSION_QueueFrame(const u8 *src, u32 n)
+int VCT_MIXER_QueueFrame(const u8 *src, u32 n)
 {
   PacketHeader *hdr;
   u32 i;

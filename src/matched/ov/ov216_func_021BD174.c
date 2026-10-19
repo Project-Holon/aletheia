@@ -28,7 +28,7 @@
  *   GAME_BEACON_ACCESSOR_GetNation 0x02165C58 thumb ov010
  *   WORDSET_SetSlotFromMsgE7 0x0201F048 thumb
  *   GAME_BEACON_ACCESSOR_GetArea 0x02165C5C thumb ov010
- *   WORDSET_DeleteMsgdataF094 0x0201F094 thumb
+ *   WORDSET_SetSlotFromKeyedMessage 0x0201F094 thumb
  *   GAME_BEACON_ACCESSOR_GetPassCount 0x02165D40 thumb ov010
  *   GAME_BEACON_ACCESSOR_GetThanksCount 0x02165D48 thumb ov010
  *   PMS_DRAW_IsActive 0x0202DCC4 thumb
@@ -71,7 +71,7 @@ extern void WORDSET_SetSlotNumber(struct WordSet *,u32,u32,u32,u32,u32);
 extern u8 GAME_BEACON_ACCESSOR_GetNation(const u8 *p);
 extern void WORDSET_SetSlotFromMsgE7(struct WordSet *,u32,u32);
 extern u8 GAME_BEACON_ACCESSOR_GetArea(const u8 *p);
-extern void WORDSET_DeleteMsgdataF094(struct WordSet *,u32,u32,u32);
+extern void WORDSET_SetSlotFromKeyedMessage(struct WordSet *,u32,u32,u32);
 extern u32 GAME_BEACON_ACCESSOR_GetPassCount(const struct S *p);
 extern u32 GAME_BEACON_ACCESSOR_GetThanksCount(const struct S *p);
 extern u32 PMS_DRAW_IsActive(const struct Obj0202DCC4 *,u32);
@@ -116,7 +116,7 @@ void BEACON_DETAIL_GRA_SetupSlot(char *p,void *record,u16 unused,u8 slot)
     BEACON_DETAIL_GRA_DrawWindowRecord((char *)p,(void **)(q+48),*(int *)&((struct Obj00051 *)p)->f140,6,48,13,2,1);
     value=(unsigned)GAME_BEACON_ACCESSOR_GetNation(record);
     WORDSET_SetSlotFromMsgE7(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,value);
-    WORDSET_DeleteMsgdataF094(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,1,value,GAME_BEACON_ACCESSOR_GetArea(record));
+    WORDSET_SetSlotFromKeyedMessage(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,1,value,GAME_BEACON_ACCESSOR_GetArea(record));
     BEACON_DETAIL_GRA_PrintMsg((u8 *)p,8);
     BEACON_DETAIL_GRA_DrawWindowRecord((char *)p,(void **)(q+80),*(int *)&((struct Obj00051 *)p)->f140,0,0,28,4,0);
     WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,GAME_BEACON_ACCESSOR_GetPassCount(record),5,1,1);

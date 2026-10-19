@@ -18,7 +18,7 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
  *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
- *   GF_STANDARD_Get_F684  0x0203F684  arm
+ *   GF_STANDARD_SinFromDegreesWrapped  0x0203F684  arm
  *   _fflt          0x0209BDBC  arm
  *   _fadd          0x0209C95C  arm
  *   _fsub          0x0209CB8C  arm
@@ -55,7 +55,7 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern u8 *GAME_DATA_GetFieldSave(struct Big *p);
 struct Rec94;
 extern s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b);
-extern short GF_STANDARD_Get_F684(unsigned short x);
+extern short GF_STANDARD_SinFromDegreesWrapped(unsigned short x);
 extern int _fflt(int a);
 extern int _fadd(int a, int b);
 extern int _fsub(int a, int b);
@@ -87,7 +87,7 @@ void FIELD_GIMMICK_BRIDGE_Update(int a)
         r = _fsub(_fflt(v << 12), 0x3f000000);
     }
     r = _ffix(r);
-    x = GF_STANDARD_Get_F684((u16)p[0]);
+    x = GF_STANDARD_SinFromDegreesWrapped((u16)p[0]);
     o->r.b = (s32)(((s64)x * r + 0x800) >> 12);
     FLDMMDL_SetDrawOffsetOutside(o->f04, &o->r);
     p[0] = (p[0] + 8) % 360;

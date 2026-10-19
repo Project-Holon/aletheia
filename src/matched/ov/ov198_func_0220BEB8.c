@@ -22,7 +22,7 @@
  *   B_PLIST_MAIN_GetOrderIndex 0x022110D4 thumb ov198
  *   STRBUF_Create 0x020457B0 arm
  *   func_02045EC0 0x02045EC0 arm
- *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
+ *   WORDSET_SetSlotMonNickname 0x0201EEF4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
@@ -57,7 +57,7 @@ extern u8 BMP_WIN_GetPalette(struct Descriptor *p);
 extern int B_PLIST_MAIN_GetOrderIndex(u8 *, int);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonNickname(struct WordSet *p, u32 i, void *mon);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(u32, u32, s16, s16, void *, u32, u32);
@@ -99,7 +99,7 @@ void B_PLIST_DRAW_PrintRowName(u8 *p, int slot, u16 a2, u8 a3, u8 extra)
     rec = (struct R *)(base + off);
     vec = STRBUF_Create(12, P->hdr->f10);
     msg = func_02045EC0(P->f1EA0, d_02211B68[a2]);
-    WORDSET_SetSlotMonSpecies(P->f1EA4, 0, *(void **)rec);
+    WORDSET_SetSlotMonNickname(P->f1EA4, 0, *(void **)rec);
     WORDSET_CopyTaggedText(P->f1EA4, vec, msg);
     if (k == 9) {
         u32 h9 = P->f1EAC;

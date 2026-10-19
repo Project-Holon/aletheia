@@ -18,24 +18,22 @@
  *   GFL_HEAP_Free 0x020307B0 arm
  *   gBtlCalcWork  0x021F6360  data  ov093
  *   gBtlStatStageRatios 0x021F0448 data a1
- *   _u32_div_f 0x0209C2B0 arm
  *   gBtlCalcAccuracyStageRatios 0x021F0462 data a1
- *   _s32_div_f 0x0209C0A4 arm
  *   gBtlCalcCriticalRanges 0x021F041C data a1
  *   BTL_ID_GetItemCuredSick  0x0689C9E4  thumb
  *   gBtlCalcTypeAffinityTable  0x021F047C  data  ov093  a1
- *   BTLV_CORE_SplitBytes  0x021E8D0C  thumb  ov093
- *   BTLV_CORE_BytesEqual  0x021E8DA8  thumb  ov093
+ *   BTL_TYPEPAIR_Split  0x021E8D0C  thumb  ov093
+ *   BTL_TYPEPAIR_IsSingleType  0x021E8DA8  thumb  ov093
  *   gBtlCalcAffinityScales  0x021F0427  data  ov093  a1
  *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  *   gBtlCalcHitCountThresholds 0x021F0421 data a1
  *   BTL_POKEPARAM_HasType  0x021D5814  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
- *   BTLV_CORE_MakeSlotKind3  0x021E899C  thumb  ov093
- *   BTLV_CORE_MakeSlotKind2Index  0x021E8940  thumb  ov093
- *   BTLV_CORE_MakeSlotKind1  0x021E89F8  thumb  ov093
- *   BTLV_CORE_MakeSlotKind4  0x021E8A28  thumb  ov093
- *   BTLV_CORE_MakeSlotKind1Empty  0x021E89C0  thumb  ov093
+ *   BTL_SICKCONT_MakeKind3  0x021E899C  thumb  ov093
+ *   BTL_SICKCONT_MakeKind2Index  0x021E8940  thumb  ov093
+ *   BTL_SICKCONT_MakeKind1  0x021E89F8  thumb  ov093
+ *   BTL_SICKCONT_MakeKind4  0x021E8A28  thumb  ov093
+ *   BTL_SICKCONT_MakeKind1Empty  0x021E89C0  thumb  ov093
  *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
  *   BTL_POKEPARAM_GetSpecies  0x021D5444  thumb  ov093
  *   POKE_TOOL_GetPersonalParam  0x02019C90  thumb
@@ -47,7 +45,7 @@
  *   BTL_SLOT_GetCount  0x021B9B94  thumb  ov093
  *   BTL_SLOT_GetPokeParam  0x021B9C00  thumb  ov093
  *   gBtlCalcDefeatMoneyScales     0x021F042D  data  ov093  a1
- *   FILE_UTIL_Get_0FE4 0x02020FE4 thumb
+ *   FILE_UTIL_GetItemParam 0x02020FE4 thumb
  *   BTL_MAIN_GetRule  0x021B8588  thumb  ov093
  *   BTL_MAIN_GetTrainerSlotOfPoke  0x021B8D8C  thumb  ov093
  *   WAZA_TOOL_GetParam   0x0201BD28  thumb
@@ -80,13 +78,11 @@ extern void *GFL_HEAP_Alloc(unsigned int, unsigned int, int, const char *, unsig
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern unsigned int _u32_div_f(unsigned int, unsigned int);
 
-extern int _s32_div_f(int numerator, int denominator);
 
-extern void BTLV_CORE_SplitBytes(int packedTypes, u8 *firstType, u8 *secondType);
+extern void BTL_TYPEPAIR_Split(int packedTypes, u8 *firstType, u8 *secondType);
 
-extern int BTLV_CORE_BytesEqual(int packedTypes);
+extern int BTL_TYPEPAIR_IsSingleType(int packedTypes);
 
 extern int BTL_POKEPARAM_GetValue(struct BtlPokeParam *bpp, int valueId);
 
@@ -94,15 +90,15 @@ extern int BTL_POKEPARAM_HasType(struct BtlPokeParam *bpp, int type);
 
 extern u8 BTL_POKEPARAM_GetPokeId(struct BtlPokeParam *bpp);
 
-extern union BtlSickCont BTLV_CORE_MakeSlotKind3(u32 pokeId);
+extern union BtlSickCont BTL_SICKCONT_MakeKind3(u32 pokeId);
 
-extern union BtlSickCont BTLV_CORE_MakeSlotKind2Index(u8 turns);
+extern union BtlSickCont BTL_SICKCONT_MakeKind2Index(u8 turns);
 
-extern union BtlSickCont BTLV_CORE_MakeSlotKind1(u8 high, u32 low);
+extern union BtlSickCont BTL_SICKCONT_MakeKind1(u8 high, u32 low);
 
-extern union BtlSickCont BTLV_CORE_MakeSlotKind4(u32 pokeId, u8 turns);
+extern union BtlSickCont BTL_SICKCONT_MakeKind4(u32 pokeId, u8 turns);
 
-extern union BtlSickCont BTLV_CORE_MakeSlotKind1Empty(void);
+extern union BtlSickCont BTL_SICKCONT_MakeKind1Empty(void);
 
 extern int BTL_ID_GetItemCuredSick(int index);
 
@@ -126,7 +122,7 @@ u8 BTL_SLOT_GetCount(struct BtlParty *party);
 
 extern struct BtlPokeParam *BTL_SLOT_GetPokeParam(struct BtlParty *party, u32 index);
 
-extern u32 FILE_UTIL_Get_0FE4(void *mon, u32 paramId, u32 heapId);
+extern u32 FILE_UTIL_GetItemParam(void *mon, u32 paramId, u32 heapId);
 
 extern u32 BTL_MAIN_GetRule(void *main);
 
@@ -298,12 +294,12 @@ u32 BTL_CALC_Random(u32 range)
     return value;
 }
 
-unsigned short BTL_CALC_ApplyStatStage(unsigned short stat, int stage) { return _u32_div_f((unsigned short)(stat*gBtlStatStageRatios[stage][0]), gBtlStatStageRatios[stage][1]); }
+unsigned short BTL_CALC_ApplyStatStage(unsigned short stat, int stage) { return (u32)(unsigned short)(stat*gBtlStatStageRatios[stage][0]) / gBtlStatStageRatios[stage][1]; }
 
 /* Scales accuracy by the ratio of an accuracy stage (numerator, denominator); the result is at most 100. */
 u8 BTL_CALC_ApplyAccuracyStage(int accuracy, int stage)
 {
-    u32 scaled = _s32_div_f(accuracy * gBtlCalcAccuracyStageRatios[stage][0], gBtlCalcAccuracyStageRatios[stage][1]);
+    u32 scaled = accuracy * gBtlCalcAccuracyStageRatios[stage][0] / gBtlCalcAccuracyStageRatios[stage][1];
     if (scaled > 100) scaled = 100;
     return scaled;
 }
@@ -340,8 +336,8 @@ int BTL_CALC_GetTypeAffinityVsPair(int atkType, int defTypes)
     u8 types[2];
     int firstAffinity;
 
-    BTLV_CORE_SplitBytes(defTypes, &types[1], &types[0]);
-    if (BTLV_CORE_BytesEqual(defTypes))
+    BTL_TYPEPAIR_Split(defTypes, &types[1], &types[0]);
+    if (BTL_TYPEPAIR_IsSingleType(defTypes))
         return BTL_CALC_GetTypeAffinity(atkType, types[1]);
     firstAffinity = BTL_CALC_GetTypeAffinity(atkType, types[1]);
     return BTL_CALC_CombineTypeAffinity(firstAffinity, BTL_CALC_GetTypeAffinity(atkType, types[0]));
@@ -499,19 +495,19 @@ void BTL_CALC_MakeSickContFromSpec(struct BtlSickContSpec spec, struct BtlPokePa
 
     switch (spec.kind) {
     case 3:
-        *out = BTLV_CORE_MakeSlotKind3(BTL_POKEPARAM_GetPokeId(attacker));
+        *out = BTL_SICKCONT_MakeKind3(BTL_POKEPARAM_GetPokeId(attacker));
         break;
     case 2:
         turns = BTL_CALC_RandRange(spec.turnMin, spec.turnMax);
-        *out = BTLV_CORE_MakeSlotKind2Index(turns);
+        *out = BTL_SICKCONT_MakeKind2Index(turns);
         break;
     case 1:
-        *out = BTLV_CORE_MakeSlotKind1(spec.turnMax, spec.turnMin);
+        *out = BTL_SICKCONT_MakeKind1(spec.turnMax, spec.turnMin);
         break;
     case 4:
         pokeId = BTL_POKEPARAM_GetPokeId(attacker);
         turns = BTL_CALC_RandRange(spec.turnMin, spec.turnMax);
-        *out = BTLV_CORE_MakeSlotKind4(pokeId, turns);
+        *out = BTL_SICKCONT_MakeKind4(pokeId, turns);
         break;
     case 0:
     default:
@@ -570,14 +566,14 @@ void BTL_CALC_MakeSickContFromKind(int kind, struct BtlPokeParam *attacker, unio
     out->raw = 0;
     switch (kind) {
     case 7:
-        *out = BTLV_CORE_MakeSlotKind3(BTL_POKEPARAM_GetPokeId(attacker));
+        *out = BTL_SICKCONT_MakeKind3(BTL_POKEPARAM_GetPokeId(attacker));
         break;
     case 6:
         turns = BTL_CALC_RandRange(2, 5);
-        *out = BTLV_CORE_MakeSlotKind2Index(turns);
+        *out = BTL_SICKCONT_MakeKind2Index(turns);
         break;
     default:
-        *out = BTLV_CORE_MakeSlotKind1Empty();
+        *out = BTL_SICKCONT_MakeKind1Empty();
         break;
     }
 }
@@ -690,7 +686,7 @@ void BTL_CALC_SetHeapId(u32 heapId) { gBtlCalcWork.heapId=heapId; }
 void BTL_CALC_NoOp(void) { }
 
 /* Reads one parameter of an item (the item id is passed as a pointer-sized value) with the stored heap id. */
-u32 BTL_CALC_GetItemParam(void *itemId,u32 paramId) { return FILE_UTIL_Get_0FE4(itemId,paramId,gBtlCalcWork.heapId); }
+u32 BTL_CALC_GetItemParam(void *itemId,u32 paramId) { return FILE_UTIL_GetItemParam(itemId,paramId,gBtlCalcWork.heapId); }
 
 /* Packs six Pokemon ids (5 bits each) into one word. */
 u32 BTL_CALC_PackPokeIds(const u8 *pokeIds) { u32 packed=0; u32 index; for(index=0;index<6;index++) packed|=(pokeIds[index]&31)<<(index*5); return packed; }

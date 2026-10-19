@@ -13,6 +13,8 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  * Cleanup (lane WXT): unit_021EFBA4.c and the unplaced leaf 021EFCD4 are merged in. One file for the kinds rain (weather id 2), thunderstorm (6) and storm (7) with the lightning sequencer 021EF9B0..021EFCD4: the const tables run 9, 15, 20, 32, 56, 76 bytes across all of them (lightning tables 15 and 32 bytes enclose the thunderstorm table of 20 bytes), which one object file gives and separate files do not.
  *
+ * Boundary audit (wave 16): kept as one file. The const tables of rain, thunderstorm and storm and the lightning sequencer run 9, 15, 20, 32, 56, 76 bytes across all of them (0x021EFCF9.., lightning tables enclose the thunderstorm table), which one object file gives and separate files do not.
+ *
  * symbols:
  *   WEATHER_TASK_GetWorkBuffer 0x021A21B8 thumb ov021
  *   WEATHER_TASK_SetupSpawner 0x021A21F8 thumb ov021

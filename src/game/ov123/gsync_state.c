@@ -1,7 +1,7 @@
 /*
  * file:     gsync_state.c
  * unit:     yes
- * function: GSYNC_STATE_HandleHttpError, GSYNC_STATE_IsConnectionAlive, GSYNC_STATE_IsCommIdleWithTarget, GSYNC_STATE_IsCommReady, GSYNC_STATE_SetNextState, GSYNC_STATE_ChangeState, GSYNC_STATE_StateWaitFade, GSYNC_STATE_StateFadeOutAfterMessage, GSYNC_STATE_StateFreeDownloadAndExit, GSYNC_STATE_StateWaitInputCancelSave, GSYNC_STATE_StateErrorMessage, GSYNC_STATE_StateSetErrorExit, GSYNC_STATE_StateWaitMessageInput, GSYNC_STATE_StateClearMessageExit, GSYNC_STATE_StateWaitEndingBgm, GSYNC_STATE_StateShowResultMessage, GSYNC_STATE_ResetSlotActors, GSYNC_STATE_LoadReceivedMon, GSYNC_STATE_StateSaveFinishMessage, GSYNC_STATE_StatePollResponse, GSYNC_STATE_StateSendRequest, GSYNC_STATE_StateSaveMainWait, GSYNC_STATE_StateSaveStart, GSYNC_STATE_StateCleanupDownload, GSYNC_STATE_StateFreeReceivedMon, GSYNC_STATE_StateExtraSaveMain, GSYNC_STATE_StateExtraSaveLoadStart, GSYNC_STATE_StateFreeExtraSaveBuffer, GSYNC_STATE_StateExtraSaveMainSecond, GSYNC_STATE_StateExtraSaveLoadStartSecond, GSYNC_STATE_StateMusicalSaveApply, GSYNC_STATE_StateMusicalSaveCreate, GSYNC_STATE_StateDownloadReset, GSYNC_STATE_StateMusicalSaveRetry, GSYNC_STATE_StateWaitDownloadIdle, GSYNC_STATE_StateRequestFile, GSYNC_STATE_StateWaitDownloadIdleThenRequest, GSYNC_STATE_StateRequestFileList, GSYNC_STATE_StateSetFileAttribute, GSYNC_STATE_StateInitDownload, GSYNC_STATE_StateSelectNextDownload, GSYNC_STATE_CopyMonRecord, GSYNC_STATE_GetEntryCount, GSYNC_STATE_GetListEntry, GSYNC_STATE_BuildMonEntry, GSYNC_STATE_BuildMonEntries, GSYNC_STATE_ApplyIconRecords, GSYNC_STATE_PrepareReceivedList, GSYNC_STATE_UpdateCurrentEntry, GSYNC_STATE_StateReceiveList, GSYNC_STATE_StateSendListRequest, GSYNC_STATE_StateWaitMessageThenSend, GSYNC_STATE_StateShowProgressMessage, GSYNC_STATE_StateWaitInputFirst, GSYNC_STATE_StateWaitMessageThenPrintSecond, GSYNC_STATE_StateWaitInputSecond, GSYNC_STATE_StateWaitMessageThenPrintThird, GSYNC_STATE_StateConfirmMenuSelect, GSYNC_STATE_StateOpenConfirmMenu, GSYNC_STATE_StateShowEmptyMessage, GSYNC_STATE_StateWaitMessageEnd, GSYNC_STATE_StateWaitInputClearWindow, GSYNC_STATE_StateWaitInputPrintNext, GSYNC_STATE_StatePrintErrorMessage, GSYNC_STATE_StateReceiveResponse, GSYNC_STATE_StateSendResponse, GSYNC_STATE_StateWaitInputThird, GSYNC_STATE_StateWaitMessageThenPrintFourth, GSYNC_STATE_StateWaitInputFourth, GSYNC_STATE_StateWaitMessageThenPrintFifth, GSYNC_STATE_ParseResponse, GSYNC_STATE_StateReceiveParsedResponse, GSYNC_STATE_StateSendParsedRequest, GSYNC_STATE_StateWaitMessageClearStream, GSYNC_STATE_StatePrintFinalMessage, GSYNC_STATE_StateReceiveFinalResponse, GSYNC_STATE_StateSendFinalRequest, GSYNC_STATE_StatePlaySeWaitInput, GSYNC_STATE_StateWaitMessageThenNext, GSYNC_STATE_StateShowCompletionMessage, GSYNC_STATE_StateSaveErrorExit, GSYNC_STATE_StateTrainerRecordSaveStart, GSYNC_STATE_StateReceiveRecordResponse, GSYNC_STATE_StateSendRecordRequest, GSYNC_STATE_StateStartTransferAnimation, GSYNC_STATE_StateTransferAnimationStep, GSYNC_STATE_StateTransferAnimationOpen, GSYNC_STATE_StateTransferAnimationEffect, GSYNC_STATE_StateCreateReceivedMonIcon, GSYNC_STATE_StateStoreReceivedMon, GSYNC_STATE_DestroyHttpConnection, GSYNC_STATE_CommitReceivedMon, GSYNC_STATE_ProcInit, GSYNC_STATE_ProcMain, GSYNC_STATE_ProcExit
+ * function: GSYNC_STATE_HandleHttpError, GSYNC_STATE_IsConnectionAlive, GSYNC_STATE_IsCommIdleWithTarget, GSYNC_STATE_IsCommReady, GSYNC_STATE_SetNextState, GSYNC_STATE_ChangeState, GSYNC_STATE_StateWaitFade, GSYNC_STATE_StateFadeOutAfterMessage, GSYNC_STATE_StateFreeDownloadAndExit, GSYNC_STATE_StateWaitInputCancelSave, GSYNC_STATE_StateErrorMessage, GSYNC_STATE_StateSetErrorExit, GSYNC_STATE_StateWaitMessageInput, GSYNC_STATE_StateClearMessageExit, GSYNC_STATE_StateWaitEndingBgm, GSYNC_STATE_StateShowResultMessage, GSYNC_STATE_ResetSlotActors, GSYNC_STATE_LoadReceivedMon, GSYNC_STATE_StateSaveFinishMessage, GSYNC_STATE_StatePollResponse, GSYNC_STATE_StateSendRequest, GSYNC_STATE_StateSaveMainWait, GSYNC_STATE_StateSaveStart, GSYNC_STATE_StateCleanupDownload, GSYNC_STATE_StateFreeReceivedMon, GSYNC_STATE_StateExtraSaveMain, GSYNC_STATE_StateExtraSaveLoadStart, GSYNC_STATE_StateFreeExtraSaveBuffer, GSYNC_STATE_StateExtraSaveMainSecond, GSYNC_STATE_StateExtraSaveLoadStartSecond, GSYNC_STATE_StateMusicalSaveApply, GSYNC_STATE_StateMusicalSaveCreate, GSYNC_STATE_StateDownloadReset, GSYNC_STATE_StateMusicalSaveRetry, GSYNC_STATE_StateWaitDownloadIdle, GSYNC_STATE_StateRequestFile, GSYNC_STATE_StateWaitDownloadIdleThenRequest, GSYNC_STATE_StateRequestFileList, GSYNC_STATE_StateSetFileAttribute, GSYNC_STATE_StateInitDownload, GSYNC_STATE_StateSelectNextDownload, GSYNC_STATE_CopyMonRecord, GSYNC_STATE_StoreListEntries, GSYNC_STATE_HasListEntry, GSYNC_STATE_BuildMonEntry, GSYNC_STATE_BuildMonEntries, GSYNC_STATE_ApplyIconRecords, GSYNC_STATE_PrepareReceivedList, GSYNC_STATE_UpdateCurrentEntry, GSYNC_STATE_StateReceiveList, GSYNC_STATE_StateSendListRequest, GSYNC_STATE_StateWaitMessageThenSend, GSYNC_STATE_StateShowProgressMessage, GSYNC_STATE_StateWaitInputFirst, GSYNC_STATE_StateWaitMessageThenPrintSecond, GSYNC_STATE_StateWaitInputSecond, GSYNC_STATE_StateWaitMessageThenPrintThird, GSYNC_STATE_StateConfirmMenuSelect, GSYNC_STATE_StateOpenConfirmMenu, GSYNC_STATE_StateShowEmptyMessage, GSYNC_STATE_StateWaitMessageEnd, GSYNC_STATE_StateWaitInputClearWindow, GSYNC_STATE_StateWaitInputPrintNext, GSYNC_STATE_StatePrintErrorMessage, GSYNC_STATE_StateReceiveResponse, GSYNC_STATE_StateSendResponse, GSYNC_STATE_StateWaitInputThird, GSYNC_STATE_StateWaitMessageThenPrintFourth, GSYNC_STATE_StateWaitInputFourth, GSYNC_STATE_StateWaitMessageThenPrintFifth, GSYNC_STATE_ParseResponse, GSYNC_STATE_StateReceiveParsedResponse, GSYNC_STATE_StateSendParsedRequest, GSYNC_STATE_StateWaitMessageClearStream, GSYNC_STATE_StatePrintFinalMessage, GSYNC_STATE_StateReceiveFinalResponse, GSYNC_STATE_StateSendFinalRequest, GSYNC_STATE_StatePlaySeWaitInput, GSYNC_STATE_StateWaitMessageThenNext, GSYNC_STATE_StateShowCompletionMessage, GSYNC_STATE_StateSaveErrorExit, GSYNC_STATE_StateTrainerRecordSaveStart, GSYNC_STATE_StateReceiveRecordResponse, GSYNC_STATE_StateSendRecordRequest, GSYNC_STATE_StateStartTransferAnimation, GSYNC_STATE_StateTransferAnimationStep, GSYNC_STATE_StateTransferAnimationOpen, GSYNC_STATE_StateTransferAnimationEffect, GSYNC_STATE_StateCreateReceivedMonIcon, GSYNC_STATE_StateStoreReceivedMon, GSYNC_STATE_DestroyHttpConnection, GSYNC_STATE_CommitReceivedMon, GSYNC_STATE_ProcInit, GSYNC_STATE_ProcMain, GSYNC_STATE_ProcExit
  * address:  0x021D6E08
  * region:   ov123
  * compiler: dsi/1.1p1
@@ -39,7 +39,7 @@
  *   NHTTP_RAP_DeleteConnection 0x021B9774 thumb ov114
  *   gGsyncMessageIds 0x021DA844 data a4
  *   GFL_USE_PopBgm 0x02005E9C thumb
- *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_SetBgmPaused 0x02005DE4 thumb
  *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
  *   GFL_USE_PushBgm  0x02005E64  thumb
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
@@ -56,7 +56,7 @@
  *   NHTTP_AddPostDataRaw 0x021BE79C arm ov114
  *   BLOCK20_SAVEDATA_SetMode 0x020092D0 thumb
  *   CGEAR_SAVE_SetGsyncState 0x020090F8 thumb
- *   GF_STANDARD_SetupCalc 0x0203F1FC arm
+ *   GF_STANDARD_CalcCrc16 0x0203F1FC arm
  *   CGEAR_SAVE_SetGsyncId 0x02009108 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   GAME_DATA_PartSaveMain 0x02012E7C thumb
@@ -83,13 +83,13 @@
  *   BLOCK20_SAVEDATA_SetPending 0x020092E0 thumb
  *   SAVE_CONTROL_GetWorkArea 0x020071D8 thumb
  *   BLOCK20_SAVEDATA_GetDateStamp 0x020093C8 thumb
- *   GF_STANDARD_SetField00_F4E4 0x0203F4E4 arm
- *   GF_STANDARD_SetupRtc_F540 0x0203F540 arm
+ *   GF_STANDARD_GetCachedDate 0x0203F4E4 arm
+ *   GF_STANDARD_GetDayOfYear 0x0203F540 arm
  *   GFL_NET_STATE_SetError 0x0203C9AC arm
  *   GFL_NET_STATE_SetErrorMode 0x0203C938 arm
  *   BLOCK20_SAVEDATA_GetProgress 0x020093D8 thumb
  *   BLOCK20_SAVEDATA_SetFlag 0x02009428 thumb
- *   POKE_TOOL_Dummy 0x020185F0 thumb
+ *   POKE_TOOL_CastToBoxParam 0x020185F0 thumb
  *   BLOCK20_SAVEDATA_SetPokemon 0x02009294 thumb
  *   NHTTP_RAP_Destroy  0x021B9838  thumb  ov114
  *   ov114_id 0x00000072 data
@@ -131,7 +131,7 @@
  *   GSYNC_MESSAGE_PrintDefault 0x021D5AB0 thumb ov123
  *   GSYNC_DOWNLOAD_AllocWork 0x021D5B10 thumb ov123
  *   GSYNC_DOWNLOAD_FreeWork 0x021D5B70 thumb ov123
- *   GSYNC_DOWNLOAD_NoteFinished 0x021D5BA0 thumb ov123
+ *   GSYNC_DOWNLOAD_GetFileBuffer 0x021D5BA0 thumb ov123
  *   GSYNC_DOWNLOAD_InitAsync 0x021D5BD4 thumb ov123
  *   GSYNC_DOWNLOAD_ClearResult 0x021D5C0C thumb ov123
  *   GSYNC_DOWNLOAD_Reset 0x021D5C2C thumb ov123
@@ -141,7 +141,7 @@
  *   GSYNC_DOWNLOAD_GetFileAsync 0x021D5D24 thumb ov123
  *   GSYNC_DOWNLOAD_CleanupOnce 0x021D5D58 thumb ov123
  *   GSYNC_DOWNLOAD_Process 0x021D5D7C thumb ov123
- *   GSYNC_DISP_GetPokeIconActor 0x021D5D8C thumb ov123
+ *   GSYNC_DOWNLOAD_GetFileSize 0x021D5D8C thumb ov123
  *   GSYNC_DISP_Init 0x021D5D94 thumb ov123
  *   GSYNC_DISP_Draw 0x021D5E60 thumb ov123
  *   GSYNC_DISP_Exit 0x021D5E8C thumb ov123
@@ -274,7 +274,7 @@ extern void NHTTP_RAP_DeleteConnection(u8 *p);
 
 extern int GFL_USE_PopBgm(void);
 
-extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_SetBgmPaused(void *p);
 
 extern void GFL_USE_FadeInBgmFull(u32 v);
 
@@ -302,7 +302,7 @@ extern void BLOCK20_SAVEDATA_SetActive(struct Sub02009210Obj *obj, u8 value);
 
 extern void BLOCK20_SAVEDATA_SetSavedValue(struct Sub02009210Obj *obj, s32 value);
 
-extern int POKE_TOOL_Dummy(void *);
+extern int POKE_TOOL_CastToBoxParam(void *);
 
 extern int NHTTP_RAP_GetResultCode(u8 *p);
 
@@ -330,7 +330,7 @@ extern struct Sub02009210Obj *BLOCK20_SAVEDATA_GetBlock(void *sys);
 
 extern void CGEAR_SAVE_SetGsyncState(struct Sub020090B0Obj *obj, unsigned char value);
 
-extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
+extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
 
 extern int SAVE_CONTROL_LoadExtraSaveWithBuffer(int,int,u16,int,int);
 
@@ -388,9 +388,9 @@ extern int DAILY_CLOCK_HasAllowance(const struct Sub02008AECSession *s);
 
 extern u32 BLOCK20_SAVEDATA_GetDateStamp(const struct Sub02009210Obj *obj);
 
-extern void GF_STANDARD_SetField00_F4E4(struct GsyncRtcDate *);
+extern void GF_STANDARD_GetCachedDate(struct GsyncRtcDate *);
 
-extern int GF_STANDARD_SetupRtc_F540(struct GsyncRtcDate *);
+extern int GF_STANDARD_GetDayOfYear(struct GsyncRtcDate *);
 
 extern void GFL_NET_STATE_SetError(int a, u32 b, u32 c, u32 d);
 
@@ -470,7 +470,7 @@ GsyncDownloadWork *GSYNC_DOWNLOAD_AllocWork(int heap, int fileBufferSize);
 
 void GSYNC_DOWNLOAD_FreeWork(GsyncDownloadWork *work);
 
-void *GSYNC_DOWNLOAD_NoteFinished(GsyncDownloadWork *work);
+void *GSYNC_DOWNLOAD_GetFileBuffer(GsyncDownloadWork *work);
 
 int GSYNC_DOWNLOAD_InitAsync(GsyncDownloadWork *work);
 
@@ -490,7 +490,7 @@ int GSYNC_DOWNLOAD_CleanupOnce(GsyncDownloadWork *work);
 
 void GSYNC_DOWNLOAD_Process(GsyncDownloadWork *work);
 
-void *GSYNC_DISP_GetPokeIconActor(GsyncDispWork *disp);
+void *GSYNC_DOWNLOAD_GetFileSize(GsyncDispWork *disp);
 
 u8 *GSYNC_DISP_Init(u32 heap);
 
@@ -614,9 +614,9 @@ void GSYNC_STATE_StateSelectNextDownload(char *state);
 
 void GSYNC_STATE_CopyMonRecord(void *saveSystem, char *records);
 
-int GSYNC_STATE_GetEntryCount(int saveSystem,u8 *listBuffer);
+int GSYNC_STATE_StoreListEntries(int saveSystem,u8 *listBuffer);
 
-int GSYNC_STATE_GetListEntry(int saveSystem,GsyncConn *list);
+int GSYNC_STATE_HasListEntry(int saveSystem,GsyncConn *list);
 
 void GSYNC_STATE_BuildMonEntry(GsyncStateWork *state, int unused, int species, int gender, int form, int entryArg, int value);
 
@@ -852,7 +852,7 @@ void GSYNC_STATE_StateWaitEndingBgm(char *state)
         if (waitTicks <= 0) {
             if (waitTicks == 0) {
                 GFL_USE_PopBgm();
-                GFL_USE_SetBgmPlayerParam(0);
+                GFL_USE_SetBgmPaused(0);
                 GFL_USE_FadeInBgmFull(6);
             }
             if (KEY_GetTrg() != 0 || TOUCHPANEL_GetTrg() != 0) {
@@ -876,7 +876,7 @@ void GSYNC_STATE_StateShowResultMessage(int state)
     GSYNC_MESSAGE_SetMonName((void *)((*(int *)&((GsyncStateWork *)state)->messageWork)), 0x16, ((GsyncStateWork *)state)->messageArg,
                  (void *)((*(int *)&((GsyncStateWork *)state)->receivedMon)));
     GSYNC_MESSAGE_PrintStream((GsyncMessageWork *)((char *)((*(int *)&((GsyncStateWork *)state)->messageWork))), 0);
-    GFL_USE_SetBgmPlayerParam((void *)1);
+    GFL_USE_SetBgmPaused((void *)1);
     GFL_USE_PushBgm();
     GFL_USE_CancelChangeAndPlayBgm(0x515, 0xffff);
     ((GsyncStateWork *)state)->bgmWait = 0xb4;
@@ -938,7 +938,7 @@ void GSYNC_STATE_StateSaveFinishMessage(char *state)
         animCallback.value=0; animCallback.object=state; animCallback.callback=GSYNC_STATE_ResetSlotActors;
         GSYNC_DISP_SetSlotAnimCommand((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),0,(int)&animCallback);
         GSYNC_DISP_SetFadeDirection((GsyncStateWork *)((u8 *)(((GsyncStateWork *)state)->displayWork)),0);
-        GSYNC_DISP_CreateMonIconActor((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),(void *)POKE_TOOL_Dummy(((GsyncStateWork *)state)->receivedMon),0);
+        GSYNC_DISP_CreateMonIconActor((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),(void *)POKE_TOOL_CastToBoxParam(((GsyncStateWork *)state)->receivedMon),0);
         GSYNC_DISP_RestartActorAnim((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork));
         GFL_USE_PlaySeDefaultVolume(0x658);
         GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateShowResultMessage,0x295);
@@ -985,7 +985,7 @@ void GSYNC_STATE_StateSaveStart(int state)
     ((GsyncStateWork *)state)->saveInProgress=1;
     GSYNC_STATE_LoadReceivedMon((GsyncStateWork *)state);
     if(GSYNC_STATE_IsCommReady((GsyncStateWork *)state)==0) {
-        GSYNC_STATE_GetEntryCount(saveSystem,(u8 *)(((GsyncStateWork *)state)->listBuffer));
+        GSYNC_STATE_StoreListEntries(saveSystem,(u8 *)(((GsyncStateWork *)state)->listBuffer));
         GSYNC_STATE_BuildMonEntries((GsyncStateWork *)state,saveSystem,(u8 *)(((GsyncStateWork *)state)->listBuffer));
         GSYNC_STATE_CopyMonRecord((void *)saveSystem,(char *)(((GsyncStateWork *)state)->listBuffer));
         BLOCK20_SAVEDATA_SetMode((struct Sub02009210Obj *)saveSystem,*(u8 *)(((GsyncStateWork *)state)->listBuffer+0x5a));
@@ -1028,8 +1028,8 @@ void GSYNC_STATE_StateExtraSaveLoadStart(int state)
     u8 *downloadData;
     int buffer;
     saveControl=(int)GAME_DATA_GetSaveControl((struct Big *)(((GsyncStateWork *)state)->saveData));
-    downloadData=(u8 *)GSYNC_DOWNLOAD_NoteFinished((GsyncDownloadWork *)((char *)(((GsyncStateWork *)state)->downloadWork)));
-    checksum=GF_STANDARD_SetupCalc(downloadData,0x2600);
+    downloadData=(u8 *)GSYNC_DOWNLOAD_GetFileBuffer((GsyncDownloadWork *)((char *)(((GsyncStateWork *)state)->downloadWork)));
+    checksum=GF_STANDARD_CalcCrc16(downloadData,0x2600);
     if(checksum!=*(u16 *)(downloadData+0x2600)) {
         ((GsyncStateWork *)state)->errorCode=0xfff0;
         GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateErrorMessage,0x345);
@@ -1056,8 +1056,8 @@ void GSYNC_STATE_StateExtraSaveLoadStartSecond(int state)
     int buffer;
     u16 checksum;
     saveControl=(int)GAME_DATA_GetSaveControl((struct Big *)(((GsyncStateWork *)state)->saveData));
-    downloadData=(u8 *)GSYNC_DOWNLOAD_NoteFinished((GsyncDownloadWork *)((char *)(((GsyncStateWork *)state)->downloadWork)));
-    checksum=GF_STANDARD_SetupCalc(downloadData,0x6200);
+    downloadData=(u8 *)GSYNC_DOWNLOAD_GetFileBuffer((GsyncDownloadWork *)((char *)(((GsyncStateWork *)state)->downloadWork)));
+    checksum=GF_STANDARD_CalcCrc16(downloadData,0x6200);
     if(checksum!=*(u16 *)(downloadData+0x6200)) {
         ((GsyncStateWork *)state)->errorCode=0xfff0;
         GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateErrorMessage,0x378);
@@ -1081,14 +1081,14 @@ void GSYNC_STATE_StateMusicalSaveCreate(int state,int dataSize)
     int wordCount;
     u16 checksum;
     ((GsyncStateWork *)state)->wantExtraSave=0;
-    downloadData=(u8 *)GSYNC_DOWNLOAD_NoteFinished((GsyncDownloadWork *)((char *)(((GsyncStateWork *)state)->downloadWork)));
+    downloadData=(u8 *)GSYNC_DOWNLOAD_GetFileBuffer((GsyncDownloadWork *)((char *)(((GsyncStateWork *)state)->downloadWork)));
     wordCount=dataSize/2;
     if(dataSize>0x1fc0e) {
         ((GsyncStateWork *)state)->errorCode=0xfff0;
         GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateErrorMessage,0x39d);
         return;
     }
-    checksum=GF_STANDARD_SetupCalc(downloadData,dataSize);
+    checksum=GF_STANDARD_CalcCrc16(downloadData,dataSize);
     if(checksum!=*(u16 *)(downloadData+wordCount*2)) {
         ((GsyncStateWork *)state)->errorCode=0xfff0;
         GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateErrorMessage,0x3a3);
@@ -1119,7 +1119,7 @@ void GSYNC_STATE_StateMusicalSaveRetry(int state)
 {
     switch(((GsyncStateWork *)state)->downloadKind) {
     case 0: GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateExtraSaveLoadStart,0x3cb); break;
-    case 1: GSYNC_STATE_StateMusicalSaveCreate(state,(int)GSYNC_DISP_GetPokeIconActor((GsyncDispWork *)((u8 *)(((GsyncStateWork *)state)->downloadWork)))-2); break;
+    case 1: GSYNC_STATE_StateMusicalSaveCreate(state,(int)GSYNC_DOWNLOAD_GetFileSize((GsyncDispWork *)((u8 *)(((GsyncStateWork *)state)->downloadWork)))-2); break;
     case 2: GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateExtraSaveLoadStartSecond,0x3d1); break;
     }
 }
@@ -1155,7 +1155,7 @@ void GSYNC_STATE_StateWaitDownloadIdleThenRequest(int state)
         return;
     }
     if(GSYNC_DOWNLOAD_ClearResult((GsyncDownloadWork *)((char *)(((GsyncStateWork *)state)->downloadWork)))) {
-        if((void *)(int)GSYNC_DISP_GetPokeIconActor((GsyncDispWork *)((u8 *)((int)((u8 *)(((GsyncStateWork *)state)->downloadWork)))))==0) {
+        if((void *)(int)GSYNC_DOWNLOAD_GetFileSize((GsyncDispWork *)((u8 *)((int)((u8 *)(((GsyncStateWork *)state)->downloadWork)))))==0) {
             ((GsyncStateWork *)state)->errorCode=0xfff0;
             GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateErrorMessage,0x407);
             return;
@@ -1266,9 +1266,9 @@ void GSYNC_STATE_CopyMonRecord(void *saveSystem, char *records)
     }
 }
 
-int GSYNC_STATE_GetEntryCount(int saveSystem,u8 *listBuffer) { int slotIndex,found; u16 species; found=0; for(slotIndex=0;slotIndex<20;slotIndex++) { species=*(u16 *)(listBuffer+92+slotIndex*2); if(species!=0 && species<=626) { BLOCK20_SAVEDATA_SetEntry((struct Sub02009210Obj *)saveSystem,slotIndex,species,listBuffer[132+slotIndex]); found=1; } } return found; }
+int GSYNC_STATE_StoreListEntries(int saveSystem,u8 *listBuffer) { int slotIndex,found; u16 species; found=0; for(slotIndex=0;slotIndex<20;slotIndex++) { species=*(u16 *)(listBuffer+92+slotIndex*2); if(species!=0 && species<=626) { BLOCK20_SAVEDATA_SetEntry((struct Sub02009210Obj *)saveSystem,slotIndex,species,listBuffer[132+slotIndex]); found=1; } } return found; }
 
-int GSYNC_STATE_GetListEntry(int saveSystem,GsyncConn *list) { int slotIndex,found; u16 species; found=0; for(slotIndex=0;slotIndex<20;slotIndex++) { species=*(u16 *)((u8 *)list+92+slotIndex*2); if(species!=0 && species<=626) found=1; } return found; }
+int GSYNC_STATE_HasListEntry(int saveSystem,GsyncConn *list) { int slotIndex,found; u16 species; found=0; for(slotIndex=0;slotIndex<20;slotIndex++) { species=*(u16 *)((u8 *)list+92+slotIndex*2); if(species!=0 && species<=626) found=1; } return found; }
 
 void GSYNC_STATE_BuildMonEntry(GsyncStateWork *state, int unused, int species, int gender, int form, int entryArg, int value)
 {
@@ -1328,7 +1328,7 @@ void GSYNC_STATE_PrepareReceivedList(GsyncStateWork *state, void *saveSystem, Gs
             if (*(u16 *)((u8 *)list+slotIndex*8+4) == 0) break;
             GSYNC_DISP_SetIconRecord(state->displayWork, slotIndex+20, *(u16 *)((u8 *)list+slotIndex*8+4), ((u8 *)list)[slotIndex*8+8], ((u8 *)list)[slotIndex*8+9]);
         }
-        ((GsyncStateWork *)state)->hasListEntry = GSYNC_STATE_GetListEntry((int)saveSystem,list);
+        ((GsyncStateWork *)state)->hasListEntry = GSYNC_STATE_HasListEntry((int)saveSystem,list);
         GSYNC_STATE_ApplyIconRecords(state,list);
         GSYNC_DISP_LoadIconResources((GsyncDispWork *)(state->displayWork));
     }
@@ -1743,9 +1743,9 @@ void GSYNC_STATE_StateSendFinalRequest(char *state)
     saved.month=(u8)(rtcPacked>>16);
     saved.day=(u8)(rtcPacked>>8);
     saved.week=(u8)rtcPacked;
-    GF_STANDARD_SetField00_F4E4((struct GsyncRtcDate *)&current);
-    day=GF_STANDARD_SetupRtc_F540((struct GsyncRtcDate *)&saved);
-    if (day==GF_STANDARD_SetupRtc_F540((struct GsyncRtcDate *)&current)) {
+    GF_STANDARD_GetCachedDate((struct GsyncRtcDate *)&current);
+    day=GF_STANDARD_GetDayOfYear((struct GsyncRtcDate *)&saved);
+    if (day==GF_STANDARD_GetDayOfYear((struct GsyncRtcDate *)&current)) {
         GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateWaitMessageThenPrintSecond,0x869);
         return;
     }
@@ -1822,7 +1822,7 @@ void GSYNC_STATE_StateTrainerRecordSaveStart(char *state)
     struct GsyncRtcDate date;
     saveSystem=GAME_SYNC_GetBlock(((GsyncStateWork *)state)->saveControl);
     ((GsyncStateWork *)state)->monStored=0;
-    GF_STANDARD_SetField00_F4E4((struct GsyncRtcDate *)&date);
+    GF_STANDARD_GetCachedDate((struct GsyncRtcDate *)&date);
     BLOCK20_SAVEDATA_SetDateStamp(saveSystem, (date.year << 24) | ((date.month & 255) << 16) | ((date.day & 255) << 8) | date.week);
     if (BLOCK20_SAVEDATA_GetProgress(saveSystem)!=127) {
         BLOCK20_SAVEDATA_SetFlag(saveSystem,1);
@@ -1939,7 +1939,7 @@ void GSYNC_STATE_StateTransferAnimationOpen(char *state)
 
 void GSYNC_STATE_StateTransferAnimationEffect(char *state) { if(--((GsyncStateWork *)state)->timer==0) { GSYNC_DISP_CreateEffectActorDefault((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork)); GSYNC_DISP_EnableActorAutoAnim((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork)); ((GsyncStateWork *)state)->timer=70; GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateTransferAnimationOpen,0x9e4); } }
 
-void GSYNC_STATE_StateCreateReceivedMonIcon(char *state) { GSYNC_DISP_CreateMonIconActor(((GsyncStateWork *)state)->displayWork,(void *)POKE_TOOL_Dummy(((GsyncStateWork *)state)->receivedMon),1); ((GsyncStateWork *)state)->timer=10; GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateTransferAnimationEffect,0x9f6); }
+void GSYNC_STATE_StateCreateReceivedMonIcon(char *state) { GSYNC_DISP_CreateMonIconActor(((GsyncStateWork *)state)->displayWork,(void *)POKE_TOOL_CastToBoxParam(((GsyncStateWork *)state)->receivedMon),1); ((GsyncStateWork *)state)->timer=10; GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateTransferAnimationEffect,0x9f6); }
 
 void GSYNC_STATE_StateStoreReceivedMon(char *state)
 {

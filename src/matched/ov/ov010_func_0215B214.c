@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_WORK_CmdEventDataSetA
+ * function: SCRCMD_WORK_CmdSetBgEventGridPos
  * address:  0x0215B214
  * packet:   pkt_ov010_0215B214
  * region:   ov010
@@ -26,7 +26,7 @@ extern void *SCRCMD_WORK_GetGameData(void *a0);
 struct BigObj;
 extern u32 GAME_DATA_GetEventData(const struct BigObj *p);
 extern int EVENTDATA_SYSTEM_SetBgEventGridPos(int, int, u16, u16, u16);
-int SCRCMD_WORK_CmdEventDataSetA(int a0, int a1)
+int SCRCMD_WORK_CmdSetBgEventGridPos(int a0, int a1)
 {
     int v = (int)SCRIPT_WORK_ReadWorkValue((void *)a0, (void *)a1);
     s16 x = (s16)SCRIPT_WORK_ReadWorkValue((void *)a0, (void *)a1);

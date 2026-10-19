@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   WIFIBATTLEMATCH_NET_CompareField 0x021DD044 thumb ov175
+ *   WIFIBATTLEMATCH_NET_LookupFieldEntry 0x021DD044 thumb ov175
  *   WIFIBATTLEMATCH_NET_GetDateTime 0x021DA470 thumb ov175
  *   WIFIBATTLEMATCH_NET_SetupGdbRecord 0x021DB6A8 thumb ov175
  *   func_02034714 0x02034714 arm
@@ -53,7 +53,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Record {u32 words[21];};
-extern int WIFIBATTLEMATCH_NET_CompareField(int);
+extern int WIFIBATTLEMATCH_NET_LookupFieldEntry(int);
 extern void WIFIBATTLEMATCH_NET_GetDateTime(u8 *);
 extern void WIFIBATTLEMATCH_NET_SetupGdbRecord(char *);
 extern void func_02034714(const char *expr, u32 line, const char *file);
@@ -65,19 +65,19 @@ void WIFIBATTLEMATCH_NET_SetupGdbUpload(u8 *p,u32 mode,struct Record *src)
     if(**(u32 * *)&((struct Obj00312 *)p)->f1464==0)func_02034714((const char *)((int)d_021E2EF8),0,(const char *)((int)d_021E2EF8));
     switch(mode) {
     case 0:
-        ((struct Obj24359 *)(*(u8 * *)&((struct Obj00312 *)p)->f190))->f0=WIFIBATTLEMATCH_NET_CompareField(36);
+        ((struct Obj24359 *)(*(u8 * *)&((struct Obj00312 *)p)->f190))->f0=WIFIBATTLEMATCH_NET_LookupFieldEntry(36);
         ((struct Obj24360 *)(*(u8 * *)&((struct Obj00312 *)p)->f190))->f4=2;
         ((struct Obj24361 *)(*(u8 * *)&((struct Obj00312 *)p)->f190))->f8=1500;
-        ((struct Obj24362 *)(*(u8 * *)&((struct Obj00312 *)p)->f190))->f10=WIFIBATTLEMATCH_NET_CompareField(39);
+        ((struct Obj24362 *)(*(u8 * *)&((struct Obj00312 *)p)->f190))->f10=WIFIBATTLEMATCH_NET_LookupFieldEntry(39);
         ((struct Obj24363 *)(*(u8 * *)&((struct Obj00312 *)p)->f190))->f14=2;
         ((struct Obj24364 *)(*(u8 * *)&((struct Obj00312 *)p)->f190))->f18=0;
-        ((struct Obj24365 *)(*(u8 * *)&((struct Obj00312 *)p)->f190))->f20=WIFIBATTLEMATCH_NET_CompareField(40);
+        ((struct Obj24365 *)(*(u8 * *)&((struct Obj00312 *)p)->f190))->f20=WIFIBATTLEMATCH_NET_LookupFieldEntry(40);
         ((struct Obj24366 *)(*(u8 * *)&((struct Obj00312 *)p)->f190))->f24=2;
         ((struct Obj24367 *)(*(u8 * *)&((struct Obj00312 *)p)->f190))->f28=0;
-        ((struct Obj24368 *)(*(u8 * *)&((struct Obj00312 *)p)->f190))->f30=WIFIBATTLEMATCH_NET_CompareField(38);
+        ((struct Obj24368 *)(*(u8 * *)&((struct Obj00312 *)p)->f190))->f30=WIFIBATTLEMATCH_NET_LookupFieldEntry(38);
         ((struct Obj24369 *)(*(u8 * *)&((struct Obj00312 *)p)->f190))->f34=2;
         ((struct Obj24370 *)(*(u8 * *)&((struct Obj00312 *)p)->f190))->f38=0;
-        ((struct Obj24371 *)(*(u8 * *)&((struct Obj00312 *)p)->f190))->f40=WIFIBATTLEMATCH_NET_CompareField(37);
+        ((struct Obj24371 *)(*(u8 * *)&((struct Obj00312 *)p)->f190))->f40=WIFIBATTLEMATCH_NET_LookupFieldEntry(37);
         ((struct Obj24372 *)(*(u8 * *)&((struct Obj00312 *)p)->f190))->f44=2;
         ((struct Obj24373 *)(*(u8 * *)&((struct Obj00312 *)p)->f190))->f48=0;
         ((struct Obj24374 *)(*(u8 * *)&((struct Obj00312 *)p)->f190))->f50=(u32)d_021E2F8C;

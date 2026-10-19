@@ -19,7 +19,7 @@
  *   BTL_POKEPARAM_WriteBackToParam  0x021D6B84  thumb  ov093
  *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
  *   POKEPARTY_Add  0x0201A98C  thumb
- *   BTL_POKEPARAM_IsLevelUpPending  0x021D67D0  thumb  ov093
+ *   BTL_POKEPARAM_HasEnteredBattle  0x021D67D0  thumb  ov093
  *   POKEPARTY_Copy  0x0201AC2C  thumb
  *   gClientFirstPokeIds  0x021EFCF0  data  ov093
  */
@@ -44,7 +44,7 @@ extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void BTL_POKEPARAM_WriteBackToParam(void *m, int k);
 extern void *BTL_POKEPARAM_GetMon(void *m);
 extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
-extern int BTL_POKEPARAM_IsLevelUpPending(struct R3 *p);
+extern int BTL_POKEPARAM_HasEnteredBattle(struct R3 *p);
 extern void POKEPARTY_Copy(const struct Rec534 *src, struct Rec534 *dst);
 
 void BTL_SIDE_WriteBackPartyOrdered(char *a, char *b, int k)
@@ -68,7 +68,7 @@ void BTL_SIDE_WriteBackPartyOrdered(char *a, char *b, int k)
             if (t + i == BTL_POKEPARAM_GetPokeId(m)) {
                 BTL_POKEPARAM_WriteBackToParam(m, 1);
                 POKEPARTY_Add(((struct Obj07747 *)b)->f2B8, BTL_POKEPARAM_GetMon(m));
-                if (BTL_POKEPARAM_IsLevelUpPending(m) != 0)
+                if (BTL_POKEPARAM_HasEnteredBattle(m) != 0)
                     *(u8 *)(*(char * *)&((struct Obj07747 *)b)->f0 + i + 0xc2) = 1;
                 break;
             }

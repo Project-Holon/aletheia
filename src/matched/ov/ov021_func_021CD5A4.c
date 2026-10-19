@@ -16,7 +16,7 @@
  *   STRBUF_Delete  0x02045808  arm
  *   FIELD_MSGBG_DeleteSysWin  0x02190E40  thumb  ov021
  *   FIELD_MSGBG_DeleteMsgData  0x021904C8  thumb  ov021
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   GFL_NET_GetRunState  0x0203CD98  arm
  *   COMM_ENTRY_EndNetCommands  0x021CF17C  thumb  ov021
  *   func_020307B0  0x020307B0  arm
@@ -35,7 +35,7 @@ struct WordSet;
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern int FIELD_MSGBG_DeleteSysWin(u32 a);
 extern u32 FIELD_MSGBG_DeleteMsgData(struct Rec *a0);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern int GFL_NET_GetRunState(void);
 extern void COMM_ENTRY_EndNetCommands(void);
 extern u32 func_020307B0(void *p);
@@ -57,7 +57,7 @@ u32 COMM_ENTRY_MENU_Delete(u32 *p)
     STRBUF_Delete((struct U16Vec *)p[6]);
     FIELD_MSGBG_DeleteSysWin(p[5]);
     FIELD_MSGBG_DeleteMsgData((struct Rec *)p[2]);
-    WORDSET_DeleteStrbufED04((struct WordSet *)p[1]);
+    WORDSET_Delete((struct WordSet *)p[1]);
     if (GFL_NET_GetRunState() == 1) {
         COMM_ENTRY_EndNetCommands();
     }

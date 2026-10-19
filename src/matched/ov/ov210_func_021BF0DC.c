@@ -12,7 +12,7 @@
  * symbols:
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetActorObjMode 0x0204B688 arm
- *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
+ *   GAME_DATA_ContainsRecentId 0x02012BF8 thumb
  *   ZUKAN_CreateActor 0x021C940C thumb ov212
  *   ZKNSEARCH_MAIN_SetActorAnimAuto 0x021BEDB8 thumb ov210
  *   ZKNSEARCH_MAIN_SetActorVisible 0x021BEDF0 thumb ov210
@@ -50,7 +50,7 @@ struct Actor;
 struct Bank;
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
-extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
+extern int GAME_DATA_ContainsRecentId(int a0, int a1);
 struct Obj;
 extern struct Obj *ZUKAN_CreateActor(u32 bank, const u8 *t, u16 heap);
 extern void ZKNSEARCH_MAIN_SetActorAnimAuto(int p, int i, int v);
@@ -80,7 +80,7 @@ void ZKNSEARCH_MAIN_CreateActors(struct Obj021BF0DC *p)
         p->objs[i] = ZUKAN_CreateActor((u32)p->set, (const u8 *)(&t0), 0x7B);
     }
 
-    if (GAME_DATA_CheckSaveFlag((int)(*p->sys), 0x10) == 1)
+    if (GAME_DATA_ContainsRecentId((int)(*p->sys), 0x10) == 1)
         ZKNSEARCH_MAIN_SetActorAnimAuto((int)p, 4, 7);
     ZKNSEARCH_MAIN_SetActorVisible((int)p, 5, 0);
     ZKNSEARCH_MAIN_SetActorVisible((int)p, 6, 0);

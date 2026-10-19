@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   BMP_MENU_DeleteYesNo 0x0201FEF4 thumb
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
@@ -33,7 +33,7 @@ struct WordSet;
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void TCBL_Destroy(struct S02031140 *p);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
-extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern unsigned int WORDSET_Delete(struct WordSet *p);
 typedef unsigned int   u32;
 extern u32 GF_FONT_Delete(void *ptr);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -49,7 +49,7 @@ void WIFI_BSUBWAY_GRAPHIC_DeleteWindow(u8 *p) {
         if(((struct Obj01721 *)p)->f9A4) PRINTSYS_PrintStreamDelete(((struct Obj01721 *)p)->f9A4);
         TCBL_Destroy(((struct Obj01721 *)p)->f9A8);
         MSGDATA_Delete(((struct Obj01721 *)p)->f990);
-        WORDSET_DeleteStrbufED04(((struct Obj01721 *)p)->f994);
+        WORDSET_Delete(((struct Obj01721 *)p)->f994);
         GF_FONT_Delete(((struct Obj01721 *)p)->f998);
         STRBUF_Delete(((struct Obj01721 *)p)->f99C);
         STRBUF_Delete(((struct Obj01721 *)p)->f9A0);

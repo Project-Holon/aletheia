@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   GF_FONT_Delete  0x0201D83C  thumb
@@ -41,7 +41,7 @@ typedef struct {
 struct Rec;
 struct U16Vec;
 struct WordSet;
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
@@ -50,7 +50,7 @@ void VIEWER_MAIN_FreeResources(Work *p)
 {
     int i;
 
-    WORDSET_DeleteStrbufED04(p->f3204);
+    WORDSET_Delete(p->f3204);
     for (i = 0; i < 5; i++) {
         STRBUF_Delete(p->f3294[i]);
     }

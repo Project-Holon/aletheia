@@ -1,7 +1,7 @@
 /*
  * file:     viewer_text.c
  * unit:     yes
- * function: VIEWER_TEXT_Init, VIEWER_TEXT_Exit, VIEWER_TEXT_Draw, VIEWER_TEXT_DrawTable, VIEWER_TEXT_DrawList, VIEWER_TEXT_FlushWindow, VIEWER_TEXT_DrawWindow, VIEWER_TEXT_PrintColorAt, VIEWER_TEXT_DrawRow, VIEWER_TEXT_SetScroll, VIEWER_TEXT_SetScrollParam, VIEWER_TEXT_DrawPage, VIEWER_TEXT_PrintNumber, VIEWER_TEXT_PrintDigits, VIEWER_TEXT_PrintString, VIEWER_TEXT_PrintStringClipped, VIEWER_TEXT_PrintStringPad, VIEWER_TEXT_PrintWrapped, VIEWER_TEXT_Print, VIEWER_TEXT_PrintRow, VIEWER_TEXT_NoOp, VIEWER_TEXT_InitActors, VIEWER_TEXT_CreateActor, VIEWER_TEXT_DeleteActors, VIEWER_TEXT_SetActorAnim, VIEWER_TEXT_Create, VIEWER_TEXT_Main, VIEWER_TEXT_Delete, VIEWER_TEXT_VBlank, VIEWER_TEXT_LoadResources, VIEWER_TEXT_FreeResources, VIEWER_TEXT_InitVram, VIEWER_TEXT_InitBg, VIEWER_TEXT_ExitBg, VIEWER_TEXT_LoadBgResources, VIEWER_TEXT_FreeBgResources, VIEWER_TEXT_InitClact
+ * function: VIEWER_TEXT_Init, VIEWER_TEXT_Exit, VIEWER_TEXT_Draw, VIEWER_TEXT_DrawTable, VIEWER_TEXT_DrawList, VIEWER_TEXT_FlushWindow, VIEWER_TEXT_DrawWindow, VIEWER_TEXT_PrintColorAt, VIEWER_TEXT_DrawRow, VIEWER_TEXT_AddRow, VIEWER_TEXT_BuildRowList, VIEWER_TEXT_DrawPage, VIEWER_TEXT_PrintNumber, VIEWER_TEXT_PrintDigits, VIEWER_TEXT_PrintString, VIEWER_TEXT_PrintStringClipped, VIEWER_TEXT_PrintStringPad, VIEWER_TEXT_PrintWrapped, VIEWER_TEXT_Print, VIEWER_TEXT_PrintRow, VIEWER_TEXT_NoOp, VIEWER_TEXT_InitActors, VIEWER_TEXT_CreateActor, VIEWER_TEXT_DeleteActors, VIEWER_TEXT_SetActorAnim, VIEWER_TEXT_Create, VIEWER_TEXT_Main, VIEWER_TEXT_Delete, VIEWER_TEXT_VBlank, VIEWER_TEXT_LoadResources, VIEWER_TEXT_FreeResources, VIEWER_TEXT_InitVram, VIEWER_TEXT_InitBg, VIEWER_TEXT_ExitBg, VIEWER_TEXT_LoadBgResources, VIEWER_TEXT_FreeBgResources, VIEWER_TEXT_InitClact
  * address:  0x021C6000
  * region:   ov111
  * compiler: dsi/1.1p1
@@ -20,7 +20,7 @@
  *   BG_SYS_Init  0x02040C14  arm
  *   BMP_MENUWORK_LoadCharAndPltt  0x0201F5BC  thumb
  *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   d_021C8773  0x021C8773  data
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
@@ -38,7 +38,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   MSGDATA_Delete  0x02045C04  arm
- *   GAME_DATA_GetSaveBlock21  0x02012F5C  thumb
+ *   GAME_DATA_GetTrainerCardSign  0x02012F5C  thumb
  *   TRCARD_SIGN_GetSeenBefore  0x020089F4  thumb
  *   CURSOR_MOVE_GetTableKind  0x02025C9C  thumb
  *   d_021C876C     0x021C876C  data  a1
@@ -98,11 +98,11 @@
  *   VIEWER_ACTOR_DeleteModel  0x021C7808  thumb
  *   VIEWER_ACTOR_Exit3D  0x021C7730  thumb
  *   VIEWER_ACTOR_DeleteObjects  0x021C7658  thumb
- *   VIEWER_ACTOR_SetRtcDate  0x021C81C0  thumb
+ *   VIEWER_ACTOR_SaveBadgeTimers  0x021C81C0  thumb
  *   PROCSYS_FreeProcWork  0x020315D4  arm
  *   GFL_HEAP_GetHeapHeadChecked  0x0203084C  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
- *   BG_SYS_FillScrollArea  0x02040618  arm
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm
  *   CLACT_VBlankSystem  0x0204A648  arm
  *   BG_SYS_Update  0x020419E4  arm
  *   STRBUF_GetChars  0x02045A90  arm
@@ -110,8 +110,8 @@
  *   WORDSET_Create  0x0201EC74  thumb
  *   GFL_USE_AddMainTask  0x020056A0  thumb
  *   VIEWER_ACTOR_SetPageCount  0x021C80B4  thumb
- *   VIEWER_ACTOR_GetRtcDate  0x021C8208  thumb
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   VIEWER_ACTOR_LoadBadgeTimers  0x021C8208  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   TCB_DeleteTask  0x02030EAC  arm
  *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   d_021C88FC  0x021C88FC  data
@@ -202,7 +202,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
@@ -219,7 +219,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-extern void *GAME_DATA_GetSaveBlock21(void **h);
+extern void *GAME_DATA_GetTrainerCardSign(void **h);
 extern u8 TRCARD_SIGN_GetSeenBefore(const struct Sub020089A8Obj *obj);
 extern u32 CURSOR_MOVE_GetTableKind(u32 x);
 extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
@@ -275,11 +275,11 @@ extern void VIEWER_ACTOR_DeleteBgWindow(ViewerTextWork *p);
 extern void VIEWER_ACTOR_DeleteModel(ViewerTextWork *p);
 extern void VIEWER_ACTOR_Exit3D(ViewerTextWork *p);
 extern void VIEWER_ACTOR_DeleteObjects(ViewerTextWork *p);
-extern void VIEWER_ACTOR_SetRtcDate(ViewerTextWork *p);
+extern void VIEWER_ACTOR_SaveBadgeTimers(ViewerTextWork *p);
 extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void *GFL_HEAP_GetHeapHeadChecked(u32 heapId);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 extern void CLACT_VBlankSystem(void);
 extern void BG_SYS_Update(void);
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
@@ -287,8 +287,8 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
 extern void *GFL_USE_AddMainTask(void (*cb)(void *, ViewerTextWork *), ViewerTextWork *p, int pri);
 extern void VIEWER_ACTOR_SetPageCount(ViewerTextWork *p);
-extern void VIEWER_ACTOR_GetRtcDate(ViewerTextWork *p);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern void VIEWER_ACTOR_LoadBadgeTimers(ViewerTextWork *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void TCB_DeleteTask(struct Node *n);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_Create(u16 heapId);
@@ -322,8 +322,8 @@ void VIEWER_TEXT_FlushWindow(ViewerWork *p, void **bg);
 void VIEWER_TEXT_DrawWindow(ViewerWork *p, void *bg, void *info);
 void VIEWER_TEXT_PrintColorAt(void *a, ViewerWork *p, int x, int y, void *s, int idx);
 void VIEWER_TEXT_DrawRow(ViewerWork *p, void *a, u32 sel, int y, int idx);
-void VIEWER_TEXT_SetScroll(ViewerWork *p, int v);
-void VIEWER_TEXT_SetScrollParam(void *p, ViewerInfo *info);
+void VIEWER_TEXT_AddRow(ViewerWork *p, int v);
+void VIEWER_TEXT_BuildRowList(void *p, ViewerInfo *info);
 void VIEWER_TEXT_DrawPage(ViewerWork *p, int scroll, int flush, int idx);
 void VIEWER_TEXT_PrintNumber(ViewerWork *p, void *a, int x, int dx, int y, void *s, int n, u8 kind, u32 mode, int idx);
 void VIEWER_TEXT_PrintDigits(ViewerWork *p, void *a, int x, int dx, int y, void *s, u32 n, u8 digits, u32 mode, int k, int idx);
@@ -380,8 +380,8 @@ void VIEWER_TEXT_Init(ViewerWork *p)
     BG_SYS_Init(7, 0, 1, 0);
     BMP_MENUWORK_LoadCharAndPltt(4, 0x31, 0xD, p->charVariant, p->heap);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 4, 0x1C0, 0x20, p->heap);
-    BG_SYS_SetFlagField06(7);
-    BG_SYS_SetFlagField06(4);
+    BG_SYS_MarkTileDirty(7);
+    BG_SYS_MarkTileDirty(4);
     p->printQue = (void *)PRINTSYS_QUE_Create((void *)p->heap);
 }
 
@@ -450,7 +450,7 @@ void VIEWER_TEXT_DrawTable(ViewerWork *p, int k, int flush)
     u32 w;
 
     bank = MSGDATA_CreateFromArchive(0, 2, 0xBF, p->heap);
-    if (TRCARD_SIGN_GetSeenBefore(GAME_DATA_GetSaveBlock21(p->args->gameData))) {
+    if (TRCARD_SIGN_GetSeenBefore(GAME_DATA_GetTrainerCardSign(p->args->gameData))) {
         str = MSGDATA_AllocString(bank, CURSOR_MOVE_GetTableKind(k));
     } else {
         str = MSGDATA_AllocString(bank, 0);
@@ -463,7 +463,7 @@ void VIEWER_TEXT_DrawTable(ViewerWork *p, int k, int flush)
     if (flush) {
         BMP_WIN_MakeScreen(p->bg[1]);
         BMP_WIN_TransferChars(p->bg[1]);
-        BG_SYS_SetFlagField06(7);
+        BG_SYS_MarkTileDirty(7);
     }
 }
 
@@ -490,7 +490,7 @@ void VIEWER_TEXT_DrawList(ViewerWork *p, int k, int flush)
     if (flush) {
         BMP_WIN_MakeScreen(p->bg[2]);
         BMP_WIN_TransferChars(p->bg[2]);
-        BG_SYS_SetFlagField06(7);
+        BG_SYS_MarkTileDirty(7);
     }
 }
 
@@ -518,8 +518,8 @@ void VIEWER_TEXT_FlushWindow(ViewerWork *p, void **bg)
             }
         }
     }
-    BG_SYS_SetFlagField06(7);
-    BG_SYS_SetFlagField06(4);
+    BG_SYS_MarkTileDirty(7);
+    BG_SYS_MarkTileDirty(4);
 }
 
 
@@ -642,7 +642,7 @@ void VIEWER_TEXT_DrawRow(ViewerWork *p, void *a, u32 sel, int y, int idx)
 
 
 
-void VIEWER_TEXT_SetScroll(ViewerWork *p, int v)
+void VIEWER_TEXT_AddRow(ViewerWork *p, int v)
 {
     p->rowList[p->rowCount] = v;
     p->rowCount++;
@@ -653,28 +653,28 @@ void VIEWER_TEXT_SetScroll(ViewerWork *p, int v)
 
 
 
-void VIEWER_TEXT_SetScrollParam(void *p, ViewerInfo *info)
+void VIEWER_TEXT_BuildRowList(void *p, ViewerInfo *info)
 {
     int i;
 
     for (i = 0; i < 13; i++) {
-        VIEWER_TEXT_SetScroll(p, i);
+        VIEWER_TEXT_AddRow(p, i);
     }
     if (info->hasRow14) {
-        VIEWER_TEXT_SetScroll(p, 14);
-        VIEWER_TEXT_SetScroll(p, 13);
+        VIEWER_TEXT_AddRow(p, 14);
+        VIEWER_TEXT_AddRow(p, 13);
     }
     if (info->hasRow15) {
-        VIEWER_TEXT_SetScroll(p, 15);
+        VIEWER_TEXT_AddRow(p, 15);
     }
     if (info->hasRow16) {
-        VIEWER_TEXT_SetScroll(p, 16);
+        VIEWER_TEXT_AddRow(p, 16);
     }
     if (info->hasRow17) {
-        VIEWER_TEXT_SetScroll(p, 17);
+        VIEWER_TEXT_AddRow(p, 17);
     }
     if (info->hasRow18) {
-        VIEWER_TEXT_SetScroll(p, 18);
+        VIEWER_TEXT_AddRow(p, 18);
     }
 }
 
@@ -696,7 +696,7 @@ void VIEWER_TEXT_DrawPage(ViewerWork *p, int scroll, int flush, int idx)
     if (flush) {
         BMP_WIN_TransferChars(bg);
         BMP_WIN_MakeScreen(bg);
-        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(bg));
+        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(bg));
     }
 }
 
@@ -980,7 +980,7 @@ int VIEWER_TEXT_Delete(void *proc, void *seq, int c, ViewerTextWork *p)
     VIEWER_TEXT_FreeBgResources((ViewerTextWork *)p);
     VIEWER_TEXT_ExitBg((ViewerTextWork *)p);
     VIEWER_TEXT_FreeResources((ViewerTextWork *)p);
-    VIEWER_ACTOR_SetRtcDate(p);
+    VIEWER_ACTOR_SaveBadgeTimers(p);
     PROCSYS_FreeProcWork(proc);
     GFL_HEAP_GetHeapHeadChecked(0x27);
     GFL_HEAP_DeleteChecked(0x27);
@@ -995,10 +995,10 @@ void VIEWER_TEXT_VBlank(void *unused, ViewerTextWork *p)
 {
     int v = -(p->vblankCount / 2);
 
-    BG_SYS_FillScrollArea(6, 0, v);
-    BG_SYS_FillScrollArea(6, 3, v);
-    BG_SYS_FillScrollArea(3, 0, v);
-    BG_SYS_FillScrollArea(3, 3, v);
+    BG_SYS_ChangeScrollImmediate(6, 0, v);
+    BG_SYS_ChangeScrollImmediate(6, 3, v);
+    BG_SYS_ChangeScrollImmediate(3, 0, v);
+    BG_SYS_ChangeScrollImmediate(3, 3, v);
     CLACT_VBlankSystem();
     BG_SYS_Update();
 }
@@ -1025,8 +1025,8 @@ void VIEWER_TEXT_LoadResources(ViewerTextWork *p, ViewerArgs *parent)
     p->rowCount = 8;
     p->snap = -1;
     VIEWER_ACTOR_SetPageCount(p);
-    p->saveBlock = GAME_DATA_GetSaveBlock21(p->parent->gameData);
-    VIEWER_ACTOR_GetRtcDate(p);
+    p->saveBlock = GAME_DATA_GetTrainerCardSign(p->parent->gameData);
+    VIEWER_ACTOR_LoadBadgeTimers(p);
 }
 
 
@@ -1041,7 +1041,7 @@ void VIEWER_TEXT_FreeResources(ViewerTextWork *p)
         STRBUF_Delete(p->rowText[i]);
     }
     STRBUF_Delete(p->strbuf);
-    WORDSET_DeleteStrbufED04(p->wordSet);
+    WORDSET_Delete(p->wordSet);
     MSGDATA_Delete(p->msgBank);
     TCB_DeleteTask(p->vblankTask);
     ARC_TOOL_DeleteHandle(p->arc);

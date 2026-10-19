@@ -12,7 +12,7 @@
  *
  * symbols:
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   GAME_DATA_GetSaveBlock21  0x02012F5C  thumb
+ *   GAME_DATA_GetTrainerCardSign  0x02012F5C  thumb
  *   TRCARD_SIGN_SetSeenBefore  0x02008A00  thumb
  *   VIEWER_MAIN_InitInfo  0x021C3EF8  thumb
  *   VIEWER_TEXT_DrawTable  0x021C61EC  thumb
@@ -62,7 +62,7 @@ typedef struct {
 
 struct Sub020089A8Obj;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void *GAME_DATA_GetSaveBlock21(void **h);
+extern void *GAME_DATA_GetTrainerCardSign(void **h);
 extern struct Sub020089A8Obj *TRCARD_SIGN_SetSeenBefore(struct Sub020089A8Obj *obj);
 extern void VIEWER_MAIN_InitInfo(Info *info);
 extern void VIEWER_TEXT_DrawTable(Work *p, int v, int a);
@@ -99,7 +99,7 @@ void VIEWER_MAIN_DrawSelected(Work *p, int sel, int *seq)
         break;
     case 6:
         if (p->args->cfg->f4_6) {
-            TRCARD_SIGN_SetSeenBefore(GAME_DATA_GetSaveBlock21(p->args->f4));
+            TRCARD_SIGN_SetSeenBefore(GAME_DATA_GetTrainerCardSign(p->args->f4));
             GFL_USE_PlaySeDefaultVolume(0x548);
             VIEWER_MAIN_InitInfo(p->info);
             VIEWER_TEXT_DrawTable(p, p->info->b6, 1);

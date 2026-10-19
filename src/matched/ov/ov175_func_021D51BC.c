@@ -31,8 +31,8 @@
  *   WIFIBATTLEMATCH_NET_ClearCancelFlag 0x021DA384 thumb ov175
  *   WIFIBATTLEMATCH_NET_StopMatchmaking 0x021DA390 thumb ov175
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
- *   MISC_SAVEDATA_InsertRecentValue 0x0200ED54 thumb
+ *   MET_TRAINERS_GetFromSave 0x0200ED48 thumb
+ *   MET_TRAINERS_Insert 0x0200ED54 thumb
  *   func_02008530 0x02008530 thumb
  *   MI_CpuFill8 0x02082BCC arm
  *   WIFIBATTLEMATCH_NET_SetupGdbUpload 0x021DBC04 thumb ov175
@@ -69,8 +69,8 @@ extern void WIFIBATTLEMATCH_NET_DisconnectWifi(int);
 extern void WIFIBATTLEMATCH_NET_ClearCancelFlag(char *);
 extern int WIFIBATTLEMATCH_NET_StopMatchmaking(char *);
 extern void *GAME_DATA_GetSaveControl(struct Big *);
-extern void *MISC_SAVEDATA_GetBlock44(void *);
-extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *, u32);
+extern void *MET_TRAINERS_GetFromSave(void *);
+extern void MET_TRAINERS_Insert(struct L0200ED54 *, u32);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void MI_CpuFill8(void *, int, unsigned);
 extern void WIFIBATTLEMATCH_NET_SetupGdbUpload(u8 *p, u32 mode, struct Record *src);
@@ -134,8 +134,8 @@ void WIFIBATTLEMATCH_NET_TaskStepF(unsigned sys, int *state, char *p)
         else *state = 5;
         break;
     case 5:
-        list = MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(*(struct Big **)Q(8)));
-        MISC_SAVEDATA_InsertRecentValue(list, func_02008530((void *)Q(0x18)));
+        list = MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl(*(struct Big **)Q(8)));
+        MET_TRAINERS_Insert(list, func_02008530((void *)Q(0x18)));
         *state = 6;
         WIFIBATTLEMATCH_NET_ClearCancelFlag((char *)P(0x30));
         break;

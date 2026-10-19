@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "C_GEAR_IsLastCommandKind5",
+   "name": "C_GEAR_IsLastCommandWifi",
    "address": "0x021F2AB8",
    "kind": "game",
    "region": "ov029",

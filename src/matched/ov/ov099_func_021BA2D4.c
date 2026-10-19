@@ -13,13 +13,13 @@
  * blx to the unlabelled arm9 leaf 0x0203F5FC (no witness outside the range;
  * an arm9 leaf is the integrator's).  All ov127 leaves it needs are filed and EXACT.
  *
- * blocker: arm9 leaf GF_STANDARD_Get_F5FC 0x0203F5FC (arm, 64 bytes), verified EXACT
+ * blocker: arm9 leaf GF_STANDARD_SinFromDegrees 0x0203F5FC (arm, 64 bytes), verified EXACT
  * with `one --arm` (no --region), C:
  *
  *   typedef unsigned long u32;
  *   typedef signed short s16;
  *   extern const s16 FX_SinCosTable_[];   (0x020A1B38 data a2)
- *   int GF_STANDARD_Get_F5FC(u32 a)
+ *   int GF_STANDARD_SinFromDegrees(u32 a)
  *   {
  *       int t;
  *       if (a >= 360) {
@@ -33,14 +33,14 @@
  * (long long) multiply, its high word is materialised as `asrs r3,r2,#20`.
  *
  * symbols:
- *   WF2DMAP_OBJDRAW_RefreshActor  0x021C57E8  thumb  ov127
- *   WF2DMAP_OBJDRAW_GetActorValue  0x021C5834  thumb  ov127
- *   WF2DMAP_OBJDRAW_SetActorValue  0x021C5840  thumb  ov127
+ *   WF2DMAP_OBJDRAW_StepActorAnim  0x021C57E8  thumb  ov127
+ *   WF2DMAP_OBJDRAW_GetActorDrawEnable  0x021C5834  thumb  ov127
+ *   WF2DMAP_OBJDRAW_SetActorDrawEnable  0x021C5840  thumb  ov127
  *   WF2DMAP_OBJ_GetSlot  0x021C49A4  thumb  ov127
- *   GF_STANDARD_Get_F5FC  0x0203F5FC  arm
+ *   GF_STANDARD_SinFromDegrees  0x0203F5FC  arm
  *   _ll_mul        0x0209C054  arm
  *   WF2DMAP_OBJDRAW_SetActorPos  0x021C5814  thumb  ov127
- *   WF2DMAP_OBJDRAW_SetActorPos2  0x021C5898  thumb  ov127
+ *   WF2DMAP_OBJDRAW_SetSubActorPos  0x021C5898  thumb  ov127
  */
 
 typedef unsigned char  u8;
@@ -59,28 +59,28 @@ typedef struct {
     u16 f8;
 } S;
 
-extern void WF2DMAP_OBJDRAW_RefreshActor(char *p);
-extern int WF2DMAP_OBJDRAW_GetActorValue(char *p);
-extern void WF2DMAP_OBJDRAW_SetActorValue(char *p, int a);
+extern void WF2DMAP_OBJDRAW_StepActorAnim(char *p);
+extern int WF2DMAP_OBJDRAW_GetActorDrawEnable(char *p);
+extern void WF2DMAP_OBJDRAW_SetActorDrawEnable(char *p, int a);
 extern int WF2DMAP_OBJ_GetSlot(u8 *p, unsigned int i);
 typedef unsigned int   u32;
-extern int GF_STANDARD_Get_F5FC(u32 x);
+extern int GF_STANDARD_SinFromDegrees(u32 x);
 extern void WF2DMAP_OBJDRAW_SetActorPos(void *p, P2 v);
-extern void WF2DMAP_OBJDRAW_SetActorPos2(void *p, P2 v);
+extern void WF2DMAP_OBJDRAW_SetSubActorPos(void *p, P2 v);
 
 void WIFICLUBACTOR_AnimateWalkBob(void *w, S *s)
 {
     P2 pos;
     P2 q;
 
-    WF2DMAP_OBJDRAW_RefreshActor(s->f4);
-    if (WF2DMAP_OBJDRAW_GetActorValue(s->f4) == 0) {
-        WF2DMAP_OBJDRAW_SetActorValue(s->f4, 1);
+    WF2DMAP_OBJDRAW_StepActorAnim(s->f4);
+    if (WF2DMAP_OBJDRAW_GetActorDrawEnable(s->f4) == 0) {
+        WF2DMAP_OBJDRAW_SetActorDrawEnable(s->f4, 1);
     }
     pos.x = WF2DMAP_OBJ_GetSlot(s->f0, 0);
     pos.y = WF2DMAP_OBJ_GetSlot(s->f0, 1);
     q = pos;
-    pos.y = pos.y + (s16)((s32)(((long long)GF_STANDARD_Get_F5FC(s->f8) * -786432 + 0x800) >> 12) >> 12);
+    pos.y = pos.y + (s16)((s32)(((long long)GF_STANDARD_SinFromDegrees(s->f8) * -786432 + 0x800) >> 12) >> 12);
     WF2DMAP_OBJDRAW_SetActorPos(s->f4, pos);
-    WF2DMAP_OBJDRAW_SetActorPos2(s->f4, q);
+    WF2DMAP_OBJDRAW_SetSubActorPos(s->f4, q);
 }

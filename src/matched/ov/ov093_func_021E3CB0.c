@@ -13,7 +13,7 @@
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
  *   BTL_EVENT_GetFactorKey  0x021D70A8  thumb  ov093
- *   BTLV_CORE_MakeSlotKind1Value  0x021E89D4  thumb  ov093
+ *   BTL_SICKCONT_MakeKind1Value  0x021E89D4  thumb  ov093
  *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb  ov093
  *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  *   BTL_SERVER_FLOW_SetCurTurnStateFlag  0x021C83DC  thumb  ov093
@@ -30,7 +30,7 @@ typedef unsigned int   u32;
 struct QQ;
 extern u16 BTL_EVENT_GetFactorKey(struct QQ *p);
 typedef struct Word { unsigned int v; } Word;
-extern Word BTLV_CORE_MakeSlotKind1Value(unsigned int a);
+extern Word BTL_SICKCONT_MakeKind1Value(unsigned int a);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *p);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 extern void BTL_SERVER_FLOW_SetCurTurnStateFlag(char *p, int x);
@@ -45,7 +45,7 @@ void HAND_WAZA_BideAdvanceTurn(int u, void *a, int c, int *w)
         case 0:
             p = BTL_SERVER_FLOW_AllocCmdRecord(a, 0xc, c);
             ((struct Obj13515 *)p)->f4 = 0x19;
-            *(Word *)(p + 8) = BTLV_CORE_MakeSlotKind1Value(BTL_EVENT_GetFactorKey((void *)u));
+            *(Word *)(p + 8) = BTL_SICKCONT_MakeKind1Value(BTL_EVENT_GetFactorKey((void *)u));
             p[0xf] = c;
             BTL_SERVER_FLOW_CommitCmdRecord(a, p);
             BTL_EVENT_OverwriteVar(0x3e, 2);

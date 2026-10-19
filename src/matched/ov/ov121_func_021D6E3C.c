@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   APP_ENV_InitParentalControl 0x0202EB44 thumb
+ *   APP_ENV_IsWirelessAvailable 0x0202EB44 thumb
  *   MYSTERY_UTIL_SetListValue 0x021DA84C thumb ov121
  *   MYSTERY_NET_GetResult 0x021DE4D8 thumb ov121
  *   MYSTERY_TaskMessage 0x021D80F0 thumb ov121
@@ -42,7 +42,7 @@
  *   MYSTERY_TaskMenu 0x021D6E3C thumb ov121
  *   MYSTERY_TaskAlbum 0x021D7814 thumb ov121
  *   KEY_GetTrg 0x020362DC arm
- *   GF_STANDARD_SetField00_F4E4 0x0203F4E4 arm
+ *   GF_STANDARD_GetCachedDate 0x0203F4E4 arm
  *   MYSTERY_DATA_AddCard  0x0200A034  thumb  arm9
  *   MYSTERY_DATA_HasCardSpace  0x0200A0C8  thumb  arm9
  *   MYSTERY_DATA_IsEventFlag  0x0200A1A8  thumb  arm9
@@ -78,7 +78,7 @@ extern void MYSTERY_DeletePartyMenu(char *p);
 extern unsigned MYSTERY_UTIL_GetMenuState(u8 *p);
 extern void MYSTERY_TaskAlbum(void *task, u32 *state, u8 *p);
 extern u32 KEY_GetTrg(void);
-extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
+extern void GF_STANDARD_GetCachedDate(struct RtcDate *date);
 extern int MYSTERY_DATA_IsEventFlag(char *p, unsigned int bit);
 extern int MYSTERY_DATA_AddCard(void *p, void *arg);
 extern void MYSTERY_DATA_SetEventFlag(void *p, unsigned int idx);
@@ -90,7 +90,7 @@ struct Obj;
 extern u32 MYSTERY_DATA_GetCardSlotNum(struct Obj *);
 extern int MYSTERY_DATA_IsCardReceived(char *p, unsigned int idx);
 extern int MYSTERY_DATA_IsMainSave(struct Obj *a0);
-extern int APP_ENV_InitParentalControl(void);
+extern int APP_ENV_IsWirelessAvailable(void);
 extern void *MYSTERY_NET_GetResult(char *p);
 extern void MYSTERY_UTIL_SetListValue(u8 *p, u32 i, u32 value);
 extern void MYSTERY_TaskMessage(void *a, int *state, u8 *p);
@@ -130,7 +130,7 @@ void MYSTERY_TaskMenu(void *task,u32 *state,u8 *p)
                     MYSTERY_UTIL_SetTaskArg(task,0);*state=19;
                 } else *state=16;
             } else {
-                if(APP_ENV_InitParentalControl()==0) MYSTERY_UTIL_SetTaskHandler(task,(u32)MYSTERY_TaskMessage);
+                if(APP_ENV_IsWirelessAvailable()==0) MYSTERY_UTIL_SetTaskHandler(task,(u32)MYSTERY_TaskMessage);
                 else *state=2;
             }
         } else if(v==1) {

@@ -16,7 +16,7 @@
  *   BTLV_MCSS_HasPersonalParam10 0x021FFF68 thumb ov094
  *   BTLV_MCSS_GetStopCellFlags 0x021FFFAC thumb ov094
  *   BTLV_MCSS_IsVanished 0x021FF348 thumb ov094
- *   BTLV_EFFECT_GetFieldSituationFlags 0x021F8730 thumb ov094
+ *   BTLV_EFFECT_IsMultiMode 0x021F8730 thumb ov094
  *   BTLV_EFFECT_GetMode 0x021F8710 thumb ov094
  *   BTLV_EFFECT_GetTrainerType 0x021F8740 thumb ov094
  */
@@ -46,7 +46,7 @@ extern int BTLV_MCSS_GetSpriteAttrFlags(char *p, int key);
 extern int BTLV_MCSS_HasPersonalParam10(void *, int);
 extern int BTLV_MCSS_GetStopCellFlags(void *, int);
 extern int BTLV_MCSS_IsVanished(void *, int);
-extern int BTLV_EFFECT_GetFieldSituationFlags(void);
+extern int BTLV_EFFECT_IsMultiMode(void);
 extern int BTLV_EFFECT_GetMode(void);
 extern unsigned short BTLV_EFFECT_GetTrainerType(int a);
 int BTLV_EFFVM_EvalCondition(State *s, unsigned int key)
@@ -77,7 +77,7 @@ int BTLV_EFFVM_EvalCondition(State *s, unsigned int key)
     case 29: case 30: case 31: case 32: case 33: case 34: case 35: case 36:
         return BTLV_MCSS_HasPersonalParam10((void *)BTLV_EFFECT_GetMcss(), key - 29);
     case 37: return BTLV_MCSS_HasPersonalParam10((void *)BTLV_EFFECT_GetMcss(), s->dc);
-    case 38: return BTLV_EFFECT_GetFieldSituationFlags();
+    case 38: return BTLV_EFFECT_IsMultiMode();
     case 39: return BTLV_EFFECT_GetMode();
     case 40: case 41: case 42: case 43: return BTLV_EFFECT_GetTrainerType(key - 40);
     case 44: case 45: case 46: case 47: case 48: case 49: case 50: case 51:

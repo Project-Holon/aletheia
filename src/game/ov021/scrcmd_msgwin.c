@@ -76,7 +76,7 @@
  *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   STRBUF_Create  0x020457B0  arm
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   BEACON_GetPoints  0x0200C274  thumb
+ *   BEACON_GetMoney  0x0200C274  thumb
  *   FIELD_MSGBG_DeleteMsgWin  0x02190728  thumb  ov021
  *   FIELD_MSGBG_CreateMsgWin  0x02190708  thumb  ov021
  *   FIELDMAP_SetInfoWindow  0x02188D4C  thumb  ov021
@@ -300,7 +300,7 @@ extern FieldMsgWin *FIELDMAP_GetInfoWindow(FieldMap *fieldMap);
 extern MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern MoneyData *GAME_DATA_GetMiscSave(GameData *gameData);
-extern u32 BEACON_GetPoints(MoneyData *moneyData);
+extern u32 BEACON_GetMoney(MoneyData *moneyData);
 extern int FIELD_MSGBG_DeleteMsgWin(FieldMsgWin *msgWin);
 extern FieldMsgWin *FIELD_MSGBG_CreateMsgWin(FieldMsgBg *msgBg, MsgData *msgData, u16 x, u16 y, u16 width, u16 height);
 extern void FIELDMAP_SetInfoWindow(FieldMap *fieldMap, FieldMsgWin *msgWin);
@@ -845,7 +845,7 @@ int SCRCMD_MSGWIN_CmdOpenMoneyWin(ScriptVm *vm, ScrcmdWork *cmdWork)
     heapId = FIELDMAP_GetHeapId(fieldMap);
     msgData = MSGDATA_CreateFromArchive(0, 3, 0x9e, heapId);
     str = STRBUF_Create(0x80, heapId);
-    money = BEACON_GetPoints(GAME_DATA_GetMiscSave(gameData));
+    money = BEACON_GetMoney(GAME_DATA_GetMiscSave(gameData));
     if (oldWin != 0)
         FIELD_MSGBG_DeleteMsgWin(oldWin);
     moneyWin = FIELD_MSGBG_CreateMsgWin(msgBg, msgData, (u16)(x - 9), (u16)y, 9, 2);
@@ -884,7 +884,7 @@ int SCRCMD_MSGWIN_CmdUpdateMoneyWin(ScriptVm *vm, ScrcmdWork *cmdWork)
     heapId = FIELDMAP_GetHeapId(fieldMap);
     msgData = MSGDATA_CreateFromArchive(0, 3, 0x9e, heapId);
     str = STRBUF_Create(0x80, heapId);
-    WORDSET_SetSlotNumber(wordSet, 2, BEACON_GetPoints(GAME_DATA_GetMiscSave(gameData)), 7, 1, 1);
+    WORDSET_SetSlotNumber(wordSet, 2, BEACON_GetMoney(GAME_DATA_GetMiscSave(gameData)), 7, 1, 1);
     MSGDATA_ReadString(msgData, 1, tempBuffer);
     WORDSET_CopyTaggedText(wordSet, str, tempBuffer);
     FIELD_MSGBG_ClearMsgWin(moneyWin);

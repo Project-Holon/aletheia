@@ -16,10 +16,10 @@
  *   func_0207AF38 0x0207AF38 thumb
  *   MTX_MultVec33 0x0207B51C arm
  *   VEC_Subtract 0x0207CA00 arm
- *   MUSICAL_MCSS_GetRenderPos 0x021F5350 thumb ov112
+ *   MUSICAL_MCSS_SetRenderPos 0x021F5350 thumb ov112
  *   MUSICAL_MCSS_SetRenderFrame 0x021F5368 thumb ov112
- *   MUSICAL_MCSS_GetRenderRot 0x021F535C thumb ov112
- *   MUSICAL_MCSS_GetRenderSize 0x021F5424 thumb ov112
+ *   MUSICAL_MCSS_SetRenderScale 0x021F535C thumb ov112
+ *   MUSICAL_MCSS_SetRenderDrawOffset 0x021F5424 thumb ov112
  *   func_020056EC 0x020056EC thumb
  *   _u32_div_f 0x0209C2B0 arm
  *   table 0x020A1B38 data a2
@@ -38,10 +38,10 @@ extern void VEC_Add(const Vec *,const Vec *,Vec *);
 extern void func_0207AF38(Mtx *,int,int);
 extern void MTX_MultVec33(const Vec *,const Mtx *,Vec *);
 extern void VEC_Subtract(const Vec *,const Vec *,Vec *);
-extern void MUSICAL_MCSS_GetRenderPos(int *p, int *q);
+extern void MUSICAL_MCSS_SetRenderPos(int *p, int *q);
 extern void MUSICAL_MCSS_SetRenderFrame(int *,u16);
-extern void MUSICAL_MCSS_GetRenderRot(int *p, int *q);
-extern void MUSICAL_MCSS_GetRenderSize(int,int);
+extern void MUSICAL_MCSS_SetRenderScale(int *p, int *q);
+extern void MUSICAL_MCSS_SetRenderDrawOffset(int,int);
 extern u32 func_020056EC(u32);
 void STA_ACT_LIGHT_CalcSpriteXform(u8 *p,u8 *q)
 {
@@ -63,18 +63,18 @@ void STA_ACT_LIGHT_CalcSpriteXform(u8 *p,u8 *q)
     VEC_Subtract(&delta,(Vec *)(q+60),(Vec *)(q+60));
     pos.x=(pos.x-a->x-((struct Obj00904 *)q)->f3C)/16;
     pos.y=(0xc0000-(pos.y-a->y+((struct Obj00904 *)q)->f40))/16;
-    MUSICAL_MCSS_GetRenderPos(*(int * *)&((struct Obj00904 *)q)->f58,(int *)(&pos));
+    MUSICAL_MCSS_SetRenderPos(*(int * *)&((struct Obj00904 *)q)->f58,(int *)(&pos));
     MUSICAL_MCSS_SetRenderFrame(*(int * *)&((struct Obj00904 *)q)->f58,((struct Obj00904 *)q)->f48);
     scale.x=((struct Obj00904 *)q)->f24<<4;
     scale.y=((struct Obj00904 *)q)->f28<<4;
     scale.z=((struct Obj00904 *)q)->f2C<<4;
     if(((struct Obj00904 *)q)->f54==1) scale.x*=-1;
-    MUSICAL_MCSS_GetRenderRot(*(int * *)&((struct Obj00904 *)q)->f58,(int *)(&scale));
+    MUSICAL_MCSS_SetRenderScale(*(int * *)&((struct Obj00904 *)q)->f58,(int *)(&scale));
     ((struct Obj00904 *)q)->f4=0;
     if(((struct Obj00904 *)q)->f4C==1) {
         ((struct Obj00904 *)q)->f50+=(u16)func_020056EC(2);
-        if(((struct Obj00904 *)q)->f50>120) MUSICAL_MCSS_GetRenderSize(*(int *)&((struct Obj00904 *)q)->f58,1);
-        else MUSICAL_MCSS_GetRenderSize(*(int *)&((struct Obj00904 *)q)->f58,0);
+        if(((struct Obj00904 *)q)->f50>120) MUSICAL_MCSS_SetRenderDrawOffset(*(int *)&((struct Obj00904 *)q)->f58,1);
+        else MUSICAL_MCSS_SetRenderDrawOffset(*(int *)&((struct Obj00904 *)q)->f58,0);
         if(((struct Obj00904 *)q)->f50>125) ((struct Obj00904 *)q)->f50=func_020056EC(120)/3U;
     }
 }

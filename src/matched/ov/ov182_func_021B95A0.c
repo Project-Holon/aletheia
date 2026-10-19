@@ -16,7 +16,7 @@
  *   THE_END_GRAPHIC_Create 0x021B98E4 thumb ov182
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  *   func_020056A0 0x020056A0 thumb
  *   THE_END_GRAPHIC_DummyTask 0x021B9784 thumb ov182
  *   THE_END_GRAPHIC_LoadGraphics 0x021B9788 thumb ov182
@@ -36,7 +36,7 @@ struct GfFont;
 extern char *THE_END_GRAPHIC_Create(int a, u16 heap);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *p);
-extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+extern void BG_SYS_SetPriority(int idx, unsigned short val);
 extern void *func_020056A0(void (*)(void), void *, int);
 extern void THE_END_GRAPHIC_DummyTask(void);
 extern void THE_END_GRAPHIC_LoadGraphics(u16 *);
@@ -58,8 +58,8 @@ int THE_END_GRAPHIC_Init(void *task, int b, int c)
     ((struct Obj03328 *)p)->f4 = THE_END_GRAPHIC_Create(1, ((struct Obj03328 *)p)->f0);
     ((struct Obj03328 *)p)->f8 = GF_FONT_Create(0x17, 0, 0, 0, ((struct Obj03328 *)p)->f0);
     ((struct Obj03328 *)p)->fC = (void *)PRINTSYS_QUE_Create((void *)(((struct Obj03328 *)p)->f0));
-    BG_SYS_SetVisibleLayer(1, 1);
-    BG_SYS_SetVisibleLayer(2, 0);
+    BG_SYS_SetPriority(1, 1);
+    BG_SYS_SetPriority(2, 0);
     ((struct Obj03328 *)p)->f14 = func_020056A0(THE_END_GRAPHIC_DummyTask, p, 1);
     THE_END_GRAPHIC_LoadGraphics((u16 *)p);
     if (GPOWER_GetSpecialPowerId() == 0x14)

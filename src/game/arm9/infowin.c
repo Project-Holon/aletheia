@@ -19,7 +19,7 @@
  *   GFL_HEAP_Free  0x020307B0  arm
  *   MI_CpuFill8   0x02082BCC  arm
  *   UI_GetPowerState       0x0203568C  arm
- *   GAME_DATA_GetField1A0       0x0201283C  thumb
+ *   GAME_DATA_GetWifiList       0x0201283C  thumb
  *   GAME_DATA_IsConfigFlagSet       0x02012BB0  thumb
  *   gInfoWin            0x0214693C  data
  *   infowin_File        0x020A7478  data
@@ -47,8 +47,8 @@
  *   ARC_UTIL_UploadBgCharFromHandle       0x02049658  arm
  *   ENV_SetResourceSet  0x02049238  arm
  *   BG_SYS_SetTileEntry       0x02041300  arm
- *   GF_STANDARD_SetField00       0x0203F4CC  arm
- *   BG_SYS_DeleteHalf  0x0203FB44  arm
+ *   GF_STANDARD_GetCachedTime       0x0203F4CC  arm
+ *   BG_SYS_FreeTileRun  0x0203FB44  arm
  *   BG_SYS_LoadPltt  0x02040E78  arm
  *   TCB_AddTask  0x02030DA8  arm
  */
@@ -142,7 +142,7 @@ extern void *GFL_USE_AddMainTask(void *fn, void *arg, u32 prio);
 extern u32 GFL_HEAP_Free(void *p);
 extern void MI_CpuFill8(void *dst, u8 data, u32 size);
 extern int UI_GetPowerState(void);
-extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
+extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 extern u32 GAME_DATA_IsConfigFlagSet(const struct BigObj *p);
 extern int   GFL_NET_GetRunState(void);
 extern void *GFL_NET_GetInitParam(void);
@@ -150,7 +150,7 @@ extern int   GFL_NET_GetNegotiationNum(void);
 extern u32 GFL_NET_IsNetTypeWifi(void);
 extern u32 WIH_DWC_PollStatus(void *key);
 extern int   GAME_BEACON_GetNextNewLogIndex(int *p);
-extern int  BG_SYS_DeleteHalf(u32 a, u32 b, u32 c);
+extern int  BG_SYS_FreeTileRun(u32 a, u32 b, u32 c);
 extern int  BG_SYS_LoadPltt(u32 a, const void *b, u16 c, u16 d);
 extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 extern u32   BG_SYS_CreateRun(u32 a, u32 b, u32 c);
@@ -158,7 +158,7 @@ extern void  ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d,
 extern void  ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void  ENV_SetResourceSet(void *a);
 extern void  BG_SYS_SetTileEntry(u32 a, u16 b, u32 c, u32 d, u32 e, u32 f, u32 g);
-extern void GF_STANDARD_SetField00(struct RtcTime *time);
+extern void GF_STANDARD_GetCachedTime(struct RtcTime *time);
 extern void BG_SYS_DrawTileEx(u32 index, u32 dx, u32 dy, u32 cw, u8 ch, u32 src, u8 sx, u8 sy, u8 sw, u8 sh);
 extern void BG_SYS_PushTile(u32 index);
 extern u8 UI_GetFrameRate(void);
@@ -199,7 +199,7 @@ void INFOWIN_Init(u8 bgFrame, u8 palette, void *gameData, u16 heap)
     gInfoWin->linkActive = 0;
     gInfoWin->batteryLevel = UI_GetPowerState();
     if (gameData != 0) {
-        gInfoWin->wifiConfig = GAME_DATA_GetField1A0(gameData);
+        gInfoWin->wifiConfig = GAME_DATA_GetWifiList(gameData);
         gInfoWin->wifiMode = GAME_DATA_IsConfigFlagSet(gameData);
     } else {
         gInfoWin->wifiConfig = 0;
@@ -333,7 +333,7 @@ int INFOWIN_Exit(void)
 {
     if (gInfoWin != 0) {
         TCB_DeleteTask(gInfoWin->task);
-        BG_SYS_DeleteHalf(gInfoWin->bgFrame, gInfoWin->charBase, 1 << 12);
+        BG_SYS_FreeTileRun(gInfoWin->bgFrame, gInfoWin->charBase, 1 << 12);
         GFL_HEAP_Free(gInfoWin);
         gInfoWin = 0;
         return 0;
@@ -516,7 +516,7 @@ void INFOWIN_UpdateClock(void)
     struct Cfg cfg;
     u32 v;
 
-    GF_STANDARD_SetField00((struct RtcTime *)(&cfg));
+    GF_STANDARD_GetCachedTime((struct RtcTime *)(&cfg));
     v = cfg.c & 1;
 
     if (cfg.a != gInfoWin->hour) {

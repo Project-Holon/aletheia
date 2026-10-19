@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   BG_SYS_GetModeValue  0x020422D4  arm
+ *   BG_SYS_GetScreenSizeInTiles  0x020422D4  arm
  *   BG_SYS_GetTileMapEntry  0x02040EE0  arm
  *   BG_SYS_DrawTileRegion  0x02040F84  arm
  *
@@ -33,7 +33,7 @@ struct Screen {
     u8   size_code;
 };
 
-extern void BG_SYS_GetModeValue(u32 mode, u8 *a, u8 *b);
+extern void BG_SYS_GetScreenSizeInTiles(u32 mode, u8 *a, u8 *b);
 extern u16  BG_SYS_GetTileMapEntry(u8 x, u8 y, u8 size_code);
 extern u16  BG_SYS_DrawTileRegion(u8 x, u8 y, u8 w, u8 h);
 
@@ -48,7 +48,7 @@ void BG_SYS_BlitTiles(struct Screen *s, u8 dx, u8 dy, u8 cw, u8 ch,
     if (dst == 0)
         return;
 
-    BG_SYS_GetModeValue(s->size_code, &w, &h);
+    BG_SYS_GetScreenSizeInTiles(s->size_code, &w, &h);
 
     if (mode == 0) {
         for (y = 0; y < ch; y++) {

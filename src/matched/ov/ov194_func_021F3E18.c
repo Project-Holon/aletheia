@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   WORDSET_SetSlotMonName 0x0201EE84 thumb
+ *   WORDSET_SetSlotMonSpeciesName 0x0201EE84 thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_02045EC0 0x02045EC0 arm
@@ -19,7 +19,7 @@
 #include "../include/Obj02532.h"
 typedef unsigned int   u32;
 struct WordSet;
-extern void WORDSET_SetSlotMonName(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonSpeciesName(struct WordSet *p, u32 i, void *mon);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 typedef unsigned char  u8;
@@ -34,7 +34,7 @@ extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, 
 extern void STRBUF_Delete(struct U16Vec *vec);
 void NAMEIN_GRAPHIC_PrintMonMsg(char *p,int value,void *mon) {
     int text,window;
-    WORDSET_SetSlotMonName(((struct Obj02532 *)p)->f18,0,mon);
+    WORDSET_SetSlotMonSpeciesName(((struct Obj02532 *)p)->f18,0,mon);
     BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj02532 *)p)->f14)),((struct Obj02532 *)p)->f20);
     text=(int)func_02045EC0((struct MsgBank *)(((struct Obj02532 *)p)->f0),value);
     WORDSET_CopyTaggedText((struct WordSet *)(*(int *)&((struct Obj02532 *)p)->f18),((struct Obj02532 *)p)->f1C,(void *)text);

@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   UNION_ONESELF_CheckNetErrorExit  0x0217BB20  thumb  ov019
+ *   UNION_ONESELF_HandleNetErrorExit  0x0217BB20  thumb  ov019
  *   UNION_MSG_CloseAllWindows  0x0217F074  thumb  ov019
  *   UNION_MSG_CheckTalkPrintEnd  0x0217F1EC  thumb  ov019
  *   UNION_MSG_SetupPrintTalkMsg  0x0217F210  thumb  ov019
  *   UNION_ONESELF_SetNextPlayCategory  0x0217B8E4  thumb  ov019
- *   UNION_MAIN_RequestScene  0x0217422C  thumb  ov012
- *   UNION_MAIN_IsScenePending  0x02174268  thumb  ov012
+ *   UNION_SCENE_RequestScene  0x0217422C  thumb  ov012
+ *   UNION_SCENE_IsScenePending  0x02174268  thumb  ov012
  *   GAME_DATA_GetMyItem  0x0201292C  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200873C  0x0200873C  thumb
@@ -69,14 +69,14 @@ typedef struct {
 } Req;
 
 struct Sub0200852CObj;
-int UNION_ONESELF_CheckNetErrorExit(char *p);
+int UNION_ONESELF_HandleNetErrorExit(char *p);
 typedef unsigned int   u32;
 void UNION_MSG_CloseAllWindows(void *p);
 u32 UNION_MSG_CheckTalkPrintEnd(u8 *p);
 void UNION_MSG_SetupPrintTalkMsg(u8 *p, u8 *a, u32 b);
 int UNION_ONESELF_SetNextPlayCategory(char *p, int v);
-void UNION_MAIN_RequestScene(u8 *p, int a, int b);
-int UNION_MAIN_IsScenePending(u8 *w);
+void UNION_SCENE_RequestScene(u8 *p, int a, int b);
+int UNION_SCENE_IsScenePending(u8 *w);
 struct Big;
 struct BigObj;
 struct Link;
@@ -109,7 +109,7 @@ int UNION_ONESELF_ColosseumBattleMain(u8 *w, u8 *obj, u8 *a2, u8 *state)
 
     p = *(u8 * *)&((struct Obj03570 *)w)->f355C;
     idx = GFL_NET_GetHandleNetID((struct Link *)((int)GFL_NET_HANDLE_GetCurrentHandle()));
-    if (*state < 3 && UNION_ONESELF_CheckNetErrorExit((char *)w) == 1) {
+    if (*state < 3 && UNION_ONESELF_HandleNetErrorExit((char *)w) == 1) {
         UNION_MSG_CloseAllWindows(w);
         return 1;
     }
@@ -192,11 +192,11 @@ int UNION_ONESELF_ColosseumBattleMain(u8 *w, u8 *obj, u8 *a2, u8 *state)
         q->f90 = 0;
         q->f60 = 0;
         *(Req * *)&((struct Obj03570 *)w)->f3558 = q;
-        UNION_MAIN_RequestScene(w, 0x1a, (int)q);
+        UNION_SCENE_RequestScene(w, 0x1a, (int)q);
         (*state)++;
         break;
     case 4:
-        if (UNION_MAIN_IsScenePending(w) == 1)
+        if (UNION_SCENE_IsScenePending(w) == 1)
             break;
         func_020307B0((*(Req * *)&((struct Obj03570 *)w)->f3558)->fc0);
         func_020307B0(*(Req * *)&((struct Obj03570 *)w)->f3558);

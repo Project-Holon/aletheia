@@ -13,7 +13,7 @@
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_GetStatusCondition  0x02017F90  thumb
  *   TIMEZONE_GetZoneLightLevel  0x02011400  thumb
- *   GF_STANDARD_SetField00  0x0203F4CC  arm
+ *   GF_STANDARD_GetCachedTime  0x0203F4CC  arm
  */
 #include "../include/Obj00009.h"
 #include "../include/Obj20929.h"
@@ -26,7 +26,7 @@ extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_GetStatusCondition(void *p);
 extern u8 TIMEZONE_GetZoneLightLevel(int row, int col);
 struct RtcTime;
-extern void GF_STANDARD_SetField00(struct RtcTime *time);
+extern void GF_STANDARD_GetCachedTime(struct RtcTime *time);
 
 int PLIST_DEMO_CanUseGracidea(char *p, u32 a1)
 {
@@ -43,7 +43,7 @@ int PLIST_DEMO_CanUseGracidea(char *p, u32 a1)
         return r;
     lo = TIMEZONE_GetZoneLightLevel(((struct Obj20929 *)(*(char * *)&((struct Obj00009 *)p)->f280))->f5F, r);
     hi = TIMEZONE_GetZoneLightLevel(((struct Obj20930 *)(*(char * *)&((struct Obj00009 *)p)->f280))->f5F, 3);
-    GF_STANDARD_SetField00((struct RtcTime *)t);
+    GF_STANDARD_GetCachedTime((struct RtcTime *)t);
     if (t[0] < lo || t[0] >= hi)
         return 0;
     return 1;

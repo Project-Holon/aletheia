@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BUTTON_MAN_GetPos",
+   "name": "PARTICLE_EMITTER_GetPos",
    "address": "0x02051790",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BUTTON_MAN_SetPos",
+   "name": "PARTICLE_EMITTER_SetPos",
    "address": "0x020517A4",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BUTTON_MAN_GetRot",
+   "name": "PARTICLE_EMITTER_GetRot",
    "address": "0x020517B4",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BUTTON_MAN_GetScaleX",
+   "name": "PARTICLE_EMITTER_GetScaleX",
    "address": "0x020517D0",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BUTTON_MAN_SetScaleX",
+   "name": "PARTICLE_EMITTER_SetScaleX",
    "address": "0x020517D8",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BUTTON_MAN_GetScaleY",
+   "name": "PARTICLE_EMITTER_GetScaleY",
    "address": "0x020517E0",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BUTTON_MAN_SetScaleY",
+   "name": "PARTICLE_EMITTER_SetScaleY",
    "address": "0x020517E8",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BUTTON_MAN_GetOffsetX",
+   "name": "PARTICLE_EMITTER_GetOffsetX",
    "address": "0x020517F0",
    "kind": "game",
    "region": "arm9",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BUTTON_MAN_SetOffsetX",
+   "name": "PARTICLE_EMITTER_SetOffsetX",
    "address": "0x02051800",
    "kind": "game",
    "region": "arm9",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BUTTON_MAN_GetOffsetY",
+   "name": "PARTICLE_EMITTER_GetOffsetY",
    "address": "0x02051808",
    "kind": "game",
    "region": "arm9",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BUTTON_MAN_SetOffsetY",
+   "name": "PARTICLE_EMITTER_SetOffsetY",
    "address": "0x02051818",
    "kind": "game",
    "region": "arm9",
@@ -139,7 +139,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BUTTON_MAN_GetAngle",
+   "name": "PARTICLE_EMITTER_GetAngle",
    "address": "0x02051820",
    "kind": "game",
    "region": "arm9",
@@ -151,7 +151,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BUTTON_MAN_GetAlpha",
+   "name": "PARTICLE_EMITTER_GetAlpha",
    "address": "0x02051830",
    "kind": "game",
    "region": "arm9",

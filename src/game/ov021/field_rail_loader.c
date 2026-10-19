@@ -23,7 +23,6 @@
  *   d_021DDDAC     0x021DDDAC  data
  *   d_021DDE08     0x021DDE08  data
  *   ARC_UTIL_LoadMemberWithSize  0x0204A298  arm
- *   _u32_div_f  0x0209C2B0  arm
  *   SCRIPT_SYS_CreateScriptEventSimple  0x02158768  thumb  ov010
  *   FLDMMDL_SetStatusBitVanish  0x0216DAC8  thumb  ov010
  */
@@ -74,7 +73,6 @@ extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, c
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 extern void *FLDMMDL_SetMoveBit(void *mmdl, u32 bits);
 extern int ARC_UTIL_LoadMemberWithSize(int archive, int member, int decompress, int heapId, u32 *outSize);
-extern u32 _u32_div_f(u32 a, u32 b);
 extern void *SCRIPT_SYS_CreateScriptEventSimple(int a0, int a1, int a2, int a3);
 extern void FLDMMDL_SetStatusBitVanish(unsigned int *p, unsigned int v);
 void FIELD_RAIL_LOADER_InitSetting(FieldRailSetting *setting);
@@ -126,13 +124,13 @@ void FIELD_RAIL_LOADER_Load(FieldRailLoader *loader, u32 member, u32 heapId)
     loader->data = (u32 *)ARC_UTIL_LoadMemberWithSize(_RAIL_DATA_ARCHIVE, member, 0, (u16)heapId, &size);
     loader->dataSize = size;
     loader->setting.points = (u8 *)loader->data + loader->data[_SECTION_POINTS];
-    loader->setting.pointCount = _u32_div_f(loader->data[_SECTION_LINES] - loader->data[_SECTION_POINTS], 0x70);
+    loader->setting.pointCount = (loader->data[_SECTION_LINES] - loader->data[_SECTION_POINTS]) / 0x70;
     loader->setting.lines = (u8 *)loader->data + loader->data[_SECTION_LINES];
-    loader->setting.lineCount = _u32_div_f(loader->data[_SECTION_RAILS] - loader->data[_SECTION_LINES], 0x48);
+    loader->setting.lineCount = (loader->data[_SECTION_RAILS] - loader->data[_SECTION_LINES]) / 0x48;
     loader->setting.rails = (u8 *)loader->data + loader->data[_SECTION_RAILS];
-    loader->setting.railCount = _u32_div_f(loader->data[_SECTION_CAMERAS] - loader->data[_SECTION_RAILS], 0x24);
+    loader->setting.railCount = (loader->data[_SECTION_CAMERAS] - loader->data[_SECTION_RAILS]) / 0x24;
     loader->setting.cameras = (u8 *)loader->data + loader->data[_SECTION_CAMERAS];
-    loader->setting.cameraCount = _u32_div_f(loader->data[_SECTION_END] - loader->data[_SECTION_CAMERAS], 0x24);
+    loader->setting.cameraCount = (loader->data[_SECTION_END] - loader->data[_SECTION_CAMERAS]) / 0x24;
     loader->entryInfo = *(u32 *)((u8 *)loader->data + loader->data[_SECTION_ENTRY_INFO]);
 }
 

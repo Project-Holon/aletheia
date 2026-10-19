@@ -31,7 +31,7 @@
  *   BMP_Clear 0x02043B5C arm
  *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   BMP_WIN_Delete 0x020452E8 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -72,7 +72,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_MENUWORK_DrawWindowBorder(void *,u32);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void BG_SYS_FreeLayerBuf(u32);
 extern u32 GF_FONT_Delete(void *ptr);
@@ -110,7 +110,7 @@ int SAVE_SCREEN_NoticeMain(void *input,u32 *state,u32 unused,char *p)
         break;
     case 5:
         BMP_MENUWORK_DrawWindowBorder(((struct Obj01293 *)p)->f14,0);BMP_WIN_Delete(((struct Obj01293 *)p)->f14);
-        WORDSET_DeleteStrbufED04(((struct Obj01293 *)p)->f10);MSGDATA_Delete(((struct Obj01293 *)p)->fC);
+        WORDSET_Delete(((struct Obj01293 *)p)->f10);MSGDATA_Delete(((struct Obj01293 *)p)->fC);
         BG_SYS_FreeLayerBuf(0);GF_FONT_Delete(((struct Obj01293 *)p)->f18);SAVE_SCREEN_DeleteNoticeBackground();return 1;
     }
     return 0;

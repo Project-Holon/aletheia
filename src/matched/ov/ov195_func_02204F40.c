@@ -14,12 +14,12 @@
  *
  * symbols:
  *   GFL_USE_PopBgm  0x02005E9C  thumb
- *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb
+ *   GFL_USE_SetBgmPaused  0x02005DE4  thumb
  *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb
  */
 extern int GFL_USE_PopBgm(void);
 typedef unsigned int   u32;
-extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_SetBgmPaused(void *p);
 extern void GFL_USE_FadeInBgmFull(u32 a);
 
 void SHINKA_DEMO_PopBgm(int a, int *p)
@@ -28,7 +28,7 @@ void SHINKA_DEMO_PopBgm(int a, int *p)
 
     if (s == 5 || (unsigned)(s - 8) <= 1) {
         GFL_USE_PopBgm();
-        GFL_USE_SetBgmPlayerParam(0);
+        GFL_USE_SetBgmPaused(0);
         GFL_USE_FadeInBgmFull(6);
         p[0xc] = 4;
     }

@@ -1,7 +1,7 @@
 /*
  * file:     pmsi_param.c
  * unit:     yes
- * function: PMSI_PARAM_Create, PMSI_PARAM_Delete, PMSI_PARAM_SetWord, PMSI_PARAM_SetSentence, PMSI_PARAM_CheckCanceled, PMSI_PARAM_CheckModified, PMSI_PARAM_GetWord, PMSI_PARAM_GetWords, PMSI_PARAM_GetSentence, PMSI_PARAM_GetInputMode, PMSI_PARAM_GetSaveWork, PMSI_PARAM_GetWordSave, PMSI_PARAM_GetEventFlag, PMSI_PARAM_HasInitialSentence, PMSI_PARAM_GetOptionFlag, PMSI_PARAM_GetResult, PMSI_PARAM_IsSameInput, PMSI_PARAM_SetResult, PMSI_PARAM_GetUiInputMode, PMSI_PARAM_SetUiInputMode, PMSI_PARAM_MakeSineTable, PMSI_PARAM_ClearSentence, PMSI_PARAM_InitSentence, PMSI_PARAM_InitSentenceId, PMSI_PARAM_SetDefaultSentence, PMSI_PARAM_SetDefaultGreeting, PMSI_PARAM_ToString, PMSI_PARAM_ToStringWords, PMSI_PARAM_GetSourceString, PMSI_PARAM_IsEnabled, PMSI_PARAM_IsComplete, PMSI_PARAM_GetWordCount, PMSI_PARAM_GetWordId, PMSI_PARAM_GetWordRaw, PMSI_PARAM_IsDecoWordAt, PMSI_PARAM_IsDecoWord, PMSI_PARAM_GetDecoId, PMSI_PARAM_GetSentenceType, PMSI_PARAM_GetSentenceId, PMSI_PARAM_Compare, PMSI_PARAM_Copy, PMSI_PARAM_GetSentenceCount, PMSI_PARAM_SetSentenceId, PMSI_PARAM_SetWordAt, PMSI_PARAM_ClearUnusedWords, PMSI_PARAM_IsValid, PMSI_PARAM_Validate, PMSI_PARAM_ValidateWord, PMSI_PARAM_ValidateDecoValue, PMSI_PARAM_IsSpecialWord
+ * function: PMSI_PARAM_Create, PMSI_PARAM_Delete, PMSI_PARAM_SetWord, PMSI_PARAM_SetSentence, PMSI_PARAM_CheckCanceled, PMSI_PARAM_CheckModified, PMSI_PARAM_GetWord, PMSI_PARAM_GetWords, PMSI_PARAM_GetSentence, PMSI_PARAM_GetInputMode, PMSI_PARAM_GetSaveWork, PMSI_PARAM_GetWordSave, PMSI_PARAM_GetEventFlag, PMSI_PARAM_HasInitialSentence, PMSI_PARAM_GetOptionFlag, PMSI_PARAM_GetResult, PMSI_PARAM_IsSameInput, PMSI_PARAM_SetResult, PMSI_PARAM_GetUiInputMode, PMSI_PARAM_SetUiInputMode, FX_MakeSineTable, PMSI_PARAM_ClearSentence, PMSI_PARAM_InitSentence, PMSI_PARAM_InitSentenceId, PMSI_PARAM_SetDefaultSentence, PMSI_PARAM_SetDefaultGreeting, PMSI_PARAM_ToString, PMSI_PARAM_ToStringWords, PMSI_PARAM_GetSourceString, PMSI_PARAM_IsEnabled, PMSI_PARAM_IsComplete, PMSI_PARAM_GetWordCount, PMSI_PARAM_GetWordId, PMSI_PARAM_GetWordRaw, PMSI_PARAM_IsDecoWordAt, PMSI_PARAM_IsDecoWord, PMSI_PARAM_GetDecoId, PMSI_PARAM_GetSentenceType, PMSI_PARAM_GetSentenceId, PMSI_PARAM_Compare, PMSI_PARAM_Copy, PMSI_PARAM_GetSentenceCount, PMSI_PARAM_SetSentenceId, PMSI_PARAM_SetWordAt, PMSI_PARAM_ClearUnusedWords, PMSI_PARAM_IsValid, PMSI_PARAM_Validate, PMSI_PARAM_ValidateWord, PMSI_PARAM_ValidateDecoValue, PMSI_PARAM_IsSpecialWord
  * address:  0x02024044
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -25,7 +25,7 @@
  *   FX_SinCosTable_   0x020A1B38  data
  *   Table_0209F724   0x0209F724  data
  *   WORDSET_CreateDefault    0x0201EC64  thumb
- *   WORDSET_DeleteStrbufED04    0x0201ED04  thumb
+ *   WORDSET_Delete    0x0201ED04  thumb
  *   WORDSET_SetSlotPmsWord    0x0201EFC8  thumb
  *   WORDSET_SetSlotMarkerFlag    0x0201EFFC  thumb
  *   WORDSET_CopyTaggedText    0x0201F250  thumb
@@ -95,7 +95,7 @@ extern u32 ZONEDATA_CheckEventFlag(void *bitmap, int id);
 extern u32 unit_020355C4(void);
 extern void UI_SetInputMode(void *);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void WORDSET_SetSlotPmsWord(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_SetSlotMarkerFlag(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
@@ -125,7 +125,7 @@ u32 PMSI_PARAM_IsSameInput(const struct PmsiParam *obj, const u16 *words, const 
 void PMSI_PARAM_SetResult(struct PmsiParam *obj, const u16 *words, const struct PmsData *sentence);
 void PMSI_PARAM_GetUiInputMode(void);
 void PMSI_PARAM_SetUiInputMode(void *unused, void *inputMode);
-void PMSI_PARAM_MakeSineTable(s16 *table, u32 count, u16 step, int amplitude);
+void FX_MakeSineTable(s16 *table, u32 count, u16 step, int amplitude);
 void PMSI_PARAM_ClearSentence(struct PmsData *sentence);
 void PMSI_PARAM_InitSentence(struct PmsData *sentence, u32 sentenceType);
 void PMSI_PARAM_InitSentenceId(struct PmsData *sentence, u32 sentenceType, u32 sentenceId);
@@ -388,12 +388,12 @@ void PMSI_PARAM_SetUiInputMode(void *unused, void *inputMode) { UI_SetInputMode(
  * (sin/cos s16 pairs, hence the stride of two halfwords: the SDK's
  * FX_SinIdx); the old notes misread the pool word as 0x02021B38.
  *
- * The last byte of docs/notes/PMSI_PARAM_MakeSineTable.c.txt was the phase type: it is
+ * The last byte of docs/notes/FX_MakeSineTable.c.txt was the phase type: it is
  * a plain u16.  The wrap is then `lsrs` (u16 narrowing) and the index is
  * still `asrs` because the u16 promotes to int before the shift.  The s64
  * temporary for the widened table value is the permuter's find from wave 5.
  */
-void PMSI_PARAM_MakeSineTable(s16 *table, u32 count, u16 step, int amplitude)
+void FX_MakeSineTable(s16 *table, u32 count, u16 step, int amplitude)
 {
     u32 i;
     u16 phase;
@@ -576,7 +576,7 @@ void *PMSI_PARAM_ToStringWords(const struct PmsData *sentence, u32 heapId, int w
     WORDSET_CopyTaggedText(wordSet, buffer, message);
     STRBUF_Delete(message);
     MSGDATA_Delete(bank);
-    WORDSET_DeleteStrbufED04(wordSet);
+    WORDSET_Delete(wordSet);
     return buffer;
 }
 

@@ -50,7 +50,7 @@
  *   MI_CpuFill8      0x02082BCC  arm
  *   OS_GetOwnerInfo  0x02087C88  arm
  *   STRBUF_GetEosChar    0x02045A98  arm
- *   GF_STANDARD_SetupCalc    0x0203F1FC  arm
+ *   GF_STANDARD_CalcCrc16    0x0203F1FC  arm
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  *   MISC_SAVEDATA_CopyQuadRecord  0x0200E6FC  thumb
@@ -68,7 +68,7 @@ extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 extern void OS_GetOwnerInfo(void *info);
 
 extern u16   STRBUF_GetEosChar(void);
-extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
+extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
 
 struct Big;
 struct Blk34;
@@ -160,5 +160,5 @@ void GDS_PROFILE_Init(struct GdsProfile *p, void *sys)
     p->unk16 = func_02008554(rec);
     p->unk19 = 0x15;
     p->unk1A = 2;
-    p->unk7C = GF_STANDARD_SetupCalc((const u8 *)p, 0x7C);
+    p->unk7C = GF_STANDARD_CalcCrc16((const u8 *)p, 0x7C);
 }

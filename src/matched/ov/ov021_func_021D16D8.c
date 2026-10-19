@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * GAME_DATA_GetSaveBlockWork (arm9 Thumb leaf) is filed as src/matched/arm9/GAME_DATA_GetSaveBlockWork.c
+ * GAME_DATA_GetGameSync (arm9 Thumb leaf) is filed as src/matched/arm9/GAME_DATA_GetGameSync.c
  * to give the witness.
  *
  * symbols:
@@ -18,7 +18,7 @@
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
- *   GAME_DATA_GetSaveBlockWork  0x02012F8C  thumb
+ *   GAME_DATA_GetGameSync  0x02012F8C  thumb
  *   func_02009390  0x02009390  thumb
  *   func_020093D8  0x020093D8  thumb
  *   func_02009418  0x02009418  thumb
@@ -36,7 +36,7 @@ extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 extern void *SCRCMD_WORK_GetGameData(void *a0);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
-extern u32 GAME_DATA_GetSaveBlockWork(u32 *p);
+extern u32 GAME_DATA_GetGameSync(u32 *p);
 struct Sub02009210Ent;
 struct Sub02009210Obj;
 extern struct Sub02009210Ent *func_02009390(struct Sub02009210Obj *obj, int i);
@@ -62,7 +62,7 @@ int SCRCMD_WifiListOperation(u32 a, u32 b)
     k1 = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
     SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
     r4 = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
-    id = GAME_DATA_GetSaveBlockWork(r6);
+    id = GAME_DATA_GetGameSync(r6);
     switch (r7) {
     case 0:
         *r4 = 1;

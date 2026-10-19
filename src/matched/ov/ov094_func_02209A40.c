@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   TCBL_GetTaskUserData  0x02030EE8  arm  arm9
+ *   TCBL_IsDeletePending  0x02030EE8  arm  arm9
  */
 
 typedef unsigned int   u32;
 struct S02030EE8;
-extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
+extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
 
 void BTLV_BG_OnScrollJobEnd(void *h)
 {
-    int *w = *((int **)TCBL_GetTaskUserData(h));
+    int *w = *((int **)TCBL_IsDeletePending(h));
     w[1] &= ~1;
 }

@@ -33,7 +33,7 @@
  *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb
  *   EVENT_GAMECLEAR_GetCommExitKind  0x0215F9C4  thumb  ov010
  *   EVENT_GAMECLEAR_AdvanceStep  0x0215F9DC  thumb  ov010
- *   SCRCMD_NETWORK_SetupMiscSave  0x0215F9EC  thumb  ov010
+ *   EVENT_GAMECLEAR_SetGatePoints  0x0215F9EC  thumb  ov010
  *   SCRIPT_SYS_RunRecoverScript  0x02158A20  thumb  ov010
  *   EVENT_FIELD_PROCLINK_CreateCommExitEvent  0x02161B90  thumb  ov010
  *   ov180_id       0x000000B4  data
@@ -87,7 +87,7 @@ extern u32 GAME_COMM_GetKind(void *obj);
 extern void *EVENT_FIELDMAP_CONTROL_StartFadeOut(void *sys, void *proc, u32 a, u32 b);
 extern int EVENT_GAMECLEAR_GetCommExitKind(void);
 extern void EVENT_GAMECLEAR_AdvanceStep(Work *w, u32 *i);
-extern int SCRCMD_NETWORK_SetupMiscSave(int a0);
+extern int EVENT_GAMECLEAR_SetGatePoints(int a0);
 extern void SCRIPT_SYS_RunRecoverScript(int a, int v);
 extern void *EVENT_FIELD_PROCLINK_CreateCommExitEvent(void *p, void *a1, int kind, int sub, int flag);
 extern u8 ov180_id[];
@@ -111,7 +111,7 @@ int EVENT_GAMECLEAR_Main(void *evt, u32 *i, Work *w)
     switch (w->step) {
     case 0:
         if (w->f08 == 1)
-            SCRCMD_NETWORK_SetupMiscSave((int)w);
+            EVENT_GAMECLEAR_SetGatePoints((int)w);
         GFL_USE_FadeOutBgm(30);
         EVENT_GAMECLEAR_AdvanceStep(w, i);
         break;

@@ -1,5 +1,5 @@
 /*
- * function: WIFIBATTLEMATCH_NET_IsRegSpriteReady
+ * function: WIFIBATTLEMATCH_NET_IsCompPartyWindowReady
  * address: 0x021D98CC
  * packet: pkt_ov175_021D98CC
  * region: ov175
@@ -14,7 +14,7 @@
 #include "../include/Obj24307.h"
 typedef struct Work Work;
 extern int WIFIBATTLEMATCH_VIEW_StepPartyWindow(Work *);
-int WIFIBATTLEMATCH_NET_IsRegSpriteReady(char *p)
+int WIFIBATTLEMATCH_NET_IsCompPartyWindowReady(char *p)
 {
     return WIFIBATTLEMATCH_VIEW_StepPartyWindow(*(Work * *)&((struct Obj24307 *)p)->f24);
 }

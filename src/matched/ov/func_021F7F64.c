@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   WORLDTRADE_ADAPTER_IsStreamDone  0x02202840  thumb  ov135
+ *   WORLDTRADE_ADAPTER_IsStreamBusy  0x02202840  thumb  ov135
 
  *
  * When the sub-object at +0xfa0 is idle, re-arm the state word from +0x2c.
@@ -21,11 +21,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef void (*Fn)(void);
-extern u32 WORLDTRADE_ADAPTER_IsStreamDone(u8 *p);
+extern u32 WORLDTRADE_ADAPTER_IsStreamBusy(u8 *p);
 
 int WORLDTRADE_DEPOSIT_StateWaitMessage(u8 *p)
 {
-    if (WORLDTRADE_ADAPTER_IsStreamDone(p + 0xfa0) == 0) {
+    if (WORLDTRADE_ADAPTER_IsStreamBusy(p + 0xfa0) == 0) {
         ((struct Obj12201 *)p)->f28 = ((struct Obj12201 *)p)->f2C;
     }
     return 2;

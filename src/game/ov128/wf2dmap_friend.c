@@ -1,7 +1,7 @@
 /*
  * file:     wf2dmap_friend.c
  * unit:     yes
- * function: Wf2dmapFriend_Create, Wf2dmapFriend_Main, Wf2dmapFriend_Delete, Wf2dmapFriend_Proc, Wf2dmapFriend_Setup, Wf2dmapFriend_Teardown, Wf2dmapFriend_CreateWindow, Wf2dmapFriend_InitText, Wf2dmapFriend_DeleteText, Wf2dmapFriend_SetState, Wf2dmapFriend_CopyText, Wf2dmapFriend_SubmitFriendKey, Wf2dmapFriend_BuildEntryList, Wf2dmapFriend_InitGfx, Wf2dmapFriend_Draw, Wf2dmapFriend_VBlank, Wf2dmapFriend_DeleteGfx, Wf2dmapFriend_SetVramBanks, Wf2dmapFriend_InitBg, Wf2dmapFriend_DeleteBg, Wf2dmapFriend_InitActors, Wf2dmapFriend_DeleteActors, Wf2dmapFriend_InitFont, Wf2dmapFriend_DeleteFont, Wf2dmapFriend_InitWindows, Wf2dmapFriend_DeleteWindows, Wf2dmapFriend_LoadBmps, Wf2dmapFriend_DeleteBmps, Wf2dmapFriend_DrawText, Wf2dmapFriend_ClearWindow, Wf2dmapFriend_SetFriendCode, Wf2dmapFriend_PrintMyStatus, Wf2dmapFriend_PrintTrainerStats, Wf2dmapFriend_SetWordSlot, Wf2dmapFriend_CreateListActors, Wf2dmapFriend_DeleteListActors, Wf2dmapFriend_SetActorDrawEnable, Wf2dmapFriend_SetActorAutoAnim, Wf2dmapFriend_RestartActorAnim, Wf2dmapFriend_OpenMenu, Wf2dmapFriend_UpdateMenu, Wf2dmapFriend_InitTopBar, Wf2dmapFriend_TopBarMain, Wf2dmapFriend_Exit, Wf2dmapFriend_InitListScreen, Wf2dmapFriend_DeleteListScreen, Wf2dmapFriend_DrawListBg, Wf2dmapFriend_ListKeyInput, Wf2dmapFriend_ListTouchInput, Wf2dmapFriend_ListInput, Wf2dmapFriend_ClearListScreen, Wf2dmapFriend_PrintMessage, Wf2dmapFriend_UpdatePrintStream, Wf2dmapFriend_CheckPrintStream, Wf2dmapFriend_ResetListWindow, Wf2dmapFriend_HasEntry, Wf2dmapFriend_InitItemScreen, Wf2dmapFriend_ItemScreenMain, Wf2dmapFriend_InitItemWidgets, Wf2dmapFriend_DeleteItemWidgets, Wf2dmapFriend_SetupItemScreen, Wf2dmapFriend_ClearItemScreens, Wf2dmapFriend_ItemSelect, Wf2dmapFriend_ItemKeyInput, Wf2dmapFriend_ItemTouchInput, Wf2dmapFriend_ItemInput, Wf2dmapFriend_StartItemOpen, Wf2dmapFriend_StepItemOpen, Wf2dmapFriend_WaitItemOpen, Wf2dmapFriend_GetEntryFriendKey, Wf2dmapFriend_PrintEntryInfo, Wf2dmapFriend_OpenEntryMenu, Wf2dmapFriend_UpdateEntryMenu, Wf2dmapFriend_ShowEntryFriendCode, Wf2dmapFriend_PrintEntryName, Wf2dmapFriend_OpenConfirmMenu, Wf2dmapFriend_DrawEntry, Wf2dmapFriend_DrawEntryOpen, Wf2dmapFriend_PrintEntryMessage, Wf2dmapFriend_CheckEntryPrintStream, Wf2dmapFriend_ShowEntryDetail, Wf2dmapFriend_ClearEntryWindow, Wf2dmapFriend_GetEntryIndex, Wf2dmapFriend_ShowEntryActor, Wf2dmapFriend_StepEntryActor, Wf2dmapFriend_HideEntryActor, Wf2dmapFriend_CopyPos, Wf2dmapFriend_NoopC, Wf2dmapFriend_DrawEntryBg, Wf2dmapFriend_DrawEntryPage, Wf2dmapFriend_DrawEntryPageTransfer, Wf2dmapFriend_ClearEntryPage, Wf2dmapFriend_DeleteEntryActors, Wf2dmapFriend_DrawEntrySlot, Wf2dmapFriend_CreateEntryActor, Wf2dmapFriend_NameEntryMain
+ * function: Wf2dmapFriend_Create, Wf2dmapFriend_Main, Wf2dmapFriend_Delete, Wf2dmapFriend_Proc, Wf2dmapFriend_Setup, Wf2dmapFriend_Teardown, Wf2dmapFriend_CreateWindow, Wf2dmapFriend_InitText, Wf2dmapFriend_DeleteText, Wf2dmapFriend_SetState, Wf2dmapFriend_CopyText, Wf2dmapFriend_SubmitFriendKey, Wf2dmapFriend_BuildEntryList, Wf2dmapFriend_InitGfx, Wf2dmapFriend_Draw, Wf2dmapFriend_VBlank, Wf2dmapFriend_DeleteGfx, Wf2dmapFriend_SetVramBanks, Wf2dmapFriend_InitBg, Wf2dmapFriend_DeleteBg, Wf2dmapFriend_InitActors, Wf2dmapFriend_DeleteActors, Wf2dmapFriend_InitFont, Wf2dmapFriend_DeleteFont, Wf2dmapFriend_InitWindows, Wf2dmapFriend_DeleteWindows, Wf2dmapFriend_LoadBmps, Wf2dmapFriend_DeleteBmps, Wf2dmapFriend_DrawText, Wf2dmapFriend_ClearWindow, Wf2dmapFriend_SetFriendCode, Wf2dmapFriend_PrintMyStatus, Wf2dmapFriend_PrintTrainerStats, Wf2dmapFriend_SetWordSlot, Wf2dmapFriend_CreateListActors, Wf2dmapFriend_DeleteListActors, Wf2dmapFriend_SetActorDrawEnable, Wf2dmapFriend_SetActorAutoAnim, Wf2dmapFriend_RestartActorAnim, Wf2dmapFriend_OpenMenu, Wf2dmapFriend_UpdateMenu, Wf2dmapFriend_InitTopBar, Wf2dmapFriend_TopBarMain, Wf2dmapFriend_Exit, Wf2dmapFriend_InitListScreen, Wf2dmapFriend_DeleteListScreen, Wf2dmapFriend_DrawListBg, Wf2dmapFriend_ListKeyInput, Wf2dmapFriend_ListTouchInput, Wf2dmapFriend_ListInput, Wf2dmapFriend_ClearListScreen, Wf2dmapFriend_PrintMessage, Wf2dmapFriend_UpdatePrintStream, Wf2dmapFriend_CheckPrintStream, Wf2dmapFriend_ResetListWindow, Wf2dmapFriend_HasFreeFriendSlot, Wf2dmapFriend_InitItemScreen, Wf2dmapFriend_ItemScreenMain, Wf2dmapFriend_InitItemWidgets, Wf2dmapFriend_DeleteItemWidgets, Wf2dmapFriend_SetupItemScreen, Wf2dmapFriend_ClearItemScreens, Wf2dmapFriend_ItemSelect, Wf2dmapFriend_ItemKeyInput, Wf2dmapFriend_ItemTouchInput, Wf2dmapFriend_ItemInput, Wf2dmapFriend_StartItemOpen, Wf2dmapFriend_StepItemOpen, Wf2dmapFriend_WaitItemOpen, Wf2dmapFriend_GetEntryFriendKey, Wf2dmapFriend_PrintEntryInfo, Wf2dmapFriend_OpenEntryMenu, Wf2dmapFriend_UpdateEntryMenu, Wf2dmapFriend_ShowEntryFriendCode, Wf2dmapFriend_PrintEntryName, Wf2dmapFriend_OpenConfirmMenu, Wf2dmapFriend_DrawEntry, Wf2dmapFriend_DrawEntryOpen, Wf2dmapFriend_PrintEntryMessage, Wf2dmapFriend_CheckEntryPrintStream, Wf2dmapFriend_ShowEntryDetail, Wf2dmapFriend_ClearEntryWindow, Wf2dmapFriend_GetEntryIndex, Wf2dmapFriend_ShowEntryActor, Wf2dmapFriend_StepEntryActor, Wf2dmapFriend_HideEntryActor, Wf2dmapFriend_CopyPos, Wf2dmapFriend_NoopC, Wf2dmapFriend_DrawEntryBg, Wf2dmapFriend_DrawEntryPage, Wf2dmapFriend_DrawEntryPageTransfer, Wf2dmapFriend_ClearEntryPage, Wf2dmapFriend_DeleteEntryActors, Wf2dmapFriend_DrawEntrySlot, Wf2dmapFriend_CreateEntryActor, Wf2dmapFriend_NameEntryMain
  * address:  0x021C6180
  * region:   ov128
  * compiler: dsi/1.1p1
@@ -38,13 +38,13 @@
  *   UI_SetInputMode 0x020355D8 arm
  *   STRBUF_Delete 0x02045808 arm
  *   STRBUF_Copy 0x02045838 arm
- *   GAME_DATA_GetField1A0 0x0201283C thumb
+ *   GAME_DATA_GetWifiList 0x0201283C thumb
  *   WIFILIST_GetWork 0x02009860 thumb
  *   DWC_CreateFriendKey 0x0205994C arm
  *   WIFILIST_IsFriendDataValid 0x02009A1C thumb
  *   WF2DMAP_TOUCH_ParseKey 0x021CA014 thumb ov128
  *   DWC_CheckFriendKey 0x02059354 arm
- *   GFL_NET_ERR_FindFriendByKey 0x0200F43C thumb
+ *   WIFILIST_FindFriendByKey 0x0200F43C thumb
  *   WIFILIST_GetDwcFriendData 0x020099C8 thumb
  *   DWC_CreateFriendKeyToken 0x02059980 arm
  *   WIFILIST_StoreFriendNameFromStrbuf 0x02009A00 thumb
@@ -114,7 +114,7 @@
  *   TCBL_Destroy 0x02031140 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   MSGDATA_Delete 0x02045C04 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   BMP_WIN_Init 0x02045088 arm
@@ -129,7 +129,7 @@
  *   WF2DMAP_TOUCH_TransferScreen 0x021CA4B4 thumb ov128
  *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   _ll_udiv 0x0209C00C arm
  *   _ull_mod 0x0209C018 arm
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
@@ -169,7 +169,7 @@
  *   WF2DMAP_TOUCH_ClearSlotArray 0x021CA444 thumb ov128
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
  *   BG_SYS_DrawTile 0x02041090 arm
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   WF2DMAP_TOUCH_SetTopHighlight3 0x021CA16C thumb ov128
  *   KEY_GetTrg 0x020362DC arm
  *   KEY_GetRepeat 0x0203633C arm
@@ -184,7 +184,7 @@
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   WF2DMAP_TOUCH_SetBgOffset 0x021CA3E8 thumb ov128
+ *   WF2DMAP_TOUCH_SetScreenBrightness 0x021CA3E8 thumb ov128
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   KEY_GetCont 0x0203630C arm
  *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
@@ -203,7 +203,7 @@
  *   WF2DMAP_TOUCH_SetItemHighlight1 0x021CA294 thumb ov128
  *   gWf2dmapItemHitRects 0x021CA5FC data a1
  *   CLACT_SetSurfacePos 0x0204B09C arm
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  *   gWf2dmapOpenAnimConfig 0x021CA7C0 data a4
  *   gWf2dmapOpenAnimCallbacks 0x021CA7C0 data a4
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
@@ -341,13 +341,13 @@ extern signed char MSG_SPEED_GetWait(void);
 extern void UI_SetInputMode(int);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void STRBUF_Copy(struct U16Vec *dst, struct U16Vec *src);
-extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
+extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 extern struct Sub020097BCObj *WIFILIST_GetWork(struct Sub020097BCObj *obj);
 extern unsigned long long DWC_CreateFriendKey(struct DWCstAccUserData *userdata);
 extern int WIFILIST_IsFriendDataValid(struct Sub020097BCObj *obj, u32 i);
 extern u64 WF2DMAP_TOUCH_ParseKey(void *,int *);
 extern int DWC_CheckFriendKey(void *,u32,u32);
-extern int GFL_NET_ERR_FindFriendByKey(void *,u32,u32,int *);
+extern int WIFILIST_FindFriendByKey(void *,u32,u32,int *);
 extern struct Sub020097BCFriend *WIFILIST_GetDwcFriendData(struct Sub020097BCObj *obj, int i);
 extern void DWC_CreateFriendKeyToken(void *,u32,u32);
 extern void WIFILIST_StoreFriendNameFromStrbuf(struct Sub020097BCObj *obj, int i, void *dest);
@@ -412,7 +412,7 @@ extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void TCBL_Destroy(struct S02031140 *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern void BMP_WIN_Init(u16 heapId);
@@ -426,7 +426,7 @@ extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, 
 extern void WF2DMAP_TOUCH_TransferScreen(char *p);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void BG_SYS_SetFlagField06(u32);
+extern void BG_SYS_MarkTileDirty(u32);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void *MYSTATUS_Create(int);
 extern struct Sub020097BCEnt *WIFILIST_GetFriendInfo(struct Sub020097BCObj *obj, int i);
@@ -460,7 +460,7 @@ extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, u32 f
 extern void WF2DMAP_TOUCH_ClearSlotArray(char *);
 extern unsigned int APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern void BG_SYS_DrawTile(unsigned int index, unsigned int src, unsigned int dx, unsigned int dy, u8 cw, u8 ch);
-extern void BG_SYS_FillScrollArea(unsigned,unsigned,unsigned);
+extern void BG_SYS_ChangeScrollImmediate(unsigned,unsigned,unsigned);
 extern void WF2DMAP_TOUCH_SetTopHighlight3(u8 *,int);
 extern u32 KEY_GetTrg(void);
 extern u32 KEY_GetRepeat(void);
@@ -473,7 +473,7 @@ extern void BG_SYS_SetTileEntry(unsigned,int,u8,u8,u8,u8,u8);
 extern void *PRINTSYS_PrintStream(void *,int,int,void *,void *,void *,void *,int,u16,u16);
 extern void BMP_MENUWORK_DrawWindow(void *,int,int,int);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern void WF2DMAP_TOUCH_SetBgOffset(int);
+extern void WF2DMAP_TOUCH_SetScreenBrightness(int);
 extern u32 PRINTSYS_PrintStreamGetState(void *p);
 extern void PRINTSYS_PrintStreamShortWait(struct Rec *p, s32 v);
 extern void PRINTSYS_PrintStreamReleasePause(void *);
@@ -490,7 +490,7 @@ extern void WF2DMAP_TOUCH_SetItemHighlight(u8 *,int,int);
 extern void WF2DMAP_TOUCH_SetItemHighlight1(u8 *p, int a);
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern void CLACT_SetSurfacePos(void *, int, Pair *);
-extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
+extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
 extern unsigned long long DWC_GetFriendKey(void *);
 extern void WF2DMAP_TOUCH_UpdateItemBar(char *p);
 extern void WF2DMAP_TOUCH_MakeScreen(char *);
@@ -565,7 +565,7 @@ void Wf2dmapFriend_PrintMessage(u8 *p,u8 *ctx,unsigned v,unsigned heap);
 int Wf2dmapFriend_UpdatePrintStream(void *p, int *q);
 int Wf2dmapFriend_CheckPrintStream(void *p,int *q,u8 *r);
 void Wf2dmapFriend_ResetListWindow(u8 *p, void *ctx);
-int Wf2dmapFriend_HasEntry(int *p,u8 *q);
+int Wf2dmapFriend_HasFreeFriendSlot(int *p,u8 *q);
 void Wf2dmapFriend_InitItemScreen(u8 *p,u8 *q,u8 *ctx,u16 value);
 int Wf2dmapFriend_ItemScreenMain(u8 *p,u8 *q,u8 *ctx,u16 heap);
 void Wf2dmapFriend_DeleteItemScreen(u8 *p,u8 *q,u8 *ctx);
@@ -795,14 +795,14 @@ int Wf2dmapFriend_SubmitFriendKey(char *p,void *q,u32 arg)
     void *v;
     u64 old,id;
     int valid,result;
-    v=(void *)GAME_DATA_GetField1A0(((Wf2dmapTouchFriendData *)p)->saveData);
+    v=(void *)GAME_DATA_GetWifiList(((Wf2dmapTouchFriendData *)p)->saveData);
     old=DWC_CreateFriendKey((struct DWCstAccUserData *)WIFILIST_GetWork(v));
     for(i=0;i<32;i++) {
         if(WIFILIST_IsFriendDataValid(v,i)==0) {
             id=WF2DMAP_TOUCH_ParseKey(q,&valid);
             if(valid==1 && id!=old) {
             if(DWC_CheckFriendKey(WIFILIST_GetWork(v),(u32)id,(u32)(id>>32))==0) return 1;
-            if(GFL_NET_ERR_FindFriendByKey(v,(u32)id,(u32)(id>>32),&result)==0) return 2;
+            if(WIFILIST_FindFriendByKey(v,(u32)id,(u32)(id>>32),&result)==0) return 2;
             DWC_CreateFriendKeyToken(WIFILIST_GetDwcFriendData(v,i),(u32)id,(u32)(id>>32));
             WIFILIST_StoreFriendNameFromStrbuf(v,i,(void *)arg);
             WIFILIST_SetFriendInfoField(v,i,9,2);
@@ -842,7 +842,7 @@ void Wf2dmapFriend_BuildEntryList(char *p)
     int i;
     void *v;
     MI_CpuFill8(p+16,0,72);
-    v=(void *)GAME_DATA_GetField1A0(((Wf2dmapTouchFriendData *)p)->saveData);
+    v=(void *)GAME_DATA_GetWifiList(((Wf2dmapTouchFriendData *)p)->saveData);
     ((Wf2dmapTouchFriendData *)p)->count=0;
     for(i=0;i<32;i++) {
         if(WIFILIST_IsFriendDataValid(v,i)==1) {
@@ -1049,7 +1049,7 @@ void Wf2dmapFriend_DeleteFont(u8 *p)
     ((Wf2dmapTouchGfx *)p)->tcbl=0;
     GF_FONT_Delete(((Wf2dmapTouchGfx *)p)->palWin);
     MSGDATA_Delete(((Wf2dmapTouchGfx *)p)->msgBank);
-    WORDSET_DeleteStrbufED04(((Wf2dmapTouchGfx *)p)->wordSet);
+    WORDSET_Delete(((Wf2dmapTouchGfx *)p)->wordSet);
 }
 
 
@@ -1134,7 +1134,7 @@ void Wf2dmapFriend_ClearWindow(u8 *p)
 {
     void *q = ((Wf2dmapTouchGfx *)p)->window;
     BMP_WIN_ClearScreen(q);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(q));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(q));
 }
 
 
@@ -1163,7 +1163,7 @@ void Wf2dmapFriend_PrintMyStatus(u8 *p,u8 *q,int idx,unsigned heap)
     void *base;
     void *obj;
     void *str;
-    base=(void *)GAME_DATA_GetField1A0(((Wf2dmapTouchFriendData *)q)->saveData);
+    base=(void *)GAME_DATA_GetWifiList(((Wf2dmapTouchFriendData *)q)->saveData);
     obj=MYSTATUS_Create(heap);
     str=STRBUF_Create(10,heap);
     STRBUF_SetString(str,(const u16 *)WIFILIST_GetFriendInfo(base,idx));
@@ -1185,7 +1185,7 @@ int Wf2dmapFriend_PrintTrainerStats(u8 *p,u8 *q,int idx)
     void *base;
     unsigned v;
     int result;
-    base=(void *)GAME_DATA_GetField1A0(((Wf2dmapTouchFriendData *)q)->saveData);
+    base=(void *)GAME_DATA_GetWifiList(((Wf2dmapTouchFriendData *)q)->saveData);
     result=1;
     v=WIFILIST_GetFriendInfoField(base,idx,7);
     if(v==0) result=0;
@@ -1371,7 +1371,7 @@ int Wf2dmapFriend_TopBarMain(u8 *p, u8 *q, u8 *ctx, int heap)
         } else {
             if(WF2DMAP_TOUCH_StepTopBarBlink((char *)p)==1) break;
         }
-        if(Wf2dmapFriend_HasEntry((int *)p,q)==1) {
+        if(Wf2dmapFriend_HasFreeFriendSlot((int *)p,q)==1) {
             Wf2dmapFriend_SetListState((u32 *)p,q);
             if(*(u32 *)p==3) q[8]=5;
             else if(*(u32 *)p==4) q[8]=5;
@@ -1543,10 +1543,10 @@ void Wf2dmapFriend_DrawListBg(u8 *p,int *q,u8 *ctx)
     Wf2dmapFriend_DrawText(ctx,ctx+12,0);
     data=*(u16 * *)&((Wf2dmapFriendListScreen *)p)->bmpDesc;
     BG_SYS_DrawTile(2,(unsigned int)((u8 *)data+12),0,0,data[0]>>3,data[1]>>3);
-    BG_SYS_FillScrollArea(2,0,0);
-    BG_SYS_FillScrollArea(2,3,0);
+    BG_SYS_ChangeScrollImmediate(2,0,0);
+    BG_SYS_ChangeScrollImmediate(2,3,0);
     if(*q==0) WF2DMAP_TOUCH_SetTopHighlight3(ctx,((Wf2dmapFriendListScreen *)p)->highlight);
-    else BG_SYS_SetFlagField06(2);
+    else BG_SYS_MarkTileDirty(2);
 }
 
 
@@ -1661,12 +1661,12 @@ void Wf2dmapFriend_ClearListScreen(u8 *p,u8 *q)
     void *obj;
     Wf2dmapFriend_ClearWindow(q);
     BG_SYS_SetTileEntry(2,0,0,0,32,24,16);
-    BG_SYS_SetFlagField06(2);
+    BG_SYS_MarkTileDirty(2);
     BG_SYS_SetTileEntry(3,0,0,0,32,24,16);
-    BG_SYS_SetFlagField06(3);
+    BG_SYS_MarkTileDirty(3);
     obj=((Wf2dmapFriendListScreen *)p)->windowA;
     BMP_WIN_ClearScreen(obj);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(obj));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(obj));
 }
 
 
@@ -1694,9 +1694,9 @@ void Wf2dmapFriend_PrintMessage(u8 *p,u8 *ctx,unsigned v,unsigned heap)
     obj=((Wf2dmapFriendListScreen *)p)->windowB;
     BMP_WIN_TransferChars(obj);
     BMP_WIN_MakeScreen(obj);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(obj));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(obj));
     STRBUF_Delete(buf);
-    WF2DMAP_TOUCH_SetBgOffset(0);
+    WF2DMAP_TOUCH_SetScreenBrightness(0);
 }
 
 
@@ -1740,14 +1740,14 @@ int Wf2dmapFriend_CheckPrintStream(void *p,int *q,u8 *r) {if(Wf2dmapFriend_Updat
 
 
 
-void Wf2dmapFriend_ResetListWindow(u8 *p, void *ctx) {void *q;WF2DMAP_TOUCH_SetBgOffset(1);BMP_MENUWORK_DrawWindowBorder(((Wf2dmapFriendListScreen *)p)->windowB,0);q=((Wf2dmapFriendListScreen *)p)->windowB;BMP_WIN_ClearScreen(q);BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(q));}
+void Wf2dmapFriend_ResetListWindow(u8 *p, void *ctx) {void *q;WF2DMAP_TOUCH_SetScreenBrightness(1);BMP_MENUWORK_DrawWindowBorder(((Wf2dmapFriendListScreen *)p)->windowB,0);q=((Wf2dmapFriendListScreen *)p)->windowB;BMP_WIN_ClearScreen(q);BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(q));}
 
 
 
 
 
 
-int Wf2dmapFriend_HasEntry(int *p,u8 *q) {int i;void *v;if(*p==1) {v=(void *)GAME_DATA_GetField1A0(((Wf2dmapTouchFriendData *)q)->saveData);for(i=0;i<32;i++) {if(WIFILIST_IsFriendDataValid(v,i)==0) return 1;}}else return 1;return 0;}
+int Wf2dmapFriend_HasFreeFriendSlot(int *p,u8 *q) {int i;void *v;if(*p==1) {v=(void *)GAME_DATA_GetWifiList(((Wf2dmapTouchFriendData *)q)->saveData);for(i=0;i<32;i++) {if(WIFILIST_IsFriendDataValid(v,i)==0) return 1;}}else return 1;return 0;}
 
 
 
@@ -1842,7 +1842,7 @@ int Wf2dmapFriend_ItemScreenMain(u8 *p,u8 *q,u8 *ctx,u16 heap)
     case 12:
         WIPE_SYS_Start(0,0,0,0,6,1,heap);
         idx=Wf2dmapFriend_GetEntryIndex((s16 *)p);
-        base=GAME_DATA_GetField1A0(((Wf2dmapTouchFriendData *)q)->saveData);
+        base=GAME_DATA_GetWifiList(((Wf2dmapTouchFriendData *)q)->saveData);
         Wf2dmapFriend_SetNameEntry((char *)q,(int)WIFILIST_GetFriendInfo((void *)base,*(u8 *)((u32)q+(u32)idx+24)));
         q[8]=13;
         break;
@@ -1853,7 +1853,7 @@ int Wf2dmapFriend_ItemScreenMain(u8 *p,u8 *q,u8 *ctx,u16 heap)
         break;
     case 14:
         idx=Wf2dmapFriend_GetEntryIndex((s16 *)p);
-        base=GAME_DATA_GetField1A0(((Wf2dmapTouchFriendData *)q)->saveData);
+        base=GAME_DATA_GetWifiList(((Wf2dmapTouchFriendData *)q)->saveData);
         WIFILIST_StoreFriendNameFromStrbuf((void *)base,*(u8 *)((u32)q+(u32)idx+24),((Wf2dmapTouchFriendData *)q)->textBufA);
     case 15:
         Wf2dmapFriend_InitItemScreen(p,q,ctx,52);Wf2dmapFriend_SetupItemScreen(p,q,ctx,heap);
@@ -1873,7 +1873,7 @@ int Wf2dmapFriend_ItemScreenMain(u8 *p,u8 *q,u8 *ctx,u16 heap)
     case 20: Wf2dmapFriend_ShowEntryActor(p,ctx);q[8]=21;break;
     case 21:
         if(Wf2dmapFriend_StepEntryActor(p,ctx)==1) {
-            base=GAME_DATA_GetField1A0(((Wf2dmapTouchFriendData *)q)->saveData);
+            base=GAME_DATA_GetWifiList(((Wf2dmapTouchFriendData *)q)->saveData);
             idx=Wf2dmapFriend_GetEntryIndex((s16 *)p);
             WIFILIST_RemoveFriendSlot((void *)base,*(u8 *)((u32)q+(u32)idx+24));
             Wf2dmapFriend_BuildEntryList((char *)q);
@@ -2004,14 +2004,14 @@ void Wf2dmapFriend_DeleteItemWidgets(u8 *p, void *unused, u8 *a)
 
 
 
-void Wf2dmapFriend_SetupItemScreen(u8 *p,u8 *q,u8 *r,u16 heap) {Wf2dmapFriend_DrawText(r,r+12,5);BG_SYS_SetFlagField06(0);Wf2dmapFriend_DrawEntry(p,q,r,((Wf2dmapFriendItemScreen *)p)->page,((Wf2dmapFriendItemScreen *)p)->cursor,0,heap);}
+void Wf2dmapFriend_SetupItemScreen(u8 *p,u8 *q,u8 *r,u16 heap) {Wf2dmapFriend_DrawText(r,r+12,5);BG_SYS_MarkTileDirty(0);Wf2dmapFriend_DrawEntry(p,q,r,((Wf2dmapFriendItemScreen *)p)->page,((Wf2dmapFriendItemScreen *)p)->cursor,0,heap);}
 
 
 
 
 
 
-void Wf2dmapFriend_ClearItemScreens(u8 *p,void *q,u8 *r) {int i;Wf2dmapFriend_ClearWindow(r);for(i=0;i<3;i++)Wf2dmapFriend_ClearEntryPage((char *)(p+12+i*76),r,r+364);BG_SYS_SetFlagField06(0);}
+void Wf2dmapFriend_ClearItemScreens(u8 *p,void *q,u8 *r) {int i;Wf2dmapFriend_ClearWindow(r);for(i=0;i<3;i++)Wf2dmapFriend_ClearEntryPage((char *)(p+12+i*76),r,r+364);BG_SYS_MarkTileDirty(0);}
 
 
 
@@ -2215,8 +2215,8 @@ int Wf2dmapFriend_StepItemOpen(u8 *p, u8 *a, u8 *b, u16 h)
     }
     delta = (((Wf2dmapFriendItemScreen *)p)->openCounter * 256) / 24;
     if (((Wf2dmapFriendItemScreen *)p)->openMode == 2) delta = -delta;
-    BG_SYS_ResetSlot(2, 0, delta);
-    BG_SYS_ResetSlot(3, 0, delta);
+    BG_SYS_ChangeScroll(2, 0, delta);
+    BG_SYS_ChangeScroll(3, 0, delta);
     pos.x = gWf2dmapOpenAnimConfig.pos.x;
     pos.y = gWf2dmapOpenAnimConfig.pos.y;
     pos.x += (s16)delta;
@@ -2238,14 +2238,14 @@ int Wf2dmapFriend_StepItemOpen(u8 *p, u8 *a, u8 *b, u16 h)
 /*
  * extent: two zero alignment bytes follow the compiled function.
  */
-int Wf2dmapFriend_WaitItemOpen(u8 *p,u8 *q) {if(PRINTSYS_QUE_IsFinished(*(const struct PrintSys * *)&((Wf2dmapTouchGfx *)q)->printWin)==1) {BG_SYS_ResetSlot(2,0,0);BG_SYS_ResetSlot(3,0,0);WF2DMAP_TOUCH_TransferScreen(**(char ** *)&((Wf2dmapFriendItemScreen *)p)->pages[0].window);return 1;}return 0;}
+int Wf2dmapFriend_WaitItemOpen(u8 *p,u8 *q) {if(PRINTSYS_QUE_IsFinished(*(const struct PrintSys * *)&((Wf2dmapTouchGfx *)q)->printWin)==1) {BG_SYS_ChangeScroll(2,0,0);BG_SYS_ChangeScroll(3,0,0);WF2DMAP_TOUCH_TransferScreen(**(char ** *)&((Wf2dmapFriendItemScreen *)p)->pages[0].window);return 1;}return 0;}
 
 
 
 
 
 
-unsigned long long Wf2dmapFriend_GetEntryFriendKey(s16 *p,u8 *q) {u32 base;base=GAME_DATA_GetField1A0(*(const struct BigObj * *)&((Wf2dmapTouchFriendData *)q)->saveData);return DWC_GetFriendKey(WIFILIST_GetDwcFriendData((struct Sub020097BCObj *)base,*(u8 *)(q+24+Wf2dmapFriend_GetEntryIndex(p))));}
+unsigned long long Wf2dmapFriend_GetEntryFriendKey(s16 *p,u8 *q) {u32 base;base=GAME_DATA_GetWifiList(*(const struct BigObj * *)&((Wf2dmapTouchFriendData *)q)->saveData);return DWC_GetFriendKey(WIFILIST_GetDwcFriendData((struct Sub020097BCObj *)base,*(u8 *)(q+24+Wf2dmapFriend_GetEntryIndex(p))));}
 
 
 
@@ -2262,7 +2262,7 @@ void Wf2dmapFriend_PrintEntryInfo(s16 *p,u8 *q,u8 *r,u16 heap) {Wf2dmapFriend_Pr
 void Wf2dmapFriend_OpenEntryMenu(u8 *p, u8 *a, void *unused, int heap)
 {
     Wf2dmapEntryMenuConfig config;
-    void *q = (void *)GAME_DATA_GetField1A0(((Wf2dmapTouchFriendData *)a)->saveData);
+    void *q = (void *)GAME_DATA_GetWifiList(((Wf2dmapTouchFriendData *)a)->saveData);
     int result = WIFILIST_GetFriendInfoField(q, (a + Wf2dmapFriend_GetEntryIndex((s16 *)p))[24], 9);
     config.heap = heap;
     config.count = 4;
@@ -2411,9 +2411,9 @@ void Wf2dmapFriend_PrintEntryMessage(u8 *p, u8 *a, int n, int heap)
     q=((Wf2dmapFriendItemScreen *)p)->window;
     BMP_WIN_TransferChars(q);
     BMP_WIN_MakeScreen(q);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(q));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(q));
     STRBUF_Delete(text);
-    WF2DMAP_TOUCH_SetBgOffset(0);
+    WF2DMAP_TOUCH_SetScreenBrightness(0);
 }
 
 
@@ -2426,7 +2426,7 @@ int Wf2dmapFriend_CheckEntryPrintStream(void *p,int *state,u8 *q) {if(Wf2dmapFri
 
 
 
-void Wf2dmapFriend_ShowEntryDetail(char *p,char *q) {BMP_MENUWORK_DrawWindowBorder(((Wf2dmapFriendItemScreen *)p)->window,1);WF2DMAP_TOUCH_MakeScreen(q);WF2DMAP_TOUCH_UpdateItemBar(p);WF2DMAP_TOUCH_SetBgOffset(1);}
+void Wf2dmapFriend_ShowEntryDetail(char *p,char *q) {BMP_MENUWORK_DrawWindowBorder(((Wf2dmapFriendItemScreen *)p)->window,1);WF2DMAP_TOUCH_MakeScreen(q);WF2DMAP_TOUCH_UpdateItemBar(p);WF2DMAP_TOUCH_SetScreenBrightness(1);}
 
 
 
@@ -2536,7 +2536,7 @@ void Wf2dmapFriend_DrawEntryBg(s16 *p, void *unused, u8 *q)
     if (x < 0) x = -x;
     t = *(u16 * *)&((Wf2dmapTouchBmp *)q)->desc[0];
     BG_SYS_DrawTile((int)2, (u32)((u8 *)t + 12), (u8)x, (u8)y, (t[0] >> 3) & 255, (t[1] >> 3) & 255);
-    BG_SYS_SetFlagField06(2);
+    BG_SYS_MarkTileDirty(2);
 }
 
 
@@ -2545,7 +2545,7 @@ void Wf2dmapFriend_DrawEntryBg(s16 *p, void *unused, u8 *q)
 
 void Wf2dmapFriend_DrawEntryPage(char *p,char *q,void *r,void *s,int t,char *table,int page,u16 heap) {
  int i;int offset;void *base;int found;char *row;void *v;
- base=(void *)GAME_DATA_GetField1A0(((Wf2dmapTouchFriendData *)q)->saveData);
+ base=(void *)GAME_DATA_GetWifiList(((Wf2dmapTouchFriendData *)q)->saveData);
  v=BMP_WIN_GetBmp(**(void ** *)&((Wf2dmapFriendEntryPage *)p)->window);
  found=0;
  BMP_Clear(v,0);
@@ -2581,11 +2581,11 @@ static inline int ab(int v) {return v<0?-v:v;}
 void Wf2dmapFriend_ClearEntryPage(char *p, void *unusedArg, void *unused) {
  void *v;
  Wf2dmapFriend_DeleteEntryActors(p,(int)unusedArg);
- v=**(void ** *)&((Wf2dmapFriendEntryPage *)p)->window;BMP_WIN_ClearScreen(v);BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(v));
+ v=**(void ** *)&((Wf2dmapFriendEntryPage *)p)->window;BMP_WIN_ClearScreen(v);BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(v));
  BG_SYS_SetTileEntry(2,0,ab(((Wf2dmapFriendEntryPage *)p)->x),ab(((Wf2dmapFriendEntryPage *)p)->y),p[4],p[5],0);
- BG_SYS_SetFlagField06(2);
+ BG_SYS_MarkTileDirty(2);
  BG_SYS_SetTileEntry(3,0,ab(((Wf2dmapFriendEntryPage *)p)->x),ab(((Wf2dmapFriendEntryPage *)p)->y),p[4],p[5],0);
- BG_SYS_SetFlagField06(3);
+ BG_SYS_MarkTileDirty(3);
 }
 
 

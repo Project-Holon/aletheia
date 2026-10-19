@@ -22,7 +22,7 @@
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   BG_SYS_PushTile  0x020409B4  arm
- *   BG_SYS_SetVisibleLayer  0x0204047C  arm
+ *   BG_SYS_SetPriority  0x0204047C  arm
  *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   G2x_SetBlendAlpha_  0x0207D63C  arm
  *   ARC_TOOL_GetHandleMemberSize  0x020493D4  arm
@@ -90,9 +90,9 @@
  *   CLACT_SetUnitRenderer  0x0204B258  arm  arm9
  *   BMP_WIN_Delete  0x020452E8  arm  arm9
  *   WORDSET_CreateDefault  0x0201EC64  thumb  arm9
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
+ *   WORDSET_Delete  0x0201ED04  thumb  arm9
  *   BG_SYS_CreateRun  0x0203FA08  arm  arm9
- *   BG_SYS_DeleteHalf  0x0203FB44  arm  arm9
+ *   BG_SYS_FreeTileRun  0x0203FB44  arm  arm9
  *   BG_SYS_LoadPltt  0x02040E78  arm  arm9
  *   BG_SYS_FreeSlot  0x020414AC  arm  arm9
  *   MSGDATA_CreateFromArchive  0x02045B38  arm  arm9
@@ -142,7 +142,7 @@ extern void BMP_WIN_TransferChars(BmpWin *bmpWin);
 extern void BMP_WIN_MakeScreen(BmpWin *bmpWin);
 extern unsigned char BMP_WIN_GetBgLayer(BmpWin *bmpWin);
 extern void BG_SYS_PushTile(unsigned int bgLayer);
-extern void BG_SYS_SetVisibleLayer(int bgId, unsigned short priority);
+extern void BG_SYS_SetPriority(int bgId, unsigned short priority);
 extern void BG_SYS_SetPlaneVisible(unsigned char bgId, unsigned char enable);
 extern void G2x_SetBlendAlpha_(int regAddr, int plane1, int plane2, int evA, int evB);
 extern void BG_SYS_FreeSlot(int bgId);
@@ -151,7 +151,7 @@ extern void ARC_TOOL_ReadHandleMember(ArcFile *arc, u32 member, void *dst);
 extern s32 NNS_G2dGetUnpackedPaletteData(NitroFileHeader *file, void **out);
 extern void BG_SYS_LoadPltt(u32 bgId, void *src, u32 size, u32 offset);
 extern u32 BG_SYS_CreateRun(u32 bgId, u32 size, u32 top);
-extern void BG_SYS_DeleteHalf(u32 bgId, u32 offset, u32 size);
+extern void BG_SYS_FreeTileRun(u32 bgId, u32 offset, u32 size);
 extern Bmp *BMP_WIN_GetBmp(BmpWin *bmpWin);
 extern void BMP_Clear(Bmp *bmp, u8 value);
 extern ClactRenderer *CLACT_CreateRenderer(const u8 *initParam, u32 count, u32 heapId);
@@ -193,7 +193,7 @@ extern WordSet *WORDSET_CreateDefault(u32 heapId);
 extern MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern BmpWin *BMP_WIN_Create(u32 bgId, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern u32 WORDSET_DeleteStrbufED04(WordSet *wordSet);
+extern u32 WORDSET_Delete(WordSet *wordSet);
 extern u32 MSGDATA_Delete(MsgData *msgData);
 extern u32 BMP_WIN_Delete(BmpWin *bmpWin);
 extern void *GAME_DATA_GetSaveControl(GameData *gameData);
@@ -472,7 +472,7 @@ void FIELD_PLACE_NAME_SetupWindow(FieldPlaceName *placeName)
     BMP_WIN_TransferChars(bmpWin);
     BMP_WIN_MakeScreen(bmpWin);
     BG_SYS_PushTile(BMP_WIN_GetBgLayer(bmpWin));
-    BG_SYS_SetVisibleLayer(FIELD_PLACE_NAME_BG_LAYER, 1);
+    BG_SYS_SetPriority(FIELD_PLACE_NAME_BG_LAYER, 1);
     BG_SYS_SetPlaneVisible(FIELD_PLACE_NAME_BG_LAYER, 0);
     G2x_SetBlendAlpha_(REG_BLDCNT_ADDR, 8, 0x11, 0x10, 4);
 }
@@ -531,7 +531,7 @@ void FIELD_PLACE_NAME_AllocBgChars(FieldPlaceName *placeName)
 void FIELD_PLACE_NAME_FreeBgChars(FieldPlaceName *placeName)
 {
     if (placeName->bgCharOffset != FIELD_PLACE_NAME_NO_CHAR_OFFSET) {
-        BG_SYS_DeleteHalf(FIELD_PLACE_NAME_BG_LAYER, placeName->bgCharOffset, 0x20);
+        BG_SYS_FreeTileRun(FIELD_PLACE_NAME_BG_LAYER, placeName->bgCharOffset, 0x20);
         placeName->bgCharOffset = FIELD_PLACE_NAME_NO_CHAR_OFFSET;
     }
 }
@@ -935,7 +935,7 @@ void FIELD_PLACE_NAME_StatePrepare(FieldPlaceName *placeName)
         BMP_WIN_TransferChars(bmpWin);
         BMP_WIN_MakeScreen(bmpWin);
         BG_SYS_PushTile(BMP_WIN_GetBgLayer(bmpWin));
-        BG_SYS_SetVisibleLayer(FIELD_PLACE_NAME_BG_LAYER, 1);
+        BG_SYS_SetPriority(FIELD_PLACE_NAME_BG_LAYER, 1);
         BG_SYS_SetPlaneVisible(FIELD_PLACE_NAME_BG_LAYER, 0);
         G2x_SetBlendAlpha_(REG_BLDCNT_ADDR, 8, 0x11, 0x10, 4);
         FIELD_PLACE_NAME_ResetSpawnCounts(placeName);
@@ -1139,7 +1139,7 @@ void FIELD_PLACE_NAME_CreateBmpWin(FieldPlaceName *placeName)
 void FIELD_PLACE_NAME_DeleteWordSet(FieldPlaceName *placeName)
 {
     if (placeName->wordSet != 0) {
-        WORDSET_DeleteStrbufED04(placeName->wordSet);
+        WORDSET_Delete(placeName->wordSet);
         placeName->wordSet = 0;
     }
 }

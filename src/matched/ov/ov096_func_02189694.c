@@ -13,8 +13,8 @@
  *   TR_AI_GetPosition  0x0218A160  thumb  ov096
  *   TR_AI_GetPoke  0x0218A2FC  thumb  ov096
  *   BTL_POKEPARAM_GetTypePair  0x021D57FC  thumb  ov093
- *   BTLV_CORE_GetHighByte  0x021E8CFC  thumb  ov093
- *   BTLV_CORE_GetLowByte  0x021E8D04  thumb  ov093
+ *   BTL_TYPEPAIR_GetHigh  0x021E8CFC  thumb  ov093
+ *   BTL_TYPEPAIR_GetLow  0x021E8D04  thumb  ov093
  */
 #include "../include/Obj13664.h"
 
@@ -30,8 +30,8 @@ extern u32 VM_GetU32(struct Cursor *p);
 extern u8 TR_AI_GetPosition(u8 *p, int k);
 extern u8 *TR_AI_GetPoke(u8 *p, u8 i);
 extern u16 BTL_POKEPARAM_GetTypePair(void *);
-extern u8 BTLV_CORE_GetHighByte(int);
-extern int BTLV_CORE_GetLowByte(int x);
+extern u8 BTL_TYPEPAIR_GetHigh(int);
+extern int BTL_TYPEPAIR_GetLow(int x);
 
 int TR_AI_CmdLoadHasType(struct Cursor *a, int b) {
     int r;
@@ -43,7 +43,7 @@ int TR_AI_CmdLoadHasType(struct Cursor *a, int b) {
     k = VM_GetU32(a);
     s = TR_AI_GetPosition((u8 *)b, r);
     p = BTL_POKEPARAM_GetTypePair(TR_AI_GetPoke((u8 *)b, s));
-    if (k == BTLV_CORE_GetHighByte(p) || k == BTLV_CORE_GetLowByte(p)) {
+    if (k == BTL_TYPEPAIR_GetHigh(p) || k == BTL_TYPEPAIR_GetLow(p)) {
         t = 1;
     } else {
         t = 0;

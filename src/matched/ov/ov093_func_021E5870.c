@@ -13,7 +13,7 @@
  * symbols:
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
- *   BTLV_CORE_MakeSlotKind1Empty  0x021E89C0  thumb  ov093
+ *   BTL_SICKCONT_MakeKind1Empty  0x021E89C0  thumb  ov093
  *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb  ov093
  *   BTL_SERVER_FLOW_AppendMsgRecordArg  0x021C8860  thumb  ov093
  *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb  ov093
@@ -29,7 +29,7 @@ extern int BTL_EVENT_GetVar(int key);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
 typedef struct { u32 v; } Word;
 
-extern Word BTLV_CORE_MakeSlotKind1Empty(void);
+extern Word BTL_SICKCONT_MakeKind1Empty(void);
 extern void BTL_SERVER_FLOW_InitMsgRecord(void *p, int a, int b);
 struct S;
 extern void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *p, u32 v);
@@ -46,7 +46,7 @@ void HAND_WAZA_GastroAcidSuppressAbility(int a, void *b, int c)
         m = (u8 *)BTL_SERVER_FLOW_AllocCmdRecord(b, 0xc, c);
         m[0xf] = k;
         ((struct Obj13528 *)m)->f4 = 0x10;
-        *(Word *)(m + 8) = BTLV_CORE_MakeSlotKind1Empty();
+        *(Word *)(m + 8) = BTL_SICKCONT_MakeKind1Empty();
         BTL_SERVER_FLOW_InitMsgRecord(m + 0x14, 2, 0x235);
         BTL_SERVER_FLOW_AppendMsgRecordArg((struct S *)(m + 0x14), k);
         BTL_SERVER_FLOW_CommitCmdRecord(b, m);

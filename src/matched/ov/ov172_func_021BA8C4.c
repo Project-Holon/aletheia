@@ -22,7 +22,7 @@
  *   BMP_WIN_Delete  0x020452E8  arm  arm9
  *   BG_SYS_ClearSlot  0x020414EC  arm  arm9
  *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb  arm9
- *   BG_SYS_FillScrollArea  0x02040618  arm  arm9
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm  arm9
  *   BG_SYS_PushTile  0x020409B4  arm  arm9
  *
  * Addresses are Black-image addresses.
@@ -48,7 +48,7 @@ extern void CLACT_DeleteActor(struct Obj *p);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *a, unsigned int b);
 extern void BG_SYS_ClearSlot(u32 a);
-extern void BG_SYS_FillScrollArea(u32 a, u32 b, u32 c);
+extern void BG_SYS_ChangeScrollImmediate(u32 a, u32 b, u32 c);
 extern void func_02040588(unsigned char which, unsigned char enable);
 
 void CTVT_DRAW_Exit(u16 *a0, char *p)
@@ -93,7 +93,7 @@ void CTVT_DRAW_Exit(u16 *a0, char *p)
     CLACT_DeleteActor((struct Obj *)(((struct Obj01265 *)p)->f84));
     BG_SYS_ClearSlot(0);
     BG_SYS_PushTile(0);
-    BG_SYS_FillScrollArea(0, 3, 0);
+    BG_SYS_ChangeScrollImmediate(0, 3, 0);
     BG_SYS_ClearSlot(6);
     BG_SYS_PushTile(6);
     func_02040588(5, 1);

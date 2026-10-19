@@ -12,7 +12,7 @@
  * closed:   blocker BG_SYS_ReserveTileRun is now a manifest entry (matched class)
  *
  * symbols:
- *   BG_SYS_GetField16  0x0204169C  arm
+ *   BG_SYS_GetColorMode  0x0204169C  arm
  *   BG_SYS_ReserveTileRun  0x0203FAF0  arm
  *   BMP_WIN_Alloc   0x02045210  arm
  *
@@ -43,7 +43,7 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-extern u8 BG_SYS_GetField16(int channel);
+extern u8 BG_SYS_GetColorMode(int channel);
 extern u32 BG_SYS_ReserveTileRun(u32 layer, u32 offset, u32 units);
 extern u32 BMP_WIN_Alloc(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d,
                         u32 offset, u32 is8bpp);
@@ -53,7 +53,7 @@ u32 BMP_WIN_CreateAt(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u32 offset)
     u32 is8bpp;
     u32 units;
 
-    if (BG_SYS_GetField16(layer) == 0) {
+    if (BG_SYS_GetColorMode(layer) == 0) {
         is8bpp = 0;
         units = tiles * c;
     } else {

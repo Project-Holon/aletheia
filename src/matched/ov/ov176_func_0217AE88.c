@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   BTLV_CORE_IsSlotKind1Index15  0x021E8A78  thumb  ov093
+ *   BTL_SICKCONT_IsKind1Index15  0x021E8A78  thumb  ov093
  *   BATTLE_CHAMPIONSHIP_FLOW_DeleteText  0x0217AF9C  thumb  ov176
  *   BATTLE_CHAMPIONSHIP_FLOW_DeleteView  0x0217AF44  thumb  ov176
  *   BATTLE_CHAMPIONSHIP_FLOW_DeleteGraphic  0x0217AF04  thumb  ov176
@@ -22,7 +22,7 @@
  */
 #include "../include/Obj03869.h"
 
-extern void BTLV_CORE_IsSlotKind1Index15(int);
+extern void BTL_SICKCONT_IsKind1Index15(int);
 extern void BATTLE_CHAMPIONSHIP_FLOW_DeleteText(int *);
 extern void BATTLE_CHAMPIONSHIP_FLOW_DeleteView(int *);
 extern void BATTLE_CHAMPIONSHIP_FLOW_DeleteGraphic(int *);
@@ -35,7 +35,7 @@ extern char ov67_id[];
 
 int BATTLE_CHAMPIONSHIP_FLOW_Delete(int a, int b, int c, int *p)
 {
-    BTLV_CORE_IsSlotKind1Index15(((struct Obj03869 *)p)->f4);
+    BTL_SICKCONT_IsKind1Index15(((struct Obj03869 *)p)->f4);
     BATTLE_CHAMPIONSHIP_FLOW_DeleteText(p);
     BATTLE_CHAMPIONSHIP_FLOW_DeleteView(p);
     BATTLE_CHAMPIONSHIP_FLOW_DeleteGraphic(p);

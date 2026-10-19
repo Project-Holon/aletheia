@@ -1,5 +1,5 @@
 /*
- * function: BUTTON_MAN_SetEmitterPos
+ * function: PARTICLE_EMITTER_SetEmitPos
  * address:  0x02051838
  * packet:   pkt_02051838
  * region:   arm9
@@ -46,7 +46,7 @@ struct ParticleEmitter {
     VecFx32             pos;        /* +0x28 */
 };
 
-void BUTTON_MAN_SetEmitterPos(struct ParticleEmitter *e, const VecFx32 *q)
+void PARTICLE_EMITTER_SetEmitPos(struct ParticleEmitter *e, const VecFx32 *q)
 {
     e->pos.x = q->x + e->blk->inner->pos.x;
     e->pos.y = q->y + e->blk->inner->pos.y;

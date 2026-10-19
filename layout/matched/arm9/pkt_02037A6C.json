@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "GFL_NET_SYSTEM_CheckAutoFree",
+   "name": "GFL_NET_SYSTEM_FreeWorkIfAuto",
    "address": "0x02037BA4",
    "kind": "game",
    "region": "arm9",

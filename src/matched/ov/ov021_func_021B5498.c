@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PROC_FLD_SetFieldRegionLayerFlags
+ * function: SCRCMD_PROC_FLD_StartCameraMoveToSaved
  * address:  0x021B5498
  * packet:   pkt_ov021_021B5498
  * region:   ov021
@@ -28,7 +28,7 @@ struct Stream;
 extern u16 VM_GetU16(struct Stream *s);
 extern void FIELD_CAMERA_StartMoveToSaved(void *, u32 *, u32);
 
-int SCRCMD_PROC_FLD_SetFieldRegionLayerFlags(u32 a, u32 b)
+int SCRCMD_PROC_FLD_StartCameraMoveToSaved(u32 a, u32 b)
 {
     u32 v[6];
     void *x = FIELDMAP_GetCamera(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem((void *)b)));

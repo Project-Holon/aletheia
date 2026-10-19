@@ -18,8 +18,8 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   GAMESYSTEM_GetGameComm 0x02012138 thumb
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
- *   BG_SYS_SetScrollY 0x02041F6C arm
- *   BG_SYS_SetAffine 0x02041FB0 arm
+ *   BG_SYS_ChangeScale 0x02041F6C arm
+ *   BG_SYS_ChangeCenter 0x02041FB0 arm
  *   COMPATIBLE_IRC_SYS_BuildProfile 0x021B658C thumb ov101
  *   IRC_APPBAR_Create 0x021B70DC thumb ov101
  *   IRC_APPBAR_SetEnabled 0x021B728C thumb ov101
@@ -55,8 +55,8 @@
  *   sResultBackgroundLayers 0x021B89B8 data a4
  *   sResultBackgroundTemplates 0x021B8A08 data ov105 a4
  *   sResultBackgroundTypes 0x021B8998 data ov105 a4
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
- *   BG_SYS_SetTileUnit 0x02040DA8 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
+ *   BG_SYS_FreeTiles 0x02040DA8 arm
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
@@ -83,7 +83,7 @@
  *   CLACT_ExitSystem 0x0204A5AC arm
  *   CLACT_DrawSystem 0x0204A600 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -215,8 +215,8 @@ extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
 extern void MI_CpuFill8(void *,int,int);
 extern u32 GAMESYSTEM_GetGameComm(const void *gameSystem);
 extern void BMP_MENUWORK_DrawWindow(void *window, int commitMode, int tileBase, int palette);
-extern void BG_SYS_SetScrollY(u32 which, u32 op, u32 value);
-extern void BG_SYS_SetAffine(u32,u32,u16);
+extern void BG_SYS_ChangeScale(u32 which, u32 op, u32 value);
+extern void BG_SYS_ChangeCenter(u32,u32,u16);
 extern void COMPATIBLE_IRC_SYS_BuildProfile(void *gameSystem,IrcCompatibleProfile *out);
 extern void PROCSYS_FreeProcWork(struct Proc *proc);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
@@ -243,8 +243,8 @@ extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,int,int,int,int,int,int);
 extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 extern void *ARC_UTIL_RegisterObjCharFromHandle(void *,int,int,int,int,int);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
-extern void BG_SYS_SetTileUnit(u32,u32,u32);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTiles(u32,u32,u32);
 extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
@@ -276,7 +276,7 @@ extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int 
 extern void *PRINTSYS_QUE_Create(u32 heapId);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
-extern void WORDSET_DeleteStrbufED04(struct WordSet *);
+extern void WORDSET_Delete(struct WordSet *);
 extern void MSGDATA_Delete(struct MsgBank *);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *);
 extern void GF_FONT_Delete(void *);
@@ -406,10 +406,10 @@ int IRC_RESULT_Init(struct Proc *proc,void *state,IrcResultContext *context)
     BMP_MENUWORK_DrawWindow(work->messageWindow.window,0,(u16)(work->screen.bgCharRegion),6);
     IRC_RESULT_InitTextWindow(&work->captionWindow,7,6,3,20,5,8,1,1,60);
     IRC_RESULT_PrintCenteredMessage(&work->captionWindow,&work->text,IRC_RESULT_MSG_TITLE);
-    BG_SYS_SetScrollY(7,3,4096);
-    BG_SYS_SetScrollY(7,6,4096);
-    BG_SYS_SetAffine(7,9,128);
-    BG_SYS_SetAffine(7,12,40);
+    BG_SYS_ChangeScale(7,3,4096);
+    BG_SYS_ChangeScale(7,6,4096);
+    BG_SYS_ChangeCenter(7,9,128);
+    BG_SYS_ChangeCenter(7,12,40);
     IRC_RESULT_InitScoreDisplay(&work->scoreDisplay,&work->screen,work->context->score);
     if(work->context->gameSystem) {
         COMPATIBLE_IRC_SYS_BuildProfile(work->context->gameSystem,&profileForNames);
@@ -531,8 +531,8 @@ void IRC_RESULT_InitBackgrounds(IrcResultScreen *screen,int heapId)
 
 void IRC_RESULT_ExitBackgrounds(u32 *bgCharRegion) {
  int i;
- BG_SYS_DeleteHalf(5,(u16)(*bgCharRegion),(u16)(*bgCharRegion>>16));
- BG_SYS_SetTileUnit(5,1,0);
+ BG_SYS_FreeTileRun(5,(u16)(*bgCharRegion),(u16)(*bgCharRegion>>16));
+ BG_SYS_FreeTiles(5,1,0);
  for(i=0;i<8;i++) BG_SYS_FreeLayerBuf((u8)sResultBackgroundLayers[i]);
  BMP_WIN_Exit(); BG_SYS_Delete();
 }
@@ -605,7 +605,7 @@ void IRC_RESULT_InitTextSystem(IrcTextSystem *text, int fontStyle, int heapId) {
  text->wordSet = WORDSET_CreateDefault(heapId);
 }
 
-void IRC_RESULT_ExitTextSystem(IrcTextSystem *text) { WORDSET_DeleteStrbufED04(text->wordSet); MSGDATA_Delete(text->messages); PRINTSYS_QUE_Delete(text->printQueue); GF_FONT_Delete(text->font); MI_CpuFill8(text,0,16); }
+void IRC_RESULT_ExitTextSystem(IrcTextSystem *text) { WORDSET_Delete(text->wordSet); MSGDATA_Delete(text->messages); PRINTSYS_QUE_Delete(text->printQueue); GF_FONT_Delete(text->font); MI_CpuFill8(text,0,16); }
 
 u32 IRC_RESULT_RunPrintQueue(IrcTextSystem *text) { return PRINTSYS_QUE_Main(text->printQueue); }
 

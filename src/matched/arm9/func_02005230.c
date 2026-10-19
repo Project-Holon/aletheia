@@ -11,14 +11,14 @@
  * blocker:  0200567C
  *
  * symbols:
- *   GFL_USE_PollTwlService  0x02005430  thumb
+ *   GFL_USE_DoVramTransfer  0x02005430  thumb
  *   GFL_USE_RunMainTasks  0x0200567C  thumb
  */
 
-extern void GFL_USE_PollTwlService(void);
+extern void GFL_USE_DoVramTransfer(void);
 extern void GFL_USE_RunMainTasks(void);
 void GFL_USE_PostIrqUpdate(void)
 {
-    GFL_USE_PollTwlService();
+    GFL_USE_DoVramTransfer();
     GFL_USE_RunMainTasks();
 }

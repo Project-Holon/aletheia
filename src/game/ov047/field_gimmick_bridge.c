@@ -26,7 +26,7 @@
  *   FIELDMAP_FreeCommonWork 0x021897A0 thumb ov021
  *   FIELD_GIMMICK_BRIDGE_IsOnSwayTile  0x021F381C  thumb  ov047
  *   GFL_USE_GetRandomBelow  0x02005728  thumb
- *   GF_STANDARD_Get_F684  0x0203F684  arm
+ *   GF_STANDARD_SinFromDegreesWrapped  0x0203F684  arm
  *   _fflt          0x0209BDBC  arm
  *   _fadd          0x0209C95C  arm
  *   _fsub          0x0209CB8C  arm
@@ -99,7 +99,7 @@ void FIELD_GIMMICK_BRIDGE_Update(FieldMap *fieldMap)
     }
     amplitude = save->amplitude;
     height = FX32_FROM_INT(amplitude);
-    sine = GF_STANDARD_Get_F684((u16)save->angle);
+    sine = GF_STANDARD_SinFromDegreesWrapped((u16)save->angle);
     work->drawOffset.y = (fx32)(((s64)sine * height + 0x800) >> 12);
     FLDMMDL_SetDrawOffsetOutside(work->playerMmdl, &work->drawOffset);
     save->angle = (save->angle + BRIDGE_SWAY_ANGLE_STEP) % 360;

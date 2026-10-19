@@ -139,7 +139,7 @@
    "status": "EXACT"
   },
   {
-   "name": "GFL_NET_STATE_IsExitReady",
+   "name": "GFL_NET_STATE_ExitIfChild",
    "address": "0x0203BEAC",
    "kind": "game",
    "region": "arm9",

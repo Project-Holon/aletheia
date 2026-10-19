@@ -79,11 +79,11 @@
  *   MYSTERY_ALBUM_IsEntryValid 0x021DBF04 thumb ov121
  *   MYSTERY_ALBUM_GetEntryBmp 0x021DBF08 thumb ov121
  *   MYSTERY_ALBUM_CreateEntryArc 0x021DBF10 thumb ov121
- *   MYSTERY_ALBUM_GetEntryArcId 0x021DBF40 thumb ov121
+ *   MYSTERY_ALBUM_GetEntryPaletteResId 0x021DBF40 thumb ov121
  *   MYSTERY_ALBUM_GetEntryIconPalette 0x021DBF70 thumb ov121
  *   MYSTERY_ALBUM_GetEntryGraphicIndex 0x021DBF9C thumb ov121
- *   MYSTERY_ALBUM_GetEntrySpeciesId 0x021DBFE4 thumb ov121
- *   MYSTERY_ALBUM_GetEntryFormId 0x021DC004 thumb ov121
+ *   MYSTERY_ALBUM_GetEntryCellResId 0x021DBFE4 thumb ov121
+ *   MYSTERY_ALBUM_GetEntryCellAnimResId 0x021DC004 thumb ov121
  *   MYSTERY_ALBUM_GetEntryKind 0x021DC024 thumb ov121
  *   MYSTERY_ALBUM_GetEntryIconX 0x021DC03C thumb ov121
  *   BG_SYS_SetTileEntry 0x02041300 arm
@@ -136,11 +136,11 @@ extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u3
 extern int MYSTERY_ALBUM_IsEntryValid(int *p);
 extern void *MYSTERY_ALBUM_GetEntryBmp(void *);
 extern void *MYSTERY_ALBUM_CreateEntryArc(void *, u16);
-extern u32 MYSTERY_ALBUM_GetEntryArcId(void *);
+extern u32 MYSTERY_ALBUM_GetEntryPaletteResId(void *);
 extern u32 MYSTERY_ALBUM_GetEntryIconPalette(void *);
 extern int MYSTERY_ALBUM_GetEntryGraphicIndex(void *);
-extern int MYSTERY_ALBUM_GetEntrySpeciesId(void *);
-extern int MYSTERY_ALBUM_GetEntryFormId(void *);
+extern int MYSTERY_ALBUM_GetEntryCellResId(void *);
+extern int MYSTERY_ALBUM_GetEntryCellAnimResId(void *);
 extern int MYSTERY_ALBUM_GetEntryKind(void *);
 extern int MYSTERY_ALBUM_GetEntryIconX(void *);
 #pragma opt_loop_invariants off
@@ -219,8 +219,8 @@ void MYSTERY_ALBUM_SetupSlot(char *p, int a, int b, int c, u16 index, u16 heap)
     BMP_WIN_TransferChars(*(void **)(p + 0xb08 + idx * 4));
     obj = MYSTERY_ALBUM_CreateEntryArc(tab + off, heap);
     if (MYSTERY_ALBUM_GetEntryKind(tab + off) != 1)
-        *(int *)(p + 0xb88 + idx * 4) = CLACT_RegisterPaletteEx(obj, MYSTERY_ALBUM_GetEntryArcId(tab + off), 0, (u16)((idx + 4) << 5), 0, 1, heap);
-    *(int *)(p + 0xb68 + idx * 4) = CLACT_RegisterCellAnim(obj, MYSTERY_ALBUM_GetEntrySpeciesId(tab + off), MYSTERY_ALBUM_GetEntryFormId(tab + off), heap);
+        *(int *)(p + 0xb88 + idx * 4) = CLACT_RegisterPaletteEx(obj, MYSTERY_ALBUM_GetEntryPaletteResId(tab + off), 0, (u16)((idx + 4) << 5), 0, 1, heap);
+    *(int *)(p + 0xb68 + idx * 4) = CLACT_RegisterCellAnim(obj, MYSTERY_ALBUM_GetEntryCellResId(tab + off), MYSTERY_ALBUM_GetEntryCellAnimResId(tab + off), heap);
     *(int *)(p + 0xb48 + idx * 4) = CLACT_RegisterCharacter(obj, MYSTERY_ALBUM_GetEntryGraphicIndex(tab + off), 0, 0, heap);
     dx = 0;
     ARC_TOOL_DeleteHandle(obj);

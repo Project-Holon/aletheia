@@ -13,7 +13,7 @@
  *   GSYNC_STATE_StateErrorMessage 0x021D6FF0 thumb ov123
  *   func_020093D0 0x020093D0 thumb
  *   GSYNC_DISP_SetIconRecord 0x021D6A70 thumb ov123
- *   GSYNC_STATE_GetListEntry 0x021D7CEC thumb ov123
+ *   GSYNC_STATE_HasListEntry 0x021D7CEC thumb ov123
  *   GSYNC_STATE_ApplyIconRecords 0x021D7E20 thumb ov123
  *   GSYNC_DISP_LoadIconResources 0x021D6AB8 thumb ov123
  *   GSYNC_STATE_StateSelectNextDownload 0x021D7BDC thumb ov123
@@ -29,7 +29,7 @@ extern void GSYNC_STATE_ChangeState(u8 *p, u32 v, int unused);
 extern void GSYNC_STATE_StateErrorMessage(char *p);
 extern s32 func_020093D0(const struct Sub02009210Obj *obj);
 extern void GSYNC_DISP_SetIconRecord(u8 *p, int i, int a, int b, int c);
-extern int GSYNC_STATE_GetListEntry(int a, u8 *p);
+extern int GSYNC_STATE_HasListEntry(int a, u8 *p);
 extern void GSYNC_STATE_ApplyIconRecords(u8 *, u8 *);
 extern void GSYNC_DISP_LoadIconResources(u8 *p);
 extern void GSYNC_STATE_StateSelectNextDownload(char *p);
@@ -58,7 +58,7 @@ void GSYNC_STATE_PrepareReceivedList(u8 *p, void *h, u8 *q, int *r)
             if (*(u16 *)(q+i*8+4) == 0) break;
             GSYNC_DISP_SetIconRecord(((struct Obj00063 *)p)->f14, i+20, *(u16 *)(q+i*8+4), q[i*8+8], q[i*8+9]);
         }
-        p[0xa9] = GSYNC_STATE_GetListEntry((int)h,q);
+        p[0xa9] = GSYNC_STATE_HasListEntry((int)h,q);
         GSYNC_STATE_ApplyIconRecords(p,q);
         GSYNC_DISP_LoadIconResources(((struct Obj00063 *)p)->f14);
     }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "ZUKAN_LIST_IsActorHidden",
+   "name": "ZUKAN_LIST_FindHiddenSpeciesActor",
    "address": "0x021BE25C",
    "kind": "game",
    "region": "ov209",

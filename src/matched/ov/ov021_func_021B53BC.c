@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PROC_FLD_SetFieldRegionFromStream
+ * function: SCRCMD_PROC_FLD_StartCameraMoveFromStream
  * address:  0x021B53BC
  * packet:   pkt_ov021_021B53BC
  * region:   ov021
@@ -45,7 +45,7 @@ struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
 extern void FIELD_CAMERA_StartMove(u8 *a, void *p, int n);
 
-int SCRCMD_PROC_FLD_SetFieldRegionFromStream(struct Cursor *a0, int a1)
+int SCRCMD_PROC_FLD_StartCameraMoveFromStream(struct Cursor *a0, int a1)
 {
     Out o;
     int r4;

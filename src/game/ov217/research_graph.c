@@ -51,7 +51,7 @@
  *   RingQueue_Destroy  0x021C0E3C  thumb  ov217
  *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   BMP_WIN_Init 0x02045088 arm
- *   BG_SYS_SetTileUnit  0x02040DA8  arm
+ *   BG_SYS_FreeTiles  0x02040DA8  arm
  *   BgTextLabel_Create 0x021C0EF4 thumb ov217
  *   BgTextLabel_PrintMessage 0x021C0F5C thumb ov217
  *   BgTextLabel_Destroy  0x021C0F48  thumb  ov217
@@ -77,7 +77,6 @@
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   BgTextLabel_SetVisible  0x021C0FF8  thumb  ov217
- *   _s32_div_f  0x0209C0A4  arm
  *   PALANM_GetFadeRequestBits  0x02021ED8  thumb
  *   PALETTE_ANIME_IsRunning  0x021C2A10  thumb  ov217
  *   BMP_OAM_SetEnabled  0x02025774  thumb
@@ -199,7 +198,7 @@
  *   RESEARCH_GRAPH_ClearPalAnm 0x021C07B0 thumb ov217
  *   RESEARCH_GRAPH_ClearPaletteAnime 0x021C0820 thumb ov217
  *   d_021C3650 0x021C3650 data a4
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   CircleGraph_Create 0x021C10C8 thumb ov217
  *   CircleGraph_Destroy 0x021C10D8 thumb ov217
  *   MI_CpuFill8  0x02082BCC  arm
@@ -232,7 +231,7 @@
  *   CLACT_ReleasePalette  0x0204ADA4  arm  arm9
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm  arm9
  *   FADE_IsActive  0x0204E804  arm  arm9
- *   BG_SYS_SetLowBit 0x0204044C arm
+ *   BG_SYS_EnableBg0WithPriority 0x0204044C arm
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   d_021C366C 0x021C366C data a4
  *   d_021C36D8 0x021C36D8 data ov217
@@ -446,7 +445,7 @@ extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 
 extern u32 BG_SYS_ClearSlot();
 
-extern void BG_SYS_SetTileUnit(u32, u32, u32);
+extern void BG_SYS_FreeTiles(u32, u32, u32);
 
 extern struct Record *BgTextLabel_Create(const struct Config *config, u32 a, u32 b, u32 heap);
 
@@ -496,7 +495,6 @@ extern void CLACT_AddActorSurfacePos(struct Obj *p,const struct Vec2 *delta,u32 
 
 extern void BgTextLabel_SetVisible(u8 *p, int visible);
 
-extern int _s32_div_f(int a, int b);
 
 extern int PALANM_RequestFade(PalAnmObj *, u16, u16, s16, u8, u8, u16, void *);
 
@@ -724,7 +722,7 @@ void RESEARCH_GRAPH_ClearPaletteAnime(void *p);
 
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 
 extern u32 CircleGraph_Create(u32 heapId);
 
@@ -2228,9 +2226,9 @@ void RESEARCH_GRAPH_SwapCenterPairs(void *graph)
 
 void RESEARCH_GRAPH_QuantizePosition(u32 input)
 {
-    u32 quantY = _s32_div_f(((struct GraphSliceInput *)input)->y + 62, 3);
-    u32 quantZ = _s32_div_f(((struct GraphSliceInput *)input)->z + 62, 3);
-    ((struct GraphSliceInput *)input)->quantX = _s32_div_f(((struct GraphSliceInput *)input)->x + 62, 3);
+    u32 quantY = (((struct GraphSliceInput *)input)->y + 62) / 3;
+    u32 quantZ = (((struct GraphSliceInput *)input)->z + 62) / 3;
+    ((struct GraphSliceInput *)input)->quantX = (((struct GraphSliceInput *)input)->x + 62) / 3;
     ((struct GraphSliceInput *)input)->quantY = quantY;
     ((struct GraphSliceInput *)input)->quantZ = quantZ;
 }
@@ -3172,7 +3170,7 @@ void RESEARCH_GRAPH_CreateWordSet(u32 graph)
 
 void RESEARCH_GRAPH_DeleteWordSet(u8 *graph)
 {
-    WORDSET_DeleteStrbufED04((struct WordSet *)((u32)(((struct ResearchObjB *)graph)->wordSet)));
+    WORDSET_Delete((struct WordSet *)((u32)(((struct ResearchObjB *)graph)->wordSet)));
 }
 
 /*
@@ -3419,7 +3417,7 @@ struct EntryUnit { int x,y,z,bank,index,px,py; u8 r,g,b,pad2; u32 arc,member,ena
 
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 
-extern void BG_SYS_SetLowBit(u32);
+extern void BG_SYS_EnableBg0WithPriority(u32);
 
 extern void BG_SYS_InitBgLayer(u32, const struct BgTemplate *, u32);
 
@@ -3455,7 +3453,7 @@ extern const struct EntryUnit d_021C37A4[];
 void RESEARCH_GRAPH_InitOverlayBackgrounds(char *graph)
 {
     BG_SYS_SetGraphicsMode(&d_021C366C);
-    BG_SYS_SetLowBit(2);
+    BG_SYS_EnableBg0WithPriority(2);
     BG_SYS_InitBgLayer(6, &d_021C36D8, 0);
     BG_SYS_InitBgLayer(7, &d_021C3738, 0);
     BG_SYS_InitBgLayer(2, &d_021C36F8, 0);
@@ -3518,13 +3516,13 @@ u32 RESEARCH_GRAPH_UpdateBackground7()
 }
 
 /*
- * Tail-call veneer: forwards arg(s) 7, 1, 0 to BG_SYS_SetTileUnit.
+ * Tail-call veneer: forwards arg(s) 7, 1, 0 to BG_SYS_FreeTiles.
  *
  * Addresses are Black-image addresses.
  */
 void RESEARCH_GRAPH_ShowBackground7()
 {
-    BG_SYS_SetTileUnit(7, 1, 0);
+    BG_SYS_FreeTiles(7, 1, 0);
 }
 
 /*
@@ -3555,13 +3553,13 @@ u32 RESEARCH_GRAPH_UpdateBackground3()
 }
 
 /*
- * Tail-call veneer: forwards arg(s) 3, 1, 0 to BG_SYS_SetTileUnit.
+ * Tail-call veneer: forwards arg(s) 3, 1, 0 to BG_SYS_FreeTiles.
  *
  * Addresses are Black-image addresses.
  */
 void RESEARCH_GRAPH_ShowBackground3(u32 graph, u32 unusedArg1, u32 unusedArg2)
 {
-    BG_SYS_SetTileUnit(3, 1, 0);
+    BG_SYS_FreeTiles(3, 1, 0);
 }
 
 /*

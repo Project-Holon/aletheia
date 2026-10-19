@@ -38,7 +38,7 @@
  *   STRBUF_Create  0x020457B0  arm
  *   SCRCMD_WORK_CreateCommon  0x0215A514  thumb  ov010
  *   sScriptWorkFileName     0x0217289C  data  ov010  a1
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   SCRCMD_WORK_DeleteCommon  0x0215A554  thumb  ov010
  *   FLDMMDL_GetObjId 0x0216D588 thumb ov010
  *   MIi_CpuCopy16 0x02082A60 arm
@@ -93,7 +93,7 @@ extern int FIELDMAP_GetMsgBg();
 extern void *WORDSET_Create(u32 count, u32 size, u16 heapId);
 extern void *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *SCRCMD_WORK_CreateCommon(ScriptWork *work, int heapId);
-extern int WORDSET_DeleteStrbufED04();
+extern int WORDSET_Delete();
 extern int SCRCMD_WORK_DeleteCommon();
 extern u16 FLDMMDL_GetObjId(void *obj);
 extern void MIi_CpuCopy16(const void *src, void *dst, unsigned int size);
@@ -208,7 +208,7 @@ int SCRIPT_WORK_Delete(ScriptWork *work)
 {
     work->magic = 0;
     if (work->wordSet != 0)
-        WORDSET_DeleteStrbufED04(work->wordSet);
+        WORDSET_Delete(work->wordSet);
     if (work->msgBuffer != 0)
         STRBUF_Delete(work->msgBuffer);
     if (work->tempBuffer != 0)

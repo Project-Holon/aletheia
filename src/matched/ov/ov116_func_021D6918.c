@@ -17,7 +17,7 @@
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   func_02034A5C 0x02034A5C arm
  *   ov_id 0x00000072 data
- *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb  arm9
+ *   GFL_USE_SetBgmPaused  0x02005DE4  thumb  arm9
  *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb  arm9
  *   GFL_USE_PopBgm  0x02005E9C  thumb  arm9
  */
@@ -32,7 +32,7 @@ extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 extern void func_02034A5C(int handle);
 extern int GFL_USE_PopBgm(void);
-extern void GFL_USE_SetBgmPlayerParam(void *);
+extern void GFL_USE_SetBgmPaused(void *);
 extern void GFL_USE_FadeInBgmFull(unsigned);
 extern u8 ov_id[];
 int WIFI_BSUBWAY_Delete(void *p, int a, int b, u8 *q) {
@@ -45,7 +45,7 @@ int WIFI_BSUBWAY_Delete(void *p, int a, int b, u8 *q) {
     GFL_HEAP_DeleteChecked(125);
     func_02034A5C((int)ov_id);
     GFL_USE_PopBgm();
-    GFL_USE_SetBgmPlayerParam(0);
+    GFL_USE_SetBgmPaused(0);
     GFL_USE_FadeInBgmFull(60);
     return 1;
 }

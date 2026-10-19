@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "SCRCMD_PROC_FLD_SetFlagIfClear",
+   "name": "SCRCMD_PROC_FLD_SpawnMovePokemonIfInactive",
    "address": "0x021B5154",
    "kind": "game",
    "region": "ov021",

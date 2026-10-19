@@ -1,5 +1,5 @@
 /*
- * function: VCT_SESSION_SetFilterEnabled
+ * function: VCT_MIXER_SetFilterEnabled
  * address:  0x021B0D08
  * packet:   pkt_ov013_021B0D08
  * region:   ov013
@@ -17,7 +17,7 @@
 
 extern struct G_021B3C84 gVctSendState;
 
-void VCT_SESSION_SetFilterEnabled(void *cb)
+void VCT_MIXER_SetFilterEnabled(void *cb)
 {
 	*(void **)(((unsigned char *)&gVctSendState) + 0x18) = cb;
 }

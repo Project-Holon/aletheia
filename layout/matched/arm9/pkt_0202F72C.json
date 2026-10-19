@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "EVENT_ID_Check",
+   "name": "WAZA_TOOL_IsHmMove",
    "address": "0x0202F72C",
    "kind": "game",
    "region": "arm9",

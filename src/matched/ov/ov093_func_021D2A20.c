@@ -19,7 +19,7 @@
  *   BTL_POKEPARAM_AddExp 0x021D69B8 thumb ov093
  *   BTLV_EFFECT_GaugeStartExpGain 0x021F8134 thumb ov094
  *   BTLV_EFFECT_GaugeIsAnimating 0x021F8180 thumb ov094
- *   BTL_EVENT_ReleaseClientHandle 0x021D6EA0 thumb ov093
+ *   BTL_POKEPARAM_RecalcMonParam 0x021D6EA0 thumb ov093
  *   BTL_POKEPARAM_ReloadFromParam 0x021D6BFC thumb ov093
  *   BTLV_EFFECT_GaugeRefreshForLevelUp 0x021F8150 thumb ov094
  *   GFL_USE_IsAnySeBusy 0x02006238 thumb
@@ -29,7 +29,7 @@
  *   BTLV_SCU_AppendMessageArg 0x021EAF50 thumb ov093
  *   BTLV_CORE_BuildAndPrintMessage 0x021EA614 thumb ov093
  *   BTLV_CORE_ConsumeMessageFlag 0x021EA720 thumb ov093
- *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_SetBgmPaused 0x02005DE4 thumb
  *   GFL_USE_PushBgm 0x02005E64 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   BTLV_CORE_WaitMessage 0x021EA710 thumb ov093
@@ -74,7 +74,7 @@ struct Result;
 extern int BTL_POKEPARAM_AddExp(struct Obj *p, u32 *remaining, struct Result *r);
 extern void BTLV_EFFECT_GaugeStartExpGain(int, u32);
 extern int BTLV_EFFECT_GaugeIsAnimating(void);
-extern void BTL_EVENT_ReleaseClientHandle(void *);
+extern void BTL_POKEPARAM_RecalcMonParam(void *);
 extern void BTL_POKEPARAM_ReloadFromParam(u8 *p);
 extern void BTLV_EFFECT_GaugeRefreshForLevelUp(int, void *);
 extern int GFL_USE_IsAnySeBusy(void);
@@ -85,7 +85,7 @@ extern void BTLV_SCU_InitMessage(struct L *p, int kind, int id);
 extern void BTLV_SCU_AppendMessageArg(struct L *p, u32 val);
 extern void BTLV_CORE_BuildAndPrintMessage(char *p, struct H *h);
 extern int BTLV_CORE_ConsumeMessageFlag(u32 *p);
-extern void GFL_USE_SetBgmPlayerParam(void *);
+extern void GFL_USE_SetBgmPaused(void *);
 extern int GFL_USE_PushBgm(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32, u32);
 extern int BTLV_CORE_WaitMessage(u32 *p);
@@ -141,7 +141,7 @@ int BTL_CLIENT_StepGiveExp(u8 *p, int *state, u32 *args)
         if (!BTLV_EFFECT_GaugeIsAnimating()) *state = 13;
         break;
     case 3:
-        BTL_EVENT_ReleaseClientHandle(obj);
+        BTL_POKEPARAM_RecalcMonParam(obj);
         BTL_POKEPARAM_ReloadFromParam(obj);
         if (enabled) {
             BTLV_EFFECT_GaugeRefreshForLevelUp(index, obj);
@@ -166,13 +166,13 @@ int BTL_CLIENT_StepGiveExp(u8 *p, int *state, u32 *args)
         break;
     case 7:
         if (BTLV_CORE_ConsumeMessageFlag(((struct Obj00268 *)p)->f54)) {
-            GFL_USE_SetBgmPlayerParam((void *)1);
+            GFL_USE_SetBgmPaused((void *)1);
             GFL_USE_PushBgm();
             GFL_USE_CancelChangeAndPlayBgm(0x515, 0xffff);
         }
         if (BTLV_CORE_WaitMessage(((struct Obj00268 *)p)->f54) && !GFL_USE_IsBgmPlaying()) {
             GFL_USE_PopBgm();
-            GFL_USE_SetBgmPlayerParam(0);
+            GFL_USE_SetBgmPaused(0);
             gExpGainWork.counter = 0;
             *state = 8;
         }

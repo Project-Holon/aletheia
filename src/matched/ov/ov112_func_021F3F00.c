@@ -13,7 +13,7 @@
  * ABI: 760C leaves a live result used by this caller despite its own void declaration.
  * symbols:
  *   MUSICAL_MCSS_CreateRenderObj 0x021F5164 thumb ov112
- *   MUSICAL_MCSS_SetRenderFieldA 0x021F5438 thumb ov112
+ *   MUSICAL_MCSS_SetRenderCellVramBase 0x021F5438 thumb ov112
  *   MUSICAL_MCSS_CreateActorPool 0x021F48C0 thumb ov112
  *   STA_ACT_LIGHT_AddBillboardImage 0x021F709C thumb ov112
  *   STA_ACT_LIGHT_AddPokemonElem 0x021F760C thumb ov112
@@ -68,7 +68,7 @@ struct Object;
 extern struct Object *MUSICAL_MCSS_CreateActorPool(u32 owner, int count, u16 heap);
 extern u8 *STA_ACT_LIGHT_AddBillboardImage(u16 heap, u32 b, u32 c, u32 d, u32 e);
 extern void *STA_ACT_LIGHT_AddPokemonElem(u8 *, u8 *);
-extern void MUSICAL_MCSS_SetRenderFieldA(void **p, int b);
+extern void MUSICAL_MCSS_SetRenderCellVramBase(void **p, int b);
 extern void STA_ACT_LIGHT_ResetRenderAnim(int, int);
 extern int STA_ACT_LIGHT_SetElemValue(int, int *, int);
 extern void *STA_ACT_LIGHT_CreateUnit(u16, void *);
@@ -96,7 +96,7 @@ void MUSICAL_SHOT_SYS_InitActors(Context *p)
   void *tmp;
   current = 5 << 16;
   p->scene = MUSICAL_MCSS_CreateRenderObj(p->heap);
-  MUSICAL_MCSS_SetRenderFieldA(p->scene, 2 << 16);
+  MUSICAL_MCSS_SetRenderCellVramBase(p->scene, 2 << 16);
   p->actors = MUSICAL_MCSS_CreateActorPool((u32) p->owner, 36, p->heap);
   p->render = STA_ACT_LIGHT_AddBillboardImage(p->heap, 0, (u32)p->scene, (u32)p->actors, (u32)p->owner);
   for (i = 0; i < 4; i++)

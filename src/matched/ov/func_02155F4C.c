@@ -13,7 +13,7 @@
  *   MUSICAL_DRESSUP_SYS_Delete  0x02156CD8  thumb  ov010
  *   MUSICAL_STAGE_SYS_Delete  0x02156F98  thumb  ov010
  *   func_020307B0  0x020307B0  arm
- *   MUSICAL_MCSS_FreeMon  0x021F6888  thumb
+ *   MUSICAL_MCSS_FreeDistSave  0x021F6888  thumb
  *   MUSICAL_PROGRAM_Delete  0x0215716C  thumb  ov010
  */
 #include "../include/Obj02657.h"
@@ -25,7 +25,7 @@ typedef unsigned int u32;
 extern int MUSICAL_DRESSUP_SYS_Delete();
 extern int MUSICAL_STAGE_SYS_Delete();
 extern int func_020307B0();
-extern int MUSICAL_MCSS_FreeMon();
+extern int MUSICAL_MCSS_FreeDistSave();
 extern int MUSICAL_PROGRAM_Delete();
 
 int MUSICAL_EVENT_Free(int a0)
@@ -56,7 +56,7 @@ loc_02155F76:
 a0 = ((struct Obj02657 *)t4)->f24;
     if (a0 == 0) goto loc_02155F80;
 loc_02155F7C:
-    a0 = MUSICAL_MCSS_FreeMon(a0);
+    a0 = MUSICAL_MCSS_FreeDistSave(a0);
 loc_02155F80:
 a0 = ((struct Obj02657 *)t4)->f3C;
     if (a0 == 0) goto loc_02155F8A;

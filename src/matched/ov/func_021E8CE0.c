@@ -1,5 +1,5 @@
 /*
- * function: BTLV_CORE_PackBytes
+ * function: BTL_TYPEPAIR_Make
  * address:  0x021E8CE0
  * packet:   pkt_021E8CE0
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   BTLV_CORE_PackBytes   0x021E8CE0  thumb
+ *   BTL_TYPEPAIR_Make   0x021E8CE0  thumb
  *
  * Leaf with no calls and no pool; 8 instructions, 16 bytes: lsls r0, r0, #0x18; lsrs r2, r0, #0x10; lsls r0, r1, #0x18; lsrs r0, r0, #0x18; orrs r0, r2; lsls r0, r0, #0x10; lsrs r0, r0, #0x10; bx lr.
  */
@@ -23,5 +23,5 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021E8CE0  ((a & 0xff) << 8) | (b & 0xff) as u16 */
-u16 BTLV_CORE_PackBytes(u32 a, u32 b) { return (u16)(((a & 0xff) << 8) | (b & 0xff)); }
+u16 BTL_TYPEPAIR_Make(u32 a, u32 b) { return (u16)(((a & 0xff) << 8) | (b & 0xff)); }
 

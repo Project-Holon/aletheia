@@ -17,7 +17,7 @@
  *   GAME_DATA_GetMyParty 0x02012934 thumb
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
- *   GF_STANDARD_SetField00_F4E4 0x0203F4E4 arm
+ *   GF_STANDARD_GetCachedDate 0x0203F4E4 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -36,7 +36,7 @@ extern void MYSTATUS_Copy(void *,void *);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
-extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
+extern void GF_STANDARD_GetCachedDate(struct RtcDate *date);
 void COMPATIBLE_IRC_SYS_BuildProfile(void *p,Data *out)
 {
     Config config;
@@ -56,7 +56,7 @@ void COMPATIBLE_IRC_SYS_BuildProfile(void *p,Data *out)
     out->f08=POKE_TOOL_GetPartyValue(record,111,0);
     out->f09=POKE_TOOL_GetPartyValue(record,110,0);
     out->f0a=POKE_TOOL_GetPartyValue(record,76,0);
-    GF_STANDARD_SetField00_F4E4((struct RtcDate *)(&four));
+    GF_STANDARD_GetCachedDate((struct RtcDate *)(&four));
     if(four.c == 14) flag=1;
     out->low=(u8)flag;
     out->f00=((u32)four.a << 24) | (((u32)four.b << 24) >> 8) | (((u32)four.c << 24) >> 16) | four.d;

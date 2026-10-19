@@ -13,13 +13,13 @@
  *   BOX2_MAIN_HasOtherTradable 0x021DD694 thumb ov170
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
- *   FILE_UTIL_Check136C 0x0202136C thumb
+ *   FILE_UTIL_IsMailItem 0x0202136C thumb
  */
 extern unsigned BOX2_MAIN_GetPartyValueAt(void ***,unsigned short,int,unsigned,unsigned);
 extern int BOX2_MAIN_HasOtherTradable(void ***,unsigned);
 extern void *POKEPARTY_GetMember(void *,unsigned);
 extern unsigned POKE_TOOL_GetPartyValue(void *,unsigned,unsigned);
-extern unsigned FILE_UTIL_Check136C(unsigned short);
+extern unsigned FILE_UTIL_IsMailItem(unsigned short);
 int BOX2_MAIN_ComparePartyValue(unsigned char *p,unsigned a,unsigned b)
 {
     int result = 0;
@@ -27,7 +27,7 @@ int BOX2_MAIN_ComparePartyValue(unsigned char *p,unsigned a,unsigned b)
         return result;
     if (!BOX2_MAIN_HasOtherTradable((void ***)p,a-30))
         return result;
-    if (FILE_UTIL_Check136C((unsigned short)POKE_TOOL_GetPartyValue(POKEPARTY_GetMember((*(void ***)p)[2],a-30),6,0)) != 1)
+    if (FILE_UTIL_IsMailItem((unsigned short)POKE_TOOL_GetPartyValue(POKEPARTY_GetMember((*(void ***)p)[2],a-30),6,0)) != 1)
         result = 1;
     return result;
 }

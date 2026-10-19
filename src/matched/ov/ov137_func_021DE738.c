@@ -1,5 +1,5 @@
 /*
- * function: GURU2_RECEIPT_CheckMemberChange
+ * function: GURU2_RECEIPT_UpdateMemberChange
  * address: 0x021DE738
  * packet: pkt_ov137_021DE738
  * region: ov137
@@ -27,7 +27,7 @@ extern int UNION_APP_Close(unsigned char *p);
 extern int UNION_APP_GetMemberCount(unsigned char *p);
 extern unsigned char UNION_APP_GetJoinedBits(unsigned char *p);
 extern void BMP_MENU_DeleteYesNo(u8 *o);
-int GURU2_RECEIPT_CheckMemberChange(Obj *obj)
+int GURU2_RECEIPT_UpdateMemberChange(Obj *obj)
 {
     u8 *p = (u8 *)obj;
     int state;

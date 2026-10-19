@@ -43,7 +43,7 @@
  * literal.  Both are now matched on their own: src/matched/arm9/
  * BATTLE_REC_LoadToolOverlay.c and BATTLE_REC_UnloadToolOverlay.c. *
  * symbols:
- *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
+ *   GF_STANDARD_CalcCrc16  0x0203F1FC  arm
  *   BATTLE_REC_Decode  0x0200B900  thumb
  *   POKE_TOOL_ClearBoxParam  0x02017550  thumb
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
@@ -69,7 +69,7 @@ typedef signed int     s32;
 
 extern void  MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
-extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
+extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
 struct Mon;
 struct MsgBank;
 struct MsgData;
@@ -149,6 +149,6 @@ u32 BATTLE_REC_IsVersionSupported(u32 v)
 
 void BATTLE_REC_SetBodyCrc(struct RecC4 *p)
 {
-    p->unk17DC = GF_STANDARD_SetupCalc((const u8 *)p, 0x17DC);
+    p->unk17DC = GF_STANDARD_CalcCrc16((const u8 *)p, 0x17DC);
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_WORK_CmdGetFieldRecordPair
+ * function: SCRCMD_WORK_CmdGetMonthAndDay
  * address:  0x0215AB60
  * packet:   pkt_0215AB60
  * region:   ov010
@@ -25,7 +25,7 @@ extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern int FIELD_CLOCK_GetMonth(int a0);
 extern int FIELD_CLOCK_GetDay(int a0);
 
-int SCRCMD_WORK_CmdGetFieldRecordPair(int a0, int a1)
+int SCRCMD_WORK_CmdGetMonthAndDay(int a0, int a1)
 {
     int t4;
     int t7;

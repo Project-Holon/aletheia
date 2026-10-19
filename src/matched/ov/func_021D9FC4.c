@@ -20,12 +20,12 @@
  *   BTL_SERVER_FLOW_PushCmdRecord   0x021C88B4  thumb ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord   0x021C88A4  thumb ov093
  *   BTL_SERVER_FLOW_CommitCmdRecord   0x021C88C8  thumb ov093
- *   BTLV_CORE_PackByteTwice   0x021E8CF0  thumb ov093
+ *   BTL_TYPEPAIR_MakeSingle   0x021E8CF0  thumb ov093
  *
  * Four gates before the body (HAND_COMMON_IsMoveTarget(c) non-zero, BTL_SERVER_FLOW_CheckShowdownThunk(b)
  * zero, record valid, and the (u8) of BTL_EVENT_GetVar(0x16) neither 0x11 nor
  * rejected by BTL_POKEPARAM_HasType), then the 2-event, record, 3-event sequence of
- * HAND_TOKUSEI_CureSick with the halfword from BTLV_CORE_PackByteTwice in the record.
+ * HAND_TOKUSEI_CureSick with the halfword from BTL_TYPEPAIR_MakeSingle in the record.
  */
 #include "../include/Obj12144.h"
 
@@ -45,7 +45,7 @@ int BTL_POKEPARAM_HasType(void *p, int k);
 void BTL_SERVER_FLOW_PushCmdRecord(void *a, int k, int b);
 void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
 void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
-int BTLV_CORE_PackByteTwice(int k);
+int BTL_TYPEPAIR_MakeSingle(int k);
 
 void HAND_TOKUSEI_ForecastOnWeatherChange(void *a, int b, int c)
 {
@@ -66,7 +66,7 @@ void HAND_TOKUSEI_ForecastOnWeatherChange(void *a, int b, int c)
         return;
     BTL_SERVER_FLOW_PushCmdRecord((void *)b, 2, c);
     p = BTL_SERVER_FLOW_AllocCmdRecord((char *)b, 0x14, c);
-    ((struct Obj12144 *)p)->f4 = BTLV_CORE_PackByteTwice(k);
+    ((struct Obj12144 *)p)->f4 = BTL_TYPEPAIR_MakeSingle(k);
     ((struct Obj12144 *)p)->f6 = c;
     BTL_SERVER_FLOW_CommitCmdRecord((void *)b, p);
     BTL_SERVER_FLOW_PushCmdRecord((void *)b, 3, c);

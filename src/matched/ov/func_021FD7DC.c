@@ -14,7 +14,7 @@
  *   BMP_Clear  0x02043B5C  arm
  *   WORLDTRADE_DEPOSIT_PrintBankString  0x021F7FD4  thumb
  *   WORLDTRADE_DEPOSIT_PrintModeLabel  0x021F8104  thumb
- *   WORLDTRADE_DEPOSIT_GetConditionIndex  0x021F886C  thumb
+ *   WORLDTRADE_DEPOSIT_FindLevelBracketIndex  0x021F886C  thumb
  *   WORLDTRADE_DEPOSIT_PrintConditionLabel  0x021F8178  thumb
  */
 
@@ -41,7 +41,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void WORLDTRADE_DEPOSIT_PrintBankString(void *win, void *bank, u32 index, u32 y, u16 color, void *g);
 extern void WORLDTRADE_DEPOSIT_PrintModeLabel(void *win, void *bank, int mode, int force, u32 x, u32 y, u16 color, void *g);
-extern int WORLDTRADE_DEPOSIT_GetConditionIndex(int key, int val, int which);
+extern int WORLDTRADE_DEPOSIT_FindLevelBracketIndex(int key, int val, int which);
 extern void WORLDTRADE_DEPOSIT_PrintConditionLabel(void *win, void *bank, int idx, u32 e, u32 x, u32 y, u16 color, int alt, u32 g);
 
 void WORLDTRADE_LIST_PrintRecordRow(Pane *pane, void *bank, void *names, Rec *rec, void *g)
@@ -49,5 +49,5 @@ void WORLDTRADE_LIST_PrintRecordRow(Pane *pane, void *bank, void *names, Rec *re
     BMP_Clear(BMP_WIN_GetBmp(pane->win), 0);
     WORLDTRADE_DEPOSIT_PrintBankString(pane->win, names, rec->name, 0, 0x440, g);
     WORLDTRADE_DEPOSIT_PrintModeLabel(pane->win, bank, rec->mode, 0, 0x49, 0, 0x440, g);
-    WORLDTRADE_DEPOSIT_PrintConditionLabel(pane->win, bank, WORLDTRADE_DEPOSIT_GetConditionIndex(rec->key, rec->val, 0), 0, 0x68, 0, 0x440, 0, (u32)g);
+    WORLDTRADE_DEPOSIT_PrintConditionLabel(pane->win, bank, WORLDTRADE_DEPOSIT_FindLevelBracketIndex(rec->key, rec->val, 0), 0, 0x68, 0, 0x440, 0, (u32)g);
 }

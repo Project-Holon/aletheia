@@ -43,7 +43,7 @@
  *   BG_SYS_Update 0x020419E4 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   gPmsInputViewTaskTable 0x021C3B94 data a4
- *   TCBL_GetTaskUserData 0x02030EE8 arm
+ *   TCBL_IsDeletePending 0x02030EE8 arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
@@ -181,7 +181,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   GF_FONT_Delete  0x0201D83C  thumb  arm9
  *   WIPE_SYS_Start  0x0202208C  thumb  arm9
@@ -272,7 +272,7 @@ extern void PMSIV_MENU_Update(struct PmsivMenu *menu);
 extern unsigned int PRINTSYS_QUE_Main(struct PrintQue *queue);
 extern void BG_SYS_Update(void);
 extern void CLACT_VBlankSystem(void);
-extern struct PmsInputViewTask *TCBL_GetTaskUserData(void *tcb);
+extern struct PmsInputViewTask *TCBL_IsDeletePending(void *tcb);
 extern void BG_SYS_ClearGraphicsMemory(unsigned);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
@@ -406,7 +406,7 @@ extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQue *queue, struct Bmp *bmp);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void BG_SYS_SetFlagField06(unsigned);
+extern void BG_SYS_MarkTileDirty(unsigned);
 
 extern const char gPmsInputViewHeapSite[];
 extern const u8 gClActorInitParam[];
@@ -542,7 +542,7 @@ int PMS_INPUT_VIEW_IsTaskNotRunning(struct PmsInputView *view, int id) {
     int value;
     for(i=0;i<PMS_INPUT_VIEW_TASK_SLOTS;i++)
         if(view->eventTasks[i]) {
-            value=TCBL_GetTaskUserData(view->eventTasks[i])->id;
+            value=TCBL_IsDeletePending(view->eventTasks[i])->id;
             if(value==id) return 0;
         }
     return 1;
@@ -1392,7 +1392,7 @@ void PMS_INPUT_VIEW_FlushHelpText(struct PmsInputView *view)
         win=view->helpWin;
         BMP_WIN_TransferChars(win);
         BMP_WIN_MakeScreen(win);
-        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
+        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(win));
         view->helpTextPending=0;
     }
 }

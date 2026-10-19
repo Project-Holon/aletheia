@@ -1,5 +1,5 @@
 /*
- * function: BUTTON_MAN_GetPos
+ * function: PARTICLE_EMITTER_GetPos
  * address:  0x02051790
  * packet:   pkt_02051790
  * region:   arm9
@@ -16,7 +16,7 @@ typedef struct {
     int x, y, z;
 } Vec;
 
-void BUTTON_MAN_GetPos(char *p, Vec *out)
+void PARTICLE_EMITTER_GetPos(char *p, Vec *out)
 {
     *out = *(Vec *)(p + 0x34);
 }

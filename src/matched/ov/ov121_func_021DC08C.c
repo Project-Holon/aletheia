@@ -25,7 +25,7 @@
  *   MYSTERY_UTIL_DeleteMenuWindow 0x021D9E04 thumb ov121
  *   MYSTERY_ALBUM_SaveHandler 0x021DCCE4 thumb ov121
  *   MYSTERY_ALBUM_StartScroll 0x021DBA78 thumb ov121
- *   MYSTERY_ALBUM_UpdateSlots 0x021DB528 thumb ov121
+ *   MYSTERY_ALBUM_DeleteSlotActors 0x021DB528 thumb ov121
  *   MYSTERY_ALBUM_SetCursor 0x021DB478 thumb ov121
  *   MYSTERY_ALBUM_UpdateScroll 0x021DBA94 thumb ov121
  *   MYSTERY_ALBUM_ConfirmHandler 0x021DC4F0 thumb ov121
@@ -55,7 +55,7 @@ extern void MYSTERY_ALBUM_ConfirmHandler(void *task, u32 *state, u8 *p);
 extern void MYSTERY_ALBUM_SaveHandler(void *arg, u32 *state, char *p);
 extern void MYSTERY_UTIL_DeleteMenuWindow(u8 *);
 extern void MYSTERY_ALBUM_StartScroll(u8 *p, int a);
-extern void MYSTERY_ALBUM_UpdateSlots(char *,int);
+extern void MYSTERY_ALBUM_DeleteSlotActors(char *,int);
 extern void MYSTERY_ALBUM_SetCursor(char *,int,int,int,u16);
 extern int MYSTERY_ALBUM_UpdateScroll(char *);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
@@ -190,7 +190,7 @@ void MYSTERY_ALBUM_SelectHandler(void *task,u32 *state,char *p)
             }
             GFL_USE_PlaySeDefaultVolume(0x642);
             MYSTERY_ALBUM_StartScroll((u8 *)p,direction);
-            MYSTERY_ALBUM_UpdateSlots(p,0);
+            MYSTERY_ALBUM_DeleteSlotActors(p,0);
             MYSTERY_ALBUM_SetCursor(p,0,direction,next,((struct Obj00061 *)p)->f24);
             ((struct Obj00061 *)p)->fAC8=next;
             CLACT_SetActorDrawEnable(((struct Obj00061 *)p)->fAEC,0);

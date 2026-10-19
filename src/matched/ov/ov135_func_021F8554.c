@@ -15,7 +15,7 @@
   *
   *
  * symbols:
- *   WORLDTRADE_BOX_ClampSlot  0x021F6B34  thumb
+ *   WORLDTRADE_BOX_IsPartyBox  0x021F6B34  thumb
  *   WORLDTRADE_ADAPTER_CopyBoxMon  0x022026A0  thumb
  *   POKE_TOOL_ChangeBoxForm  0x020179B8  thumb  arm9
  *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb  arm9
@@ -48,7 +48,7 @@ typedef struct {
     void *mon;
 } Work;
 
-extern int WORLDTRADE_BOX_ClampSlot(int v);
+extern int WORLDTRADE_BOX_IsPartyBox(int v);
 extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern u32 POKE_TOOL_ChangeForm(void *p, u32 a);
 extern u32 POKE_TOOL_GetPartyParamSize(void);
@@ -72,7 +72,7 @@ void WORLDTRADE_DEPOSIT_BuildOffer(u8 *dst, Work *p)
 {
     u32 species;
 
-    if (WORLDTRADE_BOX_ClampSlot(p->box) != 0) {
+    if (WORLDTRADE_BOX_IsPartyBox(p->box) != 0) {
         species = POKE_TOOL_GetBoxValue(p->mon, 5, 0);
         if (species == 0x1EC || species == 0x286) {
             POKE_TOOL_ChangeForm(p->mon, 0);

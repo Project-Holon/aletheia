@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "UN_SELECT_Check",
+   "name": "UN_SELECT_ScrollActorsBy",
    "address": "0x021BA554",
    "kind": "game",
    "region": "ov218",

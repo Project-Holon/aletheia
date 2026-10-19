@@ -1,5 +1,5 @@
 /*
- * function: BUTTON_MAN_SetRow3Half
+ * function: PARTICLE_EMITTER_SetBehavior3Half
  * address:  0x020519E4
  * packet:   pkt_02051838
  * region:   arm9
@@ -11,21 +11,21 @@
  *
  * The class-3 slot carries only a halfword at +2.
  * Verified with:
- *   python tools/match.py one --src src/matched/BUTTON_MAN_SetRow3Half.c \
- *       --func BUTTON_MAN_SetRow3Half --addr 0x020519E4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/PARTICLE_EMITTER_SetBehavior3Half.c \
+ *       --func PARTICLE_EMITTER_SetBehavior3Half --addr 0x020519E4 --cc 1.1p1 --arm
  *
  * symbols:
- *   BUTTON_MAN_FindRowData  0x020518AC  arm
+ *   PARTICLE_EMITTER_FindBehaviorData  0x020518AC  arm
  */
 #include "../include/Obj16190.h"
 
 typedef unsigned short u16;
 
-extern void *BUTTON_MAN_FindRowData(void *obj, int kind);
+extern void *PARTICLE_EMITTER_FindBehaviorData(void *obj, int kind);
 
-void BUTTON_MAN_SetRow3Half(void *p, u16 *q)
+void PARTICLE_EMITTER_SetBehavior3Half(void *p, u16 *q)
 {
-    char *r = BUTTON_MAN_FindRowData(p, 3);
+    char *r = PARTICLE_EMITTER_FindBehaviorData(p, 3);
 
     if (r != 0)
         ((struct Obj16190 *)r)->f2 = *q;

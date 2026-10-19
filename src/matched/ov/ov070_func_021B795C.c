@@ -11,7 +11,7 @@
  *
  * symbols:
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
- *   FILE_UTIL_Get_0FE4  0x02020FE4  thumb
+ *   FILE_UTIL_GetItemParam  0x02020FE4  thumb
  *   ITEMMENU_UpdateSideButtons  0x021BB3F4  thumb  ov070
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   ITEMMENU_RegisterItemName  0x021B61F4  thumb  ov070
@@ -49,7 +49,7 @@ typedef struct Obj {
 typedef unsigned int   u32;
 struct WordSet;
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
-extern unsigned int FILE_UTIL_Get_0FE4(u16 id, unsigned int sel, u16 heap);
+extern unsigned int FILE_UTIL_GetItemParam(u16 id, unsigned int sel, u16 heap);
 struct MsgBank;
 extern void ITEMMENU_UpdateSideButtons(int p, int mode);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
@@ -73,8 +73,8 @@ void ITEMMENU_TaskGiveItem(Obj *o)
     unsigned int b;
 
     CLACT_SetActorAutoAnim(o->f6A8, 0);
-    a = FILE_UTIL_Get_0FE4(o->f84C, 0, o->f544);
-    b = FILE_UTIL_Get_0FE4(o->f84C, 3, o->f544);
+    a = FILE_UTIL_GetItemParam(o->f84C, 0, o->f544);
+    b = FILE_UTIL_GetItemParam(o->f84C, 3, o->f544);
     if (a == 0 || b != 0) {
         ITEMMENU_UpdateSideButtons((int)o, 0);
         MSGDATA_ReadString(o->f51C, 0x4D, (void *)o->f524);

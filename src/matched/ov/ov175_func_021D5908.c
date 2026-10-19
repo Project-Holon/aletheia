@@ -42,13 +42,13 @@
  *   PMSI_PARAM_InitSentence 0x020242A4 thumb
  *   WIFIBATTLEMATCH_NET_VerifyPartySignature 0x021D67BC thumb ov175
  *   WIFIBATTLEMATCH_NET_DisconnectWifi 0x021DA36C thumb ov175
- *   WIFIBATTLEMATCH_NET_CheckProfanity 0x021DCA28 thumb ov175
+ *   WIFIBATTLEMATCH_NET_StartProfanityCheck 0x021DCA28 thumb ov175
  *   WIFIBATTLEMATCH_NET_ProfanityProcess 0x021DCAEC thumb ov175
  *   WIFIBATTLEMATCH_NET_TakeSessionResult 0x021DA45C thumb ov175
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   WIFIBATTLEMATCH_NET_DeleteSprite 0x021D65C8 thumb ov175
+ *   WIFIBATTLEMATCH_NET_DeleteChoiceMenu 0x021D65C8 thumb ov175
  *   WIFIBATTLEMATCH_UTIL_SetRequest 0x021E8AB4 thumb ov177
- *   WIFIBATTLEMATCH_NET_StartBoxAnim 0x021D63F8 thumb ov175
+ *   WIFIBATTLEMATCH_NET_CreateRegCardWindow 0x021D63F8 thumb ov175
  *   func_02040588 0x02040588 arm
  *   WIFIBATTLEMATCH_NET_IsRegCardReady 0x021D6460 thumb ov175
  *   WIFIBATTLEMATCH_UTIL_ClearCallback 0x021E8AA8 thumb ov177
@@ -92,13 +92,13 @@ extern unsigned int PMSI_PARAM_IsValid(struct T *, unsigned int);
 extern void PMSI_PARAM_InitSentence(void *, unsigned int);
 extern int WIFIBATTLEMATCH_NET_VerifyPartySignature(char *, u16);
 extern void WIFIBATTLEMATCH_NET_DisconnectWifi(int);
-extern void WIFIBATTLEMATCH_NET_CheckProfanity(char *, u32, u16);
+extern void WIFIBATTLEMATCH_NET_StartProfanityCheck(char *, u32, u16);
 extern int WIFIBATTLEMATCH_NET_ProfanityProcess(char *, int *);
 extern u32 WIFIBATTLEMATCH_NET_TakeSessionResult(char *);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned);
-extern void WIFIBATTLEMATCH_NET_DeleteSprite(char *);
+extern void WIFIBATTLEMATCH_NET_DeleteChoiceMenu(char *);
 extern void WIFIBATTLEMATCH_UTIL_SetRequest(unsigned, unsigned);
-extern void WIFIBATTLEMATCH_NET_StartBoxAnim(unsigned int *, unsigned int);
+extern void WIFIBATTLEMATCH_NET_CreateRegCardWindow(unsigned int *, unsigned int);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern int WIFIBATTLEMATCH_NET_IsRegCardReady(char *);
 extern void WIFIBATTLEMATCH_UTIL_ClearCallback(int);
@@ -207,7 +207,7 @@ void WIFIBATTLEMATCH_NET_TaskStepL(unsigned sys, int *state, char *p)
         }
         break;
     case 11:
-        WIFIBATTLEMATCH_NET_CheckProfanity((char *)P(0x30), Q(0x18), 0x57); *state = 12; break;
+        WIFIBATTLEMATCH_NET_StartProfanityCheck((char *)P(0x30), Q(0x18), 0x57); *state = 12; break;
     case 12:
         if (WIFIBATTLEMATCH_NET_ProfanityProcess((char *)P(0x30), &bad)) {
             *(int *)((int *)P(0x40))[16] = bad; *state = 13;
@@ -238,12 +238,12 @@ void WIFIBATTLEMATCH_NET_TaskStepL(unsigned sys, int *state, char *p)
         break;
     case 17:
         WIFIBATTLEMATCH_VIEW_SetActorVisible((void **)P(0x20), 0);
-        GFL_USE_PlaySeDefaultVolume(0x63a); WIFIBATTLEMATCH_NET_DeleteSprite(p);
+        GFL_USE_PlaySeDefaultVolume(0x63a); WIFIBATTLEMATCH_NET_DeleteChoiceMenu(p);
         WIFIBATTLEMATCH_UTIL_PrintMessage((int *)P(0x24), P(0x10), 34, 1);
         *state = 25; WIFIBATTLEMATCH_UTIL_SetRequest(sys, 18); break;
     case 18:
         if (TIMER++ > 120) {
-            TIMER = 0; WIFIBATTLEMATCH_NET_StartBoxAnim((unsigned int *)p, Q(0x18)); func_02040588(0, 0); *state = 19;
+            TIMER = 0; WIFIBATTLEMATCH_NET_CreateRegCardWindow((unsigned int *)p, Q(0x18)); func_02040588(0, 0); *state = 19;
         }
         break;
     case 19: if (WIFIBATTLEMATCH_NET_IsRegCardReady(p)) *state = 20; break;

@@ -22,7 +22,7 @@
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
- *   FIELD_GIMMICK_SWITCH_TOGGLE_SecondarySwitchEventProc  0x021F39B8  thumb  ov045
+ *   SP_POKE_GIMMICK_StartMove  0x021F39B8  thumb  ov059
  *   SP_POKE_GIMMICK_ShowAndPlay  0x021F3AA0  thumb  ov059
  *   SP_POKE_GIMMICK_StartWaitAnimeEnd 0x021F3B68 thumb ov059
  *   SP_POKE_GIMMICK_StartWaitAnimeProgress 0x021F3B40 thumb ov059
@@ -54,7 +54,7 @@ extern int SCRIPT_SYS_CallEvent(void *scriptSystem, void *event);
 
 extern void FIELD_PLAYER_GetPos(void *player, FxVec3 *out);
 
-extern void *FIELD_GIMMICK_SWITCH_TOGGLE_SecondarySwitchEventProc(void *gameSystem, int fromPlayer, FxVec3 *from, FxVec3 *to, int height, int frames);
+extern void *SP_POKE_GIMMICK_StartMove(void *gameSystem, int fromPlayer, FxVec3 *from, FxVec3 *to, int height, int frames);
 
 extern void SP_POKE_GIMMICK_ShowAndPlay(void *gameSystem, int mode, FxVec3 *position);
 
@@ -114,7 +114,7 @@ int SCRCMD_EVENT_MON_CmdStartSpPokeGimmickTask(struct ScriptContext *ctx, struct
         from = &targetPos;
         to = &playerPos;
     }
-    gimmickTask = FIELD_GIMMICK_SWITCH_TOGGLE_SecondarySwitchEventProc(gameSystem, fromPlayer, from, to, speed << 15, frames);
+    gimmickTask = SP_POKE_GIMMICK_StartMove(gameSystem, fromPlayer, from, to, speed << 15, frames);
     if (gimmickTask == 0) {
         return 1;
     }

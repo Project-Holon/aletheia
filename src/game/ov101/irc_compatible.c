@@ -21,7 +21,7 @@
  *   GFL_HEAP_Free 0x020307B0 arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
- *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_SetBgmPaused 0x02005DE4 thumb
  *   GFL_USE_PushBgm 0x02005E64 thumb
  *   IRC_COMPATIBLE_SourceFileName 0x021B753C data a1
  *   GFL_USE_PopBgm 0x02005E9C thumb
@@ -113,7 +113,7 @@ extern u32 GFL_NET_IsParentAid(void);
 extern void *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
-extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_SetBgmPaused(void *p);
 extern int GFL_USE_PushBgm(void);
 extern int GFL_USE_PopBgm(void);
 extern void PROCSYS_FreeProcWork(struct Proc *proc);
@@ -188,7 +188,7 @@ int IRC_COMPATIBLE_ProcInit(struct Proc *proc, int seq, IrcCompatibleParam *para
     work->view = COMPATIBLE_IRC_SYS_Create(-1, gameData, IRC_COMPATIBLE_HEAP_ID, 0);
     work->isFirstRun = 1;
     IRC_COMPATIBLE_SetHandler(work, IRC_COMPATIBLE_HandleEntry);
-    GFL_USE_SetBgmPlayerParam((void *)1);
+    GFL_USE_SetBgmPaused((void *)1);
     GFL_USE_PushBgm();
     return 1;
 }
@@ -202,7 +202,7 @@ int IRC_COMPATIBLE_ProcInit(struct Proc *proc, int seq, IrcCompatibleParam *para
 
 
 int IRC_COMPATIBLE_ProcExit(struct Proc *proc, int seq, int pwk, IrcCompatibleWork *work) {
- GFL_USE_PopBgm(); GFL_USE_SetBgmPlayerParam(0); COMPATIBLE_IRC_SYS_Delete(work->view); IRC_COMPATIBLE_StepRunnerExit(&work->runner); GFL_HEAP_Free(work->partnerProfile); PROCSYS_FreeProcWork(proc); GFL_HEAP_DeleteChecked(IRC_COMPATIBLE_HEAP_ID); return 1;
+ GFL_USE_PopBgm(); GFL_USE_SetBgmPaused(0); COMPATIBLE_IRC_SYS_Delete(work->view); IRC_COMPATIBLE_StepRunnerExit(&work->runner); GFL_HEAP_Free(work->partnerProfile); PROCSYS_FreeProcWork(proc); GFL_HEAP_DeleteChecked(IRC_COMPATIBLE_HEAP_ID); return 1;
 }
 
 

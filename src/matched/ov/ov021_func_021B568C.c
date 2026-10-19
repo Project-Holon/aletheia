@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PROC_FLD_SetFieldRegionTable
+ * function: SCRCMD_PROC_FLD_StartFkDemoSubProc
  * address:  0x021B568C
  * packet:   pkt_ov021_021B568C
  * region:   ov021
@@ -38,7 +38,7 @@ extern u32 g_021F4374[];
 extern u32 g_021F438C[];
 extern u32 g_021F435C[];
 
-int SCRCMD_PROC_FLD_SetFieldRegionTable(int a0, int a1)
+int SCRCMD_PROC_FLD_StartFkDemoSubProc(int a0, int a1)
 {
     int r4 = FIELDMAP_GetMapFunc(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem((void *)a1)));
 

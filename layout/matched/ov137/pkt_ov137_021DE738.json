@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GURU2_RECEIPT_CheckMemberChange",
+   "name": "GURU2_RECEIPT_UpdateMemberChange",
    "address": "0x021DE738",
    "kind": "game",
    "region": "ov137",

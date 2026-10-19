@@ -30,7 +30,7 @@
  *   MOVE_POKEMON_InitSkillTarget  0x0215EA30  thumb  ov010
  *   MOVE_POKEMON_CreateSkillEvent  0x0215EA38  thumb  ov010
  *   EVENT_SHORTCUT_MENU_CreateProcEvent  0x0216075C  thumb  ov010
- *   EVENTDATA_SYSTEM_CreateFieldLinkEvent  0x021644F4  thumb  ov010
+ *   FIELD_LINK_EVENT_Create  0x021644F4  thumb  ov010
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_SetFrameRate  0x020129D0  thumb
@@ -95,7 +95,7 @@ extern void MOVE_POKEMON_InitSkillTarget(Query *q, u16 a, u16 b, u32 c);
 extern int MOVE_POKEMON_CreateSkillEvent(int a0, int a1, int a2);
 struct Owner;
 extern void *EVENT_SHORTCUT_MENU_CreateProcEvent(struct Owner *o, u16 id);
-extern int EVENTDATA_SYSTEM_CreateFieldLinkEvent(int i, void *a, void *p);
+extern int FIELD_LINK_EVENT_Create(int i, void *a, void *p);
 extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void GAME_DATA_SetFrameRate(struct BigObj *p, u8 v);
@@ -176,7 +176,7 @@ int EVENT_FIELD_MENU_Main(void *task, void *unused, Ctx *c)
         break;
     case 7:
         FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(c->field));
-        GAME_EVENT_CallEvent(task, (struct Evt **)EVENTDATA_SYSTEM_CreateFieldLinkEvent(c->f44, c->f08, c->field));
+        GAME_EVENT_CallEvent(task, (struct Evt **)FIELD_LINK_EVENT_Create(c->f44, c->f08, c->field));
         c->state = 8;
         break;
     case 8:

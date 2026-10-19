@@ -9,16 +9,16 @@
  * status:   EXACT
  *
  * symbols:
- *   TCBL_GetTaskUserData  0x02030EE8  arm  arm9
+ *   TCBL_IsDeletePending  0x02030EE8  arm  arm9
  */
 #include "../include/Obj21736.h"
 typedef unsigned int u32;
 struct S02030EE8;
-extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
+extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
 
 void BTLV_CLACT_MoveTaskEndWide(void *h)
 {
-    int *q = (int *)TCBL_GetTaskUserData(h);
+    int *q = (int *)TCBL_IsDeletePending(h);
     char *p = (char *)q[0];
     ((struct Obj21736 *)p)->f7C &= (1 << q[4]) ^ -1;
 }

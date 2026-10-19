@@ -36,7 +36,7 @@
  *   FIELD_MSGBG_DeleteMenuFunc  0x021909BC  thumb  ov021
  *   FIELD_MSGBG_DeleteSysWin  0x02190E40  thumb  ov021
  *   FIELD_MSGBG_DeleteMsgData  0x021904C8  thumb  ov021
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   GFL_NET_GetRunState  0x0203CD98  arm
  *   COMM_ENTRY_EndNetCommands  0x021CF17C  thumb  ov021
  *   gCommEntryMsgTable  0x021DB498  data
@@ -481,7 +481,7 @@ extern u32 GFL_NET_GetUserArg(void);
 extern int FIELD_MSGBG_DeleteMenuFunc(FieldMenuFunc *menu);
 extern int FIELD_MSGBG_DeleteSysWin(FieldSysWin *sysWin);
 extern u32 FIELD_MSGBG_DeleteMsgData(struct MsgData *msgData);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *ws);
+extern u32 WORDSET_Delete(struct WordSet *ws);
 extern int GFL_NET_GetRunState(void);
 extern void GFL_NET_StartByNetType(void);
 extern int GFL_NET_SYSTEM_GetConnectNum(void);
@@ -683,7 +683,7 @@ u32 COMM_ENTRY_MENU_Delete(CommEntryMenu *menu)
     STRBUF_Delete(menu->msgStr);
     FIELD_MSGBG_DeleteSysWin(menu->sysWin);
     FIELD_MSGBG_DeleteMsgData(menu->msgData);
-    WORDSET_DeleteStrbufED04(menu->wordSet);
+    WORDSET_Delete(menu->wordSet);
     if (GFL_NET_GetRunState() == 1) {
         COMM_ENTRY_EndNetCommands();
     }

@@ -23,7 +23,6 @@
  *   d_0209F56C     0x0209F56C  data
  *   d_0209F574     0x0209F574  data
  *   d_0209F568     0x0209F568  data
- *   _s32_div_f  0x0209C0A4  arm
  *   MI_CpuCopy8   0x02082D44  arm
  *   MI_CpuFill8   0x02082BCC  arm
  *   func_02023464_File  0x020A7450  data
@@ -245,7 +244,6 @@ extern u32 TCB_DeleteTask(struct Node *n);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 GFL_HEAP_Free(void *p);
 extern void MI_CpuFill8(void *dst, u8 data, u32 size);
-extern s32 _s32_div_f(s32 shifted, s32 c);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern s32 FX_Sqrt(s32 x);
 void WIPE_ResetWndMask(void *win);
@@ -875,7 +873,7 @@ void WIPE_SUB_PatternBoxSlideIn(struct WipePanel *panel)
  */
 s32 WIPE_SUB_CalcStep(s32 start, s32 end, s32 frames)
 {
-    return _s32_div_f((end - start) << 7, frames);
+    return ((end - start) << 7) / frames;
 }
 
 void WIPE_SUB_AddRect(struct FixedRect *dst, struct FixedRect *src)

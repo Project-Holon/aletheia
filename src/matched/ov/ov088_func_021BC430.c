@@ -15,7 +15,7 @@
  *   BEACON_GetSlotStates  0x0200C31C  thumb
  *   SAVE_CONTROL_Reload  0x020070C8  thumb
  *   func_0200873C  0x0200873C  thumb
- *   CONFIG_ApplyAppliedFlag  0x02008414  thumb
+ *   CONFIG_ApplyTextLanguage  0x02008414  thumb
  *   func_0200890C  0x0200890C  thumb
  *   GAMESYSTEM_SetupInitWork  0x02011EEC  thumb
  *   PROCSYS_ReplaceGlobal  0x020312F8  arm
@@ -53,7 +53,7 @@ extern unsigned int CONFIG_GetBattleFlag(int a0);
 extern u8 BEACON_GetSlotStates(struct Blk34 *p);
 extern int SAVE_CONTROL_Reload(char *self);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
-extern u8 CONFIG_ApplyAppliedFlag(const struct Flags02008414 *p);
+extern u8 CONFIG_ApplyTextLanguage(const struct Flags02008414 *p);
 struct Sub02008828Rec;
 extern void func_0200890C(void *sys, struct Sub02008828Rec *dest);
 extern void *GAMESYSTEM_SetupInitWork(u32, u16, Rec12 *, int);
@@ -75,7 +75,7 @@ int STARTMENU_BattleFlagProcEnd(int a, int b, int c, u32 *q)
     t = CONFIG_GetBattleFlag((int)((void *)q[1]));
     h = BEACON_GetSlotStates((void *)q[3]);
     SAVE_CONTROL_Reload(r);
-    CONFIG_ApplyAppliedFlag((const struct Flags02008414 *)func_0200873C(r));
+    CONFIG_ApplyTextLanguage((const struct Flags02008414 *)func_0200873C(r));
     func_0200890C(r, (struct Sub02008828Rec *)(&s));
     PROCSYS_ReplaceGlobal(-1, (u32)d_0209DF9C, (u32)GAMESYSTEM_SetupInitWork(1, s.f0, &s.rec, s.f18));
     CONFIG_SetBattleFlag((void *)q[1], t);

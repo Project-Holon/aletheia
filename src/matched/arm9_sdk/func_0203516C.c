@@ -1,5 +1,5 @@
 /*
- * function: UI_SetFlags39Global
+ * function: UI_SetSoftResetInhibitGlobal
  * address:  0x0203516C
  * packet:   pkt_0203516C
  * region:   arm9
@@ -23,7 +23,7 @@ struct UiCtx {
 #define gUiState (*(struct UiCtx **)0x021469BC)
 extern void func_0203515C(struct UiCtx *p, u8 mask);
 
-void UI_SetFlags39Global(u8 mask)
+void UI_SetSoftResetInhibitGlobal(u8 mask)
 {
     func_0203515C(gUiState, mask);
 }

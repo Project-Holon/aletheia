@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * note: callee EVENT_ID_Check filed as arm9 witness (pkt_0202F72C).
+ * note: callee WAZA_TOOL_IsHmMove filed as arm9 witness (pkt_0202F72C).
  * interface: C08 returns -1 or 0..4 for this five-record list (full
  *   C08/BBC/ADC bodies and nonwriting A70/AA4 predicates, retained evidence).
  *   BA14 writes every four-byte record; the sixth first byte is the sentinel.
@@ -29,7 +29,7 @@
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
  *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
- *   EVENT_ID_Check 0x0202F72C thumb
+ *   WAZA_TOOL_IsHmMove 0x0202F72C thumb
  *   P_STA_SKILL_GetSlotPos 0x021DBA54 thumb ov131
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_RestartActorAnim 0x0204B9A0 arm
@@ -55,7 +55,7 @@ extern void P_STA_SKILL_GetSlotTouchRect(u8 *,u8 *);
 extern int TOUCHPANEL_HitTrg(const void *p);
 extern void *P_STATUS_GetPokePara(u8 *);
 extern int POKE_TOOL_GetBoxValue(void *,int,int);
-extern u32 EVENT_ID_Check(void *a, u16 b, u16 c);
+extern u32 WAZA_TOOL_IsHmMove(void *a, u16 b, u16 c);
 struct Vec2;
 extern void P_STA_SKILL_GetSlotPos(unsigned char *p, unsigned short *o);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
@@ -102,7 +102,7 @@ void P_STA_SKILL_HandleTouchForget(u8 *a,u8 *b)
     if (((struct Obj00026 *)b)->f18==0) {
         if (index<4) {
             if (POKE_TOOL_GetBoxValue(P_STATUS_GetPokePara(a),index+54,0)==0) return;
-            result=EVENT_ID_Check(((struct Obj23167 *)(*(u8 * *)&((struct Obj00132 *)a)->f8))->f8,POKE_TOOL_GetBoxValue(P_STATUS_GetPokePara(a),index+54,0),((struct Obj00132 *)a)->f0);
+            result=WAZA_TOOL_IsHmMove(((struct Obj23167 *)(*(u8 * *)&((struct Obj00132 *)a)->f8))->f8,POKE_TOOL_GetBoxValue(P_STATUS_GetPokePara(a),index+54,0),((struct Obj00132 *)a)->f0);
             if (result==0 || ((struct Obj00132 *)a)->f14==1) {
                 if (((struct Obj23168 *)(*(u8 * *)&((struct Obj00132 *)a)->f8))->f14==0) {
                     ((struct Obj00132 *)a)->f54=1;

@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT*
- * ISS_SWITCH_ApplySubscreenMode's body consumes only r0/r1, forwarding those to
+ * WEATHER_StoreZoneWeatherId's body consumes only r0/r1, forwarding those to
  * ISS_SWITCH_GetSubscreenMode; original supplies no new r2/r3. Legacy trailing
  * arguments are omitted. GAME_DATA_GetPlayerZoneId consumes the preceding result.
  * symbols:
@@ -18,7 +18,7 @@
  *   EVENT_BATTLE_SetResultSound 0x0216EF84 thumb ov010
  *   GAME_DATA_GetMyPlayerWork 0x020127A4 thumb
  *   GAME_DATA_GetPlayerZoneId 0x02012AC8 thumb
- *   ISS_SWITCH_ApplySubscreenMode 0x0202C83C thumb
+ *   WEATHER_StoreZoneWeatherId 0x0202C83C thumb
  */
 #include "../include/Obj00020.h"
 #include "../include/Obj19144.h"
@@ -35,11 +35,11 @@ extern void EVENT_BATTLE_NotifyBattleEnd(struct BattleEndCtx *c);
 extern int EVENT_BATTLE_SetResultSound(int a0);
 extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
-extern int ISS_SWITCH_ApplySubscreenMode(int,int);
+extern int WEATHER_StoreZoneWeatherId(int,int);
 void EVENT_BATTLE_FinishBattleTask(int *p,void *a) {
     GAME_DATA_SetFieldMode(a,((struct Obj19144 *)(*(char * *)&((struct Obj00020 *)p)->f8))->f8C);
     MOVE_POKEMON_HandleBattleResult(a,(void *)p[2]);
     EVENT_BATTLE_NotifyBattleEnd((struct BattleEndCtx *)p);
     EVENT_BATTLE_SetResultSound((int)p);
-    ISS_SWITCH_ApplySubscreenMode(p[0],GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(a)));
+    WEATHER_StoreZoneWeatherId(p[0],GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(a)));
 }

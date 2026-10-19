@@ -1,7 +1,7 @@
 /*
  * file:     misc_savedata_2.c
  * unit:     yes
- * function: SAVEDATA_GetExtraBlockThunk, SAVEDATA_GetExtraBlock, MISC_SAVEDATA_CopyQuadRecord, MISC_SAVEDATA_StoreQuadRecord, MISC_SAVEDATA_GetMonEntrySize, MISC_SAVEDATA_ClearMonEntry, MISC_SAVEDATA_GetMonEntryFlag, MISC_SAVEDATA_GetMonEntryLevel, MISC_SAVEDATA_IsMonEntrySet, MISC_SAVEDATA_GetMonEntryTag, MISC_SAVEDATA_GetMonEntryCost, MISC_SAVEDATA_GetMonEntryPid, MISC_SAVEDATA_GetMonEntryName, MISC_SAVEDATA_GetMonEntryExperience, MISC_SAVEDATA_FillMonEntry, MISC_SAVEDATA_GetSmallEntrySize, MISC_SAVEDATA_ClearSmallEntry, MISC_SAVEDATA_SaveScratch16, MISC_SAVEDATA_LoadScratch16, MISC_SAVEDATA_GetBigBlockSize, MISC_SAVEDATA_ClearBigBlock, MISC_SAVEDATA_EmptyHook, MISC_SAVEDATA_GetScratchBase, MISC_SAVEDATA_GetFlags6200, MISC_SAVEDATA_SetFlags6200, MISC_SAVEDATA_GetMacSize, MISC_SAVEDATA_ClearMacArea, MISC_SAVEDATA_GetBlock41, MISC_SAVEDATA_InitMac, MISC_SAVEDATA_GetKeyByte, MISC_SAVEDATA_AddKeyByte, MISC_SAVEDATA_GetKey, MISC_SAVEDATA_SetKey, MISC_SAVEDATA_SetKeyField, MISC_SAVEDATA_FindKey, MISC_SAVEDATA_GetMacStructSize, MISC_SAVEDATA_InitMacAndStats, MISC_SAVEDATA_GetBlock3C, MISC_SAVEDATA_GetStatsBase, MISC_SAVEDATA_GetStatsBase2, MISC_SAVEDATA_GetRecordBase, MISC_SAVEDATA_GetRingBlockSize, MISC_SAVEDATA_GetRecordSize, MISC_SAVEDATA_ClearRingBlock, MISC_SAVEDATA_InitRecord, MISC_SAVEDATA_SnapshotParty, MISC_SAVEDATA_AppendPartyRecord, MISC_SAVEDATA_FindFreeRecordSlot, MISC_SAVEDATA_ExportRecord, MISC_SAVEDATA_GetRecordDate, MISC_SAVEDATA_GetRingIndex, MISC_SAVEDATA_GetRingRemaining, MISC_SAVEDATA_GetRingRecordIndex, MISC_SAVEDATA_ExportRingRecord, MISC_SAVEDATA_GetRingRecordDate, MISC_SAVEDATA_GetShortBlockSize, MISC_SAVEDATA_InitShortBlock, MISC_SAVEDATA_GetBlock44, MISC_SAVEDATA_InsertRecentValue, MISC_SAVEDATA_ContainsRecentValue, MISC_SAVEDATA_TestBitmapBit, MISC_SAVEDATA_SetBitmapBit
+ * function: SAVEDATA_GetExtraBlockThunk, SAVEDATA_GetExtraBlock, MISC_SAVEDATA_CopyQuadRecord, MISC_SAVEDATA_StoreQuadRecord, MISC_SAVEDATA_GetMonEntrySize, MISC_SAVEDATA_ClearMonEntry, MISC_SAVEDATA_GetMonEntryFlag, MISC_SAVEDATA_GetMonEntryLevel, MISC_SAVEDATA_IsMonEntrySet, MISC_SAVEDATA_GetMonEntryTag, MISC_SAVEDATA_GetMonEntryCost, MISC_SAVEDATA_GetMonEntryPid, MISC_SAVEDATA_GetMonEntryName, MISC_SAVEDATA_GetMonEntryExperience, MISC_SAVEDATA_FillMonEntry, MISC_SAVEDATA_GetSmallEntrySize, MISC_SAVEDATA_ClearSmallEntry, MISC_SAVEDATA_SaveScratch16, MISC_SAVEDATA_LoadScratch16, MISC_SAVEDATA_GetBigBlockSize, MISC_SAVEDATA_ClearBigBlock, MISC_SAVEDATA_EmptyHook, MISC_SAVEDATA_GetScratchBase, MISC_SAVEDATA_GetFlags6200, MISC_SAVEDATA_SetFlags6200, MISC_SAVEDATA_GetMacSize, MISC_SAVEDATA_ClearMacArea, TRIAL_HOUSE_SAVE_GetFromSave, MISC_SAVEDATA_InitMac, MISC_SAVEDATA_GetKeyByte, MISC_SAVEDATA_AddKeyByte, MISC_SAVEDATA_GetKey, MISC_SAVEDATA_SetKey, MISC_SAVEDATA_SetKeyField, MISC_SAVEDATA_FindKey, MISC_SAVEDATA_GetMacStructSize, MISC_SAVEDATA_InitMacAndStats, MISC_SAVEDATA_GetBlock3C, MISC_SAVEDATA_GetStatsBase, MISC_SAVEDATA_GetStatsBase2, MISC_SAVEDATA_GetRecordBase, MISC_SAVEDATA_GetRingBlockSize, MISC_SAVEDATA_GetRecordSize, MISC_SAVEDATA_ClearRingBlock, MISC_SAVEDATA_InitRecord, MISC_SAVEDATA_SnapshotParty, MISC_SAVEDATA_AppendPartyRecord, MISC_SAVEDATA_FindFreeRecordSlot, MISC_SAVEDATA_ExportRecord, MISC_SAVEDATA_GetRecordDate, MISC_SAVEDATA_GetRingIndex, MISC_SAVEDATA_GetRingRemaining, MISC_SAVEDATA_GetRingRecordIndex, MISC_SAVEDATA_ExportRingRecord, MISC_SAVEDATA_GetRingRecordDate, MISC_SAVEDATA_GetShortBlockSize, MISC_SAVEDATA_InitShortBlock, MET_TRAINERS_GetFromSave, MET_TRAINERS_Insert, MET_TRAINERS_Contains, MISC_SAVEDATA_TestBitmapBit, MISC_SAVEDATA_SetBitmapBit
  * address:  0x0200E6E8
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -250,7 +250,7 @@ u32 MISC_SAVEDATA_GetMacSize(void);
 
 void MISC_SAVEDATA_ClearMacArea(void *dest);
 
-void *MISC_SAVEDATA_GetBlock41(void *sys);
+void *TRIAL_HOUSE_SAVE_GetFromSave(void *sys);
 
 void MISC_SAVEDATA_InitMac(void *obj);
 
@@ -310,11 +310,11 @@ u32 MISC_SAVEDATA_GetShortBlockSize(void);
 
 void MISC_SAVEDATA_InitShortBlock(void *block);
 
-void *MISC_SAVEDATA_GetBlock44(void *p);
+void *MET_TRAINERS_GetFromSave(void *p);
 
-void MISC_SAVEDATA_InsertRecentValue(struct RecentValueSave *l, u32 val);
+void MET_TRAINERS_Insert(struct RecentValueSave *l, u32 val);
 
-int MISC_SAVEDATA_ContainsRecentValue(struct RecentValueSave *l, u32 val);
+int MET_TRAINERS_Contains(struct RecentValueSave *l, u32 val);
 
 int MISC_SAVEDATA_TestBitmapBit(char *obj, int i);
 
@@ -530,7 +530,7 @@ void MISC_SAVEDATA_ClearSmallEntry(void *dst)
  * A whole translation unit, matched as one byte range.
  *
  *           MISC_SAVEDATA_EmptyHook, MISC_SAVEDATA_GetScratchBase, MISC_SAVEDATA_GetFlags6200, MISC_SAVEDATA_SetFlags6200,
- *           MISC_SAVEDATA_GetMacSize, MISC_SAVEDATA_ClearMacArea, MISC_SAVEDATA_GetBlock41, MISC_SAVEDATA_InitMac
+ *           MISC_SAVEDATA_GetMacSize, MISC_SAVEDATA_ClearMacArea, TRIAL_HOUSE_SAVE_GetFromSave, MISC_SAVEDATA_InitMac
  *
  * alias: twelve functions on the same big object as unit_0200E938.c, all
  * working the same field at +0x6200/+0x6204.  MISC_SAVEDATA_SaveScratch16 and MISC_SAVEDATA_LoadScratch16
@@ -542,7 +542,7 @@ void MISC_SAVEDATA_ClearSmallEntry(void *dst)
  * getter/setter on the field at +0x6200; MISC_SAVEDATA_GetMacSize returns the constant
  * 0x5c, which MISC_SAVEDATA_ClearMacArea's tail call to MI_CpuFill8 also uses directly
  * (the same 0x5c constant this compiler would otherwise route through
- * MISC_SAVEDATA_GetMacSize, but the tail call inlines it); MISC_SAVEDATA_GetBlock41 tail calls
+ * MISC_SAVEDATA_GetMacSize, but the tail call inlines it); TRIAL_HOUSE_SAVE_GetFromSave tail calls
  * SAVE_CONTROL_GetBlock(sys, 0x41); MISC_SAVEDATA_InitMac zero-fills a separate 0x5a-byte
  * scratch object and hands it to OS_GetMacAddress.
  *
@@ -613,7 +613,7 @@ void MISC_SAVEDATA_ClearMacArea(void *dest)
     MI_CpuFill8(dest, 0, 0x5c);
 }
 
-void *MISC_SAVEDATA_GetBlock41(void *saveData)
+void *TRIAL_HOUSE_SAVE_GetFromSave(void *saveData)
 {
     return SAVE_CONTROL_GetBlock(saveData, 0x41);
 }
@@ -1076,7 +1076,7 @@ void MISC_SAVEDATA_InitShortBlock(void *block)
     MI_CpuFill8(block, 0, 0xFC);
 }
 
-void *MISC_SAVEDATA_GetBlock44(void *saveData)
+void *MET_TRAINERS_GetFromSave(void *saveData)
 {
     return SAVE_CONTROL_GetBlock(saveData, 0x44);
 }
@@ -1113,7 +1113,7 @@ void *MISC_SAVEDATA_GetBlock44(void *saveData)
  * src/matched/unit_0200EDC4.c for that follower, which this project can
  * reproduce but has not been able to seed in layout/function_starts.txt.
  */
-void MISC_SAVEDATA_InsertRecentValue(struct RecentValueSave *list, u32 value)
+void MET_TRAINERS_Insert(struct RecentValueSave *list, u32 value)
 {
     u32 index;
     int shiftCount;
@@ -1146,8 +1146,8 @@ void MISC_SAVEDATA_InsertRecentValue(struct RecentValueSave *list, u32 value)
 /*
  * A whole translation unit, matched as one byte range.
  *
- * The three functions that follow MISC_SAVEDATA_InsertRecentValue (src/matched/
- * MISC_SAVEDATA_InsertRecentValue.c) inside this packet, none of which carries a label in
+ * The three functions that follow MET_TRAINERS_Insert (src/matched/
+ * MET_TRAINERS_Insert.c) inside this packet, none of which carries a label in
  * the generated listing: 0x0200EDC4 saves registers but not lr, and the
  * other two save nothing, so disasm.py's lr-saving prologue sweep never
  * fired on any of them and they print as runs of `.word` (docs/idioms/
@@ -1156,12 +1156,12 @@ void MISC_SAVEDATA_InsertRecentValue(struct RecentValueSave *list, u32 value)
  * just past the end of the range.
  *
  * 0x0200EDC4, 40 bytes, is `contains` on the same 32-entry list
- * MISC_SAVEDATA_InsertRecentValue inserts into, and 0x0200EDEC / 0x0200EE14 are the
+ * MET_TRAINERS_Insert inserts into, and 0x0200EDEC / 0x0200EE14 are the
  * get-bit and set-bit pair of a 256-bit bitmap at +0x84 of the same
  * object, both written with a signed index (`/ 32` and `% 32`, which is
  * what the `asrs`/`rors` pair is).
  */
-int MISC_SAVEDATA_ContainsRecentValue(struct RecentValueSave *list, u32 value)
+int MET_TRAINERS_Contains(struct RecentValueSave *list, u32 value)
 {
     u32 index;
 

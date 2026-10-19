@@ -22,7 +22,7 @@
  * symbols:
  *   ARC_UTIL_LoadHandleMember  0x0204A380  arm
  *   NNS_G2dGetUnpackedScreenData  0x02062B30  arm
- *   BG_SYS_GetField16  0x0204169C  arm
+ *   BG_SYS_GetColorMode  0x0204169C  arm
  *   BG_SYS_GetBuf  0x0204162C  arm
  *   BG_SYS_DrawTileEx  0x020410D0  arm
  *   BG_SYS_FillTileMap  0x020413B0  arm
@@ -36,7 +36,7 @@ typedef unsigned int u32;
 
 extern void *ARC_UTIL_LoadHandleMember(void *a0, u32 a1, u32 a2, u32 a3);
 extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
-extern u8 BG_SYS_GetField16(int channel);
+extern u8 BG_SYS_GetColorMode(int channel);
 extern u32 BG_SYS_GetBuf(int channel);
 extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
@@ -55,7 +55,7 @@ void TOUCHBAR_LoadCharToBg(u32 a0, u32 a1, u32 a2, u32 a3,
     h = ARC_UTIL_LoadHandleMember((void *)a0, a1, k9, (u16)((k10 & 0x7fff) | 0x8000));
     NNS_G2dGetUnpackedScreenData(h, (void **)(&out));
     if (a3 != 0) {
-        if (BG_SYS_GetField16((u8)a2) == 0) {
+        if (BG_SYS_GetColorMode((u8)a2) == 0) {
             arr = (u16 *)(out + 0xc);
             for (i = 0; i < k2 * k3; i++) {
                 arr[i] += a3;

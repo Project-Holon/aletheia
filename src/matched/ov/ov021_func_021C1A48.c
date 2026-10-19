@@ -15,7 +15,7 @@
  *   G3D_CAMERA_SetNear  0x02048B60  arm  arm9
  *   G3D_CAMERA_SetFar  0x02048B6C  arm  arm9
  *   PARTICLE_CreateSystemDefault  0x02050C04  arm  arm9
- *   BUTTON_MAN_GetBlock  0x02051788  arm  arm9
+ *   PARTICLE_EMITTER_GetBlock  0x02051788  arm  arm9
  */
 
 typedef unsigned short u16;
@@ -31,7 +31,7 @@ typedef struct {
 
 extern int PARTICLE_CreateSystemDefault(int a, int b, int c, int d);
 struct Light;
-extern int BUTTON_MAN_GetBlock(char *p);
+extern int PARTICLE_EMITTER_GetBlock(char *p);
 extern void G3D_CAMERA_SetNear(struct Light *l, const u32 *in);
 extern void G3D_CAMERA_SetFar(struct Light *l, const u32 *in);
 
@@ -42,7 +42,7 @@ u32 FLD_PARTICLE_CreateEffect(S *p)
     u32 o;
 
     p->fC = PARTICLE_CreateSystemDefault(p->f8, 0x4800, 1, p->f4);
-    o = BUTTON_MAN_GetBlock((char *)p->fC);
+    o = PARTICLE_EMITTER_GetBlock((char *)p->fC);
     a = 1 << 12;
     b = 0x384000;
     G3D_CAMERA_SetNear((struct Light *)o, &a);

@@ -21,7 +21,7 @@
  *   OS_WaitVBlankIntr  0x02087AE4  arm
  *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   GX_SetBankForBG  0x0207FDCC  arm
- *   BG_SYS_SetVisibleLayer  0x0204047C  arm
+ *   BG_SYS_SetPriority  0x0204047C  arm
  *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   SYMBOL_MAP_StartBg2Scale  0x02166B0C  thumb  ov010
  *   sCaptureDispConfig     0x021D9F50  data  ov021  a4
@@ -176,7 +176,7 @@ extern void GX_SetBankForLCDC(u32 vramBanks);
 extern void OS_WaitVBlankIntr(void);
 extern void BG_SYS_SetGraphicsMode(const DispConfig *config);
 extern void GX_SetBankForBG(u32 vramBanks);
-extern void BG_SYS_SetVisibleLayer(int index, unsigned short value);
+extern void BG_SYS_SetPriority(int index, unsigned short value);
 extern void BG_SYS_SetPlaneVisible(unsigned char plane, unsigned char enable);
 extern void SYMBOL_MAP_StartBg2Scale(void);
 extern void FIELDMAP_SetUpdateStopped(FieldMap *fieldMap, int stopped);
@@ -696,7 +696,7 @@ int EVENT_FIELDMAP_CONTROL_RunDefaultFadeOut(GameEvent *event, int *seq, FieldFa
         BG_SYS_SetGraphicsMode(&dispConfig);
         REG_BG2CNT = 0x4084 | (REG_BG2CNT & 0x43);
         GX_SetBankForBG(8);
-        BG_SYS_SetVisibleLayer(2, 0);
+        BG_SYS_SetPriority(2, 0);
         BG_SYS_SetPlaneVisible(2, 1);
         SYMBOL_MAP_StartBg2Scale();
         return EVENT_FIELDMAP_CONTROL_FINISHED;
@@ -716,8 +716,8 @@ int EVENT_FIELDMAP_CONTROL_RunDefaultFadeIn(GameEvent *event, int *seq, FieldFad
     case DEFAULT_FADE_IN_STEP_START:
         FIELDMAP_SetUpdateStopped(work->fieldMap, 1);
         work->blendStep = FADE_LEVEL_MAX;
-        BG_SYS_SetVisibleLayer(2, 0);
-        BG_SYS_SetVisibleLayer(0, 1);
+        BG_SYS_SetPriority(2, 0);
+        BG_SYS_SetPriority(0, 1);
         BG_SYS_SetPlaneVisible(0, 1);
         G2x_SetBlendAlpha_(REG_BLDCNT_ADDR, 4, 1, work->blendStep, 0);
         FADE_Start(work->fadeKind, FADE_LEVEL_MAX, 0, FADE_SPEED_DEFAULT);

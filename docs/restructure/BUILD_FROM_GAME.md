@@ -369,3 +369,67 @@ and its overlays, the SDK and library objects that are not restructured (the ARM
 ranges without a src/game file), the autoload info table and the DTCM/TWL blocks
 that have no TU yet. They are listed from `layout/layout.json` and bound into the
 final image by `ndsrom.py build --override`, as `build.py --pack` already does.
+
+## Whole ROM from source (2026-10-19, lane R1)
+
+    python tools/romlink.py                  # reuse the region links in build/, pack, build, compare
+    python tools/romlink.py --relink         # redo every region link first (about 15 minutes)
+    python tools/romlink.py --image-fallback # a region without a usable link keeps its image bytes (listed)
+
+Output: `build/rom/aletheia.nds`, `build/rom/report.json`, `build/rom/pack/` (the BLZ
+containers), `build/rom/arm9_dec_romlink.bin`. Nothing goes to src/ or to a tracked file.
+
+Result: the ROM built from src/game is byte-identical to the user's original,
+SHA-1 `26ad0b9967aa279c4a266ee69f52b9b2332399a5` on both sides (268,435,456 bytes); no file differs.
+
+What `tools/romlink.py` does:
+
+1. Region links. Each region comes from its data-mode link (`gamelink.py ... --data`: overlays
+   through `datamode_all.py`, ARM9 through `arm9data.py` + `gamelink.py arm9_main --data`).
+   Every complete `gamelink.py` run now writes `ov.json` next to `ov.bin`: ok, the SHA-1 of
+   `ov.bin`, and the ranges that came from the image (`gaps`, `standin`). Without `--relink` the
+   tool reuses `ov.bin` only if `ov.json` says ok and matches the SHA-1; it notes a region
+   whose sources are newer than the link.
+2. ITCM. The block has 0x20 zero bytes before its first function and ends at a multiple of 32
+   after the last. That is linker alignment, not data: a first link leaves the two ranges as
+   gaps, `romlink.py` writes them as two zero arrays (`build/datac/itcm/itcm_pad_N.c`), and the
+   second link has no gap. ITCM now links with no image bytes.
+3. The 2 zero bytes after a Thumb file (next item at a multiple of 4) are made by the linker
+   (`ALIGN(4)`) in every overlay now (`pad_ok` was ARM9 only): 160 two-byte image gaps are gone.
+4. Pieces with no src/game file, compiled with the game compiler (dsi/1.1p1 `-O4,p`) from C
+   written to `build/datac/autoload/`: the autoload table (64 bytes: for each of the 4 blocks
+   the address, size, static initialiser start and bss size, all from `layout.json`) and the
+   three small autoload blocks (MAIN_TWL 160 and 32 bytes, VRAM_LCDC 32 bytes: data words read
+   from the extract). `SDK_COMPRESSED_STATIC_END` and the build info stay as `pack_arm9` sets
+   them.
+5. The 57 overlays with no code are `code_size` zero bytes from `layout.json`; the compressor
+   gives the 20-byte files of the original.
+6. `arm9_dec.bin` = static module + ITCM + the three blocks + table (681,920 bytes), BLZ with
+   `build.py pack_arm9` (one pass, container identical to `extract/arm9.bin`); every compressed
+   overlay with the same compressor; then `ndsrom.py build extract --override build/rom/pack`.
+7. Comparison with the ROM at the manifest `rom_path`: SHA-1, per file what differs, and the
+   list below.
+
+#### Bytes of the final ROM that do not come from src/game
+
+| what | bytes | why |
+| --- | --- | --- |
+| game data files (`data/`, 247 files, the NARC archives) | 198,008,820 | assets, the asset lane's area |
+| `digest_sector.bin`, `digest_block.bin` (DSi digests) | 3,936,000 + 123,000 | hashes of the other content |
+| `arm7i.bin`, `arm7.bin` | 291,064 + 167,812 | ARM7 and its DSi twin, no source |
+| `arm9i.bin` (the DSi `twl` block) | 77,604 | modcrypt, never in the denominator |
+| `header.bin`, `header_ext.bin`, `residue/0000.bin` | 4,096 + 12,288 + 12,288 | cartridge header and its extension |
+| `banner.bin`, `y9.bin` (overlay table), `fat.bin`, `fnt.bin` | 9,152 + 7,584 + 3,872 + 1,040 | banner, overlay table, file system |
+| ARM9 secure area, 18 ranges between the SVC thunks (0x02004000..0x02004800) | 1,980 | opaque bytes, binary from the dump |
+| ov230 code with no C yet: 0x02187F00 (2,736), 0x021889BC (40), 0x02188B48 (3,600) | 6,376 | loader code and its pointer table |
+
+Generated at build time from the user's own extract, then compiled as C (not committed, not in
+src/game): the data tails of the 180 code overlays and of the ARM9 static module (369,354 bytes in
+181 regions; `datagen.py companions`, `arm9data.py`), the 288 bytes of step 4, the 1,824
+zero bytes of step 5. These are C, but their values come from the dump, not from src/game.
+Everything else in the ARM9 static module, ITCM and the 180 code overlays is linked from src/game
+files (621 ARM9 files at the last run, the ITCM files, the overlay files).
+
+Left: the 1,980 secure-area bytes and the 6,376 ov230 bytes as C or source; the prebuilt files
+above (the overlay table `y9.bin` and the header could be generated from `layout.json`); the data
+tails still come from companions made from the dump, not from hand-written data in src/game.

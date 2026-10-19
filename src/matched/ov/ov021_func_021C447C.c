@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   FILE_UTIL_Check1288  0x02021288  thumb
+ *   FILE_UTIL_IsMachineItem  0x02021288  thumb
  *   POKE_PERSONAL_Create  0x0201ADE4  thumb
  *   FILE_UTIL_GetId  0x0202130C  thumb
  *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
@@ -18,7 +18,7 @@
 
 typedef unsigned int u32;
 
-extern u32 FILE_UTIL_Check1288(u32 a);
+extern u32 FILE_UTIL_IsMachineItem(u32 a);
 extern void *POKE_PERSONAL_Create(u32 species, int form, u32 heap);
 extern u32 FILE_UTIL_GetId(u32 a);
 struct Personal;
@@ -31,7 +31,7 @@ int SODATEYA_CanLearnTm(u32 a, u32 b, u32 c, u32 d)
 
     if (b >= 0x289)
         return 0;
-    if (FILE_UTIL_Check1288(d) == 0)
+    if (FILE_UTIL_IsMachineItem(d) == 0)
         return 0;
     x = (u32)POKE_PERSONAL_Create(b, c, a);
     y = FILE_UTIL_GetId(d);

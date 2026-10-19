@@ -18,7 +18,7 @@
  *   MYSTERY_UTIL_DeleteMenu 0x021DA148 thumb ov121
  *   MYSTERY_UTIL_DeleteMenuWindow 0x021D9E04 thumb ov121
  *   MYSTERY_ALBUM_RemoveCard 0x021DBC08 thumb ov121
- *   MYSTERY_ALBUM_UpdateSlots 0x021DB528 thumb ov121
+ *   MYSTERY_ALBUM_DeleteSlotActors 0x021DB528 thumb ov121
  *   MYSTERY_ALBUM_SetCursor 0x021DB478 thumb ov121
  *   MYSTERY_UTIL_ClearListWindow 0x021DA2F0 thumb ov121
  *   MYSTERY_UTIL_SetTaskHandler 0x021DA8B0 thumb ov121
@@ -43,7 +43,7 @@ extern void MYSTERY_UTIL_DeleteMenu(u8 *p);
 extern void MYSTERY_UTIL_DeleteMenuWindow(u8 *);
 struct Obj;
 extern void MYSTERY_ALBUM_RemoveCard(struct Obj *o, int idx);
-extern void MYSTERY_ALBUM_UpdateSlots(char *,int);
+extern void MYSTERY_ALBUM_DeleteSlotActors(char *,int);
 extern void MYSTERY_ALBUM_SetCursor(char *,int,int,int,u16);
 extern void MYSTERY_UTIL_ClearListWindow(u8 *p, u32 i);
 extern void MYSTERY_UTIL_SetTaskHandler(u32 *p, u32 a);
@@ -116,7 +116,7 @@ void MYSTERY_ALBUM_InfoHandler(void *task,u32 *state,char *p)
         break;
     case 5:
         MYSTERY_ALBUM_RemoveCard((struct Obj *)p, index);
-        MYSTERY_ALBUM_UpdateSlots(p,1);
+        MYSTERY_ALBUM_DeleteSlotActors(p,1);
         MYSTERY_ALBUM_SetCursor(p,1,0,W(0xac8),H(36));
         W(0xa78)=1;*state=6;break;
     case 6:

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "MB_PARENT_SYS_CheckRequest",
+   "name": "MB_PARENT_SYS_AcceptRequest",
    "address": "0x021F08E4",
    "kind": "game",
    "region": "ov107",

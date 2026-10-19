@@ -34,7 +34,7 @@
  *   BTLV_EFFECT_GaugeSelectSlot  0x021F81EC  thumb
  *   BTLV_EFFECT_StartIntroEffect  0x021F8A78  thumb
  *   BTLV_INPUT_ChangeScreen  0x0220270C  thumb
- *   BTLV_INPUT_GetPendingResult  0x022033F0  thumb
+ *   BTLV_INPUT_GetScreen  0x022033F0  thumb
  *   BTLV_INPUT_IsInputBlocked  0x022033CC  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   MIi_CpuClear16  0x02082A48  arm
@@ -73,7 +73,7 @@
  *   gBtlvScdActionRegionsA  0x0689D8D4  data  ov095
  *   gBtlvScdActionRegionsB  0x0689DF64  data  ov095
  *   gBtlvScdActionButtonByRegion  0x0689D828  data  ov095
- *   BTLV_INPUT_GetScreenButtonTable  0x02203040  thumb
+ *   BTLV_INPUT_StepFingerDemo  0x02203040  thumb
  *   BTL_POKEPARAM_GetMoveCount  0x021D5448  thumb
  *   BTL_POKEPARAM_GetMovePP  0x021D5528  thumb
  *   BTL_POKEPARAM_IsTransformed  0x021D6D54  thumb
@@ -125,10 +125,10 @@ extern int BTLV_INPUT_IsScreenBusy(struct BtlvInput *input);
 extern void BTLV_INPUT_StartPaletteFadeTask(struct BtlvInput *input, u32 mode);
 extern void BTLV_INPUT_ChangeScreen(struct BtlvInput *input, int screen, void *payload);
 extern int BTLV_INPUT_ProcessTouchInput(struct BtlvInput *input, const void *regionsA, const void *regionsB);
-extern int BTLV_INPUT_GetScreenButtonTable(struct BtlvInput *input);
+extern int BTLV_INPUT_StepFingerDemo(struct BtlvInput *input);
 extern int BTLV_INPUT_ProcessKeyInput(struct BtlvInput *input, u8 *outKey, u32 *outValue);
 extern int BTLV_INPUT_IsInputBlocked(struct BtlvInput *input);
-extern int BTLV_INPUT_GetPendingResult(struct BtlvInput *input);
+extern int BTLV_INPUT_GetScreen(struct BtlvInput *input);
 
 /* Services of the battle viewer effects (ov094). */
 extern int BTLV_EFFECT_GetPalanm(void);
@@ -358,7 +358,7 @@ void BTLV_SCD_Nop(BtlvAuxView *view)
 /* Closes the input screen when the input module reports it open. */
 void BTLV_SCD_CloseInputIfOpen(BtlvAuxView *view)
 {
-    if (BTLV_INPUT_GetPendingResult(view->input) != 0)
+    if (BTLV_INPUT_GetScreen(view->input) != 0)
         BTLV_SCD_CloseInput(view);
 }
 
@@ -692,7 +692,7 @@ int BTLV_SCD_WaitBackTouchStep(int *state, BtlvAuxView *view)
 {
     int touched;
 
-    touched = BTLV_INPUT_GetScreenButtonTable(view->input);
+    touched = BTLV_INPUT_StepFingerDemo(view->input);
     if (touched == 1) {
         view->result = 1;
     }

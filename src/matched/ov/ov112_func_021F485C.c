@@ -1,5 +1,5 @@
 /*
- * function: MUSICAL_MCSS_OpenMenu
+ * function: MUSICAL_SHOT_INFO_OpenYesNoMenu
  * address: 0x021F485C
  * packet: pkt_ov112_021F485C
  * region: ov112
@@ -25,7 +25,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *arg1);
 struct U16Vec;
 extern void STRBUF_Delete(struct U16Vec *vec);
-void MUSICAL_MCSS_OpenMenu(u8 *p)
+void MUSICAL_SHOT_INFO_OpenYesNoMenu(u8 *p)
 {
     Item items[2];
     Menu menu;

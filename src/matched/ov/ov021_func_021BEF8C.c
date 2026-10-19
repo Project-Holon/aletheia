@@ -11,7 +11,7 @@
  *
  * symbols:
  *   FIELDMAP_SetUpdateStopped  0x02189A58  thumb  ov021
- *   BG_SYS_SetVisibleLayer  0x0204047C  arm
+ *   BG_SYS_SetPriority  0x0204047C  arm
  *   func_02040588  0x02040588  arm
  *   func_0207D63C  0x0207D63C  arm
  *   FADE_Start  0x0204E720  arm
@@ -34,7 +34,7 @@ typedef unsigned int   u32;
 
 extern void FIELDMAP_SetUpdateStopped(u8 *p, u32 v);
 typedef signed int     s32;
-extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+extern void BG_SYS_SetPriority(int idx, unsigned short val);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0207D63C(int a, int b, int c, int d, int e);
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
@@ -57,8 +57,8 @@ int EVENT_FIELDMAP_CONTROL_RunDefaultFadeIn(u32 p0, int *st, u8 *q)
     case 0:
         FIELDMAP_SetUpdateStopped((u8 *)(((struct Obj01504 *)q)->f4), 1);
         ((struct Obj01504 *)q)->f1C = 0x10;
-        BG_SYS_SetVisibleLayer(2, 0);
-        BG_SYS_SetVisibleLayer(0, 1);
+        BG_SYS_SetPriority(2, 0);
+        BG_SYS_SetPriority(0, 1);
         func_02040588(0, 1);
         func_0207D63C(0x04000050, 4, 1, ((struct Obj01504 *)q)->f1C, 0);
         FADE_Start(((struct Obj01504 *)q)->fC, 0x10, 0, -1);

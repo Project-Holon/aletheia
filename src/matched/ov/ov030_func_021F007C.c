@@ -11,7 +11,7 @@
  * (followed by an unlabelled 2-byte `bx lr` stub at 0x021F00C4)
  *
  * symbols:
- *   BG_SYS_DeleteHalf  0x0203FB44  arm
+ *   BG_SYS_FreeTileRun  0x0203FB44  arm
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   func_02040588  0x02040588  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
@@ -22,7 +22,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 a, u32 b);
@@ -31,7 +31,7 @@ void NO_GEAR_ReleaseGraphics(char *p)
 {
     u32 v = ((struct Obj20401 *)p)->f14;
 
-    BG_SYS_DeleteHalf(6, (u16)v, (u16)(v >> 16));
+    BG_SYS_FreeTileRun(6, (u16)v, (u16)(v >> 16));
     BG_SYS_FreeLayerBuf(4);
     BG_SYS_FreeLayerBuf(5);
     BG_SYS_FreeLayerBuf(6);

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BOX2_MAIN_Check0E50",
+   "name": "BOX2_MAIN_StateMachineHideHandScroll",
    "address": "0x021E0E50",
    "kind": "game",
    "region": "ov170",

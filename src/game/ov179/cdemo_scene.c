@@ -1,7 +1,7 @@
 /*
  * file:     cdemo_scene.c
  * unit:     yes
- * function: CDEMO_SCENE_Create, CDEMO_SCENE_Destroy, CDEMO_SCENE_GetResult, CDEMO_SCENE_ReturnThree, CDEMO_SCENE_RunCommands, CDEMO_SCENE_Step, CDEMO_SCENE_LoadScreenBlock, CDEMO_SCENE_DispatchCommand, CDEMO_SCENE_CmdCount, CDEMO_SCENE_CmdStartWipe0, CDEMO_SCENE_CmdStartWipe1, CDEMO_SCENE_CmdStartWipe2, CDEMO_SCENE_CmdStartWipe3, CDEMO_SCENE_CmdSetDone, CDEMO_SCENE_CmdLoadBg, CDEMO_SCENE_CmdSetVram, CDEMO_SCENE_CmdSetBg, CDEMO_SCENE_CmdSetBlend, CDEMO_SCENE_CmdSetBlend2, CDEMO_SCENE_CmdResetBlend, CDEMO_SCENE_CmdNoop0, CDEMO_SCENE_CmdStopBgm, CDEMO_SCENE_CmdPlayFanfare, CDEMO_SCENE_CmdNoop1, CDEMO_SCENE_CmdNoop2, CDEMO_SCENE_CmdNoop3, CDEMO_SCENE_CmdReset, CDEMO_SCENE_CmdNoop4
+ * function: CDEMO_SCENE_Create, CDEMO_SCENE_Destroy, CDEMO_SCENE_GetResult, CDEMO_SCENE_ReturnThree, CDEMO_SCENE_RunCommands, CDEMO_SCENE_Step, CDEMO_SCENE_LoadScreenBlock, CDEMO_SCENE_DispatchCommand, CDEMO_SCENE_CmdCount, CDEMO_SCENE_CmdStartWipe0, CDEMO_SCENE_CmdStartWipe1, CDEMO_SCENE_CmdStartWipe2, CDEMO_SCENE_CmdStartWipe3, CDEMO_SCENE_CmdSetDone, CDEMO_SCENE_CmdLoadBg, CDEMO_SCENE_CmdSetPlaneVisible, CDEMO_SCENE_CmdSetLayerVisible, CDEMO_SCENE_CmdSetBlend, CDEMO_SCENE_CmdSetBlend2, CDEMO_SCENE_CmdResetBlend, CDEMO_SCENE_CmdNoop0, CDEMO_SCENE_CmdStopBgm, CDEMO_SCENE_CmdPlayFanfare, CDEMO_SCENE_CmdNoop1, CDEMO_SCENE_CmdNoop2, CDEMO_SCENE_CmdNoop3, CDEMO_SCENE_CmdReset, CDEMO_SCENE_CmdNoop4
  * address:  0x021B63D4
  * region:   ov179
  * compiler: dsi/1.1p1
@@ -31,7 +31,7 @@
  *   CDEMO_MAIN_Noop 0x021B6248 thumb ov179
  *   CDEMO_MAIN_HidePlane 0x021B6220 thumb ov179
  *   OS_GetTick  0x020870D0  arm
- *   BG_SYS_SetVisibleLayer  0x0204047C  arm
+ *   BG_SYS_SetPriority  0x0204047C  arm
  *   data_021B6A1C  0x021B6A1C  data  ov179
  *   _ull_mul       0x0209C054  arm
  *   _ll_udiv       0x0209C00C  arm
@@ -87,7 +87,7 @@ extern void ARC_TOOL_DeleteHandle(void *);
 extern void CDEMO_MAIN_Noop(char *);
 extern void CDEMO_MAIN_HidePlane(void);
 extern u64 OS_GetTick(void);
-extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+extern void BG_SYS_SetPriority(int idx, unsigned short val);
 extern void *ARC_UTIL_LoadHandleMember(void *narc, u32 fileID, u32 decompress, u32 heapID);
 extern void DC_FlushRange(int, int);
 extern void GX_LoadBG2Scr(int, int, int);
@@ -116,8 +116,8 @@ int CDEMO_SCENE_CmdStartWipe2(int a, int *q);
 int CDEMO_SCENE_CmdStartWipe3(int a, int *q);
 int CDEMO_SCENE_CmdSetDone(char *p);
 int CDEMO_SCENE_CmdLoadBg(char *p,const int *q);
-int CDEMO_SCENE_CmdSetVram(int a, int *q);
-int CDEMO_SCENE_CmdSetBg(int a, int *q);
+int CDEMO_SCENE_CmdSetPlaneVisible(int a, int *q);
+int CDEMO_SCENE_CmdSetLayerVisible(int a, int *q);
 int CDEMO_SCENE_CmdSetBlend(char *p, int *q);
 int CDEMO_SCENE_CmdSetBlend2(char *p, int *q);
 int CDEMO_SCENE_CmdResetBlend(char *p);
@@ -211,13 +211,13 @@ int CDEMO_SCENE_Step(char *p)
         (((struct CdemoState *)p)->step)++;
         CDEMO_SCENE_LoadScreenBlock(((struct CdemoState *)p)->arcHandle, ((struct CdemoState *)p)->step, e->destOffset, e->size, 1);
         (((struct CdemoState *)p)->step)++;
-        BG_SYS_SetVisibleLayer((u8)2, (u8)0);
-        BG_SYS_SetVisibleLayer((u8)3, (u8)1);
+        BG_SYS_SetPriority((u8)2, (u8)0);
+        BG_SYS_SetPriority((u8)3, (u8)1);
         ((struct CdemoState *)p)->state = 1;
         break;
     case 1:
-        BG_SYS_SetVisibleLayer((u8)((((struct CdemoState *)p)->flip ^ 1) + 2), (u8)0);
-        BG_SYS_SetVisibleLayer((u8)(((struct CdemoState *)p)->flip + 2), (u8)1);
+        BG_SYS_SetPriority((u8)((((struct CdemoState *)p)->flip ^ 1) + 2), (u8)0);
+        BG_SYS_SetPriority((u8)(((struct CdemoState *)p)->flip + 2), (u8)1);
         CDEMO_SCENE_LoadScreenBlock(((struct CdemoState *)p)->arcHandle, ((struct CdemoState *)p)->step, e->destOffset, e->size, ((struct CdemoState *)p)->flip);
         (((struct CdemoState *)p)->step)++;
         if (((struct CdemoState *)p)->step >= e->blockCount) {
@@ -227,8 +227,8 @@ int CDEMO_SCENE_Step(char *p)
         }
         break;
     case 2:
-        BG_SYS_SetVisibleLayer((u8)(((struct CdemoState *)p)->flip + 2), (u8)0);
-        BG_SYS_SetVisibleLayer((u8)((((struct CdemoState *)p)->flip ^ 1) + 2), (u8)1);
+        BG_SYS_SetPriority((u8)(((struct CdemoState *)p)->flip + 2), (u8)0);
+        BG_SYS_SetPriority((u8)((((struct CdemoState *)p)->flip ^ 1) + 2), (u8)1);
         ((struct CdemoState *)p)->state = 3;
         break;
     case 3:
@@ -322,7 +322,7 @@ int CDEMO_SCENE_CmdLoadBg(char *p,const int *q) {
 
 
 
-int CDEMO_SCENE_CmdSetVram(int a, int *q)
+int CDEMO_SCENE_CmdSetPlaneVisible(int a, int *q)
 {
     BG_SYS_SetPlaneVisible((unsigned char)q[1],
                   (unsigned char)q[2]);
@@ -331,9 +331,9 @@ int CDEMO_SCENE_CmdSetVram(int a, int *q)
 
 
 
-int CDEMO_SCENE_CmdSetBg(int a, int *q)
+int CDEMO_SCENE_CmdSetLayerVisible(int a, int *q)
 {
-    BG_SYS_SetVisibleLayer((unsigned char)q[1],
+    BG_SYS_SetPriority((unsigned char)q[1],
                   (unsigned char)q[2]);
     return 1;
 }

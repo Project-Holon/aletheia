@@ -1,5 +1,5 @@
 /*
- * function: CURSOR_MOVE_DeleteVecSet
+ * function: GAME_COMM_Delete
  * address:  0x02026250
  * packet:   pkt_02025C44
  * region:   arm9
@@ -27,7 +27,7 @@ struct Item {
     void *vec2;
 };
 
-void CURSOR_MOVE_DeleteVecSet(void *obj)
+void GAME_COMM_Delete(void *obj)
 {
     struct Item *items = (struct Item *)((u8 *)obj + 0x3c);
     int i;

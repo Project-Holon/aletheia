@@ -15,7 +15,7 @@
  *   OEKAKI_PrintMessage  0x021861C4  thumb  ov023
  *   OEKAKI_CloseMenuIfOpen  0x02186480  thumb  ov023
  *   OEKAKI_SetNextScene  0x02186444  thumb  ov023
- *   OEKAKI_NotifyHostSync  0x02186304  thumb  ov023
+ *   OEKAKI_HostOpenGroupLimited  0x02186304  thumb  ov023
  *   OEKAKI_GetJoinedCount  0x0218654C  thumb  ov023
  *   OEKAKI_ApplyRemoteStrokes  0x02185354  thumb  ov023
  */
@@ -29,7 +29,7 @@ typedef unsigned char  u8;
 extern void OEKAKI_PrintMessage(u8 *w, u32 msg, int mode);
 extern void OEKAKI_CloseMenuIfOpen(char *p);
 extern void OEKAKI_SetNextScene(char *p, u32 v);
-extern void OEKAKI_NotifyHostSync(char *p, int a);
+extern void OEKAKI_HostOpenGroupLimited(char *p, int a);
 extern int  OEKAKI_GetJoinedCount(char *p);
 extern void OEKAKI_ApplyRemoteStrokes(char *p);
 
@@ -40,7 +40,7 @@ int OEKAKI_StepShowSyncMessage(char *p, int a1)
     OEKAKI_SetNextScene(p, 0x19);
     GFL_USE_PlaySeDefaultVolume(0x54c);
     if (GFL_NET_SYSTEM_GetCurrentAid() == 0)
-        OEKAKI_NotifyHostSync(p, 0);
+        OEKAKI_HostOpenGroupLimited(p, 0);
     ((struct Obj00336 *)p)->f927C = OEKAKI_GetJoinedCount(p);
     OEKAKI_ApplyRemoteStrokes(p);
     return a1;

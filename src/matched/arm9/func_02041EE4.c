@@ -1,5 +1,5 @@
 /*
- * function: BG_SYS_ResetSlot
+ * function: BG_SYS_ChangeScroll
  * address:  0x02041EE4
  * packet:   pkt_02041B94
  * region:   arm9
@@ -28,8 +28,8 @@
  * shift is done in int width first.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/BG_SYS_ResetSlot.c \
- *       --func BG_SYS_ResetSlot --addr 0x02041EE4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_ChangeScroll.c \
+ *       --func BG_SYS_ChangeScroll --addr 0x02041EE4 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -51,7 +51,7 @@ extern struct Mod02041EE4 *g_02146A44;
 struct Obj;
 extern void BG_SYS_SetScrollField(struct Obj *p, u32 op, u32 value);
 
-void BG_SYS_ResetSlot(u32 index, u32 a, u32 b)
+void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b)
 {
     BG_SYS_SetScrollField((struct Obj *)(&g_02146A44->slots[index]), a, b);
     g_02146A44->live |= (u16)(1 << index);

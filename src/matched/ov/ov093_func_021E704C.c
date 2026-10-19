@@ -13,7 +13,7 @@
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093
  *   BTL_POKEPARAM_GetItem  0x021D5B40  thumb  ov093
- *   BTLV_CORE_EventScaleDamage  0x021E8860  thumb  ov093
+ *   HAND_COMMON_EventScaleDamage  0x021E8860  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -24,12 +24,12 @@ extern int BTL_EVENT_GetVar(int key);
 struct QI;
 extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern u16 BTL_POKEPARAM_GetItem(struct QI *p);
-extern void BTLV_CORE_EventScaleDamage(int n);
+extern void HAND_COMMON_EventScaleDamage(int n);
 
 void HAND_WAZA_AcrobaticsDoublePowerWithoutItem(int a, void *b, int c)
 {
     if (c == BTL_EVENT_GetVar(3)) {
         if (BTL_POKEPARAM_GetItem(BTL_SERVER_FLOW_GetPokeParam(b, c)) == 0)
-            BTLV_CORE_EventScaleDamage(2);
+            HAND_COMMON_EventScaleDamage(2);
     }
 }

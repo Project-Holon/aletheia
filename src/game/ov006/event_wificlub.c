@@ -64,7 +64,7 @@
  *   RINGTONE_SYS_RegisterSleepCallbacks 0x02029F6C thumb
  *   FIELD_STATUS_CreateFieldOpenEvent 0x020145CC thumb
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
- *   GAME_DATA_GetField1A0 0x0201283C thumb
+ *   GAME_DATA_GetWifiList 0x0201283C thumb
  *   BTL_SETUP_Delete 0x020130B4 thumb
  *   BTL_SETUP_Create 0x02013090 thumb
  *   GAME_EVENT_CallProc 0x02012444 thumb
@@ -193,7 +193,7 @@ extern void PROCSYS_Push(void *task, u32 overlayId, u32 procData, u32 param);
 extern u32 PROCSYS_Main(void *task);
 extern void PROCSYS_Delete(void *task);
 extern u32 GFL_NET_ERR_ShowScreen(u32 isFatal);
-extern u32 GAME_DATA_GetField1A0(const struct GameData *gameData);
+extern u32 GAME_DATA_GetWifiList(const struct GameData *gameData);
 extern u32 WIFILIST_CountFriends(void *battleRecord);
 extern int GF_OVERLAY_Load(int overlayId);
 extern void GF_OVERLAY_Unload(int overlayId);
@@ -477,7 +477,7 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
         if (PROCSYS_Main(work->loginTask)) { GFL_NET_ERR_ShowScreen(0); return 0; }
         PROCSYS_Delete(work->loginTask);
         if (!work->login.result) {
-            if (!WIFILIST_CountFriends((void *)GAME_DATA_GetField1A0(work->paramGameData))) *seq = 30;
+            if (!WIFILIST_CountFriends((void *)GAME_DATA_GetWifiList(work->paramGameData))) *seq = 30;
             else { *seq = 11; GFL_USE_FadeOutBgm(6); }
         } else { GFL_USE_FadeOutBgm(6); *seq = 25; }
         break;
@@ -574,9 +574,9 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
     case 17:
         if (!GFL_NET_GetRunState()) goto cleanup;
         if (work->matchOutcome == 0)
-            WIFILIST_AddFriendBattleRecord((void *)GAME_DATA_GetField1A0(GAMESYSTEM_GetGameData(work->gameSystem)), work->session->ruleId - 1, 1, 0, 0);
+            WIFILIST_AddFriendBattleRecord((void *)GAME_DATA_GetWifiList(GAMESYSTEM_GetGameData(work->gameSystem)), work->session->ruleId - 1, 1, 0, 0);
         else if (work->matchOutcome == 1)
-            WIFILIST_AddFriendBattleRecord((void *)GAME_DATA_GetField1A0(GAMESYSTEM_GetGameData(work->gameSystem)), work->session->ruleId - 1, 0, 1, 0);
+            WIFILIST_AddFriendBattleRecord((void *)GAME_DATA_GetWifiList(GAMESYSTEM_GetGameData(work->gameSystem)), work->session->ruleId - 1, 0, 1, 0);
         GFL_NET_COMMAND_DeleteCommandTable(0x100);
         *seq = 11;
         break;
@@ -690,7 +690,7 @@ void EVENT_WIFICLUB_InitWork(void *event, void *gameSystem, int fieldMap, int hi
     work->session->rulesLoaded = 1;
     work->session->rematch = 0;
     work->paramGameData = work->session->gameData;
-    work->battleRecord = GAME_DATA_GetField1A0(work->paramGameData);
+    work->battleRecord = GAME_DATA_GetWifiList(work->paramGameData);
     work->session->menuChoice = 0;
     work->tradeParam.party = work->battleParty = POKEPARTY_Create(0x8004);
     work->self = work;

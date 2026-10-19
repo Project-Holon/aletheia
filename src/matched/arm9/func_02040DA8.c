@@ -1,5 +1,5 @@
 /*
- * function: BG_SYS_SetTileUnit
+ * function: BG_SYS_FreeTiles
  * address:  0x02040DA8
  * packet:   pkt_02040DA8
  * region:   arm9
@@ -27,8 +27,8 @@
  * See docs/families/bg_sys.h.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/BG_SYS_SetTileUnit.c \\
- *       --func BG_SYS_SetTileUnit --addr 0x02040DA8 --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/matched/BG_SYS_FreeTiles.c \\
+ *       --func BG_SYS_FreeTiles --addr 0x02040DA8 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -49,7 +49,7 @@ typedef signed int     s32;
 struct AreaMan;
 extern void AREAMAN_Free(struct AreaMan *p, u32 start, s32 len);
 
-void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile)
+void BG_SYS_FreeTiles(u32 idx, u32 count, u32 tile)
 {
     u32 unit;
 

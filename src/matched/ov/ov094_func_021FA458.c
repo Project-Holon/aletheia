@@ -7,13 +7,13 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * witness: arm9 BUTTON_MAN_GetBlock filed as src/matched/arm9/BUTTON_MAN_GetBlock.c.
+ * witness: arm9 PARTICLE_EMITTER_GetBlock filed as src/matched/arm9/PARTICLE_EMITTER_GetBlock.c.
  * symbols:
  *   VM_GetU32 0x0201134C thumb
  *   func_02030734 0x02030734 arm
  *   func_020307B0 0x020307B0 arm
  *   PARTICLE_InitCamera 0x02051648 arm
- *   BUTTON_MAN_GetBlock 0x02051788 arm
+ *   PARTICLE_EMITTER_GetBlock 0x02051788 arm
  *   BTLV_EFFVM_ResolveParticleKey 0x021FE38C thumb ov094
  *   BTLV_EFFVM_FindEmitterSlot 0x021FD1A8 thumb ov094
  *   BTLV_EFFVM_StartParticleEffectInternal 0x021FDD60 thumb ov094
@@ -35,7 +35,7 @@ extern u32 func_020307B0(void *p);
 struct Dst648;
 struct Src648;
 extern void PARTICLE_InitCamera(struct Dst648 *this, struct Src648 *src, u16 a2, int *a3, int *a4, int *a5, u32 a6);
-extern int BUTTON_MAN_GetBlock(char *p);
+extern int PARTICLE_EMITTER_GetBlock(char *p);
 extern unsigned int BTLV_EFFVM_ResolveParticleKey(char *, unsigned int);
 extern int BTLV_EFFVM_FindEmitterSlot(char *p, int v);
 extern void BTLV_EFFVM_StartParticleEffectInternal(char *, int *, int, int);
@@ -81,7 +81,7 @@ int BTLV_EFFVM_CmdStartParticleEffectTargeted(void *a, char *s)
         desc.v[5] = 0x1000;
         desc.v[6] = 0x200000;
         desc.v[7] = 0x1000;
-        if (BUTTON_MAN_GetBlock(*(void **)(s + 12 + slot * 4)) == 0)
+        if (PARTICLE_EMITTER_GetBlock(*(void **)(s + 12 + slot * 4)) == 0)
             PARTICLE_InitCamera(*(void **)(s + 12 + slot * 4), (struct Src648 *)(&desc), 0x2000, (int *)(&zero), (int *)(&v1), (int *)(&v2), (u16)((((struct Obj00325 *)s)->f238 & 0x7fff) | 0x8000));
         BTLV_EFFVM_StartParticleEffectInternal(s, p, slot, arg);
     }

@@ -1,5 +1,5 @@
 /*
- * function: BOX2_MAIN_Check122C
+ * function: BOX2_MAIN_StateMachineReturnHeld
  * address:  0x021E122C
  * packet:   pkt_ov170_021E122C
  * region:   ov170
@@ -14,9 +14,9 @@
  *   BOX2_SEQ_SetActorAnimSeq 0x021EBFA8 thumb
  *   BOX2_SEQ_SetActorDrawEnable 0x021EC000 thumb
  *   BOX2_SEQ_IsActorAnimActive 0x021EBFEC thumb
- *   BOX2_MAIN_ClearFlagsScene 0x021DE980 thumb
- *   BOX2_MAIN_PlaceMonSceneFromBox 0x021DEA3C thumb
- *   BOX2_MAIN_IsSwapScene 0x021DEAFC thumb
+ *   BOX2_MAIN_StartHandMotionToBoxArrow 0x021DE980 thumb
+ *   BOX2_MAIN_StartHandMotionToBoxSlot 0x021DEA3C thumb
+ *   BOX2_MAIN_StepHandMotionToSlot 0x021DEAFC thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *
  * Callback of BOX2_SEQ_StateMoveItemScroll (state machine in the 021E1324 family): show
@@ -39,14 +39,14 @@ extern void BOX2_SEQ_SetActorAnimSeq(char *w, int i, int v);
 extern void BOX2_SEQ_SetActorDrawEnable(char *w, int i, int v);
 typedef unsigned int   u32;
 extern u32 BOX2_SEQ_IsActorAnimActive(char *p, int i);
-extern void BOX2_MAIN_ClearFlagsScene(unsigned char *p, int mode);
-extern void BOX2_MAIN_PlaceMonSceneFromBox(int a, int b, int c, int d);
-extern int BOX2_MAIN_IsSwapScene(int a);
+extern void BOX2_MAIN_StartHandMotionToBoxArrow(unsigned char *p, int mode);
+extern void BOX2_MAIN_StartHandMotionToBoxSlot(int a, int b, int c, int d);
+extern int BOX2_MAIN_StepHandMotionToSlot(int a);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 
-int BOX2_MAIN_Check122C(unsigned char *p)
+int BOX2_MAIN_StateMachineReturnHeld(unsigned char *p)
 {
     Blk *b = (Blk *)(WORK(p) + 0x58);
     switch (b->state) {
@@ -66,14 +66,14 @@ int BOX2_MAIN_Check122C(unsigned char *p)
         unsigned char old = p[0x16];
         p[0x16] = b->entry->idx;
         if (p[0x17] != 0xFF && p[0x17] != p[0x14])
-            BOX2_MAIN_ClearFlagsScene(p, 2);
+            BOX2_MAIN_StartHandMotionToBoxArrow(p, 2);
         else
-            BOX2_MAIN_PlaceMonSceneFromBox((int)p, old, old, 2);
+            BOX2_MAIN_StartHandMotionToBoxSlot((int)p, old, old, 2);
         b->state = 3;
         break;
     }
     case 3:
-        if (BOX2_MAIN_IsSwapScene((int)p) != 0)
+        if (BOX2_MAIN_StepHandMotionToSlot((int)p) != 0)
             break;
         if (p[0x17] != 0xFF && p[0x17] != p[0x14]) {
             b->state = 5;

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   WORDSET_SetSlotMonName  0x0201EE84  thumb
+ *   WORDSET_SetSlotMonSpeciesName  0x0201EE84  thumb
  *   MSGDATA_AllocString   0x02045EC0  arm
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   BMP_WIN_GetBmp   0x02045770  arm
@@ -34,7 +34,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct WordSet;
-extern void WORDSET_SetSlotMonName(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonSpeciesName(struct WordSet *p, u32 i, void *mon);
 struct Cfg;
 struct CharBuf;
 struct MsgBank;
@@ -57,7 +57,7 @@ void WORLDTRADE_DETAIL_PrintMessage(u8 *p, u32 b, u32 c, u32 d, u32 e, void *sel
     u32 v;
     u32 h;
 
-    WORDSET_SetSlotMonName(((struct Obj00018 *)p)->fB68, 0, (void *)sel);
+    WORDSET_SetSlotMonSpeciesName(((struct Obj00018 *)p)->fB68, 0, (void *)sel);
     v = (u32)MSGDATA_AllocString((struct MsgBank *)(*(u32 *)&((struct Obj00018 *)p)->fB6C), b);
     WORDSET_CopyTaggedText((struct WordSet *)(*(u32 *)&((struct Obj00018 *)p)->fB68), (void *)(((struct Obj00018 *)p)->fB88), (void *)v);
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj00018 *)p)->fD40)), 0xf);

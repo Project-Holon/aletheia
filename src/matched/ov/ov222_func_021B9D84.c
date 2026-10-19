@@ -13,7 +13,7 @@
  *   with other types, byte-offset reads, int locals, pragmas) left the base and the first halfword
  *   in swapped registers (4 B).
  * symbols:
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   d_021BA1D8 0x021BA1D8 data a2
  */
@@ -21,7 +21,7 @@ typedef unsigned char u8;
 typedef signed short s16;
 typedef struct {s16 x,y;} Pt;
 extern char d_021BA1D8[];
-extern void BG_SYS_FillScrollArea(unsigned,unsigned,unsigned);
+extern void BG_SYS_ChangeScrollImmediate(unsigned,unsigned,unsigned);
 typedef unsigned int   u32;
 struct Obj;
 struct Vec2;
@@ -31,8 +31,8 @@ void ZENKOKU_ZUKAN_AWARD_SetupActorPos(char*p)
     Pt pos;
     if(*(int*)(*(char**)(p+4)+4)==0){
         s16 *t;
-        BG_SYS_FillScrollArea(1,3,0x40);
-        BG_SYS_FillScrollArea(2,3,0x40);
+        BG_SYS_ChangeScrollImmediate(1,3,0x40);
+        BG_SYS_ChangeScrollImmediate(2,3,0x40);
         t=(s16*)d_021BA1D8;
         pos.x=t[0];
         pos.y=t[1]-0x40;

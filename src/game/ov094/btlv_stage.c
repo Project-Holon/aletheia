@@ -1,7 +1,7 @@
 /*
  * file:     btlv_stage.c
  * unit:     yes
- * function: BTLV_STAGE_Create, BTLV_STAGE_Delete, BTLV_STAGE_UpdateLayerAnims, BTLV_STAGE_DrawLayers, BTLV_STAGE_InitLayerEntry, BTLV_STAGE_IsEffectActive, BTLV_STAGE_SetLayerEnableMask, BTLV_STAGE_ArmLayerEntry, BTLV_STAGE_IsAnyLayerArmed
+ * function: BTLV_STAGE_Create, BTLV_STAGE_Delete, BTLV_STAGE_UpdateLayerAnims, BTLV_STAGE_DrawLayers, BTLV_STAGE_StartTint, BTLV_STAGE_IsTintActive, BTLV_STAGE_SetLayerHidden, BTLV_STAGE_ArmLayerEntry, BTLV_STAGE_IsAnyLayerArmed
  * address:  0x021F6560
  * region:   ov094
  * compiler: dsi/1.1p1
@@ -87,11 +87,11 @@ void BTLV_STAGE_UpdateLayerAnims(BtlvStage *stage);
 
 void BTLV_STAGE_DrawLayers(BtlvStage *stage);
 
-void BTLV_STAGE_InitLayerEntry(BtlvStage *stage, unsigned char startLevel, unsigned char targetLevel, unsigned char interval, unsigned short color);
+void BTLV_STAGE_StartTint(BtlvStage *stage, unsigned char startLevel, unsigned char targetLevel, unsigned char interval, unsigned short color);
 
-int BTLV_STAGE_IsEffectActive(BtlvStage *stage);
+int BTLV_STAGE_IsTintActive(BtlvStage *stage);
 
-void BTLV_STAGE_SetLayerEnableMask(BtlvStage *stage, u32 side, u32 hide);
+void BTLV_STAGE_SetLayerHidden(BtlvStage *stage, u32 side, u32 hide);
 
 void BTLV_STAGE_ArmLayerEntry(BtlvStage *stage, int side, int anim, int speed, int updates);
 
@@ -261,7 +261,7 @@ void BTLV_STAGE_DrawLayers(BtlvStage *stage)
     }
 }
 
-void BTLV_STAGE_InitLayerEntry(BtlvStage *stage, unsigned char startLevel, unsigned char targetLevel, unsigned char interval, unsigned short color)
+void BTLV_STAGE_StartTint(BtlvStage *stage, unsigned char startLevel, unsigned char targetLevel, unsigned char interval, unsigned short color)
 {
     stage->palFade.enabled = 1;
     stage->palFade.current = startLevel;
@@ -271,12 +271,12 @@ void BTLV_STAGE_InitLayerEntry(BtlvStage *stage, unsigned char startLevel, unsig
     stage->palFade.color = color;
 }
 
-int BTLV_STAGE_IsEffectActive(BtlvStage *stage)
+int BTLV_STAGE_IsTintActive(BtlvStage *stage)
 {
     return stage->palFade.enabled != 0;
 }
 
-void BTLV_STAGE_SetLayerEnableMask(BtlvStage *stage, u32 side, u32 hide)
+void BTLV_STAGE_SetLayerHidden(BtlvStage *stage, u32 side, u32 hide)
 {
     if (side == 2) {
         if (hide)

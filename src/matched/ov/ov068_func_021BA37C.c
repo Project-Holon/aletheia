@@ -18,7 +18,7 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   TOUCHBAR_Create  0x021B62E0  thumb  ov067
  *   OPTION_MENU_CreateButtonWindows  0x021BA6B8  thumb  ov068
- *   GAME_DATA_CheckSaveFlag  0x02012BF8  thumb
+ *   GAME_DATA_ContainsRecentId  0x02012BF8  thumb
  *   TOUCHBAR_SetButtonToggled  0x021B6598  thumb  ov067
  *   gOptionMenuReturnButtonCells     0x021BB5D4  data  a4
  */
@@ -34,7 +34,7 @@ typedef struct { u32 w[8]; } Req;
 extern void MI_CpuFill8(void *p, u32 a, u32 b);
 extern u32  TOUCHBAR_Create(Req *r, u16 a);
 extern void OPTION_MENU_CreateButtonWindows(u8 *p, u32 arg);
-extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
+extern int GAME_DATA_ContainsRecentId(int a0, int a1);
 extern void TOUCHBAR_SetButtonToggled(unsigned char *p, unsigned int id, unsigned int v);
 extern Tbl  gOptionMenuReturnButtonCells;
 
@@ -60,7 +60,7 @@ void OPTION_MENU_InitButtons(u8 *p, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u32 
     r.w[6] = 2;
     ((struct Obj02762 *)p)->f8 = TOUCHBAR_Create(&r, s3);
     OPTION_MENU_CreateButtonWindows(p, s3);
-    if (GAME_DATA_CheckSaveFlag(((struct Obj02762 *)p)->f3C, 0x18) != 0) {
+    if (GAME_DATA_ContainsRecentId(((struct Obj02762 *)p)->f3C, 0x18) != 0) {
         TOUCHBAR_SetButtonToggled((unsigned char *)(((struct Obj02762 *)p)->f8), 6, 1);
     } else {
         TOUCHBAR_SetButtonToggled((unsigned char *)(((struct Obj02762 *)p)->f8), 6, 0);

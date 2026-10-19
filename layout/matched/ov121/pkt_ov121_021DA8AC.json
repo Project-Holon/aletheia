@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "MYSTERY_UTIL_GetTaskField04",
+   "name": "MYSTERY_UTIL_IsTaskDone",
    "address": "0x021DA8AC",
    "kind": "game",
    "region": "ov121",

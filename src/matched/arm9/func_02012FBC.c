@@ -1,5 +1,5 @@
 /*
- * function: GAME_DATA_CheckPlayTime
+ * function: GAME_DATA_AddPlayTime
  * address:  0x02012FBC
  * packet:   pkt_02012FBC
  * region:   arm9
@@ -10,8 +10,8 @@
  * status:   EXACT
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GAME_DATA_CheckPlayTime.c \
- *       --func GAME_DATA_CheckPlayTime --addr 0x02012FBC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAME_DATA_AddPlayTime.c \
+ *       --func GAME_DATA_AddPlayTime --addr 0x02012FBC --cc 1.1p1 --thumb
  */
 #include "../include/Obj15640.h"
 
@@ -23,7 +23,7 @@ typedef signed char s8;
 
 extern u32 func_020085D4(u32 v, u32 x);
 
-u32 GAME_DATA_CheckPlayTime(u8 *p, u32 x)
+u32 GAME_DATA_AddPlayTime(u8 *p, u32 x)
 {
     return func_020085D4(((struct Obj15640 *)p)->f6AC, x);
 }

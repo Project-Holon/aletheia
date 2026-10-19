@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PROC_FLD_StoreSubObjectValueA
+ * function: SCRCMD_PROC_FLD_StoreWifiProfileValid
  * address:  0x021B4C14
  * packet:   pkt_021B4C14
  * region:   ov021
@@ -31,7 +31,7 @@ extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern void *SCRCMD_WORK_GetGameData(void *a0);
 
-int SCRCMD_PROC_FLD_StoreSubObjectValueA(u32 a, u32 b)
+int SCRCMD_PROC_FLD_StoreWifiProfileValid(u32 a, u32 b)
 {
 *SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b) = func_02009CE4((struct Sub020097BCObj *)GAME_DATA_GetWifiList(SCRCMD_WORK_GetGameData((void *)b)));
 return 0;

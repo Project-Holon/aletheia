@@ -1,5 +1,5 @@
 /*
- * function: BTLV_INPUT_GetPendingResult
+ * function: BTLV_INPUT_GetScreen
  * address: 0x022033F0
  * packet: pkt_ov094_022033F0
  * region: ov094
@@ -12,9 +12,9 @@
  * Function with no listing label, matched inside src/game/ov094/btlv_effvm.c and filed here.
  */
 
-int BTLV_INPUT_GetPendingResult(int *p);
+int BTLV_INPUT_GetScreen(int *p);
 
-int BTLV_INPUT_GetPendingResult(int *p)
+int BTLV_INPUT_GetScreen(int *p)
 {
     return p[0x58 / 4];
 }

@@ -29,7 +29,7 @@
  *   ZUKAN_DETAIL_TOUCHBAR_SetButtonVisible 0x021BDBEC thumb ov208
  *   ZUKAN_DETAIL_TOUCHBAR_ClearButtonState 0x021BDBA0 thumb ov208
  *   ov208_func_021BDC2C 0x021BDC2C thumb ov208
- *   GAME_DATA_SetSaveFlag 0x02012BE0 thumb
+ *   GAME_DATA_SetRecentId 0x02012BE0 thumb
  *   _u32_div_f 0x0209C2B0 arm
  */
 
@@ -57,7 +57,7 @@ extern void ZUKAN_DETAIL_FORM_HandleStateEvent(u16 *heap, u8 *p, int key, int mo
 extern void ZUKAN_DETAIL_TOUCHBAR_SetButtonVisible(void *sys, int v);
 extern void ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(void *sys);
 extern int ov208_func_021BDC2C(void *sys);
-extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
+extern void GAME_DATA_SetRecentId(void *p, u32 a, u32 b);
 
 #define W(o) (*(u32 *)(p + (o)))
 #define H(o) (*(u16 *)(p + (o)))
@@ -214,7 +214,7 @@ void ZUKAN_DETAIL_FORM_HandleKeyEvent(void *proc, int *seq, u16 *heap, u8 *p, in
         ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(sys);
         return;
     case 5:
-        GAME_DATA_SetSaveFlag((void *)ZUKAN_DETAIL_COMMON_GetSource(key), 0x14, ov208_func_021BDC2C(sys));
+        GAME_DATA_SetRecentId((void *)ZUKAN_DETAIL_COMMON_GetSource(key), 0x14, ov208_func_021BDC2C(sys));
         ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(sys);
         return;
     case 22:

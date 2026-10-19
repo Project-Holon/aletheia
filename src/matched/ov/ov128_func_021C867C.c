@@ -17,7 +17,7 @@
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  *   STRBUF_Delete 0x02045808 arm
- *   WF2DMAP_TOUCH_SetBgOffset 0x021CA3E8 thumb ov128
+ *   WF2DMAP_TOUCH_SetScreenBrightness 0x021CA3E8 thumb ov128
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb  arm9
  *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb  arm9
  *   MSG_SPEED_GetWait  0x02012FFC  thumb  arm9
@@ -50,7 +50,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void WF2DMAP_TOUCH_SetBgOffset(int);
+extern void WF2DMAP_TOUCH_SetScreenBrightness(int);
 void Wf2dmapFriend_PrintEntryMessage(u8 *p, u8 *a, int n, int heap)
 {
     void *text;
@@ -70,5 +70,5 @@ void Wf2dmapFriend_PrintEntryMessage(u8 *p, u8 *a, int n, int heap)
     BMP_WIN_MakeScreen(q);
     func_02041B6C(BMP_WIN_GetBgLayer(q));
     STRBUF_Delete(text);
-    WF2DMAP_TOUCH_SetBgOffset(0);
+    WF2DMAP_TOUCH_SetScreenBrightness(0);
 }

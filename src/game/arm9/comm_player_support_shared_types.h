@@ -14,7 +14,7 @@ struct PlayerRecord {
     u32 words[8];
 };
 
-/* RTC date as GF_STANDARD_SetField00_F4E4 fills it: year, month, day, weekday. */
+/* RTC date as GF_STANDARD_GetCachedDate fills it: year, month, day, weekday. */
 struct RtcDate {
     s32 year;
     s32 month;

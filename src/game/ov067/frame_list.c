@@ -26,12 +26,11 @@
  *   BMP_WIN_Delete  0x020452E8  arm
  *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   UI_GetInputMode  0x020355C4  arm
  *   gFrameListSourceFile     0x021B9574  data  ov067  a1
  *   PRINTSYS_QUE_CreateEx  0x0201C450  thumb
  *   BLINK_PALANM_Create  0x0202E940  thumb
- *   _s32_div_f     0x0209C0A4  arm
  *   BGWINFRM_Create  0x0202C9B4  thumb
  *   BGWINFRM_AddFrame  0x0202CA3C  thumb
  *   MIi_CpuCopy32  0x02082A90  arm
@@ -44,16 +43,16 @@
  *   PRINTSYS_QUE_IsFinished  0x0201C6B4  thumb
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   BLINK_PALANM_Update  0x0202EA40  thumb
- *   BG_SYS_ResetSlot  0x02041EE4  arm
+ *   BG_SYS_ChangeScroll  0x02041EE4  arm
  *   TOUCHPANEL_HitTrg  0x02035C08  arm
  *   KEY_GetCont  0x0203630C  arm
  *   TOUCHPANEL_HitCont 0x02035BA4 arm
  *   gFrameListFlickSteps 0x021B94F8 data a1
- *   COMM_HISTORY_ScaleValue  0x0202EDE4  thumb
- *   COMM_HISTORY_ScaleSpan 0x0202EE0C thumb
+ *   SCROLLBAR_GetValueFromPos  0x0202EDE4  thumb
+ *   SCROLLBAR_GetPosFromValue 0x0202EE0C thumb
  *   gFrameListFlickThresholds     0x021B94FE  data   ov067  a1
  *   BGWINFRM_GetBgFrame  0x0202CF8C  thumb
- *   BUTTON_MAN_CallHandlerById  0x02051B0C  arm
+ *   G2_GetBGCharPtrById  0x02051B0C  arm
  *   BGWINFRM_SetFrameData  0x0202CAC4  thumb
  *   BGWINFRM_PutBmpWin  0x0202CEBC  thumb
  *   BMP_WIN_GetDispWidth  0x02045748  arm
@@ -83,7 +82,7 @@ extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 x, u32 y, u32 width, u8 heig
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *printer, struct Bitmap *bitmap);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern void BG_SYS_SetFlagField06(u32 layer);
+extern void BG_SYS_MarkTileDirty(u32 layer);
 extern u8 UI_GetInputMode(void);
 extern struct PrintSys *PRINTSYS_QUE_CreateEx(u16 size, u32 heapId);
 extern struct BlinkPalAnm *BLINK_PALANM_Create(u16 firstColor, u16 colorCount, u32 bgLayer, u16 heapId);
@@ -99,15 +98,14 @@ extern void BLINK_PALANM_LoadPalettes(struct BlinkPalAnm *anim, u8 *src, u32 fir
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *printer);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outX, u32 *outY);
 extern s32 BLINK_PALANM_Update(struct BlinkPalAnm *anim);
-extern void BG_SYS_ResetSlot(u32 layer, u32 axis, u32 offset);
+extern void BG_SYS_ChangeScroll(u32 layer, u32 axis, u32 offset);
 extern int TOUCHPANEL_HitTrg(const void *hitRects);
 extern unsigned int KEY_GetCont(void);
-extern int _s32_div_f(int numerator, int denominator);
 extern int TOUCHPANEL_HitCont(const void *hitRects);
-extern u32 COMM_HISTORY_ScaleValue(u32 scrollMax, u32 touchY, u32 barX, u32 barY, u32 barPad);
-extern u32 COMM_HISTORY_ScaleSpan(u32 scrollMax, u32 index, u32 barX, u32 barY, u32 barPad);
+extern u32 SCROLLBAR_GetValueFromPos(u32 scrollMax, u32 touchY, u32 barX, u32 barY, u32 barPad);
+extern u32 SCROLLBAR_GetPosFromValue(u32 scrollMax, u32 index, u32 barX, u32 barY, u32 barPad);
 extern u8 BGWINFRM_GetBgFrame(struct BgWinFrm *mgr, u32 index);
-extern u8 *BUTTON_MAN_CallHandlerById(int id);
+extern u8 *G2_GetBGCharPtrById(int id);
 extern void BGWINFRM_SetFrameData(struct BgWinFrm *mgr, u32 index, const void *src);
 extern void BGWINFRM_PutBmpWin(struct BgWinFrm *mgr, u32 index, struct BmpWin *win);
 extern u8 BMP_WIN_GetDispWidth(struct BmpWin *win);
@@ -376,7 +374,7 @@ void FRAME_LIST_Redraw(FrameList *list, int play)
     s16 item;
     s8 rowY;
 
-    BG_SYS_ResetSlot(list->params.bgLayer, 3, 0);
+    BG_SYS_ChangeScroll(list->params.bgLayer, 3, 0);
     list->pixelOffset = 0;
     item = list->scrollPos;
     rowY = list->params.firstRow;
@@ -398,7 +396,7 @@ void FRAME_LIST_Redraw(FrameList *list, int play)
     list->ringSizeA = list->ringA;
     if (list->params.bgLayerB == 0xff)
         return;
-    BG_SYS_ResetSlot(list->params.bgLayerB, 3, 0);
+    BG_SYS_ChangeScroll(list->params.bgLayerB, 3, 0);
     rowY = list->params.firstRow + 0x18 - list->params.rowHeight;
     item = list->scrollPos - 1;
     for (;;) {
@@ -729,7 +727,7 @@ void FRAME_LIST_UpdateHoldStage(FrameList *list)
 u8 FRAME_LIST_GetStepFrames(const FrameList *list, int speed)
 {
     if (speed < 0) speed = (int)(0u - (unsigned int)speed);
-    return _s32_div_f(list->params.rowHeight << 3, speed);
+    return (list->params.rowHeight << 3) / speed;
 }
 
 
@@ -891,8 +889,8 @@ int FRAME_LIST_StepScroll(FrameList *list)
         }
     }
     list->pixelOffset = list->pixelOffset+list->scrollSpeed;
-    BG_SYS_ResetSlot(list->params.bgLayer, 3, list->pixelOffset);
-    if (list->params.bgLayerB != 255) BG_SYS_ResetSlot(list->params.bgLayerB, 3, list->pixelOffset);
+    BG_SYS_ChangeScroll(list->params.bgLayer, 3, list->pixelOffset);
+    if (list->params.bgLayerB != 255) BG_SYS_ChangeScroll(list->params.bgLayerB, 3, list->pixelOffset);
     list->params.ops->onScroll(list->params.userData, list->scrollSpeed);
     list->stepFramesLeft--;
     return 1;
@@ -952,7 +950,7 @@ u32 FRAME_LIST_GetScrollBarRow(FrameList *list)
     if (TOUCHPANEL_GetPointCont(&touchX, &touchY) == 0)
         touchY = list->scrollBarTouchY;
     list->scrollBarTouchY = -1;
-    return COMM_HISTORY_ScaleValue(list->scrollMax, touchY, list->scrollBarX, list->scrollBarY, list->params.scrollBarPad);
+    return SCROLLBAR_GetValueFromPos(list->scrollMax, touchY, list->scrollBarX, list->scrollBarY, list->params.scrollBarPad);
 }
 
 
@@ -978,7 +976,7 @@ int FRAME_LIST_GetScrollBarTop(FrameList *list)
 {
     u8 barX, barY;
     FRAME_LIST_FindScrollBarEntry(list, &barX, &barY);
-    return COMM_HISTORY_ScaleSpan(list->scrollMax, list->scrollPos, barX, barY, list->params.scrollBarPad);
+    return SCROLLBAR_GetPosFromValue(list->scrollMax, list->scrollPos, barX, barY, list->params.scrollBarPad);
 }
 
 
@@ -996,11 +994,11 @@ int FRAME_LIST_ClampToScrollBar(FrameList *list, unsigned int touchY)
         return touchY;
     }
     FRAME_LIST_FindScrollBarEntry(list, &barX, &barY);
-    slotStart = COMM_HISTORY_ScaleSpan(list->scrollMax, list->scrollPos, barX, barY, list->params.scrollBarPad);
+    slotStart = SCROLLBAR_GetPosFromValue(list->scrollMax, list->scrollPos, barX, barY, list->params.scrollBarPad);
     if (list->scrollMax == list->scrollPos)
         slotEnd = barY;
     else
-        slotEnd = COMM_HISTORY_ScaleSpan(list->scrollMax, list->scrollPos + 1, barX, barY, list->params.scrollBarPad);
+        slotEnd = SCROLLBAR_GetPosFromValue(list->scrollMax, list->scrollPos + 1, barX, barY, list->params.scrollBarPad);
     if (touchY >= slotStart && touchY < slotEnd)
         return touchY;
     return slotStart;
@@ -1237,7 +1235,7 @@ void FRAME_LIST_UploadRowTiles(FrameList *list, u32 item, u32 windowIndex)
 
     window = list->windows[windowIndex].window;
     tileMap = list->maps[list->items[item].mapIndex];
-    vramBase = BUTTON_MAN_CallHandlerById(FRAME_LIST_ClampBgFrameId(BGWINFRM_GetBgFrame(list->frameMgr, windowIndex)));
+    vramBase = G2_GetBGCharPtrById(FRAME_LIST_ClampBgFrameId(BGWINFRM_GetBgFrame(list->frameMgr, windowIndex)));
     BGWINFRM_SetFrameData(list->frameMgr, windowIndex, tileMap);
     BGWINFRM_PutBmpWin(list->frameMgr, windowIndex, window);
     mapStride = list->params.tileWidth;
@@ -1271,7 +1269,7 @@ void FRAME_LIST_ScrollBgRows(FrameList *list, int windowIndex, s8 y)
         BG_SYS_DrawTileEx(bgFrame, list->params.tileX, (u8)y, list->params.tileWidth, 1, frameBuffer, 0, tileRow, list->params.tileWidth, list->params.rowHeight);
         y++;
     }
-    BG_SYS_SetFlagField06((u8)bgFrame);
+    BG_SYS_MarkTileDirty((u8)bgFrame);
 }
 
 
@@ -1287,7 +1285,7 @@ void FRAME_LIST_ClearBgRows(FrameList *list, u32 layer, s8 y)
         BG_SYS_SetTileEntry(layer, 0, list->params.tileX, (u8)y, list->params.tileWidth, 1, 0);
         y++;
     }
-    BG_SYS_SetFlagField06(layer);
+    BG_SYS_MarkTileDirty(layer);
 }
 
 
@@ -1349,7 +1347,7 @@ void FRAME_LIST_SetRowPalette(FrameList *list, int row, u32 pltt)
         BG_SYS_FillTileMap(list->params.bgLayer, list->params.tileX, (u8)pos, list->params.tileWidth, 1, (u8)pltt);
         pos++;
     }
-    BG_SYS_SetFlagField06(list->params.bgLayer);
+    BG_SYS_MarkTileDirty(list->params.bgLayer);
 }
 
 

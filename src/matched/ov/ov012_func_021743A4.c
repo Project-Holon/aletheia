@@ -1,5 +1,5 @@
 /*
- * function: UNION_MAIN_StepGroupActivity
+ * function: UNION_SCENE_StepGroupActivity
  * address:  0x021743A4
  * packet:   pkt_ov012_021743A4
  * region:   ov012
@@ -29,7 +29,7 @@
  *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   UNION_COMMAND_SendAppQuitRequest  0x02173E1C  thumb  ov012
  *   UNION_APP_IsQuitAccepted  0x02183F84  thumb  ov022
- *   UNION_COMMAND_SendAppQuitCancel  0x02173EC8  thumb  ov012
+ *   UNION_COMMAND_SendAppSettingRequest  0x02173EC8  thumb  ov012
  *   UNION_APP_HasMembers  0x0218401C  thumb  ov022
  *   UNION_APP_GetJoinedBits  0x021841A0  thumb  ov022
  *   UNION_COMMAND_SendAppJoinData  0x02173F90  thumb  ov012
@@ -124,7 +124,7 @@ extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *a0, unsigned int a1, 
 extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *a0, unsigned int a1, unsigned int a2);
 extern u32 UNION_COMMAND_SendAppQuitRequest(void);
 extern u8 UNION_APP_IsQuitAccepted(u8 *p);
-extern int   UNION_COMMAND_SendAppQuitCancel(void);
+extern int   UNION_COMMAND_SendAppSettingRequest(void);
 extern int UNION_APP_HasMembers(u8 *p);
 extern unsigned char UNION_APP_GetJoinedBits(unsigned char *p);
 extern int   UNION_COMMAND_SendAppJoinData(u8 a, u32 b);
@@ -149,7 +149,7 @@ extern char ov137_id[];
 extern u8 gOekakiProcData[];
 extern u8 gGuru2ProcData[];
 
-int UNION_MAIN_StepGroupActivity(u32 a0, Self *self, u32 a2, u32 a3, void *obj, u32 a5, u8 *state)
+int UNION_SCENE_StepGroupActivity(u32 a0, Self *self, u32 a2, u32 a3, void *obj, u32 a5, u8 *state)
 {
     Sub *sub = &self->f3548;
     Local *l = &self->l;
@@ -195,7 +195,7 @@ int UNION_MAIN_StepGroupActivity(u32 a0, Self *self, u32 a2, u32 a3, void *obj, 
             *state = 7;
         break;
     case 7:
-        if (UNION_COMMAND_SendAppQuitCancel() == 1)
+        if (UNION_COMMAND_SendAppSettingRequest() == 1)
             (*state)++;
         break;
     case 8:

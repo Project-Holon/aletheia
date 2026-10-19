@@ -16,7 +16,7 @@
  *   MI_CpuCopy8  0x02082D44  arm
  *   MI_CpuFill8         0x02082BCC  arm
  *   GF_STANDARD_Checksum  0x0203F2FC  arm
- *   GF_STANDARD_Shuffle  0x0203F328  arm
+ *   GF_STANDARD_XorCrypt  0x0203F328  arm
  *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  *   sSymbolBandRanges  0x0209DE90  data
  *   _s32_div_f  0x0209C0A4  arm
@@ -27,7 +27,7 @@
  *   sFileName_symbol_save    0x020A720C  data
  *   COMM_PLAYER_GetRecordField3  0x02167380  thumb  ov010
  *   QUESTIONNAIRE_GetAnswerBitWidth  0x02167358  thumb  ov010
- *   GF_STANDARD_ShuffleEx  0x0203F37C  arm
+ *   GF_STANDARD_XorCryptEx  0x0203F37C  arm
  */
 #include "bsubway_savedata_shared_types.h"
 
@@ -72,9 +72,9 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 
 extern u32 GF_STANDARD_Checksum(const void *p, u32 len);
 
-extern void GF_STANDARD_Shuffle(void *p, u32 size, u32 seed);
+extern void GF_STANDARD_XorCrypt(void *p, u32 size, u32 seed);
 
-extern void GF_STANDARD_ShuffleEx(void *p, unsigned int size, unsigned int seed);
+extern void GF_STANDARD_XorCryptEx(void *p, unsigned int size, unsigned int seed);
 
 extern void *SAVE_CONTROL_GetBlock(struct SaveBlockTable *ctrl, u32 id);
 
@@ -145,7 +145,7 @@ extern char  sFileName_symbol_save[];
  * if it came back 0 -- the field is volatile all the way through, which is why
  * the `ldrh` is not folded away.  The checksum pair is the same shape as the
  * one in unit_02008C58.c: GF_STANDARD_Checksum computes it over (obj, 0x84C) and
- * GF_STANDARD_Shuffle writes it back with the +0x84E halfword as the high word.
+ * GF_STANDARD_XorCrypt writes it back with the +0x84E halfword as the high word.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/SYMBOL_SAVE_UpdateChecksum.c \
@@ -161,14 +161,14 @@ void SYMBOL_SAVE_UpdateChecksum(struct SymbolSave *save)
         save->seed = 1;
     }
     save->checksum = GF_STANDARD_Checksum(save, 0x84c);
-    GF_STANDARD_Shuffle(save, 0x84c,
+    GF_STANDARD_XorCrypt(save, 0x84c,
                   save->checksum +
                   (save->seed << 16));
 }
 
 void SYMBOL_SAVE_FinalizeChecksum(struct SymbolSave *save)
 {
-    GF_STANDARD_ShuffleEx(save, 0x84c,
+    GF_STANDARD_XorCryptEx(save, 0x84c,
         save->checksum + (save->seed << 16));
     save->seed = 0;
 }

@@ -1,7 +1,7 @@
 /*
  * file:     box2_ui.c
  * unit:     yes
- * function: BOX2_UI_CreatePartyActors, BOX2_UI_ToggleSlotPair, BOX2_UI_LayoutPartySlots, BOX2_UI_RefreshBoxName, BOX2_UI_MoveSlotIcon, BOX2_UI_SetCloseButtonPos, BOX2_UI_RefreshBoxHeader, BOX2_UI_FindSlotPos, BOX2_UI_DrawSlot, BOX2_UI_DrawAllSlots, BOX2_UI_DrawSlotByName, BOX2_UI_UploadSlotChar, BOX2_UI_FindAndDrawSlot, BOX2_UI_ReplaceColorIndex, BOX2_UI_LoadMonIcon, BOX2_UI_AddSlotIcon, BOX2_UI_HideSlotIcon, BOX2_UI_DeleteSlotIcon, BOX2_UI_ShowMiniIcon, BOX2_UI_SetMiniIconVisible, BOX2_UI_DeleteSlotObjects, BOX2_UI_HideSlots678, BOX2_UI_CreateBmpOam, BOX2_UI_DeleteBmpOam, BOX2_UI_SetSlotOamEnabled, BOX2_UI_GetSlotOamEnabled, BOX2_UI_MoveSlotOam, BOX2_UI_ShiftSlotOams, BOX2_UI_CreateCursor, BOX2_UI_MoveCursor, BOX2_UI_DeleteSound, BOX2_UI_SetCursorPos, BOX2_UI_UpdateCursor, BOX2_UI_ShowCursor, BOX2_UI_HideCursor, BOX2_UI_SetCursorSeq, BOX2_UI_PlayAndUpdateCursor, BOX2_UI_Dummy, BOX2_UI_UpdateCursorInputA, BOX2_UI_CursorTagA, BOX2_UI_PlaceCursorAtIcon, BOX2_UI_PlaceCursorAtMon, BOX2_UI_UpdateCursorInputB, BOX2_UI_CursorTagB, BOX2_UI_UpdateCursorInputC, BOX2_UI_SetCursorSeqB, BOX2_UI_CursorTagC, BOX2_UI_SelectSlot, BOX2_UI_PickSlot, BOX2_UI_ConfirmSlot, BOX2_UI_CursorInputLeft, BOX2_UI_UpdateCursorInputD, BOX2_UI_SetCursorSeqC, BOX2_UI_CursorTagD, BOX2_UI_CursorInputRight, BOX2_UI_PickSlotB, BOX2_UI_ConfirmSlotB, BOX2_UI_UpdateCursorInputE, BOX2_UI_SetCursorSeqD, BOX2_UI_CursorTagE, BOX2_UI_UpdateCursorInputF, BOX2_UI_SetCursorSeqE, BOX2_UI_CursorTagF, BOX2_UI_SetCursorSeqF, BOX2_UI_PlayAndUpdateCursorB, BOX2_UI_SetCursorSeqG, BOX2_UI_PlayAndUpdateCursorC, BOX2_UI_PickIconSlot, BOX2_UI_MoveCursorToHeld, BOX2_UI_UpdateCursorInputG, BOX2_UI_SetCursorSeqH, BOX2_UI_CursorTagG, BOX2_UI_UpdateCursorInputH, BOX2_UI_SetCursorSeqI, BOX2_UI_CursorTagH, BOX2_UI_CursorInputPage, BOX2_UI_SetCursorSeqJ, BOX2_UI_CursorTagI, BOX2_UI_MoveCursorBetweenIcons, BOX2_UI_PlaceCursorBetween, BOX2_UI_HitTableTrg, BOX2_UI_HitTableCont, BOX2_UI_HitTablePoint, BOX2_UI_GetPartySlotHit, BOX2_UI_GetPartySlotPoint, BOX2_UI_GetHandSlotHit, BOX2_UI_GetBodySlotHit, BOX2_UI_GetCloseButtonHit, BOX2_UI_GetExitButtonHit, BOX2_UI_GetExitButtonPoint, BOX2_UI_GetBackButtonPoint, BOX2_UI_GetGridSlotPoint, BOX2_UI_GetPageButtonHit, BOX2_UI_GetPageButtonHit2, BOX2_UI_InitWindowFrames, BOX2_UI_DeleteWindowFrames, BOX2_UI_SetFrameData, BOX2_UI_PutTopBarOpen, BOX2_UI_PutTopBarClosed, BOX2_UI_PutBottomBarOpen, BOX2_UI_PutBottomBarClosed, BOX2_UI_CloseBar, BOX2_UI_OpenBar, BOX2_UI_SlideBarIn, BOX2_UI_SlideBarOut, BOX2_UI_UpdateBarMove, BOX2_UI_IsTopBarOpen, BOX2_UI_IsTopBarClosed, BOX2_UI_IsTopBarMid, BOX2_UI_PutSlotFrames, BOX2_UI_PutListFrames, BOX2_UI_ResetSlotFrames, BOX2_UI_CloseListPack, BOX2_UI_OpenListPack, BOX2_UI_UpdateListPacks, BOX2_UI_IsListOpen, BOX2_UI_IsListClosed, BOX2_UI_AddFadeFrame, BOX2_UI_PutFadeFrame, BOX2_UI_ShowWindowA, BOX2_UI_HideWindowA, BOX2_UI_ShowWindowB, BOX2_UI_HideWindowB, BOX2_UI_PutTopBarThenClose, BOX2_UI_RepenTopBar, BOX2_UI_UpdateTopBarMove, BOX2_UI_PutInfoBar, BOX2_UI_CloseInfoBar, BOX2_UI_IsInfoBarOpen
+ * function: BOX2_UI_CreatePartyActors, BOX2_UI_ToggleSlotPair, BOX2_UI_LayoutPartySlots, BOX2_UI_RefreshBoxName, BOX2_UI_MoveSlotIcon, BOX2_UI_SetCloseButtonPos, BOX2_UI_RefreshBoxHeader, BOX2_UI_FindSlotPos, BOX2_UI_DrawSlot, BOX2_UI_DrawAllSlots, BOX2_UI_DrawSlotByName, BOX2_UI_UploadSlotChar, BOX2_UI_FindAndDrawSlot, BOX2_UI_ReplaceColorIndex, BOX2_UI_LoadMonIcon, BOX2_UI_AddSlotIcon, BOX2_UI_HideSlotIcon, BOX2_UI_UpdateCurrentBoxMarker, BOX2_UI_ShowMiniIcon, BOX2_UI_SetMiniIconVisible, BOX2_UI_DeleteSlotObjects, BOX2_UI_HideSlots678, BOX2_UI_CreateBmpOam, BOX2_UI_DeleteBmpOam, BOX2_UI_SetSlotOamEnabled, BOX2_UI_GetSlotOamEnabled, BOX2_UI_MoveSlotOam, BOX2_UI_ShiftSlotOams, BOX2_UI_CreateCursor, BOX2_UI_MoveCursor, BOX2_UI_DeleteCursorMove, BOX2_UI_SetCursorPos, BOX2_UI_UpdateCursor, BOX2_UI_ShowCursor, BOX2_UI_HideCursor, BOX2_UI_SetCursorSeq, BOX2_UI_PlayAndUpdateCursor, BOX2_UI_Dummy, BOX2_UI_UpdateCursorInputA, BOX2_UI_CursorTagA, BOX2_UI_PlaceCursorAtIcon, BOX2_UI_PlaceCursorAtMon, BOX2_UI_UpdateCursorInputB, BOX2_UI_CursorTagB, BOX2_UI_UpdateCursorInputC, BOX2_UI_SetCursorSeqB, BOX2_UI_CursorTagC, BOX2_UI_SelectSlot, BOX2_UI_PickSlot, BOX2_UI_ConfirmSlot, BOX2_UI_CursorInputLeft, BOX2_UI_UpdateCursorInputD, BOX2_UI_SetCursorSeqC, BOX2_UI_CursorTagD, BOX2_UI_CursorInputRight, BOX2_UI_PickSlotB, BOX2_UI_ConfirmSlotB, BOX2_UI_UpdateCursorInputE, BOX2_UI_SetCursorSeqD, BOX2_UI_CursorTagE, BOX2_UI_UpdateCursorInputF, BOX2_UI_SetCursorSeqE, BOX2_UI_CursorTagF, BOX2_UI_SetCursorSeqF, BOX2_UI_PlayAndUpdateCursorB, BOX2_UI_SetCursorSeqG, BOX2_UI_PlayAndUpdateCursorC, BOX2_UI_PickIconSlot, BOX2_UI_MoveCursorToHeld, BOX2_UI_UpdateCursorInputG, BOX2_UI_SetCursorSeqH, BOX2_UI_CursorTagG, BOX2_UI_UpdateCursorInputH, BOX2_UI_SetCursorSeqI, BOX2_UI_CursorTagH, BOX2_UI_CursorInputPage, BOX2_UI_SetCursorSeqJ, BOX2_UI_CursorTagI, BOX2_UI_MoveCursorBetweenIcons, BOX2_UI_PlaceCursorBetween, BOX2_UI_HitTableTrg, BOX2_UI_HitTableCont, BOX2_UI_HitTablePoint, BOX2_UI_GetPartySlotHit, BOX2_UI_GetPartySlotPoint, BOX2_UI_GetHandSlotHit, BOX2_UI_GetBodySlotHit, BOX2_UI_GetCloseButtonHit, BOX2_UI_GetExitButtonHit, BOX2_UI_GetExitButtonPoint, BOX2_UI_GetBackButtonPoint, BOX2_UI_GetGridSlotPoint, BOX2_UI_GetPageButtonHit, BOX2_UI_GetPageButtonHit2, BOX2_UI_InitWindowFrames, BOX2_UI_DeleteWindowFrames, BOX2_UI_SetFrameData, BOX2_UI_PutTopBarOpen, BOX2_UI_PutTopBarClosed, BOX2_UI_PutBottomBarOpen, BOX2_UI_PutBottomBarClosed, BOX2_UI_CloseBar, BOX2_UI_OpenBar, BOX2_UI_SlideBarIn, BOX2_UI_SlideBarOut, BOX2_UI_UpdateBarMove, BOX2_UI_IsTopBarOpen, BOX2_UI_IsTopBarClosed, BOX2_UI_IsTopBarMid, BOX2_UI_PutSlotFrames, BOX2_UI_PutListFrames, BOX2_UI_ResetSlotFrames, BOX2_UI_CloseListPack, BOX2_UI_OpenListPack, BOX2_UI_UpdateListPacks, BOX2_UI_IsListOpen, BOX2_UI_IsListClosed, BOX2_UI_AddFadeFrame, BOX2_UI_PutFadeFrame, BOX2_UI_ShowWindowA, BOX2_UI_HideWindowA, BOX2_UI_ShowWindowB, BOX2_UI_HideWindowB, BOX2_UI_PutTopBarThenClose, BOX2_UI_RepenTopBar, BOX2_UI_UpdateTopBarMove, BOX2_UI_PutInfoBar, BOX2_UI_CloseInfoBar, BOX2_UI_IsInfoBarOpen
  * address:  0x021ED824
  * region:   ov170
  * compiler: dsi/1.1p1
@@ -26,7 +26,7 @@
  *   ARC_UTIL_LoadScreenDataFromArchive 0x02049E34 arm
  *   MI_CpuCopy8 0x02082D44 arm
  *   GFL_HEAP_Free 0x020307B0 arm
- *   BOX2_MAIN_GetBoxFormId 0x021DEDCC thumb ov170
+ *   BOX2_MAIN_GetBoxWallpaper 0x021DEDCC thumb ov170
  *   g_021EFCEC  0x021EFCEC  data  ov170
  *   BOX_SAVEDATA_GetPokemon  0x02007A18  thumb
  *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
@@ -65,7 +65,7 @@
  *   d_021F0DCC  0x021F0DCC  data
  *   d_021F0370  0x021F0370  data
  *   KEY_GetRepeat 0x0203633C arm
- *   BOX2_MAIN_PlayCursorSound 0x021DD238 thumb
+ *   BOX2_MAIN_ActivateKeyCursor 0x021DD238 thumb
  *   BOX2_MAIN_GetPartyValueAt 0x021DD25C thumb
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   d_021F1418 0x021F1418 data a1
@@ -159,7 +159,7 @@ extern void BOX2_SEQ_DrawMonName(char **, unsigned, int);
 extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
 extern void MI_CpuCopy8(const void *, void *, unsigned);
 extern u32 GFL_HEAP_Free(void *p);
-extern int BOX2_MAIN_GetBoxFormId(BoxTask *p, int box);
+extern int BOX2_MAIN_GetBoxWallpaper(BoxTask *p, int box);
 extern u16 CLACT_GetActorCharacterIndex(u8 *p);
 extern void CLACT_TransferCharacterPart(int a, void *b, u32 c, int d, int e);
 extern struct Sub020079BCEntry *BOX_SAVEDATA_GetPokemon(void **save, u32 box, u32 slot);
@@ -197,7 +197,7 @@ extern int CURSOR_MOVE_PollRepeatInput(struct Sound *obj);
 extern u32 KEY_GetTrg(void);
 extern void UI_SetInputMode(u8 v);
 extern unsigned int KEY_GetRepeat(void);
-extern void BOX2_MAIN_PlayCursorSound(BoxTask *p);
+extern void BOX2_MAIN_ActivateKeyCursor(BoxTask *p);
 extern unsigned BOX2_MAIN_GetPartyValueAt(void ***p, unsigned short a, int box, unsigned id, unsigned v);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int TOUCHPANEL_HitTrg(const void *);
@@ -236,7 +236,7 @@ void BOX2_UI_ReplaceColorIndex(int x0, unsigned char *a, unsigned c, unsigned ch
 void BOX2_UI_LoadMonIcon(int **a, int box, u8 *dest);
 void BOX2_UI_AddSlotIcon(BoxTask *p, int d);
 void BOX2_UI_HideSlotIcon(BoxTask *p, int d);
-void BOX2_UI_DeleteSlotIcon(BoxTask *p);
+void BOX2_UI_UpdateCurrentBoxMarker(BoxTask *p);
 void BOX2_UI_ShowMiniIcon(BoxTask *p, int i);
 void BOX2_UI_SetMiniIconVisible(BoxTask *p, int a, int b);
 void BOX2_UI_DeleteSlotObjects(BoxTask *p, int a, int b, int c);
@@ -249,7 +249,7 @@ void BOX2_UI_MoveSlotOam(BoxWork *p, int i, int flag);
 void BOX2_UI_ShiftSlotOams(BoxWork *p, int d);
 void BOX2_UI_CreateCursor(char **p);
 void BOX2_UI_MoveCursor(char **p, int idx, int v);
-void BOX2_UI_DeleteSound(int *p);
+void BOX2_UI_DeleteCursorMove(int *p);
 void BOX2_UI_SetCursorPos(char **p, unsigned idx);
 void BOX2_UI_UpdateCursor(char *p, int v);
 void BOX2_UI_ShowCursor(BoxTask *p, int v);
@@ -523,7 +523,7 @@ void BOX2_UI_DrawSlot(BoxTask *task, int i)
     void *q = ARC_UTIL_LoadScreenDataFromArchive(0x74, 0x47, 1, (u32)(&t), 0x4c);
     MI_CpuCopy8(((BoxArcRes *)(t))->data, task->work->charPool[i], 0x400);
     GFL_HEAP_Free((void *)q);
-    BOX2_UI_ReplaceColorIndex((int)task, (unsigned char *)(task->work->charPool[i]), BOX2_MAIN_GetBoxFormId((BoxTask *)task, i), 8, 0x400);
+    BOX2_UI_ReplaceColorIndex((int)task, (unsigned char *)(task->work->charPool[i]), BOX2_MAIN_GetBoxWallpaper((BoxTask *)task, i), 8, 0x400);
     BOX2_UI_LoadMonIcon((int **)task, i, (unsigned char *)(task->work->charPool[i]));
 }
 
@@ -730,7 +730,7 @@ void BOX2_UI_HideSlotIcon(BoxTask *task, int d)
 
 
 
-void BOX2_UI_DeleteSlotIcon(BoxTask *task)
+void BOX2_UI_UpdateCurrentBoxMarker(BoxTask *task)
 {
     unsigned i;
     short xy[2];
@@ -952,9 +952,9 @@ void BOX2_UI_CreateCursor(char **work)
     case 4: i = 13; break;
     case 5: i = 15; break;
     }
-    BOX2_UI_DeleteSound((int *)work);
-    ((BoxWork *)work[11])->sound = CURSOR_MOVE_Create(d_021F02F0[i].a, d_021F02F0[i].b, (u32)work, f, ((unsigned *)work)[9], 0x4c);
-    CURSOR_MOVE_EnableInput(((BoxWork *)work[11])->sound);
+    BOX2_UI_DeleteCursorMove((int *)work);
+    ((BoxWork *)work[11])->cursorMove = CURSOR_MOVE_Create(d_021F02F0[i].a, d_021F02F0[i].b, (u32)work, f, ((unsigned *)work)[9], 0x4c);
+    CURSOR_MOVE_EnableInput(((BoxWork *)work[11])->cursorMove);
     BOX2_UI_UpdateCursor((char *)work, ((int *)work)[9]);
     BOX2_SEQ_SetCursorDraw(work, f);
     ((BoxWork *)work[11])->heldSlot = ((int *)work)[9];
@@ -967,10 +967,10 @@ void BOX2_UI_CreateCursor(char **work)
 
 void BOX2_UI_MoveCursor(char **work, int idx, int v)
 {
-    int r = CURSOR_MOVE_GetState(((BoxWork *)work[11])->sound);
-    BOX2_UI_DeleteSound((int *)work);
-    ((BoxWork *)work[11])->sound = CURSOR_MOVE_Create(d_021F02F0[idx].a, d_021F02F0[idx].b, (u32)work, r, v, 0x4C);
-    CURSOR_MOVE_EnableInput(((BoxWork *)work[11])->sound);
+    int r = CURSOR_MOVE_GetState(((BoxWork *)work[11])->cursorMove);
+    BOX2_UI_DeleteCursorMove((int *)work);
+    ((BoxWork *)work[11])->cursorMove = CURSOR_MOVE_Create(d_021F02F0[idx].a, d_021F02F0[idx].b, (u32)work, r, v, 0x4C);
+    CURSOR_MOVE_EnableInput(((BoxWork *)work[11])->cursorMove);
     BOX2_UI_UpdateCursor((char *)work, v);
     BOX2_SEQ_SetCursorDraw(work, r);
     ((BoxWork *)work[11])->heldSlot = v;
@@ -988,11 +988,11 @@ void BOX2_UI_MoveCursor(char **work, int idx, int v)
  *   `label` and `sole-ref/code` both refuse.  Evidence class: label /
  *   sole-ref/code (target not a traced function start).
  */
-void BOX2_UI_DeleteSound(int *task)
+void BOX2_UI_DeleteCursorMove(int *task)
 {
-    if ((*(int *)&((BoxTask *)task)->work->sound)) {
+    if ((*(int *)&((BoxTask *)task)->work->cursorMove)) {
         CURSOR_MOVE_Delete();
-        (*(int *)&((BoxTask *)task)->work->sound) = 0;
+        (*(int *)&((BoxTask *)task)->work->cursorMove) = 0;
     }
 }
 
@@ -1002,7 +1002,7 @@ void BOX2_UI_DeleteSound(int *task)
 
 void BOX2_UI_SetCursorPos(char **task, unsigned idx)
 {
-    unsigned char *c = CURSOR_MOVE_GetEntry(((BoxWork *)task[11])->sound, idx);
+    unsigned char *c = CURSOR_MOVE_GetEntry(((BoxWork *)task[11])->cursorMove, idx);
     BOX2_SEQ_AddActorSurfacePos(((BoxTask *)task)->work, 4, c[0], c[1], 0);
 }
 
@@ -1053,7 +1053,7 @@ void BOX2_UI_SetCursorSeq(BoxTask *task, int a, int b)
  */
 void BOX2_UI_PlayAndUpdateCursor(BoxTask *task, unsigned int a)
 {
-    CURSOR_MOVE_SetCurrent((struct Sound *)((*(int *)&task->work->sound)), (unsigned char)a);
+    CURSOR_MOVE_SetCurrent((struct Sound *)((*(int *)&task->work->cursorMove)), (unsigned char)a);
     BOX2_UI_UpdateCursor((char *)task, a);
 }
 
@@ -1078,12 +1078,12 @@ void BOX2_UI_Dummy(void) {}
 
 unsigned BOX2_UI_UpdateCursorInputA(BoxTask *task)
 {
-    unsigned char sel = CURSOR_MOVE_GetCurrent(task->work->sound);
-    unsigned r = CURSOR_MOVE_PollRepeatInput(task->work->sound);
+    unsigned char sel = CURSOR_MOVE_GetCurrent(task->work->cursorMove);
+    unsigned r = CURSOR_MOVE_PollRepeatInput(task->work->cursorMove);
 
     if (BOX2_UI_IsListOpen(task->work->winMgr) == 0) {
         if (r >= 8 && r <= 12) {
-            CURSOR_MOVE_SetCurrent(task->work->sound, sel);
+            CURSOR_MOVE_SetCurrent(task->work->cursorMove, sel);
             BOX2_UI_UpdateCursor((char *)task, sel);
             return -1;
         }
@@ -1096,11 +1096,11 @@ unsigned BOX2_UI_UpdateCursorInputA(BoxTask *task)
             return 6;
         }
         if (r == 7) {
-            CURSOR_MOVE_SetCurrent(task->work->sound, sel);
+            CURSOR_MOVE_SetCurrent(task->work->cursorMove, sel);
             return 7;
         }
     } else if (r - 6 <= 1) {
-        CURSOR_MOVE_SetCurrent(task->work->sound, sel);
+        CURSOR_MOVE_SetCurrent(task->work->cursorMove, sel);
         BOX2_UI_UpdateCursor((char *)task, sel);
         return -1;
     }
@@ -1135,7 +1135,7 @@ void BOX2_UI_CursorTagA(void *a, int tag)
  */
 void BOX2_UI_PlaceCursorAtIcon(BoxTask *task, unsigned idx)
 {
-    unsigned char *q = CURSOR_MOVE_GetEntry(*(void ** *)&task->work->sound, idx);
+    unsigned char *q = CURSOR_MOVE_GetEntry(*(void ** *)&task->work->cursorMove, idx);
     BOX2_UI_PlaceCursorBetween((BoxWork *)task->work, 0x54, 0x10, q[0], q[1]);
 }
 
@@ -1159,11 +1159,11 @@ void BOX2_UI_PlaceCursorAtMon(BoxTask *task, unsigned int i)
 
 unsigned BOX2_UI_UpdateCursorInputB(BoxTask *task)
 {
-    unsigned char sel = CURSOR_MOVE_GetCurrent((task->work->sound));
-    unsigned r = CURSOR_MOVE_PollRepeatInput((task->work->sound));
+    unsigned char sel = CURSOR_MOVE_GetCurrent((task->work->cursorMove));
+    unsigned r = CURSOR_MOVE_PollRepeatInput((task->work->cursorMove));
     if (BOX2_UI_IsListOpen(task->work->winMgr) == 0) {
         if (r >= 0x23 && r <= 0x27) {
-            CURSOR_MOVE_SetCurrent((task->work->sound), sel);
+            CURSOR_MOVE_SetCurrent((task->work->cursorMove), sel);
             BOX2_UI_UpdateCursor((char *)task, sel);
             return -1;
         }
@@ -1176,21 +1176,21 @@ unsigned BOX2_UI_UpdateCursorInputB(BoxTask *task)
             return 0x21;
         }
         if (r == 0x22) {
-            CURSOR_MOVE_SetCurrent((task->work->sound), sel);
+            CURSOR_MOVE_SetCurrent((task->work->cursorMove), sel);
             return 0x22;
         }
     } else if (r - 0x21 <= 1) {
-        CURSOR_MOVE_SetCurrent((task->work->sound), sel);
+        CURSOR_MOVE_SetCurrent((task->work->cursorMove), sel);
         BOX2_UI_UpdateCursor((char *)task, sel);
         return -1;
     }
     if (r == -1) {
         if (KEY_GetRepeat() & 0x200) {
-            BOX2_MAIN_PlayCursorSound((BoxTask *)task);
+            BOX2_MAIN_ActivateKeyCursor((BoxTask *)task);
             return 0x1F;
         }
         if (KEY_GetRepeat() & 0x100) {
-            BOX2_MAIN_PlayCursorSound((BoxTask *)task);
+            BOX2_MAIN_ActivateKeyCursor((BoxTask *)task);
             return 0x20;
         }
     }
@@ -1217,11 +1217,11 @@ void BOX2_UI_CursorTagB(void *a, int tag)
 
 unsigned BOX2_UI_UpdateCursorInputC(BoxTask *task)
 {
-    unsigned char sel = CURSOR_MOVE_GetCurrent((task->work->sound));
-    unsigned r = CURSOR_MOVE_PollRepeatInput((task->work->sound));
+    unsigned char sel = CURSOR_MOVE_GetCurrent((task->work->cursorMove));
+    unsigned r = CURSOR_MOVE_PollRepeatInput((task->work->cursorMove));
     if (BOX2_UI_IsListOpen(task->work->winMgr) == 0) {
         if (r >= 0x24 && r <= 0x29) {
-            CURSOR_MOVE_SetCurrent((task->work->sound), sel);
+            CURSOR_MOVE_SetCurrent((task->work->cursorMove), sel);
             BOX2_UI_UpdateCursor((char *)task, sel);
             return -1;
         }
@@ -1234,21 +1234,21 @@ unsigned BOX2_UI_UpdateCursorInputC(BoxTask *task)
             return 0x22;
         }
         if (r == 0x23) {
-            CURSOR_MOVE_SetCurrent((task->work->sound), sel);
+            CURSOR_MOVE_SetCurrent((task->work->cursorMove), sel);
             return 0x23;
         }
     } else if (r - 0x21 <= 2) {
-        CURSOR_MOVE_SetCurrent((task->work->sound), sel);
+        CURSOR_MOVE_SetCurrent((task->work->cursorMove), sel);
         BOX2_UI_UpdateCursor((char *)task, sel);
         return -1;
     }
     if (r == -1) {
         if (KEY_GetRepeat() & 0x200) {
-            BOX2_MAIN_PlayCursorSound((BoxTask *)task);
+            BOX2_MAIN_ActivateKeyCursor((BoxTask *)task);
             return 0x1F;
         }
         if (KEY_GetRepeat() & 0x100) {
-            BOX2_MAIN_PlayCursorSound((BoxTask *)task);
+            BOX2_MAIN_ActivateKeyCursor((BoxTask *)task);
             return 0x20;
         }
     }
@@ -1340,10 +1340,10 @@ void BOX2_UI_PickSlot(BoxTask *task, int a, int b)
 void BOX2_UI_ConfirmSlot(BoxTask *task, unsigned r)
 {
     if (r - 0x1f <= 1) {
-        CURSOR_MOVE_SetCurrent(task->work->sound, 0x1e);
+        CURSOR_MOVE_SetCurrent(task->work->cursorMove, 0x1e);
         r = 0x1e;
     } else if (r == 0x21 || r == 0x26 || r - 0x28 <= 2) {
-        CURSOR_MOVE_SetCurrent(task->work->sound, (*(unsigned *)&task->work->heldSlot));
+        CURSOR_MOVE_SetCurrent(task->work->cursorMove, (*(unsigned *)&task->work->heldSlot));
         r = (*(unsigned *)&task->work->heldSlot);
     } else {
         BOX2_UI_UpdateCursor((char *)task, r);
@@ -1359,18 +1359,18 @@ void BOX2_UI_ConfirmSlot(BoxTask *task, unsigned r)
 
 unsigned BOX2_UI_CursorInputLeft(BoxTask *task)
 {
-    unsigned r = CURSOR_MOVE_PollRepeatInput(task->work->sound);
+    unsigned r = CURSOR_MOVE_PollRepeatInput(task->work->cursorMove);
     if (r == -1) {
         if (KEY_GetTrg() & 0x800) {
-            BOX2_MAIN_PlayCursorSound((BoxTask *)task);
+            BOX2_MAIN_ActivateKeyCursor((BoxTask *)task);
             return 0x28;
         }
         if (KEY_GetRepeat() & 0x200) {
-            BOX2_MAIN_PlayCursorSound((BoxTask *)task);
+            BOX2_MAIN_ActivateKeyCursor((BoxTask *)task);
             return 0x1F;
         }
         if (KEY_GetRepeat() & 0x100) {
-            BOX2_MAIN_PlayCursorSound((BoxTask *)task);
+            BOX2_MAIN_ActivateKeyCursor((BoxTask *)task);
             return 0x20;
         }
     }
@@ -1400,12 +1400,12 @@ unsigned BOX2_UI_CursorInputLeft(BoxTask *task)
 
 unsigned BOX2_UI_UpdateCursorInputD(BoxTask *task)
 {
-    unsigned char sel = CURSOR_MOVE_GetCurrent(task->work->sound);
-    unsigned r = CURSOR_MOVE_PollRepeatInput(task->work->sound);
+    unsigned char sel = CURSOR_MOVE_GetCurrent(task->work->cursorMove);
+    unsigned r = CURSOR_MOVE_PollRepeatInput(task->work->cursorMove);
 
     if (BOX2_UI_IsListOpen(task->work->winMgr) == 0) {
         if (r >= 9 && r <= 14) {
-            CURSOR_MOVE_SetCurrent(task->work->sound, sel);
+            CURSOR_MOVE_SetCurrent(task->work->cursorMove, sel);
             BOX2_UI_UpdateCursor((char *)task, sel);
             return -1;
         }
@@ -1418,11 +1418,11 @@ unsigned BOX2_UI_UpdateCursorInputD(BoxTask *task)
             return 7;
         }
         if (r == 8) {
-            CURSOR_MOVE_SetCurrent(task->work->sound, sel);
+            CURSOR_MOVE_SetCurrent(task->work->cursorMove, sel);
             return 8;
         }
     } else if (r - 6 <= 2) {
-        CURSOR_MOVE_SetCurrent(task->work->sound, sel);
+        CURSOR_MOVE_SetCurrent(task->work->cursorMove, sel);
         BOX2_UI_UpdateCursor((char *)task, sel);
         return -1;
     }
@@ -1458,18 +1458,18 @@ void BOX2_UI_CursorTagD(void *a, int tag)
 
 unsigned BOX2_UI_CursorInputRight(BoxTask *task)
 {
-    unsigned r = CURSOR_MOVE_PollRepeatInput(task->work->sound);
+    unsigned r = CURSOR_MOVE_PollRepeatInput(task->work->cursorMove);
     if (r == -1) {
         if (KEY_GetTrg() & 0x800) {
-            BOX2_MAIN_PlayCursorSound((BoxTask *)task);
+            BOX2_MAIN_ActivateKeyCursor((BoxTask *)task);
             return 0x28;
         }
         if (KEY_GetRepeat() & 0x200) {
-            BOX2_MAIN_PlayCursorSound((BoxTask *)task);
+            BOX2_MAIN_ActivateKeyCursor((BoxTask *)task);
             return 0x25;
         }
         if (KEY_GetRepeat() & 0x100) {
-            BOX2_MAIN_PlayCursorSound((BoxTask *)task);
+            BOX2_MAIN_ActivateKeyCursor((BoxTask *)task);
             return 0x26;
         }
     }
@@ -1513,10 +1513,10 @@ void BOX2_UI_PickSlotB(BoxTask *task, int a, int b)
 void BOX2_UI_ConfirmSlotB(BoxTask *task, unsigned r)
 {
     if (r - 0x25 <= 1) {
-        CURSOR_MOVE_SetCurrent(task->work->sound, 0x24);
+        CURSOR_MOVE_SetCurrent(task->work->cursorMove, 0x24);
         r = 0x24;
     } else if (r - 0x28 <= 2) {
-        CURSOR_MOVE_SetCurrent(task->work->sound, (*(unsigned *)&task->work->heldSlot));
+        CURSOR_MOVE_SetCurrent(task->work->cursorMove, (*(unsigned *)&task->work->heldSlot));
         r = (*(unsigned *)&task->work->heldSlot);
     } else {
         BOX2_UI_UpdateCursor((char *)task, r);
@@ -1548,11 +1548,11 @@ void BOX2_UI_ConfirmSlotB(BoxTask *task, unsigned r)
 
 unsigned BOX2_UI_UpdateCursorInputE(BoxTask *task)
 {
-    unsigned char sel = CURSOR_MOVE_GetCurrent((task->work->sound));
-    unsigned r = CURSOR_MOVE_PollRepeatInput((task->work->sound));
+    unsigned char sel = CURSOR_MOVE_GetCurrent((task->work->cursorMove));
+    unsigned r = CURSOR_MOVE_PollRepeatInput((task->work->cursorMove));
     if (BOX2_UI_IsListOpen(task->work->winMgr) == 0) {
         if (r - 0x24 <= 2) {
-            CURSOR_MOVE_SetCurrent((task->work->sound), sel);
+            CURSOR_MOVE_SetCurrent((task->work->cursorMove), sel);
             BOX2_UI_UpdateCursor((char *)task, sel);
             return -1;
         }
@@ -1565,21 +1565,21 @@ unsigned BOX2_UI_UpdateCursorInputE(BoxTask *task)
             return 0x22;
         }
         if (r == 0x23) {
-            CURSOR_MOVE_SetCurrent((task->work->sound), sel);
+            CURSOR_MOVE_SetCurrent((task->work->cursorMove), sel);
             return 0x23;
         }
     } else if (r - 0x21 <= 2) {
-        CURSOR_MOVE_SetCurrent((task->work->sound), sel);
+        CURSOR_MOVE_SetCurrent((task->work->cursorMove), sel);
         BOX2_UI_UpdateCursor((char *)task, sel);
         return -1;
     }
     if (r == -1) {
         if (KEY_GetRepeat() & 0x200) {
-            BOX2_MAIN_PlayCursorSound((BoxTask *)task);
+            BOX2_MAIN_ActivateKeyCursor((BoxTask *)task);
             return 0x1F;
         }
         if (KEY_GetRepeat() & 0x100) {
-            BOX2_MAIN_PlayCursorSound((BoxTask *)task);
+            BOX2_MAIN_ActivateKeyCursor((BoxTask *)task);
             return 0x20;
         }
     }
@@ -1636,12 +1636,12 @@ void BOX2_UI_CursorTagE(void *a, int tag)
  */
 unsigned BOX2_UI_UpdateCursorInputF(BoxTask *task)
 {
-    unsigned char sel = CURSOR_MOVE_GetCurrent(task->work->sound);
-    unsigned r = CURSOR_MOVE_PollRepeatInput(task->work->sound);
+    unsigned char sel = CURSOR_MOVE_GetCurrent(task->work->cursorMove);
+    unsigned r = CURSOR_MOVE_PollRepeatInput(task->work->cursorMove);
 
     if (BOX2_UI_IsListOpen(task->work->winMgr) == 0) {
         if (r - 9 <= 2) {
-            CURSOR_MOVE_SetCurrent(task->work->sound, sel);
+            CURSOR_MOVE_SetCurrent(task->work->cursorMove, sel);
             BOX2_UI_UpdateCursor((char *)task, sel);
             return -1;
         }
@@ -1654,11 +1654,11 @@ unsigned BOX2_UI_UpdateCursorInputF(BoxTask *task)
             return 7;
         }
         if (r == 8) {
-            CURSOR_MOVE_SetCurrent(task->work->sound, sel);
+            CURSOR_MOVE_SetCurrent(task->work->cursorMove, sel);
             return 8;
         }
     } else if (r - 6 <= 2) {
-        CURSOR_MOVE_SetCurrent(task->work->sound, sel);
+        CURSOR_MOVE_SetCurrent(task->work->cursorMove, sel);
         BOX2_UI_UpdateCursor((char *)task, sel);
         return -1;
     }
@@ -1707,7 +1707,7 @@ void BOX2_UI_SetCursorSeqF(BoxTask *task, int a, int b)
  */
 void BOX2_UI_PlayAndUpdateCursorB(BoxTask *task, unsigned int a)
 {
-    CURSOR_MOVE_SetCurrent((struct Sound *)((*(int *)&task->work->sound)), (unsigned char)a);
+    CURSOR_MOVE_SetCurrent((struct Sound *)((*(int *)&task->work->cursorMove)), (unsigned char)a);
     BOX2_UI_UpdateCursor((char *)task, a);
 }
 
@@ -1726,7 +1726,7 @@ void BOX2_UI_SetCursorSeqG(BoxTask *task, int a, int b)
 
 void BOX2_UI_PlayAndUpdateCursorC(BoxTask *task, unsigned int a)
 {
-    CURSOR_MOVE_SetCurrent((struct Sound *)((*(int *)&task->work->sound)), (unsigned char)a);
+    CURSOR_MOVE_SetCurrent((struct Sound *)((*(int *)&task->work->cursorMove)), (unsigned char)a);
     BOX2_UI_UpdateCursor((char *)task, a);
 }
 
@@ -1756,7 +1756,7 @@ void BOX2_UI_MoveCursorToHeld(BoxTask *task, int a)
 {
     int v;
     if (a == 0 || (unsigned)(a - 5) <= 1) {
-        CURSOR_MOVE_SetCurrent((struct Sound *)((*(int *)&task->work->sound)),
+        CURSOR_MOVE_SetCurrent((struct Sound *)((*(int *)&task->work->cursorMove)),
                       task->work->heldSlot & 0xff);
         v = task->work->heldSlot;
     } else {
@@ -1790,11 +1790,11 @@ void BOX2_UI_MoveCursorToHeld(BoxTask *task, int a)
 
 unsigned BOX2_UI_UpdateCursorInputG(BoxTask *task)
 {
-    unsigned char sel = CURSOR_MOVE_GetCurrent((task->work->sound));
-    unsigned r = CURSOR_MOVE_PollRepeatInput((task->work->sound));
+    unsigned char sel = CURSOR_MOVE_GetCurrent((task->work->cursorMove));
+    unsigned r = CURSOR_MOVE_PollRepeatInput((task->work->cursorMove));
     if (BOX2_UI_IsListOpen(task->work->winMgr) == 0) {
         if (r >= 0x24 && r <= 0x27) {
-            CURSOR_MOVE_SetCurrent((task->work->sound), sel);
+            CURSOR_MOVE_SetCurrent((task->work->cursorMove), sel);
             BOX2_UI_UpdateCursor((char *)task, sel);
             return -1;
         }
@@ -1807,21 +1807,21 @@ unsigned BOX2_UI_UpdateCursorInputG(BoxTask *task)
             return 0x22;
         }
         if (r == 0x23) {
-            CURSOR_MOVE_SetCurrent((task->work->sound), sel);
+            CURSOR_MOVE_SetCurrent((task->work->cursorMove), sel);
             return 0x23;
         }
     } else if (r == 0x1E || r - 0x21 <= 2) {
-        CURSOR_MOVE_SetCurrent((task->work->sound), sel);
+        CURSOR_MOVE_SetCurrent((task->work->cursorMove), sel);
         BOX2_UI_UpdateCursor((char *)task, sel);
         return -1;
     }
     if (r == -1) {
         if (KEY_GetRepeat() & 0x200) {
-            BOX2_MAIN_PlayCursorSound((BoxTask *)task);
+            BOX2_MAIN_ActivateKeyCursor((BoxTask *)task);
             return 0x1F;
         }
         if (KEY_GetRepeat() & 0x100) {
-            BOX2_MAIN_PlayCursorSound((BoxTask *)task);
+            BOX2_MAIN_ActivateKeyCursor((BoxTask *)task);
             return 0x20;
         }
     }
@@ -1865,12 +1865,12 @@ void BOX2_UI_CursorTagG(void *a, int tag)
 
 unsigned BOX2_UI_UpdateCursorInputH(BoxTask *task)
 {
-    unsigned char sel = CURSOR_MOVE_GetCurrent(task->work->sound);
-    unsigned r = CURSOR_MOVE_PollRepeatInput(task->work->sound);
+    unsigned char sel = CURSOR_MOVE_GetCurrent(task->work->cursorMove);
+    unsigned r = CURSOR_MOVE_PollRepeatInput(task->work->cursorMove);
 
     if (BOX2_UI_IsListOpen(task->work->winMgr) == 0) {
         if (r >= 9 && r <= 12) {
-            CURSOR_MOVE_SetCurrent(task->work->sound, sel);
+            CURSOR_MOVE_SetCurrent(task->work->cursorMove, sel);
             BOX2_UI_UpdateCursor((char *)task, sel);
             return -1;
         }
@@ -1883,11 +1883,11 @@ unsigned BOX2_UI_UpdateCursorInputH(BoxTask *task)
             return 7;
         }
         if (r == 8) {
-            CURSOR_MOVE_SetCurrent(task->work->sound, sel);
+            CURSOR_MOVE_SetCurrent(task->work->cursorMove, sel);
             return 8;
         }
     } else if (r - 6 <= 2) {
-        CURSOR_MOVE_SetCurrent(task->work->sound, sel);
+        CURSOR_MOVE_SetCurrent(task->work->cursorMove, sel);
         BOX2_UI_UpdateCursor((char *)task, sel);
         return -1;
     }
@@ -1941,26 +1941,26 @@ void BOX2_UI_CursorTagH(void *a, int tag)
 
 unsigned BOX2_UI_CursorInputPage(BoxTask *task)
 {
-    unsigned char sel=CURSOR_MOVE_GetCurrent((task->work->sound));
-    unsigned r=CURSOR_MOVE_PollRepeatInput((task->work->sound));
+    unsigned char sel=CURSOR_MOVE_GetCurrent((task->work->cursorMove));
+    unsigned r=CURSOR_MOVE_PollRepeatInput((task->work->cursorMove));
     if(BOX2_UI_IsListOpen(task->work->winMgr)==0) {
         if(r>=0x22 && r<=0x23) {
-            CURSOR_MOVE_SetCurrent((task->work->sound),sel);
+            CURSOR_MOVE_SetCurrent((task->work->cursorMove),sel);
             BOX2_UI_UpdateCursor((char *)task,sel);
             return -1;
         }
         if(r==0x21) {
-            CURSOR_MOVE_SetCurrent((task->work->sound),sel);
+            CURSOR_MOVE_SetCurrent((task->work->cursorMove),sel);
             return 0x21;
         }
     } else if(r==0x1e || r==0x21) {
-        CURSOR_MOVE_SetCurrent((task->work->sound),sel);
+        CURSOR_MOVE_SetCurrent((task->work->cursorMove),sel);
         BOX2_UI_UpdateCursor((char *)task,sel);
         return -1;
     }
     if(r==-1) {
-        if(KEY_GetRepeat()&0x200) { BOX2_MAIN_PlayCursorSound((BoxTask *)task); return 0x1f; }
-        if(KEY_GetRepeat()&0x100) { BOX2_MAIN_PlayCursorSound((BoxTask *)task); return 0x20; }
+        if(KEY_GetRepeat()&0x200) { BOX2_MAIN_ActivateKeyCursor((BoxTask *)task); return 0x1f; }
+        if(KEY_GetRepeat()&0x100) { BOX2_MAIN_ActivateKeyCursor((BoxTask *)task); return 0x20; }
     }
     return r;
 }
@@ -1995,8 +1995,8 @@ void BOX2_UI_CursorTagI(char *a, int b)
  */
 void BOX2_UI_MoveCursorBetweenIcons(BoxWork *q, int a, int b)
 {
-    unsigned char *x = CURSOR_MOVE_GetEntry((void **)((*(int *)&q->sound)), a);
-    unsigned char *y = CURSOR_MOVE_GetEntry((void **)((*(int *)&q->sound)), b);
+    unsigned char *x = CURSOR_MOVE_GetEntry((void **)((*(int *)&q->cursorMove)), a);
+    unsigned char *y = CURSOR_MOVE_GetEntry((void **)((*(int *)&q->cursorMove)), b);
     BOX2_UI_PlaceCursorBetween((BoxWork *)q, x[0], x[1], y[0], y[1]);
 }
 

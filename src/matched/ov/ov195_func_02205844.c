@@ -1,5 +1,5 @@
 /*
- * function: SHINKA_DEMO_ClearPartyValue
+ * function: SHINKA_DEMO_ClearHeldItem
  * address:  0x02205844
  * packet:   pkt_02205844
  * region:   ov195
@@ -17,7 +17,7 @@
 typedef unsigned int   u32;
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 
-void SHINKA_DEMO_ClearPartyValue(int a, char *b)
+void SHINKA_DEMO_ClearHeldItem(int a, char *b)
 {
     POKE_TOOL_SetPartyValue((void *)(((struct Obj24950 *)b)->f10), 6, 0);
 }

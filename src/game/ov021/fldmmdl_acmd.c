@@ -42,7 +42,7 @@
  *   FLDMMDL_SysGetTcbSys  0x0216D514  thumb  ov010
  *   TCB_AddTask  0x02030DA8  arm
  *   d_021DDBE0  0x021DDBE0  data  a4
- *   TCBL_GetTaskUserData  0x02030EE8  arm
+ *   TCBL_IsDeletePending  0x02030EE8  arm
  *   FLDMMDL_EndAcmd  0x0216D480  thumb  ov010
  *   d_021D4A50  0x021D4A50  data  a4
  *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
@@ -436,7 +436,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u
 extern int GFL_HEAP_Free(void *mem);
 extern void TCB_AddTask(void *tcbSys, void (*func)(void *, MmdlAcmdListWork *), void *work, u32 priority);
 extern void TCB_DeleteTask(void *tcb);
-extern void *TCBL_GetTaskUserData(void *tcb);
+extern void *TCBL_IsDeletePending(void *tcb);
 
 extern u8 d_021DDBE0;
 extern int (*const d_021D4A50[])(MmdlAcmdListWork *);
@@ -580,14 +580,14 @@ void FLDMMDL_ACMD_ListCreate(Mmdl *mmdl, const MmdlAcmdListEntry *list)
 
 int FLDMMDL_ACMD_ListCheckEnd(void *tcb)
 {
-    return ((MmdlAcmdListWork *)TCBL_GetTaskUserData(tcb))->endFlag;
+    return ((MmdlAcmdListWork *)TCBL_IsDeletePending(tcb))->endFlag;
 }
 
 void FLDMMDL_ACMD_ListDelete(void *tcb)
 {
     MmdlAcmdListWork *work;
 
-    work = TCBL_GetTaskUserData(tcb);
+    work = TCBL_IsDeletePending(tcb);
     FLDMMDL_EndAcmd(work->mmdl);
     GFL_HEAP_Free(work);
     TCB_DeleteTask(tcb);

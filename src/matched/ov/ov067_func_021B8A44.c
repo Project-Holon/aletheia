@@ -11,7 +11,7 @@
  *
  * symbols:
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
- *   COMM_HISTORY_ScaleValue  0x0202EDE4  thumb
+ *   SCROLLBAR_GetValueFromPos  0x0202EDE4  thumb
  */
 
 typedef unsigned char u8;
@@ -31,7 +31,7 @@ struct S {
 };
 
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
-extern u32 COMM_HISTORY_ScaleValue(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
+extern u32 SCROLLBAR_GetValueFromPos(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
 
 u32 FRAME_LIST_GetScrollBarRow(struct S *s)
 {
@@ -41,5 +41,5 @@ u32 FRAME_LIST_GetScrollBarRow(struct S *s)
     if (TOUCHPANEL_GetPointCont((u32 *)(&a), (u32 *)(&b)) == 0)
         b = s->f80;
     s->f80 = -1;
-    return COMM_HISTORY_ScaleValue(s->f64, b, s->f7d, s->f7e, s->f12);
+    return SCROLLBAR_GetValueFromPos(s->f64, b, s->f7d, s->f7e, s->f12);
 }

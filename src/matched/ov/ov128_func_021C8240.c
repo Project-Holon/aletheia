@@ -11,7 +11,7 @@
  * mutable config declaration preserves sequential halfword loads/stores.
  * symbols:
  *   CLACT_SetSurfacePos 0x0204B09C arm
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  *   Wf2dmapFriend_DeleteEntryActors 0x021C8A50 thumb ov128
  *   Wf2dmapFriend_DrawEntryOpen 0x021C860C thumb ov128
  *   gWf2dmapOpenAnimConfig 0x021CA7C0 data a4
@@ -32,7 +32,7 @@ typedef unsigned int   u32;
 struct PrintSys;
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern void CLACT_SetSurfacePos(void *, int, Pair *);
-extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
+extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
 extern void Wf2dmapFriend_DeleteEntryActors(char *p, int unused);
 extern void Wf2dmapFriend_DrawEntryOpen(u8 *, u8 *, u8 *, int, int, u16);
 int Wf2dmapFriend_StepItemOpen(u8 *p, u8 *a, u8 *b, u16 h)
@@ -53,8 +53,8 @@ int Wf2dmapFriend_StepItemOpen(u8 *p, u8 *a, u8 *b, u16 h)
     }
     delta = (((struct Obj00179 *)p)->f100 * 256) / 24;
     if (((struct Obj00179 *)p)->f102 == 2) delta = -delta;
-    BG_SYS_ResetSlot(2, 0, delta);
-    BG_SYS_ResetSlot(3, 0, delta);
+    BG_SYS_ChangeScroll(2, 0, delta);
+    BG_SYS_ChangeScroll(3, 0, delta);
     pos.x = gWf2dmapOpenAnimConfig.pos.x;
     pos.y = gWf2dmapOpenAnimConfig.pos.y;
     pos.x += (s16)delta;

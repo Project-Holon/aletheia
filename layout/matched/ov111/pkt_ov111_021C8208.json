@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "VIEWER_ACTOR_GetRtcDate",
+   "name": "VIEWER_ACTOR_LoadBadgeTimers",
    "address": "0x021C8208",
    "kind": "game",
    "region": "ov111",

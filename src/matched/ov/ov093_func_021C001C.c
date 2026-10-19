@@ -22,14 +22,14 @@
  *   BTL_POKEPARAM_TestTurnFlag 0x021D5BB0 thumb ov093
  *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
  *   BTL_POKEPARAM_GetSickContRaw 0x021D6314 thumb ov093
- *   BTLV_CORE_GetSlotValue 0x021E8B80 thumb ov093
+ *   BTL_SICKCONT_GetValue 0x021E8B80 thumb ov093
  *   BTL_FIELD_GetStaticSlotObject 0x021EF948 thumb ov093
  *   BTL_POKEPARAM_GetLastSelectedMoveId 0x021D67B8 thumb ov093
  *   BTL_POKEPARAM_GetLastUsedMoveId 0x021D67A8 thumb ov093
  *   func_021EF91C 0x021EF91C thumb ov093
- *   BTL_SERVER_FLOW_CheckParalysisFail 0x021C031C thumb ov093
+ *   BTL_SERVER_FLOW_CheckConfusionFail 0x021C031C thumb ov093
  *   BTL_CALC_RollPercent 0x021D7AF0 thumb ov093
- *   BTL_SERVER_FLOW_CheckConfusionSelfHit 0x021C03AC thumb ov093
+ *   BTL_SERVER_FLOW_CheckInfatuationFail 0x021C03AC thumb ov093
  *   BTL_SERVER_FLOW_ProcMoveExecuteFail 0x021C0450 thumb ov093
  *   BTL_SERVER_FLOW_PushMoveFailMessage 0x021C0520 thumb ov093
  *   BTL_SERVER_FLOW_PushPokeEffectAnim 0x021C5480 thumb ov093
@@ -59,16 +59,16 @@ extern int BTL_SERVER_FLOW_QueryMoveFailReasonEvent(u8 *, u8 *, u32, int);
 extern int BTL_POKEPARAM_TestTurnFlag(struct UtilWork *p, u32 n);
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern union Slot BTL_POKEPARAM_GetSickContRaw(void *, int);
-extern u16 BTLV_CORE_GetSlotValue(union Slot);
+extern u16 BTL_SICKCONT_GetValue(union Slot);
 extern u32 WAZA_TOOL_GetFlag(u16, u32);
 extern int BTL_FIELD_GetStaticSlotObject(int);
 extern u16 BTL_POKEPARAM_GetLastSelectedMoveId(u8 *);
 extern u16 BTL_POKEPARAM_GetLastUsedMoveId(struct QL *p);
 extern u32 WAZA_TOOL_IsDamaging(void *p);
 extern int func_021EF91C(void *, u8 *, u16);
-extern int BTL_SERVER_FLOW_CheckParalysisFail(u8 *, u8 *);
+extern int BTL_SERVER_FLOW_CheckConfusionFail(u8 *, u8 *);
 extern int BTL_CALC_RollPercent(u32);
-extern int BTL_SERVER_FLOW_CheckConfusionSelfHit(u8 *, u8 *);
+extern int BTL_SERVER_FLOW_CheckInfatuationFail(u8 *, u8 *);
 extern void BTL_SERVER_FLOW_ProcMoveExecuteFail(u8 *, u8 *, u16, int);
 extern void BTL_SERVER_FLOW_PushMoveFailMessage(u8 *, u8 *, u16, u32);
 extern void BTL_SERVER_FLOW_PushPokeEffectAnim(u8 *, u8 *, int);
@@ -102,7 +102,7 @@ int BTL_SERVER_FLOW_CheckMoveExecuteFail(u8 *p, u8 *a, u16 c, u16 d)
     if (BTL_POKEPARAM_TestTurnFlag((struct UtilWork *)a, 4)) { reason = 6; goto done; }
     if (BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)a, 13) && c != 165) {
         move = BTL_POKEPARAM_GetSickContRaw(a, 13);
-        if (c == BTLV_CORE_GetSlotValue(move)) { reason = 9; goto done; }
+        if (c == BTL_SICKCONT_GetValue(move)) { reason = 9; goto done; }
     }
     if (BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)a, 15) && WAZA_TOOL_GetFlag(c, 12)) { reason = 13; goto done; }
     if (BTL_FIELD_GetStaticSlotObject(2) && WAZA_TOOL_GetFlag(c, 9)) { reason = 20; goto done; }
@@ -115,9 +115,9 @@ int BTL_SERVER_FLOW_CheckMoveExecuteFail(u8 *p, u8 *a, u16 c, u16 d)
         if (BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)a, 11) && WAZA_TOOL_IsDamaging((void *)c) == 0) { reason = 10; goto done; }
         if (BTL_FIELD_GetStaticSlotObject(3) && func_021EF91C(((struct Obj04359 *)p)->f8, a, c)) { reason = 12; goto done; }
     }
-    if (BTL_SERVER_FLOW_CheckParalysisFail(p, a)) { reason = 5; goto done; }
+    if (BTL_SERVER_FLOW_CheckConfusionFail(p, a)) { reason = 5; goto done; }
     if (mode == 1 && BTL_CALC_RollPercent(25)) { reason = 3; goto done; }
-    if (BTL_SERVER_FLOW_CheckConfusionSelfHit(p, a)) reason = 8;
+    if (BTL_SERVER_FLOW_CheckInfatuationFail(p, a)) reason = 8;
 done:
     if (reason) {
         BTL_SERVER_FLOW_ProcMoveExecuteFail(p, a, c, reason);

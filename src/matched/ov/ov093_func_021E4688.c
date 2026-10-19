@@ -18,7 +18,7 @@
  *   BTL_POKEPARAM_GetMovePPById  0x021D55A0  thumb  ov093
  *   BTL_POKEPARAM_TestTurnFlag  0x021D5BB0  thumb  ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
- *   BTLV_CORE_MakeSlotKind2  0x021E896C  thumb  ov093
+ *   BTL_SICKCONT_MakeKind2  0x021E896C  thumb  ov093
  *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb  ov093
  *   BTL_SERVER_FLOW_AppendMsgRecordArg  0x021C8860  thumb  ov093
  *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb  ov093
@@ -41,7 +41,7 @@ typedef struct Word { u32 v; } Word;
 typedef enum { K_0 } KType;
 struct Rec { u32 f0; u32 f4; Word f8; u8 fc; u8 fd; u8 fe; u8 ff; };
 
-extern Word BTLV_CORE_MakeSlotKind2(int a, int b);
+extern Word BTL_SICKCONT_MakeKind2(int a, int b);
 extern void BTL_SERVER_FLOW_InitMsgRecord(void *p, int a, int b);
 struct S;
 extern void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *p, u32 v);
@@ -64,7 +64,7 @@ void HAND_WAZA_EncoreAddSick(int a0, u8 *s, int k)
                 c = (u8)(c + 1);
             e = (struct Rec *)BTL_SERVER_FLOW_AllocCmdRecord((char *)s, 12, k);
             e->f4 = 0x17;
-            e->f8 = BTLV_CORE_MakeSlotKind2(c, w);
+            e->f8 = BTL_SICKCONT_MakeKind2(c, w);
             e->ff = v;
             e->fc = 0;
             BTL_SERVER_FLOW_InitMsgRecord((u8 *)e + 0x14, 2, 559);

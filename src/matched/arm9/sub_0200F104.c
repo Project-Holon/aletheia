@@ -1,5 +1,5 @@
 /*
- * function: NET_DEVICE_TABLE_GetFreeSlot
+ * function: FLDMMDL_GetFreeSlot
  * address:  0x0200F104
  * packet:   pkt_0200F104
  * region:   arm9
@@ -26,8 +26,8 @@
  * byte difference (see "the two missing labels" in docs/MATCHING.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/NET_DEVICE_TABLE_GetFreeSlot.c \
- *       --func NET_DEVICE_TABLE_GetFreeSlot --addr 0x0200F104 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/FLDMMDL_GetFreeSlot.c \
+ *       --func FLDMMDL_GetFreeSlot --addr 0x0200F104 --cc 1.1p1
  */
 #include "../include/Obj00192.h"
 
@@ -35,7 +35,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void *NET_DEVICE_TABLE_GetFreeSlot(void *ctx)
+void *FLDMMDL_GetFreeSlot(void *ctx)
 {
     u16 count = *(u16 *)&((struct Obj00192 *)ctx)->f4;
     int i = 0;

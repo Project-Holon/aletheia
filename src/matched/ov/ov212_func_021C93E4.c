@@ -9,13 +9,13 @@
  * status: EXACT
  *
  * symbols:
- *   BG_SYS_ResetSlot  0x02041EE4  arm  arm9
+ *   BG_SYS_ChangeScroll  0x02041EE4  arm  arm9
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void BG_SYS_ResetSlot(u32,u32,u32);
+extern void BG_SYS_ChangeScroll(u32,u32,u32);
 void ZUKAN_TickCounter(u32 a, u32 b, u32 *counter) {
     ++*counter;
-    if(*counter==4) { BG_SYS_ResetSlot(a,1,1); BG_SYS_ResetSlot(b,1,1); *counter=0; }
+    if(*counter==4) { BG_SYS_ChangeScroll(a,1,1); BG_SYS_ChangeScroll(b,1,1); *counter=0; }
 }

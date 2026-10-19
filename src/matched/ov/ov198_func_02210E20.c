@@ -20,7 +20,7 @@
  *   B_PLIST_MAIN_GetOrderIndex 0x022110D4 thumb ov198
  *   B_PLIST_MAIN_GetRowStatus 0x02210DA8 thumb ov198
  *   func_02045EC0 0x02045EC0 arm
- *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
+ *   WORDSET_SetSlotMonNickname 0x0201EEF4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   STRBUF_Delete 0x02045808 arm
  */
@@ -32,7 +32,7 @@ struct MsgBank;
 struct U16Vec;
 struct WordSet;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonNickname(struct WordSet *p, u32 i, void *mon);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 int B_PLIST_MAIN_PrintStatusMessage(u8 *p)
@@ -45,21 +45,21 @@ int B_PLIST_MAIN_PrintStatusMessage(u8 *p)
     case 1: text=func_02045EC0(*(void **)(p+0x1EA0),90); break;
     case 2:
         text=func_02045EC0(*(void **)(p+0x1EA0),87);
-        WORDSET_SetSlotMonSpecies(*(void **)(p+0x1EA4),0,*(void **)(base+index));
+        WORDSET_SetSlotMonNickname(*(void **)(p+0x1EA4),0,*(void **)(base+index));
         break;
     case 3:
         text=func_02045EC0(*(void **)(p+0x1EA0),86);
-        WORDSET_SetSlotMonSpecies(*(void **)(p+0x1EA4),0,*(void **)(base+index));
+        WORDSET_SetSlotMonNickname(*(void **)(p+0x1EA4),0,*(void **)(base+index));
         break;
     case 4:
         text=func_02045EC0(*(void **)(p+0x1EA0),103);
-        WORDSET_SetSlotMonSpecies(*(void **)(p+0x1EA4),0,*(void **)(base+index));
+        WORDSET_SetSlotMonNickname(*(void **)(p+0x1EA4),0,*(void **)(base+index));
         break;
     case 5: text=func_02045EC0(*(void **)(p+0x1EA0),89); break;
     case 6:
         index=76*(*(u8 **)p)[33];
         text=func_02045EC0(*(void **)(p+0x1EA0),88);
-        WORDSET_SetSlotMonSpecies(*(void **)(p+0x1EA4),0,*(void **)(base+index));
+        WORDSET_SetSlotMonNickname(*(void **)(p+0x1EA4),0,*(void **)(base+index));
         break;
     case 0: return 1;
     }

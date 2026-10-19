@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BOX2_SEQ_PrintMessageMsg  0x021EBA84  thumb  ov170
- *   WORDSET_Callback_EF40  0x0201EF40  thumb  arm9
+ *   WORDSET_SetSlotFromMsg36  0x0201EF40  thumb  arm9
  *
  * Stage 0x84 of the p+0x2c object with (0, arg1), then index 0xe
  *   with the third argument.
@@ -21,10 +21,10 @@
 
 typedef unsigned int   u32;
 struct WordSet;
-extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotFromMsg36(struct WordSet *p, u32 i, u32 v);
 extern void BOX2_SEQ_PrintMessageMsg(unsigned char *p, int msg, int i);
 void BOX2_SEQ_PrintWordsetB(char *p, int a, int b)
 {
-    WORDSET_Callback_EF40((struct WordSet *)(*(int *)(((struct Obj18518 *)p)->f2C + 0x84)), 0, a);
+    WORDSET_SetSlotFromMsg36((struct WordSet *)(*(int *)(((struct Obj18518 *)p)->f2C + 0x84)), 0, a);
     BOX2_SEQ_PrintMessageMsg((unsigned char *)p, 0xe, b);
 }

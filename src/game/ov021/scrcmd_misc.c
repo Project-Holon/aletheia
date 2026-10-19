@@ -1,8 +1,8 @@
 /*
  * file:     scrcmd_misc.c
  * unit:     yes
- * function: FIELD_G3D_MAPPER_GetTilePlane, SCRCMD_CheckWifiListFlags, SCRCMD_WifiListOperation, SCRCMD_SetWifiFriendNameWord, SCRCMD_MMDL_ICA_CreateProc, SCRCMD_MMDL_ICA_EndProc, SCRCMD_MMDL_ICA_Start, SCRCMD_MMDL_ICA_IsDone, SCRCMD_MMDL_ICA_Update, SCRCMD_MMDL_ICA_Nop, SCRCMD_MMDL_ICA_ApplyFrame, SCRCMD_CreateMmdlIcaProc, SCRCMD_EndMmdlIcaProc, SCRCMD_StartMmdlIcaAnime, SCRCMD_MMDL_ICA_WaitTask, SCRCMD_WaitMmdlIcaAnime, SCRCMD_SUBSCREEN_ChangeModeTask, SCRCMD_ChangeSubscreenMode, SCRCMD_ResetSubscreenMode, SCRCMD_SUBSCREEN_ResetModeTask, EVENT_PERAP_RECORD_Create, EVENT_PERAP_RECORD_Main, EVENT_PERAP_RECORD_OnRecorded, EVENT_PERAP_RECORD_PauseMmdls, EVENT_PERAP_RECORD_ResumeMmdls, EVENT_PERAP_RECORD_CreatePokeIcon, EVENT_PERAP_RECORD_DeletePokeIcon, EVENT_PERAP_RECORD_HopPokeIcon, EVENT_PERAP_RECORD_SetupWindow, EVENT_PERAP_RECORD_Cleanup, SCRCMD_CheckPmsWordPair, FIELD_SOUND_SYSTEM_FindSlotSound, FIELD_SOUND_SYSTEM_IsSlotSoundTracked, SCRCMD_ShowStepMilestoneMessage, FLDEFF_RIPPLE_WarpToZoneStartTask, FLDEFF_RIPPLE_WarpToSpecialLocationTask, FLDEFF_RIPPLE_CreateZoneStartWarpTask, FLDEFF_RIPPLE_CreateSpecialLocationWarpTask, SCRCMD_GetBirthdayMessageIds, SCRCMD_ShowPokeIconWindow, SCRCMD_POKE_ICON_InitWindow, SCRCMD_POKE_ICON_ShowWindow, SCRCMD_POKE_ICON_CreateIcon, SCRCMD_POKE_ICON_DeleteIcon, SCRCMD_POKE_ICON_Task, SCRCMD_CheckBeaconTrainerKey, FIELD_CheckPlayerPositionFree, FIELD_SUBSCREEN_CreateAnimTask, FIELD_SUBSCREEN_AnimTask, SCRCMD_ShowOrClearInfoWindow, SCRCMD_AddTrainerRecordValue, SCRCMD_GetTrainerRecordValue, SCRCMD_GetNpcGreetingMessage, SCRCMD_GREETING_AdjustMessageIdByMisc, SCRCMD_GREETING_AdjustMessageIdByRandom, FIELD_CAMERA_CreateShakeTask, FIELD_CAMERA_ShakeTask, SCRCMD_StartSwapNpcEvent, SCRCMD_StartArcPlayerEffect, SCRCMD_StartArcEffect, SCRCMD_ShowArcModelAt, SCRCMD_WaitArcEffectEnd, SCRCMD_WaitArcEffectPeak
- * address:  0x021D14C4
+ * function: SCRCMD_CheckWifiListFlags, SCRCMD_WifiListOperation, SCRCMD_SetWifiFriendNameWord, SCRCMD_MMDL_ICA_CreateProc, SCRCMD_MMDL_ICA_EndProc, SCRCMD_MMDL_ICA_Start, SCRCMD_MMDL_ICA_IsDone, SCRCMD_MMDL_ICA_Update, SCRCMD_MMDL_ICA_Nop, SCRCMD_MMDL_ICA_ApplyFrame, SCRCMD_CreateMmdlIcaProc, SCRCMD_EndMmdlIcaProc, SCRCMD_StartMmdlIcaAnime, SCRCMD_MMDL_ICA_WaitTask, SCRCMD_WaitMmdlIcaAnime, SCRCMD_SUBSCREEN_ChangeModeTask, SCRCMD_ChangeSubscreenMode, SCRCMD_ResetSubscreenMode, SCRCMD_SUBSCREEN_ResetModeTask, EVENT_PERAP_RECORD_Create, EVENT_PERAP_RECORD_Main, EVENT_PERAP_RECORD_OnRecorded, EVENT_PERAP_RECORD_PauseMmdls, EVENT_PERAP_RECORD_ResumeMmdls, EVENT_PERAP_RECORD_CreatePokeIcon, EVENT_PERAP_RECORD_DeletePokeIcon, EVENT_PERAP_RECORD_HopPokeIcon, EVENT_PERAP_RECORD_SetupWindow, EVENT_PERAP_RECORD_Cleanup, SCRCMD_CheckPmsWordPair, FIELD_SOUND_SYSTEM_FindSlotSound, FIELD_SOUND_SYSTEM_IsSlotSoundTracked, SCRCMD_ShowStepMilestoneMessage, FLDEFF_RIPPLE_WarpToZoneStartTask, FLDEFF_RIPPLE_WarpToSpecialLocationTask, FLDEFF_RIPPLE_CreateZoneStartWarpTask, FLDEFF_RIPPLE_CreateSpecialLocationWarpTask, SCRCMD_GetBirthdayMessageIds, SCRCMD_ShowPokeIconWindow, SCRCMD_POKE_ICON_InitWindow, SCRCMD_POKE_ICON_ShowWindow, SCRCMD_POKE_ICON_CreateIcon, SCRCMD_POKE_ICON_DeleteIcon, SCRCMD_POKE_ICON_Task, SCRCMD_CheckBeaconTrainerKey, FIELD_CheckPlayerPositionFree, FIELD_SUBSCREEN_CreateAnimTask, FIELD_SUBSCREEN_AnimTask, SCRCMD_ShowOrClearInfoWindow, SCRCMD_AddTrainerRecordValue, SCRCMD_GetTrainerRecordValue, SCRCMD_GetNpcGreetingMessage, SCRCMD_GREETING_AdjustMessageIdByMisc, SCRCMD_GREETING_AdjustMessageIdByRandom, FIELD_CAMERA_CreateShakeTask, FIELD_CAMERA_ShakeTask, SCRCMD_StartSwapNpcEvent, SCRCMD_StartArcPlayerEffect, SCRCMD_StartArcEffect, SCRCMD_ShowArcModelAt, SCRCMD_WaitArcEffectEnd, SCRCMD_WaitArcEffectPeak
+ * address:  0x021D1670
  * region:   ov021
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -10,8 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
- * Split from field_palace_sys.c at 0x021D14C4 (no __FILE__ anchor between field_saveanime.c and event_game_manual.c; script command handlers).
+ * Boundary audit (wave 16): kept as one file from 021D1670 (FIELD_G3D_MAPPER_GetTilePlane before it is field_g3d_tile_plane.c). No __FILE__ anchor. The run mixes script commands (SCRCMD_), the tasks they start (MMDL_ICA, SUBSCREEN, POKE_ICON, PERAP_RECORD, RIPPLE warp, CAMERA shake) and helpers of other prefixes; each task sits next to its command and the data tables (0x021DD5E0..0x021DD774) follow the code order without a switch of owner, so no border is provable. A split by prefix would be a guess.
  *
  * symbols:
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
@@ -27,16 +26,13 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_Delete  0x020452E8  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
- *   gTileNormalTable     0x021DB9A0  data
- *   gTilePlaneDistTable     0x021DC158  data
- *   FX_Div  0x0207C768  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
- *   GAME_DATA_GetSaveBlockWork  0x02012F8C  thumb
+ *   GAME_DATA_GetGameSync  0x02012F8C  thumb
  *   BLOCK20_SAVEDATA_GetPending  0x020092EC  thumb
  *   BLOCK20_SAVEDATA_GetMode  0x020092D8  thumb
  *   BLOCK20_SAVEDATA_GetRecord  0x02009390  thumb
@@ -67,7 +63,7 @@
  *   FLDMMDL_ClearMoveBit  0x0216D570  thumb  ov010
  *   FLDMMDL_CallDrawProc  0x0216D758  thumb  ov010
  *   gMmdlIcaReleaseMoveBitTable     0x021DD5E0  data    ov021  a4
- *   ICA_ANIME_Get  0x02011610  thumb
+ *   ICA_ANIME_GetTranslate  0x02011610  thumb
  *   ICA_ANIME_GetRotate  0x02011638  thumb
  *   VEC_Add  0x0207C9D0  arm
  *   FLDMMDL_SetPos  0x0216D89C  thumb  ov010
@@ -102,8 +98,8 @@
  *   PERAPVOICE_IsRecorded  0x02007B50  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   WORDSET_CreateDefault  0x0201EC64  thumb
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
- *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
+ *   WORDSET_SetSlotMonNickname  0x0201EEF4  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   FIELD_SOUND_SYSTEM_StartPushTask  0x020295A4  thumb
  *   FIELD_SOUND_SYSTEM_StartPopAndWaitTask  0x02029620  thumb
@@ -130,7 +126,7 @@
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
  *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
  *   CLACT_CreateUnit  0x0204B100  arm
- *   POKE_TOOL_Dummy  0x020185F0  thumb
+ *   POKE_TOOL_CastToBoxParam  0x020185F0  thumb
  *   POKEGRA_OpenHandle  0x0202D7C8  thumb
  *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
  *   POKEGRA_RegisterCgrPP  0x0202D934  thumb
@@ -153,7 +149,7 @@
  *   PMS_WORD_IsSameGroup  0x020249B0  thumb
  *   gFieldSoundSlotTable     0x021DD614  data  ov021  a4
  *   PLAYER_LOCATION_GetData  0x02008854  thumb
- *   PLAYER_LOCATION_GetValueB  0x02008990  thumb
+ *   PLAYER_LOCATION_GetStepMessageCount  0x02008990  thumb
  *   SCRIPT_SYS_CreateScriptEventSimple  0x02158768  thumb  ov010
  *   gStepMilestoneTable  0x021DD6BC  data
  *   FIELDMAP_GetTaskManager  0x02188D38  thumb  ov021
@@ -222,14 +218,14 @@
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
- *   WORDSET_Callback  0x0201EE60  thumb
- *   GF_STANDARD_SetField00  0x0203F4CC  arm
+ *   WORDSET_SetSlotSpeciesName  0x0201EE60  thumb
+ *   GF_STANDARD_GetCachedTime  0x0203F4CC  arm
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   gGreetingCounterTable     0x021DD774  data  ov021
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   gGreetingMiscMessageIds     0x021DD718  data  a4
  *   BEACON_GetBlock  0x0200C0F0  thumb
- *   BEACON_GetFlag  0x0200C234  thumb
+ *   BEACON_GetBadge  0x0200C234  thumb
  *   gGreetingRandomMessageIds     0x021DD738  data  ov021  a4
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   FIELD_CAMERA_EndDelay  0x0218F0A8  thumb  ov021
@@ -256,30 +252,16 @@
 #include "fldmmdl_rail_types.h"
 #include "scrcmd_misc_types.h"
 
-typedef int fx32;
-typedef int s32;
-typedef long long s64;
-
 typedef struct GameSystem GameSystem;
 typedef struct GameData GameData;
-typedef struct GameEvent GameEvent;
-typedef struct ScrcmdWork ScrcmdWork;
-typedef struct SaveControl SaveControl;
-typedef struct PlayerStatus PlayerStatus;
 typedef struct PokemonParam PokemonParam;
-typedef struct BoxPokemon BoxPokemon;
-typedef struct Party Party;
 typedef struct Strbuf Strbuf;
 typedef struct WordSet WordSet;
 typedef struct MsgData MsgData;
-typedef struct MsgBank MsgBank;
-typedef struct GfFont GfFont;
-typedef struct Bmp Bmp;
 typedef struct BmpWin BmpWin;
 typedef struct Unit Unit;
 typedef struct Actor Actor;
 typedef struct IcaAnime IcaAnime;
-typedef struct TcbList TcbList;
 typedef struct TimeIcon TimeIcon;
 typedef struct PerapVoice PerapVoice;
 typedef struct FieldCamera FieldCamera;
@@ -289,66 +271,56 @@ typedef struct FieldMsgBg FieldMsgBg;
 typedef struct FieldSysWin FieldSysWin;
 typedef struct FieldMenuFunc FieldMenuFunc;
 typedef struct FieldTaskManager FieldTaskManager;
-typedef struct FieldTask FieldTask;
 typedef struct FieldmapFunc FieldmapFunc;
 typedef struct FieldSubproc FieldSubproc;
+
+typedef int s32;
+
+typedef struct GameEvent GameEvent;
+
+typedef struct ScrcmdWork ScrcmdWork;
+
+typedef struct SaveControl SaveControl;
+
+typedef struct PlayerStatus PlayerStatus;
+
+typedef struct BoxPokemon BoxPokemon;
+
+typedef struct Party Party;
+
+typedef struct MsgBank MsgBank;
+
+typedef struct GfFont GfFont;
+
+typedef struct Bmp Bmp;
+
+typedef struct TcbList TcbList;
+
+typedef struct FieldTask FieldTask;
+
 typedef struct FieldSubprocTemplate FieldSubprocTemplate;
+
 typedef struct EventDataSystem EventDataSystem;
+
 typedef struct WfbcNpcData WfbcNpcData;
+
 /* Grid cell of a person or an item on the town map (same record as WfbcPosition in ov020/field_wfbc_data_local_types.h, which cannot be included together with fldmmdl_types.h). */
 typedef struct WfbcPosition {
     u8 x;
     u8 z;
 } WfbcPosition;
+
 typedef struct OccupyInfo OccupyInfo;
+
 typedef struct WifiListSave WifiListSave;
+
 typedef struct BeaconSave BeaconSave;
+
 typedef struct PlayerBirthday PlayerBirthday;
+
 typedef struct StepCounter StepCounter;
+
 typedef struct TrainerRecord TrainerRecord;
-
-/* Packed collision tile of a map block (8 bytes of packed indices plus the attribute word). */
-typedef struct PackedTile {
-    u16 type : 2;             /* 0 one plane, 2 two planes (split record), other: flat */
-    u16 normalIndex : 14;     /* normal triple index in gTileNormalTable */
-    u16 distIndex;            /* plane distance index in gTilePlaneDistTable; split record index for type 2 */
-    u32 attr : 31;
-    u32 diagonalFlip : 1;
-} PackedTile;
-
-/* Two planes of a split tile, one per triangle. */
-typedef struct PackedTileSplit {
-    u16 type : 2;
-    u16 normalIndexA : 14;
-    u16 normalIndexB;
-    u16 distIndexA;
-    u16 distIndexB;
-} PackedTileSplit;
-
-/* Collision grid of a map block: width and height in tiles, then the tiles, then the split records. */
-typedef struct PackedTileMap {
-    u16 width;
-    u16 height;
-    PackedTile tiles[1];
-} PackedTileMap;
-
-/* Normal component of the packed normal table, and one (x, y, z) triple of it. */
-typedef short NormComp;
-typedef struct NormTriple {
-    NormComp x;
-    NormComp y;
-    NormComp z;
-} NormTriple;
-
-/* Plane found under a position (fields of the first 12 bytes of CollisionPlane in field_g3d_map_block.c). */
-typedef struct TileSurface {
-    NormComp normalX;
-    NormComp normalY;
-    NormComp normalZ;
-    NormComp padding06;
-    u32 attr;
-    fx32 height;
-} TileSurface;
 
 typedef struct {
     u16 v[4];
@@ -404,393 +376,594 @@ typedef struct CameraShakeWork {
     const VecFx32 *pos;
 } CameraShakeWork;
 
-#define NRM(i) ((NormComp *)gTileNormalTable)[i]
-
 extern GameData *GAMESYSTEM_GetGameData(const GameSystem *gameSystem);
+
 extern PlayerStatus *GAME_DATA_GetMyStatus(GameData *gameData);
+
 extern u8 MYSTATUS_GetOutfitVariant(const PlayerStatus *status);
+
 extern void ARC_TOOL_DeleteHandle(void *handle);
+
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
+
 extern FieldCamera *FIELDMAP_GetCamera(FieldMap *fieldMap);
+
 extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, VecFx32 *out);
+
 extern BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
+
 extern Bmp *BMP_WIN_GetBmp(BmpWin *win);
+
 extern void BMP_Clear(Bmp *bmp, u8 value);
+
 extern void BMP_WIN_TransferChars(BmpWin *win);
+
 extern u32 BMP_WIN_Delete(BmpWin *win);
-extern void BG_SYS_SetFlagField06(u32 bgLayer);
+
+extern void BG_SYS_MarkTileDirty(u32 bgLayer);
+
 extern void BMP_WIN_MakeScreen(BmpWin *win);
-extern u32 FX_Div(u32 a, u32 b);
+
 extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(ScrcmdWork *cmdWork);
+
 extern GameSystem *SCRCMD_WORK_GetGameSystem(ScrcmdWork *cmdWork);
+
 extern GameData *SCRCMD_WORK_GetGameData(ScrcmdWork *cmdWork);
+
 extern u16 SCRIPT_WORK_ReadWorkValue(ScriptVm *vm, ScrcmdWork *cmdWork);
+
 extern u16 *SCRIPT_WORK_ReadWorkPointer(ScriptVm *vm, ScrcmdWork *cmdWork);
-extern WifiListSave *GAME_DATA_GetSaveBlockWork(GameData *gameData);
+
+extern WifiListSave *GAME_DATA_GetGameSync(GameData *gameData);
+
 extern u8 BLOCK20_SAVEDATA_GetPending(const WifiListSave *wifiList);
+
 extern u8 BLOCK20_SAVEDATA_GetMode(const WifiListSave *wifiList);
+
 extern u16 *BLOCK20_SAVEDATA_GetRecord(WifiListSave *wifiList, int index);
+
 extern u32 BLOCK20_SAVEDATA_GetProgress(const WifiListSave *wifiList);
+
 extern u32 BLOCK20_SAVEDATA_GetFlag(const WifiListSave *wifiList);
+
 extern void BLOCK20_SAVEDATA_SetFlag(WifiListSave *wifiList, int value);
+
 extern void BLOCK20_SAVEDATA_SetProgress(WifiListSave *wifiList, int value);
+
 extern u16 SCRCMD_WORK_GetHeapId(ScrcmdWork *cmdWork);
+
 extern WordSet *SCRIPT_WORK_GetWordSet(struct ScriptWork *scriptWork);
+
 extern Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+
 extern void STRBUF_SetStringN(Strbuf *strbuf, const u16 *srcChars, u32 charCount);
+
 extern void WORDSET_SetSlotTag(WordSet *words, u32 slot, Strbuf *src, u32 grammarCase, u32 isPlural, u32 gender);
+
 extern void STRBUF_Delete(Strbuf *strbuf);
+
 extern MmdlSys *FIELDMAP_GetMmdlSys(FieldMap *fieldMap);
+
 extern FieldmapFunc *FIELDMAP_GetMapFunc(FieldMap *fieldMap);
+
 extern FieldSubproc *FIELD_SUBPROC_Start(int overlayId, FieldmapFunc *mgr, const FieldSubprocTemplate *tmpl);
+
 extern void *FIELD_SUBPROC_GetWork(const FieldSubproc *proc);
+
 extern Mmdl *FLDMMDL_SysSearchObjId(MmdlSys *sys, u32 objId);
+
 extern void FIELD_SUBPROC_End(FieldSubproc *proc);
+
 extern IcaAnime *ICA_ANIME_CreateWithStreamBuffer(u32 heapId, u32 arcId, u32 dataId, u32 bufFrameNum, void *buffer, u32 bufferSize);
+
 extern void FLDMMDL_SetMoveBit(Mmdl *mmdl, u32 bit);
+
 extern u32 ICA_ANIME_IncFrameLoop(IcaAnime *anime, s32 step);
+
 extern void ICA_ANIME_Delete(IcaAnime *anime);
+
 extern void FLDMMDL_GetPos(const Mmdl *mmdl, MmdlVec *out);
+
 extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
+
 extern void FLDMMDL_InitPosition(Mmdl *mmdl, const MmdlVec *pos, int dir);
+
 extern void FLDMMDL_ClearMoveBit(Mmdl *mmdl, u32 bit);
+
 extern void FLDMMDL_CallDrawProc(Mmdl *mmdl);
-extern u32 ICA_ANIME_Get(IcaAnime *anime, VecFx32 *trans);
+
+extern u32 ICA_ANIME_GetTranslate(IcaAnime *anime, VecFx32 *trans);
+
 extern u32 ICA_ANIME_GetRotate(IcaAnime *anime, VecFx32 *rot);
+
 extern void VEC_Add(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);
+
 extern void FLDMMDL_SetPos(Mmdl *mmdl, const MmdlVec *pos);
+
 extern void FLDMMDL_SetDirAll(Mmdl *mmdl, int dir);
+
 extern ScriptFieldParam *SCRIPT_WORK_ResetFieldParam(struct ScriptWork *scriptWork);
+
 extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
+
 extern void SCRIPT_WORK_SetReturnParam(struct ScriptWork *scriptWork, u32 param);
+
 extern u32 SCRIPT_WORK_GetReturnParam(struct ScriptWork *scriptWork);
+
 extern GameEvent *GAME_EVENT_Create(GameSystem *owner, GameEvent *parent, void *proc, u32 workSize);
+
 extern void *GAME_EVENT_GetWork(GameEvent *event);
+
 extern void SCRIPT_SYS_CallEvent(struct ScriptWork *scriptWork, GameEvent *event);
+
 extern int FIELD_SUBSCREEN_IsIdle(FieldSubscreen *subscreen);
+
 extern int FIELD_SUBSCREEN_RequestMode(FieldSubscreen *subscreen, u32 mode);
+
 extern FieldSubscreen *FIELDMAP_GetSubscreen(FieldMap *fieldMap);
+
 extern void SCRIPT_WORK_SetCheckFlag(int flagId);
+
 extern void SCRIPT_WORK_ResetCheckFlag(int flagId);
+
 extern void MI_CpuFill8(void *dst, int value, int size);
+
 extern SaveControl *GAME_DATA_GetSaveControl(GameData *gameData);
+
 extern PerapVoice *PERAPVOICE_GetFromSave(SaveControl *save);
+
 extern Party *GAME_DATA_GetMyParty(GameData *gameData);
+
 extern PokemonParam *POKEPARTY_GetMember(Party *party, u32 pos);
+
 extern FieldMsgBg *FIELDMAP_GetMsgBg(FieldMap *fieldMap);
+
 extern MsgData *FIELD_MSGBG_CreateMsgData(FieldMsgBg *msgBg, u32 fileId);
+
 extern FieldSysWin *FIELD_MSGBG_CreateBottomSysWin(FieldMsgBg *msgBg, MsgData *msgData);
+
 extern WordSet *WORDSET_CreateDefault(u16 heapId);
+
 extern int PERAPVOICE_IsRecorded(PerapVoice *perapVoice);
+
 extern void FIELD_MSGBG_SysWinPrintMsg(FieldSysWin *sysWin, u32 x, u16 y, u32 msgId);
+
 extern u32 FIELD_MSGBG_SysWinMain(FieldSysWin *sysWin);
+
 extern FieldMenuFunc *FIELD_MSGBG_CreateYesNoMenu(FieldMsgBg *msgBg, u32 cursorPos);
+
 extern int FIELD_MSGBG_YesNoMenuMain(FieldMenuFunc *menu);
+
 extern int FIELD_MSGBG_DeleteMenuFunc(FieldMenuFunc *menu);
+
 extern void FIELD_MSGBG_ClearSysWin(FieldSysWin *sysWin);
+
 extern void UI_SetKeepAwakeFlagsGlobal(u8 flags);
+
 extern u32 SND_MIC_Init(u32 heapId);
+
 extern TcbList *GFL_USE_GetMainTaskList(u32 mic);
+
 extern BmpWin *FIELD_MSGBG_GetSysWinBmpWin(FieldSysWin *sysWin);
+
 extern TimeIcon *TIME_ICON_Create(TcbList *taskList, BmpWin *refWin, u8 fillColor, u8 waitInterval, volatile u16 heapId);
+
 extern void SND_MIC_AddElapsed(u32 ticks);
+
 extern u32 SND_MIC_IsLimitReached(void);
+
 extern void TIME_ICON_Delete(TimeIcon *icon);
+
 extern GameEvent *FIELD_SOUND_SYSTEM_StartPushTask(GameSystem *gameSystem, u32 fadeOutFrames);
+
 extern void GAME_EVENT_CallEvent(GameEvent *parent, GameEvent *child);
+
 extern u32 SND_MIC_StartRecording(void *callback, void *arg);
+
 extern Strbuf *MSGDATA_AllocString(MsgData *msgData, u32 index);
-extern void WORDSET_SetSlotMonSpecies(WordSet *words, u32 slot, PokemonParam *mon);
+
+extern void WORDSET_SetSlotMonNickname(WordSet *words, u32 slot, PokemonParam *mon);
+
 extern void WORDSET_CopyTaggedText(WordSet *words, Strbuf *dst, Strbuf *src);
+
 extern void FIELD_MSGBG_SysWinPrintStr(FieldSysWin *sysWin, u32 x, u16 y, Strbuf *str);
+
 extern void SND_MIC_Exit(void);
+
 extern void UI_ClearKeepAwakeFlagsGlobal(u8 flags);
+
 extern GameEvent *FIELD_SOUND_SYSTEM_StartPopAndWaitTask(GameSystem *gameSystem, u32 a, u32 b);
+
 extern void SND_MIC_StoreRecording(PerapVoice *perapVoice);
+
 extern void PM_VOICE_GetPerapVoiceSave(void **out);
+
 extern u32 PM_VOICE_Play(u32 species, u32 form, u32 pan, u32 dual, u32 volumeBiasB, u32 frequencyOffsetB, u32 reverse, void *perapVoiceSave);
+
 extern u32 PM_VOICE_IsActive(u32 slot);
-extern u32 WORDSET_DeleteStrbufED04(WordSet *words);
+
+extern u32 WORDSET_Delete(WordSet *words);
+
 extern int FIELD_MSGBG_DeleteSysWin(FieldSysWin *sysWin);
+
 extern u32 FIELD_MSGBG_DeleteMsgData(MsgData *msgData);
+
 extern FieldMap *GAMESYSTEM_GetFieldMap(const GameSystem *gameSystem);
+
 extern void FLDMMDL_SysPauseMove(MmdlSys *sys);
+
 extern void FLDMMDL_SysResumeMove(MmdlSys *sys);
+
 extern Unit *CLACT_CreateUnit(int count, u8 priority, u32 heapId);
-extern BoxPokemon *POKE_TOOL_Dummy(PokemonParam *pp);
+
+extern BoxPokemon *POKE_TOOL_CastToBoxParam(PokemonParam *pp);
+
 extern void *POKEGRA_OpenHandle(u32 heapId);
+
 extern u32 POKE_TOOL_DecodeBoxParam(BoxPokemon *box);
+
 extern int POKEGRA_RegisterCgrPP(void *handle, BoxPokemon *box, int dir, int drawType, unsigned short heapId);
+
 extern int POKEGRA_RegisterPalettePP(void *handle, BoxPokemon *box, int dir, int drawType, unsigned short palOffset, unsigned short heapId);
+
 extern u32 POKEGRA_RegisterCellAnimPP(BoxPokemon *box, u32 dir, u32 mapping, u32 unusedArg, u16 heapId);
+
 extern u32 POKE_TOOL_EncodeBoxParam(BoxPokemon *box, u32 didDecode);
+
 extern Actor *CLACT_CreateActor(Unit *unit, u32 charRes, u32 palRes, u32 cellRes, const ClactInitParam *param, u16 priority, u16 heapId);
+
 extern void CLACT_ReleaseCharacter(u32 idx);
+
 extern void CLACT_ReleasePalette(u32 idx);
+
 extern void CLACT_ReleaseCellAnim(u32 idx);
+
 extern u32 CLACT_DeleteUnit(Unit *unit);
+
 extern void CLACT_DeleteActor(Actor *actor);
+
 extern void CLACT_GetActorSurfacePos(Actor *actor, SpritePos *out, u16 space);
+
 extern void CLACT_AddActorSurfacePos(Actor *actor, const SpritePos *delta, u32 which);
+
 extern u8 BMP_MENUWORK_GetPlttFileId(int index);
+
 extern void ARC_UTIL_UploadPaletteFromArchive(u32 archiveID, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
+
 extern void BMP_MENUWORK_DrawWindow(BmpWin *win, int commitMode, u16 tileBase, u32 palette);
+
 extern void BMP_MENUWORK_DrawWindowBorder(BmpWin *win, u32 commitMode);
+
 extern int PMS_WORD_IsSameGroup(u32 a, u16 b);
+
 extern StepCounter *PLAYER_LOCATION_GetData(SaveControl *save);
-extern u16 PLAYER_LOCATION_GetValueB(const StepCounter *counter);
+
+extern u16 PLAYER_LOCATION_GetStepMessageCount(const StepCounter *counter);
+
 extern GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *fieldSys, u16 scriptId, void *target, int reserved);
+
 extern FieldTaskManager *FIELDMAP_GetTaskManager(FieldMap *fieldMap);
+
 extern FieldTask *FIELD_TASK_CreatePlayerDrawOffsetTween(FieldMap *fieldMap, int frames, const VecFx32 *offset);
+
 extern void FIELD_TASK_MANAGER_AddTask(FieldTaskManager *manager, FieldTask *task, FieldTask *prerequisite);
+
 extern void GFL_USE_PlaySeDefaultVolume(u32 seqNo);
+
 extern int GFL_USE_GetSeSlot(u32 seqNo);
+
 extern int GFL_USE_IsSeSlotBusy(u32 slot);
+
 extern Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
+
 extern void FIELD_PLAYER_SetFormCode(struct FieldPlayer *player, u32 formCode);
+
 extern int FIELD_GetPlayerAreaZoneId(FieldMap *fieldMap, u16 *zoneIdOut);
+
 extern GameEvent *EVENT_MAPCHANGE_CreateZoneStartWarpEvent(GameSystem *gameSystem, u16 zoneId);
+
 extern void FLDMMDL_SetAcmd(Mmdl *mmdl, u16 code);
+
 extern int FLDMMDL_CheckEndAcmd(Mmdl *mmdl);
+
 extern FieldFog *FIELDMAP_GetFog(FieldMap *fieldMap);
+
 extern FieldTask *FIELD_TASK_CreatePlayerSpinEaseIn(FieldMap *fieldMap, u16 frames, int spins);
+
 extern FieldTask *FIELD_TASK_CreatePlayerSpinLinear(FieldMap *fieldMap, u32 frames, u32 spins);
+
 extern u32 FIELD_FOG_GetSlope(FieldFog *fog);
+
 extern void FIELD_FOG_FADE_Init(FieldFog *fog, u32 endOffset, u32 endSlope, u32 frames);
+
 extern GameEvent *EVENT_MAPCHANGE_CreateSpecialLocationWarpEvent(GameSystem *gameSystem);
+
 extern PlayerBirthday *CONSOLE_STAMP_GetFromSave(SaveControl *save);
+
 extern int FIELD_CLOCK_GetMonth(GameData *gameData);
+
 extern int FIELD_CLOCK_GetDay(GameData *gameData);
+
 extern u8 CONSOLE_STAMP_GetBirthdayMonth(const PlayerBirthday *birthday);
+
 extern u8 CONSOLE_STAMP_GetBirthdayDay(const PlayerBirthday *birthday);
+
 extern u32 GFL_USE_GetRandom(u32 limit);
+
 extern u32 POKEGRA_RegisterCgr(void *handle, u32 species, u32 form, u32 isEgg, u32 gender, u32 e, u32 f, u32 flags, u32 i, u32 heapId);
+
 extern int POKEGRA_RegisterPalette(void *handle, u32 species, u32 form, u32 isEgg, u32 gender, u32 e, u32 f, u32 g, unsigned short h, unsigned short heapId);
+
 extern u32 POKEGRA_RegisterCellAnim(u32 species, u32 form, u32 isEgg, u32 gender, u32 e, u32 f, u32 g, u32 h, u32 heapId);
+
 extern u32 KEY_GetTrg(void);
+
 extern void *GAME_DATA_GetMiscSave(GameData *gameData);
+
 extern int FIELD_G3D_MAP_CheckBeaconTrainerKey(void *miscSave, int slot, PlayerStatus *status);
+
 extern EventDataSystem *GAME_DATA_GetEventData(const GameData *gameData);
+
 extern MmdlHeader *EVENTDATA_SYSTEM_GetNpcHeaders(EventDataSystem *system);
+
 extern u16 EVENTDATA_SYSTEM_GetNpcCount(EventDataSystem *system);
+
 extern u16 FIELDMAP_GetZoneId(FieldMap *fieldMap);
+
 extern u32 ZONEDATA_IsPalaceEnabled(u32 zoneId);
+
 extern u32 FIELD_PLAYER_GetFormCode(struct FieldPlayer *player);
+
 extern void FLDMMDL_LoadObjCodeParam(const MmdlSys *sys, u32 objCode, MmdlObjCodeParam *out);
+
 extern void FIELD_PLAYER_GetNowGridPos(struct FieldPlayer *player, u16 *gridX, u16 *gridY, u16 *gridZ);
+
 extern u32 FIELDMAP_GetMoveKind(FieldMap *fieldMap);
+
 extern void FIELD_PLAYER_SetNogridLocation(struct FieldPlayer *player, RailLocation *out);
+
 extern void *GAME_DATA_GetEventWork(const GameData *gameData);
+
 extern void *EVENTDATA_SYSTEM_SearchAutoPosEvent(EventDataSystem *system, void *eventWork, VecFx32 *pos);
+
 extern WfbcNpcData *FIELD_WFBC_DATA_LOCAL_OpenNpcData(int fileId, int heapId);
+
 extern WfbcPosition *FIELD_WFBC_DATA_LOCAL_LoadMmdlPositionTable(WfbcNpcData *npcData, int cityType, unsigned int heapId);
+
 extern WfbcPosition *FIELD_WFBC_DATA_LOCAL_GetPositionPair(WfbcPosition *positions, int index);
+
 extern WfbcPosition *FIELD_WFBC_DATA_LOCAL_GetItemPositionPair(WfbcPosition *positions, int index);
+
 extern void FIELD_WFBC_DATA_LOCAL_FreeMmdlPositionTable(WfbcPosition *positions);
+
 extern void FIELD_WFBC_DATA_LOCAL_CloseNpcData(WfbcNpcData *npcData);
+
 extern int FIELD_SUBSCREEN_GetPanelResult(FieldSubscreen *subscreen);
+
 extern void FIELD_SUBSCREEN_ClearPanelResult(FieldSubscreen *subscreen);
+
 extern u16 VM_ReadU16(ScriptVm *vm);
+
 extern MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+
 extern BmpWin *BMP_WIN_CreateAt(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u32 charOffset);
+
 extern void MSGDATA_ReadString(MsgBank *bank, u32 index, Strbuf *dest);
+
 extern GfFont *FIELD_MSGBG_GetFont(FieldMsgBg *msgBg);
+
 extern void PRINTSYS_Print(Bmp *bmp, s16 x, s16 y, Strbuf *str, GfFont *font);
+
 extern u32 MSGDATA_Delete(MsgBank *bank);
+
 extern void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
+
 extern TrainerRecord *RECORD_GetFromSave(SaveControl *save);
+
 extern u32 RECORD_AddCounter(TrainerRecord *record, int index, u32 delta);
+
 extern u32 RECORD_GetCounterClamped(TrainerRecord *record, int index);
+
 extern void WORDSET_SetSlotMyStatus(WordSet *words, u32 slot, PlayerStatus *status);
+
 extern u32 POKEPARTY_GetCount(Party *party);
+
 extern u32 POKE_TOOL_GetPartyValue(PokemonParam *pp, u32 paramId, u32 arg);
-extern void WORDSET_Callback(WordSet *words, u32 slot, u16 speciesId);
-extern void GF_STANDARD_SetField00(RtcTime *time);
+
+extern void WORDSET_SetSlotSpeciesName(WordSet *words, u32 slot, u16 speciesId);
+
+extern void GF_STANDARD_GetCachedTime(RtcTime *time);
+
 extern TrainerRecord *GAME_DATA_GetTrainerRecord(GameData *gameData);
+
 extern void WORDSET_SetSlotNumber(WordSet *words, u32 slot, u32 number, u32 topDigitIndex, u32 padMode, u32 isHalfWidth);
+
 extern BeaconSave *BEACON_GetBlock(SaveControl *save);
-extern int BEACON_GetFlag(BeaconSave *beacon);
+
+extern int BEACON_GetBadge(BeaconSave *beacon);
+
 extern GameSystem *GAME_EVENT_GetGameSystem(GameEvent *event);
+
 extern void FIELD_CAMERA_EndDelay(FieldCamera *camera);
+
 extern u32 FIELD_CAMERA_IsDelayEnabled(FieldCamera *camera);
+
 extern const VecFx32 *FIELD_CAMERA_GetTraceTarget(FieldCamera *camera);
+
 extern void FIELD_CAMERA_StopTargetTrace(FieldCamera *camera);
+
 extern void FIELD_CAMERA_SetEyeShift(FieldCamera *camera, const VecFx32 *shift);
+
 extern void FIELD_CAMERA_SetTraceTarget(FieldCamera *camera, const VecFx32 *target);
+
 extern void FIELD_CAMERA_RestartDelay(FieldCamera *camera);
+
 extern void FIELD_CAMERA_SetTarget(FieldCamera *camera, const VecFx32 *target);
+
 extern OccupyInfo *SCRCMD_WORK_GetOccupyInfo(ScrcmdWork *cmdWork);
+
 extern GameEvent *SP_POKE_GIMMICK_StartSwapNpc(GameSystem *gameSystem, VecFx32 *pos, u32 removeObjectId, u32 addObjectId);
+
 extern GameEvent *FIELD_GIMMICK_ARC_EFFECT_StartPlayerEffect(GameSystem *gameSystem);
+
 extern GameEvent *FIELD_GIMMICK_ARC_EFFECT_StartArcEffect(GameSystem *gameSystem, const VecFx32 *startPos, const VecFx32 *endPos, int arcHeight, int arcParam);
+
 extern void FIELD_GIMMICK_ARC_EFFECT_ShowArcModelAt(GameSystem *gameSystem, VecFx32 *pos);
+
 extern GameEvent *FIELD_GIMMICK_ARC_EFFECT_CreateWaitEndEvent(GameSystem *gameSystem);
+
 extern GameEvent *FIELD_GIMMICK_ARC_EFFECT_CreateWaitPeakEvent(GameSystem *gameSystem);
 
-void FIELD_G3D_MAPPER_GetTilePlane(TileSurface *out, int idx, PackedTileMap *map, VecFx32 *pos, fx32 size, fx32 base);
 int SCRCMD_CheckWifiListFlags(ScriptVm *vm, ScrcmdWork *cmdWork);
+
 int SCRCMD_WifiListOperation(ScriptVm *vm, ScrcmdWork *cmdWork);
+
 int SCRCMD_SetWifiFriendNameWord(ScriptVm *vm, ScrcmdWork *cmdWork);
+
 MmdlIcaWork *SCRCMD_MMDL_ICA_CreateProc(FieldMap *fieldMap, u16 mmdlId, VecFx32 *offset, u16 heapId);
+
 void SCRCMD_MMDL_ICA_EndProc(MmdlIcaWork *work);
+
 void SCRCMD_MMDL_ICA_Start(MmdlIcaWork *work, u32 animKind);
+
 u32 SCRCMD_MMDL_ICA_IsDone(MmdlIcaWork *work, u32 unusedArg1, u32 unusedArg2, u32 unusedArg3);
+
 void SCRCMD_MMDL_ICA_Update(u32 event, u32 state, MmdlIcaWork *work);
+
 void SCRCMD_MMDL_ICA_Nop(void);
+
 void SCRCMD_MMDL_ICA_ApplyFrame(IcaAnime *icaAnime, Mmdl *mmdl, VecFx32 *offset);
+
 int SCRCMD_CreateMmdlIcaProc(ScriptVm *vm, ScrcmdWork *cmdWork);
+
 int SCRCMD_EndMmdlIcaProc(ScriptVm *vm, ScrcmdWork *cmdWork);
+
 int SCRCMD_StartMmdlIcaAnime(ScriptVm *vm, ScrcmdWork *cmdWork);
+
 int SCRCMD_MMDL_ICA_WaitTask(u32 event, u32 state, MmdlIcaWaitWork *work, u32 arg);
+
 int SCRCMD_WaitMmdlIcaAnime(ScriptVm *vm, ScrcmdWork *cmdWork);
+
 int SCRCMD_SUBSCREEN_ChangeModeTask(GameEvent *event, int *seq, SubscreenModeWork *work);
+
 int SCRCMD_ChangeSubscreenMode(ScriptVm *vm, ScrcmdWork *cmdWork);
+
 int SCRCMD_ResetSubscreenMode(ScriptVm *vm, ScrcmdWork *cmdWork);
+
 int SCRCMD_SUBSCREEN_ResetModeTask(u32 *eventWords, int *seq);
+
 GameEvent *EVENT_PERAP_RECORD_Create(GameSystem *gameSystem, FieldMap *fieldMap, u32 partySlot);
+
 int EVENT_PERAP_RECORD_Main(GameEvent *event, int *seq, PerapRecordWork *work);
+
 void EVENT_PERAP_RECORD_OnRecorded(void *unused, int *done);
+
 void EVENT_PERAP_RECORD_PauseMmdls(PerapRecordWork *work);
+
 void EVENT_PERAP_RECORD_ResumeMmdls(PerapRecordWork *work);
+
 void EVENT_PERAP_RECORD_CreatePokeIcon(PerapRecordWork *work);
+
 int EVENT_PERAP_RECORD_DeletePokeIcon(PerapRecordWork *work);
+
 int EVENT_PERAP_RECORD_HopPokeIcon(PerapRecordWork *work);
+
 void EVENT_PERAP_RECORD_SetupWindow(PerapRecordWork *work);
+
 int EVENT_PERAP_RECORD_Cleanup(PerapRecordWork *work);
+
 int SCRCMD_CheckPmsWordPair(ScriptVm *vm, ScrcmdWork *cmdWork);
+
 int FIELD_SOUND_SYSTEM_FindSlotSound(u32 soundId);
+
 int FIELD_SOUND_SYSTEM_IsSlotSoundTracked(u32 soundId);
+
 GameEvent *SCRCMD_ShowStepMilestoneMessage(GameSystem *gameSystem, FieldMap *fieldMap);
+
 int FLDEFF_RIPPLE_WarpToZoneStartTask(GameEvent *event, int *seq, RippleWarpWork *work);
+
 int FLDEFF_RIPPLE_WarpToSpecialLocationTask(GameEvent *event, int *seq, RippleWarpWork *work);
+
 GameEvent *FLDEFF_RIPPLE_CreateZoneStartWarpTask(GameSystem *gameSystem, FieldMap *fieldMap);
+
 GameEvent *FLDEFF_RIPPLE_CreateSpecialLocationWarpTask(GameSystem *gameSystem, FieldMap *fieldMap, u32 useSpin);
+
 int SCRCMD_GetBirthdayMessageIds(ScriptVm *vm, ScrcmdWork *cmdWork);
+
 int SCRCMD_ShowPokeIconWindow(ScriptVm *vm, ScrcmdWork *cmdWork);
+
 void SCRCMD_POKE_ICON_InitWindow(PokeIconWork *work);
+
 void SCRCMD_POKE_ICON_ShowWindow(PokeIconWork *work);
+
 void SCRCMD_POKE_ICON_CreateIcon(PokeIconWork *work, int species, int form, int isEgg, int gender, int charFlags);
+
 int SCRCMD_POKE_ICON_DeleteIcon(PokeIconWork *work);
+
 u32 SCRCMD_POKE_ICON_Task(GameEvent *event, u32 *state, PokeIconWork *work);
+
 u32 SCRCMD_CheckBeaconTrainerKey(ScriptVm *vm, ScrcmdWork *cmdWork);
+
 int FIELD_CheckPlayerPositionFree(GameSystem *gameSystem);
+
 GameEvent *FIELD_SUBSCREEN_CreateAnimTask(GameSystem *gameSystem);
+
 u32 FIELD_SUBSCREEN_AnimTask(GameEvent *event, u32 *state, SubscreenAnimWork *work);
+
 int SCRCMD_ShowOrClearInfoWindow(ScriptVm *vm, ScrcmdWork *cmdWork);
+
 int SCRCMD_AddTrainerRecordValue(ScriptVm *vm, ScrcmdWork *cmdWork);
+
 int SCRCMD_GetTrainerRecordValue(ScriptVm *vm, ScrcmdWork *cmdWork);
+
 int SCRCMD_GetNpcGreetingMessage(ScriptVm *vm, ScrcmdWork *cmdWork);
+
 u32 SCRCMD_GREETING_AdjustMessageIdByMisc(GameData *gameData, int messageId);
+
 u32 SCRCMD_GREETING_AdjustMessageIdByRandom(GameData *gameData, u32 messageId, int fixedMessage);
+
 GameEvent *FIELD_CAMERA_CreateShakeTask(GameSystem *gameSystem, CameraShakeParams *params);
+
 int FIELD_CAMERA_ShakeTask(GameEvent *event, int *state);
+
 u32 SCRCMD_StartSwapNpcEvent(ScriptVm *vm, ScrcmdWork *cmdWork);
+
 int SCRCMD_StartArcPlayerEffect(ScriptVm *vm, ScrcmdWork *cmdWork);
+
 u32 SCRCMD_StartArcEffect(ScriptVm *vm, ScrcmdWork *cmdWork);
+
 u32 SCRCMD_ShowArcModelAt(ScriptVm *vm, ScrcmdWork *cmdWork);
+
 int SCRCMD_WaitArcEffectEnd(ScriptVm *vm, ScrcmdWork *cmdWork);
+
 int SCRCMD_WaitArcEffectPeak(ScriptVm *vm, ScrcmdWork *cmdWork);
-extern NormTriple gTileNormalTable[];
-extern const fx32 gTilePlaneDistTable[];
+
 extern const FieldSubprocTemplate gMmdlIcaSubprocTemplate;
+
 extern u32 gMmdlIcaReleaseMoveBitTable[];
+
 extern u32 gSubscreenModeTable[];
+
 extern ClactInitParam gPerapIconActorParam;
+
 extern FieldSoundSlotEntry gFieldSoundSlotTable[];
+
 extern const struct Milestone gStepMilestoneTable[5];
+
 extern TextIdTable gBirthdayTextIdTable;
+
 extern ClactInitParam gPokeIconActorParam;
+
 extern const CounterMsgEntry gGreetingCounterTable[];
+
 extern u32 gGreetingMiscMessageIds[];
+
 extern u32 gGreetingRandomMessageIds[];
+
 extern const s16 FX_SinCosTable_[];
 
-static inline fx32 FX_MUL(fx32 a, fx32 b)
-{
-    return (fx32)(((s64)a * b + 0x800LL) >> 12);
-}
-
-static inline void TileSurface_SetNormal(TileSurface *surface, int x, int y, int z)
-{
-    surface->normalX = x;
-    surface->normalY = y;
-    surface->normalZ = z;
-}
-
 /*
- * The a/0/0/8 grid tile reader (see docs/notes/func_021D14C4_tile_record_reader.c.txt):
- * picks the tile under pos, writes its surface normal, attribute word and
- * solved height into out[idx].
- *
- * Shape notes, each one measured:
- * - the normal table is read through an NormComp pointer cast of a differently
- *   typed object, so mwcc cannot prove it disjoint from out: the setter's
- *   right-to-left arguments then stay as z, y, x temporaries (y spilled) and
- *   the pool word is reloaded per access. A plain NormComp array sinks the loads.
- * - the height table is const (its load is scheduled above the z store).
- * - the tile record is read through a volatile pointer: the image reloads
- *   the norm halfword after the type test instead of reusing the type load;
- *   no non-volatile spelling (casts, unions, other access paths, const)
- *   stopped mwcc from CSE-ing the two halfword loads.
- * - the row index is x/0x10000 + w * (z/0x10000) in that operand order;
- *   p (= &out[idx]) is live into the tail, where only the x read uses it.
- */
-void FIELD_G3D_MAPPER_GetTilePlane(TileSurface *out, int idx, PackedTileMap *map, VecFx32 *pos, fx32 size, fx32 base)
-{
-    fx32 half = size / 2;
-    fx32 z = pos->z + half;
-    fx32 x = pos->x + half;
-    int fracX = x % 0x10000;
-    int fracZ = z % 0x10000;
-    int tileIndex = x / 0x10000 + ((size >> 12) / 16) * (z / 0x10000);
-    volatile PackedTile *tile = &map->tiles[tileIndex];
-    fx32 planeDist;
-    TileSurface *surface;
-    u8 tileType = tile->type;
-
-    if (tileType == 0) {
-        int normalOffset = tile->normalIndex * 3;
-        int distIndex = tile->distIndex;
-        TileSurface_SetNormal(surface = &out[idx], NRM(normalOffset), NRM(normalOffset + 1), -NRM(normalOffset + 2));
-        planeDist = gTilePlaneDistTable[distIndex];
-    } else if (tileType == 2) {
-        PackedTileSplit *split = (PackedTileSplit *)(map->tiles + map->width * map->height) + tile->distIndex;
-        int normalOffset;
-        int distIndex;
-        if (tile->diagonalFlip == 0) {
-            if (fracX + fracZ < 0x10000) {
-                normalOffset = split->normalIndexA * 3;
-                distIndex = split->distIndexA;
-            } else {
-                normalOffset = split->normalIndexB * 3;
-                distIndex = split->distIndexB;
-            }
-        } else {
-            if (fracX > fracZ) {
-                normalOffset = split->normalIndexA * 3;
-                distIndex = split->distIndexA;
-            } else {
-                normalOffset = split->normalIndexB * 3;
-                distIndex = split->distIndexB;
-            }
-        }
-        TileSurface_SetNormal(surface = &out[idx], NRM(normalOffset), NRM(normalOffset + 1), -NRM(normalOffset + 2));
-        planeDist = gTilePlaneDistTable[distIndex];
-    } else {
-        TileSurface_SetNormal(surface = &out[idx], 0, 0x1000, 0);
-        planeDist = 0;
-    }
-    {
-        fx32 normalY = out[idx].normalY;
-        fx32 dotZ = FX_MUL(out[idx].normalZ, pos->z);
-        fx32 dotX = FX_MUL(surface->normalX, pos->x);
-        out[idx].attr = tile->attr;
-        out[idx].height = base + FX_Div(-(planeDist + (dotX + dotZ)), normalY);
-    }
-}
-
-/*
- * GAME_DATA_GetSaveBlockWork (arm9 Thumb leaf) is filed as src/matched/arm9/GAME_DATA_GetSaveBlockWork.c
+ * GAME_DATA_GetGameSync (arm9 Thumb leaf) is filed as src/matched/arm9/GAME_DATA_GetGameSync.c
  * to give the witness.
  *
  * Addresses are Black-image addresses.
@@ -809,7 +982,7 @@ int SCRCMD_CheckWifiListFlags(ScriptVm *vm, ScrcmdWork *cmdWork)
     SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
-    wifiList = GAME_DATA_GetSaveBlockWork(gameData);
+    wifiList = GAME_DATA_GetGameSync(gameData);
     if (listKind == 0) {
         if (BLOCK20_SAVEDATA_GetPending(wifiList) == 1 && BLOCK20_SAVEDATA_GetMode(wifiList) == 1) {
             *resultVar = 1;
@@ -837,7 +1010,7 @@ int SCRCMD_WifiListOperation(ScriptVm *vm, ScrcmdWork *cmdWork)
     operand = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
-    wifiList = GAME_DATA_GetSaveBlockWork(gameData);
+    wifiList = GAME_DATA_GetGameSync(gameData);
     switch (operation) {
     case 0:
         *resultVar = 1;
@@ -890,7 +1063,7 @@ int SCRCMD_SetWifiFriendNameWord(ScriptVm *vm, ScrcmdWork *cmdWork)
     gameData = SCRCMD_WORK_GetGameData(cmdWork);
     heapId = SCRCMD_WORK_GetHeapId(cmdWork);
     wordSet = SCRIPT_WORK_GetWordSet(scriptWork);
-    wifiList = GAME_DATA_GetSaveBlockWork(gameData);
+    wifiList = GAME_DATA_GetGameSync(gameData);
     wordSlot = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     entryIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     entry = BLOCK20_SAVEDATA_GetRecord(wifiList, entryIndex);
@@ -983,7 +1156,7 @@ void SCRCMD_MMDL_ICA_ApplyFrame(IcaAnime *icaAnime, Mmdl *mmdl, VecFx32 *offset)
     VecFx32 pos;
     VecFx32 rotation;
 
-    ICA_ANIME_Get(icaAnime, &pos);
+    ICA_ANIME_GetTranslate(icaAnime, &pos);
     ICA_ANIME_GetRotate(icaAnime, &rotation);
     VEC_Add(&pos, offset, &pos);
     FLDMMDL_SetPos(mmdl, (MmdlVec *)&pos);
@@ -1233,7 +1406,7 @@ int EVENT_PERAP_RECORD_Main(GameEvent *event, int *seq, PerapRecordWork *work)
                 *seq = 7;
             } else {
                 string = MSGDATA_AllocString(work->msgData, 3);
-                WORDSET_SetSlotMonSpecies(work->wordSet, 0, work->partyMon);
+                WORDSET_SetSlotMonNickname(work->wordSet, 0, work->partyMon);
                 WORDSET_CopyTaggedText(work->wordSet, work->msgBuf, string);
                 STRBUF_Delete(string);
                 FIELD_MSGBG_ClearSysWin(work->sysWin);
@@ -1257,7 +1430,7 @@ int EVENT_PERAP_RECORD_Main(GameEvent *event, int *seq, PerapRecordWork *work)
     case 8:
         if (EVENT_PERAP_RECORD_HopPokeIcon(work) == 0) {
             string = MSGDATA_AllocString(work->msgData, 2);
-            WORDSET_SetSlotMonSpecies(work->wordSet, 0, work->partyMon);
+            WORDSET_SetSlotMonNickname(work->wordSet, 0, work->partyMon);
             WORDSET_CopyTaggedText(work->wordSet, work->msgBuf, string);
             STRBUF_Delete(string);
             FIELD_MSGBG_ClearSysWin(work->sysWin);
@@ -1288,7 +1461,7 @@ int EVENT_PERAP_RECORD_Main(GameEvent *event, int *seq, PerapRecordWork *work)
     case 13:
         EVENT_PERAP_RECORD_Cleanup(work);
         STRBUF_Delete(work->msgBuf);
-        WORDSET_DeleteStrbufED04(work->wordSet);
+        WORDSET_Delete(work->wordSet);
         FIELD_MSGBG_DeleteSysWin(work->sysWin);
         FIELD_MSGBG_DeleteMsgData(work->msgData);
         *seq = 14;
@@ -1329,7 +1502,7 @@ void EVENT_PERAP_RECORD_CreatePokeIcon(PerapRecordWork *work)
     ClactInitParam actorParam;
 
     work->clactUnit = CLACT_CreateUnit(1, 0, 0x15);
-    box = POKE_TOOL_Dummy(work->partyMon);
+    box = POKE_TOOL_CastToBoxParam(work->partyMon);
     resHandle = POKEGRA_OpenHandle(0x15);
     savedState = POKE_TOOL_DecodeBoxParam(box);
     work->charRes = POKEGRA_RegisterCgrPP(resHandle, box, 0, 0, 0x15);
@@ -1457,7 +1630,7 @@ int FIELD_SOUND_SYSTEM_IsSlotSoundTracked(u32 soundId)
  */
 GameEvent *SCRCMD_ShowStepMilestoneMessage(GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    u16 steps = PLAYER_LOCATION_GetValueB(PLAYER_LOCATION_GetData(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))));
+    u16 steps = PLAYER_LOCATION_GetStepMessageCount(PLAYER_LOCATION_GetData(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))));
     u32 i;
 
     for (i = 0; i < 5; i++) {
@@ -1883,13 +2056,13 @@ int SCRCMD_ShowOrClearInfoWindow(ScriptVm *vm, ScrcmdWork *cmdWork)
         MSGDATA_ReadString(msgBank, 3, msgBuf);
         PRINTSYS_Print(BMP_WIN_GetBmp(bmpWin), 0, 0, msgBuf, FIELD_MSGBG_GetFont(msgBg));
         BMP_WIN_TransferChars(bmpWin);
-        BG_SYS_SetFlagField06(2);
+        BG_SYS_MarkTileDirty(2);
         STRBUF_Delete(msgBuf);
         MSGDATA_Delete(msgBank);
         BMP_WIN_Delete(bmpWin);
     } else {
         BG_SYS_SetTileEntry(2, 0, 0, 0, 0x20, 0xC, 0x11);
-        BG_SYS_SetFlagField06(2);
+        BG_SYS_MarkTileDirty(2);
     }
     return 0;
 }
@@ -1944,11 +2117,11 @@ int SCRCMD_GetNpcGreetingMessage(ScriptVm *vm, ScrcmdWork *cmdWork)
     for (i = 0; i < partyCount; i++) {
         mon = POKEPARTY_GetMember(party, i);
         if (POKE_TOOL_GetPartyValue(mon, 0x4C, 0) == 0) {
-            WORDSET_Callback(wordSet, 3, POKE_TOOL_GetPartyValue(mon, 5, 0));
+            WORDSET_SetSlotSpeciesName(wordSet, 3, POKE_TOOL_GetPartyValue(mon, 5, 0));
             break;
         }
     }
-    GF_STANDARD_SetField00(&time);
+    GF_STANDARD_GetCachedTime(&time);
     if (time.minute < 10) {
         base = 0;
         msgIndex = GFL_USE_GetRandom(0x1D);
@@ -2006,7 +2179,7 @@ u32 SCRCMD_GREETING_AdjustMessageIdByMisc(GameData *gameData, int messageId)
 
     for (messageId = 0; messageId < 8; messageId++) {
         if (v == gGreetingMiscMessageIds[messageId]) {
-            if (BEACON_GetFlag(beacon)) {
+            if (BEACON_GetBadge(beacon)) {
                 return v;
             } else {
                 u32 rolled = GFL_USE_GetRandom(0xc);

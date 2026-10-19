@@ -11,7 +11,7 @@
  *
  * Sibling of src/matched/BOX2_SEQ_StateBoxMenu.c and BOX2_SEQ_StateMoveMove.c.
  * The image computes r + 0x1E
- * separately for BOX2_MAIN_ChangeBoxFormPreserve and for the call after it; the (int) cast on
+ * separately for BOX2_MAIN_RefreshCurrentBoxMonInfo and for the call after it; the (int) cast on
  * the first keeps the two expressions apart so they are not CSEd.
  *
  * symbols:
@@ -24,7 +24,7 @@
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   BOX2_UI_IsListOpen 0x021EF5E8 thumb
  *   BOX2_SEQ_DrawFrameList 0x021EB988 thumb
- *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb
+ *   BOX2_MAIN_RefreshCurrentBoxMonInfo 0x021DEFEC thumb
  *   BOX2_SEQ_SelectPartySlotB 0x021E9F3C thumb
  *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
  *   BOX2_UI_SetCursorPos 0x021EE3E4 thumb
@@ -88,7 +88,7 @@ extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern int BOX2_UI_IsListOpen(struct WinMgr *mgr);
 extern void BOX2_SEQ_DrawFrameList(Obj *p, const void *e, unsigned n);
-extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
+extern void BOX2_MAIN_RefreshCurrentBoxMonInfo(char *p, int b);
 extern int BOX2_SEQ_SelectPartySlotB(Obj *p, int i);
 extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 extern void BOX2_UI_SetCursorPos(char **p, unsigned idx);
@@ -130,7 +130,7 @@ int BOX2_SEQ_StateItemMoveB(Obj *p)
             TOUCHPANEL_GetPointTrg((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
             if (BOX2_UI_IsListOpen(MGR(p)) == 0)
                 BOX2_SEQ_DrawFrameList(p, d_021EF918, 4);
-            BOX2_MAIN_ChangeBoxFormPreserve((char *)p, (int)r + 0x1E);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p, (int)r + 0x1E);
             return BOX2_SEQ_SelectPartySlotB(p, r + 0x1E);
         }
         CURSOR_MOVE_SetCurrent(OBJ(p), r);
@@ -198,7 +198,7 @@ int BOX2_SEQ_StateItemMoveB(Obj *p)
     case -3: {
         unsigned char v = CURSOR_MOVE_GetCurrent(OBJ(p));
         if (v < 6)
-            BOX2_MAIN_ChangeBoxFormPreserve((char *)p, v + 0x1E);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p, v + 0x1E);
         else if (v == 6)
             BOX2_MAIN_ResetBoxView((char *)p);
         GFL_USE_PlaySeDefaultVolume(0x548);
@@ -214,7 +214,7 @@ int BOX2_SEQ_StateItemMoveB(Obj *p)
         if (BOX2_MAIN_GetPartyValueAt((void ***)p, r + 0x1E, p->b14, 0xA9, 0)) {
             GFL_USE_PlaySeDefaultVolume(0x54C);
             BOX2_SEQ_DrawFrameList(p, d_021EF918, 4);
-            BOX2_MAIN_ChangeBoxFormPreserve((char *)p, (int)r + 0x1E);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p, (int)r + 0x1E);
             BOX2_UI_MoveCursorBetweenIcons(p->work, 9, CURSOR_MOVE_GetCurrent(OBJ(p)));
             CURSOR_MOVE_SetCurrent(OBJ(p), 9);
             return BOX2_SEQ_GotoSlotHandlerB(p, r + 0x1E, 0x27);

@@ -1,5 +1,5 @@
 /*
- * function: UI_SetFlags39
+ * function: UI_SetSoftResetInhibit
  * address:  0x0203515C
  * packet:   pkt_02035080
  * region:   arm9
@@ -16,8 +16,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/UI_SetFlags39.c \
- *       --func UI_SetFlags39 --addr 0x0203515C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/UI_SetSoftResetInhibit.c \
+ *       --func UI_SetSoftResetInhibit --addr 0x0203515C --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -28,7 +28,7 @@ struct Obj0203515C {
     u8 unk39;
 };
 
-void UI_SetFlags39(struct Obj0203515C *p, u8 mask)
+void UI_SetSoftResetInhibit(struct Obj0203515C *p, u8 mask)
 {
     p->unk39 |= mask;
 }

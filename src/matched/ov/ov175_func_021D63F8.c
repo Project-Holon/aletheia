@@ -1,5 +1,5 @@
 /*
- * function: WIFIBATTLEMATCH_NET_StartBoxAnim
+ * function: WIFIBATTLEMATCH_NET_CreateRegCardWindow
  * address: 0x021D63F8
  * packet: pkt_ov175_021D63F8
  * region: ov175
@@ -15,7 +15,7 @@
 typedef unsigned int u32;
 extern int WIFIBATTLEMATCH_GRAPHIC_GetCamera(int *);
 extern u32 WIFIBATTLEMATCH_VIEW_CreateRecordWindow(u32,u32,u32,u32,u32,u32,u32,u32,u32,u32,u32);
-void WIFIBATTLEMATCH_NET_StartBoxAnim(u32 *p,u32 arg)
+void WIFIBATTLEMATCH_NET_CreateRegCardWindow(u32 *p,u32 arg)
 {
     u32 b,a;
     if (p[7] == 0) {

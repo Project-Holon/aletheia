@@ -19,7 +19,7 @@
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   SYSTEM_DATA_GetConfig  0x0200873C  thumb
  *   MI_CpuCopy8  0x02082D44  arm
- *   BEACON_CountFlags  0x0200C258  thumb
+ *   BEACON_CountBadges  0x0200C258  thumb
  *   GAME_DATA_GetMyPlayerWork         0x020127A4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   sBtlSetupFileName  0x020A729C  data
@@ -106,7 +106,7 @@ extern u8 TPOKE_DATA_GetTrainerKind(u32 trainerType);
 
 extern struct MiscSave *BEACON_GetFromSave(struct SaveControl *save);
 
-extern u32 BEACON_CountFlags(struct MiscSave *misc);
+extern u32 BEACON_CountBadges(struct MiscSave *misc);
 
 extern void *ZUKAN_SAVE_GetFromGameData(struct GameData *gd);
 
@@ -591,7 +591,7 @@ void BTL_SETUP_InitCommon(struct BattleSetupParam *param, struct GameData *gd, c
     save = GAME_DATA_GetSaveControl(gd);
     misc = BEACON_GetFromSave(save);
     param->config = SYSTEM_DATA_GetConfig(save);
-    param->badgeCount = (u8)BEACON_CountFlags(misc);
+    param->badgeCount = (u8)BEACON_CountBadges(misc);
     MI_CpuCopy8(sit, &param->fieldSituation, 0x10);
     param->bgmBattle = 0x468;
     param->bgmWin = 0x468 + 0x14;

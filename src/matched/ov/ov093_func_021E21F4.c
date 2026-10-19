@@ -15,11 +15,11 @@
  *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
  *   BTL_CALC_Random  0x021D78AC  thumb  ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
- *   BTLV_CORE_MakeSlotKind2  0x021E896C  thumb  ov093
+ *   BTL_SICKCONT_MakeKind2  0x021E896C  thumb  ov093
  *   BTL_EVENT_GetFactorKey  0x021D70A8  thumb  ov093
  *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb  ov093
  *
- * Lever: BTLV_CORE_MakeSlotKind2 returns a one-word struct (Word), which reserves the
+ * Lever: BTL_SICKCONT_MakeKind2 returns a one-word struct (Word), which reserves the
  * third frame word (`sub sp, #0xc` with push {r4-r7, lr}); see
  * docs/idioms/an-unused-frame-word-is-a-callee-returning-a-one-word-struct.md.
  */
@@ -36,7 +36,7 @@ struct Unk021D62A8;
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern u32 BTL_CALC_Random(u32 range);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
-extern Word BTLV_CORE_MakeSlotKind2(int a, int b);
+extern Word BTL_SICKCONT_MakeKind2(int a, int b);
 extern u16 BTL_EVENT_GetFactorKey(struct QQ *p);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 
@@ -50,7 +50,7 @@ void HAND_WAZA_ThrashStartLock(void *u, int a, int b, int *p)
             t = BTL_CALC_Random(2) + 2;
             r = BTL_SERVER_FLOW_AllocCmdRecord((char *)a, 0xc, b);
             ((struct Obj10075 *)r)->f4 = 0x19;
-            *(Word *)(r + 8) = BTLV_CORE_MakeSlotKind2(t, BTL_EVENT_GetFactorKey(u));
+            *(Word *)(r + 8) = BTL_SICKCONT_MakeKind2(t, BTL_EVENT_GetFactorKey(u));
             r[0xc] = 0;
             r[0xf] = b;
             BTL_SERVER_FLOW_CommitCmdRecord((void *)a, r);

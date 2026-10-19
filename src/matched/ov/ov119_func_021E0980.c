@@ -17,7 +17,7 @@
  *   func_020076A4 0x020076A4 thumb
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
- *   FILE_UTIL_Check136C 0x0202136C thumb
+ *   FILE_UTIL_IsMailItem 0x0202136C thumb
  *   MSGDATA_ReadString 0x02045CAC arm
  *   POKETRADE_SAVE_OpenMessageWindowTop 0x021E1024 thumb ov119
  *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
@@ -48,7 +48,7 @@ extern void ZUKAN_SAVE_RegisterCaught(struct Blk37 *p, void *m);
 extern u8 func_020076A4(void *);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern unsigned POKE_TOOL_GetPartyValue(void *,unsigned,unsigned);
-extern u32 FILE_UTIL_Check136C(u16 v);
+extern u32 FILE_UTIL_IsMailItem(u16 v);
 struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void POKETRADE_SAVE_OpenMessageWindowTop(void *);
@@ -77,7 +77,7 @@ void POKETRADE_SAVE_StepRegisterReceived(char *p)
     t=*(char * *)&((struct Obj01537 *)p)->f8;
     if(((struct Obj13908 *)t)->f28!=func_020076A4(((struct Obj01537 *)p)->f828)) {
         z=0;
-        if(FILE_UTIL_Check136C(POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(((struct Obj13908 *)t)->f1C,0),6,0))) {
+        if(FILE_UTIL_IsMailItem(POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(((struct Obj13908 *)t)->f1C,0),6,0))) {
             MSGDATA_ReadString((struct MsgBank *)(((struct Obj01537 *)p)->f720),106,(void *)(((struct Obj01537 *)p)->f738));
             POKETRADE_SAVE_OpenMessageWindowTop(p);
             POKETRADE_PROC_SetStep(p,(int)POKETRADE_SAVE_StepWaitEvolutionMessage);

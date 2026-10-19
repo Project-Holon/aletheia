@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   POKE_TOOL_Dummy   0x020185F0  thumb
+ *   POKE_TOOL_CastToBoxParam   0x020185F0  thumb
  *   SAVE_EVENT_WriteMode   0x0202F1B4  thumb
  *
  * Addresses are Black-image addresses.
@@ -23,10 +23,10 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32  POKE_TOOL_Dummy(void *a0);
+extern u32  POKE_TOOL_CastToBoxParam(void *a0);
 extern void SAVE_EVENT_WriteMode(u32 a, u32 b, u32 c, u32 d, u32 e);
 
 void SAVE_EVENT_Write(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
-    SAVE_EVENT_WriteMode((u32)((void *)POKE_TOOL_Dummy(a0)), a1, a2, a3, a4);
+    SAVE_EVENT_WriteMode((u32)((void *)POKE_TOOL_CastToBoxParam(a0)), a1, a2, a3, a4);
 }

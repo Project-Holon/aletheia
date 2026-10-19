@@ -20,9 +20,9 @@
  *   SCRCMD_NETWORK_CreateOv020Event  0x0215FA00  thumb  ov010
  *   _u32_div_f     0x0209C2B0  arm
  *   GAMESYSTEM_CallIfSet  0x02011D28  thumb
- *   GAMESYSTEM_LeakHeapPenalty  0x02011D40  thumb
+ *   GAMESYSTEM_ApplyTamperPenalty  0x02011D40  thumb
  *   GAMESYSTEM_ProbeHeapCreate  0x02011D60  thumb
- *   GAMESYSTEM_LeakHeapPenaltyRepeat  0x02011D7C  thumb
+ *   GAMESYSTEM_ApplyTamperPenaltyRepeat  0x02011D7C  thumb
  *   GAMESYSTEM_GetWorkSize  0x02011F24  thumb
  *   GAMESYSTEM_Setup  0x02011FB8  thumb
  *   GAMESYSTEM_SetEvent  0x02012108  thumb
@@ -30,16 +30,16 @@
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   BEACON_CountFlags  0x0200C258  thumb
+ *   BEACON_CountBadges  0x0200C258  thumb
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *
  * ica_anime.c: scene bring-up.  Loads overlay 230, runs three checksum
- * probes over this family's own code (GAMESYSTEM_CallIfSet to GAMESYSTEM_LeakHeapPenalty,
- * GAMESYSTEM_ProbeHeapCreate, GAMESYSTEM_LeakHeapPenaltyRepeat; each result compared with the complement of
+ * probes over this family's own code (GAMESYSTEM_CallIfSet to GAMESYSTEM_ApplyTamperPenalty,
+ * GAMESYSTEM_ProbeHeapCreate, GAMESYSTEM_ApplyTamperPenaltyRepeat; each result compared with the complement of
  * the end address), creates three heaps through GFL_HEAP_CreateChildHeap, allocates
  * the work block and publishes it to _GameSystemGlobal, then, when the probe
- * results do not add up to a multiple of 0x12AF, runs a BEACON_CountFlags-counted
- * loop of GAMESYSTEM_LeakHeapPenalty.
+ * results do not add up to a multiple of 0x12AF, runs a BEACON_CountBadges-counted
+ * loop of GAMESYSTEM_ApplyTamperPenalty.
  *
  * Byte-correct: 272 of 272 bytes, 0 concrete bytes out (match.py one,
  * dsi/1.1p1, 2026-09-24 wave 21 lane H).  The lever that closed it after
@@ -93,11 +93,11 @@ extern u32   SCRCMD_NETWORK_CreateOv020Event(void *p, u32 a);
 extern void GAMESYSTEM_SetEvent(struct Ctx *p, u32 v);
 extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void *GAME_DATA_GetMiscSave(int *p);
-extern u32 BEACON_CountFlags(struct Blk34 *p);
-extern void  GAMESYSTEM_LeakHeapPenalty(void);
+extern u32 BEACON_CountBadges(struct Blk34 *p);
+extern void  GAMESYSTEM_ApplyTamperPenalty(void);
 extern u32 GAMESYSTEM_CallIfSet(u32 (*fn)(void));
 extern void  GAMESYSTEM_ProbeHeapCreate(void);
-extern void  GAMESYSTEM_LeakHeapPenaltyRepeat(void);
+extern void  GAMESYSTEM_ApplyTamperPenaltyRepeat(void);
 
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 
@@ -117,7 +117,7 @@ u32 GAMESYSTEM_ProcInit(void *a0, u32 a1, u32 a2)
     base = 0xc35ffb;
     func_02034AC4((int)ov230_id);
     flag = 0;
-    if (func_021882A0((void (*)(void))start, GAMESYSTEM_LeakHeapPenalty, 0) == ~(u32)GAMESYSTEM_LeakHeapPenalty)
+    if (func_021882A0((void (*)(void))start, GAMESYSTEM_ApplyTamperPenalty, 0) == ~(u32)GAMESYSTEM_ApplyTamperPenalty)
         flag = 1;
     base += flag * 0x47;
     GFL_HEAP_CreateChildHeap(1, 3, 0xa << 12);
@@ -128,7 +128,7 @@ u32 GAMESYSTEM_ProcInit(void *a0, u32 a1, u32 a2)
     if (flag == 0)
         off = 0x191;
     GFL_HEAP_CreateChildHeap(1, 4, 4 << 14);
-    func_02188390((void (*)(void))start, GAMESYSTEM_LeakHeapPenaltyRepeat, 0);
+    func_02188390((void (*)(void))start, GAMESYSTEM_ApplyTamperPenaltyRepeat, 0);
     GFL_HEAP_CreateChildHeap(9, 5, 5 << 10);
     func_02034A5C((s32)ov230_id);
     p = PROCSYS_AllocProcWork(a0, size, 3);
@@ -137,9 +137,9 @@ u32 GAMESYSTEM_ProcInit(void *a0, u32 a1, u32 a2)
     GAMESYSTEM_Setup(p, 3, a2);
     GAMESYSTEM_SetEvent(p, SCRCMD_NETWORK_CreateOv020Event(p, a2));
     if ((base + off) % 0x12af != 0) {
-        n = BEACON_CountFlags(GAME_DATA_GetMiscSave(ICA_ANIME_GetField1C(p)));
+        n = BEACON_CountBadges(GAME_DATA_GetMiscSave(ICA_ANIME_GetField1C(p)));
         for (i = 0; i < n; i++)
-            GAMESYSTEM_LeakHeapPenalty();
+            GAMESYSTEM_ApplyTamperPenalty();
     }
     return 1;
 }

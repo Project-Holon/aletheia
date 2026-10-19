@@ -1,7 +1,7 @@
 /*
  * file:     zukan_list.c
  * unit:     yes
- * function: ZUKAN_LIST_ProcInit, ZUKAN_LIST_ProcMain, ZUKAN_LIST_ProcExit, ZUKAN_LIST_StartVBlankTask, ZUKAN_LIST_StopVBlankTask, ZUKAN_LIST_VBlankTask, ZUKAN_LIST_StartHBlankTask, ZUKAN_LIST_StopHBlankTask, ZUKAN_LIST_HBlankTask, ZUKAN_LIST_SetVramBanks, ZUKAN_LIST_GetVramBankConfig, ZUKAN_LIST_InitBgSystem, ZUKAN_LIST_ExitBgSystem, ZUKAN_LIST_LoadBgGraphics, ZUKAN_LIST_InitPaletteAnim, ZUKAN_LIST_ExitPaletteAnim, ZUKAN_LIST_RequestFade, ZUKAN_LIST_SetSubScreenBlendAlpha, ZUKAN_LIST_EnableSubWindows, ZUKAN_LIST_DisableSubWindows, ZUKAN_LIST_CreateFontAndPrinter, ZUKAN_LIST_DeleteFontAndPrinter, ZUKAN_LIST_LoadFormTable, ZUKAN_LIST_FreeFormTable, ZUKAN_LIST_MoveScrollBarActorsIn, ZUKAN_LIST_StartActorMoveFrames, ZUKAN_LIST_UpdateActorMove, ZUKAN_LIST_CreateFrameList, ZUKAN_LIST_DeleteFrameList, ZUKAN_LIST_FrameListMoveCallback, ZUKAN_LIST_FrameListSelectCallback, ZUKAN_LIST_ScrollByDelta, ZUKAN_LIST_RunState, ZUKAN_LIST_StateInit, ZUKAN_LIST_StateExit, ZUKAN_LIST_StateWaitFade, ZUKAN_LIST_StateFadeIn, ZUKAN_LIST_StateMain, ZUKAN_LIST_StateScroll, ZUKAN_LIST_StateScrollWait, ZUKAN_LIST_StateCursorFlash, ZUKAN_LIST_StateFadeOut, ZUKAN_LIST_ResetPaletteSlots, ZUKAN_LIST_StartButtonAnim, ZUKAN_LIST_IsSpeciesEntryValid, ZUKAN_LIST_StoreLastViewedSpecies, ZUKAN_LIST_StateSelectSpecies, ZUKAN_LIST_ToggleSaveFlag15, ZUKAN_LIST_CreateWindows, ZUKAN_LIST_DeleteWindows, ZUKAN_LIST_FlushWindows, ZUKAN_LIST_PrintTouchbarLabel, ZUKAN_LIST_PrintTouchbarLabelClone, ZUKAN_LIST_MakeWindowScreens, ZUKAN_LIST_ClearWindow, ZUKAN_LIST_DrawHeaderRegional, ZUKAN_LIST_DrawHeaderCounts, ZUKAN_LIST_DrawHeaderNational, ZUKAN_LIST_PrintListRow, ZUKAN_LIST_InitActors, ZUKAN_LIST_ExitActors, ZUKAN_LIST_UpdateActors, ZUKAN_LIST_SetActorAnim, ZUKAN_LIST_StartActorAnim, ZUKAN_LIST_GetActorAnimSeq, ZUKAN_LIST_IsActorAnimActive, ZUKAN_LIST_SetActorVisible, ZUKAN_LIST_GetActorVisible, ZUKAN_LIST_SetActorObjMode, ZUKAN_LIST_AddActorPos, ZUKAN_LIST_GetActorPos, ZUKAN_LIST_InitActorSystem, ZUKAN_LIST_LoadActorResources, ZUKAN_LIST_ReleaseActorResources, ZUKAN_LIST_CreateActors, ZUKAN_LIST_DeleteActor, ZUKAN_LIST_DeleteActorUnit, ZUKAN_LIST_LoadSpeciesIcon, ZUKAN_LIST_UpdateSpeciesActors, ZUKAN_LIST_TransferSpeciesGraphics, ZUKAN_LIST_IsActorHidden, ZUKAN_LIST_ShowSpeciesActor, ZUKAN_LIST_ScrollActorsBy, ZUKAN_LIST_HideAllActors, ZUKAN_LIST_ShowAllActors, ZUKAN_LIST_MoveCursorActor, ZUKAN_LIST_UpdateScrollBarActor, ZUKAN_LIST_UpdateArrowActors, ZUKAN_LIST_HandleTouchInput
+ * function: ZUKAN_LIST_ProcInit, ZUKAN_LIST_ProcMain, ZUKAN_LIST_ProcExit, ZUKAN_LIST_StartVBlankTask, ZUKAN_LIST_StopVBlankTask, ZUKAN_LIST_VBlankTask, ZUKAN_LIST_StartHBlankTask, ZUKAN_LIST_StopHBlankTask, ZUKAN_LIST_HBlankTask, ZUKAN_LIST_SetVramBanks, ZUKAN_LIST_GetVramBankConfig, ZUKAN_LIST_InitBgSystem, ZUKAN_LIST_ExitBgSystem, ZUKAN_LIST_LoadBgGraphics, ZUKAN_LIST_InitPaletteAnim, ZUKAN_LIST_ExitPaletteAnim, ZUKAN_LIST_RequestFade, ZUKAN_LIST_SetSubScreenBlendAlpha, ZUKAN_LIST_EnableSubWindows, ZUKAN_LIST_DisableSubWindows, ZUKAN_LIST_CreateFontAndPrinter, ZUKAN_LIST_DeleteFontAndPrinter, ZUKAN_LIST_LoadFormTable, ZUKAN_LIST_FreeFormTable, ZUKAN_LIST_MoveScrollBarActorsIn, ZUKAN_LIST_StartActorMoveFrames, ZUKAN_LIST_UpdateActorMove, ZUKAN_LIST_CreateFrameList, ZUKAN_LIST_DeleteFrameList, ZUKAN_LIST_FrameListMoveCallback, ZUKAN_LIST_FrameListSelectCallback, ZUKAN_LIST_ScrollByDelta, ZUKAN_LIST_RunState, ZUKAN_LIST_StateInit, ZUKAN_LIST_StateExit, ZUKAN_LIST_StateWaitFade, ZUKAN_LIST_StateFadeIn, ZUKAN_LIST_StateMain, ZUKAN_LIST_StateScroll, ZUKAN_LIST_StateScrollWait, ZUKAN_LIST_StateCursorFlash, ZUKAN_LIST_StateFadeOut, ZUKAN_LIST_ResetPaletteSlots, ZUKAN_LIST_StartButtonAnim, ZUKAN_LIST_IsSpeciesEntryValid, ZUKAN_LIST_StoreLastViewedSpecies, ZUKAN_LIST_StateSelectSpecies, ZUKAN_LIST_ToggleSaveFlag15, ZUKAN_LIST_CreateWindows, ZUKAN_LIST_DeleteWindows, ZUKAN_LIST_FlushWindows, ZUKAN_LIST_PrintTouchbarLabel, ZUKAN_LIST_PrintTouchbarLabelClone, ZUKAN_LIST_MakeWindowScreens, ZUKAN_LIST_ClearWindow, ZUKAN_LIST_DrawHeaderRegional, ZUKAN_LIST_DrawHeaderCounts, ZUKAN_LIST_DrawHeaderNational, ZUKAN_LIST_PrintListRow, ZUKAN_LIST_InitActors, ZUKAN_LIST_ExitActors, ZUKAN_LIST_UpdateActors, ZUKAN_LIST_SetActorAnim, ZUKAN_LIST_StartActorAnim, ZUKAN_LIST_GetActorAnimSeq, ZUKAN_LIST_IsActorAnimActive, ZUKAN_LIST_SetActorVisible, ZUKAN_LIST_GetActorVisible, ZUKAN_LIST_SetActorObjMode, ZUKAN_LIST_AddActorPos, ZUKAN_LIST_GetActorPos, ZUKAN_LIST_InitActorSystem, ZUKAN_LIST_LoadActorResources, ZUKAN_LIST_ReleaseActorResources, ZUKAN_LIST_CreateActors, ZUKAN_LIST_DeleteActor, ZUKAN_LIST_DeleteActorUnit, ZUKAN_LIST_LoadSpeciesIcon, ZUKAN_LIST_UpdateSpeciesActors, ZUKAN_LIST_TransferSpeciesGraphics, ZUKAN_LIST_FindHiddenSpeciesActor, ZUKAN_LIST_ShowSpeciesActor, ZUKAN_LIST_ScrollActorsBy, ZUKAN_LIST_HideAllActors, ZUKAN_LIST_ShowAllActors, ZUKAN_LIST_MoveCursorActor, ZUKAN_LIST_UpdateScrollBarActor, ZUKAN_LIST_UpdateArrowActors, ZUKAN_LIST_HandleTouchInput
  * address:  0x021BC240
  * region:   ov209
  * compiler: dsi/1.1p1
@@ -31,7 +31,7 @@
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_ClearSlot 0x020414EC arm
  *   BG_SYS_InitRun 0x02040B94 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   gZukanListDisplayConfig 0x021BE804 data a4
@@ -71,12 +71,12 @@
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   POKE_PERSONAL_LoadFormTable 0x0201AF80 thumb
  *   GFL_HEAP_Free 0x020307B0 arm
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  *   ZUKAN_SAVE_GetLastViewedSpecies 0x0200CA8C thumb
  *   FRAME_LIST_Create 0x021B7754 thumb ov067
  *   FRAME_LIST_CopyMapToBuffer 0x021B7A10 thumb ov067
@@ -116,8 +116,8 @@
  *   FRAME_LIST_SetRowPalette 0x021B9280 thumb ov067
  *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
  *   ZUKAN_SAVE_SetLastViewedSpecies 0x0200CA78 thumb
- *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
- *   GAME_DATA_SetSaveFlag 0x02012BE0 thumb
+ *   GAME_DATA_ContainsRecentId 0x02012BF8 thumb
+ *   GAME_DATA_SetRecentId 0x02012BE0 thumb
  *   BMP_WIN_Init 0x02045088 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   gZukanListWindowDefs 0x021BE990 data a1
@@ -207,7 +207,7 @@
  *   FRAME_LIST_ClampToScrollBar 0x021B8AE4 thumb ov067
  *   FRAME_LIST_CanScrollDown 0x021B93C0 thumb ov067
  *   FRAME_LIST_HideCursor   0x021B941C  thumb
- *   DUP_FITTING_HandleTouch   0x021B940C  thumb ov133
+ *   FRAME_LIST_ShowCursor   0x021B940C  thumb ov067
  *   TOUCHPANEL_HitTrg  0x02035C08  arm  arm9
  *   KEY_GetTrg  0x020362DC  arm  arm9
  *   the name); it is a member function of the EXACT game_unit
@@ -392,7 +392,7 @@ extern void BG_SYS_ClearSlot(u32);
 
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
-extern void BG_SYS_SetFlagField06(u32);
+extern void BG_SYS_MarkTileDirty(u32);
 
 extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 
@@ -454,7 +454,7 @@ extern void STRBUF_Delete(struct U16Vec *);
 
 extern void PRINTSYS_QUE_Delete(struct PrintSys *);
 
-extern void WORDSET_DeleteStrbufED04(struct WordSet *);
+extern void WORDSET_Delete(struct WordSet *);
 
 extern void GF_FONT_Delete(void *);
 
@@ -464,7 +464,7 @@ extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern void BG_SYS_ResetSlot(u32, u32, u32);
+extern void BG_SYS_ChangeScroll(u32, u32, u32);
 
 extern u16 ZUKAN_SAVE_GetLastViewedSpecies(struct Blk37 *p);
 
@@ -536,9 +536,9 @@ extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *, unsigned, unsigned, 
 
 extern void ZUKAN_SAVE_SetLastViewedSpecies(void *,u16);
 
-extern int GAME_DATA_CheckSaveFlag(int, int);
+extern int GAME_DATA_ContainsRecentId(int, int);
 
-extern void GAME_DATA_SetSaveFlag(void *, unsigned, unsigned);
+extern void GAME_DATA_SetRecentId(void *, unsigned, unsigned);
 
 extern void BMP_WIN_Init(unsigned short);
 
@@ -866,7 +866,7 @@ void ZUKAN_LIST_UpdateSpeciesActors(struct ZukanList *p);
 
 void ZUKAN_LIST_TransferSpeciesGraphics(struct ZukanList *p, int actorIndex, unsigned species, u16 form, u16 charHalf, int mode);
 
-int ZUKAN_LIST_IsActorHidden(struct ZukanList *list, int group);
+int ZUKAN_LIST_FindHiddenSpeciesActor(struct ZukanList *list, int group);
 
 void ZUKAN_LIST_ShowSpeciesActor(struct ZukanList *p,u16 species,enum Position pos,int mode);
 
@@ -977,16 +977,16 @@ void ZUKAN_LIST_InitBgSystem(void)
     BG_SYS_Create(107);
     display=gZukanListDisplayConfig;BG_SYS_SetGraphicsMode((struct DispConfig *)(&display));
     bgTemplate0=gZukanListBgTemplateLayer0;BG_SYS_InitBgLayer(0,&bgTemplate0,0);
-    BG_SYS_ClearSlot(0);BG_SYS_InitRun(0,32,0,107);BG_SYS_SetFlagField06(0);
+    BG_SYS_ClearSlot(0);BG_SYS_InitRun(0,32,0,107);BG_SYS_MarkTileDirty(0);
     bgTemplate1=gZukanListBgTemplateLayer1;BG_SYS_InitBgLayer(1,&bgTemplate1,0);
     bgTemplate2=gZukanListBgTemplateLayer2;BG_SYS_InitBgLayer(2,&bgTemplate2,0);
-    BG_SYS_ClearSlot(2);BG_SYS_SetFlagField06(2);
+    BG_SYS_ClearSlot(2);BG_SYS_MarkTileDirty(2);
     bgTemplate3=gZukanListBgTemplateLayer3;BG_SYS_InitBgLayer(3,&bgTemplate3,0);
     bgTemplate4=gZukanListBgTemplateLayer4;BG_SYS_InitBgLayer(4,&bgTemplate4,0);
-    BG_SYS_ClearSlot(4);BG_SYS_InitRun(4,32,0,107);BG_SYS_SetFlagField06(4);
+    BG_SYS_ClearSlot(4);BG_SYS_InitRun(4,32,0,107);BG_SYS_MarkTileDirty(4);
     bgTemplate5=gZukanListBgTemplateLayer5;BG_SYS_InitBgLayer(5,&bgTemplate5,0);
     bgTemplate6=gZukanListBgTemplateLayer6;BG_SYS_InitBgLayer(6,&bgTemplate6,0);
-    BG_SYS_ClearSlot(6);BG_SYS_SetFlagField06(6);
+    BG_SYS_ClearSlot(6);BG_SYS_MarkTileDirty(6);
     bgTemplate7=gZukanListBgTemplateLayer7;BG_SYS_InitBgLayer(7,&bgTemplate7,0);
     BG_SYS_SetMainPlaneVisible(15,1);BG_SYS_SetSubPlaneVisible(15,1);
 }
@@ -1025,7 +1025,7 @@ void ZUKAN_LIST_LoadBgGraphics(void)
     ARC_UTIL_UploadPaletteFromHandleWhole(arc,APP_ICON_GetStatusAnimFileId(),0,448,32,107);
     ARC_UTIL_UploadBgPaletteFromHandle(arc,APP_ICON_GetStatusDataFileId(),1,0,0,0,107);
     BG_SYS_FillTileMap(1,0,21,32,3,14);
-    BG_SYS_SetFlagField06(1);
+    BG_SYS_MarkTileDirty(1);
     ARC_TOOL_DeleteHandle(arc);
     ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,480,32,107);
     ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,4,480,32,107);
@@ -1097,7 +1097,7 @@ void ZUKAN_LIST_CreateFontAndPrinter(struct ZukanList *p)
     p->textBuf = STRBUF_Create(0x80, 0x6B);
 }
 
-void ZUKAN_LIST_DeleteFontAndPrinter(struct ZukanList *p){STRBUF_Delete((struct U16Vec *)p->textBuf);PRINTSYS_QUE_Delete((struct PrintSys *)p->printer);WORDSET_DeleteStrbufED04((struct WordSet *)p->wordSet);GF_FONT_Delete(p->font);MSGDATA_Delete((struct Rec *)p->msgBank);}
+void ZUKAN_LIST_DeleteFontAndPrinter(struct ZukanList *p){STRBUF_Delete((struct U16Vec *)p->textBuf);PRINTSYS_QUE_Delete((struct PrintSys *)p->printer);WORDSET_Delete((struct WordSet *)p->wordSet);GF_FONT_Delete(p->font);MSGDATA_Delete((struct Rec *)p->msgBank);}
 
 void ZUKAN_LIST_LoadFormTable(struct ZukanList *p) { p->formTable=POKE_PERSONAL_LoadFormTable(107,0); }
 
@@ -1107,8 +1107,8 @@ void ZUKAN_LIST_MoveScrollBarActorsIn(struct ZukanList *p)
 {
     unsigned actorIndex;
     s16 pos[2];
-    BG_SYS_ResetSlot(5, 3, 48);
-    BG_SYS_ResetSlot(1, 3, -48);
+    BG_SYS_ChangeScroll(5, 3, 48);
+    BG_SYS_ChangeScroll(1, 3, -48);
     for (actorIndex = 3; actorIndex <= 9; actorIndex++) {
         ZUKAN_LIST_GetActorPos(p, actorIndex, &pos[1], &pos[0], 0);
         pos[0] += 48;
@@ -1128,8 +1128,8 @@ int ZUKAN_LIST_UpdateActorMove(struct ZukanList *p)
     s16 pos[2];
     int absDelta;
     if (p->moveTimer == 0) return 0;
-    BG_SYS_ResetSlot(5, 4, p->moveDelta);
-    BG_SYS_ResetSlot(1, 5, p->moveDelta);
+    BG_SYS_ChangeScroll(5, 4, p->moveDelta);
+    BG_SYS_ChangeScroll(1, 5, p->moveDelta);
     for (actorIndex = 3; actorIndex <= 9; actorIndex++) {
         ZUKAN_LIST_GetActorPos(p, actorIndex, &pos[1], &pos[0], 0);
         pos[0] += p->moveDelta;
@@ -1417,7 +1417,7 @@ int ZUKAN_LIST_StateCursorFlash(struct ZukanList *p)
     case 3:
         if (p->cursorFlashTimer == 0) {
             FRAME_LIST_SetRowPalette((u8 *)(p->frameList), (unsigned short)FRAME_LIST_GetCursor(p->frameList), 2);
-            BG_SYS_SetFlagField06(2);
+            BG_SYS_MarkTileDirty(2);
             p->cursorFlashTimer = 4;
             (p->cursorFlashPhase)++;
         } else (p->cursorFlashTimer)--;
@@ -1462,11 +1462,11 @@ int ZUKAN_LIST_StateSelectSpecies(struct ZukanList *p, int speciesIndex)
  */
 void ZUKAN_LIST_ToggleSaveFlag15(struct ZukanList *p)
 {
-    if (GAME_DATA_CheckSaveFlag(*(int *)p->args, 15) == 1) {
-        GAME_DATA_SetSaveFlag(*(void **)p->args, 15, 0);
+    if (GAME_DATA_ContainsRecentId(*(int *)p->args, 15) == 1) {
+        GAME_DATA_SetRecentId(*(void **)p->args, 15, 0);
         ZUKAN_LIST_StartActorAnim(p, 5, 6);
     } else {
-        GAME_DATA_SetSaveFlag(*(void **)p->args, 15, 1);
+        GAME_DATA_SetRecentId(*(void **)p->args, 15, 1);
         ZUKAN_LIST_StartActorAnim(p, 5, 7);
     }
 }
@@ -1526,7 +1526,7 @@ void ZUKAN_LIST_PrintTouchbarLabelClone(struct ZukanList *p, unsigned index, uns
     STRBUF_Delete(text);
 }
 
-void ZUKAN_LIST_MakeWindowScreens(void **p) {BMP_WIN_MakeScreen(*p);BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(*p));}
+void ZUKAN_LIST_MakeWindowScreens(void **p) {BMP_WIN_MakeScreen(*p);BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(*p));}
 
 void ZUKAN_LIST_ClearWindow(struct ZukanList *p, u32 windowIndex)
 {
@@ -1758,7 +1758,7 @@ void ZUKAN_LIST_CreateActors(struct ZukanList *p)
     if (p->args->mode == 1) {
         ZUKAN_LIST_SetActorVisible(p, 8, 0);
         ZUKAN_LIST_SetActorVisible(p, 5, 0);
-    } else if (GAME_DATA_CheckSaveFlag(*(int *)p->args, 15) == 1)
+    } else if (GAME_DATA_ContainsRecentId(*(int *)p->args, 15) == 1)
         ZUKAN_LIST_StartActorAnim(p, 5, 7);
 }
 
@@ -1884,7 +1884,7 @@ void ZUKAN_LIST_TransferSpeciesGraphics(struct ZukanList *p, int actorIndex, uns
     CLACT_SetActorPaletteOffset(*slot,POKE_TOOL_CalcIconPalette(species,form,charHalfSaved,0),1);
 }
 
-int ZUKAN_LIST_IsActorHidden(struct ZukanList *list, int group)
+int ZUKAN_LIST_FindHiddenSpeciesActor(struct ZukanList *list, int group)
 {
     unsigned int actorIndex;
 
@@ -1912,7 +1912,7 @@ void ZUKAN_LIST_ShowSpeciesActor(struct ZukanList *p,u16 species,enum Position p
     unsigned out1,outForm,out2;
     int actorIndex;
     ZUKAN_SAVE_GetViewGenderAndForm((u8 *)p->args->save,species,&out1,&out2,&outForm,0x806b);
-    actorIndex=ZUKAN_LIST_IsActorHidden(p,mode);
+    actorIndex=ZUKAN_LIST_FindHiddenSpeciesActor(p,mode);
     ZUKAN_LIST_TransferSpeciesGraphics(p,actorIndex,species,outForm,out1,mode);
     ZUKAN_LIST_SetActorVisible(p,actorIndex,1);
     ZUKAN_LIST_StartActorAnim(p,actorIndex,0);
@@ -2022,7 +2022,7 @@ extern u32 KEY_GetTrg(void);
 
 extern void FRAME_LIST_HideCursor(u32);
 
-extern int DUP_FITTING_HandleTouch(u8 *p);
+extern int FRAME_LIST_ShowCursor(u8 *p);
 
 int ZUKAN_LIST_HandleTouchInput(struct ZukanList *p)
 {
@@ -2077,7 +2077,7 @@ int ZUKAN_LIST_HandleTouchInput(struct ZukanList *p)
                 return -1;
             if (UI_GetInputMode() == 1) {
                 UI_SetInputMode(0);
-                DUP_FITTING_HandleTouch((u8 *)((u32)p->frameList));
+                FRAME_LIST_ShowCursor((u8 *)((u32)p->frameList));
             } else {
                 UI_SetInputMode(0);
             }

@@ -1,7 +1,7 @@
 /*
  * file:     intrude_subdisp.c
  * unit:     yes
- * function: INTRUDE_FIELD_InitMmdlCopyAnime, INTRUDE_FIELD_MainMmdlCopyAnime, INTRUDE_SUBDISP_MainRequestAnswerSeq, INTRUDE_SUBDISP_CreatePalaceWarpEvent, INTRUDE_SUBDISP_CreateReturnPalaceEvent, INTRUDE_SUBDISP_CreateDisconnectEvent, INTRUDE_SUBDISP_DisconnectEventMain, INTRUDE_SUBDISP_CreateGuideScriptEvent, INTRUDE_SUBDISP_GuideScriptEventMain, INTRUDE_SUBDISP_CreateTownWarpEvent, INTRUDE_SUBDISP_CreatePlayerWarpEvent, INTRUDE_SUBDISP_CreateBrightFadeEvent, INTRUDE_SUBDISP_BrightFadeEventMain, INTRUDE_SUBDISP_ScriptResetFieldState, INTRUDE_SUBDISP_ScriptApplyCommState, INTRUDE_SUBDISP_Init, INTRUDE_SUBDISP_Exit, INTRUDE_SUBDISP_Update, INTRUDE_SUBDISP_Draw, INTRUDE_SUBDISP_EventCheck, INTRUDE_SUBDISP_VBlankTask, INTRUDE_SUBDISP_SystemSetup, INTRUDE_SUBDISP_SystemExit, INTRUDE_SUBDISP_BgSetup, INTRUDE_SUBDISP_BgExit, INTRUDE_SUBDISP_BmpWinSetup, INTRUDE_SUBDISP_BmpWinExit, INTRUDE_SUBDISP_ClactResourceLoad, INTRUDE_SUBDISP_ClactResourceUnload, INTRUDE_SUBDISP_ClactActorCreate, INTRUDE_SUBDISP_ClactActorDelete, INTRUDE_SUBDISP_CreateTownActors, INTRUDE_SUBDISP_CreatePlayerMarkActors, INTRUDE_SUBDISP_CreateTownMarkActors, INTRUDE_SUBDISP_CreateMyPlayerActor, INTRUDE_SUBDISP_CreatePlayerIconActors, INTRUDE_SUBDISP_CreateInfoIconActor, INTRUDE_SUBDISP_CreateButtonActors, INTRUDE_SUBDISP_DeleteButtonBmpOam, INTRUDE_SUBDISP_UpdateTownActors, INTRUDE_SUBDISP_UpdatePlayerMarkActors, INTRUDE_SUBDISP_UpdatePlayerTownActors, INTRUDE_SUBDISP_UpdateTownMarkPalette, INTRUDE_SUBDISP_UpdateMyPlayerActor, INTRUDE_SUBDISP_UpdateButtonActors, INTRUDE_SUBDISP_UpdateInfoIcon, INTRUDE_SUBDISP_PrintTitle, INTRUDE_SUBDISP_PrintInfoMessage, INTRUDE_SUBDISP_GetTargetPlayerData, INTRUDE_SUBDISP_IsZoneMatch, INTRUDE_SUBDISP_SetTouchRect, INTRUDE_SUBDISP_IsInTouchRect, INTRUDE_SUBDISP_UpdateTouch, INTRUDE_SUBDISP_ReloadBgScreens, INTRUDE_SUBDISP_UpdateBgPalette, INTRUDE_SUBDISP_SetBgPalette, INTRUDE_SUBDISP_InitTownState, INTRUDE_SUBDISP_UpdateTownState, INTRUDE_SUBDISP_StartTownBlink, INTRUDE_SUBDISP_IsTownBlinking, INTRUDE_SUBDISP_SetTownCursor, INTRUDE_SUBDISP_StartButtonBlink, INTRUDE_SUBDISP_UpdateButtonBlink, INTRUDE_SUBDISP_IsInfoActive, INTRUDE_SUBDISP_ClearInfoPanel, INTRUDE_SUBDISP_DrawInfoPanel, INTRUDE_SUBDISP_IsAlone
+ * function: INTRUDE_FIELD_InitMmdlCopyAnime, INTRUDE_FIELD_MainMmdlCopyAnime, INTRUDE_SUBDISP_MainRequestAnswerSeq, INTRUDE_SUBDISP_CreatePalaceWarpEvent, INTRUDE_SUBDISP_CreateReturnPalaceEvent, INTRUDE_SUBDISP_CreateDisconnectEvent, INTRUDE_SUBDISP_DisconnectEventMain, INTRUDE_SUBDISP_CreateGuideScriptEvent, INTRUDE_SUBDISP_GuideScriptEventMain, INTRUDE_SUBDISP_CreateTownWarpEvent, INTRUDE_SUBDISP_CreatePlayerWarpEvent, INTRUDE_SUBDISP_CreateBrightFadeEvent, INTRUDE_SUBDISP_BrightFadeEventMain, INTRUDE_SUBDISP_ScriptAddAreaMmdls, INTRUDE_SUBDISP_ScriptAddAreaMapsAndMarkers, INTRUDE_SUBDISP_Init, INTRUDE_SUBDISP_Exit, INTRUDE_SUBDISP_Update, INTRUDE_SUBDISP_Draw, INTRUDE_SUBDISP_EventCheck, INTRUDE_SUBDISP_VBlankTask, INTRUDE_SUBDISP_SystemSetup, INTRUDE_SUBDISP_SystemExit, INTRUDE_SUBDISP_BgSetup, INTRUDE_SUBDISP_BgExit, INTRUDE_SUBDISP_BmpWinSetup, INTRUDE_SUBDISP_BmpWinExit, INTRUDE_SUBDISP_ClactResourceLoad, INTRUDE_SUBDISP_ClactResourceUnload, INTRUDE_SUBDISP_ClactActorCreate, INTRUDE_SUBDISP_ClactActorDelete, INTRUDE_SUBDISP_CreateTownActors, INTRUDE_SUBDISP_CreatePlayerMarkActors, INTRUDE_SUBDISP_CreateTownMarkActors, INTRUDE_SUBDISP_CreateMyPlayerActor, INTRUDE_SUBDISP_CreatePlayerIconActors, INTRUDE_SUBDISP_CreateInfoIconActor, INTRUDE_SUBDISP_CreateButtonActors, INTRUDE_SUBDISP_DeleteButtonBmpOam, INTRUDE_SUBDISP_UpdateTownActors, INTRUDE_SUBDISP_UpdatePlayerMarkActors, INTRUDE_SUBDISP_UpdatePlayerTownActors, INTRUDE_SUBDISP_UpdateTownMarkPalette, INTRUDE_SUBDISP_UpdateMyPlayerActor, INTRUDE_SUBDISP_UpdateButtonActors, INTRUDE_SUBDISP_UpdateInfoIcon, INTRUDE_SUBDISP_PrintTitle, INTRUDE_SUBDISP_PrintInfoMessage, INTRUDE_SUBDISP_GetTargetPlayerData, INTRUDE_SUBDISP_IsZoneMatch, INTRUDE_SUBDISP_SetTouchRect, INTRUDE_SUBDISP_IsInTouchRect, INTRUDE_SUBDISP_UpdateTouch, INTRUDE_SUBDISP_ReloadBgScreens, INTRUDE_SUBDISP_UpdateBgPalette, INTRUDE_SUBDISP_SetBgPalette, INTRUDE_SUBDISP_InitTownState, INTRUDE_SUBDISP_UpdateTownState, INTRUDE_SUBDISP_StartTownBlink, INTRUDE_SUBDISP_IsTownBlinking, INTRUDE_SUBDISP_SetTownCursor, INTRUDE_SUBDISP_StartButtonBlink, INTRUDE_SUBDISP_UpdateButtonBlink, INTRUDE_SUBDISP_IsInfoActive, INTRUDE_SUBDISP_ClearInfoPanel, INTRUDE_SUBDISP_DrawInfoPanel, INTRUDE_SUBDISP_IsAlone
  * address:  0x0217C758
  * region:   ov018
  * compiler: dsi/1.1p1
@@ -92,7 +92,7 @@
  *   INTRUDE_FIELD_FindZonePos  0x0217BEA8  thumb  ov018
  *   EVENT_MAPCHANGE_CreateWarpEvent  0x02184D38  thumb  ov020
  *   FIELDMAP_GetVReq  0x02188E30  thumb  ov021
- *   BTL_CLIENT_StepSetAbilityWithPopup  0x021D324C  thumb  ov093
+ *   FLD_VREQ_SetSubMasterBrightness  0x021D324C  thumb  ov021
  *   FIELD_SUBSCREEN_ChangeModeNow  0x021A0F40  thumb  ov021
  *   SCRCMD_WORK_GetGameSystem 0x0215A5DC thumb ov010
  *   INTRUDE_FIELD_AddAreaMmdls 0x0217BF84 thumb ov018
@@ -113,7 +113,7 @@
  *   MIi_CpuClear16  0x02082A48  arm
  *   GFL_HEAP_Free  0x020307B0  arm
  *   GFL_NET_WM_ICON_EasyObjWindowOff  0x02037190  arm
- *   GAME_DATA_GetField1A0            0x0201283C  thumb
+ *   GAME_DATA_GetWifiList            0x0201283C  thumb
  *   WIH_DWC_PollStatus            0x0201058C  thumb
  *   TCBL_Main            0x020310C4  arm
  *   PRINTSYS_QUE_Main            0x0201C4E4  thumb
@@ -150,7 +150,7 @@
  *   STRBUF_Delete  0x02045808  arm
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   GF_FONT_Delete  0x0201D83C  thumb
  *   TCBL_Destroy  0x02031140  arm
  *   BMP_OAM_DeleteSys  0x02025588  thumb
@@ -235,7 +235,7 @@
  *   ZONEDATA_IsZoneInTableDFC0  0x02013DD0  thumb
  *   BMP_OAM_GetEnabled  0x020257C4  thumb
  *   ARC_UTIL_UploadBgPaletteFromArchive  0x0204989C  arm
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   BG_SYS_FillTileMap  0x020413B0  arm
  *   MATH_CountPopulation  0x02080D24  arm
  *   INTRUDE_COMM_GetSessionRemaining  0x021758C8  thumb  ov011
@@ -382,8 +382,8 @@ extern int GAME_DATA_GetIntrudeCount(const void *p);
 extern void *EVENT_MAPCHANGE_CreateIntrudeWarpEvent();
 extern IntrudeZonePos *INTRUDE_FIELD_FindZonePos(int zoneId);
 extern void *EVENT_MAPCHANGE_CreateWarpEvent(void *p, int unused, int a, const void *q, u16 s, int t);
-extern u32 FIELDMAP_GetVReq(void *p);
-extern void BTL_CLIENT_StepSetAbilityWithPopup();
+extern void *FIELDMAP_GetVReq(void *p);
+extern void FLD_VREQ_SetSubMasterBrightness(void *vreq, int brightness);
 extern void FIELD_SUBSCREEN_ChangeModeNow(void *p, u32 v);
 extern void *SCRCMD_WORK_GetGameSystem(void *);
 extern void INTRUDE_FIELD_AddAreaMmdls(int a);
@@ -403,7 +403,7 @@ extern void TCB_DeleteTask(void *n);
 extern void MIi_CpuClear16();
 extern u32 GFL_HEAP_Free(void *p);
 extern void GFL_NET_WM_ICON_EasyObjWindowOff();
-u32 GAME_DATA_GetField1A0(const void *p);
+u32 GAME_DATA_GetWifiList(const void *p);
 u32 WIH_DWC_PollStatus(void *key);
 void TCBL_Main(void *p);
 u32 PRINTSYS_QUE_Main(void *ps);
@@ -438,7 +438,7 @@ extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(void *vec);
 extern void PRINTSYS_QUE_Clear(void *p);
 extern void PRINTSYS_QUE_Delete(void *p);
-extern unsigned int WORDSET_DeleteStrbufED04(void *p);
+extern unsigned int WORDSET_Delete(void *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void TCBL_Destroy(void *p);
 extern void BMP_OAM_DeleteSys(void *p);
@@ -510,7 +510,7 @@ extern int FIELD_SUBSCREEN_GetPanelResult(u32 a);
 extern int ZONEDATA_IsZoneInTableDFC0(int zoneId);
 extern int BMP_OAM_GetEnabled(const void *p);
 extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 archiveID, u32 memberIdx, u32 channel, u32 offset, u32 size, u32 heapID, u16 flags);
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern int MATH_CountPopulation(unsigned int x);
 extern int INTRUDE_COMM_GetSessionRemaining(void *o);
@@ -532,8 +532,8 @@ void *INTRUDE_SUBDISP_CreateTownWarpEvent(void *gameSystem, void *fieldMap, u16 
 void *INTRUDE_SUBDISP_CreatePlayerWarpEvent(void *gameSystem, void *fieldMap, int netId);
 void *INTRUDE_SUBDISP_CreateBrightFadeEvent(void *p, int a, int b);
 int INTRUDE_SUBDISP_BrightFadeEventMain(int event, int *state, IntrudeBrightFadeWork *o);
-int INTRUDE_SUBDISP_ScriptResetFieldState(void *unused, void *p);
-int INTRUDE_SUBDISP_ScriptApplyCommState(int unused, int scriptWork);
+int INTRUDE_SUBDISP_ScriptAddAreaMmdls(void *unused, void *p);
+int INTRUDE_SUBDISP_ScriptAddAreaMapsAndMarkers(int unused, int scriptWork);
 IntrudeSubdispWork *INTRUDE_SUBDISP_Init(void *gameSystem);
 void INTRUDE_SUBDISP_Exit(IntrudeSubdispWork *work);
 void INTRUDE_SUBDISP_Update(IntrudeSubdispWork *work, int mode);
@@ -1074,7 +1074,7 @@ int INTRUDE_SUBDISP_BrightFadeEventMain(int event, int *state, IntrudeBrightFade
     case 0:
         work->frame += 1;
         if (work->frame > 15) {
-            BTL_CLIENT_StepSetAbilityWithPopup(FIELDMAP_GetVReq((u8 *)work->fieldMap), -16);
+            FLD_VREQ_SetSubMasterBrightness(FIELDMAP_GetVReq((u8 *)work->fieldMap), -16);
             *state += 1;
         }
         break;
@@ -1083,7 +1083,7 @@ int INTRUDE_SUBDISP_BrightFadeEventMain(int event, int *state, IntrudeBrightFade
         *state += 1;
         break;
     case 2:
-        BTL_CLIENT_StepSetAbilityWithPopup(FIELDMAP_GetVReq((u8 *)work->fieldMap), 0);
+        FLD_VREQ_SetSubMasterBrightness(FIELDMAP_GetVReq((u8 *)work->fieldMap), 0);
         *state += 1;
         break;
     case 3:
@@ -1093,7 +1093,7 @@ int INTRUDE_SUBDISP_BrightFadeEventMain(int event, int *state, IntrudeBrightFade
 }
 
 
-int INTRUDE_SUBDISP_ScriptResetFieldState(void *unused, void *scriptWork)
+int INTRUDE_SUBDISP_ScriptAddAreaMmdls(void *unused, void *scriptWork)
 {
     void *sys;
     void *obj;
@@ -1105,7 +1105,7 @@ int INTRUDE_SUBDISP_ScriptResetFieldState(void *unused, void *scriptWork)
 }
 
 
-int INTRUDE_SUBDISP_ScriptApplyCommState(int unused, int scriptWork)
+int INTRUDE_SUBDISP_ScriptAddAreaMapsAndMarkers(int unused, int scriptWork)
 {
     void *w;
     void *c;
@@ -1221,7 +1221,7 @@ void INTRUDE_SUBDISP_Update(IntrudeSubdispWork *work, int mode)
     gameData = GAMESYSTEM_GetGameData(work->gameSystem);
     sys = INTRUDE_COMM_GetWorkIfRunning(gameComm);
     zoneId = GAME_DATA_GetPlayerZoneId(GAMESYSTEM_GetMyPlayerWork(work->gameSystem));
-    WIH_DWC_PollStatus((void *)GAME_DATA_GetField1A0(gameData));
+    WIH_DWC_PollStatus((void *)GAME_DATA_GetWifiList(gameData));
     GFL_NET_WM_ICON_EasyObjWindowOn();
     if (sys == 0 || (sys != 0 && sys->flagBit7 == 0)) {
         INTRUDE_SUBDISP_UpdateTownState(work, sys);
@@ -1428,7 +1428,7 @@ void INTRUDE_SUBDISP_SystemExit(IntrudeSubdispWork *work)
     MSGDATA_Delete(work->msgDataDetail);
     PRINTSYS_QUE_Clear(work->printQue);
     PRINTSYS_QUE_Delete(work->printQue);
-    WORDSET_DeleteStrbufED04(work->wordSet);
+    WORDSET_Delete(work->wordSet);
     GF_FONT_Delete(work->font);
     TCBL_Destroy(work->tcbl);
     BMP_OAM_DeleteSys(work->bmpOamSys);
@@ -2520,7 +2520,7 @@ void INTRUDE_SUBDISP_ReloadBgScreens(IntrudeSubdispWork *work)
     if (changed != 0) {
         BMP_WIN_MakeScreen(work->titleWin);
         BMP_WIN_MakeScreen(work->infoWin);
-        BG_SYS_SetFlagField06(6);
+        BG_SYS_MarkTileDirty(6);
         if (INTRUDE_SUBDISP_IsInfoActive(work) == 1) {
             INTRUDE_SUBDISP_DrawInfoPanel(work, 1);
         }
@@ -2547,8 +2547,8 @@ void INTRUDE_SUBDISP_SetBgPalette(IntrudeSubdispWork *work, int homeSlot)
         BMP_WIN_MakeScreen(work->titleWin);
         BMP_WIN_MakeScreen(work->infoWin);
     }
-    BG_SYS_SetFlagField06(7);
-    BG_SYS_SetFlagField06(6);
+    BG_SYS_MarkTileDirty(7);
+    BG_SYS_MarkTileDirty(6);
     work->lastBgPalette = homeSlot;
 }
 
@@ -2694,7 +2694,7 @@ int INTRUDE_SUBDISP_IsInfoActive(IntrudeSubdispWork *work)
 void INTRUDE_SUBDISP_ClearInfoPanel(void)
 {
     BG_SYS_SetTileEntry(6, 0x3001, 0x14, 0x16, 0xc, 2, 0x11);
-    BG_SYS_SetFlagField06(6);
+    BG_SYS_MarkTileDirty(6);
 }
 
 
@@ -2702,7 +2702,7 @@ void INTRUDE_SUBDISP_DrawInfoPanel(IntrudeSubdispWork *work, int mode)
 {
     BG_SYS_DrawTileEx(6, 0x14, 0x16, 0xC, 2, work->infoPalette, 0, 0, 0xC, 2);
     if (mode == 1) {
-        BG_SYS_SetFlagField06(6);
+        BG_SYS_MarkTileDirty(6);
     } else {
         BG_SYS_PushTile(6);
     }

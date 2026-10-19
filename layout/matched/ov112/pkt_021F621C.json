@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "MUSICAL_MCSS_NoOp7",
+   "name": "MUSICAL_MCSS_SetCameraBack",
    "address": "0x021F621C",
    "kind": "game",
    "region": "ov112",

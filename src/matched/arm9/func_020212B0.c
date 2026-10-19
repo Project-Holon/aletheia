@@ -8,13 +8,13 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: FILE_UTIL_Get_12B0
+ * function: FILE_UTIL_GetMachineMove
  *
  * symbols:
  *   g_0209EAA0     0x0209EAA0  data
- *   FILE_UTIL_Check1288  0x02021288  thumb
+ *   FILE_UTIL_IsMachineItem  0x02021288  thumb
  *
- * Halfword lookup keyed by one of the two id windows FILE_UTIL_Check1288 accepts:
+ * Halfword lookup keyed by one of the two id windows FILE_UTIL_IsMachineItem accepts:
  * 0x148..0x1A9 maps to entries 0..0x61 of the table at 0x0209EAA0 and
  * 0x26A..0x26C continues at 0x62..0x64, which is why the second window's
  * subtrahend is 0x208 rather than its own start.  Ids outside both windows
@@ -33,19 +33,19 @@
  * so the `u16` parameter type is real evidence and not a spelling choice.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/FILE_UTIL_Get_12B0.c \
- *       --func FILE_UTIL_Get_12B0 --addr 0x020212B0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FILE_UTIL_GetMachineMove.c \
+ *       --func FILE_UTIL_GetMachineMove --addr 0x020212B0 --cc 1.1p1 --thumb
  */
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern const u16 g_0209EAA0[];
-extern u32 FILE_UTIL_Check1288(u32 id);
+extern u32 FILE_UTIL_IsMachineItem(u32 id);
 
-u16 FILE_UTIL_Get_12B0(u16 id)
+u16 FILE_UTIL_GetMachineMove(u16 id)
 {
-    if (FILE_UTIL_Check1288(id) == 0) {
+    if (FILE_UTIL_IsMachineItem(id) == 0) {
         return 0;
     }
     if (id >= 0x26A) {

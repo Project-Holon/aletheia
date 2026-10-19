@@ -1,5 +1,5 @@
 /*
- * function: CONFIG_GetAppliedFlag
+ * function: CONFIG_GetTextLanguage
  * address:  0x020083E4
  * packet:   pkt_020083E4
  * region:   arm9
@@ -12,10 +12,10 @@
  * Unlabelled leaf accessor: bit 9 of the u16 at *p.
  *
  * symbols:
- *   CONFIG_GetAppliedFlag  0x020083E4  thumb
+ *   CONFIG_GetTextLanguage  0x020083E4  thumb
  */
 
-int CONFIG_GetAppliedFlag(unsigned short *p)
+int CONFIG_GetTextLanguage(unsigned short *p)
 {
     return ((unsigned int)*p << 23) >> 31;
 }

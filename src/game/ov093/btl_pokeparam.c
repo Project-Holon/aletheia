@@ -1,7 +1,7 @@
 /*
  * file:     btl_pokeparam.c
  * unit:     yes
- * function: BTL_POKEPARAM_Create, BTL_POKEPARAM_ReloadFromMon, BTL_POKEPARAM_LoadMoves, BTL_POKEPARAM_SaveMovesToMon, BTL_POKEPARAM_SyncMovesFromMon, BTL_POKEPARAM_ResetBattleMoves, BTL_POKEPARAM_ClearMoveUsedFlags, BTL_POKEPARAM_ReplaceMoveSlot, BTL_POKEPARAM_SetMoveInfo, BTL_POKEPARAM_LoadMoveInfo, BTL_POKEPARAM_LoadStats, BTL_POKEPARAM_RestoreIfNeeded, BTL_POKEPARAM_ResetMoveHistory, BTL_POKEPARAM_ClearMoveFlags, BTL_POKEPARAM_Delete, BTL_POKEPARAM_InitStatStages, BTL_POKEPARAM_SetNeutralStatStages, BTL_POKEPARAM_RaiseLowStatStagesInArray, BTL_POKEPARAM_GetPokeId, BTL_POKEPARAM_GetSpecies, BTL_POKEPARAM_GetMoveCount, BTL_POKEPARAM_CountRealMoves, BTL_POKEPARAM_CountUsedMoves, BTL_POKEPARAM_GetUsedMoveTotal, BTL_POKEPARAM_GetMoveId, BTL_POKEPARAM_GetRealMoveId, BTL_POKEPARAM_GetMoveUsedFlag, BTL_POKEPARAM_CopyMoves, BTL_POKEPARAM_GetMovePP, BTL_POKEPARAM_GetMovePPLost, BTL_POKEPARAM_GetRealMovePPLost, BTL_POKEPARAM_GetMovePPChecked, BTL_POKEPARAM_GetMovePPById, BTL_POKEPARAM_IsMovePPFull, BTL_POKEPARAM_DecrementMovePP, BTL_POKEPARAM_DecrementRealMovePP, BTL_POKEPARAM_RestoreMovePP, BTL_POKEPARAM_RestoreRealMovePP, BTL_POKEPARAM_MarkMoveUsed, BTL_POKEPARAM_ReplaceMove, BTL_POKEPARAM_HasMove, BTL_POKEPARAM_FindMoveSlot, BTL_POKEPARAM_GetTypes, BTL_POKEPARAM_GetTypePair, BTL_POKEPARAM_HasType, BTL_POKEPARAM_GetMon, BTL_POKEPARAM_SetFakeMon, BTL_POKEPARAM_ClearFakeMon, BTL_POKEPARAM_GetDisplayMon, BTL_POKEPARAM_RemapStatId, BTL_POKEPARAM_GetStatRaw, BTL_POKEPARAM_ReadStatsFromMon, BTL_POKEPARAM_SetStat, BTL_POKEPARAM_GetValue, BTL_POKEPARAM_GetStatForCrit, BTL_POKEPARAM_GetItem, BTL_POKEPARAM_SetItem, BTL_POKEPARAM_IsHpFull, BTL_POKEPARAM_IsFainted, BTL_POKEPARAM_IsAbleToBattle, BTL_POKEPARAM_GetTurnCount, BTL_POKEPARAM_TestTurnFlag, BTL_POKEPARAM_TestContFlag, BTL_POKEPARAM_GetSemiInvulnerableFlag, BTL_POKEPARAM_IsSemiInvulnerable, BTL_POKEPARAM_GetHpRatioFixed, BTL_POKEPARAM_GetStatStagePtr, BTL_POKEPARAM_CanChangeStatStage, BTL_POKEPARAM_GetStatStageRoom, BTL_POKEPARAM_HasLoweredStatStage, BTL_POKEPARAM_RaiseStatStage, BTL_POKEPARAM_LowerStatStage, BTL_POKEPARAM_SetStatStage, BTL_POKEPARAM_RaiseLoweredStatStages, BTL_POKEPARAM_ResetStatStages, BTL_POKEPARAM_GetCritStage, BTL_POKEPARAM_AddCritStage, BTL_POKEPARAM_SubHp, BTL_POKEPARAM_AddHp, BTL_POKEPARAM_ZeroHp, BTL_POKEPARAM_SetTurnFlag, BTL_POKEPARAM_SetContFlag, BTL_POKEPARAM_ClearContFlag, BTL_POKEPARAM_SetSickCont, BTL_POKEPARAM_TickSickCont, BTL_POKEPARAM_TickSleepTurn, BTL_POKEPARAM_TickSlot6Turn, BTL_POKEPARAM_ClearMajorStatus, BTL_POKEPARAM_ClearDependentSick, BTL_POKEPARAM_CureSick, BTL_POKEPARAM_CureSickBySource, BTL_POKEPARAM_GetMajorStatusIndex, BTL_POKEPARAM_HasSick, BTL_POKEPARAM_GetSickParam, BTL_POKEPARAM_GetSickContRaw, BTL_POKEPARAM_GetSickTurn, BTL_POKEPARAM_CalcSickDamage, BTL_POKEPARAM_ClearSickConts, BTL_POKEPARAM_StartTurnThreshold, BTL_POKEPARAM_AdvanceTurn, BTL_POKEPARAM_ClearTurnFlag, BTL_POKEPARAM_ResetAllEffects, BTL_POKEPARAM_ResetEffectsOnSwitchOut, BTL_POKEPARAM_ReloadAndResetEffects, BTL_POKEPARAM_PassEffects, BTL_POKEPARAM_SetTypes, BTL_POKEPARAM_SetAbility, BTL_POKEPARAM_ChangeForm, BTL_POKEPARAM_ConsumeHeldItem, BTL_POKEPARAM_ClearConsumedItem, BTL_POKEPARAM_GetConsumedItem, BTL_POKEPARAM_RecordMoveUse, BTL_POKEPARAM_GetMoveStreak, BTL_POKEPARAM_GetLastUsedMoveId, BTL_POKEPARAM_GetLastTargetPos, BTL_POKEPARAM_GetLastSelectedMoveId, BTL_POKEPARAM_GetLastMoveSlot, BTL_POKEPARAM_IsLevelUpPending, BTL_POKEPARAM_SetWeight, BTL_POKEPARAM_GetWeight, BTL_POKEPARAM_ClearHitHistory, BTL_POKEPARAM_AdvanceHitTurn, BTL_POKEPARAM_AddHitRecord, BTL_POKEPARAM_GetHitCount, BTL_POKEPARAM_GetHitRecord, BTL_POKEPARAM_SetCounter, BTL_POKEPARAM_GetCounter, BTL_POKEPARAM_AddExp, BTL_POKEPARAM_GetMaxLevelExp, BTL_POKEPARAM_WriteBackToParam, BTL_POKEPARAM_ReloadFromParam, BTL_POKEPARAM_IsIllusionActive, BTL_POKEPARAM_ClearIllusion, BTL_POKEPARAM_SetPokeParam, BTL_POKEPARAM_Transform, BTL_POKEPARAM_IsTransformed, BTL_POKEPARAM_SetSubstituteHp, BTL_POKEPARAM_ClearSubstitute, BTL_POKEPARAM_HasSubstitute, BTL_POKEPARAM_GetSubstituteHp, BTL_POKEPARAM_DamageSubstitute, BTL_POKEPARAM_ClearFoughtList, BTL_EVENT_GetClientPartyCount, BTL_EVENT_GetClientPartySlotId, BTL_EVENT_StartClientPalAnm, BTL_EVENT_SetClientReservedChoice, BTL_EVENT_GetClientReservedChoice, BTL_EVENT_HasClientReservedChoice, BTL_EVENT_ClearClientReservedChoice, BTL_EVENT_ReleaseClientHandle
+ * function: BTL_POKEPARAM_Create, BTL_POKEPARAM_ReloadFromMon, BTL_POKEPARAM_LoadMoves, BTL_POKEPARAM_SaveMovesToMon, BTL_POKEPARAM_SyncMovesFromMon, BTL_POKEPARAM_ResetBattleMoves, BTL_POKEPARAM_ClearMoveUsedFlags, BTL_POKEPARAM_ReplaceMoveSlot, BTL_POKEPARAM_SetMoveInfo, BTL_POKEPARAM_LoadMoveInfo, BTL_POKEPARAM_LoadStats, BTL_POKEPARAM_RestoreIfNeeded, BTL_POKEPARAM_ResetMoveHistory, BTL_POKEPARAM_ClearMoveFlags, BTL_POKEPARAM_Delete, BTL_POKEPARAM_InitStatStages, BTL_POKEPARAM_SetNeutralStatStages, BTL_POKEPARAM_RaiseLowStatStagesInArray, BTL_POKEPARAM_GetPokeId, BTL_POKEPARAM_GetSpecies, BTL_POKEPARAM_GetMoveCount, BTL_POKEPARAM_CountRealMoves, BTL_POKEPARAM_CountUsedMoves, BTL_POKEPARAM_GetUsedMoveTotal, BTL_POKEPARAM_GetMoveId, BTL_POKEPARAM_GetRealMoveId, BTL_POKEPARAM_GetMoveUsedFlag, BTL_POKEPARAM_CopyMoves, BTL_POKEPARAM_GetMovePP, BTL_POKEPARAM_GetMovePPLost, BTL_POKEPARAM_GetRealMovePPLost, BTL_POKEPARAM_GetMovePPChecked, BTL_POKEPARAM_GetMovePPById, BTL_POKEPARAM_IsMovePPFull, BTL_POKEPARAM_DecrementMovePP, BTL_POKEPARAM_DecrementRealMovePP, BTL_POKEPARAM_RestoreMovePP, BTL_POKEPARAM_RestoreRealMovePP, BTL_POKEPARAM_MarkMoveUsed, BTL_POKEPARAM_ReplaceMove, BTL_POKEPARAM_HasMove, BTL_POKEPARAM_FindMoveSlot, BTL_POKEPARAM_GetTypes, BTL_POKEPARAM_GetTypePair, BTL_POKEPARAM_HasType, BTL_POKEPARAM_GetMon, BTL_POKEPARAM_SetFakeMon, BTL_POKEPARAM_ClearFakeMon, BTL_POKEPARAM_GetDisplayMon, BTL_POKEPARAM_RemapStatId, BTL_POKEPARAM_GetStatRaw, BTL_POKEPARAM_ReadStatsFromMon, BTL_POKEPARAM_SetStat, BTL_POKEPARAM_GetValue, BTL_POKEPARAM_GetStatForCrit, BTL_POKEPARAM_GetItem, BTL_POKEPARAM_SetItem, BTL_POKEPARAM_IsHpFull, BTL_POKEPARAM_IsFainted, BTL_POKEPARAM_IsAbleToBattle, BTL_POKEPARAM_GetTurnCount, BTL_POKEPARAM_TestTurnFlag, BTL_POKEPARAM_TestContFlag, BTL_POKEPARAM_GetSemiInvulnerableFlag, BTL_POKEPARAM_IsSemiInvulnerable, BTL_POKEPARAM_GetHpRatioFixed, BTL_POKEPARAM_GetStatStagePtr, BTL_POKEPARAM_CanChangeStatStage, BTL_POKEPARAM_GetStatStageRoom, BTL_POKEPARAM_HasLoweredStatStage, BTL_POKEPARAM_RaiseStatStage, BTL_POKEPARAM_LowerStatStage, BTL_POKEPARAM_SetStatStage, BTL_POKEPARAM_RaiseLoweredStatStages, BTL_POKEPARAM_ResetStatStages, BTL_POKEPARAM_GetCritStage, BTL_POKEPARAM_AddCritStage, BTL_POKEPARAM_SubHp, BTL_POKEPARAM_AddHp, BTL_POKEPARAM_ZeroHp, BTL_POKEPARAM_SetTurnFlag, BTL_POKEPARAM_SetContFlag, BTL_POKEPARAM_ClearContFlag, BTL_POKEPARAM_SetSickCont, BTL_POKEPARAM_TickSickCont, BTL_POKEPARAM_TickSleepTurn, BTL_POKEPARAM_TickConfusionTurn, BTL_POKEPARAM_ClearMajorStatus, BTL_POKEPARAM_ClearDependentSick, BTL_POKEPARAM_CureSick, BTL_POKEPARAM_CureSickBySource, BTL_POKEPARAM_GetMajorStatusIndex, BTL_POKEPARAM_HasSick, BTL_POKEPARAM_GetSickParam, BTL_POKEPARAM_GetSickContRaw, BTL_POKEPARAM_GetSickTurn, BTL_POKEPARAM_CalcSickDamage, BTL_POKEPARAM_ClearSickConts, BTL_POKEPARAM_StartTurnThreshold, BTL_POKEPARAM_AdvanceTurn, BTL_POKEPARAM_ClearTurnFlag, BTL_POKEPARAM_ResetAllEffects, BTL_POKEPARAM_ResetEffectsOnSwitchOut, BTL_POKEPARAM_ReloadAndResetEffects, BTL_POKEPARAM_PassEffects, BTL_POKEPARAM_SetTypes, BTL_POKEPARAM_SetAbility, BTL_POKEPARAM_ChangeForm, BTL_POKEPARAM_ConsumeHeldItem, BTL_POKEPARAM_ClearConsumedItem, BTL_POKEPARAM_GetConsumedItem, BTL_POKEPARAM_RecordMoveUse, BTL_POKEPARAM_GetMoveStreak, BTL_POKEPARAM_GetLastUsedMoveId, BTL_POKEPARAM_GetLastTargetPos, BTL_POKEPARAM_GetLastSelectedMoveId, BTL_POKEPARAM_GetLastMoveSlot, BTL_POKEPARAM_HasEnteredBattle, BTL_POKEPARAM_SetWeight, BTL_POKEPARAM_GetWeight, BTL_POKEPARAM_ClearHitHistory, BTL_POKEPARAM_AdvanceHitTurn, BTL_POKEPARAM_AddHitRecord, BTL_POKEPARAM_GetHitCount, BTL_POKEPARAM_GetHitRecord, BTL_POKEPARAM_SetCounter, BTL_POKEPARAM_GetCounter, BTL_POKEPARAM_AddExp, BTL_POKEPARAM_GetMaxLevelExp, BTL_POKEPARAM_WriteBackToParam, BTL_POKEPARAM_ReloadFromParam, BTL_POKEPARAM_IsIllusionActive, BTL_POKEPARAM_ClearIllusion, BTL_POKEPARAM_SetPokeParam, BTL_POKEPARAM_Transform, BTL_POKEPARAM_IsTransformed, BTL_POKEPARAM_SetSubstituteHp, BTL_POKEPARAM_ClearSubstitute, BTL_POKEPARAM_HasSubstitute, BTL_POKEPARAM_GetSubstituteHp, BTL_POKEPARAM_DamageSubstitute, BTL_POKEPARAM_ClearFoughtList, BTL_POKEPARAM_GetFoughtCount, BTL_POKEPARAM_GetFoughtPokeId, BTL_EVENT_StartClientPalAnm, BTL_POKEPARAM_SetStoredPokeMove, BTL_POKEPARAM_GetStoredPokeMove, BTL_POKEPARAM_HasStoredPokeMove, BTL_POKEPARAM_ClearStoredPokeMove, BTL_POKEPARAM_RecalcMonParam
  * address:  0x021D4D84
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -38,7 +38,7 @@
  *   BTL_POKEPARAM_CureSickBySource 0x021D6264 thumb ov093
  *   BTL_POKEPARAM_AddHitRecord 0x021D6848 thumb ov093
  *   BTL_POKEPARAM_AdvanceTurn 0x021D6408 thumb ov093
- *   BTL_EVENT_ClearClientReservedChoice 0x021D6E88 thumb ov093
+ *   BTL_POKEPARAM_ClearStoredPokeMove 0x021D6E88 thumb ov093
  *   BTL_FIELD_TickSlots   0x021EFC78  thumb
  *   BTL_POKEPARAM_SetWeight 0x021D67D8 thumb ov093
  *   BTL_FIELD_GetCountdownByte 0x021EF9A8 thumb ov093
@@ -102,7 +102,7 @@
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *   WAZA_TOOL_GetMaxPP 0x0201C158 thumb
  *   POKE_TOOL_GetGender  0x02017F00  thumb
- *   BTLV_CORE_PackBytes  0x021E8CE0  thumb  ov093
+ *   BTL_TYPEPAIR_Make  0x021E8CE0  thumb  ov093
  *   BTL_FIELD_GetStaticSlotObject 0x021EF948 thumb ov093
  *   BTL_CALC_ApplyStatStage  0x021D78E4  thumb  ov093
  *   gSemiInvulnerableContFlags  0x021F040C  data  ov093
@@ -119,13 +119,13 @@
  *   BTL_POKEPARAM_SetNeutralStatStages  0x021D53C8  thumb  ov093
  *   BTL_POKEPARAM_TestContFlag  0x021D5BDC  thumb  ov093
  *   BTL_CALC_HasDefaultSickCont  0x021D7D6C  thumb  ov093
- *   BTLV_CORE_GetSlotLow  0x021E8AFC  thumb  ov093
- *   BTLV_CORE_GetSlotValue  0x021E8B80  thumb  ov093
- *   BTLV_CORE_GetZeroMasked  0x021E8918  thumb  ov093
+ *   BTL_SICKCONT_GetLow  0x021E8AFC  thumb  ov093
+ *   BTL_SICKCONT_GetValue  0x021E8B80  thumb  ov093
+ *   BTL_SICKCONT_MakeNone  0x021E8918  thumb  ov093
  *   BTL_POKEPARAM_HasMove  0x021D5750  thumb  ov093
- *   BTLV_CORE_IsSlotKindNone  0x021E8928  thumb  ov093
- *   BTLV_CORE_GetSlotPosition  0x021E8A98  thumb  ov093
- *   BTLV_CORE_IsSlotKind1Index15  0x021E8A78  thumb  ov093
+ *   BTL_SICKCONT_IsNone  0x021E8928  thumb  ov093
+ *   BTL_SICKCONT_GetPosition  0x021E8A98  thumb  ov093
+ *   BTL_SICKCONT_IsKind1Index15  0x021E8A78  thumb  ov093
  *   BTL_CALC_DivideMaxHpMin1  0x021D7B74  thumb  ov093
  *   MI_CpuFill8  0x02082BCC  arm
  *   BTL_POKEPARAM_AdvanceHitTurn  0x021D6824  thumb  ov093
@@ -139,8 +139,8 @@
  *   BTL_POKEPARAM_ReloadFromMon  0x021D4EFC  thumb  ov093
  *   BTL_POKEPARAM_GetStatRaw  0x021D58A8  thumb  ov093
  *   BTL_POKEPARAM_SetStat  0x021D5970  thumb  ov093
- *   BTLV_CORE_GetHighByte 0x021E8CFC thumb ov093
- *   BTLV_CORE_GetLowByte 0x021E8D04 thumb ov093
+ *   BTL_TYPEPAIR_GetHigh 0x021E8CFC thumb ov093
+ *   BTL_TYPEPAIR_GetLow 0x021E8D04 thumb ov093
  *   POKE_TOOL_ChangeForm  0x02017988  thumb
  *   BTL_POKEPARAM_LoadStats  0x021D52B4  thumb  ov093
  *   POKE_TOOL_GetExpForLevel 0x02018584 thumb
@@ -193,7 +193,7 @@ extern void POKE_TOOL_SetMoveSlot(PokemonParam *mon, u16 moveId, u32 slot);
 extern void POKE_TOOL_SetPartyValue(PokemonParam *mon, u32 paramId, u32 value);
 extern u32 WAZA_TOOL_GetMaxPP(u32 moveId, u32 ppUps);
 extern u8 POKE_TOOL_GetGender(PokemonParam *mon);
-extern u16 BTLV_CORE_PackBytes(u32 type1, u32 type2);
+extern u16 BTL_TYPEPAIR_Make(u32 type1, u32 type2);
 extern int BTL_FIELD_GetStaticSlotObject(int);
 extern unsigned short BTL_CALC_ApplyStatStage(unsigned short stat, int stage);
 extern const char gBtlPokeparamFileName[];
@@ -271,16 +271,16 @@ int BTL_POKEPARAM_HasLoweredStatStage(BtlPokeParam *pp);
 u8 BTL_POKEPARAM_RaiseStatStage(BtlPokeParam *pp, int stageId, u8 amount);
 typedef enum { SICK_SLOT_FIRST, SICK_SLOT_COUNT = 36, SICK_SLOT_FORCE_UNSIGNED = 0xFFFFFFFF } SickSlotIndex;
 extern int BTL_CALC_HasDefaultSickCont(int sickIndex);
-extern u8 BTLV_CORE_GetSlotLow(union SickCont cont);
-extern u16 BTLV_CORE_GetSlotValue(union SickCont cont);
-extern union SickCont BTLV_CORE_GetZeroMasked(void);
-extern int BTLV_CORE_IsSlotKindNone(union SickCont cont);
-extern int BTLV_CORE_GetSlotPosition(union SickCont cont);
-extern int BTLV_CORE_IsSlotKind1Index15(union SickCont cont);
+extern u8 BTL_SICKCONT_GetLow(union SickCont cont);
+extern u16 BTL_SICKCONT_GetValue(union SickCont cont);
+extern union SickCont BTL_SICKCONT_MakeNone(void);
+extern int BTL_SICKCONT_IsNone(union SickCont cont);
+extern int BTL_SICKCONT_GetPosition(union SickCont cont);
+extern int BTL_SICKCONT_IsKind1Index15(union SickCont cont);
 extern int BTL_CALC_DivideMaxHpMin1(struct BtlPokeParam *bpp, u32 divisor);
 void BTL_POKEPARAM_AdvanceHitTurn(struct BtlPokeParam *bpp);
 extern void POKE_TOOL_RecalcParam(void *mon);
-void BTL_EVENT_ClearClientReservedChoice(struct BtlPokeParam *bpp);
+void BTL_POKEPARAM_ClearStoredPokeMove(struct BtlPokeParam *bpp);
 void BTL_POKEPARAM_ClearIllusion(struct BtlPokeParam *bpp);
 void BTL_POKEPARAM_ClearSubstitute(struct BtlPokeParam *bpp);
 extern int BTL_ID_IsBatonPassSick(u32 sickIndex);
@@ -298,7 +298,7 @@ void BTL_POKEPARAM_ClearContFlag(struct BtlPokeParam *bpp, unsigned int flagInde
 void BTL_POKEPARAM_SetSickCont(struct BtlPokeParam *bpp, int sickIndex, union SickCont cont);
 int BTL_POKEPARAM_TickSickCont(struct BtlPokeParam *bpp, u32 sickIndex, union SickCont *outCont, int *outCured);
 int BTL_POKEPARAM_TickSleepTurn(struct BtlPokeParam *bpp);
-int BTL_POKEPARAM_TickSlot6Turn(struct BtlPokeParam *bpp);
+int BTL_POKEPARAM_TickConfusionTurn(struct BtlPokeParam *bpp);
 void BTL_POKEPARAM_ClearMajorStatus(struct BtlPokeParam *bpp);
 void BTL_POKEPARAM_ClearDependentSick(struct BtlPokeParam *bpp, int sickIndex);
 void BTL_POKEPARAM_CureSick(struct BtlPokeParam *bpp, int sickIndex);
@@ -315,8 +315,8 @@ void BTL_POKEPARAM_ResetAllEffects(struct BtlPokeParam *bpp);
 void BTL_POKEPARAM_ResetEffectsOnSwitchOut(struct BtlPokeParam *bpp);
 void BTL_POKEPARAM_ReloadAndResetEffects(struct BtlPokeParam *bpp);
 void BTL_POKEPARAM_PassEffects(struct BtlPokeParam *dst, struct BtlPokeParam *src);
-extern u8 BTLV_CORE_GetHighByte(int typePair);
-extern int BTLV_CORE_GetLowByte(int typePair);
+extern u8 BTL_TYPEPAIR_GetHigh(int typePair);
+extern int BTL_TYPEPAIR_GetLow(int typePair);
 extern u32 POKE_TOOL_ChangeForm(void *pokeParam, u32 form);
 extern u32 POKE_TOOL_GetExpForLevel(u16 species, u16 form, u16 level);
 extern void POKE_TOOL_SetStatusCondition(void *pokeParam, u32 condition);
@@ -324,13 +324,13 @@ extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u8 gBtlPokeParamTransformMoves[0x38];
 extern BtlPokeParamKept gBtlPokeParamTransformKept;
 extern unsigned short PALANM_GetPairedCodeForFirst(int value);
-unsigned char BTL_EVENT_GetClientPartyCount(BtlPokeParam *pp);
-u8 BTL_EVENT_GetClientPartySlotId(BtlPokeParam *pp, u32 slot);
+unsigned char BTL_POKEPARAM_GetFoughtCount(BtlPokeParam *pp);
+u8 BTL_POKEPARAM_GetFoughtPokeId(BtlPokeParam *pp, u32 slot);
 void BTL_EVENT_StartClientPalAnm(BtlPokeParam *pp, int value);
-void BTL_EVENT_SetClientReservedChoice(BtlPokeParam *pp, u8 pokeId, u16 key);
-int BTL_EVENT_GetClientReservedChoice(BtlPokeParam *pp, u8 *pokeId, u16 *key);
-u32 BTL_EVENT_HasClientReservedChoice(BtlPokeParam *pp);
-void BTL_EVENT_ReleaseClientHandle(BtlPokeParam *pp);
+void BTL_POKEPARAM_SetStoredPokeMove(BtlPokeParam *pp, u8 pokeId, u16 key);
+int BTL_POKEPARAM_GetStoredPokeMove(BtlPokeParam *pp, u8 *pokeId, u16 *key);
+u32 BTL_POKEPARAM_HasStoredPokeMove(BtlPokeParam *pp);
+void BTL_POKEPARAM_RecalcMonParam(BtlPokeParam *pp);
 
 /*
  * BTL_POKEPARAM_Create: BTL_CALC_MakeDefaultSickCont (the initial volatile-condition entry)
@@ -856,7 +856,7 @@ u16 BTL_POKEPARAM_GetTypePair(BtlPokeParam *pp)
     u8 type1;
     u8 type2;
     BTL_POKEPARAM_GetTypes(pp, &type1, &type2);
-    return BTLV_CORE_PackBytes(type1, type2);
+    return BTL_TYPEPAIR_Make(type1, type2);
 }
 
 /* BTL_POKEPARAM_HasType */
@@ -1369,19 +1369,19 @@ int BTL_POKEPARAM_TickSickCont(struct BtlPokeParam *bpp, u32 sickIndex, union Si
     u32 index;
     if (sickIndex == 2 || sickIndex == 6) return 0;
     if (bpp->sickCont[sickIndex].byPart.kind != 0) {
-        turnLimit = BTLV_CORE_GetSlotLow(bpp->sickCont[sickIndex]);
+        turnLimit = BTL_SICKCONT_GetLow(bpp->sickCont[sickIndex]);
         cont = bpp->sickCont[sickIndex];
         if (outCont != 0) *outCont = cont;
         if (outCured != 0) *outCured = 0;
-        if (sickIndex == 27 && BTL_POKEPARAM_HasMove(bpp, BTLV_CORE_GetSlotValue(cont)) == 0) {
-            bpp->sickCont[sickIndex] = BTLV_CORE_GetZeroMasked();
+        if (sickIndex == 27 && BTL_POKEPARAM_HasMove(bpp, BTL_SICKCONT_GetValue(cont)) == 0) {
+            bpp->sickCont[sickIndex] = BTL_SICKCONT_MakeNone();
             bpp->sickTurn[sickIndex] = 0;
             if (outCured != 0) *outCured = 1;
         }
         if (turnLimit != 0) {
             bpp->sickTurn[sickIndex]++;
             if (bpp->sickTurn[sickIndex] >= turnLimit) {
-                bpp->sickCont[sickIndex] = BTLV_CORE_GetZeroMasked();
+                bpp->sickCont[sickIndex] = BTL_SICKCONT_MakeNone();
                 bpp->sickTurn[sickIndex] = 0;
                 if (outCured != 0) *outCured = 1;
             }
@@ -1402,14 +1402,14 @@ int BTL_POKEPARAM_TickSleepTurn(struct BtlPokeParam *bpp)
     int earlyBird;
     int step;
     if (sleep->byPart.kind != 0) {
-        turnLimit = BTLV_CORE_GetSlotLow(*sleep);
+        turnLimit = BTL_SICKCONT_GetLow(*sleep);
         if (turnLimit != 0) {
             earlyBird = BTL_POKEPARAM_HasSick(bpp, 0x10) ? 0 : (bpp->ability == 0x30);
             step = 2;
             if (earlyBird == 0) step = 1;
             bpp->sickTurn[2] += (u8)step;
             if (bpp->sickTurn[2] >= turnLimit) {
-                *sleep = BTLV_CORE_GetZeroMasked();
+                *sleep = BTL_SICKCONT_MakeNone();
                 BTL_POKEPARAM_CureSick(bpp, 2);
                 return 1;
             }
@@ -1419,16 +1419,16 @@ int BTL_POKEPARAM_TickSleepTurn(struct BtlPokeParam *bpp)
 }
 
 /* Tick the counter of the condition in slot 6. Returns 1 when it ran out. */
-int BTL_POKEPARAM_TickSlot6Turn(struct BtlPokeParam *bpp)
+int BTL_POKEPARAM_TickConfusionTurn(struct BtlPokeParam *bpp)
 {
     union SickCont *cont = &bpp->sickCont[6];
     u8 turnLimit;
     if (cont->byPart.kind != 0) {
-        turnLimit = BTLV_CORE_GetSlotLow(*cont);
+        turnLimit = BTL_SICKCONT_GetLow(*cont);
         if (turnLimit != 0) {
             bpp->sickTurn[6]++;
             if (bpp->sickTurn[6] >= turnLimit) {
-                *cont = BTLV_CORE_GetZeroMasked();
+                *cont = BTL_SICKCONT_MakeNone();
                 BTL_POKEPARAM_CureSick(bpp, 6);
                 return 1;
             }
@@ -1442,7 +1442,7 @@ void BTL_POKEPARAM_ClearMajorStatus(struct BtlPokeParam *bpp)
 {
     u32 i;
     for (i = 1; i < 6; i++) {
-        bpp->sickCont[i] = BTLV_CORE_GetZeroMasked();
+        bpp->sickCont[i] = BTL_SICKCONT_MakeNone();
         bpp->sickTurn[i] = 0;
         BTL_POKEPARAM_ClearDependentSick(bpp, i);
     }
@@ -1452,7 +1452,7 @@ void BTL_POKEPARAM_ClearMajorStatus(struct BtlPokeParam *bpp)
 void BTL_POKEPARAM_ClearDependentSick(struct BtlPokeParam *bpp, int sickIndex)
 {
     if (sickIndex == 2) {
-        bpp->sickCont[9] = BTLV_CORE_GetZeroMasked();
+        bpp->sickCont[9] = BTL_SICKCONT_MakeNone();
         bpp->sickTurn[9] = 0;
     }
 }
@@ -1464,7 +1464,7 @@ void BTL_POKEPARAM_CureSick(struct BtlPokeParam *bpp, int sickIndex)
         BTL_POKEPARAM_ClearMajorStatus(bpp);
         return;
     }
-    bpp->sickCont[sickIndex] = BTLV_CORE_GetZeroMasked();
+    bpp->sickCont[sickIndex] = BTL_SICKCONT_MakeNone();
     bpp->sickTurn[sickIndex] = 0;
 }
 
@@ -1474,8 +1474,8 @@ void BTL_POKEPARAM_CureSickBySource(struct BtlPokeParam *bpp, int sourceId)
     u32 i;
     if (sourceId != 0x1f) {
         for (i = 0; i < 0x24; i++) {
-            if (BTLV_CORE_IsSlotKindNone(bpp->sickCont[i]) == 0 && sourceId == BTLV_CORE_GetSlotPosition(bpp->sickCont[i])) {
-                bpp->sickCont[i] = BTLV_CORE_GetZeroMasked();
+            if (BTL_SICKCONT_IsNone(bpp->sickCont[i]) == 0 && sourceId == BTL_SICKCONT_GetPosition(bpp->sickCont[i])) {
+                bpp->sickCont[i] = BTL_SICKCONT_MakeNone();
                 BTL_POKEPARAM_ClearDependentSick(bpp, i);
             }
         }
@@ -1520,7 +1520,7 @@ int BTL_POKEPARAM_CalcSickDamage(struct BtlPokeParam *bpp, int sickIndex)
     if (BTL_POKEPARAM_HasSick(bpp, sickIndex) != 0) {
         switch (sickIndex) {
         case 5:
-            if (BTLV_CORE_IsSlotKind1Index15(bpp->sickCont[sickIndex]) != 0)
+            if (BTL_SICKCONT_IsKind1Index15(bpp->sickCont[sickIndex]) != 0)
                 return BTL_CALC_DivideMaxHpMin1(bpp, 0x10) * bpp->sickTurn[sickIndex];
             return BTL_CALC_DivideMaxHpMin1(bpp, 8);
         case 4:
@@ -1597,7 +1597,7 @@ void BTL_POKEPARAM_ResetAllEffects(struct BtlPokeParam *bpp)
     BTL_POKEPARAM_ResetBattleMoves(bpp);
     BTL_POKEPARAM_ResetMoveHistory(bpp);
     BTL_POKEPARAM_ClearMoveFlags(bpp);
-    BTL_EVENT_ClearClientReservedChoice(bpp);
+    BTL_POKEPARAM_ClearStoredPokeMove(bpp);
     BTL_POKEPARAM_ClearIllusion(bpp);
     BTL_POKEPARAM_ClearSubstitute(bpp);
     BTL_POKEPARAM_ClearSickConts(bpp, 1);
@@ -1616,7 +1616,7 @@ void BTL_POKEPARAM_ResetEffectsOnSwitchOut(struct BtlPokeParam *bpp)
     BTL_POKEPARAM_ResetBattleMoves(bpp);
     BTL_POKEPARAM_ResetMoveHistory(bpp);
     BTL_POKEPARAM_ClearMoveFlags(bpp);
-    BTL_EVENT_ClearClientReservedChoice(bpp);
+    BTL_POKEPARAM_ClearStoredPokeMove(bpp);
     BTL_POKEPARAM_ClearIllusion(bpp);
     if (BTL_POKEPARAM_TestContFlag(bpp, 0xe) == 0) {
         BTL_POKEPARAM_ClearSubstitute(bpp);
@@ -1672,8 +1672,8 @@ void BTL_POKEPARAM_PassEffects(struct BtlPokeParam *dst, struct BtlPokeParam *sr
 
 void BTL_POKEPARAM_SetTypes(struct BtlPokeParam *poke, int typePair)
 {
-    poke->type1 = BTLV_CORE_GetHighByte(typePair);
-    poke->type2 = BTLV_CORE_GetLowByte(typePair);
+    poke->type1 = BTL_TYPEPAIR_GetHigh(typePair);
+    poke->type2 = BTL_TYPEPAIR_GetLow(typePair);
 }
 
 void BTL_POKEPARAM_SetAbility(struct BtlPokeParam *poke, u32 ability)
@@ -1753,7 +1753,7 @@ u8 BTL_POKEPARAM_GetLastMoveSlot(struct BtlPokeParam *poke)
     return poke->lastMoveSlot;
 }
 
-int BTL_POKEPARAM_IsLevelUpPending(struct BtlPokeParam *poke)
+int BTL_POKEPARAM_HasEnteredBattle(struct BtlPokeParam *poke)
 {
     return poke->thresholdArmed;
 }
@@ -2075,13 +2075,13 @@ void BTL_POKEPARAM_AddFoughtPoke(struct BtlPokeParam *poke, u32 pokeId)
     }
 }
 
-unsigned char BTL_EVENT_GetClientPartyCount(BtlPokeParam *pp)
+unsigned char BTL_POKEPARAM_GetFoughtCount(BtlPokeParam *pp)
 {
     return pp->foughtCount;
 }
 
 
-u8 BTL_EVENT_GetClientPartySlotId(BtlPokeParam *pp, u32 slot)
+u8 BTL_POKEPARAM_GetFoughtPokeId(BtlPokeParam *pp, u32 slot)
 {
     if (slot < pp->foughtCount) return pp->foughtIds[slot];
     return BTL_POKEPARAM_NO_POKE;
@@ -2097,14 +2097,14 @@ void BTL_EVENT_StartClientPalAnm(BtlPokeParam *pp, int value)
 }
 
 
-void BTL_EVENT_SetClientReservedChoice(BtlPokeParam *pp, u8 pokeId, u16 key)
+void BTL_POKEPARAM_SetStoredPokeMove(BtlPokeParam *pp, u8 pokeId, u16 key)
 {
     pp->storedPokeId = pokeId;
     pp->storedMoveId = key;
 }
 
 
-int BTL_EVENT_GetClientReservedChoice(BtlPokeParam *pp, u8 *pokeId, u16 *key)
+int BTL_POKEPARAM_GetStoredPokeMove(BtlPokeParam *pp, u8 *pokeId, u16 *key)
 {
     if (pp->storedPokeId != BTL_POKEPARAM_NO_POKE) {
         *pokeId = pp->storedPokeId;
@@ -2115,13 +2115,13 @@ int BTL_EVENT_GetClientReservedChoice(BtlPokeParam *pp, u8 *pokeId, u16 *key)
 }
 
 
-u32 BTL_EVENT_HasClientReservedChoice(BtlPokeParam *pp)
+u32 BTL_POKEPARAM_HasStoredPokeMove(BtlPokeParam *pp)
 {
     return (pp->storedPokeId != BTL_POKEPARAM_NO_POKE);
 }
 
 
-void BTL_EVENT_ClearClientReservedChoice(BtlPokeParam *pp)
+void BTL_POKEPARAM_ClearStoredPokeMove(BtlPokeParam *pp)
 {
     if (pp->storedPokeId != BTL_POKEPARAM_NO_POKE) {
         pp->storedPokeId = BTL_POKEPARAM_NO_POKE;
@@ -2129,7 +2129,7 @@ void BTL_EVENT_ClearClientReservedChoice(BtlPokeParam *pp)
     }
 }
 
-void BTL_EVENT_ReleaseClientHandle(BtlPokeParam *pp)
+void BTL_POKEPARAM_RecalcMonParam(BtlPokeParam *pp)
 {
     POKE_TOOL_RecalcParam(pp->mon);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GAME_DATA_GetSaveBlock21",
+   "name": "GAME_DATA_GetTrainerCardSign",
    "address": "0x02012F5C",
    "kind": "game",
    "region": "arm9",

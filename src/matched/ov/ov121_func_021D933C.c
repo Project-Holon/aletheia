@@ -12,7 +12,7 @@
  *   CLACT_GetActorPos 0x0204B53C arm
  *   CLACT_SetActorPos 0x0204B528 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  */
 #include "../include/Obj02178.h"
 #include "../include/Obj05355.h"
@@ -27,7 +27,7 @@ struct Pt;
 extern void CLACT_GetActorPos(const struct Actor *actor, struct Pt *out);
 extern void CLACT_SetActorPos(struct Actor *actor, const struct Pt *src);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
+extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
 void MYSTERY_UpdateScrollB(u8 *p)
 {
     int i;
@@ -51,6 +51,6 @@ void MYSTERY_UpdateScrollB(u8 *p)
         else CLACT_SetActorDrawEnable(sprite,0);
     }
     ((struct Obj02178 *)p)->fC=((struct Obj02178 *)p)->fC+((struct Obj02178 *)p)->f10;
-    BG_SYS_ResetSlot(3,3,((struct Obj02178 *)p)->fC>>12);
-    BG_SYS_ResetSlot(7,3,((struct Obj02178 *)p)->fC>>12);
+    BG_SYS_ChangeScroll(3,3,((struct Obj02178 *)p)->fC>>12);
+    BG_SYS_ChangeScroll(7,3,((struct Obj02178 *)p)->fC>>12);
 }

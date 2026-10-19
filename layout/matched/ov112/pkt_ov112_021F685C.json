@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "MUSICAL_MCSS_AllocSmall",
+   "name": "MUSICAL_MCSS_AllocDistSave",
    "address": "0x021F685C",
    "kind": "game",
    "region": "ov112",

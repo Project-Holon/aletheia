@@ -14,7 +14,7 @@
  *
  * symbols:
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   UI_SetInputMode  0x020355D8  arm
  *   UI_GetInputMode  0x020355C4  arm
  *   POKEPARTY_GetMember 0x0201AB28 thumb
@@ -43,7 +43,7 @@
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   POKE_TOOL_CalcLevel  0x02018430  thumb
  *   BMP_FillRect  0x02043AF4  arm
  *   BG_SYS_FillTileMap  0x020413B0  arm
@@ -68,9 +68,9 @@
  *   APP_TASKMENU_WIN_Update  0x02028178  thumb
  *   APP_TASKMENU_WIN_SetActive  0x02028218  thumb
  *   APP_TASKMENU_WIN_SetDecide  0x0202822C  thumb
- *   FILE_UTIL_CreateArcTool0F34 0x02020F34 thumb
- *   FILE_UTIL_Get_1014 0x02021014 thumb
- *   FILE_UTIL_Get_0FE4 0x02020FE4 thumb
+ *   FILE_UTIL_LoadItemRecord 0x02020F34 thumb
+ *   FILE_UTIL_GetItemRecordParam 0x02021014 thumb
+ *   FILE_UTIL_GetItemParam 0x02020FE4 thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKE_TOOL_GetPlateTypeForwarder 0x02019CF8 thumb
  *   POKE_TOOL_ChangeForm 0x02017988 thumb
@@ -146,12 +146,12 @@ struct Bank;
 #define TIMER_PALETTE_DST ((void *)0x05000440)
 
 #define MENU_APPEND(v) do { menu->ids[menu->count] = (v); menu->count++; } while (0)
-#define ITEM_PARAM(k) FILE_UTIL_Get_1014(itemData, (k))
+#define ITEM_PARAM(k) FILE_UTIL_GetItemRecordParam(itemData, (k))
 #define ITEM_DONE(k) {GFL_HEAP_Free(itemData);return(k);}
 #define DESC ((struct Descriptor *)work->descriptor)
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 extern void UI_SetInputMode(int mode);
 extern u8 UI_GetInputMode(void);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 param, u32 extra);
@@ -180,7 +180,7 @@ extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 fla
 extern void ARC_TOOL_DeleteHandle(void *a);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern u32 POKE_TOOL_CalcLevel(void *p);
 extern void BMP_FillRect(void *bmp, u32 x, u32 y, u32 w, u32 h, u32 value);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
@@ -202,9 +202,9 @@ extern void APP_TASKMENU_WIN_Delete(void *win);
 extern void APP_TASKMENU_WIN_Update(void *win);
 extern void APP_TASKMENU_WIN_SetActive(void *win, u32 a);
 void APP_TASKMENU_WIN_SetDecide(void *win, int v);
-extern void *FILE_UTIL_CreateArcTool0F34(u32 item, u32 which, u32 heap);
-extern u32 FILE_UTIL_Get_1014(void *itemData, u32 param);
-extern unsigned int FILE_UTIL_Get_0FE4(u32 itemId, unsigned int param, unsigned int heapId);
+extern void *FILE_UTIL_LoadItemRecord(u32 item, u32 which, u32 heap);
+extern u32 FILE_UTIL_GetItemRecordParam(void *itemData, u32 param);
+extern unsigned int FILE_UTIL_GetItemParam(u32 itemId, unsigned int param, unsigned int heapId);
 extern u32 POKEPARTY_GetCount(void *party);
 extern unsigned int POKE_TOOL_GetPlateTypeForwarder(unsigned int item);
 extern u32 POKE_TOOL_ChangeForm(void *mon, u32 form);
@@ -511,7 +511,7 @@ void PLIST_MENU_ButtonWinSetDecide(void *win, int value)
  */
 int PLIST_MENU_GetItemUseKind(int itemId)
 {
-    void *itemData = FILE_UTIL_CreateArcTool0F34(itemId, 0, 23);
+    void *itemData = FILE_UTIL_LoadItemRecord(itemId, 0, 23);
     int statusMask;
     int amount;
     if (ITEM_PARAM(14) != 1) ITEM_DONE(29);
@@ -569,7 +569,7 @@ int PLIST_MENU_IsSpecialItemKind(PokelistWork *work, int itemId)
     case 26: return 1;
     case 27: return 1;
     case 28:
-        if (FILE_UTIL_Get_0FE4(itemId, 39, work->heapId))
+        if (FILE_UTIL_GetItemParam(itemId, 39, work->heapId))
             return 1;
         break;
     }
@@ -578,7 +578,7 @@ int PLIST_MENU_IsSpecialItemKind(PokelistWork *work, int itemId)
 
 int PLIST_MENU_ItemRestoresHp(PokelistWork *work, u32 itemId)
 {
-    if (FILE_UTIL_Get_0FE4(itemId, 27, work->heapId))
+    if (FILE_UTIL_GetItemParam(itemId, 27, work->heapId))
         return 1;
     return 0;
 }
@@ -796,7 +796,7 @@ void PLIST_MENU_UpdateLevelUp(PokelistWork *work)
         work->descriptor = BMP_WIN_Create((int)0, (u8)1, (u8)1, (int)14, 12, 14, 1);
         BMP_MENUWORK_DrawWindow(DESC, 1, 1, 12);
         BMP_Clear(BMP_WIN_GetBmp(DESC), 15);
-        desc = DESC; BMP_WIN_TransferChars(desc); BMP_WIN_MakeScreen(desc); BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(desc));
+        desc = DESC; BMP_WIN_TransferChars(desc); BMP_WIN_MakeScreen(desc); BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(desc));
         for (i = 0; i < 6; i++) {
             delta = POKE_TOOL_GetPartyValue((void *)work->selectedMon, gPlistStatParamIds[i], 0) - work->levelUpMoveStat[i];
             if (delta >= 10) flag = 1;
@@ -807,7 +807,7 @@ void PLIST_MENU_UpdateLevelUp(PokelistWork *work)
             WORDSET_SetSlotNumber(wordSet, 0, delta, 3, 0, 1); WORDSET_CopyTaggedText(wordSet, numStr, msg);
             width = GF_FONT_MeasureWidestLine(numStr, work->fontMain, 0);
             PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp(DESC), (s16)(104 - width), (s16)y, numStr, work->fontMain, 0x440);
-            STRBUF_Delete(msg); STRBUF_Delete(numStr); WORDSET_DeleteStrbufED04(wordSet);
+            STRBUF_Delete(msg); STRBUF_Delete(numStr); WORDSET_Delete(wordSet);
         }
         for (j = 0; j < 6; j++) {
             x = flag == 1 ? 72 : 80;
@@ -819,7 +819,7 @@ void PLIST_MENU_UpdateLevelUp(PokelistWork *work)
     }
     case 1:
         if (PRINTSYS_QUE_IsExistTarget(work->printSys, BMP_WIN_GetBmp(DESC)) == 0) {
-            desc = DESC; BMP_WIN_TransferChars(desc); BMP_WIN_MakeScreen(desc); BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(desc)); work->inputStage = 2;
+            desc = DESC; BMP_WIN_TransferChars(desc); BMP_WIN_MakeScreen(desc); BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(desc)); work->inputStage = 2;
         } break;
     case 2:
         if ((KEY_GetTrg() & 1) || (KEY_GetTrg() & 2) || TOUCHPANEL_GetTrg() == 1) { GFL_USE_PlaySeDefaultVolume(0x547); work->inputStage = 3; }
@@ -836,13 +836,13 @@ void PLIST_MENU_UpdateLevelUp(PokelistWork *work)
             WORDSET_SetSlotNumber(wordSet, 0, delta, 3, 0, 1); WORDSET_CopyTaggedText(wordSet, numStr, msg);
             width = GF_FONT_MeasureWidestLine(numStr, work->fontMain, 0);
             PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp(DESC), (s16)(104 - width), (s16)(i << 4), numStr, work->fontMain, 0x440);
-            STRBUF_Delete(msg); STRBUF_Delete(numStr); WORDSET_DeleteStrbufED04(wordSet);
+            STRBUF_Delete(msg); STRBUF_Delete(numStr); WORDSET_Delete(wordSet);
         }
         work->inputStage = 4; break;
     }
     case 4:
         if (PRINTSYS_QUE_IsExistTarget(work->printSys, BMP_WIN_GetBmp(DESC)) == 0) {
-            desc = DESC; BMP_WIN_TransferChars(desc); BMP_WIN_MakeScreen(desc); BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(desc)); work->inputStage = 5;
+            desc = DESC; BMP_WIN_TransferChars(desc); BMP_WIN_MakeScreen(desc); BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(desc)); work->inputStage = 5;
         } break;
     case 5:
         if ((KEY_GetTrg() & 1) || (KEY_GetTrg() & 2) || TOUCHPANEL_GetTrg() == 1) {
@@ -1003,7 +1003,7 @@ void PLIST_MENU_LoadResources(PokelistWork *work)
         ARC_UTIL_UploadBgCharFromHandle(h, APP_ICON_GetStatusFrameFileId(), 5, 0, 0, 0, work->heapId);
         ARC_UTIL_UploadBgPaletteFromHandle(h, APP_ICON_GetStatusDataFileId(), 5, 0, 0, 0, work->heapId);
         BG_SYS_FillTileMap(5, 0, 0, 0x20, 0x20, 2);
-        BG_SYS_SetFlagField06(5);
+        BG_SYS_MarkTileDirty(5);
     }
     ARC_TOOL_DeleteHandle(h2);
     h = ARC_TOOL_CreateHandle(7, work->heapId);

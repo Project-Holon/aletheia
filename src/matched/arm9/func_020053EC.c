@@ -16,7 +16,7 @@
  *
  * symbols:
  *   _PreExitState     0x020A9E80  data
- *   UI_TestFlags39Global  0x020351D0  arm
+ *   UI_TestSoftResetInhibitGlobal  0x020351D0  arm
  *   func_02005420  0x02005420  arm
  *   func_02005428  0x02005428  arm
  *
@@ -36,7 +36,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32 _PreExitState;
-extern int UI_TestFlags39Global(u32 mode);
+extern int UI_TestSoftResetInhibitGlobal(u32 mode);
 extern int func_02005420(void);
 extern int func_02005428(void);
 
@@ -45,7 +45,7 @@ void GFL_USE_PollPowerExit(void)
     if (_PreExitState == 0) {
         return;
     }
-    if (UI_TestFlags39Global(2) != 0) {
+    if (UI_TestSoftResetInhibitGlobal(2) != 0) {
         return;
     }
     if (func_02005420() != 0) {

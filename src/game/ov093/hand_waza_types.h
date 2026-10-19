@@ -777,11 +777,11 @@ extern u32 BTL_POKEPARAM_GetSickContRaw(struct BtlPokeParam *bpp, int sickKind);
 
 extern u8 BTL_CALC_ListResistingTypes(int attackType, u8 *out);
 
-extern union SickCont BTLV_CORE_MakeSlotKind1Value(unsigned int value);
+extern union SickCont BTL_SICKCONT_MakeKind1Value(unsigned int value);
 
-extern union SickCont BTLV_CORE_MakeSlotKind1Index15(void);
+extern union SickCont BTL_SICKCONT_MakeKind1Index15(void);
 
-extern int BTLV_CORE_IsSlotKind1Index15(int sickCont);
+extern int BTL_SICKCONT_IsKind1Index15(int sickCont);
 
 extern int BTL_ID_IsEncoreFailMove(int moveId);                                             /* nonzero: the move cannot be Encored */
 
@@ -949,7 +949,7 @@ extern u32 BTL_SERVER_FLOW_NextSerialNumberThunk(struct BtlServerFlow *flow);
 
 extern int BTL_POKEPARAM_GetStatRaw(struct BtlPokeParam *bpp, int valueId);
 
-extern union SickCont BTLV_CORE_MakeSlotKind4(u32 pokeId, u32 turns);
+extern union SickCont BTL_SICKCONT_MakeKind4(u32 pokeId, u32 turns);
 
 #ifndef HAND_WAZA_DEFINES_ADD_SIDE_EFFECT
 
@@ -1523,14 +1523,14 @@ extern void BTL_SERVER_FLOW_SetCurTurnStateFlag(struct BtlServerFlow *flow, int 
 extern u8 BTL_MAIN_IsPokeIdInSecondPair(u32 pokeId);
 extern int BTL_MAIN_IsPokeSamePair(unsigned int pokeIdA, unsigned int pokeIdB);
 extern unsigned char BTL_POKEPARAM_GetCounter(struct BtlPokeParam *bpp, int counterId);
-extern union SickCont BTLV_CORE_MakeSlotKind2Index(int turns);
+extern union SickCont BTL_SICKCONT_MakeKind2Index(int turns);
 extern void HAND_WAZA_AddSideEffect(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int *work,
                                     u8 side, int effectKind, union SickCont cont, u16 messageId);
 extern void HAND_WAZA_ProtectIncrementStreak(struct BtlServerFlow *flow, int pokeId, int silent);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(struct BtlServerFlow *flow, int kind, int pokeId);
 extern struct BtlPokeParam *BTL_SERVER_FLOW_GetPokeParam(struct BtlServerFlow *flow, int pokeId);
 extern int BTL_EVENT_OverwriteVar(int key, u32 value);
-extern int BTL_EVENT_GetClientReservedChoice(struct BtlPokeParam *bpp, u8 *pokeId, u16 *moveId);
+extern int BTL_POKEPARAM_GetStoredPokeMove(struct BtlPokeParam *bpp, u8 *pokeId, u16 *moveId);
 extern struct BtlTurnRecord *BTL_SERVER_FLOW_GetTurnRecord(struct BtlServerFlow *flow);
 extern u16 BTL_SERVER_FLOW_GetTurnCount(struct BtlServerFlow *flow);
 extern int BTL_SERVER_FLOW_GetEffectiveWeatherThunk(struct BtlServerFlow *flow);
@@ -1545,8 +1545,8 @@ extern u8 BTL_MAIN_GetOwnLanePos(u32 viewPos, u32 lane);
 extern u32 BTL_MAIN_IsBackRowPos(u32 viewPos);
 extern int BTL_POKEPARAM_HasType(struct BtlPokeParam *bpp, int type);
 extern u16 BTL_POKEPARAM_GetSpecies(struct BtlPokeParam *bpp);
-extern void BTLV_CORE_EventScaleDamage(int ratio);
-extern void BTLV_CORE_SetSlotValue(union SickCont *slot, u16 value);
+extern void HAND_COMMON_EventScaleDamage(int ratio);
+extern void BTL_SICKCONT_SetValue(union SickCont *slot, u16 value);
 extern u32 BTL_WAZAREC_GetUsedWazaCount(struct BtlTurnRecord *record, int moveId, int turnCount);
 extern int BTL_WAZAREC_GetEffectiveWaza(struct BtlTurnRecord *record, int turnCount);
 

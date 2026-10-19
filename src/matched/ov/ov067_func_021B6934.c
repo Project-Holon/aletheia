@@ -1,5 +1,5 @@
 /*
- * function: TOUCHBAR_CheckButtonPressed
+ * function: TOUCHBAR_PollButtonPress
  * address:  0x021B6934
  * packet:   pkt_ov067_021B6934
  * region:   ov067
@@ -39,7 +39,7 @@ extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern void UI_SetInputMode(u8 v);
 extern u32 KEY_GetTrg(void);
 
-int TOUCHBAR_CheckButtonPressed(S *p)
+int TOUCHBAR_PollButtonPress(S *p)
 {
     u32 x;
     u32 y;

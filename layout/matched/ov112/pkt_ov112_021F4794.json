@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "MUSICAL_MCSS_PrintStream",
+   "name": "MUSICAL_SHOT_INFO_PrintMessageStream",
    "address": "0x021F4794",
    "kind": "game",
    "region": "ov112",

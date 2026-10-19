@@ -1,5 +1,5 @@
 /*
- * function: BUTTON_MAN_GetRot
+ * function: PARTICLE_EMITTER_GetRot
  * address:  0x020517B4
  * packet:   pkt_02051790
  * region:   arm9
@@ -16,7 +16,7 @@ typedef struct {
     short x, y, z;
 } Vec16;
 
-void BUTTON_MAN_GetRot(char *p, Vec16 *out)
+void PARTICLE_EMITTER_GetRot(char *p, Vec16 *out)
 {
     *out = *(Vec16 *)(p + 0x50);
 }

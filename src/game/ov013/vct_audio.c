@@ -10,7 +10,7 @@
  * isa:      arm
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Cut from vct_audio.c, vct_session.c by tools/splitfile.py.
  *
  * symbols:
  *   gVctSendBuffer  0x021B42C0  data  ov013  a4
@@ -33,8 +33,6 @@
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   gVctSendSchedule  0x021B3ADA  data  ov013  a1
  *   DWC_SendUnreliable  0x02177044  arm  ov009
- *   g_021B4B98     0x021B4B98  data  a4
- *   g_021B4BA0     0x021B4BA0  data  a4
  *   gVctPendingList  0x021B4B98  data
  *   gVctPendingCount  0x021B4BA0  data
  *   gVctMuLawSegmentEnds 0x021B3C28 data a4
@@ -52,85 +50,153 @@
  *   VCT_SESSION_SendReply 0x021B25B0 arm ov013
  *   gVctGroup     0x021B4BD0  data  ov013  a4
  *   VCT_SESSION_FindPeer  0x021B2A20  arm   ov013
+ *   VCT_SESSION_BuildGroupCommand  0x021B2010  arm  ov013
+ *   VCT_SESSION_BuildPeerReply  0x021B20D4  arm  ov013
+ *   VCT_SESSION_FreePeerRecord  0x021B1F54  arm  ov013
  */
 #include "vct_types.h"
+#include "vct_audio_shared_types.h"
 
 #define reg_SQRTCNT     (*(volatile u16 *)0x040002B0)
+
 #define reg_SQRT_RESULT (*(volatile u32 *)0x040002B4)
+
 #define reg_SQRT_PARAM  (*(volatile u32 *)0x040002B8)
+
 extern int VCT_DSP_HighPassFilter(short *samples, u32 byteCount);
+
 extern void VCT_DSP_SuppressEchoWithReference(short *samples, u32 byteCount, u32 rms);
+
 extern int VCT_DSP_UpdateVoiceGate(u32 energy, u32 rms, u8 *outFlag);
+
 extern void VCT_ADPCM_EncodePacket(AdpcmHeader *header, void *dst, int sampleCount, AdpcmState *state, int mode);
+
 extern u8 MATH_CountPopulation(u32 mask);
+
 extern VctRxPacket *VCT_POOL_AllocFrame(void);
+
 extern void VCT_POOL_FreeFrame(VctRxPacket *packet);
+
 extern void MI_CpuCopy8(void *src, void *dst, u32 size);
+
 extern void VCT_ADPCM_DecodePacket(AdpcmState *state, void *dst, int sampleCount, int mode);
-typedef u32 OSIntrMode;
+
 extern OSIntrMode OS_DisableInterrupts(void);
+
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
+
 extern int DWC_SendUnreliable(unsigned char aid, void *buffer, int size);
+
 extern void MI_CpuFill8(void *dst, int value, int size);
+
 extern unsigned long long OS_GetTick(void);
+
 extern VctPeer *VCT_SESSION_AllocPeer(unsigned int index);
+
 extern void VCT_SESSION_InitPacketHeader(void *peer, void *message, unsigned int type);
+
 extern int VCT_SESSION_CheckCommandAllowed(void *peer, const u8 *message);
+
 extern int VCT_SESSION_HasNoOtherTalker(VctPeer *peer);
+
 extern int VCT_SESSION_SendCommand(int peer, int type);
+
 extern int VCT_SESSION_SendReply(int peer, int type);
+
 extern VctPeer *VCT_SESSION_FindPeer(int aid);
+
 VctAudioFrame *VCT_AUDIO_EncodeSendFrame(void);
+
 int VCT_AUDIO_ReceiveFrame(u32 senderAid, VctAudioFrame *frame, u32 size, u64 arrivalTick);
+
 int VCT_AUDIO_DecodePendingFrames(void);
+
 int VCT_AUDIO_SendFrameStep(void);
+
 void VCT_AUDIO_ResetPendingList(void);
+
 void VCT_AUDIO_FlushPendingSlot(unsigned int slot);
+
 void VCT_AUDIO_FlushPendingAll(void);
+
 int VCT_AUDIO_QueuePending(VctRxPacket *packet);
+
 VctRxPacket *VCT_AUDIO_GetPendingHead(void);
+
 int VCT_AUDIO_GetPendingCount(unsigned int slot);
+
 VctRxPacket *VCT_AUDIO_FindPending(u32 slot);
+
 u32 VCT_AUDIO_UnlinkPending(VctRxPacket *packet);
+
 void VCT_AUDIO_EncodeMuLaw(unsigned char *dst, const short *src, unsigned int sampleCount);
+
 void VCT_AUDIO_DecodeMuLaw(unsigned char *src, short *dst, unsigned int sampleCount);
+
 void VCT_AUDIO_ConvertPcm16ToPcm8(unsigned char *dst, short *src, unsigned int sampleCount);
+
 void VCT_AUDIO_ConvertPcm8ToPcm16(signed char *src, short *dst, unsigned int sampleCount, int mode);
+
 void VCT_AUDIO_ClearReadyQueue(unsigned int slot);
+
 void VCT_AUDIO_FlushReadyQueue(u32 slot);
+
 void VCT_AUDIO_FlushAllReadyQueues(void);
+
 int VCT_AUDIO_InsertReadyPacket(VctRxPacket *packet, u32 slot);
+
 void *VCT_AUDIO_PeekReadyPacket(unsigned int slot);
+
 VctRxPacket *VCT_AUDIO_PopReadyPacket(u32 slot);
+
 int VCT_AUDIO_GetReadyCount(unsigned int slot);
+
 void VCT_AUDIO_InitReceiveSource(VctReceiveSource *source, u32 queueIndex, int peerAid);
+
 void VCT_AUDIO_DetachReceiveSource(VctReceiveSource *source);
+
 void VCT_AUDIO_SetLastPacket(VctReceiveSource *source, VctRxPacket *packet);
+
 void VCT_AUDIO_InitSequence(VctReceiveSource *source, u16 seq);
+
 int VCT_AUDIO_UpdateSequence(VctReceiveSource *source, VctRxPacket *packet, u16 seq);
+
 int VCT_AUDIO_TrackPacketTiming(VctReceiveSource *source, VctRxPacket *packet);
+
 VctPeer *VCT_SESSION_AllocPeerRecord(unsigned int index);
+
 int VCT_SESSION_FreePeerRecord(VctPeer *peer);
+
 int VCT_SESSION_BuildGroupCommand(void *peer, unsigned int type, unsigned char *buffer, unsigned int size);
+
 int VCT_SESSION_SendGroupCommand(int peer, int type);
+
 int VCT_SESSION_BuildPeerReply(VctPeer *peer, unsigned int type, unsigned char *buffer, unsigned int size);
+
 int VCT_SESSION_SendPeerReply(int peer, int type);
+
 int VCT_SESSION_AddPeer(unsigned char aid);
+
 int VCT_SESSION_RemovePeer(int aid);
+
 int VCT_SESSION_InitPeerPool(VctInitParams *params);
+
 void VCT_SESSION_ResetPeerPool(void);
+
 /* gVctAudioStateAdpcm is gVctSendState + 0x10 (adpcmPredictor): the pool word names it separately. */
 extern AdpcmState gVctAudioStateAdpcm;
+
 extern u8 gVctSendSchedule[][3];
+
 extern VctRxPacket *gVctReadyHead[3];
+
 extern u32 gVctReadyCount[3];
+
 extern VctRxPacket *gVctReadyTail[3];
+
 extern const int gVctMuLawSegmentEnds[8];
+
 extern VctGroupCount gVctGroup;
-
-
-
-
 
 /*
  * volatile: SQRTCNT polls at 021B0D90; SQRT result/parameter are hardware registers at 040002B4/040002B8.
@@ -258,10 +324,6 @@ VctAudioFrame *VCT_AUDIO_EncodeSendFrame(void)
     return frame;
 }
 
-
-
-
-
 /*
  * The last two arguments are one u64 (an OS tick, stored to the packet's
  * arrivalTick): split across r3 and the stack, which is what pulls the high
@@ -337,10 +399,6 @@ int VCT_AUDIO_ReceiveFrame(u32 senderAid, VctAudioFrame *frame, u32 size, u64 ar
     return 1;
 }
 
-
-
-
-
 /*
  * The three sample converters are passed packet->codecMode as a fourth
  * argument: the original keeps the format in r3 across the argument set-up
@@ -382,19 +440,11 @@ int VCT_AUDIO_DecodePendingFrames(void)
     return count;
 }
 
-
-
-
-
 static inline u32 countLeadingZeros(u32 x)
 {
     asm { clz x, x }
     return x;
 }
-
-
-
-
 
 int VCT_AUDIO_SendFrameStep(void)
 {
@@ -434,11 +484,6 @@ int VCT_AUDIO_SendFrameStep(void)
     return 1;
 }
 
-
-
-
-
-
 void VCT_AUDIO_ResetPendingList(void)
 {
     int irq;
@@ -453,11 +498,6 @@ void VCT_AUDIO_ResetPendingList(void)
     OS_RestoreInterrupts(irq);
 }
 
-
-
-
-
-
 void VCT_AUDIO_FlushPendingSlot(unsigned int slot)
 {
     int irq;
@@ -471,10 +511,6 @@ void VCT_AUDIO_FlushPendingSlot(unsigned int slot)
     gVctPendingCount[slot] = 0;
     OS_RestoreInterrupts(irq);
 }
-
-
-
-
 
 void VCT_AUDIO_FlushPendingAll(void)
 {
@@ -498,9 +534,6 @@ void VCT_AUDIO_FlushPendingAll(void)
     OS_RestoreInterrupts(irq);
 }
 
-
-
-
 int VCT_AUDIO_QueuePending(VctRxPacket *packet)
 {
     int irq;
@@ -522,31 +555,13 @@ int VCT_AUDIO_QueuePending(VctRxPacket *packet)
     return gVctPendingCount[packet->queueIndex];
 }
 
-
 /* Head of the list of received packets that wait for decoding. */
 VctRxPacket *VCT_AUDIO_GetPendingHead(void)
 {
     return gVctPendingList.head;
 }
 
-
-
-
-
-
-
-
-
 int VCT_AUDIO_GetPendingCount(unsigned int slot) { return gVctPendingCount[slot]; }
-
-
-
-
-
-
-
-
-
 
 VctRxPacket *VCT_AUDIO_FindPending(u32 slot)
 {
@@ -562,15 +577,6 @@ VctRxPacket *VCT_AUDIO_FindPending(u32 slot)
     OS_RestoreInterrupts(irq);
     return 0;
 }
-
-
-
-
-
-
-
-
-
 
 u32 VCT_AUDIO_UnlinkPending(VctRxPacket *packet)
 {
@@ -594,15 +600,6 @@ u32 VCT_AUDIO_UnlinkPending(VctRxPacket *packet)
     OS_RestoreInterrupts(irq);
     return gVctPendingCount[packet->queueIndex];
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * note: 2026-10-05 tried forms (all DIFF 26/172): an inline encode() with an
@@ -650,14 +647,6 @@ void VCT_AUDIO_EncodeMuLaw(unsigned char *dst, const short *src, unsigned int sa
     }
 }
 
-
-
-
-
-
-
-
-
 void VCT_AUDIO_DecodeMuLaw(unsigned char *src, short *dst, unsigned int sampleCount)
 {
     unsigned int i;
@@ -670,14 +659,6 @@ void VCT_AUDIO_DecodeMuLaw(unsigned char *src, short *dst, unsigned int sampleCo
     }
 }
 
-
-
-
-
-
-
-
-
 void VCT_AUDIO_ConvertPcm16ToPcm8(unsigned char *dst, short *src, unsigned int sampleCount)
 {
     unsigned int i;
@@ -685,14 +666,6 @@ void VCT_AUDIO_ConvertPcm16ToPcm8(unsigned char *dst, short *src, unsigned int s
     for (i = 0; i < sampleCount; i++)
         dst[i] = (signed char)(src[i] >> 8);
 }
-
-
-
-
-
-
-
-
 
 void VCT_AUDIO_ConvertPcm8ToPcm16(signed char *src, short *dst, unsigned int sampleCount, int mode)
 {
@@ -702,13 +675,6 @@ void VCT_AUDIO_ConvertPcm8ToPcm16(signed char *src, short *dst, unsigned int sam
         dst[i] = (short)(src[i] << 8);
 }
 
-
-
-
-
-
-
-
 void VCT_AUDIO_ClearReadyQueue(unsigned int slot)
 {
     u32 irq = OS_DisableInterrupts();
@@ -717,14 +683,6 @@ void VCT_AUDIO_ClearReadyQueue(unsigned int slot)
     gVctReadyCount[slot] = 0;
     OS_RestoreInterrupts(irq);
 }
-
-
-
-
-
-
-
-
 
 void VCT_AUDIO_FlushReadyQueue(u32 slot)
 {
@@ -744,14 +702,6 @@ void VCT_AUDIO_FlushReadyQueue(u32 slot)
     gVctReadyCount[slot] = 0;
     OS_RestoreInterrupts(irq);
 }
-
-
-
-
-
-
-
-
 
 void VCT_AUDIO_FlushAllReadyQueues(void)
 {
@@ -775,13 +725,6 @@ void VCT_AUDIO_FlushAllReadyQueues(void)
     }
     OS_RestoreInterrupts(irq);
 }
-
-
-
-
-
-
-
 
 int VCT_AUDIO_InsertReadyPacket(VctRxPacket *packet, u32 slot)
 {
@@ -823,12 +766,6 @@ done:
     return gVctReadyCount[slot];
 }
 
-
-
-
-
-
-
 void *VCT_AUDIO_PeekReadyPacket(unsigned int slot)
 {
     u32 irq = OS_DisableInterrupts();
@@ -839,13 +776,6 @@ void *VCT_AUDIO_PeekReadyPacket(unsigned int slot)
     OS_RestoreInterrupts(irq);
     return 0;
 }
-
-
-
-
-
-
-
 
 VctRxPacket *VCT_AUDIO_PopReadyPacket(u32 slot)
 {
@@ -867,20 +797,7 @@ VctRxPacket *VCT_AUDIO_PopReadyPacket(u32 slot)
     return (VctRxPacket *)gVctReadyCount[slot];
 }
 
-
-
-
-
-
-
 int VCT_AUDIO_GetReadyCount(unsigned int slot) { return gVctReadyCount[slot]; }
-
-
-
-
-
-
-
 
 void VCT_AUDIO_InitReceiveSource(VctReceiveSource *source, u32 queueIndex, int peerAid)
 {
@@ -909,13 +826,6 @@ void VCT_AUDIO_InitReceiveSource(VctReceiveSource *source, u32 queueIndex, int p
     source->noiseLevel = 0;
 }
 
-
-
-
-
-
-
-
 void VCT_AUDIO_DetachReceiveSource(VctReceiveSource *source)
 {
     if (source->lastPacket) {
@@ -925,13 +835,6 @@ void VCT_AUDIO_DetachReceiveSource(VctReceiveSource *source)
     source->peerAid = -1;
 }
 
-
-
-
-
-
-
-
 void VCT_AUDIO_SetLastPacket(VctReceiveSource *source, VctRxPacket *packet)
 {
     if (source->lastPacket)
@@ -940,13 +843,6 @@ void VCT_AUDIO_SetLastPacket(VctReceiveSource *source, VctRxPacket *packet)
     VCT_AUDIO_PopReadyPacket(source->queueIndex);
 }
 
-
-
-
-
-
-
-
 void VCT_AUDIO_InitSequence(VctReceiveSource *source, u16 seq)
 {
     source->baseSeq = seq;
@@ -954,13 +850,6 @@ void VCT_AUDIO_InitSequence(VctReceiveSource *source, u16 seq)
     source->cycles = 0;
     source->probation = 0;
 }
-
-
-
-
-
-
-
 
 /*
  * RFC 3550 update_seq shape: MAX_DROPOUT 3000, MAX_MISORDER 100.
@@ -989,13 +878,6 @@ int VCT_AUDIO_UpdateSequence(VctReceiveSource *source, VctRxPacket *packet, u16 
     packet->seq = seq + source->cycles;
     return 1;
 }
-
-
-
-
-
-
-
 
 /*
  * RTP receive bookkeeping: sequence check (VCT_AUDIO_UpdateSequence), interarrival
@@ -1109,24 +991,12 @@ int VCT_AUDIO_TrackPacketTiming(VctReceiveSource *source, VctRxPacket *packet)
     return 1;
 }
 
-
-
-
-
-
-
 VctPeer *VCT_SESSION_AllocPeerRecord(unsigned int index)
 {
     if (gVctSession.mode == 0 || gVctSession.mode == 2)
         return 0;
     return VCT_SESSION_AllocPeer(index);
 }
-
-
-
-
-
-
 
 int VCT_SESSION_FreePeerRecord(VctPeer *peer)
 {
@@ -1157,12 +1027,6 @@ int VCT_SESSION_FreePeerRecord(VctPeer *peer)
     return 0;
 }
 
-
-
-
-
-
-
 int VCT_SESSION_BuildGroupCommand(void *peer, unsigned int type, unsigned char *buffer, unsigned int size)
 {
     int dstId = 0xff;
@@ -1186,23 +1050,12 @@ int VCT_SESSION_BuildGroupCommand(void *peer, unsigned int type, unsigned char *
     return 0;
 }
 
-
-
-
-
-
 int VCT_SESSION_SendGroupCommand(int peer, int type)
 {
     if (gVctSession.mode == 2)
         return -3;
     return VCT_SESSION_SendCommand(peer, type);
 }
-
-
-
-
-
-
 
 int VCT_SESSION_BuildPeerReply(VctPeer *peer, unsigned int type, unsigned char *buffer, unsigned int size)
 {
@@ -1228,19 +1081,12 @@ int VCT_SESSION_BuildPeerReply(VctPeer *peer, unsigned int type, unsigned char *
     return 0;
 }
 
-
-
-
-
 int VCT_SESSION_SendPeerReply(int peer, int type)
 {
     if (gVctSession.mode == 2)
         return -3;
     return VCT_SESSION_SendReply(peer, type);
 }
-
-
-
 
 int VCT_SESSION_AddPeer(unsigned char aid)
 {
@@ -1266,9 +1112,6 @@ int VCT_SESSION_AddPeer(unsigned char aid)
     return 0;
 }
 
-
-
-
 int VCT_SESSION_RemovePeer(int aid)
 {
     VctPeer *peer;
@@ -1282,9 +1125,6 @@ int VCT_SESSION_RemovePeer(int aid)
     gVctGroup.peerCount--;
     return 0;
 }
-
-
-
 
 int VCT_SESSION_InitPeerPool(VctInitParams *params)
 {
@@ -1308,7 +1148,6 @@ int VCT_SESSION_InitPeerPool(VctInitParams *params)
     gVctPeerPool.rngAdd = 0x269EC3;
     return 1;
 }
-
 
 /* Empty the free and active peer lists of the peer pool. */
 void VCT_SESSION_ResetPeerPool(void)

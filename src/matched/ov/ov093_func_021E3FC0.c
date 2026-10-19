@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * Frame: 0x1c bytes of locals needs the two BTL_POKEPARAM_GetMajorStatusIndex calls and
- * BTLV_CORE_MakeSlotKind1Index15 declared as returning a one-word struct (Word); see
+ * BTL_SICKCONT_MakeKind1Index15 declared as returning a one-word struct (Word); see
  * docs/idioms/an-unused-frame-word-is-a-callee-returning-a-one-word-struct.md.
  * Word on BTL_POKEPARAM_GetSickContRaw or BTL_CALC_MakeDefaultSickCont as well gives a larger frame.
  *
@@ -21,8 +21,8 @@
  *   BTL_POKEPARAM_GetMajorStatusIndex  0x021D62A8  thumb  ov093
  *   BTL_POKEPARAM_GetSickContRaw  0x021D6314  thumb  ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
- *   BTLV_CORE_IsSlotKind1Index15  0x021E8A78  thumb  ov093
- *   BTLV_CORE_MakeSlotKind1Index15  0x021E8A58  thumb  ov093
+ *   BTL_SICKCONT_IsKind1Index15  0x021E8A78  thumb  ov093
+ *   BTL_SICKCONT_MakeKind1Index15  0x021E8A58  thumb  ov093
  *   BTL_CALC_MakeDefaultSickCont  0x021D7D18  thumb  ov093
  *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb  ov093
  *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
@@ -39,8 +39,8 @@ extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern Word BTL_POKEPARAM_GetMajorStatusIndex(void *q);
 extern u32 BTL_POKEPARAM_GetSickContRaw(u8 *p, int i);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
-extern int BTLV_CORE_IsSlotKind1Index15(int s);
-extern Word BTLV_CORE_MakeSlotKind1Index15(void);
+extern int BTL_SICKCONT_IsKind1Index15(int s);
+extern Word BTL_SICKCONT_MakeKind1Index15(void);
 extern int BTL_CALC_MakeDefaultSickCont(int k);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *p);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
@@ -63,8 +63,8 @@ void HAND_WAZA_PsychoShiftTransferStatus(int u, void *a, int c)
                 s = BTL_POKEPARAM_GetSickContRaw(q, r);
                 p = BTL_SERVER_FLOW_AllocCmdRecord(a, 0xc, c);
                 ((struct Obj03704 *)p)->f4 = r;
-                if (r == 5 && BTLV_CORE_IsSlotKind1Index15(s) != 0)
-                    *(Word *)(p + 8) = BTLV_CORE_MakeSlotKind1Index15();
+                if (r == 5 && BTL_SICKCONT_IsKind1Index15(s) != 0)
+                    *(Word *)(p + 8) = BTL_SICKCONT_MakeKind1Index15();
                 else
                     ((struct Obj03704 *)p)->f8 = BTL_CALC_MakeDefaultSickCont(r);
                 p[0xf] = k;

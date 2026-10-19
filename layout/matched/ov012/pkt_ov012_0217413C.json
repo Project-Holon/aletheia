@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "UNION_MAIN_CreateSubEvent",
+   "name": "UNION_SCENE_CreateSubEvent",
    "address": "0x0217413C",
    "kind": "game",
    "region": "ov012",

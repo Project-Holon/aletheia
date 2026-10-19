@@ -34,7 +34,7 @@
  *   CLACT_AddActorSurfacePos  0x0204B404  arm  arm9
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm  arm9
  *   WORDSET_CreateDefault  0x0201EC64  thumb  arm9
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
+ *   WORDSET_Delete  0x0201ED04  thumb  arm9
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
  *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
  *   APP_ICON_GetArchiveId  0x020275E4  thumb  arm9
@@ -42,7 +42,7 @@
  *   APP_ICON_GetItemPaletteFileId  0x02027698  thumb  arm9
  *   APP_ICON_GetItemAnimFileId  0x0202769C  thumb  arm9
  *   APP_ICON_GetItemFrameFileId  0x020276A0  thumb  arm9
- *   BG_SYS_FillScrollArea  0x02040618  arm  arm9
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm  arm9
  *   BG_SYS_PushTile  0x020409B4  arm  arm9
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb  arm9
  *   POKE_TOOL_GetIconPaletteArcId  0x0201BC3C  thumb  arm9
@@ -132,11 +132,11 @@ extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c,
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 struct Actor; struct PtS;
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 extern u32 func_020307B0(void *p);
 extern void func_0207D63C(int, int, int, int, int);
 Work *WIFIBATTLEMATCH_VIEW_CreatePartyWindow(void *src, void *owner, int unused, unsigned font, unsigned print, void *msg, unsigned heap)
@@ -233,7 +233,7 @@ Work *WIFIBATTLEMATCH_VIEW_CreatePartyWindow(void *src, void *owner, int unused,
     STRBUF_Delete(sMale);
     STRBUF_Delete(sLevel);
     STRBUF_Delete(buf);
-    WORDSET_DeleteStrbufED04(fmt);
+    WORDSET_Delete(fmt);
     for (i = 0; i < 14; i++) {
         if (work->spr[i] != 0) {
             CLACT_GetActorSurfacePos(work->spr[i], (struct PtS *)&pos, 0);
@@ -241,8 +241,8 @@ Work *WIFIBATTLEMATCH_VIEW_CreatePartyWindow(void *src, void *owner, int unused,
             CLACT_AddActorSurfacePos(work->spr[i], (const struct Vec2 *)(&pos), 0);
         }
     }
-    BG_SYS_FillScrollArea((int)2, (int)0, (int)(-0x100));
-    BG_SYS_FillScrollArea((int)1, (int)0, (int)(-0x100));
+    BG_SYS_ChangeScrollImmediate((int)2, (int)0, (int)(-0x100));
+    BG_SYS_ChangeScrollImmediate((int)1, (int)0, (int)(-0x100));
     func_020307B0(party);
     func_0207D63C(0x04000050, 4, 8, 15, 3);
     return work;

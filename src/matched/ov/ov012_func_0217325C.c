@@ -25,7 +25,7 @@
  *   func_0200856C  0x0200856C  thumb
  *   func_02008570  0x02008570  thumb
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
- *   GAME_DATA_GetField1A0  0x0201283C  thumb
+ *   GAME_DATA_GetWifiList  0x0201283C  thumb
  *   WIFILIST_MakeExchangeToken  0x02009CB0  thumb
  *   UNION_APP_IsClosed  0x021840C8  thumb  ov022
  */
@@ -107,7 +107,7 @@ extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u8 func_02008570(const struct Sub0200852CObj *obj);
 extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
-extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
+extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 extern int WIFILIST_MakeExchangeToken(int a0, int a1);
 extern int UNION_APP_IsClosed(u8 *p);
 
@@ -143,7 +143,7 @@ void UNION_COMM_BuildBeacon(u8 *self, Rec *out)
     out->f26 = func_0200856C((*(Save * *)&((struct Obj02671 *)self)->f0)->f0);
     out->f27 = func_02008570((*(Save * *)&((struct Obj02671 *)self)->f0)->f0);
     out->f28 = l->f30;
-    WIFILIST_MakeExchangeToken(GAME_DATA_GetField1A0(ICA_ANIME_GetField1C((const struct Ctx *)((*(Save * *)&((struct Obj02671 *)self)->f0)->fC))), (int)out->f50);
+    WIFILIST_MakeExchangeToken(GAME_DATA_GetWifiList(ICA_ANIME_GetField1C((const struct Ctx *)((*(Save * *)&((struct Obj02671 *)self)->f0)->fC))), (int)out->f50);
     if (((struct Obj02671 *)self)->f3528 != 0)
         out->b6bit = UNION_APP_IsClosed(((struct Obj02671 *)self)->f3528);
     else

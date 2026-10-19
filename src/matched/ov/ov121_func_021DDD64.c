@@ -18,7 +18,7 @@
  *   u32-heap owner gate does not apply.
  * symbols:
  *   MYSTERY_ALBUM_CreateEntryArc 0x021DBF10 thumb ov121
- *   MYSTERY_ALBUM_GetEntryArcId 0x021DBF40 thumb ov121
+ *   MYSTERY_ALBUM_GetEntryPaletteResId 0x021DBF40 thumb ov121
  *   MYSTERY_ALBUM_GetEntryGraphicIndex 0x021DBF9C thumb ov121
  *   MYSTERY_ALBUM_GetEntryIconPalette 0x021DBF70 thumb ov121
  *   MYSTERY_ALBUM_GetEntryKind 0x021DC024 thumb ov121
@@ -43,7 +43,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef struct {s16 x,y;} Point;
 extern void *MYSTERY_ALBUM_CreateEntryArc(void *,u16);
-extern u32 MYSTERY_ALBUM_GetEntryArcId(void *);
+extern u32 MYSTERY_ALBUM_GetEntryPaletteResId(void *);
 extern int MYSTERY_ALBUM_GetEntryGraphicIndex(void *);
 extern u32 MYSTERY_ALBUM_GetEntryIconPalette(void *);
 extern int MYSTERY_ALBUM_GetEntryKind(void *);
@@ -81,7 +81,7 @@ void MYSTERY_ALBUM_SetupIcons(char *p,char *q,u16 heap)
     u32 offset;
     int i;
     arc=MYSTERY_ALBUM_CreateEntryArc(p,heap);
-    allocation=ARC_UTIL_LoadPaletteBlockFromHandle(arc,(int)MYSTERY_ALBUM_GetEntryArcId(p),(u32)(&res),(u16)(*(u16 *)(p+0x118)));
+    allocation=ARC_UTIL_LoadPaletteBlockFromHandle(arc,(int)MYSTERY_ALBUM_GetEntryPaletteResId(p),(u32)(&res),(u16)(*(u16 *)(p+0x118)));
     offset=*(u32 *)(q+0xb0)*32;
     MI_CpuCopy8(*(void **)((char *)res+12),palette(offset,*(u32 *)(q+0x98)),96);
     func_020307B0(allocation);

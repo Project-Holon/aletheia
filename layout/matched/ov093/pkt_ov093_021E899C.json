@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTLV_CORE_MakeSlotKind3",
+   "name": "BTL_SICKCONT_MakeKind3",
    "address": "0x021E899C",
    "kind": "game",
    "region": "ov093",

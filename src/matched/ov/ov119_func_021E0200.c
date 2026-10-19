@@ -14,7 +14,7 @@
  *   GFL_HEAP_Alloc   0x02030734  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   TRADE_HISTORY_GetSize  0x02009D9C  thumb
- *   GAME_DATA_GetSaveBlock1F  0x02012F14  thumb
+ *   GAME_DATA_GetTradeHistory  0x02012F14  thumb
  *   gSaveControlAllocTag     0x021E8130  data  ov119
  *
  * Addresses are Black-image addresses.
@@ -27,7 +27,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
 extern u32 TRADE_HISTORY_GetSize(void);
-extern void *GAME_DATA_GetSaveBlock1F(void **h);
+extern void *GAME_DATA_GetTradeHistory(void **h);
 extern const char gSaveControlAllocTag[];
 
 static inline void GFL_STD_MemCopy(const void *src, void *dst, u32 size)
@@ -39,6 +39,6 @@ void *POKETRADE_SAVE_BackupBlock1F(void *sys, u16 heapId)
 {
     void *buf = GFL_HEAP_Alloc(heapId, TRADE_HISTORY_GetSize(), 0, gSaveControlAllocTag, 0x1DA);
 
-    GFL_STD_MemCopy(GAME_DATA_GetSaveBlock1F(sys), buf, TRADE_HISTORY_GetSize());
+    GFL_STD_MemCopy(GAME_DATA_GetTradeHistory(sys), buf, TRADE_HISTORY_GetSize());
     return buf;
 }

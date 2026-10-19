@@ -13,8 +13,8 @@
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
- *   INTRUDE_COMM_SendValueNow  0x02176850  thumb  ov011
- *   INTRUDE_COMM_IsRecordReceived  0x02176870  thumb  ov011
+ *   INTRUDE_COMM_RequestPartnerSymbolPage  0x02176850  thumb  ov011
+ *   INTRUDE_COMM_IsPartnerSymbolPageReceived  0x02176870  thumb  ov011
  */
 #include "../include/Obj09327.h"
 
@@ -27,8 +27,8 @@ extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 struct Ctx;
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
-extern int INTRUDE_COMM_SendValueNow(u8 *p, u8 value);
-extern u32 INTRUDE_COMM_IsRecordReceived(u8 *p);
+extern int INTRUDE_COMM_RequestPartnerSymbolPage(u8 *p, u8 value);
+extern u32 INTRUDE_COMM_IsPartnerSymbolPageReceived(u8 *p);
 
 int FIELD_INTRUDE_EVENT_IntrudeRequestEventMain(int a0, int *state, u8 **work)
 {
@@ -44,11 +44,11 @@ int FIELD_INTRUDE_EVENT_IntrudeRequestEventMain(int a0, int *state, u8 **work)
     }
     switch (*state) {
     case 0:
-        if (INTRUDE_COMM_SendValueNow((u8 *)r, ((u8 *)work)[4]) == 1)
+        if (INTRUDE_COMM_RequestPartnerSymbolPage((u8 *)r, ((u8 *)work)[4]) == 1)
             (*state)++;
         break;
     case 1:
-        if (INTRUDE_COMM_IsRecordReceived((u8 *)r) == 1)
+        if (INTRUDE_COMM_IsPartnerSymbolPageReceived((u8 *)r) == 1)
             (*state)++;
         break;
     case 2:

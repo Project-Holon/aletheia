@@ -14,7 +14,7 @@
  *   DAYCARE_GetSlotMon  0x0200BC2C  thumb
  *   DAYCARE_GetSlotSteps  0x0200BCD8  thumb
  *   SODATEYA_GrantExp  0x021C3530  thumb  ov021
- *   SODATEYA_ReturnHeldItem  0x021C32BC  thumb  ov021
+ *   SODATEYA_RegisterCaughtIfNew  0x021C32BC  thumb  ov021
  *   POKEPARTY_Add  0x0201A98C  thumb
  *   DAYCARE_ClearSlot  0x0200BC88  thumb
  *   SODATEYA_CompactSlots  0x021C36B0  thumb  ov021
@@ -29,7 +29,7 @@ typedef signed int     s32;
 struct Obj;
 extern u32 DAYCARE_GetSlotSteps(struct Obj *p, u32 i);
 extern void SODATEYA_GrantExp(void *mon, u32 b);
-extern void SODATEYA_ReturnHeldItem(void **p, void *mon);
+extern void SODATEYA_RegisterCaughtIfNew(void **p, void *mon);
 struct Party;
 struct PartyMon;
 extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
@@ -43,7 +43,7 @@ void SODATEYA_WithdrawPokemon(u32 *p, u32 b, u32 c)
     if (DAYCARE_IsSlotInUse(p[2], b) == 1) {
         m = DAYCARE_GetSlotMon(p[2], b);
         SODATEYA_GrantExp((void *)m, DAYCARE_GetSlotSteps((struct Obj *)p[2], b));
-        SODATEYA_ReturnHeldItem((void **)p, (void *)m);
+        SODATEYA_RegisterCaughtIfNew((void **)p, (void *)m);
         POKEPARTY_Add((void *)c, (void *)m);
         DAYCARE_ClearSlot((struct Obj *)p[2], b);
         SODATEYA_CompactSlots((void *)p[2]);

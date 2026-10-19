@@ -1,7 +1,7 @@
 /*
  * file:     gds_profile.c
  * unit:     yes
- * function: GDS_PROFILE_Create, GDS_PROFILE_Delete, GDS_PROFILE_Init, GDS_PROFILE_CreateNameStr, GDS_PROFILE_GetEggFlag, GDS_PROFILE_GetSpecies, GDS_PROFILE_GetFormSpecies, GDS_PROFILE_GetMonFlagBit7, GDS_PROFILE_GetRecordWord1C, GDS_PROFILE_GetRecordWord30, GDS_PROFILE_ExportRecord, GDS_PROFILE_GetMode, GDS_PROFILE_ClearFieldRec, GDS_PROFILE_SetFieldRecFlag1, GDS_PROFILE_GetFieldRecField, GDS_PROFILE_SetFieldRecField, GDS_PROFILE_ClearFieldRecCount03, GDS_PROFILE_IncFieldRecCount03, GDS_PROFILE_GetFieldRecCount03, GDS_PROFILE_GetScoreRecSize, GDS_PROFILE_ClearScoreRec, GDS_PROFILE_AddScoreRecTotal, GDS_PROFILE_SubScoreRecTotal, GDS_PROFILE_GetSubwaySaveSize, GDS_PROFILE_ClearSubwaySave, GDS_PROFILE_SetSubwaySaveBitAndStamp, GDS_PROFILE_ClearSubwaySaveStampAndBitmap, GDS_PROFILE_IsStampNewer, GDS_PROFILE_QuerySubwaySaveBit
+ * function: GDS_PROFILE_Create, GDS_PROFILE_Delete, GDS_PROFILE_Init, GDS_PROFILE_CreateNameStr, GDS_PROFILE_GetEggFlag, GDS_PROFILE_GetSpecies, GDS_PROFILE_GetFormSpecies, GDS_PROFILE_GetNicknameFlag, GDS_PROFILE_GetRecordWord1C, GDS_PROFILE_GetRecordWord30, GDS_PROFILE_ExportRecord, GDS_PROFILE_GetMode, GDS_PROFILE_ClearFieldRec, GDS_PROFILE_SetFieldRecFlag1, GDS_PROFILE_GetFieldRecField, GDS_PROFILE_SetFieldRecField, GDS_PROFILE_ClearFieldRecCount03, GDS_PROFILE_IncFieldRecCount03, GDS_PROFILE_GetFieldRecCount03, GDS_PROFILE_GetScoreRecSize, GDS_PROFILE_ClearScoreRec, GDS_PROFILE_AddScoreRecTotal, GDS_PROFILE_SubScoreRecTotal, GDS_PROFILE_GetSubwaySaveSize, GDS_PROFILE_ClearSubwaySave, GDS_PROFILE_SetSubwaySaveBitAndStamp, GDS_PROFILE_ClearSubwaySaveStampAndBitmap, GDS_PROFILE_IsStampNewer, GDS_PROFILE_QuerySubwaySaveBit
  * address:  0x0200D59C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -18,7 +18,7 @@
  *   func_0200D59C_File  0x020A71E8  data
  *   OS_GetOwnerInfo  0x02087C88  arm
  *   STRBUF_GetEosChar    0x02045A98  arm
- *   GF_STANDARD_SetupCalc    0x0203F1FC  arm
+ *   GF_STANDARD_CalcCrc16    0x0203F1FC  arm
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_SetStringN  0x02045994  arm
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
@@ -184,7 +184,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 extern u32 GFL_HEAP_Free(void *p);
 extern void OS_GetOwnerInfo(void *info);
 extern u16   STRBUF_GetEosChar(void);
-extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
+extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
 extern void *GAME_DATA_GetSaveControl(struct GameSys *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *GAME_DATA_GetMiscSave(int *p);
@@ -215,7 +215,7 @@ void *GDS_PROFILE_CreateNameStr(const void *src, u32 tag);
 u32 GDS_PROFILE_GetEggFlag(struct StoredMon *p);
 u32 GDS_PROFILE_GetSpecies(struct StoredMon *p);
 u32 GDS_PROFILE_GetFormSpecies(struct StoredMon *p);
-u32 GDS_PROFILE_GetMonFlagBit7(struct StoredMon *p);
+u32 GDS_PROFILE_GetNicknameFlag(struct StoredMon *p);
 u32 GDS_PROFILE_GetMonFlagBit0(struct StoredMon *p);
 u32 GDS_PROFILE_GetRecordWord1C(struct GdsProfileRaw *p);
 u32 GDS_PROFILE_GetRecordWord30(struct GdsProfileRaw *p);
@@ -395,7 +395,7 @@ void GDS_PROFILE_Init(struct GdsProfile *profile, void *sys)
     profile->trainerSprite = MYSTATUS_GetOutfit(trainerRec);
     profile->gameVersion = 0x15;
     profile->language = 2;
-    profile->checksum = GF_STANDARD_SetupCalc((const u8 *)profile, 0x7C);
+    profile->checksum = GF_STANDARD_CalcCrc16((const u8 *)profile, 0x7C);
 }
 
 
@@ -442,11 +442,11 @@ void *GDS_PROFILE_CreateNameStr(const void *src, u32 tag)
  * field and substitutes a safe value when it is out of range, and the shape
  * of the guard is what says how the source was written.
  *
- * GDS_PROFILE_GetEggFlag and GDS_PROFILE_GetMonFlagBit7 both test the value against 0 and then
+ * GDS_PROFILE_GetEggFlag and GDS_PROFILE_GetNicknameFlag both test the value against 0 and then
  * against 1 with two `beq` to the same address, which is one `if` with `&&`
  * and not two statements; see
  * docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md.
- * That the test survives at all in GDS_PROFILE_GetMonFlagBit7 is the interesting part: the
+ * That the test survives at all in GDS_PROFILE_GetNicknameFlag is the interesting part: the
  * field there is one bit wide, so `v != 0 && v != 1` is provably false and
  * the compiler still emits both compares, which is the same reading as
  * docs/idioms/a-guard-on-a-struct-member-survives-constant-folding.md.
@@ -497,7 +497,7 @@ u32 GDS_PROFILE_GetFormSpecies(struct StoredMon *p)
 
 
 
-u32 GDS_PROFILE_GetMonFlagBit7(struct StoredMon *p)
+u32 GDS_PROFILE_GetNicknameFlag(struct StoredMon *p)
 {
     u32 v = p->isNicknamed;
 

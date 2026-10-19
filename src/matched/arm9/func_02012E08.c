@@ -15,14 +15,14 @@
  *   WIH_DWC_ResumeTimers  0x02010444  thumb
  *   UI_ClearKeepAwakeFlagsGlobal  0x02034FB8  arm
  *   UI_TestKeepAwakeFlagsGlobal  0x02034FE8  arm
- *   UI_ClearFlags39Global  0x020351A0  arm
+ *   UI_ClearSoftResetInhibitGlobal  0x020351A0  arm
  */
 #include "../include/Obj08745.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern int UI_ClearFlags39Global(u32 v);
+extern int UI_ClearSoftResetInhibitGlobal(u32 v);
 extern void WIH_DWC_ResumeTimers(void);
 extern int SAVE_CONTROL_CancelSave(int a0);
 extern int  UI_TestKeepAwakeFlagsGlobal(u32 a);
@@ -34,7 +34,7 @@ void GAME_DATA_SaveCancel(char *p)
 
     if (((struct Obj08745 *)p)->f1CE != 1)
         return;
-    UI_ClearFlags39Global(2);
+    UI_ClearSoftResetInhibitGlobal(2);
     WIH_DWC_ResumeTimers();
     ((struct Obj08745 *)p)->f1CE = 0;
     SAVE_CONTROL_CancelSave(((struct Obj08745 *)p)->f0);

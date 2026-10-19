@@ -12,8 +12,8 @@
  * symbols:
  *   func_020056EC  0x020056EC  thumb
  *   POKE_TOOL_CheckShiny  0x02017ED8  thumb
- *   POKE_TOOL_GetGenderRatioClass  0x020185F8  thumb
- *   POKE_PERSONAL_IsPlaceholderAbility  0x0201AF6C  thumb
+ *   POKE_TOOL_GetGenderPersonalityByte  0x020185F8  thumb
+ *   POKE_PERSONAL_IsFixedGender  0x0201AF6C  thumb
  *
  * Build a personality value for trainer id a0: a3 selects the gender
  * handling (2 = fully random), a5 the shininess (1 = force shiny through
@@ -35,8 +35,8 @@ typedef unsigned int u32;
 
 extern u32 func_020056EC(u32 range);
 extern u32 POKE_TOOL_CheckShiny(u32 a0, u32 a1);
-extern u32 POKE_TOOL_GetGenderRatioClass(int a0, int a1, int a2);
-extern u32 POKE_PERSONAL_IsPlaceholderAbility(u32 v);
+extern u32 POKE_TOOL_GetGenderPersonalityByte(int a0, int a1, int a2);
+extern u32 POKE_PERSONAL_IsFixedGender(u32 v);
 
 u32 POKE_TOOL_CreatePersonalRnd(u32 a0, int a1, int a2, int a3, int a4, int a5)
 {
@@ -47,15 +47,15 @@ u32 POKE_TOOL_CreatePersonalRnd(u32 a0, int a1, int a2, int a3, int a4, int a5)
     } else {
         u32 t = func_020056EC(0) & ~0xFFu;
 
-        v = POKE_TOOL_GetGenderRatioClass(a1, a2, (u8)a3);
+        v = POKE_TOOL_GetGenderPersonalityByte(a1, a2, (u8)a3);
         if (a3 == 0) {
-            if (POKE_PERSONAL_IsPlaceholderAbility(v) == 0) {
+            if (POKE_PERSONAL_IsFixedGender(v) == 0) {
                 v = v + func_020056EC(0xFE - v);
                 goto L;
             }
         }
         if (a3 == 1) {
-            if (POKE_PERSONAL_IsPlaceholderAbility(v) == 0) {
+            if (POKE_PERSONAL_IsFixedGender(v) == 0) {
                 v = func_020056EC(v) + 1;
             }
         }

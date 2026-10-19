@@ -18,7 +18,7 @@
  *   DUP_FITTING_Create  0x021B6100  thumb ov133
  *   DUP_FITTING_Main  0x021B63BC  thumb  ov133
  *   DUP_FITTING_Delete  0x021B6294  thumb ov133
- *   STA_NET_GetField48  0x021FD904  thumb ov132
+ *   STA_NET_GetRole  0x021FD904  thumb ov132
  *   STA_NET_BeginTransfer  0x021FD52C  thumb ov132
  */
 
@@ -26,7 +26,7 @@ typedef unsigned char  u8;
 extern u8 *DUP_FITTING_Create(u8 *parent, int heap);
 extern int DUP_FITTING_Main(int);
 extern void DUP_FITTING_Delete(char *p);
-extern int STA_NET_GetField48(int *);
+extern int STA_NET_GetRole(int *);
 typedef struct S S;
 extern void STA_NET_BeginTransfer(struct S *s);
 
@@ -37,7 +37,7 @@ int MUSICAL_DRESSUP_SYS_Main(int a, int *state, int c, int *d)
         d[1] = (int)DUP_FITTING_Create((u8 *)d[0], 0x2d);
         *state = 1;
         if (*(int *)d[3] != 0) {
-            if (STA_NET_GetField48((int *)*(int *)d[3]) == 1)
+            if (STA_NET_GetRole((int *)*(int *)d[3]) == 1)
                 STA_NET_BeginTransfer((S *)*(int *)d[3]);
         }
         break;

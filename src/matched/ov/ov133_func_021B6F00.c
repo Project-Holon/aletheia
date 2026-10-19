@@ -14,7 +14,7 @@
  *   MUSICAL_SAVE_IsPropNew 0x0200A680 thumb
  *   MUSICAL_SAVE_GetOutfits 0x0200A628 thumb
  *   MUSICAL_MCSS_CreateActorPool 0x021F48C0 thumb ov112
- *   MUSICAL_MCSS_NoOp5 0x021F4F10 thumb ov112
+ *   MUSICAL_MCSS_GetActorPoolResource 0x021F4F10 thumb ov112
  *   MUSICAL_MCSS_CreateResourceArc 0x021F4B3C thumb ov112
  *   MUSICAL_MCSS_FreeResourceArc 0x021F4B4C thumb ov112
  *   MUSICAL_MCSS_GetElemPtr 0x021F4F54 thumb ov112
@@ -66,7 +66,7 @@ struct Tagged;
 struct Vec3;
 extern u8 *MUSICAL_SAVE_GetOutfits(struct Big *p);
 extern struct Object *MUSICAL_MCSS_CreateActorPool(u32 owner, int count, u16 heap);
-extern u32 MUSICAL_MCSS_NoOp5(u8 *p);
+extern u32 MUSICAL_MCSS_GetActorPoolResource(u8 *p);
 extern void *MUSICAL_MCSS_CreateResourceArc(int type);
 extern void MUSICAL_MCSS_FreeResourceArc(struct Tagged *a0);
 extern u8 *MUSICAL_MCSS_GetElemPtr(u8 *, int);
@@ -143,7 +143,7 @@ void DUP_FITTING_InitFrames(u8 *p)
     }
 
     *(u8 **)(p + 0x1884) = (u8 *)MUSICAL_MCSS_CreateActorPool((u32)(*(void **)(p + 0x188c)), 0x98, *(u16 *)p);
-    table = (u8 *)MUSICAL_MCSS_NoOp5(*(u8 **)(p + 0x1884));
+    table = (u8 *)MUSICAL_MCSS_GetActorPoolResource(*(u8 **)(p + 0x1884));
 
     for (i = 0; i < *(u16 *)(p + 0xa8); i++) {
         h = MUSICAL_MCSS_CreateResourceArc(*(u16 *)(p + i * 0x14 + 0xac));

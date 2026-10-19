@@ -16,7 +16,7 @@
  *   WORLDTRADE_SEARCH_SetBlendEffect  0x021FF570  thumb
  *   WORLDTRADE_ENTER_SetListRangeEntry  0x021F89A8  thumb
  *   WORLDTRADE_DEPOSIT_PrintName  0x021F7F9C  thumb
- *   WORLDTRADE_DEPOSIT_CheckGenderEvent  0x021F7B9C  thumb
+ *   WORLDTRADE_DEPOSIT_SetGenderFromEvent  0x021F7B9C  thumb
  *   WORLDTRADE_DEPOSIT_PrintModeLabelAligned  0x021F8098  thumb
  *   BMP_Clear  0x02043B5C  arm  arm9
  *   POKE_PERSONAL_Create  0x0201ADE4  thumb  arm9
@@ -76,7 +76,7 @@ extern void *POKE_PERSONAL_Create(unsigned int species, int form, unsigned int h
 struct Personal;
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern void POKE_PERSONAL_Delete(void *p);
-extern int WORLDTRADE_DEPOSIT_CheckGenderEvent(u8 *p, int event);
+extern int WORLDTRADE_DEPOSIT_SetGenderFromEvent(u8 *p, int event);
 extern void WORLDTRADE_DEPOSIT_PrintModeLabelAligned(void *win, void *bank, int mode, int force, u32 x, int y, u16 color, void *g);
 
 int WORLDTRADE_SEARCH_StateNameMenuInput(Work *p)
@@ -104,7 +104,7 @@ int WORLDTRADE_SEARCH_StateNameMenuInput(Work *p)
         POKE_PERSONAL_Delete((void *)h);
         p->target->x20 = v;
         WORLDTRADE_ENTER_SetListRangeEntry(p->area, p->target->x6 + p->target->x4, p->target->xA, p->target->x8);
-        if (WORLDTRADE_DEPOSIT_CheckGenderEvent((u8 *)(&p->sel), p->target->x20) != 0) {
+        if (WORLDTRADE_DEPOSIT_SetGenderFromEvent((u8 *)(&p->sel), p->target->x20) != 0) {
             BMP_Clear(BMP_WIN_GetBmp(p->winB), 0);
             WORLDTRADE_DEPOSIT_PrintModeLabelAligned(p->winB, p->bankA, p->mode, 1, 0, 0, 0x3C40, p->g);
         }

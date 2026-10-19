@@ -1,5 +1,5 @@
 /*
- * function: MYSTERY_UTIL_SetFlag
+ * function: MYSTERY_UTIL_SetActorPairColor
  * address: 0x021DA9EC
  * packet: pkt_ov121_021DA9EC
  * region: ov121
@@ -14,4 +14,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void MYSTERY_UTIL_SetFlag(u8 *p,int a) { ((struct Obj22897 *)p)->f4=a; }
+void MYSTERY_UTIL_SetActorPairColor(u8 *p,int a) { ((struct Obj22897 *)p)->f4=a; }

@@ -15,7 +15,7 @@
  *   WORLDTRADE_SERVER_DeleteWindows 0x02200E94 thumb ov135
  *   WORLDTRADE_SERVER_ExitBgPlanes 0x02200DB8 thumb ov135
  *   WORLDTRADE_TITLE_ExitBgPlanes 0x022000E4 thumb ov135
- *   WORLDTRADE_ClearBusyFlag 0x021F4EC8 thumb ov135
+ *   WORLDTRADE_AdvanceScreenId 0x021F4EC8 thumb ov135
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -26,5 +26,5 @@ extern void WORLDTRADE_SERVER_DeleteStrings(u8 *);
 extern void WORLDTRADE_SERVER_DeleteWindows(u8 *);
 extern void WORLDTRADE_SERVER_ExitBgPlanes(void);
 extern void WORLDTRADE_TITLE_ExitBgPlanes(char *p);
-extern void WORLDTRADE_ClearBusyFlag(u8 *);
-int WORLDTRADE_SERVER_Exit(u8 *p) { if(GXx_GetMasterBrightness_((u16 *)0x0400106c)) WORLDTRADE_SUBLCD_SetSlotActorPositionsLower((char *)p); WORLDTRADE_SERVER_DeleteStrings(p); WORLDTRADE_SERVER_DeleteWindows(p); WORLDTRADE_SERVER_ExitBgPlanes(); WORLDTRADE_TITLE_ExitBgPlanes((char *)p); WORLDTRADE_ClearBusyFlag(p); return 0; }
+extern void WORLDTRADE_AdvanceScreenId(u8 *);
+int WORLDTRADE_SERVER_Exit(u8 *p) { if(GXx_GetMasterBrightness_((u16 *)0x0400106c)) WORLDTRADE_SUBLCD_SetSlotActorPositionsLower((char *)p); WORLDTRADE_SERVER_DeleteStrings(p); WORLDTRADE_SERVER_DeleteWindows(p); WORLDTRADE_SERVER_ExitBgPlanes(); WORLDTRADE_TITLE_ExitBgPlanes((char *)p); WORLDTRADE_AdvanceScreenId(p); return 0; }

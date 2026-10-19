@@ -16,8 +16,8 @@
  *   UNION_MSG_CheckTalkPrintEnd  0x0217F1EC  thumb  ov019
  *   UNION_MSG_CloseAllWindows  0x0217F074  thumb  ov019
  *   UNION_ONESELF_SetNextPlayCategory  0x0217B8E4  thumb  ov019
- *   UNION_MAIN_RequestScene  0x0217422C  thumb  ov012
- *   UNION_MAIN_IsScenePending  0x02174268  thumb  ov012
+ *   UNION_SCENE_RequestScene  0x0217422C  thumb  ov012
+ *   UNION_SCENE_IsScenePending  0x02174268  thumb  ov012
  *   TRCARD_SYS_CreateEditWork  0x0216F7F4  thumb  ov010
  *   func_0200855C  0x0200855C  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
@@ -42,8 +42,8 @@ void UNION_MSG_CloseAllWindows(void *p);
 int UNION_ONESELF_SetNextPlayCategory(char *p, int v);
 struct Sub0200852CObj;
 struct WordSet;
-void UNION_MAIN_RequestScene(u8 *p, int a, int b);
-int UNION_MAIN_IsScenePending(u8 *w);
+void UNION_SCENE_RequestScene(u8 *p, int a, int b);
+int UNION_SCENE_IsScenePending(u8 *w);
 void *TRCARD_SYS_CreateEditWork(int a, u8 *e, int b);
 u8 func_0200855C(const struct Sub0200852CObj *obj);
 void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
@@ -95,12 +95,12 @@ int UNION_ONESELF_ColosseumTrainerCardMain(u8 *w, void *obj, u8 *a2, u8 *state)
             (*(u8 **)(p + 0x134 + p[0x16c] * 4))[4] |= 0x20;
             q = TRCARD_SYS_CreateEditWork((*(Sys * *)&((struct Obj05956 *)w)->f0)->f8, *(u8 **)(p + 0x134 + p[0x16c] * 4), 0x41);
             ((struct Obj05956 *)w)->f3558 = q;
-            UNION_MAIN_RequestScene(w, 0x1c, (int)q);
+            UNION_SCENE_RequestScene(w, 0x1c, (int)q);
             (*state)++;
         }
         break;
     case 2:
-        if (UNION_MAIN_IsScenePending(w) == 0) {
+        if (UNION_SCENE_IsScenePending(w) == 0) {
             ((struct Obj05956 *)w)->f3558 = 0;
             (*state)++;
         }

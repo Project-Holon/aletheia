@@ -18,7 +18,7 @@
  *   func_020307B0 0x020307B0 arm
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
@@ -41,7 +41,7 @@ extern u32 func_020307B0(void *p);
 struct WordSet;
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
@@ -84,7 +84,7 @@ void ZUKAN_INFO_DrawMainPage(char *p)
         h2 = (u32)WORDSET_CreateDefault(((struct Obj00031 *)p)->f0);
         WORDSET_SetSlotNumber((struct WordSet *)h2, 0, r7, 3, 2, 1);
         ZUKAN_INFO_DrawText(((struct Obj00031 *)p)->f0, *(int *)&((struct Obj00031 *)p)->f70, (void *)(((struct Obj00031 *)p)->f2C), ((struct Obj00031 *)p)->f28, ((struct Obj00031 *)p)->f270, 8, 5, 0x3e7 + 0x59, 0, h2);
-        WORDSET_DeleteStrbufED04((struct WordSet *)h2);
+        WORDSET_Delete((struct WordSet *)h2);
     } else {
         ZUKAN_INFO_DrawText(((struct Obj00031 *)p)->f0, *(int *)&((struct Obj00031 *)p)->f70, (void *)(((struct Obj00031 *)p)->f2C), ((struct Obj00031 *)p)->f28, ((struct Obj00031 *)p)->f274, 8, 5, 0x3e7 + 0x59, 0, 0);
     }

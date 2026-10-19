@@ -39,7 +39,7 @@
  *   APP_ICON_GetTypePaletteFileId 0x020275FC thumb
  *   APP_ICON_GetTypeAnimFileId 0x02027600 thumb
  *   POKEGRA_OpenHandle 0x0202D7C8 thumb
- *   POKE_TOOL_Dummy 0x020185F0 thumb
+ *   POKE_TOOL_CastToBoxParam 0x020185F0 thumb
  *   POKE_TOOL_DecodeBoxParam 0x02017DBC thumb
  *   POKEGRA_RegisterCgrPP 0x0202D934 thumb
  *   POKEGRA_RegisterPalettePP 0x0202D8D0 thumb
@@ -136,7 +136,7 @@ extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
 extern u32 APP_ICON_GetTypePaletteFileId(u32);
 extern u32 APP_ICON_GetTypeAnimFileId(u32);
 extern int POKEGRA_OpenHandle(int);
-extern void *POKE_TOOL_Dummy(void *);
+extern void *POKE_TOOL_CastToBoxParam(void *);
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 extern int POKEGRA_RegisterCgrPP(int,void *,int,int,u16);
 extern int POKEGRA_RegisterPalettePP(int,void *,int,int,u16,u16);
@@ -257,7 +257,7 @@ void POKE_SUMMARY_ACTOR_RegisterResources(char *work,void *archiveHandle)
     ((struct PokeSummaryWork *)work)->reg.named.cellAnimHandles[4]=CLACT_RegisterCellAnim(archiveHandle,27,28,79);
     ARC_TOOL_DeleteHandle(bank);
     second=POKEGRA_OpenHandle(79);
-    mon=POKE_TOOL_Dummy(((struct PokeSummaryWork *)work)->mon->party);
+    mon=POKE_TOOL_CastToBoxParam(((struct PokeSummaryWork *)work)->mon->party);
     save=POKE_TOOL_DecodeBoxParam(mon);
     ((struct PokeSummaryWork *)work)->reg.named.cgrHandle=POKEGRA_RegisterCgrPP(second,mon,0,0,79);
     ((struct PokeSummaryWork *)work)->reg.named.paletteHandles[4]=POKEGRA_RegisterPalettePP(second,mon,0,0,128,79);

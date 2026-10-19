@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   UNION_ONESELF_CheckNetError  0x0217BB04  thumb ov019
+ *   UNION_ONESELF_HandleNetError  0x0217BB04  thumb ov019
  *   UNION_MSG_CheckTalkPrintEnd  0x0217F1EC  thumb ov019
  *   UNION_MSG_SetupTitleWindow  0x0217F5E0  thumb ov019
  *   UNION_MSG_DeleteTitleWindow  0x0217F624  thumb ov019
@@ -53,7 +53,7 @@ typedef struct {
 } Obj;
 
 typedef unsigned short u16;
-int UNION_ONESELF_CheckNetError(char *p);
+int UNION_ONESELF_HandleNetError(char *p);
 u32 UNION_MSG_CheckTalkPrintEnd(u8 *p);
 void UNION_MSG_SetupTitleWindow(char *p, u32 a1);
 void UNION_MSG_DeleteTitleWindow(char *p);
@@ -78,7 +78,7 @@ int UNION_ONESELF_BattleMenuMain(void *ctx, Obj *obj, u8 *a2, u8 *state)
     int f08;
     int r;
 
-    if (UNION_ONESELF_CheckNetError(ctx) == 1)
+    if (UNION_ONESELF_HandleNetError(ctx) == 1)
         return 1;
     if (UNION_MSG_CheckTalkPrintEnd(ctx) == 0)
         return 0;

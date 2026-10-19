@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PROC_FLD_ResetFieldRegionB
+ * function: SCRCMD_PROC_FLD_ResumeCameraTargetTrace
  * address:  0x021B53A4
  * packet:   pkt_021B53A4
  * region:   ov021
@@ -30,7 +30,7 @@ extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 extern void *FIELDMAP_GetCamera(void *p);
 extern int FIELD_CAMERA_ResumeTargetTrace(u32 a);
 
-int SCRCMD_PROC_FLD_ResetFieldRegionB(u32 a, u32 b, u32 c, u32 d)
+int SCRCMD_PROC_FLD_ResumeCameraTargetTrace(u32 a, u32 b, u32 c, u32 d)
 {
 FIELD_CAMERA_ResumeTargetTrace((u32)FIELDMAP_GetCamera(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem((void *)b))));
 return 0;

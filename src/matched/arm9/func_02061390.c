@@ -1,5 +1,5 @@
 /*
- * function: NNS_G2dSetupCellBank
+ * function: NNSi_GfdSetTexVramSlotOrder
  * address:  0x02061390
  * packet:   pkt_0206123C
  * region:   arm9
@@ -26,8 +26,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/NNS_G2dSetupCellBank.c \
- *       --func NNS_G2dSetupCellBank --addr 0x02061390 --arm --cc 1.1p1
+ *   python tools/match.py one --src src/pending/NNSi_GfdSetTexVramSlotOrder.c \
+ *       --func NNSi_GfdSetTexVramSlotOrder --addr 0x02061390 --arm --cc 1.1p1
  *   EXACT, 72 bytes, 2 relocation sites, all 2 resolved.
  */
 
@@ -44,7 +44,7 @@ struct Ent020A816C {
 extern struct Ent020A816C  g_020A816C[];
 extern struct Ptrs020A8150 g_020A8150;
 
-void NNS_G2dSetupCellBank(u32 a, u32 b, u32 c, u32 d, u32 e)
+void NNSi_GfdSetTexVramSlotOrder(u32 a, u32 b, u32 c, u32 d, u32 e)
 {
     g_020A8150.p[0] = (u32)&g_020A816C[a];
     g_020A8150.p[1] = (u32)&g_020A816C[b];

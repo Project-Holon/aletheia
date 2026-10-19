@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTLV_CORE_MakeSlotKind2Index",
+   "name": "BTL_SICKCONT_MakeKind2Index",
    "address": "0x021E8940",
    "kind": "game",
    "region": "ov093",

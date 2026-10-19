@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   DUP_FITTING_ITEM_ElemGetF20 0x021BA258 thumb ov133
+ *   DUP_FITTING_ITEM_ElemGetFrameIndex 0x021BA258 thumb ov133
  *   DUP_FITTING_ITEM_ElemGetRenderElem 0x021BA218 thumb ov133
  *   DUP_FITTING_ITEM_ElemGetPos 0x021BA228 thumb ov133
  *   MUSICAL_MCSS_GetRenderElem 0x021F5450 thumb ov112
@@ -29,7 +29,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef short s16;
-extern u32 DUP_FITTING_ITEM_ElemGetF20(char *p);
+extern u32 DUP_FITTING_ITEM_ElemGetFrameIndex(char *p);
 extern u32 DUP_FITTING_ITEM_ElemGetRenderElem(u8 *p);
 extern u8 *DUP_FITTING_ITEM_ElemGetPos(u8 *p);
 extern u8 *MUSICAL_MCSS_GetRenderElem(u8 *,int);
@@ -48,7 +48,7 @@ void DUP_FITTING_DragRotate(u8 *p)
     u32 *xy;
     int dx,dy,stride,absval,y;
     s16 old,adjust;
-    index=DUP_FITTING_ITEM_ElemGetF20((char *)(*(u8 * *)&((struct Obj00004 *)p)->f38));
+    index=DUP_FITTING_ITEM_ElemGetFrameIndex((char *)(*(u8 * *)&((struct Obj00004 *)p)->f38));
     rec=MUSICAL_MCSS_GetRenderElem(*(u8 * *)&((struct Obj00004 *)p)->f1880,index);
     DUP_FITTING_ITEM_ElemGetRenderElem(*(u8 * *)&((struct Obj00004 *)p)->f38);
     xy=(u32 *)DUP_FITTING_ITEM_ElemGetPos(*(u8 * *)&((struct Obj00004 *)p)->f38);

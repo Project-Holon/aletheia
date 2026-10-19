@@ -28,7 +28,7 @@
  *   ICA_ANIME_CreateStream  0x02011510  thumb
  *   func_02048BC4  0x02048BC4  arm
  *   func_02048C58  0x02048C58  arm
- *   BG_SYS_SetLowBit  0x0204044C  arm
+ *   BG_SYS_EnableBg0WithPriority  0x0204044C  arm
  *   FX_SinCosTable_  0x020A1B38  data
  *   d_021BD410     0x021BD410  data  ov088  a4
  *   d_021BD3EC     0x021BD3EC  data  ov088  a4
@@ -126,7 +126,7 @@ extern void *G3D_CAMERA_Create(int a, int s, int c, int d, int e, int f, int g, 
 extern void *ICA_ANIME_CreateStream(u32 heap, u32 a1, u32 a2, u32 a3);
 extern struct LightSlot *func_02048BC4(const struct LightSet *s, u32 heap);
 extern void func_02048C58(struct LightSlot *slots);
-extern void BG_SYS_SetLowBit(u32 mode);
+extern void BG_SYS_EnableBg0WithPriority(u32 mode);
 
 void STARTMENU_Demo3dInit(Work *p, u32 heap)
 {
@@ -160,7 +160,7 @@ void STARTMENU_Demo3dInit(Work *p, u32 heap)
     p->fC = (u32)ICA_ANIME_CreateStream(heap, 0xA0, 0xE9, 0xA);
     p->f8 = (u32)func_02048BC4((const struct LightSet *)d_021BD3DC, heap);
     func_02048C58((struct LightSlot *)p->f8);
-    BG_SYS_SetLowBit(1);
+    BG_SYS_EnableBg0WithPriority(1);
     G3X_AntiAlias(1);
     G3X_AlphaTest(0, 0);
     G3X_AlphaBlend(1);

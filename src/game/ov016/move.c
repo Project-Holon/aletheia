@@ -22,7 +22,7 @@
  *   DWCi_MOVStartDownloadandBootChild 0x021D3D8C  arm  ov016
  *   DWCi_HEAPlAllocEx  0x021D6414  arm  ov016
  *   DWCi_MSGlGet  0x021C1030  arm  ov016
- *   DWCi_MoveKDWCi_Language  0x021C0F20  arm  ov016
+ *   kDWCi_Language  0x021C0F20  arm  ov016
  *   DWCi_MOVInit  0x021D3B18  arm  ov016
  *   DWCi_MOVStartAdmitChild  0x021D3D44  arm  ov016
  *   OS_Terminate  0x02088234  arm
@@ -58,7 +58,7 @@ typedef struct MoveWork {
 
 extern void *DWCi_HEAPlAllocEx(unsigned long size, int align);
 extern unsigned int DWCi_MSGlGet(unsigned int *p, unsigned int idx);
-extern unsigned char DWCi_MoveKDWCi_Language(void);
+extern unsigned char kDWCi_Language(void);
 extern void DWCi_MOVInit(void *wm, MovData *md);
 extern int DWCi_MOVStartAdmitChild(void);
 extern void OS_Terminate(void);
@@ -100,7 +100,7 @@ void DWCi_MOVlInit(void (*callback)(int))
 	dat = sMoveTable;
 	dat.w[1] = (int)DWCi_MSGlGet(gCommentWork, 0);
 	dat.w[2] = (int)DWCi_MSGlGet(gCommentWork, 1);
-	*(unsigned char *)&dat.w[6] = DWCi_MoveKDWCi_Language();
+	*(unsigned char *)&dat.w[6] = kDWCi_Language();
 	DWCi_MOVInit(gMoveWork, &dat);
 	if (DWCi_MOVStartAdmitChild() == 0)
 		OS_Terminate();

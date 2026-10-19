@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PROC_FLD_StoreCameraValue
+ * function: SCRCMD_PROC_FLD_StoreEffectEncountItemId
  * address:  0x021B5128
  * packet:   pkt_ov021_021B5128
  * region:   ov021
@@ -28,7 +28,7 @@ extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern u32 FIELDMAP_GetEncount(u8 *p);
 extern u16 EFFECT_ENCOUNT_GetItemId(char *p);
 
-int SCRCMD_PROC_FLD_StoreCameraValue(u32 a, u32 b)
+int SCRCMD_PROC_FLD_StoreEffectEncountItemId(u32 a, u32 b)
 {
     void *w = GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem((void *)b));
     u16 *o = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);

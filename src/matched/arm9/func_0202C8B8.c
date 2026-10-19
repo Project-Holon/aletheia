@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: ISS_SWITCH_CheckAreaOwner
+ * function: WEATHER_GetAreaOwnerWeather
  * address:  0x0202C8B8
  * packet:   pkt_0202C8B8
  * region:   arm9
@@ -45,7 +45,7 @@ struct Pair {
 
 extern struct Pair gTbl_0209FFF4[];
 
-s32 ISS_SWITCH_CheckAreaOwner(void *a0, u32 a1, u32 a2)
+s32 WEATHER_GetAreaOwnerWeather(void *a0, u32 a1, u32 a2)
 {
     u32 r6;
     u32 r4;

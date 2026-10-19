@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PROC_CheckDaycareEgg
+ * function: SCRCMD_PROC_GetDaycareCompatibility
  * address:  0x0215CFD8
  * packet:   pkt_0215CFD8
  * region:   ov010
@@ -29,7 +29,7 @@ extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern void *FIELDMAP_GetSodateya(void *a0);
 extern u8 SODATEYA_GetCompatibility(void **p);
 
-int SCRCMD_PROC_CheckDaycareEgg(int a0, int a1)
+int SCRCMD_PROC_GetDaycareCompatibility(int a0, int a1)
 {    int t5;
     unsigned short *v0;
     void *v1;

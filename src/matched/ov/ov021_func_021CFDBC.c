@@ -17,11 +17,11 @@
  *   WORDSET_SetSlotFromMsgE7  0x0201F048  thumb
  *   BMP_OAM_GetRecordValue  0x02025B64  thumb
  *   func_02008570  0x02008570  thumb
- *   WORDSET_DeleteMsgdataF094  0x0201F094  thumb
+ *   WORDSET_SetSlotFromKeyedMessage  0x0201F094  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   func_02009634  0x02009634  thumb
- *   WORDSET_Callback  0x0201EE60  thumb
+ *   WORDSET_SetSlotSpeciesName  0x0201EE60  thumb
  *   func_02009628  0x02009628  thumb
  *   WORDSET_SetSlotFromMsg2B  0x0201F198  thumb
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
@@ -45,11 +45,11 @@ struct WordSet;
 extern void WORDSET_SetSlotFromMsgE7(struct WordSet *p, u32 i, u32 n);
 extern u8 BMP_OAM_GetRecordValue(u32 v);
 extern u8 func_02008570(const struct Sub0200852CObj *obj);
-extern void WORDSET_DeleteMsgdataF094(struct WordSet *p, u32 i, u32 a, u32 n);
+extern void WORDSET_SetSlotFromKeyedMessage(struct WordSet *p, u32 i, u32 a, u32 n);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern u32 func_02009634(const struct Sub02009470Obj *obj, u32 i, u32 field);
-extern void WORDSET_Callback(struct WordSet *p, u32 i, u16 v);
+extern void WORDSET_SetSlotSpeciesName(struct WordSet *p, u32 i, u16 v);
 extern u8 func_02009628(const struct Sub02009470Obj *obj);
 extern void WORDSET_SetSlotFromMsg2B(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
@@ -64,10 +64,10 @@ void SCRCMD_SetPartnerWords(void *ws, u32 h, u32 x)
     e = (u32)func_0200973C((struct Sub02009470Obj *)g, x);
     WORDSET_SetSlotFromMsgE7(ws, 0, k);
     if (BMP_OAM_GetRecordValue(k)) {
-        WORDSET_DeleteMsgdataF094(ws, 1, k, func_02008570((const struct Sub0200852CObj *)e));
+        WORDSET_SetSlotFromKeyedMessage(ws, 1, k, func_02008570((const struct Sub0200852CObj *)e));
     }
     WORDSET_SetSlotMyStatus(ws, 3, GAME_DATA_GetMyStatus((void *)h));
-    WORDSET_Callback(ws, 5, func_02009634((const struct Sub02009470Obj *)g, x, 0));
+    WORDSET_SetSlotSpeciesName(ws, 5, func_02009634((const struct Sub02009470Obj *)g, x, 0));
     WORDSET_SetSlotFromMsg2B(ws, 6, func_02009628((const struct Sub02009470Obj *)g));
     WORDSET_SetSlotMyStatus(ws, 7, (void *)e);
     v = func_02009634((const struct Sub02009470Obj *)g, x, 3);
@@ -75,7 +75,7 @@ void SCRCMD_SetPartnerWords(void *ws, u32 h, u32 x)
         v = 1;
     }
     WORDSET_SetSlotNumber(ws, 8, v, 3, 0, 1);
-    WORDSET_Callback(ws, 9, func_02009634((const struct Sub02009470Obj *)g, x, 1));
+    WORDSET_SetSlotSpeciesName(ws, 9, func_02009634((const struct Sub02009470Obj *)g, x, 1));
     k = func_02009634((const struct Sub02009470Obj *)g, x, 2);
     WORDSET_SetSlotFromMsg2B(ws, 10, k);
 }

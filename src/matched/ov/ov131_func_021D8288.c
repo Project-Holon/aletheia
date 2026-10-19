@@ -26,7 +26,7 @@
  *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb  arm9
  *   WORDSET_Create  0x0201EC74  thumb  arm9
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
+ *   WORDSET_Delete  0x0201ED04  thumb  arm9
  *   GF_FONT_CountLine  0x0201D2C8  thumb  arm9
  *   WORDSET_SetSlotTag  0x0201EE0C  thumb  arm9
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
@@ -60,7 +60,7 @@ extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern u32 GF_FONT_CountLine(struct StrObj *s);
 extern void *P_STA_INFO_GetPlaceName(void *, u8 *, u32);
 extern const u32 d_021DC24C[6];
@@ -221,7 +221,7 @@ void P_STA_INFO_DrawMemo(u8 *a, u8 *p, void *mon)
     t = func_02045EC0(((struct Obj01547 *)p)->f38, msg);
     WORDSET_CopyTaggedText(ws, str, t);
     PRINTSYS_PrintQueColor(((struct Obj00112 *)a)->f84, (u32)BMP_WIN_GetBmp(((struct Obj01547 *)p)->f34), (s16)1, (s16)(y + 1), (u32)str, (u32)(((struct Obj00112 *)a)->f80), 0x440);
-    WORDSET_DeleteStrbufED04(ws);
+    WORDSET_Delete(ws);
     y += GF_FONT_CountLine(str) << 4;
     STRBUF_Delete(s68);
     STRBUF_Delete(s6c);

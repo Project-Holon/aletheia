@@ -24,7 +24,7 @@
  *   GFL_NET_IRC_WIRELESS_Exit  0x0203D0D0  arm
  *   GFL_NET_Main  0x0203CF5C  arm
  *   GFL_NET_IsSessionNull  0x0203CDBC  arm
- *   UI_ClearFlags39Global  0x020351A0  arm
+ *   UI_ClearSoftResetInhibitGlobal  0x020351A0  arm
  *   GFL_USE_PollPowerExit  0x020053EC  thumb
  */
 
@@ -38,7 +38,7 @@ extern int GFL_NET_Exit(int a0);
 extern void GFL_NET_IRC_WIRELESS_Exit(void);
 extern u32 GFL_NET_Main(void);
 extern int  GFL_NET_IsSessionNull(void);
-extern int UI_ClearFlags39Global(u32 v);
+extern int UI_ClearSoftResetInhibitGlobal(u32 v);
 extern void GFL_USE_PollPowerExit(void);
 
 void APP_POWER_Main(u32 mode)
@@ -53,7 +53,7 @@ void APP_POWER_Main(u32 mode)
             GFL_NET_Main();
         } while (!GFL_NET_IsSessionNull());
     }
-    UI_ClearFlags39Global(2);
+    UI_ClearSoftResetInhibitGlobal(2);
     for (;;)
         GFL_USE_PollPowerExit();
 }

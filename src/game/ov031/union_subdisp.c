@@ -72,7 +72,7 @@
  *   sUnionSubdispBgTemplate7     0x021F1090  data  ov031  a4
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BG_SYS_CreateRun  0x0203FA08  arm
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   CLACT_RegisterPaletteEx  0x0204AC18  arm
@@ -92,7 +92,7 @@
  *   SAVEDATA_PanicFail  0x02034714  arm
  *   sUnionSubdispEmptyStr     0x021F10D0  data  a4
  *   BG_SYS_FillTileMap  0x020413B0  arm
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   PMS_DRAW_IsActive  0x0202DCC4  thumb
  *   PMS_DRAW_Clear  0x0202DC9C  thumb
  *   BMP_Clear  0x02043B5C  arm
@@ -110,7 +110,6 @@
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
- *   _u32_div_f 0x0209C2B0 arm
  *   KEY_GetRepeat  0x0203633C  arm
  */
 typedef unsigned char  u8;
@@ -179,7 +178,7 @@ extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void BG_SYS_FreeLayerBuf(unsigned int);
 extern u32 BG_SYS_CreateRun(u32 a, u32 b, u32 c);
-extern void BG_SYS_DeleteHalf(u32, u32, u32);
+extern void BG_SYS_FreeTileRun(u32, u32, u32);
 extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern struct ClactRes *CLACT_RegisterPaletteEx(void *archive, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
@@ -279,7 +278,7 @@ extern u32 PMS_DRAW_IsPrintEnd(struct PmsDraw *pmsDraw);
 extern UnionChatEntry *UNION_CHAT_LOG_GetLine(UnionChatLog *log, u32 index);
 extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 extern u32 PMS_DRAW_IsActive(const struct PmsDraw *pmsDraw, u32 id);
 extern void PMS_DRAW_Clear(struct PmsDraw *pmsDraw, int id, u32 isTrans);
 extern void BMP_Clear(void *bmp, u8 value);
@@ -296,7 +295,6 @@ extern void BMP_CopyPixels(const void *src, void *dst);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outX, u32 *outY);
 extern int TOUCHPANEL_GetTrg(void);
 extern void CLACT_AddActorSurfacePos(struct ClactActor *actor, const UnionSubdispPos *pos, u32 which);
-extern u32 _u32_div_f(u32 a, u32 b);
 
 void UNION_SUBDISP_UpdateChatLines(UnionSubdispWork *work, UnionChatLog *log);
 void UNION_SUBDISP_DrawChatLine(UnionSubdispWork *work, const UnionChatEntry *entry, u8 lineNo);
@@ -603,7 +601,7 @@ void UNION_SUBDISP_LoadFrameBg(UnionSubdispWork *work)
 
 void UNION_SUBDISP_FreeFrameBgChar(UnionSubdispWork *work)
 {
-    BG_SYS_DeleteHalf(5, work->bgCharOffset, 128);
+    BG_SYS_FreeTileRun(5, work->bgCharOffset, 128);
 }
 
 
@@ -804,7 +802,7 @@ void UNION_SUBDISP_DrawChatLine(UnionSubdispWork *work, const UnionChatEntry *en
     palette = UNION_SUBDISP_GetLinePalette(entry);
     MI_CpuCopy8(screen, (u8 *)screen + offset, UNION_SUBDISP_LINE_COPY_SIZE);
     BG_SYS_FillTileMap(UNION_SUBDISP_BG_CHAT, 0, lineNo * UNION_SUBDISP_ROWS_PER_LINE, 0x20, UNION_SUBDISP_ROWS_PER_LINE, palette);
-    BG_SYS_SetFlagField06(UNION_SUBDISP_BG_CHAT);
+    BG_SYS_MarkTileDirty(UNION_SUBDISP_BG_CHAT);
     textOffset = sUnionSubdispChatTextOffset;
     if (work->lineKind[lineNo] == UNION_SUBDISP_LINE_PMS) {
         if (PMS_DRAW_IsActive(work->pmsDraw, lineNo) == 1)
@@ -839,7 +837,7 @@ void UNION_SUBDISP_DrawChatLine(UnionSubdispWork *work, const UnionChatEntry *en
             return;
         }
         BMP_WIN_MakeScreen(work->lineWin[lineNo]);
-        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(work->lineWin[lineNo]));
+        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(work->lineWin[lineNo]));
         printSys = work->printSys;
         PRINTSYS_PrintQueColor(printSys, BMP_WIN_GetBmp(work->winSlot[lineNo].win), 0, textOffset.y, text, work->font, UNION_SUBDISP_PRINT_COLOR);
         work->winSlot[lineNo].transferPending = 1;
@@ -902,7 +900,7 @@ void UNION_SUBDISP_MoveChatLine(UnionSubdispWork *work, u8 srcLine, u8 dstLine, 
     dst = (u16 *)((u32)screen + destOffset);
     src = (u16 *)((u32)screen + sourceOffset);
     MI_CpuCopy8(src, dst, UNION_SUBDISP_LINE_COPY_SIZE);
-    BG_SYS_SetFlagField06(UNION_SUBDISP_BG_CHAT);
+    BG_SYS_MarkTileDirty(UNION_SUBDISP_BG_CHAT);
     if (work->lineKind[srcLine] == UNION_SUBDISP_LINE_PMS && work->lineKind[dstLine] == UNION_SUBDISP_LINE_PMS) {
         PMS_DRAW_Copy(work->pmsDraw, srcLine, dstLine);
         return;
@@ -1067,7 +1065,7 @@ int UNION_SUBDISP_GetScrollRange(UnionChatLog *log)
 /* Height of one scroll step in 8.8 fixed point pixels: the knob travel of 0x80 pixels divided by the number of steps. */
 u32 UNION_SUBDISP_GetKnobStep(void *unused, u32 range)
 {
-    return _u32_div_f(0x8000, range);
+    return 0x8000 / range;
 }
 
 /* A new touch on the scroll bar moves the knob there. Returns 1 when it did. */
@@ -1229,7 +1227,7 @@ int UNION_SUBDISP_SetLinePalette(UnionSubdispWork *unused, int lineNo, int highl
         return 0;
     }
     BG_SYS_FillTileMap(UNION_SUBDISP_BG_CHAT, 0, lineNo * UNION_SUBDISP_ROWS_PER_LINE, 0x20, UNION_SUBDISP_ROWS_PER_LINE, palette);
-    BG_SYS_SetFlagField06(UNION_SUBDISP_BG_CHAT);
+    BG_SYS_MarkTileDirty(UNION_SUBDISP_BG_CHAT);
     return 1;
 }
 

@@ -18,8 +18,8 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   GAMESYSTEM_GetGameComm 0x02012138 thumb
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
- *   BG_SYS_SetScrollY 0x02041F6C arm
- *   BG_SYS_SetAffine 0x02041FB0 arm
+ *   BG_SYS_ChangeScale 0x02041F6C arm
+ *   BG_SYS_ChangeCenter 0x02041FB0 arm
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   SAVE_CONTROL_Get 0x020070A4 thumb
@@ -43,7 +43,7 @@
  *   IRC_COMPATIBLE_MENU_VramBankConfig 0x021B8B2C data a4
  *   TCB_DeleteTask 0x02030EAC arm
  *   CLACT_DrawSystem 0x0204A600 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -84,11 +84,10 @@
  *   COMPATIBLE_IRC_SYS_SendOwnValue 0x021B6424 thumb ov101
  *   COMPATIBLE_IRC_SYS_GetValueDifference 0x021B6480 thumb ov101
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
+ *   MET_TRAINERS_GetFromSave 0x0200ED48 thumb
  *   MYSTATUS_GetId 0x02008530 thumb
- *   MISC_SAVEDATA_InsertRecentValue 0x0200ED54 thumb
+ *   MET_TRAINERS_Insert 0x0200ED54 thumb
  *   OS_GetTick 0x020870D0 arm
- *   _u32_div_f 0x0209C2B0 arm
  *   IRC_APPBAR_IsPressed 0x021B7254 thumb ov101
  *   COMPATIBLE_IRC_SYS_ClearValues 0x021B63C4 thumb ov101
  *   COMPATIBLE_IRC_SYS_StepShutdown 0x021B61E8 thumb ov101
@@ -101,22 +100,21 @@
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   BUTTON_MAN_Delete 0x02051C6C arm
  *   BG_SYS_FillTileMap 0x020413B0 arm
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  *   IRC_COMPATIBLE_MENU_StepLinear 0x021B8A90 thumb ov102
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   GFL_USE_GetRandomBelow  0x02005728  thumb
  *   CLACT_SetActorAnimFrame  0x0204B8C4  arm
- *   _u32_div_f 0x0209C2B0 arm
  *   IRC_RANKING_GetEntryCount  0x0200A8AC  thumb
  *   IRC_RANKING_GetEntryGender  0x0200A8F8  thumb
  *   _fflt 0x0209BDBC arm
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
- *   BG_SYS_SetTileUnit 0x02040DA8 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
+ *   BG_SYS_FreeTiles 0x02040DA8 arm
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
@@ -292,8 +290,8 @@ extern void *PROCSYS_AllocProcWork(void *proc, u32 size, u32 heapId);
 extern void MI_CpuFill8(void *dest, int value, u32 size);
 extern u32 GAMESYSTEM_GetGameComm(void *gameSystem);
 extern void BMP_MENUWORK_DrawWindow(void *bmpWin, int commitMode, int tileBase, int palette);
-extern void BG_SYS_SetScrollY(u32 which, u32 op, u32 value);
-extern void BG_SYS_SetAffine(u32 which, u32 op, u16 value);
+extern void BG_SYS_ChangeScale(u32 which, u32 op, u32 value);
+extern void BG_SYS_ChangeCenter(u32 which, u32 op, u16 value);
 extern void *GAMESYSTEM_GetGameData(void *gameSystem);
 extern void *GAME_DATA_GetSaveControl(void *gameData);
 extern void *SAVE_CONTROL_Get(void);
@@ -325,8 +323,8 @@ extern void ARC_UTIL_UploadBgPaletteFromHandle(void *, u32, u32, u32, u32, u32, 
 extern void BG_SYS_Init(u32, u32, u32, u32);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *, u32, u32, u32, u32, u16);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
-extern void BG_SYS_SetTileUnit(unsigned, unsigned, unsigned);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTiles(unsigned, unsigned, unsigned);
 extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
@@ -356,7 +354,7 @@ extern void *PRINTSYS_QUE_Create(u32 heapId);
 extern void *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *WORDSET_CreateDefault(u32 heap);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(unsigned, unsigned, unsigned, unsigned, unsigned, u16);
-extern void WORDSET_DeleteStrbufED04(void *wordSet);
+extern void WORDSET_Delete(void *wordSet);
 extern void MSGDATA_Delete(void *msgData);
 extern void PRINTSYS_QUE_Delete(void *printQueue);
 extern void GF_FONT_Delete(void *font);
@@ -394,11 +392,10 @@ extern int COMPATIBLE_IRC_SYS_PollProfileAck(IrcSys *sys);
 extern int COMPATIBLE_IRC_SYS_SendOwnValue(IrcSys *sys);
 extern int COMPATIBLE_IRC_SYS_GetValueDifference(IrcSys *sys);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
-extern void *MISC_SAVEDATA_GetBlock44(void *saveControl);
+extern void *MET_TRAINERS_GetFromSave(void *saveControl);
 extern u32 MYSTATUS_GetId(const u8 *myStatus);
-extern void MISC_SAVEDATA_InsertRecentValue(void *saveData, u32 value);
+extern void MET_TRAINERS_Insert(void *saveData, u32 value);
 extern unsigned long long OS_GetTick(void);
-extern u32 _u32_div_f(u32, u32);
 extern void COMPATIBLE_IRC_SYS_ClearValues(IrcSys *sys);
 extern int COMPATIBLE_IRC_SYS_StepShutdown(IrcSys *sys);
 extern int COMPATIBLE_IRC_SYS_IsPartnerReady(IrcSys *sys);
@@ -410,7 +407,7 @@ extern void GF_FONT_SetDefaultTextColor(void);
 extern void BUTTON_MAN_Delete(void *buttonMan);
 extern int BUTTON_MAN_UpdateSlots(void *buttonMan);
 extern void BG_SYS_FillTileMap(u8 bgLayer, u8 x, u8 y, u8 width, u8 height, u8 palette);
-extern void BG_SYS_ResetSlot(u32 which, u32 op, u32 value);
+extern void BG_SYS_ChangeScroll(u32 which, u32 op, u32 value);
 extern void CLACT_SetActorAnimSeq(void *actor, int seq);
 extern void CLACT_AddActorSurfacePos(void *actor, const void *delta, u32 which);
 extern u32 GFL_USE_GetRandomBelow(u32 range);
@@ -506,10 +503,10 @@ int IRC_COMPATIBLE_MENU_ProcInit(void *proc, int unused, IrcMenuArgs *args)
     IRC_COMPATIBLE_MENU_PrintMessage(&work->title, &work->text, 5, 0, 0);
     IRC_COMPATIBLE_MENU_InitWindow(&work->bottomWin, 7, 6, 3, 20, 5, 8, 1, 1, 59);
     IRC_COMPATIBLE_MENU_PrintMessageCentered(&work->bottomWin, &work->text, 10);
-    BG_SYS_SetScrollY(7, 3, 0x1000);
-    BG_SYS_SetScrollY(7, 6, 0x1000);
-    BG_SYS_SetAffine(7, 9, 128);
-    BG_SYS_SetAffine(7, 12, 40);
+    BG_SYS_ChangeScale(7, 3, 0x1000);
+    BG_SYS_ChangeScale(7, 6, 0x1000);
+    BG_SYS_ChangeCenter(7, 9, 128);
+    BG_SYS_ChangeCenter(7, 12, 40);
     IRC_COMPATIBLE_MENU_InitScrollEffect(&work->scroll, 59);
     saveData = work->args->gameSystem;
     if (saveData) saveData = GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(saveData));
@@ -663,8 +660,8 @@ void IRC_COMPATIBLE_MENU_ExitBackgrounds(IrcBgSetup *bg)
     unsigned range;
     TCB_DeleteTask(bg->vblankTask);
     range = bg->charRange;
-    BG_SYS_DeleteHalf(5, (u16)range, (u16)(range >> 16));
-    BG_SYS_SetTileUnit(5, 1, 0);
+    BG_SYS_FreeTileRun(5, (u16)range, (u16)(range >> 16));
+    BG_SYS_FreeTiles(5, 1, 0);
     for (i = 0; i < 8; i++) BG_SYS_FreeLayerBuf((u8)IRC_COMPATIBLE_MENU_BgLayerIds[i]);
     BMP_WIN_Exit();
     BG_SYS_Delete();
@@ -746,7 +743,7 @@ void IRC_COMPATIBLE_MENU_InitText(IrcTextSystem *text, u16 heapId)
 
 void IRC_COMPATIBLE_MENU_ExitText(IrcTextSystem *text)
 {
-    WORDSET_DeleteStrbufED04(text->wordSet);
+    WORDSET_Delete(text->wordSet);
     MSGDATA_Delete(text->msgData);
     PRINTSYS_QUE_Delete(text->printQueue);
     GF_FONT_Delete(text->font);
@@ -891,8 +888,8 @@ void IRC_COMPATIBLE_MENU_HandleStartTests(IrcMenuWork *work, u16 *state)
         if (COMPATIBLE_IRC_SYS_StepSendProfile(work->args->view, work->args->gameSystem)) {
             COMPATIBLE_IRC_SYS_GetPartnerProfile(work->args->view, work->args->profile);
             if (work->args->gameSystem) {
-                saveData = MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(work->args->gameSystem)));
-                MISC_SAVEDATA_InsertRecentValue(saveData, MYSTATUS_GetId(work->args->profile->myStatus));
+                saveData = MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(work->args->gameSystem)));
+                MET_TRAINERS_Insert(saveData, MYSTATUS_GetId(work->args->profile->myStatus));
             }
             *state = 6;
         }
@@ -924,7 +921,7 @@ void IRC_COMPATIBLE_MENU_HandleChoice(IrcMenuWork *work, u16 *state)
     case 0:
         work->choice = 2;
         work->flag = 0;
-        work->startTime = _u32_div_f((u32)OS_GetTick() << 6, 33514);
+        work->startTime = ((u32)OS_GetTick() << 6) / 33514;
         *state = 1;
         break;
     case 1:
@@ -939,7 +936,7 @@ void IRC_COMPATIBLE_MENU_HandleChoice(IrcMenuWork *work, u16 *state)
                 break;
             }
         }
-        work->elapsed = _u32_div_f((u32)OS_GetTick() << 6, 33514) - work->startTime;
+        work->elapsed = ((u32)OS_GetTick() << 6) / 33514 - work->startTime;
         if (IRC_APPBAR_IsPressed(work->appBar)) IRC_COMPATIBLE_MENU_SetButtonsEnabled(&work->buttons, 0);
         if (IRC_APPBAR_GetResult(work->appBar) == 1) {
             COMPATIBLE_IRC_SYS_ResetStep(work->args->view);
@@ -1192,8 +1189,8 @@ void IRC_COMPATIBLE_MENU_ButtonCallback(u16 value, int flag, IrcButtons *buttons
 void IRC_COMPATIBLE_MENU_InitScrollEffect(IrcScrollEffect *effect, u32 unused)
 {
     MI_CpuFill8(effect, 0, 28);
-    BG_SYS_ResetSlot(4, 3, 88);
-    BG_SYS_ResetSlot(7, 3, 88);
+    BG_SYS_ChangeScroll(4, 3, 88);
+    BG_SYS_ChangeScroll(7, 3, 88);
 }
 
 void IRC_COMPATIBLE_MENU_ExitScrollEffect(IrcScrollEffect *effect) { MI_CpuFill8(effect, 0, 28); }
@@ -1202,8 +1199,8 @@ void IRC_COMPATIBLE_MENU_UpdateScrollEffect(IrcScrollEffect *effect)
 {
     if (effect->active) {
         if (IRC_COMPATIBLE_MENU_StepLinear(&effect->step)) effect->active = 0;
-        BG_SYS_ResetSlot(4, 3, 88 - effect->step.value);
-        BG_SYS_ResetSlot(7, 3, 88 - effect->step.value);
+        BG_SYS_ChangeScroll(4, 3, 88 - effect->step.value);
+        BG_SYS_ChangeScroll(7, 3, 88 - effect->step.value);
     }
 }
 

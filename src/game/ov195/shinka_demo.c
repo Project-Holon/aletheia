@@ -1,7 +1,7 @@
 /*
  * file:     shinka_demo.c
  * unit:     yes
- * function: SHINKA_DEMO_Create, SHINKA_DEMO_Destroy, SHINKA_DEMO_Main, SHINKA_DEMO_SetupScene, SHINKA_DEMO_DeleteScene, SHINKA_DEMO_StartBgm, SHINKA_DEMO_Noop, SHINKA_DEMO_UpdateBgm, SHINKA_DEMO_IsBgmState1, SHINKA_DEMO_RestoreBgm, SHINKA_DEMO_PlayEvolutionBgm, SHINKA_DEMO_IsBgmState2, SHINKA_DEMO_StartEvolutionBgm, SHINKA_DEMO_PushBgm, SHINKA_DEMO_PopBgm, SHINKA_DEMO_IsBgmState4, SHINKA_DEMO_FadeOutBgm, SHINKA_DEMO_IsBgmState6, SHINKA_DEMO_StartResultBgm, SHINKA_DEMO_IsBgmState7Or8, SHINKA_DEMO_PlayResultBgm, SHINKA_DEMO_StopBgm, SHINKA_DEMO_LoadSprites, SHINKA_DEMO_Noop2, SHINKA_DEMO_CreateActors, SHINKA_DEMO_DeleteActors, SHINKA_DEMO_ResetActorAnims, SHINKA_DEMO_AreActorAnimsDone, SHINKA_DEMO_MainTask, SHINKA_DEMO_SetupWindows, SHINKA_DEMO_DeleteWindows, SHINKA_DEMO_UpdateWindows, SHINKA_DEMO_PrintStreamCallback, SHINKA_DEMO_PrintText, SHINKA_DEMO_AdvanceText, SHINKA_DEMO_IsConfirmPressed, SHINKA_DEMO_ClearText, SHINKA_DEMO_SetupMessageBox, SHINKA_DEMO_CreateConfirmMenu, SHINKA_DEMO_DeleteConfirmMenu, SHINKA_DEMO_SetMenuText, SHINKA_DEMO_BuildString, SHINKA_DEMO_AddEvolvedPokemon, SHINKA_DEMO_ClearPartyValue, SHINKA_DEMO_Setup3d
+ * function: SHINKA_DEMO_Create, SHINKA_DEMO_Destroy, SHINKA_DEMO_Main, SHINKA_DEMO_SetupScene, SHINKA_DEMO_DeleteScene, SHINKA_DEMO_StartBgm, SHINKA_DEMO_Noop, SHINKA_DEMO_UpdateBgm, SHINKA_DEMO_IsBgmState1, SHINKA_DEMO_RestoreBgm, SHINKA_DEMO_PlayEvolutionBgm, SHINKA_DEMO_IsBgmState2, SHINKA_DEMO_StartEvolutionBgm, SHINKA_DEMO_PushBgm, SHINKA_DEMO_PopBgm, SHINKA_DEMO_IsBgmState4, SHINKA_DEMO_FadeOutBgm, SHINKA_DEMO_IsBgmState6, SHINKA_DEMO_StartResultBgm, SHINKA_DEMO_IsBgmState7Or8, SHINKA_DEMO_PlayResultBgm, SHINKA_DEMO_StopBgm, SHINKA_DEMO_LoadSprites, SHINKA_DEMO_Noop2, SHINKA_DEMO_CreateActors, SHINKA_DEMO_DeleteActors, SHINKA_DEMO_ResetActorAnims, SHINKA_DEMO_AreActorAnimsDone, SHINKA_DEMO_MainTask, SHINKA_DEMO_SetupWindows, SHINKA_DEMO_DeleteWindows, SHINKA_DEMO_UpdateWindows, SHINKA_DEMO_PrintStreamCallback, SHINKA_DEMO_PrintText, SHINKA_DEMO_AdvanceText, SHINKA_DEMO_IsConfirmPressed, SHINKA_DEMO_ClearText, SHINKA_DEMO_SetupMessageBox, SHINKA_DEMO_CreateConfirmMenu, SHINKA_DEMO_DeleteConfirmMenu, SHINKA_DEMO_SetMenuText, SHINKA_DEMO_BuildString, SHINKA_DEMO_AddShedinja, SHINKA_DEMO_ClearHeldItem, SHINKA_DEMO_Setup3d
  * address:  0x02203FA0
  * region:   ov195
  * compiler: dsi/1.1p1
@@ -103,7 +103,7 @@
  *   ov067_id 0x00000043 data
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  *   BG_SYS_LoadPlttEntry 0x02040EBC arm
  *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   GF_FONT_Create 0x0201D7EC thumb
@@ -119,7 +119,7 @@
  *   SHINKA_DEMO_GRAPHIC_Destroy  0x022059A0  thumb
  *   GFL_USE_IsBgmFading 0x02005E50 thumb
  *   GFL_USE_IsBgmPlaying 0x02005F38 thumb
- *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_SetBgmPaused 0x02005DE4 thumb
  *   GFL_USE_PushBgm 0x02005E64 thumb
  *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
  *   GFL_USE_StepBgmLoad 0x020063B4 thumb
@@ -153,7 +153,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   BMP_MENUWORK_LoadFrameGfx 0x0201F5DC thumb
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   TCBL_Create 0x0203101C arm
@@ -164,7 +164,7 @@
  *   TCBL_Destroy 0x02031140 arm
  *   STRBUF_Delete 0x02045808 arm
  *   MSGDATA_Delete 0x02045C04 arm
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   TCBL_Main 0x020310C4 arm
  *   APP_KEYCURSOR_Update 0x020286C4 thumb
@@ -178,12 +178,12 @@
  *   MSGDATA_AllocString 0x02045EC0 arm
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_SetSlotTag 0x0201EE0C thumb
- *   WORDSET_SetSlotMonName 0x0201EE84 thumb
- *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
+ *   WORDSET_SetSlotMonSpeciesName 0x0201EE84 thumb
+ *   WORDSET_SetSlotMonNickname 0x0201EEF4 thumb
  *   WORDSET_SetSlotFromMsgCB 0x0201EF34 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   gSpeciesNameBank 0x020A7370 data a4
  *   GAME_DATA_GetMyItem 0x0201292C thumb
  *   POKEPARTY_GetCapacity 0x0201AA14 thumb
@@ -405,7 +405,7 @@ extern int SHINKA_DEMO_EFFECT_IsState4(int *p);
 extern int SHINKA_DEMO_EFFECT_IsCameraReady(int *p);
 extern void GFL_HEAP_CreateChildHeap(u32 parent, u32 id, u32 size);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+extern void BG_SYS_SetPriority(int idx, unsigned short val);
 extern void BG_SYS_LoadPlttEntry(u32 bgId, u32 color);
 extern void G2x_SetBlendAlpha_(int, int, int, int, int);
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
@@ -422,7 +422,7 @@ extern void SHINKA_DEMO_GRAPHIC_Destroy(char *p);
 extern void GFL_USE_FadeOutBgm(u32);
 extern int GFL_USE_IsBgmFading(void);
 extern int GFL_USE_IsBgmPlaying(void);
-extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_SetBgmPaused(void *p);
 extern int GFL_USE_PushBgm(void);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern u32 GFL_USE_StepBgmLoad(u8 *bgmNo, u32 *step, u32 abort);
@@ -454,7 +454,7 @@ extern void BMP_Clear(struct CharBuf *buf, int value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void BG_SYS_SetFlagField06(u32);
+extern void BG_SYS_MarkTileDirty(u32);
 extern void *BMP_MENUWORK_LoadFrameGfx(void *layer, u32 palSlot, u32 frameId, u32 heapId);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
@@ -464,7 +464,7 @@ extern int APP_KEYCURSOR_Delete(int);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void TCBL_Destroy(void *p);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void TCBL_Main(struct Tcbl *p);
 extern void APP_KEYCURSOR_Update(struct Ctx *ctx, void *p, void *cell);
@@ -481,11 +481,11 @@ extern void BMP_MENUWORK_DrawWindow(void *win, int commitMode, int tileBase, int
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
-extern void WORDSET_SetSlotMonName(struct WordSet *p, u32 i, void *mon);
-extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonSpeciesName(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonNickname(struct WordSet *p, u32 i, void *mon);
 extern void WORDSET_SetSlotFromMsgCB(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
 extern u32 POKEPARTY_GetCapacity(void *p);
 extern u32 MYITEM_SAVEDATA_HasItem(u8 *base, u16 id, u16 qty, u16 d);
@@ -542,8 +542,8 @@ void SHINKA_DEMO_CreateConfirmMenu(int a, char *b);
 void SHINKA_DEMO_DeleteConfirmMenu(void *unused,char *p);
 void SHINKA_DEMO_SetMenuText(char *a, u32 msgBankC, u32 msgIdC, u32 k0, u32 v0, u32 k1, u32 v1, u32 b1, u32 b2, u32 m0, u32 w0, u32 m1, u32 w1);
 u32 SHINKA_DEMO_BuildString(u32 heap, u32 a, u32 b, u32 k0, u32 v0, u32 k1, u32 v1);
-void SHINKA_DEMO_AddEvolvedPokemon(u32 *a, char *b);
-void SHINKA_DEMO_ClearPartyValue(int a, char *b);
+void SHINKA_DEMO_AddShedinja(u32 *a, char *b);
+void SHINKA_DEMO_ClearHeldItem(int a, char *b);
 void SHINKA_DEMO_Setup3d(void);
 extern const char d_02208F40[];
 extern u8 gPokeStatusProcData[];
@@ -661,7 +661,7 @@ int SHINKA_DEMO_Main(int unused0,int unused1,char *a,char *s)
     case 14:W(0x88)=1;W(0x28)=15;break;
     case 15:SHINKA_DEMO_PrintText(s,W(0x78),1,0,2,W(0x10),4,0);W(0x28)=16;break;
     case 16:if(SHINKA_DEMO_AdvanceText(s)&&SHINKA_DEMO_IsConfirmPressed(s))W(0x28)=42;break;
-    case 17:switch(AB(11)){case 14:SHINKA_DEMO_AddEvolvedPokemon((u32 *)a,s);break;case 6:case 19:case 20:SHINKA_DEMO_ClearPartyValue((int)a,s);break;}W(0x28)=18;W(0x20)=0;break;
+    case 17:switch(AB(11)){case 14:SHINKA_DEMO_AddShedinja((u32 *)a,s);break;case 6:case 19:case 20:SHINKA_DEMO_ClearHeldItem((int)a,s);break;}W(0x28)=18;W(0x20)=0;break;
     case 18:
         H(0x1c)=POKE_TOOL_LearnLevelUpMove(P(0x10),(u32 *)(s+0x20),H(0));
         if(!H(0x1c))W(0x28)=42;else if(H(0x1c)!=0xfffe){if(H(0x1c)&0x8000){H(0x1c)&=0x7fff;W(0x28)=20;}else{W(0x28)=19;SHINKA_DEMO_PrintText(s,W(0x7c),3,0,2,W(0x10),3,(u32)(s+0x1c));SHINKA_DEMO_PlayResultBgm((int)a,(int *)s);}}break;
@@ -757,10 +757,10 @@ void SHINKA_DEMO_SetupScene(App *a, Scene *s)
     s->actorsReady = 0;
     if (s->state == 0)
         SHINKA_DEMO_CreateActors((int)a, (char *)s);
-    BG_SYS_SetVisibleLayer(0, 2);
-    BG_SYS_SetVisibleLayer(2, 1);
-    BG_SYS_SetVisibleLayer(1, 0);
-    BG_SYS_SetVisibleLayer(4, 2);
+    BG_SYS_SetPriority(0, 2);
+    BG_SYS_SetPriority(2, 1);
+    BG_SYS_SetPriority(1, 0);
+    BG_SYS_SetPriority(4, 2);
     BG_SYS_SetPlaneVisible(0, 1);
     BG_SYS_SetPlaneVisible(2, 1);
     BG_SYS_SetPlaneVisible(4, 1);
@@ -853,7 +853,7 @@ void SHINKA_DEMO_UpdateBgm(char *app, char *scene)
     case 1:
         if (GFL_USE_IsBgmFading() == 0) {
             if (((struct App *)app)->flag0C != 0) {
-                GFL_USE_SetBgmPlayerParam((void *)1);
+                GFL_USE_SetBgmPaused((void *)1);
                 GFL_USE_PushBgm();
             }
             ((struct Scene *)scene)->bgmState = 0;
@@ -918,7 +918,7 @@ void SHINKA_DEMO_RestoreBgm(char *app, char *scene)
 {
     if (((struct Scene *)scene)->bgmState == 0 && ((struct App *)app)->flag0C != 0) {
         GFL_USE_PopBgm();
-        GFL_USE_SetBgmPlayerParam(0);
+        GFL_USE_SetBgmPaused(0);
         GFL_USE_FadeInBgmFull(0x3c);
     }
 }
@@ -982,7 +982,7 @@ void SHINKA_DEMO_StartEvolutionBgm(int unused, char *scene)
 void SHINKA_DEMO_PushBgm(int unused, int *scene)
 {
     if (((struct Scene *)scene)->bgmState == 4) {
-        GFL_USE_SetBgmPlayerParam((void *)1);
+        GFL_USE_SetBgmPaused((void *)1);
         GFL_USE_PushBgm();
         ((struct Scene *)scene)->bgmState = 5;
     }
@@ -1004,7 +1004,7 @@ void SHINKA_DEMO_PopBgm(int unused, int *scene)
 
     if (s == 5 || (unsigned)(s - 8) <= 1) {
         GFL_USE_PopBgm();
-        GFL_USE_SetBgmPlayerParam(0);
+        GFL_USE_SetBgmPaused(0);
         GFL_USE_FadeInBgmFull(6);
         scene[0xc] = 4;
     }
@@ -1269,7 +1269,7 @@ void SHINKA_DEMO_SetupWindows(int unused, char *scene)
     p = ((struct Scene *)scene)->menuWindow;
     BMP_WIN_TransferChars((struct Descriptor *)p);
     BMP_WIN_MakeScreen((struct Cfg *)p);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)p));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct Descriptor *)p));
     ((struct Scene *)scene)->frameGfx = (u32)BMP_MENUWORK_LoadFrameGfx((void *)1, 2, 0, ((struct Scene *)scene)->heap);
     ((struct Scene *)scene)->msgBankA = MSGDATA_CreateFromArchive(0, 2, 0xac, ((struct Scene *)scene)->heap);
     ((struct Scene *)scene)->msgBankB = MSGDATA_CreateFromArchive(0, 2, 0xcc, ((struct Scene *)scene)->heap);
@@ -1295,7 +1295,7 @@ void SHINKA_DEMO_DeleteWindows(int task, int *scene)
     if (((struct Scene *)scene)->strbufA) STRBUF_Delete((struct U16Vec *)(((struct Scene *)scene)->strbufA));
     MSGDATA_Delete(((struct Scene *)scene)->msgBankA);
     MSGDATA_Delete(((struct Scene *)scene)->msgBankB);
-    BG_SYS_DeleteHalf(1, (unsigned short)(((struct Scene *)scene)->frameGfx), (unsigned short)(((struct Scene *)scene)->frameGfx >> 16));
+    BG_SYS_FreeTileRun(1, (unsigned short)(((struct Scene *)scene)->frameGfx), (unsigned short)(((struct Scene *)scene)->frameGfx >> 16));
     BMP_WIN_Delete((struct Descriptor *)(((struct Scene *)scene)->menuWindow));
     BMP_WIN_Delete((struct Descriptor *)(((struct Scene *)scene)->window));
 }
@@ -1417,7 +1417,7 @@ void SHINKA_DEMO_ClearText(char *scene, int fillColor)
     p = ((struct Scene *)scene)->menuWindow;
     BMP_WIN_TransferChars((struct Descriptor *)p);
     BMP_WIN_MakeScreen((struct Cfg *)p);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)p));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct Descriptor *)p));
     if (((struct Scene *)scene)->printStream != 0)
         PRINTSYS_PrintStreamDelete((struct Rec3 *)(((struct Scene *)scene)->printStream));
     if (((struct Scene *)scene)->strbufA != 0)
@@ -1506,10 +1506,10 @@ u32 SHINKA_DEMO_BuildString(u32 heap, u32 msgBank, u32 msgId, u32 kind0, u32 val
                 WORDSET_SetSlotTag((struct WordSet *)w, i, (const void *)p[i].val, z, 1, z);
                 break;
             case 1:
-                WORDSET_SetSlotMonName((void *)w, i, (void *)p[i].val);
+                WORDSET_SetSlotMonSpeciesName((void *)w, i, (void *)p[i].val);
                 break;
             case 2:
-                WORDSET_SetSlotMonSpecies((void *)w, i, (void *)p[i].val);
+                WORDSET_SetSlotMonNickname((void *)w, i, (void *)p[i].val);
                 break;
             case 3:
                 WORDSET_SetSlotFromMsgCB((struct WordSet *)w, i, *(u16 *)p[i].val);
@@ -1519,7 +1519,7 @@ u32 SHINKA_DEMO_BuildString(u32 heap, u32 msgBank, u32 msgId, u32 kind0, u32 val
         r = (u32)STRBUF_Create(0x100, heap);
         WORDSET_CopyTaggedText((struct WordSet *)w, (void *)r, (void *)src);
         STRBUF_Delete((struct U16Vec *)src);
-        WORDSET_DeleteStrbufED04((struct WordSet *)w);
+        WORDSET_Delete((struct WordSet *)w);
     }
     return r;
 }
@@ -1527,7 +1527,7 @@ u32 SHINKA_DEMO_BuildString(u32 heap, u32 msgBank, u32 msgId, u32 kind0, u32 val
 
 
 
-void SHINKA_DEMO_AddEvolvedPokemon(u32 *app, char *scene)
+void SHINKA_DEMO_AddShedinja(u32 *app, char *scene)
 {
     void *save;
     u32 p, q, v;
@@ -1572,7 +1572,7 @@ void SHINKA_DEMO_AddEvolvedPokemon(u32 *app, char *scene)
 
 
 
-void SHINKA_DEMO_ClearPartyValue(int unused, char *scene)
+void SHINKA_DEMO_ClearHeldItem(int unused, char *scene)
 {
     POKE_TOOL_SetPartyValue((void *)(((struct Scene *)scene)->partyMon), 6, 0);
 }

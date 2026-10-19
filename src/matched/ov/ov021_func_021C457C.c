@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PLAYER_GRID_EVENT_WaitA
+ * function: SCRCMD_PLAYER_GRID_EVENT_WaitHop
  * address:  0x021C457C
  * packet:   pkt_ov021_021C457C
  * region:   ov021
@@ -22,7 +22,7 @@ extern int FIELD_PLAYER_GRID_EVENT_IsHopDone(void *x);
 typedef unsigned int   u32;
 extern int FIELD_PLAYER_GRID_EVENT_DeleteHopTask(u32 a);
 
-int SCRCMD_PLAYER_GRID_EVENT_WaitA(void *a, void *b)
+int SCRCMD_PLAYER_GRID_EVENT_WaitHop(void *a, void *b)
 {
     void *x = SCRCMD_WORK_GetTargetObject(b);
 

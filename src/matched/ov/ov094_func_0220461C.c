@@ -11,7 +11,7 @@
  * lever:    the table extern is `const` (non-const put the cnt store before the address add)
  *
  * symbols:
- *   BG_SYS_FillScrollArea  0x02040618  arm
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm
  *   BTLV_INPUT_DeleteTask  0x0220687C  thumb  ov094
  *   d_0220A46C     0x0220A46C  data  ov094  a4
  */
@@ -29,7 +29,7 @@ typedef struct Ctx {
 
 extern const Ent d_0220A46C[][2];
 typedef unsigned int   u32;
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 extern void BTLV_INPUT_DeleteTask(char *p, void *q);
 
 void BTLV_INPUT_PaletteCycleTaskMain(int a0, Ctx *c)
@@ -39,10 +39,10 @@ void BTLV_INPUT_PaletteCycleTaskMain(int a0, Ctx *c)
     c->cnt = c->cnt - 1;
     if (c->cnt == 0) {
         c->cnt = 2;
-        BG_SYS_FillScrollArea(5, 0, d_0220A46C[c->set][c->idx].v0);
+        BG_SYS_ChangeScrollImmediate(5, 0, d_0220A46C[c->set][c->idx].v0);
         i = c->idx;
         c->idx = i + 1;
-        BG_SYS_FillScrollArea(5, 3, d_0220A46C[c->set][i].v1);
+        BG_SYS_ChangeScrollImmediate(5, 3, d_0220A46C[c->set][i].v1);
         if (c->idx >= 2)
             BTLV_INPUT_DeleteTask(c->main, (void *)a0);
     }

@@ -15,7 +15,7 @@
  *   BOX2_MAIN_GetPartyValueAt 0x021DD25C thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BOX2_UI_IsListOpen 0x021EF5E8 thumb
- *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb
+ *   BOX2_MAIN_RefreshCurrentBoxMonInfo 0x021DEFEC thumb
  *   BOX2_MAIN_ResetBoxView 0x021DF040 thumb
  *   CURSOR_MOVE_GetCurrent 0x020260E0 thumb
  *   BOX2_UI_MoveCursorBetweenIcons 0x021EEF74 thumb
@@ -74,7 +74,7 @@ struct WinMgr;
 extern unsigned BOX2_MAIN_GetPartyValueAt(void ***p, unsigned short a, int box, unsigned id, unsigned v);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern int BOX2_UI_IsListOpen(struct WinMgr *mgr);
-extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
+extern void BOX2_MAIN_RefreshCurrentBoxMonInfo(char *p, int b);
 typedef unsigned char  u8;
 struct Sound;
 extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
@@ -164,7 +164,7 @@ int BOX2_SEQ_StateCursorMoveC(Obj *p)
     case -3: {
         unsigned char v = CURSOR_MOVE_GetCurrent(OBJ(p));
         if (v < 0x1E)
-            BOX2_MAIN_ChangeBoxFormPreserve((char *)p, v);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p, v);
         else if (v != 0x22 && v != 0x23)
             BOX2_MAIN_ResetBoxView((char *)p);
         GFL_USE_PlaySeDefaultVolume(0x548);
@@ -191,7 +191,7 @@ int BOX2_SEQ_StateCursorMoveC(Obj *p)
             GFL_USE_PlaySeDefaultVolume(0x54C);
             p->b16 = r;
             BOX2_SEQ_DrawFrameList(p, d_021EF8EC, 2);
-            BOX2_MAIN_ChangeBoxFormPreserve((char *)p, r);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p, r);
             BOX2_SEQ_RefreshCursorSlot((char *)p);
             CURSOR_MOVE_SetCurrent(OBJ(p), 0x22);
             if (BOX2_UI_IsListOpen(MGR(p)) == 1)
@@ -201,7 +201,7 @@ int BOX2_SEQ_StateCursorMoveC(Obj *p)
             return BOX2_SEQ_SetSeqThird((char *)p, (int)BOX2_MAIN_SceneWaitScroll, BOX2_SEQ_SetState((char *)p, 0x4C));
         }
         GFL_USE_PlaySeDefaultVolume(0x548);
-        BOX2_MAIN_ChangeBoxFormPreserve((char *)p, r);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p, r);
         if (BOX2_UI_IsListOpen(MGR(p)) == 1) {
             BOX2_UI_OpenListPack(MGR(p));
             BOX2_SEQ_SetSlotDim((char **)p, 0);

@@ -94,7 +94,7 @@
  *   MSGDATA_AllocString 0x02045EC0 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
@@ -114,7 +114,7 @@
  *   ARC_UTIL_RegisterObjCharFromHandle 0x02049740 arm
  *   ARC_UTIL_UploadBgPaletteAddFromHandle 0x02049990 arm
  *   ARC_UTIL_LoadPaletteDataFromHandle 0x02049EF4 arm
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
  *   BG_SYS_DrawTileEx 0x020410D0 arm
  *   gPmsSelectGraphicBlinkColors 0x021C39E0 data a4
  *   TOUCHBAR_Create 0x021B62E0 thumb ov067
@@ -253,7 +253,7 @@ extern short CLACT_GetActorPosAxis(const struct Actor *actor, u32 axis);
 extern void CLACT_SetActorPosAxis(struct Actor *actor, signed short value, u32 axis);
 extern void BG_SYS_Create(u16 heapId);
 extern void BG_SYS_Delete(void);
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 extern void BG_SYS_SetGraphicsMode(const void *config);
 extern void BG_SYS_InitBgLayer(u32 bgId, const void *bgTemplate, u32 type);
 extern void BG_SYS_FreeLayerBuf(u32 bgId);
@@ -262,7 +262,7 @@ extern void BG_SYS_DrawTileEx(u32 index, u32 dx, u32 dy, u32 cw, u8 ch, u32 src,
 extern void BG_SYS_FreeSlot(u8 bgId);
 extern void BG_SYS_SetPlaneVisible(u8 bgId, u8 value);
 extern void BG_SYS_ClearLayerEx(int, u16);
-extern void BG_SYS_SetFlagField06(u32 bgLayer);
+extern void BG_SYS_MarkTileDirty(u32 bgLayer);
 extern void BG_SYS_Update(void);
 extern void BG_SYS_ClearGraphicsMemory(unsigned);
 extern void BG_SYS_ClearMainPlanes(void);
@@ -539,7 +539,7 @@ int PMS_SELECT_GRAPHIC_ProcMain(void *unused, int *state, void *unused2, struct 
             window = p->bg.titleWindow;
             BMP_WIN_TransferChars(window);
             BMP_WIN_MakeScreen(window);
-            BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
+            BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(window));
             p->bg.titlePending = 0;
         }
     }
@@ -657,7 +657,7 @@ void PMS_SELECT_GRAPHIC_CreateBg(struct PmsSelectGraphicBg *bg, u16 heap, u32 fo
 void PMS_SELECT_GRAPHIC_DeleteBg(struct PmsSelectGraphicBg *bg)
 {
     BMP_WIN_Delete(bg->titleWindow);
-    BG_SYS_DeleteHalf(3, (u16)bg->tileRange, (u16)(bg->tileRange >> 16));
+    BG_SYS_FreeTileRun(3, (u16)bg->tileRange, (u16)(bg->tileRange >> 16));
     GFL_HEAP_Free(bg->screenMem);
 }
 
@@ -682,7 +682,7 @@ void PMS_SELECT_GRAPHIC_ColorRowBg(struct PmsSelectGraphicBg *bg, u8 row, u32 pa
         data[i] = v + ((pal + 2) << 12);
     }
     BG_SYS_DrawTileEx(2, 0, (u8)(row * 6 + 1), (u8)w, 6, (u32)((u8 *)bg->screen + 12), 0, 0, (u8)w, (u8)h);
-    BG_SYS_SetFlagField06(2);
+    BG_SYS_MarkTileDirty(2);
 }
 
 static inline void BlendColor555(u16 *p, int n, u16 a, u16 b)
@@ -749,7 +749,7 @@ void PMS_SELECT_GRAPHIC_ColorTitleBg(struct PmsSelectGraphicBg *bg, int pal)
         data[i] = v + ((pal + 2) << 12);
     }
     BG_SYS_DrawTileEx(2, 0, 0, (u8)w, 1, (u32)((u8 *)bg->screen + 12), 0, 5, (u8)w, (u8)h);
-    BG_SYS_SetFlagField06(2);
+    BG_SYS_MarkTileDirty(2);
 }
 
 TouchBar *PMS_SELECT_GRAPHIC_CreateTouchBar(int unused, void *actorUnit, int heap)
@@ -1050,7 +1050,7 @@ int PMS_SELECT_GRAPHIC_FlushRowWindow(void *printQueue, void *window, int *pendi
     if (*pending == 1 && PRINTSYS_QUE_IsExistTarget(printQueue, bmp) == 0) {
         BMP_WIN_TransferChars(window);
         BMP_WIN_MakeScreen(window);
-        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
+        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(window));
         *pending = 0;
         return 1;
     }
@@ -1074,7 +1074,7 @@ void PMS_SELECT_GRAPHIC_DrawNewRow(struct PmsSelectGraphic *p, u8 row, int unuse
     PRINTSYS_PrintQueColor(p->printQueue, (u32)BMP_WIN_GetBmp(p->rowWindows[row]), 0, 0, (u32)str, (u32)p->font, color);
     STRBUF_Delete(str);
     BMP_WIN_MakeScreen(p->rowWindows[row]);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(p->rowWindows[row]));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(p->rowWindows[row]));
     p->rowPending[row] = 1;
 }
 

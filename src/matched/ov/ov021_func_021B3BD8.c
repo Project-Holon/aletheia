@@ -18,7 +18,7 @@
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   BG_SYS_ClearSlot 0x020414EC arm
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  */
 #include "../include/Obj06037.h"
 
@@ -32,7 +32,7 @@ extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern void BG_SYS_ClearSlot(u32 i);
-extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+extern void BG_SYS_SetPriority(int idx, unsigned short val);
 
 void SCRCMD_PROC_FLD_InitShopGraphics(char *p)
 {
@@ -46,5 +46,5 @@ void SCRCMD_PROC_FLD_InitShopGraphics(char *p)
     ARC_TOOL_DeleteHandle(q);
     BMP_MENUWORK_LoadCharAndPltt(1, 228, 9, 0, ((struct Obj06037 *)p)->f4);
     BG_SYS_ClearSlot(1);
-    BG_SYS_SetVisibleLayer(2, 1);
+    BG_SYS_SetPriority(2, 1);
 }

@@ -18,18 +18,18 @@
  *   ARC_UTIL_UploadPaletteFromHandle  0x02049BDC  arm
  *   BG_SYS_FillTileMap  0x020413B0  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   TCB_DeleteTask 0x02030EAC arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
- *   BG_SYS_FillScrollArea 0x02040618 arm
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  *   BG_SYS_GetScrollY 0x02040804 arm
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
@@ -83,16 +83,16 @@
  *   ZUKAN_DETAIL_PROCSYS_FreeBuffer 0x021BC34C thumb ov208
  *   GF_OVERLAY_Unload 0x02034A5C arm
  *   ZUKAN_DETAIL_COMMON_GetWorkPtr 0x021BC3B4 thumb
- *   ZUKAN_DETAIL_COMMON_GetMaxValue 0x021BC3BC thumb
+ *   ZUKAN_DETAIL_COMMON_GetEntryCount 0x021BC3BC thumb
  *   ZUKAN_DETAIL_TOUCHBAR_SetMode 0x021BDAAC thumb
  *   ZUKAN_DETAIL_COMMON_GetSource 0x021BC3A4 thumb
- *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
+ *   GAME_DATA_ContainsRecentId 0x02012BF8 thumb
  *   ZUKAN_DETAIL_COMMON_GetDisplay 0x021BC3A8 thumb
  *   ZUKAN_DETAIL_TOUCHBAR_ClearButtonState 0x021BDBA0 thumb
  *   ZUKAN_DETAIL_COMMON_GetCurrentEntry  0x021BC3C0  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies  0x021BC3CC  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies  0x021BC40C  thumb  ov208
- *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
+ *   GAME_DATA_SetRecentId  0x02012BE0  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   CLACT_SetActorObjMode 0x0204B688 arm
  *   CLACT_IsActorAnimActive 0x0204B98C arm
@@ -106,7 +106,7 @@
  *   ZUKAN_DETAIL_COMMON_DeletePaletteAnim 0x021BC61C thumb ov208
  *   TOWNMAP_GRH_FreeTownInfo 0x021BBB34 thumb ov072
  *   ZUKAN_DETAIL_COMMON_GetWorkPtr  0x021BC3B4  thumb  ov208
- *   ZUKAN_DETAIL_COMMON_GetCursorValue  0x021BC3B8  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_GetHeadbar  0x021BC3B8  thumb  ov208
  *   GX_SetGraphicsMode  0x0207D4B0  arm
  *   data_021C85C0  0x021C85C0  data
  *   data_021C8618  0x021C8618  data
@@ -118,7 +118,7 @@
  *   ZUKAN_DETAIL_COMMON_SetBrightnessFull  0x021BC4F4  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_StartBlendIn  0x021BC4D8  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_StartFadeOut  0x021BC6D8  thumb  ov208
- *   ZUKAN_DETAIL_COMMON_GetMaxValue  0x021BC3BC  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_GetEntryCount  0x021BC3BC  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_GetSource  0x021BC3A4  thumb  ov208
  *   ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq  0x021BDC14  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_IsBlendBusy  0x021BC4C8  thumb  ov208
@@ -187,9 +187,9 @@
  *   ZUKAN_DETAIL_TOUCHBAR_SetButtonDrawEnable  0x021BDBAC  thumb  ov208
  *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
- *   WORDSET_Callback  0x0201EE60  thumb
+ *   WORDSET_SetSlotSpeciesName  0x0201EE60  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   ZUKAN_DETAIL_AREA_FlushPrintWindow  0x021C0740  thumb  ov208
  *   ZONEDATA_GetPlaceNameId  0x02013E4C  thumb
  *   CLACT_SetActorAnimFrame  0x0204B8C4  arm
@@ -302,9 +302,9 @@ extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
 extern void ARC_TOOL_DeleteHandle(void *h);
 
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 
-extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
+extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
 
 extern void TCB_DeleteTask(struct Node *n);
 
@@ -316,9 +316,9 @@ extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
 
 extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 
-extern void BG_SYS_FillScrollArea(unsigned,unsigned,unsigned);
+extern void BG_SYS_ChangeScrollImmediate(unsigned,unsigned,unsigned);
 
-extern void BG_SYS_SetVisibleLayer(int,u16);
+extern void BG_SYS_SetPriority(int,u16);
 
 extern u32 BG_SYS_GetScrollY(u32 layer);
 
@@ -348,7 +348,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 
-extern void BG_SYS_SetFlagField06(u32 layer);
+extern void BG_SYS_MarkTileDirty(u32 layer);
 
 void ZUKAN_DETAIL_HEADBAR_SetIconKind(struct Ov208Icon *p, int kind);
 
@@ -532,10 +532,10 @@ extern void GF_OVERLAY_Unload(int);
 
 
 
-extern int GAME_DATA_CheckSaveFlag(void *gd, int b);
+extern int GAME_DATA_ContainsRecentId(void *gd, int b);
 
 
-extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
+extern void GAME_DATA_SetRecentId(void *p, u32 a, u32 b);
 
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 
@@ -671,11 +671,11 @@ extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern void WORDSET_Callback(struct WordSet *p, u32 i, u16 v);
+extern void WORDSET_SetSlotSpeciesName(struct WordSet *p, u32 i, u16 v);
 
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 
 
 extern u32 ZONEDATA_GetPlaceNameId(u32 id);
@@ -974,7 +974,7 @@ int ZUKAN_DETAIL_AREA_Main(void *proc, int *seq, u16 *heap, u8 *p, struct Ov208C
     int ready;
 
     scene = ZUKAN_DETAIL_COMMON_GetWorkPtr(key);
-    icon = ZUKAN_DETAIL_COMMON_GetCursorValue(key);
+    icon = ZUKAN_DETAIL_COMMON_GetHeadbar(key);
     switch (*seq) {
     case 0:
         *seq = 1;
@@ -987,17 +987,17 @@ int ZUKAN_DETAIL_AREA_Main(void *proc, int *seq, u16 *heap, u8 *p, struct Ov208C
         }
         for (i = 0; i <= 7; i++) {
             if (i != 1 && i != 5) {
-                BG_SYS_FillScrollArea(i, 0, 0);
-                BG_SYS_FillScrollArea(i, 3, 0);
+                BG_SYS_ChangeScrollImmediate(i, 0, 0);
+                BG_SYS_ChangeScrollImmediate(i, 3, 0);
                 BG_SYS_FreeSlot(i);
             }
         }
-        BG_SYS_SetVisibleLayer(2, 2);
-        BG_SYS_SetVisibleLayer(3, 3);
-        BG_SYS_SetVisibleLayer(0, 1);
-        BG_SYS_SetVisibleLayer(6, 1);
-        BG_SYS_SetVisibleLayer(7, 2);
-        BG_SYS_SetVisibleLayer(4, 3);
+        BG_SYS_SetPriority(2, 2);
+        BG_SYS_SetPriority(3, 3);
+        BG_SYS_SetPriority(0, 1);
+        BG_SYS_SetPriority(6, 1);
+        BG_SYS_SetPriority(7, 2);
+        BG_SYS_SetPriority(4, 3);
         ZUKAN_DETAIL_AREA_LoadMapGraphics(heap, p, key);
         ZUKAN_DETAIL_AREA_CreateMapActors(heap, p, key);
         ZUKAN_DETAIL_AREA_CreateTownIconActors(heap, p, key);
@@ -1024,14 +1024,14 @@ int ZUKAN_DETAIL_AREA_Main(void *proc, int *seq, u16 *heap, u8 *p, struct Ov208C
         ZUKAN_DETAIL_COMMON_StartBlendIn(W(0x418));
         ZUKAN_DETAIL_COMMON_StartFadeOut(W(0x420));
         if (ZUKAN_DETAIL_TOUCHBAR_GetMode(scene) != 2) {
-            ZUKAN_DETAIL_TOUCHBAR_SetMode(scene, 0, 1, ZUKAN_DETAIL_COMMON_GetMaxValue(key) > 1);
+            ZUKAN_DETAIL_TOUCHBAR_SetMode(scene, 0, 1, ZUKAN_DETAIL_COMMON_GetEntryCount(key) > 1);
             ZUKAN_DETAIL_TOUCHBAR_SetEnabled(scene, 0);
         } else {
             ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind(scene, 1);
         }
         ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(scene, 0);
         W(0x88) = 0;
-        ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(scene, GAME_DATA_CheckSaveFlag(ZUKAN_DETAIL_COMMON_GetSource(key), 18));
+        ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(scene, GAME_DATA_ContainsRecentId(ZUKAN_DETAIL_COMMON_GetSource(key), 18));
         if (ZUKAN_DETAIL_HEADBAR_GetIconKind(icon) != 2) {
             ZUKAN_DETAIL_HEADBAR_SetIconKind(icon, 1);
             ZUKAN_DETAIL_HEADBAR_SetIconSpecies(icon);
@@ -1205,7 +1205,7 @@ void ZUKAN_DETAIL_AREA_HandleKeyEvent(void *proc, void *seq, void *heap, struct 
         }
         break;
     case 5:
-        GAME_DATA_SetSaveFlag(ZUKAN_DETAIL_COMMON_GetSource(obj), 0x12, ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive((char *)sc));
+        GAME_DATA_SetRecentId(ZUKAN_DETAIL_COMMON_GetSource(obj), 0x12, ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive((char *)sc));
         ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(sc);
         return;
     case 19:
@@ -1482,7 +1482,7 @@ void ZUKAN_DETAIL_AREA_FlushPrintWindow(u16 *heap, u8 *p, struct Ov208Ctx *key, 
             w = ((u32 *)(p + 0x14))[i];
             BMP_WIN_TransferChars((struct Descriptor *)w);
             BMP_WIN_MakeScreen((struct Cfg *)w);
-            BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)w));
+            BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct Descriptor *)w));
             ((u32 *)(p + 0x24))[i] = 0;
         }
     }
@@ -1538,7 +1538,7 @@ void ZUKAN_DETAIL_AREA_LoadSubScreenGraphics(u16 *heap, u8 *p, struct Ov208Ctx *
 void ZUKAN_DETAIL_AREA_ApplySubScreenScroll(void *unused, u8 *p, struct Ov208Ctx *key)
 {
     u32 v = ((struct Ov208AreaWork *)p)->subScreenChar;
-    BG_SYS_DeleteHalf(7, (u16)v, (u16)(v >> 16));
+    BG_SYS_FreeTileRun(7, (u16)v, (u16)(v >> 16));
 }
 
 void ZUKAN_DETAIL_AREA_UpdateScroll(int heap, int p, struct Ov208Ctx *key)
@@ -1556,20 +1556,20 @@ void ZUKAN_DETAIL_AREA_UpdateScrollFade(int heap, unsigned char *p, struct Ov208
         break;
     case 1:
         if ((int)BG_SYS_GetScrollY((int)7) >= 0x40) {
-            BG_SYS_ResetSlot(7, 3, 0x40);
+            BG_SYS_ChangeScroll(7, 3, 0x40);
             ((struct Ov208AreaWork *)p)->scrollState = 2;
         } else {
-            BG_SYS_ResetSlot(7, 4, 8);
-            BG_SYS_ResetSlot(6, 4, 8);
+            BG_SYS_ChangeScroll(7, 4, 8);
+            BG_SYS_ChangeScroll(6, 4, 8);
         }
         break;
     case 3:
         if ((int)BG_SYS_GetScrollY((int)7) <= 0) {
-            BG_SYS_ResetSlot(7, 3, 0);
+            BG_SYS_ChangeScroll(7, 3, 0);
             ((struct Ov208AreaWork *)p)->scrollState = 0;
         } else {
-            BG_SYS_ResetSlot(7, 5, 8);
-            BG_SYS_ResetSlot(6, 5, 8);
+            BG_SYS_ChangeScroll(7, 5, 8);
+            BG_SYS_ChangeScroll(6, 5, 8);
         }
         break;
     }
@@ -2191,7 +2191,7 @@ void ZUKAN_DETAIL_AREA_HandleModeEvent(u16 *heap, u8 *p, struct Ov208Ctx *key, i
                 ZUKAN_DETAIL_AREA_DrawTownName(heap, p, key);
                 ZUKAN_DETAIL_AREA_UpdateTerrainIcons(heap, p, key);
             }
-            ZUKAN_DETAIL_TOUCHBAR_SetMode(s, 1, 1, ZUKAN_DETAIL_COMMON_GetMaxValue(key) > 1);
+            ZUKAN_DETAIL_TOUCHBAR_SetMode(s, 1, 1, ZUKAN_DETAIL_COMMON_GetEntryCount(key) > 1);
         }
         break;
     case 3:
@@ -2225,9 +2225,9 @@ void ZUKAN_DETAIL_AREA_HandleModeEvent(u16 *heap, u8 *p, struct Ov208Ctx *key, i
             W(0x74) = 3;
             CLACT_SetActorDrawEnable((struct Obj *)W(0xcc), 0);
             CLACT_SetActorDrawEnable((struct Obj *)W(0xd0), 0);
-            wide = ZUKAN_DETAIL_COMMON_GetMaxValue(key) > 1 ? 1 : 0;
+            wide = ZUKAN_DETAIL_COMMON_GetEntryCount(key) > 1 ? 1 : 0;
             ZUKAN_DETAIL_TOUCHBAR_SetMode(s, 0, 1, wide);
-            ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq((struct Ov208Scene *)s, GAME_DATA_CheckSaveFlag(ZUKAN_DETAIL_COMMON_GetSource(key), 0x12));
+            ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq((struct Ov208Scene *)s, GAME_DATA_ContainsRecentId(ZUKAN_DETAIL_COMMON_GetSource(key), 0x12));
         }
         break;
     case 8:
@@ -2278,10 +2278,10 @@ void ZUKAN_DETAIL_AREA_LoadAreaEntries(u16 *heap, u8 *p, struct Ov208Ctx *key)
     win = WORDSET_CreateDefault(*heap);
     str = MSGDATA_AllocString((struct MsgBank *)W(0xc), 0xbd);
     buf = STRBUF_Create(0x40, *heap);
-    WORDSET_Callback(win, 0, id);
+    WORDSET_SetSlotSpeciesName(win, 0, id);
     WORDSET_CopyTaggedText(win, buf, str);
     STRBUF_Delete(str);
-    WORDSET_DeleteStrbufED04(win);
+    WORDSET_Delete(win);
     PRINTSYS_PrintQueColor((void *)W(0x34), (u32)BMP_WIN_GetBmp((struct Descriptor *)W(0x14)), 0, 5, (u32)buf, ((struct Ov208AreaWork *)p)->font, 0x3c40);
     STRBUF_Delete(buf);
     W(0x24) = 1;
@@ -2565,7 +2565,7 @@ void ZUKAN_DETAIL_AREA_UpdateTerrainIcons(u16 *heap, u8 *p, struct Ov208Ctx *key
     for (i = 0; i < 3; i++)
         BG_SYS_FillTileMap(7, data_021C8E1A[i][0], data_021C8E1A[i][1], data_021C8E1A[i][2],
                       data_021C8E1A[i][3], data_021C8E14[i][on[i]]);
-    BG_SYS_SetFlagField06(7);
+    BG_SYS_MarkTileDirty(7);
 }
 
 /*

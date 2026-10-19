@@ -44,7 +44,7 @@
  *   FLDMMDL_MOVE_UpdateOldGridPos  0x02163F10  thumb  ov010
  *   FLDMMDL_MOVE_UpdateHeight  0x02164010  thumb  ov010
  *   ARC_TOOL_ReadMember  0x02048F4C  arm
- *   NET_DEVICE_TABLE_RemapId 0x0200F128 thumb
+ *   FLDMMDL_ObjCodeToTableIndex 0x0200F128 thumb
  *   ARC_TOOL_ReadHandleMemberRange 0x0204944C arm
  *   ZONEDATA_GetEventWorkAddress 0x020143CC thumb
  *   d_021D5E04  0x021D5E04  data  ov021  a4
@@ -102,7 +102,7 @@ extern void TCB_DeleteTask(void *tcb);
 extern void FLDMMDL_MOVE_UpdateOldGridPos(Mmdl *mmdl);
 extern void FLDMMDL_MOVE_UpdateHeight(Mmdl *mmdl);
 extern void ARC_TOOL_ReadMember(void *dst, u32 arcId, u32 member);
-extern u32 NET_DEVICE_TABLE_RemapId(u32 objCode);
+extern u32 FLDMMDL_ObjCodeToTableIndex(u32 objCode);
 extern void ARC_TOOL_ReadHandleMemberRange(void *arc, u32 member, u32 offset, u32 size, void *dst);
 extern u16 *ZONEDATA_GetEventWorkAddress(void *evWork, unsigned int workId);
 extern unsigned int ZONEDATA_CheckEventFlag(void *evWork, int flag);
@@ -2116,7 +2116,7 @@ void FLDMMDL_LoadObjCodeParam(const MmdlSys *sys, u32 objCode, MmdlObjCodeParam 
             }
         } while (FLDMMDL_SysSearchUseMmdl(sys, &mmdl, &iter));
     }
-    offset = NET_DEVICE_TABLE_RemapId(objCode) * 0x1c + 4;
+    offset = FLDMMDL_ObjCodeToTableIndex(objCode) * 0x1c + 4;
     ARC_TOOL_ReadHandleMemberRange(sys->objCodeArcHandle, 0, offset, 0x1c, out);
 }
 

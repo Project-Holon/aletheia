@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "SCRCMD_PROC_FLD_SetOv056Slot",
+   "name": "SCRCMD_PROC_FLD_SetCameraSettingFromFkDemoSlot",
    "address": "0x021B5650",
    "kind": "game",
    "region": "ov021",

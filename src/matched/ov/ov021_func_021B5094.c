@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PROC_FLD_CallFieldMapEvent
+ * function: SCRCMD_PROC_FLD_StartFieldMapFadeIn
  * address:  0x021B5094
  * packet:   pkt_ov021_021B5094
  * region:   ov021
@@ -27,7 +27,7 @@ typedef unsigned char  u8;
 extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
-int SCRCMD_PROC_FLD_CallFieldMapEvent(u32 a, u32 b)
+int SCRCMD_PROC_FLD_StartFieldMapFadeIn(u32 a, u32 b)
 {
     void *s = SCRCMD_WORK_GetScriptWork((void *)b);
     void *d = SCRCMD_WORK_GetGameSystem((void *)b);

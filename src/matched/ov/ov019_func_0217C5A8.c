@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   UNION_ONESELF_CheckNetError  0x0217BB04  thumb ov019
+ *   UNION_ONESELF_HandleNetError  0x0217BB04  thumb ov019
  *   UNION_MSG_CheckTalkPrintEnd  0x0217F1EC  thumb ov019
  *   UNION_MSG_SetupPrintTalkMsg  0x0217F210  thumb ov019
  *   UNION_MSG_GetTalkChildBusyMsg  0x0217EC34  thumb ov019
@@ -72,7 +72,7 @@ typedef struct {
 } Ctx;
 
 struct Self;
-int UNION_ONESELF_CheckNetError(char *p);
+int UNION_ONESELF_HandleNetError(char *p);
 u32 UNION_MSG_CheckTalkPrintEnd(u8 *p);
 void UNION_MSG_SetupPrintTalkMsg(u8 *p, u8 *a, u32 b);
 typedef unsigned short u16;
@@ -106,7 +106,7 @@ int UNION_ONESELF_TalkChildMain(Ctx *ctx, Obj *obj, u8 *a2, u8 *state)
     int flag;
     void *h;
 
-    if (UNION_ONESELF_CheckNetError((char *)ctx) == 1)
+    if (UNION_ONESELF_HandleNetError((char *)ctx) == 1)
         return 1;
     if (UNION_MSG_CheckTalkPrintEnd((u8 *)ctx) == 0)
         return 0;

@@ -20,7 +20,7 @@
  *   BOX2_MAIN_IsWindowBusy 0x021E01B0 thumb ov170
  *   BOX2_UI_MoveCursor 0x021EE364 thumb ov170
  *   BOX2_UI_SelectSlot 0x021EE754 thumb ov170
- *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb ov170
+ *   BOX2_MAIN_RefreshCurrentBoxMonInfo 0x021DEFEC thumb ov170
  *   BOX2_UI_ShowWindowB 0x021EF68C thumb ov170
  */
 typedef unsigned char u8;
@@ -36,7 +36,7 @@ extern int BOX2_SEQ_SetSeqThird(char *p, int a, int b);
 extern int BOX2_MAIN_IsWindowBusy(u8 *);
 extern void BOX2_UI_MoveCursor(char **,int,int);
 extern void BOX2_UI_SelectSlot(u8 *,unsigned);
-extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
+extern void BOX2_MAIN_RefreshCurrentBoxMonInfo(char *p, int b);
 extern void BOX2_UI_ShowWindowB(char *);
 #define W(p) (*(char **)((p)+0x2C))
 int BOX2_SEQ_StateSwapApply(u8 *p)
@@ -59,7 +59,7 @@ int BOX2_SEQ_StateSwapApply(u8 *p)
     case 2:
         BOX2_UI_MoveCursor((char **)p,6,30);
         BOX2_UI_SelectSlot(p,30);
-        if(p[0x18]==0) BOX2_MAIN_ChangeBoxFormPreserve((char *)p,30);
+        if(p[0x18]==0) BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p,30);
         BOX2_UI_ShowWindowB(W(p));
         *(int *)(W(p)+0xA168)=30;
         *(int *)(W(p)+0xA194)=0;

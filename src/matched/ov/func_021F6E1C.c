@@ -1,5 +1,5 @@
 /*
- * function: BTLV_FIELD_IsEffectActive
+ * function: BTLV_FIELD_IsTintActive
  * address:  0x021F6E1C
  * packet:   pkt_021F6560
  * region:   ov094
@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   BTLV_FIELD_IsEffectActive   0x021F6E1C  thumb
+ *   BTLV_FIELD_IsTintActive   0x021F6E1C  thumb
  *
  * lane O10 candidate
  */
 #include "../include/Obj18551.h"
 
-int BTLV_FIELD_IsEffectActive(char *p)
+int BTLV_FIELD_IsTintActive(char *p)
 {
     return ((struct Obj18551 *)p)->f60 != 0;
 }

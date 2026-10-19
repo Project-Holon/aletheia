@@ -59,7 +59,7 @@
  *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   BMP_WIN_Delete 0x020452E8 arm
  *   STRBUF_Delete 0x02045808 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -107,7 +107,7 @@
  *   MSGDATA_ReadString 0x02045CAC arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   PRINTSYS_Print 0x0201C7A4 thumb
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  */
 
 typedef struct SaveScreenWork {
@@ -236,7 +236,7 @@ extern void TCBL_Destroy(struct S02031140 *p);
 extern void BMP_MENUWORK_DrawWindowBorder(void *,unsigned);
 extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern unsigned int WORDSET_Delete(struct WordSet *p);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 extern void BG_SYS_FreeLayerBuf(unsigned);
 extern u32 GF_FONT_Delete(void *ptr);
@@ -277,7 +277,7 @@ extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void MSGDATA_ReadString(struct MsgBank *,u32,void *);
 extern void GF_FONT_SetTextColor(u32,u32,u32);
 extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
-extern void BG_SYS_SetFlagField06(u32);
+extern void BG_SYS_MarkTileDirty(u32);
 int SAVE_SCREEN_Init(void *owner,int unused,void **args);
 int SAVE_SCREEN_Main(void *unused,State *state,SaveScreenContext *context,SaveScreenWork *p);
 int SAVE_SCREEN_Exit(void *p);
@@ -425,7 +425,7 @@ void SAVE_SCREEN_Delete(SaveScreenWork *p)
     BMP_MENUWORK_DrawWindowBorder(p->bmpWin,0);
     BMP_WIN_Delete(p->bmpWin);
     STRBUF_Delete(p->textBuf);
-    WORDSET_DeleteStrbufED04(p->wordset);
+    WORDSET_Delete(p->wordset);
     MSGDATA_Delete(p->msgBank);
     BG_SYS_FreeLayerBuf(0);
     GF_FONT_Delete(p->font);
@@ -543,7 +543,7 @@ int SAVE_SCREEN_NoticeMain(void *input,u32 *state,u32 unused,SaveScreenNoticeWor
         break;
     case 5:
         BMP_MENUWORK_DrawWindowBorder(p->bmpWin,0);BMP_WIN_Delete(p->bmpWin);
-        WORDSET_DeleteStrbufED04(p->wordset);MSGDATA_Delete(p->msgBank);
+        WORDSET_Delete(p->wordset);MSGDATA_Delete(p->msgBank);
         BG_SYS_FreeLayerBuf(0);GF_FONT_Delete(p->font);SAVE_SCREEN_DeleteNoticeBackground();return 1;
     }
     return 0;
@@ -588,5 +588,5 @@ void SAVE_SCREEN_PrintText(SaveScreenNoticeWork *p,u32 index,s16 x,s16 y)
     STRBUF_Delete(msgBuf);
     STRBUF_Delete(drawBuf);
     BMP_WIN_TransferChars(p->bmpWin);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(p->bmpWin));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(p->bmpWin));
 }

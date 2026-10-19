@@ -1,5 +1,5 @@
 /*
- * function: BUTTON_MAN_SetAlpha
+ * function: PARTICLE_EMITTER_SetAlpha
  * address:  0x020518A4
  * packet:   pkt_02051838
  * region:   arm9
@@ -20,7 +20,7 @@ struct Obj {
     u16 f70;
 };
 
-void BUTTON_MAN_SetAlpha(struct Obj *o, u16 v)
+void PARTICLE_EMITTER_SetAlpha(struct Obj *o, u16 v)
 {
     o->f70 = v;
 }

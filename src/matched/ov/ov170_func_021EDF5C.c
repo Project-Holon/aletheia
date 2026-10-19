@@ -1,5 +1,5 @@
 /*
- * function: BOX2_UI_DeleteSlotIcon
+ * function: BOX2_UI_UpdateCurrentBoxMarker
  * address:  0x021EDF5C
  * packet:   pkt_ov170_021EDF5C
  * region:   ov170
@@ -22,7 +22,7 @@ extern void BOX2_SEQ_GetActorSurfacePos(char *p, int i, short *a, short *b, unsi
 extern void BOX2_SEQ_AddActorSurfacePos(char *p, int i, int a, int b, unsigned short c);
 extern void BOX2_SEQ_SetActorDrawEnable(char *p, int i, int v);
 
-void BOX2_UI_DeleteSlotIcon(unsigned char *p)
+void BOX2_UI_UpdateCurrentBoxMarker(unsigned char *p)
 {
     unsigned i;
     short xy[2];

@@ -17,15 +17,15 @@
  *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   BG_SYS_PushTile  0x020409B4  arm
- *   FILE_UTIL_Create_0F14  0x02020F14  thumb
+ *   FILE_UTIL_CreateItemArcHandle  0x02020F14  thumb
  *   ITEMMENU_GetSlot  0x021B616C  thumb  ov070
  *   FILE_UTIL_LoadArcMember  0x02020F20  thumb
- *   FILE_UTIL_Get_1014  0x02021014  thumb
+ *   FILE_UTIL_GetItemRecordParam  0x02021014  thumb
  *   d_021BBA79     0x021BBA79  data  ov070  a1
  *   ITEMMENU_GetRowColorKind  0x021BA1D0  thumb  ov070
  *   BMP_Clear  0x02043B5C  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   FILE_UTIL_Get_12B0  0x020212B0  thumb
+ *   FILE_UTIL_GetMachineMove  0x020212B0  thumb
  *   ITEMMENU_RegisterItemName  0x021B61F4  thumb  ov070
  *   WORDSET_SetSlotFromMsgCB  0x0201EF34  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
@@ -53,15 +53,15 @@ struct WordSet;
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void BG_SYS_PushTile(u32);
-extern void *FILE_UTIL_Create_0F14(u32 a);
+extern void *FILE_UTIL_CreateItemArcHandle(u32 a);
 extern void *ITEMMENU_GetSlot(u8 *p, int i);
 extern int FILE_UTIL_LoadArcMember(int h, int id, u16 heap);
-extern u32 FILE_UTIL_Get_1014(struct Rec *p, u32 sel);
+extern u32 FILE_UTIL_GetItemRecordParam(struct Rec *p, u32 sel);
 extern const u8 d_021BBA79[];
 extern int ITEMMENU_GetRowColorKind(int);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern u16 FILE_UTIL_Get_12B0(u16 id);
+extern u16 FILE_UTIL_GetMachineMove(u16 id);
 extern void ITEMMENU_RegisterItemName(u8 *p, int a, unsigned int b);
 extern void WORDSET_SetSlotFromMsgCB(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
@@ -94,7 +94,7 @@ void ITEMMENU_PrintItemList(char *p)
     if (((struct Obj01514 *)p)->f818 == ((struct Obj01514 *)p)->f814) {
         return;
     }
-    h = (int)FILE_UTIL_Create_0F14(((struct Obj01514 *)p)->f544);
+    h = (int)FILE_UTIL_CreateItemArcHandle(((struct Obj01514 *)p)->f544);
     for (i = 0; i < 8; i++) {
         *(u32 *)(p + i * 4 + 0x654) = 0;
         idx = ((struct Obj01514 *)p)->f814 + i;
@@ -106,7 +106,7 @@ void ITEMMENU_PrintItemList(char *p)
             continue;
         }
         rec = FILE_UTIL_LoadArcMember(h, *e, ((struct Obj01514 *)p)->f544);
-        kind = FILE_UTIL_Get_1014((struct Rec *)rec, 0xf);
+        kind = FILE_UTIL_GetItemRecordParam((struct Rec *)rec, 0xf);
         if (d_021BBA79[i] == 0) {
             if (ITEMMENU_GetRowColorKind(*e) == 1) {
                 color = 0x18AD;
@@ -122,7 +122,7 @@ void ITEMMENU_PrintItemList(char *p)
         }
         BMP_Clear((struct CharBuf *)(*(u32 *)(p + i * 4 + 0x614)), 0xd);
         MSGDATA_ReadString((struct MsgBank *)(((struct Obj01514 *)p)->f51C), 0x82, (void *)(((struct Obj01514 *)p)->f524));
-        r = FILE_UTIL_Get_12B0(*e);
+        r = FILE_UTIL_GetMachineMove(*e);
         if (r == 0) {
             ITEMMENU_RegisterItemName((u8 *)p, 0, *e);
         } else {
@@ -140,7 +140,7 @@ void ITEMMENU_PrintItemList(char *p)
             *(u32 *)(p + i * 4 + 0x654) = 8;
         } else if (FILE_UTIL_GetId(*e) != 0xff) {
             *(u32 *)(p + i * 4 + 0x654) = 7;
-        } else if (FILE_UTIL_Get_1014((struct Rec *)rec, 4) == 0) {
+        } else if (FILE_UTIL_GetItemRecordParam((struct Rec *)rec, 4) == 0) {
             *(u32 *)(p + i * 4 + 0x654) = 3;
         } else if (ITEMMENU_IsItemRegistered(p, *e) == 0) {
             *(u32 *)(p + i * 4 + 0x654) = 2;

@@ -1,5 +1,5 @@
 /*
- * function: GF_STANDARD_Get_F5FC
+ * function: GF_STANDARD_SinFromDegrees
  * address:  0x0203F5FC
  * packet:   pkt_0203F5FC
  * region:   arm9
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 
 extern s16 FX_SinCosTable_[];
 
-int GF_STANDARD_Get_F5FC(u32 x)
+int GF_STANDARD_SinFromDegrees(u32 x)
 {
     if (x >= 360) {
         return 0;

@@ -31,7 +31,6 @@
  *   MOVE_POKEMON_SAVE_IsCooldownDone  0x0200D58C  thumb
  *   POKEPARTY_GetBattleReadyCount  0x0201AA50  thumb
  *   POKEPARTY_FindFirstBattleReady  0x0201AB08  thumb
- *   _u32_div_f  0x0209C2B0  arm
  *   GPOWER_ApplyEncountRate  0x02010FB0  thumb
  *   MIi_CpuClear32  0x02082A7C  arm
  *   GFL_USE_GetRandomBelow  0x02005728  thumb
@@ -54,7 +53,7 @@
  *   sHeldItemWeights  0x021D8DCC  data
  *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
  *   POKE_TOOL_CreatePersonalRnd  0x020186C8  thumb
- *   POKE_PERSONAL_IsPlaceholderAbility  0x0201AF6C  thumb
+ *   POKE_PERSONAL_IsFixedGender  0x0201AF6C  thumb
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
@@ -74,7 +73,7 @@
  *   FIELD_WFBC_IsBackPeople  0x02193920  thumb  ov021
  *   GAME_DATA_GetSeason  0x02012984  thumb
  *   ZONEDATA_GetFieldEffectSetId  0x02013ED8  thumb
- *   GF_STANDARD_SetField00  0x0203F4CC  arm
+ *   GF_STANDARD_GetCachedTime  0x0203F4CC  arm
  *   FIELD_PLAYER_GetNowAttribute  0x021A30C8  thumb
  *   FIELDMAP_GetG3dMapper  0x02188C98  thumb
  *   FIELD_WFBC_GetPeopleNum  0x021938F4  thumb  ov021
@@ -231,7 +230,6 @@ extern struct EventWork *GAME_DATA_GetEventWork(const struct GameData *gameData)
 extern u32 MOVE_POKEMON_SAVE_IsCooldownDone(struct EncountSave *encountSave);
 extern u32 POKEPARTY_GetBattleReadyCount(struct Party *party);
 extern u32 POKEPARTY_FindFirstBattleReady(struct Party *party);
-extern u32 _u32_div_f(u32 numerator, u32 denominator);
 extern u32 GPOWER_ApplyEncountRate(u32 rate);
 extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
 extern u8 MOVE_POKEMON_SAVE_IsEntryActive(struct EncountSave *encountSave, u32 index);
@@ -252,7 +250,7 @@ extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 extern u32 POKE_TOOL_GetPersonalParam(u16 species, u16 form, u32 field);
 extern u32 POKE_PERSONAL_GetParam(const struct PersonalData *personal, u32 field);
-extern u32 POKE_PERSONAL_IsPlaceholderAbility(u32 genderRatio);
+extern u32 POKE_PERSONAL_IsFixedGender(u32 genderRatio);
 extern u32 POKE_TOOL_CreatePersonalRnd(u32 otId, int species, int form, int ratioMode, int shinyWanted, int mode);
 extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
 extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
@@ -273,7 +271,7 @@ extern void BTL_SETUP_SetStatusFlag(struct BattleSetupParam *btlSetup, int flag)
 extern u8 FIELD_WFBC_IsBackPeople(struct FieldWfbc *wfbc);
 extern u8 ZONEDATA_GetFieldEffectSetId(u32 zoneId);
 extern u32 FIELD_PLAYER_GetNowAttribute(struct FieldPlayer *player);
-extern void GF_STANDARD_SetField00(struct RtcTime *time);
+extern void GF_STANDARD_GetCachedTime(struct RtcTime *time);
 extern u8 GAME_DATA_GetSeason(const struct GameData *gameData);
 extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(struct FieldMap *fieldMap);
 extern int FIELD_WFBC_GetPeopleNum(struct FieldWfbc *wfbc);
@@ -419,7 +417,7 @@ u32 FIELD_ENCOUNT_CalcEncountRate(FieldEncountParam *param, struct GameData *gam
         rate = rate >> 1;
     }
     if (param->leadItem == 0xE0 || param->leadItem == 0x140) {
-        rate = _u32_div_f(baseRate * 2, 3);
+        rate = (baseRate * 2) / 3;
     }
     if (rate > 100) {
         rate = 100;
@@ -855,7 +853,7 @@ u32 FIELD_ENCOUNT_CreatePersonality(const FieldEncountParam *param, struct Perso
     u32 personality;
     u32 idCheck;
 
-    if (POKE_PERSONAL_IsPlaceholderAbility((u8)POKE_PERSONAL_GetParam(personal, 0x14)) != 1) {
+    if (POKE_PERSONAL_IsFixedGender((u8)POKE_PERSONAL_GetParam(personal, 0x14)) != 1) {
         if (param->cuteCharm) {
             if (param->leadGender == 0)
                 gender = 1;
@@ -880,7 +878,7 @@ u32 FIELD_ENCOUNT_CreatePersonality(const FieldEncountParam *param, struct Perso
 
 u32 FIELD_ENCOUNT_RandPercent(void)
 {
-    return _u32_div_f(GFL_USE_GetRandom(0xFFFF), 0x290);
+    return GFL_USE_GetRandom(0xFFFF) / 0x290;
 }
 
 u32 FIELD_ENCOUNT_PickGroundSlot(u8 slotCount)
@@ -1151,7 +1149,7 @@ void FIELD_ENCOUNT_SetFieldSituation(struct FieldSituation *situation, struct Ga
     situation->bgType = ZONEDATA_GetFieldEffectSetId(zoneId);
     situation->bgAttr = MAP_ATTR_GetBattleBackground(MAP_ATTR_GetTerrainId(FIELD_PLAYER_GetNowAttribute(player)));
     situation->zoneId = zoneId;
-    GF_STANDARD_SetField00(&time);
+    GF_STANDARD_GetCachedTime(&time);
     situation->hour = time.hour;
     situation->minute = time.minute;
     situation->weather = FIELD_ENCOUNT_GetBattleWeather(fieldMap);
@@ -1327,7 +1325,7 @@ u8 FIELD_ENCOUNT_GetBattleWeather(struct FieldMap *fieldMap)
 
 u32 FIELD_ENCOUNT_RandRatePercent(void)
 {
-    return _u32_div_f(GFL_USE_GetRandom(0xFFFF), 0x290);
+    return GFL_USE_GetRandom(0xFFFF) / 0x290;
 }
 
 void FIELD_ENCOUNT_ResetStepWork(EncountStepWork *stepWork, struct FieldPlayer *player)

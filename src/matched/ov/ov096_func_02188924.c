@@ -15,7 +15,7 @@
  *   TR_AI_Compare  0x0218A0F4  thumb  ov096
  *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
  *   BTL_POKEPARAM_GetSickContRaw  0x021D6314  thumb  ov093
- *   BTLV_CORE_IsSlotKind1Index15  0x021E8A78  thumb  ov093
+ *   BTL_SICKCONT_IsKind1Index15  0x021E8A78  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -31,7 +31,7 @@ struct Unk021D62A8;
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 typedef struct Slot { u32 a : 3; u32 rest : 29; } Slot;
 extern Slot BTL_POKEPARAM_GetSickContRaw(void *, int);
-extern int BTLV_CORE_IsSlotKind1Index15(Slot);
+extern int BTL_SICKCONT_IsKind1Index15(Slot);
 
 int TR_AI_CompareSickContKind(struct Cursor *a, int b, int c)
 {
@@ -49,7 +49,7 @@ int TR_AI_CompareSickContKind(struct Cursor *a, int b, int c)
     x = 0;
     if (BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)r, 5) != 0) {
         s = BTL_POKEPARAM_GetSickContRaw(r, 5);
-        if (BTLV_CORE_IsSlotKind1Index15(s) != 0)
+        if (BTL_SICKCONT_IsKind1Index15(s) != 0)
             x = 1;
     }
     return TR_AI_Compare((u8 *)a, c, x, 1, t3);

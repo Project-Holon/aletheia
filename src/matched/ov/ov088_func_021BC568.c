@@ -11,7 +11,7 @@
  *
  * symbols:
  *   STARTMENU_ConfigPromptReadInput  0x021BC8AC  thumb  ov088
- *   CONFIG_SetAppliedFlag  0x020083EC  thumb
+ *   CONFIG_SetTextLanguage  0x020083EC  thumb
  *   STARTMENU_ConfigPromptDeleteWindows  0x021BC84C  thumb  ov088
  *   STARTMENU_ConfigPromptDrawQuestion  0x021BC75C  thumb  ov088
  *   func_0200854C  0x0200854C  thumb
@@ -26,7 +26,7 @@ typedef unsigned int u32;
 
 extern int STARTMENU_ConfigPromptReadInput(u8 *p);
 struct Flags02008450;
-extern void CONFIG_SetAppliedFlag(unsigned short *p, unsigned int v);
+extern void CONFIG_SetTextLanguage(unsigned short *p, unsigned int v);
 extern void STARTMENU_ConfigPromptDeleteWindows(u8 *p);
 extern void STARTMENU_ConfigPromptDrawQuestion(u8 *p);
 struct Sub0200852CObj;
@@ -47,9 +47,9 @@ int STARTMENU_ConfigPromptMain(int a, int b, int *s, int *q)
         r = STARTMENU_ConfigPromptReadInput((u8 *)q);
         if (r != 0) {
             if (r == 1)
-                CONFIG_SetAppliedFlag((void *)s[1], 0);
+                CONFIG_SetTextLanguage((void *)s[1], 0);
             else
-                CONFIG_SetAppliedFlag((void *)s[1], 1);
+                CONFIG_SetTextLanguage((void *)s[1], 1);
             STARTMENU_ConfigPromptDeleteWindows((u8 *)q);
             q[1] = 1;
             STARTMENU_ConfigPromptDrawQuestion((u8 *)q);

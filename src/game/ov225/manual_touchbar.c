@@ -44,7 +44,7 @@
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   MSGDATA_AllocString 0x02045EC0 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
@@ -52,7 +52,7 @@
  *   STRBUF_Create 0x020457B0 arm
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   APP_ICON_GetArchiveId 0x020275E4 thumb
  *   APP_ICON_GetMoveKindPaletteFileId 0x02027614 thumb
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
@@ -181,7 +181,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *);
 
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
 
-extern void BG_SYS_SetFlagField06(unsigned);
+extern void BG_SYS_MarkTileDirty(unsigned);
 
 extern void *MSGDATA_AllocString(struct MsgBank *,unsigned);
 
@@ -197,7 +197,7 @@ extern void WORDSET_SetSlotNumber(struct WordSet *,u32,u32,u32,u32,u32);
 
 extern void WORDSET_CopyTaggedText(struct WordSet *,void *,void *);
 
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 
 extern u32 APP_ICON_GetArchiveId(void);
 
@@ -417,7 +417,7 @@ void MANUAL_COMMON_UpdateTouchbarSlots(char *touchbar)
             if(PRINTSYS_QUE_IsExistTarget(*(struct PrintSys * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue2,BMP_WIN_GetBmp(*(struct Descriptor **)(touchbar+i*4+0x10)))==0) {
                 struct Descriptor *d=*(struct Descriptor **)(touchbar+i*4+0x10);
                 BMP_WIN_TransferChars(d);BMP_WIN_MakeScreen((struct Cfg *)d);
-                BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(d));
+                BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(d));
                 *(unsigned *)(touchbar+i*4+0x18)=0;
             }
         }
@@ -463,7 +463,7 @@ void MANUAL_COMMON_DrawTouchbarContinue(char *touchbar)
     WORDSET_SetSlotNumber(words,1,((struct ManualTouchbar *)touchbar)->selectX,1,0,1);
     WORDSET_CopyTaggedText(words,str,slot);
     PRINTSYS_PrintQueColor((void *)((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue2,(u32)BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct ManualTouchbar *)touchbar)->bmp0),32,4,(u32)str,((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->font,0x3c40);
-    STRBUF_Delete(str);STRBUF_Delete(slot);WORDSET_DeleteStrbufED04(words);
+    STRBUF_Delete(str);STRBUF_Delete(slot);WORDSET_Delete(words);
     ((struct ManualTouchbar *)touchbar)->bmp0Dirty=1;MANUAL_COMMON_UpdateTouchbarSlots(touchbar);
 }
 

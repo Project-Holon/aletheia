@@ -12,7 +12,7 @@
  * symbols:
  *   MB_SEQ_DeleteMessageResources 0x021C5954 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  */
 #include "../include/Obj10601.h"
@@ -22,11 +22,11 @@ struct U16Vec;
 struct WordSet;
 extern void STRBUF_Delete(struct U16Vec *vec);
 typedef unsigned int   u32;
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 void MB_SEQ_DeleteMessageResources(u8 *p)
 {
     STRBUF_Delete(((struct Obj10601 *)p)->f1D8);
-    WORDSET_DeleteStrbufED04(((struct Obj10601 *)p)->f1D4);
+    WORDSET_Delete(((struct Obj10601 *)p)->f1D4);
     MSGDATA_Delete(((struct Obj10601 *)p)->f1D0);
 }

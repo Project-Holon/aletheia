@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PROC_FLD_ReleaseFieldRegion
+ * function: SCRCMD_PROC_FLD_RestoreCamera
  * address:  0x021B52A4
  * packet:   pkt_021B52A4
  * region:   ov021
@@ -35,7 +35,7 @@ extern int FIELD_CAMERA_HasDelay(u8 *a);
 extern void FIELD_CAMERA_PopState(u8 *a);
 extern u32 FIELD_NOGRID_MAPPER_SetActive(u32, u32);
 
-int SCRCMD_PROC_FLD_ReleaseFieldRegion(void *a, u32 b)
+int SCRCMD_PROC_FLD_RestoreCamera(void *a, u32 b)
 {
 FIELD_CAMERA_PopState((u8 *)b);
 if (FIELD_CAMERA_HasDelay((u8 *)b) != 0) {

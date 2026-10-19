@@ -64,7 +64,7 @@
  *   BMP_WIN_GetBgLayer  0x02045730  arm  arm9
  *   BMP_WIN_GetBmp  0x02045770  arm  arm9
  *   BMP_WIN_Delete  0x020452E8  arm  arm9
- *   BG_SYS_ResetSlot  0x02041EE4  arm  arm9
+ *   BG_SYS_ChangeScroll  0x02041EE4  arm  arm9
  *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb  arm9
  *   BG_SYS_PushTile  0x020409B4  arm  arm9
  */
@@ -130,7 +130,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *w);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32 a);
-extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
+extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
 
 #define W(o) (*(u32 *)(p + (o)))
 #define B(o) (*(u8 *)(p + (o)))
@@ -356,7 +356,7 @@ int CTVT_CALL_Update(void *a0, char *p)
             u8 cnt = 0;
             for (i = 0; i < 15; i++)
                 CTVT_CALL_PlaceCursor(a0, p, p + 0x40 + i * 0x1c, i);
-            BG_SYS_ResetSlot(6, 3, H(4));
+            BG_SYS_ChangeScroll(6, 3, H(4));
             for (i = 0; i < 3; i++) {
                 if (B(i) != 0xff)
                     cnt++;

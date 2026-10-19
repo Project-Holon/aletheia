@@ -1,5 +1,5 @@
 /*
- * function: BTLV_STAGE_InitLayerEntry
+ * function: BTLV_STAGE_StartTint
  * address:  0x021F69E8
  * packet:   pkt_021F6560
  * region:   ov094
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   BTLV_STAGE_InitLayerEntry   0x021F69E8  thumb
+ *   BTLV_STAGE_StartTint   0x021F69E8  thumb
  *   BODY
 
  *
@@ -28,7 +28,7 @@ typedef struct {
     unsigned short f6;
 } S69E8;
 
-void BTLV_STAGE_InitLayerEntry(S69E8 *p, unsigned char a, unsigned char b, unsigned char c, unsigned short d)
+void BTLV_STAGE_StartTint(S69E8 *p, unsigned char a, unsigned char b, unsigned char c, unsigned short d)
 {
     p->f0 = 1;
     p->f2 = a;

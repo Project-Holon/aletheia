@@ -18,7 +18,7 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   GXS_SetGraphicsMode 0x0207D518 arm
  *   BG_SYS_ClearSubBgPlanes 0x02043558 arm
@@ -139,7 +139,7 @@ extern void *PROCSYS_AllocProcWork(struct Proc *,u32,u32);
 extern void MI_CpuFill8(void *,u32,u32);
 extern struct GfFont *GF_FONT_Create(int,int,int,int,u32);
 extern u32 PRINTSYS_QUE_Create(void *);
-extern void BG_SYS_SetVisibleLayer(int,u16);
+extern void BG_SYS_SetPriority(int,u16);
 extern void *GFL_USE_AddMainTask(u32,u32,u32);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void GXS_SetGraphicsMode(u32);
@@ -255,7 +255,7 @@ int SUBWAY_MAP_GRAPHIC_Init(struct Proc *proc,void *unused,void **args)
  p->screen=SUBWAY_MAP_GRAPHIC_CreateScreen(1,p->heap);
  p->font=GF_FONT_Create(23,0,0,0,p->heap);
  p->string=PRINTSYS_QUE_Create((void *)(u32)p->heap);
- BG_SYS_SetVisibleLayer(1,1); BG_SYS_SetVisibleLayer(2,0);
+ BG_SYS_SetPriority(1,1); BG_SYS_SetPriority(2,0);
  p->task=GFL_USE_AddMainTask((u32)SUBWAY_MAP_GRAPHIC_TaskNoop,(u32)p,1);
  SUBWAY_MAP_GRAPHIC_LoadCommonAssets((u16 *)p);
  i=SUB_BG_LAYER_FIRST;

@@ -13,7 +13,7 @@
   *
   *
  * symbols:
- *   WORLDTRADE_BOX_ClampSlot  0x021F6B34  thumb
+ *   WORLDTRADE_BOX_IsPartyBox  0x021F6B34  thumb
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb  arm9
  *   POKEPARTY_GetCount  0x0201AA18  thumb  arm9
  *   POKEPARTY_GetMember  0x0201AB28  thumb  arm9
@@ -26,7 +26,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-extern int WORLDTRADE_BOX_ClampSlot(int v);
+extern int WORLDTRADE_BOX_IsPartyBox(int v);
 extern u32 POKEPARTY_GetCount(void *party);
 struct Sub020079BCEntry;
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
@@ -35,7 +35,7 @@ extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
 
 void *WORLDTRADE_BOX_GetPartyMon(void *party, void *save, int box, int slot)
 {
-    if (WORLDTRADE_BOX_ClampSlot(box) != 0) {
+    if (WORLDTRADE_BOX_IsPartyBox(box) != 0) {
         if (slot > (int)POKEPARTY_GetCount(party) - 1) {
             return 0;
         }

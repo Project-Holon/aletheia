@@ -60,12 +60,12 @@
  *   MSGDATA_Delete 0x02045C04 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   sPmsivCategoryAllocSite 0x021C3C44 data a1
  *   CLACT_DeleteActor 0x0204B3B4 arm
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   G2x_SetBlendBrightness_ 0x0207D658 arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   sPmsivCategoryLabelIds 0x021C38C4 data ov110 a1
@@ -91,7 +91,7 @@
  *   PMSIV_FADE_StartBlend 0x021BC868 thumb ov110
  *   PMSIV_FADE_IsBlendDone 0x021BC898 thumb ov110
  *   G2x_SetBlendAlpha_ 0x0207D63C arm
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  *   PMS_INPUT_SetSearchArg 0x021BF7D4 thumb ov110
  *   BG_SYS_GetScrollY 0x02040804 arm
  *   PMS_INPUT_VIEW_GetPrintQue 0x021BAC4C thumb ov110
@@ -156,12 +156,12 @@ extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
-extern void BG_SYS_SetFlagField06(unsigned);
+extern void BG_SYS_MarkTileDirty(unsigned);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
-extern void BG_SYS_FillScrollArea(u32, u32, u32);
+extern void BG_SYS_ChangeScrollImmediate(u32, u32, u32);
 extern void G2x_SetBlendBrightness_(u32, int, int);
 extern void BG_SYS_PushTile(u32);
 extern u32 PMS_INPUT_VIEW_GetFont(struct PmsInputView *view);
@@ -189,7 +189,7 @@ extern int PMSIV_BGSCROLL_Step(struct PmsivBgScroll *scroll);
 extern void PMSIV_FADE_StartBlend(struct PmsivFade *fade, int firstPlanes, int secondPlanes, int start, int end, int frames);
 extern int PMSIV_FADE_IsBlendDone(struct PmsivFade *fade);
 extern void G2x_SetBlendAlpha_(void *, int, int, int, int);
-extern void BG_SYS_ResetSlot(u32, u32, u32);
+extern void BG_SYS_ChangeScroll(u32, u32, u32);
 extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 extern void PMS_INPUT_SetSearchArg(struct PmsInputState *input, void *out);
 extern u8 PMS_INPUT_GetInitialCount(struct PmsInputState *input);
@@ -291,8 +291,8 @@ void PMSIV_CATEGORY_Setup(struct PmsivCategory *p, u32 data)
     q = (u32)PMSIV_CATEGORY_MakeKanaWindow(p, (u8 *)q);
     PMSIV_CATEGORY_MakeTitleWindow(p, (u8 *)q);
     PMSIV_CATEGORY_MakeListWindow(p);
-    BG_SYS_FillScrollArea(1, 0, -4);
-    BG_SYS_FillScrollArea(1, 3, 16);
+    BG_SYS_ChangeScrollImmediate(1, 0, -4);
+    BG_SYS_ChangeScrollImmediate(1, 3, 16);
     PMSIV_CATEGORY_CreateCursor(p);
     G2x_SetBlendBrightness_(0x04000050, 2, -10);
     setWindowInside(31, 1);
@@ -384,7 +384,7 @@ void PMSIV_CATEGORY_MakeListWindow(struct PmsivCategory *p)
     window = BMP_WIN_Create(6, 1, 1, 30, 22, 0, 1);
     BMP_WIN_MakeScreen((struct Cfg *)window);
     BG_SYS_PushTile(6);
-    BG_SYS_FillScrollArea(6, 3, -192);
+    BG_SYS_ChangeScrollImmediate(6, 3, -192);
     p->listWindow = window;
 }
 
@@ -497,7 +497,7 @@ int PMSIV_CATEGORY_StepClose(struct PmsivCategory *p)
 
 void PMSIV_CATEGORY_ResetBgScroll(struct PmsivCategory *p)
 {
-    BG_SYS_FillScrollArea(1, 3, 16);
+    BG_SYS_ChangeScrollImmediate(1, 3, 16);
 }
 
 /*
@@ -547,7 +547,7 @@ void PMSIV_CATEGORY_ApplyBgOffset(struct PmsivCategory *p)
     int offset;
     if (PMS_INPUT_GetBrowseMode(p->input) == 0) offset = -4;
     else offset = 0;
-    BG_SYS_ResetSlot(1, 0, offset);
+    BG_SYS_ChangeScroll(1, 0, offset);
 }
 
 void PMSIV_CATEGORY_RefreshScreens(struct PmsivCategory *p)
@@ -564,7 +564,7 @@ void PMSIV_CATEGORY_RefreshScreens(struct PmsivCategory *p)
         BMP_WIN_MakeScreen((struct Cfg *)p->titleWindow);
     }
     ARC_TOOL_DeleteHandle(handle);
-    BG_SYS_SetFlagField06(1);
+    BG_SYS_MarkTileDirty(1);
 }
 
 int PMSIV_CATEGORY_IsReady(struct PmsivCategory *p)
@@ -584,7 +584,7 @@ void PMSIV_CATEGORY_DrawTitle(struct PmsivCategory *p)
     STRBUF_Delete(title);
     BMP_WIN_MakeScreen((struct Cfg *)window);
     BMP_WIN_TransferChars(window);
-    BG_SYS_SetFlagField06(1);
+    BG_SYS_MarkTileDirty(1);
 }
 
 /*
@@ -635,7 +635,7 @@ void PMSIV_CATEGORY_DrawWordList(struct PmsivCategory *p, unsigned count)
     else if (height < 48) height = 48;
     PMSIV_BGSCROLL_Start(&p->scroll, 6, 1, height - base, 8);
     BMP_WIN_MakeScreen((struct Cfg *)p->listWindow);
-    BG_SYS_SetFlagField06(6);
+    BG_SYS_MarkTileDirty(6);
     BG_SYS_SetPlaneVisible(6, 1);
 }
 

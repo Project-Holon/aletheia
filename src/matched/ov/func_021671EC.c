@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  */
 #include "../include/Obj00565.h"
 
@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int WORDSET_DeleteStrbufED04();
+extern int WORDSET_Delete();
 
 int EVENT_RESEARCH_RADAR_DeleteWordSet(int a0)
 {
@@ -26,7 +26,7 @@ int EVENT_RESEARCH_RADAR_DeleteWordSet(int a0)
 
 t4 = a0 + 0;
 a0 = *(int *)&((struct Obj00565 *)t4)->f1C;
-    a0 = WORDSET_DeleteStrbufED04(a0);
+    a0 = WORDSET_Delete(a0);
 loc_021671F6:
 a0 = 0;
 *(int *)&((struct Obj00565 *)t4)->f1C = a0;

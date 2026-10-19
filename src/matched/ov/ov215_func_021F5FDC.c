@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_SetBgmPaused 0x02005DE4 thumb
  *   GFL_USE_PushBgm 0x02005E64 thumb
  */
 
-extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_SetBgmPaused(void *p);
 extern int GFL_USE_PushBgm(void);
 
 void EGG_DEMO_MAIN_PushBgm(void *a0, void *a1)
 {
-    GFL_USE_SetBgmPlayerParam((void *)1);
+    GFL_USE_SetBgmPaused((void *)1);
     GFL_USE_PushBgm();
 }

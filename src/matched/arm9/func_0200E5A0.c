@@ -16,7 +16,7 @@
  * 0x0200E688, over three unlabelled followers.
  *
  * symbols:
- *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
+ *   GF_STANDARD_CalcCrc16  0x0203F1FC  arm
  */
 #include "../include/Obj11237.h"
 
@@ -24,11 +24,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
+extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
 
 int BATTLE_EXAMINATION_IsDeliveryValid(void *a0)
 {
-    if (((struct Obj11237 *)a0)->f5C6 == GF_STANDARD_SetupCalc(a0, 0x5c6) &&
+    if (((struct Obj11237 *)a0)->f5C6 == GF_STANDARD_CalcCrc16(a0, 0x5c6) &&
         ((struct Obj11237 *)a0)->f5C2 == 0xd68)
         return 1;
     return 0;

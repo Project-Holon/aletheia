@@ -15,7 +15,7 @@
  *   STA_ACTING_GetCharSlot 0x021F9DDC thumb ov132
  *   STA_ACTING_GetActorSystem 0x021F9DA0 thumb ov132
  *   STA_ACTING_GetActor 0x021F9DA4 thumb ov132
- *   STA_ACTING_GetBoard 0x021F9DF4 thumb ov132
+ *   STA_ACTING_GetAudience 0x021F9DF4 thumb ov132
  *   STA_ACT_LIGHT_CopyActorPos 0x021F8044 thumb ov112
  *   STA_ACT_LIGHT_CopyElemA 0x021F6EF4 thumb ov112
  *   VEC_Add 0x0207C9D0 arm
@@ -38,7 +38,7 @@ extern void *STA_ACTING_GetCharSystem(void *);
 extern void *STA_ACTING_GetCharSlot(void *,u8);
 extern void *STA_ACTING_GetActorSystem(char *p);
 extern void *STA_ACTING_GetActor(char *p, u32 i);
-extern void *STA_ACTING_GetBoard(void *p);
+extern void *STA_ACTING_GetAudience(void *p);
 extern void STA_ACT_LIGHT_CopyActorPos(void *unused, u32 *p, u32 *q);
 extern void STA_ACT_LIGHT_CopyElemA(void *unused, u32 *p, const u32 *q);
 extern void VEC_Add(const Vec *,const Vec *,Vec *);
@@ -74,7 +74,7 @@ int SCRIPT_COMMAND_CmdCharFollowActor(int unused,char *p)
     VEC_Add(&pos,&delta,&pos);
     STA_ACT_LIGHT_CopyElemA(ctx,target,(const u32 *)(&pos));
    } else {
-    STA_ACTING_GetBoard(((struct Obj04520 *)owner)->f34);
+    STA_ACTING_GetAudience(((struct Obj04520 *)owner)->f34);
     q=func_02030734(((struct Obj04520 *)owner)->f0,0x30,0,d_021FDD00,0x74D);
     *(char * *)&((struct Obj02487 *)q)->f28=owner;
     ((struct Obj02487 *)q)->f0=i;

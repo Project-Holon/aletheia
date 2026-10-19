@@ -1,5 +1,5 @@
 /*
- * function: WIFIBATTLEMATCH_NET_IsSpriteAnimDone
+ * function: WIFIBATTLEMATCH_NET_PollChoiceMenu
  * address:  0x021D65DC
  * packet:   pkt_021D65DC
  * region:   ov175
@@ -25,7 +25,7 @@ typedef unsigned long u32;
 
 extern int WIFIBATTLEMATCH_UTIL_UpdateMenu(u32 p);
 
-int WIFIBATTLEMATCH_NET_IsSpriteAnimDone(char *obj)
+int WIFIBATTLEMATCH_NET_PollChoiceMenu(char *obj)
 {
     u32 p = ((struct Obj24230 *)obj)->f28;
 

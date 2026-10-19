@@ -1,5 +1,5 @@
 /*
- * function: WF2DMAP_OBJDRAW_SetActorPos2
+ * function: WF2DMAP_OBJDRAW_SetSubActorPos
  * address:  0x021C5898
  * packet:   pkt_ov127_021C5898
  * region:   ov127
@@ -26,7 +26,7 @@ typedef struct {
 
 extern void WIFI_2DCHAR_SetSubActorPos(char *p, int x, int y);
 
-void WF2DMAP_OBJDRAW_SetActorPos2(char *p, P2 v)
+void WF2DMAP_OBJDRAW_SetSubActorPos(char *p, P2 v)
 {
     WIFI_2DCHAR_SetSubActorPos(((struct Obj23053 *)p)->f4, v.x, v.y);
 }

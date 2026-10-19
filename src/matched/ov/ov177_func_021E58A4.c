@@ -10,13 +10,13 @@
  *
  * symbols:
  *   ARC_TOOL_DeleteHandle  0x02049238  arm  arm9
- *   BG_SYS_FillScrollArea  0x02040618  arm  arm9
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm  arm9
  */
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 typedef unsigned short u16;
 extern void func_020498F4(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f, u16 g);
 typedef unsigned int   u32;
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 extern void ARC_TOOL_DeleteHandle(int);
 void WIFIBATTLEMATCH_VIEW_LoadBgPalette(int unused, int mode, unsigned color)
 {
@@ -37,9 +37,9 @@ void WIFIBATTLEMATCH_VIEW_LoadBgPalette(int unused, int mode, unsigned color)
         func_020498F4((void *)h, 10, 6, 0, 0, 0, c);
         break;
     }
-    BG_SYS_FillScrollArea(2, 0, -256);
-    BG_SYS_FillScrollArea(1, 0, -256);
-    BG_SYS_FillScrollArea(6, 0, -256);
-    BG_SYS_FillScrollArea(5, 0, -256);
+    BG_SYS_ChangeScrollImmediate(2, 0, -256);
+    BG_SYS_ChangeScrollImmediate(1, 0, -256);
+    BG_SYS_ChangeScrollImmediate(6, 0, -256);
+    BG_SYS_ChangeScrollImmediate(5, 0, -256);
     ARC_TOOL_DeleteHandle(h);
 }

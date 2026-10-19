@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "OEKAKI_NotifyHostSync",
+   "name": "OEKAKI_HostOpenGroupLimited",
    "address": "0x02186304",
    "kind": "game",
    "region": "ov023",

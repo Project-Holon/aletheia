@@ -14,7 +14,7 @@
  *   BTL_SERVER_FLOW_GetPokeParam   0x021C7CF4  thumb ov093
  *   BTL_SERVER_FLOW_PushCmdRecord   0x021C88B4  thumb ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord   0x021C88A4  thumb ov093
- *   BTLV_CORE_IsSlotKind1Index15   0x021E8A78  thumb ov093
+ *   BTL_SICKCONT_IsKind1Index15   0x021E8A78  thumb ov093
  *   BTL_CALC_MakeSickContFromKind   0x021D7DC0  thumb ov093
  *   BTL_SERVER_FLOW_CommitCmdRecord   0x021C88C8  thumb ov093
  */
@@ -32,7 +32,7 @@ extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern void BTL_SERVER_FLOW_PushCmdRecord(void *a, int k, int b);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
 typedef struct { int x; } S;
-extern int BTLV_CORE_IsSlotKind1Index15(S a);
+extern int BTL_SICKCONT_IsKind1Index15(S a);
 extern void BTL_CALC_MakeSickContFromKind(int a, void *b, void *out);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 
@@ -58,7 +58,7 @@ void gDwcLanguageTable(int a, int b, int c)
     p = BTL_SERVER_FLOW_AllocCmdRecord((char *)b, 0xc, c);
     p[0xf] = k;
     ((struct Obj07810 *)p)->f4 = m;
-    if (m == 5 && BTLV_CORE_IsSlotKind1Index15(t))
+    if (m == 5 && BTL_SICKCONT_IsKind1Index15(t))
         ((struct Obj07810 *)p)->f8 = t.x;
     else
         BTL_CALC_MakeSickContFromKind(m, s, p + 8);

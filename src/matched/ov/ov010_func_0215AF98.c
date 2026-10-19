@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_WORK_CmdGetZukanGetCount
+ * function: SCRCMD_WORK_CmdGetNationalZukanCount
  * address:  0x0215AF98
  * packet:   pkt_ov010_0215AF98
  * region:   ov010
@@ -30,7 +30,7 @@ struct Blk37;
 extern u16 ZUKAN_SAVE_CountSeenNational(struct Blk37 *p);
 extern u16 ZUKAN_SAVE_CountCaughtNational(struct Blk37 *p);
 
-int SCRCMD_WORK_CmdGetZukanGetCount(int a0, int a1)
+int SCRCMD_WORK_CmdGetNationalZukanCount(int a0, int a1)
 {
     void *v;
     int k;

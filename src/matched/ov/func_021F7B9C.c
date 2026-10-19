@@ -1,5 +1,5 @@
 /*
- * function: WORLDTRADE_DEPOSIT_CheckGenderEvent
+ * function: WORLDTRADE_DEPOSIT_SetGenderFromEvent
  * address:  0x021F7B9C
  * packet:   pkt_021F7B9C
  * region:   ov135
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 typedef signed short s16;
-int WORLDTRADE_DEPOSIT_CheckGenderEvent(u8 *p, int event)
+int WORLDTRADE_DEPOSIT_SetGenderFromEvent(u8 *p, int event)
 {
     switch (event) {
     case 0:

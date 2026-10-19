@@ -27,7 +27,7 @@
  *   g_02146788  0x02146788  data
  *   OS_GetTick  0x020870D0  arm
  *   _ll_udiv    0x0209C00C  arm
- *   GAME_DATA_CheckPlayTime  0x02012FBC  thumb
+ *   GAME_DATA_AddPlayTime  0x02012FBC  thumb
  */
 
 typedef unsigned char      u8;
@@ -43,7 +43,7 @@ struct PalAnmState {
 
 extern struct PalAnmState g_02146788;
 extern u64 OS_GetTick(void);
-extern u32 GAME_DATA_CheckPlayTime(u8 *p, u32 x);
+extern u32 GAME_DATA_AddPlayTime(u8 *p, u32 x);
 
 void PALANM_UpdateTimer(u8 *p)
 {
@@ -63,7 +63,7 @@ void PALANM_UpdateTimer(u8 *p)
     if (g_02146788.unk_0c >= v) {
         return;
     }
-    GAME_DATA_CheckPlayTime(p, (u32)(v - g_02146788.unk_0c));
+    GAME_DATA_AddPlayTime(p, (u32)(v - g_02146788.unk_0c));
     if (g_02146788.unk_04 == t) {
         g_02146788.unk_0c = v;
     } else {

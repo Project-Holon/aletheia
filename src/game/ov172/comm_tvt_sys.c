@@ -83,7 +83,7 @@
  *   APP_TASKMENU_OpenMenu 0x02027778 thumb
  *   d_021C7048 0x021C7048 data ov172
  *   d_021C704C 0x021C704C data ov172
- *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
+ *   MET_TRAINERS_GetFromSave 0x0200ED48 thumb
  *   TIME_ICON_CreateNode  0x0202EE8C  thumb
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   GAME_DATA_Create 0x020124F4 thumb
@@ -93,7 +93,7 @@
  *   CTVT_CALL_WorkInit 0x021BD1AC thumb ov172
  *   CTVT_CALL_WorkDelete 0x021BD3B8 thumb ov172
  *   CTVT_CALL_WorkMain 0x021BD43C thumb ov172
- *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb  arm9
+ *   MET_TRAINERS_Insert  0x0200ED54  thumb  arm9
  *   PROCSYS_FreeProcWork  0x020315D4  arm  arm9
  */
 #include "ctvt_types.h"
@@ -157,8 +157,8 @@ extern u32 APP_ENV_IsRunOnTwl(void);
 extern int unit_0202EB14(void);
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(CtvtMenuTemplate *tmpl, struct TaskMenu *res);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *data);
-extern struct SaveRecord *MISC_SAVEDATA_GetBlock44(struct SaveControl *save);
-extern void MISC_SAVEDATA_InsertRecentValue(struct SaveRecord *record, u32 value);
+extern struct SaveRecord *MET_TRAINERS_GetFromSave(struct SaveControl *save);
+extern void MET_TRAINERS_Insert(struct SaveRecord *record, u32 value);
 extern void GFL_HEAP_CreateChildHeap(unsigned int, unsigned int, unsigned int);
 extern void *PROCSYS_AllocProcWork(struct ProcSys *proc, u32 size, u32 heapId);
 extern struct GameData *GAME_DATA_Create(u16 heapId);
@@ -489,8 +489,8 @@ void COMM_TVT_SYS_HideSlotMarker(CtvtWork *work)
 /* Stores the peer record value in the save data. */
 void COMM_TVT_SYS_SavePeerRecord(CtvtWork *work, struct PeerObj *peer)
 {
-    struct SaveRecord *record = MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(work->launch->gameData));
-    MISC_SAVEDATA_InsertRecentValue(record, MYSTATUS_GetId(peer));
+    struct SaveRecord *record = MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl(work->launch->gameData));
+    MET_TRAINERS_Insert(record, MYSTATUS_GetId(peer));
 }
 
 /* Rebuilds the time icon, retiring the old one first. */

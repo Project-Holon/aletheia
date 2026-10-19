@@ -14,7 +14,7 @@
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   MOVE_POKEMON_SAVE_GetBlock  0x0200D418  thumb
  *   MOVE_POKEMON_SAVE_IsCooldownDone  0x0200D58C  thumb
- *   FILE_UTIL_Get_0FE4  0x02020FE4  thumb
+ *   FILE_UTIL_GetItemParam  0x02020FE4  thumb
  *   MOVE_POKEMON_SAVE_SetCooldown  0x0200D55C  thumb
  *   ITEMMENU_RemoveSelectedItems  0x021B7D20  thumb  ov070
  *   MSGDATA_ReadString  0x02045CAC  arm
@@ -38,7 +38,7 @@ struct Blk38;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *MOVE_POKEMON_SAVE_GetBlock(void *sys);
 extern u32 MOVE_POKEMON_SAVE_IsCooldownDone(struct Blk38 *p);
-extern u32   FILE_UTIL_Get_0FE4(u16 a, u32 sel, u32 id);
+extern u32   FILE_UTIL_GetItemParam(u16 a, u32 sel, u32 id);
 extern void MOVE_POKEMON_SAVE_SetCooldown(struct Blk38 *p, u8 v);
 struct Obj;
 extern void ITEMMENU_RemoveSelectedItems(struct Obj *o, int x);
@@ -61,7 +61,7 @@ void ITEMMENU_UseRepel(u8 *p)
     if (ITEMMENU_IsRepelItem(((struct Obj00002 *)p)->f84C)) {
         blk = MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(((struct Obj00002 *)p)->f0));
         if (MOVE_POKEMON_SAVE_IsCooldownDone(blk)) {
-            v = FILE_UTIL_Get_0FE4(((struct Obj00002 *)p)->f84C, 2, ((struct Obj00002 *)p)->f544);
+            v = FILE_UTIL_GetItemParam(((struct Obj00002 *)p)->f84C, 2, ((struct Obj00002 *)p)->f544);
             MOVE_POKEMON_SAVE_SetCooldown(blk, v);
             ITEMMENU_RemoveSelectedItems((struct Obj *)p, 1);
             MSGDATA_ReadString((struct MsgBank *)(*(u32 *)&((struct Obj00002 *)p)->f51C), 0x3F, (void *)(((struct Obj00002 *)p)->f524));

@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
- *   BG_SYS_SetTileUnit 0x02040DA8 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
+ *   BG_SYS_FreeTiles 0x02040DA8 arm
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
@@ -18,16 +18,16 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
-extern void BG_SYS_SetTileUnit(u32,u32,u32);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTiles(u32,u32,u32);
 extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern const int sResultBackgroundLayers[];
 void IRC_RESULT_ExitBackgrounds(u32 *p) {
  int i;
- BG_SYS_DeleteHalf(5,(u16)(*p),(u16)(*p>>16));
- BG_SYS_SetTileUnit(5,1,0);
+ BG_SYS_FreeTileRun(5,(u16)(*p),(u16)(*p>>16));
+ BG_SYS_FreeTiles(5,1,0);
  for(i=0;i<8;i++) BG_SYS_FreeLayerBuf((u8)sResultBackgroundLayers[i]);
  BMP_WIN_Exit(); BG_SYS_Delete();
 }

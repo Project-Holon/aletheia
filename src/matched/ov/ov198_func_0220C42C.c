@@ -14,7 +14,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   B_PLIST_MAIN_GetOrderIndex 0x022110D4 thumb ov198
  *   STRBUF_Create 0x020457B0 arm
- *   WORDSET_Callback_EF40 0x0201EF40 thumb
+ *   WORDSET_SetSlotFromMsg36 0x0201EF40 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  */
 #include "../include/Obj04599.h"
@@ -35,7 +35,7 @@ extern void PRINTSYS_PrintQueColor(void *, u32, u32, u32, u32, u32, u16);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern int B_PLIST_MAIN_GetOrderIndex(u8 *, int);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotFromMsg36(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 void B_PLIST_DRAW_PrintItemOrName(char *p, int i, int index)
 {
@@ -49,7 +49,7 @@ void B_PLIST_DRAW_PrintItemOrName(char *p, int i, int index)
     else {
         t = (void *)STRBUF_Create(0x12, ((struct Obj25136 *)(*(char * *)&((struct Obj04599 *)p)->f0))->f10);
         format = func_02045EC0(((struct Obj04599 *)p)->f1EA0, 15);
-        WORDSET_Callback_EF40(((struct Obj04599 *)p)->f1EA4, 0, ((struct Obj14555 *)elem)->f1A);
+        WORDSET_SetSlotFromMsg36(((struct Obj04599 *)p)->f1EA4, 0, ((struct Obj14555 *)elem)->f1A);
         WORDSET_CopyTaggedText(((struct Obj04599 *)p)->f1EA4, (void *)((u32)t), format);
         STRBUF_Delete(format);
     }

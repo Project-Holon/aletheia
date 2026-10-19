@@ -1,7 +1,7 @@
 /*
  * file:     scrcmd_palpark.c
  * unit:     yes
- * function: SCRCMD_PALPARK_CallFallEvent, SCRCMD_PALPARK_CallPalParkProc, SCRCMD_PALPARK_GetSaveValue, SCRCMD_PALPARK_SetBeacon, SCRCMD_PALPARK_CheckGPowerExpire, SCRCMD_PALPARK_CallFieldEvent
+ * function: SCRCMD_PALPARK_CallFallEvent, SCRCMD_PALPARK_CallPalParkProc, SCRCMD_PALPARK_GetSaveValue, SCRCMD_PALPARK_SetBeacon, SCRCMD_PALPARK_CheckGPowerExpire, SCRCMD_PALPARK_CallGPowerFlashEvent
  * address:  0x021CC544
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -102,7 +102,7 @@ int SCRCMD_PALPARK_CallPalParkProc(u32 core, u32 work);
 int SCRCMD_PALPARK_GetSaveValue(ScriptVM *core, void *work);
 int SCRCMD_PALPARK_SetBeacon(u32 core, u32 work);
 int SCRCMD_PALPARK_CheckGPowerExpire(void *core, void *work);
-int SCRCMD_PALPARK_CallFieldEvent(u32 unused, u32 work, u32 unused2, u32 unused3);
+int SCRCMD_PALPARK_CallGPowerFlashEvent(u32 unused, u32 work, u32 unused2, u32 unused3);
 
 extern const char d_021DE5A8[];
 extern const u8 ov107_id[];
@@ -231,7 +231,7 @@ int SCRCMD_PALPARK_CheckGPowerExpire(void *core, void *work)
 }
 
 /* Script command: calls the event that ov083 GPOWER_EVENT_CreateFlashEvent builds. */
-int SCRCMD_PALPARK_CallFieldEvent(u32 unused, u32 work, u32 unused2, u32 unused3)
+int SCRCMD_PALPARK_CallGPowerFlashEvent(u32 unused, u32 work, u32 unused2, u32 unused3)
 {
     SCRIPT_SYS_CallEvent(SCRCMD_WORK_GetScriptWork((void *)work), GPOWER_EVENT_CreateFlashEvent(SCRCMD_WORK_GetGameSystem((void *)work)));
     return 1;

@@ -19,7 +19,7 @@
  *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   MSGDATA_Delete  0x02045C04  arm
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   GIMMICK_OBJ_ELBOARD_AddMessage  0x021F3D38  thumb
  *   gElboardLayout     0x021F50C0  data  a4
  */
@@ -44,7 +44,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void GIMMICK_OBJ_ELBOARD_AddMessage(int *p, int unused, int b, int *c);
 extern struct T gElboardLayout;
 
@@ -74,5 +74,5 @@ void GIMMICK_OBJ_ELBOARD_AddLastPlaceMessage(int *p)
     s.f = *(int *)(p[7] + 0x20);
     s.g = (int)h;
     GIMMICK_OBJ_ELBOARD_AddMessage(p, (int)&s, 3, 0);
-    WORDSET_DeleteStrbufED04(h);
+    WORDSET_Delete(h);
 }

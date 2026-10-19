@@ -29,7 +29,7 @@
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BG_SYS_Init 0x02040C14 arm
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   FX_SinCosTable_  0x020A1B38  data  a2
  *   NNS_GfdRegisterNewVramTransferTask    0x02061CA4  arm
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
@@ -43,7 +43,7 @@
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_PrintQue 0x0201C6FC thumb
  *   STRBUF_Delete 0x02045808 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
@@ -95,13 +95,13 @@
  *   POKE_TOOL_GetGraphicIndex  0x0201BA68  thumb  arm9
  *   POKE_TOOL_CalcIconPalette  0x0201BB5C  thumb  arm9
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm  arm9
- *   WORDSET_DeleteMsgdataF094  0x0201F094  thumb  arm9
+ *   WORDSET_SetSlotFromKeyedMessage  0x0201F094  thumb  arm9
  *   BG_SYS_GetBuf  0x0204162C  arm  arm9
- *   BG_SYS_ResetSlot  0x02041EE4  arm  arm9
+ *   BG_SYS_ChangeScroll  0x02041EE4  arm  arm9
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb  arm9
  *   WORDSET_SetSlotFromMsgE7  0x0201F048  thumb  arm9
  *   WORDSET_SetSlotMonth  0x0201F230  thumb  arm9
- *   BG_SYS_SetTileUnit  0x02040DA8  arm  arm9
+ *   BG_SYS_FreeTiles  0x02040DA8  arm  arm9
  *   BG_SYS_DrawTileEx  0x020410D0  arm  arm9
  *   APP_ICON_GetArchiveId  0x020275E4  thumb  arm9
  *   APP_ICON_GetItemCellFileId  0x02027694  thumb  arm9
@@ -120,7 +120,6 @@
  *   MYSTATUS_GetOutfit  0x02008554  thumb  arm9
  *   MYSTATUS_GetLanguage  0x0200856C  thumb  arm9
  *   MYSTATUS_GetVersion  0x02008570  thumb  arm9
- *   _u32_div_f  0x0209C2B0  arm  arm9
  */
 #include "wifibattlematch_graphic_shared_types.h"
 #include "wifibattlematch_view_shared_types.h"
@@ -289,7 +288,7 @@ extern void BG_SYS_Init(u32, u32, u32, u32);
 
 extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 
 extern void CLACT_ReleasePalette(u32 i);
 
@@ -297,7 +296,7 @@ extern void CLACT_ReleaseCharacter(u32 i);
 
 extern void CLACT_ReleaseCellAnim(u32 i);
 
-extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
+extern void BG_SYS_FreeTiles(u32 idx, u32 count, u32 tile);
 
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f, u16 g);
 
@@ -325,7 +324,7 @@ extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, 
 
 extern void STRBUF_Delete(struct U16Vec *vec);
 
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 
 extern u32 MSGDATA_Delete(struct Rec *rec);
 
@@ -349,9 +348,8 @@ extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 s
 
 extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 
-extern unsigned _u32_div_f(unsigned, unsigned);
 
-extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
+extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
 
 extern unsigned int BMP_WIN_Create(unsigned int layer, unsigned int a, unsigned int b, unsigned int tiles, u8 c, u8 d, u8 slot);
 
@@ -431,7 +429,7 @@ extern u8 MYSTATUS_GetVersion(const struct PlayerStatus *obj);
 
 extern void WORDSET_SetSlotFromMsgE7(struct WordSet *p, u32 i, u32 n);
 
-extern void WORDSET_DeleteMsgdataF094(struct WordSet *p, u32 i, u32 a, u32 n);
+extern void WORDSET_SetSlotFromKeyedMessage(struct WordSet *p, u32 i, u32 a, u32 n);
 
 extern void PMS_DRAW_SetPrintColor(struct PmsDraw *p, u16 v);
 
@@ -622,10 +620,10 @@ u32 *WIFIBATTLEMATCH_VIEW_Create(int unused, int mode, int heap)
     BG_SYS_Init(0, 0, 1, 0);
     BMP_MENUWORK_LoadCharAndPltt(0, 1, 0xd, 0, c);
     BMP_MENUWORK_LoadCharAndPltt(0, 0xa, 0xe, 0, c);
-    BG_SYS_FillScrollArea(2, 0, -256);
-    BG_SYS_FillScrollArea(1, 0, -256);
-    BG_SYS_FillScrollArea(6, 0, -256);
-    BG_SYS_FillScrollArea(m, 0, -256);
+    BG_SYS_ChangeScrollImmediate(2, 0, -256);
+    BG_SYS_ChangeScrollImmediate(1, 0, -256);
+    BG_SYS_ChangeScrollImmediate(6, 0, -256);
+    BG_SYS_ChangeScrollImmediate(m, 0, -256);
     return w;
 }
 
@@ -637,7 +635,7 @@ void WIFIBATTLEMATCH_VIEW_Delete(WifiBattleMatchViewRoot *p)
     CLACT_ReleasePalette(p->b);
     CLACT_ReleaseCharacter(p->d);
     CLACT_ReleaseCellAnim(p->f);
-    BG_SYS_SetTileUnit(0, 1, 0);
+    BG_SYS_FreeTiles(0, 1, 0);
     GFL_HEAP_Free(p);
 }
 
@@ -660,10 +658,10 @@ void WIFIBATTLEMATCH_VIEW_LoadBgPalette(int unused, int mode, unsigned color)
         ARC_UTIL_UploadBgPaletteFromHandle((void *)h, 10, 6, 0, 0, 0, c);
         break;
     }
-    BG_SYS_FillScrollArea(2, 0, -256);
-    BG_SYS_FillScrollArea(1, 0, -256);
-    BG_SYS_FillScrollArea(6, 0, -256);
-    BG_SYS_FillScrollArea(5, 0, -256);
+    BG_SYS_ChangeScrollImmediate(2, 0, -256);
+    BG_SYS_ChangeScrollImmediate(1, 0, -256);
+    BG_SYS_ChangeScrollImmediate(6, 0, -256);
+    BG_SYS_ChangeScrollImmediate(5, 0, -256);
     ARC_TOOL_DeleteHandle((void *)h);
 }
 
@@ -787,7 +785,7 @@ void WIFIBATTLEMATCH_VIEW_DrawTaggedText(u32 *p, struct PrintSys *win, u32 str, 
     ((u8 *)p)[4] = 1;
     STRBUF_Delete((struct U16Vec *)e);
     STRBUF_Delete(buf);
-    WORDSET_DeleteStrbufED04(ws);
+    WORDSET_Delete(ws);
     MSGDATA_Delete((struct Rec *)msg);
 }
 
@@ -1170,11 +1168,11 @@ int WIFIBATTLEMATCH_VIEW_StepMainWindow(Work *w)
         }
         GFL_USE_PlaySeDefaultVolume(0x63b);
     }
-    level = _u32_div_f(w->objCount << 8, 20) - 0x100;
+    level = (w->objCount << 8) / 20 - 0x100;
     for (i = 0; i < 22; i++) {
         if (w->objs[i] != 0) {
             CLACT_GetActorSurfacePos(w->objs[i], (struct PtS *)&pos, (unsigned short)w->layer);
-            pos.x = w->baseX[i] - _u32_div_f(w->objCount << 8, 20);
+            pos.x = w->baseX[i] - (w->objCount << 8) / 20;
             CLACT_AddActorSurfacePos(w->objs[i], &pos, w->layer);
         }
     }
@@ -1183,8 +1181,8 @@ int WIFIBATTLEMATCH_VIEW_StepMainWindow(Work *w)
         w->objCount = 0;
         ret = 1;
     }
-    BG_SYS_ResetSlot((unsigned char)(w->bg + 1), (int)0, (int)level);
-    BG_SYS_ResetSlot((unsigned char)w->bg, (int)0, (int)level);
+    BG_SYS_ChangeScroll((unsigned char)(w->bg + 1), (int)0, (int)level);
+    BG_SYS_ChangeScroll((unsigned char)w->bg, (int)0, (int)level);
     return ret;
 }
 
@@ -1203,11 +1201,11 @@ int WIFIBATTLEMATCH_VIEW_StepMainWindowIdle(Work *w)
         }
         GFL_USE_PlaySeDefaultVolume(0x63b);
     }
-    level = _u32_div_f(w->objCount << 8, 20);
+    level = (w->objCount << 8) / 20;
     for (i = 0; i < 22; i++) {
         if (w->objs[i] != 0) {
             CLACT_GetActorSurfacePos(w->objs[i], (struct PtS *)&pos, (unsigned short)w->layer);
-            pos.x = w->baseX[i] - _u32_div_f(w->objCount << 8, 20);
+            pos.x = w->baseX[i] - (w->objCount << 8) / 20;
             CLACT_AddActorSurfacePos(w->objs[i], &pos, w->layer);
         }
     }
@@ -1216,8 +1214,8 @@ int WIFIBATTLEMATCH_VIEW_StepMainWindowIdle(Work *w)
         w->objCount = 0;
         ret = 1;
     }
-    BG_SYS_ResetSlot((unsigned char)(w->bg + 1), (int)0, (int)level);
-    BG_SYS_ResetSlot((unsigned char)w->bg, (int)0, (int)level);
+    BG_SYS_ChangeScroll((unsigned char)(w->bg + 1), (int)0, (int)level);
+    BG_SYS_ChangeScroll((unsigned char)w->bg, (int)0, (int)level);
     return ret;
 }
 
@@ -1715,8 +1713,8 @@ WifiBattleMatchViewRecordWork *WIFIBATTLEMATCH_VIEW_CreateRecordWindow(const Wif
         break;
     }
     BG_SYS_PushTile(2);
-    BG_SYS_FillScrollArea(2, 0, ~0xff);
-    BG_SYS_FillScrollArea(1, 0, ~0xff);
+    BG_SYS_ChangeScrollImmediate(2, 0, ~0xff);
+    BG_SYS_ChangeScrollImmediate(1, 0, ~0xff);
     G2x_SetBlendAlpha_((void *)0x04000050, 4, 8, 0xf, 3);
     return w;
 }
@@ -1734,8 +1732,8 @@ void WIFIBATTLEMATCH_VIEW_DeleteRecordWindow(char *p)
     WIFIBATTLEMATCH_VIEW_DeleteRecordActor(p);
     WIFIBATTLEMATCH_VIEW_DeleteRecordWin((WifiBattleMatchViewRecordWork *)p);
     PMS_DRAW_Delete(((WifiBattleMatchViewRecordWork *)p)->menu);
-    BG_SYS_FillScrollArea(2, 0, -256);
-    BG_SYS_FillScrollArea(1, 0, -256);
+    BG_SYS_ChangeScrollImmediate(2, 0, -256);
+    BG_SYS_ChangeScrollImmediate(1, 0, -256);
     GFL_HEAP_Free(p);
 }
 
@@ -1764,16 +1762,16 @@ int WIFIBATTLEMATCH_VIEW_StepRecordWindow(WifiBattleMatchViewRecordWork *p)
         }
         GFL_USE_PlaySeDefaultVolume(0x63B);
     }
-    shift = _u32_div_f(p->count << 8, 20) - 0x100;
+    shift = (p->count << 8) / 20 - 0x100;
     if (p->recordActor != 0) {
         CLACT_GetActorSurfacePos(p->recordActor, (struct PtS *)&pos[0], 0);
-        pos[0].x = p->base - _u32_div_f(p->count << 8, 20);
+        pos[0].x = p->base - (p->count << 8) / 20;
         CLACT_AddActorSurfacePos(p->recordActor, &pos[0], 0);
     }
     for (i = 0; i < 5; i++) {
         if (p->obj[i] != 0) {
             CLACT_GetActorSurfacePos(p->obj[i], (struct PtS *)&pos[0], 0);
-            pos[0].x = p->objBase[i] - _u32_div_f(p->count << 8, 20);
+            pos[0].x = p->objBase[i] - (p->count << 8) / 20;
             CLACT_AddActorSurfacePos(p->obj[i], &pos[0], 0);
         }
     }
@@ -1782,8 +1780,8 @@ int WIFIBATTLEMATCH_VIEW_StepRecordWindow(WifiBattleMatchViewRecordWork *p)
         p->count = 0;
         done = 1;
     }
-    BG_SYS_ResetSlot(2, 0, shift);
-    BG_SYS_ResetSlot(1, 0, shift);
+    BG_SYS_ChangeScroll(2, 0, shift);
+    BG_SYS_ChangeScroll(1, 0, shift);
     return done;
 }
 
@@ -1855,7 +1853,7 @@ void WIFIBATTLEMATCH_VIEW_SetupRecordWindow(WifiBattleMatchViewRecordWork *p, co
             break;
         case 5:
             MSGDATA_ReadString(msg, 23, buf);
-            WORDSET_DeleteMsgdataF094(fmt, 0, MYSTATUS_GetLanguage((const struct PlayerStatus *)data), MYSTATUS_GetVersion((const struct PlayerStatus *)data));
+            WORDSET_SetSlotFromKeyedMessage(fmt, 0, MYSTATUS_GetLanguage((const struct PlayerStatus *)data), MYSTATUS_GetVersion((const struct PlayerStatus *)data));
             WORDSET_CopyTaggedText(fmt, str, buf);
             break;
         case 6:
@@ -2141,7 +2139,7 @@ WifiBattleMatchViewPartyWork *WIFIBATTLEMATCH_VIEW_CreatePartyWindow(void *src, 
     STRBUF_Delete(sMale);
     STRBUF_Delete(sLevel);
     STRBUF_Delete(buf);
-    WORDSET_DeleteStrbufED04(fmt);
+    WORDSET_Delete(fmt);
     for (i = 0; i < 14; i++) {
         if (work->spr[i] != 0) {
             CLACT_GetActorSurfacePos(work->spr[i], (struct PtS *)&pos, 0);
@@ -2149,8 +2147,8 @@ WifiBattleMatchViewPartyWork *WIFIBATTLEMATCH_VIEW_CreatePartyWindow(void *src, 
             CLACT_AddActorSurfacePos(work->spr[i], &pos, 0);
         }
     }
-    BG_SYS_FillScrollArea((int)2, (int)0, (int)(-0x100));
-    BG_SYS_FillScrollArea((int)1, (int)0, (int)(-0x100));
+    BG_SYS_ChangeScrollImmediate((int)2, (int)0, (int)(-0x100));
+    BG_SYS_ChangeScrollImmediate((int)1, (int)0, (int)(-0x100));
     GFL_HEAP_Free(party);
     G2x_SetBlendAlpha_((void *)0x04000050, 4, 8, 15, 3);
     return work;
@@ -2188,11 +2186,11 @@ int WIFIBATTLEMATCH_VIEW_StepPartyWindow(WifiBattleMatchViewPartyWork *p)
             }
         }
     }
-    shift = _u32_div_f(p->count << 8, 20) - 0x100;
+    shift = (p->count << 8) / 20 - 0x100;
     for (i = 0; i < 14; i++) {
         if (p->spr[i] != 0) {
             CLACT_GetActorSurfacePos(p->spr[i], (struct PtS *)&pos[0], 0);
-            pos[0].x = p->base[i] - _u32_div_f(p->count << 8, 20);
+            pos[0].x = p->base[i] - (p->count << 8) / 20;
             CLACT_AddActorSurfacePos(p->spr[i], &pos[0], 0);
         }
     }
@@ -2201,8 +2199,8 @@ int WIFIBATTLEMATCH_VIEW_StepPartyWindow(WifiBattleMatchViewPartyWork *p)
         p->count = 0;
         done = 1;
     }
-    BG_SYS_ResetSlot(2, 0, shift);
-    BG_SYS_ResetSlot(1, 0, shift);
+    BG_SYS_ChangeScroll(2, 0, shift);
+    BG_SYS_ChangeScroll(1, 0, shift);
     return done;
 }
 
@@ -2221,11 +2219,11 @@ int WIFIBATTLEMATCH_VIEW_StepPartyWindowAlt(WifiBattleMatchViewPartyWork *p)
             }
         }
     }
-    shift = _u32_div_f(p->count << 8, 20);
+    shift = (p->count << 8) / 20;
     for (i = 0; i < 14; i++) {
         if (p->spr[i] != 0) {
             CLACT_GetActorSurfacePos(p->spr[i], (struct PtS *)&pos[0], 0);
-            pos[0].x = p->base[i] - _u32_div_f(p->count << 8, 20);
+            pos[0].x = p->base[i] - (p->count << 8) / 20;
             CLACT_AddActorSurfacePos(p->spr[i], &pos[0], 0);
         }
     }
@@ -2234,8 +2232,8 @@ int WIFIBATTLEMATCH_VIEW_StepPartyWindowAlt(WifiBattleMatchViewPartyWork *p)
         p->count = 0;
         done = 1;
     }
-    BG_SYS_ResetSlot(2, 0, shift);
-    BG_SYS_ResetSlot(1, 0, shift);
+    BG_SYS_ChangeScroll(2, 0, shift);
+    BG_SYS_ChangeScroll(1, 0, shift);
     return done;
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: GF_STANDARD_CalcHash
+ * function: GF_STANDARD_SeedLcg64
  * address:  0x0203F258
  * packet:   pkt_0203F258
  * region:   arm9
@@ -42,7 +42,7 @@ extern void sub_0208142C(void *ctx, void *buf, u32 n);
 extern void sub_020814C0(void *ctx, void *out);
 extern void sub_02082D44(void *in, void *out, u32 n);
 
-void GF_STANDARD_CalcHash(struct Lcg64 *out)
+void GF_STANDARD_SeedLcg64(struct Lcg64 *out)
 {
     u8 a[8];
     u8 c[0x20];

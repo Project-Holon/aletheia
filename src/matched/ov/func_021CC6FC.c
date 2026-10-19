@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PALPARK_CallFieldEvent
+ * function: SCRCMD_PALPARK_CallGPowerFlashEvent
  * address:  0x021CC6FC
  * packet:   pkt_021CC6FC
  * region:   ov021
@@ -29,7 +29,7 @@ extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 extern void *SCRCMD_WORK_GetScriptWork(void *p);
 extern void *GPOWER_EVENT_CreateFlashEvent(void *p);
 
-int SCRCMD_PALPARK_CallFieldEvent(u32 a, u32 b, u32 c, u32 d)
+int SCRCMD_PALPARK_CallGPowerFlashEvent(u32 a, u32 b, u32 c, u32 d)
 {
 SCRIPT_SYS_CallEvent(SCRCMD_WORK_GetScriptWork((void *)b), GPOWER_EVENT_CreateFlashEvent(SCRCMD_WORK_GetGameSystem((void *)b)));
 return 1;

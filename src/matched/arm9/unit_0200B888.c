@@ -39,14 +39,14 @@
  * docs/idioms/cmp-operand-order-names-the-temporary.md.
  *
  * symbols:
- *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
+ *   GF_STANDARD_CalcCrc16  0x0203F1FC  arm
  */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
+extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
 
 struct QRec {
     u16 unk00[0x0C];
@@ -95,11 +95,11 @@ u32 BATTLE_REC_IsValid(void *a, struct BattleRec *b)
     if (r->unk17D8 != 0xE281 || q->unk28 != 0xE281) {
         return 0;
     }
-    sum = GF_STANDARD_SetupCalc((const u8 *)q, 0x38);
+    sum = GF_STANDARD_CalcCrc16((const u8 *)q, 0x38);
     if (sum != q->unk40) {
         return 0;
     }
-    sum = GF_STANDARD_SetupCalc((const u8 *)r, 0x17DC);
+    sum = GF_STANDARD_CalcCrc16((const u8 *)r, 0x17DC);
     if (sum == r->unk17DC) {
         return 1;
     }

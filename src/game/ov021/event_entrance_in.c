@@ -21,8 +21,8 @@
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   FIELD_GROUND_ANIME_CreateB  0x021A7E3C  thumb  ov021
  *   GAME_EVENT_CallEvent  0x02012374  thumb
- *   EVENT_FIELD_PROCLINK_IsHopDone  0x02161B1C  thumb  ov010
- *   EVENT_FIELD_PROCLINK_IsAnimFlagSet  0x02161B74  thumb  ov010
+ *   EVENT_FIELD_PROCLINK_StartHopAnim  0x02161B1C  thumb  ov010
+ *   EVENT_FIELD_PROCLINK_IsHopAnimDone  0x02161B74  thumb  ov010
  *   EVENT_DISAPPEAR_CreateRisingSpin  0x021BFE00  thumb  ov021
  *   FIELD_CAMERA_HasDelay  0x0218F0F8  thumb  ov021
  *   FIELD_CAMERA_IsDelayEnabled  0x0218F0E8  thumb  ov021
@@ -61,8 +61,8 @@ extern void *GAME_EVENT_GetWork(GameEvent *event);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern GameEvent *FIELD_GROUND_ANIME_CreateB(EntranceParam *param);
 extern void GAME_EVENT_CallEvent(GameEvent *event, GameEvent *child);
-extern int EVENT_FIELD_PROCLINK_IsHopDone(FieldMap *fieldMap);
-extern int EVENT_FIELD_PROCLINK_IsAnimFlagSet(int animHandle);
+extern int EVENT_FIELD_PROCLINK_StartHopAnim(FieldMap *fieldMap);
+extern int EVENT_FIELD_PROCLINK_IsHopAnimDone(int animHandle);
 extern GameEvent *EVENT_DISAPPEAR_CreateRisingSpin(int unused, GameSystem *gameSystem, FieldMap *fieldMap);
 extern int FIELD_CAMERA_HasDelay(struct FieldCamera *camera);
 extern u32 FIELD_CAMERA_IsDelayEnabled(struct FieldCamera *camera);
@@ -183,11 +183,11 @@ u32 EVENT_ENTRANCE_IN_RunObjectAnime(GameEvent *event, int *seq, EntranceInWork 
             EVENT_ENTRANCE_IN_StartBgmFadeOut(work, event);
         else
             EVENT_ENTRANCE_IN_ReplaceBgm(work);
-        work->animHandle = EVENT_FIELD_PROCLINK_IsHopDone(fieldMap);
+        work->animHandle = EVENT_FIELD_PROCLINK_StartHopAnim(fieldMap);
         (*seq)++;
         break;
     case 1:
-        if (EVENT_FIELD_PROCLINK_IsAnimFlagSet(work->animHandle)) {
+        if (EVENT_FIELD_PROCLINK_IsHopAnimDone(work->animHandle)) {
             if (param->exitEffectId != ENTRANCE_EFFECT_NO_DOOR_SE)
                 GFL_USE_PlaySeDefaultVolume(ENTRANCE_IN_SE_DOOR);
             EVENT_ENTRANCE_IN_CallFadeOut(work, event);

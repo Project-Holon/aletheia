@@ -12,7 +12,7 @@
  * symbols:
  *   VIEWER_MAIN_UpdateBrightness  0x021C5B34  thumb  ov111
  *   VIEWER_MAIN_InitBrightness  0x021C4F80  thumb  ov111
- *   BG_SYS_FillScrollArea  0x02040618  arm
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm
  *   BG_SYS_Update  0x020419E4  arm
  *   CLACT_VBlankSystem  0x0204A648  arm
  *
@@ -33,7 +33,7 @@ typedef struct {
 
 extern void VIEWER_MAIN_UpdateBrightness(Work *p);
 extern void VIEWER_MAIN_InitBrightness(Work *p);
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 extern void BG_SYS_Update(void);
 extern void CLACT_VBlankSystem(void);
 
@@ -43,10 +43,10 @@ void VIEWER_MAIN_VBlank(void *task, Work *p)
 
     VIEWER_MAIN_UpdateBrightness(p);
     ofs = -(p->shake / 2);
-    BG_SYS_FillScrollArea(5, 0, ofs);
-    BG_SYS_FillScrollArea(5, 3, ofs);
-    BG_SYS_FillScrollArea(3, 0, ofs);
-    BG_SYS_FillScrollArea(3, 3, ofs);
+    BG_SYS_ChangeScrollImmediate(5, 0, ofs);
+    BG_SYS_ChangeScrollImmediate(5, 3, ofs);
+    BG_SYS_ChangeScrollImmediate(3, 0, ofs);
+    BG_SYS_ChangeScrollImmediate(3, 3, ofs);
     if (p->dirty) {
         VIEWER_MAIN_InitBrightness(p);
     }

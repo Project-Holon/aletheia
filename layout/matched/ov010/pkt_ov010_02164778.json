@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "EVENTDATA_SYSTEM_ScrCmdRunOverlay47",
+   "name": "SCRCMD_GIMMICK_BRIDGE_ResetSave",
    "address": "0x02164778",
    "kind": "game",
    "region": "ov010",

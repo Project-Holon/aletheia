@@ -50,7 +50,7 @@
  *   WORLDTRADE_ADAPTER_DeletePrintStream 0x02202940 thumb ov135
  *   BMP_WIN_Delete 0x020452E8 arm
  *   STRBUF_Create 0x020457B0 arm
- *   WORLDTRADE_ADAPTER_IsStreamDone  0x02202840  thumb  ov135
+ *   WORLDTRADE_ADAPTER_IsStreamBusy  0x02202840  thumb  ov135
  *   BMP_WIN_GetBmp   0x02045770  arm
  *   BMP_Clear   0x02043B5C  arm
  *   BMP_WIN_TransferChars   0x02045334  arm
@@ -68,7 +68,7 @@
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  *   KEY_GetTrg  0x020362DC  arm  arm9
  *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm  arm9
- *   WORLDTRADE_ClearBusyFlag  0x021F4EC8  thumb  ov135
+ *   WORLDTRADE_AdvanceScreenId  0x021F4EC8  thumb  ov135
  *   WORLDTRADE_SetStateAndReturn  0x021F4EC0  thumb
  *   WORLDTRADE_SetActorPos  0x021F4FF4  thumb
  *   UI_SetInputMode  0x020355D8  arm
@@ -77,7 +77,7 @@
  *   WORLDTRADE_SetNextState 0x021F4E98 thumb ov135
  *   WORLDTRADE_UpdateTaskMenuYesNo 0x021F4D14 thumb ov135
  *   WORLDTRADE_CloseTaskMenu 0x021F4CE4 thumb ov135
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   BMP_WIN_ClearScreen   0x020456F8  arm
  *   WORLDTRADE_OpenTaskMenuYesNoDefault  0x021F4BE0  thumb  ov135
  *   g_02203E58  0x02203E58  data  ov135
@@ -94,7 +94,7 @@
  *   d_022038E0 0x022038E0 data a2
  *   WORLDTRADE_ClearSelectedSpecies 0x021F4F90 thumb ov135
  *   g_022038EC  0x022038EC  data  ov135
- *   WORLDTRADE_QueryGameData 0x021F4ED4 thumb ov135
+ *   WORLDTRADE_GetMessageWait 0x021F4ED4 thumb ov135
  *   tbl_022038E0   0x022038E0  data  a2
  *   d_022038FC 0x022038FC data a4
  *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
@@ -175,7 +175,7 @@ extern void BMP_MENUWORK_DrawWindow(void *win, int commitMode, int tileBase, int
 
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 
-extern void WORLDTRADE_ClearBusyFlag(Work *p);
+extern void WORLDTRADE_AdvanceScreenId(Work *p);
 
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 
@@ -217,7 +217,7 @@ extern void BMP_MENUWORK_DrawWindowBorder(void *p, unsigned kind);
 
 extern int GXx_GetMasterBrightness_(vu16 *reg);
 
-extern void BG_SYS_SetFlagField06(u32 v);
+extern void BG_SYS_MarkTileDirty(u32 v);
 
 
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
@@ -232,7 +232,7 @@ extern void BG_SYS_FreeLayerBuf(unsigned);
 
 extern void WORLDTRADE_ClearSelectedSpecies(void *);
 
-extern int WORLDTRADE_QueryGameData(void);
+extern int WORLDTRADE_GetMessageWait(void);
 
 
 extern void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
@@ -327,7 +327,7 @@ void WORLDTRADE_TITLE_LoadSubBgSwap(Work *p);
 
 void WORLDTRADE_TITLE_CreateMenuWindow(Work *p, u32 k);
 
-u32 WORLDTRADE_ADAPTER_IsStreamDone(PrintStreamCtx *p);
+u32 WORLDTRADE_ADAPTER_IsStreamBusy(PrintStreamCtx *p);
 
 u32 WORLDTRADE_ADAPTER_QueuePrintDefaultColor(void *p,u8 b,void *s,u32 x,u32 y,void *out);
 
@@ -418,7 +418,7 @@ int WORLDTRADE_TITLE_Exit(Work *p)
     if (p->nextScreenId == 4 || p->nextScreenId == 5) p->keepBgLayers = 1;
     WORLDTRADE_TITLE_ExitBgPlanes(p);
     CLACT_SetActorDrawEnable((struct Obj *)*(u32 *)(void * *)&p->scrollBarObj, 0);
-    WORLDTRADE_ClearBusyFlag(p);
+    WORLDTRADE_AdvanceScreenId(p);
     return 0;
 }
 
@@ -696,7 +696,7 @@ void WORLDTRADE_TITLE_HandleSelection(Work *p, int mode)
         p->state = 9;
         break;
     case 2:
-        WORLDTRADE_TITLE_PrintMessageSub((u8 *)p, 7, WORLDTRADE_QueryGameData(), 0, 0xF0F);
+        WORLDTRADE_TITLE_PrintMessageSub((u8 *)p, 7, WORLDTRADE_GetMessageWait(), 0, 0xF0F);
         WORLDTRADE_SetNextState(p, 10, 12);
         break;
     }
@@ -816,10 +816,10 @@ int WORLDTRADE_TITLE_StateConfirmYesNoInput(Work *p)
         BMP_MENUWORK_DrawWindowBorder((void *)(*(u32 *)&p->dd0), 2);
         w = *(u32 *)&p->dd0;
         BMP_WIN_ClearScreen((struct Descriptor *)w);
-        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)w));
+        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct Descriptor *)w));
         w = (*(unsigned int *)&p->msgWin);
         BMP_WIN_ClearScreen((struct Descriptor *)w);
-        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)w));
+        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct Descriptor *)w));
         BG_SYS_SetPlaneVisible(6, 0);
         CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)p->scrollBarObj), 0);
         WORLDTRADE_SetStateAndReturn(p, 0, 0x14);
@@ -829,7 +829,7 @@ int WORLDTRADE_TITLE_StateConfirmYesNoInput(Work *p)
         BMP_MENUWORK_DrawWindowBorder((void *)(*(u32 *)&p->dd0), 2);
         w = *(u32 *)&p->dd0;
         BMP_WIN_ClearScreen((struct Descriptor *)w);
-        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)w));
+        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct Descriptor *)w));
         CLACT_SetActorAutoAnim((struct Obj *)((struct Obj *)p->cursor), 1);
         p->state = 5;
         CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)p->cursor), 1);
@@ -855,7 +855,7 @@ int WORLDTRADE_TITLE_StateUpdateCursorAnim(Work *p)
  */
 int WORLDTRADE_TITLE_StateWaitMessage(u8 *p)
 {
-    if (WORLDTRADE_ADAPTER_IsStreamDone((PrintStreamCtx *)(p + 0xfa0)) == 0) {
+    if (WORLDTRADE_ADAPTER_IsStreamBusy((PrintStreamCtx *)(p + 0xfa0)) == 0) {
         ((Work *)p)->state = ((Work *)p)->returnState;
     }
     return 2;
@@ -863,7 +863,7 @@ int WORLDTRADE_TITLE_StateWaitMessage(u8 *p)
 
 int WORLDTRADE_TITLE_StateWaitMessageTimed(u8 *p)
 {
-    if (WORLDTRADE_ADAPTER_IsStreamDone((PrintStreamCtx *)(p + 0xfa0)) == 0) {
+    if (WORLDTRADE_ADAPTER_IsStreamBusy((PrintStreamCtx *)(p + 0xfa0)) == 0) {
         if (++((Work *)p)->cnt > 0x2d) {
             ((Work *)p)->cnt = 0;
             ((Work *)p)->state = ((Work *)p)->returnState;
@@ -958,5 +958,5 @@ void WORLDTRADE_TITLE_CreateMenuWindow(Work *p, u32 labelIdx)
     v = (*(unsigned int *)&p->msgWin);
     BMP_WIN_TransferChars((struct Descriptor *)v);
     BMP_WIN_MakeScreen((struct Cfg *)v);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)v));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct Descriptor *)v));
 }

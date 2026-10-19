@@ -9,11 +9,11 @@
  * status: EXACT
  * symbols:
  *   func_0200E8E0 0x0200E8E0 thumb
- *   GSYNC_DOWNLOAD_NoteFinished 0x021D5BA0 thumb ov123
+ *   GSYNC_DOWNLOAD_GetFileBuffer 0x021D5BA0 thumb ov123
  *   GSYNC_STATE_ChangeState 0x021D6EE0 thumb ov123
  *   GSYNC_STATE_StateErrorMessage 0x021D6FF0 thumb ov123
  *   GSYNC_STATE_StateExtraSaveMainSecond 0x021D76B8 thumb ov123
- *   GF_STANDARD_SetupCalc 0x0203F1FC arm
+ *   GF_STANDARD_CalcCrc16 0x0203F1FC arm
  *   func_02030734 0x02030734 arm
  *   MI_CpuCopy8 0x02082D44 arm
  *   func_02009108 0x02009108 thumb
@@ -29,11 +29,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 struct Big;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern int GSYNC_DOWNLOAD_NoteFinished(char *p);
+extern int GSYNC_DOWNLOAD_GetFileBuffer(char *p);
 typedef unsigned int   u32;
 struct Sub020090B0Obj;
 struct Sub02009210Obj;
-extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
+extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern int SAVE_CONTROL_LoadExtraSaveWithBuffer(int,int,u16,int,int);
 extern void MI_CpuCopy8(const void *,void *,int);
@@ -53,8 +53,8 @@ void GSYNC_STATE_StateExtraSaveLoadStartSecond(int a)
     int x;
     u16 checksum;
     b=(int)GAME_DATA_GetSaveControl((struct Big *)(((struct Obj02475 *)a)->f2C));
-    p=(u8 *)GSYNC_DOWNLOAD_NoteFinished((char *)(((struct Obj02475 *)a)->f8));
-    checksum=GF_STANDARD_SetupCalc(p,0x6200);
+    p=(u8 *)GSYNC_DOWNLOAD_GetFileBuffer((char *)(((struct Obj02475 *)a)->f8));
+    checksum=GF_STANDARD_CalcCrc16(p,0x6200);
     if(checksum!=((struct Obj22960 *)p)->f6200) {
         ((struct Obj02475 *)a)->f80=0xfff0;
         GSYNC_STATE_ChangeState((u8 *)a,(int)GSYNC_STATE_StateErrorMessage,0x378);

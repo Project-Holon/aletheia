@@ -1,5 +1,5 @@
 /*
- * function: APP_ENV_InitParentalControl
+ * function: APP_ENV_IsWirelessAvailable
  * address:  0x0202EB44
  * packet:   pkt_0202EB44
  * region:   arm9
@@ -19,7 +19,7 @@
 
 extern void func_02087DC4(void);
 
-void APP_ENV_InitParentalControl(void)
+void APP_ENV_IsWirelessAvailable(void)
 {
     func_02087DC4();
 }

@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   BG_SYS_FillScrollArea  0x02040618  arm
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm
  *   CLACT_SetSurfacePos  0x0204B09C  arm
  */
 
@@ -29,15 +29,15 @@ typedef struct {
 } S;
 
 typedef unsigned int   u32;
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 extern void CLACT_SetSurfacePos(int a, int b, P *c);
 
 void FIELD_MENU_SetScrolledOut(S *s)
 {
     P v;
     s->hfc = 0xc0;
-    BG_SYS_FillScrollArea(5, 3, -0xc0);
-    BG_SYS_FillScrollArea(6, 3, -0xc5);
+    BG_SYS_ChangeScrollImmediate(5, 3, -0xc0);
+    BG_SYS_ChangeScrollImmediate(6, 3, -0xc5);
     v.x = 0;
     v.y = 0xc0;
     CLACT_SetSurfacePos(s->f120, 0, &v);

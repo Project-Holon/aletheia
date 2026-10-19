@@ -52,7 +52,7 @@
  *   B_PLIST_ANM_StartPaletteAnim 0x0220B760 thumb ov198
  *   B_PLIST_DRAW_ClearAndPrintStream 0x0220E13C thumb ov198
  *   B_PLIST_DRAW_FormatRowWord 0x0220E1D4 thumb ov198
- *   FILE_UTIL_Get_0FE4 0x02020FE4 thumb
+ *   FILE_UTIL_GetItemParam 0x02020FE4 thumb
  *   MSGDATA_ReadString 0x02045CAC arm
  *   CURSOR_MOVE_PollRepeatInput 0x02025DE8 thumb
  *   B_PLIST_DRAW_PrintWordAndRefresh  0x0220D6AC  thumb  ov198
@@ -75,7 +75,7 @@
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_ClearSlot 0x020414EC arm
  *   BG_SYS_InitRun 0x02040B94 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   d_02212144 0x02212144 data a4
  *   d_02212174 0x02212174 data a4
@@ -102,7 +102,7 @@
  *   STRBUF_Create 0x020457B0 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
@@ -117,7 +117,7 @@
  *   d_02212130 0x02212130 data a1
  *   BGWINFRM_ScaleRatio 0x0202D01C thumb
  *   BG_SYS_SetTileEntry 0x02041300 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   B_PLIST_DRAW_DeleteStateWindows 0x0220BDD4 thumb ov198
  *   B_PLIST_DRAW_CreateStateWindows 0x0220BC70 thumb ov198
  *   BG_SYS_ClearLayerEx 0x02041570 arm
@@ -125,9 +125,9 @@
  *   BG_SYS_DrawTile 0x02041090 arm
  *   d_022121D4 0x022121D4 data a4
  *   MSGDATA_AllocString 0x02045EC0 arm
- *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
+ *   WORDSET_SetSlotMonNickname 0x0201EEF4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
- *   EVENT_ID_Check 0x0202F72C thumb
+ *   WAZA_TOOL_IsHmMove 0x0202F72C thumb
  *   d_02212138 0x02212138 data a4
  *   B_PLIST_DRAW_PrintHeader10 0x0220C688 thumb
  *   B_PLIST_DRAW_ShowSubWindow 0x0220E27C thumb
@@ -285,7 +285,7 @@ extern u32 PALANM_GetFadeRequestBits(const char *);
 extern void B_PLIST_ANM_StartPaletteAnim(u8 *,u32);
 extern void B_PLIST_DRAW_ClearAndPrintStream(u8 *);
 extern void B_PLIST_DRAW_FormatRowWord(u8 *);
-extern u32 FILE_UTIL_Get_0FE4(void *,u32,u32);
+extern u32 FILE_UTIL_GetItemParam(void *,u32,u32);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern int CURSOR_MOVE_PollRepeatInput(struct Sound *);
 extern void B_PLIST_DRAW_PrintWordAndRefresh(u8 *);
@@ -330,7 +330,7 @@ extern void *PRINTSYS_QUE_CreateEx(u16,u32);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *);
 extern void STRBUF_Delete(struct U16Vec *);
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
@@ -344,16 +344,16 @@ extern unsigned POKEPARTY_GetCount(void *);
 extern void *POKEPARTY_GetMember(void *,unsigned);
 extern u8 BGWINFRM_ScaleRatio(u32,u32,u32);
 extern void BG_SYS_SetTileEntry(u32,u16,u8,int,u8,u8,u8);
-extern void BG_SYS_SetFlagField06(u8);
+extern void BG_SYS_MarkTileDirty(u8);
 extern void B_PLIST_DRAW_DeleteStateWindows(char *);
 extern void B_PLIST_DRAW_CreateStateWindows(u8 *,u32);
 extern void BG_SYS_ClearLayerEx(int channel, u16 val);
 extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
 extern void BG_SYS_DrawTile(u32 index, u32 src, u32 dx, u32 dy, u8 cw, u8 ch);
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonNickname(struct WordSet *p, u32 i, void *mon);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
-extern u32 EVENT_ID_Check(void *,u16,u16);
+extern u32 WAZA_TOOL_IsHmMove(void *,u16,u16);
 extern void B_PLIST_DRAW_PrintHeader10(char *p);
 extern void B_PLIST_DRAW_ShowSubWindow(u8 *p);
 extern u32 BG_SYS_GetBuf(int channel);
@@ -776,8 +776,8 @@ int B_PLIST_MAIN_ConfirmSelect(u8 *p)
         B_PLIST_MAIN_ClearSelection((u8 **)p);
         return 23;
     }
-    if (FILE_UTIL_Get_0FE4((void *)*(u16 *)(q+36),39,*(u16 *)(q+16)) != 0 &&
-        FILE_UTIL_Get_0FE4((void *)*(u16 *)(q+36),40,*(u16 *)(q+16)) == 0) {
+    if (FILE_UTIL_GetItemParam((void *)*(u16 *)(q+36),39,*(u16 *)(q+16)) != 0 &&
+        FILE_UTIL_GetItemParam((void *)*(u16 *)(q+36),40,*(u16 *)(q+16)) == 0) {
         *(u32 *)(p+0x217c) = 18;
         return 29;
     }
@@ -1429,8 +1429,8 @@ void B_PLIST_MAIN_InitBg(u8 *p)
     BG_SYS_ClearSlot(4);
     BG_SYS_InitRun(5,32,0,((struct B_PlistWork *)p)->owner->heapId);
     BG_SYS_InitRun(4,32,0,((struct B_PlistWork *)p)->owner->heapId);
-    BG_SYS_SetFlagField06(5);
-    BG_SYS_SetFlagField06(4);
+    BG_SYS_MarkTileDirty(5);
+    BG_SYS_MarkTileDirty(4);
     BG_SYS_SetSubPlaneVisible(15,1);
 }
 
@@ -1485,7 +1485,7 @@ void B_PLIST_MAIN_CreateTextResources(char *p)
 
 
 
-void B_PLIST_MAIN_DeleteTextResources(u8 *p) { MSGDATA_Delete(*(struct Rec * *)&((struct B_PlistWork *)p)->msgBank);GF_FONT_Delete(((struct B_PlistWork *)p)->u1E9C.fontSmall);WORDSET_DeleteStrbufED04(*(struct WordSet * *)&((struct B_PlistWork *)p)->wordSet);PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct B_PlistWork *)p)->u1EAC.printQue);STRBUF_Delete(*(struct U16Vec * *)&((struct B_PlistWork *)p)->u1EA8.strBuf); }
+void B_PLIST_MAIN_DeleteTextResources(u8 *p) { MSGDATA_Delete(*(struct Rec * *)&((struct B_PlistWork *)p)->msgBank);GF_FONT_Delete(((struct B_PlistWork *)p)->u1E9C.fontSmall);WORDSET_Delete(*(struct WordSet * *)&((struct B_PlistWork *)p)->wordSet);PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct B_PlistWork *)p)->u1EAC.printQue);STRBUF_Delete(*(struct U16Vec * *)&((struct B_PlistWork *)p)->u1EA8.strBuf); }
 
 
 
@@ -1671,7 +1671,7 @@ void B_PLIST_MAIN_DrawExpBar(u8 *p,int mode)
         BG_SYS_SetTileEntry(7,tile,i+10,8,1,1,16);
         if(amount<8) amount=0; else amount-=8;
     }
-    BG_SYS_SetFlagField06(7);
+    BG_SYS_MarkTileDirty(7);
 }
 
 
@@ -1726,7 +1726,7 @@ void B_PLIST_MAIN_LoadModePalette(u8 *p,u32 n)
     for(;i<2;i++) {
         buf=ARC_UTIL_LoadPaletteDataFromArchive(100,table[i],1,(u32)(&out),((struct B_PlistWork *)p)->owner->heapId);
         BG_SYS_DrawTile((u8)(i+6),(u32)(out+12),0,0,32,24);
-        BG_SYS_SetFlagField06(i+6);
+        BG_SYS_MarkTileDirty(i+6);
         GFL_HEAP_Free(buf);
     }
 }
@@ -1775,21 +1775,21 @@ int B_PLIST_MAIN_PrintStatusMessage(u8 *p)
     case 1: text=MSGDATA_AllocString(*(void **)(p+0x1EA0),90); break;
     case 2:
         text=MSGDATA_AllocString(*(void **)(p+0x1EA0),87);
-        WORDSET_SetSlotMonSpecies(*(void **)(p+0x1EA4),0,*(void **)(base+index));
+        WORDSET_SetSlotMonNickname(*(void **)(p+0x1EA4),0,*(void **)(base+index));
         break;
     case 3:
         text=MSGDATA_AllocString(*(void **)(p+0x1EA0),86);
-        WORDSET_SetSlotMonSpecies(*(void **)(p+0x1EA4),0,*(void **)(base+index));
+        WORDSET_SetSlotMonNickname(*(void **)(p+0x1EA4),0,*(void **)(base+index));
         break;
     case 4:
         text=MSGDATA_AllocString(*(void **)(p+0x1EA0),103);
-        WORDSET_SetSlotMonSpecies(*(void **)(p+0x1EA4),0,*(void **)(base+index));
+        WORDSET_SetSlotMonNickname(*(void **)(p+0x1EA4),0,*(void **)(base+index));
         break;
     case 5: text=MSGDATA_AllocString(*(void **)(p+0x1EA0),89); break;
     case 6:
         index=76*(*(u8 **)p)[33];
         text=MSGDATA_AllocString(*(void **)(p+0x1EA0),88);
-        WORDSET_SetSlotMonSpecies(*(void **)(p+0x1EA4),0,*(void **)(base+index));
+        WORDSET_SetSlotMonNickname(*(void **)(p+0x1EA4),0,*(void **)(base+index));
         break;
     case 0: return 1;
     }
@@ -1827,7 +1827,7 @@ u32 B_PLIST_MAIN_IsBattleSlot(u32 a, u32 b)
 /*
  * lever: Group the unsigned address sum as base plus row, then column, then offset.
  */
-u32 B_PLIST_MAIN_CheckMoveUsable(u8 *p) { u8 *q;unsigned long i;int row;q=*(u8 * *)&((struct B_PlistWork *)p)->owner;i=q[75];if(i==4)return 0;row=(u32)p+q[32]*76;return EVENT_ID_Check(((struct B_PlistHost *)q)->config,*(u16 *)(row+i*8+48),((struct B_PlistHost *)q)->heapId); }
+u32 B_PLIST_MAIN_CheckMoveUsable(u8 *p) { u8 *q;unsigned long i;int row;q=*(u8 * *)&((struct B_PlistWork *)p)->owner;i=q[75];if(i==4)return 0;row=(u32)p+q[32]*76;return WAZA_TOOL_IsHmMove(((struct B_PlistHost *)q)->config,*(u16 *)(row+i*8+48),((struct B_PlistHost *)q)->heapId); }
 
 
 
@@ -2031,21 +2031,21 @@ int B_PLIST_MAIN_PrintRowMessage(u8 *p)
             text = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x6b);
         else
             text = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x6a);
-        WORDSET_SetSlotMonSpecies(((struct B_PlistWork *)p)->wordSet, 0, ((struct B_PlistSlot *)row)->u00.ptr);
+        WORDSET_SetSlotMonNickname(((struct B_PlistWork *)p)->wordSet, 0, ((struct B_PlistSlot *)row)->u00.ptr);
         WORDSET_CopyTaggedText(((struct B_PlistWork *)p)->wordSet, ((struct B_PlistWork *)p)->u1EA8.strBuf, text);
         STRBUF_Delete(text);
         return 0;
     }
     if (B_PLIST_MAIN_IsIndexInParty(p, (*(u8 **)p)[0x20]) == 1) {
         text = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x56);
-        WORDSET_SetSlotMonSpecies(((struct B_PlistWork *)p)->wordSet, 0, ((struct B_PlistSlot *)row)->u00.ptr);
+        WORDSET_SetSlotMonNickname(((struct B_PlistWork *)p)->wordSet, 0, ((struct B_PlistSlot *)row)->u00.ptr);
         WORDSET_CopyTaggedText(((struct B_PlistWork *)p)->wordSet, ((struct B_PlistWork *)p)->u1EA8.strBuf, text);
         STRBUF_Delete(text);
         return 0;
     }
     if (((struct B_PlistSlot *)row)->hp != 0) {
         text = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x56);
-        WORDSET_SetSlotMonSpecies(((struct B_PlistWork *)p)->wordSet, 0, ((struct B_PlistSlot *)row)->u00.ptr);
+        WORDSET_SetSlotMonNickname(((struct B_PlistWork *)p)->wordSet, 0, ((struct B_PlistSlot *)row)->u00.ptr);
         WORDSET_CopyTaggedText(((struct B_PlistWork *)p)->wordSet, ((struct B_PlistWork *)p)->u1EA8.strBuf, text);
         STRBUF_Delete(text);
         return 0;

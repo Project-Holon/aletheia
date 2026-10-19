@@ -21,7 +21,7 @@
  * writes a new one.  POKERUS_IsBoxInfected asks whether the low nibble is set and
  * POKERUS_IsBoxCured whether the high nibble is set and the low one is not;
  * POKERUS_IsInfected and POKERUS_IsCured are their two-instruction wrappers over
- * POKE_TOOL_Dummy.
+ * POKE_TOOL_CastToBoxParam.
  *
  * ---------------------------------------------------------------------------
  * VERSION SENSITIVITY, read this before porting to Pokemon White
@@ -59,7 +59,7 @@
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
- *   POKE_TOOL_Dummy  0x020185F0  thumb
+ *   POKE_TOOL_CastToBoxParam  0x020185F0  thumb
  *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  */
 
@@ -72,7 +72,7 @@ extern u32   POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 extern u32   POKE_TOOL_GetBoxValue(void *mon, u32 id, u32 v);
 extern u32 POKEPARTY_GetCount(void *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
-extern void *POKE_TOOL_Dummy(void *a);
+extern void *POKE_TOOL_CastToBoxParam(void *a);
 
 u32 POKERUS_IsBoxInfected(void *mon);
 u32 POKERUS_IsBoxCured(void *mon);
@@ -95,7 +95,7 @@ u32 POKERUS_GetInfectedMask(void *party)
 
 u32 POKERUS_IsInfected(void *a)
 {
-    return POKERUS_IsBoxInfected(POKE_TOOL_Dummy(a));
+    return POKERUS_IsBoxInfected(POKE_TOOL_CastToBoxParam(a));
 }
 
 u32 POKERUS_IsBoxInfected(void *mon)
@@ -111,7 +111,7 @@ u32 POKERUS_IsBoxInfected(void *mon)
 
 u32 POKERUS_IsCured(void *a)
 {
-    return POKERUS_IsBoxCured(POKE_TOOL_Dummy(a));
+    return POKERUS_IsBoxCured(POKE_TOOL_CastToBoxParam(a));
 }
 
 u32 POKERUS_IsBoxCured(void *mon)

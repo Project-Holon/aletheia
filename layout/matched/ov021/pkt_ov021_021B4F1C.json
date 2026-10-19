@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "SCRCMD_PROC_FLD_CallSubProcWithFlag",
+   "name": "SCRCMD_PROC_FLD_ObtainCGearAndCallCommResetEvent",
    "address": "0x021B4F1C",
    "kind": "game",
    "region": "ov021",

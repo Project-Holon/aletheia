@@ -1,5 +1,5 @@
 /*
- * function: INTRUDE_SUBDISP_ScriptApplyCommState
+ * function: INTRUDE_SUBDISP_ScriptAddAreaMapsAndMarkers
  * address:  0x0217CF88
  * packet:   pkt_ov018_0217CF88
  * region:   ov018
@@ -37,7 +37,7 @@ extern void INTRUDE_FIELD_AddAreaMaps(u8 *a, int b, u8 *c);
 extern void INTRUDE_FIELD_AddAreaMapCount(int a, int n);
 extern void INTRUDE_FIELD_AddMarkerMmdls();
 
-int INTRUDE_SUBDISP_ScriptApplyCommState(int a0, int a1)
+int INTRUDE_SUBDISP_ScriptAddAreaMapsAndMarkers(int a0, int a1)
 {
     void *w;
     void *c;

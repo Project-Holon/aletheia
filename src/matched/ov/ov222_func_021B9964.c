@@ -20,7 +20,7 @@
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200873C 0x0200873C thumb
- *   CONFIG_GetAppliedFlag 0x020083E4 thumb
+ *   CONFIG_GetTextLanguage 0x020083E4 thumb
  *   ARC_UTIL_UploadPaletteFromArchive 0x02049B90 arm
  *   func_02045B38 0x02045B38 arm
  *   BMP_WIN_Create 0x020450F0 arm
@@ -38,7 +38,7 @@
  *   BMP_GetWidth 0x020437DC arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
@@ -71,7 +71,7 @@ struct U16Vec;
 struct WordSet;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
-extern int CONFIG_GetAppliedFlag(unsigned short *p);
+extern int CONFIG_GetTextLanguage(unsigned short *p);
 extern void ARC_UTIL_UploadPaletteFromArchive(u32,u32,u32,u32,u32,u32,u16);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
@@ -89,7 +89,7 @@ extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32);
@@ -103,7 +103,7 @@ void ZENKOKU_ZUKAN_AWARD_SetupWindows(struct Obj *p)
     s16 off;
     u32 ws, x, t;
     msg = GAME_DATA_GetMyStatus(*p->info);
-    flag = CONFIG_GetAppliedFlag((short unsigned int *)func_0200873C(GAME_DATA_GetSaveControl(*p->info)));
+    flag = CONFIG_GetTextLanguage((short unsigned int *)func_0200873C(GAME_DATA_GetSaveControl(*p->info)));
     p->bank = 0;
     for (i = 0; i < 5; i++) {
         p->ptr[i] = 0;
@@ -135,7 +135,7 @@ void ZENKOKU_ZUKAN_AWARD_SetupWindows(struct Obj *p)
     PRINTSYS_PrintQueColor(p->bmp, (u32)BMP_WIN_GetBmp(p->ptr[2]), 0, 0, x, (u32)p->str, 0x440);
     STRBUF_Delete((struct U16Vec *)x);
     STRBUF_Delete((struct U16Vec *)t);
-    WORDSET_DeleteStrbufED04((struct WordSet *)ws);
+    WORDSET_Delete((struct WordSet *)ws);
     t = (u32)func_02045EC0(p->bank, 6);
     x = (u16)func_0201D304((struct StrObj *)t, (u32)p->str, 0);
     h = BMP_GetWidth(BMP_WIN_GetBmp(p->ptr[3]));

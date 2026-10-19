@@ -29,4 +29,20 @@ typedef signed char s8;
 
 typedef int s32;
 
+struct Personal;
+
+struct Sub0200852CObj;
+
+struct Obj;
+
+struct Actor;
+
+typedef struct {
+    u16 x;
+    u16 y;
+    u16 animSeq;
+    u8 drawPriority;
+    u8 bgPriority;
+} ClactActorPos;
+
 #endif

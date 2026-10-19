@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BUTTON_MAN_AppendList0",
+   "name": "PARTICLE_AllocTexVramTracked",
    "address": "0x02051A54",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BUTTON_MAN_Func1AA0",
+   "name": "PARTICLE_AllocVramOffset",
    "address": "0x02051AA0",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BUTTON_MAN_AppendList1",
+   "name": "PARTICLE_AllocPlttVramTracked",
    "address": "0x02051AB8",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BUTTON_MAN_CallHandlerById",
+   "name": "G2_GetBGCharPtrById",
    "address": "0x02051B0C",
    "kind": "game",
    "region": "arm9",

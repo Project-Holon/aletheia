@@ -13,7 +13,7 @@
  *   gBtlMsgState  0x021F6398  data  a4
  *   BTL_SIDE_GetPokeById  0x021B9940  thumb  ov093
  *   BTL_POKEPARAM_GetDisplayMon  0x021D5864  thumb  ov093
- *   WORDSET_SetSlotMonName  0x0201EE84  thumb
+ *   WORDSET_SetSlotMonSpeciesName  0x0201EE84  thumb
  */
 
 typedef unsigned char u8;
@@ -33,9 +33,9 @@ extern u8 *BTL_SIDE_GetPokeById(char *p, u8 i);
 struct Work;
 extern void *BTL_POKEPARAM_GetDisplayMon(struct Work *p);
 struct WordSet;
-extern void WORDSET_SetSlotMonName(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonSpeciesName(struct WordSet *p, u32 i, void *mon);
 
 void BTL_MSG_SetPokeNickname(u8 a, u8 b)
 {
-    WORDSET_SetSlotMonName(gBtlMsgState.f8, b, BTL_POKEPARAM_GetDisplayMon((struct Work *)BTL_SIDE_GetPokeById((char *)gBtlMsgState.f4, a)));
+    WORDSET_SetSlotMonSpeciesName(gBtlMsgState.f8, b, BTL_POKEPARAM_GetDisplayMon((struct Work *)BTL_SIDE_GetPokeById((char *)gBtlMsgState.f4, a)));
 }

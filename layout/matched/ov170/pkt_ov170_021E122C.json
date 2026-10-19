@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BOX2_MAIN_Check122C",
+   "name": "BOX2_MAIN_StateMachineReturnHeld",
    "address": "0x021E122C",
    "kind": "game",
    "region": "ov170",

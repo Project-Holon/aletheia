@@ -19,7 +19,7 @@
  *   MUSICAL_STAGE_SYS_SetPerformerProp  0x0215700C  thumb  ov010
  *   MUSICAL_PROGRAM_Create  0x02157028  thumb  ov010
  *   MUSICAL_PROGRAM_SplitBonus  0x02157174  thumb  ov010
- *   MUSICAL_MCSS_AllocSmall  0x021F685C  thumb  ov112
+ *   MUSICAL_MCSS_AllocDistSave  0x021F685C  thumb  ov112
  *   MUSICAL_MCSS_LoadDistSave  0x021F68BC  thumb  ov112
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
@@ -65,7 +65,7 @@ extern void MUSICAL_STAGE_SYS_SetPerformerProp(Stage *s, u8 idx, u8 j, u16 id, s
 extern struct Deal *MUSICAL_PROGRAM_Create(u32 heap, struct Src *src, u16 lim);
 struct Party;
 extern void MUSICAL_PROGRAM_SplitBonus(u32 heap, struct Deal *d, struct Party *party);
-extern void *MUSICAL_MCSS_AllocSmall(u32 a);
+extern void *MUSICAL_MCSS_AllocDistSave(u32 a);
 extern void MUSICAL_MCSS_LoadDistSave(u8 *p, u32 unused, void *sys, u8 kind, u16 heap);
 
 int MUSICAL_STAGE_SYS_Init(void *proc, void *unused, Stage *prev)
@@ -98,7 +98,7 @@ int MUSICAL_STAGE_SYS_Init(void *proc, void *unused, Stage *prev)
         MUSICAL_STAGE_SYS_SetPerformerProp(w->stage, 3, 2, 0x15, 0, 2);
         *(u32 *)w->stage->f04[1] = 0;
         GFL_HEAP_CreateChildHeap(1, 0x802C, 0x80000);
-        w->stage->f18 = MUSICAL_MCSS_AllocSmall(1);
+        w->stage->f18 = MUSICAL_MCSS_AllocDistSave(1);
         MUSICAL_MCSS_LoadDistSave(w->stage->f18, 0, 0, 0, 0x2C);
         w->stage->f14 = MUSICAL_PROGRAM_Create(0x2E, w->stage->f18, 0);
         MUSICAL_PROGRAM_SplitBonus(0x2E, w->stage->f14, (struct Party *)w->stage);

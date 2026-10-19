@@ -12,7 +12,7 @@
  * promoted: from src/pending on 2026-09-27, no C change. Its blocker, the
  *   call at +0xD8 to the unlabelled ARM leaf 0x02051B04, closed when that
  *   leaf was seeded in layout/function_starts.txt and matched
- *   (src/matched/BUTTON_MAN_GetResourceType.c); all 13 relocations resolve.
+ *   (src/matched/PARTICLE_RESOURCE_GetType.c); all 13 relocations resolve.
  *
  * symbols:
  *   d_02208F24 0x02208F24 data
@@ -26,7 +26,7 @@
  *   PARTICLE_ReleaseCamera 0x02051758 arm
  *   PARTICLE_InitCamera 0x02051648 arm
  *   PARTICLE_LoadArchiveMember 0x0205121C arm
- *   BUTTON_MAN_GetResourceType 0x02051B04 arm
+ *   PARTICLE_RESOURCE_GetType 0x02051B04 arm
  *   PARTICLE_SetupSystem 0x02051230 arm
  */
 
@@ -79,7 +79,7 @@ extern void *PARTICLE_CreateSystem(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a
 extern int PARTICLE_ReleaseCamera(int a0);
 extern void PARTICLE_InitCamera(struct Dst648 *this, struct Src648 *src, u16 a2, int *a3, int *a4, int *a5, u32 a6);
 extern int PARTICLE_LoadArchiveMember(u32 a, u32 b, u32 c);
-extern u16 BUTTON_MAN_GetResourceType(void *res);
+extern u16 PARTICLE_RESOURCE_GetType(void *res);
 extern void PARTICLE_SetupSystem(void *spl, u32 res, u32 a2, u32 a3);
 
 Ptc *SHINKA_DEMO_EFFECT_CreateParticle(u16 heap, u16 a, void *b)
@@ -112,7 +112,7 @@ Ptc *SHINKA_DEMO_EFFECT_CreateParticle(u16 heap, u16 a, void *b)
     PARTICLE_ReleaseCamera((int)p->spl);
     PARTICLE_InitCamera(p->spl, (struct Src648 *)(&prm), 0x2000, (int *)(&v1), (int *)(&v2), (int *)(&v3), heap);
     res = PARTICLE_LoadArchiveMember(d_02208E9C[0], d_02208E9C[1], heap);
-    p->f4810 = BUTTON_MAN_GetResourceType((void *)res);
+    p->f4810 = PARTICLE_RESOURCE_GetType((void *)res);
     PARTICLE_SetupSystem(p->spl, res, 1, 0);
     return p;
 }

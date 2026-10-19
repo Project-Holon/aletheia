@@ -16,7 +16,7 @@
  *   WIFIBATTLEMATCH_UTIL_GetBusy 0x021E8844 thumb ov177
  *   WIFIBATTLEMATCH_UTIL_CommitRequest 0x021E8AB8 thumb ov177
  *   WIFIBATTLEMATCH_UTIL_ClearCallback 0x021E8AA8 thumb ov177
- *   WIFIBATTLEMATCH_NET_StartTradeIconAnim 0x021D97E4 thumb ov175
+ *   WIFIBATTLEMATCH_NET_DrawCompStatusWindow 0x021D97E4 thumb ov175
  *   WIFIBATTLEMATCH_NET_GetGsProfileId 0x021DD020 thumb ov175
  *   WIFIBATTLEMATCH_NET_SetupHttpRap 0x021DC8B4 thumb ov175
  *   WIFIBATTLEMATCH_NET_HttpRapSend 0x021DC908 thumb ov175
@@ -53,7 +53,7 @@ extern void WIFIBATTLEMATCH_UTIL_SetRequest(u32,u32);
 extern void WIFIBATTLEMATCH_UTIL_CommitRequest(u32);
 extern void WIFIBATTLEMATCH_UTIL_ClearCallback(int a);
 extern int WIFIBATTLEMATCH_UTIL_GetBusy(const int *p);
-extern void WIFIBATTLEMATCH_NET_StartTradeIconAnim(char *,u32);
+extern void WIFIBATTLEMATCH_NET_DrawCompStatusWindow(char *,u32);
 extern u32 WIFIBATTLEMATCH_NET_GetGsProfileId(char *);
 extern void WIFIBATTLEMATCH_NET_SetupHttpRap(char *,void *,unsigned);
 extern int WIFIBATTLEMATCH_NET_HttpRapSend(char *);
@@ -119,7 +119,7 @@ void WIFIBATTLEMATCH_NET_CompStepM(u32 sys,int *state,char *p)
     case 7:if(GAME_DATA_SaveMain(**(void ** *)&((struct Obj08277 *)q)->f8)==2) *state=8;break;
     case 8:BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(**(void ** *)&((struct Obj08277 *)q)->f8));
         if(((struct Obj00728 *)p)->f26C!=0) *state=9;else *state=10;break;
-    case 9:WIFIBATTLEMATCH_NET_StartTradeIconAnim(p,1);
+    case 9:WIFIBATTLEMATCH_NET_DrawCompStatusWindow(p,1);
         WIFIBATTLEMATCH_UTIL_PrintMessage((int *)(((struct Obj00728 *)p)->f2C),((struct Obj00728 *)p)->f14,81,1);
         *state=14;WIFIBATTLEMATCH_UTIL_SetRequest(sys,10);break;
     case 10:WIFIBATTLEMATCH_UTIL_PrintMessage((int *)(((struct Obj00728 *)p)->f2C),((struct Obj00728 *)p)->f14,70,2);

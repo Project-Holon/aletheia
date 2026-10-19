@@ -10,7 +10,7 @@
  * symbols:
  *   WORLDTRADE_SetStateAndReturn 0x021F4EC0 thumb ov135
  *   WORLDTRADE_SetNextState 0x021F4E98 thumb ov135
- *   WORLDTRADE_QueryGameData 0x021F4ED4 thumb ov135
+ *   WORLDTRADE_GetMessageWait 0x021F4ED4 thumb ov135
  *   WORLDTRADE_TITLE_PrintMessage 0x022009A4 thumb ov135
  *   WORLDTRADE_TITLE_PrintMessageSub 0x02200A10 thumb ov135
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void WORLDTRADE_SetStateAndReturn(u8 *, u32, u32);
 extern void WORLDTRADE_SetNextState(u8 *, u32, u32);
-extern int WORLDTRADE_QueryGameData(void);
+extern int WORLDTRADE_GetMessageWait(void);
 extern void WORLDTRADE_TITLE_PrintMessage(u8 *p, u32 n, int a2, int a3, int a4);
 extern void WORLDTRADE_TITLE_PrintMessageSub(u8 *, int, int, int, int);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
@@ -50,7 +50,7 @@ void WORLDTRADE_TITLE_HandleSelection(u8 *p, int mode)
         ((struct Obj01749 *)p)->f28 = 9;
         break;
     case 2:
-        WORLDTRADE_TITLE_PrintMessageSub(p, 7, WORLDTRADE_QueryGameData(), 0, 0xF0F);
+        WORLDTRADE_TITLE_PrintMessageSub(p, 7, WORLDTRADE_GetMessageWait(), 0, 0xF0F);
         WORLDTRADE_SetNextState(p, 10, 12);
         break;
     }

@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PROC_ResetEventSlot
+ * function: SCRCMD_PROC_FreeScriptUserWork
  * address:  0x0215C6F0
  * packet:   pkt_0215C6F0
  * region:   ov010
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 extern void *SCRCMD_WORK_GetScriptWork(void *p);
 extern int SCRIPT_WORK_FreeUserWork();
 
-int SCRCMD_PROC_ResetEventSlot(int a0, int a1)
+int SCRCMD_PROC_FreeScriptUserWork(int a0, int a1)
 {
     void *v0;
 

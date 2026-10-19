@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BG_SYS_ResetSlot",
+   "name": "BG_SYS_ChangeScroll",
    "address": "0x02041EE4",
    "kind": "game",
    "region": "arm9",

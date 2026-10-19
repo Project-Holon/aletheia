@@ -1,7 +1,7 @@
 /*
  * file:     box2_seq.c
  * unit:     yes
- * function: BOX2_SEQ_StateMenuSelect, BOX2_SEQ_StateMenuSwap, BOX2_SEQ_StateMenuMain, BOX2_SEQ_StateMachineMove, BOX2_SEQ_StateExitBox, BOX2_SEQ_OpenBoxUp, BOX2_SEQ_OpenBoxDown, BOX2_SEQ_OpenBoxLeft, BOX2_SEQ_OpenBoxRight, BOX2_SEQ_StateMachineScroll, BOX2_SEQ_UpdatePrintQueue, BOX2_SEQ_CreateBox2Main, BOX2_SEQ_DeleteBox2Main, BOX2_SEQ_StateWaitWipe, BOX2_SEQ_StateWaitFade, BOX2_SEQ_StateWaitCount, BOX2_SEQ_StateRunStep, BOX2_SEQ_StateWaitInput, BOX2_SEQ_StateTaskMenu, BOX2_SEQ_StateCheckTaskMenu, BOX2_SEQ_StateDispatchFont, BOX2_SEQ_StateDispatchStep, BOX2_SEQ_DeleteBox2Ui, BOX2_SEQ_StateWaitPrint, BOX2_SEQ_StateSetMenu, BOX2_SEQ_StateItemMenu, BOX2_SEQ_SetBox2Main, BOX2_SEQ_StateCloseBox, BOX2_SEQ_StateBoxMenu, BOX2_SEQ_StateOpenSummary, BOX2_SEQ_SetBox2Ui, BOX2_SEQ_StateSummary, BOX2_SEQ_StateSummaryInput, BOX2_SEQ_StateSummaryClose, BOX2_SEQ_StateSwapMenu, BOX2_SEQ_StateSwapConfirm, BOX2_SEQ_StateSwapApply, BOX2_SEQ_StateSwapFinish, BOX2_SEQ_StateMoveMove, BOX2_SEQ_StateMoveFinish, BOX2_SEQ_SetBox2UiB, BOX2_SEQ_StateOpenSummaryB, BOX2_SEQ_StateSummaryB, BOX2_SEQ_StateMoveInput, BOX2_SEQ_StateMoveClose, BOX2_SEQ_StateMoveCloseB, BOX2_SEQ_StateItemMenuB, BOX2_SEQ_StateOpenItemB, BOX2_SEQ_SetBox2UiC, BOX2_SEQ_StateSwapMenuB, BOX2_SEQ_StateItemMoveB, BOX2_SEQ_StateMoveFinishB, BOX2_SEQ_SetBox2UiD, BOX2_SEQ_StateOpenItemC, BOX2_SEQ_StateMenuCursor, BOX2_SEQ_StateItemMenuC, BOX2_SEQ_SetBox2MainB, BOX2_SEQ_StateCloseBoxB, BOX2_SEQ_StateOpenBoxC, BOX2_SEQ_DeleteBox2UiB, BOX2_SEQ_StateItemMenuD, BOX2_SEQ_SetBox2MainC, BOX2_SEQ_StateCursorMove, BOX2_SEQ_StateSummaryC, BOX2_SEQ_StateListScroll, BOX2_SEQ_StateScrollBox, BOX2_SEQ_StateOpenItemD, BOX2_SEQ_StateOpenItemE, BOX2_SEQ_StateItemMenuE, BOX2_SEQ_SetBox2UiE, BOX2_SEQ_DeleteBox2UiC, BOX2_SEQ_StateCloseBoxC, BOX2_SEQ_StateMenuItems, BOX2_SEQ_StateSelectItem, BOX2_SEQ_StateSummaryD, BOX2_SEQ_StateItemMenuF, BOX2_SEQ_StateCloseItem, BOX2_SEQ_StateMoveItemScroll, BOX2_SEQ_StateMoveItemB, BOX2_SEQ_StateCloseItemB, BOX2_SEQ_StatePlaceItem, BOX2_SEQ_StateCursorMoveB, BOX2_SEQ_SetBox2UiF, BOX2_SEQ_StateMoveItemC, BOX2_SEQ_StatePlaceItemB, BOX2_SEQ_StateMoveItemD, BOX2_SEQ_StateCursorMoveC, BOX2_SEQ_StatePushSlot, BOX2_SEQ_StateSwapMenuC, BOX2_SEQ_SetBox2MainD, BOX2_SEQ_StateCloseItemC, BOX2_SEQ_StateSwapMenuD, BOX2_SEQ_SetBox2MainE, BOX2_SEQ_StateSwapFinishB, BOX2_SEQ_StateCloseItemD, BOX2_SEQ_StateExitToField, BOX2_SEQ_StateSwapMenuE, BOX2_SEQ_StateCloseMenu, BOX2_SEQ_StateSummaryE, BOX2_SEQ_StateDeleteHandle, BOX2_SEQ_StateConfirmRelease, BOX2_SEQ_StateCloseZoom, BOX2_SEQ_StateReleaseMon, BOX2_SEQ_StateOpenZoom, BOX2_SEQ_StateZoomMenu, BOX2_SEQ_StateClosePmVoice, BOX2_SEQ_StateMoveMenu, BOX2_SEQ_StateMoveMenuB, BOX2_SEQ_StatePmVoiceMenu, BOX2_SEQ_StatePmVoiceConfirm, BOX2_SEQ_StateSetMiniIcon, BOX2_SEQ_StateMoveMenuC, BOX2_SEQ_StateClosePmVoiceB, BOX2_SEQ_StateFadeBox, BOX2_SEQ_StateCloseItemE, BOX2_SEQ_HideCursorSlot, BOX2_SEQ_ReturnAfterClear, BOX2_SEQ_StartWipeWhite, BOX2_SEQ_StartWipeBlack, BOX2_SEQ_SetSeqThird, BOX2_SEQ_SetSeqSecond, BOX2_SEQ_SetState, BOX2_SEQ_OpenYesNo, BOX2_SEQ_StateUseItem, BOX2_SEQ_StateUseItemWait, BOX2_SEQ_StateUseItemDone, BOX2_SEQ_StateUseItemMenu, BOX2_SEQ_StatePlayCry, BOX2_SEQ_StateCloseItemMenu, BOX2_SEQ_SaveMenuPosAndExit, BOX2_SEQ_StatePmVoiceClose, BOX2_SEQ_StateEnterItemMenu, BOX2_SEQ_GotoBox2Main, BOX2_SEQ_GetBgFrameY, BOX2_SEQ_GotoBox2MainWithSlot, BOX2_SEQ_GotoBox2Ui, BOX2_SEQ_StatePmVoiceMenuB, BOX2_SEQ_StatePmVoiceMenuC, BOX2_SEQ_StatePmVoiceMenuD, BOX2_SEQ_StatePmVoiceOpen, BOX2_SEQ_StatePmVoiceOpenB, BOX2_SEQ_StatePmVoiceOpenC, BOX2_SEQ_StatePmVoiceOpenD, BOX2_SEQ_GotoRightPanelA, BOX2_SEQ_GotoRightPanelB, BOX2_SEQ_SelectSlotA, BOX2_SEQ_SelectSlotB, BOX2_SEQ_SelectSlotC, BOX2_SEQ_GotoSlotHandlerA, BOX2_SEQ_SelectPartySlotA, BOX2_SEQ_SelectPartySlotB, BOX2_SEQ_SelectPartySlotC, BOX2_SEQ_GotoSlotHandlerB, BOX2_SEQ_SelectSlotD, BOX2_SEQ_HideSlotWindow, BOX2_SEQ_SelectBoxSlot, BOX2_SEQ_ScrollListToSlot, BOX2_SEQ_Create, BOX2_SEQ_Delete, BOX2_SEQ_DrawGridSlot, BOX2_SEQ_SetCursorMove, BOX2_SEQ_SelectGridSlot, BOX2_SEQ_DrawGridSlotB, BOX2_SEQ_UpdateGridCursor, BOX2_SEQ_MoveGridCursor, BOX2_SEQ_DeleteGridSlot, BOX2_SEQ_SetCursorMoveB, BOX2_SEQ_CreateB, BOX2_SEQ_DeleteB, BOX2_SEQ_StopLeftBar, BOX2_SEQ_StopRightBar, BOX2_SEQ_RestartLeftBar, BOX2_SEQ_DrawListSlot, BOX2_SEQ_CreateC, BOX2_SEQ_ResetEntry, BOX2_SEQ_ResetEntryB, BOX2_SEQ_SetActorAnim, BOX2_SEQ_CheckTradableMon, BOX2_SEQ_ToggleHandSlot, BOX2_SEQ_GotoSceneA, BOX2_SEQ_DeleteSlotWindows, BOX2_SEQ_GotoBox2MainPlaySe, BOX2_SEQ_GotoBox2MainNoSe, BOX2_SEQ_InitBmpWins, BOX2_SEQ_DeleteBmpWins, BOX2_SEQ_SetDirtyBit, BOX2_SEQ_FlushDirtyBmpWins, BOX2_SEQ_UpdateTextWins, BOX2_SEQ_MakeScreen, BOX2_SEQ_ClearScreen, BOX2_SEQ_PrintTextWin, BOX2_SEQ_PrintTextWinEx, BOX2_SEQ_CreateMsgBank, BOX2_SEQ_PrintMsgWin, BOX2_SEQ_InitBmpWin, BOX2_SEQ_FillTextWinEntry, BOX2_SEQ_FillTextWin, BOX2_SEQ_DrawCellEntry, BOX2_SEQ_DrawSpriteEntry, BOX2_SEQ_DrawTileEntry, BOX2_SEQ_DrawMoveEntry, BOX2_SEQ_DrawSwapEntry, BOX2_SEQ_DrawItemEntry, BOX2_SEQ_DrawMsgEntry, BOX2_SEQ_DeleteTextEntries, BOX2_SEQ_ClearTextWin, BOX2_SEQ_DrawWindowFrame, BOX2_SEQ_DrawFrameColor, BOX2_SEQ_DrawFrameDefault, BOX2_SEQ_AddBmpWinFrame, BOX2_SEQ_AddTextFrame, BOX2_SEQ_AddMsgFrame, BOX2_SEQ_AddNameFrame, BOX2_SEQ_DrawBoxName, BOX2_SEQ_DrawOffsetName, BOX2_SEQ_DrawMonName, BOX2_SEQ_ChangeFramePalette, BOX2_SEQ_PutNameFrame, BOX2_SEQ_DrawFrameList, BOX2_SEQ_ClearMessageWindow, BOX2_SEQ_ShowWindowObject, BOX2_SEQ_HideWindowObject, BOX2_SEQ_PrintMessageMsg, BOX2_SEQ_PrintMessageB, BOX2_SEQ_PrintWordset, BOX2_SEQ_PrintMessage, BOX2_SEQ_PrintMessageC, BOX2_SEQ_PrintWordsetB, BOX2_SEQ_PrintMessageD, BOX2_SEQ_PrintWordsetBB64, BOX2_SEQ_PrintMessageE, BOX2_SEQ_PrintMonName, BOX2_SEQ_PrintIndexedMessage, BOX2_SEQ_PrintPrompt, BOX2_SEQ_PrintPromptB, BOX2_SEQ_PrintMenuRow, BOX2_SEQ_PrintBoxMonName, BOX2_SEQ_PrintYesNo, BOX2_SEQ_CreateBox2UiScene, BOX2_SEQ_DeleteBox2UiScene, BOX2_SEQ_InitClact, BOX2_SEQ_LoadBoxGraphics, BOX2_SEQ_ReleaseBoxGraphics, BOX2_SEQ_CreateBox2Actors, BOX2_SEQ_CreateActorFromDesc, BOX2_SEQ_DeleteActorSlot, BOX2_SEQ_DeleteAllActors, BOX2_SEQ_DrawActors, BOX2_SEQ_SetActorAnimSeq, BOX2_SEQ_SetActorAutoAnim, BOX2_SEQ_IsActorAnimActive, BOX2_SEQ_SetActorDrawEnable, BOX2_SEQ_GetActorDrawEnable, BOX2_SEQ_SetActorBgPriority, BOX2_SEQ_SetActorDrawPriority, BOX2_SEQ_SetActorObjMode, BOX2_SEQ_AddActorSurfacePos, BOX2_SEQ_GetActorSurfacePos, BOX2_SEQ_RegisterBoxChars, BOX2_SEQ_RegisterBoxCharsB, BOX2_SEQ_RegisterIconRes, BOX2_SEQ_CreateBoxSlotActors, BOX2_SEQ_LoadGraphicResource, BOX2_SEQ_LoadMonIcon, BOX2_SEQ_SetSlotIconPal, BOX2_SEQ_LoadIconResource, BOX2_SEQ_ShowSlotIcon, BOX2_SEQ_ShowAllSlotIcons, BOX2_SEQ_ShowPartyIcons, BOX2_SEQ_GetSlotPos, BOX2_SEQ_HidePartialSlots, BOX2_SEQ_HideSlotsC61C, BOX2_SEQ_HideSlotsC688, BOX2_SEQ_HideSlotsC6F4, BOX2_SEQ_SetSlotDrawPriority, BOX2_SEQ_SetSlotDrawPriorityB, BOX2_SEQ_ShiftSlotIcons, BOX2_SEQ_MoveActorToWindow, BOX2_SEQ_ResetActorAffine, BOX2_SEQ_ShrinkActor, BOX2_SEQ_GrowActor, BOX2_SEQ_HideActor, BOX2_SEQ_ResetActorTransform, BOX2_SEQ_SetSlotActorsMode, BOX2_SEQ_SetSlotActors, BOX2_SEQ_SetSlotActorMode, BOX2_SEQ_SetActorMode1, BOX2_SEQ_SwapSlotActors, BOX2_SEQ_SwapSlotActorsB, BOX2_SEQ_RefreshHandSlot, BOX2_SEQ_InitIconSlots, BOX2_SEQ_LoadMonIconActor, BOX2_SEQ_LoadBoxScreen, BOX2_SEQ_CreateHandSlotActors, BOX2_SEQ_ShowHandSlot, BOX2_SEQ_ShowHandSlotB, BOX2_SEQ_LoadIconPalette, BOX2_SEQ_SetSlotCharacter, BOX2_SEQ_SetActorAffineMode, BOX2_SEQ_MoveActor, BOX2_SEQ_MoveActorToSlot, BOX2_SEQ_MoveActorToSlotB, BOX2_SEQ_CreateHandSlotActorsB, BOX2_SEQ_ShowHandSlots, BOX2_SEQ_LayoutHandSlots, BOX2_SEQ_CreateCursorObjects, BOX2_SEQ_SetWindow9, BOX2_SEQ_SetCursorFrame, BOX2_SEQ_SetCursorDraw, BOX2_SEQ_RefreshCursorSlot, BOX2_SEQ_MoveCursorActor, BOX2_SEQ_SetSlotDim, BOX2_SEQ_SetSlotDimB, BOX2_SEQ_MoveCursorToSlot
+ * function: BOX2_SEQ_StateMenuSelect, BOX2_SEQ_StateMenuSwap, BOX2_SEQ_StateMenuMain, BOX2_SEQ_StateMachineMove, BOX2_SEQ_StateExitBox, BOX2_SEQ_OpenBoxUp, BOX2_SEQ_OpenBoxDown, BOX2_SEQ_OpenBoxLeft, BOX2_SEQ_OpenBoxRight, BOX2_SEQ_StateMachineScroll, BOX2_SEQ_UpdatePrintQueue, BOX2_SEQ_CreateBox2Main, BOX2_SEQ_DeleteBox2Main, BOX2_SEQ_StateWaitWipe, BOX2_SEQ_StateWaitFade, BOX2_SEQ_StateWaitCount, BOX2_SEQ_StateRunStep, BOX2_SEQ_StateWaitInput, BOX2_SEQ_StateTaskMenu, BOX2_SEQ_StateCheckTaskMenu, BOX2_SEQ_StateDispatchFont, BOX2_SEQ_StateDispatchStep, BOX2_SEQ_DeleteBox2Ui, BOX2_SEQ_StateWaitPrint, BOX2_SEQ_StateSetMenu, BOX2_SEQ_StateItemMenu, BOX2_SEQ_SetBox2Main, BOX2_SEQ_StateCloseBox, BOX2_SEQ_StateBoxMenu, BOX2_SEQ_StateOpenSummary, BOX2_SEQ_SetBox2Ui, BOX2_SEQ_StateSummary, BOX2_SEQ_StateSummaryInput, BOX2_SEQ_StateSummaryClose, BOX2_SEQ_StateSwapMenu, BOX2_SEQ_StateSwapConfirm, BOX2_SEQ_StateSwapApply, BOX2_SEQ_StateSwapFinish, BOX2_SEQ_StateMoveMove, BOX2_SEQ_StateMoveFinish, BOX2_SEQ_SetBox2UiB, BOX2_SEQ_StateOpenSummaryB, BOX2_SEQ_StateSummaryB, BOX2_SEQ_StateMoveInput, BOX2_SEQ_StateMoveClose, BOX2_SEQ_StateMoveCloseB, BOX2_SEQ_StateItemMenuB, BOX2_SEQ_StateOpenItemB, BOX2_SEQ_SetBox2UiC, BOX2_SEQ_StateSwapMenuB, BOX2_SEQ_StateItemMoveB, BOX2_SEQ_StateMoveFinishB, BOX2_SEQ_SetBox2UiD, BOX2_SEQ_StateOpenItemC, BOX2_SEQ_StateMenuCursor, BOX2_SEQ_StateItemMenuC, BOX2_SEQ_SetBox2MainB, BOX2_SEQ_StateCloseBoxB, BOX2_SEQ_StateOpenBoxC, BOX2_SEQ_DeleteBox2UiB, BOX2_SEQ_StateItemMenuD, BOX2_SEQ_SetBox2MainC, BOX2_SEQ_StateCursorMove, BOX2_SEQ_StateSummaryC, BOX2_SEQ_StateListScroll, BOX2_SEQ_StateScrollBox, BOX2_SEQ_StateOpenItemD, BOX2_SEQ_StateOpenItemE, BOX2_SEQ_StateItemMenuE, BOX2_SEQ_SetBox2UiE, BOX2_SEQ_DeleteBox2UiC, BOX2_SEQ_StateCloseBoxC, BOX2_SEQ_StateMenuItems, BOX2_SEQ_StateSelectItem, BOX2_SEQ_StateSummaryD, BOX2_SEQ_StateItemMenuF, BOX2_SEQ_StateCloseItem, BOX2_SEQ_StateMoveItemScroll, BOX2_SEQ_StateMoveItemB, BOX2_SEQ_StateCloseItemB, BOX2_SEQ_StatePlaceItem, BOX2_SEQ_StateCursorMoveB, BOX2_SEQ_SetBox2UiF, BOX2_SEQ_StateMoveItemC, BOX2_SEQ_StatePlaceItemB, BOX2_SEQ_StateMoveItemD, BOX2_SEQ_StateCursorMoveC, BOX2_SEQ_StatePushSlot, BOX2_SEQ_StateSwapMenuC, BOX2_SEQ_SetBox2MainD, BOX2_SEQ_StateCloseItemC, BOX2_SEQ_StateSwapMenuD, BOX2_SEQ_SetBox2MainE, BOX2_SEQ_StateSwapFinishB, BOX2_SEQ_StateCloseItemD, BOX2_SEQ_StateExitToField, BOX2_SEQ_StateSwapMenuE, BOX2_SEQ_StateCloseMenu, BOX2_SEQ_StateSummaryE, BOX2_SEQ_StateDeleteHandle, BOX2_SEQ_StateConfirmRelease, BOX2_SEQ_StateCloseZoom, BOX2_SEQ_StateReleaseMon, BOX2_SEQ_StateOpenZoom, BOX2_SEQ_StateZoomMenu, BOX2_SEQ_StateClosePmVoice, BOX2_SEQ_StateMoveMenu, BOX2_SEQ_StateMoveMenuB, BOX2_SEQ_StatePmVoiceMenu, BOX2_SEQ_StatePmVoiceConfirm, BOX2_SEQ_StateSetMiniIcon, BOX2_SEQ_StateMoveMenuC, BOX2_SEQ_StateClosePmVoiceB, BOX2_SEQ_StateFadeBox, BOX2_SEQ_StateCloseItemE, BOX2_SEQ_HideCursorSlot, BOX2_SEQ_ReturnAfterClear, BOX2_SEQ_StartWipeWhite, BOX2_SEQ_StartWipeBlack, BOX2_SEQ_SetSeqThird, BOX2_SEQ_SetSeqSecond, BOX2_SEQ_SetState, BOX2_SEQ_OpenYesNo, BOX2_SEQ_StateUseItem, BOX2_SEQ_StateUseItemWait, BOX2_SEQ_StateUseItemDone, BOX2_SEQ_StateUseItemMenu, BOX2_SEQ_StateExitBoxWithSe, BOX2_SEQ_StateCloseItemMenu, BOX2_SEQ_SaveMenuPosAndExit, BOX2_SEQ_StatePmVoiceClose, BOX2_SEQ_StateEnterItemMenu, BOX2_SEQ_GotoBox2Main, BOX2_SEQ_SetupFrameFadeAndWait, BOX2_SEQ_GotoBox2MainWithSlot, BOX2_SEQ_GotoBox2Ui, BOX2_SEQ_StatePmVoiceMenuB, BOX2_SEQ_StatePmVoiceMenuC, BOX2_SEQ_StatePmVoiceMenuD, BOX2_SEQ_StatePmVoiceOpen, BOX2_SEQ_StatePmVoiceOpenB, BOX2_SEQ_StatePmVoiceOpenC, BOX2_SEQ_StatePmVoiceOpenD, BOX2_SEQ_GotoRightPanelA, BOX2_SEQ_GotoRightPanelB, BOX2_SEQ_SelectSlotA, BOX2_SEQ_SelectSlotB, BOX2_SEQ_SelectSlotC, BOX2_SEQ_GotoSlotHandlerA, BOX2_SEQ_SelectPartySlotA, BOX2_SEQ_SelectPartySlotB, BOX2_SEQ_SelectPartySlotC, BOX2_SEQ_GotoSlotHandlerB, BOX2_SEQ_SelectSlotD, BOX2_SEQ_HideSlotWindow, BOX2_SEQ_SelectBoxSlot, BOX2_SEQ_ScrollListToSlot, BOX2_SEQ_Create, BOX2_SEQ_Delete, BOX2_SEQ_DrawGridSlot, BOX2_SEQ_SetCursorMove, BOX2_SEQ_SelectGridSlot, BOX2_SEQ_DrawGridSlotB, BOX2_SEQ_UpdateGridCursor, BOX2_SEQ_MoveGridCursor, BOX2_SEQ_DeleteGridSlot, BOX2_SEQ_SetCursorMoveB, BOX2_SEQ_CreateB, BOX2_SEQ_DeleteB, BOX2_SEQ_StopLeftBar, BOX2_SEQ_StopRightBar, BOX2_SEQ_RestartLeftBar, BOX2_SEQ_DrawListSlot, BOX2_SEQ_CreateC, BOX2_SEQ_RefreshBoxUiAndWait, BOX2_SEQ_ResetEntryB, BOX2_SEQ_SetActorAnim, BOX2_SEQ_CheckTradableMon, BOX2_SEQ_ToggleHandSlot, BOX2_SEQ_GotoSceneA, BOX2_SEQ_DeleteSlotWindows, BOX2_SEQ_GotoBox2MainPlaySe, BOX2_SEQ_GotoBox2MainNoSe, BOX2_SEQ_InitBmpWins, BOX2_SEQ_DeleteBmpWins, BOX2_SEQ_SetDirtyBit, BOX2_SEQ_FlushDirtyBmpWins, BOX2_SEQ_UpdateTextWins, BOX2_SEQ_MakeScreen, BOX2_SEQ_ClearScreen, BOX2_SEQ_PrintTextWin, BOX2_SEQ_PrintTextWinEx, BOX2_SEQ_CreateMsgBank, BOX2_SEQ_PrintMsgWin, BOX2_SEQ_InitBmpWin, BOX2_SEQ_FillTextWinEntry, BOX2_SEQ_FillTextWin, BOX2_SEQ_DrawCellEntry, BOX2_SEQ_DrawSpriteEntry, BOX2_SEQ_DrawTileEntry, BOX2_SEQ_DrawMoveEntry, BOX2_SEQ_DrawSwapEntry, BOX2_SEQ_DrawItemEntry, BOX2_SEQ_DrawMsgEntry, BOX2_SEQ_DeleteTextEntries, BOX2_SEQ_ClearTextWin, BOX2_SEQ_DrawWindowFrame, BOX2_SEQ_DrawFrameColor, BOX2_SEQ_DrawFrameDefault, BOX2_SEQ_AddBmpWinFrame, BOX2_SEQ_AddTextFrame, BOX2_SEQ_AddMsgFrame, BOX2_SEQ_AddNameFrame, BOX2_SEQ_DrawBoxName, BOX2_SEQ_DrawOffsetName, BOX2_SEQ_DrawMonName, BOX2_SEQ_ChangeFramePalette, BOX2_SEQ_PutNameFrame, BOX2_SEQ_DrawFrameList, BOX2_SEQ_ClearMessageWindow, BOX2_SEQ_ShowWindowObject, BOX2_SEQ_HideWindowObject, BOX2_SEQ_PrintMessageMsg, BOX2_SEQ_PrintMessageB, BOX2_SEQ_PrintWordset, BOX2_SEQ_PrintMessage, BOX2_SEQ_PrintMessageC, BOX2_SEQ_PrintWordsetB, BOX2_SEQ_PrintMessageD, BOX2_SEQ_PrintWordsetBB64, BOX2_SEQ_PrintMessageE, BOX2_SEQ_PrintMonName, BOX2_SEQ_PrintIndexedMessage, BOX2_SEQ_PrintPrompt, BOX2_SEQ_PrintPromptB, BOX2_SEQ_PrintMenuRow, BOX2_SEQ_PrintBoxMonName, BOX2_SEQ_PrintYesNo, BOX2_SEQ_CreateBox2UiScene, BOX2_SEQ_DeleteBox2UiScene, BOX2_SEQ_InitClact, BOX2_SEQ_LoadBoxGraphics, BOX2_SEQ_ReleaseBoxGraphics, BOX2_SEQ_CreateBox2Actors, BOX2_SEQ_CreateActorFromDesc, BOX2_SEQ_DeleteActorSlot, BOX2_SEQ_DeleteAllActors, BOX2_SEQ_DrawActors, BOX2_SEQ_SetActorAnimSeq, BOX2_SEQ_SetActorAutoAnim, BOX2_SEQ_IsActorAnimActive, BOX2_SEQ_SetActorDrawEnable, BOX2_SEQ_GetActorDrawEnable, BOX2_SEQ_SetActorBgPriority, BOX2_SEQ_SetActorDrawPriority, BOX2_SEQ_SetActorObjMode, BOX2_SEQ_AddActorSurfacePos, BOX2_SEQ_GetActorSurfacePos, BOX2_SEQ_RegisterBoxChars, BOX2_SEQ_RegisterBoxCharsB, BOX2_SEQ_RegisterIconRes, BOX2_SEQ_CreateBoxSlotActors, BOX2_SEQ_LoadGraphicResource, BOX2_SEQ_LoadMonIcon, BOX2_SEQ_SetSlotIconPal, BOX2_SEQ_LoadIconResource, BOX2_SEQ_ShowSlotIcon, BOX2_SEQ_ShowAllSlotIcons, BOX2_SEQ_ShowPartyIcons, BOX2_SEQ_GetSlotPos, BOX2_SEQ_HidePartialSlots, BOX2_SEQ_HideSlotsC61C, BOX2_SEQ_HideSlotsC688, BOX2_SEQ_HideSlotsC6F4, BOX2_SEQ_SetSlotDrawPriority, BOX2_SEQ_SetSlotDrawPriorityB, BOX2_SEQ_ShiftSlotIcons, BOX2_SEQ_MoveActorToWindow, BOX2_SEQ_ResetActorAffine, BOX2_SEQ_ShrinkActor, BOX2_SEQ_GrowActor, BOX2_SEQ_HideActor, BOX2_SEQ_ResetActorTransform, BOX2_SEQ_SetSlotActorsMode, BOX2_SEQ_SetSlotActors, BOX2_SEQ_SetSlotActorMode, BOX2_SEQ_SetActorMode1, BOX2_SEQ_SwapSlotActors, BOX2_SEQ_SwapSlotActorsB, BOX2_SEQ_RefreshHandSlot, BOX2_SEQ_InitIconSlots, BOX2_SEQ_LoadMonIconActor, BOX2_SEQ_LoadBoxScreen, BOX2_SEQ_CreateHandSlotActors, BOX2_SEQ_ShowHandSlot, BOX2_SEQ_ShowHandSlotB, BOX2_SEQ_LoadIconPalette, BOX2_SEQ_SetSlotCharacter, BOX2_SEQ_SetActorAffineMode, BOX2_SEQ_MoveActor, BOX2_SEQ_MoveActorToSlot, BOX2_SEQ_MoveActorToSlotB, BOX2_SEQ_CreateHandSlotActorsB, BOX2_SEQ_ShowHandSlots, BOX2_SEQ_LayoutHandSlots, BOX2_SEQ_CreateCursorObjects, BOX2_SEQ_SetWindow9, BOX2_SEQ_SetCursorFrame, BOX2_SEQ_SetCursorDraw, BOX2_SEQ_RefreshCursorSlot, BOX2_SEQ_MoveCursorActor, BOX2_SEQ_SetSlotDim, BOX2_SEQ_SetSlotDimB, BOX2_SEQ_MoveCursorToSlot
  * address:  0x021E1324
  * region:   ov170
  * compiler: dsi/1.1p1
@@ -23,7 +23,7 @@
  *   APP_ICON_GetArchiveId  0x020275E4  thumb
  *   GFL_HEAP_Free  0x020307B0  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_Delete 0x02045808 arm
@@ -40,7 +40,7 @@
  *   BOX2_SEQ_SetActorAnimSeq 0x021EBFA8 thumb
  *   BOX2_SEQ_LoadMonIcon 0x021EC35C thumb
  *   BOX2_UI_SetMiniIconVisible  0x021EE008  thumb  ov170
- *   BOX2_UI_DeleteSlotIcon  0x021EDF5C  thumb  ov170
+ *   BOX2_UI_UpdateCurrentBoxMarker  0x021EDF5C  thumb  ov170
  *   BOX2_SEQ_DrawOffsetName  0x021EB85C  thumb  ov170
  *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   POKEPARTY_GetMember 0x0201AB28 thumb
@@ -56,7 +56,7 @@
  *   BOX2_SEQ_SetSlotDrawPriority 0x021EC768 thumb
  *   BOX2_SEQ_SetSlotDimB 0x021ED75C thumb
  *   BOX2_SEQ_MoveCursorToSlot 0x021ED7C4 thumb
- *   FILE_UTIL_Check136C 0x0202136C thumb
+ *   FILE_UTIL_IsMailItem 0x0202136C thumb
  *   BOX2_SEQ_GetActorSurfacePos 0x021EC0B0 thumb
  *   BOX2_SEQ_SwapSlotActorsB 0x021ECBD8 thumb
  *   GFL_HEAP_Alloc 0x02030734 arm
@@ -76,8 +76,8 @@
  *   BGWINFRM_IsMoving 0x0202CE40 thumb
  *   TOUCHPANEL_GetCont 0x02035C38 arm
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
- *   BOX2_MAIN_IsSeqIdle 0x021E00C4 thumb
- *   BOX2_MAIN_IsSeqStep 0x021E0128 thumb
+ *   BOX2_MAIN_StepScrollToPrevBox 0x021E00C4 thumb
+ *   BOX2_MAIN_StepScrollToNextBox 0x021E0128 thumb
  *   BOX2_MAIN_ShiftWindowRight 0x021E01C4 thumb
  *   BOX2_SEQ_OpenBoxUp 0x021E19D4 thumb
  *   BOX2_SEQ_OpenBoxDown 0x021E1A28 thumb
@@ -114,7 +114,7 @@
  *   BOX2_MAIN_SetMoverEntry 0x021DE66C thumb ov170
  *   BOX2_MAIN_MoveCursorWithMon 0x021DE158 thumb ov170
  *   BOX2_SEQ_ShiftSlotIcons 0x021EC804 thumb
- *   BOX2_MAIN_StopSeq 0x021DD16C thumb
+ *   BOX2_MAIN_StepToAdjacentBox 0x021DD16C thumb
  *   BOX2_MAIN_FindMoverSlot 0x021DE5C8 thumb
  *   BOX2_MAIN_ResetBoxView 0x021DF040 thumb
  *   BOX2_MAIN_HitBoxGrid 0x021DF1DC thumb
@@ -123,16 +123,16 @@
  *   BOX2_SEQ_RefreshHandSlot 0x021ECC1C thumb ov170
  *   BOX2_SEQ_SetCursorFrame 0x021ED544 thumb
  *   BOX2_MAIN_IsWrappedDistance 0x021DD210 thumb
- *   BOX2_MAIN_GetBoxFormId 0x021DEDCC thumb
+ *   BOX2_MAIN_GetBoxWallpaper 0x021DEDCC thumb
  *   BOX2_MAIN_SetBoxScroll 0x021DEC98 thumb
  *   BOX2_MAIN_IsWindowBusy 0x021E01B0 thumb
  *   BOX2_MAIN_SceneApplyScroll 0x021E066C thumb ov170
  *   BOX2_MAIN_CompareSlots 0x021DDE80 thumb
- *   BOX2_MAIN_PlaceMonSceneFromBox 0x021DEA3C thumb
- *   BOX2_MAIN_IsSwapScene 0x021DEAFC thumb
+ *   BOX2_MAIN_StartHandMotionToBoxSlot 0x021DEA3C thumb
+ *   BOX2_MAIN_StepHandMotionToSlot 0x021DEAFC thumb
  *   BOX2_MAIN_IsWindowMoving 0x021E0190 thumb ov170
- *   BOX2_MAIN_PlaceTargetMonScene 0x021DEA4C thumb
- *   BOX2_MAIN_IsMoveScene 0x021DEB08 thumb ov170
+ *   BOX2_MAIN_StartHandMotionToTargetBoxSlot 0x021DEA4C thumb
+ *   BOX2_MAIN_StepHandMotionToSlotB 0x021DEB08 thumb ov170
  *   CURSOR_MOVE_GetCurrent 0x020260E0 thumb
  *   BOX2_UI_AddSlotIcon 0x021EDD38 thumb
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
@@ -160,7 +160,7 @@
  *   ov067_id 0x00000043 data a1
  *   BOX2_MAIN_DeleteVBlankTask  0x021DC964  thumb  ov170
  *   BOX2_MAIN_DeleteTaskMenu  0x021DCF30  thumb  ov170
- *   BOX2_UI_DeleteSound  0x021EE3CC  thumb  ov170
+ *   BOX2_UI_DeleteCursorMove  0x021EE3CC  thumb  ov170
  *   BOX2_UI_DeleteWindowFrames  0x021EF310  thumb  ov170
  *   BOX2_MAIN_DeleteFormTable  0x021DD8F8  thumb  ov170
  *   BOX2_MAIN_DeleteTextSystem  0x021DCE80  thumb  ov170
@@ -176,10 +176,10 @@
  *   APP_TASKMENU_GetCursorPos 0x02027A04 thumb
  *   APP_TASKMENU_CloseMenu 0x02027858 thumb
  *   d_021EFA4C 0x021EFA4C data a4
- *   BOX2_MAIN_IsTaskMenuFinished  0x021DCFC0  thumb  ov170
+ *   BOX2_MAIN_StepWindowFrameFade  0x021DCFC0  thumb  ov170
  *   g_021EFA28  0x021EFA28  data  ov170
  *   d_021EFA2C 0x021EFA2C data a4
- *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb ov170
+ *   BOX2_MAIN_RefreshCurrentBoxMonInfo 0x021DEFEC thumb ov170
  *   d_021EF9B4 0x021EF9B4 data
  *   d_021EF950 0x021EF950 data
  *   d_021EFA10 0x021EFA10 data
@@ -197,7 +197,7 @@
  *   BOX2_MAIN_ClearCursorBox 0x021DF0BC thumb
  *   BOX2_UI_MoveCursorBetweenIcons 0x021EEF74 thumb
  *   BOX2_MAIN_UpdateBoxSlots 0x021DD530 thumb ov170
- *   BOX2_MAIN_PlayCursorSound 0x021DD238 thumb
+ *   BOX2_MAIN_ActivateKeyCursor 0x021DD238 thumb
  *   BOX2_UI_SelectSlot 0x021EE754 thumb
  *   BOX2_UI_GetExitButtonPoint 0x021EF1D4 thumb
  *   BOX2_UI_CursorInputLeft 0x021EE850 thumb
@@ -231,7 +231,7 @@
  *   BOX2_UI_CursorInputPage 0x021EEEA4 thumb
  *   BOX2_MAIN_GetBoxValue 0x021DD908 thumb ov170
  *   BOX2_UI_ResetSlotFrames 0x021EF508 thumb
- *   BOX2_MAIN_ChangeBoxForm 0x021DEF98 thumb ov170
+ *   BOX2_MAIN_RefreshMonInfo 0x021DEF98 thumb ov170
  *   BOX2_MAIN_SetHandSlots 0x021DF110 thumb ov170
  *   BOX2_UI_PutTopBarThenClose 0x021EF6A8 thumb ov170
  *   BOX2_MAIN_UpdateWindowMove 0x021E01A8 thumb ov170
@@ -265,8 +265,8 @@
  *   MYITEM_SAVEDATA_AddItem 0x02007E50 thumb
  *   BOX2_MAIN_SetBoxForm 0x021DEFF8 thumb ov170
  *   BOX2_MAIN_ResetMovers 0x021DE728 thumb ov170
- *   BOX2_MAIN_PlayMonCry  0x021DE898  thumb  ov170
- *   BOX2_MAIN_UpdateWindowFrame  0x021DD090  thumb  ov170
+ *   BOX2_MAIN_ClearPerapVoiceIfNoChatot  0x021DE898  thumb  ov170
+ *   BOX2_MAIN_SetupWindowFrameFade  0x021DD090  thumb  ov170
  *   data_021EFA10 0x021EFA10 data a1
  *   BOX2_UI_PutListFrames 0x021EF4E4 thumb
  *   MYITEM_SAVEDATA_RemoveItem 0x02007F1C thumb
@@ -297,12 +297,12 @@
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   BMP_Clear 0x02043B5C arm
  *   WORDSET_SetSlotMonNameAlt 0x0201EEA4 thumb
- *   WORDSET_SetSlotMonSpeciesAlt 0x0201EF14 thumb
+ *   WORDSET_SetSlotMonNicknameAlt 0x0201EF14 thumb
  *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_SetSlotFromMsg18 0x0201EF98 thumb
  *   WORDSET_SetSlotFromMsgB6 0x0201EF8C thumb
- *   WORDSET_Callback_EF40 0x0201EF40 thumb
+ *   WORDSET_SetSlotFromMsg36 0x0201EF40 thumb
  *   BMP_WIN_GetPosX 0x02045758 arm
  *   BMP_WIN_GetPosY 0x02045760 arm
  *   BMP_WIN_GetWidth 0x02045738 arm
@@ -412,14 +412,14 @@
  *   CLACT_AddActorSurfacePos  0x0204B404  arm  arm9
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm  arm9
  *   BMP_WIN_Delete  0x020452E8  arm  arm9
- *   BOX2_MAIN_Check09E0 0x021E09E0 thumb ov170
- *   BOX2_MAIN_Check0A40 0x021E0A40 thumb ov170
- *   BOX2_MAIN_StateMachineCoin 0x021E0ABC thumb ov170
- *   BOX2_MAIN_Check0ED4 0x021E0ED4 thumb ov170
- *   BOX2_MAIN_Check0F4C 0x021E0F4C thumb ov170
+ *   BOX2_MAIN_StateMachineRunSwap 0x021E09E0 thumb ov170
+ *   BOX2_MAIN_StateMachineShowHandScroll 0x021E0A40 thumb ov170
+ *   BOX2_MAIN_StateMachineDrag 0x021E0ABC thumb ov170
+ *   BOX2_MAIN_StateMachineHideHandWindow 0x021E0ED4 thumb ov170
+ *   BOX2_MAIN_StateMachineHideHand 0x021E0F4C thumb ov170
  *   BOX2_MAIN_MoveCursorTo 0x021E0FB0 thumb ov170
- *   BOX2_MAIN_StateMachineSlide 0x021E0FD8 thumb ov170
- *   BOX2_MAIN_Check122C 0x021E122C thumb ov170
+ *   BOX2_MAIN_StateMachineDragNoBar 0x021E0FD8 thumb ov170
+ *   BOX2_MAIN_StateMachineReturnHeld 0x021E122C thumb ov170
  *   ARC_UTIL_LoadScreenDataFromHandle  0x02049E74  arm  arm9
  */
 #include "box2_types.h"
@@ -457,7 +457,7 @@ extern void BGWINFRM_GetSize(struct WinMgr *mgr, u32 idx, u16 *w, u16 *h);
 
 extern u8 BGWINFRM_GetBgFrame(struct WinMgr *mgr, u32 idx);
 
-extern void BOX2_UI_DeleteSlotIcon(BoxTask *p);
+extern void BOX2_UI_UpdateCurrentBoxMarker(BoxTask *p);
 
 extern void CURSOR_MOVE_SetState(struct CursorMoveObj *obj, u32 state);
 
@@ -467,7 +467,7 @@ extern void *POKE_TOOL_GetBoxParam(void *);
 
 extern void BOX2_UI_DrawSlotByName(char *p, int a);
 
-extern unsigned FILE_UTIL_Check136C(unsigned short v);
+extern unsigned FILE_UTIL_IsMailItem(unsigned short v);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
@@ -511,9 +511,9 @@ extern int BOX2_UI_GetCloseButtonHit(void);
 
 extern void BOX2_UI_OpenBar(struct WinMgr *mgr);
 
-extern int BOX2_MAIN_IsSeqIdle(BoxTask *p);
+extern int BOX2_MAIN_StepScrollToPrevBox(BoxTask *p);
 
-extern int BOX2_MAIN_IsSeqStep(BoxTask *p);
+extern int BOX2_MAIN_StepScrollToNextBox(BoxTask *p);
 
 extern void BOX2_UI_PutBottomBarClosed(struct WinMgr *mgr);
 
@@ -560,7 +560,7 @@ extern int BOX2_MAIN_HitBoxGrid(short x, int y);
 
 extern int BOX2_MAIN_FindMoverSlot(BoxTask *p, unsigned id);
 
-extern void BOX2_MAIN_StopSeq(BoxTask *p, int dir);
+extern void BOX2_MAIN_StepToAdjacentBox(BoxTask *p, int dir);
 
 extern void BOX2_MAIN_MoveCursorActor(BoxTask *p, int x, int y);
 
@@ -576,7 +576,7 @@ extern void BOX2_UI_SetMiniIconVisible(BoxTask *p, int a, int b);
 
 extern int BOX2_MAIN_IsWrappedDistance(unsigned char *p, unsigned a, unsigned b);
 
-extern int BOX2_MAIN_GetBoxFormId(BoxTask *p, int box);
+extern int BOX2_MAIN_GetBoxWallpaper(BoxTask *p, int box);
 
 extern void BOX2_MAIN_SetBoxScroll(BoxTask *p, void *a, int dir);
 
@@ -750,15 +750,15 @@ extern int BOX2_MAIN_SceneApplyScroll(BoxTask *p);
 
 extern int BOX2_MAIN_CompareSlots(unsigned char *p, unsigned a, unsigned b);
 
-extern void BOX2_MAIN_PlaceMonSceneFromBox(int a, int b, int c, int d);
+extern void BOX2_MAIN_StartHandMotionToBoxSlot(int a, int b, int c, int d);
 
-extern int BOX2_MAIN_IsSwapScene(int a);
+extern int BOX2_MAIN_StepHandMotionToSlot(int a);
 
 extern int BOX2_MAIN_IsWindowMoving(BoxTask *p);
 
-extern void BOX2_MAIN_PlaceTargetMonScene(BoxTask *p, int a, int b);
+extern void BOX2_MAIN_StartHandMotionToTargetBoxSlot(BoxTask *p, int a, int b);
 
-extern int BOX2_MAIN_IsMoveScene(unsigned char *p);
+extern int BOX2_MAIN_StepHandMotionToSlotB(unsigned char *p);
 
 extern void BOX2_UI_ToggleSlotPair(char *w, int a);
 
@@ -812,7 +812,7 @@ extern void BOX2_MAIN_DeleteVBlankTask(BoxTask *p);
 
 extern void BOX2_MAIN_DeleteTaskMenu(BoxTask *p);
 
-extern void BOX2_UI_DeleteSound(int *p);
+extern void BOX2_UI_DeleteCursorMove(int *p);
 
 extern void BOX2_UI_DeleteWindowFrames(char *p);
 
@@ -846,9 +846,9 @@ extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
 
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 
-extern int BOX2_MAIN_IsTaskMenuFinished(BoxTask *p);
+extern int BOX2_MAIN_StepWindowFrameFade(BoxTask *p);
 
-extern void BOX2_MAIN_ChangeBoxFormPreserve(BoxTask *p, int b);
+extern void BOX2_MAIN_RefreshCurrentBoxMonInfo(BoxTask *p, int b);
 
 extern void BOX2_UI_ShowWindowA(char *);
 
@@ -878,7 +878,7 @@ extern void BOX2_UI_MoveCursorBetweenIcons(char *w, int k, int v);
 
 extern void BOX2_MAIN_UpdateBoxSlots(unsigned char *);
 
-extern void BOX2_MAIN_PlayCursorSound(BoxTask *p);
+extern void BOX2_MAIN_ActivateKeyCursor(BoxTask *p);
 
 extern void BOX2_UI_SelectSlot(BoxTask *p, unsigned r);
 
@@ -950,7 +950,7 @@ extern int BOX2_MAIN_GetBoxValue(char *p, u32 a);
 
 extern void BOX2_UI_ResetSlotFrames(struct WinMgr *mgr);
 
-extern int BOX2_MAIN_ChangeBoxForm(char *p, int a, unsigned b);
+extern int BOX2_MAIN_RefreshMonInfo(char *p, int a, unsigned b);
 
 extern void BOX2_MAIN_SetHandSlots(char *p, int b);
 
@@ -1004,9 +1004,9 @@ extern void BOX2_MAIN_SetBoxForm(BoxTask *p, unsigned b);
 
 extern void BOX2_MAIN_ResetMovers(BoxTask *p);
 
-extern void BOX2_MAIN_PlayMonCry(int *q);
+extern void BOX2_MAIN_ClearPerapVoiceIfNoChatot(int *q);
 
-extern void BOX2_MAIN_UpdateWindowFrame(char *, int);
+extern void BOX2_MAIN_SetupWindowFrameFade(char *, int);
 
 extern void BOX2_UI_PutListFrames(struct WinMgr *mgr);
 
@@ -1050,7 +1050,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 
-extern void BG_SYS_SetFlagField06(unsigned int);
+extern void BG_SYS_MarkTileDirty(unsigned int);
 
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 
@@ -1062,7 +1062,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
 extern void WORDSET_SetSlotMonNameAlt(struct WordSet *p, u32 i, void *mon);
 
-extern void WORDSET_SetSlotMonSpeciesAlt(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonNicknameAlt(struct WordSet *p, u32 i, void *mon);
 
 extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 
@@ -1072,7 +1072,7 @@ extern void WORDSET_SetSlotFromMsg18(struct WordSet *p, u32 i, u32 v);
 
 extern void WORDSET_SetSlotFromMsgB6(struct WordSet *p, u32 i, u32 v);
 
-extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotFromMsg36(struct WordSet *p, u32 i, u32 v);
 
 extern u8 BMP_WIN_GetPosX(struct Descriptor *p);
 
@@ -1274,21 +1274,21 @@ extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
 
 extern void CLACT_SetActorImageProxy(char *dst, const struct Struct36 *src);
 
-int BOX2_MAIN_Check09E0(BoxTask *p);
+int BOX2_MAIN_StateMachineRunSwap(BoxTask *p);
 
-int BOX2_MAIN_Check0A40(BoxTask *p);
+int BOX2_MAIN_StateMachineShowHandScroll(BoxTask *p);
 
-int BOX2_MAIN_StateMachineCoin(BoxTask *p);
+int BOX2_MAIN_StateMachineDrag(BoxTask *p);
 
-int BOX2_MAIN_Check0ED4(BoxTask *p);
+int BOX2_MAIN_StateMachineHideHandWindow(BoxTask *p);
 
-int BOX2_MAIN_Check0F4C(BoxTask *p);
+int BOX2_MAIN_StateMachineHideHand(BoxTask *p);
 
 void BOX2_MAIN_MoveCursorTo(char *w, int x, int y);
 
-int BOX2_MAIN_StateMachineSlide(BoxTask *p);
+int BOX2_MAIN_StateMachineDragNoBar(BoxTask *p);
 
-int BOX2_MAIN_Check122C(BoxTask *p);
+int BOX2_MAIN_StateMachineReturnHeld(BoxTask *p);
 
 int BOX2_SEQ_StateMenuSelect(BoxTask *p);
 
@@ -1544,7 +1544,7 @@ int BOX2_SEQ_StateUseItemDone(BoxTask *p);
 
 int BOX2_SEQ_StateUseItemMenu(BoxTask *p);
 
-int BOX2_SEQ_StatePlayCry(BoxTask *p);
+int BOX2_SEQ_StateExitBoxWithSe(BoxTask *p);
 
 int BOX2_SEQ_StateCloseItemMenu(BoxTask *p);
 
@@ -1556,7 +1556,7 @@ void BOX2_SEQ_StateEnterItemMenu(unsigned char *p);
 
 int BOX2_SEQ_GotoBox2Main(BoxTask *p, int a, int b);
 
-int BOX2_SEQ_GetBgFrameY(BoxTask *p,int a,int b);
+int BOX2_SEQ_SetupFrameFadeAndWait(BoxTask *p,int a,int b);
 
 int BOX2_SEQ_GotoBox2MainWithSlot(BoxTask *p, int id, int lo, int arg);
 
@@ -1638,7 +1638,7 @@ int BOX2_SEQ_DrawListSlot(BoxTask *p, int sel);
 
 void BOX2_SEQ_CreateC(BoxTask *p);
 
-int BOX2_SEQ_ResetEntry(char *p, int a);
+int BOX2_SEQ_RefreshBoxUiAndWait(char *p, int a);
 
 int BOX2_SEQ_ResetEntryB(BoxTask *p, int a);
 
@@ -2090,7 +2090,7 @@ int BOX2_SEQ_StateMenuMain(BoxTask *task)
             int dir = BOX2_MAIN_IsWrappedDistance((unsigned char *)task, task->curBox, task->heldSlot);
             task->curBox = task->heldSlot;
             BOX2_SEQ_LoadMonIcon((char **)task, task->curBox);
-            BOX2_MAIN_SetBoxScroll((BoxTask *)task, (void *)BOX2_MAIN_GetBoxFormId((BoxTask *)task, task->curBox), dir);
+            BOX2_MAIN_SetBoxScroll((BoxTask *)task, (void *)BOX2_MAIN_GetBoxWallpaper((BoxTask *)task, task->curBox), dir);
             if (dir == 0)
                 b->state = 2;
             else
@@ -2099,19 +2099,19 @@ int BOX2_SEQ_StateMenuMain(BoxTask *task)
         }
     case 1:
         BOX2_SEQ_SetCursorFrame((BoxTask *)task, 7);
-        BOX2_MAIN_PlaceTargetMonScene((BoxTask *)task, *(unsigned short *)(((char *)((BoxTask *)(task))->work) + 0xA16E), 2);
+        BOX2_MAIN_StartHandMotionToTargetBoxSlot((BoxTask *)task, *(unsigned short *)(((char *)((BoxTask *)(task))->work) + 0xA16E), 2);
         b->state = 4;
         break;
     case 2:
-        if (BOX2_MAIN_IsSeqIdle(task) == 0)
+        if (BOX2_MAIN_StepScrollToPrevBox(task) == 0)
             b->state = 1;
         break;
     case 3:
-        if (BOX2_MAIN_IsSeqStep(task) == 0)
+        if (BOX2_MAIN_StepScrollToNextBox(task) == 0)
             b->state = 1;
         break;
     case 4:
-        if (BOX2_MAIN_IsMoveScene((unsigned char *)task) == 0) {
+        if (BOX2_MAIN_StepHandMotionToSlotB((unsigned char *)task) == 0) {
             GFL_USE_PlaySeDefaultVolume(0x667);
             b->state = 5;
         }
@@ -2137,7 +2137,7 @@ int BOX2_SEQ_StateMenuMain(BoxTask *task)
 }
 
 /*
- * Twin of src/matched/BOX2_MAIN_StateMachineCoin.c.
+ * Twin of src/matched/BOX2_MAIN_StateMachineDrag.c.
  */
 int BOX2_SEQ_StateMachineMove(BoxTask *task)
 {
@@ -2189,11 +2189,11 @@ int BOX2_SEQ_StateMachineMove(BoxTask *task)
             else if (BOX2_MAIN_CompareSlots((unsigned char *)task, task->cursorSlot, r) == 0)
                 r = task->cursorSlot;
             if (flag == 1) {
-                BOX2_MAIN_PlaceMonSceneFromBox((int)task, first, r, 2);
+                BOX2_MAIN_StartHandMotionToBoxSlot((int)task, first, r, 2);
                 b->state = 7;
             } else {
-                BOX2_MAIN_PlaceMonSceneFromBox((int)task, first, r, 1);
-                if (r == task->cursorSlot && (FILE_UTIL_Check136C((((BoxTask *)(task))->work->counter)) == 0 || first == task->cursorSlot))
+                BOX2_MAIN_StartHandMotionToBoxSlot((int)task, first, r, 1);
+                if (r == task->cursorSlot && (FILE_UTIL_IsMailItem((((BoxTask *)(task))->work->counter)) == 0 || first == task->cursorSlot))
                     BOX2_UI_CloseListPack((((BoxTask *)(task))->work->winMgr));
                 b->state = 8;
             }
@@ -2219,18 +2219,18 @@ int BOX2_SEQ_StateMachineMove(BoxTask *task)
             int dir = BOX2_UI_GetCloseButtonHit();
             if (dir == 0) {
                 GFL_USE_PlaySeDefaultVolume(0x548);
-                BOX2_MAIN_StopSeq((BoxTask *)task, 0);
+                BOX2_MAIN_StepToAdjacentBox((BoxTask *)task, 0);
                 b->state = 3;
             } else if (dir == 1) {
                 GFL_USE_PlaySeDefaultVolume(0x548);
-                BOX2_MAIN_StopSeq((BoxTask *)task, 1);
+                BOX2_MAIN_StepToAdjacentBox((BoxTask *)task, 1);
                 b->state = 4;
             }
         }
         BOX2_MAIN_MoveCursorTo(((char *)((BoxTask *)(task))->work), x, y);
         break;
     case 3:
-        if (BOX2_MAIN_IsSeqIdle(task) == 0) {
+        if (BOX2_MAIN_StepScrollToPrevBox(task) == 0) {
             b->timer = 0x10;
             b->state = 2;
         }
@@ -2238,7 +2238,7 @@ int BOX2_SEQ_StateMachineMove(BoxTask *task)
             BOX2_MAIN_MoveCursorTo(((char *)((BoxTask *)(task))->work), x, y);
         break;
     case 4:
-        if (BOX2_MAIN_IsSeqStep(task) == 0) {
+        if (BOX2_MAIN_StepScrollToNextBox(task) == 0) {
             b->timer = 0x10;
             b->state = 2;
         }
@@ -2247,7 +2247,7 @@ int BOX2_SEQ_StateMachineMove(BoxTask *task)
         break;
     case 7:
     case 8:
-        if (BOX2_MAIN_IsSwapScene((int)task) == 0) {
+        if (BOX2_MAIN_StepHandMotionToSlot((int)task) == 0) {
             GFL_USE_PlaySeDefaultVolume(0x667);
             if (b->state == 7) {
                 b->state = 9;
@@ -2293,12 +2293,12 @@ int BOX2_SEQ_StateExitBox(BoxTask *task)
         if (!BOX2_SEQ_IsActorAnimActive((char *)w, 10)) {
             unsigned old = task->cursorSlot;
             task->cursorSlot = **(unsigned short * *)&((BoxSeq *)(b))->entry;
-            BOX2_MAIN_PlaceMonSceneFromBox((int)task, old, old, 1);
+            BOX2_MAIN_StartHandMotionToBoxSlot((int)task, old, old, 1);
             ((BoxSeq *)(b))->state = 1;
         }
         break;
     case 1:
-        if (!BOX2_MAIN_IsSwapScene((int)task)) {
+        if (!BOX2_MAIN_StepHandMotionToSlot((int)task)) {
             ((BoxSeq *)(b))->state = 0;
             return 0;
         }
@@ -2311,12 +2311,12 @@ int BOX2_SEQ_OpenBoxUp(BoxTask *task)
 {
     BoxSeq *b = (BoxSeq *)(*(char * *)&task->work + 0x58);
     if (b->timer == 5) {
-        unsigned r = CURSOR_MOVE_GetCurrent(task->work->sound);
+        unsigned r = CURSOR_MOVE_GetCurrent(task->work->cursorMove);
         if (r >= 0x22 && r <= 0x25)
             BOX2_UI_SetMiniIconVisible((BoxTask *)task, r - 0x22, 1);
         else
             BOX2_UI_SetMiniIconVisible((BoxTask *)task, 0, 0);
-        BOX2_UI_DeleteSlotIcon((BoxTask *)task);
+        BOX2_UI_UpdateCurrentBoxMarker((BoxTask *)task);
         b->timer = 0;
         return 0;
     }
@@ -2329,12 +2329,12 @@ int BOX2_SEQ_OpenBoxDown(BoxTask *task)
 {
     BoxSeq *b = (BoxSeq *)(*(char * *)&task->work + 0x58);
     if (b->timer == 5) {
-        unsigned r = CURSOR_MOVE_GetCurrent(task->work->sound);
+        unsigned r = CURSOR_MOVE_GetCurrent(task->work->cursorMove);
         if (r >= 0x22 && r <= 0x25)
             BOX2_UI_SetMiniIconVisible((BoxTask *)task, r - 0x22, 1);
         else
             BOX2_UI_SetMiniIconVisible((BoxTask *)task, 0, 0);
-        BOX2_UI_DeleteSlotIcon((BoxTask *)task);
+        BOX2_UI_UpdateCurrentBoxMarker((BoxTask *)task);
         b->timer = 0;
         return 0;
     }
@@ -2347,12 +2347,12 @@ int BOX2_SEQ_OpenBoxLeft(BoxTask *task)
 {
     BoxSeq *b = (BoxSeq *)(*(char * *)&task->work + 0x58);
     if (b->timer == 5) {
-        unsigned r = CURSOR_MOVE_GetCurrent(task->work->sound);
+        unsigned r = CURSOR_MOVE_GetCurrent(task->work->cursorMove);
         if (r >= 1 && r <= 4)
             BOX2_UI_SetMiniIconVisible((BoxTask *)task, r - 1, 1);
         else
             BOX2_UI_SetMiniIconVisible((BoxTask *)task, 0, 0);
-        BOX2_UI_DeleteSlotIcon((BoxTask *)task);
+        BOX2_UI_UpdateCurrentBoxMarker((BoxTask *)task);
         b->timer = 0;
         return 0;
     }
@@ -2365,12 +2365,12 @@ int BOX2_SEQ_OpenBoxRight(BoxTask *task)
 {
     BoxSeq *b = (BoxSeq *)(*(char * *)&task->work + 0x58);
     if (b->timer == 5) {
-        unsigned r = CURSOR_MOVE_GetCurrent(task->work->sound);
+        unsigned r = CURSOR_MOVE_GetCurrent(task->work->cursorMove);
         if (r >= 1 && r <= 4)
             BOX2_UI_SetMiniIconVisible((BoxTask *)task, r - 1, 1);
         else
             BOX2_UI_SetMiniIconVisible((BoxTask *)task, 0, 0);
-        BOX2_UI_DeleteSlotIcon((BoxTask *)task);
+        BOX2_UI_UpdateCurrentBoxMarker((BoxTask *)task);
         b->timer = 0;
         return 0;
     }
@@ -2423,7 +2423,7 @@ int BOX2_SEQ_StateMachineScroll(BoxTask *task)
                 r = BOX2_MAIN_IsWrappedDistance((unsigned char *)task, task->curBox, task->heldSlot);
                 task->curBox = task->heldSlot;
                 BOX2_SEQ_LoadMonIcon((char **)task, task->curBox);
-                BOX2_MAIN_SetBoxScroll((BoxTask *)task, (void *)BOX2_MAIN_GetBoxFormId((BoxTask *)task, task->curBox), r);
+                BOX2_MAIN_SetBoxScroll((BoxTask *)task, (void *)BOX2_MAIN_GetBoxWallpaper((BoxTask *)task, task->curBox), r);
                 if (r == 0)
                     b->state = 4;
                 else
@@ -2451,22 +2451,22 @@ int BOX2_SEQ_StateMachineScroll(BoxTask *task)
             int dir = BOX2_UI_GetCloseButtonHit();
             if (dir == 0) {
                 GFL_USE_PlaySeDefaultVolume(0x548);
-                BOX2_MAIN_StopSeq((BoxTask *)task, 0);
+                BOX2_MAIN_StepToAdjacentBox((BoxTask *)task, 0);
                 b->state = 6;
             } else if (dir == 1) {
                 GFL_USE_PlaySeDefaultVolume(0x548);
-                BOX2_MAIN_StopSeq((BoxTask *)task, 1);
+                BOX2_MAIN_StepToAdjacentBox((BoxTask *)task, 1);
                 b->state = 7;
             }
         }
         BOX2_MAIN_MoveCursorActor((BoxTask *)task, x, y);
         break;
     case 4:
-        if (BOX2_MAIN_IsSeqIdle(task) == 0)
+        if (BOX2_MAIN_StepScrollToPrevBox(task) == 0)
             b->state = 2;
         break;
     case 5:
-        if (BOX2_MAIN_IsSeqStep(task) == 0)
+        if (BOX2_MAIN_StepScrollToNextBox(task) == 0)
             b->state = 2;
         break;
     case 2:
@@ -2480,7 +2480,7 @@ int BOX2_SEQ_StateMachineScroll(BoxTask *task)
             b->state = 0x10;
         break;
     case 6:
-        if (BOX2_MAIN_IsSeqIdle(task) == 0) {
+        if (BOX2_MAIN_StepScrollToPrevBox(task) == 0) {
             b->timer = 0x10;
             b->state = 1;
         }
@@ -2488,7 +2488,7 @@ int BOX2_SEQ_StateMachineScroll(BoxTask *task)
             BOX2_MAIN_MoveCursorActor((BoxTask *)task, x, y);
         break;
     case 7:
-        if (BOX2_MAIN_IsSeqStep(task) == 0) {
+        if (BOX2_MAIN_StepScrollToNextBox(task) == 0) {
             b->timer = 0x10;
             b->state = 1;
         }
@@ -2565,7 +2565,7 @@ int BOX2_SEQ_CreateBox2Main(u8 *task)
     BOX2_SEQ_CreateBox2UiScene((BoxTask *)task);
     BOX2_SEQ_ShowAllSlotIcons((BoxTask *)task);
     BOX2_SEQ_ShowPartyIcons((BoxTask *)task);
-    BOX2_MAIN_SetBoxScroll((BoxTask *)task,(void *)BOX2_MAIN_GetBoxFormId((BoxTask *)task,task[0x14]),2);
+    BOX2_MAIN_SetBoxScroll((BoxTask *)task,(void *)BOX2_MAIN_GetBoxWallpaper((BoxTask *)task,task[0x14]),2);
     BOX2_UI_InitWindowFrames((char *)task);
     BOX2_SEQ_PrintMsgWin((BoxTask *)task);
     BOX2_SEQ_InitBmpWin((BoxTask *)task);
@@ -2582,7 +2582,7 @@ int BOX2_SEQ_DeleteBox2Main(BoxTask *task)
 {
     BOX2_MAIN_DeleteVBlankTask((BoxTask *)task);
     BOX2_MAIN_DeleteTaskMenu((BoxTask *)task);
-    BOX2_UI_DeleteSound((int *)task);
+    BOX2_UI_DeleteCursorMove((int *)task);
     BOX2_UI_DeleteWindowFrames((char *)task->work);
     BOX2_SEQ_DeleteBox2UiScene((char *)task->work);
     BOX2_SEQ_DeleteBmpWins((char *)task);
@@ -2687,7 +2687,7 @@ int BOX2_SEQ_StateTaskMenu(char *task)
 
 int BOX2_SEQ_StateCheckTaskMenu(int task)
 {
-    if (BOX2_MAIN_IsTaskMenuFinished((BoxTask *)task) == 0)
+    if (BOX2_MAIN_StepWindowFrameFade((BoxTask *)task) == 0)
         return ((BoxTask *)task)->state;
     return 8;
 }
@@ -2727,28 +2727,28 @@ int BOX2_SEQ_DeleteBox2Ui(BoxTask *task)
         BOX2_SEQ_RestartLeftBar((int)task);
         BOX2_UI_ToggleSlotPair(((char *)((BoxTask *)(task))->work),0);
         BOX2_SEQ_SetSlotActors((char *)task,1,1);
-        BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task,30);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task,30);
         (((BoxTask *)(task))->work->nextState)=0x31;
         break;
     case 1:
-        BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task,0);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task,0);
         (((BoxTask *)(task))->work->nextState)=0x2C;
         break;
     case 2:
-        BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task,0);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task,0);
         BOX2_UI_ShowWindowA(((char *)((BoxTask *)(task))->work));
         (((BoxTask *)(task))->work->nextState)=0x11;
         break;
     case 3:
         BOX2_SEQ_SetSlotActors((char *)task,0x81,1);
-        BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task,0);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task,0);
         BOX2_UI_ShowWindowA(((char *)((BoxTask *)(task))->work));
         (((BoxTask *)(task))->work->nextState)=0x39;
         break;
     case 4:
         if(POKEPARTY_GetCount(task->params->party)==0) {
             BOX2_UI_ShowWindowA(((char *)((BoxTask *)(task))->work));
-            BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task,0);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task,0);
             BOX2_UI_MoveCursor((char **)task,13,0);
             (((BoxTask *)(task))->work->nextState)=0x23;
         } else {
@@ -2756,13 +2756,13 @@ int BOX2_SEQ_DeleteBox2Ui(BoxTask *task)
             BOX2_UI_ToggleSlotPair(((char *)((BoxTask *)(task))->work),0);
             BOX2_SEQ_SetSlotActors((char *)task,1,1);
             BOX2_UI_ShowWindowB(((char *)((BoxTask *)(task))->work));
-            BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task,30);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task,30);
             BOX2_UI_MoveCursor((char **)task,14,0);
             (((BoxTask *)(task))->work->nextState)=0x27;
         }
         break;
     case 5:
-        BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task,0);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task,0);
         BOX2_SEQ_SetSlotActors((char *)task,0x81,1);
         BOX2_UI_DeleteSlotObjects((BoxTask *)task,0,1,1);
         (((BoxTask *)(task))->work->nextState)=0x4B;
@@ -2965,11 +2965,11 @@ int BOX2_SEQ_SetBox2Main(unsigned char *task)
 
 /*
  * State handler (table entry at 0x021EFABC) that forwards to
- * BOX2_SEQ_StatePlayCry.
+ * BOX2_SEQ_StateExitBoxWithSe.
  */
 int BOX2_SEQ_StateCloseBox(unsigned char *task)
 {
-    return BOX2_SEQ_StatePlayCry((BoxTask *)task);
+    return BOX2_SEQ_StateExitBoxWithSe((BoxTask *)task);
 }
 
 int BOX2_SEQ_StateBoxMenu(BoxTask *task)
@@ -2981,16 +2981,16 @@ int BOX2_SEQ_StateBoxMenu(BoxTask *task)
     }
     r = BOX2_UI_GetPartySlotHit();
     if (r != -1) {
-        CURSOR_MOVE_SetState((((BoxTask *)(task))->work->sound), 0);
+        CURSOR_MOVE_SetState((((BoxTask *)(task))->work->cursorMove), 0);
         if (BOX2_MAIN_GetPartyValueAt((void ***)task, r, task->curBox, 0xA9, 0)) {
             GFL_USE_PlaySeDefaultVolume(0x666);
             TOUCHPANEL_GetPointTrg((u32 *)((char *)task->work + 0xA180), (u32 *)((char *)task->work + 0xA184));
             if (BOX2_UI_IsListOpen((((BoxTask *)(task))->work->winMgr)) == 0)
                 BOX2_SEQ_DrawFrameList((BoxTask *)task, d_021EFA10, 6);
-            BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, r);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, r);
             return BOX2_SEQ_SelectSlotA((BoxTask *)task, r);
         }
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), r);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), r);
         BOX2_UI_SetCursorPos((char **)task, r);
         BOX2_MAIN_ResetBoxView((BoxTask *)task);
         if (BOX2_UI_IsListOpen((((BoxTask *)(task))->work->winMgr)) == 1) {
@@ -3012,13 +3012,13 @@ int BOX2_SEQ_StateBoxMenu(BoxTask *task)
     case 0x1F:
         GFL_USE_PlaySeDefaultVolume(0x548);
         BOX2_MAIN_ClearCursorBox((unsigned char *)task);
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), 0x1E);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), 0x1E);
         BOX2_UI_SetCursorPos((char **)task, 0x1E);
         return BOX2_SEQ_GotoRightPanelA((BoxTask *)task, 1, 0x11);
     case 0x20:
         GFL_USE_PlaySeDefaultVolume(0x548);
         BOX2_MAIN_ClearCursorBox((unsigned char *)task);
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), 0x1E);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), 0x1E);
         BOX2_UI_SetCursorPos((char **)task, 0x1E);
         return BOX2_SEQ_GotoRightPanelB((BoxTask *)task, 1, 0x11);
     case 0x21:
@@ -3058,31 +3058,31 @@ int BOX2_SEQ_StateBoxMenu(BoxTask *task)
         unsigned char k;
         GFL_USE_PlaySeDefaultVolume(0x551);
         k = task->cursorSlot;
-        BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)));
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), k);
+        BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)));
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), k);
         return BOX2_SEQ_GotoBox2Main((BoxTask *)task, 5, 0x13);
     }
     case 0x2A:
         task->barOpenFlag = 0;
         return BOX2_SEQ_GotoBox2MainNoSe((BoxTask *)task, 0x14);
     case -6:
-        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)) == 0x1E) {
+        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)) == 0x1E) {
             GFL_USE_PlaySeDefaultVolume(0x548);
             BOX2_MAIN_ClearCursorBox((unsigned char *)task);
             return BOX2_SEQ_GotoRightPanelA((BoxTask *)task, 1, 0x11);
         }
         break;
     case -5:
-        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)) == 0x1E) {
+        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)) == 0x1E) {
             GFL_USE_PlaySeDefaultVolume(0x548);
             BOX2_MAIN_ClearCursorBox((unsigned char *)task);
             return BOX2_SEQ_GotoRightPanelB((BoxTask *)task, 1, 0x11);
         }
         break;
     case -3: {
-        unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound));
+        unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove));
         if (v < 0x1E)
-            BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, v);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, v);
         else if (v != 0x24 && v != 0x25 && v != 0x26 && v != 0x27 && v != 0x28 && v != 0x29)
             BOX2_MAIN_ResetBoxView((BoxTask *)task);
         GFL_USE_PlaySeDefaultVolume(0x548);
@@ -3092,8 +3092,8 @@ int BOX2_SEQ_StateBoxMenu(BoxTask *task)
         GFL_USE_PlaySeDefaultVolume(0x551);
         if (BOX2_UI_IsListOpen((((BoxTask *)(task))->work->winMgr)) == 1) {
             unsigned char k = task->cursorSlot;
-            BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)));
-            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), k);
+            BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)));
+            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), k);
             return BOX2_SEQ_GotoBox2Main((BoxTask *)task, 5, 0x13);
         }
         task->params->swapMode = 0;
@@ -3109,9 +3109,9 @@ int BOX2_SEQ_StateBoxMenu(BoxTask *task)
         if (BOX2_MAIN_GetPartyValueAt((void ***)task, r, task->curBox, 0xA9, 0)) {
             GFL_USE_PlaySeDefaultVolume(0x54C);
             BOX2_SEQ_DrawFrameList((BoxTask *)task, d_021EFA10, 6);
-            BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, r);
-            BOX2_UI_MoveCursorBetweenIcons((char *)task->work, 0x24, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)));
-            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), 0x24);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, r);
+            BOX2_UI_MoveCursorBetweenIcons((char *)task->work, 0x24, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)));
+            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), 0x24);
             return BOX2_SEQ_GotoSlotHandlerA((BoxTask *)task, r, 0x11);
         }
         break;
@@ -3123,7 +3123,7 @@ int BOX2_SEQ_StateOpenSummary(BoxTask *task)
 {
     BOX2_MAIN_UpdateBoxSlots((unsigned char *)task);
     BOX2_SEQ_Delete(task);
-    CURSOR_MOVE_SetCurrent(task->work->sound, 0x24);
+    CURSOR_MOVE_SetCurrent(task->work->cursorMove, 0x24);
     BOX2_UI_SetCursorPos((char **)task, 0x24);
     BOX2_SEQ_SetCursorDraw((char **)task, 1);
     BOX2_UI_DeleteSlotObjects((BoxTask *)task, 0, 0, 1);
@@ -3158,7 +3158,7 @@ int BOX2_SEQ_StateSummary(u8 *task)
             task[0x16]=CURSOR_MOVE_GetCurrent(*(void **)(((char *)((BoxTask *)(task))->work)+0x70));
             if(task[0x16]>=30) {
                 task[0x16]=0;
-                BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task,task[0x16]);
+                BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task,task[0x16]);
             }
         } else {
             task[0x17]=task[0x14];
@@ -3174,7 +3174,7 @@ int BOX2_SEQ_StateSummary(u8 *task)
     case 1:
         GFL_USE_PlaySeDefaultVolume(0x669);
         (*(int *)(((char *)((BoxTask *)(task))->work)+0xA194))++;
-        return BOX2_SEQ_ResetEntry((char *)task,20);
+        return BOX2_SEQ_RefreshBoxUiAndWait((char *)task,20);
     case 2:
         BOX2_UI_MoveCursor((char **)task,4,task[0x16]);
         BOX2_SEQ_SetCursorFrame((BoxTask *)task,6);
@@ -3229,23 +3229,23 @@ int BOX2_SEQ_StateSummaryInput(BoxTask *task)
         return BOX2_SEQ_ReturnAfterClear((BoxTask *)task, 0x16);
     }
     if ((KEY_GetTrg() & 4) && task->listState != 0 && task->handMode == 0) {
-        BOX2_MAIN_PlayCursorSound((BoxTask *)task);
+        BOX2_MAIN_ActivateKeyCursor((BoxTask *)task);
         task->listState = 0;
         return BOX2_SEQ_ReturnAfterClear((BoxTask *)task, 0x16);
     }
     if (task->handMode == 0) {
         r = BOX2_UI_GetPartySlotHit();
         if (r != -1) {
-            CURSOR_MOVE_SetState((((BoxTask *)(task))->work->sound), 0);
+            CURSOR_MOVE_SetState((((BoxTask *)(task))->work->cursorMove), 0);
             BOX2_UI_SetMiniIconVisible((BoxTask *)task, 0, 0);
             if (BOX2_MAIN_GetPartyValueAt((void ***)task, r, task->curBox, 0xA9, 0)) {
                 GFL_USE_PlaySeDefaultVolume(0x666);
                 TOUCHPANEL_GetPointTrg((u32 *)((char *)task->work + 0xA180), (u32 *)((char *)task->work + 0xA184));
-                BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, r);
-                CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), r);
+                BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, r);
+                CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), r);
                 return BOX2_SEQ_SelectSlotD((BoxTask *)task, r, 0x15);
             }
-            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), r);
+            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), r);
             BOX2_UI_SelectSlot((BoxTask *)task, r);
             *(int *)((char *)task->work + 0xA168) = r;
             BOX2_UI_SetCursorPos((char **)task, r);
@@ -3271,7 +3271,7 @@ int BOX2_SEQ_StateSummaryInput(BoxTask *task)
     case 0x1F:
         GFL_USE_PlaySeDefaultVolume(0x548);
         BOX2_UI_SetMiniIconVisible((BoxTask *)task, 0, 0);
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), 0x1E);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), 0x1E);
         BOX2_UI_SetCursorPos((char **)task, 0x1E);
         BOX2_UI_SelectSlot((BoxTask *)task, 0x1E);
         *(int *)((char *)task->work + 0xA168) = 0x1E;
@@ -3283,7 +3283,7 @@ int BOX2_SEQ_StateSummaryInput(BoxTask *task)
     case 0x20:
         GFL_USE_PlaySeDefaultVolume(0x548);
         BOX2_UI_SetMiniIconVisible((BoxTask *)task, 0, 0);
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), 0x1E);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), 0x1E);
         BOX2_UI_SetCursorPos((char **)task, 0x1E);
         BOX2_UI_SelectSlot((BoxTask *)task, 0x1E);
         *(int *)((char *)task->work + 0xA168) = 0x1E;
@@ -3299,7 +3299,7 @@ int BOX2_SEQ_StateSummaryInput(BoxTask *task)
         return BOX2_SEQ_GotoBox2Main((BoxTask *)task, 0xA, BOX2_SEQ_ReturnAfterClear((BoxTask *)task, 0x19));
     case 0x28:
         if (task->handMode == 0) {
-            unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound));
+            unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove));
             if (v >= 0x1E || BOX2_MAIN_GetPartyValueAt((void ***)task, v, task->curBox, 0xA9, 0) == 0)
                 break;
             task->cursorSlot = v;
@@ -3307,7 +3307,7 @@ int BOX2_SEQ_StateSummaryInput(BoxTask *task)
             task->menuMode = 2;
         } else {
             task->menuMode = 3;
-            task->listCursorId = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound));
+            task->listCursorId = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove));
         }
         GFL_USE_PlaySeDefaultVolume(0x54C);
         return BOX2_SEQ_GotoBox2MainWithSlot((BoxTask *)task, 8, 1, 0x4F);
@@ -3329,34 +3329,34 @@ int BOX2_SEQ_StateSummaryInput(BoxTask *task)
         task->listState = 0;
         return BOX2_SEQ_GotoBox2MainWithSlot((BoxTask *)task, 6, 9, BOX2_SEQ_ReturnAfterClear((BoxTask *)task, 0x16));
     case -8:
-        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)) != 0x22)
+        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)) != 0x22)
             break;
         GFL_USE_PlaySeDefaultVolume(0x548);
         BOX2_MAIN_SelectBox((BoxTask *)task, -1);
         return BOX2_SEQ_SetSeqThird((BoxTask *)task, (int)BOX2_SEQ_OpenBoxDown, 0x15);
     case -7:
-        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)) != 0x25)
+        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)) != 0x25)
             break;
         GFL_USE_PlaySeDefaultVolume(0x548);
         BOX2_MAIN_SelectBox((BoxTask *)task, 1);
         return BOX2_SEQ_SetSeqThird((BoxTask *)task, (int)BOX2_SEQ_OpenBoxUp, 0x15);
     case -6:
-        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)) != 0x1E)
+        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)) != 0x1E)
             break;
         GFL_USE_PlaySeDefaultVolume(0x548);
         return BOX2_SEQ_GotoRightPanelA((BoxTask *)task, 0, 0x15);
     case -5:
-        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)) != 0x1E)
+        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)) != 0x1E)
             break;
         GFL_USE_PlaySeDefaultVolume(0x548);
         return BOX2_SEQ_GotoRightPanelB((BoxTask *)task, 0, 0x15);
     case -3: {
         unsigned char v;
         GFL_USE_PlaySeDefaultVolume(0x548);
-        v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound));
+        v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove));
         if (task->handMode == 0) {
             if (v < 0x1E)
-                BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, v);
+                BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, v);
             else
                 BOX2_MAIN_ResetBoxView((BoxTask *)task);
         }
@@ -3441,7 +3441,7 @@ int BOX2_SEQ_StateSummaryClose(u8 *task)
         BOX2_UI_MoveCursor((char **)task,3,n);
         BOX2_SEQ_SetCursorFrame((BoxTask *)task,6);
         BOX2_SEQ_SetWindow9((BoxTask *)task,14,1);
-        BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task,n);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task,n);
         *(int *)(((char *)((BoxTask *)(task))->work)+0xA194)=0;
         return 17;
     case 2:
@@ -3473,9 +3473,9 @@ int BOX2_SEQ_StateSwapMenu(unsigned char *task)
     task[0x18] = 0;
     task[0x17] = 0xFF;
     if ((((BoxTask *)(task))->work->result) == 0) {
-        sel = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound));
+        sel = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove));
     } else {
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), task[0x16]);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), task[0x16]);
         BOX2_UI_SetCursorPos((char **)task, task[0x16]);
         BOX2_SEQ_SetCursorDraw((char **)task, 1);
         sel = task[0x16];
@@ -3485,14 +3485,14 @@ int BOX2_SEQ_StateSwapMenu(unsigned char *task)
     if (BOX2_UI_IsInfoBarOpen((((BoxTask *)(task))->work->winMgr)) == 1) {
         if ((((BoxTask *)(task))->state) == 0x20) {
             BOX2_UI_MoveCursor((char **)task, 4, sel);
-            BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, sel);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, sel);
             (((BoxTask *)(task))->state) = 0x15;
             if (BOX2_MAIN_GetPartyValueAt((void ***)task, sel, task[0x14], 0xA9, 0))
                 arg = 0;
             else
                 arg = 2;
         } else if (sel < 0x1E && BOX2_MAIN_GetPartyValueAt((void ***)task, sel, task[0x14], 0xA9, 0)) {
-            BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, sel);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, sel);
             arg = 0;
         } else {
             BOX2_MAIN_ResetBoxView((BoxTask *)task);
@@ -3500,25 +3500,25 @@ int BOX2_SEQ_StateSwapMenu(unsigned char *task)
         }
     } else if (BOX2_UI_IsTopBarOpen((((BoxTask *)(task))->work->winMgr)) == 1) {
         if ((((BoxTask *)(task))->state) == 0x15) {
-            sel = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound));
+            sel = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove));
             if (sel > 0x20)
                 sel = task[0x16];
             BOX2_UI_MoveCursor((char **)task, 6, sel);
-            BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, sel);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, sel);
             (((BoxTask *)(task))->state) = 0x20;
             if (BOX2_MAIN_GetPartyValueAt((void ***)task, sel, task[0x14], 0xA9, 0))
                 arg = 0;
             else
                 arg = 2;
         } else if (sel < 0x24 && BOX2_MAIN_GetPartyValueAt((void ***)task, sel, task[0x14], 0xA9, 0)) {
-            BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, sel);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, sel);
             arg = 0;
         } else {
             BOX2_MAIN_ResetBoxView((BoxTask *)task);
             arg = 2;
         }
     } else if (sel < 0x24 && BOX2_MAIN_GetPartyValueAt((void ***)task, sel, task[0x14], 0xA9, 0)) {
-        BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, sel);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, sel);
         arg = 0;
     } else {
         BOX2_MAIN_ResetBoxView((BoxTask *)task);
@@ -3621,7 +3621,7 @@ int BOX2_SEQ_StateSwapApply(u8 *task)
     case 2:
         BOX2_UI_MoveCursor((char **)task,6,30);
         BOX2_UI_SelectSlot((BoxTask *)task,30);
-        if(task[0x18]==0) BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task,30);
+        if(task[0x18]==0) BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task,30);
         BOX2_UI_ShowWindowB(((char *)((BoxTask *)(task))->work));
         *(int *)(((char *)((BoxTask *)(task))->work)+0xA168)=30;
         *(int *)(((char *)((BoxTask *)(task))->work)+0xA194)=0;
@@ -3670,7 +3670,7 @@ int BOX2_SEQ_StateSwapFinish(BoxTask *task)
         return BOX2_SEQ_SetSeqThird((BoxTask *)task, (int)BOX2_MAIN_IsWindowBusy, 0x1A);
     case 1:
         *(int *)(((char *)((BoxTask *)(task))->work) + 0xA194) = 0;
-        BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, 0x1E);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, 0x1E);
         BOX2_UI_ShowWindowB(((char *)((BoxTask *)(task))->work));
         if (task->params->mode == 3) {
             BOX2_UI_MoveCursor((char **)task, 8, 0);
@@ -3699,7 +3699,7 @@ int BOX2_SEQ_StateSwapFinish(BoxTask *task)
 
 /*
  * Sibling of src/matched/BOX2_SEQ_StateBoxMenu.c.  The image computes r + 0x1E
- * separately for BOX2_MAIN_ChangeBoxFormPreserve and for the call after it; the (int) cast on
+ * separately for BOX2_MAIN_RefreshCurrentBoxMonInfo and for the call after it; the (int) cast on
  * the first keeps the two expressions apart so they are not CSEd.
  */
 int BOX2_SEQ_StateMoveMove(BoxTask *task)
@@ -3711,16 +3711,16 @@ int BOX2_SEQ_StateMoveMove(BoxTask *task)
     }
     r = BOX2_UI_GetHandSlotHit();
     if (r != -1) {
-        CURSOR_MOVE_SetState((((BoxTask *)(task))->work->sound), 0);
+        CURSOR_MOVE_SetState((((BoxTask *)(task))->work->cursorMove), 0);
         if (BOX2_MAIN_GetPartyValueAt((void ***)task, r + 0x1E, task->curBox, 0xA9, 0)) {
             GFL_USE_PlaySeDefaultVolume(0x666);
             TOUCHPANEL_GetPointTrg((u32 *)((char *)task->work + 0xA180), (u32 *)((char *)task->work + 0xA184));
             if (BOX2_UI_IsListOpen((((BoxTask *)(task))->work->winMgr)) == 0)
                 BOX2_SEQ_DrawFrameList((BoxTask *)task, d_021EFA10, 6);
-            BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, (int)r + 0x1E);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, (int)r + 0x1E);
             return BOX2_SEQ_SelectPartySlotA((unsigned char *)task, r + 0x1E);
         }
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), r);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), r);
         BOX2_UI_SetCursorPos((char **)task, r);
         BOX2_MAIN_ResetBoxView((BoxTask *)task);
         if (BOX2_UI_IsListOpen((((BoxTask *)(task))->work->winMgr)) == 1) {
@@ -3769,8 +3769,8 @@ int BOX2_SEQ_StateMoveMove(BoxTask *task)
         unsigned char k;
         GFL_USE_PlaySeDefaultVolume(0x551);
         k = task->cursorSlot - 0x1E;
-        BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)));
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), k);
+        BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)));
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), k);
         return BOX2_SEQ_GotoBox2Main((BoxTask *)task, 5, 0x1D);
     }
     case 15:
@@ -3780,9 +3780,9 @@ int BOX2_SEQ_StateMoveMove(BoxTask *task)
         GFL_USE_PlaySeDefaultVolume(0x548);
         break;
     case -3: {
-        unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound));
+        unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove));
         if (v < 6)
-            BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, v + 0x1E);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, v + 0x1E);
         else if (v == 6)
             BOX2_MAIN_ResetBoxView((BoxTask *)task);
         GFL_USE_PlaySeDefaultVolume(0x548);
@@ -3792,8 +3792,8 @@ int BOX2_SEQ_StateMoveMove(BoxTask *task)
         GFL_USE_PlaySeDefaultVolume(0x551);
         if (BOX2_UI_IsListOpen((((BoxTask *)(task))->work->winMgr)) == 1) {
             unsigned char k = task->cursorSlot - 0x1E;
-            BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)));
-            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), k);
+            BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)));
+            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), k);
             return BOX2_SEQ_GotoBox2Main((BoxTask *)task, 5, 0x1D);
         }
         return BOX2_SEQ_GotoBox2MainWithSlot((BoxTask *)task, 6, 9, BOX2_SEQ_ReturnAfterClear((BoxTask *)task, 0x1C));
@@ -3807,9 +3807,9 @@ int BOX2_SEQ_StateMoveMove(BoxTask *task)
         if (BOX2_MAIN_GetPartyValueAt((void ***)task, r + 0x1E, task->curBox, 0xA9, 0)) {
             GFL_USE_PlaySeDefaultVolume(0x54C);
             BOX2_SEQ_DrawFrameList((BoxTask *)task, d_021EFA10, 6);
-            BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, (int)r + 0x1E);
-            BOX2_UI_MoveCursorBetweenIcons((char *)task->work, 9, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)));
-            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), 9);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, (int)r + 0x1E);
+            BOX2_UI_MoveCursorBetweenIcons((char *)task->work, 9, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)));
+            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), 9);
             return BOX2_SEQ_GotoSlotHandlerB((BoxTask *)task, r + 0x1E, 0x1B);
         }
         break;
@@ -3878,7 +3878,7 @@ int BOX2_SEQ_StateOpenSummaryB(BoxTask *task)
     GFL_USE_PlaySeDefaultVolume(0x667);
     BOX2_MAIN_UpdateBoxSlots((unsigned char *)task);
     BOX2_SEQ_Delete(task);
-    CURSOR_MOVE_SetCurrent(task->work->sound, 9);
+    CURSOR_MOVE_SetCurrent(task->work->cursorMove, 9);
     BOX2_UI_SetCursorPos((char **)task, 9);
     BOX2_SEQ_SetCursorDraw((char **)task, 1);
     BOX2_UI_DeleteSlotObjects((BoxTask *)task, 0, 0, 1);
@@ -3923,7 +3923,7 @@ int BOX2_SEQ_StateSummaryB(BoxTask *task)
     case 0:
         if ((((BoxTask *)(task)))->listState == 1) {
             task->heldSlot = 0xFF;
-            task->cursorSlot = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound));
+            task->cursorSlot = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove));
             if (BOX2_UI_IsTopBarClosed((((BoxTask *)(task))->work->winMgr)) == 1) {
                 if (task->cursorSlot >= 6)
                     task->cursorSlot = 0x1E;
@@ -3932,7 +3932,7 @@ int BOX2_SEQ_StateSummaryB(BoxTask *task)
             } else if (task->cursorSlot >= 0x1E) {
                 task->cursorSlot = 0;
             }
-            BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, task->cursorSlot);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, task->cursorSlot);
         } else {
             if (BOX2_UI_IsTopBarClosed((((BoxTask *)(task))->work->winMgr)) == 1)
                 task->heldSlot = 0xFF;
@@ -3980,7 +3980,7 @@ int BOX2_SEQ_StateSummaryB(BoxTask *task)
             if (*(int *)(((char *)((BoxTask *)(task))->params) + 0x24) == 4) {
                 BOX2_UI_HideWindowA(((char *)((BoxTask *)(task))->work));
                 BOX2_UI_HideWindowB(((char *)((BoxTask *)(task))->work));
-                CURSOR_MOVE_ClearSkipBit((((BoxTask *)(task))->work->sound), 0x27);
+                CURSOR_MOVE_ClearSkipBit((((BoxTask *)(task))->work->cursorMove), 0x27);
             }
             BOX2_SEQ_SetWindow9((BoxTask *)task, 0xD, 1);
             return 0x20;
@@ -4020,21 +4020,21 @@ int BOX2_SEQ_StateMoveInput(BoxTask *task)
         return BOX2_SEQ_ReturnAfterClear((BoxTask *)task, 0x21);
     }
     if ((KEY_GetTrg() & 4) && task->listState != 0 && task->handMode == 0) {
-        BOX2_MAIN_PlayCursorSound((BoxTask *)task);
+        BOX2_MAIN_ActivateKeyCursor((BoxTask *)task);
         task->listState = 0;
         return BOX2_SEQ_ReturnAfterClear((BoxTask *)task, 0x21);
     }
     if (task->handMode == 0) {
         r = BOX2_UI_GetPartySlotHit();
         if (r != -1) {
-            CURSOR_MOVE_SetState((((BoxTask *)(task))->work->sound), 0);
+            CURSOR_MOVE_SetState((((BoxTask *)(task))->work->cursorMove), 0);
             if (BOX2_MAIN_GetPartyValueAt((void ***)task, r, task->curBox, 0xA9, 0)) {
                 GFL_USE_PlaySeDefaultVolume(0x666);
                 TOUCHPANEL_GetPointTrg((u32 *)((char *)task->work + 0xA180), (u32 *)((char *)task->work + 0xA184));
-                BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, r);
+                BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, r);
                 return BOX2_SEQ_SelectSlotD((BoxTask *)task, r, 0x20);
             }
-            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), r);
+            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), r);
             BOX2_UI_SelectSlot((BoxTask *)task, r);
             *(int *)((char *)task->work + 0xA168) = r;
             BOX2_UI_SetCursorPos((char **)task, r);
@@ -4043,14 +4043,14 @@ int BOX2_SEQ_StateMoveInput(BoxTask *task)
         }
         r = BOX2_UI_GetBodySlotHit();
         if (r != -1) {
-            CURSOR_MOVE_SetState((((BoxTask *)(task))->work->sound), 0);
+            CURSOR_MOVE_SetState((((BoxTask *)(task))->work->cursorMove), 0);
             if (BOX2_MAIN_GetPartyValueAt((void ***)task, r + 0x1E, task->curBox, 0xA9, 0)) {
                 GFL_USE_PlaySeDefaultVolume(0x666);
                 TOUCHPANEL_GetPointTrg((u32 *)((char *)task->work + 0xA180), (u32 *)((char *)task->work + 0xA184));
-                BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, (int)r + 0x1E);
+                BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, (int)r + 0x1E);
                 return BOX2_SEQ_SelectSlotD((BoxTask *)task, r + 0x1E, 0x20);
             }
-            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), r + 0x1E);
+            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), r + 0x1E);
             BOX2_UI_SelectSlot((BoxTask *)task, r + 0x1E);
             *(int *)((char *)task->work + 0xA168) = r + 0x1E;
             BOX2_UI_SetCursorPos((char **)task, r + 0x1E);
@@ -4068,7 +4068,7 @@ int BOX2_SEQ_StateMoveInput(BoxTask *task)
         return BOX2_SEQ_ReturnAfterClear((BoxTask *)task, 0x5D);
     case 0x25:
         GFL_USE_PlaySeDefaultVolume(0x548);
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), 0x24);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), 0x24);
         BOX2_UI_SetCursorPos((char **)task, 0x24);
         BOX2_UI_SelectSlot((BoxTask *)task, 0x24);
         *(int *)((char *)task->work + 0xA168) = 0x24;
@@ -4079,7 +4079,7 @@ int BOX2_SEQ_StateMoveInput(BoxTask *task)
         return BOX2_SEQ_GotoRightPanelA((BoxTask *)task, 0, 0x20);
     case 0x26:
         GFL_USE_PlaySeDefaultVolume(0x548);
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), 0x24);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), 0x24);
         BOX2_UI_SetCursorPos((char **)task, 0x24);
         BOX2_UI_SelectSlot((BoxTask *)task, 0x24);
         *(int *)((char *)task->work + 0xA168) = 0x24;
@@ -4095,7 +4095,7 @@ int BOX2_SEQ_StateMoveInput(BoxTask *task)
         return BOX2_SEQ_GotoBox2Main((BoxTask *)task, 0xB, BOX2_SEQ_ReturnAfterClear((BoxTask *)task, 0x22));
     case 0x28:
         if (task->handMode == 0) {
-            unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound));
+            unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove));
             if (v >= 0x24 || BOX2_MAIN_GetPartyValueAt((void ***)task, v, task->curBox, 0xA9, 0) == 0)
                 break;
             task->cursorSlot = v;
@@ -4103,7 +4103,7 @@ int BOX2_SEQ_StateMoveInput(BoxTask *task)
             task->menuMode = 4;
         } else {
             task->menuMode = 5;
-            task->listCursorId = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound));
+            task->listCursorId = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove));
         }
         GFL_USE_PlaySeDefaultVolume(0x54C);
         return BOX2_SEQ_GotoBox2MainWithSlot((BoxTask *)task, 8, 1, 0x4F);
@@ -4125,12 +4125,12 @@ int BOX2_SEQ_StateMoveInput(BoxTask *task)
         task->listState = 0;
         return BOX2_SEQ_GotoBox2MainWithSlot((BoxTask *)task, 6, 9, BOX2_SEQ_ReturnAfterClear((BoxTask *)task, 0x21));
     case -6:
-        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)) != 0x24)
+        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)) != 0x24)
             break;
         GFL_USE_PlaySeDefaultVolume(0x548);
         return BOX2_SEQ_GotoRightPanelA((BoxTask *)task, 0, 0x20);
     case -5:
-        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)) != 0x24)
+        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)) != 0x24)
             break;
         GFL_USE_PlaySeDefaultVolume(0x548);
         return BOX2_SEQ_GotoRightPanelB((BoxTask *)task, 0, 0x20);
@@ -4140,9 +4140,9 @@ int BOX2_SEQ_StateMoveInput(BoxTask *task)
     case -3:
         GFL_USE_PlaySeDefaultVolume(0x548);
         if (task->handMode == 0) {
-            unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound));
+            unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove));
             if (v < 0x24)
-                BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, v);
+                BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, v);
             else
                 BOX2_MAIN_ResetBoxView((BoxTask *)task);
         }
@@ -4191,7 +4191,7 @@ int BOX2_SEQ_StateMoveClose(BoxTask *task)
             selection = 0;
         else
             selection = index - 30;
-        BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, selection + 30);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, selection + 30);
         BOX2_SEQ_SetCursorFrame((BoxTask *)task, 6);
         BOX2_SEQ_SetWindow9((BoxTask *)task, 14, 1);
         if (task->params->mode == 2) {
@@ -4206,7 +4206,7 @@ int BOX2_SEQ_StateMoveClose(BoxTask *task)
         index = CURSOR_MOVE_GetCurrent(*(void **)(((u8 *)((BoxTask *)(task))->work) + 112));
         if (index >= 30)
             index = 0;
-        BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, index);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, index);
         BOX2_UI_ShowWindowA((char *)((u8 *)((BoxTask *)(task))->work));
         BOX2_SEQ_SetCursorFrame((BoxTask *)task, 6);
         BOX2_SEQ_SetWindow9((BoxTask *)task, 14, 1);
@@ -4247,7 +4247,7 @@ int BOX2_SEQ_StateMoveCloseB(BoxTask *task)
         GFL_USE_PlaySeDefaultVolume(0x669);
         task->prevBox = task->curBox;
         (((BoxTask *)(task))->work->seqStep)++;
-        return BOX2_SEQ_ResetEntry((char *)task, 0x22);
+        return BOX2_SEQ_RefreshBoxUiAndWait((char *)task, 0x22);
     case 2:
         BOX2_UI_MoveCursor((char **)task, 4, 0x27);
         BOX2_UI_ShowWindowA(((char *)((BoxTask *)(task))->work));
@@ -4291,17 +4291,17 @@ int BOX2_SEQ_StateItemMenuB(BoxTask *task)
     }
     r = BOX2_UI_GetPartySlotHit();
     if (r != -1) {
-        CURSOR_MOVE_SetState((((BoxTask *)(task))->work->sound), 0);
+        CURSOR_MOVE_SetState((((BoxTask *)(task))->work->cursorMove), 0);
         if (BOX2_MAIN_GetPartyValueAt((void ***)task, r, task->curBox, 0xA9, 0)) {
             GFL_USE_PlaySeDefaultVolume(0x666);
             TOUCHPANEL_GetPointTrg((u32 *)((char *)task->work + 0xA180), (u32 *)((char *)task->work + 0xA184));
             if (BOX2_UI_IsListOpen((((BoxTask *)(task))->work->winMgr)) == 0)
                 BOX2_SEQ_DrawFrameList((BoxTask *)task, d_021EF918, 4);
-            BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, r);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, r);
             task->barOpenFlag = 0;
             return BOX2_SEQ_SelectSlotB((BoxTask *)task, r);
         }
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), r);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), r);
         BOX2_UI_SetCursorPos((char **)task, r);
         BOX2_MAIN_ResetBoxView((BoxTask *)task);
         if (BOX2_UI_IsListOpen((((BoxTask *)(task))->work->winMgr)) == 1) {
@@ -4323,13 +4323,13 @@ int BOX2_SEQ_StateItemMenuB(BoxTask *task)
     case 0x1F:
         GFL_USE_PlaySeDefaultVolume(0x548);
         BOX2_MAIN_ClearCursorBox((unsigned char *)task);
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), 0x1E);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), 0x1E);
         BOX2_UI_SetCursorPos((char **)task, 0x1E);
         return BOX2_SEQ_GotoRightPanelA((BoxTask *)task, 1, 0x23);
     case 0x20:
         GFL_USE_PlaySeDefaultVolume(0x548);
         BOX2_MAIN_ClearCursorBox((unsigned char *)task);
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), 0x1E);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), 0x1E);
         BOX2_UI_SetCursorPos((char **)task, 0x1E);
         return BOX2_SEQ_GotoRightPanelB((BoxTask *)task, 1, 0x23);
     case 0x21:
@@ -4363,31 +4363,31 @@ int BOX2_SEQ_StateItemMenuB(BoxTask *task)
         unsigned char k;
         GFL_USE_PlaySeDefaultVolume(0x551);
         k = task->cursorSlot;
-        BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)));
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), k);
+        BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)));
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), k);
         return BOX2_SEQ_GotoBox2Main((BoxTask *)task, 5, 0x25);
     }
     case 0x28:
         task->barOpenFlag = 0;
         return BOX2_SEQ_GotoBox2MainNoSe((BoxTask *)task, 0x1F);
     case -6:
-        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)) == 0x1E) {
+        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)) == 0x1E) {
             GFL_USE_PlaySeDefaultVolume(0x548);
             BOX2_MAIN_ClearCursorBox((unsigned char *)task);
             return BOX2_SEQ_GotoRightPanelA((BoxTask *)task, 1, 0x23);
         }
         break;
     case -5:
-        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)) == 0x1E) {
+        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)) == 0x1E) {
             GFL_USE_PlaySeDefaultVolume(0x548);
             BOX2_MAIN_ClearCursorBox((unsigned char *)task);
             return BOX2_SEQ_GotoRightPanelB((BoxTask *)task, 1, 0x23);
         }
         break;
     case -3: {
-        unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound));
+        unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove));
         if (v < 0x1E)
-            BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, v);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, v);
         else if (v != 0x24 && v != 0x25 && v != 0x26 && v != 0x27)
             BOX2_MAIN_ResetBoxView((BoxTask *)task);
         GFL_USE_PlaySeDefaultVolume(0x548);
@@ -4397,8 +4397,8 @@ int BOX2_SEQ_StateItemMenuB(BoxTask *task)
         GFL_USE_PlaySeDefaultVolume(0x551);
         if (BOX2_UI_IsListOpen((((BoxTask *)(task))->work->winMgr)) == 1) {
             unsigned char k = task->cursorSlot;
-            BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)));
-            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), k);
+            BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)));
+            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), k);
             return BOX2_SEQ_GotoBox2Main((BoxTask *)task, 5, 0x25);
         }
         task->params->swapMode = 0;
@@ -4414,9 +4414,9 @@ int BOX2_SEQ_StateItemMenuB(BoxTask *task)
         if (BOX2_MAIN_GetPartyValueAt((void ***)task, r, task->curBox, 0xA9, 0)) {
             GFL_USE_PlaySeDefaultVolume(0x54C);
             BOX2_SEQ_DrawFrameList((BoxTask *)task, d_021EF918, 4);
-            BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, r);
-            BOX2_UI_MoveCursorBetweenIcons((char *)task->work, 0x24, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)));
-            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), 0x24);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, r);
+            BOX2_UI_MoveCursorBetweenIcons((char *)task->work, 0x24, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)));
+            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), 0x24);
             return BOX2_SEQ_GotoSlotHandlerA((BoxTask *)task, r, 0x23);
         }
         break;
@@ -4429,7 +4429,7 @@ int BOX2_SEQ_StateOpenItemB(BoxTask *task)
     GFL_USE_PlaySeDefaultVolume(0x667);
     BOX2_MAIN_UpdateBoxSlots((unsigned char *)task);
     BOX2_SEQ_Delete(task);
-    CURSOR_MOVE_SetCurrent(task->work->sound, 0x24);
+    CURSOR_MOVE_SetCurrent(task->work->cursorMove, 0x24);
     BOX2_UI_SetCursorPos((char **)task, 0x24);
     BOX2_UI_DeleteSlotObjects((BoxTask *)task, 0, 0, 1);
     BOX2_SEQ_PrintPrompt((BoxTask *)task, task->cursorSlot, 1, 0x18);
@@ -4485,7 +4485,7 @@ int BOX2_SEQ_StateSwapMenuB(BoxTask *task)
         return BOX2_SEQ_SetSeqThird((BoxTask *)task, (int)BOX2_MAIN_IsWindowBusy, 0x26);
     case 1:
         (((BoxTask *)(task))->work->seqStep) = 0;
-        BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, 0x1e);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, 0x1e);
         BOX2_UI_ShowWindowB(((char *)((BoxTask *)(task))->work));
         BOX2_UI_MoveCursor((char **)task, 0xe, 0);
         return 0x27;
@@ -4518,7 +4518,7 @@ int BOX2_SEQ_StateSwapMenuB(BoxTask *task)
 /*
  * Sibling of src/matched/BOX2_SEQ_StateBoxMenu.c and BOX2_SEQ_StateMoveMove.c.
  * The image computes r + 0x1E
- * separately for BOX2_MAIN_ChangeBoxFormPreserve and for the call after it; the (int) cast on
+ * separately for BOX2_MAIN_RefreshCurrentBoxMonInfo and for the call after it; the (int) cast on
  * the first keeps the two expressions apart so they are not CSEd.
  */
 int BOX2_SEQ_StateItemMoveB(BoxTask *task)
@@ -4530,16 +4530,16 @@ int BOX2_SEQ_StateItemMoveB(BoxTask *task)
     }
     r = BOX2_UI_GetHandSlotHit();
     if (r != -1) {
-        CURSOR_MOVE_SetState((((BoxTask *)(task))->work->sound), 0);
+        CURSOR_MOVE_SetState((((BoxTask *)(task))->work->cursorMove), 0);
         if (BOX2_MAIN_GetPartyValueAt((void ***)task, r + 0x1E, task->curBox, 0xA9, 0)) {
             GFL_USE_PlaySeDefaultVolume(0x666);
             TOUCHPANEL_GetPointTrg((u32 *)((char *)task->work + 0xA180), (u32 *)((char *)task->work + 0xA184));
             if (BOX2_UI_IsListOpen((((BoxTask *)(task))->work->winMgr)) == 0)
                 BOX2_SEQ_DrawFrameList((BoxTask *)task, d_021EF918, 4);
-            BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, (int)r + 0x1E);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, (int)r + 0x1E);
             return BOX2_SEQ_SelectPartySlotB((BoxTask *)task, r + 0x1E);
         }
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), r);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), r);
         BOX2_UI_SetCursorPos((char **)task, r);
         BOX2_MAIN_ResetBoxView((BoxTask *)task);
         if (BOX2_UI_IsListOpen((((BoxTask *)(task))->work->winMgr)) == 1) {
@@ -4582,8 +4582,8 @@ int BOX2_SEQ_StateItemMoveB(BoxTask *task)
         unsigned char k;
         GFL_USE_PlaySeDefaultVolume(0x551);
         k = task->cursorSlot - 0x1E;
-        BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)));
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), k);
+        BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)));
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), k);
         return BOX2_SEQ_GotoBox2Main((BoxTask *)task, 5, 0x29);
     }
     case 13:
@@ -4593,8 +4593,8 @@ int BOX2_SEQ_StateItemMoveB(BoxTask *task)
         GFL_USE_PlaySeDefaultVolume(0x551);
         if (BOX2_UI_IsListOpen((((BoxTask *)(task))->work->winMgr)) == 1) {
             unsigned char k = task->cursorSlot - 0x1E;
-            BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)));
-            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), k);
+            BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)));
+            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), k);
             return BOX2_SEQ_GotoBox2Main((BoxTask *)task, 5, 0x29);
         }
         return BOX2_SEQ_GotoBox2MainWithSlot((BoxTask *)task, 6, 9, BOX2_SEQ_ReturnAfterClear((BoxTask *)task, 0x28));
@@ -4602,9 +4602,9 @@ int BOX2_SEQ_StateItemMoveB(BoxTask *task)
         GFL_USE_PlaySeDefaultVolume(0x548);
         break;
     case -3: {
-        unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound));
+        unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove));
         if (v < 6)
-            BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, v + 0x1E);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, v + 0x1E);
         else if (v == 6)
             BOX2_MAIN_ResetBoxView((BoxTask *)task);
         GFL_USE_PlaySeDefaultVolume(0x548);
@@ -4620,9 +4620,9 @@ int BOX2_SEQ_StateItemMoveB(BoxTask *task)
         if (BOX2_MAIN_GetPartyValueAt((void ***)task, r + 0x1E, task->curBox, 0xA9, 0)) {
             GFL_USE_PlaySeDefaultVolume(0x54C);
             BOX2_SEQ_DrawFrameList((BoxTask *)task, d_021EF918, 4);
-            BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, (int)r + 0x1E);
-            BOX2_UI_MoveCursorBetweenIcons((char *)task->work, 9, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)));
-            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), 9);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, (int)r + 0x1E);
+            BOX2_UI_MoveCursorBetweenIcons((char *)task->work, 9, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)));
+            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), 9);
             return BOX2_SEQ_GotoSlotHandlerB((BoxTask *)task, r + 0x1E, 0x27);
         }
         break;
@@ -4717,14 +4717,14 @@ int BOX2_SEQ_StateMenuCursor(BoxTask *task)
     BOX2_SEQ_SetSlotDim((char **)task, 0);
     BOX2_MAIN_RefreshCursorBox(task);
     if (UI_GetInputMode() == 0)
-        CURSOR_MOVE_SetState((((BoxTask *)(task))->work->sound), 1);
+        CURSOR_MOVE_SetState((((BoxTask *)(task))->work->cursorMove), 1);
     if (BOX2_UI_IsTopBarClosed((((BoxTask *)(task))->work->winMgr)) == 1) {
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), task->cursorSlot - 0x1e);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), task->cursorSlot - 0x1e);
         BOX2_UI_SetCursorPos((char **)task, task->cursorSlot - 0x1e);
         BOX2_UI_ShowWindowB(((char *)((BoxTask *)(task))->work));
         return 0x27;
     } else {
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), task->cursorSlot);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), task->cursorSlot);
         BOX2_UI_SetCursorPos((char **)task, task->cursorSlot);
         BOX2_UI_ShowWindowA(((char *)((BoxTask *)(task))->work));
         return 0x23;
@@ -4756,16 +4756,16 @@ int BOX2_SEQ_StateItemMenuC(BoxTask *task)
     unsigned r;
     r = BOX2_UI_GetPartySlotHit();
     if (r != -1) {
-        CURSOR_MOVE_SetState((((BoxTask *)(task))->work->sound), 0);
+        CURSOR_MOVE_SetState((((BoxTask *)(task))->work->cursorMove), 0);
         if (BOX2_MAIN_GetPartyValueAt((void ***)task, r, task->curBox, 0xA9, 0)) {
             GFL_USE_PlaySeDefaultVolume(0x666);
             TOUCHPANEL_GetPointTrg((u32 *)((char *)task->work + 0xA180), (u32 *)((char *)task->work + 0xA184));
             if (BOX2_UI_IsListOpen((((BoxTask *)(task))->work->winMgr)) == 0)
                 BOX2_SEQ_DrawFrameList((BoxTask *)task, d_021EF9B4, 5);
-            BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, r);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, r);
             return BOX2_SEQ_SelectSlotC((BoxTask *)task, r);
         }
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), r);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), r);
         BOX2_UI_SetCursorPos((char **)task, r);
         BOX2_MAIN_ResetBoxView((BoxTask *)task);
         if (BOX2_UI_IsListOpen((((BoxTask *)(task))->work->winMgr)) == 1) {
@@ -4786,13 +4786,13 @@ int BOX2_SEQ_StateItemMenuC(BoxTask *task)
     case 0x1F:
         GFL_USE_PlaySeDefaultVolume(0x548);
         BOX2_MAIN_ClearCursorBox((unsigned char *)task);
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), 0x1E);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), 0x1E);
         BOX2_UI_SetCursorPos((char **)task, 0x1E);
         return BOX2_SEQ_GotoRightPanelA((BoxTask *)task, 0, 0x2C);
     case 0x20:
         GFL_USE_PlaySeDefaultVolume(0x548);
         BOX2_MAIN_ClearCursorBox((unsigned char *)task);
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), 0x1E);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), 0x1E);
         BOX2_UI_SetCursorPos((char **)task, 0x1E);
         return BOX2_SEQ_GotoRightPanelB((BoxTask *)task, 0, 0x2C);
     case 0x21:
@@ -4821,28 +4821,28 @@ int BOX2_SEQ_StateItemMenuC(BoxTask *task)
         unsigned char k;
         GFL_USE_PlaySeDefaultVolume(0x551);
         k = task->cursorSlot;
-        BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)));
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), k);
+        BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)));
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), k);
         return BOX2_SEQ_GotoBox2Main((BoxTask *)task, 5, 0x2D);
     }
     case -6:
-        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)) == 0x1E) {
+        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)) == 0x1E) {
             GFL_USE_PlaySeDefaultVolume(0x548);
             BOX2_MAIN_ClearCursorBox((unsigned char *)task);
             return BOX2_SEQ_GotoRightPanelA((BoxTask *)task, 0, 0x2C);
         }
         break;
     case -5:
-        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)) == 0x1E) {
+        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)) == 0x1E) {
             GFL_USE_PlaySeDefaultVolume(0x548);
             BOX2_MAIN_ClearCursorBox((unsigned char *)task);
             return BOX2_SEQ_GotoRightPanelB((BoxTask *)task, 0, 0x2C);
         }
         break;
     case -3: {
-        unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound));
+        unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove));
         if (v < 0x1E)
-            BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, v);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, v);
         else if (v != 0x23 && v != 0x24 && v != 0x25 && v != 0x26 && v != 0x27)
             BOX2_MAIN_ResetBoxView((BoxTask *)task);
         GFL_USE_PlaySeDefaultVolume(0x548);
@@ -4852,8 +4852,8 @@ int BOX2_SEQ_StateItemMenuC(BoxTask *task)
         GFL_USE_PlaySeDefaultVolume(0x551);
         if (BOX2_UI_IsListOpen((((BoxTask *)(task))->work->winMgr)) == 1) {
             unsigned char k = task->cursorSlot;
-            BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)));
-            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), k);
+            BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)));
+            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), k);
             return BOX2_SEQ_GotoBox2Main((BoxTask *)task, 5, 0x2D);
         }
         task->params->swapMode = 0;
@@ -4869,9 +4869,9 @@ int BOX2_SEQ_StateItemMenuC(BoxTask *task)
         if (BOX2_MAIN_GetPartyValueAt((void ***)task, r, task->curBox, 0xA9, 0)) {
             GFL_USE_PlaySeDefaultVolume(0x54C);
             BOX2_SEQ_DrawFrameList((BoxTask *)task, d_021EF9B4, 5);
-            BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, r);
-            BOX2_UI_MoveCursorBetweenIcons((char *)task->work, 0x23, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)));
-            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), 0x23);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, r);
+            BOX2_UI_MoveCursorBetweenIcons((char *)task->work, 0x23, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)));
+            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), 0x23);
             return BOX2_SEQ_GotoSlotHandlerA((BoxTask *)task, r, 0x2C);
         }
         break;
@@ -4978,7 +4978,7 @@ int BOX2_SEQ_DeleteBox2UiB(BoxTask *task)
         BOX2_SEQ_PrintPrompt((BoxTask *)task, task->cursorSlot, 1, 0x18);
         r = 0x23;
     }
-    CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), r);
+    CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), r);
     BOX2_UI_SetCursorPos((char **)task, r);
     return 0x2c;
 }
@@ -5007,16 +5007,16 @@ int BOX2_SEQ_StateItemMenuD(BoxTask *task)
 {
     unsigned r = BOX2_UI_GetHandSlotHit();
     if (r != -1) {
-        CURSOR_MOVE_SetState((((BoxTask *)(task))->work->sound), 0);
+        CURSOR_MOVE_SetState((((BoxTask *)(task))->work->cursorMove), 0);
         if (BOX2_MAIN_GetPartyValueAt((void ***)task, r + 0x1E, task->curBox, 0xA9, 0)) {
             GFL_USE_PlaySeDefaultVolume(0x666);
             TOUCHPANEL_GetPointTrg((u32 *)((char *)task->work + 0xA180), (u32 *)((char *)task->work + 0xA184));
             if (BOX2_UI_IsListOpen((((BoxTask *)(task))->work->winMgr)) == 0)
                 BOX2_SEQ_DrawFrameList((BoxTask *)task, d_021EF950, 5);
-            BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, (int)r + 0x1E);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, (int)r + 0x1E);
             return BOX2_SEQ_SelectPartySlotC((BoxTask *)task, r + 0x1E);
         }
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), r);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), r);
         BOX2_UI_SetCursorPos((char **)task, r + 0x3C);
         BOX2_MAIN_ResetBoxView((BoxTask *)task);
         if (BOX2_UI_IsListOpen((((BoxTask *)(task))->work->winMgr)) == 1) {
@@ -5055,17 +5055,17 @@ int BOX2_SEQ_StateItemMenuD(BoxTask *task)
         unsigned char k;
         GFL_USE_PlaySeDefaultVolume(0x551);
         k = task->cursorSlot - 0x1E;
-        BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)));
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), k);
+        BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)));
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), k);
         return BOX2_SEQ_GotoBox2Main((BoxTask *)task, 5, 0x32);
     }
     case -4:
         GFL_USE_PlaySeDefaultVolume(0x548);
         break;
     case -3: {
-        unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound));
+        unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove));
         if (v < 6)
-            BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, v + 0x1E);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, v + 0x1E);
         else if (v != 8 && v != 9 && v != 10 && v != 11 && v != 12)
             BOX2_MAIN_ResetBoxView((BoxTask *)task);
         GFL_USE_PlaySeDefaultVolume(0x548);
@@ -5075,8 +5075,8 @@ int BOX2_SEQ_StateItemMenuD(BoxTask *task)
         GFL_USE_PlaySeDefaultVolume(0x551);
         if (BOX2_UI_IsListOpen((((BoxTask *)(task))->work->winMgr)) == 1) {
             unsigned char k = task->cursorSlot - 0x1E;
-            BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)));
-            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), k);
+            BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)));
+            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), k);
             return BOX2_SEQ_GotoBox2Main((BoxTask *)task, 5, 0x32);
         }
         task->params->swapMode = 0;
@@ -5091,9 +5091,9 @@ int BOX2_SEQ_StateItemMenuD(BoxTask *task)
         if (BOX2_MAIN_GetPartyValueAt((void ***)task, r + 0x1E, task->curBox, 0xA9, 0)) {
             GFL_USE_PlaySeDefaultVolume(0x54C);
             BOX2_SEQ_DrawFrameList((BoxTask *)task, d_021EF950, 5);
-            BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, (int)r + 0x1E);
-            BOX2_UI_MoveCursorBetweenIcons((char *)task->work, 8, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)));
-            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), 8);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, (int)r + 0x1E);
+            BOX2_UI_MoveCursorBetweenIcons((char *)task->work, 8, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)));
+            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), 8);
             return BOX2_SEQ_GotoSlotHandlerB((BoxTask *)task, r + 0x1E, 0x31);
         }
         break;
@@ -5213,20 +5213,20 @@ int BOX2_SEQ_StateListScroll(BoxTask *task)
     unsigned r;
     unsigned b, a;
 
-    r = CURSOR_MOVE_PollRepeatInput((((BoxTask *)(task))->work->sound));
+    r = CURSOR_MOVE_PollRepeatInput((((BoxTask *)(task))->work->cursorMove));
     if (r == (unsigned)-1) {
         if (KEY_GetRepeat() & 0x200) {
-            BOX2_MAIN_PlayCursorSound(task);
+            BOX2_MAIN_ActivateKeyCursor(task);
             r = 2;
         } else if (KEY_GetRepeat() & 0x100) {
-            BOX2_MAIN_PlayCursorSound(task);
+            BOX2_MAIN_ActivateKeyCursor(task);
             r = 3;
         }
     }
     switch (r) {
     case 0:
     case 1:
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), 0);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), 0);
         if (BOX_SAVEDATA_CountFreeSlotsInBox(*(void **)(((char *)((BoxTask *)(task))->params) + 4), task->curBox) == 0) {
             GFL_USE_PlaySeDefaultVolume(0x557);
             BOX2_SEQ_PrintPrompt((BoxTask *)task, 0, 4, 0x18);
@@ -5242,12 +5242,12 @@ int BOX2_SEQ_StateListScroll(BoxTask *task)
         GFL_USE_PlaySeDefaultVolume(0x54C);
         return BOX2_SEQ_ReturnAfterClear((BoxTask *)task, 0x36);
     case 2:
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), 0);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), 0);
     case (unsigned)-6:
         GFL_USE_PlaySeDefaultVolume(0x548);
         return BOX2_SEQ_GotoRightPanelA((BoxTask *)task, 0, 0x35);
     case 3:
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), 0);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), 0);
     case (unsigned)-5:
         GFL_USE_PlaySeDefaultVolume(0x548);
         return BOX2_SEQ_GotoRightPanelB((BoxTask *)task, 0, 0x35);
@@ -5311,7 +5311,7 @@ int BOX2_SEQ_StateScrollBox(BoxTask *task)
         BOX2_SEQ_Create((void *)task);
         BOX2_SEQ_SetSlotDim((char **)task, 0);
         (((BoxTask *)(task))->work->seqStep) = 5;
-        return BOX2_SEQ_SetSeqThird((BoxTask *)task, (int)BOX2_MAIN_Check09E0, 0x36);
+        return BOX2_SEQ_SetSeqThird((BoxTask *)task, (int)BOX2_MAIN_StateMachineRunSwap, 0x36);
     case 5:
         BOX2_MAIN_UpdateBoxSlots((unsigned char *)task);
         BOX2_SEQ_Delete(task);
@@ -5327,7 +5327,7 @@ int BOX2_SEQ_StateScrollBox(BoxTask *task)
         BOX2_SEQ_SetSlotDim((char **)task, 0);
         BOX2_UI_DeleteSlotObjects((BoxTask *)task, 0, 0, 1);
         BOX2_UI_MoveCursor((char **)task, 0, task->cursorSlot - 0x1E);
-        BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, task->cursorSlot);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, task->cursorSlot);
         (((BoxTask *)(task))->work->seqStep) = 0;
         return 0x31;
     }
@@ -5362,12 +5362,12 @@ int BOX2_SEQ_StateOpenItemE(unsigned char *task)
     BOX2_SEQ_Delete((BoxTask *)task);
     BOX2_UI_DeleteSlotObjects((BoxTask *)task, 0, 0, 1);
     if (task[0x16] == 0xff) {
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), 0);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), 0);
         BOX2_UI_SetCursorPos((char **)task, 0);
-        BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, 0x1e);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, 0x1e);
     } else {
         BOX2_SEQ_PrintPrompt((BoxTask *)task, task[0x16], 1, 0x18);
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), 8);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), 8);
         BOX2_UI_SetCursorPos((char **)task, 8);
     }
     return 0x31;
@@ -5394,7 +5394,7 @@ int BOX2_SEQ_StateItemMenuE(BoxTask *task)
     if (KEY_GetTrg() & 4) {
         r = BOX2_SEQ_GotoBox2MainPlaySe((BoxTask *)task, 0x3F);
         if (task->listState == 1) {
-            unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound));
+            unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove));
             if (v < 0x1E)
                 task->cursorSlot = v;
             else
@@ -5404,20 +5404,20 @@ int BOX2_SEQ_StateItemMenuE(BoxTask *task)
     }
     r = BOX2_UI_GetPartySlotHit();
     if (r != -1) {
-        CURSOR_MOVE_SetState((((BoxTask *)(task))->work->sound), 0);
+        CURSOR_MOVE_SetState((((BoxTask *)(task))->work->cursorMove), 0);
         if (BOX2_MAIN_GetPartyValueAt((void ***)task, r, task->curBox, 0xA9, 0)) {
             GFL_USE_PlaySeDefaultVolume(0x666);
             TOUCHPANEL_GetPointTrg((u32 *)((char *)task->work + 0xA180), (u32 *)((char *)task->work + 0xA184));
-            BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, r);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, r);
             return BOX2_SEQ_DrawGridSlot((BoxTask *)task, r);
         }
         BOX2_MAIN_ResetBoxView((BoxTask *)task);
         if (BOX2_UI_IsListOpen((((BoxTask *)(task))->work->winMgr)) == 1) {
-            BOX2_UI_MoveCursorBetweenIcons((char *)task->work, r, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)));
-            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), r);
+            BOX2_UI_MoveCursorBetweenIcons((char *)task->work, r, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)));
+            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), r);
             return BOX2_SEQ_SetBox2UiE((BoxTask *)task);
         }
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), r);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), r);
         BOX2_UI_SetCursorPos((char **)task, r);
         return 0x39;
     }
@@ -5431,14 +5431,14 @@ int BOX2_SEQ_StateItemMenuE(BoxTask *task)
         GFL_USE_PlaySeDefaultVolume(0x548);
         BOX2_MAIN_ClearCursorBox((unsigned char *)task);
         BOX2_SEQ_SetActorDrawEnable((char *)task->work, 10, 0);
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), 0x1E);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), 0x1E);
         BOX2_UI_SetCursorPos((char **)task, 0x1E);
         return BOX2_SEQ_GotoRightPanelA((BoxTask *)task, 1, 0x39);
     case 0x20:
         GFL_USE_PlaySeDefaultVolume(0x548);
         BOX2_MAIN_ClearCursorBox((unsigned char *)task);
         BOX2_SEQ_SetActorDrawEnable((char *)task->work, 10, 0);
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), 0x1E);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), 0x1E);
         BOX2_UI_SetCursorPos((char **)task, 0x1E);
         return BOX2_SEQ_GotoRightPanelB((BoxTask *)task, 1, 0x39);
     case 0x21:
@@ -5468,14 +5468,14 @@ int BOX2_SEQ_StateItemMenuE(BoxTask *task)
         unsigned char k;
         GFL_USE_PlaySeDefaultVolume(0x551);
         k = task->cursorSlot;
-        BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)));
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), k);
+        BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)));
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), k);
         return BOX2_SEQ_GotoBox2Main((BoxTask *)task, 5, 0x3A);
     }
     case 0x27:
         r = BOX2_SEQ_GotoBox2MainNoSe((BoxTask *)task, 0x3F);
         if (task->listState == 1) {
-            unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound));
+            unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove));
             if (v < 0x1E)
                 task->cursorSlot = v;
             else
@@ -5483,14 +5483,14 @@ int BOX2_SEQ_StateItemMenuE(BoxTask *task)
         }
         return r;
     case -6:
-        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)) == 0x1E) {
+        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)) == 0x1E) {
             GFL_USE_PlaySeDefaultVolume(0x548);
             BOX2_MAIN_ClearCursorBox((unsigned char *)task);
             return BOX2_SEQ_GotoRightPanelA((BoxTask *)task, 1, 0x39);
         }
         break;
     case -5:
-        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)) == 0x1E) {
+        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)) == 0x1E) {
             GFL_USE_PlaySeDefaultVolume(0x548);
             BOX2_MAIN_ClearCursorBox((unsigned char *)task);
             return BOX2_SEQ_GotoRightPanelB((BoxTask *)task, 1, 0x39);
@@ -5500,9 +5500,9 @@ int BOX2_SEQ_StateItemMenuE(BoxTask *task)
         GFL_USE_PlaySeDefaultVolume(0x548);
         break;
     case -3: {
-        unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound));
+        unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove));
         if (v < 0x1E)
-            BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, v);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, v);
         else if (v != 0x24 && v != 0x25 && v != 0x26)
             BOX2_MAIN_ResetBoxView((BoxTask *)task);
         GFL_USE_PlaySeDefaultVolume(0x548);
@@ -5512,8 +5512,8 @@ int BOX2_SEQ_StateItemMenuE(BoxTask *task)
         GFL_USE_PlaySeDefaultVolume(0x551);
         if (BOX2_UI_IsListOpen((((BoxTask *)(task))->work->winMgr)) == 1) {
             unsigned char k = task->cursorSlot;
-            BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)));
-            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), k);
+            BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)));
+            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), k);
             return BOX2_SEQ_GotoBox2Main((BoxTask *)task, 5, 0x3A);
         }
         task->params->swapMode = 0;
@@ -5579,7 +5579,7 @@ int BOX2_SEQ_DeleteBox2UiC(BoxTask *task)
     return BOX2_SEQ_ReturnAfterClear((BoxTask *)task, 6);
 }
 
-void BOX2_SEQ_StateCloseBoxC(u8 *task){BOX2_SEQ_SetSlotDim((char **)task,0);BOX2_SEQ_ShowWindowObject(*(char * *)&((BoxTask *)task)->work,24);BOX2_MAIN_RefreshCursorBox((BoxTask *)task);if(task[0x16]<30)BOX2_UI_ShowWindowA(*(char * *)&((BoxTask *)task)->work);else BOX2_UI_ShowWindowB(*(char * *)&((BoxTask *)task)->work);BOX2_SEQ_SetSeqThird((BoxTask *)task,(int)BOX2_MAIN_Check0F4C,61);}
+void BOX2_SEQ_StateCloseBoxC(u8 *task){BOX2_SEQ_SetSlotDim((char **)task,0);BOX2_SEQ_ShowWindowObject(*(char * *)&((BoxTask *)task)->work,24);BOX2_MAIN_RefreshCursorBox((BoxTask *)task);if(task[0x16]<30)BOX2_UI_ShowWindowA(*(char * *)&((BoxTask *)task)->work);else BOX2_UI_ShowWindowB(*(char * *)&((BoxTask *)task)->work);BOX2_SEQ_SetSeqThird((BoxTask *)task,(int)BOX2_MAIN_StateMachineHideHand,61);}
 
 
 
@@ -5609,12 +5609,12 @@ int BOX2_SEQ_StateMenuItems(BoxTask *task)
     BOX2_SEQ_ShowWindowObject(((char *)((BoxTask *)(task))->work), 0x18);
     BOX2_MAIN_RefreshCursorBox(task);
     if (task->cursorSlot < 0x1e) {
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), task->cursorSlot);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), task->cursorSlot);
         BOX2_UI_SetCursorPos((char **)task, task->cursorSlot);
         BOX2_UI_ShowWindowA(((char *)((BoxTask *)(task))->work));
         r = 0x39;
     } else {
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), task->cursorSlot - 0x1e);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), task->cursorSlot - 0x1e);
         BOX2_UI_SetCursorPos((char **)task, task->cursorSlot - 0x1e);
         BOX2_UI_ShowWindowB(((char *)((BoxTask *)(task))->work));
         r = 0x46;
@@ -5664,7 +5664,7 @@ int BOX2_SEQ_StateSummaryD(BoxTask *task)
             task->heldSlot = 0xFF;
             *(unsigned short *)(((char *)((BoxTask *)(task))->work) + 0xA16C) = 0;
             BOX2_MAIN_RefreshCursorBox(task);
-            BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, task->cursorSlot);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, task->cursorSlot);
         } else {
             if ((((BoxTask *)(task)))->listState == 2 && *(unsigned short *)(((char *)((BoxTask *)(task))->work) + 0xA16C) == 0) {
                 task->heldSlot = 0xFF;
@@ -5674,7 +5674,7 @@ int BOX2_SEQ_StateSummaryD(BoxTask *task)
             BOX2_MAIN_RefreshCursorBox(task);
             BOX2_SEQ_SetSlotDim((char **)task, 0);
             BOX2_UI_OpenListPack((((BoxTask *)(task))->work->winMgr));
-            return BOX2_SEQ_SetSeqThird((BoxTask *)task, (int)BOX2_MAIN_Check0ED4, 0x3F);
+            return BOX2_SEQ_SetSeqThird((BoxTask *)task, (int)BOX2_MAIN_StateMachineHideHandWindow, 0x3F);
         }
     case 1:
         (((BoxTask *)(task))->work->seqStep)++;
@@ -5694,8 +5694,8 @@ int BOX2_SEQ_StateSummaryD(BoxTask *task)
         BOX2_UI_ToggleSlotPair(((char *)((BoxTask *)(task))->work), 1);
         BOX2_UI_MoveCursor((char **)task, 6, task->cursorSlot);
         BOX2_SEQ_SetCursorFrame((BoxTask *)task, 6);
-        CURSOR_MOVE_ClearSkipBit((((BoxTask *)(task))->work->sound), 0x27);
-        CURSOR_MOVE_ClearSkipBit((((BoxTask *)(task))->work->sound), 0x28);
+        CURSOR_MOVE_ClearSkipBit((((BoxTask *)(task))->work->cursorMove), 0x27);
+        CURSOR_MOVE_ClearSkipBit((((BoxTask *)(task))->work->cursorMove), 0x28);
         if ((((BoxTask *)(task)))->listState == 1) {
             BOX2_UI_DeleteSlotObjects((BoxTask *)task, 0, 1, 1);
             BOX2_SEQ_SetWindow9((BoxTask *)task, 0xD, 1);
@@ -5750,33 +5750,33 @@ int BOX2_SEQ_StateItemMenuF(BoxTask *task)
         return BOX2_SEQ_ReturnAfterClear((BoxTask *)task, 0x41);
     }
     if ((KEY_GetTrg() & 4) && task->listState != 0 && task->handMode == 0) {
-        BOX2_MAIN_PlayCursorSound((BoxTask *)task);
+        BOX2_MAIN_ActivateKeyCursor((BoxTask *)task);
         task->listState = 0;
         return BOX2_SEQ_ReturnAfterClear((BoxTask *)task, 0x41);
     }
     if (task->handMode == 0) {
         r = BOX2_UI_GetBodySlotHit();
         if (r != -1) {
-            CURSOR_MOVE_SetState((((BoxTask *)(task))->work->sound), 0);
+            CURSOR_MOVE_SetState((((BoxTask *)(task))->work->cursorMove), 0);
             if (BOX2_MAIN_GetPartyValueAt((void ***)task, r + 0x1E, task->curBox, 0xA9, 0)) {
-                BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, (int)r + 0x1E);
+                BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, (int)r + 0x1E);
                 BOX2_SEQ_SetActorDrawEnable((char *)task->work, 4, 0);
                 return BOX2_SEQ_SelectGridSlot((BoxTask *)task, r + 0x1E);
             }
             BOX2_MAIN_ResetBoxView((BoxTask *)task);
-            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), r + 0x1E);
+            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), r + 0x1E);
             return 0x40;
         }
         r = BOX2_UI_GetPartySlotHit();
         if (r != -1) {
-            CURSOR_MOVE_SetState((((BoxTask *)(task))->work->sound), 0);
+            CURSOR_MOVE_SetState((((BoxTask *)(task))->work->cursorMove), 0);
             if (BOX2_MAIN_GetPartyValueAt((void ***)task, r, task->curBox, 0xA9, 0)) {
-                BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, r);
+                BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, r);
                 BOX2_SEQ_SetActorDrawEnable((char *)task->work, 4, 0);
                 return BOX2_SEQ_SelectGridSlot((BoxTask *)task, r);
             }
             BOX2_MAIN_ResetBoxView((BoxTask *)task);
-            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), r);
+            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), r);
             return 0x40;
         }
     }
@@ -5790,7 +5790,7 @@ int BOX2_SEQ_StateItemMenuF(BoxTask *task)
         return BOX2_SEQ_ReturnAfterClear((BoxTask *)task, 0x5D);
     case 0x25:
         GFL_USE_PlaySeDefaultVolume(0x548);
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), 0x24);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), 0x24);
         BOX2_UI_SetCursorPos((char **)task, 0x24);
         if (task->handMode == 0)
             BOX2_MAIN_ClearCursorBox((unsigned char *)task);
@@ -5799,7 +5799,7 @@ int BOX2_SEQ_StateItemMenuF(BoxTask *task)
         return BOX2_SEQ_GotoRightPanelA((BoxTask *)task, 0, 0x40);
     case 0x26:
         GFL_USE_PlaySeDefaultVolume(0x548);
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), 0x24);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), 0x24);
         BOX2_UI_SetCursorPos((char **)task, 0x24);
         if (task->handMode == 0)
             BOX2_MAIN_ClearCursorBox((unsigned char *)task);
@@ -5824,12 +5824,12 @@ int BOX2_SEQ_StateItemMenuF(BoxTask *task)
         task->listState = 0;
         return BOX2_SEQ_GotoBox2MainWithSlot((BoxTask *)task, 6, 9, BOX2_SEQ_ReturnAfterClear((BoxTask *)task, 0x41));
     case -6:
-        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)) != 0x24)
+        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)) != 0x24)
             break;
         GFL_USE_PlaySeDefaultVolume(0x548);
         return BOX2_SEQ_GotoRightPanelA((BoxTask *)task, 0, 0x40);
     case -5:
-        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)) != 0x24)
+        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)) != 0x24)
             break;
         GFL_USE_PlaySeDefaultVolume(0x548);
         return BOX2_SEQ_GotoRightPanelB((BoxTask *)task, 0, 0x40);
@@ -5839,9 +5839,9 @@ int BOX2_SEQ_StateItemMenuF(BoxTask *task)
     case -3:
         GFL_USE_PlaySeDefaultVolume(0x548);
         if (task->handMode == 0) {
-            unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound));
+            unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove));
             if (v < 0x24)
-                BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, v);
+                BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, v);
             else
                 BOX2_MAIN_ResetBoxView((BoxTask *)task);
         }
@@ -5884,22 +5884,22 @@ int BOX2_SEQ_StateCloseItem(BoxTask *task)
         BOX2_SEQ_SetWindow9((BoxTask *)task, 14, 1);
         BOX2_UI_DeleteSlotObjects((BoxTask *)task, 0, 0, 1);
         if (task->barFlag == 0) {
-            index = CURSOR_MOVE_GetCurrent(task->work->sound);
+            index = CURSOR_MOVE_GetCurrent(task->work->cursorMove);
             if (index >= 36)
                 index = 0;
             else if (index >= 30)
                 index = 0;
             BOX2_UI_MoveCursor((char **)task, 7, index);
-            BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, index);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, index);
             BOX2_UI_ShowWindowA(*(char * *)&task->work);
             return 57;
         } else {
-            index = CURSOR_MOVE_GetCurrent(task->work->sound);
+            index = CURSOR_MOVE_GetCurrent(task->work->cursorMove);
             selection = 0;
             if (index < 36 && index >= 30)
                 selection = index - 30;
             BOX2_UI_MoveCursor((char **)task, 8, selection);
-            BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, selection + 30);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, selection + 30);
             BOX2_UI_ShowWindowB(*(char * *)&task->work);
             return 70;
         }
@@ -5931,9 +5931,9 @@ int BOX2_SEQ_StateMoveItemScroll(BoxTask *task)
         unsigned short from = o->slot;
         BOX2_SEQ_DeleteB(task);
         BOX2_SEQ_SetSlotActorMode(((char *)((BoxTask *)(task))->work), task->cursorSlot, 0);
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), task->cursorSlot);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), task->cursorSlot);
         BOX2_UI_DeleteSlotObjects((BoxTask *)task, 0, 1, 1);
-        if (FILE_UTIL_Check136C((((BoxTask *)(task))->work->counter)) == 1 && from != task->cursorSlot) {
+        if (FILE_UTIL_IsMailItem((((BoxTask *)(task))->work->counter)) == 1 && from != task->cursorSlot) {
             GFL_USE_PlaySeDefaultVolume(0x557);
             BOX2_SEQ_PrintMessageC((char *)task, 0x18);
             (((BoxTask *)(task))->state) = 0x44;
@@ -5951,8 +5951,8 @@ int BOX2_SEQ_StateMoveItemScroll(BoxTask *task)
             BOX2_MAIN_RecalcPartyParam((void **)task, o->idx);
             BOX2_SEQ_ShowSlotIcon((BoxTask *)task, task->curBox, o->idx, (((BoxTask *)(task))->work->cursorTable[o->idx]));
         }
-        BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, o->idx);
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), o->idx);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, o->idx);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), o->idx);
         (((BoxTask *)(task))->work->counter) = item;
         BOX2_MAIN_SetBoxValueAt((int)task, task->cursorSlot, task->heldSlot, 6, (((BoxTask *)(task))->work->counter));
         if (BOX2_MAIN_SyncItemForm((void **)task, (void *)BOX2_MAIN_GetMonAt((void ***)task, task->heldSlot, task->cursorSlot)) == 1) {
@@ -5972,7 +5972,7 @@ int BOX2_SEQ_StateMoveItemScroll(BoxTask *task)
         BOX2_SEQ_SetActorDrawEnable(((char *)((BoxTask *)(task))->work), 10, 1);
         BOX2_SEQ_CreateHandSlotActorsB(((char *)((BoxTask *)(task))->work));
         GFL_USE_PlaySeDefaultVolume(0x666);
-        return BOX2_SEQ_SetSeqThird((BoxTask *)task, (int)BOX2_MAIN_Check122C, 0x43);
+        return BOX2_SEQ_SetSeqThird((BoxTask *)task, (int)BOX2_MAIN_StateMachineReturnHeld, 0x43);
     }
 }
 
@@ -5992,7 +5992,7 @@ int BOX2_SEQ_StateMoveItemB(BoxTask *task)
     BOX2_SEQ_DeleteB(task);
     item = *(unsigned short *)(((char *)((BoxTask *)(task))->work) + 0xA16C);
     *(unsigned short *)(((char *)((BoxTask *)(task))->work) + 0xA16C) = 0;
-    if (FILE_UTIL_Check136C(item) == 1 && slot != old) {
+    if (FILE_UTIL_IsMailItem(item) == 1 && slot != old) {
         GFL_USE_PlaySeDefaultVolume(0x557);
         BOX2_SEQ_SetCursorDraw((char **)task, 0);
         BOX2_SEQ_PrintMessageC((char *)task, 0x18);
@@ -6002,7 +6002,7 @@ int BOX2_SEQ_StateMoveItemB(BoxTask *task)
     BOX2_SEQ_SetCursorDraw((char **)task, 1);
     r = CURSOR_MOVE_GetCurrent(*(void **)(((char *)((BoxTask *)(task))->work) + 0x70));
     if (r < 0x24)
-        BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, r);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, r);
     BOX2_UI_DeleteSlotObjects((BoxTask *)task, 0, 1, 1);
     return 0x40;
 }
@@ -6044,7 +6044,7 @@ int BOX2_SEQ_StatePlaceItem(BoxTask *task)
         BOX2_MAIN_RecalcPartyParam((void **)task, (((BoxTask *)(task))->work->targetBox));
         BOX2_SEQ_ShowSlotIcon((BoxTask *)task, task->curBox, (((BoxTask *)(task))->work->targetBox), (((BoxTask *)(task))->work->cursorTable[(((BoxTask *)(task))->work->targetBox)]));
     }
-    BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, (((BoxTask *)(task))->work->targetBox));
+    BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, (((BoxTask *)(task))->work->targetBox));
     (((BoxTask *)(task))->work->counter) = item;
     BOX2_MAIN_SetBoxValueAt((int)task, (((BoxTask *)(task))->work->cursorIndex), task->heldSlot, 6, (((BoxTask *)(task))->work->counter));
     if (BOX2_MAIN_SyncItemForm((void **)task, (void *)BOX2_MAIN_GetMonAt((void ***)task, task->heldSlot, (((BoxTask *)(task))->work->cursorIndex))) == 1) {
@@ -6064,7 +6064,7 @@ int BOX2_SEQ_StatePlaceItem(BoxTask *task)
     BOX2_SEQ_SetActorDrawEnable(((char *)((BoxTask *)(task))->work), 10, 1);
     BOX2_SEQ_CreateHandSlotActorsB(((char *)((BoxTask *)(task))->work));
     GFL_USE_PlaySeDefaultVolume(0x666);
-    return BOX2_SEQ_SetSeqThird((BoxTask *)task, (int)BOX2_MAIN_Check122C, 0x43);
+    return BOX2_SEQ_SetSeqThird((BoxTask *)task, (int)BOX2_MAIN_StateMachineReturnHeld, 0x43);
 }
 
 
@@ -6086,7 +6086,7 @@ int BOX2_SEQ_StateCursorMoveB(BoxTask *task)
     if (KEY_GetTrg() & 4) {
         r = BOX2_SEQ_GotoBox2MainPlaySe((BoxTask *)task, 0x3F);
         if (task->listState == 1) {
-            unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound));
+            unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove));
             if (v < 6)
                 task->cursorSlot = v + 0x1E;
             else
@@ -6096,20 +6096,20 @@ int BOX2_SEQ_StateCursorMoveB(BoxTask *task)
     }
     r = BOX2_UI_GetHandSlotHit();
     if (r != -1) {
-        CURSOR_MOVE_SetState((((BoxTask *)(task))->work->sound), 0);
+        CURSOR_MOVE_SetState((((BoxTask *)(task))->work->cursorMove), 0);
         if (BOX2_MAIN_GetPartyValueAt((void ***)task, r + 0x1E, task->curBox, 0xA9, 0)) {
             GFL_USE_PlaySeDefaultVolume(0x666);
             TOUCHPANEL_GetPointTrg((u32 *)((char *)task->work + 0xA180), (u32 *)((char *)task->work + 0xA184));
-            BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, (int)r + 0x1E);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, (int)r + 0x1E);
             return BOX2_SEQ_DeleteGridSlot((BoxTask *)task, r + 0x1E);
         }
         BOX2_MAIN_ResetBoxView((BoxTask *)task);
         if (BOX2_UI_IsListOpen((((BoxTask *)(task))->work->winMgr)) == 1) {
-            BOX2_UI_MoveCursorBetweenIcons((char *)task->work, (unsigned char)r, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)));
-            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), r + 0x1E);
+            BOX2_UI_MoveCursorBetweenIcons((char *)task->work, (unsigned char)r, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)));
+            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), r + 0x1E);
             return BOX2_SEQ_SetBox2UiF((BoxTask *)task);
         }
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), r);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), r);
         BOX2_UI_SetCursorPos((char **)task, r);
         return 0x46;
     }
@@ -6141,14 +6141,14 @@ int BOX2_SEQ_StateCursorMoveB(BoxTask *task)
         unsigned char k;
         GFL_USE_PlaySeDefaultVolume(0x551);
         k = task->cursorSlot - 0x1E;
-        BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)));
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), k);
+        BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)));
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), k);
         return BOX2_SEQ_GotoBox2Main((BoxTask *)task, 5, 0x47);
     }
     case 12:
         r = BOX2_SEQ_GotoBox2MainNoSe((BoxTask *)task, 0x3F);
         if (task->listState == 1) {
-            unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound));
+            unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove));
             if (v < 6)
                 task->cursorSlot = v + 0x1E;
             else
@@ -6159,9 +6159,9 @@ int BOX2_SEQ_StateCursorMoveB(BoxTask *task)
         GFL_USE_PlaySeDefaultVolume(0x548);
         break;
     case -3: {
-        unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound));
+        unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove));
         if (v < 6)
-            BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, v + 0x1E);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, v + 0x1E);
         else if (v == 6)
             BOX2_MAIN_ResetBoxView((BoxTask *)task);
         GFL_USE_PlaySeDefaultVolume(0x548);
@@ -6171,8 +6171,8 @@ int BOX2_SEQ_StateCursorMoveB(BoxTask *task)
         GFL_USE_PlaySeDefaultVolume(0x551);
         if (BOX2_UI_IsListOpen((((BoxTask *)(task))->work->winMgr)) == 1) {
             unsigned char k = task->cursorSlot - 0x1E;
-            BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)));
-            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), k);
+            BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)));
+            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), k);
             return BOX2_SEQ_GotoBox2Main((BoxTask *)task, 5, 0x47);
         }
         return BOX2_SEQ_GotoBox2MainWithSlot((BoxTask *)task, 6, 9, BOX2_SEQ_ReturnAfterClear((BoxTask *)task, 0x1C));
@@ -6224,7 +6224,7 @@ int BOX2_SEQ_StateMoveItemC(u8 *task)
         BOX2_SEQ_DeleteB((BoxTask *)task);
         CURSOR_MOVE_SetCurrent(*(void **)(((u8 *)((BoxTask *)(task))->work) + 112), 9);
         BOX2_UI_SetCursorPos((char **)task, 9);
-        if (FILE_UTIL_Check136C(*(u16 *)(((u8 *)((BoxTask *)(task))->work) + 0xa16c)) == 1 && second != task[22]) {
+        if (FILE_UTIL_IsMailItem(*(u16 *)(((u8 *)((BoxTask *)(task))->work) + 0xa16c)) == 1 && second != task[22]) {
             BOX2_SEQ_SetSlotActorMode((char *)((u8 *)((BoxTask *)(task))->work), task[22], 0);
             BOX2_SEQ_PrintPromptB((BoxTask *)task, 7, 24);
             GFL_USE_PlaySeDefaultVolume(0x557);
@@ -6235,7 +6235,7 @@ int BOX2_SEQ_StateMoveItemC(u8 *task)
         BOX2_SEQ_SetCursorDraw((char **)task, 1);
         return 70;
     }
-    if (FILE_UTIL_Check136C(item) == 1) {
+    if (FILE_UTIL_IsMailItem(item) == 1) {
         BOX2_SEQ_DeleteB((BoxTask *)task);
         GFL_USE_PlaySeDefaultVolume(0x557);
         BOX2_SEQ_SetSlotActorMode((char *)((u8 *)((BoxTask *)(task))->work), task[22], 0);
@@ -6284,7 +6284,7 @@ int BOX2_SEQ_StatePlaceItemB(BoxTask *task)
         BOX2_MAIN_RecalcPartyParam((void * *)task, o->idx);
         BOX2_SEQ_ShowSlotIcon((BoxTask *)task, task->curBox, o->idx, (((BoxTask *)(task))->work->cursorTable[o->idx]));
     }
-    BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, o->idx);
+    BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, o->idx);
     (((BoxTask *)(task))->work->counter) = item;
     BOX2_MAIN_SetBoxValueAt((int)task, task->cursorSlot, task->heldSlot, 6, (((BoxTask *)(task))->work->counter));
     if (task->heldSlot == 0xFF || task->heldSlot == task->curBox) {
@@ -6297,9 +6297,9 @@ int BOX2_SEQ_StatePlaceItemB(BoxTask *task)
         task->cursorSlot = o->idx;
         BOX2_SEQ_DeleteB(task);
         BOX2_UI_ShowWindowB(((char *)((BoxTask *)(task))->work));
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), task->cursorSlot - 0x1E);
-        BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, task->cursorSlot);
-        CURSOR_MOVE_SetState((((BoxTask *)(task))->work->sound), 1);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), task->cursorSlot - 0x1E);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, task->cursorSlot);
+        CURSOR_MOVE_SetState((((BoxTask *)(task))->work->cursorMove), 1);
         return 0x46;
     }
     GFL_USE_PlaySeDefaultVolume(0x666);
@@ -6327,7 +6327,7 @@ int BOX2_SEQ_StateMoveItemD(BoxTask *task)
     case 1:
         if (BOX2_SEQ_IsActorAnimActive(((char *)((BoxTask *)(task))->work), 10) == 1)
             break;
-        BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, task->cursorSlot);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, task->cursorSlot);
         CURSOR_MOVE_SetState(*(void **)(((char *)((BoxTask *)(task))->work) + 0x70), 1);
         BOX2_UI_ShowWindowB(((char *)((BoxTask *)(task))->work));
         return 0x46;
@@ -6362,13 +6362,13 @@ int BOX2_SEQ_StateCursorMoveC(BoxTask *task)
     case 0x1F:
         GFL_USE_PlaySeDefaultVolume(0x548);
         BOX2_MAIN_ClearCursorBox((unsigned char *)task);
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), 0x1E);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), 0x1E);
         BOX2_UI_SetCursorPos((char **)task, 0x1E);
         return BOX2_SEQ_GotoRightPanelA((BoxTask *)task, 0, 0x4B);
     case 0x20:
         GFL_USE_PlaySeDefaultVolume(0x548);
         BOX2_MAIN_ClearCursorBox((unsigned char *)task);
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), 0x1E);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), 0x1E);
         BOX2_UI_SetCursorPos((char **)task, 0x1E);
         return BOX2_SEQ_GotoRightPanelB((BoxTask *)task, 0, 0x4B);
     case 0x21:
@@ -6384,19 +6384,19 @@ int BOX2_SEQ_StateCursorMoveC(BoxTask *task)
         unsigned char k;
         GFL_USE_PlaySeDefaultVolume(0x551);
         k = task->cursorSlot;
-        BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)));
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), k);
+        BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)));
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), k);
         return BOX2_SEQ_GotoBox2Main((BoxTask *)task, 5, 0x4E);
     }
     case -6:
-        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)) == 0x1E) {
+        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)) == 0x1E) {
             GFL_USE_PlaySeDefaultVolume(0x548);
             BOX2_MAIN_ClearCursorBox((unsigned char *)task);
             return BOX2_SEQ_GotoRightPanelA((BoxTask *)task, 0, 0x4B);
         }
         break;
     case -5:
-        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)) == 0x1E) {
+        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)) == 0x1E) {
             GFL_USE_PlaySeDefaultVolume(0x548);
             BOX2_MAIN_ClearCursorBox((unsigned char *)task);
             return BOX2_SEQ_GotoRightPanelB((BoxTask *)task, 0, 0x4B);
@@ -6406,9 +6406,9 @@ int BOX2_SEQ_StateCursorMoveC(BoxTask *task)
         GFL_USE_PlaySeDefaultVolume(0x548);
         break;
     case -3: {
-        unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound));
+        unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove));
         if (v < 0x1E)
-            BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, v);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, v);
         else if (v != 0x22 && v != 0x23)
             BOX2_MAIN_ResetBoxView((BoxTask *)task);
         GFL_USE_PlaySeDefaultVolume(0x548);
@@ -6418,8 +6418,8 @@ int BOX2_SEQ_StateCursorMoveC(BoxTask *task)
         GFL_USE_PlaySeDefaultVolume(0x551);
         if (BOX2_UI_IsListOpen((((BoxTask *)(task))->work->winMgr)) == 1) {
             unsigned char k = task->cursorSlot;
-            BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)));
-            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), k);
+            BOX2_UI_MoveCursorBetweenIcons((char *)task->work, k, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)));
+            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), k);
             return BOX2_SEQ_GotoBox2Main((BoxTask *)task, 5, 0x4E);
         }
         task->params->swapMode = 0;
@@ -6435,9 +6435,9 @@ int BOX2_SEQ_StateCursorMoveC(BoxTask *task)
             GFL_USE_PlaySeDefaultVolume(0x54C);
             task->cursorSlot = r;
             BOX2_SEQ_DrawFrameList((BoxTask *)task, d_021EF8EC, 2);
-            BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, r);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, r);
             BOX2_SEQ_RefreshCursorSlot((BoxTask *)task);
-            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), 0x22);
+            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), 0x22);
             if (BOX2_UI_IsListOpen((((BoxTask *)(task))->work->winMgr)) == 1)
                 return BOX2_SEQ_StatePushSlot((char *)task);
             BOX2_UI_MoveCursorBetweenIcons((char *)task->work, 0x22, r);
@@ -6445,7 +6445,7 @@ int BOX2_SEQ_StateCursorMoveC(BoxTask *task)
             return BOX2_SEQ_SetSeqThird((BoxTask *)task, (int)BOX2_MAIN_SceneWaitScroll, BOX2_SEQ_SetState((BoxTask *)task, 0x4C));
         }
         GFL_USE_PlaySeDefaultVolume(0x548);
-        BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, r);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, r);
         if (BOX2_UI_IsListOpen((((BoxTask *)(task))->work->winMgr)) == 1) {
             BOX2_UI_OpenListPack((((BoxTask *)(task))->work->winMgr));
             BOX2_SEQ_SetSlotDim((char **)task, 0);
@@ -6540,7 +6540,7 @@ int BOX2_SEQ_StateSwapMenuD(BoxTask *task)
             BOX2_SEQ_SetActorDrawEnable(((char *)((BoxTask *)(task))->work), 4, 0);
             BOX2_SEQ_SetWindow9((BoxTask *)task, 0xE, 0);
             BOX2_UI_ToggleSlotPair(((char *)((BoxTask *)(task))->work), 0);
-            if (FILE_UTIL_Check136C(item) == 1) {
+            if (FILE_UTIL_IsMailItem(item) == 1) {
                 BOX2_UI_OpenListPack((((BoxTask *)(task))->work->winMgr));
                 (((BoxTask *)(task))->work->seqStep) = 1;
                 return BOX2_SEQ_SetSeqThird((BoxTask *)task, (int)BOX2_MAIN_IsWindowMoving, 0x50);
@@ -6584,9 +6584,9 @@ int BOX2_SEQ_StateSwapMenuD(BoxTask *task)
 int BOX2_SEQ_SetBox2MainE(BoxTask *task)
 {
     if (task->heldSlot != 0xFF)
-        BOX2_MAIN_ChangeBoxForm((char *)task, task->heldSlot, task->cursorSlot);
+        BOX2_MAIN_RefreshMonInfo((char *)task, task->heldSlot, task->cursorSlot);
     else
-        BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, task->cursorSlot);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, task->cursorSlot);
     BOX2_SEQ_SetCursorFrame((BoxTask *)task, 6);
     if (((BoxTask *)task)->listState == 0)
         BOX2_SEQ_SetWindow9((BoxTask *)task, 0xE, 1);
@@ -6709,7 +6709,7 @@ int BOX2_SEQ_StateSwapMenuE(BoxTask *task)
 int BOX2_SEQ_StateCloseMenu(BoxTask *task)
 {
     u8 mask;
-    switch ((unsigned)CURSOR_MOVE_PollRepeatInput(task->work->sound)) {
+    switch ((unsigned)CURSOR_MOVE_PollRepeatInput(task->work->cursorMove)) {
     case 0:
         GFL_USE_PlaySeDefaultVolume(0x54c);
         BOX2_SEQ_ToggleHandSlot((int)task, 0);
@@ -6739,13 +6739,13 @@ int BOX2_SEQ_StateCloseMenu(BoxTask *task)
         BOX2_MAIN_SetBoxValueAt((int)task, task->cursorSlot, task->curBox, 11, mask);
         BOX2_MAIN_SetBodySlots((char *)task, (unsigned)mask);
         GFL_USE_PlaySeDefaultVolume(0x54c);
-        return BOX2_SEQ_GetBgFrameY((BoxTask *)task, 0, 87);
+        return BOX2_SEQ_SetupFrameFadeAndWait((BoxTask *)task, 0, 87);
     case 7:
         GFL_USE_PlaySeDefaultVolume(0x551);
-        return BOX2_SEQ_GetBgFrameY((BoxTask *)task, 1, 87);
+        return BOX2_SEQ_SetupFrameFadeAndWait((BoxTask *)task, 1, 87);
     case (unsigned)-2:
         GFL_USE_PlaySeDefaultVolume(0x551);
-        return BOX2_SEQ_GetBgFrameY((BoxTask *)task, 1, 87);
+        return BOX2_SEQ_SetupFrameFadeAndWait((BoxTask *)task, 1, 87);
     case (unsigned)-3:
         GFL_USE_PlaySeDefaultVolume(0x548);
         return BOX2_SEQ_SetSeqSecond((BoxTask *)task, 88);
@@ -6818,7 +6818,7 @@ int BOX2_SEQ_StateConfirmRelease(BoxTask *task)
                 task->state = 14;
                 return BOX2_SEQ_ReturnAfterClear((BoxTask *)task, 6);
             }
-            if (FILE_UTIL_Check136C(POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(task->params->party, slot), 6, 0)) == 1) {
+            if (FILE_UTIL_IsMailItem(POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(task->params->party, slot), 6, 0)) == 1) {
                 GFL_USE_PlaySeDefaultVolume(0x557);
                 BOX2_SEQ_PrintPrompt((BoxTask *)task, 0, 5, 24);
                 *(u8 *)(((char *)((BoxTask *)(task))->work) + 0xA170) = 1;
@@ -6888,7 +6888,7 @@ int BOX2_SEQ_StateReleaseMon(BoxTask *task)
                 (((BoxTask *)(task))->state) = 0x11;
                 BOX2_UI_ShowWindowA(((char *)((BoxTask *)(task))->work));
             }
-            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), task->cursorSlot);
+            CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), task->cursorSlot);
             BOX2_UI_SetCursorPos((char **)task, task->cursorSlot);
             BOX2_SEQ_SetCursorDraw((char **)task, 1);
             BOX2_UI_ToggleSlotPair(((char *)((BoxTask *)(task))->work), 1);
@@ -6906,8 +6906,8 @@ int BOX2_SEQ_StateReleaseMon(BoxTask *task)
     case 3:
         (((BoxTask *)(task))->work->seqStep) = 0;
         BOX2_SEQ_Delete(task);
-        BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, task->cursorSlot);
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), task->cursorSlot - 0x1E);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, task->cursorSlot);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), task->cursorSlot - 0x1E);
         BOX2_UI_SetCursorPos((char **)task, task->cursorSlot - 0x1E);
         BOX2_SEQ_SetCursorDraw((char **)task, 1);
         task->cursorSlot = 0xFF;
@@ -7002,7 +7002,7 @@ int BOX2_SEQ_StateZoomMenu(BoxTask *task)
 
 int BOX2_SEQ_StateClosePmVoice(BoxTask *task)
 {
-    unsigned v = CURSOR_MOVE_PollRepeatInput(task->work->sound);
+    unsigned v = CURSOR_MOVE_PollRepeatInput(task->work->cursorMove);
     switch (v) {
     case 0:
         GFL_USE_PlaySeDefaultVolume(0x54c);
@@ -7081,7 +7081,7 @@ int BOX2_SEQ_StateMoveMenuB(BoxTask *task)
         task->prevBox = task->curBox;
         (((BoxTask *)(task))->work->seqStep)++;
         GFL_USE_PlaySeDefaultVolume(0x669);
-        return BOX2_SEQ_ResetEntry((char *)task, 0x60);
+        return BOX2_SEQ_RefreshBoxUiAndWait((char *)task, 0x60);
     case 2:
         (((BoxTask *)(task))->work->seqStep) = 0;
         BOX2_UI_SetMiniIconVisible((BoxTask *)task, 0, 1);
@@ -7122,10 +7122,10 @@ int BOX2_SEQ_StatePmVoiceMenu(BoxTask *task)
         *(unsigned *)(((char *)((BoxTask *)(task))->work) + 0xA184) = y;
         (((BoxTask *)(task))->state) = 0x61;
         BOX2_SEQ_CreateC(task);
-        CURSOR_MOVE_SetState((((BoxTask *)(task))->work->sound), 0);
+        CURSOR_MOVE_SetState((((BoxTask *)(task))->work->cursorMove), 0);
         return 0xF;
     }
-    r = CURSOR_MOVE_PollRepeatInput((((BoxTask *)(task))->work->sound));
+    r = CURSOR_MOVE_PollRepeatInput((((BoxTask *)(task))->work->cursorMove));
     switch (r) {
     case 0:
         GFL_USE_PlaySeDefaultVolume(0x548);
@@ -7157,14 +7157,14 @@ int BOX2_SEQ_StatePmVoiceMenu(BoxTask *task)
         GFL_USE_PlaySeDefaultVolume(0x548);
         return BOX2_SEQ_SetSeqSecond((BoxTask *)task, BOX2_SEQ_SetState((BoxTask *)task, 0x61));
     case (unsigned)-8:
-        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)) == 1) {
+        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)) == 1) {
             GFL_USE_PlaySeDefaultVolume(0x548);
             BOX2_MAIN_SelectBox((BoxTask *)task, -1);
             return BOX2_SEQ_SetSeqThird((BoxTask *)task, (int)BOX2_SEQ_OpenBoxRight, 0x61);
         }
         break;
     case (unsigned)-7:
-        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)) == 4) {
+        if (CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)) == 4) {
             GFL_USE_PlaySeDefaultVolume(0x548);
             BOX2_MAIN_SelectBox((BoxTask *)task, 1);
             return BOX2_SEQ_SetSeqThird((BoxTask *)task, (int)BOX2_SEQ_OpenBoxLeft, 0x61);
@@ -7284,7 +7284,7 @@ int BOX2_SEQ_StateMoveMenuC(BoxTask *task)
         }
         if (flag == 1) {
             BOX2_UI_MoveCursor((char **)task, 0xB, 1);
-            CURSOR_MOVE_ClearSkipBit((((BoxTask *)(task))->work->sound), 0);
+            CURSOR_MOVE_ClearSkipBit((((BoxTask *)(task))->work->cursorMove), 0);
         } else {
             BOX2_UI_MoveCursor((char **)task, 0xB, 0);
         }
@@ -7593,7 +7593,7 @@ int BOX2_SEQ_StateUseItemMenu(BoxTask *task)
             BOX2_MAIN_RecalcPartyParam((void **)task,task->cursorSlot);
             BOX2_SEQ_ShowSlotIcon((BoxTask *)task,task->curBox,task->cursorSlot,*(unsigned char *)(((char *)((BoxTask *)(task))->work)+task->cursorSlot+0x3dd2));
         }
-        BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task,task->cursorSlot); BOX2_SEQ_SetSlotDim((char **)task,0);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task,task->cursorSlot); BOX2_SEQ_SetSlotDim((char **)task,0);
         BOX2_SEQ_ShowWindowObject(((char *)((BoxTask *)(task))->work),0x18); BOX2_MAIN_RefreshCursorBox(task); BOX2_UI_ShowWindowA(((char *)((BoxTask *)(task))->work));
         BOX2_SEQ_SetActorAffineMode(((char *)((BoxTask *)(task))->work),1); BOX2_SEQ_SetActorAnimSeq(((char *)((BoxTask *)(task))->work),0xa,2);
         return 0x3b;
@@ -7607,10 +7607,10 @@ int BOX2_SEQ_StateUseItemMenu(BoxTask *task)
  * Set the id, re-key the queue, store 0x69 as the frame, then
  *   arm the flag.
  */
-int BOX2_SEQ_StatePlayCry(BoxTask *task)
+int BOX2_SEQ_StateExitBoxWithSe(BoxTask *task)
 {
     GFL_USE_PlaySeDefaultVolume(0x55D);
-    BOX2_MAIN_PlayMonCry((int *)task);
+    BOX2_MAIN_ClearPerapVoiceIfNoChatot((int *)task);
     task->state = 0x69;
     return BOX2_SEQ_StartWipeBlack((void *)task, 1);
 }
@@ -7663,7 +7663,7 @@ int BOX2_SEQ_StateCloseItemMenu(BoxTask *task)
  */
 void BOX2_SEQ_SaveMenuPosAndExit(BoxTask *task)
 {
-    BOX2_MAIN_PlayMonCry((int *)((int)task));
+    BOX2_MAIN_ClearPerapVoiceIfNoChatot((int *)((int)task));
     task->params->savedBox = task->curBox;
     task->params->savedSlot = task->cursorSlot;
     task->state = 0x69;
@@ -7689,19 +7689,19 @@ int BOX2_SEQ_StatePmVoiceClose(BoxTask *task) {
  return 0x4B;
 }
 
-void BOX2_SEQ_StateEnterItemMenu(unsigned char *task){if(UI_GetInputMode()==1)CURSOR_MOVE_SetState(((BoxTask *)task)->work->sound,0);else {CURSOR_MOVE_SetState(((BoxTask *)task)->work->sound,1);BOX2_SEQ_SetCursorDraw((char **)task,0);}BOX2_SEQ_StateItemMenu((BoxTask *)task);}
+void BOX2_SEQ_StateEnterItemMenu(unsigned char *task){if(UI_GetInputMode()==1)CURSOR_MOVE_SetState(((BoxTask *)task)->work->cursorMove,0);else {CURSOR_MOVE_SetState(((BoxTask *)task)->work->cursorMove,1);BOX2_SEQ_SetCursorDraw((char **)task,0);}BOX2_SEQ_StateItemMenu((BoxTask *)task);}
 
 /*
  * Forward, then store the third argument at 0x28.
  */
 int BOX2_SEQ_GotoBox2Main(BoxTask *task, int a, int b)
 {
-    BOX2_MAIN_UpdateWindowFrame((char *)task, a);
+    BOX2_MAIN_SetupWindowFrameFade((char *)task, a);
     task->state = b;
     return 8;
 }
 
-int BOX2_SEQ_GetBgFrameY(BoxTask *task,int a,int b) {
+int BOX2_SEQ_SetupFrameFadeAndWait(BoxTask *task,int a,int b) {
  ((BoxWorkView *)(char *)task->work)->flag=1;
  ((BoxWorkView *)(char *)task->work)->id=BGWINFRM_GetBgFrame(*(struct WinMgr * *)&task->work->winMgr,7);
  ((BoxWorkView *)(char *)task->work)->lo=13;
@@ -7776,11 +7776,11 @@ int BOX2_SEQ_StatePmVoiceMenuB(BoxTask *task)
     }
     BOX2_SEQ_RefreshCursorSlot(task);
     if((((BoxTask *)(task))->subResult)==0) {
-        BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task,task->cursorSlot); BOX2_SEQ_DrawFrameList((BoxTask *)task, data_021EFA10, 6);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task,task->cursorSlot); BOX2_SEQ_DrawFrameList((BoxTask *)task, data_021EFA10, 6);
         BOX2_UI_PutListFrames(*(struct WinMgr **)(((char *)((BoxTask *)(task))->work)+0x74)); BOX2_SEQ_PrintPrompt((BoxTask *)task,task->cursorSlot,1,0x18);
         return next;
     }
-    if(FILE_UTIL_Check136C((((BoxTask *)(task))->subResult))==0) {
+    if(FILE_UTIL_IsMailItem((((BoxTask *)(task))->subResult))==0) {
         mon=(void *)BOX2_MAIN_GetMonAt((void ***)task,task->curBox,task->cursorSlot);
         BOX2_MAIN_SetBoxValueAt((int)task,task->cursorSlot,task->curBox,6,(((BoxTask *)(task))->subResult));
         if(BOX2_MAIN_SyncItemForm((void **)task,mon)==1) {
@@ -7789,7 +7789,7 @@ int BOX2_SEQ_StatePmVoiceMenuB(BoxTask *task)
         }
         MYITEM_SAVEDATA_RemoveItem(task->params->config,(((BoxTask *)(task))->subResult),1,0x804c);
     }
-    BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task,task->cursorSlot); BOX2_SEQ_SetCursorDraw((char **)task,0);
+    BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task,task->cursorSlot); BOX2_SEQ_SetCursorDraw((char **)task,0);
     return 0x54;
 }
 
@@ -7812,13 +7812,13 @@ int BOX2_SEQ_StatePmVoiceMenuC(BoxTask *task)
     }
     BOX2_SEQ_SetActorAnim((BoxTask *)task,*(short *)&task->subResult);
     if((((BoxTask *)(task))->subResult)==0) {
-        BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task,task->cursorSlot); BOX2_UI_PutListFrames(*(struct WinMgr **)(((char *)((BoxTask *)(task))->work)+0x74));
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task,task->cursorSlot); BOX2_UI_PutListFrames(*(struct WinMgr **)(((char *)((BoxTask *)(task))->work)+0x74));
         BOX2_SEQ_PrintPromptB((BoxTask *)task,0,0x18);
         if(task->menuMode==0) BOX2_SEQ_SetSlotActors((char *)task,0x81,1);
         else { BOX2_SEQ_SetSlotActors((char *)task,1,1); BOX2_SEQ_SetSlotActors((char *)task,0x82,1); }
         return next;
     }
-    if(FILE_UTIL_Check136C((((BoxTask *)(task))->subResult))==0) {
+    if(FILE_UTIL_IsMailItem((((BoxTask *)(task))->subResult))==0) {
         mon=(void *)BOX2_MAIN_GetMonAt((void ***)task,task->curBox,task->cursorSlot);
         BOX2_MAIN_SetBoxValueAt((int)task,task->cursorSlot,task->curBox,6,(((BoxTask *)(task))->subResult));
         if(BOX2_MAIN_SyncItemForm((void **)task,mon)==1) {
@@ -7832,7 +7832,7 @@ int BOX2_SEQ_StatePmVoiceMenuC(BoxTask *task)
     }
     if(task->menuMode==0) { BOX2_SEQ_SetSlotActors((char *)task,0x81,1); BOX2_UI_ShowWindowA((char *)((char *)((BoxTask *)(task))->work)); }
     else { BOX2_SEQ_SetSlotActors((char *)task,1,1); BOX2_SEQ_SetSlotActors((char *)task,0x82,1); BOX2_UI_ShowWindowB((char *)((char *)((BoxTask *)(task))->work)); }
-    BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task,task->cursorSlot); BOX2_SEQ_SetCursorDraw((char **)task,0);
+    BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task,task->cursorSlot); BOX2_SEQ_SetCursorDraw((char **)task,0);
     return 0x54;
 }
 
@@ -7854,11 +7854,11 @@ int BOX2_SEQ_StatePmVoiceMenuD(BoxTask *task)
     }
     BOX2_SEQ_RefreshCursorSlot(task);
     if((((BoxTask *)(task))->subResult)==0) {
-        BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task,task->cursorSlot); BOX2_SEQ_DrawFrameList((BoxTask *)task, data_021EF918, 4);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task,task->cursorSlot); BOX2_SEQ_DrawFrameList((BoxTask *)task, data_021EF918, 4);
         BOX2_UI_PutListFrames(*(struct WinMgr **)(((char *)((BoxTask *)(task))->work)+0x74)); BOX2_SEQ_PrintPrompt((BoxTask *)task,task->cursorSlot,1,0x18);
         return next;
     }
-    if(FILE_UTIL_Check136C((((BoxTask *)(task))->subResult))==0) {
+    if(FILE_UTIL_IsMailItem((((BoxTask *)(task))->subResult))==0) {
         mon=(void *)BOX2_MAIN_GetMonAt((void ***)task,task->curBox,task->cursorSlot);
         BOX2_MAIN_SetBoxValueAt((int)task,task->cursorSlot,task->curBox,6,(((BoxTask *)(task))->subResult));
         if(BOX2_MAIN_SyncItemForm((void **)task,mon)==1) {
@@ -7867,7 +7867,7 @@ int BOX2_SEQ_StatePmVoiceMenuD(BoxTask *task)
         }
         MYITEM_SAVEDATA_RemoveItem(task->params->config,(((BoxTask *)(task))->subResult),1,0x804c);
     }
-    BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task,task->cursorSlot); BOX2_SEQ_SetCursorDraw((char **)task,0);
+    BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task,task->cursorSlot); BOX2_SEQ_SetCursorDraw((char **)task,0);
     return 0x54;
 }
 
@@ -7934,7 +7934,7 @@ int BOX2_SEQ_StatePmVoiceOpenC(BoxTask *task)
         BOX2_MAIN_RefreshBoxUi(task);
         while (BOX2_MAIN_ShiftWindowRight(task) != 0)
             ;
-        BOX2_UI_DeleteSlotIcon((BoxTask *)task);
+        BOX2_UI_UpdateCurrentBoxMarker((BoxTask *)task);
         BOX2_UI_ShowWindowA(((char *)((BoxTask *)(task))->work));
         task->cursorSlot = 0xFF;
         return 0x15;
@@ -7953,7 +7953,7 @@ int BOX2_SEQ_StatePmVoiceOpenC(BoxTask *task)
         BOX2_MAIN_RefreshBoxUi(task);
         while (BOX2_MAIN_ShiftWindowRight(task) != 0)
             ;
-        BOX2_UI_DeleteSlotIcon((BoxTask *)task);
+        BOX2_UI_UpdateCurrentBoxMarker((BoxTask *)task);
         BOX2_UI_ShowWindowA(((char *)((BoxTask *)(task))->work));
         if (task->listCursorId >= 0x22 && task->listCursorId <= 0x25)
             BOX2_UI_SetMiniIconVisible((BoxTask *)task, task->listCursorId - 0x22, 1);
@@ -8041,7 +8041,7 @@ int BOX2_SEQ_StatePmVoiceOpenD(BoxTask *task)
 
 int BOX2_SEQ_GotoRightPanelA(BoxTask *task, int a, int n)
 {
-    BOX2_MAIN_StopSeq((BoxTask *)task, 0);
+    BOX2_MAIN_StepToAdjacentBox((BoxTask *)task, 0);
     if (BOX2_UI_IsListOpen(*(struct WinMgr **)(((char *)((BoxTask *)(task))->work) + 0x74)) == 1) {
         BOX2_UI_OpenListPack(*(struct WinMgr **)(((char *)((BoxTask *)(task))->work) + 0x74));
         BOX2_SEQ_ShowWindowObject(((char *)((BoxTask *)(task))->work), 0x18);
@@ -8049,7 +8049,7 @@ int BOX2_SEQ_GotoRightPanelA(BoxTask *task, int a, int n)
         if (a == 1)
             BOX2_UI_ShowWindowA(((char *)((BoxTask *)(task))->work));
     }
-    return BOX2_SEQ_SetSeqThird((BoxTask *)task, (int)BOX2_MAIN_IsSeqIdle, n);
+    return BOX2_SEQ_SetSeqThird((BoxTask *)task, (int)BOX2_MAIN_StepScrollToPrevBox, n);
 }
 
 
@@ -8067,7 +8067,7 @@ int BOX2_SEQ_GotoRightPanelA(BoxTask *task, int a, int n)
 
 int BOX2_SEQ_GotoRightPanelB(BoxTask *task, int a, int n)
 {
-    BOX2_MAIN_StopSeq((BoxTask *)task, 1);
+    BOX2_MAIN_StepToAdjacentBox((BoxTask *)task, 1);
     if (BOX2_UI_IsListOpen(*(struct WinMgr **)(((char *)((BoxTask *)(task))->work) + 0x74)) == 1) {
         BOX2_UI_OpenListPack(*(struct WinMgr **)(((char *)((BoxTask *)(task))->work) + 0x74));
         BOX2_SEQ_ShowWindowObject(((char *)((BoxTask *)(task))->work), 0x18);
@@ -8075,7 +8075,7 @@ int BOX2_SEQ_GotoRightPanelB(BoxTask *task, int a, int n)
         if (a == 1)
             BOX2_UI_ShowWindowA(((char *)((BoxTask *)(task))->work));
     }
-    return BOX2_SEQ_SetSeqThird((BoxTask *)task, (int)BOX2_MAIN_IsSeqStep, n);
+    return BOX2_SEQ_SetSeqThird((BoxTask *)task, (int)BOX2_MAIN_StepScrollToNextBox, n);
 }
 
 int BOX2_SEQ_SelectSlotA(BoxTask *task, int i)
@@ -8341,7 +8341,7 @@ int BOX2_SEQ_DrawGridSlot(BoxTask *task, int i)
     *(int *)((char *)task->work + 0xA180) = t[1] + 8;
     *(int *)((char *)task->work + 0xA184) = t[0] + 8;
     BOX2_SEQ_CreateB((void *)task);
-    return BOX2_SEQ_SetSeqThird((BoxTask *)task, (int)BOX2_MAIN_StateMachineCoin, BOX2_SEQ_SetState((BoxTask *)task, 0x3E));
+    return BOX2_SEQ_SetSeqThird((BoxTask *)task, (int)BOX2_MAIN_StateMachineDrag, BOX2_SEQ_SetState((BoxTask *)task, 0x3E));
 }
 
 int BOX2_SEQ_SetCursorMove(BoxTask *task, int i)
@@ -8349,7 +8349,7 @@ int BOX2_SEQ_SetCursorMove(BoxTask *task, int i)
     task->cursorSlot = i;
     task->heldSlot = task->curBox;
     task->work->cancelFlag = 1;
-    BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, task->cursorSlot);
+    BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, task->cursorSlot);
     (((BoxTask *)(task))->work->counter) = BOX2_MAIN_GetPartyValueAt((void ***)task, task->cursorSlot, task->curBox, 6, 0);
     BOX2_SEQ_SetActorAnim((BoxTask *)task, (short)(((BoxTask *)(task))->work->counter));
     BOX2_UI_CloseListPack((((BoxTask *)(task))->work->winMgr));
@@ -8358,13 +8358,13 @@ int BOX2_SEQ_SetCursorMove(BoxTask *task, int i)
         BOX2_SEQ_MoveActorToSlot((char *)task->work, task->cursorSlot, 0);
         BOX2_SEQ_SetSlotCharacter((char *)task->work, (((BoxTask *)(task))->work->counter));
         BOX2_SEQ_CreateHandSlotActorsB((char *)task->work);
-        BOX2_UI_MoveCursorBetweenIcons((char *)task->work, 0x24, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)));
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), 0x24);
+        BOX2_UI_MoveCursorBetweenIcons((char *)task->work, 0x24, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)));
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), 0x24);
     } else {
-        BOX2_UI_MoveCursorBetweenIcons((char *)task->work, 0x25, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)));
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), 0x25);
+        BOX2_UI_MoveCursorBetweenIcons((char *)task->work, 0x25, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)));
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), 0x25);
     }
-    return BOX2_SEQ_SetSeqThird((BoxTask *)task, (int)BOX2_MAIN_Check0A40, BOX2_SEQ_SetState((BoxTask *)task, 0x39));
+    return BOX2_SEQ_SetSeqThird((BoxTask *)task, (int)BOX2_MAIN_StateMachineShowHandScroll, BOX2_SEQ_SetState((BoxTask *)task, 0x39));
 }
 
 
@@ -8383,7 +8383,7 @@ int BOX2_SEQ_SelectGridSlot(BoxTask *task, unsigned i)
     task->heldSlot = i < 0x1E ? task->curBox : 0xFF;
     (((BoxTask *)(task))->work->counter) = BOX2_MAIN_GetPartyValueAt((void ***)task, task->cursorSlot, task->curBox, 6, 0);
     if ((((BoxTask *)(task))->work->counter) == 0) {
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), task->cursorSlot);
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), task->cursorSlot);
         return 0x40;
     }
     GFL_USE_PlaySeDefaultVolume(0x666);
@@ -8396,7 +8396,7 @@ int BOX2_SEQ_SelectGridSlot(BoxTask *task, unsigned i)
     *(int *)((char *)task->work + 0xA180) = t[1] + 8;
     *(int *)((char *)task->work + 0xA184) = t[0] + 8;
     BOX2_SEQ_CreateB((void *)task);
-    return BOX2_SEQ_SetSeqThird((BoxTask *)task, (int)BOX2_MAIN_StateMachineSlide, 0x42);
+    return BOX2_SEQ_SetSeqThird((BoxTask *)task, (int)BOX2_MAIN_StateMachineDragNoBar, 0x42);
 }
 
 int BOX2_SEQ_DrawGridSlotB(BoxTask *task, unsigned i)
@@ -8417,9 +8417,9 @@ int BOX2_SEQ_DrawGridSlotB(BoxTask *task, unsigned i)
 
 int BOX2_SEQ_UpdateGridCursor(BoxTask *task)
 {
-    unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound));
+    unsigned char v = CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove));
     if (v < 0x24)
-        BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, v);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, v);
     else
         BOX2_MAIN_ResetBoxView((BoxTask *)task);
     BOX2_SEQ_CreateB((void *)task);
@@ -8489,7 +8489,7 @@ int BOX2_SEQ_SetCursorMoveB(BoxTask *task, int i)
     task->cursorSlot = i;
     task->heldSlot = task->curBox;
     task->work->cancelFlag = 1;
-    BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task, task->cursorSlot);
+    BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task, task->cursorSlot);
     (((BoxTask *)(task))->work->counter) = BOX2_MAIN_GetPartyValueAt((void ***)task, task->cursorSlot, task->curBox, 6, 0);
     BOX2_SEQ_SetActorAnim((BoxTask *)task, (short)(((BoxTask *)(task))->work->counter));
     BOX2_UI_CloseListPack((((BoxTask *)(task))->work->winMgr));
@@ -8498,13 +8498,13 @@ int BOX2_SEQ_SetCursorMoveB(BoxTask *task, int i)
         BOX2_SEQ_MoveActorToSlot((char *)task->work, task->cursorSlot, 1);
         BOX2_SEQ_SetSlotCharacter((char *)task->work, (((BoxTask *)(task))->work->counter));
         BOX2_SEQ_CreateHandSlotActorsB((char *)task->work);
-        BOX2_UI_MoveCursorBetweenIcons((char *)task->work, 9, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)));
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), 9);
+        BOX2_UI_MoveCursorBetweenIcons((char *)task->work, 9, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)));
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), 9);
     } else {
-        BOX2_UI_MoveCursorBetweenIcons((char *)task->work, 10, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->sound)));
-        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->sound), 10);
+        BOX2_UI_MoveCursorBetweenIcons((char *)task->work, 10, CURSOR_MOVE_GetCurrent((((BoxTask *)(task))->work->cursorMove)));
+        CURSOR_MOVE_SetCurrent((((BoxTask *)(task))->work->cursorMove), 10);
     }
-    return BOX2_SEQ_SetSeqThird((BoxTask *)task, (int)BOX2_MAIN_Check0A40, BOX2_SEQ_SetState((BoxTask *)task, 0x46));
+    return BOX2_SEQ_SetSeqThird((BoxTask *)task, (int)BOX2_MAIN_StateMachineShowHandScroll, BOX2_SEQ_SetState((BoxTask *)task, 0x46));
 }
 
 /*
@@ -8561,11 +8561,11 @@ int BOX2_SEQ_DrawListSlot(BoxTask *task, int sel)
     int r = BOX2_MAIN_IsWrappedDistance((unsigned char *)task, task->curBox, *(unsigned char *)(((char *)((BoxTask *)(task))->work) + 0xA17F));
     task->curBox = *(unsigned char *)(((char *)((BoxTask *)(task))->work) + 0xA17F);
     BOX2_SEQ_LoadMonIcon((char **)task, task->curBox);
-    BOX2_MAIN_SetBoxScroll((BoxTask *)task, (void *)BOX2_MAIN_GetBoxFormId((BoxTask *)task, task->curBox), r);
+    BOX2_MAIN_SetBoxScroll((BoxTask *)task, (void *)BOX2_MAIN_GetBoxWallpaper((BoxTask *)task, task->curBox), r);
     if (r == 1)
-        cb = (int (*)(unsigned char *))BOX2_MAIN_IsSeqStep;
+        cb = (int (*)(unsigned char *))BOX2_MAIN_StepScrollToNextBox;
     else
-        cb = (int (*)(unsigned char *))BOX2_MAIN_IsSeqIdle;
+        cb = (int (*)(unsigned char *))BOX2_MAIN_StepScrollToPrevBox;
     switch (sel) {
     case 0:
         task->state = 0x15;
@@ -8590,7 +8590,7 @@ void BOX2_SEQ_CreateC(BoxTask *task)
  * Reset the entry then store the field with the dispatcher
  *   thumb-pointer 0x021E01C5 as its second argument.
  */
-int BOX2_SEQ_ResetEntry(char *task, int a)
+int BOX2_SEQ_RefreshBoxUiAndWait(char *task, int a)
 {
     BOX2_MAIN_RefreshBoxUi((BoxTask *)task);
     return BOX2_SEQ_SetSeqThird((BoxTask *)task, 0x021E01C5, a);
@@ -8607,7 +8607,7 @@ int BOX2_SEQ_ResetEntry(char *task, int a)
 
 
 /*
- * Same forward as BOX2_SEQ_ResetEntry but after restarting the queue.
+ * Same forward as BOX2_SEQ_RefreshBoxUiAndWait but after restarting the queue.
  */
 int BOX2_SEQ_ResetEntryB(BoxTask *task, int a)
 {
@@ -8619,15 +8619,15 @@ void BOX2_SEQ_SetActorAnim(BoxTask *task, int v)
 {
     if (v != 0) {
         if (task->cursorSlot < 0x1E)
-            CURSOR_MOVE_SetSkipBit((((BoxTask *)(task))->work->sound), 0x24);
+            CURSOR_MOVE_SetSkipBit((((BoxTask *)(task))->work->cursorMove), 0x24);
         else
-            CURSOR_MOVE_SetSkipBit((((BoxTask *)(task))->work->sound), 9);
+            CURSOR_MOVE_SetSkipBit((((BoxTask *)(task))->work->cursorMove), 9);
         BOX2_SEQ_DrawFrameList((BoxTask *)task, d_021EF8FC, 3);
     } else {
         if (task->cursorSlot < 0x1E)
-            CURSOR_MOVE_ClearSkipBit((((BoxTask *)(task))->work->sound), 0x24);
+            CURSOR_MOVE_ClearSkipBit((((BoxTask *)(task))->work->cursorMove), 0x24);
         else
-            CURSOR_MOVE_ClearSkipBit((((BoxTask *)(task))->work->sound), 9);
+            CURSOR_MOVE_ClearSkipBit((((BoxTask *)(task))->work->cursorMove), 9);
         BOX2_SEQ_DrawFrameList((BoxTask *)task, d_021EF8F4, 2);
     }
 }
@@ -8644,7 +8644,7 @@ int BOX2_SEQ_CheckTradableMon(unsigned char *task)
     int i = task[0x16] - 0x1e;
     if (BOX2_MAIN_HasOtherTradable((void ***)task, i) == 0)
         return 1;
-    if (FILE_UTIL_Check136C((unsigned short)POKE_TOOL_GetPartyValue(
+    if (FILE_UTIL_IsMailItem((unsigned short)POKE_TOOL_GetPartyValue(
             POKEPARTY_GetMember(((BoxTask *)task)->params->party, i), 6, 0)) == 1)
         return 2;
     return 0;
@@ -8686,7 +8686,7 @@ int BOX2_SEQ_GotoBox2MainPlaySe(BoxTask *task, int v)
     else
         task->listState = 1;
     task->exitFlag = 0;
-    BOX2_MAIN_PlayCursorSound((BoxTask *)task);
+    BOX2_MAIN_ActivateKeyCursor((BoxTask *)task);
     return BOX2_SEQ_ReturnAfterClear((BoxTask *)task, v);
 }
 
@@ -8764,13 +8764,13 @@ void BOX2_SEQ_UpdateTextWins(unsigned char *w) {
 void BOX2_SEQ_MakeScreen(void **win)
 {
     BMP_WIN_MakeScreen(*win);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(*win));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(*win));
 }
 
 void BOX2_SEQ_ClearScreen(void **win)
 {
     BMP_WIN_ClearScreen(*win);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(*win));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(*win));
 }
 
 void BOX2_SEQ_PrintTextWin(unsigned char *w,int i,void *bank,unsigned idx,int x,int y,unsigned font,unsigned short color) {
@@ -8844,7 +8844,7 @@ void BOX2_SEQ_FillTextWinEntry(unsigned char *w,BoxSeqEntry *e,unsigned i) {
 void BOX2_SEQ_FillTextWin(char *work, void **q, int i)
 {
     BMP_Clear(BMP_WIN_GetBmp(*(void **)(work + 0x94 + i * 8)), 0);
-    WORDSET_SetSlotMonSpeciesAlt(((BoxWork *)work)->wordSet, 0, *q);
+    WORDSET_SetSlotMonNicknameAlt(((BoxWork *)work)->wordSet, 0, *q);
     BOX2_SEQ_PrintTextWinEx(work, i, ((BoxWork *)work)->msgBank, 1, 0, 0, ((BoxWork *)work)->font, 0x440);
     BOX2_SEQ_MakeScreen((void **)(work + 0x94 + i * 8));
 }
@@ -8932,7 +8932,7 @@ void BOX2_SEQ_DrawItemEntry(char *work, unsigned char *e, int i)
 {
     BMP_Clear(BMP_WIN_GetBmp(*(void **)(work + 0x94 + i * 8)), 0);
     if (((BoxTextEntry *)(e))->value != 0) {
-        WORDSET_Callback_EF40(((BoxWork *)work)->wordSet, 0, ((BoxTextEntry *)(e))->value);
+        WORDSET_SetSlotFromMsg36(((BoxWork *)work)->wordSet, 0, ((BoxTextEntry *)(e))->value);
         BOX2_SEQ_PrintTextWinEx(work, i, ((BoxWork *)work)->msgBank, 99, 0, 0, ((BoxWork *)work)->font, 0x440);
     } else {
         BOX2_SEQ_PrintTextWin((unsigned char *)work, i, ((BoxWork *)work)->msgBank, 105, 0, 0, ((BoxWork *)work)->font, 0x440);
@@ -9281,7 +9281,7 @@ void BOX2_SEQ_PrintMessageB(char *task, int b)
  */
 void BOX2_SEQ_PrintWordset(BoxTask *task, u32 v, int i)
 {
-    WORDSET_Callback_EF40(*(void **)(((char *)((BoxTask *)(task))->work) + 0x84), 0, v);
+    WORDSET_SetSlotFromMsg36(*(void **)(((char *)((BoxTask *)(task))->work) + 0x84), 0, v);
     BOX2_SEQ_PrintMessageMsg((BoxTask *)task, 0x15, i);
 }
 
@@ -9307,7 +9307,7 @@ void BOX2_SEQ_PrintMessageC(char *task, int b)
  */
 void BOX2_SEQ_PrintWordsetB(char *task, int a, int b)
 {
-    WORDSET_Callback_EF40((struct WordSet *)(*(int *)((char *)((BoxTask *)task)->work + 0x84)), 0, a);
+    WORDSET_SetSlotFromMsg36((struct WordSet *)(*(int *)((char *)((BoxTask *)task)->work + 0x84)), 0, a);
     BOX2_SEQ_PrintMessageMsg((BoxTask *)task, 0xe, b);
 }
 
@@ -9322,12 +9322,12 @@ void BOX2_SEQ_PrintMessageD(char *task, int b)
 void BOX2_SEQ_PrintWordsetBB64(BoxTask *task, unsigned v, int i)
 {
     if (v == 0) {
-        WORDSET_Callback_EF40(task->work->wordSet, 0, 0x70);
+        WORDSET_SetSlotFromMsg36(task->work->wordSet, 0, 0x70);
         BOX2_SEQ_PrintMessageMsg((BoxTask *)task, 0x2c, i);
-    } else if (FILE_UTIL_Check136C(v) == 1) {
+    } else if (FILE_UTIL_IsMailItem(v) == 1) {
         BOX2_SEQ_PrintMessageMsg((BoxTask *)task, 0x30, i);
     } else {
-        WORDSET_Callback_EF40(task->work->wordSet, 0, v);
+        WORDSET_SetSlotFromMsg36(task->work->wordSet, 0, v);
         BOX2_SEQ_PrintMessageMsg((BoxTask *)task, 15, i);
     }
 }
@@ -9349,14 +9349,14 @@ void BOX2_SEQ_PrintMonName(BoxTask *task, unsigned kind, int i)
     switch (kind) {
     case 0: msg = 2; break;
     case 1: msg = 3;
-        WORDSET_SetSlotMonSpeciesAlt(task->work->wordSet, 0, (void *)BOX2_MAIN_GetMonAt((void ***)task, task->curBox, task->cursorSlot));
+        WORDSET_SetSlotMonNicknameAlt(task->work->wordSet, 0, (void *)BOX2_MAIN_GetMonAt((void ***)task, task->curBox, task->cursorSlot));
         break;
     case 2: msg = 4;
-        WORDSET_SetSlotMonSpeciesAlt(task->work->wordSet, 0, (void *)BOX2_MAIN_GetMonAt((void ***)task, task->curBox, task->cursorSlot));
+        WORDSET_SetSlotMonNicknameAlt(task->work->wordSet, 0, (void *)BOX2_MAIN_GetMonAt((void ***)task, task->curBox, task->cursorSlot));
         break;
     case 3: msg = 0x1c; break;
     case 4: msg = 0x1d;
-        WORDSET_SetSlotMonSpeciesAlt(task->work->wordSet, 0, (void *)BOX2_MAIN_GetMonAt((void ***)task, task->curBox, task->cursorSlot));
+        WORDSET_SetSlotMonNicknameAlt(task->work->wordSet, 0, (void *)BOX2_MAIN_GetMonAt((void ***)task, task->curBox, task->cursorSlot));
         break;
     case 5: msg = 0x1e; break;
     case 6: msg = 6; break;
@@ -9380,7 +9380,7 @@ void BOX2_SEQ_PrintPrompt(BoxTask *task, int sel, int kind, int i)
         break;
     case 1:
         msg = 0;
-        WORDSET_SetSlotMonSpeciesAlt(*(void **)(((char *)((BoxTask *)(task))->work) + 0x84), 0, (void *)BOX2_MAIN_GetMonAt((void ***)task, task->curBox, task->cursorSlot));
+        WORDSET_SetSlotMonNicknameAlt(*(void **)(((char *)((BoxTask *)(task))->work) + 0x84), 0, (void *)BOX2_MAIN_GetMonAt((void ***)task, task->curBox, task->cursorSlot));
         break;
     case 2:
         msg = 5;
@@ -9421,15 +9421,15 @@ void BOX2_SEQ_PrintPromptB(BoxTask *task, int kind, int i)
         break;
     case 1:
         msg = 0x17;
-        WORDSET_Callback_EF40(*(void **)(((char *)((BoxTask *)(task))->work) + 0x84), 0, *(unsigned short *)(((char *)((BoxTask *)(task))->work) + 0xA16C));
+        WORDSET_SetSlotFromMsg36(*(void **)(((char *)((BoxTask *)(task))->work) + 0x84), 0, *(unsigned short *)(((char *)((BoxTask *)(task))->work) + 0xA16C));
         break;
     case 2:
         msg = 0x18;
-        WORDSET_Callback_EF40(*(void **)(((char *)((BoxTask *)(task))->work) + 0x84), 0, *(unsigned short *)(((char *)((BoxTask *)(task))->work) + 0xA16C));
+        WORDSET_SetSlotFromMsg36(*(void **)(((char *)((BoxTask *)(task))->work) + 0x84), 0, *(unsigned short *)(((char *)((BoxTask *)(task))->work) + 0xA16C));
         break;
     case 3:
         msg = 0x19;
-        WORDSET_Callback_EF40(*(void **)(((char *)((BoxTask *)(task))->work) + 0x84), 0, *(unsigned short *)(((char *)((BoxTask *)(task))->work) + 0xA16C));
+        WORDSET_SetSlotFromMsg36(*(void **)(((char *)((BoxTask *)(task))->work) + 0x84), 0, *(unsigned short *)(((char *)((BoxTask *)(task))->work) + 0xA16C));
         break;
     case 4:
         msg = 0x16;
@@ -9469,7 +9469,7 @@ void BOX2_SEQ_PrintMenuRow(char *task, int row, int b)
     BOX2_SEQ_PrintMessageMsg((BoxTask *)task, row, b);
 }
 
-void BOX2_SEQ_PrintBoxMonName(unsigned char *task){void *m=(void *)BOX2_MAIN_GetMonAt((void ***)task,task[20],task[22]);WORDSET_SetSlotMonSpeciesAlt((struct WordSet *)(((BoxTask *)task)->work->wordSet), 0, m);BOX2_SEQ_PrintMessageMsg((BoxTask *)task,50,27);}
+void BOX2_SEQ_PrintBoxMonName(unsigned char *task){void *m=(void *)BOX2_MAIN_GetMonAt((void ***)task,task[20],task[22]);WORDSET_SetSlotMonNicknameAlt((struct WordSet *)(((BoxTask *)task)->work->wordSet), 0, m);BOX2_SEQ_PrintMessageMsg((BoxTask *)task,50,27);}
 
 /*
  * Index 0x35 when the flag is clear, 0x36 when set.
@@ -10462,7 +10462,7 @@ void BOX2_SEQ_SetCursorFrame(BoxTask *task, int b)
 void BOX2_SEQ_SetCursorDraw(char **work, int flag)
 {
     if (flag == 1) {
-        if (CURSOR_MOVE_GetState(((BoxWork *)work[11])->sound) == 1)
+        if (CURSOR_MOVE_GetState(((BoxWork *)work[11])->cursorMove) == 1)
             BOX2_SEQ_SetActorDrawEnable(work[11], 4, 1);
     } else {
         BOX2_SEQ_SetActorDrawEnable(work[11], 4, 0);

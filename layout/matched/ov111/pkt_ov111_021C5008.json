@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "VIEWER_MAIN_CheckInputHeld",
+   "name": "VIEWER_MAIN_CheckInputModeSwitch",
    "address": "0x021C5008",
    "kind": "game",
    "region": "ov111",

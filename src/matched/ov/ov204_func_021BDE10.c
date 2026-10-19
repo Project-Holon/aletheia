@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BG_SYS_GetMainVisiblePlanes  0x02043658  arm  arm9
- *   BG_SYS_ResetSlot  0x02041EE4  arm  arm9
+ *   BG_SYS_ChangeScroll  0x02041EE4  arm  arm9
  * Addresses are Black-image addresses.
  */
 
@@ -21,12 +21,12 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 BG_SYS_GetMainVisiblePlanes(void);
-extern void BG_SYS_ResetSlot(u32, u32, u32);
+extern void BG_SYS_ChangeScroll(u32, u32, u32);
 
 void INTRO_GRAPHIC_ResetBgSlot(u8 *a0)
 {
     if (BG_SYS_GetMainVisiblePlanes() & 4) {
-        BG_SYS_ResetSlot(2, 1, 1);
+        BG_SYS_ChangeScroll(2, 1, 1);
     }
 }
 

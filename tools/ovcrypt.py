@@ -102,6 +102,12 @@ Use
   python tools/ovcrypt.py check        run every check, print the ranges
   python tools/ovcrypt.py write        ... and write extract/ov230d.bin
   python tools/ovcrypt.py selftest     refusal cases on mutated copies
+  python tools/ovcrypt.py encrypt IN OUT   plain (linked) ov230 image -> ROM bytes
+
+encrypt() is the inverse of the decryptor: tools/romlink.py links src/game/ov230
+(the code of the decrypted view, tools/gamelink.py 230) and writes the ROM file
+of overlay 230 from that plaintext, not from the image.  Every range is
+encrypted word by word, the result is decrypted again and must equal the input.
 
 match.py attests an `ov230d`-hinted call target only at a range start of
 this view (entry_points()) that asm/ov230d/ov230d.s labels; see the
@@ -241,6 +247,92 @@ def _decrypt_range(mem, base, addr, size, key, delta):
             n = w ^ key
             key = (w ^ (n >> 8)) & 0x00FFFFFF
         struct.pack_into("<I", mem, off, n & M32)
+
+
+def _encrypt_range(mem, base, addr, size, key, delta):
+    """The inverse of _decrypt_range on one range, word by word.
+
+    A plaintext word p came from one of two paths of the decryptor:
+      branch path (the stored word was a `b`/`blx` pair partner): p's top byte
+        is 0xFA/0xFB (blx) or 0xnB with n != 0xF (bl).  The stored word is
+        ((p & 0xFF000000) ^ 0x01000000) | ((p - DELTA) & 0xFFFFFF) and the key
+        takes p's top byte;
+      xor path: w = p ^ key is the stored word, or the stored word with its top
+        byte's low bit flipped when w looks like a `b` (class 3: the stored
+        word is then a `bl`, class 2).  A w that looks like blx or bl has no
+        stored word that decrypts to p by this path.
+    Each word is checked by running the decryptor's step on the result; a
+    plaintext no path reproduces raises CryptError."""
+    for a in range(addr, addr + (size & ~3), 4):
+        off = a - base
+        p = struct.unpack_from("<I", mem, off)[0]
+        top = p >> 24
+        n = None
+        if top in (0xFA, 0xFB) or ((top & 0x0F) == 0x0B and (top >> 4) != 0xF):
+            c = (((p & 0xFF000000) ^ 0x01000000) | ((p - delta) & 0x00FFFFFF)) & M32
+            if _classify(c) in (1, 3):
+                nkey = (key ^ (p >> 24)) & 0x00FFFFFF
+                n = c
+        if n is None:
+            w = (p ^ key) & M32
+            cls = _classify(w)
+            if cls == 0:
+                c = w
+            elif cls == 3:
+                c = w ^ 0x01000000          # stored as a bl, decrypted back to this b
+            else:
+                raise CryptError("0x%08X: plaintext 0x%08X has no stored word" % (a, p))
+            nkey = (w ^ (p >> 8)) & 0x00FFFFFF
+        else:
+            c = n
+        # the decryptor's step on c must give p and the same next key
+        cc = _classify(c)
+        if cc in (1, 3):
+            q = (((c & 0xFF000000) ^ 0x01000000) | ((c + delta) & 0x00FFFFFF)) & M32
+            k2 = (key ^ (q >> 24)) & 0x00FFFFFF
+        else:
+            cw = c ^ 0x01000000 if cc == 2 else c
+            q = (cw ^ key) & M32
+            k2 = (cw ^ (q >> 8)) & 0x00FFFFFF
+        if q != p or k2 != nkey:
+            raise CryptError("0x%08X: plaintext 0x%08X does not round-trip" % (a, p))
+        struct.pack_into("<I", mem, off, c & M32)
+        key = nkey
+
+
+def encrypt(plain, base, sinit):
+    """The ROM bytes of ov230 from its linked (decrypted) image: every range
+    the initialisers name is encrypted, everything else is kept.  The ranges
+    are found from the plain image's own initialiser entries and tables (the
+    decryptor's reading, so the same checks); the result is decrypted again
+    and must give `plain` back.  Raises CryptError otherwise."""
+    mem = bytearray(plain)
+    lo, hi = base, base + len(mem)
+    end, key, delta, bias = _params(mem, base)
+    if end != hi:
+        raise CryptError("the decryptor's END 0x%08X is not ov230's end 0x%08X" % (end, hi))
+    spans = []
+    for entry in sinit:
+        table = _entry_table(mem, base, entry)
+        t = table
+        while True:
+            if (t - table) // 8 >= MAX_TABLE:
+                raise CryptError("table 0x%08X: no terminator" % table)
+            sw, ew = _u32(mem, base, t), _u32(mem, base, t + 4)
+            t += 8
+            spans.append((sw, ew))
+            if _u32(mem, base, t) == 0:
+                break
+    for sw, ew in spans:
+        size = (ew - end - bias) & M32
+        addr = (sw - bias) & M32
+        if addr % 4 or size == 0 or size % 4 or not (lo <= addr and addr + size <= hi):
+            raise CryptError("pair (0x%08X, 0x%08X) is not a range inside ov230" % (sw, ew))
+        _encrypt_range(mem, base, addr, size, key, delta)
+    back = decrypt(bytes(mem), base, sinit)
+    if back.data != bytes(plain):
+        raise CryptError("the encrypted image does not decrypt back to the plain image")
+    return bytes(mem)
 
 
 # ---------------------------------------------------------------------------
@@ -566,7 +658,8 @@ def selftest(root=None):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[1])
-    ap.add_argument("cmd", choices=("check", "write", "selftest"))
+    ap.add_argument("cmd", choices=("check", "write", "selftest", "encrypt"))
+    ap.add_argument("files", nargs="*", help="encrypt: IN OUT")
     ap.add_argument("-e", "--extract", default=None,
                     help="extract directory (default: from layout.json)")
     args = ap.parse_args(argv)
@@ -578,6 +671,18 @@ def main(argv=None):
             bad = sum(1 for ok, _ in res if not ok)
             print("\n%d case(s), %d failure(s)" % (len(res), bad))
             return 1 if bad else 0
+        if args.cmd == "encrypt":
+            if len(args.files) != 2:
+                ap.error("encrypt takes IN OUT")
+            with open(os.path.join(ROOT, "layout", "layout.json")) as fh:
+                o = overlay_record(json.load(fh))
+            with open(args.files[0], "rb") as fh:
+                plain = fh.read()
+            data = encrypt(plain, o["ram_start"], sinit_entries(plain, o))
+            with open(args.files[1], "wb") as fh:
+                fh.write(data)
+            print("%d bytes encrypted -> %s" % (len(data), args.files[1]))
+            return 0
         view = load(None, args.extract)
         for entry, table, tend in view.tables:
             n = sum(1 for _s, _n, t in view.ranges if t == table)

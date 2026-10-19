@@ -1,5 +1,5 @@
 /*
- * function: INTRUDE_FIELD_IsCommAllowed
+ * function: INTRUDE_FIELD_IsDisconnectNeeded
  * address:  0x0217BFD8
  * packet:   pkt_ov018_0217BFD8
  * region:   ov018
@@ -38,7 +38,7 @@ extern u32 GAME_COMM_GetCounter(void *obj);
 extern u32 GAME_COMM_GetKind(void *obj);
 extern u32 GAME_COMM_GetLastKind(void *obj);
 
-int INTRUDE_FIELD_IsCommAllowed(const struct Ctx *a, int b)
+int INTRUDE_FIELD_IsDisconnectNeeded(const struct Ctx *a, int b)
 {
     int h;
     int t;

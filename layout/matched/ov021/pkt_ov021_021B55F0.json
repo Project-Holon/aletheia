@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "SCRCMD_PROC_FLD_PollFieldRegionIdle",
+   "name": "SCRCMD_PROC_FLD_PollCameraIdle",
    "address": "0x021B55F0",
    "kind": "game",
    "region": "ov021",

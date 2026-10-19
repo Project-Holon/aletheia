@@ -14,7 +14,7 @@
  *   STRBUF_GetEosChar 0x02045A98 arm
  *   STRBUF_GetChars 0x02045A90 arm
  *   GF_FONT_GetTagChar 0x0201D5C4 thumb
- *   GF_FONT_CheckD5CC 0x0201D5CC thumb
+ *   GF_FONT_IsWordSlotTag 0x0201D5CC thumb
  *   GF_FONT_GetTagParam 0x0201D670 thumb
  *   GF_FONT_GetTagGroup 0x0201D5F4 thumb
  *   GF_FONT_GetTagKind 0x0201D658 thumb
@@ -22,7 +22,7 @@
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_SetSlotFromMsgB6 0x0201EF8C thumb
  *   WORDSET_SetSlotFromMsgCB 0x0201EF34 thumb
- *   WORDSET_Callback_EF40 0x0201EF40 thumb
+ *   WORDSET_SetSlotFromMsg36 0x0201EF40 thumb
  *   WORDSET_SetSlotFromMsgC7 0x0201F020 thumb
  *   BTL_MSG_SetPokeName 0x021EED00 thumb ov093
  *   BTL_MSG_SetPokeSpecies 0x021EED24 thumb ov093
@@ -43,7 +43,7 @@ struct U16Vec;
 struct WordSet;
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern u32 GF_FONT_GetTagChar(void);
-extern u32 GF_FONT_CheckD5CC(const u16 *p);
+extern u32 GF_FONT_IsWordSlotTag(const u16 *p);
 extern u32 GF_FONT_GetTagParam(const u16 *p, u32 i);
 extern u32 GF_FONT_GetTagGroup(const u16 *p);
 extern u32 GF_FONT_GetTagKind(const u16 *p);
@@ -51,7 +51,7 @@ extern u16 *GF_FONT_SkipTag(u16 *p);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_SetSlotFromMsgB6(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_SetSlotFromMsgCB(struct WordSet *p, u32 i, u32 v);
-extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotFromMsg36(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_SetSlotFromMsgC7(struct WordSet *p, u32 i, u32 v);
 extern void BTL_MSG_SetPokeName(u8 a, u32 b);
 extern void BTL_MSG_SetPokeSpecies(u8 a, u32 b);
@@ -77,7 +77,7 @@ void BTL_MSG_ExpandTags(void *s, const u32 *values, void *w)
     p = STRBUF_GetChars(s);
     while (*p != end) {
         if (*p == tag) {
-            if (GF_FONT_CheckD5CC(p)) {
+            if (GF_FONT_IsWordSlotTag(p)) {
                 slot = GF_FONT_GetTagParam(p, 0);
                 if ((u8)GF_FONT_GetTagGroup(p) == 1 && GF_FONT_GetTagKind(p) == 14) {
                     for (i = slot + 1; i < 8; i++)
@@ -91,7 +91,7 @@ void BTL_MSG_ExpandTags(void *s, const u32 *values, void *w)
     p = STRBUF_GetChars(s);
     while (*p != end) {
         if (*p == tag) {
-            if (GF_FONT_CheckD5CC(p)) {
+            if (GF_FONT_IsWordSlotTag(p)) {
                 slot = GF_FONT_GetTagParam(p, 0);
                 index = slot;
                 group = GF_FONT_GetTagGroup(p);
@@ -130,7 +130,7 @@ void BTL_MSG_ExpandTags(void *s, const u32 *values, void *w)
                         WORDSET_SetSlotFromMsgCB(w, slot, values[index]);
                         break;
                     case 9:
-                        WORDSET_Callback_EF40(w, slot, values[index]);
+                        WORDSET_SetSlotFromMsg36(w, slot, values[index]);
                         break;
                     case 15:
                         WORDSET_SetSlotFromMsgC7(w, slot, values[index]);

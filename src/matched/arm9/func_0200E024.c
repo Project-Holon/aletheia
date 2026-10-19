@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GF_STANDARD_Checksum  0x0203F2FC  arm
- *   GF_STANDARD_Shuffle  0x0203F328  arm
+ *   GF_STANDARD_XorCrypt  0x0203F328  arm
  *
  * The 0x84C-byte save block's commit, and the second instance of the
  * 0x02FFFC3C idiom (see src/matched/unit_02008C58.c, which is the same block
@@ -23,7 +23,7 @@
  * if it came back 0 -- the field is volatile all the way through, which is why
  * the `ldrh` is not folded away.  The checksum pair is the same shape as the
  * one in unit_02008C58.c: GF_STANDARD_Checksum computes it over (obj, 0x84C) and
- * GF_STANDARD_Shuffle writes it back with the +0x84E halfword as the high word.
+ * GF_STANDARD_XorCrypt writes it back with the +0x84E halfword as the high word.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/SYMBOL_SAVE_UpdateChecksum.c \
@@ -36,7 +36,7 @@ typedef unsigned int   u32;
 
 typedef unsigned char  u8;
 extern u32 GF_STANDARD_Checksum(const u8 *p, u32 len);
-extern void GF_STANDARD_Shuffle(u16 *p, u32 size, u32 seed);
+extern void GF_STANDARD_XorCrypt(u16 *p, u32 size, u32 seed);
 
 #define unk_02FFFC3C (*(volatile u32 *)0x02FFFC3C)
 
@@ -50,7 +50,7 @@ void SYMBOL_SAVE_UpdateChecksum(void *obj)
         ((struct Obj00318 *)obj)->f84E = 1;
     }
     ((struct Obj00318 *)obj)->f84C = GF_STANDARD_Checksum(obj, 0x84c);
-    GF_STANDARD_Shuffle(obj, 0x84c,
+    GF_STANDARD_XorCrypt(obj, 0x84c,
                   ((struct Obj00318 *)obj)->f84C +
                   (((struct Obj00318 *)obj)->f84E << 16));
 }

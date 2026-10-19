@@ -64,11 +64,17 @@ _start_BuildParams and the .version strings; sha1.zfix: the SHA-1 constants) lin
 at its address between the code files.  The zero padding after a Thumb file is made
 by the linker (ALIGN(4)).  An own section lying inside a bigger one is parked.
 Left to the image: the secure area gaps (0x02004000..0x02004800).
+
+Data mode pads (all regions): the 2 zero bytes after a Thumb file whose next item sits at a
+multiple of 4 are made by the linker (ALIGN(4)), not copied from the image.  Every complete
+run writes ov.json next to ov.bin (ok, gaps, bss stand-ins, SHA-1 of ov.bin): the ranges
+of the result that came from the image.  tools/romlink.py reads it to build the whole ROM.
 """
 
 from __future__ import annotations
 
 import bisect
+import hashlib
 import json
 import os
 import re
@@ -584,6 +590,13 @@ def overlay_info(ovid):
         img = open(os.path.join(ROOT, "extract", a["decompressed_file"]), "rb").read()
         return al["ram_start"], img[al["src_offset"]:al["src_offset"] + al["code_size"]]
     o = [x for x in lay["overlays"] if x["id"] == ovid][0]
+    if ovid == 230:
+        # overlay 230 keeps most of its code encrypted in the ROM: the code the game runs is
+        # the decrypted view (tools/ovcrypt.py), so that is what src/game/ov230 is linked and
+        # compared against; tools/romlink.py encrypts the linked result for the ROM
+        import ovcrypt
+        v = ovcrypt.load(ROOT)
+        return o["ram_start"], v.data
     img = open(os.path.join(ROOT, "extract", o["decompressed_file"]), "rb").read()
     return o["ram_start"], img
 
@@ -611,7 +624,7 @@ def registry_sizes(rname):
 
 
 _RUN = {}          # per-run work dir and the dir that gets the results (see link_overlay)
-PUBLISH = ("ov.elf", "ov.lcf", "ov.bin", "link.log")
+PUBLISH = ("ov.elf", "ov.lcf", "ov.bin", "ov.json", "link.log")
 
 
 def _publish(work, pub):
@@ -664,7 +677,7 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
     own_tail = {}
     data_nosinit = False
     data_fixed = {}
-    pad_ok = data and ovid == "arm9_main"      # the linker pads a Thumb file to the next 4-aligned one
+    pad_ok = data      # the linker pads a Thumb file to the next 4-aligned one
     if data:
         # --data: the data sections of all files form the data tail (see the docstring)
         dl = os.path.join(extra or "", "datalink.json")
@@ -1297,9 +1310,11 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
         # a .bss stand-in that sits inside the image: the original holds initialised
         # data there (the C file declares it uninitialised); take it from the image
         standin = 0
+        standin_ranges = []
         for _ti, _n, a, b, nb in dgroups:
             if nb and base <= a < end:
                 standin += min(b, end) - a
+                standin_ranges.append((a, min(b, end)))
                 out[a - base:min(b, end) - base] = img[a - base:min(b, end) - base]
                 got[a - base:min(b, end) - base] = b"" * (min(b, end) - a)
         code_diff = []
@@ -1310,6 +1325,12 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
                 code_diff.append((t["stem"], len(bad), [hex(base + b) for b in bad[:4]]))
         whole = bytes(out) == img
         open(os.path.join(work, "ov.bin"), "wb").write(bytes(out))
+        # what in ov.bin came from the image instead of from the files: tools/romlink.py
+        # lists these ranges (gaps = binary sections of the image, standin = .bss stand-ins)
+        open(os.path.join(work, "ov.json"), "w", newline="\n").write(json.dumps(dict(
+            ok=bool(whole and not code_diff), base=base, size=len(img), data_mode=bool(data_tail),
+            gaps=[(g0, g1) for g0, g1 in gaps], standin=standin_ranges,
+            sha1=hashlib.sha1(bytes(out)).hexdigest())))
     tail_diff = None
     if data_tail:
         bad = [i for i in range(data_tail[0] - base, data_tail[3] - base) if out[i] != img[i] or not got[i]]

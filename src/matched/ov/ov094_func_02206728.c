@@ -19,7 +19,7 @@
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   PRINTSYS_Print  0x0201C7A4  thumb
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   BTLV_INPUT_GetTextBlockSize  0x02204C98  thumb  ov094
  *   BTLV_EFFECT_IsRecordEnabledInComm  0x021F88F4  thumb  ov094
  */
@@ -45,7 +45,7 @@ extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 struct StrObj;
 extern void BTLV_INPUT_GetTextBlockSize(struct StrObj *a, int b, int *outn, int *outq);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 
 void BTLV_INPUT_DrawRunButtonText(char *s, char *b)
 {
@@ -68,7 +68,7 @@ void BTLV_INPUT_DrawRunButtonText(char *s, char *b)
     BTLV_INPUT_GetTextBlockSize((struct StrObj *)v, ((struct Obj05249 *)s)->f224, &v18, &v14);
     PRINTSYS_Print((void *)(((struct Obj05249 *)s)->f234), 12 - v18 / 2, 0, v, (void *)(((struct Obj05249 *)s)->f224));
     GF_FONT_SetTextColor(c[2], c[1], c[0]);
-    WORDSET_DeleteStrbufED04((struct WordSet *)h);
+    WORDSET_Delete((struct WordSet *)h);
     STRBUF_Delete(w);
     STRBUF_Delete(v);
 }

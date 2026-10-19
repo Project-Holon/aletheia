@@ -1,5 +1,5 @@
 /*
- * function: GFL_NET_ERR_SetBgmTrackVolume
+ * function: GFL_NET_SetBgmTrackVolumeUnlessVoiceChat
  * address:  0x0200F698
  * packet:   pkt_0200F17C
  * region:   arm9
@@ -23,8 +23,8 @@
  * short-circuit, not an independent second check).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GFL_NET_ERR_SetBgmTrackVolume.c \
- *       --func GFL_NET_ERR_SetBgmTrackVolume --addr 0x0200F698 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GFL_NET_SetBgmTrackVolumeUnlessVoiceChat.c \
+ *       --func GFL_NET_SetBgmTrackVolumeUnlessVoiceChat --addr 0x0200F698 --cc 1.1p1
  */
 
 typedef unsigned int u32;
@@ -34,7 +34,7 @@ typedef signed short   s16;
 extern s16 DWC_RAP_GetVchatEnabled(void);
 extern void GFL_USE_SetBgmTrackVolume(u32 a0, u32 a1);
 
-void GFL_NET_ERR_SetBgmTrackVolume(void *a, void *b)
+void GFL_NET_SetBgmTrackVolumeUnlessVoiceChat(void *a, void *b)
 {
     if (GFL_NET_IsNetTypeWifi() == 0 || DWC_RAP_GetVchatEnabled() == 0) {
         GFL_USE_SetBgmTrackVolume((u32)a, (u32)b);

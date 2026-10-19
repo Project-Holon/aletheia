@@ -44,7 +44,7 @@
  *   GXS_BeginLoadOBJExtPltt   0x0207F6A8  arm
  *   GXS_LoadOBJExtPltt   0x0207F6C0  arm
  *   GXS_EndLoadOBJExtPltt   0x0207F754  arm
- *   GAME_DATA_CheckPlayTime  0x02012FBC  thumb
+ *   GAME_DATA_AddPlayTime  0x02012FBC  thumb
  *   TCB_AddTask  0x02030DA8  arm
  *   0  0x05000000  main BG
  *   1  0x05000400  sub BG
@@ -83,7 +83,7 @@ struct PalAnmRes {
 };
 
 extern u64 OS_GetTick(void);
-extern u32 GAME_DATA_CheckPlayTime(u8 *target, u32 elapsedUnits);
+extern u32 GAME_DATA_AddPlayTime(u8 *target, u32 elapsedUnits);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 allocTag);
 extern void MI_CpuFill8(void *dest, u32 data, u32 size);
 extern u32 GFL_HEAP_Free(void *block);
@@ -348,7 +348,7 @@ void PALANM_UpdateTimer(u8 *target)
     if (sPalAnmTimer.doneUnits >= units) {
         return;
     }
-    GAME_DATA_CheckPlayTime(target, (u32)(units - sPalAnmTimer.doneUnits));
+    GAME_DATA_AddPlayTime(target, (u32)(units - sPalAnmTimer.doneUnits));
     if (sPalAnmTimer.lastTick == now) {
         sPalAnmTimer.doneUnits = units;
     } else {

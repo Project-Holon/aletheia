@@ -1,7 +1,7 @@
 /*
  * file:     ui.c
  * unit:     yes
- * function: UI_Create, UI_Main, UI_Update, UI_SetKeepAwakeFlags, UI_SetKeepAwakeFlagsGlobal, UI_ClearKeepAwakeFlags, UI_ClearKeepAwakeFlagsGlobal, UI_TestKeepAwakeFlags, UI_TestKeepAwakeFlagsGlobal, UI_SetSleepHook, UI_SetSleepHookGlobal, UI_SetWakeHook, UI_SetWakeHookGlobal, UI_SetKeepAwakePred, UI_SetSuspendHook, UI_SetResumeAndSuspendHooks, UI_GetSuspendHook, UI_GetSuspendHookGlobal, UI_SetResumeHook, UI_SetWakePoweredHook, UI_SetWakePoweredHookGlobal, UI_SetFlags39, UI_SetFlags39Global, UI_ClearFlags39, UI_ClearFlags39Global, UI_TestFlags39, UI_TestFlags39Global, UI_SetIntrData, UI_SetIntrDataGlobal, UI_GetPointerValue, UI_GetContext, UI_RunSleepHook, UI_RunWakeHook, UI_RunSuspendHook, UI_RunResumeHook, UI_PollPower, DWCi_IsFold, UI_IsPowerConnected, UI_RunWakePoweredHook, UI_IsSleepInhibited, UI_SetBottomBackLight, UI_ServiceLidSleep, UI_SoftReset, UI_GetInputMode, UI_SetInputMode, UI_ClearPendingInputFlagOf, UI_SetFrameRateOf, UI_ChangeFrameRate, UI_GetPowerState, UI_ApplyInputBounds
+ * function: UI_Create, UI_Main, UI_Update, UI_SetKeepAwakeFlags, UI_SetKeepAwakeFlagsGlobal, UI_ClearKeepAwakeFlags, UI_ClearKeepAwakeFlagsGlobal, UI_TestKeepAwakeFlags, UI_TestKeepAwakeFlagsGlobal, UI_SetSleepHook, UI_SetSleepHookGlobal, UI_SetWakeHook, UI_SetWakeHookGlobal, UI_SetKeepAwakePred, UI_SetSuspendHook, UI_SetResumeAndSuspendHooks, UI_GetSuspendHook, UI_GetSuspendHookGlobal, UI_SetResumeHook, UI_SetWakePoweredHook, UI_SetWakePoweredHookGlobal, UI_SetSoftResetInhibit, UI_SetSoftResetInhibitGlobal, UI_ClearSoftResetInhibit, UI_ClearSoftResetInhibitGlobal, UI_TestSoftResetInhibit, UI_TestSoftResetInhibitGlobal, UI_SetIntrData, UI_SetIntrDataGlobal, UI_GetPointerValue, UI_GetContext, UI_RunSleepHook, UI_RunWakeHook, UI_RunSuspendHook, UI_RunResumeHook, UI_PollPower, DWCi_IsFold, UI_IsPowerConnected, UI_RunWakePoweredHook, UI_IsSleepInhibited, UI_SetBottomBackLight, UI_ServiceLidSleep, UI_SoftReset, UI_GetInputMode, UI_SetInputMode, UI_ResetFrameCounterOf, UI_SetFrameRateOf, UI_ChangeFrameRate, UI_GetPowerState, UI_ApplyInputBounds
  * address:  0x02034E24
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -32,9 +32,9 @@
  *   d_021469BC   0x021469BC  data  a4
  *   UI_SetSuspendHook 0x02035080  arm
  *   UI_SetResumeHook 0x02035120  arm
- *   UI_SetFlags39 0x0203515C arm
- *   UI_ClearFlags39 0x02035188  arm
- *   UI_TestFlags39 0x020351BC arm
+ *   UI_SetSoftResetInhibit 0x0203515C arm
+ *   UI_ClearSoftResetInhibit 0x02035188  arm
+ *   UI_TestSoftResetInhibit 0x020351BC arm
  *   OS_Terminate  0x02088234  arm
  *   OS_IsRunOnTwl  0x02085D3C  arm
  *   PM_GetBattery  0x0208BF6C  arm
@@ -100,7 +100,7 @@ struct UiCtx {
     void   *wakePoweredArg;   /* 0x30 */
     void   *keepAwakeArg;     /* 0x34 */
     u8      keepAwakeFlags;   /* 0x38 */
-    u8      flags39;          /* 0x39 */
+    u8      softResetInhibit;          /* 0x39 */
     u8      reserved3A;       /* 0x3A */
     u8      backlightState;   /* 0x3B */
     u8      inputMode;        /* 0x3C */
@@ -128,8 +128,8 @@ extern unsigned int KEY_GetCont(void);
 extern void UI_SoftReset(u32 x);
 extern void UI_SetSuspendHook(struct UiCtx *p, UiCb fn, void *arg);
 extern void UI_SetResumeHook(struct UiCtx *p, UiCb fn, void *arg);
-extern void UI_SetFlags39(struct UiCtx *p, u8 mask);
-extern u32 UI_TestFlags39(struct UiCtx *p, u32 mask);
+extern void UI_SetSoftResetInhibit(struct UiCtx *p, u8 mask);
+extern u32 UI_TestSoftResetInhibit(struct UiCtx *p, u32 mask);
 extern void OS_Terminate(void);
 extern int OS_IsRunOnTwl(void);
 extern int PM_GetBattery(u32 *out);
@@ -155,12 +155,10 @@ UiCb UI_GetSuspendHookGlobal(void);
 void UI_SetResumeHook(struct UiCtx *p, UiCb fn, void *arg);
 void UI_SetWakePoweredHook(struct UiCtx *p, UiCb fn, void *arg);
 void UI_SetWakePoweredHookGlobal(UiCb fn, void *arg);
-void UI_SetFlags39(struct UiCtx *p, u8 mask);
-void UI_SetFlags39Global(u8 mask);
-void UI_ClearFlags39(struct UiCtx *p, u32 mask);
-void UI_ClearFlags39Global(u32 v);
-u32 UI_TestFlags39(struct UiCtx *p, u32 mask);
-u32 UI_TestFlags39Global(u32 mask);
+void UI_SetSoftResetInhibitGlobal(u8 mask);
+void UI_ClearSoftResetInhibit(struct UiCtx *p, u32 mask);
+void UI_ClearSoftResetInhibitGlobal(u32 v);
+u32 UI_TestSoftResetInhibitGlobal(u32 mask);
 void UI_SetIntrData(struct UiCtx *p, u32 a, u32 b);
 void UI_SetIntrDataGlobal(u32 a, u32 b);
 u32 UI_GetPointerValue(u32 *p);
@@ -277,7 +275,7 @@ void UI_Create(u32 heap, u8 mode)
         PM_GetBackLight(0, &b);
         p->backlightState = b;
         UI_SetKeepAwakeFlagsGlobal(0x10);
-        UI_SetFlags39Global(4);
+        UI_SetSoftResetInhibitGlobal(4);
     }
 }
 
@@ -326,7 +324,7 @@ void UI_Main(struct UiCtx *p)
     UI_ServiceLidSleep();
     UI_ApplyInputBounds((int)p);
 
-    if ((KEY_GetCont() & 0x30C) == 0x30C && p->flags39 == 0) {
+    if ((KEY_GetCont() & 0x30C) == 0x30C && p->softResetInhibit == 0) {
         if (p->intrData != 0) {
             p->intrData(p->intrArg);
         }
@@ -643,17 +641,17 @@ void UI_SetWakePoweredHookGlobal(UiCb fn, void *arg)
 /*
  * The set half of a set/clear pair on the flag byte at +0x39, right after
  * the two tail-call veneers in the same block; no lr push, so disasm.py
- * never labels it. Twin of UI_ClearFlags39 (clear).
+ * never labels it. Twin of UI_ClearSoftResetInhibit (clear).
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/UI_SetFlags39.c \
- *       --func UI_SetFlags39 --addr 0x0203515C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/UI_SetSoftResetInhibit.c \
+ *       --func UI_SetSoftResetInhibit --addr 0x0203515C --cc 1.1p1 --arm
  */
-void UI_SetFlags39(struct UiCtx *p, u8 mask)
+void UI_SetSoftResetInhibit(struct UiCtx *p, u8 mask)
 {
-    p->flags39 |= mask;
+    p->softResetInhibit |= mask;
 }
 
 
@@ -663,9 +661,9 @@ void UI_SetFlags39(struct UiCtx *p, u8 mask)
 
 
 
-void UI_SetFlags39Global(u8 mask)
+void UI_SetSoftResetInhibitGlobal(u8 mask)
 {
-    UI_SetFlags39(gUiState.ctx, mask);
+    UI_SetSoftResetInhibit(gUiState.ctx, mask);
 }
 
 
@@ -677,17 +675,17 @@ void UI_SetFlags39Global(u8 mask)
 
 /*
  * The clear half of the set/clear pair on the flag byte at +0x39. No lr
- * push, so disasm.py never labels it. Twin of UI_SetFlags39 (set).
+ * push, so disasm.py never labels it. Twin of UI_SetSoftResetInhibit (set).
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/UI_ClearFlags39.c \
- *       --func UI_ClearFlags39 --addr 0x02035188 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/UI_ClearSoftResetInhibit.c \
+ *       --func UI_ClearSoftResetInhibit --addr 0x02035188 --cc 1.1p1 --arm
  */
-void UI_ClearFlags39(struct UiCtx *p, u32 mask)
+void UI_ClearSoftResetInhibit(struct UiCtx *p, u32 mask)
 {
-    p->flags39 &= ~mask;
+    p->softResetInhibit &= ~mask;
 }
 
 
@@ -696,9 +694,9 @@ void UI_ClearFlags39(struct UiCtx *p, u32 mask)
 
 
 
-void UI_ClearFlags39Global(u32 v)
+void UI_ClearSoftResetInhibitGlobal(u32 v)
 {
-    UI_ClearFlags39(gUiState.ctx, v);
+    UI_ClearSoftResetInhibit(gUiState.ctx, v);
 }
 
 
@@ -714,12 +712,12 @@ void UI_ClearFlags39Global(u32 v)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/UI_TestFlags39.c \
- *       --func UI_TestFlags39 --addr 0x020351BC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/UI_TestSoftResetInhibit.c \
+ *       --func UI_TestSoftResetInhibit --addr 0x020351BC --cc 1.1p1 --arm
  */
-u32 UI_TestFlags39(struct UiCtx *p, u32 mask)
+u32 UI_TestSoftResetInhibit(struct UiCtx *p, u32 mask)
 {
-    return (p->flags39 & mask) != 0;
+    return (p->softResetInhibit & mask) != 0;
 }
 
 
@@ -728,9 +726,9 @@ u32 UI_TestFlags39(struct UiCtx *p, u32 mask)
 
 
 
-u32 UI_TestFlags39Global(u32 mask)
+u32 UI_TestSoftResetInhibitGlobal(u32 mask)
 {
-    return UI_TestFlags39(gUiState.ctx, mask);
+    return UI_TestSoftResetInhibit(gUiState.ctx, mask);
 }
 
 
@@ -992,12 +990,12 @@ void UI_ServiceLidSleep(void);
 void UI_SoftReset(u32 resetParam);
 u8 UI_GetInputMode(void);
 void UI_SetInputMode(u8 value);
-void UI_ClearPendingInputFlagOf(struct UiCtx *ui);
+void UI_ResetFrameCounterOf(struct UiCtx *ui);
 void UI_SetFrameRateOf(struct UiCtx *unused, u8 value);
 u8 UI_GetFrameRateOf(struct UiCtx *ui);
 void UI_SetFrameRate(u8 value);
 u8 UI_GetFrameRate(void);
-void UI_ClearPendingInputFlag(void);
+void UI_ResetFrameCounter(void);
 void UI_ChangeFrameRate(u8 value);
 int UI_GetPowerState(void);
 void UI_ApplyInputBounds(int inputObj);
@@ -1345,7 +1343,7 @@ void UI_SoftReset(u32 resetParam)
 /*
  * A whole translation unit, matched as one byte range.
  *
- *           UI_GetFrameRateOf, UI_SetFrameRate, UI_GetFrameRate, UI_ClearPendingInputFlag
+ *           UI_GetFrameRateOf, UI_SetFrameRate, UI_GetFrameRate, UI_ResetFrameCounter
  *
  * The accessor block of the singleton reached through the pointer at
  * 0x021469BC.  None of these eight functions saves lr, so disasm.py
@@ -1357,7 +1355,7 @@ void UI_SoftReset(u32 resetParam)
  *
  *   UI_GetInputMode  read the u8 at +0x3c of the singleton.
  *   UI_SetInputMode  write it.
- *   UI_ClearPendingInputFlagOf  clear the u8 at +0x3e of a caller-supplied instance.
+ *   UI_ResetFrameCounterOf  clear the u8 at +0x3e of a caller-supplied instance.
  *   UI_SetFrameRateOf  write the u8 at +0x3d.  Takes an instance pointer for
  *                 symmetry with UI_GetFrameRateOf but ignores it and goes
  *                 through the singleton anyway; the reload of the global
@@ -1365,7 +1363,7 @@ void UI_SoftReset(u32 resetParam)
  *   UI_GetFrameRateOf  read the u8 at +0x3d of a caller-supplied instance.
  *   UI_SetFrameRate  global wrapper over UI_SetFrameRateOf.
  *   UI_GetFrameRate  global wrapper over UI_GetFrameRateOf.
- *   UI_ClearPendingInputFlag  global wrapper over UI_ClearPendingInputFlagOf.
+ *   UI_ResetFrameCounter  global wrapper over UI_ResetFrameCounterOf.
  *
  * The range deliberately stops before UI_ChangeFrameRate, the one labelled
  * function of this file: its calls to 0x02036390 and 0x02035E54 have no
@@ -1434,7 +1432,7 @@ void UI_SetInputMode(u8 value)
 
 
 
-void UI_ClearPendingInputFlagOf(struct UiCtx *ui)
+void UI_ResetFrameCounterOf(struct UiCtx *ui)
 {
     ui->frameCounter = 0;
 }
@@ -1569,9 +1567,9 @@ u8 UI_GetFrameRate(void)
 
 
 
-void UI_ClearPendingInputFlag(void)
+void UI_ResetFrameCounter(void)
 {
-    UI_ClearPendingInputFlagOf(gUiState.ctx);
+    UI_ResetFrameCounterOf(gUiState.ctx);
 }
 
 

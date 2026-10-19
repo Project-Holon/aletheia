@@ -24,7 +24,7 @@
  *   ZENKOKU_ZUKAN_AWARD_GRAPHIC_Create 0x021B9F10 thumb ov222
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  *   func_020056A0 0x020056A0 thumb
  *   ZENKOKU_ZUKAN_AWARD_Task 0x021B98FC thumb ov222
  *   ZENKOKU_ZUKAN_AWARD_LoadBgAssets 0x021B9900 thumb ov222
@@ -69,7 +69,7 @@ extern void *ZENKOKU_ZUKAN_AWARD_GRAPHIC_Create(u32,u32);
 struct GfFont;
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void*);
-extern void BG_SYS_SetVisibleLayer(int,u16);
+extern void BG_SYS_SetPriority(int,u16);
 extern void *func_020056A0(u32,void*,u32);
 extern void ZENKOKU_ZUKAN_AWARD_Task(void);
 extern void ZENKOKU_ZUKAN_AWARD_LoadBgAssets(char*);
@@ -108,7 +108,7 @@ int ZENKOKU_ZUKAN_AWARD_Init(void *owner,void *unused,void *input)
  *(void**)(p+8)=ZENKOKU_ZUKAN_AWARD_GRAPHIC_Create(1,*(u16*)p);
  *(void**)(p+12)=GF_FONT_Create(23,0,0,0,*(u16*)p);
  *(u32*)(p+16)=PRINTSYS_QUE_Create((void*)*(u16*)p);
- BG_SYS_SetVisibleLayer(1,1);BG_SYS_SetVisibleLayer(2,0);
+ BG_SYS_SetPriority(1,1);BG_SYS_SetPriority(2,0);
  *(void**)(p+20)=func_020056A0((u32)ZENKOKU_ZUKAN_AWARD_Task,p,1);
  ZENKOKU_ZUKAN_AWARD_LoadBgAssets(p);ZENKOKU_ZUKAN_AWARD_SetupWindows((struct Obj *)p);ZENKOKU_ZUKAN_AWARD_SetupTiles(p);ZENKOKU_ZUKAN_AWARD_CreateActor(p);
  settings=GAME_DATA_GetMyStatus(*(void**)(*(char**)(p+4)));

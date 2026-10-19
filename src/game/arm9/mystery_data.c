@@ -16,7 +16,7 @@
  *   MI_CpuFill8    0x02082BCC  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
- *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
+ *   GF_STANDARD_CalcCrc16  0x0203F1FC  arm
  *   SAVE_OUTSIDE_Prepare    0x021DFDC0  thumb
  *   SAVE_OUTSIDE_WriteAsync    0x021DFE00  thumb
  *   sMysteryDataFile      0x020A71A4  data
@@ -31,8 +31,8 @@
  *   GAME_DATA_SaveStart  0x02012DAC  thumb
  *   GAME_DATA_SaveMain  0x02012DD0  thumb
  *   GF_STANDARD_Checksum  0x0203F2FC  arm
- *   GF_STANDARD_Shuffle  0x0203F328  arm
- *   GF_STANDARD_ShuffleEx  0x0203F37C  arm
+ *   GF_STANDARD_XorCrypt  0x0203F328  arm
+ *   GF_STANDARD_XorCryptEx  0x0203F37C  arm
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   GFL_HEAP_Free  0x020307B0  arm
  */
@@ -85,13 +85,13 @@ extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
 
 extern u8   SAVE_CONTROL_HasFlashSave(const struct SaveControl *save);
 
-extern u16  GF_STANDARD_SetupCalc(const void *data, u32 size);
+extern u16  GF_STANDARD_CalcCrc16(const void *data, u32 size);
 
 extern u32  GF_STANDARD_Checksum(const void *data, u32 size);
 
-extern void GF_STANDARD_Shuffle(void *data, u32 size, u32 key);
+extern void GF_STANDARD_XorCrypt(void *data, u32 size, u32 key);
 
-extern void GF_STANDARD_ShuffleEx(void *data, u32 size, u32 key);
+extern void GF_STANDARD_XorCryptEx(void *data, u32 size, u32 key);
 
 extern void SAVE_OUTSIDE_Prepare(void *extraSave);
 
@@ -433,7 +433,7 @@ int MYSTERY_DATA_CheckPacketCrc(struct MysteryGiftPacket *packet)
             spin++;
         }
     } while (spin < (int)spinLimit);
-    return packet->crc == GF_STANDARD_SetupCalc(packet, 0x2ce);
+    return packet->crc == GF_STANDARD_CalcCrc16(packet, 0x2ce);
 }
 
 void MYSTERY_DATA_SwapCards(struct MysteryData *data, u32 slotA, u32 slotB)
@@ -775,7 +775,7 @@ void MYSTERY_DATA_EncryptBuffer(u8 *buffer, u32 saveType)
         footer->cryptSeed = 1;
     }
     footer->checksum = GF_STANDARD_Checksum(buffer, size - 4);
-    GF_STANDARD_Shuffle(buffer, size - 4, footer->checksum + (footer->cryptSeed << 16));
+    GF_STANDARD_XorCrypt(buffer, size - 4, footer->checksum + (footer->cryptSeed << 16));
 }
 
 void MYSTERY_DATA_DecryptBuffer(u8 *buffer, u32 saveType)
@@ -793,6 +793,6 @@ void MYSTERY_DATA_DecryptBuffer(u8 *buffer, u32 saveType)
         footer = (struct MysteryDataFooter *)(buffer + (size - 4));
         break;
     }
-    GF_STANDARD_ShuffleEx(buffer, size - 4, footer->checksum + (footer->cryptSeed << 16));
+    GF_STANDARD_XorCryptEx(buffer, size - 4, footer->checksum + (footer->cryptSeed << 16));
     footer->cryptSeed = 0;
 }

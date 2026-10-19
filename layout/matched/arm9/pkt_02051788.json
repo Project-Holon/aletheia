@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BUTTON_MAN_GetBlock",
+   "name": "PARTICLE_EMITTER_GetBlock",
    "address": "0x02051788",
    "kind": "game",
    "region": "arm9",

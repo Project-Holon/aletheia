@@ -1,8 +1,8 @@
 /*
  * file:     iss_dungeon_sys.c
  * unit:     yes
- * function: ISS_ROAD_SYS_UpdateVolume, ISS_ROAD_SYS_HasPlayerMoved, ISS_ROAD_SYS_FadeIn, ISS_ROAD_SYS_FadeOut, ISS_ROAD_SYS_ApplyVolume, ISS_DUNGEON_SYS_ApplyTrack, ISS_DUNGEON_SYS_CreateTable, ISS_DUNGEON_SYS_DeleteTable, ISS_DUNGEON_SYS_FindRecord, ISS_DUNGEON_SYS_Create, ISS_DUNGEON_SYS_Delete, ISS_DUNGEON_SYS_Update, ISS_DUNGEON_SYS_SetTargetAreaId, ISS_DUNGEON_SYS_Start, ISS_DUNGEON_SYS_Stop, ISS_DUNGEON_SYS_IsActive, ISS_DUNGEON_SYS_HasRecord, ISS_DUNGEON_SYS_ResetTracks, ISS_DUNGEON_SYS_Activate, ISS_DUNGEON_SYS_Deactivate, ISS_DUNGEON_SYS_SelectRecord
- * address:  0x0202B230
+ * function: ISS_DUNGEON_SYS_ApplyTrack, ISS_DUNGEON_SYS_CreateTable, ISS_DUNGEON_SYS_DeleteTable, ISS_DUNGEON_SYS_FindRecord, ISS_DUNGEON_SYS_Create, ISS_DUNGEON_SYS_Delete, ISS_DUNGEON_SYS_Update, ISS_DUNGEON_SYS_SetTargetAreaId, ISS_DUNGEON_SYS_Start, ISS_DUNGEON_SYS_Stop, ISS_DUNGEON_SYS_IsActive, ISS_DUNGEON_SYS_HasRecord, ISS_DUNGEON_SYS_ResetTracks, ISS_DUNGEON_SYS_Activate, ISS_DUNGEON_SYS_Deactivate, ISS_DUNGEON_SYS_SelectRecord
+ * address:  0x0202B2CC
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -10,44 +10,29 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Cut from iss_dungeon_sys.c by tools/splitfile.py.
  *
  * symbols:
  *   GAME_DATA_GetSeason  0x02012984  thumb
  *   GFL_USE_GetBgmHandle  0x02005C3C  thumb
  *   GFL_USE_SetBgmTrackParams  0x02005EE0  thumb
- *   GFL_USE_SetBgmTrackVolume  0x02005F24  thumb
  *   NNS_SndHandleSetTrackPitch  0x02073018  arm
- *   GAME_DATA_GetPlayerPosition  0x02012AA0  thumb
  *   ARC_TOOL_ReadMemberRange  0x02048F74  arm
  *   ARC_TOOL_GetArchiveFileCount  0x02049030  arm
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   GFL_HEAP_Free  0x020307B0  arm
  */
-struct PlayerWork;
+#include "iss_road_sys_shared_types.h"
+
 struct GameData;
+
 struct Obj;
+
 typedef unsigned char u8;
-
-typedef unsigned int  u32;
-
-typedef signed int    s32;
 
 typedef unsigned short u16;
 
 typedef signed short  s16;
-
-typedef struct PlayerPosition {
-    u32 x, y, z;
-} PlayerPosition;
-
-/* Footstep-road sound state (same layout as in iss_road_sys.c). */
-typedef struct IssRoadSys {
-    u32 isActive;
-    s32 volume;
-    struct PlayerWork *player;
-    PlayerPosition lastPosition;
-} IssRoadSys;
 
 /* One 0x1c-byte row of the dungeon sound table (archive 0x92), keyed by area id. */
 typedef struct DungeonSoundRecord {
@@ -82,127 +67,53 @@ typedef struct IssDungeonSys {
     u16 trackValue[4];
 } IssDungeonSys;
 
-extern PlayerPosition *GAME_DATA_GetPlayerPosition(struct PlayerWork *player);
-extern void GFL_USE_SetBgmTrackVolume(u32 a, u32 b);
 extern void GFL_USE_SetBgmTrackParams(u32 a, u32 b, u32 c, u32 d);
+
 extern u32 *GFL_USE_GetBgmHandle(void);
+
 extern void NNS_SndHandleSetTrackPitch(struct Obj *o, u32 v, u32 w);
+
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+
 extern u32 ARC_TOOL_GetArchiveFileCount(u32 a);
+
 extern void ARC_TOOL_ReadMemberRange(void *dst, u32 archive_id, u32 member, u32 mode, u32 *size_out);
+
 extern u32 GFL_HEAP_Free(void *p);
+
 extern u8 GAME_DATA_GetSeason(const struct GameData *gd);
-void ISS_ROAD_SYS_UpdateVolume(IssRoadSys *road);
-u32 ISS_ROAD_SYS_HasPlayerMoved(IssRoadSys *road);
-void ISS_ROAD_SYS_FadeIn(IssRoadSys *road);
-void ISS_ROAD_SYS_FadeOut(IssRoadSys *road);
-void ISS_ROAD_SYS_ApplyVolume(IssRoadSys *road);
+
 void ISS_DUNGEON_SYS_ApplyTrack(DungeonSoundRecord *record, u32 trackIndex);
+
 DungeonSoundTable *ISS_DUNGEON_SYS_CreateTable(u32 heapId);
+
 void ISS_DUNGEON_SYS_DeleteTable(DungeonSoundTable *table);
+
 DungeonSoundRecord *ISS_DUNGEON_SYS_FindRecord(DungeonSoundTable *table, u16 areaId);
+
 IssDungeonSys *ISS_DUNGEON_SYS_Create(struct GameData *gameData, struct PlayerWork *player, u32 heapId);
+
 void ISS_DUNGEON_SYS_Delete(IssDungeonSys *dungeon);
+
 void ISS_DUNGEON_SYS_Update(IssDungeonSys *dungeon);
+
 void ISS_DUNGEON_SYS_SetTargetAreaId(IssDungeonSys *dungeon, u16 areaId);
+
 void ISS_DUNGEON_SYS_Start(IssDungeonSys *dungeon);
+
 void ISS_DUNGEON_SYS_Stop(IssDungeonSys *dungeon);
+
 u32 ISS_DUNGEON_SYS_IsActive(IssDungeonSys *dungeon);
+
 u32 ISS_DUNGEON_SYS_HasRecord(IssDungeonSys *dungeon, u16 areaId);
+
 void ISS_DUNGEON_SYS_ResetTracks(IssDungeonSys *dungeon);
+
 void ISS_DUNGEON_SYS_Activate(IssDungeonSys *dungeon);
+
 void ISS_DUNGEON_SYS_Deactivate(IssDungeonSys *dungeon);
+
 void ISS_DUNGEON_SYS_SelectRecord(IssDungeonSys *dungeon, u16 areaId);
-
-/*
- * Road sound update. When the road sound is active, raises the volume if the
- * player moved since the last call, otherwise lowers it.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/ISS_ROAD_SYS_UpdateVolume.c \
- *       --func ISS_ROAD_SYS_UpdateVolume --addr 0x0202B230 --thumb --cc 1.1p1
- */
-void ISS_ROAD_SYS_UpdateVolume(IssRoadSys *road)
-{
-    if (road->isActive == 0) {
-        return;
-    }
-    if (ISS_ROAD_SYS_HasPlayerMoved(road) != 0) {
-        ISS_ROAD_SYS_FadeIn(road);
-    } else {
-        ISS_ROAD_SYS_FadeOut(road);
-    }
-}
-
-/*
- * Compares the 12-byte last position against the player's current position,
- * then stores the current position either way, and reports whether they
- * differed.
- *
- * The guard has to be written as a conjunction of equalities over subscripts:
- * `if (s[0] == d[0] && s[1] == d[1] && s[2] == d[2]) differ = 0; else differ = 1;`
- * Each test then branches *away* to the shared "1" block and the "0" block falls
- * through, which is the original shape (movs r3,#0; b over; movs r3,#1).  The
- * disjunction of inequalities is the same value but emits the last test with
- * the opposite polarity; the ternary spelling keeps the polarity but moves the
- * copy, and loses the match.
- */
-u32 ISS_ROAD_SYS_HasPlayerMoved(IssRoadSys *road)
-{
-    u32 *position = (u32 *)GAME_DATA_GetPlayerPosition(road->player);
-    int moved;
-
-    if (position[0] == road->lastPosition.x && position[1] == road->lastPosition.y &&
-        position[2] == road->lastPosition.z) {
-        moved = 0;
-    } else {
-        moved = 1;
-    }
-    road->lastPosition = *(PlayerPosition *)position;
-    return (u32)moved;
-}
-
-/*
- * Raises the signed volume by 8, saturating at 0x7f, and applies it.
- */
-void ISS_ROAD_SYS_FadeIn(IssRoadSys *road)
-{
-    s32 volume = road->volume;
-
-    if (volume < 0x7f) {
-        volume += 8;
-        if (volume > 0x7f) {
-            volume = 0x7f;
-        }
-        road->volume = volume;
-        ISS_ROAD_SYS_ApplyVolume(road);
-    }
-}
-
-/*
- * Lowers the volume by 8, saturating at 0, and applies it.
- */
-void ISS_ROAD_SYS_FadeOut(IssRoadSys *road)
-{
-    s32 volume = road->volume;
-
-    if (volume > 0) {
-        volume -= 8;
-        if (volume < 0) {
-            volume = 0;
-        }
-        road->volume = volume;
-        ISS_ROAD_SYS_ApplyVolume(road);
-    }
-}
-
-/*
- * Tail-calls GFL_USE_SetBgmTrackVolume(0x300, volume).
- */
-void ISS_ROAD_SYS_ApplyVolume(IssRoadSys *road)
-{
-    GFL_USE_SetBgmTrackVolume(0x300, road->volume);
-}
 
 /*
  * Applies one track of a sound record: its trackSlot entry to the tile/VRAM

@@ -1,7 +1,7 @@
 /*
  * file:     wf2dmap_objdraw.c
  * unit:     yes
- * function: WF2DMAP_OBJDRAW_FillSpawnDesc, WF2DMAP_OBJDRAW_CreateAnimSeq, WF2DMAP_OBJDRAW_DeleteAnimSeq, WF2DMAP_OBJDRAW_DeleteSprite, WF2DMAP_OBJDRAW_ConfigureSprite, WF2DMAP_OBJDRAW_AddActor, WF2DMAP_OBJDRAW_RemoveActor, WF2DMAP_OBJDRAW_UpdateAllActors, WF2DMAP_OBJDRAW_UpdateActor, WF2DMAP_OBJDRAW_SetActive, WF2DMAP_OBJDRAW_SetFrameDefault, WF2DMAP_OBJDRAW_RefreshActor, WF2DMAP_OBJDRAW_RestoreFrame, WF2DMAP_OBJDRAW_SetActorPos, WF2DMAP_OBJDRAW_GetActorValue, WF2DMAP_OBJDRAW_SetActorValue, WF2DMAP_OBJDRAW_SetActorValue2, WF2DMAP_OBJDRAW_GetActorValue2, WF2DMAP_OBJDRAW_SetFrameZero, WF2DMAP_OBJDRAW_GetDepth, WF2DMAP_OBJDRAW_SetActorPos2, WF2DMAP_OBJDRAW_IsActorFree, WF2DMAP_OBJDRAW_AllocActor, WF2DMAP_OBJDRAW_GetFrameValue, WF2DMAP_OBJDRAW_GetOwnerPos, WF2DMAP_OBJDRAW_SetFrame, WF2DMAP_OBJDRAW_SetPosFromOwner, WF2DMAP_OBJDRAW_ClearPos
+ * function: WF2DMAP_OBJDRAW_FillSpawnDesc, WF2DMAP_OBJDRAW_CreateAnimSeq, WF2DMAP_OBJDRAW_DeleteAnimSeq, WF2DMAP_OBJDRAW_DeleteSprite, WF2DMAP_OBJDRAW_ConfigureSprite, WF2DMAP_OBJDRAW_AddActor, WF2DMAP_OBJDRAW_RemoveActor, WF2DMAP_OBJDRAW_UpdateAllActors, WF2DMAP_OBJDRAW_UpdateActor, WF2DMAP_OBJDRAW_SetActive, WF2DMAP_OBJDRAW_SetFrameDefault, WF2DMAP_OBJDRAW_StepActorAnim, WF2DMAP_OBJDRAW_RestoreFrame, WF2DMAP_OBJDRAW_SetActorPos, WF2DMAP_OBJDRAW_GetActorDrawEnable, WF2DMAP_OBJDRAW_SetActorDrawEnable, WF2DMAP_OBJDRAW_SetSubActorDrawEnable, WF2DMAP_OBJDRAW_GetActorDrawPriority, WF2DMAP_OBJDRAW_SetFrameZero, WF2DMAP_OBJDRAW_GetDepth, WF2DMAP_OBJDRAW_SetSubActorPos, WF2DMAP_OBJDRAW_IsActorFree, WF2DMAP_OBJDRAW_AllocActor, WF2DMAP_OBJDRAW_GetFrameValue, WF2DMAP_OBJDRAW_GetOwnerPos, WF2DMAP_OBJDRAW_SetFrame, WF2DMAP_OBJDRAW_SetPosFromOwner, WF2DMAP_OBJDRAW_ClearPos
  * address:  0x021C5564
  * region:   ov127
  * compiler: dsi/1.1p1
@@ -144,16 +144,16 @@ void WF2DMAP_OBJDRAW_UpdateAllActors(u8 *p);
 void WF2DMAP_OBJDRAW_UpdateActor(u8 *p);
 void WF2DMAP_OBJDRAW_SetActive(u8 *p, int v);
 void WF2DMAP_OBJDRAW_SetFrameDefault(u8 *p);
-void WF2DMAP_OBJDRAW_RefreshActor(char *p);
+void WF2DMAP_OBJDRAW_StepActorAnim(char *p);
 void WF2DMAP_OBJDRAW_RestoreFrame(u8 *p);
 void WF2DMAP_OBJDRAW_SetActorPos(char *p, Wf2dmapPair v);
-int WF2DMAP_OBJDRAW_GetActorValue(char *p);
-void WF2DMAP_OBJDRAW_SetActorValue(char *p, int a);
-void WF2DMAP_OBJDRAW_SetActorValue2(u8 *p, int a);
-int WF2DMAP_OBJDRAW_GetActorValue2(u8 *p);
+int WF2DMAP_OBJDRAW_GetActorDrawEnable(char *p);
+void WF2DMAP_OBJDRAW_SetActorDrawEnable(char *p, int a);
+void WF2DMAP_OBJDRAW_SetSubActorDrawEnable(u8 *p, int a);
+int WF2DMAP_OBJDRAW_GetActorDrawPriority(u8 *p);
 void WF2DMAP_OBJDRAW_SetFrameZero(u8 *p, int b);
 int WF2DMAP_OBJDRAW_GetDepth(int a,int b);
-void WF2DMAP_OBJDRAW_SetActorPos2(char *p, Wf2dmapPair v);
+void WF2DMAP_OBJDRAW_SetSubActorPos(char *p, Wf2dmapPair v);
 int WF2DMAP_OBJDRAW_IsActorFree(char *p);
 char *WF2DMAP_OBJDRAW_AllocActor(u8 *seq);
 int WF2DMAP_OBJDRAW_GetFrameValue(char *p, int b);
@@ -320,7 +320,7 @@ void WF2DMAP_OBJDRAW_SetFrameDefault(u8 *p)
  * Unlabelled tail-call stub: ldr r0,[r0,#4]; ldr r3,=WIFI_2DCHAR_StepActorAnim; bx r3.
  * Blocker of ov099 WIFICLUBACTOR_AnimateWalkBob.
  */
-void WF2DMAP_OBJDRAW_RefreshActor(char *p)
+void WF2DMAP_OBJDRAW_StepActorAnim(char *p)
 {
     WIFI_2DCHAR_StepActorAnim(((Wf2dmapActor *)p)->actor);
 }
@@ -351,7 +351,7 @@ void WF2DMAP_OBJDRAW_SetActorPos(char *p, Wf2dmapPair v)
  * Unlabelled tail-call stub: ldr r0,[r0,#4]; ldr r3,=WIFI_2DCHAR_GetActorDrawEnable; bx r3.
  * Blocker of ov099 WIFICLUBACTOR_AnimateWalkBob.
  */
-int WF2DMAP_OBJDRAW_GetActorValue(char *p)
+int WF2DMAP_OBJDRAW_GetActorDrawEnable(char *p)
 {
     return WIFI_2DCHAR_GetActorDrawEnable(((Wf2dmapActor *)p)->actor);
 }
@@ -360,7 +360,7 @@ int WF2DMAP_OBJDRAW_GetActorValue(char *p)
 
 
 
-void WF2DMAP_OBJDRAW_SetActorValue(char *p, int a)
+void WF2DMAP_OBJDRAW_SetActorDrawEnable(char *p, int a)
 {
     WIFI_2DCHAR_SetActorDrawEnable(((Wf2dmapActor *)p)->actor, a);
 }
@@ -377,7 +377,7 @@ void WF2DMAP_OBJDRAW_SetActorValue(char *p, int a)
  *
  * Addresses are Black-image addresses.
  */
-void WF2DMAP_OBJDRAW_SetActorValue2(u8 *p, int a)
+void WF2DMAP_OBJDRAW_SetSubActorDrawEnable(u8 *p, int a)
 {
     WIFI_2DCHAR_SetSubActorDrawEnable(*(char * *)&((Wf2dmapActor *)p)->actor, a);
 }
@@ -387,10 +387,10 @@ void WF2DMAP_OBJDRAW_SetActorValue2(u8 *p, int a)
 
 
 /*
- * Unlabelled accessor veneer after WF2DMAP_OBJDRAW_SetActorValue2 (`ldr r0,[r0,#4]; ldr r3,=
+ * Unlabelled accessor veneer after WF2DMAP_OBJDRAW_SetSubActorDrawEnable (`ldr r0,[r0,#4]; ldr r3,=
  * WIFI_2DCHAR_GetActorDrawPriority; bx r3`).  Blocker of ov099 WIFICLUBACTOR_ShowMarkerAtActor.
  */
-int WF2DMAP_OBJDRAW_GetActorValue2(u8 *p)
+int WF2DMAP_OBJDRAW_GetActorDrawPriority(u8 *p)
 {
     return WIFI_2DCHAR_GetActorDrawPriority(((Wf2dmapActor *)p)->actor);
 }
@@ -416,7 +416,7 @@ int WF2DMAP_OBJDRAW_GetDepth(int a,int b) { if(b==1) return 250-a/4; else return
  * Unlabelled: forwards a by-value {s16 x, y} pair to WIFI_2DCHAR_SetSubActorPos with the
  * pointer at +4.  Blocker of ov099 WIFICLUBACTOR_AnimateWalkBob / WIFICLUBACTOR_AnimateBounce.
  */
-void WF2DMAP_OBJDRAW_SetActorPos2(char *p, Wf2dmapPair v)
+void WF2DMAP_OBJDRAW_SetSubActorPos(char *p, Wf2dmapPair v)
 {
     WIFI_2DCHAR_SetSubActorPos(((Wf2dmapActor *)p)->actor, v.x, v.y);
 }

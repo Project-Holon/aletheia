@@ -1,7 +1,7 @@
 /*
  * file:     mus_item_draw.c
  * unit:     yes
- * function: MUSICAL_MCSS_CreateActorPool, MUSICAL_MCSS_DeleteActorPool, MUSICAL_MCSS_UpdateObject, MUSICAL_MCSS_NoOp3, MUSICAL_MCSS_GetArcFileCount, MUSICAL_MCSS_SetupObject, MUSICAL_MCSS_SetIndexA, MUSICAL_MCSS_SetIndexB, MUSICAL_MCSS_SetIndexC, MUSICAL_MCSS_GetFlagA, MUSICAL_MCSS_GetFlagB, MUSICAL_MCSS_CreateResourceArc, MUSICAL_MCSS_FreeResourceArc, MUSICAL_MCSS_NoOp4, MUSICAL_MCSS_AddImage, MUSICAL_MCSS_AddImageNoVram, MUSICAL_MCSS_AddElem, MUSICAL_MCSS_FreeElem, MUSICAL_MCSS_FreeElemImage, MUSICAL_MCSS_TransferVram, MUSICAL_MCSS_CopyElem, MUSICAL_MCSS_SetElemVisible, MUSICAL_MCSS_SetElemPos, MUSICAL_MCSS_SetElemScale, MUSICAL_MCSS_SetElemRotZ, MUSICAL_MCSS_SetElemRot, MUSICAL_MCSS_SetElemField, MUSICAL_MCSS_GetElemField, MUSICAL_MCSS_SetElemFlag, MUSICAL_MCSS_GetElemFlag, MUSICAL_MCSS_GetElemOffset, MUSICAL_MCSS_NoOp5
+ * function: MUSICAL_MCSS_CreateActorPool, MUSICAL_MCSS_DeleteActorPool, MUSICAL_MCSS_UpdateObject, MUSICAL_MCSS_NoOp3, MUSICAL_MCSS_GetArcFileCount, MUSICAL_MCSS_SetupObject, MUSICAL_MCSS_IsElemModeSupportedA, MUSICAL_MCSS_IsElemModeSupportedB, MUSICAL_MCSS_IsElemModeSupportedC, MUSICAL_MCSS_GetFlagA, MUSICAL_MCSS_GetFlagB, MUSICAL_MCSS_CreateResourceArc, MUSICAL_MCSS_FreeResourceArc, MUSICAL_MCSS_FindFreeActorIndex, MUSICAL_MCSS_AddImage, MUSICAL_MCSS_AddImageNoVram, MUSICAL_MCSS_AddElem, MUSICAL_MCSS_FreeElem, MUSICAL_MCSS_FreeElemImage, MUSICAL_MCSS_TransferVram, MUSICAL_MCSS_CopyElem, MUSICAL_MCSS_SetElemVisible, MUSICAL_MCSS_SetElemPos, MUSICAL_MCSS_SetElemScale, MUSICAL_MCSS_SetElemRotZ, MUSICAL_MCSS_SetElemRot, MUSICAL_MCSS_SetElemField, MUSICAL_MCSS_GetElemField, MUSICAL_MCSS_SetElemFlag, MUSICAL_MCSS_GetElemFlag, MUSICAL_MCSS_GetElemOffset, MUSICAL_MCSS_GetActorPoolResource
  * address:  0x021F48C0
  * region:   ov112
  * compiler: dsi/1.1p1
@@ -41,9 +41,9 @@
  *   MUSICAL_MCSS_GetElemPtr 0x021F4F54 thumb ov112
  *   MUSICAL_MCSS_GetOffset 0x021F4F60 thumb ov112
  *   MUSICAL_MCSS_NoOp6 0x021F4F70 thumb ov112
- *   MUSICAL_MCSS_SetModeA 0x021F4F74 thumb ov112
- *   MUSICAL_MCSS_SetModeB 0x021F4FF4 thumb ov112
- *   MUSICAL_MCSS_SetModeC 0x021F5064 thumb ov112
+ *   MUSICAL_MCSS_IsModeSupportedA 0x021F4F74 thumb ov112
+ *   MUSICAL_MCSS_IsModeSupportedB 0x021F4FF4 thumb ov112
+ *   MUSICAL_MCSS_IsModeSupportedC 0x021F5064 thumb ov112
  *   MUSICAL_MCSS_GetStateA 0x021F50D0 thumb ov112
  *   MUSICAL_MCSS_GetStateB 0x021F50E0 thumb ov112
  *   G3D_SYSTEM_DeleteResource  0x02046EFC  arm  arm9
@@ -157,11 +157,11 @@ u16 MUSICAL_MCSS_GetArcFileCount(int i);
 
 void MUSICAL_MCSS_SetupObject(u8 *p,u8 *a,u8 *b);
 
-int MUSICAL_MCSS_SetIndexA(u8 *p, int index);
+int MUSICAL_MCSS_IsElemModeSupportedA(u8 *p, int index);
 
-int MUSICAL_MCSS_SetIndexB(u8 *p,int index,int mode);
+int MUSICAL_MCSS_IsElemModeSupportedB(u8 *p,int index,int mode);
 
-int MUSICAL_MCSS_SetIndexC(u8 *p,int index,int mode);
+int MUSICAL_MCSS_IsElemModeSupportedC(u8 *p,int index,int mode);
 
 int MUSICAL_MCSS_GetFlagA(u8 *p);
 
@@ -171,7 +171,7 @@ void *MUSICAL_MCSS_CreateResourceArc(int type);
 
 void MUSICAL_MCSS_FreeResourceArc(struct Tagged *resourceArc);
 
-u16 MUSICAL_MCSS_NoOp4(u32 p);
+u16 MUSICAL_MCSS_FindFreeActorIndex(u32 p);
 
 McssActorElem *MUSICAL_MCSS_AddImage(McssActorPool *p,int type,u32 id,int *v);
 
@@ -207,7 +207,7 @@ int MUSICAL_MCSS_GetElemFlag(int unused, McssActorElem *p);
 
 void MUSICAL_MCSS_GetElemOffset(u8 *p, McssOffset *out);
 
-u32 MUSICAL_MCSS_NoOp5(u8 *p);
+u32 MUSICAL_MCSS_GetActorPoolResource(u8 *p);
 
 u32 *MUSICAL_MCSS_LoadActorData(int heap);
 
@@ -219,11 +219,11 @@ void MUSICAL_MCSS_GetOffset(u8 *p, McssOffset *out);
 
 int MUSICAL_MCSS_NoOp6(int *p);
 
-int MUSICAL_MCSS_SetModeA(u16 *p, int mode);
+int MUSICAL_MCSS_IsModeSupportedA(u16 *p, int mode);
 
-int MUSICAL_MCSS_SetModeB(u16 *p, int mode);
+int MUSICAL_MCSS_IsModeSupportedB(u16 *p, int mode);
 
-int MUSICAL_MCSS_SetModeC(u8 *p, int mode);
+int MUSICAL_MCSS_IsModeSupportedC(u8 *p, int mode);
 
 int MUSICAL_MCSS_GetStateA(const unsigned char *p);
 
@@ -319,14 +319,14 @@ u16 MUSICAL_MCSS_GetArcFileCount(int i)
 
 void MUSICAL_MCSS_SetupObject(u8 *elem,u8 *a,u8 *b) { u16 x,y; BILLBOARD_GetImageSizeFromFlags(MUSICAL_MCSS_NoOp6(*(int * *)&((McssActorElem *)elem)->data),&x,&y); *a=(u32)x>>5; *b=(u32)y>>5; }
 
-int MUSICAL_MCSS_SetIndexA(u8 *elem, int index)
+int MUSICAL_MCSS_IsElemModeSupportedA(u8 *elem, int index)
 {
-    return MUSICAL_MCSS_SetModeA(*(u16 * *)&((McssActorElem *)elem)->data, index);
+    return MUSICAL_MCSS_IsModeSupportedA(*(u16 * *)&((McssActorElem *)elem)->data, index);
 }
 
-int MUSICAL_MCSS_SetIndexB(u8 *pool,int index,int mode) { return MUSICAL_MCSS_SetModeB((u16 *)MUSICAL_MCSS_GetElemPtr(*(u8 * *)&((McssActorPool *)pool)->resource,index),mode); }
+int MUSICAL_MCSS_IsElemModeSupportedB(u8 *pool,int index,int mode) { return MUSICAL_MCSS_IsModeSupportedB((u16 *)MUSICAL_MCSS_GetElemPtr(*(u8 * *)&((McssActorPool *)pool)->resource,index),mode); }
 
-int MUSICAL_MCSS_SetIndexC(u8 *pool,int index,int mode) { return MUSICAL_MCSS_SetModeC(MUSICAL_MCSS_GetElemPtr(*(u8 * *)&((McssActorPool *)pool)->resource,index),mode); }
+int MUSICAL_MCSS_IsElemModeSupportedC(u8 *pool,int index,int mode) { return MUSICAL_MCSS_IsModeSupportedC(MUSICAL_MCSS_GetElemPtr(*(u8 * *)&((McssActorPool *)pool)->resource,index),mode); }
 
 int MUSICAL_MCSS_GetFlagA(u8 *elem) { return MUSICAL_MCSS_GetStateA((const unsigned char *)(((McssActorElem *)elem)->data)); }
 
@@ -336,14 +336,14 @@ void *MUSICAL_MCSS_CreateResourceArc(int type) { return G3D_SYSTEM_CreateResourc
 
 void MUSICAL_MCSS_FreeResourceArc(struct Tagged *resourceArc) { G3D_SYSTEM_DeleteResource(resourceArc); }
 
-u16 MUSICAL_MCSS_NoOp4(u32 pool) { u16 n; int i; n=((McssActorPool *)pool)->count; for (i=0;i<n;i++) { if (((McssActorPool *)pool)->entries[i].bits.active==0) break; } if (i==n) return 0; return i; }
+u16 MUSICAL_MCSS_FindFreeActorIndex(u32 pool) { u16 n; int i; n=((McssActorPool *)pool)->count; for (i=0;i<n;i++) { if (((McssActorPool *)pool)->entries[i].bits.active==0) break; } if (i==n) return 0; return i; }
 
 McssActorElem *MUSICAL_MCSS_AddImage(McssActorPool *pool,int type,u32 id,int *v)
 {
     int index;
     int data;
     Pair pair;
-    index=MUSICAL_MCSS_NoOp4((u32)pool);
+    index=MUSICAL_MCSS_FindFreeActorIndex((u32)pool);
     pool->entries[index].type=MUSICAL_MCSS_GetArcFileCount(type);
     pool->entries[index].data=MUSICAL_MCSS_GetElemPtr(pool->resource,type);
     data=MUSICAL_MCSS_NoOp6((int *)pool->entries[index].data);
@@ -358,7 +358,7 @@ McssActorElem *MUSICAL_MCSS_AddImageNoVram(McssActorPool *pool, int type, u32 id
 {
     int index;
     Pair pair;
-    index=MUSICAL_MCSS_NoOp4((u32)pool);
+    index=MUSICAL_MCSS_FindFreeActorIndex((u32)pool);
     pool->entries[index].type=MUSICAL_MCSS_GetArcFileCount(type);
     pool->entries[index].data=MUSICAL_MCSS_GetElemPtr(pool->resource,type);
     MUSICAL_MCSS_NoOp6((int *)pool->entries[index].data);
@@ -483,4 +483,4 @@ void MUSICAL_MCSS_GetElemOffset(u8 *elem, McssOffset *out)
     MUSICAL_MCSS_GetOffset(*(u8 * *)&((McssActorElem *)elem)->data, out);
 }
 
-u32 MUSICAL_MCSS_NoOp5(u8 *pool) { return (u32)((McssActorPool *)pool)->resource; }
+u32 MUSICAL_MCSS_GetActorPoolResource(u8 *pool) { return (u32)((McssActorPool *)pool)->resource; }

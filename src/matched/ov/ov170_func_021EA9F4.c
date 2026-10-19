@@ -12,7 +12,7 @@
  * symbols:
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BOX2_UI_IsListOpen 0x021EF5E8 thumb
- *   BOX2_MAIN_PlayCursorSound 0x021DD238 thumb
+ *   BOX2_MAIN_ActivateKeyCursor 0x021DD238 thumb
  *   BOX2_SEQ_ReturnAfterClear 0x021E8F50 thumb
  */
 
@@ -25,7 +25,7 @@ typedef struct {
 struct WinMgr;
 extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern int BOX2_UI_IsListOpen(struct WinMgr *mgr);
-extern void BOX2_MAIN_PlayCursorSound(char *p);
+extern void BOX2_MAIN_ActivateKeyCursor(char *p);
 extern int BOX2_SEQ_ReturnAfterClear(char *p, int v);
 
 #define MGR(p) (*(struct WinMgr **)(*(char **)((char *)(p) + 0x2C) + 0x74))
@@ -38,6 +38,6 @@ void BOX2_SEQ_GotoBox2MainPlaySe(Obj *p, int v)
     else
         p->lo = 1;
     p->hi = 0;
-    BOX2_MAIN_PlayCursorSound((char *)p);
+    BOX2_MAIN_ActivateKeyCursor((char *)p);
     BOX2_SEQ_ReturnAfterClear((char *)p, v);
 }

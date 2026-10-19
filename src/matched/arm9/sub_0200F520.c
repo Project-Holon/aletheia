@@ -1,5 +1,5 @@
 /*
- * function: GFL_NET_ERR_StoreFriendProfile
+ * function: WIFILIST_StoreFriendProfile
  * address:  0x0200F520
  * packet:   pkt_0200F38C
  * region:   arm9
@@ -34,7 +34,7 @@ extern void WIFILIST_SetFriendInfoField(struct Sub020097BCObj *obj, u32 i, u32 f
 extern void WIFILIST_StoreFriendNameFromStrbuf(struct Sub020097BCObj *obj, int i, void *dest);
 extern void STRBUF_Delete(struct U16Vec *vec);
 
-void GFL_NET_ERR_StoreFriendProfile(void *obj, void *src, int i, int sel, int flag)
+void WIFILIST_StoreFriendProfile(void *obj, void *src, int i, int sel, int flag)
 {
     if (flag != 0) {
         void *data = MYSTATUS_CreateNameStrbuf(src, sel);

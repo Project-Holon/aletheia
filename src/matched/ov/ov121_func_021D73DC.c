@@ -32,7 +32,7 @@
  *   MYSTERY_TaskMenu 0x021D6E3C thumb ov121
  *   MYSTERY_TaskAlbum 0x021D7814 thumb ov121
  *   KEY_GetTrg 0x020362DC arm
- *   GF_STANDARD_SetField00_F4E4 0x0203F4E4 arm
+ *   GF_STANDARD_GetCachedDate 0x0203F4E4 arm
  *   MYSTERY_DATA_AddCard  0x0200A034  thumb  arm9
  *   MYSTERY_DATA_IsEventFlag  0x0200A1A8  thumb  arm9
  *   MYSTERY_DATA_SetEventFlag  0x0200A1E4  thumb  arm9
@@ -67,7 +67,7 @@ extern unsigned MYSTERY_UTIL_GetMenuState(u8 *p);
 extern void MYSTERY_TaskMenu(void *task, u32 *state, u8 *p);
 extern void MYSTERY_TaskAlbum(void *task, u32 *state, u8 *p);
 extern u32 KEY_GetTrg(void);
-extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
+extern void GF_STANDARD_GetCachedDate(struct RtcDate *date);
 extern int MYSTERY_DATA_IsEventFlag(char *p, unsigned int bit);
 extern int MYSTERY_DATA_AddCard(void *p, void *arg);
 extern void MYSTERY_DATA_SetEventFlag(void *p, unsigned int idx);
@@ -146,7 +146,7 @@ void MYSTERY_TaskReceive(void *task,u32 *state,u8 *p)
             if(v==0) {
                 MYSTERY_DeleteCardMenu((char *)p);
                 if(((Flag *)(p+1152))->bit && MYSTERY_DATA_IsEventFlag(P(956),((struct Obj13939 *)p)->f47C)) {*state=11;break;}
-                GF_STANDARD_SetField00_F4E4((struct RtcDate *)(&date));
+                GF_STANDARD_GetCachedDate((struct RtcDate *)(&date));
                 W(1144)=(((u32)date.y+2000)<<16)|(((u32)date.m<<24)>>16)|(u8)date.d;
                 MYSTERY_DATA_AddCard(P(956),p+972);
                 MYSTERY_DATA_SetEventFlag(P(956),((struct Obj13939 *)p)->f47C);

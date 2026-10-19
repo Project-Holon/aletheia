@@ -1,5 +1,5 @@
 /*
- * function: INTRUDE_COMM_SendValueNow
+ * function: INTRUDE_COMM_RequestPartnerSymbolPage
  * address: 0x02176850
  * packet: pkt_ov011_02176850
  * region: ov011
@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef struct { u16 value : 3; } Flag;
 typedef struct { u8 value; u8 enabled; } Pair;
 extern int INTRUDE_COMM_SendPageRequest(u8 *p, int key, int data);
-int INTRUDE_COMM_SendValueNow(u8 *p, u8 value)
+int INTRUDE_COMM_RequestPartnerSymbolPage(u8 *p, u8 value)
 {
     Pair pair;
     pair.value = value;

@@ -1,7 +1,7 @@
 /*
  * file:     file_util.c
  * unit:     yes
- * function: FILE_UTIL_OpenById, FILE_UTIL_LoadRange, FILE_UTIL_Get, FILE_UTIL_GetItemCount, FILE_UTIL_GetBankCount, FILE_UTIL_GetBaseIndex, FILE_UTIL_Create_0F14, FILE_UTIL_LoadArcMember, FILE_UTIL_CreateArcTool0F34, FILE_UTIL_ReadString, FILE_UTIL_ReadStringAlt, FILE_UTIL_Get_0FE4, FILE_UTIL_Get_1014, FILE_UTIL_GetMonProp, FILE_UTIL_Check1288, FILE_UTIL_Get_12B0, FILE_UTIL_Check12E4, FILE_UTIL_GetId, FILE_UTIL_GetMachineIndex, FILE_UTIL_Check136C, FILE_UTIL_GetItemSlot, FILE_UTIL_GetItemId
+ * function: FILE_UTIL_OpenById, FILE_UTIL_LoadRange, FILE_UTIL_Get, FILE_UTIL_GetItemCount, FILE_UTIL_GetBankCount, FILE_UTIL_GetBaseIndex, FILE_UTIL_CreateItemArcHandle, FILE_UTIL_LoadArcMember, FILE_UTIL_LoadItemRecord, FILE_UTIL_ReadString, FILE_UTIL_ReadStringAlt, FILE_UTIL_GetItemParam, FILE_UTIL_GetItemRecordParam, FILE_UTIL_GetItemExtParam, FILE_UTIL_IsMachineItem, FILE_UTIL_GetMachineMove, FILE_UTIL_IsHmMove, FILE_UTIL_GetId, FILE_UTIL_GetMachineIndex, FILE_UTIL_IsMailItem, FILE_UTIL_GetItemSlot, FILE_UTIL_GetItemId
  * address:  0x02020DEC
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -178,33 +178,33 @@ u32 FILE_UTIL_GetBankCount(void);
 
 u32 FILE_UTIL_GetBaseIndex(void);
 
-void *FILE_UTIL_Create_0F14(u32 heap);
+void *FILE_UTIL_CreateItemArcHandle(u32 heap);
 
 void *FILE_UTIL_LoadArcMember(struct ArcFile *arc, u32 item, u32 heap);
 
-void *FILE_UTIL_CreateArcTool0F34(u32 item, u32 which, u32 heap);
+void *FILE_UTIL_LoadItemRecord(u32 item, u32 which, u32 heap);
 
 void FILE_UTIL_ReadString(void *dst, u32 entry, u32 heap);
 
 void FILE_UTIL_ReadStringAlt(void *dst, u32 entry, u32 heap);
 
-u32 FILE_UTIL_Get_0FE4(u32 item, u32 sel, u32 heap);
+u32 FILE_UTIL_GetItemParam(u32 item, u32 sel, u32 heap);
 
-u32 FILE_UTIL_Get_1014(struct ItemRecord *record, u32 prop);
+u32 FILE_UTIL_GetItemRecordParam(struct ItemRecord *record, u32 prop);
 
-int FILE_UTIL_GetMonProp(struct ItemExt *ext, u32 prop);
+int FILE_UTIL_GetItemExtParam(struct ItemExt *ext, u32 prop);
 
-u32 FILE_UTIL_Check1288(u32 id);
+u32 FILE_UTIL_IsMachineItem(u32 id);
 
-u16 FILE_UTIL_Get_12B0(u16 machineId);
+u16 FILE_UTIL_GetMachineMove(u16 machineId);
 
-u32 FILE_UTIL_Check12E4(u16 moveId);
+u32 FILE_UTIL_IsHmMove(u16 moveId);
 
 u32 FILE_UTIL_GetId(u32 machineId);
 
 u8 FILE_UTIL_GetMachineIndex(u16 machineId);
 
-u32 FILE_UTIL_Check136C(u16 itemId);
+u32 FILE_UTIL_IsMailItem(u16 itemId);
 
 u8 FILE_UTIL_GetItemSlot(u16 itemId);
 
@@ -289,11 +289,11 @@ void *FILE_UTIL_LoadRange(u32 archiveId, u32 heap, u32 offset, u32 size)
  * word-runs.md).
  *
  * This is the file that closes the item chain
- * FILE_UTIL_Get_1014 <- FILE_UTIL_Get_0FE4 <- FILE_UTIL_CreateArcTool0F34: three separate functions
+ * FILE_UTIL_GetItemRecordParam <- FILE_UTIL_GetItemParam <- FILE_UTIL_LoadItemRecord: three separate functions
  * here name the item archive id 0x18 as a plain immediate
- * (FILE_UTIL_Create_0F14's handle open, FILE_UTIL_CreateArcTool0F34's one-shot member read) and
+ * (FILE_UTIL_CreateItemArcHandle's handle open, FILE_UTIL_LoadItemRecord's one-shot member read) and
  * two name the item graphics archive 0x19 (FILE_UTIL_GetItemCount answers it as a
- * constant, FILE_UTIL_CreateArcTool0F34 reads members of it).  Archive ids are the
+ * constant, FILE_UTIL_LoadItemRecord reads members of it).  Archive ids are the
  * decimal spelling of the a/X/Y/Z path, so 0x18 = 24 = a/0/2/4 and
  * 0x19 = 25 = a/0/2/5.
  *
@@ -305,14 +305,14 @@ void *FILE_UTIL_LoadRange(u32 archiveId, u32 heap, u32 offset, u32 size)
  *   - item_gfx_member_x (0x0209E9E8) and ITEM_GFX_GetRowIndex (0x0202F170) are
  *     named only from here anywhere in the image.
  *   - item_gfx_member (0x0209EB6C) has exactly one literal witness,
- *     0x02020F7C, which is FILE_UTIL_CreateArcTool0F34's own pool and therefore inside
+ *     0x02020F7C, which is FILE_UTIL_LoadItemRecord's own pool and therefore inside
  *     this range.  FILE_UTIL_Get's copy of the same word sits at
  *     0x02020EF4 but is not indexed as a literal pool by disasm.py: that
  *     pool is inside the `.byte` run this unit's leaf functions live in.
- *     Splitting FILE_UTIL_Get and FILE_UTIL_CreateArcTool0F34 into two files does not
+ *     Splitting FILE_UTIL_Get and FILE_UTIL_LoadItemRecord into two files does not
  *     fix it either: verified separately, the split leaves
  *     FILE_UTIL_Get attested (literal 0x02020F7C, now outside its range)
- *     and FILE_UTIL_CreateArcTool0F34 still not, since its only witness is its own
+ *     and FILE_UTIL_LoadItemRecord still not, since its only witness is its own
  *     pool word.  `tu --suggest-split` agrees and leaves both out.
  *
  * The middle piece that --suggest-split does keep, the five leaf
@@ -378,7 +378,7 @@ u32 FILE_UTIL_GetBaseIndex(void)
     return 0;
 }
 
-void *FILE_UTIL_Create_0F14(u32 heap)
+void *FILE_UTIL_CreateItemArcHandle(u32 heap)
 {
     return ARC_TOOL_CreateHandle(0x18, heap);
 }
@@ -392,7 +392,7 @@ void *FILE_UTIL_LoadArcMember(struct ArcFile *arc, u32 item, u32 heap)
     return ARC_TOOL_LoadHandleMember(arc, item, heap);
 }
 
-void *FILE_UTIL_CreateArcTool0F34(u32 item, u32 which, u32 heap)
+void *FILE_UTIL_LoadItemRecord(u32 item, u32 which, u32 heap)
 {
     if (item > 626) {
         item = 0;
@@ -414,7 +414,7 @@ void *FILE_UTIL_CreateArcTool0F34(u32 item, u32 which, u32 heap)
  * One of a pair of near-identical entry points (FILE_UTIL_ReadString uses table 0x36,
  * FILE_UTIL_ReadStringAlt table 0x35) that open a message archive, read one entry into
  * the caller's buffer and close it again.  An out-of-range entry index falls
- * back to 0; the bound 0x272 is one more than the last id FILE_UTIL_Check1288
+ * back to 0; the bound 0x272 is one more than the last id FILE_UTIL_IsMachineItem
  * accepts, which is why it is a pool word rather than a folded immediate.
  *
  * The heap argument stays in r3 across the guard because it is the fourth
@@ -442,7 +442,7 @@ void FILE_UTIL_ReadString(void *dst, u32 entry, u32 heap)
  * One of a pair of near-identical entry points (FILE_UTIL_ReadString uses table 0x36,
  * FILE_UTIL_ReadStringAlt table 0x35) that open a message archive, read one entry into
  * the caller's buffer and close it again.  An out-of-range entry index falls
- * back to 0; the bound 0x272 is one more than the last id FILE_UTIL_Check1288
+ * back to 0; the bound 0x272 is one more than the last id FILE_UTIL_IsMachineItem
  * accepts, which is why it is a pool word rather than a folded immediate.
  *
  * The heap argument stays in r3 across the guard because it is the fourth
@@ -476,16 +476,16 @@ void FILE_UTIL_ReadStringAlt(void *dst, u32 entry, u32 heap)
  * mask and derives the set bit from it with `adds r2, r3, #1`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/FILE_UTIL_Get_0FE4.c \
- *       --func FILE_UTIL_Get_0FE4 --addr 0x02020FE4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FILE_UTIL_GetItemParam.c \
+ *       --func FILE_UTIL_GetItemParam --addr 0x02020FE4 --cc 1.1p1 --thumb
  */
-u32 FILE_UTIL_Get_0FE4(u32 item, u32 sel, u32 heap)
+u32 FILE_UTIL_GetItemParam(u32 item, u32 sel, u32 heap)
 {
     struct ItemRecord *record;
     u32   value;
 
-    record = FILE_UTIL_CreateArcTool0F34(item, 0, (u16)((heap & 0x7FFF) | 0x8000));
-    value = FILE_UTIL_Get_1014(record, sel);
+    record = FILE_UTIL_LoadItemRecord(item, 0, (u16)((heap & 0x7FFF) | 0x8000));
+    value = FILE_UTIL_GetItemRecordParam(record, sel);
     GFL_HEAP_Free(record);
     return value;
 }
@@ -495,35 +495,35 @@ u32 FILE_UTIL_Get_0FE4(u32 item, u32 sel, u32 heap)
  *
  * The two halves of one property-getter interface over a packed record: a
  * caller hands in a record pointer and a property id, and gets an unsigned
- * quantity back.  Ids 0..0x11 are answered by FILE_UTIL_Get_1014 out of the record
+ * quantity back.  Ids 0..0x11 are answered by FILE_UTIL_GetItemRecordParam out of the record
  * header; anything above that is delegated, for one of the two header layouts,
- * to FILE_UTIL_GetMonProp on the sub-record at +0x10, which answers ids 0x12..0x3E out
+ * to FILE_UTIL_GetItemExtParam on the sub-record at +0x10, which answers ids 0x12..0x3E out
  * of a seventeen-byte bitfield block.
  *
- * The two are one file rather than two because FILE_UTIL_Get_1014's call to
- * FILE_UTIL_GetMonProp is the only branch to that address anywhere in the image: as
+ * The two are one file rather than two because FILE_UTIL_GetItemRecordParam's call to
+ * FILE_UTIL_GetItemExtParam is the only branch to that address anywhere in the image: as
  * separate files neither can attest the other and both cap at MATCH, while in
  * one translation unit the call is `local` and needs no image evidence at all
  * (docs/AGENT-BRIEF.md section 5, the `local` class).
  *
  * Two shape findings, both of which cost real bytes:
  *
- *  - FILE_UTIL_Get_1014's dispatch runs in r2, not in the switch value's own r1
+ *  - FILE_UTIL_GetItemRecordParam's dispatch runs in r2, not in the switch value's own r1
  *    (docs/idioms/a-void-return-frees-r0-for-the-switch-dispatch-index.md: the
  *    index register is the switch value's register only when that register is
  *    dead across the arms).  Here it is not dead, and the reason is the
- *    delegation: FILE_UTIL_GetMonProp takes the property id as its second argument,
+ *    delegation: FILE_UTIL_GetItemExtParam takes the property id as its second argument,
  *    which is already sitting in r1, so the call site sets only r0 and r1 stays
- *    live to the end of the function.  Declaring FILE_UTIL_GetMonProp as a one
+ *    live to the end of the function.  Declaring FILE_UTIL_GetItemExtParam as a one
  *    argument function is byte for byte right everywhere else and wrong in
- *    those nine bytes.  FILE_UTIL_GetMonProp's own `subs r1, #0x12` is the independent
+ *    those nine bytes.  FILE_UTIL_GetItemExtParam's own `subs r1, #0x12` is the independent
  *    confirmation that its second parameter is the same id.
- *  - the fall-through of FILE_UTIL_Get_1014 is a two-case `switch` on the header
+ *  - the fall-through of FILE_UTIL_GetItemRecordParam is a two-case `switch` on the header
  *    byte at +0xC, not a chain of `if`s: the switch form emits
  *    cmp/beq, cmp/beq, b-to-default, the `if` chain emits the inverted
  *    bne-over form and is two bytes shorter.
  *
- * The `ldrsb r0, [r0, r1]` arms of FILE_UTIL_GetMonProp are the signedness evidence
+ * The `ldrsb r0, [r0, r1]` arms of FILE_UTIL_GetItemExtParam are the signedness evidence
  * for the six plain fields at +7..+0xC and the three at +0xF..+0x11: there is
  * no immediate-offset `ldrsb`, so a signed byte load has to materialise its
  * offset in a register (docs/idioms/ldrsh-register-offset-is-signedness.md).
@@ -538,7 +538,7 @@ u32 FILE_UTIL_Get_0FE4(u32 item, u32 sel, u32 heap)
  *   python tools/match.py tu --src src/matched/unit_02021014.c \
  *       --addr 0x02021014 --thumb
  */
-u32 FILE_UTIL_Get_1014(struct ItemRecord *record, u32 prop)
+u32 FILE_UTIL_GetItemRecordParam(struct ItemRecord *record, u32 prop)
 {
     switch (prop) {
     case 0:
@@ -583,12 +583,12 @@ u32 FILE_UTIL_Get_1014(struct ItemRecord *record, u32 prop)
     case 0:
         return record->u.extByte;
     case 1:
-        return FILE_UTIL_GetMonProp(&record->u.ext, prop);
+        return FILE_UTIL_GetItemExtParam(&record->u.ext, prop);
     }
     return 0;
 }
 
-int FILE_UTIL_GetMonProp(struct ItemExt *ext, u32 prop)
+int FILE_UTIL_GetItemExtParam(struct ItemExt *ext, u32 prop)
 {
     switch (prop) {
     case 0x12:
@@ -693,10 +693,10 @@ int FILE_UTIL_GetMonProp(struct ItemExt *ext, u32 prop)
  * exit.md); as two separate `if` statements each window grows its own return.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/FILE_UTIL_Check1288.c \
- *       --func FILE_UTIL_Check1288 --addr 0x02021288 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FILE_UTIL_IsMachineItem.c \
+ *       --func FILE_UTIL_IsMachineItem --addr 0x02021288 --cc 1.1p1 --thumb
  */
-u32 FILE_UTIL_Check1288(u32 id)
+u32 FILE_UTIL_IsMachineItem(u32 id)
 {
     if ((id >= 0x148 && id <= 0x1A9) || (id >= 0x26A && id <= 0x26C)) {
         return 1;
@@ -705,7 +705,7 @@ u32 FILE_UTIL_Check1288(u32 id)
 }
 
 /*
- * Halfword lookup keyed by one of the two id windows FILE_UTIL_Check1288 accepts:
+ * Halfword lookup keyed by one of the two id windows FILE_UTIL_IsMachineItem accepts:
  * 0x148..0x1A9 maps to entries 0..0x61 of the table at 0x0209EAA0 and
  * 0x26A..0x26C continues at 0x62..0x64, which is why the second window's
  * subtrahend is 0x208 rather than its own start.  Ids outside both windows
@@ -724,12 +724,12 @@ u32 FILE_UTIL_Check1288(u32 id)
  * so the `u16` parameter type is real evidence and not a spelling choice.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/FILE_UTIL_Get_12B0.c \
- *       --func FILE_UTIL_Get_12B0 --addr 0x020212B0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FILE_UTIL_GetMachineMove.c \
+ *       --func FILE_UTIL_GetMachineMove --addr 0x020212B0 --cc 1.1p1 --thumb
  */
-u16 FILE_UTIL_Get_12B0(u16 machineId)
+u16 FILE_UTIL_GetMachineMove(u16 machineId)
 {
-    if (FILE_UTIL_Check1288(machineId) == 0) {
+    if (FILE_UTIL_IsMachineItem(machineId) == 0) {
         return 0;
     }
     if (machineId >= 0x26A) {
@@ -742,7 +742,7 @@ u16 FILE_UTIL_Get_12B0(u16 machineId)
 
 /*
  * Linear search of the six-entry tail of the same halfword table
- * FILE_UTIL_Get_12B0 indexes, entries 0x5C..0x61.  The 0xB8 byte offset is kept out
+ * FILE_UTIL_GetMachineMove indexes, entries 0x5C..0x61.  The 0xB8 byte offset is kept out
  * of the `ldrh` encoding because it is past the halfword load's +62 reach
  * (docs/idioms/thumb-immediate-reach-costs-an-adds.md), so the address comes
  * out as base, plus the scaled index, plus a separate `adds r1, #0xb8`.
@@ -751,10 +751,10 @@ u16 FILE_UTIL_Get_12B0(u16 machineId)
  * through a scratch register, which a `u32` counter does not produce.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/FILE_UTIL_Check12E4.c \
- *       --func FILE_UTIL_Check12E4 --addr 0x020212E4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FILE_UTIL_IsHmMove.c \
+ *       --func FILE_UTIL_IsHmMove --addr 0x020212E4 --cc 1.1p1 --thumb
  */
-u32 FILE_UTIL_Check12E4(u16 moveId)
+u32 FILE_UTIL_IsHmMove(u16 moveId)
 {
     u8 idx;
 
@@ -767,13 +767,13 @@ u32 FILE_UTIL_Check12E4(u16 moveId)
 }
 
 /*
- * Maps an id in one of FILE_UTIL_Check1288's two accepted windows onto a byte-wide
+ * Maps an id in one of FILE_UTIL_IsMachineItem's two accepted windows onto a byte-wide
  * slot number, in three ranges with three different subtrahends: 0x26A.. off
  * 0x20E, 0x1A4..0x269 off 0x145, and the rest off 0x148.  Ids the window test
  * rejects answer 0xFF.
  *
  * Only two pool words: 0x26A is loaded once and 0x1A4 derived from it with
- * `subs r0, #0xc6`, the same constant-sharing FILE_UTIL_Get_12B0 does.
+ * `subs r0, #0xc6`, the same constant-sharing FILE_UTIL_GetMachineMove does.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/FILE_UTIL_GetId.c \
@@ -781,7 +781,7 @@ u32 FILE_UTIL_Check12E4(u16 moveId)
  */
 u32 FILE_UTIL_GetId(u32 machineId)
 {
-    if (FILE_UTIL_Check1288(machineId) == 0) {
+    if (FILE_UTIL_IsMachineItem(machineId) == 0) {
         return 0xFF;
     }
     if (machineId >= 0x26A) {
@@ -807,9 +807,9 @@ u8 FILE_UTIL_GetMachineIndex(u16 machineId)
 
 /*
  * Verified with:
- *   python tools/match.py one --src src/matched/FILE_UTIL_Check136C.c  *       --func FILE_UTIL_Check136C --addr 0x0202136C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FILE_UTIL_IsMailItem.c  *       --func FILE_UTIL_IsMailItem --addr 0x0202136C --cc 1.1p1 --thumb
  */
-u32 FILE_UTIL_Check136C(u16 itemId)
+u32 FILE_UTIL_IsMailItem(u16 itemId)
 {
     u32 idx;
 

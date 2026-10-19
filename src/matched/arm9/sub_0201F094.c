@@ -1,5 +1,5 @@
 /*
- * function: WORDSET_DeleteMsgdataF094
+ * function: WORDSET_SetSlotFromKeyedMessage
  * address:  0x0201F094
  * packet:   pkt_0201F020
  * region:   arm9
@@ -28,7 +28,7 @@
  *   MYSTATUS_NameToStrbuf  0x02008500  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   WORDSET_Set  0x0201F0F8  thumb
+ *   WORDSET_SetSlotFromMsgBF  0x0201F0F8  thumb
  *   TPOKE_DATA_GetRecordField  0x0202A230  thumb
  *   WORDSET_ResetSlot  0x0201ED64  thumb
  *   WORDSET_SetSlotText  0x0201ED84  thumb
@@ -36,7 +36,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_0201F094.c \
- *       --func WORDSET_DeleteMsgdataF094 --addr 0x0201F094 --cc 1.1p1 --thumb
+ *       --func WORDSET_SetSlotFromKeyedMessage --addr 0x0201F094 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -75,9 +75,9 @@ extern void WORDSET_ResetSlot(struct WordSet *p, u32 i);
 extern void WORDSET_SetSlotText(struct WordSet *p, u32 i, const void *src,
                           const struct Tag *tag);
 extern void WORDSET_SetSlotFromMessage(struct WordSet *p, u32 i, u32 id, u32 v);
-extern void WORDSET_Set(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotFromMsgBF(struct WordSet *p, u32 i, u32 v);
 
-void WORDSET_DeleteMsgdataF094(struct WordSet *p, u32 i, u32 a, u32 n)
+void WORDSET_SetSlotFromKeyedMessage(struct WordSet *p, u32 i, u32 a, u32 n)
 {
     u32 id = BMP_OAM_Get(a);
     void *s;

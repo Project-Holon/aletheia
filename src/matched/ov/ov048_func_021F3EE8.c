@@ -29,7 +29,7 @@
  *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   STRBUF_Delete  0x02045808  arm
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  *   GIMMICK_OBJ_ELBOARD_CountHighlights  0x021F4488  thumb  ov048
  *   GIMMICK_OBJ_ELBOARD_AddMessage  0x021F3D38  thumb  ov048
@@ -64,7 +64,7 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern int GIMMICK_OBJ_ELBOARD_CountHighlights(unsigned char *p);
 extern void GIMMICK_OBJ_ELBOARD_AddMessage(int *p, int unused, int b, int *c);
@@ -106,7 +106,7 @@ void GIMMICK_OBJ_ELBOARD_AddPlaceListMessage(int *p)
         WORDSET_SetSlotTag(h2, 1, (const void *)s2, 0, 1, 0);
         WORDSET_CopyTaggedText(h2, buf, (void *)s3);
         STRBUF_Delete((struct U16Vec *)s3);
-        WORDSET_DeleteStrbufED04(h2);
+        WORDSET_Delete(h2);
         WORDSET_SetSlotTag(h1, i, (const void *)buf, 0, 1, 0);
         STRBUF_Delete((struct U16Vec *)s1);
         STRBUF_Delete((struct U16Vec *)s2);
@@ -138,5 +138,5 @@ void GIMMICK_OBJ_ELBOARD_AddPlaceListMessage(int *p)
     m.f = f;
     m.g = (int)h1;
     GIMMICK_OBJ_ELBOARD_AddMessage(p, (int)&m, 2, 0);
-    WORDSET_DeleteStrbufED04(h1);
+    WORDSET_Delete(h1);
 }

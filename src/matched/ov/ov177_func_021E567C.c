@@ -26,7 +26,7 @@
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BG_SYS_Init 0x02040C14 arm
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   WIFIBATTLEMATCH_VIEW_LoadBgPalette 0x021E58A4 thumb ov177
  */
 typedef unsigned int   u32;
@@ -49,7 +49,7 @@ extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void BG_SYS_Init(u32, u32, u32, u32);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 extern void WIFIBATTLEMATCH_VIEW_LoadBgPalette(int unused, int mode, unsigned color);
 
 u32 *WIFIBATTLEMATCH_VIEW_Create(int unused, int mode, int heap)
@@ -92,9 +92,9 @@ u32 *WIFIBATTLEMATCH_VIEW_Create(int unused, int mode, int heap)
     BG_SYS_Init(0, 0, 1, 0);
     BMP_MENUWORK_LoadCharAndPltt(0, 1, 0xd, 0, c);
     BMP_MENUWORK_LoadCharAndPltt(0, 0xa, 0xe, 0, c);
-    BG_SYS_FillScrollArea(2, 0, -256);
-    BG_SYS_FillScrollArea(1, 0, -256);
-    BG_SYS_FillScrollArea(6, 0, -256);
-    BG_SYS_FillScrollArea(m, 0, -256);
+    BG_SYS_ChangeScrollImmediate(2, 0, -256);
+    BG_SYS_ChangeScrollImmediate(1, 0, -256);
+    BG_SYS_ChangeScrollImmediate(6, 0, -256);
+    BG_SYS_ChangeScrollImmediate(m, 0, -256);
     return w;
 }

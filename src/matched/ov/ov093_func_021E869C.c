@@ -1,5 +1,5 @@
 /*
- * function: BTLV_CORE_CheckPartySlotPair
+ * function: HAND_COMMON_IsHeldItemBoundToOwnSpecies
  * address:  0x021E869C
  * packet:   pkt_ov093_021E869C
  * region:   ov093
@@ -27,7 +27,7 @@ struct QI;
 extern u16 BTL_POKEPARAM_GetItem(struct QI *p);
 extern int HAND_COMMON_IsItemBoundToSpecies(int a, int b);
 
-int BTLV_CORE_CheckPartySlotPair(void *a, int b)
+int HAND_COMMON_IsHeldItemBoundToOwnSpecies(void *a, int b)
 {
     void *r;
     int t;

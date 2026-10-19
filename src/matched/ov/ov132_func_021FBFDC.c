@@ -10,7 +10,7 @@
  * status: EXACT*
  * symbols:
  *   VM_GetU32 0x0201134C thumb
- *   STA_ACTING_GetAnimHandle 0x021F9DC0 thumb ov132
+ *   STA_ACTING_GetEffectSystem 0x021F9DC0 thumb ov132
  *   STA_ACTING_GetAnimSlot 0x021F9DC4 thumb ov132
  *   STA_ACT_EFFECT_KillSystem 0x021F9F58 thumb ov132
  *   STA_ACTING_SetAnimSlot 0x021F9DCC thumb ov132
@@ -22,8 +22,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Cursor; struct Comm;
 extern u32 VM_GetU32(struct Cursor *);
-extern void *STA_ACTING_GetAnimHandle(void *);
+extern void *STA_ACTING_GetEffectSystem(void *);
 extern void *STA_ACTING_GetAnimSlot(void *,u8);
 extern void STA_ACT_EFFECT_KillSystem(u8 *,u8 *);
 extern void STA_ACTING_SetAnimSlot(void *p, void *v, u32 i);
-int SCRIPT_COMMAND_CmdFreeAnimSlot(int unused,char *p) { char *o; u32 a; void *ctx; o=*(char * *)&((struct Obj14119 *)p)->f0; a=VM_GetU32(*(struct Cursor * *)&((struct Obj14119 *)p)->f4); ctx=STA_ACTING_GetAnimHandle(((struct Obj10558 *)o)->f34); STA_ACT_EFFECT_KillSystem(ctx,STA_ACTING_GetAnimSlot(((struct Obj10558 *)o)->f34,a)); STA_ACTING_SetAnimSlot(((struct Obj10558 *)o)->f34,0,(u8)a); return 0; }
+int SCRIPT_COMMAND_CmdFreeAnimSlot(int unused,char *p) { char *o; u32 a; void *ctx; o=*(char * *)&((struct Obj14119 *)p)->f0; a=VM_GetU32(*(struct Cursor * *)&((struct Obj14119 *)p)->f4); ctx=STA_ACTING_GetEffectSystem(((struct Obj10558 *)o)->f34); STA_ACT_EFFECT_KillSystem(ctx,STA_ACTING_GetAnimSlot(((struct Obj10558 *)o)->f34,a)); STA_ACTING_SetAnimSlot(((struct Obj10558 *)o)->f34,0,(u8)a); return 0; }

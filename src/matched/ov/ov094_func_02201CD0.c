@@ -1,5 +1,5 @@
 /*
- * function: BTLV_CLACT_StartMoveShort
+ * function: BTLV_CLACT_StartPosTween
  * address:  0x02201CD0
  * packet:   pkt_ov094_02201CD0
  * region:   ov094
@@ -31,7 +31,7 @@ extern void BTLV_CLACT_MoveTaskEnd(void *a);
 extern void BTLV_CLACT_StartMoveTask(void *o, int idx, int c, Vec *v, Vec *w, int s1, int s2, int s3,
                           void (*f1)(void *, void *), void (*f2)(void *));
 
-void BTLV_CLACT_StartMoveShort(char *o, int idx, int c, s16 *p, int s1, int s2, int s3)
+void BTLV_CLACT_StartPosTween(char *o, int idx, int c, s16 *p, int s1, int s2, int s3)
 {
     Vec b;
     Vec a;

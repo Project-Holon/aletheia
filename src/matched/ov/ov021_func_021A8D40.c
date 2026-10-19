@@ -11,7 +11,7 @@
  *
  *
  * symbols:
- *   GF_STANDARD_Get_F684  0x0203F684  arm
+ *   GF_STANDARD_SinFromDegreesWrapped  0x0203F684  arm
  *   func_0207E5D0  0x0207E5D0  arm
  * Addresses are Black-image addresses.
  */
@@ -26,12 +26,12 @@ struct W {
     u32 f134;
 };
 
-extern short GF_STANDARD_Get_F684(unsigned short x);
+extern short GF_STANDARD_SinFromDegreesWrapped(unsigned short x);
 extern void func_0207E5D0(void *src, u32 off, u32 n);
 
 void FIELD_MENU_ColorTask(void *unused, struct W *w)
 {
-    s32 t = GF_STANDARD_Get_F684((u16)w->f134) + 0x1000;
+    s32 t = GF_STANDARD_SinFromDegreesWrapped((u16)w->f134) + 0x1000;
     u16 c[2];
 
     c[1] = (t * 8 / 0x2000 + 9) | ((0x1F << 10) | ((t * 5 / 0x2000 + 0x12) << 5));

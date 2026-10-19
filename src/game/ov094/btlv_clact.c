@@ -1,7 +1,7 @@
 /*
  * file:     btlv_clact.c
  * unit:     yes
- * function: BTLV_CLACT_Create, BTLV_CLACT_Delete, BTLV_CLACT_Draw, BTLV_CLACT_LoadActorSimple, BTLV_CLACT_LoadActor, BTLV_CLACT_ReleaseActor, BTLV_CLACT_StartMoveShort, BTLV_CLACT_StartMoveDefault, BTLV_CLACT_SetActorAnimSeq, BTLV_CLACT_RequestPaletteFade, BTLV_CLACT_StartMoveTask, BTLV_CLACT_MoveTaskMain, BTLV_CLACT_MoveTaskEnd, BTLV_CLACT_MoveTaskMainWide, BTLV_CLACT_MoveTaskEndWide
+ * function: BTLV_CLACT_Create, BTLV_CLACT_Delete, BTLV_CLACT_Draw, BTLV_CLACT_LoadActorSimple, BTLV_CLACT_LoadActor, BTLV_CLACT_ReleaseActor, BTLV_CLACT_StartPosTween, BTLV_CLACT_StartScaleTween, BTLV_CLACT_SetActorAnimSeq, BTLV_CLACT_RequestPaletteFade, BTLV_CLACT_StartMoveTask, BTLV_CLACT_MoveTaskMain, BTLV_CLACT_MoveTaskEnd, BTLV_CLACT_MoveTaskMainWide, BTLV_CLACT_MoveTaskEndWide
  * address:  0x02201A8C
  * region:   ov094
  * compiler: dsi/1.1p1
@@ -21,7 +21,7 @@
  *   FX_Div  0x0207C768  arm
  *   TCB_AddTask  0x02030DA8  arm
  *   PALANM_RequestFade  0x0202173C  thumb
- *   TCBL_GetTaskUserData   0x02030EE8  arm
+ *   TCBL_IsDeletePending   0x02030EE8  arm
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   gBtlvClactFileName  0x0220AE88  data  a4
  *   CLACT_DrawSystem  0x0204A600  arm
@@ -68,7 +68,7 @@ extern void *TCB_AddTask(void *owner, void (*fn)(void *, void *), void *work, u3
 
 extern int PALANM_RequestFade(struct PalAnmSlot *palanm, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, void *owner);
 
-extern u32 TCBL_GetTaskUserData(void *task);
+extern u32 TCBL_IsDeletePending(void *task);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
@@ -148,9 +148,9 @@ int BTLV_CLACT_LoadActor(BtlvClact *clact, u32 archiveId, int charFile, u32 palF
 
 void BTLV_CLACT_ReleaseActor(BtlvClact *clact, int slot);
 
-void BTLV_CLACT_StartMoveShort(BtlvClact *clact, int slot, int mode, s16 *offset, int frames, int waitTicks, int repeats);
+void BTLV_CLACT_StartPosTween(BtlvClact *clact, int slot, int mode, s16 *offset, int frames, int waitTicks, int repeats);
 
-void BTLV_CLACT_StartMoveDefault(BtlvClact *clact, int slot, int mode, BtlvVec3 *scaleEnd, int frames, int waitTicks, int repeats);
+void BTLV_CLACT_StartScaleTween(BtlvClact *clact, int slot, int mode, BtlvVec3 *scaleEnd, int frames, int waitTicks, int repeats);
 
 u32 BTLV_CLACT_SetActorAnimSeq(BtlvClact *clact, int slot, int seq);
 
@@ -240,7 +240,7 @@ void BTLV_CLACT_ReleaseActor(BtlvClact *clact, int slot)
     clact->slot[slot].actor = 0;
 }
 
-void BTLV_CLACT_StartMoveShort(BtlvClact *clact, int slot, int mode, s16 *offset, int frames, int waitTicks, int repeats)
+void BTLV_CLACT_StartPosTween(BtlvClact *clact, int slot, int mode, s16 *offset, int frames, int waitTicks, int repeats)
 {
     BtlvVec3 current;
     BtlvVec3 end;
@@ -265,7 +265,7 @@ void BTLV_CLACT_StartMoveShort(BtlvClact *clact, int slot, int mode, s16 *offset
 /*
  * lever: a brace-initialised BtlvVec3 local compiles to an @N rodata template; three field stores do not.
  */
-void BTLV_CLACT_StartMoveDefault(BtlvClact *clact, int slot, int mode, BtlvVec3 *scaleEnd, int frames, int waitTicks, int repeats)
+void BTLV_CLACT_StartScaleTween(BtlvClact *clact, int slot, int mode, BtlvVec3 *scaleEnd, int frames, int waitTicks, int repeats)
 {
     BtlvVec3 scaleStart;
 
@@ -353,7 +353,7 @@ void BTLV_CLACT_MoveTaskMain(void *task, void *work)
 
 void BTLV_CLACT_MoveTaskEnd(void *task)
 {
-    BtlvClactMoveTask *job = (BtlvClactMoveTask *)TCBL_GetTaskUserData(task);
+    BtlvClactMoveTask *job = (BtlvClactMoveTask *)TCBL_IsDeletePending(task);
     job->clact->moveMask &= (1 << job->slot) ^ -1;
 }
 
@@ -374,6 +374,6 @@ void BTLV_CLACT_MoveTaskMainWide(void *task, void *work)
 
 void BTLV_CLACT_MoveTaskEndWide(void *task)
 {
-    BtlvClactMoveTask *job = (BtlvClactMoveTask *)TCBL_GetTaskUserData(task);
+    BtlvClactMoveTask *job = (BtlvClactMoveTask *)TCBL_IsDeletePending(task);
     job->clact->scaleMask &= (1 << job->slot) ^ -1;
 }

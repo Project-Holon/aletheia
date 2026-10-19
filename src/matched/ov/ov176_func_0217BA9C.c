@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_020307B0 0x020307B0 arm
- *   UI_ClearFlags39Global 0x020351A0 arm
+ *   UI_ClearSoftResetInhibitGlobal 0x020351A0 arm
  *   DIGITALCARDCHECK_DeleteRecord 0x0217D174 thumb ov176
  *   DIGITALCARDCHECK_DeleteRecord2 0x0217D224 thumb ov176
  *   WIFIBATTLEMATCH_VIEW_DeleteActorArray 0x021E7DF0 thumb ov177
@@ -17,11 +17,11 @@
  *   WIFIBATTLEMATCH_UTIL_DeleteCallback 0x021E8A78 thumb ov177
  *   GF_FONT_Delete 0x0201D83C thumb
  *   MSGDATA_Delete 0x02045C04 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  */
 extern unsigned int func_020307B0(void *p);
 typedef unsigned int   u32;
-extern int UI_ClearFlags39Global(u32 v);
+extern int UI_ClearSoftResetInhibitGlobal(u32 v);
 extern void DIGITALCARDCHECK_DeleteRecord(int *);
 extern void DIGITALCARDCHECK_DeleteRecord2(int *);
 struct Rec;
@@ -31,11 +31,11 @@ extern void LIVEBATTLEMATCH_IRC_Delete(int *p);
 extern void WIFIBATTLEMATCH_UTIL_DeleteCallback(void *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 void LIVEBATTLEMATCH_FLOW_Delete(int *p)
 {
     func_020307B0((void *)p[12]);
-    if (p[0x67] == 1) UI_ClearFlags39Global(8);
+    if (p[0x67] == 1) UI_ClearSoftResetInhibitGlobal(8);
     DIGITALCARDCHECK_DeleteRecord(p);
     DIGITALCARDCHECK_DeleteRecord2(p);
     WIFIBATTLEMATCH_VIEW_DeleteActorArray((int *)p[7]);
@@ -44,6 +44,6 @@ void LIVEBATTLEMATCH_FLOW_Delete(int *p)
     GF_FONT_Delete((void *)p[10]);
     MSGDATA_Delete((struct Rec *)p[9]);
     MSGDATA_Delete((struct Rec *)p[8]);
-    WORDSET_DeleteStrbufED04((struct WordSet *)p[11]);
+    WORDSET_Delete((struct WordSet *)p[11]);
     func_020307B0(p);
 }

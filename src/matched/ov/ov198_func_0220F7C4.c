@@ -14,7 +14,7 @@
  *   B_PLIST_DRAW_ClearAndPrintStream 0x0220E13C thumb ov198
  *   B_PLIST_DRAW_FormatRowWord 0x0220E1D4 thumb ov198
  *   B_PLIST_MAIN_ClearSelection 0x02211944 thumb ov198
- *   FILE_UTIL_Get_0FE4 0x02020FE4 thumb
+ *   FILE_UTIL_GetItemParam 0x02020FE4 thumb
  *   MSGDATA_ReadString 0x02045CAC arm
  */
 typedef unsigned char u8;
@@ -25,7 +25,7 @@ extern int B_PLIST_MAIN_GetOrderIndex(u8 *,int);
 extern void B_PLIST_DRAW_ClearAndPrintStream(u8 *);
 extern void B_PLIST_DRAW_FormatRowWord(u8 *);
 extern void B_PLIST_MAIN_ClearSelection(u8 **);
-extern u32 FILE_UTIL_Get_0FE4(void *,u32,u32);
+extern u32 FILE_UTIL_GetItemParam(void *,u32,u32);
 struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 int B_PLIST_MAIN_ConfirmSelect(u8 *p)
@@ -47,8 +47,8 @@ int B_PLIST_MAIN_ConfirmSelect(u8 *p)
         B_PLIST_MAIN_ClearSelection((u8 **)p);
         return 23;
     }
-    if (FILE_UTIL_Get_0FE4((void *)*(u16 *)(q+36),39,*(u16 *)(q+16)) != 0 &&
-        FILE_UTIL_Get_0FE4((void *)*(u16 *)(q+36),40,*(u16 *)(q+16)) == 0) {
+    if (FILE_UTIL_GetItemParam((void *)*(u16 *)(q+36),39,*(u16 *)(q+16)) != 0 &&
+        FILE_UTIL_GetItemParam((void *)*(u16 *)(q+36),40,*(u16 *)(q+16)) == 0) {
         *(u32 *)(p+0x217c) = 18;
         return 29;
     }

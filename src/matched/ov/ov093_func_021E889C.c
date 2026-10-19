@@ -1,5 +1,5 @@
 /*
- * function: BTLV_CORE_EventTrySetFlagIfAttacker
+ * function: HAND_COMMON_EventTrySetFlagIfAttacker
  * address:  0x021E889C
  * packet:   pkt_ov093_021E889C
  * region:   ov093
@@ -23,7 +23,7 @@ extern int BTL_EVENT_GetVar(int key);
 extern int BTL_MAIN_IsPokeSamePair(unsigned int a, unsigned int b);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-int BTLV_CORE_EventTrySetFlagIfAttacker(int a, int b, int c)
+int HAND_COMMON_EventTrySetFlagIfAttacker(int a, int b, int c)
 {
     if (BTL_MAIN_IsPokeSamePair((u8)BTL_EVENT_GetVar(2), c) != 0) {
         if (BTL_EVENT_OverwriteVar(0x51, 1) != 0)

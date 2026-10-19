@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTLV_CORE_EventSetFlagIfAttacker",
+   "name": "HAND_COMMON_EventSetFlagIfAttacker",
    "address": "0x021E8878",
    "kind": "game",
    "region": "ov093",

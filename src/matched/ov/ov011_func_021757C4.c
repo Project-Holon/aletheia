@@ -18,7 +18,7 @@
  *   INTRUDE_COMM_SendProposalReplies  0x02176158  thumb  ov011
  *   INTRUDE_COMM_SendPendingReplies  0x02176194  thumb  ov011
  *   INTRUDE_COMM_UpdateSessionSends  0x02175A34  thumb  ov011
- *   INTRUDE_COMM_UpdateSessionResult  0x02175AE8  thumb  ov011
+ *   INTRUDE_COMM_UpdateSessionJoinNotices  0x02175AE8  thumb  ov011
  */
 
 typedef unsigned char u8;
@@ -59,7 +59,7 @@ extern void INTRUDE_COMM_PromoteRequestToResult(Ctx *c, Work *w, int a);
 extern void INTRUDE_COMM_SendProposalReplies(int a, u8 *p);
 extern void INTRUDE_COMM_SendPendingReplies(Ctx *c, Work *w);
 extern void INTRUDE_COMM_UpdateSessionSends(void *a, u8 *b);
-extern void INTRUDE_COMM_UpdateSessionResult(int ctx, u8 *p);
+extern void INTRUDE_COMM_UpdateSessionJoinNotices(int ctx, u8 *p);
 
 void INTRUDE_COMM_UpdateSession(Ctx *c, Work *w)
 {
@@ -84,5 +84,5 @@ void INTRUDE_COMM_UpdateSession(Ctx *c, Work *w)
     INTRUDE_COMM_SendProposalReplies((int)c, (u8 *)w);
     INTRUDE_COMM_SendPendingReplies(c, w);
     INTRUDE_COMM_UpdateSessionSends(c, (u8 *)w);
-    INTRUDE_COMM_UpdateSessionResult((int)c, (u8 *)w);
+    INTRUDE_COMM_UpdateSessionJoinNotices((int)c, (u8 *)w);
 }

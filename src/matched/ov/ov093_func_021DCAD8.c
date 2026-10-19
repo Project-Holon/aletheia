@@ -12,13 +12,13 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DCA98.c and filed here.
  *
  * symbols:
- *   BTLV_CORE_EventRedirectMove 0x021E8744 thumb ov093
+ *   HAND_COMMON_EventRedirectMove 0x021E8744 thumb ov093
  */
 
-void BTLV_CORE_EventRedirectMove(int u, void *a, int b, int d);
+void HAND_COMMON_EventRedirectMove(int u, void *a, int b, int d);
 void HAND_TOKUSEI_MagicBounceReflectMove(int u, void *a, int b, int d);
 
 void HAND_TOKUSEI_MagicBounceReflectMove(int u, void *a, int b, int d)
 {
-    BTLV_CORE_EventRedirectMove(u, a, b, d);
+    HAND_COMMON_EventRedirectMove(u, a, b, d);
 }

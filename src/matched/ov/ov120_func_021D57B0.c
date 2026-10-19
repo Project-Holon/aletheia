@@ -22,12 +22,12 @@
  *   GTSNEGO_DISP_SetStateCallback 0x021D4244 thumb ov120
  *   GTSNEGO_DISP_WaitSelectStart 0x021D5758 thumb ov120
  *   GTSNEGO_DISP_HandleListInput 0x021D5334 thumb ov120
- *   GAME_DATA_GetSaveBlock1F  0x02012F14  thumb  arm9
+ *   GAME_DATA_GetTradeHistory  0x02012F14  thumb  arm9
  */
 #include "../include/Obj00532.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void *GAME_DATA_GetSaveBlock1F(void **);
+extern void *GAME_DATA_GetTradeHistory(void **);
 typedef unsigned int   u32;
 struct Sub02009D9CObj;
 extern int func_02009E8C(struct Sub02009D9CObj *obj);
@@ -49,7 +49,7 @@ extern void GTSNEGO_DISP_HandleListInput(struct Ctx *p);
 void GTSNEGO_DISP_ShowPokemonList(u8 *p)
 {
     int flag = 1;
-    int n = func_02009E8C(GAME_DATA_GetSaveBlock1F(*(void ** *)&((struct Obj00532 *)p)->f2C));
+    int n = func_02009E8C(GAME_DATA_GetTradeHistory(*(void ** *)&((struct Obj00532 *)p)->f2C));
     ((struct Obj00532 *)p)->f138 = flag;
     if (n == 0) {
         GTSNEGO_MSG_PrintWindow(((struct Obj00532 *)p)->f40, 0x1d);

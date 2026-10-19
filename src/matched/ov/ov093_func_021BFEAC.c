@@ -26,7 +26,7 @@
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   BTL_SERVER_FLOW_SetContFlag  0x021C60EC  thumb  ov093
  *   BTL_SERVER_FLOW_SetPokeCounter  0x021C0780  thumb  ov093
- *   BTLV_CORE_MakeSlotKind3  0x021E899C  thumb  ov093
+ *   BTL_SICKCONT_MakeKind3  0x021E899C  thumb  ov093
  *   BTL_SERVER_FLOW_ProcSickAdded  0x021C2910  thumb  ov093
  *   BTL_SERVER_CMD_PushVariable  0x021CD64C  thumb  ov093
  */
@@ -43,7 +43,7 @@ extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern void BTL_SERVER_FLOW_SetContFlag(u8 *p, u8 *a, u32 n);
 extern void BTL_SERVER_FLOW_SetPokeCounter(u8 *p, u8 *a, int i, u8 v);
 typedef struct { u32 v; } Word;
-extern Word BTLV_CORE_MakeSlotKind3(u32 a);
+extern Word BTL_SICKCONT_MakeKind3(u32 a);
 extern void BTL_SERVER_FLOW_ProcSickAdded(u8 *p, u8 *a, u8 *b, int k, Word e, int f, int g, int h);
 extern void BTL_SERVER_CMD_PushVariable(void *w, u8 id, ...);
 
@@ -58,7 +58,7 @@ int BTL_SERVER_FLOW_ProcMoveReflectOrAbsorb(u8 *p, u8 *a, u8 *b, int *out)
             BTL_SERVER_FLOW_SetContFlag(p, a, 3);
             BTL_SERVER_FLOW_SetContFlag(p, b, 3);
             BTL_SERVER_FLOW_SetPokeCounter(p, a, 4, n + 1);
-            t = BTLV_CORE_MakeSlotKind3(BTL_POKEPARAM_GetPokeId(a));
+            t = BTL_SICKCONT_MakeKind3(BTL_POKEPARAM_GetPokeId(a));
             BTL_SERVER_FLOW_ProcSickAdded(p, b, a, 0x21, t, 0, 0, 0);
             return 1;
         }

@@ -1,5 +1,5 @@
 /*
- * function: GAMESYSTEM_LeakHeapPenaltyRepeat
+ * function: GAMESYSTEM_ApplyTamperPenaltyRepeat
  * address:  0x02011D7C
  * packet:   pkt_02010BB8
  * region:   arm9
@@ -11,11 +11,11 @@
  *
  * symbols:
  *   GFL_USE_AddMainTask   0x020056A0  thumb
- *   GAMESYSTEM_ReadTimerTwice  0x02011D34  thumb
+ *   GAMESYSTEM_RandTwice  0x02011D34  thumb
  *   _GameSystemGlobal     0x02146248  data
  *
  * Allocates 0x7F bytes off heap 0 through GFL_USE_AddMainTask.c's allocator
- * wrapper, tagged with GAMESYSTEM_ReadTimerTwice's own address (the SDK debug-tag
+ * wrapper, tagged with GAMESYSTEM_RandTwice's own address (the SDK debug-tag
  * convention: the tag is the calling site, here literally the sibling
  * debug-marker function's address), discards the result, and bumps
  * _GameSystemGlobal's +4 counter. See unit_02011D28.c's header for the sibling
@@ -26,8 +26,8 @@
  * than accessed through raw pointer-plus-offset arithmetic.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/GAMESYSTEM_LeakHeapPenaltyRepeat.c \
- *       --func GAMESYSTEM_LeakHeapPenaltyRepeat --addr 0x02011D7C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/GAMESYSTEM_ApplyTamperPenaltyRepeat.c \
+ *       --func GAMESYSTEM_ApplyTamperPenaltyRepeat --addr 0x02011D7C --cc 1.1p1 --thumb
  */
 
 #include "../include/G_G02146248.h"
@@ -35,11 +35,11 @@
 typedef unsigned int u32;
 
 extern void *GFL_USE_AddMainTask(u32 a, u32 b, u32 c);
-extern void  GAMESYSTEM_ReadTimerTwice(void);
+extern void  GAMESYSTEM_RandTwice(void);
 extern struct G02146248 _GameSystemGlobal;
 
-void GAMESYSTEM_LeakHeapPenaltyRepeat(void)
+void GAMESYSTEM_ApplyTamperPenaltyRepeat(void)
 {
-    GFL_USE_AddMainTask((u32)GAMESYSTEM_ReadTimerTwice, 0, 0x7f);
+    GFL_USE_AddMainTask((u32)GAMESYSTEM_RandTwice, 0, 0x7f);
     _GameSystemGlobal.unk04 += 1;
 }

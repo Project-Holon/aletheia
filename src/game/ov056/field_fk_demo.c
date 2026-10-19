@@ -12,6 +12,8 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
+ * Boundary audit (wave 16): kept as one file. The FIELD_FK_DEMO_ and FIELD_FK_BUILD_SOUND_ data alternate: gFkBuildSoundTriggerFrame 0x021F4258, gFkDemoEndDir 0x021F4264, gFkDemoOrigin 0x021F426C, gFkBuildSoundModelPos 0x021F4278, gFkDemoHasBuildAnime 0x021F4290. field_fk_sound_anime.c (anchor 021F4040) is the separate file that follows.
+ *
  * symbols:
  *   gFkDemoCameraSettingId  0x021F42B0  data
  *   G3D_SYSTEM_GetAnimeObj  0x02047674  arm

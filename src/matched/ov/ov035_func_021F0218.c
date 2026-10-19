@@ -17,9 +17,9 @@
  *   APP_KEYCURSOR_Delete 0x02028604 thumb
  *   TCBL_Destroy 0x02031140 arm
  *   BMP_WIN_Delete 0x020452E8 arm
- *   BMP_MENUWORK_DeleteHalf 0x0201F614 thumb
+ *   BMP_MENUWORK_FreeTileRun 0x0201F614 thumb
  *
- * 2026-10-05 (D8 lane 15): 0201F614 now filed EXACT as src/matched/arm9/BMP_MENUWORK_DeleteHalf.c (u16 lo, u16 hi split of r1).
+ * 2026-10-05 (D8 lane 15): 0201F614 now filed EXACT as src/matched/arm9/BMP_MENUWORK_FreeTileRun.c (u16 lo, u16 hi split of r1).
  * Re-run after the integrator regenerates the layout; expected EXACT.
  */
 struct Descriptor;
@@ -32,7 +32,7 @@ extern int APP_KEYCURSOR_Delete(int a0);
 extern void TCBL_Destroy(struct S02031140 *p);
 typedef unsigned int   u32;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-extern void BMP_MENUWORK_DeleteHalf(int, unsigned int);
+extern void BMP_MENUWORK_FreeTileRun(int, unsigned int);
 void C_GEAR_POWER_ONOFF_ExitWindows(char *p)
 {
     if (*(void **)(p + 0x24)) {
@@ -45,5 +45,5 @@ void C_GEAR_POWER_ONOFF_ExitWindows(char *p)
     TCBL_Destroy(*(void **)(p + 0x20));
     BMP_WIN_Delete(*(void **)(p + 0x1c));
     BMP_WIN_Delete(*(void **)(p + 0x18));
-    BMP_MENUWORK_DeleteHalf(5, *(unsigned int *)(p + 0x14));
+    BMP_MENUWORK_FreeTileRun(5, *(unsigned int *)(p + 0x14));
 }

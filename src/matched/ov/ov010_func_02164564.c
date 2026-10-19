@@ -1,5 +1,5 @@
 /*
- * function: EVENTDATA_SYSTEM_CheckWeatherZone
+ * function: FIELD_SKILL_CHECK_WeatherZone
  * address: 0x02164564
  * packet: pkt_ov010_02164564
  * region: ov010
@@ -19,4 +19,4 @@ struct Rec44;
 extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
 extern u32 ZONEDATA_IsNormalFieldZone(u32 id);
 extern u32 ZONEDATA_IsWeatherEnabled(u32 id);
-int EVENTDATA_SYSTEM_CheckWeatherZone(void *a, void *b, void *c) { u16 v=GAME_DATA_GetPlayerZoneId(c); if (!ZONEDATA_IsNormalFieldZone(v)) return 0; if (ZONEDATA_IsWeatherEnabled(v)) return 1; return 0; }
+int FIELD_SKILL_CHECK_WeatherZone(void *a, void *b, void *c) { u16 v=GAME_DATA_GetPlayerZoneId(c); if (!ZONEDATA_IsNormalFieldZone(v)) return 0; if (ZONEDATA_IsWeatherEnabled(v)) return 1; return 0; }

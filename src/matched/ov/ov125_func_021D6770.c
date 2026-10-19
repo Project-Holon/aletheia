@@ -16,7 +16,7 @@
  *   func_020307B0 0x020307B0 arm
  *   func_02034A5C 0x02034A5C arm
  *   ov114_id 0x00000072 data
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
+ *   WORDSET_Delete  0x0201ED04  thumb  arm9
  */
 #include "../include/Obj03805.h"
 typedef unsigned char  u8;
@@ -27,7 +27,7 @@ extern void NHTTP_RAP_FreePostData(u8 *p);
 extern void NHTTP_RAP_Destroy(u8 *p);
 extern void GDS_SOCKET_Shutdown(void);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern unsigned int WORDSET_Delete(struct WordSet *p);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
@@ -42,7 +42,7 @@ void GDS_RAP_Exit(char *p)
     GDS_SOCKET_Shutdown();
     ((struct Obj03805 *)p)->f3B4 = 0;
     STRBUF_Delete(((struct Obj03805 *)p)->f3EC);
-    WORDSET_DeleteStrbufED04(((struct Obj03805 *)p)->f3E8);
+    WORDSET_Delete(((struct Obj03805 *)p)->f3E8);
     MSGDATA_Delete(((struct Obj03805 *)p)->f3E4);
     func_020307B0(((struct Obj03805 *)p)->f3AC);
     func_02034A5C((int)ov114_id);

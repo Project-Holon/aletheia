@@ -1,5 +1,5 @@
 /*
- * function: UNION_MAIN_StepStartPmsInput
+ * function: UNION_SCENE_StepStartPmsInput
  * address: 0x02174B08
  * packet: pkt_ov012_02174B08
  * region: ov012
@@ -17,7 +17,7 @@ typedef unsigned char u8;
 extern void *FIELD_STATUS_CreateSubProcEvent(char *, int, int, int, int);
 extern u8 ov110_id[];
 extern const int gPmsInputProcData[];
-int UNION_MAIN_StepStartPmsInput(char *a, u8 *p, int b, int c, int x, void **out, u8 *state)
+int UNION_SCENE_StepStartPmsInput(char *a, u8 *p, int b, int c, int x, void **out, u8 *state)
 {
     if (*state == 0) {
         *out = FIELD_STATUS_CreateSubProcEvent(a, b, (int)ov110_id, (int)gPmsInputProcData, c);

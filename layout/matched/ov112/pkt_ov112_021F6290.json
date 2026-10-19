@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "MUSICAL_MCSS_GetFieldE",
+   "name": "MUSICAL_MCSS_PauseMCAnim",
    "address": "0x021F6290",
    "kind": "game",
    "region": "ov112",

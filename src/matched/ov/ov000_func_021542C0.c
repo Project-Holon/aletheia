@@ -42,7 +42,7 @@
  *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb
  *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
  *   GFL_USE_PopBgm  0x02005E9C  thumb
- *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb
+ *   GFL_USE_SetBgmPaused  0x02005DE4  thumb
  *   GFL_USE_PushBgm  0x02005E64  thumb
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
@@ -100,7 +100,7 @@ extern void  GFL_USE_CancelChangeAndPlayBgm(u32 a0, u32 a1);
 extern void GFL_USE_FadeInBgmFull(u32 a);
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *a0);
 extern int GFL_USE_PopBgm(void);
-extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_SetBgmPaused(void *p);
 extern int GFL_USE_PushBgm(void);
 extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
@@ -205,7 +205,7 @@ u32 EVENT_GSYNC_Main(void *obj, u32 *mode, char *args)
     case 12:
         if (F(0x1cc)) {
             GFL_USE_PopBgm();
-            GFL_USE_SetBgmPlayerParam(0);
+            GFL_USE_SetBgmPaused(0);
             GFL_USE_FadeInBgmFull(0x3C);
             F(0x1cc) = 0;
         }
@@ -220,7 +220,7 @@ u32 EVENT_GSYNC_Main(void *obj, u32 *mode, char *args)
             *mode = 19;
         } else {
             F(0x26c) = 0;
-            GFL_USE_SetBgmPlayerParam((void *)1);
+            GFL_USE_SetBgmPaused((void *)1);
             GFL_USE_PushBgm();
             F(0x1cc) = 1;
             (*mode)++;
@@ -318,7 +318,7 @@ u32 EVENT_GSYNC_Main(void *obj, u32 *mode, char *args)
             *mode = 2;
             if (F(0x1cc)) {
                 GFL_USE_PopBgm();
-                GFL_USE_SetBgmPlayerParam(0);
+                GFL_USE_SetBgmPaused(0);
                 GFL_USE_FadeInBgmFull(0x3C);
                 F(0x1cc) = 0;
             }

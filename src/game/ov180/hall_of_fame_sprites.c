@@ -28,11 +28,11 @@
  *   BMP_Clear 0x02043B5C arm
  *   MSGDATA_AllocString 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
- *   POKE_TOOL_Dummy 0x020185F0 thumb
+ *   POKE_TOOL_CastToBoxParam 0x020185F0 thumb
  *   POKE_TOOL_DecodeBoxParam 0x02017DBC thumb
  *   POKE_TOOL_EncodeBoxParam 0x02017DE4 thumb
  *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
- *   WORDSET_SetSlotMonSpeciesAlt 0x0201EF14 thumb
+ *   WORDSET_SetSlotMonNicknameAlt 0x0201EF14 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
@@ -117,11 +117,11 @@ extern struct Grid *BMP_OAM_Create(struct Sys *sys, const struct Param *param);
 extern void BMP_Clear(struct CharBuf *,u8);
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *);
-extern struct Sav *POKE_TOOL_Dummy(struct Sav *);
+extern struct Sav *POKE_TOOL_CastToBoxParam(struct Sav *);
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *,u32);
 extern u32 POKE_TOOL_GetBoxValue(void *,u32,u32);
-extern void WORDSET_SetSlotMonSpeciesAlt(struct WordSet *,u32,void *);
+extern void WORDSET_SetSlotMonNicknameAlt(struct WordSet *,u32,void *);
 extern void WORDSET_CopyTaggedText(struct WordSet *,void *,void *);
 extern u32 GF_FONT_MeasureWidestLine(struct StrObj *,u32,u32);
 extern void WORDSET_SetSlotNumber(struct WordSet *,u32,u32,u32,u32,u32);
@@ -229,11 +229,11 @@ void HALL_OF_FAME_PrintMonInfo(HallOfFameWork *work)
     struct Sav *mon;
     u32 lock, width;
     struct StrObj *str;
-    mon = POKE_TOOL_Dummy(work->partyMons[work->monIndex]);
+    mon = POKE_TOOL_CastToBoxParam(work->partyMons[work->monIndex]);
     lock = POKE_TOOL_DecodeBoxParam(mon);
     BMP_Clear(work->plates[1].bmp, 0);
     str = MSGDATA_AllocString(work->msgData, 1);
-    WORDSET_SetSlotMonSpeciesAlt(work->wordSet, 0, mon);
+    WORDSET_SetSlotMonNicknameAlt(work->wordSet, 0, mon);
     WORDSET_CopyTaggedText(work->wordSet, work->strBuf, str);
     HALL_OF_FAME_PrintToPlate(work, 1, work->fontMain, work->strBuf, 8, 0);
     STRBUF_Delete((struct U16Vec *)str);

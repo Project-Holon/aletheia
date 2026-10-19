@@ -107,7 +107,7 @@ typedef struct TrainerCardProfile {
     unsigned short name[8];        /* 0x0A */
     unsigned char pad1A[2];
     unsigned int playTimeSource;            /* 0x1C */
-    unsigned int badgeCount;            /* 0x20 */
+    unsigned int money;                 /* 0x20 */
     unsigned int pokedexCount;            /* 0x24 */
     unsigned short trainerId;            /* 0x28 */
     unsigned short playHours;            /* 0x2A */

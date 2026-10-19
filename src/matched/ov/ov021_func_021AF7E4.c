@@ -14,8 +14,8 @@
  *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   WORDSET_SetSlotFromMsg118  0x0201EF5C  thumb
- *   WORDSET_Callback_EF4C  0x0201EF4C  thumb
- *   WORDSET_Callback_EF40  0x0201EF40  thumb
+ *   WORDSET_SetSlotFromMsg117  0x0201EF4C  thumb
+ *   WORDSET_SetSlotFromMsg36  0x0201EF40  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -33,8 +33,8 @@ struct WordSet;
 extern void *SCRIPT_WORK_GetWordSet(void *p);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *, void *);
 extern void WORDSET_SetSlotFromMsg118(struct WordSet *p, u32 i, u32 v);
-extern void WORDSET_Callback_EF4C(struct WordSet *p, u32 i, u32 v);
-extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotFromMsg117(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotFromMsg36(struct WordSet *p, u32 i, u32 v);
 
 void SCRCMD_BufferItemNameWithCount(Script *a, u32 b)
 {
@@ -52,8 +52,8 @@ void SCRCMD_BufferItemNameWithCount(Script *a, u32 b)
     if (n > 1) {
         WORDSET_SetSlotFromMsg118((struct WordSet *)x, v, y);
     } else if (flag != 0) {
-        WORDSET_Callback_EF4C((struct WordSet *)x, v, y);
+        WORDSET_SetSlotFromMsg117((struct WordSet *)x, v, y);
     } else {
-        WORDSET_Callback_EF40((struct WordSet *)x, v, y);
+        WORDSET_SetSlotFromMsg36((struct WordSet *)x, v, y);
     }
 }

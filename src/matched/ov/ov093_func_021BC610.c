@@ -24,7 +24,7 @@
  *   BTL_SERVER_GetActionTableValue  0x021BB8A8  thumb  ov093
  *   BTL_SERVER_GetActionTableEntry  0x021BB8B0  thumb  ov093
  *   BTL_ACTION_IsChangeDepleted  0x021D83E0  thumb  ov093
- *   BTL_CALC_ActionGetKind  0x021D8454  thumb  ov093
+ *   BTL_ACTION_GetKind  0x021D8454  thumb  ov093
  *   BTL_SLOT_GetRotateSrcIndex  0x021B9AB0  thumb  ov093
  *   BTL_SLOT_GetPoke  0x021B9BF0  thumb  ov093
  *   BTL_MAIN_GetCompetitor  0x021B86B8  thumb  ov093
@@ -50,7 +50,7 @@ extern u8 *BTL_SERVER_GetClientChecked(u8 *p, unsigned int i);
 extern u8 BTL_SERVER_GetActionTableValue(u8 *p, u8 i);
 extern B BTL_SERVER_GetActionTableEntry(u8 *p, u8 i, u8 j);
 extern int BTL_ACTION_IsChangeDepleted(B *p);
-extern u32 BTL_CALC_ActionGetKind(B *p);
+extern u32 BTL_ACTION_GetKind(B *p);
 extern u8 BTL_SLOT_GetRotateSrcIndex(u8 k);
 extern u32 BTL_SLOT_GetPoke(struct S2 *p, u32 i);
 extern void *BTL_MAIN_GetCompetitor(void ***p);
@@ -88,7 +88,7 @@ u8 BTL_SERVER_FLOW_BuildActionOrder(S *p, u8 *o, E *e)
                 r->b = BTL_SERVER_GetActionTableEntry(o, i, j);
                 if (BTL_ACTION_IsChangeDepleted(&r->b) != 0)
                     break;
-                t = BTL_CALC_ActionGetKind(&r->b) & 0xff;
+                t = BTL_ACTION_GetKind(&r->b) & 0xff;
                 switch (t) {
                 case 6:
                     r5 = BTL_SLOT_GetRotateSrcIndex(r->b.sub);

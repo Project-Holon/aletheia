@@ -16,7 +16,7 @@
  *   func_02007FA0  0x02007FA0  thumb
  *   func_020056EC  0x020056EC  thumb
  *   func_020081DC  0x020081DC  thumb
- *   FILE_UTIL_Get_12B0  0x020212B0  thumb
+ *   FILE_UTIL_GetMachineMove  0x020212B0  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -31,7 +31,7 @@ extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
 extern u32 func_02007FA0(u8 *base, u32 id);
 extern u32 func_020056EC(u32);
 extern u16 *func_020081DC(void *, int, u16);
-extern u16 FILE_UTIL_Get_12B0(u16);
+extern u16 FILE_UTIL_GetMachineMove(u16);
 
 u32 SCRCMD_POKEMON_FLD_GetRandomBagPocketValue(void *a, void *b)
 {
@@ -45,7 +45,7 @@ u32 SCRCMD_POKEMON_FLD_GetRandomBagPocketValue(void *a, void *b)
     if (t == 0)
         v = 0;
     else
-        v = FILE_UTIL_Get_12B0(*func_020081DC(sv, k, id));
+        v = FILE_UTIL_GetMachineMove(*func_020081DC(sv, k, id));
     *out = v;
     return 0;
 }

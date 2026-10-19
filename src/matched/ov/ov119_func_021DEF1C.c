@@ -24,7 +24,7 @@
  *   POKETRADE_PROC_IsMonValid 0x021D89EC thumb ov119
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
- *   FILE_UTIL_Check136C 0x0202136C thumb
+ *   FILE_UTIL_IsMailItem 0x0202136C thumb
  *   MAIL_Create 0x02008F08 thumb
  *   func_02008F88 0x02008F88 thumb
  *   POKE_TOOL_SetDefaultName 0x02019B58 thumb
@@ -59,7 +59,7 @@ struct U16Vec;
 extern int POKETRADE_PROC_IsMonValid(const u8 *p);
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
 extern void POKE_TOOL_SetPartyValue(void *,u32,u32);
-extern u32 FILE_UTIL_Check136C(u16);
+extern u32 FILE_UTIL_IsMailItem(u16);
 extern void *MAIL_Create(int);
 extern void func_02008F88(struct Sub02008F80Obj *obj, const void *src);
 extern void POKE_TOOL_SetDefaultName(void *);
@@ -104,7 +104,7 @@ void POKETRADE_NEGO_StepPollMonCheck(u8 *p)
                             bank=func_02045B38(0,2,81,((struct Obj01927 *)p)->f5F4);
                             text=func_02045EC0(bank,15);
                             MSGDATA_Delete(bank);
-                            if(FILE_UTIL_Check136C(value)) {
+                            if(FILE_UTIL_IsMailItem(value)) {
                                 name=MAIL_Create(*heap);
                                 POKE_TOOL_GetPartyValue(mon,167,(u32)name);
                                 func_02008F88(name,STRBUF_GetChars(text));

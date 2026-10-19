@@ -19,7 +19,7 @@
  *   BG_SYS_PushTile 0x020409B4 arm
  *   BG_SYS_Init 0x02040C14 arm
  *   BG_SYS_InitSlot 0x020414C4 arm
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  *   d_021C37F4 0x021C37F4 data a4
  *   d_021C396C 0x021C396C data a4
  *   d_021C382C 0x021C382C data a4
@@ -47,7 +47,7 @@ extern void BG_SYS_FreeSlot(u32);
 extern void BG_SYS_PushTile(u32);
 extern void BG_SYS_Init(u32, u32, u32, u32);
 extern void BG_SYS_InitSlot(u32 idx);
-extern void BG_SYS_SetVisibleLayer(int, u16);
+extern void BG_SYS_SetPriority(int, u16);
 void WIFICLUB_InitBackgrounds(u16 heap)
 {
     Disp d;
@@ -87,10 +87,10 @@ void WIFICLUB_InitBackgrounds(u16 heap)
     BG_SYS_InitBgLayer(7, (const struct BgTemplate *)(&b7), 0);
     BG_SYS_FreeSlot(7);
     for (; i < 7; i++) BG_SYS_InitSlot((u8)i);
-    BG_SYS_SetVisibleLayer(0, 3);
-    BG_SYS_SetVisibleLayer(1, 1);
-    BG_SYS_SetVisibleLayer(3, 1);
-    BG_SYS_SetVisibleLayer(2, 0);
+    BG_SYS_SetPriority(0, 3);
+    BG_SYS_SetPriority(1, 1);
+    BG_SYS_SetPriority(3, 1);
+    BG_SYS_SetPriority(2, 0);
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;
 }

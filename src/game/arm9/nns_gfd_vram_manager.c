@@ -1,7 +1,7 @@
 /*
  * file:     nns_gfd_vram_manager.c
  * unit:     yes
- * function: NNS_G2dCallVtableSlot0, NNS_G2dCallVtableSlot1, NNS_G2dInitCellBank, NNS_G2dStubReturnZeroA, NNS_G2dStubReturnMinusOneA, NNS_G2dStubReturnZeroB, NNS_G2dStubReturnMinusOneB, NNS_G2dSetupCellBank, NNS_GfdInitVramManager, NNSi_GfdUpdateVramManager, NNSi_GfdDefaultAllocTexVram, NNSi_GfdDefaultFreeTexVram, NNS_GfdSaveVramManager, NNS_GfdLoadVramManager
+ * function: NNS_FndAllocFromAllocator, NNS_FndFreeToAllocator, NNS_FndInitAllocatorForExpHeap, NNS_G2dStubReturnZeroA, NNS_G2dStubReturnMinusOneA, NNS_G2dStubReturnZeroB, NNS_G2dStubReturnMinusOneB, NNSi_GfdSetTexVramSlotOrder, NNS_GfdInitVramManager, NNSi_GfdUpdateVramManager, NNSi_GfdDefaultAllocTexVram, NNSi_GfdDefaultFreeTexVram, NNS_GfdSaveVramManager, NNS_GfdLoadVramManager
  * address:  0x02061330
  * region:   arm9
  * compiler: dsi/../2.0/sp2
@@ -53,11 +53,11 @@ typedef struct NNSGfdTexVramSlot {
     u32 base;      /* 0x14 */
 } NNSGfdTexVramSlot;
 
-void NNS_G2dCallVtableSlot0(NNSiFndObject *pObject, u32 value);
+void NNS_FndAllocFromAllocator(NNSiFndObject *pObject, u32 value);
 
-void NNS_G2dCallVtableSlot1(NNSiFndObject *pObject, u32 value);
+void NNS_FndFreeToAllocator(NNSiFndObject *pObject, u32 value);
 
-void NNS_G2dInitCellBank(NNSG2dCellBank *pCellBank, u32 start, u32 count);
+void NNS_FndInitAllocatorForExpHeap(NNSG2dCellBank *pCellBank, u32 start, u32 count);
 
 int NNS_G2dStubReturnZeroA(void);
 
@@ -67,7 +67,7 @@ int NNS_G2dStubReturnZeroB(void);
 
 int NNS_G2dStubReturnMinusOneB(void);
 
-void NNS_G2dSetupCellBank(u32 a, u32 b, u32 c, u32 d, u32 e);
+void NNSi_GfdSetTexVramSlotOrder(u32 a, u32 b, u32 c, u32 d, u32 e);
 
 void NNS_GfdInitVramManager(u32 mode, u32 flag);
 
@@ -97,8 +97,8 @@ extern NNSGfdTexVramSlot *g_020A8158[5];
 
 /*
  * functions:
- *   NNS_G2dCallVtableSlot0  0x02061330  arm
- *   NNS_G2dCallVtableSlot1  0x02061344  arm
+ *   NNS_FndAllocFromAllocator  0x02061330  arm
+ *   NNS_FndFreeToAllocator  0x02061344  arm
  *
  * Two two-argument vtable forwarders, 20 bytes each, no relocations at all.
  * The object at r0 holds a pointer to a table of function pointers at r0[0];
@@ -123,12 +123,12 @@ extern NNSGfdTexVramSlot *g_020A8158[5];
  *       --addr 0x02061330 --arm
  *   EXACT, 40 bytes, 2 functions, 0 relocation sites.
  */
-void NNS_G2dCallVtableSlot0(NNSiFndObject *o, u32 x)
+void NNS_FndAllocFromAllocator(NNSiFndObject *o, u32 x)
 {
     o->vtable->method0(o, x);
 }
 
-void NNS_G2dCallVtableSlot1(NNSiFndObject *o, u32 x)
+void NNS_FndFreeToAllocator(NNSiFndObject *o, u32 x)
 {
     o->vtable->method1(o, x);
 }
@@ -137,7 +137,7 @@ void NNS_G2dCallVtableSlot1(NNSiFndObject *o, u32 x)
  *           NNS_G2dStubReturnMinusOneB
  *
  * functions:
- *   NNS_G2dInitCellBank  0x02061358  arm
+ *   NNS_FndInitAllocatorForExpHeap  0x02061358  arm
  *   NNS_G2dStubReturnZeroA  0x02061370  arm
  *   NNS_G2dStubReturnMinusOneA  0x02061378  arm
  *   NNS_G2dStubReturnZeroB  0x02061380  arm
@@ -151,7 +151,7 @@ void NNS_G2dCallVtableSlot1(NNSiFndObject *o, u32 x)
  * `.word`s between two literal pools -- see
  * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  They are read
  * out of the bytes here, and folding them into this unit is also what makes
- * the unit EXACT rather than EXACT*: on its own, NNS_G2dInitCellBank's inferred
+ * the unit EXACT rather than EXACT*: on its own, NNS_FndInitAllocatorForExpHeap's inferred
  * extent runs 56 bytes to the next label at 0x02061390.
  *
  * The store order in the first function is the whole of its codegen: the zero
@@ -173,7 +173,7 @@ void NNS_G2dCallVtableSlot1(NNSiFndObject *o, u32 x)
  *       --addr 0x02061358 --arm
  *   EXACT, 56 bytes, 5 functions, 1 relocation site, resolved.
  */
-void NNS_G2dInitCellBank(NNSG2dCellBank *s, u32 a, u32 b)
+void NNS_FndInitAllocatorForExpHeap(NNSG2dCellBank *s, u32 a, u32 b)
 {
     s->table = (void *)g_020A1708;
     s->flags = 0;
@@ -203,11 +203,11 @@ int NNS_G2dStubReturnMinusOneB(void)  { return -1; }
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/NNS_G2dSetupCellBank.c \
- *       --func NNS_G2dSetupCellBank --addr 0x02061390 --arm --cc 1.1p1
+ *   python tools/match.py one --src src/pending/NNSi_GfdSetTexVramSlotOrder.c \
+ *       --func NNSi_GfdSetTexVramSlotOrder --addr 0x02061390 --arm --cc 1.1p1
  *   EXACT, 72 bytes, 2 relocation sites, all 2 resolved.
  */
-void NNS_G2dSetupCellBank(u32 a, u32 b, u32 c, u32 d, u32 e)
+void NNSi_GfdSetTexVramSlotOrder(u32 a, u32 b, u32 c, u32 d, u32 e)
 {
     g_020A8150[2] = &g_020A816C[a];
     g_020A8150[3] = &g_020A816C[b];
@@ -218,7 +218,7 @@ void NNS_G2dSetupCellBank(u32 a, u32 b, u32 c, u32 d, u32 e)
 
 /*
  * The mode selector of the NNS G2D multi-cell renderer.  It builds one of two
- * five-slot tables through NNS_G2dSetupCellBank depending on the mode, publishes the
+ * five-slot tables through NNSi_GfdSetTexVramSlotOrder depending on the mode, publishes the
  * mode word at 0x02146B70, re-runs NNSi_GfdUpdateVramManager (the table walker that lives
  * just past this function), and installs the two callbacks at 0x020A8140 /
  * 0x020A8144 when the second argument is non-zero.
@@ -230,7 +230,7 @@ void NNS_G2dSetupCellBank(u32 a, u32 b, u32 c, u32 d, u32 e)
  * THE COMPILER PIN.  The C below is, character for character, the body
  * docs/notes/pkt_020613D8.c.txt parked as DIFF.  The residue that note records
  * -- "this compiler cross-jumps the two calls' identical two-instruction tails
- * (`str ip, [sp]; bl NNS_G2dSetupCellBank`) into one shared block, the original keeps
+ * (`str ip, [sp]; bl NNSi_GfdSetTexVramSlotOrder`) into one shared block, the original keeps
  * both copies", 128 compiled against 136 -- is a FRONT-END artefact, not a
  * source-shape question.  Under `../2.0/sp2` the same source keeps both copies
  * and is byte-exact at 136.  The note's sweep (separate `if`s, `else if`, an
@@ -257,9 +257,9 @@ void NNS_G2dSetupCellBank(u32 a, u32 b, u32 c, u32 d, u32 e)
 void NNS_GfdInitVramManager(u32 mode, u32 flag)
 {
     if (mode <= 2) {
-        NNS_G2dSetupCellBank(4, 3, 2, 0, 1);
+        NNSi_GfdSetTexVramSlotOrder(4, 3, 2, 0, 1);
     } else {
-        NNS_G2dSetupCellBank(4, 3, 0, 2, 1);
+        NNSi_GfdSetTexVramSlotOrder(4, 3, 0, 2, 1);
     }
 
     g_02146B70 = (u16)mode;

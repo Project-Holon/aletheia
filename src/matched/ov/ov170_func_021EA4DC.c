@@ -11,7 +11,7 @@
  *
  * symbols:
  *   CURSOR_MOVE_GetCurrent 0x020260E0 thumb
- *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb
+ *   BOX2_MAIN_RefreshCurrentBoxMonInfo 0x021DEFEC thumb
  *   BOX2_MAIN_ResetBoxView 0x021DF040 thumb
  *   BOX2_SEQ_CreateB 0x021EA728 thumb
  *   BOX2_SEQ_SetSeqThird 0x021E8FC0 thumb
@@ -26,7 +26,7 @@ typedef struct {
 typedef unsigned char  u8;
 struct Sound;
 extern u8 CURSOR_MOVE_GetCurrent(struct Sound *obj);
-extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
+extern void BOX2_MAIN_RefreshCurrentBoxMonInfo(char *p, int b);
 extern void BOX2_MAIN_ResetBoxView(char *p);
 extern void BOX2_SEQ_CreateB(void *p);
 extern int BOX2_SEQ_SetSeqThird(char *p, int a, int b);
@@ -38,7 +38,7 @@ int BOX2_SEQ_UpdateGridCursor(Obj *p)
 {
     unsigned char v = CURSOR_MOVE_GetCurrent(OBJ(p));
     if (v < 0x24)
-        BOX2_MAIN_ChangeBoxFormPreserve((char *)p, v);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p, v);
     else
         BOX2_MAIN_ResetBoxView((char *)p);
     BOX2_SEQ_CreateB(p);

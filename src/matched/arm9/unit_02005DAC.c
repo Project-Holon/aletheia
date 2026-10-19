@@ -55,7 +55,7 @@
  * --suggest-split` is what found the cut.  GFL_USE_IsBgmFading was already matched
  * on its own as src/matched/GFL_USE_IsBgmFading.c.
  *
- * GFL_USE_SetBgmPlayerParam, 20 bytes, stays open, and no cut can help: it is the only
+ * GFL_USE_SetBgmPaused, 20 bytes, stays open, and no cut can help: it is the only
  * caller of 0x02072E8C anywhere in the 3.9 MB image, overlays included, so
  * the single witness for that call is the call itself.  It closes the day
  * the image acquires a second caller.  See "The honesty rule" in

@@ -1,7 +1,7 @@
 /*
  * file:     tr_ai.c
  * unit:     yes
- * function: TR_AI_Create, TR_AI_Think, TR_AI_Delete, TR_AI_Start, TR_AI_GetChosenMove, TR_AI_GetChosenTarget, TR_AI_ThinkSingle, TR_AI_ThinkMulti, TR_AI_RunScripts, TR_AI_CmdIfRandomLess, TR_AI_CmdIfRandomGreater, TR_AI_CmdIfRandomEqual, TR_AI_CmdIfRandomNotEqual, TR_AI_CompareRandom, TR_AI_CmdAddScore, TR_AI_CmdIfHpLess, TR_AI_CmdIfHpGreater, TR_AI_CmdIfHpEqual, TR_AI_CmdIfHpNotEqual, TR_AI_CompareHpRatio, TR_AI_CmdIfHasMajorStatus, TR_AI_CmdIfNoMajorStatus, TR_AI_CompareMajorStatus, TR_AI_CmdIfSick, TR_AI_CmdIfNotSick, TR_AI_CompareSick, TR_AI_CmdIfSickContKind, TR_AI_CmdIfNotSickContKind, TR_AI_CompareSickContKind, TR_AI_CmdIfContFlag, TR_AI_CmdIfNotContFlag, TR_AI_CompareContFlag, TR_AI_CmdIfSideEffect, TR_AI_CmdIfNotSideEffect, TR_AI_CompareSideEffect, TR_AI_CmdIfValueLess, TR_AI_CmdIfValueGreater, TR_AI_CmdIfValueEqual, TR_AI_CmdIfValueNotEqual, TR_AI_CmdIfValueAllBits, TR_AI_CmdIfValueNoBits, TR_AI_CompareValue, TR_AI_CmdIfMoveEqual, TR_AI_CmdIfMoveNotEqual, TR_AI_CompareMove, TR_AI_CmdIfValueInList, TR_AI_CmdIfValueNotInList, TR_AI_CmdIfHasMoveWithParam3, TR_AI_CmdIfNoMoveWithParam3, TR_AI_CmdLoadTurnCount, TR_AI_CmdLoadType, TR_AI_CmdLoadMovePower, TR_AI_CmdLoadMoveDamageRank, TR_AI_CmdLoadLastUsedMove, TR_AI_CmdCompareSpeed, TR_AI_CmdLoadAbleBackupCount, TR_AI_CmdLoadMoveParam28, TR_AI_CmdLoadAbility, TR_AI_CmdCompareMoveEffectiveness, TR_AI_CmdIfAnyPartyMajorStatus, TR_AI_CmdIfNoPartyMajorStatus, TR_AI_ComparePartyMajorStatus, TR_AI_CmdLoadFieldCountdown, TR_AI_CmdIfMoveParam28Equal, TR_AI_CmdIfMoveParam28NotEqual, TR_AI_CompareMoveParam28, TR_AI_CmdIfPokeValueLess, TR_AI_CmdIfPokeValueGreater, TR_AI_CmdIfPokeValueEqual, TR_AI_CmdIfPokeValueNotEqual, TR_AI_ComparePokeValue, TR_AI_CmdIfDamageAbove, TR_AI_CmdIfDamageBelow, TR_AI_CompareDamage, TR_AI_CmdIfKnowsMove, TR_AI_CmdIfNotKnowsMove, TR_AI_CompareKnowsMove, TR_AI_CmdIfKnowsMoveParam28, TR_AI_CmdIfNotKnowsMoveParam28, TR_AI_CompareKnowsMoveParam28,TR_AI_CmdNop2,TR_AI_CmdSetNoMoveFlag,TR_AI_CmdNop3,TR_AI_CmdNop4, TR_AI_CmdLoadItem, TR_AI_CmdLoadItemEffect, TR_AI_CmdLoadPokeValue12, TR_AI_CmdLoadNoSubstitute, TR_AI_CmdLoadPokeValueByte, TR_AI_CmdLoadConsumedItem, TR_AI_CmdNop5, TR_AI_CmdMapMoveParam3, TR_AI_CmdMapMoveParam28, TR_AI_CmdLoadMoveStreak, TR_AI_CmdJump, TR_AI_CmdEnd, TR_AI_CmdCompareStat15, TR_AI_CmdIfTargetSick11, TR_AI_CmdIfTargetNotSick11, TR_AI_CompareTargetSick11, TR_AI_CmdIfSameSide, TR_AI_CmdLoadHasType, TR_AI_CmdLoadAbilityEquals, TR_AI_CmdJumpIfContFlag13, TR_AI_CmdJumpIfItemEquals, TR_AI_CmdCompareStaticSlot, TR_AI_CmdLoadSideEffect, TR_AI_CmdIfAnyPartyHpRatio, TR_AI_CmdIfAnyPartyMovePpLost, TR_AI_CmdLoadItemFieldNoSick19, TR_AI_GetMovePpChecked, TR_AI_CmdJumpIfNoMoveValue, TR_AI_GetMoveParam2, TR_AI_GetLastMoveParam2, TR_AI_CmdLoadFasterCount, TR_AI_CmdLoadTurnCountOfPoke, TR_AI_CmdJumpIfPartyDamage, TR_AI_CmdJumpIfSuperEffective, TR_AI_CmdJumpIfPredictedDamage, TR_AI_CmdLoadPokeValueSimple, TR_AI_CmdLoadPokeValueTwoArgs, TR_AI_CmdLoadBestDamagePoke, TR_AI_CmdIfFainted, TR_AI_CmdIfNotFainted, TR_AI_CompareFainted, TR_AI_CmdLoadPokeValue17, TR_AI_CmdJumpIfSubstitute, TR_AI_CmdLoadSpecies, TR_AI_CmdIfLess, TR_AI_CmdIfGreater, TR_AI_CmdIfEqual, TR_AI_CmdIfNotEqual, TR_AI_CompareGeneric, TR_AI_CmdJumpIfMoveParam28, TR_AI_CmdJumpIfFieldEffect, TR_AI_CmdCompareStat0, TR_AI_CmdCompareStat1, TR_AI_CmdCompareStat2, TR_AI_CompareStat, TR_AI_Compare, TR_AI_GetPosition, TR_AI_GetAbility, TR_AI_GetPoke, TR_AI_GetSlotPoke, TR_AI_ResetScores, TR_AI_RememberLastMove, TR_AI_GetMoveParam, TR_AI_GetMoveFlag, TR_AI_GetBestDamage, TR_AI_GetItemField, TR_AI_InitScriptCache, TR_AI_FreeScriptCache, TR_AI_LoadScript, TR_AI_ReleaseScript
+ * function: TR_AI_Create, TR_AI_Think, TR_AI_Delete, TR_AI_Start, TR_AI_GetChosenMove, TR_AI_GetChosenTarget, TR_AI_ThinkSingle, TR_AI_ThinkMulti, TR_AI_RunScripts, TR_AI_CmdIfRandomLess, TR_AI_CmdIfRandomGreater, TR_AI_CmdIfRandomEqual, TR_AI_CmdIfRandomNotEqual, TR_AI_CompareRandom, TR_AI_CmdAddScore, TR_AI_CmdIfHpLess, TR_AI_CmdIfHpGreater, TR_AI_CmdIfHpEqual, TR_AI_CmdIfHpNotEqual, TR_AI_CompareHpRatio, TR_AI_CmdIfHasMajorStatus, TR_AI_CmdIfNoMajorStatus, TR_AI_CompareMajorStatus, TR_AI_CmdIfSick, TR_AI_CmdIfNotSick, TR_AI_CompareSick, TR_AI_CmdIfSickContKind, TR_AI_CmdIfNotSickContKind, TR_AI_CompareSickContKind, TR_AI_CmdIfContFlag, TR_AI_CmdIfNotContFlag, TR_AI_CompareContFlag, TR_AI_CmdIfSideEffect, TR_AI_CmdIfNotSideEffect, TR_AI_CompareSideEffect, TR_AI_CmdIfValueLess, TR_AI_CmdIfValueGreater, TR_AI_CmdIfValueEqual, TR_AI_CmdIfValueNotEqual, TR_AI_CmdIfValueAllBits, TR_AI_CmdIfValueNoBits, TR_AI_CompareValue, TR_AI_CmdIfMoveEqual, TR_AI_CmdIfMoveNotEqual, TR_AI_CompareMove, TR_AI_CmdIfValueInList, TR_AI_CmdIfValueNotInList, TR_AI_CmdIfHasMoveWithParam3, TR_AI_CmdIfNoMoveWithParam3, TR_AI_CmdLoadTurnCount, TR_AI_CmdLoadType, TR_AI_CmdLoadMovePower, TR_AI_CmdLoadMoveDamageRank, TR_AI_CmdLoadLastUsedMove, TR_AI_CmdCompareSpeed, TR_AI_CmdLoadAbleBackupCount, TR_AI_CmdLoadMoveParam28, TR_AI_CmdLoadAbility, TR_AI_CmdCompareMoveEffectiveness, TR_AI_CmdIfAnyPartyMajorStatus, TR_AI_CmdIfNoPartyMajorStatus, TR_AI_ComparePartyMajorStatus, TR_AI_CmdLoadFieldCountdown, TR_AI_CmdIfMoveParam28Equal, TR_AI_CmdIfMoveParam28NotEqual, TR_AI_CompareMoveParam28, TR_AI_CmdIfPokeValueLess, TR_AI_CmdIfPokeValueGreater, TR_AI_CmdIfPokeValueEqual, TR_AI_CmdIfPokeValueNotEqual, TR_AI_ComparePokeValue, TR_AI_CmdIfDamageAbove, TR_AI_CmdIfDamageBelow, TR_AI_CompareDamage, TR_AI_CmdIfKnowsMove, TR_AI_CmdIfNotKnowsMove, TR_AI_CompareKnowsMove, TR_AI_CmdIfKnowsMoveParam28, TR_AI_CmdIfNotKnowsMoveParam28, TR_AI_CompareKnowsMoveParam28,TR_AI_CmdNop2,TR_AI_CmdSetNoMoveFlag,TR_AI_CmdNop3,TR_AI_CmdNop4, TR_AI_CmdLoadItem, TR_AI_CmdLoadItemEffect, TR_AI_CmdLoadPokeValue12, TR_AI_CmdLoadNoSubstitute, TR_AI_CmdLoadPokeValueByte, TR_AI_CmdLoadConsumedItem, TR_AI_CmdNop5, TR_AI_CmdMapMoveParam3, TR_AI_CmdMapMoveParam28, TR_AI_CmdLoadMoveStreak, TR_AI_CmdJump, TR_AI_CmdEnd, TR_AI_CmdCompareStat15, TR_AI_CmdIfTargetSick11, TR_AI_CmdIfTargetNotSick11, TR_AI_CompareTargetSick11, TR_AI_CmdIfSameSide, TR_AI_CmdLoadHasType, TR_AI_CmdLoadAbilityEquals, TR_AI_CmdJumpIfContFlag13, TR_AI_CmdJumpIfItemEquals, TR_AI_CmdCompareStaticSlot, TR_AI_CmdLoadSideEffect, TR_AI_CmdIfAnyPartyHpRatio, TR_AI_CmdIfAnyPartyMovePpLost, TR_AI_CmdLoadItemFieldNoSick19, TR_AI_CmdLoadMovePp, TR_AI_CmdJumpIfAllMovesUsed, TR_AI_CmdLoadMoveParam2, TR_AI_CmdLoadLastMoveParam2, TR_AI_CmdLoadFasterCount, TR_AI_CmdLoadTurnCountOfPoke, TR_AI_CmdJumpIfPartyDamage, TR_AI_CmdJumpIfSuperEffective, TR_AI_CmdJumpIfPredictedDamage, TR_AI_CmdLoadStatBoostTotal, TR_AI_CmdLoadPokeValueDiffFromSelf, TR_AI_CmdLoadBestDamagePoke, TR_AI_CmdIfFainted, TR_AI_CmdIfNotFainted, TR_AI_CompareFainted, TR_AI_CmdLoadPokeValue17, TR_AI_CmdJumpIfSubstitute, TR_AI_CmdLoadSpecies, TR_AI_CmdIfLess, TR_AI_CmdIfGreater, TR_AI_CmdIfEqual, TR_AI_CmdIfNotEqual, TR_AI_CompareGeneric, TR_AI_CmdJumpIfMoveParam28, TR_AI_CmdJumpIfFieldEffect, TR_AI_CmdCompareStat0, TR_AI_CmdCompareStat1, TR_AI_CmdCompareStat2, TR_AI_CompareStat, TR_AI_Compare, TR_AI_GetPosition, TR_AI_GetAbility, TR_AI_GetPoke, TR_AI_GetSlotPoke, TR_AI_ResetScores, TR_AI_RememberLastMove, TR_AI_GetMoveParam, TR_AI_GetMoveFlag, TR_AI_GetBestDamage, TR_AI_GetItemField, TR_AI_InitScriptCache, TR_AI_FreeScriptCache, TR_AI_LoadScript, TR_AI_ReleaseScript
  * address:  0x02187F00
  * region:   ov096
  * compiler: dsi/1.1p1
@@ -15,7 +15,7 @@
  * symbols:
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   FILE_UTIL_Create_0F14 0x02020F14 thumb
+ *   FILE_UTIL_CreateItemArcHandle 0x02020F14 thumb
  *   BTL_MAIN_GetRule 0x021B8588 thumb ov093
  *   BTL_MAIN_GetCompetitor 0x021B86B8 thumb ov093
  *   VM_Create 0x0201121C thumb
@@ -48,14 +48,14 @@
  *   BTL_POKEPARAM_GetMajorStatusIndex  0x021D62A8  thumb  ov093
  *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
  *   BTL_POKEPARAM_GetSickContRaw  0x021D6314  thumb  ov093
- *   BTLV_CORE_IsSlotKind1Index15  0x021E8A78  thumb  ov093
+ *   BTL_SICKCONT_IsKind1Index15  0x021E8A78  thumb  ov093
  *   BTL_POKEPARAM_TestContFlag  0x021D5BDC  thumb  ov093
  *   BTL_SERVER_FLOW_GetSideEffectEntry  0x021C82D0  thumb  ov093
  *   VM_Jump  0x020113B0  thumb
  *   BTL_SERVER_FLOW_GetTurnCount 0x021C8138 thumb ov093
  *   BTL_POKEPARAM_GetTypePair  0x021D57FC  thumb  ov093
- *   BTLV_CORE_GetHighByte  0x021E8CFC  thumb  ov093
- *   BTLV_CORE_GetLowByte  0x021E8D04  thumb  ov093
+ *   BTL_TYPEPAIR_GetHigh  0x021E8CFC  thumb  ov093
+ *   BTL_TYPEPAIR_GetLow  0x021E8D04  thumb  ov093
  *   WAZA_TOOL_GetPower 0x0201C1D8 thumb
  *   BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *   BTL_SERVER_FLOW_CalcPredictedMoveDamage 0x021C7E14 thumb ov093
@@ -87,7 +87,7 @@
  *   BTL_SIDE_GetPokeAtPos  0x021B98AC  thumb  ov093
  *   BTL_SLOT_GetPokeParam  0x021B9C00  thumb  ov093
  *   FILE_UTIL_LoadArcMember  0x02020F20  thumb
- *   FILE_UTIL_Get_1014  0x02021014  thumb
+ *   FILE_UTIL_GetItemRecordParam  0x02021014  thumb
  *   gTrAiScriptCache 0x0218A7C0 data a4
  *   ARC_TOOL_LoadHandleMember  0x02049250  arm
  *   WAZA_TOOL_GetFlag  0x0201BEB8  thumb  arm9
@@ -103,7 +103,7 @@ extern SickCont BTL_POKEPARAM_GetSickContRaw(struct BtlPokeParam *p, int i);
 typedef struct { u8 id[4]; u8 ref[4]; void *obj[4]; } TrAiScriptCache;
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *ARC_TOOL_CreateHandle(u32 id, u16 heap);
-extern void *FILE_UTIL_Create_0F14(u16 heap);
+extern void *FILE_UTIL_CreateItemArcHandle(u16 heap);
 extern u32 BTL_MAIN_GetRule(void **p);
 extern void *BTL_MAIN_GetCompetitor(void ***p);
 extern ScriptVm *VM_Create(u32 heapId, const struct ScriptVmParams *params);
@@ -132,14 +132,14 @@ extern u32 VM_GetU32(ScriptVm *p);
 extern int BTL_POKEPARAM_GetHpRatioFixed(struct BtlPokeParam *p);
 extern int BTL_POKEPARAM_GetMajorStatusIndex(struct BtlPokeParam *p);
 extern int BTL_POKEPARAM_HasSick(struct BtlPokeParam *p, int i);
-extern int BTLV_CORE_IsSlotKind1Index15(SickCont);
+extern int BTL_SICKCONT_IsKind1Index15(SickCont);
 extern int BTL_POKEPARAM_TestContFlag(struct BtlPokeParam *p, u32 n);
 extern int BTL_SERVER_FLOW_GetSideEffectEntry(void *unused, unsigned int v, int k);
 extern void VM_Jump(ScriptVm *c, u32 v);
 extern unsigned short BTL_SERVER_FLOW_GetTurnCount(void *);
 extern u16 BTL_POKEPARAM_GetTypePair(struct BtlPokeParam *p);
-extern u8 BTLV_CORE_GetHighByte(int v);
-extern int BTLV_CORE_GetLowByte(int x);
+extern u8 BTL_TYPEPAIR_GetHigh(int v);
+extern int BTL_TYPEPAIR_GetLow(int x);
 extern u16 WAZA_TOOL_GetPower(void *p);
 extern u8 BTL_POKEPARAM_GetPokeId(struct BtlPokeParam *);
 extern u16 BTL_SERVER_FLOW_CalcPredictedMoveDamage(u8 *p, u8 a, u8 b, u32 c, int e0, int e1);
@@ -173,7 +173,7 @@ extern struct BtlPokeParam *BTL_SLOT_GetPokeParam(void *p, u32 i);
 extern int WAZA_TOOL_GetParam(int, int);
 extern int WAZA_TOOL_GetFlag(int, int);
 extern void *FILE_UTIL_LoadArcMember(void *, int, u16);
-extern u32 FILE_UTIL_Get_1014(void *p, u32 sel);
+extern u32 FILE_UTIL_GetItemRecordParam(void *p, u32 sel);
 extern void *ARC_TOOL_LoadHandleMember(void *arc, u32 member, u32 heap);
 ScriptVm *TR_AI_Create(void **battleMain, u32 serverFlow, u32 sideTable, u32 scriptMask, u16 heapId);
 int TR_AI_Think(ScriptVm *vm);
@@ -289,17 +289,17 @@ int TR_AI_CmdLoadSideEffect(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdIfAnyPartyHpRatio(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdIfAnyPartyMovePpLost(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdLoadItemFieldNoSick19(ScriptVm *vm, TrAiWork *ai);
-int TR_AI_GetMovePpChecked(ScriptVm *vm, TrAiWork *ai);
-int TR_AI_CmdJumpIfNoMoveValue(ScriptVm *vm, TrAiWork *ai);
-int TR_AI_GetMoveParam2(ScriptVm *vm, TrAiWork *ai);
-int TR_AI_GetLastMoveParam2(ScriptVm *vm, TrAiWork *ai);
+int TR_AI_CmdLoadMovePp(ScriptVm *vm, TrAiWork *ai);
+int TR_AI_CmdJumpIfAllMovesUsed(ScriptVm *vm, TrAiWork *ai);
+int TR_AI_CmdLoadMoveParam2(ScriptVm *vm, TrAiWork *ai);
+int TR_AI_CmdLoadLastMoveParam2(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdLoadFasterCount(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdLoadTurnCountOfPoke(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdJumpIfPartyDamage(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdJumpIfSuperEffective(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdJumpIfPredictedDamage(ScriptVm *vm, TrAiWork *ai);
-int TR_AI_CmdLoadPokeValueSimple(ScriptVm *vm, TrAiWork *ai);
-int TR_AI_CmdLoadPokeValueTwoArgs(ScriptVm *vm, TrAiWork *ai);
+int TR_AI_CmdLoadStatBoostTotal(ScriptVm *vm, TrAiWork *ai);
+int TR_AI_CmdLoadPokeValueDiffFromSelf(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_NopA(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_NopB(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_NopC(ScriptVm *vm, TrAiWork *ai);
@@ -349,7 +349,7 @@ ScriptVm *TR_AI_Create(void **battleMain, u32 serverFlow, u32 sideTable, u32 scr
     ai->cmdReturn = 1;
     ai->fullMask = scriptMask;
     ai->scriptArchive = ARC_TOOL_CreateHandle(0xAB, heapId);
-    ai->itemArchive = FILE_UTIL_Create_0F14(heapId);
+    ai->itemArchive = FILE_UTIL_CreateItemArcHandle(heapId);
     ai->battleMain = battleMain;
     ai->serverFlow = (void *)serverFlow;
     ai->sideTable = (void *)sideTable;
@@ -851,7 +851,7 @@ int TR_AI_CompareSickContKind(ScriptVm *vm, TrAiWork *ai, int op) {
     matches = 0;
     if (BTL_POKEPARAM_HasSick(poke, 5) != 0) {
         cont = BTL_POKEPARAM_GetSickContRaw(poke, 5);
-        if (BTLV_CORE_IsSlotKind1Index15(cont) != 0)
+        if (BTL_SICKCONT_IsKind1Index15(cont) != 0)
             matches = 1;
     }
     return TR_AI_Compare(vm, op, matches, 1, jumpOffset);
@@ -1044,31 +1044,31 @@ int TR_AI_CmdLoadType(ScriptVm *vm, TrAiWork *ai) {
     targetTypes = BTL_POKEPARAM_GetTypePair(ai->targetPoke);
     switch (kind) {
     case 1:
-        ai->workValue = BTLV_CORE_GetHighByte(selfTypes);
+        ai->workValue = BTL_TYPEPAIR_GetHigh(selfTypes);
         break;
     case 0:
-        ai->workValue = BTLV_CORE_GetHighByte(targetTypes);
+        ai->workValue = BTL_TYPEPAIR_GetHigh(targetTypes);
         break;
     case 3:
-        ai->workValue = BTLV_CORE_GetLowByte(selfTypes);
+        ai->workValue = BTL_TYPEPAIR_GetLow(selfTypes);
         break;
     case 2:
-        ai->workValue = BTLV_CORE_GetLowByte(targetTypes);
+        ai->workValue = BTL_TYPEPAIR_GetLow(targetTypes);
         break;
     case 4:
         ai->workValue = TR_AI_GetMoveParam(ai, ai->moveId, 0);
         break;
     case 6:
-        ai->workValue = BTLV_CORE_GetHighByte(BTL_POKEPARAM_GetTypePair(TR_AI_GetPoke(ai, TR_AI_GetPosition(ai, 3))));
+        ai->workValue = BTL_TYPEPAIR_GetHigh(BTL_POKEPARAM_GetTypePair(TR_AI_GetPoke(ai, TR_AI_GetPosition(ai, 3))));
         break;
     case 5:
-        ai->workValue = BTLV_CORE_GetHighByte(BTL_POKEPARAM_GetTypePair(TR_AI_GetPoke(ai, TR_AI_GetPosition(ai, 2))));
+        ai->workValue = BTL_TYPEPAIR_GetHigh(BTL_POKEPARAM_GetTypePair(TR_AI_GetPoke(ai, TR_AI_GetPosition(ai, 2))));
         break;
     case 8:
-        ai->workValue = BTLV_CORE_GetLowByte(BTL_POKEPARAM_GetTypePair(TR_AI_GetPoke(ai, TR_AI_GetPosition(ai, 3))));
+        ai->workValue = BTL_TYPEPAIR_GetLow(BTL_POKEPARAM_GetTypePair(TR_AI_GetPoke(ai, TR_AI_GetPosition(ai, 3))));
         break;
     case 7:
-        ai->workValue = BTLV_CORE_GetLowByte(BTL_POKEPARAM_GetTypePair(TR_AI_GetPoke(ai, TR_AI_GetPosition(ai, 2))));
+        ai->workValue = BTL_TYPEPAIR_GetLow(BTL_POKEPARAM_GetTypePair(TR_AI_GetPoke(ai, TR_AI_GetPosition(ai, 2))));
         break;
     }
     return ai->cmdReturn;
@@ -1587,7 +1587,7 @@ int TR_AI_CmdLoadHasType(ScriptVm *vm, TrAiWork *ai) {
     typeId = VM_GetU32(vm);
     pos = TR_AI_GetPosition(ai, side);
     types = BTL_POKEPARAM_GetTypePair(TR_AI_GetPoke(ai, pos));
-    if (typeId == BTLV_CORE_GetHighByte(types) || typeId == BTLV_CORE_GetLowByte(types)) {
+    if (typeId == BTL_TYPEPAIR_GetHigh(types) || typeId == BTL_TYPEPAIR_GetLow(types)) {
         hasType = 1;
     } else {
         hasType = 0;
@@ -1734,11 +1734,11 @@ int TR_AI_CmdLoadItemFieldNoSick19(ScriptVm *vm, TrAiWork *ai) {
     return ai->cmdReturn;
 }
 
-int TR_AI_GetMovePpChecked(ScriptVm *vm, TrAiWork *ai) {
+int TR_AI_CmdLoadMovePp(ScriptVm *vm, TrAiWork *ai) {
     ai->workValue = BTL_POKEPARAM_GetMovePPChecked(ai->selfPoke, ai->moveIndex); return ai->cmdReturn;
 }
 
-int TR_AI_CmdJumpIfNoMoveValue(ScriptVm *vm, TrAiWork *ai) {
+int TR_AI_CmdJumpIfAllMovesUsed(ScriptVm *vm, TrAiWork *ai) {
     int side;
     int jumpOffset;
     u8 pos;
@@ -1753,11 +1753,11 @@ int TR_AI_CmdJumpIfNoMoveValue(ScriptVm *vm, TrAiWork *ai) {
     return ai->cmdReturn;
 }
 
-int TR_AI_GetMoveParam2(ScriptVm *vm, TrAiWork *ai) {
+int TR_AI_CmdLoadMoveParam2(ScriptVm *vm, TrAiWork *ai) {
     ai->workValue = TR_AI_GetMoveParam(ai, ai->moveId, 2); return ai->cmdReturn;
 }
 
-int TR_AI_GetLastMoveParam2(ScriptVm *vm, TrAiWork *ai) {
+int TR_AI_CmdLoadLastMoveParam2(ScriptVm *vm, TrAiWork *ai) {
     int moveId;
     moveId = BTL_POKEPARAM_GetLastUsedMoveId((ai->targetPoke));
     if (moveId != 0) {
@@ -1876,7 +1876,7 @@ int TR_AI_CmdJumpIfPredictedDamage(ScriptVm *vm, TrAiWork *ai) {
  * with an int base and a local `int *p = b + 0x38` the store/adds order and
  * the r4/r5 roles were wrong.
  */
-int TR_AI_CmdLoadPokeValueSimple(ScriptVm *vm, TrAiWork *ai) {
+int TR_AI_CmdLoadStatBoostTotal(ScriptVm *vm, TrAiWork *ai) {
     u8 pos;
     int stat;
     u32 statSlot;
@@ -1900,7 +1900,7 @@ int TR_AI_CmdLoadPokeValueSimple(ScriptVm *vm, TrAiWork *ai) {
  * return-field stubs after the lead function (function_starts seeds).
  * The unit ends at 0x02189D48, where the next function starts.
  */
-int TR_AI_CmdLoadPokeValueTwoArgs(ScriptVm *vm, TrAiWork *ai) {
+int TR_AI_CmdLoadPokeValueDiffFromSelf(ScriptVm *vm, TrAiWork *ai) {
     int side;
     int valueKind;
     u8 pos;
@@ -2255,7 +2255,7 @@ int TR_AI_GetItemField(TrAiWork *ai, int itemId, int field) {
     int value;
     heapId = ai->heapId;
     itemData = FILE_UTIL_LoadArcMember(ai->itemArchive, itemId, heapId);
-    value = FILE_UTIL_Get_1014(itemData, field);
+    value = FILE_UTIL_GetItemRecordParam(itemData, field);
     GFL_HEAP_Free(itemData);
     return value;
 }

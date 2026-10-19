@@ -11,10 +11,10 @@
  *
  * symbols:
  *   BOX2_MAIN_GetPartyValueAt 0x021DD25C thumb
- *   FILE_UTIL_Check136C 0x0202136C thumb
+ *   FILE_UTIL_IsMailItem 0x0202136C thumb
  */
 
-extern unsigned FILE_UTIL_Check136C(unsigned short v);
+extern unsigned FILE_UTIL_IsMailItem(unsigned short v);
 extern unsigned BOX2_MAIN_GetPartyValueAt(void ***p, unsigned short a, int box, unsigned id, unsigned v);
 
 int BOX2_MAIN_CompareSlots(unsigned char *p, unsigned a, unsigned b)
@@ -23,9 +23,9 @@ int BOX2_MAIN_CompareSlots(unsigned char *p, unsigned a, unsigned b)
         return 0;
     if (BOX2_MAIN_GetPartyValueAt((void ***)p, b, p[0x14], 0x4C, 0) != 0)
         return 0;
-    if (FILE_UTIL_Check136C(BOX2_MAIN_GetPartyValueAt((void ***)p, a, p[0x14], 6, 0)) == 1)
+    if (FILE_UTIL_IsMailItem(BOX2_MAIN_GetPartyValueAt((void ***)p, a, p[0x14], 6, 0)) == 1)
         return 0;
-    if (FILE_UTIL_Check136C(BOX2_MAIN_GetPartyValueAt((void ***)p, b, p[0x14], 6, 0)) == 1)
+    if (FILE_UTIL_IsMailItem(BOX2_MAIN_GetPartyValueAt((void ***)p, b, p[0x14], 6, 0)) == 1)
         return 0;
     return 1;
 }

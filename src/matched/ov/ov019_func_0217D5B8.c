@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   UNION_ONESELF_CheckNetError  0x0217BB04  thumb  ov019
+ *   UNION_ONESELF_HandleNetError  0x0217BB04  thumb  ov019
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
  *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
@@ -19,8 +19,8 @@
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
- *   UNION_MAIN_RequestScene  0x0217422C  thumb  ov012
- *   UNION_MAIN_IsScenePending  0x02174268  thumb  ov012
+ *   UNION_SCENE_RequestScene  0x0217422C  thumb  ov012
+ *   UNION_SCENE_IsScenePending  0x02174268  thumb  ov012
  *   func_020307B0  0x020307B0  arm
  *   func_0200FB24  0x0200FB24  thumb
  *   UNION_ONESELF_SetNextPlayCategory  0x0217B8E4  thumb  ov019
@@ -57,7 +57,7 @@ typedef struct {
     u8 b1 : 1;
 } Obj;
 
-extern int UNION_ONESELF_CheckNetError(char *p);
+extern int UNION_ONESELF_HandleNetError(char *p);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
@@ -71,8 +71,8 @@ extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 struct Big;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
-extern void UNION_MAIN_RequestScene(u8 *p, int a, int b);
-extern int UNION_MAIN_IsScenePending(u8 *a);
+extern void UNION_SCENE_RequestScene(u8 *p, int a, int b);
+extern int UNION_SCENE_IsScenePending(u8 *a);
 extern u32 func_020307B0(void *p);
 extern u32 func_0200FB24(void);
 extern int UNION_ONESELF_SetNextPlayCategory(char *p, int v);
@@ -91,7 +91,7 @@ extern u8 d_021807E8[];
 int UNION_ONESELF_AppMain(u8 *a, Obj *b, u8 *c, u8 *d)
 {
     int *p;
-    if (*d != 4 && *d != 5 && *d != 8 && UNION_ONESELF_CheckNetError((char *)a) == 1)
+    if (*d != 4 && *d != 5 && *d != 8 && UNION_ONESELF_HandleNetError((char *)a) == 1)
         return 1;
     switch (*d) {
     case 0:
@@ -114,7 +114,7 @@ int UNION_ONESELF_AppMain(u8 *a, Obj *b, u8 *c, u8 *d)
                 p = func_02030734(0x41, 8, 1, (const char *)d_021807E8, 0xB9A);
                 p[1] = (*(int **)a)[2];
                 *(int * *)&((struct Obj00033 *)a)->f3558 = p;
-                UNION_MAIN_RequestScene(a, 3, (int)p);
+                UNION_SCENE_RequestScene(a, 3, (int)p);
             } else {
                 p = func_02030734(0x41, 0x18, 1, (const char *)d_021807E8, 0xBA2);
                 p[1] = (*(int **)a)[2];
@@ -122,13 +122,13 @@ int UNION_ONESELF_AppMain(u8 *a, Obj *b, u8 *c, u8 *d)
                 p[3] = (int)GAME_DATA_GetSaveControl((struct Big *)((*(int **)a)[2]));
                 p[4] = (int)GAME_DATA_GetTrainerRecord((int *)((*(int **)a)[2]));
                 *(int * *)&((struct Obj00033 *)a)->f3558 = p;
-                UNION_MAIN_RequestScene(a, 4, (int)p);
+                UNION_SCENE_RequestScene(a, 4, (int)p);
             }
             (*d)++;
         }
         break;
     case 4:
-        if (UNION_MAIN_IsScenePending(a) == 0) {
+        if (UNION_SCENE_IsScenePending(a) == 0) {
             func_020307B0(*(int * *)&((struct Obj00033 *)a)->f3558);
             *(int * *)&((struct Obj00033 *)a)->f3558 = 0;
             if (func_0200FB24() != 0) {

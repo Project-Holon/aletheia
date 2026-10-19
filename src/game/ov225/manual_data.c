@@ -22,7 +22,7 @@
  *   CGEAR_SAVE_GetObtained 0x020090E0 thumb
  *   GAME_DATA_GetEventWork 0x0201296C thumb
  *   ZONEDATA_CheckEventFlag 0x020142E8 thumb
- *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
+ *   MET_TRAINERS_GetFromSave  0x0200ED48  thumb
  *   MISC_SAVEDATA_TestBitmapBit  0x0200EDEC  thumb
  *   MISC_SAVEDATA_SetBitmapBit 0x0200EE14 thumb
  */
@@ -62,7 +62,7 @@ extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 
 extern unsigned ZONEDATA_CheckEventFlag(void *,int);
 
-extern void *MISC_SAVEDATA_GetBlock44(void *p);
+extern void *MET_TRAINERS_GetFromSave(void *p);
 
 extern int MISC_SAVEDATA_TestBitmapBit(char *obj, int i);
 
@@ -178,10 +178,10 @@ int MANUAL_COMMON_CheckUnlocked(void *unused,int kind,void *save)
 
 int MANUAL_COMMON_GetSaveValue(void *unused, int id, int save)
 {
-    return MISC_SAVEDATA_TestBitmapBit(MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl((struct Big *)save)), id);
+    return MISC_SAVEDATA_TestBitmapBit(MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)save)), id);
 }
 
-void MANUAL_COMMON_SetSaveValue(void *unused,int value,struct Big *save) {MISC_SAVEDATA_SetBitmapBit(MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(save)),value);}
+void MANUAL_COMMON_SetSaveValue(void *unused,int value,struct Big *save) {MISC_SAVEDATA_SetBitmapBit(MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl(save)),value);}
 
 int MANUAL_COMMON_IsValidKey(unsigned unused,unsigned key) {if(key!=65535)return 1;return 0;}
 

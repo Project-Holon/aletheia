@@ -20,11 +20,11 @@
  * however they are written.  Cutting in front of them leaves these five
  * clean.
  *
- * POKE_TOOL_SetDefaultName reaches POKE_TOOL_Dummy, which src/matched/unit_020185F0.c
+ * POKE_TOOL_SetDefaultName reaches POKE_TOOL_CastToBoxParam, which src/matched/unit_020185F0.c
  * proves is an empty `bx lr`, and then calls POKE_TOOL_SetNameFromSpecies with whatever r0
  * holds, with no register saved across the first call.  That only compiles
- * from a declaration in which POKE_TOOL_Dummy returns a value, so this unit
- * declares it `void *POKE_TOOL_Dummy(void)` and passes the result straight on;
+ * from a declaration in which POKE_TOOL_CastToBoxParam returns a value, so this unit
+ * declares it `void *POKE_TOOL_CastToBoxParam(void)` and passes the result straight on;
  * declaring it `void` the way unit_020185F0.c does forces a callee-saved
  * register and a four byte longer prologue.  The two declarations disagree,
  * and the image cannot say which one the original header carried, because an
@@ -57,14 +57,14 @@
  *   gExpTableBuf       0x02146398  data
  *   POKE_TOOL_SetBoxValue  0x02017E64  thumb
  *   MSGDATA_ReadUnits  0x02045F5C  arm
- *   POKE_TOOL_Dummy  0x020185F0  thumb
+ *   POKE_TOOL_CastToBoxParam  0x020185F0  thumb
  *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  */
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *POKE_TOOL_Dummy(void);
+extern void *POKE_TOOL_CastToBoxParam(void);
 extern u32   POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern void  POKE_TOOL_SetBoxValue(void *p, u32 id, u32 v);
 struct MsgData;
@@ -80,7 +80,7 @@ void POKE_TOOL_LoadExpTable(u32 a, void *b);
 
 void POKE_TOOL_SetDefaultName(void *p)
 {
-    POKE_TOOL_SetNameFromSpecies(POKE_TOOL_Dummy());
+    POKE_TOOL_SetNameFromSpecies(POKE_TOOL_CastToBoxParam());
 }
 
 void POKE_TOOL_SetNameFromSpecies(void *p)

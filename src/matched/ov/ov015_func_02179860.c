@@ -1,5 +1,5 @@
 /*
- * function: IRCNET_CbIsLinkUp
+ * function: IRCNET_CbIsLinkLost
  * address: 0x02179860
  * packet: pkt_ov015_02179860
  * region: ov015
@@ -12,13 +12,13 @@
  * Function with no listing label, matched inside src/game/ov015/unit_02179824.c and filed here.
  *
  * symbols:
- *   IRCNET_IsLinkUp 0x02179CAC thumb ov015
+ *   IRCNET_IsLinkLost 0x02179CAC thumb ov015
  */
 
-extern int IRCNET_IsLinkUp(void);
-int IRCNET_CbIsLinkUp(void);
+extern int IRCNET_IsLinkLost(void);
+int IRCNET_CbIsLinkLost(void);
 
-int IRCNET_CbIsLinkUp(void)
+int IRCNET_CbIsLinkLost(void)
 {
-    return IRCNET_IsLinkUp();
+    return IRCNET_IsLinkLost();
 }

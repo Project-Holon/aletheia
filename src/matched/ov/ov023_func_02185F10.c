@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   GF_STANDARD_Get_F684  0x0203F684  arm
+ *   GF_STANDARD_SinFromDegreesWrapped  0x0203F684  arm
  *   GX_LoadOBJPltt  0x0207E51C  arm
  */
 
@@ -18,7 +18,7 @@ typedef unsigned short u16;
 typedef int s32;
 
 typedef signed short   s16;
-extern short GF_STANDARD_Get_F684(unsigned short x);
+extern short GF_STANDARD_SinFromDegreesWrapped(unsigned short x);
 extern void GX_LoadOBJPltt(void *src, unsigned long offset, unsigned long size);
 
 void OEKAKI_AnimatePalette(u16 *p)
@@ -28,6 +28,6 @@ void OEKAKI_AnimatePalette(u16 *p)
     *p += 20;
     if (*p > 360)
         *p = 0;
-    col = (u16)((((GF_STANDARD_Get_F684(*p) * 10) / 0x1000) + 15) << 5 | 0x1d);
+    col = (u16)((((GF_STANDARD_SinFromDegreesWrapped(*p) * 10) / 0x1000) + 15) << 5 | 0x1d);
     GX_LoadOBJPltt(&col, 0x18, 2);
 }

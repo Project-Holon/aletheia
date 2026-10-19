@@ -13,7 +13,7 @@
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -33,7 +33,7 @@ struct WordSet;
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern unsigned int WORDSET_Delete(struct WordSet *p);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
 typedef unsigned int   u32;
@@ -46,7 +46,7 @@ void LOCAL_TVT_SYS_DeleteTextResources(u8 *p)
     PRINTSYS_QUE_Delete(((struct Obj00681 *)p)->f78);
     if(((struct Obj00681 *)p)->f64) PRINTSYS_PrintStreamDelete(((struct Obj00681 *)p)->f64);
     if(((struct Obj00681 *)p)->f70) STRBUF_Delete(((struct Obj00681 *)p)->f70);
-    if(((struct Obj00681 *)p)->f74) WORDSET_DeleteStrbufED04(((struct Obj00681 *)p)->f74);
+    if(((struct Obj00681 *)p)->f74) WORDSET_Delete(((struct Obj00681 *)p)->f74);
     MSGDATA_Delete(((struct Obj00681 *)p)->f6C);
     MSGDATA_Delete(((struct Obj00681 *)p)->f68);
     if(((struct Obj00681 *)p)->f5C) BMP_WIN_Delete(((struct Obj00681 *)p)->f5C);

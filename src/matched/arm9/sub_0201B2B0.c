@@ -11,17 +11,17 @@
  * note:     wave 18 (2026-09-24): EXACT* (the listing extent includes the
  *           12-byte unlabelled follower at 0x0201B70C, src/matched/
  *           unit_0201B70C.c).  Closed by the heap id's width: the seventh
- *           parameter is a u16 and FILE_UTIL_Get_0FE4 takes its third argument
+ *           parameter is a u16 and FILE_UTIL_GetItemParam takes its third argument
  *           as a u16.  With both u32 the gate's `ldr r2, [sp, #0x68]` is
  *           hoisted above the pidHigh store (12 bytes out); u16 on the
  *           parameter alone breaks the size, u16 on both keeps the load
- *           behind the store as in the image.  FILE_UTIL_Get_0FE4 masks the id to
+ *           behind the store as in the image.  FILE_UTIL_GetItemParam masks the id to
  *           fifteen bits and ORs in 0x8000 (a temporary-heap id), and
  *           src/matched/unit_02007CB0.c already declares that parameter u16.
  *
  * symbols:
  *   POKE_TOOL_GetPartyValue   0x02017E1C  thumb
- *   FILE_UTIL_Get_0FE4   0x02020FE4  thumb
+ *   FILE_UTIL_GetItemParam   0x02020FE4  thumb
  *   func_02030734   0x02030734  arm
  *   func_020307B0   0x020307B0  arm
  *   SHINKA_CHECK_LoadData    0x0201B764  thumb
@@ -60,7 +60,7 @@ struct EvoRow {
 };
 
 extern u32   POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
-extern u32   FILE_UTIL_Get_0FE4(u32 id, u32 sel, u16 heap);
+extern u32   FILE_UTIL_GetItemParam(u32 id, u32 sel, u16 heap);
 extern void *func_02030734(u32 heap, u32 size, int c, const char *file, u16 line);
 extern u32 func_020307B0(void *p);
 struct Rec;
@@ -105,7 +105,7 @@ u32 SHINKA_CHECK_CheckEvolution(void *party, void *mon, u32 context, u32 param,
     pid = POKE_TOOL_GetPartyValue(mon, 0, 0);
     beauty = POKE_TOOL_GetPartyValue(mon, 0x14, 0);
     pidHigh = (pid & 0xFFFF0000) >> 16;
-    holdEffect = FILE_UTIL_Get_0FE4(held, 1, heap);
+    holdEffect = FILE_UTIL_GetItemParam(held, 1, heap);
     if (species != 0x40 && holdEffect == 0x40 && context != 3) {
         return result;
     }
@@ -272,7 +272,7 @@ u32 SHINKA_CHECK_CheckEvolution(void *party, void *mon, u32 context, u32 param,
                 }
                 break;
             case 7:
-                if (FILE_UTIL_Get_0FE4((u16)POKE_TOOL_GetPartyValue((void *)param, 6, 0), 1, heap) != 0x40) {
+                if (FILE_UTIL_GetItemParam((u16)POKE_TOOL_GetPartyValue((void *)param, 6, 0), 1, heap) != 0x40) {
                     if ((POKE_TOOL_GetPartyValue(mon, 0xAB, 0) == 588
                          && POKE_TOOL_GetPartyValue((void *)param, 0xAB, 0) == 616)
                      || (POKE_TOOL_GetPartyValue((void *)param, 0xAB, 0) == 588

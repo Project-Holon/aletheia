@@ -12,7 +12,7 @@
  * symbols:
  *   BGWINFRM_GetBgFrame  0x0202CF8C  thumb
  *   FRAME_LIST_ClampBgFrameId  0x021B8FA0  thumb  ov067
- *   BUTTON_MAN_CallHandlerById  0x02051B0C  arm
+ *   G2_GetBGCharPtrById  0x02051B0C  arm
  *   BGWINFRM_SetFrameData  0x0202CAC4  thumb
  *   BGWINFRM_PutBmpWin  0x0202CEBC  thumb
  *   BMP_WIN_GetDispWidth  0x02045748  arm
@@ -47,7 +47,7 @@ struct S {
 struct WinMgr;
 extern u8 BGWINFRM_GetBgFrame(struct WinMgr *mgr, u32 idx);
 extern int FRAME_LIST_ClampBgFrameId(int x);
-extern int BUTTON_MAN_CallHandlerById(int i);
+extern int G2_GetBGCharPtrById(int i);
 extern void BGWINFRM_SetFrameData(struct WinMgr *mgr, u32 idx, const void *src);
 extern void BGWINFRM_PutBmpWin(struct WinMgr *mgr, u32 idx, void *a);
 struct Bmp;
@@ -76,7 +76,7 @@ void FRAME_LIST_UploadRowTiles(struct S *s, u32 a1, u32 a2)
 
     res = (void *)s->f38[a2].f0;
     map = s->f40[s->f28[a1].f0];
-    vram = BUTTON_MAN_CallHandlerById(FRAME_LIST_ClampBgFrameId(BGWINFRM_GetBgFrame(s->f3c, a2)));
+    vram = G2_GetBGCharPtrById(FRAME_LIST_ClampBgFrameId(BGWINFRM_GetBgFrame(s->f3c, a2)));
     BGWINFRM_SetFrameData(s->f3c, a2, map);
     BGWINFRM_PutBmpWin(s->f3c, a2, res);
     stride = s->f4;

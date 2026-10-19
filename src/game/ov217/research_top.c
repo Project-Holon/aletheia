@@ -18,7 +18,7 @@
  *   WIH_DWC_PollStatus  0x0201058C  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAMESYSTEM_TryStartAutoComm  0x020121CC  thumb
- *   GAME_DATA_GetField1A0  0x0201283C  thumb
+ *   GAME_DATA_GetWifiList  0x0201283C  thumb
  *   RESEARCH_COMMON_SetScreen  0x021C09BC  thumb  ov217
  *   RESEARCH_COMMON_Create  0x021C097C  thumb  ov217
  *   RESEARCH_COMMON_Destroy  0x021C099C  thumb  ov217
@@ -87,7 +87,7 @@
  *   d_021C2F18 0x021C2F18 data a4
  *   d_021C2F38 0x021C2F38 data a4
  *   d_021C2F58 0x021C2F58 data a4
- *   BG_SYS_SetTileUnit  0x02040DA8  arm
+ *   BG_SYS_FreeTiles  0x02040DA8  arm
  *   BgTextLabel_Create 0x021C0EF4 thumb ov217
  *   BgTextLabel_PrintMessage 0x021C0F5C thumb ov217
  *   d_021C2F98 0x021C2F98 data a4
@@ -232,7 +232,7 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 
 extern u32 GAMESYSTEM_TryStartAutoComm(struct IcaAnime *p);
 
-extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
+extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 
@@ -375,7 +375,7 @@ extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 
 extern u32 BG_SYS_ClearSlot();
 
-extern void BG_SYS_SetTileUnit(u32, u32, u32);
+extern void BG_SYS_FreeTiles(u32, u32, u32);
 
 extern struct Record *BgTextLabel_Create(const struct Config *config, u32 a, u32 b, u32 heap);
 
@@ -772,7 +772,7 @@ int RESEARCH_TOP_MainProc(void *unused, u32 *state, u32 unused2, u32 *proc)
  */
 void RESEARCH_TOP_UpdateNetwork(u32 proc)
 {
-    WIH_DWC_PollStatus((void *)GAME_DATA_GetField1A0(GAMESYSTEM_GetGameData(((struct ResearchProc *)proc)->appResource)));
+    WIH_DWC_PollStatus((void *)GAME_DATA_GetWifiList(GAMESYSTEM_GetGameData(((struct ResearchProc *)proc)->appResource)));
     if (GAMESYSTEM_TryStartAutoComm((struct IcaAnime *)(*(u32 *)&((struct ResearchProc *)proc)->appResource)) != 0) {
     GFL_NET_RestartWithDefaultTimeout(1, ((struct ResearchProc *)proc)->heapId);
     }
@@ -1687,7 +1687,7 @@ u32 RESEARCH_TOP_UpdateBackground7(void *obj)
 
 void RESEARCH_TOP_ShowBackground7(u32 obj)
 {
-    BG_SYS_SetTileUnit(7, 1, 0);
+    BG_SYS_FreeTiles(7, 1, 0);
 }
 
 void RESEARCH_TOP_LoadBackground2(char *obj)
@@ -1712,7 +1712,7 @@ u32 RESEARCH_TOP_UpdateBackground3(void *obj)
 
 void RESEARCH_TOP_ShowBackground3(u32 obj)
 {
-    BG_SYS_SetTileUnit(3, 1, 0);
+    BG_SYS_FreeTiles(3, 1, 0);
 }
 
 void RESEARCH_TOP_ClearLabels(void *obj)

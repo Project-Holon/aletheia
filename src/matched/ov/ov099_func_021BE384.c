@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_020307B0  0x020307B0  arm
- *   BG_SYS_DeleteHalf  0x0203FB44  arm
+ *   BG_SYS_FreeTileRun  0x0203FB44  arm
  *
  * (0x021BE384 is also a function of ov217, filed as src/matched/WIFICLUB_FreeBgResources.c;
  *  this is ov099's byte at that address.)
@@ -45,7 +45,7 @@ typedef signed long    s32;
 typedef int BOOL;
 
 extern u32 func_020307B0(void *p);
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 
 typedef struct {
     void *f00;
@@ -68,6 +68,6 @@ void WIFICLUB_FreeBgResources(S *s)
         s->f08 = 0;
     }
 
-    BG_SYS_DeleteHalf(1, (u16)s->f10, (u16)(s->f10 >> 16));
-    BG_SYS_DeleteHalf(6, (u16)s->f14, (u16)(s->f14 >> 16));
+    BG_SYS_FreeTileRun(1, (u16)s->f10, (u16)(s->f10 >> 16));
+    BG_SYS_FreeTileRun(6, (u16)s->f14, (u16)(s->f14 >> 16));
 }

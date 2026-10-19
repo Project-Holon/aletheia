@@ -32,7 +32,7 @@ struct B_PlistWin {
 
 /* The app object a B_PlistWork points at through its owner field. */
 struct B_PlistHost {
-    void *config;              /* 0x00 game config, first argument of EVENT_ID_Check */
+    void *config;              /* 0x00 game config, first argument of WAZA_TOOL_IsHmMove */
     void *party;               /* 0x04 POKEPARTY shown in the first rows */
     void *partnerParty;        /* 0x08 POKEPARTY shown in rows 3..5 */
     u32   font;                /* 0x0C font handle for text measuring and printing */
@@ -46,7 +46,7 @@ struct B_PlistHost {
     u8    pad21;
     u8    partyCount;          /* 0x22 upper bound checked by B_PLIST_MAIN_IsIndexValid */
     u8    pad23;
-    u16   itemId;              /* 0x24 item id read through FILE_UTIL_Get_0FE4 */
+    u16   itemId;              /* 0x24 item id read through FILE_UTIL_GetItemParam */
     u16   moveId;              /* 0x26 move id shown by the move info page */
     void *fadeContext;         /* 0x28 last argument of PALANM_RequestFade */
     int   field2C;             /* 0x2C */

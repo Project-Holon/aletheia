@@ -14,7 +14,7 @@
  *   BOX2_SEQ_ToggleHandSlot 0x021EA908 thumb ov170
  *   BOX2_MAIN_SetBoxValueAt 0x021DD2B4 thumb ov170
  *   BOX2_MAIN_SetBodySlots 0x021DF11C thumb ov170
- *   BOX2_SEQ_GetBgFrameY 0x021E94AC thumb ov170
+ *   BOX2_SEQ_SetupFrameFadeAndWait 0x021E94AC thumb ov170
  *   BOX2_SEQ_SetSeqSecond 0x021E8FD0 thumb ov170
  */
 #include "../include/Obj00000.h"
@@ -28,7 +28,7 @@ extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 extern void BOX2_SEQ_ToggleHandSlot(int p, int bit);
 extern void BOX2_MAIN_SetBoxValueAt(int a, int b, int c, int d, int e);
 extern void BOX2_MAIN_SetBodySlots(char *p, int b);
-extern int BOX2_SEQ_GetBgFrameY(u8 *, int, int);
+extern int BOX2_SEQ_SetupFrameFadeAndWait(u8 *, int, int);
 extern int BOX2_SEQ_SetSeqSecond(char *p, int a);
 int BOX2_SEQ_StateCloseMenu(u8 *p)
 {
@@ -63,13 +63,13 @@ int BOX2_SEQ_StateCloseMenu(u8 *p)
         BOX2_MAIN_SetBoxValueAt((int)p, p[22], p[20], 11, mask);
         BOX2_MAIN_SetBodySlots((char *)p, (unsigned)mask);
         GFL_USE_PlaySeDefaultVolume(0x54c);
-        return BOX2_SEQ_GetBgFrameY(p, 0, 87);
+        return BOX2_SEQ_SetupFrameFadeAndWait(p, 0, 87);
     case 7:
         GFL_USE_PlaySeDefaultVolume(0x551);
-        return BOX2_SEQ_GetBgFrameY(p, 1, 87);
+        return BOX2_SEQ_SetupFrameFadeAndWait(p, 1, 87);
     case (unsigned)-2:
         GFL_USE_PlaySeDefaultVolume(0x551);
-        return BOX2_SEQ_GetBgFrameY(p, 1, 87);
+        return BOX2_SEQ_SetupFrameFadeAndWait(p, 1, 87);
     case (unsigned)-3:
         GFL_USE_PlaySeDefaultVolume(0x548);
         return BOX2_SEQ_SetSeqSecond((char *)p, 88);

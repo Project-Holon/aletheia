@@ -3,6 +3,7 @@
 
 #include "../arm9/game_beacon_types.h"
 
+struct MyStatus;
 struct Strbuf;
 
 /* ------------------------------------------------------------------ *

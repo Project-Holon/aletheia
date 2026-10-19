@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_WORK_CmdGetFieldRecordPairB
+ * function: SCRCMD_WORK_CmdGetHourAndMinute
  * address:  0x0215AB98
  * packet:   pkt_0215AB98
  * region:   ov010
@@ -25,7 +25,7 @@ extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern int FIELD_CLOCK_GetHour(int a0);
 extern int FIELD_CLOCK_GetMinute(int a0);
 
-int SCRCMD_WORK_CmdGetFieldRecordPairB(int a0, int a1)
+int SCRCMD_WORK_CmdGetHourAndMinute(int a0, int a1)
 {
     int t4;
     int t7;

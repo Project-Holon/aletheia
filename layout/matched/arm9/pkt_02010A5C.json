@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "VM_Exit",
+   "name": "GFL_NET_SAVE_ScreenExit",
    "address": "0x02010D98",
    "kind": "game",
    "region": "arm9",

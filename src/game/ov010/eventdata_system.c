@@ -28,7 +28,7 @@
  *   ZONEDATA_SetExitRailLocation 0x02014134 thumb
  *   ZONEDATA_SetExitLocationIdOnly  0x0201416C  thumb
  *   ZONEDATA_GetEventWorkAddress  0x020143CC  thumb
- *   EVENTDATA_SYSTEM_GetHiddenItemFlag  0x02164708  thumb  ov010
+ *   HIDDEN_ITEM_GetFlag  0x02164708  thumb  ov010
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   ZONEDATA_DirToRailKey 0x0201441C thumb
  *   FX_Div 0x0207C768 arm
@@ -170,7 +170,7 @@ extern void ZONEDATA_SetExitLocation(int *, u16, s16, u16, int, unsigned, unsign
 extern void ZONEDATA_SetExitRailLocation(int *, u16, s16, u16, int, u16, u16, s16);
 extern int ZONEDATA_SetExitLocationIdOnly(int loc, int zoneId, int exitId, int exitOffset);
 extern u32 ZONEDATA_GetEventWorkAddress(u32 a, u32 b);
-extern u16 EVENTDATA_SYSTEM_GetHiddenItemFlag(u16 id);
+extern u16 HIDDEN_ITEM_GetFlag(u16 id);
 extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
 extern u8 ZONEDATA_DirToRailKey(int m);
 extern u32 FX_Div(u32 a, u32 b);
@@ -775,7 +775,7 @@ u16 EVENTDATA_SYSTEM_SearchBgEventScriptId(EventDataSystem *system, void *eventF
                 continue;
         }
         if (bgEvent->type == 2) {
-            if (ZONEDATA_CheckEventFlag(eventFlags, EVENTDATA_SYSTEM_GetHiddenItemFlag(bgEvent->scriptId)) == 0)
+            if (ZONEDATA_CheckEventFlag(eventFlags, HIDDEN_ITEM_GetFlag(bgEvent->scriptId)) == 0)
                 return bgEvent->scriptId;
             continue;
         }

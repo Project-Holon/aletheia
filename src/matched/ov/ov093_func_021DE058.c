@@ -13,7 +13,7 @@
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
- *   BTLV_CORE_MakeSlotKind1Value  0x021E89D4  thumb  ov093
+ *   BTL_SICKCONT_MakeKind1Value  0x021E89D4  thumb  ov093
  *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb  ov093
  *   BTL_SERVER_FLOW_AppendMsgRecordArg  0x021C8860  thumb  ov093
  *   BTL_EVENT_GetFactorKey  0x021D70A8  thumb  ov093
@@ -29,7 +29,7 @@ extern int BTL_EVENT_GetVar(int key);
 struct QQ;
 extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
-extern int BTLV_CORE_MakeSlotKind1Value(u32 a);
+extern int BTL_SICKCONT_MakeKind1Value(u32 a);
 extern void BTL_SERVER_FLOW_InitMsgRecord(void *p, int a, int b);
 struct S;
 extern void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *p, u32 v);
@@ -45,7 +45,7 @@ void HAND_ITEM_MicleBerryRaiseAccuracy(void *a, void *b, int c, u8 *a3)
         m = (u8 *)BTL_SERVER_FLOW_AllocCmdRecord(b, 0xc, c);
         m[0xf] = c;
         ((struct Obj10067 *)m)->f4 = 0x22;
-        ((struct Obj10067 *)m)->f8 = BTLV_CORE_MakeSlotKind1Value(0x78);
+        ((struct Obj10067 *)m)->f8 = BTL_SICKCONT_MakeKind1Value(0x78);
         BTL_SERVER_FLOW_InitMsgRecord(m + 0x14, 2, 0x404);
         BTL_SERVER_FLOW_AppendMsgRecordArg((struct S *)(m + 0x14), c);
         BTL_SERVER_FLOW_AppendMsgRecordArg((struct S *)(m + 0x14), BTL_EVENT_GetFactorKey(a));

@@ -39,7 +39,7 @@
    ]
   },
   {
-   "name": "UI_SetFlags39",
+   "name": "UI_SetSoftResetInhibit",
    "address": "0x0203515C",
    "kind": "game",
    "region": "arm9",
@@ -51,7 +51,7 @@
    "status": "EXACT"
   },
   {
-   "name": "UI_ClearFlags39",
+   "name": "UI_ClearSoftResetInhibit",
    "address": "0x02035188",
    "kind": "game",
    "region": "arm9",
@@ -63,7 +63,7 @@
    "status": "EXACT"
   },
   {
-   "name": "UI_TestFlags39",
+   "name": "UI_TestSoftResetInhibit",
    "address": "0x020351BC",
    "kind": "game",
    "region": "arm9",

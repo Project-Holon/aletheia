@@ -1,5 +1,5 @@
 /*
- * function: MUSICAL_MCSS_CreateUnits
+ * function: MUSICAL_SHOT_INFO_InitGraphics
  * address: 0x021F44F8
  * packet: pkt_ov112_021F44F8
  * region: ov112
@@ -9,7 +9,7 @@
  * status: EXACT
  * ABI: 0204B294 returns an Obj pointer, which the original stores at +88.
  * symbols:
- *   MUSICAL_MCSS_InitBg 0x021F4684 thumb ov112
+ *   MUSICAL_SHOT_INFO_InitBgLayer 0x021F4684 thumb ov112
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
@@ -42,7 +42,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u16 x,y,z; u8 a,b; } Desc;
 extern const u32 d_021F8298[],d_021F82B8[],d_021F82D8[];
-extern void MUSICAL_MCSS_InitBg(const void *,u32,u32);
+extern void MUSICAL_SHOT_INFO_InitBgLayer(const void *,u32,u32);
 struct Bank;
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
@@ -68,15 +68,15 @@ extern u32 APP_ICON_GetStatusPaletteFileId(u32);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *,u32,u32,u32,const void *,u16,u16);
-void MUSICAL_MCSS_CreateUnits(u8 *p)
+void MUSICAL_SHOT_INFO_InitGraphics(u8 *p)
 {
     Desc d;
     void *t;
     u32 v;
     u32 w;
-    MUSICAL_MCSS_InitBg(d_021F8298,4,0);
-    MUSICAL_MCSS_InitBg(d_021F82B8,6,0);
-    MUSICAL_MCSS_InitBg(d_021F82D8,7,0);
+    MUSICAL_SHOT_INFO_InitBgLayer(d_021F8298,4,0);
+    MUSICAL_SHOT_INFO_InitBgLayer(d_021F82B8,6,0);
+    MUSICAL_SHOT_INFO_InitBgLayer(d_021F82D8,7,0);
     ((struct Obj00721 *)p)->f48=CLACT_CreateUnit(8,0,((struct Obj00721 *)p)->f0);
     CLACT_SetUnitDefaultRenderer(((struct Obj00721 *)p)->f48);
     BG_SYS_SetSubPlaneVisible(16,1);

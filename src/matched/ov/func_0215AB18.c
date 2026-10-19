@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_WORK_CmdGetFieldRecordA
+ * function: SCRCMD_WORK_CmdGetTimeZone
  * address:  0x0215AB18
  * packet:   pkt_0215AB18
  * region:   ov010
@@ -23,7 +23,7 @@ extern void *SCRCMD_WORK_GetGameData(void *a0);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern int FIELD_CLOCK_GetTimeZone(int a0);
 
-int SCRCMD_WORK_CmdGetFieldRecordA(int a0, int a1)
+int SCRCMD_WORK_CmdGetTimeZone(int a0, int a1)
 {    int t5;
     int t6;
     u16 *q;

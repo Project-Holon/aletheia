@@ -1,5 +1,5 @@
 /*
- * function: BOX2_MAIN_IsTaskMenuFinished
+ * function: BOX2_MAIN_StepWindowFrameFade
  * address:  0x021DCFC0
  * packet:   pkt_ov170_021DCFC0
  * region:   ov170
@@ -37,7 +37,7 @@ typedef unsigned char  u8;
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(unsigned bit);
 
-int BOX2_MAIN_IsTaskMenuFinished(char *p)
+int BOX2_MAIN_StepWindowFrameFade(char *p)
 {
     Fade *f = (Fade *)(*(char * *)&((struct Obj00000 *)p)->f2C + 0x1A6);
     switch (f->state) {

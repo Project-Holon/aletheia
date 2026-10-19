@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PROC_FLD_CallOv004Event
+ * function: SCRCMD_PROC_FLD_CallWorldTradeEvent
  * address:  0x021B4C98
  * packet:   pkt_ov021_021B4C98
  * region:   ov021
@@ -40,7 +40,7 @@ struct Desc;
 extern struct Desc *GAME_EVENT_CreateOverlayEvent(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3);
 extern int EVENT_WORLDTRADE_Entry(int x, struct Pair *p);
 
-int SCRCMD_PROC_FLD_CallOv004Event(u32 a, u32 b)
+int SCRCMD_PROC_FLD_CallWorldTradeEvent(u32 a, u32 b)
 {
     Pair p;
     void *r5;

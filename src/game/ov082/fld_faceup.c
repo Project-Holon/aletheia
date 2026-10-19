@@ -42,14 +42,14 @@
  *   BG_SYS_PushTileSource  0x020409E0  arm
  *   BG_SYS_LoadPltt  0x02040E78  arm
  *   GFL_HEAP_Free  0x020307B0  arm
- *   BG_SYS_SetVisibleLayer  0x0204047C  arm
+ *   BG_SYS_SetPriority  0x0204047C  arm
  *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   gFldFaceupBgTemplate     0x021F58F4  data  a4
  *   TCB_DeleteTask  0x02030EAC  arm
  *   FIELDMAP_GetPlaceName  0x02188D20  thumb  ov021
  *   BG_SYS_FreeSlot  0x020414AC  arm
  *   FIELD_PLACE_NAME_RestoreWindow  0x021BC5D4  thumb  ov021
- *   BG_SYS_Get 0x020416D4 arm
+ *   BG_SYS_GetPriority 0x020416D4 arm
  *   BG_SYS_GetMainVisiblePlanes  0x02043658  arm
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   SCRIPT_WORK_CheckFlag  0x02159190  thumb  ov010
@@ -135,13 +135,13 @@ extern void BG_SYS_LoadTileData(int bgId, const void *src, u32 size, u32 tileOff
 extern void BG_SYS_PushTileSource(u32 bgId, const void *src, u32 size, u32 mapOffset);
 extern void BG_SYS_LoadPltt(u32 bgId, void *src, u32 size, u32 offset);
 extern u32 GFL_HEAP_Free(void *work);
-extern void BG_SYS_SetVisibleLayer(int bgId, unsigned short priority);
+extern void BG_SYS_SetPriority(int bgId, unsigned short priority);
 extern void BG_SYS_SetPlaneVisible(unsigned char bgId, unsigned char enable);
 extern void TCB_DeleteTask(void *tcb);
 extern struct FieldPlaceName *FIELDMAP_GetPlaceName(struct FieldMap *fieldMap);
 extern void BG_SYS_FreeSlot(int bgId);
 extern void FIELD_PLACE_NAME_RestoreWindow(struct FieldPlaceName *placeName);
-extern u8 BG_SYS_Get(u32 bgId);
+extern u8 BG_SYS_GetPriority(u32 bgId);
 u32 BG_SYS_GetMainVisiblePlanes(void);
 void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern int SCRIPT_WORK_CheckFlag(int flagId);
@@ -323,10 +323,10 @@ void FLD_FACEUP_SetupBg(FaceupWork *work, struct FieldMap *fieldMap)
     NNS_G2dGetUnpackedScreenData(file, &partsScreen);
     BG_SYS_PushTileSource(3, partsScreen->data, partsScreen->size, 0);
     GFL_HEAP_Free(file);
-    BG_SYS_SetVisibleLayer(0, 3);
-    BG_SYS_SetVisibleLayer(1, 0);
-    BG_SYS_SetVisibleLayer(2, 2);
-    BG_SYS_SetVisibleLayer(3, 1);
+    BG_SYS_SetPriority(0, 3);
+    BG_SYS_SetPriority(1, 0);
+    BG_SYS_SetPriority(2, 2);
+    BG_SYS_SetPriority(3, 1);
     BG_SYS_SetPlaneVisible(2, 1);
     BG_SYS_SetPlaneVisible(3, 1);
 }
@@ -447,7 +447,7 @@ void FLD_FACEUP_SaveBgPriorities(FaceupWork *work)
     int bgId;
 
     for (bgId = 0; bgId < 4; bgId++)
-        work->savedBgPriority[bgId] = BG_SYS_Get((u8)bgId);
+        work->savedBgPriority[bgId] = BG_SYS_GetPriority((u8)bgId);
 }
 
 
@@ -471,7 +471,7 @@ void FLD_FACEUP_RestoreBgPriorities(FaceupWork *work)
     int bgId;
 
     for (bgId = 0; bgId < 4; bgId++)
-        BG_SYS_SetVisibleLayer((u8)bgId, work->savedBgPriority[bgId]);
+        BG_SYS_SetPriority((u8)bgId, work->savedBgPriority[bgId]);
 }
 
 

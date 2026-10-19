@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   WORLDTRADE_BOX_RestoreCursorSave 0x021F6E08 thumb ov135
+ *   WORLDTRADE_BOX_UnlockBoxIfAllFull 0x021F6E08 thumb ov135
  *   STRBUF_Create 0x020457B0 arm
  *   func_02045EC0 0x02045EC0 arm
  *   func_02030734 0x02030734 arm
@@ -18,7 +18,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void WORLDTRADE_BOX_RestoreCursorSave(u8 *);
+extern void WORLDTRADE_BOX_UnlockBoxIfAllFull(u8 *);
 struct MsgBank;
 struct U16Vec;
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
@@ -27,7 +27,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern const char str_02203B54[];
 void WORLDTRADE_BOX_CreateStrings(u8 *p)
 {
-    WORLDTRADE_BOX_RestoreCursorSave(p);
+    WORLDTRADE_BOX_UnlockBoxIfAllFull(p);
     ((struct Obj04526 *)p)->fB80 = STRBUF_Create(0x12, 0x48);
     ((struct Obj04526 *)p)->fB88 = STRBUF_Create(0xb4, 0x48);
     ((struct Obj04526 *)p)->fB84 = func_02045EC0(((struct Obj04526 *)p)->fB6C, 0x73);

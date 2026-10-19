@@ -19,7 +19,7 @@
  *   gGreetingMiscMessageIds     0x021DD718  data  a4
  *   func_020056EC  0x020056EC  thumb
  *   BEACON_GetBlock  0x0200C0F0  thumb
- *   BEACON_GetFlag  0x0200C234  thumb
+ *   BEACON_GetBadge  0x0200C234  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  */
 
@@ -30,7 +30,7 @@ typedef unsigned int u32;
 struct Big;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *BEACON_GetBlock(void *p);
-extern int BEACON_GetFlag(void *p);
+extern int BEACON_GetBadge(void *p);
 extern u32 func_020056EC(u32 v);
 extern u32 gGreetingMiscMessageIds[];
 
@@ -41,7 +41,7 @@ u32 SCRCMD_GREETING_AdjustMessageIdByMisc(void *a, int i)
 
     for (i = 0; i < 8; i++) {
         if (v == gGreetingMiscMessageIds[i]) {
-            if (BEACON_GetFlag(h)) {
+            if (BEACON_GetBadge(h)) {
                 return v;
             } else {
                 u32 r = func_020056EC(0xc);

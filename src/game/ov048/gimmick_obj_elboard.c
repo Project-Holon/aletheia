@@ -22,7 +22,7 @@
  *   RTC_GetDate  0x02088864  arm
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   WORDSET_SetSlotMonth  0x0201F230  thumb
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   gElboardLayout     0x021F50C0  data  a4
  *   WORDSET_Create  0x0201EC74  thumb
  *   MSGDATA_CreateFromArchive  0x02045B38  arm
@@ -39,7 +39,7 @@
  *   FIELD_GIMMICK_GATE_IsExtraSaveListOn  0x021F3AB4  thumb  ov048
  *   FIELD_GIMMICK_GATE_ReadExtraSaveValues  0x021F3AD4  thumb  ov048
  *   FIELD_GIMMICK_GATE_ReadSaveBlockValues  0x021F3B64  thumb  ov048
- *   WORDSET_Callback  0x0201EE60  thumb
+ *   WORDSET_SetSlotSpeciesName  0x0201EE60  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   FIELD_GIMMICK_GATE_FindNewsEntry 0x021F3C2C thumb ov048
@@ -246,7 +246,7 @@ extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
 extern int RTC_GetDate(RtcDate *date);
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 keta, u32 dispType, u32 codeType);
 extern void WORDSET_SetSlotMonth(struct WordSet *wordSet, u32 index, u32 month);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
+extern u32 WORDSET_Delete(struct WordSet *wordSet);
 extern struct WordSet *WORDSET_Create(u32 wordMax, u32 bufLen, u16 heapId);
 extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 ZONEDATA_GetPlaceNameId(u32 placeId);
@@ -261,7 +261,7 @@ extern u8 GAME_DATA_GetSeason(struct GameData *gameData);
 extern int FIELD_GIMMICK_GATE_IsExtraSaveListOn(GateWork *work);
 extern void FIELD_GIMMICK_GATE_ReadExtraSaveValues(GateWork *work, u32 *outIds, int *outCount);
 extern void FIELD_GIMMICK_GATE_ReadSaveBlockValues(GateWork *work, u32 *outIds, int *outCount);
-extern void WORDSET_Callback(struct WordSet *wordSet, u32 index, u16 value);
+extern void WORDSET_SetSlotSpeciesName(struct WordSet *wordSet, u32 index, u16 value);
 extern void *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 index, void *myStatus);
 extern GateNewsEntry *FIELD_GIMMICK_GATE_FindNewsEntry(GateWork *work);
@@ -469,7 +469,7 @@ void GIMMICK_OBJ_ELBOARD_AddDateMessage(GateWork *work)
     locals.msg.msgId = ELBOARD_RECORD_PARAMS(work->record)->dateMsgId;
     locals.msg.wordSet = wordSet;
     GIMMICK_OBJ_ELBOARD_AddMessage(work, &locals.msg, 1, 0);
-    WORDSET_DeleteStrbufED04(wordSet);
+    WORDSET_Delete(wordSet);
 }
 
 
@@ -522,7 +522,7 @@ void GIMMICK_OBJ_ELBOARD_AddPlaceListMessage(GateWork *work)
         WORDSET_SetSlotTag(pairWords, 1, labelText, 0, 1, 0);
         WORDSET_CopyTaggedText(pairWords, pairText, pairTemplate);
         STRBUF_Delete(pairTemplate);
-        WORDSET_DeleteStrbufED04(pairWords);
+        WORDSET_Delete(pairWords);
         WORDSET_SetSlotTag(words, i, pairText, 0, 1, 0);
         STRBUF_Delete(placeName);
         STRBUF_Delete(labelText);
@@ -554,7 +554,7 @@ void GIMMICK_OBJ_ELBOARD_AddPlaceListMessage(GateWork *work)
     msg.msgId = msgId;
     msg.wordSet = words;
     GIMMICK_OBJ_ELBOARD_AddMessage(work, &msg, 2, 0);
-    WORDSET_DeleteStrbufED04(words);
+    WORDSET_Delete(words);
 }
 
 
@@ -586,7 +586,7 @@ void GIMMICK_OBJ_ELBOARD_AddLastPlaceMessage(GateWork *work)
     msg.msgId = ELBOARD_RECORD_PARAMS(work->record)->newsMsgId;
     msg.wordSet = words;
     GIMMICK_OBJ_ELBOARD_AddMessage(work, &msg, 3, 0);
-    WORDSET_DeleteStrbufED04(words);
+    WORDSET_Delete(words);
 }
 
 
@@ -719,7 +719,7 @@ void GIMMICK_OBJ_ELBOARD_AddSavedIdsMessage(GateWork *work)
     case 6: msgId = 0xd2; break;
     }
     for (i = 0; i < savedCount; i++)
-        WORDSET_Callback(words, i, savedIds[i]);
+        WORDSET_SetSlotSpeciesName(words, i, savedIds[i]);
     WORDSET_SetSlotMyStatus(words, 6, GAME_DATA_GetMyStatus(work->gameData));
     msg.animIndex = gElboardLayout.animIndex[3];
     msg.textureName = gElboardLayout.textureName[3];
@@ -729,7 +729,7 @@ void GIMMICK_OBJ_ELBOARD_AddSavedIdsMessage(GateWork *work)
     msg.msgId = msgId;
     msg.wordSet = words;
     GIMMICK_OBJ_ELBOARD_AddMessage(work, &msg, 9, 0);
-    WORDSET_DeleteStrbufED04(words);
+    WORDSET_Delete(words);
 }
 
 void GIMMICK_OBJ_ELBOARD_AddNoticeMessages(GateWork *work)

@@ -11,7 +11,7 @@
  *   (base + scaled index) + field offset for the indexed actor load.
  * symbols:
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
- *   FILE_UTIL_Check136C 0x0202136C thumb
+ *   FILE_UTIL_IsMailItem 0x0202136C thumb
  *   POKELIST_CheckBagItem 0x021BA65C thumb ov091
  *   PLIST_MESSAGE_CloseWindow 0x021BB7A4 thumb ov091
  *   POKELIST_ShowMessage 0x021B9788 thumb ov091
@@ -35,7 +35,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
-extern u32 FILE_UTIL_Check136C(u16);
+extern u32 FILE_UTIL_IsMailItem(u16);
 extern u32 POKELIST_CheckBagItem(u8 *p, u16 id);
 extern void PLIST_MESSAGE_CloseWindow(void *p, u32 *s);
 extern void POKELIST_ShowMessage(u8 *p, int a1, int a2, int a3);
@@ -72,7 +72,7 @@ void POKELIST_OnTakeItemChoice(u8 *p,int action)
                 PLIST_MESSAGE_CloseWindow(p,(u32 *)W(0x150));
                 POKELIST_ShowMessage(p,0x3f,1,(int)POKELIST_EndMessageToExit);
             }
-        } else if (FILE_UTIL_Check136C(*(u16 *)(S+0x44)) == 1) {
+        } else if (FILE_UTIL_IsMailItem(*(u16 *)(S+0x44)) == 1) {
             *(u32 *)(S+0x3c) = W(0x2c);
             p[0xc] = 0x13;
             *(int *)(S+0x40) = 6;

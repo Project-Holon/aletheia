@@ -15,7 +15,6 @@
  * symbols:
  *   GFL_HEAP_Alloc   0x02030734  arm
  *   MI_CpuFill8     0x02082BCC  arm
- *   _s32_div_f   0x0209C0A4  arm
  *   GXx_SetMasterBrightness_   0x0207D534  arm
  *   fade_File       0x020A7F8C  data
  *   g_02146A7C      0x02146A7C  data
@@ -37,7 +36,6 @@ typedef struct Fade {
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  MI_CpuFill8(void *dst, u32 val, u32 size);
-extern s32   _s32_div_f(s32 a, s32 b);
 extern void  GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 void FADE_Create(u32 heap);
 void FADE_Update(void);
@@ -151,7 +149,7 @@ void FADE_Start(u32 a, s32 b, s32 c, s32 d)
     if (d > 0) {
         Fade *p = g_02146A7C;
 
-        p->wait = _s32_div_f(p->wait, p->speed);
+        p->wait = p->wait / p->speed;
         g_02146A7C->interval = d;
     }
 

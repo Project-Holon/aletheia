@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   BUTTON_MAN_SetEmitterPos  0x02051838  arm
+ *   PARTICLE_EMITTER_SetEmitPos  0x02051838  arm
  *
  * Addresses are Black-image addresses.
  */
 
-extern void BUTTON_MAN_SetEmitterPos(void *, int);
+extern void PARTICLE_EMITTER_SetEmitPos(void *, int);
 
 void STA_ACT_EFFECT_SetEmitterPos(char *p, int i, int a)
 {
     void *v = *(void **)(p + i * 16 + 0x4808);
 
     if (v != 0)
-        BUTTON_MAN_SetEmitterPos(v, a);
+        PARTICLE_EMITTER_SetEmitPos(v, a);
 }

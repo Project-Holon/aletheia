@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   BG_SYS_SetScrollX  0x02041F28  arm
+ *   BG_SYS_ChangeRotation  0x02041F28  arm
  */
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern void BG_SYS_SetScrollX(u32 which, u32 op, u16 value);
+extern void BG_SYS_ChangeRotation(u32 which, u32 op, u16 value);
 
 void HALL_OF_FAME_EnableBgEffects(char *a0)
 {
-    BG_SYS_SetScrollX(3, 1, 1);
-    BG_SYS_SetScrollX(7, 1, 1);
+    BG_SYS_ChangeRotation(3, 1, 1);
+    BG_SYS_ChangeRotation(7, 1, 1);
 }

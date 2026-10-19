@@ -18,7 +18,7 @@
  *   VIEWER_TEXT_FreeBgResources  0x021C74D0  thumb
  *   VIEWER_TEXT_ExitBg  0x021C72C8  thumb
  *   VIEWER_TEXT_FreeResources  0x021C71CC  thumb
- *   VIEWER_ACTOR_SetRtcDate  0x021C81C0  thumb
+ *   VIEWER_ACTOR_SaveBadgeTimers  0x021C81C0  thumb
  *   func_020315D4  0x020315D4  arm
  *   func_0203084C  0x0203084C  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
@@ -107,7 +107,7 @@ extern void VIEWER_ACTOR_DeleteObjects(Work *p);
 extern void VIEWER_TEXT_FreeBgResources(Work *p);
 extern void VIEWER_TEXT_ExitBg(Work *p);
 extern void VIEWER_TEXT_FreeResources(Work *p);
-extern void VIEWER_ACTOR_SetRtcDate(Work *p);
+extern void VIEWER_ACTOR_SaveBadgeTimers(Work *p);
 struct Proc;
 extern void func_020315D4(struct Proc *p);
 extern void *func_0203084C(u32 heapId);
@@ -123,7 +123,7 @@ int VIEWER_TEXT_Delete(void *proc, void *seq, int c, Work *p)
     VIEWER_TEXT_FreeBgResources(p);
     VIEWER_TEXT_ExitBg(p);
     VIEWER_TEXT_FreeResources(p);
-    VIEWER_ACTOR_SetRtcDate(p);
+    VIEWER_ACTOR_SaveBadgeTimers(p);
     func_020315D4(proc);
     func_0203084C(0x27);
     GFL_HEAP_DeleteChecked(0x27);

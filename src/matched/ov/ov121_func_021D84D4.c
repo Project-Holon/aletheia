@@ -107,7 +107,7 @@
  *   func_02008550 0x02008550 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
- *   POKE_TOOL_Dummy 0x020185F0 thumb
+ *   POKE_TOOL_CastToBoxParam 0x020185F0 thumb
  *   SAVE_EVENT_WriteWithDate 0x0202F2AC thumb
  *   POKE_TOOL_RecalcParam 0x020185C4 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
@@ -168,7 +168,7 @@ extern const void *func_020084F4(const void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void *POKE_TOOL_Dummy(void *);
+extern void *POKE_TOOL_CastToBoxParam(void *);
 extern void SAVE_EVENT_WriteWithDate(void *,u32,u32,u32,u32);
 extern void POKE_TOOL_RecalcParam(void *);
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
@@ -301,7 +301,7 @@ void MYSTERY_CreateReceivedMon(u8 *out,void *owner,const u8 *desc,void *save,voi
         }
         year=(u16)((int)D(172)>>16);month=(u8)((int)D(172)>>8);day=(u8)D(172);
         if(desc[92]) place=H(56);else place=H(58);
-        SAVE_EVENT_WriteWithDate(POKE_TOOL_Dummy(allocated),place,year-2000,month,day);
+        SAVE_EVENT_WriteWithDate(POKE_TOOL_CastToBoxParam(allocated),place,year-2000,month,day);
         POKE_TOOL_RecalcParam(allocated);
         if(POKE_TOOL_GetPartyValue(allocated,3,0)!=0) {func_020307B0(allocated);mon=0;}
         else mon=allocated;

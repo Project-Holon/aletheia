@@ -1,5 +1,5 @@
 /*
- * function: STA_ACTING_ShowAnim
+ * function: STA_ACTING_ShowButton
  * address:  0x021F9D80
  * packet:   pkt_021F9D80
  * region:   ov132
@@ -18,7 +18,7 @@
 
 extern void STA_ACT_BUTTON_SetVisible(char *p, unsigned flag);
 
-void STA_ACTING_ShowAnim(char *p)
+void STA_ACTING_ShowButton(char *p)
 {
     STA_ACT_BUTTON_SetVisible(((struct Obj23210 *)p)->fA4, 1);
 }

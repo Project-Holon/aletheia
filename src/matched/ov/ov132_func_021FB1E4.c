@@ -1,5 +1,5 @@
 /*
- * function: SCRIPT_COMMAND_CmdHideAnim
+ * function: SCRIPT_COMMAND_CmdHideButton
  * address:  0x021FB1E4
  * packet:   pkt_021FB1E4
  * region:   ov132
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   STA_ACTING_HideAnim  0x021F9D90  thumb
+ *   STA_ACTING_HideButton  0x021F9D90  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -21,10 +21,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void STA_ACTING_HideAnim(char *p);
+extern void STA_ACTING_HideButton(char *p);
 
-int SCRIPT_COMMAND_CmdHideAnim(void *a, void **pp)
+int SCRIPT_COMMAND_CmdHideButton(void *a, void **pp)
 {
-    STA_ACTING_HideAnim(((struct Obj23253 *)((u8 *)*pp))->f34);
+    STA_ACTING_HideButton(((struct Obj23253 *)((u8 *)*pp))->f34);
     return 0;
 }

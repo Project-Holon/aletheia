@@ -47,7 +47,7 @@ typedef struct GsyncStateWork {
     u8 wantRecordSave;          /* 0x0A6, trainer record save requested */
     u8 downloadKind;            /* 0x0A7, 0 extra save, 1 musical save, 2 record save */
     u8 downloadFlags;           /* 0x0A8, bit0 musical, bit1 extra, bit2 record */
-    u8 hasListEntry;            /* 0x0A9, GSYNC_STATE_GetListEntry result */
+    u8 hasListEntry;            /* 0x0A9, GSYNC_STATE_HasListEntry result */
     u8 monStored;               /* 0x0AA, set by GSYNC_STATE_StateStoreReceivedMon */
     u8 saveInProgress;          /* 0x0AB, set while a save is running */
     u8 responsePending;         /* 0x0AC, response flag copied from BLOCK20_SAVEDATA_GetPending */
@@ -106,7 +106,7 @@ typedef struct GsyncMessageIdTable {
     int ids[8];                 /* 0x00 */
 } GsyncMessageIdTable;
 
-/* RTC date record used by GF_STANDARD_SetField00_F4E4 and GF_STANDARD_SetupRtc_F540. */
+/* RTC date record used by GF_STANDARD_GetCachedDate and GF_STANDARD_GetDayOfYear. */
 typedef struct GsyncRtcDate {
     u32 year;                   /* 0x00 */
     u32 month;                  /* 0x04 */

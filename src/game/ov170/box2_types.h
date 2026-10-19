@@ -166,7 +166,7 @@ typedef struct BoxWork {
     BoxSeq seq;
     int waitFrames;
     void * palAnm;
-    void * sound;
+    void * cursorMove;
     struct WinMgr * winMgr;
     unsigned int font;
     void * fontAlt;

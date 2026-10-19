@@ -21,10 +21,10 @@
  *   gDeliveryBeaconAssertText 0x021727F0 data a4
  *   NET_WHPIPE_GetEntryBeaconData  0x02177B2C  thumb  ov014
  *   NET_WHPIPE_ReleaseEntrySlot  0x02177BAC  thumb  ov014
- *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
+ *   GF_STANDARD_CalcCrc16  0x0203F1FC  arm
  *   NET_WHPIPE_SelectEntry  0x021780C4  thumb  ov014
  *   NET_WHPIPE_ReleaseAllEntrySlots  0x02177BCC  thumb  ov014
- *   GF_STANDARD_Shuffle  0x0203F328  arm
+ *   GF_STANDARD_XorCrypt  0x0203F328  arm
  *   GFL_NET_BeaconScanStart 0x0203D010 arm
  *   GFL_NET_GetRunState  0x0203CD98  arm
  *   GFL_NET_StartSession  0x0203CBAC  arm
@@ -88,10 +88,10 @@ extern void MI_CpuCopy8(void *src, void *dst, u32 size);
 extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
 extern DeliveryBeaconSlot *NET_WHPIPE_GetEntryBeaconData(int index);
 extern void NET_WHPIPE_ReleaseEntrySlot(u32 index);
-extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
+extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
 extern void NET_WHPIPE_SelectEntry(u32 index);
 extern void NET_WHPIPE_ReleaseAllEntrySlots(void);
-extern void GF_STANDARD_Shuffle(u16 *data, u32 size, u32 seed);
+extern void GF_STANDARD_XorCrypt(u16 *data, u32 size, u32 seed);
 extern void GFL_NET_BeaconScanStart(void);
 extern int GFL_NET_GetRunState(void);
 extern void GFL_NET_StartSession(GFLNetInitializeStruct *init, u32 transportArg, u32 userArg);
@@ -244,7 +244,7 @@ void DELIVERY_BEACON_StepCollectPieces(DeliveryBeacon *work)
                 continue;
             if (work->slots[0][pieceIndex].pieceNumber != 0)
                 continue;
-            crc = GF_STANDARD_SetupCalc(entry->data, DELIVERY_BEACON_PIECE_SIZE);
+            crc = GF_STANDARD_CalcCrc16(entry->data, DELIVERY_BEACON_PIECE_SIZE);
             if (crc != entry->checksum) {
                 NET_WHPIPE_ReleaseEntrySlot(i);
             } else {
@@ -269,7 +269,7 @@ void DELIVERY_BEACON_DecodePieces(DeliveryBeacon *work)
         u32 n;
 
         slot = &work->slots[0][i];
-        GF_STANDARD_Shuffle((u16 *)slot->data, DELIVERY_BEACON_PIECE_SIZE, slot->seed);
+        GF_STANDARD_XorCrypt((u16 *)slot->data, DELIVERY_BEACON_PIECE_SIZE, slot->seed);
         n = (u16)off;
         if (work->param.destSize > (int)(n + DELIVERY_BEACON_PIECE_SIZE))
             MI_CpuCopy8(slot->data, work->param.dest + off, DELIVERY_BEACON_PIECE_SIZE);

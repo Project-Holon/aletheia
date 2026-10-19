@@ -1,5 +1,5 @@
 /*
- * function: WIFIBATTLEMATCH_NET_DeleteCompCard
+ * function: WIFIBATTLEMATCH_NET_DeleteCompRegCard
  * address:  0x021D9854
  * packet:   pkt_021D9854
  * region:   ov175
@@ -26,7 +26,7 @@ typedef unsigned long u32;
 
 extern void WIFIBATTLEMATCH_VIEW_DeleteRecordWindow(u32 p);
 
-void WIFIBATTLEMATCH_NET_DeleteCompCard(char *obj)
+void WIFIBATTLEMATCH_NET_DeleteCompRegCard(char *obj)
 {
     u32 p = ((struct Obj14329 *)obj)->f20;
 

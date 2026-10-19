@@ -11,7 +11,7 @@
  * symbols:
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   func_02005728 0x02005728 thumb
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  */
-extern void CLACT_VBlankSystem(void);extern int func_02005728(int);extern void BG_SYS_FillScrollArea(unsigned,unsigned,unsigned);
-void LOCAL_TVT_SYS_VBlankHandler(void) {CLACT_VBlankSystem();BG_SYS_FillScrollArea(1,0,func_02005728(256));BG_SYS_FillScrollArea(1,3,func_02005728(256));}
+extern void CLACT_VBlankSystem(void);extern int func_02005728(int);extern void BG_SYS_ChangeScrollImmediate(unsigned,unsigned,unsigned);
+void LOCAL_TVT_SYS_VBlankHandler(void) {CLACT_VBlankSystem();BG_SYS_ChangeScrollImmediate(1,0,func_02005728(256));BG_SYS_ChangeScrollImmediate(1,3,func_02005728(256));}

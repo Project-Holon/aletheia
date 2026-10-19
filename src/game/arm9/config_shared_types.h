@@ -13,7 +13,7 @@ struct Config {
     u16 sound_mode   : 2;
     u16 battle_style      : 1;
     u16 battle_scene      : 1;
-    u16 applied_flag      : 1;
+    u16 textLanguage     : 1;
     u16 button_mode      : 1;
     u16 battle_flag     : 1;
     u16 window_frame : 5;

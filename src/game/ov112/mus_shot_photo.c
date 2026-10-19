@@ -1,7 +1,7 @@
 /*
  * file:     mus_shot_photo.c
  * unit:     yes
- * function: MUSICAL_SHOT_SYS_CreateScene, MUSICAL_SHOT_SYS_DeleteScene, MUSICAL_SHOT_SYS_DrawScene, MUSICAL_SHOT_SYS_Init3D, MUSICAL_SHOT_SYS_LoadBg, MUSICAL_SHOT_SYS_Exit3D, MUSICAL_SHOT_SYS_InitActors, MUSICAL_MCSS_SetObjectValue, MUSICAL_MCSS_DrawLabel, MUSICAL_MCSS_NoOp
+ * function: MUSICAL_SHOT_SYS_CreateScene, MUSICAL_SHOT_SYS_DeleteScene, MUSICAL_SHOT_SYS_DrawScene, MUSICAL_SHOT_SYS_Init3D, MUSICAL_SHOT_SYS_LoadBg, MUSICAL_SHOT_SYS_Exit3D, MUSICAL_SHOT_SYS_InitActors, MUSICAL_SHOT_SYS_GetActorSlotX, MUSICAL_SHOT_SYS_DrawCaption, MUSICAL_SHOT_SYS_NoOp
  * address:  0x021F3AF0
  * region:   ov112
  * compiler: dsi/1.1p1
@@ -17,7 +17,7 @@
  *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   GFL_HEAP_Free 0x020307B0 arm
  *   MUSICAL_MCSS_AllocMon  0x021F67E0  thumb  ov112
- *   MUSICAL_MCSS_DrawLabel  0x021F40F4  thumb  ov112
+ *   MUSICAL_SHOT_SYS_DrawCaption  0x021F40F4  thumb  ov112
  *   STA_ACT_LIGHT_AllocElem  0x021F6F24  thumb  ov112
  *   STA_ACT_LIGHT_CreateModel  0x021F6FB0  thumb  ov112
  *   STA_ACT_LIGHT_SetElemFrame  0x021F75DC  thumb  ov112
@@ -37,20 +37,20 @@
  *   MUSICAL_MCSS_DrawRenderObj 0x021F51F4 thumb ov112
  *   STA_ACT_LIGHT_UpdateSprite 0x021F718C thumb ov112
  *   STA_ACT_LIGHT_DrawModel 0x021F6F8C thumb ov112
- *   MUSICAL_MCSS_NoOp 0x021F4280 thumb ov112
+ *   MUSICAL_SHOT_SYS_NoOp 0x021F4280 thumb ov112
  *   G3D_SYSTEM_DrawStart 0x02047964 arm
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   BILLBOARD_Draw 0x0204F7DC arm
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  *   G3D_SYSTEM_Init  0x02046440  arm
- *   BG_SYS_SetLowBit  0x0204044C  arm
+ *   BG_SYS_EnableBg0WithPriority  0x0204044C  arm
  *   G3D_SYSTEM_SetSwapBuffersMode  0x02046BE0  arm
  *   G3D_CAMERA_Create  0x02048A24  arm
  *   G3D_CAMERA_Reset  0x02048AD0  arm
  *   G3X_SetEdgeColorTable  0x0207DCF8  arm
  *   BILLBOARD_Create  0x0204EBD4  arm
  *   BILLBOARD_SetScale  0x0204ED70  arm
- *   BG_SYS_FillScrollArea  0x02040618  arm
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_UTIL_UploadPaletteFromHandle  0x02049BDC  arm
  *   ARC_UTIL_UploadBgCharFromHandle  0x02049658  arm
@@ -74,14 +74,14 @@
  *   G3D_CAMERA_Delete 0x02048AC4 arm
  *   G3D_SYSTEM_Exit 0x02046788 arm
  *   MUSICAL_MCSS_CreateRenderObj 0x021F5164 thumb ov112
- *   MUSICAL_MCSS_SetRenderFieldA 0x021F5438 thumb ov112
+ *   MUSICAL_MCSS_SetRenderCellVramBase 0x021F5438 thumb ov112
  *   MUSICAL_MCSS_CreateActorPool 0x021F48C0 thumb ov112
  *   STA_ACT_LIGHT_AddBillboardImage 0x021F709C thumb ov112
  *   STA_ACT_LIGHT_AddPokemonElem 0x021F760C thumb ov112
  *   STA_ACT_LIGHT_ResetRenderAnim 0x021F80B0 thumb ov112
  *   STA_ACT_LIGHT_SetElemValue 0x021F8154 thumb ov112
  *   STA_ACT_LIGHT_CreateUnit 0x021F6BD8 thumb ov112
- *   MUSICAL_MCSS_SetObjectValue 0x021F40D0 thumb ov112
+ *   MUSICAL_SHOT_SYS_GetActorSlotX 0x021F40D0 thumb ov112
  *   STA_ACT_LIGHT_SetActorPos 0x021F8054 thumb ov112
  *   STA_ACT_LIGHT_SetActorOffset 0x021F8084 thumb ov112
  *   STA_ACT_LIGHT_CreateActor 0x021F6E78 thumb ov112
@@ -106,7 +106,7 @@
  *   PRINTSYS_PrintColor  0x0201C7D0  thumb  arm9
  *   GF_FONT_Create  0x0201D7EC  thumb  arm9
  *   WORDSET_CreateDefault  0x0201EC64  thumb  arm9
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
+ *   WORDSET_Delete  0x0201ED04  thumb  arm9
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
  *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
  */
@@ -143,7 +143,7 @@ extern u32 GFL_HEAP_Free(void *p);
 
 extern char *MUSICAL_MCSS_AllocMon(u16 a, u8 b, u8 c, u8 d, u32 e, u16 heap);
 
-extern void MUSICAL_MCSS_DrawLabel(u8 *p);
+extern void MUSICAL_SHOT_SYS_DrawCaption(u8 *p);
 
 extern u8 *STA_ACT_LIGHT_AllocElem(u32 heap, u32 v);
 
@@ -183,7 +183,7 @@ extern void STA_ACT_LIGHT_UpdateSprite(char *p);
 
 extern void STA_ACT_LIGHT_DrawModel(u8 *p);
 
-extern void MUSICAL_MCSS_NoOp(u8 *);
+extern void MUSICAL_SHOT_SYS_NoOp(u8 *);
 
 extern void G3D_SYSTEM_DrawStart(void);
 
@@ -195,7 +195,7 @@ extern void G3D_SYSTEM_DrawEnd(void);
 
 extern void G3D_SYSTEM_Init(int, int, int, int, int, int, int);
 
-extern void BG_SYS_SetLowBit(u32 mode);
+extern void BG_SYS_EnableBg0WithPriority(u32 mode);
 
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 
@@ -209,7 +209,7 @@ extern void *BILLBOARD_Create(u8 *src, void *heap);
 
 extern void BILLBOARD_SetScale(u8 *dst, struct Blk3 *src);
 
-extern void BG_SYS_FillScrollArea(u32, u32, u32);
+extern void BG_SYS_ChangeScrollImmediate(u32, u32, u32);
 
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
@@ -245,7 +245,7 @@ extern u8 *STA_ACT_LIGHT_AddBillboardImage(u16 heap, u32 b, u32 c, u32 d, u32 e)
 
 extern void *STA_ACT_LIGHT_AddPokemonElem(u8 *, u8 *);
 
-extern void MUSICAL_MCSS_SetRenderFieldA(void **p, int b);
+extern void MUSICAL_MCSS_SetRenderCellVramBase(void **p, int b);
 
 extern void STA_ACT_LIGHT_ResetRenderAnim(int, int);
 
@@ -255,7 +255,7 @@ extern void *STA_ACT_LIGHT_CreateUnit(u16, void *);
 
 extern u8 *STA_ACT_LIGHT_CreateActor(u8 *p, int v);
 
-extern u32 MUSICAL_MCSS_SetObjectValue(void *p, u32 i, u16 c);
+extern u32 MUSICAL_SHOT_SYS_GetActorSlotX(void *p, u32 i, u16 c);
 
 extern void STA_ACT_LIGHT_SetActorPos(void *unused, u32 *p, const u32 *q);
 
@@ -327,7 +327,7 @@ u8 *MUSICAL_SHOT_SYS_CreateScene(u8 *src, u16 heap)
     }
     MUSICAL_SHOT_SYS_Init3D((char *)o);
     MUSICAL_SHOT_SYS_InitActors((ShotScene *)o);
-    MUSICAL_MCSS_DrawLabel(o);
+    MUSICAL_SHOT_SYS_DrawCaption(o);
     ((ShotScene *)o)->model = STA_ACT_LIGHT_AllocElem(*(u16 *)o, 0);
     STA_ACT_LIGHT_CreateModel(((ShotScene *)o)->model, (u8)((ShotScene *)o)->record->programId);
     STA_ACT_LIGHT_SetElemFrame(((ShotScene *)o)->sprite, 0x80);
@@ -368,7 +368,7 @@ void MUSICAL_SHOT_SYS_DrawScene(u8 *scene)
     STA_ACT_LIGHT_UpdateSprite((char *)((ShotScene *)scene)->sprite);
     STA_ACT_LIGHT_DrawModel((u8 *)((ShotScene *)scene)->model);
     BILLBOARD_Draw((struct Board *)((ShotScene *)scene)->board,(struct Camera *)((ShotScene *)scene)->camera,0);
-    MUSICAL_MCSS_NoOp(scene);
+    MUSICAL_SHOT_SYS_NoOp(scene);
     G3D_SYSTEM_DrawEnd();
 }
 
@@ -412,7 +412,7 @@ void MUSICAL_SHOT_SYS_Init3D(char *p)
     T12 *pb;
 
     G3D_SYSTEM_Init(0, 2, 0, 4, 0, *(u16 *)p, 0);
-    BG_SYS_SetLowBit(3);
+    BG_SYS_EnableBg0WithPriority(3);
     G3D_SYSTEM_SetSwapBuffersMode(0, 1);
     cam = G3D_CAMERA_Create(2, 0xC000, 0, 0, 0x10000, 0x1000, 0x3E8000, 0,
                         d_021F81AC, d_021F81B8, d_021F81A0, *(u16 *)p);
@@ -432,7 +432,7 @@ void MUSICAL_SHOT_SYS_Init3D(char *p)
     MUSICAL_SHOT_SYS_LoadBg(d_021F8214, 1, 0);
     MUSICAL_SHOT_SYS_LoadBg(d_021F81D4, 2, 0);
     MUSICAL_SHOT_SYS_LoadBg(d_021F81F4, 3, 0);
-    BG_SYS_FillScrollArea(2, 3, 0xE0);
+    BG_SYS_ChangeScrollImmediate(2, 3, 0xE0);
     h = ARC_TOOL_CreateHandle(0x2F, *(u16 *)p);
     ARC_UTIL_UploadPaletteFromHandle(h, 3, 0, 0, 0, 0x20, *(u16 *)p);
     ARC_UTIL_UploadBgCharFromHandle(h, 9, 2, 0, 0, 0, *(u16 *)p);
@@ -477,7 +477,7 @@ void MUSICAL_SHOT_SYS_InitActors(ShotScene *p)
   void *tmp;
   current = 5 << 16;
   p->renderObj = MUSICAL_MCSS_CreateRenderObj(p->heap);
-  MUSICAL_MCSS_SetRenderFieldA(p->renderObj, 2 << 16);
+  MUSICAL_MCSS_SetRenderCellVramBase(p->renderObj, 2 << 16);
   p->actorPool = MUSICAL_MCSS_CreateActorPool((u32) p->board, 36, p->heap);
   p->sprite = STA_ACT_LIGHT_AddBillboardImage(p->heap, 0, (u32)p->renderObj, (u32)p->actorPool, (u32)p->board);
   for (i = 0; i < 4; i++)
@@ -523,13 +523,13 @@ void MUSICAL_SHOT_SYS_InitActors(ShotScene *p)
   {
     offset = 4 * i;
     row = (u8 *)(((u32)p) + offset);
-    scale.x = MUSICAL_MCSS_SetObjectValue(p, i, *((u16 *) ((*((u8 **) (row + 8))) + 8)));
+    scale.x = MUSICAL_SHOT_SYS_GetActorSlotX(p, i, *((u16 *) ((*((u8 **) (row + 8))) + 8)));
     if (p->record->winnerMask & mask)
     {
       u8 *actor;
       temp = base;
       actor = ((u8 *) p) + offset;
-      pos.x = MUSICAL_MCSS_SetObjectValue(p, i, *((u16 *) ((*((u8 **) (actor + 8))) + 8)));
+      pos.x = MUSICAL_SHOT_SYS_GetActorSlotX(p, i, *((u16 *) ((*((u8 **) (actor + 8))) + 8)));
       pos.y = 155 << 12;
       pos.z = *((int *) (((u32) z) + offset));
       STA_ACT_LIGHT_SetActorPos(p->sprite, *((void **) (actor + 0x30)), (const u32 *)(&pos));
@@ -540,7 +540,7 @@ void MUSICAL_SHOT_SYS_InitActors(ShotScene *p)
     {
       u8 *actor;
       actor = ((u8 *) p) + offset;
-      pos.x = MUSICAL_MCSS_SetObjectValue(p, i, *((u16 *) ((*((u8 **) (actor + 8))) + 8)));
+      pos.x = MUSICAL_SHOT_SYS_GetActorSlotX(p, i, *((u16 *) ((*((u8 **) (actor + 8))) + 8)));
       pos.y = 155 << 12;
       pos.z = *((int *) (((u32) z) + offset));
       STA_ACT_LIGHT_SetActorPos(p->sprite, *((void **) (actor + 0x30)), (const u32 *)(&pos));
@@ -585,7 +585,7 @@ extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
 
 extern void STRBUF_Delete(struct U16Vec *vec);
 
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 
 extern u32 MSGDATA_Delete(struct Rec *rec);
 
@@ -597,17 +597,15 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 
 extern void BG_SYS_PushTile(u32);
 
-u32 MUSICAL_MCSS_SetObjectValue(void *p,u32 i,u16 c);
 
-void MUSICAL_MCSS_DrawLabel(u8 *p);
 
-void MUSICAL_MCSS_NoOp(u8 *unused);
+void MUSICAL_SHOT_SYS_NoOp(u8 *unused);
 
 extern const Quad d_021F8264;
 
-u32 MUSICAL_MCSS_SetObjectValue(void *p,u32 i,u16 c) { Quad q=d_021F8264; return q.words[i]; }
+u32 MUSICAL_SHOT_SYS_GetActorSlotX(void *p,u32 i,u16 c) { Quad q=d_021F8264; return q.words[i]; }
 
-void MUSICAL_MCSS_DrawLabel(u8 *scene)
+void MUSICAL_SHOT_SYS_DrawCaption(u8 *scene)
 {
     void *buf;
     void *t;
@@ -631,7 +629,7 @@ void MUSICAL_MCSS_DrawLabel(u8 *scene)
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(((ShotScene *)scene)->winA),0,0,buf,((ShotScene *)scene)->fontA,3424);
     STRBUF_Delete(buf);
     STRBUF_Delete(b);
-    WORDSET_DeleteStrbufED04(t);
+    WORDSET_Delete(t);
     MSGDATA_Delete(f);
     buf=STRBUF_Create(37,((ShotScene *)scene)->heap);
     STRBUF_SetString(buf,(const u16 *)(*(u8 * *)&((ShotScene *)scene)->record+356));
@@ -644,4 +642,4 @@ void MUSICAL_MCSS_DrawLabel(u8 *scene)
     BG_SYS_PushTile(1);
 }
 
-void MUSICAL_MCSS_NoOp(u8 *unused) { }
+void MUSICAL_SHOT_SYS_NoOp(u8 *unused) { }

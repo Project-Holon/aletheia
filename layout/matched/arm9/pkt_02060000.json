@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "FNDHEAP_Finalize",
+   "name": "NNSi_FndFinalizeHeap",
    "address": "0x0206074C",
    "kind": "game",
    "region": "arm9",

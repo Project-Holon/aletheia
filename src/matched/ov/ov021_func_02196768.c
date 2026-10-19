@@ -12,8 +12,8 @@
  * symbols:
  *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb
  *   IRCBATTLEMENU_DeleteButtonWindows  0x02196454  thumb  ov021
- *   BG_SYS_SetTileUnit  0x02040DA8  arm
- *   BG_SYS_DeleteHalf  0x0203FB44  arm
+ *   BG_SYS_FreeTiles  0x02040DA8  arm
+ *   BG_SYS_FreeTileRun  0x0203FB44  arm
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   GF_FONT_Delete  0x0201D83C  thumb
@@ -28,8 +28,8 @@ typedef unsigned int   u32;
 
 extern void GF_FONT_SetDefaultTextColor(void);
 extern void IRCBATTLEMENU_DeleteButtonWindows(u8 *p);
-extern void BG_SYS_SetTileUnit(u32 a, u32 b, u32 c);
-extern void BG_SYS_DeleteHalf(u32 a, u32 b, u32 c);
+extern void BG_SYS_FreeTiles(u32 a, u32 b, u32 c);
+extern void BG_SYS_FreeTileRun(u32 a, u32 b, u32 c);
 extern void BG_SYS_FreeLayerBuf(u32 a);
 struct Rec;
 struct U16Vec;
@@ -44,9 +44,9 @@ void IRCBATTLEMENU_FreeMenuGraphics(u8 *p)
 
     GF_FONT_SetDefaultTextColor();
     IRCBATTLEMENU_DeleteButtonWindows(p);
-    BG_SYS_SetTileUnit(5, 1, 0);
+    BG_SYS_FreeTiles(5, 1, 0);
     v = ((struct Obj03578 *)p)->f3C;
-    BG_SYS_DeleteHalf(5, (u16)v, (u16)(v >> 16));
+    BG_SYS_FreeTileRun(5, (u16)v, (u16)(v >> 16));
     BG_SYS_FreeLayerBuf(5);
     BG_SYS_FreeLayerBuf(4);
     MSGDATA_Delete((struct Rec *)(((struct Obj03578 *)p)->f28));

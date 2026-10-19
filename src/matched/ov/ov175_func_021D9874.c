@@ -1,5 +1,5 @@
 /*
- * function: WIFIBATTLEMATCH_NET_SetupCompCard
+ * function: WIFIBATTLEMATCH_NET_SetupCompPartyWindow
  * address: 0x021D9874
  * packet: pkt_ov175_021D9874
  * region: ov175
@@ -21,7 +21,7 @@ struct Big;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *BATTLE_BOX_GetFromSave(void *);
 extern void *WIFIBATTLEMATCH_VIEW_CreatePartyWindow(void *, int, int, int, int, int, int);
-void WIFIBATTLEMATCH_NET_SetupCompCard(char *ctx)
+void WIFIBATTLEMATCH_NET_SetupCompPartyWindow(char *ctx)
 {
     int window;
     if (((struct Obj00013 *)ctx)->f24 == 0) {

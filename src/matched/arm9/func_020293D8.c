@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb
+ *   GFL_USE_SetBgmPaused  0x02005DE4  thumb
  *   GFL_USE_PopBgm  0x02005E9C  thumb
  *   FIELD_SOUND_SYSTEM_ResumeSlots  0x02028BDC  thumb
  */
@@ -29,7 +29,7 @@ struct T {
 };
 
 extern int GFL_USE_PopBgm(void);
-extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_SetBgmPaused(void *p);
 struct S;
 extern void FIELD_SOUND_SYSTEM_ResumeSlots(struct S *s, u32 mask);
 
@@ -41,7 +41,7 @@ void FIELD_SOUND_SYSTEM_PopBgm(struct T *p)
         return;
     }
     GFL_USE_PopBgm();
-    GFL_USE_SetBgmPlayerParam(0);
+    GFL_USE_SetBgmPaused(0);
     n = p->f20 - 1;
     p->f20 = n;
     p->f08 = *(u32 *)((char *)p + 0x24 + n * 4);

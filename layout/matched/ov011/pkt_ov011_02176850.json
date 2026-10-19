@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "INTRUDE_COMM_SendValueNow",
+   "name": "INTRUDE_COMM_RequestPartnerSymbolPage",
    "address": "0x02176850",
    "kind": "game",
    "region": "ov011",

@@ -23,7 +23,7 @@
  *   WORLDTRADE_SetNextState  0x021F4E98  thumb
  *   WORLDTRADE_BOX_CheckMonRestrictionA  0x021F6BFC  thumb
  *   WORLDTRADE_BOX_CheckMonRestrictionB  0x021F6C28  thumb
- *   WORLDTRADE_BOX_ClampSlot  0x021F6B34  thumb
+ *   WORLDTRADE_BOX_IsPartyBox  0x021F6B34  thumb
  *   BMP_MENUWORK_Delete  0x0201F868  thumb  arm9
  *   POKEPARTY_GetMember  0x0201AB28  thumb  arm9
  *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb  arm9
@@ -68,7 +68,7 @@ extern void WORLDTRADE_BOX_PrintMessage(u8 *p, u32 b, u32 c, u32 d, u32 e, u32 s
 extern void WORLDTRADE_SetNextState(u8 *p, u32 a, u32 b);
 extern int WORLDTRADE_BOX_CheckMonRestrictionA(u32 handle);
 extern int WORLDTRADE_BOX_CheckMonRestrictionB(u32 handle);
-extern int WORLDTRADE_BOX_ClampSlot(int v);
+extern int WORLDTRADE_BOX_IsPartyBox(int v);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 
 int WORLDTRADE_BOX_StateOfferMenuInput(Work *p)
@@ -101,7 +101,7 @@ int WORLDTRADE_BOX_StateOfferMenuInput(Work *p)
             WORLDTRADE_BOX_PrintMessage((u8 *)p, 0xC1, 1, 0, 0xF0F, 1);
             WORLDTRADE_SetNextState((u8 *)p, 4, 1);
         } else {
-            if (WORLDTRADE_BOX_ClampSlot(p->box) != 0) {
+            if (WORLDTRADE_BOX_IsPartyBox(p->box) != 0) {
                 POKEPARTY_GetMember(p->ctx->party, p->slot);
             }
             p->mon = WORLDTRADE_BOX_GetPartyMon(p->ctx->party, p->ctx->save, p->box, p->slot);

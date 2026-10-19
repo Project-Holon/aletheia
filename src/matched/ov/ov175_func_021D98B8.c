@@ -1,5 +1,5 @@
 /*
- * function: WIFIBATTLEMATCH_NET_DeleteRegSprite
+ * function: WIFIBATTLEMATCH_NET_DeleteCompPartyWindow
  * address:  0x021D98B8
  * packet:   pkt_021D98B8
  * region:   ov175
@@ -21,7 +21,7 @@ typedef unsigned long u32;
 
 extern void WIFIBATTLEMATCH_VIEW_DeletePartyWindow(char *p);
 
-void WIFIBATTLEMATCH_NET_DeleteRegSprite(char *obj)
+void WIFIBATTLEMATCH_NET_DeleteCompPartyWindow(char *obj)
 {
     u32 p = ((struct Obj14330 *)obj)->f24;
     if (p != 0) {

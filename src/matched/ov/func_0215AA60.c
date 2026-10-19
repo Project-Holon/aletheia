@@ -14,8 +14,8 @@
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200873C  0x0200873C  thumb
- *   CONFIG_GetAppliedFlag  0x020083E4  thumb
- *   CONFIG_SetAppliedFlag  0x020083EC  thumb
+ *   CONFIG_GetTextLanguage  0x020083E4  thumb
+ *   CONFIG_SetTextLanguage  0x020083EC  thumb
  */
 
 typedef unsigned char u8;
@@ -27,8 +27,8 @@ struct Sub02008700Obj;
 extern void *SCRCMD_WORK_GetGameData(void *a0);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
-extern int CONFIG_GetAppliedFlag(unsigned short *p);
-extern int CONFIG_SetAppliedFlag();
+extern int CONFIG_GetTextLanguage(unsigned short *p);
+extern int CONFIG_SetTextLanguage();
 
 int SCRCMD_WORK_CmdToggleConfigFlag(int a0, int a1)
 {
@@ -43,7 +43,7 @@ loc_0215AA68:
 loc_0215AA6C:
     t4 = func_0200873C(p);
 loc_0215AA70:
-    a0 = CONFIG_GetAppliedFlag((short unsigned int *)t4);
+    a0 = CONFIG_GetTextLanguage((short unsigned int *)t4);
 loc_0215AA76:
 a1 = a0 + 0;
     if (a1 != 0) goto loc_0215AA7E;
@@ -55,7 +55,7 @@ loc_0215AA7E:
 loc_0215AA82:
 a1 = 0;
 loc_0215AA84:
-    a0 = CONFIG_SetAppliedFlag(t4, a1);
+    a0 = CONFIG_SetTextLanguage(t4, a1);
 loc_0215AA8A:
 a0 = 0;
     return a0;}

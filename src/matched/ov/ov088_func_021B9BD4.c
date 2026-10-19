@@ -13,19 +13,19 @@
  *
  * symbols:
  *   func_02040588  0x02040588  arm
- *   BG_SYS_ResetSlot  0x02041EE4  arm
+ *   BG_SYS_ChangeScroll  0x02041EE4  arm
  *   GPOWER_GetSpecialPowerId  0x020111E8  thumb
  */
 
 typedef unsigned int   u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
+extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
 extern u32 GPOWER_GetSpecialPowerId(void);
 
 void STARTMENU_LogoUpdate(int *p)
 {
     func_02040588(5, 0);
-    BG_SYS_ResetSlot(6, 0, p[10] / 2);
+    BG_SYS_ChangeScroll(6, 0, p[10] / 2);
     if (GPOWER_GetSpecialPowerId() == 0x15) {
         p[10]++;
     } else {

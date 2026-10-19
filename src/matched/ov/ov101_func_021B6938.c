@@ -17,7 +17,7 @@
  *   COMPATIBLE_IRC_SYS_Create 0x021B6100 thumb ov101
  *   IRC_COMPATIBLE_SetHandler 0x021B6A3C thumb ov101
  *   IRC_COMPATIBLE_HandleEntry 0x021B6A4C thumb ov101
- *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_SetBgmPaused 0x02005DE4 thumb
  *   GFL_USE_PushBgm 0x02005E64 thumb
  *   IRC_COMPATIBLE_SourceFileName 0x021B753C data a1
  */
@@ -36,7 +36,7 @@ extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void *COMPATIBLE_IRC_SYS_Create(int,int,int,int);
 extern void IRC_COMPATIBLE_SetHandler(u8 *,u32);
 extern void IRC_COMPATIBLE_HandleEntry(u8 *p, u16 *state);
-extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_SetBgmPaused(void *p);
 extern int GFL_USE_PushBgm(void);
 extern const char IRC_COMPATIBLE_SourceFileName[];
 int IRC_COMPATIBLE_ProcInit(struct Proc *a,int b,int c)
@@ -55,7 +55,7 @@ int IRC_COMPATIBLE_ProcInit(struct Proc *a,int b,int c)
     ((struct Obj04421 *)p)->f0=COMPATIBLE_IRC_SYS_Create(-1,handle,58,0);
     ((struct Obj04421 *)p)->f34=1;
     IRC_COMPATIBLE_SetHandler(p,(u32)IRC_COMPATIBLE_HandleEntry);
-    GFL_USE_SetBgmPlayerParam((void *)1);
+    GFL_USE_SetBgmPaused((void *)1);
     GFL_USE_PushBgm();
     return 1;
 }

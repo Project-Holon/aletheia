@@ -1,5 +1,5 @@
 /*
- * function: STA_ACT_EFFECT_GetSceneOwner
+ * function: STA_ACTING_GetElapsedTicks
  * address: 0x021F9E44
  * packet: pkt_ov132_021F9E44
  * region: ov132
@@ -12,4 +12,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-u32 STA_ACT_EFFECT_GetSceneOwner(u8 *p) { return ((struct Obj23223 *)p)->f1E8; }
+u32 STA_ACTING_GetElapsedTicks(u8 *p) { return ((struct Obj23223 *)p)->f1E8; }

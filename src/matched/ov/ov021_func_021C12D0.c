@@ -12,18 +12,18 @@
  * Frees the resource buffer, then releases the handle.
  *
  * symbols:
- *   TCBL_GetTaskUserData  0x02030EE8  arm  arm9
+ *   TCBL_IsDeletePending  0x02030EE8  arm  arm9
  */
 
 typedef unsigned int   u32;
 struct S02030EE8;
-extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
+extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
 extern u32 func_020307B0(void *p);
 struct Node;
 extern void func_02030EAC(struct Node *n);
 
 void FIELD_PLAYER_GRID_EVENT_DeleteJumpTask(void *h)
 {
-    func_020307B0((void *)TCBL_GetTaskUserData(h));
+    func_020307B0((void *)TCBL_IsDeletePending(h));
     func_02030EAC(h);
 }

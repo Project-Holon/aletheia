@@ -10,12 +10,12 @@
  * status: EXACT*
  * extent: trailing 2-byte alignment padding only.
  * symbols:
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  */
 #include "../include/Obj04488.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern void BG_SYS_FillScrollArea(u32,u32,u32);
-void GTSNEGO_MSG_StepIdleFade(char *p) { if(((struct Obj04488 *)p)->f114) { BG_SYS_FillScrollArea(2,3,((struct Obj04488 *)p)->f110); ((struct Obj04488 *)p)->f110+=1; } }
+extern void BG_SYS_ChangeScrollImmediate(u32,u32,u32);
+void GTSNEGO_MSG_StepIdleFade(char *p) { if(((struct Obj04488 *)p)->f114) { BG_SYS_ChangeScrollImmediate(2,3,((struct Obj04488 *)p)->f110); ((struct Obj04488 *)p)->f110+=1; } }

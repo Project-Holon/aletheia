@@ -23,8 +23,8 @@
  *   IRC_RHYTHM_InitCountdown 0x021B80D4 thumb ov104
  *   IRC_RHYTHM_InitTextWindow 0x021B7E58 thumb ov104
  *   IRC_RHYTHM_PrintCenteredMessage 0x021B7F80 thumb ov104
- *   BG_SYS_SetScrollY 0x02041F6C arm
- *   BG_SYS_SetAffine 0x02041FB0 arm
+ *   BG_SYS_ChangeScale 0x02041F6C arm
+ *   BG_SYS_ChangeCenter 0x02041FB0 arm
  *   IRC_RHYTHM_InitNetSync 0x021B8724 thumb ov104
  *   IRC_RHYTHM_InitRecord 0x021B85D8 thumb ov104
  *   IRC_RHYTHM_InitParticles 0x021B8A88 thumb ov104
@@ -60,8 +60,8 @@ extern void IRC_RHYTHM_PrintMessage(u8 *,void *,int,int,s16);
 extern void IRC_RHYTHM_InitCountdown(int *p, u8 *q, int a2);
 extern void IRC_RHYTHM_InitTextWindow(u8 *,u32,u32,u8,u8,u8,u8,u16,u8,u16);
 extern void IRC_RHYTHM_PrintCenteredMessage(u8 *,void *,int);
-extern void BG_SYS_SetScrollY(u32 which, u32 op, u32 value);
-extern void BG_SYS_SetAffine(u32,u32,u16);
+extern void BG_SYS_ChangeScale(u32 which, u32 op, u32 value);
+extern void BG_SYS_ChangeCenter(u32,u32,u16);
 extern void IRC_RHYTHM_InitNetSync(u8 *p, int a);
 extern void IRC_RHYTHM_InitRecord(void *p);
 extern void IRC_RHYTHM_InitParticles(u8 *,void *,int,int,int);
@@ -93,10 +93,10 @@ int IRC_RHYTHM_Init(struct Proc *obj,void *state,u8 *context) {
  IRC_RHYTHM_InitCountdown((int *)(p+0x7b0),p,0x38);
  IRC_RHYTHM_InitTextWindow(p+0x7dc,7,6,3,20,5,8,1,1,0x38);
  IRC_RHYTHM_PrintCenteredMessage(p+0x7dc,p+0xbc,7);
- BG_SYS_SetScrollY(7,3,0x1000);
- BG_SYS_SetScrollY(7,6,0x1000);
- BG_SYS_SetAffine(7,9,0x80);
- BG_SYS_SetAffine(7,12,0x28);
+ BG_SYS_ChangeScale(7,3,0x1000);
+ BG_SYS_ChangeScale(7,6,0x1000);
+ BG_SYS_ChangeCenter(7,9,0x80);
+ BG_SYS_ChangeCenter(7,12,0x28);
  IRC_RHYTHM_InitTextWindow(p+0x7f0,2,8,10,16,2,13,0,0,0x38);
  IRC_RHYTHM_InitNetSync(p+0xe0,(int)(*(void **)(CTX(p)+4)));
  IRC_RHYTHM_InitRecord(p+0x814);

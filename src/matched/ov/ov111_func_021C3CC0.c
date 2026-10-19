@@ -31,7 +31,7 @@
  *   VIEWER_MAIN_InitBg  0x021C43E8  thumb  ov111
  *   VIEWER_MAIN_LoadBgResources  0x021C453C  thumb  ov111
  *   VIEWER_TEXT_InitActors  0x021C6D9C  thumb  ov111
- *   VIEWER_TEXT_SetScrollParam  0x021C6804  thumb  ov111
+ *   VIEWER_TEXT_BuildRowList  0x021C6804  thumb  ov111
  *   VIEWER_TEXT_CreateActor  0x021C6E8C  thumb  ov111
  *   VIEWER_TEXT_Init  0x021C6000  thumb  ov111
  *   VIEWER_TEXT_NoOp  0x021C6D98  thumb  ov111
@@ -141,7 +141,7 @@ extern void VIEWER_MAIN_LoadResources(Work *p);
 extern void VIEWER_MAIN_InitBg(void);
 extern void VIEWER_MAIN_LoadBgResources(Work *p);
 extern void VIEWER_TEXT_InitActors(Anim *a, const void *cfg);
-extern void VIEWER_TEXT_SetScrollParam(Work *p, Info *info);
+extern void VIEWER_TEXT_BuildRowList(Work *p, Info *info);
 extern void VIEWER_TEXT_CreateActor(Anim *a);
 extern void VIEWER_TEXT_Init(Work *p);
 extern void VIEWER_TEXT_NoOp(Work *p, void *bg, u32 a, void *b);
@@ -197,7 +197,7 @@ int VIEWER_MAIN_Create(void *man, int *state, Args *args)
     VIEWER_MAIN_InitBg();
     VIEWER_MAIN_LoadBgResources(p);
     VIEWER_TEXT_InitActors(&p->anim, d_021C8564);
-    VIEWER_TEXT_SetScrollParam(p, p->args->info);
+    VIEWER_TEXT_BuildRowList(p, p->args->info);
     VIEWER_TEXT_CreateActor(&p->anim);
     VIEWER_TEXT_Init(p);
     p->f32B0 = PMS_DRAW_Create((u32)p->anim.f4, 1, (u32)p->f32CC, (u32)p->f31FC, 8, 1, 0x27);

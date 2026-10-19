@@ -1,5 +1,5 @@
 /*
- * function: VCT_SESSION_SetSendEnabled
+ * function: VCT_MIXER_SetSendEnabled
  * address: 0x021B0CD8
  * packet: pkt_ov013_021B0CD8
  * region: ov013
@@ -19,7 +19,7 @@
 extern int gVctSendEnabled;
 extern struct G_021B3C84 gVctSendState;
 extern void VCT_DSP_ResetVoiceGate(void);
-void VCT_SESSION_SetSendEnabled(int a)
+void VCT_MIXER_SetSendEnabled(int a)
 {
     gVctSendEnabled = a;
     VCT_DSP_ResetVoiceGate();

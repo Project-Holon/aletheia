@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_WORK_CmdSetZukanFlagA
+ * function: SCRCMD_WORK_CmdEnableNationalDex
  * address:  0x0215AFE0
  * packet:   pkt_0215AFE0
  * region:   ov010
@@ -24,7 +24,7 @@ extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 struct Blk37;
 extern struct Blk37 *ZUKAN_SAVE_EnableNationalDex(struct Blk37 *p);
 
-int SCRCMD_WORK_CmdSetZukanFlagA(int a0, int a1)
+int SCRCMD_WORK_CmdEnableNationalDex(int a0, int a1)
 {
     void *p;
     void *v0;

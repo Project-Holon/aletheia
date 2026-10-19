@@ -49,7 +49,7 @@
  *   MAP_ATTR_IsLedgeWest  0x021AB170  thumb  ov021
  *   MAP_ATTR_IsLedgeEast  0x021AB17C  thumb  ov021
  *   FLDMMDL_FreeAcmd  0x0216D4B4  thumb  ov010
- *   FLDMMDL_DRAW_GetFrameGroup  0x0219F7CC  thumb  ov021
+ *   FLDMMDL_DRAW_SyncFrameGroup  0x0219F7CC  thumb  ov021
  *   MAP_ATTR_IsTallGrass  0x021AB140  thumb  ov021
  *   MAP_ATTR_IsDeepSand  0x021AB404  thumb  ov021
  *   MAP_ATTR_IsDeepSandB  0x021AB410  thumb  ov021
@@ -182,7 +182,7 @@ extern int MAP_ATTR_IsLedgeSouth(u16 attrKind);
 extern int MAP_ATTR_IsLedgeWest(u16 attrKind);
 extern int MAP_ATTR_IsLedgeEast(u16 attrKind);
 extern void FLDMMDL_FreeAcmd(Mmdl *mmdl);
-extern int FLDMMDL_DRAW_GetFrameGroup(Mmdl *mmdl, u32 frame);
+extern int FLDMMDL_DRAW_SyncFrameGroup(Mmdl *mmdl, u32 frame);
 extern int MAP_ATTR_IsTallGrass(int attrKind);
 extern int MAP_ATTR_IsDeepSand(int attrKind);
 extern int MAP_ATTR_IsDeepSandB(int attrKind);
@@ -774,7 +774,7 @@ int FIELD_PLAYER_GRID_GetHoldResultOnFootHop(FieldPlayerGrid *grid, Mmdl *mmdl, 
             FIELD_PLAYER_GRID_StartHold(grid);
         }
         if (grid->holdEffectPending == 1) {
-            if (FLDMMDL_DRAW_GetFrameGroup(mmdl, grid->holdFrames) != 0) {
+            if (FLDMMDL_DRAW_SyncFrameGroup(mmdl, grid->holdFrames) != 0) {
                 grid->holdEffectPending = 0;
             }
         }

@@ -11,7 +11,7 @@
  * symbols:
  *   MICTEST_GetMicLevel 0x0218449C thumb ov168
  *   MICTEST_LevelToAnim 0x021845AC thumb ov168
- *   MICTEST_HasFreeSlot 0x021845E0 thumb ov168
+ *   MICTEST_AreAllSpritesIdle 0x021845E0 thumb ov168
  *   MICTEST_SpawnSprite 0x02184600 thumb ov168
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   d_02184A40 0x02184A40 data a4
@@ -23,7 +23,7 @@ typedef unsigned short u16;
 extern int MICTEST_GetMicLevel(void *);
 extern int MICTEST_LevelToAnim(u8);
 struct Obj;
-extern int MICTEST_HasFreeSlot(char *p);
+extern int MICTEST_AreAllSpritesIdle(char *p);
 extern int MICTEST_SpawnSprite(char *,int,u16,int,void *);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern unsigned d_02184A40;
@@ -47,7 +47,7 @@ void MICTEST_OnMicEvent(int event, char *p)
                 CLACT_SetActorAnimSeq(((struct Obj01947 *)p)->f8,1);
                 ((struct Obj04544 *)q)->f24=0;
             }
-            if(MICTEST_HasFreeSlot(p)){
+            if(MICTEST_AreAllSpritesIdle(p)){
                 MICTEST_SpawnSprite(p,((struct Obj01947 *)p)->f14C,128,64,((struct Obj01947 *)p)->f144);
             }else{
                 --((struct Obj01947 *)p)->fE0;

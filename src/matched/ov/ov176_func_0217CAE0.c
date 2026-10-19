@@ -13,9 +13,9 @@
  *   WIFIBATTLEMATCH_UTIL_SetCallback 0x021E8AA0 thumb ov177
  *   LIVEBATTLEMATCH_FLOW_Battle 0x0217C2EC thumb ov176
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
+ *   MET_TRAINERS_GetFromSave 0x0200ED48 thumb
  *   func_02008530 0x02008530 thumb
- *   MISC_SAVEDATA_InsertRecentValue 0x0200ED54 thumb
+ *   MET_TRAINERS_Insert 0x0200ED54 thumb
  *   LIVEBATTLEMATCH_IRC_ResetState 0x0217E1B8 thumb ov176
  *   LIVEBATTLEMATCH_IRC_EndSession 0x0217E1C0 thumb ov176
  *   func_0200E918 0x0200E918 thumb
@@ -44,9 +44,9 @@ extern int LIVEBATTLEMATCH_IRC_CheckError(u8 *p);
 extern void WIFIBATTLEMATCH_UTIL_SetCallback(int *,int);
 extern void LIVEBATTLEMATCH_FLOW_Battle(int *sys, u32 *state, u8 *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *MISC_SAVEDATA_GetBlock44(void *);
+extern void *MET_TRAINERS_GetFromSave(void *);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
-extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *l, u32 val);
+extern void MET_TRAINERS_Insert(struct L0200ED54 *l, u32 val);
 extern int LIVEBATTLEMATCH_IRC_ResetState(int *);
 extern int LIVEBATTLEMATCH_IRC_EndSession(int *);
 extern u8 func_0200E918(const u8 *base, u32 idx);
@@ -71,8 +71,8 @@ void LIVEBATTLEMATCH_FLOW_Card(int *sys,u32 *state,u8 *p)
     }
     switch(*state){
     case 0:{
-        void *v=MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(((struct Obj01271 *)p)->f1B8));
-        MISC_SAVEDATA_InsertRecentValue(v,func_02008530(((struct Obj01271 *)p)->f1C0));
+        void *v=MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl(((struct Obj01271 *)p)->f1B8));
+        MET_TRAINERS_Insert(v,func_02008530(((struct Obj01271 *)p)->f1C0));
         *state=1;break;
     }
     case 1:if(LIVEBATTLEMATCH_IRC_ResetState(*(int * *)&((struct Obj01271 *)p)->fC)) *state=2;break;

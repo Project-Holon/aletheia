@@ -27,8 +27,8 @@
  *   VM_GetUserData 0x02011324 thumb
  *   func_02030734 0x02030734 arm
  *   func_020307B0 0x020307B0 arm
- *   BUTTON_MAN_SetUserData 0x02051A2C arm
- *   BUTTON_MAN_SetCallback 0x02051A24 arm
+ *   PARTICLE_EMITTER_SetUserData 0x02051A2C arm
+ *   PARTICLE_EMITTER_SetCallback 0x02051A24 arm
  *   func_0207C768 0x0207C768 arm
  *   VEC_Distance 0x0207CF3C arm
  *   VEC_Normalize 0x0207CCA4 arm
@@ -37,26 +37,26 @@
  *   VEC_CrossProduct 0x0207CAE8 arm
  *   MTX_RotAxis43 0x0207B65C arm
  *   MTX_MultVec43 0x0207BC08 arm
- *   BUTTON_MAN_SetRow2 0x020519C4 arm
- *   BUTTON_MAN_SetRow5 0x02051A04 arm
- *   BUTTON_MAN_GetRot 0x020517B4 arm
- *   BUTTON_MAN_SetRow3Half 0x020519E4 arm
- *   BUTTON_MAN_SetRot 0x02051880 arm
- *   BUTTON_MAN_GetScaleX 0x020517D0 arm
- *   BUTTON_MAN_GetAlpha 0x02051830 arm
- *   BUTTON_MAN_GetAngle 0x02051820 arm
- *   BUTTON_MAN_GetScaleY 0x020517E0 arm
- *   BUTTON_MAN_SetScaleX 0x020517D8 arm
- *   BUTTON_MAN_SetScaleY 0x020517E8 arm
- *   BUTTON_MAN_SetAlpha 0x020518A4 arm
- *   BUTTON_MAN_SetAngle 0x0205189C arm
- *   BUTTON_MAN_GetPos 0x02051790 arm
- *   BUTTON_MAN_SetPos 0x020517A4 arm
- *   BUTTON_MAN_GetOffsetX 0x020517F0 arm
- *   BUTTON_MAN_SetOffsetX 0x02051800 arm
- *   BUTTON_MAN_GetOffsetY 0x02051808 arm
- *   BUTTON_MAN_SetOffsetY 0x02051818 arm
- *   BUTTON_MAN_SetEmitterPos 0x02051838 arm
+ *   PARTICLE_EMITTER_SetBehavior2Data 0x020519C4 arm
+ *   PARTICLE_EMITTER_SetBehavior5Data 0x02051A04 arm
+ *   PARTICLE_EMITTER_GetRot 0x020517B4 arm
+ *   PARTICLE_EMITTER_SetBehavior3Half 0x020519E4 arm
+ *   PARTICLE_EMITTER_SetRot 0x02051880 arm
+ *   PARTICLE_EMITTER_GetScaleX 0x020517D0 arm
+ *   PARTICLE_EMITTER_GetAlpha 0x02051830 arm
+ *   PARTICLE_EMITTER_GetAngle 0x02051820 arm
+ *   PARTICLE_EMITTER_GetScaleY 0x020517E0 arm
+ *   PARTICLE_EMITTER_SetScaleX 0x020517D8 arm
+ *   PARTICLE_EMITTER_SetScaleY 0x020517E8 arm
+ *   PARTICLE_EMITTER_SetAlpha 0x020518A4 arm
+ *   PARTICLE_EMITTER_SetAngle 0x0205189C arm
+ *   PARTICLE_EMITTER_GetPos 0x02051790 arm
+ *   PARTICLE_EMITTER_SetPos 0x020517A4 arm
+ *   PARTICLE_EMITTER_GetOffsetX 0x020517F0 arm
+ *   PARTICLE_EMITTER_SetOffsetX 0x02051800 arm
+ *   PARTICLE_EMITTER_GetOffsetY 0x02051808 arm
+ *   PARTICLE_EMITTER_SetOffsetY 0x02051818 arm
+ *   PARTICLE_EMITTER_SetEmitPos 0x02051838 arm
  *   _ll_mul 0x0209C054 arm
  *   d_0220AE68 0x0220AE68 data
  *   FX_SinCosTable_ 0x020A1B38 data
@@ -124,8 +124,8 @@ extern void BTLV_EFFVM_ParticleMotionStep(void *p, int active);
 extern void *VM_GetUserData(struct ScriptVm *vm);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020307B0(void *p);
-extern void BUTTON_MAN_SetUserData(void *p, int v);
-extern void BUTTON_MAN_SetCallback(void *p, int v);
+extern void PARTICLE_EMITTER_SetUserData(void *p, int v);
+extern void PARTICLE_EMITTER_SetCallback(void *p, int v);
 extern u32 func_0207C768(u32 a, u32 b);
 extern int VEC_Distance(const Vec *a, const Vec *b);
 extern void VEC_Normalize(const Vec *a, Vec *b);
@@ -134,26 +134,26 @@ extern u16 FX_AcosIdx(int a);
 extern void VEC_CrossProduct(const Vec *a, const Vec *b, Vec *c);
 extern void MTX_RotAxis43(void *m, const Vec *axis, int s, int c);
 extern void MTX_MultVec43(const Vec *a, const void *m, Vec *out);
-extern void BUTTON_MAN_SetRow2(void *p, struct S12 *q);
-extern void BUTTON_MAN_SetRow5(void *p, struct S12 *q);
-extern void BUTTON_MAN_GetRot(void *p, Vec16 *v);
-extern void BUTTON_MAN_SetRow3Half(void *p, u16 *q);
-extern void BUTTON_MAN_SetRot(struct Obj *o, const struct Vec3 *v);
-extern int BUTTON_MAN_GetScaleX(char *p);
-extern unsigned short BUTTON_MAN_GetAlpha(char *p);
-extern short BUTTON_MAN_GetAngle(char *p);
-extern int BUTTON_MAN_GetScaleY(char *p);
-extern void BUTTON_MAN_SetScaleX(char *p, int v);
-extern void BUTTON_MAN_SetScaleY(char *p, int v);
-extern void BUTTON_MAN_SetAlpha(struct Obj *o, u16 v);
-extern void BUTTON_MAN_SetAngle(struct Obj *o, u32 v);
-extern void BUTTON_MAN_GetPos(void *p, Vec *v);
-extern void BUTTON_MAN_SetPos(void *p, const Vec *v);
-extern short BUTTON_MAN_GetOffsetX(char *p);
-extern void BUTTON_MAN_SetOffsetX(char *p, int v);
-extern short BUTTON_MAN_GetOffsetY(char *p);
-extern void BUTTON_MAN_SetOffsetY(char *p, int v);
-extern void BUTTON_MAN_SetEmitterPos(void *p, const Vec *v);
+extern void PARTICLE_EMITTER_SetBehavior2Data(void *p, struct S12 *q);
+extern void PARTICLE_EMITTER_SetBehavior5Data(void *p, struct S12 *q);
+extern void PARTICLE_EMITTER_GetRot(void *p, Vec16 *v);
+extern void PARTICLE_EMITTER_SetBehavior3Half(void *p, u16 *q);
+extern void PARTICLE_EMITTER_SetRot(struct Obj *o, const struct Vec3 *v);
+extern int PARTICLE_EMITTER_GetScaleX(char *p);
+extern unsigned short PARTICLE_EMITTER_GetAlpha(char *p);
+extern short PARTICLE_EMITTER_GetAngle(char *p);
+extern int PARTICLE_EMITTER_GetScaleY(char *p);
+extern void PARTICLE_EMITTER_SetScaleX(char *p, int v);
+extern void PARTICLE_EMITTER_SetScaleY(char *p, int v);
+extern void PARTICLE_EMITTER_SetAlpha(struct Obj *o, u16 v);
+extern void PARTICLE_EMITTER_SetAngle(struct Obj *o, u32 v);
+extern void PARTICLE_EMITTER_GetPos(void *p, Vec *v);
+extern void PARTICLE_EMITTER_SetPos(void *p, const Vec *v);
+extern short PARTICLE_EMITTER_GetOffsetX(char *p);
+extern void PARTICLE_EMITTER_SetOffsetX(char *p, int v);
+extern short PARTICLE_EMITTER_GetOffsetY(char *p);
+extern void PARTICLE_EMITTER_SetOffsetY(char *p, int v);
+extern void PARTICLE_EMITTER_SetEmitPos(void *p, const Vec *v);
 #define MUL(a, b) ((int)(((s64)(a) * (b) + 0x800) >> 12))
 
 void BTLV_EFFVM_ParticleStartCallback(void *p)
@@ -271,8 +271,8 @@ void BTLV_EFFVM_ParticleStartCallback(void *p)
         s = VM_GetUserData((struct ScriptVm *)r->vm);
         *(Obj **)(s + 0x1f4 + ((struct Obj07881 *)s)->f234 * 4) = func_02030734((u16)((((struct Obj07881 *)s)->f238 & 0x7fff) | 0x8000), 0x60, 0, d_0220AE68, 0x194a);
         o = *(Obj **)(s + 0x1f4 + ((struct Obj07881 *)s)->f234 * 4);
-        BUTTON_MAN_SetUserData(p, (int)o);
-        BUTTON_MAN_SetCallback(p, (int)BTLV_EFFVM_ParticleMotionStep);
+        PARTICLE_EMITTER_SetUserData(p, (int)o);
+        PARTICLE_EMITTER_SetCallback(p, (int)BTLV_EFFVM_ParticleMotionStep);
         ((struct Obj07881 *)s)->f234 += 1;
         o->f38 = 0;
         o->f50 = 0;
@@ -328,12 +328,12 @@ void BTLV_EFFVM_ParticleStartCallback(void *p)
         b.x -= a.x;
         b.y -= a.y;
         b.z -= a.z;
-        BUTTON_MAN_SetRow2(p, (struct S12 *)(&b));
-        BUTTON_MAN_SetRow5(p, (struct S12 *)(&b));
+        PARTICLE_EMITTER_SetBehavior2Data(p, (struct S12 *)(&b));
+        PARTICLE_EMITTER_SetBehavior5Data(p, (struct S12 *)(&b));
         v2.x = b.x;
         v2.y = 0;
         v2.z = b.z;
-        BUTTON_MAN_GetRot(p, &dir.dir);
+        PARTICLE_EMITTER_GetRot(p, &dir.dir);
         v1.x = dir.dir.x;
         v1.y = 0;
         v1.z = dir.dir.z;
@@ -357,37 +357,37 @@ void BTLV_EFFVM_ParticleStartCallback(void *p)
         dir.dir.z = v1.z;
         if (ang < 0x2000 || (ang > 0x6000 && ang < 0xa000) || ang > 0xe000)
             dir.on = 0;
-        BUTTON_MAN_SetRow3Half(p, (u16 *)(&dir));
-        BUTTON_MAN_SetRot(p, (const struct Vec3 *)(&dir.dir));
+        PARTICLE_EMITTER_SetBehavior3Half(p, (u16 *)(&dir));
+        PARTICLE_EMITTER_SetRot(p, (const struct Vec3 *)(&dir.dir));
     }
     if ((r->mode != 0 && (r->k1 & 1)) || r->mode == 0 || (u32)(r->mode - 2) <= 1) {
-        t0 = BUTTON_MAN_GetScaleX(p);
-        t1 = BUTTON_MAN_GetAlpha(p) << 12;
-        t2 = BUTTON_MAN_GetAngle(p);
-        t3 = BUTTON_MAN_GetScaleY(p);
+        t0 = PARTICLE_EMITTER_GetScaleX(p);
+        t1 = PARTICLE_EMITTER_GetAlpha(p) << 12;
+        t2 = PARTICLE_EMITTER_GetAngle(p);
+        t3 = PARTICLE_EMITTER_GetScaleY(p);
         if (r->f44 != 0) {
-            BUTTON_MAN_SetScaleX(p, MUL(t0, r->f44));
-            BUTTON_MAN_SetScaleY(p, MUL(t3, r->f44));
+            PARTICLE_EMITTER_SetScaleX(p, MUL(t0, r->f44));
+            PARTICLE_EMITTER_SetScaleY(p, MUL(t3, r->f44));
         }
         if (r->f48 != 0)
-            BUTTON_MAN_SetAlpha(p, (u16)(MUL(t1, r->f48) >> 12));
+            PARTICLE_EMITTER_SetAlpha(p, (u16)(MUL(t1, r->f48) >> 12));
         if (r->f4c != 0)
-            BUTTON_MAN_SetAngle(p, (s16)MUL(t2, r->f4c));
+            PARTICLE_EMITTER_SetAngle(p, (s16)MUL(t2, r->f4c));
         if (r->f50 != 0) {
-            BUTTON_MAN_GetPos(p, &sc);
+            PARTICLE_EMITTER_GetPos(p, &sc);
             sc.x = MUL(sc.x, r->f50);
             sc.y = MUL(sc.y, r->f50);
             sc.z = MUL(sc.z, r->f50);
-            BUTTON_MAN_SetPos(p, &sc);
-            t0 = BUTTON_MAN_GetOffsetX(p);
-            BUTTON_MAN_SetOffsetX(p, (s16)MUL(t0, r->f50));
-            t0 = BUTTON_MAN_GetOffsetY(p);
-            BUTTON_MAN_SetOffsetY(p, (s16)MUL(t0, r->f50));
+            PARTICLE_EMITTER_SetPos(p, &sc);
+            t0 = PARTICLE_EMITTER_GetOffsetX(p);
+            PARTICLE_EMITTER_SetOffsetX(p, (s16)MUL(t0, r->f50));
+            t0 = PARTICLE_EMITTER_GetOffsetY(p);
+            PARTICLE_EMITTER_SetOffsetY(p, (s16)MUL(t0, r->f50));
         }
     }
     if (r->mode == 3)
-        BUTTON_MAN_SetEmitterPos(p, &c);
+        PARTICLE_EMITTER_SetEmitPos(p, &c);
     else
-        BUTTON_MAN_SetEmitterPos(p, &a);
+        PARTICLE_EMITTER_SetEmitPos(p, &a);
     func_020307B0(r);
 }

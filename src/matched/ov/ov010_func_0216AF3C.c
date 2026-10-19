@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * Unblocked by matching INTRUDE_COMM_SetPendingValue (ov011, EXACT): the +0032 call site now
+ * Unblocked by matching INTRUDE_COMM_SetPendingAreaNotice (ov011, EXACT): the +0032 call site now
  * attests as `matched`.
  * 
  *
@@ -20,7 +20,7 @@
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   GAME_DATA_GetSymbolMapFlag  0x02012FB0  thumb
- *   INTRUDE_COMM_SetPendingValue  0x0217688C  thumb  ov011
+ *   INTRUDE_COMM_SetPendingAreaNotice  0x0217688C  thumb  ov011
  */
 
 typedef unsigned char u8;
@@ -37,7 +37,7 @@ struct Ctx;
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
 extern int GAME_DATA_GetSymbolMapFlag(unsigned char *base);
-extern int INTRUDE_COMM_SetPendingValue();
+extern int INTRUDE_COMM_SetPendingAreaNotice();
 
 void SCRCMD_SYMBOL_SendEntryFlag(int a0)
 {
@@ -69,6 +69,6 @@ loc_0216AF64:
 loc_0216AF6A:
 a1 = a0 + 0;
 a0 = t4 + 0;
-    a0 = INTRUDE_COMM_SetPendingValue(a0, a1);
+    a0 = INTRUDE_COMM_SetPendingAreaNotice(a0, a1);
 loc_0216AF72:
     return;}

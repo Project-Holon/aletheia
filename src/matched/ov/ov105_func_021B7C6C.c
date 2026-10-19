@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   MI_CpuFill8 0x02082BCC arm
  */
 #include "../include/Obj07989.h"
-struct WordSet; struct Rec; struct PrintSys; extern void WORDSET_DeleteStrbufED04(struct WordSet *); extern void MSGDATA_Delete(struct Rec *); extern void PRINTSYS_QUE_Delete(struct PrintSys *); extern void GF_FONT_Delete(void *); extern void MI_CpuFill8(void *,unsigned char,unsigned int);
-void IRC_RESULT_ExitTextSystem(unsigned char *p) { WORDSET_DeleteStrbufED04(*(struct WordSet * *)&((struct Obj07989 *)p)->fC); MSGDATA_Delete(*(struct Rec * *)&((struct Obj07989 *)p)->f4); PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct Obj07989 *)p)->f8); GF_FONT_Delete(((struct Obj07989 *)p)->f0); MI_CpuFill8(p,0,16); }
+struct WordSet; struct Rec; struct PrintSys; extern void WORDSET_Delete(struct WordSet *); extern void MSGDATA_Delete(struct Rec *); extern void PRINTSYS_QUE_Delete(struct PrintSys *); extern void GF_FONT_Delete(void *); extern void MI_CpuFill8(void *,unsigned char,unsigned int);
+void IRC_RESULT_ExitTextSystem(unsigned char *p) { WORDSET_Delete(*(struct WordSet * *)&((struct Obj07989 *)p)->fC); MSGDATA_Delete(*(struct Rec * *)&((struct Obj07989 *)p)->f4); PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct Obj07989 *)p)->f8); GF_FONT_Delete(((struct Obj07989 *)p)->f0); MI_CpuFill8(p,0,16); }

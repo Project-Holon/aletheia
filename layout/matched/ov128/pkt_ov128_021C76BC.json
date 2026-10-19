@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "Wf2dmapFriend_HasEntry",
+   "name": "Wf2dmapFriend_HasFreeFriendSlot",
    "address": "0x021C76BC",
    "kind": "game",
    "region": "ov128",

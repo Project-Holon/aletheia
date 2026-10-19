@@ -1,5 +1,5 @@
 /*
- * function: GAME_DATA_GetSaveBlockWork
+ * function: GAME_DATA_GetGameSync
  * address:  0x02012F8C
  * packet:   pkt_02012F8C
  * region:   arm9
@@ -13,7 +13,7 @@
  * ov021 SCRCMD_CheckWifiListFlags, SCRCMD_WifiListOperation and SCRCMD_SetWifiFriendNameWord.
  *
  * symbols:
- *   GAME_DATA_GetSaveBlockWork  0x02012F8C  thumb
+ *   GAME_DATA_GetGameSync  0x02012F8C  thumb
  *   func_02009448  0x02009448  thumb
  */
 
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 struct Sub02009448Obj;
 extern struct Sub02009448Obj *func_02009448(void *sys);
 
-u32 GAME_DATA_GetSaveBlockWork(u32 *p)
+u32 GAME_DATA_GetGameSync(u32 *p)
 {
     return (u32)func_02009448((void *)(*p));
 }

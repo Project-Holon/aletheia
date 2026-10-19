@@ -42,7 +42,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   TOUCHPANEL_GetCont 0x02035C38 arm
@@ -55,7 +55,7 @@
  *   BG_SYS_ClearLayerEx 0x02041570 arm
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   P_STA_RIBBON_FileName 0x021DC834 data a1
  *   ARC_UTIL_LoadScreenDataFromHandle 0x02049E74 arm
@@ -258,10 +258,10 @@ extern struct BmpWin *BMP_WIN_Create(u32 bgId, u32 x, u32 y, u32 width, u8 heigh
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void BG_SYS_SetFlagField06(u32 bgId);
+extern void BG_SYS_MarkTileDirty(u32 bgId);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *ws);
+extern u32 WORDSET_Delete(struct WordSet *ws);
 extern void WORDSET_SetSlotNumber(struct WordSet *ws, u32 index, u32 number, u32 digits, u32 dispType, u32 zeroPad);
 extern int TOUCHPANEL_GetTrg(void);
 extern int TOUCHPANEL_GetCont(void);
@@ -677,11 +677,11 @@ void P_STA_RIBBON_Show(PStatusWork *wk, PStaRibbonWork *work)
     u8 i;
     u16 ownedIdx;
     BG_SYS_DrawTileEx(2,0,0,32,24,(u32)work->listScrn->data,0,0,32,32);
-    BG_SYS_SetFlagField06(2);
+    BG_SYS_MarkTileDirty(2);
     BG_SYS_DecodeTile(6,work->listPal->data,work->listPal->dataSize);
-    BG_SYS_SetFlagField06(6);
+    BG_SYS_MarkTileDirty(6);
     BG_SYS_DrawTileEx(5,0,0,32,3,(u32)work->titleScrn->data,0,0,32,32);
-    BG_SYS_SetFlagField06(5);
+    BG_SYS_MarkTileDirty(5);
     for(i=0;i<STA_RIBBON_ROW_COUNT;i++) {
         ownedIdx=work->rows[i].ownedIdx;
         P_STA_OAM_SetBitmapActorsPos(work->rows[i].actors,8,P_STA_RIBBON_GetRowY(work,i));
@@ -785,7 +785,7 @@ void P_STA_RIBBON_DrawRow(PStatusWork *wk, PStaRibbonWork *work, StaRibbonRow *r
     GF_FONT_SetDefaultTextColor();
     STRBUF_Delete(text);
     STRBUF_Delete(buffer);
-    WORDSET_DeleteStrbufED04(wordSet);
+    WORDSET_Delete(wordSet);
     P_STA_OAM_TransferBitmap(row->actors);
 }
 
@@ -914,11 +914,11 @@ void P_STA_RIBBON_ShowDetail(PStatusWork *wk, PStaRibbonWork *work)
     win=work->titleWin;
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(win));
     win=work->descWin;
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(win));
     archive=ARC_TOOL_CreateHandle(78,wk->heapId);
     work->detailChrRes=CLACT_RegisterCharacter(archive,P_STA_RIBBON_GetRibbonInfo(ribbonNo,1),0,1,wk->heapId);
     ARC_TOOL_DeleteHandle(archive);
@@ -931,7 +931,7 @@ void P_STA_RIBBON_ShowDetail(PStatusWork *wk, PStaRibbonWork *work)
     CLACT_SetActorPaletteOffset(work->detailObj,(u8)P_STA_RIBBON_GetRibbonInfo(ribbonNo,2),1);
     CLACT_SetActorDrawEnable(work->detailObj,1);
     BG_SYS_DecodeTile(6,work->detailPal->data,work->detailPal->dataSize);
-    BG_SYS_SetFlagField06(6);
+    BG_SYS_MarkTileDirty(6);
     work->isDetailShown=1;
 }
 
@@ -953,9 +953,9 @@ void P_STA_RIBBON_HideDetail(PStatusWork *wk, PStaRibbonWork *work)
         CLACT_ReleaseCharacter(work->detailChrRes);
         CLACT_DeleteActor(work->detailObj);
         BG_SYS_ClearLayerEx(4,0);
-        BG_SYS_SetFlagField06(4);
+        BG_SYS_MarkTileDirty(4);
         work->isDetailShown=0;
         BG_SYS_DecodeTile(6,work->listPal->data,work->listPal->dataSize);
-        BG_SYS_SetFlagField06(6);
+        BG_SYS_MarkTileDirty(6);
     }
 }

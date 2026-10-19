@@ -12,8 +12,8 @@
  * symbols:
  *   VIEWER_TEXT_SetActorAnim  0x021C6FA0  thumb  ov111
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   GAME_DATA_CheckSaveFlag  0x02012BF8  thumb
- *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
+ *   GAME_DATA_ContainsRecentId  0x02012BF8  thumb
+ *   GAME_DATA_SetRecentId  0x02012BE0  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -58,8 +58,8 @@ typedef struct {
 
 extern void VIEWER_TEXT_SetActorAnim(Anim *a, int idx, u8 x, u8 y);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
-extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
+extern int GAME_DATA_ContainsRecentId(int a0, int a1);
+extern void GAME_DATA_SetRecentId(void *p, u32 a, u32 b);
 
 void VIEWER_MAIN_ToggleFavorite(Work *p)
 {
@@ -67,12 +67,12 @@ void VIEWER_MAIN_ToggleFavorite(Work *p)
 
     GFL_USE_PlaySeDefaultVolume(0x646);
     if (p->f3034 == 0) {
-        v = GAME_DATA_CheckSaveFlag((int)p->args->f4, 0x15) ^ 1;
+        v = GAME_DATA_ContainsRecentId((int)p->args->f4, 0x15) ^ 1;
         VIEWER_TEXT_SetActorAnim(&p->anim, 7, v + 6, 1);
-        GAME_DATA_SetSaveFlag(p->args->f4, 0x15, v);
+        GAME_DATA_SetRecentId(p->args->f4, 0x15, v);
     } else {
-        v = GAME_DATA_CheckSaveFlag((int)p->args->f4, 0x16) ^ 1;
+        v = GAME_DATA_ContainsRecentId((int)p->args->f4, 0x16) ^ 1;
         VIEWER_TEXT_SetActorAnim(&p->anim, 7, v + 6, 1);
-        GAME_DATA_SetSaveFlag(p->args->f4, 0x16, v);
+        GAME_DATA_SetRecentId(p->args->f4, 0x16, v);
     }
 }

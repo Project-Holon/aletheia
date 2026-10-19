@@ -1,5 +1,5 @@
 /*
- * function: DEMO3D_ENGINE_ClampAnimeId
+ * function: DEMO3D_ENGINE_ClampDemoId
  * address: 0x021BE79C
  * packet: pkt_ov203_021BE79C
  * region: ov203
@@ -17,4 +17,4 @@ typedef unsigned int u32;
 struct Owner;struct TcblNode;
 typedef struct Config {unsigned words[11];} Config;
 
-unsigned DEMO3D_ENGINE_ClampAnimeId(unsigned x) { if(x==0||x>=19)x=0;return x; }
+unsigned DEMO3D_ENGINE_ClampDemoId(unsigned x) { if(x==0||x>=19)x=0;return x; }

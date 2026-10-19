@@ -1,7 +1,7 @@
 /*
  * file:     gfl_use.c
  * unit:     yes
- * function: NitroMain, GFL_USE_IsNetQuiet, GFL_USE_HBlankHandler, GFL_USE_VBlankHandler, GFL_USE_PostIrqUpdate, GFL_USE_InitGameSystems, GFL_USE_UpdateFrameSubsystems, GFL_USE_ApplySoundModeFromConfig, GFL_USE_InitSdk, GFL_USE_PollPowerExit, GFL_USE_PollTwlService, GFL_USE_CtrdgDummyInit, GFL_USE_OnPreExit, GFL_USE_InitSystem, GFL_USE_PollFrameInput, GFL_USE_NoOpFrameHook, GFL_USE_RunHBlankTasks, GFL_USE_AddHBlankTask, GFL_USE_CallVBlankHook, GFL_USE_SetVBlankHook, GFL_USE_ClearVBlankHook, GFL_USE_RunMainTasks, GFL_USE_AddMainTask, GFL_USE_GetMainTaskList, GFL_USE_InitRandomState, GFL_USE_InitRandom, GFL_USE_GetRandom, GFL_USE_GetRandomBelow, GFL_USE_GetArcPath, GFL_USE_WaitInputReady, GFL_USE_MuteSound, GFL_USE_UnmuteSound, GFL_USE_SetSleepVolumeHooks, GFL_USE_IsMuteHookActive, GFL_USE_SetSndStackHeap, GFL_USE_InitSndSlot, GFL_USE_BeginSndSlot, GFL_USE_EndSndSlot, GFL_USE_InitSndStack, GFL_USE_GetCurrentBgmId, GFL_USE_GetSndStackDepth, GFL_USE_GetCurrentSndHandle, GFL_USE_LoadBgmData, GFL_USE_SaveSeqBankState, GFL_USE_FinishBgmLoad, GFL_USE_UnloadBgmData, GFL_USE_PushSndSlot, GFL_USE_PopSndSlot, GFL_USE_LoadWaveArcSet, GFL_USE_ReleaseWaveArcSet, GFL_USE_InitSound, GFL_USE_ResetSound, GFL_USE_UpdateSound, GFL_USE_ClearSndHeap, GFL_USE_SetStereoOutput, GFL_USE_GetBgmHandle, GFL_USE_GetBgmNo, GFL_USE_GetTargetBgmNo, GFL_USE_IsLoaderBusy, GFL_USE_IsCardIrqEnabled, GFL_USE_SetPlayersAudible, GFL_USE_SetPlayerVolumes, GFL_USE_IsSeqStartAllowed, GFL_USE_SetSeqStartFilter, GFL_USE_StopBgm, GFL_USE_CancelChangeAndStopBgm, GFL_USE_PlayBgm, GFL_USE_CancelChangeAndPlayBgm, GFL_USE_ChangeBgm, GFL_USE_PlayFanfare, GFL_USE_SetBgmPlayerParam, GFL_USE_FadeInBgmFull, GFL_USE_FadeInBgm, GFL_USE_FadeOutBgm, GFL_USE_IsBgmFading, GFL_USE_PushBgm, GFL_USE_PopBgm, GFL_USE_SetBgmAudibleTracks, GFL_USE_SetBgmTrackParams, GFL_USE_SetBgmTrackVolume, GFL_USE_IsBgmPlaying, GFL_USE_CancelChangeDefaultFade, GFL_USE_BeginBgmChange, GFL_USE_CancelBgmChange, GFL_USE_FlushBgmChange, GFL_USE_UpdateBgmChange, GFL_USE_InitSeSlots, GFL_USE_GetSeHandle, GFL_USE_GetSeSlot, GFL_USE_PlaySeInSlot, GFL_USE_PlaySe, GFL_USE_PlaySeDefaultVolume, GFL_USE_PlaySeWithVolume, GFL_USE_StopSeSlot, GFL_USE_StopAllSe, GFL_USE_IsSeSlotBusy, GFL_USE_IsAnySeBusy, GFL_USE_IsSeqPlaying, GFL_USE_SetSeSlotParams, GFL_USE_SetSeSlotVolume, GFL_USE_LoaderThreadSeqBank, GFL_USE_LoaderThreadWaves, GFL_USE_StartLoaderThread, GFL_USE_StopLoaderThread, GFL_USE_IsLoaderDone, GFL_USE_StepBgmLoad, GFL_USE_InstallBgmBuffers, GFL_USE_ReplaceWaveData, GFL_USE_StartSeq, GFL_USE_StopSeqAndUnload, GFL_USE_ClearPreloadedBgmBuffers
+ * function: NitroMain, GFL_USE_IsNetQuiet, GFL_USE_HBlankHandler, GFL_USE_VBlankHandler, GFL_USE_PostIrqUpdate, GFL_USE_InitGameSystems, GFL_USE_UpdateFrameSubsystems, GFL_USE_ApplySoundModeFromConfig, GFL_USE_InitSdk, GFL_USE_PollPowerExit, GFL_USE_DoVramTransfer, GFL_USE_CtrdgDummyInit, GFL_USE_OnPreExit, GFL_USE_InitSystem, GFL_USE_PollFrameInput, GFL_USE_NoOpFrameHook, GFL_USE_RunHBlankTasks, GFL_USE_AddHBlankTask, GFL_USE_CallVBlankHook, GFL_USE_SetVBlankHook, GFL_USE_ClearVBlankHook, GFL_USE_RunMainTasks, GFL_USE_AddMainTask, GFL_USE_GetMainTaskList, GFL_USE_InitRandomState, GFL_USE_InitRandom, GFL_USE_GetRandom, GFL_USE_GetRandomBelow, GFL_USE_GetArcPath, GFL_USE_WaitInputReady, GFL_USE_MuteSound, GFL_USE_UnmuteSound, GFL_USE_SetSleepVolumeHooks, GFL_USE_IsMuteHookActive, GFL_USE_SetSndStackHeap, GFL_USE_InitSndSlot, GFL_USE_BeginSndSlot, GFL_USE_EndSndSlot, GFL_USE_InitSndStack, GFL_USE_GetCurrentBgmId, GFL_USE_GetSndStackDepth, GFL_USE_GetCurrentSndHandle, GFL_USE_LoadBgmData, GFL_USE_SaveSeqBankState, GFL_USE_FinishBgmLoad, GFL_USE_UnloadBgmData, GFL_USE_PushSndSlot, GFL_USE_PopSndSlot, GFL_USE_LoadWaveArcSet, GFL_USE_ReleaseWaveArcSet, GFL_USE_InitSound, GFL_USE_ResetSound, GFL_USE_UpdateSound, GFL_USE_ClearSndHeap, GFL_USE_SetStereoOutput, GFL_USE_GetBgmHandle, GFL_USE_GetBgmNo, GFL_USE_GetTargetBgmNo, GFL_USE_IsLoaderBusy, GFL_USE_IsCardIrqEnabled, GFL_USE_SetPlayersAudible, GFL_USE_SetPlayerVolumes, GFL_USE_IsSeqStartAllowed, GFL_USE_SetSeqStartFilter, GFL_USE_StopBgm, GFL_USE_CancelChangeAndStopBgm, GFL_USE_PlayBgm, GFL_USE_CancelChangeAndPlayBgm, GFL_USE_ChangeBgm, GFL_USE_PlayFanfare, GFL_USE_SetBgmPaused, GFL_USE_FadeInBgmFull, GFL_USE_FadeInBgm, GFL_USE_FadeOutBgm, GFL_USE_IsBgmFading, GFL_USE_PushBgm, GFL_USE_PopBgm, GFL_USE_SetBgmAudibleTracks, GFL_USE_SetBgmTrackParams, GFL_USE_SetBgmTrackVolume, GFL_USE_IsBgmPlaying, GFL_USE_CancelChangeDefaultFade, GFL_USE_BeginBgmChange, GFL_USE_CancelBgmChange, GFL_USE_FlushBgmChange, GFL_USE_UpdateBgmChange, GFL_USE_InitSeSlots, GFL_USE_GetSeHandle, GFL_USE_GetSeSlot, GFL_USE_PlaySeInSlot, GFL_USE_PlaySe, GFL_USE_PlaySeDefaultVolume, GFL_USE_PlaySeWithVolume, GFL_USE_StopSeSlot, GFL_USE_StopAllSe, GFL_USE_IsSeSlotBusy, GFL_USE_IsAnySeBusy, GFL_USE_IsSeqPlaying, GFL_USE_SetSeSlotParams, GFL_USE_SetSeSlotVolume, GFL_USE_LoaderThreadSeqBank, GFL_USE_LoaderThreadWaves, GFL_USE_StartLoaderThread, GFL_USE_StopLoaderThread, GFL_USE_IsLoaderDone, GFL_USE_StepBgmLoad, GFL_USE_InstallBgmBuffers, GFL_USE_ReplaceWaveData, GFL_USE_StartSeq, GFL_USE_StopSeqAndUnload, GFL_USE_ClearPreloadedBgmBuffers
  * address:  0x02005124
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -66,7 +66,7 @@
  *   _TwlServiceBuf          0x020A9E94  data
  *   _PreExitState          0x020A9E80  data
  *   _PreExitCallbackInfo          0x020A9E84  data
- *   UI_TestFlags39Global  0x020351D0  arm
+ *   UI_TestSoftResetInhibitGlobal  0x020351D0  arm
  *   NNS_GfdDoVramTransfer  0x02061C44  arm
  *   CTRDG_DummyInit  0x020911A0  arm
  *   _GflUse      0x020AA194  data
@@ -86,7 +86,7 @@
  *   TCB_Main     0x02030D28  arm
  *   TCB_AddTask     0x02030DA8  arm
  *   GF_STANDARD_RandSeed     0x0203F034  arm
- *   GF_STANDARD_CalcHash     0x0203F258  arm
+ *   GF_STANDARD_SeedLcg64     0x0203F258  arm
  *   _ull_mul          0x0209C054  arm
  *   UI_Update       0x02034F5C  arm
  *   KEY_GetCont       0x0203630C  arm
@@ -118,7 +118,7 @@
  *   GFL_USE_InitSeSlots  0x02006118  thumb
  *   PM_VOICE_Init  0x02006544  thumb
  *   SAVE_CONTROL_Create  0x02006F20  thumb
- *   CONFIG_ApplyAppliedFlag  0x02008414  thumb
+ *   CONFIG_ApplyTextLanguage  0x02008414  thumb
  *   WIH_DWC_CreateFilterBuffer  0x02010794  thumb
  *   WIH_DWC_ResetFilterState  0x020107CC  thumb
  *   GPOWER_Init  0x02010DB4  thumb
@@ -144,11 +144,11 @@
  *   CONFIG_InitKeyControlTable  0x020082DC  thumb
  *   GFL_NET_ERR_PollNetState  0x0200F2D4  thumb
  *   MSG_SPEED_SetSaveControl  0x02012FF0  thumb
- *   GF_STANDARD_Reset  0x0203F3B4  arm
+ *   GF_STANDARD_InitRtc  0x0203F3B4  arm
  *   WORDSET_LoadSpeciesNameBank  0x0201F344  thumb
  *   GFL_HEAP_InitSystemHeapChecked  0x02030BA4  arm
  *   GF_STANDARD_Init  0x0203EF5C  arm
- *   GF_STANDARD_Setup  0x0203F3F0  arm
+ *   GF_STANDARD_UpdateRtc  0x0203F3F0  arm
  *   BG_SYS_Update  0x020419E4  arm
  *   DMA_UpdateChannels  0x02050A70  arm
  *   GFL_HEAP_Alloc  0x02030734  arm
@@ -334,7 +334,7 @@ extern void PROCSYS_PushGlobal(int mode, u32 table, u32 option);
 extern struct SaveCtrl *SAVE_CONTROL_Create(int heapId);
 extern struct SaveData *SAVE_CONTROL_Get(void);
 extern struct Config *SYSTEM_DATA_GetConfig(struct SaveData *save);
-extern u8 CONFIG_ApplyAppliedFlag(const struct Config *config);
+extern u8 CONFIG_ApplyTextLanguage(const struct Config *config);
 extern void MSG_SPEED_SetSaveControl(struct SaveData *save);
 extern void GFL_NET_ERR_CreateHeap(void);
 extern void GFL_NET_ERR_Init(u32 kind);
@@ -373,7 +373,7 @@ extern u32 APP_ENV_IsRunOnTwl(void);
 extern void PM_AppendPreExitCallback(void *info);
 extern void PM_GetAmp(u32 *out);
 extern void PM_SetAmp(int on);
-extern int UI_TestFlags39Global(u32 mode);
+extern int UI_TestSoftResetInhibitGlobal(u32 mode);
 extern int PM_GetAutoExit(void);
 extern int PM_ReadyToExit(void);
 /* ARM, and attested by a branch to it from an overlay. */
@@ -404,21 +404,21 @@ extern struct TcbList *TCB_Init(u32 capacity, void *buf);
 extern void  FADE_Create(u32 heapId);
 extern void BACKUP_SYSTEM_Init(u32 kind, u32 callbackA, u32 callbackB);
 extern void  TEXTPRINT_Init(u32 heapId);
-extern void  GF_STANDARD_Reset(void);
+extern void  GF_STANDARD_InitRtc(void);
 extern void FADE_SetSpeed(s32 speed);
 extern void  APP_POWER_ClearCallback(void);
 extern void APP_POWER_SetCallback(u32 on);
 extern void UI_Update(void);
 extern int GFL_NET_ERR_PollNetState(void);
 extern int PROCSYS_MainGlobal(void);
-extern void GF_STANDARD_Setup(void);
+extern void GF_STANDARD_UpdateRtc(void);
 extern int TCB_Main(struct TcbList *list);
 extern struct Tcb *TCB_AddTask(struct TcbList *list, void (*callback)(struct Tcb *, void *), void *work, u32 priority);
 extern int BG_SYS_Update(int);
 extern int DMA_UpdateChannels(int);
 extern int FADE_Update(int);
 extern void  GF_STANDARD_RandSeed(u32 seed);
-extern void GF_STANDARD_CalcHash(struct GflRandom *out);
+extern void GF_STANDARD_SeedLcg64(struct GflRandom *out);
 extern unsigned int KEY_GetCont(void);
 /* The linker veneer in front of SND_SetMasterVolume; ARM. */
 extern void NNS_SndSetMasterVolume(u32 volume);
@@ -491,7 +491,7 @@ void GFL_USE_UpdateFrameSubsystems(void);
 void GFL_USE_ApplySoundModeFromConfig(const struct Config *config);
 void GFL_USE_InitSdk(void);
 void GFL_USE_PollPowerExit(void);
-void GFL_USE_PollTwlService(void);
+void GFL_USE_DoVramTransfer(void);
 void GFL_USE_CtrdgDummyInit(void);
 void GFL_USE_OnPreExit(void);
 void GFL_USE_InitSystem(void);
@@ -659,7 +659,7 @@ void GFL_USE_VBlankHandler(void)
 
 void GFL_USE_PostIrqUpdate(void)
 {
-    GFL_USE_PollTwlService();
+    GFL_USE_DoVramTransfer();
     GFL_USE_RunMainTasks();
 }
 
@@ -697,7 +697,7 @@ void GFL_USE_InitGameSystems(void)
     WIH_DWC_ResetFilterState();
     PROCSYS_PushGlobal(netHeapId - 0xD, (u32)(void *)0x020A0480, 0);
     SAVE_CONTROL_Create(7);
-    CONFIG_ApplyAppliedFlag(SYSTEM_DATA_GetConfig(SAVE_CONTROL_Get()));
+    CONFIG_ApplyTextLanguage(SYSTEM_DATA_GetConfig(SAVE_CONTROL_Get()));
     MSG_SPEED_SetSaveControl(SAVE_CONTROL_Get());
     GFL_NET_ERR_CreateHeap();
     GFL_NET_ERR_Init(8);
@@ -834,7 +834,7 @@ void GFL_USE_PollPowerExit(void)
     if (_PreExitState[0] == 0) {
         return;
     }
-    if (UI_TestFlags39Global(2) != 0) {
+    if (UI_TestSoftResetInhibitGlobal(2) != 0) {
         return;
     }
     if (PM_GetAutoExit() != 0) {
@@ -867,7 +867,7 @@ void GFL_USE_PollPowerExit(void)
  *   python tools/match.py tu --src src/matched/unit_02005430.c \
  *       --addr 0x02005430 --thumb
  */
-void GFL_USE_PollTwlService(void)
+void GFL_USE_DoVramTransfer(void)
 {
     NNS_GfdDoVramTransfer();
 }
@@ -967,7 +967,7 @@ void GFL_USE_InitSystem(void)
     FADE_Create(0);
     BACKUP_SYSTEM_Init(7, (u32)APP_POWER_ClearCallback, (u32)APP_POWER_SetCallback);
     TEXTPRINT_Init(0);
-    GF_STANDARD_Reset();
+    GF_STANDARD_InitRtc();
     _GflUse.frameCount = 0;
     GFL_USE_ClearVBlankHook();
     GFL_USE_SetSleepVolumeHooks();
@@ -980,7 +980,7 @@ void GFL_USE_PollFrameInput(void)
     UI_Update();
     GFL_NET_ERR_PollNetState();
     PROCSYS_MainGlobal();
-    GF_STANDARD_Setup();
+    GF_STANDARD_UpdateRtc();
 }
 
 
@@ -1128,7 +1128,7 @@ void GFL_USE_RunMainTasks(void)
  *       blocked functions and three linker veneers in between, so no
  *       contiguous range makes the site `local`.
  *   0x02005230..0x0200523C, 12 bytes.  `label` twice: the only caller of
- *       GFL_USE_PollTwlService is the `bl` at 0x02005232 and the only caller of
+ *       GFL_USE_DoVramTransfer is the `bl` at 0x02005232 and the only caller of
  *       GFL_USE_RunMainTasks is the `bl` at 0x02005236.  Same obstruction as above in
  *       both directions at once.
  *   0x0200523C..0x020052EC, 176 bytes.  19 unresolved sites, 18 of them
@@ -1190,7 +1190,7 @@ struct TcbList *GFL_USE_GetMainTaskList(void)
 
 void GFL_USE_InitRandomState(struct GflRandom *rand)
 {
-    GF_STANDARD_CalcHash(rand);
+    GF_STANDARD_SeedLcg64(rand);
 }
 
 
@@ -1730,7 +1730,7 @@ u32 GFL_USE_PlayBgm(u32 bgmNo, u32 trackMask);
 void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 trackMask);
 void GFL_USE_ChangeBgm(unsigned int bgmNo, unsigned short trackMask, int fadeOutFrames, int fadeInFrames);
 void GFL_USE_PlayFanfare(u32 seqNo);
-void GFL_USE_SetBgmPlayerParam(u32 value);
+void GFL_USE_SetBgmPaused(u32 value);
 void GFL_USE_FadeInBgmFull(u32 frames);
 void GFL_USE_FadeInBgm(u32 frames, u32 volume);
 void GFL_USE_FadeOutBgm(u32 frames);
@@ -1991,7 +1991,7 @@ void GFL_USE_PlayFanfare(u32 seqNo)
     NNS_SndArcPlayerStartSeqEx(GFL_USE_GetCurrentSndHandle(), SND_PLAYER_FANFARE, -1, -1, seqNo);
 }
 
-void GFL_USE_SetBgmPlayerParam(u32 value)
+void GFL_USE_SetBgmPaused(u32 value)
 {
     GFL_USE_FlushBgmChange();
     NNS_SndHandlePauseSeq(GFL_USE_GetCurrentSndHandle(), value);

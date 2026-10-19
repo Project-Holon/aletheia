@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_WORK_CmdGetSaveRecord
+ * function: SCRCMD_WORK_CmdGetTrainerCardStars
  * address:  0x0215AAF4
  * packet:   pkt_0215AAF4
  * region:   ov010
@@ -23,7 +23,7 @@ extern void *SCRCMD_WORK_GetGameData(void *a0);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern int TRCARD_SYS_CountStars(void *save);
 
-int SCRCMD_WORK_CmdGetSaveRecord(int a0, int a1)
+int SCRCMD_WORK_CmdGetTrainerCardStars(int a0, int a1)
 {    int t5;
     int t6;
     u16 *q;

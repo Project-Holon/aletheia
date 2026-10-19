@@ -1,7 +1,7 @@
 /*
  * file:     mbp.c
  * unit:     yes
- * function: MB_PARENT_SYS_Init, MB_PARENT_SYS_Register, MB_PARENT_SYS_LoadFileImage, MB_PARENT_SYS_CheckRequest, MB_PARENT_SYS_RejectRequest, MB_PARENT_SYS_StartSending, MB_PARENT_SYS_AllBootable, MB_PARENT_SYS_StartBoot, MB_PARENT_SYS_Cancel, MB_PARENT_SYS_EndIfAllBootable, MB_PARENT_SYS_EventCallback, MB_PARENT_SYS_SetState, MB_PARENT_SYS_GetState, MB_PARENT_SYS_GetChildStage, MB_PARENT_SYS_FreeBuffers, MB_PARENT_SYS_IsRegistered
+ * function: MB_PARENT_SYS_Init, MB_PARENT_SYS_Register, MB_PARENT_SYS_LoadFileImage, MB_PARENT_SYS_AcceptRequest, MB_PARENT_SYS_RejectRequest, MB_PARENT_SYS_StartSending, MB_PARENT_SYS_AllBootable, MB_PARENT_SYS_StartBoot, MB_PARENT_SYS_Cancel, MB_PARENT_SYS_EndIfAllBootable, MB_PARENT_SYS_EventCallback, MB_PARENT_SYS_SetState, MB_PARENT_SYS_GetState, MB_PARENT_SYS_GetChildStage, MB_PARENT_SYS_FreeBuffers, MB_PARENT_SYS_IsRegistered
  * address:  0x021F0754
  * region:   ov107
  * compiler: dsi/1.1p1
@@ -57,7 +57,7 @@
  *   GAME_DATA_SaveCancel 0x02012E08 thumb
  *   WIPE_SYS_Start 0x0202208C thumb
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
- *   APP_ENV_InitParentalControl 0x0202EB44 thumb
+ *   APP_ENV_IsWirelessAvailable 0x0202EB44 thumb
  *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   BEACON_GetBestScore 0x0200C184 thumb
@@ -68,7 +68,7 @@
  *   BOX_SAVEDATA_CountFreeSlots 0x02007774 thumb
  *   d_021F6E08 0x021F6E08 data a4
  *   d_021F6E0C 0x021F6E0C data a4
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
@@ -171,7 +171,7 @@
  *   d_021F6D70 0x021F6D70 data ov107 a4
  *   d_021F6D60 0x021F6D60 data ov107 a4
  *   d_021F6C40 0x021F6C40 data ov107 a4
- *   WIH_GetMeasureChannel 0x02179024 thumb ov014
+ *   WIH_FinishMeasureChannel 0x02179024 thumb ov014
  *   MI_CpuCopy8 0x02082D44 arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   KEY_GetTrg 0x020362DC arm
@@ -393,7 +393,7 @@ extern u8 GAME_DATA_IsSaving(const u8 *);
 extern void GAME_DATA_SaveCancel(char *p);
 extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
 extern u32 WIPE_SYS_EndCheck(void);
-extern int APP_ENV_InitParentalControl(void);
+extern int APP_ENV_IsWirelessAvailable(void);
 extern signed char MSG_SPEED_GetWait(void);
 extern void GFL_USE_FadeOutBgm(u32);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
@@ -424,7 +424,7 @@ extern int BOX_SAVEDATA_CountFreeSlots(void *);
 extern void *MB_UTIL_MSG_Main(void *);
 extern void CLACT_DrawSystem(void *);
 extern void CLACT_VBlankSystem(void);
-extern void BG_SYS_FillScrollArea(unsigned,unsigned,unsigned);
+extern void BG_SYS_ChangeScrollImmediate(unsigned,unsigned,unsigned);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void WIPE_SetBrightnessFadeOut(u32,u32);
@@ -511,7 +511,7 @@ extern int WIH_End(void (*cb)(int));
 extern int WM_GetLinkLevel(void);
 extern u32 GFL_NET_WM_ICON_EasySetLevel(u32);
 extern void GFL_NET_WM_ICON_EasyMain(void);
-extern u16 WIH_GetMeasureChannel(void);
+extern u16 WIH_FinishMeasureChannel(void);
 extern void MI_CpuCopy8(const void *,void *,unsigned);
 extern int TOUCHPANEL_HitTrg(const void *);
 extern int MB_UTIL_MSG_GetTaskMenuResult(struct MbMsgWork *a);
@@ -642,7 +642,7 @@ int MB_COMM_SYS_ProcMain(int a, int b, int c, MbCommSysWork *p);
 void MB_PARENT_SYS_Init(int a, int b);
 void MB_PARENT_SYS_Register(MbRegistryBlock *registry, int channel);
 int MB_PARENT_SYS_LoadFileImage(MbRegistryBlock *registry);
-void MB_PARENT_SYS_CheckRequest(u16 aid);
+void MB_PARENT_SYS_AcceptRequest(u16 aid);
 void MB_PARENT_SYS_RejectRequest(u16 aid);
 void MB_PARENT_SYS_StartSending(u16 aid);
 int MB_PARENT_SYS_AllBootable(void);
@@ -792,7 +792,7 @@ static inline void MbCommSys_ClearChild(u16 aid)
 }
 
 /* Child asked to download: drops it when the MB library refuses stage 1. */
-void MB_PARENT_SYS_CheckRequest(u16 aid)
+void MB_PARENT_SYS_AcceptRequest(u16 aid)
 {
     if (!MB_CommResponseRequest(aid, 1)) {
         MbCommSys_ClearChild(aid);
@@ -941,7 +941,7 @@ void MB_PARENT_SYS_EventCallback(u16 aid, u32 event, MbChildEvent *info)
             break;
         }
         gMbParentSys.requestedMask |= (u16)(1 << aid);
-        MB_PARENT_SYS_CheckRequest(aid);
+        MB_PARENT_SYS_AcceptRequest(aid);
         userInfo = MB_CommGetChildUser(aid);
         if (userInfo)
             MI_CpuCopy8(userInfo, (void *)((u32)gMbChildEntries + 30 * (aid - 1)), 22);

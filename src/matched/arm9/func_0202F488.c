@@ -11,8 +11,8 @@
  * status:   EXACT
  *
  * symbols:
- *   POKE_TOOL_Dummy  0x020185F0  thumb
+ *   POKE_TOOL_CastToBoxParam  0x020185F0  thumb
  *   SAVE_EVENT_CheckStage  0x0202F498  thumb
  */
 
-int SAVE_EVENT_IsStageDone(int a0, int a1){ int t0 = POKE_TOOL_Dummy(); int t1 = SAVE_EVENT_CheckStage((int)t0, (int)((a1 + 0) + 0)); return t1; }
+int SAVE_EVENT_IsStageDone(int a0, int a1){ int t0 = POKE_TOOL_CastToBoxParam(); int t1 = SAVE_EVENT_CheckStage((int)t0, (int)((a1 + 0) + 0)); return t1; }

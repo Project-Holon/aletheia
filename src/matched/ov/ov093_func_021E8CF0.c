@@ -1,5 +1,5 @@
 /*
- * function: BTLV_CORE_PackByteTwice
+ * function: BTL_TYPEPAIR_MakeSingle
  * address:  0x021E8CF0
  * packet:   pkt_ov093_021E8CF0
  * region:   ov093
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   BTLV_CORE_PackBytes  0x021E8CE0  thumb  ov093
+ *   BTL_TYPEPAIR_Make  0x021E8CE0  thumb  ov093
  */
 
-unsigned short BTLV_CORE_PackBytes(unsigned int, unsigned int);
+unsigned short BTL_TYPEPAIR_Make(unsigned int, unsigned int);
 
-int BTLV_CORE_PackByteTwice(int a)
+int BTL_TYPEPAIR_MakeSingle(int a)
 {
-    return BTLV_CORE_PackBytes(a, a);
+    return BTL_TYPEPAIR_Make(a, a);
 }

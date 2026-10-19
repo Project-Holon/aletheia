@@ -21,7 +21,7 @@
  *   CLACT_ReleaseCharacter  0x0204A8D4  arm
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
  *   CLACT_DeleteUnit  0x0204B1CC  arm
- *   BG_SYS_SetTileUnit  0x02040DA8  arm
+ *   BG_SYS_FreeTiles  0x02040DA8  arm
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   func_020307B0  0x020307B0  arm
  */
@@ -45,7 +45,7 @@ extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
-extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
+extern void BG_SYS_FreeTiles(u32 idx, u32 count, u32 tile);
 extern void BG_SYS_FreeLayerBuf(u32 i);
 extern u32 func_020307B0(void *p);
 
@@ -67,7 +67,7 @@ void SHORTCUT_MENU_Delete(int *a)
     CLACT_ReleaseCharacter(((struct Obj00020 *)a)->f52);
     CLACT_ReleaseCellAnim(((struct Obj00020 *)a)->f54);
     CLACT_DeleteUnit((struct Bank *)a[0x4c / 4]);
-    BG_SYS_SetTileUnit(1, 1, 0);
+    BG_SYS_FreeTiles(1, 1, 0);
     BG_SYS_FreeLayerBuf(1);
     func_020307B0((void *)((int)a));
 }

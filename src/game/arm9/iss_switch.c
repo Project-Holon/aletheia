@@ -1,8 +1,8 @@
 /*
  * file:     iss_switch.c
  * unit:     yes
- * function: ISS_SWITCH_Alloc, ISS_SWITCH_Free, ISS_SWITCH_Init, ISS_SWITCH_SetParam, ISS_SWITCH_CountUpFade, ISS_SWITCH_IsFadeEnd, ISS_SWITCH_Update, ISS_SWITCH_UpdateOn, ISS_SWITCH_UpdateOff, ISS_SWITCH_UpdateFadeIn, ISS_SWITCH_UpdateFadeOut, ISS_SWITCH_StartFadeIn, ISS_SWITCH_StartFadeOut, ISS_SWITCH_SetOnState, ISS_SWITCH_SetOffState, ISS_SWITCH_GetState, ISS_SWITCH_SetState, ISS_SWITCH_GetVolume, ISS_SWITCH_ApplyVolume, ISS_SWITCH_IsOnState, ISS_SWITCH_IsOffState, ISS_SWITCH_GetSubscreenMode, ISS_SWITCH_IsSeasonMatch, ISS_SWITCH_ApplySubscreenMode, ISS_SWITCH_RefreshSubscreenMode, ISS_SWITCH_CheckAreaOwner, ISS_SWITCH_CheckSpecialPower, ISS_SWITCH_CheckBirthday
- * address:  0x0202C590
+ * function: ISS_SWITCH_Create, ISS_SWITCH_Delete, ISS_SWITCH_Setup, ISS_SWITCH_IsOn, ISS_SWITCH_On, ISS_SWITCH_Off, ISS_SWITCH_ForceOn, ISS_SWITCH_ForceOff, ISS_SWITCH_Main, ISS_SWITCH_SetVolume, ISS_SWITCH_Alloc, ISS_SWITCH_Free, ISS_SWITCH_Init, ISS_SWITCH_SetParam, ISS_SWITCH_CountUpFade, ISS_SWITCH_IsFadeEnd, ISS_SWITCH_Update, ISS_SWITCH_UpdateOn, ISS_SWITCH_UpdateOff, ISS_SWITCH_UpdateFadeIn, ISS_SWITCH_UpdateFadeOut, ISS_SWITCH_StartFadeIn, ISS_SWITCH_StartFadeOut, ISS_SWITCH_SetOnState, ISS_SWITCH_SetOffState, ISS_SWITCH_GetState, ISS_SWITCH_SetState, ISS_SWITCH_GetVolume, ISS_SWITCH_ApplyVolume, ISS_SWITCH_IsOnState, ISS_SWITCH_IsOffState
+ * address:  0x0202C538
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -10,91 +10,51 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Cut from iss_switch_sys.c by tools/splitfile.py.
+ * Cut from iss_switch_set.c, iss_switch.c by tools/splitfile.py.
  *
  * symbols:
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   GFL_HEAP_Free  0x020307B0  arm
+ *   ISS_SWITCH_Alloc 0x0202C590 thumb arm9
+ *   ISS_SWITCH_Free 0x0202C5AC thumb arm9
+ *   ISS_SWITCH_Init 0x0202C5B4 thumb arm9
+ *   ISS_SWITCH_SetParam 0x0202C5C4 thumb arm9
+ *   ISS_SWITCH_Update 0x0202C5F0 thumb arm9
+ *   ISS_SWITCH_StartFadeIn 0x0202C670 thumb arm9
+ *   ISS_SWITCH_StartFadeOut 0x0202C688 thumb arm9
+ *   ISS_SWITCH_SetOnState 0x0202C6A0 thumb arm9
+ *   ISS_SWITCH_SetOffState 0x0202C6AC thumb arm9
+ *   ISS_SWITCH_ApplyVolume 0x0202C710 thumb arm9
+ *   ISS_SWITCH_IsOnState 0x0202C72C thumb arm9
  *   IssSwitchFileName      0x020A7780  data
  *   GFL_USE_SetBgmTrackVolume  0x02005F24  thumb
- *   GAMESYSTEM_GetGameData  0x020120F4  thumb
- *   GAME_DATA_GetMusicalWork  0x0201297C  thumb
- *   MOVE_POKEMON_FindEntryByZone  0x0215E6A8  thumb
- *   CALENDER_GetWeatherThunk  0x021647E8  thumb  ov010
- *   ZONEDATA_GetWeatherId  0x02013C10  thumb
- *   MOVE_POKEMON_IsAnyEntryActive  0x0215E6F8  thumb ov010
- *   GAME_DATA_GetSubscreenMode  0x02012994  thumb
- *   GAME_DATA_SetSubscreenMode  0x020129A0  thumb
- *   GAME_DATA_GetEventWork  0x0201296C  thumb
- *   GAMESYSTEM_GetGameComm  0x02012138  thumb
- *   ZONEDATA_IsZoneGroup118To13C  0x02013D74  thumb
- *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
- *   INTRUDE_COMM_GetAreaOwnerVersion  0x0215843C  thumb
- *   gTbl_0209FFF4  0x0209FFF4  data
- *   GPOWER_GetSpecialPowerId  0x020111E8  thumb
- *   ZONEDATA_IsRawZone176Or17A   0x02014044  thumb
- *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
- *   APP_ENV_GetOwnerColorAndBirthMonth   0x0202EB60  thumb
- *   GAME_DATA_GetSeason  0x02012984  thumb
- *   COMM_PLAYER_SUPPORT_GetSeasonFromClock  0x0202E888  thumb
  */
 #include "iss_switch_sys_shared_types.h"
 #include "iss_switch_set_shared_types.h"
-#include "iss_switch_shared_types.h"
-
-struct Ctx;
-
-struct Pair {
-    u16 a;
-    u16 b;
-};
-
-struct RtcDate {
-    u32 year;
-    u32 month;
-    u32 day;
-    u32 week;
-};
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern void GFL_USE_SetBgmTrackVolume(u32 trackMask, u32 volumeIndex);
+void *ISS_SWITCH_Create(u32 heapId);
 
-extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+u32 ISS_SWITCH_Delete(void *sw);
 
-extern u32 GAME_DATA_GetMusicalWork(const struct BigObj *p);
+u32 ISS_SWITCH_Setup(void *sw, u16 fadeFrames, u16 trackBits);
 
-extern u32 MOVE_POKEMON_FindEntryByZone(void *a, u16 b);
+u32 ISS_SWITCH_IsOn(void *sw);
 
-extern u32 CALENDER_GetWeatherThunk(void *arg, unsigned int b);
+u32 ISS_SWITCH_On(void *sw);
 
-extern u32 ZONEDATA_GetWeatherId(u32 id);
+u32 ISS_SWITCH_Off(void *sw);
 
-extern void GAME_DATA_SetSubscreenMode(struct BigObj *p, u8 v);
+u32 ISS_SWITCH_ForceOn(void *sw);
 
-extern int MOVE_POKEMON_IsAnyEntryActive(int a0);
+u32 ISS_SWITCH_ForceOff(void *sw);
 
-extern u8 GAME_DATA_GetSubscreenMode(const struct BigObj *p);
+void ISS_SWITCH_Main(void *sw);
 
-extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
-
-extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
-
-extern int ZONEDATA_IsZoneGroup118To13C(u32 key);
-
-extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
-
-extern s32 INTRUDE_COMM_GetAreaOwnerVersion(u32 a);
-
-extern u32 GPOWER_GetSpecialPowerId(void);
-
-extern u32 ZONEDATA_IsRawZone176Or17A(u32 id);
-
-extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
-
-extern void APP_ENV_GetOwnerColorAndBirthMonth(u8 *out1, u8 *out2);
+void ISS_SWITCH_SetVolume(void *sw, u32 maxVolume);
 
 void *ISS_SWITCH_Alloc(u32 heapId);
 
@@ -104,19 +64,7 @@ void ISS_SWITCH_Init(struct IssSwitch *sw);
 
 u32 ISS_SWITCH_SetParam(struct IssSwitch *sw, u16 fadeFrames, u16 trackBits);
 
-void ISS_SWITCH_CountUpFade(struct IssSwitch *sw);
-
-u32 ISS_SWITCH_IsFadeEnd(struct IssSwitch *sw);
-
 void ISS_SWITCH_Update(void *sw);
-
-void ISS_SWITCH_UpdateOn(void *sw);
-
-void ISS_SWITCH_UpdateOff(void *sw);
-
-u32 ISS_SWITCH_UpdateFadeIn(void *sw);
-
-u32 ISS_SWITCH_UpdateFadeOut(void *sw);
 
 u32 ISS_SWITCH_StartFadeIn(void *sw);
 
@@ -126,35 +74,86 @@ u32 ISS_SWITCH_SetOnState(void *sw);
 
 u32 ISS_SWITCH_SetOffState(void *sw);
 
+void ISS_SWITCH_ApplyVolume(struct IssSwitch *sw, s32 maxVolume);
+
+u32 ISS_SWITCH_IsOnState(void *sw);
+
+void *ISS_SWITCH_Create(u32 heapId)
+{
+    void *sw = ISS_SWITCH_Alloc(heapId);
+
+    ISS_SWITCH_Init(sw);
+    return sw;
+}
+
+u32 ISS_SWITCH_Delete(void *sw)
+{
+    return ISS_SWITCH_Free(sw);
+}
+
+u32 ISS_SWITCH_Setup(void *sw, u16 fadeFrames, u16 trackBits)
+{
+    return ISS_SWITCH_SetParam(sw, fadeFrames, trackBits);
+}
+
+u32 ISS_SWITCH_IsOn(void *sw)
+{
+    return ISS_SWITCH_IsOnState(sw);
+}
+
+u32 ISS_SWITCH_On(void *sw)
+{
+    return ISS_SWITCH_StartFadeIn(sw);
+}
+
+u32 ISS_SWITCH_Off(void *sw)
+{
+    return ISS_SWITCH_StartFadeOut(sw);
+}
+
+u32 ISS_SWITCH_ForceOn(void *sw)
+{
+    return ISS_SWITCH_SetOnState(sw);
+}
+
+u32 ISS_SWITCH_ForceOff(void *sw)
+{
+    return ISS_SWITCH_SetOffState(sw);
+}
+
+void ISS_SWITCH_Main(void *sw)
+{
+    ISS_SWITCH_Update(sw);
+}
+
+void ISS_SWITCH_SetVolume(void *sw, u32 maxVolume)
+{
+    ISS_SWITCH_ApplyVolume(sw, maxVolume);
+}
+
+extern void GFL_USE_SetBgmTrackVolume(u32 trackMask, u32 volumeIndex);
+
+void ISS_SWITCH_CountUpFade(struct IssSwitch *sw);
+
+u32 ISS_SWITCH_IsFadeEnd(struct IssSwitch *sw);
+
+void ISS_SWITCH_UpdateOn(void *sw);
+
+void ISS_SWITCH_UpdateOff(void *sw);
+
+u32 ISS_SWITCH_UpdateFadeIn(void *sw);
+
+u32 ISS_SWITCH_UpdateFadeOut(void *sw);
+
 u32 ISS_SWITCH_GetState(struct IssSwitch *sw);
 
 struct IssSwitch *ISS_SWITCH_SetState(struct IssSwitch *sw, u32 state);
 
 s32 ISS_SWITCH_GetVolume(struct IssSwitch *sw);
 
-void ISS_SWITCH_ApplyVolume(struct IssSwitch *sw, s32 maxVolume);
-
-u32 ISS_SWITCH_IsOnState(void *sw);
-
 u32 ISS_SWITCH_IsOffState(void *sw);
 
-u32 ISS_SWITCH_GetSubscreenMode(void *fieldSys, u32 zoneId);
-
-int ISS_SWITCH_IsSeasonMatch(int gameData);
-
-void ISS_SWITCH_ApplySubscreenMode(struct Ctx *p, u32 zoneId);
-
-void ISS_SWITCH_RefreshSubscreenMode(u8 *gameData, int zoneId);
-
-s32 ISS_SWITCH_CheckAreaOwner(void *fieldSys, u32 gameData, u32 zoneId);
-
-s32 ISS_SWITCH_CheckSpecialPower(void *fieldSys, u32 gameData, u32 zoneId);
-
-u32 ISS_SWITCH_CheckBirthday(void *a, void *b, u32 c);
-
 extern char IssSwitchFileName[];
-
-extern struct Pair gTbl_0209FFF4[];
 
 void *ISS_SWITCH_Alloc(u32 heapId)
 {
@@ -367,162 +366,4 @@ u32 ISS_SWITCH_IsOffState(void *sw)
         return 1;
     }
     return 0;
-}
-
-/*
- * note:     wave 16: promoted.  0x021647E8 is the unlabelled ov010 tail-call
- *           thunk matched in src/matched/CALENDER_GetWeatherThunk.c (`matched, overlay`
- *           under the ov010 hint); 0x0202C8B8 now resolves as `matched`.
- *
- * A chain of four probes, each returning a u8 reason code unless it comes
- * back 0xffff ("nothing to say"); the sentinel is kept in a callee-saved
- * register, which is why it is one pool word and four `cmp r0, r7`.
- */
-u32 ISS_SWITCH_GetSubscreenMode(void *fieldSys, u32 zoneId)
-{
-    u32 ctx = (u32)GAMESYSTEM_GetGameData(fieldSys);
-    u32 saved = GAME_DATA_GetMusicalWork((const struct BigObj *)ctx);
-    u32 r;
-
-    r = MOVE_POKEMON_FindEntryByZone((void *)ctx, (u16)zoneId);
-    if (r != 0xffff) {
-        return (u8)r;
-    }
-    r = ISS_SWITCH_CheckAreaOwner(fieldSys, ctx, zoneId);
-    if (r != 0xffff) {
-        return (u8)r;
-    }
-    r = ISS_SWITCH_CheckSpecialPower(fieldSys, ctx, zoneId);
-    if (r != 0xffff) {
-        return (u8)r;
-    }
-    r = ISS_SWITCH_CheckBirthday(fieldSys, (void *)ctx, zoneId);
-    if (r != 0xffff) {
-        return (u8)r;
-    }
-    if (ISS_SWITCH_IsSeasonMatch(ctx) != 0) {
-        return (u8)CALENDER_GetWeatherThunk((void *)saved, (u16)zoneId);
-    }
-    return (u8)ZONEDATA_GetWeatherId((u16)zoneId);
-}
-
-int ISS_SWITCH_IsSeasonMatch(int gameData){ int season, clockSeason; season = GAME_DATA_GetSeason(gameData); clockSeason = COMM_PLAYER_SUPPORT_GetSeasonFromClock((int)season); if ((unsigned int)((season + 0)) == (unsigned int)(clockSeason)) {  return 1; } else {  return 0; } }
-
-void ISS_SWITCH_ApplySubscreenMode(struct Ctx *fieldSys, u32 zoneId)
-{
-    struct BigObj *obj = GAMESYSTEM_GetGameData(fieldSys);
-    u32 r = ISS_SWITCH_GetSubscreenMode(fieldSys, zoneId);
-
-    GAME_DATA_SetSubscreenMode(obj, (u8)r);
-}
-
-/*
- * note:     2026-09-23 (wave 15): EXACT with no C change; the ov010 call
- *           at +0x34 now resolves sole-ref/code.  The MATCH text below is history.
- *
- * Blocked at MATCH on the `label`/`matched` classes: all 82 concrete bytes
- * are correct (88-byte extent, the last 6 bytes being the pool word 0xffff),
- * but the PC-relative call at +0x0034 to MOVE_POKEMON_IsAnyEntryActive in ov010 has no
- * witness: 0x0215E6F8 has exactly one branch reference image-wide and it is
- * that call, so no cut frees it, and the address is inside BOTH ov009's and
- * ov010's windows, so the `label` class refuses it even with the ov010 hint
- * on the symbols: line.  The unblock is a `matched` entry at 0x0215E6F8
- * (or any additional caller of it anywhere in the image).
- *
- * The range check must wrap in 32 bits: `(u32)(r - 6) > 1`, `(r - 6) > 1u`
- * and `(unsigned)(r - 6) > 1` all give the original's bare
- * `subs r0, r1, #6; cmp r0, #1; bhi`.  The u16-cast spelling
- * `(u16)(r - 6) > 1` is wrong by two instructions: it re-truncates the
- * difference with `lsls r0, r0, #0x10; lsrs r0, r0, #0x10` first.
- *
- * The first call takes the actor pointer as well as the truncated id,
- * `MOVE_POKEMON_FindEntryByZone(a0, (u16)a1)`: r0 is still r0 at the call and the id is
- * built in r1.  Declaring it as a one-argument call puts the id in r0 and
- * shifts the whole prologue.
- */
-void ISS_SWITCH_RefreshSubscreenMode(u8 *gameData, int zoneId)
-{
-    u32 v;
-    u16 r;
-
-    v = MOVE_POKEMON_FindEntryByZone(gameData, (u16)zoneId);
-    r = (u16)(u32)GAME_DATA_GetSubscreenMode((const struct BigObj *)gameData);
-    if (v != 0xffff) {
-        GAME_DATA_SetSubscreenMode((struct BigObj *)gameData, (u8)v);
-        return;
-    }
-    if ((u32)(r - 6) > 1) {
-        return;
-    }
-    if (MOVE_POKEMON_IsAnyEntryActive((int)gameData) != 1) {
-        return;
-    }
-    GAME_DATA_SetSubscreenMode((struct BigObj *)gameData, (u8)ZONEDATA_GetWeatherId((u16)zoneId));
-}
-
-/*
- * The two ABS32 pool words holding 0x0209FFF4 / 0x0209FFF6 are both inside
- * this function; grep over asm/ finds no third pool word anywhere in the
- * image, so the data table has no witness outside the compared range and
- * both relocation sites stay wildcarded. Unstuck by any other function that
- * also points at gTbl_0209FFF4, or by a data-symbol table entry.
- */
-s32 ISS_SWITCH_CheckAreaOwner(void *fieldSys, u32 gameData, u32 zoneId)
-{
-    u32 eventWork;
-    u32 areaOwner;
-    u32 i;
-
-    eventWork = GAME_DATA_GetEventWork((const struct BigObj *)gameData);
-    areaOwner = GAMESYSTEM_GetGameComm(fieldSys);
-    if (ZONEDATA_IsZoneGroup118To13C((u16)zoneId) == 0 || areaOwner == 0) {
-        goto done;
-    }
-    for (i = 0; i < 0x19; i++) {
-        if (zoneId == gTbl_0209FFF4[i].a) {
-            if (ZONEDATA_CheckEventFlag((void *)eventWork, gTbl_0209FFF4[i].b) == 0) {
-                if (INTRUDE_COMM_GetAreaOwnerVersion(areaOwner) == 0x14) return 0xd;
-                return 0xe;
-            }
-            if (INTRUDE_COMM_GetAreaOwnerVersion(areaOwner) == 0x14) return 0xa;
-            return 0xb;
-        }
-    }
-done:
-    return 0xffff;
-}
-
-s32 ISS_SWITCH_CheckSpecialPower(void *fieldSys, u32 gameData, u32 zoneId)
-{
-    u32 eventWork = GAME_DATA_GetEventWork((const struct BigObj *)gameData);
-
-    if (zoneId == 0x151) {
-        if (ZONEDATA_CheckEventFlag((void *)eventWork, 0x96f) != 0) {
-            if (GPOWER_GetSpecialPowerId() == 0x15) return 7;
-            return 6;
-        }
-    }
-    return 0xffff;
-}
-
-u32 ISS_SWITCH_CheckBirthday(void *fieldSys, void *gameData, u32 zoneId)
-{
-    u8 buf[2];
-    struct RtcDate date;
-
-    if (!ZONEDATA_IsRawZone176Or17A((u16)zoneId)) {
-        goto fail;
-    }
-    GF_STANDARD_SetField00_F4E4(&date);
-    APP_ENV_GetOwnerColorAndBirthMonth(&buf[1], &buf[0]);
-    if (date.month != buf[1]) {
-        goto fail;
-    }
-    if (date.day != buf[0]) {
-        goto fail;
-    }
-    return 0;
-
-fail:
-    return 0xFFFF;
 }

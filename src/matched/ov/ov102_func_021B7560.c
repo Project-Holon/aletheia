@@ -23,8 +23,8 @@
  * IRC_COMPATIBLE_MENU_PrintMessage 0x021B7DFC thumb ov102
  * IRC_COMPATIBLE_MENU_InitWindow 0x021B7D38 thumb ov102
  * IRC_COMPATIBLE_MENU_PrintMessageCentered 0x021B7E60 thumb ov102
- * BG_SYS_SetScrollY 0x02041F6C arm
- * BG_SYS_SetAffine 0x02041FB0 arm
+ * BG_SYS_ChangeScale 0x02041F6C arm
+ * BG_SYS_ChangeCenter 0x02041FB0 arm
  * IRC_COMPATIBLE_MENU_InitScrollEffect 0x021B879C thumb ov102
  * ICA_ANIME_GetField1C 0x020120F4 thumb
  * GAME_DATA_GetSaveControl 0x02012EBC thumb
@@ -68,8 +68,8 @@ extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern void IRC_COMPATIBLE_MENU_PrintMessage(u8 *,void *,int,int,s16);
 extern void IRC_COMPATIBLE_MENU_InitWindow(u8 *,int,int,u8,u8,u8,u8,u16,u8,u16);
 extern void IRC_COMPATIBLE_MENU_PrintMessageCentered(u8 *,void *,int);
-extern void BG_SYS_SetScrollY(u32 which, u32 op, u32 value);
-extern void BG_SYS_SetAffine(u32,u32,u16);
+extern void BG_SYS_ChangeScale(u32 which, u32 op, u32 value);
+extern void BG_SYS_ChangeCenter(u32,u32,u16);
 extern void IRC_COMPATIBLE_MENU_InitScrollEffect(void *,u32);
 extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
@@ -105,10 +105,10 @@ int IRC_COMPATIBLE_MENU_ProcInit(void *owner,int unused,void *arg)
     IRC_COMPATIBLE_MENU_PrintMessage(p+0xac,p+0x9c,5,0,0);
     IRC_COMPATIBLE_MENU_InitWindow(p+0x46c,7,6,3,20,5,8,1,1,59);
     IRC_COMPATIBLE_MENU_PrintMessageCentered(p+0x46c,p+0x9c,10);
-    BG_SYS_SetScrollY(7,3,0x1000);
-    BG_SYS_SetScrollY(7,6,0x1000);
-    BG_SYS_SetAffine(7,9,128);
-    BG_SYS_SetAffine(7,12,40);
+    BG_SYS_ChangeScale(7,3,0x1000);
+    BG_SYS_ChangeScale(7,6,0x1000);
+    BG_SYS_ChangeCenter(7,9,128);
+    BG_SYS_ChangeCenter(7,12,40);
     IRC_COMPATIBLE_MENU_InitScrollEffect(p+0xfc,59);
     save=**(void ** *)&((struct Obj03229 *)p)->f48C;
     if(save) save=GAME_DATA_GetSaveControl(ICA_ANIME_GetField1C(save));

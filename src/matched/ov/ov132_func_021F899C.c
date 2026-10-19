@@ -32,7 +32,7 @@
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   func_02040588 0x02040588 arm
  *   G3D_SYSTEM_Init 0x02046440 arm
- *   BG_SYS_SetLowBit 0x0204044C arm
+ *   BG_SYS_EnableBg0WithPriority 0x0204044C arm
  *   G3D_SYSTEM_SetSwapBuffersMode 0x02046BE0 arm
  *   G3D_CAMERA_Create 0x02048A24 arm
  *   G3D_CAMERA_Reset 0x02048AD0 arm
@@ -98,7 +98,7 @@ extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void STA_ACTING_SetupBg(const struct BgTemplate *p, u32 id, u32 type);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void G3D_SYSTEM_Init(u32,u32,u32,u32,u16,u16,void (*)(void));
-extern void BG_SYS_SetLowBit(u32),G3D_SYSTEM_SetSwapBuffersMode(u32,u32);
+extern void BG_SYS_EnableBg0WithPriority(u32),G3D_SYSTEM_SetSwapBuffersMode(u32,u32);
 extern void *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,const Vec3 *,const Vec3 *,const Vec3 *,u16);
 extern void G3D_CAMERA_Reset(struct Light *l);
 extern void func_0207DCF8(const void *);
@@ -138,7 +138,7 @@ void STA_ACTING_InitDisplay(u8 *p)
     STA_ACTING_SetupBg((const struct BgTemplate *)d_021FDB20,7,0);
     func_02040588(0,1);
     G3D_SYSTEM_Init(0,2,0,4,0,*(u16 *)p,0);
-    BG_SYS_SetLowBit(3);
+    BG_SYS_EnableBg0WithPriority(3);
     G3D_SYSTEM_SetSwapBuffersMode(0,1);
     light=G3D_CAMERA_Create(2,0xC000,0,0,0x10000,0x1000,0x3E8000,0,&d_021FDA7C.c,&d_021FDA7C.a,&d_021FDA7C.b,*(u16 *)p);
     *(void **)(p+0xA8)=light;

@@ -48,7 +48,7 @@
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   BATTLE_BOX_GetMon  0x0200BBEC  thumb
- *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
+ *   GF_STANDARD_CalcCrc16  0x0203F1FC  arm
  *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  */
 
@@ -65,7 +65,7 @@ struct MsgBank;
 struct Party;
 struct PartyMon;
 struct Rec;
-extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
+extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
 extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);

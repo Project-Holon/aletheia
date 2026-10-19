@@ -1,7 +1,7 @@
 /*
  * file:     vct_dsp.c
  * unit:     yes
- * function: VCT_DSP_ResetVoiceGate, VCT_DSP_SetVoiceGateConfig, VCT_DSP_UpdateVoiceGate, VCT_DSP_InitVoiceGateDefaults, VCT_DSP_HighPassFilter, VCT_DSP_InitEchoState, VCT_DSP_SetEchoReference, VCT_DSP_SuppressEcho, VCT_DSP_SuppressEchoWithReference, VCT_DSP_MixSaturated, VCT_Init, VCT_Exit, VCT_Update, VCT_ReceiveFrame, VCT_ParseFrame
+ * function: VCT_DSP_ResetVoiceGate, VCT_DSP_GetVoiceGateConfig, VCT_DSP_UpdateVoiceGate, VCT_DSP_InitVoiceGateDefaults, VCT_DSP_HighPassFilter, VCT_DSP_InitEchoState, VCT_DSP_SetEchoReference, VCT_DSP_SuppressEcho, VCT_DSP_SuppressEchoWithReference, VCT_DSP_MixSaturated
  * address:  0x021B3018
  * region:   ov013
  * compiler: dsi/1.1p1
@@ -10,91 +10,88 @@
  * isa:      arm
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Cut from vct_main.c, vct_audio.c, vct_session.c, vct_dsp.c by tools/splitfile.py.
  *
  * symbols:
+ *   VCT_DSP_GetVoiceGateConfig  0x021B3064  arm ov013
+ *   VCT_DSP_InitVoiceGateDefaults  0x021B3250  arm ov013
+ *   VCT_DSP_InitEchoState  0x021B3364  arm ov013
+ *   VCT_DSP_ResetVoiceGate  0x021B3018  arm ov013
+ *   MIi_CpuCopyFast  0x02082B0C  arm
+ *   VCT_DSP_MixSaturated  0x021B3624  arm ov013
+ *   VCT_DSP_SetEchoReference  0x021B33E0  arm ov013
+ *   VCT_DSP_HighPassFilter  0x021B3278  arm  ov013
+ *   VCT_DSP_SuppressEchoWithReference  0x021B3604  arm  ov013
+ *   VCT_DSP_UpdateVoiceGate  0x021B3084  arm  ov013
+ *   MI_CpuCopy8  0x02082D44  arm
  *   gVoiceGateEnergyRing     0x021B4C38  data a4
  *   gVoiceGateState     0x021B4C2C  data a4
  *   gVoiceGateConfig     0x021B3C50  data a4
- *   MI_CpuCopy8  0x02082D44  arm
  *   gEchoState     0x021B4C48  data ov013
  *   gEchoDefaultCoeffs     0x021B3C60  data a2
  *   gEchoRing     0x021B50CC  data a2
  *   gEchoFirDelayAlias     0x021B4C74  data a4
  *   gEchoFirCoeffsAlias     0x021B4C5C  data a4
- *   MIi_CpuCopyFast 0x02082B0C  arm
  *   gEchoReferenceFrame     0x021B4C8C  data a4
- *   OSi_ReferSymbol  0x02004EB0  arm
- *   d_02005108     0x02005108  data
- *   MI_CpuFill8  0x02082BCC  arm
- *   gVctState     0x021B60CC  data ov013
- *   gVctSession     0x021B60D8  data ov013
- *   VCT_SESSION_Init  0x021B0508  arm ov013
- *   VCT_SESSION_InitPeerPool  0x021B22B4  arm ov013
- *   VCT_SESSION_ClearPeerLists  0x021B23C8  arm ov013
- *   VCT_POOL_InitFrames  0x021B2ED8  arm ov013
- *   VCT_POOL_Reset  0x021B2F98  arm ov013
- *   VCT_SESSION_ClearMemberCount  0x021B0600  arm ov013
- *   VCT_SESSION_CheckAnnounceTimeout  0x021B23E0  arm ov013
- *   VCT_AUDIO_SendFrameStep  0x021B11E8  arm ov013
- *   VCT_AUDIO_DecodePendingFrames  0x021B111C  arm ov013
- *   VCT_AUDIO_ReceiveFrame  0x021B0F38  arm
- *   VCT_SESSION_HandlePacket  0x021B2488  arm
- *   OS_GetTick  0x020870D0  arm  arm9
  */
 #include "vct_types.h"
 
 #define reg_CP_SQRTCNT      (*(volatile u16 *)0x040002B0)
+
 #define reg_CP_SQRT_RESULT  (*(volatile u32 *)0x040002B4)
+
 #define reg_CP_SQRT_PARAM   (*(u32 *)0x040002B8)
+
 #define reg_CP_DIVCNT       (*(volatile u16 *)0x04000280)
+
 #define reg_CP_DIV_NUMER    (*(u64 *)0x04000290)
+
 #define reg_CP_DIV_DENOM    (*(u64 *)0x04000298)
+
 #define reg_CP_DIV_RESULT_L (*(volatile u32 *)0x040002A0)
+
 /* Lever: the enum constant gives the hangover count its own type, so the cast to short keeps the smulbb. */
 typedef enum { HangoverFramesDefault } HangoverFrames;
 
 extern void MI_CpuCopy8(void *dst, void *src, int n);
-extern void MIi_CpuCopyFast(void *src, void *dst, u32 n);
-extern void OSi_ReferSymbol(const void *symbol);
-extern void MI_CpuFill8(void *dst, int c, int n);
-extern int  VCT_SESSION_Init(void);
-extern int VCT_SESSION_InitPeerPool(VctInitParams *params);
-extern void VCT_SESSION_ClearPeerLists(void);
-extern int VCT_POOL_InitFrames(VctRxPacket *buffer, u32 size);
-extern void VCT_POOL_Reset(void);
-extern void VCT_SESSION_ClearMemberCount(void);
-extern void VCT_SESSION_CheckAnnounceTimeout(void);
-extern int VCT_AUDIO_SendFrameStep(void);
-extern int VCT_AUDIO_DecodePendingFrames(void);
-extern unsigned long long OS_GetTick(void);
-extern int VCT_AUDIO_ReceiveFrame(int senderId, VctAudioFrame *frame, int length, unsigned long long tick);
-extern int VCT_SESSION_HandlePacket(int senderId, VctPacket *packet, int length, VctEvent *event);
-void VCT_DSP_ResetVoiceGate(void);
-void VCT_DSP_SetVoiceGateConfig(void *config);
-u32 VCT_DSP_UpdateVoiceGate(u32 energy, u32 level, u8 *levelOut);
-void VCT_DSP_InitVoiceGateDefaults(void);
-s32 VCT_DSP_HighPassFilter(s16 *samples, u32 byteCount);
-void VCT_DSP_InitEchoState(void);
-void VCT_DSP_SetEchoReference(void *frame, u32 byteCount);
-void VCT_DSP_SuppressEcho(s16 *mic, s16 *reference, u32 byteCount, u32 threshold);
-void VCT_DSP_SuppressEchoWithReference(short *mic, unsigned int byteCount, unsigned int threshold);
-void VCT_DSP_MixSaturated(s16 *srcA, s16 *srcB, s16 *dst, u32 byteCount);
-int VCT_Init(VctInitParams *params);
-void VCT_Exit(void);
-void VCT_Update(void);
-int VCT_ReceiveFrame(int senderId, VctFrameHeader *frame, int length);
-int VCT_ParseFrame(int senderId, VctFrameHeader *header, int length, VctEvent *eventOut);
-extern u32 gVoiceGateEnergyRing[];
-extern VoiceGateState gVoiceGateState;
-extern struct EchoState gEchoState;
-extern s16 gEchoDefaultCoeffs[];
-extern s16 gEchoRing[];
-extern int gEchoFirDelayAlias[];
-extern int gEchoFirCoeffsAlias[];
-extern short gEchoReferenceFrame[];
-extern char d_02005108[];
 
+extern void MIi_CpuCopyFast(void *src, void *dst, u32 n);
+
+void VCT_DSP_ResetVoiceGate(void);
+
+void VCT_DSP_GetVoiceGateConfig(void *config);
+
+u32 VCT_DSP_UpdateVoiceGate(u32 energy, u32 level, u8 *levelOut);
+
+void VCT_DSP_InitVoiceGateDefaults(void);
+
+s32 VCT_DSP_HighPassFilter(s16 *samples, u32 byteCount);
+
+void VCT_DSP_InitEchoState(void);
+
+void VCT_DSP_SetEchoReference(void *frame, u32 byteCount);
+
+void VCT_DSP_SuppressEcho(s16 *mic, s16 *reference, u32 byteCount, u32 threshold);
+
+void VCT_DSP_SuppressEchoWithReference(short *mic, unsigned int byteCount, unsigned int threshold);
+
+void VCT_DSP_MixSaturated(s16 *srcA, s16 *srcB, s16 *dst, u32 byteCount);
+
+extern u32 gVoiceGateEnergyRing[];
+
+extern VoiceGateState gVoiceGateState;
+
+extern struct EchoState gEchoState;
+
+extern s16 gEchoDefaultCoeffs[];
+
+extern s16 gEchoRing[];
+
+extern int gEchoFirDelayAlias[];
+
+extern int gEchoFirCoeffsAlias[];
+
+extern short gEchoReferenceFrame[];
 
 void VCT_DSP_ResetVoiceGate(void)
 {
@@ -107,14 +104,12 @@ void VCT_DSP_ResetVoiceGate(void)
     gVoiceGateState.quietFrames = 0;
 }
 
-
-void VCT_DSP_SetVoiceGateConfig(void *config)
+void VCT_DSP_GetVoiceGateConfig(void *config)
 {
     if (!config)
         return;
     MI_CpuCopy8(&gVoiceGateConfig, config, 0x10);
 }
-
 
 static inline void CP_SetSqrt32(u32 param)
 {
@@ -122,13 +117,11 @@ static inline void CP_SetSqrt32(u32 param)
     reg_CP_SQRT_PARAM = param;
 }
 
-
 static inline void CP_WaitSqrt(void)
 {
     while (reg_CP_SQRTCNT & 0x8000) {
     }
 }
-
 
 /*
  * Voice-activity gate. gVoiceGateEnergyRing is a 4-entry ring of energies; the hardware
@@ -211,8 +204,6 @@ u32 VCT_DSP_UpdateVoiceGate(u32 energy, u32 level, u8 *levelOut)
 
 #pragma opt_propagation reset
 
-
-
 /*
  * lever: enum count cast to short preserves the smulbb; short local folded 15*68.
  */
@@ -225,9 +216,6 @@ void VCT_DSP_InitVoiceGateDefaults(void)
     VCT_DSP_ResetVoiceGate();
 }
 
-
-
-
 static inline void CP_SetDiv64_32(u64 numer, u32 denom)
 {
     reg_CP_DIVCNT = 1;
@@ -235,17 +223,11 @@ static inline void CP_SetDiv64_32(u64 numer, u32 denom)
     reg_CP_DIV_DENOM = denom;
 }
 
-
-
-
 static inline void CP_WaitDiv(void)
 {
     while (reg_CP_DIVCNT & 0x8000) {
     }
 }
-
-
-
 
 s32 VCT_DSP_HighPassFilter(s16 *samples, u32 length)
 {
@@ -281,9 +263,6 @@ s32 VCT_DSP_HighPassFilter(s16 *samples, u32 length)
     return reg_CP_DIV_RESULT_L;
 }
 
-
-
-
 void VCT_DSP_InitEchoState(void)
 {
     int i;
@@ -300,22 +279,12 @@ void VCT_DSP_InitEchoState(void)
     }
 }
 
-
-
-
 void VCT_DSP_SetEchoReference(void *frame, u32 byteCount)
 {
     MIi_CpuCopyFast(frame, gEchoReferenceFrame, byteCount);
 }
 
-
-
-
-
 #pragma opt_common_subs off
-
-
-
 
 /*
  * note 2026-10-05 (integrator): EXACT. The tail guard tests the counter, `i = 0; if (i < n) { sh = att; do ... while (i < n); }`, which gives the unsigned `ls` exit; `n != 0` gave `eq` (2 B).
@@ -449,22 +418,12 @@ void VCT_DSP_SuppressEcho(s16 *mic, s16 *reference, u32 count, u32 threshold)
     }
 }
 
-
-
-
 #pragma opt_common_subs reset
-
-
-
 
 void VCT_DSP_SuppressEchoWithReference(short *mic, unsigned int byteCount, unsigned int threshold)
 {
     VCT_DSP_SuppressEcho(mic,gEchoReferenceFrame,byteCount,threshold);
 }
-
-
-
-
 
 void VCT_DSP_MixSaturated(s16 *srcA, s16 *srcB, s16 *dst, u32 byteCount)
 {
@@ -488,120 +447,3 @@ void VCT_DSP_MixSaturated(s16 *srcA, s16 *srcB, s16 *dst, u32 byteCount)
         dst[i + 3] = sum;
     }
 }
-
-
-
-
-
-int VCT_Init(VctInitParams *params)
-{
-    OSi_ReferSymbol(d_02005108);
-    if (params == 0)
-        return 0;
-    if (gVctState.initialized != 0)
-        return 1;
-    if (params->mode != 1 && params->mode != 2 && params->mode != 3)
-        return 0;
-    if (params->eventCallback == 0)
-        return 0;
-    if (params->frameBuffer == 0 || params->frameBufferSize == 0)
-        return 0;
-    if (params->frameBuffer % 32 != 0)
-        return 0;
-    MI_CpuFill8(&gVctSession, 0, sizeof(VctSession));
-    gVctState.session.eventCallback = params->eventCallback;
-    gVctState.session.callbackArg = params->callbackArg;
-    gVctState.session.mode = params->mode;
-    gVctState.session.sharedSession = 0;
-    if (params->localId >= 0x20)
-        return 0;
-    gVctState.session.localId = params->localId;
-    if (VCT_POOL_InitFrames((VctRxPacket *)params->frameBuffer, params->frameBufferSize) == 0) {
-        VCT_POOL_Reset();
-        return 0;
-    }
-    if (VCT_SESSION_InitPeerPool(params) == 0) {
-        VCT_POOL_Reset();
-        return 0;
-    }
-    if (VCT_SESSION_Init() != 0) {
-        gVctState.initialized = 1;
-        return 1;
-    }
-    VCT_SESSION_ClearPeerLists();
-    VCT_POOL_Reset();
-    return 0;
-}
-
-
-
-
-
-void VCT_Exit(void)
-{
-    VCT_SESSION_ClearMemberCount();
-    VCT_SESSION_ClearPeerLists();
-    VCT_POOL_Reset();
-    gVctState.session.mode = 0;
-    gVctState.initialized = 0;
-}
-
-
-
-void VCT_Update(void)
-{
-    if (gVctState.initialized == 0)
-        return;
-    gVctState.tickCount++;
-    if ((gVctState.tickCount & 0xf) == 0)
-        VCT_SESSION_CheckAnnounceTimeout();
-    if (VCT_AUDIO_SendFrameStep())
-        VCT_AUDIO_DecodePendingFrames();
-}
-
-
-
-int VCT_ReceiveFrame(int senderId, VctFrameHeader *frame, int length)
-{
-    VctEvent event;
-
-    switch (VCT_ParseFrame(senderId, frame, length, &event)) {
-    case 0:
-        break;
-    case 1:
-        gVctState.session.eventCallback(senderId, event.code, event.peer, gVctState.session.callbackArg);
-        return 1;
-    case 2:
-        return 0;
-    }
-    return 1;
-}
-
-
-#pragma opt_common_subs off
-
-
-int VCT_ParseFrame(int senderId, VctFrameHeader *header, int length, VctEvent *eventOut)
-{
-    unsigned long long tick;
-
-    if (header == 0)
-        return 0;
-    if (header->magic != 0x5F564354)
-        return 2;
-    if (gVctState.session.mode == 0 || gVctState.initialized == 0)
-        return 0;
-    eventOut->code = 0;
-    eventOut->peer = 0;
-    tick = OS_GetTick();
-    if ((header->type & 0xf0) == 0x40) {
-        gVctState.audioFrameCount++;
-        VCT_AUDIO_ReceiveFrame(senderId, (VctAudioFrame *)header, length, tick);
-        return 0;
-    }
-    if (header->type == 0 || header->type == 0xff)
-        return VCT_SESSION_HandlePacket(senderId, (VctPacket *)header, length, eventOut) != 0;
-    return 0;
-}
-
-#pragma opt_common_subs reset

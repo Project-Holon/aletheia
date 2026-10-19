@@ -21,7 +21,7 @@
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_PrintQue 0x0201C6FC thumb
  *   STRBUF_Delete 0x02045808 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  */
 typedef unsigned char  u8;
@@ -46,7 +46,7 @@ extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 
 void WIFIBATTLEMATCH_VIEW_DrawTaggedText(u32 *p, struct PrintSys *win, u32 str, u32 c2, u32 c1, u16 heap)
@@ -87,6 +87,6 @@ void WIFIBATTLEMATCH_VIEW_DrawTaggedText(u32 *p, struct PrintSys *win, u32 str, 
     ((u8 *)p)[4] = 1;
     STRBUF_Delete((struct U16Vec *)e);
     STRBUF_Delete(buf);
-    WORDSET_DeleteStrbufED04(ws);
+    WORDSET_Delete(ws);
     MSGDATA_Delete((struct Rec *)msg);
 }

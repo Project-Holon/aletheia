@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   WORLDTRADE_ADAPTER_IsStreamDone  0x02202840  thumb  ov135
+ *   WORLDTRADE_ADAPTER_IsStreamBusy  0x02202840  thumb  ov135
  *   TOUCHPANEL_GetTrg  0x02035C60  arm  arm9
  *   KEY_GetTrg  0x020362DC  arm  arm9
 
@@ -22,13 +22,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
-extern u32 WORLDTRADE_ADAPTER_IsStreamDone(u8 *p);
+extern u32 WORLDTRADE_ADAPTER_IsStreamBusy(u8 *p);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 
 int WORLDTRADE_SEARCH_StateWaitMessageOrKey(u8 *p)
 {
-    if (WORLDTRADE_ADAPTER_IsStreamDone(p + 0xfa0) == 0) {
+    if (WORLDTRADE_ADAPTER_IsStreamBusy(p + 0xfa0) == 0) {
         if (KEY_GetTrg() != 0 || TOUCHPANEL_GetTrg() != 0) {
             ((struct Obj12217 *)p)->f28 = ((struct Obj12217 *)p)->f2C;
         }

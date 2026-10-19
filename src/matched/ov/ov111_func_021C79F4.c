@@ -1,5 +1,5 @@
 /*
- * function: VIEWER_ACTOR_IsActorAnimActive
+ * function: VIEWER_ACTOR_StepWaitActorAnim
  * address:  0x021C79F4
  * packet:   pkt_ov111_021C79F4
  * region:   ov111
@@ -91,7 +91,7 @@ typedef struct {
 struct Actor;
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 
-int VIEWER_ACTOR_IsActorAnimActive(Work *p)
+int VIEWER_ACTOR_StepWaitActorAnim(Work *p)
 {
     switch (p->f110) {
     case 0x12:

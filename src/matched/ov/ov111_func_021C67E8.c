@@ -1,5 +1,5 @@
 /*
- * function: VIEWER_TEXT_SetScroll
+ * function: VIEWER_TEXT_AddRow
  * address:  0x021C67E8
  * packet:   pkt_ov111_021C67E8
  * region:   ov111
@@ -20,7 +20,7 @@ typedef struct {
     u8 count;
 } Work;
 
-void VIEWER_TEXT_SetScroll(Work *p, int v)
+void VIEWER_TEXT_AddRow(Work *p, int v)
 {
     p->list[p->count] = v;
     p->count++;

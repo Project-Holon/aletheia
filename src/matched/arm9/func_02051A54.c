@@ -1,5 +1,5 @@
 /*
- * function: BUTTON_MAN_AppendList0
+ * function: PARTICLE_AllocTexVramTracked
  * address:  0x02051A54
  * packet:   pkt_02051A54
  * region:   arm9
@@ -40,7 +40,7 @@ typedef unsigned int   u32;
 extern u32 (*NNS_GfdDefaultFuncAllocTexVram)(u32 a, u32 b, u32 c);
 extern struct G_02146A88 *g_pParticleMan;
 
-u32 BUTTON_MAN_AppendList0(u32 a, u32 b)
+u32 PARTICLE_AllocTexVramTracked(u32 a, u32 b)
 {
     u32 v = NNS_GfdDefaultFuncAllocTexVram(a, b, 0);
     u8 *base = g_pParticleMan->base;

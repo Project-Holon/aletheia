@@ -22,7 +22,7 @@
  *   STARTMENU_OpenInfoWindow  0x021BBD80  thumb  ov088
  *   STARTMENU_UpdateMessage  0x021BBFA8  thumb  ov088
  *   BMP_MENU_ProcessYesNo  0x0201FEBC  thumb
- *   APP_ENV_InitParentalControl  0x0202EB44  thumb
+ *   APP_ENV_IsWirelessAvailable  0x0202EB44  thumb
  *   STARTMENU_CloseInfoWindow  0x021BBE3C  thumb  ov088
  *   STARTMENU_HideMessageWindow  0x021BBF98  thumb  ov088
  *   KEY_GetTrg  0x020362DC  arm
@@ -48,7 +48,7 @@ extern void STARTMENU_StartMessage(char *p, u32 a1);
 extern void STARTMENU_OpenInfoWindow(char *p);
 extern int STARTMENU_UpdateMessage(char *p);
 extern u32 BMP_MENU_ProcessYesNo(u8 *);
-extern int APP_ENV_InitParentalControl(void);
+extern int APP_ENV_IsWirelessAvailable(void);
 extern void STARTMENU_CloseInfoWindow(char *p);
 extern void STARTMENU_HideMessageWindow(char *p);
 extern u32 KEY_GetTrg(void);
@@ -93,7 +93,7 @@ int STARTMENU_StateConnectPrompt(char *p)
         r = BMP_MENU_ProcessYesNo(*(u8 * *)&((struct Obj00339 *)p)->f7C);
         switch (r) {
         case 0:
-            if (APP_ENV_InitParentalControl() == 0) {
+            if (APP_ENV_IsWirelessAvailable() == 0) {
                 STARTMENU_StartMessage(p, 0x11);
                 ((struct Obj00339 *)p)->f12A = 5;
             } else {

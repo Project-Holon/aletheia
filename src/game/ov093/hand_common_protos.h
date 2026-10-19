@@ -36,12 +36,12 @@ extern void BTL_SERVER_FLOW_SetCurTurnStateFlag(struct BtlServerFlow *flow, int 
 extern u32 WAZA_TOOL_GetFlag(u16 moveId, u32 flagBit);
 
 /* Services of the volatile condition records and of the battle viewer slots. */
-extern union SickCont BTLV_CORE_MakeSlotKind1Empty(void);
-extern union SickCont BTLV_CORE_MakeSlotKind2(int turns, int moveId);
-extern union SickCont BTLV_CORE_MakeSlotKind2Index(int turns);
-extern union SickCont BTLV_CORE_MakeSlotKind3(int pokeId);
-extern void BTLV_CORE_SetSlotValue(union SickCont *slot, u16 value);
-extern u16 BTLV_CORE_PackByteTwice(int value);
+extern union SickCont BTL_SICKCONT_MakeKind1Empty(void);
+extern union SickCont BTL_SICKCONT_MakeKind2(int turns, int moveId);
+extern union SickCont BTL_SICKCONT_MakeKind2Index(int turns);
+extern union SickCont BTL_SICKCONT_MakeKind3(int pokeId);
+extern void BTL_SICKCONT_SetValue(union SickCont *slot, u16 value);
+extern u16 BTL_TYPEPAIR_MakeSingle(int value);
 extern union SickCont BTL_CALC_MakeDefaultSickCont(int sickKind);
 
 /* Services of the poke parameter. */

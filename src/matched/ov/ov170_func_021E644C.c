@@ -13,12 +13,12 @@
  *   BOX2_SEQ_SetCursorDraw 0x021ED55C thumb
  *   BOX2_UI_IsTopBarClosed 0x021EF480 thumb
  *   BOX2_MAIN_RefreshCursorBox 0x021DD14C thumb
- *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb
+ *   BOX2_MAIN_RefreshCurrentBoxMonInfo 0x021DEFEC thumb
  *   BOX2_SEQ_ShowWindowObject 0x021EBA5C thumb
  *   BOX2_SEQ_SetSlotDim 0x021ED6E4 thumb
  *   BOX2_UI_OpenListPack 0x021EF57C thumb
  *   BOX2_SEQ_SetSeqThird 0x021E8FC0 thumb
- *   BOX2_MAIN_Check0ED4 0x021E0ED4 thumb
+ *   BOX2_MAIN_StateMachineHideHandWindow 0x021E0ED4 thumb
  *   BOX2_UI_SlideBarIn 0x021EF3D8 thumb
  *   BOX2_UI_PutBottomBarClosed 0x021EF35C thumb
  *   BOX2_UI_CloseBar 0x021EF36C thumb
@@ -47,12 +47,12 @@ struct WinMgr;
 extern void BOX2_SEQ_SetCursorDraw(char **p, int flag);
 extern int BOX2_UI_IsTopBarClosed(struct WinMgr *mgr);
 extern void BOX2_MAIN_RefreshCursorBox(char *p);
-extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
+extern void BOX2_MAIN_RefreshCurrentBoxMonInfo(char *p, int b);
 extern void BOX2_SEQ_ShowWindowObject(char *w, int v);
 extern void BOX2_SEQ_SetSlotDim(char **p, int v);
 extern void BOX2_UI_OpenListPack(struct WinMgr *mgr);
 extern int BOX2_SEQ_SetSeqThird(char *p, int a, int b);
-extern int BOX2_MAIN_Check0ED4(unsigned char *p);
+extern int BOX2_MAIN_StateMachineHideHandWindow(unsigned char *p);
 extern void BOX2_UI_SlideBarIn(struct WinMgr *mgr);
 extern void BOX2_UI_PutBottomBarClosed(struct WinMgr *mgr);
 extern void BOX2_UI_CloseBar(struct WinMgr *mgr);
@@ -90,7 +90,7 @@ int BOX2_SEQ_StateSummaryD(unsigned char *p)
             p[0x17] = 0xFF;
             *(unsigned short *)(WORK(p) + 0xA16C) = 0;
             BOX2_MAIN_RefreshCursorBox((char *)p);
-            BOX2_MAIN_ChangeBoxFormPreserve((char *)p, p[0x16]);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p, p[0x16]);
         } else {
             if (NIB(p)->lo == 2 && *(unsigned short *)(WORK(p) + 0xA16C) == 0) {
                 p[0x17] = 0xFF;
@@ -100,7 +100,7 @@ int BOX2_SEQ_StateSummaryD(unsigned char *p)
             BOX2_MAIN_RefreshCursorBox((char *)p);
             BOX2_SEQ_SetSlotDim((char **)p, 0);
             BOX2_UI_OpenListPack(MGR(p));
-            return BOX2_SEQ_SetSeqThird((char *)p, (int)BOX2_MAIN_Check0ED4, 0x3F);
+            return BOX2_SEQ_SetSeqThird((char *)p, (int)BOX2_MAIN_StateMachineHideHandWindow, 0x3F);
         }
     case 1:
         STEP(p)++;

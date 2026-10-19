@@ -11,7 +11,7 @@
  * symbols:
  *   BG_SYS_SetTileEntry 0x02041300 arm
  *   func_02041B6C 0x02041B6C arm
- *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
+ *   GAME_DATA_ContainsRecentId 0x02012BF8 thumb
  *   ZKNSEARCH_MAIN_SetActorVisible 0x021BEDF0 thumb ov210
  *   ZKNSEARCH_MAIN_SetActorAnimAuto 0x021BEDB8 thumb ov210
  *   ZKNSEARCH_MAIN_SetActorBgPriority 0x021BEE80 thumb ov210
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 typedef unsigned char u8;
 extern void BG_SYS_SetTileEntry(u32, int, int, int, u8, u8, u8);
 extern void func_02041B6C(u32);
-extern int GAME_DATA_CheckSaveFlag(int, int);
+extern int GAME_DATA_ContainsRecentId(int, int);
 extern void ZKNSEARCH_MAIN_SetActorVisible(int p, int i, int v);
 extern void ZKNSEARCH_MAIN_SetActorAnimAuto(int p, int i, int v);
 extern void ZKNSEARCH_MAIN_SetActorBgPriority(int p, int i, unsigned v);
@@ -34,7 +34,7 @@ void ZKNSEARCH_MAIN_HideResultLayout(char *p)
     func_02041B6C(1);
     ZKNSEARCH_MAIN_SetActorAnimAuto((int)p, 2, 1);
     ZKNSEARCH_MAIN_SetActorAnimAuto((int)p, 3, 0);
-    if (GAME_DATA_CheckSaveFlag(**(int * *)&((struct Obj25589 *)p)->f0, 16) == 1)
+    if (GAME_DATA_ContainsRecentId(**(int * *)&((struct Obj25589 *)p)->f0, 16) == 1)
         ZKNSEARCH_MAIN_SetActorAnimAuto((int)p, 4, 7);
     else
         ZKNSEARCH_MAIN_SetActorAnimAuto((int)p, 4, 6);

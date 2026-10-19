@@ -14,7 +14,7 @@
  *   MSGDATA_Delete  0x02045C04  arm
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   GF_FONT_Delete  0x0201D83C  thumb
  *   TCBL_Destroy  0x02031140  arm
  *   BMP_OAM_DeleteSys  0x02025588  thumb
@@ -32,7 +32,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
-extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern unsigned int WORDSET_Delete(struct WordSet *p);
 typedef unsigned int   u32;
 extern u32 GF_FONT_Delete(void *ptr);
 extern void TCBL_Destroy(struct S02031140 *p);
@@ -49,7 +49,7 @@ void INTRUDE_SUBDISP_SystemExit(int *p)
     MSGDATA_Delete((struct Rec *)p[0x30 / 4]);
     PRINTSYS_QUE_Clear((struct PrintSys *)p[0x28 / 4]);
     PRINTSYS_QUE_Delete((struct PrintSys *)p[0x28 / 4]);
-    WORDSET_DeleteStrbufED04((struct WordSet *)p[0x24 / 4]);
+    WORDSET_Delete((struct WordSet *)p[0x24 / 4]);
     GF_FONT_Delete((void *)p[0x1c / 4]);
     TCBL_Destroy((struct S02031140 *)p[0x20 / 4]);
     BMP_OAM_DeleteSys((void *)p[0xb0 / 4]);

@@ -12,13 +12,13 @@
  *   CLACT_ReleaseCharacter  0x0204A8D4  arm  arm9
  *   CLACT_ReleasePalette  0x0204ADA4  arm  arm9
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm  arm9
- *   BG_SYS_SetTileUnit  0x02040DA8  arm  arm9
+ *   BG_SYS_FreeTiles  0x02040DA8  arm  arm9
  */
 typedef unsigned int   u32;
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
-extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
+extern void BG_SYS_FreeTiles(u32 idx, u32 count, u32 tile);
 extern u32 func_020307B0(void *p);
 typedef struct { int a, b, c, d, e, f; } S5868;
 void WIFIBATTLEMATCH_VIEW_Delete(S5868 *p)
@@ -29,6 +29,6 @@ void WIFIBATTLEMATCH_VIEW_Delete(S5868 *p)
     CLACT_ReleasePalette(p->b);
     CLACT_ReleaseCharacter(p->d);
     CLACT_ReleaseCellAnim(p->f);
-    BG_SYS_SetTileUnit(0, 1, 0);
+    BG_SYS_FreeTiles(0, 1, 0);
     func_020307B0(p);
 }

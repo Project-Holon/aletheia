@@ -1,7 +1,7 @@
 /*
  * file:     worldtrade_adapter.c
  * unit:     yes
- * function: WORLDTRADE_ADAPTER_RemovePartyMon, WORLDTRADE_ADAPTER_RegisterReceivedMon, WORLDTRADE_ADAPTER_RegisterReceivedMonB, WORLDTRADE_ADAPTER_GetDateTime, WORLDTRADE_ADAPTER_RegisterLanguageVersion, WORLDTRADE_ADAPTER_CheckPartyHasOther, WORLDTRADE_ADAPTER_SetPair, WORLDTRADE_ADAPTER_CanProceed, WORLDTRADE_ADAPTER_CreateMail, WORLDTRADE_ADAPTER_CreateMonFromBox, WORLDTRADE_ADAPTER_AllocHeapBuf, WORLDTRADE_ADAPTER_CopyMon, WORLDTRADE_ADAPTER_ClearWindowScreen, WORLDTRADE_ADAPTER_CreateString, WORLDTRADE_ADAPTER_CopyBoxMon, WORLDTRADE_ADAPTER_GetBoxParam, WORLDTRADE_ADAPTER_StrObjThunk, WORLDTRADE_ADAPTER_InitPrinter, WORLDTRADE_ADAPTER_ExitPrinter, WORLDTRADE_ADAPTER_UpdatePrinter, WORLDTRADE_ADAPTER_IsStreamDone, WORLDTRADE_ADAPTER_QueuePrintDefaultColor, WORLDTRADE_ADAPTER_StartPrintStream, WORLDTRADE_ADAPTER_PrintQueColor, WORLDTRADE_ADAPTER_DeletePrintStream, WORLDTRADE_ADAPTER_InitMessageSystem, WORLDTRADE_ADAPTER_ExitMessageSystem, WORLDTRADE_ADAPTER_UpdateMessageSystem, WORLDTRADE_ADAPTER_PrintNumber, WORLDTRADE_ADAPTER_QueueMessagePrint
+ * function: WORLDTRADE_ADAPTER_RemovePartyMon, WORLDTRADE_ADAPTER_RegisterReceivedMon, WORLDTRADE_ADAPTER_RegisterReceivedMonB, WORLDTRADE_ADAPTER_StoreDateAsLastId, WORLDTRADE_ADAPTER_RegisterLanguageVersion, WORLDTRADE_ADAPTER_CheckPartyHasOther, WORLDTRADE_ADAPTER_SetPair, WORLDTRADE_ADAPTER_CanProceed, WORLDTRADE_ADAPTER_CreateMail, WORLDTRADE_ADAPTER_CreateMonFromBox, WORLDTRADE_ADAPTER_AllocHeapBuf, WORLDTRADE_ADAPTER_CopyMon, WORLDTRADE_ADAPTER_ClearWindowScreen, WORLDTRADE_ADAPTER_CreateString, WORLDTRADE_ADAPTER_CopyBoxMon, WORLDTRADE_ADAPTER_GetBoxParam, WORLDTRADE_ADAPTER_StrObjThunk, WORLDTRADE_ADAPTER_InitPrinter, WORLDTRADE_ADAPTER_ExitPrinter, WORLDTRADE_ADAPTER_UpdatePrinter, WORLDTRADE_ADAPTER_IsStreamBusy, WORLDTRADE_ADAPTER_QueuePrintDefaultColor, WORLDTRADE_ADAPTER_StartPrintStream, WORLDTRADE_ADAPTER_PrintQueColor, WORLDTRADE_ADAPTER_DeletePrintStream, WORLDTRADE_ADAPTER_InitMessageSystem, WORLDTRADE_ADAPTER_ExitMessageSystem, WORLDTRADE_ADAPTER_UpdateMessageSystem, WORLDTRADE_ADAPTER_PrintNumber, WORLDTRADE_ADAPTER_QueueMessagePrint
  * address:  0x022021F8
  * region:   ov135
  * compiler: dsi/1.1p1
@@ -29,12 +29,12 @@
  *   STRBUF_Create 0x020457B0 arm
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   WORLDTRADE_ADAPTER_CreateMonFromBox  0x022025E4  thumb
- *   WORLDTRADE_ADAPTER_IsStreamDone  0x02202840  thumb  ov135
+ *   WORLDTRADE_ADAPTER_IsStreamBusy  0x02202840  thumb  ov135
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   BMP_WIN_GetBmp   0x02045770  arm
  *   BMP_WIN_TransferChars   0x02045334  arm
  *   WORLDTRADE_ADAPTER_QueuePrintDefaultColor  0x02202858  thumb  ov135
- *   FILE_UTIL_Check136C  0x0202136C  thumb
+ *   FILE_UTIL_IsMailItem  0x0202136C  thumb
  *   BOX_SAVEDATA_GetPokemon  0x02007A18  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
@@ -60,20 +60,20 @@
  *   WORLDTRADE_ADAPTER_ExitMessageSystem  0x022029D4  thumb  ov135
  *   WORLDTRADE_ADAPTER_UpdateMessageSystem  0x022029F8  thumb
  *   WORLDTRADE_ADAPTER_QueueMessagePrint  0x02202B20  thumb
- *   WORLDTRADE_BOX_IsSpeciesFlagged 0x021F6DE8 thumb ov135
+ *   WORLDTRADE_BOX_IsHoldingMail 0x021F6DE8 thumb ov135
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   BMP_WIN_ClearScreen   0x020456F8  arm
  *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
  *   MI_CpuCopy8  0x02082D44  arm
  *   STRBUF_GetChars 0x02045A90 arm
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   WORLDTRADE_GetIsDeposited  0x0200AD8C  thumb
- *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
+ *   WORDSET_SetSlotMonNickname  0x0201EEF4  thumb
  *   WORLDTRADE_SetIsDeposited  0x0200AD94  thumb
  *   WORLDTRADE_SetPokemon 0x0200ADB8 thumb
  *   POKEPARTY_RemoveMember 0x0201A9C8 thumb
- *   GAME_DATA_GetBoxSave 0x02012F98 thumb
+ *   GAME_DATA_GetPerapVoiceSave 0x02012F98 thumb
  *   GAME_DATA_GetMyParty 0x02012934 thumb
  *   PERAPVOICE_ClearIfNoChatot 0x02007C34 thumb
  *   ZUKAN_SAVE_RegisterCaught  0x0200CDE0  thumb
@@ -109,7 +109,7 @@
  *   PRINTSYS_PrintStreamGetState  0x0201CE30  thumb  arm9
  *   PRINTSYS_PrintStreamReleasePause  0x0201CE38  thumb  arm9
  *   PRINTSYS_PrintStreamShortWait  0x0201CE5C  thumb  arm9
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
+ *   WORDSET_Delete  0x0201ED04  thumb  arm9
  *   GF_FONT_MeasureWidestLine  0x0201D304  thumb  arm9
  */
 #include "worldtrade_types.h"
@@ -148,7 +148,7 @@ extern int TOUCHPANEL_GetTrg(void);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
 
-extern u32 FILE_UTIL_Check136C(u16 v);
+extern u32 FILE_UTIL_IsMailItem(u16 v);
 
 extern struct Sub020079BCEntry *BOX_SAVEDATA_GetPokemon(void **save, u32 box, u32 slot);
 
@@ -201,7 +201,7 @@ typedef struct {
 
 extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 
-extern int WORLDTRADE_BOX_IsSpeciesFlagged(unsigned int handle);
+extern int WORLDTRADE_BOX_IsHoldingMail(unsigned int handle);
 
 
 
@@ -209,7 +209,7 @@ extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 
 extern void *POKE_TOOL_GetBoxParam(void *mon);
 
-extern void BG_SYS_SetFlagField06(u32 v);
+extern void BG_SYS_MarkTileDirty(u32 v);
 
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 
@@ -223,7 +223,7 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 
 extern u16 WORLDTRADE_GetIsDeposited(const struct Rec0200AD8C *p);
 
-extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonNickname(struct WordSet *p, u32 i, void *mon);
 
 extern void WORLDTRADE_SetIsDeposited(struct Rec0200AD94 *p, u16 v);
 
@@ -235,7 +235,7 @@ extern void *POKEPARTY_GetMember(void *, unsigned);
 
 extern u32 POKEPARTY_RemoveMember(struct Party *p, s32 idx);
 
-extern struct Sub02007AC8Entry *GAME_DATA_GetBoxSave(void *p);
+extern struct Sub02007AC8Entry *GAME_DATA_GetPerapVoiceSave(void *p);
 
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 
@@ -307,7 +307,7 @@ extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 
 
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 
 void WORLDTRADE_ADAPTER_RemovePartyMon(Work *p, int flag);
 
@@ -315,7 +315,7 @@ void WORLDTRADE_ADAPTER_RegisterReceivedMon(Work *p, void *mon, u32 box, int hat
 
 void WORLDTRADE_ADAPTER_RegisterReceivedMonB(Work *p,void *mon,void *unused2,void *unused3,u32 index);
 
-void WORLDTRADE_ADAPTER_GetDateTime(void *p, int which);
+void WORLDTRADE_ADAPTER_StoreDateAsLastId(void *p, int which);
 
 void WORLDTRADE_ADAPTER_RegisterLanguageVersion(void *obj,Entry *p);
 
@@ -349,7 +349,7 @@ void WORLDTRADE_ADAPTER_ExitPrinter(Printer *p);
 
 void WORLDTRADE_ADAPTER_UpdatePrinter(Printer *p);
 
-u32 WORLDTRADE_ADAPTER_IsStreamDone(PrintStreamCtx *p);
+u32 WORLDTRADE_ADAPTER_IsStreamBusy(PrintStreamCtx *p);
 
 u32 WORLDTRADE_ADAPTER_QueuePrintDefaultColor(void *p,u8 b,void *s,u32 x,u32 y,void *out);
 
@@ -388,7 +388,7 @@ void WORLDTRADE_ADAPTER_RemovePartyMon(Work *p, int flag)
         if (flag) WORLDTRADE_SetPokemon(p->ctx->sys, mon, p->box);
         POKEPARTY_RemoveMember(p->ctx->party, p->slot);
         save = GAMESYSTEM_GetGameData((const struct Ctx *)p->ctx->gameData);
-        box = GAME_DATA_GetBoxSave(save);
+        box = GAME_DATA_GetPerapVoiceSave(save);
         PERAPVOICE_ClearIfNoChatot(box, GAME_DATA_GetMyParty(save));
     }
     if (flag) WORLDTRADE_SetIsDeposited(p->ctx->sys, 1);
@@ -412,7 +412,7 @@ void WORLDTRADE_ADAPTER_RegisterReceivedMon(Work *p, void *mon, u32 box, int hat
         species = POKE_TOOL_GetPartyValue(mon, 5, 0);
         form = POKE_TOOL_GetPartyValue(mon, 0x6F, 0);
         POKE_TOOL_SetPartyValue(mon, 0x6E, POKE_TOOL_CalcGender((u16)species, form, POKE_TOOL_GetPartyValue(mon, 0, 0)));
-        WORLDTRADE_ADAPTER_GetDateTime(p->ctx->sys, 0);
+        WORLDTRADE_ADAPTER_StoreDateAsLastId(p->ctx->sys, 0);
     }
     if (box == 0xFF) {
         POKEPARTY_Add(p->ctx->party, mon);
@@ -456,10 +456,10 @@ void WORLDTRADE_ADAPTER_RegisterReceivedMonB(Work *p,void *mon,void *unused2,voi
         pos=slot;
     }
     p->pos=pos;
-    WORLDTRADE_ADAPTER_GetDateTime(p->ctx->sys,1);
+    WORLDTRADE_ADAPTER_StoreDateAsLastId(p->ctx->sys,1);
 }
 
-void WORLDTRADE_ADAPTER_GetDateTime(void *p, int which)
+void WORLDTRADE_ADAPTER_StoreDateAsLastId(void *p, int which)
 {
     RTCDate date;
     RTCTime time;
@@ -478,7 +478,7 @@ void WORLDTRADE_ADAPTER_RegisterLanguageVersion(void *obj,Entry *p) { int b=p->v
 
 int WORLDTRADE_ADAPTER_CheckPartyHasOther(Work *p, void *mon)
 {
-    if (WORLDTRADE_BOX_IsSpeciesFlagged((u32)mon) != 0 && POKEPARTY_GetCount(p->ctx->party) == 6) {
+    if (WORLDTRADE_BOX_IsHoldingMail((u32)mon) != 0 && POKEPARTY_GetCount(p->ctx->party) == 6) {
         return 2;
     }
     if (p->species == 0x2D0 && POKEPARTY_GetCount(p->ctx->party) == 6) {
@@ -522,7 +522,7 @@ void WORLDTRADE_ADAPTER_CreateMail(void *mon, u32 heap)
     MSGDATA_Delete(bank);
     POKE_TOOL_SetDefaultName(mon);
     POKE_TOOL_SetPartyValue(mon, 0x8E, (u32)STRBUF_GetChars(str));
-    if (FILE_UTIL_Check136C((u16)POKE_TOOL_GetPartyValue(mon, 6, 0)) != 0) {
+    if (FILE_UTIL_IsMailItem((u16)POKE_TOOL_GetPartyValue(mon, 6, 0)) != 0) {
         buf = MAIL_Create((u16)id);
         POKE_TOOL_GetPartyValue(mon, 0xA7, (u32)buf);
         MAIL_SetWriterName(buf, STRBUF_GetChars(str));
@@ -539,7 +539,7 @@ void WORLDTRADE_ADAPTER_CreateMonFromBox(u32 wordSet, u32 slot, u32 boxMon)
 {
     void *blk = POKE_TOOL_CreateFromBoxParam((void *)boxMon, 0x48);
 
-    WORDSET_SetSlotMonSpecies((void *)wordSet, slot, blk);
+    WORDSET_SetSlotMonNickname((void *)wordSet, slot, blk);
     GFL_HEAP_Free(blk);
 }
 
@@ -570,7 +570,7 @@ void WORLDTRADE_ADAPTER_ClearWindowScreen(u32 win, int kind)
         BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)win));
         break;
     case 1:
-        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)win));
+        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct Descriptor *)win));
         break;
     }
 }
@@ -692,7 +692,7 @@ void WORLDTRADE_ADAPTER_UpdatePrinter(Printer *p)
 /*
  * Non-zero unless the +0x10 handle is absent or the query answers 2.
  */
-u32 WORLDTRADE_ADAPTER_IsStreamDone(PrintStreamCtx *p)
+u32 WORLDTRADE_ADAPTER_IsStreamBusy(PrintStreamCtx *p)
 {
     u32 r;
     u32 x;
@@ -780,7 +780,7 @@ MsgSys *WORLDTRADE_ADAPTER_InitMessageSystem(u32 unused1, u32 unused2, u32 unuse
  */
 void WORLDTRADE_ADAPTER_ExitMessageSystem(MsgSys *p)
 {
-    WORDSET_DeleteStrbufED04((struct WordSet *)p->words);
+    WORDSET_Delete((struct WordSet *)p->words);
     MSGDATA_Delete((struct Rec *)p->bank);
     PRINTSYS_QUE_Delete((struct PrintSys *)p->queue);
     GF_FONT_Delete(p->font);

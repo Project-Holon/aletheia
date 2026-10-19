@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GFL_NET_HANDLE_CheckTimingSyncAll",
+   "name": "GFL_NET_HANDLE_SendTimingSyncAll",
    "address": "0x02039CD8",
    "kind": "game",
    "region": "arm9",

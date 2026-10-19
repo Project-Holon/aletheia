@@ -1,7 +1,7 @@
 /*
  * file:     iss_switch_sys.c
  * unit:     yes
- * function: ISS_SWITCH_SYS_Create, ISS_SWITCH_SYS_Delete, ISS_SWITCH_SYS_Main, ISS_SWITCH_SYS_On, ISS_SWITCH_SYS_Off, ISS_SWITCH_SYS_ZoneChange, ISS_SWITCH_SYS_SwitchOn, ISS_SWITCH_SYS_SwitchOff, ISS_SWITCH_SYS_IsSwitchOn, ISS_SWITCH_SYS_ResetSwitch, ISS_SWITCH_SYS_Init, ISS_SWITCH_SYS_Alloc, ISS_SWITCH_SYS_Free, ISS_SWITCH_SYS_CreateSets, ISS_SWITCH_SYS_DeleteSets, ISS_SWITCH_SYS_UpdateActiveSet, ISS_SWITCH_SYS_TurnOn, ISS_SWITCH_SYS_TurnOff, ISS_SWITCH_SYS_CheckZoneChange, ISS_SWITCH_SYS_GetSetCount, ISS_SWITCH_SYS_GetSet, ISS_SWITCH_SYS_GetActiveSet, ISS_SWITCH_SYS_IsActiveSetZone, ISS_SWITCH_SYS_FindSetByBgm, ISS_SWITCH_SYS_ChangeActiveSet, ISS_SWITCH_SYS_UpdateVolume, ISS_SWITCH_SYS_GetPlayingBgm, ISS_SWITCH_SYS_IsOn, ISS_SWITCH_SYS_ResetActiveSet, ISS_SWITCH_SET_Create, ISS_SWITCH_SET_Delete, ISS_SWITCH_SET_Load, ISS_SWITCH_SET_Main, ISS_SWITCH_SET_SwitchOn, ISS_SWITCH_SET_SwitchOff, ISS_SWITCH_SET_ResetSwitch, ISS_SWITCH_SET_GetBgmNo, ISS_SWITCH_SET_IsValidZone, ISS_SWITCH_SET_IsSwitchOn, ISS_SWITCH_SET_UpdateVolume, ISS_SWITCH_SET_Init
+ * function: ISS_SWITCH_SYS_Create, ISS_SWITCH_SYS_Delete, ISS_SWITCH_SYS_Main, ISS_SWITCH_SYS_On, ISS_SWITCH_SYS_Off, ISS_SWITCH_SYS_ZoneChange, ISS_SWITCH_SYS_SwitchOn, ISS_SWITCH_SYS_SwitchOff, ISS_SWITCH_SYS_IsSwitchOn, ISS_SWITCH_SYS_ResetSwitch, ISS_SWITCH_SYS_Init, ISS_SWITCH_SYS_Alloc, ISS_SWITCH_SYS_Free, ISS_SWITCH_SYS_CreateSets, ISS_SWITCH_SYS_DeleteSets, ISS_SWITCH_SYS_UpdateActiveSet, ISS_SWITCH_SYS_TurnOn, ISS_SWITCH_SYS_TurnOff, ISS_SWITCH_SYS_CheckZoneChange, ISS_SWITCH_SYS_GetSetCount, ISS_SWITCH_SYS_GetSet, ISS_SWITCH_SYS_GetActiveSet, ISS_SWITCH_SYS_IsActiveSetZone, ISS_SWITCH_SYS_FindSetByBgm, ISS_SWITCH_SYS_ChangeActiveSet, ISS_SWITCH_SYS_UpdateVolume, ISS_SWITCH_SYS_GetPlayingBgm, ISS_SWITCH_SYS_IsOn, ISS_SWITCH_SYS_ResetActiveSet
  * address:  0x0202C070
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -18,19 +18,17 @@
  *   GFL_HEAP_Free  0x020307B0  arm
  *   GFL_USE_GetBgmNo  0x02005C44  thumb
  *   ARC_TOOL_GetArchiveFileCount  0x02049030  arm
- *   ISS_SWITCH_SET_Alloc 0x0202C384 thumb arm9
- *   ISS_SWITCH_SET_Free 0x0202C3A0 thumb arm9
- *   ISS_SWITCH_SET_CreateSwitches 0x0202C3A8 thumb arm9
- *   ISS_SWITCH_SET_DeleteSwitches 0x0202C3C4 thumb arm9
- *   ISS_SWITCH_SET_LoadData 0x0202C3E0 thumb arm9
- *   ISS_SWITCH_SET_UpdateSwitches 0x0202C470 thumb arm9
- *   ISS_SWITCH_SET_StartSwitchOn 0x0202C48C thumb arm9
- *   ISS_SWITCH_SET_StartSwitchOff 0x0202C498 thumb arm9
- *   ISS_SWITCH_SET_ResetSwitches 0x0202C4A4 thumb arm9
- *   ISS_SWITCH_SET_ReadBgmNo 0x0202C4C8 thumb arm9
- *   ISS_SWITCH_SET_CheckZone 0x0202C4D8 thumb arm9
- *   ISS_SWITCH_SET_CheckSwitchOn 0x0202C504 thumb arm9
- *   ISS_SWITCH_SET_ApplySwitchVolumes 0x0202C518 thumb arm9
+ *   ISS_SWITCH_SET_Create 0x0202C2EC thumb arm9
+ *   ISS_SWITCH_SET_Delete 0x0202C308 thumb arm9
+ *   ISS_SWITCH_SET_Load 0x0202C318 thumb arm9
+ *   ISS_SWITCH_SET_Main 0x0202C320 thumb arm9
+ *   ISS_SWITCH_SET_SwitchOn 0x0202C328 thumb arm9
+ *   ISS_SWITCH_SET_SwitchOff 0x0202C330 thumb arm9
+ *   ISS_SWITCH_SET_ResetSwitch 0x0202C338 thumb arm9
+ *   ISS_SWITCH_SET_GetBgmNo 0x0202C340 thumb arm9
+ *   ISS_SWITCH_SET_IsValidZone 0x0202C348 thumb arm9
+ *   ISS_SWITCH_SET_IsSwitchOn 0x0202C350 thumb arm9
+ *   ISS_SWITCH_SET_UpdateVolume 0x0202C358 thumb arm9
  */
 #include "iss_switch_sys_shared_types.h"
 
@@ -131,34 +129,6 @@ u32 ISS_SWITCH_SET_IsValidZone(void *set, void *zoneId);
 u32 ISS_SWITCH_SET_IsSwitchOn(void *set, u32 switchIdx);
 
 void ISS_SWITCH_SET_UpdateVolume(void *set);
-
-void ISS_SWITCH_SET_Init(struct IssSwitchSet *set);
-
-void *ISS_SWITCH_SET_Alloc(void *heapId);
-
-u32 ISS_SWITCH_SET_Free(void *set);
-
-void ISS_SWITCH_SET_CreateSwitches(char *p, int heapId);
-
-void ISS_SWITCH_SET_DeleteSwitches(struct IssSwitchSet *set);
-
-u32 ISS_SWITCH_SET_LoadData(struct IssSwitchSet *set, void *datId);
-
-u32 ISS_SWITCH_SET_UpdateSwitches(void *set);
-
-u32 ISS_SWITCH_SET_StartSwitchOn(void *set, u32 switchIdx);
-
-u32 ISS_SWITCH_SET_StartSwitchOff(void *set, u32 switchIdx);
-
-void ISS_SWITCH_SET_ResetSwitches(void *set);
-
-u32 ISS_SWITCH_SET_ReadBgmNo(u32 *set);
-
-u32 ISS_SWITCH_SET_CheckZone(void *set, u32 zoneId);
-
-u32 ISS_SWITCH_SET_CheckSwitchOn(void *set, u32 switchIdx);
-
-void ISS_SWITCH_SET_ApplySwitchVolumes(void *set);
 
 extern const char IssSwitchSysFileName[];
 
@@ -578,84 +548,5 @@ void ISS_SWITCH_SYS_ResetActiveSet(void *sys)
 
     if (set != 0) {
         ISS_SWITCH_SET_ResetSwitch((void *)set);
-    }
-}
-
-/*
- * Closed: ISS_SWITCH_SET_Alloc became an EXACT manifest entry, so the matched class attests the call at 0x0202C2F0.
- */
-u32 ISS_SWITCH_SET_Create(void *heapId)
-{
-    u32 set = (u32)ISS_SWITCH_SET_Alloc(heapId);
-
-    ISS_SWITCH_SET_Init((void *)set);
-    ISS_SWITCH_SET_CreateSwitches((char *)set, (int)heapId);
-    return set;
-}
-
-void ISS_SWITCH_SET_Delete(void *set)
-{
-    ISS_SWITCH_SET_DeleteSwitches(set);
-    ISS_SWITCH_SET_Free(set);
-}
-
-u32 ISS_SWITCH_SET_Load(void *set, u32 datId, u32 heapId)
-{
-    return ISS_SWITCH_SET_LoadData(set, (void *)datId);
-}
-
-u32 ISS_SWITCH_SET_Main(void *set)
-{
-    return ISS_SWITCH_SET_UpdateSwitches(set);
-}
-
-u32 ISS_SWITCH_SET_SwitchOn(void *set, u32 switchIdx)
-{
-    return ISS_SWITCH_SET_StartSwitchOn(set, switchIdx);
-}
-
-u32 ISS_SWITCH_SET_SwitchOff(void *set, u32 switchIdx)
-{
-    return ISS_SWITCH_SET_StartSwitchOff(set, switchIdx);
-}
-
-void ISS_SWITCH_SET_ResetSwitch(void *set)
-{
-    ISS_SWITCH_SET_ResetSwitches(set);
-}
-
-u32 ISS_SWITCH_SET_GetBgmNo(void *set)
-{
-    return ISS_SWITCH_SET_ReadBgmNo(set);
-}
-
-u32 ISS_SWITCH_SET_IsValidZone(void *set, void *zoneId)
-{
-    return ISS_SWITCH_SET_CheckZone(set, (u32)zoneId);
-}
-
-u32 ISS_SWITCH_SET_IsSwitchOn(void *set, u32 switchIdx)
-{
-    return ISS_SWITCH_SET_CheckSwitchOn(set, switchIdx);
-}
-
-void ISS_SWITCH_SET_UpdateVolume(void *set)
-{
-    ISS_SWITCH_SET_ApplySwitchVolumes(set);
-}
-
-void ISS_SWITCH_SET_Init(struct IssSwitchSet *set)
-{
-    int i;
-
-    set->bgmNo = 0;
-    set->zoneCount = 0;
-
-    for (i = 0; i < 9; i++) {
-        set->zones[i] = 0;
-    }
-
-    for (i = 0; i < 9; i++) {
-        set->switches[i] = 0;
     }
 }

@@ -19,8 +19,8 @@
  *   ARC_UTIL_UploadPaletteFromHandle  0x02049BDC  arm
  *   BG_SYS_FillTileMap  0x020413B0  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   ZUKAN_DETAIL_HEADBAR_Create 0x021BE710 thumb
@@ -30,10 +30,10 @@
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   ZUKAN_DETAIL_HEADBAR_Update 0x021BE7A4 thumb
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
- *   BG_SYS_FillScrollArea 0x02040618 arm
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  *   BG_SYS_GetScrollY 0x02040804 arm
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  *   ZUKAN_DETAIL_HEADBAR_DrawIcon 0x021BE920 thumb ov208
  *   ZUKAN_DETAIL_HEADBAR_NoOp 0x021BE864 thumb ov208
  *   d_021C8DFC 0x021C8DFC data a1
@@ -73,9 +73,9 @@ extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
 extern void ARC_TOOL_DeleteHandle(void *h);
 
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 
-extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
+extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
 
 extern void TCB_DeleteTask(struct Node *n);
 
@@ -93,9 +93,9 @@ extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
 
 extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 
-extern void BG_SYS_FillScrollArea(unsigned,unsigned,unsigned);
+extern void BG_SYS_ChangeScrollImmediate(unsigned,unsigned,unsigned);
 
-extern void BG_SYS_SetVisibleLayer(int,u16);
+extern void BG_SYS_SetPriority(int,u16);
 
 extern u32 BG_SYS_GetScrollY(u32 layer);
 
@@ -147,7 +147,7 @@ extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 
 extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 
-extern void BG_SYS_SetFlagField06(u32 layer);
+extern void BG_SYS_MarkTileDirty(u32 layer);
 
 struct Ov208Icon *ZUKAN_DETAIL_HEADBAR_Create(u16 heap,unsigned arg);
 
@@ -183,8 +183,8 @@ struct Ov208Icon *ZUKAN_DETAIL_HEADBAR_Create(u16 heap,unsigned arg)
 {
     struct Ov208Icon *p=GFL_HEAP_Alloc(heap,0x34,1,d_021C8DFC,120);
     p->heap=heap;p->font=arg;p->state=0;p->kind=5;
-    BG_SYS_FillScrollArea(5,3,24);
-    BG_SYS_SetVisibleLayer(5,0);
+    BG_SYS_ChangeScrollImmediate(5,3,24);
+    BG_SYS_SetPriority(5,0);
     ZUKAN_DETAIL_HEADBAR_CreateWindows(p);
     ZUKAN_DETAIL_HEADBAR_DrawIcon(p);
     p->task=GFL_USE_AddMainTask((unsigned)ZUKAN_DETAIL_HEADBAR_NoOp,(unsigned)p,1);
@@ -216,15 +216,15 @@ void ZUKAN_DETAIL_HEADBAR_Update(struct Ov208Icon *p)
     case 1:
         if(p->count==0) {
             if((int)BG_SYS_GetScrollY(5)<=0) {
-                BG_SYS_ResetSlot(5,3,0);p->state=2;
-            } else {BG_SYS_ResetSlot(5,5,3);p->count=0;}
+                BG_SYS_ChangeScroll(5,3,0);p->state=2;
+            } else {BG_SYS_ChangeScroll(5,5,3);p->count=0;}
         } else --p->count;
         break;
     case 3:
         if(p->count==0) {
             if((int)BG_SYS_GetScrollY(5)>=24) {
-                BG_SYS_ResetSlot(5,3,24);p->state=0;
-            } else {BG_SYS_ResetSlot(5,4,3);p->count=0;}
+                BG_SYS_ChangeScroll(5,3,24);p->state=0;
+            } else {BG_SYS_ChangeScroll(5,4,3);p->count=0;}
         } else --p->count;
         break;
     }
@@ -283,7 +283,7 @@ void ZUKAN_DETAIL_HEADBAR_CreateWindows(struct Ov208Icon *g)
 void ZUKAN_DETAIL_HEADBAR_DeleteWindows(struct Ov208Icon *p)
 {
     MSGDATA_Delete((struct Rec *)p->msg);
-    BG_SYS_DeleteHalf(5, p->tile, p->size);
+    BG_SYS_FreeTileRun(5, p->tile, p->size);
     BMP_Delete((struct Bmp *)p->bmp);
     BMP_WIN_Delete((struct Descriptor *)p->window);
 }
@@ -318,7 +318,7 @@ void ZUKAN_DETAIL_HEADBAR_FlushIcon(struct Ov208Icon *p)
 {
     if (p->dirty != 0 && PRINTSYS_QUE_IsExistTarget((struct PrintSys *)p->queue, (void *)p->bmp) == 0) {
         BG_SYS_LoadTileData(5, BMP_GetPixels((const struct Bmp *)p->bmp), p->size, p->tile);
-        BG_SYS_SetFlagField06(5);
+        BG_SYS_MarkTileDirty(5);
         p->dirty = 0;
     }
 }

@@ -12,18 +12,18 @@
  * symbols:
  *   MUSICAL_MCSS_GetPokemonArcs 0x021F5518 thumb ov112
  *   MUSICAL_MCSS_LoadMC 0x021F611C thumb ov112
- *   MUSICAL_MCSS_NoOp8 0x021F62DC thumb ov112
- *   MUSICAL_MCSS_GetRenderRot 0x021F535C thumb ov112
- *   MUSICAL_MCSS_GetFieldE 0x021F6290 thumb ov112
+ *   MUSICAL_MCSS_HideMCAnim 0x021F62DC thumb ov112
+ *   MUSICAL_MCSS_SetRenderScale 0x021F535C thumb ov112
+ *   MUSICAL_MCSS_PauseMCAnim 0x021F6290 thumb ov112
  */
 #include "../include/Obj22535.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void MUSICAL_MCSS_GetPokemonArcs(u8 *,u32 *,u32);
 extern char *MUSICAL_MCSS_LoadMC(char *,u32,u32,u32,u32,u32,u32);
-extern void MUSICAL_MCSS_NoOp8(char *);
-extern void MUSICAL_MCSS_GetRenderRot(int *,int *);
-extern void MUSICAL_MCSS_GetFieldE(u8 *);
+extern void MUSICAL_MCSS_HideMCAnim(char *);
+extern void MUSICAL_MCSS_SetRenderScale(int *,int *);
+extern void MUSICAL_MCSS_PauseMCAnim(u8 *);
 typedef struct { u32 value; u8 pad[52]; } Track;
 typedef struct {
     u32 active, enabled;
@@ -49,7 +49,7 @@ u8 *MUSICAL_MCSS_SetupRenderObj(Scene *p,const u8 *b,int c)
     if(c==1) {
         MUSICAL_MCSS_GetPokemonArcs((u8 *)b,buffers.stats,1);
         p->slots[(u32)i].secondary=MUSICAL_MCSS_LoadMC(p->main,0,0,0,(u32)buffers.stats,(u32)slot,0);
-        MUSICAL_MCSS_NoOp8(p->slots[(u32)i].secondary);
+        MUSICAL_MCSS_HideMCAnim(p->slots[(u32)i].secondary);
     } else p->slots[i].secondary=0;
     p->slots[i].enabled=1;
     p->slots[i].object=(u8 *)p->slots[i].primary;
@@ -65,7 +65,7 @@ u8 *MUSICAL_MCSS_SetupRenderObj(Scene *p,const u8 *b,int c)
     p->slots[i].f536=0;
     p->slots[i].f540=0;
     p->slots[i].f544=0;
-    MUSICAL_MCSS_GetRenderRot((int *)&p->slots[i],buffers.scale);
-    MUSICAL_MCSS_GetFieldE(p->slots[i].object);
+    MUSICAL_MCSS_SetRenderScale((int *)&p->slots[i],buffers.scale);
+    MUSICAL_MCSS_PauseMCAnim(p->slots[i].object);
     return (u8 *)&p->slots[i];
 }

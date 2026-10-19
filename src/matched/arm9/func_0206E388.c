@@ -11,10 +11,10 @@
  * status:   EXACT
  *
  * symbols:
- *   NNS_G2dCallVtableSlot1  0x02061344  arm
+ *   NNS_FndFreeToAllocator  0x02061344  arm
  */
 
 typedef unsigned int   u32;
 struct Obj02061330;
-extern void NNS_G2dCallVtableSlot1(struct Obj02061330 *o, u32 x);
-void NNS_G3dFreeAnmObj(struct Obj02061330 *ctx, int field){ NNS_G2dCallVtableSlot1(ctx, field); }
+extern void NNS_FndFreeToAllocator(struct Obj02061330 *o, u32 x);
+void NNS_G3dFreeAnmObj(struct Obj02061330 *ctx, int field){ NNS_FndFreeToAllocator(ctx, field); }

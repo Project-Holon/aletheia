@@ -11,8 +11,8 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   WAZA_OSHIE_GetTexFormatCount  0x0216FC4C  thumb  ov010
- *   WAZA_OSHIE_LoadTexPlttByName  0x0216FAB4  thumb  ov010
+ *   TEXT_TEXTURE_GetTexFormatCount  0x0216FC4C  thumb  ov010
+ *   TEXT_TEXTURE_LoadTexPlttByName  0x0216FAB4  thumb  ov010
  *   EL_SCOREBOARD_SourceFileName     0x02187EDC  data  ov020  a4
  */
 #include "../include/Obj02070.h"
@@ -39,9 +39,9 @@ struct L {
 };
 
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern int WAZA_OSHIE_GetTexFormatCount(void);
+extern int TEXT_TEXTURE_GetTexFormatCount(void);
 struct TexKey;
-extern int WAZA_OSHIE_LoadTexPlttByName(void *file, const char *texName, void *extra, const char *plttName, u32 a4, u16 a5, u16 a6, u16 a7, u16 heap, struct TexKey *out);
+extern int TEXT_TEXTURE_LoadTexPlttByName(void *file, const char *texName, void *extra, const char *plttName, u32 a4, u16 a5, u16 a6, u16 a7, u16 heap, struct TexKey *out);
 extern int EL_SCOREBOARD_SourceFileName;
 
 int *EL_SCOREBOARD_CreateLamp(int a0, int a1, int a2, int a3, struct P e)
@@ -51,11 +51,11 @@ int *EL_SCOREBOARD_CreateLamp(int a0, int a1, int a2, int a3, struct P e)
 
     p = func_02030734(((u16 *)&e)[4], 0x1c, 1, (const char *)&EL_SCOREBOARD_SourceFileName, 0x19c);
     p[0] = 0;
-    ((struct Obj02070 *)p)->f4 = WAZA_OSHIE_GetTexFormatCount() - 1;
-    ((struct Obj02070 *)p)->f6 = WAZA_OSHIE_GetTexFormatCount() - 1;
+    ((struct Obj02070 *)p)->f4 = TEXT_TEXTURE_GetTexFormatCount() - 1;
+    ((struct Obj02070 *)p)->f6 = TEXT_TEXTURE_GetTexFormatCount() - 1;
     p[4] = -1;
     p[5] = -1;
-    if (WAZA_OSHIE_LoadTexPlttByName((void *)a0, (const char *)a1, 0, (const char *)a2, a3, ((u16 *)&e)[0], ((u16 *)&e)[2], 0xC40, ((u16 *)&e)[4], (struct TexKey *)(&l)) != 0) {
+    if (TEXT_TEXTURE_LoadTexPlttByName((void *)a0, (const char *)a1, 0, (const char *)a2, a3, ((u16 *)&e)[0], ((u16 *)&e)[2], 0xC40, ((u16 *)&e)[4], (struct TexKey *)(&l)) != 0) {
         p[2] = l.c;
         p[3] = l.d;
         p[4] = l.e;

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   BG_SYS_FillScrollArea  0x02040618  arm  arm9
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm  arm9
  */
 typedef unsigned char u8;
 struct W {
@@ -21,12 +21,12 @@ struct W {
     u8 f22_0 : 1;
 };
 typedef unsigned int   u32;
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 void BTLV_SCU_HideNamePlate(struct W *w)
 {
     if (w->fa == 0)
-        BG_SYS_FillScrollArea(w->fb, 0, 0x90);
+        BG_SYS_ChangeScrollImmediate(w->fb, 0, 0x90);
     else
-        BG_SYS_FillScrollArea(w->fb, 0, -0x90);
+        BG_SYS_ChangeScrollImmediate(w->fb, 0, -0x90);
     w->f22_0 = 0;
 }

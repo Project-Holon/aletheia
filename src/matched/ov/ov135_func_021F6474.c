@@ -12,7 +12,7 @@
   *
   *
  * symbols:
- *   WORLDTRADE_BOX_IsSpeciesFlagged  0x021F6DE8  thumb
+ *   WORLDTRADE_BOX_IsHoldingMail  0x021F6DE8  thumb
  *   WORLDTRADE_BOX_PrintMessage  0x021F663C  thumb
  *   WORLDTRADE_SetNextState  0x021F4E98  thumb
  *   WORLDTRADE_BOX_GetPartyMon  0x021F6B40  thumb
@@ -52,7 +52,7 @@ typedef struct {
     u32 eb4;
 } Work;
 
-extern int WORLDTRADE_BOX_IsSpeciesFlagged(u32 handle);
+extern int WORLDTRADE_BOX_IsHoldingMail(u32 handle);
 extern u32 POKEPARTY_GetCount(void *p);
 extern void WORLDTRADE_BOX_PrintMessage(u8 *p, u32 b, u32 c, u32 d, u32 e, u32 sel);
 extern void WORLDTRADE_SetNextState(u8 *p, u32 a, u32 b);
@@ -62,7 +62,7 @@ extern void WORLDTRADE_BOX_BuildDepositFromWork(void *dst, Work *p);
 
 int WORLDTRADE_BOX_TryConfirmDeposit(Work *p)
 {
-    if (WORLDTRADE_BOX_IsSpeciesFlagged((u32)p->list[p->sel]) != 0 && p->box != 0xFF
+    if (WORLDTRADE_BOX_IsHoldingMail((u32)p->list[p->sel]) != 0 && p->box != 0xFF
         && POKEPARTY_GetCount(p->ctx->party) == 6) {
         WORLDTRADE_BOX_PrintMessage((u8 *)p, 0x29, 1, 0, 0xF0F, 1);
         WORLDTRADE_SetNextState((u8 *)p, 4, 1);

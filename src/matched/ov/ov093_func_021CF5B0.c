@@ -11,7 +11,7 @@
  *   BTL_CLIENT_IsHeldItemEffective 0x021CF89C thumb ov093
  *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
  *   BTL_POKEPARAM_GetSickContRaw 0x021D6314 thumb ov093
- *   BTLV_CORE_GetSlotValue 0x021E8B80 thumb ov093
+ *   BTL_SICKCONT_GetValue 0x021E8B80 thumb ov093
  *   BTL_POKEPARAM_HasMove 0x021D5750 thumb ov093
  *   BTLV_SCU_InitMessage 0x021EAF18 thumb ov093
  *   BTLV_SCU_AppendMessageArg 0x021EAF50 thumb ov093
@@ -36,7 +36,7 @@ struct UtilSlots;
 extern int BTL_CLIENT_IsHeldItemEffective(u8 *p, void *q);
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern Word BTL_POKEPARAM_GetSickContRaw(void *, int);
-extern u16 BTLV_CORE_GetSlotValue(Word);
+extern u16 BTL_SICKCONT_GetValue(Word);
 extern int BTL_POKEPARAM_HasMove(void *, u32);
 extern void BTLV_SCU_InitMessage(struct L *p, int kind, int id);
 extern void BTLV_SCU_AppendMessageArg(struct L *p, u32 val);
@@ -56,7 +56,7 @@ int BTL_CLIENT_IsMoveSelectionBlocked(u8 *g, void *m, u32 move, void *out)
     if (move == 0xa5) return 0;
     if (BTL_CLIENT_IsHeldItemEffective(g, m) && BTL_POKEPARAM_HasSick(m, 0x1b)) {
         w = BTL_POKEPARAM_GetSickContRaw(m, 0x1b);
-        k = BTLV_CORE_GetSlotValue(w);
+        k = BTL_SICKCONT_GetValue(w);
         if (BTL_POKEPARAM_HasMove(m, k) && k != move) {
             if (out) {
                 BTLV_SCU_InitMessage(out, 1, 0x63);
@@ -67,7 +67,7 @@ int BTL_CLIENT_IsMoveSelectionBlocked(u8 *g, void *m, u32 move, void *out)
         }
     }
     if (BTL_POKEPARAM_HasSick(m, 0x17)) {
-        k2 = BTLV_CORE_GetSlotValue(BTL_POKEPARAM_GetSickContRaw(m, 0x17));
+        k2 = BTL_SICKCONT_GetValue(BTL_POKEPARAM_GetSickContRaw(m, 0x17));
         if (move != k2) {
             if (out) {
                 BTLV_SCU_InitMessage(out, 1, 0x64);

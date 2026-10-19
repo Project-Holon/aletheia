@@ -49,7 +49,7 @@
  *   DELIVERY_BEACON_RunStep  0x02157928  thumb  ov010
  *   DELIVERY_BEACON_HasAnyPiece  0x021578F0  thumb  ov010
  *   DELIVERY_BEACON_TryComplete  0x02157910  thumb  ov010
- *   MISC_SAVEDATA_GetBlock41  0x0200E8F8  thumb
+ *   TRIAL_HOUSE_SAVE_GetFromSave  0x0200E8F8  thumb
  *   BATTLE_EXAMINATION_GetDeliveryId  0x0200E5E4  thumb
  *   BATTLE_EXAMINATION_LoadDelivery  0x0200E608  thumb
  *   DELIVERY_BEACON_Delete  0x02157938  thumb  ov010
@@ -220,7 +220,7 @@ extern BtlInstTrainer *BATTLE_EXAMINATION_GetTrainerSlot(TrialHouseDelivery *del
 extern u16 BATTLE_EXAMINATION_GetDeliveryId(TrialHouseDelivery *delivery);
 extern void BATTLE_EXAMINATION_LoadDelivery(GameData *gameData, TrialHouseDelivery *src, u32 heapId);
 extern void BATTLE_EXAMINATION_RefreshMarker(TrialHouseDelivery *delivery);
-extern TrialHouseSave *MISC_SAVEDATA_GetBlock41(SaveControl *saveControl);
+extern TrialHouseSave *TRIAL_HOUSE_SAVE_GetFromSave(SaveControl *saveControl);
 extern RecordBlock *RECORD_GetFromSave(SaveControl *saveControl);
 extern void RECORD_SetTrialScore(RecordBlock *record, u32 value);
 extern void RECORD_SetTrialRank(RecordBlock *record, u32 value);
@@ -529,7 +529,7 @@ int TRIAL_HOUSE_DeliveryTaskMain(GameEvent *event, u32 *seq, void *work)
         }
         gameData = GAMESYSTEM_GetGameData(gameSystem);
         saveControl = GAME_DATA_GetSaveControl(gameData);
-        save = MISC_SAVEDATA_GetBlock41(saveControl);
+        save = TRIAL_HOUSE_SAVE_GetFromSave(saveControl);
         delivery = task->trialHouse->delivery;
         deliveryId = BATTLE_EXAMINATION_GetDeliveryId(delivery);
         isValid = BATTLE_EXAMINATION_IsDeliveryValid(delivery);
@@ -624,7 +624,7 @@ void TRIAL_HOUSE_ComputeScoreAndRank(GameSystem *gameSystem, TrialHouseWork *wor
     *outScore = score;
 
     saveControl = GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem));
-    save = MISC_SAVEDATA_GetBlock41(saveControl);
+    save = TRIAL_HOUSE_SAVE_GetFromSave(saveControl);
     slot = &save->slot[(u8)(work->deliveryState != 0)];
     slot->valid = 1;
     if (work->monCount == 3) {
@@ -690,7 +690,7 @@ GameEvent *TRIAL_HOUSE_CreateSaveTask(GameSystem *gameSystem, int unused, int mo
 /* Returns a bit mask of the saved results: bit 0 = first slot, bit 1 = second slot. */
 int TRIAL_HOUSE_GetRecordSlotsState(GameSystem *gameSystem)
 {
-    TrialHouseSave *save = MISC_SAVEDATA_GetBlock41(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem)));
+    TrialHouseSave *save = TRIAL_HOUSE_SAVE_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem)));
 
     if (save->slot[0].valid != 0) {
         if (save->slot[1].valid != 0) {

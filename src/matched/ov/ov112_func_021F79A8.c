@@ -11,7 +11,7 @@
  * extent: Thumb followers7A80 (18 code+2 zero padding7A92) and7A94 (BX LR+2 zero padding7A96), parent-cleared.
  * ABI: 514C retains caller's explicitly loaded r1 halfword although its own legacy body ignores that input.
  * symbols:
- *   MUSICAL_MCSS_NoOp5 0x021F4F10 thumb ov112
+ *   MUSICAL_MCSS_GetActorPoolResource 0x021F4F10 thumb ov112
  *   MUSICAL_MCSS_GetElemB 0x021F514C thumb ov112
  *   GFL_USE_PlaySeInSlot 0x0200616C thumb
  *   STA_ACT_LIGHT_AnimA 0x021F7AEC thumb ov112
@@ -31,7 +31,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 MUSICAL_MCSS_NoOp5(u8 *);
+extern u32 MUSICAL_MCSS_GetActorPoolResource(u8 *);
 extern unsigned char MUSICAL_MCSS_GetElemB(void *p, int i);
 extern void GFL_USE_PlaySeInSlot(void *,int);
 extern void *d_021F832C[];
@@ -49,7 +49,7 @@ void STA_ACT_LIGHT_HandleElemAnim(char *p,char *q,int index)
 {
     u32 v;
     if(*(int *)(q+132+index*4)==0 || *(int *)&((struct Obj03248 *)q)->f104!=0) return;
-    v=MUSICAL_MCSS_GetElemB((void *)MUSICAL_MCSS_NoOp5((u8 *)((struct Obj13841 *)p)->f10),**(u16 **)(q+168+index*4));
+    v=MUSICAL_MCSS_GetElemB((void *)MUSICAL_MCSS_GetActorPoolResource((u8 *)((struct Obj13841 *)p)->f10),**(u16 **)(q+168+index*4));
     ((struct Obj03248 *)q)->fF0=0;
     ((struct Obj03248 *)q)->fF4=index;
     ((struct Obj03248 *)q)->fF8=0;

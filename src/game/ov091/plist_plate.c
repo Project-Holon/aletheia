@@ -16,10 +16,10 @@
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
- *   FILE_UTIL_Check136C 0x0202136C thumb
+ *   FILE_UTIL_IsMailItem 0x0202136C thumb
  *   GFL_HEAP_Free 0x020307B0 arm
  *   MSGDATA_AllocString  0x02045EC0  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
@@ -57,9 +57,9 @@
  *   POKE_TOOL_GetIconPalette  0x0201BBE8  thumb
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
  *   WORDSET_CreateDefault  0x0201EC64  thumb
- *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
+ *   WORDSET_SetSlotMonNickname  0x0201EEF4  thumb
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   POKE_TOOL_CalcLevel  0x02018430  thumb
  *   BGWINFRM_ScaleRatio  0x0202D01C  thumb
  *   BMP_FillRect  0x02043AF4  arm
@@ -105,9 +105,9 @@ struct CharBuf;
 extern void CLACT_SetActorDrawEnable(struct Obj *actor, unsigned int visible);
 extern void CLACT_AddActorSurfacePos(struct Obj *actor, const PlistPlatePos *delta, u32 which);
 extern void CLACT_SetActorAnimSeq(struct Obj *actor, u16 animation);
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 value);
-extern u32 FILE_UTIL_Check136C(u16 item);
+extern u32 FILE_UTIL_IsMailItem(u16 item);
 extern u32 GFL_HEAP_Free(void *mem);
 extern void *POKEPARTY_GetMember(void *party, u32 idx);
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
@@ -141,9 +141,9 @@ extern void ARC_TOOL_DeleteHandle(void *a);
 extern int POKE_TOOL_GetIconPalette(void *boxMon);
 extern void CLACT_SetActorPaletteOffset(struct Obj *actor, u32 palette, u32 flag);
 extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
-extern void WORDSET_SetSlotMonSpecies(struct WordSet *wordSet, u32 index, void *mon);
+extern void WORDSET_SetSlotMonNickname(struct WordSet *wordSet, u32 index, void *mon);
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 value, u32 digits, u32 padMode, u32 d);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
+extern u32 WORDSET_Delete(struct WordSet *wordSet);
 extern u32 POKE_TOOL_CalcLevel(void *mon);
 extern u8 BGWINFRM_ScaleRatio(u32 a, u32 b, u32 c);
 extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 w, u32 h, u32 value);
@@ -265,7 +265,7 @@ PlistPlate *PLIST_PLATE_CreateEmpty(PokelistWork *work, int slot)
     plate->mon = 0;
     plate->isEmpty = 1;
     plate->labelState = PLIST_PLATE_LABEL_NONE;
-    BG_SYS_SetFlagField06(2);
+    BG_SYS_MarkTileDirty(2);
     return plate;
 }
 
@@ -297,7 +297,7 @@ void PLIST_PLATE_Update(PokelistWork *work, PlistPlate *plate)
             plate->textPending = 0;
             BMP_WIN_TransferChars((struct Descriptor *)work);
             BMP_WIN_MakeScreen((struct Descriptor *)work);
-            BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)work));
+            BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct Descriptor *)work));
         }
     }
     if (plate->selected == 1 && POKE_TOOL_GetStatusCondition(plate->mon) == 0 && plate->hp != 0) {
@@ -399,9 +399,9 @@ void PLIST_PLATE_DrawMonInfo(PokelistWork *work, PlistPlate *plate, int isRefres
     }
     if (isRefresh == 0) {
         wordSet = WORDSET_CreateDefault(work->heapId);
-        WORDSET_SetSlotMonSpecies(wordSet, 0, plate->mon);
+        WORDSET_SetSlotMonNickname(wordSet, 0, plate->mon);
         POKELIST_PrintExpandedTextMain(work, plate->window, wordSet, 3, 0x29, 9, 0x440);
-        WORDSET_DeleteStrbufED04(wordSet);
+        WORDSET_Delete(wordSet);
     }
     if (isRefresh == 0) {
         if (POKE_TOOL_GetPartyValue(plate->mon, POKE_TOOL_PARAM_NICKNAME_NOT_DEFAULT_NIDORAN, 0) == 1) {
@@ -422,7 +422,7 @@ void PLIST_PLATE_DrawMonInfo(PokelistWork *work, PlistPlate *plate, int isRefres
             } else {
                 POKELIST_PrintExpandedTextSubDirect(work, plate->window, wordSetB, 2, 9, 0x23, 0x440);
             }
-            WORDSET_DeleteStrbufED04(wordSetB);
+            WORDSET_Delete(wordSetB);
             CLACT_SetActorDrawEnable(plate->statusIconActor, 0);
         } else {
             if (plate->hp == 0) {
@@ -477,7 +477,7 @@ void PLIST_PLATE_DrawMonInfo(PokelistWork *work, PlistPlate *plate, int isRefres
             } else {
                 POKELIST_PrintExpandedTextSubDirect(work, plate->window, wordSetB, 4, 0x5b, 0x23, 0x440);
             }
-            WORDSET_DeleteStrbufED04(wordSetB);
+            WORDSET_Delete(wordSetB);
             wordSetC = WORDSET_CreateDefault(work->heapId);
             WORDSET_SetSlotNumber(wordSetC, 0, plate->hp, 3, 1, 1);
             if (isRefresh == 0) {
@@ -485,7 +485,7 @@ void PLIST_PLATE_DrawMonInfo(PokelistWork *work, PlistPlate *plate, int isRefres
             } else {
                 POKELIST_PrintExpandedTextSubDirect(work, plate->window, wordSetC, 5, 0x39, 0x23, 0x440);
             }
-            WORDSET_DeleteStrbufED04(wordSetC);
+            WORDSET_Delete(wordSetC);
             if (isRefresh == 0) {
                 POKELIST_PrintTextSub(work, plate->window, 6, 0x52, 0x23, 0x440);
             } else {
@@ -496,7 +496,7 @@ void PLIST_PLATE_DrawMonInfo(PokelistWork *work, PlistPlate *plate, int isRefres
     heldItem = POKE_TOOL_GetPartyValue(plate->mon, POKE_TOOL_PARAM_HELD_ITEM, 0);
     if (heldItem != 0) {
         CLACT_SetActorDrawEnable(plate->itemIconActor, 1);
-        if (FILE_UTIL_Check136C(heldItem) == 1) {
+        if (FILE_UTIL_IsMailItem(heldItem) == 1) {
             CLACT_SetActorAnimSeq(plate->itemIconActor, 1);
         } else {
             CLACT_SetActorAnimSeq(plate->itemIconActor, 0);
@@ -559,7 +559,7 @@ void PLIST_PLATE_DrawEgg(PokelistWork *work, PlistPlate *plate)
     WORDSET_SetSlotTag(wordSet, 0, eggText, 0, 1, 2);
     POKELIST_PrintExpandedTextMain(work, plate->window, wordSet, 3, 0x29, 9, 0x440);
     STRBUF_Delete(eggText);
-    WORDSET_DeleteStrbufED04(wordSet);
+    WORDSET_Delete(wordSet);
     CLACT_SetActorDrawEnable(plate->hpBarActor, 0);
     CLACT_SetActorAnimSeq(plate->monIconActor, 1);
     plate->textPending = 1;
@@ -608,7 +608,7 @@ void PLIST_PLATE_SetPalette(PokelistWork *work, PlistPlate *plate, int palette)
         BG_SYS_FillTileMap(2, gPlistPlateTileX[plate->slot * 2] + 0x10, gPlistPlateTileY[plate->slot * 2], 0x10, 6, 7);
     else
         BG_SYS_FillTileMap(2, gPlistPlateTileX[plate->slot * 2] + 0x10, gPlistPlateTileY[plate->slot * 2], 0x10, 6, palette);
-    BG_SYS_SetFlagField06(2);
+    BG_SYS_MarkTileDirty(2);
 }
 
 void PLIST_PLATE_SetSlideOffset(PokelistWork *work, const PlistPlate *plate, int slideX)
@@ -632,8 +632,8 @@ void PLIST_PLATE_SetSlideOffset(PokelistWork *work, const PlistPlate *plate, int
     BG_SYS_DrawTileEx(2, (u8)slideX, y, 16, 6, (u32)((u8 *)work->paletteData + 12), gPlistPlatePaletteA[kind * 2], gPlistPlatePaletteB[isOther * 2], 32, 32);
     BG_SYS_FillTileMap(2, slideX, y, 16, 6, 5);
     BMP_WIN_MakeScreen(plate->window);
-    BG_SYS_SetFlagField06(1);
-    BG_SYS_SetFlagField06(2);
+    BG_SYS_MarkTileDirty(1);
+    BG_SYS_MarkTileDirty(2);
 }
 
 void PLIST_PLATE_ClearSlideTrail(PokelistWork *work, PlistPlate *plate, int slideX)

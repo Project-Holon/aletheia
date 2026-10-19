@@ -36,7 +36,7 @@
  *   BMP_WIN_Init  0x02045088  arm
  *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   func_0207D63C  0x0207D63C  arm
- *   BG_SYS_FillScrollArea  0x02040618  arm
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm
  *   CLACT_InitSystem  0x0204A48C  arm
  *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
@@ -91,7 +91,7 @@ extern void BG_SYS_Create(u16 heapId);
 extern void BMP_WIN_Init(u16 heapId);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void func_0207D63C(u32 r, int a, int b, int c, int d);
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
@@ -153,8 +153,8 @@ void POKELIST_SetupDisplay(u8 *p)
     POKELIST_SetupBgPlanes(p);
     func_0207D63C(0x04000050, 0x14, 8, 0x10, 10);
     func_0207D63C(0x04001050, 4, 8, 0x10, 10);
-    BG_SYS_FillScrollArea(2, 0, 0x80);
-    BG_SYS_FillScrollArea(1, 0, 0x80);
+    BG_SYS_ChangeScrollImmediate(2, 0, 0x80);
+    BG_SYS_ChangeScrollImmediate(1, 0, 0x80);
     b = gClActorInitParam;
     CLACT_InitSystem((const struct Cfg *)(&b), (u32)(&a), *(u16 *)p);
     BG_SYS_SetMainPlaneVisible(0x10, 1);

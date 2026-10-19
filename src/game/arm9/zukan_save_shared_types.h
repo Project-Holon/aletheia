@@ -1,0 +1,6 @@
+#ifndef ZUKAN_SAVE_SHARED_TYPES_H
+#define ZUKAN_SAVE_SHARED_TYPES_H
+
+struct Sub020071CCCtrl;
+
+#endif

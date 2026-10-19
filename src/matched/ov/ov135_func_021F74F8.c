@@ -15,7 +15,7 @@
  *   WORLDTRADE_DEPOSIT_ExitBgPlanes 0x021F76BC thumb ov135
  *   WORLDTRADE_TITLE_ExitBgPlanes 0x022000E4 thumb ov135
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   WORLDTRADE_ClearBusyFlag 0x021F4EC8 thumb ov135
+ *   WORLDTRADE_AdvanceScreenId 0x021F4EC8 thumb ov135
  */
 #include "../include/Obj00287.h"
 typedef unsigned char u8;
@@ -27,7 +27,7 @@ extern void WORLDTRADE_DEPOSIT_ExitBgPlanes(void);
 extern void WORLDTRADE_TITLE_ExitBgPlanes(char *p);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
-extern void WORLDTRADE_ClearBusyFlag(u8 *p);
+extern void WORLDTRADE_AdvanceScreenId(u8 *p);
 int WORLDTRADE_DEPOSIT_Exit(u8 *p)
 {
     WORLDTRADE_DEPOSIT_DeleteActors(p);
@@ -37,6 +37,6 @@ int WORLDTRADE_DEPOSIT_Exit(u8 *p)
     WORLDTRADE_DEPOSIT_ExitBgPlanes();
     WORLDTRADE_TITLE_ExitBgPlanes((char *)p);
     CLACT_SetActorDrawEnable((struct Obj *)*(unsigned *)&((struct Obj00287 *)p)->fD38, 0);
-    WORLDTRADE_ClearBusyFlag(p);
+    WORLDTRADE_AdvanceScreenId(p);
     return 0;
 }

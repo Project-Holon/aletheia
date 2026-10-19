@@ -1,5 +1,5 @@
 /*
- * function: WIFIBATTLEMATCH_NET_DeleteTradeIcon
+ * function: WIFIBATTLEMATCH_NET_DeleteCompStatusWindow
  * address:  0x021D97A4
  * packet:   pkt_021D97A4
  * region:   ov175
@@ -27,7 +27,7 @@ typedef unsigned long u32;
 
 extern void POKETRADE_2D_DeleteMarkingIcon(void *p);
 
-void WIFIBATTLEMATCH_NET_DeleteTradeIcon(char *obj)
+void WIFIBATTLEMATCH_NET_DeleteCompStatusWindow(char *obj)
 {
     u32 p = ((struct Obj00013 *)obj)->f1C;
 

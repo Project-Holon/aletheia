@@ -11,11 +11,11 @@
  *   GSYNC_STATE_ChangeState 0x021D6EE0 thumb ov123
  *   GSYNC_STATE_StateExtraSaveLoadStart 0x021D75D0 thumb ov123
  *   GSYNC_STATE_StateExtraSaveLoadStartSecond 0x021D76F0 thumb ov123
- *   GSYNC_DISP_GetPokeIconActor 0x021D5D8C thumb ov123
+ *   GSYNC_DOWNLOAD_GetFileSize 0x021D5D8C thumb ov123
  *   GSYNC_STATE_StateMusicalSaveCreate 0x021D77C4 thumb ov123
  */
 #include "../include/Obj02837.h"
-extern int GSYNC_DISP_GetPokeIconActor(int);
+extern int GSYNC_DOWNLOAD_GetFileSize(int);
 extern void GSYNC_STATE_StateMusicalSaveCreate(int,int);
 extern void GSYNC_STATE_StateExtraSaveLoadStart(int a);
 extern void GSYNC_STATE_StateExtraSaveLoadStartSecond(int a);
@@ -26,7 +26,7 @@ void GSYNC_STATE_StateMusicalSaveRetry(int a)
 {
     switch(((struct Obj02837 *)a)->fA7) {
     case 0: GSYNC_STATE_ChangeState((u8 *)a,(int)GSYNC_STATE_StateExtraSaveLoadStart,0x3cb); break;
-    case 1: GSYNC_STATE_StateMusicalSaveCreate(a,GSYNC_DISP_GetPokeIconActor(((struct Obj02837 *)a)->f8)-2); break;
+    case 1: GSYNC_STATE_StateMusicalSaveCreate(a,GSYNC_DOWNLOAD_GetFileSize(((struct Obj02837 *)a)->f8)-2); break;
     case 2: GSYNC_STATE_ChangeState((u8 *)a,(int)GSYNC_STATE_StateExtraSaveLoadStartSecond,0x3d1); break;
     }
 }

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * BLOCKED on one relocation site: all 100 concrete code bytes (108 with the
- * trailing pool) are correct, but the call to NNS_G2dInitCellBank at +0048 has no
+ * trailing pool) are correct, but the call to NNS_FndInitAllocatorForExpHeap at +0048 has no
  * witness. 0x02061358 is the 20-byte record-initialiser in the NNS-shaped
  * library block around 0x02060000; it has exactly one branch reference in
  * the whole image and it is this call, so class `label` cannot carry it
@@ -39,12 +39,12 @@
  *
  * The arena is passed straight from GFL_HEAP_GetHeap's return into r1 with no
  * local bound in between, so the call is the nested form
- * NNS_G2dInitCellBank(p, GFL_HEAP_GetHeap(heapId & 0x7fff), len).
+ * NNS_FndInitAllocatorForExpHeap(p, GFL_HEAP_GetHeap(heapId & 0x7fff), len).
  *
  * symbols:
  *   g_EnvModule           0x02146954  data
  *   GFL_HEAP_GetHeap          0x0202FBAC  arm
- *   NNS_G2dInitCellBank         0x02061358  arm
+ *   NNS_FndInitAllocatorForExpHeap         0x02061358  arm
  *
  * Verified with:
  *   python tools/match.py one --src src/pending/GFL_HEAP_InitAllocator.c \
@@ -69,7 +69,7 @@ struct EnvEntry {
 extern struct EnvModule g_EnvModule;
 extern void *GFL_HEAP_GetHeap(u32 idx);
 struct S02061358;
-extern void NNS_G2dInitCellBank(struct S02061358 *s, u32 a, u32 b);
+extern void NNS_FndInitAllocatorForExpHeap(struct S02061358 *s, u32 a, u32 b);
 
 u32 GFL_HEAP_InitAllocator(void *p, u32 heapId, s32 size)
 {
@@ -86,7 +86,7 @@ u32 GFL_HEAP_InitAllocator(void *p, u32 heapId, s32 size)
         g_EnvModule.error = 1;
         goto fail;
     }
-    NNS_G2dInitCellBank(p, (u32)GFL_HEAP_GetHeap(heapId & 0x7FFF), len);
+    NNS_FndInitAllocatorForExpHeap(p, (u32)GFL_HEAP_GetHeap(heapId & 0x7FFF), len);
     g_EnvModule.error = 0;
     return 1;
 

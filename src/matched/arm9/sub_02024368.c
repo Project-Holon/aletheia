@@ -28,7 +28,7 @@
  * symbols:
  *   Table_0209F724   0x0209F724  data
  *   WORDSET_CreateDefault    0x0201EC64  thumb
- *   WORDSET_DeleteStrbufED04    0x0201ED04  thumb
+ *   WORDSET_Delete    0x0201ED04  thumb
  *   WORDSET_SetSlotPmsWord    0x0201EFC8  thumb
  *   WORDSET_SetSlotMarkerFlag    0x0201EFFC  thumb
  *   WORDSET_CopyTaggedText    0x0201F250  thumb
@@ -50,7 +50,7 @@ struct Rec;
 struct U16Vec;
 struct WordSet;
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void WORDSET_SetSlotPmsWord(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_SetSlotMarkerFlag(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
@@ -88,6 +88,6 @@ void *sub_02024368(u16 *slots, u32 heap, int count)
     WORDSET_CopyTaggedText(obj, buf, k);
     STRBUF_Delete(k);
     MSGDATA_Delete(slot);
-    WORDSET_DeleteStrbufED04(obj);
+    WORDSET_Delete(obj);
     return buf;
 }

@@ -77,14 +77,14 @@
  *   BG_SYS_CreateRun  0x0203FA08  arm
  *   APP_ICON_LoadTouchBar  0x02027634  thumb
  *   BG_SYS_PushTile  0x020409B4  arm
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
  *   TCBL_Create  0x0203101C  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   MSGDATA_Delete 0x02045C04 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -219,7 +219,7 @@
  *   WORDSET_SetSlotFromMsgA0 0x0201F184 thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   GFL_USE_IsBgmFading 0x02005E50 thumb
- *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_SetBgmPaused 0x02005DE4 thumb
  *   GFL_USE_PushBgm 0x02005E64 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   GFL_USE_IsBgmPlaying 0x02005F38 thumb
@@ -245,8 +245,8 @@
  *   gMonolithRowGridParam     0x021BAB10  data  a4
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   BG_SYS_FillTileMap  0x020413B0  arm
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  *   BMP_OAM_SetPos  0x0202590C  thumb
  *   BMP_CopyPixels  0x02043814  arm
  *   gMonolithInfoBgTemplate0     0x021BAB94  data  a4
@@ -446,9 +446,9 @@ extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, 
 extern u32 BG_SYS_CreateRun(u32 layer, u32 size, u32 top);
 extern void APP_ICON_LoadTouchBar(void *arc, int id, u32 heap, int base, u32 pal);
 extern void BG_SYS_PushTile(u32 a);
-extern void BG_SYS_DeleteHalf(u32, u32, u32);
+extern void BG_SYS_FreeTileRun(u32, u32, u32);
 extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
-extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern unsigned int WORDSET_Delete(struct WordSet *p);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *);
 extern u32 GF_FONT_Delete(void *ptr);
@@ -567,7 +567,7 @@ extern void WORDSET_SetSlotFromMsgA0(struct WordSet *p, u32 i, s32 v);
 extern int INTRUDE_COMM_SendPairMessage(int,...);
 extern void GFL_USE_FadeOutBgm(u32 a);
 extern int GFL_USE_IsBgmFading(void);
-extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_SetBgmPaused(void *p);
 extern int GFL_USE_PushBgm(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
 extern int GFL_USE_IsBgmPlaying(void);
@@ -583,8 +583,8 @@ extern int TOWN_MAP_SPOT_Classify(MonolithEntry *table, int index, MonolithCount
 extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outX, u32 *outY);
 extern void BG_SYS_FillTileMap(u8 layer, u8 x, u8 y, u8 width, u8 height, u8 palette);
-extern void BG_SYS_SetFlagField06(u32 layerBit);
-extern void BG_SYS_ResetSlot(unsigned layer, unsigned axis, unsigned offset);
+extern void BG_SYS_MarkTileDirty(u32 layerBit);
+extern void BG_SYS_ChangeScroll(unsigned layer, unsigned axis, unsigned offset);
 extern void BMP_OAM_SetPos(struct BmpOamGrid *grid, s16 x, s16 y);
 extern void BMP_CopyPixels(struct Bitmap *dst, const struct Bitmap *src);
 extern u8 INTRUDE_GetMonolithLevel(void *saveBlock);
@@ -1107,7 +1107,7 @@ void MONOLITH_TOOL_LoadGraphics(MonolithToolWork *work, MonolithToolWork *work2)
 
 void MONOLITH_TOOL_FreeSubBgChar(MonolithToolWork *work)
 {
-    BG_SYS_DeleteHalf(7, work->subBgCharOffset, 0x80);
+    BG_SYS_FreeTileRun(7, work->subBgCharOffset, 0x80);
 }
 
 
@@ -1137,7 +1137,7 @@ void MONOLITH_TOOL_FreeText(MonolithToolWork *work)
     MSGDATA_Delete(work->msgBank[1]);
     MSGDATA_Delete(work->msgBank[2]);
     MSGDATA_Delete(work->msgBank[3]);
-    WORDSET_DeleteStrbufED04(work->wordSet);
+    WORDSET_Delete(work->wordSet);
     PRINTSYS_QUE_Clear(work->printSys);
     PRINTSYS_QUE_Delete(work->printSys);
     GF_FONT_Delete(work->font);
@@ -3648,7 +3648,7 @@ write10:
         break;
     case 11:
         if (GFL_USE_IsBgmFading() == 0) {
-            GFL_USE_SetBgmPlayerParam((void *)1);
+            GFL_USE_SetBgmPaused((void *)1);
             GFL_USE_PushBgm();
             ++*state;
         }
@@ -3660,7 +3660,7 @@ write10:
     case 13:
         if (GFL_USE_IsBgmPlaying() == 0) {
             GFL_USE_PopBgm();
-            GFL_USE_SetBgmPlayerParam(0);
+            GFL_USE_SetBgmPaused(0);
             GFL_USE_FadeInBgmFull(6);
             ++*state;
         }
@@ -3777,7 +3777,7 @@ void MONOLITH_TOOL_LIST_LoadGraphics(MonolithListWork *work, MonolithToolWork *t
 
 
 
-void MONOLITH_TOOL_LIST_FreeBgChar(MonolithListWork *work) { BG_SYS_DeleteHalf(5, work->bgCharOffset, 0x80); }
+void MONOLITH_TOOL_LIST_FreeBgChar(MonolithListWork *work) { BG_SYS_FreeTileRun(5, work->bgCharOffset, 0x80); }
 
 
 
@@ -4288,7 +4288,7 @@ void MONOLITH_TOOL_ApplyCursorChange(MonolithToolProcArgs *args, MonolithListWor
                 MONOLITH_TOOL_SetButtonPulse(args, 1, 1);
             }
         }
-        BG_SYS_SetFlagField06(6);
+        BG_SYS_MarkTileDirty(6);
         work->cursorChanged = 0;
     }
 }
@@ -4317,7 +4317,7 @@ int MONOLITH_TOOL_ScrollBy(MonolithListWork *work, int delta)
 
 void MONOLITH_TOOL_UpdateBgScroll(MonolithListWork *work)
 {
-    BG_SYS_ResetSlot(6, 3, (work->scrollPos >> 8) % 64);
+    BG_SYS_ChangeScroll(6, 3, (work->scrollPos >> 8) % 64);
 }
 
 void MONOLITH_TOOL_UpdateRows(MonolithListWork *work)

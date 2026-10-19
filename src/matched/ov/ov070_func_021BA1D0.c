@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   FILE_UTIL_Check1288  0x02021288  thumb
- *   FILE_UTIL_Get_12B0  0x020212B0  thumb
+ *   FILE_UTIL_IsMachineItem  0x02021288  thumb
+ *   FILE_UTIL_GetMachineMove  0x020212B0  thumb
  */
 
 typedef unsigned int   u32;
-extern u32 FILE_UTIL_Check1288(u32 id);
-extern int FILE_UTIL_Get_12B0(int);
+extern u32 FILE_UTIL_IsMachineItem(u32 id);
+extern int FILE_UTIL_GetMachineMove(int);
 
 int ITEMMENU_GetRowColorKind(int x)
 {
-    if (FILE_UTIL_Check1288(x) == 1) {
-        switch (FILE_UTIL_Get_12B0(x)) {
+    if (FILE_UTIL_IsMachineItem(x) == 1) {
+        switch (FILE_UTIL_GetMachineMove(x)) {
         case 0xF:
         case 0x13:
         case 0x39:

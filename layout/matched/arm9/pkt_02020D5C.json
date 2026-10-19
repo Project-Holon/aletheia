@@ -72,7 +72,7 @@
    "status": "EXACT"
   },
   {
-   "name": "FILE_UTIL_Get_0FE4",
+   "name": "FILE_UTIL_GetItemParam",
    "address": "0x02020FE4",
    "kind": "game",
    "region": "arm9",
@@ -104,7 +104,7 @@
    ]
   },
   {
-   "name": "FILE_UTIL_Check1288",
+   "name": "FILE_UTIL_IsMachineItem",
    "address": "0x02021288",
    "kind": "game",
    "region": "arm9",
@@ -116,7 +116,7 @@
    "status": "EXACT"
   },
   {
-   "name": "FILE_UTIL_Get_12B0",
+   "name": "FILE_UTIL_GetMachineMove",
    "address": "0x020212B0",
    "kind": "game",
    "region": "arm9",
@@ -128,7 +128,7 @@
    "status": "EXACT"
   },
   {
-   "name": "FILE_UTIL_Check12E4",
+   "name": "FILE_UTIL_IsHmMove",
    "address": "0x020212E4",
    "kind": "game",
    "region": "arm9",
@@ -164,7 +164,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "FILE_UTIL_Check136C",
+   "name": "FILE_UTIL_IsMailItem",
    "address": "0x0202136C",
    "kind": "game",
    "region": "arm9",

@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  *   COMM_BTL_DEMO_MAIN_UpdateNetKind 0x021BA514 thumb ov213
  *   UI_SCENE_Delete 0x021B613C thumb ov067
  *   MSGDATA_Delete 0x02045C04 arm
@@ -33,7 +33,7 @@ struct CommBtlDemoMain {
 };
 typedef unsigned short u16;typedef unsigned int u32;
 struct Rec;struct PrintSys;struct Proc;
-extern void BG_SYS_ResetSlot(u32,u32,u32);extern void COMM_BTL_DEMO_MAIN_UpdateNetKind(char *);
+extern void BG_SYS_ChangeScroll(u32,u32,u32);extern void COMM_BTL_DEMO_MAIN_UpdateNetKind(char *);
 extern void UI_SCENE_Delete(void *);extern void MSGDATA_Delete(struct Rec *);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *);extern void GF_FONT_Delete(void *);
 extern void COMM_BTL_DEMO_MAIN_DeleteCursor(char *),COMM_BTL_DEMO_MAIN_DeleteGraphics(char *),COMM_BTL_DEMO_GRAPHIC_Delete(unsigned char *);
@@ -41,7 +41,7 @@ extern void PROCSYS_FreeProcWork(struct Proc *);extern void GFL_HEAP_DeleteCheck
 extern char overlay_id[];
 int COMM_BTL_DEMO_MAIN_Delete(struct Proc *owner,int unused,const void *cfg,char *p) {
 u16 heap;
-BG_SYS_ResetSlot(3,0,0);
+BG_SYS_ChangeScroll(3,0,0);
 if(*(int *)((unsigned)cfg+0x44)==2 || *(int *)((unsigned)cfg+0x44)==4)COMM_BTL_DEMO_MAIN_UpdateNetKind(p);
 UI_SCENE_Delete(((struct CommBtlDemoMain *)p)->uiScene);
 MSGDATA_Delete(((struct CommBtlDemoMain *)p)->messages);

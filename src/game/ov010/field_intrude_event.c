@@ -20,8 +20,8 @@
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
- *   INTRUDE_COMM_SendValueNow  0x02176850  thumb  ov011
- *   INTRUDE_COMM_IsRecordReceived  0x02176870  thumb  ov011
+ *   INTRUDE_COMM_RequestPartnerSymbolPage  0x02176850  thumb  ov011
+ *   INTRUDE_COMM_IsPartnerSymbolPageReceived  0x02176870  thumb  ov011
  *   INTRUDE_COMM_GetPartnerSlot  0x021767A0  thumb  ov011
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb
@@ -79,9 +79,9 @@ extern void *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
 
 extern u8 *INTRUDE_COMM_GetWorkIfRunning(void *gameComm);
 
-extern int INTRUDE_COMM_SendValueNow(u8 *intrudeComm, u8 requestType);
+extern int INTRUDE_COMM_RequestPartnerSymbolPage(u8 *intrudeComm, u8 requestType);
 
-extern u32 INTRUDE_COMM_IsRecordReceived(u8 *intrudeComm);
+extern u32 INTRUDE_COMM_IsPartnerSymbolPageReceived(u8 *intrudeComm);
 
 extern u8 INTRUDE_COMM_GetPartnerSlot(void *gameComm, void *gameData);
 
@@ -151,11 +151,11 @@ int FIELD_INTRUDE_EVENT_IntrudeRequestEventMain(struct GameEvent *event, int *st
     }
     switch (*state) {
     case 0:
-        if (INTRUDE_COMM_SendValueNow(intrudeComm, work->requestType) == 1)
+        if (INTRUDE_COMM_RequestPartnerSymbolPage(intrudeComm, work->requestType) == 1)
             (*state)++;
         break;
     case 1:
-        if (INTRUDE_COMM_IsRecordReceived(intrudeComm) == 1)
+        if (INTRUDE_COMM_IsPartnerSymbolPageReceived(intrudeComm) == 1)
             (*state)++;
         break;
     case 2:

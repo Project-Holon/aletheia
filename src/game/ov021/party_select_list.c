@@ -35,7 +35,7 @@
  *   POKE_TOOL_GetIconCellEntryId  0x0201BCB4  thumb
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
  *   POKEPARTY_GetCount  0x0201AA18  thumb
- *   POKE_TOOL_Dummy  0x020185F0  thumb
+ *   POKE_TOOL_CastToBoxParam  0x020185F0  thumb
  *   POKE_TOOL_GetGraphicIndex  0x0201BA68  thumb
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
@@ -54,11 +54,11 @@
  *   APP_ICON_GetItemFrameFileId  0x020276A0  thumb
  *   APP_ICON_GetItemPaletteFileId  0x02027698  thumb
  *   d_021DB40C  0x021DB40C  data
- *   FILE_UTIL_Check136C  0x0202136C  thumb
+ *   FILE_UTIL_IsMailItem  0x0202136C  thumb
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   FIELD_MSGBG_CreateMsgData  0x021904B0  thumb  ov021
  *   WORDSET_CreateDefault  0x0201EC64  thumb
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   FIELD_MSGBG_DeleteMsgData  0x021904C8  thumb  ov021
  *   FIELD_MSGBG_CreateMenuItemsFromTable  0x02190A28  thumb  ov021
  *   FIELD_MSGBG_CreateMenuFuncCallback  0x02190938  thumb  ov021
@@ -164,7 +164,7 @@ extern int POKE_TOOL_GetIconCellArcId(void);
 extern int POKE_TOOL_GetIconCellEntryId(void);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern u32 POKEPARTY_GetCount(void *p);
-extern u32 POKE_TOOL_Dummy(void *p);
+extern u32 POKE_TOOL_CastToBoxParam(void *p);
 extern u32 POKE_TOOL_GetGraphicIndex(void *mon);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 extern void ARC_TOOL_DeleteHandle(void *h);
@@ -181,10 +181,10 @@ extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u
 extern u32 APP_ICON_GetItemAnimFileId(u32 a);
 extern u32 APP_ICON_GetItemFrameFileId(u32 a);
 extern u32 APP_ICON_GetItemPaletteFileId(void);
-extern u32 FILE_UTIL_Check136C(u16 v);
+extern u32 FILE_UTIL_IsMailItem(u16 v);
 extern FieldMsgBg *FIELDMAP_GetMsgBg(void *owner);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern u32 BMP_MENULIST_GetUserData(struct BmpMenuList *menu);
 extern void BMP_MENULIST_SetOverrideColors(struct BmpMenuList *menu, u8 a, u8 b, u8 c);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
@@ -369,12 +369,12 @@ void PARTY_SELECT_LIST_LoadMonIconResources(PartySelectList *list)
     list->monIconCell = CLACT_RegisterCellAnim(arc, POKE_TOOL_GetIconCellArcId(), POKE_TOOL_GetIconCellEntryId(), list->heapId);
     count = POKEPARTY_GetCount(list->party[0]);
     for (i = 0; i < count; i++) {
-        list->monIconRes[0][i] = CLACT_RegisterCharacter(arc, POKE_TOOL_GetGraphicIndex((void *)POKE_TOOL_Dummy(POKEPARTY_GetMember(list->party[0], i))), 0, 0, list->heapId);
+        list->monIconRes[0][i] = CLACT_RegisterCharacter(arc, POKE_TOOL_GetGraphicIndex((void *)POKE_TOOL_CastToBoxParam(POKEPARTY_GetMember(list->party[0], i))), 0, 0, list->heapId);
     }
     if (list->party[1] != 0) {
         count = POKEPARTY_GetCount(list->party[1]);
         for (i = 0; i < count; i++) {
-            list->monIconRes[1][i] = CLACT_RegisterCharacter(arc, POKE_TOOL_GetGraphicIndex((void *)POKE_TOOL_Dummy(POKEPARTY_GetMember(list->party[1], i))), 0, 0, list->heapId);
+            list->monIconRes[1][i] = CLACT_RegisterCharacter(arc, POKE_TOOL_GetGraphicIndex((void *)POKE_TOOL_CastToBoxParam(POKEPARTY_GetMember(list->party[1], i))), 0, 0, list->heapId);
         }
     }
     ARC_TOOL_DeleteHandle(arc);
@@ -526,7 +526,7 @@ void PARTY_SELECT_LIST_CreateStatusIcons(PartySelectList *list)
     for (i = 0; i < count0; i++) {
         species = POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(list->party[0], i), 6, 0);
         if (species != 0) {
-            if (FILE_UTIL_Check136C(species) == 1) {
+            if (FILE_UTIL_IsMailItem(species) == 1) {
                 pos.alt = 1;
             } else {
                 pos.alt = 0;
@@ -541,7 +541,7 @@ void PARTY_SELECT_LIST_CreateStatusIcons(PartySelectList *list)
         for (i = 0; i < count1; i++) {
             species = POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(list->party[1], i), 6, 0);
             if (species != 0) {
-                if (FILE_UTIL_Check136C(species) == 1) {
+                if (FILE_UTIL_IsMailItem(species) == 1) {
                     pos.alt = 1;
                 } else {
                     pos.alt = 0;
@@ -616,7 +616,7 @@ void PARTY_SELECT_LIST_InitMessageResources(PartySelectList *list)
 
 int PARTY_SELECT_LIST_FreeMessageResources(PartySelectList *list)
 {
-    WORDSET_DeleteStrbufED04(list->wordSet);
+    WORDSET_Delete(list->wordSet);
     return FIELD_MSGBG_DeleteMsgData(list->msgData);
 }
 

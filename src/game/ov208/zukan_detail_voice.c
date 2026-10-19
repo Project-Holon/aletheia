@@ -17,12 +17,12 @@
  *   GFL_HEAP_Free 0x020307B0  arm
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   TCB_DeleteTask 0x02030EAC arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
- *   BG_SYS_FillScrollArea 0x02040618 arm
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
@@ -57,14 +57,14 @@
  *   ZUKAN_DETAIL_COMMON_FreeBlendWork 0x021BC464 thumb ov208
  *   ZUKAN_DETAIL_PROCSYS_FreeBuffer 0x021BC34C thumb ov208
  *   ZUKAN_DETAIL_COMMON_GetWorkPtr 0x021BC3B4 thumb
- *   ZUKAN_DETAIL_COMMON_GetCursorValue 0x021BC3B8 thumb
+ *   ZUKAN_DETAIL_COMMON_GetHeadbar 0x021BC3B8 thumb
  *   ZUKAN_DETAIL_TOUCHBAR_GetMode 0x021BDAD0 thumb
- *   ZUKAN_DETAIL_COMMON_GetMaxValue 0x021BC3BC thumb
+ *   ZUKAN_DETAIL_COMMON_GetEntryCount 0x021BC3BC thumb
  *   ZUKAN_DETAIL_TOUCHBAR_SetMode 0x021BDAAC thumb
  *   ZUKAN_DETAIL_TOUCHBAR_SetEnabled 0x021BDAD4 thumb
  *   ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind 0x021BDBB8 thumb
  *   ZUKAN_DETAIL_COMMON_GetSource 0x021BC3A4 thumb
- *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
+ *   GAME_DATA_ContainsRecentId 0x02012BF8 thumb
  *   ZUKAN_DETAIL_HEADBAR_GetIconKind 0x021BE840 thumb
  *   ZUKAN_DETAIL_HEADBAR_SetIconKind 0x021BE82C thumb
  *   ZUKAN_DETAIL_HEADBAR_SetIconSpecies 0x021BE844 thumb
@@ -76,7 +76,7 @@
  *   ZUKAN_DETAIL_COMMON_GetCurrentEntry  0x021BC3C0  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies  0x021BC3CC  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies  0x021BC40C  thumb  ov208
- *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
+ *   GAME_DATA_SetRecentId  0x02012BE0  thumb
  *   CLACT_SetActorObjMode 0x0204B688 arm
  *   ZUKAN_SAVE_GetViewGenderAndForm 0x0200CC40 thumb
  *   ZUKAN_SAVE_GetSpindaPersonality 0x0200D288 thumb
@@ -141,7 +141,7 @@
  *   POKEGRA_GetPalArcIndex 0x0202D0D4 thumb
  *   CLACT_GetActorScale 0x0204B5C0 arm
  *   CLACT_SetActorScale 0x0204B5AC arm
- *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb  arm9
+ *   GFL_USE_SetBgmPaused  0x02005DE4  thumb  arm9
  *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb  arm9
  *   GFL_USE_IsBgmFading  0x02005E50  thumb  arm9
  *   GFL_USE_PushBgm  0x02005E64  thumb  arm9
@@ -191,9 +191,9 @@ extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
 
 extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 
-extern void BG_SYS_FillScrollArea(unsigned,unsigned,unsigned);
+extern void BG_SYS_ChangeScrollImmediate(unsigned,unsigned,unsigned);
 
-extern void BG_SYS_SetVisibleLayer(int,u16);
+extern void BG_SYS_SetPriority(int,u16);
 
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 
@@ -262,7 +262,7 @@ extern void ZUKAN_DETAIL_TOUCHBAR_SetEnabled(void *s, int a);
 
 extern void ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind(void *s, u32 a);
 
-extern int GAME_DATA_CheckSaveFlag(void *gd, int b);
+extern int GAME_DATA_ContainsRecentId(void *gd, int b);
 
 extern int ZUKAN_DETAIL_HEADBAR_GetIconKind(void *s);
 
@@ -276,7 +276,7 @@ extern void ZUKAN_DETAIL_HEADBAR_SetIconForm(void *s);
 
 extern void ZUKAN_DETAIL_COMMON_UpdateBlendFades(void *a, void *b);
 
-extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
+extern void GAME_DATA_SetRecentId(void *p, u32 a, u32 b);
 
 extern void CLACT_SetActorObjMode(struct Obj *p,u32 value);
 
@@ -332,7 +332,7 @@ extern void GFL_USE_FadeOutBgm(u32 v);
 
 extern int GFL_USE_PopBgm(void);
 
-extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_SetBgmPaused(void *p);
 
 extern void GFL_USE_FadeInBgmFull(u32 a);
 
@@ -376,7 +376,7 @@ typedef unsigned long long u64;
 extern const u8 data_021C8704[7][9];
 extern const struct ZukanDetailVoiceDigitSlots data_021C86EC;
 
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 
 typedef signed char    s8;
 
@@ -544,22 +544,22 @@ int ZUKAN_DETAIL_VOICE_Main(void *unused, int *seq, u16 *heapIdPtr, struct Zukan
     u8 i;
     int ready;
     scene = ZUKAN_DETAIL_COMMON_GetWorkPtr(ctx);
-    icon = (struct Ov208Icon *)ZUKAN_DETAIL_COMMON_GetCursorValue(ctx);
+    icon = (struct Ov208Icon *)ZUKAN_DETAIL_COMMON_GetHeadbar(ctx);
     switch (*seq) {
     case 0:
         *seq = 1;
         for (i = 0; i <= 7; i++) {
             if (i != 1 && i != 5) {
-                BG_SYS_FillScrollArea(i, 0, 0);
-                BG_SYS_FillScrollArea(i, 3, 0);
+                BG_SYS_ChangeScrollImmediate(i, 0, 0);
+                BG_SYS_ChangeScrollImmediate(i, 3, 0);
                 BG_SYS_FreeSlot(i);
             }
         }
-        BG_SYS_SetVisibleLayer(2, 1);
-        BG_SYS_SetVisibleLayer(3, 2);
-        BG_SYS_SetVisibleLayer(0, 3);
-        BG_SYS_SetVisibleLayer(6, 1);
-        BG_SYS_SetVisibleLayer(4, 3);
+        BG_SYS_SetPriority(2, 1);
+        BG_SYS_SetPriority(3, 2);
+        BG_SYS_SetPriority(0, 3);
+        BG_SYS_SetPriority(6, 1);
+        BG_SYS_SetPriority(4, 3);
         ZUKAN_DETAIL_VOICE_CreateNumberActors(heapIdPtr, voice, ctx);
         ZUKAN_DETAIL_VOICE_LoadPokemonGraphics(heapIdPtr, (u8 *)voice, ctx, voice->currentSlot);
         CLACT_SetActorObjMode(voice->pokemonActor[voice->currentSlot], 1);
@@ -585,11 +585,11 @@ int ZUKAN_DETAIL_VOICE_Main(void *unused, int *seq, u16 *heapIdPtr, struct Zukan
         *seq = 3;
         ZUKAN_DETAIL_COMMON_StartFadeOut(voice->palFade);
         if (ZUKAN_DETAIL_TOUCHBAR_GetMode(scene) != 2) {
-            ZUKAN_DETAIL_TOUCHBAR_SetMode(scene, 0, 2, ZUKAN_DETAIL_COMMON_GetMaxValue(ctx) > 1);
+            ZUKAN_DETAIL_TOUCHBAR_SetMode(scene, 0, 2, ZUKAN_DETAIL_COMMON_GetEntryCount(ctx) > 1);
             ZUKAN_DETAIL_TOUCHBAR_SetEnabled(scene, 0);
         } else ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind(scene, 2);
         ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(scene, 0);
-        ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq((struct Ov208Scene *)scene, GAME_DATA_CheckSaveFlag(ZUKAN_DETAIL_COMMON_GetSource(ctx), 0x13));
+        ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq((struct Ov208Scene *)scene, GAME_DATA_ContainsRecentId(ZUKAN_DETAIL_COMMON_GetSource(ctx), 0x13));
         if (ZUKAN_DETAIL_HEADBAR_GetIconKind(icon) != 2) {
             ZUKAN_DETAIL_HEADBAR_SetIconKind(icon, 2);
             ZUKAN_DETAIL_HEADBAR_SetIconSpecies(icon);
@@ -702,7 +702,7 @@ void ZUKAN_DETAIL_VOICE_HandleKeyEvent(void *unused, void *unused2, void *heapId
         ZUKAN_DETAIL_TOUCHBAR_ClearButtonState((struct Ov208Scene *)sceneObj);
         return;
     case 5:
-        GAME_DATA_SetSaveFlag(ZUKAN_DETAIL_COMMON_GetSource(ctx), 0x13, ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive((char *)sceneObj));
+        GAME_DATA_SetRecentId(ZUKAN_DETAIL_COMMON_GetSource(ctx), 0x13, ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive((char *)sceneObj));
         ZUKAN_DETAIL_TOUCHBAR_ClearButtonState((struct Ov208Scene *)sceneObj);
         return;
     default:
@@ -717,8 +717,8 @@ void ZUKAN_DETAIL_VOICE_HandleKeyEvent(void *unused, void *unused2, void *heapId
 void ZUKAN_DETAIL_VOICE_ApplyPendingDisplay(void *unused, struct ZukanDetailVoice *voice)
 {
     if (voice->waveBgDirty != 0) {
-        BG_SYS_FillScrollArea(3, 0, voice->scrollSubPixels - 1);
-        BG_SYS_FillScrollArea(3, 3, 0);
+        BG_SYS_ChangeScrollImmediate(3, 0, voice->scrollSubPixels - 1);
+        BG_SYS_ChangeScrollImmediate(3, 3, 0);
         BG_SYS_PushTile(3);
         voice->waveBgDirty = 0;
     }
@@ -738,7 +738,7 @@ void ZUKAN_DETAIL_VOICE_RestoreBgm(void *unused, struct ZukanDetailVoice *voice,
 {
     if (voice->bgmPhase == 2) {
         GFL_USE_PopBgm();
-        GFL_USE_SetBgmPlayerParam(0);
+        GFL_USE_SetBgmPaused(0);
     }
     GFL_USE_FadeInBgmFull(0x3c);
     voice->bgmPhase = 3;
@@ -751,7 +751,7 @@ void ZUKAN_DETAIL_VOICE_UpdateBgmFade(int unused, struct ZukanDetailVoice *voice
 {
     if (voice->bgmPhase == 1) {
         if (GFL_USE_IsBgmFading() == 0) {
-            GFL_USE_SetBgmPlayerParam((void *)1);
+            GFL_USE_SetBgmPaused((void *)1);
             GFL_USE_PushBgm();
             voice->bgmPhase = 2;
         }
@@ -993,7 +993,7 @@ void ZUKAN_DETAIL_VOICE_FlushTimerWindow(u16 *heapIdPtr, struct ZukanDetailVoice
             win = voice->nameWin;
             BMP_WIN_TransferChars(win);
             BMP_WIN_MakeScreen((struct Cfg *)win);
-            BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
+            BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(win));
             voice->namePending = 0;
         }
     }

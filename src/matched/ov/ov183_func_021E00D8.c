@@ -22,7 +22,7 @@
  *   func_02045EC0 0x02045EC0 arm
  *   BMP_OAM_GetRecordValue 0x02025B64 thumb
  *   WORDSET_SetSlotFromMsgE7 0x0201F048 thumb
- *   WORDSET_DeleteMsgdataF094 0x0201F094 thumb
+ *   WORDSET_SetSlotFromKeyedMessage 0x0201F094 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   BR_UTIL_CreateListMenu 0x021FC8C8 thumb ov186
@@ -61,7 +61,7 @@ extern int BR_RES_GetWordSet(char *);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u8 BMP_OAM_GetRecordValue(u32);
 extern void WORDSET_SetSlotFromMsgE7(struct WordSet *p, u32 i, u32 n);
-extern void WORDSET_DeleteMsgdataF094(struct WordSet *p, u32 i, u32 a, u32 n);
+extern void WORDSET_SetSlotFromKeyedMessage(struct WordSet *p, u32 i, u32 a, u32 n);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void *BR_UTIL_CreateListMenu(Config *,u32);
@@ -85,7 +85,7 @@ int BR_CODEIN_CodeSetupPokeList(char *p,char *q)
     ws=BR_RES_GetWordSet(*(char * *)&((struct Obj03330 *)q)->f8);
     data=func_02045EC0((void *)second,125);
     if(!BMP_OAM_GetRecordValue(a))WORDSET_SetSlotFromMsgE7((void *)ws,0,a);
-    else WORDSET_DeleteMsgdataF094((void *)ws,0,a,b);
+    else WORDSET_SetSlotFromKeyedMessage((void *)ws,0,a,b);
     WORDSET_CopyTaggedText((void *)ws,text,data);
     STRBUF_Delete(data);
     *(Slot * *)&((struct Obj02231 *)p)->f14=BMP_MENUWORK_Create(1,((struct Obj02231 *)p)->f54);

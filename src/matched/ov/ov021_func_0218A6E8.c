@@ -15,7 +15,7 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  *   FIELD_SOUND_SYSTEM_StopRingtone  0x02028A70  thumb
- *   C_GEAR_IsLastCommandKind5  0x021F2AB8  thumb  ov029
+ *   C_GEAR_IsLastCommandWifi  0x021F2AB8  thumb  ov029
  *   C_GEAR_StopRingtone  0x021F2AD4  thumb  ov029
  */
 
@@ -29,7 +29,7 @@ struct SoundSys;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *p);
 extern void FIELD_SOUND_SYSTEM_StopRingtone(struct SoundSys *sys);
-extern int C_GEAR_IsLastCommandKind5(char *p);
+extern int C_GEAR_IsLastCommandWifi(char *p);
 extern void C_GEAR_StopRingtone(u8 *p);
 
 void FIELD_EVENT_CHECK_StopSoundAfterEvent(void *sys, void *q)
@@ -41,7 +41,7 @@ void FIELD_EVENT_CHECK_StopSoundAfterEvent(void *sys, void *q)
         FIELD_SOUND_SYSTEM_StopRingtone((struct SoundSys *)GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(sys)));
         return;
     }
-    if (C_GEAR_IsLastCommandKind5(r) == 0) {
+    if (C_GEAR_IsLastCommandWifi(r) == 0) {
         FIELD_SOUND_SYSTEM_StopRingtone((struct SoundSys *)GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(sys)));
         C_GEAR_StopRingtone(r);
     }

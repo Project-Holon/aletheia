@@ -1,5 +1,5 @@
 /*
- * function: NET_DEVICE_TABLE_RemapId
+ * function: FLDMMDL_ObjCodeToTableIndex
  * address:  0x0200F128
  * packet:   pkt_0200F168
  * region:   arm9
@@ -19,14 +19,14 @@
  * out reversed; see docs/idioms/the-fall-through-arm-is-the-source-order.md.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/NET_DEVICE_TABLE_RemapId.c \
- *       --func NET_DEVICE_TABLE_RemapId --addr 0x0200F128 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/FLDMMDL_ObjCodeToTableIndex.c \
+ *       --func FLDMMDL_ObjCodeToTableIndex --addr 0x0200F128 --cc 1.1p1
  */
 
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-u32 NET_DEVICE_TABLE_RemapId(u32 x)
+u32 FLDMMDL_ObjCodeToTableIndex(u32 x)
 {
     if (x < 0xdf) {
         return x;

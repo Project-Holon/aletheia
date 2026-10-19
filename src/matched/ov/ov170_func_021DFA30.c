@@ -15,9 +15,9 @@
  *   BGWINFRM_IsMoving 0x0202CE40 thumb
  *   TOUCHPANEL_GetCont 0x02035C38 arm
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
- *   BOX2_MAIN_IsTaskMenuFinished 0x021DCFC0 thumb
- *   BOX2_MAIN_UpdateWindowFrame 0x021DD090 thumb
- *   BOX2_MAIN_StopSeq 0x021DD16C thumb
+ *   BOX2_MAIN_StepWindowFrameFade 0x021DCFC0 thumb
+ *   BOX2_MAIN_SetupWindowFrameFade 0x021DD090 thumb
+ *   BOX2_MAIN_StepToAdjacentBox 0x021DD16C thumb
  *   BOX2_MAIN_SelectBox 0x021DD1C4 thumb
  *   BOX2_MAIN_RefreshBoxUi 0x021DD1E8 thumb
  *   BOX2_MAIN_IsWrappedDistance 0x021DD210 thumb
@@ -26,13 +26,13 @@
  *   BOX2_MAIN_FindMoverSlot 0x021DE5C8 thumb
  *   BOX2_MAIN_SetMoverEntry 0x021DE66C thumb
  *   BOX2_MAIN_SetBoxScroll 0x021DEC98 thumb
- *   BOX2_MAIN_GetBoxFormId 0x021DEDCC thumb
+ *   BOX2_MAIN_GetBoxWallpaper 0x021DEDCC thumb
  *   BOX2_MAIN_HitBoxGrid 0x021DF1DC thumb
  *   BOX2_MAIN_HitPartySlots 0x021DF228 thumb
  *   BOX2_MAIN_HitPartyGrid 0x021DF254 thumb
  *   BOX2_MAIN_MoveCursorActor 0x021DF43C thumb
- *   BOX2_MAIN_IsSeqIdle 0x021E00C4 thumb
- *   BOX2_MAIN_IsSeqStep 0x021E0128 thumb
+ *   BOX2_MAIN_StepScrollToPrevBox 0x021E00C4 thumb
+ *   BOX2_MAIN_StepScrollToNextBox 0x021E0128 thumb
  *   BOX2_MAIN_ShiftWindowRight 0x021E01C4 thumb
  *   BOX2_MAIN_ShiftWindowLeft 0x021E01E0 thumb
  *   BOX2_SEQ_OpenBoxUp 0x021E19D4 thumb
@@ -102,27 +102,27 @@ extern int BOX2_MAIN_FindMoverSlot(char *p, unsigned id);
 extern void BOX2_UI_CloseListPack(struct WinMgr *mgr);
 extern int BOX2_MAIN_IsWrappedDistance(unsigned char *p, unsigned a, unsigned b);
 extern void BOX2_SEQ_LoadMonIcon(char **p, int box);
-extern int BOX2_MAIN_GetBoxFormId(char *p, int box);
+extern int BOX2_MAIN_GetBoxWallpaper(char *p, int box);
 extern void BOX2_MAIN_SetBoxScroll(char *p, void *a, int dir);
 extern int BOX2_UI_GetPartySlotPoint(int a, int b);
 extern void BOX2_MAIN_RefreshBoxUi(char *p);
 extern void BOX2_UI_MoveCursor(char **p, int idx, int v);
 extern void BOX2_UI_DeleteSlotObjects(char *p, int a, int b, int c);
 extern int BOX2_UI_GetCloseButtonHit(void);
-extern void BOX2_MAIN_StopSeq(unsigned char *p, int dir);
+extern void BOX2_MAIN_StepToAdjacentBox(unsigned char *p, int dir);
 extern int BOX2_UI_GetPageButtonHit2(void);
-extern void BOX2_MAIN_UpdateWindowFrame(unsigned char *p, unsigned idx);
+extern void BOX2_MAIN_SetupWindowFrameFade(unsigned char *p, unsigned idx);
 extern void BOX2_UI_OpenBar(struct WinMgr *mgr);
 extern int BOX2_UI_GetExitButtonHit(void);
 extern void BOX2_MAIN_SelectBox(char *p, int a);
 extern int BOX2_UI_GetGridSlotPoint(int a, int b);
 extern void BOX2_MAIN_MoveCursorActor(char *p, int x, int y);
-extern int BOX2_MAIN_IsSeqIdle(char *p);
-extern int BOX2_MAIN_IsSeqStep(char *p);
+extern int BOX2_MAIN_StepScrollToPrevBox(char *p);
+extern int BOX2_MAIN_StepScrollToNextBox(char *p);
 extern int BOX2_MAIN_WaitCursorMove(unsigned char *p);
 extern int BOX2_SEQ_OpenBoxDown(char *p);
 extern int BOX2_SEQ_OpenBoxUp(char *p);
-extern int BOX2_MAIN_IsTaskMenuFinished(char *p);
+extern int BOX2_MAIN_StepWindowFrameFade(char *p);
 extern int BOX2_MAIN_ShiftWindowLeft(char *p);
 extern void BOX2_UI_PutBottomBarClosed(struct WinMgr *mgr);
 extern void BOX2_UI_CloseBar(struct WinMgr *mgr);
@@ -195,7 +195,7 @@ int BOX2_MAIN_StateMachineScroll(unsigned char *p)
                 r = BOX2_MAIN_IsWrappedDistance(p, p[0x14], p[0x17]);
                 p[0x14] = p[0x17];
                 BOX2_SEQ_LoadMonIcon((char **)p, p[0x14]);
-                BOX2_MAIN_SetBoxScroll((char *)p, (void *)BOX2_MAIN_GetBoxFormId((char *)p, p[0x14]), r);
+                BOX2_MAIN_SetBoxScroll((char *)p, (void *)BOX2_MAIN_GetBoxWallpaper((char *)p, p[0x14]), r);
                 if (r == 0)
                     b->state = 4;
                 else
@@ -223,11 +223,11 @@ int BOX2_MAIN_StateMachineScroll(unsigned char *p)
             int dir = BOX2_UI_GetCloseButtonHit();
             if (dir == 0) {
                 GFL_USE_PlaySeDefaultVolume(0x548);
-                BOX2_MAIN_StopSeq(p, 0);
+                BOX2_MAIN_StepToAdjacentBox(p, 0);
                 b->state = 6;
             } else if (dir == 1) {
                 GFL_USE_PlaySeDefaultVolume(0x548);
-                BOX2_MAIN_StopSeq(p, 1);
+                BOX2_MAIN_StepToAdjacentBox(p, 1);
                 b->state = 7;
             }
         }
@@ -236,7 +236,7 @@ int BOX2_MAIN_StateMachineScroll(unsigned char *p)
                 if (*(unsigned char *)(WORK(p) + 0xA171) == 0) {
                     if (BOX2_UI_IsInfoBarOpen(MGR(p)) == 1) {
                         BOX2_UI_CloseInfoBar(MGR(p));
-                        BOX2_MAIN_UpdateWindowFrame(p, 0xA);
+                        BOX2_MAIN_SetupWindowFrameFade(p, 0xA);
                         GFL_USE_PlaySeDefaultVolume(0x54C);
                         GFL_USE_PlaySeDefaultVolume(0x669);
                         *(unsigned char *)(WORK(p) + 0xA171) = 1;
@@ -244,7 +244,7 @@ int BOX2_MAIN_StateMachineScroll(unsigned char *p)
                     }
                     if (BOX2_UI_IsTopBarOpen(MGR(p)) == 1) {
                         BOX2_UI_OpenBar(MGR(p));
-                        BOX2_MAIN_UpdateWindowFrame(p, 0xB);
+                        BOX2_MAIN_SetupWindowFrameFade(p, 0xB);
                         GFL_USE_PlaySeDefaultVolume(0x54C);
                         GFL_USE_PlaySeDefaultVolume(0x669);
                         *(unsigned char *)(WORK(p) + 0xA171) = 1;
@@ -279,11 +279,11 @@ int BOX2_MAIN_StateMachineScroll(unsigned char *p)
         BOX2_MAIN_MoveCursorActor((char *)p, x, y);
         break;
     case 4:
-        if (BOX2_MAIN_IsSeqIdle((char *)p) == 0)
+        if (BOX2_MAIN_StepScrollToPrevBox((char *)p) == 0)
             b->state = 2;
         break;
     case 5:
-        if (BOX2_MAIN_IsSeqStep((char *)p) == 0)
+        if (BOX2_MAIN_StepScrollToNextBox((char *)p) == 0)
             b->state = 2;
         break;
     case 2:
@@ -297,7 +297,7 @@ int BOX2_MAIN_StateMachineScroll(unsigned char *p)
             b->state = 0x10;
         break;
     case 6:
-        if (BOX2_MAIN_IsSeqIdle((char *)p) == 0) {
+        if (BOX2_MAIN_StepScrollToPrevBox((char *)p) == 0) {
             b->timer = 0x10;
             b->state = 1;
         }
@@ -305,7 +305,7 @@ int BOX2_MAIN_StateMachineScroll(unsigned char *p)
             BOX2_MAIN_MoveCursorActor((char *)p, x, y);
         break;
     case 7:
-        if (BOX2_MAIN_IsSeqStep((char *)p) == 0) {
+        if (BOX2_MAIN_StepScrollToNextBox((char *)p) == 0) {
             b->timer = 0x10;
             b->state = 1;
         }
@@ -331,7 +331,7 @@ int BOX2_MAIN_StateMachineScroll(unsigned char *p)
             BOX2_MAIN_MoveCursorActor((char *)p, x, y);
         break;
     case 11:
-        BOX2_MAIN_IsTaskMenuFinished((char *)p);
+        BOX2_MAIN_StepWindowFrameFade((char *)p);
         if (BOX2_MAIN_ShiftWindowLeft((char *)p) == 0) {
             BOX2_UI_PutBottomBarClosed(MGR(p));
             BOX2_UI_CloseBar(MGR(p));
@@ -353,7 +353,7 @@ int BOX2_MAIN_StateMachineScroll(unsigned char *p)
             BOX2_MAIN_MoveCursorActor((char *)p, x, y);
         break;
     case 13:
-        BOX2_MAIN_IsTaskMenuFinished((char *)p);
+        BOX2_MAIN_StepWindowFrameFade((char *)p);
         if (BOX2_UI_UpdateBarMove(p) == 0) {
             BOX2_MAIN_RefreshBoxUi((char *)p);
             BOX2_UI_HideWindowB(WORK(p));

@@ -49,7 +49,7 @@
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   MSGDATA_Delete 0x02045C04 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
@@ -167,7 +167,7 @@
  *   PMS_DRAW_IsActive 0x0202DCC4 thumb
  *   PMS_DRAW_SetVisible 0x0202DCB0 thumb
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   GAME_BEACON_ACCESSOR_GetFavoriteColorRgb 0x02165CC0 thumb ov010
  *   PALANM_BlendColors 0x02021F64 thumb
  *   GAME_BEACON_ACCESSOR_GetPlayerName 0x02165C34 thumb ov010
@@ -181,7 +181,7 @@
  *   GAME_BEACON_ACCESSOR_GetNation 0x02165C58 thumb ov010
  *   WORDSET_SetSlotFromMsgE7 0x0201F048 thumb
  *   GAME_BEACON_ACCESSOR_GetArea 0x02165C5C thumb ov010
- *   WORDSET_DeleteMsgdataF094 0x0201F094 thumb
+ *   WORDSET_SetSlotFromKeyedMessage 0x0201F094 thumb
  *   GAME_BEACON_ACCESSOR_GetPassCount 0x02165D40 thumb ov010
  *   GAME_BEACON_ACCESSOR_GetThanksCount 0x02165D48 thumb ov010
  *   PMS_DRAW_IsActive 0x0202DCC4 thumb
@@ -209,7 +209,7 @@
  *   BEACON_DETAIL_GRA_PrintWaitTask 0x021BDAD8 thumb ov216
  *   PMS_DRAW_Delete  0x0202DC08  thumb  arm9
  *   ZONEDATA_GetPlaceNameId  0x02013E4C  thumb  arm9
- *   WORDSET_Callback  0x0201EE60  thumb  arm9
+ *   WORDSET_SetSlotSpeciesName  0x0201EE60  thumb  arm9
  *   WORDSET_SetSlotPokeData  0x0201F104  thumb  arm9
  *   WORDSET_SetSlotFromMsgBE  0x0201F134  thumb  arm9
  *   WORDSET_SetSlotFromMsg59  0x0201F158  thumb  arm9
@@ -471,7 +471,7 @@ extern struct MsgBank *MSGDATA_CreateFromArchive(unsigned,unsigned,unsigned,unsi
 extern struct U16Vec *STRBUF_Create(unsigned,unsigned);
 extern void STRBUF_Delete(struct U16Vec *);
 extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
-extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern unsigned int WORDSET_Delete(struct WordSet *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *);
@@ -568,7 +568,7 @@ extern unsigned short GAME_BEACON_ACCESSOR_GetDetailsMonsNo(const char *);
 extern unsigned short GAME_BEACON_ACCESSOR_GetDetailsTrainerNo(const char *);
 extern unsigned short GAME_BEACON_ACCESSOR_GetZoneId(const struct Bits *);
 extern u32 ZONEDATA_GetPlaceNameId(u32 id);
-extern void WORDSET_Callback(struct WordSet *p, u32 i, u16 v);
+extern void WORDSET_SetSlotSpeciesName(struct WordSet *p, u32 i, u16 v);
 extern void WORDSET_SetSlotPokeData(struct WordSet *p, u32 i, u32 a);
 extern void WORDSET_SetSlotFromMsgBE(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_SetSlotFromMsg59(struct WordSet *p, u32 i, u32 v);
@@ -582,7 +582,7 @@ extern void BMP_FillRect(struct Bmp *b, u32 x, u32 y, u32 w, u32 h, u32 value);
 extern u32 PMS_DRAW_IsActive(const struct BeaconDetailGraPmsDraw *, u32);
 extern void PMS_DRAW_SetVisible(struct BeaconDetailGraPmsDraw *, int, u32);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void BG_SYS_FillScrollArea(u32,u32,u32);
+extern void BG_SYS_ChangeScrollImmediate(u32,u32,u32);
 extern void GAME_BEACON_ACCESSOR_GetFavoriteColorRgb(int a0, int a1);
 extern void PALANM_BlendColors(u16 *,u16 *,u32,int,u16);
 extern void GAME_BEACON_ACCESSOR_GetPlayerName(struct GameBeaconRecord *,void *);
@@ -596,7 +596,7 @@ extern void WORDSET_SetSlotNumber(struct WordSet *,u32,u32,u32,u32,u32);
 extern u8 GAME_BEACON_ACCESSOR_GetNation(const u8 *p);
 extern void WORDSET_SetSlotFromMsgE7(struct WordSet *,u32,u32);
 extern u8 GAME_BEACON_ACCESSOR_GetArea(const u8 *p);
-extern void WORDSET_DeleteMsgdataF094(struct WordSet *,u32,u32,u32);
+extern void WORDSET_SetSlotFromKeyedMessage(struct WordSet *,u32,u32,u32);
 extern u32 GAME_BEACON_ACCESSOR_GetPassCount(const struct GameBeaconRecord *p);
 extern u32 GAME_BEACON_ACCESSOR_GetThanksCount(const struct GameBeaconRecord *p);
 extern u32 PMS_DRAW_IsActive(const struct BeaconDetailGraPmsDraw *,u32);
@@ -931,7 +931,7 @@ void BEACON_DETAIL_GRA_DeleteObjects(char *p)
     STRBUF_Delete(*(struct U16Vec * *)&((struct BeaconDetailGraWork *)p)->textBuf);
     MSGDATA_Delete(*(struct MsgBank * *)&((struct BeaconDetailGraWork *)p)->msgBank2);
     MSGDATA_Delete(*(struct MsgBank * *)&((struct BeaconDetailGraWork *)p)->msgBank);
-    WORDSET_DeleteStrbufED04(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet);
+    WORDSET_Delete(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet);
     GF_FONT_Delete(((struct BeaconDetailGraWork *)p)->font.ptr);
     PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct BeaconDetailGraWork *)p)->printQue);
     PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct BeaconDetailGraWork *)p)->printQue);
@@ -1465,7 +1465,7 @@ void BEACON_DETAIL_GRA_SetNameSlots(void *p,void *q)
 {
     switch(GAME_BEACON_ACCESSOR_GetDetailsType(p)) {
     case 0: case 1:
-        WORDSET_Callback(q,0,GAME_BEACON_ACCESSOR_GetDetailsMonsNo(p)); break;
+        WORDSET_SetSlotSpeciesName(q,0,GAME_BEACON_ACCESSOR_GetDetailsMonsNo(p)); break;
     case 2: {
         unsigned a=GAME_BEACON_ACCESSOR_GetDetailsTrainerNo(p);
         WORDSET_SetSlotPokeData(q,0,a); WORDSET_SetSlotFromMsgBE(q,1,a); break;
@@ -1699,7 +1699,7 @@ void BEACON_DETAIL_GRA_SetSlotVisible(char *p, u8 index, u32 enable)
 /*
  * prototype: 021BCE8C coordinate parameters are signed short: original uses asrs #16 before each call; same-overlay matched caller 021BD448 declares s16.
  */
-void BEACON_DETAIL_GRA_MoveActor(u8*p,int a){BG_SYS_FillScrollArea(p[0x7e],3,-a);BEACON_DETAIL_GRA_SetActorPos(*(void* *)&((struct BeaconDetailGraEntry *)p)->actorB,220,a+44,1);BEACON_DETAIL_GRA_SetActorPos(*(void* *)&((struct BeaconDetailGraEntry *)p)->actorA,200,a+80,1);}
+void BEACON_DETAIL_GRA_MoveActor(u8*p,int a){BG_SYS_ChangeScrollImmediate(p[0x7e],3,-a);BEACON_DETAIL_GRA_SetActorPos(*(void* *)&((struct BeaconDetailGraEntry *)p)->actorB,220,a+44,1);BEACON_DETAIL_GRA_SetActorPos(*(void* *)&((struct BeaconDetailGraEntry *)p)->actorA,200,a+80,1);}
 
 
 
@@ -1735,7 +1735,7 @@ void BEACON_DETAIL_GRA_SetupSlot(char *p,void *record,u16 unused,u8 slot)
     BEACON_DETAIL_GRA_DrawWindowRecord((char *)p,(void **)(q+48),*(int *)&((struct BeaconDetailGraWork *)p)->textBuf2,6,48,13,2,1);
     value=(unsigned)GAME_BEACON_ACCESSOR_GetNation(record);
     WORDSET_SetSlotFromMsgE7(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet,0,value);
-    WORDSET_DeleteMsgdataF094(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet,1,value,GAME_BEACON_ACCESSOR_GetArea(record));
+    WORDSET_SetSlotFromKeyedMessage(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet,1,value,GAME_BEACON_ACCESSOR_GetArea(record));
     BEACON_DETAIL_GRA_PrintMsg((u8 *)p,8);
     BEACON_DETAIL_GRA_DrawWindowRecord((char *)p,(void **)(q+80),*(int *)&((struct BeaconDetailGraWork *)p)->textBuf2,0,0,28,4,0);
     WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet,0,GAME_BEACON_ACCESSOR_GetPassCount(record),5,1,1);
@@ -1830,7 +1830,7 @@ void BEACON_DETAIL_GRA_AddFadeTask(char *owner, int direction, int *counter)
 
 
 
-void BEACON_DETAIL_GRA_Callback(struct TcblNode*task,u8*p){u32 old=p[2]++;if(old<p[1]){((struct BeaconDetailGraFadeTask *)p)->position=((struct BeaconDetailGraFadeTask *)p)->position+((struct BeaconDetailGraFadeTask *)p)->step;BG_SYS_FillScrollArea(1,3,((struct BeaconDetailGraFadeTask *)p)->position);}else{--**(u32* *)&((struct BeaconDetailGraFadeTask *)p)->counter;TCBL_DeleteTask(task);}}
+void BEACON_DETAIL_GRA_Callback(struct TcblNode*task,u8*p){u32 old=p[2]++;if(old<p[1]){((struct BeaconDetailGraFadeTask *)p)->position=((struct BeaconDetailGraFadeTask *)p)->position+((struct BeaconDetailGraFadeTask *)p)->step;BG_SYS_ChangeScrollImmediate(1,3,((struct BeaconDetailGraFadeTask *)p)->position);}else{--**(u32* *)&((struct BeaconDetailGraFadeTask *)p)->counter;TCBL_DeleteTask(task);}}
 
 
 

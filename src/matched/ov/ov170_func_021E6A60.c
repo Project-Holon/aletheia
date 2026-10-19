@@ -15,7 +15,7 @@
  *   BOX2_SEQ_SetSlotActorMode 0x021ECB60 thumb
  *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
  *   BOX2_UI_DeleteSlotObjects 0x021EE038 thumb
- *   FILE_UTIL_Check136C 0x0202136C thumb
+ *   FILE_UTIL_IsMailItem 0x0202136C thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BOX2_SEQ_PrintMessageC 0x021EBB28 thumb
  *   BOX2_MAIN_GetPartyValueAt 0x021DD25C thumb
@@ -24,14 +24,14 @@
  *   BOX2_MAIN_CanPlaceInBox 0x021DD718 thumb
  *   BOX2_MAIN_RecalcPartyParam 0x021DD8A8 thumb
  *   BOX2_SEQ_ShowSlotIcon 0x021EC48C thumb
- *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb
+ *   BOX2_MAIN_RefreshCurrentBoxMonInfo 0x021DEFEC thumb
  *   BOX2_SEQ_SetSlotCharacter 0x021ED094 thumb
  *   BOX2_SEQ_SetActorAffineMode 0x021ED108 thumb
  *   BOX2_SEQ_SetActorAnimSeq 0x021EBFA8 thumb
  *   BOX2_SEQ_SetActorDrawEnable 0x021EC000 thumb
  *   BOX2_SEQ_CreateHandSlotActorsB 0x021ED1C8 thumb
  *   BOX2_SEQ_SetSeqThird 0x021E8FC0 thumb
- *   BOX2_MAIN_Check122C 0x021E122C thumb
+ *   BOX2_MAIN_StateMachineReturnHeld 0x021E122C thumb
  *
  * Drop of a held item onto a slot: put it back when dropped where it was
  * picked up, otherwise swap the two slots' items.
@@ -55,7 +55,7 @@ typedef unsigned char  u8;
 struct Sound;
 extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 extern void BOX2_UI_DeleteSlotObjects(char *p, int a, int b, int c);
-extern unsigned FILE_UTIL_Check136C(unsigned short v);
+extern unsigned FILE_UTIL_IsMailItem(unsigned short v);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern void BOX2_SEQ_PrintMessageC(char *p, int b);
 extern unsigned BOX2_MAIN_GetPartyValueAt(void ***p, unsigned short a, int box, unsigned id, unsigned v);
@@ -64,14 +64,14 @@ extern int BOX2_MAIN_GetMonAt(void ***p, int a, unsigned b);
 extern int BOX2_MAIN_CanPlaceInBox(void **pp, void *mon);
 extern void BOX2_MAIN_RecalcPartyParam(void **pp, u32 idx);
 extern void BOX2_SEQ_ShowSlotIcon(unsigned char *p, int box, int pos, int win);
-extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
+extern void BOX2_MAIN_RefreshCurrentBoxMonInfo(char *p, int b);
 extern void BOX2_SEQ_SetSlotCharacter(char *w, unsigned item);
 extern void BOX2_SEQ_SetActorAffineMode(char *w, int on);
 extern void BOX2_SEQ_SetActorAnimSeq(char *w, int i, int v);
 extern void BOX2_SEQ_SetActorDrawEnable(char *w, int i, int v);
 extern void BOX2_SEQ_CreateHandSlotActorsB(char *w);
 extern int BOX2_SEQ_SetSeqThird(char *p, int a, int b);
-extern int BOX2_MAIN_Check122C(unsigned char *p);
+extern int BOX2_MAIN_StateMachineReturnHeld(unsigned char *p);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 #define OBJ(p) (*(void **)(WORK(p) + 0x70))
@@ -93,7 +93,7 @@ int BOX2_SEQ_StateMoveItemScroll(unsigned char *p)
         BOX2_SEQ_SetSlotActorMode(WORK(p), p[0x16], 0);
         CURSOR_MOVE_SetCurrent(OBJ(p), p[0x16]);
         BOX2_UI_DeleteSlotObjects((char *)p, 0, 1, 1);
-        if (FILE_UTIL_Check136C(ITEM(p)) == 1 && from != p[0x16]) {
+        if (FILE_UTIL_IsMailItem(ITEM(p)) == 1 && from != p[0x16]) {
             GFL_USE_PlaySeDefaultVolume(0x557);
             BOX2_SEQ_PrintMessageC((char *)p, 0x18);
             STATE(p) = 0x44;
@@ -111,7 +111,7 @@ int BOX2_SEQ_StateMoveItemScroll(unsigned char *p)
             BOX2_MAIN_RecalcPartyParam((void **)p, o->idx);
             BOX2_SEQ_ShowSlotIcon(p, p[0x14], o->idx, WIN(p, o->idx));
         }
-        BOX2_MAIN_ChangeBoxFormPreserve((char *)p, o->idx);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p, o->idx);
         CURSOR_MOVE_SetCurrent(OBJ(p), o->idx);
         ITEM(p) = item;
         BOX2_MAIN_SetBoxValueAt((int)p, p[0x16], p[0x17], 6, ITEM(p));
@@ -132,6 +132,6 @@ int BOX2_SEQ_StateMoveItemScroll(unsigned char *p)
         BOX2_SEQ_SetActorDrawEnable(WORK(p), 10, 1);
         BOX2_SEQ_CreateHandSlotActorsB(WORK(p));
         GFL_USE_PlaySeDefaultVolume(0x666);
-        return BOX2_SEQ_SetSeqThird((char *)p, (int)BOX2_MAIN_Check122C, 0x43);
+        return BOX2_SEQ_SetSeqThird((char *)p, (int)BOX2_MAIN_StateMachineReturnHeld, 0x43);
     }
 }

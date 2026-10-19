@@ -1,5 +1,5 @@
 /*
- * function: VIEWER_ACTOR_GetRtcDate
+ * function: VIEWER_ACTOR_LoadBadgeTimers
  * address:  0x021C8208
  * packet:   pkt_ov111_021C8208
  * region:   ov111
@@ -94,7 +94,7 @@ struct Sub020089A8Obj;
 extern unsigned long long TRCARD_SIGN_GetLastBadgeTime(const struct Sub020089A8Obj *obj);
 extern u16 TRCARD_SIGN_GetBadgeTimer(const struct Sub020089A8Obj *obj, u32 i);
 
-void VIEWER_ACTOR_GetRtcDate(Work *p)
+void VIEWER_ACTOR_LoadBadgeTimers(Work *p)
 {
     RTCDate date;
     RTCDate date2;

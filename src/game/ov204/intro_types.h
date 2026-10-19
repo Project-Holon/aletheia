@@ -99,13 +99,13 @@ struct IntroGameState;
 /*
  * The intro args object handed to INTRO_GRAPHIC_Create and stored in the
  * command work at 0x04. The fields used in ov204 are the game state pointer
- * at 0x00, the applied flag pointer handed to CONFIG_SetAppliedFlag at 0x04,
+ * at 0x00, the applied flag pointer handed to CONFIG_SetTextLanguage at 0x04,
  * the intro mode at 0x08, the save control object at 0x0C, a voice id at
  * 0x10 and one more word written by a command handler at 0x14.
  */
 typedef struct IntroArgs {
     struct IntroGameState *gameState; /* 0x00 */
-    void *appliedFlag;          /* 0x04: u16 * for CONFIG_SetAppliedFlag */
+    void *appliedFlag;          /* 0x04: u16 * for CONFIG_SetTextLanguage */
     unsigned int mode;          /* 0x08: intro mode/kind */
     void *saveControl;          /* 0x0C */
     unsigned int voiceId;       /* 0x10: PM_VOICE_Start / IsSlotActive slot */

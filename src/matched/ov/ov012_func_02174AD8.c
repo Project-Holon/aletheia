@@ -1,5 +1,5 @@
 /*
- * function: UNION_MAIN_StepStartBattleSelect
+ * function: UNION_SCENE_StepStartBattleSelect
  * address:  0x02174AD8
  * packet:   pkt_ov012_02174AD8
  * region:   ov012
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 struct Rec;
 void *IRC_BATTLE_TASK_Create(void *a0, void *a1, u32 kind, struct Rec *rec);
 
-u32 UNION_MAIN_StepStartBattleSelect(void *a0, u8 *a1, void *a2, void *a3, u32 a4, void **out, u8 *state)
+u32 UNION_SCENE_StepStartBattleSelect(void *a0, u8 *a1, void *a2, void *a3, u32 a4, void **out, u8 *state)
 {
     u8 *q = a1 + 0x2830;
     if (*state == 0) {

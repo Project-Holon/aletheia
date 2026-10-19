@@ -116,7 +116,7 @@ typedef struct GateWork {
     u8 newsCount;                       /* 0x24 */
     u8 pad25[3];
     GateMessageLog messageLog;          /* 0x28 */
-    u16 miscSaveValue;                  /* 0x64: mirrored in the misc save */
+    u16 gatePoints;                  /* 0x64: mirrored in the misc save */
     u16 pad66;
 } GateWork;
 
@@ -124,7 +124,7 @@ typedef struct GateWork {
 typedef struct GateSave {
     s32 initialized;                    /* 0x00 */
     s32 scrollPos;                      /* 0x04 */
-    u16 miscSaveValue;                  /* 0x08 */
+    u16 gatePoints;                  /* 0x08 */
     u16 pad0A;
     GateMessageLog messageLog;          /* 0x0C */
 } GateSave;

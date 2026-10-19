@@ -423,3 +423,20 @@ have no names either (vendor asm).
 
 Function names corrected on evidence in the same wave are listed in the README
 (Source cleanup, wave 15).
+
+## Meaning audit (wave 16, 2026-10-19)
+
+`tools/namecheck.py` flags names to read against their bodies: offset names (`GetField1C`,
+`Check09E0`), verbs the callees contradict (a Get/Is/Check that calls state-changing functions,
+an Add that only removes), and prefixes of another module. Thirteen read-only lanes read the
+flagged functions and skimmed the rest, and wrote rename maps with one sentence of evidence
+per row; the integrator merged the maps (no conflicts after one spelling choice for the
+GF_STANDARD helpers) and applied 580 renames with `tools/sdkrename.py`, in src/game and in the
+src/matched evidence store so names agree with the manifests. Struct fields with the same kind
+of error were renamed per struct (17). Names the lanes thought vague but could not prove wrong
+were left; they are in the lane reports, not guessed.
+
+`tools/xovcheck.py` flags header rows that may name the wrong overlay's function: overlays share
+the address space, so an address holds different functions in different overlays. A per-file
+verify cannot see this (relocations are wildcarded); only the region link resolves the real
+callee. 13 of 18 flagged rows were wrong and are fixed; the others are documented as correct.

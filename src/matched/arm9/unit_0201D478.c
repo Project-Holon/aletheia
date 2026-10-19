@@ -10,7 +10,7 @@
  * status:   EXACT
  * function: GF_FONT_CountControlTag
  *
- * Counts the control tags of a message string for which GF_FONT_CheckD5CC returns
+ * Counts the control tags of a message string for which GF_FONT_IsWordSlotTag returns
  * true.  The walk is the one every routine in this neighbourhood uses: 0xF000
  * opens a tag and GF_FONT_SkipTag steps over it, anything else is one halfword,
  * and 0xFFFF ends the string.
@@ -29,7 +29,7 @@
  *
  * symbols:
  *   STRBUF_GetChars  0x02045A90  arm
- *   GF_FONT_CheckD5CC  0x0201D5CC  thumb
+ *   GF_FONT_IsWordSlotTag  0x0201D5CC  thumb
  *   GF_FONT_SkipTag  0x0201D688  thumb
  */
 
@@ -39,7 +39,7 @@ typedef unsigned int   u32;
 
 struct U16Vec;
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
-extern u32  GF_FONT_CheckD5CC(const u16 *p);
+extern u32  GF_FONT_IsWordSlotTag(const u16 *p);
 extern u16 *GF_FONT_SkipTag(u16 *p);
 
 u32 GF_FONT_CountControlTag(void *s)
@@ -51,7 +51,7 @@ u32 GF_FONT_CountControlTag(void *s)
 
     while (p[0] != 0xFFFF) {
         if (p[0] == 0xF000) {
-            if (GF_FONT_CheckD5CC(p) != 0) {
+            if (GF_FONT_IsWordSlotTag(p) != 0) {
                 n = (u16)(n + 1);
             }
             p = GF_FONT_SkipTag(p);

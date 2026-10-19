@@ -1,5 +1,5 @@
 /*
- * function: UNION_MAIN_StepPlayEffectAtFixedSpot
+ * function: UNION_SCENE_StepWarpToZone1A6
  * address:  0x021746FC
  * packet:   pkt_ov012_021746FC
  * region:   ov012
@@ -24,7 +24,7 @@ typedef struct {
 typedef unsigned short u16;
 extern void *EVENT_MAPCHANGE_CreateWarpEvent(void *p, int unused, int a, const int *q, u16 s, int t);
 
-int UNION_MAIN_StepPlayEffectAtFixedSpot(int a, int b, int c, int d, int e, int *out, u8 *cnt)
+int UNION_SCENE_StepWarpToZone1A6(int a, int b, int c, int d, int e, int *out, u8 *cnt)
 {
     P s;
     int z;

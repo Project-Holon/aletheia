@@ -14,7 +14,7 @@
  *   BOX2_MAIN_ChangeFormAndRegister 0x021DD6E8 thumb ov170
  *   BOX2_MAIN_RecalcPartyParam 0x021DD8A8 thumb ov170
  *   BOX2_SEQ_ShowSlotIcon 0x021EC48C thumb ov170
- *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb ov170
+ *   BOX2_MAIN_RefreshCurrentBoxMonInfo 0x021DEFEC thumb ov170
  */
 #include "../include/Obj00000.h"
 extern unsigned BOX2_MAIN_GetPartyValueAt(void ***,unsigned short,unsigned short,unsigned,unsigned);
@@ -23,7 +23,7 @@ extern void BOX2_MAIN_ChangeFormAndRegister(void **,void *,unsigned);
 typedef unsigned int   u32;
 extern void BOX2_MAIN_RecalcPartyParam(void **pp, u32 idx);
 extern void BOX2_SEQ_ShowSlotIcon(unsigned char *p, int box, int pos, int win);
-extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
+extern void BOX2_MAIN_RefreshCurrentBoxMonInfo(char *p, int b);
 void BOX2_MAIN_MoveMonIntoBox(unsigned char *p,unsigned a,unsigned b,unsigned box)
 {
     if(a<30 && b<30) return;
@@ -35,5 +35,5 @@ void BOX2_MAIN_MoveMonIntoBox(unsigned char *p,unsigned a,unsigned b,unsigned bo
     BOX2_MAIN_RecalcPartyParam((void **)p,a);
     if(box==p[0x14])
         BOX2_SEQ_ShowSlotIcon(p,box,a,*(unsigned char *)(*(char * *)&((struct Obj00000 *)p)->f2C+a+0x3dd2));
-    if(p[0x16]==a) BOX2_MAIN_ChangeBoxFormPreserve((char *)p,a);
+    if(p[0x16]==a) BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p,a);
 }

@@ -52,7 +52,7 @@
  *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   GFL_USE_IsSeqPlaying  0x02006254  thumb
  *   TCBL_Create  0x0203101C  arm
  *   d_02172A50     0x02172A50  data
@@ -72,7 +72,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   PRINTSYS_PrintStreamGetState  0x0201CE30  thumb
  *   PRINTSYS_PrintStreamShortWait  0x0201CE5C  thumb
  *   PRINTSYS_PrintStreamReleasePause  0x0201CE38  thumb
@@ -266,7 +266,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 seNo);
 extern WordSet *WORDSET_CreateDefault(u32 heapId);
 extern void WORDSET_SetSlotMyStatus(WordSet *wordSet, u32 index, MyStatus *myStatus);
 extern void WORDSET_CopyTaggedText(WordSet *wordSet, Strbuf *dest, Strbuf *src);
-extern void WORDSET_DeleteStrbufED04(WordSet *wordSet);
+extern void WORDSET_Delete(WordSet *wordSet);
 extern int GFL_USE_IsSeqPlaying(u32 seNo);
 extern void PRINTSYS_QUE_Delete(PrintQue *printQue);
 extern void APP_KEYCURSOR_Delete(AppKeyCursor *keyCursor);
@@ -284,7 +284,7 @@ extern PrintStream *PRINTSYS_PrintStream(BmpWin *bmpWin, u32 x, u32 y, Strbuf *s
 extern void BMP_WIN_TransferChars(BmpWin *bmpWin);
 extern void BMP_WIN_MakeScreen(BmpWin *bmpWin);
 extern u8 BMP_WIN_GetBgLayer(BmpWin *bmpWin);
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 extern u32 PRINTSYS_PrintStreamGetState(PrintStream *stream);
 extern void PRINTSYS_PrintStreamShortWait(PrintStream *stream, int wait);
 extern void PRINTSYS_PrintStreamReleasePause(PrintStream *stream);
@@ -450,7 +450,7 @@ int REPORT_EVENT_Main(ReportEventWork *w, u32 *state)
             WORDSET_SetSlotMyStatus(wordSet, 0, GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(w->gameSystem)));
             WORDSET_CopyTaggedText(wordSet, w->res->message, message);
             STRBUF_Delete(message);
-            WORDSET_DeleteStrbufED04(wordSet);
+            WORDSET_Delete(wordSet);
             REPORT_EVENT_StartPrintStream(w);
             TIME_ICON_Delete(w->res->timeIcon);
             *state = REPORT_EVENT_STATE_WAIT_SAVED_MSG;
@@ -555,7 +555,7 @@ void REPORT_EVENT_StartPrintStream(ReportEventWork *w)
     bmpWin = w->res->window.bmpWin;
     BMP_WIN_TransferChars(bmpWin);
     BMP_WIN_MakeScreen(bmpWin);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(bmpWin));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(bmpWin));
 }
 
 /* Advances the print stream; A, B or a touch speeds it up and continues after a pause. Returns 0 once it has finished. */
@@ -617,7 +617,7 @@ void REPORT_EVENT_QueueMessage(ReportEventWork *w, u32 msgIndex)
     bmpWin = w->res->window.bmpWin;
     BMP_WIN_TransferChars(bmpWin);
     BMP_WIN_MakeScreen(bmpWin);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(bmpWin));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(bmpWin));
 }
 
 /* Runs the print queue and transfers the window once its job is done. Returns the queue's finished flag. */

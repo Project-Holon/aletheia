@@ -1,7 +1,7 @@
 /*
  * file:     event_poke_status.c
  * unit:     yes
- * function: EVENT_POKE_STATUS_CreatePokeSelectEvent, EVENT_POKE_STATUS_CreatePokeSelectMoveEvent, EVENT_POKE_STATUS_CreatePokeSelectStatusEvent, EVENT_POKE_STATUS_PokeSelectEvent, EVENT_POKE_STATUS_CreateMoveSelectEvent, EVENT_POKE_STATUS_MoveSelectEvent, EVENT_POKE_STATUS_SetTrainerRecord, EVENT_POKE_STATUS_NormalizeTicks, EVENT_POKE_STATUS_AddMs3000, EVENT_POKE_STATUS_AddMs5000, EVENT_POKE_STATUS_IsMs5000, EVENT_POKE_STATUS_IsRecordField2Set, EVENT_POKE_STATUS_GetRecordField2, EVENT_POKE_STATUS_CheckFlag, EVENT_POKE_STATUS_SetFlag, EVENT_POKE_STATUS_ResetFlag
+ * function: EVENT_POKE_STATUS_CreatePokeSelectEvent, EVENT_POKE_STATUS_CreatePokeSelectMoveEvent, EVENT_POKE_STATUS_CreatePokeSelectStatusEvent, EVENT_POKE_STATUS_PokeSelectEvent, EVENT_POKE_STATUS_CreateMoveSelectEvent, EVENT_POKE_STATUS_MoveSelectEvent, EVENT_TRAINER_SetScriptTrainerEntry, EVENT_TRAINER_GetTrainerIdFromScriptId, EVENT_TRAINER_GetPrimaryScriptId, EVENT_TRAINER_GetSecondaryScriptId, EVENT_TRAINER_IsSecondaryScriptId, EVENT_TRAINER_IsDoubleBattle, EVENT_TRAINER_GetBattleType, EVENT_TRAINER_CheckDefeatedFlag, EVENT_TRAINER_SetDefeatedFlag, EVENT_TRAINER_ClearDefeatedFlag
  * address:  0x0215A07C
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -306,7 +306,7 @@ int EVENT_POKE_STATUS_MoveSelectEvent(void *event, u32 *seq, MoveSelectEventWork
     return 0;
 }
 
-void EVENT_POKE_STATUS_SetTrainerRecord(int scrcmdWork, int index, RecordHead24 *src)
+void EVENT_TRAINER_SetScriptTrainerEntry(int scrcmdWork, int index, RecordHead24 *src)
 {
     int *entry = (int *)SCRIPT_WORK_GetTrainerEntry((char *)SCRIPT_SYS_GetEventScriptWork(scrcmdWork), index);
 
@@ -319,30 +319,30 @@ void EVENT_POKE_STATUS_SetTrainerRecord(int scrcmdWork, int index, RecordHead24 
  *
  * Addresses are Black-image addresses.
  */
-u32 EVENT_POKE_STATUS_NormalizeTicks(u32 ticks)
+u32 EVENT_TRAINER_GetTrainerIdFromScriptId(u32 ticks)
 {
     if (ticks < 5000)
         return (u16)(ticks - 3000);
     return (u16)(ticks - 5000);
 }
 
-u16 EVENT_POKE_STATUS_AddMs3000(unsigned id) { return id + 3000; }
+u16 EVENT_TRAINER_GetPrimaryScriptId(unsigned id) { return id + 3000; }
 
 /*
- * extent: includes unlabelled range-test EVENT_POKE_STATUS_IsMs5000; function-start seed.
+ * extent: includes unlabelled range-test EVENT_TRAINER_IsSecondaryScriptId; function-start seed.
  */
-u16 EVENT_POKE_STATUS_AddMs5000(unsigned id) { return id + 5000; }
+u16 EVENT_TRAINER_GetSecondaryScriptId(unsigned id) { return id + 5000; }
 
-int EVENT_POKE_STATUS_IsMs5000(unsigned id) { if (id >= 5000) return 1; return 0; }
+int EVENT_TRAINER_IsSecondaryScriptId(unsigned id) { if (id >= 5000) return 1; return 0; }
 
-int EVENT_POKE_STATUS_IsRecordField2Set(int saveData)
+int EVENT_TRAINER_IsDoubleBattle(int saveData)
 {
     if (TPOKE_DATA_GetRecordField((void *)saveData, 2) == 1)
         return 1;
     return 0;
 }
 
-int EVENT_POKE_STATUS_GetRecordField2(int saveData)
+int EVENT_TRAINER_GetBattleType(int saveData)
 {
     return (u8)TPOKE_DATA_GetRecordField((void *)saveData, 2);
 }
@@ -350,8 +350,8 @@ int EVENT_POKE_STATUS_GetRecordField2(int saveData)
 /*
  * interface: original narrows r1 by shift pairs; u16 extern preserves this.
  */
-unsigned EVENT_POKE_STATUS_CheckFlag(void *flagSet, unsigned flagOffset) { return ZONEDATA_CheckEventFlag(flagSet, (u16)(flagOffset + 1420)); }
+unsigned EVENT_TRAINER_CheckDefeatedFlag(void *flagSet, unsigned flagOffset) { return ZONEDATA_CheckEventFlag(flagSet, (u16)(flagOffset + 1420)); }
 
-void EVENT_POKE_STATUS_SetFlag(char *flagSet, unsigned flagOffset) { ZONEDATA_SetEventFlag(flagSet, (u16)(flagOffset + 1420)); }
+void EVENT_TRAINER_SetDefeatedFlag(char *flagSet, unsigned flagOffset) { ZONEDATA_SetEventFlag(flagSet, (u16)(flagOffset + 1420)); }
 
-void EVENT_POKE_STATUS_ResetFlag(char *flagSet, unsigned flagOffset) { ZONEDATA_ResetEventFlag(flagSet, (u16)(flagOffset + 1420)); }
+void EVENT_TRAINER_ClearDefeatedFlag(char *flagSet, unsigned flagOffset) { ZONEDATA_ResetEventFlag(flagSet, (u16)(flagOffset + 1420)); }

@@ -12,13 +12,13 @@
  * symbols:
  *   BOX2_MAIN_IsWrappedDistance 0x021DD210 thumb
  *   BOX2_SEQ_LoadMonIcon 0x021EC35C thumb
- *   BOX2_MAIN_GetBoxFormId 0x021DEDCC thumb
+ *   BOX2_MAIN_GetBoxWallpaper 0x021DEDCC thumb
  *   BOX2_MAIN_SetBoxScroll 0x021DEC98 thumb
  *   BOX2_SEQ_SetCursorFrame 0x021ED544 thumb
- *   BOX2_MAIN_PlaceTargetMonScene 0x021DEA4C thumb
- *   BOX2_MAIN_IsSeqIdle 0x021E00C4 thumb
- *   BOX2_MAIN_IsSeqStep 0x021E0128 thumb
- *   BOX2_MAIN_IsMoveScene 0x021DEB08 thumb ov170
+ *   BOX2_MAIN_StartHandMotionToTargetBoxSlot 0x021DEA4C thumb
+ *   BOX2_MAIN_StepScrollToPrevBox 0x021E00C4 thumb
+ *   BOX2_MAIN_StepScrollToNextBox 0x021E0128 thumb
+ *   BOX2_MAIN_StepHandMotionToSlotB 0x021DEB08 thumb ov170
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BOX2_SEQ_SetActorAffineMode 0x021ED108 thumb
  *   BOX2_SEQ_SetActorAnimSeq 0x021EBFA8 thumb
@@ -33,13 +33,13 @@ typedef struct {
 
 extern int BOX2_MAIN_IsWrappedDistance(unsigned char *p, unsigned a, unsigned b);
 extern void BOX2_SEQ_LoadMonIcon(char **p, int box);
-extern int BOX2_MAIN_GetBoxFormId(char *p, int box);
+extern int BOX2_MAIN_GetBoxWallpaper(char *p, int box);
 extern void BOX2_MAIN_SetBoxScroll(char *p, void *a, int dir);
 extern void BOX2_SEQ_SetCursorFrame(char *p, int b);
-extern void BOX2_MAIN_PlaceTargetMonScene(char *p, int a, int b);
-extern int BOX2_MAIN_IsSeqIdle(char *p);
-extern int BOX2_MAIN_IsSeqStep(char *p);
-extern int BOX2_MAIN_IsMoveScene(unsigned char *p);
+extern void BOX2_MAIN_StartHandMotionToTargetBoxSlot(char *p, int a, int b);
+extern int BOX2_MAIN_StepScrollToPrevBox(char *p);
+extern int BOX2_MAIN_StepScrollToNextBox(char *p);
+extern int BOX2_MAIN_StepHandMotionToSlotB(unsigned char *p);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern void BOX2_SEQ_SetActorAffineMode(char *p, int on);
 extern void BOX2_SEQ_SetActorAnimSeq(char *p, int i, int v);
@@ -58,7 +58,7 @@ int BOX2_SEQ_StateMenuMain(unsigned char *p)
             int dir = BOX2_MAIN_IsWrappedDistance(p, p[0x14], p[0x17]);
             p[0x14] = p[0x17];
             BOX2_SEQ_LoadMonIcon((char **)p, p[0x14]);
-            BOX2_MAIN_SetBoxScroll((char *)p, (void *)BOX2_MAIN_GetBoxFormId((char *)p, p[0x14]), dir);
+            BOX2_MAIN_SetBoxScroll((char *)p, (void *)BOX2_MAIN_GetBoxWallpaper((char *)p, p[0x14]), dir);
             if (dir == 0)
                 b->state = 2;
             else
@@ -67,19 +67,19 @@ int BOX2_SEQ_StateMenuMain(unsigned char *p)
         }
     case 1:
         BOX2_SEQ_SetCursorFrame((char *)p, 7);
-        BOX2_MAIN_PlaceTargetMonScene((char *)p, *(unsigned short *)(WORK(p) + 0xA16E), 2);
+        BOX2_MAIN_StartHandMotionToTargetBoxSlot((char *)p, *(unsigned short *)(WORK(p) + 0xA16E), 2);
         b->state = 4;
         break;
     case 2:
-        if (BOX2_MAIN_IsSeqIdle((char *)p) == 0)
+        if (BOX2_MAIN_StepScrollToPrevBox((char *)p) == 0)
             b->state = 1;
         break;
     case 3:
-        if (BOX2_MAIN_IsSeqStep((char *)p) == 0)
+        if (BOX2_MAIN_StepScrollToNextBox((char *)p) == 0)
             b->state = 1;
         break;
     case 4:
-        if (BOX2_MAIN_IsMoveScene(p) == 0) {
+        if (BOX2_MAIN_StepHandMotionToSlotB(p) == 0) {
             GFL_USE_PlaySeDefaultVolume(0x667);
             b->state = 5;
         }

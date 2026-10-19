@@ -1,5 +1,5 @@
 /*
- * function: EVENT_FIELD_PROCLINK_IsAnimFlagSet
+ * function: EVENT_FIELD_PROCLINK_IsHopAnimDone
  * address:  0x02161B74
  * packet:   pkt_02161B74
  * region:   ov010
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 extern int FLDMMDL_ACMD_ListCheckEnd();
 extern int FLDMMDL_ACMD_ListDelete();
 
-int EVENT_FIELD_PROCLINK_IsAnimFlagSet(int a0)
+int EVENT_FIELD_PROCLINK_IsHopAnimDone(int a0)
 {
     int t4;
 

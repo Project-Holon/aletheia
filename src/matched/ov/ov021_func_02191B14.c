@@ -21,7 +21,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_Delete  0x020452E8  arm
  *   BG_SYS_PushTile  0x020409B4  arm
- *   BG_SYS_FillScrollArea  0x02040618  arm
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm
  *   BMP_Delete  0x020437AC  arm
  *   STRBUF_Delete  0x02045808  arm
  *   FIELD_MSGBG_ExitCursor  0x021927E8  thumb  ov021
@@ -47,7 +47,7 @@ extern void BG_SYS_SetTileEntry(u32 layer, u32 tile, u32 x, u32 y, u32 w, u32 h,
 extern void BMP_WIN_TransferChars(struct Descriptor *w);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BG_SYS_PushTile(u32 layer);
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 extern void BMP_Delete(struct Obj020437AC *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void FIELD_MSGBG_ExitCursor(u32 *p);
@@ -75,7 +75,7 @@ void FIELD_MSGBG_DeleteBgWin(u32 *a)
     BMP_WIN_TransferChars((struct Descriptor *)a[1]);
     BMP_WIN_Delete((struct Descriptor *)a[1]);
     BG_SYS_PushTile((u8)((u16 *)a[0])[1]);
-    BG_SYS_FillScrollArea((u8)((u16 *)a[0])[1], 3, 0);
+    BG_SYS_ChangeScrollImmediate((u8)((u16 *)a[0])[1], 3, 0);
     BMP_Delete((struct Obj020437AC *)a[3]);
     BMP_Delete((struct Obj020437AC *)a[2]);
     if (a[5] != 0) {

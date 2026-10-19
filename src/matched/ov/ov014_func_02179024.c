@@ -1,5 +1,5 @@
 /*
- * function: WIH_GetMeasureChannel
+ * function: WIH_FinishMeasureChannel
  * address: 0x02179024
  * packet: pkt_ov014_02179024
  * region: ov014
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 extern struct S *gWihWork;
 extern void WIH_ChangeSysState(int);
 extern int WIH_PickRandomChannel(u16);
-u16 WIH_GetMeasureChannel(void) {
+u16 WIH_FinishMeasureChannel(void) {
  WIH_ChangeSysState(1);
  *(u16 *)(((u8 *)gWihWork) + 0x1EAC) = WIH_PickRandomChannel(*(u16 *)(((u8 *)gWihWork) + 0x1EB0));
  return *(u16 *)(((u8 *)gWihWork) + 0x1EAC);

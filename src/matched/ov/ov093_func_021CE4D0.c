@@ -39,7 +39,7 @@
  *   BTL_MAIN_IsRecordEnabledInComm 0x021BA1EC thumb ov093
  *   BTL_MAIN_GetCompetitorKind 0x021B86E4 thumb ov093
  *   BTL_CLIENT_GetSlotFlag 0x021CF43C thumb ov093
- *   BTL_CALC_ActionGetKind 0x021D8454 thumb ov093
+ *   BTL_ACTION_GetKind 0x021D8454 thumb ov093
  *   func_021CE7C4 0x021CE7C4 thumb ov093
  *   BTL_CLIENT_FlushSlotLinkWord 0x021CF3B8 thumb ov093
  *   BTLV_CORE_IsMenuClosed 0x021E9974 thumb ov093
@@ -81,7 +81,7 @@ extern void BTL_CLIENT_SetSlotFlag(u8 *, u32, u32);
 extern int BTL_MAIN_IsRecordEnabledInComm(char **p);
 extern int BTL_MAIN_GetCompetitorKind(unsigned int **p);
 extern u8 BTL_CLIENT_GetSlotFlag(u8 *, u32);
-extern u32 BTL_CALC_ActionGetKind(u32 *);
+extern u32 BTL_ACTION_GetKind(u32 *);
 extern void func_021CE7C4(u8 *);
 extern void BTL_CLIENT_FlushSlotLinkWord(u8 *, u32);
 extern int BTLV_CORE_IsMenuClosed(u32);
@@ -177,9 +177,9 @@ int BTL_CLIENT_StepSelectAction(u8 *p, u32 *st)
                 --Q->idx;
                 if (!BTL_CLIENT_IsActionForced(p, BTL_SIDE_GetClientPokeParam(P(4), Q->sel, Q->idx), 0)) {
                     p[0x1AB] += BTL_CLIENT_GetSlotFlag(p, p[0x11D]);
-                    if (BTL_CALC_ActionGetKind((u32 *)(p + 0x124 + p[0x11D] * 4)) == 3)
+                    if (BTL_ACTION_GetKind((u32 *)(p + 0x124 + p[0x11D] * 4)) == 3)
                         func_021CE7C4(p + 0x190);
-                    if (BTL_CALC_ActionGetKind((u32 *)(p + 0x124 + p[0x11D] * 4)) == 2)
+                    if (BTL_ACTION_GetKind((u32 *)(p + 0x124 + p[0x11D] * 4)) == 2)
                         BTL_CLIENT_FlushSlotLinkWord(p, p[0x11D]);
                     BTL_CLIENT_SetSubFn(p, (void *)((u32)BTL_CLIENT_StepSelectAction));
                     return 0;

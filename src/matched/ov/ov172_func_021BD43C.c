@@ -35,7 +35,7 @@
  *   WIPE_SYS_EndCheck  0x020221A4  thumb  arm9
  *   TCBL_Main  0x020310C4  arm  arm9
  *   CLACT_DrawSystem  0x0204A600  arm  arm9
- *   BG_SYS_FillScrollArea  0x02040618  arm  arm9
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm  arm9
  */
 
 typedef unsigned char  u8;
@@ -62,7 +62,7 @@ extern void CLACT_DrawSystem(void);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void TCBL_Main(struct Tcbl *p);
 extern u32  func_02005728(u32 v);
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 extern s16 FX_SinCosTable_[];
 
@@ -121,7 +121,7 @@ int CTVT_CALL_WorkMain(char *ctx)
         NNS_GfdRegisterNewVramTransferTask((void *)0x1f, 0x40, (u32)(ctx + 0x3c + pal * 32), 0x20);
     }
     TCBL_Main((struct Tcbl *)F(0x1d8));
-    BG_SYS_FillScrollArea(1, 0, func_02005728(0x100));
-    BG_SYS_FillScrollArea(1, 3, func_02005728(0x100));
+    BG_SYS_ChangeScrollImmediate(1, 0, func_02005728(0x100));
+    BG_SYS_ChangeScrollImmediate(1, 3, func_02005728(0x100));
     return 0;
 }

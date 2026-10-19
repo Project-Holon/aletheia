@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   GFL_USE_IsBgmFading 0x02005E50 thumb
- *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_SetBgmPaused 0x02005DE4 thumb
  *   GFL_USE_PushBgm 0x02005E64 thumb
  *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
  *   GFL_USE_PopBgm 0x02005E9C thumb
@@ -20,7 +20,7 @@
 typedef struct Task {char *owner;unsigned reserved;unsigned char done,a,b,mode;int channel,start,end;} Task;
 struct TcblNode;
 extern int GFL_USE_IsBgmFading(void);
-extern void GFL_USE_SetBgmPlayerParam(void *);
+extern void GFL_USE_SetBgmPaused(void *);
 extern int GFL_USE_PushBgm(void),GFL_USE_PopBgm(void);
 typedef unsigned int   u32;
 extern void GFL_USE_CancelChangeAndStopBgm(void);
@@ -35,10 +35,10 @@ void DEMO3D_DATA_BgmFadeMain(struct TcblNode *node,Task *t)
         ++t->done;
     case 1:
         if(t->a){
-            if((unsigned char)t->owner[25]==0){GFL_USE_SetBgmPlayerParam((void *)1);GFL_USE_PushBgm();t->owner[25]=1;}
+            if((unsigned char)t->owner[25]==0){GFL_USE_SetBgmPaused((void *)1);GFL_USE_PushBgm();t->owner[25]=1;}
         }else {GFL_USE_CancelChangeAndStopBgm();if(t->mode==1)break;}
         if(t->b){
-            if((unsigned char)t->owner[25]!=0){GFL_USE_PopBgm();GFL_USE_SetBgmPlayerParam(0);t->owner[25]=0;}
+            if((unsigned char)t->owner[25]!=0){GFL_USE_PopBgm();GFL_USE_SetBgmPaused(0);t->owner[25]=0;}
         }else {GFL_USE_CancelChangeAndPlayBgm(t->channel,0xffff);}
         if(t->end!=0)GFL_USE_FadeInBgmFull((unsigned short)t->end);
         break;

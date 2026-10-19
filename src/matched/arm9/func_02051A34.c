@@ -1,5 +1,5 @@
 /*
- * function: BUTTON_MAN_GetUserData
+ * function: PARTICLE_EMITTER_GetUserData
  * address:  0x02051A34
  * packet:   pkt_02051A34
  * region:   arm9
@@ -16,7 +16,7 @@
  */
 #include "../include/Obj16193.h"
 
-int BUTTON_MAN_GetUserData(void *p)
+int PARTICLE_EMITTER_GetUserData(void *p)
 {
     return ((struct Obj16193 *)p)->f94;
 }

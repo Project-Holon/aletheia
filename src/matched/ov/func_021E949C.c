@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   BOX2_MAIN_UpdateWindowFrame  0x021DD090  thumb  ov170
+ *   BOX2_MAIN_SetupWindowFrameFade  0x021DD090  thumb  ov170
  *
  * Forward, then store the third argument at 0x28.
  */
@@ -18,10 +18,10 @@
 
 
 
-extern void BOX2_MAIN_UpdateWindowFrame(char *, int);
+extern void BOX2_MAIN_SetupWindowFrameFade(char *, int);
 int BOX2_SEQ_GotoBox2Main(char *p, int a, int b)
 {
-    BOX2_MAIN_UpdateWindowFrame(p, a);
+    BOX2_MAIN_SetupWindowFrameFade(p, a);
     ((struct Obj00000 *)p)->f28 = b;
     return 8;
 }

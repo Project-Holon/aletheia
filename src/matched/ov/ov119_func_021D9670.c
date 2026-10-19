@@ -11,8 +11,8 @@
  *   POKETRADE_PROC_IsNetSession 0x021D8A24 thumb ov119
  *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
  *   POKETRADE_PROC_IsSelfMonReady 0x021D94D4 thumb ov119
- *   POKETRADE_PROC_IsHostSideAlt 0x021D95D0 thumb ov119
- *   POKETRADE_PROC_IsGuestSide 0x021D95F0 thumb ov119
+ *   POKETRADE_PROC_IsCurrentSideMonInvalid 0x021D95D0 thumb ov119
+ *   POKETRADE_PROC_IsOtherSideMonInvalid 0x021D95F0 thumb ov119
  *   POKETRADE_PROC_IsMonTradeable 0x021D9610 thumb ov119
  *   POKETRADE_SAVE_IsMessagePrintDone 0x021E12AC thumb ov119
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
@@ -29,8 +29,8 @@ extern int POKETRADE_PROC_IsNetSession(void *p);
 extern void POKETRADE_PROC_SetStep(void *p, int v);
 struct Entry;
 extern int POKETRADE_PROC_IsSelfMonReady(char *p);
-extern int POKETRADE_PROC_IsHostSideAlt(void *p);
-extern u32 POKETRADE_PROC_IsGuestSide(void *p);
+extern int POKETRADE_PROC_IsCurrentSideMonInvalid(void *p);
+extern u32 POKETRADE_PROC_IsOtherSideMonInvalid(void *p);
 extern int POKETRADE_PROC_IsMonTradeable(unsigned char *p);
 extern int POKETRADE_SAVE_IsMessagePrintDone(char *p);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
@@ -51,10 +51,10 @@ void POKETRADE_PROC_BuildPartyPacket(char *p)
         if (POKETRADE_PROC_IsSelfMonReady(p)) {
             b[4] = 5;
             r = GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0xc00, 1, (u32)(&b[4]));
-        } else if (POKETRADE_PROC_IsHostSideAlt(p)) {
+        } else if (POKETRADE_PROC_IsCurrentSideMonInvalid(p)) {
             b[3] = 7;
             r = GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0xc00, 1, (u32)(&b[3]));
-        } else if (POKETRADE_PROC_IsGuestSide(p)) {
+        } else if (POKETRADE_PROC_IsOtherSideMonInvalid(p)) {
             b[2] = 8;
             r = GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0xc00, 1, (u32)(&b[2]));
         } else if (POKETRADE_PROC_IsMonTradeable((unsigned char *)p)) {

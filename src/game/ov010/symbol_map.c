@@ -21,7 +21,7 @@
  *   COMM_PLAYER_GetState849  0x021673C4  thumb  ov010
  *   COMM_PLAYER_GetState848  0x021673A8  thumb  ov010
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
- *   INTRUDE_COMM_GetPartnerRecord  0x02176880  thumb  ov011
+ *   INTRUDE_COMM_GetPartnerSymbolPage  0x02176880  thumb  ov011
  *   g_SymbolMapGridTable 0x02171EF4 data a4
  *   GAME_DATA_GetSymbolMapFlag  0x02012FB0  thumb
  *   GFL_HEAP_Alloc  0x02030734  arm
@@ -97,10 +97,10 @@
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetWeather  0x02188C6C  thumb  ov021
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
- *   ISS_SWITCH_GetSubscreenMode  0x0202C794  thumb
+ *   WEATHER_GetZoneWeatherId  0x0202C794  thumb
  *   WEATHER_RequestChangeNoFade  0x021A1BE4  thumb  ov021
  *   WEATHER_RequestChange  0x021A1BDC  thumb  ov021
- *   GAME_DATA_SetSubscreenMode  0x020129A0  thumb
+ *   GAME_DATA_SetWeatherId  0x020129A0  thumb
  *   GFL_USE_ClearVBlankHook  0x0200566C  thumb  arm9
  */
 #include "symbol_map_shared_types.h"
@@ -248,7 +248,7 @@ extern u8 COMM_PLAYER_GetState848(u8 *saveData);
 
 extern int INTRUDE_COMM_GetWorkIfRunning(int comm);
 
-extern u8 *INTRUDE_COMM_GetPartnerRecord(u8 *link);
+extern u8 *INTRUDE_COMM_GetPartnerSymbolPage(u8 *link);
 
 extern int GAME_DATA_GetSymbolMapFlag(u8 *gameData);
 
@@ -376,13 +376,13 @@ extern u32 FIELDMAP_GetWeather(u8 *fieldMap);
 
 extern u16 FIELDMAP_GetZoneId(u8 *fieldMap);
 
-extern u8 ISS_SWITCH_GetSubscreenMode(void *gameSystem, u32 zoneId);
+extern u8 WEATHER_GetZoneWeatherId(void *gameSystem, u32 zoneId);
 
 extern void WEATHER_RequestChangeNoFade(int a, int b);
 
 extern void WEATHER_RequestChange(int a, int b);
 
-extern void GAME_DATA_SetSubscreenMode(struct GameData *gameData, u8 mode);
+extern void GAME_DATA_SetWeatherId(struct GameData *gameData, u8 mode);
 
 u8 SYMBOL_MAP_FindGridIndex();
 
@@ -614,7 +614,7 @@ int SYMBOL_MAP_GetSelection(void *gameSystem, u32 *outSymbolIndex, u32 *outSymbo
         *outSymbolGroup = 0;
         return 0;
     }
-    record = (SymbolMapLinkRecord *)INTRUDE_COMM_GetPartnerRecord(comm);
+    record = (SymbolMapLinkRecord *)INTRUDE_COMM_GetPartnerSymbolPage(comm);
     *outSymbolIndex = record->symbolIndex;
     *outSymbolGroup = record->symbolGroup;
     return 1;
@@ -679,7 +679,7 @@ SymbolMapLinkRecord *SYMBOL_MAP_CreateLinkRecord(u16 heapId, void *gameSystem, u
     if (partnerLink == 0)
         return 0;
     record = GFL_HEAP_Alloc(heapId, sizeof(SymbolMapLinkRecord), 1, g_SymbolMapFileName, 0x1DC);
-    MI_CpuCopy8(INTRUDE_COMM_GetPartnerRecord(partnerLink), record, sizeof(SymbolMapLinkRecord));
+    MI_CpuCopy8(INTRUDE_COMM_GetPartnerSymbolPage(partnerLink), record, sizeof(SymbolMapLinkRecord));
     *outStart = 530;
     return record;
 }
@@ -1374,11 +1374,11 @@ int SYMBOL_MAP_ScrCmdSetSubscreenMode(void *vm, void *work)
     modeId = SCRIPT_WORK_ReadWorkValue(vm, work);
     enable = SCRIPT_WORK_ReadWorkValue(vm, work);
     if (modeId == 0xFFFF)
-        modeId = ISS_SWITCH_GetSubscreenMode(gameSystem, FIELDMAP_GetZoneId(fieldMap));
+        modeId = WEATHER_GetZoneWeatherId(gameSystem, FIELDMAP_GetZoneId(fieldMap));
     if (enable != 0)
         WEATHER_RequestChangeNoFade(fieldState, modeId);
     else
         WEATHER_RequestChange(fieldState, modeId);
-    GAME_DATA_SetSubscreenMode(gameData, modeId & 0xff);
+    GAME_DATA_SetWeatherId(gameData, modeId & 0xff);
     return 0;
 }

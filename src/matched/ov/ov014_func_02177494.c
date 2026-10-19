@@ -11,7 +11,7 @@
  * symbols:
  *   g_pWhPipeWork     0x021797A4  data  a4
  *   GFL_NET_GetInitParam  0x0203D798  arm
- *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
+ *   GF_STANDARD_CalcCrc16  0x0203F1FC  arm
  */
 #include "../include/Obj04174.h"
 #include "../include/Obj07353.h"
@@ -24,7 +24,7 @@ typedef unsigned char u8;
 
 extern struct W *g_pWhPipeWork;
 void *GFL_NET_GetInitParam(void);
-u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
+u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
 
 typedef int (*CheckFn)(u8 a, u8 b, u32 c);
 
@@ -41,7 +41,7 @@ int NET_WHPIPE_CheckBeaconFlags(u8 *obj, u32 flags)
         return 0;
     if ((flags & 2) && p[5] != 0)
         return 0;
-    if ((flags & 4) && ((struct Obj04174 *)p)->f0 != GF_STANDARD_SetupCalc(p + 2, 0x6e))
+    if ((flags & 4) && ((struct Obj04174 *)p)->f0 != GF_STANDARD_CalcCrc16(p + 2, 0x6e))
         return 0;
     if ((flags & 8) && ((struct Obj04174 *)p)->f2 != v50)
         return 0;

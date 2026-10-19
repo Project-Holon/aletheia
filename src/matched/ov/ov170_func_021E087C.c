@@ -17,11 +17,11 @@
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BOX2_MAIN_IsWrappedDistance 0x021DD210 thumb
  *   BOX2_SEQ_LoadMonIcon 0x021EC35C thumb
- *   BOX2_MAIN_GetBoxFormId 0x021DEDCC thumb
+ *   BOX2_MAIN_GetBoxWallpaper 0x021DEDCC thumb
  *   BOX2_MAIN_SetBoxScroll 0x021DEC98 thumb
  *   BOX2_SEQ_SetCursorFrame 0x021ED544 thumb
- *   BOX2_MAIN_IsSeqIdle 0x021E00C4 thumb
- *   BOX2_MAIN_IsSeqStep 0x021E0128 thumb
+ *   BOX2_MAIN_StepScrollToPrevBox 0x021E00C4 thumb
+ *   BOX2_MAIN_StepScrollToNextBox 0x021E0128 thumb
  *   BOX2_MAIN_WaitCursorMove 0x021DD930 thumb
  *   BOX2_MAIN_SetMoverEntry 0x021DE66C thumb
  *   BOX2_SEQ_SetSlotDim 0x021ED6E4 thumb
@@ -50,11 +50,11 @@ extern void BOX2_UI_CloseInfoBar(struct WinMgr *mgr);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern int BOX2_MAIN_IsWrappedDistance(unsigned char *p, unsigned a, unsigned b);
 extern void BOX2_SEQ_LoadMonIcon(char **p, int box);
-extern int BOX2_MAIN_GetBoxFormId(char *p, int box);
+extern int BOX2_MAIN_GetBoxWallpaper(char *p, int box);
 extern void BOX2_MAIN_SetBoxScroll(char *p, void *a, int dir);
 extern void BOX2_SEQ_SetCursorFrame(char *p, int b);
-extern int BOX2_MAIN_IsSeqIdle(char *p);
-extern int BOX2_MAIN_IsSeqStep(char *p);
+extern int BOX2_MAIN_StepScrollToPrevBox(char *p);
+extern int BOX2_MAIN_StepScrollToNextBox(char *p);
 extern int BOX2_MAIN_WaitCursorMove(unsigned char *p);
 extern void BOX2_MAIN_SetMoverEntry(unsigned char *p, void *e);
 extern void BOX2_SEQ_SetSlotDim(char **p, int v);
@@ -88,7 +88,7 @@ int BOX2_MAIN_SceneOpenBox(unsigned char *p)
                 r = BOX2_MAIN_IsWrappedDistance(p, p[0x14], p[0x17]);
                 p[0x14] = p[0x17];
                 BOX2_SEQ_LoadMonIcon((char **)p, p[0x14]);
-                BOX2_MAIN_SetBoxScroll((char *)p, (void *)BOX2_MAIN_GetBoxFormId((char *)p, p[0x14]), r);
+                BOX2_MAIN_SetBoxScroll((char *)p, (void *)BOX2_MAIN_GetBoxWallpaper((char *)p, p[0x14]), r);
                 if (r == 0)
                     b->state = 2;
                 else
@@ -102,11 +102,11 @@ int BOX2_MAIN_SceneOpenBox(unsigned char *p)
         b->state = 4;
         break;
     case 2:
-        if (BOX2_MAIN_IsSeqIdle((char *)p) == 0)
+        if (BOX2_MAIN_StepScrollToPrevBox((char *)p) == 0)
             b->state = 1;
         break;
     case 3:
-        if (BOX2_MAIN_IsSeqStep((char *)p) == 0)
+        if (BOX2_MAIN_StepScrollToNextBox((char *)p) == 0)
             b->state = 1;
         break;
     case 4:

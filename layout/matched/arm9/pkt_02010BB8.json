@@ -110,7 +110,7 @@
    ]
   },
   {
-   "name": "GAMESYSTEM_LeakHeapPenalty",
+   "name": "GAMESYSTEM_ApplyTamperPenalty",
    "address": "0x02011D40",
    "kind": "game",
    "region": "arm9",
@@ -122,7 +122,7 @@
    "status": "EXACT"
   },
   {
-   "name": "GAMESYSTEM_LeakHeapPenaltyRepeat",
+   "name": "GAMESYSTEM_ApplyTamperPenaltyRepeat",
    "address": "0x02011D7C",
    "kind": "game",
    "region": "arm9",

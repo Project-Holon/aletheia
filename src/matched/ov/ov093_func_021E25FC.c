@@ -15,7 +15,7 @@
  *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
  *   BTL_EVENT_GetFactorKey  0x021D70A8  thumb  ov093
- *   BTLV_CORE_MakeSlotKind2  0x021E896C  thumb  ov093
+ *   BTL_SICKCONT_MakeKind2  0x021E896C  thumb  ov093
  *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb  ov093
  */
 
@@ -30,7 +30,7 @@ extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
 extern u16 BTL_EVENT_GetFactorKey(struct QQ *p);
-extern Word BTLV_CORE_MakeSlotKind2(int a, int b);
+extern Word BTL_SICKCONT_MakeKind2(int a, int b);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 
 void HAND_WAZA_RolloutStartLock(void *a, void *b, int c, int *d)
@@ -43,7 +43,7 @@ void HAND_WAZA_RolloutStartLock(void *a, void *b, int c, int *d)
         if (BTL_POKEPARAM_HasSick(v, 0x19) == 0 && BTL_POKEPARAM_HasSick(v, 2) == 0 && d[6] == 0) {
             p = BTL_SERVER_FLOW_AllocCmdRecord(b, 12, c);
             p[1] = 0x19;
-            *(Word *)(p + 2) = BTLV_CORE_MakeSlotKind2(5, BTL_EVENT_GetFactorKey(a));
+            *(Word *)(p + 2) = BTL_SICKCONT_MakeKind2(5, BTL_EVENT_GetFactorKey(a));
             ((u8 *)p)[12] = 0;
             ((u8 *)p)[15] = c;
             BTL_SERVER_FLOW_CommitCmdRecord(b, p);

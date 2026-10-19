@@ -15,22 +15,22 @@
  *      through C40C/071CC with fixed r1=0x36. C44C reads r0/r1 only.
  *      Legacy trailing a2/a3 are omitted; all original visible inputs remain.
  * symbols:
- *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
- *   GAME_DATA_SetSaveFlag 0x02012BE0 thumb
+ *   GAME_DATA_ContainsRecentId 0x02012BF8 thumb
+ *   GAME_DATA_SetRecentId 0x02012BE0 thumb
  *   ZKNSEARCH_MAIN_SetActorAnimAuto 0x021BEDB8 thumb ov210
  */
 #include "../include/Obj10921.h"
 typedef unsigned char u8;
-extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
-extern void GAME_DATA_SetSaveFlag(void *, unsigned, unsigned);
+extern int GAME_DATA_ContainsRecentId(int a0, int a1);
+extern void GAME_DATA_SetRecentId(void *, unsigned, unsigned);
 extern void ZKNSEARCH_MAIN_SetActorAnimAuto(int p, int i, int v);
 void ZKNSEARCH_MAIN_ToggleSaveFlag(u8 *p)
 {
-    if (GAME_DATA_CheckSaveFlag((int)(**(void ** *)&((struct Obj10921 *)p)->f0), 16) == 1) {
-        GAME_DATA_SetSaveFlag(**(void ** *)&((struct Obj10921 *)p)->f0, 16, 0);
+    if (GAME_DATA_ContainsRecentId((int)(**(void ** *)&((struct Obj10921 *)p)->f0), 16) == 1) {
+        GAME_DATA_SetRecentId(**(void ** *)&((struct Obj10921 *)p)->f0, 16, 0);
         ZKNSEARCH_MAIN_SetActorAnimAuto((int)p, 4, 6);
     } else {
-        GAME_DATA_SetSaveFlag(**(void ** *)&((struct Obj10921 *)p)->f0, 16, 1);
+        GAME_DATA_SetRecentId(**(void ** *)&((struct Obj10921 *)p)->f0, 16, 1);
         ZKNSEARCH_MAIN_SetActorAnimAuto((int)p, 4, 7);
     }
 }

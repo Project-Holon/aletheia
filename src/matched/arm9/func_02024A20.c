@@ -18,7 +18,7 @@
  *   INFOWIN_LoadGraphics       0x020251FC  thumb
  *   func_020056A0       0x020056A0  thumb
  *   UI_GetPowerState       0x0203568C  arm
- *   GAME_DATA_GetField1A0       0x0201283C  thumb
+ *   GAME_DATA_GetWifiList       0x0201283C  thumb
  *   GAME_DATA_IsConfigFlagSet       0x02012BB0  thumb
  *   INFOWIN_Update       0x02024ABC  thumb
  *   INFOWIN_DrawTask       0x02024DFC  thumb
@@ -59,7 +59,7 @@ extern void  MI_CpuFill8(void *dest, u8 data, u32 size);
 extern void  INFOWIN_LoadGraphics(u32 a, u32 b, u32 heap);
 extern void *func_020056A0(void (*cb)(void *), void *work, u32 pri);
 extern int UI_GetPowerState(void);
-extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
+extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 extern u32 GAME_DATA_IsConfigFlagSet(const struct BigObj *p);
 extern void  INFOWIN_Update(void);
 extern void INFOWIN_DrawTask(void);
@@ -75,7 +75,7 @@ void INFOWIN_Init(u8 a0, u8 a1, void *a2, u16 heap)
     gInfoWin->f20 = 0;
     gInfoWin->f1F = UI_GetPowerState();
     if (a2 != 0) {
-        gInfoWin->f0C = GAME_DATA_GetField1A0(a2);
+        gInfoWin->f0C = GAME_DATA_GetWifiList(a2);
         gInfoWin->f10 = GAME_DATA_IsConfigFlagSet(a2);
     } else {
         gInfoWin->f0C = 0;

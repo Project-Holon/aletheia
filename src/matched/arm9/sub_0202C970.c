@@ -1,5 +1,5 @@
 /*
- * function: ISS_SWITCH_CheckBirthday
+ * function: WEATHER_GetBirthdayWeather
  * address:  0x0202C970
  * packet:   pkt_0202C860
  * region:   arm9
@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   ZONEDATA_IsRawZone176Or17A   0x02014044  thumb
- *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
+ *   GF_STANDARD_GetCachedDate  0x0203F4E4  arm
  *   APP_ENV_GetOwnerColorAndBirthMonth   0x0202EB60  thumb
  */
 
@@ -26,10 +26,10 @@ struct RtcDate {
 };
 
 extern u32 ZONEDATA_IsRawZone176Or17A(u32 id);
-extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
+extern void GF_STANDARD_GetCachedDate(struct RtcDate *date);
 extern void APP_ENV_GetOwnerColorAndBirthMonth(u8 *out1, u8 *out2);
 
-u32 ISS_SWITCH_CheckBirthday(void *a, void *b, u32 c)
+u32 WEATHER_GetBirthdayWeather(void *a, void *b, u32 c)
 {
     u8 buf[2];
     struct RtcDate date;
@@ -37,7 +37,7 @@ u32 ISS_SWITCH_CheckBirthday(void *a, void *b, u32 c)
     if (!ZONEDATA_IsRawZone176Or17A((u16)c)) {
         goto fail;
     }
-    GF_STANDARD_SetField00_F4E4(&date);
+    GF_STANDARD_GetCachedDate(&date);
     APP_ENV_GetOwnerColorAndBirthMonth(&buf[1], &buf[0]);
     if (date.month != buf[1]) {
         goto fail;

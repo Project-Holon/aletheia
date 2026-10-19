@@ -15,7 +15,7 @@
  *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   func_02049990 0x02049990 arm
  *   FX_Div 0x0207C768 arm
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   func_0207D63C 0x0207D63C arm
  *   _fflt 0x0209BDBC arm
@@ -33,7 +33,7 @@ extern void TCBL_DeleteTask(struct TcblNode *);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,u32,u32,u32,u32,u16);
 extern u32 func_02049990(void *,u32,u32,u32,u32,u32,u32,u16);
 extern u32 FX_Div(u32,u32);
-extern void BG_SYS_SetVisibleLayer(int,u16);
+extern void BG_SYS_SetPriority(int,u16);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void func_0207D63C(u32,int,int,int,int);
 void DEMO3D_DATA_FadeMain(struct TcblNode *task,struct Context *ctx)
@@ -57,8 +57,8 @@ void DEMO3D_DATA_FadeMain(struct TcblNode *task,struct Context *ctx)
         if(ctx->fadein>0) a=0.5f+(float)(ctx->fadein<<12);
         else a=(float)(ctx->fadein<<12)-0.5f;
         ctx->step=FX_Div(0x10000,(int)a);
-        BG_SYS_SetVisibleLayer(1,0);
-        BG_SYS_SetVisibleLayer(0,1);
+        BG_SYS_SetPriority(1,0);
+        BG_SYS_SetPriority(0,1);
         func_0207D63C(0x04000050,2,1,0,16);
         BG_SYS_SetPlaneVisible(1,1);
         ctx->state++;

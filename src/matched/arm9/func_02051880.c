@@ -1,5 +1,5 @@
 /*
- * function: BUTTON_MAN_SetRot
+ * function: PARTICLE_EMITTER_SetRot
  * address:  0x02051880
  * packet:   pkt_02051838
  * region:   arm9
@@ -30,7 +30,7 @@ struct Obj {
     u16 z;
 };
 
-void BUTTON_MAN_SetRot(struct Obj *o, const struct Vec3 *v)
+void PARTICLE_EMITTER_SetRot(struct Obj *o, const struct Vec3 *v)
 {
     o->x = v->x;
     o->y = v->y;

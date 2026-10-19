@@ -37,7 +37,7 @@
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
@@ -86,7 +86,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32);
@@ -166,7 +166,7 @@ void TH_AWARD_SetupWindows(struct Obj *p)
     STRBUF_Delete(q);
     STRBUF_Delete(z);
     STRBUF_Delete(t);
-    WORDSET_DeleteStrbufED04(g);
+    WORDSET_Delete(g);
     y = func_02045EC0(p->bank, d_021BA3A8[TH_AWARD_GetLevelIndex(*(u16 *)(b + 2))].msg);
     w1 = (u16)func_0201D304(y, (u32)p->str, 0);
     h = (u32)BMP_GetWidth(BMP_WIN_GetBmp(p->ptr[3]));

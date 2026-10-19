@@ -51,7 +51,7 @@
  *   RingQueue_Destroy  0x021C0E3C  thumb  ov217
  *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   BMP_WIN_Init 0x02045088 arm
- *   BG_SYS_SetTileUnit  0x02040DA8  arm
+ *   BG_SYS_FreeTiles  0x02040DA8  arm
  *   BgTextLabel_Create 0x021C0EF4 thumb ov217
  *   BgTextLabel_PrintMessage 0x021C0F5C thumb ov217
  *   BgTextLabel_Destroy  0x021C0F48  thumb  ov217
@@ -80,7 +80,7 @@
  *   SYMBOL_SAVE_SetBitDescriptor 0x0200E440 thumb
  *   BMP_OAM_SetPalette  0x02025A54  thumb
  *   BG_SYS_FillTileMap 0x020413B0 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   BG_SYS_GetBuf 0x0204162C arm
  *   BG_SYS_GetChannelScrollX  0x02041648  arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
@@ -89,9 +89,8 @@
  *   d_021C3094 0x021C3094 data a1
  *   d_021C30D0 0x021C30D0 data a1
  *   BgTextLabel_SetVisible  0x021C0FF8  thumb  ov217
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  *   BG_SYS_GetScrollY  0x02040804  arm
- *   _s32_div_f  0x0209C0A4  arm
  *   PALANM_GetFadeRequestBits  0x02021ED8  thumb
  *   d_021C326C 0x021C326C data a4
  *   PALETTE_ANIME_IsRunning  0x021C2A10  thumb  ov217
@@ -161,7 +160,7 @@
  *   BG_SYS_ClearSlot  0x020414EC  arm  arm9
  *   BG_SYS_Update  0x020419E4  arm  arm9
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm  arm9
- *   BG_SYS_FillScrollArea  0x02040618  arm  arm9
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm  arm9
  */
 #include "research_shared_types.h"
 
@@ -408,7 +407,7 @@ extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 
 extern u32 BG_SYS_ClearSlot();
 
-extern void BG_SYS_SetTileUnit(u32, u32, u32);
+extern void BG_SYS_FreeTiles(u32, u32, u32);
 
 extern struct Record *BgTextLabel_Create(const struct Config *config, u32 a, u32 b, u32 heap);
 
@@ -464,7 +463,7 @@ extern void SYMBOL_SAVE_SetBitDescriptor(u8 *p, int value, int index);
 
 extern void BMP_OAM_SetPalette(u8 *g, u32 a);
 
-extern void BG_SYS_SetFlagField06(u32 layer);
+extern void BG_SYS_MarkTileDirty(u32 layer);
 
 extern u32 BG_SYS_GetBuf(int channel);
 
@@ -474,13 +473,12 @@ extern void CLACT_AddActorSurfacePos(struct Obj *p,const struct Vec2 *delta,u32 
 
 extern void BgTextLabel_SetVisible(u8 *p, int visible);
 
-extern void BG_SYS_ResetSlot(unsigned layer,unsigned mode,unsigned value);
+extern void BG_SYS_ChangeScroll(unsigned layer,unsigned mode,unsigned value);
 
 extern u32 BG_SYS_GetScrollY(u32 layer);
 
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 
-extern int _s32_div_f(int a, int b);
 
 extern int PALANM_RequestFade(PalAnmObj *, u16, u16, s16, u8, u8, u16, void *);
 
@@ -1916,7 +1914,7 @@ void RESEARCH_LIST_ShowCursor(u8 *list)
     x=RESEARCH_LIST_GetRowOffset((u32)list,slot);
     y=RESEARCH_LIST_GetRowBase((u32)list,slot);
     BG_SYS_FillTileMap(2,x,y,28,3,10);
-    BG_SYS_SetFlagField06(2);
+    BG_SYS_MarkTileDirty(2);
     ((struct ResearchTop *)list)->cursorVisible=1;
 }
 
@@ -1929,7 +1927,7 @@ void RESEARCH_LIST_HideCursor(u8 *list)
     x=RESEARCH_LIST_GetRowOffset((u32)list,slot);
     y=RESEARCH_LIST_GetRowBase((u32)list,slot);
     BG_SYS_FillTileMap(2,x,y,28,3,9);
-    BG_SYS_SetFlagField06(2);
+    BG_SYS_MarkTileDirty(2);
     ((struct ResearchTop *)list)->cursorVisible=0;
 }
 
@@ -1959,8 +1957,8 @@ void RESEARCH_LIST_ShiftTextRight(u32 object,u32 slot)
     second[(base+1)*32+29]=second[0];
     first[(base+2)*32+29]=first[0];
     second[(base+2)*32+29]=second[0];
-    BG_SYS_SetFlagField06(2);
-    BG_SYS_SetFlagField06(3);
+    BG_SYS_MarkTileDirty(2);
+    BG_SYS_MarkTileDirty(3);
 }
 
 void RESEARCH_LIST_ShiftTextLeft(u32 object,u32 slot)
@@ -1989,8 +1987,8 @@ void RESEARCH_LIST_ShiftTextLeft(u32 object,u32 slot)
     second[(base+1)*32+1]=second[0];
     first[(base+2)*32+1]=first[0];
     second[(base+2)*32+1]=second[0];
-    BG_SYS_SetFlagField06(2);
-    BG_SYS_SetFlagField06(3);
+    BG_SYS_MarkTileDirty(2);
+    BG_SYS_MarkTileDirty(3);
 }
 
 /*
@@ -2294,12 +2292,12 @@ void RESEARCH_LIST_ApplyScrollRegs(u8 *list)
     high=RESEARCH_LIST_GetScrollMax();
     if(position<low) {
         position-=24;
-        BG_SYS_ResetSlot(2,3,position);
-        BG_SYS_ResetSlot(3,3,position);
+        BG_SYS_ChangeScroll(2,3,position);
+        BG_SYS_ChangeScroll(3,3,position);
     } else if(high<position) {
         position-=168;
-        BG_SYS_ResetSlot(2,3,position);
-        BG_SYS_ResetSlot(3,3,position);
+        BG_SYS_ChangeScroll(2,3,position);
+        BG_SYS_ChangeScroll(3,3,position);
     }
 }
 
@@ -2322,8 +2320,8 @@ int RESEARCH_LIST_GetScrollY(void)
 
 void RESEARCH_LIST_SetScrollY(u32 list)
 {
-    BG_SYS_FillScrollArea(2, 3, list);
-    BG_SYS_FillScrollArea(3, 3, list);
+    BG_SYS_ChangeScrollImmediate(2, 3, list);
+    BG_SYS_ChangeScrollImmediate(3, 3, list);
 }
 
 u32 RESEARCH_LIST_GetScrollMin(void)
@@ -2337,13 +2335,13 @@ u32 RESEARCH_LIST_GetScrollMax(void)
 }
 
 /*
- * Tail-call veneer: forwards arg(s) a0, 24 to _s32_div_f.
+ * Tail-call veneer: divides the argument by 24.
  *
  * Addresses are Black-image addresses.
  */
 int RESEARCH_LIST_DivideByEntryHeight(u32 list)
 {
-    return _s32_div_f(list, 24);
+    return (int)list / 24;
 }
 
 /*
@@ -2880,7 +2878,7 @@ void RESEARCH_LIST_LoadBackground6(char *list)
     buf = ARC_TOOL_LoadHandleMember(arc, 13, ((struct ResearchTop *)list)->heapId);
     NNS_G2dGetUnpackedScreenData(buf, &screen);
     BG_SYS_DrawTile(6, (u32)((char *)screen + 12), 0, 0, 32, 24);
-    BG_SYS_SetFlagField06(6);
+    BG_SYS_MarkTileDirty(6);
     GFL_HEAP_Free(buf);
     ARC_TOOL_DeleteHandle(arc);
 }
@@ -2897,7 +2895,7 @@ u32 RESEARCH_LIST_UpdateBackground7(u32 list)
 
 void RESEARCH_LIST_ShowBackground7(u32 list)
 {
-    BG_SYS_SetTileUnit(7, 1, 0);
+    BG_SYS_FreeTiles(7, 1, 0);
 }
 
 void RESEARCH_LIST_LoadBackground2(char *list)
@@ -2909,7 +2907,7 @@ void RESEARCH_LIST_LoadBackground2(char *list)
     buf = ARC_TOOL_LoadHandleMember(arc, 3, ((struct ResearchTop *)list)->heapId);
     NNS_G2dGetUnpackedScreenData(buf, &screen);
     BG_SYS_DrawTile(0, (u32)((char *)screen + 12), 0, 0, 32, 24);
-    BG_SYS_SetFlagField06(0);
+    BG_SYS_MarkTileDirty(0);
     GFL_HEAP_Free(buf);
     ARC_TOOL_DeleteHandle(arc);
 }
@@ -2931,7 +2929,7 @@ void RESEARCH_LIST_LoadListBackground(struct ResearchTop *list)
     char *q;
     NNS_G2dGetUnpackedScreenData(res, (void **)(&q));
     BG_SYS_DrawTile(2, (u32)(q + 0xc), 0, 0, 0x20, (u8)v);
-    BG_SYS_SetFlagField06(2);
+    BG_SYS_MarkTileDirty(2);
     GFL_HEAP_Free(res);
     ARC_TOOL_DeleteHandle(heap);
 }
@@ -2948,7 +2946,7 @@ u32 RESEARCH_LIST_UpdateBackground3(u32 list)
 
 void RESEARCH_LIST_ShowBackground3(u32 list)
 {
-    BG_SYS_SetTileUnit(3, 1, 0);
+    BG_SYS_FreeTiles(3, 1, 0);
 }
 
 void RESEARCH_LIST_CreateLabels(struct ResearchTop *list)

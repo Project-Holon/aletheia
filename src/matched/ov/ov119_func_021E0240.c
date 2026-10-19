@@ -8,19 +8,19 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   GAME_DATA_GetSaveBlock1F 0x02012F14 thumb
+ *   GAME_DATA_GetTradeHistory 0x02012F14 thumb
  *   func_02009D9C 0x02009D9C thumb
  *   MI_CpuCopy8 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  */
-extern void *GAME_DATA_GetSaveBlock1F(void **);
+extern void *GAME_DATA_GetTradeHistory(void **);
 extern unsigned func_02009D9C(void);
 extern void MI_CpuCopy8(void *, void *, int);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 void POKETRADE_SAVE_RestoreBlock1F(void **h, void *dst)
 {
-    void *src = GAME_DATA_GetSaveBlock1F(h);
+    void *src = GAME_DATA_GetTradeHistory(h);
     MI_CpuCopy8(dst, src, func_02009D9C());
     func_020307B0(dst);
 }

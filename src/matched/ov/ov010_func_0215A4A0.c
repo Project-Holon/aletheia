@@ -1,5 +1,5 @@
 /*
- * function: EVENT_POKE_STATUS_IsMs5000
+ * function: EVENT_TRAINER_IsSecondaryScriptId
  * address:  0x0215A4A0
  * packet:   pkt_ov010_0215A4A0
  * region:   ov010
@@ -17,7 +17,7 @@
 
 typedef unsigned int u32;
 
-u32 EVENT_POKE_STATUS_IsMs5000(u32 a)
+u32 EVENT_TRAINER_IsSecondaryScriptId(u32 a)
 {
     return a >= 5000;
 }

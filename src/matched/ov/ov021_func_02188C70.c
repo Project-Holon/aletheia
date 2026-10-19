@@ -12,14 +12,14 @@
  * Unlabelled tail-call leaf (no lr saved): forwards p[1] and the second argument.
  *
  * symbols:
- *   ISS_SWITCH_GetSubscreenMode  0x0202C794  thumb
+ *   WEATHER_GetZoneWeatherId  0x0202C794  thumb
  */
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern u8 ISS_SWITCH_GetSubscreenMode(void *a0, u32 a1);
+extern u8 WEATHER_GetZoneWeatherId(void *a0, u32 a1);
 
 int FIELDMAP_QueryIssSwitch(int *p, int b)
 {
-    return ISS_SWITCH_GetSubscreenMode((void *)p[1], b);
+    return WEATHER_GetZoneWeatherId((void *)p[1], b);
 }

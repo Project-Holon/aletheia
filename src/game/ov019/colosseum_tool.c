@@ -1,7 +1,7 @@
 /*
  * file:     colosseum_tool.c
  * unit:     yes
- * function: COLOSSEUM_CheckAllEntered, COLOSSEUM_CheckAllTrainerCardsReceived, COLOSSEUM_IsPositionsReceived, COLOSSEUM_ClearPositionsReceived, COLOSSEUM_GetStandPosIndex, COLOSSEUM_CheckAllFinished, COLOSSEUM_IsAnyFinished, COLOSSEUM_IsOnCounterPos, COLOSSEUM_UpdateCommPlayers
+ * function: COLOSSEUM_CheckAllEntered, COLOSSEUM_CheckAllTrainerCardsReceived, COLOSSEUM_IsPositionsReceived, COLOSSEUM_ClearPositionsReceived, COLOSSEUM_IsOnStandPos, COLOSSEUM_CheckAllFinished, COLOSSEUM_IsAnyFinished, COLOSSEUM_IsOnCounterPos, COLOSSEUM_UpdateCommPlayers
  * address:  0x0217FDC8
  * region:   ov019
  * compiler: dsi/1.1p1
@@ -74,7 +74,7 @@ int COLOSSEUM_CheckAllEntered(ColosseumWork *colosseum);
 int COLOSSEUM_CheckAllTrainerCardsReceived(ColosseumWork *colosseum);
 int COLOSSEUM_IsPositionsReceived(ColosseumWork *colosseum);
 void COLOSSEUM_ClearPositionsReceived(ColosseumWork *colosseum);
-int COLOSSEUM_GetStandPosIndex(int a, int mode, unsigned *out);
+int COLOSSEUM_IsOnStandPos(int a, int mode, unsigned *out);
 int COLOSSEUM_CheckAllFinished(ColosseumWork *colosseum);
 int COLOSSEUM_IsAnyFinished(ColosseumWork *colosseum);
 int COLOSSEUM_IsOnCounterPos(void *a);
@@ -161,7 +161,7 @@ void COLOSSEUM_ClearPositionsReceived(ColosseumWork *colosseum)
 
 
 
-int COLOSSEUM_GetStandPosIndex(int a, int mode, unsigned *out)
+int COLOSSEUM_IsOnStandPos(int a, int mode, unsigned *out)
 {
     unsigned i;
     int x;

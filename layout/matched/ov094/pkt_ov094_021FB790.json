@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTLV_EFFVM_CmdStartClactMoveShort",
+   "name": "BTLV_EFFVM_CmdStartClactPosTween",
    "address": "0x021FB790",
    "kind": "game",
    "region": "ov094",

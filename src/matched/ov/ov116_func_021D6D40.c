@@ -25,7 +25,7 @@
  * symbols:
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_02009470 0x02009470 thumb
- *   GAME_DATA_GetField1A0 0x0201283C thumb
+ *   GAME_DATA_GetWifiList 0x0201283C thumb
  *   GAME_DATA_GetSaveBlock3A 0x02012EF0 thumb
  *   func_0200E6F0 0x0200E6F0 thumb
  *   MI_CpuFill8 0x02082BCC arm
@@ -55,7 +55,7 @@ struct Sub0200852CObj;
 struct Sub02009470Obj;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02009470Obj *func_02009470(void *sys);
-extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
+extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 extern void *GAME_DATA_GetSaveBlock3A(void **p);
 extern void *func_0200E6F0(u32);
 extern void MI_CpuFill8(void *, u8, u32);
@@ -77,7 +77,7 @@ void WIFI_BSUBWAY_BuildProfile(u8 *p, void *save, void *idx)
     int i;
     profile = GAME_DATA_GetSaveControl(save);
     func_02009470(profile);
-    GAME_DATA_GetField1A0(save);
+    GAME_DATA_GetWifiList(save);
     n = GAME_DATA_GetSaveBlock3A(save);
     object = func_0200E6F0((u32)profile);
     MI_CpuFill8(p, 0, 240);

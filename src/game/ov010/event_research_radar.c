@@ -39,7 +39,7 @@
  *   FIELD_MSGBG_CreateMsgWin  0x02190708  thumb  ov021
  *   FIELD_MSGBG_DeleteMsgWin  0x02190728  thumb
  *   WORDSET_CreateDefault  0x0201EC64  thumb
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
@@ -143,7 +143,7 @@ extern int FIELD_MSGBG_DeleteMsgWin();
 
 extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
 
-extern int WORDSET_DeleteStrbufED04();
+extern int WORDSET_Delete();
 
 extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
 
@@ -383,7 +383,7 @@ struct WordSet *EVENT_RESEARCH_RADAR_CreateWordSet(ResearchReportWork *work)
 
 int EVENT_RESEARCH_RADAR_DeleteWordSet(ResearchReportWork *work)
 {
-    WORDSET_DeleteStrbufED04(work->wordSet);
+    WORDSET_Delete(work->wordSet);
     work->wordSet = 0;
     return 0;
 }

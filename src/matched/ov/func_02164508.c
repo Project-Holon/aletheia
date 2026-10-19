@@ -1,5 +1,5 @@
 /*
- * function: EVENTDATA_SYSTEM_CheckBicycleUsable
+ * function: FIELD_SKILL_CHECK_Bicycle
  * address:  0x02164508
  * packet:   pkt_02164508
  * region:   ov010
@@ -32,7 +32,7 @@ extern int MAP_ATTR_GetTerrainId();
 extern int MAP_ATTR_IsRoughGround();
 extern u32 ZONEDATA_IsBikeEnabled(u32 id);
 
-int EVENTDATA_SYSTEM_CheckBicycleUsable(int a0, int a1, int a2)
+int FIELD_SKILL_CHECK_Bicycle(int a0, int a1, int a2)
 {
     int t4;
     int t5;

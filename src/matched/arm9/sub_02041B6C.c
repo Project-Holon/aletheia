@@ -1,5 +1,5 @@
 /*
- * function: BG_SYS_SetFlagField06
+ * function: BG_SYS_MarkTileDirty
  * address:  0x02041B6C
  * packet:   pkt_020414C4
  * region:   arm9
@@ -28,7 +28,7 @@ struct Unk02146A44 {
 
 extern struct Unk02146A44 *gUnk_02146A44;
 
-void BG_SYS_SetFlagField06(u32 bit)
+void BG_SYS_MarkTileDirty(u32 bit)
 {
     gUnk_02146A44->mask |= 1 << bit;
 }

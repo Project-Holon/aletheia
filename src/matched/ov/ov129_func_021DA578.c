@@ -19,7 +19,7 @@
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   MSGDATA_Delete 0x02045C04 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BG_SYS_PushTile 0x020409B4 arm
  */
@@ -43,7 +43,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BG_SYS_PushTile(u32);
 void WF2DMAP_SCENE_DrawMessage(void *p,int a,void *b,u32 c)
@@ -59,7 +59,7 @@ void WF2DMAP_SCENE_DrawMessage(void *p,int a,void *b,u32 c)
     STRBUF_Delete(out);
     STRBUF_Delete(msg);
     MSGDATA_Delete(bank);
-    WORDSET_DeleteStrbufED04(ws);
+    WORDSET_Delete(ws);
     BMP_WIN_TransferChars(p);
     BG_SYS_PushTile(4);
 }

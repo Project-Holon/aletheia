@@ -9,15 +9,15 @@
  * status: EXACT
  * symbols:
  *   gMbParentUi 0x021F6EA0 data ov107 a4
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  */
 typedef unsigned char u8;
 extern u8 gMbParentUi[];
-extern void BG_SYS_FillScrollArea(unsigned,unsigned,unsigned);
+extern void BG_SYS_ChangeScrollImmediate(unsigned,unsigned,unsigned);
 void MB_COMM_SYS_VBlankRefreshBg(void) {
  if(gMbParentUi[0]>1) {
  gMbParentUi[0]=0;
- BG_SYS_FillScrollArea(3,2,1); BG_SYS_FillScrollArea(3,5,1);
- BG_SYS_FillScrollArea(7,2,1); BG_SYS_FillScrollArea(7,5,1);
+ BG_SYS_ChangeScrollImmediate(3,2,1); BG_SYS_ChangeScrollImmediate(3,5,1);
+ BG_SYS_ChangeScrollImmediate(7,2,1); BG_SYS_ChangeScrollImmediate(7,5,1);
  } else gMbParentUi[0]++;
 }

@@ -30,7 +30,7 @@
  *   POKEPARTY_GetSaveData  0x0201AD0C  thumb
  *   GAME_DATA_GetBoxManager  0x0201293C  thumb
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
- *   GAME_DATA_GetField1A0  0x0201283C  thumb
+ *   GAME_DATA_GetWifiList  0x0201283C  thumb
  *   WIFI_HISTORY_GetBlock  0x02009470  thumb
  *   SYSTEM_DATA_GetMyStatus  0x02008730  thumb
  *   SYSTEM_DATA_GetConfig  0x0200873C  thumb
@@ -119,7 +119,7 @@ void *CONSOLE_STAMP_GetFromSave(void *saveControl);
 void *POKEPARTY_GetSaveData(void *saveControl);
 struct BoxManager *GAME_DATA_GetBoxManager(const struct GameData *gameData);
 struct WorldTradeSave *ZUKAN_SAVE_GetFromGameData(void *gameData);
-u32 GAME_DATA_GetField1A0(const struct GameData *gameData);
+u32 GAME_DATA_GetWifiList(const struct GameData *gameData);
 void *WIFI_HISTORY_GetBlock(void *saveControl);
 void *SYSTEM_DATA_GetMyStatus(void *saveControl);
 struct Config *SYSTEM_DATA_GetConfig(void *saveControl);
@@ -174,7 +174,7 @@ int EVENT_WORLDTRADE_Create(int gameSystem, int fieldMap, int unused)
     work->param.mailBoxData = POKEPARTY_GetSaveData(work->saveControl);
     work->param.boxManager = GAME_DATA_GetBoxManager((const struct GameData *)gameData);
     work->param.worldTradeSave = ZUKAN_SAVE_GetFromGameData((void *)gameData);
-    work->param.battleRecordData = GAME_DATA_GetField1A0((const struct GameData *)gameData);
+    work->param.battleRecordData = GAME_DATA_GetWifiList((const struct GameData *)gameData);
     work->param.wifiFriendData = WIFI_HISTORY_GetBlock(work->saveControl);
     work->param.myStatus = SYSTEM_DATA_GetMyStatus(work->saveControl);
     work->param.config = SYSTEM_DATA_GetConfig(work->saveControl);

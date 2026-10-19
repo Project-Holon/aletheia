@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   GAME_DATA_GetBoxSave  0x02012F98  thumb
+ *   GAME_DATA_GetPerapVoiceSave  0x02012F98  thumb
  *   PERAPVOICE_IsRecorded   0x02007B50  thumb
  *   PERAPVOICE_ClearRecorded   0x02007B54  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
@@ -24,7 +24,7 @@
 typedef unsigned int u32;
 
 struct Sub02007AC8Entry;
-extern struct Sub02007AC8Entry *GAME_DATA_GetBoxSave(void *p);
+extern struct Sub02007AC8Entry *GAME_DATA_GetPerapVoiceSave(void *p);
 struct PerapVoice;
 extern void *PERAPVOICE_IsRecorded(void **p);
 extern void PERAPVOICE_ClearRecorded(struct PerapVoice *p);
@@ -36,7 +36,7 @@ int POKETRADE_SAVE_ConsumePerapVoice(char *p, void *party, int idx)
 {
     int count = 0;
     int i, n;
-    void *voice = GAME_DATA_GetBoxSave(((struct Obj22756 *)p)->f82C);
+    void *voice = GAME_DATA_GetPerapVoiceSave(((struct Obj22756 *)p)->f82C);
 
     if (!PERAPVOICE_IsRecorded(voice))
         return count;

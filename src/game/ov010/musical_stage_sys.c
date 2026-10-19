@@ -17,11 +17,11 @@
  *   GF_OVERLAY_Unload  0x02034A5C  arm
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   GFL_HEAP_Free  0x020307B0  arm
- *   MUSICAL_MCSS_AllocSmall  0x021F685C  thumb  ov112
+ *   MUSICAL_MCSS_AllocDistSave  0x021F685C  thumb  ov112
  *   MUSICAL_MCSS_LoadDistSave  0x021F68BC  thumb  ov112
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
- *   MUSICAL_MCSS_FreeMon  0x021F6888  thumb
+ *   MUSICAL_MCSS_FreeDistSave  0x021F6888  thumb
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   ov112_id       0x00000070  data
@@ -60,13 +60,13 @@ extern u32 GFL_HEAP_Free(void *ptr);
 
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 
-extern void *MUSICAL_MCSS_AllocSmall(u32 heapId);
+extern void *MUSICAL_MCSS_AllocDistSave(u32 heapId);
 
 extern void MUSICAL_MCSS_LoadDistSave(void *musicalSystem, void *saveControl, void *session, u8 kind, u16 heapId);
 
 extern void GFL_HEAP_DeleteChecked(u32 heapId);
 
-extern int MUSICAL_MCSS_FreeMon(void *musicalSystem);
+extern int MUSICAL_MCSS_FreeDistSave(void *musicalSystem);
 
 extern void *PROCSYS_AllocProcWork(void *proc, u32 size, u32 heapId);
 
@@ -144,7 +144,7 @@ int MUSICAL_STAGE_SYS_Init(void *proc, void *unused, MusicalStage *prevStage)
         MUSICAL_STAGE_SYS_SetPerformerProp(work->stage, 3, 2, 0x15, 0, 2);
         work->stage->performers[1]->origin = MUSICAL_PERFORMER_LOCAL;
         GFL_HEAP_CreateChildHeap(1, 0x802C, 0x80000);
-        work->stage->musicalSystem = MUSICAL_MCSS_AllocSmall(1);
+        work->stage->musicalSystem = MUSICAL_MCSS_AllocDistSave(1);
         MUSICAL_MCSS_LoadDistSave(work->stage->musicalSystem, 0, 0, 0, 0x2C);
         work->stage->program = MUSICAL_PROGRAM_Create(0x2E, work->stage->musicalSystem, 0);
         MUSICAL_PROGRAM_SplitBonus(0x2E, work->stage->program, work->stage);
@@ -167,7 +167,7 @@ int MUSICAL_STAGE_SYS_Exit(void *proc, int unused, int keepStage, MusicalStageWo
 {
     if (keepStage == 0) {
         MUSICAL_PROGRAM_Delete(work->stage->program);
-        MUSICAL_MCSS_FreeMon(work->stage->musicalSystem);
+        MUSICAL_MCSS_FreeDistSave(work->stage->musicalSystem);
         GFL_HEAP_DeleteChecked(0x2c);
         work->stage->performers[1]->origin = MUSICAL_PERFORMER_NPC;
         MUSICAL_STAGE_SYS_Delete(work->stage);

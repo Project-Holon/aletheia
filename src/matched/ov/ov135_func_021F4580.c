@@ -29,7 +29,7 @@
  *   ov114_id  0x00000072  data
  *   ov067_id  0x00000043  data
  *   GFL_USE_CancelChangeAndStopBgm  0x02005D28  thumb  arm9
- *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb  arm9
+ *   GFL_USE_SetBgmPaused  0x02005DE4  thumb  arm9
  *   PROCSYS_Create  0x02031324  arm  arm9
  *   BG_SYS_ClearGraphicsMemory  0x0204335C  arm  arm9
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm  arm9
@@ -86,7 +86,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern void WORLDTRADE_CallStateHandler(Work *p, Args *args);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void WORLDTRADE_ClearAndShowPlanes(Work *p);
-extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_SetBgmPaused(void *p);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 
 extern Work *g_02203F80;
@@ -116,7 +116,7 @@ int WORLDTRADE_ProcInit(void *proc, int *seq, Args *args)
     WORLDTRADE_CallStateHandler(p, args);
     BG_SYS_ClearGraphicsMemory(0);
     WORLDTRADE_ClearAndShowPlanes(p);
-    GFL_USE_SetBgmPlayerParam(0);
+    GFL_USE_SetBgmPaused(0);
     GFL_USE_CancelChangeAndStopBgm();
     return 1;
 }

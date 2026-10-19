@@ -18,7 +18,7 @@
  *   func_021BDBA0  0x021BDBA0  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_GetSource  0x021BC3A4  thumb  ov208
  *   ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive  0x021BDC2C  thumb  ov208
- *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
+ *   GAME_DATA_SetRecentId  0x02012BE0  thumb
  */
 
 typedef unsigned char  u8;
@@ -42,7 +42,7 @@ extern void ZUKAN_DETAIL_VOICE_SwitchPokemonSlot(u16 *heap, u8 *p, int key);
 extern void func_021BDBA0(int p);
 extern int ZUKAN_DETAIL_COMMON_GetSource(int *p);
 extern int ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive(char *p);
-extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
+extern void GAME_DATA_SetRecentId(void *p, u32 a, u32 b);
 
 void ZUKAN_DETAIL_VOICE_HandleKeyEvent(void *a0, void *a1, void *heap, struct S *st, int *obj, int key)
 {
@@ -101,7 +101,7 @@ void ZUKAN_DETAIL_VOICE_HandleKeyEvent(void *a0, void *a1, void *heap, struct S 
         func_021BDBA0(sc);
         return;
     case 5:
-        GAME_DATA_SetSaveFlag((void *)ZUKAN_DETAIL_COMMON_GetSource(obj), 0x13, ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive((char *)sc));
+        GAME_DATA_SetRecentId((void *)ZUKAN_DETAIL_COMMON_GetSource(obj), 0x13, ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive((char *)sc));
         func_021BDBA0(sc);
         return;
     default:

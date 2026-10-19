@@ -1,7 +1,7 @@
 /*
  * file:     pm_voice.c
  * unit:     yes
- * function: PM_VOICE_Init, PM_VOICE_StopAll, PM_VOICE_StopFinished, PM_VOICE_IsAnyActive, PM_VOICE_AllocBuffers, PM_VOICE_FreeBuffers, PM_VOICE_SetMasterVolume, PM_VOICE_ResetMasterVolume, PM_VOICE_ScaleVolume, PM_VOICE_NextSlot, PM_VOICE_ResetParams, PM_VOICE_ClearSlot, PM_VOICE_LoadWave, PM_VOICE_StartChannels, PM_VOICE_Stop, PM_VOICE_Play, PM_VOICE_Prepare, PM_VOICE_Start, PM_VOICE_AddVolume, PM_VOICE_AddFrequency, PM_VOICE_GetVolume, PM_VOICE_GetFrequency, PM_VOICE_GetData, PM_VOICE_GetDataSize, PM_VOICE_GetSampleRate, PM_VOICE_StopSlot, PM_VOICE_IsSlotActive, PM_VOICE_ReverseBytes, PM_VOICE_GetCryIndex, PM_VOICE_PrepareCry, PM_VOICE_GetPerapVoiceSave, SND_MIC_Init, SND_MIC_Exit, SND_MIC_AddElapsed, SND_MIC_IsLimitReached, SND_MIC_StartSampling, SND_MIC_StartRecording, SND_MIC_StoreRecording, SND_MIC_GetBufferAligned
+ * function: PM_VOICE_Init, PM_VOICE_StopAll, PM_VOICE_StopFinished, PM_VOICE_IsAnyActive, PM_VOICE_AllocBuffers, PM_VOICE_FreeBuffers, PM_VOICE_SetMasterVolume, PM_VOICE_ResetMasterVolume, PM_VOICE_ScaleVolume, PM_VOICE_NextSlot, PM_VOICE_ResetParams, PM_VOICE_ClearSlot, PM_VOICE_LoadWave, PM_VOICE_StartChannels, PM_VOICE_Stop, PM_VOICE_Play, PM_VOICE_Prepare, PM_VOICE_Start, PM_VOICE_AddVolume, PM_VOICE_AddFrequency, PM_VOICE_GetVolume, PM_VOICE_GetFrequency, PM_VOICE_GetData, PM_VOICE_GetDataSize, PM_VOICE_GetSampleRate, PM_VOICE_StopSlot, PM_VOICE_IsSlotActive, PM_VOICE_ReverseBytes, PM_VOICE_GetCryIndex, PM_VOICE_PrepareCry, PM_VOICE_GetPerapVoiceSave
  * address:  0x02006544
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -10,55 +10,11 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
- * Split from bgm_info.c at 0x02006E40 (__FILE__ anchor boundary, certain cut).
- * Split at 0x02006544: the GFL_USE_* sound manager head moved to gfl_use.c,
- * which abuts at 0x02005BC0.
+ * Cut from pm_voice.c by tools/splitfile.py.
  *
  * symbols:
- *   NNS_SndBoot  0x02072758  arm
- *   NNS_SndReadDriverInfo  0x020727B4  arm
- *   NNS_SndHandleReadTrackInfo  0x02073108  arm
- *   NNS_SndHeapDestroy       0x02074758  arm
- *   NNS_SndSetMasterPan  0x02072794  arm
- *   GFL_USE_GetCurrentBgmId  0x020058D0  thumb
- *   GFL_USE_GetCurrentSndHandle  0x0200590C  thumb
- *   OS_IsThreadTerminated       0x0208574C  arm
- *   GFL_USE_UnloadBgmData        0x020059C8  thumb
- *   NNS_SndPlayerSetPlayerVolume       0x02072D98  arm
- *   NNS_SndHandleStopSeq       0x02072E7C  arm
- *   GFL_USE_LoadBgmData   0x02005924  thumb
- *   NNS_SndArcPlayerStartSeqEx  0x020755A8  arm
- *   NNS_SndHandleMoveVolume       0x02072F5C  arm
- *   NNS_SndHandleSetTrackPause  0x02072FA8  arm
- *   NNS_SndHandleSetTrackMute  0x02072FC8  arm
- *   NNS_SndHandleSetTrackPitch  0x02073018  arm
- *   NNS_SndHandleSetTrackPan  0x02073038  arm
- *   NNS_SndHandleStop  0x02073098  arm
- *   NNS_SndHandleSetTrackVolume  0x02072FE8  arm
- *   GFL_USE_StopLoaderThread        0x02006368  thumb
- *   NNS_SndPlayerCountPlayingSeqBySeqNo       0x02072EE0  arm
- *   NNS_SndHandleSetVolume       0x02072F34  arm
- *   GFL_USE_SaveSeqBankState        0x0200597C  thumb
- *   GFL_USE_FinishBgmLoad        0x020059A0  thumb
- *   NNS_SndArcSetReadChunkSize       0x020746B0  arm
- *   NNS_SndHandleInit       0x02072E9C  arm
  *   OS_Sleep       0x02085A38  arm
- *   NNS_SndArcGetSeqParam  0x0207430C  arm
- *   NNS_SndArcPlayerStartSeq       0x02075560  arm
- *   NNS_SndPlayerGetActiveSeqCount  0x02072EC8  arm
- *   OS_CreateThread        0x020853C0  arm
- *   NNS_SndArcLoadSeqEx        0x02074AC4  arm
- *   OS_WakeupThreadDirect        0x02085868  arm
- *   OS_DestroyThread  0x020855BC  arm
- *   NNS_SndArcGetSeqInfo  0x02074324  arm
- *   NNS_SndArcGetBankInfo  0x020743EC  arm
- *   NNS_SndArcLoadWaveArc  0x02074A98  arm
- *   NNS_SndArcSetFileAddress  0x02074694  arm
  *   NNS_SndArcGetWaveArcInfo  0x02074450  arm
- *   NNS_SndArcGetFileAddress  0x0207466C  arm
- *   SND_SetWaveDataAddress  0x0208A640  arm
- *   SND_GetWaveDataAddress  0x0208A674  arm
  *   GFL_HEAP_Alloc       0x02030734  arm
  *   NNS_SndWaveOutIsPlaying       0x02072CC4  arm
  *   GFL_HEAP_Free       0x020307B0  arm
@@ -79,115 +35,32 @@
  *   ARC_TOOL_ReadMember  0x02048F4C  arm
  *   SAVE_CONTROL_Get  0x020070A4  thumb
  *   PERAPVOICE_GetFromSave  0x02007B44  thumb
- *   MI_CpuFill8  0x02082BCC  arm
- *   PM_SetAmp  0x0208BEF0  arm
- *   PM_SetAmpGain  0x0208BF38  arm
- *   MIC_Init  0x0208B24C  arm
- *   OS_IsRunOnTwl  0x02085D3C  arm
- *   SNDEXi_SetIirFilter  0x027047C0  arm  twl
- *   _SndState           0x020AA260  data
- *   _SndTrackInfo       0x020AA414  data
- *   _SeSlots            0x020AA294  data
- *   _WorkerThread       0x020AA354  data
- *   _SndHeapBuf         0x020AA9B4  data
  *   _VoiceSystem        0x02140484  data
  *   _VoiceBuffer0       0x02140534  data
  *   _VoiceChannelTable  0x0209D8C0  data
  *   _PmVoiceFile        0x020A7024  data
- *   _SndMicFile         0x020A703C  data
- *   _MicIirFilter       0x020A7030  data
- *   _SndMic             0x02146164  data
- *   NNS_SndHandleSetTrackModDepth  0x02073058  arm
- *   NNS_SndHandleSetTrackModSpeed  0x02073078  arm
- *   GFL_USE_GetSndStackDepth  0x02005900  thumb
- *   GFL_USE_PushSndSlot  0x02005A00  thumb
- *   GFL_USE_PopSndSlot  0x02005A4C  thumb
- *   NNS_SndHandlePauseSeq  0x02072E8C  arm
- *   PERAPVOICE_Pack  0x02007BD0  thumb
  */
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed int     s32;
+#include "pm_voice_shared_types.h"
+
 typedef signed char    s8;
 
 /* Sound volume range and the player numbers the sequence start call takes. */
 #define SND_VOLUME_MAX       0x7F
-#define SND_TRACKS_ALL       0xFFFF
-#define SND_SE_SLOT_COUNT    5
-#define SND_PLAYER_BGM       0
-#define SND_PLAYER_FANFARE   6
-
-/* Phases of a background music change (SndState.changePhase). */
-#define BGM_CHANGE_FADE      0   /* ramp the volume down, or up once the new BGM plays */
-#define BGM_CHANGE_LOAD_SEQ  1   /* loader thread reads sequence and bank */
-#define BGM_CHANGE_LOAD_WAVE 2   /* loader thread reads the wave archives */
-
-/* Sequence number whose buffers PM sound code installs by hand. */
-#define SEQ_PRELOADED_BGM    0x3F2
 
 /* Voice mixer limits. */
 #define PM_VOICE_SLOT_COUNT  3
+
 #define PM_VOICE_DEFAULT_SAMPLE_RATE 0x3443
+
 #define PM_VOICE_DEFAULT_FREQUENCY   0x64E1
+
 #define PM_VOICE_BUFFER_SIZE 0x5C30
 
-struct SndHeap;
-struct SndSeq;
 struct SndChannel;
-struct PerapVoice;
+
 struct SaveData;
+
 struct SaveBlock;
-
-/* The driver's per-track status record (26 bytes), read back each frame. */
-struct SNDTrackInfo {
-    u8 raw[0x1A];
-};
-
-/* Handle on a playing sequence; the sound library fills the pointer. */
-struct SndHandle {
-    struct SndSeq *seq;
-};
-
-/*
- * Sound manager state at 0x020AA260. The first 0x1C bytes are the part
- * gfl_use.c sets up; the rest drives the timed change of the background
- * music (fade out, load, fade in).
- */
-struct SndState {
-    u16 activeMask;             /* 00: bit n set when track n reported a record */
-    u16 pad02;
-    int (*startFilter)(u32 seqNo); /* 04: may veto the start of a sequence */
-    u32 countdown;              /* 08: frames left of the running fade */
-    u32 loaderSeqNo;            /* 0C: sequence the loader thread works on; its address is the thread argument */
-    struct SndHeap *heap;       /* 10: sound heap */
-    u32 loaderThread;           /* 14: nonzero once the loader thread was started */
-    u32 currentBgm;             /* 18 */
-    u32 changeActive;           /* 1C: 1 while a BGM change is pending */
-    u32 changePhase;            /* 20: BGM_CHANGE_* */
-    u16 fadeCounter;            /* 24: steps into the current fade */
-    u16 changeTrackMask;        /* 26: tracks left audible after the change (0xFFFF: all) */
-    u32 changeBgm;              /* 28: BGM to switch to */
-    int fadeInFrames;           /* 2C */
-    int fadeOutFrames;          /* 30 */
-};
-
-/* One sound effect slot: the sequence started there and its handle. */
-struct SeSlot {
-    u32 seqNo;
-    struct SndHandle handle;
-};
-
-/* Entries of the sound archive info tables (only the parts read here). */
-struct SndArcSeqEntry {
-    u32 fileId;
-    u16 bankNo;
-};
-
-struct SndArcBankEntry {
-    u32 fileId;
-    u16 waveArc[4];             /* 0xFFFF: unused */
-};
 
 struct SndArcWaveArcEntry {
     u32 fileId : 24;
@@ -252,118 +125,52 @@ struct PmVoiceSystem {
     u8  masterVolume;           /* AC */
 };
 
-typedef void (*MICCallback)(u32 result, void *arg);
-
-/* The microphone sampling request (the SDK's MICAutoParam). */
-struct MICAutoParam {
-    u32 type;
-    void *buffer;
-    u32 size;
-    u32 rate;
-    u32 loop_enable;
-    MICCallback full_callback;
-    void *full_arg;
-};
-
-/* Microphone work area (0x28 bytes) allocated by SND_MIC_Init. */
-struct SndMic {
-    struct MICAutoParam param;  /* 00 */
-    u32 sampling;               /* 1C: set once sampling was requested */
-    union {                     /* 20 */
-        u32 word;
-        struct {
-            u32 recording : 1;
-            u32 elapsed : 31;   /* ticks recorded so far */
-        } bits;
-    } status;
-    void *sampleBuffer;         /* 24 */
-};
-
-/* Calls into the sound library and the sound archive reader (ARM code). */
-extern void  NNS_SndBoot(void);
-extern u32   NNS_SndReadDriverInfo(void);
-extern int   NNS_SndHandleReadTrackInfo(struct SndHandle *handle, int trackNo, struct SNDTrackInfo *trackInfo);
-extern void  NNS_SndHeapDestroy(struct SndHeap *heap);
-extern void  NNS_SndSetMasterPan(u32 monoFlag);
-extern void  NNS_SndPlayerSetPlayerVolume(u32 playerNo, u32 volume);
-extern void  NNS_SndHandleStopSeq(struct SndHandle *handle, int fadeFrames);
-extern void  NNS_SndHandlePauseSeq(struct SndHandle *handle, u32 value);
-extern void  NNS_SndHandleMoveVolume(struct SndHandle *handle, u32 volume, u32 frames);
-extern void  NNS_SndHandleSetVolume(struct SndHandle *handle, int volume);
-extern void  NNS_SndHandleSetTrackPause(struct SndHandle *handle, u32 trackMask, u32 mute);
-extern void  NNS_SndHandleSetTrackMute(struct SndHandle *handle, u32 trackMask, u32 mute);
-extern void  NNS_SndHandleSetTrackVolume(struct SndHandle *handle, u32 trackMask, int volumeIndex);
-extern void  NNS_SndHandleSetTrackPitch(struct SndHandle *handle, u32 trackMask, u32 pitch);
-extern void  NNS_SndHandleSetTrackPan(struct SndHandle *handle, u32 trackMask, u32 pan);
-extern void  NNS_SndHandleSetTrackModDepth(struct SndHandle *handle, u32 trackMask, u32 depth);
-extern void  NNS_SndHandleSetTrackModSpeed(struct SndHandle *handle, u32 trackMask, u32 speed);
-extern void  NNS_SndHandleStop(struct SndHandle *handle, u32 tempoRatio);
-extern s32   NNS_SndPlayerCountPlayingSeqBySeqNo(u32 seqNo);
-extern void  NNS_SndHandleInit(struct SndHandle *handle);
-extern u16   NNS_SndPlayerGetActiveSeqCount(u32 playerNo);
-extern void  NNS_SndArcSetReadChunkSize(int loadFlags);
 extern void  OS_Sleep(u32 msec);
-extern struct SndArcSeqEntry  *NNS_SndArcGetSeqInfo(int seqNo);
-extern struct SndArcBankEntry *NNS_SndArcGetBankInfo(int bankNo);
-extern struct SndArcWaveArcEntry *NNS_SndArcGetWaveArcInfo(int waveArcNo);
-extern u8   *NNS_SndArcGetSeqParam(int seqNo);
-extern u32   NNS_SndArcPlayerStartSeq(struct SndHandle *handle, u32 seqNo);
-extern u32   NNS_SndArcPlayerStartSeqEx(struct SndHandle *handle, int playerNo, int bankNo, int priority, u32 seqNo);
-extern u32   NNS_SndArcLoadSeqEx(u32 seqNo, u32 loadFlags, struct SndHeap *heap);
-extern u32   NNS_SndArcLoadWaveArc(u32 waveArcNo, struct SndHeap *heap);
-extern void  NNS_SndArcSetFileAddress(u32 fileId, u32 address);
-extern u32   NNS_SndArcGetFileAddress(u32 fileId);
-extern void  SND_SetWaveDataAddress(u32 *waveArc, u32 waveIndex, u32 address);
-extern u32   SND_GetWaveDataAddress(u32 waveArc, u32 waveIndex);
-extern void  OS_CreateThread(u32 *thread, void (*entry)(void *), void *arg,
-                           u32 *stack, u32 size, u32 prio);
-extern void  OS_WakeupThreadDirect(u32 *thread);
-extern void  OS_DestroyThread(void *thread);
-extern int   OS_IsThreadTerminated(void *thread);
 
-/* Calls into gfl_use.c (sound heap stack). */
-extern u16   GFL_USE_GetCurrentBgmId(void);
-extern struct SndHandle *GFL_USE_GetCurrentSndHandle(void);
-extern int   GFL_USE_LoadBgmData(u32 bgmNo);
-extern void  GFL_USE_UnloadBgmData(void);
-extern void  GFL_USE_SaveSeqBankState(void);
-extern int   GFL_USE_FinishBgmLoad(u32 bgmNo);
-extern int   GFL_USE_PushSndSlot(void);
-extern int   GFL_USE_GetSndStackDepth(void);
-extern int   GFL_USE_PopSndSlot(void);
+extern struct SndArcWaveArcEntry *NNS_SndArcGetWaveArcInfo(int waveArcNo);
 
 /* Calls into the voice channel layer and the other data readers. */
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
+
 extern void  GFL_HEAP_Free(void *block);
+
 extern int   NNS_SndWaveOutIsPlaying(struct SndChannel *channel);
+
 extern struct SndChannel *NNS_SndWaveOutAllocChannel(u32 channelNo);
+
 extern int   NNS_SndWaveOutStart(struct SndChannel *channel, u32 format, void *data,
                            u32 loopFlag, u32 start, u32 end, u32 sampleRate,
                            u8 volume, u32 frequency, u8 pan);
-extern u32   NNS_SndArcGetFileSize(u32 fileId);
-extern int   NNS_SndArcReadFile(u32 fileId, void *dst, int length, u32 offset);
-extern void *SNDi_GetBankWaveArcTable(char *file);
-extern void  NNS_SndWaveOutStop(struct SndChannel *channel);
-extern void  NNS_SndWaveOutWaitIdle(struct SndChannel *channel);
-extern void  NNSi_SndWaveOutUnlockChannel(struct SndChannel *channel);
-extern void  NNS_SndWaveOutSetVolume(struct SndChannel *channel, u32 volume);
-extern void  NNS_SndWaveOutSetSpeed(struct SndChannel *channel, u32 frequency);
-extern u32   GFL_USE_GetRandom(u32 limit);
-extern u32   PERAPVOICE_IsRecorded(void *perapVoice);
-extern u8   *PERAPVOICE_GetSamples(struct PerapVoice *perapVoice);
-extern void  PERAPVOICE_Unpack(void *dst, const void *src);
-extern void  ARC_TOOL_ReadMember(void *dst, u32 archiveId, u32 member);
-extern struct SaveData  *SAVE_CONTROL_Get(void);
-extern struct SaveBlock *PERAPVOICE_GetFromSave(struct SaveData *saveData);
-extern void  MI_CpuFill8(void *p, u32 value, u32 size);
-extern unsigned int PM_SetAmp(unsigned int on);
-extern unsigned int PM_SetAmpGain(unsigned int gain);
-extern void  MIC_Init(void);
-extern int   OS_IsRunOnTwl(void);
-extern void  SNDEXi_SetIirFilter(u32 index, u8 *coefficients);
-extern u32   MIC_AdjustLimitedSampling(const struct MICAutoParam *param);
-extern void  PERAPVOICE_Pack(struct PerapVoice *perapVoice, const void *src);
 
+extern u32   NNS_SndArcGetFileSize(u32 fileId);
+
+extern int   NNS_SndArcReadFile(u32 fileId, void *dst, int length, u32 offset);
+
+extern void *SNDi_GetBankWaveArcTable(char *file);
+
+extern void  NNS_SndWaveOutStop(struct SndChannel *channel);
+
+extern void  NNS_SndWaveOutWaitIdle(struct SndChannel *channel);
+
+extern void  NNSi_SndWaveOutUnlockChannel(struct SndChannel *channel);
+
+extern void  NNS_SndWaveOutSetVolume(struct SndChannel *channel, u32 volume);
+
+extern void  NNS_SndWaveOutSetSpeed(struct SndChannel *channel, u32 frequency);
+
+extern u32   GFL_USE_GetRandom(u32 limit);
+
+extern u32   PERAPVOICE_IsRecorded(void *perapVoice);
+
+extern u8   *PERAPVOICE_GetSamples(struct PerapVoice *perapVoice);
+
+extern void  PERAPVOICE_Unpack(void *dst, const void *src);
+
+extern void  ARC_TOOL_ReadMember(void *dst, u32 archiveId, u32 member);
+
+extern struct SaveData  *SAVE_CONTROL_Get(void);
+
+extern struct SaveBlock *PERAPVOICE_GetFromSave(struct SaveData *saveData);
 
 /* voice mixer */
 void PM_VOICE_Init(u16 heapId,
@@ -371,57 +178,77 @@ void PM_VOICE_Init(u16 heapId,
                    u32 (*prepareCallback)(u32 species, u32 form, void **recordedVoice,
                                           u8 **data, u32 *dataSize, u32 *sampleRate,
                                           u32 *frequency, s8 *volume));
+
 void PM_VOICE_StopAll(void);
+
 void PM_VOICE_StopFinished(void);
+
 int PM_VOICE_IsAnyActive(void);
+
 void PM_VOICE_AllocBuffers(int extraVoices, u32 heapId);
+
 void PM_VOICE_FreeBuffers(void);
+
 void PM_VOICE_SetMasterVolume(u8 volume);
+
 void PM_VOICE_ResetMasterVolume(void);
+
 u8 PM_VOICE_ScaleVolume(u8 volume);
+
 u16 PM_VOICE_NextSlot(void);
+
 void PM_VOICE_ResetParams(struct PmVoice *voice);
+
 void PM_VOICE_ClearSlot(struct PmVoice *voice);
+
 int PM_VOICE_LoadWave(struct PmVoice *voice, u32 waveId);
+
 int PM_VOICE_StartChannels(struct PmVoice *voice);
+
 void PM_VOICE_Stop(struct PmVoice *voice);
+
 u32 PM_VOICE_Play(u32 species, u32 form, u32 pan, u32 dual,
                   u32 volumeBiasB, u32 frequencyOffsetB, u32 reverse, void **recordedVoice);
+
 int PM_VOICE_Prepare(int species, int form, int pan, int dual,
                   int volumeBiasB, int frequencyOffsetB, int reverse, void **recordedVoice);
+
 int PM_VOICE_Start(u32 slot);
+
 void PM_VOICE_AddVolume(u32 slot, int delta);
+
 void PM_VOICE_AddFrequency(u32 slot, u32 delta);
+
 s8 PM_VOICE_GetVolume(u32 slot);
+
 u32 PM_VOICE_GetFrequency(u32 slot);
+
 u8 *PM_VOICE_GetData(u32 slot);
+
 u32 PM_VOICE_GetDataSize(u32 slot);
+
 u32 PM_VOICE_GetSampleRate(u32 slot);
+
 void PM_VOICE_StopSlot(u32 slot);
+
 u32 PM_VOICE_IsSlotActive(u32 slot);
+
 void PM_VOICE_ReverseBytes(u8 *bytes, u32 count);
+
 void PM_VOICE_GetCryIndex(u32 species, u32 form, u32 *cryIndex);
+
 u32 PM_VOICE_PrepareCry(u32 species, u32 form, void **recordedVoice, u8 **data,
                   u32 *dataSize, u32 *sampleRate, u32 *frequency, s8 *volume);
+
 void PM_VOICE_GetPerapVoiceSave(struct SaveBlock **out);
 
-/* microphone (snd_mic.c part of this file) */
-void SND_MIC_Init(u16 heapId);
-void SND_MIC_Exit(void);
-void SND_MIC_AddElapsed(u32 ticks);
-u32 SND_MIC_IsLimitReached(void);
-u32 SND_MIC_StartSampling(const struct MICAutoParam *param);
-u32 SND_MIC_StartRecording(MICCallback callback, void *arg);
-void SND_MIC_StoreRecording(struct PerapVoice *perapVoice);
-void *SND_MIC_GetBufferAligned(void);
-
 extern struct PmVoiceSystem _VoiceSystem;
+
 extern u8 _VoiceBuffer0[];
+
 extern struct PmVoiceChannelPair _VoiceChannelTable[];
+
 extern const char _PmVoiceFile[];
-extern char _SndMicFile[];
-extern u8 _MicIirFilter[];
-extern struct SndMic *_SndMic;
 
 /*
  * Set up the voice mixer: remember the heap and the two callbacks, put the
@@ -1009,127 +836,4 @@ u32 PM_VOICE_PrepareCry(u32 species, u32 form, void **recordedVoice, u8 **data,
 void PM_VOICE_GetPerapVoiceSave(struct SaveBlock **out)
 {
     *out = PERAPVOICE_GetFromSave(SAVE_CONTROL_Get());
-}
-
-/*
- * Allocate the microphone work area (0x28 bytes) and its 0x2014 byte sample
- * buffer, both with the file name "snd_mic.c" as the site (lines 0x59 and
- * 0x5f). The buffer is linked in at +0x24 before the hardware is set up:
- * amplifier on with gain 2, microphone init, and on a DSi the IIR filter
- * table. The recording bit is cleared and set again (bics for the clear).
- */
-void SND_MIC_Init(u16 heapId)
-{
-    struct SndMic *mic;
-    void *sampleBuffer;
-
-    mic = GFL_HEAP_Alloc(heapId, 0x28, 0, _SndMicFile, 0x59);
-    MI_CpuFill8(mic, 0, 0x28);
-    sampleBuffer = GFL_HEAP_Alloc(heapId, 0x2014, 0, _SndMicFile, 0x5f);
-    MI_CpuFill8(sampleBuffer, 0, 0x2014);
-    mic->sampleBuffer = sampleBuffer;
-    PM_SetAmp(1);
-    PM_SetAmpGain(2);
-    mic->status.word = (mic->status.word & ~1u) | 1u;
-    MIC_Init();
-    if (OS_IsRunOnTwl() == 1) {
-        SNDEXi_SetIirFilter(0, _MicIirFilter);
-    }
-    _SndMic = mic;
-}
-
-/*
- * Tail of the microphone code. The word at +0x20 is two bitfields (bit 0 and
- * a 31 bit counter), and all of D44..D94 turn on that declaration: the
- * counter is read with a bare `lsrs r0, r0, #1` (correct only because the
- * field runs to the top of the word) and written back with a read modify
- * write that keeps bit 0; the one bit is tested with lsls #0x1f / lsrs #0x1f.
- * The range starts at 0x02006D44 because 0x02006D3C is a linker veneer
- * (ldr pc, [pc, #-4]) over 0x027047C0.
- */
-void SND_MIC_Exit(void)
-{
-    PM_SetAmp(0);
-    GFL_HEAP_Free(_SndMic->sampleBuffer);
-    GFL_HEAP_Free(_SndMic);
-}
-
-/* Add `ticks` to the recorded time while recording and below the limit. */
-void SND_MIC_AddElapsed(u32 ticks)
-{
-    struct SndMic *mic = _SndMic;
-
-    if (mic->status.bits.recording) {
-        if (SND_MIC_IsLimitReached() == 0) {
-            mic->status.bits.elapsed += ticks;
-        }
-    }
-}
-
-/* 1 once more than 180 ticks were recorded. */
-u32 SND_MIC_IsLimitReached(void)
-{
-    if (_SndMic->status.bits.elapsed > 0xB4) {
-        return 1;
-    }
-    return 0;
-}
-
-/*
- * Start sampling with a request (the SDK call is MIC_StartLimitedSampling)
- * and keep a copy of the request. The global pointer is read twice, once for
- * the flag word and once for the copy, because the store through the first
- * load can alias the pointer itself. The copy is the unrolled aggregate
- * assignment of the seven word request (three ldm/stm pairs and a trailing
- * ldr/str).
- */
-u32 SND_MIC_StartSampling(const struct MICAutoParam *param)
-{
-    u32 result = MIC_AdjustLimitedSampling(param);
-
-    _SndMic->sampling = 1;
-    _SndMic->param = *param;
-    return result;
-}
-
-/*
- * Record into the work buffer with a full-buffer callback. The size is
- * rounded down to a multiple of 32 by a live test and mask (movs r0, #0x1f;
- * tst r0, r1; beq; movs r0, #0x1f; bics r1, r0): the mask is materialised
- * twice because Thumb has no immediate bic, and the compiler does not fold
- * it, so the guard is in the source.
- */
-u32 SND_MIC_StartRecording(MICCallback callback, void *arg)
-{
-    struct MICAutoParam param;
-
-    param.type = 2;
-    param.buffer = SND_MIC_GetBufferAligned();
-    param.size = 0x1FF4;
-    if (param.size & 0x1F) {
-        param.size &= ~0x1Fu;
-    }
-    param.rate = 0x1001;
-    param.loop_enable = 0;
-    param.full_callback = callback;
-    param.full_arg = arg;
-    return SND_MIC_StartSampling(&param);
-}
-
-/* Copy the recorded buffer into a Perap voice (Chatot) record. */
-void SND_MIC_StoreRecording(struct PerapVoice *perapVoice)
-{
-    void *buffer = SND_MIC_GetBufferAligned();
-
-    PERAPVOICE_Pack(perapVoice, buffer);
-}
-
-/*
- * The sample buffer address rounded up to a multiple of 32. The mask is
- * materialised in r1 and applied with bics (Thumb has no immediate bic);
- * the compiler hoists the movs above both loads.
- */
-void *SND_MIC_GetBufferAligned(void)
-{
-    return (void *)(((u32)_SndMic->sampleBuffer + 0x1F) & ~0x1Fu);
 }

@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   BOX2_SEQ_StatePlayCry 0x021E9284 thumb
+ *   BOX2_SEQ_StateExitBoxWithSe 0x021E9284 thumb
  *
  * State handler (table entry at 0x021EFABC) that forwards to
- * BOX2_SEQ_StatePlayCry.
+ * BOX2_SEQ_StateExitBoxWithSe.
  */
 
-extern int BOX2_SEQ_StatePlayCry(char *p);
+extern int BOX2_SEQ_StateExitBoxWithSe(char *p);
 
 int BOX2_SEQ_StateCloseBox(unsigned char *p)
 {
-    return BOX2_SEQ_StatePlayCry((char *)p);
+    return BOX2_SEQ_StateExitBoxWithSe((char *)p);
 }

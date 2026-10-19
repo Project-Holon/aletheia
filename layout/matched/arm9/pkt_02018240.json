@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "POKE_TOOL_FindBoxMoveSlot",
+   "name": "POKE_TOOL_AddBoxMoveAlt",
    "address": "0x02018240",
    "kind": "game",
    "region": "arm9",

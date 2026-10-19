@@ -21,7 +21,7 @@
  *   ov067_id 0x00000043 data a1
  *   ov114_id 0x00000072 data a1
  *   GFL_USE_CancelChangeAndStopBgm  0x02005D28  thumb  arm9
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
+ *   WORDSET_Delete  0x0201ED04  thumb  arm9
  */
 #include "../include/Obj02854.h"
 typedef unsigned char u8;
@@ -34,7 +34,7 @@ struct S020314B8;
 struct Proc;
 struct WordSet;
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
-extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern unsigned int WORDSET_Delete(struct WordSet *p);
 extern void TCB_Noop(void *);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
@@ -55,7 +55,7 @@ int WORLDTRADE_ProcExit(void *ctx, int unused1, int unused2, u8 *p)
     MSGDATA_Delete(((struct Obj02854 *)p)->fB74);
     MSGDATA_Delete(((struct Obj02854 *)p)->fB6C);
     MSGDATA_Delete(((struct Obj02854 *)p)->fB7C);
-    WORDSET_DeleteStrbufED04(((struct Obj02854 *)p)->fB68);
+    WORDSET_Delete(((struct Obj02854 *)p)->fB68);
     TCB_Noop(((struct Obj02854 *)p)->fF94);
     func_020307B0(((struct Obj02854 *)p)->fF9C);
     func_0203133C(((struct Obj02854 *)p)->f12F0);

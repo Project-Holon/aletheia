@@ -1,5 +1,5 @@
 /*
- * function: BOX2_UI_DeleteSound
+ * function: BOX2_UI_DeleteCursorMove
  * address:  0x021EE3CC
  * packet:   pkt_021EE3CC
  * region:   ov170
@@ -23,7 +23,7 @@
 
 extern void CURSOR_MOVE_Delete(void);
 
-void BOX2_UI_DeleteSound(int *p)
+void BOX2_UI_DeleteCursorMove(int *p)
 {
     if (*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x70)) {
         CURSOR_MOVE_Delete();

@@ -93,7 +93,7 @@
  *   G3D_LIGHT_ApplySlots 0x02048C58 arm
  *   G3D_CAMERA_Create 0x02048A24 arm
  *   G3D_CAMERA_Reset 0x02048AD0 arm
- *   BG_SYS_SetLowBit 0x0204044C arm
+ *   BG_SYS_EnableBg0WithPriority 0x0204044C arm
  *   G2x_SetBlendBrightness_ 0x0207D658 arm
  *   d_021BAB50 0x021BAB50 data a4
  *   d_021BAB38 0x021BAB38 data a4
@@ -324,7 +324,7 @@ extern struct LightSlot *G3D_LIGHT_CreateSlots(const struct LightSet *,u32);
 extern void G3D_LIGHT_ApplySlots(struct LightSlot *);
 extern u32 *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,Vec3 *,Vec3 *,Vec3 *,u16);
 extern void G3D_CAMERA_Reset(struct Light *);
-extern void BG_SYS_SetLowBit(u32);
+extern void BG_SYS_EnableBg0WithPriority(u32);
 extern void G2x_SetBlendBrightness_(u32,int,int);
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_LIGHT_DeleteSlots(void *);
@@ -860,7 +860,7 @@ void STAFF_ROLL_Init3d(char *p) {
         0,4096,0x400000,0,&d_021BACE4,&v,&d_021BACF0,142);
     G3D_CAMERA_Reset(*(struct Light **)(p+0xc));
     AntiAlias(1);
-    BG_SYS_SetLowBit(2);
+    BG_SYS_EnableBg0WithPriority(2);
     STAFF_ROLL_InitLights((u8 *)(p+0x28));
     BG_SYS_SetMainPlaneVisible(1,0);
     G2x_SetBlendBrightness_(0x04000050,1,-16);

@@ -18,7 +18,7 @@
  *   POKETRADE_PROC_SetStep  0x021D8E84  thumb  ov119
  *   POKETRADE_PROC_StepBeginWipeOut  0x021D9434  thumb  ov119
  *   POKETRADE_SAVE_CreateMessageResources  0x021E10D8  thumb  ov119
- *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb
+ *   GFL_USE_SetBgmPaused  0x02005DE4  thumb
  *   GFL_USE_PushBgm  0x02005E64  thumb
  *   GFL_USE_FadeOutBgm  0x02005E30  thumb
  *   POKETRADE_SAVE_StepEventMessage1  0x021DFE48  thumb  ov119
@@ -47,7 +47,7 @@ extern void POKETRADE_SAVE_PopBgmFadeIn60(void *);
 extern void POKETRADE_PROC_SetStep(void *, int);
 extern void POKETRADE_PROC_StepBeginWipeOut(void *p);
 extern void POKETRADE_SAVE_CreateMessageResources(char *p);
-extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_SetBgmPaused(void *p);
 extern int GFL_USE_PushBgm(void);
 extern void GFL_USE_FadeOutBgm(u32 a);
 extern void POKETRADE_SAVE_StepEventMessage1(char *p);
@@ -72,7 +72,7 @@ void POKETRADE_SAVE_ResetClactAndBeginEvent(void *p)
         POKETRADE_PROC_SetStep(p, 0);
     } else {
         POKETRADE_SAVE_CreateMessageResources(p);
-        GFL_USE_SetBgmPlayerParam((void *)1);
+        GFL_USE_SetBgmPaused((void *)1);
         GFL_USE_PushBgm();
         (((struct Obj00906 *)b)->f11F8)++;
         GFL_USE_FadeOutBgm(6);

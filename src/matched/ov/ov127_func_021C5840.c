@@ -1,5 +1,5 @@
 /*
- * function: WF2DMAP_OBJDRAW_SetActorValue
+ * function: WF2DMAP_OBJDRAW_SetActorDrawEnable
  * address:  0x021C5840
  * packet:   pkt_ov127_021C5840
  * region:   ov127
@@ -20,7 +20,7 @@
 
 extern void WIFI_2DCHAR_SetActorDrawEnable(char *p, int a);
 
-void WF2DMAP_OBJDRAW_SetActorValue(char *p, int a)
+void WF2DMAP_OBJDRAW_SetActorDrawEnable(char *p, int a)
 {
     WIFI_2DCHAR_SetActorDrawEnable(((struct Obj23050 *)p)->f4, a);
 }

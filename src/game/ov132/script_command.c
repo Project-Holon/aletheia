@@ -1,7 +1,7 @@
 /*
  * file:     script_command.c
  * unit:     yes
- * function: SCRIPT_COMMAND_CmdCameraTo224, SCRIPT_COMMAND_CmdCameraTo0, SCRIPT_COMMAND_CmdSetCameraPos, SCRIPT_COMMAND_TaskCameraPos, SCRIPT_COMMAND_CmdSetCameraTarget, SCRIPT_COMMAND_TaskCameraTarget, SCRIPT_COMMAND_CmdSkipArg, SCRIPT_COMMAND_CmdShowAnim, SCRIPT_COMMAND_CmdHideAnim, SCRIPT_COMMAND_GetActorMask, SCRIPT_COMMAND_CmdSetActorFrame, SCRIPT_COMMAND_CmdSetActorVisible, SCRIPT_COMMAND_CmdSetActorPos, SCRIPT_COMMAND_CmdAddActorPos, SCRIPT_COMMAND_TaskActorMove, SCRIPT_COMMAND_CmdActorAnimRestart, SCRIPT_COMMAND_CmdActorAnimPause, SCRIPT_COMMAND_CmdSetActorFlag, SCRIPT_COMMAND_CmdSetActorScale, SCRIPT_COMMAND_CmdSetActorLight, SCRIPT_COMMAND_CmdPositionAnim, SCRIPT_COMMAND_CmdSetSelection, SCRIPT_COMMAND_CmdClearSelection, SCRIPT_COMMAND_CmdLoadRankAnim, SCRIPT_COMMAND_CmdLoadAnimMember, SCRIPT_COMMAND_CmdStartShake, SCRIPT_COMMAND_TaskShake, SCRIPT_COMMAND_CmdRotateActor, SCRIPT_COMMAND_TaskRotate, SCRIPT_COMMAND_CmdCompareScores, SCRIPT_COMMAND_CmdSetFlags, SCRIPT_COMMAND_CmdAddEntry, SCRIPT_COMMAND_CmdFreeEntry, SCRIPT_COMMAND_CmdShowEntry, SCRIPT_COMMAND_CmdHideEntry, SCRIPT_COMMAND_CmdSetEntryTarget, SCRIPT_COMMAND_TaskEntryTarget, SCRIPT_COMMAND_CmdSetAnimSlot, SCRIPT_COMMAND_CmdFreeAnimSlot, SCRIPT_COMMAND_CmdStartEffect, SCRIPT_COMMAND_CmdKillEffect, SCRIPT_COMMAND_CmdMoveEffect, SCRIPT_COMMAND_TaskMoveEffect, SCRIPT_COMMAND_CmdSetChar, SCRIPT_COMMAND_CmdFreeChar, SCRIPT_COMMAND_CmdSetCharPos, SCRIPT_COMMAND_TaskCharMove, SCRIPT_COMMAND_CmdCharFollowActor, SCRIPT_COMMAND_TaskCharFollow, SCRIPT_COMMAND_CmdSetCharColor, SCRIPT_COMMAND_CmdPrintText, SCRIPT_COMMAND_CmdClearText, SCRIPT_COMMAND_CmdSetTextColor, SCRIPT_COMMAND_CmdInstallBgm, SCRIPT_COMMAND_CmdStartSeq, SCRIPT_COMMAND_CmdStopSeq, SCRIPT_COMMAND_CmdReplaceWave, SCRIPT_COMMAND_CmdPlayBgm, SCRIPT_COMMAND_CmdStopBgm
+ * function: SCRIPT_COMMAND_CmdCameraTo224, SCRIPT_COMMAND_CmdCameraTo0, SCRIPT_COMMAND_CmdSetCameraPos, SCRIPT_COMMAND_TaskCameraPos, SCRIPT_COMMAND_CmdSetCameraTarget, SCRIPT_COMMAND_TaskCameraTarget, SCRIPT_COMMAND_CmdSkipArg, SCRIPT_COMMAND_CmdShowButton, SCRIPT_COMMAND_CmdHideButton, SCRIPT_COMMAND_GetActorMask, SCRIPT_COMMAND_CmdSetActorFrame, SCRIPT_COMMAND_CmdSetActorVisible, SCRIPT_COMMAND_CmdSetActorPos, SCRIPT_COMMAND_CmdAddActorPos, SCRIPT_COMMAND_TaskActorMove, SCRIPT_COMMAND_CmdActorAnimRestart, SCRIPT_COMMAND_CmdActorAnimPause, SCRIPT_COMMAND_CmdSetActorFlag, SCRIPT_COMMAND_CmdSetActorScale, SCRIPT_COMMAND_CmdSetActorLight, SCRIPT_COMMAND_CmdPositionAnim, SCRIPT_COMMAND_CmdSetSelection, SCRIPT_COMMAND_CmdClearSelection, SCRIPT_COMMAND_CmdLoadRankAnim, SCRIPT_COMMAND_CmdLoadAnimMember, SCRIPT_COMMAND_CmdStartShake, SCRIPT_COMMAND_TaskShake, SCRIPT_COMMAND_CmdRotateActor, SCRIPT_COMMAND_TaskRotate, SCRIPT_COMMAND_CmdCompareScores, SCRIPT_COMMAND_CmdSetFlags, SCRIPT_COMMAND_CmdAddEntry, SCRIPT_COMMAND_CmdFreeEntry, SCRIPT_COMMAND_CmdShowEntry, SCRIPT_COMMAND_CmdHideEntry, SCRIPT_COMMAND_CmdSetEntryTarget, SCRIPT_COMMAND_TaskEntryTarget, SCRIPT_COMMAND_CmdSetAnimSlot, SCRIPT_COMMAND_CmdFreeAnimSlot, SCRIPT_COMMAND_CmdStartEffect, SCRIPT_COMMAND_CmdKillEffect, SCRIPT_COMMAND_CmdMoveEffect, SCRIPT_COMMAND_TaskMoveEffect, SCRIPT_COMMAND_CmdSetChar, SCRIPT_COMMAND_CmdFreeChar, SCRIPT_COMMAND_CmdSetCharPos, SCRIPT_COMMAND_TaskCharMove, SCRIPT_COMMAND_CmdCharFollowActor, SCRIPT_COMMAND_TaskCharFollow, SCRIPT_COMMAND_CmdSetCharColor, SCRIPT_COMMAND_CmdPrintText, SCRIPT_COMMAND_CmdClearText, SCRIPT_COMMAND_CmdSetTextColor, SCRIPT_COMMAND_CmdInstallBgm, SCRIPT_COMMAND_CmdStartSeq, SCRIPT_COMMAND_CmdStopSeq, SCRIPT_COMMAND_CmdReplaceWave, SCRIPT_COMMAND_CmdPlayBgm, SCRIPT_COMMAND_CmdStopBgm
  * address:  0x021FAF70
  * region:   ov132
  * compiler: dsi/1.1p1
@@ -23,7 +23,7 @@
  *   STA_ACT_EFFECT_KillSystem  0x021F9F58  thumb
  *   STA_ACT_EFFECT_StartEffect 0x021F9F74 thumb ov132
  *   STA_ACTING_GetCameraPos 0x021F9DFC thumb ov132
- *   STA_ACTING_GetCameraTarget 0x021F9E04 thumb ov132
+ *   STA_ACTING_GetCameraScrollX 0x021F9E04 thumb ov132
  *   STA_ACTING_GetActorSystem 0x021F9DA0 thumb ov132
  *   STA_ACTING_GetActor 0x021F9DA4 thumb ov132
  *   STA_ACTING_GetCharSystem 0x021F9DD4 thumb ov132
@@ -34,9 +34,9 @@
  *   STA_ACTING_PlayRankSe 0x021F96D0 thumb ov132
  *   STA_ACTING_SetCameraPos 0x021F9E00 thumb ov132
  *   STA_ACTING_SetCameraTarget 0x021F9E08 thumb ov132
- *   STA_ACTING_ShowAnim  0x021F9D80  thumb
+ *   STA_ACTING_ShowButton  0x021F9D80  thumb
  *   STA_ACTING_ScheduleActions  0x021F9AD8  thumb
- *   STA_ACTING_HideAnim  0x021F9D90  thumb
+ *   STA_ACTING_HideButton  0x021F9D90  thumb
  *   STA_ACT_LIGHT_SetSlotVisible 0x021F80D4 thumb ov112
  *   STA_ACT_LIGHT_SetActorFlagB 0x021F812C thumb ov112
  *   VEC_Subtract 0x0207CA00 arm
@@ -50,11 +50,10 @@
  *   STA_ACTING_LoadRankAnim 0x021F9140 thumb ov132
  *   STA_ACTING_LoadAnimMember 0x021F91A8 thumb ov132
  *   STA_ACT_LIGHT_SetActorOffset 0x021F8084 thumb ov112
- *   _s32_div_f  0x0209C0A4  arm
  *   STA_ACT_LIGHT_SetActorAngle  0x021F8068  thumb  ov112
  *   STA_ACTING_GetRecordScore 0x021F9E20 thumb ov132
  *   STA_ACTING_GetBonus 0x021F9E34 thumb ov132
- *   STA_ACTING_SetField10 0x021F9E3C thumb ov132
+ *   STA_ACTING_SetCameraHoldScore 0x021F9E3C thumb ov132
  *   _s32_to_float 0x0209BDBC arm
  *   _ffix 0x0209C494 arm
  *   _fsub 0x0209CB8C arm
@@ -67,7 +66,7 @@
  *   STA_ACT_LIGHT_SetElemVisible 0x021F6BC0 thumb ov112
  *   STA_ACT_OBJ_SetEntryTarget 0x021F6B9C thumb ov112
  *   STA_ACT_OBJ_GetEntryTarget 0x021F6BB0 thumb ov112
- *   STA_ACTING_GetAnimHandle 0x021F9DC0 thumb ov132
+ *   STA_ACTING_GetEffectSystem 0x021F9DC0 thumb ov132
  *   STA_ACTING_SetAnimSlot 0x021F9DCC thumb ov132
  *   STA_ACTING_GetAnimSlot 0x021F9DC4 thumb ov132
  *   STA_ACT_LIGHT_CreateActor 0x021F6E78 thumb ov112
@@ -77,7 +76,7 @@
  *   STA_ACTING_MarkDirty 0x021F95E8 thumb ov132
  *   STA_ACT_LIGHT_DeleteActor 0x021F6EE4 thumb ov112
  *   STA_ACT_LIGHT_CopyElemA 0x021F6EF4 thumb ov112
- *   STA_ACTING_GetBoard 0x021F9DF4 thumb ov132
+ *   STA_ACTING_GetAudience 0x021F9DF4 thumb ov132
  *   STA_ACTING_PrintText 0x021F93D8 thumb ov132
  *   STA_ACTING_ClearText  0x021F94B0  thumb
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
@@ -87,7 +86,7 @@
  *   STA_ACTING_ReplaceWaveData 0x021F969C thumb ov132
  *   STA_ACTING_PlayBgm  0x021F96B0  thumb
  *   STA_ACTING_StopBgm  0x021F96C4  thumb
- *   STA_ACT_EFFECT_SetSceneField14 0x021F9E40 thumb ov132
+ *   STA_ACTING_SetCameraHoldScript 0x021F9E40 thumb ov132
  *   STA_ACT_EFFECT_KillEffect 0x021F9FB4 thumb ov132
  *   STA_ACT_SCRIPT_AddTask 0x021FADA0 thumb ov132
  *   STA_ACT_SCRIPT_RemoveTask 0x021FADF8 thumb ov132
@@ -133,7 +132,7 @@ extern u16 STA_ACTING_GetCameraPos(void *p);
 
 extern unsigned GFL_USE_GetRandomBelow(unsigned);
 
-extern u16 STA_ACTING_GetCameraTarget(u8 *p);
+extern u16 STA_ACTING_GetCameraScrollX(u8 *p);
 
 extern void *STA_ACTING_GetActorSystem(char *p);
 
@@ -155,11 +154,11 @@ extern void STA_ACTING_SetCameraPos(void *, u16);
 
 extern void STA_ACTING_SetCameraTarget(u8 *p, u16 v);
 
-extern void STA_ACTING_ShowAnim(char *p);
+extern void STA_ACTING_ShowButton(char *p);
 
 extern void STA_ACTING_ScheduleActions(char *p, int mode, u8 slot);
 
-extern void STA_ACTING_HideAnim(char *p);
+extern void STA_ACTING_HideButton(char *p);
 
 extern void STA_ACT_LIGHT_SetSlotVisible(char *, char *, int);
 
@@ -187,7 +186,6 @@ extern void STA_ACTING_LoadAnimMember(char *p, u8 n, u8 mask);
 
 extern void STA_ACT_LIGHT_SetActorOffset(void *unused, u32 *p, const u32 *q);
 
-extern int _s32_div_f(int a, int b);
 
 extern void STA_ACT_LIGHT_SetActorAngle(int self, char *p, u16 v);
 
@@ -195,7 +193,7 @@ extern u16 STA_ACTING_GetRecordScore(char *p, u32 i);
 
 extern u16 STA_ACTING_GetBonus(char *p, u32 i);
 
-extern void STA_ACTING_SetField10(char *p, u32 v);
+extern void STA_ACTING_SetCameraHoldScore(char *p, u32 v);
 
 extern int _s32_to_float(int a);
 
@@ -221,7 +219,7 @@ extern void STA_ACT_OBJ_SetEntryTarget(void *,u32 *,u32 *);
 
 extern void STA_ACT_OBJ_GetEntryTarget(void *,u32 *,u32 *);
 
-extern void *STA_ACTING_GetAnimHandle(void *p);
+extern void *STA_ACTING_GetEffectSystem(void *p);
 
 extern void STA_ACTING_SetAnimSlot(void *p, void *v, u32 i);
 
@@ -241,7 +239,7 @@ extern void STA_ACT_LIGHT_DeleteActor(void *,u8 *);
 
 extern void STA_ACT_LIGHT_CopyElemA(void *unused, u32 *p, const u32 *q);
 
-extern void *STA_ACTING_GetBoard(void *p);
+extern void *STA_ACTING_GetAudience(void *p);
 
 extern void STA_ACTING_PrintText(u8 *,u16,u32);
 
@@ -261,7 +259,7 @@ extern void STA_ACTING_PlayBgm(char *p, int a);
 
 extern void STA_ACTING_StopBgm(char *p);
 
-void STA_ACT_EFFECT_SetSceneField14(u8 *p,u32 v);
+void STA_ACTING_SetCameraHoldScript(u8 *p,u32 v);
 
 char *STA_ACT_EFFECT_StartSystem(char *p, u32 a);
 
@@ -297,9 +295,9 @@ void SCRIPT_COMMAND_TaskCameraTarget(void *unused, char *p);
 
 int SCRIPT_COMMAND_CmdSkipArg(void *unused,char *p);
 
-int SCRIPT_COMMAND_CmdShowAnim(int a, char **pp);
+int SCRIPT_COMMAND_CmdShowButton(int a, char **pp);
 
-int SCRIPT_COMMAND_CmdHideAnim(void *a, void **pp);
+int SCRIPT_COMMAND_CmdHideButton(void *a, void **pp);
 
 int SCRIPT_COMMAND_GetActorMask(char *p, int i);
 
@@ -512,7 +510,7 @@ int SCRIPT_COMMAND_CmdSetCameraTarget(void *unused, char *ctx)
         *(char * *)&((struct ScriptTask *)p)->system = owner;
         ((struct ScriptTask *)p)->scene = ((struct ScriptOwner *)owner)->scene;
         ((struct ScriptTask *)p)->counter = 0;
-        ((struct ScriptTask *)p)->start.s = STA_ACTING_GetCameraTarget(((struct ScriptOwner *)owner)->scene);
+        ((struct ScriptTask *)p)->start.s = STA_ACTING_GetCameraScrollX(((struct ScriptOwner *)owner)->scene);
         ((struct ScriptTask *)p)->end.s = target;
         ((struct ScriptTask *)p)->duration = time;
         ((struct ScriptTask *)p)->node = STA_ACT_SCRIPT_AddTask(owner, (u32)SCRIPT_COMMAND_TaskCameraTarget, (u32)p, 10);
@@ -530,25 +528,25 @@ void SCRIPT_COMMAND_TaskCameraTarget(void *unused, char *p)
     int done = STA_ACT_SCRIPT_StepTaskInt(p, &v);
     STA_ACTING_SetCameraTarget(((struct ScriptTask *)p)->scene, v);
     if (done == 1) {
-        STA_ACT_EFFECT_SetSceneField14(((struct ScriptTask *)p)->scene, 0);
+        STA_ACTING_SetCameraHoldScript(((struct ScriptTask *)p)->scene, 0);
         STA_ACT_SCRIPT_RemoveTask(*(char * *)&((struct ScriptTask *)p)->system, *(char * *)&((struct ScriptTask *)p)->node);
     }
 }
 
 int SCRIPT_COMMAND_CmdSkipArg(void *unused,char *p) { VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->vm); return 0; }
 
-int SCRIPT_COMMAND_CmdShowAnim(int unused, char **ctx)
+int SCRIPT_COMMAND_CmdShowButton(int unused, char **ctx)
 {
     char *p = *ctx;
 
-    STA_ACTING_ShowAnim(((struct ScriptOwner *)p)->scene);
+    STA_ACTING_ShowButton(((struct ScriptOwner *)p)->scene);
     STA_ACTING_ScheduleActions(((struct ScriptOwner *)p)->scene, 0, 0);
     return 0;
 }
 
-int SCRIPT_COMMAND_CmdHideAnim(void *unused, void **ctx)
+int SCRIPT_COMMAND_CmdHideButton(void *unused, void **ctx)
 {
-    STA_ACTING_HideAnim(((struct ScriptOwner *)((u8 *)*ctx))->scene);
+    STA_ACTING_HideButton(((struct ScriptOwner *)((u8 *)*ctx))->scene);
     return 0;
 }
 
@@ -949,10 +947,10 @@ void SCRIPT_COMMAND_TaskRotate(int unused, int *task)
     int r4 = (int)STA_ACTING_GetActorSystem((char *)task[0]);
     int local;
     if (STA_ACT_SCRIPT_StepTaskInt((char *)task, &local) == 1) {
-        STA_ACT_LIGHT_SetActorAngle(r4, (char *)task[6], (u16)_s32_div_f(task[2] << 16, 0x168));
+        STA_ACT_LIGHT_SetActorAngle(r4, (char *)task[6], (u16)((task[2] << 16) / 0x168));
         STA_ACT_SCRIPT_RemoveTask((char *)task[7], (char *)task[8]);
     } else {
-        STA_ACT_LIGHT_SetActorAngle(r4, (char *)task[6], (u16)_s32_div_f(local << 16, 0x168));
+        STA_ACT_LIGHT_SetActorAngle(r4, (char *)task[6], (u16)((local << 16) / 0x168));
     }
 }
 
@@ -1019,10 +1017,10 @@ int SCRIPT_COMMAND_CmdCompareScores(int unused, Msg *ctx)
         a->end.x = base + (dir[k] << 18);
         a->end.y = a->start.y;
         a->end.z = a->start.z;
-        a->duration = _s32_div_f(ABS(dir[k]) * x, maxabs);
-        a->step.x = _s32_div_f(a->end.x - a->start.x, a->duration);
-        a->step.y = _s32_div_f(a->end.y - a->start.y, a->duration);
-        a->step.z = _s32_div_f(a->end.z - a->start.z, a->duration);
+        a->duration = (int)(ABS(dir[k]) * x) / (int)maxabs;
+        a->step.x = (int)(a->end.x - a->start.x) / a->duration;
+        a->step.y = (int)(a->end.y - a->start.y) / a->duration;
+        a->step.z = (int)(a->end.z - a->start.z) / a->duration;
         a->node = STA_ACT_SCRIPT_AddTask((char *)o, (u32)SCRIPT_COMMAND_TaskActorMove, (u32)a, 10);
         if (a->duration != 0) {
             ScriptShakeTask *b = GFL_HEAP_Alloc(o->heapId, 0x20, 0, d_021FDD00, 0x54B);
@@ -1045,15 +1043,15 @@ int SCRIPT_COMMAND_CmdCompareScores(int unused, Msg *ctx)
         c->system = o;
         c->scene = o->scene;
         c->counter = 0;
-        c->start = STA_ACTING_GetCameraTarget((u8 *)o->scene);
+        c->start = STA_ACTING_GetCameraScrollX((u8 *)o->scene);
         f = _s32_to_float((int)total / 4);
         f = __fdiv(f, 0x45800000);
         f = _fsub(f, 0x43000000);
         c->end = _ffix(f);
         c->duration = x;
         c->node = STA_ACT_SCRIPT_AddTask((char *)o, (u32)SCRIPT_COMMAND_TaskCameraTarget, (u32)c, 10);
-        STA_ACT_EFFECT_SetSceneField14((u8 *)o->scene, 1);
-        STA_ACTING_SetField10(o->scene, 1);
+        STA_ACTING_SetCameraHoldScript((u8 *)o->scene, 1);
+        STA_ACTING_SetCameraHoldScore(o->scene, 1);
         if (y == 1) {
             ctx->waitFrames = x;
             return 1;
@@ -1135,9 +1133,9 @@ void SCRIPT_COMMAND_TaskEntryTarget(int unused,char *p) { int pos[3]; void *ctx;
  * prototype: Own 021F9EDC source takes u16; original caller passes the
  * full word b+0x33 without truncation, so the extern parameter is widened.
  */
-int SCRIPT_COMMAND_CmdSetAnimSlot(int unused,char *p) { char *obj; unsigned int a,b; char *entry;obj=*(char * *)&((struct ScriptCtx *)p)->system;a=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->vm);b=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->vm);entry=STA_ACT_EFFECT_StartSystem(STA_ACTING_GetAnimHandle(((struct ScriptOwner *)obj)->scene),b+0x33);STA_ACTING_SetAnimSlot(((struct ScriptOwner *)obj)->scene,entry,(unsigned char)a);return 0; }
+int SCRIPT_COMMAND_CmdSetAnimSlot(int unused,char *p) { char *obj; unsigned int a,b; char *entry;obj=*(char * *)&((struct ScriptCtx *)p)->system;a=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->vm);b=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->vm);entry=STA_ACT_EFFECT_StartSystem(STA_ACTING_GetEffectSystem(((struct ScriptOwner *)obj)->scene),b+0x33);STA_ACTING_SetAnimSlot(((struct ScriptOwner *)obj)->scene,entry,(unsigned char)a);return 0; }
 
-int SCRIPT_COMMAND_CmdFreeAnimSlot(int unused,char *p) { char *o; u32 a; void *ctx; o=*(char * *)&((struct ScriptCtx *)p)->system; a=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->vm); ctx=STA_ACTING_GetAnimHandle(((struct ScriptOwner *)o)->scene); STA_ACT_EFFECT_KillSystem(ctx,STA_ACTING_GetAnimSlot(((struct ScriptOwner *)o)->scene,a)); STA_ACTING_SetAnimSlot(((struct ScriptOwner *)o)->scene,0,(u8)a); return 0; }
+int SCRIPT_COMMAND_CmdFreeAnimSlot(int unused,char *p) { char *o; u32 a; void *ctx; o=*(char * *)&((struct ScriptCtx *)p)->system; a=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->vm); ctx=STA_ACTING_GetEffectSystem(((struct ScriptOwner *)o)->scene); STA_ACT_EFFECT_KillSystem(ctx,STA_ACTING_GetAnimSlot(((struct ScriptOwner *)o)->scene,a)); STA_ACTING_SetAnimSlot(((struct ScriptOwner *)o)->scene,0,(u8)a); return 0; }
 
 int SCRIPT_COMMAND_CmdStartEffect(int unused, char *p)
 {
@@ -1299,7 +1297,7 @@ int SCRIPT_COMMAND_CmdCharFollowActor(int unused,char *p)
     VEC_Add(&pos,&delta,&pos);
     STA_ACT_LIGHT_CopyElemA(ctx,target,(const u32 *)(&pos));
    } else {
-    STA_ACTING_GetBoard(((struct ScriptOwner *)owner)->scene);
+    STA_ACTING_GetAudience(((struct ScriptOwner *)owner)->scene);
     q=GFL_HEAP_Alloc(((struct ScriptOwner *)owner)->heapId,0x30,0,d_021FDD00,0x74D);
     *(char * *)&((struct ScriptCharFollowTask *)q)->owner=owner;
     ((struct ScriptCharFollowTask *)q)->index=i;
@@ -1316,7 +1314,7 @@ int SCRIPT_COMMAND_CmdCharFollowActor(int unused,char *p)
  return 0;
 }
 
-void SCRIPT_COMMAND_TaskCharFollow(int unused,char *p) { int pos[3]; void *ctx; int result; ctx=STA_ACTING_GetCharSystem(((struct ScriptCharFollowTask *)p)->step.scene); STA_ACTING_GetBoard(((struct ScriptCharFollowTask *)p)->step.scene); result=STA_ACT_SCRIPT_StepTaskActor((char *)&((struct ScriptCharFollowTask *)p)->step,pos); STA_ACT_LIGHT_CopyElemA(ctx,*(u32 * *)&((struct ScriptCharFollowTask *)p)->target,(u32 *)pos); if(result==1) STA_ACT_SCRIPT_RemoveTask(*(char * *)&((struct ScriptCharFollowTask *)p)->owner,*(char * *)&((struct ScriptCharFollowTask *)p)->task); }
+void SCRIPT_COMMAND_TaskCharFollow(int unused,char *p) { int pos[3]; void *ctx; int result; ctx=STA_ACTING_GetCharSystem(((struct ScriptCharFollowTask *)p)->step.scene); STA_ACTING_GetAudience(((struct ScriptCharFollowTask *)p)->step.scene); result=STA_ACT_SCRIPT_StepTaskActor((char *)&((struct ScriptCharFollowTask *)p)->step,pos); STA_ACT_LIGHT_CopyElemA(ctx,*(u32 * *)&((struct ScriptCharFollowTask *)p)->target,(u32 *)pos); if(result==1) STA_ACT_SCRIPT_RemoveTask(*(char * *)&((struct ScriptCharFollowTask *)p)->owner,*(char * *)&((struct ScriptCharFollowTask *)p)->task); }
 
 /*
  * follower: two-byte zero alignment padding at 021FC53A.

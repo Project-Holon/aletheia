@@ -1,5 +1,5 @@
 /*
- * function: DEMO3D_DATA_IsCaptureDone
+ * function: DEMO3D_DATA_ScaleTime
  * address:  0x021BF7AC
  * packet:   pkt_021BF7AC
  * region:   ov203
@@ -21,7 +21,7 @@ typedef signed int s32;
 
 struct Q { char pad[6]; unsigned short flag : 1; };
 
-int DEMO3D_DATA_IsCaptureDone(char *p, int v)
+int DEMO3D_DATA_ScaleTime(char *p, int v)
 {
     struct Q *q = *(struct Q * *)&((struct Obj25328 *)(*(char * *)&((struct Obj03917 *)p)->f1C))->f74;
     int flag = q->flag;

@@ -1,5 +1,5 @@
 /*
- * function: VCT_SESSION_MixVoices
+ * function: VCT_MIXER_MixVoices
  * address:  0x021B0B48
  * packet:   pkt_ov013_021B0B48
  * region:   ov013
@@ -21,7 +21,7 @@
  * symbols:
  *   gVctSendState  0x021B3C84  data  ov013  a4
  *   gVctMixScratch  0x021B3E78  data  ov013  a4
- *   VCT_SESSION_ReadChannel  0x021B0904  arm  ov013
+ *   VCT_MIXER_ReadChannel  0x021B0904  arm  ov013
  *   VCT_DSP_MixSaturated  0x021B3624  arm  ov013
  *   VCT_DSP_SetEchoReference  0x021B33E0  arm  ov013
  *   MIi_CpuClearFast  0x02082AC0  arm
@@ -43,13 +43,13 @@ extern Ctx3C84 gVctSendState;
 extern u8 gVctMixScratch[];
 
 typedef signed short   s16;
-extern int VCT_SESSION_ReadChannel(void *dst, u32 size, u32 idx, u32 *mask);
+extern int VCT_MIXER_ReadChannel(void *dst, u32 size, u32 idx, u32 *mask);
 extern void VCT_DSP_MixSaturated(s16 *a, s16 *b, s16 *d, u32 len);
 extern void VCT_DSP_SetEchoReference(void *a, u32 b);
 extern void MIi_CpuClearFast(int x, void *a, u32 b);
 extern void MIi_CpuClearFastAlias(int x, void *a, u32 b);
 
-int VCT_SESSION_MixVoices(void *a, u32 b, int *out)
+int VCT_MIXER_MixVoices(void *a, u32 b, int *out)
 {
     int ret;
     u32 i;
@@ -61,7 +61,7 @@ int VCT_SESSION_MixVoices(void *a, u32 b, int *out)
     ret = 0;
     if (b == gVctSendState.f24 && gVctSendState.f20 != 0) {
         for (i = 0; i < 3; i++) {
-            if (VCT_SESSION_ReadChannel(a, b, i, (u32 *)out) == 1) {
+            if (VCT_MIXER_ReadChannel(a, b, i, (u32 *)out) == 1) {
                 ret = 1;
                 break;
             }
@@ -72,7 +72,7 @@ int VCT_SESSION_MixVoices(void *a, u32 b, int *out)
                 ret = 1;
             } else {
                 for (; j < 3; j++) {
-                    if (VCT_SESSION_ReadChannel(gVctMixScratch, b, j, (u32 *)out) == 1)
+                    if (VCT_MIXER_ReadChannel(gVctMixScratch, b, j, (u32 *)out) == 1)
                         VCT_DSP_MixSaturated(a, (s16 *)gVctMixScratch, a, b);
                 }
             }

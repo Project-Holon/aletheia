@@ -13,7 +13,7 @@
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093
  *   BTL_POKEPARAM_GetMajorStatusIndex  0x021D62A8  thumb  ov093
- *   BTLV_CORE_EventScaleDamage  0x021E8860  thumb  ov093
+ *   HAND_COMMON_EventScaleDamage  0x021E8860  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -24,13 +24,13 @@ extern int BTL_EVENT_GetVar(int key);
 extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 struct Unk021D62A8;
 extern int BTL_POKEPARAM_GetMajorStatusIndex(struct Unk021D62A8 *p);
-extern void BTLV_CORE_EventScaleDamage(int a);
+extern void HAND_COMMON_EventScaleDamage(int a);
 
 void HAND_WAZA_HexDoublePowerOnStatus(int x, int a, int c)
 {
     if (c == BTL_EVENT_GetVar(3)) {
         if (BTL_POKEPARAM_GetMajorStatusIndex(BTL_SERVER_FLOW_GetPokeParam((int *)a, (u8)BTL_EVENT_GetVar(4))) != 0) {
-            BTLV_CORE_EventScaleDamage(2);
+            HAND_COMMON_EventScaleDamage(2);
         }
     }
 }

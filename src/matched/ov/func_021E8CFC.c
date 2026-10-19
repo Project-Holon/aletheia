@@ -1,5 +1,5 @@
 /*
- * function: BTLV_CORE_GetHighByte
+ * function: BTL_TYPEPAIR_GetHigh
  * address:  0x021E8CFC
  * packet:   pkt_021E8CFC
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   BTLV_CORE_GetHighByte   0x021E8CFC  thumb
+ *   BTL_TYPEPAIR_GetHigh   0x021E8CFC  thumb
  *
  * Leaf with no calls and no pool; 4 instructions, 8 bytes: asrs r0, r0, #8; lsls r0, r0, #0x18; lsrs r0, r0, #0x18; bx lr.
  */
@@ -23,5 +23,5 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021E8CFC  asrs r0,r0,#8; lsls #0x18; lsrs #0x18 */
-u8 BTLV_CORE_GetHighByte(s32 v) { return (u8)(v >> 8); }
+u8 BTL_TYPEPAIR_GetHigh(s32 v) { return (u8)(v >> 8); }
 

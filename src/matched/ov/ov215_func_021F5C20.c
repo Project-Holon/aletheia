@@ -18,7 +18,7 @@
  *   EGG_DEMO_MAIN_InitActors 0x021F5DAC thumb ov215
  *   EGG_DEMO_MENU_Create 0x021F6060 thumb ov215
  *   EGG_DEMO_MENU_InitDialog 0x021F6280 thumb ov215
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  *   func_0207D63C 0x0207D63C arm
  *   BG_SYS_LoadPlttEntry 0x02040EBC arm
  *   EGG_DEMO_VIEW_Create 0x021F6720 thumb ov215
@@ -39,7 +39,7 @@ extern void EGG_DEMO_MAIN_LoadGraphics(int,char *);
 extern void EGG_DEMO_MAIN_InitActors(int,struct Context *);
 extern void EGG_DEMO_MENU_Create(int,char *);
 extern void EGG_DEMO_MENU_InitDialog(int,u8 *);
-extern void BG_SYS_SetVisibleLayer(int,u16);
+extern void BG_SYS_SetPriority(int,u16);
 extern void func_0207D63C(u32 *,u32,u32,int,int);
 extern void BG_SYS_LoadPlttEntry(u32,u32);
 extern char *EGG_DEMO_VIEW_Create(u32,void *);
@@ -55,10 +55,10 @@ void EGG_DEMO_MAIN_Init(int a,char *p)
     EGG_DEMO_MAIN_InitActors(a,(struct Context *)p);
     EGG_DEMO_MENU_Create(a,p);
     EGG_DEMO_MENU_InitDialog(a,(u8 *)p);
-    BG_SYS_SetVisibleLayer(0,2);
-    BG_SYS_SetVisibleLayer(2,1);
-    BG_SYS_SetVisibleLayer(1,0);
-    BG_SYS_SetVisibleLayer(4,0);
+    BG_SYS_SetPriority(0,2);
+    BG_SYS_SetPriority(2,1);
+    BG_SYS_SetPriority(1,0);
+    BG_SYS_SetPriority(4,0);
     func_02040588(0,1);
     func_02040588(2,1);
     func_02040588(4,1);

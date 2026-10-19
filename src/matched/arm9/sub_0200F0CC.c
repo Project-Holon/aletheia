@@ -1,5 +1,5 @@
 /*
- * function: NET_DEVICE_TABLE_GetNextUsed
+ * function: FLDMMDL_GetNextUsed
  * address:  0x0200F0CC
  * packet:   pkt_0200F168
  * region:   arm9
@@ -19,8 +19,8 @@
  * docs/idioms/a-shared-exit-block-is-written-out-in-each-arm.md.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/NET_DEVICE_TABLE_GetNextUsed.c \
- *       --func NET_DEVICE_TABLE_GetNextUsed --addr 0x0200F0CC --cc 1.1p1
+ *   python tools/match.py one --src src/matched/FLDMMDL_GetNextUsed.c \
+ *       --func FLDMMDL_GetNextUsed --addr 0x0200F0CC --cc 1.1p1
  */
 #include "../include/Obj11712.h"
 #include "../include/Obj16720.h"
@@ -30,7 +30,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-u32 NET_DEVICE_TABLE_GetNextUsed(const void *obj, void *out, u32 *idxptr)
+u32 FLDMMDL_GetNextUsed(const void *obj, void *out, u32 *idxptr)
 {
     u32 count = *(const u16 *)&((struct Obj11712 *)obj)->f4;
     u32 idx = *idxptr;

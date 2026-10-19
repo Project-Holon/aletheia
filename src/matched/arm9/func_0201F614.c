@@ -1,5 +1,5 @@
 /*
- * function: BMP_MENUWORK_DeleteHalf
+ * function: BMP_MENUWORK_FreeTileRun
  * address:  0x0201F614
  * packet:   pkt_0201F614
  * region:   arm9
@@ -9,15 +9,15 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   BG_SYS_DeleteHalf  0x0203FB44  arm
+ *   BG_SYS_FreeTileRun  0x0203FB44  arm
  */
 
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 
-void BMP_MENUWORK_DeleteHalf(int a, u32 x)
+void BMP_MENUWORK_FreeTileRun(int a, u32 x)
 {
-    BG_SYS_DeleteHalf((int)a, (u16)x, (u16)(x >> 16));
+    BG_SYS_FreeTileRun((int)a, (u16)x, (u16)(x >> 16));
 }

@@ -18,7 +18,7 @@
  *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   POKE_TOOL_IsBoxShiny 0x02017EB4 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
@@ -47,7 +47,7 @@ extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern u32 POKE_TOOL_GetBoxValue(void *,u32,void *);
 extern u32 POKE_TOOL_IsBoxShiny(void *);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *,u32,u32,u32,u32,u32,u16);
@@ -87,7 +87,7 @@ void P_STA_INFO_DrawStats(u8 *p,u8 *q,void *mon)
             WORDSET_SetSlotNumber(ws,0,v,3,2,1);
             P_STATUS_PrintWordSetMsgToWin(p,((struct Obj01256 *)q)->fC,ws,9,0x41,1,pal);
         }
-        WORDSET_DeleteStrbufED04(ws);
+        WORDSET_Delete(ws);
         P_STATUS_PrintMsgToWin(p,*(u32 *)&((struct Obj01256 *)q)->f10,10,1,1,0x3c40);
         if(((struct Obj00112 *)p)->f38==0) {species=POKE_TOOL_GetBoxValue(mon,5,0); t=func_02045EC0(gSpeciesNameBank,species);}
         else t=func_02045EC0(gSpeciesNameBank,0x28a);
@@ -105,14 +105,14 @@ void P_STA_INFO_DrawStats(u8 *p,u8 *q,void *mon)
         POKE_TOOL_GetBoxValue(mon,0x8d,v2);
         WORDSET_SetSlotTag(ws2,0,v2,0,1,2);
         P_STATUS_PrintWordSetMsgToWin(p,((struct Obj01256 *)q)->f18,ws2,14,0x41,1,pal);
-        WORDSET_DeleteStrbufED04(ws2);
+        WORDSET_Delete(ws2);
         STRBUF_Delete(v2);
         P_STATUS_PrintMsgToWin(p,((struct Obj01256 *)q)->f1C,15,1,1,0x3c40);
         ws3=WORDSET_CreateDefault(((struct Obj00112 *)p)->f0);
         x=POKE_TOOL_GetBoxValue(mon,7,0);
         WORDSET_SetSlotNumber(ws3,0,x,5,2,1);
         P_STATUS_PrintWordSetMsgToWin(p,((struct Obj01256 *)q)->f1C,ws3,16,0x41,1,0x440);
-        WORDSET_DeleteStrbufED04(ws3);
+        WORDSET_Delete(ws3);
         n=POKE_TOOL_GetBoxValue(mon,0x9e,0);
         s18=POKE_TOOL_GetBoxValue(mon,8,0);
         s30=POKE_TOOL_GetBoxValue(mon,5,0);
@@ -127,13 +127,13 @@ void P_STA_INFO_DrawStats(u8 *p,u8 *q,void *mon)
         ws4=WORDSET_CreateDefault(((struct Obj00112 *)p)->f0);
         WORDSET_SetSlotNumber(ws4,0,s18,7,0,1);
         P_STATUS_PrintWordSetMsgToWin(p,((struct Obj01256 *)q)->f24,ws4,18,1,1,0x440);
-        WORDSET_DeleteStrbufED04(ws4);
+        WORDSET_Delete(ws4);
         P_STATUS_PrintMsgToWin(p,((struct Obj01256 *)q)->f28,19,1,1,0x3c40);
         P_STATUS_PrintMsgToWin(p,((struct Obj01256 *)q)->f2C,20,1,1,0x440);
         ws5=WORDSET_CreateDefault(((struct Obj00112 *)p)->f0);
         WORDSET_SetSlotNumber(ws5,0,C,6,0,1);
         P_STATUS_PrintWordSetMsgToWin(p,((struct Obj01256 *)q)->f2C,ws5,21,0x21,1,0x440);
-        WORDSET_DeleteStrbufED04(ws5);
+        WORDSET_Delete(ws5);
         if(n!=100) {
             r=A-B-C;
             k=(r<<6)/(A-B);

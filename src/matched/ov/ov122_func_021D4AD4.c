@@ -10,8 +10,8 @@
  * symbols:
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   INTRUDE_COMM_VIEW_DeleteRows 0x021D45E8 thumb ov122
- *   BG_SYS_SetTileUnit 0x02040DA8 arm
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
+ *   BG_SYS_FreeTiles 0x02040DA8 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   STRBUF_Delete 0x02045808 arm
@@ -26,8 +26,8 @@ typedef unsigned int   u32;
 struct Descriptor;
 struct Rec;
 struct U16Vec;
-extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTiles(u32 idx, u32 count, u32 tile);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 extern void BG_SYS_FreeLayerBuf(u32 i);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
@@ -38,9 +38,9 @@ void INTRUDE_COMM_VIEW_DeleteResources(char *p)
     unsigned ranges;
     GF_FONT_SetDefaultTextColor();
     INTRUDE_COMM_VIEW_DeleteRows(p);
-    BG_SYS_SetTileUnit(5, 1, 0);
+    BG_SYS_FreeTiles(5, 1, 0);
     ranges = ((struct Obj02472 *)p)->f5C;
-    BG_SYS_DeleteHalf(5, (u16)ranges, (u16)(ranges >> 16));
+    BG_SYS_FreeTileRun(5, (u16)ranges, (u16)(ranges >> 16));
     BG_SYS_FreeLayerBuf(5);
     BG_SYS_FreeLayerBuf(4);
     MSGDATA_Delete(((struct Obj02472 *)p)->f44);

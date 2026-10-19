@@ -1,8 +1,8 @@
 /*
  * file:     bmp.c
  * unit:     yes
- * function: BG_SYS_ClearGraphicsMemory, BG_SYS_SetVramBanks, BG_SYS_ClearMainBgPlanes, BG_SYS_ClearMainObjPlane, BG_SYS_ClearMainPlanes, BG_SYS_SetMainPlaneVisible, BG_SYS_SetMainVisiblePlanes, BG_SYS_ClearSubBgPlanes, BG_SYS_ClearSubObjPlane, BG_SYS_ClearSubPlanes, BG_SYS_SetSubPlaneVisible, BG_SYS_SetSubVisiblePlanes, BG_SYS_ResetSubDisplay, BMP_SetDisplaySwap, BMP_GetVisiblePlane, BG_SYS_GetSubVisiblePlanes, BMP_Create, BMP_CreateFromBuffer, BMP_CreateFromVram, BMP_Delete, BMP_GetPixels, BMP_GetWidth, BMP_GetHeight, BMP_GetByteSize, BMP_CopyPixels, BMP_CreateFromArchive, BMP_InitFromCharData, BMP_GetTileBytes, BMP_Blit, BMP_BlitPaletteOffset, BMP_FillRect, BMP_Clear, BMP_Blit4bpp, BMP_Blit8bpp, BMP_Blit4bppTo8bpp, BMP_Blit4bppToVram, BMP_Blit8bppToVram, BMP_FillRect4bpp, BMP_FillRect8bpp, BMP_FillRect4bppVram, BMP_FillRect8bppVram, BMP_ConvertToLinear
- * address:  0x0204335C
+ * function: BMP_Create, BMP_CreateFromBuffer, BMP_CreateFromVram, BMP_Delete, BMP_GetPixels, BMP_GetWidth, BMP_GetHeight, BMP_GetByteSize, BMP_CopyPixels, BMP_CreateFromArchive, BMP_InitFromCharData, BMP_GetTileBytes, BMP_Blit, BMP_BlitPaletteOffset, BMP_FillRect, BMP_Clear, BMP_Blit4bpp, BMP_Blit8bpp, BMP_Blit4bppTo8bpp, BMP_Blit4bppToVram, BMP_Blit8bppToVram, BMP_FillRect4bpp, BMP_FillRect8bpp, BMP_FillRect4bppVram, BMP_FillRect8bppVram, BMP_ConvertToLinear
+ * address:  0x02043678
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -13,31 +13,6 @@
  * Cut from bmp.c by tools/splitfile.py.
  *
  * symbols:
- *   GX_SetBankForLCDC  0x0208068C  arm
- *   MIi_CpuClearFast  0x02082AC0  arm
- *   GX_DisableBankForLCDC  0x02080B98  arm
- *   GX_ResetBankForBG  0x020808F4  arm
- *   GX_ResetBankForBGExtPltt  0x0208091C  arm
- *   GX_ResetBankForSubBG  0x020809A0  arm
- *   GX_ResetBankForSubBGExtPltt  0x020809C8  arm
- *   GX_ResetBankForOBJ  0x02080908  arm
- *   GX_ResetBankForOBJExtPltt  0x02080940  arm
- *   GX_ResetBankForSubOBJ  0x020809B4  arm
- *   GX_ResetBankForSubOBJExtPltt  0x020809F0  arm
- *   GX_ResetBankForTex  0x02080964  arm
- *   GX_ResetBankForTexPltt  0x02080978  arm
- *   GX_SetBankForBG  0x0207FDCC  arm
- *   GX_SetBankForBGExtPltt  0x02080100  arm
- *   GX_SetBankForSubBG  0x020806B0  arm
- *   GX_SetBankForSubBGExtPltt  0x020807BC  arm
- *   GX_SetBankForOBJ  0x0207FFD0  arm
- *   GX_SetBankForOBJExtPltt  0x020801F8  arm
- *   GX_SetBankForSubOBJ  0x0208074C  arm
- *   GX_SetBankForSubOBJExtPltt  0x0208083C  arm
- *   GX_SetBankForTex  0x02080294  arm
- *   GX_SetBankForTexPltt  0x0208040C  arm
- *   gVisiblePlanes  0x02146A48  data
- *   GX_DispOn  0x0207D46C  arm
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   bmp_File       0x020A7E68  data
  *   GFL_HEAP_Free  0x020307B0  arm
@@ -50,31 +25,6 @@
 #include "bmp_shared_types.h"
 
 struct CharData;
-
-typedef enum {
-    GX_OBJVRAMMODE_CHAR_2D      = 0x00000000,
-    GX_OBJVRAMMODE_CHAR_1D_32K  = 0x00000010,
-    GX_OBJVRAMMODE_CHAR_1D_64K  = 0x00100010,
-    GX_OBJVRAMMODE_CHAR_1D_128K = 0x00200010,
-    GX_OBJVRAMMODE_CHAR_1D_256K = 0x00300010
-} GXOBJVRamModeChar;
-
-typedef enum { GX_VRAM_NONE = 0 } GXVRam;
-
-struct DispVram {
-    GXVRam main_bg;             /* +0x00 */
-    GXVRam main_bg_expltt;      /* +0x04 */
-    GXVRam sub_bg;              /* +0x08 */
-    GXVRam sub_bg_expltt;       /* +0x0C */
-    GXVRam main_obj;            /* +0x10 */
-    GXVRam main_obj_expltt;     /* +0x14 */
-    GXVRam sub_obj;             /* +0x18 */
-    GXVRam sub_obj_expltt;      /* +0x1C */
-    GXVRam teximage;            /* +0x20 */
-    GXVRam texpltt;             /* +0x24 */
-    GXOBJVRamModeChar main_mapping;     /* +0x28 */
-    GXOBJVRamModeChar sub_mapping;      /* +0x2C */
-};
 
 /*
  * Where a bitmap's pixels live (Bmp.storage).  A VRAM destination cannot be
@@ -99,16 +49,6 @@ struct CharData {
 
 typedef signed short   s16_p07;
 
-extern void GX_SetBankForLCDC(u32 banks);
-
-extern void MIi_CpuClearFast(u32 data, void *dest, u32 size);
-
-extern void GX_DisableBankForLCDC(void);
-
-extern int GX_ResetBankForBG(void);
-
-extern void GX_DispOn(void);
-
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern u32 GFL_HEAP_Free(void *p);
@@ -122,38 +62,6 @@ extern void  OS_Terminate(void);
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
-
-void BG_SYS_ClearGraphicsMemory(u32 keepBanks);
-
-void BG_SYS_SetVramBanks(const struct DispVram *banks);
-
-void BG_SYS_ClearMainBgPlanes(void);
-
-void BG_SYS_ClearMainObjPlane(void);
-
-void BG_SYS_ClearMainPlanes(void);
-
-void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
-
-void BG_SYS_SetMainVisiblePlanes(u32 planes);
-
-void BG_SYS_ClearSubBgPlanes(void);
-
-void BG_SYS_ClearSubObjPlane(void);
-
-void BG_SYS_ClearSubPlanes(void);
-
-void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-
-void BG_SYS_SetSubVisiblePlanes(u32 planes);
-
-void BG_SYS_ResetSubDisplay(void);
-
-void BMP_SetDisplaySwap(u32 swap);
-
-u32 BMP_GetVisiblePlane(void);
-
-u32 BG_SYS_GetSubVisiblePlanes(void);
 
 struct Bmp *BMP_Create(u32 widthTiles, u32 heightTiles, u32 tileBytes, u16 heapId);
 
@@ -207,318 +115,7 @@ void BMP_FillRect8bppVram(struct Bmp *bmp, s32 x, s32 y, s32 w, u16 h, u8 value)
 
 struct Bmp *BMP_ConvertToLinear(struct Bmp *bmp, u32 keepCopy, u16 heapId);
 
-/* [0] = sub engine, [1] = main engine; bit n = BG n, bit 4 = OBJ */
-extern u32 gVisiblePlanes[2];
-
 extern const char bmp_File[];       /* "bmp.c" */
-
-/*
- * Blank the graphics state: disable every VRAM bank the caller's mask does
- * not name, then zero main VRAM (0x06800000, 0xa4000 bytes), both OAM
- * halves (0x07000000 and 0x07000400, filled with 0xc0 so every sprite sits
- * off-screen) and both palette halves (0x05000000 and 0x05000400).
- * MIi_CpuClearFast is the four-byte-granular clear helper, taking the fill
- * word first and the destination second.
- *
- * The 0x1ff mask is never pooled: the compiler already has 0xffff in a
- * register for the complement and rematerialises 0x1ff from it with
- * `sub r0, r1, #0xfe00`
- * (docs/idioms/a-small-constant-is-rematerialised-off-a-zero-register-unless-an-argument-shares-it.md).
- */
-void BG_SYS_ClearGraphicsMemory(u32 keepBanks)
-{
-    GX_SetBankForLCDC((keepBanks ^ 0xffff) & 0x1ff);
-
-    MIi_CpuClearFast(0, (void *)0x06800000, 0xa4000);
-    GX_DisableBankForLCDC();
-
-    MIi_CpuClearFast(0xc0, (void *)0x07000000, 0x400);
-    MIi_CpuClearFast(0, (void *)0x05000000, 0x400);
-    MIi_CpuClearFast(0xc0, (void *)0x07000400, 0x400);
-    MIi_CpuClearFast(0, (void *)0x05000400, 0x400);
-}
-
-extern void GX_ResetBankForBGExtPltt(void);   /* GX_ResetBankForBGExtPltt */
-
-extern int GX_ResetBankForSubBG(void);
-
-extern void GX_ResetBankForSubBGExtPltt(void);   /* GX_ResetBankForSubBGExtPltt */
-
-extern void GX_ResetBankForOBJ(void);
-
-extern void GX_ResetBankForOBJExtPltt(void);   /* GX_ResetBankForOBJExtPltt */
-
-extern void GX_ResetBankForSubOBJ(void);
-
-extern void GX_ResetBankForSubOBJExtPltt(void);   /* GX_ResetBankForSubOBJExtPltt */
-
-extern int GX_ResetBankForTex(void);
-
-extern void GX_ResetBankForTexPltt(void);
-
-extern void GX_SetBankForBG(GXVRam v);   /* GX_SetBankForBG */
-
-extern void GX_SetBankForBGExtPltt(GXVRam v);   /* GX_SetBankForBGExtPltt */
-
-extern void GX_SetBankForSubBG(GXVRam v);   /* GX_SetBankForSubBG */
-
-extern void GX_SetBankForSubBGExtPltt(GXVRam v);   /* GX_SetBankForSubBGExtPltt */
-
-extern void GX_SetBankForOBJ(GXVRam v);   /* GX_SetBankForOBJ */
-
-extern void GX_SetBankForOBJExtPltt(GXVRam v);   /* GX_SetBankForOBJExtPltt */
-
-extern void GX_SetBankForSubOBJ(GXVRam v);   /* GX_SetBankForSubOBJ */
-
-extern void GX_SetBankForSubOBJExtPltt(GXVRam v);   /* GX_SetBankForSubOBJExtPltt */
-
-extern void GX_SetBankForTex(GXVRam v);   /* GX_SetBankForTex */
-
-extern void GX_SetBankForTexPltt(GXVRam v);   /* GX_SetBankForTexPltt */
-
-#define reg_GX_DISPCNT      (*(volatile u32 *)0x04000000)
-
-#define reg_GXS_DB_DISPCNT  (*(volatile u32 *)0x04001000)
-
-static inline void GX_SetOBJVRamModeChar(GXOBJVRamModeChar mode)
-{
-    reg_GX_DISPCNT = (u32)(reg_GX_DISPCNT & ~(0x00300000 | 0x00000010) | mode);
-}
-
-static inline void GXS_SetOBJVRamModeChar(GXOBJVRamModeChar mode)
-{
-    reg_GXS_DB_DISPCNT = (u32)(reg_GXS_DB_DISPCNT & ~(0x00300000 | 0x00000010) | mode);
-}
-
-/*
- * bg_sys.c: apply a VRAM bank descriptor.  Disable every bank, set the ten
- * bank assignments (TwlSDK GX_SetBankFor*, 0x0207FDCC..0x0208040C), then the
- * main and sub OBJ-VRAM character mapping through the SDK inlines
- * GX_SetOBJVRamModeChar / GXS_SetOBJVRamModeChar (nitro/gx/gx.h).
- *
- * Closed in wave 16 by the SDK-inline lever: the two mapping words are
- * GXOBJVRamModeChar enum fields passed straight into the inlines, and the
- * descriptor is `const`.  With u32 fields and parameters the same body is
- * 33 bytes out; with a non-const or volatile descriptor 29; every earlier
- * spelling (locals a/b, volatile struct) capped at 6 (r3/ip pair in the
- * DISPCNT tail, docs/notes/BG_SYS_SetVramBanks.c.txt).
- */
-void BG_SYS_SetVramBanks(const struct DispVram *banks)
-{
-    GX_ResetBankForBG();
-    GX_ResetBankForBGExtPltt();
-    GX_ResetBankForSubBG();
-    GX_ResetBankForSubBGExtPltt();
-    GX_ResetBankForOBJ();
-    GX_ResetBankForOBJExtPltt();
-    GX_ResetBankForSubOBJ();
-    GX_ResetBankForSubOBJExtPltt();
-    GX_ResetBankForTex();
-    GX_ResetBankForTexPltt();
-    GX_SetBankForBG(banks->main_bg);
-    GX_SetBankForBGExtPltt(banks->main_bg_expltt);
-    GX_SetBankForSubBG(banks->sub_bg);
-    GX_SetBankForSubBGExtPltt(banks->sub_bg_expltt);
-    GX_SetBankForOBJ(banks->main_obj);
-    GX_SetBankForOBJExtPltt(banks->main_obj_expltt);
-    GX_SetBankForSubOBJ(banks->sub_obj);
-    GX_SetBankForSubOBJExtPltt(banks->sub_obj_expltt);
-    GX_SetBankForTex(banks->teximage);
-    GX_SetBankForTexPltt(banks->texpltt);
-    GX_SetOBJVRamModeChar(banks->main_mapping);
-    GXS_SetOBJVRamModeChar(banks->sub_mapping);
-}
-
-/*
- * The tail of the packet: two one-line mask-downs of the same 32-bit word
- * at +4 of the object that starts at 0x02146A48, and the wrapper that runs
- * both.  Each accessor keeps only the bits its own half owns (0x10 for the
- * first, 0x0f for the second), so calling both in sequence clears the word
- * outright; the wrapper is the reset path.
- *
- * Kept as one unit so the two `bl` sites in BG_SYS_ClearMainPlanes are `local`: they
- * are that pair's only callers image-wide, and split into three files
- * neither could attest the other
- * (docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md in
- * reverse).
- */
-void BG_SYS_ClearMainBgPlanes(void)
-{
-    gVisiblePlanes[1] &= 0x10;
-}
-
-void BG_SYS_ClearMainObjPlane(void)
-{
-    gVisiblePlanes[1] &= 0xf;
-}
-
-void BG_SYS_ClearMainPlanes(void)
-{
-    BG_SYS_ClearMainBgPlanes();
-    BG_SYS_ClearMainObjPlane();
-}
-
-/*
- * A whole translation unit, matched as one byte range.
- *
- * The engine-A visible-plane trio, against gVisiblePlanes[1] and DISPCNT at
- * 0x04000000: toggle one plane only if the requested state differs, replace
- * the whole set, and reset to the one plane in bit 4.  The register address
- * is a rotated ARM immediate here (`mov r2, #0x4000000`), where the
- * engine-B twins at 0x02043598 / 0x020435F4 must pool 0x04001000.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_020434DC.c \
- *       --addr 0x020434DC --arm
- */
-void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable)
-{
-    if (enable == 1) {
-        if (gVisiblePlanes[1] & mask) {
-            return;
-        }
-    } else if (!(gVisiblePlanes[1] & mask)) {
-        return;
-    }
-
-    gVisiblePlanes[1] ^= mask;
-    *(volatile u32 *)0x04000000 =
-        (*(volatile u32 *)0x04000000 & ~0x1f00) | (gVisiblePlanes[1] << 8);
-}
-
-void BG_SYS_SetMainVisiblePlanes(u32 planes)
-{
-    gVisiblePlanes[1] = planes;
-    *(volatile u32 *)0x04000000 =
-        (*(volatile u32 *)0x04000000 & ~0x1f00) | (planes << 8);
-}
-
-void BG_SYS_ClearSubBgPlanes(void)
-{
-    gVisiblePlanes[0] &= 0x10;
-}
-
-/*
- * Two of the engine-B visible-plane mask writers, 0x02043570-0x02043598.
- *
- *   0x02043570  keep only the four background bits of the software copy
- *               gVisiblePlanes[0] (mask 0xF)
- *   0x02043588  the pair call: run the sibling at 0x02043558, which keeps
- *               only bit 4 (the OBJ plane), then the one above, so the two
- *               together clear the software copy outright
- *
- * 0x02043570 has exactly one branch reference image-wide, the `bl` at
- * 0x02043590 inside 0x02043588, so folding the two into one unit costs no
- * witness (docs/idioms/a-unit-attests-only-its-own-start-address.md): the
- * interior address is nobody else's sole witness.
- *
- * The mask constants are plain `and` immediates, not a bitfield: both fit an
- * ARM rotated immediate and neither carries a narrowing shift pair.
- *
- * Addresses are Black-image addresses.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02043570.c \
- *       --addr 0x02043570 --cc 1.1p1 --arm
- */
-void BG_SYS_ClearSubObjPlane(void)
-{
-    gVisiblePlanes[0] &= 0xF;
-}
-
-void BG_SYS_ClearSubPlanes(void)
-{
-    BG_SYS_ClearSubBgPlanes();
-    BG_SYS_ClearSubObjPlane();
-}
-
-/*
- * The engine-B half of the visible-plane toggle: if the requested state
- * already holds, return; otherwise flip the bit in the software copy at
- * gVisiblePlanes[0] and rewrite bits 8..12 of GXS_DISPCNT (0x04001000) from
- * it.  The engine-A twin at 0x020434DC is the same code against
- * gVisiblePlanes[1] and 0x04000000; that one is materialised with a `mov`
- * because 0x04000000 is an ARM rotated immediate while 0x04001000 is not
- * and costs a pool word.
- *
- * The register address is a cast constant, not a relocation, so this file's
- * only attestable site is gVisiblePlanes.
- */
-void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable)
-{
-    if (enable == 1) {
-        if (gVisiblePlanes[0] & mask) {
-            return;
-        }
-    } else if (!(gVisiblePlanes[0] & mask)) {
-        return;
-    }
-
-    gVisiblePlanes[0] ^= mask;
-    *(volatile u32 *)0x04001000 =
-        (*(volatile u32 *)0x04001000 & ~0x1f00) | (gVisiblePlanes[0] << 8);
-}
-
-/*
- * Engine-B "replace the whole visible-plane set": store the software copy
- * and rewrite bits 8..12 of GXS_DISPCNT from it.  Twin of BG_SYS_SetMainVisiblePlanes.
- */
-void BG_SYS_SetSubVisiblePlanes(u32 planes)
-{
-    gVisiblePlanes[0] = planes;
-    *(volatile u32 *)0x04001000 =
-        (*(volatile u32 *)0x04001000 & ~0x1f00) | (planes << 8);
-}
-
-/*
- * Three display-control leaves, 0x0204361C-0x02043668.  The two after the
- * first save no lr, so disasm.py does not label them and they print as a
- * run of `.word`s between literal pools; neither has a branch reference
- * anywhere in the image, so folding them into this unit costs no witness.
- *
- *   0x0204361C  reset the sub engine, then turn on bit 16 of GXS_DISPCNT
- *   0x0204363C  write the LCD-swap bit (bit 15) of POWCNT1 from bit 0 of
- *               the argument; the plain `orr ..., lsl #15` with no
- *               narrowing says this is arithmetic on the register word, not
- *               a one-bit bitfield (which would carry an `lsr #16` shifter
- *               operand, see the bitfield-cast idiom)
- *   0x02043658  read back gVisiblePlanes[1], the main-engine software copy
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0204361C.c \
- *       --addr 0x0204361C --cc 1.1p1 --arm
- */
-void BG_SYS_ResetSubDisplay(void)
-{
-    GX_DispOn();
-    *(volatile u32 *)0x04001000 |= 0x10000;
-}
-
-void BMP_SetDisplaySwap(u32 swap)
-{
-    *(volatile u16 *)0x04000304 =
-        (*(volatile u16 *)0x04000304 & ~0x8000) | (swap << 15);
-}
-
-u32 BMP_GetVisiblePlane(void)
-{
-    return gVisiblePlanes[1];
-}
-
-/*
- * Read back gVisiblePlanes[0], the sub-engine software copy of the visible
- * plane set that BG_SYS_SetSubVisiblePlanes writes.  Twin of the third leaf in
- * src/matched/unit_0204361C.c, which reads element 1.  Saves no lr, so
- * disasm.py does not label it.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/BG_SYS_GetSubVisiblePlanes.c \
- *       --func BG_SYS_GetSubVisiblePlanes --addr 0x02043668 --cc 1.1p1 --arm
- */
-u32 BG_SYS_GetSubVisiblePlanes(void)
-{
-    return gVisiblePlanes[0];
-}
 
 /*
  * TU: bmp.c.  The __FILE__ pointer at 0x020A7E68 reads "bmp.c", lines 97

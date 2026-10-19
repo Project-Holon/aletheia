@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PROC_GetDaycareState
+ * function: SCRCMD_PROC_CheckDaycareHasEgg
  * address:  0x0215CE98
  * packet:   pkt_0215CE98
  * region:   ov010
@@ -33,7 +33,7 @@ extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern void *FIELDMAP_GetSodateya(void *a0);
 extern int SODATEYA_HasEgg(void *a);
 
-int SCRCMD_PROC_GetDaycareState(int a0, int a1)
+int SCRCMD_PROC_CheckDaycareHasEgg(int a0, int a1)
 {    int t5;
     unsigned short *v0;
     void *v1;

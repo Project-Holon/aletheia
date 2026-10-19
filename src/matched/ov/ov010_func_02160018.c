@@ -31,7 +31,7 @@
  *   EVENT_SHORTCUT_MENU_CheckPartyRibbon  0x0216070C  thumb  ov010
  *   EVENT_SHORTCUT_MENU_CreateProcEvent  0x0216075C  thumb  ov010
  *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
- *   EVENTDATA_SYSTEM_CreateFieldLinkEvent  0x021644F4  thumb  ov010
+ *   FIELD_LINK_EVENT_Create  0x021644F4  thumb  ov010
  *   EVENT_SHORTCUT_MENU_OpenMessage  0x021606DC  thumb  ov010
  *   SHORTCUT_MENU_Main  0x021C5224  thumb  ov021
  *   SHORTCUT_MENU_Start  0x021C5348  thumb  ov021
@@ -85,7 +85,7 @@ extern void FIELD_SKILL_CHECK_FillUseFlags(Flags *f, void *a, void *b);
 extern int EVENT_SHORTCUT_MENU_CheckPartyRibbon(Work *w);
 extern void *EVENT_SHORTCUT_MENU_CreateProcEvent(struct Owner *o, u16 id);
 extern u32 *FLDMMDL_SysResumeMove(void *c);
-extern int EVENTDATA_SYSTEM_CreateFieldLinkEvent(int i, void *a, void *p);
+extern int FIELD_LINK_EVENT_Create(int i, void *a, void *p);
 extern void *EVENT_SHORTCUT_MENU_OpenMessage(void *p, u32 a);
 struct BigObj;
 struct Ctx;
@@ -216,7 +216,7 @@ int EVENT_SHORTCUT_MENU_MainEvent(void *evt, u32 *state, Work *w)
 
             func_020307B0(w->f10);
             w->f10 = 0;
-            GAME_EVENT_CallEvent(evt, (struct Evt **)EVENTDATA_SYSTEM_CreateFieldLinkEvent(i, w->f04, w->f08));
+            GAME_EVENT_CallEvent(evt, (struct Evt **)FIELD_LINK_EVENT_Create(i, w->f04, w->f08));
             *state = 13;
         }
         break;

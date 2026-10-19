@@ -13,16 +13,16 @@
  * entry this pass, so the second call site resolves on `matched`.
  *
  * symbols:
- *   POKE_TOOL_Dummy  0x020185F0  thumb
+ *   POKE_TOOL_CastToBoxParam  0x020185F0  thumb
  *   SAVE_EVENT_AdvanceStage  0x0202F640  thumb
  */
 
 typedef unsigned int u32;
 
-extern u32  POKE_TOOL_Dummy(u32 a);
+extern u32  POKE_TOOL_CastToBoxParam(u32 a);
 extern void SAVE_EVENT_AdvanceStage(u32 a, u32 b);
 
 void SAVE_EVENT_CommitStage(u32 a, u32 b)
 {
-    SAVE_EVENT_AdvanceStage(POKE_TOOL_Dummy(a), b);
+    SAVE_EVENT_AdvanceStage(POKE_TOOL_CastToBoxParam(a), b);
 }

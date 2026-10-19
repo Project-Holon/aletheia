@@ -19,7 +19,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   GPOWER_GetSpecialPowerId 0x020111E8 thumb
  *   GXS_LoadBGPltt 0x0207E468 arm
@@ -143,7 +143,7 @@ extern void *PROCSYS_AllocProcWork(struct ProcSystem *obj, unsigned int size, un
 extern void MI_CpuFill8(void *, int, int);
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *p);
-extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+extern void BG_SYS_SetPriority(int idx, unsigned short val);
 extern void *GFL_USE_AddMainTask(void (*)(void), void *, int);
 extern unsigned GPOWER_GetSpecialPowerId(void);
 extern void GXS_LoadBGPltt(void *, int, int);
@@ -254,8 +254,8 @@ int THE_END_GRAPHIC_Init(void *task, int b, int c)
     ((struct TheEndProcWork *)p)->graphic = THE_END_GRAPHIC_Create(1, ((struct TheEndProcWork *)p)->heapId);
     ((struct TheEndProcWork *)p)->font = GF_FONT_Create(0x17, 0, 0, 0, ((struct TheEndProcWork *)p)->heapId);
     ((struct TheEndProcWork *)p)->printQueue = (void *)PRINTSYS_QUE_Create((void *)(((struct TheEndProcWork *)p)->heapId));
-    BG_SYS_SetVisibleLayer(1, 1);
-    BG_SYS_SetVisibleLayer(2, 0);
+    BG_SYS_SetPriority(1, 1);
+    BG_SYS_SetPriority(2, 0);
     ((struct TheEndProcWork *)p)->vblankNode = GFL_USE_AddMainTask(THE_END_GRAPHIC_DummyTask, p, 1);
     THE_END_GRAPHIC_LoadGraphics((u16 *)p);
     if (GPOWER_GetSpecialPowerId() == 0x14)

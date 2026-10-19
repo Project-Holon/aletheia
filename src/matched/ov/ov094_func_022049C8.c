@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   BG_SYS_FillScrollArea  0x02040618  arm
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm
  *   func_02040588  0x02040588  arm
  *   BTLV_INPUT_DeleteTask  0x0220687C  thumb  ov094
  */
@@ -27,15 +27,15 @@ typedef struct Ctx {
 } Ctx;
 
 typedef unsigned int   u32;
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BTLV_INPUT_DeleteTask(char *p, void *q);
 
 void BTLV_INPUT_BgScrollOffsetTaskMain(int a0, Ctx *c)
 {
     if (c->f4 != -1) {
-        BG_SYS_FillScrollArea((u8)c->f4, (int)0, (int)c->f8);
-        BG_SYS_FillScrollArea((u8)c->f4, (int)3, (int)c->fc);
+        BG_SYS_ChangeScrollImmediate((u8)c->f4, (int)0, (int)c->f8);
+        BG_SYS_ChangeScrollImmediate((u8)c->f4, (int)3, (int)c->fc);
     }
     if (c->f10 != 2) {
         func_02040588((int)4, (u8)c->f10);

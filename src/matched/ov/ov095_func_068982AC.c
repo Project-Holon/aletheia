@@ -1,5 +1,5 @@
 /*
- * function: BTL_EVENT_IsFactorKeyRegistered
+ * function: HAND_POS_IsRegistered
  * address:  0x068982AC
  * packet:   pkt_ov095_068982AC
  * region:   ov095
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * sdk:      BTL_EVENT_IsFactorKeyRegistered (libdwcmatch.TWL.HYB.thumb.a(dwc_match.o))
+ * sdk:      HAND_POS_IsRegistered (libdwcmatch.TWL.HYB.thumb.a(dwc_match.o))
  *
  * symbols:
  *   HAND_POS_IsNotRegistered  0x068982C0  thumb  ov095
@@ -17,7 +17,7 @@
 
 extern void *HAND_POS_IsNotRegistered(void);
 
-int BTL_EVENT_IsFactorKeyRegistered(void)
+int HAND_POS_IsRegistered(void)
 {
     if (HAND_POS_IsNotRegistered() == 0)
         return 1;

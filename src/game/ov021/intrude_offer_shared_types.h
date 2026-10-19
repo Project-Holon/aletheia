@@ -1,0 +1,6 @@
+#ifndef INTRUDE_OFFER_SHARED_TYPES_H
+#define INTRUDE_OFFER_SHARED_TYPES_H
+
+struct WordSet;
+
+#endif

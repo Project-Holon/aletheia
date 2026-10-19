@@ -20,7 +20,7 @@
  *   BG_SYS_GetBuf  0x0204162C  arm  arm9
  *   BG_SYS_DrawTileEx  0x020410D0  arm  arm9
  *   BG_SYS_FillTileMap  0x020413B0  arm  arm9
- *   BG_SYS_FillScrollArea  0x02040618  arm  arm9
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm  arm9
  *   BG_SYS_PushTile  0x020409B4  arm  arm9
  */
 typedef unsigned char u8;
@@ -58,7 +58,7 @@ extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern u32 BG_SYS_GetBuf(int);
 extern void BG_SYS_DrawTileEx(u32, u32, u32, u32, u8, u32, u8, u8, u8, u8);
 extern void BG_SYS_PushTile(u32);
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 extern void func_0207D63C(void *, int, int, int, int);
 Work *WIFIBATTLEMATCH_VIEW_CreateRecordWindow(const Record *rec, void *a1, void *a2, void *a3, void *a4, void *a5, void *a6, u32 mode, u32 owner, int style, u16 heap)
 {
@@ -108,8 +108,8 @@ Work *WIFIBATTLEMATCH_VIEW_CreateRecordWindow(const Record *rec, void *a1, void 
         break;
     }
     BG_SYS_PushTile(2);
-    BG_SYS_FillScrollArea(2, 0, ~0xff);
-    BG_SYS_FillScrollArea(1, 0, ~0xff);
+    BG_SYS_ChangeScrollImmediate(2, 0, ~0xff);
+    BG_SYS_ChangeScrollImmediate(1, 0, ~0xff);
     func_0207D63C((void *)0x04000050, 4, 8, 0xf, 3);
     return w;
 }

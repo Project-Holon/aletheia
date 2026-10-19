@@ -12,12 +12,12 @@
  *   UI_SCENE_Step 0x021B6144 thumb ov067
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   COMM_BTL_DEMO_GRAPHIC_Draw 0x021BAC68 thumb ov213
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  */
 #include "../include/Obj06704.h"
 extern void COMM_BTL_DEMO_MAIN_DrawGraphics(unsigned char *p);
 extern void COMM_BTL_DEMO_GRAPHIC_Draw(char *p);
-extern void BG_SYS_ResetSlot(unsigned,unsigned,unsigned);
+extern void BG_SYS_ChangeScroll(unsigned,unsigned,unsigned);
 typedef unsigned int   u32;
 struct PrintSys;
 struct S;
@@ -30,6 +30,6 @@ int COMM_BTL_DEMO_MAIN_Update(int a,int b,int c,char *p)
     PRINTSYS_QUE_Main(((struct Obj06704 *)p)->f49BC);
     COMM_BTL_DEMO_GRAPHIC_Draw(((struct Obj06704 *)p)->f49B4);
     (((struct Obj06704 *)p)->f49D4)++;
-    BG_SYS_ResetSlot(3,0,((struct Obj06704 *)p)->f49D4/2);
+    BG_SYS_ChangeScroll(3,0,((struct Obj06704 *)p)->f49D4/2);
     return 0;
 }

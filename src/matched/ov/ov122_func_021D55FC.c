@@ -26,7 +26,7 @@
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   CLACT_ExitSystem 0x0204A5AC arm
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   APP_TASKMENU_CloseMenu 0x02027858 thumb
  *   BMP_WIN_Delete 0x020452E8 arm
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
@@ -65,7 +65,7 @@ extern void func_02030EAC(struct Node *n);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
@@ -95,7 +95,7 @@ int INTRUDE_COMM_VIEW_Exit(void *a, void *b, char *out, char *p)
     CLACT_DeleteUnit(((struct Obj00911 *)p)->f30C);
     CLACT_ExitSystem();
     if (((struct Obj00911 *)p)->f318) PRINTSYS_PrintStreamDelete(((struct Obj00911 *)p)->f318);
-    WORDSET_DeleteStrbufED04(((struct Obj00911 *)p)->f48);
+    WORDSET_Delete(((struct Obj00911 *)p)->f48);
     if (((struct Obj00911 *)p)->f324) {
         APP_TASKMENU_CloseMenu(((struct Obj00911 *)p)->f324);
         ((struct Obj00911 *)p)->f324 = 0;

@@ -1,5 +1,5 @@
 /*
- * function: INTRUDE_COMM_GetPartnerRecord
+ * function: INTRUDE_COMM_GetPartnerSymbolPage
  * address:  0x02176880
  * packet:   pkt_ov011_02176880
  * region:   ov011
@@ -17,7 +17,7 @@
 
 typedef unsigned char u8;
 
-u8 *INTRUDE_COMM_GetPartnerRecord(u8 *p)
+u8 *INTRUDE_COMM_GetPartnerSymbolPage(u8 *p)
 {
     return p + 0x82C;
 }

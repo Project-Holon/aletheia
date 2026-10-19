@@ -10,18 +10,18 @@
  * status: EXACT*
  * extent: follower 0x02175A24 already filed separately.
  * symbols:
- *   GF_STANDARD_GetTime 0x0203F4FC arm
+ *   GF_STANDARD_GetSecondsOfDay 0x0203F4FC arm
  *   GFL_NET_IsParentAid 0x0203D378 arm
  */
 #include "../include/Obj09352.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 GF_STANDARD_GetTime(void);
+extern u32 GF_STANDARD_GetSecondsOfDay(void);
 extern u32 GFL_NET_IsParentAid(void);
 void INTRUDE_COMM_StartSessionTimer(u8 *p, int n)
 {
     p[0x1A5] |= 2;
     ((struct Obj09352 *)p)->fAA = n;
-    if (GFL_NET_IsParentAid() == 0) ((struct Obj09352 *)p)->f190 = GF_STANDARD_GetTime();
+    if (GFL_NET_IsParentAid() == 0) ((struct Obj09352 *)p)->f190 = GF_STANDARD_GetSecondsOfDay();
 }

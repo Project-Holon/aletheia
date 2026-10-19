@@ -28,8 +28,8 @@
  *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   GAME_DATA_GetSecondUnionInfo  0x020127C4  thumb
- *   GAME_DATA_GetMysteryRecvFlagA  0x020127E0  thumb
- *   GAME_DATA_GetMysteryRecvFlagB  0x020127F0  thumb
+ *   GAME_DATA_GetMusicalShotTitle  0x020127E0  thumb
+ *   GAME_DATA_GetMusicalShotExtraData  0x020127F0  thumb
  *   FIELD_WFBC_DATA_LOCAL_CountPeople  0x02186278  thumb
  *   EVENT_FIELD_PROCLINK_IsReturnEntryValid  0x02161ECC  thumb
  *   FIELD_WFBC_DATA_LOCAL_AddMood  0x02186BB8  thumb
@@ -59,8 +59,8 @@ struct SaveBlock;
 extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
 extern char *GAME_DATA_GetSecondUnionInfo(int a);
-extern int GAME_DATA_GetMysteryRecvFlagA(int a0);
-extern int GAME_DATA_GetMysteryRecvFlagB(int a0);
+extern int GAME_DATA_GetMusicalShotTitle(int a0);
+extern int GAME_DATA_GetMusicalShotExtraData(int a0);
 extern int FIELD_WFBC_DATA_LOCAL_CountPeople(char *p, int which);
 extern int EVENT_FIELD_PROCLINK_IsReturnEntryValid(char *p);
 extern int FIELD_WFBC_DATA_LOCAL_AddMood(u8 *p, int delta);
@@ -99,8 +99,8 @@ void FIELD_WFBC_DATA_LOCAL_AdvanceDays(int a0, int n, u32 flags)
 
     id = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork((struct SaveBlock *)a0));
     base = GAME_DATA_GetSecondUnionInfo(a0);
-    p1 = GAME_DATA_GetMysteryRecvFlagA(a0);
-    p2 = GAME_DATA_GetMysteryRecvFlagB(a0);
+    p1 = GAME_DATA_GetMusicalShotTitle(a0);
+    p2 = GAME_DATA_GetMusicalShotExtraData(a0);
     if (n <= 0) {
         n = 1;
     }

@@ -1,5 +1,5 @@
 /*
- * function: BTLV_EFFVM_CmdJumpIfNot
+ * function: BTLV_EFFVM_CmdJumpIfCondCompare
  * address:  0x021FBD88
  * packet:   pkt_ov094_021FBD88
  * region:   ov094
@@ -25,7 +25,7 @@ extern u32 VM_GetU32(struct Cursor *p);
 extern int BTLV_EFFVM_EvalCondition(State *s, int i);
 extern void BTLV_EFFVM_CompareAndJump(int a, int b, int c, int d, int e);
 
-int BTLV_EFFVM_CmdJumpIfNot(struct Cursor *a, State *s)
+int BTLV_EFFVM_CmdJumpIfCondCompare(struct Cursor *a, State *s)
 {
     int x = BTLV_EFFVM_EvalCondition(s, VM_GetU32(a));
     int op = VM_GetU32(a);

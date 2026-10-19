@@ -1,5 +1,5 @@
 /*
- * function: BUTTON_MAN_FindRowData
+ * function: PARTICLE_EMITTER_FindBehaviorData
  * address:  0x020518AC
  * packet:   pkt_02051838
  * region:   arm9
@@ -32,8 +32,8 @@
  * shorter and every branch target shifts.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/BUTTON_MAN_FindRowData.c \
- *       --func BUTTON_MAN_FindRowData --addr 0x020518AC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/PARTICLE_EMITTER_FindBehaviorData.c \
+ *       --func PARTICLE_EMITTER_FindBehaviorData --addr 0x020518AC --cc 1.1p1 --arm
  */
 #include "../include/Obj16187.h"
 
@@ -64,7 +64,7 @@ extern void SPL_EMITTER_AddScaledVec(struct A *a, struct B *b, volatile int *c);
 extern void SPL_EMITTER_UpdateNode(struct Obj *o, struct Src *s, int *dst);
 extern void SPL_EMITTER_AddVec(struct Obj *o, void *s, int *dst);
 
-void *BUTTON_MAN_FindRowData(void *obj, int kind)
+void *PARTICLE_EMITTER_FindBehaviorData(void *obj, int kind)
 {
     struct Blk *b = *(struct Blk * *)&((struct Obj16187 *)obj)->f20;
     int i;

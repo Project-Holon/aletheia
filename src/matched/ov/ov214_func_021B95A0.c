@@ -32,7 +32,7 @@
  * BTL_REC_SEL_DrawWindow 0x021BA074 thumb ov214
  * BTL_REC_SEL_InitPalette 0x021BA2F4 thumb ov214
  * BTL_REC_SEL_CreateWindows 0x021BA3C4 thumb ov214
- * BG_SYS_SetVisibleLayer 0x0204047C arm
+ * BG_SYS_SetPriority 0x0204047C arm
  * BG_SYS_LoadPlttEntry 0x02040EBC arm
  * FADE_Start 0x0204E720 arm
  * BTL_REC_SEL_StartFade 0x021B9EB8 thumb ov214
@@ -58,7 +58,7 @@ extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void*,u32,u32);
 struct C;
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+extern void BG_SYS_SetPriority(int idx, unsigned short val);
 extern void BG_SYS_LoadPlttEntry(u32,u32);
 extern void FADE_Start(u32,int,int,int);
 extern char *BTL_REC_SEL_GRAPHIC_Create(u32,u32);
@@ -110,7 +110,7 @@ int BTL_REC_SEL_Create(void *manager,char *state,char * const obj)
     *(void* *)&((struct Obj00182 *)p)->f58=func_02045B38(0,2,19,((struct Obj00182 *)p)->f0);
     BTL_REC_SEL_InitBgRun((int)obj,p);BTL_REC_SEL_ClearLayer(obj,p);BTL_REC_SEL_InitSubBg((void **)obj,p);
     BTL_REC_SEL_InitWindows(obj,(struct C *)p);BTL_REC_SEL_DrawWindow((int)obj,p);BTL_REC_SEL_InitPalette((int)obj,p);BTL_REC_SEL_CreateWindows((int)obj,p);
-    BG_SYS_SetVisibleLayer(2,2);k=K;BG_SYS_SetVisibleLayer(k,1);BG_SYS_SetVisibleLayer(1,0);
+    BG_SYS_SetPriority(2,2);k=K;BG_SYS_SetPriority(k,1);BG_SYS_SetPriority(1,0);
     func_02040588(2,1);func_02040588(3,1);func_02040588(1,1);
     BG_SYS_LoadPlttEntry(0,0);BG_SYS_LoadPlttEntry(4,0);FADE_Start(3,16,16,0);
     if(((struct Obj00182 *)p)->f50){

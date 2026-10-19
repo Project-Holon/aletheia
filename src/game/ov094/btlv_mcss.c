@@ -18,7 +18,7 @@
  *   FX_SinCosTable_ 0x020A1B38 data a2
  *   TCB_DeleteTask 0x02030EAC arm
  *   TCB_AddTask  0x02030DA8  arm
- *   TCBL_GetTaskUserData   0x02030EE8  arm
+ *   TCBL_IsDeletePending   0x02030EE8  arm
  *   GF_STANDARD_Rand 0x0203F0A8 arm
  *   FX_Div  0x0207C768  arm
  *   GFL_HEAP_Alloc  0x02030734  arm
@@ -223,7 +223,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 extern u32 GFL_HEAP_Free(void *p);
 extern void TCB_DeleteTask(struct TcblTask *task);
 extern void *TCB_AddTask(void *owner, void (*fn)(void *, void *), void *p, u32 priority);
-extern void *TCBL_GetTaskUserData(struct TcblTask *task);
+extern void *TCBL_IsDeletePending(struct TcblTask *task);
 extern u32 GF_STANDARD_Rand(void);
 extern u32 FX_Div(u32 a, u32 b);
 extern void GFL_USE_StopSeSlot(int slot);
@@ -701,7 +701,7 @@ void BTLV_MCSS_RemoveSprite(BtlvMcssWork *work, int pos)
     MCSS_Del(work->mcss, work->sprites[idx].mcss);
     work->sprites[idx].mcss = 0;
     if (work->sprites[idx].animWatchTask != 0) {
-        GFL_HEAP_Free(TCBL_GetTaskUserData(work->sprites[idx].animWatchTask));
+        GFL_HEAP_Free(TCBL_IsDeletePending(work->sprites[idx].animWatchTask));
         TCB_DeleteTask(work->sprites[idx].animWatchTask);
         work->sprites[idx].animWatchTask = 0;
     }
@@ -1782,7 +1782,7 @@ void BTLV_MCSS_PositionTweenTaskMain(void *task, void *arg)
 
 void BTLV_MCSS_PositionTweenTaskEnd(void *task)
 {
-    BtlvMcssTween *t = TCBL_GetTaskUserData(task);
+    BtlvMcssTween *t = TCBL_IsDeletePending(task);
 
     if (t->serial == t->work->positionSerial[t->pos])
         t->work->positionTweenMask &= BTLV_EFFECT_GetBitMask(t->pos) ^ 0xFFFFFFFF;
@@ -1818,7 +1818,7 @@ void BTLV_MCSS_ShadowScaleTweenTaskMain(void *task, void *arg)
 
 void BTLV_MCSS_ShadowScaleTweenTaskEnd(void *task)
 {
-    BtlvMcssTween *t = TCBL_GetTaskUserData(task);
+    BtlvMcssTween *t = TCBL_IsDeletePending(task);
 
     if (t->serial == t->work->shadowScaleSerial[t->pos])
         t->work->shadowScaleTweenMask &= BTLV_EFFECT_GetBitMask(t->pos) ^ 0xFFFFFFFF;
@@ -1854,7 +1854,7 @@ void BTLV_MCSS_ScaleTweenTaskMain(void *task, void *arg)
 
 void BTLV_MCSS_ScaleTweenTaskEnd(void *task)
 {
-    BtlvMcssTween *t = TCBL_GetTaskUserData(task);
+    BtlvMcssTween *t = TCBL_IsDeletePending(task);
 
     if (t->serial == t->work->scaleSerial[t->pos])
         t->work->scaleTweenMask &= BTLV_EFFECT_GetBitMask(t->pos) ^ 0xFFFFFFFF;
@@ -1890,7 +1890,7 @@ void BTLV_MCSS_DrawScaleTweenTaskMain(void *task, void *arg)
 
 void BTLV_MCSS_DrawScaleTweenTaskEnd(void *task)
 {
-    BtlvMcssTween *t = TCBL_GetTaskUserData(task);
+    BtlvMcssTween *t = TCBL_IsDeletePending(task);
 
     if (t->serial == t->work->drawScaleSerial[t->pos])
         t->work->drawScaleTweenMask &= BTLV_EFFECT_GetBitMask(t->pos) ^ 0xFFFFFFFF;
@@ -1926,7 +1926,7 @@ void BTLV_MCSS_RotateTweenTaskMain(void *task, void *arg)
 
 void BTLV_MCSS_RotateTweenTaskEnd(void *task)
 {
-    BtlvMcssTween *t = TCBL_GetTaskUserData(task);
+    BtlvMcssTween *t = TCBL_IsDeletePending(task);
 
     if (t->serial == t->work->rotateSerial[t->pos])
         t->work->rotateTweenMask &= BTLV_EFFECT_GetBitMask(t->pos) ^ 0xFFFFFFFF;
@@ -1957,7 +1957,7 @@ void BTLV_MCSS_BlinkTaskMain(void *task, void *arg)
 
 void BTLV_MCSS_BlinkTaskEnd(void *task)
 {
-    BtlvMcssBlinkTask *t = TCBL_GetTaskUserData(task);
+    BtlvMcssBlinkTask *t = TCBL_IsDeletePending(task);
 
     if (t->serial == t->work->blinkSerial[t->pos])
         t->work->blinkTaskMask &= BTLV_EFFECT_GetBitMask(t->pos) ^ 0xFFFFFFFF;
@@ -1991,7 +1991,7 @@ void BTLV_MCSS_AlphaTweenTaskMain(void *task, void *arg)
 
 void BTLV_MCSS_AlphaTweenTaskEnd(void *task)
 {
-    BtlvMcssTween *t = TCBL_GetTaskUserData(task);
+    BtlvMcssTween *t = TCBL_IsDeletePending(task);
 
     if (t->serial == t->work->alphaSerial[t->pos])
         t->work->alphaTweenMask &= BTLV_EFFECT_GetBitMask(t->pos) ^ 0xFFFFFFFF;
@@ -2099,7 +2099,7 @@ void BTLV_MCSS_ShakeTaskMain(void *task, void *arg)
  */
 void BTLV_MCSS_ShakeTaskEnd(void *task)
 {
-    BtlvMcssShakeParams *q = TCBL_GetTaskUserData(task);
+    BtlvMcssShakeParams *q = TCBL_IsDeletePending(task);
 
     if (q->serial == q->work->positionSerial[q->pos])
         q->work->positionTweenMask &= BTLV_EFFECT_GetBitMask(*(int *)((char *)q + 4)) ^ 0xFFFFFFFF;
@@ -2151,7 +2151,7 @@ void BTLV_MCSS_BounceTaskMain(void *task, void *arg)
  */
 void BTLV_MCSS_BounceTaskEnd(void *task)
 {
-    BtlvMcssBounceParams *q = TCBL_GetTaskUserData(task);
+    BtlvMcssBounceParams *q = TCBL_IsDeletePending(task);
 
     if (q->serial == q->work->positionSerial[q->pos])
         q->work->positionTweenMask &= BTLV_EFFECT_GetBitMask(*(int *)((char *)q + 4)) ^ 0xFFFFFFFF;
@@ -2187,7 +2187,7 @@ void BTLV_MCSS_MosaicTweenTaskMain(void *task, void *arg)
 
 void BTLV_MCSS_MosaicTweenTaskEnd(void *task)
 {
-    BtlvMcssTween *t = TCBL_GetTaskUserData(task);
+    BtlvMcssTween *t = TCBL_IsDeletePending(task);
 
     if (t->serial == t->work->mosaicSerial[t->pos])
         t->work->mosaicTweenMask &= BTLV_EFFECT_GetBitMask(t->pos) ^ 0xFFFFFFFF;
@@ -2320,7 +2320,7 @@ void BTLV_MCSS_RotationTaskMain(void *task, void *arg)
 
 void BTLV_MCSS_RotationTaskEnd(void *task)
 {
-    BtlvMcssWork *w = *((BtlvMcssWork **)TCBL_GetTaskUserData(task));
+    BtlvMcssWork *w = *((BtlvMcssWork **)TCBL_IsDeletePending(task));
     w->flags.rotating = 0;
 }
 

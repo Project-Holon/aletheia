@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: GF_STANDARD_Task
+ * function: GF_STANDARD_RtcReadDone
  * address:  0x0203F42C
  * packet:   pkt_0203EF5C
  * region:   arm9
@@ -23,8 +23,8 @@
  * the only thing that can attest that relocation.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GF_STANDARD_Task.c \
- *       --func GF_STANDARD_Task --addr 0x0203F42C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_STANDARD_RtcReadDone.c \
+ *       --func GF_STANDARD_RtcReadDone --addr 0x0203F42C --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -54,7 +54,7 @@ struct RtcRequest {
     struct RtcTime stagedTime;
 };
 
-void GF_STANDARD_Task(u32 result, struct RtcRequest *req)
+void GF_STANDARD_RtcReadDone(u32 result, struct RtcRequest *req)
 {
     req->result = result;
     req->unk_00 = 1;

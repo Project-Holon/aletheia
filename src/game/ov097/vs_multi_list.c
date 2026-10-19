@@ -58,7 +58,7 @@
  *   PRINTSYS_QUE_CreateEx  0x0201C450  thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   BG_SYS_Update 0x020419E4 arm
@@ -79,7 +79,7 @@
  *   MSGDATA_AllocString 0x02045EC0 arm
  *   BMP_WIN_GetWidth 0x02045738 arm
  *   STRBUF_Delete 0x02045808 arm
- *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
+ *   WORDSET_SetSlotMonNickname 0x0201EEF4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
@@ -113,7 +113,7 @@
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   POKE_TOOL_GetIconPalette 0x0201BBE8 thumb
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
- *   FILE_UTIL_Check136C 0x0202136C thumb
+ *   FILE_UTIL_IsMailItem 0x0202136C thumb
  *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   gVsMultiListActorDescs 0x021F76C8 data a4
@@ -293,7 +293,7 @@ extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct PrintSys *PRINTSYS_QUE_CreateEx(u16 n, u32 heap);
 extern u32 MSGDATA_Delete(struct MsgBank *msgBank);
 extern u32 GF_FONT_Delete(struct GfFont *font);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern struct VBlankTask *GFL_USE_AddMainTask(void (*)(void), void *, u32);
 extern void TCB_DeleteTask(struct VBlankTask *task);
@@ -314,7 +314,7 @@ extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern u8 BMP_WIN_GetWidth(struct BmpWin *p);
 extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, struct PokemonParam *mon);
+extern void WORDSET_SetSlotMonNickname(struct WordSet *p, u32 i, struct PokemonParam *mon);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, struct Strbuf *dst, struct Strbuf *src);
 extern void PRINTSYS_PrintQueColor(struct PrintSys *que, struct Bmp *bmp, u32 x, u32 y, struct Strbuf *str, struct GfFont *font, u16 color);
 extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *mon, u32 param, u32 unused);
@@ -348,7 +348,7 @@ extern void CLACT_SetActorDrawEnable(struct ClactActor *, u32);
 extern void CLACT_SetActorAutoAnim(struct ClactActor *, u32);
 extern int POKE_TOOL_GetIconPalette(void *boxParam);
 extern void CLACT_SetActorPaletteOffset(struct ClactActor *, u32, u32);
-extern u32 FILE_UTIL_Check136C(u16);
+extern u32 FILE_UTIL_IsMailItem(u16);
 extern void CLACT_SetActorAnimFrame(struct ClactActor *, u32);
 extern void CLACT_SetActorAnimSeq(struct ClactActor *, u16);
 extern void CLACT_DeleteActor(struct ClactActor *);
@@ -622,7 +622,7 @@ void VS_MULTI_LIST_DeleteTextResources(struct VsMultiList *work)
     MSGDATA_Delete(work->msgBank);
     GF_FONT_Delete(work->font);
     GF_FONT_Delete(work->fontSmall);
-    WORDSET_DeleteStrbufED04(work->wordSet);
+    WORDSET_Delete(work->wordSet);
     PRINTSYS_QUE_Delete(work->printQue);
 }
 
@@ -760,7 +760,7 @@ void VS_MULTI_LIST_PrintName(struct VsMultiList *work, int slot)
     format = MSGDATA_AllocString(work->msgBank, 0);
     mons = work->mons;
     monOffset = slot;
-    WORDSET_SetSlotMonSpecies(work->wordSet, 0, mons[monOffset]);
+    WORDSET_SetSlotMonNickname(work->wordSet, 0, mons[monOffset]);
     WORDSET_CopyTaggedText(work->wordSet, name, format);
     PrintLeft(work, slot, name, 0x20, 7, 0x3dc0);
     STRBUF_Delete(format);
@@ -998,7 +998,7 @@ void VS_MULTI_LIST_CreateActors(struct VsMultiList *work)
             CLACT_SetActorPaletteOffset(work->actors.set.icon[i], POKE_TOOL_GetIconPalette(POKE_TOOL_GetBoxParam(work->mons[i])), 1);
             heldItem = POKE_TOOL_GetPartyValue(work->mons[i], POKE_TOOL_PARAM_HELD_ITEM, 0);
             if (heldItem == 0) CLACT_SetActorDrawEnable(work->actors.set.heldItem[i], 0);
-            else if (FILE_UTIL_Check136C(heldItem) == 1) {
+            else if (FILE_UTIL_IsMailItem(heldItem) == 1) {
                 CLACT_SetActorAnimFrame(work->actors.set.heldItem[i], 0);
                 CLACT_SetActorAnimSeq(work->actors.set.heldItem[i], 1);
             } else {

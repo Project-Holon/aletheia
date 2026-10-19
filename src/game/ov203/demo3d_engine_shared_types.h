@@ -8,7 +8,7 @@ struct Rec;
 struct IcaAnime;
 
 /*
- * Light-record view returned by DEMO3D_ENGINE_GetAnimeId and stored at
+ * Light-record view returned by DEMO3D_ENGINE_GetCameraRecord and stored at
  * struct Ctx.cam.  The same object is viewed as struct Record in
  * demo3d_engine.c: its flag halfword at 0x06 carries bit 0 "doubled" (a
  * size or value doubling selector) and bit 1 "count".  The int fields at

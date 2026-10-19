@@ -42,7 +42,7 @@
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   GFL_USE_IsSeqPlaying  0x02006254  thumb
  *   func_02030734  0x02030734  arm
  *   func_02045B38  0x02045B38  arm
@@ -156,7 +156,7 @@ extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern int GFL_USE_IsSeqPlaying(u32 a);
 extern u32 KEY_GetTrg(void);
 
@@ -269,7 +269,7 @@ int REPORT_EVENT_Main(Work *w, u32 *state)
             WORDSET_SetSlotMyStatus(ws, 0, GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(w->f04)));
             WORDSET_CopyTaggedText(ws, w->f18->f18, str);
             STRBUF_Delete(str);
-            WORDSET_DeleteStrbufED04(ws);
+            WORDSET_Delete(ws);
             REPORT_EVENT_StartPrintStream(w);
             TIME_ICON_Delete(w->f18->f44);
             *state = 0xB;

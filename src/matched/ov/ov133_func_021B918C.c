@@ -26,7 +26,7 @@
  *   DUP_FITTING_ITEM_ElemGetNext 0x021BA208 thumb ov133
  *   MUSICAL_MCSS_SetElemScale 0x021F4EA4 thumb ov112
  *   MUSICAL_MCSS_SetElemPos 0x021F4E8C thumb ov112
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   FX_SinCosTable_ 0x020A1B38 data
  */
@@ -46,7 +46,7 @@ extern u32 DUP_FITTING_ITEM_ElemGetRenderElem(u8 *p);
 extern u32 DUP_FITTING_ITEM_ElemGetNext(u8 *p);
 extern void MUSICAL_MCSS_SetElemScale(u32 unused, u32 p, u32 q);
 extern void MUSICAL_MCSS_SetElemPos(u8 *, int, int *);
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern int FX_Sqrt(int);
 extern int FX_Atan2Idx(int, int);
@@ -83,7 +83,7 @@ void DUP_FITTING_DrawFrames(u8 *p)
         MUSICAL_MCSS_SetElemPos(*(u8 **)(p + 0x1884), id, v);
         e = (u8 *)DUP_FITTING_ITEM_ElemGetNext(e);
     }
-    BG_SYS_FillScrollArea(2, 3, -*(int *)(p + 0x10));
+    BG_SYS_ChangeScrollImmediate(2, 3, -*(int *)(p + 0x10));
     r.x = 0x20;
     {
         int t = 0xC0 - *(int *)(p + 0x10);

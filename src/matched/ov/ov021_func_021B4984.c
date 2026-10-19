@@ -13,7 +13,7 @@
  *   SCRCMD_PROC_FLD_PrepareMessageWindow 0x021B4878 thumb ov021
  *   SCRCMD_PROC_FLD_ShowMessage 0x021B4894 thumb ov021
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
- *   FILE_UTIL_Get_12B0 0x020212B0 thumb
+ *   FILE_UTIL_GetMachineMove 0x020212B0 thumb
  *   WORDSET_SetSlotFromMsgCB 0x0201EF34 thumb
  */
 #include "../include/Obj01121.h"
@@ -25,14 +25,14 @@ extern int SCRCMD_PROC_FLD_PrepareMessageWindow(u32 a);
 struct WordSet;
 extern void SCRCMD_PROC_FLD_ShowMessage(char *w, u32 b);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern int FILE_UTIL_Get_12B0(u32 a);
+extern int FILE_UTIL_GetMachineMove(u32 a);
 extern void WORDSET_SetSlotFromMsgCB(struct WordSet *p, u32 i, u32 v);
 
 void SCRCMD_PROC_FLD_ShowTmBuyConfirm(char *w, u32 a, u32 b, u32 c)
 {
     SCRCMD_PROC_FLD_PrepareMessageWindow(((struct Obj01121 *)w)->f17C);
     WORDSET_SetSlotNumber((struct WordSet *)(((struct Obj01121 *)w)->f190), 0, b - 327, 2, 2, 1);
-    WORDSET_SetSlotFromMsgCB((struct WordSet *)(((struct Obj01121 *)w)->f190), 1, FILE_UTIL_Get_12B0(b));
+    WORDSET_SetSlotFromMsgCB((struct WordSet *)(((struct Obj01121 *)w)->f190), 1, FILE_UTIL_GetMachineMove(b));
     WORDSET_SetSlotNumber((struct WordSet *)(((struct Obj01121 *)w)->f190), 2, c, 5, 0, 1);
     SCRCMD_PROC_FLD_ShowMessage((char *)((u32)w), a);
 }

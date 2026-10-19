@@ -15,7 +15,7 @@
  * are `for (;;) { if (!cond) break; ... }` (top test, unconditional b back).
  *
  * symbols:
- *   BG_SYS_ResetSlot  0x02041EE4  arm
+ *   BG_SYS_ChangeScroll  0x02041EE4  arm
  *   FRAME_LIST_DrawRowA  0x021B91D0  thumb  ov067
  *   FRAME_LIST_DrawRowB  0x021B9228  thumb  ov067
  *   FRAME_LIST_SetCursorHighlight  0x021B92F0  thumb  ov067
@@ -55,7 +55,7 @@ typedef struct S {
     s8 f66;
 } S;
 
-extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
+extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
 extern void FRAME_LIST_DrawRowA(S *p, int i, int a2);
 extern void FRAME_LIST_DrawRowB(S *p, int i, int a2);
 extern void FRAME_LIST_SetCursorHighlight(struct S *p, u32 a1, u32 a2);
@@ -65,7 +65,7 @@ void FRAME_LIST_Redraw(S *p, int a1)
     s16 i;
     s8 j;
 
-    BG_SYS_ResetSlot(p->f0, 3, 0);
+    BG_SYS_ChangeScroll(p->f0, 3, 0);
     p->f66 = 0;
     i = p->f62;
     j = p->f3;
@@ -87,7 +87,7 @@ void FRAME_LIST_Redraw(S *p, int a1)
     p->f48 = p->f46;
     if (p->f1 == 0xff)
         return;
-    BG_SYS_ResetSlot(p->f1, 3, 0);
+    BG_SYS_ChangeScroll(p->f1, 3, 0);
     j = p->f3 + 0x18 - p->f5;
     i = p->f62 - 1;
     for (;;) {

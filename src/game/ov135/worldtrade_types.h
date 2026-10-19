@@ -681,15 +681,15 @@ typedef struct {
 typedef struct {
     s16 species; /* sign-extending original loads: ldrsh / ldrsb */
     s8 form;
-    s8 gender;
+    s8 level;
 } MonTag;
 
-/* The wanted mon of a trade deposit: species, form and two spare bytes. */
+/* The wanted mon of a trade deposit: species, form and the level range. */
 typedef struct {
     s16 species; /* sign-extending original loads: ldrsh / ldrsb */
     s8 form;
-    s8 b3;
-    s8 b4;
+    s8 levelMin;
+    s8 levelMax;
 } WantTag;
 
 /* A deposit record: the offered mon header at +0xEC, the wanted tag at +0xF0. */

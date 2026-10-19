@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "WAZA_OSHIE_UploadPalette",
+   "name": "TEXT_TEXTURE_UploadPalette",
    "address": "0x0216FE04",
    "kind": "game",
    "region": "ov010",

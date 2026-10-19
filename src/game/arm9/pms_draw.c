@@ -1,7 +1,7 @@
 /*
  * file:     pms_draw.c
  * unit:     yes
- * function: PMS_DRAW_Create, PMS_DRAW_Main, PMS_DRAW_Delete, PMS_DRAW_Print, PMS_DRAW_PrintOffset, PMS_DRAW_IsPrintEnd, PMS_DRAW_Clear, PMS_DRAW_SetVisible, PMS_DRAW_IsActive, PMS_DRAW_SetDecoVisible, PMS_DRAW_SetDecoPriority, PMS_DRAW_Copy, PMS_DRAW_SetNullColorPalette, PMS_DRAW_SetPrintColor, PMS_DRAW_SetFollowBgScroll, PMS_DRAW_CalcDecoPos, PMS_DRAW_GetDecoCgrIndex, PMS_DRAW_GetDecoCelIndex, PMS_DRAW_GetDecoAnmIndex, PMS_DRAW_LoadResources, PMS_DRAW_ReleaseResources, PMS_DRAW_CreateDecoActor, PMS_DRAW_PlaceDecoActor, PMS_DRAW_InitElem, PMS_DRAW_DeleteElem, PMS_DRAW_UpdateElem, PMS_DRAW_PrintElem, PMS_DRAW_ClearElem, PMS_DRAW_SetElemVisible, PMS_DRAW_GetFrameSurface, PMS_DRAW_ClearWork, BAG_PARAM_GetItemValue
+ * function: PMS_DRAW_Create, PMS_DRAW_Main, PMS_DRAW_Delete, PMS_DRAW_Print, PMS_DRAW_PrintOffset, PMS_DRAW_IsPrintEnd, PMS_DRAW_Clear, PMS_DRAW_SetVisible, PMS_DRAW_IsActive, PMS_DRAW_SetDecoVisible, PMS_DRAW_SetDecoPriority, PMS_DRAW_Copy, PMS_DRAW_SetNullColorPalette, PMS_DRAW_SetPrintColor, PMS_DRAW_SetFollowBgScroll, PMS_DRAW_CalcDecoPos, PMS_DRAW_GetDecoCgrIndex, PMS_DRAW_GetDecoCelIndex, PMS_DRAW_GetDecoAnmIndex, PMS_DRAW_LoadResources, PMS_DRAW_ReleaseResources, PMS_DRAW_CreateDecoActor, PMS_DRAW_PlaceDecoActor, PMS_DRAW_InitElem, PMS_DRAW_DeleteElem, PMS_DRAW_UpdateElem, PMS_DRAW_PrintElem, PMS_DRAW_ClearElem, PMS_DRAW_SetElemVisible, PMS_DRAW_GetFrameSurface, PMS_DRAW_ClearWork, ITEM_GetRegisterFlagId
  * address:  0x0202DB0C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -30,7 +30,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   CLACT_GetActorAnimSeq  0x0204B898  arm
@@ -43,7 +43,7 @@
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   UI_GetFrameRate  0x02035630  arm
  *   CLACT_SetActorAutoAnimSpeed  0x0204B954  arm
- *   BG_SYS_Get  0x020416D4  arm
+ *   BG_SYS_GetPriority  0x020416D4  arm
  *   CLACT_SetActorBgPriority  0x0204B84C  arm
  *   CLACT_DeleteActor  0x0204B3B4  arm
  *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
@@ -172,7 +172,7 @@ typedef struct { s32 x; s32 y; } PmsOffset;
 
 struct ItemValueEntry {
     u16 itemId : 10;
-    u16 value  : 6;
+    u16 registerFlag : 6;
 };
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -207,7 +207,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 
@@ -234,7 +234,7 @@ extern u8 UI_GetFrameRate(void);
 
 extern void CLACT_SetActorAutoAnimSpeed(struct Actor *a, u32 v);
 
-extern u8 BG_SYS_Get(u32 layer);
+extern u8 BG_SYS_GetPriority(u32 layer);
 
 extern void  CLACT_SetActorBgPriority(void *h, u32 a);
 
@@ -342,7 +342,7 @@ u32 PMS_DRAW_GetFrameSurface(u32 frame);
 
 void PMS_DRAW_ClearWork(void *p);
 
-u32 BAG_PARAM_GetItemValue(u32 id);
+u32 ITEM_GetRegisterFlagId(u32 id);
 
 extern char  PmsDrawFileName[];
 
@@ -546,7 +546,7 @@ void PMS_DRAW_Copy(struct PmsDraw *wk, u32 srcId, u32 dstId)
     bmpWin = dst->bmpWin;
     BMP_WIN_TransferChars(bmpWin);
     BMP_WIN_MakeScreen(bmpWin);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(bmpWin));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(bmpWin));
 
     for (i = 0; i < 2; i++) {
         surface = PMS_DRAW_GetFrameSurface(BMP_WIN_GetBgLayer(src->bmpWin));
@@ -745,7 +745,7 @@ void PMS_DRAW_PlaceDecoActor(void *actor, struct Descriptor *bmpWin, u32 charX, 
     pt.y = (u16)pos.y;
     frame = BMP_WIN_GetBgLayer(bmpWin);
     CLACT_AddActorSurfacePos(actor, (const struct Vec2 *)(&pt), (u16)PMS_DRAW_GetFrameSurface(frame));
-    CLACT_SetActorBgPriority(actor, BG_SYS_Get(frame));
+    CLACT_SetActorBgPriority(actor, BG_SYS_GetPriority(frame));
     CLACT_SetActorAnimSeq(actor, (u16)(wordId - 1));
 }
 
@@ -900,7 +900,7 @@ void PMS_DRAW_PrintElem(struct PmsElem *elem, void *printQue, u32 font, struct D
     STRBUF_Delete(word);
     STRBUF_Delete(str);
     BMP_WIN_MakeScreen((struct Cfg *)elem->bmpWin);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)elem->bmpWin));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct Descriptor *)elem->bmpWin));
     elem->flags.bits.active = 1;
     elem->flags.bits.visible = 1;
 }
@@ -946,7 +946,7 @@ void PMS_DRAW_SetElemVisible(struct PmsElem *elem, u32 visible)
         BMP_WIN_MakeScreen((struct Cfg *)elem->bmpWin);
     else
         BMP_WIN_ClearScreen((struct Descriptor *)elem->bmpWin);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)elem->bmpWin));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct Descriptor *)elem->bmpWin));
     for (i = 0; i < 2; i++) {
         if (elem->isDeco[i] != 0)
             CLACT_SetActorDrawEnable(elem->decoActor[i], visible);
@@ -966,13 +966,13 @@ void PMS_DRAW_ClearWork(void *p)
     MI_CpuFill8(p, 0, 4);
 }
 
-u32 BAG_PARAM_GetItemValue(u32 id)
+u32 ITEM_GetRegisterFlagId(u32 id)
 {
     u32 i;
 
     for (i = 0; i < 7; i++) {
         if (id == ItemValueTable[i].itemId) {
-            return ItemValueTable[i].value;
+            return ItemValueTable[i].registerFlag;
         }
     }
     return 0x19;

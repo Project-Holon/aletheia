@@ -1,5 +1,5 @@
 /*
- * function: EVENT_POKE_STATUS_CheckFlag
+ * function: EVENT_TRAINER_CheckDefeatedFlag
  * address: 0x0215A4D8
  * packet: pkt_ov010_0215A4D8
  * region: ov010
@@ -15,4 +15,4 @@ typedef unsigned short u16;
 typedef signed int     s32;
 typedef unsigned int   u32;
 extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
-unsigned EVENT_POKE_STATUS_CheckFlag(void *a, unsigned b) { return ZONEDATA_CheckEventFlag(a, (u16)(b + 1420)); }
+unsigned EVENT_TRAINER_CheckDefeatedFlag(void *a, unsigned b) { return ZONEDATA_CheckEventFlag(a, (u16)(b + 1420)); }

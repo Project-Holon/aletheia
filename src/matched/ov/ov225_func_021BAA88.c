@@ -12,7 +12,7 @@
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   APP_TASKMENU_WIN_Delete 0x02028148 thumb
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  */
 #include "../include/Obj14806.h"
 #include "../include/Obj26200.h"
@@ -25,5 +25,5 @@ struct TaskMenuState;
 extern void PRINTSYS_QUE_Clear(struct PrintSys *);
 extern void APP_TASKMENU_WIN_Delete(u8 *);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
-extern void BG_SYS_SetFlagField06(u32);
-void MANUAL_COMMON_DeleteListWorkMenu(char *p) { u8 i; PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj26200 *)(*(char * *)&((struct Obj14806 *)p)->f4))->f14); for(i=0;i<8;i++) if(*(u8 **)(p+i*4+12)) APP_TASKMENU_WIN_Delete(*(u8 **)(p+i*4+12)); APP_TASKMENU_RES_Delete(*(struct TaskMenuState * *)&((struct Obj14806 *)p)->f8); BG_SYS_SetFlagField06(5); }
+extern void BG_SYS_MarkTileDirty(u32);
+void MANUAL_COMMON_DeleteListWorkMenu(char *p) { u8 i; PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct Obj26200 *)(*(char * *)&((struct Obj14806 *)p)->f4))->f14); for(i=0;i<8;i++) if(*(u8 **)(p+i*4+12)) APP_TASKMENU_WIN_Delete(*(u8 **)(p+i*4+12)); APP_TASKMENU_RES_Delete(*(struct TaskMenuState * *)&((struct Obj14806 *)p)->f8); BG_SYS_MarkTileDirty(5); }

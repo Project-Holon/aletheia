@@ -141,7 +141,8 @@ VENEER_ARM = re.compile(
 # ov230's hand-written decryptor entries: `orr r0, pc, #0; adds r0, r0, #4; bne
 # decoder`, each followed by the descriptor table and ciphertext the decoder walks
 # (tools/ovcrypt.py).  No compiler emits `orr r0, pc, #0`; the code they unlock
-# is matched in the decrypted region ov230d.  They sit outside both sides of the
+# lives in the decrypted view (region ov230d), whose functions are counted with ov230
+# (ov230d_extras below).  The entries themselves sit outside both sides of the
 # figure, like the veneers; their extents are table and ciphertext, not code.
 DECRYPT_THUNK = re.compile(
     r"^(?:func|sub)_([0-9A-F]{8}):[ \t]*\n[ \t]*orr\tr0, pc, #0[ \t]+/\*[ \t]*\1[ \t]+00 00 8F E3[ \t]*\*/[ \t]*\n"
@@ -158,15 +159,56 @@ def veneer_labels(path):
             | {int(m.group(1), 16) for m in DECRYPT_THUNK.finditer(text)})
 
 
+# Overlay 230 keeps most of its code encrypted in the ROM.  asm/overlays/ov230.s lists the ROM
+# bytes (the loader, and ciphertext it cannot read as code); the code the game runs sits in the
+# decrypted view, listed in asm/ov230d/ov230d.s (tools/ovcrypt.py), and src/game/ov230 builds it
+# (tools/romlink.py encrypts the link for the ROM).  The functions of the decrypted view count as
+# part of ov230: every ov230d label that is neither a label of ov230.s nor inside the loader
+# (0x021889E4..0x02188B48, which ov230.s lists itself) is added to the ov230 listing's labels,
+# with its own instruction bytes.  The entry thunks are labels of both listings and stay
+# veneer-class (DECRYPT_THUNK).
+OV230_LISTING = os.path.join(ROOT, "asm", "overlays", "ov230.s")
+OV230D_LISTING = os.path.join(ROOT, "asm", "ov230d", "ov230d.s")
+OV230_LOADER = (0x021889E4, 0x02188B48)
+
+
+def is_ov230_listing(path):
+    return os.path.normcase(os.path.abspath(path)) == os.path.normcase(OV230_LISTING)
+
+
+def ov230d_extras(own_addrs):
+    """({address: name}, {address: instruction bytes}) of the decrypted-view functions that
+    count as ov230's (see above); empty when the decrypted listing does not exist."""
+    if not os.path.exists(OV230D_LISTING):
+        return {}, {}
+    _head, labels, insns = scan_listing(OV230D_LISTING)
+    code = code_bytes_from(insns, [a for a, _ in labels])
+    names = {}
+    for a, n in labels:
+        if a in own_addrs or OV230_LOADER[0] <= a < OV230_LOADER[1] or code.get(a, 0) <= 0:
+            continue
+        names.setdefault(a, n)
+    return names, {a: code[a] for a in names}
+
+
 def listing_summary(path):
     """(head, labels, {function address: instruction bytes}, veneer addresses) for one listing."""
     head, labels, insns = scan_listing(path)
-    return head, labels, code_bytes_from(insns, [a for a, _ in labels]), veneer_labels(path)
+    code = code_bytes_from(insns, [a for a, _ in labels])
+    if is_ov230_listing(path):
+        names, extra = ov230d_extras({a for a, _ in labels})
+        labels = sorted(labels + list(names.items()))
+        code.update(extra)
+    return head, labels, code, veneer_labels(path)
 
 
 def listing_labels(path):
     """[(address, label)] for every label in a listing, in address order."""
-    return scan_listing(path)[1]
+    labels = scan_listing(path)[1]
+    if is_ov230_listing(path):
+        names, _extra = ov230d_extras({a for a, _ in labels})
+        labels = sorted(labels + list(names.items()))
+    return labels
 
 
 def code_bytes_from(insns, addrs):
@@ -304,7 +346,14 @@ def function_code_bytes(path, addrs):
     it; pool words and data directives carry no byte field and are never counted, so a
     function is sized by its code alone, not by the distance to the next label.
     Instructions before the first label are returned under the key None."""
-    return code_bytes_from(scan_listing(path)[2], addrs)
+    head, labels, insns = scan_listing(path)
+    own = {a for a, _ in labels}
+    if is_ov230_listing(path):
+        _names, extra = ov230d_extras(own)
+        code = code_bytes_from(insns, [a for a in addrs if a not in extra])
+        code.update({a: extra[a] for a in addrs if a in extra})
+        return code
+    return code_bytes_from(insns, addrs)
 
 
 def overlay_rows(funcs_out=None):

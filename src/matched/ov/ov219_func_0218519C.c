@@ -13,7 +13,7 @@
  *   STRBUF_Create 0x020457B0 arm
  *   BEACON_DETAIL_CreateBmpWin 0x02184968 thumb ov219
  *   WORDSET_SetSlotFromMsgE7 0x0201F048 thumb
- *   WORDSET_DeleteMsgdataF094 0x0201F094 thumb
+ *   WORDSET_SetSlotFromKeyedMessage 0x0201F094 thumb
  *   MSGDATA_ReadString 0x02045CAC arm
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   BEACON_DETAIL_DrawTextRecord 0x02184D30 thumb ov219
@@ -29,7 +29,7 @@ struct Record {struct Descriptor *descriptor;u8 active;};
 extern struct U16Vec *STRBUF_Create(unsigned int capacity, unsigned int heapId);
 typedef unsigned int   u32;
 extern u32 BEACON_DETAIL_CreateBmpWin(const u8 *p, int flag);
-extern void WORDSET_SetSlotFromMsgE7(struct WordSet *,unsigned,unsigned),WORDSET_DeleteMsgdataF094(struct WordSet *,unsigned,unsigned,unsigned);
+extern void WORDSET_SetSlotFromMsgE7(struct WordSet *,unsigned,unsigned),WORDSET_SetSlotFromKeyedMessage(struct WordSet *,unsigned,unsigned,unsigned);
 extern void MSGDATA_ReadString(struct MsgBank *,unsigned,void *),WORDSET_CopyTaggedText(struct WordSet *,void *,void *);
 extern void BEACON_DETAIL_DrawTextRecord(char *,struct Record *,struct Descriptor *,void *,u8,u8);
 extern void STRBUF_Delete(struct U16Vec *),BMP_MENUWORK_DrawWindow(void *,int,int,int),BMP_WIN_TransferChars(struct Descriptor *);
@@ -40,7 +40,7 @@ void BEACON_DETAIL_DrawCurrentArea(char *p)
     dst=STRBUF_Create(1024,(u16)(((struct Obj01984 *)p)->f0));src=STRBUF_Create(1024,(u16)(((struct Obj01984 *)p)->f0));
     *(struct Descriptor * *)&((struct Obj01984 *)p)->fC040=(struct Descriptor *)BEACON_DETAIL_CreateBmpWin(d_02185DCB,1);
     WORDSET_SetSlotFromMsgE7(*(struct WordSet * *)&((struct Obj01984 *)p)->fC0A8,0,((struct Obj01984 *)p)->fC33C);
-    WORDSET_DeleteMsgdataF094(*(struct WordSet * *)&((struct Obj01984 *)p)->fC0A8,1,((struct Obj01984 *)p)->fC33C,((struct Obj01984 *)p)->fC340);
+    WORDSET_SetSlotFromKeyedMessage(*(struct WordSet * *)&((struct Obj01984 *)p)->fC0A8,1,((struct Obj01984 *)p)->fC33C,((struct Obj01984 *)p)->fC340);
     MSGDATA_ReadString(*(struct MsgBank * *)&((struct Obj01984 *)p)->fC070,14,src);
     WORDSET_CopyTaggedText(*(struct WordSet * *)&((struct Obj01984 *)p)->fC0A8,dst,src);
     BEACON_DETAIL_DrawTextRecord(p,(struct Record *)(p+0xc044),*(struct Descriptor * *)&((struct Obj01984 *)p)->fC040,dst,0,0);

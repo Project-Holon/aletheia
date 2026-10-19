@@ -28,7 +28,6 @@
  *   WEATHER_TASK_PrewarmParticles  0x021A2254  thumb  ov021
  *   WEATHER_TASK_SetLight  0x021A2114  thumb  ov021
  *   WEATHER_TASK_StepSpawnTimer  0x021A2248  thumb  ov021
- *   _s32_div_f  0x0209C0A4  arm
  *   gSandstormGustSpeedX     0x021EEB48  data  ov027  a4
  *   WEATHER_TASK_RetargetSpawner 0x021A2228 thumb ov021
  *   WEATHER_TASK_StopSe 0x021A25CC thumb ov021
@@ -82,7 +81,6 @@ WeatherParticle *WEATHER_TASK_AddParticle(WeatherTaskSys *task, int reserved);
 u16 ZONEDATA_GetLightTableMember(u32 weatherId);
 extern u32 GFL_USE_GetRandom(u32 range);
 /* Signed divide helper, called by name here (the result is the quotient). */
-extern int _s32_div_f(int dividend, int divisor);
 extern void CLACT_SetActorAnimIndex(struct Actor *actor, u32 animIndex);
 int WEATHER_SANDSTORM_Begin(WeatherTaskSys *task, int variant);
 int WEATHER_SANDSTORM_BeginParticles(WeatherTaskSys *task, int variant, int heapId);
@@ -156,7 +154,7 @@ int WEATHER_SANDSTORM_Run(WeatherTaskSys *task, int variant, int heapId)
     WeatherSandstormWork *work = WEATHER_TASK_GetWorkBuffer(task);
 
     if (WEATHER_TASK_StepSpawnTimer(task, heapId) != 0) {
-        int gustSpeed = gSandstormGustSpeedX[_s32_div_f(work->gustCounter, GUST_STEP_FRAMES)];
+        int gustSpeed = gSandstormGustSpeedX[work->gustCounter / GUST_STEP_FRAMES];
         work->gustSpeed = gustSpeed;
         if (gustSpeed <= -6)
             WEATHER_SANDSTORM_SpawnParticles(task, 1, heapId);

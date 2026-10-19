@@ -83,7 +83,7 @@
  *   d_021BD490     0x021BD490  data  ov088  a4
  *   d_021BD430     0x021BD430  data  ov088  a4
  *   d_021BD450     0x021BD450  data  a4
- *   BG_SYS_ResetSlot  0x02041EE4  arm
+ *   BG_SYS_ChangeScroll  0x02041EE4  arm
  *   GPOWER_GetSpecialPowerId  0x020111E8  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   MSGDATA_Delete  0x02045C04  arm
@@ -101,7 +101,7 @@
  *   ICA_ANIME_CreateStream  0x02011510  thumb
  *   G3D_LIGHT_CreateSlots  0x02048BC4  arm
  *   G3D_LIGHT_ApplySlots  0x02048C58  arm
- *   BG_SYS_SetLowBit  0x0204044C  arm
+ *   BG_SYS_EnableBg0WithPriority  0x0204044C  arm
  *   FX_SinCosTable_  0x020A1B38  data
  *   d_021BD410     0x021BD410  data  ov088  a4
  *   d_021BD3EC     0x021BD3EC  data  ov088  a4
@@ -174,7 +174,7 @@
  *   BLINK_PALANM_ResetPhase  0x0202EB04  thumb
  *   CGEAR_SAVE_GetObtained  0x020090E0  thumb
  *   BMP_MENU_ProcessYesNo  0x0201FEBC  thumb
- *   APP_ENV_InitParentalControl  0x0202EB44  thumb
+ *   APP_ENV_IsWirelessAvailable  0x0202EB44  thumb
  *   APP_ENV_IsRunOnTwl  0x0202EB0C  thumb
  *   BG_SYS_LoadPlttEntry  0x02040EBC  arm
  *   gStartMenuUnlockNotices     0x021BD784  data  ov088  a4
@@ -201,7 +201,7 @@
  *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb
  *   APP_KEYCURSOR_Delete  0x02028604  thumb
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   MSGDATA_AllocString  0x02045EC0  arm
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
@@ -220,7 +220,7 @@
  *   PLAYTIME_GetMinutes  0x02008650  thumb
  *   ZUKAN_SAVE_GetBlock  0x0200CA10  thumb
  *   ZUKAN_SAVE_CountSeen  0x0200D0AC  thumb
- *   BEACON_CountFlags  0x0200C258  thumb
+ *   BEACON_CountBadges  0x0200C258  thumb
  *   gStartMenuWindowTemplates     0x021BD7C4  data  a1
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   d_021BD688     0x021BD688  data  a4
@@ -243,7 +243,7 @@
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   BG_SYS_DrawTileEx  0x020410D0  arm
  *   BGWINFRM_GetFrameBuffer  0x0202CF84  thumb
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   BG_SYS_FillTileMap  0x020413B0  arm
  *   _s32_div_f     0x0209C0A4  arm
  *   BG_SYS_ClearLayerEx  0x02041570  arm
@@ -303,7 +303,7 @@
  *   CONFIG_GetBattleFlag  0x02008448  thumb
  *   BEACON_GetSlotStates  0x0200C31C  thumb
  *   SAVE_CONTROL_Reload  0x020070C8  thumb
- *   CONFIG_ApplyAppliedFlag  0x02008414  thumb
+ *   CONFIG_ApplyTextLanguage  0x02008414  thumb
  *   BEACON_SetSlotStates  0x0200C324  thumb
  *   MYSTATUS_NameFromStrbuf  0x020084E4  thumb
  *   MYSTATUS_SetOutfitVariant  0x0200854C  thumb
@@ -311,7 +311,7 @@
  *   MYSTATUS_SetId  0x0200852C  thumb
  *   GF_STANDARD_Rand  0x0203F0A8  arm
  *   MYSTATUS_SetOutfit  0x02008558  thumb
- *   CONFIG_SetAppliedFlag  0x020083EC  thumb
+ *   CONFIG_SetTextLanguage  0x020083EC  thumb
  *   d_021BD8B8     0x021BD8B8  data  ov088  a4
  *   d_021BD848     0x021BD848  data  a4
  *   d_021BD858     0x021BD858  data  a4
@@ -554,7 +554,7 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
+extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
 extern u32 GPOWER_GetSpecialPowerId(void);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
@@ -572,7 +572,7 @@ extern void *G3D_CAMERA_Create(int a, int s, int c, int d, int e, int f, int g, 
 extern void *ICA_ANIME_CreateStream(u32 heap, u32 arcId, u32 dataId, u32 bufFrameNum);
 extern struct LightSlot *G3D_LIGHT_CreateSlots(const struct LightSet *s, u32 heap);
 extern void G3D_LIGHT_ApplySlots(struct LightSlot *slots);
-extern void BG_SYS_SetLowBit(u32 mode);
+extern void BG_SYS_EnableBg0WithPriority(u32 mode);
 extern u32 ICA_ANIME_IncFrameNoLoop(struct IcaAnime *p, s32 v);
 extern void ICA_ANIME_SetCameraStatus(void *, void *);
 extern void G3D_CAMERA_Reset(struct Light *l);
@@ -627,7 +627,7 @@ extern unsigned int KEY_GetRepeat(void);
 extern void BLINK_PALANM_ResetPhase(struct CodeIn *p);
 extern u8 CGEAR_SAVE_GetObtained(const struct Sub020090B0Obj *obj);
 extern u32 BMP_MENU_ProcessYesNo(u8 *);
-extern int APP_ENV_InitParentalControl(void);
+extern int APP_ENV_IsWirelessAvailable(void);
 extern u32 APP_ENV_IsRunOnTwl(void);
 extern void BG_SYS_LoadPlttEntry(u32 bgId, u32 color);
 extern void BG_SYS_Update(void);
@@ -643,7 +643,7 @@ extern u32 BLINK_PALANM_Delete(struct PalAnmSlot *p);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern u32 APP_KEYCURSOR_CreateDefault(u32, u32, u32, u32);
 extern int APP_KEYCURSOR_Delete(int cursor);
-extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern unsigned int WORDSET_Delete(struct WordSet *p);
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
@@ -662,7 +662,7 @@ extern u16 PLAYTIME_GetHours(const struct PlayTime *p);
 extern u8 PLAYTIME_GetMinutes(const struct PlayTime *p);
 extern void *ZUKAN_SAVE_GetBlock(void *);
 extern u32 ZUKAN_SAVE_CountSeen(struct Blk37 *p, u32 heap);
-extern u32 BEACON_CountFlags(struct Blk34 *p);
+extern u32 BEACON_CountBadges(struct Blk34 *p);
 extern void CLACT_SetActorDrawEnable(struct ClactActor *p, u32 v);
 extern void CLACT_DeleteActor(struct ClactActor *p);
 extern struct WinMgr *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heap);
@@ -679,7 +679,7 @@ extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 s
 extern void CLACT_AddActorSurfacePos(struct ClactActor *p, const struct Vec2 *delta, u32 which);
 extern void BG_SYS_DrawTileEx(u32 index, u32 dx, u32 dy, u32 cw, u8 ch, u32 src, u8 sx, u8 sy, u8 sw, u8 sh);
 extern u32 BGWINFRM_GetFrameBuffer(struct WinMgr *mgr, u32 idx);
-extern void BG_SYS_SetFlagField06(u32);
+extern void BG_SYS_MarkTileDirty(u32);
 extern void BG_SYS_FillTileMap(u32, u32, u8, u8, u8, u32);
 extern void BG_SYS_ClearLayerEx(int channel, u16 val);
 extern void BMP_MENUWORK_DrawWindow(void *win, int commitMode, int tileBase, int palette);
@@ -874,7 +874,7 @@ extern void CONFIG_SetBattleFlag(struct Config *config, int on);
 extern unsigned int CONFIG_GetBattleFlag(const struct Config *config);
 extern u8 BEACON_GetSlotStates(struct Blk34 *p);
 extern int SAVE_CONTROL_Reload(char *self);
-extern u8 CONFIG_ApplyAppliedFlag(const struct Config *config);
+extern u8 CONFIG_ApplyTextLanguage(const struct Config *config);
 extern void BEACON_SetSlotStates(struct Blk34 *p, u8 v);
 extern void MYSTATUS_NameFromStrbuf(u16 *out, struct U16Vec *vec);
 extern void MYSTATUS_SetOutfitVariant(int, int);
@@ -882,7 +882,7 @@ extern u32 GFL_USE_GetRandomBelow(u32 range);
 extern void MYSTATUS_SetId(struct MyStatus *obj, u32 value);
 extern u32 GF_STANDARD_Rand(void);
 extern void MYSTATUS_SetOutfit(struct MyStatus *obj, u8 value);
-extern void CONFIG_SetAppliedFlag(struct Config *config, unsigned int on);
+extern void CONFIG_SetTextLanguage(struct Config *config, unsigned int on);
 extern void BG_SYS_FreeSlot(int a);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 extern int TOUCHPANEL_HitTrg(const void *p);
@@ -1351,7 +1351,7 @@ void STARTMENU_LogoInit(TitleDemoLogo *logo, u32 heap)
 void STARTMENU_LogoUpdate(TitleDemoLogo *logo, int unused)
 {
     BG_SYS_SetPlaneVisible(5, 0);
-    BG_SYS_ResetSlot(6, 0, logo->bgScroll / 2);
+    BG_SYS_ChangeScroll(6, 0, logo->bgScroll / 2);
     if (GPOWER_GetSpecialPowerId() == 0x15) {
         logo->bgScroll++;
     } else {
@@ -1510,7 +1510,7 @@ void STARTMENU_Demo3dInit(TitleDemo3d *demo3d, u32 heap)
     demo3d->anime = (u32)ICA_ANIME_CreateStream(heap, 0xA0, 0xE9, 0xA);
     demo3d->lightSet = (u32)G3D_LIGHT_CreateSlots((const struct LightSet *)d_021BD3DC, heap);
     G3D_LIGHT_ApplySlots((struct LightSlot *)demo3d->lightSet);
-    BG_SYS_SetLowBit(1);
+    BG_SYS_EnableBg0WithPriority(1);
     G3X_AntiAlias(1);
     G3X_AlphaTest(0, 0);
     G3X_AlphaBlend(1);
@@ -1999,8 +1999,8 @@ int STARTMENU_StateScroll(StartMenuWork *work)
         work->scrollPixels += 0x200;
     else if (work->scrollPixels >= 0x200)
         work->scrollPixels -= 0x200;
-    BG_SYS_ResetSlot(1, 3, work->scrollPixels);
-    BG_SYS_ResetSlot(2, 3, work->scrollPixels);
+    BG_SYS_ChangeScroll(1, 3, work->scrollPixels);
+    BG_SYS_ChangeScroll(2, 3, work->scrollPixels);
     STARTMENU_ScrollRowActors(work, -work->scrollSpeed);
     work->scrollStep = work->scrollStep + 1;
     return 6;
@@ -2054,7 +2054,7 @@ int STARTMENU_StateConnectPrompt(StartMenuWork *work)
         menuResult = BMP_MENU_ProcessYesNo(work->yesNoMenu);
         switch (menuResult) {
         case 0:
-            if (APP_ENV_InitParentalControl() == 0) {
+            if (APP_ENV_IsWirelessAvailable() == 0) {
                 STARTMENU_StartMessage(work, 0x11);
                 work->subState = 5;
             } else {
@@ -2488,7 +2488,7 @@ void STARTMENU_DeleteTextSystem(StartMenuWork *work)
     TCBL_Destroy((struct S02031140 *)work->taskList);
     STRBUF_Delete((struct U16Vec *)work->stringBuf);
     PRINTSYS_QUE_Delete((struct PrintSys *)work->printSys);
-    WORDSET_DeleteStrbufED04((struct WordSet *)work->wordSet);
+    WORDSET_Delete((struct WordSet *)work->wordSet);
     GF_FONT_Delete((void *)work->font);
     MSGDATA_Delete((struct Rec *)work->msgBank);
 }
@@ -2572,7 +2572,7 @@ void STARTMENU_CreateRowWindows(StartMenuWork *work)
     }
 
     msgStr = MSGDATA_AllocString(work->msgBank, 11);
-    WORDSET_SetSlotNumber(work->wordSet, 0, BEACON_CountFlags(BEACON_GetBlock(work->saveData)), 2, 0, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 0, BEACON_CountBadges(BEACON_GetBlock(work->saveData)), 2, 0, 1);
     WORDSET_CopyTaggedText(work->wordSet, work->stringBuf, msgStr);
     printSys = work->printSys;
     PRINTSYS_PrintQueColor(printSys, (u32)BMP_WIN_GetBmp(work->windows[5].window), 0, 0, (u32)work->stringBuf, (u32)work->font, 0x440);
@@ -2935,8 +2935,8 @@ void STARTMENU_DrawRowFrame(StartMenuWork *work, u32 rowId, u32 tileY)
     BG_SYS_DrawTileEx(2, 3, tileYByte, 0x1a, rowHeight, (u32)(work->rowBuffers[rowId]), 0, 0, 0x1a, rowHeight);
     frameBuffer = BGWINFRM_GetFrameBuffer(work->frameManager, rowId);
     BG_SYS_DrawTileEx(1, 3, tileYByte, 0x1a, rowHeight, (u32)((void *)frameBuffer), 0, 0, 0x1a, rowHeight);
-    BG_SYS_SetFlagField06(1);
-    BG_SYS_SetFlagField06(2);
+    BG_SYS_MarkTileDirty(1);
+    BG_SYS_MarkTileDirty(2);
 }
 
 
@@ -2951,7 +2951,7 @@ void STARTMENU_DrawRowFrame(StartMenuWork *work, u32 rowId, u32 tileY)
 void STARTMENU_PaintRowPalette(StartMenuWork *work, u8 row, int tileY, int palette)
 {
     BG_SYS_FillTileMap(2, 3, tileY, 0x1a, gStartMenuRowInfo[row].height, palette);
-    BG_SYS_SetFlagField06(2);
+    BG_SYS_MarkTileDirty(2);
 }
 
 
@@ -3093,7 +3093,7 @@ void STARTMENU_DrawFrameBox(u8 x, u8 y, u8 w, u8 h, u8 bgLayer)
     BG_SYS_SetTileEntry(layer, 4, x, y + 1, 1, h - 2, 1);
     BG_SYS_SetTileEntry(layer, 6, x + w - 1, y + 1, 1, h - 2, 1);
     BG_SYS_SetTileEntry(layer, 5, x + 1, y + 1, w - 2, h - 2, 1);
-    BG_SYS_SetFlagField06(layer);
+    BG_SYS_MarkTileDirty(layer);
 }
 
 
@@ -3101,7 +3101,7 @@ void STARTMENU_DrawFrameBox(u8 x, u8 y, u8 w, u8 h, u8 bgLayer)
 void STARTMENU_ClearFrameBox(u8 x, u8 y, u8 w, u8 h, u8 bg)
 {
     BG_SYS_SetTileEntry(*(u8 *)&bg, 0, x, y, w, h, 0);
-    BG_SYS_SetFlagField06(*(u8 *)&bg);
+    BG_SYS_MarkTileDirty(*(u8 *)&bg);
 }
 
 
@@ -3132,12 +3132,12 @@ void STARTMENU_OpenConfirmWindow(StartMenuWork *work)
     PrintMessageLine(work, 0x19, 0x90, 0x440);
 
     BMP_WIN_MakeScreen((struct Cfg *)(work->descWindow));
-    BG_SYS_SetFlagField06(0);
+    BG_SYS_MarkTileDirty(0);
     STARTMENU_DrawFrameBox(0x20, 1, 0x20, 0x16, 2);
-    BG_SYS_ResetSlot(1, 0, 0x100);
-    BG_SYS_ResetSlot(1, 3, 0);
-    BG_SYS_ResetSlot(2, 0, 0x100);
-    BG_SYS_ResetSlot(2, 3, 0);
+    BG_SYS_ChangeScroll(1, 0, 0x100);
+    BG_SYS_ChangeScroll(1, 3, 0);
+    BG_SYS_ChangeScroll(2, 0, 0x100);
+    BG_SYS_ChangeScroll(2, 3, 0);
     STARTMENU_ShowRowActors(work, 0);
 }
 
@@ -3150,10 +3150,10 @@ void STARTMENU_CloseDescWindow(StartMenuWork *work, int mode)
     if (mode != 1) {
         STARTMENU_ClearFrameBox(0x20, 1, 0x20, 0x16, 2);
         BG_SYS_ClearLayerEx(0, 0);
-        BG_SYS_ResetSlot(1, 0, 0);
-        BG_SYS_ResetSlot(1, 3, work->scrollPixels);
-        BG_SYS_ResetSlot(2, 0, 0);
-        BG_SYS_ResetSlot(2, 3, work->scrollPixels);
+        BG_SYS_ChangeScroll(1, 0, 0);
+        BG_SYS_ChangeScroll(1, 3, work->scrollPixels);
+        BG_SYS_ChangeScroll(2, 0, 0);
+        BG_SYS_ChangeScroll(2, 3, work->scrollPixels);
         if (work->rowIds[0] == 0)
             STARTMENU_ShowRowActors(work, 1);
     }
@@ -3168,7 +3168,7 @@ void STARTMENU_OpenInfoWindow(StartMenuWork *work)
     PrintMessageLine(work, 0x14, 0, 0x14c0);
     PrintMessageLine(work, 0x15, 0x18, 0x440);
     BMP_WIN_MakeScreen((struct Cfg *)(work->descWindow));
-    BG_SYS_SetFlagField06(4);
+    BG_SYS_MarkTileDirty(4);
     STARTMENU_DrawFrameBox(0, 1, 0x20, 0x16, 5);
 }
 
@@ -3202,12 +3202,12 @@ void STARTMENU_OpenNoticeWindow(StartMenuWork *work)
     MSGDATA_Delete((struct Rec *)noticeBank);
 
     BMP_WIN_MakeScreen((struct Cfg *)(work->descWindow));
-    BG_SYS_SetFlagField06(0);
+    BG_SYS_MarkTileDirty(0);
     STARTMENU_DrawFrameBox(0x20, 1, 0x20, 0x16, 2);
-    BG_SYS_ResetSlot(1, 0, 0x100);
-    BG_SYS_ResetSlot(1, 3, 0);
-    BG_SYS_ResetSlot(2, 0, 0x100);
-    BG_SYS_ResetSlot(2, 3, 0);
+    BG_SYS_ChangeScroll(1, 0, 0x100);
+    BG_SYS_ChangeScroll(1, 3, 0);
+    BG_SYS_ChangeScroll(2, 0, 0x100);
+    BG_SYS_ChangeScroll(2, 3, 0);
     STARTMENU_ShowRowActors(work, 0);
 }
 
@@ -3227,7 +3227,7 @@ void STARTMENU_StartMessage(StartMenuWork *work, u32 msgId)
     window = work->windows[13].window;
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(window));
 }
 
 
@@ -3560,7 +3560,7 @@ int STARTMENU_BattleFlagProcEnd(struct Proc *proc, int seq, int mode, NewGameInt
     battleFlag = CONFIG_GetBattleFlag(work->startArg.config);
     savedOption = BEACON_GetSlotStates(work->saveOptions);
     SAVE_CONTROL_Reload(saveControl);
-    CONFIG_ApplyAppliedFlag((const struct Config *)SYSTEM_DATA_GetConfig(saveControl));
+    CONFIG_ApplyTextLanguage((const struct Config *)SYSTEM_DATA_GetConfig(saveControl));
     PLAYER_LOCATION_CopyRecord(saveControl, (struct Sub02008828Rec *)(&location));
     PROCSYS_ReplaceGlobal(-1, (u32)d_0209DF9C, (u32)GAMESYSTEM_SetupInitWork(1, location.mapId, &location.position, location.facing));
     CONFIG_SetBattleFlag(work->startArg.config, battleFlag);
@@ -3643,9 +3643,9 @@ int STARTMENU_ConfigPromptMain(int proc, int seq, NewGameStartArg *startArg, Con
         choice = STARTMENU_ConfigPromptReadInput(work);
         if (choice != 0) {
             if (choice == 1)
-                CONFIG_SetAppliedFlag(startArg->config, 0);
+                CONFIG_SetTextLanguage(startArg->config, 0);
             else
-                CONFIG_SetAppliedFlag(startArg->config, 1);
+                CONFIG_SetTextLanguage(startArg->config, 1);
             STARTMENU_ConfigPromptDeleteWindows(work);
             work->question = 1;
             STARTMENU_ConfigPromptDrawQuestion(work);
@@ -4249,7 +4249,7 @@ void STARTMENU_SaveEraseStartMessage(SaveEraseWork *work, u32 messageId)
     window = work->window;
     BMP_WIN_TransferChars((struct Descriptor *)window);
     BMP_WIN_MakeScreen((struct Cfg *)window);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)window));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct Descriptor *)window));
 }
 
 int STARTMENU_SaveEraseUpdateMessage(SaveEraseWork *work)

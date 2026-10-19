@@ -28,7 +28,7 @@
  *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   ARC_UTIL_UploadBgPaletteAddFromHandleExt 0x020499D4 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
@@ -43,7 +43,7 @@
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  */
 #include "manual_category_shared_types.h"
 
@@ -116,7 +116,7 @@ extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, 
 
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
 
-extern void BG_SYS_SetFlagField06(u32);
+extern void BG_SYS_MarkTileDirty(u32);
 
 extern u32 BMP_WIN_Create(u32 layer,u32 a,u32 b,u32 tiles,u8 c,u8 d,u8 slot);
 
@@ -144,7 +144,6 @@ extern void BMP_WIN_MakeScreen(struct Cfg *p);
 
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 
-extern void BG_SYS_SetFlagField06(u32 channel);
 
 char *MANUAL_CATEGORY_CreateOption(char *p, char *data);
 
@@ -267,7 +266,7 @@ void MANUAL_CATEGORY_LoadOptionAssets(char *p)
     ARC_UTIL_UploadBgPaletteAddFromHandleExt((void *)(((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->arc[0]), 6, 4, 0, 0, 0, 0, ((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->heap);
 }
 
-void MANUAL_CATEGORY_SetOptionBgMode(char *work) { BG_SYS_SetFlagField06(4); }
+void MANUAL_CATEGORY_SetOptionBgMode(char *work) { BG_SYS_MarkTileDirty(4); }
 
 void MANUAL_CATEGORY_OptionNoop(char *work) {}
 
@@ -297,7 +296,7 @@ void MANUAL_CATEGORY_CreateOptionSlots(u8 *p)
     MANUAL_CATEGORY_UpdateOptionSlots(p);
 }
 
-void MANUAL_CATEGORY_DeleteOptionSlots(char *p) { u8 i; for(i=0;i<3;i++) { ((struct ManualOptionWork *)p)->flag[i]=0; PRINTSYS_QUE_Clear(((struct ManualOptionWork *)p)->que[i]); BMP_WIN_ClearScreen((struct Descriptor *)((struct ManualOptionWork *)p)->bg[i]); BMP_WIN_Delete((struct Descriptor *)((struct ManualOptionWork *)p)->bg[i]); } BG_SYS_SetFlagField06(5); }
+void MANUAL_CATEGORY_DeleteOptionSlots(char *p) { u8 i; for(i=0;i<3;i++) { ((struct ManualOptionWork *)p)->flag[i]=0; PRINTSYS_QUE_Clear(((struct ManualOptionWork *)p)->que[i]); BMP_WIN_ClearScreen((struct Descriptor *)((struct ManualOptionWork *)p)->bg[i]); BMP_WIN_Delete((struct Descriptor *)((struct ManualOptionWork *)p)->bg[i]); } BG_SYS_MarkTileDirty(5); }
 
 void MANUAL_CATEGORY_UpdateOptionSlots(u8 *p)
 {
@@ -311,7 +310,7 @@ void MANUAL_CATEGORY_UpdateOptionSlots(u8 *p)
                 descriptor=*(struct Descriptor * *)&((struct ManualOptionWork *)slot)->bg;
                 BMP_WIN_TransferChars(descriptor);
                 BMP_WIN_MakeScreen((struct Cfg *)descriptor);
-                BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(descriptor));
+                BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(descriptor));
                 ((struct ManualOptionWork *)slot)->flag[0]=0;
             }
         }

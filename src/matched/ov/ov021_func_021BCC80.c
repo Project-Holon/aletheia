@@ -20,7 +20,7 @@
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   BG_SYS_PushTile  0x020409B4  arm
- *   BG_SYS_SetVisibleLayer  0x0204047C  arm
+ *   BG_SYS_SetPriority  0x0204047C  arm
  *   func_02040588  0x02040588  arm
  *   func_0207D63C  0x0207D63C  arm
  *   FIELD_PLACE_NAME_ResetSpawnCounts  0x021BC838  thumb  ov021
@@ -46,7 +46,7 @@ struct Cfg;
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern unsigned char BMP_WIN_GetBgLayer(struct Descriptor *d);
 extern void BG_SYS_PushTile(unsigned int index);
-extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+extern void BG_SYS_SetPriority(int idx, unsigned short val);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void func_0207D63C(int, int, int, int, int);
 extern void FIELD_PLACE_NAME_ResetSpawnCounts(char *p);
@@ -75,7 +75,7 @@ void FIELD_PLACE_NAME_StatePrepare(char *p)
         BMP_WIN_TransferChars((struct Descriptor *)w);
         BMP_WIN_MakeScreen((struct Cfg *)w);
         BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)w));
-        BG_SYS_SetVisibleLayer(3, 1);
+        BG_SYS_SetPriority(3, 1);
         func_02040588(3, 0);
         func_0207D63C(0x04000050, 8, 0x11, 0x10, 4);
         FIELD_PLACE_NAME_ResetSpawnCounts(p);

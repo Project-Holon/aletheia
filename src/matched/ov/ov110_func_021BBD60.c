@@ -15,7 +15,7 @@
  *   PMSIV_EDIT_Redraw 0x021BC23C thumb ov110
  *   PMSIV_EDIT_CreateCursors 0x021BC1B8 thumb ov110
  *   func_020498F4 0x020498F4 arm
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   func_02049658 0x02049658 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
@@ -34,7 +34,7 @@ typedef signed char s8;
 struct WinMgr;
 extern void PMSIV_EDIT_LoadPalette(u8 *,void *);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void BG_SYS_FillScrollArea(u32,u32,u32);
+extern void BG_SYS_ChangeScrollImmediate(u32,u32,u32);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 struct Cfg;
@@ -54,7 +54,7 @@ void PMSIV_EDIT_Setup(u8 *p,u32 a)
     func_020498F4((void *)a,25,0,0,0,0,42);
     func_020498F4((void *)a,25,4,0,0,0,42);
     ((struct Obj01922 *)p)->f19A=-192;
-    BG_SYS_FillScrollArea(4,3,((struct Obj01922 *)p)->f19A);
+    BG_SYS_ChangeScrollImmediate(4,3,((struct Obj01922 *)p)->f19A);
     func_02049658((void *)a,14,0,0,0,0,42);
     func_02049658((void *)a,14,4,0,0,0,42);
     *(u32 *)&((struct Obj01922 *)p)->fC=BMP_WIN_Create(0,3,1,28,4,0,1);

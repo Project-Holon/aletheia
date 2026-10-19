@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTLV_CORE_PackByteTwice",
+   "name": "BTL_TYPEPAIR_MakeSingle",
    "address": "0x021E8CF0",
    "kind": "game",
    "region": "ov093",

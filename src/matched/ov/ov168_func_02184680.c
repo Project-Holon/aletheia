@@ -14,8 +14,8 @@
  *   pool load); an int parameter sinks it to the end of the entry block.
  * symbols:
  *   func_02030DA8  0x02030DA8  arm
- *   TCBL_GetTaskUserData  0x02030EE8  arm
- *   GF_STANDARD_Get_F5FC  0x0203F5FC  arm
+ *   TCBL_IsDeletePending  0x02030EE8  arm
+ *   GF_STANDARD_SinFromDegrees  0x0203F5FC  arm
  *   CLACT_SetActorPosAxis  0x0204B550  arm
  *   MICTEST_UpdateSpriteTask  0x02184780  thumb  ov168
  *   _ll_mul        0x0209C054  arm
@@ -47,8 +47,8 @@ typedef struct {
 
 extern u32 func_02030DA8(int owner, void (*fn)(), int arg, int n);
 struct S02030EE8;
-extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
-extern int GF_STANDARD_Get_F5FC(u32 x);
+extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
+extern int GF_STANDARD_SinFromDegrees(u32 x);
 struct Actor;
 extern void CLACT_SetActorPosAxis(struct Actor *actor, signed short value, u32 axis);
 extern void MICTEST_UpdateSpriteTask(void *task, int *p);
@@ -65,15 +65,15 @@ void MICTEST_InitSpriteTask(int a0, u32 handle, int a2, s16 a3, s16 e, int f, u3
 
     t = func_02030DA8(a0, MICTEST_UpdateSpriteTask, a2, 0);
     ((u32 *)a2)[0x2c / 4] = t;
-    o = (Obj *)TCBL_GetTaskUserData((struct S02030EE8 *)t);
+    o = (Obj *)TCBL_IsDeletePending((struct S02030EE8 *)t);
     o->handle = handle;
     o->timer = i;
     o->x = FX_F32_TO_FX32(a3);
     o->y = FX_F32_TO_FX32(e);
     o->z0 = 0;
-    c = GF_STANDARD_Get_F5FC((u16)(g + 0x5a));
+    c = GF_STANDARD_SinFromDegrees((u16)(g + 0x5a));
     o->vx = FX_MUL(f, c);
-    c = GF_STANDARD_Get_F5FC((u16)g);
+    c = GF_STANDARD_SinFromDegrees((u16)g);
     o->vy = -FX_MUL(f, c);
     o->w0 = 0;
     o->w1 = 0;

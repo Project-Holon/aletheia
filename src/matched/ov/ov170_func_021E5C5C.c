@@ -24,14 +24,14 @@
  *   BOX2_MAIN_SceneOpenBox 0x021E087C thumb
  *   BOX2_SEQ_SetActorDrawEnable 0x021EC000 thumb
  *   BOX2_SEQ_SetSlotDim 0x021ED6E4 thumb
- *   BOX2_MAIN_Check09E0 0x021E09E0 thumb
+ *   BOX2_MAIN_StateMachineRunSwap 0x021E09E0 thumb
  *   BOX2_MAIN_UpdateBoxSlots 0x021DD530 thumb
  *   BOX2_SEQ_Delete 0x021EA1E8 thumb
  *   BOX2_MAIN_ResetBoxView 0x021DF040 thumb
  *   BOX2_SEQ_SetSlotActors 0x021ECB20 thumb
  *   BOX2_UI_DeleteSlotObjects 0x021EE038 thumb
  *   BOX2_UI_MoveCursor 0x021EE364 thumb
- *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb
+ *   BOX2_MAIN_RefreshCurrentBoxMonInfo 0x021DEFEC thumb
  *
  * Eight-step machine on the work word at 0xA194 for the party swap:
  * fade, take the slot (from the held box slot at 0xA17E if any), fade
@@ -54,14 +54,14 @@ extern void BOX2_SEQ_Create(void *p);
 extern int BOX2_MAIN_SceneOpenBox(unsigned char *p);
 extern void BOX2_SEQ_SetActorDrawEnable(char *w, int i, int v);
 extern void BOX2_SEQ_SetSlotDim(char **p, int v);
-extern int BOX2_MAIN_Check09E0(char *p);
+extern int BOX2_MAIN_StateMachineRunSwap(char *p);
 extern void BOX2_MAIN_UpdateBoxSlots(unsigned char *p);
 extern void BOX2_SEQ_Delete(char *p);
 extern void BOX2_MAIN_ResetBoxView(char *p);
 extern void BOX2_SEQ_SetSlotActors(char *p, int f, int c);
 extern void BOX2_UI_DeleteSlotObjects(char *p, int a, int b, int c);
 extern void BOX2_UI_MoveCursor(char **p, int idx, int v);
-extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
+extern void BOX2_MAIN_RefreshCurrentBoxMonInfo(char *p, int b);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 #define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
@@ -104,7 +104,7 @@ int BOX2_SEQ_StateScrollBox(unsigned char *p)
         BOX2_SEQ_Create(p);
         BOX2_SEQ_SetSlotDim((char **)p, 0);
         STEP(p) = 5;
-        return BOX2_SEQ_SetSeqThird((char *)p, (int)BOX2_MAIN_Check09E0, 0x36);
+        return BOX2_SEQ_SetSeqThird((char *)p, (int)BOX2_MAIN_StateMachineRunSwap, 0x36);
     case 5:
         BOX2_MAIN_UpdateBoxSlots(p);
         BOX2_SEQ_Delete((char *)p);
@@ -120,7 +120,7 @@ int BOX2_SEQ_StateScrollBox(unsigned char *p)
         BOX2_SEQ_SetSlotDim((char **)p, 0);
         BOX2_UI_DeleteSlotObjects((char *)p, 0, 0, 1);
         BOX2_UI_MoveCursor((char **)p, 0, p[0x16] - 0x1E);
-        BOX2_MAIN_ChangeBoxFormPreserve((char *)p, p[0x16]);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p, p[0x16]);
         STEP(p) = 0;
         return 0x31;
     }

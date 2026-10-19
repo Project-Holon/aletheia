@@ -32,7 +32,7 @@
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   UI_GetInputMode 0x020355C4 arm
  *   APP_TASKMENU_WIN_SetActive 0x02028218 thumb
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   APP_TASKMENU_WIN_Delete 0x02028148 thumb
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
@@ -110,7 +110,7 @@ extern u8 UI_GetInputMode(void);
 
 extern void APP_TASKMENU_WIN_SetActive(struct Obj *, unsigned);
 
-extern void BG_SYS_SetFlagField06(u32);
+extern void BG_SYS_MarkTileDirty(u32);
 
 extern void APP_TASKMENU_WIN_Delete(u8 *);
 
@@ -259,11 +259,11 @@ void MANUAL_COMMON_CreateDialogWindows(char *dialog)
     if (UI_GetInputMode() == 0) APP_TASKMENU_WIN_SetActive(*(struct Obj **)(dialog + *(u8 *)*(char * *)&((struct ManualDialog *)dialog)->owner * 4 + 0xc), 1);
 }
 
-void MANUAL_COMMON_SetDialogBgMode(char *dialog) { BG_SYS_SetFlagField06(4); }
+void MANUAL_COMMON_SetDialogBgMode(char *dialog) { BG_SYS_MarkTileDirty(4); }
 
 void MANUAL_COMMON_DeleteDialogStep(char *dialog) { MANUAL_COMMON_DeleteDialogWindows(dialog); }
 
-void MANUAL_COMMON_DeleteDialogWindows(char *dialog) { u8 i; PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->printQue1); for(i=0;i<2;i++) APP_TASKMENU_WIN_Delete(*(u8 **)(dialog+i*4+12)); APP_TASKMENU_RES_Delete(*(struct TaskMenuState * *)&((struct ManualDialog *)dialog)->resource); BG_SYS_SetFlagField06(5); }
+void MANUAL_COMMON_DeleteDialogWindows(char *dialog) { u8 i; PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->printQue1); for(i=0;i<2;i++) APP_TASKMENU_WIN_Delete(*(u8 **)(dialog+i*4+12)); APP_TASKMENU_RES_Delete(*(struct TaskMenuState * *)&((struct ManualDialog *)dialog)->resource); BG_SYS_MarkTileDirty(5); }
 
 /*
  * Lever: unhinted BF9C data uses this function's own overlay region.

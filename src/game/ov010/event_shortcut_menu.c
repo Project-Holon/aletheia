@@ -34,7 +34,7 @@
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
  *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
  *   MOVE_POKEMON_InitSkillInfo  0x0215E840  thumb  ov010
- *   EVENTDATA_SYSTEM_CreateFieldLinkEvent  0x021644F4  thumb  ov010
+ *   FIELD_LINK_EVENT_Create  0x021644F4  thumb  ov010
  *   RECENT_ID_LIST_SAVEDATA_GetBlockFromSys   0x0200C404  thumb
  *   RECENT_ID_LIST_SAVEDATA_CountIds   0x0200C468  thumb
  *   d_02172960     0x02172960  data  a4
@@ -143,7 +143,7 @@ typedef struct ShortcutLink {
     ShortcutHook onExit;            /* 0x1C */
     struct ShortcutMenuWork *hookArg; /* 0x20 */
     u32 result;                     /* 0x24: 0 done, 1 cancelled, 2 and 3 other ends */
-    u32 nextEvent;                  /* 0x28: index handed to EVENTDATA_SYSTEM_CreateFieldLinkEvent */
+    u32 nextEvent;                  /* 0x28: index handed to FIELD_LINK_EVENT_Create */
     u8 pad2C[0x40 - 0x2C];
 } ShortcutLink;
 
@@ -214,7 +214,7 @@ extern void *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
 extern void FLDMMDL_SysPauseMove(void *map);
 extern u32 *FLDMMDL_SysResumeMove(void *map);
 extern void MOVE_POKEMON_InitSkillInfo(struct FieldMap *fieldMap, ShortcutFieldInfo *out);
-extern struct GameEvent *EVENTDATA_SYSTEM_CreateFieldLinkEvent(u32 index, struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+extern struct GameEvent *FIELD_LINK_EVENT_Create(u32 index, struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 extern ShortcutList *RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(struct SaveControl *save);
 extern u16 RECENT_ID_LIST_SAVEDATA_CountIds(const ShortcutList *list);
 extern void FIELD_SKILL_CHECK_FillUseFlags(ShortcutAvailMask *mask, struct GameSystem *gameSystem, struct FieldMap *fieldMap);
@@ -447,7 +447,7 @@ int EVENT_SHORTCUT_MENU_MainEvent(struct GameEvent *event, u32 *seq, ShortcutMen
 
             GFL_HEAP_Free(work->link);
             work->link = 0;
-            GAME_EVENT_CallEvent(event, EVENTDATA_SYSTEM_CreateFieldLinkEvent(nextEvent, work->gameSystem, work->fieldMap));
+            GAME_EVENT_CallEvent(event, FIELD_LINK_EVENT_Create(nextEvent, work->gameSystem, work->fieldMap));
             *seq = 13;
         }
         break;
@@ -568,7 +568,7 @@ int EVENT_SHORTCUT_MENU_ReturnEvent(struct GameEvent *event, u32 *seq, ShortcutM
         nextIndex = work->link->nextEvent;
         GFL_HEAP_Free(work->link);
         work->link = 0;
-        child = EVENTDATA_SYSTEM_CreateFieldLinkEvent(nextIndex, work->gameSystem, work->fieldMap);
+        child = FIELD_LINK_EVENT_Create(nextIndex, work->gameSystem, work->fieldMap);
         GAME_EVENT_CallEvent(event, child);
         *seq = 6;
         break;

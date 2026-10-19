@@ -13,7 +13,7 @@
  *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
- *   FILE_UTIL_Get_12B0  0x020212B0  thumb  arm9
+ *   FILE_UTIL_GetMachineMove  0x020212B0  thumb  arm9
  *   WORDSET_SetSlotFromMsgCB  0x0201EF34  thumb  arm9
  */
 
@@ -37,7 +37,7 @@ extern void *SCRCMD_WORK_GetScriptWork(void *p);
 struct WordSet;
 extern void *SCRIPT_WORK_GetWordSet(void *p);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
-extern u32 FILE_UTIL_Get_12B0(u32 a);
+extern u32 FILE_UTIL_GetMachineMove(u32 a);
 extern void WORDSET_SetSlotFromMsgCB(struct WordSet *p, u32 i, u32 v);
 
 int SCRCMD_BufferConvertedEntryName(Ctx *s, u32 b)
@@ -45,6 +45,6 @@ int SCRCMD_BufferConvertedEntryName(Ctx *s, u32 b)
     u32 w = (u32)SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork((void *)b));
     u8 c = Ctx_ReadByte(s);
 
-    WORDSET_SetSlotFromMsgCB((struct WordSet *)w, c, FILE_UTIL_Get_12B0(SCRIPT_WORK_ReadWorkValue(s, (void *)b)));
+    WORDSET_SetSlotFromMsgCB((struct WordSet *)w, c, FILE_UTIL_GetMachineMove(SCRIPT_WORK_ReadWorkValue(s, (void *)b)));
     return 0;
 }

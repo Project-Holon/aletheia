@@ -32,7 +32,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   POKE_PERSONAL_LoadFormTable 0x0201AF80 thumb
  *   d_021DC824 0x021DC824 data a1
@@ -51,7 +51,7 @@
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   POKE_TOOL_IsBoxShiny 0x02017EB4 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   WORDSET_SetSlotTag 0x0201EE0C thumb
  *   POKE_TOOL_GetExpForLevel 0x02018584 thumb
@@ -59,8 +59,8 @@
  *   gSpeciesNameBank 0x020A7370 data
  *   d_021DC24C 0x021DC24C data
  *   d_021DC264 0x021DC264 data
- *   EVENT_ID_GetBank 0x0202F688 thumb
- *   EVENT_ID_GetIndex 0x0202F6D8 thumb
+ *   PLACE_NAME_GetBank 0x0202F688 thumb
+ *   PLACE_NAME_GetIndex 0x0202F6D8 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
  *   P_STATUS_PrintMsgToWin 0x021D618C thumb ov131
@@ -146,12 +146,12 @@ extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void BG_SYS_SetFlagField06(u32);
+extern void BG_SYS_MarkTileDirty(u32);
 extern u32 POKE_TOOL_IsBoxShiny(void *mon);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 index, const struct Strbuf *src, u32 a, u32 b, u32 c);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
+extern u32 WORDSET_Delete(struct WordSet *wordSet);
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 a, u32 b);
 extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *arc, unsigned int fileId, unsigned int a, void **dataOut, unsigned short heapId);
@@ -172,8 +172,8 @@ extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u32 POKE_TOOL_IsBoxOwnedByPlayer(void *mon, void *trainer);
 extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
 extern u32 GF_FONT_CountLine(struct Strbuf *s);
-extern unsigned int EVENT_ID_GetBank(unsigned int);
-extern unsigned int EVENT_ID_GetIndex(unsigned int);
+extern unsigned int PLACE_NAME_GetBank(unsigned int);
+extern unsigned int PLACE_NAME_GetIndex(unsigned int);
 void *P_STATUS_GetPokePara(PStatusWork *wk);
 void P_STATUS_PrintMsgToWin(PStatusWork *wk, struct BmpWin *win, int msgId, int x, unsigned short y, unsigned short color);
 void P_STATUS_PrintWordSetMsgToWin(PStatusWork *wk, struct BmpWin *win, void *wordSet, int msgId, unsigned short x, unsigned short y, unsigned short color);
@@ -267,11 +267,11 @@ void P_STA_INFO_ShowPage(PStatusWork *wk, PStaInfoWork *work)
     mon=P_STATUS_GetPokePara(wk);
     if(wk->isEgg==0) BG_SYS_DrawTileEx(2,0,0,32,24,(u32)((u8 *)work->bgScrnData+12),0,0,32,32);
     else BG_SYS_DrawTileEx(2,0,0,32,24,(u32)((u8 *)work->eggScrnData+12),0,0,32,32);
-    BG_SYS_SetFlagField06(2);
+    BG_SYS_MarkTileDirty(2);
     BG_SYS_DecodeTile(6,(u8 *)work->palData+12,((StaGraphicsFile *)((u8 *)work->palData))->dataSize);
-    BG_SYS_SetFlagField06(6);
+    BG_SYS_MarkTileDirty(6);
     BG_SYS_DrawTileEx(5,0,0,32,3,(u32)((u8 *)work->barScrnData+12),0,0,32,32);
-    BG_SYS_SetFlagField06(5);
+    BG_SYS_MarkTileDirty(5);
     for(i=0;i<10;i++) {
         win=work->win[i];
         BMP_WIN_TransferChars(win);
@@ -322,9 +322,9 @@ void P_STA_INFO_DeleteWindows(PStatusWork *wk, PStaInfoWork *work) {
 void P_STA_INFO_HidePage(PStatusWork *wk, PStaInfoWork *work)
 {
     BG_SYS_SetTileEntry(1, 0, 0, 0, 19, 21, 16);
-    BG_SYS_SetFlagField06(1);
+    BG_SYS_MarkTileDirty(1);
     BG_SYS_ClearLayerEx(4, 0);
-    BG_SYS_SetFlagField06(4);
+    BG_SYS_MarkTileDirty(4);
     CLACT_SetActorDrawEnable(wk->typeIconActor[0], 0);
     CLACT_SetActorDrawEnable(wk->typeIconActor[1], 0);
     CLACT_SetActorAnimSeq(wk->buttonActor[0], 0);
@@ -366,7 +366,7 @@ void P_STA_INFO_DrawStats(PStatusWork *wk, PStaInfoWork *work, void *mon)
             WORDSET_SetSlotNumber(dexWordSet,0,dexNo,3,2,1);
             P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_INFO_WIN_DEX_NO],dexWordSet,9,0x41,1,color);
         }
-        WORDSET_DeleteStrbufED04(dexWordSet);
+        WORDSET_Delete(dexWordSet);
         P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_SPECIES],10,1,1,0x3c40);
         if(wk->isEgg==0) {species=POKE_TOOL_GetBoxValue(mon,5,0); speciesName=MSGDATA_AllocString(gSpeciesNameBank,species);}
         else speciesName=MSGDATA_AllocString(gSpeciesNameBank,0x28a);
@@ -384,14 +384,14 @@ void P_STA_INFO_DrawStats(PStatusWork *wk, PStaInfoWork *work, void *mon)
         POKE_TOOL_GetBoxValue(mon,0x8d,otName);
         WORDSET_SetSlotTag(otWordSet,0,otName,0,1,2);
         P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_INFO_WIN_OT_NAME],otWordSet,14,0x41,1,color);
-        WORDSET_DeleteStrbufED04(otWordSet);
+        WORDSET_Delete(otWordSet);
         STRBUF_Delete(otName);
         P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_ID_NO],15,1,1,0x3c40);
         idWordSet=WORDSET_CreateDefault(wk->heapId);
         idNo=POKE_TOOL_GetBoxValue(mon,7,0);
         WORDSET_SetSlotNumber(idWordSet,0,idNo,5,2,1);
         P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_INFO_WIN_ID_NO],idWordSet,16,0x41,1,0x440);
-        WORDSET_DeleteStrbufED04(idWordSet);
+        WORDSET_Delete(idWordSet);
         level=POKE_TOOL_GetBoxValue(mon,0x9e,0);
         exp=POKE_TOOL_GetBoxValue(mon,8,0);
         species1=POKE_TOOL_GetBoxValue(mon,5,0);
@@ -406,13 +406,13 @@ void P_STA_INFO_DrawStats(PStatusWork *wk, PStaInfoWork *work, void *mon)
         expWordSet=WORDSET_CreateDefault(wk->heapId);
         WORDSET_SetSlotNumber(expWordSet,0,exp,7,0,1);
         P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_INFO_WIN_EXP_VALUE],expWordSet,18,1,1,0x440);
-        WORDSET_DeleteStrbufED04(expWordSet);
+        WORDSET_Delete(expWordSet);
         P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_NEXT_LV_LABEL],19,1,1,0x3c40);
         P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_NEXT_LV_VALUE],20,1,1,0x440);
         toNextWordSet=WORDSET_CreateDefault(wk->heapId);
         WORDSET_SetSlotNumber(toNextWordSet,0,expToNext,6,0,1);
         P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_INFO_WIN_NEXT_LV_VALUE],toNextWordSet,21,0x21,1,0x440);
-        WORDSET_DeleteStrbufED04(toNextWordSet);
+        WORDSET_Delete(toNextWordSet);
         if(level!=100) {
             tmpValue=expNextLv-expThisLv-expToNext;
             barPixels=(tmpValue<<6)/(expNextLv-expThisLv);
@@ -583,7 +583,7 @@ void P_STA_INFO_DrawMemo(PStatusWork *wk, PStaInfoWork *work, void *mon)
     msgStr = MSGDATA_AllocString(work->msgInfo, msgId);
     WORDSET_CopyTaggedText(wordSet, infoStr, msgStr);
     PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->win[STA_INFO_WIN_MEMO]), (s16)1, (s16)(textY + 1), infoStr, wk->font, 0x440);
-    WORDSET_DeleteStrbufED04(wordSet);
+    WORDSET_Delete(wordSet);
     textY += GF_FONT_CountLine(infoStr) << 4;
     STRBUF_Delete(eggPlaceStr);
     STRBUF_Delete(metPlaceStr);
@@ -630,8 +630,8 @@ void P_STA_INFO_DrawMemo(PStatusWork *wk, PStaInfoWork *work, void *mon)
 
 void *P_STA_INFO_GetPlaceName(PStatusWork *wk, PStaInfoWork *work, unsigned int placeId)
 {
-    unsigned int bank = EVENT_ID_GetBank(placeId);
-    unsigned int index = EVENT_ID_GetIndex(placeId);
+    unsigned int bank = PLACE_NAME_GetBank(placeId);
+    unsigned int index = PLACE_NAME_GetIndex(placeId);
     switch (bank) {
     case 89: return MSGDATA_AllocString(work->msgPlaceBank89, index);
     case 92: return MSGDATA_AllocString(work->msgPlaceBank92, index);

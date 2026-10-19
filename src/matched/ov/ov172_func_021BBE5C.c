@@ -21,7 +21,7 @@
  *   CLACT_DeleteActor  0x0204B3B4  arm
  *   func_020307B0  0x020307B0  arm
  *   BG_SYS_ClearSlot  0x020414EC  arm
- *   BG_SYS_ResetSlot  0x02041EE4  arm
+ *   BG_SYS_ChangeScroll  0x02041EE4  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -41,7 +41,7 @@ extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern u32 func_020307B0(void *p);
 extern void BG_SYS_ClearSlot(u32 i);
-extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
+extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
 
 void CTVT_CALL_Exit(void *a0, char *a1)
 {
@@ -80,8 +80,8 @@ void CTVT_CALL_Exit(void *a0, char *a1)
 
     BG_SYS_ClearSlot(6);
     BG_SYS_PushTile(6);
-    BG_SYS_ResetSlot(6, 3, 0);
+    BG_SYS_ChangeScroll(6, 3, 0);
     BG_SYS_ClearSlot(4);
     BG_SYS_PushTile(4);
-    BG_SYS_ResetSlot(4, 3, 0);
+    BG_SYS_ChangeScroll(4, 3, 0);
 }

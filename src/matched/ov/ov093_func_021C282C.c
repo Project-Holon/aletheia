@@ -12,7 +12,7 @@
  *   BTL_POKEPARAM_GetMajorStatusIndex 0x021D62A8 thumb ov093
  *   BTL_SERVER_FLOW_GetEffectiveWeather 0x021C2AB0 thumb ov093
  *   BTL_POKEPARAM_GetTypePair 0x021D57FC thumb ov093
- *   BTLV_CORE_HasByte 0x021E8D24 thumb ov093
+ *   BTL_TYPEPAIR_HasType 0x021E8D24 thumb ov093
  *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  */
 typedef unsigned char u8;
@@ -24,7 +24,7 @@ extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *, int);
 extern int BTL_POKEPARAM_GetMajorStatusIndex(struct Unk021D62A8 *);
 extern int BTL_SERVER_FLOW_GetEffectiveWeather(u8 *);
 extern u16 BTL_POKEPARAM_GetTypePair(void *);
-extern int BTLV_CORE_HasByte(int x, int k);
+extern int BTL_TYPEPAIR_HasType(int x, int k);
 extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 int BTL_SERVER_FLOW_CheckSickImmunity(u8 *a, struct Unk021D62A8 *b, int c, int d, u8 e)
 {
@@ -34,11 +34,11 @@ int BTL_SERVER_FLOW_CheckSickImmunity(u8 *a, struct Unk021D62A8 *b, int c, int d
     if (BTL_SERVER_FLOW_GetEffectiveWeather(a) == 1 && c == 3) return 3;
     if (c == 5) {
         t = BTL_POKEPARAM_GetTypePair(b);
-        if (BTLV_CORE_HasByte(t, 8) || BTLV_CORE_HasByte(t, 3)) return 2;
+        if (BTL_TYPEPAIR_HasType(t, 8) || BTL_TYPEPAIR_HasType(t, 3)) return 2;
     }
-    if (c == 4 && BTLV_CORE_HasByte(BTL_POKEPARAM_GetTypePair(b), 9)) return 2;
-    if (c == 3 && BTLV_CORE_HasByte(BTL_POKEPARAM_GetTypePair(b), 14)) return 2;
-    if (c == 18 && BTLV_CORE_HasByte(BTL_POKEPARAM_GetTypePair(b), 11)) return 2;
+    if (c == 4 && BTL_TYPEPAIR_HasType(BTL_POKEPARAM_GetTypePair(b), 9)) return 2;
+    if (c == 3 && BTL_TYPEPAIR_HasType(BTL_POKEPARAM_GetTypePair(b), 14)) return 2;
+    if (c == 18 && BTL_TYPEPAIR_HasType(BTL_POKEPARAM_GetTypePair(b), 11)) return 2;
     if (c == 14 && BTL_POKEPARAM_GetMajorStatusIndex(b)) return 3;
     if (c == 16 && BTL_POKEPARAM_GetValue((u8 *)b, 16) == 121) return 3;
     return 0;

@@ -41,7 +41,7 @@
  *   MSGDATA_Delete 0x02045C04 arm
  *   STRBUF_Delete 0x02045808 arm
  *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
- *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
+ *   MET_TRAINERS_GetFromSave 0x0200ED48 thumb
  *   GFL_NET_HANDLE_IsTimingSyncRange 0x02039CB4 arm
  *   MYSTATUS_CreateNameStrbuf 0x02008510 thumb
  *   MI_CpuFill8 0x02082BCC arm
@@ -82,7 +82,7 @@
  *   d_021D8B50 0x021D8B50 data a1
  *   APP_TASKMENU_WIN_IsFinish 0x02028230 thumb
  *   APP_TASKMENU_WIN_Delete 0x02028148 thumb
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   GTSNEGO_MSG_PrintWindow 0x021D79F4 thumb ov120
  *   GTSNEGO_MSG_CreateIdleUi 0x021D7550 thumb ov120
  *   GTSNEGO_MSG_PrintStatus 0x021D8520 thumb ov120
@@ -99,7 +99,7 @@
  *   GTSNEGO_MSG_ClearRows 0x021D7D3C thumb ov120
  *   GTSNEGO_MSG_CreateListUi 0x021D7DC8 thumb ov120
  *   GTSNEGO_MSG_CreateTooltip 0x021D7ECC thumb ov120
- *   GAME_DATA_GetSaveBlock1F 0x02012F14 thumb
+ *   GAME_DATA_GetTradeHistory 0x02012F14 thumb
  *   TRADE_HISTORY_GetPartnerCount 0x02009E8C thumb
  *   TRADE_HISTORY_GetPartner 0x02009E54 thumb
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
@@ -199,8 +199,8 @@
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   CLACT_ExitSystem 0x0204A5AC arm
  *   BLINK_PALANM_Delete 0x0202EA20 thumb
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
- *   BG_SYS_SetTileUnit 0x02040DA8 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
+ *   BG_SYS_FreeTiles 0x02040DA8 arm
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   GF_OVERLAY_Unload 0x02034A5C arm
@@ -230,7 +230,7 @@
  *   d_021D8944 0x021D8944 data a4
  *   d_021D8964 0x021D8964 data a4
  *   CLACT_VBlankSystem 0x0204A648 arm
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_RegisterObjCharFromHandle 0x02049740 arm
@@ -257,8 +257,8 @@
  *   MYSTATUS_Copy  0x02008494  thumb  arm9
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
  *   MISC_SAVEDATA_CopyQuadRecord  0x0200E6FC  thumb  arm9
- *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb  arm9
- *   GAME_DATA_GetField1A0  0x0201283C  thumb  arm9
+ *   MET_TRAINERS_Insert  0x0200ED54  thumb  arm9
+ *   GAME_DATA_GetWifiList  0x0201283C  thumb  arm9
  *   GAME_DATA_GetPlayerStatusById  0x02012950  thumb  arm9
  *   SAVEDATA_GetExtraBlockThunk  0x0200E6E8  thumb  arm9
  *   MYSTATUS_NameFromStrbuf  0x020084E4  thumb  arm9
@@ -458,8 +458,8 @@ extern void MYSTATUS_NameFromStrbuf(u16 *out, struct U16Vec *vec);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern struct Rec44 *GAME_DATA_GetPlayerStatusById(struct Sub24 *p, u32 i);
 extern void MYSTATUS_Copy(void *src, void *dst);
-extern void *MISC_SAVEDATA_GetBlock44(void *p);
-extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *l, u32 val);
+extern void *MET_TRAINERS_GetFromSave(void *p);
+extern void MET_TRAINERS_Insert(struct L0200ED54 *l, u32 val);
 extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *, unsigned int, unsigned int);
 extern void *MYSTATUS_CreateNameStrbuf(void *, int);
 extern void MI_CpuFill8(void *, u8, u32);
@@ -473,7 +473,7 @@ extern int GTSNEGO_MSG_UpdatePrintStream(char *p);
 extern int GFL_NET_HANDLE_GetNegotiationNum(void);
 extern void *SAVEDATA_GetExtraBlockThunk(u32 a);
 extern void MISC_SAVEDATA_CopyQuadRecord(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
-extern void *GAME_DATA_GetSaveBlock1F(void **h);
+extern void *GAME_DATA_GetTradeHistory(void **h);
 extern u32 TRADE_HISTORY_GetTradeCount(const struct Sub02009D9CObj *obj);
 extern int GFL_NET_HANDLE_CheckNegotiation(void);
 extern int GTSNEGO_MSG_UpdateButtons(char *p);
@@ -499,7 +499,7 @@ extern void DWC_RAP_SetVchatEnabled(int);
 extern void GFL_NET_STATE_SetError(int, u32, u32, u32);
 extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
 extern void APP_TASKMENU_WIN_Delete(u8 *p);
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 extern void GTSNEGO_MSG_PrintWindow(u8 *p, u16 n);
 extern void GTSNEGO_MSG_CreateIdleUi(u8 *p);
 extern void GTSNEGO_MSG_PrintStatus(char *p, u16 n);
@@ -566,7 +566,7 @@ extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern char *GTSNEGO_MSG_Create(u32 heap, u32 n);
 extern void WIPE_SetBrightnessFadeOut(u32, u32);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
+extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 extern void GFL_NET_COMMAND_AddCommandTable(u32, u32, u32, u32);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32, u32);
 extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
@@ -609,8 +609,8 @@ extern void TCB_DeleteTask(struct Node *n);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern u32 BLINK_PALANM_Delete(struct BlinkPalAnm *p);
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
-extern void BG_SYS_SetTileUnit(u32,u32,u32);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTiles(u32,u32,u32);
 extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BG_SYS_Delete(void);
 extern void GF_OVERLAY_Unload(int handle);
@@ -630,7 +630,7 @@ extern void GXS_LoadBGPltt(void *,int,int);
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 extern u32 PALANM_Delete(void *ctx);
 extern void CLACT_VBlankSystem(void);
-extern void BG_SYS_FillScrollArea(u32,u32,u32);
+extern void BG_SYS_ChangeScrollImmediate(u32,u32,u32);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,u32,u32,u32,u32,u16);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *,u32,u32,u32,u32,u16);
@@ -957,7 +957,7 @@ void GTSNEGO_DISP_ConfirmStatus(struct GtsnegoDispCtx *dispCtx)
         }
         MYSTATUS_Copy((void *)value, GAME_DATA_GetPlayerStatusById((struct Sub24 *)(*(int *)&dispCtx->gameData), 1 - GFL_NET_SYSTEM_GetCurrentAid()));
         result = MYSTATUS_GetId((const struct Sub0200852CObj *)value);
-        MISC_SAVEDATA_InsertRecentValue(MISC_SAVEDATA_GetBlock44((void *)(*(int *)&dispCtx->saveControl)), result);
+        MET_TRAINERS_Insert(MET_TRAINERS_GetFromSave((void *)(*(int *)&dispCtx->saveControl)), result);
         GTSNEGO_DISP_SetStateCallback(((int *)dispCtx), GTSNEGO_DISP_ShowTradeConfirm, 0x283);
     }
 }
@@ -1059,7 +1059,7 @@ void GTSNEGO_DISP_WaitNegotiation(u8 *dispCtx)
             *(int *)&((struct GtsnegoParentCtx *)parentCtx)->rowAIndex = ((struct GtsnegoDispCtx *)dispCtx)->rowAIndex;
             *(int *)&((struct GtsnegoParentCtx *)parentCtx)->rowBIndex = ((struct GtsnegoDispCtx *)dispCtx)->rowBIndex;
             MISC_SAVEDATA_CopyQuadRecord((struct Rec0200E6FC *)value, 0, (struct Rec0200E6FC *)(dispCtx + 0x168));
-            ((struct GtsnegoDispCtx *)dispCtx)->myTradeCount = TRADE_HISTORY_GetTradeCount(GAME_DATA_GetSaveBlock1F((void **)(*(int *)&((struct GtsnegoDispCtx *)dispCtx)->gameData)));
+            ((struct GtsnegoDispCtx *)dispCtx)->myTradeCount = TRADE_HISTORY_GetTradeCount(GAME_DATA_GetTradeHistory((void **)(*(int *)&((struct GtsnegoDispCtx *)dispCtx)->gameData)));
             GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 2, 0x22);
             GTSNEGO_DISP_SetStateCallback(((int *)dispCtx), GTSNEGO_DISP_SendHandshake, 0x314);
         }
@@ -1286,7 +1286,7 @@ void GTSNEGO_DISP_OnConfirmDone(struct GtsnegoDispCtx *dispCtx)
     if (APP_TASKMENU_WIN_IsFinish(dispCtx->tooltipWin)) {
         APP_TASKMENU_WIN_Delete(dispCtx->tooltipWin);
         *(int *)&dispCtx->tooltipWin = 0;
-        BG_SYS_SetFlagField06(5);
+        BG_SYS_MarkTileDirty(5);
         GTSNEGO_MSG_PrintWindow(dispCtx->msgCtx, 14);
         GTSNEGO_MSG_CreateIdleUi(dispCtx->actorSys);
         GTSNEGO_MSG_PrintStatus(dispCtx->msgCtx, 13);
@@ -1355,7 +1355,7 @@ void GTSNEGO_DISP_HandleConfirmKeys(u8 *dispCtx)
             GTSNEGO_DISP_ResetActors(*(u8 * *)&((struct GtsnegoDispCtx *)dispCtx)->actorSys);
             APP_TASKMENU_WIN_Delete(((struct GtsnegoDispCtx *)dispCtx)->tooltipWin);
             *(int *)&((struct GtsnegoDispCtx *)dispCtx)->tooltipWin = zero;
-            BG_SYS_SetFlagField06(5);
+            BG_SYS_MarkTileDirty(5);
             GTSNEGO_DISP_SetStateCallback(((int *)dispCtx), GTSNEGO_DISP_ShowPartySelect, 0x50b);
         }
     }
@@ -1384,7 +1384,7 @@ void GTSNEGO_DISP_CreateConfirmUi(u8 *dispCtx)
     } else {
         GTSNEGO_DISP_SetCursorState(((struct GtsnegoDispCtx *)dispCtx)->actorSys, 0, 9);
     }
-    BG_SYS_SetFlagField06(6);
+    BG_SYS_MarkTileDirty(6);
     GTSNEGO_DISP_SetStateCallback(((int *)dispCtx), GTSNEGO_DISP_HandleConfirmKeys, 0x537);
 }
 
@@ -1394,14 +1394,14 @@ void GTSNEGO_DISP_CreateConfirmUi(u8 *dispCtx)
 
 
 
-void *GTSNEGO_DISP_GetEntry(void **list,int index) { int n; n=TRADE_HISTORY_GetPartnerCount(GAME_DATA_GetSaveBlock1F(list)); if (index>=n || index<0) return 0; return TRADE_HISTORY_GetPartner(GAME_DATA_GetSaveBlock1F(list),index); }
+void *GTSNEGO_DISP_GetEntry(void **list,int index) { int n; n=TRADE_HISTORY_GetPartnerCount(GAME_DATA_GetTradeHistory(list)); if (index>=n || index<0) return 0; return TRADE_HISTORY_GetPartner(GAME_DATA_GetTradeHistory(list),index); }
 
 
 
 
 
 
-void *GTSNEGO_DISP_GetEntryClamped(void **list,int index) { int n; n=TRADE_HISTORY_GetPartnerCount(GAME_DATA_GetSaveBlock1F(list)); if (index<0) index=0; if (index>=n) index=n-1; return TRADE_HISTORY_GetPartner(GAME_DATA_GetSaveBlock1F(list),index); }
+void *GTSNEGO_DISP_GetEntryClamped(void **list,int index) { int n; n=TRADE_HISTORY_GetPartnerCount(GAME_DATA_GetTradeHistory(list)); if (index<0) index=0; if (index>=n) index=n-1; return TRADE_HISTORY_GetPartner(GAME_DATA_GetTradeHistory(list),index); }
 
 
 
@@ -1445,7 +1445,7 @@ void GTSNEGO_DISP_OnDisconnect(struct GtsnegoDispCtx *dispCtx)
         GTSNEGO_DISP_ResetActors(dispCtx->actorSys);
         GTSNEGO_DISP_SetTradePalette(dispCtx->actorSys, 0, 0);
         GTSNEGO_DISP_SetCursorState(dispCtx->actorSys, 0, 9);
-        BG_SYS_SetFlagField06(5);
+        BG_SYS_MarkTileDirty(5);
         if (dispCtx->tradeMode == 1) {
             BG_SYS_SetPlaneVisible(4, 0);
             GTSNEGO_MSG_TeardownTileRows(dispCtx->actorSys);
@@ -1637,7 +1637,7 @@ void GTSNEGO_DISP_OnListConfirmDone(struct GtsnegoDispCtx *dispCtx)
         *(int *)&dispCtx->tooltipWin = 0;
         dispCtx->selectedListIndex = -1;
         GTSNEGO_DISP_SetCursorState(dispCtx->actorSys, 0, 9);
-        BG_SYS_SetFlagField06(5);
+        BG_SYS_MarkTileDirty(5);
         GTSNEGO_DISP_SetStateCallback(((int *)dispCtx), GTSNEGO_DISP_ShowListMessage, 0x6ba);
     }
 }
@@ -1655,7 +1655,7 @@ void GTSNEGO_DISP_DeleteMenuWindow(u8 *dispCtx)
 {
     if (((struct GtsnegoDispCtx *)dispCtx)->tooltipWin) {
         APP_TASKMENU_WIN_Delete(((struct GtsnegoDispCtx *)dispCtx)->tooltipWin);
-        BG_SYS_SetFlagField06(5);
+        BG_SYS_MarkTileDirty(5);
         *(u32 *)&((struct GtsnegoDispCtx *)dispCtx)->tooltipWin = 0;
     }
 }
@@ -1843,7 +1843,7 @@ void GTSNEGO_DISP_WaitSelectStart(struct GtsnegoDispCtx *dispCtx)
 void GTSNEGO_DISP_ShowPokemonList(struct GtsnegoDispCtx *dispCtx)
 {
     int flag = 1;
-    int n = TRADE_HISTORY_GetPartnerCount(GAME_DATA_GetSaveBlock1F(*(void ** *)&dispCtx->gameData));
+    int n = TRADE_HISTORY_GetPartnerCount(GAME_DATA_GetTradeHistory(*(void ** *)&dispCtx->gameData));
     dispCtx->tradeMode = flag;
     if (n == 0) {
         GTSNEGO_MSG_PrintWindow(dispCtx->msgCtx, 0x1d);
@@ -1943,7 +1943,7 @@ void GTSNEGO_DISP_OnPartySelected(struct GtsnegoDispCtx *dispCtx)
     if (state == 0) {
         GTSNEGO_DISP_SetCursorState(dispCtx->actorSys, dispCtx->tooltipWin, 9);
         GTSNEGO_MSG_ClearRows(*(char * *)&dispCtx->msgCtx);
-        BG_SYS_SetFlagField06(6);
+        BG_SYS_MarkTileDirty(6);
         GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_CreateConfirmUi, 0x8a3);
         return;
     }
@@ -2117,7 +2117,7 @@ int GTSNEGO_DISP_Create(void *owner, int unused, u8 *parentCtx)
     ((struct GtsnegoDispCtx *)dispCtx)->msgCtx = GTSNEGO_MSG_Create(((struct GtsnegoDispCtx *)dispCtx)->heapId, 0x28);
     ((struct GtsnegoDispCtx *)dispCtx)->gameData = ((struct GtsnegoParentCtx *)parentCtx)->gameData;
     ((struct GtsnegoDispCtx *)dispCtx)->saveControl = GAME_DATA_GetSaveControl(((struct GtsnegoParentCtx *)parentCtx)->gameData);
-    ((struct GtsnegoDispCtx *)dispCtx)->wifiList = GAME_DATA_GetField1A0(((struct GtsnegoParentCtx *)parentCtx)->gameData);
+    ((struct GtsnegoDispCtx *)dispCtx)->wifiList = GAME_DATA_GetWifiList(((struct GtsnegoParentCtx *)parentCtx)->gameData);
     ((struct GtsnegoParentCtx *)((struct GtsnegoDispCtx *)dispCtx)->parentCtx)->screenState = 1;
     ((struct GtsnegoDispCtx *)dispCtx)->partyCursor = zero;
     ((struct GtsnegoDispCtx *)dispCtx)->buttonCursor = 2;
@@ -2293,12 +2293,12 @@ void GTSNEGO_DISP_DeleteMsgSystem(u8 *actorSys)
     CLACT_ExitSystem();
     BLINK_PALANM_Delete(((struct GtsnegoActorSys *)actorSys)->blinkAnimA);
     BLINK_PALANM_Delete(((struct GtsnegoActorSys *)actorSys)->blinkAnimB);
-    BG_SYS_DeleteHalf(7,(u16)(*(unsigned int *)&((struct GtsnegoActorSys *)actorSys)->bgCharLayer7),(u16)(*(unsigned int *)&((struct GtsnegoActorSys *)actorSys)->bgCharLayer7>>16));
-    BG_SYS_DeleteHalf(4,(u16)(((struct GtsnegoActorSys *)actorSys)->bgCharLayer4),(u16)(((struct GtsnegoActorSys *)actorSys)->bgCharLayer4>>16));
-    BG_SYS_DeleteHalf(0,(u16)(((struct GtsnegoActorSys *)actorSys)->bgCharLayer0),(u16)(((struct GtsnegoActorSys *)actorSys)->bgCharLayer0>>16));
-    BG_SYS_SetTileUnit(1,1,0);
-    BG_SYS_SetTileUnit(5,1,0);
-    BG_SYS_SetTileUnit(6,1,0);
+    BG_SYS_FreeTileRun(7,(u16)(*(unsigned int *)&((struct GtsnegoActorSys *)actorSys)->bgCharLayer7),(u16)(*(unsigned int *)&((struct GtsnegoActorSys *)actorSys)->bgCharLayer7>>16));
+    BG_SYS_FreeTileRun(4,(u16)(((struct GtsnegoActorSys *)actorSys)->bgCharLayer4),(u16)(((struct GtsnegoActorSys *)actorSys)->bgCharLayer4>>16));
+    BG_SYS_FreeTileRun(0,(u16)(((struct GtsnegoActorSys *)actorSys)->bgCharLayer0),(u16)(((struct GtsnegoActorSys *)actorSys)->bgCharLayer0>>16));
+    BG_SYS_FreeTiles(1,1,0);
+    BG_SYS_FreeTiles(5,1,0);
+    BG_SYS_FreeTiles(6,1,0);
     BG_SYS_SetPlaneVisible(5,0);
     for(i=0;i<=7;i++) BG_SYS_FreeLayerBuf((u8)i);
     BG_SYS_Delete();
@@ -2485,7 +2485,7 @@ void GTSNEGO_DISP_SetTradePalette(struct GtsnegoActorSys *actorSys,int flag,int 
 /*
  * extent: two-byte zero alignment padding follows.
  */
-void GTSNEGO_DISP_VBlank(void *unused,u8 *actorSys){CLACT_VBlankSystem();if(((struct GtsnegoActorSys *)actorSys)->scrollDirty){BG_SYS_FillScrollArea(4,3,*(unsigned int *)&((struct GtsnegoActorSys *)actorSys)->scrollOffset+72);BG_SYS_FillScrollArea(6,3,*(unsigned int *)&((struct GtsnegoActorSys *)actorSys)->scrollOffset+72);((struct GtsnegoActorSys *)actorSys)->scrollDirty=0;}}
+void GTSNEGO_DISP_VBlank(void *unused,u8 *actorSys){CLACT_VBlankSystem();if(((struct GtsnegoActorSys *)actorSys)->scrollDirty){BG_SYS_ChangeScrollImmediate(4,3,*(unsigned int *)&((struct GtsnegoActorSys *)actorSys)->scrollOffset+72);BG_SYS_ChangeScrollImmediate(6,3,*(unsigned int *)&((struct GtsnegoActorSys *)actorSys)->scrollOffset+72);((struct GtsnegoActorSys *)actorSys)->scrollDirty=0;}}
 
 
 
@@ -2580,9 +2580,9 @@ void GTSNEGO_DISP_ResetActors(u8 *actorSys)
     void *arcHandle = ARC_TOOL_CreateHandle(144, ((struct GtsnegoActorSys *)actorSys)->heapId);
     GTSNEGO_MSG_DeleteActors(actorSys);
     BG_SYS_SetTileEntry(6, 0, 0, 0, 32, 32, 17);
-    BG_SYS_SetFlagField06(6);
+    BG_SYS_MarkTileDirty(6);
     ARC_UTIL_UploadBgPaletteAddFromHandle(arcHandle, 18, 4, 0, (u16)(((struct GtsnegoActorSys *)actorSys)->bgCharLayer4), 0, 0, ((struct GtsnegoActorSys *)actorSys)->heapId);
-    BG_SYS_SetFlagField06(4);
+    BG_SYS_MarkTileDirty(4);
     ARC_TOOL_DeleteHandle(arcHandle);
 }
 

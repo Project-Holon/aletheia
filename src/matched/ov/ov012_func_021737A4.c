@@ -17,7 +17,7 @@
  *   GAMESYSTEM_GetFieldMapState  0x0201212C  thumb
  *   GAME_EVENT_IsRunning  0x020123C4  thumb
  *   UNION_MAIN_IsFieldReady  0x02173840  thumb  ov012
- *   UNION_MAIN_IsScenePending  0x02174268  thumb  ov012
+ *   UNION_SCENE_IsScenePending  0x02174268  thumb  ov012
  *   UNION_ONESELF_RunPlayCategory  0x0217B840  thumb  ov019
  *   UNION_CHARA_ProcessBeaconUpdates  0x0217B75C  thumb  ov019
  *   UNION_CHARA_Main  0x0217B264  thumb  ov019
@@ -37,7 +37,7 @@ extern void *FIELDMAP_GetGameSystem(void *p);
 extern u8 GAMESYSTEM_GetFieldMapState(const struct Ctx *p);
 extern int GAME_EVENT_IsRunning(void *v);
 extern int UNION_MAIN_IsFieldReady(u8 *p);
-extern int UNION_MAIN_IsScenePending(u8 *p);
+extern int UNION_SCENE_IsScenePending(u8 *p);
 extern int UNION_ONESELF_RunPlayCategory(char *base, int r1);
 extern void UNION_CHARA_ProcessBeaconUpdates(char *p);
 extern void UNION_CHARA_Main(u8 *w, void *sys, void *q);
@@ -65,7 +65,7 @@ void UNION_MAIN_UpdateField(void *a, int b)
     }
     s = r4[0x2830];
     if (s >= 4 && s <= 0x17) {
-        if (UNION_MAIN_IsScenePending(r4) != 0) {
+        if (UNION_SCENE_IsScenePending(r4) != 0) {
             return;
         }
         UNION_ONESELF_RunPlayCategory((char *)r4, b);
@@ -74,7 +74,7 @@ void UNION_MAIN_UpdateField(void *a, int b)
     if (s != 0 && s != 1) {
         return;
     }
-    if (UNION_MAIN_IsScenePending(r4) != 0) {
+    if (UNION_SCENE_IsScenePending(r4) != 0) {
         return;
     }
     UNION_CHARA_ProcessBeaconUpdates((char *)r4);

@@ -13,7 +13,7 @@
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
  *   INFOWIN_Exit 0x02024DCC thumb
  */
 #include "../include/Obj06143.h"
@@ -23,6 +23,6 @@ typedef unsigned int   u32;
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleasePalette(u32 i);
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 extern int INFOWIN_Exit(void);
-void DOWSING_DeleteCloseButton(char *p) { unsigned v; CLACT_DeleteActor((struct Obj *)(((struct Obj06143 *)p)->f24)); CLACT_ReleaseCellAnim(((struct Obj06143 *)p)->f20); CLACT_ReleaseCharacter(((struct Obj06143 *)p)->f1C); CLACT_ReleasePalette(((struct Obj06143 *)p)->f18); v=((struct Obj06143 *)p)->f14; BG_SYS_DeleteHalf(4,(unsigned short)v,(unsigned short)(v>>16)); INFOWIN_Exit(); }
+void DOWSING_DeleteCloseButton(char *p) { unsigned v; CLACT_DeleteActor((struct Obj *)(((struct Obj06143 *)p)->f24)); CLACT_ReleaseCellAnim(((struct Obj06143 *)p)->f20); CLACT_ReleaseCharacter(((struct Obj06143 *)p)->f1C); CLACT_ReleasePalette(((struct Obj06143 *)p)->f18); v=((struct Obj06143 *)p)->f14; BG_SYS_FreeTileRun(4,(unsigned short)v,(unsigned short)(v>>16)); INFOWIN_Exit(); }

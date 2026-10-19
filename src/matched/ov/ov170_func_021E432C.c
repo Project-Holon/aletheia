@@ -19,7 +19,7 @@
  *   BOX2_SEQ_SetSeqThird 0x021E8FC0 thumb ov170
  *   BOX2_MAIN_IsWindowBusy 0x021E01B0 thumb ov170
  *   CURSOR_MOVE_GetCurrent 0x020260E0 thumb
- *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb ov170
+ *   BOX2_MAIN_RefreshCurrentBoxMonInfo 0x021DEFEC thumb ov170
  *   BOX2_SEQ_SetCursorFrame 0x021ED544 thumb ov170
  *   BOX2_SEQ_SetWindow9 0x021ED508 thumb ov170
  *   BOX2_UI_MoveCursor 0x021EE364 thumb ov170
@@ -44,7 +44,7 @@ extern int BOX2_SEQ_SetSeqThird(char *p, int a, int b);
 extern int BOX2_MAIN_IsWindowBusy(u8 *);
 struct Sound;
 extern u8 CURSOR_MOVE_GetCurrent(struct Sound *obj);
-extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
+extern void BOX2_MAIN_RefreshCurrentBoxMonInfo(char *p, int b);
 extern void BOX2_SEQ_SetCursorFrame(char *p, int b);
 extern void BOX2_SEQ_SetWindow9(u8 *, int, int);
 extern void BOX2_UI_MoveCursor(char **p, int idx, int v);
@@ -76,7 +76,7 @@ int BOX2_SEQ_StateMoveClose(u8 *p)
             selection = 0;
         else
             selection = index - 30;
-        BOX2_MAIN_ChangeBoxFormPreserve((char *)p, selection + 30);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p, selection + 30);
         BOX2_SEQ_SetCursorFrame((char *)p, 6);
         BOX2_SEQ_SetWindow9(p, 14, 1);
         if (((struct Obj23899 *)(*(u8 * *)&((struct Obj00000 *)p)->f0))->f24 == 2) {
@@ -91,7 +91,7 @@ int BOX2_SEQ_StateMoveClose(u8 *p)
         index = CURSOR_MOVE_GetCurrent(*(void **)(W(p) + 112));
         if (index >= 30)
             index = 0;
-        BOX2_MAIN_ChangeBoxFormPreserve((char *)p, index);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p, index);
         BOX2_UI_ShowWindowA((char *)W(p));
         BOX2_SEQ_SetCursorFrame((char *)p, 6);
         BOX2_SEQ_SetWindow9(p, 14, 1);

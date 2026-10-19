@@ -1,5 +1,5 @@
 /*
- * function: LIVEBATTLEMATCH_IRC_GetWindowResult
+ * function: LIVEBATTLEMATCH_IRC_PollWindowResult
  * address:  0x0217DFBC
  * packet:   pkt_0217DFBC
  * region:   ov176
@@ -16,7 +16,7 @@
 
 extern int WIFIBATTLEMATCH_UTIL_UpdateMenu(int);
 
-int LIVEBATTLEMATCH_IRC_GetWindowResult(int *p)
+int LIVEBATTLEMATCH_IRC_PollWindowResult(int *p)
 {
     if (*(int *)&((struct Obj00348 *)p)->fC)
         return WIFIBATTLEMATCH_UTIL_UpdateMenu(*(int *)&((struct Obj00348 *)p)->fC);

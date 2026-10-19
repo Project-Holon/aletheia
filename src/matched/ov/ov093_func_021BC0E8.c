@@ -17,7 +17,7 @@
  *   gives e=r5, q=r6. Earlier forms are kept in the notes above.
  * symbols:
  *   BTL_SERVER_FLOW_CalcPokeSpeed 0x021BC948 thumb ov093
- *   BTL_CALC_ActionGetKind 0x021D8454 thumb ov093
+ *   BTL_ACTION_GetKind 0x021D8454 thumb ov093
  *   BTL_SERVER_FLOW_BeginHandExScope 0x021CC8D8 thumb ov093
  *   BTL_SERVER_FLOW_CalcMovePriority 0x021BC8EC thumb ov093
  *   BTL_SERVER_FLOW_EndHandExScope 0x021CC95C thumb ov093
@@ -31,7 +31,7 @@ typedef struct { u32 a:4; u32 b:3; u32 action:16; u32 rest:9; } B;
 typedef struct { u8 *a; B b; u32 c; u8 d,f; u16 pad; } E;
 typedef struct { u8 *a; B b; u32 c; u8 d,f; u16 pad; } E2;
 extern u16 BTL_SERVER_FLOW_CalcPokeSpeed(u8 *, u8 *, int);
-extern u32 BTL_CALC_ActionGetKind(B *);
+extern u32 BTL_ACTION_GetKind(B *);
 extern u32 BTL_SERVER_FLOW_BeginHandExScope(void *, int);
 extern int BTL_SERVER_FLOW_CalcMovePriority(u8 *, u32, u8 *);
 extern void BTL_SERVER_FLOW_EndHandExScope(u32 *p, u32 v, int line);
@@ -66,7 +66,7 @@ void BTL_SERVER_FLOW_ResortActionOrder(u8 *p, E *e, u32 n)
         off = i * 16;
         q = &e[i];
         set_accuracy(q, BTL_SERVER_FLOW_CalcPokeSpeed(p, ENTRY(i)->a, 1));
-        type = BTL_CALC_ActionGetKind(&q->b);
+        type = BTL_ACTION_GetKind(&q->b);
         if (type == 1) {
             if (((E2 *)e)[i].b.a == 1) value = ((E2 *)e)[i].b.action; else value = 0;
             lock = BTL_SERVER_FLOW_BeginHandExScope(p + 0x1d74, 1076);

@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   CURSOR_MOVE_GetCurrent 0x020260E0 thumb
- *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb ov170
+ *   BOX2_MAIN_RefreshCurrentBoxMonInfo 0x021DEFEC thumb ov170
  *   BOX2_SEQ_ShowWindowObject 0x021EBA5C thumb ov170
  *   BOX2_MAIN_RefreshCursorBox 0x021DD14C thumb ov170
  *   BOX2_UI_ShowWindowA 0x021EF670 thumb ov170
@@ -20,7 +20,7 @@
  *   BOX2_SEQ_SetSeqThird 0x021E8FC0 thumb ov170
  *   BOX2_MAIN_IsWindowMoving 0x021E0190 thumb ov170
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   BOX2_SEQ_ResetEntry 0x021EA83C thumb ov170
+ *   BOX2_SEQ_RefreshBoxUiAndWait 0x021EA83C thumb ov170
  *   BOX2_UI_MoveCursor 0x021EE364 thumb ov170
  *   BOX2_SEQ_SetCursorFrame 0x021ED544 thumb ov170
  *   BOX2_UI_DeleteSlotObjects 0x021EE038 thumb ov170
@@ -33,7 +33,7 @@ typedef struct { u8 lo:4; u8 hi:4; } Nib;
 struct WinMgr;
 struct Sound;
 extern u8 CURSOR_MOVE_GetCurrent(struct Sound *obj);
-extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
+extern void BOX2_MAIN_RefreshCurrentBoxMonInfo(char *p, int b);
 extern void BOX2_SEQ_ShowWindowObject(char *,int);
 extern void BOX2_MAIN_RefreshCursorBox(char *p);
 extern void BOX2_UI_ShowWindowA(char *);
@@ -43,7 +43,7 @@ extern void BOX2_UI_OpenListPack(struct WinMgr *mgr);
 extern int BOX2_SEQ_SetSeqThird(char *p, int a, int b);
 extern int BOX2_MAIN_IsWindowMoving(char *p);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned);
-extern int BOX2_SEQ_ResetEntry(char *p, int a);
+extern int BOX2_SEQ_RefreshBoxUiAndWait(char *p, int a);
 extern void BOX2_UI_MoveCursor(char **,int,int);
 extern void BOX2_SEQ_SetCursorFrame(char *p, int b);
 extern void BOX2_UI_DeleteSlotObjects(char *p, int a, int b, int c);
@@ -62,7 +62,7 @@ int BOX2_SEQ_StateSummary(u8 *p)
             p[0x16]=CURSOR_MOVE_GetCurrent(*(void **)(W(p)+0x70));
             if(p[0x16]>=30) {
                 p[0x16]=0;
-                BOX2_MAIN_ChangeBoxFormPreserve((char *)p,p[0x16]);
+                BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p,p[0x16]);
             }
         } else {
             p[0x17]=p[0x14];
@@ -78,7 +78,7 @@ int BOX2_SEQ_StateSummary(u8 *p)
     case 1:
         GFL_USE_PlaySeDefaultVolume(0x669);
         (*(int *)(W(p)+0xA194))++;
-        return BOX2_SEQ_ResetEntry((char *)p,20);
+        return BOX2_SEQ_RefreshBoxUiAndWait((char *)p,20);
     case 2:
         BOX2_UI_MoveCursor((char **)p,4,p[0x16]);
         BOX2_SEQ_SetCursorFrame((char *)p,6);

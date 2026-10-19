@@ -21,7 +21,7 @@
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
- *   FILE_UTIL_Check136C  0x0202136C  thumb
+ *   FILE_UTIL_IsMailItem  0x0202136C  thumb
  *   CLACT_CreateActor  0x0204B294  arm
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  * Addresses are Black-image addresses.
@@ -57,7 +57,7 @@ struct Obj;
 extern u32 POKEPARTY_GetCount(void *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 arg);
-extern u32 FILE_UTIL_Check136C(u16 v);
+extern u32 FILE_UTIL_IsMailItem(u16 v);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 
@@ -73,7 +73,7 @@ void PARTY_SELECT_LIST_CreateStatusIcons(Work *w)
     for (i = 0; i < n0; i++) {
         species = POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(w->party[0], i), 6, 0);
         if (species != 0) {
-            if (FILE_UTIL_Check136C(species) == 1) {
+            if (FILE_UTIL_IsMailItem(species) == 1) {
                 pos.alt = 1;
             } else {
                 pos.alt = 0;
@@ -88,7 +88,7 @@ void PARTY_SELECT_LIST_CreateStatusIcons(Work *w)
         for (i = 0; i < n1; i++) {
             species = POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(w->party[1], i), 6, 0);
             if (species != 0) {
-                if (FILE_UTIL_Check136C(species) == 1) {
+                if (FILE_UTIL_IsMailItem(species) == 1) {
                 pos.alt = 1;
             } else {
                 pos.alt = 0;

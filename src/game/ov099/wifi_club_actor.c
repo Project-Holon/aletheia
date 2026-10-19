@@ -32,13 +32,13 @@
  *   WF2DMAP_OBJ_GetSlot  0x021C49A4  thumb  ov127
  *   WF2DMAP_OBJ_GetPos  0x021C4AC4  thumb  ov127
  *   WF2DMAP_MAP_GetCellValue  0x021C4864  thumb  ov127
- *   WF2DMAP_OBJDRAW_GetActorValue2  0x021C5858  thumb  ov127
- *   WF2DMAP_OBJDRAW_SetActorValue2  0x021C584C  thumb  ov127
+ *   WF2DMAP_OBJDRAW_GetActorDrawPriority  0x021C5858  thumb  ov127
+ *   WF2DMAP_OBJDRAW_SetSubActorDrawEnable  0x021C584C  thumb  ov127
  *   WF2DMAP_OBJDRAW_SetActive  0x021C57D8  thumb  ov127
  *   WF2DMAP_OBJDRAW_SetFrameDefault  0x021C57DC  thumb  ov127
  *   WF2DMAP_OBJ_Clear  0x021C4948  thumb  ov127
  *   WF2DMAP_OBJDRAW_RemoveActor  0x021C5704  thumb  ov127
- *   WF2DMAP_OBJ_GetTableByte  0x021C4A8C  thumb  ov127
+ *   WF2DMAP_OBJ_GetDirectionTableEntry  0x021C4A8C  thumb  ov127
  *   WF2DMAP_OBJDRAW_SetFrameZero  0x021C5864  thumb  ov127
  *   WF2DMAP_OBJDRAW_SetActorPos  0x021C5814  thumb  ov127
  *   WF2DMAP_OBJ_OffsetPos  0x021C4A54  thumb  ov127
@@ -70,14 +70,14 @@
  *   WF2DMAP_MAP_GetWidth  0x021C47F8  thumb  ov127
  *   WF2DMAP_MAP_GetHeight  0x021C47FC  thumb  ov127
  *   WF2DMAP_OBJDRAW_AddActor 0x021C5680 thumb ov127
- *   WF2DMAP_OBJDRAW_SetActorValue 0x021C5840 thumb ov127
+ *   WF2DMAP_OBJDRAW_SetActorDrawEnable 0x021C5840 thumb ov127
  *   WF2DMAP_OBJ_Create 0x021C4918 thumb ov127
  *   GFL_USE_GetRandom  0x020056EC  thumb
- *   WF2DMAP_OBJDRAW_RefreshActor  0x021C57E8  thumb  ov127
- *   WF2DMAP_OBJDRAW_GetActorValue  0x021C5834  thumb  ov127
- *   GF_STANDARD_Get_F5FC  0x0203F5FC  arm
+ *   WF2DMAP_OBJDRAW_StepActorAnim  0x021C57E8  thumb  ov127
+ *   WF2DMAP_OBJDRAW_GetActorDrawEnable  0x021C5834  thumb  ov127
+ *   GF_STANDARD_SinFromDegrees  0x0203F5FC  arm
  *   _ll_mul        0x0209C054  arm
- *   WF2DMAP_OBJDRAW_SetActorPos2  0x021C5898  thumb  ov127
+ *   WF2DMAP_OBJDRAW_SetSubActorPos  0x021C5898  thumb  ov127
  *   WF2DMAP_OBJDRAW_RestoreFrame  0x021C57F4  thumb  ov127
  *   WF2DMAP_CMDQ_Push  0x021C5F44  thumb  ov127
  *   ARC_UTIL_LoadPaletteBlockFromArchive 0x02049F34 arm
@@ -133,13 +133,13 @@ extern void WF2DMAP_OBJDRAW_UpdateAllActors(u8 *spriteMgr);
 extern int WF2DMAP_OBJ_GetSlot(u8 *entity, unsigned int index);
 extern TilePos WF2DMAP_OBJ_GetPos(void *entity);
 extern u32 WF2DMAP_MAP_GetCellValue(u8 *tileMap, u16 x, u16 y);
-extern int WF2DMAP_OBJDRAW_GetActorValue2(u8 *sprite);
-extern void WF2DMAP_OBJDRAW_SetActorValue2(u8 *sprite, int value);
+extern int WF2DMAP_OBJDRAW_GetActorDrawPriority(u8 *sprite);
+extern void WF2DMAP_OBJDRAW_SetSubActorDrawEnable(u8 *sprite, int value);
 extern void WF2DMAP_OBJDRAW_SetActive(u8 *sprite, int value);
 extern void WF2DMAP_OBJDRAW_SetFrameDefault(u8 *sprite);
 extern void WF2DMAP_OBJDRAW_RemoveActor(u8 *sprite);
 extern void WF2DMAP_OBJ_Clear(void *entity);
-extern unsigned char WF2DMAP_OBJ_GetTableByte(int direction);
+extern unsigned char WF2DMAP_OBJ_GetDirectionTableEntry(int direction);
 extern void WF2DMAP_OBJDRAW_SetFrameZero(u8 *sprite, int value);
 extern void WF2DMAP_OBJDRAW_SetActorPos(void *sprite, TilePos pos);
 extern TilePos WF2DMAP_OBJ_OffsetPos(TilePos pos, int direction);
@@ -158,13 +158,13 @@ extern u32 ARC_UTIL_UploadBgCharFromArchive(void *archiveID, void *memberIdx, vo
 extern u16 WF2DMAP_MAP_GetWidth(u16 *tileMap);
 extern u16 WF2DMAP_MAP_GetHeight(u16 *tileMap);
 extern u8 *WF2DMAP_OBJDRAW_AddActor(u8 *, void *, int, u32);
-extern void WF2DMAP_OBJDRAW_SetActorValue(char *, int);
+extern void WF2DMAP_OBJDRAW_SetActorDrawEnable(char *, int);
 extern void *WF2DMAP_OBJ_Create(void *, EntitySpawnParams *);
 extern u32 GFL_USE_GetRandom(u32 range);
-extern void WF2DMAP_OBJDRAW_RefreshActor(char *sprite);
-extern int WF2DMAP_OBJDRAW_GetActorValue(char *sprite);
-extern int GF_STANDARD_Get_F5FC(u32 angle);
-extern void WF2DMAP_OBJDRAW_SetActorPos2(void *sprite, TilePos pos);
+extern void WF2DMAP_OBJDRAW_StepActorAnim(char *sprite);
+extern int WF2DMAP_OBJDRAW_GetActorDrawEnable(char *sprite);
+extern int GF_STANDARD_SinFromDegrees(u32 angle);
+extern void WF2DMAP_OBJDRAW_SetSubActorPos(void *sprite, TilePos pos);
 extern void WF2DMAP_OBJDRAW_RestoreFrame(u8 *sprite);
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 d, u16 flags);
@@ -428,14 +428,14 @@ int WIFICLUBACTOR_GetCursorTileBelowAttr(WifiClubActorSys *sys)
 void WIFICLUBACTOR_ShowMarkerAtActor(void *sys, WifiClubActor *actor)
 {
     TilePos pos = WF2DMAP_OBJ_GetPos(actor->entity);
-    WIFICLUBACTOR_ShowMarker(sys, pos, WF2DMAP_OBJDRAW_GetActorValue2(actor->sprite) - 2);
-    WF2DMAP_OBJDRAW_SetActorValue2(actor->sprite, 0);
+    WIFICLUBACTOR_ShowMarker(sys, pos, WF2DMAP_OBJDRAW_GetActorDrawPriority(actor->sprite) - 2);
+    WF2DMAP_OBJDRAW_SetSubActorDrawEnable(actor->sprite, 0);
 }
 
 
 void WIFICLUBACTOR_ResumeActorSprite(int unused, WifiClubActor *actor)
 {
-    WF2DMAP_OBJDRAW_SetActorValue2(actor->sprite, 1);
+    WF2DMAP_OBJDRAW_SetSubActorDrawEnable(actor->sprite, 1);
 }
 
 
@@ -523,7 +523,7 @@ u8 WIFICLUBACTOR_GetActorId(WifiClubActor *actor)
 
 unsigned char WIFICLUBACTOR_GetActorFacing(WifiClubActor *actor)
 {
-    return WF2DMAP_OBJ_GetTableByte(WF2DMAP_OBJ_GetSlot(actor->entity, 6));
+    return WF2DMAP_OBJ_GetDirectionTableEntry(WF2DMAP_OBJ_GetSlot(actor->entity, 6));
 }
 
 
@@ -922,7 +922,7 @@ void WIFICLUBACTOR_AttachSprite(WifiClubActorSys *sys, WifiClubActor *actor, int
     if (visible == 0) {
         WF2DMAP_OBJDRAW_SetActive(actor->sprite, 0);
         WF2DMAP_OBJDRAW_SetFrameDefault(actor->sprite);
-        WF2DMAP_OBJDRAW_SetActorValue(actor->sprite, 0);
+        WF2DMAP_OBJDRAW_SetActorDrawEnable(actor->sprite, 0);
     }
 }
 
@@ -1008,16 +1008,16 @@ void WIFICLUBACTOR_AnimateWalkBob(void *sys, WifiClubActor *actor)
 {
     TilePos pos;
     TilePos base;
-    WF2DMAP_OBJDRAW_RefreshActor(actor->sprite);
-    if (WF2DMAP_OBJDRAW_GetActorValue(actor->sprite) == 0) {
-        WF2DMAP_OBJDRAW_SetActorValue(actor->sprite, 1);
+    WF2DMAP_OBJDRAW_StepActorAnim(actor->sprite);
+    if (WF2DMAP_OBJDRAW_GetActorDrawEnable(actor->sprite) == 0) {
+        WF2DMAP_OBJDRAW_SetActorDrawEnable(actor->sprite, 1);
     }
     pos.x = WF2DMAP_OBJ_GetSlot(actor->entity, 0);
     pos.y = WF2DMAP_OBJ_GetSlot(actor->entity, 1);
     base = pos;
-    pos.y = pos.y + (s16)((int)(((long long)GF_STANDARD_Get_F5FC(actor->counter.phase) * -786432 + 0x800) >> 12) >> 12);
+    pos.y = pos.y + (s16)((int)(((long long)GF_STANDARD_SinFromDegrees(actor->counter.phase) * -786432 + 0x800) >> 12) >> 12);
     WF2DMAP_OBJDRAW_SetActorPos(actor->sprite, pos);
-    WF2DMAP_OBJDRAW_SetActorPos2(actor->sprite, base);
+    WF2DMAP_OBJDRAW_SetSubActorPos(actor->sprite, base);
 }
 
 
@@ -1031,10 +1031,10 @@ void WIFICLUBACTOR_AnimateBounce(void *sys, WifiClubActor *actor)
     base = pos;
     t = (s16)(actor->counter.timer - 16);
     if (t > 0) {
-        pos.y = pos.y - (s16)((int)(((long long)GF_STANDARD_Get_F5FC((u16)(180 * (s16)(t % 6) / 6)) * 16384 + 0x800) >> 12) >> 12);
+        pos.y = pos.y - (s16)((int)(((long long)GF_STANDARD_SinFromDegrees((u16)(180 * (s16)(t % 6) / 6)) * 16384 + 0x800) >> 12) >> 12);
     }
     WF2DMAP_OBJDRAW_SetActorPos(actor->sprite, pos);
-    WF2DMAP_OBJDRAW_SetActorPos2(actor->sprite, base);
+    WF2DMAP_OBJDRAW_SetSubActorPos(actor->sprite, base);
     WF2DMAP_OBJDRAW_SetFrameZero(actor->sprite, 1);
 }
 

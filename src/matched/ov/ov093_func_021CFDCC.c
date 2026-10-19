@@ -13,7 +13,7 @@
  * symbols:
  *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
  *   BTL_POKEPARAM_GetSickContRaw 0x021D6314 thumb ov093
- *   BTLV_CORE_GetSlotLow 0x021E8AFC thumb ov093
+ *   BTL_SICKCONT_GetLow 0x021E8AFC thumb ov093
  *   BTL_POKEPARAM_GetSickTurn 0x021D631C thumb ov093
  */
 typedef unsigned char u8;
@@ -25,7 +25,7 @@ union Slot {
 struct Unk021D62A8;
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern union Slot BTL_POKEPARAM_GetSickContRaw(void *, int);
-extern u8 BTLV_CORE_GetSlotLow(union Slot);
+extern u8 BTL_SICKCONT_GetLow(union Slot);
 extern u8 BTL_POKEPARAM_GetSickTurn(u8 *p, int i);
 int BTL_CLIENT_IsCountdownEndingNext(void *p, void *q)
 {
@@ -35,7 +35,7 @@ int BTL_CLIENT_IsCountdownEndingNext(void *p, void *q)
     union Slot t;
     if (BTL_POKEPARAM_HasSick(q, id)) {
         t = BTL_POKEPARAM_GetSickContRaw(q, id);
-        n = BTLV_CORE_GetSlotLow(t);
+        n = BTL_SICKCONT_GetLow(t);
         m = BTL_POKEPARAM_GetSickTurn(q, id) + 1;
         if (m == n) return 1;
     }

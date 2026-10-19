@@ -16,7 +16,7 @@
  *   BTL_SERVER_FLOW_PushMsgStdFailed 0x021C5718 thumb ov093
  *   BTL_SERVER_FLOW_QueryMoveBlockedEvent 0x021C6720 thumb ov093
  *   BTL_SERVER_FLOW_ProcMoveUseDecide 0x021BFD24 thumb ov093
- *   BTLV_CORE_MakeSlotKind2 0x021E896C thumb ov093
+ *   BTL_SICKCONT_MakeKind2 0x021E896C thumb ov093
  *   BTL_SERVER_FLOW_SetSickCont 0x021C5C1C thumb ov093
  *   BTL_SERVER_FLOW_BeginHandExScope 0x021CC8D8 thumb ov093
  *   BTL_SERVER_FLOW_EndHandExScope 0x021CC95C thumb ov093
@@ -39,7 +39,7 @@ extern int BTL_SERVER_FLOW_QueryFirstTargetBlockEvent(u8 *, u8 *, u32);
 extern void BTL_SERVER_FLOW_PushMsgStdFailed(u8 *, u8 *, u32);
 extern int BTL_SERVER_FLOW_QueryMoveBlockedEvent(u8 *, u8 *, u32);
 extern int BTL_SERVER_FLOW_ProcMoveUseDecide(u8 *, u8 *, int, u8 *, u16);
-extern Word BTLV_CORE_MakeSlotKind2(int, int);
+extern Word BTL_SICKCONT_MakeKind2(int, int);
 extern void BTL_SERVER_FLOW_SetSickCont(u8 *, u8 *, int, Word);
 extern u32 BTL_SERVER_FLOW_BeginHandExScope(void *, int);
 extern void BTL_SERVER_FLOW_EndHandExScope(u32 *p, u32 v, int line);
@@ -58,7 +58,7 @@ int BTL_SERVER_FLOW_ProcMoveExecuteChecks(u8 *p, u8 *q, u8 *d, u16 c)
         }
         if (BTL_SERVER_FLOW_QueryMoveBlockedEvent(p, q, c) == 0) {
             if (BTL_SERVER_FLOW_ProcMoveUseDecide(p, q, n, d, c)) {
-                Word s = BTLV_CORE_MakeSlotKind2(2, c);
+                Word s = BTL_SICKCONT_MakeKind2(2, c);
                 BTL_SERVER_FLOW_SetSickCont(p, q, 26, s);
             }
             return 2;

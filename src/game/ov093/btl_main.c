@@ -26,7 +26,7 @@
  *   BTL_FIELD_Create 0x021EF958 thumb ov093
  *   BTL_SIDE_Init 0x021B93E0 thumb ov093
  *   BTL_SETUP_ClearResultStats 0x021BA82C thumb ov093
- *   GF_STANDARD_CalcHash 0x0203F258 arm
+ *   GF_STANDARD_SeedLcg64 0x0203F258 arm
  *   BTL_CALC_Init 0x021D7840 thumb ov093
  *   BTL_SERVER_CMD_Dummy 0x021CD6EC thumb ov093
  *   BTL_CALC_CalcPrizeMoney 0x021D7F88 thumb ov093
@@ -176,7 +176,7 @@
  *   MYITEM_SAVEDATA_AddItem 0x02007E50 thumb
  *   GPOWER_ApplyPrizeMoney  0x0201119C  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   BEACON_GetPoints  0x0200C274  thumb
+ *   BEACON_GetMoney  0x0200C274  thumb
  *   BTL_CALC_CalcDefeatMoneyLoss  0x021D7FF8  thumb  ov093
  *   BTL_MAIN_GetFieldSituation  0x021B8714  thumb  ov093
  *   NATSUKI_Calc  0x0201B7A0  thumb
@@ -195,7 +195,7 @@
  *   POKEPARTY_Add 0x0201A98C thumb
  *   POKEPARTY_Copy 0x0201AC2C thumb
  *   BTL_POKEPARAM_SetPokeParam 0x021D6C3C thumb ov093
- *   BTL_POKEPARAM_IsLevelUpPending  0x021D67D0  thumb  ov093
+ *   BTL_POKEPARAM_HasEnteredBattle  0x021D67D0  thumb  ov093
  *   PERAPVOICE_IsRecorded 0x02007B50 thumb
  *   PERAPVOICE_GetVoiceKind 0x02007C70 thumb
  *   BTL_MAIN_GetPositionsPerClient  0x021B6994  thumb  ov093
@@ -226,7 +226,6 @@
  *   BTL_CALC_IsBossTrainer 0x021D7F60 thumb ov093
  *   BTL_CALC_GetItemParam 0x021D805C thumb ov093
  *   BTL_POKEPARAM_GetMajorStatusIndex 0x021D62A8 thumb ov093
- *   _u32_div_f 0x0209C2B0 arm
  *   BTL_CLIENT_SET_GetCount  0x021D826C  thumb  ov093
  *   BTL_CLIENT_SET_JudgeResult  0x021D8270  thumb  ov093
  *   BTL_CALC_SetRngState  0x021D787C  thumb  ov093
@@ -292,7 +291,7 @@ extern u32 CONFIG_GetBattleStyle(struct Config *config);
 extern struct BtlField *BTL_FIELD_Create(u32 heapId);
 extern void BTL_SIDE_Init(struct BtlSide *side, struct BtlMain *main, u32 sideIndex);
 extern void BTL_SETUP_ClearResultStats(struct BattleSetupParam *setup);
-extern void GF_STANDARD_CalcHash(struct BattleRngState *rng);
+extern void GF_STANDARD_SeedLcg64(struct BattleRngState *rng);
 extern void BTL_CALC_Init(struct BattleRngState *rng, u32 heapId);
 extern void BTL_SERVER_CMD_Dummy(void);
 extern u32 BTL_CALC_CalcPrizeMoney(struct BattleSetupParam *setup);
@@ -442,7 +441,7 @@ extern int MYITEM_SAVEDATA_RemoveItem(void *,u32,int,u16);
 extern int MYITEM_SAVEDATA_AddItem(void *,u32,int,u16);
 extern u32 GPOWER_ApplyPrizeMoney(u32 v);
 extern void *GAME_DATA_GetMiscSave(struct GameData *gameData);
-extern u32 BEACON_GetPoints(struct Blk34 *p);
+extern u32 BEACON_GetMoney(struct Blk34 *p);
 extern u32 BTL_CALC_CalcDefeatMoneyLoss(u32 a, void *b);
 extern struct FieldSituation *BTL_MAIN_GetFieldSituation(struct BtlMain *main);
 extern void NATSUKI_Calc(void *pp, int type, int zoneId, int heap);
@@ -461,7 +460,7 @@ extern void BTL_POKEPARAM_WriteBackToParam(struct BtlPokeParam *poke, int flag);
 extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern void POKEPARTY_Copy(const struct Party *src, struct Party *dst);
 extern void BTL_POKEPARAM_SetPokeParam(struct BtlPokeParam *poke, void *mon);
-extern int BTL_POKEPARAM_IsLevelUpPending(struct BtlPokeParam *poke);
+extern int BTL_POKEPARAM_HasEnteredBattle(struct BtlPokeParam *poke);
 extern void *PERAPVOICE_IsRecorded(struct PerapVoice *voice);
 extern u32 PERAPVOICE_GetVoiceKind(struct PerapVoice *p);
 extern u32 BTL_MAIN_GetRule(struct BtlMain *main);
@@ -490,7 +489,6 @@ extern void NATSUKI_CalcParty(void *party, int zoneId, int heap);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern u32 BTL_CALC_GetItemParam(void *p, u32 n);
 extern int BTL_POKEPARAM_GetMajorStatusIndex(struct BtlPokeParam *poke);
-extern u32 _u32_div_f(u32, u32);
 extern u32 BTL_CLIENT_SET_GetCount(u32 *set);
 extern int BTL_CLIENT_SET_JudgeResult(struct BtlClientSet *set, int ownClientId, unsigned int competitor);
 extern void BTL_CALC_SetRngState(void *);
@@ -744,7 +742,7 @@ int BTL_MAIN_ProcInit(struct ProcHandle *proc, u32 *step, struct BattleSetupPara
       main->tempBuffer = 0;
       main->netBuffer = 0;
       if (main->setup->ownsSlots == 0)
-        GF_STANDARD_CalcHash(&main->rng);
+        GF_STANDARD_SeedLcg64(&main->rng);
       else
         main->rng = setup->rng;
       BTL_CALC_Init(&main->rng, main->heapId);
@@ -3425,7 +3423,7 @@ u32 BTL_MAIN_CalcPenaltyMoney(struct BtlMain *main)
     penalty = 0;
     if (main->flags.penaltyDone == 0) {
         if (main->setup->competitor <= 1) {
-            maxLoss = BEACON_GetPoints(GAME_DATA_GetMiscSave(main->setup->gameData));
+            maxLoss = BEACON_GetMoney(GAME_DATA_GetMiscSave(main->setup->gameData));
             loss = BTL_CALC_CalcDefeatMoneyLoss(main->setup->badgeCount, BTL_SIDE_GetSlotOfClientThunk(&main->sides[1], main->ownClientId));
             if (loss > maxLoss)
                 loss = maxLoss;
@@ -3837,7 +3835,7 @@ void BTL_SIDE_WriteBackPartyOrdered(struct BtlSide *side, struct BtlMain *main, 
             if (firstPokeId + i == BTL_POKEPARAM_GetPokeId(poke)) {
                 BTL_POKEPARAM_WriteBackToParam(poke, 1);
                 POKEPARTY_Add(main->tempParty, BTL_POKEPARAM_GetMon(poke));
-                if (BTL_POKEPARAM_IsLevelUpPending(poke) != 0)
+                if (BTL_POKEPARAM_HasEnteredBattle(poke) != 0)
                     main->setup->resultFlags[i] = 1;
                 break;
             }
@@ -5641,7 +5639,7 @@ void BTL_MAIN_WriteBackResults(struct BtlMain *main)
                 if (BTL_POKEPARAM_IsFainted(poke)) { rowObj = (u32)main->setup; rowFainted = slot * 6; *(u8 *)(i + (rowFainted + (u32)main->setup) + 0xc8) = 2; }
                 else if (BTL_POKEPARAM_GetMajorStatusIndex(poke)) { rowObj = (u32)main->setup; rowStatus = slot * 6; *(u8 *)(i + (rowStatus + rowObj) + 0xc8) = 1; }
             }
-            *(u32 *)((char *)main->setup + slot * 4 + 0xe0) = _u32_div_f(total * 100, maximum);
+            *(u32 *)((char *)main->setup + slot * 4 + 0xe0) = (total * 100) / maximum;
         }
     }
 }

@@ -28,7 +28,7 @@
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   GFL_HEAP_Free 0x020307B0 arm
- *   STA_ACTING_GetCameraTarget 0x021F9E04 thumb ov132
+ *   STA_ACTING_GetCameraScrollX 0x021F9E04 thumb ov132
  *   STA_ACTING_GetSelection 0x021F9E18 thumb ov132
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
@@ -109,7 +109,7 @@ extern void CLACT_DeleteUnit(void *);
 
 extern void GFL_HEAP_Free(void *);
 
-extern u16 STA_ACTING_GetCameraTarget(u8 *p);
+extern u16 STA_ACTING_GetCameraScrollX(u8 *p);
 
 extern int STA_ACTING_GetSelection(char *p);
 
@@ -192,7 +192,7 @@ void STA_ACT_LIGHT_PlaceActor(char *p, char *q) {
     int tmp;
     Vec2 point;
     if (*(int *)&((Object *)p)->a == 0) tmp = 0x80;
-    else tmp = STA_ACTING_GetCameraTarget((u8 *)(*(int *)&((Object *)p)->a));
+    else tmp = STA_ACTING_GetCameraScrollX((u8 *)(*(int *)&((Object *)p)->a));
     n = tmp;
     if (((LightActor *)q)->value == 1) {
         point.x = (short)((float)((LightActor *)q)->x / 4096.0f - (float)(unsigned)n);
@@ -236,7 +236,7 @@ void STA_ACT_LIGHT_UpdateActor(char *p)
         }
         ctx=STA_ACTING_GetActorSystem(((Object *)p)->a);
         model=STA_ACTING_GetActor(((Object *)p)->a,STA_ACTING_GetSelection(*(char * *)&((Object *)p)->a));
-        n=STA_ACTING_GetCameraTarget(((Object *)p)->a);
+        n=STA_ACTING_GetCameraScrollX(((Object *)p)->a);
         STA_ACT_LIGHT_CopyActorPos(ctx,(u32 *)model,(u32 *)(&v));
         d.pos.x=(short)((float)v.x/4096.0f-(float)(unsigned)n);
         d.pos.y=(short)((float)v.y/4096.0f-32.0f);

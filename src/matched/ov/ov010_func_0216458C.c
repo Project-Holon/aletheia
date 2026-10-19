@@ -1,5 +1,5 @@
 /*
- * function: EVENTDATA_SYSTEM_CheckNormalFieldZone
+ * function: FIELD_SKILL_CHECK_NormalFieldZone
  * address: 0x0216458C
  * packet: pkt_ov010_0216458C
  * region: ov010
@@ -18,4 +18,4 @@ typedef unsigned int   u32;
 struct Rec44;
 extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
 extern u32 ZONEDATA_IsNormalFieldZone(u32 id);
-int EVENTDATA_SYSTEM_CheckNormalFieldZone(void *a, void *b, void *c) { return ZONEDATA_IsNormalFieldZone(GAME_DATA_GetPlayerZoneId(c)); }
+int FIELD_SKILL_CHECK_NormalFieldZone(void *a, void *b, void *c) { return ZONEDATA_IsNormalFieldZone(GAME_DATA_GetPlayerZoneId(c)); }

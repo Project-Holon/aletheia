@@ -18,7 +18,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   GF_OVERLAY_Load 0x02034AC4 arm
  *   WIFIBATTLEMATCH_UTIL_CreateCallback 0x021E8A3C thumb ov177
- *   BTLV_CORE_IsSlotKind1Index15  0x021E8A78  thumb  ov093
+ *   WIFIBATTLEMATCH_UTIL_DeleteCallback  0x021E8A78  thumb  ov177
  *   GF_OVERLAY_Unload  0x02034A5C  arm
  *   PROCSYS_FreeProcWork  0x020315D4  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
@@ -53,7 +53,7 @@
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   d_0217E5E4 0x0217E5E4 data a1
  *   GFL_HEAP_Free 0x020307B0 arm
- *   APP_ENV_InitParentalControl 0x0202EB44 thumb
+ *   APP_ENV_IsWirelessAvailable 0x0202EB44 thumb
  *   BATTLE_REC_ClearWork 0x0200B480 thumb
  *   DIGITALCARDCHECK_Create 0x0217D398 thumb ov176
  *   DIGITALCARDCHECK_DeleteAlt 0x0217D434 thumb ov176
@@ -151,7 +151,7 @@ extern int GF_OVERLAY_Load(signed int);
 
 extern int *WIFIBATTLEMATCH_UTIL_CreateCallback(int a, int b, int c);
 
-extern void BTLV_CORE_IsSlotKind1Index15(int);
+extern void WIFIBATTLEMATCH_UTIL_DeleteCallback(int);
 
 extern void GF_OVERLAY_Unload(int);
 
@@ -213,7 +213,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern int APP_ENV_InitParentalControl(void);
+extern int APP_ENV_IsWirelessAvailable(void);
 
 extern void BATTLE_REC_ClearWork(void);
 
@@ -354,7 +354,7 @@ int BATTLE_CHAMPIONSHIP_FLOW_Create(void *owner,void *unused,void *context)
 
 int BATTLE_CHAMPIONSHIP_FLOW_Delete(int owner, int unused, int unused2, int *work)
 {
-    BTLV_CORE_IsSlotKind1Index15((int)((BattleChampionshipFlowWork *)work)->proc);
+    WIFIBATTLEMATCH_UTIL_DeleteCallback((int)((BattleChampionshipFlowWork *)work)->proc);
     BATTLE_CHAMPIONSHIP_FLOW_DeleteText(work);
     BATTLE_CHAMPIONSHIP_FLOW_DeleteView(work);
     BATTLE_CHAMPIONSHIP_FLOW_DeleteGraphic(work);
@@ -565,7 +565,7 @@ void *BATTLE_CHAMPIONSHIP_FLOW_CreateMenu(const BattleChampionshipFlowConfig *co
     return menu;
 }
 
-void BATTLE_CHAMPIONSHIP_FLOW_DeleteMenu(int *work) {BTLV_CORE_IsSlotKind1Index15((int)(((BattleChampionshipFlowMenu *)work)->proc));MSGDATA_Delete(((BattleChampionshipFlowMenu *)work)->msgBank);GFL_HEAP_Free(work);}
+void BATTLE_CHAMPIONSHIP_FLOW_DeleteMenu(int *work) {WIFIBATTLEMATCH_UTIL_DeleteCallback((int)(((BattleChampionshipFlowMenu *)work)->proc));MSGDATA_Delete(((BattleChampionshipFlowMenu *)work)->msgBank);GFL_HEAP_Free(work);}
 
 /*
  * leaf: sole blocker of owned 0217B0C8 MATCH; no prior source/unit/shard, parent claim accepted.
@@ -645,7 +645,7 @@ void BATTLE_CHAMPIONSHIP_FLOW_MenuBrowse(int proc,unsigned *state,int *work)
         if(result!=-1) {
             switch(result) {
             case 0:
-                if(APP_ENV_InitParentalControl()==0) WIFIBATTLEMATCH_UTIL_SetCallback((int *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuExtraBrowse);
+                if(APP_ENV_IsWirelessAvailable()==0) WIFIBATTLEMATCH_UTIL_SetCallback((int *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuExtraBrowse);
                 else {BATTLE_REC_ClearWork(); BATTLE_CHAMPIONSHIP_FLOW_FinishMenu(work,2);}
                 break;
             case 1: WIFIBATTLEMATCH_UTIL_SetCallback((int *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuClose); break;
@@ -734,7 +734,7 @@ void BATTLE_CHAMPIONSHIP_FLOW_MenuExtra(int proc,unsigned *state,int *work)
         if(result!=-1) {
             switch(result) {
             case 0:
-                if(APP_ENV_InitParentalControl()==0) WIFIBATTLEMATCH_UTIL_SetCallback((int *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuExtraBrowse);
+                if(APP_ENV_IsWirelessAvailable()==0) WIFIBATTLEMATCH_UTIL_SetCallback((int *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuExtraBrowse);
                 else {BATTLE_REC_ClearWork(); BATTLE_CHAMPIONSHIP_FLOW_FinishMenu(work,3);}
                 break;
             case 1: WIFIBATTLEMATCH_UTIL_SetCallback((int *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuExtraConfirm); break;

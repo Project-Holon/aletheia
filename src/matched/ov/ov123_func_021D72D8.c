@@ -21,7 +21,7 @@
  *   GSYNC_STATE_StateShowResultMessage 0x021D7180 thumb ov123
  *   GSYNC_STATE_ChangeState 0x021D6EE0 thumb ov123
  *   GAME_DATA_SaveMain  0x02012DD0  thumb  arm9
- *   POKE_TOOL_Dummy  0x020185F0  thumb  arm9
+ *   POKE_TOOL_CastToBoxParam  0x020185F0  thumb  arm9
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  */
 #include "../include/Obj01254.h"
@@ -39,7 +39,7 @@ extern void GSYNC_DISP_CreateSlotActor(u8 *p, unsigned int i);
 extern void GSYNC_DISP_SetSlotAnimSeq(u8 *p, int i, u32 v);
 extern void GSYNC_DISP_SetSlotAnimCommand(u8 *p, int i, int v);
 extern void GSYNC_DISP_SetFadeDirection(u8 *p, int flag);
-extern int POKE_TOOL_Dummy(void *);
+extern int POKE_TOOL_CastToBoxParam(void *);
 struct Obj02181;
 extern void GSYNC_DISP_CreateMonIconActor(struct Obj02181 *p, void *n, int i);
 extern void GSYNC_DISP_RestartActorAnim(char *);
@@ -64,7 +64,7 @@ void GSYNC_STATE_StateSaveFinishMessage(char *p)
         cb.f0=0; cb.f4=p; cb.f8=(void (*)(char *))GSYNC_STATE_ResetSlotActors;
         GSYNC_DISP_SetSlotAnimCommand((u8 *)(*(char * *)&((struct Obj01254 *)p)->f14),0,(int)&cb);
         GSYNC_DISP_SetFadeDirection((u8 *)(*(char * *)&((struct Obj01254 *)p)->f14),0);
-        GSYNC_DISP_CreateMonIconActor((struct Obj02181 *)(*(char * *)&((struct Obj01254 *)p)->f14),(void *)POKE_TOOL_Dummy(((struct Obj01254 *)p)->fC),0);
+        GSYNC_DISP_CreateMonIconActor((struct Obj02181 *)(*(char * *)&((struct Obj01254 *)p)->f14),(void *)POKE_TOOL_CastToBoxParam(((struct Obj01254 *)p)->fC),0);
         GSYNC_DISP_RestartActorAnim(*(char * *)&((struct Obj01254 *)p)->f14);
         GFL_USE_PlaySeDefaultVolume(0x658);
         GSYNC_STATE_ChangeState((u8 *)p,(int)GSYNC_STATE_StateShowResultMessage,0x295);

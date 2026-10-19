@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   EVENTDATA_SYSTEM_GetHiddenItemTable 0x0216476C thumb ov010
+ *   HIDDEN_ITEM_GetTable 0x0216476C thumb ov010
  *   DOWSING_IsTargetAvailable 0x021EFEEC thumb ov033
  *   INTRUDE_GetNextOfferSpot 0x021CFB68 thumb ov021
  */
@@ -30,7 +30,7 @@ typedef struct {
     unsigned short hc;
 } T;
 
-extern char *EVENTDATA_SYSTEM_GetHiddenItemTable(unsigned short *);
+extern char *HIDDEN_ITEM_GetTable(unsigned short *);
 extern int DOWSING_IsTargetAvailable(char *p, int *q);
 extern unsigned INTRUDE_GetNextOfferSpot(unsigned, unsigned *);
 
@@ -44,7 +44,7 @@ int DOWSING_FindNextTarget(T *p, unsigned *out, int mode)
     int found;
 
     found = 0;
-    tbl = EVENTDATA_SYSTEM_GetHiddenItemTable(&cnt);
+    tbl = HIDDEN_ITEM_GetTable(&cnt);
     idx = p->hc;
     if (mode == 0 || mode == 1) {
         while (p->h4 < cnt) {

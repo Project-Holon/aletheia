@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PROC_FLD_CallEventFromThreeValues
+ * function: SCRCMD_PROC_FLD_StartScriptedWildBattle
  * address:  0x021B503C
  * packet:   pkt_ov021_021B503C
  * region:   ov021
@@ -32,7 +32,7 @@ extern int SCRIPT_WORK_ResetFieldParam(int a0);
 extern u32 FIELDMAP_GetEncount(u8 *p);
 extern u32 FIELD_ENCOUNT_StartScriptedWild(u32 a, u32 b, u32 c, u32 d);
 
-int SCRCMD_PROC_FLD_CallEventFromThreeValues(u32 a, u32 b)
+int SCRCMD_PROC_FLD_StartScriptedWildBattle(u32 a, u32 b)
 {
     void *r4;
     u32 s0;

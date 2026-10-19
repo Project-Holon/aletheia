@@ -1,5 +1,5 @@
 /*
- * function: WAZA_OSHIE_ClearBitmap
+ * function: TEXT_TEXTURE_ClearBitmap
  * address:  0x0216FC50
  * packet:   pkt_ov010_0216FC50
  * region:   ov010
@@ -26,7 +26,7 @@ struct Bmp;
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern u32 BMP_GetByteSize(const struct Bmp *bmp);
 
-void WAZA_OSHIE_ClearBitmap(void *bmp)
+void TEXT_TEXTURE_ClearBitmap(void *bmp)
 {
     u8 *buf;
     u32 n;

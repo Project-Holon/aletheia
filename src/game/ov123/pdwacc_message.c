@@ -29,13 +29,13 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BUTTON_MAN_Delete  0x02051C6C  arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   STRBUF_Create 0x020457B0 arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   GFL_HEAP_Free 0x020307B0 arm
  *   BMP_MENUWORK_LoadFrameGfx 0x0201F5DC thumb
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   STRBUF_Delete 0x02045808 arm
@@ -55,7 +55,7 @@
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
  *   G2x_SetBlendBrightness_ 0x0207D658 arm
  *   KEY_GetTrg  0x020362DC  arm
- *   GF_STANDARD_SetupCalc 0x0203F1FC arm
+ *   GF_STANDARD_CalcCrc16 0x0203F1FC arm
  *   d_021DABA8 0x021DABA8 data ov123 a1
  *   STRBUF_Clear 0x0204581C arm
  *   STRBUF_AppendChar 0x02045AFC arm
@@ -67,7 +67,7 @@
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb  arm9
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb  arm9
  *   WORDSET_CreateDefault  0x0201EC64  thumb  arm9
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
+ *   WORDSET_Delete  0x0201ED04  thumb  arm9
  *   GF_FONT_AppendTag  0x0201D60C  thumb  arm9
  *   GF_FONT_InitTextColor  0x0201DD60  thumb  arm9
  */
@@ -110,7 +110,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 
 extern void BUTTON_MAN_Delete(void *p);
 
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
@@ -122,7 +122,7 @@ extern u32 GFL_HEAP_Free(void *p);
 
 extern void *BMP_MENUWORK_LoadFrameGfx(void *, u32, u32, u32);
 
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 
 extern u32 MSGDATA_Delete(void *rec);
 
@@ -172,13 +172,13 @@ extern void BMP_WIN_Exit(void);
 
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 
 extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 
 extern u32 KEY_GetTrg(void);
 
-extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
+extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
 
 extern void STRBUF_Clear(struct U16Vec *vec);
 
@@ -248,18 +248,18 @@ void PDWACC_MESSAGE_ExitSystem(PdwaccMessageWork *work)
 {
     u32 frameHi;
     int windowIndex;
-    BG_SYS_DeleteHalf(1, (u16)(work->bg1Frame), (u16)(work->bg1Frame >> 16));
+    BG_SYS_FreeTileRun(1, (u16)(work->bg1Frame), (u16)(work->bg1Frame >> 16));
     frameHi = work->bg5Frame >> 16;
-    BG_SYS_DeleteHalf(5, (u16)(work->bg5Frame), (u16)frameHi);
+    BG_SYS_FreeTileRun(5, (u16)(work->bg5Frame), (u16)frameHi);
     frameHi = work->bg6Frame >> 16;
-    BG_SYS_DeleteHalf(6, (u16)(work->bg6Frame), (u16)frameHi);
+    BG_SYS_FreeTileRun(6, (u16)(work->bg6Frame), (u16)frameHi);
     PDWACC_MESSAGE_DeleteButtonManager(work);
     GF_FONT_SetDefaultTextColor();
     MSGDATA_Delete(work->msgData);
     GF_FONT_Delete(work->font);
     STRBUF_Delete(work->msgBuf);
     STRBUF_Delete(work->tmpBuf);
-    WORDSET_DeleteStrbufED04(work->wordSet);
+    WORDSET_Delete(work->wordSet);
     APP_TASKMENU_RES_Delete(work->taskMenuRes);
     PRINTSYS_QUE_Clear(work->printQue);
     PRINTSYS_QUE_Delete(work->printQue);
@@ -291,7 +291,7 @@ void PDWACC_MESSAGE_PrintStream(PdwaccMessageWork *work, int msgId)
     BMP_MENUWORK_DrawWindow(win, 1, (u16)(work->bg5Frame), 12);
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    BG_SYS_SetFlagField06(5);
+    BG_SYS_MarkTileDirty(5);
 }
 
 /*
@@ -333,7 +333,7 @@ void PDWACC_MESSAGE_ClearStream(PdwaccMessageWork *work)
     if (work->mainWin) {
         BMP_MENUWORK_DrawWindowBorder(work->mainWin, 2);
         BMP_WIN_ClearScreen(work->mainWin);
-        BG_SYS_SetFlagField06(5);
+        BG_SYS_MarkTileDirty(5);
         BMP_WIN_Delete(work->mainWin);
         work->mainWin = 0;
     }
@@ -379,14 +379,14 @@ void PDWACC_MESSAGE_PrintInWindow(PdwaccMessageWork *work, int msgId)
     BMP_MENUWORK_DrawWindow(win, 1, (u16)(work->bg6Frame), 12);
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    BG_SYS_SetFlagField06(6);
+    BG_SYS_MarkTileDirty(6);
 }
 
 void PDWACC_MESSAGE_ClearWindow(PdwaccMessageWork *work)
 {
     BMP_MENUWORK_DrawWindowBorder(work->subWin, 2);
     BMP_WIN_ClearScreen(work->subWin);
-    BG_SYS_SetFlagField06(6);
+    BG_SYS_MarkTileDirty(6);
 }
 
 /* Writes the 10 character account code of value into buf: 5 bits per character from the value and its checksum. */
@@ -400,7 +400,7 @@ void PDWACC_MESSAGE_FormatNumber(int value, void *buf)
     int charIndex;
     table = d_021DA868;
     copy = value;
-    checksum = GF_STANDARD_SetupCalc((const u8 *)(&copy), 4);
+    checksum = GF_STANDARD_CalcCrc16((const u8 *)(&copy), 4);
     arg = d_021DA864;
     bits = (u64)(long long)copy + ((u64)checksum << 32);
     STRBUF_Clear(buf);
@@ -433,7 +433,7 @@ void PDWACC_MESSAGE_PrintNumberWindows(PdwaccMessageWork *work, int value, int u
     PRINTSYS_Print(BMP_WIN_GetBmp(win), 0, 0, work->msgBuf, work->font);
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    BG_SYS_SetFlagField06(5);
+    BG_SYS_MarkTileDirty(5);
 }
 
 void PDWACC_MESSAGE_DeleteNumberWindows(PdwaccMessageWork *work)
@@ -445,7 +445,7 @@ void PDWACC_MESSAGE_DeleteNumberWindows(PdwaccMessageWork *work)
         BMP_WIN_ClearScreen(work->labelWin);
         BMP_WIN_Delete(work->codeWin);
         BMP_WIN_Delete(work->labelWin);
-        BG_SYS_SetFlagField06(5);
+        BG_SYS_MarkTileDirty(5);
         work->codeWin = 0;
         work->labelWin = 0;
     }

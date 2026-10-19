@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   BG_SYS_SetVisibleLayer  0x0204047C  arm
+ *   BG_SYS_SetPriority  0x0204047C  arm
  *   BG_SYS_ClearSlot  0x020414EC  arm
  *   FIELD_MSGBG_SetBlendThunk  0x02193060  thumb  ov021
  */
@@ -19,13 +19,13 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern void BG_SYS_ClearSlot(u32);
-extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+extern void BG_SYS_SetPriority(int idx, unsigned short val);
 extern void FIELD_MSGBG_SetBlendThunk(u32);
 
 void SCRCMD_PROC_FLD_ExitShopGraphics(u8 *w)
 {
     BG_SYS_ClearSlot(1);
     BG_SYS_ClearSlot(2);
-    BG_SYS_SetVisibleLayer(2, 0);
+    BG_SYS_SetPriority(2, 0);
     FIELD_MSGBG_SetBlendThunk(1);
 }

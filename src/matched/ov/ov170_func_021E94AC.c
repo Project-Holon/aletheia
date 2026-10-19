@@ -1,5 +1,5 @@
 /*
- * function: BOX2_SEQ_GetBgFrameY
+ * function: BOX2_SEQ_SetupFrameFadeAndWait
  * address: 0x021E94AC
  * packet: pkt_ov170_021E94AC
  * region: ov170
@@ -28,7 +28,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 struct WinMgr;
 extern u8 BGWINFRM_GetBgFrame(struct WinMgr *mgr, u32 idx);
-int BOX2_SEQ_GetBgFrameY(Obj *p,int a,int b) {
+int BOX2_SEQ_SetupFrameFadeAndWait(Obj *p,int a,int b) {
  p->work->flag=1;
  p->work->rest=BGWINFRM_GetBgFrame(*(struct WinMgr * *)&((struct Obj23947 *)((char *)p->work))->f74,7);
  p->work->lo=13;

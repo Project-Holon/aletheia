@@ -13,20 +13,20 @@
  * docs/idioms/a-one-word-struct-result-passed-by-value-costs-a-second-frame-word.md).
  *
  * symbols:
- *   BTLV_CORE_MakeSlotKind1Empty  0x021E89C0  thumb  ov093
+ *   BTL_SICKCONT_MakeKind1Empty  0x021E89C0  thumb  ov093
  *   BTL_MAIN_IsPokeIdInFirstPair  0x021B9A50  thumb  ov093
  *   HAND_WAZA_AddSideEffect  0x021E556C  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef struct Word { u32 v; } Word;
 
-extern Word BTLV_CORE_MakeSlotKind1Empty(void);
+extern Word BTL_SICKCONT_MakeKind1Empty(void);
 extern unsigned char BTL_MAIN_IsPokeIdInFirstPair(unsigned int x);
 extern void HAND_WAZA_AddSideEffect(int a, int b, int c, int d, int e, int f, Word g, int h);
 
 void HAND_WAZA_StealthRockOnUncategorizedMoveNoTarget(int a, int b, int c, int d)
 {
-    Word t = BTLV_CORE_MakeSlotKind1Empty();
+    Word t = BTL_SICKCONT_MakeKind1Empty();
     int e = BTL_MAIN_IsPokeIdInFirstPair(c);
     HAND_WAZA_AddSideEffect(a, b, c, d, e, 8, t, 0x9c);
 }

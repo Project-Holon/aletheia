@@ -1,5 +1,5 @@
 /*
- * function: DUP_FITTING_ITEM_ElemSetF18
+ * function: DUP_FITTING_ITEM_ElemSetScale
  * address: 0x021BA244
  * packet: pkt_ov133_021BA244
  * region: ov133
@@ -11,7 +11,7 @@
 #include "../include/Obj23337.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-void DUP_FITTING_ITEM_ElemSetF18(u8 *p, u32 value)
+void DUP_FITTING_ITEM_ElemSetScale(u8 *p, u32 value)
 {
     ((struct Obj23337 *)p)->f18=value;
 }

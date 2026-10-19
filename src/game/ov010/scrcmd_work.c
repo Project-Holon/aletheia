@@ -1,7 +1,7 @@
 /*
  * file:     scrcmd_work.c
  * unit:     yes
- * function: SCRCMD_WORK_CreateCommon, SCRCMD_WORK_DeleteCommon, SCRCMD_WORK_Create, SCRCMD_WORK_Delete, SCRCMD_WORK_GetHeapId, SCRCMD_WORK_GetScriptId, SCRCMD_WORK_GetCallMode, SCRCMD_WORK_GetCallParam, SCRCMD_WORK_GetGameSystem, SCRCMD_WORK_GetGameData, SCRCMD_WORK_GetOccupyInfo, SCRCMD_WORK_GetScriptWork, SCRCMD_WORK_GetMenuHeap, SCRCMD_WORK_GetMsgData, SCRCMD_WORK_GetMsgDataId, SCRCMD_WORK_SetMsgWindow, SCRCMD_WORK_GetMsgWindow, SCRCMD_WORK_SetTimeIcon, SCRCMD_WORK_GetTimeIcon, SCRCMD_WORK_GetWordSetWork, SCRCMD_WORK_SetTargetObject, SCRCMD_WORK_GetTargetObject, SCRCMD_WORK_GetWindowState, SCRCMD_WORK_SetWindowState, SCRCMD_WORK_GetWindowKind, SCRCMD_WORK_SetWindowKind, SCRCMD_WORK_SetWaitCount, SCRCMD_WORK_CheckAnimeTasks, SCRCMD_WORK_DeleteAnimeTasks, SCRCMD_WORK_LoadMsgData, SCRCMD_WORK_InitMenu, SCRCMD_WORK_AddMenuItem, SCRCMD_WORK_StartMenu, SCRCMD_WORK_DeleteMenu, SCRCMD_WORK_WaitMenu, SCRCMD_WORK_WaitMenuOrCancel, SCRCMD_WORK_MenuCursorCallback, SCRCMD_WORK_SaveScriptState, SCRCMD_WORK_RestoreScriptState, SCRCMD_WORK_SetChildScriptIndex, SCRCMD_WORK_GetChildScriptIndex, SCRCMD_WORK_CmdGetRomVersion, SCRCMD_WORK_CmdToggleConfigFlag, SCRCMD_WORK_CmdGetConfigFlag, SCRCMD_WORK_CmdGetRandom, SCRCMD_WORK_CmdGetMsgDataId, SCRCMD_WORK_CmdGetSaveRecord, SCRCMD_WORK_CmdGetFieldRecordA, SCRCMD_WORK_CmdGetFieldRecordB, SCRCMD_WORK_CmdGetFieldRecordPair, SCRCMD_WORK_CmdGetFieldRecordPairB, SCRCMD_WORK_CmdGetSeason, SCRCMD_WORK_CmdGetBirthday, SCRCMD_WORK_CmdGetPlayerRomCode, SCRCMD_WORK_CmdCheckMiscFlag, SCRCMD_WORK_CmdSetMiscFlag, SCRCMD_WORK_CmdGetMiscCount, SCRCMD_WORK_CmdGetSaveStatus, SCRCMD_WORK_CmdGetScriptId, SCRCMD_WORK_CmdSetWarpDestination, SCRCMD_WORK_CmdSetSpecialLocationHere, SCRCMD_WORK_CmdSetSpecialLocation, SCRCMD_WORK_CmdSetMapReplaceFlag, SCRCMD_WORK_CmdCheckMapReplaceFlag, SCRCMD_WORK_CmdRegisterZukanSeen, SCRCMD_WORK_CmdGetZukanSeenCount, SCRCMD_WORK_CmdGetZukanGetCount, SCRCMD_WORK_CmdSetZukanFlagA, SCRCMD_WORK_CmdGetZukanNationalFlag, SCRCMD_WORK_CmdSetZukanFlagB, SCRCMD_WORK_CmdGetButtonMode, SCRCMD_WORK_CmdSetFixedEventFlag, SCRCMD_WORK_CmdSetBoxFlags, SCRCMD_WORK_CmdGetPlayerSaveValue, SCRCMD_WORK_CmdGetMiscByte, SCRCMD_WORK_CmdSetMiscByte, SCRCMD_WORK_CmdCheckMiscByte, SCRCMD_WORK_CmdCheckExtraSaveData, SCRCMD_WORK_CmdEventDataSetA, SCRCMD_WORK_CmdEventDataSetB, SCRCMD_WORK_CmdEventDataSetC, SCRCMD_WORK_CmdSetEventFlagOffset, SCRCMD_WORK_CmdResetEventFlagOffset, SCRCMD_WORK_CmdCheckEventFlagOffset, SCRCMD_WORK_CmdEndFieldCommandA, SCRCMD_WORK_CmdCheckFieldModeA, SCRCMD_WORK_CmdEndFieldCommandB, SCRCMD_WORK_CmdCheckFieldModeB, SCRCMD_WORK_CmdLookupTable
+ * function: SCRCMD_WORK_CreateCommon, SCRCMD_WORK_DeleteCommon, SCRCMD_WORK_Create, SCRCMD_WORK_Delete, SCRCMD_WORK_GetHeapId, SCRCMD_WORK_GetScriptId, SCRCMD_WORK_GetCallMode, SCRCMD_WORK_GetCallParam, SCRCMD_WORK_GetGameSystem, SCRCMD_WORK_GetGameData, SCRCMD_WORK_GetOccupyInfo, SCRCMD_WORK_GetScriptWork, SCRCMD_WORK_GetMenuHeap, SCRCMD_WORK_GetMsgData, SCRCMD_WORK_GetMsgDataId, SCRCMD_WORK_SetMsgWindow, SCRCMD_WORK_GetMsgWindow, SCRCMD_WORK_SetTimeIcon, SCRCMD_WORK_GetTimeIcon, SCRCMD_WORK_GetWordSetWork, SCRCMD_WORK_SetTargetObject, SCRCMD_WORK_GetTargetObject, SCRCMD_WORK_GetWindowState, SCRCMD_WORK_SetWindowState, SCRCMD_WORK_GetWindowKind, SCRCMD_WORK_SetWindowKind, SCRCMD_WORK_SetWaitCount, SCRCMD_WORK_CheckAnimeTasks, SCRCMD_WORK_DeleteAnimeTasks, SCRCMD_WORK_LoadMsgData, SCRCMD_WORK_InitMenu, SCRCMD_WORK_AddMenuItem, SCRCMD_WORK_StartMenu, SCRCMD_WORK_DeleteMenu, SCRCMD_WORK_WaitMenu, SCRCMD_WORK_WaitMenuOrCancel, SCRCMD_WORK_MenuCursorCallback, SCRCMD_WORK_SaveScriptState, SCRCMD_WORK_RestoreScriptState, SCRCMD_WORK_SetChildScriptIndex, SCRCMD_WORK_GetChildScriptIndex, SCRCMD_WORK_CmdGetRomVersion, SCRCMD_WORK_CmdToggleConfigFlag, SCRCMD_WORK_CmdGetConfigFlag, SCRCMD_WORK_CmdGetRandom, SCRCMD_WORK_CmdGetMsgDataId, SCRCMD_WORK_CmdGetTrainerCardStars, SCRCMD_WORK_CmdGetTimeZone, SCRCMD_WORK_CmdGetWeek, SCRCMD_WORK_CmdGetMonthAndDay, SCRCMD_WORK_CmdGetHourAndMinute, SCRCMD_WORK_CmdGetSeason, SCRCMD_WORK_CmdGetBirthday, SCRCMD_WORK_CmdGetPlayerRomCode, SCRCMD_WORK_CmdCheckMiscFlag, SCRCMD_WORK_CmdSetMiscFlag, SCRCMD_WORK_CmdGetMiscCount, SCRCMD_WORK_CmdGetSaveStatus, SCRCMD_WORK_CmdGetScriptId, SCRCMD_WORK_CmdSetWarpDestination, SCRCMD_WORK_CmdSetSpecialLocationHere, SCRCMD_WORK_CmdSetSpecialLocation, SCRCMD_WORK_CmdSetMapReplaceFlag, SCRCMD_WORK_CmdCheckMapReplaceFlag, SCRCMD_WORK_CmdRegisterZukanSeen, SCRCMD_WORK_CmdCheckZukanSeenOrCaught, SCRCMD_WORK_CmdGetNationalZukanCount, SCRCMD_WORK_CmdEnableNationalDex, SCRCMD_WORK_CmdGetZukanNationalFlag, SCRCMD_WORK_CmdSetZukanObtained, SCRCMD_WORK_CmdGetButtonMode, SCRCMD_WORK_CmdSetFixedEventFlag, SCRCMD_WORK_CmdSetBoxFlags, SCRCMD_WORK_CmdGetPlayerSaveValue, SCRCMD_WORK_CmdGetMiscByte, SCRCMD_WORK_CmdSetMiscByte, SCRCMD_WORK_CmdCheckMiscByte, SCRCMD_WORK_CmdCheckExtraSaveData, SCRCMD_WORK_CmdSetBgEventGridPos, SCRCMD_WORK_CmdSetConnectGridPos, SCRCMD_WORK_CmdSetNpcGridPos, SCRCMD_WORK_CmdSetEventFlagOffset, SCRCMD_WORK_CmdResetEventFlagOffset, SCRCMD_WORK_CmdCheckEventFlagOffset, SCRCMD_WORK_CmdEndFieldCommandA, SCRCMD_WORK_CmdCheckFieldModeA, SCRCMD_WORK_CmdEndFieldCommandB, SCRCMD_WORK_CmdCheckFieldModeB, SCRCMD_WORK_CmdLookupTable
  * address:  0x0215A514
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -68,8 +68,8 @@
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   SYSTEM_DATA_GetConfig  0x0200873C  thumb
- *   CONFIG_GetAppliedFlag  0x020083E4  thumb
- *   CONFIG_SetAppliedFlag  0x020083EC  thumb
+ *   CONFIG_GetTextLanguage  0x020083E4  thumb
+ *   CONFIG_SetTextLanguage  0x020083EC  thumb
  *   SCRIPT_WORK_ReadWorkValue   0x02159B10  thumb  ov010
  *   GFL_USE_GetRandom   0x020056EC  thumb
  *   TRCARD_SYS_CountStars  0x0216F830  thumb  ov010
@@ -83,12 +83,12 @@
  *   OS_GetOwnerInfoEx 0x02087D28 arm
  *   MYSTATUS_GetOutfitVariant   0x02008550  thumb
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
- *   BEACON_GetFlag 0x0200C234 thumb
- *   BEACON_SetFlag  0x0200C248  thumb
- *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
- *   GAME_DATA_GetSaveBlock21  0x02012F5C  thumb
+ *   BEACON_GetBadge 0x0200C234 thumb
+ *   BEACON_SetBadge  0x0200C248  thumb
+ *   GF_STANDARD_GetCachedDate  0x0203F4E4  arm
+ *   GAME_DATA_GetTrainerCardSign  0x02012F5C  thumb
  *   TRCARD_SIGN_SetBadgeDate  0x02008A7C  thumb
- *   BEACON_CountFlags  0x0200C258  thumb
+ *   BEACON_CountBadges  0x0200C258  thumb
  *   SAVE_CONTROL_HasFlashSave  0x020071EC  thumb
  *   SAVE_CONTROL_IsNewGame  0x020071E4  thumb
  *   SAVE_CONTROL_GetDiffSize  0x0200723C  thumb
@@ -132,9 +132,9 @@
  *   GAME_DATA_GetFieldMode 0x02012A44 thumb
  *   EVENT_BATTLE_IsResultSilent 0x0216EFA8 thumb ov010
  *   gScrcmdValueTable 0x02171160 data a2
- *   EVENT_POKE_STATUS_CheckFlag  0x0215A4D8  thumb  ov010
- *   EVENT_POKE_STATUS_SetFlag  0x0215A4EC  thumb  ov010
- *   EVENT_POKE_STATUS_ResetFlag  0x0215A500  thumb  ov010
+ *   EVENT_TRAINER_CheckDefeatedFlag  0x0215A4D8  thumb  ov010
+ *   EVENT_TRAINER_SetDefeatedFlag  0x0215A4EC  thumb  ov010
+ *   EVENT_TRAINER_ClearDefeatedFlag  0x0215A500  thumb  ov010
  */
 #include "../arm9/btl_setup_types.h"
 
@@ -280,9 +280,9 @@ int MAP_REPLACE_IsValidWarpId(int warpId);
 
 /* event_poke_status.c (event work flag offsets) */
 /* interface: original narrows r1 by shift pairs; u16 extern preserves this. */
-unsigned EVENT_POKE_STATUS_CheckFlag(struct EventWork *eventWork, unsigned offset);
-void EVENT_POKE_STATUS_SetFlag(struct EventWork *eventWork, unsigned offset);
-void EVENT_POKE_STATUS_ResetFlag(struct EventWork *eventWork, unsigned offset);
+unsigned EVENT_TRAINER_CheckDefeatedFlag(struct EventWork *eventWork, unsigned offset);
+void EVENT_TRAINER_SetDefeatedFlag(struct EventWork *eventWork, unsigned offset);
+void EVENT_TRAINER_ClearDefeatedFlag(struct EventWork *eventWork, unsigned offset);
 
 /* game system and game data */
 extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
@@ -299,7 +299,7 @@ extern u8 GAME_DATA_GetSeason(struct GameData *gameData);
 extern struct EventWork *GAME_DATA_GetEventWork(struct GameData *gameData);
 extern struct BoxManager *GAME_DATA_GetBoxManager(struct GameData *gameData);
 extern struct MiscSave *GAME_DATA_GetMiscSave(struct GameData *gameData);
-extern struct RecordSave *GAME_DATA_GetSaveBlock21(struct GameData *gameData);
+extern struct RecordSave *GAME_DATA_GetTrainerCardSign(struct GameData *gameData);
 extern struct EventData *GAME_DATA_GetEventData(struct GameData *gameData);
 extern u32 GAME_DATA_GetFieldMode(struct GameData *gameData);
 extern u32 ZONEDATA_GetMatrixId(u32 zoneId);
@@ -309,8 +309,8 @@ extern void ZONEDATA_SetEventFlag(struct EventWork *eventWork, int flagId);
 
 /* save data */
 extern struct Config *SYSTEM_DATA_GetConfig(struct SaveControl *saveControl);
-extern int CONFIG_GetAppliedFlag(struct Config *config);
-extern int CONFIG_SetAppliedFlag(struct Config *config, int flag);
+extern int CONFIG_GetTextLanguage(struct Config *config);
+extern int CONFIG_SetTextLanguage(struct Config *config, int flag);
 extern int CONFIG_GetButtonMode(struct Config *config);
 extern u8 MYSTATUS_GetOutfitVariant(const struct PlayerStatus *status);
 extern u8 MYSTATUS_GetOutfit(const struct PlayerStatus *status);
@@ -326,9 +326,9 @@ extern struct RecordSave *TRCARD_SIGN_GetFromSave(struct SaveControl *saveContro
 extern u8 TRCARD_SIGN_GetSeenBefore(const struct RecordSave *record);
 extern struct RecordSave *TRCARD_SIGN_SetSeenBefore(struct RecordSave *record);
 extern void TRCARD_SIGN_SetBadgeDate(struct RecordSave *record, u32 index, u32 year, u32 month, u32 day);
-extern u32 BEACON_GetFlag(struct MiscSave *misc, u32 flagId);
-extern void BEACON_SetFlag(struct MiscSave *misc, u32 flagId);
-extern u32 BEACON_CountFlags(struct MiscSave *misc);
+extern u32 BEACON_GetBadge(struct MiscSave *misc, u32 flagId);
+extern void BEACON_SetBadge(struct MiscSave *misc, u32 flagId);
+extern u32 BEACON_CountBadges(struct MiscSave *misc);
 extern u8 BEACON_GetSlotState(struct MiscSave *misc, u32 index);
 extern void BEACON_SetSlotState(struct MiscSave *misc, u32 index, u8 value);
 extern struct ZukanSave *ZUKAN_SAVE_GetFromGameData(struct GameData *gameData);
@@ -364,7 +364,7 @@ extern u32 KEY_GetTrg(void);
 extern u32 GFL_USE_GetRandom(u32 range);
 extern u32 CURSOR_MOVE_GetTableGroup(u32 x);
 extern void OS_GetOwnerInfoEx(OwnerInfo *info);
-extern void GF_STANDARD_SetField00_F4E4(RtcDate *date);
+extern void GF_STANDARD_GetCachedDate(RtcDate *date);
 extern void *POKE_TOOL_Create(u32 species, u32 level, u64 id, u32 heapId);
 
 /* message data, strings, menus */
@@ -802,13 +802,13 @@ int SCRCMD_WORK_CmdToggleConfigFlag(struct ScriptVm *vm, ScrcmdWork *work)
     struct Config *config;
     int flag;
     config = SYSTEM_DATA_GetConfig(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(work)));
-    flag = CONFIG_GetAppliedFlag(config);
+    flag = CONFIG_GetTextLanguage(config);
     if (flag == 0) {
         flag = 1;
     } else if (flag == 1) {
         flag = 0;
     }
-    CONFIG_SetAppliedFlag(config, flag);
+    CONFIG_SetTextLanguage(config, flag);
     return 0;
 }
 
@@ -818,7 +818,7 @@ int SCRCMD_WORK_CmdGetConfigFlag(struct ScriptVm *vm, ScrcmdWork *work)
     u16 *ret;
     config = SYSTEM_DATA_GetConfig(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(work)));
     ret = SCRIPT_WORK_ReadWorkPointer(vm, work);
-    *ret = CONFIG_GetAppliedFlag(config);
+    *ret = CONFIG_GetTextLanguage(config);
     return 0;
 }
 
@@ -836,7 +836,7 @@ int SCRCMD_WORK_CmdGetMsgDataId(struct ScriptVm *vm, ScrcmdWork *work)
     return 0;
 }
 
-int SCRCMD_WORK_CmdGetSaveRecord(struct ScriptVm *vm, ScrcmdWork *work)
+int SCRCMD_WORK_CmdGetTrainerCardStars(struct ScriptVm *vm, ScrcmdWork *work)
 {
     struct GameData *gameData = SCRCMD_WORK_GetGameData(work);
     u16 *ret = SCRIPT_WORK_ReadWorkPointer(vm, work);
@@ -844,7 +844,7 @@ int SCRCMD_WORK_CmdGetSaveRecord(struct ScriptVm *vm, ScrcmdWork *work)
     return 0;
 }
 
-int SCRCMD_WORK_CmdGetFieldRecordA(struct ScriptVm *vm, ScrcmdWork *work)
+int SCRCMD_WORK_CmdGetTimeZone(struct ScriptVm *vm, ScrcmdWork *work)
 {
     struct GameData *gameData = SCRCMD_WORK_GetGameData(work);
     u16 *ret = SCRIPT_WORK_ReadWorkPointer(vm, work);
@@ -852,7 +852,7 @@ int SCRCMD_WORK_CmdGetFieldRecordA(struct ScriptVm *vm, ScrcmdWork *work)
     return 0;
 }
 
-int SCRCMD_WORK_CmdGetFieldRecordB(struct ScriptVm *vm, ScrcmdWork *work)
+int SCRCMD_WORK_CmdGetWeek(struct ScriptVm *vm, ScrcmdWork *work)
 {
     struct GameData *gameData = SCRCMD_WORK_GetGameData(work);
     u16 *ret = SCRIPT_WORK_ReadWorkPointer(vm, work);
@@ -860,7 +860,7 @@ int SCRCMD_WORK_CmdGetFieldRecordB(struct ScriptVm *vm, ScrcmdWork *work)
     return 0;
 }
 
-int SCRCMD_WORK_CmdGetFieldRecordPair(struct ScriptVm *vm, ScrcmdWork *work)
+int SCRCMD_WORK_CmdGetMonthAndDay(struct ScriptVm *vm, ScrcmdWork *work)
 {
     struct GameData *gameData = SCRCMD_WORK_GetGameData(work);
     u16 *retFirst = SCRIPT_WORK_ReadWorkPointer(vm, work);
@@ -870,7 +870,7 @@ int SCRCMD_WORK_CmdGetFieldRecordPair(struct ScriptVm *vm, ScrcmdWork *work)
     return 0;
 }
 
-int SCRCMD_WORK_CmdGetFieldRecordPairB(struct ScriptVm *vm, ScrcmdWork *work)
+int SCRCMD_WORK_CmdGetHourAndMinute(struct ScriptVm *vm, ScrcmdWork *work)
 {
     struct GameData *gameData = SCRCMD_WORK_GetGameData(work);
     u16 *retFirst = SCRIPT_WORK_ReadWorkPointer(vm, work);
@@ -912,7 +912,7 @@ int SCRCMD_WORK_CmdCheckMiscFlag(struct ScriptVm *vm, ScrcmdWork *work)
 {
     u16 *ret = SCRIPT_WORK_ReadWorkPointer(vm, work);
     int flagId = SCRIPT_WORK_ReadWorkValue(vm, work);
-    *ret = BEACON_GetFlag(GAME_DATA_GetMiscSave(SCRCMD_WORK_GetGameData(work)), flagId);
+    *ret = BEACON_GetBadge(GAME_DATA_GetMiscSave(SCRCMD_WORK_GetGameData(work)), flagId);
     return 0;
 }
 
@@ -921,16 +921,16 @@ int SCRCMD_WORK_CmdSetMiscFlag(struct ScriptVm *vm, ScrcmdWork *work)
     RtcDate date;
     int flagId = SCRIPT_WORK_ReadWorkValue(vm, work);
     struct GameData *gameData = SCRCMD_WORK_GetGameData(work);
-    BEACON_SetFlag(GAME_DATA_GetMiscSave(gameData), flagId);
-    GF_STANDARD_SetField00_F4E4(&date);
-    TRCARD_SIGN_SetBadgeDate(GAME_DATA_GetSaveBlock21(gameData), flagId, date.year, date.month, date.day);
+    BEACON_SetBadge(GAME_DATA_GetMiscSave(gameData), flagId);
+    GF_STANDARD_GetCachedDate(&date);
+    TRCARD_SIGN_SetBadgeDate(GAME_DATA_GetTrainerCardSign(gameData), flagId, date.year, date.month, date.day);
     return 0;
 }
 
 int SCRCMD_WORK_CmdGetMiscCount(struct ScriptVm *vm, ScrcmdWork *work)
 {
     u16 *ret = SCRIPT_WORK_ReadWorkPointer(vm, work);
-    *ret = BEACON_CountFlags(GAME_DATA_GetMiscSave(SCRCMD_WORK_GetGameData(work)));
+    *ret = BEACON_CountBadges(GAME_DATA_GetMiscSave(SCRCMD_WORK_GetGameData(work)));
     return 0;
 }
 
@@ -1059,7 +1059,7 @@ int SCRCMD_WORK_CmdRegisterZukanSeen(struct ScriptVm *vm, ScrcmdWork *work)
     return 0;
 }
 
-int SCRCMD_WORK_CmdGetZukanSeenCount(struct ScriptVm *vm, ScrcmdWork *work)
+int SCRCMD_WORK_CmdCheckZukanSeenOrCaught(struct ScriptVm *vm, ScrcmdWork *work)
 {
     struct ZukanSave *zukan;
     int mode, species;
@@ -1082,7 +1082,7 @@ int SCRCMD_WORK_CmdGetZukanSeenCount(struct ScriptVm *vm, ScrcmdWork *work)
     return 0;
 }
 
-int SCRCMD_WORK_CmdGetZukanGetCount(struct ScriptVm *vm, ScrcmdWork *work)
+int SCRCMD_WORK_CmdGetNationalZukanCount(struct ScriptVm *vm, ScrcmdWork *work)
 {
     struct ZukanSave *zukan;
     int mode;
@@ -1104,7 +1104,7 @@ int SCRCMD_WORK_CmdGetZukanGetCount(struct ScriptVm *vm, ScrcmdWork *work)
     return 0;
 }
 
-int SCRCMD_WORK_CmdSetZukanFlagA(struct ScriptVm *vm, ScrcmdWork *work)
+int SCRCMD_WORK_CmdEnableNationalDex(struct ScriptVm *vm, ScrcmdWork *work)
 {
     ZUKAN_SAVE_EnableNationalDex(ZUKAN_SAVE_GetFromGameData(SCRCMD_WORK_GetGameData(work)));
     return 0;
@@ -1117,7 +1117,7 @@ int SCRCMD_WORK_CmdGetZukanNationalFlag(struct ScriptVm *vm, ScrcmdWork *work)
     return 0;
 }
 
-int SCRCMD_WORK_CmdSetZukanFlagB(struct ScriptVm *vm, ScrcmdWork *work)
+int SCRCMD_WORK_CmdSetZukanObtained(struct ScriptVm *vm, ScrcmdWork *work)
 {
     ZUKAN_SAVE_SetDexObtained(ZUKAN_SAVE_GetFromGameData(SCRCMD_WORK_GetGameData(work)));
     return 0;
@@ -1232,7 +1232,7 @@ int SCRCMD_WORK_CmdCheckExtraSaveData(struct ScriptVm *vm, ScrcmdWork *work)
     return 0;
 }
 
-int SCRCMD_WORK_CmdEventDataSetA(struct ScriptVm *vm, ScrcmdWork *work)
+int SCRCMD_WORK_CmdSetBgEventGridPos(struct ScriptVm *vm, ScrcmdWork *work)
 {
     int eventId = (int)SCRIPT_WORK_ReadWorkValue(vm, work);
     s16 x = (s16)SCRIPT_WORK_ReadWorkValue(vm, work);
@@ -1242,7 +1242,7 @@ int SCRCMD_WORK_CmdEventDataSetA(struct ScriptVm *vm, ScrcmdWork *work)
     return 0;
 }
 
-int SCRCMD_WORK_CmdEventDataSetB(struct ScriptVm *vm, ScrcmdWork *work)
+int SCRCMD_WORK_CmdSetConnectGridPos(struct ScriptVm *vm, ScrcmdWork *work)
 {
     int eventId = (int)SCRIPT_WORK_ReadWorkValue(vm, work);
     s16 x = (s16)SCRIPT_WORK_ReadWorkValue(vm, work);
@@ -1252,7 +1252,7 @@ int SCRCMD_WORK_CmdEventDataSetB(struct ScriptVm *vm, ScrcmdWork *work)
     return 0;
 }
 
-int SCRCMD_WORK_CmdEventDataSetC(struct ScriptVm *vm, ScrcmdWork *work)
+int SCRCMD_WORK_CmdSetNpcGridPos(struct ScriptVm *vm, ScrcmdWork *work)
 {
     int eventId = (int)SCRIPT_WORK_ReadWorkValue(vm, work);
     int direction = (int)SCRIPT_WORK_ReadWorkValue(vm, work);
@@ -1268,7 +1268,7 @@ int SCRCMD_WORK_CmdSetEventFlagOffset(struct ScriptVm *vm, ScrcmdWork *work)
     struct GameData *gameData = SCRCMD_WORK_GetGameData(work);
     struct EventWork *eventWork = GAME_DATA_GetEventWork(gameData);
     unsigned offset = SCRIPT_WORK_ReadWorkValue(vm, work);
-    EVENT_POKE_STATUS_SetFlag(eventWork, offset);
+    EVENT_TRAINER_SetDefeatedFlag(eventWork, offset);
     return 0;
 }
 
@@ -1277,7 +1277,7 @@ int SCRCMD_WORK_CmdResetEventFlagOffset(struct ScriptVm *vm, ScrcmdWork *work)
     struct GameData *gameData = SCRCMD_WORK_GetGameData(work);
     struct EventWork *eventWork = GAME_DATA_GetEventWork(gameData);
     unsigned offset = SCRIPT_WORK_ReadWorkValue(vm, work);
-    EVENT_POKE_STATUS_ResetFlag(eventWork, offset);
+    EVENT_TRAINER_ClearDefeatedFlag(eventWork, offset);
     return 0;
 }
 
@@ -1286,7 +1286,7 @@ int SCRCMD_WORK_CmdCheckEventFlagOffset(struct ScriptVm *vm, ScrcmdWork *work)
     struct EventWork *eventWork = GAME_DATA_GetEventWork(SCRCMD_WORK_GetGameData(work));
     unsigned offset = SCRIPT_WORK_ReadWorkValue(vm, work);
     u16 *ret = SCRIPT_WORK_ReadWorkPointer(vm, work);
-    *ret = EVENT_POKE_STATUS_CheckFlag(eventWork, offset);
+    *ret = EVENT_TRAINER_CheckDefeatedFlag(eventWork, offset);
     return 0;
 }
 

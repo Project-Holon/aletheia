@@ -13,7 +13,7 @@
  *   TCBL_Destroy 0x02031140 arm
  *   STRBUF_Delete 0x02045808 arm
  *   MSGDATA_Delete 0x02045C04 arm
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  */
 #include "../include/Obj02240.h"
@@ -28,7 +28,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 struct Rec;
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 typedef unsigned int   u32;
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 void SHINKA_DEMO_DeleteWindows(int task, int *p)
 {
@@ -38,7 +38,7 @@ void SHINKA_DEMO_DeleteWindows(int task, int *p)
     if (((struct Obj02240 *)p)->f80) STRBUF_Delete((struct U16Vec *)(((struct Obj02240 *)p)->f80));
     MSGDATA_Delete(((struct Obj02240 *)p)->f78);
     MSGDATA_Delete(((struct Obj02240 *)p)->f7C);
-    BG_SYS_DeleteHalf(1, (unsigned short)(((struct Obj02240 *)p)->f74), (unsigned short)(((struct Obj02240 *)p)->f74 >> 16));
+    BG_SYS_FreeTileRun(1, (unsigned short)(((struct Obj02240 *)p)->f74), (unsigned short)(((struct Obj02240 *)p)->f74 >> 16));
     BMP_WIN_Delete((struct Descriptor *)(((struct Obj02240 *)p)->f6C));
     BMP_WIN_Delete((struct Descriptor *)(((struct Obj02240 *)p)->f70));
 }

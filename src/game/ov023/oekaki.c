@@ -1,7 +1,7 @@
 /*
  * file:     oekaki.c
  * unit:     yes
- * function: OEKAKI_RegisterNetCommands, OEKAKI_RecvCanvasChunk, OEKAKI_RecvStroke, OEKAKI_RecvStrokes, OEKAKI_RecvReset, OEKAKI_RecvSyncMessage, OEKAKI_RecvAck, OEKAKI_RecvMemberJoined, OEKAKI_RecvCanvasDone, OEKAKI_SendCanvasChunk, OEKAKI_GetRecvChunk, OEKAKI_OpenGroup, OEKAKI_Init, OEKAKI_Main, OEKAKI_Exit, OEKAKI_VBlankTask, OEKAKI_OnMemberJoined, OEKAKI_OnMemberLeft, OEKAKI_SetVramBanks, OEKAKI_SetupBgs, OEKAKI_InitWork, OEKAKI_FreeWork, OEKAKI_ResetDisplay, OEKAKI_LoadBgGraphics, OEKAKI_LoadSpriteResources, OEKAKI_CreateActors, OEKAKI_CreateWindows, OEKAKI_DeleteWindows, OEKAKI_SetCursorPosition, OEKAKI_MakeEmptyStroke, OEKAKI_HandleTouch, OEKAKI_SelectColorButton, OEKAKI_SetQuitButtonPressed, OEKAKI_StepDraw, OEKAKI_ApplyRemoteStrokes, OEKAKI_StepStart, OEKAKI_StepHideCursors, OEKAKI_StepEnterDraw, OEKAKI_StepOpenQuitMenu, OEKAKI_StepQuitMenuResult, OEKAKI_StepSendQuitRequest, OEKAKI_StepResetWaitTimer, OEKAKI_StepWaitQuitReply, OEKAKI_StepSendQuitConfirm, OEKAKI_StepCancelQuit, OEKAKI_StepShowQuitMessage, OEKAKI_StepWaitQuitMessage, OEKAKI_StepWaitThenFadeOut, OEKAKI_StepOpenFinishMenu, OEKAKI_StepFinishMenuResult, OEKAKI_RegisterPlayerName, OEKAKI_StepSendFinishRequest, OEKAKI_StepShowFinishMessage, OEKAKI_StepWaitFinishMessage, OEKAKI_StepCheckMembers, OEKAKI_StepKeepState, OEKAKI_StepShowWaitMessage, OEKAKI_StepWaitMessage, OEKAKI_StepShowSyncMessage, OEKAKI_StepWaitSyncAck, OEKAKI_StepWaitSyncTimer, OEKAKI_HandleEvent, OEKAKI_BlitBrush, OEKAKI_DrawLine, OEKAKI_StoreLastPoints, OEKAKI_DrawStrokes, OEKAKI_UpdateRemoteCursors, OEKAKI_AnimatePalette, OEKAKI_CountMembers, OEKAKI_RefreshNamePlates, OEKAKI_SendStrokes, OEKAKI_GetMemberCount, OEKAKI_UpdateMemberSlots, OEKAKI_PrintMessage, OEKAKI_IsMessageDone, OEKAKI_ClearMessageWindow, OEKAKI_NotifyHostSync, OEKAKI_UpdateMembers, OEKAKI_SetNextScene, OEKAKI_ApplySceneChange, OEKAKI_CloseMenuIfOpen, OEKAKI_IsQuitTouched, OEKAKI_MakeStroke, OEKAKI_GetJoinedCount, OEKAKI_GetJoinedBits, OEKAKI_EnableDisplays, OEKAKI_OpenYesNoMenu, OEKAKI_PollYesNoMenu, OEKAKI_CloseYesNoMenu, OEKAKI_RegisterMetPlayers, OEKAKI_UpdatePrintJobs, OEKAKI_SendPendingCommand, OEKAKI_QueueCommand, OEKAKI_GetPrevQueueIndex, OEKAKI_AdvanceQueueTailIfUsed, OEKAKI_AdvanceQueueTail, OEKAKI_ClearStrokeGroup, OEKAKI_PopStrokeGroup, OEKAKI_StoreStroke, OEKAKI_PeekStroke, OEKAKI_FillSendGroup
+ * function: OEKAKI_RegisterNetCommands, OEKAKI_RecvCanvasChunk, OEKAKI_RecvStroke, OEKAKI_RecvStrokes, OEKAKI_RecvReset, OEKAKI_RecvSyncMessage, OEKAKI_RecvAck, OEKAKI_RecvMemberJoined, OEKAKI_RecvCanvasDone, OEKAKI_SendCanvasChunk, OEKAKI_GetRecvChunk, OEKAKI_OpenGroup, OEKAKI_Init, OEKAKI_Main, OEKAKI_Exit, OEKAKI_VBlankTask, OEKAKI_OnMemberJoined, OEKAKI_OnMemberLeft, OEKAKI_SetVramBanks, OEKAKI_SetupBgs, OEKAKI_InitWork, OEKAKI_FreeWork, OEKAKI_ResetDisplay, OEKAKI_LoadBgGraphics, OEKAKI_LoadSpriteResources, OEKAKI_CreateActors, OEKAKI_CreateWindows, OEKAKI_DeleteWindows, OEKAKI_SetCursorPosition, OEKAKI_MakeEmptyStroke, OEKAKI_HandleTouch, OEKAKI_SelectColorButton, OEKAKI_SetQuitButtonPressed, OEKAKI_StepDraw, OEKAKI_ApplyRemoteStrokes, OEKAKI_StepStart, OEKAKI_StepHideCursors, OEKAKI_StepEnterDraw, OEKAKI_StepOpenQuitMenu, OEKAKI_StepQuitMenuResult, OEKAKI_StepSendQuitRequest, OEKAKI_StepResetWaitTimer, OEKAKI_StepWaitQuitReply, OEKAKI_StepSendQuitConfirm, OEKAKI_StepCancelQuit, OEKAKI_StepShowQuitMessage, OEKAKI_StepWaitQuitMessage, OEKAKI_StepWaitThenFadeOut, OEKAKI_StepOpenFinishMenu, OEKAKI_StepFinishMenuResult, OEKAKI_RegisterPlayerName, OEKAKI_StepSendFinishRequest, OEKAKI_StepShowFinishMessage, OEKAKI_StepWaitFinishMessage, OEKAKI_StepCheckMembers, OEKAKI_StepKeepState, OEKAKI_StepShowWaitMessage, OEKAKI_StepWaitMessage, OEKAKI_StepShowSyncMessage, OEKAKI_StepWaitSyncAck, OEKAKI_StepWaitSyncTimer, OEKAKI_HandleEvent, OEKAKI_BlitBrush, OEKAKI_DrawLine, OEKAKI_StoreLastPoints, OEKAKI_DrawStrokes, OEKAKI_UpdateRemoteCursors, OEKAKI_AnimatePalette, OEKAKI_CountMembers, OEKAKI_RefreshNamePlates, OEKAKI_SendStrokes, OEKAKI_GetMemberCount, OEKAKI_UpdateMemberSlots, OEKAKI_PrintMessage, OEKAKI_IsMessageDone, OEKAKI_ClearMessageWindow, OEKAKI_HostOpenGroupLimited, OEKAKI_UpdateMembers, OEKAKI_SetNextScene, OEKAKI_ApplySceneChange, OEKAKI_CloseMenuIfOpen, OEKAKI_IsQuitTouched, OEKAKI_MakeStroke, OEKAKI_GetJoinedCount, OEKAKI_GetJoinedBits, OEKAKI_EnableDisplays, OEKAKI_OpenYesNoMenu, OEKAKI_PollYesNoMenu, OEKAKI_CloseYesNoMenu, OEKAKI_RegisterMetPlayers, OEKAKI_UpdatePrintJobs, OEKAKI_SendPendingCommand, OEKAKI_QueueCommand, OEKAKI_GetPrevQueueIndex, OEKAKI_AdvanceQueueTailIfUsed, OEKAKI_AdvanceQueueTail, OEKAKI_ClearStrokeGroup, OEKAKI_PopStrokeGroup, OEKAKI_StoreStroke, OEKAKI_PeekStroke, OEKAKI_FillSendGroup
  * address:  0x021841E0
  * region:   ov023
  * compiler: dsi/1.1p1
@@ -77,7 +77,7 @@
  *   OEKAKI_CloseYesNoMenu  0x02186694  thumb  ov023
  *   OEKAKI_DeleteWindows  0x02185004  thumb  ov023
  *   MSGDATA_Delete  0x02045C04  arm
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   GF_FONT_Delete  0x0201D83C  thumb
  *   PROCSYS_FreeProcWork  0x020315D4  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
@@ -167,7 +167,7 @@
  *   BMP_Blit  0x020439A0  arm
  *   BMP_Delete  0x020437AC  arm
  *   gOekakiBrushPixels     0x02186C34  data  ov023  a4
- *   GF_STANDARD_Get_F684  0x0203F684  arm
+ *   GF_STANDARD_SinFromDegreesWrapped  0x0203F684  arm
  *   GX_LoadOBJPltt  0x0207E51C  arm
  *   BMP_FillRect  0x02043AF4  arm
  *   MYSTATUS_NameToStrbuf  0x02008500  thumb
@@ -191,8 +191,8 @@
  *   PRINTSYS_PrintStreamReleasePause  0x0201CE38  thumb  arm9
  *   PRINTSYS_PrintStreamDelete  0x0201CE48  thumb  arm9
  *   KEY_GetTrg  0x020362DC  arm  arm9
- *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb  arm9
- *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb  arm9
+ *   MET_TRAINERS_GetFromSave  0x0200ED48  thumb  arm9
+ *   MET_TRAINERS_Insert  0x0200ED54  thumb  arm9
  *   MSG_SPEED_GetWait  0x02012FFC  thumb  arm9
  *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
  *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb  arm9
@@ -284,7 +284,7 @@ extern void CLACT_ReleaseCellAnim(u32);
 extern u32 CLACT_DeleteUnit(void *clactSys);
 extern void CLACT_ExitSystem(void);
 extern u32 MSGDATA_Delete(struct MsgBank *msgBank);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
+extern u32 WORDSET_Delete(struct WordSet *wordSet);
 extern u32 GF_FONT_Delete(void *font);
 extern void PROCSYS_FreeProcWork(struct Proc *task);
 extern void GFL_HEAP_DeleteChecked(u32 heapId);
@@ -433,7 +433,7 @@ extern u32 GFL_NET_HANDLE_IsTimingSyncRange(NetHandle *h, u32 a, u32 b);
 extern struct Bmp *BMP_CreateFromBuffer(const void *pixels, u32 width, u32 height, u32 depth, u16 heap);
 extern void BMP_Blit(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int srcX, int srcY, u32 width, u32 height, u32 key);
 extern void BMP_Delete(struct Bmp *p);
-extern short GF_STANDARD_Get_F684(unsigned short x);
+extern short GF_STANDARD_SinFromDegreesWrapped(unsigned short x);
 extern void GX_LoadOBJPltt(void *src, unsigned long offset, unsigned long size);
 extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 width, u32 height, u32 color);
 extern void MYSTATUS_NameToStrbuf(UnionAppEntry *entry, StrBuf *dst);
@@ -457,9 +457,9 @@ extern u8 APP_TASKMENU_GetCursorPos(TaskMenu *menu);
 extern void APP_TASKMENU_CloseMenu(TaskMenu *);
 extern u32 APP_TASKMENU_RES_Delete(TaskMenuRes *s);
 extern void *GAME_DATA_GetSaveControl(void *gameData);
-extern MetList *MISC_SAVEDATA_GetBlock44(void *p);
+extern MetList *MET_TRAINERS_GetFromSave(void *p);
 extern u32 MYSTATUS_GetId(const UnionAppEntry *obj);
-extern void MISC_SAVEDATA_InsertRecentValue(MetList *l, u32 val);
+extern void MET_TRAINERS_Insert(MetList *l, u32 val);
 extern u32 PRINTSYS_QUE_Main(TextPrinter *ps);
 extern u32 PRINTSYS_QUE_IsExistTarget(TextPrinter *p, void *v);
 extern const ButtonLayout gOekakiButtonLayout[];
@@ -521,7 +521,7 @@ int OEKAKI_UpdateMemberSlots(OekakiWork *p);
 void OEKAKI_PrintMessage(OekakiWork *p, u32 msgId, int mode);
 int OEKAKI_IsMessageDone(OekakiWork *p);
 void OEKAKI_ClearMessageWindow(OekakiWork *p);
-void OEKAKI_NotifyHostSync(OekakiWork *p, int flag);
+void OEKAKI_HostOpenGroupLimited(OekakiWork *p, int flag);
 int OEKAKI_UpdateMembers(OekakiWork *p);
 void OEKAKI_SetNextScene(OekakiWork *p, u32 nextScene);
 void OEKAKI_ApplySceneChange(OekakiWork *p, int mode);
@@ -978,7 +978,7 @@ int OEKAKI_Exit(struct Proc *task, int *seq, void *unused, OekakiWork *work)
         OEKAKI_DeleteWindows(work);
         OEKAKI_ResetDisplay();
         MSGDATA_Delete(work->msgBank);
-        WORDSET_DeleteStrbufED04(work->wordSet);
+        WORDSET_Delete(work->wordSet);
         GF_FONT_Delete(work->font);
         (*seq)++;
         break;
@@ -1496,7 +1496,7 @@ int OEKAKI_StepHideCursors(OekakiWork *p, int procState)
 int OEKAKI_StepEnterDraw(OekakiWork *p, int procState)
 {
     *(volatile u16 *)0x04000050 = 0;
-    OEKAKI_NotifyHostSync(p, 1);
+    OEKAKI_HostOpenGroupLimited(p, 1);
     OEKAKI_SetNextScene(p, 4);
     OEKAKI_ApplyRemoteStrokes(p);
     p->newMemberPending = 0;
@@ -1784,7 +1784,7 @@ int OEKAKI_StepShowSyncMessage(OekakiWork *p, int procState)
     OEKAKI_SetNextScene(p, 0x19);
     GFL_USE_PlaySeDefaultVolume(0x54c);
     if (GFL_NET_SYSTEM_GetCurrentAid() == 0)
-        OEKAKI_NotifyHostSync(p, 0);
+        OEKAKI_HostOpenGroupLimited(p, 0);
     p->waitMemberCount = OEKAKI_GetJoinedCount(p);
     OEKAKI_ApplyRemoteStrokes(p);
     return procState;
@@ -1814,7 +1814,7 @@ int OEKAKI_StepWaitSyncTimer(OekakiWork *p, int procState)
         OEKAKI_SetNextScene(p, 4);
         if (GFL_NET_SYSTEM_GetCurrentAid() == 0) {
             p->syncMode = 1;
-            OEKAKI_NotifyHostSync(p, 1);
+            OEKAKI_HostOpenGroupLimited(p, 1);
         }
         p->baseMemberCount = UNION_APP_GetMemberCount(p->param->app);
         p->baseJoinedBits = UNION_APP_GetJoinedBits(p->param->app);
@@ -2044,7 +2044,7 @@ void OEKAKI_AnimatePalette(u16 *angle)
     *angle += 20;
     if (*angle > 360)
         *angle = 0;
-    color = (u16)((((GF_STANDARD_Get_F684(*angle) * 10) / 0x1000) + 15) << 5 | 0x1d);
+    color = (u16)((((GF_STANDARD_SinFromDegreesWrapped(*angle) * 10) / 0x1000) + 15) << 5 | 0x1d);
     GX_LoadOBJPltt(&color, 0x18, 2);
 }
 
@@ -2213,7 +2213,7 @@ void OEKAKI_ClearMessageWindow(OekakiWork *p)
  * extent: two zero padding bytes follow the return at 0x02186320.
  * Caller explicitly sets r1 for OEKAKI_OpenGroup, retained despite its legacy one-argument definition.
  */
-void OEKAKI_NotifyHostSync(OekakiWork *p, int flag)
+void OEKAKI_HostOpenGroupLimited(OekakiWork *p, int flag)
 {
     if (GFL_NET_SYSTEM_GetCurrentAid() == 0) {
         OEKAKI_GetJoinedCount(p);
@@ -2249,11 +2249,11 @@ int OEKAKI_UpdateMembers(OekakiWork *p)
     case 4:
         if (memberCount < p->lastMemberCount) {
             if (p->syncMode == 2) {
-                OEKAKI_NotifyHostSync(p, 0);
+                OEKAKI_HostOpenGroupLimited(p, 0);
             } else if (p->newMemberPending == 0) {
-                OEKAKI_NotifyHostSync(p, 1);
+                OEKAKI_HostOpenGroupLimited(p, 1);
             } else {
-                OEKAKI_NotifyHostSync(p, 0);
+                OEKAKI_HostOpenGroupLimited(p, 0);
             }
         }
         break;
@@ -2265,7 +2265,7 @@ int OEKAKI_UpdateMembers(OekakiWork *p)
         joinedBits = OEKAKI_GetJoinedBits(p);
         p->baseJoinedBits = joinedBits;
         if (p->newMemberPending != 0 && (joinedBits & p->newMemberBits) == 0) {
-            OEKAKI_NotifyHostSync(p, 1);
+            OEKAKI_HostOpenGroupLimited(p, 1);
             p->syncMode = 1;
             p->newMemberPending = 0;
             p->newMemberBits = 0;
@@ -2434,12 +2434,12 @@ void OEKAKI_RegisterMetPlayers(OekakiWork *p)
     MetList *list;
     UnionAppEntry *entry;
 
-    list = MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(p->param->gameData));
+    list = MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl(p->param->gameData));
     for (i = 0; i < 5; i++) {
         entry = UNION_APP_GetMemberEntry(p->param->app, (u8)i);
         if (entry != 0) {
             if (i != GFL_NET_SYSTEM_GetCurrentAid()) {
-                MISC_SAVEDATA_InsertRecentValue(list, MYSTATUS_GetId(entry));
+                MET_TRAINERS_Insert(list, MYSTATUS_GetId(entry));
             }
         }
     }

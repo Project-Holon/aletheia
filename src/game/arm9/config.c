@@ -1,7 +1,7 @@
 /*
  * file:     config.c
  * unit:     yes
- * function: CONFIG_InitKeyControlTable, CONFIG_Create, CONFIG_Copy, CONFIG_Init, CONFIG_GetTextSpeed, CONFIG_SetTextSpeed, CONFIG_GetSoundMode, CONFIG_SetSoundMode, CONFIG_GetBattleScene, CONFIG_SetBattleScene, CONFIG_GetBattleStyle, CONFIG_SetBattleStyle, CONFIG_GetAppliedFlag, CONFIG_SetAppliedFlag, CONFIG_ApplyAppliedFlag, CONFIG_GetButtonMode, CONFIG_SetButtonMode, CONFIG_GetBattleFlag, CONFIG_SetBattleFlag, MYSTATUS_GetSize
+ * function: CONFIG_InitKeyControlTable, CONFIG_Create, CONFIG_Copy, CONFIG_Init, CONFIG_GetTextSpeed, CONFIG_SetTextSpeed, CONFIG_GetSoundMode, CONFIG_SetSoundMode, CONFIG_GetBattleScene, CONFIG_SetBattleScene, CONFIG_GetBattleStyle, CONFIG_SetBattleStyle, CONFIG_GetTextLanguage, CONFIG_SetTextLanguage, CONFIG_ApplyTextLanguage, CONFIG_GetButtonMode, CONFIG_SetButtonMode, CONFIG_GetBattleFlag, CONFIG_SetBattleFlag, MYSTATUS_GetSize
  * address:  0x020082DC
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -64,7 +64,7 @@ void CONFIG_Init(struct Config *config)
     config->sound_mode = 0;
     config->battle_style    = 0;
     config->battle_scene    = 0;
-    config->applied_flag    = 0;
+    config->textLanguage    = 0;
     config->button_mode    = 1;
     config->battle_flag   = 0;
 }
@@ -109,24 +109,24 @@ void CONFIG_SetBattleStyle(struct Config *config, unsigned int value)
     config->battle_style = (u16)value;
 }
 
-int CONFIG_GetAppliedFlag(const struct Config *config)
+int CONFIG_GetTextLanguage(const struct Config *config)
 {
-    return config->applied_flag;
+    return config->textLanguage;
 }
 
-/* Sets applied_flag from the low bit of value, then passes the stored flag to
+/* Sets textLanguage from the low bit of value, then passes the stored flag to
  * MSGDATA_SetLanguage. */
-void CONFIG_SetAppliedFlag(struct Config *config, unsigned int value)
+void CONFIG_SetTextLanguage(struct Config *config, unsigned int value)
 {
-    config->applied_flag = (u16)value;
+    config->textLanguage = (u16)value;
 
-    MSGDATA_SetLanguage((u8)config->applied_flag);
+    MSGDATA_SetLanguage((u8)config->textLanguage);
 }
 
-/* Calls MSGDATA_SetLanguage with applied_flag as it stands. */
-u8 CONFIG_ApplyAppliedFlag(const struct Config *config)
+/* Calls MSGDATA_SetLanguage with textLanguage as it stands. */
+u8 CONFIG_ApplyTextLanguage(const struct Config *config)
 {
-    return MSGDATA_SetLanguage((u8)config->applied_flag);
+    return MSGDATA_SetLanguage((u8)config->textLanguage);
 }
 
 int CONFIG_GetButtonMode(const struct Config *config)

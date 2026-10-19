@@ -20,7 +20,7 @@
  *   POKE_TOOL_SetBoxValue  0x02017E64  thumb
  *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  *   POKE_TOOL_GetPersonalData  0x02019C54  thumb
- *   POKE_TOOL_GetPersonalGender  0x02019C7C  thumb
+ *   POKE_TOOL_GetPersonalAbilityCount  0x02019C7C  thumb
  *   POKE_TOOL_GetPersonalParam  0x02019C90  thumb
  *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
  */
@@ -32,7 +32,7 @@ extern void POKE_TOOL_SetBoxValue(void *p, u32 id, u32 v);
 extern u32  POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 struct Personal;
 extern void *POKE_TOOL_GetPersonalData(u32 a, u32 b);
-extern u32  POKE_TOOL_GetPersonalGender(void *h);
+extern u32  POKE_TOOL_GetPersonalAbilityCount(void *h);
 extern u32  POKE_TOOL_GetPersonalParam(u16 a, u16 b, u32 i);
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 
@@ -59,7 +59,7 @@ void POKE_TOOL_SetBoxAbility(void *p, u32 a, u32 b)
     h = POKE_TOOL_GetPersonalData((u16)a, (u16)b);
     t = POKE_TOOL_GetBoxValue(p, 0, 0);
     k = 0x1A;
-    if (POKE_TOOL_GetPersonalGender(h) == 2 && (t & (1 << 16))) {
+    if (POKE_TOOL_GetPersonalAbilityCount(h) == 2 && (t & (1 << 16))) {
         k = 0x1B;
     }
     POKE_TOOL_SetBoxValue(p, 0xA, POKE_PERSONAL_GetParam(h, k));

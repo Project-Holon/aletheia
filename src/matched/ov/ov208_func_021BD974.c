@@ -10,7 +10,7 @@
  * status: EXACT
  * symbols:
  *   func_02040804 0x02040804 arm
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  *   ZUKAN_DETAIL_TOUCHBAR_OffsetActorPos 0x021BDD48 thumb
  *   ZKND_TBAR_SetTouchEnable 0x021BD358 thumb
  *   ZKND_TBAR_UpdateButtons 0x021BD23C thumb
@@ -35,7 +35,7 @@ extern const int d_021C8388[];
 extern const u8 d_021C8384[];
 struct Ov208Menu;
 extern u32 func_02040804(u32 layer);
-extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
+extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
 extern void ZUKAN_DETAIL_TOUCHBAR_OffsetActorPos(char *p, short offset);
 extern void ZKND_TBAR_SetTouchEnable(char *p, int v);
 extern void ZKND_TBAR_UpdateButtons(char *p);
@@ -54,7 +54,7 @@ void ZUKAN_DETAIL_TOUCHBAR_Update(struct Ov208Fade *m)
     case 1:
         if (m->cnt == 0) {
             if ((int)func_02040804((int)1) >= 0) {
-                BG_SYS_ResetSlot(1, 3, 0);
+                BG_SYS_ChangeScroll(1, 3, 0);
                 m->pos = 0;
                 ZUKAN_DETAIL_TOUCHBAR_OffsetActorPos((char *)m, m->pos);
                 m->state = 2;
@@ -62,7 +62,7 @@ void ZUKAN_DETAIL_TOUCHBAR_Update(struct Ov208Fade *m)
                     ZKND_TBAR_SetTouchEnable(m->f30, 1);
                 break;
             }
-            BG_SYS_ResetSlot(1, 4, d_021C8388[m->idx]);
+            BG_SYS_ChangeScroll(1, 4, d_021C8388[m->idx]);
             m->pos = m->pos - (s16)d_021C8388[m->idx];
             ZUKAN_DETAIL_TOUCHBAR_OffsetActorPos((char *)m, m->pos);
             m->cnt = d_021C8384[m->idx];
@@ -73,12 +73,12 @@ void ZUKAN_DETAIL_TOUCHBAR_Update(struct Ov208Fade *m)
     case 3:
         if (m->cnt == 0) {
             if ((int)func_02040804((int)1) <= -24) {
-                BG_SYS_ResetSlot(1, 3, -24);
+                BG_SYS_ChangeScroll(1, 3, -24);
                 m->pos = 24;
                 ZUKAN_DETAIL_TOUCHBAR_OffsetActorPos((char *)m, m->pos);
                 m->state = 0;
             } else {
-                BG_SYS_ResetSlot(1, 5, d_021C8388[m->idx]);
+                BG_SYS_ChangeScroll(1, 5, d_021C8388[m->idx]);
                 m->pos = m->pos + (s16)d_021C8388[m->idx];
                 ZUKAN_DETAIL_TOUCHBAR_OffsetActorPos((char *)m, m->pos);
                 m->cnt = d_021C8384[m->idx];

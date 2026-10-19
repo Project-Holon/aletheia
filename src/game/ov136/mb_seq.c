@@ -1,8 +1,8 @@
 /*
  * file:     mb_seq.c
  * unit:     yes
- * function: MAILVIEW_InitBgs, MAILVIEW_FreeBgs, MAILVIEW_LoadGraphics, MAILVIEW_FreeGraphics, MAILVIEW_CreateWindows, MAILVIEW_CreateButtons, MAILVIEW_DeleteWindows, MAILVIEW_PrintSentences, MAILVIEW_InitActorSystem, MAILVIEW_ExitActorSystem, MB_SEQ_ProcInit, MB_SEQ_ProcMain, MB_SEQ_ProcExit, MB_SEQ_VBlankTask, MB_SEQ_SetVramBanks, MB_SEQ_InitBgs, MB_SEQ_FreeBgs, MB_SEQ_LoadFrameCharData, MB_SEQ_LoadMiscGraphics, MB_SEQ_CreateFrames, MB_SEQ_DeleteFrames, MB_SEQ_CreateMessageResources, MB_SEQ_DeleteMessageResources, MB_SEQ_OpenTwoEntryMenu, MB_SEQ_CreateMenuEntries, MB_SEQ_DeleteMenuEntries, MB_SEQ_OpenFourEntryMenu, MB_SEQ_CloseMenu, MB_SEQ_CollectMails, MB_SEQ_FreeMails, MB_SEQ_DrawPage, MB_SEQ_DrawSelectedMail, MB_SEQ_StepSelectFlash, MB_SEQ_LoadSelectedMailGraphics, MB_SEQ_CreatePmsDraw, MB_SEQ_DeletePmsDraw, MB_SEQ_CreateWindows, MB_SEQ_DeleteWindows, MB_SEQ_PrintTextToSlot, MB_SEQ_PrintMessageToSlot, MB_SEQ_DrawMailEntry, MB_SEQ_DrawTitle, MB_SEQ_EmptyHookDetailClose, MB_SEQ_EmptyHookDetailReturn, MB_SEQ_SetWriterWord, MB_SEQ_StartMessagePrint, MB_SEQ_PrintDetailMessage, MB_SEQ_ShowMessageWindow, MB_SEQ_HideMessageWindow, MB_SEQ_PrintMenuMessage, MB_SEQ_DrawMailDetail, MB_SEQ_CreateActors, MB_SEQ_DeleteActors, MB_SEQ_DrawActors, MB_SEQ_InitActorSystem, MB_SEQ_ExitActorSystem, MB_SEQ_CreateActor, MB_SEQ_DeleteActor, MB_SEQ_DeleteAllActors, MB_SEQ_SetActorAnim, MB_SEQ_SetActorVisible, MB_SEQ_SetActorPosition, MB_SEQ_SetActorObjMode, MB_SEQ_LoadActorArc, MB_SEQ_FreeActorArc, MB_SEQ_RegisterSystemActorResources, MB_SEQ_RegisterMailActorResources, MB_SEQ_ShowCursorActor, MB_SEQ_Update, MB_SEQ_StateInit, MB_SEQ_StateExit, MB_SEQ_StateFadeWait, MB_SEQ_StateMessageWait, MB_SEQ_StateConfirmMenu, MB_SEQ_StateFlashWait, MB_SEQ_StateStartChild, MB_SEQ_StateChildWait, MB_SEQ_StateFadeInToList, MB_SEQ_StateList, MB_SEQ_StateLeave, MB_SEQ_StateRedrawPage, MB_SEQ_ShowMailDetail, MB_SEQ_StateOpenActionMenu, MB_SEQ_StateActionMenu, MB_SEQ_StateDetail, MB_SEQ_CloseMailDetail, MB_SEQ_OpenConfirmMenuKind0, MB_SEQ_ShowMessage2, MB_SEQ_OpenConfirmMenuKind1, MB_SEQ_FinishPartyListChoice, MB_SEQ_BeginReturnFade, MB_SEQ_ShowBagResultMessage, MB_SEQ_StartPartyListForReturn, MB_SEQ_StateBackButtonDone, MB_SEQ_StateCloseButtonDone, MB_SEQ_CancelDetail, MB_SEQ_StartFadeIn, MB_SEQ_StartFadeOut, MB_SEQ_SetMessageWait, MB_SEQ_OpenMenuKind, MB_SEQ_StartMailFlash, MB_SEQ_StartArrowFlash, MB_SEQ_SetButtonsEnabled, MB_SEQ_SetDetailButtons, MB_SEQ_LoadMailDetail, MB_SEQ_ClearMailDetailText, MB_SEQ_CheckBagForItem, MB_SEQ_DeleteSelectedMail, MB_SEQ_CreatePartyListArgs, MB_SEQ_PushPartyList, MB_SEQ_FinishChildFreeA, MB_SEQ_FinishPartyList, MB_SEQ_FinishChildFreeB, MB_SEQ_PushMailTool, MB_SEQ_FinishMailTool, MB_SEQ_ReloadMailList, MB_SEQ_StartPartyListToTake, MB_SEQ_ShowItemMessage, MB_SEQ_GetPageButtonHit, MB_SEQ_CreateTouchSelect, MB_SEQ_DeleteTouchSelect, MB_SEQ_EmptyStubA, MB_SEQ_EmptyStubB, MB_SEQ_MoveCursorA, MB_SEQ_MoveCursorB, MB_SEQ_MoveCursorToPosition, MB_SEQ_IsConfirmPressed, MB_SEQ_IsXPressed
- * address:  0x021C4DE4
+ * function: MB_SEQ_ProcInit, MB_SEQ_ProcMain, MB_SEQ_ProcExit, MB_SEQ_VBlankTask, MB_SEQ_SetVramBanks, MB_SEQ_InitBgs, MB_SEQ_FreeBgs, MB_SEQ_LoadFrameCharData, MB_SEQ_LoadMiscGraphics, MB_SEQ_CreateFrames, MB_SEQ_DeleteFrames, MB_SEQ_CreateMessageResources, MB_SEQ_DeleteMessageResources, MB_SEQ_OpenTwoEntryMenu, MB_SEQ_CreateMenuEntries, MB_SEQ_DeleteMenuEntries, MB_SEQ_OpenFourEntryMenu, MB_SEQ_CloseMenu, MB_SEQ_CollectMails, MB_SEQ_FreeMails, MB_SEQ_DrawPage, MB_SEQ_DrawSelectedMail, MB_SEQ_StepSelectFlash, MB_SEQ_LoadSelectedMailGraphics, MB_SEQ_CreatePmsDraw, MB_SEQ_DeletePmsDraw, MB_SEQ_CreateWindows, MB_SEQ_DeleteWindows, MB_SEQ_PrintTextToSlot, MB_SEQ_PrintMessageToSlot, MB_SEQ_DrawMailEntry, MB_SEQ_DrawTitle, MB_SEQ_EmptyHookDetailClose, MB_SEQ_EmptyHookDetailReturn, MB_SEQ_SetWriterWord, MB_SEQ_StartMessagePrint, MB_SEQ_PrintDetailMessage, MB_SEQ_ShowMessageWindow, MB_SEQ_HideMessageWindow, MB_SEQ_PrintMenuMessage, MB_SEQ_DrawMailDetail, MB_SEQ_CreateActors, MB_SEQ_DeleteActors, MB_SEQ_DrawActors, MB_SEQ_InitActorSystem, MB_SEQ_ExitActorSystem, MB_SEQ_CreateActor, MB_SEQ_DeleteActor, MB_SEQ_DeleteAllActors, MB_SEQ_SetActorAnim, MB_SEQ_SetActorVisible, MB_SEQ_SetActorPosition, MB_SEQ_SetActorObjMode, MB_SEQ_LoadActorArc, MB_SEQ_FreeActorArc, MB_SEQ_RegisterSystemActorResources, MB_SEQ_RegisterMailActorResources, MB_SEQ_ShowCursorActor, MB_SEQ_Update, MB_SEQ_StateInit, MB_SEQ_StateExit, MB_SEQ_StateFadeWait, MB_SEQ_StateMessageWait, MB_SEQ_StateConfirmMenu, MB_SEQ_StateFlashWait, MB_SEQ_StateStartChild, MB_SEQ_StateChildWait, MB_SEQ_StateFadeInToList, MB_SEQ_StateList, MB_SEQ_StateLeave, MB_SEQ_StateRedrawPage, MB_SEQ_ShowMailDetail, MB_SEQ_StateOpenActionMenu, MB_SEQ_StateActionMenu, MB_SEQ_StateDetail, MB_SEQ_CloseMailDetail, MB_SEQ_OpenConfirmMenuKind0, MB_SEQ_ShowMessage2, MB_SEQ_OpenConfirmMenuKind1, MB_SEQ_FinishPartyListChoice, MB_SEQ_BeginReturnFade, MB_SEQ_ShowBagResultMessage, MB_SEQ_StartPartyListForReturn, MB_SEQ_StateBackButtonDone, MB_SEQ_StateCloseButtonDone, MB_SEQ_CancelDetail, MB_SEQ_StartFadeIn, MB_SEQ_StartFadeOut, MB_SEQ_SetMessageWait, MB_SEQ_OpenMenuKind, MB_SEQ_StartMailFlash, MB_SEQ_StartArrowFlash, MB_SEQ_SetButtonsEnabled, MB_SEQ_SetDetailButtons, MB_SEQ_LoadMailDetail, MB_SEQ_ClearMailDetailText, MB_SEQ_ReturnMailItemToBag, MB_SEQ_DeleteSelectedMail, MB_SEQ_CreatePartyListArgs, MB_SEQ_PushPartyList, MB_SEQ_FinishChildFreeA, MB_SEQ_FinishPartyList, MB_SEQ_FinishChildFreeB, MB_SEQ_PushMailTool, MB_SEQ_FinishMailTool, MB_SEQ_ReloadMailList, MB_SEQ_StartPartyListToTake, MB_SEQ_ShowItemMessage, MB_SEQ_GetPageButtonHit, MB_SEQ_CreateTouchSelect, MB_SEQ_DeleteTouchSelect, MB_SEQ_EmptyStubA, MB_SEQ_EmptyStubB, MB_SEQ_MoveCursorA, MB_SEQ_MoveCursorB, MB_SEQ_MoveCursorToPosition, MB_SEQ_IsConfirmPressed, MB_SEQ_IsXPressed
+ * address:  0x021C5480
  * region:   ov136
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -10,11 +10,29 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Cut from mailtool.c, mailview.c, unit_021C5518.c, unit_021C5B40.c, mb_seq.c by tools/splitfile.py.
+ * Cut from mailview.c, mb_seq.c by tools/splitfile.py.
  *
  * symbols:
- *   MAIL_GetBox 0x02008FEC thumb
  *   GFL_HEAP_Alloc 0x02030734 arm
+ *   STRBUF_Create 0x020457B0 arm
+ *   STRBUF_Delete  0x02045808  arm
+ *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
+ *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
+ *   CLACT_VBlankSystem 0x0204A648 arm
+ *   BG_SYS_Update 0x020419E4 arm
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
+ *   MSGDATA_Delete 0x02045C04 arm
+ *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
+ *   CLACT_CreateUnit 0x0204B100 arm
+ *   PMS_DRAW_SetNullColorPalette 0x0202DE5C thumb
+ *   PMS_DRAW_Delete 0x0202DC08 thumb
+ *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
+ *   CLACT_DeleteUnit 0x0204B1CC arm
+ *   BG_SYS_SetVramBanks 0x020433E0 arm
+ *   PMS_DRAW_Create  0x0202DB0C  thumb  arm9
+ *   APP_TASKMENU_RES_Create  0x02027F60  thumb  arm9
+ *   MAIL_GetBox 0x02008FEC thumb
  *   MIi_CpuClearFast 0x02082AC0 arm
  *   GFL_HEAP_Free  0x020307B0  arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
@@ -27,13 +45,11 @@
  *   GFL_HEAP_GetHeapHeadChecked 0x0203084C arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   PMSI_PARAM_IsEnabled 0x02024450 thumb
- *   STRBUF_Create 0x020457B0 arm
  *   MAIL_GetWriterName 0x02008F84 thumb
  *   STRBUF_SetString 0x02045924 arm
  *   MAIL_GetDesign 0x02008FA4 thumb
  *   MAIL_GetMessageId 0x02008FC0 thumb
  *   MAIL_GetMessage 0x02008FC8 thumb
- *   STRBUF_Delete  0x02045808  arm
  *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   TCBL_Create 0x0203101C arm
@@ -42,7 +58,6 @@
  *   TCBL_Destroy 0x02031140 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   GFL_USE_AddMainTask 0x020056A0 thumb
- *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   PMS_DRAW_Main 0x0202DBC4 thumb
  *   TCB_DeleteTask 0x02030EAC arm
@@ -60,7 +75,6 @@
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   BG_SYS_PushTile 0x020409B4 arm
- *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   MSGDATA_AllocString 0x02045EC0 arm
  *   APP_TASKMENU_IsFinish 0x020279E8 thumb
  *   APP_TASKMENU_GetCursorPos 0x02027A04 thumb
@@ -69,27 +83,10 @@
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   APP_TASKMENU_UpdateMenu 0x02027974 thumb
  *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
- *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
- *   CLACT_VBlankSystem 0x0204A648 arm
- *   BG_SYS_Update 0x020419E4 arm
- *   MSGDATA_CreateFromArchive 0x02045B38 arm
- *   MSGDATA_Delete 0x02045C04 arm
- *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
- *   PRINTSYS_QUE_Create 0x0201C440 thumb
- *   CLACT_CreateUnit 0x0204B100 arm
- *   PMS_DRAW_SetNullColorPalette 0x0202DE5C thumb
- *   PMS_DRAW_Delete 0x0202DC08 thumb
- *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
- *   CLACT_DeleteUnit 0x0204B1CC arm
- *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   d_021C77C4 0x021C77C4 data a1
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
- *   BMP_SetDisplaySwap 0x0204363C arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_ClearSlot 0x020414EC arm
  *   BG_SYS_InitRun 0x02040B94 arm
- *   g_77F4 0x021C77F4 data
- *   g_7804 0x021C7804 data
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
@@ -97,17 +94,8 @@
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
- *   PALANM_Create 0x02021518 thumb
- *   PALANM_AllocSlotBuffers 0x0202155C thumb
- *   PALANM_LoadHandlePaletteToSlot 0x020216B4 thumb
- *   PALANM_LoadArcPaletteToSlot 0x02021640 thumb
- *   BMP_MENUWORK_GetPlttFileId 0x0201F548 thumb
- *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   BG_SYS_SetTileEntry 0x02041300 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
- *   PALANM_Delete 0x02021540 thumb
- *   TCB_Noop 0x02030DA4 arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   BMP_WIN_Init 0x02045088 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_Delete 0x020452E8 arm
@@ -117,17 +105,11 @@
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
- *   gClActorInitParam 0x020A1448 data a4
  *   CLACT_ExitSystem 0x0204A5AC arm
  *   MB_SEQ_Update 0x021C68A0 thumb
  *   d_021C78E0 0x021C78E0 data a1
- *   APP_TASKMENU_WIN_Create  0x02027FEC  thumb  arm9
- *   PMS_DRAW_Create  0x0202DB0C  thumb  arm9
  *   PRINTSYS_PrintStream  0x0201CCE4  thumb  arm9
- *   PALANM_FreeSlotBuffers  0x020215A0  thumb  arm9
  *   APP_TASKMENU_OpenMenu  0x02027778  thumb  arm9
- *   APP_TASKMENU_RES_Create  0x02027F60  thumb  arm9
- *   APP_TASKMENU_WIN_Delete  0x02028148  thumb  arm9
  *   g_7910 0x021C7910 data
  *   g_79E0 0x021C79E0 data
  *   g_79A0 0x021C79A0 data
@@ -147,7 +129,7 @@
  *   BGWINFRM_PutFrame 0x0202CB4C thumb
  *   BGWINFRM_Delete 0x0202CA0C thumb
  *   WORDSET_CreateDefault 0x0201EC64 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   g_78C0 0x021C78C0 data
  *   g_78B0 0x021C78B0 data
  *   MAIL_CreateSlotCopy 0x02009050 thumb
@@ -250,7 +232,7 @@
  *   FILE_UTIL_GetItemSlot  0x0202138C  thumb
  *   MAILTOOL_CreateWriteArgs  0x021C3CC0  thumb
  *   d_021C7D5C 0x021C7D5C data a4
- *   MAILTOOL_HasMail 0x021C3E00 thumb ov136
+ *   MAILTOOL_IsMailSent 0x021C3E00 thumb ov136
  *   MAILTOOL_StoreMailToPartyMon 0x021C3E04 thumb ov136
  *   MAILTOOL_DeleteArgs 0x021C3E24 thumb ov136
  *   d_021C7E2C 0x021C7E2C data a4
@@ -268,9 +250,6 @@
  *   GAME_DATA_GetMyParty  0x02012934  thumb  arm9
  *   POKEPARTY_GetMember  0x0201AB28  thumb  arm9
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb  arm9
- *   MAILSYS_OnTouchMode 0x021C4528 thumb ov136
- *   MAILSYS_OnKeyModeNoOp 0x021C4534 thumb ov136
- *   MAILVIEW_SetVramBanks 0x021C4DD4 thumb ov136
  *   WORDSET_SetSlotTag  0x0201EE0C  thumb  arm9
  *   APP_ICON_GetArchiveId  0x020275E4  thumb  arm9
  *   GF_FONT_MeasureWidestLine  0x0201D304  thumb  arm9
@@ -279,13 +258,32 @@
  */
 #include "mail_types.h"
 #include "../ov091/pokelist_types.h"
+#include "mailview_shared_types.h"
 
-/* Opaque types of callees in other files. */
-struct Bmp;
-struct Cfg;
-struct DispVram;
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+
+extern void CLACT_VBlankSystem(void);
+
+extern void BG_SYS_Update(void);
+
+extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+
+extern struct PrintQue *PRINTSYS_QUE_Create(u32 heapId);
+
+extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+
+extern struct PmsDraw *PMS_DRAW_Create(struct ClactUnit *clactUnit, u32 b, struct PrintQue *printQue, struct GfFont *font, u8 e0, u8 e1, u16 heap);
+
+extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
+
+extern void BG_SYS_SetVramBanks(const struct DispVram *c);
+
 struct ProcData;
+
 struct Proc;
+
 struct Proc;
 
 /* Loaded BG character data (the data pointer sits at +0x14). */
@@ -372,8 +370,6 @@ struct MailBoxChildFinish {
 
 extern struct MailData *MAIL_GetBox(void *sys);
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-
 extern u32 GFL_HEAP_Free(void *p);
 
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
@@ -418,15 +414,6 @@ extern void TCBL_Main(struct Tcbl *p);
 
 extern u32 PRINTSYS_QUE_Main(struct PrintQue *ps);
 
-struct PalAnmSlot;
-
-
-struct DispConfig { u32 w[4]; };
-
-struct BgTemplate { u32 w[8]; };
-
-struct BgSet { struct BgTemplate t[5]; };
-
 extern u32 KEY_GetTrg(void);
 
 extern int TOUCHPANEL_GetTrg(void);
@@ -453,8 +440,6 @@ extern void PRINTSYS_PrintStreamDelete(struct PrintStream *stream);
 
 extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 
-extern void BMP_WIN_ClearScreen(struct BmpWin *d);
-
 extern void *MSGDATA_AllocString(struct MsgData *bank, u32 index);
 
 extern struct AppTaskMenu *APP_TASKMENU_OpenMenu(struct MailMenuTemplate *tmpl, struct AppTaskMenuRes *res);
@@ -465,23 +450,7 @@ extern void APP_TASKMENU_CloseMenu(struct AppTaskMenu *m);
 
 extern void BG_SYS_SetSubPlaneVisible(u32, u32);
 
-extern void CLACT_VBlankSystem(void);
-
-extern void BG_SYS_Update(void);
-
-extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-
 extern u32 APP_TASKMENU_RES_Delete(struct AppTaskMenuRes *s);
-
-extern struct PrintQue *PRINTSYS_QUE_Create(u32 heapId);
-
-extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-
-extern struct PmsDraw *PMS_DRAW_Create(struct ClactUnit *clactUnit, u32 b, struct PrintQue *printQue, struct GfFont *font, u8 e0, u8 e1, u16 heap);
-
-extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
 
 extern void PMS_DRAW_Delete(struct PmsDraw *draw);
 
@@ -489,11 +458,7 @@ extern void PRINTSYS_QUE_Delete(struct PrintQue *p);
 
 extern u32 CLACT_DeleteUnit(struct ClactUnit *bank);
 
-extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
-
-extern void BMP_SetDisplaySwap(u32);
 
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
@@ -515,39 +480,15 @@ extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, 
 
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
-extern void *PALANM_Create(u32 heap);
-
-extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
-
-extern void PALANM_LoadHandlePaletteToSlot(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
-
-extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
-
-extern u8 BMP_MENUWORK_GetPlttFileId(int i);
-
-extern void GF_FONT_SetDefaultTextColor(void);
-
 extern void ARC_TOOL_DeleteHandle(void *);
 
-extern void BG_SYS_SetTileEntry(unsigned int, int, int, int, unsigned char, unsigned char, unsigned char);
-
-extern void BG_SYS_SetFlagField06(u32);
-
-extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
-
-extern u32 PALANM_Delete(void *ctx);
-
-extern void TCB_Noop(void *);
+extern void BG_SYS_MarkTileDirty(u32);
 
 extern void G2x_SetBlendAlpha_(void *, int, int, int, int);
 
 extern void BMP_WIN_Init(u16);
 
 extern struct BmpWin *BMP_WIN_Create(u8 bg, u8 x, u8 y, u8 w, u8 h, u8 pal, u8 base);
-
-extern struct AppTaskMenuWin *APP_TASKMENU_WIN_Create(struct AppTaskMenuRes *res, struct MailMenuEntry *entry, u32 x, u32 y, u8 w, u16 heapId);
-
-extern void APP_TASKMENU_WIN_Delete(struct AppTaskMenuWin *p);
 
 extern u32 BMP_WIN_Delete(struct BmpWin *d);
 
@@ -579,21 +520,6 @@ extern void PROCSYS_FreeProcWork(struct Proc *p);
 
 extern void *GFL_HEAP_GetHeapHeadChecked(u32 heapId);
 
-int MAILSYS_OnTouchMode(struct MailEditProc *proc);
-int MAILSYS_OnKeyModeNoOp(void);
-
-
-
-
-
-
-
-
-
-
-
-
-
 int MB_SEQ_ProcInit(void *procSys, int unused, struct MailBoxArgs *args);
 
 int MB_SEQ_ProcMain(void *procSys, int *state, void *unused, struct MailBoxProc *p);
@@ -604,226 +530,7 @@ void MB_SEQ_VBlankTask(void *unused);
 
 void MB_SEQ_SetVramBanks(void);
 
-extern const struct DispVram d_021C77C4;
-
-extern const struct DispConfig g_77F4;
-
-extern const struct BgSet g_7804;
-
-extern u8 gClActorInitParam[];
-
 extern const struct DispVram d_021C78E0;
-
-void MAILVIEW_InitBgs(struct MailEditProc *proc)
-{
-    MAILVIEW_SetVramBanks();
-    {
-        struct DispConfig d = g_77F4;
-        BG_SYS_SetGraphicsMode(&d);
-    }
-    BMP_SetDisplaySwap(0);
-    {
-        struct BgSet s = g_7804;
-        BG_SYS_InitBgLayer(0, &s.t[0], 0);
-        BG_SYS_InitBgLayer(1, &s.t[1], 0);
-        BG_SYS_InitBgLayer(2, &s.t[2], 0);
-        BG_SYS_InitBgLayer(3, &s.t[3], 0);
-        BG_SYS_InitBgLayer(4, &s.t[4], 0);
-    }
-    BG_SYS_ClearSlot(0);
-    BG_SYS_ClearSlot(1);
-    BG_SYS_ClearSlot(2);
-    BG_SYS_ClearSlot(3);
-    BG_SYS_ClearSlot(4);
-    BG_SYS_InitRun(0, 0x20, 0, (u16)(proc->heapId));
-    BG_SYS_InitRun(1, 0x20, 0, (u16)(proc->heapId));
-    BG_SYS_InitRun(2, 0x20, 0, (u16)(proc->heapId));
-    BG_SYS_InitRun(3, 0x20, 0, (u16)(proc->heapId));
-    BG_SYS_InitRun(4, 0x20, 0, (u16)(proc->heapId));
-}
-
-void MAILVIEW_FreeBgs(struct MailEditProc *proc)
-{
-    BG_SYS_FreeLayerBuf(4);
-    BG_SYS_FreeLayerBuf(3);
-    BG_SYS_FreeLayerBuf(2);
-    BG_SYS_FreeLayerBuf(1);
-    BG_SYS_FreeLayerBuf(0);
-    BMP_SetDisplaySwap(1);
-}
-
-/*
- * note (2026-10-02): byte-correct; only the ABS32 word for MAILSYS_OnKeyModeNoOp (an unlabelled
- *   ov136 leaf "return 0", not in any lane) lacks a witness. File that leaf, then re-verify.
- */
-void MAILVIEW_LoadGraphics(struct MailEditProc *proc)
-{
-    u32 design = proc->draft->design;
-    void *arc = ARC_TOOL_CreateHandle(0x9B, (u16)proc->heapId);
-    u32 sz;
-    u32 pal;
-    u32 chr;
-
-    BMP_MENUWORK_LoadCharAndPltt(0, 1, 4, 0, (u16)proc->heapId);
-    BMP_MENUWORK_LoadCharAndPltt(0, 0xD, 6, 0, (u16)proc->heapId);
-    pal = design + 0xC;
-    ARC_UTIL_UploadBgCharFromHandle(arc, pal, 3, 0, 0, 1, (u16)proc->heapId);
-    ARC_UTIL_UploadBgCharFromHandle(arc, pal, 4, 0, 0, 1, (u16)proc->heapId);
-    chr = design + 0x18;
-    sz = 0x800;
-    ARC_UTIL_UploadBgPaletteFromHandle(arc, chr, 3, 0, sz, 1, (u16)proc->heapId);
-    ARC_UTIL_UploadBgPaletteFromHandle(arc, chr, 4, 0, sz, 1, (u16)proc->heapId);
-    ARC_UTIL_UploadPaletteFromHandleWhole(arc, design, 4, 0, 0, (u16)proc->heapId);
-    ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0xA0, 0x20, (u16)proc->heapId);
-    proc->palAnm = PALANM_Create(proc->heapId);
-    PALANM_AllocSlotBuffers(proc->palAnm, 0, 0xE0, (u16)proc->heapId);
-    PALANM_LoadHandlePaletteToSlot(proc->palAnm, arc, design, (u16)proc->heapId, 0, 0x60, 0);
-    PALANM_LoadArcPaletteToSlot(proc->palAnm, 0x17, 7, (u16)proc->heapId, 0, 0x20, 0x30);
-    PALANM_LoadArcPaletteToSlot(proc->palAnm, 0x17, 5, (u16)proc->heapId, 0, 0x20, 0x50);
-    PALANM_LoadArcPaletteToSlot(proc->palAnm, 5, BMP_MENUWORK_GetPlttFileId(0), (u16)proc->heapId, 0, 0x20, 0x40);
-    PALANM_LoadArcPaletteToSlot(proc->palAnm, 5, BMP_MENUWORK_GetPlttFileId(1), (u16)proc->heapId, 0, 0x20, 0x60);
-    GF_FONT_SetDefaultTextColor();
-    ARC_TOOL_DeleteHandle(arc);
-    BG_SYS_SetTileEntry(4, 0x2001, 0, 0, 0x20, 0x20, 0x11);
-    BG_SYS_SetFlagField06(4);
-    BG_SYS_SetMainPlaneVisible(1, 1);
-    BG_SYS_SetMainPlaneVisible(2, 1);
-    BG_SYS_SetMainPlaneVisible(8, 1);
-    if (proc->mode != 0) {
-        arc = ARC_TOOL_CreateHandle(0x9B, (u16)proc->heapId);
-        ARC_UTIL_UploadBgPaletteFromHandle(arc, 0x24, 2, 0, sz, 1, (u16)proc->heapId);
-        ARC_TOOL_DeleteHandle(arc);
-        proc->onKeyInput = (void (*)(void *))MAILSYS_OnKeyModeNoOp;
-        proc->onTouchInput = (void (*)(void *))MAILSYS_OnTouchMode;
-        BG_SYS_SetMainPlaneVisible(4, 1);
-    }
-}
-
-void MAILVIEW_FreeGraphics(struct MailEditProc *proc)
-{
-    PALANM_FreeSlotBuffers(proc->palAnm, 0);
-    PALANM_Delete(proc->palAnm);
-    proc->palAnm = 0;
-    TCB_DeleteTask(proc->blinkTask);
-    TCB_Noop(proc->blinkTaskList);
-    GFL_HEAP_Free(proc->blinkTaskMem);
-    G2x_SetBlendAlpha_((void *)0x04000050, 0, 0, 31, 0);
-}
-
-void MAILVIEW_CreateWindows(struct MailEditProc *proc)
-{
-    int i;
-    struct BmpWin *w;
-
-    BMP_WIN_Init((u16)proc->heapId);
-    proc->win[0] = BMP_WIN_Create(1, 0, 0, 1, 1, 5, 0);
-    proc->win[1] = BMP_WIN_Create(1, 3, 3, 0x1A, 4, 1, 0);
-    proc->win[2] = BMP_WIN_Create(1, 3, 8, 0x1A, 4, 1, 0);
-    proc->win[3] = BMP_WIN_Create(1, 3, 0xD, 0x1A, 4, 1, 0);
-    proc->win[4] = BMP_WIN_Create(1, 8, 0x13, 0xB, 2, 1, 0);
-    proc->win[5] = BMP_WIN_Create(1, 0x15, 0x13, 8, 2, 1, 0);
-    proc->win[6] = BMP_WIN_Create(0, 2, 1, 0x1C, 4, 5, 1);
-    for (i = 0; i < 6; i++) {
-        proc->slot[i].win = proc->win[i];
-        proc->slot[i].flag = 0;
-    }
-    proc->printQue = PRINTSYS_QUE_Create((u16)proc->heapId);
-    for (i = 0; i < 7; i++) {
-        BMP_Clear(BMP_WIN_GetBmp(proc->win[i]), 0);
-        if (i < 5) {
-            w = proc->win[i];
-            BMP_WIN_TransferChars(w);
-            BMP_WIN_MakeScreen(w);
-            BG_SYS_PushTile(BMP_WIN_GetBgLayer(w));
-        }
-    }
-}
-
-void MAILVIEW_CreateButtons(struct MailEditProc *proc)
-{
-    if (proc->mode == 1) {
-        proc->buttonEntry[0].text = MSGDATA_AllocString(proc->msgData, 0);
-        proc->buttonEntry[0].color = 0x39E3;
-        proc->buttonEntry[0].selected = 0;
-        proc->buttonEntry[1].text = MSGDATA_AllocString(proc->msgData, 1);
-        proc->buttonEntry[1].color = 0x39E3;
-        proc->buttonEntry[1].selected = 1;
-        proc->sendButton = APP_TASKMENU_WIN_Create(proc->taskMenuRes, &proc->buttonEntry[0], 21, 18, 10, (u16)proc->heapId);
-        proc->cancelButton = APP_TASKMENU_WIN_Create(proc->taskMenuRes, &proc->buttonEntry[1], 21, 21, 10, (u16)proc->heapId);
-    }
-}
-
-/*
- * lever: base + i * 4 + 0x44 keeps the base-plus-index inside the loop;
- * base + 0x44 + i * 4 hoists the field address and changes the loads.
- */
-void MAILVIEW_DeleteWindows(struct MailEditProc *proc)
-{
-    int i;
-    struct BmpWin *w;
-    if (proc->mode == 1) {
-        APP_TASKMENU_WIN_Delete(proc->sendButton);
-        APP_TASKMENU_WIN_Delete(proc->cancelButton);
-        STRBUF_Delete(proc->buttonEntry[0].text);
-        STRBUF_Delete(proc->buttonEntry[1].text);
-    }
-    PRINTSYS_QUE_Delete(proc->printQue);
-    proc->printQue = 0;
-    for (i = 0; i < 7; i++) {
-        w = proc->win[i];
-        BMP_WIN_ClearScreen(w);
-        BG_SYS_PushTile(BMP_WIN_GetBgLayer(w));
-        BMP_WIN_Delete(proc->win[i]);
-    }
-    BMP_WIN_Exit();
-}
-
-/*
- * note: 2026-10-02 byte-exact; waiting on arm9 witness shard for PMSI_PARAM_IsEnabled
- */
-void MAILVIEW_PrintSentences(struct MailEditProc *proc)
-{
-    int i;
-    struct MailDraft *draft;
-    struct BmpWin *w;
-    for (i = 0; i < 3; i++) {
-        if (PMSI_PARAM_IsEnabled(&proc->draft->message[i])) {
-            PMS_DRAW_Print(proc->pmsDraw, proc->win[i + 1], &proc->draft->message[i], (u8)i);
-        }
-    }
-    draft = proc->draft;
-    if (draft->messageId != 0xFFFF) {
-        proc->closingWord.sentenceType = 6;
-        proc->closingWord.sentenceId = 0;
-        proc->closingWord.word[0] = draft->messageId;
-        PMS_DRAW_Print(proc->pmsDraw, proc->win[4], &proc->closingWord, (u8)3);
-    }
-    if (proc->mode == 0) {
-        struct PrintQue *queue = proc->printQue;
-        PRINTSYS_PrintQueColor(queue, BMP_WIN_GetBmp(proc->slot[5].win), 0, 2, proc->draft->writerName, proc->font, 0x440);
-        proc->slot[5].flag = 1;
-        w = proc->win[5];
-        BMP_WIN_TransferChars(w);
-        BMP_WIN_MakeScreen(w);
-        BG_SYS_PushTile(BMP_WIN_GetBgLayer(w));
-    }
-}
-
-void MAILVIEW_InitActorSystem(struct MailEditProc *proc)
-{
-    CLACT_InitSystem((const struct Cfg *)gClActorInitParam, &d_021C77C4, (u16)(proc->heapId));
-    proc->clactUnit = CLACT_CreateUnit(4, (int)0, (u16)(proc->heapId));
-    CLACT_SetUnitDefaultRenderer(proc->clactUnit);
-    BG_SYS_SetMainPlaneVisible(16, 1);
-    BG_SYS_SetSubPlaneVisible(16, 1);
-    GFL_NET_RestartWithDefaultTimeout((int)0, (u16)(proc->heapId));
-}
-
-void MAILVIEW_ExitActorSystem(struct MailEditProc *proc)
-{
-    CLACT_DeleteUnit(proc->clactUnit);
-    CLACT_ExitSystem();
-}
 
 int MB_SEQ_ProcInit(void *procSys, int unused, struct MailBoxArgs *args)
 {
@@ -885,7 +592,7 @@ extern void BGWINFRM_Delete(struct BgWinFrm *mgr);
 
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 
 extern u32 MSGDATA_Delete(struct MsgData *msgData);
 
@@ -1072,7 +779,7 @@ void MB_SEQ_CreateMessageResources(struct MailBoxView *view)
 void MB_SEQ_DeleteMessageResources(struct MailBoxView *view)
 {
     STRBUF_Delete(view->msgBuf);
-    WORDSET_DeleteStrbufED04(view->wordSet);
+    WORDSET_Delete(view->wordSet);
     MSGDATA_Delete(view->msgData);
 }
 
@@ -1372,7 +1079,7 @@ int MB_SEQ_StepSelectFlash(struct MailBoxProc *p)
             CLACT_SetActorPaletteOffset(p->view->actor[flash->target], flash->paletteFirst, 1);
         } else {
             BG_SYS_FillTileMap(flash->target, flash->x, flash->y, flash->w, flash->h, flash->paletteFirst);
-            BG_SYS_SetFlagField06(flash->target);
+            BG_SYS_MarkTileDirty(flash->target);
         }
         flash->state++;
         break;
@@ -1383,7 +1090,7 @@ int MB_SEQ_StepSelectFlash(struct MailBoxProc *p)
                 CLACT_SetActorPaletteOffset(p->view->actor[flash->target], flash->paletteSecond, 1);
             } else {
                 BG_SYS_FillTileMap(flash->target, flash->x, flash->y, flash->w, flash->h, flash->paletteSecond);
-                BG_SYS_SetFlagField06(flash->target);
+                BG_SYS_MarkTileDirty(flash->target);
             }
             flash->count = 0;
             flash->state++;
@@ -1535,7 +1242,7 @@ void MB_SEQ_DrawTitle(struct MailBoxProc *p)
     win = p->view->win[26];
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(win));
 }
 
 void MB_SEQ_EmptyHookDetailClose(struct MailBoxView *view)
@@ -1586,13 +1293,13 @@ void MB_SEQ_ShowMessageWindow(struct MailBoxProc *p)
     win = p->view->win[25];
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(win));
 }
 
 void MB_SEQ_HideMessageWindow(struct MailBoxProc *p)
 {
     BMP_MENUWORK_DrawWindowBorder(p->view->win[25], 2);
-    BG_SYS_SetFlagField06(0);
+    BG_SYS_MarkTileDirty(0);
 }
 
 void MB_SEQ_PrintMenuMessage(struct MailBoxProc *p, unsigned int i)
@@ -1624,7 +1331,7 @@ void MB_SEQ_DrawMailDetail(struct MailBoxProc *p)
             win = p->view->win[i + 27];
             BMP_WIN_TransferChars(win);
             BMP_WIN_MakeScreen(win);
-            BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
+            BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(win));
         }
     }
     p->view->closingWord.sentenceType = 6;
@@ -1640,7 +1347,7 @@ void MB_SEQ_DrawMailDetail(struct MailBoxProc *p)
     win = p->view->win[31];
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(win));
 }
 
 static inline void setActorAutoAnimOn(struct ClactActor *actor)
@@ -1937,7 +1644,7 @@ extern u8 FILE_UTIL_GetItemSlot(u16 v);
 
 extern struct MailArgs *MAILTOOL_CreateWriteArgs(struct GameData *gameData, unsigned b, unsigned c, unsigned d, unsigned heap);
 
-extern u32 MAILTOOL_HasMail(struct MailArgs *args);
+extern u32 MAILTOOL_IsMailSent(struct MailArgs *args);
 
 extern int MAILTOOL_StoreMailToPartyMon(struct MailArgs *args, void *mon);
 
@@ -2029,7 +1736,7 @@ void MB_SEQ_LoadMailDetail(struct MailBoxProc *p);
 
 void MB_SEQ_ClearMailDetailText(struct MailBoxProc *p);
 
-void MB_SEQ_CheckBagForItem(struct MailBoxProc *p);
+void MB_SEQ_ReturnMailItemToBag(struct MailBoxProc *p);
 
 void MB_SEQ_DeleteSelectedMail(struct MailBoxProc *p);
 
@@ -2088,6 +1795,7 @@ extern const struct ProcData d_021C7D5C;
 extern const struct TouchRect d_021C7E2C[];
 
 extern const struct TouchRect d_021C7E40[];
+
 extern const u8 d_021C7E1C[];
 
 extern const struct TouchRect d_021C7E14[];
@@ -2619,7 +2327,7 @@ void MB_SEQ_ClearMailDetailText(struct MailBoxProc *p)
 /*
  * extent: trailing 021C741E halfword is zero alignment padding.
  */
-void MB_SEQ_CheckBagForItem(struct MailBoxProc *p)
+void MB_SEQ_ReturnMailItemToBag(struct MailBoxProc *p)
 {
     void *bag = GAME_DATA_GetMyItem(p->args->gameData);
     p->itemId = FILE_UTIL_GetItemId(MAIL_GetDesign(p->view->mails[p->selectedMail]));
@@ -2693,7 +2401,7 @@ int MB_SEQ_PushMailTool(struct MailBoxProc *p)
  */
 int MB_SEQ_FinishMailTool(struct MailBoxProc *p)
 {
-    p->hasMail = MAILTOOL_HasMail(p->childArgs);
+    p->hasMail = MAILTOOL_IsMailSent(p->childArgs);
     if (p->hasMail == 1) {
         MAILTOOL_StoreMailToPartyMon(p->childArgs, POKEPARTY_GetMember(GAME_DATA_GetMyParty(p->args->gameData), p->partyIndex));
         MYITEM_SAVEDATA_RemoveItem(GAME_DATA_GetMyItem(p->args->gameData), p->itemId, 1, 0x65);
@@ -2703,7 +2411,7 @@ int MB_SEQ_FinishMailTool(struct MailBoxProc *p)
 }
 
 /*
- * MB_SEQ_CheckBagForItem 0x021C73C8 thumb ov136
+ * MB_SEQ_ReturnMailItemToBag 0x021C73C8 thumb ov136
  * MB_SEQ_DeleteSelectedMail 0x021C7420 thumb ov136
  * MB_SEQ_FreeMails 0x021C5BE0 thumb ov136
  * MB_SEQ_CollectMails 0x021C5B40 thumb ov136
@@ -2715,7 +2423,7 @@ int MB_SEQ_FinishMailTool(struct MailBoxProc *p)
 void MB_SEQ_ReloadMailList(struct MailBoxProc *p)
 {
     u16 lastPage;
-    MB_SEQ_CheckBagForItem(p);
+    MB_SEQ_ReturnMailItemToBag(p);
     MB_SEQ_DeleteSelectedMail(p);
     MB_SEQ_FreeMails(p);
     MB_SEQ_CollectMails(p);

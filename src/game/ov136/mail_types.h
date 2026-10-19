@@ -186,7 +186,7 @@ struct MailBoxProc {
     /* 0x21 */ u8 partyIndex : 7;      /* party slot chosen to take or return the mail */
     /* 0x21 */ u8 bagFull : 1;         /* the bag has no room for the item */
     /* 0x22 */ u16 itemId;             /* item of the selected mail */
-    /* 0x24 */ int hasMail;            /* result of MAILTOOL_HasMail */
+    /* 0x24 */ int hasMail;            /* result of MAILTOOL_IsMailSent */
     /* 0x28 */ int nextState;
     /* 0x2C */ void *vblankTask;
     /* 0x30 */ void *procSys;

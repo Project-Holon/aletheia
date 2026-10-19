@@ -11,7 +11,7 @@
  *
  * symbols:
  *   CURSOR_MOVE_GetState 0x020260F0 thumb
- *   BOX2_UI_DeleteSound 0x021EE3CC thumb
+ *   BOX2_UI_DeleteCursorMove 0x021EE3CC thumb
  *   CURSOR_MOVE_Create 0x02025CD0 thumb
  *   CURSOR_MOVE_EnableInput 0x02025D1C thumb
  *   BOX2_UI_UpdateCursor 0x021EE408 thumb
@@ -28,7 +28,7 @@ typedef unsigned int   u32;
 struct Sound;
 struct Struct_02025D1C;
 extern u32 CURSOR_MOVE_GetState(struct Sound *obj);
-extern void BOX2_UI_DeleteSound(int *p);
+extern void BOX2_UI_DeleteCursorMove(int *p);
 typedef unsigned short u16;
 typedef unsigned char  u8;
 struct Struct_02025CD0;
@@ -41,7 +41,7 @@ extern const Pair d_021F02F0[];
 void BOX2_UI_MoveCursor(char **p, int idx, int v)
 {
     int r = CURSOR_MOVE_GetState(((struct Obj24031 *)(p[11]))->f70);
-    BOX2_UI_DeleteSound((int *)p);
+    BOX2_UI_DeleteCursorMove((int *)p);
     ((struct Obj24032 *)(p[11]))->f70 = CURSOR_MOVE_Create(d_021F02F0[idx].a, d_021F02F0[idx].b, (u32)p, r, v, 0x4C);
     CURSOR_MOVE_EnableInput(((struct Obj24033 *)(p[11]))->f70);
     BOX2_UI_UpdateCursor((char *)p, v);

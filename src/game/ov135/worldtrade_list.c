@@ -46,7 +46,7 @@
  *   WORLDTRADE_ADAPTER_DeletePrintStream 0x02202940 thumb ov135
  *   BMP_WIN_Delete 0x020452E8 arm
  *   STRBUF_Create 0x020457B0 arm
- *   WORLDTRADE_ADAPTER_IsStreamDone  0x02202840  thumb  ov135
+ *   WORLDTRADE_ADAPTER_IsStreamBusy  0x02202840  thumb  ov135
  *   BMP_WIN_GetBmp   0x02045770  arm
  *   BMP_Clear   0x02043B5C  arm
  *   BMP_WIN_TransferChars   0x02045334  arm
@@ -65,11 +65,11 @@
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  *   KEY_GetTrg  0x020362DC  arm  arm9
  *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm  arm9
- *   WORLDTRADE_ClearBusyFlag  0x021F4EC8  thumb  ov135
+ *   WORLDTRADE_AdvanceScreenId  0x021F4EC8  thumb  ov135
  *   WORLDTRADE_SetStateAndReturn  0x021F4EC0  thumb
  *   WORLDTRADE_SetActorPos  0x021F4FF4  thumb
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm  arm9
- *   WORLDTRADE_DEPOSIT_GetConditionIndex 0x021F886C thumb ov135
+ *   WORLDTRADE_DEPOSIT_FindLevelBracketIndex 0x021F886C thumb ov135
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   WORLDTRADE_SetNextState 0x021F4E98 thumb ov135
  *   WORLDTRADE_OpenTaskMenuYesNo  0x021F4BF8  thumb  ov135
@@ -80,19 +80,19 @@
  *   g_02203618  0x02203618  data  ov135
  *   g_02203628  0x02203628  data  ov135
  *   g_02203648  0x02203648  data  ov135
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   tbl_02203668   0x02203668  data  a4
  *   BMP_WIN_ClearScreen   0x020456F8  arm
  *   WORDSET_ClearAllSlots  0x0201F31C  thumb
  *   WORDSET_SetSlotFromMsgE7  0x0201F048  thumb
- *   WORDSET_DeleteMsgdataF094  0x0201F094  thumb
+ *   WORDSET_SetSlotFromKeyedMessage  0x0201F094  thumb
  *   tbl_02203608 0x02203608 data a1
  *   tbl_022035FC 0x022035FC data a1
  *   WORLDTRADE_INPUT_PrintStringAlignedWrapped  0x021F91DC  thumb
  *   WORLDTRADE_DEPOSIT_PrintBankString  0x021F7FD4  thumb
  *   WORLDTRADE_DEPOSIT_PrintModeLabel  0x021F8104  thumb
  *   WORLDTRADE_DEPOSIT_PrintConditionLabel  0x021F8178  thumb
- *   BG_SYS_FillScrollArea  0x02040618  arm
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm
  *   WORLDTRADE_DETAIL_PrintMonInfo 0x021FC8CC thumb ov135
  *   WORLDTRADE_DETAIL_PrintMonName 0x021FCA8C thumb ov135
  *   WORLDTRADE_DETAIL_LoadMonGraphics 0x021FCB54 thumb ov135
@@ -166,7 +166,7 @@ extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 
 extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 archiveID, u32 memberIdx, u32 channel, u32 offset, u32 size, u32 heapID, u16 flags);
 
-extern void WORLDTRADE_ClearBusyFlag(Work *p);
+extern void WORLDTRADE_AdvanceScreenId(Work *p);
 
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 
@@ -201,7 +201,7 @@ extern void CLACT_SetActorAutoAnim(struct Obj *,u32);
 
 extern int WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 
-extern int WORLDTRADE_DEPOSIT_GetConditionIndex(int,int,int);
+extern int WORLDTRADE_DEPOSIT_FindLevelBracketIndex(int,int,int);
 
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 
@@ -237,7 +237,7 @@ extern void *POKE_TOOL_GetBoxParam(void *mon);
 
 extern void WORLDTRADE_SetActorSurfacePos(void *, int, int);
 
-extern void BG_SYS_SetFlagField06(u32 v);
+extern void BG_SYS_MarkTileDirty(u32 v);
 
 
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
@@ -246,7 +246,7 @@ extern void WORDSET_ClearAllSlots(struct WordSet *p);
 
 extern void WORDSET_SetSlotFromMsgE7(struct WordSet *p, u32 i, u32 n);
 
-extern void WORDSET_DeleteMsgdataF094(struct WordSet *p, u32 i, u32 a, u32 n);
+extern void WORDSET_SetSlotFromKeyedMessage(struct WordSet *p, u32 i, u32 a, u32 n);
 
 extern int TOUCHPANEL_HitTrg(const void *);
 
@@ -260,7 +260,7 @@ extern void WORLDTRADE_DEPOSIT_PrintModeLabel(void *win, void *bank, int mode, i
 
 extern void WORLDTRADE_DEPOSIT_PrintConditionLabel(void *win, void *bank, int idx, u32 e, u32 x, u32 y, u16 color, int alt, u32 g);
 
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 
 
 void WORLDTRADE_DETAIL_PrintMonInfo(void *bank, void *names, void *words, void **win, void *mon, Rec *rec, void *g);
@@ -337,7 +337,7 @@ void WORLDTRADE_TITLE_ExitBgPlanes(Work *p);
 
 u32 WORLDTRADE_ADAPTER_CreateString(u32 a, u32 b, u32 c, u32 d);
 
-u32 WORLDTRADE_ADAPTER_IsStreamDone(PrintStreamCtx *p);
+u32 WORLDTRADE_ADAPTER_IsStreamBusy(PrintStreamCtx *p);
 
 u32 WORLDTRADE_ADAPTER_QueuePrintDefaultColor(void *p,u8 b,void *s,u32 x,u32 y,void *out);
 
@@ -420,7 +420,7 @@ int WORLDTRADE_LIST_Exit(Work *p)
     WORLDTRADE_LIST_ExitBgPlanes();
     WORLDTRADE_TITLE_ExitBgPlanes(p);
     CLACT_SetActorDrawEnable((struct Obj *)p->scrollBarObj, 0);
-    WORLDTRADE_ClearBusyFlag(p);
+    WORLDTRADE_AdvanceScreenId(p);
     if (*(int *)&p->flag == 0)
         GFL_NET_RestartWithDefaultTimeout(0, 0x48);
     return 0;
@@ -530,7 +530,7 @@ void WORLDTRADE_LIST_CreateWindows(Work *p)
         v = p->win_u16[i];
         BMP_WIN_TransferChars((struct Descriptor *)v);
         BMP_WIN_MakeScreen((struct Cfg *)v);
-        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)v));
+        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct Descriptor *)v));
     }
 }
 
@@ -574,7 +574,7 @@ void WORLDTRADE_LIST_CreateStrings(Work *p)
         WORDSET_SetSlotFromMsgE7(p->words, 8, e->lang);
     }
     if (e->ver != 0) {
-        WORDSET_DeleteMsgdataF094(p->words, 9, e->lang, e->ver);
+        WORDSET_SetSlotFromKeyedMessage(p->words, 9, e->lang, e->ver);
     }
     p->name0 = (void *)WORLDTRADE_ADAPTER_CreateString((u32)p->words, (u32)p->bank, 0x58, 0x48);
     p->name1 = (void *)WORLDTRADE_ADAPTER_CreateString((u32)p->words, (u32)p->bank, 0x59, 0x48);
@@ -735,7 +735,7 @@ int WORLDTRADE_LIST_StateScrollIn(Work *p)
 
 int WORLDTRADE_LIST_StateWaitMessage(u8 *p)
 {
-    if (WORLDTRADE_ADAPTER_IsStreamDone((PrintStreamCtx *)(p + 0xfa0)) == 0) {
+    if (WORLDTRADE_ADAPTER_IsStreamBusy((PrintStreamCtx *)(p + 0xfa0)) == 0) {
         ((Work *)p)->state = ((Work *)p)->returnState;
     }
     return 2;
@@ -784,7 +784,7 @@ void WORLDTRADE_LIST_PrintRecordRow(Pane *pane, void *bank, void *names, Rec *re
     BMP_Clear(BMP_WIN_GetBmp(pane->win), 0);
     WORLDTRADE_DEPOSIT_PrintBankString(pane->win, names, rec->name, 0, 0x440, printer);
     WORLDTRADE_DEPOSIT_PrintModeLabel(pane->win, bank, rec->mode, 0, 0x49, 0, 0x440, printer);
-    WORLDTRADE_DEPOSIT_PrintConditionLabel(pane->win, bank, WORLDTRADE_DEPOSIT_GetConditionIndex(rec->key, rec->val, 0), 0, 0x68, 0, 0x440, 0, (u32)printer);
+    WORLDTRADE_DEPOSIT_PrintConditionLabel(pane->win, bank, WORLDTRADE_DEPOSIT_FindLevelBracketIndex(rec->key, rec->val, 0), 0, 0x68, 0, 0x440, 0, (u32)printer);
 }
 
 void WORLDTRADE_LIST_PrintNames(Pane2 *pane, void *s1, void *s2, void *printer)
@@ -801,12 +801,12 @@ void WORLDTRADE_LIST_PrintNames(Pane2 *pane, void *s1, void *s2, void *printer)
 
 void WORLDTRADE_LIST_VBlank(Work *p)
 {
-    BG_SYS_FillScrollArea(0, 3, p->scroll);
-    BG_SYS_FillScrollArea(1, 3, p->scroll);
-    BG_SYS_FillScrollArea(2, 3, p->scroll);
-    BG_SYS_FillScrollArea(3, 3, p->scroll);
-    BG_SYS_FillScrollArea(4, 3, -p->scroll);
-    BG_SYS_FillScrollArea(5, 3, -32 - p->scroll);
-    BG_SYS_FillScrollArea(6, 3, -p->scroll);
-    BG_SYS_FillScrollArea(7, 3, -p->scroll);
+    BG_SYS_ChangeScrollImmediate(0, 3, p->scroll);
+    BG_SYS_ChangeScrollImmediate(1, 3, p->scroll);
+    BG_SYS_ChangeScrollImmediate(2, 3, p->scroll);
+    BG_SYS_ChangeScrollImmediate(3, 3, p->scroll);
+    BG_SYS_ChangeScrollImmediate(4, 3, -p->scroll);
+    BG_SYS_ChangeScrollImmediate(5, 3, -32 - p->scroll);
+    BG_SYS_ChangeScrollImmediate(6, 3, -p->scroll);
+    BG_SYS_ChangeScrollImmediate(7, 3, -p->scroll);
 }

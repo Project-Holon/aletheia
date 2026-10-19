@@ -1,7 +1,7 @@
 /*
  * file:     intrude_comm.c
  * unit:     yes
- * function: INTRUDE_COMM_Create, INTRUDE_COMM_StartSession, INTRUDE_COMM_MainStep, INTRUDE_COMM_Shutdown, INTRUDE_COMM_Destroy, INTRUDE_COMM_ScanCallback, INTRUDE_COMM_SyncPlayers, INTRUDE_COMM_SuspendPlayers, INTRUDE_COMM_OnSessionStarted, INTRUDE_COMM_OnSessionExit, INTRUDE_COMM_GetBeacon, INTRUDE_COMM_InitBeacon, INTRUDE_COMM_RefreshBeacon, INTRUDE_COMM_IsEqual, INTRUDE_COMM_RecvQuit, INTRUDE_COMM_Nop, INTRUDE_COMM_AgeFoundList, INTRUDE_COMM_GetStatusArea, INTRUDE_COMM_GetMemberRecord, INTRUDE_COMM_GetStatusRecord, INTRUDE_COMM_GetWorkArea, INTRUDE_COMM_IsLinked, INTRUDE_COMM_RecvShutdownRequest, INTRUDE_COMM_SendShutdownRequest, INTRUDE_COMM_RecvMemberCount, INTRUDE_COMM_SendMemberCount, INTRUDE_COMM_RecvRecordRequest, INTRUDE_COMM_SendRecordRequest, INTRUDE_COMM_RecvStatusRecord, INTRUDE_COMM_SendStatusRecord, INTRUDE_COMM_RecvPeerLeft, INTRUDE_COMM_SendPeerLeft, INTRUDE_COMM_RecvPeerStatus, INTRUDE_COMM_SendPeerStatus, INTRUDE_COMM_RecvTimeoutWarning, INTRUDE_COMM_SendTimeoutWarning, INTRUDE_COMM_RecvRequest, INTRUDE_COMM_SendRequest, INTRUDE_COMM_RecvReply, INTRUDE_COMM_SendReply, INTRUDE_COMM_RecvNotice, INTRUDE_COMM_SendNotice, INTRUDE_COMM_RecvAnswer, INTRUDE_COMM_SendAnswer, INTRUDE_COMM_RecvNoticeBytes, INTRUDE_COMM_SendNoticeBytes, INTRUDE_COMM_RecvReady, INTRUDE_COMM_SendReady, INTRUDE_COMM_RecvRemoteRecord, INTRUDE_CMD_SendSaveSummary, INTRUDE_CMD_RecvEntryIndex, INTRUDE_CMD_SendEntryIndex, INTRUDE_CMD_RecvMemberEntry, INTRUDE_CMD_SendMemberEntry, INTRUDE_CMD_RecvJoinRequest, INTRUDE_CMD_SendJoinRequest, INTRUDE_CMD_RecvJoinReply, INTRUDE_CMD_SendJoinReply, INTRUDE_CMD_RecvGroupRecord, INTRUDE_CMD_SendGroupRecord, INTRUDE_CMD_RecvRecordEcho, INTRUDE_CMD_SendRecordEcho, INTRUDE_CMD_RecvRecordAccept, INTRUDE_CMD_SendRecordAccept, INTRUDE_CMD_SendMemberValue, INTRUDE_CMD_RecvProposal, INTRUDE_CMD_SendProposal, INTRUDE_CMD_RecvProposalReply, INTRUDE_CMD_SendProposalReply, INTRUDE_CMD_RecvResultRecord, INTRUDE_CMD_SendResultRecord, INTRUDE_CMD_RecvReadyNotice, INTRUDE_CMD_SendReadyNotice, INTRUDE_CMD_RecvStartNotice, INTRUDE_CMD_SendStartNotice, INTRUDE_CMD_RecvEndNotice, INTRUDE_CMD_SendEndNotice, INTRUDE_CMD_RecvProfile, INTRUDE_CMD_SendProfile, INTRUDE_CMD_RecvTallyWord, INTRUDE_COMM_SendTally, INTRUDE_COMM_RecvBusyBegin, INTRUDE_COMM_SendBusyBegin, INTRUDE_COMM_RecvBusyEnd, INTRUDE_COMM_SendBusyEnd, INTRUDE_COMM_RecvPeerFlags, INTRUDE_COMM_SendPeerFlags, INTRUDE_COMM_RecvSupportMode, INTRUDE_COMM_SendSupportMode, INTRUDE_COMM_RecvProfile, INTRUDE_COMM_SendProfile, INTRUDE_COMM_RecvPairMessage, INTRUDE_COMM_SendPairMessage, INTRUDE_COMM_RecvUnionInfoRequest, INTRUDE_COMM_SendUnionInfoRequest, INTRUDE_COMM_RecvUnionInfo, INTRUDE_COMM_SendUnionInfo, INTRUDE_COMM_RecvReturnResult, INTRUDE_COMM_SendReturnResult, INTRUDE_COMM_RecvReturnPending, INTRUDE_COMM_SendReturnPending, INTRUDE_COMM_RecvPageRequest, INTRUDE_COMM_SendPageRequest, INTRUDE_COMM_RecvSymbolPage, INTRUDE_COMM_SendSymbolPage, INTRUDE_COMM_RecvAreaNotice, INTRUDE_COMM_SendAreaNotice, INTRUDE_COMM_UpdateRunning, INTRUDE_COMM_UpdateSeasonState, INTRUDE_COMM_UpdateMemberJoin, INTRUDE_COMM_UpdateMemberLeave, INTRUDE_COMM_UpdatePendingNotices, INTRUDE_COMM_UpdateUnionInfoAndReturnSlots, INTRUDE_COMM_UpdatePageRequests, INTRUDE_COMM_BuildSymbolPage, INTRUDE_COMM_UpdateQueuedRequest, INTRUDE_COMM_SetState, INTRUDE_COMM_RefreshSelfRecord, INTRUDE_COMM_ApplyPlayerBeacon, INTRUDE_COMM_StorePlayerRecord, INTRUDE_COMM_UpdatePlayerObjects, INTRUDE_COMM_UpdatePlayerObject, INTRUDE_COMM_LookupZonePair, INTRUDE_COMM_CompareZonePair, INTRUDE_COMM_GetRelativeSlot, INTRUDE_COMM_AdjustRemotePosition, INTRUDE_COMM_AdjustAllRemotePositions, INTRUDE_COMM_UpdateSelfRecord, INTRUDE_COMM_ClearNotice, INTRUDE_COMM_GetNotice, INTRUDE_COMM_InitRequest, INTRUDE_COMM_NextRequestToken, INTRUDE_COMM_TryStartRequest, INTRUDE_COMM_SetRequestOpen, INTRUDE_COMM_ClearRequestOpen, INTRUDE_COMM_UpdateRequest, INTRUDE_COMM_GetActiveRequestTarget, INTRUDE_COMM_SetRequestResult, INTRUDE_COMM_SetRequestResultAccepted, INTRUDE_COMM_TakeRequestResult, INTRUDE_COMM_ClearRequestResult, INTRUDE_COMM_PickDefaultObjCode, INTRUDE_COMM_GetPlayerObjCode, INTRUDE_COMM_HasConnectedPeers, INTRUDE_COMM_BuildLocalProfile, INTRUDE_COMM_GetPartnerTallyValid, INTRUDE_COMM_IsValidObjCode, INTRUDE_COMM_IsValidProfileCode, INTRUDE_COMM_SetLock, INTRUDE_COMM_SetIntrudeId, INTRUDE_COMM_SetSuspended, INTRUDE_COMM_InitSession, INTRUDE_COMM_ClearSessionEntries, INTRUDE_COMM_UpdateSession, INTRUDE_COMM_GetSessionElapsed, INTRUDE_COMM_GetSessionWaitRemaining, INTRUDE_COMM_GetSessionRemaining, INTRUDE_COMM_SetSessionEntrySendFlag, INTRUDE_COMM_SetSessionRequestSendFlag, INTRUDE_COMM_SetSessionResultSendFlag, INTRUDE_COMM_StoreSessionEntry, INTRUDE_COMM_StoreSessionRequest, INTRUDE_COMM_ClearSessionTicks, INTRUDE_COMM_AddSessionMember, INTRUDE_COMM_StartSessionTimer, INTRUDE_COMM_IsSessionTimeLimitSet, INTRUDE_COMM_UpdateSessionSends, INTRUDE_COMM_UpdateSessionResult, INTRUDE_COMM_IsSessionActive, INTRUDE_COMM_GetActiveSessionRequest, INTRUDE_COMM_AcceptSession, INTRUDE_COMM_IsSessionAccepted, INTRUDE_COMM_SetSessionFinished, INTRUDE_COMM_IsSessionFinished, INTRUDE_COMM_GetSessionResult, INTRUDE_COMM_IsSessionAcceptedOrResultReady, INTRUDE_COMM_TakeNoticeState, INTRUDE_COMM_SetNoticeState, INTRUDE_COMM_FindFreeResultSlot, INTRUDE_COMM_StoreResultRecord, INTRUDE_COMM_GetJoinStatus, INTRUDE_COMM_ClearJoinStatus, INTRUDE_COMM_PromoteRequestToResult, INTRUDE_COMM_SetResultRecord, INTRUDE_COMM_HasResult, INTRUDE_COMM_GetRequestKind, INTRUDE_COMM_GetResultCount, INTRUDE_COMM_RecordResultOutcome, INTRUDE_COMM_HasResultReward, INTRUDE_COMM_IsResultConfirmed, INTRUDE_COMM_GetLeaveFlag, INTRUDE_COMM_ResetMemberName, INTRUDE_COMM_FillMemberName, INTRUDE_COMM_SetMemberEntry, INTRUDE_COMM_GetMemberNameNetId, INTRUDE_COMM_IsJoinRequestValid, INTRUDE_COMM_ReceiveJoinRequest, INTRUDE_COMM_SendProposalReplies, INTRUDE_COMM_SendPendingReplies, INTRUDE_COMM_StoreJoinReply, INTRUDE_COMM_TakeJoinReply, INTRUDE_COMM_ClearJoinReply, INTRUDE_COMM_IsRequestFromNetId, INTRUDE_COMM_GetRequesterNetId, INTRUDE_COMM_IsRequestFromSelf, INTRUDE_COMM_SetWordSetPlayerName, INTRUDE_COMM_SetWordSetMemberName, INTRUDE_COMM_SetWordSetRequest, INTRUDE_COMM_ResetOutcomes, INTRUDE_COMM_PickEntryForKind, INTRUDE_COMM_CountOutcomes, INTRUDE_COMM_PartyProcInit, INTRUDE_COMM_PartyProcMain, INTRUDE_LINK_ProcExit, INTRUDE_LINK_CreateEvent, INTRUDE_LINK_EventMain, INTRUDE_COMM_GetPartnerSlot, INTRUDE_COMM_GetMarkerPosForPartner, INTRUDE_COMM_SendValueNow, INTRUDE_COMM_IsRecordReceived, INTRUDE_COMM_GetPartnerRecord, INTRUDE_COMM_SetPendingValue, INTRUDE_COMM_ConsumeAreaNoticeSeen
+ * function: INTRUDE_COMM_Create, INTRUDE_COMM_StartSession, INTRUDE_COMM_MainStep, INTRUDE_COMM_Shutdown, INTRUDE_COMM_Destroy, INTRUDE_COMM_ScanCallback, INTRUDE_COMM_SyncPlayers, INTRUDE_COMM_SuspendPlayers, INTRUDE_COMM_OnSessionStarted, INTRUDE_COMM_OnSessionExit, INTRUDE_COMM_GetBeacon, INTRUDE_COMM_InitBeacon, INTRUDE_COMM_RefreshBeacon, INTRUDE_COMM_IsEqual, INTRUDE_COMM_RecvQuit, INTRUDE_COMM_Nop, INTRUDE_COMM_AgeFoundList, INTRUDE_COMM_GetStatusArea, INTRUDE_COMM_GetMemberRecord, INTRUDE_COMM_GetStatusRecord, INTRUDE_COMM_GetWorkArea, INTRUDE_COMM_IsLinked, INTRUDE_COMM_RecvShutdownRequest, INTRUDE_COMM_SendShutdownRequest, INTRUDE_COMM_RecvMemberCount, INTRUDE_COMM_SendMemberCount, INTRUDE_COMM_RecvRecordRequest, INTRUDE_COMM_SendRecordRequest, INTRUDE_COMM_RecvStatusRecord, INTRUDE_COMM_SendStatusRecord, INTRUDE_COMM_RecvPeerLeft, INTRUDE_COMM_SendPeerLeft, INTRUDE_COMM_RecvPeerStatus, INTRUDE_COMM_SendPeerStatus, INTRUDE_COMM_RecvTimeoutWarning, INTRUDE_COMM_SendTimeoutWarning, INTRUDE_COMM_RecvRequest, INTRUDE_COMM_SendRequest, INTRUDE_COMM_RecvReply, INTRUDE_COMM_SendReply, INTRUDE_COMM_RecvNotice, INTRUDE_COMM_SendNotice, INTRUDE_COMM_RecvAnswer, INTRUDE_COMM_SendAnswer, INTRUDE_COMM_RecvNoticeBytes, INTRUDE_COMM_SendNoticeBytes, INTRUDE_COMM_RecvReady, INTRUDE_COMM_SendReady, INTRUDE_COMM_RecvRemoteRecord, INTRUDE_CMD_SendSaveSummary, INTRUDE_CMD_RecvEntryIndex, INTRUDE_CMD_SendEntryIndex, INTRUDE_CMD_RecvMemberEntry, INTRUDE_CMD_SendMemberEntry, INTRUDE_CMD_RecvJoinRequest, INTRUDE_CMD_SendJoinRequest, INTRUDE_CMD_RecvJoinReply, INTRUDE_CMD_SendJoinReply, INTRUDE_CMD_RecvGroupRecord, INTRUDE_CMD_SendGroupRecord, INTRUDE_CMD_RecvRecordEcho, INTRUDE_CMD_SendRecordEcho, INTRUDE_CMD_RecvRecordAccept, INTRUDE_CMD_SendRecordAccept, INTRUDE_CMD_SendMemberValue, INTRUDE_CMD_RecvProposal, INTRUDE_CMD_SendProposal, INTRUDE_CMD_RecvProposalReply, INTRUDE_CMD_SendProposalReply, INTRUDE_CMD_RecvResultRecord, INTRUDE_CMD_SendResultRecord, INTRUDE_CMD_RecvReadyNotice, INTRUDE_CMD_SendReadyNotice, INTRUDE_CMD_RecvStartNotice, INTRUDE_CMD_SendStartNotice, INTRUDE_CMD_RecvEndNotice, INTRUDE_CMD_SendEndNotice, INTRUDE_CMD_RecvProfile, INTRUDE_CMD_SendProfile, INTRUDE_CMD_RecvTallyWord, INTRUDE_COMM_SendTally, INTRUDE_COMM_RecvBusyBegin, INTRUDE_COMM_SendBusyBegin, INTRUDE_COMM_RecvBusyEnd, INTRUDE_COMM_SendBusyEnd, INTRUDE_COMM_RecvPeerFlags, INTRUDE_COMM_SendPeerFlags, INTRUDE_COMM_RecvSupportMode, INTRUDE_COMM_SendSupportMode, INTRUDE_COMM_RecvProfile, INTRUDE_COMM_SendProfile, INTRUDE_COMM_RecvPairMessage, INTRUDE_COMM_SendPairMessage, INTRUDE_COMM_RecvUnionInfoRequest, INTRUDE_COMM_SendUnionInfoRequest, INTRUDE_COMM_RecvUnionInfo, INTRUDE_COMM_SendUnionInfo, INTRUDE_COMM_RecvReturnResult, INTRUDE_COMM_SendReturnResult, INTRUDE_COMM_RecvReturnPending, INTRUDE_COMM_SendReturnPending, INTRUDE_COMM_RecvPageRequest, INTRUDE_COMM_SendPageRequest, INTRUDE_COMM_RecvSymbolPage, INTRUDE_COMM_SendSymbolPage, INTRUDE_COMM_RecvAreaNotice, INTRUDE_COMM_SendAreaNotice, INTRUDE_COMM_UpdateRunning, INTRUDE_COMM_UpdateSeasonState, INTRUDE_COMM_UpdateMemberJoin, INTRUDE_COMM_UpdateMemberLeave, INTRUDE_COMM_UpdatePendingNotices, INTRUDE_COMM_UpdateUnionInfoAndReturnSlots, INTRUDE_COMM_UpdatePageRequests, INTRUDE_COMM_BuildSymbolPage, INTRUDE_COMM_SendSaveSummaryToReadyPeers, INTRUDE_COMM_SetState, INTRUDE_COMM_RefreshSelfRecord, INTRUDE_COMM_ApplyPlayerBeacon, INTRUDE_COMM_StorePlayerRecord, INTRUDE_COMM_UpdatePlayerObjects, INTRUDE_COMM_UpdatePlayerObject, INTRUDE_COMM_LookupZonePair, INTRUDE_COMM_CompareZonePair, INTRUDE_COMM_GetRelativeSlot, INTRUDE_COMM_AdjustRemotePosition, INTRUDE_COMM_AdjustAllRemotePositions, INTRUDE_COMM_UpdateSelfRecord, INTRUDE_COMM_ClearNotice, INTRUDE_COMM_GetNotice, INTRUDE_COMM_InitRequest, INTRUDE_COMM_NextRequestToken, INTRUDE_COMM_TryStartRequest, INTRUDE_COMM_SetRequestOpen, INTRUDE_COMM_ClearRequestOpen, INTRUDE_COMM_UpdateRequest, INTRUDE_COMM_GetActiveRequestTarget, INTRUDE_COMM_SetRequestResult, INTRUDE_COMM_SetRequestResultAccepted, INTRUDE_COMM_TakeRequestResult, INTRUDE_COMM_ClearRequestResult, INTRUDE_COMM_PickDefaultObjCode, INTRUDE_COMM_GetPlayerObjCode, INTRUDE_COMM_HasConnectedPeers, INTRUDE_COMM_BuildLocalProfile, INTRUDE_COMM_GetPartnerTallyValid, INTRUDE_COMM_IsValidObjCode, INTRUDE_COMM_IsValidProfileCode, INTRUDE_COMM_SetLock, INTRUDE_COMM_SetIntrudeId, INTRUDE_COMM_SetSuspended, INTRUDE_COMM_InitSession, INTRUDE_COMM_ClearSessionEntries, INTRUDE_COMM_UpdateSession, INTRUDE_COMM_GetSessionElapsed, INTRUDE_COMM_GetSessionWaitRemaining, INTRUDE_COMM_GetSessionRemaining, INTRUDE_COMM_SetSessionEntrySendFlag, INTRUDE_COMM_SetSessionRequestSendFlag, INTRUDE_COMM_SetSessionResultSendFlag, INTRUDE_COMM_StoreSessionEntry, INTRUDE_COMM_StoreSessionRequest, INTRUDE_COMM_ClearSessionTicks, INTRUDE_COMM_AddSessionMember, INTRUDE_COMM_StartSessionTimer, INTRUDE_COMM_IsSessionTimeLimitSet, INTRUDE_COMM_UpdateSessionSends, INTRUDE_COMM_UpdateSessionJoinNotices, INTRUDE_COMM_IsSessionActive, INTRUDE_COMM_GetActiveSessionRequest, INTRUDE_COMM_AcceptSession, INTRUDE_COMM_IsSessionAccepted, INTRUDE_COMM_SetSessionFinished, INTRUDE_COMM_IsSessionFinished, INTRUDE_COMM_GetSessionResult, INTRUDE_COMM_IsSessionAcceptedOrResultReady, INTRUDE_COMM_TakeNoticeState, INTRUDE_COMM_SetNoticeState, INTRUDE_COMM_FindFreeResultSlot, INTRUDE_COMM_StoreResultRecord, INTRUDE_COMM_GetJoinStatus, INTRUDE_COMM_ClearJoinStatus, INTRUDE_COMM_PromoteRequestToResult, INTRUDE_COMM_SetResultRecord, INTRUDE_COMM_HasResult, INTRUDE_COMM_GetRequestKind, INTRUDE_COMM_GetResultCount, INTRUDE_COMM_RecordResultOutcome, INTRUDE_COMM_HasResultReward, INTRUDE_COMM_IsResultConfirmed, INTRUDE_COMM_GetLeaveFlag, INTRUDE_COMM_ResetMemberName, INTRUDE_COMM_FillMemberName, INTRUDE_COMM_SetMemberEntry, INTRUDE_COMM_GetMemberNameNetId, INTRUDE_COMM_IsJoinRequestValid, INTRUDE_COMM_ReceiveJoinRequest, INTRUDE_COMM_SendProposalReplies, INTRUDE_COMM_SendPendingReplies, INTRUDE_COMM_StoreJoinReply, INTRUDE_COMM_TakeJoinReply, INTRUDE_COMM_ClearJoinReply, INTRUDE_COMM_IsRequestFromNetId, INTRUDE_COMM_GetRequesterNetId, INTRUDE_COMM_IsRequestFromSelf, INTRUDE_COMM_SetWordSetPlayerName, INTRUDE_COMM_SetWordSetMemberName, INTRUDE_COMM_SetWordSetRequest, INTRUDE_COMM_ResetOutcomes, INTRUDE_COMM_PickEntryForKind, INTRUDE_COMM_TallyOutcomesAndResetIfComplete, INTRUDE_COMM_PartyProcInit, INTRUDE_COMM_PartyProcMain, INTRUDE_LINK_ProcExit, INTRUDE_LINK_CreateEvent, INTRUDE_LINK_EventMain, INTRUDE_COMM_GetPartnerSlot, INTRUDE_COMM_GetMarkerPosForPartner, INTRUDE_COMM_RequestPartnerSymbolPage, INTRUDE_COMM_IsPartnerSymbolPageReceived, INTRUDE_COMM_GetPartnerSymbolPage, INTRUDE_COMM_SetPendingAreaNotice, INTRUDE_COMM_ConsumeAreaNoticeSeen
  * address:  0x02172BC0
  * region:   ov011
  * compiler: dsi/1.1p1
@@ -46,7 +46,7 @@
  *   GAME_DATA_GetSeason  0x02012984  thumb
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_HANDLE_IsNegotiationDone  0x020399B8  arm
- *   GF_STANDARD_GetTime  0x0203F4FC  arm
+ *   GF_STANDARD_GetSecondsOfDay  0x0203F4FC  arm
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
  *   GAMESYSTEM_IsFieldMapExist  0x02012114  thumb
  *   GFL_NET_IsParentAid  0x0203D378  arm
@@ -166,7 +166,7 @@
  *   STRBUF_SetStringN  0x02045994  arm
  *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
- *   WORDSET_Callback_EF40  0x0201EF40  thumb
+ *   WORDSET_SetSlotFromMsg36  0x0201EF40  thumb
  *   WORDSET_SetSlotFromMsgA0  0x0201F184  thumb
  *   gIntrudePickTable     0x02176C4C  data  ov011  a1
  *   GFL_USE_GetRandom  0x020056EC  thumb
@@ -355,7 +355,7 @@ extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern u8 GAME_DATA_GetSeason(const struct GameData *gameData);
 extern GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_HANDLE_IsNegotiationDone(GFLNetHandle *handle);
-extern u32 GF_STANDARD_GetTime(void);
+extern u32 GF_STANDARD_GetSecondsOfDay(void);
 extern int GAME_DATA_GetIntrudeCount(const struct GameData *gameData);
 extern u32   GAMESYSTEM_IsFieldMapExist(const struct GameSystem *gameSystem);
 extern u32 GFL_NET_IsParentAid(void);
@@ -463,7 +463,7 @@ extern void *memset(void *p, int value, unsigned int size);
 extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
 extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotFromMsg36(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_SetSlotFromMsgA0(struct WordSet *p, u32 i, s32 v);
 extern u32 GFL_USE_GetRandom(u32 a);
 extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heap);
@@ -621,7 +621,7 @@ void INTRUDE_COMM_UpdatePendingNotices(IntrudeCommSys *work);
 void INTRUDE_COMM_UpdateUnionInfoAndReturnSlots(IntrudeCommSys *work);
 void INTRUDE_COMM_UpdatePageRequests(IntrudeCommSys *work);
 void INTRUDE_COMM_BuildSymbolPage(IntrudeCommSys *work, const IntrudePageRequest *request);
-void INTRUDE_COMM_UpdateQueuedRequest(IntrudeCommSys *work);
+void INTRUDE_COMM_SendSaveSummaryToReadyPeers(IntrudeCommSys *work);
 void INTRUDE_COMM_SetState(IntrudeCommSys *work, int state);
 void INTRUDE_COMM_RefreshSelfRecord(IntrudeCommSys *work);
 void INTRUDE_COMM_ApplyPlayerBeacon(IntrudeCommSys *work, int netId, IntrudeStatusRecord *record);
@@ -673,7 +673,7 @@ void INTRUDE_COMM_AddSessionMember(IntrudeSession *session, u8 netId);
 void INTRUDE_COMM_StartSessionTimer(IntrudeSession *session, int seconds);
 int INTRUDE_COMM_IsSessionTimeLimitSet(IntrudeSession *session);
 void INTRUDE_COMM_UpdateSessionSends(IntrudeCommSys *work, IntrudeSession *session);
-void INTRUDE_COMM_UpdateSessionResult(IntrudeCommSys *work, IntrudeSession *session);
+void INTRUDE_COMM_UpdateSessionJoinNotices(IntrudeCommSys *work, IntrudeSession *session);
 int INTRUDE_COMM_IsSessionActive(IntrudeSession *session);
 IntrudeMemberRecord *INTRUDE_COMM_GetActiveSessionRequest(IntrudeSession *session);
 void INTRUDE_COMM_AcceptSession(IntrudeCommSys *work, IntrudeSession *session);
@@ -718,7 +718,7 @@ void INTRUDE_COMM_SetWordSetMemberName(struct WordSet *wordSet, u32 slot, Intrud
 void INTRUDE_COMM_SetWordSetRequest(const IntrudeRequestHead *head, IntrudeMemberName *name, struct WordSet *wordSet, u16 heapId);
 void INTRUDE_COMM_ResetOutcomes(IntrudeSaveSlot *save);
 void INTRUDE_COMM_PickEntryForKind(IntrudeSaveSlot *save, u32 kind);
-int INTRUDE_COMM_CountOutcomes(IntrudeSaveSlot *save, u8 *doneAsFirst, u8 *doneAsSecond);
+int INTRUDE_COMM_TallyOutcomesAndResetIfComplete(IntrudeSaveSlot *save, u8 *doneAsFirst, u8 *doneAsSecond);
 int INTRUDE_COMM_PartyProcInit(struct Proc *proc, int unused, IntrudePartyParam *param);
 int INTRUDE_COMM_PartyProcMain(void *proc, int *state, IntrudePartyParam *param, IntrudePartyWork *work);
 int INTRUDE_LINK_ProcExit(void *procWork, int unused1, int unused2, IntrudeLinkProc *linkProc);
@@ -726,10 +726,10 @@ struct GameEvent *INTRUDE_LINK_CreateEvent(struct GameSystem *gameSystem, void *
 int INTRUDE_LINK_EventMain(struct GameEvent *event, u32 *state, IntrudeLinkEventWork *eventWork);
 u8 INTRUDE_COMM_GetPartnerSlot(void *comm, void *gameData);
 void INTRUDE_COMM_GetMarkerPosForPartner(void *comm, void *gameData, LinkMarkerPos *outPos);
-int INTRUDE_COMM_SendValueNow(IntrudeCommSys *linkState, u8 value);
-u32 INTRUDE_COMM_IsRecordReceived(IntrudeCommSys *linkState);
-u8 *INTRUDE_COMM_GetPartnerRecord(IntrudeCommSys *linkState);
-void INTRUDE_COMM_SetPendingValue(IntrudeCommSys *linkState, u8 value);
+int INTRUDE_COMM_RequestPartnerSymbolPage(IntrudeCommSys *linkState, u8 value);
+u32 INTRUDE_COMM_IsPartnerSymbolPageReceived(IntrudeCommSys *linkState);
+u8 *INTRUDE_COMM_GetPartnerSymbolPage(IntrudeCommSys *linkState);
+void INTRUDE_COMM_SetPendingAreaNotice(IntrudeCommSys *linkState, u8 value);
 extern char  str_02177000[];
 extern char d_02177000[];
 extern const GFLNetInitializeStruct d_021768C8;
@@ -925,7 +925,7 @@ void INTRUDE_COMM_MainStep(int *state, IntrudeCommParam *param, IntrudeCommSys *
     case 3:
         if (INTRUDE_COMM_SendStatusRecord(work) == 1) {
             work->step = 7;
-            work->startTime = GF_STANDARD_GetTime();
+            work->startTime = GF_STANDARD_GetSecondsOfDay();
             (*state)++;
         }
         break;
@@ -942,7 +942,7 @@ void INTRUDE_COMM_MainStep(int *state, IntrudeCommParam *param, IntrudeCommSys *
         }
         if (GFL_NET_IsParentAid() == 1 && INTRUDE_COMM_IsSessionActive(&work->session) == 0) {
             startTime = work->startTime;
-            now = GF_STANDARD_GetTime();
+            now = GF_STANDARD_GetSecondsOfDay();
             if (now < startTime) {
                 now += 86399;
             }
@@ -2016,7 +2016,7 @@ void INTRUDE_CMD_RecvResultRecord(int netId, int size, IntrudeResultRecord *reco
             INTRUDE_COMM_RecordResultOutcome(saveData, w, record);
             w->resultUpdated = 1;
         }
-        if (INTRUDE_COMM_CountOutcomes(saveSlot, &extra[1], &extra[0]) == 1) {
+        if (INTRUDE_COMM_TallyOutcomesAndResetIfComplete(saveSlot, &extra[1], &extra[0]) == 1) {
             hasExtra = 1;
             w->resultUpdated = 1;
         }
@@ -2533,7 +2533,7 @@ void INTRUDE_COMM_UpdateRunning(IntrudeCommSys *work)
     }
     INTRUDE_COMM_UpdateUnionInfoAndReturnSlots(work);
     INTRUDE_COMM_UpdatePageRequests(work);
-    INTRUDE_COMM_UpdateQueuedRequest(work);
+    INTRUDE_COMM_SendSaveSummaryToReadyPeers(work);
     if (INTRUDE_COMM_UpdateSelfRecord(work) == 1) {
         work->peerStatusDirty = 1;
     }
@@ -2732,7 +2732,7 @@ void INTRUDE_COMM_BuildSymbolPage(IntrudeCommSys *work, const IntrudePageRequest
 
 
 
-void INTRUDE_COMM_UpdateQueuedRequest(IntrudeCommSys *work)
+void INTRUDE_COMM_SendSaveSummaryToReadyPeers(IntrudeCommSys *work)
 {
     if (work->readyMask != 0) {
         if (INTRUDE_CMD_SendSaveSummary(work, work->readyMask) == 1) {
@@ -3457,7 +3457,7 @@ void INTRUDE_COMM_UpdateSession(IntrudeCommSys *work, IntrudeSession *session)
     INTRUDE_COMM_SendProposalReplies(work, session);
     INTRUDE_COMM_SendPendingReplies(work, session);
     INTRUDE_COMM_UpdateSessionSends(work, session);
-    INTRUDE_COMM_UpdateSessionResult(work, session);
+    INTRUDE_COMM_UpdateSessionJoinNotices(work, session);
 }
 
 
@@ -3466,7 +3466,7 @@ void INTRUDE_COMM_UpdateSession(IntrudeCommSys *work, IntrudeSession *session)
 
 int INTRUDE_COMM_GetSessionElapsed(IntrudeSession *session)
 {
-    u32 now = GF_STANDARD_GetTime();
+    u32 now = GF_STANDARD_GetSecondsOfDay();
     u32 start = session->startTick;
     if (now < start) now += 86400;
     return now - start;
@@ -3608,7 +3608,7 @@ static inline void MarkJoined(IntrudeSession *session, u8 bit)
  */
 void INTRUDE_COMM_AddSessionMember(IntrudeSession *session, u8 netId)
 {
-    if (session->joinedMask == 0) session->startTick = GF_STANDARD_GetTime();
+    if (session->joinedMask == 0) session->startTick = GF_STANDARD_GetSecondsOfDay();
     MarkJoined(session, 1 << netId);
 }
 
@@ -3623,7 +3623,7 @@ void INTRUDE_COMM_StartSessionTimer(IntrudeSession *session, int seconds)
 {
     session->timeLimitSet = 1;
     session->request.amount = seconds;
-    if (GFL_NET_IsParentAid() == 0) session->startTick = GF_STANDARD_GetTime();
+    if (GFL_NET_IsParentAid() == 0) session->startTick = GF_STANDARD_GetSecondsOfDay();
 }
 
 
@@ -3675,7 +3675,7 @@ void INTRUDE_COMM_UpdateSessionSends(IntrudeCommSys *work, IntrudeSession *sessi
  * prototype: INTRUDE_CMD_SendMemberValue trailing input omitted: full matched body neither
  * reads nor forwards d; original caller supplies no r3 value.
  */
-void INTRUDE_COMM_UpdateSessionResult(IntrudeCommSys *work, IntrudeSession *session)
+void INTRUDE_COMM_UpdateSessionJoinNotices(IntrudeCommSys *work, IntrudeSession *session)
 {
     u8 mask = session->joinNoticeMask;
     if (mask != 0) {
@@ -4105,7 +4105,7 @@ int INTRUDE_COMM_ReceiveJoinRequest(IntrudeCommSys *w, IntrudeSession *session, 
     session->slots[senderNetId].record = *pending;
     session->slots[senderNetId].state = 1;
     INTRUDE_COMM_SetSessionRequestSendFlag(session);
-    session->startTick = GF_STANDARD_GetTime();
+    session->startTick = GF_STANDARD_GetSecondsOfDay();
     session->resultReported = 0;
     return 1;
 }
@@ -4254,12 +4254,12 @@ void INTRUDE_COMM_SetWordSetRequest(const IntrudeRequestHead *head, IntrudeMembe
     case 3: {
         const IntrudeParamPair *param = &head->param;
         INTRUDE_COMM_SetWordSetMemberName(wordSet, 0, name, heapId);
-        WORDSET_Callback_EF40(wordSet, 1, param->x);
+        WORDSET_SetSlotFromMsg36(wordSet, 1, param->x);
         WORDSET_SetSlotNumber(wordSet, 2, param->y, 5, 0, 1);
         break;
     }
     case 4:
-        WORDSET_Callback_EF40(wordSet, 0, head->param.y);
+        WORDSET_SetSlotFromMsg36(wordSet, 0, head->param.y);
         INTRUDE_COMM_SetWordSetMemberName(wordSet, 1, name, heapId);
         break;
     case 5:
@@ -4313,7 +4313,7 @@ void INTRUDE_COMM_PickEntryForKind(IntrudeSaveSlot *save, u32 kind)
 
 
 /* Count the outcomes of the six kinds; 1 once all are done (the picks are then redrawn). */
-int INTRUDE_COMM_CountOutcomes(IntrudeSaveSlot *save, u8 *doneAsFirst, u8 *doneAsSecond)
+int INTRUDE_COMM_TallyOutcomesAndResetIfComplete(IntrudeSaveSlot *save, u8 *doneAsFirst, u8 *doneAsSecond)
 {
     int kind;
     for (kind = 0; kind < 6; kind++) {
@@ -4567,7 +4567,7 @@ void INTRUDE_COMM_GetMarkerPosForPartner(void *comm, void *gameData, LinkMarkerP
  * extent: followers 02176870 and 02176880 already filed separately.
  * Sends the value to the partner (network command 0x228) tagged as enabled.
  */
-int INTRUDE_COMM_SendValueNow(IntrudeCommSys *linkState, u8 value)
+int INTRUDE_COMM_RequestPartnerSymbolPage(IntrudeCommSys *linkState, u8 value)
 {
     LinkValueMessage message;
     message.value = value;
@@ -4578,7 +4578,7 @@ int INTRUDE_COMM_SendValueNow(IntrudeCommSys *linkState, u8 value)
 
 
 /* Returns the pageReceived flag. */
-u32 INTRUDE_COMM_IsRecordReceived(IntrudeCommSys *linkState)
+u32 INTRUDE_COMM_IsPartnerSymbolPageReceived(IntrudeCommSys *linkState)
 {
     return linkState->pageReceived;
 }
@@ -4589,7 +4589,7 @@ u32 INTRUDE_COMM_IsRecordReceived(IntrudeCommSys *linkState)
  * Returns the received partner record (+0x82C).
  * Filed as the sole blocker of SYMBOL_MAP_GetSelection (ov010).
  */
-u8 *INTRUDE_COMM_GetPartnerRecord(IntrudeCommSys *linkState)
+u8 *INTRUDE_COMM_GetPartnerSymbolPage(IntrudeCommSys *linkState)
 {
     return (u8 *)&linkState->peerSymbolPage;
 }
@@ -4602,7 +4602,7 @@ u8 *INTRUDE_COMM_GetPartnerRecord(IntrudeCommSys *linkState)
  * address is Thumb code in ov011 (ARM/data in the overlapping ov009), so the
  * matched shard makes that site attest as `matched`.
  */
-void INTRUDE_COMM_SetPendingValue(IntrudeCommSys *linkState, u8 value)
+void INTRUDE_COMM_SetPendingAreaNotice(IntrudeCommSys *linkState, u8 value)
 {
     linkState->areaNoticeValue = value;
     linkState->areaNoticePending = 1;

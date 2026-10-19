@@ -1,7 +1,7 @@
 /*
  * file:     mailtool.c
  * unit:     yes
- * function: MAILTOOL_CreateWriteArgs, MAILTOOL_CreateArgsFromPartyMon, MAILTOOL_CreateArgsFromMail, MAILTOOL_HasMail, MAILTOOL_StoreMailToPartyMon, MAILTOOL_DeleteArgs, MAILTOOL_ProcInit, MAILTOOL_ProcMain, MAILTOOL_ProcExit, MAILTOOL_StartWordInput
+ * function: MAILTOOL_CreateWriteArgs, MAILTOOL_CreateArgsFromPartyMon, MAILTOOL_CreateArgsFromMail, MAILTOOL_IsMailSent, MAILTOOL_StoreMailToPartyMon, MAILTOOL_DeleteArgs, MAILTOOL_ProcInit, MAILTOOL_ProcMain, MAILTOOL_ProcExit, MAILTOOL_StartWordInput
  * address:  0x021C3CC0
  * region:   ov136
  * compiler: dsi/1.1p1
@@ -53,7 +53,7 @@
  *   PMSI_PARAM_InitSentence 0x020242A4 thumb
  *   PMSI_PARAM_SetSentence 0x02024108 thumb
  *   MAILTOOL_CreateWriteArgs  0x021C3CC0  thumb
- *   MAILTOOL_HasMail 0x021C3E00 thumb ov136
+ *   MAILTOOL_IsMailSent 0x021C3E00 thumb ov136
  *   MAILTOOL_StoreMailToPartyMon 0x021C3E04 thumb ov136
  *   MAILTOOL_DeleteArgs 0x021C3E24 thumb ov136
  *   MAILSYS_CreateMessage 0x021C409C thumb ov136
@@ -107,7 +107,7 @@ extern void PMSI_PARAM_SetSentence(struct PmsiParam *dst, const struct PmsData *
 void *MAILTOOL_CreateWriteArgs(void *a, unsigned b, unsigned c, unsigned d, unsigned heap);
 void *MAILTOOL_CreateArgsFromPartyMon(void *a, void *b, unsigned heap);
 void *MAILTOOL_CreateArgsFromMail(void *a, void *b, unsigned heap);
-u32 MAILTOOL_HasMail(struct MailArgs *args);
+u32 MAILTOOL_IsMailSent(struct MailArgs *args);
 int MAILTOOL_StoreMailToPartyMon(struct MailArgs *args, void *mon);
 void MAILTOOL_DeleteArgs(struct MailArgs *args);
 int MAILTOOL_ProcInit(void *a, void *b, struct MailArgs *args);
@@ -164,14 +164,14 @@ void *MAILTOOL_CreateArgsFromMail(void *a, void *b, unsigned heap)
     return args;
 }
 
-u32 MAILTOOL_HasMail(struct MailArgs *args)
+u32 MAILTOOL_IsMailSent(struct MailArgs *args)
 {
     return args->sent;
 }
 
 int MAILTOOL_StoreMailToPartyMon(struct MailArgs *args, void *mon)
 {
-    if (MAILTOOL_HasMail(args) == 0) return 0;
+    if (MAILTOOL_IsMailSent(args) == 0) return 0;
     POKE_TOOL_SetPartyValue(mon, 0xa7, (u32)args->mail);
     return 1;
 }

@@ -18,7 +18,7 @@
  *   WORDSET_SetSlotFromMsgCB  0x0201EF34  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   PRINTSYS_Print  0x0201C7A4  thumb
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   CLACT_GetActorImageProxy  0x0204B7C8  arm  arm9
  *   BMP_Create  0x02043678  arm  arm9
  *   BMP_Delete  0x020437AC  arm  arm9
@@ -71,7 +71,7 @@ extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void CLACT_GetActorImageProxy(const char *src, struct Struct36 *dst);
 extern void MIi_CpuCopy16(const void *, void *, int);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void BMP_Delete(struct Obj020437AC *p);
 
 void BTLV_INPUT_CreateBackActor(char *p)
@@ -117,6 +117,6 @@ void BTLV_INPUT_CreateBackActor(char *p)
     }
     STRBUF_Delete(str);
     STRBUF_Delete(msg);
-    WORDSET_DeleteStrbufED04((struct WordSet *)font);
+    WORDSET_Delete((struct WordSet *)font);
     BMP_Delete(bmp);
 }

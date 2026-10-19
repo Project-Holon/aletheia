@@ -15,7 +15,7 @@
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   TCBL_Destroy 0x02031140 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   func_020307B0 0x020307B0 arm
  */
 #include "../include/Obj02264.h"
@@ -33,7 +33,7 @@ extern unsigned int MSGDATA_Delete(struct Rec *rec);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *);
 extern unsigned int GF_FONT_Delete(void *ptr);
 extern void TCBL_Destroy(struct S02031140 *);
-extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern unsigned int WORDSET_Delete(struct WordSet *p);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 void UN_SELECT_DeleteRecord(char *p)
@@ -50,6 +50,6 @@ void UN_SELECT_DeleteRecord(char *p)
     PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct Obj02264 *)p)->f10);
     GF_FONT_Delete(((struct Obj02264 *)p)->fC);
     TCBL_Destroy(*(struct S02031140 * *)&((struct Obj02264 *)p)->f4);
-    WORDSET_DeleteStrbufED04(*(struct WordSet * *)&((struct Obj02264 *)p)->f14);
+    WORDSET_Delete(*(struct WordSet * *)&((struct Obj02264 *)p)->f14);
     func_020307B0(p);
 }

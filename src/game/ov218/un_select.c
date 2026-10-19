@@ -1,7 +1,7 @@
 /*
  * file:     un_select.c
  * unit:     yes
- * function: UN_SELECT_SceneCreate, UN_SELECT_SceneDelete, UN_SELECT_SceneUpdate, UN_SELECT_LoadBg, UN_SELECT_CreateTouchBar, UN_SELECT_Delete, UN_SELECT_UpdateTouchBar, UN_SELECT_OpenTaskMenu, UN_SELECT_CloseTaskMenu, UN_SELECT_UpdateTaskMenu, UN_SELECT_InitRecord, UN_SELECT_RequestBrightness, UN_SELECT_Create, UN_SELECT_DeleteRecord, UN_SELECT_Main, UN_SELECT_DrawFrameListRow, UN_SELECT_DrawMessage, UN_SELECT_UpdateMessage, UN_SELECT_DrawWindowBorder, UN_SELECT_GetMsgData, UN_SELECT_GetPrintQue, UN_SELECT_GetFont, UN_SELECT_UpdateFrameList, UN_SELECT_ScrollFrameList, UN_SELECT_ScrollFrameListDelta, UN_SELECT_CreateFrameList, UN_SELECT_DeleteFrameList, UN_SELECT_CreateSceneWork, UN_SELECT_SetMode, UN_SELECT_IsListDone, UN_SELECT_SceneStepList, UN_SELECT_SceneStepMessage, UN_SELECT_SceneStepMenu, UN_SELECT_IsFadeDone, UN_SELECT_SceneStepFade, UN_SELECT_SceneStepMessageIdle, UN_SELECT_SceneStepMenuOut, UN_SELECT_LoadActors, UN_SELECT_ReleaseActors, UN_SELECT_SetupActors, UN_SELECT_DeleteActor, UN_SELECT_CreateActor, UN_SELECT_SetActorVisible, UN_SELECT_Check, UN_SELECT_InitActorPositions, UN_SELECT_SetActorX, UN_SELECT_SetActorY, UN_SELECT_SetActorPos, UN_SELECT_SetActorPosEx, UN_SELECT_ContainsItem, UN_SELECT_FindTableIndex, UN_SELECT_SetupDisplay
+ * function: UN_SELECT_SceneCreate, UN_SELECT_SceneDelete, UN_SELECT_SceneUpdate, UN_SELECT_LoadBg, UN_SELECT_CreateTouchBar, UN_SELECT_Delete, UN_SELECT_UpdateTouchBar, UN_SELECT_OpenTaskMenu, UN_SELECT_CloseTaskMenu, UN_SELECT_UpdateTaskMenu, UN_SELECT_InitRecord, UN_SELECT_RequestBrightness, UN_SELECT_Create, UN_SELECT_DeleteRecord, UN_SELECT_Main, UN_SELECT_DrawFrameListRow, UN_SELECT_DrawMessage, UN_SELECT_UpdateMessage, UN_SELECT_DrawWindowBorder, UN_SELECT_GetMsgData, UN_SELECT_GetPrintQue, UN_SELECT_GetFont, UN_SELECT_UpdateFrameList, UN_SELECT_ScrollFrameList, UN_SELECT_ScrollFrameListDelta, UN_SELECT_CreateFrameList, UN_SELECT_DeleteFrameList, UN_SELECT_CreateSceneWork, UN_SELECT_SetMode, UN_SELECT_IsListDone, UN_SELECT_SceneStepList, UN_SELECT_SceneStepMessage, UN_SELECT_SceneStepMenu, UN_SELECT_IsFadeDone, UN_SELECT_SceneStepFade, UN_SELECT_SceneStepMessageIdle, UN_SELECT_SceneStepMenuOut, UN_SELECT_LoadActors, UN_SELECT_ReleaseActors, UN_SELECT_SetupActors, UN_SELECT_DeleteActor, UN_SELECT_CreateActor, UN_SELECT_SetActorVisible, UN_SELECT_ScrollActorsBy, UN_SELECT_InitActorPositions, UN_SELECT_SetActorX, UN_SELECT_SetActorY, UN_SELECT_SetActorPos, UN_SELECT_SetActorPosEx, UN_SELECT_ContainsItem, UN_SELECT_FindTableIndex, UN_SELECT_SetupDisplay
  * address:  0x021B95A0
  * region:   ov218
  * compiler: dsi/1.1p1
@@ -67,14 +67,14 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   BMP_WIN_Delete 0x020452E8 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   TCBL_Destroy 0x02031140 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
  *   TCBL_Main  0x020310C4  arm
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
@@ -331,14 +331,14 @@ extern void PRINTSYS_Print(void *,short,short,void *,void *);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void BG_SYS_SetFlagField06(u32);
+extern void BG_SYS_MarkTileDirty(u32);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *);
 extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *);
 extern unsigned int GF_FONT_Delete(void *ptr);
 extern void TCBL_Destroy(struct S02031140 *);
-extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern unsigned int WORDSET_Delete(struct WordSet *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void TCBL_Main(struct Tcbl *p);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
@@ -452,7 +452,7 @@ void UN_SELECT_SetupActors(char *p);
 void UN_SELECT_DeleteActor(char *p);
 struct Obj *UN_SELECT_CreateActor(u32 owner,char *p);
 void UN_SELECT_SetActorVisible(char *ctx);
-void UN_SELECT_Check(const char *p,int delta);
+void UN_SELECT_ScrollActorsBy(const char *p,int delta);
 void UN_SELECT_InitActorPositions(char *ctx);
 void UN_SELECT_SetActorX(char *p,int v);
 void UN_SELECT_SetActorY(char *p,int y);
@@ -739,7 +739,7 @@ void *UN_SELECT_Create(u16 heap)
     PRINTSYS_Print(BMP_WIN_GetBmp(window),4,0,((struct UnSelectRecord *)p)->text,((struct UnSelectRecord *)p)->font.ptr);
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(window));
     return p;
 }
 
@@ -759,7 +759,7 @@ void UN_SELECT_DeleteRecord(char *p)
     PRINTSYS_QUE_Delete(((struct UnSelectRecord *)p)->printQue.ptr);
     GF_FONT_Delete(((struct UnSelectRecord *)p)->font.ptr);
     TCBL_Destroy(((struct UnSelectRecord *)p)->tcbl.ptr);
-    WORDSET_DeleteStrbufED04(((struct UnSelectRecord *)p)->wordSet);
+    WORDSET_Delete(((struct UnSelectRecord *)p)->wordSet);
     GFL_HEAP_Free(p);
 }
 
@@ -809,7 +809,7 @@ void UN_SELECT_DrawMessage(char *p, u32 id)
     BMP_MENUWORK_DrawWindow(((struct UnSelectRecord *)p)->window, 2, 1, 15);
     BMP_WIN_TransferChars(obj);
     BMP_WIN_MakeScreen((struct Cfg *)obj);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(obj));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(obj));
 }
 
 
@@ -917,7 +917,7 @@ void UN_SELECT_ScrollFrameListDelta(u8 *p,int delta)
 {
     int selected;
     s16 y;
-    UN_SELECT_Check((const char *)p,(int)(0u-(u32)delta));
+    UN_SELECT_ScrollActorsBy((const char *)p,(int)(0u-(u32)delta));
     y=FRAME_LIST_GetScrollBarTop(((struct UnSelectWork *)p)->frameList);
     UN_SELECT_SetActorX((char *)p,y);
     selected=FRAME_LIST_GetSelectedIndex(((struct UnSelectWork *)p)->frameList);
@@ -1380,7 +1380,7 @@ static inline void scrollSecond(const char *p,short delta,int space,PtS *pos)
  * Two manual scheduling variants used; once-only permuter 300/jobs1/types unchanged, emitted baseline agrees at DIFF 200/200 with 9 concrete bytes.
  * single-lever: separate inline helpers use item-before-index in the first loop and index-before-item in the second; shared helper order swaps one loop's r4/r5 pair (9 bytes out).
  */
-void UN_SELECT_Check(const char *p,int delta)
+void UN_SELECT_ScrollActorsBy(const char *p,int delta)
 {
     PtS pos;
     scroll(p,delta,0,&pos);

@@ -1,5 +1,5 @@
 /*
- * function: WAZA_OSHIE_ConvertToTileOrder
+ * function: TEXT_TEXTURE_ConvertToTileOrder
  * address: 0x0216FCA0
  * packet: pkt_ov010_0216FCA0
  * region: ov010
@@ -74,7 +74,7 @@ extern u16 BMP_GetHeight(const struct Bmp *bmp);
 extern u8 BMP_GetTileBytes(struct Bmp *b);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern int _s32_div_f(int a, int b);
-void WAZA_OSHIE_ConvertToTileOrder(void *a, void *b)
+void TEXT_TEXTURE_ConvertToTileOrder(void *a, void *b)
 {
   u8 *src;
   u8 *dst;

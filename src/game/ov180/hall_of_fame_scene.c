@@ -16,8 +16,8 @@
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BUTTON_MAN_RotScaleMtx22 0x02051E74 arm
  *   G2x_SetBGyAffine_ 0x0207D59C arm
- *   BG_SYS_ResetSlot 0x02041EE4 arm
- *   BG_SYS_SetAffine 0x02041FB0 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
+ *   BG_SYS_ChangeCenter 0x02041FB0 arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   BG_SYS_LoadPlttEntry 0x02040EBC arm
@@ -34,7 +34,7 @@
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_Delete 0x02045808 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   gHallOfFameWaveArcIds 0x021B8018 data a4
@@ -137,7 +137,7 @@
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   WIPE_SYS_Start 0x0202208C thumb
  *   GFL_USE_GetRandom 0x020056EC thumb
- *   BG_SYS_SetScrollX  0x02041F28  arm
+ *   BG_SYS_ChangeRotation  0x02041F28  arm
  *   gHallOfFameClactConfigMain 0x021B827C data a4
  *   gHallOfFameClactConfigSub 0x021B8298 data a4
  *   HALL_OF_FAME_GetVramBanksAddr 0x021B61FC thumb ov180
@@ -167,7 +167,7 @@
  *   gHallOfFameMonTopTemplate 0x021B8174 data ov180 a4
  *   gHallOfFameMonBottomTemplate 0x021B818C data a4
  *   POKEGRA_OpenHandle 0x0202D7C8 thumb
- *   POKE_TOOL_Dummy 0x020185F0 thumb
+ *   POKE_TOOL_CastToBoxParam 0x020185F0 thumb
  *   POKE_TOOL_DecodeBoxParam 0x02017DBC thumb
  *   POKEGRA_RegisterCgrPP 0x0202D934 thumb
  *   POKEGRA_RegisterPalettePP 0x0202D8D0 thumb
@@ -237,8 +237,8 @@ typedef struct HofClactConfig {
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode);
 extern void G2x_SetBGyAffine_(void *,HofMtx *,u32,u32,u32,u32);
-extern void BG_SYS_ResetSlot(u32,u32,u32);
-extern void BG_SYS_SetAffine(u32,u32,u16);
+extern void BG_SYS_ChangeScroll(u32,u32,u32);
+extern void BG_SYS_ChangeCenter(u32,u32,u16);
 extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 extern void BG_SYS_LoadPlttEntry(u32,u32);
@@ -254,7 +254,7 @@ extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int 
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void *STRBUF_Create(unsigned,unsigned);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern struct Sub02005A98Hdr *GFL_USE_LoadWaveArcSet(const u32 *,u32);
@@ -326,7 +326,7 @@ extern void GFL_USE_FadeOutBgm(u32);
 extern void MCSS_ResetAnmStopFlag(void *);
 extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
 extern unsigned GFL_USE_GetRandom(unsigned);
-extern void BG_SYS_SetScrollX(u32 which, u32 op, u16 value);
+extern void BG_SYS_ChangeRotation(u32 which, u32 op, u16 value);
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void *BMP_OAM_CreateSys(unsigned int heapId, void *clact);
@@ -347,7 +347,7 @@ extern void CLACT_ReleaseCellAnim(u32 i);
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern int POKEGRA_OpenHandle(int);
-extern void *POKE_TOOL_Dummy(void *);
+extern void *POKE_TOOL_CastToBoxParam(void *);
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern int POKEGRA_RegisterCgrPP(int,void *,int,int,u16);
@@ -375,14 +375,14 @@ void HALL_OF_FAME_InitBackgrounds(void)
     BUTTON_MAN_RotScaleMtx22((struct Mtx22 *)&mtx, 0, (void *)4096, (void *)4096, 0);
     G2x_SetBGyAffine_((void *)0x04000030, &mtx, 0, 0, 0, 0);
     G2x_SetBGyAffine_((void *)0x04001030, &mtx, 0, 0, 0, 0);
-    BG_SYS_ResetSlot(3, 0, 160);
-    BG_SYS_ResetSlot(3, 3, 112);
-    BG_SYS_ResetSlot(7, 0, 160);
-    BG_SYS_ResetSlot(7, 3, -152);
-    BG_SYS_SetAffine(3, 9, 160);
-    BG_SYS_SetAffine(3, 12, 160);
-    BG_SYS_SetAffine(7, 9, 160);
-    BG_SYS_SetAffine(7, 12, 160);
+    BG_SYS_ChangeScroll(3, 0, 160);
+    BG_SYS_ChangeScroll(3, 3, 112);
+    BG_SYS_ChangeScroll(7, 0, 160);
+    BG_SYS_ChangeScroll(7, 3, -152);
+    BG_SYS_ChangeCenter(3, 9, 160);
+    BG_SYS_ChangeCenter(3, 12, 160);
+    BG_SYS_ChangeCenter(7, 9, 160);
+    BG_SYS_ChangeCenter(7, 12, 160);
     BG_SYS_SetMainPlaneVisible(8, 1);
     BG_SYS_SetSubPlaneVisible(8, 1);
     BG_SYS_LoadPlttEntry(0, 0);
@@ -427,7 +427,7 @@ void HALL_OF_FAME_InitText(HallOfFameWork *work)
 void HALL_OF_FAME_ExitText(HallOfFameWork *work)
 {
     STRBUF_Delete(work->strBuf);
-    WORDSET_DeleteStrbufED04(work->wordSet);
+    WORDSET_Delete(work->wordSet);
     GF_FONT_Delete(work->fontSub);
     GF_FONT_Delete(work->fontMain);
     MSGDATA_Delete(work->msgData);
@@ -1132,8 +1132,8 @@ int HALL_OF_FAME_ApplyJitterStep(HallOfFameWork *work, int actor)
 
 void HALL_OF_FAME_EnableBgEffects(HallOfFameWork *work)
 {
-    BG_SYS_SetScrollX(3, 1, 1);
-    BG_SYS_SetScrollX(7, 1, 1);
+    BG_SYS_ChangeRotation(3, 1, 1);
+    BG_SYS_ChangeRotation(7, 1, 1);
 }
 
 void HALL_OF_FAME_InitActorSystem(HallOfFameWork *work, int subScreen)
@@ -1306,7 +1306,7 @@ void HALL_OF_FAME_LoadMonActors(HallOfFameWork *work)
         HALL_OF_FAME_ReleaseCellAnim(work, 1);
     }
     bank = POKEGRA_OpenHandle(HOF_HEAP_ID);
-    mon = POKE_TOOL_Dummy(work->partyMons[work->monIndex]);
+    mon = POKE_TOOL_CastToBoxParam(work->partyMons[work->monIndex]);
     lock = POKE_TOOL_DecodeBoxParam(mon);
     work->charIds[0] = POKEGRA_RegisterCgrPP(bank, mon, 0, 0, HOF_HEAP_ID);
     work->paletteIds[0] = POKEGRA_RegisterPalettePP(bank, mon, 0, 0, 96, HOF_HEAP_ID);

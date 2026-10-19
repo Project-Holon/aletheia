@@ -1,7 +1,7 @@
 /*
  * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
  *
- * function: GF_FONT_CopyStrbufD6D8
+ * function: GF_FONT_EnqueuePrint
  * address:  0x0201D6D8
  * packet:   pkt_0201D6D8
  * region:   arm9
@@ -28,7 +28,7 @@
  * GF_FONT_Copy(p, STRBUF_GetChars(c), (u16)GF_FONT_GetAlignedSize(c), 2) for a slot
  * keyed by the record at `c`, stores a second slot for `b` (0x1c/0x1c) in a
  * stack local, zero-initialises a 4-byte stack local through a third call,
- * and then walks the list hanging off p->f10 through GF_FONT_UpdatePrintsy until it
+ * and then walks the list hanging off p->f10 through GF_FONT_GetNextRecord until it
  * runs out, rebasing the node pointer on p+0x18 and clamping the resulting
  * offset against p->f4 (u16) before a 4-byte memcpy into the local.  When
  * p->f10 is null it installs the two slots instead.
@@ -40,13 +40,13 @@
  * local, not a single cast.
  *
  * Verified with
- *   python tools/match.py one --src src/pending/GF_FONT_CopyStrbufD6D8.c \
- *       --func GF_FONT_CopyStrbufD6D8 --addr 0x0201D6D8 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/GF_FONT_EnqueuePrint.c \
+ *       --func GF_FONT_EnqueuePrint --addr 0x0201D6D8 --cc 1.1p1 --thumb
  *
  * symbols:
  *   GF_FONT_GetAlignedSize  0x0201D69C  thumb
  *   GF_FONT_Copy  0x0201D768  thumb
- *   GF_FONT_UpdatePrintsy  0x0201D7C4  thumb
+ *   GF_FONT_GetNextRecord  0x0201D7C4  thumb
  *   STRBUF_GetChars  0x02045A90  arm
  *   memcpy         0x02082D44  arm
  */
@@ -68,12 +68,12 @@ extern u32  GF_FONT_GetAlignedSize(void *c);
 struct PrintSys;
 struct Ring;
 extern void *GF_FONT_Copy(struct Ring *ring, const u8 *src, u16 len, u16 unit);
-extern void *GF_FONT_UpdatePrintsy(struct PrintSys *p, void *q);
+extern void *GF_FONT_GetNextRecord(struct PrintSys *p, void *q);
 struct U16Vec;
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern void *memcpy(void *dst, const void *src, u32 n);
 
-void GF_FONT_CopyStrbufD6D8(Blk *p, void *b, void *c)
+void GF_FONT_EnqueuePrint(Blk *p, void *b, void *c)
 {
     void *e;
     void *q;
@@ -89,7 +89,7 @@ void GF_FONT_CopyStrbufD6D8(Blk *p, void *b, void *c)
     q = p->f10;
     if (q != 0) {
         for (;;) {
-            t = GF_FONT_UpdatePrintsy((struct PrintSys *)p, q);
+            t = GF_FONT_GetNextRecord((struct PrintSys *)p, q);
             if (t == 0) break;
             q = t;
         }

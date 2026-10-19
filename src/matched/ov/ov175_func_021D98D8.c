@@ -1,5 +1,5 @@
 /*
- * function: WIFIBATTLEMATCH_NET_IsRegSpriteAnimDone
+ * function: WIFIBATTLEMATCH_NET_IsCompPartyWindowIdle
  * address: 0x021D98D8
  * packet: pkt_ov175_021D98D8
  * region: ov175
@@ -14,7 +14,7 @@
 #include "../include/Obj24308.h"
 typedef struct Work Work;
 extern int WIFIBATTLEMATCH_VIEW_StepPartyWindowAlt(Work *);
-int WIFIBATTLEMATCH_NET_IsRegSpriteAnimDone(char *p)
+int WIFIBATTLEMATCH_NET_IsCompPartyWindowIdle(char *p)
 {
     return WIFIBATTLEMATCH_VIEW_StepPartyWindowAlt(*(Work * *)&((struct Obj24308 *)p)->f24);
 }

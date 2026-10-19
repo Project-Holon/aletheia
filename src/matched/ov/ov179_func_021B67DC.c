@@ -1,5 +1,5 @@
 /*
- * function: CDEMO_SCENE_CmdSetVram
+ * function: CDEMO_SCENE_CmdSetPlaneVisible
  * address:  0x021B67DC
  * packet:   pkt_021B67DC
  * region:   ov179
@@ -17,7 +17,7 @@
 typedef unsigned int   u32;
 extern void func_02040588(unsigned char which, unsigned char enable);
 
-int CDEMO_SCENE_CmdSetVram(int a, int *q)
+int CDEMO_SCENE_CmdSetPlaneVisible(int a, int *q)
 {
     func_02040588((unsigned char)((struct Obj14395 *)q)->f4,
                   (unsigned char)((struct Obj14395 *)q)->f8);

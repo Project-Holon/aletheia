@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GFL_USE_SetBgmPlayerParam",
+   "name": "GFL_USE_SetBgmPaused",
    "address": "0x02005DE4",
    "kind": "game",
    "region": "arm9",

@@ -1,5 +1,5 @@
 /*
- * function: TR_AI_CmdLoadPokeValueSimple
+ * function: TR_AI_CmdLoadStatBoostTotal
  * address:  0x02189C8C
  * packet:   pkt_ov096_02189C8C
  * region:   ov096
@@ -37,7 +37,7 @@ extern u8 TR_AI_GetPosition(u8 *p, int k);
 extern u8 *TR_AI_GetPoke(u8 *p, u8 i);
 extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 
-int TR_AI_CmdLoadPokeValueSimple(struct Cursor *a, Obj *b) {
+int TR_AI_CmdLoadStatBoostTotal(struct Cursor *a, Obj *b) {
     u8 s;
     int v;
     u32 i;

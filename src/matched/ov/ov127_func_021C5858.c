@@ -1,5 +1,5 @@
 /*
- * function: WF2DMAP_OBJDRAW_GetActorValue2
+ * function: WF2DMAP_OBJDRAW_GetActorDrawPriority
  * address:  0x021C5858
  * packet:   pkt_ov127_021C5858
  * region:   ov127
@@ -21,7 +21,7 @@ typedef unsigned char u8;
 
 extern int WIFI_2DCHAR_GetActorDrawPriority(u8 *p);
 
-int WF2DMAP_OBJDRAW_GetActorValue2(u8 *p)
+int WF2DMAP_OBJDRAW_GetActorDrawPriority(u8 *p)
 {
     return WIFI_2DCHAR_GetActorDrawPriority(((struct Obj23052 *)p)->f4);
 }

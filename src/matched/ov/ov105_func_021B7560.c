@@ -17,8 +17,8 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   ICA_ANIME_GetField24 0x02012138 thumb
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
- *   BG_SYS_SetScrollY 0x02041F6C arm
- *   BG_SYS_SetAffine 0x02041FB0 arm
+ *   BG_SYS_ChangeScale 0x02041F6C arm
+ *   BG_SYS_ChangeCenter 0x02041FB0 arm
  *   IRC_RESULT_InitScreen 0x021B784C thumb ov105
  *   IRC_RESULT_InitTextSystem 0x021B7C20 thumb ov105
  *   IRC_RESULT_InitMessageWindow 0x021B7CB0 thumb ov105
@@ -52,8 +52,8 @@ struct Ctx;
 extern u32 ICA_ANIME_GetField24(const struct Ctx *p);
 struct Rec;
 extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
-extern void BG_SYS_SetScrollY(u32 which, u32 op, u32 value);
-extern void BG_SYS_SetAffine(u32,u32,u16);
+extern void BG_SYS_ChangeScale(u32 which, u32 op, u32 value);
+extern void BG_SYS_ChangeCenter(u32,u32,u16);
 extern void IRC_RESULT_InitScreen(u8 *,int);
 extern void IRC_RESULT_InitTextSystem(u32 *p, int flag, int heap);
 extern void IRC_RESULT_InitMessageWindow(struct Rec *p, u32 a, u32 b, u8 c, u8 d, u8 e, u8 f, u16 g);
@@ -88,10 +88,10 @@ int IRC_RESULT_Init(struct Task *a,void *b,u8 *context)
     BMP_MENUWORK_DrawWindow(((struct Obj03234 *)p)->fC0,0,(u16)(((struct Obj03234 *)p)->f0),6);
     IRC_RESULT_InitTextWindow(p+0xd4,7,6,3,20,5,8,1,1,60);
     IRC_RESULT_PrintCenteredMessage(p+0xd4,p+0xb0,1);
-    BG_SYS_SetScrollY(7,3,4096);
-    BG_SYS_SetScrollY(7,6,4096);
-    BG_SYS_SetAffine(7,9,128);
-    BG_SYS_SetAffine(7,12,40);
+    BG_SYS_ChangeScale(7,3,4096);
+    BG_SYS_ChangeScale(7,6,4096);
+    BG_SYS_ChangeCenter(7,9,128);
+    BG_SYS_ChangeCenter(7,12,40);
     IRC_RESULT_InitScoreDisplay((Display *)(p+0xe8),p,CTX[12]);
     if(*(void **)CTX) {
         COMPATIBLE_IRC_SYS_BuildProfile(*(void **)CTX,&first);

@@ -13,7 +13,7 @@
  *   POKE_PERSONAL_Create 0x0201ADE4 thumb
  *   POKE_PERSONAL_GetParam 0x0201AE1C thumb
  *   POKE_PERSONAL_Delete 0x0201AE14 thumb
- *   WORLDTRADE_DEPOSIT_CheckGenderEvent 0x021F7B9C thumb ov135
+ *   WORLDTRADE_DEPOSIT_SetGenderFromEvent 0x021F7B9C thumb ov135
  *   WORLDTRADE_SEARCH_PrintMessage 0x021FF318 thumb ov135
  *   WORLDTRADE_SetNextState 0x021F4E98 thumb ov135
  */
@@ -28,7 +28,7 @@ extern void *POKE_PERSONAL_Create(u32,int,u32);
 struct Personal;
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern void POKE_PERSONAL_Delete(void *p);
-extern int WORLDTRADE_DEPOSIT_CheckGenderEvent(u8 *p, int event);
+extern int WORLDTRADE_DEPOSIT_SetGenderFromEvent(u8 *p, int event);
 extern void WORLDTRADE_SEARCH_PrintMessage(u8 *p, u32 k, int b, int c, int d);
 extern void WORLDTRADE_SetNextState(u8 *p, u32 a, u32 b);
 extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
@@ -43,7 +43,7 @@ void WORLDTRADE_SEARCH_HandleButton(u8 *p, int mode)
             v=POKE_PERSONAL_GetParam((const struct Personal *)h,0x14);
             POKE_PERSONAL_Delete((void *)h);
             ((struct Obj23414 *)(*(u8 * *)&((struct Obj00018 *)p)->fE00))->f20=v;
-            if(WORLDTRADE_DEPOSIT_CheckGenderEvent(p+0xB56,((struct Obj23415 *)(*(u8 * *)&((struct Obj00018 *)p)->fE00))->f20)) break;
+            if(WORLDTRADE_DEPOSIT_SetGenderFromEvent(p+0xB56,((struct Obj23415 *)(*(u8 * *)&((struct Obj00018 *)p)->fE00))->f20)) break;
         }
         ((struct Obj00018 *)p)->f28=7;
         break;

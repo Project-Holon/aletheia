@@ -32,7 +32,7 @@
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb  arm9
  *   WAZA_TOOL_GetParam  0x0201BD28  thumb  arm9
  *   WORDSET_CreateDefault  0x0201EC64  thumb  arm9
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
+ *   WORDSET_Delete  0x0201ED04  thumb  arm9
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
  *   POKE_TOOL_GetBoxValue  0x02017E88  thumb  arm9
  */
@@ -67,7 +67,7 @@ extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern u32 WAZA_TOOL_GetPower(u16);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern u32 WAZA_TOOL_GetParam(u16,u32);
 extern u32 WAZA_TOOL_IsAlwaysHit(u16 id);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -103,7 +103,7 @@ void P_STA_SKILL_PrintMoveDetail(u8 *a,u8 *p)
         object1=WORDSET_CreateDefault(((struct Obj04513 *)a)->f0);
         WORDSET_SetSlotNumber(object1,0,count,3,one,one);
         P_STATUS_PrintWordSetMsgToWin(a,(unsigned int)(((struct Obj01408 *)p)->f80),object1,150,81,one,1088);
-        WORDSET_DeleteStrbufED04(object1);
+        WORDSET_Delete(object1);
     }
     P_STATUS_PrintMsgToWin(a,(unsigned int)(((struct Obj01408 *)p)->f84),148,1,1,15424);
     value=WAZA_TOOL_GetParam(id,4);
@@ -112,7 +112,7 @@ void P_STA_SKILL_PrintMoveDetail(u8 *a,u8 *p)
         object2=WORDSET_CreateDefault(((struct Obj04513 *)a)->f0);
         WORDSET_SetSlotNumber(object2,0,value,3,1,1);
         P_STATUS_PrintWordSetMsgToWin(a,(unsigned int)(((struct Obj01408 *)p)->f84),object2,151,81,1,1088);
-        WORDSET_DeleteStrbufED04(object2);
+        WORDSET_Delete(object2);
     }
     table=func_02045B38(0,2,202,((struct Obj04513 *)a)->f0);
     str=func_02045EC0(table,id);

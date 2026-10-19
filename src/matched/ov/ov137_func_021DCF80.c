@@ -20,7 +20,7 @@
  * GURU2_RECEIPT_UnionAppNoop 0x021DCF7C thumb ov137
  * GURU2_RECEIPT_PrintMemberList 0x021DE248 thumb ov137
  * GURU2_RECEIPT_UpdatePlayerActors 0x021DE5D0 thumb ov137
- * GURU2_RECEIPT_CheckMemberChange 0x021DE738 thumb ov137
+ * GURU2_RECEIPT_UpdateMemberChange 0x021DE738 thumb ov137
  * GURU2_RECEIPT_UpdateQueues 0x021DD1B4 thumb ov137
  * GFL_NET_COMMAND_DeleteCommandTable 0x0203A5E4 arm
  * CLACT_DrawSystem 0x0204A600 arm
@@ -50,7 +50,7 @@ extern void GURU2_RECEIPT_UnionAppNoop(void);
 extern int (*const gGuru2LobbyStateTable[])(u8 *,u32);
 extern int GURU2_RECEIPT_PrintMemberList(void *,int,u16,void *);
 extern void GURU2_RECEIPT_UpdatePlayerActors(u8 *p);
-extern int GURU2_RECEIPT_CheckMemberChange(void *,int);
+extern int GURU2_RECEIPT_UpdateMemberChange(void *,int);
 extern void GURU2_RECEIPT_UpdateQueues(u8 *);
 extern void GFL_NET_COMMAND_DeleteCommandTable(unsigned),CLACT_DrawSystem(void);
 int GURU2_RECEIPT_ProcMain(int a,int b,int c,u8 *p)
@@ -71,7 +71,7 @@ int GURU2_RECEIPT_ProcMain(int a,int b,int c,u8 *p)
         if(((struct Obj23708 *)(*(u8 * *)&((struct Obj00170 *)p)->f10))->f24==0) GURU2_RECEIPT_PrintMemberList(((struct Obj00170 *)p)->fD0,0,1152,p);
         GURU2_RECEIPT_UpdatePlayerActors(p);
         if(GFL_NET_SYSTEM_GetCurrentAid()==0) {
-            v=GURU2_RECEIPT_CheckMemberChange(p,1);
+            v=GURU2_RECEIPT_UpdateMemberChange(p,1);
             if(((struct Obj00170 *)p)->f0==1) ((struct Obj00170 *)p)->f0=v;
         }
         break;

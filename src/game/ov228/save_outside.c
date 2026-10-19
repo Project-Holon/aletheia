@@ -25,7 +25,7 @@
  * symbols:
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   BACKUP_SYSTEM_ReadFlash  0x020334CC  arm
- *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
+ *   GF_STANDARD_CalcCrc16  0x0203F1FC  arm
  *   GFL_HEAP_Free  0x020307B0  arm
  *   d_021DFF60     0x021DFF60  data a1
  *   BACKUP_SYSTEM_WriteFlashAsync  0x02033494  arm
@@ -66,7 +66,7 @@ typedef struct {
 
 extern void *GFL_HEAP_Alloc(u32 heap,u32 size,int clear,const char *site,u16 tag);
 extern int BACKUP_SYSTEM_ReadFlash(u32 a, u32 b, u32 c);
-extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
+extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
 extern void MI_CpuCopy8(const void *src,void *dest,u32 size);
 extern u32 GFL_HEAP_Free(void *p);
 extern u16 BACKUP_SYSTEM_WriteFlashAsync(u32, void *, u32);
@@ -122,7 +122,7 @@ void *SAVE_OUTSIDE_Load(u32 heap)
         if(readOk[idx]==1){
             copy=copies[idx];
             if(((SaveOutsideWork *)copy)->magic!=0xA10F49AE)readOk[idx]=0;
-            else if(((SaveOutsideWork *)copy)->crc!=GF_STANDARD_SetupCalc(copy+12,0x368))crcBad[idx]=1;
+            else if(((SaveOutsideWork *)copy)->crc!=GF_STANDARD_CalcCrc16(copy+12,0x368))crcBad[idx]=1;
         }
     }
     work->loaded=0;
@@ -170,7 +170,7 @@ void SAVE_OUTSIDE_Free(void *p)
 /*
  * Prepare the work object for a write: clear the phase, select the flash copy
  * from the load outcome at +0x374, refresh the magic, bump the counter and
- * recompute the CRC. (arity: the original stores live r0 after GF_STANDARD_SetupCalc
+ * recompute the CRC. (arity: the original stores live r0 after GF_STANDARD_CalcCrc16
  * despite its legacy void return; the returned low halfword is kept.)
  */
 void SAVE_OUTSIDE_Prepare(SaveOutsideWork *work)
@@ -180,7 +180,7 @@ void SAVE_OUTSIDE_Prepare(SaveOutsideWork *work)
     else work->copyIndex=0;
     work->magic=0xA10F49AE;
     work->counter+=1;
-    work->crc=GF_STANDARD_SetupCalc((u8 *)work+12,0x368);
+    work->crc=GF_STANDARD_CalcCrc16((u8 *)work+12,0x368);
 }
 
 

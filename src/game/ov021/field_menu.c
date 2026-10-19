@@ -50,7 +50,7 @@
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
  *   CLACT_ReleaseCharacter  0x0204A8D4  arm
  *   CLACT_ReleasePalette  0x0204ADA4  arm
- *   BG_SYS_FillScrollArea  0x02040618  arm
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
@@ -70,7 +70,7 @@
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
  *   CLACT_SetSurfacePos  0x0204B09C  arm
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
- *   BG_SYS_ResetSlot  0x02041EE4  arm
+ *   BG_SYS_ChangeScroll  0x02041EE4  arm
  *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   gFieldMenuBgTemplate5     0x021D8BBC  data  a4
  *   gFieldMenuBgTemplate6     0x021D8B5C  data  a4
@@ -116,7 +116,7 @@
  *   gFieldMenuWindowPos     0x021D8B18  data  ov021  a1
  *   STRBUF_Delete  0x02045808  arm
  *   MSGDATA_Delete  0x02045C04  arm
- *   GF_STANDARD_Get_F684  0x0203F684  arm
+ *   GF_STANDARD_SinFromDegreesWrapped  0x0203F684  arm
  *   GXS_LoadOBJPltt  0x0207E5D0  arm
  *   gFieldMenuCursorMoves     0x021D8C4C  data  ov021  a1
  *   gFieldMenuSlotCol     0x021D8B26  data  ov021  a1
@@ -141,7 +141,7 @@
  *   APP_ICON_GetStatusDataFileId  0x0202762C  thumb
  *   ARC_UTIL_LoadPaletteDataFromHandle  0x02049EF4  arm
  *   BG_SYS_DrawTileEx  0x020410D0  arm
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -371,7 +371,7 @@ extern u32 CLACT_DeleteUnit(void *unit);
 extern void CLACT_ReleaseCellAnim(void *cellRes);
 extern void CLACT_ReleaseCharacter(void *charRes);
 extern void CLACT_ReleasePalette(void *palRes);
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 extern void BG_SYS_FreeLayerBuf(u32 layer);
 extern void PRINTSYS_QUE_Clear(void *printQue);
 extern void PRINTSYS_QUE_Delete(void *printQue);
@@ -386,7 +386,7 @@ extern void FIELD_SUBSCREEN_SetPanelResult(void *parent, int mode);
 extern u32 PRINTSYS_QUE_Main(void *printQue);
 extern void CLACT_SetSurfacePos(void *surface, int a, FieldMenuScreenPos *offset);
 extern void CLACT_GetActorSurfacePos(void *actor, FieldMenuScreenPos *out, u16 space);
-extern void BG_SYS_ResetSlot(u32 layer, u32 type, u32 value);
+extern void BG_SYS_ChangeScroll(u32 layer, u32 type, u32 value);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *template, u32 type);
 extern void BG_SYS_ClearSlot(u32 layer);
@@ -422,7 +422,7 @@ extern void *MSGDATA_AllocString(void *msgBank, u32 index);
 extern u8 MYSTATUS_GetOutfitVariant(const void *myStatus);
 extern void STRBUF_Delete(void *strbuf);
 extern u32 MSGDATA_Delete(void *msgBank);
-extern short GF_STANDARD_Get_F684(unsigned short x);
+extern short GF_STANDARD_SinFromDegreesWrapped(unsigned short x);
 extern void GXS_LoadOBJPltt(void *src, u32 off, u32 n);
 extern u32 KEY_GetTrg(void);
 extern unsigned int KEY_GetRepeat(void);
@@ -443,7 +443,7 @@ extern u32 APP_ICON_GetStatusFrameFileId(void);
 extern u32 APP_ICON_GetStatusDataFileId(void);
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *arcHandle, u32 a, u32 b, void **out, u32 heapId);
 extern void BG_SYS_DrawTileEx(u32 layer, u32 dx, u32 dy, u32 cw, u8 ch, u32 src, u8 sx, u8 sy, u8 sw, u8 sh);
-extern void BG_SYS_SetFlagField06(u8 layer);
+extern void BG_SYS_MarkTileDirty(u8 layer);
 
 extern const struct BgTemplate gFieldMenuBgTemplate5;
 extern const struct BgTemplate gFieldMenuBgTemplate6;
@@ -573,7 +573,7 @@ void FIELD_MENU_Delete(FieldMenu *menu)
     CLACT_ReleaseCellAnim(menu->cellResB);
     CLACT_ReleaseCharacter(menu->charResB);
     CLACT_ReleasePalette(menu->palResB);
-    BG_SYS_FillScrollArea(6, 3, 0);
+    BG_SYS_ChangeScrollImmediate(6, 3, 0);
     BG_SYS_FreeLayerBuf(7);
     BG_SYS_FreeLayerBuf(5);
     BG_SYS_FreeLayerBuf(6);
@@ -735,8 +735,8 @@ void FIELD_MENU_UpdateActorsForScroll(FieldMenu *menu)
 void FIELD_MENU_ApplyBgScroll(FieldMenu *menu)
 {
     if (menu->scrollDirty == 1) {
-        BG_SYS_ResetSlot(5, 3, -menu->scrollY);
-        BG_SYS_ResetSlot(6, 3, -FIELD_MENU_LAYER6_OFFSET - menu->scrollY);
+        BG_SYS_ChangeScroll(5, 3, -menu->scrollY);
+        BG_SYS_ChangeScroll(6, 3, -FIELD_MENU_LAYER6_OFFSET - menu->scrollY);
         menu->scrollDirty = 0;
     }
 }
@@ -762,7 +762,7 @@ void FIELD_MENU_LoadGraphics(FieldMenu *menu, void *arcHandle, int layoutType, u
     BG_SYS_InitBgLayer(7, &gFieldMenuBgTemplate7, 0);
     BG_SYS_SetPlaneVisible(7, 1);
     BG_SYS_ClearSlot(7);
-    BG_SYS_FillScrollArea(6, 3, -FIELD_MENU_LAYER6_OFFSET);
+    BG_SYS_ChangeScrollImmediate(6, 3, -FIELD_MENU_LAYER6_OFFSET);
     ARC_UTIL_UploadPaletteFromHandleWhole(arcHandle, 0, 4, 0, 0, menu->subHeapId);
     ARC_UTIL_UploadBgCharFromHandle(arcHandle, 2, 5, 0, 0, 0, menu->subHeapId);
     ARC_UTIL_UploadBgPaletteFromHandle(arcHandle, gFieldMenuScreenIds[layoutType], 5, 0, 0, 0, menu->subHeapId);
@@ -920,7 +920,7 @@ void FIELD_MENU_CreateItems(FieldMenu *menu, void *arcHandle, int layoutType)
 /* Task proc: cycles two palette colors of the menu with a sine of the phase counter. */
 void FIELD_MENU_ColorTask(void *taskHandle, FieldMenu *menu)
 {
-    s32 wave = GF_STANDARD_Get_F684((u16)menu->colorPhase) + 0x1000;
+    s32 wave = GF_STANDARD_SinFromDegreesWrapped((u16)menu->colorPhase) + 0x1000;
     u16 colors[2];
 
     colors[1] = (wave * 8 / 0x2000 + 9) | ((0x1F << 10) | ((wave * 5 / 0x2000 + 0x12) << 5));
@@ -937,8 +937,8 @@ void FIELD_MENU_SetScrolledOut(FieldMenu *menu)
     FieldMenuScreenPos offset;
 
     menu->scrollY = FIELD_MENU_SCROLL_HIDDEN;
-    BG_SYS_FillScrollArea(5, 3, -FIELD_MENU_SCROLL_HIDDEN);
-    BG_SYS_FillScrollArea(6, 3, -(FIELD_MENU_SCROLL_HIDDEN + FIELD_MENU_LAYER6_OFFSET));
+    BG_SYS_ChangeScrollImmediate(5, 3, -FIELD_MENU_SCROLL_HIDDEN);
+    BG_SYS_ChangeScrollImmediate(6, 3, -(FIELD_MENU_SCROLL_HIDDEN + FIELD_MENU_LAYER6_OFFSET));
     offset.x = 0;
     offset.y = FIELD_MENU_SCROLL_HIDDEN;
     CLACT_SetSurfacePos(menu->clactSurface, 0, &offset);
@@ -1212,6 +1212,6 @@ void FIELD_MENU_LoadScreen(u32 heapId, u32 layer)
         tiles[i] = (tiles[i] + 0x80) | 0x3000;
     }
     BG_SYS_DrawTileEx((u8)layer, 0, 0x15, 0x20, 3, (u32)screen->tiles, 0, 0x15, 0x20, 0x18);
-    BG_SYS_SetFlagField06(layer);
+    BG_SYS_MarkTileDirty(layer);
     GFL_HEAP_Free(screenBuf);
 }

@@ -1,7 +1,7 @@
 /*
  * file:     btlv_camera.c
  * unit:     yes
- * function: BTLV_CAMERA_Create, BTLV_CAMERA_Delete, BTLV_CAMERA_UpdateMove, BTLV_CAMERA_SetEyeAndTarget, BTLV_CAMERA_RotateOrbit, BTLV_CAMERA_StartMove, BTLV_CAMERA_StartMoveWithEasing, BTLV_CAMERA_GetEyeAndUp, BTLV_CAMERA_ComputeOrbitOffset, BTLV_CAMERA_GetDefaultEyeAndTarget, BTLV_CAMERA_IsMoving, BTLV_CAMERA_StepMove, BTLV_CAMERA_SyncOrbitFromCamera
+ * function: BTLV_CAMERA_Create, BTLV_CAMERA_Delete, BTLV_CAMERA_UpdateMove, BTLV_CAMERA_SetEyeAndTarget, BTLV_CAMERA_RotateOrbit, BTLV_CAMERA_StartMove, BTLV_CAMERA_StartMoveWithEasing, BTLV_CAMERA_GetEyeAndTarget, BTLV_CAMERA_AdvanceOrbitEye, BTLV_CAMERA_GetDefaultEyeAndTarget, BTLV_CAMERA_IsMoving, BTLV_CAMERA_StepMove, BTLV_CAMERA_SyncOrbitFromCamera
  * address:  0x021F6E3C
  * region:   ov094
  * compiler: dsi/1.1p1
@@ -76,9 +76,9 @@ void BTLV_CAMERA_StartMove(BtlvCamera *camera, const BtlvVec3 *eyeDest, const Bt
 
 void BTLV_CAMERA_StartMoveWithEasing(BtlvCamera *camera, int axis, fx32 amplitude, int unused, int frames, int waitTicks, int repeatPairs);
 
-void BTLV_CAMERA_GetEyeAndUp(BtlvCamera *camera, BtlvVec3 *eyeOut, BtlvVec3 *targetOut);
+void BTLV_CAMERA_GetEyeAndTarget(BtlvCamera *camera, BtlvVec3 *eyeOut, BtlvVec3 *targetOut);
 
-void BTLV_CAMERA_ComputeOrbitOffset(BtlvCamera *camera, int dPitch, int dYaw, BtlvVec3 *eyeOut, BtlvVec3 *targetBase);
+void BTLV_CAMERA_AdvanceOrbitEye(BtlvCamera *camera, int dPitch, int dYaw, BtlvVec3 *eyeOut, BtlvVec3 *targetBase);
 
 void BTLV_CAMERA_GetDefaultEyeAndTarget(BtlvVec3 *eyeOut, BtlvVec3 *targetOut);
 
@@ -164,7 +164,7 @@ void BTLV_CAMERA_SetEyeAndTarget(BtlvCamera *camera, const BtlvVec3 *eye, const 
  */
 void BTLV_CAMERA_RotateOrbit(BtlvCamera *camera, int dPitch, int dYaw)
 {
-    BTLV_CAMERA_ComputeOrbitOffset(camera, dPitch, dYaw, &camera->eye, &camera->target);
+    BTLV_CAMERA_AdvanceOrbitEye(camera, dPitch, dYaw, &camera->eye, &camera->target);
     G3D_CAMERA_SetEye(camera->camera, &camera->eye);
     G3D_CAMERA_Reset(camera->camera);
 }
@@ -226,13 +226,13 @@ void BTLV_CAMERA_StartMoveWithEasing(BtlvCamera *camera, int axis, fx32 amplitud
  *
  * Reads the current eye and target positions out of the G3D camera.
  */
-void BTLV_CAMERA_GetEyeAndUp(BtlvCamera *camera, BtlvVec3 *eyeOut, BtlvVec3 *targetOut)
+void BTLV_CAMERA_GetEyeAndTarget(BtlvCamera *camera, BtlvVec3 *eyeOut, BtlvVec3 *targetOut)
 {
     G3D_CAMERA_GetEye(camera->camera, eyeOut);
     G3D_CAMERA_GetCamTarget(camera->camera, targetOut);
 }
 
-void BTLV_CAMERA_ComputeOrbitOffset(BtlvCamera *camera, int dPitch, int dYaw, BtlvVec3 *eyeOut, BtlvVec3 *targetBase)
+void BTLV_CAMERA_AdvanceOrbitEye(BtlvCamera *camera, int dPitch, int dYaw, BtlvVec3 *eyeOut, BtlvVec3 *targetBase)
 {
     G3D_CAMERA_GetCamTarget(camera->camera, targetBase);
     camera->orbitPitch += dPitch;

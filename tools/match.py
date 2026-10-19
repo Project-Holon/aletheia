@@ -67,7 +67,7 @@ sys.path.insert(0, os.path.join(ROOT, "tools"))
 # The ELF32 reader, the ar reader and the relocation width table all come from
 # libmatch.py; there is exactly one implementation of each in this repository.
 from libmatch import (  # noqa: E402
-    Obj, cstr, load_regions, RELOC_MASK, RELOC_DEFAULT,
+    Obj, Region, cstr, load_regions, RELOC_MASK, RELOC_DEFAULT,
     SHT_PROGBITS, SHT_RELA, SHT_REL, STT_FUNC,
 )
 from cw import versions_dir, verkey  # noqa: E402
@@ -389,6 +389,13 @@ def load_all_regions():
 
 
 def find_region(addr, name=None):
+    if name == "ov230d":
+        # overlay 230 as its own decryptor leaves it (tools/ovcrypt.py): only by name, an
+        # address alone never selects it ("decrypted ov230" below)
+        v = ov230d_view()
+        if v is None:
+            raise SystemExit("the decrypted view of ov230 is not available (python tools/ovcrypt.py write)")
+        return Region("ov230d", v.base, v.data)
     for r in load_all_regions():
         if name is not None:
             if r.name == name:

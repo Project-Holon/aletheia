@@ -22,10 +22,10 @@
  *   BTLV_EFFVM_SetShadowVanishIfLoaded 0x021FE520 thumb ov094
  *   BTLV_EFFECT_SetAllPokeSpriteAnim 0x021F8934 thumb ov094
  *   func_02011290 0x02011290 thumb
- *   BTLV_EFFECT_GetRule 0x021F8764 thumb ov094
+ *   BTLV_EFFECT_GetSceneUnit 0x021F8764 thumb ov094
  *   BTLV_SCU_ReloadGraphics 0x021EB2A8 thumb ov093
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_SetPriority 0x0204047C arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   func_0207D63C 0x0207D63C arm
  *   GFL_USE_StopAllSe 0x02006210 thumb
  *   BTLV_EFFECT_GetMcss 0x021F8694 thumb ov094
@@ -92,10 +92,10 @@ extern void BTLV_EFFVM_ResetPokePositionIfLoaded(State *);
 extern void BTLV_EFFVM_SetShadowVanishIfLoaded(State *);
 extern void BTLV_EFFECT_SetAllPokeSpriteAnim(int);
 extern struct ScriptVm *func_02011290(struct ScriptVm *vm);
-extern int BTLV_EFFECT_GetRule(void);
+extern int BTLV_EFFECT_GetSceneUnit(void);
 extern void BTLV_SCU_ReloadGraphics(const u8 *a);
-extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_SetPriority(int idx, unsigned short val);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 extern void func_0207D63C(int, int, int, int, int);
 extern void GFL_USE_StopAllSe(void);
 extern int BTLV_EFFECT_GetMcss(void);
@@ -141,13 +141,13 @@ int BTLV_EFFVM_ReleaseScriptResources(void *a, State *s)
     func_02011290(a);
     s->f23c = 1;
     if (s->flags.bit.b4) {
-        q = (void *)BTLV_EFFECT_GetRule();
+        q = (void *)BTLV_EFFECT_GetSceneUnit();
         if (q != 0)
             BTLV_SCU_ReloadGraphics(q);
-        BG_SYS_SetVisibleLayer(3, 0);
+        BG_SYS_SetPriority(3, 0);
         s->flags.bit.b4 = 0;
-        BG_SYS_FillScrollArea(3, 0, s->f264);
-        BG_SYS_FillScrollArea(3, 3, s->f268);
+        BG_SYS_ChangeScrollImmediate(3, 0, s->f264);
+        BG_SYS_ChangeScrollImmediate(3, 3, s->f268);
     }
     if (s->flags.bit.b5) {
         func_0207D63C(0x04000050, 2, 0x3d, 0x1f, 7);

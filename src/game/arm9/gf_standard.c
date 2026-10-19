@@ -1,7 +1,7 @@
 /*
  * file:     gf_standard.c
  * unit:     yes
- * function: GF_STANDARD_Init, GF_STANDARD_CompareBytes, GF_STANDARD_GetStringLength, GF_STANDARD_CompareString, GF_STANDARD_RandSeed, GF_STANDARD_Rand, GF_STANDARD_SetupCalc, GF_STANDARD_CalcHash, GF_STANDARD_Checksum, GF_STANDARD_Shuffle, GF_STANDARD_ShuffleEx, GF_STANDARD_RandLcg, GF_STANDARD_Reset, GF_STANDARD_Setup, GF_STANDARD_Task, GF_STANDARD_GetRtc, GF_STANDARD_CopyCachedRtc, GF_STANDARD_SetField00, GF_STANDARD_SetField00_F4E4, GF_STANDARD_GetTime, GF_STANDARD_SetupRtc, GF_STANDARD_SetupRtc_F540, GF_STANDARD_Get_F5FC, GF_STANDARD_SinDeg, GF_STANDARD_Get_F684, GF_STANDARD_Sin, GF_STANDARD_DegToAngle, GF_STANDARD_CalcAngle, GF_STANDARD_SetupCalc_F7C4
+ * function: GF_STANDARD_Init, GF_STANDARD_CompareBytes, GF_STANDARD_GetStringLength, GF_STANDARD_CompareString, GF_STANDARD_RandSeed, GF_STANDARD_Rand, GF_STANDARD_CalcCrc16, GF_STANDARD_SeedLcg64, GF_STANDARD_Checksum, GF_STANDARD_XorCrypt, GF_STANDARD_XorCryptEx, GF_STANDARD_RandLcg, GF_STANDARD_InitRtc, GF_STANDARD_UpdateRtc, GF_STANDARD_RtcReadDone, GF_STANDARD_RequestRtc, GF_STANDARD_CopyCachedRtc, GF_STANDARD_GetCachedTime, GF_STANDARD_GetCachedDate, GF_STANDARD_GetSecondsOfDay, GF_STANDARD_GetRtcTimestamp, GF_STANDARD_GetDayOfYear, GF_STANDARD_SinFromDegrees, GF_STANDARD_CosFromDegrees, GF_STANDARD_SinFromDegreesWrapped, GF_STANDARD_CosFromDegreesWrapped, GF_STANDARD_DegToAngle, GF_STANDARD_CalcAngle, GF_STANDARD_SignedDistanceToLine
  * address:  0x0203EF5C
  * region:   arm9
  * compiler: dsi/1.2
@@ -151,51 +151,51 @@ void GF_STANDARD_RandSeed(u32 seed);
 
 u32 GF_STANDARD_Rand(void);
 
-u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
+u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
 
-void GF_STANDARD_CalcHash(struct Lcg64 *out);
+void GF_STANDARD_SeedLcg64(struct Lcg64 *out);
 
 u32 GF_STANDARD_Checksum(const u8 *p, u32 len);
 
-void GF_STANDARD_Shuffle(u16 *p, u32 size, u32 seed);
+void GF_STANDARD_XorCrypt(u16 *p, u32 size, u32 seed);
 
-void GF_STANDARD_ShuffleEx(void *p, unsigned int size, unsigned int seed);
+void GF_STANDARD_XorCryptEx(void *p, unsigned int size, unsigned int seed);
 
 u16 GF_STANDARD_RandLcg(u32 *seed);
 
-void GF_STANDARD_Reset(void);
+void GF_STANDARD_InitRtc(void);
 
-void GF_STANDARD_Setup(void);
+void GF_STANDARD_UpdateRtc(void);
 
-void GF_STANDARD_Task(u32 result, struct RtcRequest *req);
+void GF_STANDARD_RtcReadDone(u32 result, struct RtcRequest *req);
 
-void GF_STANDARD_GetRtc(struct RtcRequest *req);
+void GF_STANDARD_RequestRtc(struct RtcRequest *req);
 
 void GF_STANDARD_CopyCachedRtc(struct RtcDate *date, struct RtcTime *time);
 
-void GF_STANDARD_SetField00(struct RtcTime *time);
+void GF_STANDARD_GetCachedTime(struct RtcTime *time);
 
-void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
+void GF_STANDARD_GetCachedDate(struct RtcDate *date);
 
-u32 GF_STANDARD_GetTime(void);
+u32 GF_STANDARD_GetSecondsOfDay(void);
 
-void GF_STANDARD_SetupRtc(void);
+void GF_STANDARD_GetRtcTimestamp(void);
 
-s32 GF_STANDARD_SetupRtc_F540(struct RtcDateSigned *d);
+s32 GF_STANDARD_GetDayOfYear(struct RtcDateSigned *d);
 
-int GF_STANDARD_Get_F5FC(u32 x);
+int GF_STANDARD_SinFromDegrees(u32 x);
 
-short GF_STANDARD_SinDeg(u32 x);
+short GF_STANDARD_CosFromDegrees(u32 x);
 
-short GF_STANDARD_Get_F684(unsigned short x);
+short GF_STANDARD_SinFromDegreesWrapped(unsigned short x);
 
-short GF_STANDARD_Sin(s32 x);
+short GF_STANDARD_CosFromDegreesWrapped(s32 x);
 
 u16 GF_STANDARD_DegToAngle(int x);
 
 int GF_STANDARD_CalcAngle(int ax, int ay, int bx, int by, int cx, int cy, int radius);
 
-s32 GF_STANDARD_SetupCalc_F7C4(s32 ax, s32 ay, s32 bx, s32 by, s32 cx, s32 cy);
+s32 GF_STANDARD_SignedDistanceToLine(s32 ax, s32 ay, s32 bx, s32 by, s32 cx, s32 cy);
 
 extern struct Mt *g_021469F8;
 
@@ -367,10 +367,10 @@ u32 GF_STANDARD_Rand(void)
  * ARM immediate, so the base is always two `add`s (+0x1cc then +0x800).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GF_STANDARD_SetupCalc.c \
- *       --func GF_STANDARD_SetupCalc --addr 0x0203F1FC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_STANDARD_CalcCrc16.c \
+ *       --func GF_STANDARD_CalcCrc16 --addr 0x0203F1FC --cc 1.1p1 --arm
  */
-u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len)
+u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len)
 {
     if (len < 2) {
         u8 pair[2];
@@ -393,7 +393,7 @@ u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len)
  * pairs each low/high half and it is byte-exact.  Reached only as a
  * function pointer (pool word 0x020056CC).
  */
-void GF_STANDARD_CalcHash(struct Lcg64 *out)
+void GF_STANDARD_SeedLcg64(struct Lcg64 *out)
 {
     u8 a[8];
     u8 c[0x20];
@@ -452,10 +452,10 @@ u32 GF_STANDARD_Checksum(const u8 *p, u32 len)
  * MATCH* and the second promotes it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GF_STANDARD_Shuffle.c \
- *       --func GF_STANDARD_Shuffle --addr 0x0203F328 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_STANDARD_XorCrypt.c \
+ *       --func GF_STANDARD_XorCrypt --addr 0x0203F328 --cc 1.1p1 --arm
  */
-void GF_STANDARD_Shuffle(u16 *p, u32 size, u32 seed)
+void GF_STANDARD_XorCrypt(u16 *p, u32 size, u32 seed)
 {
     u32 i;
     u32 n = size >> 1;
@@ -465,7 +465,7 @@ void GF_STANDARD_Shuffle(u16 *p, u32 size, u32 seed)
     }
 }
 
-void GF_STANDARD_ShuffleEx(void *p, unsigned int size, unsigned int seed){ GF_STANDARD_Shuffle(p, size, seed); }
+void GF_STANDARD_XorCryptEx(void *p, unsigned int size, unsigned int seed){ GF_STANDARD_XorCrypt(p, size, seed); }
 
 /*
  * The standard 32-bit LCG (multiplier 0x41c64e6d, increment 0x6073) over a
@@ -488,20 +488,20 @@ u16 GF_STANDARD_RandLcg(u32 *seed)
 /*
  * Reset of the 0x48-byte block at 0x021469FC: zero it wholesale, then write
  * its first three words explicitly (the redundant stores are in the source;
- * the memset has already cleared them) and hand it to GF_STANDARD_GetRtc.
+ * the memset has already cleared them) and hand it to GF_STANDARD_RequestRtc.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GF_STANDARD_Reset.c \
- *       --func GF_STANDARD_Reset --addr 0x0203F3B4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_STANDARD_InitRtc.c \
+ *       --func GF_STANDARD_InitRtc --addr 0x0203F3B4 --cc 1.1p1 --arm
  */
-void GF_STANDARD_Reset(void)
+void GF_STANDARD_InitRtc(void)
 {
     RTC_Init();
     MI_CpuFill8(&g_021469FC, 0, 0x48);
     g_021469FC.hasResult = 0;
     g_021469FC.busy = 0;
     g_021469FC.frameCount = 0;
-    GF_STANDARD_GetRtc((struct RtcRequest *)(&g_021469FC));
+    GF_STANDARD_RequestRtc((struct RtcRequest *)(&g_021469FC));
 }
 
 /*
@@ -509,13 +509,13 @@ void GF_STANDARD_Reset(void)
  *
  * Per-frame tick on the block at 0x021469FC: while +0x04 is clear, count
  * frames in +0x08 and every eleventh one reset the counter and run
- * GF_STANDARD_GetRtc.  The `ble` says +0x08 is signed.
+ * GF_STANDARD_RequestRtc.  The `ble` says +0x08 is signed.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GF_STANDARD_Setup.c \
- *       --func GF_STANDARD_Setup --addr 0x0203F3F0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_STANDARD_UpdateRtc.c \
+ *       --func GF_STANDARD_UpdateRtc --addr 0x0203F3F0 --cc 1.1p1 --arm
  */
-void GF_STANDARD_Setup(void)
+void GF_STANDARD_UpdateRtc(void)
 {
     if (g_021469FC.busy != 0) {
         return;
@@ -525,27 +525,27 @@ void GF_STANDARD_Setup(void)
         return;
     }
     g_021469FC.frameCount = 0;
-    GF_STANDARD_GetRtc((struct RtcRequest *)(&g_021469FC));
+    GF_STANDARD_RequestRtc((struct RtcRequest *)(&g_021469FC));
 }
 
 /*
  * TU: gf_standard.c.
  *
  * Completion callback for the asynchronous RTC read started by
- * GF_STANDARD_GetRtc: publish the result code, mark the block busy, promote the
+ * GF_STANDARD_RequestRtc: publish the result code, mark the block busy, promote the
  * staging date and time at +0x2c/+0x3c into the live copies at +0x10/+0x20,
  * then clear the busy flag.  Both promotions are whole-structure
  * assignments, so each is one inlined ldm/stm pair.
  *
  * Its address reaches the image only as the pool word at 0x0203F498 inside
- * GF_STANDARD_GetRtc, never as a branch target, so this file's manifest entry is
+ * GF_STANDARD_RequestRtc, never as a branch target, so this file's manifest entry is
  * the only thing that can attest that relocation.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GF_STANDARD_Task.c \
- *       --func GF_STANDARD_Task --addr 0x0203F42C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_STANDARD_RtcReadDone.c \
+ *       --func GF_STANDARD_RtcReadDone --addr 0x0203F42C --cc 1.1p1 --arm
  */
-void GF_STANDARD_Task(u32 result, struct RtcRequest *req)
+void GF_STANDARD_RtcReadDone(u32 result, struct RtcRequest *req)
 {
     req->result = result;
     req->hasResult = 1;
@@ -558,19 +558,19 @@ void GF_STANDARD_Task(u32 result, struct RtcRequest *req)
  * TU: gf_standard.c.
  *
  * Start an asynchronous RTC read into the staging date and time at
- * +0x2c/+0x3c, with GF_STANDARD_Task as the completion callback and the block
+ * +0x2c/+0x3c, with GF_STANDARD_RtcReadDone as the completion callback and the block
  * itself as its argument.  The busy flag at +0x04 is raised before the call
  * and the request's return code is parked in +0x0c.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GF_STANDARD_GetRtc.c \
- *       --func GF_STANDARD_GetRtc --addr 0x0203F46C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_STANDARD_RequestRtc.c \
+ *       --func GF_STANDARD_RequestRtc --addr 0x0203F46C --cc 1.1p1 --arm
  */
-void GF_STANDARD_GetRtc(struct RtcRequest *req)
+void GF_STANDARD_RequestRtc(struct RtcRequest *req)
 {
     req->busy = 1;
     req->result = RTC_GetDateTimeAsync(&req->stagedDate, &req->stagedTime,
-                                GF_STANDARD_Task, req);
+                                GF_STANDARD_RtcReadDone, req);
 }
 
 /*
@@ -596,10 +596,10 @@ void GF_STANDARD_CopyCachedRtc(struct RtcDate *date, struct RtcTime *time)
  * ldm/stm pair and no frame at all.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GF_STANDARD_SetField00.c \
- *       --func GF_STANDARD_SetField00 --addr 0x0203F4CC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_STANDARD_GetCachedTime.c \
+ *       --func GF_STANDARD_GetCachedTime --addr 0x0203F4CC --cc 1.1p1 --arm
  */
-void GF_STANDARD_SetField00(struct RtcTime *time)
+void GF_STANDARD_GetCachedTime(struct RtcTime *time)
 {
     *time = g_02146A1C;
 }
@@ -609,10 +609,10 @@ void GF_STANDARD_SetField00(struct RtcTime *time)
  * pair, no frame.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GF_STANDARD_SetField00_F4E4.c \
- *       --func GF_STANDARD_SetField00_F4E4 --addr 0x0203F4E4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_STANDARD_GetCachedDate.c \
+ *       --func GF_STANDARD_GetCachedDate --addr 0x0203F4E4 --cc 1.1p1 --arm
  */
-void GF_STANDARD_SetField00_F4E4(struct RtcDate *date)
+void GF_STANDARD_GetCachedDate(struct RtcDate *date)
 {
     *date = g_02146A0C;
 }
@@ -629,10 +629,10 @@ void GF_STANDARD_SetField00_F4E4(struct RtcDate *date)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GF_STANDARD_GetTime.c \
- *       --func GF_STANDARD_GetTime --addr 0x0203F4FC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_STANDARD_GetSecondsOfDay.c \
+ *       --func GF_STANDARD_GetSecondsOfDay --addr 0x0203F4FC --cc 1.1p1 --arm
  */
-u32 GF_STANDARD_GetTime(void)
+u32 GF_STANDARD_GetSecondsOfDay(void)
 {
     u32 *p = (u32 *)(0x2146A1C);
 
@@ -647,10 +647,10 @@ u32 GF_STANDARD_GetTime(void)
  * unlabelled leaf because nothing is pushed.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GF_STANDARD_SetupRtc.c \
- *       --func GF_STANDARD_SetupRtc --addr 0x0203F524 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_STANDARD_GetRtcTimestamp.c \
+ *       --func GF_STANDARD_GetRtcTimestamp --addr 0x0203F524 --cc 1.1p1 --arm
  */
-void GF_STANDARD_SetupRtc(void)
+void GF_STANDARD_GetRtcTimestamp(void)
 {
     RTC_ConvertDateTimeToSecond((struct RTCDate *)(&g_02146A0C), (struct RTCTime *)(&g_02146A1C));
 }
@@ -703,10 +703,10 @@ void GF_STANDARD_SetupRtc(void)
  * which is the shared-exit tail-merge the disjunction gives.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/GF_STANDARD_SetupRtc_F540.c \
- *       --func GF_STANDARD_SetupRtc_F540 --addr 0x0203F540 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/GF_STANDARD_GetDayOfYear.c \
+ *       --func GF_STANDARD_GetDayOfYear --addr 0x0203F540 --cc 1.1p1 --arm
  */
-s32 GF_STANDARD_SetupRtc_F540(struct RtcDateSigned *d)
+s32 GF_STANDARD_GetDayOfYear(struct RtcDateSigned *d)
 {
     struct RtcDateSigned t;
     s32 n = d->day + tbl_020A08B6[d->month];
@@ -727,9 +727,9 @@ s32 GF_STANDARD_SetupRtc_F540(struct RtcDateSigned *d)
 }
 
 /*
- * Fixed-point sine lookup without the mod: angles of 360 or more return 0; otherwise the same table index as GF_STANDARD_Get_F684 (4096-entry table at 0x020A1B38, even halfword).
+ * Fixed-point sine lookup without the mod: angles of 360 or more return 0; otherwise the same table index as GF_STANDARD_SinFromDegreesWrapped (4096-entry table at 0x020A1B38, even halfword).
  */
-int GF_STANDARD_Get_F5FC(u32 x)
+int GF_STANDARD_SinFromDegrees(u32 x)
 {
     if (x >= 360) {
         return 0;
@@ -738,9 +738,9 @@ int GF_STANDARD_Get_F5FC(u32 x)
 }
 
 /*
- * Twin of GF_STANDARD_Get_F5FC at table index 2 * i + 1 (cosine entry); angles of 360 or more return 0.
+ * Twin of GF_STANDARD_SinFromDegrees at table index 2 * i + 1 (cosine entry); angles of 360 or more return 0.
  */
-short GF_STANDARD_SinDeg(u32 x)
+short GF_STANDARD_CosFromDegrees(u32 x)
 {
     if (x >= 360) {
         return 0;
@@ -752,7 +752,7 @@ short GF_STANDARD_SinDeg(u32 x)
  * Fixed-point sine lookup: 4096-entry table at 0x020A1B38 (a flat signed
  * halfword array of interleaved pairs), indexed by (x mod 360) scaled to
  * 0xFFFF with the quotient taken against 360 again and shifted right by 4.
- * GF_STANDARD_Sin is the identical twin at index `2 * i + 1`.
+ * GF_STANDARD_CosFromDegreesWrapped is the identical twin at index `2 * i + 1`.
  *
  * Two details are load-bearing and cost real time:
  *
@@ -773,13 +773,13 @@ short GF_STANDARD_SinDeg(u32 x)
  *
  * Addresses are Black-image addresses.
  */
-short GF_STANDARD_Get_F684(unsigned short x)
+short GF_STANDARD_SinFromDegreesWrapped(unsigned short x)
 {
     return FX_SinCosTable_[2 * ((((x % 360) * 0xFFFF) / 360) >> 4)];
 }
 
 /*
- * The odd-halfword twin of GF_STANDARD_Get_F684: same signed `x % 360`, same
+ * The odd-halfword twin of GF_STANDARD_SinFromDegreesWrapped: same signed `x % 360`, same
  * fixed-point multiply by 0xFFFF against the same 360, same `>> 4`, but the
  * table index is `2 * i + 1` instead of `2 * i`.  That difference shows up as
  * `lsl r0, r0, #1 / add r1, r0, #1 / lsl r1, r1, #1` before the `ldrsh`,
@@ -793,7 +793,7 @@ short GF_STANDARD_Get_F684(unsigned short x)
  *
  * Addresses are Black-image addresses.
  */
-short GF_STANDARD_Sin(s32 x)
+short GF_STANDARD_CosFromDegreesWrapped(s32 x)
 {
     return FX_SinCosTable_[2 * ((((x % 360) * 0xFFFF) / 360) >> 4) + 1];
 }
@@ -814,7 +814,7 @@ u16 GF_STANDARD_DegToAngle(int x)
 
 /*
  * Blocked at MATCH on the `label`/`matched` classes: every concrete byte of
- * the body reproduces, but the PC24 at +0x18 to GF_STANDARD_SetupCalc_F7C4 has one
+ * the body reproduces, but the PC24 at +0x18 to GF_STANDARD_SignedDistanceToLine has one
  * branch reference image-wide, this call, so the site has no witness outside
  * 0203F768..0203F7C4.  Filing 0x0203F7C4 as an EXACT manifest entry promotes
  * this file with no change to the C.
@@ -829,7 +829,7 @@ u16 GF_STANDARD_DegToAngle(int x)
  */
 int GF_STANDARD_CalcAngle(int ax, int ay, int bx, int by, int cx, int cy, int radius)
 {
-    int v = GF_STANDARD_SetupCalc_F7C4(ax, ay, bx, by, cx, cy);
+    int v = GF_STANDARD_SignedDistanceToLine(ax, ay, bx, by, cx, cy);
     int d = (int)(((s64)(radius << 13) * 0x323d + 0x800) >> 12);
 
     return (v << 16) / (d >> 12);
@@ -852,7 +852,7 @@ static inline fx32 cross2(const struct VecFx32 *p, const struct VecFx32 *q)
  * gf_standard.c: signed distance from point C to the line through A and B,
  * six plain-integer coordinates shifted into 20.12 on entry
  * (docs/families/gf_standard.h).  Closed from the 304-byte / 55-out source
- * of docs/notes/GF_STANDARD_SetupCalc_F7C4.c.txt by one change: the value tested for the
+ * of docs/notes/GF_STANDARD_SignedDistanceToLine.c.txt by one change: the value tested for the
  * sign is the SUM OF ALL THREE COMPONENTS of f = (0, 0, cross_z),
  *     cross = f.x + f.y + f.z;
  * not `f.z + a.z`.  The image's `add r2, r7, #0` is f.x + f.y (the zero
@@ -861,7 +861,7 @@ static inline fx32 cross2(const struct VecFx32 *p, const struct VecFx32 *q)
  * loads with the first one's normalisation.  The two `static inline`
  * helpers from the note are still load-bearing.
  */
-s32 GF_STANDARD_SetupCalc_F7C4(s32 ax, s32 ay, s32 bx, s32 by, s32 cx, s32 cy)
+s32 GF_STANDARD_SignedDistanceToLine(s32 ax, s32 ay, s32 bx, s32 by, s32 cx, s32 cy)
 {
     struct VecFx32 a;
     struct VecFx32 b;

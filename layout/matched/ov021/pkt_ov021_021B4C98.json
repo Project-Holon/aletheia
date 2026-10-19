@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "SCRCMD_PROC_FLD_CallOv004Event",
+   "name": "SCRCMD_PROC_FLD_CallWorldTradeEvent",
    "address": "0x021B4C98",
    "kind": "game",
    "region": "ov021",

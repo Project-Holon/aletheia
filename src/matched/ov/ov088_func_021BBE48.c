@@ -20,7 +20,7 @@
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   func_02041B6C  0x02041B6C  arm
  *   STARTMENU_DrawFrameBox  0x021BBA64  thumb  ov088
- *   BG_SYS_ResetSlot  0x02041EE4  arm
+ *   BG_SYS_ChangeScroll  0x02041EE4  arm
  *   STARTMENU_ShowRowActors  0x021BB9DC  thumb  ov088
  */
 #include "../include/Obj05167.h"
@@ -44,7 +44,7 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void func_02041B6C(u32);
 extern void STARTMENU_DrawFrameBox(u8 x, u8 y, u8 w, u8 h, u8 bg);
-extern void BG_SYS_ResetSlot(u32, u32, u32);
+extern void BG_SYS_ChangeScroll(u32, u32, u32);
 extern void STARTMENU_ShowRowActors(char *, int);
 
 void STARTMENU_OpenNoticeWindow(char *p)
@@ -64,9 +64,9 @@ void STARTMENU_OpenNoticeWindow(char *p)
     BMP_WIN_MakeScreen((struct Cfg *)(((struct Obj05167 *)p)->fF0));
     func_02041B6C(0);
     STARTMENU_DrawFrameBox(0x20, 1, 0x20, 0x16, 2);
-    BG_SYS_ResetSlot(1, 0, 0x100);
-    BG_SYS_ResetSlot(1, 3, 0);
-    BG_SYS_ResetSlot(2, 0, 0x100);
-    BG_SYS_ResetSlot(2, 3, 0);
+    BG_SYS_ChangeScroll(1, 0, 0x100);
+    BG_SYS_ChangeScroll(1, 3, 0);
+    BG_SYS_ChangeScroll(2, 0, 0x100);
+    BG_SYS_ChangeScroll(2, 3, 0);
     STARTMENU_ShowRowActors(p, 0);
 }

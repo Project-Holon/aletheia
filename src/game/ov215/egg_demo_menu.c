@@ -14,7 +14,7 @@
  *
  * symbols:
  *   GFL_USE_PopBgm 0x02005E9C thumb
- *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_SetBgmPaused 0x02005DE4 thumb
  *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
  *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   BMP_WIN_Create 0x020450F0 arm
@@ -25,13 +25,13 @@
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   TCBL_Create 0x0203101C arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   TCBL_Destroy 0x02031140 arm
  *   MSGDATA_Delete 0x02045C04 arm
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   TCBL_Main 0x020310C4 arm
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
@@ -40,10 +40,10 @@
  *   BG_SYS_PushTile 0x020409B4 arm
  *   MSGDATA_AllocString 0x02045EC0 arm
  *   WORDSET_CreateDefault 0x0201EC64 thumb
- *   WORDSET_SetSlotMonName 0x0201EE84 thumb
+ *   WORDSET_SetSlotMonSpeciesName 0x0201EE84 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   PRINTSYS_PrintStreamGetState 0x0201CE30 thumb
@@ -87,7 +87,7 @@ typedef unsigned char u8;
 typedef signed int     s32;
 
 extern int GFL_USE_PopBgm(void);
-extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_SetBgmPaused(void *p);
 extern void GFL_USE_FadeInBgmFull(u32 a);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
@@ -98,13 +98,13 @@ extern void *BMP_MENUWORK_LoadFrameGfx(void *layer, u32 palSlot, u32 frameId, u3
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void GF_FONT_SetTextColor(u32,u32,u32);
-extern void BG_SYS_SetFlagField06(u32);
+extern void BG_SYS_MarkTileDirty(u32);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void TCBL_Destroy(struct S02031140 *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void TCBL_Main(struct Tcbl *p);
 extern void BMP_MENUWORK_DrawWindow(void *win, int commitMode, int tileBase, int palette);
@@ -113,10 +113,10 @@ extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void BG_SYS_PushTile(u32 index);
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
-extern void WORDSET_SetSlotMonName(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonSpeciesName(struct WordSet *p, u32 i, void *mon);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern signed char MSG_SPEED_GetWait(void);
 extern void *PRINTSYS_PrintStream(void *,unsigned,unsigned,void *,unsigned,unsigned,void *,unsigned,u16,u16);
 extern unsigned PRINTSYS_PrintStreamGetState(void *);
@@ -153,7 +153,7 @@ extern const u16 d_021F71A4[];
 void EGG_DEMO_MENU_FadeInBgm(void)
 {
     GFL_USE_PopBgm();
-    GFL_USE_SetBgmPlayerParam(0);
+    GFL_USE_SetBgmPaused(0);
     GFL_USE_FadeInBgmFull(0x3c);
 }
 
@@ -170,7 +170,7 @@ void EGG_DEMO_MENU_Create(int unused,char *work)
     ((struct EggDemoWork *)work)->msgBank=MSGDATA_CreateFromArchive(0,3,260,((struct EggDemoWork *)work)->heapId);
     ((struct EggDemoWork *)work)->tcbl=TCBL_Create(((struct EggDemoWork *)work)->heapId,((struct EggDemoWork *)work)->heapId,1,0);
     GF_FONT_SetTextColor(1,2,15);
-    BG_SYS_SetFlagField06(1);
+    BG_SYS_MarkTileDirty(1);
     ((struct EggDemoWork *)work)->printStream=0;
     ((struct EggDemoWork *)work)->textBuf=0;
     ((struct EggDemoWork *)work)->vblankFlag=0;
@@ -183,7 +183,7 @@ void EGG_DEMO_MENU_Delete(void *unused,char *work)
     if(((struct EggDemoWork *)work)->textBuf) STRBUF_Delete(((struct EggDemoWork *)work)->textBuf);
     TCBL_Destroy(((struct EggDemoWork *)work)->tcbl);
     MSGDATA_Delete(((struct EggDemoWork *)work)->msgBank);
-    BG_SYS_DeleteHalf(1,(u16)((struct EggDemoWork *)work)->frameGfx,(u16)(((struct EggDemoWork *)work)->frameGfx>>16));
+    BG_SYS_FreeTileRun(1,(u16)((struct EggDemoWork *)work)->frameGfx,(u16)(((struct EggDemoWork *)work)->frameGfx>>16));
     BMP_WIN_Delete(((struct EggDemoWork *)work)->window);
     BMP_WIN_Delete(((struct EggDemoWork *)work)->windowSub);
 }
@@ -214,11 +214,11 @@ void EGG_DEMO_MENU_SetText(char *args,char *work,unsigned entry)
     if(((struct EggDemoWork *)work)->textBuf) STRBUF_Delete(((struct EggDemoWork *)work)->textBuf);
     text=MSGDATA_AllocString(((struct EggDemoWork *)work)->msgBank,entry);
     words=WORDSET_CreateDefault(((struct EggDemoWork *)work)->heapId);
-    WORDSET_SetSlotMonName(words,0,((struct EggDemoArgs *)args)->mon);
+    WORDSET_SetSlotMonSpeciesName(words,0,((struct EggDemoArgs *)args)->mon);
     buffer=STRBUF_Create(256,((struct EggDemoWork *)work)->heapId);
     ((struct EggDemoWork *)work)->textBuf=buffer;
     WORDSET_CopyTaggedText(words,buffer,text);
-    WORDSET_DeleteStrbufED04(words);
+    WORDSET_Delete(words);
     STRBUF_Delete(text);
     ((struct EggDemoWork *)work)->printStream=PRINTSYS_PrintStream(((struct EggDemoWork *)work)->window,0,0,((struct EggDemoWork *)work)->textBuf,(unsigned int)((struct EggDemoWork *)work)->font,MSG_SPEED_GetWait(),((struct EggDemoWork *)work)->tcbl,2,((struct EggDemoWork *)work)->heapId,15);
 }
@@ -247,7 +247,7 @@ void EGG_DEMO_MENU_InitDialog(int unused, unsigned char *work)
 {
     int h = BG_SYS_CreateRun(1, 0x500, 1);
 
-    BG_SYS_DeleteHalf(1, h, 0x500);
+    BG_SYS_FreeTileRun(1, h, 0x500);
     ((struct EggDemoWork *)work)->winDat[0] = 1;
     ((struct EggDemoWork *)work)->winDat[1] = 0x18;
     ((struct EggDemoWork *)work)->winDat[2] = 0xd;

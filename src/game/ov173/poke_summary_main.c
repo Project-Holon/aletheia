@@ -91,7 +91,7 @@
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   APP_KEYCURSOR_CreateDefault 0x02028590 thumb
  *   APP_KEYCURSOR_Delete 0x02028604 thumb
  *   BMP_WIN_Delete 0x020452E8 arm
@@ -100,7 +100,7 @@
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   MSGDATA_Delete 0x02045C04 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   WIPE_SYS_EndCheck  0x020221A4  thumb
  *   CURSOR_MOVE_GetCurrent 0x020260E0 thumb
  *   CURSOR_MOVE_PollRepeatInput 0x02025DE8 thumb
@@ -130,12 +130,12 @@
  *   MSGDATA_ReadString 0x02045CAC arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
+ *   WORDSET_SetSlotMonNickname 0x0201EEF4 thumb
  *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
  *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   POKE_SUMMARY_ACTOR_SetMoveIcon 0x021B78CC thumb ov173
- *   WORDSET_SetSlotMonName 0x0201EE84 thumb
+ *   WORDSET_SetSlotMonSpeciesName 0x0201EE84 thumb
  *   BMP_MENUWORK_Create 0x0201F81C thumb
  *   BMP_MENUWORK_AddMsgItem 0x0201F878 thumb
  *   BMP_MENUWORK_Delete 0x0201F868 thumb
@@ -152,7 +152,7 @@
  *   BG_SYS_PushTile 0x020409B4 arm
  *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *   GFL_USE_IsAnySeBusy 0x02006238 thumb
- *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_SetBgmPaused 0x02005DE4 thumb
  *   GFL_USE_PushBgm 0x02005E64 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   GFL_USE_IsBgmPlaying 0x02005F38 thumb
@@ -293,7 +293,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void BG_SYS_SetFlagField06(u32);
+extern void BG_SYS_MarkTileDirty(u32);
 extern u32 APP_KEYCURSOR_CreateDefault(int,int,int,int);
 extern int APP_KEYCURSOR_Delete(int);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
@@ -302,7 +302,7 @@ extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fi
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern u32 WIPE_SYS_EndCheck(void);
 extern u8 CURSOR_MOVE_GetCurrent(struct Sound *);
 extern int CURSOR_MOVE_PollRepeatInput(struct Sound *);
@@ -338,12 +338,12 @@ extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonNickname(struct WordSet *p, u32 i, void *mon);
 extern void *POKE_TOOL_GetBoxParam(void *);
 extern u32 POKE_TOOL_GetBoxValue(void *,u32,u32);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void POKE_SUMMARY_ACTOR_SetMoveIcon(u8 *p, u16 id, u16 i);
-extern void WORDSET_SetSlotMonName(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonSpeciesName(struct WordSet *p, u32 i, void *mon);
 extern void *BMP_MENUWORK_Create(u32, u32);
 extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
 extern u32 BMP_MENUWORK_Delete(void *p);
@@ -359,7 +359,7 @@ extern struct Rec *PRINTSYS_PrintStreamCallBack(u32 win, s16 x, s16 y, u32 str, 
 extern void BG_SYS_PushTile(u32);
 extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern int GFL_USE_IsAnySeBusy(void);
-extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_SetBgmPaused(void *p);
 extern int GFL_USE_PushBgm(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(unsigned int, unsigned int);
 extern int GFL_USE_IsBgmPlaying(void);
@@ -671,7 +671,7 @@ void POKE_SUMMARY_MAIN_CreateBmpWindows(u8 *work)
     }
     h=(u32)((struct PokeSummaryWork *)work)->bmpWindows[9];
     BMP_WIN_ClearScreen((struct Descriptor *)h);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)h));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct Descriptor *)h));
     ((struct PokeSummaryWork *)work)->keyCursor=(void *)APP_KEYCURSOR_CreateDefault(15,1,1,79);
 }
 
@@ -691,7 +691,7 @@ void POKE_SUMMARY_MAIN_CreateText(char *work) { ((struct PokeSummaryWork *)work)
 
 
 
-void POKE_SUMMARY_MAIN_DeleteText(char *work) { MSGDATA_Delete(((struct PokeSummaryWork *)work)->msgBank); WORDSET_DeleteStrbufED04(((struct PokeSummaryWork *)work)->wordSet); STRBUF_Delete(((struct PokeSummaryWork *)work)->strBufA); STRBUF_Delete(((struct PokeSummaryWork *)work)->strBufB); STRBUF_Delete(((struct PokeSummaryWork *)work)->strBufC); }
+void POKE_SUMMARY_MAIN_DeleteText(char *work) { MSGDATA_Delete(((struct PokeSummaryWork *)work)->msgBank); WORDSET_Delete(((struct PokeSummaryWork *)work)->wordSet); STRBUF_Delete(((struct PokeSummaryWork *)work)->strBufA); STRBUF_Delete(((struct PokeSummaryWork *)work)->strBufB); STRBUF_Delete(((struct PokeSummaryWork *)work)->strBufC); }
 
 
 
@@ -919,7 +919,7 @@ static inline void flush(void *win)
 {
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(win));
 }
 
 
@@ -1014,7 +1014,7 @@ void POKE_SUMMARY_MAIN_DrawMovesPage(char *work)
     flush(((struct PokeSummaryWork *)work)->bmpWindows[3]);
     temp=STRBUF_Create(256,79);
     MSGDATA_ReadString(((struct PokeSummaryWork *)work)->msgBank,0x27,temp);
-    WORDSET_SetSlotMonSpecies(((struct PokeSummaryWork *)work)->wordSet,0,((struct PokeSummaryWork *)work)->mon->party);
+    WORDSET_SetSlotMonNickname(((struct PokeSummaryWork *)work)->wordSet,0,((struct PokeSummaryWork *)work)->mon->party);
     WORDSET_CopyTaggedText(((struct PokeSummaryWork *)work)->wordSet,((struct PokeSummaryWork *)work)->strBufA,temp);
     POKE_SUMMARY_MAIN_PrintAligned(work,13,(u32)((struct PokeSummaryWork *)work)->font,0x3c40,0,4);
     flush(((struct PokeSummaryWork *)work)->bmpWindows[13]);
@@ -1041,7 +1041,7 @@ void POKE_SUMMARY_MAIN_DrawMovesPage(char *work)
     }
     flush(((struct PokeSummaryWork *)work)->bmpWindows[14]);
     MSGDATA_ReadString(((struct PokeSummaryWork *)work)->msgBank,0x25,temp);
-    WORDSET_SetSlotMonName(((struct PokeSummaryWork *)work)->wordSet,0,((struct PokeSummaryWork *)work)->mon->party);
+    WORDSET_SetSlotMonSpeciesName(((struct PokeSummaryWork *)work)->wordSet,0,((struct PokeSummaryWork *)work)->mon->party);
     WORDSET_CopyTaggedText(((struct PokeSummaryWork *)work)->wordSet,((struct PokeSummaryWork *)work)->strBufA,temp);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(((struct PokeSummaryWork *)work)->bmpWindows[15]),0,0,((struct PokeSummaryWork *)work)->strBufA,((struct PokeSummaryWork *)work)->font,0x440);
     flush(((struct PokeSummaryWork *)work)->bmpWindows[15]);
@@ -1108,8 +1108,8 @@ void POKE_SUMMARY_MAIN_RedrawMoveList(char *work)
     q = ((struct PokeSummaryWork *)work)->bmpWindows[11];
     BMP_WIN_TransferChars(q);
     BMP_WIN_MakeScreen(q);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(q));
-    BG_SYS_SetFlagField06(7);
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(q));
+    BG_SYS_MarkTileDirty(7);
     POKE_SUMMARY_ACTOR_LayoutMoveActors(work);
 }
 
@@ -1163,7 +1163,7 @@ void POKE_SUMMARY_MAIN_DeleteMoveList(char *work)
 static inline void clear(void *win)
 {
     BMP_WIN_ClearScreen(win);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(win));
 }
 
 
@@ -1284,24 +1284,24 @@ void POKE_SUMMARY_MAIN_SetTextByKind(char *work, u32 kind)
 {
     void *str;
     switch (kind) {
-    case 0: WORDSET_SetSlotMonSpecies(((struct PokeSummaryWork *)work)->wordSet, 0, ((struct PokeSummaryWork *)work)->mon->party); break;
+    case 0: WORDSET_SetSlotMonNickname(((struct PokeSummaryWork *)work)->wordSet, 0, ((struct PokeSummaryWork *)work)->mon->party); break;
     case 1: WORDSET_SetSlotFromMsgCB(((struct PokeSummaryWork *)work)->wordSet, 1, POKE_SUMMARY_MAIN_GetRecordWord((char **)work)); break;
-    case 2: WORDSET_SetSlotMonSpecies(((struct PokeSummaryWork *)work)->wordSet, 0, ((struct PokeSummaryWork *)work)->mon->party); break;
+    case 2: WORDSET_SetSlotMonNickname(((struct PokeSummaryWork *)work)->wordSet, 0, ((struct PokeSummaryWork *)work)->mon->party); break;
     case 3:
-        WORDSET_SetSlotMonSpecies(((struct PokeSummaryWork *)work)->wordSet, 0, ((struct PokeSummaryWork *)work)->mon->party);
+        WORDSET_SetSlotMonNickname(((struct PokeSummaryWork *)work)->wordSet, 0, ((struct PokeSummaryWork *)work)->mon->party);
         WORDSET_SetSlotFromMsgCB(((struct PokeSummaryWork *)work)->wordSet, 1, POKE_SUMMARY_MAIN_GetRecordWord((char **)work)); break;
     case 4:
-        WORDSET_SetSlotMonSpecies(((struct PokeSummaryWork *)work)->wordSet, 0, ((struct PokeSummaryWork *)work)->mon->party);
+        WORDSET_SetSlotMonNickname(((struct PokeSummaryWork *)work)->wordSet, 0, ((struct PokeSummaryWork *)work)->mon->party);
         WORDSET_SetSlotFromMsgCB(((struct PokeSummaryWork *)work)->wordSet, 1, POKE_SUMMARY_MAIN_GetRecordWord((char **)work)); break;
     case 5:
-        WORDSET_SetSlotMonSpecies(((struct PokeSummaryWork *)work)->wordSet, 0, ((struct PokeSummaryWork *)work)->mon->party);
+        WORDSET_SetSlotMonNickname(((struct PokeSummaryWork *)work)->wordSet, 0, ((struct PokeSummaryWork *)work)->mon->party);
         WORDSET_SetSlotFromMsgCB(((struct PokeSummaryWork *)work)->wordSet, 1, POKE_SUMMARY_MAIN_GetMoveWord((int *)work)); break;
     case 6:
-        WORDSET_SetSlotMonSpecies(((struct PokeSummaryWork *)work)->wordSet, 0, ((struct PokeSummaryWork *)work)->mon->party);
+        WORDSET_SetSlotMonNickname(((struct PokeSummaryWork *)work)->wordSet, 0, ((struct PokeSummaryWork *)work)->mon->party);
         WORDSET_SetSlotFromMsgCB(((struct PokeSummaryWork *)work)->wordSet, 1, POKE_SUMMARY_MAIN_GetRecordWord((char **)work)); break;
     case 7: WORDSET_SetSlotFromMsgCB(((struct PokeSummaryWork *)work)->wordSet, 1, POKE_SUMMARY_MAIN_GetRecordWord((char **)work)); break;
     case 8:
-        WORDSET_SetSlotMonSpecies(((struct PokeSummaryWork *)work)->wordSet, 0, ((struct PokeSummaryWork *)work)->mon->party);
+        WORDSET_SetSlotMonNickname(((struct PokeSummaryWork *)work)->wordSet, 0, ((struct PokeSummaryWork *)work)->mon->party);
         WORDSET_SetSlotFromMsgCB(((struct PokeSummaryWork *)work)->wordSet, 1, POKE_SUMMARY_MAIN_GetRecordWord((char **)work)); break;
     case 9: WORDSET_SetSlotMyStatus(((struct PokeSummaryWork *)work)->wordSet, 2, (void *)(((struct PokeSummaryWork *)work)->mon->myStatus)); break;
     case 10: WORDSET_SetSlotFromMsgCB(((struct PokeSummaryWork *)work)->wordSet, 0, POKE_SUMMARY_MAIN_GetMoveWord((int *)work)); break;
@@ -1375,7 +1375,7 @@ void POKE_SUMMARY_MAIN_ClearWindow(char *work)
     BMP_MENUWORK_DrawWindowBorder((void *)(((struct PokeSummaryWork *)work)->bmpWindows[7]), 2);
     x = (u32)((struct PokeSummaryWork *)work)->bmpWindows[7];
     BMP_WIN_ClearScreen((struct Descriptor *)x);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)x));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct Descriptor *)x));
 }
 
 
@@ -1390,14 +1390,14 @@ int POKE_SUMMARY_MAIN_SoundStateCallback(unsigned int state)
     case 2: return GFL_USE_IsAnySeBusy();
     case 3: GFL_USE_PlaySeDefaultVolume(0x56b); break;
     case 4:
-        GFL_USE_SetBgmPlayerParam((void *)1);
+        GFL_USE_SetBgmPaused((void *)1);
         GFL_USE_PushBgm();
         GFL_USE_CancelChangeAndPlayBgm(0x515, 0xffff);
         break;
     case 5:
         if (GFL_USE_IsBgmPlaying() == 0) {
             GFL_USE_PopBgm();
-            GFL_USE_SetBgmPlayerParam(0);
+            GFL_USE_SetBgmPaused(0);
         } else {
             return 1;
         }

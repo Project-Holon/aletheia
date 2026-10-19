@@ -19,7 +19,7 @@
  *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
  *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   UNION_ONESELF_CheckNetErrorExit  0x0217BB20  thumb  ov019
+ *   UNION_ONESELF_HandleNetErrorExit  0x0217BB20  thumb  ov019
  *   UNION_MSG_CloseAllWindows  0x0217F074  thumb  ov019
  *   UNION_MSG_GetCategoryTableValue  0x0217F060  thumb  ov019
  *   UNION_MSG_SetupPrintTalkMsg  0x0217F210  thumb  ov019
@@ -80,7 +80,7 @@ struct Link;
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *a, unsigned int b, unsigned int c);
 extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *a, unsigned int b, unsigned int c);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern int UNION_ONESELF_CheckNetErrorExit(char *p);
+extern int UNION_ONESELF_HandleNetErrorExit(char *p);
 extern void UNION_MSG_CloseAllWindows(void *p);
 extern int UNION_MSG_GetCategoryTableValue(int i);
 extern void UNION_MSG_SetupPrintTalkMsg(u8 *p, u8 *a, u32 b);
@@ -106,7 +106,7 @@ int UNION_ONESELF_ColosseumEntryMain(Ctx *ctx, Obj *obj, u8 *a2, u8 *state)
     if (w == 0)
         func_02034714((const char *)gUnionEmptyString1, 0, (const char *)gUnionEmptyString1);
 
-    if (UNION_ONESELF_CheckNetErrorExit((char *)ctx) == 1) {
+    if (UNION_ONESELF_HandleNetErrorExit((char *)ctx) == 1) {
         if (w->f168 != 0)
             COMM_ENTRY_MENU_Delete((u32 *)w->f168);
         UNION_MSG_CloseAllWindows(ctx);

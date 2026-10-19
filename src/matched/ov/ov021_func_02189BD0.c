@@ -37,7 +37,7 @@
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb
- *   INTRUDE_FIELD_IsCommAllowed  0x0217BFD8  thumb  ov018
+ *   INTRUDE_FIELD_IsDisconnectNeeded  0x0217BFD8  thumb  ov018
  *   INTRUDE_SUBDISP_CreateDisconnectEvent  0x0217CA84  thumb  ov018
  *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
@@ -154,7 +154,7 @@ extern int FIELD_PLAYER_TryPushBoulder(u32 *p, int a, int b, int c);
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
 extern void *FIELD_PLAYER_GetMmdl(u8 *p);
-extern int INTRUDE_FIELD_IsCommAllowed(const struct Ctx *a, int b);
+extern int INTRUDE_FIELD_IsDisconnectNeeded(const struct Ctx *a, int b);
 extern int INTRUDE_SUBDISP_CreateDisconnectEvent(void *sys, int v);
 extern u32 GAME_COMM_GetKind(void *obj);
 extern int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
@@ -275,7 +275,7 @@ int FIELD_EVENT_CHECK_CheckGridEvents(void *sys, struct Obj00020 *pos, int *outA
     obj = (void *)GAMESYSTEM_GetGameComm(sys);
     ev = (void *)INTRUDE_COMM_GetWorkIfRunning((int)obj);
     model = FIELD_PLAYER_GetMmdl((u8 *)in.f18);
-    if (INTRUDE_FIELD_IsCommAllowed((const struct Ctx *)sys, in.f10) == 1)
+    if (INTRUDE_FIELD_IsDisconnectNeeded((const struct Ctx *)sys, in.f10) == 1)
         return INTRUDE_SUBDISP_CreateDisconnectEvent(sys, 0);
     if ((int)GAME_COMM_GetKind(obj) == 2 && ev != 0) {
         if (GAME_DATA_GetIntrudeCount(in.f8) == 1 && INTRUDE_FIELD_IsStartRequested(ev) == 1)

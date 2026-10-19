@@ -12,7 +12,7 @@
  * symbols:
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   BTL_SERVER_FLOW_GetFieldSituationType  0x021C8174  thumb  ov093
- *   BTLV_CORE_PackByteTwice  0x021E8CF0  thumb  ov093
+ *   BTL_TYPEPAIR_MakeSingle  0x021E8CF0  thumb  ov093
  *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093
  *   BTL_POKEPARAM_GetTypePair  0x021D57FC  thumb  ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
@@ -23,7 +23,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 extern int BTL_EVENT_GetVar(int key);
 extern int BTL_SERVER_FLOW_GetFieldSituationType(int *p);
-extern u16 BTLV_CORE_PackByteTwice(int c);
+extern u16 BTL_TYPEPAIR_MakeSingle(int c);
 extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern u16 BTL_POKEPARAM_GetTypePair(void *p);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
@@ -57,7 +57,7 @@ void HAND_WAZA_CamouflageChangeType(int a, int *b, int c)
             t = 0xe;
             break;
         }
-        v = BTLV_CORE_PackByteTwice(t);
+        v = BTL_TYPEPAIR_MakeSingle(t);
         if (v != BTL_POKEPARAM_GetTypePair(BTL_SERVER_FLOW_GetPokeParam(b, c))) {
             p = BTL_SERVER_FLOW_AllocCmdRecord((char *)b, 0x14, c);
             ((struct Obj13504 *)p)->f4 = v;

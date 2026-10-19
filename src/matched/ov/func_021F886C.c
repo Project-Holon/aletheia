@@ -1,5 +1,5 @@
 /*
- * function: WORLDTRADE_DEPOSIT_GetConditionIndex
+ * function: WORLDTRADE_DEPOSIT_FindLevelBracketIndex
  * address:  0x021F886C
  * packet:   pkt_021F886C
  * region:   ov135
@@ -27,7 +27,7 @@ typedef struct { u32 unk; s16 key; s16 val; } Entry;
 extern struct G_0220301C g_0220301C[12];
 extern Entry g_02202FC4[11];
 
-int WORLDTRADE_DEPOSIT_GetConditionIndex(int key, int val, int which)
+int WORLDTRADE_DEPOSIT_FindLevelBracketIndex(int key, int val, int which)
 {
     int i;
     int n;

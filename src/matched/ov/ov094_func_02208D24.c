@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb  arm9
+ *   GFL_USE_SetBgmPaused  0x02005DE4  thumb  arm9
  */
 
 extern int func_0200F300(void);
-extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_SetBgmPaused(void *p);
 
 void BTLV_GAUGE_SetBgmPlayerParam(int a)
 {
     if (func_0200F300() != 1)
-        GFL_USE_SetBgmPlayerParam((void *)a);
+        GFL_USE_SetBgmPaused((void *)a);
 }

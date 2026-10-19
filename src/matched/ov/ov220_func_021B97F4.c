@@ -13,7 +13,7 @@
  * prototype: 02005E64/E9C legacy four parameters are never read or forwarded at entry; both first call the argless 02005FBC.
  * symbols:
  * GFL_USE_IsBgmFading 0x02005E50 thumb
- * GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ * GFL_USE_SetBgmPaused 0x02005DE4 thumb
  * GFL_USE_PushBgm 0x02005E64 thumb
  * GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  * FADE_Start 0x0204E720 arm
@@ -41,7 +41,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern const u32 sounds[];
 extern int GFL_USE_IsBgmFading(void),GFL_USE_PushBgm(void),GFL_USE_PopBgm(void),GFL_USE_IsBgmPlaying(void),FADE_IsActive(void);
-extern void GFL_USE_SetBgmPlayerParam(void*),GFL_USE_CancelChangeAndPlayBgm(u32,u16),GFL_USE_FadeInBgmFull(u32);
+extern void GFL_USE_SetBgmPaused(void*),GFL_USE_CancelChangeAndPlayBgm(u32,u16),GFL_USE_FadeInBgmFull(u32);
 extern void FADE_Start(u32,int,int,int);
 struct Cfg;
 struct Obj;
@@ -68,7 +68,7 @@ int TH_AWARD_Main(void *unused, u32 *state, void *unused2, char *p)
         if (((struct Obj26059 *)(*(char * *)&((struct Obj03379 *)p)->f4))->fC && ((struct Obj03379 *)p)->fB0!=7) {
             if (GFL_USE_IsBgmFading()) flag=0;
             else {
-                GFL_USE_SetBgmPlayerParam((void *)1);
+                GFL_USE_SetBgmPaused((void *)1);
                 GFL_USE_PushBgm();
                 GFL_USE_CancelChangeAndPlayBgm(*(const u32 *)((u32)sounds+((struct Obj03379 *)p)->fB0*12),0xFFFF);
             }
@@ -83,7 +83,7 @@ int TH_AWARD_Main(void *unused, u32 *state, void *unused2, char *p)
         break;
     case 2:
         if (!GFL_USE_IsBgmPlaying()) {
-            GFL_USE_PopBgm();GFL_USE_SetBgmPlayerParam(0);GFL_USE_FadeInBgmFull(6);*state=3;
+            GFL_USE_PopBgm();GFL_USE_SetBgmPaused(0);GFL_USE_FadeInBgmFull(6);*state=3;
         }
         break;
     case 3:

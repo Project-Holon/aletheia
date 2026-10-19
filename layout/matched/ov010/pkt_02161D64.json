@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "EVENT_FIELD_PROCLINK_CheckZoneFlag",
+   "name": "EVENT_FIELD_PROCLINK_ApplyZoneChangeEnable",
    "address": "0x02161D64",
    "kind": "game",
    "region": "ov010",

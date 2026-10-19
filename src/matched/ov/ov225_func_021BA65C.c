@@ -13,7 +13,7 @@
  *   gManualCommonListWorkAllocFile 0x021BC028 data ov225 a1
  *   MANUAL_COMMON_LoadListWorkAssets 0x021BA898 thumb ov225
  *   MANUAL_COMMON_SetListWorkBgMode 0x021BAA44 thumb ov225
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   MANUAL_COMMON_GetScrollTop 0x021BB074 thumb ov225
  *   MANUAL_COMMON_IndexToY 0x021BB258 thumb ov225
@@ -64,7 +64,7 @@ extern const char gManualCommonListWorkAllocFile[];
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void MANUAL_COMMON_LoadListWorkAssets(char *);
 extern void MANUAL_COMMON_SetListWorkBgMode(struct Work *);
-extern void BG_SYS_ResetSlot(u32, u32, u32);
+extern void BG_SYS_ChangeScroll(u32, u32, u32);
 extern void CLACT_SetActorDrawEnable(struct Obj *, u32);
 extern u16 MANUAL_COMMON_GetScrollTop(u16 **);
 extern u16 MANUAL_COMMON_IndexToY(void *, u16, u16);
@@ -97,7 +97,7 @@ void *MANUAL_COMMON_CreateListWork(char *owner, struct Data *data)
   p->field94 = 0;
   MANUAL_COMMON_LoadListWorkAssets((char *)p);
   MANUAL_COMMON_SetListWorkBgMode(p);
-  BG_SYS_ResetSlot(5, 3, 12);
+  BG_SYS_ChangeScroll(5, 3, 12);
   flag = 0;
   if ((*((u16 *) (p->owner + 4))) > 6)
     flag = 1;

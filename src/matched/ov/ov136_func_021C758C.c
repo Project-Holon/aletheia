@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- * MB_SEQ_CheckBagForItem 0x021C73C8 thumb ov136
+ * MB_SEQ_ReturnMailItemToBag 0x021C73C8 thumb ov136
  * MB_SEQ_DeleteSelectedMail 0x021C7420 thumb ov136
  * MB_SEQ_FreeMails 0x021C5BE0 thumb ov136
  * MB_SEQ_CollectMails 0x021C5B40 thumb ov136
@@ -25,7 +25,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct WinMgr;
-extern void MB_SEQ_CheckBagForItem(u8 *p);
+extern void MB_SEQ_ReturnMailItemToBag(u8 *p);
 extern void MB_SEQ_DeleteSelectedMail(u8 *p);
 extern void MB_SEQ_FreeMails(u8 *p);
 extern void MB_SEQ_CollectMails(u8 *p);
@@ -37,7 +37,7 @@ extern int MB_SEQ_SetMessageWait(char *p, int v, int w);
 void MB_SEQ_ReloadMailList(u8 *p)
 {
     u16 n;
-    MB_SEQ_CheckBagForItem(p); MB_SEQ_DeleteSelectedMail(p); MB_SEQ_FreeMails(p); MB_SEQ_CollectMails(p);
+    MB_SEQ_ReturnMailItemToBag(p); MB_SEQ_DeleteSelectedMail(p); MB_SEQ_FreeMails(p); MB_SEQ_CollectMails(p);
     if(((struct Obj23656 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->f2FC<=10) {
         MB_SEQ_SetActorVisible(((struct Obj00127 *)p)->f8,0,0);
         MB_SEQ_SetActorVisible(((struct Obj00127 *)p)->f8,1,0);

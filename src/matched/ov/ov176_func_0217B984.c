@@ -32,7 +32,7 @@
  *   MISC_SAVEDATA_GetBlock3C 0x0200E9F4 thumb
  *   MISC_SAVEDATA_GetRecordBase 0x0200EA08 thumb
  *   POKEPARTY_Create 0x0201A920 thumb
- *   UI_SetFlags39Global 0x0203516C arm
+ *   UI_SetSoftResetInhibitGlobal 0x0203516C arm
  *   d_0217E600 0x0217E600 data a4
  */
 typedef unsigned char u8;
@@ -64,7 +64,7 @@ extern struct Rec160 *REGULATION_GetCard(struct Rec160 *arr, u32 index);
 extern void *MISC_SAVEDATA_GetBlock3C(void *);
 extern int MISC_SAVEDATA_GetRecordBase(int p);
 extern struct Party *POKEPARTY_Create(u32 heap);
-extern void UI_SetFlags39Global(int);
+extern void UI_SetSoftResetInhibitGlobal(int);
 extern const char d_0217E600[];
 u8 *LIVEBATTLEMATCH_FLOW_Create(Init *src,u32 heap)
 {
@@ -88,6 +88,6 @@ u8 *LIVEBATTLEMATCH_FLOW_Create(Init *src,u32 heap)
     *(void **)(p+0x38)=REGULATION_GetCard(BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl(*(void **)(p+0x1b8))),1);
     *(void **)(p+0x34)=(void *)MISC_SAVEDATA_GetRecordBase((int)MISC_SAVEDATA_GetBlock3C(GAME_DATA_GetSaveControl(*(void **)(p+0x1b8))));
     *(void **)(p+0x30)=POKEPARTY_Create(heap);
-    if(*(int *)(p+0x1a0)==0)UI_SetFlags39Global(8);
+    if(*(int *)(p+0x1a0)==0)UI_SetSoftResetInhibitGlobal(8);
     return p;
 }

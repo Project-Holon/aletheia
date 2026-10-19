@@ -18,7 +18,7 @@
  *   func_02041B6C 0x02041B6C arm
  *   PRINTSYS_Print  0x0201C7A4  thumb  arm9
  *   GF_FONT_SetTextColor  0x0201DD78  thumb  arm9
- *   WORDSET_DeleteMsgdataF094  0x0201F094  thumb  arm9
+ *   WORDSET_SetSlotFromKeyedMessage  0x0201F094  thumb  arm9
  *   WORDSET_SetSlotFromMsgE7  0x0201F048  thumb  arm9
  *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
  */
@@ -39,7 +39,7 @@ extern u8 func_02008564(const struct Sub0200852CObj *obj);
 extern u32 func_02025C1C(u32,u32,u32);
 extern u32 func_02025C30(u32,u32,u32);
 extern void WORDSET_SetSlotFromMsgE7(struct WordSet *p, u32 i, u32 n);
-extern void WORDSET_DeleteMsgdataF094(struct WordSet *p, u32 i, u32 a, u32 n);
+extern void WORDSET_SetSlotFromKeyedMessage(struct WordSet *p, u32 i, u32 a, u32 n);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
@@ -61,10 +61,10 @@ void GTSNEGO_MSG_PrintEntry(char *p,void *r)
     if(a==c && b==d) {
         WORDSET_SetSlotFromMsgE7(((struct Obj00131 *)p)->f10,0,func_0200856C(r));
         a=func_0200856C(r);
-        WORDSET_DeleteMsgdataF094(((struct Obj00131 *)p)->f10,1,a,func_02008570(r));
+        WORDSET_SetSlotFromKeyedMessage(((struct Obj00131 *)p)->f10,1,a,func_02008570(r));
     } else {
         WORDSET_SetSlotFromMsgE7(((struct Obj00131 *)p)->f10,0,0);
-        WORDSET_DeleteMsgdataF094(((struct Obj00131 *)p)->f10,1,0,0);
+        WORDSET_SetSlotFromKeyedMessage(((struct Obj00131 *)p)->f10,1,0,0);
     }
     MSGDATA_ReadString(((struct Obj00131 *)p)->fC,34,((struct Obj00131 *)p)->f20);
     WORDSET_CopyTaggedText(((struct Obj00131 *)p)->f10,((struct Obj00131 *)p)->f18,((struct Obj00131 *)p)->f20);

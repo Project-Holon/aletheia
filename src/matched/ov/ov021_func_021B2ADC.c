@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_SCREENEFFECTS_StartMapEffectEventWithParam
+ * function: SCRCMD_SCREENEFFECTS_StartRecoveryBallsEvent
  * address:  0x021B2ADC
  * packet:   pkt_ov021_021B2ADC
  * region:   ov021
@@ -33,7 +33,7 @@ typedef unsigned int   u32;
 extern void *EVENT_RECOVERY_CreateBallsEvent(void *p, int a1, u32 n);
 extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
-int SCRCMD_SCREENEFFECTS_StartMapEffectEventWithParam(int a, int b)
+int SCRCMD_SCREENEFFECTS_StartRecoveryBallsEvent(int a, int b)
 {
     void *y = SCRCMD_WORK_GetGameSystem((void *)b);
     void *x = SCRCMD_WORK_GetScriptWork((void *)b);

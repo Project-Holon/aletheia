@@ -18,7 +18,7 @@ typedef signed int     s32;
 /* The zukan save record block the work points at (work->save). Only the
  * fields ov210 touches are named. */
 typedef struct ZknSearchSave {
-    void *gameData;      /* 0x00 handle for GAME_DATA_CheckSaveFlag / SetSaveFlag */
+    void *gameData;      /* 0x00 handle for GAME_DATA_ContainsRecentId / SetSaveFlag */
     void *block;         /* 0x04 ZUKAN save block, ZUKAN_SAVE_GetViewMode / ZUKAN_InitQuery */
     u8   *record;        /* 0x08 entry record bytes (indexed by entry slot) */
     u32   mode;          /* 0x0C list mode, set to 0/1/2 when a row is confirmed */

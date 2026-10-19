@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "CDEMO_SCENE_CmdSetBg",
+   "name": "CDEMO_SCENE_CmdSetLayerVisible",
    "address": "0x021B67F4",
    "kind": "game",
    "region": "ov179",

@@ -1,7 +1,7 @@
 /*
  * file:     sta_acting.c
  * unit:     yes
- * function: STA_ACTING_Create, STA_ACTING_Delete, STA_ACTING_Update, STA_ACTING_VBlankCallback, STA_ACTING_InitDisplay, STA_ACTING_UploadPalettes, STA_ACTING_SetBaseProgram, STA_ACTING_SetupBg, STA_ACTING_CreateActors, STA_ACTING_CreateActObj, STA_ACTING_CreateActorSys, STA_ACTING_UpdateCamera, STA_ACTING_LoadCharAnims, STA_ACTING_LoadRankAnim, STA_ACTING_LoadAnimMember, STA_ACTING_FadePalette, STA_ACTING_CreateText, STA_ACTING_UpdateText, STA_ACTING_PrintText, STA_ACTING_ClearText, STA_ACTING_UpdateSelection, STA_ACTING_SetSelection, STA_ACTING_MarkDirty, STA_ACTING_RankScores, STA_ACTING_InstallBgm, STA_ACTING_StartSeq, STA_ACTING_StopSeq, STA_ACTING_ReplaceWaveData, STA_ACTING_PlayBgm, STA_ACTING_StopBgm, STA_ACTING_PlayRankSe, STA_ACTING_RequestAction, STA_ACTING_ApplyAction, STA_ACTING_GetCurrentAction, STA_ACTING_GetActionByIndex, STA_ACTING_ProcessRecords, STA_ACTING_AddScore, STA_ACTING_TickActionTimers, STA_ACTING_ScheduleActions, STA_ACTING_CreateAnimHandle, STA_ACTING_DeleteAnimHandle, STA_ACTING_PositionAnim, STA_ACTING_ShowAnim, STA_ACTING_HideAnim, STA_ACTING_GetActorSystem, STA_ACTING_GetActor, STA_ACTING_GetActObj, STA_ACTING_GetSlot, STA_ACTING_SetSlot, STA_ACTING_GetAnimHandle, STA_ACTING_GetAnimSlot, STA_ACTING_SetAnimSlot, STA_ACTING_GetCharSystem, STA_ACTING_GetCharSlot, STA_ACTING_SetCharSlot, STA_ACTING_GetBoard, STA_ACTING_GetCameraPos, STA_ACTING_SetCameraPos, STA_ACTING_GetCameraTarget, STA_ACTING_SetCameraTarget, STA_ACTING_GetActorCount, STA_ACTING_GetSelection, STA_ACTING_GetRecordScore, STA_ACTING_GetBonus, STA_ACTING_SetField10, STA_ACT_EFFECT_SetSceneField14, STA_ACT_EFFECT_GetSceneOwner, STA_ACT_EFFECT_Noop
+ * function: STA_ACTING_Create, STA_ACTING_Delete, STA_ACTING_Update, STA_ACTING_VBlankCallback, STA_ACTING_InitDisplay, STA_ACTING_UploadPalettes, STA_ACTING_SetBaseProgram, STA_ACTING_SetupBg, STA_ACTING_CreateActors, STA_ACTING_CreateActObj, STA_ACTING_CreateActorSys, STA_ACTING_UpdateCamera, STA_ACTING_LoadCharAnims, STA_ACTING_LoadRankAnim, STA_ACTING_LoadAnimMember, STA_ACTING_FadePalette, STA_ACTING_CreateText, STA_ACTING_UpdateText, STA_ACTING_PrintText, STA_ACTING_ClearText, STA_ACTING_UpdateSelection, STA_ACTING_SetSelection, STA_ACTING_MarkDirty, STA_ACTING_RankScores, STA_ACTING_InstallBgm, STA_ACTING_StartSeq, STA_ACTING_StopSeq, STA_ACTING_ReplaceWaveData, STA_ACTING_PlayBgm, STA_ACTING_StopBgm, STA_ACTING_PlayRankSe, STA_ACTING_RequestAction, STA_ACTING_ApplyAction, STA_ACTING_GetCurrentAction, STA_ACTING_GetActionByIndex, STA_ACTING_ProcessRecords, STA_ACTING_AddScore, STA_ACTING_TickActionTimers, STA_ACTING_ScheduleActions, STA_ACTING_CreateAnimHandle, STA_ACTING_DeleteAnimHandle, STA_ACTING_PositionAnim, STA_ACTING_ShowButton, STA_ACTING_HideButton, STA_ACTING_GetActorSystem, STA_ACTING_GetActor, STA_ACTING_GetActObj, STA_ACTING_GetSlot, STA_ACTING_SetSlot, STA_ACTING_GetEffectSystem, STA_ACTING_GetAnimSlot, STA_ACTING_SetAnimSlot, STA_ACTING_GetCharSystem, STA_ACTING_GetCharSlot, STA_ACTING_SetCharSlot, STA_ACTING_GetAudience, STA_ACTING_GetCameraPos, STA_ACTING_SetCameraPos, STA_ACTING_GetCameraScrollX, STA_ACTING_SetCameraTarget, STA_ACTING_GetActorCount, STA_ACTING_GetSelection, STA_ACTING_GetRecordScore, STA_ACTING_GetBonus, STA_ACTING_SetCameraHoldScore
  * address:  0x021F8480
  * region:   ov132
  * compiler: dsi/1.1p1
@@ -95,7 +95,7 @@
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   G3D_SYSTEM_Init 0x02046440 arm
- *   BG_SYS_SetLowBit 0x0204044C arm
+ *   BG_SYS_EnableBg0WithPriority 0x0204044C arm
  *   G3D_SYSTEM_SetSwapBuffersMode 0x02046BE0 arm
  *   G3D_CAMERA_Create 0x02048A24 arm
  *   G3D_CAMERA_Reset 0x02048AD0 arm
@@ -133,7 +133,7 @@
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
  *   MUSICAL_MCSS_CreateRenderObj 0x021F5164 thumb ov112
- *   MUSICAL_MCSS_SetRenderFieldA 0x021F5438 thumb ov112
+ *   MUSICAL_MCSS_SetRenderCellVramBase 0x021F5438 thumb ov112
  *   MUSICAL_MCSS_CreateActorPool 0x021F48C0 thumb ov112
  *   STA_ACT_LIGHT_AddBillboardImage 0x021F709C thumb ov112
  *   STA_ACT_LIGHT_AddPokemonElem 0x021F760C thumb ov112
@@ -150,7 +150,7 @@
  *   KEY_GetCont 0x0203630C arm
  *   G3D_CAMERA_SetEye 0x02048AFC arm
  *   G3D_CAMERA_SetCamTarget 0x02048B44 arm
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   d_021FDBEC 0x021FDBEC data a4
  *   STA_ACT_SCRIPT_AddScript 0x021FAC74 thumb ov132
  *   d_021FDBD0 0x021FDBD0 data a1
@@ -201,9 +201,9 @@
  *   STA_ACT_EFFECT_KillSystem  0x021F9F58  thumb
  *   STA_ACT_EFFECT_StartEffect 0x021F9F74 thumb ov132
  *   STA_ACT_BUTTON_SetVisible  0x021FAAB8  thumb
- *   MUSICAL_MCSS_NoOp5 0x021F4F10 thumb ov112
+ *   MUSICAL_MCSS_GetActorPoolResource 0x021F4F10 thumb ov112
  *   STA_ACTING_GetCameraPos 0x021F9DFC thumb ov132
- *   STA_ACTING_GetCameraTarget 0x021F9E04 thumb ov132
+ *   STA_ACTING_GetCameraScrollX 0x021F9E04 thumb ov132
  *   STA_ACTING_GetActorSystem 0x021F9DA0 thumb ov132
  *   STA_ACTING_GetActor 0x021F9DA4 thumb ov132
  *   STA_ACTING_GetCharSystem 0x021F9DD4 thumb ov132
@@ -214,25 +214,25 @@
  *   STA_ACTING_PlayRankSe 0x021F96D0 thumb ov132
  *   STA_ACTING_SetCameraPos 0x021F9E00 thumb ov132
  *   STA_ACTING_SetCameraTarget 0x021F9E08 thumb ov132
- *   STA_ACTING_ShowAnim  0x021F9D80  thumb
+ *   STA_ACTING_ShowButton  0x021F9D80  thumb
  *   STA_ACTING_ScheduleActions  0x021F9AD8  thumb
- *   STA_ACTING_HideAnim  0x021F9D90  thumb
+ *   STA_ACTING_HideButton  0x021F9D90  thumb
  *   STA_ACTING_PositionAnim 0x021F9D18 thumb ov132
  *   STA_ACTING_SetSelection 0x021F95CC thumb ov132
  *   STA_ACTING_LoadRankAnim 0x021F9140 thumb ov132
  *   STA_ACTING_LoadAnimMember 0x021F91A8 thumb ov132
  *   STA_ACTING_GetRecordScore 0x021F9E20 thumb ov132
  *   STA_ACTING_GetBonus 0x021F9E34 thumb ov132
- *   STA_ACTING_SetField10 0x021F9E3C thumb ov132
+ *   STA_ACTING_SetCameraHoldScore 0x021F9E3C thumb ov132
  *   STA_ACTING_GetActObj 0x021F9DAC thumb ov132
  *   STA_ACTING_SetSlot 0x021F9DB8 thumb ov132
  *   STA_ACTING_GetSlot 0x021F9DB0 thumb ov132
- *   STA_ACTING_GetAnimHandle 0x021F9DC0 thumb ov132
+ *   STA_ACTING_GetEffectSystem 0x021F9DC0 thumb ov132
  *   STA_ACTING_SetAnimSlot 0x021F9DCC thumb ov132
  *   STA_ACTING_GetAnimSlot 0x021F9DC4 thumb ov132
  *   STA_ACTING_SetCharSlot 0x021F9DE8 thumb ov132
  *   STA_ACTING_MarkDirty 0x021F95E8 thumb ov132
- *   STA_ACTING_GetBoard 0x021F9DF4 thumb ov132
+ *   STA_ACTING_GetAudience 0x021F9DF4 thumb ov132
  *   STA_ACTING_PrintText 0x021F93D8 thumb ov132
  *   STA_ACTING_ClearText  0x021F94B0  thumb
  *   STA_ACTING_InstallBgm  0x021F9664  thumb
@@ -483,7 +483,7 @@ extern void BG_SYS_SetPlaneVisible(u32 which, unsigned char enable);
 
 extern void G3D_SYSTEM_Init(unsigned int,unsigned int,unsigned int,unsigned int,u16,u16,void (*)(void));
 
-extern void BG_SYS_SetLowBit(unsigned int);
+extern void BG_SYS_EnableBg0WithPriority(unsigned int);
 
 extern void G3D_SYSTEM_SetSwapBuffersMode(unsigned int,unsigned int);
 
@@ -523,7 +523,7 @@ extern void BG_SYS_FreeSlot(u32);
 
 extern void *MUSICAL_MCSS_CreateRenderObj(u32);
 
-extern void MUSICAL_MCSS_SetRenderFieldA(void **p, int b);
+extern void MUSICAL_MCSS_SetRenderCellVramBase(void **p, int b);
 
 extern struct Object *MUSICAL_MCSS_CreateActorPool(u32 owner, int count, u16 heap);
 
@@ -555,7 +555,7 @@ extern void G3D_CAMERA_SetEye(void *, const Vec *);
 
 extern void G3D_CAMERA_SetCamTarget(void *, const Vec *);
 
-extern void BG_SYS_FillScrollArea(u32, u32, u32);
+extern void BG_SYS_ChangeScrollImmediate(u32, u32, u32);
 
 extern void *STA_ACT_SCRIPT_AddScript(char *p, void *arg, int flag);
 
@@ -651,7 +651,7 @@ extern void STA_ACT_EFFECT_StartEffect(char *, unsigned, const int *);
 
 extern void STA_ACT_BUTTON_SetVisible(char *p, unsigned flag);
 
-extern u32 MUSICAL_MCSS_NoOp5(u8 *);
+extern u32 MUSICAL_MCSS_GetActorPoolResource(u8 *);
 
 u8 *STA_ACTING_Create(u8 *input, int heap);
 
@@ -737,9 +737,9 @@ void STA_ACTING_DeleteAnimHandle(char *p);
 
 void STA_ACTING_PositionAnim(char *p, unsigned i);
 
-void STA_ACTING_ShowAnim(char *p);
+void STA_ACTING_ShowButton(char *p);
 
-void STA_ACTING_HideAnim(char *p);
+void STA_ACTING_HideButton(char *p);
 
 void *STA_ACTING_GetActorSystem(char *p);
 
@@ -751,7 +751,7 @@ u32 *STA_ACTING_GetSlot(void *p,u8 i);
 
 void STA_ACTING_SetSlot(void *p,void *v,u32 i);
 
-void *STA_ACTING_GetAnimHandle(void *p);
+void *STA_ACTING_GetEffectSystem(void *p);
 
 void *STA_ACTING_GetAnimSlot(void *p,u8 i);
 
@@ -763,13 +763,13 @@ void *STA_ACTING_GetCharSlot(void *p,u8 i);
 
 void STA_ACTING_SetCharSlot(void *p,void *v,u8 i);
 
-void *STA_ACTING_GetBoard(void *p);
+void *STA_ACTING_GetAudience(void *p);
 
 u16 STA_ACTING_GetCameraPos(void *p);
 
 void STA_ACTING_SetCameraPos(void *p,u16 v);
 
-u16 STA_ACTING_GetCameraTarget(u8 *p);
+u16 STA_ACTING_GetCameraScrollX(u8 *p);
 
 void STA_ACTING_SetCameraTarget(u8 *p,u16 v);
 
@@ -1060,7 +1060,7 @@ void STA_ACTING_InitDisplay(u8 *p)
     STA_ACTING_SetupBg((const struct BgTemplate *)d_021FDB20,7,0);
     BG_SYS_SetPlaneVisible(0,1);
     G3D_SYSTEM_Init(0,2,0,4,0,*(u16 *)p,0);
-    BG_SYS_SetLowBit(3);
+    BG_SYS_EnableBg0WithPriority(3);
     G3D_SYSTEM_SetSwapBuffersMode(0,1);
     light=G3D_CAMERA_Create(2,0xC000,0,0,0x10000,0x1000,0x3E8000,0,&d_021FDA7C.c,&d_021FDA7C.a,&d_021FDA7C.b,*(u16 *)p);
     *(void **)(p+0xA8)=light;
@@ -1134,7 +1134,7 @@ void STA_ACTING_CreateActors(u8 *p)
     u8 i;
     pos = d_021FDBE0;
     ((struct ActingScene *)p)->mcssRender=MUSICAL_MCSS_CreateRenderObj(((struct ActingScene *)p)->heapId);
-    MUSICAL_MCSS_SetRenderFieldA(((struct ActingScene *)p)->mcssRender,0x20000);
+    MUSICAL_MCSS_SetRenderCellVramBase(((struct ActingScene *)p)->mcssRender,0x20000);
     ((struct ActingScene *)p)->actorPool=MUSICAL_MCSS_CreateActorPool(((struct ActingScene *)p)->billboard.u,36,((struct ActingScene *)p)->heapId);
     ((struct ActingScene *)p)->actorSystem=STA_ACT_LIGHT_AddBillboardImage(((struct ActingScene *)p)->heapId,(u32)p,(u32)(((struct ActingScene *)p)->mcssRender),(u32)(((struct ActingScene *)p)->actorPool),((struct ActingScene *)p)->billboard.u);
     for (i=0;i<4;i++) *(u32 *)(p+0x44+i*4)=0;
@@ -1198,14 +1198,14 @@ void STA_ACTING_UpdateCamera(u8 *p)
         G3D_CAMERA_SetEye(*(void **)(p + 0xA8), &scale);
         G3D_CAMERA_SetCamTarget(*(void **)(p + 0xA8), &translation);
         G3D_CAMERA_Reset(*(void **)(p + 0xA8));
-        BG_SYS_FillScrollArea(2, 0, *(u16 *)(p + 4));
+        BG_SYS_ChangeScrollImmediate(2, 0, *(u16 *)(p + 4));
         STA_ACT_LIGHT_SetModelFrame(*(void **)(p + 0x3C), *(u16 *)(p + 4));
         STA_ACT_LIGHT_SetElemFrame(*(void **)(p + 0x40), *(u16 *)(p + 4));
         STA_ACT_OBJ_SetCount(*(void **)(p + 0x54), *(u16 *)(p + 4));
         STA_ACT_AUDIENCE_SetBgScroll(*(void **)(p + 0xB8), *(u16 *)(p + 4));
     }
     if (*(u16 *)(p + 8) == 224) *(int *)(p + 0xC) = 0;
-    BG_SYS_FillScrollArea(2, 3, *(u16 *)(p + 8));
+    BG_SYS_ChangeScrollImmediate(2, 3, *(u16 *)(p + 8));
 }
 
 void STA_ACTING_LoadCharAnims(u8 *p)
@@ -1670,12 +1670,12 @@ void STA_ACTING_PositionAnim(char *p, unsigned player)
     GFL_USE_PlaySeDefaultVolume(1961);
 }
 
-void STA_ACTING_ShowAnim(char *p)
+void STA_ACTING_ShowButton(char *p)
 {
     STA_ACT_BUTTON_SetVisible(((struct ActingScene *)p)->button, 1);
 }
 
-void STA_ACTING_HideAnim(char *p){STA_ACT_BUTTON_SetVisible(((struct ActingScene *)p)->button,0);}
+void STA_ACTING_HideButton(char *p){STA_ACT_BUTTON_SetVisible(((struct ActingScene *)p)->button,0);}
 
 void *STA_ACTING_GetActorSystem(char *p){return ((struct ActingScene *)p)->actorSystem;}
 
@@ -1687,7 +1687,7 @@ u32 *STA_ACTING_GetSlot(void *p,u8 index){return *(u32 **)((u8 *)p+(u32)index*4+
 
 void STA_ACTING_SetSlot(void *p,void *value,u32 index){*(void **)((u8 *)p+index*4+0x58)=value;}
 
-void *STA_ACTING_GetAnimHandle(void *p){return ((struct ActingScene *)p)->effectSystem;}
+void *STA_ACTING_GetEffectSystem(void *p){return ((struct ActingScene *)p)->effectSystem;}
 
 void *STA_ACTING_GetAnimSlot(void *p,u8 index){return *(void **)((u8 *)p+(u32)index*4+0x70);}
 
@@ -1699,17 +1699,17 @@ void *STA_ACTING_GetCharSlot(void *p,u8 index){return *(void **)((u8 *)p+(u32)in
 
 void STA_ACTING_SetCharSlot(void *p,void *value,u8 index){*(void **)((u8 *)p+(u32)index*4+0x94)=value;}
 
-void *STA_ACTING_GetBoard(void *p){return ((struct ActingScene *)p)->audience;}
+void *STA_ACTING_GetAudience(void *p){return ((struct ActingScene *)p)->audience;}
 
 u16 STA_ACTING_GetCameraPos(void *p){return ((struct ActingScene *)p)->scrollY;}
 
 void STA_ACTING_SetCameraPos(void *p,u16 pos){((struct ActingScene *)p)->scrollY=pos;}
 
-u16 STA_ACTING_GetCameraTarget(u8 *p) { return ((struct ActingScene *)p)->scrollX; }
+u16 STA_ACTING_GetCameraScrollX(u8 *p) { return ((struct ActingScene *)p)->scrollX; }
 
 void STA_ACTING_SetCameraTarget(u8 *p,u16 target) { ((struct ActingScene *)p)->scrollTargetX=target; }
 
-u32 STA_ACTING_GetActorCount(u8 *p) { return MUSICAL_MCSS_NoOp5(*(u8 * *)&((struct ActingScene *)p)->actorPool); }
+u32 STA_ACTING_GetActorCount(u8 *p) { return MUSICAL_MCSS_GetActorPoolResource(*(u8 * *)&((struct ActingScene *)p)->actorPool); }
 
 /*
  * note: unlabelled getter witnessing ov112 021F6CE0.
@@ -1720,14 +1720,4 @@ unsigned char STA_ACTING_GetRecordScore(char *p, unsigned int player) { return *
 
 unsigned char STA_ACTING_GetBonus(char *p, unsigned int player) { return *(unsigned char *)(p + player + 0xF7); }
 
-void STA_ACTING_SetField10(char *p, unsigned int hold) { *(unsigned int *)(p + 0x10) = hold; }
-
-void STA_ACT_EFFECT_SetSceneField14(u8 *p,u32 v);
-
-u32 STA_ACT_EFFECT_GetSceneOwner(u8 *p);
-
-void STA_ACT_EFFECT_SetSceneField14(u8 *p,u32 hold) { ((struct ActingScene *)p)->cameraHoldScript=hold; }
-
-u32 STA_ACT_EFFECT_GetSceneOwner(u8 *p) { return ((struct ActingScene *)p)->elapsedTicks; }
-
-void STA_ACT_EFFECT_Noop(u8 *scene) { }
+void STA_ACTING_SetCameraHoldScore(char *p, unsigned int hold) { *(unsigned int *)(p + 0x10) = hold; }

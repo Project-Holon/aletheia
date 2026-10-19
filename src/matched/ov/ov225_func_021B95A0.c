@@ -17,7 +17,7 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  *   FADE_Start 0x0204E720 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   func_020056A0 0x020056A0 thumb
@@ -41,7 +41,7 @@ struct Proc;
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,u32,u32);
 extern void *MANUAL_COMMON_CreateData(void *,u16);
-extern void BG_SYS_SetVisibleLayer(int,u16);
+extern void BG_SYS_SetPriority(int,u16);
 extern void MANUAL_GRAPHIC_TaskNoop(void *,char *);
 extern void *func_020056A0(void (*)(void *,char *),void *,u32);
 extern void FADE_Start(u32,int,int,int);
@@ -57,10 +57,10 @@ int MANUAL_GRAPHIC_Init(void *proc, void *unused, struct Args *args)
     p->args = args;
     args->flag = 1;
     p->data = MANUAL_COMMON_CreateData(p->args->data,p->heap);
-    BG_SYS_SetVisibleLayer(4,3);
-    BG_SYS_SetVisibleLayer(5,2);
-    BG_SYS_SetVisibleLayer(6,1);
-    BG_SYS_SetVisibleLayer(7,0);
+    BG_SYS_SetPriority(4,3);
+    BG_SYS_SetPriority(5,2);
+    BG_SYS_SetPriority(6,1);
+    BG_SYS_SetPriority(7,0);
     p->task = func_020056A0(MANUAL_GRAPHIC_TaskNoop,p,1);
     FADE_Start(3,16,0,0);
     GFL_NET_RestartWithDefaultTimeout(0,p->heap);

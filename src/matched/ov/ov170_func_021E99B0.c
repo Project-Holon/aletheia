@@ -21,7 +21,7 @@
  *   BOX2_SEQ_HideSlotsC61C 0x021EC61C thumb
  *   BOX2_MAIN_RefreshBoxUi 0x021DD1E8 thumb
  *   BOX2_MAIN_ShiftWindowRight 0x021E01C4 thumb
- *   BOX2_UI_DeleteSlotIcon 0x021EDF5C thumb
+ *   BOX2_UI_UpdateCurrentBoxMarker 0x021EDF5C thumb
  *   BOX2_UI_ShowWindowA 0x021EF670 thumb
  *   BOX2_SEQ_SwapSlotActors 0x021ECB84 thumb
  *   BOX2_SEQ_ShowSlotIcon 0x021EC48C thumb
@@ -49,7 +49,7 @@ extern void BOX2_SEQ_StopLeftBar(int p);
 extern void BOX2_SEQ_HideSlotsC61C(unsigned char *p);
 extern void BOX2_MAIN_RefreshBoxUi(char *p);
 extern int BOX2_MAIN_ShiftWindowRight(char *p);
-extern void BOX2_UI_DeleteSlotIcon(unsigned char *p);
+extern void BOX2_UI_UpdateCurrentBoxMarker(unsigned char *p);
 extern void BOX2_UI_ShowWindowA(char *w);
 extern void BOX2_SEQ_SwapSlotActors(char *w, unsigned i);
 extern void BOX2_SEQ_ShowSlotIcon(unsigned char *p, int box, int pos, int win);
@@ -91,7 +91,7 @@ int BOX2_SEQ_StatePmVoiceOpenC(unsigned char *p)
         BOX2_MAIN_RefreshBoxUi((char *)p);
         while (BOX2_MAIN_ShiftWindowRight((char *)p) != 0)
             ;
-        BOX2_UI_DeleteSlotIcon(p);
+        BOX2_UI_UpdateCurrentBoxMarker(p);
         BOX2_UI_ShowWindowA(WORK(p));
         p[0x16] = 0xFF;
         return 0x15;
@@ -110,7 +110,7 @@ int BOX2_SEQ_StatePmVoiceOpenC(unsigned char *p)
         BOX2_MAIN_RefreshBoxUi((char *)p);
         while (BOX2_MAIN_ShiftWindowRight((char *)p) != 0)
             ;
-        BOX2_UI_DeleteSlotIcon(p);
+        BOX2_UI_UpdateCurrentBoxMarker(p);
         BOX2_UI_ShowWindowA(WORK(p));
         if (p[0x1D] >= 0x22 && p[0x1D] <= 0x25)
             BOX2_UI_SetMiniIconVisible((char *)p, p[0x1D] - 0x22, 1);

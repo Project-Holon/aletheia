@@ -612,9 +612,9 @@ typedef struct {
 
 extern int BTL_SERVER_FLOW_CheckShowdownThunk(struct BtlServerFlow *flow);
 
-extern void BTLV_CORE_EventRedirectMove(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int ownerId, void *work);
+extern void HAND_COMMON_EventRedirectMove(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int ownerId, void *work);
 
-extern void BTLV_CORE_EventCounterMove(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int ownerId, void *work);
+extern void HAND_COMMON_EventCounterMove(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int ownerId, void *work);
 
 /*
  * ov093 battle event handlers: the last ability handlers (Magic Bounce,
@@ -716,7 +716,7 @@ extern int BTL_SERVER_FLOW_QueryMainFlag(struct BtlServerFlow *flow, int rule);
 
 extern int BTL_CALC_RollChanceOrFlag(struct BtlServerFlow *flow, u32 percent);
 
-extern void BTLV_CORE_EventQueueMoveNotice(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int work);
+extern void HAND_COMMON_EventQueueMoveNotice(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int work);
 
 extern int HAND_ITEM_IsHpAtOrBelowFraction(struct BtlServerFlow *flow, int pokeId, u32 param);
 

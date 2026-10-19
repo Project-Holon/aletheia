@@ -19,7 +19,7 @@
  *   BgTextLabel_PrintMessage 0x021C0F5C thumb ov217
  *   BgTextLabel_Destroy  0x021C0F48  thumb  ov217
  *   BG_SYS_FillTileMap 0x020413B0 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   BgTextLabel_SetVisible  0x021C0FF8  thumb  ov217
  *   MSGDATA_AllocString 0x02045EC0 arm
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
@@ -85,7 +85,7 @@ extern void BMP_Clear(struct BmpPixels *pixels, u8 value);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void BG_SYS_SetFlagField06(unsigned int bgLayerBit);
+extern void BG_SYS_MarkTileDirty(unsigned int bgLayerBit);
 extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 extern void BMP_WIN_SetPalette(struct BmpWin *win, u8 palette);
 extern u8 BMP_WIN_GetPosX(struct BmpWin *win);
@@ -158,7 +158,7 @@ void BgTextLabel_PrintText(struct BgTextLabel *label, void *text)
         window = label->window;
         BMP_WIN_TransferChars(window);
         BMP_WIN_MakeScreen(window);
-        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
+        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(window));
     }
 }
 
@@ -172,11 +172,11 @@ void BgTextLabel_SetVisible(struct BgTextLabel *label, int visible)
         struct BmpWin *window = label->window;
         BMP_WIN_TransferChars(window);
         BMP_WIN_MakeScreen(window);
-        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
+        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(window));
     } else if (label->visible != 0 && visible == 0) {
         struct BmpWin *window = label->window;
         BMP_WIN_ClearScreen(window);
-        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
+        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(window));
     }
     label->visible = visible;
 }
@@ -193,7 +193,7 @@ void BgTextLabel_SetPalette(struct BgTextLabel *label, u8 palette)
     width = BMP_WIN_GetDispWidth(label->window);
     height = BMP_WIN_GetDispHeight(label->window);
     BG_SYS_FillTileMap(bgLayer, x, y, width, height, palette);
-    if (label->visible != 0) BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(label->window));
+    if (label->visible != 0) BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(label->window));
 }
 
 /* Horizontal offset that centres text in the window (never negative). */

@@ -1,5 +1,5 @@
 /*
- * function: WORLDTRADE_INPUT_CheckSpeciesSeen
+ * function: WORLDTRADE_INPUT_CountSeenSpecies
  * address:  0x021FB240
  * packet:   pkt_021FB240
  * region:   ov135
@@ -23,7 +23,7 @@ typedef signed short s16;
 struct Blk37;
 extern u32 ZUKAN_SAVE_IsSeen(struct Blk37 *p, u16 id);
 
-int WORLDTRADE_INPUT_CheckSpeciesSeen(u32 unused, u32 item, u32 c, u16 *list, int start, int end)
+int WORLDTRADE_INPUT_CountSeenSpecies(u32 unused, u32 item, u32 c, u16 *list, int start, int end)
 {
     int i;
     int n = 0;

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   UNION_ONESELF_CheckNetError  0x0217BB04  thumb ov019
+ *   UNION_ONESELF_HandleNetError  0x0217BB04  thumb ov019
  *   UNION_COMMAND_SendPartnerSelectA  0x02173A04  thumb ov012
  *   UNION_ONESELF_SetNextPlayCategory  0x0217B8E4  thumb ov019
  *   UNION_MSG_GetTalkParentAcceptMsg  0x0217EC40  thumb ov019
@@ -37,7 +37,7 @@ typedef struct {
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
-int UNION_ONESELF_CheckNetError(char *p);
+int UNION_ONESELF_HandleNetError(char *p);
 int UNION_COMMAND_SendPartnerSelectA(int a, ...);
 int UNION_ONESELF_SetNextPlayCategory(char *p, int v);
 u16 UNION_MSG_GetTalkParentAcceptMsg(int i, int j);
@@ -47,7 +47,7 @@ u32 UNION_MSG_CheckTalkPrintEnd(u8 *p);
 
 int UNION_ONESELF_TalkParentAnswerWaitMain(void *ctx, Obj *obj, u8 *a2, u8 *state)
 {
-    if (UNION_ONESELF_CheckNetError(ctx) == 1)
+    if (UNION_ONESELF_HandleNetError(ctx) == 1)
         return 1;
 
     switch (*state) {

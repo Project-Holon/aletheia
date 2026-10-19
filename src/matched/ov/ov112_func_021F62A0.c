@@ -1,5 +1,5 @@
 /*
- * function: MUSICAL_MCSS_GetFieldF
+ * function: MUSICAL_MCSS_ResumeMCAnim
  * address: 0x021F62A0
  * packet: pkt_ov112_021F62A0
  * region: ov112
@@ -12,4 +12,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void MUSICAL_MCSS_GetFieldF(char *p) {((struct Obj22546 *)p)->fEC&=~2u;}
+void MUSICAL_MCSS_ResumeMCAnim(char *p) {((struct Obj22546 *)p)->fEC&=~2u;}

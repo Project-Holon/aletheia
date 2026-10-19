@@ -22,8 +22,8 @@
  * BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  * IRC_COMPATIBLE_TOUCH_TEST_InitWindow 0x021B8074 thumb ov103
  * IRC_COMPATIBLE_TOUCH_TEST_PrintMessageCentered 0x021B81A4 thumb ov103
- * BG_SYS_SetScrollY 0x02041F6C arm
- * BG_SYS_SetAffine 0x02041FB0 arm
+ * BG_SYS_ChangeScale 0x02041F6C arm
+ * BG_SYS_ChangeCenter 0x02041FB0 arm
  * IRC_COMPATIBLE_TOUCH_TEST_ClearStroke 0x021B91A8 thumb ov103
  * IRC_COMPATIBLE_TOUCH_TEST_InitTrail 0x021B9110 thumb ov103
  * IRC_COMPATIBLE_TOUCH_TEST_GetSpriteUnit 0x021B7948 thumb ov103
@@ -54,8 +54,8 @@ extern void IRC_COMPATIBLE_TOUCH_TEST_InitTitleWindow(struct Rec *p, int a, int 
 extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern void IRC_COMPATIBLE_TOUCH_TEST_InitWindow(u8 *,int,int,u8,u8,u8,u8,u16,u8,u16);
 extern void IRC_COMPATIBLE_TOUCH_TEST_PrintMessageCentered(u8 *,void *,int);
-extern void BG_SYS_SetScrollY(u32 which, u32 op, u32 value);
-extern void BG_SYS_SetAffine(u32,u32,u16);
+extern void BG_SYS_ChangeScale(u32 which, u32 op, u32 value);
+extern void BG_SYS_ChangeCenter(u32,u32,u16);
 extern void IRC_COMPATIBLE_TOUCH_TEST_ClearStroke(void *);
 extern void IRC_COMPATIBLE_TOUCH_TEST_InitTrail(u8 *,void *,int,int,int,u8);
 extern u32 IRC_COMPATIBLE_TOUCH_TEST_GetSpriteUnit(u8 *);
@@ -84,10 +84,10 @@ int IRC_COMPATIBLE_TOUCH_TEST_ProcInit(void *owner,int unused,void *arg)
     BMP_MENUWORK_DrawWindow(((struct Obj03740 *)p)->f184,0,(u16)(((struct Obj03740 *)p)->f0),6);
     IRC_COMPATIBLE_TOUCH_TEST_InitWindow(p+0x748,7,6,3,20,5,8,1,1,55);
     IRC_COMPATIBLE_TOUCH_TEST_PrintMessageCentered(p+0x748,p+0x174,16);
-    BG_SYS_SetScrollY(7,3,0x1000);
-    BG_SYS_SetScrollY(7,6,0x1000);
-    BG_SYS_SetAffine(7,9,128);
-    BG_SYS_SetAffine(7,12,40);
+    BG_SYS_ChangeScale(7,3,0x1000);
+    BG_SYS_ChangeScale(7,6,0x1000);
+    BG_SYS_ChangeCenter(7,9,128);
+    BG_SYS_ChangeCenter(7,12,40);
     IRC_COMPATIBLE_TOUCH_TEST_ClearStroke(p+0xa4c);
     IRC_COMPATIBLE_TOUCH_TEST_ClearStroke(p+0xaac);
     IRC_COMPATIBLE_TOUCH_TEST_InitTrail(p+0x198,p,0,1,0,1);

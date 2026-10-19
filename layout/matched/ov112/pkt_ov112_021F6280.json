@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "MUSICAL_MCSS_GetFieldD",
+   "name": "MUSICAL_MCSS_DisableDrawOffset",
    "address": "0x021F6280",
    "kind": "game",
    "region": "ov112",

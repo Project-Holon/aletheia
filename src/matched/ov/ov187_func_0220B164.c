@@ -22,7 +22,7 @@
  *   BATTLE_REC_LoadToolOverlay 0x0200BA58 thumb
  *   BATTLE_REC_UnloadToolOverlay 0x0200BA68 thumb
  *   BATTLE_REC_TOOL_UnpackSetup 0x021EEEA8 thumb ov188
- *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_SetBgmPaused 0x02005DE4 thumb
  *   GFL_USE_PushBgm 0x02005E64 thumb
  *   BR_MAIN_SanitizeBgmIds 0x0220B240 thumb ov187
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
@@ -37,7 +37,7 @@ extern void BTL_SETUP_InitWithSlots(void *,int,void *);
 extern void BATTLE_REC_LoadToolOverlay(void);
 extern void BATTLE_REC_UnloadToolOverlay(void);
 extern void BATTLE_REC_TOOL_UnpackSetup(void *,u32);
-extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_SetBgmPaused(void *p);
 extern int GFL_USE_PushBgm(void);
 extern void BR_MAIN_SanitizeBgmIds(u16 *,u16 *);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32,u32);
@@ -50,7 +50,7 @@ void *BR_MAIN_CreateReplayScene(u32 a,u8 *b)
     BATTLE_REC_LoadToolOverlay();
     BATTLE_REC_TOOL_UnpackSetup(p,a);
     BATTLE_REC_UnloadToolOverlay();
-    GFL_USE_SetBgmPlayerParam((void *)1);
+    GFL_USE_SetBgmPaused((void *)1);
     GFL_USE_PushBgm();
     BR_MAIN_SanitizeBgmIds((u16 *)(p+24),(u16 *)(p+26));
     GFL_USE_CancelChangeAndPlayBgm(*(u16 *)(p+24),65535);

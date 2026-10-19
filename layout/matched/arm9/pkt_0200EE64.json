@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "NET_DEVICE_TABLE_BuildFromProducer",
+   "name": "FLDMMDL_StoreSaveTable",
    "address": "0x0200EE64",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "NET_DEVICE_TABLE_Setup",
+   "name": "FLDMMDL_LoadSaveTable",
    "address": "0x0200EEAC",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "NET_DEVICE_TABLE_CopyRecord",
+   "name": "FLDMMDL_StoreSaveRecord",
    "address": "0x0200EED8",
    "kind": "game",
    "region": "arm9",

@@ -10,7 +10,7 @@
  * volatile: 021EDDC6 rereads flags after setting bit 0.
  * symbols:
  *   BG_SYS_LoadTileData 0x02040B1C arm
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   BMP_GetPixels 0x020437D4 arm
  *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
  *   BTLV_EFFECT_GetOwner 0x021F86D4 thumb ov094
@@ -26,7 +26,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 struct Flags { u8 shown : 1; u8 close : 1; };
 extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
-extern void BG_SYS_FillScrollArea(u32, u32, u32);
+extern void BG_SYS_ChangeScrollImmediate(u32, u32, u32);
 struct Bmp;
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
@@ -57,18 +57,18 @@ int BTLV_SCU_ProcNamePlate(u8 *p)
             ((struct Obj00341 *)p)->f14 = -0x90000;
             ((struct Obj00341 *)p)->f18 = 0x12000;
         }
-        BG_SYS_FillScrollArea(p[0xb], 0, ((struct Obj00341 *)p)->f14 >> 12);
-        BG_SYS_FillScrollArea(p[0xb], 3, 0);
+        BG_SYS_ChangeScrollImmediate(p[0xb], 0, ((struct Obj00341 *)p)->f14 >> 12);
+        BG_SYS_ChangeScrollImmediate(p[0xb], 3, 0);
         GFL_USE_PlaySeDefaultVolume(0x573);
         p[0xd]++;
         break;
     case 2:
         if (p[0x20] != 0) {
             ((struct Obj00341 *)p)->f14 += ((struct Obj00341 *)p)->f18;
-            BG_SYS_FillScrollArea(p[0xb], 0, ((struct Obj00341 *)p)->f14 >> 12);
+            BG_SYS_ChangeScrollImmediate(p[0xb], 0, ((struct Obj00341 *)p)->f14 >> 12);
             p[0x20]--;
         } else {
-            BG_SYS_FillScrollArea(p[0xb], 0, 0);
+            BG_SYS_ChangeScrollImmediate(p[0xb], 0, 0);
             p[0x21] = 0;
             p[0xd]++;
         }

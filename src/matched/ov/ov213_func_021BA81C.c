@@ -13,7 +13,7 @@
  *   PARTICLE_ReleaseCamera 0x02051758 arm
  *   PARTICLE_InitCamera 0x02051648 arm
  *   PARTICLE_LoadArchiveMember 0x0205121C arm
- *   BUTTON_MAN_GetResourceType 0x02051B04 arm
+ *   PARTICLE_RESOURCE_GetType 0x02051B04 arm
  *   func_020056BC 0x020056BC thumb
  *   PARTICLE_SetupSystem 0x02051230 arm
  *   d_021BB324 0x021BB324 data a4
@@ -35,7 +35,7 @@ extern int PARTICLE_CreateSystemDefault(int a,int b,int c,int d);
 extern int PARTICLE_ReleaseCamera(int a);
 extern void PARTICLE_InitCamera(struct Dst648 *p,struct Src648 *src,u16 a2,int *a3,int *a4,int *a5,u32 heap);
 extern int PARTICLE_LoadArchiveMember(u32 a,u32 b,u32 c);
-extern u16 BUTTON_MAN_GetResourceType(void *res);
+extern u16 PARTICLE_RESOURCE_GetType(void *res);
 extern u32 func_020056BC(void);
 extern void PARTICLE_SetupSystem(u8 *o,u32 a1,u32 a2,u32 a3);
 void COMM_BTL_DEMO_MAIN_InitEffect(u8 *p,unsigned code)
@@ -56,7 +56,7 @@ void COMM_BTL_DEMO_MAIN_InitEffect(u8 *p,unsigned code)
     PARTICLE_ReleaseCamera(*(int *)&((struct Obj02925 *)p)->f10);
     PARTICLE_InitCamera(*(struct Dst648 * *)&((struct Obj02925 *)p)->f10,&config,0x2000,d_021BB330,d_021BB324,d_021BB360,((struct Obj02925 *)p)->f4);
     resource=PARTICLE_LoadArchiveMember(0xB5,code,((struct Obj02925 *)p)->f4);
-    p[0x4814]=BUTTON_MAN_GetResourceType((void *)resource);
+    p[0x4814]=PARTICLE_RESOURCE_GetType((void *)resource);
     context=func_020056BC();
     PARTICLE_SetupSystem(*(u8 * *)&((struct Obj02925 *)p)->f10,resource,0,context);
 }

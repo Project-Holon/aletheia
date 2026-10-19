@@ -19,7 +19,7 @@
  *   STRBUF_Create  0x020457B0  arm
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   WORDSET_SetSlotFromMsgE7  0x0201F048  thumb
- *   WORDSET_DeleteMsgdataF094  0x0201F094  thumb
+ *   WORDSET_SetSlotFromKeyedMessage  0x0201F094  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   BMP_WIN_GetBmp  0x02045770  arm
@@ -39,7 +39,7 @@ struct WordSet; struct U16Vec; struct Descriptor; struct CharBuf; struct Cfg; st
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_SetSlotNumber(struct WordSet *, u32, u32, u32, u32, u32);
 extern void WORDSET_SetSlotFromMsgE7(struct WordSet *p, u32 i, u32 n);
-extern void WORDSET_DeleteMsgdataF094(struct WordSet *p, u32 i, u32 a, u32 n);
+extern void WORDSET_SetSlotFromKeyedMessage(struct WordSet *p, u32 i, u32 a, u32 n);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
@@ -72,7 +72,7 @@ void BSUBWAY_RECORD_LIST_ShowRecordDetails(char *p, struct Rec *tbl, int idx)
     WORDSET_SetSlotNumber(*(struct WordSet **)(p + 0xF8), 0, *(u32 *)(*(char **)(p + 0x154) + 4), 2, 0, 1);
     WORDSET_SetSlotNumber(*(struct WordSet **)(p + 0xF8), 1, *(u32 *)(*(char **)(p + 0x154) + 8), 3, 0, 1);
     WORDSET_SetSlotFromMsgE7(*(struct WordSet **)(p + 0xF8), 2, a);
-    WORDSET_DeleteMsgdataF094(*(struct WordSet **)(p + 0xF8), 3, a, b);
+    WORDSET_SetSlotFromKeyedMessage(*(struct WordSet **)(p + 0xF8), 3, a, b);
     BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(p + 0x3C)), 0);
     BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(p + 0x40)), 0);
     BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(p + 0x44)), 0);

@@ -14,12 +14,12 @@
  *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
  *   func_02045EC0  0x02045EC0  arm
- *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
+ *   WORDSET_SetSlotMonNickname  0x0201EEF4  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   BTLV_INPUT_GetTextBlockSize  0x02204C98  thumb  ov094
  *   PRINTSYS_Print  0x0201C7A4  thumb
  *   STRBUF_Delete  0x02045808  arm
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   ARC_UTIL_LoadPaletteBlockFromArchive  0x02049F34  arm
  *   PALANM_CopyToSlot  0x020215BC  thumb
  *   func_020307B0  0x020307B0  arm
@@ -73,13 +73,13 @@ struct PalAnmSlot;
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void GF_FONT_SetTextColor(u32, u32, u32);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonNickname(struct WordSet *p, u32 i, void *mon);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 struct StrObj;
 extern void BTLV_INPUT_GetTextBlockSize(struct StrObj *a, int b, int *outn, int *outq);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 extern u32 func_020307B0(void *p);
@@ -112,7 +112,7 @@ void BTLV_INPUT_DrawTargetButtons(char *s, Out *out, const Info *p)
     for (i = 0; i < n; i++) {
         if (p->e[i].show != 0) {
             w = func_02045EC0(((struct Obj01909 *)s)->f5C, p->e[i].kind + 3);
-            WORDSET_SetSlotMonSpecies((void *)h, 0, p->e[i].text);
+            WORDSET_SetSlotMonNickname((void *)h, 0, p->e[i].text);
             WORDSET_CopyTaggedText((struct WordSet *)h, v, w);
             BTLV_INPUT_GetTextBlockSize((struct StrObj *)v, ((struct Obj01909 *)s)->f224, &ww, &hh);
             PRINTSYS_Print((void *)(((struct Obj01909 *)s)->f22C), d_0220A7FC[k][i][0] - ww / 2, d_0220A7FC[k][i][1], v, (void *)(((struct Obj01909 *)s)->f224));
@@ -122,7 +122,7 @@ void BTLV_INPUT_DrawTargetButtons(char *s, Out *out, const Info *p)
     }
     (s + i)[0x25a] = 1;
     GF_FONT_SetTextColor(c[2], c[1], c[0]);
-    WORDSET_DeleteStrbufED04((struct WordSet *)h);
+    WORDSET_Delete((struct WordSet *)h);
     STRBUF_Delete(v);
     idx = (p->b48 - 2) / 2;
     ((Bits6C *)(s + 0x6c))->x = p->b49;

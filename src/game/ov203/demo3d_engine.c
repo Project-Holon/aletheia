@@ -1,7 +1,7 @@
 /*
  * file:     demo3d_engine.c
  * unit:     yes
- * function: DEMO3D_ENGINE_Create, DEMO3D_ENGINE_Delete, DEMO3D_ENGINE_SetClipPlanes, DEMO3D_ENGINE_Update, DEMO3D_ENGINE_GetFrame, DEMO3D_ENGINE_GetFrameNum, DEMO3D_ENGINE_SetMode, DEMO3D_ENGINE_SetupLighting, DEMO3D_ENGINE_ClampAnimeId, DEMO3D_ENGINE_GetAnimeId, DEMO3D_ENGINE_CreateAnimeStream, DEMO3D_ENGINE_GetAnimeKind
+ * function: DEMO3D_ENGINE_Create, DEMO3D_ENGINE_Delete, DEMO3D_ENGINE_SetClipPlanes, DEMO3D_ENGINE_Update, DEMO3D_ENGINE_GetFrame, DEMO3D_ENGINE_GetFrameNum, DEMO3D_ENGINE_SetMode, DEMO3D_ENGINE_SetupLighting, DEMO3D_ENGINE_ClampDemoId, DEMO3D_ENGINE_GetCameraRecord, DEMO3D_ENGINE_CreateAnimeStream, DEMO3D_ENGINE_GetAnimeKind
  * address:  0x021BE160
  * region:   ov203
  * compiler: dsi/1.1p1
@@ -69,7 +69,7 @@
  *   d_021C185C  0x021C185C  data
  *   d_021C186C 0x021C186C data a4
  *   ICA_ANIME_CreateStream  0x02011510  thumb  arm9
- *   DEMO3D_ENGINE_ClampAnimeId  0x021BE79C  thumb  ov203
+ *   DEMO3D_ENGINE_ClampDemoId  0x021BE79C  thumb  ov203
  *   DEMO3D_GRAPHIC_UpdateLookAt 0x021BDF18 thumb ov203
  *   DEMO3D_GRAPHIC_EndDraw 0x021BDF24 thumb ov203
  *   DEMO3D_GRAPHIC_SetupLightBlock 0x021BDF3C thumb ov203
@@ -78,8 +78,8 @@
  *   DEMO3D_DATA_Create 0x021BE7F0 thumb ov203
  *   DEMO3D_DATA_Delete 0x021BE85C thumb ov203
  *   DEMO3D_DATA_BuildTable 0x021BE874 thumb ov203
- *   DEMO3D_DATA_GetAnimId 0x021BE920 thumb ov203
- *   DEMO3D_DATA_GetAnimCount 0x021BE938 thumb ov203
+ *   DEMO3D_DATA_GetTimeStep 0x021BE920 thumb ov203
+ *   DEMO3D_DATA_IsDouble3dDisplay 0x021BE938 thumb ov203
  */
 #include "demo3d_graphic_shared_types.h"
 #include "demo3d_engine_shared_types.h"
@@ -257,9 +257,9 @@ void DEMO3D_ENGINE_SetMode(struct Ctx *p,int a);
 
 void DEMO3D_ENGINE_SetupLighting(struct Ctx *ctx,struct Config *cfg,const struct Record *record,u16 heap);
 
-unsigned DEMO3D_ENGINE_ClampAnimeId(unsigned x);
+unsigned DEMO3D_ENGINE_ClampDemoId(unsigned x);
 
-u32 DEMO3D_ENGINE_GetAnimeId(u32 id);
+u32 DEMO3D_ENGINE_GetCameraRecord(u32 id);
 
 void *DEMO3D_ENGINE_CreateAnimeStream(u32 a, u32 b, u32 c);
 
@@ -271,9 +271,9 @@ void DEMO3D_DATA_Delete(char *a);
 
 void DEMO3D_DATA_BuildTable(char *ctx, const char *config, u8 type);
 
-u32 DEMO3D_DATA_GetAnimId(u32 a);
+u32 DEMO3D_DATA_GetTimeStep(u32 a);
 
-int DEMO3D_DATA_GetAnimCount(void *a);
+int DEMO3D_DATA_IsDouble3dDisplay(void *a);
 
 extern const char d_021C3CE0[];
 
@@ -298,7 +298,7 @@ static inline fx32 FX_Mul(fx32 a, fx32 b)
  * 2026-10-05 (integrator): the angle divisor is the plain literal 360 and the alloc size the literal 0x88; mwcc derives 0x168 from the live 0x88 itself (`adds r7,#0xE0`), so the earlier `sz` local was not needed. EXACT in c99 and c.
  * note: 2026-10-05 wave P2 lane Q3 (pengy share, user-approved). Levers: heap is a u16
  *   parameter (entry spill of r2 first, raw reload at every use); cam written as
- *   `cam = ctx->f74 = DEMO3D_ENGINE_GetAnimeId(...)` (store to ctx first, then the local slot sp+0x24);
+ *   `cam = ctx->f74 = DEMO3D_ENGINE_GetCameraRecord(...)` (store to ctx first, then the local slot sp+0x24);
  *   cnt is a signed int (ble guard); ortho bounds as in ov088 021B9C2C (FX_Mul/FX_Div,
  *   top = FX_Div(t, c), bottom = -FX_Div(t, c)). The angle divisor is written sz + 0xE0:
  *   the original keeps 0x88 live in r7 (alloc size) and derives 0x168 from it with
@@ -328,7 +328,7 @@ struct Ctx *DEMO3D_ENGINE_Create(void *owner, struct Cfg *cfg, u16 heap)
     ctx->data.mode = cfg->fd;
     ctx->data.extra = cfg->fe;
     ctx->data.sec = cfg->sec;
-    cam = ctx->cam = (struct Cam *)DEMO3D_ENGINE_GetAnimeId(ctx->id);
+    cam = ctx->cam = (struct Cam *)DEMO3D_ENGINE_GetCameraRecord(ctx->id);
     q = (((cam->fc >> 12) / 2) << 16) / 360;
     c = FX_SinCosTable_[(q >> 4) * 2 + 1];
     far = cam->f1c;
@@ -348,8 +348,8 @@ struct Ctx *DEMO3D_ENGINE_Create(void *owner, struct Cfg *cfg, u16 heap)
     G3D_CAMERA_GetNearClipAlt(ctx->light, &ctx->nearClip);
     G3D_CAMERA_GetFarClipAlt(ctx->light, &ctx->farClip);
     DEMO3D_ENGINE_SetupLighting(ctx, (struct Config *)cfg, (const struct Record *)ctx->cam, heap);
-    ctx->step = DEMO3D_DATA_GetAnimId(ctx->id);
-    ctx->animeOn = DEMO3D_DATA_GetAnimCount((void *)ctx->id);
+    ctx->step = DEMO3D_DATA_GetTimeStep(ctx->id);
+    ctx->animeOn = DEMO3D_DATA_IsDouble3dDisplay((void *)ctx->id);
     if (ctx->animeOn) {
         DOUBLE3DDISP_Init(heap);
         GFL_USE_SetVBlankHook((int)DEMO3D_GRAPHIC_DeleteDouble3d, 0);
@@ -514,18 +514,18 @@ void DEMO3D_ENGINE_SetupLighting(struct Ctx *ctx,struct Config *cfg,const struct
     G3D_SYSTEM_SetSwapBuffersMode(record->mode1,record->mode2);
 }
 
-unsigned DEMO3D_ENGINE_ClampAnimeId(unsigned x) { if(x==0||x>=19)x=0;return x; }
+unsigned DEMO3D_ENGINE_ClampDemoId(unsigned x) { if(x==0||x>=19)x=0;return x; }
 
-u32 DEMO3D_ENGINE_GetAnimeId(u32 id)
+u32 DEMO3D_ENGINE_GetCameraRecord(u32 id)
 {
-    return *(u32 *)(d_021C185C + DEMO3D_ENGINE_ClampAnimeId(id) * 0x14);
+    return *(u32 *)(d_021C185C + DEMO3D_ENGINE_ClampDemoId(id) * 0x14);
 }
 
 void *DEMO3D_ENGINE_CreateAnimeStream(u32 a, u32 b, u32 c)
 {
-    u16 *t = (u16 *)DEMO3D_ENGINE_GetAnimeId(a);
+    u16 *t = (u16 *)DEMO3D_ENGINE_GetCameraRecord(a);
 
     return ICA_ANIME_CreateStream(b, 0xa0, *t, c);
 }
 
-u8 DEMO3D_ENGINE_GetAnimeKind(unsigned x) { return *(u32 *)(d_021C186C+DEMO3D_ENGINE_ClampAnimeId(x)*20); }
+u8 DEMO3D_ENGINE_GetAnimeKind(unsigned x) { return *(u32 *)(d_021C186C+DEMO3D_ENGINE_ClampDemoId(x)*20); }

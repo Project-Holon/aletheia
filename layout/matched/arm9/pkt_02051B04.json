@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BUTTON_MAN_GetResourceType",
+   "name": "PARTICLE_RESOURCE_GetType",
    "address": "0x02051B04",
    "kind": "game",
    "region": "arm9",

@@ -39,7 +39,7 @@
  *   CLACT_RegisterCellAnim  0x0204AF28  arm  arm9
  *   CLACT_CreateActor  0x0204B294  arm  arm9
  *   MI_CpuFill8  0x02082BCC  arm  arm9
- *   BG_SYS_Get  0x020416D4  arm  arm9
+ *   BG_SYS_GetPriority  0x020416D4  arm  arm9
  *   GFL_HEAP_Alloc  0x02030734  arm  arm9
  *   BG_SYS_SetPlaneVisible  0x02040588  arm  arm9
  *   MSGDATA_CreateFromArchive  0x02045B38  arm  arm9
@@ -67,7 +67,7 @@ typedef struct { u16 x,y,z; u8 pad,n; } ActorTemplate;
 extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 extern void MI_CpuFill8(void *,int,u32);
 extern struct TaskMenuState *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, u32 font, u32 printQue, u16 heap);
-extern u8 BG_SYS_Get(u32);
+extern u8 BG_SYS_GetPriority(u32);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern u32 APP_TASKMENU_WIN_Create(u32 res, u32 item, u32 charPosX, u32 charPosY, u8 width, u16 heapId);
@@ -103,7 +103,7 @@ extern void CLACT_DeleteActor(struct Obj *);
  * MI_CpuFill8 0x02082BCC arm
  * IRC_APPBAR_LoadResources 0x021B732C thumb ov101
  * APP_TASKMENU_RES_Create 0x02027F60 thumb
- * BG_SYS_Get 0x020416D4 arm
+ * BG_SYS_GetPriority 0x020416D4 arm
  * IRC_APPBAR_CreateActor 0x021B739C thumb ov101
  * MSGDATA_CreateFromArchive 0x02045B38 arm
  * MSGDATA_AllocString 0x02045EC0 arm
@@ -131,7 +131,7 @@ IrcAppBar *IRC_APPBAR_Create(u32 unusedArg,void *clactUnit,u16 layer,u16 x,u8 pa
     else { first=0; choice=0; }
     IRC_APPBAR_LoadResources(bar,first,choice,unusedExtra,x,paletteSlot,heapId);
     bar->taskMenuRes=APP_TASKMENU_RES_Create(layer,x,(u32)font,(u32)printQueue,heapId);
-    IRC_APPBAR_CreateActor(bar,(unsigned)clactUnit,unusedArg,side,BG_SYS_Get(layer),heapId);
+    IRC_APPBAR_CreateActor(bar,(unsigned)clactUnit,unusedArg,side,BG_SYS_GetPriority(layer),heapId);
     bank=MSGDATA_CreateFromArchive(0,2,49,heapId);
     MI_CpuFill8(&desc,0,12);
     desc.color=0x39e3;

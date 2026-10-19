@@ -16,7 +16,7 @@
  *   WORLDTRADE_ADAPTER_AllocHeapBuf  0x02202608  thumb
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   WORLDTRADE_NoOp  0x0200ADB4  thumb
- *   WORLDTRADE_DEMO_ReadMyStatus  0x021F72C4  thumb
+ *   WORLDTRADE_DEMO_CreateMyStatusFromEntry  0x021F72C4  thumb
  *   WORLDTRADE_CopyPokemon  0x0200AD9C  thumb
  *   POKE_TOOL_CopyPartyPokemon  0x02019CE0  thumb
  *   func_02034714  0x02034714  arm
@@ -94,7 +94,7 @@ extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern void *WORLDTRADE_ADAPTER_AllocHeapBuf(u32 heap);
 extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
 extern void *WORLDTRADE_NoOp(void *sys);
-extern void *WORLDTRADE_DEMO_ReadMyStatus(void *e);
+extern void *WORLDTRADE_DEMO_CreateMyStatusFromEntry(void *e);
 extern void WORLDTRADE_CopyPokemon(void *sys, void *mon);
 extern void POKE_TOOL_CopyPartyPokemon(const struct RecDC *src, struct RecDC *dest);
 extern void func_02034714(const char *expr, u32 line, const char *file);
@@ -115,7 +115,7 @@ int WORLDTRADE_DEMO_Init(Work *p)
     switch (p->kind) {
     case 7:
         d->f38 = d->f34 = WORLDTRADE_NoOp(p->ctx->sys);
-        d->f40 = p->info = WORLDTRADE_DEMO_ReadMyStatus(p->mon);
+        d->f40 = p->info = WORLDTRADE_DEMO_CreateMyStatusFromEntry(p->mon);
         tmpl = d_021E75FC;
         break;
     case 8:
@@ -125,7 +125,7 @@ int WORLDTRADE_DEMO_Init(Work *p)
             d->f38 = WORLDTRADE_NoOp(p->ctx->sys);
         }
         d->f34 = d->f38;
-        d->f40 = p->info = WORLDTRADE_DEMO_ReadMyStatus(p->mon);
+        d->f40 = p->info = WORLDTRADE_DEMO_CreateMyStatusFromEntry(p->mon);
         tmpl = d_021E75B4;
         break;
     case 10:
@@ -136,14 +136,14 @@ int WORLDTRADE_DEMO_Init(Work *p)
         }
         WORLDTRADE_CopyPokemon(p->ctx->sys, p->saveMon);
         d->f34 = p->saveMon;
-        d->f40 = p->info = WORLDTRADE_DEMO_ReadMyStatus(p->mon);
+        d->f40 = p->info = WORLDTRADE_DEMO_CreateMyStatusFromEntry(p->mon);
         tmpl = d_021E75CC;
         break;
     case 9:
         POKE_TOOL_CopyPartyPokemon(p->fEA8, p->saveMon);
         d->f34 = p->fEA8;
         d->f38 = &p->arr[p->cur];
-        d->f40 = p->info = WORLDTRADE_DEMO_ReadMyStatus(&p->arr[p->cur]);
+        d->f40 = p->info = WORLDTRADE_DEMO_CreateMyStatusFromEntry(&p->arr[p->cur]);
         tmpl = d_021E75CC;
         break;
     default:

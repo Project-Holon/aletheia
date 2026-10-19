@@ -14,14 +14,14 @@
  *   symbols: FX_SinCosTable_ 0x020A1B38 data a2
  *   typedef unsigned short u16;
  *   extern const short FX_SinCosTable_[];
- *   int GF_STANDARD_Get_F5FC(u16 angle) {
+ *   int GF_STANDARD_SinFromDegrees(u16 angle) {
  *       if (angle >= 360) return 0;
  *       return FX_SinCosTable_[((angle * 65535 / 360) >> 4) * 2];
  *   }
  * symbols:
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   VEC_Add 0x0207C9D0 arm
- *   GF_STANDARD_Get_F5FC 0x0203F5FC arm
+ *   GF_STANDARD_SinFromDegrees 0x0203F5FC arm
  *   CLACT_SetActorPosAxis 0x0204B550 arm
  *   func_02030EAC 0x02030EAC arm
  */
@@ -31,7 +31,7 @@ struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void VEC_Add(void *, void *, void *);
 typedef unsigned int   u32;
-extern int GF_STANDARD_Get_F5FC(u32 x);
+extern int GF_STANDARD_SinFromDegrees(u32 x);
 struct Actor;
 extern void CLACT_SetActorPosAxis(struct Actor *actor, signed short value, u32 axis);
 struct Node;
@@ -53,7 +53,7 @@ void MICTEST_UpdateSpriteTask(void *task, int *p)
     p[8] += p[9];
     while (p[8] > 0x168000)
         p[8] -= 0x168000;
-    angle = GF_STANDARD_Get_F5FC((u16)(p[8] >> 12));
+    angle = GF_STANDARD_SinFromDegrees((u16)(p[8] >> 12));
     x += (s16)((p[10] * angle) >> 12);
     CLACT_SetActorPosAxis((void *)p[0], x, 0);
     CLACT_SetActorPosAxis((void *)p[0], y, 1);

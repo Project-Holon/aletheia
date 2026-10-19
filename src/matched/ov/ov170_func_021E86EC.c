@@ -15,7 +15,7 @@
  *   BOX2_SEQ_SetSeqThird 0x021E8FC0 thumb ov170
  *   BOX2_MAIN_IsWindowMoving 0x021E0190 thumb ov170
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   BOX2_SEQ_ResetEntry 0x021EA83C thumb ov170
+ *   BOX2_SEQ_RefreshBoxUiAndWait 0x021EA83C thumb ov170
  *   BOX2_UI_SetMiniIconVisible 0x021EE008 thumb ov170
  *   BOX2_UI_MoveCursor 0x021EE364 thumb ov170
  *   BOX2_SEQ_PrintIndexedMessage 0x021EBC28 thumb ov170
@@ -29,7 +29,7 @@ extern void BOX2_UI_OpenListPack(struct WinMgr *mgr);
 extern int BOX2_SEQ_SetSeqThird(char *p, int a, int b);
 extern int BOX2_MAIN_IsWindowMoving(char *p);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
-extern int BOX2_SEQ_ResetEntry(char *p, int a);
+extern int BOX2_SEQ_RefreshBoxUiAndWait(char *p, int a);
 extern void BOX2_UI_SetMiniIconVisible(char *p, int a, int b);
 extern void BOX2_UI_MoveCursor(char **p, int idx, int v);
 extern void BOX2_SEQ_PrintIndexedMessage(unsigned char *p, int a, int b);
@@ -51,7 +51,7 @@ int BOX2_SEQ_StateMoveMenuB(unsigned char *p)
         p[0x19] = p[0x14];
         STEP(p)++;
         GFL_USE_PlaySeDefaultVolume(0x669);
-        return BOX2_SEQ_ResetEntry((char *)p, 0x60);
+        return BOX2_SEQ_RefreshBoxUiAndWait((char *)p, 0x60);
     case 2:
         STEP(p) = 0;
         BOX2_UI_SetMiniIconVisible((char *)p, 0, 1);

@@ -1,7 +1,7 @@
 /*
  * file:     union_oneself.c
  * unit:     yes
- * function: UNION_ONESELF_TryStartSubEvent, UNION_ONESELF_GetFieldTalkEvent, UNION_ONESELF_RunPlayCategory, UNION_ONESELF_SetNextPlayCategory, UNION_ONESELF_SetNextPlayCategoryInMainPhase, UNION_ONESELF_GetRegulationId, UNION_ONESELF_GetRegulationFlag, UNION_ONESELF_IsBattleStatus, UNION_ONESELF_CreateBattleTeamParty, UNION_ONESELF_DeleteParty, UNION_ONESELF_LoadRegulation, UNION_ONESELF_CheckMyParty, UNION_ONESELF_CheckBattleTeamParty, UNION_ONESELF_CheckEntryParties, UNION_ONESELF_SetFieldBusy, UNION_ONESELF_CheckNetError, UNION_ONESELF_CheckNetErrorExit, UNION_ONESELF_IdleStart, UNION_ONESELF_IdleMain, UNION_ONESELF_ErrorMain, UNION_ONESELF_NoOpMain, UNION_ONESELF_FieldExitMain, UNION_ONESELF_ChatInputMain, UNION_ONESELF_ConnectParentStart, UNION_ONESELF_ConnectParentMain, UNION_ONESELF_ConnectParentEnd, UNION_ONESELF_ConnectChildStart, UNION_ONESELF_ConnectChildMain, UNION_ONESELF_ConnectChildEnd, UNION_ONESELF_TalkParentStart, UNION_ONESELF_TalkParentMain, UNION_ONESELF_TalkParentEnd, UNION_ONESELF_TalkParentAnswerWaitMain, UNION_ONESELF_TalkChildStart, UNION_ONESELF_TalkChildMain, UNION_ONESELF_TalkChildEnd, UNION_ONESELF_BattleMenuMain, UNION_ONESELF_TalkPlayingMain, UNION_ONESELF_TalkPlayingChildMain, UNION_ONESELF_TrainerCardMain, UNION_ONESELF_TradeMain, UNION_ONESELF_JoinMain, UNION_ONESELF_ConnectGroupMain, UNION_ONESELF_AppMain, UNION_ONESELF_ColosseumEnterParentMain, UNION_ONESELF_ColosseumEnterChildMain, UNION_ONESELF_ColosseumEntryMain, UNION_ONESELF_EntryMenuAddMember, UNION_ONESELF_EntryMenuRemoveMember, UNION_ONESELF_ColosseumSetupMain, UNION_ONESELF_ColosseumFreeMoveStart, UNION_ONESELF_ColosseumFreeMoveMain, UNION_ONESELF_ColosseumStandPosMain, UNION_ONESELF_ColosseumLeavePosMain, UNION_ONESELF_ColosseumPartySelectMain, UNION_ONESELF_ColosseumReadyWaitMain, UNION_ONESELF_ColosseumPartyExchangeMain, UNION_ONESELF_ColosseumBattleMain, UNION_ONESELF_ColosseumLeaveConfirmMain, UNION_ONESELF_ColosseumExitMain, UNION_ONESELF_ColosseumTrainerCardMain
+ * function: UNION_ONESELF_TryStartSubEvent, UNION_ONESELF_GetFieldTalkEvent, UNION_ONESELF_RunPlayCategory, UNION_ONESELF_SetNextPlayCategory, UNION_ONESELF_SetNextPlayCategoryInMainPhase, UNION_ONESELF_GetRegulationId, UNION_ONESELF_GetRegulationFlag, UNION_ONESELF_IsBattleStatus, UNION_ONESELF_CreateBattleTeamParty, UNION_ONESELF_DeleteParty, UNION_ONESELF_LoadRegulation, UNION_ONESELF_CheckMyParty, UNION_ONESELF_CheckBattleTeamParty, UNION_ONESELF_CheckEntryParties, UNION_ONESELF_SetFieldBusy, UNION_ONESELF_HandleNetError, UNION_ONESELF_HandleNetErrorExit, UNION_ONESELF_IdleStart, UNION_ONESELF_IdleMain, UNION_ONESELF_ErrorMain, UNION_ONESELF_NoOpMain, UNION_ONESELF_FieldExitMain, UNION_ONESELF_ChatInputMain, UNION_ONESELF_ConnectParentStart, UNION_ONESELF_ConnectParentMain, UNION_ONESELF_ConnectParentEnd, UNION_ONESELF_ConnectChildStart, UNION_ONESELF_ConnectChildMain, UNION_ONESELF_ConnectChildEnd, UNION_ONESELF_TalkParentStart, UNION_ONESELF_TalkParentMain, UNION_ONESELF_TalkParentEnd, UNION_ONESELF_TalkParentAnswerWaitMain, UNION_ONESELF_TalkChildStart, UNION_ONESELF_TalkChildMain, UNION_ONESELF_TalkChildEnd, UNION_ONESELF_BattleMenuMain, UNION_ONESELF_TalkPlayingMain, UNION_ONESELF_TalkPlayingChildMain, UNION_ONESELF_TrainerCardMain, UNION_ONESELF_TradeMain, UNION_ONESELF_JoinMain, UNION_ONESELF_ConnectGroupMain, UNION_ONESELF_AppMain, UNION_ONESELF_ColosseumEnterParentMain, UNION_ONESELF_ColosseumEnterChildMain, UNION_ONESELF_ColosseumEntryMain, UNION_ONESELF_EntryMenuAddMember, UNION_ONESELF_EntryMenuRemoveMember, UNION_ONESELF_ColosseumSetupMain, UNION_ONESELF_ColosseumFreeMoveStart, UNION_ONESELF_ColosseumFreeMoveMain, UNION_ONESELF_ColosseumStandPosMain, UNION_ONESELF_ColosseumLeavePosMain, UNION_ONESELF_ColosseumPartySelectMain, UNION_ONESELF_ColosseumReadyWaitMain, UNION_ONESELF_ColosseumPartyExchangeMain, UNION_ONESELF_ColosseumBattleMain, UNION_ONESELF_ColosseumLeaveConfirmMain, UNION_ONESELF_ColosseumExitMain, UNION_ONESELF_ColosseumTrainerCardMain
  * address:  0x0217B80C
  * region:   ov019
  * compiler: dsi/1.1p1
@@ -16,7 +16,7 @@
  *   SAVEDATA_PanicFail 0x02034714 arm
  *   memcmp  0x0203EFC8  arm
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
+ *   MET_TRAINERS_GetFromSave  0x0200ED48  thumb
  *   UNION_MSG_GetCategoryTableValue  0x0217F060  thumb  ov019
  *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
  *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
@@ -27,7 +27,7 @@
  *   UNION_COMM_SetSituationParam 0x021734A8  thumb  ov012
  *   GAMESYSTEM_GetGameComm 0x02012138 thumb
  *   GAME_COMM_GetWork 0x02026474 thumb
- *   UNION_MAIN_CreateSubEvent 0x0217413C thumb ov012
+ *   UNION_SCENE_CreateSubEvent 0x0217413C thumb ov012
  *   gUnionOneselfActionStart  0x02180074  data  a4
  *   gUnionOneselfActionMain  0x02180078  data  a4
  *   gUnionOneselfActionEnd  0x0218007C  data  a4
@@ -60,11 +60,11 @@
  *   UNION_COMM_RequestStart  0x02172D50  thumb  ov012
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GFL_HEAP_Alloc  0x02030734  arm
- *   UNION_MAIN_RequestScene  0x0217422C  thumb  ov012
- *   UNION_MAIN_IsScenePending  0x02174268  thumb  ov012
+ *   UNION_SCENE_RequestScene  0x0217422C  thumb  ov012
+ *   UNION_SCENE_IsScenePending  0x02174268  thumb  ov012
  *   UNION_COMM_SetChatPms  0x021736A0  thumb  ov012
  *   d_021807E8     0x021807E8  data  a4
- *   UNION_ONESELF_CheckNetError  0x0217BB04  thumb  ov019
+ *   UNION_ONESELF_HandleNetError  0x0217BB04  thumb  ov019
  *   UNION_ONESELF_SetNextPlayCategory  0x0217B8E4  thumb  ov019
  *   UNION_COMMAND_SendPartnerMode  0x02173AFC  thumb  ov012
  *   GFL_NET_SetChangeoverModeWrapper  0x0203D14C  arm
@@ -102,7 +102,7 @@
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
  *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
  *   MYSTATUS_GetId  0x02008530  thumb
- *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb
+ *   MET_TRAINERS_Insert  0x0200ED54  thumb
  *   POKEPARTY_Create  0x0201A920  thumb
  *   UNION_COMM_SetGameKindByStatus  0x021736E0  thumb  ov012
  *   UNION_COMM_StartConnectSync  0x02172EDC  thumb  ov012
@@ -112,7 +112,7 @@
  *   UNION_COMMAND_SendAppEntry  0x02173D38  thumb  ov012
  *   COLOSSEUM_Create  0x02174F4C  thumb  ov012
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   UNION_ONESELF_CheckNetErrorExit  0x0217BB20  thumb  ov019
+ *   UNION_ONESELF_HandleNetErrorExit  0x0217BB20  thumb  ov019
  *   UNION_COMMAND_SendColosseumCancel  0x02173CB4  thumb  ov012
  *   COMM_ENTRY_MENU_Create  0x021CD48C  thumb  ov021
  *   COMM_ENTRY_MENU_Delete  0x021CD5A4  thumb  ov021
@@ -216,7 +216,7 @@
  *   COLOSSEUM_CheckAllTrainerCardsReceived  0x0217FDF8  thumb  ov019
  *   COLOSSEUM_IsPositionsReceived  0x0217FE24  thumb  ov019
  *   COLOSSEUM_ClearPositionsReceived  0x0217FE38  thumb  ov019
- *   COLOSSEUM_GetStandPosIndex  0x0217FE44  thumb  ov019
+ *   COLOSSEUM_IsOnStandPos  0x0217FE44  thumb  ov019
  *   COLOSSEUM_CheckAllFinished  0x0217FEB8  thumb  ov019
  *   COLOSSEUM_IsAnyFinished  0x0217FEF4  thumb  ov019
  *   COLOSSEUM_IsOnCounterPos  0x0217FF14  thumb  ov019
@@ -247,7 +247,7 @@ extern unsigned int GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
 
 extern u32 GAME_COMM_GetWork(void *gameComm);
 
-extern int UNION_MAIN_CreateSubEvent(struct GameSystem *gameSystem, void *fieldMap, UnionRoomWork *work);
+extern int UNION_SCENE_CreateSubEvent(struct GameSystem *gameSystem, void *fieldMap, UnionRoomWork *work);
 
 extern void *BATTLE_BOX_GetFromSave(void *saveData);
 
@@ -339,9 +339,9 @@ int UNION_ONESELF_CheckEntryParties(UnionRoomWork *work, int status, unsigned in
 
 extern void UNION_ONESELF_SetFieldBusy(UnionRoomWork *unisys, void *fieldMap, unsigned int busy);
 
-extern int UNION_ONESELF_CheckNetError(UnionRoomWork *unisys);
+extern int UNION_ONESELF_HandleNetError(UnionRoomWork *unisys);
 
-extern int UNION_ONESELF_CheckNetErrorExit(UnionRoomWork *unisys);
+extern int UNION_ONESELF_HandleNetErrorExit(UnionRoomWork *unisys);
 
 int UNION_ONESELF_IdleStart(UnionRoomWork *work, UnionMySituation *situation, void *fieldMap);
 
@@ -368,7 +368,7 @@ int UNION_ONESELF_TryStartSubEvent(struct GameSystem *gameSystem, void *fieldMap
     work = (UnionRoomWork *)GAME_COMM_GetWork((void *)GAMESYSTEM_GetGameComm(gameSystem));
     result = 0;
     subEvent = &work->subEvent;
-    if (subEvent->id != 0 && subEvent->active == 0) result = UNION_MAIN_CreateSubEvent(gameSystem, fieldMap, work);
+    if (subEvent->id != 0 && subEvent->active == 0) result = UNION_SCENE_CreateSubEvent(gameSystem, fieldMap, work);
     return result;
 }
 
@@ -549,7 +549,7 @@ void UNION_ONESELF_SetFieldBusy(UnionRoomWork *work, void *fieldMap, unsigned in
     FIELDMAP_CTRL_GRID_SetBusy(fieldMap, busy);
 }
 
-int UNION_ONESELF_CheckNetError(UnionRoomWork *work)
+int UNION_ONESELF_HandleNetError(UnionRoomWork *work)
 {
     if (GFL_NET_ERR_GetErrorLevel() != 0) {
         UNION_ONESELF_SetNextPlayCategory(work, 1);
@@ -558,9 +558,9 @@ int UNION_ONESELF_CheckNetError(UnionRoomWork *work)
     return 0;
 }
 
-int UNION_ONESELF_CheckNetErrorExit(UnionRoomWork *work)
+int UNION_ONESELF_HandleNetErrorExit(UnionRoomWork *work)
 {
-    if (UNION_ONESELF_CheckNetError(work) == 1) {
+    if (UNION_ONESELF_HandleNetError(work) == 1) {
         UNION_ONESELF_SetNextPlayCategory(work, 50);
         return 1;
     }
@@ -590,7 +590,7 @@ int UNION_ONESELF_IdleMain(UnionRoomWork *work, UnionMySituation *situation, voi
 
     fieldPlayer = FIELDMAP_GetFieldPlayer(fieldMap);
     mmdlSys = FIELDMAP_GetMmdlSys(fieldMap);
-    if (UNION_ONESELF_CheckNetError(work) == 1) {
+    if (UNION_ONESELF_HandleNetError(work) == 1) {
         return 1;
     }
     if (UNION_COMM_IsResetting(work) == 1) {
@@ -778,9 +778,9 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 
 extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const void *site, unsigned short tag);
 
-extern void UNION_MAIN_RequestScene(UnionRoomWork *unisys, int sceneId, int param);
+extern void UNION_SCENE_RequestScene(UnionRoomWork *unisys, int sceneId, int param);
 
-extern int UNION_MAIN_IsScenePending(UnionRoomWork *unisys);
+extern int UNION_SCENE_IsScenePending(UnionRoomWork *unisys);
 
 extern void UNION_COMM_SetChatPms(UnionRoomWork *unisys, UnionPmsData *pms);
 
@@ -839,7 +839,7 @@ extern void *TRCARD_SYS_CreateEditWork(struct GameData *gameData, void *trainerC
 
 extern u32 GFL_NET_IsParentAid(void);
 
-extern void *MISC_SAVEDATA_GetBlock44(void *saveData);
+extern void *MET_TRAINERS_GetFromSave(void *saveData);
 
 extern u32 GFL_NET_GetHandleNetID(void *link);
 
@@ -847,7 +847,7 @@ extern void *GAME_DATA_GetPlayerStatus(void *gameData, u32 playerIndex);
 
 extern u32 MYSTATUS_GetId(const void *obj);
 
-extern void MISC_SAVEDATA_InsertRecentValue(void *commState, u32 value);
+extern void MET_TRAINERS_Insert(void *commState, u32 value);
 
 extern void *POKEPARTY_Create(u32 heap);
 
@@ -1076,7 +1076,7 @@ int COLOSSEUM_IsPositionsReceived(ColosseumWork *colosseum);
 
 void COLOSSEUM_ClearPositionsReceived(ColosseumWork *colosseum);
 
-int COLOSSEUM_GetStandPosIndex(void *fieldMap, int mode, unsigned *out);
+int COLOSSEUM_IsOnStandPos(void *fieldMap, int mode, unsigned *out);
 
 int COLOSSEUM_CheckAllFinished(ColosseumWork *colosseum);
 
@@ -1180,11 +1180,11 @@ int UNION_ONESELF_ChatInputMain(UnionRoomWork *unisys, UnionMySituation *situati
         param = GFL_HEAP_Alloc(4, 12, 1, (const char *)d_021807E8, 0x41A);
         param->saveData = GAME_DATA_GetSaveControl(unisys->parent->gameData);
         unisys->sceneParam = param;
-        UNION_MAIN_RequestScene(unisys, 0x1d, (int)param);
+        UNION_SCENE_RequestScene(unisys, 0x1d, (int)param);
         (*seq)++;
         break;
     case 1:
-        if (UNION_MAIN_IsScenePending(unisys) == 0)
+        if (UNION_SCENE_IsScenePending(unisys) == 0)
             (*seq)++;
         break;
     case 2:
@@ -1214,7 +1214,7 @@ int UNION_ONESELF_ConnectParentMain(UnionRoomWork *unisys, UnionMySituation *sit
 {
     int slot;
 
-    if (UNION_ONESELF_CheckNetError(unisys) == 1) {
+    if (UNION_ONESELF_HandleNetError(unisys) == 1) {
         return 1;
     }
     switch (*seq) {
@@ -1326,7 +1326,7 @@ int UNION_ONESELF_ConnectChildStart(UnionRoomWork *unisys, UnionMySituation *sit
 
 int UNION_ONESELF_ConnectChildMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
 {
-    if (UNION_ONESELF_CheckNetError(unisys) == 1)
+    if (UNION_ONESELF_HandleNetError(unisys) == 1)
         return 1;
 
     switch (*seq) {
@@ -1397,7 +1397,7 @@ int UNION_ONESELF_ConnectChildEnd(UnionRoomWork *unisys)
 int UNION_ONESELF_TalkParentStart(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
 {
     void *commLink;
-    if (UNION_ONESELF_CheckNetError(unisys) == 1)
+    if (UNION_ONESELF_HandleNetError(unisys) == 1)
         return 1;
     if (situation->prevPlayCategory == 10) {
         situation->subState = 1;
@@ -1435,7 +1435,7 @@ int UNION_ONESELF_TalkParentMain(UnionRoomWork *unisys, UnionMySituation *situat
     void *party;
     int menuResult;
 
-    if (UNION_ONESELF_CheckNetError(unisys) == 1)
+    if (UNION_ONESELF_HandleNetError(unisys) == 1)
         return 1;
 
     switch (*seq) {
@@ -1511,7 +1511,7 @@ int UNION_ONESELF_TalkParentEnd(UnionRoomWork *unisys)
 
 int UNION_ONESELF_TalkParentAnswerWaitMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
 {
-    if (UNION_ONESELF_CheckNetError(unisys) == 1)
+    if (UNION_ONESELF_HandleNetError(unisys) == 1)
         return 1;
 
     switch (*seq) {
@@ -1548,7 +1548,7 @@ int UNION_ONESELF_TalkParentAnswerWaitMain(UnionRoomWork *unisys, UnionMySituati
 int UNION_ONESELF_TalkChildStart(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
 {
     void *commLink;
-    if (UNION_ONESELF_CheckNetError(unisys) == 1)
+    if (UNION_ONESELF_HandleNetError(unisys) == 1)
         return 1;
     switch (*seq) {
     case 0:
@@ -1581,7 +1581,7 @@ int UNION_ONESELF_TalkChildMain(UnionRoomWork *unisys, UnionMySituation *situati
     int accepted;
     void *party;
 
-    if (UNION_ONESELF_CheckNetError(unisys) == 1)
+    if (UNION_ONESELF_HandleNetError(unisys) == 1)
         return 1;
     if (UNION_MSG_CheckTalkPrintEnd(unisys) == 0)
         return 0;
@@ -1714,7 +1714,7 @@ int UNION_ONESELF_BattleMenuMain(UnionRoomWork *unisys, UnionMySituation *situat
     int showHelp;
     int choice;
 
-    if (UNION_ONESELF_CheckNetError(unisys) == 1)
+    if (UNION_ONESELF_HandleNetError(unisys) == 1)
         return 1;
     if (UNION_MSG_CheckTalkPrintEnd(unisys) == 0)
         return 0;
@@ -1983,7 +1983,7 @@ int UNION_ONESELF_TalkPlayingChildMain(UnionRoomWork *unisys, UnionMySituation *
 int UNION_ONESELF_TrainerCardMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
 {
     u8 *cardBytes;
-    if (UNION_ONESELF_CheckNetError(unisys) == 1)
+    if (UNION_ONESELF_HandleNetError(unisys) == 1)
         return 1;
     switch (*seq) {
     case 0:
@@ -2022,11 +2022,11 @@ int UNION_ONESELF_TrainerCardMain(UnionRoomWork *unisys, UnionMySituation *situa
             (*seq)++;
         break;
     case 6:
-        UNION_MAIN_RequestScene(unisys, 1, (int)(unisys->partnerCard));
+        UNION_SCENE_RequestScene(unisys, 1, (int)(unisys->partnerCard));
         (*seq)++;
         break;
     case 7:
-        if (UNION_MAIN_IsScenePending(unisys) == 0)
+        if (UNION_SCENE_IsScenePending(unisys) == 0)
             (*seq)++;
         break;
     case 8:
@@ -2058,7 +2058,7 @@ int UNION_ONESELF_TradeMain(UnionRoomWork *unisys, UnionMySituation *situation, 
     void *commState;
     UnionTradeParam *param;
     UnionTradeSetup *setup;
-    if (*seq != 4 && UNION_ONESELF_CheckNetError(unisys) == 1)
+    if (*seq != 4 && UNION_ONESELF_HandleNetError(unisys) == 1)
         return 1;
     switch (*seq) {
     case 0:
@@ -2074,8 +2074,8 @@ int UNION_ONESELF_TradeMain(UnionRoomWork *unisys, UnionMySituation *situation, 
     case 2:
         if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 6, 0x14) == 1) {
             gameData = GAMESYSTEM_GetGameData(unisys->parent->gameSystem);
-            commState = MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(gameData));
-            MISC_SAVEDATA_InsertRecentValue(commState, MYSTATUS_GetId(GAME_DATA_GetPlayerStatus(gameData, GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle()) ^ 1)));
+            commState = MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl(gameData));
+            MET_TRAINERS_Insert(commState, MYSTATUS_GetId(GAME_DATA_GetPlayerStatus(gameData, GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle()) ^ 1)));
             (*seq)++;
         }
         break;
@@ -2094,11 +2094,11 @@ int UNION_ONESELF_TradeMain(UnionRoomWork *unisys, UnionMySituation *situation, 
         param->setup = setup;
         param->result = 0;
         unisys->sceneParam = param;
-        UNION_MAIN_RequestScene(unisys, 2, (int)param);
+        UNION_SCENE_RequestScene(unisys, 2, (int)param);
         (*seq)++;
         break;
     case 4:
-        if (UNION_MAIN_IsScenePending(unisys) == 0) {
+        if (UNION_SCENE_IsScenePending(unisys) == 0) {
             param = ((UnionTradeParam *)unisys->sceneParam);
             GFL_HEAP_Free(param->setup);
             GFL_HEAP_Free((void *)param->party);
@@ -2130,7 +2130,7 @@ int UNION_ONESELF_JoinMain(UnionRoomWork *unisys, UnionMySituation *situation, v
     int beaconIndex;
     int requiredCount;
     beaconIndex = UNION_CHARA_GetBeaconIndex(situation->connect.requestId);
-    if (UNION_ONESELF_CheckNetError(unisys) == 1)
+    if (UNION_ONESELF_HandleNetError(unisys) == 1)
         return 1;
     switch (*seq) {
     case 0:
@@ -2222,7 +2222,7 @@ int UNION_ONESELF_ConnectGroupMain(UnionRoomWork *unisys, UnionMySituation *situ
 {
     int linkState;
     UnionBeaconPc *connectPc;
-    if (*seq < 3 && UNION_ONESELF_CheckNetError(unisys) == 1)
+    if (*seq < 3 && UNION_ONESELF_HandleNetError(unisys) == 1)
         return 1;
     switch (*seq) {
     case 0:
@@ -2261,7 +2261,7 @@ int UNION_ONESELF_AppMain(UnionRoomWork *unisys, UnionMySituation *situation, vo
 {
     UnionSceneThreeParam *paramThree;
     UnionSceneFourParam *paramFour;
-    if (*seq != 4 && *seq != 5 && *seq != 8 && UNION_ONESELF_CheckNetError(unisys) == 1)
+    if (*seq != 4 && *seq != 5 && *seq != 8 && UNION_ONESELF_HandleNetError(unisys) == 1)
         return 1;
     switch (*seq) {
     case 0:
@@ -2284,7 +2284,7 @@ int UNION_ONESELF_AppMain(UnionRoomWork *unisys, UnionMySituation *situation, vo
                 paramThree = GFL_HEAP_Alloc(0x41, 8, 1, (const char *)d_021807E8, 0xB9A);
                 paramThree->gameData = unisys->parent->gameData;
                 unisys->sceneParam = paramThree;
-                UNION_MAIN_RequestScene(unisys, 3, (int)paramThree);
+                UNION_SCENE_RequestScene(unisys, 3, (int)paramThree);
             } else {
                 paramFour = GFL_HEAP_Alloc(0x41, 0x18, 1, (const char *)d_021807E8, 0xBA2);
                 paramFour->gameData = unisys->parent->gameData;
@@ -2292,13 +2292,13 @@ int UNION_ONESELF_AppMain(UnionRoomWork *unisys, UnionMySituation *situation, vo
                 paramFour->saveData = GAME_DATA_GetSaveControl(unisys->parent->gameData);
                 paramFour->bag = GAME_DATA_GetTrainerRecord(unisys->parent->gameData);
                 unisys->sceneParam = paramFour;
-                UNION_MAIN_RequestScene(unisys, 4, (int)paramFour);
+                UNION_SCENE_RequestScene(unisys, 4, (int)paramFour);
             }
             (*seq)++;
         }
         break;
     case 4:
-        if (UNION_MAIN_IsScenePending(unisys) == 0) {
+        if (UNION_SCENE_IsScenePending(unisys) == 0) {
             GFL_HEAP_Free(unisys->sceneParam);
             unisys->sceneParam = 0;
             if (GFL_NET_ERR_GetErrorLevel() != 0) {
@@ -2349,7 +2349,7 @@ int UNION_ONESELF_AppMain(UnionRoomWork *unisys, UnionMySituation *situation, vo
 int UNION_ONESELF_ColosseumEnterParentMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
 {
     UnionParentWork *parent;
-    if (*seq < 4 && UNION_ONESELF_CheckNetError(unisys) == 1)
+    if (*seq < 4 && UNION_ONESELF_HandleNetError(unisys) == 1)
         return 1;
     switch (*seq) {
     case 0:
@@ -2373,11 +2373,11 @@ int UNION_ONESELF_ColosseumEnterParentMain(UnionRoomWork *unisys, UnionMySituati
             (*seq)++;
         break;
     case 4:
-        UNION_MAIN_RequestScene(unisys, situation->connect.partnerSelectA + 1, 0);
+        UNION_SCENE_RequestScene(unisys, situation->connect.partnerSelectA + 1, 0);
         (*seq)++;
         break;
     case 5:
-        if (UNION_MAIN_IsScenePending(unisys) == 0) {
+        if (UNION_SCENE_IsScenePending(unisys) == 0) {
             UNION_ONESELF_SetFieldBusy(unisys, fieldMap, 1);
             UNION_ONESELF_SetNextPlayCategory(unisys, 0x28);
             return 1;
@@ -2390,7 +2390,7 @@ int UNION_ONESELF_ColosseumEnterParentMain(UnionRoomWork *unisys, UnionMySituati
 int UNION_ONESELF_ColosseumEnterChildMain(UnionRoomWork *unisys, UnionMySituation *situation, void *fieldMap, u8 *seq)
 {
     UnionParentWork *parent;
-    if (*seq < 4 && UNION_ONESELF_CheckNetError(unisys) == 1)
+    if (*seq < 4 && UNION_ONESELF_HandleNetError(unisys) == 1)
         return 1;
     switch (*seq) {
     case 0:
@@ -2418,11 +2418,11 @@ int UNION_ONESELF_ColosseumEnterChildMain(UnionRoomWork *unisys, UnionMySituatio
         }
         break;
     case 4:
-        UNION_MAIN_RequestScene(unisys, situation->connect.partnerSelectA + 1, 0);
+        UNION_SCENE_RequestScene(unisys, situation->connect.partnerSelectA + 1, 0);
         (*seq)++;
         break;
     case 5:
-        if (UNION_MAIN_IsScenePending(unisys) == 0) {
+        if (UNION_SCENE_IsScenePending(unisys) == 0) {
             if (unisys->colosseum != 0)
                 SAVEDATA_PanicFail((const char *)gUnionEmptyString1, 0, (const char *)gUnionEmptyString1);
             parent = unisys->parent;
@@ -2445,7 +2445,7 @@ int UNION_ONESELF_ColosseumEntryMain(UnionRoomWork *unisys, UnionMySituation *si
     if (colosseum == 0)
         SAVEDATA_PanicFail((const char *)gUnionEmptyString1, 0, (const char *)gUnionEmptyString1);
 
-    if (UNION_ONESELF_CheckNetErrorExit(unisys) == 1) {
+    if (UNION_ONESELF_HandleNetErrorExit(unisys) == 1) {
         if (colosseum->entryMenu != 0)
             COMM_ENTRY_MENU_Delete(colosseum->entryMenu);
         UNION_MSG_CloseAllWindows(unisys);
@@ -2575,7 +2575,7 @@ int UNION_ONESELF_ColosseumSetupMain(UnionRoomWork *unisys, UnionMySituation *si
     if (colosseum == 0)
         SAVEDATA_PanicFail((const char *)gUnionEmptyString1, (int)0, (const char *)gUnionEmptyString1);
 
-    if (UNION_ONESELF_CheckNetErrorExit(unisys) == 1) {
+    if (UNION_ONESELF_HandleNetErrorExit(unisys) == 1) {
         UNION_MSG_CloseAllWindows(unisys);
         return 1;
     }
@@ -2632,11 +2632,11 @@ int UNION_ONESELF_ColosseumSetupMain(UnionRoomWork *unisys, UnionMySituation *si
             (*seq)++;
         break;
     case 10:
-        commState = MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(unisys->parent->gameSystem)));
+        commState = MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(unisys->parent->gameSystem)));
         playerCount = GFL_NET_GetNegotiationNum();
         for (playerIndex = 0; playerIndex < playerCount; playerIndex++) {
             if (colosseum->player[playerIndex].isEntered == 1 && playerIndex != GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle()))
-                MISC_SAVEDATA_InsertRecentValue(commState, MYSTATUS_GetId(&colosseum->player[playerIndex]));
+                MET_TRAINERS_Insert(commState, MYSTATUS_GetId(&colosseum->player[playerIndex]));
         }
         COLOSSEUM_SetStartFlag(colosseum, 1);
         UNION_ONESELF_SetNextPlayCategory(unisys, 0x2a);
@@ -2662,13 +2662,13 @@ int UNION_ONESELF_ColosseumFreeMoveMain(UnionRoomWork *unisys, UnionMySituation 
     s16 position[3];
 
     fieldCtrl = FIELDMAP_GetFieldPlayer((void *)fieldMap);
-    if (UNION_ONESELF_CheckNetErrorExit(unisys) == 1) {
+    if (UNION_ONESELF_HandleNetErrorExit(unisys) == 1) {
         UNION_MSG_CloseAllWindows(unisys);
         return 1;
     }
 
     if (*seq == 0) {
-        if (COLOSSEUM_GetStandPosIndex(fieldMap, UNION_MSG_GetCategoryTableValue(situation->connect.partnerSelectA), &sideFlags) == 1) {
+        if (COLOSSEUM_IsOnStandPos(fieldMap, UNION_MSG_GetCategoryTableValue(situation->connect.partnerSelectA), &sideFlags) == 1) {
             COLOSSEUM_SetMyChoice(colosseum, sideFlags);
             UNION_ONESELF_SetNextPlayCategory(unisys, 0x2b);
             UNION_ONESELF_SetFieldBusy(unisys, fieldMap, 1);
@@ -2705,7 +2705,7 @@ int UNION_ONESELF_ColosseumStandPosMain(UnionRoomWork *unisys, UnionMySituation 
     unsigned sideFlags;
     int answer;
 
-    if (UNION_ONESELF_CheckNetErrorExit(unisys) == 1) {
+    if (UNION_ONESELF_HandleNetErrorExit(unisys) == 1) {
         UNION_MSG_CloseAllWindows(unisys);
         return 1;
     }
@@ -2732,7 +2732,7 @@ int UNION_ONESELF_ColosseumStandPosMain(UnionRoomWork *unisys, UnionMySituation 
     case 3:
         transition = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer((void *)fieldMap));
         if (FLDMMDL_CheckPossibleAcmd((int)transition) == 1) {
-            COLOSSEUM_GetStandPosIndex(fieldMap, UNION_MSG_GetCategoryTableValue(situation->connect.partnerSelectA), &sideFlags);
+            COLOSSEUM_IsOnStandPos(fieldMap, UNION_MSG_GetCategoryTableValue(situation->connect.partnerSelectA), &sideFlags);
             FLDMMDL_SetAcmd(transition, (sideFlags & 1) ? 2 : 3);
             (*seq)++;
         }
@@ -2756,7 +2756,7 @@ int UNION_ONESELF_ColosseumLeavePosMain(UnionRoomWork *unisys, UnionMySituation 
     unsigned sideFlags;
 
     transition = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer((void *)fieldMap));
-    if (UNION_ONESELF_CheckNetErrorExit(unisys) == 1) {
+    if (UNION_ONESELF_HandleNetErrorExit(unisys) == 1) {
         UNION_MSG_CloseAllWindows(unisys);
         return 1;
     }
@@ -2780,7 +2780,7 @@ int UNION_ONESELF_ColosseumLeavePosMain(UnionRoomWork *unisys, UnionMySituation 
         break;
     case 4:
         if (FLDMMDL_CheckPossibleAcmd((int)transition) == 1) {
-            COLOSSEUM_GetStandPosIndex(fieldMap, UNION_MSG_GetCategoryTableValue(situation->connect.partnerSelectA), &sideFlags);
+            COLOSSEUM_IsOnStandPos(fieldMap, UNION_MSG_GetCategoryTableValue(situation->connect.partnerSelectA), &sideFlags);
             FLDMMDL_SetAcmd(transition, (sideFlags & 1) ? 0xb : 0xa);
             (*seq)++;
         }
@@ -2900,7 +2900,7 @@ int UNION_ONESELF_ColosseumReadyWaitMain(UnionRoomWork *unisys, UnionMySituation
     ColosseumWork *colosseum;
 
     colosseum = unisys->colosseum;
-    if (UNION_ONESELF_CheckNetErrorExit(unisys) == 1) {
+    if (UNION_ONESELF_HandleNetErrorExit(unisys) == 1) {
         UNION_MSG_CloseAllWindows(unisys);
         return 1;
     }
@@ -2947,7 +2947,7 @@ int UNION_ONESELF_ColosseumPartyExchangeMain(UnionRoomWork *unisys, UnionMySitua
 
     colosseum = unisys->colosseum;
     myIndex = GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle());
-    if (UNION_ONESELF_CheckNetErrorExit(unisys) == 1) {
+    if (UNION_ONESELF_HandleNetErrorExit(unisys) == 1) {
         UNION_MSG_CloseAllWindows(unisys);
         return 1;
     }
@@ -3024,7 +3024,7 @@ int UNION_ONESELF_ColosseumBattleMain(UnionRoomWork *unisys, UnionMySituation *s
 
     colosseum = unisys->colosseum;
     myIndex = GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle());
-    if (*seq < 3 && UNION_ONESELF_CheckNetErrorExit(unisys) == 1) {
+    if (*seq < 3 && UNION_ONESELF_HandleNetErrorExit(unisys) == 1) {
         UNION_MSG_CloseAllWindows(unisys);
         return 1;
     }
@@ -3107,11 +3107,11 @@ int UNION_ONESELF_ColosseumBattleMain(UnionRoomWork *unisys, UnionMySituation *s
         battle->recordMode = 0;
         battle->result = 0;
         unisys->sceneParam = battle;
-        UNION_MAIN_RequestScene(unisys, 0x1a, (int)battle);
+        UNION_SCENE_RequestScene(unisys, 0x1a, (int)battle);
         (*seq)++;
         break;
     case 4:
-        if (UNION_MAIN_IsScenePending(unisys) == 1)
+        if (UNION_SCENE_IsScenePending(unisys) == 1)
             break;
         GFL_HEAP_Free(((UnionBattleParam *)unisys->sceneParam)->recordBuffer);
         GFL_HEAP_Free(((UnionBattleParam *)unisys->sceneParam));
@@ -3128,7 +3128,7 @@ int UNION_ONESELF_ColosseumLeaveConfirmMain(UnionRoomWork *unisys, UnionMySituat
     int confirmed;
 
     transition = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldMap));
-    if (UNION_ONESELF_CheckNetErrorExit(unisys) == 1) {
+    if (UNION_ONESELF_HandleNetErrorExit(unisys) == 1) {
         UNION_MSG_CloseAllWindows(unisys);
         return 1;
     }
@@ -3254,11 +3254,11 @@ int UNION_ONESELF_ColosseumExitMain(UnionRoomWork *unisys, UnionMySituation *sit
         UNION_COMM_ClearBeaconPcs(unisys);
         UNION_CHARA_ClearTable(unisys);
         UNION_COMM_InitConnectInfo(unisys, &situation->connect);
-        UNION_MAIN_RequestScene(unisys, 0x19, 0);
+        UNION_SCENE_RequestScene(unisys, 0x19, 0);
         (*seq)++;
         break;
     case 10:
-        if (UNION_MAIN_IsScenePending(unisys) == 0) {
+        if (UNION_SCENE_IsScenePending(unisys) == 0) {
             if (unisys->colosseum != 0) {
                 COLOSSEUM_Delete(unisys->colosseum, unisys->parent->gameSystem);
                 unisys->colosseum = 0;
@@ -3321,12 +3321,12 @@ int UNION_ONESELF_ColosseumTrainerCardMain(UnionRoomWork *unisys, UnionMySituati
             ((u8 *)colosseum->trainerCard[colosseum->talkPlayer])[4] |= 0x20;
             partnerCard = TRCARD_SYS_CreateEditWork(unisys->parent->gameData, (u8 *)colosseum->trainerCard[colosseum->talkPlayer], 0x41);
             unisys->sceneParam = partnerCard;
-            UNION_MAIN_RequestScene(unisys, 0x1c, (int)partnerCard);
+            UNION_SCENE_RequestScene(unisys, 0x1c, (int)partnerCard);
             (*seq)++;
         }
         break;
     case 2:
-        if (UNION_MAIN_IsScenePending(unisys) == 0) {
+        if (UNION_SCENE_IsScenePending(unisys) == 0) {
             unisys->sceneParam = 0;
             (*seq)++;
         }

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   NNS_G2dGetUnpackedScreenData  0x02062B30  arm
- *   BG_SYS_GetField16  0x0204169C  arm
+ *   BG_SYS_GetColorMode  0x0204169C  arm
  *   BG_SYS_GetBuf  0x0204162C  arm
  *   BG_SYS_DecodeTileSource  0x02040AF0  arm
  *   BG_SYS_PushTileSource  0x020409E0  arm
@@ -23,7 +23,7 @@
  * ends of unit_0204994C.c, ARC_UTIL_UploadBgPaletteFromArchive.c and ARC_UTIL_UploadBgPaletteFromHandle.c forward to.
  * Look up the resource's palette block; default the size to the block's own
  * (+0x08); when `add` is non-zero, add it to every entry of the data at +0x0C
- * -- as halfwords (size / 2 of them) when BG_SYS_GetField16 says the channel is
+ * -- as halfwords (size / 2 of them) when BG_SYS_GetColorMode says the channel is
  * not 8-bit, else as bytes; then upload through BG_SYS_DecodeTileSource plus the
  * flag-selected commit (func_02041B6C / BG_SYS_PushTile) or BG_SYS_PushTileSource, and
  * release the resource either way.  Every `and rN, r7, #0xff` is a callee's
@@ -48,7 +48,7 @@ struct Pal {
 };
 
 extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
-extern u8 BG_SYS_GetField16(int channel);
+extern u8 BG_SYS_GetColorMode(int channel);
 extern u32 BG_SYS_GetBuf(int channel);
 extern void BG_SYS_DecodeTileSource(u32 index, const void *src, u32 mode, u32 offset);
 extern void BG_SYS_PushTileSource(u32 index, const void *src, u32 mode, u32 offset);
@@ -64,7 +64,7 @@ u32 ARC_UTIL_UploadBgPalette(void *file, u32 channel, u32 a2, u32 add, u32 size,
         if (size == 0)
             size = pal->size;
         if (add != 0) {
-            if (BG_SYS_GetField16((u8)channel) == 0) {
+            if (BG_SYS_GetColorMode((u8)channel) == 0) {
                 u32 i;
                 u16 *p = (u16 *)pal->data;
                 for (i = 0; i < size / 2; i++)

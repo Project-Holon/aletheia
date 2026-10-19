@@ -25,7 +25,7 @@
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   IRC_RANKING_RowInit 0x021B87B0 thumb ov106
  *   BMP_WIN_Create 0x020450F0 arm
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   IRC_RANKING_ListDrawRows 0x021B8524 thumb ov106
  *   IRC_RANKING_ListTransferWindows 0x021B8648 thumb ov106
  *   IRC_RANKING_ListScrollTask 0x021B8690 thumb ov106
@@ -48,7 +48,7 @@ extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void IRC_RANKING_RowInit(u8 *,const u8 *,void *,u32,u32,void *,u32,void *,void *,s16,s16,u16);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 extern void IRC_RANKING_ListDrawRows(u8 *);
 extern void IRC_RANKING_ListTransferWindows(u8 *);
 extern void IRC_RANKING_ListScrollTask(void *unused, u8 *p);
@@ -81,10 +81,10 @@ void IRC_RANKING_ListInit(u8 *p,u32 a1,u8 a2,u8 a3,u8 s0,u32 s1,void *s2,void *s
     *(u32 *)(p+0x56C) = BMP_WIN_Create(s0,0,0,0x20,0x20,14,1);
     *(s16 *)(p+0x564) = -40;
     *(s16 *)(p+0x566) = 24;
-    BG_SYS_FillScrollArea(*(u8 *)(p+0x548),3,*(s16 *)(p+0x564));
-    BG_SYS_FillScrollArea(*(u8 *)(p+0x549),3,*(s16 *)(p+0x564));
-    BG_SYS_FillScrollArea(*(u8 *)(p+0x54A),3,*(s16 *)(p+0x566));
-    BG_SYS_FillScrollArea(*(u8 *)(p+0x54B),3,*(s16 *)(p+0x566));
+    BG_SYS_ChangeScrollImmediate(*(u8 *)(p+0x548),3,*(s16 *)(p+0x564));
+    BG_SYS_ChangeScrollImmediate(*(u8 *)(p+0x549),3,*(s16 *)(p+0x564));
+    BG_SYS_ChangeScrollImmediate(*(u8 *)(p+0x54A),3,*(s16 *)(p+0x566));
+    BG_SYS_ChangeScrollImmediate(*(u8 *)(p+0x54B),3,*(s16 *)(p+0x566));
     *(u16 *)(p+0x556) = 0;
     *(u16 *)(p+0x558) = 0;
     m = 0;

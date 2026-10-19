@@ -1,5 +1,5 @@
 /*
- * function: COMM_HISTORY_ScaleSpan
+ * function: SCROLLBAR_GetPosFromValue
  * address:  0x0202EE0C
  * packet:   pkt_0202EE0C
  * region:   arm9
@@ -33,15 +33,15 @@
  *   _u32_div_f  0x0209C2B0  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/COMM_HISTORY_ScaleSpan.c \
- *       --func COMM_HISTORY_ScaleSpan --addr 0x0202EE0C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/SCROLLBAR_GetPosFromValue.c \
+ *       --func SCROLLBAR_GetPosFromValue --addr 0x0202EE0C --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
 
 extern u32 _u32_div_f(u32 n, u32 d);
 
-u32 COMM_HISTORY_ScaleSpan(u32 a, u32 b, u32 c, u32 d, u32 e)
+u32 SCROLLBAR_GetPosFromValue(u32 a, u32 b, u32 c, u32 d, u32 e)
 {
     u32 t = ((d - c) - e) << 8;
     u32 tmp = _u32_div_f(t * b, a) >> 8;

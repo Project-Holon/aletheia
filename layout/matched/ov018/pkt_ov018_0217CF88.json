@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "INTRUDE_SUBDISP_ScriptApplyCommState",
+   "name": "INTRUDE_SUBDISP_ScriptAddAreaMapsAndMarkers",
    "address": "0x0217CF88",
    "kind": "game",
    "region": "ov018",

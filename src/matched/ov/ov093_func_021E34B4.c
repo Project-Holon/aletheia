@@ -14,7 +14,7 @@
  *   HAND_COMMON_IsLastToAct  0x021E8624  thumb  ov093
  *   BTL_EVENT_OverwriteVar  0x021D76BC  thumb  ov093
  *   BTL_MAIN_IsPokeSamePair  0x021B9A24  thumb  ov093
- *   BTLV_CORE_EventRedirectMove  0x021E8744  thumb  ov093
+ *   HAND_COMMON_EventRedirectMove  0x021E8744  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
@@ -23,7 +23,7 @@ extern int BTL_EVENT_GetVar(int key);
 extern int HAND_COMMON_IsLastToAct(int a, int b);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 extern int BTL_MAIN_IsPokeSamePair(unsigned int a, unsigned int b);
-extern void BTLV_CORE_EventRedirectMove(int a, void *b, int c, int d);
+extern void HAND_COMMON_EventRedirectMove(int a, void *b, int c, int d);
 
 void HAND_WAZA_MagicCoatOnExecuteCheck(int u, void *p, int key, int o)
 {
@@ -34,6 +34,6 @@ void HAND_WAZA_MagicCoatOnExecuteCheck(int u, void *p, int key, int o)
             return;
         }
     } else if (BTL_MAIN_IsPokeSamePair(key, v) == 0) {
-        BTLV_CORE_EventRedirectMove(u, p, key, o);
+        HAND_COMMON_EventRedirectMove(u, p, key, o);
     }
 }

@@ -1,7 +1,7 @@
 /*
  * file:     demo3d_data.c
  * unit:     yes
- * function: DEMO3D_DATA_Create, DEMO3D_DATA_Delete, DEMO3D_DATA_BuildTable, DEMO3D_DATA_GetPair, DEMO3D_DATA_GetAnimId, DEMO3D_DATA_GetAnimCount, DEMO3D_DATA_GetTextureSize, DEMO3D_DATA_GetAnimIndex, DEMO3D_DATA_GetRecordField, DEMO3D_DATA_CreateCapture, DEMO3D_DATA_DeleteCapture, DEMO3D_DATA_CreateTask, DEMO3D_DATA_DeleteTask, DEMO3D_DATA_ApplyCapture, DEMO3D_DATA_FinishTask, DEMO3D_DATA_StartCapture, DEMO3D_DATA_PlaySe, DEMO3D_DATA_StopSe, DEMO3D_DATA_FadeSeVolume, DEMO3D_DATA_FadeSeSlotParam1, DEMO3D_DATA_FadeSeSlotParam2, DEMO3D_DATA_CreateSeFade, DEMO3D_DATA_UpdateSeFade, DEMO3D_DATA_ApplySeFade, DEMO3D_DATA_PlayBgm, DEMO3D_DATA_StopBgm, DEMO3D_DATA_TaskFadeOutBgm, DEMO3D_DATA_TaskPlayBgm, DEMO3D_DATA_CreateBgmFade, DEMO3D_DATA_BgmFadeMain, DEMO3D_DATA_TaskFadeBrightness, DEMO3D_DATA_CreateBrightnessFade, DEMO3D_DATA_BrightnessFadeMain, DEMO3D_DATA_TaskBrightnessSeq, DEMO3D_DATA_CreateBrightnessSeq, DEMO3D_DATA_BrightnessSeqMain, DEMO3D_DATA_TaskSetLightSlot, DEMO3D_DATA_TaskSetLightVector, DEMO3D_DATA_TaskShowMessage, DEMO3D_DATA_CreateMessage, DEMO3D_DATA_MessageMain, DEMO3D_DATA_CreateMessageWindow, DEMO3D_DATA_DeleteMessageWindow, DEMO3D_DATA_TaskFade, DEMO3D_DATA_CreateFade, DEMO3D_DATA_FadeMain, DEMO3D_DATA_CreateFadeWork, DEMO3D_DATA_DeleteFadeWork, DEMO3D_DATA_TaskCreateCapture, DEMO3D_DATA_TaskDeleteCapture, DEMO3D_DATA_IsCaptureDone
+ * function: DEMO3D_DATA_Create, DEMO3D_DATA_Delete, DEMO3D_DATA_BuildTable, DEMO3D_DATA_GetPair, DEMO3D_DATA_GetTimeStep, DEMO3D_DATA_IsDouble3dDisplay, DEMO3D_DATA_GetTextureSize, DEMO3D_DATA_GetCommandList, DEMO3D_DATA_GetExitCommandList, DEMO3D_DATA_CreateCapture, DEMO3D_DATA_DeleteCapture, DEMO3D_DATA_CreateTask, DEMO3D_DATA_DeleteTask, DEMO3D_DATA_ApplyCapture, DEMO3D_DATA_FinishTask, DEMO3D_DATA_StartCapture, DEMO3D_DATA_PlaySe, DEMO3D_DATA_StopSe, DEMO3D_DATA_FadeSeVolume, DEMO3D_DATA_FadeSeSlotParam1, DEMO3D_DATA_FadeSeSlotParam2, DEMO3D_DATA_CreateSeFade, DEMO3D_DATA_UpdateSeFade, DEMO3D_DATA_ApplySeFade, DEMO3D_DATA_PlayBgm, DEMO3D_DATA_StopBgm, DEMO3D_DATA_TaskFadeOutBgm, DEMO3D_DATA_TaskPlayBgm, DEMO3D_DATA_CreateBgmFade, DEMO3D_DATA_BgmFadeMain, DEMO3D_DATA_TaskFadeBrightness, DEMO3D_DATA_CreateBrightnessFade, DEMO3D_DATA_BrightnessFadeMain, DEMO3D_DATA_TaskBrightnessSeq, DEMO3D_DATA_CreateBrightnessSeq, DEMO3D_DATA_BrightnessSeqMain, DEMO3D_DATA_TaskSetLightSlot, DEMO3D_DATA_TaskSetLightVector, DEMO3D_DATA_TaskShowMessage, DEMO3D_DATA_CreateMessage, DEMO3D_DATA_MessageMain, DEMO3D_DATA_CreateMessageWindow, DEMO3D_DATA_DeleteMessageWindow, DEMO3D_DATA_TaskFade, DEMO3D_DATA_CreateFade, DEMO3D_DATA_FadeMain, DEMO3D_DATA_CreateFadeWork, DEMO3D_DATA_DeleteFadeWork, DEMO3D_DATA_TaskCreateCapture, DEMO3D_DATA_TaskDeleteCapture, DEMO3D_DATA_ScaleTime
  * address:  0x021BE7F0
  * region:   ov203
  * compiler: dsi/1.1p1
@@ -26,7 +26,7 @@
  *   d_021C0348 0x021C0348 data a4
  *   d_021C1868 0x021C1868 data a4
  *   d_021C1860  0x021C1860  data
- *   DEMO3D_ENGINE_ClampAnimeId  0x021BE79C  thumb  ov203
+ *   DEMO3D_ENGINE_ClampDemoId  0x021BE79C  thumb  ov203
  *   d_021C1864  0x021C1864  data
  *   d_021C3B98 0x021C3B98 data a4
  *   TCBL_AddTask 0x020311B8 arm
@@ -41,13 +41,13 @@
  *   GFL_USE_GetSeSlot 0x02006148 thumb
  *   GFL_USE_SetSeSlotVolume 0x020062BC thumb
  *   GFL_USE_SetSeSlotParams 0x02006268 thumb
- *   DEMO3D_DATA_IsCaptureDone 0x021BF7AC thumb
+ *   DEMO3D_DATA_ScaleTime 0x021BF7AC thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
  *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   GFL_USE_IsBgmFading 0x02005E50 thumb
- *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_SetBgmPaused 0x02005DE4 thumb
  *   GFL_USE_PushBgm 0x02005E64 thumb
  *   GFL_USE_PopBgm 0x02005E9C thumb
  *   BRIGHTNESS_Set 0x02023F60 thumb
@@ -63,7 +63,7 @@
  *   BG_SYS_PushTile 0x020409B4 arm
  *   BMP_MENUWORK_DrawWindowEx 0x0201F79C thumb
  *   MSGDATA_Delete 0x02045C04 arm
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BMP_MENUWORK_LoadFrameGfx 0x0201F5DC thumb
  *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
@@ -74,7 +74,7 @@
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   BMP_WIN_Delete 0x020452E8 arm
- *   BMP_MENUWORK_DeleteHalf 0x0201F614 thumb
+ *   BMP_MENUWORK_FreeTileRun 0x0201F614 thumb
  *   GAME_VERSION_Code 0x0209DF08 data a1
  *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadBgPaletteAddFromHandle 0x02049990 arm
@@ -83,9 +83,9 @@
  *   memset 0x02082BCC arm
  *   DEMO3D_DATA_CreateCapture 0x021BE9B8 thumb
  *   DEMO3D_DATA_DeleteCapture 0x021BE9E8 thumb
- *   DEMO3D_DATA_GetRecordField 0x021BE9A4 thumb ov203
- *   DEMO3D_DATA_GetAnimIndex 0x021BE990 thumb ov203
- *   DEMO3D_ENGINE_GetAnimeId 0x021BE7A8 thumb ov203
+ *   DEMO3D_DATA_GetExitCommandList 0x021BE9A4 thumb ov203
+ *   DEMO3D_DATA_GetCommandList 0x021BE990 thumb ov203
+ *   DEMO3D_ENGINE_GetCameraRecord 0x021BE7A8 thumb ov203
  */
 #include "demo3d_graphic_shared_types.h"
 #include "demo3d_engine_shared_types.h"
@@ -138,9 +138,9 @@ extern u32 GFL_HEAP_Free(void *p);
 
 extern void BG_SYS_FreeSlot(unsigned char);
 
-extern u32 DEMO3D_ENGINE_ClampAnimeId(u32 id);
+extern u32 DEMO3D_ENGINE_ClampDemoId(u32 id);
 
-u32 DEMO3D_ENGINE_GetAnimeId(u32 id);
+u32 DEMO3D_ENGINE_GetCameraRecord(u32 id);
 
 void *DEMO3D_DATA_Create(unsigned heap);
 
@@ -150,13 +150,13 @@ void DEMO3D_DATA_BuildTable(char *ctx, const char *config, u8 type);
 
 void * DEMO3D_DATA_GetPair(char *p,u8 *q);
 
-u32 DEMO3D_DATA_GetAnimId(u32 a);
+u32 DEMO3D_DATA_GetTimeStep(u32 a);
 
-int DEMO3D_DATA_GetAnimCount(void *a);
+int DEMO3D_DATA_IsDouble3dDisplay(void *a);
 
 void DEMO3D_DATA_GetTextureSize(void *ctx, int mode, unsigned char *width, unsigned char *height);
 
-u32 DEMO3D_DATA_GetAnimIndex(u32 id);
+u32 DEMO3D_DATA_GetCommandList(u32 id);
 
 extern const char d_021C3CF0[];
 
@@ -221,23 +221,23 @@ void * DEMO3D_DATA_GetPair(char *p,u8 *q) { const Selector *sel=(const Selector 
  * and shifts 0x1000 by it, so bit 0 selects 0x1000 or 0x800.
  * Addresses are Black-image addresses.
  */
-u32 DEMO3D_DATA_GetAnimId(u32 a)
+u32 DEMO3D_DATA_GetTimeStep(u32 a)
 {
-    struct Cam *cam = (struct Cam *)DEMO3D_ENGINE_GetAnimeId(a);
+    struct Cam *cam = (struct Cam *)DEMO3D_ENGINE_GetCameraRecord(a);
 
     return 0x1000 >> cam->doubled;
 }
 
-int DEMO3D_DATA_GetAnimCount(void *a)
+int DEMO3D_DATA_IsDouble3dDisplay(void *a)
 {
-    struct Cam *cam = (struct Cam *)DEMO3D_ENGINE_GetAnimeId((u32)a);
+    struct Cam *cam = (struct Cam *)DEMO3D_ENGINE_GetCameraRecord((u32)a);
 
     return cam->count;
 }
 
 void DEMO3D_DATA_GetTextureSize(void *ctx, int mode, unsigned char *width, unsigned char *height)
 {
-    unsigned char *record = (unsigned char *)DEMO3D_ENGINE_GetAnimeId((u32)ctx);
+    unsigned char *record = (unsigned char *)DEMO3D_ENGINE_GetCameraRecord((u32)ctx);
     if (mode == 0) {
         *width = record[0x4e];
         *height = record[0x4f] * (((struct Cam *)record)->doubled + 1);
@@ -253,9 +253,9 @@ void DEMO3D_DATA_GetTextureSize(void *ctx, int mode, unsigned char *width, unsig
  * EXACT.  See docs/idioms/omitting-an-overlay-hint-can-attest-where-naming-it-cannot.md.
  * Addresses are Black-image addresses.
  */
-u32 DEMO3D_DATA_GetAnimIndex(u32 id)
+u32 DEMO3D_DATA_GetCommandList(u32 id)
 {
-    return *(u32 *)(d_021C1860 + DEMO3D_ENGINE_ClampAnimeId(id) * 0x14);
+    return *(u32 *)(d_021C1860 + DEMO3D_ENGINE_ClampDemoId(id) * 0x14);
 }
 
 struct CaptureConfig;
@@ -308,7 +308,7 @@ extern void GFL_USE_StopSeSlot(int);
 
 extern void MI_CpuFill8(void *,int,int);
 
-int DEMO3D_DATA_IsCaptureDone(char *p, int v);
+int DEMO3D_DATA_ScaleTime(char *p, int v);
 
 extern u32 FX_Div(u32,u32);
 
@@ -316,7 +316,7 @@ extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
 
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 
-u32 DEMO3D_DATA_GetRecordField(u32 id);
+u32 DEMO3D_DATA_GetExitCommandList(u32 id);
 
 extern void *DEMO3D_DATA_CreateCapture(void *p, unsigned a, unsigned b);
 
@@ -356,9 +356,9 @@ extern u8 d_021C1864[];
 
 extern const Config d_021C3B98;
 
-u32 DEMO3D_DATA_GetRecordField(u32 id)
+u32 DEMO3D_DATA_GetExitCommandList(u32 id)
 {
-    return *(u32 *)(d_021C1864 + DEMO3D_ENGINE_ClampAnimeId(id) * 0x14);
+    return *(u32 *)(d_021C1864 + DEMO3D_ENGINE_ClampDemoId(id) * 0x14);
 }
 
 void * DEMO3D_DATA_CreateCapture(void *p,unsigned a,unsigned b) { Config c;c=d_021C3B98;c.words[8]=a;c.words[9]=b;return DEMO3D_DATA_CreateTask(p, &c); }
@@ -471,7 +471,7 @@ void DEMO3D_DATA_CreateSeFade(Demo3dCmdContext *owner,u8 kind,u16 target,int sta
     work->kind=kind;
     work->start=start;
     work->end=end;
-    work->duration=DEMO3D_DATA_IsCaptureDone((char *)owner,duration);
+    work->duration=DEMO3D_DATA_ScaleTime((char *)owner,duration);
     if(flag == -1) work->target=flag;
     else work->target=GFL_USE_GetSeSlot(target);
     if(start>0) a=0.5f+(float)(start<<12);
@@ -587,7 +587,7 @@ extern void GFL_USE_FadeOutBgm(u32 a);
 
 extern int GFL_USE_IsBgmFading(void);
 
-extern void GFL_USE_SetBgmPlayerParam(void *);
+extern void GFL_USE_SetBgmPaused(void *);
 
 extern int GFL_USE_PushBgm(void),GFL_USE_PopBgm(void);
 
@@ -618,7 +618,7 @@ extern void BMP_MENUWORK_DrawWindowEx(void *,u32,u32,u32);
 
 extern u32 MSGDATA_Delete(struct Rec *rec);
 
-extern void BG_SYS_SetVisibleLayer(int,u16);
+extern void BG_SYS_SetPriority(int,u16);
 
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
@@ -640,7 +640,7 @@ extern void BMP_MENUWORK_DrawWindowBorder(void *,unsigned);
 
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 
-extern void BMP_MENUWORK_DeleteHalf(int a, u32 x);
+extern void BMP_MENUWORK_FreeTileRun(int a, u32 x);
 
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
@@ -704,12 +704,12 @@ void DEMO3D_DATA_TaskDeleteCapture(char *a);
 
 extern const unsigned char GAME_VERSION_Code;
 
-void DEMO3D_DATA_TaskFadeOutBgm(char *p,int unused,int *s) { int x;x=DEMO3D_DATA_IsCaptureDone(p,s[1]);if(s[0]==0)GFL_USE_FadeInBgmFull((u16)x);else GFL_USE_FadeOutBgm((u16)x); }
+void DEMO3D_DATA_TaskFadeOutBgm(char *p,int unused,int *s) { int x;x=DEMO3D_DATA_ScaleTime(p,s[1]);if(s[0]==0)GFL_USE_FadeInBgmFull((u16)x);else GFL_USE_FadeOutBgm((u16)x); }
 
 void DEMO3D_DATA_TaskPlayBgm(char *p,int unused,int *s)
 {
     int channel,startVol,endVol;
-    channel=s[0];startVol=DEMO3D_DATA_IsCaptureDone(p,s[1]);endVol=DEMO3D_DATA_IsCaptureDone(p,s[2]);
+    channel=s[0];startVol=DEMO3D_DATA_ScaleTime(p,s[1]);endVol=DEMO3D_DATA_ScaleTime(p,s[2]);
     if(s[3]==0){GFL_USE_CancelChangeAndPlayBgm(channel,0xffff);GFL_USE_FadeInBgmFull((unsigned short)endVol);}
     else {DEMO3D_DATA_CreateBgmFade(p,channel,startVol,endVol,s[3]);}
 }
@@ -736,10 +736,10 @@ void DEMO3D_DATA_BgmFadeMain(struct TcblNode *node,Demo3dBgmFadeWork *t)
         ++t->step;
     case 1:
         if(t->pushPrev){
-            if((unsigned char)t->owner[25]==0){GFL_USE_SetBgmPlayerParam((void *)1);GFL_USE_PushBgm();t->owner[25]=1;}
+            if((unsigned char)t->owner[25]==0){GFL_USE_SetBgmPaused((void *)1);GFL_USE_PushBgm();t->owner[25]=1;}
         }else {GFL_USE_CancelChangeAndStopBgm();if(t->mode==1)break;}
         if(t->popPrev){
-            if((unsigned char)t->owner[25]!=0){GFL_USE_PopBgm();GFL_USE_SetBgmPlayerParam(0);t->owner[25]=0;}
+            if((unsigned char)t->owner[25]!=0){GFL_USE_PopBgm();GFL_USE_SetBgmPaused(0);t->owner[25]=0;}
         }else {GFL_USE_CancelChangeAndPlayBgm(t->channel,0xffff);}
         if(t->end!=0)GFL_USE_FadeInBgmFull((unsigned short)t->end);
         break;
@@ -753,7 +753,7 @@ void DEMO3D_DATA_BgmFadeMain(struct TcblNode *node,Demo3dBgmFadeWork *t)
 void DEMO3D_DATA_TaskFadeBrightness(char *p,int unused,int *s)
 {
     if(s[1]==0){BRIGHTNESS_Set((short)s[2],0x3f,s[0]);}
-    else {DEMO3D_DATA_CreateBrightnessFade((Demo3dCmdContext *)p,s[0],0x3f,s[2],s[3],DEMO3D_DATA_IsCaptureDone(p,s[1]),0);}
+    else {DEMO3D_DATA_CreateBrightnessFade((Demo3dCmdContext *)p,s[0],0x3f,s[2],s[3],DEMO3D_DATA_ScaleTime(p,s[1]),0);}
 }
 
 void DEMO3D_DATA_CreateBrightnessFade(Demo3dCmdContext *owner,int mask,int kind,int start,int end,int duration,int *counter)
@@ -797,7 +797,7 @@ void DEMO3D_DATA_BrightnessFadeMain(struct TcblNode *node,int *s)
 void DEMO3D_DATA_TaskBrightnessSeq(char *p,int unused,int *s)
 {
     int a,b;
-    a=DEMO3D_DATA_IsCaptureDone(p,s[4]);b=DEMO3D_DATA_IsCaptureDone(p,s[5]);
+    a=DEMO3D_DATA_ScaleTime(p,s[4]);b=DEMO3D_DATA_ScaleTime(p,s[5]);
     DEMO3D_DATA_CreateBrightnessSeq(p,s[0],s[1],s[2],s[3],a,b);
 }
 
@@ -841,7 +841,7 @@ void DEMO3D_DATA_TaskShowMessage(int a, int b, int *s)
     unsigned char x = ((struct Ctx *)b)->data.color;
     int r6 = s[2] * x;
     int r4 = s[1];
-    int t = DEMO3D_DATA_IsCaptureDone((char *)a, s[3]);
+    int t = DEMO3D_DATA_ScaleTime((char *)a, s[3]);
 
     DEMO3D_DATA_CreateMessage((char *)a, s[0], r4 + r6, t, (unsigned char)s[4],
                   (unsigned char)s[5], (unsigned char)s[6], (unsigned char)s[7]);
@@ -873,8 +873,8 @@ void DEMO3D_DATA_MessageMain(struct TcblNode *task, struct Demo3dMessageContext 
         BG_SYS_PushTile(BMP_WIN_GetBgLayer(desc));
         BMP_MENUWORK_DrawWindowEx(ctx->desc,1,ctx->base,0);
         MSGDATA_Delete((struct Rec *)bank);
-        BG_SYS_SetVisibleLayer(1,0);
-        BG_SYS_SetVisibleLayer(0,1);
+        BG_SYS_SetPriority(1,0);
+        BG_SYS_SetPriority(0,1);
         BG_SYS_SetPlaneVisible(1,1);
         ctx->state++;
         break;
@@ -906,15 +906,15 @@ void DEMO3D_DATA_DeleteMessageWindow(char *p)
     if(*(void **)(p+0x20)) PRINTSYS_PrintStreamDelete(*(void **)(p+0x20));
     STRBUF_Delete(*(void **)(p+0x24));GF_FONT_SetDefaultTextColor();
     BMP_MENUWORK_DrawWindowBorder(*(void **)(p+0x1C),1);BMP_WIN_Delete(*(void **)(p+0x1C));
-    BMP_MENUWORK_DeleteHalf(1,*(int *)(p+0x18));MI_CpuFill8(p,0,0x28);
-    BG_SYS_SetVisibleLayer(1,1);BG_SYS_SetVisibleLayer(0,0);BG_SYS_SetPlaneVisible(1,0);
+    BMP_MENUWORK_FreeTileRun(1,*(int *)(p+0x18));MI_CpuFill8(p,0,0x28);
+    BG_SYS_SetPriority(1,1);BG_SYS_SetPriority(0,0);BG_SYS_SetPlaneVisible(1,0);
 }
 
 void DEMO3D_DATA_TaskFade(char *p,int unused,int *record)
 {
     int a,b,c;
     if(record[0]==0xFF || record[0]==GAME_VERSION_Code) {
-        a=DEMO3D_DATA_IsCaptureDone(p,record[4]);b=DEMO3D_DATA_IsCaptureDone(p,record[5]);c=DEMO3D_DATA_IsCaptureDone(p,record[6]);
+        a=DEMO3D_DATA_ScaleTime(p,record[4]);b=DEMO3D_DATA_ScaleTime(p,record[5]);c=DEMO3D_DATA_ScaleTime(p,record[6]);
         DEMO3D_DATA_CreateFade(p,record[1],record[2],record[3],a,b,c);
     }
 }
@@ -948,8 +948,8 @@ void DEMO3D_DATA_FadeMain(struct TcblNode *task,struct Demo3dFadeContext *ctx)
         if(ctx->fadein>0) a=0.5f+(float)(ctx->fadein<<12);
         else a=(float)(ctx->fadein<<12)-0.5f;
         ctx->step=FX_Div(0x10000,(int)a);
-        BG_SYS_SetVisibleLayer(1,0);
-        BG_SYS_SetVisibleLayer(0,1);
+        BG_SYS_SetPriority(1,0);
+        BG_SYS_SetPriority(0,1);
         G2x_SetBlendAlpha_(0x04000050,2,1,0,16);
         BG_SYS_SetPlaneVisible(1,1);
         ctx->state++;
@@ -1002,7 +1002,7 @@ void DEMO3D_DATA_CreateFadeWork(char *p,Demo3dFadeWindowWork *out,int a,int b,in
     ARC_UTIL_UploadBgCharFromHandle((void *)(((Demo3dCmdContext *)p)->assets),out->b,1,0,0,1,((Demo3dCmdContext *)p)->alternate);
 }
 
-void DEMO3D_DATA_DeleteFadeWork(void *p){unsigned z=0;memset(p,0,0x2c);BG_SYS_SetPlaneVisible(1,0);BG_SYS_SetVisibleLayer(0,0);BG_SYS_SetVisibleLayer(1,1);*(volatile unsigned short *)0x04000050=z;BG_SYS_FreeSlot(1);}
+void DEMO3D_DATA_DeleteFadeWork(void *p){unsigned z=0;memset(p,0,0x2c);BG_SYS_SetPlaneVisible(1,0);BG_SYS_SetPriority(0,0);BG_SYS_SetPriority(1,1);*(volatile unsigned short *)0x04000050=z;BG_SYS_FreeSlot(1);}
 
 void DEMO3D_DATA_TaskCreateCapture(char *a, int unused, int *p)
 {
@@ -1015,7 +1015,7 @@ void DEMO3D_DATA_TaskDeleteCapture(char *a)
     ((Demo3dCmdContext *)a)->extra = 0;
 }
 
-int DEMO3D_DATA_IsCaptureDone(char *p, int v)
+int DEMO3D_DATA_ScaleTime(char *p, int v)
 {
     struct Cam *cam = ((struct Ctx *)((Demo3dCmdContext *)p)->owner)->cam;
     int flag = cam->doubled;

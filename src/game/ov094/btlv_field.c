@@ -1,7 +1,7 @@
 /*
  * file:     btlv_field.c
  * unit:     yes
- * function: BTLV_FIELD_Create, BTLV_FIELD_Delete, BTLV_FIELD_UpdateAnims, BTLV_FIELD_Draw, BTLV_FIELD_InitEntry, BTLV_FIELD_IsEffectActive, BTLV_FIELD_SetState
+ * function: BTLV_FIELD_Create, BTLV_FIELD_Delete, BTLV_FIELD_UpdateAnims, BTLV_FIELD_Draw, BTLV_FIELD_StartTint, BTLV_FIELD_IsTintActive, BTLV_FIELD_SetHidden
  * address:  0x021F6B04
  * region:   ov094
  * compiler: dsi/1.1p1
@@ -85,11 +85,11 @@ void BTLV_FIELD_UpdateAnims(BtlvField *field);
 
 void BTLV_FIELD_Draw(BtlvField *field);
 
-void BTLV_FIELD_InitEntry(BtlvField *field, unsigned char startLevel, unsigned char targetLevel, unsigned char interval, unsigned short color);
+void BTLV_FIELD_StartTint(BtlvField *field, unsigned char startLevel, unsigned char targetLevel, unsigned char interval, unsigned short color);
 
-int BTLV_FIELD_IsEffectActive(BtlvField *field);
+int BTLV_FIELD_IsTintActive(BtlvField *field);
 
-void BTLV_FIELD_SetState(BtlvField *field, u32 hide);
+void BTLV_FIELD_SetHidden(BtlvField *field, u32 hide);
 
 void BTLV_EFFECT_UpdateTexturePaletteFade(BtlvPalFade *fade);
 
@@ -225,7 +225,7 @@ void BTLV_FIELD_Draw(BtlvField *field)
         G3D_SYSTEM_DrawObject(field->object, &field->status);
 }
 
-void BTLV_FIELD_InitEntry(BtlvField *field, unsigned char startLevel, unsigned char targetLevel, unsigned char interval, unsigned short color)
+void BTLV_FIELD_StartTint(BtlvField *field, unsigned char startLevel, unsigned char targetLevel, unsigned char interval, unsigned short color)
 {
     field->palFade.enabled = 1;
     field->palFade.current = startLevel;
@@ -235,7 +235,7 @@ void BTLV_FIELD_InitEntry(BtlvField *field, unsigned char startLevel, unsigned c
     field->palFade.color = color;
 }
 
-int BTLV_FIELD_IsEffectActive(BtlvField *field)
+int BTLV_FIELD_IsTintActive(BtlvField *field)
 {
     return field->palFade.enabled != 0;
 }
@@ -243,7 +243,7 @@ int BTLV_FIELD_IsEffectActive(BtlvField *field)
 /*
  * Unlabelled leaf, filed as the blocker of ov094 BTLV_EFFECT_SetStageLayerEnable (lane S22).
  */
-void BTLV_FIELD_SetState(BtlvField *field, u32 hide)
+void BTLV_FIELD_SetHidden(BtlvField *field, u32 hide)
 {
     field->hidden = hide;
 }

@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PROC_FLD_StoreGameSystemValue
+ * function: SCRCMD_PROC_FLD_StoreCommKind
  * address:  0x021B4BEC
  * packet:   pkt_ov021_021B4BEC
  * region:   ov021
@@ -25,7 +25,7 @@ struct Ctx;
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern int FIELDMAP_GetCommKind(void *p);
 
-int SCRCMD_PROC_FLD_StoreGameSystemValue(u32 a, u32 b)
+int SCRCMD_PROC_FLD_StoreCommKind(u32 a, u32 b)
 {
     void *d = SCRCMD_WORK_GetGameSystem((void *)b);
     u16 *o = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);

@@ -39,7 +39,6 @@
  *   d_02200358 0x02200358 data a4
  *   STRBUF_Clone 0x02045874 arm
  *   memset 0x02082BCC arm
- *   _s32_div_f 0x0209C0A4 arm
  *   MSGDATA_AllocString 0x02045EC0 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorObjMode 0x0204B688 arm
@@ -169,7 +168,6 @@ extern struct U16Vec *STRBUF_Clone(struct U16Vec *src, u32 heapId);
 
 extern void *memset(void *,int,unsigned);
 
-extern int _s32_div_f(int,int);
 
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
@@ -1079,7 +1077,7 @@ int BR_BTN_AnimFlyOut(Button *p)
     case 1: {
         s16 value;
         value=p->from;
-        value=value+_s32_div_f((p->to-value)*p->tick,p->duration);
+        value=value+((p->to-value)*p->tick)/p->duration;
         BR_BTN_GetObjectPos(p->result,&y,0);
         BR_BTN_SetObjectPos(p->result,y,value);
         if(p->tick++>=p->duration)p->state=2;
@@ -1095,7 +1093,7 @@ int BR_BTN_AnimFlyOut(Button *p)
     case 4: {
         s16 value;
         value=p->from;
-        value=value+_s32_div_f((p->to-value)*p->tick,p->duration);
+        value=value+((p->to-value)*p->tick)/p->duration;
         BR_BTN_GetObjectPos(p->result,&x,0);
         BR_BTN_SetObjectPos(p->result,x,value);
         if(p->tick++>=p->duration)p->state=5;
@@ -1123,7 +1121,7 @@ int BR_BTN_AnimFlyIn(Button *p)
     case 1: {
         s16 value;
         value=p->from;
-        value=value+_s32_div_f((p->to-value)*p->tick,p->duration);
+        value=value+((p->to-value)*p->tick)/p->duration;
         BR_BTN_GetObjectPos(p->result,&y,0);
         BR_BTN_SetObjectPos(p->result,y,value);
         if(p->tick++>=p->duration)p->state=2;
@@ -1139,7 +1137,7 @@ int BR_BTN_AnimFlyIn(Button *p)
     case 4: {
         s16 value;
         value=p->from;
-        value=value+_s32_div_f((p->to-value)*p->tick,p->duration);
+        value=value+((p->to-value)*p->tick)/p->duration;
         BR_BTN_GetObjectPos(p->result,&x,0);
         BR_BTN_SetObjectPos(p->result,x,value);
         if(p->tick++>=p->duration)p->state=5;

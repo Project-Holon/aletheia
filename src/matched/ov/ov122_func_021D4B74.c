@@ -14,7 +14,7 @@
  * symbols:
  *   INTRUDE_COMM_VIEW_BeginExit  0x021D4B74  thumb  ov122
  *   NET_WHPIPE_SetNotifyCallback 0x02178118 thumb ov014
- *   INTRUDE_COMM_VIEW_CheckExitRequest 0x021D4B30 thumb ov122
+ *   INTRUDE_COMM_VIEW_WaitExitWipe 0x021D4B30 thumb ov122
  *   INTRUDE_COMM_VIEW_SetCallback 0x021D4244 thumb ov122
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb  arm9
  *   WIPE_SYS_Start  0x0202208C  thumb  arm9
@@ -32,7 +32,7 @@ extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *);
 extern u32 GAME_COMM_GetKind(void *obj);
 extern void GAME_COMM_RequestExitNoCallback(struct Comm *p);
 extern void INTRUDE_COMM_VIEW_SetCallback(void *p, u32 a, int a2);
-extern void INTRUDE_COMM_VIEW_CheckExitRequest(char *p);
+extern void INTRUDE_COMM_VIEW_WaitExitWipe(char *p);
 void INTRUDE_COMM_VIEW_BeginExit(char *p)
 {
     ((struct Obj06457 *)p)->f38C = 1;
@@ -40,7 +40,7 @@ void INTRUDE_COMM_VIEW_BeginExit(char *p)
     NET_WHPIPE_SetNotifyCallback(0, 0);
     if (((struct Obj06457 *)p)->f8 == 1 && GAME_COMM_GetKind((void *)GAMESYSTEM_GetGameComm(((struct Obj06457 *)p)->f354)))
         GAME_COMM_RequestExitNoCallback((struct Comm *)GAMESYSTEM_GetGameComm(((struct Obj06457 *)p)->f354));
-    INTRUDE_COMM_VIEW_SetCallback(p, (u32)INTRUDE_COMM_VIEW_CheckExitRequest, 0x35e);
+    INTRUDE_COMM_VIEW_SetCallback(p, (u32)INTRUDE_COMM_VIEW_WaitExitWipe, 0x35e);
 }
 void INTRUDE_COMM_VIEW_StartExit(char *p)
 {

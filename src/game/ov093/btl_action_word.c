@@ -1,7 +1,7 @@
 /*
  * file:     btl_action_word.c
  * unit:     yes
- * function: BTL_ACTION_SetFight, BTL_ACTION_SetFightTarget, BTL_ACTION_SetFightSlotFlag, BTL_ACTION_GetFightSlotFlag, BTL_ACTION_GetFightMove, BTL_ACTION_SetItem, BTL_ACTION_SetChange, BTL_ACTION_SetChangeDepleted, BTL_ACTION_IsChangeDepleted, BTL_ACTION_SetRotate, BTL_ACTION_SetEscape, BTL_ACTION_SetSkip, BTL_CALC_ActionSetNone, BTL_CALC_ActionSetForcedSkip, BTL_CALC_ActionGetKind, BTL_CALC_ActionSetRecordReset, BTL_CALC_ActionSetRecordError
+ * function: BTL_ACTION_SetFight, BTL_ACTION_SetFightTarget, BTL_ACTION_SetFightSlotFlag, BTL_ACTION_GetFightSlotFlag, BTL_ACTION_GetFightMove, BTL_ACTION_SetItem, BTL_ACTION_SetChange, BTL_ACTION_SetChangeDepleted, BTL_ACTION_IsChangeDepleted, BTL_ACTION_SetRotate, BTL_ACTION_SetEscape, BTL_ACTION_SetSkip, BTL_CALC_ActionSetNone, BTL_CALC_ActionSetForcedSkip, BTL_ACTION_GetKind, BTL_CALC_ActionSetRecordReset, BTL_CALC_ActionSetRecordError
  * address:  0x021D82D0
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -153,7 +153,7 @@ void BTL_CALC_ActionSetNone(u32 *action);
 
 void BTL_CALC_ActionSetForcedSkip(u32 *action);
 
-unsigned int BTL_CALC_ActionGetKind(union BtlAction *action);
+unsigned int BTL_ACTION_GetKind(union BtlAction *action);
 
 void BTL_CALC_ActionSetRecordReset(u32 *action);
 
@@ -169,7 +169,7 @@ void BTL_CALC_ActionSetNone(u32 *action) { Mask mask=MASK; *action=mask & (*acti
 
 void BTL_CALC_ActionSetForcedSkip(u32 *action) { *action = (*action & ~15) | BTL_ACTION_KIND_FORCED_SKIP; }
 
-unsigned int BTL_CALC_ActionGetKind(union BtlAction *action)
+unsigned int BTL_ACTION_GetKind(union BtlAction *action)
 {
     return action->head.kind;
 }

@@ -28,9 +28,9 @@
  *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   GAME_BEACON_SEARCH_SetNamedEvent  0x0216576C  thumb  ov010
- *   MUSICAL_MCSS_AllocSmall  0x021F685C  thumb  ov112
+ *   MUSICAL_MCSS_AllocDistSave  0x021F685C  thumb  ov112
  *   MUSICAL_MCSS_LoadDistSave  0x021F68BC  thumb  ov112
- *   STA_NET_GetField48  0x021FD904  thumb  ov132
+ *   STA_NET_GetRole  0x021FD904  thumb  ov132
  *   MUS_COMM_FUNC_InitWork  0x021FC848  thumb  ov132
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
@@ -42,17 +42,17 @@
  *   GAME_DATA_GetSaveBlock2A  0x02012F44  thumb
  *   MUSICAL_SAVE_GetScriptSetting  0x0200A7C8  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   POKE_TOOL_Dummy  0x020185F0  thumb
+ *   POKE_TOOL_CastToBoxParam  0x020185F0  thumb
  *   MUSICAL_SAVE_GetFanPoints  0x0200A81C  thumb
  *   GFL_USE_GetRandomBelow  0x02005728  thumb
- *   STA_NET_GetField158  0x021FD908  thumb  ov132
+ *   STA_NET_GetBoxesReceived  0x021FD908  thumb  ov132
  *   STA_NET_SetState6Pair  0x021FD918  thumb  ov132
  *   STA_NET_GetCurrentSlotValue  0x021FD8D4  thumb  ov132
  *   STA_NET_GetSlotValueByIndex  0x021FD8EC  thumb  ov132
  *   MUS_COMM_FUNC_GetSlotValueA  0x021FCE28  thumb  ov132
  *   STA_NET_GetSlot1Done  0x021FD83C  thumb  ov132
- *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
- *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb
+ *   MET_TRAINERS_GetFromSave  0x0200ED48  thumb
+ *   MET_TRAINERS_Insert  0x0200ED54  thumb
  *   MYSTATUS_GetId  0x02008530  thumb
  *   GFL_NET_ERR_RequestScreen  0x0200FB38  thumb
  *   GFL_HEAP_DumpReport  0x02030B50  arm
@@ -61,15 +61,15 @@
  *   MUSICAL_STAGE_SYS_ProcTable     0x02172748  data
  *   d_021F8360     0x021F8360  data
  *   MUSICAL_MCSS_CreateMon  0x021F675C  thumb
- *   STA_NET_SetState12  0x021FD938  thumb  ov132
- *   MUSICAL_MCSS_FreeMon  0x021F6888  thumb
+ *   STA_NET_BeginKind5Phase  0x021FD938  thumb  ov132
+ *   MUSICAL_MCSS_FreeDistSave  0x021F6888  thumb
  *   STA_NET_SetState18Value  0x021FD948  thumb  ov132
  *   STA_NET_FindRecValueByKey  0x021FD4F8  thumb  ov132
- *   BR_UTIL_EffectIdle  0x021FD964  thumb  ov186
+ *   STA_SLOT_GetSub  0x021FD964  thumb  ov132
  *   MUSICAL_MCSS_LoadActorData  0x021F4F14  thumb  ov112
  *   MUSICAL_MCSS_GetElemA  0x021F5140  thumb  ov112
  *   MUSICAL_MCSS_FreeActorData  0x021F4F40  thumb  ov112
- *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
+ *   GF_STANDARD_GetCachedDate  0x0203F4E4  arm
  *   STRBUF_ToChars  0x02045A38  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   MSGDATA_CreateFromArchive  0x02045B38  arm
@@ -107,8 +107,8 @@
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  *   MUS_COMM_FUNC_GetSlotValueB  0x021FCE44  thumb  ov132
- *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
- *   WORDSET_SetSlotMonSpeciesAlt  0x0201EF14  thumb
+ *   WORDSET_SetSlotMonNickname  0x0201EEF4  thumb
+ *   WORDSET_SetSlotMonNicknameAlt  0x0201EF14  thumb
  *   STA_NET_GetPairA  0x021FD954  thumb  ov132
  *   STA_NET_GetPairB  0x021FD95C  thumb  ov132
  *   MUSICAL_DRESSUP_SYS_Create 0x02156CAC thumb ov010
@@ -304,9 +304,9 @@ extern void STRBUF_Delete(void *strbuf);
 
 extern void *GAME_DATA_GetSaveBlock2A(void *gameData);
 
-extern void *MUSICAL_MCSS_AllocSmall(u32 heapId);
+extern void *MUSICAL_MCSS_AllocDistSave(u32 heapId);
 
-extern int STA_NET_GetField48(void *session);
+extern int STA_NET_GetRole(void *session);
 
 extern u8 MUSICAL_SAVE_GetScriptSetting(struct MusicalSave *save);
 
@@ -314,7 +314,7 @@ extern void MUSICAL_MCSS_LoadDistSave(void *musicalSystem, void *saveControl, vo
 
 extern void *GAME_DATA_GetMyStatus(void *gameData);
 
-extern void *POKE_TOOL_Dummy(void *mon);
+extern void *POKE_TOOL_CastToBoxParam(void *mon);
 
 extern void MUS_COMM_FUNC_InitWork(void *session, void *myStatus, void *monData, void *gameComm, void *musicalSystem, u16 heapId);
 
@@ -322,7 +322,7 @@ extern u16 MUSICAL_SAVE_GetFanPoints(struct MusicalSave *save);
 
 extern u32 GFL_USE_GetRandomBelow(u32 n);
 
-extern u32 STA_NET_GetField158(void *session);
+extern u32 STA_NET_GetBoxesReceived(void *session);
 
 extern void STA_NET_SetState6Pair(void *session, u32 lo, u32 hi);
 
@@ -334,9 +334,9 @@ extern void *MUS_COMM_FUNC_GetSlotValueA(void *session, u32 index);
 
 extern u32 STA_NET_GetSlot1Done(void *session);
 
-extern void *MISC_SAVEDATA_GetBlock44(void *saveControl);
+extern void *MET_TRAINERS_GetFromSave(void *saveControl);
 
-extern void MISC_SAVEDATA_InsertRecentValue(void *list, u32 id);
+extern void MET_TRAINERS_Insert(void *list, u32 id);
 
 extern u32 MYSTATUS_GetId(const void *myStatus);
 
@@ -348,15 +348,15 @@ extern void GFL_HEAP_DeleteChecked(u32 heapId);
 
 extern void *MUSICAL_MCSS_CreateMon(void *mon, int heapId);
 
-extern void STA_NET_SetState12(void *session);
+extern void STA_NET_BeginKind5Phase(void *session);
 
-extern int MUSICAL_MCSS_FreeMon(void *musicalSystem);
+extern int MUSICAL_MCSS_FreeDistSave(void *musicalSystem);
 
 extern void STA_NET_SetState18Value(void *session, void *performer);
 
 extern MusicalPerformer *STA_NET_FindRecValueByKey(void *session, u8 slot);
 
-extern u32 BR_UTIL_EffectIdle(void *session, u32 player, u32 index);
+extern u32 STA_SLOT_GetSub(void *session, u32 player, u32 index);
 
 extern void *MUSICAL_MCSS_LoadActorData(int heapId);
 
@@ -364,7 +364,7 @@ extern unsigned char MUSICAL_MCSS_GetElemA(void *table, int propId);
 
 extern void MUSICAL_MCSS_FreeActorData(void **table);
 
-extern void GF_STANDARD_SetField00_F4E4(RtcDate *date);
+extern void GF_STANDARD_GetCachedDate(RtcDate *date);
 
 extern void STRBUF_ToChars(void *strbuf, u16 *out, u32 n);
 
@@ -428,9 +428,9 @@ extern void WORDSET_SetSlotTag(void *wordSet, u32 slot, const void *str, u32 n, 
 
 extern void *MUS_COMM_FUNC_GetSlotValueB(void *session, u32 index);
 
-extern void WORDSET_SetSlotMonSpecies(void *wordSet, u32 slot, void *mon);
+extern void WORDSET_SetSlotMonNickname(void *wordSet, u32 slot, void *mon);
 
-extern void WORDSET_SetSlotMonSpeciesAlt(void *wordSet, u32 slot, void *mon);
+extern void WORDSET_SetSlotMonNicknameAlt(void *wordSet, u32 slot, void *mon);
 
 extern u32 STA_NET_GetPairA(void *session);
 
@@ -594,13 +594,13 @@ struct GameEvent *MUSICAL_EVENT_Create(void *gameSys, void *gameData, u8 partyIn
     work->stage = 0;
     work->result = 0;
     work->save = GAME_DATA_GetSaveBlock2A(gameData);
-    work->musicalSystem = MUSICAL_MCSS_AllocSmall(4);
-    if (work->linkMode == 0 || STA_NET_GetField48(work->link->session) == 1)
+    work->musicalSystem = MUSICAL_MCSS_AllocDistSave(4);
+    if (work->linkMode == 0 || STA_NET_GetRole(work->link->session) == 1)
         MUSICAL_MCSS_LoadDistSave(work->musicalSystem, work->saveControl, work->gameData, MUSICAL_SAVE_GetScriptSetting(work->save), 0x2C);
     if (work->linkMode == 1) {
         work->state = MUSICAL_EVENT_STATE_LINK_WAIT_PEERS;
         work->step = 0;
-        MUS_COMM_FUNC_InitWork(work->session, GAME_DATA_GetMyStatus(work->gameData), POKE_TOOL_Dummy(work->ownMon), work->gameComm, work->musicalSystem, 4);
+        MUS_COMM_FUNC_InitWork(work->session, GAME_DATA_GetMyStatus(work->gameData), POKE_TOOL_CastToBoxParam(work->ownMon), work->gameComm, work->musicalSystem, 4);
     } else {
         u16 maxLevel = MUSICAL_SAVE_GetFanPoints(work->save);
         u8 i;
@@ -635,25 +635,25 @@ int MUSICAL_EVENT_Main(void *event, void *unused, MusicalEventWork *work)
     MUSICAL_EVENT_CheckNetError(work);
     switch (work->state) {
     case MUSICAL_EVENT_STATE_LINK_WAIT_PEERS:
-        if (STA_NET_GetField158(work->link->session) == 1) {
+        if (STA_NET_GetBoxesReceived(work->link->session) == 1) {
             u32 packedBonus = 0;
             u32 packedPicks = 0;
             void *list;
             u8 i;
 
-            if (STA_NET_GetField48(work->link->session) == 1) {
+            if (STA_NET_GetRole(work->link->session) == 1) {
                 work->program = MUSICAL_PROGRAM_Create(4, work->musicalSystem, MUSICAL_SAVE_GetFanPoints(work->save));
                 packedBonus = MUSICAL_PROGRAM_PackBonus(work->program);
                 packedPicks = MUSICAL_PROGRAM_PackPicks(work->program);
             }
             STA_NET_SetState6Pair(work->link->session, packedBonus, packedPicks);
             work->state = MUSICAL_EVENT_STATE_LINK_WAIT_START;
-            list = MISC_SAVEDATA_GetBlock44(work->saveControl);
+            list = MET_TRAINERS_GetFromSave(work->saveControl);
             for (i = 0; i < 4; i++) {
                 if (STA_NET_GetCurrentSlotValue(work->link->session) != STA_NET_GetSlotValueByIndex(work->link->session, i)) {
                     void *peerStatus = MUS_COMM_FUNC_GetSlotValueA(work->link->session, i);
                     if (peerStatus != 0)
-                        MISC_SAVEDATA_InsertRecentValue(list, MYSTATUS_GetId(peerStatus));
+                        MET_TRAINERS_Insert(list, MYSTATUS_GetId(peerStatus));
                 }
             }
         } else if (work->aborted == 1) {
@@ -811,8 +811,8 @@ void MUSICAL_EVENT_CreateLocalPerformer(MusicalEventWork *work)
 {
     work->localPerformer = MUSICAL_MCSS_CreateMon(work->ownMon, 4);
     if (work->linkMode != 0) {
-        STA_NET_GetField48(work->link->session);
-        STA_NET_SetState12(work->link->session);
+        STA_NET_GetRole(work->link->session);
+        STA_NET_BeginKind5Phase(work->link->session);
     }
 }
 
@@ -834,7 +834,7 @@ int MUSICAL_EVENT_Free(MusicalEventWork *work)
         GFL_HEAP_Free(work->result);
     }
     if (work->musicalSystem != 0)
-        MUSICAL_MCSS_FreeMon(work->musicalSystem);
+        MUSICAL_MCSS_FreeDistSave(work->musicalSystem);
     if (work->localPerformer != 0)
         GFL_HEAP_Free(work->localPerformer);
     if (work->program != 0)
@@ -921,7 +921,7 @@ void MUSICAL_EVENT_ScorePerformers(MusicalEventWork *work)
         for (i = 0; i < 4; i++) {
             performer = work->stage->performers[i];
             for (j = 0; j < 2; j++) {
-                index = BR_UTIL_EffectIdle(work->session, i, j);
+                index = STA_SLOT_GetSub(work->session, i, j);
                 if (index != 0xFF)
                     performer->equipUsed[index] = 1;
             }
@@ -970,7 +970,7 @@ void MUSICAL_EVENT_CreateShowRecord(MusicalEventWork *work)
     work->result->state = 0;
     work->result->session = work->session;
     record = work->result->record;
-    GF_STANDARD_SetField00_F4E4(&date);
+    GF_STANDARD_GetCachedDate(&date);
     record->programId = MUSICAL_PROGRAM_GetBaseProgramId(work->program);
     record->year = date.year;
     record->month = date.month;
@@ -1523,12 +1523,12 @@ void MUSICAL_EVENT_SetPokemonNameWord(MusicalEventWork *work, u8 slot, void *wor
 
     if (slot == work->localSlot) {
         GAME_DATA_GetMyStatus(work->gameData);
-        WORDSET_SetSlotMonSpecies(wordSet, wordIndex, work->ownMon);
+        WORDSET_SetSlotMonNickname(wordSet, wordIndex, work->ownMon);
         done = 1;
     } else if (work->linkMode == 1) {
         peerMon = MUS_COMM_FUNC_GetSlotValueB(work->session, player);
         if (peerMon != 0) {
-            WORDSET_SetSlotMonSpeciesAlt(wordSet, wordIndex, peerMon);
+            WORDSET_SetSlotMonNicknameAlt(wordSet, wordIndex, peerMon);
             done = 1;
         }
     }

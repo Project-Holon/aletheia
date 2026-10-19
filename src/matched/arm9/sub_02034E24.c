@@ -32,7 +32,7 @@
  *   TOUCHPANEL_Create    0x020357E0  arm
  *   PM_GetBackLight  0x0208BFD0  arm
  *   UI_SetKeepAwakeFlagsGlobal    0x02034F84  arm
- *   UI_SetFlags39Global    0x0203516C  arm
+ *   UI_SetSoftResetInhibitGlobal    0x0203516C  arm
  *   unk_021469BC     0x021469BC  data
  *   s_UiFile         0x020A7984  data
  *
@@ -100,7 +100,7 @@ extern void *KEY_Create(u32 heap);
 extern void *TOUCHPANEL_Create(u32 heap);
 extern void  PM_GetBackLight(u32 *top, u32 *bottom);
 extern void  UI_SetKeepAwakeFlagsGlobal(u32 x);
-extern void  UI_SetFlags39Global(u32 x);
+extern void  UI_SetSoftResetInhibitGlobal(u32 x);
 
 void UI_Create(u32 heap, u8 mode)
 {
@@ -128,6 +128,6 @@ void UI_Create(u32 heap, u8 mode)
         PM_GetBackLight(0, &b);
         p->backlight = b;
         UI_SetKeepAwakeFlagsGlobal(0x10);
-        UI_SetFlags39Global(4);
+        UI_SetSoftResetInhibitGlobal(4);
     }
 }

@@ -31,7 +31,7 @@
  *   GFL_HEAP_Free  0x020307B0  arm
  *   BG_SYS_SetupTileScreen 0x02042FB0 arm
  *   GTSNEGO_DISP_GetEntry 0x021D4F70 thumb ov120
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   BG_SYS_SetTileEntry 0x02041300 arm
  *   ARC_UTIL_UploadBgPaletteAddFromHandle 0x02049990 arm
  *   gGtsnegoIconX 0x021D892C data a2
@@ -39,12 +39,11 @@
  *   gGtsnegoIconZ 0x021D893C data a2
  *   gGtsnegoIconW 0x021D8934 data a2
  *   CLACT_RestartActorAnim 0x0204B9A0 arm
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   MYSTATUS_GetOutfit 0x02008554 thumb
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
- *   _s32_div_f 0x0209C0A4 arm
  *   _fflt 0x0209BDBC arm
  *   _fdiv 0x0209CE10 arm
  *   _fgeq 0x0209BB54 arm
@@ -70,12 +69,12 @@
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   APP_TASKMENU_WIN_Delete 0x02028148 thumb
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   STRBUF_Delete 0x02045808 arm
  *   TCBL_Destroy 0x02031140 arm
@@ -123,7 +122,7 @@
  *   PRINTSYS_PrintStreamGetState  0x0201CE30  thumb  arm9
  *   PRINTSYS_PrintStreamReleasePause  0x0201CE38  thumb  arm9
  *   WORDSET_Create  0x0201EC74  thumb  arm9
- *   WORDSET_DeleteMsgdataF094  0x0201F094  thumb  arm9
+ *   WORDSET_SetSlotFromKeyedMessage  0x0201F094  thumb  arm9
  *   GF_FONT_InitTextColor  0x0201DD60  thumb  arm9
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb  arm9
@@ -246,16 +245,15 @@ extern void ARC_TOOL_DeleteHandle(void *);
 extern u32 GFL_HEAP_Free(void *p);
 extern void BG_SYS_SetupTileScreen(u32 idx, u32 x, u32 y, u16 value);
 extern void *GTSNEGO_DISP_GetEntry(void **p, int i);
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 extern void BG_SYS_SetTileEntry(u32, int, int, int, u8, u8, u8);
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
 extern void CLACT_RestartActorAnim(struct Actor *a);
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 extern void BG_SYS_PushTile(u32);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern u8 MYSTATUS_GetOutfit(const struct Sub0200852CObj *obj);
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
-extern int _s32_div_f(int, int);
 extern void CLACT_ApplyActorAnimCommand(struct Actor *a, const struct Cmd *cmd);
 extern void BG_SYS_SetMainVisiblePlanes(u32);
 extern void CLACT_SetActorAnimIndex(int actor, int anim_idx);
@@ -278,13 +276,13 @@ extern void TCBL_Main(struct Tcbl *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void APP_TASKMENU_WIN_Update(u8 *p);
 extern void PMS_DRAW_Main(u8 *p);
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void APP_TASKMENU_WIN_Delete(u8 *p);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern void TCBL_Destroy(struct S02031140 *p);
@@ -317,7 +315,7 @@ extern u8 MYSTATUS_GetGender(const struct Sub0200852CObj *obj);
 extern u32 BMP_OAM_CheckRangeGetId(u32,u32,u32);
 extern u32 BMP_OAM_CheckRangeGetMin(u32,u32,u32);
 extern void WORDSET_SetSlotFromMsgE7(struct WordSet *p, u32 i, u32 n);
-extern void WORDSET_DeleteMsgdataF094(struct WordSet *p, u32 i, u32 a, u32 n);
+extern void WORDSET_SetSlotFromKeyedMessage(struct WordSet *p, u32 i, u32 a, u32 n);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Clear(struct U16Vec *vec);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
@@ -522,7 +520,7 @@ void GTSNEGO_MSG_FillTileRow(struct GtsnegoActorSys *actorSys, int row)
 /*
  * extent: two-byte zero alignment padding follows.
  */
-void GTSNEGO_MSG_DrawTileRows(struct GtsnegoActorSys *actorSys,void *list,int first){int i;for(i=0;i<6;i++){if(GTSNEGO_DISP_GetEntry(list,first+i))GTSNEGO_MSG_DrawTileRow(actorSys,i);else GTSNEGO_MSG_FillTileRow(actorSys,i);}BG_SYS_SetFlagField06(4);}
+void GTSNEGO_MSG_DrawTileRows(struct GtsnegoActorSys *actorSys,void *list,int first){int i;for(i=0;i<6;i++){if(GTSNEGO_DISP_GetEntry(list,first+i))GTSNEGO_MSG_DrawTileRow(actorSys,i);else GTSNEGO_MSG_FillTileRow(actorSys,i);}BG_SYS_MarkTileDirty(4);}
 
 void GTSNEGO_MSG_TeardownActorList(u8 *actorSys)
 {
@@ -546,10 +544,10 @@ void GTSNEGO_MSG_TeardownTileRows(u8 *actorSys)
     GTSNEGO_MSG_DeleteTileHandle(actorSys);
     GTSNEGO_MSG_DeleteIconActors(actorSys);
     BG_SYS_SetTileEntry(6, 0, 0, 0, 32, 32, 17);
-    BG_SYS_SetFlagField06(6);
+    BG_SYS_MarkTileDirty(6);
     ARC_UTIL_UploadPaletteFromHandle(arcHandle, 2, 5, 0, 256, 256, ((struct GtsnegoActorSys *)actorSys)->heapId);
     ARC_UTIL_UploadBgPaletteAddFromHandle(arcHandle, 18, 4, 0, (u16)(((struct GtsnegoActorSys *)actorSys)->bgCharLayer4), 0, 0, ((struct GtsnegoActorSys *)actorSys)->heapId);
-    BG_SYS_SetFlagField06(4);
+    BG_SYS_MarkTileDirty(4);
     ARC_TOOL_DeleteHandle(arcHandle);
 }
 
@@ -694,8 +692,8 @@ void GTSNEGO_MSG_ScrollAllRows(u8 *actorSys, int flag)
 
 void GTSNEGO_MSG_SetupRowBg(void *actorSys)
 {
-    BG_SYS_FillScrollArea(4, 3, 0);
-    BG_SYS_FillScrollArea(6, 3, 0);
+    BG_SYS_ChangeScrollImmediate(4, 3, 0);
+    BG_SYS_ChangeScrollImmediate(6, 3, 0);
     BG_SYS_SetTileEntry(1, 0, 0, 0, 32, 32, 17);
     BG_SYS_PushTile(1);
 }
@@ -778,7 +776,7 @@ int GTSNEGO_MSG_GetListRowY(struct GtsnegoActorSys *actorSys, int index, int cou
     if (index == 0) return 0;
     count = (int)((u32)count - 1);
     if (index == count) return 132;
-    return _s32_div_f((int)((u32)index * 132), count);
+    return (int)((u32)index * 132) / count;
 }
 
 int GTSNEGO_MSG_GetListRowYF(struct GtsnegoActorSys *actorSys, int y, int count)
@@ -839,7 +837,7 @@ void GTSNEGO_MSG_SetIdleAnim(struct GtsnegoActorSys *actorSys,int outfit)
     CLACT_SetActorAnimSeq(actorSys->idleCharActor,a.a[outfit]+11);
     CLACT_SetActorAnimIndex((int)(actorSys->idleCharActor),4);
     CLACT_SetActorAnimSeq(actorSys->idleFrameActor,28);
-    BG_SYS_SetFlagField06(0);
+    BG_SYS_MarkTileDirty(0);
     actorSys->idleFadePos=0;
     actorSys->idleFadeActive=0;
 }
@@ -852,12 +850,12 @@ void GTSNEGO_MSG_CreateIdleUi(u8 *actorSys)
     ARC_UTIL_UploadBgPaletteAddFromHandle(arcHandle,16,3,0,(u16)(((struct GtsnegoActorSys *)actorSys)->bgCharLayer0),0,0,((struct GtsnegoActorSys *)actorSys)->heapId);
     ARC_TOOL_DeleteHandle(arcHandle);
     GTSNEGO_MSG_CreateIdleActors(actorSys);
-    BG_SYS_SetFlagField06(2); BG_SYS_SetFlagField06(0); BG_SYS_SetFlagField06(3);
+    BG_SYS_MarkTileDirty(2); BG_SYS_MarkTileDirty(0); BG_SYS_MarkTileDirty(3);
     ((struct GtsnegoActorSys *)actorSys)->idleFadePos=0;
     ((struct GtsnegoActorSys *)actorSys)->idleFadeActive=1;
 }
 
-void GTSNEGO_MSG_StepIdleFade(struct GtsnegoActorSys *actorSys) { if(actorSys->idleFadeActive) { BG_SYS_FillScrollArea(2,3,actorSys->idleFadePos); actorSys->idleFadePos+=1; } }
+void GTSNEGO_MSG_StepIdleFade(struct GtsnegoActorSys *actorSys) { if(actorSys->idleFadeActive) { BG_SYS_ChangeScrollImmediate(2,3,actorSys->idleFadePos); actorSys->idleFadePos+=1; } }
 
 /*
  * trailing: 2-byte zero alignment padding at 0x021D770E.
@@ -887,7 +885,7 @@ void GTSNEGO_MSG_Teardown(u8 *actorSys)
     GTSNEGO_DISP_DeleteTouchbar(actorSys);
     GTSNEGO_DISP_CreateTouchbar(actorSys,0);
     BG_SYS_SetPlaneVisible(2,0);
-    BG_SYS_SetFlagField06(0);
+    BG_SYS_MarkTileDirty(0);
     BG_SYS_SetPlaneVisible(3,0);
     ((struct GtsnegoActorSys *)actorSys)->idleFadePos=0;
     ((struct GtsnegoActorSys *)actorSys)->idleFadeActive=0;
@@ -952,9 +950,9 @@ void GTSNEGO_MSG_Delete(char *msgCtx)
     int i;
     u32 frameTiles;
     frameTiles=((struct GtsnegoMsgCtx *)msgCtx)->windowFrameTiles;
-    BG_SYS_DeleteHalf(1,(u16)frameTiles,decodeHighHalfword(frameTiles));
+    BG_SYS_FreeTileRun(1,(u16)frameTiles,decodeHighHalfword(frameTiles));
     frameTiles=((struct GtsnegoMsgCtx *)msgCtx)->sysFrameTiles;
-    BG_SYS_DeleteHalf(6,(u16)frameTiles,decodeHighHalfword(frameTiles));
+    BG_SYS_FreeTileRun(6,(u16)frameTiles,decodeHighHalfword(frameTiles));
     GTSNEGO_MSG_DeleteButtons((u8 *)msgCtx);
     GF_FONT_SetDefaultTextColor();
     MSGDATA_Delete(((struct GtsnegoMsgCtx *)msgCtx)->msgData);
@@ -964,7 +962,7 @@ void GTSNEGO_MSG_Delete(char *msgCtx)
     STRBUF_Delete(((struct GtsnegoMsgCtx *)msgCtx)->expandedText);
     GTSNEGO_MSG_DeleteDraw((u8 *)msgCtx);
     if(((struct GtsnegoMsgCtx *)msgCtx)->printStream) {PRINTSYS_PrintStreamDelete(((struct GtsnegoMsgCtx *)msgCtx)->printStream);((struct GtsnegoMsgCtx *)msgCtx)->printStream=0;}
-    WORDSET_DeleteStrbufED04(((struct GtsnegoMsgCtx *)msgCtx)->wordSet);
+    WORDSET_Delete(((struct GtsnegoMsgCtx *)msgCtx)->wordSet);
     if(((struct GtsnegoMsgCtx *)msgCtx)->taskMenuWin) {APP_TASKMENU_WIN_Delete(((struct GtsnegoMsgCtx *)msgCtx)->taskMenuWin);((struct GtsnegoMsgCtx *)msgCtx)->taskMenuWin=0;}
     APP_TASKMENU_RES_Delete(((struct GtsnegoMsgCtx *)msgCtx)->taskMenuRes);
     TCBL_Destroy(((struct GtsnegoMsgCtx *)msgCtx)->tcbList);
@@ -1000,7 +998,7 @@ void GTSNEGO_MSG_PrintWindow(struct GtsnegoMsgCtx *msgCtx,u16 msgId)
     BMP_MENUWORK_DrawWindow(window,1,(u16)(msgCtx->windowFrameTiles),12);
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
-    BG_SYS_SetFlagField06(1);
+    BG_SYS_MarkTileDirty(1);
 }
 
 void GTSNEGO_MSG_PrintWindowB(u8 *msgCtx, int msgId)
@@ -1015,7 +1013,7 @@ void GTSNEGO_MSG_PrintWindowB(u8 *msgCtx, int msgId)
     BMP_MENUWORK_DrawWindow(window,1,(u16)(((struct GtsnegoMsgCtx *)msgCtx)->windowFrameTiles),12);
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
-    BG_SYS_SetFlagField06(1);
+    BG_SYS_MarkTileDirty(1);
 }
 
 /*
@@ -1033,7 +1031,7 @@ int GTSNEGO_MSG_UpdatePrintStream(struct GtsnegoMsgCtx *msgCtx)
     return 1;
 }
 
-void GTSNEGO_MSG_DeleteWindow(struct GtsnegoMsgCtx *msgCtx) { if(msgCtx->messageWindow) { BMP_MENUWORK_DrawWindowBorder(msgCtx->messageWindow,2); BMP_WIN_ClearScreen(msgCtx->messageWindow); BG_SYS_SetFlagField06(1); BMP_WIN_Delete(msgCtx->messageWindow); msgCtx->messageWindow=0; } }
+void GTSNEGO_MSG_DeleteWindow(struct GtsnegoMsgCtx *msgCtx) { if(msgCtx->messageWindow) { BMP_MENUWORK_DrawWindowBorder(msgCtx->messageWindow,2); BMP_WIN_ClearScreen(msgCtx->messageWindow); BG_SYS_MarkTileDirty(1); BMP_WIN_Delete(msgCtx->messageWindow); msgCtx->messageWindow=0; } }
 
 void *GTSNEGO_MSG_OpenMenu(char *msgCtx,int position)
 {
@@ -1105,9 +1103,9 @@ void GTSNEGO_MSG_RedrawRow(char *msgCtx,u16 msgId,int row)
     }
 }
 
-void GTSNEGO_MSG_FlushRowLayer(char *msgCtx) { BG_SYS_SetFlagField06(6); }
+void GTSNEGO_MSG_FlushRowLayer(char *msgCtx) { BG_SYS_MarkTileDirty(6); }
 
-void GTSNEGO_MSG_ClearRows(char *msgCtx) { int i; char *q; for(i=0;i<12;i++) { q=(char *)((u32)msgCtx+(u32)i*4); if(((struct GtsnegoMsgCtx *)q)->rowWindow) { BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(((struct GtsnegoMsgCtx *)q)->rowWindow)); BMP_MENUWORK_DrawWindowBorder(((struct GtsnegoMsgCtx *)q)->rowWindow,2); BMP_WIN_ClearScreen(((struct GtsnegoMsgCtx *)q)->rowWindow); } } }
+void GTSNEGO_MSG_ClearRows(char *msgCtx) { int i; char *q; for(i=0;i<12;i++) { q=(char *)((u32)msgCtx+(u32)i*4); if(((struct GtsnegoMsgCtx *)q)->rowWindow) { BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(((struct GtsnegoMsgCtx *)q)->rowWindow)); BMP_MENUWORK_DrawWindowBorder(((struct GtsnegoMsgCtx *)q)->rowWindow,2); BMP_WIN_ClearScreen(((struct GtsnegoMsgCtx *)q)->rowWindow); } } }
 
 void GTSNEGO_MSG_CreateYesNoUi(char *msgCtx,int callback,int callbackWork)
 {
@@ -1197,10 +1195,10 @@ void GTSNEGO_MSG_PrintEntry(char *msgCtx,void *status)
     if(language==checkedLanguage && version==checkedVersion) {
         WORDSET_SetSlotFromMsgE7(((struct GtsnegoMsgCtx *)msgCtx)->wordSet,0,MYSTATUS_GetLanguage(status));
         language=MYSTATUS_GetLanguage(status);
-        WORDSET_DeleteMsgdataF094(((struct GtsnegoMsgCtx *)msgCtx)->wordSet,1,language,MYSTATUS_GetVersion(status));
+        WORDSET_SetSlotFromKeyedMessage(((struct GtsnegoMsgCtx *)msgCtx)->wordSet,1,language,MYSTATUS_GetVersion(status));
     } else {
         WORDSET_SetSlotFromMsgE7(((struct GtsnegoMsgCtx *)msgCtx)->wordSet,0,0);
-        WORDSET_DeleteMsgdataF094(((struct GtsnegoMsgCtx *)msgCtx)->wordSet,1,0,0);
+        WORDSET_SetSlotFromKeyedMessage(((struct GtsnegoMsgCtx *)msgCtx)->wordSet,1,0,0);
     }
     MSGDATA_ReadString(((struct GtsnegoMsgCtx *)msgCtx)->msgData,34,((struct GtsnegoMsgCtx *)msgCtx)->expandedText);
     WORDSET_CopyTaggedText(((struct GtsnegoMsgCtx *)msgCtx)->wordSet,((struct GtsnegoMsgCtx *)msgCtx)->srcText,((struct GtsnegoMsgCtx *)msgCtx)->expandedText);
@@ -1211,7 +1209,7 @@ void GTSNEGO_MSG_PrintEntry(char *msgCtx,void *status)
     PRINTSYS_Print(BMP_WIN_GetBmp(window),5,5,((struct GtsnegoMsgCtx *)msgCtx)->srcText,((struct GtsnegoMsgCtx *)msgCtx)->font);
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
-    BG_SYS_SetFlagField06(1);
+    BG_SYS_MarkTileDirty(1);
 }
 
 /*
@@ -1223,7 +1221,7 @@ void GTSNEGO_MSG_DeleteEntryWindow(struct GtsnegoMsgCtx *msgCtx)
         BMP_Clear(BMP_WIN_GetBmp(msgCtx->entryWindow),0);
         BMP_WIN_TransferChars(msgCtx->entryWindow);
         BMP_WIN_ClearScreen(msgCtx->entryWindow);
-        BG_SYS_SetFlagField06(1);
+        BG_SYS_MarkTileDirty(1);
         BMP_WIN_Delete(msgCtx->entryWindow);
         msgCtx->entryWindow=0;
     }
@@ -1260,10 +1258,10 @@ void GTSNEGO_MSG_PrintList(char *msgCtx,void *list)
         entry=GTSNEGO_DISP_GetEntry(list,i);
         if(entry) GTSNEGO_MSG_PrintListEntry(msgCtx,entry,i+2);
     }
-    BG_SYS_SetFlagField06(5);
+    BG_SYS_MarkTileDirty(5);
 }
 
-void GTSNEGO_MSG_PrintListEntryAt(char *msgCtx,void *list,int index) { GTSNEGO_MSG_PrintListEntry(msgCtx,GTSNEGO_DISP_GetEntry(list,index),5); BG_SYS_SetFlagField06(6); }
+void GTSNEGO_MSG_PrintListEntryAt(char *msgCtx,void *list,int index) { GTSNEGO_MSG_PrintListEntry(msgCtx,GTSNEGO_DISP_GetEntry(list,index),5); BG_SYS_MarkTileDirty(6); }
 
 void GTSNEGO_MSG_ShiftListDown(char *msgCtx)
 {
@@ -1277,12 +1275,12 @@ void GTSNEGO_MSG_ShiftListDown(char *msgCtx)
             BMP_WIN_MakeScreen(((struct GtsnegoMsgCtx *)slot)->listWindow);
         }
     }
-    BG_SYS_SetFlagField06(6);
+    BG_SYS_MarkTileDirty(6);
     for(i=0;i<5;i++) *(void **)(msgCtx+0x6c+4*i)=*(void **)(msgCtx+0x70+4*i);
     ((struct GtsnegoMsgCtx *)msgCtx)->lastListWindow=0;
 }
 
-void GTSNEGO_MSG_PrintListRange(char *msgCtx,void *list,int start) { int i; void *entry; for(i=0;i<6;i++) { if((int)((u32)i+(u32)start)>=0) { entry=GTSNEGO_DISP_GetEntry(list,(int)((u32)i+(u32)start)); if(entry) GTSNEGO_MSG_PrintListEntry(msgCtx,entry,i); } } BG_SYS_SetFlagField06(6); }
+void GTSNEGO_MSG_PrintListRange(char *msgCtx,void *list,int start) { int i; void *entry; for(i=0;i<6;i++) { if((int)((u32)i+(u32)start)>=0) { entry=GTSNEGO_DISP_GetEntry(list,(int)((u32)i+(u32)start)); if(entry) GTSNEGO_MSG_PrintListEntry(msgCtx,entry,i); } } BG_SYS_MarkTileDirty(6); }
 
 /*
  * Extent remainder: two-byte zero alignment padding.
@@ -1290,7 +1288,7 @@ void GTSNEGO_MSG_PrintListRange(char *msgCtx,void *list,int start) { int i; void
 void GTSNEGO_MSG_PrintListEntryN(char *msgCtx,void *list,int index)
 {
     GTSNEGO_MSG_PrintListEntry(msgCtx,GTSNEGO_DISP_GetEntry(list,index),0);
-    BG_SYS_SetFlagField06(6);
+    BG_SYS_MarkTileDirty(6);
 }
 
 void GTSNEGO_MSG_ShiftListUp(char *msgCtx)
@@ -1305,7 +1303,7 @@ void GTSNEGO_MSG_ShiftListUp(char *msgCtx)
             BMP_WIN_MakeScreen(((struct GtsnegoMsgCtx *)slot)->listWindow);
         }
     }
-    BG_SYS_SetFlagField06(6);
+    BG_SYS_MarkTileDirty(6);
     for(i=5;i>0;i--) *(void **)(msgCtx+0x6c+4*i)=*(void **)(msgCtx+0x68+4*i);
     ((struct GtsnegoMsgCtx *)msgCtx)->listWindow=0;
 }
@@ -1376,7 +1374,7 @@ void GTSNEGO_MSG_PrintDraw(struct GtsnegoMsgCtx *msgCtx, void *sentence)
     PMS_DRAW_PrintOffset(msgCtx->pmsDraw, (u32)window, sentence, 0, (u32)(&c));
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
-    BG_SYS_SetFlagField06(1);
+    BG_SYS_MarkTileDirty(1);
 }
 
 void GTSNEGO_MSG_PrintStatus(struct GtsnegoMsgCtx *msgCtx, u16 msgId)
@@ -1390,7 +1388,7 @@ void GTSNEGO_MSG_PrintStatus(struct GtsnegoMsgCtx *msgCtx, u16 msgId)
     PRINTSYS_Print(BMP_WIN_GetBmp(window), 2, 2, (void *)(*(int *)&msgCtx->srcText), (void *)(*(int *)&msgCtx->font));
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
-    BG_SYS_SetFlagField06(1);
+    BG_SYS_MarkTileDirty(1);
 }
 
 void GTSNEGO_MSG_CreateConfirmUi(u8 *msgCtx, int callback, int callbackWork)
@@ -1417,7 +1415,7 @@ void GTSNEGO_MSG_SetDecide(struct GtsnegoMsgCtx *msgCtx)
 void GTSNEGO_MSG_DeleteConfirmWindow(u8 *msgCtx)
 {
     APP_TASKMENU_WIN_Delete(((struct GtsnegoMsgCtx *)msgCtx)->taskMenuWin);
-    BG_SYS_SetFlagField06(5);
+    BG_SYS_MarkTileDirty(5);
     *(u32 *)&((struct GtsnegoMsgCtx *)msgCtx)->taskMenuWin = 0;
 }
 
@@ -1485,7 +1483,7 @@ void GTSNEGO_MSG_DeleteAll(char *msgCtx)
     if (((struct GtsnegoMsgCtx *)msgCtx)->statusWindow != 0) {
         BMP_MENUWORK_DrawWindowBorder(((struct GtsnegoMsgCtx *)msgCtx)->statusWindow, 2);
         BMP_WIN_ClearScreen(((struct GtsnegoMsgCtx *)msgCtx)->statusWindow);
-        BG_SYS_SetFlagField06(1);
+        BG_SYS_MarkTileDirty(1);
         BMP_WIN_Delete(((struct GtsnegoMsgCtx *)msgCtx)->statusWindow);
         ((struct GtsnegoMsgCtx *)msgCtx)->statusWindow = 0;
     }
@@ -1505,5 +1503,5 @@ void GTSNEGO_MSG_DeleteAll(char *msgCtx)
     GTSNEGO_MSG_ClearRows(msgCtx);
     GTSNEGO_MSG_DeleteRows(msgCtx);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 4, 0x160, 0x20, ((struct GtsnegoMsgCtx *)msgCtx)->heapId);
-    BG_SYS_SetFlagField06(5);
+    BG_SYS_MarkTileDirty(5);
 }

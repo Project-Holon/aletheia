@@ -43,7 +43,7 @@
  *   BOX2_SEQ_CreateBox2UiScene 0x021EBD94 thumb ov170
  *   BOX2_SEQ_ShowAllSlotIcons 0x021EC4E0 thumb ov170
  *   BOX2_SEQ_ShowPartyIcons 0x021EC4FC thumb ov170
- *   BOX2_MAIN_GetBoxFormId 0x021DEDCC thumb ov170
+ *   BOX2_MAIN_GetBoxWallpaper 0x021DEDCC thumb ov170
  *   BOX2_MAIN_SetBoxScroll 0x021DEC98 thumb ov170
  *   BOX2_UI_InitWindowFrames 0x021EF274 thumb ov170
  *   BOX2_SEQ_PrintMsgWin 0x021EACA8 thumb ov170
@@ -80,7 +80,7 @@ extern void BOX2_SEQ_InitBmpWins(u8 *);
 extern void BOX2_SEQ_CreateBox2UiScene(u8 *);
 extern void BOX2_SEQ_ShowAllSlotIcons(char *p);
 extern void BOX2_SEQ_ShowPartyIcons(u8 *);
-extern int BOX2_MAIN_GetBoxFormId(char *p, int box);
+extern int BOX2_MAIN_GetBoxWallpaper(char *p, int box);
 extern void BOX2_MAIN_SetBoxScroll(char *p, void *a, int dir);
 extern void BOX2_UI_InitWindowFrames(char *);
 extern void BOX2_SEQ_PrintMsgWin(u8 *);
@@ -117,7 +117,7 @@ int BOX2_SEQ_CreateBox2Main(u8 *p)
     BOX2_SEQ_CreateBox2UiScene(p);
     BOX2_SEQ_ShowAllSlotIcons((char *)p);
     BOX2_SEQ_ShowPartyIcons(p);
-    BOX2_MAIN_SetBoxScroll((char *)p,(void *)BOX2_MAIN_GetBoxFormId((char *)p,p[0x14]),2);
+    BOX2_MAIN_SetBoxScroll((char *)p,(void *)BOX2_MAIN_GetBoxWallpaper((char *)p,p[0x14]),2);
     BOX2_UI_InitWindowFrames((char *)p);
     BOX2_SEQ_PrintMsgWin(p);
     BOX2_SEQ_InitBmpWin(p);

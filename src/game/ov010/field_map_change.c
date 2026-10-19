@@ -26,10 +26,10 @@
  *   ZONEDATA_GetFieldSkillMapEffect  0x02013F6C  thumb
  *   FIELD_STATUS_SetFlashActive  0x02014464  thumb
  *   MOVE_POKEMON_MoveActiveEntries  0x0215E364  thumb ov010
- *   EVENTDATA_SYSTEM_RespawnHiddenItems  0x02164728  thumb ov010
+ *   HIDDEN_ITEM_Respawn  0x02164728  thumb ov010
  *   ZONEDATA_IsZoneInTableDFB8  0x02013FFC  thumb
  *   PLAYER_LOCATION_GetData  0x02008854  thumb
- *   PLAYER_LOCATION_SetValueB  0x02008988  thumb
+ *   PLAYER_LOCATION_SetStepMessageCount  0x02008988  thumb
  *   FIELD_ENCOUNT_ST_ResetGimmickState  0x0215E34C  thumb  ov010
  */
 
@@ -54,10 +54,10 @@ extern MmdlSys *GAME_DATA_GetMoveModelSys(const struct GameData *gameData);
 extern u32 ZONEDATA_GetFieldSkillMapEffect(u32 id);
 extern void FIELD_STATUS_SetFlashActive(MmdlSys *mmdlSys, u8 value);
 extern void MOVE_POKEMON_MoveActiveEntries(void *object);
-extern void  EVENTDATA_SYSTEM_RespawnHiddenItems(void *a);
+extern void  HIDDEN_ITEM_Respawn(void *a);
 extern u32 ZONEDATA_IsZoneInTableDFB8(u32 id);
 extern struct Situation *PLAYER_LOCATION_GetData(struct SaveControl *saveControl);
-extern void PLAYER_LOCATION_SetValueB(struct Situation *situation, u16 value);
+extern void PLAYER_LOCATION_SetStepMessageCount(struct Situation *situation, u16 value);
 extern int FIELD_ENCOUNT_ST_ResetGimmickState(int gameData);
 void FIELD_MAP_CHANGE_ApplyZoneHeader(struct GameData *gameData, void *zoneHeader);
 void FIELD_MAP_CHANGE_SetupZone(struct GameData *gameData, u32 zoneId);
@@ -93,9 +93,9 @@ void FIELD_MAP_CHANGE_SetupZone(struct GameData *gameData, u32 zoneId)
     MOVE_POKEMON_MoveActiveEntries(gameData);
     eventWork = GAME_DATA_GetEventWork(gameData);
     ZONEDATA_ResetEventFlag(eventWork, 0x964);
-    EVENTDATA_SYSTEM_RespawnHiddenItems(eventWork);
+    HIDDEN_ITEM_Respawn(eventWork);
     if (ZONEDATA_IsZoneInTableDFB8(zoneId) == 0) {
-        PLAYER_LOCATION_SetValueB(PLAYER_LOCATION_GetData(GAME_DATA_GetSaveControl(gameData)), 0);
+        PLAYER_LOCATION_SetStepMessageCount(PLAYER_LOCATION_GetData(GAME_DATA_GetSaveControl(gameData)), 0);
     }
 }
 

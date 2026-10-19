@@ -1,5 +1,5 @@
 /*
- * function: MUSICAL_MCSS_InitWindows
+ * function: MUSICAL_SHOT_INFO_InitWindows
  * address: 0x021F46A8
  * packet: pkt_ov112_021F46A8
  * region: ov112
@@ -41,7 +41,7 @@ extern u32 func_02049B40(int,int,int,int,int,u16);
 extern void GF_FONT_SetDefaultTextColor(u32);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u32 PRINTSYS_QUE_Create(void *p);
-void MUSICAL_MCSS_InitWindows(u8 *p)
+void MUSICAL_SHOT_INFO_InitWindows(u8 *p)
 {
     int zero;
     ((struct Obj01147 *)p)->f1C=BMP_WIN_Create(4,1,1,30,4,10,1);

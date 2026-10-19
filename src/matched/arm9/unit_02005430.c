@@ -11,7 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: GFL_USE_PollTwlService
+ * function: GFL_USE_DoVramTransfer
  *
  * symbols:
  *   NNS_GfdDoVramTransfer  0x02061C44  arm
@@ -38,7 +38,7 @@
 /* ARM, and attested by a branch to it from an overlay. */
 extern void NNS_GfdDoVramTransfer(void);
 
-void GFL_USE_PollTwlService(void)
+void GFL_USE_DoVramTransfer(void)
 {
     NNS_GfdDoVramTransfer();
 }

@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   func_020355C4 0x020355C4 arm
- *   BOX2_UI_DeleteSound 0x021EE3CC thumb ov170
+ *   BOX2_UI_DeleteCursorMove 0x021EE3CC thumb ov170
  *   CURSOR_MOVE_Create 0x02025CD0 thumb
  *   CURSOR_MOVE_EnableInput 0x02025D1C thumb
  *   BOX2_UI_UpdateCursor 0x021EE408 thumb ov170
@@ -25,7 +25,7 @@ extern const Pair d_021F02F0[];
 typedef unsigned char  u8;
 struct Struct_02025D1C;
 extern u8 func_020355C4(void);
-extern void BOX2_UI_DeleteSound(int *p);
+extern void BOX2_UI_DeleteCursorMove(int *p);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Struct_02025CD0;
@@ -46,7 +46,7 @@ void BOX2_UI_CreateCursor(char **p)
     case 4: i = 13; break;
     case 5: i = 15; break;
     }
-    BOX2_UI_DeleteSound((int *)p);
+    BOX2_UI_DeleteCursorMove((int *)p);
     ((struct Obj24028 *)(p[11]))->f70 = CURSOR_MOVE_Create(d_021F02F0[i].a, d_021F02F0[i].b, (u32)p, f, ((unsigned *)p)[9], 0x4c);
     CURSOR_MOVE_EnableInput(((struct Obj24029 *)(p[11]))->f70);
     BOX2_UI_UpdateCursor((char *)p, ((int *)p)[9]);

@@ -26,7 +26,7 @@
  *   WF2DMAP_TOUCH_PlayActorAnimA 0x021CA3A0 thumb ov128
  *   WF2DMAP_TOUCH_PlayActorAnimB 0x021CA3C4 thumb ov128
  *   WF2DMAP_TOUCH_StepTopBarBlink 0x021CA1E0 thumb ov128
- *   Wf2dmapFriend_HasEntry 0x021C76BC thumb ov128
+ *   Wf2dmapFriend_HasFreeFriendSlot 0x021C76BC thumb ov128
  *   Wf2dmapFriend_SetListState 0x021C74E8 thumb ov128
  *   Wf2dmapFriend_ClearListScreen 0x021C7500 thumb ov128
  *   Wf2dmapFriend_PrintMessage 0x021C7558 thumb ov128
@@ -63,7 +63,7 @@ extern int Wf2dmapFriend_ListInput(int *p, int *q, u8 *r);
 extern void WF2DMAP_TOUCH_PlayActorAnimA(char *);
 extern void WF2DMAP_TOUCH_PlayActorAnimB(char *);
 extern int WF2DMAP_TOUCH_StepTopBarBlink(char *p);
-extern int Wf2dmapFriend_HasEntry(int *p, u8 *q);
+extern int Wf2dmapFriend_HasFreeFriendSlot(int *p, u8 *q);
 extern void Wf2dmapFriend_SetListState(u32 *p, u8 *q);
 extern void Wf2dmapFriend_ClearListScreen(u8 *,u8 *);
 extern void Wf2dmapFriend_PrintMessage(u8 *,u8 *,unsigned,unsigned);
@@ -127,7 +127,7 @@ int Wf2dmapFriend_TopBarMain(u8 *p, u8 *q, u8 *ctx, int heap)
         } else {
             if(WF2DMAP_TOUCH_StepTopBarBlink((char *)p)==1) break;
         }
-        if(Wf2dmapFriend_HasEntry((int *)p,q)==1) {
+        if(Wf2dmapFriend_HasFreeFriendSlot((int *)p,q)==1) {
             Wf2dmapFriend_SetListState((u32 *)p,q);
             if(*(u32 *)p==3) q[8]=5;
             else if(*(u32 *)p==4) q[8]=5;

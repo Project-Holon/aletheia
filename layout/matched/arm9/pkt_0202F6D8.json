@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "EVENT_ID_GetIndex",
+   "name": "PLACE_NAME_GetIndex",
    "address": "0x0202F6D8",
    "kind": "game",
    "region": "arm9",

@@ -16,7 +16,7 @@
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
- *   WORDSET_SetSlotMonName  0x0201EE84  thumb
+ *   WORDSET_SetSlotMonSpeciesName  0x0201EE84  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -37,7 +37,7 @@ struct BigObj;
 struct WordSet;
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void *POKEPARTY_GetMember(void *, u32);
-extern void WORDSET_SetSlotMonName(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonSpeciesName(struct WordSet *p, u32 i, void *mon);
 
 int SCRCMD_BufferPartyMonSpeciesName(Script *a, u32 b)
 {
@@ -49,6 +49,6 @@ int SCRCMD_BufferPartyMonSpeciesName(Script *a, u32 b)
     u32 e;
     a->cur = p + 1;
     e = SCRIPT_WORK_ReadWorkValue(a, (void *)b);
-    WORDSET_SetSlotMonName((void *)x, v, POKEPARTY_GetMember(GAME_DATA_GetMyParty((void *)d), e));
+    WORDSET_SetSlotMonSpeciesName((void *)x, v, POKEPARTY_GetMember(GAME_DATA_GetMyParty((void *)d), e));
     return 0;
 }

@@ -30,7 +30,7 @@
  *   FLDMMDL_DeleteMmdl  0x0216CF2C  thumb  ov010
  *   FIELDMAP_SetUpdateStopped  0x02189A58  thumb  ov021
  *   FLD3D_CI_StartScreenCapture  0x021C2764  thumb  ov021
- *   BG_SYS_SetVisibleLayer  0x0204047C  arm
+ *   BG_SYS_SetPriority  0x0204047C  arm
  *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   func_0207FDCC  0x0207FDCC  arm
  *   func_0207D63C  0x0207D63C  arm
@@ -101,7 +101,7 @@ extern void *FLDMMDL_SysSearchObjId(void *map, u32 id);
 extern void FLDMMDL_DeleteMmdl(u32 a);
 extern void FIELDMAP_SetUpdateStopped(u8 *p, u32 v);
 extern void FLD3D_CI_StartScreenCapture(u8 *p);
-extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+extern void BG_SYS_SetPriority(int idx, unsigned short val);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void func_0207FDCC(u32 a);
 extern void func_0207D63C(int, int, int, int, int);
@@ -180,8 +180,8 @@ int FLD3D_CI_EventMain(int a, int *st, u8 *ctx)
     case 3:
         if (((struct Obj00576 *)p)->f70 == 0)
             break;
-        BG_SYS_SetVisibleLayer(0, 0);
-        BG_SYS_SetVisibleLayer(2, 1);
+        BG_SYS_SetPriority(0, 0);
+        BG_SYS_SetPriority(2, 1);
         m = d_021DA710;
         BG_SYS_SetGraphicsMode((struct DispConfig *)(&m));
         *(vu16 *)0x0400000C = (*(vu16 *)0x0400000C & 0x43) | 0x4084;

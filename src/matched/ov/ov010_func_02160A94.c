@@ -24,7 +24,7 @@
  *   GAME_DATA_GetSeason  0x02012984  thumb
  *   func_02034AC4  0x02034AC4  arm
  *   func_02034A5C  0x02034A5C  arm
- *   MAILTOOL_HasMail  0x021C3E00  thumb  ov136
+ *   MAILTOOL_IsMailSent  0x021C3E00  thumb  ov136
  *   ov136_id       0x00000088  data
  *   d_02172978     0x02172978  data  a1
  */
@@ -112,7 +112,7 @@ extern u16 *GAME_DATA_GetMyPlayerWork(void *sv);
 extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
 extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
-extern u32 MAILTOOL_HasMail(u32 *p);
+extern u32 MAILTOOL_IsMailSent(u32 *p);
 
 Req *EVENT_FIELD_PROCLINK_CreatePokeListParam(Ctx *c, int kind, int mode, Src *src)
 {
@@ -201,7 +201,7 @@ Req *EVENT_FIELD_PROCLINK_CreatePokeListParam(Ctx *c, int kind, int mode, Src *s
         int res;
 
         func_02034AC4((u32)ov136_id);
-        res = MAILTOOL_HasMail((u32 *)src);
+        res = MAILTOOL_IsMailSent((u32 *)src);
         func_02034A5C((u32)ov136_id);
         if (c->f68 == 0) {
             r->f34 = 0xB;

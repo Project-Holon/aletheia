@@ -97,7 +97,7 @@
  *   d_0220A3C4  0x0220A3C4  data
  *   d_0220A4AC  0x0220A4AC  data
  *   BTLV_INPUT_GetTextBlockSize  0x02204C98  thumb  ov094
- *   BTLV_INPUT_GetNeighbourIndex  0x02205768  thumb  ov094
+ *   BTLV_INPUT_GetPpTextColor  0x02205768  thumb  ov094
  *   GF_FONT_GetTextColor  0x0201DE00  thumb  arm9
  *   PALANM_CopyToSlot  0x020215BC  thumb  arm9
  *   CLACT_GetActorImageProxy  0x0204B7C8  arm  arm9
@@ -112,7 +112,7 @@
  *   WAZA_TOOL_GetParam  0x0201BD28  thumb  arm9
  *   MIi_CpuCopy16  0x02082A60  arm  arm9
  *   WORDSET_CreateDefault  0x0201EC64  thumb  arm9
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
+ *   WORDSET_Delete  0x0201ED04  thumb  arm9
  *   WORDSET_SetSlotFromMsgCB  0x0201EF34  thumb  arm9
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
  *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
@@ -176,9 +176,9 @@ extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 struct StrObj;
 extern void BTLV_INPUT_GetTextBlockSize(struct StrObj *a, int b, int *outn, int *outq);
 extern void PRINTSYS_Print(void *, s16, s16, void *, void *);
-extern int BTLV_INPUT_GetNeighbourIndex(int a, int b);
+extern int BTLV_INPUT_GetPpTextColor(int a, int b);
 extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 
 typedef struct Work {
@@ -265,7 +265,7 @@ void BTLV_INPUT_DrawWazaButtons(Work *p, const Slots *q)
             WORDSET_SetSlotNumber((struct WordSet *)font, 0, q->a[i], 2, 1, 1);
             WORDSET_SetSlotNumber((struct WordSet *)font, 1, q->b[i], 2, 1, 1);
             WORDSET_CopyTaggedText((struct WordSet *)font, str2, m2);
-            col = BTLV_INPUT_GetNeighbourIndex(q->a[i], q->b[i]);
+            col = BTLV_INPUT_GetPpTextColor(q->a[i], q->b[i]);
             cb = (u8)(col & 0x1f);
             cg = (u8)((col >> 5) & 0x1f);
             cr = (u8)((col >> 10) & 0x1f);
@@ -288,7 +288,7 @@ void BTLV_INPUT_DrawWazaButtons(Work *p, const Slots *q)
     if (p->mode == 2) {
         p->f25a[i + 1] = 1;
     }
-    WORDSET_DeleteStrbufED04((struct WordSet *)font);
+    WORDSET_Delete((struct WordSet *)font);
     STRBUF_Delete(str1);
     STRBUF_Delete(m1);
     STRBUF_Delete(m0);

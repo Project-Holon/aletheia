@@ -1,5 +1,5 @@
 /*
- * function: BTLV_CORE_EventCounterMove
+ * function: HAND_COMMON_EventCounterMove
  * address:  0x021E8798
  * packet:   pkt_ov093_021E8798
  * region:   ov093
@@ -27,7 +27,7 @@ extern u32 WAZA_TOOL_GetFlag(u16 id, u32 bit);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 extern void BTL_SERVER_FLOW_PushMoveQueueWithPos(u8 *p, int a, int b);
 
-void BTLV_CORE_EventCounterMove(int u, void *a, int b, int d)
+void HAND_COMMON_EventCounterMove(int u, void *a, int b, int d)
 {
     u8 k;
     u16 m;

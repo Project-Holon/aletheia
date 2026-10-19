@@ -1,5 +1,5 @@
 /*
- * function: EVENTDATA_SYSTEM_GetHiddenItemTable
+ * function: HIDDEN_ITEM_GetTable
  * address:  0x0216476C
  * packet:   pkt_ov010_0216476C
  * region:   ov010
@@ -15,7 +15,7 @@
 
 extern char HiddenItemTable[];
 
-char *EVENTDATA_SYSTEM_GetHiddenItemTable(unsigned short *n)
+char *HIDDEN_ITEM_GetTable(unsigned short *n)
 {
     *n = 0xB1;
     return HiddenItemTable;

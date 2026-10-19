@@ -14,7 +14,7 @@
  *       --func FIELD_SOUND_SYSTEM_FadeInCurrentBgm --addr 0x02029374 --thumb --cc 1.1p1
  *
  * symbols:
- *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb
+ *   GFL_USE_SetBgmPaused  0x02005DE4  thumb
  *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb
  */
 #include "../include/Obj00164.h"
@@ -24,7 +24,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void GFL_USE_FadeInBgmFull(u32 v);
-extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_SetBgmPaused(void *p);
 
 void FIELD_SOUND_SYSTEM_FadeInCurrentBgm(u8 *p)
 {
@@ -32,5 +32,5 @@ void FIELD_SOUND_SYSTEM_FadeInCurrentBgm(u8 *p)
         return;
     }
     GFL_USE_FadeInBgmFull(((struct Obj00164 *)p)->f18);
-    GFL_USE_SetBgmPlayerParam(0);
+    GFL_USE_SetBgmPaused(0);
 }

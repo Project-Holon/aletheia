@@ -12,14 +12,14 @@
  * When id matches the value for key 2, allocate a 12-byte record (tag from
  * key 3), fill it and post it to the queue.
  *
- * BTLV_CORE_MakeSlotKind1Index15 returns a one-word struct by value; that is what reserves
+ * BTL_SICKCONT_MakeKind1Index15 returns a one-word struct by value; that is what reserves
  * the empty frame word (push r3 / sub sp, #4). An int return drops it.
  *
  * symbols:
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
  *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb  ov093
- *   BTLV_CORE_MakeSlotKind1Index15  0x021E8A58  thumb  ov093
+ *   BTL_SICKCONT_MakeKind1Index15  0x021E8A58  thumb  ov093
  */
 
 typedef struct Word { unsigned int v; } Word;
@@ -35,7 +35,7 @@ typedef struct Rec {
 extern int BTL_EVENT_GetVar(int key);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
-extern Word BTLV_CORE_MakeSlotKind1Index15(void);
+extern Word BTL_SICKCONT_MakeKind1Index15(void);
 
 void HAND_ITEM_ToxicOrbFlingPoison(void *self, void *q, int id)
 {
@@ -48,6 +48,6 @@ void HAND_ITEM_ToxicOrbFlingPoison(void *self, void *q, int id)
     r = (Rec *)BTL_SERVER_FLOW_AllocCmdRecord(q, 12, tag);
     r->id = id;
     r->f04 = 5;
-    r->f08 = BTLV_CORE_MakeSlotKind1Index15();
+    r->f08 = BTL_SICKCONT_MakeKind1Index15();
     BTL_SERVER_FLOW_CommitCmdRecord(q, r);
 }

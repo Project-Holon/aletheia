@@ -1,5 +1,5 @@
 /*
- * function: FNDHEAP_Finalize
+ * function: NNSi_FndFinalizeHeap
  * address:  0x0206074C
  * packet:   pkt_02060000
  * region:   arm9
@@ -29,7 +29,7 @@ extern void *NNSi_FndFindListContainHeap(u32 a);
 struct DList;
 extern void NNS_FndRemoveListObject(volatile struct DList *list, void *elem);
 
-void FNDHEAP_Finalize(void *p)
+void NNSi_FndFinalizeHeap(void *p)
 {
     NNS_FndRemoveListObject(NNSi_FndFindListContainHeap((u32)p), p);
 }

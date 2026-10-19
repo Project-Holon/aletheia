@@ -23,7 +23,7 @@
  *   gOfferIconPosA 0x021E7D70 data a4
  *   gOfferIconPosB 0x021E7DA0 data a4
  *   POKE_TOOL_GetIconPalette  0x0201BBE8  thumb  arm9
- *   POKE_TOOL_Dummy  0x020185F0  thumb  arm9
+ *   POKE_TOOL_CastToBoxParam  0x020185F0  thumb  arm9
  *   POKE_TOOL_GetGraphicIndex  0x0201BA68  thumb  arm9
  */
 #include "../include/Obj00001.h"
@@ -33,7 +33,7 @@ typedef unsigned int u32;
 typedef struct { short x,y,z; u8 a,b; } Create;
 extern const int gOfferIconPosA[6][2];
 extern const int gOfferIconPosB[6][2];
-extern void *POKE_TOOL_Dummy(void *);
+extern void *POKE_TOOL_CastToBoxParam(void *);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void POKETRADE_2D_DeleteOfferIconActor(void *,int,int);
 extern u32 POKE_TOOL_GetGraphicIndex(void *);
@@ -51,7 +51,7 @@ extern void ARC_TOOL_DeleteHandle(int);
 void POKETRADE_2D_CreateOfferIconActor(char *p,int i,int j,void *mon,int selected,u32 visible)
 {
     Create c;
-    void *q = POKE_TOOL_Dummy(mon);
+    void *q = POKE_TOOL_CastToBoxParam(mon);
     void *h = func_020490F4(7,((struct Obj00001 *)p)->f5F4);
     int n;
     POKETRADE_2D_DeleteOfferIconActor(p,i,j);

@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PROC_FLD_PollFieldRegionIdle
+ * function: SCRCMD_PROC_FLD_PollCameraIdle
  * address:  0x021B55F0
  * packet:   pkt_ov021_021B55F0
  * region:   ov021
@@ -27,7 +27,7 @@ extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern void *FIELDMAP_GetCamera(void *o);
 extern int FIELD_CAMERA_IsMoving(u8 *a);
 
-int SCRCMD_PROC_FLD_PollFieldRegionIdle(void *a)
+int SCRCMD_PROC_FLD_PollCameraIdle(void *a)
 {
     int x = FIELD_CAMERA_IsMoving(FIELDMAP_GetCamera(GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(a))));
 

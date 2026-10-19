@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PLAYER_GRID_EVENT_StartB
+ * function: SCRCMD_PLAYER_GRID_EVENT_StartJump
  * address:  0x021C4628
  * packet:   pkt_ov021_021C4628
  * region:   ov021
@@ -18,7 +18,7 @@
  *   FIELD_PLAYER_GRID_EVENT_CreateJumpTask  0x021C1228  thumb  ov021
  *   SCRCMD_WORK_SetTargetObject  0x0215A644  thumb  ov010
  *   VM_SetWait  0x020113D0  thumb
- *   SCRCMD_PLAYER_GRID_EVENT_WaitB  0x021C4608  thumb  ov021
+ *   SCRCMD_PLAYER_GRID_EVENT_WaitJump  0x021C4608  thumb  ov021
  */
 
 typedef unsigned int u32;
@@ -36,9 +36,9 @@ extern u32 SCRIPT_WORK_ReadWorkValue(void *a, void *b);
 extern u32 FIELD_PLAYER_GRID_EVENT_CreateJumpTask(void *a, u32 b, u32 c, u32 d);
 extern void SCRCMD_WORK_SetTargetObject(void *p, u32 v);
 extern void VM_SetWait(char *p, int val);
-extern int SCRCMD_PLAYER_GRID_EVENT_WaitB(void *a, void *b);
+extern int SCRCMD_PLAYER_GRID_EVENT_WaitJump(void *a, void *b);
 
-u32 SCRCMD_PLAYER_GRID_EVENT_StartB(u32 a, void *b)
+u32 SCRCMD_PLAYER_GRID_EVENT_StartJump(u32 a, void *b)
 {
     u32 w, y, t;
     void *x;
@@ -49,6 +49,6 @@ u32 SCRCMD_PLAYER_GRID_EVENT_StartB(u32 a, void *b)
     t = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
     t = FIELD_PLAYER_GRID_EVENT_CreateJumpTask(x, y, t, w);
     SCRCMD_WORK_SetTargetObject((void *)b, t);
-    VM_SetWait((char *)a, (int)SCRCMD_PLAYER_GRID_EVENT_WaitB);
+    VM_SetWait((char *)a, (int)SCRCMD_PLAYER_GRID_EVENT_WaitJump);
     return 1;
 }

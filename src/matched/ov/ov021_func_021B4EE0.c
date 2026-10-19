@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PROC_FLD_SetNextEventAndEnd
+ * function: SCRCMD_PROC_FLD_SetGameClearEventAndEnd
  * address:  0x021B4EE0
  * packet:   pkt_ov021_021B4EE0
  * region:   ov021
@@ -31,7 +31,7 @@ struct ScriptVm;
 extern void SCRIPT_SYS_SetNextEventFromWork(int a, int b);
 extern struct ScriptVm *func_02011290(struct ScriptVm *vm);
 
-int SCRCMD_PROC_FLD_SetNextEventAndEnd(u32 a, u32 b)
+int SCRCMD_PROC_FLD_SetGameClearEventAndEnd(u32 a, u32 b)
 {
     void *s = SCRCMD_WORK_GetScriptWork((void *)b);
     void *d = SCRCMD_WORK_GetGameSystem((void *)b);

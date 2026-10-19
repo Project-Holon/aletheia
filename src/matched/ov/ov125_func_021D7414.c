@@ -13,7 +13,7 @@
  *   GDS_SOCKET_GetReply 0x021D85E8 arm ov125
  *   func_02034714 0x02034714 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   GF_STANDARD_SetupCalc 0x0203F1FC arm
+ *   GF_STANDARD_CalcCrc16 0x0203F1FC arm
  *   sGdsEmptyString2 0x021D8D2C data a4
  */
 typedef unsigned char u8;
@@ -24,7 +24,7 @@ typedef struct { u32 w[49]; } Rec;
 extern char *GDS_SOCKET_GetReply(void);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void MI_CpuFill8(void *, int, u32);
-extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
+extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
 extern char sGdsEmptyString2[];
 
 int GDS_RAP_GetSearchResults(char *unused, char *dst, int n)
@@ -48,7 +48,7 @@ int GDS_RAP_GetSearchResults(char *unused, char *dst, int n)
         u64 id = *(u64 *)(e + 4);
         if (*(u64 *)(e + 0xC4) != id) {
             *(u64 *)(e + 0xC4) = id;
-            *(u16 *)(e + 0xCC) = GF_STANDARD_SetupCalc((const u8 *)(e + 0x8C), 0x38);
+            *(u16 *)(e + 0xCC) = GF_STANDARD_CalcCrc16((const u8 *)(e + 0x8C), 0x38);
         }
         *(Rec *)(dst + i * 0xC4) = *(Rec *)(e + 0xC);
     }

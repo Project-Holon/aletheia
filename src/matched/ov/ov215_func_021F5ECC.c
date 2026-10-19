@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GFL_USE_CancelChangeAndStopBgm  0x02005D28  thumb
- *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb
+ *   GFL_USE_SetBgmPaused  0x02005DE4  thumb
  *   GFL_USE_IsBgmFading  0x02005E50  thumb
  *   GFL_USE_PushBgm  0x02005E64  thumb
  *   GFL_USE_IsBgmPlaying  0x02005F38  thumb
@@ -24,7 +24,7 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern void GFL_USE_CancelChangeAndStopBgm(void);
-extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_SetBgmPaused(void *p);
 extern int  GFL_USE_IsBgmFading(void);
 extern int GFL_USE_PushBgm(void);
 extern int  GFL_USE_IsBgmPlaying(void);
@@ -38,7 +38,7 @@ void EGG_DEMO_MAIN_UpdateBgm(u8 *p, u8 *q)
         break;
     case 1:
         if (GFL_USE_IsBgmFading() == 0) {
-            GFL_USE_SetBgmPlayerParam((void *)1);
+            GFL_USE_SetBgmPaused((void *)1);
             GFL_USE_PushBgm();
             ((struct Obj04634 *)q)->f18 = 0;
         }

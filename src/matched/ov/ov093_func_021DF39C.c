@@ -12,13 +12,13 @@
  * Function with no listing label, matched inside src/game/ov093/unit_021DF370.c and filed here.
  *
  * symbols:
- *   BTLV_CORE_EventSetFlagIfAttacker 0x021E8878 thumb ov093
+ *   HAND_COMMON_EventSetFlagIfAttacker 0x021E8878 thumb ov093
  */
 
-void BTLV_CORE_EventSetFlagIfAttacker(int a, int b, int c, int d);
+void HAND_COMMON_EventSetFlagIfAttacker(int a, int b, int c, int d);
 void HAND_ITEM_SmokeBall_AllowEscape(int a, int b, int c, int d);
 
 void HAND_ITEM_SmokeBall_AllowEscape(int a, int b, int c, int d)
 {
-    BTLV_CORE_EventSetFlagIfAttacker(a, b, c, d);
+    HAND_COMMON_EventSetFlagIfAttacker(a, b, c, d);
 }

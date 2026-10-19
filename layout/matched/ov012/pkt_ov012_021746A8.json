@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "UNION_MAIN_StepPlayEffectAtSeatLow",
+   "name": "UNION_SCENE_StepWarpToZone97AtSeat",
    "address": "0x021746A8",
    "kind": "game",
    "region": "ov012",

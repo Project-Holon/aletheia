@@ -44,7 +44,7 @@
  *   VEC_MultAdd 0x0207CEE4 arm
  *   VEC_Add 0x0207C9D0 arm
  *   VM_GetU32 0x0201134C thumb
- *   STA_ACT_EFFECT_GetSceneOwner 0x021F9E44 thumb ov132
+ *   STA_ACTING_GetElapsedTicks 0x021F9E44 thumb ov132
  */
 #include "ov132_types.h"
 #include "sta_acting_shared_types.h"
@@ -102,7 +102,7 @@ extern void VEC_Add(const Vec *, const Vec *, Vec *);
 
 extern u32 VM_GetU32(struct Cursor *p);
 
-u32 STA_ACT_EFFECT_GetSceneOwner(u8 *p);
+u32 STA_ACTING_GetElapsedTicks(u8 *p);
 
 void *STA_ACT_SCRIPT_Create(u32 heap, void *owner);
 
@@ -196,7 +196,7 @@ void STA_ACT_SCRIPT_Update(char *p)
     int ready;
     int count;
     ready = 1;
-    count = STA_ACT_EFFECT_GetSceneOwner(((struct ScriptSystem *)p)->scene);
+    count = STA_ACTING_GetElapsedTicks(((struct ScriptSystem *)p)->scene);
     while (count != 0) {
         for (i = 0; i < 10; i++) {
             slot = (char **)(p + i * 4);

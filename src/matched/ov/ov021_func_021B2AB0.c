@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_SCREENEFFECTS_StartMapEffectEvent
+ * function: SCRCMD_SCREENEFFECTS_StartRecoveryPartyEvent
  * address:  0x021B2AB0
  * packet:   pkt_ov021_021B2AB0
  * region:   ov021
@@ -25,7 +25,7 @@ extern void *SCRIPT_WORK_GetEvent(void *p);
 extern void *EVENT_RECOVERY_CreatePartyEvent(void *p, int a1);
 extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
-int SCRCMD_SCREENEFFECTS_StartMapEffectEvent(u32 a, u32 b)
+int SCRCMD_SCREENEFFECTS_StartRecoveryPartyEvent(u32 a, u32 b)
 {
     void *d = SCRCMD_WORK_GetGameSystem((void *)b);
     void *s = SCRCMD_WORK_GetScriptWork((void *)b);

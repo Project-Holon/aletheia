@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "ITEMMENU_CheckTouchRelease",
+   "name": "ITEMMENU_GetYesNoTouchChoice",
    "address": "0x021B8DAC",
    "kind": "game",
    "region": "ov070",

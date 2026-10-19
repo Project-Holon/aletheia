@@ -1,7 +1,7 @@
 /*
  * file:     nns_fnd_expheap.c
  * unit:     yes
- * function: NNS_FndInitList, NNSi_FndSetFirstObject, NNS_FndAppendListObject, NNS_FndPrependListObject, NNS_FndInsertListObject, NNS_FndRemoveListObject, NNS_FndGetNextListObject, NNS_FndGetPrevListObject, NNSi_FndFindElem, NNSi_FndFindListContainHeap, NNSi_FndInitHeapHead, FNDHEAP_Finalize, NNSi_FndGetMBlockRegion, NNSi_FndRemoveMBlock, NNSi_FndInsertMBlock, NNSi_FndInitMBlock, NNSi_FndCreateExpHeap, NNSi_FndAllocFromExpHeap, NNSi_FndAllocFromExpHeapHead, NNSi_FndAllocFromExpHeapTail, NNSi_FndRecycleRegion, NNS_FndCreateExpHeapEx, NNSi_FndDestroyExpHeap, NNS_FndAllocFromExpHeapEx, NNS_FndResizeForMBlockExpHeap, NNS_FndFreeToExpHeap, NNSi_FndGetListTotalSize, NNSi_FndGetListAllocatableSize, NNSi_FndSetAllocModeBit, NNSi_FndSetGroupId, NNSi_FndWalkHeapBlocks, NNSi_FndGetMBlockSize, NNSi_FndGetMBlockAttribute
+ * function: NNS_FndInitList, NNSi_FndSetFirstObject, NNS_FndAppendListObject, NNS_FndPrependListObject, NNS_FndInsertListObject, NNS_FndRemoveListObject, NNS_FndGetNextListObject, NNS_FndGetPrevListObject, NNSi_FndFindElem, NNSi_FndFindListContainHeap, NNSi_FndInitHeapHead, NNSi_FndFinalizeHeap, NNSi_FndGetMBlockRegion, NNSi_FndRemoveMBlock, NNSi_FndInsertMBlock, NNSi_FndInitMBlock, NNSi_FndCreateExpHeap, NNSi_FndAllocFromExpHeap, NNSi_FndAllocFromExpHeapHead, NNSi_FndAllocFromExpHeapTail, NNSi_FndRecycleRegion, NNS_FndCreateExpHeapEx, NNSi_FndDestroyExpHeap, NNS_FndAllocFromExpHeapEx, NNS_FndResizeForMBlockExpHeap, NNS_FndFreeToExpHeap, NNSi_FndGetListTotalSize, NNSi_FndGetListAllocatableSize, NNSi_FndSetAllocModeBit, NNSi_FndSetGroupId, NNSi_FndWalkHeapBlocks, NNSi_FndGetMBlockSize, NNSi_FndGetMBlockAttribute
  * address:  0x02060468
  * region:   arm9
  * compiler: dsi/../2.0/sp2
@@ -143,7 +143,7 @@ void *NNS_FndGetPrevListObject(struct DList *list, void *elem);
 struct Elem *NNSi_FndFindElem(struct DList *list, u32 val);
 void *NNSi_FndFindListContainHeap(u32 a);
 void NNSi_FndInitHeapHead(NNSiFndHeapHead *pHeapHd, u32 signature, void *heapStart, void *heapEnd, u16 optFlag);
-void FNDHEAP_Finalize(void *p);
+void NNSi_FndFinalizeHeap(void *p);
 void NNSi_FndGetMBlockRegion(int *out, int *blk);
 void *NNSi_FndRemoveMBlock(int *p, int *node);
 void *NNSi_FndInsertMBlock(int *p, void *node, int *a);
@@ -510,7 +510,7 @@ void NNSi_FndInitHeapHead(NNSiFndHeapHead *pHeapHd, u32 signature, void *heapSta
 
 
 
-void FNDHEAP_Finalize(void *p)
+void NNSi_FndFinalizeHeap(void *p)
 {
     NNS_FndRemoveListObject(NNSi_FndFindListContainHeap((u32)p), p);
 }
@@ -1028,7 +1028,7 @@ void *NNS_FndCreateExpHeapEx(void *start, u32 size, u16 attr)
 
 
 
-void NNSi_FndDestroyExpHeap(void *heap){ FNDHEAP_Finalize(heap); }
+void NNSi_FndDestroyExpHeap(void *heap){ NNSi_FndFinalizeHeap(heap); }
 
 
 

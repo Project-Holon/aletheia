@@ -12,7 +12,7 @@
  * Function with no listing label, matched inside src/game/ov021/scrcmd_screeneffects.c and filed here.
  *
  * symbols:
- *   WORDSET_Set 0x0201F0F8 thumb
+ *   WORDSET_SetSlotFromMsgBF 0x0201F0F8 thumb
  *   SCRCMD_BufferByteEntryCommon 0x021AFBEC thumb
  */
 
@@ -23,7 +23,7 @@ typedef struct {
     u8 *cur;
 } Ctx_021AFBEC;
 
-extern void WORDSET_Set();
+extern void WORDSET_SetSlotFromMsgBF();
 int SCRCMD_BufferMapEntryNameA(Ctx_021AFBEC *a, int b);
 
-int SCRCMD_BufferMapEntryNameA(Ctx_021AFBEC *a, int b) { return SCRCMD_BufferByteEntryCommon(a, b, WORDSET_Set); }
+int SCRCMD_BufferMapEntryNameA(Ctx_021AFBEC *a, int b) { return SCRCMD_BufferByteEntryCommon(a, b, WORDSET_SetSlotFromMsgBF); }

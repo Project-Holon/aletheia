@@ -39,7 +39,7 @@
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   BG_SYS_GetScrollY 0x02040804 arm
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   BMP_Clear 0x02043B5C arm
  *   NAMEIN_GRAPHIC_ConvertCellMode 0x021F2884 thumb ov194
  *   NAMEIN_GRAPHIC_LoadGrid 0x021F25F8 thumb ov194
@@ -58,7 +58,7 @@
  *   PRINTSYS_PrintQue 0x0201C6FC thumb
  *   POKE_TOOL_Create 0x020173F0 thumb
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
- *   WORDSET_SetSlotMonName 0x0201EE84 thumb
+ *   WORDSET_SetSlotMonSpeciesName 0x0201EE84 thumb
  *   MSGDATA_AllocString 0x02045EC0 arm
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   STRBUF_Delete 0x02045808 arm
@@ -66,12 +66,12 @@
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   TCBL_Destroy 0x02031140 arm
  *   WORDSET_CreateDefault 0x0201EC64 thumb
- *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
+ *   WORDSET_SetSlotMonNickname 0x0201EEF4 thumb
  *   WORDSET_SetSlotTag 0x0201EE0C thumb
  *   WORDSET_SetSlotBoxName 0x0201F164 thumb
  *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   STRBUF_Clone 0x02045874 arm
  *   STRBUF_Clear 0x0204581C arm
  *   NAMEIN_SETUP_CopyName 0x0216C0D4 thumb ov010
@@ -451,7 +451,7 @@ extern void G2x_SetBlendAlpha_(void *,int,int,int,int);
 
 extern u32 BG_SYS_GetScrollY(u32 layer);
 
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
@@ -492,7 +492,7 @@ extern void *POKE_TOOL_Create(u32,u16,u64,u16);
 
 extern void POKE_TOOL_SetPartyValue(void *,u32,u32);
 
-extern void WORDSET_SetSlotMonName(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonSpeciesName(struct WordSet *p, u32 i, void *mon);
 
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
@@ -510,7 +510,7 @@ extern int NAMEIN_SETUP_IsCanceled(int *);
 
 extern void NAMEIN_SETUP_CopyName(int *,int);
 
-extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonNickname(struct WordSet *p, u32 i, void *mon);
 
 extern struct U16Vec *STRBUF_Clone(struct U16Vec *src, u32 heapId);
 
@@ -525,7 +525,7 @@ extern signed char MSG_SPEED_GetWait(void);
 /* The caller consumes R0 returned by the legacy void forwarding wrapper. */
 extern int PRINTSYS_PrintStream(u32,u32,u32,u32,u32,u32,u32,u32,u32,u16);
 
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 
 extern u32  APP_ICON_GetArchiveId(void);
 
@@ -1001,9 +1001,9 @@ int NAMEIN_GRAPHIC_AnimateGrid(char *p) {
         c = *(u16 *)(p + 0x10a);
         *(u16 *)0x04000052 = (s16)(-(c * 16) / 7 + 16) | (1 << 12);
         y = (s16)((c * -48) / 7);
-        BG_SYS_FillScrollArea(1, 3, y);
-        BG_SYS_FillScrollArea(3, 3, y);
-        if (*(u32 *)(p + 0x118)) BG_SYS_FillScrollArea(2, 3, y);
+        BG_SYS_ChangeScrollImmediate(1, 3, y);
+        BG_SYS_ChangeScrollImmediate(3, 3, y);
+        if (*(u32 *)(p + 0x118)) BG_SYS_ChangeScrollImmediate(2, 3, y);
         if ((*(u16 *)(p + 0x10a))++ > 7) {
             if (*(u32 *)(p + 0x118)) {
                 BG_SYS_SetPlaneVisible(1, 0);
@@ -1019,9 +1019,9 @@ int NAMEIN_GRAPHIC_AnimateGrid(char *p) {
         break;
     case 1:
         y = -48;
-        BG_SYS_FillScrollArea(1, 3, y);
-        BG_SYS_FillScrollArea(3, 3, y);
-        if (*(u32 *)(p + 0x118)) BG_SYS_FillScrollArea(2, 3, y);
+        BG_SYS_ChangeScrollImmediate(1, 3, y);
+        BG_SYS_ChangeScrollImmediate(3, 3, y);
+        if (*(u32 *)(p + 0x118)) BG_SYS_ChangeScrollImmediate(2, 3, y);
         NAMEIN_GRAPHIC_SwitchGridMode(p, *(u32 *)(p + 0x114));
         *(u16 *)(p + 0x10c) = 2;
         break;
@@ -1037,15 +1037,15 @@ int NAMEIN_GRAPHIC_AnimateGrid(char *p) {
         c = *(u16 *)(p + 0x10a);
         *(u16 *)0x04000052 = (s16)(-(c * 16) / 7 + 16) | (1 << 12);
         y = (s16)((c * -48) / 7);
-        BG_SYS_FillScrollArea(1, 3, y);
-        BG_SYS_FillScrollArea(3, 3, y);
-        if (*(u32 *)(p + 0x118)) BG_SYS_FillScrollArea(2, 3, y);
+        BG_SYS_ChangeScrollImmediate(1, 3, y);
+        BG_SYS_ChangeScrollImmediate(3, 3, y);
+        if (*(u32 *)(p + 0x118)) BG_SYS_ChangeScrollImmediate(2, 3, y);
         if ((*(u16 *)(p + 0x10a))-- == 0) *(u16 *)(p + 0x10c) = 4;
         break;
     case 4:
-        BG_SYS_FillScrollArea(1, 3, 0);
-        BG_SYS_FillScrollArea(3, 3, 0);
-        BG_SYS_FillScrollArea(2, 3, 0);
+        BG_SYS_ChangeScrollImmediate(1, 3, 0);
+        BG_SYS_ChangeScrollImmediate(3, 3, 0);
+        BG_SYS_ChangeScrollImmediate(2, 3, 0);
         *(u32 *)(p + 0x118) = 0;
         *(u16 *)0x04000050 = 0;
         *(u32 *)(p + 0x110) = 0;
@@ -1323,7 +1323,7 @@ void NAMEIN_GRAPHIC_PrintPokeMsg(char *p,int value,u32 id,u32 form,u16 heap) {vo
 
 void NAMEIN_GRAPHIC_PrintMonMsg(char *p,int value,void *mon) {
     int text,window;
-    WORDSET_SetSlotMonName(((NameinGraphicMsgBox *)p)->wordSet,0,mon);
+    WORDSET_SetSlotMonSpeciesName(((NameinGraphicMsgBox *)p)->wordSet,0,mon);
     BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)((NameinGraphicMsgBox *)p)->win)),((NameinGraphicMsgBox *)p)->color);
     text=(int)MSGDATA_AllocString((struct MsgBank *)(((NameinGraphicMsgBox *)p)->bank),value);
     WORDSET_CopyTaggedText((struct WordSet *)(*(int *)&((NameinGraphicMsgBox *)p)->wordSet),((NameinGraphicMsgBox *)p)->strbuf,(void *)text);
@@ -1346,7 +1346,7 @@ void NAMEIN_GRAPHIC_DeleteTcbl(unsigned char *p){if(((NameinGraphicTcbl *)p)->st
 void NAMEIN_GRAPHIC_PrintNameStream(char *p,char *q,int *w,u32 heap)
 {
     void *set=WORDSET_CreateDefault(heap);
-    if(NAMEIN_SETUP_IsCanceled(w)) WORDSET_SetSlotMonSpecies(set,0,(void *)w[2]);
+    if(NAMEIN_SETUP_IsCanceled(w)) WORDSET_SetSlotMonNickname(set,0,(void *)w[2]);
     else {
         int text=(int)STRBUF_Clone((struct U16Vec *)w[8],heap);
         NAMEIN_SETUP_CopyName(w,text);
@@ -1362,7 +1362,7 @@ void NAMEIN_GRAPHIC_PrintNameStream(char *p,char *q,int *w,u32 heap)
     ((NameinGraphicTcbl *)p)->flag=0;
     *(void (**)(void))(p+8)=(void (*)(void))NAMEIN_GRAPHIC_CallbackFadeOut;
     ((NameinGraphicTcbl *)p)->counter=60;
-    WORDSET_DeleteStrbufED04(set);
+    WORDSET_Delete(set);
 }
 
 void NAMEIN_GRAPHIC_InitIconActor(u8 *o, u32 mode, u32 iconIndex, u32 iconForm, u32 s0, u32 s1, u32 s2, void *s3, u32 s4, u16 heap)

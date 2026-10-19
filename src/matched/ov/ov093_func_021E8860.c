@@ -1,5 +1,5 @@
 /*
- * function: BTLV_CORE_EventScaleDamage
+ * function: HAND_COMMON_EventScaleDamage
  * address:  0x021E8860
  * packet:   pkt_ov093_021E8860
  * region:   ov093
@@ -21,7 +21,7 @@ typedef unsigned int u32;
 extern int BTL_EVENT_GetVar(int key);
 extern int BTL_EVENT_OverwriteVar(int key, u32 val);
 
-void BTLV_CORE_EventScaleDamage(int n)
+void HAND_COMMON_EventScaleDamage(int n)
 {
     n *= BTL_EVENT_GetVar(0x30);
     BTL_EVENT_OverwriteVar(0x30, n);

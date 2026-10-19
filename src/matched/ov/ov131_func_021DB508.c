@@ -21,7 +21,7 @@
  *
  * symbols:
  *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
- *   P_STATUS_SetFastMode 0x021D60D4 thumb ov131
+ *   P_STATUS_SetParamDecoded 0x021D60D4 thumb ov131
  *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   POKE_TOOL_SetBoxMoveSlot 0x020181FC thumb
  *   POKE_TOOL_SetBoxValue 0x02017E64 thumb
@@ -33,7 +33,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *P_STATUS_GetPokePara(u8 *);
-extern void P_STATUS_SetFastMode(u8 *,int);
+extern void P_STATUS_SetParamDecoded(u8 *,int);
 extern u32 POKE_TOOL_GetBoxValue(void *,u32,u32);
 extern void POKE_TOOL_SetBoxMoveSlot(void *,u16,u32);
 extern void POKE_TOOL_SetBoxValue(void *,u32,u32);
@@ -45,7 +45,7 @@ void P_STA_SKILL_SwapMoves(u8 *p,u8 *q,u32 a,u32 b)
     u32 am,app,au,bm,bpp,bu;
     u32 apid,auid,bpid,buid;
     m=P_STATUS_GetPokePara(p);
-    P_STATUS_SetFastMode(p,1);
+    P_STATUS_SetParamDecoded(p,1);
     am=POKE_TOOL_GetBoxValue(m,a+54U,0);
     apid=a+58U;
     app=POKE_TOOL_GetBoxValue(m,apid,0);
@@ -62,7 +62,7 @@ void P_STA_SKILL_SwapMoves(u8 *p,u8 *q,u32 a,u32 b)
     POKE_TOOL_SetBoxValue(m,auid,bu);
     POKE_TOOL_SetBoxValue(m,bpid,app);
     POKE_TOOL_SetBoxValue(m,buid,au);
-    P_STATUS_SetFastMode(p,0);
+    P_STATUS_SetParamDecoded(p,0);
     P_STA_OAM_SwapInts(*(void **)((u32)q+a*24U+196U),*(void **)((u32)q+b*24U+196U));
     *(u32 *)((u32)q+a*24U+180U)=1;
     *(u32 *)((u32)q+b*24U+180U)=1;

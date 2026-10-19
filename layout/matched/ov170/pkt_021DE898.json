@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BOX2_MAIN_PlayMonCry",
+   "name": "BOX2_MAIN_ClearPerapVoiceIfNoChatot",
    "address": "0x021DE898",
    "kind": "game",
    "region": "ov170",

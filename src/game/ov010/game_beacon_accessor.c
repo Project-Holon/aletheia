@@ -1,8 +1,8 @@
 /*
  * file:     game_beacon_accessor.c
  * unit:     yes
- * function: GAME_BEACON_ACCESSOR_AllocInfo, GAME_BEACON_ACCESSOR_AllocTable, GAME_BEACON_ACCESSOR_IsInfoInvalid, GAME_BEACON_ACCESSOR_IsDistributionAction, GAME_BEACON_ACCESSOR_GetPlayerName, GAME_BEACON_ACCESSOR_GetPmVersion, GAME_BEACON_ACCESSOR_GetLanguage, GAME_BEACON_ACCESSOR_GetNation, GAME_BEACON_ACCESSOR_GetArea, GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerSecond, GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerFirst, GAME_BEACON_ACCESSOR_GetDetailsPms, GAME_BEACON_ACCESSOR_GetResearchTeamRank, GAME_BEACON_ACCESSOR_GetFavoriteColorRgb, GAME_BEACON_ACCESSOR_GetFavoriteColorIndex, GAME_BEACON_ACCESSOR_GetTrainerId, GAME_BEACON_ACCESSOR_GetTrainerAppearance, GAME_BEACON_ACCESSOR_GetSex, GAME_BEACON_ACCESSOR_GetPlayTime, GAME_BEACON_ACCESSOR_GetInfoVersion, GAME_BEACON_ACCESSOR_GetZoneId, GAME_BEACON_ACCESSOR_GetTownmapRootZoneId, GAME_BEACON_ACCESSOR_GetPassCount, GAME_BEACON_ACCESSOR_GetThanksCount, GAME_BEACON_ACCESSOR_GetGreeting, GAME_BEACON_ACCESSOR_GetThanksName, GAME_BEACON_ACCESSOR_GetFreeText, GAME_BEACON_ACCESSOR_GetDetailsType, GAME_BEACON_ACCESSOR_GetDetailsTrainerNo, GAME_BEACON_ACCESSOR_GetDetailsMonsNo, GAME_BEACON_ACCESSOR_GetActionNo, GAME_BEACON_ACCESSOR_GetActionMonsNo, GAME_BEACON_ACCESSOR_GetActionItemNo, GAME_BEACON_ACCESSOR_GetActionCountValue, GAME_BEACON_ACCESSOR_GetDistributionMonsNo, GAME_BEACON_ACCESSOR_GetDistributionItemNo, GAME_BEACON_ACCESSOR_GetDistributionSerial, GAME_BEACON_ACCESSOR_GetNickname, GAME_BEACON_ACCESSOR_GetActionTrainerNo, GAME_BEACON_ACCESSOR_GetPresetEventValue, GAME_BEACON_ACCESSOR_GetActionSpecialValue, GAME_BEACON_ACCESSOR_GetActionWordValue, GAME_BEACON_ACCESSOR_GetActionByteValue, GAME_BEACON_ACCESSOR_GetActionHalfwordValue, GAME_BEACON_ACCESSOR_GetActionCheckIndex, GAME_BEACON_ACCESSOR_GetActionViewVariant, GAME_BEACON_ACCESSOR_RegisterRecordWords, GAME_BEACON_ACCESSOR_IsNoArgInvalid, GAME_BEACON_ACCESSOR_IsActionTrainerNoInvalid, GAME_BEACON_ACCESSOR_IsActionMonsNoInvalid, GAME_BEACON_ACCESSOR_IsNoValueInvalid, GAME_BEACON_ACCESSOR_IsActionMonsNoWithNicknameInvalid, GAME_BEACON_ACCESSOR_IsActionItemNoInvalid, GAME_BEACON_ACCESSOR_IsPlayTimeInvalid, GAME_BEACON_ACCESSOR_IsActionCountValueInvalid, GAME_BEACON_ACCESSOR_IsDistributionMonsNoInvalid, GAME_BEACON_ACCESSOR_IsDistributionItemNoInvalid, GAME_BEACON_ACCESSOR_IsActionMoveNoInvalid, GAME_BEACON_ACCESSOR_IsActionPresetEventInvalid, GAME_BEACON_ACCESSOR_IsActionByteValueInvalid, GAME_BEACON_ACCESSOR_IsActionHalfwordValueInvalid, GAME_BEACON_ACCESSOR_IsDistributionSerialInvalid
- * address:  0x02165B10
+ * function: GAME_BEACON_ACCESSOR_TableAddNewLogs, GAME_BEACON_ACCESSOR_TablePop, GAME_BEACON_ACCESSOR_TableMarkLogsNew, GAME_BEACON_ACCESSOR_TableAdd, GAME_BEACON_ACCESSOR_TableGetRingIndex, GAME_BEACON_ACCESSOR_TableRingAdd, GAME_BEACON_ACCESSOR_TableRingGet, GAME_BEACON_ACCESSOR_TableGetCount, GAME_BEACON_ACCESSOR_AllocInfo, GAME_BEACON_ACCESSOR_AllocTable, GAME_BEACON_ACCESSOR_IsInfoInvalid, GAME_BEACON_ACCESSOR_IsDistributionAction, GAME_BEACON_ACCESSOR_GetPlayerName, GAME_BEACON_ACCESSOR_GetPmVersion, GAME_BEACON_ACCESSOR_GetLanguage, GAME_BEACON_ACCESSOR_GetNation, GAME_BEACON_ACCESSOR_GetArea, GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerSecond, GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerFirst, GAME_BEACON_ACCESSOR_GetDetailsPms, GAME_BEACON_ACCESSOR_GetResearchTeamRank, GAME_BEACON_ACCESSOR_GetFavoriteColorRgb, GAME_BEACON_ACCESSOR_GetFavoriteColorIndex, GAME_BEACON_ACCESSOR_GetTrainerId, GAME_BEACON_ACCESSOR_GetTrainerAppearance, GAME_BEACON_ACCESSOR_GetSex, GAME_BEACON_ACCESSOR_GetPlayTime, GAME_BEACON_ACCESSOR_GetInfoVersion, GAME_BEACON_ACCESSOR_GetZoneId, GAME_BEACON_ACCESSOR_GetTownmapRootZoneId, GAME_BEACON_ACCESSOR_GetPassCount, GAME_BEACON_ACCESSOR_GetThanksCount, GAME_BEACON_ACCESSOR_GetGreeting, GAME_BEACON_ACCESSOR_GetThanksName, GAME_BEACON_ACCESSOR_GetFreeText, GAME_BEACON_ACCESSOR_GetDetailsType, GAME_BEACON_ACCESSOR_GetDetailsTrainerNo, GAME_BEACON_ACCESSOR_GetDetailsMonsNo, GAME_BEACON_ACCESSOR_GetActionNo, GAME_BEACON_ACCESSOR_GetActionMonsNo, GAME_BEACON_ACCESSOR_GetActionItemNo, GAME_BEACON_ACCESSOR_GetActionCountValue, GAME_BEACON_ACCESSOR_GetDistributionMonsNo, GAME_BEACON_ACCESSOR_GetDistributionItemNo, GAME_BEACON_ACCESSOR_GetDistributionSerial, GAME_BEACON_ACCESSOR_GetNickname, GAME_BEACON_ACCESSOR_GetActionTrainerNo, GAME_BEACON_ACCESSOR_GetPresetEventValue, GAME_BEACON_ACCESSOR_GetActionSpecialValue, GAME_BEACON_ACCESSOR_GetActionWordValue, GAME_BEACON_ACCESSOR_GetActionByteValue, GAME_BEACON_ACCESSOR_GetActionHalfwordValue, GAME_BEACON_ACCESSOR_GetActionCheckIndex, GAME_BEACON_ACCESSOR_GetActionViewVariant, GAME_BEACON_ACCESSOR_RegisterRecordWords, GAME_BEACON_ACCESSOR_IsNoArgInvalid, GAME_BEACON_ACCESSOR_IsActionTrainerNoInvalid, GAME_BEACON_ACCESSOR_IsActionMonsNoInvalid, GAME_BEACON_ACCESSOR_IsNoValueInvalid, GAME_BEACON_ACCESSOR_IsActionMonsNoWithNicknameInvalid, GAME_BEACON_ACCESSOR_IsActionItemNoInvalid, GAME_BEACON_ACCESSOR_IsPlayTimeInvalid, GAME_BEACON_ACCESSOR_IsActionCountValueInvalid, GAME_BEACON_ACCESSOR_IsDistributionMonsNoInvalid, GAME_BEACON_ACCESSOR_IsDistributionItemNoInvalid, GAME_BEACON_ACCESSOR_IsActionMoveNoInvalid, GAME_BEACON_ACCESSOR_IsActionPresetEventInvalid, GAME_BEACON_ACCESSOR_IsActionByteValueInvalid, GAME_BEACON_ACCESSOR_IsActionHalfwordValueInvalid, GAME_BEACON_ACCESSOR_IsDistributionSerialInvalid
+ * address:  0x02165888
  * region:   ov010
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -10,10 +10,18 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Cut from game_beacon_search.c, game_beacon_accessor.c by tools/splitfile.py.
+ * Cut from field_skill_check.c, calender.c, game_beacon_search.c, game_beacon_accessor.c by tools/splitfile.py.
  *
  * symbols:
- *   GFL_HEAP_Alloc  0x02030734  arm
+ *   MI_CpuFill8    0x02082BCC  arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
+ *   GF_STANDARD_GetCachedTime 0x0203F4CC arm
+ *   GAME_BEACON_GetNextNewLogIndex 0x02026CA0 thumb
+ *   GAME_BEACON_GetLog 0x02026C1C thumb
+ *   GAME_BEACON_ClearNewFlag 0x02026CE0 thumb
+ *   GAME_BEACON_SetNewFlagByTrainerId   0x02026D04  thumb
+ *   MIi_CpuCopy32  0x02082A90  arm
+ *   MIi_CpuCopy16  0x02082A60  arm
  *   GAME_BEACON_ACCESSOR_FileName 0x021729D4 data a4
  *   GAME_BEACON_ACCESSOR_ActionCheckFuncs     0x02171CA8  data
  *   STRBUF_SetStringN  0x02045994  arm
@@ -26,15 +34,15 @@
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_Delete  0x02045808  arm
  *   WORDSET_SetSlotTag  0x0201EE0C  thumb
- *   WORDSET_Callback  0x0201EE60  thumb
+ *   WORDSET_SetSlotSpeciesName  0x0201EE60  thumb
  *   WORDSET_SetSlotFromMsgCB  0x0201EF34  thumb
- *   WORDSET_Callback_EF40  0x0201EF40  thumb
- *   WORDSET_Callback_EF4C  0x0201EF4C  thumb
+ *   WORDSET_SetSlotFromMsg36  0x0201EF40  thumb
+ *   WORDSET_SetSlotFromMsg117  0x0201EF4C  thumb
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   WORDSET_SetSlotPokeData  0x0201F104  thumb
  *   WORDSET_SetSlotFromMsgBE  0x0201F134  thumb
  *   WORDSET_SetSlotFromMsgA0  0x0201F184  thumb
- *   WORDSET_DrawF1E0  0x0201F1E0  thumb
+ *   WORDSET_SetSlotWeekday  0x0201F1E0  thumb
  *   GAME_BEACON_ACCESSOR_GetPlayerName  0x02165C34  thumb  ov010
  *   GAME_BEACON_ACCESSOR_GetSex  0x02165D08  thumb  ov010
  *   GAME_BEACON_ACCESSOR_GetFreeText  0x02165D8C  thumb  ov010
@@ -56,6 +64,192 @@
 #include "../arm9/game_beacon_types.h"
 #include "game_beacon_search_shared_types.h"
 
+struct RtcTime {
+    int hour;
+    int minute;
+    int second;
+};
+
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+
+extern void MI_CpuFill8(void *dst, u8 value, u32 size);
+
+extern void GF_STANDARD_GetCachedTime(struct RtcTime *time);
+
+extern int GAME_BEACON_GetNextNewLogIndex(int *cursor);
+
+extern GameBeaconRecord *GAME_BEACON_GetLog(int index);
+
+extern void GAME_BEACON_ClearNewFlag(u32 index);
+
+extern int GAME_BEACON_SetNewFlagByTrainerId(const GameBeaconInfo *info);
+
+extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
+
+extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
+
+int GAME_BEACON_ACCESSOR_TableAddNewLogs(GameBeaconInfoTable *table);
+
+int GAME_BEACON_ACCESSOR_TablePop(GameBeaconInfoTable *table, GameBeaconInfo *info, u16 *receiveTime);
+
+void GAME_BEACON_ACCESSOR_TableMarkLogsNew(GameBeaconInfo *infoList);
+
+int GAME_BEACON_ACCESSOR_TableAdd(GameBeaconInfoTable *table, const GameBeaconInfo *info, int receiveTime, int mode);
+
+int GAME_BEACON_ACCESSOR_TableGetRingIndex(const GameBeaconInfoTable *table, int offset);
+
+int GAME_BEACON_ACCESSOR_TableRingAdd(GameBeaconInfoTable *table, const GameBeaconInfo *info, u16 receiveTime, int *isNew);
+
+int GAME_BEACON_ACCESSOR_TableRingGet(const GameBeaconInfoTable *table, GameBeaconInfo *info, u16 *receiveTime, int offset);
+
+u8 GAME_BEACON_ACCESSOR_TableGetCount(const GameBeaconInfoTable *table);
+
+/* ------------------------------------------------------------------ *
+ * The table of received beacons (30 entries with their receive time).
+ * ------------------------------------------------------------------ */
+
+/* Moves the new beacon log entries into the table; returns how many. */
+int GAME_BEACON_ACCESSOR_TableAddNewLogs(GameBeaconInfoTable *table)
+{
+    struct RtcTime time;
+    int cursor;
+    int added;
+    int receiveTime;
+    int logIndex;
+    int tableIndex;
+
+    added = 0;
+    cursor = 0;
+    GF_STANDARD_GetCachedTime(&time);
+    receiveTime = (u16)((time.hour << 8) | time.minute);
+    for (;;) {
+        logIndex = GAME_BEACON_GetNextNewLogIndex(&cursor);
+        if (logIndex == 30) {
+            break;
+        }
+        tableIndex = GAME_BEACON_ACCESSOR_TableAdd(table, &GAME_BEACON_GetLog(logIndex)->info, receiveTime, 0);
+        if (tableIndex == 30) {
+            break;
+        }
+        GAME_BEACON_ClearNewFlag(logIndex);
+        added++;
+    }
+    return added;
+}
+
+/* Pops the first entry: copies it out and shifts the rest down. */
+int GAME_BEACON_ACCESSOR_TablePop(GameBeaconInfoTable *table, GameBeaconInfo *info, u16 *receiveTime)
+{
+    int i;
+
+    if (table->info[0].versionBit == 0)
+        return 0;
+    *info = table->info[0];
+    *receiveTime = table->receiveTime[0];
+    for (i = 1; i < 30; i++) {
+        table->info[i - 1] = table->info[i];
+        table->receiveTime[i - 1] = table->receiveTime[i];
+    }
+    MI_CpuFill8(&table->info[29], 0, sizeof(GameBeaconInfo));
+    return 1;
+}
+
+/* Hands every used entry back to the beacon log as new. */
+void GAME_BEACON_ACCESSOR_TableMarkLogsNew(GameBeaconInfo *infoList)
+{
+    int i;
+
+    for (i = 0; i < 30; i++) {
+        if (infoList[i].versionBit == 0)
+            break;
+        GAME_BEACON_SetNewFlagByTrainerId(&infoList[i]);
+    }
+}
+
+/*
+ * Stores the beacon in the first free entry or over the entry of the same
+ * trainer. When the table is full and mode is 1, the oldest entry is
+ * dropped. Returns the entry used, or 30 when nothing was stored.
+ */
+int GAME_BEACON_ACCESSOR_TableAdd(GameBeaconInfoTable *table, const GameBeaconInfo *info, int receiveTime, int mode)
+{
+    int i;
+
+    for (i = 0; i < 30; i++) {
+        if (table->info[i].versionBit == 0 || info->trainerId == table->info[i].trainerId) {
+            table->info[i] = *info;
+            table->receiveTime[i] = receiveTime;
+            return i;
+        }
+    }
+    if (mode == 1) {
+        MIi_CpuCopy32(&table->info[1], &table->info[0], 29 * sizeof(GameBeaconInfo));
+        MIi_CpuCopy16(&table->receiveTime[1], &table->receiveTime[0], 29 * sizeof(u16));
+        table->info[29] = *info;
+        table->receiveTime[29] = receiveTime;
+        return 29;
+    }
+    return 30;
+}
+
+/* Ring use of the table: entry at a signed offset from the head. */
+int GAME_BEACON_ACCESSOR_TableGetRingIndex(const GameBeaconInfoTable *table, int offset)
+{
+    int head = table->head;
+
+    if (offset < 0)
+        return (head + offset + 30) % 30;
+    return (head + offset) % 30;
+}
+
+/*
+ * Ring insert: replaces the entry of the same trainer, else pushes a new
+ * head. *isNew (optional) is 1 when a new entry was taken.
+ */
+int GAME_BEACON_ACCESSOR_TableRingAdd(GameBeaconInfoTable *table, const GameBeaconInfo *info, u16 receiveTime, int *isNew)
+{
+    int i;
+    int index;
+
+    if (isNew)
+        *isNew = 0;
+    for (i = 0; i < 30; i++) {
+        index = GAME_BEACON_ACCESSOR_TableGetRingIndex(table, i);
+        if (table->info[index].versionBit == 0)
+            break;
+        if (info->trainerId == table->info[index].trainerId) {
+            table->info[index] = *info;
+            table->receiveTime[index] = receiveTime;
+            return i;
+        }
+    }
+    if (isNew)
+        *isNew = 1;
+    index = GAME_BEACON_ACCESSOR_TableGetRingIndex(table, -1);
+    table->info[index] = *info;
+    table->receiveTime[index] = receiveTime;
+    table->head = index;
+    if (table->count < 30)
+        table->count++;
+    return 0;
+}
+
+int GAME_BEACON_ACCESSOR_TableRingGet(const GameBeaconInfoTable *table, GameBeaconInfo *info, u16 *receiveTime, int offset)
+{
+    int index = GAME_BEACON_ACCESSOR_TableGetRingIndex(table, offset);
+
+    if (table->info[index].versionBit == 0)
+        return 0;
+    *info = table->info[index];
+    *receiveTime = table->receiveTime[index];
+    return 1;
+}
+
+u8 GAME_BEACON_ACCESSOR_TableGetCount(const GameBeaconInfoTable *table)
+{
+    return table->count;
+}
+
 typedef int (*GameBeaconActionCheckFunc)(const GameBeaconInfo *info);
 
 /* Per-action attributes, 2 bytes. */
@@ -63,8 +257,6 @@ typedef struct GameBeaconActionAttr {
     u8 checkIndex;              /* index into GAME_BEACON_ACCESSOR_ActionCheckFuncs */
     u8 group;
 } GameBeaconActionAttr;
-
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void STRBUF_SetStringN(struct Strbuf *str, const u16 *src, u32 length);
 
@@ -546,17 +738,9 @@ u8 GAME_BEACON_ACCESSOR_GetActionCheckIndex(u16 action)
     return GAME_BEACON_ACCESSOR_ActionTable[action].checkIndex;
 }
 
-struct Strbuf;
-
 struct WordSet;
 
 typedef signed int     s32;
-
-/* Per action type row of the table at 0x02171CE8. */
-typedef struct ActionTypeRow {
-    u8 printKind;           /* BeaconPrintKind used by the record printer */
-    u8 viewVariant;         /* variant the beacon view passes to its layout code */
-} ActionTypeRow;
 
 /* How the value of an action is registered for printing. */
 enum BeaconPrintKind {
@@ -585,13 +769,13 @@ extern void STRBUF_Delete(struct Strbuf *buf);
 
 extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 bufferIndex, const void *str, u32 sex, u32 flag, u32 language);
 
-extern void WORDSET_Callback(struct WordSet *wordSet, u32 bufferIndex, u16 value);
+extern void WORDSET_SetSlotSpeciesName(struct WordSet *wordSet, u32 bufferIndex, u16 value);
 
 extern void WORDSET_SetSlotFromMsgCB(struct WordSet *wordSet, u32 bufferIndex, u32 value);
 
-extern void WORDSET_Callback_EF40(struct WordSet *wordSet, u32 bufferIndex, u32 value);
+extern void WORDSET_SetSlotFromMsg36(struct WordSet *wordSet, u32 bufferIndex, u32 value);
 
-extern void WORDSET_Callback_EF4C(struct WordSet *wordSet, u32 bufferIndex, u32 value);
+extern void WORDSET_SetSlotFromMsg117(struct WordSet *wordSet, u32 bufferIndex, u32 value);
 
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 bufferIndex, u32 value, u32 digits, u32 padding, u32 flag);
 
@@ -601,7 +785,7 @@ extern void WORDSET_SetSlotFromMsgBE(struct WordSet *wordSet, u32 bufferIndex, u
 
 extern void WORDSET_SetSlotFromMsgA0(struct WordSet *wordSet, u32 bufferIndex, s32 value);
 
-extern void WORDSET_DrawF1E0(struct WordSet *wordSet, u32 bufferIndex, u32 value);
+extern void WORDSET_SetSlotWeekday(struct WordSet *wordSet, u32 bufferIndex, u32 value);
 
 u8 GAME_BEACON_ACCESSOR_GetActionViewVariant(u32 actionType);
 
@@ -671,7 +855,7 @@ void GAME_BEACON_ACCESSOR_RegisterRecordWords(GameBeaconInfo *info, struct WordS
         break;
     case BEACON_PRINT_MONS_NO:
     case BEACON_PRINT_MONS_NO_AND_NICKNAME:
-        WORDSET_Callback(wordSet, 1, GAME_BEACON_ACCESSOR_GetActionMonsNo(info));
+        WORDSET_SetSlotSpeciesName(wordSet, 1, GAME_BEACON_ACCESSOR_GetActionMonsNo(info));
         if (printKind == BEACON_PRINT_MONS_NO)
             break;
     case BEACON_PRINT_NICKNAME:
@@ -679,7 +863,7 @@ void GAME_BEACON_ACCESSOR_RegisterRecordWords(GameBeaconInfo *info, struct WordS
         WORDSET_SetSlotTag(wordSet, 2, buf, 0, 1, 2);
         break;
     case BEACON_PRINT_ITEM_NO:
-        WORDSET_Callback_EF4C(wordSet, 1, GAME_BEACON_ACCESSOR_GetActionItemNo(info));
+        WORDSET_SetSlotFromMsg117(wordSet, 1, GAME_BEACON_ACCESSOR_GetActionItemNo(info));
         break;
     case BEACON_PRINT_SPECIAL_VALUE:
         WORDSET_SetSlotNumber(wordSet, 1, GAME_BEACON_ACCESSOR_GetActionSpecialValue(info), 3, 0, 1);
@@ -688,10 +872,10 @@ void GAME_BEACON_ACCESSOR_RegisterRecordWords(GameBeaconInfo *info, struct WordS
         WORDSET_SetSlotNumber(wordSet, 1, GAME_BEACON_ACCESSOR_GetPresetEventValue(info), 3, 0, 1);
         break;
     case BEACON_PRINT_DISTRIBUTION_MONS_NO:
-        WORDSET_Callback(wordSet, 1, GAME_BEACON_ACCESSOR_GetDistributionMonsNo(info));
+        WORDSET_SetSlotSpeciesName(wordSet, 1, GAME_BEACON_ACCESSOR_GetDistributionMonsNo(info));
         break;
     case BEACON_PRINT_DISTRIBUTION_ITEM_NO:
-        WORDSET_Callback_EF40(wordSet, 1, GAME_BEACON_ACCESSOR_GetDistributionItemNo(info));
+        WORDSET_SetSlotFromMsg36(wordSet, 1, GAME_BEACON_ACCESSOR_GetDistributionItemNo(info));
         break;
     case BEACON_PRINT_COUNT_VALUE:
         WORDSET_SetSlotFromMsgCB(wordSet, 1, GAME_BEACON_ACCESSOR_GetActionCountValue(info));
@@ -700,7 +884,7 @@ void GAME_BEACON_ACCESSOR_RegisterRecordWords(GameBeaconInfo *info, struct WordS
         WORDSET_SetSlotNumber(wordSet, 1, GAME_BEACON_ACCESSOR_GetActionWordValue(info), 1, 0, 1);
         break;
     case BEACON_PRINT_BYTE_VALUE:
-        WORDSET_DrawF1E0(wordSet, 1, GAME_BEACON_ACCESSOR_GetActionByteValue(info));
+        WORDSET_SetSlotWeekday(wordSet, 1, GAME_BEACON_ACCESSOR_GetActionByteValue(info));
         break;
     case BEACON_PRINT_HALFWORD_VALUE:
         WORDSET_SetSlotFromMsgA0(wordSet, 1, GAME_BEACON_ACCESSOR_GetActionHalfwordValue(info));

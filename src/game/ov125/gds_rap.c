@@ -1,7 +1,7 @@
 /*
  * file:     gds_rap.c
  * unit:     yes
- * function: GDS_RAP_Init, GDS_RAP_Exit, GDS_RAP_RequestUploadEntry, GDS_RAP_RequestDownloadEntries, GDS_RAP_RequestUploadVideo, GDS_RAP_RequestSearchVideos, GDS_RAP_RequestSearchKind1, GDS_RAP_RequestSearchKind2, GDS_RAP_RequestSearchKind3, GDS_RAP_RequestGetVideo, GDS_RAP_RequestMarkVideo, GDS_RAP_Main, GDS_RAP_RunRequest, GDS_RAP_UpdateSocketState, GDS_RAP_PollNothing, GDS_RAP_PollSaveUploadedVideo, GDS_RAP_PollNothingAfterError, GDS_RAP_ReleaseSession, GDS_RAP_FindMember, GDS_RAP_CopyNickname, GDS_RAP_ReadReply, GDS_RAP_IsIdle, GDS_RAP_CheckUploadEntryReply, GDS_RAP_CheckDownloadEntriesReply, GDS_RAP_GetDownloadEntries, GDS_RAP_CheckUploadVideoReply, GDS_RAP_GetUploadedDataNumber, GDS_RAP_CheckSearchVideosReply, GDS_RAP_GetSearchResults, GDS_RAP_CheckGetVideoReply, GDS_RAP_GetVideoReply, GDS_RAP_CheckMarkVideoReply, GDS_RAP_SaveVideoSeq, GDS_RAP_SaveVideoWithDataNumber, GDS_RAP_SaveVideoSecured, GDS_RAP_StartVideoSave, GDS_RAP_StepVideoSave, GDS_RAP_GetVideoWork, GDS_SOCKET_Reset, GDS_SOCKET_Start, GDS_SOCKET_ResetConnection, GDS_SOCKET_RunConnection, GDS_SOCKET_SendRequest, GDS_SOCKET_GetStateUnlocked, GDS_SOCKET_GetReplyUnlocked, GDS_SOCKET_GetReplySizeUnlocked, GDS_SOCKET_GetErrorUnlocked, GDS_SOCKET_Alloc, GDS_SOCKET_Free, GDS_SOCKET_Lock
+ * function: GDS_RAP_Init, GDS_RAP_Exit, GDS_RAP_RequestUploadEntry, GDS_RAP_RequestDownloadEntries, GDS_RAP_RequestUploadVideo, GDS_RAP_RequestSearchVideos, GDS_RAP_RequestSearchKind1, GDS_RAP_RequestSearchKind2, GDS_RAP_RequestSearchKind3, GDS_RAP_RequestGetVideo, GDS_RAP_RequestMarkVideo, GDS_RAP_Main, GDS_RAP_RunRequest, GDS_RAP_UpdateSocketState, GDS_RAP_PollNothing, GDS_RAP_PollSaveUploadedVideo, GDS_RAP_PollNothingAfterError, GDS_RAP_ReleaseSession, GDS_RAP_FindMember, GDS_RAP_CopyNickname, GDS_RAP_ReadReply, GDS_RAP_IsIdle, GDS_RAP_CheckUploadEntryReply, GDS_RAP_CheckDownloadEntriesReply, GDS_RAP_GetDownloadEntries, GDS_RAP_CheckUploadVideoReply, GDS_RAP_GetUploadedDataNumber, GDS_RAP_CheckSearchVideosReply, GDS_RAP_GetSearchResults, GDS_RAP_CheckGetVideoReply, GDS_RAP_GetVideoReply, GDS_RAP_CheckMarkVideoReply, GDS_RAP_SaveVideoSeq, GDS_RAP_SaveVideoWithDataNumber, GDS_RAP_SaveVideoSecured, GDS_RAP_StartVideoSave, GDS_RAP_StepVideoSave, GDS_RAP_GetVideoWork
  * address:  0x021D6660
  * region:   ov125
  * compiler: dsi/1.1p1
@@ -72,7 +72,7 @@
  *   MI_CpuCopy8 0x02082D44 arm
  *   GDS_SOCKET_GetReplySize 0x021D85F4 arm ov125
  *   MI_CpuFill8 0x02082BCC arm
- *   GF_STANDARD_SetupCalc 0x0203F1FC arm
+ *   GF_STANDARD_CalcCrc16 0x0203F1FC arm
  *   sGdsEmptyString2 0x021D8D2C data a4
  *   d_0214616C 0x0214616C data a4
  *   SAVE_CONTROL_LoadExtraSave 0x0200725C thumb
@@ -108,7 +108,7 @@
  *   gGdsSocketMutex     0x021DA174  data  a4
  *   BATTLE_REC_SaveSeq  0x0200B67C  thumb  arm9
  *   BATTLE_REC_Encode  0x0200B908  thumb  arm9
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
+ *   WORDSET_Delete  0x0201ED04  thumb  arm9
  *   strcpy  0x02094798  arm  arm9
  */
 
@@ -134,7 +134,7 @@ extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fi
 extern u32 MSGDATA_Delete(struct MsgData *msg);
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
 extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
+extern u32 WORDSET_Delete(struct WordSet *wordSet);
 extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct StrBuf *str);
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
@@ -145,7 +145,7 @@ extern int GAME_DATA_PartSaveMain(struct GameData *gameData, int id);
 extern u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *save, u32 id, u32 heap);
 extern void *SAVE_CONTROL_GetExtraSaveRecord(struct SaveControl *save, u32 id, u32 arg);
 extern void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *save, u32 id);
-extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
+extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
 
 extern void BATTLE_REC_GetModeLayout(u16 mode, s32 *sides, s32 *members);
 extern struct BattleRecSave *BATTLE_REC_GetWork(void);
@@ -277,7 +277,7 @@ void GDS_RAP_Exit(GdsRapWork *work)
     GDS_SOCKET_Shutdown();
     work->active = 0;
     STRBUF_Delete(work->strBuf);
-    WORDSET_DeleteStrbufED04(work->wordSet);
+    WORDSET_Delete(work->wordSet);
     MSGDATA_Delete(work->msgData);
     GFL_HEAP_Free(work->replyBuffer);
     GF_OVERLAY_Unload((int)ov114_id);
@@ -801,7 +801,7 @@ int GDS_RAP_GetSearchResults(GdsRapWork *work, char *dst, int max)
         u64 id = entry->dataNumber.value;
         if (entry->listing.head.dataNumber.value != id) {
             entry->listing.head.dataNumber.value = id;
-            entry->listing.head.crc = GF_STANDARD_SetupCalc((const u8 *)&entry->listing.head, 0x38);
+            entry->listing.head.crc = GF_STANDARD_CalcCrc16((const u8 *)&entry->listing.head, 0x38);
         }
         *(GdsVideoListing *)(dst + i * sizeof(GdsVideoListing)) = entry->listing;
     }
@@ -824,7 +824,7 @@ int GDS_RAP_GetVideoReply(GdsRapWork *work, struct BattleRecSave **video)
     id = reply->entry.dataNumber.value;
     if (entry->video.head.dataNumber.value != id) {
         entry->video.head.dataNumber.value = id;
-        (*video)->head.crc = GF_STANDARD_SetupCalc((const u8 *)&(*video)->head, 0x38);
+        (*video)->head.crc = GF_STANDARD_CalcCrc16((const u8 *)&(*video)->head, 0x38);
     }
     return reply->entry.dataNumber.half.lo;
 }
@@ -843,7 +843,7 @@ int GDS_RAP_SaveVideoSeq(struct GameData *gameData, int id, int mode, u16 *state
         if (mode == 1) {
             d_0214616C->head.secure = mode;
             d_0214616C->head.magic = 57985;
-            d_0214616C->head.crc = GF_STANDARD_SetupCalc((const u8 *)&d_0214616C->head, 56);
+            d_0214616C->head.crc = GF_STANDARD_CalcCrc16((const u8 *)&d_0214616C->head, 56);
         }
         value = d_0214616C->body.crc;
         BATTLE_REC_Encode(&d_0214616C->body, 0x17dc, value + ((value ^ 0xffff) << 16));
@@ -891,7 +891,7 @@ int GDS_RAP_SaveVideoSecured(struct GameData *gameData, int id, u16 *state, u16 
     case 0:
         d_0214616C->head.secure = 1;
         d_0214616C->head.magic = 57985;
-        d_0214616C->head.crc = GF_STANDARD_SetupCalc((const u8 *)&d_0214616C->head, 56);
+        d_0214616C->head.crc = GF_STANDARD_CalcCrc16((const u8 *)&d_0214616C->head, 56);
         value = d_0214616C->body.crc;
         BATTLE_REC_Encode(&d_0214616C->body, 0x17dc, value + ((value ^ 0xffff) << 16));
         ++*state;
@@ -913,284 +913,3 @@ int GDS_RAP_StepVideoSave(struct GameData *gameData, int id) {struct SaveControl
 
 
 struct BattleRecSave *GDS_RAP_GetVideoWork(void) { return d_0214616C; }
-
-#pragma thumb off
-
-/*
- * Socket state machine.  The connection runs on its own thread; the request
- * layer above polls the state under the mutex.
- */
-
-extern void GDS_SOCKET_NopBegin(void);
-extern int GDS_SOCKET_InitTick(void);
-extern int GDS_SOCKET_InitLock(void);
-extern char *strcpy(char *dst, const char *src);
-extern void GDS_SOCKET_Close(void);
-extern void GDS_SOCKET_InitSsl(void);
-extern int GDS_SOCKET_WaitToken(void);
-extern int GDS_SOCKET_OpenAndResolve(void);
-extern int GDS_SOCKET_Connect(void);
-extern int GDS_SOCKET_Send(void);
-extern int GDS_SOCKET_Receive(void);
-extern void GDS_SOCKET_Unlock(void);
-extern void GDS_SOCKET_Sleep(int msec);
-extern int GDS_SOCKET_GetMaxReplySizeOf(int requestId);
-extern int GDS_SOCKET_GetRequestSize(int requestId);
-extern int GDS_SOCKET_StartThread(void);
-extern void *memcpy(void *dest, const void *src, unsigned n);
-extern char *DWC_Alloc(int heap, int size);
-extern void DWC_Free(int heap, int ptr, int flags);
-extern void OS_LockMutex(void *mutex);
-int GDS_SOCKET_Start(const char *host, unsigned short port, GdsClientInfo *client);
-void GDS_SOCKET_ResetConnection(void);
-void GDS_SOCKET_RunConnection(void);
-int GDS_SOCKET_SendRequest(int requestId, void *body, void *replyBuffer, int bodySize);
-unsigned int GDS_SOCKET_GetStateUnlocked(void);
-void *GDS_SOCKET_GetReplyUnlocked(void);
-int GDS_SOCKET_GetReplySizeUnlocked(void);
-int GDS_SOCKET_GetErrorUnlocked(void);
-char *GDS_SOCKET_Alloc(int size);
-void GDS_SOCKET_Free(int ptr);
-void GDS_SOCKET_Lock(void);
-extern int GDS_SOCKET_Nop(void *p);
-extern void GDS_SOCKET_NopVoid(void);
-extern GdsSocket gGdsSocket;
-extern struct GdsHostTail gGdsHostTail;
-extern char gGdsSocketMutex[];
-
-void GDS_SOCKET_Reset(void)
-{
-    GDS_SOCKET_ResetConnection();
-    __builtin__clear(&gGdsSocket, sizeof(GdsClientInfo));
-    gGdsSocket.tokenReady = 0;
-    gGdsSocket.hostName[0] = 0;
-    gGdsHostTail.port = 0;
-    GDS_SOCKET_Nop(&gGdsHostTail);
-    GDS_SOCKET_NopVoid();
-}
-
-int GDS_SOCKET_Start(const char *host, unsigned short port, GdsClientInfo *client)
-{
-    if (client) {
-        gGdsSocket.client = *client;
-        gGdsSocket.tokenReady = 0;
-    }
-    GDS_SOCKET_NopBegin();
-    if (!GDS_SOCKET_InitTick()) return 0;
-    GDS_SOCKET_InitLock();
-    strcpy(gGdsSocket.hostName, host);
-    gGdsHostTail.port = port;
-    gGdsSocket.sendBuffer = 0;
-    gGdsSocket.socket = -1;
-    GDS_SOCKET_ResetConnection();
-    return 1;
-}
-
-
-
-void GDS_SOCKET_ResetConnection(void) {
- GDS_SOCKET_Close();
- if(gGdsSocket.sendBuffer) {
-  GDS_SOCKET_Free((int)gGdsSocket.sendBuffer);
-  gGdsSocket.sendBuffer=0;
- }
- gGdsSocket.connectTimeout=15;
- gGdsSocket.sendTimeout=30;
- gGdsSocket.receiveTimeout=30;
- gGdsSocket.sendSize=0;
- gGdsSocket.receiveSize=0;
- gGdsSocket.receiveBuffer=0;
- gGdsSocket.serverAddress=0;
- gGdsSocket.cancelRequested=0;
- gGdsSocket.state=GDS_SOCKET_STATE_READY;
- gGdsSocket.errorCode=0;
- GDS_SOCKET_InitSsl();
-}
-
-
-
-/*
- * lever: case 6 uses an explicit nested if for the error-13 split; the ternary spelling compiled four bytes short.
- */
-void GDS_SOCKET_RunConnection(void)
-{
-    int finish, next;
-    for (;;) {
-        finish = 0;
-        switch (gGdsSocket.state) {
-        case GDS_SOCKET_STATE_IDLE: case GDS_SOCKET_STATE_READY: case GDS_SOCKET_STATE_CANCELLED: case GDS_SOCKET_STATE_DONE: case GDS_SOCKET_STATE_FAILED:
-            finish = 1;
-            break;
-        case GDS_SOCKET_STATE_TOKEN:
-            if (!GDS_SOCKET_WaitToken()) {
-                next = gGdsSocket.errorCode == GDS_SOCKET_ERROR_ABORTED ? 7 : 9;
-                finish = 1;
-            } else next = 3;
-            GDS_SOCKET_Lock();
-            gGdsSocket.state = next;
-            break;
-        case GDS_SOCKET_STATE_RESOLVE:
-            if (!GDS_SOCKET_OpenAndResolve()) {
-                next = gGdsSocket.errorCode == GDS_SOCKET_ERROR_ABORTED ? 7 : 9;
-                finish = 1;
-            } else next = 4;
-            GDS_SOCKET_Lock();
-            gGdsSocket.state = next;
-            break;
-        case GDS_SOCKET_STATE_CONNECT:
-            if (!GDS_SOCKET_Connect()) {
-                next = gGdsSocket.errorCode == GDS_SOCKET_ERROR_ABORTED ? 7 : 9;
-                finish = 1;
-            } else next = 5;
-            GDS_SOCKET_Lock();
-            gGdsSocket.state = next;
-            break;
-        case GDS_SOCKET_STATE_SEND:
-            if (!GDS_SOCKET_Send()) {
-                next = gGdsSocket.errorCode == GDS_SOCKET_ERROR_ABORTED ? 7 : 9;
-                finish = 1;
-            } else next = 6;
-            if (gGdsSocket.sendBuffer) {
-                GDS_SOCKET_Free((int)gGdsSocket.sendBuffer);
-                gGdsSocket.sendBuffer = 0;
-            }
-            GDS_SOCKET_Lock();
-            gGdsSocket.state = next;
-            break;
-        case GDS_SOCKET_STATE_RECEIVE:
-            if (!GDS_SOCKET_Receive()) {
-                if (gGdsSocket.errorCode == GDS_SOCKET_ERROR_ABORTED) next = 7;
-                else next = 9;
-            } else {
-                next = 8;
-            }
-            finish = 1;
-            GDS_SOCKET_Lock();
-            gGdsSocket.state = next;
-            break;
-        }
-        if (finish != 0) break;
-        if (gGdsSocket.cancelRequested == 1) {
-            gGdsSocket.state = GDS_SOCKET_STATE_CANCELLED;
-            gGdsSocket.errorCode = GDS_SOCKET_ERROR_ABORTED;
-            break;
-        }
-        GDS_SOCKET_Unlock();
-        GDS_SOCKET_Sleep(1);
-    }
-    GDS_SOCKET_Unlock();
-}
-
-
-
-typedef struct GdsLengthWord { u8 b[4]; } GdsLengthWord;
-
-
-
-/*
- * 2026-10-05 (user decision): the long long temp for the call result is accepted as plausible original design (a 64-bit size type).
- */
-int GDS_SOCKET_SendRequest(int requestId, void *body, void *replyBuffer, int bodySize)
-{
-    GdsLengthWord hdr;
-    GdsPacketHeader *packet;
-    GdsPacketHeader *q;
-    unsigned char *h;
-    int z;
-    GDS_SOCKET_Lock();
-    switch (gGdsSocket.state) {
-    case 0: case 2: case 3: case 4: case 5: case 6:
-        GDS_SOCKET_Unlock();
-        gGdsSocket.state = GDS_SOCKET_STATE_FAILED;
-        gGdsSocket.errorCode = 1;
-        return 0;
-    case 7:
-    case 8:
-    case 9:
-        GDS_SOCKET_ResetConnection();
-        break;
-    }
-    GDS_SOCKET_Unlock();
-    gGdsSocket.receiveSize = GDS_SOCKET_GetMaxReplySizeOf(requestId);
-    if (gGdsSocket.receiveSize == -1) {
-        gGdsSocket.state = GDS_SOCKET_STATE_FAILED;
-        gGdsSocket.errorCode = 2;
-        return 0;
-    }
-    gGdsSocket.receiveBuffer = replyBuffer;
-    if (bodySize != -1) {
-        bodySize += GDS_WIRE_HEADER_SIZE;
-        *(int *)&hdr = bodySize;
-    } else {
-        long long v = GDS_SOCKET_GetRequestSize(requestId);
-        bodySize = (int)v;
-        *(int *)&hdr = (int)v;
-        if ((int)v == -1) {
-            gGdsSocket.state = GDS_SOCKET_STATE_FAILED;
-            gGdsSocket.errorCode = 2;
-            return 0;
-        }
-    }
-    packet = (GdsPacketHeader *)GDS_SOCKET_Alloc(bodySize);
-    gGdsSocket.sendBuffer = (u8 *)packet;
-    if (packet == 0) return 0;
-    gGdsSocket.sendSize = bodySize;
-    h = (unsigned char *)&hdr;
-    ((u8 *)packet)[0] = h[0]; ((u8 *)packet)[1] = h[1]; ((u8 *)packet)[2] = h[2]; ((u8 *)packet)[3] = h[3];
-    q = (GdsPacketHeader *)gGdsSocket.sendBuffer;
-    q->requestId = requestId;
-    q->client = gGdsSocket.client;
-    z = 0;
-    q->reserved = z;
-    memcpy((u8 *)q + GDS_WIRE_HEADER_SIZE, body, bodySize - GDS_WIRE_HEADER_SIZE);
-    gGdsSocket.state = GDS_SOCKET_STATE_TOKEN;
-    GDS_SOCKET_Lock();
-    if (GDS_SOCKET_StartThread() == 0) {
-        gGdsSocket.state = GDS_SOCKET_STATE_FAILED;
-        gGdsSocket.errorCode = 6;
-        GDS_SOCKET_Unlock();
-        return z;
-    }
-    GDS_SOCKET_Unlock();
-    return 1;
-}
-
-
-
-
-/*
- * Addresses are Black-image addresses.
- */
-unsigned int GDS_SOCKET_GetStateUnlocked(void)
-{
-    return gGdsSocket.state;
-}
-
-
-void *GDS_SOCKET_GetReplyUnlocked(void) {GDS_SOCKET_Lock(); if(GDS_SOCKET_GetStateUnlocked()!=GDS_SOCKET_STATE_DONE){GDS_SOCKET_Unlock();return 0;} GDS_SOCKET_Unlock();return gGdsSocket.receiveBuffer+4;}
-
-
-int GDS_SOCKET_GetReplySizeUnlocked(void){GDS_SOCKET_Lock();if(GDS_SOCKET_GetStateUnlocked()!=GDS_SOCKET_STATE_DONE){GDS_SOCKET_Unlock();return -1;}else{GDS_SOCKET_Unlock();return gGdsSocket.receiveSize;}}
-
-
-int GDS_SOCKET_GetErrorUnlocked(void){GDS_SOCKET_Lock();if(GDS_SOCKET_GetStateUnlocked()!=GDS_SOCKET_STATE_FAILED){GDS_SOCKET_Unlock();return 0;}else{GDS_SOCKET_Unlock();return gGdsSocket.errorCode;}}
-
-
-
-/*
- * Addresses are Black-image addresses.
- */
-char *GDS_SOCKET_Alloc(int size)
-{
-    return DWC_Alloc(0, size);
-}
-
-
-void GDS_SOCKET_Free(int ptr){if(ptr)DWC_Free(0,ptr,0);}
-
-
-
-void GDS_SOCKET_Lock(void)
-{
-    OS_LockMutex(gGdsSocketMutex);
-}

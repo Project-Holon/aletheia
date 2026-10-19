@@ -1,5 +1,5 @@
 /*
- * function: WORLDTRADE_BOX_ClampSlot
+ * function: WORLDTRADE_BOX_IsPartyBox
  * address:  0x021F6B34
  * packet:   pkt_021F6B34
  * region:   ov135
@@ -16,7 +16,7 @@
  * True only for the 0xff sentinel.
  */
 
-int WORLDTRADE_BOX_ClampSlot(int v)
+int WORLDTRADE_BOX_IsPartyBox(int v)
 {
     if (v == 0xff) {
         return 1;

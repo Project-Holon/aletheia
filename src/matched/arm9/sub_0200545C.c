@@ -38,7 +38,7 @@
  *   FADE_SetSpeed  0x0204E6F4  arm
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   GFL_HEAP_RegisterBlockHeap  0x02030678  arm
- *   GF_STANDARD_Reset  0x0203F3B4  arm
+ *   GF_STANDARD_InitRtc  0x0203F3B4  arm
  *   GFL_HEAP_InitSystemHeapChecked  0x02030BA4  arm
  *   GF_STANDARD_Init  0x0203EF5C  arm
  *
@@ -115,7 +115,7 @@ extern void  GFL_USE_InitRandom(void);
 extern void  FADE_Create(u32 a);
 extern void BACKUP_SYSTEM_Init(u32 a0, u32 a1, u32 a2);
 extern void  TEXTPRINT_Init(u32 a);
-extern void  GF_STANDARD_Reset(void);
+extern void  GF_STANDARD_InitRtc(void);
 extern void  GFL_USE_ClearVBlankHook(void);
 extern void  GFL_USE_SetSleepVolumeHooks(void);
 extern void FADE_SetSpeed(s32 a);
@@ -170,7 +170,7 @@ void GFL_USE_InitSystem(void)
     FADE_Create(0);
     BACKUP_SYSTEM_Init(7, (u32)APP_POWER_ClearCallback, (u32)APP_POWER_SetCallback);
     TEXTPRINT_Init(0);
-    GF_STANDARD_Reset();
+    GF_STANDARD_InitRtc();
     _GflUse.unk0C = 0;
     GFL_USE_ClearVBlankHook();
     GFL_USE_SetSleepVolumeHooks();

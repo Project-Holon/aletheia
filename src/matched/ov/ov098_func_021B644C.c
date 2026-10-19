@@ -11,7 +11,7 @@
  *
  * symbols:
  *   PDC_MSG_StartFadeIn  0x021B6B5C  thumb  ov098
- *   PDC_MSG_IsFadeIdle  0x021B6B68  thumb  ov098
+ *   PDC_MSG_UpdateFade  0x021B6B68  thumb  ov098
  *   BTLV_EFFECT_SetPokeSpriteKey  0x021F7EE8  thumb  ov094
  *   BTLV_EFFECT_StartEffect  0x021F7998  thumb  ov094
  *   PDC_MAIN_StartFadeIn  0x021B67A4  thumb  ov098
@@ -30,7 +30,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern void PDC_MSG_StartFadeIn(char *p);
-extern int PDC_MSG_IsFadeIdle(char *p);
+extern int PDC_MSG_UpdateFade(char *p);
 extern void BTLV_EFFECT_SetPokeSpriteKey(void *m, int key);
 extern void BTLV_EFFECT_StartEffect(u32 a);
 extern void PDC_MAIN_StartFadeIn(int a);
@@ -53,7 +53,7 @@ int PDC_MAIN_StepIntro(char *p)
         ((struct Obj00381 *)p)->f60 = ((struct Obj00381 *)p)->f60 + 1;
         break;
     case 1:
-        if (PDC_MSG_IsFadeIdle((char *)(((struct Obj00381 *)p)->f14)) != 0) {
+        if (PDC_MSG_UpdateFade((char *)(((struct Obj00381 *)p)->f14)) != 0) {
             BTLV_EFFECT_SetPokeSpriteKey(((struct Obj00381 *)p)->f4, 1);
             BTLV_EFFECT_StartEffect(0x231);
             PDC_MAIN_StartFadeIn(2);
@@ -75,7 +75,7 @@ int PDC_MAIN_StepIntro(char *p)
         }
         break;
     case 4:
-        if (PDC_MSG_IsFadeIdle((char *)(((struct Obj00381 *)p)->f14)) != 0) {
+        if (PDC_MSG_UpdateFade((char *)(((struct Obj00381 *)p)->f14)) != 0) {
             BTLV_EFFECT_StartEffect(0x23e);
             ((struct Obj00381 *)p)->f60 = ((struct Obj00381 *)p)->f60 + 1;
         }

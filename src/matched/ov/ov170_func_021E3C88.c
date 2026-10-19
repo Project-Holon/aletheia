@@ -12,7 +12,7 @@
  * symbols:
  *   CURSOR_MOVE_GetCurrent 0x020260E0 thumb
  *   BOX2_UI_IsTopBarClosed 0x021EF480 thumb
- *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb
+ *   BOX2_MAIN_RefreshCurrentBoxMonInfo 0x021DEFEC thumb
  *   BOX2_SEQ_ShowWindowObject 0x021EBA5C thumb
  *   BOX2_MAIN_RefreshCursorBox 0x021DD14C thumb
  *   BOX2_UI_ShowWindowB 0x021EF68C thumb
@@ -54,7 +54,7 @@ typedef unsigned char  u8;
 struct Sound;
 extern u8 CURSOR_MOVE_GetCurrent(struct Sound *obj);
 extern int BOX2_UI_IsTopBarClosed(struct WinMgr *mgr);
-extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
+extern void BOX2_MAIN_RefreshCurrentBoxMonInfo(char *p, int b);
 extern void BOX2_SEQ_ShowWindowObject(char *w, int v);
 extern void BOX2_MAIN_RefreshCursorBox(char *p);
 extern void BOX2_UI_ShowWindowB(char *w);
@@ -112,7 +112,7 @@ int BOX2_SEQ_StateSummaryB(unsigned char *p)
             } else if (p[0x16] >= 0x1E) {
                 p[0x16] = 0;
             }
-            BOX2_MAIN_ChangeBoxFormPreserve((char *)p, p[0x16]);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p, p[0x16]);
         } else {
             if (BOX2_UI_IsTopBarClosed(MGR(p)) == 1)
                 p[0x17] = 0xFF;

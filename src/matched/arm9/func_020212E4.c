@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: FILE_UTIL_Check12E4
+ * function: FILE_UTIL_IsHmMove
  *
  * symbols:
  *   g_0209EAA0  0x0209EAA0  data
@@ -23,8 +23,8 @@
  * through a scratch register, which a `u32` counter does not produce.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/FILE_UTIL_Check12E4.c \
- *       --func FILE_UTIL_Check12E4 --addr 0x020212E4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/FILE_UTIL_IsHmMove.c \
+ *       --func FILE_UTIL_IsHmMove --addr 0x020212E4 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -33,7 +33,7 @@ typedef unsigned int   u32;
 
 extern const u16 g_0209EAA0[];
 
-u32 FILE_UTIL_Check12E4(u16 v)
+u32 FILE_UTIL_IsHmMove(u16 v)
 {
     u8 i;
 

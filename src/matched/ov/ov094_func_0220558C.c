@@ -21,7 +21,7 @@
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
  *   PALANM_GetDefaultWork 0x02021728 thumb
  *   PALANM_CopyToSlot 0x020215BC thumb
@@ -45,7 +45,7 @@ extern void WORDSET_SetSlotNumber(u32, u32, u32, u32, u32, u32);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern int BTLV_EFFECT_GetPalanm(void);
 extern int PALANM_GetDefaultWork(char *, int);
 extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
@@ -74,7 +74,7 @@ void BTLV_INPUT_DrawSelectScreenText(char *s, const int *b)
     PRINTSYS_Print((void *)(((struct Obj02440 *)s)->f22C), 0x7c, 8, extra, (void *)(((struct Obj02440 *)s)->f224));
     STRBUF_Delete(extra);
     GF_FONT_SetTextColor(c[2], c[1], c[0]);
-    WORDSET_DeleteStrbufED04((struct WordSet *)h);
+    WORDSET_Delete((struct WordSet *)h);
     STRBUF_Delete(w);
     STRBUF_Delete(v);
     PALANM_CopyToSlot((struct PalAnmSlot *)(((struct Obj02440 *)s)->f64), (u16 *)(PALANM_GetDefaultWork((char *)BTLV_EFFECT_GetPalanm(), 1) + 0x40), 1, 0x70, 0x20);

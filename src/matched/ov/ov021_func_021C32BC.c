@@ -1,5 +1,5 @@
 /*
- * function: SODATEYA_ReturnHeldItem
+ * function: SODATEYA_RegisterCaughtIfNew
  * address:  0x021C32BC
  * packet:   pkt_ov021_021C32BC
  * region:   ov021
@@ -32,7 +32,7 @@ extern u32 ZUKAN_SAVE_IsCaught(struct Blk37 *p, u16 id);
 extern void ZUKAN_SAVE_RegisterCaught(struct Blk37 *p, void *m);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 
-void SODATEYA_ReturnHeldItem(void **p, void *mon)
+void SODATEYA_RegisterCaughtIfNew(void **p, void *mon)
 {
     void *bag = ZUKAN_SAVE_GetFromGameData(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(p[1])));
 

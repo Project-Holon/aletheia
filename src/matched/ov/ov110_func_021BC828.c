@@ -8,20 +8,20 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  */
 #include "../include/Obj02818.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 void PMSIV_BGSCROLL_Task(void *unused, u8 *p)
 {
     if (((struct Obj02818 *)p)->f14) {
         ((struct Obj02818 *)p)->f8 += ((struct Obj02818 *)p)->f10;
-        BG_SYS_FillScrollArea((u8)(((struct Obj02818 *)p)->f0), (u8)(((struct Obj02818 *)p)->f4), (int)(((struct Obj02818 *)p)->f8>>12));
+        BG_SYS_ChangeScrollImmediate((u8)(((struct Obj02818 *)p)->f0), (u8)(((struct Obj02818 *)p)->f4), (int)(((struct Obj02818 *)p)->f8>>12));
         --((struct Obj02818 *)p)->f14;
     } else {
-        BG_SYS_FillScrollArea((u8)(((struct Obj02818 *)p)->f0), (u8)(((struct Obj02818 *)p)->f4), (int)(((struct Obj02818 *)p)->fC));
+        BG_SYS_ChangeScrollImmediate((u8)(((struct Obj02818 *)p)->f0), (u8)(((struct Obj02818 *)p)->f4), (int)(((struct Obj02818 *)p)->fC));
     }
 }

@@ -49,7 +49,7 @@
  *   d_021D8880     0x021D8880  data
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
+ *   WORDSET_SetSlotMonNickname  0x0201EEF4  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   BG_SYS_SetTileEntry  0x02041300  arm
@@ -68,9 +68,9 @@
  *   d_021D8398     0x021D8398  data a4
  *   MCSS_GetScale  0x02015C94  thumb
  *   MCSS_SetScale  0x02015CAC  thumb
- *   BUTTON_MAN_GetUserData  0x02051A34  arm
+ *   PARTICLE_EMITTER_GetUserData  0x02051A34  arm
  *   ICA_ANIME_GetTranslate  0x02011610  thumb
- *   BUTTON_MAN_SetEmitterPos  0x02051838  arm
+ *   PARTICLE_EMITTER_SetEmitPos  0x02051838  arm
  *   POKETRADE_DEMO_DOWN_SetFinishFlag  0x021D6744  thumb  ov118
  *   MCSS_SetAnimeIndex  0x02016028  thumb
  *   MCSS_SetPaletteFade  0x02015F50  thumb
@@ -89,8 +89,8 @@
  *   POKETRADE_3D_SetupParticleSystemsHigh  0x021E3004  thumb  ov119
  *   POKETRADE_3D_AddUnitAndInit  0x021E3208  thumb  ov119
  *   POKETRADE_DEMO_MIDDLE_UpdateScene  0x021D7130  thumb  ov118
- *   BUTTON_MAN_SetCallback  0x02051A24  arm  arm9
- *   BUTTON_MAN_SetUserData  0x02051A2C  arm  arm9
+ *   PARTICLE_EMITTER_SetCallback  0x02051A24  arm  arm9
+ *   PARTICLE_EMITTER_SetUserData  0x02051A2C  arm  arm9
  *   PARTICLE_GetCallbackArg  0x02051774  arm  arm9
  */
 #include "pokemontrade_demo_types.h"
@@ -140,7 +140,7 @@ extern void MCSS_SetVanishFlag(void *p);
 extern void POKETRADE_PROC_SetStep(void *p, int next);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonNickname(struct WordSet *p, u32 i, void *mon);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void BG_SYS_SetTileEntry(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
@@ -157,12 +157,12 @@ extern void POKETRADE_3D_FreeParticleResources(void *);
 extern void POKETRADE_SAVE_ResetClactAndBeginEvent(void *p);
 extern void MCSS_GetScale(void *p, u32 *out);
 extern void MCSS_SetScale(void *p, u32 *src);
-extern int BUTTON_MAN_GetUserData(void *p);
+extern int PARTICLE_EMITTER_GetUserData(void *p);
 extern unsigned int ICA_ANIME_GetTranslate(struct IcaAnime *, struct Rec12 *);
-extern void BUTTON_MAN_SetEmitterPos(void *, Vec *);
+extern void PARTICLE_EMITTER_SetEmitPos(void *, Vec *);
 extern u32 PARTICLE_GetCallbackArg(void);
-extern void BUTTON_MAN_SetUserData(void *p, int v);
-extern void BUTTON_MAN_SetCallback(void *p, int v);
+extern void PARTICLE_EMITTER_SetUserData(void *p, int v);
+extern void PARTICLE_EMITTER_SetCallback(void *p, int v);
 extern void POKETRADE_DEMO_DOWN_SetFinishFlag(u8 *p);
 extern void MCSS_SetAnimeIndex(void *a, u32 flag);
 extern void MCSS_SetPaletteFade(struct McssFade *w, u32 cur, u32 target, s32 step, u32 e);
@@ -285,7 +285,7 @@ void POKETRADE_DEMO_MIDDLE_PrintMessage(u8 *work)
     } else {
         MSGDATA_ReadString((struct MsgBank *)(((PokeTradeDemoWork *)work)->msgBank), 0x81, (void *)(((PokeTradeDemoWork *)work)->stringSrc));
     }
-    WORDSET_SetSlotMonSpecies(((PokeTradeDemoWork *)work)->wordSet, 0, POKETRADE_PROC_GetSideMon(work, POKETRADE_PROC_IsHostSide(work)));
+    WORDSET_SetSlotMonNickname(((PokeTradeDemoWork *)work)->wordSet, 0, POKETRADE_PROC_GetSideMon(work, POKETRADE_PROC_IsHostSide(work)));
     WORDSET_SetSlotMyStatus((struct WordSet *)(*(u32 *)&((PokeTradeDemoWork *)work)->wordSet), 1, (void *)(((PokeTradeDemoWork *)work)->enemyMonKey));
     WORDSET_CopyTaggedText((struct WordSet *)(*(u32 *)&((PokeTradeDemoWork *)work)->wordSet), (void *)(((PokeTradeDemoWork *)work)->stringDst), (void *)(((PokeTradeDemoWork *)work)->stringSrc));
     BG_SYS_SetTileEntry(4, 0, 0, 0, 0x20, 0x18, 0x11);
@@ -419,14 +419,14 @@ void POKETRADE_DEMO_MIDDLE_UpdateEmitterA(void *obj, int on)
     void *w;
 
     if (on != 0 && obj != 0) {
-        w = (void *)BUTTON_MAN_GetUserData(obj);
+        w = (void *)PARTICLE_EMITTER_GetUserData(obj);
         if (((PokeTradeButtonData *)w)->anim->anime != 0) {
             v = (Vec *)buf;
             v->x = 0;
             v->y = 0;
             v->z = 0;
             ICA_ANIME_GetTranslate(((PokeTradeButtonData *)w)->anim->anime, (struct Rec12 *)v);
-            BUTTON_MAN_SetEmitterPos(obj, v);
+            PARTICLE_EMITTER_SetEmitPos(obj, v);
         }
     }
 }
@@ -434,8 +434,8 @@ void POKETRADE_DEMO_MIDDLE_UpdateEmitterA(void *obj, int on)
 
 void POKETRADE_DEMO_MIDDLE_SetupEmitterA(void *emitter)
 {
-    BUTTON_MAN_SetUserData(emitter, PARTICLE_GetCallbackArg());
-    BUTTON_MAN_SetCallback(emitter, (int)POKETRADE_DEMO_MIDDLE_UpdateEmitterA);
+    PARTICLE_EMITTER_SetUserData(emitter, PARTICLE_GetCallbackArg());
+    PARTICLE_EMITTER_SetCallback(emitter, (int)POKETRADE_DEMO_MIDDLE_UpdateEmitterA);
 }
 
 
@@ -446,14 +446,14 @@ void POKETRADE_DEMO_MIDDLE_UpdateEmitterB(void *obj, int on)
     void *w;
 
     if (on != 0 && obj != 0) {
-        w = (void *)BUTTON_MAN_GetUserData(obj);
+        w = (void *)PARTICLE_EMITTER_GetUserData(obj);
         if (((PokeTradeButtonData *)w)->anim->animeB != 0) {
             v = (Vec *)buf;
             v->x = 0;
             v->y = 0;
             v->z = 0;
             ICA_ANIME_GetTranslate(((PokeTradeButtonData *)w)->anim->animeB, (struct Rec12 *)v);
-            BUTTON_MAN_SetEmitterPos(obj, v);
+            PARTICLE_EMITTER_SetEmitPos(obj, v);
         }
     }
 }
@@ -461,8 +461,8 @@ void POKETRADE_DEMO_MIDDLE_UpdateEmitterB(void *obj, int on)
 
 void POKETRADE_DEMO_MIDDLE_SetupEmitterB(void *emitter)
 {
-    BUTTON_MAN_SetUserData(emitter, PARTICLE_GetCallbackArg());
-    BUTTON_MAN_SetCallback(emitter, (int)POKETRADE_DEMO_MIDDLE_UpdateEmitterB);
+    PARTICLE_EMITTER_SetUserData(emitter, PARTICLE_GetCallbackArg());
+    PARTICLE_EMITTER_SetCallback(emitter, (int)POKETRADE_DEMO_MIDDLE_UpdateEmitterB);
 }
 
 

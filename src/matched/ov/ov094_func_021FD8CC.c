@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   BUTTON_MAN_GetUserData  0x02051A34  arm
+ *   PARTICLE_EMITTER_GetUserData  0x02051A34  arm
  *   MTX_MultVec43  0x0207BC08  arm
  *   BTLV_EFFVM_TransformVecByMtx44  0x021FE1B8  thumb  ov094
- *   BUTTON_MAN_SetEmitterPos  0x02051838  arm
+ *   PARTICLE_EMITTER_SetEmitPos  0x02051838  arm
  *   FX_SinCosTable_  0x020A1B38  data
  *   _ll_mul  0x0209C054  arm
  *
@@ -28,9 +28,9 @@ typedef signed short s16;
 typedef unsigned short u16;
 typedef struct { int x, y, z; } VecFx32;
 extern const s16 FX_SinCosTable_[];
-extern int BUTTON_MAN_GetUserData(void *p);
+extern int PARTICLE_EMITTER_GetUserData(void *p);
 extern void MTX_MultVec43(const VecFx32 *a, const void *b, VecFx32 *out);
-extern void BUTTON_MAN_SetEmitterPos(void *p, const VecFx32 *v);
+extern void PARTICLE_EMITTER_SetEmitPos(void *p, const VecFx32 *v);
 extern void BTLV_EFFVM_TransformVecByMtx44(VecFx32 *v, const VecFx32 *ofs);
 #define MUL(a,b) ((int)(((long long)(a) * (b) + 0x800) >> 12))
 void BTLV_EFFVM_ParticleMotionStep(void *p, int active)
@@ -40,7 +40,7 @@ void BTLV_EFFVM_ParticleMotionStep(void *p, int active)
     u16 b;
     int *s;
 
-    s = (int *)BUTTON_MAN_GetUserData(p);
+    s = (int *)PARTICLE_EMITTER_GetUserData(p);
     if (s[18] == 0 || active == 0)
         return;
     if (s[19] == 3) {
@@ -76,5 +76,5 @@ void BTLV_EFFVM_ParticleMotionStep(void *p, int active)
     MTX_MultVec43(&v, s, &v);
     if (s[23] != 0)
         BTLV_EFFVM_TransformVecByMtx44(&v, 0);
-    BUTTON_MAN_SetEmitterPos(p, &v);
+    PARTICLE_EMITTER_SetEmitPos(p, &v);
 }

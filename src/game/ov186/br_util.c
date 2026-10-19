@@ -73,7 +73,7 @@
  *   BMP_GetHeight 0x020437E4 arm
  *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
  *   GF_FONT_CountLines 0x0201D42C thumb
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   BR_RES_LoadSprite 0x021FBE54 thumb ov186
@@ -98,7 +98,7 @@
  *   PMS_DRAW_PrintOffset 0x0202DC60 thumb
  *   GDS_PROFILE_GetSpecies 0x0200D6FC thumb
  *   GDS_PROFILE_GetFormSpecies 0x0200D70C thumb
- *   GDS_PROFILE_GetMonFlagBit7 0x0200D72C thumb
+ *   GDS_PROFILE_GetNicknameFlag 0x0200D72C thumb
  *   GDS_PROFILE_GetMonFlagBit0 0x0200D73C thumb
  *   GDS_PROFILE_GetRecordWord1C 0x0200D74C thumb
  *   GDS_PROFILE_GetRecordWord30 0x0200D760 thumb
@@ -107,7 +107,7 @@
  *   GDS_PROFILE_GetCountry 0x0200D820 thumb
  *   WORDSET_SetSlotMonth 0x0201F230 thumb
  *   WORDSET_SetSlotFromMsgE7 0x0201F048 thumb
- *   WORDSET_DeleteMsgdataF094 0x0201F094 thumb
+ *   WORDSET_SetSlotFromKeyedMessage 0x0201F094 thumb
  *   POKE_TOOL_GetIconPaletteArcId 0x0201BC3C thumb
  *   POKE_TOOL_GetIconCellArcId 0x0201BC40 thumb
  *   POKE_TOOL_GetIconCellEntryId 0x0201BCB4 thumb
@@ -324,7 +324,7 @@ extern u32 GF_FONT_CountLines(struct StrObj *s, void *font);
 
 extern void SAVEDATA_PanicFail(const char *,u32,const char *);
 
-extern void BG_SYS_SetFlagField06(u32);
+extern void BG_SYS_MarkTileDirty(u32);
 
 extern struct Actor *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, int heap);
 
@@ -378,7 +378,7 @@ extern u32 GDS_PROFILE_GetSpecies(struct RecGet *p);
 
 extern u32 GDS_PROFILE_GetFormSpecies(struct RecGet *p);
 
-extern u32 GDS_PROFILE_GetMonFlagBit7(struct RecGet *p);
+extern u32 GDS_PROFILE_GetNicknameFlag(struct RecGet *p);
 
 extern u32 GDS_PROFILE_GetMonFlagBit0(struct RecGet *p);
 
@@ -398,7 +398,7 @@ extern void WORDSET_SetSlotMonth(struct WordSet *p, u32 i, u32 v);
 
 extern void WORDSET_SetSlotFromMsgE7(struct WordSet *p, u32 i, u32 n);
 
-extern void WORDSET_DeleteMsgdataF094(struct WordSet *p, u32 i, u32 a, u32 n);
+extern void WORDSET_SetSlotFromKeyedMessage(struct WordSet *p, u32 i, u32 a, u32 n);
 
 extern void *ARC_TOOL_CreateHandle(u32,u16);
 
@@ -689,7 +689,7 @@ BrUtilListMenu *BR_UTIL_CreateListMenu(const Config *cfg,u16 heap)
     }
     p->descriptor=BMP_WIN_Create(cfg->bg,cfg->x,cfg->y,cfg->width,cfg->height,cfg->palette,1);
     BMP_WIN_MakeScreen((struct Cfg *)p->descriptor);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)p->descriptor));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct Descriptor *)p->descriptor));
     i=0;
     MI_CpuFill8(&arrow,0,8);
     if(cfg->bg<4) {
@@ -1326,7 +1326,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *unit,void *printQue,i
             w=GDS_PROFILE_GetRecordWord30(prof);
             text=STRBUF_Create(0x80,(u16)heap);
             msg=MSGDATA_AllocString(bank,d_02200B34[i].msg);
-            WORDSET_DeleteMsgdataF094(words,0,v,w);
+            WORDSET_SetSlotFromKeyedMessage(words,0,v,w);
             WORDSET_CopyTaggedText(words,text,msg);
             STRBUF_Delete(msg);
             BR_UTIL_SetTextLayout(*(void **)(p+i*4),8,1,0);
@@ -1363,7 +1363,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *unit,void *printQue,i
     A=GDS_PROFILE_GetMonFlagBit0(prof);
     B=GDS_PROFILE_GetSpecies(prof);
     C=GDS_PROFILE_GetFormSpecies(prof);
-    D=GDS_PROFILE_GetMonFlagBit7(prof);
+    D=GDS_PROFILE_GetNicknameFlag(prof);
     if(B) {
         u32 hf;
         void *h;

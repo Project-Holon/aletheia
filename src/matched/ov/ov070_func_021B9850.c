@@ -21,7 +21,7 @@
  *   ITEMMENU_SetMoveTypeIconsVisible  0x021B97E8  thumb  ov070
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
- *   FILE_UTIL_Get_12B0  0x020212B0  thumb
+ *   FILE_UTIL_GetMachineMove  0x020212B0  thumb
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   ITEMMENU_RegisterItemName  0x021B61F4  thumb  ov070
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
@@ -55,7 +55,7 @@ struct CharBuf;
 struct MsgBank;
 struct WordSet;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern u16 FILE_UTIL_Get_12B0(u16 id);
+extern u16 FILE_UTIL_GetMachineMove(u16 id);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void ITEMMENU_RegisterItemName(u8 *p, int a, unsigned int b);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
@@ -93,7 +93,7 @@ void ITEMMENU_DrawMoveInfo(char *p)
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)*(u32 *)&((struct Obj00002 *)p)->f73C)), 0);
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj00002 *)p)->f744)), 0);
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)*(u32 *)&((struct Obj00002 *)p)->f74C)), 0);
-    kind = FILE_UTIL_Get_12B0(*e);
+    kind = FILE_UTIL_GetMachineMove(*e);
     if (kind == 0) {
         MSGDATA_ReadString((struct MsgBank *)(*(u32 *)&((struct Obj00002 *)p)->f51C), 0x86, (void *)(((struct Obj00002 *)p)->f524));
         ITEMMENU_RegisterItemName((u8 *)p, 0, *e);

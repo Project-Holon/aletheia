@@ -8,8 +8,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   BOX2_MAIN_ChangeBoxForm 0x021DEF98 thumb ov170
- *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb ov170
+ *   BOX2_MAIN_RefreshMonInfo 0x021DEF98 thumb ov170
+ *   BOX2_MAIN_RefreshCurrentBoxMonInfo 0x021DEFEC thumb ov170
  *   BOX2_SEQ_SetCursorFrame 0x021ED544 thumb ov170
  *   BOX2_SEQ_SetWindow9 0x021ED508 thumb ov170
  *   BOX2_SEQ_StatePmVoiceOpenB 0x021E9968 thumb ov170
@@ -20,8 +20,8 @@
  */
 #include "../include/Obj00000.h"
 #include "../include/Obj23912.h"
-extern int BOX2_MAIN_ChangeBoxForm(char *p, int a, unsigned b);
-extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
+extern int BOX2_MAIN_RefreshMonInfo(char *p, int a, unsigned b);
+extern void BOX2_MAIN_RefreshCurrentBoxMonInfo(char *p, int b);
 extern void BOX2_SEQ_SetCursorFrame(char *p, int b);
 extern void BOX2_SEQ_SetWindow9(unsigned char *p, int a, int b);
 extern int BOX2_SEQ_StatePmVoiceOpenB(unsigned char *p);
@@ -35,9 +35,9 @@ typedef struct { unsigned char pad[0x1C]; unsigned char lo:4; unsigned char hi:4
 int BOX2_SEQ_SetBox2MainE(unsigned char *p)
 {
     if (p[0x17] != 0xFF)
-        BOX2_MAIN_ChangeBoxForm((char *)p, p[0x17], p[0x16]);
+        BOX2_MAIN_RefreshMonInfo((char *)p, p[0x17], p[0x16]);
     else
-        BOX2_MAIN_ChangeBoxFormPreserve((char *)p, p[0x16]);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p, p[0x16]);
     BOX2_SEQ_SetCursorFrame((char *)p, 6);
     if (((Flags *)p)->lo == 0)
         BOX2_SEQ_SetWindow9(p, 0xE, 1);

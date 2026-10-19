@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PROC_FLD_CallEventWithVarPtr
+ * function: SCRCMD_PROC_FLD_CallGameManual
  * address:  0x021B5008
  * packet:   pkt_ov021_021B5008
  * region:   ov021
@@ -26,7 +26,7 @@ extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern void *EVENT_GAME_MANUAL_Create(void *, u16 *);
 extern void SCRIPT_SYS_CallEvent(void *, void *);
 
-int SCRCMD_PROC_FLD_CallEventWithVarPtr(u32 a, u32 b)
+int SCRCMD_PROC_FLD_CallGameManual(u32 a, u32 b)
 {
     void *d = SCRCMD_WORK_GetGameSystem((void *)b);
     void *s = SCRCMD_WORK_GetScriptWork((void *)b);

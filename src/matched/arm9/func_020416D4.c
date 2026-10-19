@@ -1,5 +1,5 @@
 /*
- * function: BG_SYS_Get
+ * function: BG_SYS_GetPriority
  * address:  0x020416D4
  * packet:   pkt_020416D4
  * region:   arm9
@@ -48,8 +48,8 @@
  * computation before each test.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/BG_SYS_Get.c \
- *       --func BG_SYS_Get --addr 0x020416D4 --arm --cc 1.1p1
+ *   python3 tools/match.py one --src src/matched/BG_SYS_GetPriority.c \
+ *       --func BG_SYS_GetPriority --addr 0x020416D4 --arm --cc 1.1p1
  */
 
 typedef unsigned char  u8;
@@ -62,7 +62,7 @@ extern struct BgSlot *g_02146A44;
 
 #define R(a) (*(struct BgCnt *)(a))
 
-u8 BG_SYS_Get(u32 layer)
+u8 BG_SYS_GetPriority(u32 layer)
 {
     struct BgCnt c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15;
 

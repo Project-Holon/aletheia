@@ -14,8 +14,8 @@
  *   ARC_UTIL_UploadBgPaletteAddFromHandle 0x02049990 arm
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
- *   BG_SYS_FillScrollArea 0x02040618 arm
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   POKETRADE_2D_SetCursorSlidePositions 0x021E6AB0 thumb ov119
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
@@ -34,8 +34,8 @@ extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern void ARC_UTIL_UploadBgPaletteAddFromHandle(void *, u32, u32, u32, u16, u32, u32, u16);
 extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
-extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
+extern void BG_SYS_SetPriority(int idx, unsigned short val);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void POKETRADE_2D_SetCursorSlidePositions(const char *p);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
@@ -52,9 +52,9 @@ void POKETRADE_2D_SetupCursorBg(char *p)
     BG_SYS_FreeLayerBuf(7);
     BG_SYS_InitBgLayer(7, &t, 0);
     ARC_UTIL_UploadBgPaletteAddFromHandle(h, 8, 7, 0, (u16)((struct Obj00001 *)p)->f870, 0, 0, ((struct Obj00001 *)p)->f5F4);
-    BG_SYS_FillScrollArea(4, 0, -0x80);
-    BG_SYS_FillScrollArea(7, 0, 0);
-    BG_SYS_SetVisibleLayer(4, 3);
+    BG_SYS_ChangeScrollImmediate(4, 0, -0x80);
+    BG_SYS_ChangeScrollImmediate(7, 0, 0);
+    BG_SYS_SetPriority(4, 3);
     ARC_UTIL_UploadBgPaletteAddFromHandle(h, 11, 2, 0, (u16)((struct Obj00001 *)p)->f86C, 0, 0, ((struct Obj00001 *)p)->f5F4);
     ARC_TOOL_DeleteHandle(h);
     ((struct Obj00001 *)p)->f11DE = 0;

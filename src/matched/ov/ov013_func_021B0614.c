@@ -1,5 +1,5 @@
 /*
- * function: VCT_SESSION_AddMember
+ * function: VCT_MIXER_AddMember
  * address: 0x021B0614
  * packet: pkt_ov013_021B0614
  * region: ov013
@@ -73,7 +73,7 @@ extern void VCT_AUDIO_InitReceiveSource(char *p, int i, int a2);
 extern void VCT_DSP_ResetVoiceGate(void);
 
 #pragma opt_lifetimes off
-int VCT_SESSION_AddMember(Req *p)
+int VCT_MIXER_AddMember(Req *p)
 {
     u32 i;
 

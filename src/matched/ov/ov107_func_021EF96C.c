@@ -12,7 +12,7 @@
  *   d_021F6D70 0x021F6D70 data ov107 a4
  *   d_021F6D60 0x021F6D60 data ov107 a4
  *   d_021F6C40 0x021F6C40 data ov107 a4
- *   WIH_GetMeasureChannel 0x02179024 thumb ov014
+ *   WIH_FinishMeasureChannel 0x02179024 thumb ov014
  *   MI_CpuCopy8 0x02082D44 arm
  *   MB_PARENT_SYS_Init 0x021F0754 thumb ov107
  *   MB_PARENT_SYS_Register 0x021F080C thumb ov107
@@ -24,14 +24,14 @@ typedef struct { int words[15]; } Config;
 extern const Pair d_021F6D68,d_021F6D70,d_021F6D60;
 extern const Config d_021F6C40;
 typedef unsigned short u16;
-extern u16 WIH_GetMeasureChannel(void);
+extern u16 WIH_FinishMeasureChannel(void);
 extern void MI_CpuCopy8(const void *,void *,unsigned);
 extern void MB_PARENT_SYS_Init(int,int);
 extern void MB_PARENT_SYS_Register(void *,int);
 void MB_COMM_SYS_StartParent(u8 *p) {
  Pair a=d_021F6D68,b=d_021F6D70,c=d_021F6D60;
  Config cfg=d_021F6C40;
- int v=WIH_GetMeasureChannel();
+ int v=WIH_FinishMeasureChannel();
  MI_CpuCopy8(&cfg,p+128,60);
  ((struct Obj00072 *)p)->f80=p[40]==0?a.a:a.b;
  ((struct Obj00072 *)p)->f8C=b.b;((struct Obj00072 *)p)->f90=c.b;

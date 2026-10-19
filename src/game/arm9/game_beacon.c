@@ -1,8 +1,8 @@
 /*
  * file:     game_beacon.c
  * unit:     yes
- * function: GAME_COMM_CallKindNotify, GAME_COMM_Start, GAME_COMM_RequestExitNoCallback, GAME_COMM_RequestExit, GAME_COMM_GetKind, GAME_COMM_IsTransition, GAME_COMM_GetWork, GAME_COMM_GetGameData, GAME_COMM_GetLastKind, GAME_COMM_ClearCounter, GAME_COMM_GetCounter, GAME_COMM_SetSeqState, GAME_COMM_SetNotifyFlag, GAME_COMM_GetNotifyFlag, GAME_COMM_UpdatePlayerStatus, GAME_COMM_ClearPlayerStatus, GAME_COMM_PushInfoMessage, GAME_COMM_PopInfoMessage, GAME_COMM_ClearInfoMessages, GAME_COMM_PushPairMessage, GAME_COMM_PushPalaceMessage, GAME_COMM_PushPlayerMessage, GAME_BEACON_Create, GAME_BEACON_Update, GAME_BEACON_Setup, GAME_BEACON_GetMyInfo, GAME_BEACON_SendIfRequested, GAME_BEACON_UpdateActionTime, GAME_BEACON_AddLog, GAME_BEACON_ReceiveInfo, GAME_BEACON_GetLogFromWork, GAME_BEACON_GetLog, GAME_BEACON_GetLogByReceiveNoFromWork, GAME_BEACON_GetLogByReceiveNo, GAME_BEACON_GetReceiveCount, GAME_BEACON_GetNextNewLogIndex, GAME_BEACON_ClearNewFlag, GAME_BEACON_SetNewFlagByTrainerId, GAME_BEACON_GetReceivedFramesByTrainerId, GAME_BEACON_BuildMyInfo, GAME_BEACON_RequestSend, GAME_BEACON_CheckActionPriority, GAME_BEACON_IsSpecialPokemon, GAME_BEACON_CopyStrbufCodes, GAME_BEACON_PopQuestionnaireUpdated, GAME_BEACON_SetQuestionnaire, GAME_BEACON_SetNationArea, GAME_BEACON_SetResearchTeamRank, GAME_BEACON_SetPms, GAME_BEACON_SetTrainerView, GAME_BEACON_UpdateGreeting, GAME_BEACON_SetPokeCapture, GAME_BEACON_SetPokeGet, GAME_BEACON_WritePokeGet, GAME_BEACON_SetSpecialPokeGet, GAME_BEACON_WriteSpecialPokeGet, GAME_BEACON_SetPokeLevelUp, GAME_BEACON_WritePokeLevelUp, GAME_BEACON_SetPokeEvolution, GAME_BEACON_WritePokeEvolution, GAME_BEACON_SetPlayTime, GAME_BEACON_WritePlayTime, GAME_BEACON_SetItemUse, GAME_BEACON_WriteItemUse, GAME_BEACON_SetZone, GAME_BEACON_SetInfoZone, GAME_BEACON_SetDetailsBattleWildPoke, GAME_BEACON_SetDetailsBattleSpecialPoke, GAME_BEACON_SetDetailsBattleTrainer, GAME_BEACON_SetDetailsBattleLeader, GAME_BEACON_SetDetailsBattleBigFour, GAME_BEACON_ResetDetails, GAME_BEACON_WritePms, GAME_BEACON_SetMyPms, GAME_BEACON_RegisterClearCallback, GAME_BEACON_ClearFlags
- * address:  0x020263B0
+ * function: GAME_BEACON_Create, GAME_BEACON_Update, GAME_BEACON_Setup, GAME_BEACON_GetMyInfo, GAME_BEACON_SendIfRequested, GAME_BEACON_UpdateActionTime, GAME_BEACON_AddLog, GAME_BEACON_ReceiveInfo, GAME_BEACON_GetLogFromWork, GAME_BEACON_GetLog, GAME_BEACON_GetLogByReceiveNoFromWork, GAME_BEACON_GetLogByReceiveNo, GAME_BEACON_GetReceiveCount, GAME_BEACON_GetNextNewLogIndex, GAME_BEACON_ClearNewFlag, GAME_BEACON_SetNewFlagByTrainerId, GAME_BEACON_GetReceivedFramesByTrainerId, GAME_BEACON_BuildMyInfo, GAME_BEACON_RequestSend, GAME_BEACON_CheckActionPriority, GAME_BEACON_IsSpecialPokemon, GAME_BEACON_CopyStrbufCodes, GAME_BEACON_PopQuestionnaireUpdated, GAME_BEACON_SetQuestionnaire, GAME_BEACON_SetNationArea, GAME_BEACON_SetResearchTeamRank, GAME_BEACON_SetPms, GAME_BEACON_SetTrainerView, GAME_BEACON_UpdateGreeting, GAME_BEACON_SetPokeCapture, GAME_BEACON_SetPokeGet, GAME_BEACON_SetSpecialPokeGet, GAME_BEACON_SetPokeLevelUp, GAME_BEACON_SetPokeEvolution, GAME_BEACON_SetPlayTime, GAME_BEACON_SetItemUse, GAME_BEACON_SetZone, GAME_BEACON_SetInfoZone, GAME_BEACON_SetDetailsBattleWildPoke, GAME_BEACON_SetDetailsBattleSpecialPoke, GAME_BEACON_SetDetailsBattleTrainer, GAME_BEACON_SetDetailsBattleLeader, GAME_BEACON_SetDetailsBattleBigFour, GAME_BEACON_ResetDetails, GAME_BEACON_WritePms, GAME_BEACON_SetMyPms, GAME_BEACON_RegisterClearCallback, GAME_BEACON_ClearFlags
+ * address:  0x020266E0
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -10,17 +10,11 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
- * Split from app_taskmenu.c at 0x0202751C (__FILE__ anchor boundary, certain cut).
+ * Cut from game_beacon.c by tools/splitfile.py.
  *
  * symbols:
- *   GAME_COMM_KindTable  0x0209FB5C  data
  *   MI_CpuFill8 0x02082BCC  arm
- *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   GAME_DATA_GetPlayerStatusById  0x02012950  thumb
- *   MYSTATUS_IsNameEmpty  0x020084BC  thumb
- *   MYSTATUS_NameToStrbuf  0x02008500  thumb
  *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
  *   SAVEDATA_PanicFail  0x02034714  arm
  *   GFL_HEAP_Alloc  0x02030734  arm
@@ -73,121 +67,22 @@
  *   GFL_USE_AddHBlankTask  0x02005624  thumb
  *   ov231_id       0x000000E7  data
  */
+#include "game_beacon_types.h"
+#include "game_comm_shared_types.h"
 
-struct GameData;
-struct MyStatus;
 struct PlayerWork;
+
 struct PlayTime;
+
 struct SaveControl;
+
 struct MiscSave;
+
 struct QuestionnaireSave;
+
 struct PmsSave;
-struct Strbuf;
-
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef unsigned int   u32;
-
-typedef signed char    s8;
-
-typedef signed short   s16;
 
 typedef signed int     s32;
-
-/* ------------------------------------------------------------------ *
- * game_comm.c object (0x020263B0..0x020266D4 belong to game_comm.c, see
- * cuts.tsv): the comm request object of the game system.
- * ------------------------------------------------------------------ */
-
-/* Sequence of the running comm kind, at +0xC of GameComm. */
-typedef struct GameCommSeq {
-    u32 frameCount;     /* cleared by the state machine on a state change */
-    u8  state;          /* 0 start, 1 wait, 2 run, 3 exit, 4 end, 5 finish */
-    u8  changed;        /* set with every state change */
-    u8  reserved[2];
-} GameCommSeq;
-
-/* Last callback of the 0x1C-byte per-kind entries of the comm kind table. */
-typedef void (*GameCommNotifyFunc)(u32 param, void *work, u32 arg);
-
-/* Callbacks of one comm kind, 0x1C bytes per entry; the table is indexed by
- * GameComm.kind (entry 0 unused). */
-typedef struct GameCommKindFuncs {
-    void *start;
-    void *wait;
-    void *run;
-    void *exit;
-    void *end;
-    void *update;               /* 0x14: called by GAME_COMM_CallHandler */
-    GameCommNotifyFunc notify;  /* 0x18 */
-} GameCommKindFuncs;
-
-/* Called when the comm kind has exited. */
-typedef void (*GameCommExitFunc)(u32 arg0, u32 arg1);
-
-/* What each connected player is doing, one entry per net id. */
-typedef struct GameCommPlayerStatus {
-    u16 zoneId;             /* 0x0 */
-    u16 prevZoneId;         /* 0x2 */
-    u8  fieldStatus;        /* 0x4 */
-    u8  palaceNetId;        /* 0x5: net id of the player whose world this player is in */
-    u8  prevPalaceNetId;    /* 0x6 */
-    u8  reserved;
-} GameCommPlayerStatus;
-
-/* One queued information message (two player names and a message id). */
-typedef struct GameCommInfoQueueEntry {
-    u16 messageId;              /* 0x0 */
-    u8  netId;                  /* 0x2 */
-    u8  used : 1;               /* 0x3 */
-    u8  firstSex : 1;
-    u8  secondSex : 1;
-    u8  reserved : 5;
-    struct Strbuf *name[2];     /* 0x4 */
-} GameCommInfoQueueEntry;
-
-typedef struct GameCommInfoQueue {
-    GameCommInfoQueueEntry entry[6];    /* 0x00 */
-    u8 readIndex;                       /* 0x48: advanced when the writer overruns it */
-    u8 writeIndex;                      /* 0x49 */
-} GameCommInfoQueue;
-
-/* A popped message, as the message window wants it. */
-typedef struct GameCommInfoMessage {
-    struct Strbuf *name[2];     /* 0x0 */
-    u8  wordSetIndex[2];        /* 0x8 */
-    u8  sex[2];                 /* 0xA */
-    u16 messageId;              /* 0xC */
-    u8  reserved[2];
-} GameCommInfoMessage;
-
-typedef struct GameComm {
-    struct GameData *gameData;  /* 0x00 */
-    u8  exitRequest : 1;        /* 0x04: exit asked before the kind runs */
-    u8  exitPending : 1;        /*       exit asked while the kind ends */
-    u8  notifyFlag : 1;
-    u8  reservedBits : 5;
-    u8  kind;                   /* 0x05: index into the kind table, 0 = idle */
-    u8  lastKind;               /* 0x06 */
-    u8  reserved;
-    u32 counter;                /* 0x08 */
-    GameCommSeq seq;            /* 0x0C */
-    u32 param;                  /* 0x14: the start request argument */
-    void *work;                 /* 0x18: the start callback's result */
-    u32 exitArg;                /* 0x1C */
-    GameCommExitFunc exitFunc;  /* 0x20 */
-    GameCommPlayerStatus playerStatus[3];   /* 0x24 */
-    GameCommInfoQueue infoQueue;            /* 0x3C */
-} GameComm;
-
-/* ------------------------------------------------------------------ *
- * game_beacon.c: the wireless beacon (C-Gear) information.
- * ------------------------------------------------------------------ */
-
-#include "game_beacon_types.h"
-
 
 /* Per-action priority and display time. */
 typedef struct GameBeaconActionInfo {
@@ -213,843 +108,206 @@ typedef struct {
 } OSOwnerInfo;
 
 extern void MI_CpuFill8(void *dst, u8 value, u32 size);
+
 extern void MI_CpuCopy8(const void *src, void *dst, unsigned int size);
+
 extern void OS_GetOwnerInfo(OSOwnerInfo *info);
-extern u8 GAME_DATA_GetOwnNetId(const struct GameData *gameData);
+
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
-extern struct MyStatus *GAME_DATA_GetPlayerStatusById(struct GameData *gameData, u32 netId);
-extern int MYSTATUS_IsNameEmpty(const struct MyStatus *status);
-extern void MYSTATUS_NameToStrbuf(const struct MyStatus *status, struct Strbuf *dst);
+
 extern u32 MYSTATUS_GetOutfitVariant(const struct MyStatus *status);
+
 extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+
 extern int  GFL_NET_GetRunState(void);
+
 extern struct PlayTime *GAME_DATA_GetPlayTime(struct GameData *gameData);
+
 extern u16 PLAYTIME_GetHours(const struct PlayTime *playTime);
+
 extern u8 PLAYTIME_GetMinutes(const struct PlayTime *playTime);
+
 extern void NET_WHPIPE_PublishBeacon(void);
+
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
+
 extern struct QuestionnaireSave *SYMBOL_SAVE_GetBitBlock(struct SaveControl *save);
+
 extern int   MISC_SAVEDATA_GetStatusByte(struct QuestionnaireSave *questionnaire, int slot);
+
 extern u32   COMM_PLAYER_GetModelId(u8 questionId);
+
 extern u32   SYMBOL_SAVE_GetQuestionnaireAnswer(const u8 *answers, u8 questionId);
+
 extern u32 MISC_SAVEDATA_IsTallyFull(struct QuestionnaireSave *questionnaire, u32 questionId, u32 answer);
+
 extern void MISC_SAVEDATA_AddHalfwordClamped(struct QuestionnaireSave *questionnaire, int questionId, int counted);
+
 extern void MISC_SAVEDATA_AddTallyValue(struct QuestionnaireSave *questionnaire, u32 questionId, u32 answer, int count);
+
 extern const u8 *SYMBOL_SAVE_GetQuestionnaireBits(struct QuestionnaireSave *questionnaire);
+
 extern struct MiscSave *BEACON_GetBlock(struct SaveControl *save);
+
 extern int BEACON_GetRecentId(struct MiscSave *misc, u8 slot);
+
 extern void BEACON_AddRecentValue(struct MiscSave *misc, u8 slot, int value);
+
 extern u8 BEACON_GetMode(struct MiscSave *misc);
+
 extern u32 BEACON_GetGreetCount(struct MiscSave *misc);
+
 extern u32 BEACON_GetThanksCount(struct MiscSave *misc);
+
 extern u16 *BEACON_GetGreetMessage(struct MiscSave *misc);
+
 extern struct PmsSave *SAVEDATA_GetExtraBlockThunk(struct SaveControl *save);
+
 extern void MISC_SAVEDATA_CopyQuadRecord(struct PmsSave *pmsSave, int index, GameBeaconPms *dst);
+
 extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
+
 extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *player);
+
 extern u32 ZONEDATA_IsZone1A6(u16 zoneId);
+
 extern u32 ZONEDATA_IsZone96Pair(u16 zoneId);
+
 extern struct WarpLocation *GAME_DATA_GetSpecialLocation(const struct GameData *gameData);
+
 extern u32 SYMBOL_MAP_ResolveZoneId();
+
 extern u16 MYSTATUS_GetIdLow16(const struct MyStatus *status);
+
 extern u8 MYSTATUS_GetOutfit(const struct MyStatus *status);
+
 extern u8 MYSTATUS_GetLanguage(const struct MyStatus *status);
+
 extern u8 MYSTATUS_GetVersion(const struct MyStatus *status);
+
 extern u16 *MYSTATUS_GetName(const struct MyStatus *status);
+
 extern u16   STRBUF_GetEosChar(void);
+
 extern void STRBUF_ToChars(const struct Strbuf *str, u16 *codes, u32 count);
+
 extern int   GF_OVERLAY_Load(signed int overlayId);
+
 extern int   CARD_SPI_CheckCardId(void);
+
 extern void  GF_OVERLAY_Unload(int overlayId);
+
 extern void *GFL_USE_AddHBlankTask(void (*func)(void), u32 arg, u32 priority);
-void GAME_COMM_CallKindNotify(GameComm *comm, u32 arg);
-void GAME_COMM_Start(GameComm *comm, u32 kind, u32 param);
-void GAME_COMM_RequestExitNoCallback(GameComm *comm);
-void GAME_COMM_RequestExit(GameComm *comm, GameCommExitFunc exitFunc, u32 exitArg);
-u32 GAME_COMM_GetKind(const GameComm *comm);
-u32 GAME_COMM_IsTransition(const GameComm *comm);
-void *GAME_COMM_GetWork(const GameComm *comm);
-struct GameData *GAME_COMM_GetGameData(const GameComm *comm);
-u32 GAME_COMM_GetLastKind(const GameComm *comm);
-void GAME_COMM_SetCounter(GameComm *comm, u32 value);
-void GAME_COMM_ClearCounter(GameComm *comm);
-u32 GAME_COMM_GetCounter(const GameComm *comm);
-void GAME_COMM_SetSeqState(GameCommSeq *seq, u32 state);
-void GAME_COMM_SetNotifyFlag(GameComm *comm, u32 flag);
-u32 GAME_COMM_GetNotifyFlag(const GameComm *comm);
-void GAME_COMM_UpdatePlayerStatus(GameComm *comm, int netId, u16 zoneId, u8 palaceNetId, u32 fieldStatus, int quiet);
-void GAME_COMM_ClearPlayerStatus(GameComm *comm);
-void GAME_COMM_PushInfoMessage(GameComm *comm, u32 netId0, u32 netId1, u32 messageId);
-int GAME_COMM_PopInfoMessage(GameComm *comm, GameCommInfoMessage *message);
-void GAME_COMM_ClearInfoMessages(GameComm *comm);
-void GAME_COMM_PushPairMessage(GameComm *comm, u32 netId0, u32 netId1);
-void GAME_COMM_PushPalaceMessage(GameComm *comm, u32 netId, u32 palaceNetId);
-void GAME_COMM_PushPlayerMessage(GameComm *comm, u32 netId);
+
 void GAME_BEACON_Create(u32 heapId);
+
 void GAME_BEACON_Update(void);
+
 void GAME_BEACON_Setup(struct GameData *gameData);
+
 void GAME_BEACON_GetMyInfo(GameBeaconInfo *dst);
+
 void GAME_BEACON_SendIfRequested(void);
+
 void GAME_BEACON_UpdateActionTime(GameBeaconRecord *own);
+
 void GAME_BEACON_AddLog(GameBeaconWork *work, const GameBeaconInfo *info);
+
 int GAME_BEACON_ReceiveInfo(const GameBeaconInfo *info);
+
 GameBeaconRecord *GAME_BEACON_GetLogFromWork(GameBeaconWork *work, int index);
+
 GameBeaconRecord *GAME_BEACON_GetLog(int index);
+
 GameBeaconRecord *GAME_BEACON_GetLogByReceiveNoFromWork(GameBeaconWork *work, int receiveNo);
+
 GameBeaconRecord *GAME_BEACON_GetLogByReceiveNo(int receiveNo);
+
 u32 GAME_BEACON_GetReceiveCount(void);
+
 int GAME_BEACON_GetNextNewLogIndex(int *cursor);
+
 void GAME_BEACON_ClearNewFlag(u32 index);
+
 int GAME_BEACON_SetNewFlagByTrainerId(const GameBeaconInfo *info);
+
 u16 GAME_BEACON_GetReceivedFramesByTrainerId(u16 trainerId);
+
 void GAME_BEACON_BuildMyInfo(GameBeaconInfo *info, struct GameData *gameData);
+
 void GAME_BEACON_RequestSend(GameBeaconRecord *record);
+
 u32 GAME_BEACON_CheckActionPriority(u32 action);
+
 int GAME_BEACON_IsSpecialPokemon(u16 monsNo);
+
 void GAME_BEACON_CopyStrbufCodes(const struct Strbuf *str, u16 *dest);
+
 u8 GAME_BEACON_PopQuestionnaireUpdated(void);
+
 void GAME_BEACON_SetQuestionnaire(const u8 *answers);
+
 void GAME_BEACON_SetNationArea(u8 nation, u8 area);
+
 void GAME_BEACON_SetResearchTeamRank(u32 rank);
+
 void GAME_BEACON_SetPms(const GameBeaconPms *pms);
+
 void GAME_BEACON_SetTrainerView(u32 trainerView);
+
 void GAME_BEACON_UpdateGreeting(void);
+
 void GAME_BEACON_SetPokeCapture(u16 monsNo);
+
 void GAME_BEACON_SetPokeGet(u16 monsNo);
+
 void GAME_BEACON_SetSpecialPokeGet(u16 monsNo);
+
 void GAME_BEACON_SetPokeLevelUp(u16 nickname);
+
 void GAME_BEACON_SetPokeEvolution(u16 monsNo, u16 nickname);
+
 void GAME_BEACON_SetPlayTime(u32 playHours);
+
 void GAME_BEACON_SetItemUse(u16 itemNo);
+
 void GAME_BEACON_SetZone(u32 zoneId, u32 zoneSource);
+
 void GAME_BEACON_SetInfoZone(GameBeaconInfo *info, u32 zoneId, u32 zoneSource);
+
 void GAME_BEACON_SetDetailsBattleWildPoke(GameBeaconInfo *info, u16 monsNo);
+
 void GAME_BEACON_SetDetailsBattleSpecialPoke(GameBeaconInfo *info, u16 monsNo);
+
 void GAME_BEACON_SetDetailsBattleTrainer(GameBeaconInfo *info, u16 trainerId);
+
 void GAME_BEACON_SetDetailsBattleLeader(GameBeaconInfo *info, u16 trainerId);
+
 void GAME_BEACON_SetDetailsBattleBigFour(GameBeaconInfo *info, u16 trainerId);
+
 void GAME_BEACON_ResetDetails(GameBeaconInfo *info);
+
 void GAME_BEACON_WritePms(GameBeaconInfo *info, const GameBeaconPms *pms);
+
 void GAME_BEACON_SetMyPms(const GameBeaconPms *pms);
+
 void GAME_BEACON_RegisterClearCallback(void);
+
 void GAME_BEACON_ClearFlags(void);
-extern const GameCommKindFuncs GAME_COMM_KindTable[];
+
 extern GameBeaconWork *GAME_BEACON_Work;
+
 extern char   GAME_BEACON_AssertText[];
+
 extern char   GAME_BEACON_FileName[];
+
 extern const GameBeaconActionInfo GAME_BEACON_ActionTable[];
+
 extern const u16 GAME_BEACON_SpecialPokemonTable[];
+
 extern char  ov231_id[];
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * Parked: every concrete byte is right; the only unresolved site is the
- * data table base 0x0209FB74, whose word has no witness outside this range
- * (`literal` has nothing to stand on, and no branch anywhere names it).
- */
-void GAME_COMM_CallKindNotify(GameComm *comm, u32 arg)
-{
-    if (comm->seq.state != 5) {
-        GameCommNotifyFunc func = GAME_COMM_KindTable[comm->kind].notify;
-
-        if (func != 0) {
-            func(comm->param, comm->work, arg);
-        }
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * A whole translation unit, matched as one byte range.
- *
- * game_comm.c, 0x020263D8..0x02026454: start a request, the unlabelled
- * forwarding leaf GAME_COMM_RequestExitNoCallback (GAME_COMM_RequestExit(p, 0, 0) as a pool-word tail
- * call), and the request update.  The byte at +4 of the comm object and of
- * its 8-byte sub-object at +0xC is a set of one-bit flags; every clear is a
- * `bics` and every set an `orrs`, which only bitfield stores give
- * (docs/families/game_comm.h).  GAME_COMM_Start clears bit 1 between its two
- * plain stores: f14, bit, f05 is the one order whose flag load lands after
- * the f14 store (the other two schedule the f05 store first).
- *
- * Integrator: seed 0x02026400 (unlabelled follower, member of this unit).
- */
-void GAME_COMM_Start(GameComm *comm, u32 kind, u32 param)
-{
-    comm->param = param;
-    comm->exitPending = 0;
-    comm->kind = kind;
-    comm->exitFunc = 0;
-    comm->exitArg = 0;
-    MI_CpuFill8(&comm->seq, 0, sizeof(GameCommSeq));
-    GAME_COMM_ClearPlayerStatus(comm);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-void GAME_COMM_RequestExitNoCallback(GameComm *comm)
-{
-    GAME_COMM_RequestExit(comm, 0, 0);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-void GAME_COMM_RequestExit(GameComm *comm, GameCommExitFunc exitFunc, u32 exitArg)
-{
-    if (comm->seq.state == 2) {
-        GAME_COMM_SetSeqState(&comm->seq, 3);
-        comm->exitFunc = exitFunc;
-        comm->exitArg = exitArg;
-    } else if (comm->seq.state < 2) {
-        comm->exitRequest = 1;
-        comm->exitFunc = exitFunc;
-        comm->exitArg = exitArg;
-    } else {
-        comm->exitPending = 1;
-        if (comm->exitFunc == 0) {
-            comm->exitFunc = exitFunc;
-            comm->exitArg = exitArg;
-        }
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * A whole translation unit, matched as one byte range.
- *
- *           GAME_COMM_GetLastKind, GAME_COMM_SetCounter, GAME_COMM_ClearCounter, GAME_COMM_GetCounter
- *
- * Eight two-to-five-instruction accessors on one object, none of them
- * pushing a register: only the first is a real label in the generated
- * listing (a `func_starts` seed reached it some other way), and the other
- * seven print as `.word` runs between the two named functions this range
- * sits between, the same gap docs/idioms/unlabelled-leaf-functions-hide-
- * in-word-runs.md describes.
- *
- * GAME_COMM_GetKind returns byte field +5 unconditionally: the original's
- * `bne`-around-a-redundant-`movs r0,#0` is what a plain `return v;`
- * compiles to when `v` is already known nonzero on one path, not a
- * guard. GAME_COMM_IsTransition is a genuine conjunction, `field5 != 0 &&
- * field0x10 != 2`, and only that phrasing (not two early-return `if`s)
- * produces the shared branch target both comparisons jump to
- * (docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md).
- * The rest are plain word/byte getters and setters on fields +0x18, +0,
- * +6 and +8, one of them (GAME_COMM_ClearCounter) a "clear to zero" specialisation
- * of the setter that immediately follows it.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02026454.c \
- *       --addr 0x02026454 --thumb
- */
-u32 GAME_COMM_GetKind(const GameComm *comm)
-{
-    u8 kind = comm->kind;
-    if (kind != 0) {
-        return kind;
-    }
-    return 0;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-u32 GAME_COMM_IsTransition(const GameComm *comm)
-{
-    if (comm->kind != 0 && comm->seq.state != 2) {
-        return 1;
-    }
-    return 0;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-void *GAME_COMM_GetWork(const GameComm *comm)
-{
-    return comm->work;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-struct GameData *GAME_COMM_GetGameData(const GameComm *comm)
-{
-    return comm->gameData;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-u32 GAME_COMM_GetLastKind(const GameComm *comm)
-{
-    return comm->lastKind;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-void GAME_COMM_SetCounter(GameComm *comm, u32 value)
-{
-    comm->counter = value;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-void GAME_COMM_ClearCounter(GameComm *comm)
-{
-    comm->counter = 0;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-u32 GAME_COMM_GetCounter(const GameComm *comm)
-{
-    return comm->counter;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * A whole translation unit, matched as one byte range.
- *
- * The labelled GAME_COMM_SetSeqState (8 bytes) is followed immediately by two more
- * unlabelled leaves reaching to the next real label at 0x020264B4, the
- * same shape as src/matched/unit_02026454.c just above it in the image.
- *
- * GAME_COMM_SetSeqState sets byte field +4 to its argument and unconditionally
- * sets byte field +5 to 1. GAME_COMM_SetNotifyFlag and GAME_COMM_GetNotifyFlag are a
- * setter/getter pair on bit 2 of field +4: the setter narrows its 32-bit
- * argument to a byte before taking bit 0 of it
- * (`u8 f = (u8)flag;` is what produces the `lsls #0x18`/`lsrs #0x18`
- * truncation pair, not a mask, per the halfword-narrowing case in
- * docs/MATCHING.md), and the getter's `lsls #0x1d`/`lsrs #0x1f` pair is a
- * bitfield extraction rather than a type conversion (32 - 0x1d is 3, not
- * 8/16/32), which only reproduces from an actual bitfield member
- * declaration: docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_02026490.c \
- *       --addr 0x02026490 --thumb
- */
-void GAME_COMM_SetSeqState(GameCommSeq *seq, u32 state)
-{
-    seq->state = state;
-    seq->changed = 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-void GAME_COMM_SetNotifyFlag(GameComm *comm, u32 flag)
-{
-    u8 value = (u8)flag;
-
-    comm->notifyFlag = value;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-u32 GAME_COMM_GetNotifyFlag(const GameComm *comm)
-{
-    return comm->notifyFlag;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-void GAME_COMM_UpdatePlayerStatus(GameComm *comm, int netId, u16 zoneId, u8 palaceNetId, u32 fieldStatus, int quiet)
-{
-    GameCommPlayerStatus *status = &comm->playerStatus[netId];
-    u16 oldZoneId;
-    u8 oldPalaceNetId;
-
-    status->fieldStatus = fieldStatus;
-    oldZoneId = status->zoneId;
-    if (oldZoneId == zoneId && status->palaceNetId == palaceNetId) {
-        return;
-    }
-    if (oldZoneId != zoneId) {
-        status->prevZoneId = oldZoneId;
-        status->zoneId = zoneId;
-    }
-    oldPalaceNetId = status->palaceNetId;
-    if (oldPalaceNetId == palaceNetId) {
-        return;
-    }
-    status->prevPalaceNetId = oldPalaceNetId;
-    status->palaceNetId = palaceNetId;
-    if (!quiet) {
-        GAME_COMM_PushPalaceMessage(comm, netId, palaceNetId);
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-void GAME_COMM_ClearPlayerStatus(GameComm *comm)
-{
-    MI_CpuFill8(comm->playerStatus, 0, sizeof(comm->playerStatus));
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * Push one message onto the six-entry info queue at +0x3c of the comm
- * object (CURSOR_MOVE_CreateVecSet creates it; 0xc bytes per entry, write index at
- * +0x85, read index at +0x84, which is pushed along when the writer
- * overruns it).  Each net id is resolved to a player status: the console's
- * own (GAME_DATA_GetMyStatus) when it equals the console's net id, otherwise the
- * by-id lookup (GAME_DATA_GetPlayerStatusById).  If either status is unusable
- * (MYSTATUS_IsNameEmpty == 1) nothing is written.
- */
-void GAME_COMM_PushInfoMessage(GameComm *comm, u32 netId0, u32 netId1, u32 messageId)
-{
-    GameCommInfoQueue *queue;
-    struct MyStatus *status0;
-    struct MyStatus *status1;
-    GameCommInfoQueueEntry *entry;
-
-    queue = &comm->infoQueue;
-    if (netId0 == GAME_DATA_GetOwnNetId(comm->gameData)) {
-        status0 = GAME_DATA_GetMyStatus(comm->gameData);
-    } else {
-        status0 = GAME_DATA_GetPlayerStatusById(comm->gameData, netId0);
-    }
-    if (netId1 == GAME_DATA_GetOwnNetId(comm->gameData)) {
-        status1 = GAME_DATA_GetMyStatus(comm->gameData);
-    } else {
-        status1 = GAME_DATA_GetPlayerStatusById(comm->gameData, netId1);
-    }
-    if (MYSTATUS_IsNameEmpty(status0) == 1) {
-        return;
-    }
-    if (MYSTATUS_IsNameEmpty(status1) == 1) {
-        return;
-    }
-    entry = &queue->entry[queue->writeIndex];
-    if (entry->used == 1) {
-        queue->readIndex = (u8)(queue->readIndex + 1);
-    }
-    entry->netId = (u8)netId0;
-    entry->messageId = (u16)messageId;
-    entry->used = 1;
-    MYSTATUS_NameToStrbuf(status0, entry->name[0]);
-    entry->firstSex = (u8)MYSTATUS_GetOutfitVariant(status0);
-    MYSTATUS_NameToStrbuf(status1, entry->name[1]);
-    entry->secondSex = (u8)MYSTATUS_GetOutfitVariant(status1);
-    queue->writeIndex = (u8)(queue->writeIndex + 1);
-    if (queue->writeIndex >= 6) {
-        queue->writeIndex = 0;
-    }
-    if (queue->readIndex >= 6) {
-        queue->readIndex = 0;
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * EXACT*: the listing extent runs 164 bytes because the follower at
- * 0x0202667E is an unlabelled leaf (`movs r0, r0` / `bx lr`) that saves
- * nothing, so `disasm.py` never labels it.  Byte coverage ends at +0x76.
- *
- * Counted eight-entry bank: pop the next live 12-byte record at
- * base + base[0x48] * 12, publish it as the caller's 0x10-byte snapshot,
- * clear its live flag and advance the cursor with a wrap at six.
- *
- * The publish order is not the source order: the whole-word load of +0x04
- * lands before the `out[8] = 0` store, so the C has to store the word first
- * and the byte second to let the scheduler hoist the load into the store's
- * shadow.  Written with `out[8] = 0` first, the compiled order flips and
- * nine bytes differ.
- */
-int GAME_COMM_PopInfoMessage(GameComm *comm, GameCommInfoMessage *message)
-{
-    GameCommInfoQueue *queue = &comm->infoQueue;
-    GameCommInfoQueueEntry *entry = &queue->entry[queue->readIndex];
-
-    if (entry->used == 0) {
-        return 0;
-    }
-    MI_CpuFill8(message, 0, sizeof(GameCommInfoMessage));
-    message->name[0] = entry->name[0];
-    message->wordSetIndex[0] = 0;
-    message->sex[0] = entry->firstSex;
-    message->name[1] = entry->name[1];
-    message->wordSetIndex[1] = 1;
-    message->sex[1] = entry->secondSex;
-    message->messageId = entry->messageId;
-    entry->used = 0;
-    queue->readIndex = queue->readIndex + 1;
-    if (queue->readIndex >= 6) {
-        queue->readIndex = 0;
-    }
-    return 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * Clears bit 0 of six 12-byte entries at +0x3F and the bytes at +0x85 and +0x84.
- * Caller: ov011 0x021731C8.
- */
-void GAME_COMM_ClearInfoMessages(GameComm *comm)
-{
-    int i;
-    for (i = 0; i < 6; i++) {
-        comm->infoQueue.entry[i].used = 0;
-    }
-    comm->infoQueue.writeIndex = 0;
-    comm->infoQueue.readIndex = 0;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * A thin wrapper over `GAME_COMM_PushInfoMessage` (258 bytes, still open), forwarding
- * its three arguments unchanged and appending a fourth: 0x27 when the
- * second and third arguments are equal, 0x26 otherwise. The `? :` form,
- * not an `if`/`else` writing the call twice, is what reproduces the
- * single shared `lsls`/`lsrs #0x10` that narrows the chosen constant to
- * the callee's 16-bit fourth parameter after the branch instead of in
- * each arm.
- *
- * `GAME_COMM_PushInfoMessage`'s only three callers in the whole ARM9 image are this
- * function and its two siblings GAME_COMM_PushPalaceMessage and GAME_COMM_PushPlayerMessage
- * (src/matched/GAME_COMM_PushPalaceMessage.c, src/matched/GAME_COMM_PushPlayerMessage.c). Keeping each
- * in its own translation unit is what gives the other two's calls
- * standing as outside evidence for this one; compiled together as a
- * single unit the three calls would attest only each other and the whole
- * range would cap at MATCH (docs/MATCHING.md, "the pairwise case across
- * two files").
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/GAME_COMM_PushPairMessage.c \
- *       --func GAME_COMM_PushPairMessage --addr 0x020266AC --cc 1.1p1 --thumb
- */
-void GAME_COMM_PushPairMessage(GameComm *comm, u32 netId0, u32 netId1)
-{
-    GAME_COMM_PushInfoMessage(comm, netId0, netId1, (u16)((netId0 == netId1) ? 0x27 : 0x26));
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * The same wrapper shape as src/matched/GAME_COMM_PushPairMessage.c, with the constant
- * pair 0x1e/0x1d in place of 0x27/0x26. See that file's header for why it
- * is kept in its own translation unit rather than merged with its two
- * siblings.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/GAME_COMM_PushPalaceMessage.c \
- *       --func GAME_COMM_PushPalaceMessage --addr 0x020266C0 --cc 1.1p1 --thumb
- */
-void GAME_COMM_PushPalaceMessage(GameComm *comm, u32 netId, u32 palaceNetId)
-{
-    GAME_COMM_PushInfoMessage(comm, netId, palaceNetId, (u16)((netId == palaceNetId) ? 0x1e : 0x1d));
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * The simplest of the three GAME_COMM_PushInfoMessage wrappers: forwards its first
- * argument, repeats its second as both the second and third callee
- * argument, and appends the literal 0x1f. See
- * src/matched/GAME_COMM_PushPairMessage.c's header for why the three are kept as
- * separate files rather than one unit.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/GAME_COMM_PushPlayerMessage.c \
- *       --func GAME_COMM_PushPlayerMessage --addr 0x020266D4 --cc 1.1p1 --thumb
- */
-void GAME_COMM_PushPlayerMessage(GameComm *comm, u32 netId)
-{
-    GAME_COMM_PushInfoMessage(comm, netId, netId, 0x1f);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Allocates the 0xbb4-byte beacon system block on the caller's heap and
@@ -1078,19 +336,6 @@ void GAME_BEACON_Create(u32 heapId)
     GAME_BEACON_Work = GFL_HEAP_Alloc(heapId, sizeof(GameBeaconWork), one, GAME_BEACON_FileName, 0x5a);
     GAME_BEACON_Work->newestIndex = (u8)(one - 2);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void GAME_BEACON_Update(void)
 {
@@ -1129,17 +374,6 @@ void GAME_BEACON_Update(void)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
 void GAME_BEACON_Setup(struct GameData *gameData)
 {
     GameBeaconWork *work = GAME_BEACON_Work;
@@ -1149,32 +383,10 @@ void GAME_BEACON_Setup(struct GameData *gameData)
     GAME_BEACON_Work->lastPlayHours = PLAYTIME_GetHours(GAME_DATA_GetPlayTime(gameData));
 }
 
-
-
-
-
-
-
-
-
-
-
-
 void GAME_BEACON_GetMyInfo(GameBeaconInfo *dst)
 {
     MI_CpuCopy8(&GAME_BEACON_Work->own.info, dst, sizeof(GameBeaconInfo));
 }
-
-
-
-
-
-
-
-
-
-
-
 
 void GAME_BEACON_SendIfRequested(void)
 {
@@ -1185,17 +397,6 @@ void GAME_BEACON_SendIfRequested(void)
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
 
 void GAME_BEACON_UpdateActionTime(GameBeaconRecord *own)
 {
@@ -1211,16 +412,6 @@ void GAME_BEACON_UpdateActionTime(GameBeaconRecord *own)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
 static inline u32 GAME_BEACON_GetAnswer(const GameBeaconInfo *info, int questionId)
 {
     u32 answer;
@@ -1234,15 +425,6 @@ static inline u32 GAME_BEACON_GetAnswer(const GameBeaconInfo *info, int question
     }
     return answer;
 }
-
-
-
-
-
-
-
-
-
 
 /*
  * The ring insert: advance hi with a wrap at 30 (pushing lo along when the
@@ -1316,19 +498,6 @@ void GAME_BEACON_AddLog(GameBeaconWork *work, const GameBeaconInfo *info)
     if (work->logCount < 30)
         work->logCount++;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * The duplicate/accept scan over the receive ring.  Closed 2026-09-23 by
@@ -1413,21 +582,6 @@ int GAME_BEACON_ReceiveInfo(const GameBeaconInfo *info)
     return 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Five unlabelled leaves between GAME_BEACON_ReceiveInfo and GAME_BEACON_GetNextNewLogIndex
  * (0x02026BFC..0x02026CA0), tu-verified: two ring-slot accessors, their
@@ -1449,40 +603,10 @@ GameBeaconRecord *GAME_BEACON_GetLogFromWork(GameBeaconWork *work, int index)
     return &work->log[index];
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 GameBeaconRecord *GAME_BEACON_GetLog(int index)
 {
     return GAME_BEACON_GetLogFromWork(GAME_BEACON_Work, index);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 GameBeaconRecord *GAME_BEACON_GetLogByReceiveNoFromWork(GameBeaconWork *work, int receiveNo)
 {
@@ -1498,60 +622,15 @@ GameBeaconRecord *GAME_BEACON_GetLogByReceiveNoFromWork(GameBeaconWork *work, in
     return &work->log[index];
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 GameBeaconRecord *GAME_BEACON_GetLogByReceiveNo(int receiveNo)
 {
     return GAME_BEACON_GetLogByReceiveNoFromWork(GAME_BEACON_Work, receiveNo);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 u32 GAME_BEACON_GetReceiveCount(void)
 {
     return GAME_BEACON_Work->receiveCount;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int GAME_BEACON_GetNextNewLogIndex(int *cursor)
 {
@@ -1567,19 +646,6 @@ int GAME_BEACON_GetNextNewLogIndex(int *cursor)
     return 30;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Clears bit `n` of the ring live mask at +0xba4 of the game beacon block.
  * The earlier MATCH park read the pool word as 0x02021440; the word at
@@ -1590,18 +656,6 @@ void GAME_BEACON_ClearNewFlag(u32 index)
 {
     GAME_BEACON_Work->newMask = ((1 << index) ^ 0xffffffff) & GAME_BEACON_Work->newMask;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Finds the ring slot whose +0x10 id equals the record's, sets its live-mask
@@ -1622,18 +676,6 @@ int GAME_BEACON_SetNewFlagByTrainerId(const GameBeaconInfo *info)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Answers the +0x5c halfword of the first live ring slot whose +0x10 id
  * equals v, or 0xffff.
@@ -1650,18 +692,6 @@ u16 GAME_BEACON_GetReceivedFramesByTrainerId(u16 trainerId)
     }
     return 0xffff;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * The own-beacon builder: fills a GameBeaconInfo from the player profile, the
@@ -1739,23 +769,6 @@ void GAME_BEACON_BuildMyInfo(GameBeaconInfo *info, struct GameData *gameData)
     info->action = 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void GAME_BEACON_RequestSend(GameBeaconRecord *record)
 {
     struct SaveControl *save;
@@ -1774,23 +787,6 @@ void GAME_BEACON_RequestSend(GameBeaconRecord *record)
     record->sendRequest = 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * The priority gate: answers 1 when id `a`'s priority is at least that of
  * the current mode at +0x34 of the block.  The table at 0x0209FC20 is a
@@ -1807,23 +803,6 @@ u32 GAME_BEACON_CheckActionPriority(u32 action)
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int GAME_BEACON_IsSpecialPokemon(u16 monsNo)
 {
     u32 i = 0;
@@ -1836,23 +815,6 @@ int GAME_BEACON_IsSpecialPokemon(u16 monsNo)
     }
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void GAME_BEACON_CopyStrbufCodes(const struct Strbuf *str, u16 *dest)
 {
@@ -1870,23 +832,6 @@ void GAME_BEACON_CopyStrbufCodes(const struct Strbuf *str, u16 *dest)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 u8 GAME_BEACON_PopQuestionnaireUpdated(void)
 {
     GameBeaconWork *work = GAME_BEACON_Work;
@@ -1900,23 +845,6 @@ u8 GAME_BEACON_PopQuestionnaireUpdated(void)
     return updated;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void GAME_BEACON_SetQuestionnaire(const u8 *answers)
 {
     GameBeaconRecord *own = &GAME_BEACON_Work->own;
@@ -1924,21 +852,6 @@ void GAME_BEACON_SetQuestionnaire(const u8 *answers)
     MI_CpuCopy8(answers, own->info.questionnaire, sizeof(own->info.questionnaire));
     own->sendRequest = 1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * 20 bytes. Stores two bytes at +5 and +6 of the block that GAME_BEACON_Work points
@@ -1956,20 +869,6 @@ void GAME_BEACON_SetNationArea(u8 nation, u8 area)
     own->sendRequest = 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Unlabelled Thumb leaf in the ARM9 module: inserts three bits (9..11) into
  * the word at +0x10 of the nested object at +4, then sets the byte at +0x62.
@@ -1985,19 +884,6 @@ void GAME_BEACON_SetResearchTeamRank(u32 rank)
     own->info.researchTeamRank = rank;
     own->sendRequest = 1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * EXACT*: the listing extent runs 60 bytes to the next label; only the
@@ -2019,18 +905,6 @@ void GAME_BEACON_SetPms(const GameBeaconPms *pms)
     own->sendRequest = 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Unlabelled Thumb leaf in the ARM9 module: inserts three bits (6..8) into the
  * word at +0x10 of the nested object at +4, then sets the byte at +0x62.
@@ -2046,18 +920,6 @@ void GAME_BEACON_SetTrainerView(u32 trainerView)
     own->info.trainerView = trainerView;
     own->sendRequest = 1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 void GAME_BEACON_UpdateGreeting(void)
 {
@@ -2081,17 +943,6 @@ void GAME_BEACON_UpdateGreeting(void)
     own->sendRequest = 1;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 void GAME_BEACON_SetPokeCapture(u16 monsNo)
 {
     if (GAME_BEACON_IsSpecialPokemon(monsNo)) {
@@ -2101,33 +952,7 @@ void GAME_BEACON_SetPokeCapture(u16 monsNo)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 static void GAME_BEACON_WritePokeGet(GameBeaconRecord *own, u16 monsNo);
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * A whole translation unit, matched as one byte range.
@@ -2170,19 +995,6 @@ void GAME_BEACON_SetPokeGet(u16 monsNo)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 static void GAME_BEACON_WritePokeGet(GameBeaconRecord *own, u16 monsNo)
 {
     own->info.action = 0xe;
@@ -2190,33 +1002,7 @@ static void GAME_BEACON_WritePokeGet(GameBeaconRecord *own, u16 monsNo)
     GAME_BEACON_ResetDetails(&own->info);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 static void GAME_BEACON_WriteSpecialPokeGet(GameBeaconRecord *own, u16 monsNo);
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void GAME_BEACON_SetSpecialPokeGet(u16 monsNo)
 {
@@ -2226,19 +1012,6 @@ void GAME_BEACON_SetSpecialPokeGet(u16 monsNo)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 static void GAME_BEACON_WriteSpecialPokeGet(GameBeaconRecord *own, u16 monsNo)
 {
     own->info.action = 0xf;
@@ -2246,33 +1019,7 @@ static void GAME_BEACON_WriteSpecialPokeGet(GameBeaconRecord *own, u16 monsNo)
     GAME_BEACON_ResetDetails(&own->info);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 static void GAME_BEACON_WritePokeLevelUp(GameBeaconRecord *own, u16 nickname);
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void GAME_BEACON_SetPokeLevelUp(u16 nickname)
 {
@@ -2282,52 +1029,13 @@ void GAME_BEACON_SetPokeLevelUp(u16 nickname)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 static void GAME_BEACON_WritePokeLevelUp(GameBeaconRecord *own, u16 nickname)
 {
     own->info.action = 0x10;
     GAME_BEACON_CopyStrbufCodes((const struct Strbuf *)nickname, own->info.actionData.nickname);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 static void GAME_BEACON_WritePokeEvolution(GameBeaconRecord *own, u16 monsNo, u16 nickname);
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void GAME_BEACON_SetPokeEvolution(u16 monsNo, u16 nickname)
 {
@@ -2337,19 +1045,6 @@ void GAME_BEACON_SetPokeEvolution(u16 monsNo, u16 nickname)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 static void GAME_BEACON_WritePokeEvolution(GameBeaconRecord *own, u16 monsNo, u16 nickname)
 {
     own->info.action = 0x11;
@@ -2358,33 +1053,7 @@ static void GAME_BEACON_WritePokeEvolution(GameBeaconRecord *own, u16 monsNo, u1
     GAME_BEACON_ResetDetails(&own->info);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 static void GAME_BEACON_WritePlayTime(GameBeaconRecord *own, u32 playHours);
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void GAME_BEACON_SetPlayTime(u32 playHours)
 {
@@ -2394,19 +1063,6 @@ void GAME_BEACON_SetPlayTime(u32 playHours)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 static void GAME_BEACON_WritePlayTime(GameBeaconRecord *own, u32 playHours)
 {
     own->info.action = 0x14;
@@ -2414,33 +1070,7 @@ static void GAME_BEACON_WritePlayTime(GameBeaconRecord *own, u32 playHours)
     GAME_BEACON_ResetDetails(&own->info);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 static void GAME_BEACON_WriteItemUse(GameBeaconRecord *own, u16 itemNo);
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void GAME_BEACON_SetItemUse(u16 itemNo)
 {
@@ -2450,19 +1080,6 @@ void GAME_BEACON_SetItemUse(u16 itemNo)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 static void GAME_BEACON_WriteItemUse(GameBeaconRecord *own, u16 itemNo)
 {
     own->info.action = 0x23;
@@ -2470,37 +1087,11 @@ static void GAME_BEACON_WriteItemUse(GameBeaconRecord *own, u16 itemNo)
     GAME_BEACON_ResetDetails(&own->info);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void GAME_BEACON_SetZone(u32 zoneId, u32 zoneSource)
 {
     GAME_BEACON_SetInfoZone(&GAME_BEACON_Work->own.info, zoneId, zoneSource);
     GAME_BEACON_Work->own.sendRequest = 1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void GAME_BEACON_SetInfoZone(GameBeaconInfo *info, u32 zoneId, u32 zoneSource)
 {
@@ -2509,19 +1100,6 @@ void GAME_BEACON_SetInfoZone(GameBeaconInfo *info, u32 zoneId, u32 zoneSource)
     info->detailsPms.word = (info->detailsPms.word & ~0xff) | 5;
     GAME_BEACON_ResetDetails(info);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Unlabelled leaf accessor matched to give overlay call sites a `matched`
@@ -2533,37 +1111,11 @@ void GAME_BEACON_SetDetailsBattleWildPoke(GameBeaconInfo *info, u16 monsNo)
     info->detailsValue = monsNo;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void GAME_BEACON_SetDetailsBattleSpecialPoke(GameBeaconInfo *info, u16 monsNo)
 {
     info->detailsPms.word = (info->detailsPms.word & ~0xff) | 1;
     info->detailsValue = monsNo;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void GAME_BEACON_SetDetailsBattleTrainer(GameBeaconInfo *info, u16 trainerId)
 {
@@ -2571,56 +1123,17 @@ void GAME_BEACON_SetDetailsBattleTrainer(GameBeaconInfo *info, u16 trainerId)
     info->detailsValue = trainerId;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void GAME_BEACON_SetDetailsBattleLeader(GameBeaconInfo *info, u16 trainerId)
 {
     info->detailsPms.word = (info->detailsPms.word & ~0xff) | 3;
     info->detailsValue = trainerId;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void GAME_BEACON_SetDetailsBattleBigFour(GameBeaconInfo *info, u16 trainerId)
 {
     info->detailsPms.word = (info->detailsPms.word & ~0xff) | 4;
     info->detailsValue = trainerId;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * Sets the low byte of the halfword at +0x48 of its argument to the
@@ -2653,19 +1166,6 @@ void GAME_BEACON_ResetDetails(GameBeaconInfo *info)
     info->detailsPms.word = word;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * Copies four halfwords into the console's own beacon record (+4 of the
  * block): two BITFIELDS of the u16 at rec+0x48 (bits 8..10 and 11..15,
@@ -2686,34 +1186,10 @@ void GAME_BEACON_WritePms(GameBeaconInfo *info, const GameBeaconPms *pms)
     own->pmsWord[1] = pms->word[1];
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 void GAME_BEACON_SetMyPms(const GameBeaconPms *pms)
 {
     GAME_BEACON_WritePms(&GAME_BEACON_Work->own.info, pms);
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
  * note:     wave 17 (overlay_id class): EXACT*. The pooled overlay-id site
@@ -2738,19 +1214,6 @@ void GAME_BEACON_RegisterClearCallback(void)
         GFL_USE_AddHBlankTask(GAME_BEACON_ClearFlags, 0, 3);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void GAME_BEACON_ClearFlags(void)
 {

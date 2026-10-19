@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "WORLDTRADE_DEMO_ReadMyStatus",
+   "name": "WORLDTRADE_DEMO_CreateMyStatusFromEntry",
    "address": "0x021F72C4",
    "kind": "game",
    "region": "ov135",

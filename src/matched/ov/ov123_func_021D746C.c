@@ -11,7 +11,7 @@
  *   func_020092D0 0x020092D0 thumb
  *   GSYNC_STATE_LoadReceivedMon 0x021D7224 thumb ov123
  *   GSYNC_STATE_IsCommReady 0x021D6EBC thumb ov123
- *   GSYNC_STATE_GetEntryCount 0x021D7CB4 thumb ov123
+ *   GSYNC_STATE_StoreListEntries 0x021D7CB4 thumb ov123
  *   GSYNC_STATE_BuildMonEntries 0x021D7DE8 thumb ov123
  *   GSYNC_STATE_CopyMonRecord 0x021D7C54 thumb ov123
  *   GSYNC_STATE_BuildMonEntry 0x021D7D18 thumb ov123
@@ -28,7 +28,7 @@ struct Sub02009448Obj;
 extern struct Sub02009448Obj *func_02009448(void *sys);
 extern void GSYNC_STATE_LoadReceivedMon(char *p);
 extern int GSYNC_STATE_IsCommReady(u8 *p);
-extern int GSYNC_STATE_GetEntryCount(int a, u8 *p);
+extern int GSYNC_STATE_StoreListEntries(int a, u8 *p);
 extern void GSYNC_STATE_BuildMonEntries(u8 *p, int a, u8 *records);
 extern void GSYNC_STATE_CopyMonRecord(void *p, char *q);
 extern void func_020092D0(struct Sub02009210Obj *obj, u8 value);
@@ -48,7 +48,7 @@ void GSYNC_STATE_StateSaveStart(int a)
     ((struct Obj03269 *)a)->fAB=1;
     GSYNC_STATE_LoadReceivedMon((char *)a);
     if(GSYNC_STATE_IsCommReady((u8 *)a)==0) {
-        GSYNC_STATE_GetEntryCount(b,(u8 *)(((struct Obj03269 *)a)->f38));
+        GSYNC_STATE_StoreListEntries(b,(u8 *)(((struct Obj03269 *)a)->f38));
         GSYNC_STATE_BuildMonEntries((u8 *)a,b,(u8 *)(((struct Obj03269 *)a)->f38));
         GSYNC_STATE_CopyMonRecord((void *)b,(char *)(((struct Obj03269 *)a)->f38));
         func_020092D0((struct Sub02009210Obj *)b,*(u8 *)(((struct Obj03269 *)a)->f38+0x5a));

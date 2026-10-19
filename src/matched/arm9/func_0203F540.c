@@ -1,5 +1,5 @@
 /*
- * function: GF_STANDARD_SetupRtc_F540
+ * function: GF_STANDARD_GetDayOfYear
  * address:  0x0203F540
  * packet:   pkt_0203F540
  * region:   arm9
@@ -60,8 +60,8 @@
  * which is the shared-exit tail-merge the disjunction gives.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/GF_STANDARD_SetupRtc_F540.c \
- *       --func GF_STANDARD_SetupRtc_F540 --addr 0x0203F540 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/GF_STANDARD_GetDayOfYear.c \
+ *       --func GF_STANDARD_GetDayOfYear --addr 0x0203F540 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -80,7 +80,7 @@ extern u16 tbl_020A08B6[];
 struct RTCDate;
 extern s32 RTC_ConvertDateToDay(struct RTCDate *date);
 
-s32 GF_STANDARD_SetupRtc_F540(struct RtcDate *d)
+s32 GF_STANDARD_GetDayOfYear(struct RtcDate *d)
 {
     struct RtcDate t;
     s32 n = d->day + tbl_020A08B6[d->month];

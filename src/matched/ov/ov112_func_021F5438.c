@@ -1,5 +1,5 @@
 /*
- * function: MUSICAL_MCSS_SetRenderFieldA
+ * function: MUSICAL_MCSS_SetRenderCellVramBase
  * address: 0x021F5438
  * packet: pkt_ov112_021F5438
  * region: ov112
@@ -8,9 +8,9 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   MUSICAL_MCSS_SetFieldA 0x021F622C thumb ov112
+ *   MUSICAL_MCSS_SetCellVramBase 0x021F622C thumb ov112
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void MUSICAL_MCSS_SetFieldA(char *p, int b);
-void MUSICAL_MCSS_SetRenderFieldA(void **p,int b) {MUSICAL_MCSS_SetFieldA(p[1],b); }
+extern void MUSICAL_MCSS_SetCellVramBase(char *p, int b);
+void MUSICAL_MCSS_SetRenderCellVramBase(void **p,int b) {MUSICAL_MCSS_SetCellVramBase(p[1],b); }

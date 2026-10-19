@@ -18,10 +18,10 @@
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
- *   WORDSET_Callback 0x0201EE60 thumb
+ *   WORDSET_SetSlotSpeciesName 0x0201EE60 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   func_0201D304 0x0201D304 thumb
@@ -49,10 +49,10 @@ struct WordSet;
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void *func_02045EC0(struct MsgBank *, unsigned);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void WORDSET_Callback(struct WordSet *p, u32 i, u16 v);
+extern void WORDSET_SetSlotSpeciesName(struct WordSet *p, u32 i, u16 v);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *, u8);
 extern unsigned func_0201D304(struct StrObj *, unsigned, unsigned);
@@ -77,10 +77,10 @@ void PSEL_PrintSubWindow(char *p, int idx)
     words = WORDSET_CreateDefault(*(u16 *)p);
     text = func_02045EC0(*(struct MsgBank **)(p + 0x234), d_021BC730[idx]);
     buf = (struct StrObj *)STRBUF_Create(0x40, *(u16 *)p);
-    WORDSET_Callback(words, 1, d_021BC710[idx]);
+    WORDSET_SetSlotSpeciesName(words, 1, d_021BC710[idx]);
     WORDSET_CopyTaggedText(words, buf, text);
     STRBUF_Delete((struct U16Vec *)text);
-    WORDSET_DeleteStrbufED04(words);
+    WORDSET_Delete(words);
     BMP_Clear((struct CharBuf *)BMP_WIN_GetBmp(desc), 0);
     func_0201D304(buf, *(unsigned *)(p + 0x18), 0);
     height = func_0201D42C(buf, *(void **)(p + 0x18));

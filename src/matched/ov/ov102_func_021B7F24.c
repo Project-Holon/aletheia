@@ -37,9 +37,9 @@
  * BG_SYS_PushTile 0x020409B4 arm
  * GAMESYSTEM_GetGameData 0x020120F4 thumb
  * GAME_DATA_GetSaveControl 0x02012EBC thumb
- * MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
+ * MET_TRAINERS_GetFromSave 0x0200ED48 thumb
  * func_02008530 0x02008530 thumb
- * MISC_SAVEDATA_InsertRecentValue 0x0200ED54 thumb
+ * MET_TRAINERS_Insert 0x0200ED54 thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -82,9 +82,9 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void BG_SYS_PushTile(u32);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *MISC_SAVEDATA_GetBlock44(void *);
+extern void *MET_TRAINERS_GetFromSave(void *);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
-extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *l, u32 val);
+extern void MET_TRAINERS_Insert(struct L0200ED54 *l, u32 val);
 void IRC_COMPATIBLE_MENU_HandleStartTests(u8 *p,u16 *state)
 {
     void *save;
@@ -110,8 +110,8 @@ void IRC_COMPATIBLE_MENU_HandleStartTests(u8 *p,u16 *state)
         if(COMPATIBLE_IRC_SYS_StepSendProfile(C,*(u32 *)O)) {
             COMPATIBLE_IRC_SYS_GetPartnerProfile(C,(struct R *)(*(u32 *)(O+16)));
             if(*(u32 *)O) {
-                save=MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(*(void **)O)));
-                MISC_SAVEDATA_InsertRecentValue(save,func_02008530((const struct Sub0200852CObj *)(*(u8 **)(O+16)+12)));
+                save=MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(*(void **)O)));
+                MET_TRAINERS_Insert(save,func_02008530((const struct Sub0200852CObj *)(*(u8 **)(O+16)+12)));
             }
             *state=6;
         }

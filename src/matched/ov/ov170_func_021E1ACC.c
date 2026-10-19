@@ -10,7 +10,7 @@
  * symbols:
  *   CURSOR_MOVE_GetCurrent 0x020260E0 thumb
  *   BOX2_UI_SetMiniIconVisible 0x021EE008 thumb ov170
- *   BOX2_UI_DeleteSlotIcon 0x021EDF5C thumb ov170
+ *   BOX2_UI_UpdateCurrentBoxMarker 0x021EDF5C thumb ov170
  *   BOX2_UI_AddSlotIcon 0x021EDD38 thumb ov170
  */
 #include "../include/Obj00000.h"
@@ -20,7 +20,7 @@ typedef unsigned char  u8;
 struct Sound;
 extern u8 CURSOR_MOVE_GetCurrent(struct Sound *obj);
 extern void BOX2_UI_SetMiniIconVisible(char *, int, int);
-extern void BOX2_UI_DeleteSlotIcon(unsigned char *p);
+extern void BOX2_UI_UpdateCurrentBoxMarker(unsigned char *p);
 extern void BOX2_UI_AddSlotIcon(char *, int);
 int BOX2_SEQ_OpenBoxRight(char *p)
 {
@@ -31,7 +31,7 @@ int BOX2_SEQ_OpenBoxRight(char *p)
             BOX2_UI_SetMiniIconVisible(p, r - 1, 1);
         else
             BOX2_UI_SetMiniIconVisible(p, 0, 0);
-        BOX2_UI_DeleteSlotIcon((unsigned char *)p);
+        BOX2_UI_UpdateCurrentBoxMarker((unsigned char *)p);
         b->fE = 0;
         return 0;
     }

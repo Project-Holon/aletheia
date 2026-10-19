@@ -1,5 +1,5 @@
 /*
- * function: MAILTOOL_HasMail
+ * function: MAILTOOL_IsMailSent
  * address:  0x021C3E00
  * packet:   pkt_ov136_021C3E00
  * region:   ov136
@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   MAILTOOL_HasMail 0x021C3E00 thumb
+ *   MAILTOOL_IsMailSent 0x021C3E00 thumb
  */
 typedef unsigned int u32;
-u32 MAILTOOL_HasMail(u32 *p)
+u32 MAILTOOL_IsMailSent(u32 *p)
 {
     return p[1];
 }

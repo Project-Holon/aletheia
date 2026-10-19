@@ -11,10 +11,10 @@
  *
  * symbols:
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
- *   UNION_ONESELF_CheckNetErrorExit  0x0217BB20  thumb  ov019
+ *   UNION_ONESELF_HandleNetErrorExit  0x0217BB20  thumb  ov019
  *   UNION_MSG_CloseAllWindows  0x0217F074  thumb  ov019
  *   UNION_MSG_GetCategoryTableValue  0x0217F060  thumb  ov019
- *   COLOSSEUM_GetStandPosIndex  0x0217FE44  thumb  ov019
+ *   COLOSSEUM_IsOnStandPos  0x0217FE44  thumb  ov019
  *   COLOSSEUM_SetMyChoice  0x021750B0  thumb  ov012
  *   UNION_ONESELF_SetNextPlayCategory  0x0217B8E4  thumb  ov019
  *   UNION_ONESELF_SetFieldBusy  0x0217BAF0  thumb  ov019
@@ -38,10 +38,10 @@ typedef struct {
 
 struct Obj00020;
 extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
-extern int UNION_ONESELF_CheckNetErrorExit(char *p);
+extern int UNION_ONESELF_HandleNetErrorExit(char *p);
 extern void UNION_MSG_CloseAllWindows(void *ctx);
 extern int UNION_MSG_GetCategoryTableValue(int i);
-extern int COLOSSEUM_GetStandPosIndex(int a, int mode, unsigned *out);
+extern int COLOSSEUM_IsOnStandPos(int a, int mode, unsigned *out);
 extern void COLOSSEUM_SetMyChoice(u8 *p, int v);
 extern int UNION_ONESELF_SetNextPlayCategory(char *p, int v);
 extern void UNION_ONESELF_SetFieldBusy(char *p, int x, unsigned int v);
@@ -61,13 +61,13 @@ int UNION_ONESELF_ColosseumFreeMoveMain(void *ctx, Obj *obj, int a2, u8 *state)
     s16 v[3];
 
     a = FIELDMAP_GetFieldPlayer((void *)a2);
-    if (UNION_ONESELF_CheckNetErrorExit(ctx) == 1) {
+    if (UNION_ONESELF_HandleNetErrorExit(ctx) == 1) {
         UNION_MSG_CloseAllWindows(ctx);
         return 1;
     }
 
     if (*state == 0) {
-        if (COLOSSEUM_GetStandPosIndex(a2, UNION_MSG_GetCategoryTableValue(obj->f2d), &out) == 1) {
+        if (COLOSSEUM_IsOnStandPos(a2, UNION_MSG_GetCategoryTableValue(obj->f2d), &out) == 1) {
             COLOSSEUM_SetMyChoice(w, out);
             UNION_ONESELF_SetNextPlayCategory(ctx, 0x2b);
             UNION_ONESELF_SetFieldBusy(ctx, a2, 1);

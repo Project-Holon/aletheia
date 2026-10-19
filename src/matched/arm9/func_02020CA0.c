@@ -12,7 +12,7 @@
  * symbols:
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
- *   BG_SYS_GetField16  0x0204169C  arm
+ *   BG_SYS_GetColorMode  0x0204169C  arm
  *   BMP_MENULIST_ShiftChars4bpp  0x02020A58  thumb
  *   BMP_MENULIST_ShiftChars8bpp  0x02020B5C  thumb
  *
@@ -24,7 +24,7 @@
  *
  * Window-fill front end.  The window descriptor names a BG channel
  * (BMP_WIN_GetBgLayer, the +2 accessor) and carries the bitmap it draws into
- * (BMP_WIN_GetBmp, the +0xc handle).  BG_SYS_GetField16 says whether that
+ * (BMP_WIN_GetBmp, the +0xc handle).  BG_SYS_GetColorMode says whether that
  * channel is 8bpp; the 4bpp path calls BMP_MENULIST_ShiftChars4bpp and the 8bpp path
  * BMP_MENULIST_ShiftChars8bpp, and the caller's tile offset is converted to a byte
  * offset by the depth: (t & 0x7ff) << 5 for 4bpp, (t & 0x3ff) << 6 for
@@ -42,7 +42,7 @@ typedef unsigned int   u32;
 struct Descriptor;
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
-extern u8 BG_SYS_GetField16(int channel);
+extern u8 BG_SYS_GetColorMode(int channel);
 extern void  BMP_MENULIST_ShiftChars4bpp(void *bmp, u32 a, u32 b, u32 c, u32 off);
 extern void  BMP_MENULIST_ShiftChars8bpp(void *bmp, u32 a, u32 b, u32 c, u32 off);
 
@@ -54,7 +54,7 @@ void BMP_MENULIST_ShiftWindow(void *win, u32 a, u32 b, u32 c, u16 tile)
     channel = BMP_WIN_GetBgLayer(win);
     bmp = BMP_WIN_GetBmp(win);
 
-    if (BG_SYS_GetField16(channel) == 0)
+    if (BG_SYS_GetColorMode(channel) == 0)
         BMP_MENULIST_ShiftChars4bpp(bmp, a, b, c, (u32)(tile << 21) >> 16);
     else
         BMP_MENULIST_ShiftChars8bpp(bmp, a, b, c, (u32)(tile << 22) >> 16);

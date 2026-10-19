@@ -13,7 +13,7 @@
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb ov010
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
- *   WORDSET_Callback_EF40  0x0201EF40  thumb
+ *   WORDSET_SetSlotFromMsg36  0x0201EF40  thumb
  */
 
 typedef unsigned char  u8;
@@ -24,7 +24,7 @@ extern void *SCRCMD_WORK_GetGameData(void *a0);
 struct WordSet;
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
-extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotFromMsg36(struct WordSet *p, u32 i, u32 v);
 
 int SCRCMD_POKEMON_FLD_PrepareGiftItemMessage(void *a, u32 *b, void *c)
 {
@@ -34,6 +34,6 @@ int SCRCMD_POKEMON_FLD_PrepareGiftItemMessage(void *a, u32 *b, void *c)
     t = GAME_DATA_GetMyStatus(SCRCMD_WORK_GetGameData(c));
     x = *b;
     WORDSET_SetSlotMyStatus(a, 0, t);
-    WORDSET_Callback_EF40(a, 1, x);
+    WORDSET_SetSlotFromMsg36(a, 1, x);
     return 7;
 }

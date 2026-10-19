@@ -36,7 +36,7 @@
  *   STRBUF_Create  0x020457B0  arm
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
  *   STRBUF_Delete 0x02045808 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   FLDMMDL_SysResumeMove 0x0216D9E4 thumb ov010
  *   FADE_Start  0x0204E720  arm
@@ -45,7 +45,7 @@
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_FindFirstBattleReady  0x0201AB08  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
- *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
+ *   WORDSET_SetSlotMonNickname  0x0201EEF4  thumb
  *   GPOWER_UseHpRestore  0x0201104C  thumb
  *   GPOWER_UsePpRestore  0x020110CC  thumb
  *   FIELD_MSGBG_CreateInfoSysWin 0x02190FA0 thumb ov021
@@ -109,7 +109,7 @@ extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void FLDMMDL_SysPauseMove(struct FldMmdlSys *mmdlSys);
 extern void STRBUF_Delete(struct Strbuf *str);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
+extern u32 WORDSET_Delete(struct WordSet *wordSet);
 extern u32 MSGDATA_Delete(struct MsgData *msgData);
 extern u32 *FLDMMDL_SysResumeMove(struct FldMmdlSys *mmdlSys);
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
@@ -118,7 +118,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern struct PokeParty *GAME_DATA_GetMyParty(const struct GameData *gameData);
 extern u32   POKEPARTY_FindFirstBattleReady(struct PokeParty *party);
 extern struct Pokemon *POKEPARTY_GetMember(struct PokeParty *party, u32 index);
-extern void WORDSET_SetSlotMonSpecies(struct WordSet *wordSet, u32 index, struct Pokemon *pokemon);
+extern void WORDSET_SetSlotMonNickname(struct WordSet *wordSet, u32 index, struct Pokemon *pokemon);
 extern u32   GPOWER_UseHpRestore(struct PokeParty *party);
 extern u32   GPOWER_UsePpRestore(struct PokeParty *party);
 extern struct InfoSysWin *FIELD_MSGBG_CreateInfoSysWin(struct FieldMsgBg *msgBg, struct MsgData *msgData, u32 msgId);
@@ -240,7 +240,7 @@ void GPOWER_EVENT_FreeListWork(GPowerListWork *work)
 {
     STRBUF_Delete(work->lineStr);
     STRBUF_Delete(work->templateStr);
-    WORDSET_DeleteStrbufED04(work->wordSet);
+    WORDSET_Delete(work->wordSet);
     MSGDATA_Delete(work->msgData);
     GPOWER_FreePowerTable(work->powerTable);
     FLDMMDL_SysResumeMove(work->mmdlSys);
@@ -276,7 +276,7 @@ void GPOWER_EVENT_RestoreParty(struct GameSystem *gameSystem, struct WordSet *wo
     u8 firstReady;
 
     firstReady = POKEPARTY_FindFirstBattleReady(party);
-    WORDSET_SetSlotMonSpecies(wordSet, 1, POKEPARTY_GetMember(party, firstReady));
+    WORDSET_SetSlotMonNickname(wordSet, 1, POKEPARTY_GetMember(party, firstReady));
     switch (powerType) {
     case 5:
         GPOWER_UseHpRestore(party);

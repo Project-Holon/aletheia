@@ -11,12 +11,12 @@
  * symbols:
  *   DUP_FITTING_ITEM_ListGetHead 0x021BA184 thumb ov133
  *   DUP_FITTING_ITEM_ElemGetRenderElem 0x021BA218 thumb ov133
- *   DUP_FITTING_ITEM_ElemGetF1C 0x021BA250 thumb ov133
+ *   DUP_FITTING_ITEM_ElemGetAnimFrames 0x021BA250 thumb ov133
  *   DUP_FITTING_ITEM_ElemGetBasePos 0x021BA238 thumb ov133
  *   DUP_FITTING_ITEM_ElemGetPos 0x021BA228 thumb ov133
- *   DUP_FITTING_ITEM_ElemGetF2C 0x021BA240 thumb ov133
+ *   DUP_FITTING_ITEM_ElemGetStartScale 0x021BA240 thumb ov133
  *   DUP_FITTING_ITEM_ElemGetNext 0x021BA208 thumb ov133
- *   DUP_FITTING_ITEM_ElemSetF1C 0x021BA24C thumb ov133
+ *   DUP_FITTING_ITEM_ElemSetAnimFrames 0x021BA24C thumb ov133
  *   DUP_FITTING_ITEM_RemoveElem 0x021BA148 thumb ov133
  *   DUP_FITTING_ITEM_DeleteElem 0x021BA1D8 thumb ov133
  *   DUP_FITTING_ITEM_ElemSetBasePos 0x021BA22C thumb ov133
@@ -43,12 +43,12 @@ struct O {
 };
 extern void *DUP_FITTING_ITEM_ListGetHead(char *p);
 extern u32 DUP_FITTING_ITEM_ElemGetRenderElem(u8 *p);
-extern u16 DUP_FITTING_ITEM_ElemGetF1C(char *p);
+extern u16 DUP_FITTING_ITEM_ElemGetAnimFrames(char *p);
 extern u8 *DUP_FITTING_ITEM_ElemGetBasePos(u8 *p);
 extern u8 *DUP_FITTING_ITEM_ElemGetPos(u8 *p);
-extern u32 DUP_FITTING_ITEM_ElemGetF2C(u8 *);
+extern u32 DUP_FITTING_ITEM_ElemGetStartScale(u8 *);
 extern u32 DUP_FITTING_ITEM_ElemGetNext(u8 *p);
-extern void DUP_FITTING_ITEM_ElemSetF1C(char *p, u32 v);
+extern void DUP_FITTING_ITEM_ElemSetAnimFrames(char *p, u32 v);
 extern void DUP_FITTING_ITEM_RemoveElem(u8 *p, u8 *q);
 extern void DUP_FITTING_ITEM_DeleteElem(u8 *p, u8 *q);
 extern void DUP_FITTING_ITEM_ElemSetBasePos(u8 *p, const u8 *src);
@@ -88,10 +88,10 @@ void DUP_FITTING_DrawElems(struct O *p)
         do {
             cur = e;
             data = (u32)DUP_FITTING_ITEM_ElemGetRenderElem(e);
-            cnt = DUP_FITTING_ITEM_ElemGetF1C((char *)e);
+            cnt = DUP_FITTING_ITEM_ElemGetAnimFrames((char *)e);
             A = (int *)DUP_FITTING_ITEM_ElemGetBasePos(e);
             B = (int *)DUP_FITTING_ITEM_ElemGetPos(e);
-            s = (s16)DUP_FITTING_ITEM_ElemGetF2C(e);
+            s = (s16)DUP_FITTING_ITEM_ElemGetStartScale(e);
             e = (u8 *)DUP_FITTING_ITEM_ElemGetNext(e);
             n = (u16)(cnt - 1);
             if (n != 0) {
@@ -114,7 +114,7 @@ void DUP_FITTING_DrawElems(struct O *p)
                 else v1.y = (int)((float)(x << 12) - 0.5f);
                 v1.z = 0x46000;
                 MUSICAL_MCSS_SetElemPos((int)p->f1884, data, &v1);
-                DUP_FITTING_ITEM_ElemSetF1C((char *)cur, n);
+                DUP_FITTING_ITEM_ElemSetAnimFrames((char *)cur, n);
             } else {
                 DUP_FITTING_ITEM_RemoveElem(p->f1828, cur);
                 DUP_FITTING_ITEM_DeleteElem(cur, p->f1884);
@@ -129,7 +129,7 @@ void DUP_FITTING_DrawElems(struct O *p)
     }
     if (e) {
         do {
-            cnt0 = DUP_FITTING_ITEM_ElemGetF1C((char *)e);
+            cnt0 = DUP_FITTING_ITEM_ElemGetAnimFrames((char *)e);
             if (cnt0 != 0) {
                 data2 = (u32)DUP_FITTING_ITEM_ElemGetRenderElem(e);
                 A2 = (int *)DUP_FITTING_ITEM_ElemGetBasePos(e);
@@ -160,7 +160,7 @@ void DUP_FITTING_DrawElems(struct O *p)
                     MUSICAL_MCSS_SetElemPos((int)p->f1884, data2, &v3);
                     DUP_FITTING_ITEM_ElemSetBasePos(e, (const u8 *)B2);
                 }
-                DUP_FITTING_ITEM_ElemSetF1C((char *)e, n2);
+                DUP_FITTING_ITEM_ElemSetAnimFrames((char *)e, n2);
             }
             e = (u8 *)DUP_FITTING_ITEM_ElemGetNext(e);
             if (e == 0 && flag == 0) {

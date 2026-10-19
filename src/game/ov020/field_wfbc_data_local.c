@@ -60,8 +60,8 @@
  *   EVENT_FIELD_PROCLINK_IsReturnEntryValid 0x02161ECC thumb ov010
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   GAME_DATA_GetSecondUnionInfo  0x020127C4  thumb
- *   GAME_DATA_GetMysteryRecvFlagA  0x020127E0  thumb
- *   GAME_DATA_GetMysteryRecvFlagB  0x020127F0  thumb
+ *   GAME_DATA_GetMusicalShotTitle  0x020127E0  thumb
+ *   GAME_DATA_GetMusicalShotExtraData  0x020127F0  thumb
  *   ZONEDATA_IsZoneInTableDFEC  0x02013DE0  thumb
  *   EVENT_FIELD_PROCLINK_CompactReturnList  0x02161E60  thumb
  *   EVENT_FIELD_PROCLINK_InitIdList  0x02161EEC  thumb
@@ -103,7 +103,7 @@
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
- *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
+ *   GF_STANDARD_GetCachedDate  0x0203F4E4  arm
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   FIELD_WFBC_GetCityType  0x0219391C  thumb  ov021
@@ -132,7 +132,7 @@
  *   EVENT_FIELD_PROCLINK_ApplyReturnEntry  0x02161F90  thumb  ov010
  *   FIELD_WFBC_RemovePeople  0x02193B20  thumb  ov021
  *   FLDMMDL_DeleteMmdl  0x0216CF2C  thumb  ov010
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   FIELD_MSGBG_AddTalkWin  0x0219129C  thumb  ov021
@@ -145,8 +145,8 @@
  *   FIELD_MSGBG_DeleteTalkWin  0x021912D8  thumb  ov021
  *   FIELD_MSGBG_WaitTalkWinClose  0x021912F8  thumb  ov021
  *   FIELD_MSGBG_ClearTalkWin 0x0219131C thumb ov021
- *   WAZA_OSHIE_GetTexFormatCount  0x0216FC4C  thumb  ov010
- *   WAZA_OSHIE_LoadTexPlttByName  0x0216FAB4  thumb  ov010
+ *   TEXT_TEXTURE_GetTexFormatCount  0x0216FC4C  thumb  ov010
+ *   TEXT_TEXTURE_LoadTexPlttByName  0x0216FAB4  thumb  ov010
  *   EL_SCOREBOARD_SourceFileName     0x02187EDC  data  ov020  a4
  *   NNS_GfdRegisterNewVramTransferTask 0x02061CA4 arm
  *   EL_SCOREBOARD_LampPaletteColors 0x02187ECC data ov020 a4
@@ -155,7 +155,7 @@
  *   BG_SYS_GetMainVisiblePlanes 0x02043658 arm
  *   FIELDMAP_SetBgMode 0x02188DA0 thumb ov021
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  *   BG_SYS_FreeSlot 0x020414AC arm
  *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   BG_SYS_Create  0x0203F8F4  arm
@@ -240,8 +240,8 @@ int INTRUDE_COMM_NormalizeVersion(int a, int b);
 extern int EVENT_FIELD_PROCLINK_IsReturnEntryValid(const WfbcPerson *person);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *p);
 extern WfbcData *GAME_DATA_GetSecondUnionInfo(struct GameData *gameData);
-extern u16 *GAME_DATA_GetMysteryRecvFlagA(struct GameData *gameData);
-extern WfbcDailyState *GAME_DATA_GetMysteryRecvFlagB(struct GameData *gameData);
+extern u16 *GAME_DATA_GetMusicalShotTitle(struct GameData *gameData);
+extern WfbcDailyState *GAME_DATA_GetMusicalShotExtraData(struct GameData *gameData);
 extern int ZONEDATA_IsZoneInTableDFEC(u16 id);
 extern void EVENT_FIELD_PROCLINK_CompactReturnList(WfbcData *data, int mode);
 extern void EVENT_FIELD_PROCLINK_InitIdList(u16 *itemSlots);
@@ -280,7 +280,7 @@ extern struct GameSystem *FIELDMAP_GetGameSystem(void *fieldSystem);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 void *GAME_DATA_GetMyParty(const struct GameData *p);
 u32 POKEPARTY_GetCount(void *a);
-void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
+void GF_STANDARD_GetCachedDate(struct RtcDate *date);
 void *POKEPARTY_GetMember(void *a, u32 i);
 u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern unsigned char FIELD_WFBC_GetCityType(FieldWfbc *wfbc);
@@ -309,7 +309,7 @@ void *GAME_DATA_GetMyStatus(struct GameData *gameData);
 void EVENT_FIELD_PROCLINK_ApplyReturnEntry(void *returnList, WfbcData *ownData, WfbcData *cityData, void *playerBlock, u16 personIndex, u16 heapId);
 int FIELD_WFBC_RemovePeople(FieldWfbc *wfbc, u32 personIndex);
 void FLDMMDL_DeleteMmdl(struct Mmdl *mmdl);
-u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+u32 WORDSET_Delete(struct WordSet *p);
 extern void MSGDATA_ReadString(struct MsgData *bank, u32 index, struct Strbuf *dest);
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
 extern struct FieldMsgHandle *FIELD_MSGBG_AddTalkWin(int msgBgSys, int speed, int *playerPos, struct Strbuf *message, u32 c, u32 d);
@@ -554,8 +554,8 @@ void FIELD_WFBC_DATA_LOCAL_AdvanceDays(struct GameData *gameData, int days, u32 
 
     zoneId = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameData));
     base = (char *)GAME_DATA_GetSecondUnionInfo(gameData);
-    itemSlots = GAME_DATA_GetMysteryRecvFlagA(gameData);
-    dailyState = GAME_DATA_GetMysteryRecvFlagB(gameData);
+    itemSlots = GAME_DATA_GetMusicalShotTitle(gameData);
+    dailyState = GAME_DATA_GetMusicalShotExtraData(gameData);
     if (days <= 0) {
         days = 1;
     }
@@ -1133,7 +1133,7 @@ int FIELD_WFBC_DATA_LOCAL_ScrCmdCheckAndMarkFacingPerson(ScriptVm *vm, struct Sc
 
     fieldParam = SCRIPT_WORK_ResetFieldParam(SCRCMD_WORK_GetScriptWork(work));
     wfbc = FIELD_G3D_MAPPER_GetWfbc(FIELDMAP_GetG3dMapper(fieldParam->fieldSystem));
-    dailyState = GAME_DATA_GetMysteryRecvFlagB(SCRCMD_WORK_GetGameData(work));
+    dailyState = GAME_DATA_GetMusicalShotExtraData(SCRCMD_WORK_GetGameData(work));
     player = FIELDMAP_GetFieldPlayer(fieldParam->fieldSystem);
     mmdlSystem = FIELDMAP_GetMmdlSys(fieldParam->fieldSystem);
     FIELD_PLAYER_GetFrontGridPos(player, &frontGrid[2], &frontGrid[1], &frontGrid[0]);
@@ -1202,7 +1202,7 @@ int FIELD_WFBC_DATA_LOCAL_ScrCmdGetWfbcValue(ScriptVm *vm, struct ScrcmdWork *wo
     wfbc = FIELD_G3D_MAPPER_GetWfbc(FIELDMAP_GetG3dMapper(fieldParam->fieldSystem));
     player = FIELDMAP_GetFieldPlayer(fieldParam->fieldSystem);
     mmdlSystem = FIELDMAP_GetMmdlSys(fieldParam->fieldSystem);
-    dailyState = GAME_DATA_GetMysteryRecvFlagB(gameData);
+    dailyState = GAME_DATA_GetMusicalShotExtraData(gameData);
     FIELD_PLAYER_GetFrontGridPos(player, &frontGrid[2], &frontGrid[1], &frontGrid[0]);
     personMmdl = FLDMMDL_SysSearchGridPos(mmdlSystem, frontGrid[2], frontGrid[0], 0);
     if (personMmdl != 0) {
@@ -1265,7 +1265,7 @@ int FIELD_WFBC_DATA_LOCAL_ScrCmdGetWfbcValue(ScriptVm *vm, struct ScrcmdWork *wo
  */
 int FIELD_WFBC_DATA_LOCAL_ScrCmdAddPoints(ScriptVm *vm, struct ScrcmdWork *work)
 {
-    FIELD_WFBC_DATA_LOCAL_AddValuePoints(GAME_DATA_GetMysteryRecvFlagB(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(SCRIPT_WORK_ResetFieldParam(SCRCMD_WORK_GetScriptWork(work))->fieldSystem))));
+    FIELD_WFBC_DATA_LOCAL_AddValuePoints(GAME_DATA_GetMusicalShotExtraData(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(SCRIPT_WORK_ResetFieldParam(SCRCMD_WORK_GetScriptWork(work))->fieldSystem))));
     return 0;
 }
 
@@ -1287,14 +1287,14 @@ int FIELD_WFBC_DATA_LOCAL_ScrCmdFindTargetPokemonInParty(ScriptVm *vm, struct Sc
     (void *)SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)(((void *)work)));
     s = (void *)SCRCMD_WORK_GetGameData((struct ScrcmdWork *)(((void *)work)));
     (u8 *)GAME_DATA_GetSecondUnionInfo((struct GameData *)(s));
-    w = (void *)(int)GAME_DATA_GetMysteryRecvFlagB((struct GameData *)((int)s));
+    w = (void *)(int)GAME_DATA_GetMusicalShotExtraData((struct GameData *)((int)s));
     b = GAME_DATA_GetMyParty(s);
     outFound = SCRIPT_WORK_ReadWorkPointer((ScriptVm *)(((void *)vm)), (struct ScrcmdWork *)(((void *)work)));
     outDateMatch = SCRIPT_WORK_ReadWorkPointer((ScriptVm *)(((void *)vm)), (struct ScrcmdWork *)(((void *)work)));
     outIndex = SCRIPT_WORK_ReadWorkPointer((ScriptVm *)(((void *)vm)), (struct ScrcmdWork *)(((void *)work)));
     n = POKEPARTY_GetCount(b);
     key = FIELD_WFBC_DATA_LOCAL_ReadValue((const WfbcDailyState *)(w));
-    GF_STANDARD_SetField00_F4E4((struct RtcDate *)d);
+    GF_STANDARD_GetCachedDate((struct RtcDate *)d);
     *outFound = 0;
     *outDateMatch = 0;
     *outIndex = 0xFFFF;
@@ -1402,7 +1402,7 @@ struct GameEvent *FIELD_WFBC_DATA_LOCAL_CreatePersonTalkEvent(struct GameSystem 
     wfbc = FIELD_G3D_MAPPER_GetWfbc(FIELDMAP_GetG3dMapper(fieldSystem));
     player = FIELDMAP_GetFieldPlayer(fieldSystem);
     mmdlSystem = FIELDMAP_GetMmdlSys(fieldSystem);
-    GAME_DATA_GetMysteryRecvFlagB(GAMESYSTEM_GetGameData(gameSystem));
+    GAME_DATA_GetMusicalShotExtraData(GAMESYSTEM_GetGameData(gameSystem));
     FIELD_PLAYER_GetFrontGridPos(player, &frontGrid[2], &frontGrid[1], &frontGrid[0]);
     personMmdl = FLDMMDL_SysSearchGridPos(mmdlSystem, frontGrid[2], frontGrid[0], 0);
     FLDMMDL_GetPos(personMmdl, (struct VecFx32 *)work->playerPos);
@@ -1524,7 +1524,7 @@ int FIELD_WFBC_DATA_LOCAL_PersonTalkEventMain(struct GameEvent *event, int *stat
         STRBUF_Delete(talk->msgBuf);
         STRBUF_Delete(talk->tmpBuf);
         MSGDATA_Delete(talk->msgData);
-        WORDSET_DeleteStrbufED04(talk->wordSet);
+        WORDSET_Delete(talk->wordSet);
         return 1;
     }
     return 0;

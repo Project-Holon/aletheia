@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   MUSICAL_MCSS_NoOp4 0x021F4B54 thumb ov112
+ *   MUSICAL_MCSS_FindFreeActorIndex 0x021F4B54 thumb ov112
  *   MUSICAL_MCSS_GetArcFileCount 0x021F4AA8 thumb ov112
  *   MUSICAL_MCSS_GetElemPtr 0x021F4F54 thumb ov112
  *   MUSICAL_MCSS_NoOp6 0x021F4F70 thumb ov112
@@ -23,7 +23,7 @@ typedef short s16;
 typedef struct { u16 flags,zero; u32 id,index,type; int x,y,z; s16 a,b; u8 *data; } Entry;
 typedef struct { u32 pad; void *board; Entry *entries; u8 *table; } Object;
 typedef struct { u8 x,y; } Pair;
-extern u16 MUSICAL_MCSS_NoOp4(u32 p);
+extern u16 MUSICAL_MCSS_FindFreeActorIndex(u32 p);
 extern u16 MUSICAL_MCSS_GetArcFileCount(int);
 extern u8 *MUSICAL_MCSS_GetElemPtr(u8 *,int);
 extern int MUSICAL_MCSS_NoOp6(int *);
@@ -36,7 +36,7 @@ Entry *MUSICAL_MCSS_AddImage(Object *p,int type,u32 id,int *v)
     int index;
     int data;
     Pair pair;
-    index=MUSICAL_MCSS_NoOp4((u32)p);
+    index=MUSICAL_MCSS_FindFreeActorIndex((u32)p);
     p->entries[index].type=MUSICAL_MCSS_GetArcFileCount(type);
     p->entries[index].data=MUSICAL_MCSS_GetElemPtr(p->table,type);
     data=MUSICAL_MCSS_NoOp6((int *)p->entries[index].data);

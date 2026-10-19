@@ -1,7 +1,7 @@
 /*
  * file:     zukan_detail_common.c
  * unit:     yes
- * function: ZUKAN_DETAIL_COMMON_CreateContext, ZUKAN_DETAIL_COMMON_DeleteContext, ZUKAN_DETAIL_COMMON_GetSource, ZUKAN_DETAIL_COMMON_GetDisplay, ZUKAN_DETAIL_COMMON_GetFont, ZUKAN_DETAIL_COMMON_GetGraphics, ZUKAN_DETAIL_COMMON_GetWorkPtr, ZUKAN_DETAIL_COMMON_GetCursorValue, ZUKAN_DETAIL_COMMON_GetMaxValue, ZUKAN_DETAIL_COMMON_GetCurrentEntry, ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies, ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies, ZUKAN_DETAIL_COMMON_AllocBlendWork, ZUKAN_DETAIL_COMMON_FreeBlendWork, ZUKAN_DETAIL_COMMON_UpdateBlendFades, ZUKAN_DETAIL_COMMON_IsBlendBusy, ZUKAN_DETAIL_COMMON_StartBlendIn, ZUKAN_DETAIL_COMMON_StartBlendOut, ZUKAN_DETAIL_COMMON_SetBrightnessFull, ZUKAN_DETAIL_COMMON_SetBrightnessNone, ZUKAN_DETAIL_COMMON_InitBrightnessTarget, ZUKAN_DETAIL_COMMON_ApplyBrightness, ZUKAN_DETAIL_COMMON_CreatePaletteAnim, ZUKAN_DETAIL_COMMON_CreatePaletteAnimDefault, ZUKAN_DETAIL_COMMON_DeletePaletteAnim, ZUKAN_DETAIL_COMMON_UpdatePaletteAnim, ZUKAN_DETAIL_COMMON_TransferPalettes, ZUKAN_DETAIL_COMMON_IsFadeBusy, ZUKAN_DETAIL_COMMON_StartFadeOut, ZUKAN_DETAIL_COMMON_StartFadeOutAlt, ZUKAN_DETAIL_COMMON_StartFadeIn, ZUKAN_DETAIL_COMMON_LoadPaletteToSlot, ZUKAN_DETAIL_COMMON_CopyHwPalettesToSlots, ZUKAN_DETAIL_COMMON_RequestFade, ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc, ZUKAN_DETAIL_COMMON_FreeBgPalette, ZUKAN_DETAIL_COMMON_TickFlashEffect, ZUKAN_DETAIL_COMMON_LoadBgPaletteRange, ZUKAN_DETAIL_COMMON_SetBgScrollPacked
+ * function: ZUKAN_DETAIL_COMMON_CreateContext, ZUKAN_DETAIL_COMMON_DeleteContext, ZUKAN_DETAIL_COMMON_GetSource, ZUKAN_DETAIL_COMMON_GetDisplay, ZUKAN_DETAIL_COMMON_GetFont, ZUKAN_DETAIL_COMMON_GetGraphics, ZUKAN_DETAIL_COMMON_GetWorkPtr, ZUKAN_DETAIL_COMMON_GetHeadbar, ZUKAN_DETAIL_COMMON_GetEntryCount, ZUKAN_DETAIL_COMMON_GetCurrentEntry, ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies, ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies, ZUKAN_DETAIL_COMMON_AllocBlendWork, ZUKAN_DETAIL_COMMON_FreeBlendWork, ZUKAN_DETAIL_COMMON_UpdateBlendFades, ZUKAN_DETAIL_COMMON_IsBlendBusy, ZUKAN_DETAIL_COMMON_StartBlendIn, ZUKAN_DETAIL_COMMON_StartBlendOut, ZUKAN_DETAIL_COMMON_SetBrightnessFull, ZUKAN_DETAIL_COMMON_SetBrightnessNone, ZUKAN_DETAIL_COMMON_InitBrightnessTarget, ZUKAN_DETAIL_COMMON_ApplyBrightness, ZUKAN_DETAIL_COMMON_CreatePaletteAnim, ZUKAN_DETAIL_COMMON_CreatePaletteAnimDefault, ZUKAN_DETAIL_COMMON_DeletePaletteAnim, ZUKAN_DETAIL_COMMON_UpdatePaletteAnim, ZUKAN_DETAIL_COMMON_TransferPalettes, ZUKAN_DETAIL_COMMON_IsFadeBusy, ZUKAN_DETAIL_COMMON_StartFadeOut, ZUKAN_DETAIL_COMMON_StartFadeOutAlt, ZUKAN_DETAIL_COMMON_StartFadeIn, ZUKAN_DETAIL_COMMON_LoadPaletteToSlot, ZUKAN_DETAIL_COMMON_CopyHwPalettesToSlots, ZUKAN_DETAIL_COMMON_RequestFade, ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc, ZUKAN_DETAIL_COMMON_FreeBgPalette, ZUKAN_DETAIL_COMMON_TickFlashEffect, ZUKAN_DETAIL_COMMON_LoadBgPaletteRange, ZUKAN_DETAIL_COMMON_SetBgScrollPacked
  * address:  0x021BC35C
  * region:   ov208
  * compiler: dsi/1.1p1
@@ -39,18 +39,18 @@
  *   ARC_UTIL_UploadBgPaletteAddFromHandle  0x02049990  arm
  *   BG_SYS_FillTileMap  0x020413B0  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   data_021C80E0  0x021C80E0  data
  *   data_021C80E8  0x021C80E8  data
  *   data_021C80F0  0x021C80F0  data
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  *   ZUKAN_DETAIL_COMMON_AllocBlendWork 0x021BC448 thumb
  *   ZUKAN_DETAIL_COMMON_InitBrightnessTarget 0x021BC518 thumb
  *   ZUKAN_DETAIL_COMMON_SetBrightnessNone 0x021BC508 thumb
  *   ZUKAN_DETAIL_COMMON_FreeBlendWork 0x021BC464 thumb ov208
  *   ZUKAN_DETAIL_COMMON_GetWorkPtr 0x021BC3B4 thumb
- *   ZUKAN_DETAIL_COMMON_GetCursorValue 0x021BC3B8 thumb
+ *   ZUKAN_DETAIL_COMMON_GetHeadbar 0x021BC3B8 thumb
  *   ZUKAN_DETAIL_COMMON_GetSource 0x021BC3A4 thumb
  *   ZUKAN_DETAIL_COMMON_GetDisplay 0x021BC3A8 thumb
  *   ZUKAN_DETAIL_COMMON_GetGraphics 0x021BC3B0 thumb
@@ -64,7 +64,7 @@
  *   ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc  0x021BC844  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_CopyHwPalettesToSlots  0x021BC758  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_StartBlendIn  0x021BC4D8  thumb  ov208
- *   ZUKAN_DETAIL_COMMON_GetMaxValue  0x021BC3BC  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_GetEntryCount  0x021BC3BC  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_IsBlendBusy  0x021BC4C8  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_StartBlendOut  0x021BC4E4  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_UpdateBlendFades  0x021BC46C  thumb  ov208
@@ -167,11 +167,11 @@ extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
 extern void ARC_TOOL_DeleteHandle(void *h);
 
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 
-extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
+extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
 
 void *ZUKAN_DETAIL_COMMON_CreateContext(u32 a, void *b, void *c, void *d, void *e, void *f, void *g, int h, unsigned short i, void *j);
 
@@ -298,12 +298,12 @@ void *ZUKAN_DETAIL_COMMON_GetWorkPtr(struct Ov208Ctx *p)
     return p->work;
 }
 
-void *ZUKAN_DETAIL_COMMON_GetCursorValue(struct Ov208Ctx *p)
+void *ZUKAN_DETAIL_COMMON_GetHeadbar(struct Ov208Ctx *p)
 {
     return p->headbar;
 }
 
-unsigned short ZUKAN_DETAIL_COMMON_GetMaxValue(struct Ov208Ctx *p)
+unsigned short ZUKAN_DETAIL_COMMON_GetEntryCount(struct Ov208Ctx *p)
 {
     return p->entryCount;
 }
@@ -593,7 +593,7 @@ struct Ov208Win *ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc(u16 heap, u32 kind, u8 l
     BG_SYS_FillTileMap(layer, 0, 0x15, 0x20, 3, pal);
     BG_SYS_FillTileMap(layer, 0, 0, 0x20, 0x15, objPal);
     ARC_TOOL_DeleteHandle(h);
-    BG_SYS_SetFlagField06(layer);
+    BG_SYS_MarkTileDirty(layer);
     w->layer = layer;
     w->flashTimer = 4;
     return w;
@@ -608,7 +608,7 @@ void ZUKAN_DETAIL_COMMON_FreeBgPalette(struct Ov208Win *p)
     unsigned int w;
 
     w = p->chrOfs;
-    BG_SYS_DeleteHalf(p->layer, (unsigned short)w, (unsigned short)(w >> 16));
+    BG_SYS_FreeTileRun(p->layer, (unsigned short)w, (unsigned short)(w >> 16));
     GFL_HEAP_Free((void *)((int)p));
 }
 
@@ -618,7 +618,7 @@ void ZUKAN_DETAIL_COMMON_TickFlashEffect(struct Ov208Win *p)
 
     c = p->flashTimer;
     if (c == 0) {
-        BG_SYS_ResetSlot(p->layer, 1, 1);
+        BG_SYS_ChangeScroll(p->layer, 1, 1);
         p->flashTimer = 4;
     } else {
         p->flashTimer = c - 1;
@@ -642,11 +642,11 @@ u32 ZUKAN_DETAIL_COMMON_LoadBgPaletteRange(int skip, u16 heap, u8 layer, u8 coun
     ARC_UTIL_UploadBgPaletteAddFromHandle(h, cell, layer, 0, (u16)chrOfs, 0, 0, heap);
     BG_SYS_FillTileMap(layer, 0, 0, 0x20, 0x18, pal);
     ARC_TOOL_DeleteHandle(h);
-    BG_SYS_SetFlagField06(layer);
+    BG_SYS_MarkTileDirty(layer);
     return chrOfs;
 }
 
 void ZUKAN_DETAIL_COMMON_SetBgScrollPacked(u32 layer, u32 packed)
 {
-    BG_SYS_DeleteHalf(layer, (u16)packed, (u16)(packed >> 16));
+    BG_SYS_FreeTileRun(layer, (u16)packed, (u16)(packed >> 16));
 }

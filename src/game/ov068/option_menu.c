@@ -69,7 +69,7 @@
  *   gOptionMenuDispConfig  0x021BB540  data  a4
  *   gOptionMenuBgLayers  0x021BB614  data  a4
  *   BMP_WIN_Delete  0x020452E8  arm
- *   BG_SYS_SetTileUnit  0x02040DA8  arm
+ *   BG_SYS_FreeTiles  0x02040DA8  arm
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   BMP_WIN_Exit  0x020450C8  arm
  *   BG_SYS_Delete  0x0203F9B4  arm
@@ -81,7 +81,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   STRBUF_Delete  0x02045808  arm
  *   BMP_GetPixels  0x020437D4  arm
  *   MIi_CpuCopy32  0x02082A90  arm
@@ -134,7 +134,7 @@
  *   PRINTSYS_CTRL_Update  0x02028484  thumb
  *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   TOUCHBAR_Create  0x021B62E0  thumb  ov067
- *   GAME_DATA_CheckSaveFlag  0x02012BF8  thumb
+ *   GAME_DATA_ContainsRecentId  0x02012BF8  thumb
  *   TOUCHBAR_SetButtonToggled  0x021B6598  thumb  ov067
  *   gOptionMenuReturnButtonCells     0x021BB5D4  data  a4
  *   TOUCHBAR_Delete  0x021B639C  thumb
@@ -146,7 +146,7 @@
  *   TOUCHBAR_GetPressedButtonIdIfPressing  0x021B6470  thumb  ov067
  *   TOUCHBAR_GetPressedButtonIdIfDone  0x021B6448  thumb  ov067
  *   TOUCHBAR_IsButtonToggled  0x021B65A8  thumb  ov067
- *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
+ *   GAME_DATA_SetRecentId  0x02012BE0  thumb
  *   gOptionMenuConfirmRect     0x021BB550  data  a4
  *   func_020061E4_2  0x020061E4  thumb
  *   gOptionMenuCancelRect     0x021BB560  data  ov068  a4
@@ -159,7 +159,7 @@
  *   BG_SYS_FillTileMap  0x020413B0  arm
  *   CLACT_ChangeActorAnimSeq  0x0204B8A0  arm
  *   gOptionMenuRowPalettes     0x021BB538  data  a1
- *   BG_SYS_ResetSlot  0x02041EE4  arm
+ *   BG_SYS_ChangeScroll  0x02041EE4  arm
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   GFL_USE_SetStereoOutput  0x02005C28  thumb
  *   APP_TASKMENU_OpenMenu  0x02027778  thumb
@@ -280,7 +280,7 @@ extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 arcId, u32 id, PaletteReso
 extern void GFL_HEAP_Free(void *p);
 extern struct BmpWindow *BMP_WIN_Create(u32 layer, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 slot);
 extern u32 BMP_WIN_Delete(struct BmpWindow *window);
-extern void BG_SYS_SetTileUnit(u32 a, u32 b, u32 c);
+extern void BG_SYS_FreeTiles(u32 a, u32 b, u32 c);
 extern void BG_SYS_FreeLayerBuf(u32 a);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
@@ -293,7 +293,7 @@ extern void PRINTSYS_PrintColor(struct Bitmap *bitmap, s16 x, s16 y, struct Stri
 extern void BMP_WIN_TransferChars(struct BmpWindow *window);
 extern void BMP_WIN_MakeScreen(struct BmpWindow *window);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWindow *window);
-extern void BG_SYS_SetFlagField06(u32 a);
+extern void BG_SYS_MarkTileDirty(u32 a);
 extern void STRBUF_Delete(struct StringBuf *str);
 extern void *BMP_GetPixels(const struct Bitmap *bitmap);
 extern void MIi_CpuCopy32(u32 a, u32 b, u32 size);
@@ -342,7 +342,7 @@ extern struct PrintStream *PRINTSYS_PrintStream(struct BmpWindow *window, u32 x,
 extern s32 PRINTSYS_CTRL_Update(PrintWaitState *waitState, struct PrintStream *stream);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *printSys, struct Bitmap *bitmap);
 extern TouchBar *TOUCHBAR_Create(TouchBarParams *params, u16 heapId);
-extern int GAME_DATA_CheckSaveFlag(struct GameData *gameData, int flag);
+extern int GAME_DATA_ContainsRecentId(struct GameData *gameData, int flag);
 extern void TOUCHBAR_SetButtonToggled(TouchBar *button, unsigned int id, unsigned int v);
 extern void TOUCHBAR_Delete(TouchBar *button);
 extern void APP_TASKMENU_WIN_Delete(struct TaskMenuWin *win);
@@ -355,7 +355,7 @@ extern void TOUCHBAR_Update(TouchBar *button);
 extern int TOUCHBAR_GetPressedButtonIdIfPressing(TouchBar *button);
 extern int TOUCHBAR_GetPressedButtonIdIfDone(TouchBar *button);
 extern int TOUCHBAR_IsButtonToggled(TouchBar *button, int id);
-extern void GAME_DATA_SetSaveFlag(struct GameData *gameData, u32 a, u32 b);
+extern void GAME_DATA_SetRecentId(struct GameData *gameData, u32 a, u32 b);
 extern void APP_TASKMENU_WIN_Update(struct TaskMenuWin *win);
 extern u32 APP_TASKMENU_WIN_IsFinish(struct TaskMenuWin *win);
 extern void APP_TASKMENU_WIN_ResetDecide(struct TaskMenuWin *win);
@@ -363,7 +363,7 @@ extern struct TaskMenuWin *APP_TASKMENU_WIN_Create(struct TaskMenuRes *res, Task
 extern u32 BG_SYS_GetScrollY(u32 layer);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void CLACT_ChangeActorAnimSeq(struct ClActor *actor, u16 v);
-extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
+extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
 extern void CLACT_AddActorSurfacePos(struct ClActor *actor, const ClPos *delta, u32 which);
 extern void GFL_USE_SetStereoOutput(u32 a);
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(TaskMenuTemplate *tmpl, struct TaskMenuRes *res);
@@ -693,9 +693,9 @@ void OPTION_MENU_ExitGfx(OptionMenuGfx *gfx)
         }
     }
     GFL_HEAP_Free(gfx->screenBuffer);
-    BG_SYS_SetTileUnit(4, 1, 0);
+    BG_SYS_FreeTiles(4, 1, 0);
     i = 0;
-    BG_SYS_SetTileUnit(3, 1, 0);
+    BG_SYS_FreeTiles(3, 1, 0);
     for (i = 0; i < 6; i++) {
         BG_SYS_FreeLayerBuf((u8)gOptionMenuBgLayers[i].layerId);
     }
@@ -758,7 +758,7 @@ void OPTION_MENU_CreateLabelWindows(OptionMenuGfx *gfx)
         window = gfx->windows[i];
         BMP_WIN_TransferChars(window);
         BMP_WIN_MakeScreen(window);
-        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
+        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(window));
         STRBUF_Delete(str);
     }
     charData = gfx->screenData->charData;
@@ -770,7 +770,7 @@ void OPTION_MENU_CreateLabelWindows(OptionMenuGfx *gfx)
     window = gfx->windows[OPTION_WINDOW_TITLE];
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(window));
     STRBUF_Delete(str);
     MSGDATA_Delete(msgBank);
     GF_FONT_Delete(font);
@@ -1146,7 +1146,7 @@ void OPTION_MENU_InitButtons(OptionMenuButtons *buttons, struct Unit *unit, stru
     request.iconSet = 2;
     buttons->returnButton = TOUCHBAR_Create(&request, heapId);
     OPTION_MENU_CreateButtonWindows(buttons, heapId);
-    if (GAME_DATA_CheckSaveFlag(buttons->gameData, 0x18) != 0) {
+    if (GAME_DATA_ContainsRecentId(buttons->gameData, 0x18) != 0) {
         TOUCHBAR_SetButtonToggled(buttons->returnButton, 6, 1);
     } else {
         TOUCHBAR_SetButtonToggled(buttons->returnButton, 6, 0);
@@ -1276,9 +1276,9 @@ void OPTION_MENU_UpdateButtons(OptionMenuButtons *buttons, const OptionMenuInput
         if (result != 0) {
             if (result == 6) {
                 if (TOUCHBAR_IsButtonToggled(buttons->returnButton, 6))
-                    GAME_DATA_SetSaveFlag(buttons->gameData, 0x18, 1);
+                    GAME_DATA_SetRecentId(buttons->gameData, 0x18, 1);
                 else
-                    GAME_DATA_SetSaveFlag(buttons->gameData, 0x18, 0);
+                    GAME_DATA_SetRecentId(buttons->gameData, 0x18, 0);
                 buttons->choice = OPTION_BUTTON_NONE;
             }
         } else {
@@ -1582,8 +1582,8 @@ void OPTION_MENU_DrawList(OptionMenuList *list, int highlight)
     }
     if (highlight)
         BG_SYS_FillTileMap((u8)(list->subLayer), 0, list->cursor * 3 + 2, 0x20, 3, 7);
-    BG_SYS_SetFlagField06((u8)(list->subLayer));
-    BG_SYS_SetFlagField06((u8)(list->mainLayer));
+    BG_SYS_MarkTileDirty((u8)(list->subLayer));
+    BG_SYS_MarkTileDirty((u8)(list->mainLayer));
     for (i = 0; i < OPTION_ACTOR_CHOICE_COUNT; i++) {
         if (list->cursor == gOptionMenuChoices[i].settingIndex && highlight) {
             if (OPTION_MENU_IsChoiceSelected(&list->settings, i))
@@ -1618,8 +1618,8 @@ void OPTION_MENU_ScrollList(OptionMenuList *list, int delta, int min, int max)
     } else if (v < min) {
         v = min;
     }
-    BG_SYS_ResetSlot((u8)list->mainLayer, 3, v + 0x14);
-    BG_SYS_ResetSlot((u8)list->subLayer, 3, v);
+    BG_SYS_ChangeScroll((u8)list->mainLayer, 3, v + 0x14);
+    BG_SYS_ChangeScroll((u8)list->subLayer, 3, v);
     t = list->scrollY - delta;
     list->scrollY = t;
     list->scrollY = t > 0x10 - min ? 0x10 - min : (t < 0x10 - max ? 0x10 - max : t);

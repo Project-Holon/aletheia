@@ -11,7 +11,7 @@
  * symbols:
  *   STRBUF_Delete 0x02045808 arm
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   MSGDATA_Delete 0x02045C04 arm
  */
@@ -21,7 +21,7 @@ struct U16Vec;
 struct WordSet;
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
-extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern unsigned int WORDSET_Delete(struct WordSet *p);
 typedef unsigned int   u32;
 extern u32 GF_FONT_Delete(void *ptr);
 extern u32 MSGDATA_Delete(struct Rec *rec);
@@ -31,7 +31,7 @@ void BOX2_MAIN_DeleteTextSystem(char *p)
 {
     STRBUF_Delete(PTR(p,0x88));
     PRINTSYS_QUE_Delete(PTR(p,0x8c));
-    WORDSET_DeleteStrbufED04(PTR(p,0x84));
+    WORDSET_Delete(PTR(p,0x84));
     GF_FONT_Delete(PTR(p,0x7c));
     GF_FONT_Delete(PTR(p,0x78));
     MSGDATA_Delete(PTR(p,0x80));

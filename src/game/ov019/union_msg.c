@@ -69,13 +69,13 @@
  *   STRBUF_Delete  0x02045808  arm
  *   MSGDATA_AllocString  0x02045EC0  arm
  *   WORDSET_SetSlotFromMsgE7  0x0201F048  thumb
- *   WORDSET_DeleteMsgdataF094  0x0201F094  thumb
+ *   WORDSET_SetSlotFromKeyedMessage  0x0201F094  thumb
  *   d_021807F8     0x021807F8  data  a1
  *   PMS_WORD_GetSaveData  0x02024988  thumb
  *   PMS_WORD_SetFlag  0x020249A0  thumb
  *   d_0218044C     0x0218044C  data
  *   WORDSET_Create 0x0201EC74 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   d_021806AC 0x021806AC data a1
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
  *   FIELD_MSGBG_CreateMsgData  0x021904B0  thumb  ov021
@@ -179,11 +179,11 @@ extern void WORDSET_SetSlotTag(void *p, u32 i, const void *src, u32 n, u32 f, u3
 extern void STRBUF_Delete(void *vec);
 extern void *MSGDATA_AllocString(void *bank, u32 index);
 extern void WORDSET_SetSlotFromMsgE7(void *p, u32 i, u32 n);
-extern void WORDSET_DeleteMsgdataF094(void *p, u32 i, u32 a, u32 n);
+extern void WORDSET_SetSlotFromKeyedMessage(void *p, u32 i, u32 a, u32 n);
 extern void *PMS_WORD_GetSaveData(int ctrl);
 extern void PMS_WORD_SetFlag(void *p, int bit);
 extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
-extern u32 WORDSET_DeleteStrbufED04(void *p);
+extern u32 WORDSET_Delete(void *p);
 extern unsigned int FIELDMAP_GetMsgBg(void *p);
 extern int FIELD_MSGBG_CreateMsgData(u32 a, u32 b);
 extern void *FIELD_MSGBG_CreatePlainWin(void *a, u32 b, u32 c, u16 d, u16 e, u16 f, u16 g);
@@ -662,7 +662,7 @@ void UNION_MSG_RegisterPartnerWords(UnionRoomWork *unisys)
     if (situation->connect.talkParam != 0 && situation->connect.talkParam->nation != 0) {
         WORDSET_SetSlotFromMsgE7(unisys->msgWork.wordSet, 3, situation->connect.talkParam->nation);
         if (situation->connect.talkParam->area != 0)
-            WORDSET_DeleteMsgdataF094(unisys->msgWork.wordSet, 4, situation->connect.talkParam->nation, situation->connect.talkParam->area);
+            WORDSET_SetSlotFromKeyedMessage(unisys->msgWork.wordSet, 4, situation->connect.talkParam->nation, situation->connect.talkParam->area);
     }
     UNION_MSG_SetGreetingWordFlag((int)unisys->parent->gameData, language);
 }
@@ -699,7 +699,7 @@ void UNION_MSG_CreateWordSet(UnionRoomWork *unisys)
 void UNION_MSG_DeleteWordSet(UnionRoomWork *unisys)
 {
     if (unisys->msgWork.wordSet != 0) {
-        WORDSET_DeleteStrbufED04(unisys->msgWork.wordSet);
+        WORDSET_Delete(unisys->msgWork.wordSet);
         unisys->msgWork.wordSet = 0;
     }
 }

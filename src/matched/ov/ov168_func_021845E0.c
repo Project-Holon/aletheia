@@ -1,5 +1,5 @@
 /*
- * function: MICTEST_HasFreeSlot
+ * function: MICTEST_AreAllSpritesIdle
  * address: 0x021845E0
  * packet: pkt_ov168_021845E0
  * region: ov168
@@ -16,4 +16,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Bank; struct CharBuf; struct Descriptor; struct Rec; struct Node; struct Blk37;
 
-int MICTEST_HasFreeSlot(char *p) { int i;for(i=0;i<3;i++)if(*(void **)(p+i*0x30+0x7c))return 0;return 1; }
+int MICTEST_AreAllSpritesIdle(char *p) { int i;for(i=0;i<3;i++)if(*(void **)(p+i*0x30+0x7c))return 0;return 1; }

@@ -1,5 +1,5 @@
 /*
- * function: VCT_SESSION_RemoveMember
+ * function: VCT_MIXER_RemoveMember
  * address: 0x021B074C
  * packet: pkt_ov013_021B074C
  * region: ov013
@@ -35,7 +35,7 @@ extern void VCT_AUDIO_FlushReadyQueue(u32 i);
 extern void VCT_AUDIO_FlushPendingSlot(u32 i);
 extern void VCT_DSP_ResetVoiceGate(void);
 #pragma opt_propagation off
-void VCT_SESSION_RemoveMember(const Req *p)
+void VCT_MIXER_RemoveMember(const Req *p)
 {
     u32 i;
     int n;

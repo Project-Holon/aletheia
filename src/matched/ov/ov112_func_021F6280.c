@@ -1,5 +1,5 @@
 /*
- * function: MUSICAL_MCSS_GetFieldD
+ * function: MUSICAL_MCSS_DisableDrawOffset
  * address: 0x021F6280
  * packet: pkt_ov112_021F6280
  * region: ov112
@@ -11,4 +11,4 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u32 a:1,b:1,c:1,rest:29; } Flags;
-void MUSICAL_MCSS_GetFieldD(u8 *p) { ((Flags *)(p+236))->a=0; }
+void MUSICAL_MCSS_DisableDrawOffset(u8 *p) { ((Flags *)(p+236))->a=0; }

@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * levers: the RNG result is the third argument to GF_STANDARD_Shuffle, kept live
+ * levers: the RNG result is the third argument to GF_STANDARD_XorCrypt, kept live
  *   in r2 across its preceding store. The bound is read as p->n in the for
  *   condition rather than through n; expanding that one use changes the
  *   hoisted bound/far-word allocation from r7/r6 to the original r6/r7.
@@ -17,7 +17,7 @@
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
- *   GF_STANDARD_Shuffle  0x0203F328  arm
+ *   GF_STANDARD_XorCrypt  0x0203F328  arm
  *   func_020056EC  0x020056EC  thumb
  *   DELIVERY_IRC_SetStepAtLine  0x02157960  thumb
  *   DELIVERY_IRC_StepSendData  0x02157AF0  thumb
@@ -39,7 +39,7 @@ struct Link;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *, u32, u32);
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *, u32, u32);
-extern void GF_STANDARD_Shuffle(u16 *, u32, u32);
+extern void GF_STANDARD_XorCrypt(u16 *, u32, u32);
 extern u32 func_020056EC(u32 range);
 extern void DELIVERY_IRC_SetStepAtLine(int, int, int);
 extern void DELIVERY_IRC_StepSendData(int *);
@@ -69,7 +69,7 @@ void DELIVERY_IRC_StepSearchEntry(Object *p)
         if (b[0x676] == 1) {
             u32 t = func_020056EC(0);
             ((struct Obj01831 *)b)->f668 = t;
-            GF_STANDARD_Shuffle((u16 *)e[1], e[0], t);
+            GF_STANDARD_XorCrypt((u16 *)e[1], e[0], t);
             *(int * *)&((struct Obj01831 *)b)->f664 = e;
         }
         return;

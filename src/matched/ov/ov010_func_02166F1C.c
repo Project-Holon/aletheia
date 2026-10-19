@@ -17,10 +17,10 @@
  *   FIELDMAP_GetWeather  0x02188C6C  thumb  ov021
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
- *   ISS_SWITCH_GetSubscreenMode  0x0202C794  thumb
+ *   WEATHER_GetZoneWeatherId  0x0202C794  thumb
  *   WEATHER_RequestChangeNoFade  0x021A1BE4  thumb  ov021
  *   WEATHER_RequestChange  0x021A1BDC  thumb  ov021
- *   GAME_DATA_SetSubscreenMode  0x020129A0  thumb
+ *   GAME_DATA_SetWeatherId  0x020129A0  thumb
  */
 
 typedef unsigned char u8;
@@ -36,10 +36,10 @@ extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern u32 FIELDMAP_GetWeather(u8 *p);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
 extern u16 FIELDMAP_GetZoneId(u8 *p);
-extern u8 ISS_SWITCH_GetSubscreenMode(void *a0, u32 a1);
+extern u8 WEATHER_GetZoneWeatherId(void *a0, u32 a1);
 extern void WEATHER_RequestChangeNoFade(int a, int b);
 extern void WEATHER_RequestChange(int a, int b);
-extern void GAME_DATA_SetSubscreenMode(struct BigObj *p, u8 v);
+extern void GAME_DATA_SetWeatherId(struct BigObj *p, u8 v);
 
 int SYMBOL_MAP_ScrCmdSetSubscreenMode(void *a, void *b)
 {
@@ -57,11 +57,11 @@ int SYMBOL_MAP_ScrCmdSetSubscreenMode(void *a, void *b)
     r4 = SCRIPT_WORK_ReadWorkValue(a, b);
     r5 = SCRIPT_WORK_ReadWorkValue(a, b);
     if (r4 == 0xFFFF)
-        r4 = ISS_SWITCH_GetSubscreenMode(s4, FIELDMAP_GetZoneId(s8));
+        r4 = WEATHER_GetZoneWeatherId(s4, FIELDMAP_GetZoneId(s8));
     if (r5 != 0)
         WEATHER_RequestChangeNoFade(r7, r4);
     else
         WEATHER_RequestChange(r7, r4);
-    GAME_DATA_SetSubscreenMode(s0, r4 & 0xff);
+    GAME_DATA_SetWeatherId(s0, r4 & 0xff);
     return 0;
 }

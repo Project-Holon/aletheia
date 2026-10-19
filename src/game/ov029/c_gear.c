@@ -1,7 +1,7 @@
 /*
  * file:     c_gear.c
  * unit:     yes
- * function: C_GEAR_IsColumnRowValid, C_GEAR_SetStepFunc, C_GEAR_ChangeStep, C_GEAR_GetHexNeighbors, C_GEAR_SpawnRippleActor, C_GEAR_AcquireActorSlot, C_GEAR_IsTileActorIdle, C_GEAR_StepRipple, C_GEAR_StartRippleFlood, C_GEAR_HitTestTile, C_GEAR_InitTabTimersPowerOn, C_GEAR_InitTabTimersPowerOff, C_GEAR_ResetTabPalettes, C_GEAR_UpdateTabInput, C_GEAR_IsCallTabActive, C_GEAR_TickTabTimers, C_GEAR_SetTabMode, C_GEAR_UpdateTabPalettes, C_GEAR_UpdateTabPaletteKind3, C_GEAR_UpdateTabPaletteKind1, C_GEAR_UpdateTabPaletteKind2, C_GEAR_UpdateTabPaletteKind0, C_GEAR_UpdateTabPaletteKind4, C_GEAR_BlendTabPalette, C_GEAR_LoadTargetPalette, C_GEAR_SelectTabPalette, C_GEAR_InitTiles, C_GEAR_StepTiles, C_GEAR_IsAnyTileFlashing, C_GEAR_StopTileFlashes, C_GEAR_InitTile, C_GEAR_ResetTileFlash, C_GEAR_StartTileFlash, C_GEAR_StopTileFlash, C_GEAR_StepTileFlash, C_GEAR_SetTileFlashStep, C_GEAR_IsTileFlashing, C_GEAR_GetTilePalette, C_GEAR_InitTabTimer, C_GEAR_TickTabTimer, C_GEAR_IsTabTimerFull, C_GEAR_ResetTabTimerCount, C_GEAR_ClearTabTimerCount, C_GEAR_GetTabTimerCount, C_GEAR_SetTabTimerRunning, C_GEAR_TileToScreen, C_GEAR_IsIdleForInput, C_GEAR_CountCellsOfKind, C_GEAR_TintPalettes, C_GEAR_StartFlashFade, C_GEAR_FadeBackground, C_GEAR_FadeAccentColors, C_GEAR_StartFadeOut, C_GEAR_StartFadeIn, C_GEAR_StopFade, C_GEAR_GetFadeRequestBits, C_GEAR_DrawEmptyBoard, C_GEAR_StepIntroTiles, C_GEAR_StepOutroTiles, C_GEAR_ResetAllTiles, C_GEAR_DrawTile, C_GEAR_FindCellOfKind, C_GEAR_DrawAllCells, C_GEAR_LoadSkin, C_GEAR_LoadSpriteResources, C_GEAR_LoadFrameGraphics, C_GEAR_SetupBackgrounds, C_GEAR_SetupSubScreenBlend, C_GEAR_HandleButton, C_GEAR_OnButtonEvent, C_GEAR_SetPaintModeIcon, C_GEAR_CreateHudActors, C_GEAR_SetTileMarkersVisible, C_GEAR_SetAllActorsVisible, C_GEAR_SetSplashActorsVisible, C_GEAR_CreateSplashActors, C_GEAR_DeleteSplashActors, C_GEAR_IsSplashDone, C_GEAR_CreateBarActors, C_GEAR_UpdateBeaconColors, C_GEAR_DeleteBarActors, C_GEAR_LoadGraphics, C_GEAR_DeleteActors, C_GEAR_FreeGraphics, C_GEAR_GetBatteryFrame, C_GEAR_UpdateClock, C_GEAR_UpdateTileMarkers, C_GEAR_RunFrame, C_GEAR_StepIdle, C_GEAR_StepIntroEnd, C_GEAR_StepOpen, C_GEAR_StepClose, C_GEAR_LoadCustomBackground, C_GEAR_OnCommDisconnect, C_GEAR_OnCommEvent, C_GEAR_TransferPalettesTask, C_GEAR_Init, C_GEAR_Cleanup, C_GEAR_Create, C_GEAR_Open, C_GEAR_Update, C_GEAR_Nop, C_GEAR_Destroy, C_GEAR_Restart, C_GEAR_HandleCommand, C_GEAR_IsLastCommandKind5, C_GEAR_StopRingtone, C_GEAR_SetCellKind, C_GEAR_GetCellKind, C_GEAR_IsCellMarked, C_GEAR_IsCellKind, CTRDG_IsAgbCartridge, C_GEAR_StepIconAnim, C_GEAR_StepFadeIcon, C_GEAR_NoOp, C_GEAR_ShowOffIndicator, C_GEAR_ShowCommIndicator, C_GEAR_HideCommIndicator, C_GEAR_HideOffIndicator, C_GEAR_TickIndicators, C_GEAR_ApplyIndicators, C_GEAR_IsAnyIndicatorShown, C_GEAR_TickTabFrame, C_GEAR_CreateFadeFx, C_GEAR_DeleteFadeFx, C_GEAR_StartFadeFx, C_GEAR_StepFadeFx, C_GEAR_StartPanelEvent, C_GEAR_PanelEventMain, C_GEAR_StartSelectedRipple, C_GEAR_DeleteActorSlots, C_GEAR_AreActorSlotsIdle, C_GEAR_StepWaitSlots, C_GEAR_SetPowerState, C_GEAR_LoadSkinMember
+ * function: C_GEAR_IsColumnRowValid, C_GEAR_SetStepFunc, C_GEAR_ChangeStep, C_GEAR_GetHexNeighbors, C_GEAR_SpawnRippleActor, C_GEAR_AcquireActorSlot, C_GEAR_IsTileActorIdle, C_GEAR_StepRipple, C_GEAR_StartRippleFlood, C_GEAR_HitTestTile, C_GEAR_InitTabTimersPowerOn, C_GEAR_InitTabTimersPowerOff, C_GEAR_ResetTabPalettes, C_GEAR_UpdateTabInput, C_GEAR_IsCallTabActive, C_GEAR_TickTabTimers, C_GEAR_SetTabMode, C_GEAR_UpdateTabPalettes, C_GEAR_UpdateTabPaletteKind3, C_GEAR_UpdateTabPaletteKind1, C_GEAR_UpdateTabPaletteKind2, C_GEAR_UpdateTabPaletteKind0, C_GEAR_UpdateTabPaletteKind4, C_GEAR_BlendTabPalette, C_GEAR_LoadTargetPalette, C_GEAR_SelectTabPalette, C_GEAR_InitTiles, C_GEAR_StepTiles, C_GEAR_IsAnyTileFlashing, C_GEAR_StopTileFlashes, C_GEAR_InitTile, C_GEAR_ResetTileFlash, C_GEAR_StartTileFlash, C_GEAR_StopTileFlash, C_GEAR_StepTileFlash, C_GEAR_SetTileFlashStep, C_GEAR_IsTileFlashing, C_GEAR_GetTilePalette, C_GEAR_InitTabTimer, C_GEAR_TickTabTimer, C_GEAR_IsTabTimerFull, C_GEAR_ResetTabTimerCount, C_GEAR_ClearTabTimerCount, C_GEAR_GetTabTimerCount, C_GEAR_SetTabTimerRunning, C_GEAR_TileToScreen, C_GEAR_IsIdleForInput, C_GEAR_CountCellsOfKind, C_GEAR_TintPalettes, C_GEAR_StartFlashFade, C_GEAR_FadeBackground, C_GEAR_FadeAccentColors, C_GEAR_StartFadeOut, C_GEAR_StartFadeIn, C_GEAR_StopFade, C_GEAR_GetFadeRequestBits, C_GEAR_DrawEmptyBoard, C_GEAR_StepIntroTiles, C_GEAR_StepOutroTiles, C_GEAR_ResetAllTiles, C_GEAR_DrawTile, C_GEAR_FindCellOfKind, C_GEAR_DrawAllCells, C_GEAR_LoadSkin, C_GEAR_LoadSpriteResources, C_GEAR_LoadFrameGraphics, C_GEAR_SetupBackgrounds, C_GEAR_SetupSubScreenBlend, C_GEAR_HandleButton, C_GEAR_OnButtonEvent, C_GEAR_SetPaintModeIcon, C_GEAR_CreateHudActors, C_GEAR_SetTileMarkersVisible, C_GEAR_SetAllActorsVisible, C_GEAR_SetSplashActorsVisible, C_GEAR_CreateSplashActors, C_GEAR_DeleteSplashActors, C_GEAR_IsSplashDone, C_GEAR_CreateBarActors, C_GEAR_UpdateBeaconColors, C_GEAR_DeleteBarActors, C_GEAR_LoadGraphics, C_GEAR_DeleteActors, C_GEAR_FreeGraphics, C_GEAR_GetBatteryFrame, C_GEAR_UpdateClock, C_GEAR_UpdateTileMarkers, C_GEAR_RunFrame, C_GEAR_StepIdle, C_GEAR_StepIntroEnd, C_GEAR_StepOpen, C_GEAR_StepClose, C_GEAR_LoadCustomBackground, C_GEAR_OnCommDisconnect, C_GEAR_OnCommEvent, C_GEAR_TransferPalettesTask, C_GEAR_Init, C_GEAR_Cleanup, C_GEAR_Create, C_GEAR_Open, C_GEAR_Update, C_GEAR_Nop, C_GEAR_Destroy, C_GEAR_Restart, C_GEAR_HandleCommand, C_GEAR_IsLastCommandWifi, C_GEAR_StopRingtone, C_GEAR_SetCellKind, C_GEAR_GetCellKind, C_GEAR_IsCellMarked, C_GEAR_IsCellKind, CTRDG_IsAgbCartridge, C_GEAR_StepIconAnim, C_GEAR_StepFadeIcon, C_GEAR_NoOp, C_GEAR_ShowOffIndicator, C_GEAR_ShowCommIndicator, C_GEAR_HideCommIndicator, C_GEAR_HideOffIndicator, C_GEAR_TickIndicators, C_GEAR_ApplyIndicators, C_GEAR_IsAnyIndicatorShown, C_GEAR_TickTabFrame, C_GEAR_CreateFadeFx, C_GEAR_DeleteFadeFx, C_GEAR_StartFadeFx, C_GEAR_StepFadeFx, C_GEAR_StartPanelEvent, C_GEAR_PanelEventMain, C_GEAR_StartSelectedRipple, C_GEAR_DeleteActorSlots, C_GEAR_AreActorSlotsIdle, C_GEAR_StepWaitSlots, C_GEAR_SetPowerState, C_GEAR_LoadSkinMember
  * address:  0x021EFEC0
  * region:   ov029
  * compiler: dsi/1.1p1
@@ -29,7 +29,7 @@
  *   d_021F31B0     0x021F31B0  data  ov029  a1
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
- *   GAME_DATA_GetField1A0  0x0201283C  thumb
+ *   GAME_DATA_GetWifiList  0x0201283C  thumb
  *   WIH_DWC_PollStatus  0x0201058C  thumb
  *   INTRUDE_COMM_GetRequestState  0x02158630  thumb  ov010
  *   _s32_div_f     0x0209C0A4  arm
@@ -87,7 +87,7 @@
  *   d_021F33CC     0x021F33CC  data  a4
  *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
- *   BG_SYS_SetVisibleLayer  0x0204047C  arm
+ *   BG_SYS_SetPriority  0x0204047C  arm
  *   BG_SYS_SetTileEntry  0x02041300  arm
  *   d_021F338C     0x021F338C  data  ov029  a4
  *   d_021F33AC     0x021F33AC  data  a4
@@ -96,7 +96,7 @@
  *   UI_SetInputMode  0x020355D8  arm
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   BG_SYS_DeleteHalf  0x0203FB44  arm
+ *   BG_SYS_FreeTileRun  0x0203FB44  arm
  *   CGEAR_SAVE_SetPowerSetting  0x020090E8  thumb
  *   CLACT_SetActorAnimIndex  0x0204B908  arm
  *   CLACT_SetActorAutoAnimSpeed  0x0204B954  arm
@@ -130,7 +130,7 @@
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   UI_GetPowerState 0x0203568C arm
  *   d_021F3520 0x021F3520 data a1
- *   GF_STANDARD_SetField00  0x0203F4CC  arm
+ *   GF_STANDARD_GetCachedTime  0x0203F4CC  arm
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   CLACT_SetActorDrawPriority  0x0204B800  arm
  *   BUTTON_MAN_UpdateSlots  0x02051C88  arm
@@ -138,7 +138,7 @@
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   SAVE_CONTROL_LoadExtraSaveWithBuffer  0x020072CC  thumb
- *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
+ *   GF_STANDARD_CalcCrc16  0x0203F1FC  arm
  *   BLOCK20_SAVEDATA_GetBlock  0x02009210  thumb
  *   CGEAR_SAVE_GetGsyncId  0x0200910C  thumb
  *   MUSICAL_DIST_SAVE_IsFooterSet  0x0200C6F0  thumb
@@ -256,7 +256,7 @@ extern u32 CLACT_GetActorAnimFrame(struct Actor *p);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern void *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
 extern void *GAMESYSTEM_GetGameData(const struct GameSystem *p);
-extern void *GAME_DATA_GetField1A0(const void *gameData);
+extern void *GAME_DATA_GetWifiList(const void *gameData);
 extern u32 WIH_DWC_PollStatus(void *key);
 extern int INTRUDE_COMM_GetRequestState(void *eventWork);
 extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
@@ -290,14 +290,14 @@ extern void GFL_NET_RestartWithTimeout(u32 a, u32 b);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+extern void BG_SYS_SetPriority(int idx, unsigned short val);
 extern void BG_SYS_SetTileEntry(u32 layer, int value, int x0, int y0, u8 w, u8 h, u8 mode);
 extern void G2x_SetBlendAlpha_(u32, int, int, int, int);
 extern void UI_SetInputMode(u8 v);
 extern u32 TOUCHPANEL_GetPointCont(int *outX, int *outY);
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern int C_GEAR_IsAnyIndicatorShown(CGearWork *work);
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 extern void CGEAR_SAVE_SetPowerSetting(struct HexMap *obj, u8 value);
 extern void CLACT_SetActorAnimIndex(struct Actor *actor, int index);
 extern void CLACT_SetActorAutoAnimSpeed(struct Actor *a, u32 v);
@@ -324,7 +324,7 @@ extern void CLACT_DeleteRenderer(struct ActorResources *resources);
 extern u32 CLACT_DeleteUnit(struct ActorSystem *bank);
 extern void BG_SYS_FreeLayerBuf(u32 i);
 extern int UI_GetPowerState(void);
-extern void GF_STANDARD_SetField00(RtcTime *time);
+extern void GF_STANDARD_GetCachedTime(RtcTime *time);
 extern void CLACT_AddActorSurfacePos(struct Actor *actor, const CGearPos *delta, u32 which);
 extern void CLACT_SetActorDrawPriority(struct Actor *node, u32 val);
 extern s32 BUTTON_MAN_UpdateSlots(struct ButtonTask *task);
@@ -333,7 +333,7 @@ extern void C_GEAR_TickTabFrame(CGearWork *work);
 extern void *GFL_HEAP_Alloc(u32 heap, u32 size, int flag, const char *file, u16 line);
 extern struct SaveCtrl *GAME_DATA_GetSaveControl(void *gameData);
 extern u32 SAVE_CONTROL_LoadExtraSaveWithBuffer(struct SaveCtrl *sv, u32 id, u8 heap, void *buf, u32 size);
-extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
+extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
 extern struct HexMap *BLOCK20_SAVEDATA_GetBlock(void *saveSys);
 extern u16 CGEAR_SAVE_GetGsyncId(const struct HexMap *obj);
 extern u32 MUSICAL_DIST_SAVE_IsFooterSet(const u8 *bgData);
@@ -486,7 +486,7 @@ void C_GEAR_Nop(void);
 void C_GEAR_Destroy(CGearWork *work);
 int C_GEAR_Restart(CGearWork *work);
 struct GameEvent *C_GEAR_HandleCommand(CGearWork *work, int enabled);
-int C_GEAR_IsLastCommandKind5(CGearWork *work);
+int C_GEAR_IsLastCommandWifi(CGearWork *work);
 void C_GEAR_StopRingtone(CGearWork *work);
 void C_GEAR_SetCellKind(CGearWork *work, struct HexMap *hexMap, int col, int row, int kind);
 u32 C_GEAR_GetCellKind(const CGearWork *work, int col, int row);
@@ -930,20 +930,20 @@ void C_GEAR_ResetTabPalettes(CGearWork *work)
 void C_GEAR_UpdateTabInput(CGearWork *work, int tabKind, int slot, int resetPriorities, int modeEnabled)
 {
     void *eventWork;
-    int keyGroups;
-    int keysHeld;
+    int statusGroups;
+    int statusHeld;
     int linkMode;
     int kind4;
     int kind3;
     int i;
     int kind2;
     int kind1;
-    u32 padKeys;
+    u32 wirelessStatus;
     int cycleIdx;
 
     eventWork = GAMESYSTEM_GetGameComm(work->gameSystem);
-    keyGroups = 0;
-    keysHeld = 1;
+    statusGroups = 0;
+    statusHeld = 1;
     kind1 = 1;
     kind4 = 4;
     kind3 = 3;
@@ -951,34 +951,34 @@ void C_GEAR_UpdateTabInput(CGearWork *work, int tabKind, int slot, int resetPrio
     if (resetPriorities != 0) {
         kind4 = kind1 = kind2 = kind3 = 0;
     }
-    padKeys = WIH_DWC_PollStatus(GAME_DATA_GetField1A0(GAMESYSTEM_GetGameData(work->gameSystem)));
+    wirelessStatus = WIH_DWC_PollStatus(GAME_DATA_GetWifiList(GAMESYSTEM_GetGameData(work->gameSystem)));
     linkMode = INTRUDE_COMM_GetRequestState(eventWork);
     if (modeEnabled != 0) {
         if (linkMode == 3) {
             C_GEAR_SelectTabPalette(work, 2, 3, kind3, tabKind, slot);
-        } else if (padKeys & 8) {
-            keyGroups |= 4;
+        } else if (wirelessStatus & 8) {
+            statusGroups |= 4;
             C_GEAR_SelectTabPalette(work, 2, 2, kind3, tabKind, slot);
         }
     }
-    if (keyGroups == 0) {
-        keysHeld = 0;
-        if (padKeys & 2) {
-            keyGroups |= 2;
+    if (statusGroups == 0) {
+        statusHeld = 0;
+        if (wirelessStatus & 2) {
+            statusGroups |= 2;
         }
-        if (padKeys & 0x3c) {
-            keyGroups |= 4;
+        if (wirelessStatus & 0x3c) {
+            statusGroups |= 4;
         }
-        if (padKeys & 0x3c0) {
-            keyGroups |= 8;
+        if (wirelessStatus & 0x3c0) {
+            statusGroups |= 8;
         }
-        if (padKeys & 0x40) {
+        if (wirelessStatus & 0x40) {
             C_GEAR_SelectTabPalette(work, 1, 3, kind2, tabKind, slot);
-        } else if (padKeys & 0x100) {
+        } else if (wirelessStatus & 0x100) {
             C_GEAR_SelectTabPalette(work, 1, 0, kind2, tabKind, slot);
-        } else if (padKeys & 0x80) {
+        } else if (wirelessStatus & 0x80) {
             C_GEAR_SelectTabPalette(work, 1, 1, kind2, tabKind, slot);
-        } else if (padKeys & 0x200) {
+        } else if (wirelessStatus & 0x200) {
             C_GEAR_SelectTabPalette(work, 1, 0, kind2, tabKind, slot);
         }
         if (linkMode != 0) {
@@ -989,7 +989,7 @@ void C_GEAR_UpdateTabInput(CGearWork *work, int tabKind, int slot, int resetPrio
             for (i = 0; i < 3; i++) {
                 work->keyCycle = (work->keyCycle + 1) % 3;
                 cycleIdx = work->keyCycle;
-                if ((d_021F31EC[cycleIdx] & padKeys) || (cycleIdx == 2 && work->beaconPending != 0)) {
+                if ((d_021F31EC[cycleIdx] & wirelessStatus) || (cycleIdx == 2 && work->beaconPending != 0)) {
                     if (C_GEAR_SelectTabPalette(work, 2, d_021F31F8[cycleIdx], kind2, tabKind, slot) != 0) {
                         if (work->keyCycle == 2) {
                             work->beaconPending = 0;
@@ -1003,12 +1003,12 @@ void C_GEAR_UpdateTabInput(CGearWork *work, int tabKind, int slot, int resetPrio
             }
         }
     }
-    if (keysHeld == 0) {
+    if (statusHeld == 0) {
         C_GEAR_SelectTabPalette(work, 0, 6, kind1, tabKind, slot);
-        if (!(keyGroups & 8)) {
+        if (!(statusGroups & 8)) {
             C_GEAR_SelectTabPalette(work, 1, 7, kind1, tabKind, slot);
         }
-        if (!(keyGroups & 4)) {
+        if (!(statusGroups & 4)) {
             C_GEAR_SelectTabPalette(work, 2, 8, kind1, tabKind, slot);
         }
     } else {
@@ -2149,7 +2149,7 @@ void C_GEAR_SetupBackgrounds(CGearWork *work)
         struct BgTemplate t = d_021F338C;
         BG_SYS_InitBgLayer(6, &t, 0);
         BG_SYS_SetPlaneVisible(6, 1);
-        BG_SYS_SetVisibleLayer(6, 3);
+        BG_SYS_SetPriority(6, 3);
         BG_SYS_SetTileEntry(6, 0, 0, 0, 0x20, 0x20, 0x11);
         BG_SYS_PushTile(6);
     }
@@ -2157,7 +2157,7 @@ void C_GEAR_SetupBackgrounds(CGearWork *work)
         struct BgTemplate t = d_021F33AC;
         BG_SYS_InitBgLayer(5, &t, 0);
         BG_SYS_SetPlaneVisible(5, 1);
-        BG_SYS_SetVisibleLayer(5, 1);
+        BG_SYS_SetPriority(5, 1);
         BG_SYS_SetTileEntry(5, 0, 0, 0, 0x20, 0x20, 0x11);
         BG_SYS_PushTile(5);
     }
@@ -2165,7 +2165,7 @@ void C_GEAR_SetupBackgrounds(CGearWork *work)
         struct BgTemplate t = d_021F336C;
         BG_SYS_InitBgLayer(4, &t, 0);
         BG_SYS_SetPlaneVisible(4, 1);
-        BG_SYS_SetVisibleLayer(4, 2);
+        BG_SYS_SetPriority(4, 2);
         BG_SYS_SetTileEntry(4, 0, 0, 0, 0x20, 0x20, 0x11);
         BG_SYS_PushTile(4);
     }
@@ -2257,7 +2257,7 @@ void C_GEAR_HandleButton(CGearWork *work, int key)
     case 5:
         GFL_USE_PlaySeDefaultVolume(0x628);
         bgChar = work->bgCharBlock;
-        BG_SYS_DeleteHalf(6, (u16)bgChar, (u16)(bgChar >> 16));
+        BG_SYS_FreeTileRun(6, (u16)bgChar, (u16)(bgChar >> 16));
         work->skinIndex++;
         work->skinIndex = work->skinIndex % 5;
         CGEAR_SAVE_SetPowerSetting(work->hexMap, work->skinIndex);
@@ -2672,7 +2672,7 @@ void C_GEAR_DeleteActors(CGearWork *work)
     CLACT_ReleaseCharacter(work->spriteCharRes);
     CLACT_ReleasePalette(work->spritePlttRes);
     v = work->bgCharBlock;
-    BG_SYS_DeleteHalf(6, (unsigned short)v, (unsigned short)(v >> 16));
+    BG_SYS_FreeTileRun(6, (unsigned short)v, (unsigned short)(v >> 16));
 }
 
 
@@ -2735,7 +2735,7 @@ void C_GEAR_UpdateClock(CGearWork *work)
     struct Actor *actor;
     int digit;
 
-    GF_STANDARD_SetField00(&time);
+    GF_STANDARD_GetCachedTime(&time);
     CLACT_SetActorDrawEnable(work->hudActors[0], 0);
 
     actor = work->hudActors[1];
@@ -3006,7 +3006,7 @@ int C_GEAR_LoadCustomBackground(CGearWork *work, struct GameSystem *gameSystem)
     buf = GFL_HEAP_Alloc(0x70, 0x3000, 0, d_021F3554, 0x104E);
     saveSys = GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem));
     if (SAVE_CONTROL_LoadExtraSaveWithBuffer(saveSys, 4, 0x70, buf, 0x3000) == 1) {
-        crc = GF_STANDARD_SetupCalc(buf, 0x2600);
+        crc = GF_STANDARD_CalcCrc16(buf, 0x2600);
         savedCrc = CGEAR_SAVE_GetGsyncId(BLOCK20_SAVEDATA_GetBlock(saveSys));
         charBase = (u16)work->bgCharBlock;
         if (crc == savedCrc && MUSICAL_DIST_SAVE_IsFooterSet(buf) != 0) {
@@ -3246,7 +3246,7 @@ CGearWork *C_GEAR_Open(struct HexMap *hexMap, int parentWork, struct GameSystem 
 void C_GEAR_Update(CGearWork *work, u8 powerOn)
 {
     int linkMode;
-    u32 padKeys;
+    u32 wirelessStatus;
     struct SoundSys *soundSys;
 
     if (work->commEvent == 1)
@@ -3267,15 +3267,15 @@ void C_GEAR_Update(CGearWork *work, u8 powerOn)
             }
         }
         if (linkMode == 0) {
-            padKeys = WIH_DWC_PollStatus(GAME_DATA_GetField1A0(GAMESYSTEM_GetGameData(work->gameSystem)));
+            wirelessStatus = WIH_DWC_PollStatus(GAME_DATA_GetWifiList(GAMESYSTEM_GetGameData(work->gameSystem)));
             soundSys = GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(work->gameSystem));
-            if (padKeys & 8) {
+            if (wirelessStatus & 8) {
                 if (work->ringtoneActive == 0) {
                     work->ringtoneActive = 1;
                     C_GEAR_SetTabMode(work, 1, 1);
                 }
                 FIELD_SOUND_SYSTEM_StartRingtone(soundSys);
-            } else if ((padKeys & 8) == 0 && work->ringtoneActive != 0) {
+            } else if ((wirelessStatus & 8) == 0 && work->ringtoneActive != 0) {
                 FIELD_SOUND_SYSTEM_StopRingtone(soundSys);
                 work->ringtoneActive = 0;
                 C_GEAR_SetTabMode(work, 0, 0);
@@ -3403,7 +3403,7 @@ struct GameEvent *C_GEAR_HandleCommand(CGearWork *work, int enabled)
 /*
  * Unlabelled leaf, sole blocker of ov021 FIELD_EVENT_CHECK_StopSoundAfterEvent.
  */
-int C_GEAR_IsLastCommandKind5(CGearWork *work)
+int C_GEAR_IsLastCommandWifi(CGearWork *work)
 {
     if (work == 0)
         return 0;

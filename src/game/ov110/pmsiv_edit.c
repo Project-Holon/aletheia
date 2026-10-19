@@ -1,7 +1,7 @@
 /*
  * file:     pmsiv_edit.c
  * unit:     yes
- * function: PMSIV_EDIT_Create, PMSIV_EDIT_Delete, PMSIV_EDIT_Setup, GX_GetVCount, PMSIV_EDIT_UpdateFramePosition, PMSIV_EDIT_StartPanelScroll, PMSIV_EDIT_StepPanelScroll, PMSIV_EDIT_LoadPalette, PMSIV_EDIT_ApplyPalette, PMSIV_EDIT_InitSlotPositions, PMSIV_EDIT_CreateWordIcons, PMSIV_EDIT_CreateCursors, PMSIV_EDIT_Redraw, PMSIV_EDIT_GetSlotRect, PMSIV_EDIT_DrawFreeText, PMSIV_EDIT_ParserInit, PMSIV_EDIT_ParserFree, PMSIV_EDIT_ParserNext, PMSIV_EDIT_SlotPosToBoxOrigin, PMSIV_EDIT_BoxOriginToSlotPos, PMSIV_EDIT_ClearSlotBox, PMSIV_EDIT_DrawSlotWord, PMSIV_EDIT_SetCursorPressed, PMSIV_EDIT_IsSubScreenLayer, PMSIV_EDIT_GetSlotCount, PMSIV_EDIT_GetSlotWordId, PMSIV_EDIT_ReleaseCursor, PMSIV_EDIT_PressCursor, PMSIV_EDIT_SetCursorsVisible, PMSIV_EDIT_NoopA, PMSIV_EDIT_NoopB, PMSIV_EDIT_PlaceCursorAtSlot, PMSIV_BGSCROLL_Start, PMSIV_BGSCROLL_Step, PMSIV_BGSCROLL_Task, PMSIV_FADE_StartBlend, PMSIV_FADE_IsBlendDone, PMSIV_FADE_BlendTask, PMSIV_FADE_StartBrightness, PMSIV_FADE_IsBrightnessDone, PMSIV_FADE_BrightnessTask
+ * function: PMSIV_EDIT_Create, PMSIV_EDIT_Delete, PMSIV_EDIT_Setup, GX_GetVCount, PMSIV_EDIT_UpdateFramePosition, PMSIV_EDIT_StartPanelScroll, PMSIV_EDIT_StepPanelScroll, PMSIV_EDIT_LoadPalette, PMSIV_EDIT_ApplyPalette, PMSIV_EDIT_InitSlotPositions, PMSIV_EDIT_CreateWordIcons, PMSIV_EDIT_CreateCursors, PMSIV_EDIT_Redraw, PMSIV_EDIT_GetSlotRect, PMSIV_EDIT_DrawFreeText, PMSIV_EDIT_ParserInit, PMSIV_EDIT_ParserFree, PMSIV_EDIT_ParserNext, PMSIV_EDIT_SlotPosToBoxOrigin, PMSIV_EDIT_BoxOriginToSlotPos, PMSIV_EDIT_ClearSlotBox, PMSIV_EDIT_DrawSlotWord, PMSIV_EDIT_SetCursorPressed, PMSIV_EDIT_IsSubScreenLayer, PMSIV_EDIT_GetSlotCount, PMSIV_EDIT_GetSlotWordId, PMSIV_EDIT_ReleaseCursor, PMSIV_EDIT_PressCursor, PMSIV_EDIT_SetCursorsVisible, PMSIV_EDIT_NoopA, PMSIV_EDIT_NoopB, PMSIV_EDIT_PlaceCursorAtSlot
  * address:  0x021BBC5C
  * region:   ov110
  * compiler: dsi/1.1p1
@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Message editor panel of the easy-chat input screen: the sentence being composed on both screens, word slots, free-text parser, panel scroll and the screen fade helpers.
+ * Cut from pmsiv_edit.c by tools/splitfile.py.
  *
  * symbols:
  *   GFL_HEAP_Alloc 0x02030734 arm
@@ -45,12 +45,11 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_SetStringN 0x02045994 arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
- *   BG_SYS_FillScrollArea 0x02040618 arm
- *   G2x_SetBlendBrightness_ 0x0207D658 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   PMS_INPUT_VIEW_GetFont 0x021BAC44 thumb ov110
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
@@ -60,13 +59,6 @@
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
- *   PMSIV_FADE_StartBrightness 0x021BC8FC thumb ov110
- *   PMSIV_FADE_IsBrightnessDone 0x021BC93C thumb ov110
- *   PMSIV_BGSCROLL_Start 0x021BC78C thumb ov110
- *   PMSIV_BGSCROLL_Step 0x021BC7DC thumb ov110
- *   PMSIV_FADE_StartBlend 0x021BC868 thumb ov110
- *   PMSIV_FADE_IsBlendDone 0x021BC898 thumb ov110
- *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   sPmsivEditAllocSite 0x021C3C58 data a1
  *   BMP_CURSOR_Create 0x02020D18 thumb
  *   BGWINFRM_Create 0x0202C9B4 thumb
@@ -106,24 +98,21 @@
  *   PMSI_PARAM_GetDecoId 0x02024520 thumb
  *   BMP_WIN_GetPosX 0x02045758 arm
  *   BMP_WIN_GetPosY 0x02045760 arm
- *   BG_SYS_Get 0x020416D4 arm
+ *   BG_SYS_GetPriority 0x020416D4 arm
  *   PMS_WORD_LoadString 0x02024838 thumb
- *   BG_SYS_GetChannelScrollX 0x02041648 arm
- *   BG_SYS_GetChannelScrollY 0x02041664 arm
- *   PMS_INPUT_VIEW_AddVBlankTask 0x021B9BA4 thumb ov110
- *   _s32_div_f 0x0209C0A4 arm
  */
 #include "pms_input_data_shared_types.h"
 #include "pms_input_view_shared_types.h"
-#include "pmsi_search_shared_types.h"
 #include "pmsiv_category_shared_types.h"
 #include "pmsiv_edit_shared_types.h"
 
 #define PMSIV_EDIT_HEAP 42
+
 #define PMSIV_EDIT_SLOT_COUNT 2
+
 #define PMSIV_EDIT_SCREEN_COUNT 2
+
 #define PMSIV_EDIT_PALETTE_BYTES 320
-#define PMSIV_EDIT_SCROLL_FRAMES 6
 
 enum {
     PMSIV_EDIT_MODE_SINGLE = 0,
@@ -139,7 +128,9 @@ enum {
 };
 
 #define PMSIV_EDIT_CHAR_SLOT 0xf000
+
 #define PMSIV_EDIT_CHAR_NEWLINE 0xfffe
+
 #define PMSIV_EDIT_CHAR_END 0xffff
 
 typedef struct { short x, y; } ScreenPos;
@@ -194,88 +185,157 @@ struct PmsivEdit {
 
 typedef volatile unsigned short vu16;
 
+
+typedef volatile unsigned short vu16;
+
 struct WinMgr;
 
 extern u32 GFL_HEAP_Free(void *p);
+
 extern int *PMS_INPUT_GetUiInputModePtr(struct PmsInputState *input);
+
 extern void TCB_DeleteTask(struct Node *n);
+
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
+
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+
 extern void STRBUF_Delete(struct U16Vec *vec);
+
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
+
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
-extern void BG_SYS_SetFlagField06(unsigned);
+
+extern void BG_SYS_MarkTileDirty(unsigned);
+
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+
 extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
+
 extern void CLACT_DeleteActor(struct Obj *p);
+
 extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
-extern void BG_SYS_FillScrollArea(u32, u32, u32);
+
+extern void BG_SYS_ChangeScrollImmediate(u32, u32, u32);
+
 extern u32 PMS_INPUT_VIEW_GetFont(struct PmsInputView *view);
+
 extern struct Descriptor *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+
 extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+
 extern void BMP_WIN_MakeScreen(struct Descriptor *window);
+
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
+
 extern void PMS_INPUT_VIEW_GetUiRes(struct PmsInputView *, struct ActorSetup *, int, int);
-extern void G2x_SetBlendAlpha_(void *, int, int, int, int);
+
 extern void *BMP_CURSOR_Create(unsigned);
+
 extern struct WinMgr *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heap);
+
 extern void BGWINFRM_Delete(struct WinMgr *mgr);
+
 extern void BMP_CURSOR_Delete(void *cursor);
+
 extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
+
 extern void BGWINFRM_SetFrameDataArcHandle(struct WinMgr *mgr, u32 idx, void *arc, u32 member, u32 alloc);
+
 extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
+
 extern void BGWINFRM_PutBmpWin(struct WinMgr *mgr, u32 idx, void *a);
+
 extern void BGWINFRM_ShowFrame(struct WinMgr *mgr, u32 idx);
+
 extern void BG_SYS_SetTileEntry(unsigned, int, int, int, u8, u8, u8);
+
 extern void *GFL_USE_AddHBlankTask(u32 a, u32 b, u32 c);
+
 extern void *GFL_USE_AddMainTask(void *, void *, unsigned);
+
 extern short CLACT_GetActorSurfacePosAxis(struct Obj *, u16 surface, unsigned axis);
+
 extern void CLACT_SetActorSurfacePosAxis(struct Obj *, short pos, u16 surface, unsigned axis);
+
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+
 extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, u32 unpackedOut, u32 flags);
+
 extern void MIi_CpuCopy16(const void *, void *, int);
+
 extern void DC_FlushRange(void *, unsigned);
+
 extern unsigned PMS_INPUT_GetInputMode(struct PmsInputState *input);
+
 extern int PMS_INPUT_GetSentenceType(struct PmsInputState *input);
+
 extern void GX_LoadBGPltt(void *, int, int);
+
 extern void GXS_LoadBGPltt(void *, int, int);
+
 extern void PMS_INPUT_VIEW_GetCursorRes(struct PmsInputView *view, struct ActorSetup *out, int i);
+
 extern void *PMS_INPUT_VIEW_CreateActor(struct PmsInputView *view, struct ActorSetup *setup, int x, int y, int a, int mode);
+
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
+
 extern void CLACT_SetActorBgPriority(struct Obj *, int);
+
 extern u32 PMS_INPUT_GetWord(struct PmsInputState *input, u32 i);
+
 extern struct U16Vec *PMS_INPUT_GetSentenceString(struct PmsInputState *input, u32 heap);
+
 extern void GF_FONT_SetTextColor(u32, u32, u32);
+
 extern void PRINTSYS_Print(void *, short, short, void *, void *);
+
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
+
 extern void STRBUF_SetStringN(struct U16Vec *, const u16 *, u32);
+
 extern u32 GF_FONT_GetTagParam(const u16 *, u32);
+
 extern u16 *GF_FONT_SkipTag(u16 *);
+
 extern void BMP_FillRect(struct Bmp *b, u32 x, u32 y, u32 w, u32 h, u32 value);
+
 extern u32 PMSI_PARAM_IsDecoWord(u32);
+
 extern u32 PMSI_PARAM_GetDecoId(u32);
+
 extern u8 BMP_WIN_GetPosX(struct Descriptor *);
+
 extern u8 BMP_WIN_GetPosY(struct Descriptor *);
+
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const ScreenPos *delta, u32 which);
-extern u8 BG_SYS_Get(u32);
+
+extern u8 BG_SYS_GetPriority(u32);
+
 extern void PMS_WORD_LoadString(u32, void *, u32);
-extern unsigned int BG_SYS_GetChannelScrollX(u8 channel);
-extern u32 BG_SYS_GetChannelScrollY(u8 channel);
-extern void *PMS_INPUT_VIEW_AddVBlankTask(void (*fn)(void *, void *), void *arg, int priority);
-extern int _s32_div_f(int, int);
-extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 
 struct PmsivEdit *PMSIV_EDIT_Create(struct PmsInputView *view, struct PmsInputState *input, void *param);
+
 void PMSIV_EDIT_LoadPalette(struct PmsivEdit *p, void *arcHandle);
+
 void PMSIV_EDIT_InitSlotPositions(struct PmsivEdit *p);
+
 void PMSIV_EDIT_CreateWordIcons(struct PmsivEdit *p);
+
 void PMSIV_EDIT_CreateCursors(struct PmsivEdit *p);
+
 void PMSIV_EDIT_Redraw(struct PmsivEdit *p);
+
 void PMSIV_EDIT_Delete(struct PmsivEdit *p);
+
 void PMSIV_EDIT_Setup(struct PmsivEdit *p, u32 arcHandle);
 
 extern const char sPmsivEditAllocSite[];
@@ -327,7 +387,7 @@ void PMSIV_EDIT_Setup(struct PmsivEdit *p, u32 arcHandle)
     ARC_UTIL_UploadBgPaletteFromHandle((void *)arcHandle, 25, 0, 0, 0, 0, PMSIV_EDIT_HEAP);
     ARC_UTIL_UploadBgPaletteFromHandle((void *)arcHandle, 25, 4, 0, 0, 0, PMSIV_EDIT_HEAP);
     p->bgOffset = -192;
-    BG_SYS_FillScrollArea(4, 3, p->bgOffset);
+    BG_SYS_ChangeScrollImmediate(4, 3, p->bgOffset);
     ARC_UTIL_UploadBgCharFromHandle((void *)arcHandle, 14, 0, 0, 0, 0, PMSIV_EDIT_HEAP);
     ARC_UTIL_UploadBgCharFromHandle((void *)arcHandle, 14, 4, 0, 0, 0, PMSIV_EDIT_HEAP);
     p->windows[0] = BMP_WIN_Create(0, 3, 1, 28, 4, 0, 1);
@@ -351,40 +411,51 @@ vu16 GX_GetVCount(void)
     return *(vu16 *)0x04000006;
 }
 
-struct Cursor;
-
 void PMSIV_EDIT_UpdateFramePosition(void *task, struct PmsivEdit *p);
+
 void PMSIV_EDIT_StartPanelScroll(struct PmsivEdit *p, u8 closing);
+
 int PMSIV_EDIT_StepPanelScroll(struct PmsivEdit *p);
+
 void PMSIV_EDIT_ApplyPalette(struct PmsivEdit *p);
+
 void PMSIV_EDIT_GetSlotRect(struct PmsivEdit *p, unsigned char *rect, int slot);
+
 int PMSIV_EDIT_DrawFreeText(struct PmsivEdit *p, struct Descriptor *window, u8 screen);
+
 void PMSIV_EDIT_ParserInit(struct PmsivTextParser *parser, struct PmsivEdit *p);
+
 void PMSIV_EDIT_ParserFree(struct PmsivTextParser *parser);
+
 int PMSIV_EDIT_ParserNext(struct PmsivTextParser *parser, struct U16Vec *out);
+
 void PMSIV_EDIT_SlotPosToBoxOrigin(const short *pos, short *boxOrigin);
+
 void PMSIV_EDIT_BoxOriginToSlotPos(const short *boxOrigin, short *pos);
+
 void PMSIV_EDIT_ClearSlotBox(struct Descriptor *window, const ScreenPos *pos);
+
 void PMSIV_EDIT_DrawSlotWord(struct PmsivEdit *p, struct Descriptor *window, const ScreenPos *pos, u32 wordId, struct Obj *icon);
+
 void PMSIV_EDIT_SetCursorPressed(struct PmsivEdit *p, int pressed);
+
 u32 PMSIV_EDIT_IsSubScreenLayer(u32 layer);
+
 unsigned int PMSIV_EDIT_GetSlotCount(struct PmsivEdit *p);
+
 u16 PMSIV_EDIT_GetSlotWordId(struct PmsivEdit *p, int slot);
+
 void PMSIV_EDIT_ReleaseCursor(struct PmsivEdit *p);
+
 void PMSIV_EDIT_PressCursor(struct PmsivEdit *p);
+
 void PMSIV_EDIT_SetCursorsVisible(struct PmsivEdit *p, u32 visible);
+
 void PMSIV_EDIT_NoopA(struct PmsivEdit *p);
+
 void PMSIV_EDIT_NoopB(struct PmsivEdit *p);
+
 void PMSIV_EDIT_PlaceCursorAtSlot(struct PmsivEdit *p, int slot);
-void PMSIV_BGSCROLL_Start(struct PmsivBgScroll *scroll, int layer, int axis, int step, int frames);
-int PMSIV_BGSCROLL_Step(struct PmsivBgScroll *scroll);
-void PMSIV_BGSCROLL_Task(void *task, void *arg);
-void PMSIV_FADE_StartBlend(struct PmsivFade *fade, int firstPlanes, int secondPlanes, int start, int end, int frames);
-int PMSIV_FADE_IsBlendDone(struct PmsivFade *fade);
-void PMSIV_FADE_BlendTask(void *task, void *arg);
-void PMSIV_FADE_StartBrightness(struct PmsivFade *fade, int plane, int start, int end, int frames);
-int PMSIV_FADE_IsBrightnessDone(struct PmsivFade *fade);
-void PMSIV_FADE_BrightnessTask(void *task, void *arg);
 
 void PMSIV_EDIT_UpdateFramePosition(void *task, struct PmsivEdit *p)
 {
@@ -422,7 +493,7 @@ int PMSIV_EDIT_StepPanelScroll(struct PmsivEdit *p)
     else delta = 8;
     p->bgOffset = p->bgOffset + delta;
     p->scrollOffset = p->scrollOffset + delta;
-    BG_SYS_FillScrollArea(4, 3, p->bgOffset);
+    BG_SYS_ChangeScrollImmediate(4, 3, p->bgOffset);
     for (i = 0; i < PMSIV_EDIT_SCREEN_COUNT; i++) {
         short pos = CLACT_GetActorSurfacePosAxis(p->cursors[i], i, 1) - delta;
         CLACT_SetActorSurfacePosAxis(p->cursors[i], pos, i, 1);
@@ -540,8 +611,8 @@ void PMSIV_EDIT_Redraw(struct PmsivEdit *p)
         }
         BMP_WIN_TransferChars(p->windows[i]);
     }
-    BG_SYS_SetFlagField06(0);
-    BG_SYS_SetFlagField06(4);
+    BG_SYS_MarkTileDirty(0);
+    BG_SYS_MarkTileDirty(4);
 }
 
 /*
@@ -689,7 +760,7 @@ void PMSIV_EDIT_DrawSlotWord(struct PmsivEdit *p, struct Descriptor *window, con
         CLACT_SetActorAnimSeq(icon, decoIndex);
         CLACT_AddActorSurfacePos(icon, &iconPos, (u16)surface);
         CLACT_SetActorDrawEnable(icon, 1);
-        CLACT_SetActorBgPriority(icon, (int)(BG_SYS_Get(BMP_WIN_GetBgLayer(window))));
+        CLACT_SetActorBgPriority(icon, (int)(BG_SYS_GetPriority(BMP_WIN_GetBgLayer(window))));
     } else {
         PMS_WORD_LoadString(wordId, p->text, PMSIV_EDIT_HEAP);
         GF_FONT_SetTextColor((u32)3, (u32)4, (u32)14);
@@ -768,135 +839,4 @@ void PMSIV_EDIT_PlaceCursorAtSlot(struct PmsivEdit *p, int slot)
     t.y += 0xC0;
     CLACT_AddActorSurfacePos(p->cursors[1], (const ScreenPos *)&t.x, 1);
     PMSIV_EDIT_SetCursorPressed(p, 1);
-}
-
-void PMSIV_BGSCROLL_Start(struct PmsivBgScroll *scroll, int layer, int axis, int step, int frames)
-{
-    scroll->layer = layer;
-    if (axis == 0) {
-        scroll->current = BG_SYS_GetChannelScrollX(layer);
-        scroll->axis = 0;
-    } else {
-        scroll->current = BG_SYS_GetChannelScrollY(layer);
-        scroll->axis = 3;
-    }
-    scroll->target = (scroll->current + step) & 511;
-    scroll->current <<= 12;
-    scroll->step = (step << 12) / frames;
-    scroll->framesLeft = frames;
-    scroll->state = 0;
-}
-
-int PMSIV_BGSCROLL_Step(struct PmsivBgScroll *scroll)
-{
-    switch (scroll->state) {
-    case 0:
-        scroll->task = PMS_INPUT_VIEW_AddVBlankTask(PMSIV_BGSCROLL_Task, scroll, 0);
-        ++scroll->state;
-        break;
-    case 1:
-        if (scroll->framesLeft == 0) {
-            TCB_DeleteTask(scroll->task);
-            ++scroll->state;
-            return 1;
-        }
-        break;
-    case 2: return 1;
-    }
-    return 0;
-}
-
-void PMSIV_BGSCROLL_Task(void *task, void *arg)
-{
-    struct PmsivBgScroll *scroll = arg;
-    if (scroll->framesLeft) {
-        scroll->current += scroll->step;
-        BG_SYS_FillScrollArea((u8)(scroll->layer), (u8)(scroll->axis), (int)(scroll->current >> 12));
-        --scroll->framesLeft;
-    } else {
-        BG_SYS_FillScrollArea((u8)(scroll->layer), (u8)(scroll->axis), (int)(scroll->target));
-    }
-}
-
-void PMSIV_FADE_StartBlend(struct PmsivFade *fade, int firstPlanes, int secondPlanes, int start, int end, int frames)
-{
-    fade->planeMask = firstPlanes;
-    fade->secondPlaneMask = secondPlanes;
-    fade->framesLeft = frames;
-    fade->current = start;
-    fade->step = _s32_div_f(end - start, frames);
-    fade->target = end;
-    fade->done = 0;
-    fade->task = PMS_INPUT_VIEW_AddVBlankTask(PMSIV_FADE_BlendTask, fade, 0);
-}
-
-int PMSIV_FADE_IsBlendDone(struct PmsivFade *fade)
-{
-    if (fade->done == 0) {
-        if (fade->framesLeft == 0) {
-            TCB_DeleteTask(fade->task);
-            fade->done += 1;
-            return 1;
-        }
-    } else {
-        return 1;
-    }
-    return 0;
-}
-
-void PMSIV_FADE_BlendTask(void *task, void *arg)
-{
-    struct PmsivFade *fade = arg;
-    int level;
-    if (fade->framesLeft != 0) {
-        fade->current += fade->step;
-        level = fade->current >> 3;
-        fade->framesLeft -= 1;
-    } else {
-        level = fade->target >> 3;
-    }
-    if (level > 16) level = 16;
-    G2x_SetBlendAlpha_((void *)0x04000050, fade->planeMask, fade->secondPlaneMask, level, 16 - level);
-}
-
-/*
- * lever: difference of stored fixed-point fields prevents shift factoring.
- */
-void PMSIV_FADE_StartBrightness(struct PmsivFade *fade, int plane, int start, int end, int frames)
-{
-    G2x_SetBlendBrightness_(0x4000050, plane, start);
-    fade->planeMask = plane;
-    fade->framesLeft = frames;
-    fade->current = start << 12;
-    fade->target = end << 12;
-    fade->step = (fade->target - fade->current) / frames;
-    fade->done = 0;
-    fade->task = PMS_INPUT_VIEW_AddVBlankTask(PMSIV_FADE_BrightnessTask, fade, 0);
-}
-
-int PMSIV_FADE_IsBrightnessDone(struct PmsivFade *fade)
-{
-    if (fade->done == 0) {
-        if (fade->framesLeft == 0) {
-            TCB_DeleteTask(fade->task);
-            ++fade->done;
-            return 1;
-        }
-    } else return 1;
-    return 0;
-}
-
-/*
- * follower: callback PMSIV_FADE_BrightnessTask included in unit; function_starts seed.
- */
-void PMSIV_FADE_BrightnessTask(void *task, void *arg)
-{
-    struct PmsivFade *fade = arg;
-    int value;
-    if (fade->framesLeft) {
-        fade->current += fade->step;
-        value = fade->current >> 12;
-        --fade->framesLeft;
-    } else value = fade->target >> 12;
-    G2x_SetBlendBrightness_(0x4000050, fade->planeMask, value);
 }

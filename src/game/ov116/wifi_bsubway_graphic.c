@@ -67,7 +67,7 @@
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
@@ -77,7 +77,7 @@
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   BMP_MENU_DeleteYesNo 0x0201FEF4 thumb
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
@@ -104,8 +104,8 @@
  *   PALANM_BlendColors 0x02021F64 thumb
  *   GX_LoadBGPltt 0x0207E3D0 arm
  *   GXS_LoadBGPltt 0x0207E468 arm
- *   BG_SYS_FillScrollArea 0x02040618 arm
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
  *   TCB_DeleteTask 0x02030EAC arm
  *   MSGDATA_ReadString 0x02045CAC arm
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
@@ -250,7 +250,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern void BG_SYS_SetFlagField06(u32);
+extern void BG_SYS_MarkTileDirty(u32);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
@@ -262,7 +262,7 @@ extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void TCBL_Destroy(struct S02031140 *p);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
-extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern unsigned int WORDSET_Delete(struct WordSet *p);
 extern unsigned int GF_FONT_Delete(void *ptr);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_MENU_DeleteYesNo(u8 *o);
@@ -287,8 +287,8 @@ extern void *BMP_MENUWORK_LoadFrameGfx(void *layer, unsigned int palSlot, unsign
 extern void PALANM_BlendColors(void *, void *, u16, u8, u16);
 extern void GX_LoadBGPltt(void *,int,int);
 extern void GXS_LoadBGPltt(void *,int,int);
-extern void BG_SYS_FillScrollArea(unsigned int layer, unsigned int a, unsigned int b);
-extern void BG_SYS_DeleteHalf(unsigned int layer, unsigned int offset, unsigned int size);
+extern void BG_SYS_ChangeScrollImmediate(unsigned int layer, unsigned int a, unsigned int b);
+extern void BG_SYS_FreeTileRun(unsigned int layer, unsigned int offset, unsigned int size);
 extern void TCB_DeleteTask(struct Node *n);
 extern void MSGDATA_ReadString(struct MsgBank *bank, unsigned int index, void *dest);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
@@ -665,7 +665,7 @@ void WIFI_BSUBWAY_GRAPHIC_CreateWindow(struct WifiBsubwayGraphic *p, short heap)
     BMP_Clear(BMP_WIN_GetBmp(p->window), 15);
     BMP_WIN_MakeScreen(p->window);
     BMP_WIN_TransferChars(p->window);
-    BG_SYS_SetFlagField06(1);
+    BG_SYS_MarkTileDirty(1);
     p->msgBank = MSGDATA_CreateFromArchive(0, 2, 206, heap);
     p->wordSet = WORDSET_CreateDefault(heap);
     p->font = GF_FONT_Create(23, 0, 0, 0, heap);
@@ -684,7 +684,7 @@ void WIFI_BSUBWAY_GRAPHIC_DeleteWindow(struct WifiBsubwayGraphic *p) {
         if(p->printStream) PRINTSYS_PrintStreamDelete(p->printStream);
         TCBL_Destroy(p->tcbl);
         MSGDATA_Delete(p->msgBank);
-        WORDSET_DeleteStrbufED04(p->wordSet);
+        WORDSET_Delete(p->wordSet);
         GF_FONT_Delete(p->font);
         STRBUF_Delete(p->strbufA);
         STRBUF_Delete(p->strbufB);
@@ -786,7 +786,7 @@ void WIFI_BSUBWAY_GRAPHIC_StepBgAnim(void *unused,struct WifiBsubwayAnim *p) {
             GXS_LoadBGPltt(p->palette+(p->frame<<5),40,14);
             p->frame++;
             if(p->frame>=60) p->frame=0;
-            BG_SYS_FillScrollArea(p->phase,2,7);
+            BG_SYS_ChangeScrollImmediate(p->phase,2,7);
         }
     }
 }
@@ -794,9 +794,9 @@ void WIFI_BSUBWAY_GRAPHIC_StepBgAnim(void *unused,struct WifiBsubwayAnim *p) {
 
 void WIFI_BSUBWAY_GRAPHIC_DeleteBgAnim(struct WifiBsubwayGraphic *p) {
     unsigned int x=p->frameGfxA;
-    BG_SYS_DeleteHalf(1,(u16)x,(u16)(x>>16));
+    BG_SYS_FreeTileRun(1,(u16)x,(u16)(x>>16));
     x=p->frameGfxB;
-    BG_SYS_DeleteHalf(2,(u16)x,(u16)(x>>16));
+    BG_SYS_FreeTileRun(2,(u16)x,(u16)(x>>16));
     if(p->animCallback) {
         TCB_DeleteTask(p->animCallback);
         p->animCallback=0;

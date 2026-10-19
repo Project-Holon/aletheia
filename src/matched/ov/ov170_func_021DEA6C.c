@@ -1,5 +1,5 @@
 /*
- * function: BOX2_MAIN_CheckSceneMode
+ * function: BOX2_MAIN_StepHandMotion
  * address: 0x021DEA6C
  * packet: pkt_ov170_021DEA6C
  * region: ov170
@@ -27,7 +27,7 @@ extern void BOX2_SEQ_MoveActorToSlotB(char *w, int i, int v);
 extern void BOX2_SEQ_MoveActor(int a, int b, int c);
 extern void BOX2_SEQ_LayoutHandSlots(char *w);
 #define WORK(p) (*(char **)((p) + 0x2C))
-int BOX2_MAIN_CheckSceneMode(char *p, int a)
+int BOX2_MAIN_StepHandMotion(char *p, int a)
 {
     Motion *m;
     m = *(Motion **)(WORK(p) + 0x60);

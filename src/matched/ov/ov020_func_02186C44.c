@@ -15,7 +15,7 @@
  *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
  *   FIELD_G3D_MAPPER_GetWfbc  0x0218DC70  thumb  ov021
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
- *   GAME_DATA_GetMysteryRecvFlagB  0x020127F0  thumb
+ *   GAME_DATA_GetMusicalShotExtraData  0x020127F0  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   FIELD_PLAYER_GetFrontGridPos  0x021A3460  thumb  ov021
@@ -36,7 +36,7 @@ extern u32 FIELDMAP_GetG3dMapper(unsigned char *p);
 typedef unsigned char  u8;
 extern void *FIELD_G3D_MAPPER_GetWfbc(u8 *p);
 extern void *SCRCMD_WORK_GetGameData(void *a0);
-extern int GAME_DATA_GetMysteryRecvFlagB(int a0);
+extern int GAME_DATA_GetMusicalShotExtraData(int a0);
 struct Obj00020;
 extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 extern void *FIELDMAP_GetMmdlSys(u8 *p);
@@ -59,7 +59,7 @@ int FIELD_WFBC_DATA_LOCAL_ScrCmdCheckAndMarkFacingPerson(int a0, int a1)
 
     s = (int *)SCRIPT_WORK_ResetFieldParam((int)SCRCMD_WORK_GetScriptWork((void *)a1));
     a = FIELD_G3D_MAPPER_GetWfbc((u8 *)FIELDMAP_GetG3dMapper((unsigned char *)s[1]));
-    b = GAME_DATA_GetMysteryRecvFlagB((int)SCRCMD_WORK_GetGameData((void *)a1));
+    b = GAME_DATA_GetMusicalShotExtraData((int)SCRCMD_WORK_GetGameData((void *)a1));
     c = FIELDMAP_GetFieldPlayer((struct Obj00020 *)s[1]);
     d = FIELDMAP_GetMmdlSys((u8 *)s[1]);
     FIELD_PLAYER_GetFrontGridPos((u32)c, (u32)(&v[2]), (u32)(&v[1]), (u32)(&v[0]));

@@ -14,7 +14,7 @@
  *
  * symbols:
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   GFL_HEAP_Free 0x020307B0 arm
  *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
@@ -32,9 +32,9 @@
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   WORDSET_CreateDefault  0x0201EC64  thumb
- *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
+ *   WORDSET_SetSlotMonNickname  0x0201EEF4  thumb
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_MENUWORK_LoadCharAndPltt  0x0201F5BC  thumb
@@ -59,14 +59,14 @@
  *   PRINTSYS_CTRL_Init  0x02028470  thumb
  *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   PRINTSYS_PrintStreamCallBack  0x0201CD10  thumb
- *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb
+ *   GFL_USE_SetBgmPaused  0x02005DE4  thumb
  *   GFL_USE_PushBgm  0x02005E64  thumb
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
  *   GFL_USE_IsBgmPlaying  0x02005F38  thumb
  *   GFL_USE_PopBgm  0x02005E9C  thumb
  *   GFL_USE_IsAnySeBusy  0x02006238  thumb
- *   WORDSET_Callback_EF40 0x0201EF40 thumb
- *   WORDSET_Callback_EF4C 0x0201EF4C thumb
+ *   WORDSET_SetSlotFromMsg36 0x0201EF40 thumb
+ *   WORDSET_SetSlotFromMsg117 0x0201EF4C thumb
  *   WORDSET_SetSlotFromMsgCB 0x0201EF34 thumb
  *   WORDSET_SetSlotFromMsgB4 0x0201F140 thumb
  *   APP_KEYCURSOR_DrawMark 0x02028618 thumb
@@ -84,7 +84,7 @@ struct MsgData;
 struct Bmp;
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 extern u32 GFL_HEAP_Free(void *p);
 extern unsigned KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
@@ -102,9 +102,9 @@ extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
-extern void WORDSET_SetSlotMonSpecies(struct WordSet *wordSet, u32 index, void *mon);
+extern void WORDSET_SetSlotMonNickname(struct WordSet *wordSet, u32 index, void *mon);
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 c, u32 d);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
+extern u32 WORDSET_Delete(struct WordSet *wordSet);
 extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 index, const void *src, u32 n, u32 f, u32 c);
 extern void BMP_Clear(void *bitmap, u8 value);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 heapId);
@@ -128,14 +128,14 @@ extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *win, u32 kind);
 extern void PRINTSYS_CTRL_Init(u8 *wait, u32 v);
 extern signed char MSG_SPEED_GetWait(void);
 extern struct TextStream *PRINTSYS_PrintStreamCallBack(struct BmpWin *win, short x, short y, struct Strbuf *text, void *font, s32 wait, struct Tcbl *taskList, u32 priority, u32 heapId, u16 fillColor, int (*callback)(int));
-extern void GFL_USE_SetBgmPlayerParam(int param);
+extern void GFL_USE_SetBgmPaused(int param);
 extern int GFL_USE_PushBgm(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(int a, int b);
 extern int GFL_USE_IsBgmPlaying(void);
 extern int GFL_USE_PopBgm(void);
 extern int GFL_USE_IsAnySeBusy(void);
-extern void WORDSET_Callback_EF40(struct WordSet *wordSet, u32 index, u32 v);
-extern void WORDSET_Callback_EF4C(struct WordSet *wordSet, u32 index, u32 v);
+extern void WORDSET_SetSlotFromMsg36(struct WordSet *wordSet, u32 index, u32 v);
+extern void WORDSET_SetSlotFromMsg117(struct WordSet *wordSet, u32 index, u32 v);
 extern void WORDSET_SetSlotFromMsgCB(struct WordSet *wordSet, u32 index, u32 v);
 extern void WORDSET_SetSlotFromMsgB4(struct WordSet *wordSet, u32 index, u32 v);
 extern void APP_KEYCURSOR_DrawMark(struct KeyCursor *keyCursor, const struct Bmp *bmp, u32 color);
@@ -225,7 +225,7 @@ void PLIST_MESSAGE_Update(PokelistWork *work, PlistMessage *msg)
         msg->printing = 0;
         BMP_WIN_TransferChars(window);
         BMP_WIN_MakeScreen(window);
-        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
+        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(window));
         if (msg->promptRequested == 1) {
             msg->promptRequested = 0;
             msg->prompt = TIME_ICON_CreateNode(msg->taskList, msg->window, 15, 16, work->heapId);
@@ -328,7 +328,7 @@ int PLIST_MESSAGE_StreamCallback(int command)
 {
     switch (command) {
     case 2:
-        GFL_USE_SetBgmPlayerParam(1);
+        GFL_USE_SetBgmPaused(1);
         GFL_USE_PushBgm();
         GFL_USE_CancelChangeAndPlayBgm(0x515, 0xffff);
         break;
@@ -338,7 +338,7 @@ int PLIST_MESSAGE_StreamCallback(int command)
     case 5:
         if (GFL_USE_IsBgmPlaying() == 0) {
             GFL_USE_PopBgm();
-            GFL_USE_SetBgmPlayerParam(0);
+            GFL_USE_SetBgmPaused(0);
             return 0;
         }
         return 1;
@@ -350,13 +350,13 @@ int PLIST_MESSAGE_StreamCallback(int command)
 
 void PLIST_MESSAGE_CreateWordSet(PokelistWork *work, PlistMessage *msg) { msg->wordSet = WORDSET_CreateDefault(work->heapId); }
 
-void PLIST_MESSAGE_DestroyWordSet(PokelistWork *work, PlistMessage *msg) { WORDSET_DeleteStrbufED04(msg->wordSet); msg->wordSet = 0; }
+void PLIST_MESSAGE_DestroyWordSet(PokelistWork *work, PlistMessage *msg) { WORDSET_Delete(msg->wordSet); msg->wordSet = 0; }
 
-void PLIST_MESSAGE_SetWordSetPokemon(int unused, PlistMessage *msg, u32 index, void *mon) { WORDSET_SetSlotMonSpecies(msg->wordSet, index, mon); }
+void PLIST_MESSAGE_SetWordSetPokemon(int unused, PlistMessage *msg, u32 index, void *mon) { WORDSET_SetSlotMonNickname(msg->wordSet, index, mon); }
 
-void PLIST_MESSAGE_SetWordSetItem(int unused, PlistMessage *msg, u32 index, u32 itemId) { WORDSET_Callback_EF40(msg->wordSet, index, itemId); }
+void PLIST_MESSAGE_SetWordSetItem(int unused, PlistMessage *msg, u32 index, u32 itemId) { WORDSET_SetSlotFromMsg36(msg->wordSet, index, itemId); }
 
-void PLIST_MESSAGE_SetWordSetItemAlt(int unused, PlistMessage *msg, u32 index, u32 itemId) { WORDSET_Callback_EF4C(msg->wordSet, index, itemId); }
+void PLIST_MESSAGE_SetWordSetItemAlt(int unused, PlistMessage *msg, u32 index, u32 itemId) { WORDSET_SetSlotFromMsg117(msg->wordSet, index, itemId); }
 
 void PLIST_MESSAGE_SetWordSetMove(int unused, PlistMessage *msg, u32 index, u32 moveId) { WORDSET_SetSlotFromMsgCB(msg->wordSet, index, moveId); }
 
@@ -374,7 +374,7 @@ void PLIST_MESSAGE_RedrawWindow(PokelistWork *work, PlistMessage *msg)
     window = msg->window;
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(window));
 }
 
 void PLIST_MESSAGE_LoadWindowFrame(PokelistWork *work, u32 unused) { BMP_MENUWORK_LoadCharAndPltt(0, 1, 12, 0, work->heapId); }

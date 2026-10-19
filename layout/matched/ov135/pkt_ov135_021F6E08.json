@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "WORLDTRADE_BOX_RestoreCursorSave",
+   "name": "WORLDTRADE_BOX_UnlockBoxIfAllFull",
    "address": "0x021F6E08",
    "kind": "game",
    "region": "ov135",

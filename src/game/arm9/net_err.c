@@ -1,8 +1,8 @@
 /*
  * file:     net_err.c
  * unit:     yes
- * function: GFL_NET_ERR_PollNetState, GFL_NET_ERR_IsWifiGameKind, GFL_NET_ERR_CompareFriend, GFL_NET_ERR_SearchFriendSlot, GFL_NET_ERR_FindFriendByKey, GFL_NET_ERR_UpdateFriendRecord, GFL_NET_ERR_StoreFriendProfile, GFL_NET_ERR_StoreFriendRecord, GFL_NET_ERR_InsertFriend, GFL_NET_ERR_SetBgmTrackVolume, GFL_NET_ERR_CreateHeap, GFL_NET_ERR_Init, GFL_NET_ERR_CheckNetError, GFL_NET_ERR_ShowScreen, GFL_NET_ERR_HaltWithMessage, GFL_NET_ERR_Halt, GFL_NET_ERR_ClearKeepDark, GFL_NET_ERR_RestoreBrightness, GFL_NET_ERR_UpdateNetwork, GFL_NET_ERR_ShowSimpleScreen, GFL_NET_ERR_HaltIfActive, GFL_NET_ERR_DrawAndHang, GFL_NET_ERR_RecordError, GFL_NET_ERR_GetErrorLevel, GFL_NET_ERR_RequestScreen, GFL_NET_ERR_RaiseFatal, GFL_NET_ERR_ExitAndHalt, GFL_NET_ERR_ResetState, GFL_NET_ERR_WaitLinkClosed, GFL_NET_ERR_ProcScreen, GFL_NET_ERR_SaveDisplayAndDraw, GFL_NET_ERR_RestoreDisplay, GFL_NET_ERR_IsActive, GFL_NET_ERR_LoadScreenGraphics, GFL_NET_ERR_GetMessageId, GFL_NET_ERR_DrawWindow
- * address:  0x0200F2D4
+ * function: GFL_NET_SetBgmTrackVolumeUnlessVoiceChat, GFL_NET_ERR_CreateHeap, GFL_NET_ERR_Init, GFL_NET_ERR_CheckNetError, GFL_NET_ERR_ShowScreen, GFL_NET_ERR_HaltWithMessage, GFL_NET_ERR_Halt, GFL_NET_ERR_SetKeepDark, GFL_NET_ERR_ClearKeepDark, GFL_NET_ERR_RestoreBrightness, GFL_NET_ERR_UpdateNetwork, GFL_NET_ERR_ShowSimpleScreen, GFL_NET_ERR_HaltIfActive, GFL_NET_ERR_DrawAndHang, GFL_NET_ERR_RecordError, GFL_NET_ERR_GetErrorLevel, GFL_NET_ERR_RequestScreen, GFL_NET_ERR_RaiseFatal, GFL_NET_ERR_ExitAndHalt, GFL_NET_ERR_ResetState, GFL_NET_ERR_WaitLinkClosed, GFL_NET_ERR_ProcScreen, GFL_NET_ERR_SaveDisplayAndDraw, GFL_NET_ERR_RestoreDisplay, GFL_NET_ERR_IsActive, GFL_NET_ERR_LoadScreenGraphics, GFL_NET_ERR_GetMessageId, GFL_NET_ERR_DrawWindow
+ * address:  0x0200F698
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -10,33 +10,10 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions;
- * names, struct views and comments cleaned by hand.
+ * Cut from net_err.c by tools/splitfile.py.
  *
  * symbols:
- *   GFL_NET_GetGameKind  0x0203D5D4  arm
- *   DWC_IsEqualFriendData  0x02059A5C  arm
- *   GFL_NET_GetWifiUserData   0x0203D5EC  arm
- *   GFL_NET_GetFriendList   0x0203D610  arm
- *   GFL_NET_GetFriendListNum   0x0203D634  arm
- *   WIFILIST_GetWork           0x02009860  thumb
- *   WIFILIST_GetDwcFriendData            0x020099C8  thumb
- *   WIFILIST_CountFriends           0x02009A34  thumb
- *   DWC_CheckFriendKey      0x02059354  arm
- *   DWC_CreateFriendKeyToken 0x02059980 arm
- *   DWC_GetGsProfileId      0x020598EC  arm
- *   DWC_IsValidFriendData   0x020596D8  arm
- *   MI_CpuCopy8  0x02082D44  arm
- *   MYSTATUS_CreateNameStrbuf   0x02008510  thumb
- *   MYSTATUS_GetId   0x02008530  thumb
- *   MYSTATUS_GetProfileId   0x0200853C  thumb
- *   MYSTATUS_GetOutfitVariant   0x02008550  thumb
- *   MYSTATUS_GetOutfit   0x02008554  thumb
- *   WIFILIST_SetFriendInfoField   0x02009918  thumb
- *   WIFILIST_StoreFriendNameFromStrbuf   0x02009A00  thumb
  *   STRBUF_Delete  0x02045808  arm
- *   GAME_DATA_GetWifiList   0x0201283C  thumb
- *   WIFILIST_IsFriendDataValid           0x02009A1C  thumb
  *   GFL_NET_IsNetTypeWifi  0x0203D29C  arm
  *   DWC_RAP_GetVchatEnabled  0x02156B70  thumb  ov009
  *   GFL_USE_SetBgmTrackVolume  0x02005F24  thumb
@@ -57,7 +34,7 @@
  *   WIH_DWC_PollSystem        0x0201034C  thumb
  *   GFL_NET_WM_ICON_EasyObjWindowOff        0x02037190  arm
  *   GXS_SetGraphicsMode  0x0207D518  arm
- *   UI_ClearFlags39Global  0x020351A0  arm
+ *   UI_ClearSoftResetInhibitGlobal  0x020351A0  arm
  *   GFL_USE_PollPowerExit  0x020053EC  thumb
  *   GFL_NET_IsSessionNull  0x0203CDBC  arm
  *   GFL_HEAP_Free  0x020307B0  arm
@@ -92,7 +69,6 @@
  *   NNS_G2dGetUnpackedPaletteData  0x02062A98  arm
  *   gNetErrWork       0x0214617C  data
  *   sNetErrScreenRes  0x0209DEA0  data
- *   sWifiPollLatch    0x02146178  data
  *   GFL_NET_Main  0x0203CF5C  arm
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   APP_ENV_IsRunOnTwl  0x0202EB0C  thumb
@@ -110,61 +86,75 @@
  *   PRINTSYS_PrintColor     0x0201C7D0  thumb
  *   MSGDATA_Delete     0x02045C04  arm
  *   GF_FONT_Delete     0x0201D83C  thumb
- *   WORDSET_DeleteStrbufED04     0x0201ED04  thumb
+ *   WORDSET_Delete     0x0201ED04  thumb
  *   BMP_Delete     0x020437AC  arm
  */
+#include "wifi_friend_shared_types.h"
+
 #define reg_GX_DISPCNT      (*(volatile u32 *)0x04000000)
+
 #define reg_GXS_DB_DISPCNT  (*(volatile u32 *)0x04001000)
+
 #define reg_G2_WINOUT       (*(volatile u16 *)0x0400004A)
+
 #define reg_G2S_DB_WINOUT   (*(volatile u16 *)0x0400104A)
+
 #define reg_PAD_KEYINPUT    (*(volatile u16 *)0x04000130)
+
 #define HW_BUTTON_XY_BUF    (*(volatile u16 *)0x02FFFFA8)
+
 #define reg_GX_MASTER_BRIGHT   (*(volatile u16 *)0x0400006C)
+
 #define reg_GXS_DB_MASTER_BRIGHT (*(volatile u16 *)0x0400106C)
+
 #define reg_G2_BG1CNT          (*(volatile u16 *)0x0400000A)
+
 #define reg_G2_BG1OFS          (*(volatile u32 *)0x04000014)
+
 #define reg_G2_BLDCNT          (*(volatile u16 *)0x04000050)
+
 #define reg_G2S_DB_BLDCNT      (*(volatile u16 *)0x04001050)
+
 #define HW_BG_PLTT             0x05000000
+
 #define HW_DB_BG_PLTT          0x05000400
 
 /* net_err.c states (NetErrWork.state). */
 #define NET_ERR_STATE_IDLE      0   /* no error recorded */
+
 #define NET_ERR_STATE_RECORDED  1   /* error info captured, screen not requested yet */
+
 #define NET_ERR_STATE_SHOW      2   /* the error screen is to be shown */
 
 /* GFLNetInitializeStruct.bNetType values. */
 #define GFL_NET_TYPE_WIFI         1
+
 #define GFL_NET_TYPE_WIFI_LOBBY   2
+
 #define GFL_NET_TYPE_WIFI_GTS     6
+
 #define GFL_NET_TYPE_WIRELESS     0
+
 #define GFL_NET_TYPE_IRC          5
 
 /* NetErrWork.netType value when the VRAM backup was not taken (fatal error). */
 #define NET_ERR_NETTYPE_NO_BACKUP  0x60
 
 #define NET_ERR_HEAP_ID           8
+
 #define NET_ERR_HEAP_PARENT_ID    1
+
 #define NET_ERR_HEAP_SIZE         0x4920
+
 #define NET_ERR_BG1_CHAR_SIZE     0x4000
+
 #define NET_ERR_BG1_SCR_SIZE      0x800
+
 #define NET_ERR_PLTT_BACKUP_SIZE  0x20
+
 #define NET_ERR_BACKDROP_COLOR    0x7eea
 
-struct DWCstAccUserData;
-struct WifiFriendSave;
-struct WifiFriendRecord;
-struct PlayerProfileSrc;
-struct U16String;
-struct SaveData;
 struct NitroResFile;
-typedef unsigned char u8;
-
-typedef unsigned int  u32;
-
-typedef unsigned long long u64;
-
-typedef struct { u32 w[3]; } DWCFriendData;
 
 typedef signed short   s16;
 
@@ -298,408 +288,231 @@ struct NitroPlttData {
 
 typedef signed int     s32;
 
-extern int GFL_NET_GetGameKind(void);
-extern int DWC_IsEqualFriendData(void *friendA, void *friendB);
-extern int DWC_GetGsProfileId(void *userData, const void *friendData);
-extern u32 GFL_NET_GetWifiUserData(void);
-extern u32 GFL_NET_GetFriendList(void);
-extern u32 GFL_NET_GetFriendListNum(void);
-extern struct DWCstAccUserData *WIFILIST_GetWork(struct WifiFriendSave *save);
-extern struct WifiFriendRecord *WIFILIST_GetDwcFriendData(struct WifiFriendSave *save, int slot);
-extern u32 WIFILIST_CountFriends(struct WifiFriendSave *save);
-extern int  DWC_CheckFriendKey(void *userData, u64 friendKey);
-extern void DWC_CreateFriendKeyToken(DWCFriendData *token, u64 friendKey);
-extern int  DWC_IsValidFriendData(const void *friendData);
-extern void  MI_CpuCopy8(void *dst, const void *src, u32 size);
-extern struct U16String *MYSTATUS_CreateNameStrbuf(struct PlayerProfileSrc *profile, int heapId);
-extern u32 MYSTATUS_GetId(const struct PlayerProfileSrc *profile);
-extern u32 MYSTATUS_GetProfileId(const struct PlayerProfileSrc *profile);
-extern u8 MYSTATUS_GetOutfitVariant(const struct PlayerProfileSrc *profile);
-extern u8 MYSTATUS_GetOutfit(const struct PlayerProfileSrc *profile);
-extern void WIFILIST_SetFriendInfoField(struct WifiFriendSave *save, u32 slot, u32 fieldId, u32 value);
-extern void WIFILIST_StoreFriendNameFromStrbuf(struct WifiFriendSave *save, int slot, void *name);
 extern void STRBUF_Delete(struct U16String *string);
-extern u32 GAME_DATA_GetWifiList(const struct SaveData *saveData);
-extern int WIFILIST_IsFriendDataValid(struct WifiFriendSave *save, u32 slot);
+
 extern u32  GFL_NET_IsNetTypeWifi(void);
+
 extern s16 DWC_RAP_GetVchatEnabled(void);
+
 extern void GFL_USE_SetBgmTrackVolume(u32 eventMask, u32 eventValue);
+
 extern void GFL_HEAP_CreateChildHeap(u32 parentHeapId, u32 heapId, u32 size);
+
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
+
 extern u32 GFL_HEAP_Alloc(u16 heapId, u32 size, u32 clearFlag, const void *file, u8 line);
+
 extern int GFL_NET_GetRunState(void);
+
 extern u32  GFL_NET_CheckError(void);
+
 extern int GFL_NET_SYSTEM_IsError(void);
+
 extern u32  GFL_NET_STATE_GetErrorMode(void);
+
 extern void GFL_NET_ClearBeaconCallbacks(void);
+
 extern GFLNetInitializeStruct *GFL_NET_GetInitParam(void);
+
 extern NetErrInfo *GFL_NET_STATE_GetError(void);
+
 extern int DWC_RAP_GetErrorMessageClass(int errorCode, int errorType);
+
 extern u32 GFL_NET_Main();
+
 extern void OS_WaitIrq(int clear, u32 irqFlags);
+
 extern void GFL_USE_StopAllSe(void);
+
 extern BOOL GX_VBlankIntr(BOOL on);
+
 extern void GFL_NET_WM_ICON_EasyObjWindowOn(void);
+
 extern u32 GFL_NET_WM_ICON_EasyGetEngine(void);
+
 extern int WIH_DWC_PollSystem(void);
+
 extern void GFL_NET_WM_ICON_EasyObjWindowOff(void);
+
 extern void GXS_SetGraphicsMode(u32 bgMode);
-extern int UI_ClearFlags39Global(u32 mode);
+
+extern int UI_ClearSoftResetInhibitGlobal(u32 mode);
+
 extern void GFL_USE_PollPowerExit(void);
+
 extern int   GFL_NET_IsSessionNull(void);
+
 extern u32 GFL_HEAP_Free(void *block);
+
 extern void GFL_HEAP_DeleteChecked(u32 heapId);
+
 extern void GFL_NET_ClearExitFlag(void);
+
 extern int GFL_NET_Exit(int arg);
+
 extern void GFL_NET_IRC_WIRELESS_Exit(void);
+
 extern u32  WIH_GetSysState(void);
+
 extern void GFL_NET_RequestDisconnect(void);
+
 extern u32  GX_HBlankIntr(BOOL on);
+
 extern void GFL_NET_ERR_DrawWindow(u32 screenIndex, u32 isWifiLink);
+
 extern int  GXx_GetMasterBrightness_(volatile u16 *reg);
+
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
+
 extern int GX_ResetBankForBG(void);
+
 extern int GX_ResetBankForSubBG(void);
+
 extern void GX_SetBankForBG(u32 bank);
+
 extern void GX_SetGraphicsMode(u32 dispMode, u32 bgMode, u32 bg0_2d3d);
+
 extern void *G2_GetBG1CharPtr(void);
+
 extern void *G2_GetBG1ScrPtr(void);
+
 extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
+
 extern u32  BG_SYS_GetSubVisiblePlanes(void);
+
 extern void BG_SYS_SetSubVisiblePlanes(u32 visiblePlane);
+
 extern void GFL_NET_GetIrcParams(u32 *x, u32 *y);
+
 extern void GX_SetBankForSubBG(u32 bank);
+
 extern void MIi_CpuClear32(u32 value, void *dst, u32 size);
+
 extern int ARC_UTIL_LoadMember(int arcId, int fileId, int heapId, int flag);
+
 extern s32 NNS_G2dGetUnpackedCharacterDataEx(struct NitroResFile *file, void **out);
+
 extern void DC_FlushRange(void *p, u32 size);
+
 extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
+
 extern s32 NNS_G2dGetUnpackedPaletteCompressInfo(struct NitroResFile *file, void **out);
+
 extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroResFile *file, void **out);
-int GFL_NET_ERR_PollNetState(void);
-int GFL_NET_ERR_IsWifiGameKind(void);
-int GFL_NET_ERR_CompareFriend(void *candidate, void *userData, void *existing);
-int GFL_NET_ERR_SearchFriendSlot(void *friendData, int *outSlot);
-int GFL_NET_ERR_FindFriendByKey(void *saveBlock, u64 friendKey, int *outSlot);
-int GFL_NET_ERR_UpdateFriendRecord(void *friendData);
-void GFL_NET_ERR_StoreFriendProfile(void *saveBlock, void *profile, int slot, int heapId, int copyName);
-void GFL_NET_ERR_StoreFriendRecord(void *saveData, void *profile, void *friendData, int slot, void *heapId, int mode);
-int GFL_NET_ERR_InsertFriend(void *saveData, void *profile, void *friendData, void *heapId);
-void GFL_NET_ERR_SetBgmTrackVolume(void *eventMask, void *eventValue);
+
+void GFL_NET_SetBgmTrackVolumeUnlessVoiceChat(void *eventMask, void *eventValue);
+
 void GFL_NET_ERR_CreateHeap(void);
+
 void GFL_NET_ERR_Init(u32 heapId);
+
 void GFL_NET_ERR_CheckNetError(void);
+
 u32 GFL_NET_ERR_ShowScreen(u32 isFatal);
+
 void GFL_NET_ERR_HaltWithMessage(u32 messageId);
+
 void GFL_NET_ERR_Halt(void);
+
 void GFL_NET_ERR_SetKeepDark(u32 keepDark);
+
 void GFL_NET_ERR_ClearKeepDark(void);
+
 void GFL_NET_ERR_RestoreBrightness(void);
+
 void GFL_NET_ERR_UpdateNetwork(void);
+
 void GFL_NET_ERR_ShowSimpleScreen(void);
+
 void GFL_NET_ERR_HaltIfActive(void);
+
 void GFL_NET_ERR_DrawAndHang(void);
+
 void GFL_NET_ERR_RecordError(void);
+
 u32 GFL_NET_ERR_GetErrorLevel(void);
+
 void GFL_NET_ERR_RequestScreen(void);
+
 void GFL_NET_ERR_RaiseFatal(unsigned int messageId);
+
 void GFL_NET_ERR_ExitAndHalt(void);
+
 void GFL_NET_ERR_ResetState(void);
+
 u32 GFL_NET_ERR_WaitLinkClosed(void);
+
 u32 GFL_NET_ERR_ProcScreen(u32 isFatal);
+
 void GFL_NET_ERR_SaveDisplayAndDraw(u32 screenIndex, u32 isWifiLink);
+
 void GFL_NET_ERR_RestoreDisplay(BOOL keepDark);
+
 BOOL GFL_NET_ERR_IsActive(void);
+
 void GFL_NET_ERR_LoadScreenGraphics(u32 screenIndex);
+
 extern NetErrWork gNetErrWork;
+
 extern struct NetErrScreenRes sNetErrScreenRes[];
-extern unsigned char sWifiPollLatch;
 
 extern u32 APP_ENV_IsRunOnTwl(void);
+
 extern const u16 sNetErrMessageIdsDS[];
+
 extern const u16 sNetErrMessageIdsTwl[];
+
 struct Bmp;
+
 struct WordSet;
+
 struct MsgBank;
+
 struct GfFont;
+
 extern void MIi_CpuClear16(u16 data, void *dst, u32 size);
+
 extern struct Bmp *BMP_CreateFromVram(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
+
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
+
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
+
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 padding, u32 flag);
+
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+
 extern struct U16String *STRBUF_Create(u32 capacity, u32 heapId);
+
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, void *dst, void *src);
+
 extern void PRINTSYS_PrintColor(void *bmp, s16 x, s16 y, void *text, void *font, u16 color);
+
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
+
 extern u32 GF_FONT_Delete(void *ptr);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
+
+extern u32 WORDSET_Delete(struct WordSet *wordSet);
+
 extern void BMP_Delete(struct Bmp *bmp);
+
 u32 GFL_NET_ERR_GetMessageId(NetErrInfo *info, u32 a);
 
 #define GFL_NET_ERR_IS_ACTIVE()  GFL_NET_ERR_IsActive()
-
-/* Wi-Fi state poll with a one-shot latch: state 2 toggles the latch (the first
- * call passes it to GFL_NET_Main, the next one clears it). */
-int GFL_NET_ERR_PollNetState(void)
-{
-    int linkState;
-    int latched;
-    int result;
-
-    linkState = GFL_NET_GetGameKind();
-    if ((unsigned int)linkState == (unsigned int)2) {
-        if ((unsigned int)sWifiPollLatch == (unsigned int)0) {
-            latched = GFL_NET_Main((int)sWifiPollLatch);
-            sWifiPollLatch = (unsigned char)latched;
-            return latched;
-        } else {
-            sWifiPollLatch = (unsigned char)0;
-            return 0;
-        }
-    } else {
-        result = GFL_NET_Main((int)linkState);
-        return result;
-    }
-}
-
-
-/*
- * Membership test on GFL_NET_GetGameKind()'s result: true for a scattered set of
- * values (12-16, 28, 31, 37, 38, 48), false otherwise. The 12-16 run is
- * lowered as a dense jump table. GFL_NET_GetGameKind must return a signed int: an
- * unsigned return type turns the range tests into unsigned compares.
- */
-int GFL_NET_ERR_IsWifiGameKind(void)
-{
-    switch (GFL_NET_GetGameKind()) {
-    case 12:
-    case 13:
-    case 14:
-    case 15:
-    case 16:
-    case 28:
-    case 31:
-    case 37:
-    case 38:
-    case 48:
-        return 1;
-    default:
-        return 0;
-    }
-}
-
-
-/*
- * Three-way friend comparison: returns 0 when candidate and existing are the
- * same friend (DWC_IsEqualFriendData), 1 when the candidate has a profile id and it
- * matches the one the existing record resolves to, 2 otherwise. The profile id
- * of the candidate is fetched twice, as in the original.
- */
-int GFL_NET_ERR_CompareFriend(void *candidate, void *userData, void *existing)
-{
-    if (DWC_IsEqualFriendData(candidate, existing) != 0) {
-        return 0;
-    }
-
-    if (DWC_GetGsProfileId(userData, candidate) > 0) {
-        int candidateProfileId = DWC_GetGsProfileId(userData, candidate);
-        int existingProfileId = DWC_GetGsProfileId(userData, existing);
-        if (candidateProfileId == existingProfileId) {
-            return 1;
-        }
-    }
-    return 2;
-}
-
-
-/*
- * Search the friend list for a slot for friendData; outSlot starts at -1.
- * Returns 3 when friendData is not valid, 0 when a record is the same friend
- * (outSlot = that slot), 1 when a record has the same profile id (outSlot =
- * that slot), 2 when the scan finishes. An invalid (free) record seen on the
- * way is kept in outSlot as the fallback.
- */
-int GFL_NET_ERR_SearchFriendSlot(void *friendData, int *outSlot)
-{
-    int   i;
-    void *userData = (void *)GFL_NET_GetWifiUserData();
-    u8   *friendList = (u8 *)GFL_NET_GetFriendList();
-    int   friendCount = GFL_NET_GetFriendListNum();
-
-    *outSlot = -1;
-    if (DWC_IsValidFriendData(friendData) == 0)
-        return 3;
-    for (i = 0; i < friendCount; i++) {
-        int byteOffset = i * 12;
-
-        if (DWC_IsEqualFriendData(friendData, friendList + byteOffset) != 0) {
-            *outSlot = i;
-            return 0;
-        }
-        if (DWC_GetGsProfileId(userData, friendData) > 0
-            && DWC_GetGsProfileId(userData, friendData) == DWC_GetGsProfileId(userData, friendList + byteOffset)) {
-            *outSlot = i;
-            return 1;
-        }
-        if (*outSlot < 0 && DWC_IsValidFriendData(friendList + byteOffset) == 0)
-            *outSlot = i;
-    }
-    return 2;
-}
-
-
-/*
- * Friend-list lookup by friend key: build the key token and compare its
- * profile id with every entry of the friend list. Returns 3 when the key or
- * the token is bad, 0 on a hit (outSlot = slot), 2 when the list was walked
- * without a hit; then outSlot holds the first invalid (free) slot, or -1.
- * The key is one u64, and the list is typed as 12-byte records indexed as
- * friends[i], which fixes the register allocation.
- */
-int GFL_NET_ERR_FindFriendByKey(void *saveBlock, u64 friendKey, int *outSlot)
-{
-    void *userData;
-    DWCFriendData *friends;
-    int friendCount;
-    int i;
-    DWCFriendData token;
-
-    userData = WIFILIST_GetWork(saveBlock);
-    i = 0;
-    friends = (DWCFriendData *)WIFILIST_GetDwcFriendData(saveBlock, 0);
-    friendCount = WIFILIST_CountFriends(saveBlock);
-
-    if (DWC_CheckFriendKey(userData, friendKey) == 0)
-        return 3;
-
-    DWC_CreateFriendKeyToken(&token, friendKey);
-    if (DWC_GetGsProfileId(userData, &token) <= 0)
-        return 3;
-
-    *outSlot = i - 1;
-    for (; i < friendCount; i++) {
-        if (DWC_GetGsProfileId(userData, &token) == DWC_GetGsProfileId(userData, &friends[i])) {
-            *outSlot = i;
-            return 0;
-        }
-        if (*outSlot < 0 && DWC_IsValidFriendData(&friends[i]) == 0)
-            *outSlot = i;
-    }
-    return 2;
-}
-
-
-/*
- * Look friendData up in the friend list (GFL_NET_ERR_SearchFriendSlot). On a profile id match
- * (1) overwrite friendData with the stored record; returns 1 when the list was
- * walked without a hit (2), 0 otherwise.
- */
-int GFL_NET_ERR_UpdateFriendRecord(void *friendData)
-{
-    u32 slot;
-    int result = 0;
-    void *friendList = (void *)GFL_NET_GetFriendList();
-    int searchResult = GFL_NET_ERR_SearchFriendSlot(friendData, (int *)(&slot));
-
-    if (searchResult == 0) {
-        /* nothing */
-    } else if (searchResult == 1) {
-        MI_CpuCopy8(friendData, (unsigned char *)friendList + slot * 0xc, 0xc);
-    } else if (searchResult == 2) {
-        result = 1;
-    }
-    return result;
-}
-
-
-/* Copy the profile fields (and, with copyName, the name) of profile into friend record slot. */
-void GFL_NET_ERR_StoreFriendProfile(void *saveBlock, void *profile, int slot, int heapId, int copyName)
-{
-    if (copyName != 0) {
-        void *name = MYSTATUS_CreateNameStrbuf(profile, heapId);
-        WIFILIST_StoreFriendNameFromStrbuf(saveBlock, slot, name);
-        STRBUF_Delete(name);
-    }
-    WIFILIST_SetFriendInfoField(saveBlock, slot, 9, MYSTATUS_GetOutfitVariant(profile));
-    WIFILIST_SetFriendInfoField(saveBlock, slot, 0, MYSTATUS_GetId(profile));
-    WIFILIST_SetFriendInfoField(saveBlock, slot, 1, MYSTATUS_GetProfileId(profile));
-    WIFILIST_SetFriendInfoField(saveBlock, slot, 8, MYSTATUS_GetOutfit(profile));
-}
-
-
-/*
- * Store profile into friend record slot. mode 0: copy the old record out to
- * friendData and write profile with its name; mode 1: same without the name;
- * mode 2: keep friendData untouched and write only the last field.
- */
-void GFL_NET_ERR_StoreFriendRecord(void *saveData, void *profile, void *friendData, int slot, void *heapId, int mode)
-{
-    void *saveBlock = (void *)GAME_DATA_GetWifiList(saveData);
-    void *record = WIFILIST_GetDwcFriendData(saveBlock, slot);
-
-    if (mode != 2) {
-        MI_CpuCopy8(friendData, record, 0xc);
-    }
-    if (mode == 0) {
-        GFL_NET_ERR_StoreFriendProfile(saveBlock, profile, slot, (int)heapId, 1);
-    } else if (mode == 1) {
-        GFL_NET_ERR_StoreFriendProfile(saveBlock, profile, slot, (int)heapId, 0);
-    }
-    WIFILIST_SetFriendInfoField(saveBlock, slot, 8, MYSTATUS_GetOutfit(profile));
-}
-
-
-/*
- * Insert one friend into the 32-entry friend list. The mode passed to
- * GFL_NET_ERR_StoreFriendRecord is 0 for the first free slot, 2 when GFL_NET_ERR_CompareFriend reports the
- * same friend and 1 when it reports a matching profile id. Only the free-slot
- * arm returns 1.
- */
-int GFL_NET_ERR_InsertFriend(void *saveData, void *profile, void *friendData, void *heapId)
-{
-    void *saveBlock = (void *)GAME_DATA_GetWifiList(saveData);
-    int i;
-
-    if (DWC_IsValidFriendData(friendData) == 0) {
-        return 0;
-    }
-
-    for (i = 0; i < 0x20; i++) {
-        void *record = WIFILIST_GetDwcFriendData(saveBlock, i);
-        int mode;
-
-        if (WIFILIST_IsFriendDataValid(saveBlock, i) == 0) {
-            GFL_NET_ERR_StoreFriendRecord(saveData, profile, friendData, i, heapId, 0);
-            return 1;
-        }
-        mode = GFL_NET_ERR_CompareFriend(friendData, WIFILIST_GetWork(saveBlock), record);
-        if (mode == 0) {
-            GFL_NET_ERR_StoreFriendRecord(saveData, profile, friendData, i, heapId, 2);
-            return 0;
-        }
-        if (mode == 1) {
-            GFL_NET_ERR_StoreFriendRecord(saveData, profile, friendData, i, heapId, 1);
-            return 0;
-        }
-    }
-    return 0;
-}
-
 
 /*
  * Forwards its two arguments to GFL_USE_SetBgmTrackVolume unless both GFL_NET_IsNetTypeWifi()
  * and DWC_RAP_GetVchatEnabled() report nonzero; DWC_RAP_GetVchatEnabled is only called when
  * GFL_NET_IsNetTypeWifi reports zero.
  */
-void GFL_NET_ERR_SetBgmTrackVolume(void *eventMask, void *eventValue)
+void GFL_NET_SetBgmTrackVolumeUnlessVoiceChat(void *eventMask, void *eventValue)
 {
     if (GFL_NET_IsNetTypeWifi() == 0 || DWC_RAP_GetVchatEnabled() == 0) {
         GFL_USE_SetBgmTrackVolume((u32)eventMask, (u32)eventValue);
     }
 }
-
 
 /* Create the module heap and clear the work. */
 void GFL_NET_ERR_CreateHeap(void)
@@ -707,7 +520,6 @@ void GFL_NET_ERR_CreateHeap(void)
     GFL_HEAP_CreateChildHeap(NET_ERR_HEAP_PARENT_ID, NET_ERR_HEAP_ID, NET_ERR_HEAP_SIZE);
     MI_CpuFill8(&gNetErrWork, 0, sizeof(NetErrWork));
 }
-
 
 /* Clear the work, then allocate the three backup buffers from heapId. */
 void GFL_NET_ERR_Init(u32 heapId)
@@ -722,7 +534,6 @@ void GFL_NET_ERR_Init(u32 heapId)
     work->bg1ScrBackup = (void *)GFL_HEAP_Alloc((u16)heapId, NET_ERR_BG1_SCR_SIZE, 0, srcFile, 0xbc);
     work->plttBackup = (void *)GFL_HEAP_Alloc((u16)heapId, NET_ERR_PLTT_BACKUP_SIZE, 0, srcFile, 0xbd);
 }
-
 
 /*
  * Poll for a network error and record it: bails out when an error is already
@@ -775,13 +586,11 @@ void GFL_NET_ERR_CheckNetError(void)
     }
 }
 
-
 /* Tail call into the error screen; isFatal 1 halts. */
 u32 GFL_NET_ERR_ShowScreen(u32 isFatal)
 {
     return GFL_NET_ERR_ProcScreen(isFatal);
 }
-
 
 /* Store messageId, mark a fatal error and show the error screen (halts). */
 void GFL_NET_ERR_HaltWithMessage(u32 messageId)
@@ -792,13 +601,11 @@ void GFL_NET_ERR_HaltWithMessage(u32 messageId)
     GFL_NET_ERR_ShowScreen(1);
 }
 
-
 /* Show the error screen as fatal (halts). */
 void GFL_NET_ERR_Halt(void)
 {
     GFL_NET_ERR_ShowScreen(1);
 }
-
 
 /* Set keepDarkOnRestore: 1 leaves the screens dark after the error screen. */
 void GFL_NET_ERR_SetKeepDark(u32 keepDark)
@@ -806,12 +613,10 @@ void GFL_NET_ERR_SetKeepDark(u32 keepDark)
     gNetErrWork.keepDarkOnRestore = keepDark;
 }
 
-
 void GFL_NET_ERR_ClearKeepDark(void)
 {
     GFL_NET_ERR_SetKeepDark(0);
 }
-
 
 /* Write the saved master brightness back to both engines. */
 void GFL_NET_ERR_RestoreBrightness(void)
@@ -820,7 +625,6 @@ void GFL_NET_ERR_RestoreBrightness(void)
     GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, work->savedBright);
     GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, work->savedSubBright);
 }
-
 
 /* One network service step: when the link is up, run GFL_NET_Main and wait for the next V-blank. */
 void GFL_NET_ERR_UpdateNetwork(void)
@@ -831,36 +635,30 @@ void GFL_NET_ERR_UpdateNetwork(void)
     }
 }
 
-
 static inline GXDispCnt GXS_GetDispCnt(void)
 {
     return *(volatile GXDispCnt *)&reg_GXS_DB_DISPCNT;
 }
-
 
 static inline GXWndPlane G2_GetWndOutsidePlane(void)
 {
     return *(volatile GXWndPlane *)&reg_G2_WINOUT;
 }
 
-
 static inline GXWndPlane G2_GetWndOBJInsidePlane(void)
 {
     return *(volatile GXWndPlane *)((u8 *)&reg_G2_WINOUT + 1);
 }
-
 
 static inline GXWndPlane G2S_GetWndOutsidePlane(void)
 {
     return *(volatile GXWndPlane *)&reg_G2S_DB_WINOUT;
 }
 
-
 static inline GXWndPlane G2S_GetWndOBJInsidePlane(void)
 {
     return *(volatile GXWndPlane *)((u8 *)&reg_G2S_DB_WINOUT + 1);
 }
-
 
 static inline void G2_SetWndOutsidePlane(int wnd, BOOL effect)
 {
@@ -871,7 +669,6 @@ static inline void G2_SetWndOutsidePlane(int wnd, BOOL effect)
     reg_G2_WINOUT = (u16)tmp;
 }
 
-
 static inline void G2_SetWndOBJInsidePlane(int wnd, BOOL effect)
 {
     u32 tmp = (reg_G2_WINOUT & ~0x3F00) | (wnd << 8);
@@ -880,7 +677,6 @@ static inline void G2_SetWndOBJInsidePlane(int wnd, BOOL effect)
     }
     reg_G2_WINOUT = (u16)tmp;
 }
-
 
 static inline void G2S_SetWndOutsidePlane(int wnd, BOOL effect)
 {
@@ -891,7 +687,6 @@ static inline void G2S_SetWndOutsidePlane(int wnd, BOOL effect)
     reg_G2S_DB_WINOUT = (u16)tmp;
 }
 
-
 static inline void G2S_SetWndOBJInsidePlane(int wnd, BOOL effect)
 {
     u32 tmp = (reg_G2S_DB_WINOUT & ~0x3F00) | (wnd << 8);
@@ -901,49 +696,41 @@ static inline void G2S_SetWndOBJInsidePlane(int wnd, BOOL effect)
     reg_G2S_DB_WINOUT = (u16)tmp;
 }
 
-
 static inline void GX_SetVisiblePlane(int plane)
 {
     reg_GX_DISPCNT = (reg_GX_DISPCNT & ~0x1F00) | (plane << 8);
 }
-
 
 static inline void GX_SetVisibleWnd(int window)
 {
     reg_GX_DISPCNT = reg_GX_DISPCNT & ~0xE000 | (window << 13);
 }
 
-
 static inline void GXS_SetVisiblePlane(int plane)
 {
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1F00) | (plane << 8);
 }
-
 
 static inline void GXS_SetVisibleWnd(int window)
 {
     reg_GXS_DB_DISPCNT = reg_GXS_DB_DISPCNT & ~0xE000 | (window << 13);
 }
 
-
 static inline BOOL PAD_DetectFold(void)
 {
     return (BOOL)((HW_BUTTON_XY_BUF & 0x8000) >> 15);
 }
-
 
 static inline u16 PAD_Read(void)
 {
     return (u16)(((reg_PAD_KEYINPUT | HW_BUTTON_XY_BUF) ^ 0x2FFF) & 0x2FFF);
 }
 
-
 /* Drop one direction of each opposing D-pad pair (bits 5/6 and 4/7 shifted). */
 static inline u16 FilterOpposingDpad(u16 keys)
 {
     return (u16)(keys & ~((keys & 0x40) << 1) & ~((keys & 0x20) >> 1));
 }
-
 
 /*
  * Simple error screen: snapshots the sub-engine DISPCNT and the WINOUT
@@ -1001,7 +788,6 @@ void GFL_NET_ERR_ShowSimpleScreen(void)
     }
 }
 
-
 /* When the module is active, draw the error screen and halt. */
 void GFL_NET_ERR_HaltIfActive(void)
 {
@@ -1010,17 +796,15 @@ void GFL_NET_ERR_HaltIfActive(void)
     }
 }
 
-
-/* Fatal path: draw the screen in its no-backup style, call UI_ClearFlags39Global(2), then spin forever. */
+/* Fatal path: draw the screen in its no-backup style, call UI_ClearSoftResetInhibitGlobal(2), then spin forever. */
 void GFL_NET_ERR_DrawAndHang(void)
 {
     GFL_NET_ERR_SaveDisplayAndDraw(1, 0);
-    UI_ClearFlags39Global(2);
+    UI_ClearSoftResetInhibitGlobal(2);
     for (;;) {
         GFL_USE_PollPowerExit();
     }
 }
-
 
 /*
  * Record the pending network error: if the module is active and idle, move to
@@ -1059,7 +843,6 @@ void GFL_NET_ERR_RecordError(void)
     work->errorLevel = 2;
 }
 
-
 /* errorLevel of the recorded error; 0 when no error is recorded. */
 u32 GFL_NET_ERR_GetErrorLevel(void)
 {
@@ -1071,7 +854,6 @@ u32 GFL_NET_ERR_GetErrorLevel(void)
     return 0;
 }
 
-
 /* Request the error screen for a recorded error: RECORDED -> SHOW. */
 void GFL_NET_ERR_RequestScreen(void)
 {
@@ -1079,7 +861,6 @@ void GFL_NET_ERR_RequestScreen(void)
         gNetErrWork.state = NET_ERR_STATE_SHOW;
     }
 }
-
 
 /* Raise a fatal error with messageId (unless the screen is already requested) and request the screen. */
 void GFL_NET_ERR_RaiseFatal(unsigned int messageId)
@@ -1091,7 +872,6 @@ void GFL_NET_ERR_RaiseFatal(unsigned int messageId)
         gNetErrWork.state = NET_ERR_STATE_SHOW;
     }
 }
-
 
 /*
  * Free the three backup buffers and the module heap, mark the netType as
@@ -1111,14 +891,12 @@ void GFL_NET_ERR_ExitAndHalt(void)
     GFL_NET_ERR_ShowScreen(1);
 }
 
-
 /* Reset the error state: no error recorded, no level. */
 void GFL_NET_ERR_ResetState(void)
 {
     gNetErrWork.state = NET_ERR_STATE_IDLE;
     gNetErrWork.errorLevel = 0;
 }
-
 
 /*
  * Wait for the link to close: returns 1 at once when GFL_NET_GetRunState reports 0.
@@ -1159,7 +937,6 @@ u32 GFL_NET_ERR_WaitLinkClosed(void)
 
     return 1;
 }
-
 
 /*
  * Blocking error screen: returns 0 unless the module is active and the state
@@ -1217,18 +994,15 @@ u32 GFL_NET_ERR_ProcScreen(u32 isFatal)
     return 0;
 }
 
-
 static inline int GXS_GetVisibleWnd(void)
 {
     return (int)((reg_GXS_DB_DISPCNT & 0xE000) >> 13);
 }
 
-
 static inline GXBg01Control G2_GetBG1Control(void)
 {
     return *(volatile GXBg01Control *)&reg_G2_BG1CNT;
 }
-
 
 static inline void G2_SetBG1Control(GXBGScrSizeText screenSize, GXBGColorMode colorMode, GXBGScrBase screenBase,
                                     GXBGCharBase charBase, GXBGExtPltt bgExtPltt)
@@ -1238,7 +1012,6 @@ static inline void G2_SetBG1Control(GXBGScrSizeText screenSize, GXBGColorMode co
                           (charBase << 2) | (bgExtPltt << 13));
 }
 
-
 static inline void G2_BG1Mosaic(BOOL enable)
 {
     if (enable) {
@@ -1247,7 +1020,6 @@ static inline void G2_BG1Mosaic(BOOL enable)
         reg_G2_BG1CNT &= ~0x40;
     }
 }
-
 
 /*
  * Save the display state into the work and blank the screens: both master
@@ -1318,12 +1090,10 @@ void GFL_NET_ERR_SaveDisplayAndDraw(u32 screenIndex, u32 isWifiLink)
     GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, 0);
 }
 
-
 static inline void G2_SetBG1Offset(int hOffset, int vOffset)
 {
     reg_G2_BG1OFS = (u32)(((hOffset << 0) & 0x1FF) | ((vOffset << 16) & 0x1FF0000));
 }
-
 
 /*
  * Restore the display state GFL_NET_ERR_SaveDisplayAndDraw saved. G2_SetBG1Control's
@@ -1372,7 +1142,6 @@ void GFL_NET_ERR_RestoreDisplay(BOOL keepDark)
     }
 }
 
-
 /* 1 once the module has its backup buffers (bg1CharBackup set). */
 BOOL GFL_NET_ERR_IsActive(void)
 {
@@ -1381,7 +1150,6 @@ BOOL GFL_NET_ERR_IsActive(void)
     }
     return 0;
 }
-
 
 /*
  * Load the error screen graphics of table row screenIndex: clear BG1's
@@ -1432,7 +1200,6 @@ void GFL_NET_ERR_LoadScreenGraphics(u32 screenIndex)
     GFL_HEAP_Free(file);
 }
 
-
 /*
  * net_err.c's error-code mapper: the reason code of the module's error block
  * (0x3EE..0x3F7) maps to a fixed message id; anything else indexes one of two
@@ -1471,7 +1238,6 @@ u32 GFL_NET_ERR_GetMessageId(NetErrInfo *info, u32 a)
     }
     return sNetErrMessageIdsDS[errorNumber];
 }
-
 
 /*
  * Draws net_err.c's error window: tiles BG1's screen with a running character
@@ -1544,6 +1310,6 @@ void GFL_NET_ERR_DrawWindow(u32 messageVariant, u32 useGenericMessage)
     STRBUF_Delete(message);
     MSGDATA_Delete(msgBank);
     GF_FONT_Delete(font);
-    WORDSET_DeleteStrbufED04(wordSet);
+    WORDSET_Delete(wordSet);
     BMP_Delete(bmp);
 }

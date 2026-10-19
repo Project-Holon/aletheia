@@ -1,7 +1,7 @@
 /*
  * file:     dwcutil_main.c
  * unit:     yes
- * function: DWC_StartUtility, checkParam, initGame, initGraph, procEnd, DWCi_ChangeScene, DWCi_SetParam_, DWCi_GetParam_, DWCi_SetParam2_, DWCi_GetParam2_, DWCi_Language, DWCi_Entry, DWCi_Flag, DWCi_EndUtility, DWCi_MoveKDWCi_Language
+ * function: DWC_StartUtility, checkParam, initGame, initGraph, procEnd, DWCi_ChangeScene, DWCi_SetParam_, DWCi_GetParam_, DWCi_SetParam2_, DWCi_GetParam2_, DWCi_Language, DWCi_Entry, DWCi_Flag, DWCi_EndUtility, kDWCi_Language
  * address:  0x021C0970
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -179,7 +179,7 @@ unsigned char DWCi_Language(void);
 unsigned int DWCi_Entry(void);
 int DWCi_Flag(unsigned int v);
 void DWCi_EndUtility(void);
-unsigned char DWCi_MoveKDWCi_Language(void);
+unsigned char kDWCi_Language(void);
 extern UtilState gDwcutilMainWork;
 extern char sDwcutilMainTable[];
 extern struct LANG Language;
@@ -502,7 +502,7 @@ void DWCi_EndUtility(void)
 /*
  * sdk:      kDWCi_Language (libdwcutil.TWL.HYB.a main.o)
  */
-unsigned char DWCi_MoveKDWCi_Language(void)
+unsigned char kDWCi_Language(void)
 {
     if ((*(unsigned char *)&gDwcutilMainWork) == 6)
         return 0x38;

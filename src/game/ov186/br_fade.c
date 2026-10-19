@@ -41,8 +41,6 @@
  *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   PALANM_LoadHandlePaletteToSlotAt 0x02021660 thumb
  *   FADE_GetSpeed 0x0204E6E0 arm
- *   _s32_div_f 0x0209C0A4 arm
- *   _u32_div_f 0x0209C2B0 arm
  *   BR_FADE_Start 0x021FE784 thumb ov186
  *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
  */
@@ -90,9 +88,7 @@ extern void PALANM_LoadHandlePaletteToSlotAt(struct PalAnmSlot *,void *,u32,u32,
 
 extern int FADE_GetSpeed(void);
 
-extern int _s32_div_f(int a, int b);
 
-extern u32 _u32_div_f(u32,u32);
 
 struct BrFade *BR_FADE_Create(unsigned heapId);
 
@@ -314,15 +310,15 @@ int BR_FADE_StepBlend(struct BrFade *fade,int *state)
         if(fade->planeMask&2)G2x_SetBlendAlpha_(0x04001050,3,7,evA,evB);
         fade->frame=0;
         duration=fade->durationParam;
-        if(duration==0)duration=_s32_div_f(16,FADE_GetSpeed());
+        if(duration==0)duration=16/FADE_GetSpeed();
         fade->frameCount=duration;
         *state=1;
         break;
     }
     case 1: {
         int evA,evB;
-        if(fade->direction==0){evB=_u32_div_f(fade->frame<<4,fade->frameCount);evA=16-evB;}
-        else if(fade->direction==1){evA=_u32_div_f(fade->frame<<4,fade->frameCount);evB=16-evA;}
+        if(fade->direction==0){evB=(fade->frame<<4)/fade->frameCount;evA=16-evB;}
+        else if(fade->direction==1){evA=(fade->frame<<4)/fade->frameCount;evB=16-evA;}
         if(fade->planeMask&1) {
             *(volatile u16 *)0x04000052=evB|(evA<<8);
             if(evB==0){BG_SYS_SetMainPlaneVisible(1,0);BG_SYS_SetMainPlaneVisible(2,0);BG_SYS_SetMainPlaneVisible(4,0);}
@@ -351,7 +347,7 @@ int BR_FADE_StepPalette(struct BrFade *fade,int *state)
         int duration;
         fade->frame=0;
         duration=fade->durationParam;
-        if(duration==0)duration=_s32_div_f(16,FADE_GetSpeed());
+        if(duration==0)duration=16/FADE_GetSpeed();
         fade->frameCount=duration;
         PALANM_RequestFullTransfer(fade->palAnm,1);
         *state=1;
@@ -359,8 +355,8 @@ int BR_FADE_StepPalette(struct BrFade *fade,int *state)
     }
     case 1: {
         int level;
-        if(fade->direction==0)level=(u8)(16-_u32_div_f(fade->frame<<4,fade->frameCount));
-        else if(fade->direction==1)level=(u8)_u32_div_f(fade->frame<<4,fade->frameCount);
+        if(fade->direction==0)level=(u8)(16-(fade->frame<<4)/fade->frameCount);
+        else if(fade->direction==1)level=(u8)((fade->frame<<4)/fade->frameCount);
         if(fade->planeMask==15) {
             PALANM_BlendChannelMask((u32)fade->palAnm,1,0x3000,level,0xffff);
         } else {
@@ -400,7 +396,7 @@ int BR_FADE_StepSubPlane3(struct BrFade *fade,int *state)
         G2x_SetBlendAlpha_(0x04001050,3,7,evA,evB);
         fade->frame=0;
         duration=fade->durationParam;
-        if(duration==0)duration=_s32_div_f(16,FADE_GetSpeed());
+        if(duration==0)duration=16/FADE_GetSpeed();
         fade->frameCount=duration;
         *state=1;
         break;
@@ -408,8 +404,8 @@ int BR_FADE_StepSubPlane3(struct BrFade *fade,int *state)
     case 1: {
         int evA,evB;
         int done=1;
-        if(fade->direction==0){evA=_u32_div_f(fade->frame<<4,fade->frameCount);evB=16-evA;}
-        else if(fade->direction==1){evB=_u32_div_f(fade->frame<<4,fade->frameCount);evA=16-evB;}
+        if(fade->direction==0){evA=(fade->frame<<4)/fade->frameCount;evB=16-evA;}
+        else if(fade->direction==1){evB=(fade->frame<<4)/fade->frameCount;evA=16-evB;}
         *(volatile u16 *)0x04001052=evA|(evB<<8);
         if(evA==0)BG_SYS_SetSubPlaneVisible(3,0);else BG_SYS_SetSubPlaneVisible(3,1);
         done&=((fade->frame)++ >= fade->frameCount);

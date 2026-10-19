@@ -25,7 +25,7 @@
  * symbols:
  *   NET_WHPIPE_GetEntryBeaconData  0x02177B2C  thumb  ov014
  *   NET_WHPIPE_ReleaseEntrySlot  0x02177BAC  thumb  ov014
- *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
+ *   GF_STANDARD_CalcCrc16  0x0203F1FC  arm
  *   NET_WHPIPE_SelectEntry  0x021780C4  thumb  ov014
  *   MI_CpuCopy8  0x02082D44  arm
  *   NET_WHPIPE_ReleaseAllEntrySlots  0x02177BCC  thumb  ov014
@@ -39,7 +39,7 @@ typedef unsigned int u32;
 
 extern u8 *NET_WHPIPE_GetEntryBeaconData(int);
 extern void NET_WHPIPE_ReleaseEntrySlot(u32 idx);
-extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
+extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
 extern void NET_WHPIPE_SelectEntry(u32 i);
 extern void MI_CpuCopy8(void *, void *, u32);
 extern void NET_WHPIPE_ReleaseAllEntrySlots(void);
@@ -77,7 +77,7 @@ void DELIVERY_BEACON_StepCollectPieces(u8 *q)
                 continue;
             if (q[idx * 100 + 0xD8] != 0)
                 continue;
-            crc = GF_STANDARD_SetupCalc(e + 8, 0x54);
+            crc = GF_STANDARD_CalcCrc16(e + 8, 0x54);
             if (crc != ((struct Obj04913 *)e)->f0) {
                 NET_WHPIPE_ReleaseEntrySlot(i);
             } else {

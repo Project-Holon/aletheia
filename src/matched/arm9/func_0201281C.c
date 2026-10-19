@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   EVENT_FIELD_PROCLINK_CheckZoneFlag  0x02161D64  thumb  ov010
+ *   EVENT_FIELD_PROCLINK_ApplyZoneChangeEnable  0x02161D64  thumb  ov010
  *   MI_CpuFill8  0x02082BCC  arm
  *
  * Verified with:
@@ -25,10 +25,10 @@ typedef signed short s16;
 typedef signed char s8;
 
 extern void MI_CpuFill8(void *dst, int c, u32 n);
-extern int EVENT_FIELD_PROCLINK_CheckZoneFlag(int a0);
+extern int EVENT_FIELD_PROCLINK_ApplyZoneChangeEnable(int a0);
 
 void GAME_DATA_ClearUnionInfo(u8 *obj)
 {
     MI_CpuFill8(obj + 0x214, 0, 0x1e8);
-    EVENT_FIELD_PROCLINK_CheckZoneFlag((int)(obj + 0x3fc));
+    EVENT_FIELD_PROCLINK_ApplyZoneChangeEnable((int)(obj + 0x3fc));
 }

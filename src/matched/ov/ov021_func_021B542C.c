@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PROC_FLD_SetFieldRegionFromArchive
+ * function: SCRCMD_PROC_FLD_StartCameraMoveFromArchive
  * address:  0x021B542C
  * packet:   pkt_ov021_021B542C
  * region:   ov021
@@ -53,7 +53,7 @@ extern u16 VM_GetU16(struct Stream *s);
 extern void ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
 extern void FIELD_CAMERA_StartMove(u8 *a, void *p, int n);
 
-int SCRCMD_PROC_FLD_SetFieldRegionFromArchive(int a0, int a1)
+int SCRCMD_PROC_FLD_StartCameraMoveFromArchive(int a0, int a1)
 {
     Src s;
     Out o;

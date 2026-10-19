@@ -22,7 +22,7 @@
  *   func_021BDBA0  0x021BDBA0  thumb  ov208
  *   ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled  0x021BDC48  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_GetSource  0x021BC3A4  thumb  ov208
- *   GAME_DATA_CheckSaveFlag  0x02012BF8  thumb
+ *   GAME_DATA_ContainsRecentId  0x02012BF8  thumb
  *   ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq  0x021BDC14  thumb  ov208
  */
 
@@ -43,7 +43,7 @@ extern void ZUKAN_DETAIL_TOUCHBAR_SetMode(void *s, u32 mode, u32 kind, u32 flag)
 extern void func_021BDBA0(void *s);
 extern void ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(void *s, u32 on);
 extern int ZUKAN_DETAIL_COMMON_GetSource(int *p);
-extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
+extern int GAME_DATA_ContainsRecentId(int a0, int a1);
 extern void ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(char *p, int b);
 
 #define W(o) (*(u32 *)(p + (o)))
@@ -118,7 +118,7 @@ void ZUKAN_DETAIL_AREA_HandleModeEvent(u16 *heap, u8 *p, int key, int mode)
             CLACT_SetActorDrawEnable((struct Obj *)W(0xd0), 0);
             wide = func_021BC3BC((char *)key) > 1 ? 1 : 0;
             ZUKAN_DETAIL_TOUCHBAR_SetMode(s, 0, 1, wide);
-            ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(s, GAME_DATA_CheckSaveFlag(ZUKAN_DETAIL_COMMON_GetSource((int *)key), 0x12));
+            ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(s, GAME_DATA_ContainsRecentId(ZUKAN_DETAIL_COMMON_GetSource((int *)key), 0x12));
         }
         break;
     case 8:

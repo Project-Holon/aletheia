@@ -19,7 +19,7 @@
  *   TH_AWARD_GRAPHIC_Create 0x021BA0D8 thumb ov220
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   GXS_SetGraphicsMode 0x0207D518 arm
@@ -49,7 +49,7 @@
  *   TH_AWARD_GRAPHIC_Delete 0x021BA178 thumb ov220
  *   d_021BA370 0x021BA370 data a4
  *   GFL_USE_IsBgmFading 0x02005E50 thumb
- *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_SetBgmPaused 0x02005DE4 thumb
  *   GFL_USE_PushBgm 0x02005E64 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   FADE_IsActive 0x0204E804 arm
@@ -63,7 +63,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   TH_AWARD_GRAPHIC_Update 0x021BA1CC thumb ov220
  *   sounds 0x021BA3B0 data a4
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
@@ -103,7 +103,7 @@
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   d_021BA354 0x021BA354 data ov220 a1
  *   d_021BA314 0x021BA314 data a1
  *   d_021BA3A8 0x021BA3A8 data a2
@@ -205,7 +205,7 @@ extern void MI_CpuFill8(void*,u32,u32);
 extern void * TH_AWARD_GRAPHIC_Create(u32,u32);
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void*);
-extern void BG_SYS_SetVisibleLayer(int,u16);
+extern void BG_SYS_SetPriority(int,u16);
 extern void *GFL_USE_AddMainTask(u32,u32,u32);
 extern void BG_SYS_ClearSubPlanes(void),BG_SYS_ClearSubBgPlanes(void),GXS_SetGraphicsMode(int);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
@@ -227,14 +227,14 @@ extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void TH_AWARD_GRAPHIC_Delete(unsigned char *p);
 extern int GFL_USE_IsBgmFading(void),GFL_USE_PushBgm(void),GFL_USE_PopBgm(void),GFL_USE_IsBgmPlaying(void),FADE_IsActive(void);
-extern void GFL_USE_SetBgmPlayerParam(void*),GFL_USE_CancelChangeAndPlayBgm(u32,u16),GFL_USE_FadeInBgmFull(u32);
+extern void GFL_USE_SetBgmPaused(void*),GFL_USE_CancelChangeAndPlayBgm(u32,u16),GFL_USE_FadeInBgmFull(u32);
 extern u32 KEY_GetTrg(void);
 extern u32 TOUCHPANEL_GetPointTrg(u32*,u32*);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void UI_SetInputMode(u8);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern void BG_SYS_SetFlagField06(u32);
+extern void BG_SYS_MarkTileDirty(u32);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void TH_AWARD_GRAPHIC_Update(char*);
 extern void ARC_TOOL_DeleteHandle(void *),BG_SYS_PushTile(unsigned);
@@ -270,7 +270,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
@@ -324,7 +324,7 @@ int TH_AWARD_Init(void *host,void *unused,void *args)
     p->graphic=TH_AWARD_GRAPHIC_Create(1,p->heap);
     p->font=GF_FONT_Create(23,0,0,0,p->heap);
     p->printQue=(void *)PRINTSYS_QUE_Create((void *)(u32)p->heap);
-    BG_SYS_SetVisibleLayer(1,2);BG_SYS_SetVisibleLayer(2,1);BG_SYS_SetVisibleLayer(3,0);
+    BG_SYS_SetPriority(1,2);BG_SYS_SetPriority(2,1);BG_SYS_SetPriority(3,0);
     p->task=GFL_USE_AddMainTask((u32)TH_AWARD_TaskNoop,(u32)p,1);
     if (p->args->hasExtra) desc=(char *)p->args->base+0x14;
     else desc=(char *)p->args->base;
@@ -406,7 +406,7 @@ int TH_AWARD_Main(void *unused, u32 *state, void *unused2, char *p)
         if (((struct ThAwardWork *)p)->args->flag0C && ((struct ThAwardWork *)p)->bgmIndex!=7) {
             if (GFL_USE_IsBgmFading()) flag=0;
             else {
-                GFL_USE_SetBgmPlayerParam((void *)1);
+                GFL_USE_SetBgmPaused((void *)1);
                 GFL_USE_PushBgm();
                 GFL_USE_CancelChangeAndPlayBgm(*(const u32 *)((u32)sounds+((struct ThAwardWork *)p)->bgmIndex*12),0xFFFF);
             }
@@ -421,7 +421,7 @@ int TH_AWARD_Main(void *unused, u32 *state, void *unused2, char *p)
         break;
     case 2:
         if (!GFL_USE_IsBgmPlaying()) {
-            GFL_USE_PopBgm();GFL_USE_SetBgmPlayerParam(0);GFL_USE_FadeInBgmFull(6);*state=3;
+            GFL_USE_PopBgm();GFL_USE_SetBgmPaused(0);GFL_USE_FadeInBgmFull(6);*state=3;
         }
         break;
     case 3:
@@ -438,7 +438,7 @@ int TH_AWARD_Main(void *unused, u32 *state, void *unused2, char *p)
     if (PRINTSYS_QUE_Main(((struct ThAwardWork *)p)->printQue) && !((struct ThAwardWork *)p)->allUploaded) {
         for (i=1;i<4;i++) {
             void *v=((struct ThAwardWork *)p)->windows[i];
-            BMP_WIN_TransferChars(v);BMP_WIN_MakeScreen(v);BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(v));
+            BMP_WIN_TransferChars(v);BMP_WIN_MakeScreen(v);BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(v));
         }
         ((struct ThAwardWork *)p)->allUploaded=1;
     }
@@ -679,7 +679,7 @@ void TH_AWARD_SetupWindows(struct ThAwardWork *p)
     STRBUF_Delete(q);
     STRBUF_Delete(z);
     STRBUF_Delete(t);
-    WORDSET_DeleteStrbufED04(g);
+    WORDSET_Delete(g);
     y = MSGDATA_AllocString(p->msgBank, d_021BA3A8[TH_AWARD_GetLevelIndex(*(u16 *)(b + 2))].msg);
     w1 = (u16)GF_FONT_MeasureWidestLine(y, (u32)p->font, 0);
     h = (u32)BMP_GetWidth(BMP_WIN_GetBmp(p->windows[3]));
@@ -690,7 +690,7 @@ void TH_AWARD_SetupWindows(struct ThAwardWork *p)
         void *d = p->windows[i];
         BMP_WIN_TransferChars(d);
         BMP_WIN_MakeScreen(d);
-        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(d));
+        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(d));
     }
     TH_AWARD_UploadWindows(p);
 }
@@ -711,7 +711,7 @@ void TH_AWARD_UploadWindows(struct ThAwardWork *o)
                 void *p = o->windows[i];
                 BMP_WIN_TransferChars(p);
                 BMP_WIN_MakeScreen(p);
-                BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(p));
+                BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(p));
                 o->uploadDone[i] = 1;
             }
         }

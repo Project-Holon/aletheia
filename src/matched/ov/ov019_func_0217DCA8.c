@@ -21,9 +21,9 @@
  *   func_02008530  0x02008530  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
- *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb
- *   UNION_ONESELF_CheckNetErrorExit  0x0217BB20  thumb  ov019
+ *   MET_TRAINERS_GetFromSave  0x0200ED48  thumb
+ *   MET_TRAINERS_Insert  0x0200ED54  thumb
+ *   UNION_ONESELF_HandleNetErrorExit  0x0217BB20  thumb  ov019
  *   UNION_MSG_CloseAllWindows  0x0217F074  thumb  ov019
  *   COLOSSEUM_CheckAllEntered  0x0217FDC8  thumb  ov019
  *   COLOSSEUM_CheckAllTrainerCardsReceived  0x0217FDF8  thumb  ov019
@@ -72,9 +72,9 @@ extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *MISC_SAVEDATA_GetBlock44(void *p);
-extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *l, u32 val);
-extern int UNION_ONESELF_CheckNetErrorExit(char *p);
+extern void *MET_TRAINERS_GetFromSave(void *p);
+extern void MET_TRAINERS_Insert(struct L0200ED54 *l, u32 val);
+extern int UNION_ONESELF_HandleNetErrorExit(char *p);
 extern void UNION_MSG_CloseAllWindows(void *ctx);
 extern int COLOSSEUM_CheckAllEntered(u8 *p);
 extern int COLOSSEUM_CheckAllTrainerCardsReceived(u8 *p);
@@ -99,7 +99,7 @@ int UNION_ONESELF_ColosseumSetupMain(void *ctx, u8 *obj, int a2, u8 *state)
     if (w == 0)
         func_02034714((const char *)gUnionEmptyString1, (int)0, (const char *)gUnionEmptyString1);
 
-    if (UNION_ONESELF_CheckNetErrorExit(ctx) == 1) {
+    if (UNION_ONESELF_HandleNetErrorExit(ctx) == 1) {
         UNION_MSG_CloseAllWindows(ctx);
         return 1;
     }
@@ -156,11 +156,11 @@ int UNION_ONESELF_ColosseumSetupMain(void *ctx, u8 *obj, int a2, u8 *state)
             (*state)++;
         break;
     case 10:
-        x = (int)MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData((const struct Ctx *)((*(int **)ctx)[3]))));
+        x = (int)MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData((const struct Ctx *)((*(int **)ctx)[3]))));
         n = GFL_NET_GetNegotiationNum();
         for (i = 0; i < n; i++) {
             if (w->ents[i].f26 == 1 && i != GFL_NET_GetHandleNetID((struct Link *)((int)GFL_NET_HANDLE_GetCurrentHandle())))
-                MISC_SAVEDATA_InsertRecentValue((struct L0200ED54 *)x, (int)func_02008530((const struct Sub0200852CObj *)(&w->ents[i])));
+                MET_TRAINERS_Insert((struct L0200ED54 *)x, (int)func_02008530((const struct Sub0200852CObj *)(&w->ents[i])));
         }
         COLOSSEUM_SetStartFlag(w, 1);
         UNION_ONESELF_SetNextPlayCategory(ctx, 0x2a);

@@ -12,7 +12,7 @@
  * Emitted from the ov021 instruction shape.
  *
  * symbols:
- *   FILE_UTIL_Check1288  0x02021288  thumb
+ *   FILE_UTIL_IsMachineItem  0x02021288  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -21,10 +21,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 FILE_UTIL_Check1288(u32 id);
+extern u32 FILE_UTIL_IsMachineItem(u32 id);
 
 int SCRCMD_GetItemMachineFlag(u32 a)
 {
-return ((FILE_UTIL_Check1288(a) << 16) >> 16);
+return ((FILE_UTIL_IsMachineItem(a) << 16) >> 16);
 }
 

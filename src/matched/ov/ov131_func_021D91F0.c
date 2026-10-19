@@ -19,7 +19,7 @@
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   P_STA_OAM_TransferBitmap 0x021DBCF4 thumb ov131
  */
 #include "../include/Obj06484.h"
@@ -46,7 +46,7 @@ extern void GF_FONT_SetTextColor(u32,u32,u32);
 extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void P_STA_OAM_TransferBitmap(u8 *p);
 void P_STA_RIBBON_DrawRow(u8 *a,u8 *p,u8 *entry)
 {
@@ -72,6 +72,6 @@ void P_STA_RIBBON_DrawRow(u8 *a,u8 *p,u8 *entry)
     GF_FONT_SetDefaultTextColor();
     STRBUF_Delete(text);
     STRBUF_Delete(buffer);
-    WORDSET_DeleteStrbufED04(object);
+    WORDSET_Delete(object);
     P_STA_OAM_TransferBitmap(((struct Obj06484 *)entry)->f10);
 }

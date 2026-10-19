@@ -1,5 +1,5 @@
 /*
- * function: SHINKA_DEMO_AddEvolvedPokemon
+ * function: SHINKA_DEMO_AddShedinja
  * address:  0x022056E8
  * packet:   pkt_022056E8
  * region:   ov195
@@ -72,7 +72,7 @@ extern void ZUKAN_SAVE_RegisterCaught(struct Blk37 *p, void *m);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 
-void SHINKA_DEMO_AddEvolvedPokemon(u32 *a, char *b)
+void SHINKA_DEMO_AddShedinja(u32 *a, char *b)
 {
     void *save;
     u32 p, q, v;

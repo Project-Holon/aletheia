@@ -24,7 +24,7 @@
  *
  * symbols:
  *   func_02030734  0x02030734  arm
- *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
+ *   GF_STANDARD_GetCachedDate  0x0203F4E4  arm
  *   MUSICAL_PROGRAM_GetBaseProgramId  0x02157364  thumb  ov010
  *   MUSICAL_EVENT_AllocTitleString  0x02156914  thumb  ov010
  *   STRBUF_ToChars  0x02045A38  arm
@@ -136,7 +136,7 @@ struct RtcDate {
 };
 
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
-extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
+extern void GF_STANDARD_GetCachedDate(struct RtcDate *date);
 struct Big;
 struct Ctx;
 struct MsgBank;
@@ -186,7 +186,7 @@ void MUSICAL_EVENT_CreateShowRecord(Work *w)
     w->f34->f04 = 0;
     w->f34->f10 = w->f28;
     d = w->f34->f08;
-    GF_STANDARD_SetField00_F4E4(&date);
+    GF_STANDARD_GetCachedDate(&date);
     d->a = MUSICAL_PROGRAM_GetBaseProgramId(w->f38);
     d->b = date.year;
     d->c = date.month;

@@ -74,8 +74,8 @@
  *   gIrcRankingDispConfig 0x021B94A8 data
  *   gIrcRankingBgEntries 0x021B9524 data a4
  *   BMP_WIN_Delete 0x020452E8 arm
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
- *   BG_SYS_SetTileUnit 0x02040DA8 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
+ *   BG_SYS_FreeTiles 0x02040DA8 arm
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
@@ -98,8 +98,8 @@
  *   TCB_DeleteTask 0x02030EAC arm
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   POKE_TOOL_GetIconPaletteArcId 0x0201BC3C thumb
- *   BG_SYS_FillScrollArea 0x02040618 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BG_SYS_SetTileEntry 0x02041300 arm
  *   BMP_Create 0x02043678 arm
@@ -476,8 +476,8 @@ extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern void BG_SYS_PushTile(u32);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
-extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTiles(u32 idx, u32 count, u32 tile);
 extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
@@ -501,8 +501,8 @@ extern void *GFL_USE_AddMainTask(void (*taskFunc)(void *task, void *taskWork), v
 extern void TCB_DeleteTask(void *task);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern int POKE_TOOL_GetIconPaletteArcId(void);
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void BG_SYS_SetTileEntry(u32, int, int, int, u8, u8, u8);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
@@ -874,10 +874,10 @@ void IRC_RANKING_GfxInit(IrcRankingGfx *gfx, struct GameData *gameData, u32 heap
 void IRC_RANKING_GfxExit(IrcRankingGfx *gfx) {
     int i;
     BMP_WIN_Delete(gfx->titleWin);
-    BG_SYS_DeleteHalf(1, (u16)gfx->charRegionMain, (u16)(gfx->charRegionMain >> 16));
-    BG_SYS_DeleteHalf(5, (u16)gfx->charRegionSub, (u16)(gfx->charRegionSub >> 16));
-    BG_SYS_SetTileUnit(5, 1, 0);
-    BG_SYS_SetTileUnit(1, 1, 0);
+    BG_SYS_FreeTileRun(1, (u16)gfx->charRegionMain, (u16)(gfx->charRegionMain >> 16));
+    BG_SYS_FreeTileRun(5, (u16)gfx->charRegionSub, (u16)(gfx->charRegionSub >> 16));
+    BG_SYS_FreeTiles(5, 1, 0);
+    BG_SYS_FreeTiles(1, 1, 0);
     for (i = 0; i < BG_COUNT; i++) BG_SYS_FreeLayerBuf((u8)gIrcRankingBgEntries[i].bg);
     BMP_WIN_Exit(); BG_SYS_Delete();
     MI_CpuFill8(gfx, 0, sizeof(IrcRankingGfx));
@@ -1012,10 +1012,10 @@ void IRC_RANKING_ListInit(IrcRankingList *list, u32 rowBgMain, u8 textBgMain, u8
     list->textWin[1] = BMP_WIN_Create(textBgSub, 0, 0, 0x20, 0x20, 14, 1);
     list->bgScrollMain = -40;
     list->bgScrollSub = 24;
-    BG_SYS_FillScrollArea(list->rowBgMain, 3, list->bgScrollMain);
-    BG_SYS_FillScrollArea(list->textBgMain, 3, list->bgScrollMain);
-    BG_SYS_FillScrollArea(list->rowBgSub, 3, list->bgScrollSub);
-    BG_SYS_FillScrollArea(list->textBgSub, 3, list->bgScrollSub);
+    BG_SYS_ChangeScrollImmediate(list->rowBgMain, 3, list->bgScrollMain);
+    BG_SYS_ChangeScrollImmediate(list->textBgMain, 3, list->bgScrollMain);
+    BG_SYS_ChangeScrollImmediate(list->rowBgSub, 3, list->bgScrollSub);
+    BG_SYS_ChangeScrollImmediate(list->textBgSub, 3, list->bgScrollSub);
     list->scrollPos = 0;
     list->scrollMin = 0;
     m = 0;
@@ -1035,7 +1035,7 @@ void IRC_RANKING_ListExit(IrcRankingList *list) {
     CLACT_ReleasePalette(list->iconPaletteMain);
     CLACT_ReleasePalette(list->iconPaletteSub);
     IRC_RANKING_ClearRowScreens(list->rowScreenMain);
-    WORDSET_DeleteStrbufED04(list->wordSet);
+    WORDSET_Delete(list->wordSet);
     GF_FONT_Delete(list->font);
     MI_CpuFill8(list, 0, sizeof(IrcRankingList));
 }
@@ -1142,7 +1142,7 @@ void IRC_RANKING_ListTransferWindows(IrcRankingList *list) {
 
 /*
  * Evidence: original signed halfword loads and stores fix scroll widths.
- * ARM9 BG_SYS_FillScrollArea's legacy fourth input is forwarded only to
+ * ARM9 BG_SYS_ChangeScrollImmediate's legacy fourth input is forwarded only to
  * BG_SYS_SetScrollField, whose complete three-input body does not read it;
  * this caller supplies only three inputs, so the unused fourth is omitted.
  */
@@ -1187,10 +1187,10 @@ void IRC_RANKING_ListScrollTask(void *task, void *taskWork)
                 }
             }
         }
-        BG_SYS_FillScrollArea(list->rowBgMain, 3, x);
-        BG_SYS_FillScrollArea(list->textBgMain, 3, x);
-        BG_SYS_FillScrollArea(list->rowBgSub, 3, y);
-        BG_SYS_FillScrollArea(list->textBgSub, 3, y);
+        BG_SYS_ChangeScrollImmediate(list->rowBgMain, 3, x);
+        BG_SYS_ChangeScrollImmediate(list->textBgMain, 3, x);
+        BG_SYS_ChangeScrollImmediate(list->rowBgSub, 3, y);
+        BG_SYS_ChangeScrollImmediate(list->textBgSub, 3, y);
         list->needScrollApply = 0;
     }
 }
@@ -1557,7 +1557,7 @@ void IRC_RANKING_PrintCentered(struct BmpWin *win, struct Strbuf *text, void *my
         y -= (u16)(GF_FONT_CountLines(expanded, font) >> 1);
         PRINTSYS_Print(BMP_WIN_GetBmp(win), (s16)x, (s16)y, expanded, font);
         STRBUF_Delete(expanded);
-        WORDSET_DeleteStrbufED04(wordSet);
+        WORDSET_Delete(wordSet);
     }
 }
 

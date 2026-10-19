@@ -1,5 +1,5 @@
 /*
- * function: STA_ACT_EFFECT_SetSceneField14
+ * function: STA_ACTING_SetCameraHoldScript
  * address: 0x021F9E40
  * packet: pkt_ov132_021F9E40
  * region: ov132
@@ -12,4 +12,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void STA_ACT_EFFECT_SetSceneField14(u8 *p,u32 v) { ((struct Obj23222 *)p)->f14=v; }
+void STA_ACTING_SetCameraHoldScript(u8 *p,u32 v) { ((struct Obj23222 *)p)->f14=v; }

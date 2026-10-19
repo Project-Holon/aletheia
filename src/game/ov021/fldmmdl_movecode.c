@@ -15,6 +15,8 @@
  * Field model move codes: turn in place, random walk, fixed direction, spin, swing, back and forth, route patrol (work areas in fldmmdl_movecode_types.h), and the event type helpers they share.
  * Merged from unit_0219A098.c and unit_0219B508.c, which are one original (model move code file).
  *
+ * Boundary audit (wave 16): kept as one file. The FLDMMDL_MOVECODE_ and FLDMMDL_MOVE_ runs share one data run whose owners alternate: gMmdlDirSets 0x021D50F8 (MOVECODE), gLookAroundDirGroup/gLookAroundDirTable 0x021D5238 (MOVE), gMmdlEventTypeInitProcs 0x021D5278 and gMmdlEventTypeCheckProcs 0x021D52CC (MOVECODE), gLookPlayerStepTable 0x021D5374 (MOVE). Two object files cannot interleave their data; FLDEFF_HIDE_Create also sits inside the MOVE_ hide run. A cut also fails the static check (shared definitions).
+ *
  * symbols:
  *   FLDMMDL_ACMD_WalkTableInit  0x02198C08  thumb
  *   FLDMMDL_ACMD_WalkTableMove       0x02198C4C  thumb

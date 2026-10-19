@@ -13,9 +13,9 @@
  *   WIFILOGIN_MSG_CloseMessage 0x021D5D3C thumb ov115
  *   WIFILOGIN_MSG_GetFrameIdA 0x021D5FA0 thumb ov115
  *   WIFILOGIN_MSG_GetFrameIdB 0x021D5FC4 thumb ov115
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   STRBUF_Delete 0x02045808 arm
@@ -44,9 +44,9 @@ extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void WIFILOGIN_MSG_CloseMessage(u8 *p);
 extern u32 WIFILOGIN_MSG_GetFrameIdA(u32);
 extern u32 WIFILOGIN_MSG_GetFrameIdB(u32);
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 extern void GF_FONT_SetDefaultTextColor(void);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -63,11 +63,11 @@ void WIFILOGIN_MSG_Delete(u8 *p) {
     if (((struct Obj00724 *)p)->f38) { PRINTSYS_PrintStreamDelete(((struct Obj00724 *)p)->f38); ((struct Obj00724 *)p)->f38=0; }
     WIFILOGIN_MSG_CloseMessage(p);
     n=((struct Obj00724 *)p)->f0;
-    BG_SYS_DeleteHalf(WIFILOGIN_MSG_GetFrameIdA(((struct Obj00724 *)p)->f50),(u16)n,(u16)(n>>16));
+    BG_SYS_FreeTileRun(WIFILOGIN_MSG_GetFrameIdA(((struct Obj00724 *)p)->f50),(u16)n,(u16)(n>>16));
     n=((struct Obj00724 *)p)->f4;
-    BG_SYS_DeleteHalf(WIFILOGIN_MSG_GetFrameIdB(((struct Obj00724 *)p)->f50),(u16)n,(u16)(n>>16));
+    BG_SYS_FreeTileRun(WIFILOGIN_MSG_GetFrameIdB(((struct Obj00724 *)p)->f50),(u16)n,(u16)(n>>16));
     GF_FONT_SetDefaultTextColor();
-    WORDSET_DeleteStrbufED04(((struct Obj00724 *)p)->f20);
+    WORDSET_Delete(((struct Obj00724 *)p)->f20);
     MSGDATA_Delete(((struct Obj00724 *)p)->f1C);
     GF_FONT_Delete(((struct Obj00724 *)p)->f24);
     STRBUF_Delete(((struct Obj00724 *)p)->f28);

@@ -1,7 +1,7 @@
 /*
  * file:     pdc_msg.c
  * unit:     yes
- * function: PDC_MSG_Create, PDC_MSG_Delete, PDC_MSG_PrintMessage0, PDC_MSG_PrintMessage3, PDC_MSG_PrintMessage1, PDC_MSG_PrintMessage2, PDC_MSG_PrintMessage4, PDC_MSG_Update, PDC_MSG_StartFadeIn, PDC_MSG_IsFadeIdle, PDC_MSG_TakeStreamEnded, PDC_MSG_StartPrint, PDC_MSG_InitBlend, PDC_MSG_BlendStartFadeIn, PDC_MSG_BlendStartFadeOut, PDC_MSG_BlendUpdate
+ * function: PDC_MSG_Create, PDC_MSG_Delete, PDC_MSG_PrintMessage0, PDC_MSG_PrintMessage3, PDC_MSG_PrintMessage1, PDC_MSG_PrintMessage2, PDC_MSG_PrintMessage4, PDC_MSG_Update, PDC_MSG_StartFadeIn, PDC_MSG_UpdateFade, PDC_MSG_TakeStreamEnded, PDC_MSG_StartPrint, PDC_MSG_InitBlend, PDC_MSG_BlendStartFadeIn, PDC_MSG_BlendStartFadeOut, PDC_MSG_BlendUpdate
  * address:  0x021B67D4
  * region:   ov098
  * compiler: dsi/1.1p1
@@ -36,13 +36,13 @@
  *   gPdcMsgSrcName 0x021B6E74 data a4
  *   gPdcMsgBgTemplate 0x021B6E24 data a4
  *   STRBUF_Delete 0x02045808 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   MSGDATA_AllocString  0x02045EC0  arm
- *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
+ *   WORDSET_SetSlotMonNickname  0x0201EEF4  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   PDC_MSG_BlendUpdate 0x021B6CDC thumb ov098
@@ -87,13 +87,13 @@ extern void BMP_WIN_DrawFrame(struct BmpWin *window, u16 frameIndex, u32 palette
 extern void BG_SYS_PushTile(u32);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern void WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
+extern void WORDSET_Delete(struct WordSet *wordSet);
 extern void PRINTSYS_PrintStreamDelete(void *stream);
 extern void BG_SYS_FreeLayerBuf(int);
 extern void MSGDATA_Delete(struct MsgBank *msgBank);
 extern void BMP_WIN_Delete(struct BmpWin *window);
 extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern void WORDSET_SetSlotMonSpecies(struct WordSet *wordSet, u32 index, struct PokemonParam *mon);
+extern void WORDSET_SetSlotMonNickname(struct WordSet *wordSet, u32 index, struct PokemonParam *mon);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 index, struct MyStatus *myStatus);
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
 extern void PRINTSYS_PrintStreamRun(void *stream);
@@ -122,7 +122,7 @@ void PDC_MSG_PrintMessage2(struct PdcMsg *msg, struct PdcArgs *args);
 void PDC_MSG_PrintMessage4(struct PdcMsg *msg, struct PdcArgs *args);
 int PDC_MSG_Update(struct PdcMsg *msg);
 void PDC_MSG_StartFadeIn(struct PdcMsg *msg);
-int PDC_MSG_IsFadeIdle(struct PdcMsg *msg);
+int PDC_MSG_UpdateFade(struct PdcMsg *msg);
 int PDC_MSG_TakeStreamEnded(struct PdcMsg *msg);
 void PDC_MSG_StartPrint(struct PdcMsg *msg, int waitFrames);
 void PDC_MSG_InitBlend(struct PdcBlend *blend, struct BmpWin *window);
@@ -166,7 +166,7 @@ struct PdcMsg *PDC_MSG_Create(struct GfFont *font, struct Config *config, struct
 void PDC_MSG_Delete(struct PdcMsg *msg)
 {
     STRBUF_Delete(msg->strbuf);
-    WORDSET_DeleteStrbufED04(msg->wordSet);
+    WORDSET_Delete(msg->wordSet);
     if (msg->printStream) PRINTSYS_PrintStreamDelete(msg->printStream);
     BG_SYS_FreeLayerBuf(1);
     MSGDATA_Delete(msg->msgBank);
@@ -179,7 +179,7 @@ void PDC_MSG_PrintMessage0(struct PdcMsg *msg, struct PdcArgs *args) {
     struct PokemonParam *mon;
     str = MSGDATA_AllocString(msg->msgBank, 0);
     mon = PDC_GetMon(args);
-    WORDSET_SetSlotMonSpecies(msg->wordSet, 0, mon);
+    WORDSET_SetSlotMonNickname(msg->wordSet, 0, mon);
     WORDSET_CopyTaggedText(msg->wordSet, msg->strbuf, str);
     PDC_MSG_StartPrint(msg, 0x50);
     STRBUF_Delete(str);
@@ -201,7 +201,7 @@ void PDC_MSG_PrintMessage1(struct PdcMsg *msg, struct PdcArgs *args) {
     struct PokemonParam *mon;
     str = MSGDATA_AllocString(msg->msgBank, 1);
     mon = PDC_GetMon(args);
-    WORDSET_SetSlotMonSpecies(msg->wordSet, 0, mon);
+    WORDSET_SetSlotMonNickname(msg->wordSet, 0, mon);
     WORDSET_CopyTaggedText(msg->wordSet, msg->strbuf, str);
     PDC_MSG_StartPrint(msg, 0x50);
     STRBUF_Delete(str);
@@ -212,7 +212,7 @@ void PDC_MSG_PrintMessage2(struct PdcMsg *msg, struct PdcArgs *args) {
     struct PokemonParam *mon;
     str = MSGDATA_AllocString(msg->msgBank, 2);
     mon = PDC_GetMon(args);
-    WORDSET_SetSlotMonSpecies(msg->wordSet, 0, mon);
+    WORDSET_SetSlotMonNickname(msg->wordSet, 0, mon);
     WORDSET_CopyTaggedText(msg->wordSet, msg->strbuf, str);
     PDC_MSG_StartPrint(msg, 0x50);
     STRBUF_Delete(str);
@@ -286,7 +286,7 @@ void PDC_MSG_StartFadeIn(struct PdcMsg *msg)
     PDC_MSG_BlendStartFadeIn(&msg->blend);
 }
 
-int PDC_MSG_IsFadeIdle(struct PdcMsg *msg)
+int PDC_MSG_UpdateFade(struct PdcMsg *msg)
 {
     return PDC_MSG_BlendUpdate(&msg->blend);
 }

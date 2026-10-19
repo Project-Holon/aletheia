@@ -16,7 +16,7 @@
  *   POKE_TOOL_CalcGender 0x02017F50 thumb
  *   POKEPARTY_Add 0x0201A98C thumb
  *   WORLDTRADE_ADAPTER_GetBoxParam 0x022026BC thumb ov135
- *   WORLDTRADE_ADAPTER_GetDateTime 0x0220246C thumb ov135
+ *   WORLDTRADE_ADAPTER_StoreDateAsLastId 0x0220246C thumb ov135
  *   ZUKAN_SAVE_RegisterCaught  0x0200CDE0  thumb  arm9
  */
 #include "../include/Obj02864.h"
@@ -42,7 +42,7 @@ extern int func_020076D0(void *save, int *pbox, int *pslot);
 struct Sub02007454Entry;
 extern int func_0200752C(void **save, u32 box, const struct Sub02007454Entry *src);
 extern u32 WORLDTRADE_ADAPTER_GetBoxParam(void *);
-extern void WORLDTRADE_ADAPTER_GetDateTime(void *,int);
+extern void WORLDTRADE_ADAPTER_StoreDateAsLastId(void *,int);
 void WORLDTRADE_ADAPTER_RegisterReceivedMonB(u8 *p,void *mon,void *unused2,void *unused3,u32 index)
 {
     u32 species, form, pos;
@@ -66,5 +66,5 @@ void WORLDTRADE_ADAPTER_RegisterReceivedMonB(u8 *p,void *mon,void *unused2,void 
         pos=slot;
     }
     ((struct Obj02864 *)p)->fE0=pos;
-    WORLDTRADE_ADAPTER_GetDateTime(*(void **)*(u8 * *)&((struct Obj02864 *)p)->f0,1);
+    WORLDTRADE_ADAPTER_StoreDateAsLastId(*(void **)*(u8 * *)&((struct Obj02864 *)p)->f0,1);
 }

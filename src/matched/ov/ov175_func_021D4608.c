@@ -12,9 +12,9 @@
  *   WIFIBATTLEMATCH_VIEW_SetActorVisible 0x021E7E0C thumb ov177
  *   WIFIBATTLEMATCH_UTIL_PrintMessage 0x021E8738 thumb ov177
  *   WIFIBATTLEMATCH_UTIL_SetRequest 0x021E8AB4 thumb ov177
- *   WIFIBATTLEMATCH_NET_SetupSprite 0x021D6550 thumb ov175
- *   WIFIBATTLEMATCH_NET_IsSpriteAnimDone 0x021D65DC thumb ov175
- *   WIFIBATTLEMATCH_NET_DeleteSprite 0x021D65C8 thumb ov175
+ *   WIFIBATTLEMATCH_NET_SetupChoiceMenu 0x021D6550 thumb ov175
+ *   WIFIBATTLEMATCH_NET_PollChoiceMenu 0x021D65DC thumb ov175
+ *   WIFIBATTLEMATCH_NET_DeleteChoiceMenu 0x021D65C8 thumb ov175
  *   WIFIBATTLEMATCH_UTIL_SetCallback 0x021E8AA0 thumb ov177
  *   WIFIBATTLEMATCH_NET_TaskStepK 0x021D57BC thumb ov175
  *   WIFIBATTLEMATCH_NET_TaskStepC 0x021D4730 thumb ov175
@@ -26,9 +26,9 @@ typedef unsigned int u32;
 extern void WIFIBATTLEMATCH_VIEW_SetActorVisible(void **, int);
 extern void WIFIBATTLEMATCH_UTIL_PrintMessage(int *, int, int, int);
 extern void WIFIBATTLEMATCH_UTIL_SetRequest(u32, u32);
-extern void WIFIBATTLEMATCH_NET_SetupSprite(u32 *, int);
-extern int WIFIBATTLEMATCH_NET_IsSpriteAnimDone(char *);
-extern void WIFIBATTLEMATCH_NET_DeleteSprite(char *);
+extern void WIFIBATTLEMATCH_NET_SetupChoiceMenu(u32 *, int);
+extern int WIFIBATTLEMATCH_NET_PollChoiceMenu(char *);
+extern void WIFIBATTLEMATCH_NET_DeleteChoiceMenu(char *);
 extern void WIFIBATTLEMATCH_UTIL_SetCallback(int *, int);
 extern void WIFIBATTLEMATCH_NET_TaskStepK(unsigned sys, int *state, int *p);
 extern void WIFIBATTLEMATCH_NET_TaskStepC(u32 sys, int *state, u32 *p);
@@ -44,11 +44,11 @@ void WIFIBATTLEMATCH_NET_TaskStepB(u32 sys, int *state, u32 *p)
     case 1:
         WIFIBATTLEMATCH_UTIL_PrintMessage((int *)p[9], p[4], 25, 1);
         *state = 7; WIFIBATTLEMATCH_UTIL_SetRequest(sys, 2); break;
-    case 2: WIFIBATTLEMATCH_NET_SetupSprite(p, 1); *state = 3; break;
+    case 2: WIFIBATTLEMATCH_NET_SetupChoiceMenu(p, 1); *state = 3; break;
     case 3:
-        result = WIFIBATTLEMATCH_NET_IsSpriteAnimDone((char *)p);
+        result = WIFIBATTLEMATCH_NET_PollChoiceMenu((char *)p);
         if (result != -1) {
-            WIFIBATTLEMATCH_NET_DeleteSprite((char *)p);
+            WIFIBATTLEMATCH_NET_DeleteChoiceMenu((char *)p);
             switch (result) {
             case 0: ctx[0] = 1; WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepK); break;
             case 1: ctx[0] = 0; WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepC); break;
@@ -59,11 +59,11 @@ void WIFIBATTLEMATCH_NET_TaskStepB(u32 sys, int *state, u32 *p)
     case 4:
         WIFIBATTLEMATCH_UTIL_PrintMessage((int *)p[9], p[4], 30, 1);
         *state = 7; WIFIBATTLEMATCH_UTIL_SetRequest(sys, 5); break;
-    case 5: WIFIBATTLEMATCH_NET_SetupSprite(p, 0); *state = 6; break;
+    case 5: WIFIBATTLEMATCH_NET_SetupChoiceMenu(p, 0); *state = 6; break;
     case 6:
-        result = WIFIBATTLEMATCH_NET_IsSpriteAnimDone((char *)p);
+        result = WIFIBATTLEMATCH_NET_PollChoiceMenu((char *)p);
         if (result != -1) {
-            WIFIBATTLEMATCH_NET_DeleteSprite((char *)p);
+            WIFIBATTLEMATCH_NET_DeleteChoiceMenu((char *)p);
             switch (result) {
             case 0: ctx[1] = 0; WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskCleanupB); break;
             case 1: *state = 1; break;

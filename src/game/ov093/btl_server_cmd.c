@@ -28,7 +28,7 @@
  *   MYITEM_SAVEDATA_AddItem 0x02007E50 thumb
  *   GPOWER_ApplyPrizeMoney  0x0201119C  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   BEACON_GetPoints  0x0200C274  thumb
+ *   BEACON_GetMoney  0x0200C274  thumb
  *   BTL_CALC_CalcDefeatMoneyLoss  0x021D7FF8  thumb  ov093
  *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
  *   BTL_MAIN_GetFieldSituation  0x021B8714  thumb  ov093
@@ -50,7 +50,7 @@
  *   POKEPARTY_Add 0x0201A98C thumb
  *   POKEPARTY_Copy 0x0201AC2C thumb
  *   BTL_POKEPARAM_SetPokeParam 0x021D6C3C thumb ov093
- *   BTL_POKEPARAM_IsLevelUpPending  0x021D67D0  thumb  ov093
+ *   BTL_POKEPARAM_HasEnteredBattle  0x021D67D0  thumb  ov093
  *   PERAPVOICE_IsRecorded 0x02007B50 thumb
  *   PERAPVOICE_GetVoiceKind 0x02007C70 thumb
  *   BTL_MAIN_GetPositionsPerClient  0x021B6994  thumb  ov093
@@ -100,7 +100,7 @@
  *   BTL_MAIN_GetCommPos 0x021B86C0 thumb ov093
  *   BTL_ADAPTER_GetSendBuffer  0x021EEB64  thumb  ov093
  *   BTL_MAIN_CheckShiftModePrompt  0x021B85A8  thumb  ov093
- *   BTL_CALC_ActionGetKind  0x021D8454  thumb  ov093
+ *   BTL_ACTION_GetKind  0x021D8454  thumb  ov093
  *   BTL_REC_MakeResetPacket  0x021EE9A4  thumb  ov093
  *   BTL_MAIN_GetWinBgm  0x021B86DC  thumb  ov093
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
@@ -191,7 +191,7 @@
  *   BTL_POKEPARAM_ResetEffectsOnSwitchOut  0x021D64F0  thumb  ov093
  *   BTL_POSPOKE_RemovePoke 0x0689D2F8 thumb ov095
  *   BTL_POKEPARAM_GetSickContRaw  0x021D6314  thumb  ov093
- *   BTLV_CORE_GetSlotValue  0x021E8B80  thumb  ov093
+ *   BTL_SICKCONT_GetValue  0x021E8B80  thumb  ov093
  *   BTL_POKEPARAM_GetMovePPById  0x021D55A0  thumb  ov093
  *   BTL_POKEPARAM_GetSemiInvulnerableFlag 0x021D5C08 thumb ov093
  *   BTL_CALC_DecideMoveTarget 0x021D80BC thumb ov093
@@ -208,8 +208,8 @@
  *   HAND_WAZA_RemoveMoveHandlerOfPoke 0x021E03D8 thumb ov093
  *   BTL_EVENT_ResumePokeFactors 0x021D73D4 thumb ov093
  *   gPledgeMoveIds 0x021EFDB8 data a2
- *   BTL_EVENT_HasClientReservedChoice 0x021D6E74 thumb ov093
- *   BTL_EVENT_SetClientReservedChoice 0x021D6E40 thumb ov093
+ *   BTL_POKEPARAM_HasStoredPokeMove 0x021D6E74 thumb ov093
+ *   BTL_POKEPARAM_SetStoredPokeMove 0x021D6E40 thumb ov093
  *   WAZA_TOOL_GetCategory 0x0201C1BC thumb
  *   BTL_POKESET_IsRemovedAll 0x0689CD50 thumb ov095
  *   BTL_WAZAREC_SetEffectiveLast 0x0689D050 thumb ov095
@@ -219,16 +219,16 @@
  *   BTL_POKEPARAM_GetSickParam  0x021D62D8  thumb  ov093
  *   BTL_EVENT_MultiplyVar 0x021D7704 thumb ov093
  *   BTL_CALC_ApplyAccuracyStage 0x021D7908 thumb ov093
- *   BTLV_CORE_MakeSlotKind2 0x021E896C thumb ov093
+ *   BTL_SICKCONT_MakeKind2 0x021E896C thumb ov093
  *   BTL_POKEPARAM_IsSemiInvulnerable 0x021D5C30 thumb ov093
- *   BTLV_CORE_MakeSlotKind3  0x021E899C  thumb  ov093
+ *   BTL_SICKCONT_MakeKind3  0x021E899C  thumb  ov093
  *   WAZA_TOOL_IsDamaging 0x0201C314 thumb
  *   BTL_POKEPARAM_GetMovePPChecked 0x021D5584 thumb ov093
  *   BTL_POKEPARAM_GetLastSelectedMoveId 0x021D67B8 thumb ov093
  *   BTL_POKEPARAM_GetLastUsedMoveId 0x021D67A8 thumb ov093
  *   BTL_FIELD_DrawStaticSlotLine 0x021EF91C thumb ov093
  *   BTL_CALC_RollPercent 0x021D7AF0 thumb ov093
- *   BTL_POKEPARAM_TickSlot6Turn  0x021D61A8  thumb  ov093
+ *   BTL_POKEPARAM_TickConfusionTurn  0x021D61A8  thumb  ov093
  *   BTL_POKEPARAM_TickSleepTurn  0x021D6130  thumb  ov093
  *   BTL_CALC_MakeDefaultSickCont 0x021D7D18 thumb ov093
  *   BTL_POKEPARAM_SetCounter  0x021D69A0  thumb  ov093
@@ -261,7 +261,7 @@
  *   WAZA_TOOL_GetSickCont 0x0201BF58 thumb
  *   BTL_CALC_MakeSickContFromSpec 0x021D7C70 thumb ov093
  *   BTL_POKEPARAM_GetTypePair 0x021D57FC thumb ov093
- *   BTLV_CORE_HasByte 0x021E8D24 thumb ov093
+ *   BTL_TYPEPAIR_HasType 0x021E8D24 thumb ov093
  *   BTL_SICK_BuildCureMessage 0x0689C364 thumb ov095
  *   HAND_TOKUSEI_RemoveAbilityHandlers 0x021D8510 thumb ov093
  *   BTL_POKEPARAM_ChangeForm 0x021D66D8 thumb ov093
@@ -280,7 +280,7 @@
  *   BTL_FIELD_GetCountdownCount 0x021EF894 thumb ov093
  *   BTL_FIELD_SetCountdown 0x021EF8A4 thumb ov093
  *   BTL_FIELD_RegisterStaticSlot  0x021EF8C8  thumb  ov093
- *   BTLV_CORE_GetSlotPosition  0x021E8A98  thumb  ov093
+ *   BTL_SICKCONT_GetPosition  0x021E8A98  thumb  ov093
  *   BTL_FIELD_SetStaticSlotValue  0x021EF8F8  thumb  ov093
  *   BTL_ID_IsAbilitySkillSwapBlocked 0x0689C954 thumb ov095
  *   BTL_POKEPARAM_SetAbility 0x021D66D0 thumb ov093
@@ -290,7 +290,7 @@
  *   BTL_POKEPARAM_DamageSubstitute  0x021D6D9C  thumb  ov093
  *   BTL_POKEPARAM_ClearSubstitute  0x021D6D70  thumb  ov093
  *   BTL_POKEPARAM_AdvanceTurn 0x021D6408 thumb ov093
- *   BTL_EVENT_ClearClientReservedChoice 0x021D6E88 thumb ov093
+ *   BTL_POKEPARAM_ClearStoredPokeMove 0x021D6E88 thumb ov093
  *   BTL_EVENT_RemoveDeadFactors 0x021D701C thumb ov093
  *   BTL_MAIN_GetPmsWork 0x021B8630 thumb ov093
  *   GF_STANDARD_Rand 0x0203F0A8 arm
@@ -328,7 +328,7 @@
  *   BTL_POKEPARAM_LowerStatStage 0x021D5E38 thumb ov093
  *   BTL_POKEPARAM_AddHp  0x021D5FA4  thumb  ov093
  *   BTL_POKEPARAM_SetSickCont  0x021D6034  thumb  ov093
- *   BTLV_CORE_IsSlotKind1Index15  0x021E8A78  thumb  ov093
+ *   BTL_SICKCONT_IsKind1Index15  0x021E8A78  thumb  ov093
  *   BTL_POKEPARAM_SubHp 0x021D5F90 thumb ov093
  *   BTL_POKEPARAM_RestoreRealMovePP  0x021D56A0  thumb  ov093
  *   BTL_POKEPARAM_RestoreMovePP  0x021D5674  thumb  ov093
@@ -340,9 +340,9 @@
  *   WAZA_TOOL_IsAlwaysCritical  0x0201C284  thumb
  *   BTL_POKEPARAM_GetCritStage  0x021D5F14  thumb  ov093
  *   BTL_CALC_RollCriticalHit  0x021D7930  thumb  ov093
- *   BTLV_CORE_GetHighByte 0x021E8CFC thumb ov093
- *   BTLV_CORE_GetLowByte 0x021E8D04 thumb ov093
- *   BTLV_CORE_BytesEqual 0x021E8DA8 thumb ov093
+ *   BTL_TYPEPAIR_GetHigh 0x021E8CFC thumb ov093
+ *   BTL_TYPEPAIR_GetLow 0x021E8D04 thumb ov093
+ *   BTL_TYPEPAIR_IsSingleType 0x021E8DA8 thumb ov093
  *   BTL_CALC_CombineTypeAffinity 0x021D79E8 thumb ov093
  *   BTL_POKEPARAM_HasType  0x021D5814  thumb  ov093
  *   BTL_SICK_ForceGroundedOrFloating 0x0689C6E4 thumb ov095
@@ -359,7 +359,7 @@
  *   SHINKA_CHECK_GetRowParam 0x0201B718 thumb
  *   HAND_SIDE_IsActive  0x06898CF4  thumb  ov095
  *   HAND_SIDE_GetStackCount 0x06898CE0 thumb ov095
- *   BTL_EVENT_IsFactorKeyRegistered  0x068982AC  thumb
+ *   HAND_POS_IsRegistered  0x068982AC  thumb
  *   BTL_POKEPARAM_GetWeight 0x021D67E8 thumb ov093
  *   BTL_POKEPARAM_IsMovePPFull  0x021D55D8  thumb  ov093
  *   BTL_SICK_BuildAddMessage 0x0689C464 thumb ov095
@@ -388,8 +388,8 @@
  *   BTL_CALC_GetFightersPerSide 0x021D7F00 thumb ov093
  *   BTL_MAIN_GetEnemyLanePosFromWork 0x021B8C50 thumb ov093
  *   BTL_CALC_CalcDefeatExp 0x021D7EB4 thumb ov093
- *   BTL_EVENT_GetClientPartyCount 0x021D6E04 thumb ov093
- *   BTL_EVENT_GetClientPartySlotId 0x021D6E0C thumb ov093
+ *   BTL_POKEPARAM_GetFoughtCount 0x021D6E04 thumb ov093
+ *   BTL_POKEPARAM_GetFoughtPokeId 0x021D6E0C thumb ov093
  *   MYSTATUS_GetGender 0x02008564 thumb arm9
  *   GPOWER_ApplyExpRate 0x02011168 thumb arm9
  *   _ffltu         0x0209BE04  arm
@@ -414,14 +414,14 @@
  *   BTL_ID_IsBallWithCatchBonus 0x0689C9A0 thumb ov095
  *   _fflt 0x0209BDBC arm
  *   _s32_div_f 0x0209C0A4 arm
- *   BTLV_CORE_MakeSlotKind2Index  0x021E8940  thumb  ov093
+ *   BTL_SICKCONT_MakeKind2Index  0x021E8940  thumb  ov093
  *   BTL_POKEPARAM_AddCritStage  0x021D5F38  thumb  ov093
  *   BTL_POKEPARAM_CountRealMoves  0x021D5450  thumb  ov093
  *   BTL_POKEPARAM_GetRealMovePPLost  0x021D5568  thumb  ov093
  *   BTL_POKEPARAM_GetRealMoveId  0x021D54D0  thumb  ov093
  *   BTL_ID_GetItemCuredSick 0x0689C9E4 thumb ov095
  *   BTL_ID_IsHeldItemUseBlocked 0x0689C8FC thumb ov095
- *   BTLV_CORE_CheckPartySlotPair  0x021E869C  thumb  ov093
+ *   HAND_COMMON_IsHeldItemBoundToOwnSpecies  0x021E869C  thumb  ov093
  *   BTL_DEADREC_GetLastPokeId 0x0689D1D4 thumb ov095
  *   gHandExRecordSizeTable     0x021EFE9C  data  a4
  *   gBtlEmptyString 0x021F3A84 data
@@ -458,7 +458,7 @@
  *   BTL_CLIENT_IsCounterReplayDone 0x021D3F98 thumb ov093
  *   BTLV_CORE_ClearWaitWindow 0x021EAE24 thumb ov093
  *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
- *   BTLV_EFFECT_SetFlag26 0x021F88BC thumb ov094
+ *   BTLV_EFFECT_SetSeSuppressed 0x021F88BC thumb ov094
  *   BTLV_EFFECT_GetWorkPtr 0x021F8678 thumb ov094
  *   BTLV_CORE_GetWaitState 0x021EAE34 thumb ov093
  *   BTLV_CORE_SetCounterDisplay 0x021EAE74 thumb ov093
@@ -544,7 +544,7 @@
  *   BTL_POKEPARAM_HasMove 0x021D5750 thumb ov093
  *   BTL_FIELD_IsSlotInUse 0x021EFCE4 thumb ov093
  *   BTL_FIELD_IsMoveSealedBySlot 0x021EFC1C thumb ov093
- *   BTLV_CORE_GetSlotLow 0x021E8AFC thumb ov093
+ *   BTL_SICKCONT_GetLow 0x021E8AFC thumb ov093
  *   BTL_POKEPARAM_GetSickTurn 0x021D631C thumb ov093
  *   WAZA_TOOL_GetType 0x0201C1C8 thumb
  *   BTL_CALC_GetTypeAffinityVsPair 0x021D799C thumb ov093
@@ -619,13 +619,13 @@
  *   BTLV_EFFECT_GaugeIsSlotOccupied 0x021F8204 thumb ov094
  *   BTLV_EFFECT_GaugeStartExpGain 0x021F8134 thumb ov094
  *   BTLV_EFFECT_GaugeIsAnimating 0x021F8180 thumb ov094
- *   BTL_EVENT_ReleaseClientHandle 0x021D6EA0 thumb ov093
+ *   BTL_POKEPARAM_RecalcMonParam 0x021D6EA0 thumb ov093
  *   BTL_POKEPARAM_ReloadFromParam 0x021D6BFC thumb ov093
  *   BTLV_EFFECT_GaugeRefreshForLevelUp 0x021F8150 thumb ov094
  *   GFL_USE_IsAnySeBusy 0x02006238 thumb
  *   BTLV_CORE_StartViewEffect 0x021EA3B8 thumb ov093
  *   BTLV_CORE_WaitViewEffect 0x021EA3D4 thumb ov093
- *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_SetBgmPaused 0x02005DE4 thumb
  *   GFL_USE_PushBgm 0x02005E64 thumb
  *   GFL_USE_IsBgmPlaying 0x02005F38 thumb
  *   GFL_USE_PopBgm 0x02005E9C thumb

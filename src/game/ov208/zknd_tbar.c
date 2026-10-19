@@ -19,7 +19,7 @@
  *   ARC_UTIL_RegisterObjCharFromHandle  0x02049740  arm
  *   BG_SYS_FillTileMap  0x020413B0  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   ZKND_TBAR_CreateButton        0x021BD634  thumb
  *   data_021C8DD8        0x021C8DD8  data
@@ -38,11 +38,11 @@
  *   CLACT_RegisterCellAnim        0x0204AF28  arm
  *   ARC_UTIL_LoadHandleMember  0x0204A380  arm
  *   NNS_G2dGetUnpackedScreenData  0x02062B30  arm
- *   BG_SYS_GetField16  0x0204169C  arm
+ *   BG_SYS_GetColorMode  0x0204169C  arm
  *   BG_SYS_GetBuf  0x0204162C  arm
  *   BG_SYS_DrawTileEx  0x020410D0  arm
  *   BG_SYS_PushTile  0x020409B4  arm
- *   BG_SYS_Get  0x020416D4  arm
+ *   BG_SYS_GetPriority  0x020416D4  arm
  *   CLACT_CreateActor  0x0204B294  arm
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   data_021C8314  0x021C8314  data
@@ -70,7 +70,7 @@ extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
 extern void ARC_TOOL_DeleteHandle(void *h);
 
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 
 struct Ov208Scrn {
     u8  pad0[0xc];
@@ -136,7 +136,7 @@ extern void *ARC_UTIL_LoadHandleMember(void *narc, u32 fileID, u32 decompress, u
 
 extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
 
-extern u8 BG_SYS_GetField16(int channel);
+extern u8 BG_SYS_GetColorMode(int channel);
 
 extern u32 BG_SYS_GetBuf(int channel);
 
@@ -144,7 +144,7 @@ extern void BG_SYS_DrawTileEx(u32 index, u32 dx, u32 dy, u32 cw, u8 ch, u32 src,
 
 extern void BG_SYS_PushTile(u8 channel);
 
-extern u8   BG_SYS_Get(u32 layer);
+extern u8   BG_SYS_GetPriority(u32 layer);
 
 extern struct Obj *CLACT_CreateActor(u32 owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
 
@@ -461,7 +461,7 @@ void ZKND_TBAR_ReleaseButtonResources(char *p)
     CLACT_ReleaseCharacter(((struct Ov208Bg *)p)->character);
     CLACT_ReleasePalette(((struct Ov208Bg *)p)->palette);
     w = ((struct Ov208Bg *)p)->charRange;
-    BG_SYS_DeleteHalf(((struct Ov208Bg *)p)->channel, (unsigned short)w, (unsigned short)(w >> 16));
+    BG_SYS_FreeTileRun(((struct Ov208Bg *)p)->channel, (unsigned short)w, (unsigned short)(w >> 16));
     MI_CpuFill8((void *)((int)p), 0, 0x14);
 }
 
@@ -480,7 +480,7 @@ void ZKND_TBAR_LoadCellArchive(void *narc, u32 fileId, u32 channel, u32 add, u8 
 
     file = (u32)ARC_UTIL_LoadHandleMember(narc, fileId, decompress, (u16)((heap & 0x7fff) | 0x8000));
     NNS_G2dGetUnpackedScreenData((void *)file, (void **)(&scr));
-    if (add != 0 && BG_SYS_GetField16((u8)channel) == 0) {
+    if (add != 0 && BG_SYS_GetColorMode((u8)channel) == 0) {
         d = scr->tiles;
         for (i = 0; i < srcW * srcH; i++)
             d[i] += (u16)add;
@@ -507,7 +507,7 @@ void ZKND_TBAR_CreateButton(struct Ov208Rec *p, u32 owner, const int *res, struc
     p->enabled = 1;
     p->forcePress = 0;
     MI_CpuFill8(&pos, 0, 8);
-    pos.layer = BG_SYS_Get((u8)res[3]);
+    pos.layer = BG_SYS_GetPriority((u8)res[3]);
     pos.x = desc->x;
     pos.y = desc->y;
     if (desc->key >= 7) {

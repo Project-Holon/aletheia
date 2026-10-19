@@ -20,7 +20,7 @@
  * symbols:
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   ARC_UTIL_LoadMemberWithSize 0x0204A298 arm
- *   GF_STANDARD_ShuffleEx 0x0203F37C arm
+ *   GF_STANDARD_XorCryptEx 0x0203F37C arm
  *   d_021F57B8 0x021F57B8 data a1
  *   MI_CpuCopy8 0x02082D44 arm
  *   GFL_HEAP_Free 0x020307B0 arm
@@ -40,7 +40,7 @@ typedef signed char    s8;
 
 extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, unsigned short);
 extern int ARC_UTIL_LoadMemberWithSize(int, int, int, int, unsigned *);
-extern void GF_STANDARD_ShuffleEx(void *p, unsigned int size, unsigned int seed);
+extern void GF_STANDARD_XorCryptEx(void *p, unsigned int size, unsigned int seed);
 extern u32 GFL_HEAP_Free(void *p);
 extern void MI_CpuCopy8(const void *,void *,unsigned);
 extern u16 STRBUF_GetEosChar(void);
@@ -68,7 +68,7 @@ Resources *PROF_WORD_Create(unsigned short heap)
     sizes = p->size;
     for (; i < 7; i++) {
         p->data[i] = ARC_UTIL_LoadMemberWithSize(0xDD, i, 0, heap, &sizes[i]);
-        GF_STANDARD_ShuffleEx((void *)p->data[i], p->size[i], 0x72012891);
+        GF_STANDARD_XorCryptEx((void *)p->data[i], p->size[i], 0x72012891);
     }
     return p;
 }
@@ -107,7 +107,7 @@ int PROF_WORD_FindMatch(const u32 *cache,const void *input,u16 heap)
     for(i=0;i<7;i++) {
         if(cache==0) {
             data=ARC_UTIL_LoadMemberWithSize(0xdd,i,0,heap,&size);
-            GF_STANDARD_ShuffleEx((void *)data,size,0x72012891);
+            GF_STANDARD_XorCryptEx((void *)data,size,0x72012891);
         } else {data=cache[i];size=cache[i+7];}
         { u32 currentHeap=heap; result=PROF_WORD_CompareChunks(buf,i,currentHeap,(const u16 *)data,size); }
         if(cache==0) GFL_HEAP_Free((void *)data);

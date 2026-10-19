@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_NETWORK_SetupMiscSave
+ * function: EVENT_GAMECLEAR_SetGatePoints
  * address:  0x0215F9EC
  * packet:   pkt_0215F9EC
  * region:   ov010
@@ -22,7 +22,7 @@ typedef unsigned int u32;
 extern void *GAME_DATA_GetMiscSave(int *p);
 extern int BEACON_SetGatePoints();
 
-int SCRCMD_NETWORK_SetupMiscSave(int a0)
+int EVENT_GAMECLEAR_SetGatePoints(int a0)
 {
     int a1;
     void *p;

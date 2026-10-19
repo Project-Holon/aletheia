@@ -23,7 +23,7 @@
  *   SAVEDATA_PanicFail 0x02034714 arm
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   GFL_HEAP_Free  0x020307B0  arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   WORDSET_Create 0x0201EC74 thumb
@@ -68,7 +68,7 @@ extern void MI_CpuFill8(void *, int, int);
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
@@ -179,7 +179,7 @@ void *BR_RES_Create(unsigned palSet,unsigned useCustomSet,unsigned heapId)
     return res;
 }
 
-void BR_RES_Delete(struct BrRes *res) {BR_RES_ReleaseUiPalette(res,0);BR_RES_ReleaseUiPalette(res,1);WORDSET_DeleteStrbufED04(res->wordSet);MSGDATA_Delete((struct MsgDataRec *)res->msgData);GF_FONT_Delete(res->font);GFL_HEAP_Free(res);}
+void BR_RES_Delete(struct BrRes *res) {BR_RES_ReleaseUiPalette(res,0);BR_RES_ReleaseUiPalette(res,1);WORDSET_Delete(res->wordSet);MSGDATA_Delete((struct MsgDataRec *)res->msgData);GF_FONT_Delete(res->font);GFL_HEAP_Free(res);}
 
 void BR_RES_LoadBgGraphics(void *unusedCtx,unsigned kind,unsigned short heapId)
 {

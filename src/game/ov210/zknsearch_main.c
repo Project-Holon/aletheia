@@ -17,7 +17,7 @@
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_ClearSlot 0x020414EC arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   g_0784 0x021C0784 data
@@ -59,7 +59,7 @@
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_Delete  0x02045808  arm
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   GF_FONT_Delete  0x0201D83C  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  *   BLINK_PALANM_Create 0x0202E940 thumb
@@ -75,8 +75,8 @@
  *   GFL_HEAP_Free 0x020307B0 arm
  *   d_021C0E80 0x021C0E80 data a4
  *   BG_SYS_DrawTile 0x02041090 arm
- *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   GAME_DATA_ContainsRecentId 0x02012BF8 thumb
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  *   BGWINFRM_PutFrame 0x0202CB4C thumb
  *   BGWINFRM_UpdateMoves 0x0202CD94 thumb
  *   BGWINFRM_StartMove 0x0202CD64 thumb
@@ -118,7 +118,7 @@
  *   ZKNSEARCH_RESULT_InitFrameList 0x021C04CC thumb ov210
  *   FRAME_LIST_SetCursor  0x021B93D4  thumb  ov067
  *   FRAME_LIST_GetScrollPos 0x021B93B8 thumb ov067
- *   GAME_DATA_SetSaveFlag 0x02012BE0 thumb
+ *   GAME_DATA_SetRecentId 0x02012BE0 thumb
  *   BMP_WIN_Init 0x02045088 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   d_021C0900 0x021C0900 data a1
@@ -191,7 +191,7 @@
  *   BMP_WIN_MakeScreen  0x02045374  arm  arm9
  *   BMP_WIN_GetBgLayer  0x02045730  arm  arm9
  *   CURSOR_MOVE_GetEntry  0x0202616C  thumb  arm9
- *   BG_SYS_SetVisibleLayer  0x0204047C  arm  arm9
+ *   BG_SYS_SetPriority  0x0204047C  arm  arm9
  *   BLINK_PALANM_Delete  0x0202EA20  thumb  arm9
  */
 #include "zknsearch_types.h"
@@ -283,12 +283,12 @@ extern void BG_SYS_Create(u16);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_ClearSlot(u32);
-extern void BG_SYS_SetFlagField06(u32);
+extern void BG_SYS_MarkTileDirty(u32);
 extern void BG_SYS_SetMainPlaneVisible(u32, u32);
 extern void BG_SYS_SetSubPlaneVisible(u32, u32);
 extern void BG_SYS_FreeLayerBuf(u32 a);
 extern void BG_SYS_Delete(void);
-extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+extern void BG_SYS_SetPriority(int idx, unsigned short val);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
@@ -317,7 +317,7 @@ extern u32 PRINTSYS_QUE_Create(void *);
 extern struct U16Vec *STRBUF_Create(u32, u32);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern struct CodeIn *BLINK_PALANM_Create(u16 firstColor, u16 colorCount, u32 mode, u16 heap);
@@ -333,8 +333,8 @@ extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *, u32, u32, void **, u16);
 extern void MIi_CpuCopy16(const void *, void *, u32);
 extern u32 GFL_HEAP_Free(void *p);
 extern void BG_SYS_DrawTile(u32, u32, u32, u32, u8, u8);
-extern int GAME_DATA_CheckSaveFlag(int, int);
-extern void BG_SYS_ResetSlot(u32, u32, u32);
+extern int GAME_DATA_ContainsRecentId(int, int);
+extern void BG_SYS_ChangeScroll(u32, u32, u32);
 extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 extern void BGWINFRM_UpdateMoves(struct WinMgr *mgr);
 extern void BGWINFRM_StartMove(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
@@ -372,7 +372,7 @@ extern void ZKNSEARCH_COND_InitFrameList(char *ctx);
 extern void ZKNSEARCH_RESULT_InitFrameList(char *ctx);
 extern void FRAME_LIST_SetCursor(struct FrameList *s, int v);
 extern int FRAME_LIST_GetScrollPos(char *p);
-extern void GAME_DATA_SetSaveFlag(void *, unsigned, unsigned);
+extern void GAME_DATA_SetRecentId(void *, unsigned, unsigned);
 extern void BMP_WIN_Init(unsigned short);
 extern unsigned BMP_WIN_Create(unsigned, unsigned, unsigned, unsigned, u8, u8, u8);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
@@ -637,7 +637,7 @@ void ZKNSEARCH_MAIN_InitBackgrounds(void)
         struct BgTemplate t = g_07F4;
         BG_SYS_InitBgLayer(1, &t, 0);
         BG_SYS_ClearSlot(1);
-        BG_SYS_SetFlagField06(1);
+        BG_SYS_MarkTileDirty(1);
     }
     {
         struct BgTemplate t = g_0854;
@@ -647,7 +647,7 @@ void ZKNSEARCH_MAIN_InitBackgrounds(void)
         struct BgTemplate t = g_0874;
         BG_SYS_InitBgLayer(3, &t, 0);
         BG_SYS_ClearSlot(3);
-        BG_SYS_SetFlagField06(3);
+        BG_SYS_MarkTileDirty(3);
     }
     {
         struct BgTemplate t = g_0834;
@@ -657,7 +657,7 @@ void ZKNSEARCH_MAIN_InitBackgrounds(void)
         struct BgTemplate t = g_07D4;
         BG_SYS_InitBgLayer(5, &t, 0);
         BG_SYS_ClearSlot(5);
-        BG_SYS_SetFlagField06(5);
+        BG_SYS_MarkTileDirty(5);
     }
     {
         struct BgTemplate t = g_07B4;
@@ -667,7 +667,7 @@ void ZKNSEARCH_MAIN_InitBackgrounds(void)
         struct BgTemplate t = g_0794;
         BG_SYS_InitBgLayer(7, &t, 0);
         BG_SYS_ClearSlot(7);
-        BG_SYS_SetFlagField06(7);
+        BG_SYS_MarkTileDirty(7);
     }
     BG_SYS_SetMainPlaneVisible(0xF, 1);
     BG_SYS_SetSubPlaneVisible(0xF, 1);
@@ -701,8 +701,8 @@ void ZKNSEARCH_MAIN_DeleteBackgrounds(u32 work)
  */
 void ZKNSEARCH_MAIN_ShowLayerSetA(u32 work)
 {
-    BG_SYS_SetVisibleLayer(0, 1);
-    BG_SYS_SetVisibleLayer(1, 0);
+    BG_SYS_SetPriority(0, 1);
+    BG_SYS_SetPriority(1, 0);
 }
 
 
@@ -712,8 +712,8 @@ void ZKNSEARCH_MAIN_ShowLayerSetA(u32 work)
 
 void ZKNSEARCH_MAIN_ShowLayerSetB(void)
 {
-    BG_SYS_SetVisibleLayer(0, 0);
-    BG_SYS_SetVisibleLayer(1, 1);
+    BG_SYS_SetPriority(0, 0);
+    BG_SYS_SetPriority(1, 1);
 }
 
 
@@ -752,13 +752,13 @@ void ZKNSEARCH_MAIN_LoadCommonGraphics(void)
     ARC_UTIL_UploadPaletteFromHandleWhole(h, APP_ICON_GetStatusAnimFileId(), 0, 0x1C0, 0x20, 0x7B);
     ARC_UTIL_UploadBgPaletteFromHandle(h, APP_ICON_GetStatusDataFileId(), 0, 0, 0, 0, 0x7B);
     BG_SYS_FillTileMap(0, 0, 0x15, 0x20, 3, 0xE);
-    BG_SYS_SetFlagField06(0);
+    BG_SYS_MarkTileDirty(0);
     ARC_TOOL_DeleteHandle(h);
     scr = (u8 *)BG_SYS_GetBuf(0);
     for (i = 0; i < 0x60; i++) {
         ((u16 *)scr)[i + 0x2A0] += (u16)base;
     }
-    BG_SYS_SetFlagField06(0);
+    BG_SYS_MarkTileDirty(0);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x1E0, 0x20, 0x7B);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 4, 0x1E0, 0x20, 0x7B);
 }
@@ -895,7 +895,7 @@ u32 ZKNSEARCH_MAIN_DeleteTextSystem(u8 *work)
 {
     STRBUF_Delete((struct U16Vec *)(((ZknSearchWork *)work)->strBuf));
     PRINTSYS_QUE_Delete((struct PrintSys *)(((ZknSearchWork *)work)->printSys));
-    WORDSET_DeleteStrbufED04((struct WordSet *)(((ZknSearchWork *)work)->wordSet));
+    WORDSET_Delete((struct WordSet *)(((ZknSearchWork *)work)->wordSet));
     GF_FONT_Delete((void *)(((ZknSearchWork *)work)->font));
     return MSGDATA_Delete((struct Rec *)(((ZknSearchWork *)work)->msgBank));
 }
@@ -935,7 +935,7 @@ void ZKNSEARCH_MAIN_InitScrollWindow(char *work)
     BGWINFRM_AddFrame(*(struct WinMgr * *)&((ZknSearchWork *)work)->scrollWin, 0, 0, 32, 3);
     BGWINFRM_SetFrameData(*(struct WinMgr * *)&((ZknSearchWork *)work)->scrollWin, 0, (void *)(base + 0x540));
     BG_SYS_SetTileEntry(0, 0, 0, 21, 32, 3, 0);
-    BG_SYS_SetFlagField06(0);
+    BG_SYS_MarkTileDirty(0);
 }
 
 
@@ -1054,10 +1054,10 @@ u32 ZKNSEARCH_MAIN_DeleteResultGraphics(u8 *work)
 void ZKNSEARCH_MAIN_ShowResultLayout(char *work)
 {
     BG_SYS_DrawTile(1, (u32)((ZknSearchWork *)work)->resultGraphics, 0, 17, 32, 6);
-    BG_SYS_SetFlagField06(1);
+    BG_SYS_MarkTileDirty(1);
     ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 2, 15);
     ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 3, 14);
-    if (GAME_DATA_CheckSaveFlag(**(int * *)&((ZknSearchWork *)work)->save, 16) == 1)
+    if (GAME_DATA_ContainsRecentId(**(int * *)&((ZknSearchWork *)work)->save, 16) == 1)
         ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 4, 22);
     else
         ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 4, 21);
@@ -1074,10 +1074,10 @@ void ZKNSEARCH_MAIN_HideResultLayout(char *work)
 {
     ZKNSEARCH_MAIN_SetActorVisible((int)((u8 *)work), 8, 0);
     BG_SYS_SetTileEntry(1, 0, 0, 17, 32, 6, 0);
-    BG_SYS_SetFlagField06(1);
+    BG_SYS_MarkTileDirty(1);
     ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 2, 1);
     ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 3, 0);
-    if (GAME_DATA_CheckSaveFlag(**(int * *)&((ZknSearchWork *)work)->save, 16) == 1)
+    if (GAME_DATA_ContainsRecentId(**(int * *)&((ZknSearchWork *)work)->save, 16) == 1)
         ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 4, 7);
     else
         ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 4, 6);
@@ -1109,13 +1109,13 @@ void ZKNSEARCH_MAIN_SetFadeStateB(u8 *work)
     BG_SYS_ClearSlot(1);
     BG_SYS_ClearSlot(3);
     BG_SYS_ClearSlot(5);
-    BG_SYS_SetFlagField06(1);
-    BG_SYS_SetFlagField06(3);
-    BG_SYS_SetFlagField06(5);
+    BG_SYS_MarkTileDirty(1);
+    BG_SYS_MarkTileDirty(3);
+    BG_SYS_MarkTileDirty(5);
     BG_SYS_SetTileEntry(0, 0, 0, 0, 32, 21, 0);
-    BG_SYS_SetFlagField06(0);
-    BG_SYS_ResetSlot(1, 3, 0);
-    BG_SYS_ResetSlot(5, 3, 0);
+    BG_SYS_MarkTileDirty(0);
+    BG_SYS_ChangeScroll(1, 3, 0);
+    BG_SYS_ChangeScroll(5, 3, 0);
 }
 
 
@@ -1130,8 +1130,8 @@ void ZKNSEARCH_MAIN_EnterResultLayout(char *work)
 {
     unsigned int i;
     short x, y;
-    BG_SYS_ResetSlot(4, 3, 48);
-    BG_SYS_ResetSlot(7, 3, 48);
+    BG_SYS_ChangeScroll(4, 3, 48);
+    BG_SYS_ChangeScroll(7, 3, 48);
     BGWINFRM_PutFrame(*(struct WinMgr * *)&((ZknSearchWork *)work)->scrollWin, 0, 0, 27);
     BGWINFRM_UpdateMoves(*(struct WinMgr * *)&((ZknSearchWork *)work)->scrollWin);
     for (i = 2; i <= 4; i++) {
@@ -1170,8 +1170,8 @@ int ZKNSEARCH_MAIN_UpdateScrollMove(char *work)
     int magnitude;
     if (((ZknSearchWork *)work)->scrollRemaining == 0) return 0;
     BGWINFRM_UpdateMoves(*(struct WinMgr * *)&((ZknSearchWork *)work)->scrollWin);
-    BG_SYS_ResetSlot(4, 4, ((ZknSearchWork *)work)->scrollDelta);
-    BG_SYS_ResetSlot(7, 4, ((ZknSearchWork *)work)->scrollDelta);
+    BG_SYS_ChangeScroll(4, 4, ((ZknSearchWork *)work)->scrollDelta);
+    BG_SYS_ChangeScroll(7, 4, ((ZknSearchWork *)work)->scrollDelta);
     for (i = 2; i <= 4; i++) {
         ZKNSEARCH_MAIN_GetActorSurfacePos(work, i, &x, &y, 0);
         y += ((ZknSearchWork *)work)->scrollDelta;
@@ -2543,11 +2543,11 @@ u32 ZKNSEARCH_MAIN_EnterListState(u8 *work, u32 returnState)
  */
 void ZKNSEARCH_MAIN_ToggleSaveFlag(u8 *work)
 {
-    if (GAME_DATA_CheckSaveFlag((int)(**(void ** *)&((ZknSearchWork *)work)->save), 16) == 1) {
-        GAME_DATA_SetSaveFlag(**(void ** *)&((ZknSearchWork *)work)->save, 16, 0);
+    if (GAME_DATA_ContainsRecentId((int)(**(void ** *)&((ZknSearchWork *)work)->save), 16) == 1) {
+        GAME_DATA_SetRecentId(**(void ** *)&((ZknSearchWork *)work)->save, 16, 0);
         ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 4, 6);
     } else {
-        GAME_DATA_SetSaveFlag(**(void ** *)&((ZknSearchWork *)work)->save, 16, 1);
+        GAME_DATA_SetRecentId(**(void ** *)&((ZknSearchWork *)work)->save, 16, 1);
         ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 4, 7);
     }
 }
@@ -2634,7 +2634,7 @@ void ZKNSEARCH_MAIN_PrintWindowText(u8 *work, int slot, u32 message, int x, int 
 void ZKNSEARCH_MAIN_MakeWindowScreen(u8 *zknSearchBmpWin)
 {
     BMP_WIN_MakeScreen((struct Cfg *)(((ZknSearchBmpWin *)zknSearchBmpWin)->bmp));
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)(((ZknSearchBmpWin *)zknSearchBmpWin)->bmp)));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct Descriptor *)(((ZknSearchBmpWin *)zknSearchBmpWin)->bmp)));
 }
 
 
@@ -3248,7 +3248,7 @@ void ZKNSEARCH_MAIN_CreateActors(ZknSearchWork *work)
         work->actors[i] = ZUKAN_CreateActor((u32)work->actorBank, (const u8 *)(&t0), 0x7B);
     }
 
-    if (GAME_DATA_CheckSaveFlag((int)(work->save->gameData), 0x10) == 1)
+    if (GAME_DATA_ContainsRecentId((int)(work->save->gameData), 0x10) == 1)
         ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 4, 7);
     ZKNSEARCH_MAIN_SetActorVisible((int)work, 5, 0);
     ZKNSEARCH_MAIN_SetActorVisible((int)work, 6, 0);
@@ -3825,7 +3825,7 @@ void ZKNSEARCH_MAIN_SetCursorTile(int work, unsigned int index, unsigned int fil
         return;
     t = (u8 *)CURSOR_MOVE_GetEntry((void **)q[0xac], index);
     BG_SYS_FillTileMap(0, t[0], t[1], t[2], t[3], (u8)fill);
-    BG_SYS_SetFlagField06(0);
+    BG_SYS_MarkTileDirty(0);
 }
 
 

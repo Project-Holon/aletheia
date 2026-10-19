@@ -75,7 +75,7 @@
    "status": "EXACT"
   },
   {
-   "name": "FILE_UTIL_Create_0F14",
+   "name": "FILE_UTIL_CreateItemArcHandle",
    "address": "0x02020F14",
    "kind": "game",
    "region": "arm9",

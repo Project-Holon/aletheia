@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb  arm9
+ *   GFL_USE_SetBgmPaused  0x02005DE4  thumb  arm9
  *   GFL_USE_IsBgmFading  0x02005E50  thumb  arm9
  *   GFL_USE_PushBgm  0x02005E64  thumb  arm9
  *   (none)
@@ -21,14 +21,14 @@
 
 
 extern int GFL_USE_IsBgmFading(void);
-extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_SetBgmPaused(void *p);
 extern int GFL_USE_PushBgm(void);
 
 void ZUKAN_DETAIL_VOICE_UpdateBgmFade(int unused, char *p, int a2)
 {
     if (((struct Obj00146 *)p)->fB8 == 1) {
         if (GFL_USE_IsBgmFading() == 0) {
-            GFL_USE_SetBgmPlayerParam((void *)1);
+            GFL_USE_SetBgmPaused((void *)1);
             GFL_USE_PushBgm();
             ((struct Obj00146 *)p)->fB8 = 2;
         }

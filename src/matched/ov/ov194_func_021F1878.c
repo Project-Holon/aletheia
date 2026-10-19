@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   BG_SYS_SetTileUnit 0x02040DA8 arm
+ *   BG_SYS_FreeTiles 0x02040DA8 arm
  */
 
-extern int BG_SYS_SetTileUnit(int, int, int);
+extern int BG_SYS_FreeTiles(int, int, int);
 
 int NAMEIN_GRAPHIC_UpdateBg(void *a0)
 {
-    return BG_SYS_SetTileUnit(4, 1, 0);
+    return BG_SYS_FreeTiles(4, 1, 0);
 }

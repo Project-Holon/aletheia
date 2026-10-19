@@ -59,7 +59,7 @@
  *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   BMP_OAM_DeleteSys 0x02025588 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -76,7 +76,7 @@
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BG_SYS_Init 0x02040C14 arm
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
- *   BG_SYS_SetTileUnit 0x02040DA8 arm
+ *   BG_SYS_FreeTiles 0x02040DA8 arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
@@ -237,7 +237,7 @@ extern void NAMEIN_GRAPHIC_ClearCallback(void *p);
 extern void NAMEIN_GRAPHIC_DeleteIconActor(u8 *);
 extern void BMP_OAM_DeleteSys(void *);
 extern void NAMEIN_GRAPHIC_DeleteDisplay(unsigned char *p);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
@@ -257,7 +257,7 @@ extern void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind,
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void BG_SYS_Init(unsigned,unsigned,unsigned,unsigned);
 extern void BMP_MENUWORK_LoadCharAndPltt(unsigned,unsigned,unsigned,unsigned,u16);
-extern int BG_SYS_SetTileUnit(int, int, int);
+extern int BG_SYS_FreeTiles(int, int, int);
 extern int CLACT_RegisterPalette(void *,unsigned,unsigned,unsigned,u16);
 extern int CLACT_RegisterCellAnim(void *,unsigned,unsigned,unsigned);
 extern int CLACT_RegisterCharacter(void *,unsigned,unsigned,unsigned,u16);
@@ -375,7 +375,7 @@ int NAMEIN_GRAPHIC_Delete(void *a,u32 b,u32 c,u8 *d)
     NAMEIN_GRAPHIC_UpdateBg(d+100);
     BMP_OAM_DeleteSys(((NameinGraphicWork *)d)->oamSys);
     NAMEIN_GRAPHIC_DeleteDisplay(((NameinGraphicWork *)d)->display);
-    WORDSET_DeleteStrbufED04(((NameinGraphicWork *)d)->wordSet);
+    WORDSET_Delete(((NameinGraphicWork *)d)->wordSet);
     MSGDATA_Delete(((NameinGraphicWork *)d)->msgBank);
     PRINTSYS_QUE_Clear(((NameinGraphicWork *)d)->printSys);
     PRINTSYS_QUE_Delete(((NameinGraphicWork *)d)->printSys);
@@ -423,7 +423,7 @@ void NAMEIN_GRAPHIC_LoadBgPalette(int unused,u16 heap)
 
 int NAMEIN_GRAPHIC_UpdateBg(void *unused)
 {
-    return BG_SYS_SetTileUnit(4, 1, 0);
+    return BG_SYS_FreeTiles(4, 1, 0);
 }
 
 

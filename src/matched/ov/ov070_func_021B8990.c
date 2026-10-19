@@ -25,11 +25,11 @@
  *   TCBL_Destroy  0x02031140  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   STRBUF_Delete  0x02045808  arm
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   ITEMMENU_HideSideWindows  0x021BAF10  thumb  ov070
- *   BG_SYS_DeleteHalf  0x0203FB44  arm
+ *   BG_SYS_FreeTileRun  0x0203FB44  arm
  *   BMP_WIN_Delete  0x020452E8  arm
- *   BG_SYS_SetTileUnit  0x02040DA8  arm
+ *   BG_SYS_FreeTiles  0x02040DA8  arm
  *   GF_FONT_Delete  0x0201D83C  thumb
  *   APP_KEYCURSOR_Delete  0x02028604  thumb
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
@@ -112,11 +112,11 @@ extern void ITEMMENU_ApplyBgPalettes(char *p);
 extern void TCBL_Destroy(struct S02031140 *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void ITEMMENU_HideSideWindows(char *p);
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-extern void BG_SYS_SetTileUnit(u32 a, u32 b, u32 c);
+extern void BG_SYS_FreeTiles(u32 a, u32 b, u32 c);
 extern u32 GF_FONT_Delete(void *ptr);
 extern int APP_KEYCURSOR_Delete(int a0);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
@@ -148,13 +148,13 @@ int ITEMMENU_Exit(void *proc, int b, Parent *par, Obj *o)
     STRBUF_Delete((struct U16Vec *)o->f524);
     STRBUF_Delete((struct U16Vec *)o->f528);
     STRBUF_Delete((struct U16Vec *)o->f52C);
-    WORDSET_DeleteStrbufED04((struct WordSet *)o->f520);
+    WORDSET_Delete((struct WordSet *)o->f520);
     ITEMMENU_HideSideWindows((char *)o);
     if (o->f4FC != 0) {
-        BG_SYS_DeleteHalf((int)3, (unsigned short)o->f838, (unsigned short)(o->f838 >> 16));
+        BG_SYS_FreeTileRun((int)3, (unsigned short)o->f838, (unsigned short)(o->f838 >> 16));
         BMP_WIN_Delete((struct Descriptor *)o->f4FC);
     }
-    BG_SYS_SetTileUnit(3, 1, 0);
+    BG_SYS_FreeTiles(3, 1, 0);
     GF_FONT_Delete((void *)o->f530);
     APP_KEYCURSOR_Delete(o->f518);
     PRINTSYS_QUE_Clear((struct PrintSys *)o->f50C);

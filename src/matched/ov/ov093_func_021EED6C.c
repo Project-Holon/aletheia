@@ -12,7 +12,7 @@
  * symbols:
  *   gBtlMsgState  0x021F6398  data  a4
  *   BTL_MAIN_GetTrainerType  0x021BA020  thumb  ov093
- *   WORDSET_Set  0x0201F0F8  thumb
+ *   WORDSET_SetSlotFromMsgBF  0x0201F0F8  thumb
  */
 
 typedef unsigned char u8;
@@ -30,9 +30,9 @@ typedef struct {
 extern D gBtlMsgState;
 extern unsigned short BTL_MAIN_GetTrainerType(char *p, int i);
 struct WordSet;
-extern void WORDSET_Set(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotFromMsgBF(struct WordSet *p, u32 i, u32 v);
 
 void BTL_MSG_SetClientValue(void *a, u8 b, u8 c)
 {
-    WORDSET_Set((struct WordSet *)a, b, (u8)BTL_MAIN_GetTrainerType((void *)gBtlMsgState.f0, c));
+    WORDSET_SetSlotFromMsgBF((struct WordSet *)a, b, (u8)BTL_MAIN_GetTrainerType((void *)gBtlMsgState.f0, c));
 }

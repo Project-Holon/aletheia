@@ -13,13 +13,13 @@
  * arity: 020185F0 is a bare bx lr declared void(void) in its unit;
  *   this caller supplies a pointer in r0 and consumes that untouched r0.
  * symbols:
- *   POKE_TOOL_Dummy 0x020185F0 thumb
+ *   POKE_TOOL_CastToBoxParam 0x020185F0 thumb
  *   POKE_TOOL_DecodeBoxParam 0x02017DBC thumb
  *   POKE_TOOL_EncodeBoxParam 0x02017DE4 thumb
  *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   BMP_Clear 0x02043B5C arm
  *   func_02045EC0 0x02045EC0 arm
- *   WORDSET_SetSlotMonSpeciesAlt 0x0201EF14 thumb
+ *   WORDSET_SetSlotMonNicknameAlt 0x0201EF14 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   func_0201D304 0x0201D304 thumb
@@ -32,12 +32,12 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned char u8;
 struct Sav; struct WordSet; struct CharBuf; struct MsgBank; struct StrObj;
-extern struct Sav *POKE_TOOL_Dummy(struct Sav *);
+extern struct Sav *POKE_TOOL_CastToBoxParam(struct Sav *);
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *),POKE_TOOL_EncodeBoxParam(struct Sav *,u32);
 extern u32 POKE_TOOL_GetBoxValue(void *,u32,u32);
 extern void BMP_Clear(struct CharBuf *,u8);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void WORDSET_SetSlotMonSpeciesAlt(struct WordSet *,u32,void *);
+extern void WORDSET_SetSlotMonNicknameAlt(struct WordSet *,u32,void *);
 extern void WORDSET_CopyTaggedText(struct WordSet *,void *,void *);
 struct U16Vec;
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -48,11 +48,11 @@ void HALL_OF_FAME_PrintMonInfo(char *p) {
     struct Sav *mon;
     u32 lock,width;
     struct StrObj *str;
-    mon=POKE_TOOL_Dummy(*(struct Sav **)((u32)p+((struct Obj01273 *)p)->f915D*4+0x9140));
+    mon=POKE_TOOL_CastToBoxParam(*(struct Sav **)((u32)p+((struct Obj01273 *)p)->f915D*4+0x9140));
     lock=POKE_TOOL_DecodeBoxParam(mon);
     BMP_Clear(*(struct CharBuf * *)&((struct Obj01273 *)p)->f912C,0);
     str=func_02045EC0(*(struct MsgBank * *)&((struct Obj01273 *)p)->f9038,1);
-    WORDSET_SetSlotMonSpeciesAlt(*(struct WordSet * *)&((struct Obj01273 *)p)->f903C,0,mon);
+    WORDSET_SetSlotMonNicknameAlt(*(struct WordSet * *)&((struct Obj01273 *)p)->f903C,0,mon);
     WORDSET_CopyTaggedText(*(struct WordSet * *)&((struct Obj01273 *)p)->f903C,((struct Obj01273 *)p)->f9040,str);
     HALL_OF_FAME_PrintToPlate((u8 *)p,1,((struct Obj01273 *)p)->f9030,*(struct StrObj * *)&((struct Obj01273 *)p)->f9040,8,0);
     STRBUF_Delete((struct U16Vec *)str);

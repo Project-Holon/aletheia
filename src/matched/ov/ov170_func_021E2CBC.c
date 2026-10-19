@@ -12,14 +12,14 @@
  * symbols:
  *   BOX2_SEQ_ReturnAfterClear 0x021E8F50 thumb
  *   KEY_GetTrg 0x020362DC arm
- *   BOX2_MAIN_PlayCursorSound 0x021DD238 thumb
+ *   BOX2_MAIN_ActivateKeyCursor 0x021DD238 thumb
  *   BOX2_UI_GetPartySlotHit 0x021EF170 thumb
  *   CURSOR_MOVE_SetState 0x020260F4 thumb
  *   BOX2_UI_SetMiniIconVisible 0x021EE008 thumb
  *   BOX2_MAIN_GetPartyValueAt 0x021DD25C thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
- *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb
+ *   BOX2_MAIN_RefreshCurrentBoxMonInfo 0x021DEFEC thumb
  *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
  *   BOX2_SEQ_SelectSlotD 0x021EA064 thumb
  *   BOX2_UI_SelectSlot 0x021EE754 thumb
@@ -74,14 +74,14 @@ struct Sound;
 struct Struct_02025CD0;
 extern int BOX2_SEQ_ReturnAfterClear(char *p, int v);
 extern u32 KEY_GetTrg(void);
-extern void BOX2_MAIN_PlayCursorSound(char *p);
+extern void BOX2_MAIN_ActivateKeyCursor(char *p);
 extern unsigned BOX2_UI_GetPartySlotHit(void);
 extern void CURSOR_MOVE_SetState(struct Struct_02025CD0 *obj, u32 state);
 extern void BOX2_UI_SetMiniIconVisible(char *p, int a, int b);
 extern unsigned BOX2_MAIN_GetPartyValueAt(void ***p, unsigned short a, int box, unsigned id, unsigned v);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
-extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
+extern void BOX2_MAIN_RefreshCurrentBoxMonInfo(char *p, int b);
 extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 extern int BOX2_SEQ_SelectSlotD(unsigned char *p, int i, int v);
 extern void BOX2_UI_SelectSlot(unsigned char *p, unsigned r);
@@ -121,7 +121,7 @@ int BOX2_SEQ_StateSummaryInput(Obj *p)
         return BOX2_SEQ_ReturnAfterClear((char *)p, 0x16);
     }
     if ((KEY_GetTrg() & 4) && p->lo != 0 && p->b18 == 0) {
-        BOX2_MAIN_PlayCursorSound((char *)p);
+        BOX2_MAIN_ActivateKeyCursor((char *)p);
         p->lo = 0;
         return BOX2_SEQ_ReturnAfterClear((char *)p, 0x16);
     }
@@ -133,7 +133,7 @@ int BOX2_SEQ_StateSummaryInput(Obj *p)
             if (BOX2_MAIN_GetPartyValueAt((void ***)p, r, p->b14, 0xA9, 0)) {
                 GFL_USE_PlaySeDefaultVolume(0x666);
                 TOUCHPANEL_GetPointTrg((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
-                BOX2_MAIN_ChangeBoxFormPreserve((char *)p, r);
+                BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p, r);
                 CURSOR_MOVE_SetCurrent(OBJ(p), r);
                 return BOX2_SEQ_SelectSlotD((unsigned char *)p, r, 0x15);
             }
@@ -248,7 +248,7 @@ int BOX2_SEQ_StateSummaryInput(Obj *p)
         v = CURSOR_MOVE_GetCurrent(OBJ(p));
         if (p->b18 == 0) {
             if (v < 0x1E)
-                BOX2_MAIN_ChangeBoxFormPreserve((char *)p, v);
+                BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p, v);
             else
                 BOX2_MAIN_ResetBoxView((char *)p);
         }

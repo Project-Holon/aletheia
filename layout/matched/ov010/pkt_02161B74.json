@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "EVENT_FIELD_PROCLINK_IsAnimFlagSet",
+   "name": "EVENT_FIELD_PROCLINK_IsHopAnimDone",
    "address": "0x02161B74",
    "kind": "game",
    "region": "ov010",

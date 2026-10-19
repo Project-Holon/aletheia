@@ -15,7 +15,7 @@
  *   BOX2_MAIN_HasOtherTradable 0x021DD694 thumb
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
- *   FILE_UTIL_Check136C 0x0202136C thumb
+ *   FILE_UTIL_IsMailItem 0x0202136C thumb
  *   BOX2_MAIN_GetPartyValueAt 0x021DD25C thumb
  */
 
@@ -25,7 +25,7 @@ extern int func_020078C4(void *save, u32 box);
 extern int BOX2_MAIN_HasOtherTradable(void ***p, unsigned skip);
 extern void *POKEPARTY_GetMember(void *party, unsigned i);
 extern unsigned POKE_TOOL_GetPartyValue(void *p, unsigned id, unsigned v);
-extern unsigned FILE_UTIL_Check136C(unsigned short v);
+extern unsigned FILE_UTIL_IsMailItem(unsigned short v);
 extern unsigned BOX2_MAIN_GetPartyValueAt(void ***p, unsigned short a, int box, unsigned id, unsigned v);
 
 #define SYS(p) (*(unsigned **)(p))
@@ -45,7 +45,7 @@ int BOX2_MAIN_HandleMonPickup(unsigned char *p, unsigned a, unsigned b)
                 RESULT(p) = 3;
                 return 0;
             }
-            if (FILE_UTIL_Check136C(POKE_TOOL_GetPartyValue(POKEPARTY_GetMember((void *)SYS(p)[2], a - 0x1E), 6, 0)) == 1) {
+            if (FILE_UTIL_IsMailItem(POKE_TOOL_GetPartyValue(POKEPARTY_GetMember((void *)SYS(p)[2], a - 0x1E), 6, 0)) == 1) {
                 RESULT(p) = 2;
                 return 0;
             }
@@ -80,12 +80,12 @@ int BOX2_MAIN_HandleMonPickup(unsigned char *p, unsigned a, unsigned b)
                 return 0;
             }
         }
-        if (b < 0x1E && FILE_UTIL_Check136C(POKE_TOOL_GetPartyValue(POKEPARTY_GetMember((void *)SYS(p)[2], a - 0x1E), 6, 0)) == 1) {
+        if (b < 0x1E && FILE_UTIL_IsMailItem(POKE_TOOL_GetPartyValue(POKEPARTY_GetMember((void *)SYS(p)[2], a - 0x1E), 6, 0)) == 1) {
             RESULT(p) = 2;
             return 0;
         }
     } else if (b >= 0x1E && m != 0) {
-        if (FILE_UTIL_Check136C(POKE_TOOL_GetPartyValue(POKEPARTY_GetMember((void *)SYS(p)[2], b - 0x1E), 6, 0)) == 1) {
+        if (FILE_UTIL_IsMailItem(POKE_TOOL_GetPartyValue(POKEPARTY_GetMember((void *)SYS(p)[2], b - 0x1E), 6, 0)) == 1) {
             RESULT(p) = 2;
             return 0;
         }

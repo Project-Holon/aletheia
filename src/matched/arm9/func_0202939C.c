@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb
+ *   GFL_USE_SetBgmPaused  0x02005DE4  thumb
  *   GFL_USE_PushBgm  0x02005E64  thumb
  *   FIELD_SOUND_SYSTEM_PauseSlots  0x02028BA0  thumb
  */
@@ -29,7 +29,7 @@ struct T {
 };
 
 extern void FIELD_SOUND_SYSTEM_PauseSlots(u8 *o, u32 v);
-extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_SetBgmPaused(void *p);
 extern int GFL_USE_PushBgm(void);
 
 void FIELD_SOUND_SYSTEM_PushCurrentBgm(struct T *p)
@@ -43,7 +43,7 @@ void FIELD_SOUND_SYSTEM_PushCurrentBgm(struct T *p)
     if (p->f20 == 0) {
         FIELD_SOUND_SYSTEM_PauseSlots((u8 *)p, 1);
     }
-    GFL_USE_SetBgmPlayerParam((void *)1);
+    GFL_USE_SetBgmPaused((void *)1);
     GFL_USE_PushBgm();
     *(u32 *)((char *)p + 0x24 + p->f20 * 4) = p->f08;
     p->f20 = p->f20 + 1;

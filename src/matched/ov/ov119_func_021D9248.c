@@ -21,7 +21,7 @@
  *   func_02008574  0x02008574  thumb
  *   func_02025C1C  0x02025C1C  thumb
  *   func_02025C30  0x02025C30  thumb
- *   COMM_HISTORY_InsertIfNamed  0x0202EB7C  thumb
+ *   COMM_HISTORY_InsertIfLanguageSet  0x0202EB7C  thumb
  */
 #include "../include/Obj22714.h"
 
@@ -44,7 +44,7 @@ extern u8 func_02008564(const struct Sub0200852CObj *obj);
 extern void func_02008574(struct Sub0200852CObj *obj, u8 a, u8 b);
 extern u32 func_02025C1C(u32 a, u32 b, u32 c);
 extern u32 func_02025C30(u32 a, u32 b, u32 c);
-extern u32 COMM_HISTORY_InsertIfNamed(u32 a0, u32 a1);
+extern u32 COMM_HISTORY_InsertIfLanguageSet(u32 a0, u32 a1);
 
 void POKETRADE_PROC_RecvTradeSummary(void *p, int a1, void *a2, char *a3, int a4)
 {
@@ -67,5 +67,5 @@ void POKETRADE_PROC_RecvTradeSummary(void *p, int a1, void *a2, char *a3, int a4
         func_02008574((struct Sub0200852CObj *)buf, x, y);
     else
         func_02008574((struct Sub0200852CObj *)buf, 0, 0);
-    COMM_HISTORY_InsertIfNamed((u32)saved, (u32)buf);
+    COMM_HISTORY_InsertIfLanguageSet((u32)saved, (u32)buf);
 }

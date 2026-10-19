@@ -1,7 +1,7 @@
 /*
  * file:     worldtrade_box.c
  * unit:     yes
- * function: WORLDTRADE_BOX_Init, WORLDTRADE_BOX_Main, WORLDTRADE_BOX_Exit, WORLDTRADE_BOX_SetupBgPlanes, WORLDTRADE_BOX_ExitBgPlanes, WORLDTRADE_BOX_LoadBgGraphics, WORLDTRADE_BOX_CreateActors, WORLDTRADE_BOX_DeleteActors, WORLDTRADE_BOX_CreateWindows, WORLDTRADE_BOX_DeleteWindows, WORLDTRADE_BOX_CreateStrings, WORLDTRADE_BOX_DeleteStrings, WORLDTRADE_BOX_StateWaitWipeIn, WORLDTRADE_BOX_SelectMonForOffer, WORLDTRADE_BOX_SelectMonForRequest, WORLDTRADE_BOX_CheckArrowTouch, WORLDTRADE_BOX_FinishByKind, WORLDTRADE_BOX_StateMainInput, WORLDTRADE_BOX_UpdateKeyCursor, WORLDTRADE_BOX_MoveCursorToSlot, WORLDTRADE_BOX_GetColumnIndex, WORLDTRADE_BOX_StateCreateOfferMenu, WORLDTRADE_BOX_StateOfferMenuInput, WORLDTRADE_BOX_StateCreateRequestMenu, WORLDTRADE_BOX_StateRequestMenuInput, WORLDTRADE_BOX_StateStartWipeOut, WORLDTRADE_BOX_StateOpenCancelConfirm, WORLDTRADE_BOX_StateCancelConfirmInput, WORLDTRADE_BOX_StatePrintDepositPrompt, WORLDTRADE_BOX_StateOpenDepositConfirm, WORLDTRADE_BOX_StateDepositConfirmInput, WORLDTRADE_BOX_TryConfirmDeposit, WORLDTRADE_BOX_StatePrintSelectPrompt, WORLDTRADE_BOX_StateOpenSelectConfirm, WORLDTRADE_BOX_StateSelectConfirmInput, WORLDTRADE_BOX_StateWaitCursorAnim, WORLDTRADE_BOX_StateWaitMessage, WORLDTRADE_BOX_StateWaitMessageOrKey, WORLDTRADE_BOX_PrintMessage, WORLDTRADE_BOX_LoadPokeIconChar, WORLDTRADE_BOX_LoadPokeIcon, WORLDTRADE_BOX_CalcLevel, WORLDTRADE_BOX_TransferIconPalette, WORLDTRADE_BOX_SetupIconActor, WORLDTRADE_BOX_LoadBoxIcons, WORLDTRADE_BOX_ClampSlot, WORLDTRADE_BOX_GetPartyMon, WORLDTRADE_BOX_GetMonCount, WORLDTRADE_BOX_CanRemoveMon, WORLDTRADE_BOX_GetBoxCount, WORLDTRADE_BOX_CheckMonRestrictionA, WORLDTRADE_BOX_CheckMonRestrictionB, WORLDTRADE_BOX_GetMonTradeState, WORLDTRADE_BOX_TagMatchesRequest, WORLDTRADE_BOX_MonMatchesRequest, WORLDTRADE_BOX_BuildDepositFromWork, WORLDTRADE_BOX_ScoreMatchingRecords, WORLDTRADE_BOX_IsSpeciesFlagged, WORLDTRADE_BOX_RestoreCursorSave
+ * function: WORLDTRADE_BOX_Init, WORLDTRADE_BOX_Main, WORLDTRADE_BOX_Exit, WORLDTRADE_BOX_SetupBgPlanes, WORLDTRADE_BOX_ExitBgPlanes, WORLDTRADE_BOX_LoadBgGraphics, WORLDTRADE_BOX_CreateActors, WORLDTRADE_BOX_DeleteActors, WORLDTRADE_BOX_CreateWindows, WORLDTRADE_BOX_DeleteWindows, WORLDTRADE_BOX_CreateStrings, WORLDTRADE_BOX_DeleteStrings, WORLDTRADE_BOX_StateWaitWipeIn, WORLDTRADE_BOX_SelectMonForOffer, WORLDTRADE_BOX_SelectMonForRequest, WORLDTRADE_BOX_CheckArrowTouch, WORLDTRADE_BOX_FinishByKind, WORLDTRADE_BOX_StateMainInput, WORLDTRADE_BOX_UpdateKeyCursor, WORLDTRADE_BOX_MoveCursorToSlot, WORLDTRADE_BOX_GetColumnIndex, WORLDTRADE_BOX_StateCreateOfferMenu, WORLDTRADE_BOX_StateOfferMenuInput, WORLDTRADE_BOX_StateCreateRequestMenu, WORLDTRADE_BOX_StateRequestMenuInput, WORLDTRADE_BOX_StateStartWipeOut, WORLDTRADE_BOX_StateOpenCancelConfirm, WORLDTRADE_BOX_StateCancelConfirmInput, WORLDTRADE_BOX_StatePrintDepositPrompt, WORLDTRADE_BOX_StateOpenDepositConfirm, WORLDTRADE_BOX_StateDepositConfirmInput, WORLDTRADE_BOX_TryConfirmDeposit, WORLDTRADE_BOX_StatePrintSelectPrompt, WORLDTRADE_BOX_StateOpenSelectConfirm, WORLDTRADE_BOX_StateSelectConfirmInput, WORLDTRADE_BOX_StateWaitCursorAnim, WORLDTRADE_BOX_StateWaitMessage, WORLDTRADE_BOX_StateWaitMessageOrKey, WORLDTRADE_BOX_PrintMessage, WORLDTRADE_BOX_LoadPokeIconChar, WORLDTRADE_BOX_LoadPokeIcon, WORLDTRADE_BOX_CalcLevel, WORLDTRADE_BOX_TransferIconPalette, WORLDTRADE_BOX_SetupIconActor, WORLDTRADE_BOX_LoadBoxIcons, WORLDTRADE_BOX_IsPartyBox, WORLDTRADE_BOX_GetPartyMon, WORLDTRADE_BOX_GetMonCount, WORLDTRADE_BOX_CanRemoveMon, WORLDTRADE_BOX_GetBoxCount, WORLDTRADE_BOX_CheckMonRestrictionA, WORLDTRADE_BOX_CheckMonRestrictionB, WORLDTRADE_BOX_GetMonTradeState, WORLDTRADE_BOX_TagMatchesRequest, WORLDTRADE_BOX_MonMatchesRequest, WORLDTRADE_BOX_BuildDepositFromWork, WORLDTRADE_BOX_ScoreMatchingRecords, WORLDTRADE_BOX_IsHoldingMail, WORLDTRADE_BOX_UnlockBoxIfAllFull
  * address:  0x021F5154
  * region:   ov135
  * compiler: dsi/1.1p1
@@ -72,7 +72,7 @@
  *   tbl_02202E24  0x02202E24  data  a1
  *   tbl_02202DA4  0x02202DA4  data  a1
  *   d_02203B68 0x02203B68 data a4
- *   WORLDTRADE_ADAPTER_IsStreamDone  0x02202840  thumb  ov135
+ *   WORLDTRADE_ADAPTER_IsStreamBusy  0x02202840  thumb  ov135
  *   MSGDATA_AllocString   0x02045EC0  arm
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   BMP_WIN_GetBmp   0x02045770  arm
@@ -90,7 +90,7 @@
  *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
  *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
- *   FILE_UTIL_Check136C  0x0202136C  thumb
+ *   FILE_UTIL_IsMailItem  0x0202136C  thumb
  *   BOX_SAVEDATA_GetPokemon  0x02007A18  thumb
  *   BOX_SAVEDATA_GetBoxName  0x0200785C  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
@@ -114,7 +114,7 @@
  *   CLACT_RestartActorAnim  0x0204B9A0  arm  arm9
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  *   KEY_GetTrg  0x020362DC  arm  arm9
- *   WORLDTRADE_ClearBusyFlag  0x021F4EC8  thumb  ov135
+ *   WORLDTRADE_AdvanceScreenId  0x021F4EC8  thumb  ov135
  *   WORLDTRADE_SetStateAndReturn  0x021F4EC0  thumb
  *   WORLDTRADE_SetActorPos  0x021F4FF4  thumb
  *   UI_SetInputMode  0x020355D8  arm
@@ -125,10 +125,10 @@
  *   WORLDTRADE_OpenTaskMenuList 0x021F4D50 thumb ov135
  *   WORLDTRADE_UpdateTaskMenuList 0x021F4E30 thumb ov135
  *   WORLDTRADE_CloseTaskMenuList 0x021F4E64 thumb ov135
- *   WORLDTRADE_BOX_IsSpeciesFlagged 0x021F6DE8 thumb ov135
+ *   WORLDTRADE_BOX_IsHoldingMail 0x021F6DE8 thumb ov135
  *   WORLDTRADE_SetActorSurfacePos 0x021F4EA0 thumb ov135
  *   WORLDTRADE_OpenTaskMenuYesNoDefault  0x021F4BE0  thumb  ov135
- *   WORLDTRADE_BOX_ClampSlot 0x021F6B34 thumb ov135
+ *   WORLDTRADE_BOX_IsPartyBox 0x021F6B34 thumb ov135
  *   WORLDTRADE_BOX_GetMonCount 0x021F6B80 thumb ov135
  *   WORLDTRADE_BOX_GetPartyMon 0x021F6B40 thumb ov135
  *   WORLDTRADE_DEPOSIT_BuildOffer 0x021F8554 thumb ov135
@@ -289,7 +289,7 @@ extern u32 POKEPARTY_GetCount(void *p);
 
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 
-extern u32 WORLDTRADE_ADAPTER_IsStreamDone(PrintStreamCtx *p);
+extern u32 WORLDTRADE_ADAPTER_IsStreamBusy(PrintStreamCtx *p);
 
 extern int TOUCHPANEL_GetTrg(void);
 
@@ -329,7 +329,7 @@ extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 
-extern u32 FILE_UTIL_Check136C(u16 v);
+extern u32 FILE_UTIL_IsMailItem(u16 v);
 
 extern struct Sub020079BCEntry *BOX_SAVEDATA_GetPokemon(void **save, u32 box, u32 slot);
 
@@ -365,7 +365,7 @@ void WORLDTRADE_SetActorSurfacePos(u32 a, u16 b, u16 c);
 
 void WORLDTRADE_SetStateAndReturn(Work *p, u32 a, u32 b);
 
-void WORLDTRADE_ClearBusyFlag(Work *p);
+void WORLDTRADE_AdvanceScreenId(Work *p);
 
 void WORLDTRADE_SetActorPos(u32 a, u32 b, u32 c);
 
@@ -459,7 +459,7 @@ void WORLDTRADE_BOX_SetupIconActor(void *mon, u32 icon, u32 item_spr, u16 *speci
 
 void WORLDTRADE_BOX_LoadBoxIcons(Work *p, int box);
 
-int WORLDTRADE_BOX_ClampSlot(int v);
+int WORLDTRADE_BOX_IsPartyBox(int v);
 
 void *WORLDTRADE_BOX_GetPartyMon(void *party, void *save, int box, int slot);
 
@@ -483,9 +483,9 @@ void WORLDTRADE_BOX_BuildDepositFromWork(Deposit *dst, Work *p);
 
 void WORLDTRADE_BOX_ScoreMatchingRecords(Rec_p03 *recs, u32 unused, WantTag *key, IconRec *ent);
 
-int WORLDTRADE_BOX_IsSpeciesFlagged(u32 handle);
+int WORLDTRADE_BOX_IsHoldingMail(u32 handle);
 
-void WORLDTRADE_BOX_RestoreCursorSave(Work *p);
+void WORLDTRADE_BOX_UnlockBoxIfAllFull(Work *p);
 
 void WORLDTRADE_DEPOSIT_BuildOffer(Entry *dst, Work *p);
 
@@ -559,7 +559,7 @@ int WORLDTRADE_BOX_Exit(Work *p)
     WORLDTRADE_BOX_ExitBgPlanes();
     WORLDTRADE_TITLE_ExitBgPlanes((char *)p);
     CLACT_SetActorDrawEnable((struct Obj *)*(u32 *)&p->scrollBarObj, 0);
-    WORLDTRADE_ClearBusyFlag((Work *)(void *)p);
+    WORLDTRADE_AdvanceScreenId((Work *)(void *)p);
     return 0;
 }
 
@@ -767,7 +767,7 @@ void WORLDTRADE_BOX_DeleteWindows(Work *p)
 
 void WORLDTRADE_BOX_CreateStrings(Work *p)
 {
-    WORLDTRADE_BOX_RestoreCursorSave((Work *)p);
+    WORLDTRADE_BOX_UnlockBoxIfAllFull((Work *)p);
     p->boxNameStr = STRBUF_Create(0x12, 0x48);
     p->str = STRBUF_Create(0xb4, 0x48);
     p->strs = MSGDATA_AllocString(p->bank, 0x73);
@@ -1081,7 +1081,7 @@ int WORLDTRADE_BOX_StateOfferMenuInput(Work *p)
             WORLDTRADE_BOX_PrintMessage(p, 0xC1, 1, 0, 0xF0F, 1);
             WORLDTRADE_SetNextState(p, 4, 1);
         } else {
-            if (WORLDTRADE_BOX_ClampSlot(p->box) != 0) {
+            if (WORLDTRADE_BOX_IsPartyBox(p->box) != 0) {
                 POKEPARTY_GetMember(p->ctx->party, p->slot);
             }
             p->mon = WORLDTRADE_BOX_GetPartyMon(p->ctx->party, p->ctx->save, p->box, p->slot);
@@ -1144,7 +1144,7 @@ int WORLDTRADE_BOX_StateRequestMenuInput(Work *p)
             WORLDTRADE_BOX_PrintMessage(p, 0xC1, 1, 0, 0xF0F, 1);
             WORLDTRADE_SetNextState(p, 4, 1);
         } else {
-            if (WORLDTRADE_BOX_ClampSlot(p->box) != 0) {
+            if (WORLDTRADE_BOX_IsPartyBox(p->box) != 0) {
                 POKEPARTY_GetMember(p->ctx->party, p->slot);
             }
             if (POKE_TOOL_GetBoxValue(mon, 5, 0) == 0x1EC) {
@@ -1241,7 +1241,7 @@ int WORLDTRADE_BOX_StateDepositConfirmInput(Work *p)
 
 int WORLDTRADE_BOX_TryConfirmDeposit(Work *p)
 {
-    if (WORLDTRADE_BOX_IsSpeciesFlagged((u32)p->list[p->cur]) != 0 && p->box != 0xFF
+    if (WORLDTRADE_BOX_IsHoldingMail((u32)p->list[p->cur]) != 0 && p->box != 0xFF
         && POKEPARTY_GetCount(p->ctx->party) == 6) {
         WORLDTRADE_BOX_PrintMessage(p, 0x29, 1, 0, 0xF0F, 1);
         WORLDTRADE_SetNextState(p, 4, 1);
@@ -1305,7 +1305,7 @@ int WORLDTRADE_BOX_StateWaitCursorAnim(Work *p)
  */
 int WORLDTRADE_BOX_StateWaitMessage(Work *p)
 {
-    if (WORLDTRADE_ADAPTER_IsStreamDone(&p->printCtx) == 0) {
+    if (WORLDTRADE_ADAPTER_IsStreamBusy(&p->printCtx) == 0) {
         p->state = p->returnState;
     }
     return 2;
@@ -1316,7 +1316,7 @@ int WORLDTRADE_BOX_StateWaitMessage(Work *p)
  */
 int WORLDTRADE_BOX_StateWaitMessageOrKey(Work *p)
 {
-    if (WORLDTRADE_ADAPTER_IsStreamDone(&p->printCtx) == 0) {
+    if (WORLDTRADE_ADAPTER_IsStreamBusy(&p->printCtx) == 0) {
         if (KEY_GetTrg() != 0 || TOUCHPANEL_GetTrg() != 0) {
             BMP_MENUWORK_DrawWindowBorder((void *)((*(unsigned int *)&p->dd0)), 0);
             p->state = p->returnState;
@@ -1409,7 +1409,7 @@ void WORLDTRADE_BOX_TransferIconPalette(Work *p)
  * 0x6F, egg 0x4C, held item 6, parameter 0x6E + 1) into the info record,
  * clearing its +3 byte for an egg. A present Pokemon gets its icon loaded
  * (WORLDTRADE_BOX_LoadPokeIcon) and shown; the item sprite is shown with animation 0x29
- * or 0x28 by FILE_UTIL_Check136C, or hidden when there is no item. An empty
+ * or 0x28 by FILE_UTIL_IsMailItem, or hidden when there is no item. An empty
  * slot hides both sprites and clears the icon record's +8 word.
  */
 void WORLDTRADE_BOX_SetupIconActor(void *mon, u32 icon, u32 item_spr, u16 *species, u32 slot, void *arc, Info *info, IconRec *rec)
@@ -1436,7 +1436,7 @@ void WORLDTRADE_BOX_SetupIconActor(void *mon, u32 icon, u32 item_spr, u16 *speci
         CLACT_SetActorDrawEnable((struct Obj *)icon, 1);
         if (item != 0) {
             CLACT_SetActorDrawEnable((struct Obj *)item_spr, 1);
-            if (FILE_UTIL_Check136C(item) != 0) {
+            if (FILE_UTIL_IsMailItem(item) != 0) {
                 CLACT_SetActorAnimSeq((struct Obj *)item_spr, 0x29);
             } else {
                 CLACT_SetActorAnimSeq((struct Obj *)item_spr, 0x28);
@@ -1517,7 +1517,7 @@ void WORLDTRADE_BOX_LoadBoxIcons(Work *p, int box)
 /*
  * True only for the 0xff sentinel.
  */
-int WORLDTRADE_BOX_ClampSlot(int box)
+int WORLDTRADE_BOX_IsPartyBox(int box)
 {
     if (box == 0xff) {
         return 1;
@@ -1527,7 +1527,7 @@ int WORLDTRADE_BOX_ClampSlot(int box)
 
 void *WORLDTRADE_BOX_GetPartyMon(void *party, void *save, int box, int slot)
 {
-    if (WORLDTRADE_BOX_ClampSlot(box) != 0) {
+    if (WORLDTRADE_BOX_IsPartyBox(box) != 0) {
         if (slot > (int)POKEPARTY_GetCount(party) - 1) {
             return 0;
         }
@@ -1538,7 +1538,7 @@ void *WORLDTRADE_BOX_GetPartyMon(void *party, void *save, int box, int slot)
 
 u32 WORLDTRADE_BOX_GetMonCount(u8 *party, u32 save, u32 box)
 {
-    if (WORLDTRADE_BOX_ClampSlot(box) != 0) {
+    if (WORLDTRADE_BOX_IsPartyBox(box) != 0) {
         return POKEPARTY_GetCount(party);
     }
     return BOX_SAVEDATA_CountPokemonInBox((void *)save, box);
@@ -1546,7 +1546,7 @@ u32 WORLDTRADE_BOX_GetMonCount(u8 *party, u32 save, u32 box)
 
 int WORLDTRADE_BOX_CanRemoveMon(void *party, void *save, int box, int slot)
 {
-    if (WORLDTRADE_BOX_ClampSlot(box) != 0 && (int)POKEPARTY_GetCount(party) < 2) {
+    if (WORLDTRADE_BOX_IsPartyBox(box) != 0 && (int)POKEPARTY_GetCount(party) < 2) {
         return 0;
     }
     return 1;
@@ -1621,13 +1621,13 @@ int WORLDTRADE_BOX_TagMatchesRequest(MonTag *have, WantTag *want)
     wantForm = want->form;
     if (wantForm != 3 && wantForm != have->form)
         return 0;
-    haveLevel = have->gender;
+    haveLevel = have->level;
     if (haveLevel == 0)
         return 0;
-    levelMin = want->b3;
+    levelMin = want->levelMin;
     if (levelMin != 0 && levelMin > haveLevel)
         return 0;
-    levelMax = want->b4;
+    levelMax = want->levelMax;
     if (levelMax != 0 && levelMax < haveLevel)
         return 0;
     return 1;
@@ -1639,7 +1639,7 @@ int WORLDTRADE_BOX_MonMatchesRequest(void *mon, WantTag *want)
 
     t.species = POKE_TOOL_GetBoxValue(mon, 5, 0);
     t.form = POKE_TOOL_GetBoxValue(mon, 0x6E, 0) + 1;
-    t.gender = POKE_TOOL_CalcBoxLevel(mon);
+    t.level = POKE_TOOL_CalcBoxLevel(mon);
     return WORLDTRADE_BOX_TagMatchesRequest(&t, want);
 }
 
@@ -1651,14 +1651,14 @@ void WORLDTRADE_BOX_BuildDepositFromWork(Deposit *dst, Work *p)
 
     m.species = POKE_TOOL_GetBoxValue(p->mon, 5, 0);
     m.form = POKE_TOOL_GetBoxValue(p->mon, 0x6E, 0) + 1;
-    m.gender = POKE_TOOL_CalcBoxLevel(p->mon);
+    m.level = POKE_TOOL_CalcBoxLevel(p->mon);
     dst->have = m;
     WORLDTRADE_DEPOSIT_BuildOffer((Entry *)dst, p);
     e = POKE_TOOL_GetBoxParam(p->list[p->cur]);
     w.species = POKE_TOOL_GetBoxValue(e, 5, 0);
     w.form = POKE_TOOL_GetBoxValue(e, 0x6E, 0) + 1;
-    w.b3 = 0;
-    w.b4 = 0;
+    w.levelMin = 0;
+    w.levelMax = 0;
     dst->want = w;
 }
 
@@ -1676,18 +1676,18 @@ void WORLDTRADE_BOX_ScoreMatchingRecords(Rec_p03 *recs, u32 unused, WantTag *key
 /*
  * Read port 6 and report whether the follow-up check accepted it.
  */
-int WORLDTRADE_BOX_IsSpeciesFlagged(u32 handle)
+int WORLDTRADE_BOX_IsHoldingMail(u32 handle)
 {
     int ok = 0;
     u16 v = (u16)POKE_TOOL_GetPartyValue((void *)handle, 6, 0);
 
-    if (FILE_UTIL_Check136C(v) != 0) {
+    if (FILE_UTIL_IsMailItem(v) != 0) {
         ok = 1;
     }
     return ok;
 }
 
-void WORLDTRADE_BOX_RestoreCursorSave(Work *p)
+void WORLDTRADE_BOX_UnlockBoxIfAllFull(Work *p)
 {
     unsigned i;
     p->count = BOX_SAVEDATA_GetUsableBoxCount(p->ctx->save);

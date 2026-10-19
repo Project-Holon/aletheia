@@ -39,7 +39,7 @@
  *  func_021C45F4 0x021C45F4 thumb ov093
  *  WIFI_2DCHAR_FindFreeActor 0x021C4604 thumb ov093
  *  BTL_POKEPARAM_AdvanceTurn 0x021D6408 thumb ov093
- *  BTL_EVENT_ClearClientReservedChoice 0x021D6E88 thumb ov093
+ *  BTL_POKEPARAM_ClearStoredPokeMove 0x021D6E88 thumb ov093
  *  BTL_POKEPARAM_GetPokeId 0x021D5440 thumb ov093
  *  BTL_SERVER_FLOW_ProcTripleShift 0x021C4614 thumb ov093
  *  BTL_EVENT_RemoveDeadFactors 0x021D701C thumb ov093
@@ -60,7 +60,7 @@ extern void func_021C45E4(u8 *);
 extern u8 *func_021C45F4(u8 *);
 extern u8 *WIFI_2DCHAR_FindFreeActor(u8 *);
 extern void BTL_POKEPARAM_AdvanceTurn(u8 *);
-extern void BTL_EVENT_ClearClientReservedChoice(u8 *);
+extern void BTL_POKEPARAM_ClearStoredPokeMove(u8 *);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *);
 extern void BTL_SERVER_FLOW_ProcTripleShift(u8 *);
 extern void BTL_EVENT_RemoveDeadFactors(void);
@@ -106,7 +106,7 @@ int BTL_SERVER_FLOW_ProcTurnCheck(u8 *p)
         q = func_021C45F4(a);
         while (q) {
             BTL_POKEPARAM_AdvanceTurn(q);
-            BTL_EVENT_ClearClientReservedChoice(q);
+            BTL_POKEPARAM_ClearStoredPokeMove(q);
             BTL_SERVER_CMD_Push(*(void **)(p + 12), 0x2e, BTL_POKEPARAM_GetPokeId(q));
             q = WIFI_2DCHAR_FindFreeActor(a);
         }

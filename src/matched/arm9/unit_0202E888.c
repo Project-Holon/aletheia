@@ -13,7 +13,7 @@
  * function: COMM_PLAYER_SUPPORT_GetSeasonFromClock, COMM_PLAYER_SUPPORT_NextSeason, COMM_PLAYER_SUPPORT_PrevSeason, COMM_PLAYER_SUPPORT_SetSeason
  *
  * symbols:
- *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
+ *   GF_STANDARD_GetCachedDate  0x0203F4E4  arm
  *   GAME_DATA_SetSeason  0x0201298C  thumb
  *
  * Four small date helpers. COMM_PLAYER_SUPPORT_GetSeasonFromClock asks the ARM clock getter for a
@@ -58,14 +58,14 @@ struct Date0202E888 {
 };
 
 struct RtcDate;
-extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
+extern void GF_STANDARD_GetCachedDate(struct RtcDate *date);
 extern u8 GAME_DATA_SetSeason(s32 a, u8 b);
 
 u8 COMM_PLAYER_SUPPORT_GetSeasonFromClock(void)
 {
     struct Date0202E888 d;
 
-    GF_STANDARD_SetField00_F4E4((struct RtcDate *)(&d));
+    GF_STANDARD_GetCachedDate((struct RtcDate *)(&d));
     return (u8)((d.unk04 - 1) & 3);
 }
 

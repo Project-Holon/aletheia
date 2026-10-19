@@ -1,7 +1,7 @@
 /*
  * file:     bg_sys.c
  * unit:     yes
- * function: BG_SYS_Create, BG_SYS_Delete, BG_SYS_CreateRun, BG_SYS_ReserveTileRun, BG_SYS_DeleteHalf, BG_SYS_SetGraphicsMode, BG_SYS_ApplyGraphicsMode, BG_SYS_InitBgLayer, BG_SYS_FreeLayerBuf, BG_SYS_SetLowBit, BG_SYS_SetVisibleLayer, BG_SYS_SetPlaneVisible, BG_SYS_FillScrollArea, BG_SYS_GetScrollX, BG_SYS_GetScrollY, BG_SYS_SetScroll, BG_SYS_SetScrollRegs, BG_SYS_SetupMemory, BG_SYS_PushTile, BG_SYS_PushTileSource, BG_SYS_DecodeTile, BG_SYS_DecodeTileSource, BG_SYS_LoadTileData, BG_SYS_CreateTileRun, BG_SYS_InitRun, BG_SYS_Init, BG_SYS_SetTileUnit, BG_SYS_LoadPltt, BG_SYS_LoadPlttEntry, BG_SYS_GetTileMapEntry, BG_SYS_DrawTileRegion, BG_SYS_DrawTile, BG_SYS_DrawTileEx, BG_SYS_DrawTileSub, BG_SYS_SetTileEntry, BG_SYS_FillTileMap, BG_SYS_FreeSlot, BG_SYS_InitSlot, BG_SYS_ClearSlot, BG_SYS_ClearLayer, BG_SYS_ClearLayerEx, BG_SYS_GetGraphics, BG_SYS_GetBuf, BG_SYS_GetChannelScrollX, BG_SYS_GetChannelScrollY, BG_SYS_GetType, BG_SYS_GetField16, BG_SYS_GetField17, BG_SYS_Get, BG_SYS_Update, BG_SYS_CommitLayers, BG_SYS_SetFlagField06, BG_SYS_CommitScroll, BG_SYS_ResetSlot, BG_SYS_SetScrollX, BG_SYS_SetScrollY, BG_SYS_SetAffine, BG_SYS_CheckPixelColor, BG_SYS_ResolveScroll, BG_SYS_GetModeValue, BG_SYS_SetScrollField, BG_SYS_RotScale, BG_SYS_LoadTileLayer, BG_SYS_LoadTileDataEx, BG_SYS_LoadTileLayerEx, BG_SYS_BlitTiles, BG_SYS_BlitPixels, BG_SYS_BlitTilesEx, BG_SYS_BlitTileMap, BG_SYS_BlitPixelsEx, BG_SYS_BlitTileMapEx, BG_SYS_SetupTileScreen, BG_SYS_SetupLayer, BG_SYS_DeleteBlock, BG_SYS_AllocTileBuf, BG_SYS_SetAffineField, BG_SYS_Apply, BG_SYS_ApplyCenterOp
+ * function: BG_SYS_Create, BG_SYS_Delete, BG_SYS_CreateRun, BG_SYS_ReserveTileRun, BG_SYS_FreeTileRun, BG_SYS_SetGraphicsMode, BG_SYS_ApplyGraphicsMode, BG_SYS_InitBgLayer, BG_SYS_FreeLayerBuf, BG_SYS_EnableBg0WithPriority, BG_SYS_SetPriority, BG_SYS_SetPlaneVisible, BG_SYS_ChangeScrollImmediate, BG_SYS_GetScrollX, BG_SYS_GetScrollY, BG_SYS_SetScroll, BG_SYS_SetScrollRegs, BG_SYS_SetupMemory, BG_SYS_PushTile, BG_SYS_PushTileSource, BG_SYS_DecodeTile, BG_SYS_DecodeTileSource, BG_SYS_LoadTileData, BG_SYS_CreateTileRun, BG_SYS_InitRun, BG_SYS_Init, BG_SYS_FreeTiles, BG_SYS_LoadPltt, BG_SYS_LoadPlttEntry, BG_SYS_GetTileMapEntry, BG_SYS_DrawTileRegion, BG_SYS_DrawTile, BG_SYS_DrawTileEx, BG_SYS_DrawTileSub, BG_SYS_SetTileEntry, BG_SYS_FillTileMap, BG_SYS_FreeSlot, BG_SYS_InitSlot, BG_SYS_ClearSlot, BG_SYS_ClearLayer, BG_SYS_ClearLayerEx, BG_SYS_GetGraphics, BG_SYS_GetBuf, BG_SYS_GetChannelScrollX, BG_SYS_GetChannelScrollY, BG_SYS_GetType, BG_SYS_GetColorMode, BG_SYS_GetTileBytes, BG_SYS_GetPriority, BG_SYS_Update, BG_SYS_CommitLayers, BG_SYS_MarkTileDirty, BG_SYS_CommitScroll, BG_SYS_ChangeScroll, BG_SYS_ChangeRotation, BG_SYS_ChangeScale, BG_SYS_ChangeCenter, BG_SYS_CheckPixelColor, BG_SYS_ToHwScreenSize, BG_SYS_GetScreenSizeInTiles, BG_SYS_SetScrollField, BG_SYS_ResetAffineMatrix, BG_SYS_LoadTileLayer, BG_SYS_LoadTileDataEx, BG_SYS_LoadTileLayerEx, BG_SYS_BlitTiles, BG_SYS_BlitPixels, BG_SYS_BlitTilesEx, BG_SYS_BlitTileMap, BG_SYS_BlitPixelsEx, BG_SYS_BlitTileMapEx, BG_SYS_SetupTileScreen, BG_SYS_SetupLayer, BG_SYS_DeleteBlock, BG_SYS_AllocTileBuf, BG_SYS_SetAffineField, BG_SYS_Apply, BG_SYS_ApplyCenterOp, BG_SYS_ClearGraphicsMemory, BG_SYS_SetVramBanks, BG_SYS_ClearMainBgPlanes, BG_SYS_ClearMainObjPlane, BG_SYS_ClearMainPlanes, BG_SYS_SetMainPlaneVisible, BG_SYS_SetMainVisiblePlanes, BG_SYS_ClearSubBgPlanes, BG_SYS_ClearSubObjPlane, BG_SYS_ClearSubPlanes, BG_SYS_SetSubPlaneVisible, BG_SYS_SetSubVisiblePlanes, BG_SYS_ResetSubDisplay, BMP_SetDisplaySwap, BMP_GetVisiblePlane, BG_SYS_GetSubVisiblePlanes
  * address:  0x0203F8F4
  * region:   arm9
  * compiler: dsi/1.2
@@ -10,9 +10,10 @@
  * isa:      arm
  * status:   EXACT
  *
- * Cut from bg_sys.c by tools/splitfile.py.
+ * Cut from bg_sys.c, bg_sys_tail.c by tools/splitfile.py.
  *
  * symbols:
+ *   _u32_div_f 0x0209C2B0 arm
  *   GFL_HEAP_Alloc   0x02030734  arm
  *   g_02146A44     0x02146A44  data
  *   g_020A7E5C     0x020A7E5C  data
@@ -22,7 +23,7 @@
  *   AREAMAN_AllocUp  0x02033CC0  arm
  *   AREAMAN_AllocDown  0x02033F64  arm
  *   AREAMAN_AllocAt  0x020341F0  arm
- *   BG_SYS_GetField17   0x020416B8  arm
+ *   BG_SYS_GetTileBytes   0x020416B8  arm
  *   AREAMAN_Free  0x0203422C  arm
  *   GX_SetGraphicsMode  0x0207D4B0  arm
  *   GXS_SetGraphicsMode  0x0207D518  arm
@@ -42,10 +43,10 @@
  *   BG_SYS_SetupMemory  0x02040968  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   MIi_CpuClearFast  0x02082AC0  arm
- *   BG_SYS_GetModeValue  0x020422D4  arm
+ *   BG_SYS_GetScreenSizeInTiles  0x020422D4  arm
  *   MIi_CpuClear16 0x02082A48  arm
  *   BG_SYS_PushTile  0x020409B4  arm
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   G2_GetBG0CharPtr  0x0207E1F8  arm
  *   G2_GetBG1CharPtr  0x0207E24C  arm
  *   G2_GetBG2CharPtr  0x0207E2A0  arm
@@ -58,7 +59,6 @@
  *   BG_SYS_SetAffineField  0x02043228  arm
  *   BG_SYS_Apply  0x02043264  arm
  *   BG_SYS_ApplyCenterOp  0x020432E4  arm
- *   GFL_HEAP_Alloc  0x02030734  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   DC_FlushRange  0x020862F0  arm
  *   GX_LoadBG0Scr  0x0207E888  arm
@@ -79,11 +79,35 @@
  *   GXS_LoadBG3Char  0x0207F274  arm
  *   func_02043130_File 0x020A7E5C  data
  *   GX_LoadBGPltt  0x0207E3D0  arm
- *   DC_FlushRange  0x020862F0  arm
  *   GXS_LoadBGPltt  0x0207E468  arm
  *   AREAMAN_Create  0x02033C00  arm
+ *   GX_SetBankForLCDC  0x0208068C  arm
+ *   GX_DisableBankForLCDC  0x02080B98  arm
+ *   GX_ResetBankForBG  0x020808F4  arm
+ *   GX_ResetBankForBGExtPltt  0x0208091C  arm
+ *   GX_ResetBankForSubBG  0x020809A0  arm
+ *   GX_ResetBankForSubBGExtPltt  0x020809C8  arm
+ *   GX_ResetBankForOBJ  0x02080908  arm
+ *   GX_ResetBankForOBJExtPltt  0x02080940  arm
+ *   GX_ResetBankForSubOBJ  0x020809B4  arm
+ *   GX_ResetBankForSubOBJExtPltt  0x020809F0  arm
+ *   GX_ResetBankForTex  0x02080964  arm
+ *   GX_ResetBankForTexPltt  0x02080978  arm
+ *   GX_SetBankForBG  0x0207FDCC  arm
+ *   GX_SetBankForBGExtPltt  0x02080100  arm
+ *   GX_SetBankForSubBG  0x020806B0  arm
+ *   GX_SetBankForSubBGExtPltt  0x020807BC  arm
+ *   GX_SetBankForOBJ  0x0207FFD0  arm
+ *   GX_SetBankForOBJExtPltt  0x020801F8  arm
+ *   GX_SetBankForSubOBJ  0x0208074C  arm
+ *   GX_SetBankForSubOBJExtPltt  0x0208083C  arm
+ *   GX_SetBankForTex  0x02080294  arm
+ *   GX_SetBankForTexPltt  0x0208040C  arm
+ *   gVisiblePlanes  0x02146A48  data
+ *   GX_DispOn  0x0207D46C  arm
  */
 #include "gf_standard_shared_types.h"
+#include "bmp_shared_types.h"
 
 #define REG_DISPCNT (*(volatile u32 *)0x04000000)
 
@@ -130,8 +154,8 @@ struct BgLayer {
     u32   scrollY;        /* 0x10 */
     u8    type;           /* 0x14  blit kind: 0 tiles, 1 pixels, 2 tiles ex */
     u8    screenSizeCode; /* 0x15 */
-    u8    charBaseCode;   /* 0x16 */
-    u8    tileRowBytes;   /* 0x17  0x20 or 0x40 */
+    u8    colorMode;   /* 0x16 */
+    u8    tileBytes;   /* 0x17  0x20 or 0x40 */
     u16   rotation;       /* 0x18  affine angle */
     u16   rotationPad;    /* 0x1a */
     u32   scaleX;         /* 0x1c  0x1000 = 1.0 */
@@ -226,23 +250,23 @@ extern s32 AREAMAN_AllocAt(struct AreaMan *p, u32 start, u32 len);
 
 extern void AREAMAN_Free(struct AreaMan *p, u32 start, s32 len);
 
-extern u32 GX_SetGraphicsMode(u32 a, u32 b, u32 c);
+extern void GX_SetGraphicsMode(u32 a, u32 b, u32 c);
 
-extern u32 GXS_SetGraphicsMode(u32 a);
+extern void GXS_SetGraphicsMode(u32 a);
 
-extern void BG_SYS_ClearMainBgPlanes(void);
+void BG_SYS_ClearMainBgPlanes(void);
 
-extern void BG_SYS_ClearSubBgPlanes(void);
+void BG_SYS_ClearSubBgPlanes(void);
 
-extern void BG_SYS_ClearMainPlanes(u32 handle);
+void BG_SYS_ClearMainPlanes(void);
 
-extern void BG_SYS_ClearSubPlanes(u32 handle);
+void BG_SYS_ClearSubPlanes(void);
 
-extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
+void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 
-extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
+void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-extern void BG_SYS_FillScrollArea(u32 bgId, u32 which, u32 value);
+extern void BG_SYS_ChangeScrollImmediate(u32 bgId, u32 which, u32 value);
 
 extern void BG_SYS_SetScrollField(struct BgLayer *p, u32 op, u32 value);
 
@@ -262,7 +286,6 @@ extern void MIi_CpuCopy32(void *dest, const void *src, u32 size);
 
 extern void MIi_CpuCopy16(void *dest, const void *src, u32 size);
 
-
 extern void  MIi_CpuClearFast(u32 value, void *dst, u32 size);
 
 extern void DC_FlushRange(void *, u32);
@@ -271,11 +294,11 @@ extern void GX_LoadBGPltt(void *, u32, u32);
 
 extern void GXS_LoadBGPltt(void *, u32, u32);
 
-extern void BG_SYS_GetModeValue(u32 mode, u8 *a, u8 *b);
+extern void BG_SYS_GetScreenSizeInTiles(u32 mode, u8 *a, u8 *b);
 
 extern void BG_SYS_PushTile(u32 index);
 
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 
 extern void *G2_GetBG0CharPtr(void);
 
@@ -304,7 +327,6 @@ extern void BG_SYS_ApplyCenterOp(struct BgLayer *p, u32 op, u32 value);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void MI_CpuCopy8(void *dst, const void *src, u32 size);
-
 
 extern void GX_LoadBG0Scr(const void *src, u32 offset, u32 size);
 
@@ -346,7 +368,7 @@ u32 BG_SYS_CreateRun(u32 layer, u32 size, u32 top);
 
 u32 BG_SYS_ReserveTileRun(u32 a, u32 b, u32 c);
 
-void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 
 void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 
@@ -356,13 +378,12 @@ void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
 void BG_SYS_FreeLayerBuf(u32 i);
 
-void BG_SYS_SetLowBit(u32 mode);
+void BG_SYS_EnableBg0WithPriority(u32 mode);
 
-void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+void BG_SYS_SetPriority(int idx, unsigned short val);
 
 void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
-void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
 
 u32 BG_SYS_GetScrollX(u32 layer);
 
@@ -390,7 +411,7 @@ void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
 void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 
-void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
+void BG_SYS_FreeTiles(u32 idx, u32 count, u32 tile);
 
 void BG_SYS_LoadPltt(u32 r7, void *r6, u32 r5, u32 r4);
 
@@ -430,37 +451,35 @@ u32 BG_SYS_GetChannelScrollY(u8 channel);
 
 u8 BG_SYS_GetType(int channel);
 
-u8 BG_SYS_GetField16(int channel);
+u8 BG_SYS_GetColorMode(int channel);
 
-u8 BG_SYS_GetField17(int channel);
+u8 BG_SYS_GetTileBytes(int channel);
 
-u8 BG_SYS_Get(u32 layer);
+u8 BG_SYS_GetPriority(u32 layer);
 
 void BG_SYS_Update(void);
 
 void BG_SYS_CommitLayers(void);
 
-void BG_SYS_SetFlagField06(u32 bit);
 
 void BG_SYS_CommitScroll(void);
 
-void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
+void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
 
-void BG_SYS_SetScrollX(u32 which, u32 op, u16 value);
+void BG_SYS_ChangeRotation(u32 which, u32 op, u16 value);
 
-void BG_SYS_SetScrollY(u32 which, u32 op, u32 value);
+void BG_SYS_ChangeScale(u32 which, u32 op, u32 value);
 
-void BG_SYS_SetAffine(u32 which, u32 op, u16 value);
+void BG_SYS_ChangeCenter(u32 which, u32 op, u16 value);
 
 u32 BG_SYS_CheckPixelColor(u32 layer, u16 x, u16 y, u16 *flags);
 
-int BG_SYS_ResolveScroll(int screenSize, int bgType);
+int BG_SYS_ToHwScreenSize(int screenSize, int bgType);
 
-void BG_SYS_GetModeValue(u32 mode, u8 *a, u8 *b);
 
 void BG_SYS_SetScrollField(struct BgLayer *p, u32 op, u32 value);
 
-void BG_SYS_RotScale(u32 layer);
+void BG_SYS_ResetAffineMatrix(u32 layer);
 
 void BG_SYS_LoadTileLayer(u32 layer, const void *src, u32 offset, u32 size);
 
@@ -572,7 +591,7 @@ void BG_SYS_Delete(void)
  */
 u32 BG_SYS_CreateRun(u32 layer, u32 size, u32 top)
 {
-    int t = BG_SYS_GetField17(layer & 0xff);
+    int t = BG_SYS_GetTileBytes(layer & 0xff);
     struct BgSys *g = g_02146A44;
     u32 d1 = g->tileBaseOffset[layer] / t;
     u32 d2 = g->tileDataSize[layer] / t;
@@ -593,7 +612,7 @@ u32 BG_SYS_CreateRun(u32 layer, u32 size, u32 top)
 
 u32 BG_SYS_ReserveTileRun(u32 a, u32 b, u32 c)
 {
-    u32 d = BG_SYS_GetField17(a & 0xff);
+    u32 d = BG_SYS_GetTileBytes(a & 0xff);
 
     d = g_02146A44->tileBaseOffset[a] / d;
     return AREAMAN_AllocAt((struct AreaMan *)((a < 4) ? g_02146A44->mainTileArena : g_02146A44->subTileArena),
@@ -606,7 +625,7 @@ u32 BG_SYS_ReserveTileRun(u32 a, u32 b, u32 c)
  * Release half of the pair whose reserve half is BG_SYS_SetupLayer: same arena
  * selection by layer index (0-3 at +0x168, 4-7 at +0x16c, anything else a
  * no-op) and the same round-up of a byte length to arena units, but the unit
- * here is the layer's own tile stride from BG_SYS_GetField17 rather than the
+ * here is the layer's own tile stride from BG_SYS_GetTileBytes rather than the
  * constant 32, so both the bias and the round-up are real divisions.
  *
  * Codegen note: the biased start index must be written back into the
@@ -616,12 +635,12 @@ u32 BG_SYS_ReserveTileRun(u32 a, u32 b, u32 c)
  * docs/idioms/reassigning-a-parameter-keeps-its-register.md.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/BG_SYS_DeleteHalf.c \
- *       --func BG_SYS_DeleteHalf --addr 0x0203FB44 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_FreeTileRun.c \
+ *       --func BG_SYS_FreeTileRun --addr 0x0203FB44 --cc 1.1p1 --arm
  */
-void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size)
+void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size)
 {
-    u32           unit = BG_SYS_GetField17((u8)layer);
+    u32           unit = BG_SYS_GetTileBytes((u8)layer);
     struct BgSys *p    = g_02146A44;
 
     offset = (p->tileBaseOffset[layer] + offset * unit) / unit;
@@ -681,9 +700,11 @@ void BG_SYS_SetGraphicsMode(struct DispConfig *cfg)
 void BG_SYS_ApplyGraphicsMode(const struct DispConfig *req, u32 which)
 {
     if (which == 0) {
-        BG_SYS_ClearMainPlanes(GX_SetGraphicsMode(req->dispMode, req->bgMode, req->bg0As));
+        GX_SetGraphicsMode(req->dispMode, req->bgMode, req->bg0As);
+        BG_SYS_ClearMainPlanes();
     } else {
-        BG_SYS_ClearSubPlanes(GXS_SetGraphicsMode(req->subBgMode));
+        GXS_SetGraphicsMode(req->subBgMode);
+        BG_SYS_ClearSubPlanes();
     }
 }
 
@@ -895,7 +916,7 @@ static inline void G2S_BG3Mosaic(BOOL enable)
  */
 void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type)
 {
-    u32 ss = BG_SYS_ResolveScroll(tmpl->screenSize, type);
+    u32 ss = BG_SYS_ToHwScreenSize(tmpl->screenSize, type);
 
     switch (bgId) {
     case 0:
@@ -1005,17 +1026,17 @@ void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type)
 
     g_02146A44->bgs[bgId].screenSizeCode = tmpl->screenSize;
     g_02146A44->bgs[bgId].type = (u8)type;
-    g_02146A44->bgs[bgId].charBaseCode = tmpl->colorMode;
+    g_02146A44->bgs[bgId].colorMode = tmpl->colorMode;
 
     if (type == 0 && tmpl->colorMode == 0) {
-        g_02146A44->bgs[bgId].tileRowBytes = 0x20;
+        g_02146A44->bgs[bgId].tileBytes = 0x20;
     } else {
-        g_02146A44->bgs[bgId].tileRowBytes = 0x40;
+        g_02146A44->bgs[bgId].tileBytes = 0x40;
     }
 
-    BG_SYS_FillScrollArea(bgId, 0, tmpl->scrollX);
-    BG_SYS_FillScrollArea(bgId, 3, tmpl->scrollY);
-    BG_SYS_RotScale(bgId);
+    BG_SYS_ChangeScrollImmediate(bgId, 0, tmpl->scrollX);
+    BG_SYS_ChangeScrollImmediate(bgId, 3, tmpl->scrollY);
+    BG_SYS_ResetAffineMatrix(bgId);
 
     g_02146A44->tileBaseOffset[bgId] = tmpl->charBase << 14;
     g_02146A44->mapBaseOffset[bgId] = tmpl->screenBase << 11;
@@ -1065,10 +1086,10 @@ void BG_SYS_FreeLayerBuf(u32 i)
  * word at the end of this function.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/BG_SYS_SetLowBit.c \
- *       --func BG_SYS_SetLowBit --addr 0x0204044C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_EnableBg0WithPriority.c \
+ *       --func BG_SYS_EnableBg0WithPriority --addr 0x0204044C --cc 1.1p1 --arm
  */
-void BG_SYS_SetLowBit(u32 mode)
+void BG_SYS_EnableBg0WithPriority(u32 mode)
 {
     BG_SYS_SetMainPlaneVisible(1, 1);
     *(volatile u16 *)0x04000008 =
@@ -1085,7 +1106,7 @@ void BG_SYS_SetLowBit(u32 mode)
  * The constants are absolute hardware addresses, so they are plain pool words
  * with no relocation.
  */
-void BG_SYS_SetVisibleLayer(int idx, unsigned short val)
+void BG_SYS_SetPriority(int idx, unsigned short val)
 {
     volatile unsigned short *p;
 
@@ -1174,7 +1195,7 @@ void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable)
  * unlabelled follower BG_SYS_GetScrollX (already EXACT in unit_020407E8.c); the
  * true extent is 464 bytes, ending at 0x020407E8.
  */
-void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b)
+void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b)
 {
     u32 mask = 0x1ff;
     u32 hmask = mask << 16;
@@ -1197,14 +1218,14 @@ void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b)
         if (g_02146A44->bgs[2].type == 0) {
             W(0x04000018) = (x & mask) | (hmask & (y << 16));
         } else {
-            BG_SYS_RotScale(2);
+            BG_SYS_ResetAffineMatrix(2);
         }
         break;
     case 3:
         if (g_02146A44->bgs[3].type == 0) {
             W(0x0400001c) = (x & mask) | (hmask & (y << 16));
         } else {
-            BG_SYS_RotScale(3);
+            BG_SYS_ResetAffineMatrix(3);
         }
         break;
     case 4:
@@ -1217,14 +1238,14 @@ void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b)
         if (g_02146A44->bgs[6].type == 0) {
             W(0x04001018) = (x & mask) | (hmask & (y << 16));
         } else {
-            BG_SYS_RotScale(6);
+            BG_SYS_ResetAffineMatrix(6);
         }
         break;
     case 7:
         if (g_02146A44->bgs[7].type == 0) {
             W(0x0400101c) = (x & mask) | (hmask & (y << 16));
         } else {
-            BG_SYS_RotScale(7);
+            BG_SYS_ResetAffineMatrix(7);
         }
         break;
     }
@@ -1234,13 +1255,13 @@ void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b)
  * The two scroll-register accessors for the BG configuration table, both of
  * them leaf functions that save nothing and therefore carry no `func_` label
  * in the listing at all: they print as an anonymous run of `.word`s between
- * the literal pool of BG_SYS_FillScrollArea and the next labelled function at
+ * the literal pool of BG_SYS_ChangeScrollImmediate and the next labelled function at
  * 0x02040820 (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  * They were found by sweeping the address range, not by reading labels.
  *
  * Both index the same 0x2C-byte per-layer record hanging off the single
  * pointer at 0x02146A44, and return the horizontal (+0x14) and vertical
- * (+0x18) scroll values that BG_SYS_FillScrollArea flushes to the hardware.  The
+ * (+0x18) scroll values that BG_SYS_ChangeScrollImmediate flushes to the hardware.  The
  * `mla r1, r0, r1, r2` is the array subscript: 0x2C is not a shift, so the
  * scale is a real multiply folded into the base add.
  *
@@ -1280,7 +1301,7 @@ void BG_SYS_SetScroll(u32 layer, u32 a, u32 b, struct Mtx22 *c, u32 d, u32 e)
  * (docs/idioms/empty-switch-arms-are-what-make-the-table.md).  Written as
  * four cases the compiler would emit a comparison chain instead.
  *
- * Unlike BG_SYS_FillScrollArea, the subscript here stays the variable `layer` in
+ * Unlike BG_SYS_ChangeScrollImmediate, the subscript here stays the variable `layer` in
  * every arm rather than the arm's own case constant.  That is what the
  * `mla lr, r0, ip, lr` inside each arm says: the multiply is still live,
  * so the index cannot have been a literal.  The four arms therefore differ
@@ -1438,7 +1459,7 @@ void BG_SYS_DecodeTileSource(u32 index, const void *src, u32 mode, u32 offset)
  */
 void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile)
 {
-    if (g_02146A44->bgs[index].charBaseCode == 0) {
+    if (g_02146A44->bgs[index].colorMode == 0) {
         BG_SYS_LoadTileDataEx(index, src, size, tile * 32);
     } else {
         BG_SYS_LoadTileDataEx(index, src, size, tile * 64);
@@ -1527,7 +1548,7 @@ void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index)
     case 3:
         {
             struct BgSys *p     = g_02146A44;
-            u32           depth = p->bgs[layer].tileRowBytes;
+            u32           depth = p->bgs[layer].tileBytes;
 
             if (depth == 0x20) {
                 AREAMAN_AllocAt(p->mainTileArena,
@@ -1545,7 +1566,7 @@ void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index)
     case 7:
         {
             struct BgSys *p     = g_02146A44;
-            u32           depth = p->bgs[layer].tileRowBytes;
+            u32           depth = p->bgs[layer].tileBytes;
 
             if (depth == 0x20) {
                 AREAMAN_AllocAt(p->subTileArena,
@@ -1559,11 +1580,11 @@ void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index)
         break;
     }
 
-    size = count * g_02146A44->bgs[layer].tileRowBytes;
+    size = count * g_02146A44->bgs[layer].tileBytes;
     buf  = GFL_HEAP_Alloc((u16)((g_02146A44->heapId & 0x7fff) | 0x8000),
                         size, 0, g_020A7E5C, 1421);
 
-    if (g_02146A44->bgs[layer].tileRowBytes == 0x20) {
+    if (g_02146A44->bgs[layer].tileBytes == 0x20) {
         u32 t = value | (value << 4 | (value << 12 | value << 8));
 
         value = t | (t << 16);
@@ -1572,7 +1593,7 @@ void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index)
     }
 
     MIi_CpuClearFast(value, buf, size);
-    BG_SYS_LoadTileLayerEx((u8)layer, buf, index * g_02146A44->bgs[layer].tileRowBytes,
+    BG_SYS_LoadTileLayerEx((u8)layer, buf, index * g_02146A44->bgs[layer].tileBytes,
                   size);
     GFL_HEAP_Free(buf);
 }
@@ -1592,16 +1613,16 @@ void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index)
  * See docs/families/bg_sys.h.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/BG_SYS_SetTileUnit.c \\
- *       --func BG_SYS_SetTileUnit --addr 0x02040DA8 --cc 1.1p1 --arm
+ *   python3 tools/match.py one --src src/matched/BG_SYS_FreeTiles.c \\
+ *       --func BG_SYS_FreeTiles --addr 0x02040DA8 --cc 1.1p1 --arm
  */
-void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile)
+void BG_SYS_FreeTiles(u32 idx, u32 count, u32 tile)
 {
     u32 unit;
 
     switch (idx) {
     case 0: case 1: case 2: case 3:
-        unit = g_02146A44->bgs[idx].tileRowBytes;
+        unit = g_02146A44->bgs[idx].tileBytes;
         if (unit == 0x20) {
             AREAMAN_Free(g_02146A44->mainTileArena,
                           (g_02146A44->tileBaseOffset[idx] + tile * unit) >> 5, count);
@@ -1611,7 +1632,7 @@ void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile)
         }
         break;
     case 4: case 5: case 6: case 7:
-        unit = g_02146A44->bgs[idx].tileRowBytes;
+        unit = g_02146A44->bgs[idx].tileBytes;
         if (unit == 0x20) {
             AREAMAN_Free(g_02146A44->subTileArena,
                           (g_02146A44->tileBaseOffset[idx] + tile * unit) >> 5, count);
@@ -1889,7 +1910,7 @@ void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode
  * tile entry in the (x0, y0, w, h) box, replace the palette nibble in bits
  * 12..15 with `pal` and leave the low twelve bits alone.
  *
- * BG_SYS_GetModeValue turns the slot's screen-size code at +0x1d into the layer's
+ * BG_SYS_GetScreenSizeInTiles turns the slot's screen-size code at +0x1d into the layer's
  * width and height in tiles, returned through two u8 out-parameters; the
  * later declaration gets the lower stack address
  * (docs/idioms/local-declaration-order-is-stack-order.md), so `width` at
@@ -1932,7 +1953,7 @@ void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal)
         return;
     }
 
-    BG_SYS_GetModeValue(g_02146A44->bgs[index].screenSizeCode, &width, &height);
+    BG_SYS_GetScreenSizeInTiles(g_02146A44->bgs[index].screenSizeCode, &width, &height);
 
     yEnd = y0 + h;
 
@@ -2009,7 +2030,7 @@ void BG_SYS_ClearLayerEx(int channel, u16 val)
         return;
     }
     MIi_CpuClear16(val, g_02146A44->bgs[channel].buf, g_02146A44->bgs[channel].bufSize);
-    BG_SYS_SetFlagField06(channel);
+    BG_SYS_MarkTileDirty(channel);
 }
 
 u32 BG_SYS_GetGraphics(u32 channel)
@@ -2030,7 +2051,7 @@ u32 BG_SYS_GetGraphics(u32 channel)
 /*
  * A whole translation unit, matched as one byte range.
  *
- *           BG_SYS_GetField16, BG_SYS_GetField17
+ *           BG_SYS_GetColorMode, BG_SYS_GetTileBytes
  *
  * Channel state struct member accessors.
  *
@@ -2058,14 +2079,14 @@ u8 BG_SYS_GetType(int channel)
     return g_02146A44->bgs[channel].type;
 }
 
-u8 BG_SYS_GetField16(int channel)
+u8 BG_SYS_GetColorMode(int channel)
 {
-    return g_02146A44->bgs[channel].charBaseCode;
+    return g_02146A44->bgs[channel].colorMode;
 }
 
-u8 BG_SYS_GetField17(int channel)
+u8 BG_SYS_GetTileBytes(int channel)
 {
-    return g_02146A44->bgs[channel].tileRowBytes;
+    return g_02146A44->bgs[channel].tileBytes;
 }
 
 /*
@@ -2105,10 +2126,10 @@ u8 BG_SYS_GetField17(int channel)
  * computation before each test.
  *
  * Verified with:
- *   python3 tools/match.py one --src src/matched/BG_SYS_Get.c \
- *       --func BG_SYS_Get --addr 0x020416D4 --arm --cc 1.1p1
+ *   python3 tools/match.py one --src src/matched/BG_SYS_GetPriority.c \
+ *       --func BG_SYS_GetPriority --addr 0x020416D4 --arm --cc 1.1p1
  */
-u8 BG_SYS_Get(u32 layer)
+u8 BG_SYS_GetPriority(u32 layer)
 {
     struct BgCnt c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15;
 
@@ -2251,7 +2272,7 @@ void BG_SYS_CommitLayers(void)
  * through the pointer at 0x02146A44.  The lsl #16 / lsr #16 pair is the
  * u16 truncation of `1 << bit`, not a mask written in the source.
  */
-void BG_SYS_SetFlagField06(u32 bit)
+void BG_SYS_MarkTileDirty(u32 bit)
 {
     g_02146A44->tileDirtyMask |= 1 << bit;
 }
@@ -2403,10 +2424,10 @@ void BG_SYS_CommitScroll(void)
  * shift is done in int width first.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/BG_SYS_ResetSlot.c \
- *       --func BG_SYS_ResetSlot --addr 0x02041EE4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_ChangeScroll.c \
+ *       --func BG_SYS_ChangeScroll --addr 0x02041EE4 --cc 1.1p1 --arm
  */
-void BG_SYS_ResetSlot(u32 index, u32 a, u32 b)
+void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b)
 {
     BG_SYS_SetScrollField(&g_02146A44->bgs[index], a, b);
     g_02146A44->scrollDirtyMask |= (u16)(1 << index);
@@ -2438,19 +2459,19 @@ void BG_SYS_ResetSlot(u32 index, u32 a, u32 b)
  *   python tools/match.py tu --src src/matched/unit_02041F28.c \
  *       --addr 0x02041F28 --arm
  */
-void BG_SYS_SetScrollX(u32 which, u32 op, u16 value)
+void BG_SYS_ChangeRotation(u32 which, u32 op, u16 value)
 {
     BG_SYS_SetAffineField(&g_02146A44->bgs[which], op, value);
     g_02146A44->scrollDirtyMask |= (u16)(1 << which);
 }
 
-void BG_SYS_SetScrollY(u32 which, u32 op, u32 value)
+void BG_SYS_ChangeScale(u32 which, u32 op, u32 value)
 {
     BG_SYS_Apply(&g_02146A44->bgs[which], op, value);
     g_02146A44->scrollDirtyMask |= (u16)(1 << which);
 }
 
-void BG_SYS_SetAffine(u32 which, u32 op, u16 value)
+void BG_SYS_ChangeCenter(u32 which, u32 op, u16 value)
 {
     BG_SYS_ApplyCenterOp(&g_02146A44->bgs[which], op, value);
     g_02146A44->scrollDirtyMask |= (u16)(1 << which);
@@ -2488,7 +2509,7 @@ u32 BG_SYS_CheckPixelColor(u32 layer, u16 x, u16 y, u16 *flags)
   chr = (u8 *)BG_SYS_GetGraphics(layer);
   px = x & 7;
   py = y & 7;
-  if (g_02146A44->bgs[layer].charBaseCode == 0)
+  if (g_02146A44->bgs[layer].colorMode == 0)
   {
     u8 *src;
     tbl = g_02146A44->bgs[layer].buf;
@@ -2541,10 +2562,10 @@ u32 BG_SYS_CheckPixelColor(u32 layer, u16 x, u16 y, u16 *flags)
  * last arm if-converted too.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/BG_SYS_ResolveScroll.c \
- *       --func BG_SYS_ResolveScroll --addr 0x02042218 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_ToHwScreenSize.c \
+ *       --func BG_SYS_ToHwScreenSize --addr 0x02042218 --cc 1.1p1 --arm
  */
-int BG_SYS_ResolveScroll(int screenSize, int bgType)
+int BG_SYS_ToHwScreenSize(int screenSize, int bgType)
 {
     switch (bgType) {
     case 0:
@@ -2590,10 +2611,10 @@ int BG_SYS_ResolveScroll(int screenSize, int bgType)
  * order they are given.  The arms are byte stores, so the values are `u8`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/BG_SYS_GetModeValue.c \
- *       --func BG_SYS_GetModeValue --addr 0x020422D4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_GetScreenSizeInTiles.c \
+ *       --func BG_SYS_GetScreenSizeInTiles --addr 0x020422D4 --cc 1.1p1 --arm
  */
-void BG_SYS_GetModeValue(u32 mode, u8 *a, u8 *b)
+void BG_SYS_GetScreenSizeInTiles(u32 mode, u8 *a, u8 *b)
 {
     switch (mode) {
     case 0:
@@ -2671,10 +2692,10 @@ void BG_SYS_SetScrollField(struct BgLayer *p, u32 op, u32 value)
  * shared the same way and survives into the second call.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/BG_SYS_RotScale.c \
- *       --func BG_SYS_RotScale --addr 0x020423D4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_ResetAffineMatrix.c \
+ *       --func BG_SYS_ResetAffineMatrix --addr 0x020423D4 --cc 1.1p1 --arm
  */
-void BG_SYS_RotScale(u32 layer)
+void BG_SYS_ResetAffineMatrix(u32 layer)
 {
     struct Mtx22 p;
 
@@ -2833,7 +2854,7 @@ void BG_SYS_BlitTiles(struct BgLayer *s, u8 dx, u8 dy, u8 cw, u8 ch,
     if (dst == 0)
         return;
 
-    BG_SYS_GetModeValue(s->screenSizeCode, &w, &h);
+    BG_SYS_GetScreenSizeInTiles(s->screenSizeCode, &w, &h);
 
     if (mode == 0) {
         for (y = 0; y < ch; y++) {
@@ -2862,7 +2883,7 @@ void BG_SYS_BlitTiles(struct BgLayer *s, u8 dx, u8 dy, u8 cw, u8 ch,
 /*
  * Tile-to-tile copier: copies a cw x ch block of a source tilemap
  * (row stride sw, height sh, origin sx/sy) into the screen's tilemap at
- * dx/dy, clipped to the screen size BG_SYS_GetModeValue reports.  mode 0 reads
+ * dx/dy, clipped to the screen size BG_SYS_GetScreenSizeInTiles reports.  mode 0 reads
  * the source linearly, any other mode through BG_SYS_DrawTileRegion's index.
  *
  * Closed in wave 11.  Three declarations carry it: ch, sw and sh are u8
@@ -2885,7 +2906,7 @@ void BG_SYS_BlitPixels(struct BgLayer *s, u8 dx, u8 dy, u8 cw, u8 ch,
     if (dst == 0)
         return;
 
-    BG_SYS_GetModeValue(s->screenSizeCode, &w, &h);
+    BG_SYS_GetScreenSizeInTiles(s->screenSizeCode, &w, &h);
 
     if (mode == 0) {
         for (y = 0; y < ch; y++) {
@@ -2934,7 +2955,7 @@ void BG_SYS_BlitTilesEx(struct BgLayer *s, u8 dx, u8 dy, u8 cw, u8 ch,
     if (dst == 0)
         return;
 
-    BG_SYS_GetModeValue(s->screenSizeCode, &w, &h);
+    BG_SYS_GetScreenSizeInTiles(s->screenSizeCode, &w, &h);
 
     if (mode == 0) {
         for (y = 0; y < ch; y++) {
@@ -3023,7 +3044,7 @@ void BG_SYS_BlitTileMap(struct BgLayer *s, u16 value, u8 x0, u8 y0, u8 w, u8 h,
         return;
     }
 
-    BG_SYS_GetModeValue(s->screenSizeCode, &width, &height);
+    BG_SYS_GetScreenSizeInTiles(s->screenSizeCode, &width, &height);
 
     for (y = y0; y < y0 + h; y++) {
         if (y >= height) {
@@ -3086,7 +3107,7 @@ void BG_SYS_BlitPixelsEx(struct BgLayer *s, u8 value, u8 x0, u8 y0, u8 w, u8 h)
         return;
     }
 
-    BG_SYS_GetModeValue(s->screenSizeCode, &width, &height);
+    BG_SYS_GetScreenSizeInTiles(s->screenSizeCode, &width, &height);
 
     yEnd = y0 + h;
 
@@ -3150,7 +3171,7 @@ void BG_SYS_BlitTileMapEx(struct BgLayer *s, u16 value, u8 x0, u8 y0, u8 w, u8 h
         return;
     }
 
-    BG_SYS_GetModeValue(s->screenSizeCode, &width, &height);
+    BG_SYS_GetScreenSizeInTiles(s->screenSizeCode, &width, &height);
 
     for (y = y0; y < y0 + h; y++) {
         if (y >= height) {
@@ -3433,4 +3454,368 @@ void BG_SYS_ApplyCenterOp(struct BgLayer *bg, u32 opcode, u32 operand)
         bg->centerY = bg->centerY - operand;
         break;
     }
+}
+
+typedef enum {
+    GX_OBJVRAMMODE_CHAR_2D      = 0x00000000,
+    GX_OBJVRAMMODE_CHAR_1D_32K  = 0x00000010,
+    GX_OBJVRAMMODE_CHAR_1D_64K  = 0x00100010,
+    GX_OBJVRAMMODE_CHAR_1D_128K = 0x00200010,
+    GX_OBJVRAMMODE_CHAR_1D_256K = 0x00300010
+} GXOBJVRamModeChar;
+
+typedef enum { GX_VRAM_NONE = 0 } GXVRam;
+
+struct DispVram {
+    GXVRam main_bg;             /* +0x00 */
+    GXVRam main_bg_expltt;      /* +0x04 */
+    GXVRam sub_bg;              /* +0x08 */
+    GXVRam sub_bg_expltt;       /* +0x0C */
+    GXVRam main_obj;            /* +0x10 */
+    GXVRam main_obj_expltt;     /* +0x14 */
+    GXVRam sub_obj;             /* +0x18 */
+    GXVRam sub_obj_expltt;      /* +0x1C */
+    GXVRam teximage;            /* +0x20 */
+    GXVRam texpltt;             /* +0x24 */
+    GXOBJVRamModeChar main_mapping;     /* +0x28 */
+    GXOBJVRamModeChar sub_mapping;      /* +0x2C */
+};
+
+extern void GX_SetBankForLCDC(u32 banks);
+
+extern void GX_DisableBankForLCDC(void);
+
+extern int GX_ResetBankForBG(void);
+
+extern void GX_DispOn(void);
+
+void BG_SYS_ClearGraphicsMemory(u32 keepBanks);
+
+void BG_SYS_SetVramBanks(const struct DispVram *banks);
+
+void BG_SYS_ClearMainObjPlane(void);
+
+void BG_SYS_SetMainVisiblePlanes(u32 planes);
+
+void BG_SYS_ClearSubObjPlane(void);
+
+void BG_SYS_SetSubVisiblePlanes(u32 planes);
+
+void BG_SYS_ResetSubDisplay(void);
+
+void BMP_SetDisplaySwap(u32 swap);
+
+u32 BMP_GetVisiblePlane(void);
+
+u32 BG_SYS_GetSubVisiblePlanes(void);
+
+/* [0] = sub engine, [1] = main engine; bit n = BG n, bit 4 = OBJ */
+extern u32 gVisiblePlanes[2];
+
+/*
+ * Blank the graphics state: disable every VRAM bank the caller's mask does
+ * not name, then zero main VRAM (0x06800000, 0xa4000 bytes), both OAM
+ * halves (0x07000000 and 0x07000400, filled with 0xc0 so every sprite sits
+ * off-screen) and both palette halves (0x05000000 and 0x05000400).
+ * MIi_CpuClearFast is the four-byte-granular clear helper, taking the fill
+ * word first and the destination second.
+ *
+ * The 0x1ff mask is never pooled: the compiler already has 0xffff in a
+ * register for the complement and rematerialises 0x1ff from it with
+ * `sub r0, r1, #0xfe00`
+ * (docs/idioms/a-small-constant-is-rematerialised-off-a-zero-register-unless-an-argument-shares-it.md).
+ */
+void BG_SYS_ClearGraphicsMemory(u32 keepBanks)
+{
+    GX_SetBankForLCDC((keepBanks ^ 0xffff) & 0x1ff);
+
+    MIi_CpuClearFast(0, (void *)0x06800000, 0xa4000);
+    GX_DisableBankForLCDC();
+
+    MIi_CpuClearFast(0xc0, (void *)0x07000000, 0x400);
+    MIi_CpuClearFast(0, (void *)0x05000000, 0x400);
+    MIi_CpuClearFast(0xc0, (void *)0x07000400, 0x400);
+    MIi_CpuClearFast(0, (void *)0x05000400, 0x400);
+}
+
+extern void GX_ResetBankForBGExtPltt(void);   /* GX_ResetBankForBGExtPltt */
+
+extern int GX_ResetBankForSubBG(void);
+
+extern void GX_ResetBankForSubBGExtPltt(void);   /* GX_ResetBankForSubBGExtPltt */
+
+extern void GX_ResetBankForOBJ(void);
+
+extern void GX_ResetBankForOBJExtPltt(void);   /* GX_ResetBankForOBJExtPltt */
+
+extern void GX_ResetBankForSubOBJ(void);
+
+extern void GX_ResetBankForSubOBJExtPltt(void);   /* GX_ResetBankForSubOBJExtPltt */
+
+extern int GX_ResetBankForTex(void);
+
+extern void GX_ResetBankForTexPltt(void);
+
+extern void GX_SetBankForBG(GXVRam v);   /* GX_SetBankForBG */
+
+extern void GX_SetBankForBGExtPltt(GXVRam v);   /* GX_SetBankForBGExtPltt */
+
+extern void GX_SetBankForSubBG(GXVRam v);   /* GX_SetBankForSubBG */
+
+extern void GX_SetBankForSubBGExtPltt(GXVRam v);   /* GX_SetBankForSubBGExtPltt */
+
+extern void GX_SetBankForOBJ(GXVRam v);   /* GX_SetBankForOBJ */
+
+extern void GX_SetBankForOBJExtPltt(GXVRam v);   /* GX_SetBankForOBJExtPltt */
+
+extern void GX_SetBankForSubOBJ(GXVRam v);   /* GX_SetBankForSubOBJ */
+
+extern void GX_SetBankForSubOBJExtPltt(GXVRam v);   /* GX_SetBankForSubOBJExtPltt */
+
+extern void GX_SetBankForTex(GXVRam v);   /* GX_SetBankForTex */
+
+extern void GX_SetBankForTexPltt(GXVRam v);   /* GX_SetBankForTexPltt */
+
+#define reg_GX_DISPCNT      (*(volatile u32 *)0x04000000)
+
+#define reg_GXS_DB_DISPCNT  (*(volatile u32 *)0x04001000)
+
+static inline void GX_SetOBJVRamModeChar(GXOBJVRamModeChar mode)
+{
+    reg_GX_DISPCNT = (u32)(reg_GX_DISPCNT & ~(0x00300000 | 0x00000010) | mode);
+}
+
+static inline void GXS_SetOBJVRamModeChar(GXOBJVRamModeChar mode)
+{
+    reg_GXS_DB_DISPCNT = (u32)(reg_GXS_DB_DISPCNT & ~(0x00300000 | 0x00000010) | mode);
+}
+
+/*
+ * bg_sys.c: apply a VRAM bank descriptor.  Disable every bank, set the ten
+ * bank assignments (TwlSDK GX_SetBankFor*, 0x0207FDCC..0x0208040C), then the
+ * main and sub OBJ-VRAM character mapping through the SDK inlines
+ * GX_SetOBJVRamModeChar / GXS_SetOBJVRamModeChar (nitro/gx/gx.h).
+ *
+ * Closed in wave 16 by the SDK-inline lever: the two mapping words are
+ * GXOBJVRamModeChar enum fields passed straight into the inlines, and the
+ * descriptor is `const`.  With u32 fields and parameters the same body is
+ * 33 bytes out; with a non-const or volatile descriptor 29; every earlier
+ * spelling (locals a/b, volatile struct) capped at 6 (r3/ip pair in the
+ * DISPCNT tail, docs/notes/BG_SYS_SetVramBanks.c.txt).
+ */
+void BG_SYS_SetVramBanks(const struct DispVram *banks)
+{
+    GX_ResetBankForBG();
+    GX_ResetBankForBGExtPltt();
+    GX_ResetBankForSubBG();
+    GX_ResetBankForSubBGExtPltt();
+    GX_ResetBankForOBJ();
+    GX_ResetBankForOBJExtPltt();
+    GX_ResetBankForSubOBJ();
+    GX_ResetBankForSubOBJExtPltt();
+    GX_ResetBankForTex();
+    GX_ResetBankForTexPltt();
+    GX_SetBankForBG(banks->main_bg);
+    GX_SetBankForBGExtPltt(banks->main_bg_expltt);
+    GX_SetBankForSubBG(banks->sub_bg);
+    GX_SetBankForSubBGExtPltt(banks->sub_bg_expltt);
+    GX_SetBankForOBJ(banks->main_obj);
+    GX_SetBankForOBJExtPltt(banks->main_obj_expltt);
+    GX_SetBankForSubOBJ(banks->sub_obj);
+    GX_SetBankForSubOBJExtPltt(banks->sub_obj_expltt);
+    GX_SetBankForTex(banks->teximage);
+    GX_SetBankForTexPltt(banks->texpltt);
+    GX_SetOBJVRamModeChar(banks->main_mapping);
+    GXS_SetOBJVRamModeChar(banks->sub_mapping);
+}
+
+/*
+ * The tail of the packet: two one-line mask-downs of the same 32-bit word
+ * at +4 of the object that starts at 0x02146A48, and the wrapper that runs
+ * both.  Each accessor keeps only the bits its own half owns (0x10 for the
+ * first, 0x0f for the second), so calling both in sequence clears the word
+ * outright; the wrapper is the reset path.
+ *
+ * Kept as one unit so the two `bl` sites in BG_SYS_ClearMainPlanes are `local`: they
+ * are that pair's only callers image-wide, and split into three files
+ * neither could attest the other
+ * (docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md in
+ * reverse).
+ */
+void BG_SYS_ClearMainBgPlanes(void)
+{
+    gVisiblePlanes[1] &= 0x10;
+}
+
+void BG_SYS_ClearMainObjPlane(void)
+{
+    gVisiblePlanes[1] &= 0xf;
+}
+
+void BG_SYS_ClearMainPlanes(void)
+{
+    BG_SYS_ClearMainBgPlanes();
+    BG_SYS_ClearMainObjPlane();
+}
+
+/*
+ * A whole translation unit, matched as one byte range.
+ *
+ * The engine-A visible-plane trio, against gVisiblePlanes[1] and DISPCNT at
+ * 0x04000000: toggle one plane only if the requested state differs, replace
+ * the whole set, and reset to the one plane in bit 4.  The register address
+ * is a rotated ARM immediate here (`mov r2, #0x4000000`), where the
+ * engine-B twins at 0x02043598 / 0x020435F4 must pool 0x04001000.
+ *
+ * Verified with:
+ *   python tools/match.py tu --src src/matched/unit_020434DC.c \
+ *       --addr 0x020434DC --arm
+ */
+void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable)
+{
+    if (enable == 1) {
+        if (gVisiblePlanes[1] & mask) {
+            return;
+        }
+    } else if (!(gVisiblePlanes[1] & mask)) {
+        return;
+    }
+
+    gVisiblePlanes[1] ^= mask;
+    *(volatile u32 *)0x04000000 =
+        (*(volatile u32 *)0x04000000 & ~0x1f00) | (gVisiblePlanes[1] << 8);
+}
+
+void BG_SYS_SetMainVisiblePlanes(u32 planes)
+{
+    gVisiblePlanes[1] = planes;
+    *(volatile u32 *)0x04000000 =
+        (*(volatile u32 *)0x04000000 & ~0x1f00) | (planes << 8);
+}
+
+void BG_SYS_ClearSubBgPlanes(void)
+{
+    gVisiblePlanes[0] &= 0x10;
+}
+
+/*
+ * Two of the engine-B visible-plane mask writers, 0x02043570-0x02043598.
+ *
+ *   0x02043570  keep only the four background bits of the software copy
+ *               gVisiblePlanes[0] (mask 0xF)
+ *   0x02043588  the pair call: run the sibling at 0x02043558, which keeps
+ *               only bit 4 (the OBJ plane), then the one above, so the two
+ *               together clear the software copy outright
+ *
+ * 0x02043570 has exactly one branch reference image-wide, the `bl` at
+ * 0x02043590 inside 0x02043588, so folding the two into one unit costs no
+ * witness (docs/idioms/a-unit-attests-only-its-own-start-address.md): the
+ * interior address is nobody else's sole witness.
+ *
+ * The mask constants are plain `and` immediates, not a bitfield: both fit an
+ * ARM rotated immediate and neither carries a narrowing shift pair.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py tu --src src/matched/unit_02043570.c \
+ *       --addr 0x02043570 --cc 1.1p1 --arm
+ */
+void BG_SYS_ClearSubObjPlane(void)
+{
+    gVisiblePlanes[0] &= 0xF;
+}
+
+void BG_SYS_ClearSubPlanes(void)
+{
+    BG_SYS_ClearSubBgPlanes();
+    BG_SYS_ClearSubObjPlane();
+}
+
+/*
+ * The engine-B half of the visible-plane toggle: if the requested state
+ * already holds, return; otherwise flip the bit in the software copy at
+ * gVisiblePlanes[0] and rewrite bits 8..12 of GXS_DISPCNT (0x04001000) from
+ * it.  The engine-A twin at 0x020434DC is the same code against
+ * gVisiblePlanes[1] and 0x04000000; that one is materialised with a `mov`
+ * because 0x04000000 is an ARM rotated immediate while 0x04001000 is not
+ * and costs a pool word.
+ *
+ * The register address is a cast constant, not a relocation, so this file's
+ * only attestable site is gVisiblePlanes.
+ */
+void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable)
+{
+    if (enable == 1) {
+        if (gVisiblePlanes[0] & mask) {
+            return;
+        }
+    } else if (!(gVisiblePlanes[0] & mask)) {
+        return;
+    }
+
+    gVisiblePlanes[0] ^= mask;
+    *(volatile u32 *)0x04001000 =
+        (*(volatile u32 *)0x04001000 & ~0x1f00) | (gVisiblePlanes[0] << 8);
+}
+
+/*
+ * Engine-B "replace the whole visible-plane set": store the software copy
+ * and rewrite bits 8..12 of GXS_DISPCNT from it.  Twin of BG_SYS_SetMainVisiblePlanes.
+ */
+void BG_SYS_SetSubVisiblePlanes(u32 planes)
+{
+    gVisiblePlanes[0] = planes;
+    *(volatile u32 *)0x04001000 =
+        (*(volatile u32 *)0x04001000 & ~0x1f00) | (planes << 8);
+}
+
+/*
+ * Three display-control leaves, 0x0204361C-0x02043668.  The two after the
+ * first save no lr, so disasm.py does not label them and they print as a
+ * run of `.word`s between literal pools; neither has a branch reference
+ * anywhere in the image, so folding them into this unit costs no witness.
+ *
+ *   0x0204361C  reset the sub engine, then turn on bit 16 of GXS_DISPCNT
+ *   0x0204363C  write the LCD-swap bit (bit 15) of POWCNT1 from bit 0 of
+ *               the argument; the plain `orr ..., lsl #15` with no
+ *               narrowing says this is arithmetic on the register word, not
+ *               a one-bit bitfield (which would carry an `lsr #16` shifter
+ *               operand, see the bitfield-cast idiom)
+ *   0x02043658  read back gVisiblePlanes[1], the main-engine software copy
+ *
+ * Verified with:
+ *   python tools/match.py tu --src src/matched/unit_0204361C.c \
+ *       --addr 0x0204361C --cc 1.1p1 --arm
+ */
+void BG_SYS_ResetSubDisplay(void)
+{
+    GX_DispOn();
+    *(volatile u32 *)0x04001000 |= 0x10000;
+}
+
+void BMP_SetDisplaySwap(u32 swap)
+{
+    *(volatile u16 *)0x04000304 =
+        (*(volatile u16 *)0x04000304 & ~0x8000) | (swap << 15);
+}
+
+u32 BMP_GetVisiblePlane(void)
+{
+    return gVisiblePlanes[1];
+}
+
+/*
+ * Read back gVisiblePlanes[0], the sub-engine software copy of the visible
+ * plane set that BG_SYS_SetSubVisiblePlanes writes.  Twin of the third leaf in
+ * src/matched/unit_0204361C.c, which reads element 1.  Saves no lr, so
+ * disasm.py does not label it.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/BG_SYS_GetSubVisiblePlanes.c \
+ *       --func BG_SYS_GetSubVisiblePlanes --addr 0x02043668 --cc 1.1p1 --arm
+ */
+u32 BG_SYS_GetSubVisiblePlanes(void)
+{
+    return gVisiblePlanes[0];
 }

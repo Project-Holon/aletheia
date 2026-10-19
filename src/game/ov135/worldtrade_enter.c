@@ -1,8 +1,8 @@
 /*
  * file:     worldtrade_enter.c
  * unit:     yes
- * function: WORLDTRADE_ENTER_ClearFlags, WORLDTRADE_ENTER_GetListRange, WORLDTRADE_ENTER_CreateListMenu, WORLDTRADE_ENTER_UpdateListMenu, WORLDTRADE_ENTER_ClearListRange, WORLDTRADE_ENTER_SetListRangeEntry, WORLDTRADE_ENTER_Init, WORLDTRADE_ENTER_CallStateHandler, WORLDTRADE_ENTER_Exit, WORLDTRADE_ENTER_EmptyInitHook, WORLDTRADE_ENTER_EmptyExitHook, WORLDTRADE_ENTER_SetState, WORLDTRADE_ENTER_StateStartServerCheck, WORLDTRADE_ENTER_StatePollServerCheck, WORLDTRADE_ENTER_InitDwcTrade, WORLDTRADE_ENTER_StateStartConnect, WORLDTRADE_ENTER_WaitServerCheck, WORLDTRADE_ENTER_SendProfile, WORLDTRADE_ENTER_WaitProfileResult, WORLDTRADE_ENTER_PushWifiSetup, WORLDTRADE_ENTER_StateWaitWifiSetup, WORLDTRADE_ENTER_PushWifiError, WORLDTRADE_ENTER_StateWaitWifiError, WORLDTRADE_ENTER_RunDialog, WORLDTRADE_ENTER_StateAbortConnect, WORLDTRADE_ENTER_StateExit, WORLDTRADE_ENTER_ShowErrorMessage, WORLDTRADE_ENTER_ShutdownDwcStep, WORLDTRADE_INPUT_PrintStringTop, WORLDTRADE_INPUT_PrintStringPlain, WORLDTRADE_INPUT_PrintBankString, WORLDTRADE_INPUT_PrintStringAligned, WORLDTRADE_INPUT_PrintStringAlignedLine, WORLDTRADE_INPUT_PrintStringAlignedWrapped, WORLDTRADE_INPUT_PrintCentered, WORLDTRADE_ENTER_RestartNetTimeout, WORLDTRADE_INPUT_CreateModeWindows
- * address:  0x021F88B0
+ * function: WORLDTRADE_ENTER_Init, WORLDTRADE_ENTER_CallStateHandler, WORLDTRADE_ENTER_Exit, WORLDTRADE_ENTER_EmptyInitHook, WORLDTRADE_ENTER_EmptyExitHook, WORLDTRADE_ENTER_SetState, WORLDTRADE_ENTER_StateStartServerCheck, WORLDTRADE_ENTER_StatePollServerCheck, WORLDTRADE_ENTER_InitDwcTrade, WORLDTRADE_ENTER_StateStartConnect, WORLDTRADE_ENTER_WaitServerCheck, WORLDTRADE_ENTER_SendProfile, WORLDTRADE_ENTER_WaitProfileResult, WORLDTRADE_ENTER_PushWifiSetup, WORLDTRADE_ENTER_StateWaitWifiSetup, WORLDTRADE_ENTER_PushWifiError, WORLDTRADE_ENTER_StateWaitWifiError, WORLDTRADE_ENTER_RunDialog, WORLDTRADE_ENTER_StateAbortConnect, WORLDTRADE_ENTER_StateExit, WORLDTRADE_ENTER_ShowErrorMessage, WORLDTRADE_ENTER_ShutdownDwcStep
+ * address:  0x021F89B4
  * region:   ov135
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -10,42 +10,21 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Cut from worldtrade_box.c, worldtrade_enter.c, worldtrade_adapter.c, WORLDTRADE_ADAPTER_QueueMessagePrint.c by tools/splitfile.py.
+ * Cut from worldtrade_deposit.c, worldtrade_enter.c, worldtrade_input.c by tools/splitfile.py.
  *
  * symbols:
- *   DPW_TR_Main 0x021C7C1C arm ov114
  *   GFL_HEAP_Free 0x020307B0 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   MSGDATA_AllocString 0x02045EC0 arm
- *   STRBUF_Delete 0x02045808 arm
- *   WORLDTRADE_ENTER_RestartNetTimeout 0x021F9254 thumb ov135
- *   WORLDTRADE_INPUT_PrintStringAlignedLine  0x021F91A0  thumb
  *   GFL_HEAP_Alloc 0x02030734 arm
- *   WORDSET_CopyTaggedText  0x0201F250  thumb
- *   BMP_WIN_GetBmp   0x02045770  arm
- *   BMP_Clear   0x02043B5C  arm
- *   BMP_WIN_TransferChars   0x02045334  arm
- *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
- *   WORLDTRADE_ADAPTER_QueuePrintDefaultColor  0x02202858  thumb  ov135
+ *   WORLDTRADE_AdvanceScreenId  0x021F4EC8  thumb  ov135
+ *   WORLDTRADE_SetStateAndReturn  0x021F4EC0  thumb
+ *   DPW_TR_Main 0x021C7C1C arm ov114
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   PROCSYS_Push  0x02031348  arm
- *   BMP_WIN_Create 0x020450F0 arm
- *   WORLDTRADE_ENTER_ClearListRange 0x021F8990 thumb ov135
- *   WORLDTRADE_ENTER_UpdateListMenu 0x021F8950 thumb ov135
- *   WORLDTRADE_ENTER_SetListRangeEntry 0x021F89A8 thumb ov135
- *   WORLDTRADE_ADAPTER_PrintQueColor  0x022028C8  thumb
- *   BMP_MENUWORK_Create  0x0201F81C  thumb  arm9
- *   BMP_MENUWORK_AddMsgItem  0x0201F878  thumb  arm9
- *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
- *   d_022030E8 0x022030E8 data a2
- *   tbl_02202F0C  0x02202F0C  data
- *   tbl_022030E8 0x022030E8 data a2
  *   WORLDTRADE_ExitPlanes 0x021F50EC thumb ov135
  *   d_02203C1C 0x02203C1C data a4
  *   WORLDTRADE_ClearAndShowPlanes  0x021F5074  thumb  ov135
- *   WORLDTRADE_ClearBusyFlag  0x021F4EC8  thumb  ov135
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
- *   WORLDTRADE_SetStateAndReturn  0x021F4EC0  thumb
  *   DWC_NASLoginAsync  0x02168064  arm
  *   DWC_NASLoginProcess 0x02168124 arm ov009
  *   MYSTATUS_SetProfileIdOnce 0x02008540 thumb
@@ -68,28 +47,8 @@
  *   DPW_TR_End 0x021C8658 arm ov114
  *   DWC_ShutdownFriendsMatch 0x0216AD50 arm ov009
  *   DWC_CleanupInet 0x0205CC20 arm
- *   WORLDTRADE_ADAPTER_StartPrintStream 0x02202878 thumb ov135
- *   WORLDTRADE_ADAPTER_StrObjThunk 0x022026C4 thumb ov135
- *   BMP_WIN_GetWidth 0x02045738 arm
- *   tbl_022031EC   0x022031EC  data
- *   BG_SYS_Init  0x02040C14  arm
- *   data_02203200  0x02203200  data
- *   data_02203206  0x02203206  data
- *   data_0220322A  0x0220322A  data
- *   data_02203242  0x02203242  data
- *   data_022032AE  0x022032AE  data
- *   BMP_MENULIST_Main  0x020200CC  thumb  arm9
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm  arm9
- *   WORLDTRADE_ENTER_CreateListMenu 0x021F8908 thumb ov135
- *   WORLDTRADE_ENTER_GetListRange  0x021F88D8  thumb  ov135
- *   WORLDTRADE_INPUT_PrintStringAlignedWrapped  0x021F91DC  thumb
- *   WORLDTRADE_ENTER_ClearFlags 0x021F88B0 thumb ov135
- *   WORLDTRADE_INPUT_PrintCentered  0x021F9218  thumb
- *   WORLDTRADE_INPUT_PrintStringPlain  0x021F90A0  thumb
- *   WORLDTRADE_INPUT_PrintStringTop  0x021F9088  thumb  ov135
  *   WIFILIST_GetGsProfileId  0x02009CC0  thumb  arm9
  *   WIFILIST_GetWork  0x02009860  thumb  arm9
- *   BMP_MENULIST_GetListIndex  0x020202EC  thumb  arm9
  */
 #include "worldtrade_types.h"
 
@@ -97,51 +56,19 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-
-extern void STRBUF_Delete(struct U16Vec *vec);
-
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
-
-extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-
-extern void *BMP_WIN_GetBmp(struct Descriptor *p);
-
-extern void BMP_Clear(struct CharBuf *buf, u8 value);
-
-extern void BMP_WIN_TransferChars(struct Descriptor *d);
-
-extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
-
-extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
-
-extern u32 WORLDTRADE_ADAPTER_QueuePrintDefaultColor(void *p, u8 b, void *s, u32 x, u32 y, void *out);
 
 struct Sub020097BCObj;
 
 struct DWCstAccUserData;
 
-typedef struct {
-    u8 start;
-    u8 id;
-} IdRange;
-
 typedef unsigned long long u64;
-
-
-extern void *BMP_MENUWORK_Create(u32 n, u32 heap);
-
-extern s32 BMP_MENULIST_Main(struct Obj *o);
-
-extern void BMP_MENULIST_GetListIndex(struct Obj *obj, u16 *out);
-
-extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 
 extern void WORLDTRADE_ExitPlanes(Work *);
 
 extern void WORLDTRADE_ClearAndShowPlanes(Work *p);
 
-extern void WORLDTRADE_ClearBusyFlag(Work *p);
+extern void WORLDTRADE_AdvanceScreenId(Work *p);
 
 extern void GFL_USE_CancelChangeAndPlayBgm(u32 a, u32 b);
 
@@ -195,33 +122,6 @@ extern void DWC_ShutdownFriendsMatch(void);
 
 extern void DWC_CleanupInet(void);
 
-extern void BMP_MENUWORK_DrawWindow(void *, int, int, int);
-
-extern void WORLDTRADE_ADAPTER_StartPrintStream(void *a, unsigned b, unsigned c, int d, int e, PrintStreamCtx *p);
-
-extern int WORLDTRADE_ADAPTER_StrObjThunk(u32 *p, u32 b, u32 a, u32 c);
-
-extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
-
-extern u32 WORLDTRADE_ADAPTER_PrintQueColor(u8 *p, u32 z, u32 b, u32 r, u32 d, u32 z2, u16 f, u32 g);
-
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
-
-extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
-
-
-void WORLDTRADE_ENTER_ClearFlags(Work *p,u32 n);
-
-int WORLDTRADE_ENTER_GetListRange(u32 id, u32 *start);
-
-int WORLDTRADE_ENTER_CreateListMenu(void **menu, void *msg, int id);
-
-int WORLDTRADE_ENTER_UpdateListMenu(void *p, u16 *old);
-
-void WORLDTRADE_ENTER_ClearListRange(SelTable *p);
-
-void WORLDTRADE_ENTER_SetListRangeEntry(SelTable *p, int i, u16 a, u16 b);
-
 int WORLDTRADE_ENTER_Init(Work *p);
 
 int WORLDTRADE_ENTER_CallStateHandler(Work *p);
@@ -266,126 +166,11 @@ int WORLDTRADE_ENTER_ShowErrorMessage(Work *p, void *dialog);
 
 int WORLDTRADE_ENTER_ShutdownDwcStep(Work *p, void *dialog);
 
-void WORLDTRADE_INPUT_PrintStringTop(u32 a, u32 b, u32 c, u32 d, u16 e);
-
-void WORLDTRADE_INPUT_PrintStringPlain(u32 a, u32 b, u32 c, u32 d, u16 e);
-
-void WORLDTRADE_INPUT_PrintBankString(Work *p, void *bank, u32 index, int unused1, int unused2, int slow);
-
-int WORLDTRADE_INPUT_PrintStringAligned(void *win, void *str, int x, int align, int unused, int font, void *ctx);
-
-int WORLDTRADE_INPUT_PrintStringAlignedLine(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g);
-
-int WORLDTRADE_INPUT_PrintStringAlignedWrapped(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g);
-
-void WORLDTRADE_INPUT_PrintCentered(void *win, void *bank, int idx, void *g);
-
-void WORLDTRADE_ENTER_RestartNetTimeout(u8 *p);
-
-void WORLDTRADE_INPUT_CreateModeWindows(Menu *p, u32 mode);
-
-extern const u16 d_022030E8[];
-
-extern const IdRange tbl_02202F0C[];
-
-extern u16 tbl_022030E8[];
-
 extern const char str_02203C34[], ov115_id[];
 
 extern const u32 gNetSaveMainProc[];
 
 extern u8 tbl_021D654C[];
-
-extern const u32 tbl_022031EC[];
-
-extern const u8 data_02203200[3][2];
-
-extern const u8 data_02203206[4][2];
-
-extern const u8 data_0220322A[4][3];
-
-extern const u8 data_02203242[5][2];
-
-extern const u8 data_022032AE[9][2];
-
-void WORLDTRADE_ENTER_ClearFlags(Work *p,u32 index) { if(index==0){p->countryFilter=0;return;}index--;if(index<130)p->countryFilter=d_022030E8[index]; }
-
-int WORLDTRADE_ENTER_GetListRange(u32 id, u32 *start)
-{
-    int i;
-
-    for (i = 0; i < 28; i++) {
-        if (id == tbl_02202F0C[i].id) {
-            *start = tbl_02202F0C[i].start;
-            return tbl_02202F0C[i + 1].start - tbl_02202F0C[i].start;
-        }
-    }
-    return 0;
-}
-
-#pragma opt_common_subs off
-
-/*
- * Builds a message menu: reads the entry range for an id, allocates the table
- * and fills one slot per entry. The slot call takes five arguments (heap id
- * 0x48 on the stack), as in the other matched callers of BMP_MENUWORK_AddMsgItem (the
- * arm9 definition lists four parameters; the fifth is passed but not read).
- * Closed with opt_common_subs off: the original does not share start + i
- * between the table index and the tag. 2026-10-05 (P21): plain form 16 bytes
- * off, only that pragma closes it. Table extern is not const (const gave 18).
- */
-int WORLDTRADE_ENTER_CreateListMenu(void **menu, void *msg, int id)
-{
-    int i;
-    int count;
-    u32 start;
-    count = WORLDTRADE_ENTER_GetListRange(id, &start);
-    *menu = BMP_MENUWORK_Create(count, 0x48);
-    for (i = 0; (i < count) ? 1 : 0; i++) {
-        BMP_MENUWORK_AddMsgItem(*menu, (u32)msg, tbl_022030E8[start + i], start + i + 1, 0x48);
-    }
-    return count;
-}
-
-#pragma opt_common_subs reset
-
-int WORLDTRADE_ENTER_UpdateListMenu(void *p, u16 *old)
-{
-    u16 current;
-    int result;
-    result = BMP_MENULIST_Main(p);
-    BMP_MENULIST_GetListIndex(p, &current);
-    if (*old != current) {
-        if (*old != 0xFFFF) GFL_USE_PlaySeDefaultVolume(0x548);
-        *old = current;
-    }
-    return result;
-}
-
-/*
- * Clear the two ten-entry u16 tables at +4 and +0x18 and the two header words.
- */
-void WORLDTRADE_ENTER_ClearListRange(SelTable *p)
-{
-    int i;
-    u16 zero = 0;
-
-    for (i = 0; i < 10; i++) {
-        p->a[i] = zero;
-        p->b[i] = zero;
-    }
-    p->f0 = zero;
-    p->f2 = zero;
-}
-
-/*
- * Store a pair of u16 values at +4 and +0x18 of record i.
- */
-void WORLDTRADE_ENTER_SetListRangeEntry(SelTable *p, int index, u16 restoreScroll, u16 restoreRow)
-{
-    p->a[index] = restoreScroll;
-    p->b[index] = restoreRow;
-}
 
 /*
  * volatile: hardware read-modify-write at 021F89C6/021F89CA, 0x04000304.
@@ -403,7 +188,7 @@ u32 WORLDTRADE_ENTER_Exit(Work *p)
 {
     WORLDTRADE_ENTER_EmptyExitHook();
     WORLDTRADE_ClearAndShowPlanes(p);
-    WORLDTRADE_ClearBusyFlag(p);
+    WORLDTRADE_AdvanceScreenId(p);
     if (p->screenId == 0) {
         return 4;
     }
@@ -802,164 +587,4 @@ int WORLDTRADE_ENTER_ShutdownDwcStep(Work *p, void *dialog)
         break;
     }
     return 0;
-}
-
-/*
- * Forward the u16 stack argument to WORLDTRADE_INPUT_PrintBankString with mode 1.
- */
-void WORLDTRADE_INPUT_PrintStringTop(u32 work, u32 bank, u32 msgId, u32 unused1, u16 unused2)
-{
-    WORLDTRADE_INPUT_PrintBankString((Work *)work, (void *)bank, msgId, unused1, unused2, 1);
-}
-
-/*
- * Forward the u16 stack argument to WORLDTRADE_INPUT_PrintBankString with mode 0.
- */
-void WORLDTRADE_INPUT_PrintStringPlain(u32 work, u32 bank, u32 msgId, u32 unused1, u16 unused2)
-{
-    WORLDTRADE_INPUT_PrintBankString((Work *)work, (void *)bank, msgId, unused1, unused2, 0);
-}
-
-void WORLDTRADE_INPUT_PrintBankString(Work *p, void *bank, u32 index, int unused1, int unused2, int slow)
-{
-    void *str;
-    str = MSGDATA_AllocString(bank, index);
-    WORDSET_CopyTaggedText(p->words, p->str, str);
-    STRBUF_Delete(str);
-    BMP_Clear(BMP_WIN_GetBmp(p->d40), 15);
-    BMP_WIN_TransferChars(p->d40);
-    BMP_MENUWORK_DrawWindow(p->d40, 0, 1, 14);
-    if (slow)
-        WORLDTRADE_ADAPTER_StartPrintStream(p->d40, 0, (unsigned int)(p->str), 0, 0, &p->printCtx);
-    else
-        WORLDTRADE_ADAPTER_QueuePrintDefaultColor(p->d40, 0, p->str, 0, 0, &p->printCtx);
-    p->cnt = 0;
-}
-
-/*
- * lever: unused fifth argument leaves font and context in stack slots +4/+8.
- */
-int WORLDTRADE_INPUT_PrintStringAligned(void *win, void *str, int x, int align, int unused, int font, void *ctx)
-{
-    int width;
-    switch (align) {
-    case 1:
-        width = WORLDTRADE_ADAPTER_StrObjThunk(ctx, (u8)font, (u32)str, (int)0);
-        x = (BMP_WIN_GetWidth(win) * 8 - width) / 2;
-        break;
-    case 2:
-        width = WORLDTRADE_ADAPTER_StrObjThunk(ctx, (u8)font, (u32)str, (int)0);
-        x = BMP_WIN_GetWidth(win) * 8 - width;
-        break;
-    }
-    return x;
-}
-
-/*
- * Seven-argument wrapper: forwards the object, three words, the 0 and the u16/g pair to the two helpers.
- */
-int WORLDTRADE_INPUT_PrintStringAlignedLine(u8 *win, u32 str, u32 x, u32 y, u32 align, u16 color, u32 printer)
-{
-    u32 r = WORLDTRADE_INPUT_PrintStringAligned(win, (void *)str, x, align, color, 0, (void *)printer);
-
-    return WORLDTRADE_ADAPTER_PrintQueColor(win, 0, str, r, y, 0, color, printer);
-}
-
-int WORLDTRADE_INPUT_PrintStringAlignedWrapped(u8 *win, u32 str, u32 x, u32 y, u32 align, u16 color, u32 printer)
-{
-    u32 r = WORLDTRADE_INPUT_PrintStringAligned(win, (void *)str, x, align, color, 0, (void *)printer);
-
-    return WORLDTRADE_ADAPTER_PrintQueColor(win, 0, str, r, y, 0, color, printer);
-}
-
-void WORLDTRADE_INPUT_PrintCentered(void *win, void *bank, int idx, void *printer)
-{
-    void *str;
-
-    str = MSGDATA_AllocString(bank, tbl_022031EC[idx]);
-    WORLDTRADE_INPUT_PrintStringAlignedLine(win, (u32)str, 0, 0, 0, 0x440, (u32)printer);
-    STRBUF_Delete(str);
-}
-
-/*
- * Tail call into GFL_NET_RestartWithDefaultTimeout with the fixed 0/0x48 pair.
- */
-void WORLDTRADE_ENTER_RestartNetTimeout(u8 *p)
-{
-    GFL_NET_RestartWithDefaultTimeout(0, 0x48);
-}
-
-void WORLDTRADE_INPUT_CreateModeWindows(Menu *p, u32 mode)
-{
-    int i;
-
-    BG_SYS_Init(p->layer, 0, 1, 0);
-    switch (mode) {
-    case 4:
-        p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
-        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[14])), 10);
-        for (i = 0; i < 9; i++) {
-            p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_022032AE[i][0], data_022032AE[i][1], 3, 2, 1, 1);
-            BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[i])), 10);
-        }
-        break;
-    case 5:
-        p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
-        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[14])), 10);
-        p->wins[0] = (void *)BMP_WIN_Create((u8)p->layer, 2, 2, 3, 2, 1, 1);
-        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[0])), 7);
-        for (i = 1; i < 4; i++) {
-            p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_022032AE[i - 1][0], data_022032AE[i - 1][1], 2, 2, 1, 1);
-            BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[i])), 10);
-        }
-        break;
-    case 0:
-        p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
-        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[14])), 10);
-        for (i = 0; i < 4; i++) {
-            p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_0220322A[i][0], data_0220322A[i][1], 8, 2, 1, 1);
-            BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[i])), 10);
-        }
-        p->wins[4] = (void *)BMP_WIN_Create((u8)p->layer, 5, 14, 5, 1, 1, 1);
-        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[4])), 8);
-        break;
-    case 6:
-        p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
-        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[14])), 10);
-        for (i = 0; i < 9; i++) {
-            p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_022032AE[i][0], data_022032AE[i][1], 3, 2, 1, 1);
-            BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[i])), 10);
-        }
-        p->wins[15] = (void *)BMP_WIN_Create((u8)p->layer, 1, 2, 9, 2, 1, 1);
-        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[15])), 10);
-        break;
-    case 3:
-        p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 24, 17, 6, 2, 1, 1);
-        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[14])), 10);
-        for (i = 0; i < 5; i++) {
-            p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_02203242[i][0], data_02203242[i][1], 23, 2, 1, 1);
-            BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[i])), 10);
-        }
-        p->wins[5] = (void *)BMP_WIN_Create((u8)p->layer, 14, 16, 5, 1, 1, 1);
-        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[5])), 10);
-        break;
-    case 1:
-        p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
-        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[14])), 10);
-        for (i = 0; i < 3; i++) {
-            p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_02203200[i][0], data_02203200[i][1], 9, 2, 1, 1);
-            BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[i])), 10);
-        }
-        break;
-    case 2:
-        p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
-        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[14])), 10);
-        for (i = 0; i < 4; i++) {
-            p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_02203206[i][0], data_02203206[i][1], 11, 2, 1, 1);
-            BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[i])), 10);
-        }
-        p->wins[4] = (void *)BMP_WIN_Create((u8)p->layer, 5, 14, 5, 1, 1, 1);
-        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[4])), 8);
-        break;
-    }
 }

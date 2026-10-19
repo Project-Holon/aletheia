@@ -12,7 +12,7 @@
  * symbols:
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   BTL_MAIN_IsPokeIdInSecondPair  0x021B9A40  thumb  ov093
- *   BTLV_CORE_MakeSlotKind2Index  0x021E8940  thumb  ov093
+ *   BTL_SICKCONT_MakeKind2Index  0x021E8940  thumb  ov093
  *   func_021CBFF8  0x021CBFF8  thumb  ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
  *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb  ov093
@@ -25,7 +25,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 extern unsigned char BTL_MAIN_IsPokeIdInSecondPair(unsigned int x);
 typedef struct Word { u32 v; } Word;
-extern Word BTLV_CORE_MakeSlotKind2Index(int v);
+extern Word BTL_SICKCONT_MakeKind2Index(int v);
 extern int func_021CBFF8(int a, int b, Word c);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
 extern void BTL_SERVER_FLOW_InitMsgRecord(void *p, int a, int b);
@@ -39,7 +39,7 @@ int BTL_SERVER_FLOW_ItemEffectCheckSlotMessage(u8 *p, u8 *q)
     u8 *w;
     Word t;
     m = BTL_MAIN_IsPokeIdInSecondPair(BTL_POKEPARAM_GetPokeId(q));
-    t = BTLV_CORE_MakeSlotKind2Index(5);
+    t = BTL_SICKCONT_MakeKind2Index(5);
     if (func_021CBFF8(m, 3, t)) {
         w = BTL_SERVER_FLOW_AllocCmdRecord((char *)p, 4, 0x1f);
         BTL_SERVER_FLOW_InitMsgRecord(w + 4, 1, 0x88);

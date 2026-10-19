@@ -58,7 +58,7 @@
  *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_Delete  0x02045808  arm
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
  *   MSGDATA_AllocString  0x02045EC0  arm
@@ -196,13 +196,13 @@
  *   sTalkedGreetingTargetMsgIds     0x0218398E  data   a2
  *   MYSTATUS_CopyNameChars  0x020084F8  thumb
  *   INTRUDE_COMM_SendProfile  0x021745F8  thumb  ov011
- *   WORDSET_Callback_EF40  0x0201EF40  thumb
+ *   WORDSET_SetSlotFromMsg36  0x0201EF40  thumb
  *   sOfferAnswerMsgIds     0x02183998  data  a2
  *   INTRUDE_COMM_IsValidProfileCode 0x021756D0 thumb ov011
  *   sItemSaleMsgIds     0x021839E0  data  a2
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   BEACON_GetPoints  0x0200C274  thumb
- *   BEACON_SubPoints  0x0200C29C  thumb
+ *   BEACON_GetMoney  0x0200C274  thumb
+ *   BEACON_SubMoney  0x0200C29C  thumb
  *   MYITEM_SAVEDATA_CanAddItem  0x02007E3C  thumb
  *   sItemPurchaseMsgIds     0x021839A4  data  a2
  *   INTRUDE_SUBDISP_MainRequestAnswerSeq  0x0217C914  thumb  ov018
@@ -403,7 +403,7 @@ extern int INTRUDE_COMM_IsSessionAccepted(IntrudeSession *session);
 extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
 extern void *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(void *strbuf);
-extern unsigned int WORDSET_DeleteStrbufED04(void *wordSet);
+extern unsigned int WORDSET_Delete(void *wordSet);
 extern void *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern u8 MYSTATUS_GetOutfitVariant(void *myStatus);
 extern void *MSGDATA_AllocString(void *msgData, u32 msgId);
@@ -500,11 +500,11 @@ void *SCRIPT_SYS_GetEventScriptWork(struct GameEvent *event);
 int SCRIPT_WORK_SetParams(void *scriptWork, int param0, int param1, int param2, u16 param3);
 extern u32 MYSTATUS_CopyNameChars(void *myStatus, void *dest, u32 size);
 int INTRUDE_COMM_SendProfile(u32 netId, void *name);
-void WORDSET_Callback_EF40(void *wordSet, u32 index, u32 itemId);
+void WORDSET_SetSlotFromMsg36(void *wordSet, u32 index, u32 itemId);
 extern int INTRUDE_COMM_IsValidProfileCode(u32 itemId);
 extern void *GAME_DATA_GetMiscSave(struct GameData *gameData);
-extern u32 BEACON_GetPoints(void *miscSave);
-extern u32 BEACON_SubPoints(void *miscSave, u32 amount);
+extern u32 BEACON_GetMoney(void *miscSave);
+extern u32 BEACON_SubMoney(void *miscSave, u32 amount);
 extern u32 MYITEM_SAVEDATA_CanAddItem(void *myItem, u16 itemId, u16 count, u16 heapId);
 extern int INTRUDE_SUBDISP_MainRequestAnswerSeq(IntrudeCommSys *sys, EventCommCommonWork *work, u8 *answerSeq);
 struct GameEvent *INTRUDE_SUBDISP_CreatePalaceWarpEvent(struct GameSystem *gameSystem);
@@ -711,7 +711,7 @@ void EVENT_COMM_COMMON_ExitMsgBox(EventCommMsgBox *msgBox)
         FIELD_MSGBG_DeleteMsgData(msgBox->msgDataC);
         STRBUF_Delete(msgBox->templateText);
         STRBUF_Delete(msgBox->text);
-        WORDSET_DeleteStrbufED04(msgBox->wordSet);
+        WORDSET_Delete(msgBox->wordSet);
         msgBox->wordSet = 0;
     }
 }
@@ -1056,7 +1056,7 @@ int EVENT_COMM_COMMON_ExitSyncEventMain(struct GameEvent *event, int *seq, void 
         break;
     case 6:
         if (KEY_GetTrg() & 0xF3) {
-            WORDSET_DeleteStrbufED04(work->wordSet);
+            WORDSET_Delete(work->wordSet);
             FIELD_MSGBG_DeleteMsgWin(work->window);
             MSGDATA_Delete(work->msgData);
             (*seq)++;
@@ -3370,7 +3370,7 @@ int EVENT_COMM_COMMON_OfferAnswerEventMain(struct GameEvent *event, int *seq, vo
         break;
     case 2:
         WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 0, GAME_DATA_GetMyStatus(gameData));
-        WORDSET_Callback_EF40(work->msgBox.wordSet, 1, work->itemId);
+        WORDSET_SetSlotFromMsg36(work->msgBox.wordSet, 1, work->itemId);
         if (work->joinStatus == 1) {
             msgId = sOfferAnswerMsgIds[EVENT_COMM_COMMON_GetPeerTalkStatus(sys, (int)GAME_DATA_GetOwnNetId(gameData))];
             work->accepted = 1;
@@ -3451,7 +3451,7 @@ int EVENT_COMM_COMMON_ItemSaleEventMain(struct GameEvent *event, int *seq, void 
     case 0:
         WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 0, work->common.myStatus);
         sale = &work->common.member.head.param;
-        WORDSET_Callback_EF40(work->common.msgBox.wordSet, 1, sale->x);
+        WORDSET_SetSlotFromMsg36(work->common.msgBox.wordSet, 1, sale->x);
         WORDSET_SetSlotNumber(work->common.msgBox.wordSet, 2, sale->y, 5, 0, 1);
         WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 3, GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(gameSystem)));
         EVENT_COMM_COMMON_PrintMsg(&work->common.msgBox, sItemSaleMsgIds[0][work->common.msgIndex]);
@@ -3582,7 +3582,7 @@ int EVENT_COMM_COMMON_ItemPurchaseEventMain(struct GameEvent *event, int *seq, v
     switch (*seq) {
     case 0:
         WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 0, work->common.myStatus);
-        WORDSET_Callback_EF40(work->common.msgBox.wordSet, 1, sale->x);
+        WORDSET_SetSlotFromMsg36(work->common.msgBox.wordSet, 1, sale->x);
         WORDSET_SetSlotNumber(work->common.msgBox.wordSet, 2, sale->y, 5, 0, 1);
         WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 3, GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(gameSystem)));
         EVENT_COMM_COMMON_PrintMsg(&work->common.msgBox, sItemPurchaseMsgIds[0][work->common.msgIndex]);
@@ -3606,7 +3606,7 @@ int EVENT_COMM_COMMON_ItemPurchaseEventMain(struct GameEvent *event, int *seq, v
         switch (answer) {
         case 0:
             EVENT_COMM_COMMON_DeleteChoice(&work->common.msgBox);
-            if (sale->y > BEACON_GetPoints(GAME_DATA_GetMiscSave(gameData))) {
+            if (sale->y > BEACON_GetMoney(GAME_DATA_GetMiscSave(gameData))) {
                 refused = 1;
                 *seq = 5;
             } else if (MYITEM_SAVEDATA_CanAddItem(GAME_DATA_GetMyItem(gameData), sale->x, 1, 0x15) == 0) {
@@ -3628,7 +3628,7 @@ int EVENT_COMM_COMMON_ItemPurchaseEventMain(struct GameEvent *event, int *seq, v
         break;
     case 4:
         if (INTRUDE_COMM_SendReply(sys, sys->requestTarget, 7, sys->sentRequestSeq) == 1) {
-            BEACON_SubPoints(GAME_DATA_GetMiscSave(gameData), sale->y);
+            BEACON_SubMoney(GAME_DATA_GetMiscSave(gameData), sale->y);
             MYITEM_SAVEDATA_AddItem(GAME_DATA_GetMyItem(gameData), sale->x, 1, 0x15);
             EVENT_COMM_COMMON_PrintMsg(&work->common.msgBox, sItemPurchaseMsgIds[5][work->common.msgIndex]);
             *seq = 8;

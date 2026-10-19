@@ -83,7 +83,7 @@
  *   CTVT_COMM_StopSession  0x021B8084  thumb  ov172
  *   FX_SinCosTable_     0x020A1B38  data a2
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  *   g_021C7234    0x021C7234  data  ov172
  *   d_021C7234     0x021C7234  data
  *   APP_TASKMENU_WIN_Delete  0x02028148  thumb
@@ -114,10 +114,10 @@
  *   COMM_PLAYER_SUPPORT_GetRecordField  0x0202E938  thumb
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   WORDSET_Delete  0x0201ED04  thumb
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   APP_TASKMENU_WIN_Create  0x02027FEC  thumb
- *   GAME_DATA_GetField1A0  0x0201283C  thumb
+ *   GAME_DATA_GetWifiList  0x0201283C  thumb
  *   WIFILIST_FindFriendByStatusAndOutfit  0x02009D50  thumb
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   CTVT_CAMVIEW_Create 0x021B6EE0 thumb ov172
@@ -228,7 +228,7 @@
  *   COMM_TVT_SYS_ClearHostBusy 0x021BE0F0 thumb ov172
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm  arm9
  *   BG_SYS_FreeSlot  0x020414AC  arm  arm9
- *   BG_SYS_FillScrollArea  0x02040618  arm  arm9
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm  arm9
  *   GFL_USE_GetRandomBelow  0x02005728  thumb  arm9
  */
 #include "ctvt_types.h"
@@ -435,7 +435,7 @@ extern unsigned int PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 
-extern void BG_SYS_SetFlagField06(unsigned int a);
+extern void BG_SYS_MarkTileDirty(unsigned int a);
 
 extern void GFL_USE_PlaySeDefaultVolume(unsigned int id);
 
@@ -453,7 +453,7 @@ extern unsigned long G2_GetBG3ScrPtr(void);
 
 extern unsigned long TOUCHPANEL_GetPointCont(unsigned long *outA, unsigned long *outB);
 
-extern void BG_SYS_ResetSlot(unsigned int, unsigned int, unsigned int);
+extern void BG_SYS_ChangeScroll(unsigned int, unsigned int, unsigned int);
 
 extern unsigned int ARC_UTIL_UploadBgCharFromHandle(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f, u16 g);
 
@@ -521,11 +521,11 @@ extern void WORDSET_SetSlotNumber(struct WordSet *p, unsigned long i, unsigned l
 
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
-extern unsigned long WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern unsigned long WORDSET_Delete(struct WordSet *p);
 
 extern unsigned long APP_TASKMENU_WIN_Create(unsigned long res, unsigned long item, unsigned long charPosX, unsigned long charPosY, u8 width, u16 heapId);
 
-extern unsigned long GAME_DATA_GetField1A0(const struct BigObj *p);
+extern unsigned long GAME_DATA_GetWifiList(const struct BigObj *p);
 
 extern int WIFILIST_FindFriendByStatusAndOutfit(struct Sub020097BCObj *obj, const void *unused, unsigned long id, unsigned long kind, unsigned long *out);
 
@@ -577,7 +577,7 @@ extern void TCBL_Main(struct Tcbl *p);
 
 extern unsigned int  GFL_USE_GetRandomBelow(unsigned int v);
 
-extern void BG_SYS_FillScrollArea(unsigned int layer, unsigned int a, unsigned int b);
+extern void BG_SYS_ChangeScrollImmediate(unsigned int layer, unsigned int a, unsigned int b);
 
 extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, unsigned int a, unsigned int b, s32 size);
 
@@ -943,7 +943,7 @@ void CTVT_CALL_Init(void *ctx, u8 *p)
     ((CtvtCall *)p)->menuWin = 0;
     ((CtvtCall *)p)->state = 0;
     ((CtvtCall *)p)->timerA = 0;
-    BG_SYS_ResetSlot(6, 3, 0);
+    BG_SYS_ChangeScroll(6, 3, 0);
     if ((unsigned int)(((CtvtLaunchParams *)o)->mode - 2) <= 1 && COMM_TVT_SYS_GetHostBusy(ctx) == 0) {
         CLACT_SetActorAnimSeq((struct Obj *)((CtvtCall *)p)->actorBack, 0xf);
         CTVT_CALL_PrintTimeMessage(ctx, (char *)p, 0x18);
@@ -989,10 +989,10 @@ void CTVT_CALL_Exit(void *ctx, char *st)
 
     BG_SYS_ClearSlot(6);
     BG_SYS_PushTile(6);
-    BG_SYS_ResetSlot(6, 3, 0);
+    BG_SYS_ChangeScroll(6, 3, 0);
     BG_SYS_ClearSlot(4);
     BG_SYS_PushTile(4);
-    BG_SYS_ResetSlot(4, 3, 0);
+    BG_SYS_ChangeScroll(4, 3, 0);
 }
 
 /*
@@ -1214,7 +1214,7 @@ int CTVT_CALL_Update(void *ctx, char *p)
                     d = *(struct Descriptor **)(r + 0x54);
                     BMP_WIN_TransferChars(d);
                     BMP_WIN_MakeScreen((struct Cfg *)d);
-                    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(d));
+                    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(d));
                     ((CtvtCallRow *)(r + 0x40))->pending = 0;
                 }
             }
@@ -1223,7 +1223,7 @@ int CTVT_CALL_Update(void *ctx, char *p)
             u8 cnt = 0;
             for (i = 0; i < 15; i++)
                 CTVT_CALL_PlaceCursor(ctx, p, p + 0x40 + i * 0x1c, i);
-            BG_SYS_ResetSlot(6, 3, H(4));
+            BG_SYS_ChangeScroll(6, 3, H(4));
             for (i = 0; i < 3; i++) {
                 if (B(i) != 0xff)
                     cnt++;
@@ -1680,10 +1680,10 @@ void CTVT_CALL_DrawRow(void *ctx, char *list, char *row, int idx)
         } else {
             ((CtvtCallEntry *)e)->available = 0;
         }
-        WORDSET_DeleteStrbufED04((struct WordSet *)ws);
+        WORDSET_Delete((struct WordSet *)ws);
         ((CtvtCallRow *)row)->pending = 1;
     } else {
-        BG_SYS_SetFlagField06(ctvtCallShowRowWindow((unsigned long)((CtvtCallRow *)row)->win));
+        BG_SYS_MarkTileDirty(ctvtCallShowRowWindow((unsigned long)((CtvtCallRow *)row)->win));
     }
     ((CtvtCallRow *)row)->active = 0;
 }
@@ -1751,7 +1751,7 @@ void CTVT_CALL_UpdatePrompt(void *ctx, u8 *st)
         if (((CtvtCall *)st)->substate != 2) {
             struct Prompt p = {0};
 
-            BG_SYS_SetFlagField06(ctvtCallShowPromptWindow(((CtvtCall *)st)->msgWin));
+            BG_SYS_MarkTileDirty(ctvtCallShowPromptWindow(((CtvtCall *)st)->msgWin));
             BMP_MENUWORK_DrawWindowBorder((void *)(((CtvtCall *)st)->msgWin), 1);
             if (((CtvtCall *)st)->menuWin != 0) {
                 APP_TASKMENU_WIN_Delete((u8 *)(((CtvtCall *)st)->menuWin));
@@ -1768,7 +1768,7 @@ void CTVT_CALL_UpdatePrompt(void *ctx, u8 *st)
         if (((CtvtCall *)st)->substate != 1) {
             struct Prompt p = {0};
 
-            BG_SYS_SetFlagField06(ctvtCallShowPromptWindow(((CtvtCall *)st)->msgWin));
+            BG_SYS_MarkTileDirty(ctvtCallShowPromptWindow(((CtvtCall *)st)->msgWin));
             BMP_MENUWORK_DrawWindowBorder((void *)(((CtvtCall *)st)->msgWin), 1);
             if (((CtvtCall *)st)->menuWin != 0) {
                 APP_TASKMENU_WIN_Delete((u8 *)(((CtvtCall *)st)->menuWin));
@@ -1805,7 +1805,7 @@ void CTVT_CALL_UpdateTimeWindow(void *ctx, char *st)
     if (((CtvtCall *)st)->rowCount == 0) {
         CTVT_CALL_PrintTimeMessage(ctx, st, 0x1c);
         ((CtvtCall *)st)->timePending = 1;
-        BG_SYS_SetFlagField06(ctvtCallShowTimeWindow(((CtvtCall *)st)->msgWin));
+        BG_SYS_MarkTileDirty(ctvtCallShowTimeWindow(((CtvtCall *)st)->msgWin));
         BMP_MENUWORK_DrawWindowBorder((void *)(((CtvtCall *)st)->msgWin), 1);
     } else if (((CtvtCall *)st)->prevRowCount == 0 && ((CtvtCall *)st)->rowCount != 0) {
         CTVT_CALL_PrintMessage(ctx, st, 0x11);
@@ -1818,7 +1818,7 @@ void CTVT_CALL_UpdateTimeWindow(void *ctx, char *st)
 
 int CTVT_CALL_CheckJoinRequest(void *ctx, unsigned long unused, unsigned long name, unsigned long trainerId, unsigned long outfitVariant)
 {
-    return WIFILIST_FindFriendByStatusAndOutfit((struct Sub020097BCObj *)GAME_DATA_GetField1A0((const struct BigObj *)(*((unsigned long *)COMM_TVT_SYS_GetLaunchParams(ctx)))), (const void *)name, trainerId, outfitVariant, 0);
+    return WIFILIST_FindFriendByStatusAndOutfit((struct Sub020097BCObj *)GAME_DATA_GetWifiList((const struct BigObj *)(*((unsigned long *)COMM_TVT_SYS_GetLaunchParams(ctx)))), (const void *)name, trainerId, outfitVariant, 0);
 }
 
 #undef W
@@ -2040,8 +2040,8 @@ int CTVT_CALL_WorkMain(char *ctx)
         NNS_GfdRegisterNewVramTransferTask((void *)0x1f, 0x40, (unsigned int)(ctx + 0x3c + pal * 32), 0x20);
     }
     TCBL_Main((struct Tcbl *)F(0x1d8));
-    BG_SYS_FillScrollArea(1, 0, GFL_USE_GetRandomBelow(0x100));
-    BG_SYS_FillScrollArea(1, 3, GFL_USE_GetRandomBelow(0x100));
+    BG_SYS_ChangeScrollImmediate(1, 0, GFL_USE_GetRandomBelow(0x100));
+    BG_SYS_ChangeScrollImmediate(1, 3, GFL_USE_GetRandomBelow(0x100));
     return 0;
 }
 
@@ -2340,7 +2340,7 @@ void CTVT_CALL_UpdateMemberWindows(u8 *p)
         w = (unsigned int)((CtvtWork *)p)->bmpWin[i];
         BMP_WIN_TransferChars((struct Descriptor *)w);
         BMP_WIN_MakeScreen((struct Cfg *)w);
-        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)w));
+        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct Descriptor *)w));
         p[0x1b5] -= (u8)m;
         found = 1;
     }

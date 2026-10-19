@@ -14,7 +14,7 @@
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   WORDSET_SetSlotFromBank  0x0201EF6C  thumb
- *   FILE_UTIL_Get_0FE4  0x02020FE4  thumb
+ *   FILE_UTIL_GetItemParam  0x02020FE4  thumb
  *   WORDSET_SetSlotFromMsg37  0x0201F14C  thumb
  *   func_02045EC0  0x02045EC0  arm
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
@@ -47,7 +47,7 @@ struct WordSet;
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_MENUWORK_DrawWindow(void *a0, int a1, int a2, int a3);
 extern void WORDSET_SetSlotFromBank(struct WordSet *p, u32 i, u32 v, u32 a, u32 b);
-extern u32 FILE_UTIL_Get_0FE4(void *a, u32 sel, u32 id);
+extern u32 FILE_UTIL_GetItemParam(void *a, u32 sel, u32 id);
 extern void WORDSET_SetSlotFromMsg37(struct WordSet *p, u32 i, u32 v);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
@@ -73,7 +73,7 @@ void SCRCMD_PROC_FLD_ShowItemMessage(u8 *p, u32 sel, u32 c, u32 d)
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct Obj01503 *)p)->f17C)), 0xf);
     BMP_MENUWORK_DrawWindow((void *)(((struct Obj01503 *)p)->f17C), 0, 0xe4, 9);
     WORDSET_SetSlotFromBank((struct WordSet *)(((struct Obj01503 *)p)->f190), 0, c, flag, 0);
-    WORDSET_SetSlotFromMsg37((struct WordSet *)(((struct Obj01503 *)p)->f190), 1, FILE_UTIL_Get_0FE4((void *)c, 5, ((struct Obj01503 *)p)->f4));
+    WORDSET_SetSlotFromMsg37((struct WordSet *)(((struct Obj01503 *)p)->f190), 1, FILE_UTIL_GetItemParam((void *)c, 5, ((struct Obj01503 *)p)->f4));
     v = (u32)func_02045EC0((struct MsgBank *)(((struct Obj01503 *)p)->f188), sel);
     WORDSET_CopyTaggedText((struct WordSet *)(((struct Obj01503 *)p)->f190), (void *)(((struct Obj01503 *)p)->f198), (void *)v);
     STRBUF_Delete((struct U16Vec *)v);

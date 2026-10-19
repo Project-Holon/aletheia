@@ -25,7 +25,7 @@
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb
- *   INTRUDE_FIELD_IsCommAllowed  0x0217BFD8  thumb  ov018
+ *   INTRUDE_FIELD_IsDisconnectNeeded  0x0217BFD8  thumb  ov018
  *   INTRUDE_SUBDISP_CreateDisconnectEvent  0x0217CA84  thumb  ov018
  *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
@@ -110,7 +110,7 @@
  *   FIELD_SUBSCREEN_GetCGear  0x021A1358  thumb  ov021
  *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  *   FIELD_SOUND_SYSTEM_StopRingtone  0x02028A70  thumb
- *   C_GEAR_IsLastCommandKind5  0x021F2AB8  thumb  ov029
+ *   C_GEAR_IsLastCommandWifi  0x021F2AB8  thumb  ov029
  *   C_GEAR_StopRingtone  0x021F2AD4  thumb  ov029
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   RECORD_AddOne  0x02008DF0  thumb
@@ -128,17 +128,17 @@
  *   FIELD_PLAYER_GetFormCode  0x021A3098  thumb
  *   FLDMMDL_GetAcmdCode  0x0216D7C4  thumb  ov010
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb
- *   PLAYER_LOCATION_GetCounter  0x02008970  thumb
- *   PLAYER_LOCATION_SetCounter  0x0200896C  thumb
+ *   PLAYER_LOCATION_GetEggStepCounter  0x02008970  thumb
+ *   PLAYER_LOCATION_SetEggStepCounter  0x0200896C  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   FIELDMAP_GetSodateya  0x02188D50  thumb
  *   SODATEYA_AddStep  0x021C3378  thumb
- *   PLAYER_LOCATION_GetValueA  0x02008978  thumb
- *   PLAYER_LOCATION_SetValueA  0x02008980  thumb
+ *   PLAYER_LOCATION_GetWalkCounter  0x02008978  thumb
+ *   PLAYER_LOCATION_SetWalkCounter  0x02008980  thumb
  *   PLAYER_LOCATION_GetData  0x02008854  thumb
  *   SCRCMD_ShowStepMilestoneMessage  0x021D220C  thumb
- *   PLAYER_LOCATION_GetValueB  0x02008990  thumb
- *   PLAYER_LOCATION_SetValueB  0x02008988  thumb
+ *   PLAYER_LOCATION_GetStepMessageCount  0x02008990  thumb
+ *   PLAYER_LOCATION_SetStepMessageCount  0x02008988  thumb
  *   MOVE_POKEMON_SAVE_TickCooldown  0x0200D564  thumb
  *   EFFECT_ENCOUNT_TriggerSpot  0x021AA944  thumb
  *   EFFECT_ENCOUNT_OnPlayerStep  0x021AA80C  thumb
@@ -399,7 +399,7 @@ extern int FIELD_PLAYER_TryPushBoulder(u32 *p, int a, int b, int c);
 extern u32 GAMESYSTEM_GetGameComm(const void *p);
 extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
 extern void *FIELD_PLAYER_GetMmdl(u8 *);
-extern int INTRUDE_FIELD_IsCommAllowed(const void *a, int b);
+extern int INTRUDE_FIELD_IsDisconnectNeeded(const void *a, int b);
 extern int INTRUDE_SUBDISP_CreateDisconnectEvent(void *sys, int v);
 extern u32 GAME_COMM_GetKind(void *obj);
 extern int GAME_DATA_GetIntrudeCount(const void *p);
@@ -487,7 +487,7 @@ extern int FIELD_PLAYER_GetGridMoveState(void *v);
 extern u32 FIELD_SUBSCREEN_GetCGear(u32 *p);
 extern u32 GAME_DATA_GetBgmInfo(const void *p);
 extern void FIELD_SOUND_SYSTEM_StopRingtone(void *sys);
-extern int C_GEAR_IsLastCommandKind5(char *p);
+extern int C_GEAR_IsLastCommandWifi(char *p);
 extern void C_GEAR_StopRingtone(u8 *p);
 extern u32 RECORD_AddOne(void *obj, int i);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
@@ -510,18 +510,18 @@ extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 extern void POKE_TOOL_SetPartyValue(void *mon, u32 id, u32 v);
 extern void *PLAYER_LOCATION_GetData(void *sys);
-extern void PLAYER_LOCATION_GetCounter(const void *obj, u32 *out);
-extern void PLAYER_LOCATION_SetCounter(void *obj, u32 value);
+extern void PLAYER_LOCATION_GetEggStepCounter(const void *obj, u32 *out);
+extern void PLAYER_LOCATION_SetEggStepCounter(void *obj, u32 value);
 extern u32 GPOWER_ApplyHatchRate(u32 v);
 extern void *GAME_DATA_GetMyParty(const void *p);
 extern void *FIELDMAP_GetSodateya(FieldMap *fieldMap);
 extern int SODATEYA_AddStep(void **p);
-extern u16 PLAYER_LOCATION_GetValueA(const void *obj);
-extern void PLAYER_LOCATION_SetValueA(void *obj, u16 value);
+extern u16 PLAYER_LOCATION_GetWalkCounter(const void *obj);
+extern void PLAYER_LOCATION_SetWalkCounter(void *obj, u16 value);
 extern void NATSUKI_CalcWalk(void *mon, int a, int b);
 extern int SCRCMD_ShowStepMilestoneMessage(void *gameSystem, FieldMap *fieldMap);
-extern u16 PLAYER_LOCATION_GetValueB(const void *obj);
-extern void PLAYER_LOCATION_SetValueB(void *obj, u16 value);
+extern u16 PLAYER_LOCATION_GetStepMessageCount(const void *obj);
+extern void PLAYER_LOCATION_SetStepMessageCount(void *obj, u16 value);
 extern void *MOVE_POKEMON_SAVE_GetBlock(void *p);
 extern u32 MOVE_POKEMON_SAVE_TickCooldown(void *p);
 extern int EFFECT_ENCOUNT_TriggerSpot(void *self);
@@ -740,7 +740,7 @@ int FIELD_EVENT_CHECK_CheckGridEvents(void *gameSystem, FieldMap *fieldMap, int 
     gameComm = (void *)GAMESYSTEM_GetGameComm(gameSystem);
     commWork = (void *)INTRUDE_COMM_GetWorkIfRunning((int)gameComm);
     playerMmdl = FIELD_PLAYER_GetMmdl(input.player);
-    if (INTRUDE_FIELD_IsCommAllowed((const void *)gameSystem, input.zoneId) == 1)
+    if (INTRUDE_FIELD_IsDisconnectNeeded((const void *)gameSystem, input.zoneId) == 1)
         return INTRUDE_SUBDISP_CreateDisconnectEvent(gameSystem, 0);
     if ((int)GAME_COMM_GetKind(gameComm) == 2 && commWork != 0) {
         if (GAME_DATA_GetIntrudeCount(input.gameData) == 1 && INTRUDE_FIELD_IsStartRequested(commWork) == 1)
@@ -1135,7 +1135,7 @@ void FIELD_EVENT_CHECK_StopSoundAfterEvent(void *gameSystem, FieldMap *fieldMap)
         FIELD_SOUND_SYSTEM_StopRingtone((void *)GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(gameSystem)));
         return;
     }
-    if (C_GEAR_IsLastCommandKind5(subscreenProc) == 0) {
+    if (C_GEAR_IsLastCommandWifi(subscreenProc) == 0) {
         FIELD_SOUND_SYSTEM_StopRingtone((void *)GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(gameSystem)));
         C_GEAR_StopRingtone(subscreenProc);
     }
@@ -1403,13 +1403,13 @@ void FIELD_EVENT_CHECK_UpdateEggStepCounter(void *gameData, void *party)
     void *stepSave = PLAYER_LOCATION_GetData(GAME_DATA_GetSaveControl(gameData));
     u32 stepCounter;
 
-    PLAYER_LOCATION_GetCounter(stepSave, &stepCounter);
+    PLAYER_LOCATION_GetEggStepCounter(stepSave, &stepCounter);
     stepCounter += GPOWER_ApplyHatchRate(0x100);
     if (stepCounter > 0x10000) {
         FIELD_EVENT_CHECK_DecrementEggCycles(party);
         stepCounter = 0;
     }
-    PLAYER_LOCATION_SetCounter(stepSave, stepCounter);
+    PLAYER_LOCATION_SetEggStepCounter(stepSave, stepCounter);
 }
 
 
@@ -1460,13 +1460,13 @@ void FIELD_EVENT_CHECK_UpdateWalkFriendship(void *gameData, FieldMap *fieldMap)
 {
     void *walkSave = PLAYER_LOCATION_GetData(GAME_DATA_GetSaveControl(gameData));
     int counterWrapped = 0;
-    u16 walkCount = PLAYER_LOCATION_GetValueA(walkSave) + 1;
+    u16 walkCount = PLAYER_LOCATION_GetWalkCounter(walkSave) + 1;
 
     if (walkCount >= 0x80) {
         walkCount = 0;
         counterWrapped = 1;
     }
-    PLAYER_LOCATION_SetValueA(walkSave, walkCount);
+    PLAYER_LOCATION_SetWalkCounter(walkSave, walkCount);
     if (counterWrapped) {
         void *party = GAME_DATA_GetMyParty(gameData);
         int zoneId;
@@ -1495,7 +1495,7 @@ int FIELD_EVENT_CHECK_CheckZoneStepMessage(void *gameSystem, FieldMap *fieldMap,
 
     if (ZONEDATA_IsZoneInTableDFB8(zoneId)) {
         result = SCRCMD_ShowStepMilestoneMessage(gameSystem, fieldMap);
-        PLAYER_LOCATION_SetValueB(stepSave, PLAYER_LOCATION_GetValueB(stepSave) + 1);
+        PLAYER_LOCATION_SetStepMessageCount(stepSave, PLAYER_LOCATION_GetStepMessageCount(stepSave) + 1);
     }
     return result;
 }

@@ -9,7 +9,7 @@
  * status: EXACT*
  * note: two bytes of zero padding follow the epilogue before 021FAC74.
  * symbols:
- *   STA_ACT_EFFECT_GetSceneOwner 0x021F9E44 thumb ov132
+ *   STA_ACTING_GetElapsedTicks 0x021F9E44 thumb ov132
  *   STA_ACT_SCRIPT_RunScript 0x021FAD2C thumb ov132
  *   func_020307B0 0x020307B0 arm
  *   TCB_Main 0x02030D28 arm
@@ -22,7 +22,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Ctx;
-extern u32 STA_ACT_EFFECT_GetSceneOwner(u8 *p);
+extern u32 STA_ACTING_GetElapsedTicks(u8 *p);
 extern int STA_ACT_SCRIPT_RunScript(void *, char *);
 extern u32 func_020307B0(void *p);
 extern void TCB_Main(struct Ctx *c);
@@ -33,7 +33,7 @@ void STA_ACT_SCRIPT_Update(char *p)
     int ready;
     int count;
     ready = 1;
-    count = STA_ACT_EFFECT_GetSceneOwner(((struct Obj14094 *)p)->f34);
+    count = STA_ACTING_GetElapsedTicks(((struct Obj14094 *)p)->f34);
     while (count != 0) {
         for (i = 0; i < 10; i++) {
             slot = (char **)(p + i * 4);

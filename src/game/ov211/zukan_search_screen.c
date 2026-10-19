@@ -76,7 +76,7 @@
  *   tick 0x021BC890 thumb ov211
  *   transition 0x0202208C thumb
  *   idle 0x020221A4 thumb
- *   BG_SYS_SetScrollY  0x02041F6C  arm
+ *   BG_SYS_ChangeScale  0x02041F6C  arm
  */
 
 struct DispVram;
@@ -150,7 +150,7 @@ extern void adjust(u32,u32,u32);
 extern void tick(void);
 extern void transition(void *,u32,u32,u32,u32,u32,u32);
 extern u32 idle(void);
-extern void BG_SYS_SetScrollY(u32 which, u32 op, u32 value);
+extern void BG_SYS_ChangeScale(u32 which, u32 op, u32 value);
 void ZUKAN_SEARCH_SCREEN_SetupVram(void);
 void ZUKAN_SEARCH_SCREEN_VBlank(void);
 void ZUKAN_SEARCH_SCREEN_RegisterVBlank(struct ZukanSearchWork *p);
@@ -395,8 +395,8 @@ int ZUKAN_SEARCH_SCREEN_Update(struct ZukanSearchWork *p)
 
 void ZUKAN_SEARCH_SCREEN_Tick(void)
 {
-    BG_SYS_SetScrollY(3, 4, 0x80);
-    BG_SYS_SetScrollY(3, 7, 0x80);
-    BG_SYS_SetScrollY(7, 4, 0x80);
-    BG_SYS_SetScrollY(7, 7, 0x80);
+    BG_SYS_ChangeScale(3, 4, 0x80);
+    BG_SYS_ChangeScale(3, 7, 0x80);
+    BG_SYS_ChangeScale(7, 4, 0x80);
+    BG_SYS_ChangeScale(7, 7, 0x80);
 }

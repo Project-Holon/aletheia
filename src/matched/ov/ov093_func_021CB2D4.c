@@ -23,8 +23,8 @@
  *   BTL_SLOT_GetPokeParam 0x021B9C00 thumb ov093
  *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
  *   BTL_POKEPARAM_GetItem 0x021D5B40 thumb ov093
- *   BTL_EVENT_GetClientPartyCount 0x021D6E04 thumb ov093
- *   BTL_EVENT_GetClientPartySlotId 0x021D6E0C thumb ov093
+ *   BTL_POKEPARAM_GetFoughtCount 0x021D6E04 thumb ov093
+ *   BTL_POKEPARAM_GetFoughtPokeId 0x021D6E0C thumb ov093
  *   BTL_SIDE_GetPokeByIdThunk 0x021B9934 thumb ov093
  *   BTL_MAIN_GetPlayerStatus 0x021B871C thumb ov093
  *   BTL_POKEPARAM_GetMon 0x021D5844 thumb ov093
@@ -60,8 +60,8 @@ extern void MI_CpuFill8(void *, int, u32);
 extern u8 *BTL_SLOT_GetPokeParam(struct S2 *p, u32 i);
 extern int BTL_POKEPARAM_IsFainted(void *);
 extern u16 BTL_POKEPARAM_GetItem(struct QI *p);
-extern unsigned char BTL_EVENT_GetClientPartyCount(unsigned char *p);
-extern u8 BTL_EVENT_GetClientPartySlotId(u8 *p, u32 i);
+extern unsigned char BTL_POKEPARAM_GetFoughtCount(unsigned char *p);
+extern u8 BTL_POKEPARAM_GetFoughtPokeId(u8 *p, u32 i);
 extern u8 *BTL_SIDE_GetPokeByIdThunk(char *p, int i);
 extern int BTL_MAIN_GetPlayerStatus(char *p);
 extern void *BTL_POKEPARAM_GetMon(void *);
@@ -123,11 +123,11 @@ void BTL_SERVER_FLOW_CalcPartyExpShares(u8 *p, u8 *a, u32 b, Rec *rec)
         rec[j].value = avg;
     }
   }
-  n2 = (int)BTL_EVENT_GetClientPartyCount((unsigned char *)b);
+  n2 = (int)BTL_POKEPARAM_GetFoughtCount((unsigned char *)b);
   cnt2 = 0;
   for (j = 0; j < n2; j++)
   {
-    if (BTL_POKEPARAM_IsFainted(BTL_SIDE_GetPokeByIdThunk(*(void **) (p + 8), (u32)BTL_EVENT_GetClientPartySlotId((u8 *)b, (u8) j))) == 0)
+    if (BTL_POKEPARAM_IsFainted(BTL_SIDE_GetPokeByIdThunk(*(void **) (p + 8), (u32)BTL_POKEPARAM_GetFoughtPokeId((u8 *)b, (u8) j))) == 0)
       cnt2++;
   }
   share = scale / cnt2;
@@ -142,7 +142,7 @@ void BTL_SERVER_FLOW_CalcPartyExpShares(u8 *p, u8 *a, u32 b, Rec *rec)
       n3 = n2;
       for (q = 0; q < n3; q++)
       {
-        if (id == (u32)BTL_EVENT_GetClientPartySlotId((u8 *)b, q))
+        if (id == (u32)BTL_POKEPARAM_GetFoughtPokeId((u8 *)b, q))
           rec[i3].value += share;
       }
     }

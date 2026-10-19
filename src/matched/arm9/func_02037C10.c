@@ -31,7 +31,7 @@
  *   GFL_NET_SYSTEM_UpdateMPParent  0x020385C4  arm
  *   GFL_NET_SYSTEM_ProcessChildRecv  0x020390BC  arm
  *   GFL_NET_COMMAND_Main  0x0203ACAC  arm
- *   GFL_NET_SYSTEM_CheckAutoFree  0x02037BA4  arm
+ *   GFL_NET_SYSTEM_FreeWorkIfAuto  0x02037BA4  arm
  */
 
 typedef unsigned char  u8;
@@ -69,7 +69,7 @@ extern int  GFL_NET_SYSTEM_IsConnectMember(u32 a);
 extern void GFL_NET_SYSTEM_UpdateMPParent(void);
 extern void GFL_NET_SYSTEM_ProcessChildRecv(void);
 extern void GFL_NET_COMMAND_Main(void);
-extern void GFL_NET_SYSTEM_CheckAutoFree(void);
+extern void GFL_NET_SYSTEM_FreeWorkIfAuto(void);
 
 int GFL_NET_SYSTEM_Main(void)
 {
@@ -117,7 +117,7 @@ skip:
             *(u16 *)((u8 *)lbl_021469D0 + 0x1e4));
     }
     GFL_NET_COMMAND_Main();
-    GFL_NET_SYSTEM_CheckAutoFree();
+    GFL_NET_SYSTEM_FreeWorkIfAuto();
     goto done;
 
 bail:

@@ -12,7 +12,7 @@
  *   GX_LoadBGPltt 0x0207E3D0 arm
  *   APP_TASKMENU_UpdateMenu 0x02027974 thumb
  *   APP_TASKMENU_WIN_Update 0x02028178 thumb
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   CLACT_DrawSystem 0x0204A600 arm
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   func_0200FB24 0x0200FB24 thumb
@@ -25,7 +25,7 @@ typedef unsigned int u32;
 extern void GX_LoadBGPltt(void *, int, int);
 extern void APP_TASKMENU_UpdateMenu(u8 *);
 extern void APP_TASKMENU_WIN_Update(u8 *);
-extern void BG_SYS_FillScrollArea(u32, u32, u32);
+extern void BG_SYS_ChangeScrollImmediate(u32, u32, u32);
 extern void CLACT_DrawSystem(void);
 struct PrintSys;
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
@@ -56,7 +56,7 @@ L:
     if (*(u32 *)(p + 0xCC0)) APP_TASKMENU_UpdateMenu(*(u8 **)(p + 0xCC0));
     if (*(u32 *)(p + 0xCE0)) APP_TASKMENU_WIN_Update(*(u8 **)(p + 0xCE0));
     if (*(u32 *)(p + 0xCE4)) APP_TASKMENU_WIN_Update(*(u8 **)(p + 0xCE4));
-    BG_SYS_FillScrollArea(4, 3, *(u32 *)(p + 0xC9C));
+    BG_SYS_ChangeScrollImmediate(4, 3, *(u32 *)(p + 0xC9C));
     *(u32 *)(p + 0xC9C) = *(u32 *)(p + 0xC9C) - 1;
     CLACT_DrawSystem();
     PRINTSYS_QUE_Main((struct PrintSys *)(*(u8 **)(p + 0xCB8)));

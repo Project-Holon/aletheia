@@ -14,7 +14,7 @@
  * symbols:
  *   WORLDTRADE_DEPOSIT_LoadSpeciesList  0x021F8498  thumb
  *   WORLDTRADE_DEPOSIT_GetSpeciesRange  0x021F84BC  thumb
- *   WORLDTRADE_INPUT_CheckSpeciesSeen  0x021FB240  thumb
+ *   WORLDTRADE_INPUT_CountSeenSpecies  0x021FB240  thumb
  *   BMP_MENUWORK_Create  0x0201F81C  thumb  arm9
  *   BMP_MENUWORK_AddMsgItem  0x0201F878  thumb  arm9
  *   ZUKAN_SAVE_IsSeen  0x0200D064  thumb  arm9
@@ -29,7 +29,7 @@ typedef signed int s32;
 
 extern u16 *WORLDTRADE_DEPOSIT_LoadSpeciesList(u32 heap, u32 unused, u32 *count);
 extern void WORLDTRADE_DEPOSIT_GetSpeciesRange(u32 i, int *start, int *end);
-extern int WORLDTRADE_INPUT_CheckSpeciesSeen(u32 unused, u32 item, u32 c, u16 *list, int start, int end);
+extern int WORLDTRADE_INPUT_CountSeenSpecies(u32 unused, u32 item, u32 c, u16 *list, int start, int end);
 extern void *BMP_MENUWORK_Create(u32 n, u32 heap);
 struct Blk37;
 extern u32 ZUKAN_SAVE_IsSeen(struct Blk37 *p, u16 id);
@@ -49,7 +49,7 @@ int WORLDTRADE_INPUT_CreateSpeciesMenu(void **menu, void *msg, void *bank, u32 x
     list = WORLDTRADE_DEPOSIT_LoadSpeciesList(0x48, 0, &count);
     WORLDTRADE_DEPOSIT_GetSpeciesRange(kind, &start, &end);
     count = end - start;
-    n = WORLDTRADE_INPUT_CheckSpeciesSeen(x, (u32)bag, count, list, start, end);
+    n = WORLDTRADE_INPUT_CountSeenSpecies(x, (u32)bag, count, list, start, end);
     *menu = BMP_MENUWORK_Create(n + 1, 0x48);
     for (i = start; i < end; i++) {
         if (ZUKAN_SAVE_IsSeen(bag, list[i]) != 0) {

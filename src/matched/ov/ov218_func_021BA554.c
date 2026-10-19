@@ -1,5 +1,5 @@
 /*
- * function: UN_SELECT_Check
+ * function: UN_SELECT_ScrollActorsBy
  * address: 0x021BA554
  * packet: pkt_ov218_021BA554
  * region: ov218
@@ -72,7 +72,7 @@ static inline void scrollSecond(const char *p,short delta,int space,Pair *pos)
         }
     }
 }
-void UN_SELECT_Check(const char *p,int delta)
+void UN_SELECT_ScrollActorsBy(const char *p,int delta)
 {
     Pair pos;
     scroll(p,delta,0,&pos);

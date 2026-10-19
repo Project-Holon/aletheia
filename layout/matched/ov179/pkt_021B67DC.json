@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "CDEMO_SCENE_CmdSetVram",
+   "name": "CDEMO_SCENE_CmdSetPlaneVisible",
    "address": "0x021B67DC",
    "kind": "game",
    "region": "ov179",

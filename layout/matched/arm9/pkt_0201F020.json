@@ -29,7 +29,7 @@
    ]
   },
   {
-   "name": "WORDSET_DeleteMsgdataF094",
+   "name": "WORDSET_SetSlotFromKeyedMessage",
    "address": "0x0201F094",
    "kind": "game",
    "region": "arm9",
@@ -136,7 +136,7 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "WORDSET_CheckF47C"
+    "WORDSET_IsPackedString"
    ],
    "addresses": [
     "0x0201F47C"
@@ -154,7 +154,7 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "WORDSET_ParsePackedLimits"
+    "WORDSET_AppendUnpackedString"
    ],
    "addresses": [
     "0x0201F4A0"

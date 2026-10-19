@@ -22,7 +22,7 @@
  *   UI_SetInputMode 0x020355D8 arm
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
- *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb  arm9
+ *   GFL_USE_SetBgmPaused  0x02005DE4  thumb  arm9
  *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb  arm9
  *   GFL_USE_IsBgmFading  0x02005E50  thumb  arm9
  *   GFL_USE_PushBgm  0x02005E64  thumb  arm9
@@ -40,7 +40,7 @@ extern void CHIHOU_ZUKAN_AWARD_UpdateActor(unsigned char*);
 struct PrintSys;
 extern void CHIHOU_ZUKAN_AWARD_GRAPHIC_Update(char *p);
 extern int GFL_USE_IsBgmFading(void);
-extern void GFL_USE_SetBgmPlayerParam(void*);
+extern void GFL_USE_SetBgmPaused(void*);
 extern int GFL_USE_PushBgm(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32,unsigned short);
 extern int GFL_USE_IsBgmPlaying(void);
@@ -62,7 +62,7 @@ int CHIHOU_ZUKAN_AWARD_Main(int unused, int *state, int unused2, unsigned char *
   if(CHIHOU_ZUKAN_AWARD_IsWindowsReady(p)==0) ready=0;
   if(ready && ((struct Obj26065 *)(*(char* *)&((struct Obj02558 *)p)->f4))->f4==0) {
    if(GFL_USE_IsBgmFading()) ready=0;
-   else {GFL_USE_SetBgmPlayerParam((void*)1);GFL_USE_PushBgm();GFL_USE_CancelChangeAndPlayBgm(0x524,0xffff);}
+   else {GFL_USE_SetBgmPaused((void*)1);GFL_USE_PushBgm();GFL_USE_CancelChangeAndPlayBgm(0x524,0xffff);}
   }
   if(ready) {FADE_Start(3,16,0,0);*state=1;}
   break;
@@ -71,7 +71,7 @@ int CHIHOU_ZUKAN_AWARD_Main(int unused, int *state, int unused2, unsigned char *
   break;
  case 2: if(CHIHOU_ZUKAN_AWARD_IsActorIdle((char *)p)) *state=3; break;
  case 3:
-  if(!GFL_USE_IsBgmPlaying()) {GFL_USE_PopBgm();GFL_USE_SetBgmPlayerParam(0);GFL_USE_FadeInBgmFull(6);*state=4;}
+  if(!GFL_USE_IsBgmPlaying()) {GFL_USE_PopBgm();GFL_USE_SetBgmPaused(0);GFL_USE_FadeInBgmFull(6);*state=4;}
   break;
  case 4:
   ready=0;

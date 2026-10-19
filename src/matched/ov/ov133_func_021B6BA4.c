@@ -17,7 +17,7 @@
  *   func_02049B68 0x02049B68 arm
  *   func_02049658 0x02049658 arm
  *   func_020498F4 0x020498F4 arm
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
@@ -37,7 +37,7 @@ extern void *func_020490F4(u32 id, u32 heap);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void BG_SYS_ResetSlot(u32,u32,u32);
+extern void BG_SYS_ChangeScroll(u32,u32,u32);
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
@@ -62,8 +62,8 @@ void DUP_FITTING_InitModels(u8 *p)
     func_020498F4(g, 0xf, 6, 0, 0, 0, H);
     func_020498F4(g, 0xe, 5, 0, 0, 0, H);
     func_020498F4(g, 0xd, 7, 0, 0, 0, H);
-    BG_SYS_ResetSlot(6, 0, 128);
-    BG_SYS_ResetSlot(5, 0, -128);
+    BG_SYS_ChangeScroll(6, 0, 128);
+    BG_SYS_ChangeScroll(5, 0, -128);
     *(struct Obj **)(p + 0x1858) = (struct Obj *)CLACT_RegisterPalette(g, 2, 0, 0, H);
     *(struct Obj **)(p + 0x1864) = (struct Obj *)CLACT_RegisterCharacter(g, 8, 0, 0, H);
     *(struct Obj **)(p + 0x1870) = (struct Obj *)CLACT_RegisterCellAnim(g, 0x14, 0x18, H);

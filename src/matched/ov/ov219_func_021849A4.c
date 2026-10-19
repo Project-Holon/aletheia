@@ -24,7 +24,7 @@
  *   BEACON_DETAIL_CreateBmpWin 0x02184968 thumb ov219
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
- *   BG_SYS_SetLowBit 0x0204044C arm
+ *   BG_SYS_EnableBg0WithPriority 0x0204044C arm
  *   BEACON_DETAIL_CreateTaskMenu 0x02184BAC thumb ov219
  *   d_02185E58 0x02185E58 data a4
  *   d_02185E78 0x02185E78 data a4
@@ -50,7 +50,7 @@ extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void BG_SYS_LoadPlttEntry(u32,u32);
 extern u32 BEACON_DETAIL_CreateBmpWin(const u8 *p, int flag);
 struct Descriptor;
-extern void BMP_MENUWORK_DrawWindow(void *,int,int,int),BMP_WIN_TransferChars(struct Descriptor *),BG_SYS_SetLowBit(u32),BEACON_DETAIL_CreateTaskMenu(char *);
+extern void BMP_MENUWORK_DrawWindow(void *,int,int,int),BMP_WIN_TransferChars(struct Descriptor *),BG_SYS_EnableBg0WithPriority(u32),BEACON_DETAIL_CreateTaskMenu(char *);
 void BEACON_DETAIL_InitMainScreen(char *p,void *arc)
 {
     ((struct Obj01012 *)p)->fC06C=GF_FONT_Create(0x17,0,0,0,(u16)(((struct Obj01012 *)p)->f0));
@@ -73,7 +73,7 @@ void BEACON_DETAIL_InitMainScreen(char *p,void *arc)
     ((struct Obj01012 *)p)->fC0B0=0;
     BG_SYS_InitBgLayer(2,&d_02185E58,0);
     BG_SYS_ClearSlot(2);
-    BG_SYS_SetLowBit(1);
+    BG_SYS_EnableBg0WithPriority(1);
     BG_SYS_InitBgLayer(3,&d_02185E78,0);
     func_02049658(arc,5,3,0,0,0,((struct Obj01012 *)p)->f0);
     func_02049B68(arc,6,0,0,0x80,((struct Obj01012 *)p)->f0);

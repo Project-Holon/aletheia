@@ -1,5 +1,5 @@
 /*
- * function: VIEWER_ACTOR_SetRtcDate
+ * function: VIEWER_ACTOR_SaveBadgeTimers
  * address:  0x021C81C0
  * packet:   pkt_ov111_021C81C0
  * region:   ov111
@@ -90,7 +90,7 @@ struct Sub020089A8Obj;
 extern void TRCARD_SIGN_SetLastBadgeTime(struct Sub020089A8Obj *obj, u32 lo, u32 hi);
 extern void TRCARD_SIGN_SetBadgeTimer(struct Sub020089A8Obj *obj, int i, int value);
 
-void VIEWER_ACTOR_SetRtcDate(Work *p)
+void VIEWER_ACTOR_SaveBadgeTimers(Work *p)
 {
     RTCDate date;
     RTCTime time;

@@ -35,7 +35,7 @@
  *   COMM_PLAYER_GetState849  0x021673C4  thumb  ov010
  *   COMM_PLAYER_GetState848  0x021673A8  thumb  ov010
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
- *   INTRUDE_COMM_GetPartnerRecord  0x02176880  thumb  ov011
+ *   INTRUDE_COMM_GetPartnerSymbolPage  0x02176880  thumb  ov011
  *   MI_CpuCopy8    0x02082D44  arm
  *   g_SymbolMapFileName     0x021729EC  data  a1
  */
@@ -72,7 +72,7 @@ extern u16 COMM_PLAYER_GetListPage(Entry32 *list, Entry32 *out, u32 cap, int pag
 extern u8 COMM_PLAYER_GetState849(u8 *st);
 extern u8 COMM_PLAYER_GetState848(u8 *st);
 extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
-extern u8 *INTRUDE_COMM_GetPartnerRecord(u8 *link);
+extern u8 *INTRUDE_COMM_GetPartnerSymbolPage(u8 *link);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern const char g_SymbolMapFileName[];
 
@@ -104,7 +104,7 @@ LinkRecord *SYMBOL_MAP_CreateLinkRecord(u16 heap, void *sys, u32 *start)
     if (link == 0)
         return 0;
     rec = func_02030734(heap, sizeof(LinkRecord), 1, g_SymbolMapFileName, 0x1DC);
-    MI_CpuCopy8(INTRUDE_COMM_GetPartnerRecord(link), rec, sizeof(LinkRecord));
+    MI_CpuCopy8(INTRUDE_COMM_GetPartnerSymbolPage(link), rec, sizeof(LinkRecord));
     *start = 530;
     return rec;
 }

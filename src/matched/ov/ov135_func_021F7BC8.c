@@ -12,7 +12,7 @@
  * symbols:
  *   WORLDTRADE_INPUT_MenuUpdate 0x021F99F0 thumb ov135
  *   WORLDTRADE_SetStateAndReturn 0x021F4EC0 thumb ov135
- *   WORLDTRADE_DEPOSIT_CheckGenderEvent 0x021F7B9C thumb ov135
+ *   WORLDTRADE_DEPOSIT_SetGenderFromEvent 0x021F7B9C thumb ov135
  *   WORLDTRADE_DEPOSIT_DrawRequestWindow 0x021F81C8 thumb ov135
  *   WORLDTRADE_ENTER_SetListRangeEntry 0x021F89A8 thumb ov135
  *   POKE_PERSONAL_Create 0x0201ADE4 thumb
@@ -34,7 +34,7 @@ extern void *POKE_PERSONAL_Create(u32,int,u32);
 struct Personal;
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern void POKE_PERSONAL_Delete(void *p);
-extern int WORLDTRADE_DEPOSIT_CheckGenderEvent(u8 *p, int event);
+extern int WORLDTRADE_DEPOSIT_SetGenderFromEvent(u8 *p, int event);
 extern void WORLDTRADE_DEPOSIT_DrawRequestWindow(void *bank, void *names, int unused, u8 *win, u32 index, int mode, int place, void *g);
 extern void WORLDTRADE_ENTER_SetListRangeEntry(u8 *p, int i, u16 a, u16 b);
 int WORLDTRADE_DEPOSIT_StateSpeciesMenuInput(u8 *p)
@@ -59,7 +59,7 @@ int WORLDTRADE_DEPOSIT_StateSpeciesMenuInput(u8 *p)
         v=POKE_PERSONAL_GetParam((const struct Personal *)h,20);
         POKE_PERSONAL_Delete((void *)h);
         ((struct Obj23387 *)(*(u8 * *)&((struct Obj01553 *)p)->fE00))->f20=v;
-        if(WORLDTRADE_DEPOSIT_CheckGenderEvent(p+0xB50,((struct Obj23388 *)(*(u8 * *)&((struct Obj01553 *)p)->fE00))->f20)) {
+        if(WORLDTRADE_DEPOSIT_SetGenderFromEvent(p+0xB50,((struct Obj23388 *)(*(u8 * *)&((struct Obj01553 *)p)->fE00))->f20)) {
             ((struct Obj01553 *)p)->f28=10;
             mode=((struct Obj01553 *)p)->fB52;
         } else {

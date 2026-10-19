@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BG_SYS_DeleteHalf",
+   "name": "BG_SYS_FreeTileRun",
    "address": "0x0203FB44",
    "kind": "game",
    "region": "arm9",

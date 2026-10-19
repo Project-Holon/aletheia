@@ -27,7 +27,7 @@
  *   WIFIBATTLEMATCH_NET_DeleteBoxAndWait 0x021D63DC thumb ov175
  *   WIFIBATTLEMATCH_NET_SetWaitCallback 0x021D6788 thumb ov175
  *   WIFIBATTLEMATCH_NET_TaskStepQ 0x021D61F0 thumb ov175
- *   WIFIBATTLEMATCH_NET_GetWaitResult 0x021D679C thumb ov175
+ *   WIFIBATTLEMATCH_NET_PollWaitResult 0x021D679C thumb ov175
  *   WIFIBATTLEMATCH_NET_TaskCleanupB 0x021D61CC thumb ov175
  *   WIFIBATTLEMATCH_NET_TaskStepD 0x021D495C thumb ov175
  */
@@ -54,7 +54,7 @@ extern int WIFIBATTLEMATCH_NET_HandleNetError(char *, void *, void *);
 extern void WIFIBATTLEMATCH_NET_DeleteBoxAndWait(char *);
 extern void WIFIBATTLEMATCH_NET_SetWaitCallback(char *, void *);
 extern void WIFIBATTLEMATCH_NET_TaskStepQ(u32 sys, int *state, char *p);
-extern u32 WIFIBATTLEMATCH_NET_GetWaitResult(char *);
+extern u32 WIFIBATTLEMATCH_NET_PollWaitResult(char *);
 extern void WIFIBATTLEMATCH_NET_TaskCleanupB(void *a, u32 **pp, char *p);
 extern void WIFIBATTLEMATCH_NET_TaskStepD(u32 sys, int *state, u32 *p);
 void WIFIBATTLEMATCH_NET_TaskStepC(u32 sys, int *state, u32 *p)
@@ -92,7 +92,7 @@ void WIFIBATTLEMATCH_NET_TaskStepC(u32 sys, int *state, u32 *p)
         }
         break;
     case 10:
-        result = WIFIBATTLEMATCH_NET_GetWaitResult((char *)p);
+        result = WIFIBATTLEMATCH_NET_PollWaitResult((char *)p);
         if (result == 0) *state = 13;
         else if (result == 1) *state = 11;
         else if (result == 3) WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskCleanupA);

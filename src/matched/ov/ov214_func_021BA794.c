@@ -13,7 +13,7 @@
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   WORDSET_CreateDefault  0x0201EC64  thumb
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   BMP_Clear  0x02043B5C  arm
@@ -70,7 +70,7 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_PrintQueColor(int, int, int, int, int, int, int);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 struct S;
@@ -130,7 +130,7 @@ void BTL_REC_SEL_DrawCounter(Obj *obj, Ent *e, unsigned int v)
         e->fA8 = 0;
         STRBUF_Delete((struct U16Vec *)p2);
         STRBUF_Delete((struct U16Vec *)h2);
-        WORDSET_DeleteStrbufED04((struct WordSet *)x);
+        WORDSET_Delete((struct WordSet *)x);
     }
 
     e->fBC = state;

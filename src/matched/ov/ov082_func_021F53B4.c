@@ -27,7 +27,7 @@
  *   BG_SYS_PushTileSource  0x020409E0  arm
  *   BG_SYS_LoadPltt  0x02040E78  arm
  *   func_020307B0  0x020307B0  arm
- *   BG_SYS_SetVisibleLayer  0x0204047C  arm
+ *   BG_SYS_SetPriority  0x0204047C  arm
  *   func_02040588  0x02040588  arm
  *   gFldFaceupBgTemplate     0x021F58F4  data  a4
  * Addresses are Black-image addresses.
@@ -80,7 +80,7 @@ extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 extern void BG_SYS_PushTileSource(u32 index, const void *src, u32 mode, u32 offset);
 extern void BG_SYS_LoadPltt(u32 index, void *src, u32 size, u32 offset);
 extern u32 func_020307B0(void *p);
-extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+extern void BG_SYS_SetPriority(int idx, unsigned short val);
 extern void func_02040588(unsigned char which, unsigned char enable);
 
 #define reg_G2_BG3CNT  (*(volatile u16 *)0x0400000E)
@@ -157,10 +157,10 @@ void FLD_FACEUP_SetupBg(u8 *w, int p)
     NNS_G2dGetUnpackedScreenData(f, (void **)(&scr2));
     BG_SYS_PushTileSource(3, scr2->data, scr2->size, 0);
     func_020307B0(f);
-    BG_SYS_SetVisibleLayer(0, 3);
-    BG_SYS_SetVisibleLayer(1, 0);
-    BG_SYS_SetVisibleLayer(2, 2);
-    BG_SYS_SetVisibleLayer(3, 1);
+    BG_SYS_SetPriority(0, 3);
+    BG_SYS_SetPriority(1, 0);
+    BG_SYS_SetPriority(2, 2);
+    BG_SYS_SetPriority(3, 1);
     func_02040588(2, 1);
     func_02040588(3, 1);
 }

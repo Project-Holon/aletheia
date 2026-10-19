@@ -28,7 +28,7 @@
  *   BEACON_SetEntryCount  0x0200C334  thumb
  *   BEACON_SetRecentId  0x0200C344  thumb
  *   BEACON_SetRecentValue  0x0200C358  thumb
- *   GF_STANDARD_SetupRtc  0x0203F524  arm
+ *   GF_STANDARD_GetRtcTimestamp  0x0203F524  arm
  *   BEACON_SetLastTime  0x0200C384  thumb
  *   MISC_SAVEDATA_GetScoreValue  0x0200E4F8  thumb
  *   MISC_SAVEDATA_GetTallyValue  0x0200E4B0  thumb
@@ -99,7 +99,7 @@ extern void BEACON_SetRecentId(struct BeaconSave *beacon, u8 slot, u8 targetId);
 
 extern void BEACON_SetRecentValue(struct BeaconSave *beacon, u32 slot, int value);
 
-extern u64 GF_STANDARD_SetupRtc();
+extern u64 GF_STANDARD_GetRtcTimestamp();
 
 extern void BEACON_SetLastTime(struct BeaconSave *beacon, u32 lo, u32 hi);
 
@@ -286,7 +286,7 @@ int SCRCMD_RESEARCH_CmdStartMission(struct ScriptContext *ctx, struct ScrCmdWork
         BEACON_SetRecentId(beacon, i, targetId[i]);
         BEACON_SetRecentValue(beacon, (u8)i, zero);
     }
-    now = GF_STANDARD_SetupRtc();
+    now = GF_STANDARD_GetRtcTimestamp();
     BEACON_SetLastTime(beacon, (u32)now, (u32)(now >> 32));
     return zero;
 }
@@ -609,7 +609,7 @@ int SCRCMD_RESEARCH_GetMissionElapsedHours(void *saveControl)
         return 0;
     }
     startTime = BEACON_GetLastTime(beacon);
-    RTC_ConvertSecondToDateTime((struct RTCDate *)&elapsed.date, (struct RTCTime *)&elapsed.time, GF_STANDARD_SetupRtc() - startTime);
+    RTC_ConvertSecondToDateTime((struct RTCDate *)&elapsed.date, (struct RTCTime *)&elapsed.time, GF_STANDARD_GetRtcTimestamp() - startTime);
     if (elapsed.date.year != 0 || elapsed.date.month > 1 || elapsed.date.day > 1) {
         return 24;
     }

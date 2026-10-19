@@ -22,8 +22,8 @@
  * symbols:
  *   MI_CpuCopy8    0x02082D44  arm
  *   MI_CpuFill8    0x02082BCC  arm
- *   FILE_UTIL_Get_0FE4  0x02020FE4  thumb
- *   FILE_UTIL_Check1288  0x02021288  thumb
+ *   FILE_UTIL_GetItemParam  0x02020FE4  thumb
+ *   FILE_UTIL_IsMachineItem  0x02021288  thumb
  *   FILE_UTIL_GetId  0x0202130C  thumb
  *
  * The item bag: a 0x9C0 byte block holding five arrays of `{u16 id; u16
@@ -92,8 +92,8 @@ struct Item {
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 
-extern u32 FILE_UTIL_Get_0FE4(void *a, u32 sel, u32 id);
-extern u32 FILE_UTIL_Check1288(u32 a);
+extern u32 FILE_UTIL_GetItemParam(void *a, u32 sel, u32 id);
+extern u32 FILE_UTIL_IsMachineItem(u32 a);
 extern u32 FILE_UTIL_GetId(u32 id);
 
 u32 MYITEM_SAVEDATA_GetPocket(u8 *base, u32 id, void **pp, u32 *pn);
@@ -165,7 +165,7 @@ u32 MYITEM_SAVEDATA_GetPocket(u8 *base, u32 id, void **pp, u32 *pn)
 
 u32 MYITEM_SAVEDATA_GetPocketOfItem(u8 *base, u32 a, void **pp, u32 *pn, u16 d)
 {
-    u32 id = FILE_UTIL_Get_0FE4((void *)a, 5, d);
+    u32 id = FILE_UTIL_GetItemParam((void *)a, 5, d);
 
     MYITEM_SAVEDATA_GetPocket(base, id, pp, pn);
     return id;
@@ -467,7 +467,7 @@ struct Item *MYITEM_SAVEDATA_GetSlot(u8 *base, u32 id, u32 index)
 
 u32 MYITEM_SAVEDATA_GetMaxStack(u32 a)
 {
-    if (FILE_UTIL_Check1288(a) == 1) {
+    if (FILE_UTIL_IsMachineItem(a) == 1) {
         return 1;
     }
     return 999;

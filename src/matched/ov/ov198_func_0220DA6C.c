@@ -18,7 +18,7 @@
  *   B_PLIST_MAIN_GetOrderIndex  0x022110D4  thumb  ov198
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045EC0  0x02045EC0  arm
- *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
+ *   WORDSET_SetSlotMonNickname  0x0201EEF4  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   func_0201D304  0x0201D304  thumb
@@ -46,7 +46,7 @@ struct MsgBank;
 extern int B_PLIST_MAIN_GetOrderIndex(u8 *, int);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonNickname(struct WordSet *p, u32 i, void *mon);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 struct Descriptor;
 struct StrObj;
@@ -90,7 +90,7 @@ void B_PLIST_DRAW_DrawRowCenteredName(u8 *p, int idx)
     rec = (struct R *)(base + off);
     vec = STRBUF_Create(12, *(u16 *)(*(u8 **)p + 0x10));
     msg = func_02045EC0(*(struct MsgBank **)(p + 0x1EA0), d_02211B68[idx]);
-    WORDSET_SetSlotMonSpecies(*(struct WordSet **)(p + 0x1EA4), 0, *(void **)rec);
+    WORDSET_SetSlotMonNickname(*(struct WordSet **)(p + 0x1EA4), 0, *(void **)rec);
     msg2 = 0;
     WORDSET_CopyTaggedText(*(struct WordSet **)(p + 0x1EA4), vec, msg);
     STRBUF_Delete(msg);

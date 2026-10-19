@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "INTRUDE_COMM_UpdateQueuedRequest",
+   "name": "INTRUDE_COMM_SendSaveSummaryToReadyPeers",
    "address": "0x02174DF4",
    "kind": "game",
    "region": "ov011",

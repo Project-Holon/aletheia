@@ -1,5 +1,5 @@
 /*
- * function: VCT_DSP_SetVoiceGateConfig
+ * function: VCT_DSP_GetVoiceGateConfig
  * address:  0x021B3064
  * packet:   pkt_021B3064
  * region:   ov013
@@ -19,7 +19,7 @@ typedef unsigned char u8;
 extern u8   gVoiceGateConfig[];
 extern void MI_CpuCopy8(void *dst, void *src, int n);
 
-void VCT_DSP_SetVoiceGateConfig(void *p)
+void VCT_DSP_GetVoiceGateConfig(void *p)
 {
     if (!p)
         return;

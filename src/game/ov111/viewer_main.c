@@ -1,7 +1,7 @@
 /*
  * file:     viewer_main.c
  * unit:     yes
- * function: VIEWER_MAIN_Create, VIEWER_MAIN_InitInfo, VIEWER_MAIN_PlaySe, VIEWER_MAIN_Main, VIEWER_MAIN_Delete, VIEWER_MAIN_LoadResources, VIEWER_MAIN_FreeResources, VIEWER_MAIN_SetupBgSlot, VIEWER_MAIN_ClearBgSlot, VIEWER_MAIN_InitBg, VIEWER_MAIN_GetBgParamA, VIEWER_MAIN_GetBgParamB, VIEWER_MAIN_LoadBgResources, VIEWER_MAIN_ExitBg, VIEWER_MAIN_SetBgSlotKind, VIEWER_MAIN_ResetBgSlot, VIEWER_MAIN_Draw, VIEWER_MAIN_UpdateRowA, VIEWER_MAIN_UpdateRowB, VIEWER_MAIN_UpdateRowC, VIEWER_MAIN_UpdateRows, VIEWER_MAIN_Update, VIEWER_MAIN_SetWindowPlane, VIEWER_MAIN_UpdateWindows, VIEWER_MAIN_InitBrightness, VIEWER_MAIN_CheckInputHeld, VIEWER_MAIN_HandleKey, VIEWER_MAIN_ToggleFavorite, VIEWER_MAIN_SetRowState, VIEWER_MAIN_SetRowDrawEnable, VIEWER_MAIN_DrawRowBg, VIEWER_MAIN_HitRow, VIEWER_MAIN_HandleRowTouch, VIEWER_MAIN_HandleRowKey, VIEWER_MAIN_HandlePageTouch, VIEWER_MAIN_HandlePageInput, VIEWER_MAIN_HandleInput, VIEWER_MAIN_UpdateInput, VIEWER_MAIN_DrawSelected, VIEWER_MAIN_VBlank, VIEWER_MAIN_InitLcdBrightness, VIEWER_MAIN_UploadBg, VIEWER_MAIN_SetWindowRect, VIEWER_MAIN_CopyBg3, VIEWER_MAIN_CopyBg6, VIEWER_MAIN_ClearBgBuf, VIEWER_MAIN_UploadBgBuf, VIEWER_MAIN_ClearBg, VIEWER_MAIN_UpdateBrightness, VIEWER_MAIN_CheckTouch, VIEWER_MAIN_HandleScrollTouch, VIEWER_MAIN_BlitRect, VIEWER_MAIN_BlitBrush, VIEWER_MAIN_CopyTouchPos, VIEWER_MAIN_DrawBrushStroke
+ * function: VIEWER_MAIN_Create, VIEWER_MAIN_InitInfo, VIEWER_MAIN_PlaySe, VIEWER_MAIN_Main, VIEWER_MAIN_Delete, VIEWER_MAIN_LoadResources, VIEWER_MAIN_FreeResources, VIEWER_MAIN_SetupBgSlot, VIEWER_MAIN_ClearBgSlot, VIEWER_MAIN_InitBg, VIEWER_MAIN_GetBgParamA, VIEWER_MAIN_GetBgParamB, VIEWER_MAIN_LoadBgResources, VIEWER_MAIN_ExitBg, VIEWER_MAIN_SetBgSlotKind, VIEWER_MAIN_ResetBgSlot, VIEWER_MAIN_Draw, VIEWER_MAIN_UpdateRowA, VIEWER_MAIN_UpdateRowB, VIEWER_MAIN_UpdateRowC, VIEWER_MAIN_UpdateRows, VIEWER_MAIN_Update, VIEWER_MAIN_SetWindowPlane, VIEWER_MAIN_UpdateWindows, VIEWER_MAIN_InitBrightness, VIEWER_MAIN_CheckInputModeSwitch, VIEWER_MAIN_HandleKey, VIEWER_MAIN_ToggleFavorite, VIEWER_MAIN_SetRowState, VIEWER_MAIN_SetRowDrawEnable, VIEWER_MAIN_DrawRowBg, VIEWER_MAIN_HitRow, VIEWER_MAIN_HandleRowTouch, VIEWER_MAIN_HandleRowKey, VIEWER_MAIN_HandlePageTouch, VIEWER_MAIN_HandlePageInput, VIEWER_MAIN_HandleInput, VIEWER_MAIN_UpdateInput, VIEWER_MAIN_DrawSelected, VIEWER_MAIN_VBlank, VIEWER_MAIN_InitLcdBrightness, VIEWER_MAIN_UploadBg, VIEWER_MAIN_SetWindowRect, VIEWER_MAIN_CopyBg3, VIEWER_MAIN_CopyBg6, VIEWER_MAIN_ClearBgBuf, VIEWER_MAIN_UploadBgBuf, VIEWER_MAIN_ClearBg, VIEWER_MAIN_UpdateBrightness, VIEWER_MAIN_CheckTouch, VIEWER_MAIN_HandleScrollTouch, VIEWER_MAIN_BlitRect, VIEWER_MAIN_BlitBrush, VIEWER_MAIN_CopyTouchPos, VIEWER_MAIN_DrawBrushStroke
  * address:  0x021C3CC0
  * region:   ov111
  * compiler: dsi/1.1p1
@@ -31,7 +31,7 @@
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   WIPE_SYS_Start  0x0202208C  thumb
  *   VIEWER_TEXT_InitActors  0x021C6D9C  thumb  ov111
- *   VIEWER_TEXT_SetScrollParam  0x021C6804  thumb  ov111
+ *   VIEWER_TEXT_BuildRowList  0x021C6804  thumb  ov111
  *   VIEWER_TEXT_CreateActor  0x021C6E8C  thumb  ov111
  *   VIEWER_TEXT_Init  0x021C6000  thumb  ov111
  *   VIEWER_TEXT_NoOp  0x021C6D98  thumb  ov111
@@ -43,7 +43,7 @@
  *   PMS_DRAW_Main  0x0202DBC4  thumb
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
  *   TCBL_Main  0x020310C4  arm
- *   GAME_DATA_GetSaveBlock21  0x02012F5C  thumb
+ *   GAME_DATA_GetTrainerCardSign  0x02012F5C  thumb
  *   TRCARD_SIGN_GetBitmap  0x020089CC  thumb
  *   MI_CpuCopy8  0x02082D44  arm
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
@@ -65,7 +65,7 @@
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   MSGDATA_AllocString  0x02045EC0  arm
  *   WORDSET_CreateDefault  0x0201EC64  thumb
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   GF_FONT_Delete  0x0201D83C  thumb
@@ -94,7 +94,7 @@
  *   BG_SYS_PushTile  0x020409B4  arm
  *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
- *   BG_SYS_FillScrollArea  0x02040618  arm
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   BG_SYS_Delete  0x0203F9B4  arm
  *   d_021C85D8     0x021C85D8  data  a4
@@ -104,7 +104,7 @@
  *   VIEWER_TEXT_DrawWindow  0x021C636C  thumb  ov111
  *   VIEWER_TEXT_FlushWindow  0x021C631C  thumb  ov111
  *   VIEWER_TEXT_SetActorAnim  0x021C6FA0  thumb  ov111
- *   GAME_DATA_CheckSaveFlag  0x02012BF8  thumb
+ *   GAME_DATA_ContainsRecentId  0x02012BF8  thumb
  *   PMS_DRAW_SetDecoVisible  0x0202DCD4  thumb
  *   PMS_DRAW_SetVisible  0x0202DCB0  thumb
  *   _ll_mul          0x0209C054  arm
@@ -115,7 +115,7 @@
  *   TOUCHPANEL_GetCont  0x02035C38  arm
  *   KEY_GetCont  0x0203630C  arm
  *   KEY_GetTrg  0x020362DC  arm
- *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
+ *   GAME_DATA_SetRecentId  0x02012BE0  thumb
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   TOUCHPANEL_HitCont  0x02035BA4  arm
@@ -135,7 +135,7 @@
  *   BG_SYS_DrawTileEx  0x020410D0  arm
  *   BG_SYS_SetTileEntry  0x02041300  arm
  *   BG_SYS_GetBuf  0x0204162C  arm
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   GXS_LoadBGPltt  0x0207E468  arm
  *   d_021C8534     0x021C8534  data  a1
  *   d_021C854C     0x021C854C  data  a1
@@ -382,7 +382,7 @@ extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
 extern void VIEWER_TEXT_InitActors(ViewerAnim *a, const void *cfg);
-extern void VIEWER_TEXT_SetScrollParam(ViewerWork *p, ViewerInfo *info);
+extern void VIEWER_TEXT_BuildRowList(ViewerWork *p, ViewerInfo *info);
 extern void VIEWER_TEXT_CreateActor(ViewerAnim *a);
 extern void VIEWER_TEXT_Init(ViewerWork *p);
 extern void VIEWER_TEXT_NoOp(ViewerWork *p, void *bg, u32 a, void *b);
@@ -393,7 +393,7 @@ extern void CLACT_DrawSystem(void);
 extern void PMS_DRAW_Main(u8 *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void TCBL_Main(struct Tcbl *p);
-extern void *GAME_DATA_GetSaveBlock21(void **h);
+extern void *GAME_DATA_GetTrainerCardSign(void **h);
 extern void *TRCARD_SIGN_GetBitmap(void *p);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
@@ -415,7 +415,7 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
@@ -436,7 +436,7 @@ extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void BG_SYS_PushTile(u32 layer);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern void BG_SYS_FillScrollArea(u32 bgId, u32 which, u32 value);
+extern void BG_SYS_ChangeScrollImmediate(u32 bgId, u32 which, u32 value);
 extern void BG_SYS_FreeLayerBuf(u32 bgId);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_ClearSlot(u32 i);
@@ -445,7 +445,7 @@ extern void VIEWER_TEXT_DrawPage(ViewerWork *p, int scroll, int flush, int idx);
 extern void VIEWER_TEXT_DrawWindow(ViewerWork *p, void **bg, ViewerInfo *info);
 extern void VIEWER_TEXT_FlushWindow(ViewerWork *p, void **bg);
 extern void VIEWER_TEXT_SetActorAnim(ViewerAnim *a, int idx, u8 x, u8 y);
-extern int GAME_DATA_CheckSaveFlag(int gd, int id);
+extern int GAME_DATA_ContainsRecentId(int gd, int id);
 extern void PMS_DRAW_SetDecoVisible(struct PmsDraw *p, u32 i, u32 val);
 extern void PMS_DRAW_SetVisible(struct PmsDraw *o, int i, u32 visible);
 extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
@@ -454,7 +454,7 @@ extern void G2x_SetBGyAffine_(void *reg, struct Mtx *m, u32 a, u32 b, u32 x, u32
 extern int TOUCHPANEL_GetCont(void);
 extern unsigned int KEY_GetCont(void);
 extern u32 KEY_GetTrg(void);
-extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
+extern void GAME_DATA_SetRecentId(void *p, u32 a, u32 b);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern int TOUCHPANEL_HitCont(const void *p);
@@ -471,7 +471,7 @@ extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 extern void BG_SYS_DrawTileEx(u32 index, u32 dx, u32 dy, u32 cw, u8 ch, u32 src, u8 sx, u8 sy, u8 sw, u8 sh);
 extern void BG_SYS_SetTileEntry(u32 layer, int value, int x0, int y0, u8 w, u8 h, u8 mode);
 extern u32 BG_SYS_GetBuf(int channel);
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 extern void GXS_LoadBGPltt(const void *src, u32 offset, u32 size);
 extern u32 TOUCHPANEL_HitPoint(struct Ctx *ctx, u32 a, u32 b);
 int VIEWER_MAIN_Create(void *man, int *state, ViewerArgs *args);
@@ -499,7 +499,7 @@ int VIEWER_MAIN_Update(ViewerWork *p);
 void VIEWER_MAIN_SetWindowPlane(int side);
 int VIEWER_MAIN_UpdateWindows(char *p);
 void VIEWER_MAIN_InitBrightness(ViewerWork *p);
-int VIEWER_MAIN_CheckInputHeld(ViewerWork *p);
+int VIEWER_MAIN_CheckInputModeSwitch(ViewerWork *p);
 int VIEWER_MAIN_HandleKey(ViewerWork *p);
 void VIEWER_MAIN_ToggleFavorite(ViewerWork *p);
 void VIEWER_MAIN_SetRowState(ViewerWork *p, int flag, int v);
@@ -604,7 +604,7 @@ int VIEWER_MAIN_Create(void *man, int *state, ViewerArgs *args)
     VIEWER_MAIN_InitBg();
     VIEWER_MAIN_LoadBgResources((ViewerWork *)p);
     VIEWER_TEXT_InitActors((ViewerAnim *)(&p->anim), d_021C8564);
-    VIEWER_TEXT_SetScrollParam(p, p->args->info);
+    VIEWER_TEXT_BuildRowList(p, p->args->info);
     VIEWER_TEXT_CreateActor((ViewerAnim *)(&p->anim));
     VIEWER_TEXT_Init(p);
     p->pmsDraw = PMS_DRAW_Create((u32)p->anim.unit, 1, (u32)p->printQue, (u32)p->font, 8, 1, 0x27);
@@ -777,11 +777,11 @@ int VIEWER_MAIN_Delete(void *man, int *state, ViewerArgs *args, ViewerWork *p)
 
     if (!p->info->f4_5) {
         VIEWER_MAIN_CopyBg6(p->pix, p->info->bitmap);
-        MI_CpuCopy8(p->info->bitmap, TRCARD_SIGN_GetBitmap(GAME_DATA_GetSaveBlock21(p->args->gameData)), 0x600);
+        MI_CpuCopy8(p->info->bitmap, TRCARD_SIGN_GetBitmap(GAME_DATA_GetTrainerCardSign(p->args->gameData)), 0x600);
     }
     if (args->editMode != 0) {
         a = GAME_DATA_GetMyStatus(p->args->gameData);
-        b = GAME_DATA_GetSaveBlock21(p->args->gameData);
+        b = GAME_DATA_GetTrainerCardSign(p->args->gameData);
         MYSTATUS_SetOutfit(a, p->info->rowIndex);
         TRCARD_SIGN_SetColor(b, p->info->listIndex);
         TRCARD_SIGN_SetStyle(b, p->info->f4_4);
@@ -849,7 +849,7 @@ void VIEWER_MAIN_FreeResources(ViewerWork *p)
 {
     int i;
 
-    WORDSET_DeleteStrbufED04(p->wordSet);
+    WORDSET_Delete(p->wordSet);
     for (i = 0; i < 5; i++) {
         STRBUF_Delete(p->taggedText[i]);
     }
@@ -1033,10 +1033,10 @@ void VIEWER_MAIN_ExitBg(void)
 {
     BG_SYS_SetMainPlaneVisible(0x1F, 0);
     BG_SYS_SetSubPlaneVisible(0x1F, 0);
-    BG_SYS_FillScrollArea(5, 0, 0);
-    BG_SYS_FillScrollArea(5, 3, 0);
-    BG_SYS_FillScrollArea(3, 0, 0);
-    BG_SYS_FillScrollArea(3, 3, 0);
+    BG_SYS_ChangeScrollImmediate(5, 0, 0);
+    BG_SYS_ChangeScrollImmediate(5, 3, 0);
+    BG_SYS_ChangeScrollImmediate(3, 0, 0);
+    BG_SYS_ChangeScrollImmediate(3, 3, 0);
     BG_SYS_FreeLayerBuf(7);
     BG_SYS_FreeLayerBuf(6);
     BG_SYS_FreeLayerBuf(4);
@@ -1121,7 +1121,7 @@ void VIEWER_MAIN_UpdateRowA(ViewerWork *p, int flag)
         VIEWER_TEXT_SetActorAnim(&p->anim, 4, 0x12, 0);
         VIEWER_TEXT_SetActorAnim(&p->anim, 5, 6, 0);
         VIEWER_TEXT_SetActorAnim(&p->anim, 2, 0x10, 1);
-        VIEWER_TEXT_SetActorAnim(&p->anim, 7, GAME_DATA_CheckSaveFlag((int)p->args->gameData, 0x15) + 6, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 7, GAME_DATA_ContainsRecentId((int)p->args->gameData, 0x15) + 6, 1);
     } else if (p->inputMode == 0) {
         VIEWER_TEXT_SetActorAnim(&p->anim, 0, 1, 1);
         VIEWER_TEXT_SetActorAnim(&p->anim, 1, 0, 1);
@@ -1129,7 +1129,7 @@ void VIEWER_MAIN_UpdateRowA(ViewerWork *p, int flag)
         VIEWER_TEXT_SetActorAnim(&p->anim, 4, 0x12, p->info->f4_4 ^ 1);
         VIEWER_TEXT_SetActorAnim(&p->anim, 5, 8 - p->size * 2, p->info->f4_4 ^ 1);
         VIEWER_MAIN_SetRowState((ViewerWork *)p, p->info->f4_4, 1);
-        VIEWER_TEXT_SetActorAnim(&p->anim, 7, GAME_DATA_CheckSaveFlag((int)p->args->gameData, 0x16) + 6, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 7, GAME_DATA_ContainsRecentId((int)p->args->gameData, 0x16) + 6, 1);
     } else {
         VIEWER_TEXT_SetActorAnim(&p->anim, 0, 0xF, 1);
         VIEWER_TEXT_SetActorAnim(&p->anim, 1, 0xE, 1);
@@ -1156,7 +1156,7 @@ void VIEWER_MAIN_UpdateRowB(ViewerWork *p, int flag)
         VIEWER_TEXT_SetActorAnim(&p->anim, 4, 0x12, 0);
         VIEWER_TEXT_SetActorAnim(&p->anim, 5, 6, 0);
         VIEWER_TEXT_SetActorAnim(&p->anim, 2, 0x10, 1);
-        VIEWER_TEXT_SetActorAnim(&p->anim, 7, GAME_DATA_CheckSaveFlag((int)p->args->gameData, 0x15) + 6, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 7, GAME_DATA_ContainsRecentId((int)p->args->gameData, 0x15) + 6, 1);
     } else {
         VIEWER_TEXT_SetActorAnim(&p->anim, 0, 1, 1);
         VIEWER_TEXT_SetActorAnim(&p->anim, 1, 0, 1);
@@ -1164,7 +1164,7 @@ void VIEWER_MAIN_UpdateRowB(ViewerWork *p, int flag)
         VIEWER_TEXT_SetActorAnim(&p->anim, 6, 0x16, 1);
         VIEWER_TEXT_SetActorAnim(&p->anim, 5, 8 - p->size * 2, 0);
         VIEWER_MAIN_SetRowState((ViewerWork *)p, p->info->f4_4, 0);
-        VIEWER_TEXT_SetActorAnim(&p->anim, 7, GAME_DATA_CheckSaveFlag((int)p->args->gameData, 0x16) + 6, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 7, GAME_DATA_ContainsRecentId((int)p->args->gameData, 0x16) + 6, 1);
     }
 }
 
@@ -1490,7 +1490,7 @@ void VIEWER_MAIN_InitBrightness(ViewerWork *p)
 
 
 
-int VIEWER_MAIN_CheckInputHeld(ViewerWork *p)
+int VIEWER_MAIN_CheckInputModeSwitch(ViewerWork *p)
 {
     if (p->mode == 1) {
         if (TOUCHPANEL_GetCont()) {
@@ -1566,13 +1566,13 @@ void VIEWER_MAIN_ToggleFavorite(ViewerWork *p)
 
     GFL_USE_PlaySeDefaultVolume(0x646);
     if (p->decoVisible == 0) {
-        v = GAME_DATA_CheckSaveFlag((int)p->args->gameData, 0x15) ^ 1;
+        v = GAME_DATA_ContainsRecentId((int)p->args->gameData, 0x15) ^ 1;
         VIEWER_TEXT_SetActorAnim(&p->anim, 7, v + 6, 1);
-        GAME_DATA_SetSaveFlag(p->args->gameData, 0x15, v);
+        GAME_DATA_SetRecentId(p->args->gameData, 0x15, v);
     } else {
-        v = GAME_DATA_CheckSaveFlag((int)p->args->gameData, 0x16) ^ 1;
+        v = GAME_DATA_ContainsRecentId((int)p->args->gameData, 0x16) ^ 1;
         VIEWER_TEXT_SetActorAnim(&p->anim, 7, v + 6, 1);
-        GAME_DATA_SetSaveFlag(p->args->gameData, 0x16, v);
+        GAME_DATA_SetRecentId(p->args->gameData, 0x16, v);
     }
 }
 
@@ -1854,7 +1854,7 @@ int VIEWER_MAIN_HandleInput(ViewerWork *p)
 
 int VIEWER_MAIN_UpdateInput(ViewerWork *p)
 {
-    VIEWER_MAIN_CheckInputHeld((ViewerWork *)p);
+    VIEWER_MAIN_CheckInputModeSwitch((ViewerWork *)p);
     VIEWER_MAIN_HandlePageTouch((ViewerWork *)p);
     VIEWER_MAIN_CheckTouch((ViewerWork *)p);
     if (p->mode == 1) {
@@ -1898,7 +1898,7 @@ void VIEWER_MAIN_DrawSelected(ViewerWork *p, int sel, int *seq)
         break;
     case 6:
         if (p->args->info->f4_6) {
-            TRCARD_SIGN_SetSeenBefore(GAME_DATA_GetSaveBlock21(p->args->gameData));
+            TRCARD_SIGN_SetSeenBefore(GAME_DATA_GetTrainerCardSign(p->args->gameData));
             GFL_USE_PlaySeDefaultVolume(0x548);
             VIEWER_MAIN_InitInfo((ViewerInfo *)p->info);
             VIEWER_TEXT_DrawTable(p, p->info->rowIndex, 1);
@@ -1931,10 +1931,10 @@ void VIEWER_MAIN_VBlank(void *task, ViewerWork *p)
 
     VIEWER_MAIN_UpdateBrightness((ViewerWork *)p);
     ofs = -(p->shake / 2);
-    BG_SYS_FillScrollArea(5, 0, ofs);
-    BG_SYS_FillScrollArea(5, 3, ofs);
-    BG_SYS_FillScrollArea(3, 0, ofs);
-    BG_SYS_FillScrollArea(3, 3, ofs);
+    BG_SYS_ChangeScrollImmediate(5, 0, ofs);
+    BG_SYS_ChangeScrollImmediate(5, 3, ofs);
+    BG_SYS_ChangeScrollImmediate(3, 0, ofs);
+    BG_SYS_ChangeScrollImmediate(3, 3, ofs);
     if (p->dirty) {
         VIEWER_MAIN_InitBrightness((ViewerWork *)p);
     }
@@ -2060,7 +2060,7 @@ void VIEWER_MAIN_ClearBgBuf(u32 bg, int mode)
         }
         break;
     }
-    BG_SYS_SetFlagField06((u8)bg);
+    BG_SYS_MarkTileDirty((u8)bg);
 }
 
 

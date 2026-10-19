@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "SCRCMD_WORK_CmdEventDataSetB",
+   "name": "SCRCMD_WORK_CmdSetConnectGridPos",
    "address": "0x0215B26C",
    "kind": "game",
    "region": "ov010",

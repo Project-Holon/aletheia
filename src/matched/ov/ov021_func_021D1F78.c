@@ -11,7 +11,7 @@
  *
  * symbols:
  *   CLACT_CreateUnit  0x0204B100  arm
- *   POKE_TOOL_Dummy  0x020185F0  thumb
+ *   POKE_TOOL_CastToBoxParam  0x020185F0  thumb
  *   POKEGRA_OpenHandle  0x0202D7C8  thumb
  *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb
  *   POKEGRA_RegisterCgrPP  0x0202D934  thumb
@@ -37,7 +37,7 @@ typedef unsigned char  u8;
 struct Bank;
 struct Sav;
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern u32 POKE_TOOL_Dummy(u32 a);
+extern u32 POKE_TOOL_CastToBoxParam(u32 a);
 extern int POKEGRA_OpenHandle(int a0);
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 extern int POKEGRA_RegisterCgrPP(int a0, void *a1, int a2, int a3, unsigned short a9);
@@ -54,7 +54,7 @@ void EVENT_PERAP_RECORD_CreatePokeIcon(u32 *w)
     Tbl buf;
 
     w[0x38 / 4] = (u32)CLACT_CreateUnit(1, 0, 0x15);
-    r4 = POKE_TOOL_Dummy(w[0x14 / 4]);
+    r4 = POKE_TOOL_CastToBoxParam(w[0x14 / 4]);
     r7 = POKEGRA_OpenHandle(0x15);
     t = POKE_TOOL_DecodeBoxParam((struct Sav *)r4);
     w[0x40 / 4] = POKEGRA_RegisterCgrPP(r7, (void *)r4, 0, 0, 0x15);

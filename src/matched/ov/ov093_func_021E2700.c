@@ -14,7 +14,7 @@
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093
  *   BTL_POKEPARAM_TestContFlag  0x021D5BDC  thumb  ov093
- *   BTLV_CORE_EventScaleDamage  0x021E8860  thumb  ov093
+ *   HAND_COMMON_EventScaleDamage  0x021E8860  thumb  ov093
  *   BTL_EVENT_GetFactorKey  0x021D70A8  thumb  ov093
  *   HAND_WAZA_RemoveMoveHandlerById  0x021E03F8  thumb  ov093
  *   gTripleKickHandlers     0x021F29C8  data   ov093  a4
@@ -30,7 +30,7 @@ struct QQ;
 struct UtilWork;
 extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern int BTL_POKEPARAM_TestContFlag(struct UtilWork *p, u32 n);
-extern void BTLV_CORE_EventScaleDamage(int n);
+extern void HAND_COMMON_EventScaleDamage(int n);
 extern u16 BTL_EVENT_GetFactorKey(struct QQ *p);
 extern void HAND_WAZA_RemoveMoveHandlerById(int a, int b);
 extern int gTripleKickHandlers[];
@@ -48,7 +48,7 @@ void HAND_WAZA_RolloutScalePower(void *a, void *b, int c, struct Cnt *d)
             k <<= 1;
         if (BTL_POKEPARAM_TestContFlag(v, 7))
             k <<= 1;
-        BTLV_CORE_EventScaleDamage(k);
+        HAND_COMMON_EventScaleDamage(k);
         d->n++;
         if ((int)d->n >= d->max)
             HAND_WAZA_RemoveMoveHandlerById(c, BTL_EVENT_GetFactorKey(a));

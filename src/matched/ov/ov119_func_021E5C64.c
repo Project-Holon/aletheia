@@ -12,7 +12,7 @@
  *   func_020490F4 0x020490F4 arm
  *   ARC_UTIL_UploadBgPaletteAddFromHandle 0x02049990 arm
  *   func_02041B6C 0x02041B6C arm
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   BMP_WIN_Create 0x020450F0 arm
@@ -36,7 +36,7 @@ extern void func_02040588(unsigned char which, unsigned char enable);
 extern void *func_020490F4(u32 id, u32 heap);
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern void func_02041B6C(u32 bit);
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void GF_FONT_SetTextColor(u32, u32, u32);
 struct MsgBank;
@@ -55,8 +55,8 @@ void POKETRADE_2D_LoadSubScreenGfx(char *p)
     h = func_020490F4(0x66, ((struct Obj01055 *)p)->f5F4);
     ARC_UTIL_UploadBgPaletteAddFromHandle(h, 16, 4, 0, (u16)((struct Obj01055 *)p)->f870, 0, 0, ((struct Obj01055 *)p)->f5F4);
     func_02041B6C(4);
-    BG_SYS_FillScrollArea(4, 0, -4);
-    BG_SYS_FillScrollArea(6, 0, -4);
+    BG_SYS_ChangeScrollImmediate(4, 0, -4);
+    BG_SYS_ChangeScrollImmediate(6, 0, -4);
     ARC_TOOL_DeleteHandle(h);
     GF_FONT_SetTextColor(1, 2, 15);
     for (i = 0; i < 26; i++) {

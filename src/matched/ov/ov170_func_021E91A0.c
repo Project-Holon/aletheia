@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb ov170
+ *   BOX2_MAIN_RefreshCurrentBoxMonInfo 0x021DEFEC thumb ov170
  *   BOX2_SEQ_SetSlotDim 0x021ED6E4 thumb ov170
  *   BOX2_SEQ_ShowWindowObject 0x021EBA5C thumb ov170
  *   BOX2_MAIN_RefreshCursorBox 0x021DD14C thumb ov170
@@ -53,7 +53,7 @@ extern u8 func_020355C4(void);
 extern void CURSOR_MOVE_SetState(struct Struct_02025CD0 *obj, u32 state);
 extern void BOX2_SEQ_SetCursorDraw(char **p, int flag);
 extern int BOX2_SEQ_ReturnAfterClear(char *p, int v);
-extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
+extern void BOX2_MAIN_RefreshCurrentBoxMonInfo(char *p, int b);
 extern void BOX2_SEQ_SetSlotDim(char **p, int v);
 extern void BOX2_SEQ_ShowWindowObject(char *,int);
 extern void BOX2_MAIN_RefreshCursorBox(char *p);
@@ -74,7 +74,7 @@ int BOX2_SEQ_StateUseItemMenu(unsigned char *p)
             BOX2_MAIN_RecalcPartyParam((void **)p,p[0x16]);
             BOX2_SEQ_ShowSlotIcon(p,p[0x14],p[0x16],*(unsigned char *)(WORK(p)+p[0x16]+0x3dd2));
         }
-        BOX2_MAIN_ChangeBoxFormPreserve((char *)p,p[0x16]); BOX2_SEQ_SetSlotDim((char **)p,0);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p,p[0x16]); BOX2_SEQ_SetSlotDim((char **)p,0);
         BOX2_SEQ_ShowWindowObject(WORK(p),0x18); BOX2_MAIN_RefreshCursorBox((char *)p); BOX2_UI_ShowWindowA(WORK(p));
         BOX2_SEQ_SetActorAffineMode(WORK(p),1); BOX2_SEQ_SetActorAnimSeq(WORK(p),0xa,2);
         return 0x3b;

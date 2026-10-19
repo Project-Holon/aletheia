@@ -20,8 +20,8 @@
  *   GX_GetBankForSubOBJ              0x02080C64  arm
  *   GX_LoadOAM                       0x0207E684  arm
  *   GXS_LoadOAM                      0x0207E708  arm
- *   NET_DEVICE_TABLE_GetZero                    0x0200F168  thumb
- *   NET_DEVICE_TABLE_SetHeader                    0x0200F16C  thumb
+ *   WM_ICON_GetArcId                    0x0200F168  thumb
+ *   WM_ICON_InitArcData                    0x0200F16C  thumb
  *   ARC_TOOL_CreateHandle                    0x020490F4  arm
  *   ARC_UTIL_UploadPaletteFromHandleWhole                    0x02049B68  arm
  *   ARC_UTIL_UploadScreenFromHandle                    0x02049800  arm
@@ -97,9 +97,9 @@ extern void GX_LoadOAM(const void *src, u32 offset, u32 size);
 
 extern void GXS_LoadOAM(const void *src, u32 offset, u32 size);
 
-extern u32  NET_DEVICE_TABLE_GetZero(void);
+extern u32  WM_ICON_GetArcId(void);
 
-extern void NET_DEVICE_TABLE_SetHeader(WmIconArcData *ids);
+extern void WM_ICON_InitArcData(WmIconArcData *ids);
 
 extern void *ARC_TOOL_CreateHandle(u32 arcId, u32 heapId);
 
@@ -326,8 +326,8 @@ void GFL_NET_WM_ICON_LoadGraphics(int engine, int iconVariant, int heapId)
     int charIdx;
     int charOffset;
 
-    arc = ARC_TOOL_CreateHandle(NET_DEVICE_TABLE_GetZero(), (u16)((heapId & 0x7fff) | 0x8000));
-    NET_DEVICE_TABLE_SetHeader(&ids);
+    arc = ARC_TOOL_CreateHandle(WM_ICON_GetArcId(), (u16)((heapId & 0x7fff) | 0x8000));
+    WM_ICON_InitArcData(&ids);
     if (engine == 1) {
         palType = 1;
         objEngine = 0;

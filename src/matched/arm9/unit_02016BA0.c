@@ -15,7 +15,7 @@
  * symbols:
  *   func_020307B0  0x020307B0  arm
  *   func_02030EAC  0x02030EAC  arm
- *   TCBL_GetTaskUserData  0x02030EE8  arm
+ *   TCBL_IsDeletePending  0x02030EE8  arm
  *   MCSS_DeleteTextureTask  0x02016C0C  thumb
  *
  * alias: a teardown chain on the same object class as unit_02015BA4.c.
@@ -26,7 +26,7 @@
  * zeroes the other four (+0xc, +0x1c, +0x14, +0x24, +0x2c) and, if the
  * object's own field at +0 is non-zero, recurses into MCSS_DeleteTextureTask with
  * that field's value before zeroing it too. MCSS_DeleteTextureTask turns an id into
- * an object through TCBL_GetTaskUserData, releases one or two of the object's own
+ * an object through TCBL_IsDeletePending, releases one or two of the object's own
  * pointer fields the same way, releases the object itself, and finally
  * releases the id through func_02030EAC.
  *
@@ -51,7 +51,7 @@ struct Node;
 extern void func_02030EAC(struct Node *n);
 typedef unsigned int   u32;
 struct S02030EE8;
-extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
+extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
 extern void MCSS_DeleteTextureTask(void *id);
 
 void MCSS_FreeResource(void *obj)
@@ -87,7 +87,7 @@ void MCSS_FreeResource(void *obj)
 
 void MCSS_DeleteTextureTask(void *id)
 {
-    void *obj = (void *)TCBL_GetTaskUserData(id);
+    void *obj = (void *)TCBL_IsDeletePending(id);
 
     if (((struct Obj07131 *)obj)->f10 != 0) {
         func_020307B0(((struct Obj07131 *)obj)->f10);

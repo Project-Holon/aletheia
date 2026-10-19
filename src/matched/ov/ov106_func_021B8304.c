@@ -14,7 +14,7 @@
  *   IRC_RANKING_RowExit 0x021B89F4 thumb ov106
  *   CLACT_ReleasePalette 0x0204ADA4 arm
  *   IRC_RANKING_ClearRowScreens 0x021B8B4C thumb ov106
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   MI_CpuFill8 0x02082BCC arm
  */
@@ -30,7 +30,7 @@ extern u32 IRC_RANKING_DataGetCount(u8 *);
 extern void IRC_RANKING_RowExit(u8 *);
 extern void CLACT_ReleasePalette(u32 i);
 extern void IRC_RANKING_ClearRowScreens(void *);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void MI_CpuFill8(void *,int,int);
 void IRC_RANKING_ListExit(u8 *p) {
@@ -41,7 +41,7 @@ void IRC_RANKING_ListExit(u8 *p) {
     CLACT_ReleasePalette((u32)(((struct Obj05281 *)p)->f0));
     CLACT_ReleasePalette((u32)(((struct Obj05281 *)p)->f4));
     IRC_RANKING_ClearRowScreens(p+8);
-    WORDSET_DeleteStrbufED04(((struct Obj05281 *)p)->f588);
+    WORDSET_Delete(((struct Obj05281 *)p)->f588);
     GF_FONT_Delete(((struct Obj05281 *)p)->f570);
     MI_CpuFill8(p,0,0x59c);
 }

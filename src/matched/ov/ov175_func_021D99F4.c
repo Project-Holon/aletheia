@@ -1,5 +1,5 @@
 /*
- * function: WIFIBATTLEMATCH_NET_DeleteCompSprite
+ * function: WIFIBATTLEMATCH_NET_DeleteCompChoiceMenu
  * address:  0x021D99F4
  * packet:   pkt_021D99F4
  * region:   ov175
@@ -26,7 +26,7 @@ typedef unsigned long u32;
 
 extern void WIFIBATTLEMATCH_UTIL_DeleteMenu(u32 p);
 
-void WIFIBATTLEMATCH_NET_DeleteCompSprite(char *obj)
+void WIFIBATTLEMATCH_NET_DeleteCompChoiceMenu(char *obj)
 {
     u32 p = ((struct Obj00013 *)obj)->f30;
 

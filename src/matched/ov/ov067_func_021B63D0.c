@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   TOUCHBAR_CheckButtonPressed  0x021B6934  thumb  ov067
+ *   TOUCHBAR_PollButtonPress  0x021B6934  thumb  ov067
  *   TOUCHBAR_IsButtonActorIdle  0x021B69A4  thumb  ov067
  */
 
@@ -29,7 +29,7 @@ typedef struct S {
     Ent ent[1];
 } S;
 
-extern int TOUCHBAR_CheckButtonPressed(struct S *p);
+extern int TOUCHBAR_PollButtonPress(struct S *p);
 extern int TOUCHBAR_IsButtonActorIdle(void **p);
 
 void TOUCHBAR_Update(S *p)
@@ -40,7 +40,7 @@ void TOUCHBAR_Update(S *p)
     case 0:
         p->f00 = -1;
         for (i = 0; i < p->f04; i++) {
-            if (TOUCHBAR_CheckButtonPressed((struct S *)(&p->ent[i]))) {
+            if (TOUCHBAR_PollButtonPress((struct S *)(&p->ent[i]))) {
                 p->f00 = i;
                 p->f08 = 1;
                 return;

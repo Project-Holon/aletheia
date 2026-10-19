@@ -15,7 +15,7 @@
  *
  * symbols:
  *   STRBUF_GetEosChar  0x02045A98  arm
- *   OEKAKI_SendPendingCommand  0x021867C4  thumb ov023
+ *   FIELD_WFBC_DATA_LOCAL_OpenNpcData  0x021867C4  thumb ov020
  *   FIELD_WFBC_DATA_LOCAL_GetNpcRecord  0x0218682C  thumb
  *   FIELD_WFBC_DATA_LOCAL_CloseNpcData  0x02186804  thumb
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
@@ -83,7 +83,7 @@ struct EventSlots {
 };
 
 extern u16 STRBUF_GetEosChar(void);
-extern int OEKAKI_SendPendingCommand(int, int);
+extern int FIELD_WFBC_DATA_LOCAL_OpenNpcData(int, int);
 extern u16 *FIELD_WFBC_DATA_LOCAL_GetNpcRecord(int h);
 extern void FIELD_WFBC_DATA_LOCAL_CloseNpcData(int);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
@@ -208,7 +208,7 @@ void EVENT_FIELD_PROCLINK_GetReturnInfo(u16 *result, ProcLinkRequest *request, i
     int handle;
     u16 *record;
     if (request->mode == 1) {
-        handle = OEKAKI_SendPendingCommand(request->linkId, (u16)((variant & 0x7FFF) | 0x8000));
+        handle = FIELD_WFBC_DATA_LOCAL_OpenNpcData(request->linkId, (u16)((variant & 0x7FFF) | 0x8000));
         record = FIELD_WFBC_DATA_LOCAL_GetNpcRecord(handle);
         result[0] = record[0x24 / 2];
         result[1] = record[8 / 2];
@@ -243,7 +243,7 @@ void EVENT_FIELD_PROCLINK_ApplyReturnEntry(int unused, ProcLinkRequest *request,
     u16 *record;
 
     entry = EVENT_FIELD_PROCLINK_GetEventdataEntry(procLink, linkId, 1);
-    handle = (int)OEKAKI_SendPendingCommand(linkId, variant);
+    handle = (int)FIELD_WFBC_DATA_LOCAL_OpenNpcData(linkId, variant);
     record = FIELD_WFBC_DATA_LOCAL_GetNpcRecord(handle);
     if (request->mode == 0)
         entry->value = record[3];

@@ -1,5 +1,5 @@
 /*
- * function: POKETRADE_PROC_CheckSaveFlag
+ * function: POKETRADE_PROC_IsMailBoxFull
  * address: 0x021D89A8
  * packet: pkt_ov119_021D89A8
  * region: ov119
@@ -16,7 +16,7 @@ struct Sub02008F80Obj;
 extern struct Sub02008F80Obj *func_02008FEC(void *sys);
 extern int MAIL_FindEmptySlot(void *obj, int v);
 
-int POKETRADE_PROC_CheckSaveFlag(char *p)
+int POKETRADE_PROC_IsMailBoxFull(char *p)
 {
     void *o = func_02008FEC(((struct Obj22697 *)p)->f82C);
     int r = 0;

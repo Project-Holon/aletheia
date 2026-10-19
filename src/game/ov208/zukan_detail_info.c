@@ -18,7 +18,7 @@
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   TCB_DeleteTask 0x02030EAC arm
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
@@ -55,14 +55,14 @@
  *   ZUKAN_DETAIL_PROCSYS_FreeBuffer 0x021BC34C thumb ov208
  *   GF_OVERLAY_Unload 0x02034A5C arm
  *   ZUKAN_DETAIL_COMMON_GetWorkPtr 0x021BC3B4 thumb
- *   ZUKAN_DETAIL_COMMON_GetCursorValue 0x021BC3B8 thumb
+ *   ZUKAN_DETAIL_COMMON_GetHeadbar 0x021BC3B8 thumb
  *   ZUKAN_DETAIL_TOUCHBAR_GetMode 0x021BDAD0 thumb
- *   ZUKAN_DETAIL_COMMON_GetMaxValue 0x021BC3BC thumb
+ *   ZUKAN_DETAIL_COMMON_GetEntryCount 0x021BC3BC thumb
  *   ZUKAN_DETAIL_TOUCHBAR_SetMode 0x021BDAAC thumb
  *   ZUKAN_DETAIL_TOUCHBAR_SetEnabled 0x021BDAD4 thumb
  *   ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind 0x021BDBB8 thumb
  *   ZUKAN_DETAIL_COMMON_GetSource 0x021BC3A4 thumb
- *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
+ *   GAME_DATA_ContainsRecentId 0x02012BF8 thumb
  *   ZUKAN_DETAIL_HEADBAR_GetIconKind 0x021BE840 thumb
  *   ZUKAN_DETAIL_HEADBAR_SetIconKind 0x021BE82C thumb
  *   ZUKAN_DETAIL_HEADBAR_SetIconSpecies 0x021BE844 thumb
@@ -81,7 +81,7 @@
  *   ZUKAN_DETAIL_COMMON_GetCurrentEntry  0x021BC3C0  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies  0x021BC3CC  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies  0x021BC40C  thumb  ov208
- *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
+ *   GAME_DATA_SetRecentId  0x02012BE0  thumb
  *   ZUKAN_DETAIL_INFO_SelectLanguageButton  0x021BF280  thumb  ov208
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   ZUKAN_INFO_SetPokemon 0x021BA550 thumb ov206
@@ -118,7 +118,7 @@ extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
 
 extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 
-extern void BG_SYS_FillScrollArea(unsigned,unsigned,unsigned);
+extern void BG_SYS_ChangeScrollImmediate(unsigned,unsigned,unsigned);
 
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
@@ -286,7 +286,7 @@ extern void ZUKAN_DETAIL_TOUCHBAR_SetEnabled(void *s, int a);
 
 extern void ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind(void *s, u32 a);
 
-extern int GAME_DATA_CheckSaveFlag(void *gd, int b);
+extern int GAME_DATA_ContainsRecentId(void *gd, int b);
 
 extern int ZUKAN_DETAIL_HEADBAR_GetIconKind(void *s);
 
@@ -314,7 +314,7 @@ extern void ZUKAN_INFO_Update(char *p);
 
 extern void ZUKAN_DETAIL_COMMON_UpdateBlendFades(struct Ov208Blend *a, struct Ov208Blend *b);
 
-extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
+extern void GAME_DATA_SetRecentId(void *p, u32 a, u32 b);
 
 
 extern void ZUKAN_INFO_SetPokemon(char *p, u16 a1, u16 a2, u16 a3, u16 a4, int a5, int a6);
@@ -445,7 +445,7 @@ int ZUKAN_DETAIL_INFO_Exit(char *first,unsigned unused,int owner,char *q,unsigne
  *   ov208 as in the matched siblings 021BEA04/021BEA90); the region token on their symbols lines is ov206.
  * 2026-10-05 (D5-03): MATCH. Byte-correct except the five calls to the ov093 callees 0x021B9E68,
  *   0x021BA7C8, 0x021BA374 (no witness label; ov093 below 0x021D4000, pengy). Fixes: the colour loop
- *   calls are BG_SYS_FillScrollArea(i, 0, 0) and (i, 3, 0) (the draft passed i; the image keeps the 0 in r7, which
+ *   calls are BG_SYS_ChangeScrollImmediate(i, 0, 0) and (i, 3, 0) (the draft passed i; the image keeps the 0 in r7, which
  *   is why ctx left r7), the first 9E68 call passes (2, 0, 1), locals v54 before v50 before w, the
  *   021BDAD0 test written `!= 2` first, and case 4 writes `*state = 5` in both arms.
  * 2026-10-04 (wD2 lane19): also tried ctx as a one-field struct by value and as u32 with casts: no change (frame 0x74/0x78 vs 0x70,
@@ -465,7 +465,7 @@ int ZUKAN_DETAIL_INFO_Exit(char *first,unsigned unused,int owner,char *q,unsigne
 int ZUKAN_DETAIL_INFO_Main(void *unused, int *state, struct Ov208Heap *h, struct Ov208InfoWork *p, struct Ov208Ctx *ctx)
 {
     void *scn = ZUKAN_DETAIL_COMMON_GetWorkPtr(ctx);
-    void *icon = ZUKAN_DETAIL_COMMON_GetCursorValue(ctx);
+    void *icon = ZUKAN_DETAIL_COMMON_GetHeadbar(ctx);
     int actorUnit;
     int viewMode;
     u32 personality;
@@ -483,19 +483,19 @@ int ZUKAN_DETAIL_INFO_Main(void *unused, int *state, struct Ov208Heap *h, struct
         p->msg2 = MSGDATA_CreateFromArchive(1, 2, 0x10c, h->heap);
         for (i = 0; i <= 7; i++) {
             if (i != 1 && i != 5) {
-                BG_SYS_FillScrollArea(i, 0, 0);
-                BG_SYS_FillScrollArea(i, 3, 0);
+                BG_SYS_ChangeScrollImmediate(i, 0, 0);
+                BG_SYS_ChangeScrollImmediate(i, 3, 0);
                 BG_SYS_FreeSlot(i);
             }
         }
         if (ZUKAN_DETAIL_TOUCHBAR_GetMode(scn) != 2) {
-            ZUKAN_DETAIL_TOUCHBAR_SetMode(scn, 0, 0, ZUKAN_DETAIL_COMMON_GetMaxValue(ctx) > 1);
+            ZUKAN_DETAIL_TOUCHBAR_SetMode(scn, 0, 0, ZUKAN_DETAIL_COMMON_GetEntryCount(ctx) > 1);
             ZUKAN_DETAIL_TOUCHBAR_SetEnabled(scn, 0);
         } else {
             ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind(scn, 0);
         }
         ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(scn, 0);
-        ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(scn, GAME_DATA_CheckSaveFlag(ZUKAN_DETAIL_COMMON_GetSource(ctx), 0x11));
+        ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(scn, GAME_DATA_ContainsRecentId(ZUKAN_DETAIL_COMMON_GetSource(ctx), 0x11));
         if (ZUKAN_DETAIL_HEADBAR_GetIconKind(icon) != 2) {
             ZUKAN_DETAIL_HEADBAR_SetIconKind(icon, 0);
             ZUKAN_DETAIL_HEADBAR_SetIconSpecies(icon);
@@ -618,7 +618,7 @@ void ZUKAN_DETAIL_INFO_HandleKeyEvent(void *proc, void *seq, void *heap, struct 
         ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(sc);
         return;
     case 5:
-        GAME_DATA_SetSaveFlag(ZUKAN_DETAIL_COMMON_GetSource(obj), 0x11, ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive((char *)sc));
+        GAME_DATA_SetRecentId(ZUKAN_DETAIL_COMMON_GetSource(obj), 0x11, ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive((char *)sc));
         ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(sc);
         return;
     default:

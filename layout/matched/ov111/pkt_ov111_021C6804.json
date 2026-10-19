@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "VIEWER_TEXT_SetScrollParam",
+   "name": "VIEWER_TEXT_BuildRowList",
    "address": "0x021C6804",
    "kind": "game",
    "region": "ov111",

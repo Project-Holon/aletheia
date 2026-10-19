@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "EVENT_ID_AreSlotsClear",
+   "name": "POKE_TOOL_HasNoHmMove",
    "address": "0x0202F738",
    "kind": "game",
    "region": "arm9",

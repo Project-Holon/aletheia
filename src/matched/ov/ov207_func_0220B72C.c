@@ -25,11 +25,11 @@
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   WORDSET_CreateDefault 0x0201EC64 thumb
- *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
+ *   WORDSET_SetSlotMonNickname 0x0201EEF4 thumb
  *   WORDSET_SetSlotBoxName 0x0201F164 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   ZUKAN_NICKNAME_UpdateInfoWindow 0x0220B9E0 thumb ov207
@@ -61,11 +61,11 @@ extern void BMP_Clear(struct CharBuf *,u8);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void STRBUF_Delete(struct U16Vec *);
 extern struct WordSet *WORDSET_CreateDefault(u32);
-extern void WORDSET_SetSlotMonSpecies(struct WordSet *,u32,void *);
+extern void WORDSET_SetSlotMonNickname(struct WordSet *,u32,void *);
 extern void WORDSET_SetSlotBoxName(struct WordSet *,u32,u32,u32);
 extern struct U16Vec *STRBUF_Create(u32,u32);
 extern void WORDSET_CopyTaggedText(struct WordSet *,void *,void *);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern signed char MSG_SPEED_GetWait(void);
 extern u32 PRINTSYS_PrintStream(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
 extern void ZUKAN_NICKNAME_UpdateInfoWindow(int *);
@@ -103,11 +103,11 @@ int ZUKAN_NICKNAME_Main(char *p)
             PRINTSYS_PrintStreamDelete(((struct Obj00181 *)p)->f28);
             STRBUF_Delete(*(struct U16Vec * *)&((struct Obj00181 *)p)->f2C);
             ws=WORDSET_CreateDefault(((struct Obj00181 *)p)->f0);
-            WORDSET_SetSlotMonSpecies(ws,0,((struct Obj00181 *)p)->f4);
+            WORDSET_SetSlotMonNickname(ws,0,((struct Obj00181 *)p)->f4);
             WORDSET_SetSlotBoxName(ws,1,((struct Obj00181 *)p)->fC,((struct Obj00181 *)p)->f10);
             *(struct U16Vec * *)&((struct Obj00181 *)p)->f2C=STRBUF_Create(64,((struct Obj00181 *)p)->f0);
             WORDSET_CopyTaggedText(ws,((struct Obj00181 *)p)->f2C,((struct Obj00181 *)p)->f8);
-            WORDSET_DeleteStrbufED04(ws);
+            WORDSET_Delete(ws);
             *(u32 *)&((struct Obj00181 *)p)->f28=PRINTSYS_PrintStream(*(u32 *)&((struct Obj00181 *)p)->f24,0,0,*(u32 *)&((struct Obj00181 *)p)->f2C,((struct Obj00181 *)p)->f18,MSG_SPEED_GetWait(),*(u32 *)&((struct Obj00181 *)p)->f34,2,((struct Obj00181 *)p)->f0,15);
             ((struct Obj00181 *)p)->f3C=3;
         } else ((struct Obj00181 *)p)->f3C=5;

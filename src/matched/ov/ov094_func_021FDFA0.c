@@ -14,7 +14,7 @@
  *   VM_GetU32 0x0201134C thumb
  *   PARTICLE_StartEffectWithCallback 0x020515CC arm
  *   PARTICLE_InitCamera 0x02051648 arm
- *   BUTTON_MAN_GetBlock 0x02051788 arm
+ *   PARTICLE_EMITTER_GetBlock 0x02051788 arm
  *   BTLV_EFFVM_ResolveParticleKey 0x021FE38C thumb ov094
  *   BTLV_EFFVM_FindEmitterSlot 0x021FD1A8 thumb ov094
  *   BTLV_EFFVM_EmitterInitCallback 0x021FD9F0 thumb ov094
@@ -39,7 +39,7 @@ struct Cursor;
 extern u32 VM_GetU32(struct Cursor *p);
 extern int PARTICLE_StartEffectWithCallback(int *p, int a, int b, int c);
 extern void PARTICLE_InitCamera(void *, Desc *, u16, Vec *, Vec *, Vec *, u16);
-extern int BUTTON_MAN_GetBlock(char *p);
+extern int PARTICLE_EMITTER_GetBlock(char *p);
 extern u32 BTLV_EFFVM_ResolveParticleKey(char *, u32);
 extern int BTLV_EFFVM_FindEmitterSlot(char *, int);
 extern void BTLV_EFFVM_EmitterInitCallback(void *p);
@@ -77,7 +77,7 @@ int BTLV_EFFVM_SetupEmitterCallbacks(void *a, char *s, int mode)
     if (idx == 16)
         goto end;
     if (mode == 1) {
-        if (BUTTON_MAN_GetBlock(*(void **)(s + 0xc + idx * 4)) == 0) {
+        if (PARTICLE_EMITTER_GetBlock(*(void **)(s + 0xc + idx * 4)) == 0) {
             Desc desc;
             Vec zero = {0, 0, 0};
             Vec v1;

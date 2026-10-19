@@ -1,7 +1,7 @@
 /*
  * file:     p_status.c
  * unit:     yes
- * function: P_STATUS_InitWork, P_STATUS_ExitWork, P_STATUS_MainSeq, P_STATUS_VBlankTask, P_STATUS_InitGraphics, P_STATUS_ExitGraphics, P_STATUS_InitBgLayer, P_STATUS_LoadObjResource, P_STATUS_DeleteObjResource, P_STATUS_CreateButtonActors, P_STATUS_DeleteButtonActors, P_STATUS_InitMessage, P_STATUS_ExitMessage, P_STATUS_UpdateTouch, P_STATUS_UpdateInput, P_STATUS_CheckKey, P_STATUS_CheckTouch, P_STATUS_UpdatePaletteAnime, P_STATUS_SetInputEnable, P_STATUS_ChangePokemon, P_STATUS_SearchPokemon, P_STATUS_LoadPokemonState, P_STATUS_RequestRefresh, P_STATUS_UpdateRefresh, P_STATUS_GetPokePara, P_STATUS_GetPokeParaSource, P_STATUS_SetFastMode, P_STATUS_PrintMsg, P_STATUS_PrintMsgToWin, P_STATUS_PrintWordSetMsg, P_STATUS_PrintWordSetMsgToWin, P_STATUS_PrintWordSetMsgRight, P_STATUS_PrintWordSetMsgRightToWin, P_STATUS_CanUseButtons, P_STATUS_HasRibbon, P_STATUS_ProcInit, P_STATUS_ProcExit, P_STATUS_ProcMain
+ * function: P_STATUS_InitWork, P_STATUS_ExitWork, P_STATUS_MainSeq, P_STATUS_VBlankTask, P_STATUS_InitGraphics, P_STATUS_ExitGraphics, P_STATUS_InitBgLayer, P_STATUS_LoadObjResource, P_STATUS_DeleteObjResource, P_STATUS_CreateButtonActors, P_STATUS_DeleteButtonActors, P_STATUS_InitMessage, P_STATUS_ExitMessage, P_STATUS_UpdateTouch, P_STATUS_UpdateInput, P_STATUS_CheckKey, P_STATUS_CheckTouch, P_STATUS_UpdatePaletteAnime, P_STATUS_SetInputEnable, P_STATUS_ChangePokemon, P_STATUS_SearchPokemon, P_STATUS_LoadPokemonState, P_STATUS_RequestRefresh, P_STATUS_UpdateRefresh, P_STATUS_GetPokePara, P_STATUS_GetPokeParaSource, P_STATUS_SetParamDecoded, P_STATUS_PrintMsg, P_STATUS_PrintMsgToWin, P_STATUS_PrintWordSetMsg, P_STATUS_PrintWordSetMsgToWin, P_STATUS_PrintWordSetMsgRight, P_STATUS_PrintWordSetMsgRightToWin, P_STATUS_CanUseButtons, P_STATUS_HasRibbon, P_STATUS_ProcInit, P_STATUS_ProcExit, P_STATUS_ProcMain
  * address:  0x021D4240
  * region:   ov131
  * compiler: dsi/1.1p1
@@ -18,10 +18,10 @@
  *   POKE_TOOL_CreateFromBoxParam 0x0201747C thumb
  *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   MIi_CpuCopy16 0x02082A60 arm
- *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
+ *   GAME_DATA_ContainsRecentId 0x02012BF8 thumb
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   TCB_DeleteTask 0x02030EAC arm
- *   GAME_DATA_SetSaveFlag 0x02012BE0 thumb
+ *   GAME_DATA_SetRecentId 0x02012BE0 thumb
  *   UI_SetInputMode 0x020355D8 arm
  *   GFL_HEAP_Free 0x020307B0 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
@@ -36,7 +36,7 @@
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   MCSS_Draw 0x02014D2C thumb
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
@@ -58,7 +58,7 @@
  *   G3D_CAMERA_Reset 0x02048AD0 arm
  *   G3X_SetEdgeColorTable 0x0207DCF8 arm
  *   G3D_SYSTEM_SetSwapBuffersMode 0x02046BE0 arm
- *   BG_SYS_SetLowBit 0x0204044C arm
+ *   BG_SYS_EnableBg0WithPriority 0x0204044C arm
  *   MCSS_Init 0x02014B08 thumb
  *   MCSS_SetTextureTransAdrs 0x02016020 thumb
  *   MCSS_SetGlobalScale 0x020160C0 thumb
@@ -228,7 +228,7 @@
  *   APP_ICON_GetGearExtraFileId  0x0202776C  thumb  arm9
  *   APP_ICON_GetGearFrameFileId  0x02027770  thumb  arm9
  *   APP_ICON_GetGearAnim2FileId  0x02027774  thumb  arm9
- *   POKE_TOOL_Dummy  0x020185F0  thumb  arm9
+ *   POKE_TOOL_CastToBoxParam  0x020185F0  thumb  arm9
  *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb  arm9
  *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb  arm9
  *   GF_FONT_MeasureWidestLine  0x0201D304  thumb  arm9
@@ -313,10 +313,10 @@ extern u8 UI_GetInputMode(void);
 extern void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
 extern void *GFL_USE_AddMainTask(u32,u32,u32);
 extern void MIi_CpuCopy16(const void *,void *,u32);
-extern int GAME_DATA_CheckSaveFlag(int gd, int id);
+extern int GAME_DATA_ContainsRecentId(int gd, int id);
 extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
 extern void TCB_DeleteTask(struct Tcb *n);
-extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
+extern void GAME_DATA_SetRecentId(void *p, u32 a, u32 b);
 extern void UI_SetInputMode(u8);
 extern u32 GFL_HEAP_Free(void *p);
 extern u32 TOUCHPANEL_GetPointCont(u32 *,u32 *);
@@ -330,7 +330,7 @@ extern void G3D_SYSTEM_DrawStart(void);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void MCSS_Draw(struct McssSys *sys);
 extern void G3D_SYSTEM_DrawEnd(void);
-extern void BG_SYS_ResetSlot(u32,u32,u32);
+extern void BG_SYS_ChangeScroll(u32,u32,u32);
 extern void CLACT_SetActorAnimSeq(struct ClactObj *p, u16 value);
 extern void CLACT_VBlankSystem(void);
 extern void BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void);
@@ -349,7 +349,7 @@ extern void G3D_SYSTEM_Init(u32,u32,u32,u32,u16,u16,void (*)(void));
 extern u32 *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,struct Vec3 *,struct Vec3 *,struct Vec3 *,u16);
 extern void G3D_CAMERA_Reset(struct Camera *l);
 extern void G3X_SetEdgeColorTable(const void *);
-extern void G3D_SYSTEM_SetSwapBuffersMode(u32,u32),BG_SYS_SetLowBit(u32);
+extern void G3D_SYSTEM_SetSwapBuffersMode(u32,u32),BG_SYS_EnableBg0WithPriority(u32);
 extern void *MCSS_Init(u32,void *);
 extern void MCSS_SetTextureTransAdrs(void *,u32);
 extern void MCSS_SetGlobalScale(char *p, unsigned int v);
@@ -428,7 +428,7 @@ extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void PM_VOICE_StopSlot(u32);
 extern void PM_VOICE_GetPerapVoiceSave(void **);
 extern u32 PM_VOICE_Play(u32,u32,u32,u32,u32,u32,u32,u32);
-extern void *POKE_TOOL_Dummy(void *);
+extern void *POKE_TOOL_CastToBoxParam(void *);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetBoxParamSize(void);
 extern u32 POKE_TOOL_DecodePartyParam(struct PokePara *p);
@@ -486,7 +486,7 @@ void P_STATUS_RequestRefresh(PStatusWork *wk);
 void P_STATUS_UpdateRefresh(PStatusWork *wk);
 void *P_STATUS_GetPokePara(PStatusWork *wk);
 int P_STATUS_GetPokeParaSource(PStatusWork *wk);
-void P_STATUS_SetFastMode(PStatusWork *wk,int fastMode);
+void P_STATUS_SetParamDecoded(PStatusWork *wk,int fastMode);
 void P_STATUS_PrintMsg(PStatusWork *wk,int bmpWin,int msgId,int x,unsigned short y,unsigned short color);
 void P_STATUS_PrintMsgToWin(PStatusWork *wk,unsigned int bmpWinData,int msgId,int x,unsigned short y,unsigned short color);
 void P_STATUS_PrintWordSetMsg(PStatusWork *wk,int bmpWin,void *wordSet,int msgId,unsigned short x,unsigned short y,unsigned short color);
@@ -622,7 +622,7 @@ int P_STATUS_InitWork(PStatusWork *wk)
     } else {
         wk->page=wk->param->page;
         if (wk->page<3) {
-            for(i=0;i<3;i++) wk->pageToggle[i]=GAME_DATA_CheckSaveFlag((int)(wk->param->config),i+7);
+            for(i=0;i<3;i++) wk->pageToggle[i]=GAME_DATA_ContainsRecentId((int)(wk->param->config),i+7);
         }
         P_STA_SUB_InitWindows(wk,wk->subWork);
         P_STA_RIBBON_CollectOwned(wk,wk->ribbonWork);
@@ -667,7 +667,7 @@ int P_STATUS_ExitWork(PStatusWork *wk)
     P_STA_SUB_Delete(wk,wk->subWork);
     P_STATUS_ExitGraphics(wk);
     if(wk->page<3){
-        for(i=0;i<3;i++) GAME_DATA_SetSaveFlag(wk->param->config,i+7,wk->pageToggle[i]);
+        for(i=0;i<3;i++) GAME_DATA_SetRecentId(wk->param->config,i+7,wk->pageToggle[i]);
     }
     if(wk->restoreModeAll==1){
         wk->param->mode=3;
@@ -754,10 +754,10 @@ int P_STATUS_MainSeq(PStatusWork *wk)
     wk->vblankCount+=(u8)(tick-wk->lastTick);
     wk->lastTick=tick;
     while (wk->vblankCount>=4) {
-        BG_SYS_ResetSlot(3,1,1);
-        BG_SYS_ResetSlot(3,4,1);
-        BG_SYS_ResetSlot(7,1,1);
-        BG_SYS_ResetSlot(7,4,1);
+        BG_SYS_ChangeScroll(3,1,1);
+        BG_SYS_ChangeScroll(3,4,1);
+        BG_SYS_ChangeScroll(7,1,1);
+        BG_SYS_ChangeScroll(7,4,1);
         wk->vblankCount-=4;
     }
     if (wk->prevButtonAnim==1 && CLACT_IsActorAnimActive(wk->buttonActor[4])==0) {
@@ -879,7 +879,7 @@ void P_STATUS_InitGraphics(PStatusWork *wk)
     G3D_CAMERA_Reset(wk->camera);
     G3X_SetEdgeColorTable(_EdgeColorTable);
     *(volatile u16 *)HW_REG_DISP3DCNT &= ~0x3020;
-    G3D_SYSTEM_SetSwapBuffersMode(0,0);BG_SYS_SetLowBit(0);
+    G3D_SYSTEM_SetSwapBuffersMode(0,0);BG_SYS_EnableBg0WithPriority(0);
     wk->mcssSys=MCSS_Init(2,(void *)wk->heapId);
     MCSS_SetTextureTransAdrs(wk->mcssSys,0);
     MCSS_SetGlobalScale(wk->mcssSys,0x10000);
@@ -1673,11 +1673,11 @@ void P_STATUS_LoadPokemonState(PStatusWork *wk)
  void *ppSrc=(void *)P_STATUS_GetPokeParaSource(wk);
  void *pp=P_STATUS_GetPokePara(wk);
  int one=1;
- P_STATUS_SetFastMode(wk,1);
+ P_STATUS_SetParamDecoded(wk,1);
  wk->isEgg=POKE_TOOL_GetPartyValue(ppSrc,76,0);
  wk->friendship=POKE_TOOL_GetPartyValue(ppSrc,9,0);
  wk->hasRibbon=P_STATUS_HasRibbon(wk,pp);
- P_STATUS_SetFastMode(wk,0);
+ P_STATUS_SetParamDecoded(wk,0);
  wk->playCryReq=one;
 }
 
@@ -1706,7 +1706,7 @@ void P_STATUS_LoadPokemonState(PStatusWork *wk)
  */
 void P_STATUS_RequestRefresh(PStatusWork *wk)
 {
-    P_STATUS_SetFastMode(wk,1);
+    P_STATUS_SetParamDecoded(wk,1);
     if (wk->dispPos!=wk->pos) {
         if (wk->dispPos!=255) {
             P_STA_SUB_FreeWindows(wk,wk->subWork);
@@ -1734,7 +1734,7 @@ void P_STATUS_RequestRefresh(PStatusWork *wk)
         *(volatile u16 *)HW_REG_BG2CNT_SUB |= 64;
         *(volatile u16 *)HW_REG_BG3CNT_SUB |= 64;
     }
-    P_STATUS_SetFastMode(wk,0);
+    P_STATUS_SetParamDecoded(wk,0);
     wk->refreshReq=1;
 }
 
@@ -1862,8 +1862,8 @@ void P_STATUS_UpdateRefresh(PStatusWork *wk)
 void *P_STATUS_GetPokePara(PStatusWork *wk)
 {
  switch(wk->param->ppt) {
- case 0: return POKE_TOOL_Dummy(wk->param->ppd);
- case 1: return POKE_TOOL_Dummy(POKEPARTY_GetMember(wk->param->ppd,wk->pos));
+ case 0: return POKE_TOOL_CastToBoxParam(wk->param->ppd);
+ case 1: return POKE_TOOL_CastToBoxParam(POKEPARTY_GetMember(wk->param->ppd,wk->pos));
  case 2: return (unsigned char *)wk->param->ppd+POKE_TOOL_GetBoxParamSize()* wk->pos;
  default: return 0;
  }
@@ -1910,7 +1910,7 @@ int P_STATUS_GetPokeParaSource(PStatusWork *wk)
 
 
 
-void P_STATUS_SetFastMode(PStatusWork *wk,int fastMode)
+void P_STATUS_SetParamDecoded(PStatusWork *wk,int fastMode)
 {
  void *pp;
  switch(wk->param->ppt) {

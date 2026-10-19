@@ -39,7 +39,7 @@
  *   ZUKAN_SAVE_IsSeen 0x0200D064 thumb
  *   WIPE_SYS_Start 0x0202208C thumb
  *   CLACT_CreateActor  0x0204B294  arm  arm9
- *   BG_SYS_ResetSlot  0x02041EE4  arm  arm9
+ *   BG_SYS_ChangeScroll  0x02041EE4  arm  arm9
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm  arm9
  *   ZUKAN_SEARCH_ENGINE_LoadSpeciesIds 0x021C976C thumb ov212
  *   PROCSYS_Delete  0x0203133C  arm  arm9
@@ -172,7 +172,7 @@ extern unsigned ZUKAN_SAVE_IsSeen(struct Blk37 *,u16);
 
 extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 
-extern void BG_SYS_ResetSlot(u32,u32,u32);
+extern void BG_SYS_ChangeScroll(u32,u32,u32);
 
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 
@@ -532,7 +532,7 @@ void ZUKAN_StartWipeOut(u32 heap) { WIPE_SYS_Start(0,0,0,0,6,1,heap); }
 
 void ZUKAN_TickCounter(u32 a, u32 b, u32 *counter) {
     ++*counter;
-    if(*counter==4) { BG_SYS_ResetSlot(a,1,1); BG_SYS_ResetSlot(b,1,1); *counter=0; }
+    if(*counter==4) { BG_SYS_ChangeScroll(a,1,1); BG_SYS_ChangeScroll(b,1,1); *counter=0; }
 }
 
 struct Obj *ZUKAN_CreateActor(u32 bank, const struct ZknSearchActorTemplate *t, u16 heap) {

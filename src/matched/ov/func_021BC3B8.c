@@ -1,5 +1,5 @@
 /*
- * function: ZUKAN_DETAIL_COMMON_GetCursorValue
+ * function: ZUKAN_DETAIL_COMMON_GetHeadbar
  * address:  0x021BC3B8
  * packet:   pkt_021BC3B8
  * region:   ov208
@@ -16,7 +16,7 @@
  */
 #include "../include/Obj18183.h"
 
-int ZUKAN_DETAIL_COMMON_GetCursorValue(char *p)
+int ZUKAN_DETAIL_COMMON_GetHeadbar(char *p)
 {
     return ((struct Obj18183 *)p)->f14;
 }

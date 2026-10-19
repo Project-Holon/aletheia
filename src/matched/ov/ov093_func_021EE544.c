@@ -18,7 +18,7 @@
  *   BG_SYS_SetTileEntry  0x02041300  arm
  *   BG_SYS_PushTile  0x020409B4  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   BG_SYS_FillScrollArea  0x02040618  arm
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm
  */
 
 typedef unsigned char u8;
@@ -38,7 +38,7 @@ extern u8 BMP_WIN_GetPosY(struct Descriptor *p);
 extern void BG_SYS_PushTile(u32 index);
 extern void BG_SYS_SetTileEntry(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5, u8 a6);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 
 int BTLV_SCU_StepBallWindowClose(int *st, struct C *c)
 {
@@ -61,8 +61,8 @@ int BTLV_SCU_StepBallWindowClose(int *st, struct C *c)
         (*st)++;
         break;
     case 1:
-        BG_SYS_FillScrollArea(3, 0, -0x90);
-        BG_SYS_FillScrollArea(3, 3, 0);
+        BG_SYS_ChangeScrollImmediate(3, 0, -0x90);
+        BG_SYS_ChangeScrollImmediate(3, 3, 0);
         (*st)++;
         break;
     case 2:

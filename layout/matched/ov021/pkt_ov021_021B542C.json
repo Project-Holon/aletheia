@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "SCRCMD_PROC_FLD_SetFieldRegionFromArchive",
+   "name": "SCRCMD_PROC_FLD_StartCameraMoveFromArchive",
    "address": "0x021B542C",
    "kind": "game",
    "region": "ov021",

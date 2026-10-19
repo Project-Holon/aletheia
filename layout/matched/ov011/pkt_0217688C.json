@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "INTRUDE_COMM_SetPendingValue",
+   "name": "INTRUDE_COMM_SetPendingAreaNotice",
    "address": "0x0217688C",
    "kind": "game",
    "region": "ov011",

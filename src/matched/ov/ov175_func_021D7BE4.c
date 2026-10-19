@@ -23,12 +23,12 @@
  *   WIFIBATTLEMATCH_NET_CompStepJ 0x021D8E30 thumb ov175
  *   WIFIBATTLEMATCH_NET_CompStepN 0x021D9344 thumb ov175
  *   WIFIBATTLEMATCH_NET_CompStepK 0x021D8EC8 thumb ov175
- *   WIFIBATTLEMATCH_NET_SetupCompRecord 0x021D965C thumb ov175
- *   WIFIBATTLEMATCH_NET_StartTradeIconAnim 0x021D97E4 thumb ov175
- *   WIFIBATTLEMATCH_NET_IsTradeIconReady 0x021D97B8 thumb ov175
- *   WIFIBATTLEMATCH_NET_SetupRegSprite 0x021D98E4 thumb ov175
- *   WIFIBATTLEMATCH_NET_IsCompSpriteAnimDone 0x021D9A08 thumb ov175
- *   WIFIBATTLEMATCH_NET_DeleteCompSprite 0x021D99F4 thumb ov175
+ *   WIFIBATTLEMATCH_NET_SetupCompStatusWindow 0x021D965C thumb ov175
+ *   WIFIBATTLEMATCH_NET_DrawCompStatusWindow 0x021D97E4 thumb ov175
+ *   WIFIBATTLEMATCH_NET_IsCompStatusWindowReady 0x021D97B8 thumb ov175
+ *   WIFIBATTLEMATCH_NET_SetupCompChoiceMenu 0x021D98E4 thumb ov175
+ *   WIFIBATTLEMATCH_NET_PollCompChoiceMenu 0x021D9A08 thumb ov175
+ *   WIFIBATTLEMATCH_NET_DeleteCompChoiceMenu 0x021D99F4 thumb ov175
  *   WIFIBATTLEMATCH_NET_CopyCompBox 0x021D9A50 thumb ov175
  *   WIFIBATTLEMATCH_NET_CompStepO 0x021D95B0 thumb ov175
  *   func_02040588 0x02040588 arm
@@ -53,12 +53,12 @@ extern void WIFIBATTLEMATCH_NET_CompStepN(u32 sys, int *state, char *p);
 extern void WIFIBATTLEMATCH_NET_CompStepK(u32 sys, int *state, char *p);
 extern void WIFIBATTLEMATCH_NET_CompStepO(u32 sys, int *state, char *ctx);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void WIFIBATTLEMATCH_NET_SetupCompRecord(struct Obj *),WIFIBATTLEMATCH_NET_StartTradeIconAnim(char *,u32);
-extern u32 WIFIBATTLEMATCH_NET_IsTradeIconReady(char *);
-extern void WIFIBATTLEMATCH_NET_SetupRegSprite(u32 *p, int mode);
-extern void WIFIBATTLEMATCH_NET_DeleteCompSprite(char *);
+extern void WIFIBATTLEMATCH_NET_SetupCompStatusWindow(struct Obj *),WIFIBATTLEMATCH_NET_DrawCompStatusWindow(char *,u32);
+extern u32 WIFIBATTLEMATCH_NET_IsCompStatusWindowReady(char *);
+extern void WIFIBATTLEMATCH_NET_SetupCompChoiceMenu(u32 *p, int mode);
+extern void WIFIBATTLEMATCH_NET_DeleteCompChoiceMenu(char *);
 extern void WIFIBATTLEMATCH_NET_CopyCompBox(char *,char *);
-extern int WIFIBATTLEMATCH_NET_IsCompSpriteAnimDone(char *);
+extern int WIFIBATTLEMATCH_NET_PollCompChoiceMenu(char *);
 void WIFIBATTLEMATCH_NET_CompStepE(u32 sys,int *state,char *p)
 {
     char *q=*(char * *)&((struct Obj00013 *)p)->f104;
@@ -70,17 +70,17 @@ void WIFIBATTLEMATCH_NET_CompStepE(u32 sys,int *state,char *p)
         case 1:case 2:WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys,(int)WIFIBATTLEMATCH_NET_CompCleanup);break;
         }break;
     case 1:if(((struct Obj00013 *)p)->f1C==0) {
-            WIFIBATTLEMATCH_NET_SetupCompRecord((struct Obj *)p);WIFIBATTLEMATCH_NET_StartTradeIconAnim(p,0);*state=2;
+            WIFIBATTLEMATCH_NET_SetupCompStatusWindow((struct Obj *)p);WIFIBATTLEMATCH_NET_DrawCompStatusWindow(p,0);*state=2;
         } else *state=3;
         break;
-    case 2:if(WIFIBATTLEMATCH_NET_IsTradeIconReady(p)) *state=3;break;
+    case 2:if(WIFIBATTLEMATCH_NET_IsCompStatusWindowReady(p)) *state=3;break;
     case 3:func_02040588(0,1);
         WIFIBATTLEMATCH_UTIL_PrintMessage((int *)(((struct Obj00013 *)p)->f2C),((struct Obj00013 *)p)->f14,74,1);
         WIFIBATTLEMATCH_UTIL_SetRequest(sys,4);*state=16;break;
-    case 4:WIFIBATTLEMATCH_NET_SetupRegSprite((u32 *)p,3);*state=5;break;
-    case 5:v=WIFIBATTLEMATCH_NET_IsCompSpriteAnimDone(p);
+    case 4:WIFIBATTLEMATCH_NET_SetupCompChoiceMenu((u32 *)p,3);*state=5;break;
+    case 5:v=WIFIBATTLEMATCH_NET_PollCompChoiceMenu(p);
         if(v!=-1) {
-            WIFIBATTLEMATCH_NET_DeleteCompSprite(p);
+            WIFIBATTLEMATCH_NET_DeleteCompChoiceMenu(p);
             switch(v) {
             case 0:*state=10;break;
             case 1:*state=7;break;

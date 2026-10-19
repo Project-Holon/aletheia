@@ -15,7 +15,7 @@
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *   POKE_TOOL_CalcGender  0x02017F50  thumb
- *   WORLDTRADE_ADAPTER_GetDateTime  0x0220246C  thumb
+ *   WORLDTRADE_ADAPTER_StoreDateAsLastId  0x0220246C  thumb
  *   POKEPARTY_Add  0x0201A98C  thumb
  *   func_020076D0  0x020076D0  thumb
  *   WORLDTRADE_ADAPTER_GetBoxParam  0x022026BC  thumb
@@ -53,7 +53,7 @@ extern void ZUKAN_SAVE_RegisterCaught(struct Blk37 *p, void *m);
 extern u32 POKEPARTY_GetCount(void *p);
 extern void POKE_TOOL_SetPartyValue(void *mon, u32 id, u32 v);
 extern u8 POKE_TOOL_CalcGender(u32 species, u16 form, u32 pid);
-extern void WORLDTRADE_ADAPTER_GetDateTime(void *p, int which);
+extern void WORLDTRADE_ADAPTER_StoreDateAsLastId(void *p, int which);
 extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
 extern int func_020076D0(void *save, int *pbox, int *pslot);
 extern u32 WORLDTRADE_ADAPTER_GetBoxParam(void *mon);
@@ -79,7 +79,7 @@ void WORLDTRADE_ADAPTER_RegisterReceivedMon(Work *p, void *mon, u32 box, int hat
         species = POKE_TOOL_GetPartyValue(mon, 5, 0);
         form = POKE_TOOL_GetPartyValue(mon, 0x6F, 0);
         POKE_TOOL_SetPartyValue(mon, 0x6E, POKE_TOOL_CalcGender((u16)species, form, POKE_TOOL_GetPartyValue(mon, 0, 0)));
-        WORLDTRADE_ADAPTER_GetDateTime(p->ctx->sys, 0);
+        WORLDTRADE_ADAPTER_StoreDateAsLastId(p->ctx->sys, 0);
     }
     if (box == 0xFF) {
         POKEPARTY_Add(p->ctx->party, mon);

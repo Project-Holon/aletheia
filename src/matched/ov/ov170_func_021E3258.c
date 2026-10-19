@@ -23,7 +23,7 @@
  *   BOX2_UI_MoveCursor 0x021EE364 thumb ov170
  *   BOX2_SEQ_SetCursorFrame 0x021ED544 thumb ov170
  *   BOX2_SEQ_SetWindow9 0x021ED508 thumb ov170
- *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb ov170
+ *   BOX2_MAIN_RefreshCurrentBoxMonInfo 0x021DEFEC thumb ov170
  *   BOX2_UI_ShowWindowB 0x021EF68C thumb ov170
  */
 typedef unsigned char u8;
@@ -43,7 +43,7 @@ extern int BOX2_MAIN_IsWindowBusy(u8 *);
 extern void BOX2_UI_MoveCursor(char **,int,int);
 extern void BOX2_SEQ_SetCursorFrame(char *p, int b);
 extern void BOX2_SEQ_SetWindow9(u8 *,int,int);
-extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
+extern void BOX2_MAIN_RefreshCurrentBoxMonInfo(char *p, int b);
 extern void BOX2_UI_ShowWindowB(char *);
 #define W(p) (*(char **)((p)+0x2C))
 int BOX2_SEQ_StateSummaryClose(u8 *p)
@@ -70,7 +70,7 @@ int BOX2_SEQ_StateSummaryClose(u8 *p)
         BOX2_UI_MoveCursor((char **)p,3,n);
         BOX2_SEQ_SetCursorFrame((char *)p,6);
         BOX2_SEQ_SetWindow9(p,14,1);
-        BOX2_MAIN_ChangeBoxFormPreserve((char *)p,n);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p,n);
         *(int *)(W(p)+0xA194)=0;
         return 17;
     case 2:

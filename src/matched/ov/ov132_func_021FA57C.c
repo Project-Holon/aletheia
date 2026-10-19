@@ -8,15 +8,15 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void BG_SYS_FillScrollArea(unsigned, unsigned, unsigned);
+extern void BG_SYS_ChangeScrollImmediate(unsigned, unsigned, unsigned);
 void STA_ACT_AUDIENCE_SetBgScroll(void *unused, int x)
 {
     u16 v = ((x << 7) / 256) + 64;
-    BG_SYS_FillScrollArea(4, 0, v);
-    BG_SYS_FillScrollArea(6, 0, v);
-    BG_SYS_FillScrollArea(5, 0, v);
+    BG_SYS_ChangeScrollImmediate(4, 0, v);
+    BG_SYS_ChangeScrollImmediate(6, 0, v);
+    BG_SYS_ChangeScrollImmediate(5, 0, v);
 }

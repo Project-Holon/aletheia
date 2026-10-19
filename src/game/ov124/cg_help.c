@@ -17,10 +17,10 @@
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   TCB_DeleteTask 0x02030EAC arm
  *   KEY_GetTrg 0x020362DC arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   CLACT_DrawSystem 0x0204A600 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
@@ -225,7 +225,7 @@ extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 extern u32 WIPE_SYS_EndCheck(void);
 extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
 extern u32 KEY_GetTrg(void);
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void CLACT_DrawSystem(void);
 extern void APP_TASKMENU_WIN_Update(u8 *p);
@@ -234,7 +234,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void APP_TASKMENU_WIN_ResetDecide(struct Obj *obj);
 extern void APP_TASKMENU_WIN_ClearScreen(u8 *p);
 extern void APP_TASKMENU_WIN_TransChar(u8 *p);
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 extern void CLACT_VBlankSystem(void);
 extern void BG_SYS_ResetSubDisplay(void), BG_SYS_ClearMainPlanes(void), BG_SYS_ClearSubPlanes(void);
 extern void WIPE_SetBrightnessFadeOut(u32, u32);
@@ -389,7 +389,7 @@ int CG_HELP_Main(CgHelpWork *work)
         break;
     case 4:
         if(!work->textDirty) CG_HELP_HandleTouchInput(work);
-        if(KEY_GetTrg()&4) BG_SYS_SetFlagField06(4);
+        if(KEY_GetTrg()&4) BG_SYS_MarkTileDirty(4);
         break;
     }
     PRINTSYS_QUE_Main(work->printQue);
@@ -419,7 +419,7 @@ int CG_HELP_Main(CgHelpWork *work)
             APP_TASKMENU_WIN_ResetDecide(work->prevButton);
         }
     }
-    BG_SYS_FillScrollArea(7,5,1);
+    BG_SYS_ChangeScrollImmediate(7,5,1);
     return 0;
 }
 

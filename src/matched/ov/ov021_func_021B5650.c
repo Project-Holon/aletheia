@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PROC_FLD_SetOv056Slot
+ * function: SCRCMD_PROC_FLD_SetCameraSettingFromFkDemoSlot
  * address:  0x021B5650
  * packet:   pkt_ov021_021B5650
  * region:   ov021
@@ -32,7 +32,7 @@ extern void *FIELDMAP_GetCamera(void *o);
 extern u32 FIELD_FK_DEMO_GetCameraSettingId(u32 idx);
 extern void FIELD_CAMERA_SetSetting(u32 *p, u32 v);
 
-int SCRCMD_PROC_FLD_SetOv056Slot(void *a, void *b)
+int SCRCMD_PROC_FLD_SetCameraSettingFromFkDemoSlot(void *a, void *b)
 {
     void *w = GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(b));
     unsigned int k = SCRIPT_WORK_ReadWorkValue(a, b);

@@ -31,7 +31,7 @@
  *   BTL_ACTION_SetRotate 0x021D83FC thumb ov093
  *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
  *   BTL_POKEPARAM_GetSickContRaw 0x021D6314 thumb ov093
- *   BTLV_CORE_GetSlotValue 0x021E8B80 thumb ov093
+ *   BTL_SICKCONT_GetValue 0x021E8B80 thumb ov093
  *   BTL_CALC_PeekMoveTarget 0x021D81F8 thumb ov093
  *   BTL_ACTION_SetFight 0x021D82D0 thumb ov093
  *   BTL_CLIENT_SetStruggleIfNoMoves 0x021CF524 thumb ov093
@@ -75,7 +75,7 @@ extern int BTL_SLOT_GetRotateSrcIndex(int);
 extern void BTL_ACTION_SetRotate(u32 *p, u32 sub);
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern Word BTL_POKEPARAM_GetSickContRaw(void *, int);
-extern u16 BTLV_CORE_GetSlotValue(Word);
+extern u16 BTL_SICKCONT_GetValue(Word);
 extern u32 BTL_CALC_PeekMoveTarget(void *, void *, void *, u32, void *);
 extern void BTL_ACTION_SetFight(struct Unk021D82D0 *out, u32 id, u32 sub);
 extern u32 BTL_CLIENT_SetStruggleIfNoMoves(u32, void *, u32);
@@ -137,7 +137,7 @@ int BTL_CLIENT_StepAutoChooseActions(u8 *p, u32 *state)
             }
         }
         if (BTL_POKEPARAM_HasSick(M,0x19)) {
-            move = BTLV_CORE_GetSlotValue(BTL_POKEPARAM_GetSickContRaw(M,0x19));
+            move = BTL_SICKCONT_GetValue(BTL_POKEPARAM_GetSickContRaw(M,0x19));
             result = BTL_CALC_PeekMoveTarget(((struct Obj00464 *)p)->f0,((struct Obj00464 *)p)->f4,M,move,p+0xf4);
             BTL_ACTION_SetFight((struct Unk021D82D0 *)R,move,result);
             goto complete;

@@ -19,7 +19,7 @@
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
  *   func_02040588  0x02040588  arm
  *   BG_SYS_ClearSlot  0x020414EC  arm
- *   BG_SYS_FillScrollArea  0x02040618  arm
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm
  *   func_02049B68  0x02049B68  arm
  *   func_02049658  0x02049658  arm
  *   func_020498F4  0x020498F4  arm
@@ -90,7 +90,7 @@ extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type
 typedef signed int     s32;
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_ClearSlot(u32 i);
-extern void BG_SYS_FillScrollArea(u32 bgId, u32 which, u32 value);
+extern void BG_SYS_ChangeScrollImmediate(u32 bgId, u32 which, u32 value);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -131,7 +131,7 @@ void FIELD_MENU_LoadGraphics(Obj *p, void *q, int r, u32 unused)
     BG_SYS_InitBgLayer(7, (const struct BgTemplate *)gFieldMenuBgTemplate7, 0);
     func_02040588(7, 1);
     BG_SYS_ClearSlot(7);
-    BG_SYS_FillScrollArea(6, 3, -5);
+    BG_SYS_ChangeScrollImmediate(6, 3, -5);
     func_02049B68(q, 0, 4, 0, 0, p->f02);
     func_02049658(q, 2, 5, 0, 0, 0, p->f02);
     func_020498F4(q, gFieldMenuScreenIds[r], 5, 0, 0, 0, p->f02);

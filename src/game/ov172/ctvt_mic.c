@@ -64,7 +64,6 @@
  *   NNSi_SndWaveOutUnlockChannel  0x02072A88  arm
  *   NNS_SndWaveOutStart  0x02072AA0  arm
  *   NNS_SndWaveOutStop 0x02072BDC arm
- *   _u32_div_f  0x0209C2B0  arm
  */
 #include "ctvt_types.h"
 
@@ -274,7 +273,6 @@ extern int NNS_SndWaveOutStart(void *s, int fmt, void *data, int loop,
 
 extern void NNS_SndWaveOutStop(struct NnsWaveOutSlot *slot);
 
-extern u32 _u32_div_f(u32 a, u32 b);
 
 int CTVT_MIC_EncodeAdpcm(int unused, void *a, void *buf, unsigned n);
 
@@ -375,7 +373,7 @@ int CTVT_MIC_GetPlayPos(CtvtMic *mic)
 
 int CTVT_MIC_GetPlayRatio(CtvtMic *mic)
 {
-    return (u16)_u32_div_f(mic->length << 15, mic->freq * 0x10e);
+    return (u16)((mic->length << 15) / (mic->freq * 0x10e));
 }
 
 /*

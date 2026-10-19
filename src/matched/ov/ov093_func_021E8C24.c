@@ -1,5 +1,5 @@
 /*
- * function: BTLV_CORE_GetSlotFlag
+ * function: BTL_SICKCONT_GetFlag
  * address: 0x021E8C24
  * packet: pkt_ov093_021E8C24
  * region: ov093
@@ -19,9 +19,9 @@ union U_021E8BD0 {
     struct { u32 kind : 3; u32 pad : 28; u32 f : 1; } b;
 };
 
-u32 BTLV_CORE_GetSlotFlag(union U_021E8BD0 v);
+u32 BTL_SICKCONT_GetFlag(union U_021E8BD0 v);
 
-u32 BTLV_CORE_GetSlotFlag(union U_021E8BD0 v)
+u32 BTL_SICKCONT_GetFlag(union U_021E8BD0 v)
 {
     if (v.a.kind == 1) return v.a.f;
     if (v.a.kind == 3) return v.a.f;

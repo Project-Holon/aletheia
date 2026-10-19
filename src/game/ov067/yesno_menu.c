@@ -20,7 +20,7 @@
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   ARC_UTIL_UploadPaletteFromHandleWhole  0x02049B68  arm
  *   ARC_UTIL_RegisterObjCharFromHandle  0x02049740  arm
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
  *   BG_SYS_FillTileMap  0x020413B0  arm
  *   BG_SYS_PushTile  0x020409B4  arm
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
@@ -52,7 +52,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   UI_GetInputMode  0x020355C4  arm
  *   d_021B94C4     0x021B94C4  data  a1
  *   TOUCHPANEL_HitPoint  0x02035D40  arm
@@ -107,7 +107,7 @@ extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void ARC_TOOL_DeleteHandle(void *arc);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *arc, u32 plttId, u32 target, u32 offset, u32 size, u32 heapId);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 charId, u32 layer, u32 offset, u32 size, u32 heapId);
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 extern void BG_SYS_FillTileMap(u8 layer, u8 x, u8 y, u8 width, u8 height, u8 plttSlot);
 extern void BG_SYS_PushTile(u8 layer);
 extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 value);
@@ -138,7 +138,7 @@ extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *printer, struct CharBuf *
 extern void BMP_WIN_TransferChars(struct TextWindow *window);
 extern void BMP_WIN_MakeScreen(struct TextWindow *window);
 extern u8 BMP_WIN_GetBgLayer(struct TextWindow *window);
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 extern u8 UI_GetInputMode(void);
 extern int TOUCHPANEL_HitPoint(YesNoTouchTable *table, u32 x, u32 y);
 extern s32 NNS_GfdRegisterNewVramTransferTask(u32 region, u32 offset, const void *src, s32 size);
@@ -265,7 +265,7 @@ void YESNO_MENU_Delete(YesNoMenu *menu)
     BMP_WIN_Delete(menu->windowUpper);
     BMP_WIN_Delete(menu->windowLower);
     tileAlloc = menu->buttonTileAlloc;
-    BG_SYS_DeleteHalf(menu->buttonBgLayer, (u16)tileAlloc, (u16)(tileAlloc >> 16));
+    BG_SYS_FreeTileRun(menu->buttonBgLayer, (u16)tileAlloc, (u16)(tileAlloc >> 16));
     GFL_HEAP_Free(menu);
 }
 
@@ -302,14 +302,14 @@ void YESNO_MENU_Start(YesNoMenu *menu, struct StrBuf *upperText, struct StrBuf *
         window = menu->windowUpper;
         BMP_WIN_TransferChars(window);
         BMP_WIN_MakeScreen(window);
-        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
+        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(window));
         menu->upperDone = 1;
     }
     if (menu->lowerDone == 0 && PRINTSYS_QUE_IsExistTarget(menu->printer, BMP_WIN_GetBmp(menu->windowLower)) == 0) {
         window = menu->windowLower;
         BMP_WIN_TransferChars(window);
         BMP_WIN_MakeScreen(window);
-        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
+        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(window));
         menu->lowerDone = 1;
     }
     if (UI_GetInputMode() == YESNO_MENU_INPUT_KEYS) {
@@ -334,11 +334,11 @@ void YESNO_MENU_Close(YesNoMenu *menu)
     window = menu->windowUpper;
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(window));
     window = menu->windowLower;
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(window));
     for (i = 0; i < YESNO_MENU_BUTTON_COUNT; i++) {
         CLACT_SetActorDrawEnable(menu->buttonActors[i], 0);
         CLACT_SetActorAutoAnim(menu->buttonActors[i], 0);
@@ -465,14 +465,14 @@ void YESNO_MENU_Update(YesNoMenu *menu)
             window = menu->windowUpper;
             BMP_WIN_TransferChars(window);
             BMP_WIN_MakeScreen(window);
-            BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
+            BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(window));
             menu->upperDone = 1;
         }
         if (menu->lowerDone == 0 && PRINTSYS_QUE_IsExistTarget(menu->printer, BMP_WIN_GetBmp(menu->windowLower)) == 0) {
             window = menu->windowLower;
             BMP_WIN_TransferChars(window);
             BMP_WIN_MakeScreen(window);
-            BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
+            BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(window));
             menu->lowerDone = 1;
         }
     }

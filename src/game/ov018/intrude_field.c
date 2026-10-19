@@ -1,7 +1,7 @@
 /*
  * file:     intrude_field.c
  * unit:     yes
- * function: INTRUDE_FIELD_Update, INTRUDE_FIELD_FindRemotePlayerAhead, INTRUDE_FIELD_CreateEdgeBlockTask, INTRUDE_FIELD_TaskEdgeBlock, INTRUDE_FIELD_CreateAreaChangeTask, INTRUDE_FIELD_TaskAreaChange, INTRUDE_FIELD_CreateTileEvent, INTRUDE_FIELD_CreateEdgeTask, INTRUDE_FIELD_CreateExitConfirmEvent, INTRUDE_FIELD_EventExitConfirm, INTRUDE_FIELD_CreateNoticeEvent, INTRUDE_FIELD_EventNotice, INTRUDE_FIELD_IsAtAreaEdge, INTRUDE_FIELD_IsInEdgeMargin, INTRUDE_FIELD_UpdateCommState, INTRUDE_FIELD_StartCommAfterExit, INTRUDE_FIELD_StartComm, INTRUDE_FIELD_UpdateAreaIndex, INTRUDE_FIELD_ResetExtraAreaCount, INTRUDE_FIELD_AddAreaMaps, INTRUDE_FIELD_AddAreaMapCount, INTRUDE_FIELD_ChangePlayerLook, INTRUDE_FIELD_TryStartOfferEvent, INTRUDE_FIELD_FindZonePos, INTRUDE_FIELD_GetZoneAnchor, INTRUDE_FIELD_InitStartParam, INTRUDE_FIELD_GetStartKind, INTRUDE_FIELD_AddMmdl, INTRUDE_FIELD_AddAreaMmdls, INTRUDE_FIELD_IsCommAllowed, INTRUDE_FIELD_IsStartRequested, INTRUDE_FIELD_SetSingleAreaMode, INTRUDE_FIELD_GetHostGender, INTRUDE_FIELD_IsListedZone, INTRUDE_FIELD_AddMarkerMmdl, INTRUDE_FIELD_AddMarkerMmdls, INTRUDE_FIELD_AddSymbolMonMmdl, INTRUDE_FIELD_GetMmdlParamPair, INTRUDE_FIELD_GetMmdlParam0, INTRUDE_FIELD_CreateSymbolMon, INTRUDE_FIELD_SpawnSymbolMons, INTRUDE_FIELD_CreateOfferInfoEvent, INTRUDE_FIELD_EventOfferInfo, INTRUDE_FIELD_InitPlayerSpin, INTRUDE_FIELD_StepPlayerSpin
+ * function: INTRUDE_FIELD_Update, INTRUDE_FIELD_FindRemotePlayerAhead, INTRUDE_FIELD_CreateEdgeBlockTask, INTRUDE_FIELD_TaskEdgeBlock, INTRUDE_FIELD_CreateAreaChangeTask, INTRUDE_FIELD_TaskAreaChange, INTRUDE_FIELD_CreateTileEvent, INTRUDE_FIELD_CreateEdgeTask, INTRUDE_FIELD_CreateExitConfirmEvent, INTRUDE_FIELD_EventExitConfirm, INTRUDE_FIELD_CreateNoticeEvent, INTRUDE_FIELD_EventNotice, INTRUDE_FIELD_IsAtAreaEdge, INTRUDE_FIELD_IsInEdgeMargin, INTRUDE_FIELD_UpdateCommState, INTRUDE_FIELD_StartCommAfterExit, INTRUDE_FIELD_StartComm, INTRUDE_FIELD_UpdateAreaIndex, INTRUDE_FIELD_ResetExtraAreaCount, INTRUDE_FIELD_AddAreaMaps, INTRUDE_FIELD_AddAreaMapCount, INTRUDE_FIELD_ChangePlayerLook, INTRUDE_FIELD_TryStartOfferEvent, INTRUDE_FIELD_FindZonePos, INTRUDE_FIELD_GetZoneAnchor, INTRUDE_FIELD_InitStartParam, INTRUDE_FIELD_GetStartKind, INTRUDE_FIELD_AddMmdl, INTRUDE_FIELD_AddAreaMmdls, INTRUDE_FIELD_IsDisconnectNeeded, INTRUDE_FIELD_IsStartRequested, INTRUDE_FIELD_SetSingleAreaMode, INTRUDE_FIELD_GetHostGender, INTRUDE_FIELD_IsListedZone, INTRUDE_FIELD_AddMarkerMmdl, INTRUDE_FIELD_AddMarkerMmdls, INTRUDE_FIELD_AddSymbolMonMmdl, INTRUDE_FIELD_GetMmdlParamPair, INTRUDE_FIELD_GetMmdlParam0, INTRUDE_FIELD_CreateSymbolMon, INTRUDE_FIELD_SpawnSymbolMons, INTRUDE_FIELD_CreateOfferInfoEvent, INTRUDE_FIELD_EventOfferInfo, INTRUDE_FIELD_InitPlayerSpin, INTRUDE_FIELD_StepPlayerSpin
  * address:  0x0217AE20
  * region:   ov018
  * compiler: dsi/1.1p1
@@ -62,7 +62,7 @@
  *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   MSGDATA_AllocString  0x02045EC0  arm
  *   STRBUF_Delete  0x02045808  arm
@@ -417,7 +417,7 @@ extern u8 MYSTATUS_GetOutfitVariant(const struct PlayerStatus *status);
 extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 index, struct PlayerStatus *status);
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct STRBUF *dst, struct STRBUF *src);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
+extern u32 WORDSET_Delete(struct WordSet *wordSet);
 extern struct STRBUF *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct STRBUF *MSGDATA_AllocString(struct MsgData *msgData, u32 index);
 extern void STRBUF_Delete(struct STRBUF *strbuf);
@@ -555,7 +555,7 @@ void INTRUDE_FIELD_InitStartParam(IntrudeStartParam *param);
 u8 INTRUDE_FIELD_GetStartKind(IntrudeStartParam *param);
 void INTRUDE_FIELD_AddMmdl(struct FieldMap *fieldMap, u16 gridX, u16 gridZ, int height, u16 objCode, u16 eventId, u16 objId);
 void INTRUDE_FIELD_AddAreaMmdls(struct FieldMap *fieldMap);
-int INTRUDE_FIELD_IsCommAllowed(struct GameSystem *gameSystem, int zoneId);
+int INTRUDE_FIELD_IsDisconnectNeeded(struct GameSystem *gameSystem, int zoneId);
 int INTRUDE_FIELD_IsStartRequested(IntrudeCommSys *work);
 void INTRUDE_FIELD_SetSingleAreaMode(IntrudeCommSys *work);
 u8 INTRUDE_FIELD_GetHostGender(struct GameComm *gameComm);
@@ -873,7 +873,7 @@ int INTRUDE_FIELD_TaskAreaChange(struct GameEvent *event, u32 *seq, AreaChangeWo
         if (work->msgWin != 0) {
             FIELD_MSGBG_DeleteMsgWin(work->msgWin);
             MSGDATA_Delete(work->msgData);
-            WORDSET_DeleteStrbufED04(work->wordSet);
+            WORDSET_Delete(work->wordSet);
         }
         FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(work->fieldMap));
         return 1;
@@ -1521,7 +1521,7 @@ void INTRUDE_FIELD_AddAreaMmdls(struct FieldMap *fieldMap)
     } while (areaIndex < 3);
 }
 
-int INTRUDE_FIELD_IsCommAllowed(struct GameSystem *gameSystem, int zoneId)
+int INTRUDE_FIELD_IsDisconnectNeeded(struct GameSystem *gameSystem, int zoneId)
 {
     struct GameData *gameData;
     struct GameComm *gameComm;

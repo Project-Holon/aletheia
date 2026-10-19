@@ -16,7 +16,7 @@
  *   GFL_HEAP_Alloc    0x02030734  arm
  *   GFL_HEAP_Free  0x020307B0  arm
  *   MI_CpuCopy8  0x02082D44  arm
- *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
+ *   GF_STANDARD_GetCachedDate  0x0203F4E4  arm
  *   blink_palanm_File    0x020A7804  data
  *   ARC_UTIL_LoadPaletteBlockFromHandle      0x02049F78  arm
  *   FX_SinCosTable_  0x020A1B38  data

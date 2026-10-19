@@ -1,5 +1,5 @@
 /*
- * function: WIFIBATTLEMATCH_NET_IsTradeIconReady
+ * function: WIFIBATTLEMATCH_NET_IsCompStatusWindowReady
  * address:  0x021D97B8
  * packet:   pkt_021D97B8
  * region:   ov175
@@ -21,7 +21,7 @@ typedef unsigned long u32;
 
 extern u32 WIFIBATTLEMATCH_VIEW_StepMainWindow(u32 p);
 
-u32 WIFIBATTLEMATCH_NET_IsTradeIconReady(char *obj)
+u32 WIFIBATTLEMATCH_NET_IsCompStatusWindowReady(char *obj)
 {
     return WIFIBATTLEMATCH_VIEW_StepMainWindow(((struct Obj24302 *)obj)->f1C);
 }

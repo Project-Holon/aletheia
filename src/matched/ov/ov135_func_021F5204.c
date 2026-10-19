@@ -16,7 +16,7 @@
  *   WORLDTRADE_BOX_ExitBgPlanes 0x021F5358 thumb ov135
  *   WORLDTRADE_TITLE_ExitBgPlanes 0x022000E4 thumb ov135
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   WORLDTRADE_ClearBusyFlag 0x021F4EC8 thumb ov135
+ *   WORLDTRADE_AdvanceScreenId 0x021F4EC8 thumb ov135
  */
 #include "../include/Obj00287.h"
 typedef unsigned char u8;
@@ -31,7 +31,7 @@ extern void WORLDTRADE_BOX_ExitBgPlanes(void);
 extern void WORLDTRADE_TITLE_ExitBgPlanes(char *p);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
-extern void WORLDTRADE_ClearBusyFlag(u8 *);
+extern void WORLDTRADE_AdvanceScreenId(u8 *);
 int WORLDTRADE_BOX_Exit(u8 *p)
 {
     if (GXx_GetMasterBrightness_((u16 *)0x0400106c)) {
@@ -43,6 +43,6 @@ int WORLDTRADE_BOX_Exit(u8 *p)
     WORLDTRADE_BOX_ExitBgPlanes();
     WORLDTRADE_TITLE_ExitBgPlanes((char *)p);
     CLACT_SetActorDrawEnable((struct Obj *)*(u32 *)&((struct Obj00287 *)p)->fD38, 0);
-    WORLDTRADE_ClearBusyFlag(p);
+    WORLDTRADE_AdvanceScreenId(p);
     return 0;
 }

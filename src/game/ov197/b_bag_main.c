@@ -26,7 +26,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   d_0220DA0D 0x0220DA0D data a1
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
- *   WORDSET_Callback_EF40 0x0201EF40 thumb
+ *   WORDSET_SetSlotFromMsg36 0x0201EF40 thumb
  *   d_0220DA38 0x0220DA38 data a4
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   d_0220DA3C 0x0220DA3C data a4
@@ -42,7 +42,7 @@
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   B_APP_TOOL_Update 0x0220B0B0 thumb
  *   B_APP_TOOL_ShowWindows  0x0220B094  thumb  ov196
  *   MYITEM_SAVEDATA_HasItem 0x02007F68 thumb
@@ -128,7 +128,7 @@
  *   CURSOR_MOVE_PollRepeatInput 0x02025DE8 thumb
  *   CURSOR_MOVE_GetCurrent 0x020260E0 thumb
  *   MSGDATA_ReadString 0x02045CAC arm
- *   FILE_UTIL_Get_0FE4 0x02020FE4 thumb
+ *   FILE_UTIL_GetItemParam 0x02020FE4 thumb
  *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   PRINTSYS_PrintStreamGetState 0x0201CE30 thumb
  *   PRINTSYS_PrintStreamShortWait 0x0201CE5C thumb
@@ -161,9 +161,9 @@
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   MSGDATA_Delete 0x02045C04 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  *   BG_SYS_ClearLayerEx 0x02041570 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   CURSOR_MOVE_Create 0x02025CD0 thumb
@@ -323,7 +323,7 @@ extern void PRINTSYS_PrintQueColor(void *owner, unsigned int a, unsigned int b, 
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotFromMsg36(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BG_SYS_SetTileEntry(unsigned,int,int,int,u8,u8,u8);
@@ -335,7 +335,7 @@ extern signed char MSG_SPEED_GetWait(void);
 extern void *PRINTSYS_PrintStream(void *win, u32 x, u32 y, void *str, u32 font, u32 wait, void *tcbl, u32 priority, u16 heap, u32 fillColor);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 extern int B_APP_TOOL_Update(void *, int, int);
 extern u32 B_APP_TOOL_ShowWindows(u8 *, u32);
 extern u32 MYITEM_SAVEDATA_HasItem(u8 *,u16,u16,u16);
@@ -410,7 +410,7 @@ extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 extern int CURSOR_MOVE_PollRepeatInput(struct Sound *obj);
 extern u8 CURSOR_MOVE_GetCurrent(struct Sound *obj);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern unsigned FILE_UTIL_Get_0FE4(void *, unsigned, unsigned);
+extern unsigned FILE_UTIL_GetItemParam(void *, unsigned, unsigned);
 extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 extern unsigned PRINTSYS_PrintStreamGetState(void *);
 extern void PRINTSYS_PrintStreamShortWait(struct Rec *, int);
@@ -438,9 +438,9 @@ extern struct MsgBank *MSGDATA_CreateFromArchive(unsigned,unsigned,unsigned,unsi
 extern struct WordSet *WORDSET_CreateDefault(unsigned);
 extern unsigned PRINTSYS_QUE_Create(void *);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *);
-extern void BG_SYS_ResetSlot(unsigned int, unsigned int, unsigned int);
+extern void BG_SYS_ChangeScroll(unsigned int, unsigned int, unsigned int);
 extern void BG_SYS_ClearLayerEx(int channel, u16 val);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern struct CursorMove *CURSOR_MOVE_Create(u32, u32, u32, u32, u8, u16);
@@ -679,7 +679,7 @@ void B_BAG_MAIN_DrawItemName(char *p,u32 i,int id,int w,int unused,int unused2)
     if(*(u16 *)(page+i*4+0x150)!=0){
         text=MSGDATA_AllocString(((struct BagWork *)p)->msgBank,*(u32 *)(d_0220DA38+id*8));
         page=(u32)p+((u8 *)p)[0x533]*0x90;
-        WORDSET_Callback_EF40(((struct BagWork *)p)->wordSet,0,*(u16 *)(page+i*4+0x150));
+        WORDSET_SetSlotFromMsg36(((struct BagWork *)p)->wordSet,0,*(u16 *)(page+i*4+0x150));
         WORDSET_CopyTaggedText(((struct BagWork *)p)->wordSet,((struct BagWork *)p)->strBuf,text);
         width=GF_FONT_MeasureWidestLine(((struct BagWork *)p)->strBuf,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth,0);
         width=BMP_WIN_GetWidth(handle)*8-width;
@@ -842,7 +842,7 @@ void B_BAG_MAIN_DrawDescription(u8 *p, u32 idx)
     u8 sel = *(u8 *)(p + 0x533);
     u8 *row = p + sel * 0x90;
     void *w;
-    WORDSET_Callback_EF40(*(void **)(p + 0x10), 0, *(u16 *)(row + 0x150 + idx * 4));
+    WORDSET_SetSlotFromMsg36(*(void **)(p + 0x10), 0, *(u16 *)(row + 0x150 + idx * 4));
     WORDSET_CopyTaggedText(*(void **)(p + 0x10), *(void **)(p + 0x14), msg);
     BMP_Clear(BMP_WIN_GetBmp(win), 0);
     w = *(void **)(p + 0x18);
@@ -934,7 +934,7 @@ void B_BAG_MAIN_StartItemMsg(char *p)
     d = *(void **)(p + 0x24);
     BMP_WIN_TransferChars(d);
     BMP_WIN_MakeScreen(d);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(d));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(d));
 }
 
 
@@ -2067,7 +2067,7 @@ int B_BAG_MAIN_StateShowMessage(char *p)
             return 0xe;
         }
     }
-    if (*(u8 *)(q + 0x29) == 0 && FILE_UTIL_Get_0FE4((void *)(unsigned)*(u16 *)(q + 0x16), 7, *(u16 *)(q + 0xc)) == 3) {
+    if (*(u8 *)(q + 0x29) == 0 && FILE_UTIL_GetItemParam((void *)(unsigned)*(u16 *)(q + 0x16), 7, *(u16 *)(q + 0xc)) == 3) {
         MSGDATA_ReadString(*(void **)(p + 0xc), 0x32, *(void **)(p + 0x14));
         B_BAG_MAIN_PrintItemMsg(p);
         *(u8 *)(p + 0x531) = 0xd;
@@ -2289,7 +2289,7 @@ void B_BAG_MAIN_InitBg(char *p)
  b4=d_0220DEC0;BG_SYS_InitBgLayer(4,&b4,0);BG_SYS_ClearSlot(4);
  BG_SYS_InitRun(5,32,0,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
  BG_SYS_InitRun(4,32,0,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
- BG_SYS_SetFlagField06(5);BG_SYS_SetFlagField06(4);BG_SYS_SetSubPlaneVisible(15,1);
+ BG_SYS_MarkTileDirty(5);BG_SYS_MarkTileDirty(4);BG_SYS_SetSubPlaneVisible(15,1);
 }
 
 
@@ -2332,7 +2332,7 @@ void B_BAG_MAIN_CreateText(char *p){*(struct MsgBank * *)&((struct BagWork *)p)-
 /*
  * Tail: two zero alignment bytes at 0x0220D7EE.
  */
-void B_BAG_MAIN_DeleteText(char *p){MSGDATA_Delete(((struct BagWork *)p)->msgBank);WORDSET_DeleteStrbufED04(*(struct WordSet * *)&((struct BagWork *)p)->wordSet);PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct BagWork *)p)->printSys);STRBUF_Delete(((struct BagWork *)p)->strBuf);}
+void B_BAG_MAIN_DeleteText(char *p){MSGDATA_Delete(((struct BagWork *)p)->msgBank);WORDSET_Delete(*(struct WordSet * *)&((struct BagWork *)p)->wordSet);PRINTSYS_QUE_Delete(*(struct PrintSys * *)&((struct BagWork *)p)->printSys);STRBUF_Delete(((struct BagWork *)p)->strBuf);}
 
 
 
@@ -2344,16 +2344,16 @@ void B_BAG_MAIN_ResetBgSlot(void *unused, int mode)
 {
     switch (mode) {
     case 0:
-        BG_SYS_ResetSlot(6, 0, 0);
-        BG_SYS_ResetSlot(6, 3, 0);
+        BG_SYS_ChangeScroll(6, 0, 0);
+        BG_SYS_ChangeScroll(6, 3, 0);
         break;
     case 1:
-        BG_SYS_ResetSlot(6, 0, 256);
-        BG_SYS_ResetSlot(6, 3, 0);
+        BG_SYS_ChangeScroll(6, 0, 256);
+        BG_SYS_ChangeScroll(6, 3, 0);
         break;
     case 2:
-        BG_SYS_ResetSlot(6, 0, 0);
-        BG_SYS_ResetSlot(6, 3, 256);
+        BG_SYS_ChangeScroll(6, 0, 0);
+        BG_SYS_ChangeScroll(6, 3, 256);
         break;
     }
 }

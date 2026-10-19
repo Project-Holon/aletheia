@@ -1,5 +1,5 @@
 /*
- * function: WIFIBATTLEMATCH_NET_SetupCompRecord
+ * function: WIFIBATTLEMATCH_NET_SetupCompStatusWindow
  * address:  0x021D965C
  * packet:   pkt_021D965C
  * region:   ov175
@@ -89,7 +89,7 @@ extern u32 BSUBWAY_SAVEDATA_GetStat(u32 a, u32 b, u32 c);
 extern int WIFIBATTLEMATCH_GRAPHIC_GetCamera(int *p);
 extern char *WIFIBATTLEMATCH_VIEW_CreateStatusWindow(char *info, u32 a, void *b, void *owner, void *table, int c, void *d, void *e, void *f, void *record, int mode, u16 heap);
 
-void WIFIBATTLEMATCH_NET_SetupCompRecord(struct Obj *obj)
+void WIFIBATTLEMATCH_NET_SetupCompStatusWindow(struct Obj *obj)
 {
     struct Profile prof;
     u32 sys;

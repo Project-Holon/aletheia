@@ -1,5 +1,5 @@
 /*
- * function: EVENTDATA_SYSTEM_FieldLinkEnterEvent
+ * function: FIELD_LINK_EVENT_EnterEventMain
  * address:  0x021645E0
  * packet:   pkt_ov010_021645E0
  * region:   ov010
@@ -16,7 +16,7 @@
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_IsSessionEndPending  0x0215870C  thumb ov010
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb ov021
- *   FIELDMAP_CheckPlayerRequest  0x02188BF8  thumb ov021
+ *   FIELDMAP_ApplyPlayerFormRequest  0x02188BF8  thumb ov021
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb ov021
  *   FIELD_PLAYER_StepFormChange  0x021A2F54  thumb ov021
  *   FIELD_PLAYER_WaitModelReady  0x021A34F8  thumb ov021
@@ -33,13 +33,13 @@ extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern int INTRUDE_COMM_IsSessionEndPending(void *p, int b);
 extern void *FIELDMAP_GetMmdlSys(u8 *p);
-extern u32 FIELDMAP_CheckPlayerRequest(u8 *a);
+extern u32 FIELDMAP_ApplyPlayerFormRequest(u8 *a);
 struct Obj00020;
 extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 extern int   FIELD_PLAYER_StepFormChange(u8 *p);
 extern int   FIELD_PLAYER_WaitModelReady(u8 *p);
 
-int EVENTDATA_SYSTEM_FieldLinkEnterEvent(void *unused, int *st, int *w)
+int FIELD_LINK_EVENT_EnterEventMain(void *unused, int *st, int *w)
 {
     int r;
     u8 *h = GAMESYSTEM_GetFieldMap((void *)w[0]);
@@ -51,7 +51,7 @@ int EVENTDATA_SYSTEM_FieldLinkEnterEvent(void *unused, int *st, int *w)
         if (INTRUDE_COMM_IsSessionEndPending((void *)r, w[1]) == 1 && (u32)w[1] < 0x1e) {
             break;
         }
-        FIELDMAP_CheckPlayerRequest(h);
+        FIELDMAP_ApplyPlayerFormRequest(h);
         (*st)++;
         /* fall through */
     case 1:

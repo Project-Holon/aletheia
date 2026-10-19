@@ -53,8 +53,8 @@
  *
  * symbols:
  *   GF_STANDARD_Checksum  0x0203F2FC  arm
- *   GF_STANDARD_Shuffle  0x0203F328  arm
- *   GF_STANDARD_ShuffleEx  0x0203F37C  arm
+ *   GF_STANDARD_XorCrypt  0x0203F328  arm
+ *   GF_STANDARD_XorCryptEx  0x0203F37C  arm
  *   (none; 0x02FFFC3C is a cast address constant, not a relocation)
  *
  * Three things in this unit cost time and are recorded under docs/idioms/:
@@ -111,8 +111,8 @@ extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 
 struct Sub020071CCCtrl;
 extern u32 GF_STANDARD_Checksum(const u8 *p, u32 len);
-extern void GF_STANDARD_Shuffle(u16 *p, u32 size, u32 seed);
-extern void GF_STANDARD_ShuffleEx(void *base, u32 size, u32 seed);
+extern void GF_STANDARD_XorCrypt(u16 *p, u32 size, u32 seed);
+extern void GF_STANDARD_XorCryptEx(void *base, u32 size, u32 seed);
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 
 #define unk_02FFFC3C (*(volatile u32 *)0x02FFFC3C)
@@ -232,7 +232,7 @@ void MYSTERY_DATA_EncryptBuffer(void *base, u32 kind)
         h->unk02 = 1;
     }
     h->unk00 = GF_STANDARD_Checksum(base, size - 4);
-    GF_STANDARD_Shuffle(base, size - 4, h->unk00 + (h->unk02 << 16));
+    GF_STANDARD_XorCrypt(base, size - 4, h->unk00 + (h->unk02 << 16));
 }
 
 void MYSTERY_DATA_DecryptBuffer(void *base, u32 kind)
@@ -250,7 +250,7 @@ void MYSTERY_DATA_DecryptBuffer(void *base, u32 kind)
         h = (struct Hdr *)((u8 *)base + (size - 4));
         break;
     }
-    GF_STANDARD_ShuffleEx(base, size - 4, h->unk00 + (h->unk02 << 16));
+    GF_STANDARD_XorCryptEx(base, size - 4, h->unk00 + (h->unk02 << 16));
     h->unk02 = 0;
 }
 

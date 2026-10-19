@@ -1,7 +1,7 @@
 /*
  * file:     wf2dmap_obj.c
  * unit:     yes
- * function: WF2DMAP_OBJ_CreateList, WF2DMAP_OBJ_DeleteList, WF2DMAP_OBJ_DispatchById, WF2DMAP_OBJ_UpdateList, WF2DMAP_OBJ_GetCount, WF2DMAP_OBJ_Create, WF2DMAP_OBJ_Clear, WF2DMAP_OBJ_FindById, WF2DMAP_OBJ_GetByIndex, WF2DMAP_OBJ_FindById2, WF2DMAP_OBJ_GetByIndex2, WF2DMAP_OBJ_GetSlot, WF2DMAP_OBJ_SetSlot, WF2DMAP_OBJ_OffsetPos, WF2DMAP_OBJ_GetTableByte, WF2DMAP_OBJ_AllocSlot, WF2DMAP_OBJ_GetPos, WF2DMAP_OBJ_GetDestPos, WF2DMAP_OBJ_GetCurrentPos, WF2DMAP_OBJ_SetPos, WF2DMAP_OBJ_SetDestPos, WF2DMAP_OBJ_FindAtPos, WF2DMAP_OBJ_ApplyCommand
+ * function: WF2DMAP_OBJ_CreateList, WF2DMAP_OBJ_DeleteList, WF2DMAP_OBJ_DispatchById, WF2DMAP_OBJ_UpdateList, WF2DMAP_OBJ_GetCount, WF2DMAP_OBJ_Create, WF2DMAP_OBJ_Clear, WF2DMAP_OBJ_FindById, WF2DMAP_OBJ_GetByIndex, WF2DMAP_OBJ_FindById2, WF2DMAP_OBJ_GetByIndex2, WF2DMAP_OBJ_GetSlot, WF2DMAP_OBJ_SetSlot, WF2DMAP_OBJ_OffsetPos, WF2DMAP_OBJ_GetDirectionTableEntry, WF2DMAP_OBJ_AllocSlot, WF2DMAP_OBJ_GetPos, WF2DMAP_OBJ_GetDestPos, WF2DMAP_OBJ_GetCurrentPos, WF2DMAP_OBJ_SetPos, WF2DMAP_OBJ_SetDestPos, WF2DMAP_OBJ_FindAtPos, WF2DMAP_OBJ_ApplyCommand
  * address:  0x021C4880
  * region:   ov127
  * compiler: dsi/1.1p1
@@ -83,7 +83,7 @@ void WF2DMAP_OBJ_SetSlot(void *p, int i, int v);
 
 Wf2dmapPos WF2DMAP_OBJ_OffsetPos(Wf2dmapPos p,int i);
 
-unsigned char WF2DMAP_OBJ_GetTableByte(int i);
+unsigned char WF2DMAP_OBJ_GetDirectionTableEntry(int i);
 
 char *WF2DMAP_OBJ_AllocSlot(unsigned *p);
 
@@ -236,7 +236,7 @@ Wf2dmapPos WF2DMAP_OBJ_OffsetPos(Wf2dmapPos p,int i)
  *   ldr r1,[pc,#4]; ldrb r0,[r1,r0]; bx lr; nop; .word 0x021C6010
  * Byte i of the table sWf2dmapDirectionTable.
  */
-unsigned char WF2DMAP_OBJ_GetTableByte(int i)
+unsigned char WF2DMAP_OBJ_GetDirectionTableEntry(int i)
 {
     return sWf2dmapDirectionTable[i];
 }

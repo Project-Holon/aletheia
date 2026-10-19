@@ -26,7 +26,7 @@
  *   COMM_PLAYER_SUPPORT_GetRecordField  0x0202E938  thumb
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
@@ -81,7 +81,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u16 COMM_PLAYER_SUPPORT_GetRecordField(void *p);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
@@ -158,7 +158,7 @@ void CTVT_CALL_DrawRow(void *ctx, char *list, char *row, int idx)
         } else {
             ((struct Obj01166 *)e)->fC = 0;
         }
-        WORDSET_DeleteStrbufED04((struct WordSet *)ws);
+        WORDSET_Delete((struct WordSet *)ws);
         ((struct Obj02882 *)row)->f4 = 1;
     } else {
         func_02041B6C(func_021BCC40_show(((struct Obj02882 *)row)->f14));

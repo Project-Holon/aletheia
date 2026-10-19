@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 void ZUKAN_DETAIL_COMMON_SetBgScrollPacked(u32 a, u32 packed)
 {
-    BG_SYS_DeleteHalf(a, (u16)packed, (u16)(packed >> 16));
+    BG_SYS_FreeTileRun(a, (u16)packed, (u16)(packed >> 16));
 }

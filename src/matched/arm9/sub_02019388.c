@@ -20,7 +20,7 @@
  * is repeated below.
  *
  * What held it open, and what closed it: two of the thirteen relocation sites
- * call POKE_TOOL_IsDefaultName, both from inside this function, and a scan of every
+ * call POKE_TOOL_HasNickname, both from inside this function, and a scan of every
  * Thumb BL and BLX in the image finds no third site.  The `label` class
  * therefore has no witness and no cut helps, because the range cannot be made
  * smaller than the one function that holds both calls.  The `matched` class
@@ -33,7 +33,7 @@
  * Two ids exist here that the reader does not have, 0xB0 and 0xB1, and they
  * sit in the source between 0x74 and 0x76.  They are 0x73 and 0x74 without the
  * trailing recomputation, so the pairs read: 0x73 copies 11 halfwords into
- * substruct C and then sets C's "renamed" bit from POKE_TOOL_IsDefaultName, 0xB0 copies
+ * substruct C and then sets C's "renamed" bit from POKE_TOOL_HasNickname, 0xB0 copies
  * the same 11 halfwords and leaves the bit alone; 0x74 and 0xB1 are the same
  * pair through the other copier.
  *
@@ -103,7 +103,7 @@
  * symbols:
  *   STRBUF_ToChars  0x02045A38  arm
  *   POKE_TOOL_CalcGender  0x02017F50  thumb
- *   POKE_TOOL_IsDefaultName  0x02019ABC  thumb
+ *   POKE_TOOL_HasNickname  0x02019ABC  thumb
  *   POKE_TOOL_GetBoxSubstruct  0x02019C38  thumb
  *   WORDSET_CopyString  0x0201F41C  thumb
  */
@@ -186,7 +186,7 @@ struct BlockD {
 
 extern void *POKE_TOOL_GetBoxSubstruct(struct Mon *p, u32 pid, u32 n);
 extern u8   POKE_TOOL_CalcGender(u32 species, u16 form, u32 pid);
-extern u32  POKE_TOOL_IsDefaultName(struct Mon *p);
+extern u32  POKE_TOOL_HasNickname(struct Mon *p);
 extern void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
 struct U16Vec;
 extern void STRBUF_ToChars(struct U16Vec *src, u16 *dest, u32 n);
@@ -347,11 +347,11 @@ void POKE_TOOL_SetBoxValueRaw(struct Mon *p, u32 id, u32 v)
     case 0x72: b->unk1C = v; break;
     case 0x73:
         STRBUF_ToChars((struct U16Vec *)v, c->unk00, 11);
-        b->iv7 = POKE_TOOL_IsDefaultName(p);
+        b->iv7 = POKE_TOOL_HasNickname(p);
         break;
     case 0x74:
         WORDSET_CopyString((const void *)v, c->unk00, 11);
-        b->iv7 = POKE_TOOL_IsDefaultName(p);
+        b->iv7 = POKE_TOOL_HasNickname(p);
         break;
     case 0xB0:
         STRBUF_ToChars((struct U16Vec *)v, c->unk00, 11);

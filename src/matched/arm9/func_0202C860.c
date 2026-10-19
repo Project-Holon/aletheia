@@ -1,5 +1,5 @@
 /*
- * function: ISS_SWITCH_RefreshSubscreenMode
+ * function: WEATHER_RefreshStoredWeatherId
  * address:  0x0202C860
  * packet:   pkt_0202C860
  * region:   arm9
@@ -34,8 +34,8 @@
  * symbols:
  *   MOVE_POKEMON_FindEntryByZone  0x0215E6A8  thumb ov010
  *   MOVE_POKEMON_IsAnyEntryActive  0x0215E6F8  thumb ov010
- *   GAME_DATA_GetSubscreenMode  0x02012994  thumb
- *   GAME_DATA_SetSubscreenMode  0x020129A0  thumb
+ *   GAME_DATA_GetWeatherId  0x02012994  thumb
+ *   GAME_DATA_SetWeatherId  0x020129A0  thumb
  *   ZONEDATA_GetWeatherId  0x02013C10  thumb
  */
 
@@ -47,20 +47,20 @@ typedef unsigned int   u32;
 extern int MOVE_POKEMON_FindEntryByZone(void *a, int x);
 extern int MOVE_POKEMON_IsAnyEntryActive(int a0);
 struct BigObj;
-extern u8 GAME_DATA_GetSubscreenMode(const struct BigObj *p);
+extern u8 GAME_DATA_GetWeatherId(const struct BigObj *p);
 struct BigObj;
-extern void GAME_DATA_SetSubscreenMode(struct BigObj *p, u8 v);
+extern void GAME_DATA_SetWeatherId(struct BigObj *p, u8 v);
 extern u32 ZONEDATA_GetWeatherId(u32 id);
 
-void ISS_SWITCH_RefreshSubscreenMode(u8 *a0, int a1)
+void WEATHER_RefreshStoredWeatherId(u8 *a0, int a1)
 {
     u32 v;
     u16 r;
 
     v = MOVE_POKEMON_FindEntryByZone(a0, (u16)a1);
-    r = (u16)(u32)GAME_DATA_GetSubscreenMode((const struct BigObj *)a0);
+    r = (u16)(u32)GAME_DATA_GetWeatherId((const struct BigObj *)a0);
     if (v != 0xffff) {
-        GAME_DATA_SetSubscreenMode((struct BigObj *)a0, (u8)v);
+        GAME_DATA_SetWeatherId((struct BigObj *)a0, (u8)v);
         return;
     }
     if ((u32)(r - 6) > 1) {
@@ -69,5 +69,5 @@ void ISS_SWITCH_RefreshSubscreenMode(u8 *a0, int a1)
     if (MOVE_POKEMON_IsAnyEntryActive((int)a0) != 1) {
         return;
     }
-    GAME_DATA_SetSubscreenMode((struct BigObj *)a0, (u8)ZONEDATA_GetWeatherId((u16)a1));
+    GAME_DATA_SetWeatherId((struct BigObj *)a0, (u8)ZONEDATA_GetWeatherId((u16)a1));
 }

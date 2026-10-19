@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * lever: Word return from BTLV_CORE_MakeSlotKind2 reserves the unused aggregate slot;
+ * lever: Word return from BTL_SICKCONT_MakeKind2 reserves the unused aggregate slot;
  * u8 c schedules its stack reload after the zero store at 021E23CE.
  * symbols:
  *   BTL_EVENT_GetVar 0x021D775C thumb ov093
@@ -15,7 +15,7 @@
  *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord 0x021C88A4 thumb ov093
  *   BTL_EVENT_GetFactorKey 0x021D70A8 thumb ov093
- *   BTLV_CORE_MakeSlotKind2 0x021E896C thumb ov093
+ *   BTL_SICKCONT_MakeKind2 0x021E896C thumb ov093
  *   BTL_SERVER_FLOW_InitMsgRecord 0x021C8838 thumb ov093
  *   BTL_SERVER_FLOW_AppendMsgRecordArg 0x021C8860 thumb ov093
  *   BTL_SERVER_FLOW_CommitCmdRecord 0x021C88C8 thumb ov093
@@ -36,7 +36,7 @@ extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
 extern u16 BTL_EVENT_GetFactorKey(struct QQ *p);
-extern Word BTLV_CORE_MakeSlotKind2(int, int);
+extern Word BTL_SICKCONT_MakeKind2(int, int);
 extern void BTL_SERVER_FLOW_InitMsgRecord(void *, int, int);
 struct S;
 extern void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *, u32);
@@ -56,7 +56,7 @@ void HAND_WAZA_UproarStart(void *a, void *b, u8 c, u8 *d)
     if (((struct Obj13508 *)d)->f18 != 0) return;
     p = BTL_SERVER_FLOW_AllocCmdRecord(b, 12, c);
     ((struct Obj05222 *)p)->f4 = 25;
-    *(Word *)(p + 8) = BTLV_CORE_MakeSlotKind2(3, BTL_EVENT_GetFactorKey(a));
+    *(Word *)(p + 8) = BTL_SICKCONT_MakeKind2(3, BTL_EVENT_GetFactorKey(a));
     p[12] = 0;
     p[15] = c;
     BTL_SERVER_FLOW_CommitCmdRecord(b, p);

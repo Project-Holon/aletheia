@@ -1,5 +1,5 @@
 /*
- * function: BTLV_CORE_HasByte
+ * function: BTL_TYPEPAIR_HasType
  * address:  0x021E8D24
  * packet:   pkt_ov093_021E8D24
  * region:   ov093
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   BTLV_CORE_GetHighByte  0x021E8CFC  thumb  ov093
- *   BTLV_CORE_GetLowByte  0x021E8D04  thumb  ov093
+ *   BTL_TYPEPAIR_GetHigh  0x021E8CFC  thumb  ov093
+ *   BTL_TYPEPAIR_GetLow  0x021E8D04  thumb  ov093
  */
-extern unsigned char BTLV_CORE_GetHighByte(int x);
-extern int BTLV_CORE_GetLowByte(int x);
+extern unsigned char BTL_TYPEPAIR_GetHigh(int x);
+extern int BTL_TYPEPAIR_GetLow(int x);
 
-int BTLV_CORE_HasByte(int x, int k)
+int BTL_TYPEPAIR_HasType(int x, int k)
 {
-    if (k == BTLV_CORE_GetHighByte(x)) {
+    if (k == BTL_TYPEPAIR_GetHigh(x)) {
         return 1;
     }
-    if (k == BTLV_CORE_GetLowByte(x)) {
+    if (k == BTL_TYPEPAIR_GetLow(x)) {
         return 1;
     }
     return 0;

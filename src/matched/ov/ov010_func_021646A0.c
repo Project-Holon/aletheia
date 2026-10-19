@@ -1,5 +1,5 @@
 /*
- * function: EVENTDATA_SYSTEM_ToggleSubscreenEvent
+ * function: FIELD_LINK_EVENT_ToggleSubscreenEventMain
  * address: 0x021646A0
  * packet: pkt_ov010_021646A0
  * region: ov010
@@ -18,4 +18,4 @@ typedef unsigned int u32;
 extern u32 FIELDMAP_GetSubscreen(u8 *p);
 extern u32 FIELD_SUBSCREEN_GetMode(u8 *p);
 extern int FIELD_SUBSCREEN_RequestMode(u32 a, u32 b);
-int EVENTDATA_SYSTEM_ToggleSubscreenEvent(void *a,void *b,void **p){void *v=(void *)FIELDMAP_GetSubscreen(p[1]); if(FIELD_SUBSCREEN_GetMode(v)==6)FIELD_SUBSCREEN_RequestMode((u32)v,0);else FIELD_SUBSCREEN_RequestMode((u32)v,6);return 1;}
+int FIELD_LINK_EVENT_ToggleSubscreenEventMain(void *a,void *b,void **p){void *v=(void *)FIELDMAP_GetSubscreen(p[1]); if(FIELD_SUBSCREEN_GetMode(v)==6)FIELD_SUBSCREEN_RequestMode((u32)v,0);else FIELD_SUBSCREEN_RequestMode((u32)v,6);return 1;}

@@ -1,5 +1,5 @@
 /*
- * function: DUP_FITTING_ITEM_ElemGetF20
+ * function: DUP_FITTING_ITEM_ElemGetFrameIndex
  * address: 0x021BA258
  * packet: pkt_ov133_021BA258
  * region: ov133
@@ -12,4 +12,4 @@
 #include "../include/Obj23342.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
-u32 DUP_FITTING_ITEM_ElemGetF20(char *p) { return ((struct Obj23342 *)p)->f20; }
+u32 DUP_FITTING_ITEM_ElemGetFrameIndex(char *p) { return ((struct Obj23342 *)p)->f20; }

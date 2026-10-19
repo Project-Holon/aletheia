@@ -14,7 +14,7 @@
  *           w->ent[y] (not an Ent *); `15u` in the last loop bound.
  *
  * symbols:
- *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
+ *   GF_STANDARD_GetCachedDate  0x0203F4E4  arm
  *   DAILY_LAYOUT_ResetDeck  0x021F38F4  thumb  ov036
  *   DAILY_LAYOUT_DealCells  0x021F3980  thumb  ov036
  *   DAILY_LAYOUT_PickDistinct  0x021F38AC  thumb  ov036
@@ -90,7 +90,7 @@ extern const P12 gDailyLayoutBonusDefs[];
 extern const P12 gDailyLayoutFillerDefs[];
 
 struct RtcDate;
-extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
+extern void GF_STANDARD_GetCachedDate(struct RtcDate *date);
 extern void DAILY_LAYOUT_ResetDeck(unsigned char *p);
 extern int DAILY_LAYOUT_DealCells(u8 *p);
 extern void DAILY_LAYOUT_PickDistinct(int n, int m, u8 *buf, u8 *out);
@@ -110,7 +110,7 @@ void DAILY_LAYOUT_Generate(W *w)
     u8 x;
     u8 y;
 
-    GF_STANDARD_SetField00_F4E4((struct RtcDate *)(&date));
+    GF_STANDARD_GetCachedDate((struct RtcDate *)(&date));
     switch (date.week) {
     case 1:
         v = 4;

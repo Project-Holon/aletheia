@@ -35,7 +35,7 @@
  *   MAP_MATRIX_IsInRangeByPos  0x02159C48  thumb  ov010
  *   MAP_MATRIX_GetZoneIdByPos  0x02159BD4  thumb  ov010
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   BEACON_GetFlag  0x0200C234  thumb
+ *   BEACON_GetBadge  0x0200C234  thumb
  *   FIELDMAP_GetMoveKind  0x02188CFC  thumb  ov021
  *   FLDMMDL_GetGridNowPos  0x0216D828  thumb  ov010
  *   FIELD_PLAYER_CheckGridMoving  0x021A3624  thumb  ov021
@@ -134,7 +134,7 @@ extern void FLDMMDL_GetPos(const struct Mmdl *mmdl, VecFx32 *out);
 extern int MAP_MATRIX_IsInRangeByPos(int a0, int a1, int a2);
 extern int MAP_MATRIX_GetZoneIdByPos(int a0, int a1, int a2);
 extern struct BeaconSave *GAME_DATA_GetMiscSave(struct GameData *gameData);
-extern u32 BEACON_GetFlag(struct BeaconSave *beacon, u32 bit);
+extern u32 BEACON_GetBadge(struct BeaconSave *beacon, u32 bit);
 extern u32 FIELDMAP_GetMoveKind(struct FieldMap *fieldMap);
 extern void FLDMMDL_GetGridNowPos(struct Mmdl *mmdl, GridPos *out);
 extern int FIELD_PLAYER_CheckGridMoving(struct FieldPlayer *player);
@@ -250,7 +250,7 @@ void EFFECT_ENCOUNT_OnPlayerStep(FieldEncount *encount)
     mapZoneId = MAP_MATRIX_GetZoneIdByPos((int)fieldWork, pos.x, pos.z);
     if (playerZoneId == 0xFFFF || mapZoneId == 0xFFFF || playerZoneId != mapZoneId)
         return;
-    if (BEACON_GetFlag(GAME_DATA_GetMiscSave(encount->gameData), 0) == 0)
+    if (BEACON_GetBadge(GAME_DATA_GetMiscSave(encount->gameData), 0) == 0)
         return;
     if (FIELDMAP_GetMoveKind(encount->fieldMap) != 0)
         return;

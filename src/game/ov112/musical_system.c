@@ -1,7 +1,7 @@
 /*
  * file:     musical_system.c
  * unit:     yes
- * function: MUSICAL_MCSS_CreateMon, MUSICAL_MCSS_AllocMon, MUSICAL_MCSS_AllocSmall, MUSICAL_MCSS_FreeMon, MUSICAL_MCSS_LoadDistSave
+ * function: MUSICAL_MCSS_CreateMon, MUSICAL_MCSS_AllocMon, MUSICAL_MCSS_AllocDistSave, MUSICAL_MCSS_FreeDistSave, MUSICAL_MCSS_LoadDistSave
  * address:  0x021F675C
  * region:   ov112
  * compiler: dsi/1.1p1
@@ -81,9 +81,9 @@ char *MUSICAL_MCSS_CreateMon(void *a,u16 heap);
 
 char *MUSICAL_MCSS_AllocMon(u16 a,u8 b,u8 c,u8 d,u32 e,u16 heap);
 
-void *MUSICAL_MCSS_AllocSmall(u32 heap);
+void *MUSICAL_MCSS_AllocDistSave(u32 heap);
 
-void MUSICAL_MCSS_FreeMon(char *p);
+void MUSICAL_MCSS_FreeDistSave(char *p);
 
 void MUSICAL_MCSS_LoadDistSave(u8 *p, u32 unused, void *sys, u8 kind, u16 heap);
 
@@ -120,9 +120,9 @@ char *MUSICAL_MCSS_AllocMon(u16 a,u8 b,u8 c,u8 d,u32 e,u16 heap)
     return p;
 }
 
-void *MUSICAL_MCSS_AllocSmall(u32 heap) {u32 *p;int z;z=0;p=GFL_HEAP_Alloc(heap,48,0,d_021F83E4,194);p[1]=z;p[2]=z;p[3]=z;p[4]=z;p[5]=z;p[6]=z;p[7]=z;return p;}
+void *MUSICAL_MCSS_AllocDistSave(u32 heap) {u32 *p;int z;z=0;p=GFL_HEAP_Alloc(heap,48,0,d_021F83E4,194);p[1]=z;p[2]=z;p[3]=z;p[4]=z;p[5]=z;p[6]=z;p[7]=z;return p;}
 
-void MUSICAL_MCSS_FreeMon(char *p) {if(((McssDistSave *)p)->member0)GFL_HEAP_Free(((McssDistSave *)p)->member0);if(((McssDistSave *)p)->member1)GFL_HEAP_Free(((McssDistSave *)p)->member1);if(((McssDistSave *)p)->member2)GFL_HEAP_Free(((McssDistSave *)p)->member2);if(((McssDistSave *)p)->member3)GFL_HEAP_Free(((McssDistSave *)p)->member3);GFL_HEAP_Free(p);}
+void MUSICAL_MCSS_FreeDistSave(char *p) {if(((McssDistSave *)p)->member0)GFL_HEAP_Free(((McssDistSave *)p)->member0);if(((McssDistSave *)p)->member1)GFL_HEAP_Free(((McssDistSave *)p)->member1);if(((McssDistSave *)p)->member2)GFL_HEAP_Free(((McssDistSave *)p)->member2);if(((McssDistSave *)p)->member3)GFL_HEAP_Free(((McssDistSave *)p)->member3);GFL_HEAP_Free(p);}
 
 void MUSICAL_MCSS_LoadDistSave(u8 *p, u32 unused, void *sys, u8 kind, u16 heap)
 {

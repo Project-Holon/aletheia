@@ -15,7 +15,7 @@
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
  *   WIFIBATTLEMATCH_UTIL_CreateCallback 0x021E8A3C thumb ov177
- *   BTLV_CORE_IsSlotKind1Index15  0x021E8A78  thumb  ov093
+ *   WIFIBATTLEMATCH_UTIL_DeleteCallback  0x021E8A78  thumb  ov177
  *   WIFIBATTLEMATCH_UTIL_InvokeCallback 0x021E8A80 thumb ov177
  *   WIFIBATTLEMATCH_UTIL_IsCallbackNull 0x021E8A90 thumb ov177
  *   WIFIBATTLEMATCH_GRAPHIC_GetCamera  0x021E5548  thumb  ov177
@@ -44,14 +44,14 @@
  *   MISC_SAVEDATA_GetBlock3C 0x0200E9F4 thumb
  *   MISC_SAVEDATA_GetRecordBase 0x0200EA08 thumb
  *   POKEPARTY_Create 0x0201A920 thumb
- *   UI_SetFlags39Global 0x0203516C arm
+ *   UI_SetSoftResetInhibitGlobal 0x0203516C arm
  *   d_0217E600 0x0217E600 data a4
- *   UI_ClearFlags39Global 0x020351A0 arm
+ *   UI_ClearSoftResetInhibitGlobal 0x020351A0 arm
  *   DIGITALCARDCHECK_DeleteRecord 0x0217D174 thumb ov176
  *   DIGITALCARDCHECK_DeleteRecord2 0x0217D224 thumb ov176
  *   WIFIBATTLEMATCH_VIEW_DeleteActorArray 0x021E7DF0 thumb ov177
  *   LIVEBATTLEMATCH_IRC_Delete 0x0217E058 thumb ov176
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   LIVEBATTLEMATCH_IRC_NoOp 0x0217E074 thumb ov176
  *   WIFIBATTLEMATCH_VIEW_Noop 0x021E7E08 thumb ov177
  *   WIFIBATTLEMATCH_VIEW_UpdatePokeList 0x021E64C0 thumb ov177
@@ -107,7 +107,7 @@
  *   LIVEBATTLEMATCH_IRC_WaitExit 0x0217E178 thumb ov176
  *   DIGITALCARDCHECK_SetBattleRecordValue 0x0217D388 thumb ov176
  *   LIVEBATTLEMATCH_IRC_SendRegulation 0x0217E1FC thumb ov176
- *   LIVEBATTLEMATCH_IRC_GetRegulation 0x0217E23C thumb ov176
+ *   LIVEBATTLEMATCH_IRC_TakeRegulation 0x0217E23C thumb ov176
  *   POKE_REGULATION_GetDataSize 0x0201A918 thumb
  *   MI_CpuCopy8 0x02082D44 arm
  *   MISC_SAVEDATA_FindKey 0x0200E994 thumb
@@ -122,9 +122,9 @@
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   DIGITALCARDCHECK_CreateRecord2 0x0217D1C8 thumb ov176
  *   DIGITALCARDCHECK_IsRecord2Done 0x0217D238 thumb ov176
- *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
+ *   MET_TRAINERS_GetFromSave 0x0200ED48 thumb
  *   MYSTATUS_GetId 0x02008530 thumb
- *   MISC_SAVEDATA_InsertRecentValue 0x0200ED54 thumb
+ *   MET_TRAINERS_Insert 0x0200ED54 thumb
  *   MISC_SAVEDATA_SetKey 0x0200E958 thumb
  *   MISC_SAVEDATA_SetKeyField 0x0200E978 thumb
  *   MISC_SAVEDATA_AddKeyByte 0x0200E920 thumb
@@ -167,7 +167,7 @@ extern void MI_CpuFill8(void *,int,unsigned);
 
 extern int *WIFIBATTLEMATCH_UTIL_CreateCallback(int a, int b, int c);
 
-extern void BTLV_CORE_IsSlotKind1Index15(int);
+extern void WIFIBATTLEMATCH_UTIL_DeleteCallback(int);
 
 extern int WIFIBATTLEMATCH_UTIL_IsCallbackNull(int **);
 
@@ -223,9 +223,9 @@ extern int MISC_SAVEDATA_GetRecordBase(int p);
 
 extern struct Party *POKEPARTY_Create(u32 heap);
 
-extern void UI_SetFlags39Global(int);
+extern void UI_SetSoftResetInhibitGlobal(int);
 
-extern int UI_ClearFlags39Global(unsigned int v);
+extern int UI_ClearSoftResetInhibitGlobal(unsigned int v);
 
 extern void DIGITALCARDCHECK_DeleteRecord(int *);
 
@@ -235,7 +235,7 @@ extern void WIFIBATTLEMATCH_VIEW_DeleteActorArray(int *p);
 
 extern void LIVEBATTLEMATCH_IRC_Delete(int *p);
 
-extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern unsigned int WORDSET_Delete(struct WordSet *p);
 
 extern void LIVEBATTLEMATCH_IRC_NoOp(int);
 
@@ -345,7 +345,7 @@ extern void DIGITALCARDCHECK_SetBattleRecordValue(int *,int *);
 
 extern int LIVEBATTLEMATCH_IRC_SendRegulation(int,int);
 
-extern int LIVEBATTLEMATCH_IRC_GetRegulation(char *,void **);
+extern int LIVEBATTLEMATCH_IRC_TakeRegulation(char *,void **);
 
 extern int POKE_REGULATION_GetDataSize(void);
 
@@ -375,11 +375,11 @@ extern void DIGITALCARDCHECK_CreateRecord2(char *,int);
 
 extern int DIGITALCARDCHECK_IsRecord2Done(u8 *);
 
-extern void *MISC_SAVEDATA_GetBlock44(void *);
+extern void *MET_TRAINERS_GetFromSave(void *);
 
 extern unsigned int MYSTATUS_GetId(const struct PlayerStatus *obj);
 
-extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *l, unsigned int val);
+extern void MET_TRAINERS_Insert(struct L0200ED54 *l, unsigned int val);
 
 extern void MISC_SAVEDATA_SetKey(u8 *,unsigned int,const void *);
 
@@ -449,23 +449,23 @@ u8 *LIVEBATTLEMATCH_FLOW_Create(LiveBattleMatchInit *src,u32 heap)
     *(void **)(p+0x38)=REGULATION_GetCard(BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl(*(void **)(p+0x1b8))),1);
     *(void **)(p+0x34)=(void *)MISC_SAVEDATA_GetRecordBase((int)MISC_SAVEDATA_GetBlock3C(GAME_DATA_GetSaveControl(*(void **)(p+0x1b8))));
     *(void **)(p+0x30)=POKEPARTY_Create(heap);
-    if(*(int *)(p+0x1a0)==0)UI_SetFlags39Global(8);
+    if(*(int *)(p+0x1a0)==0)UI_SetSoftResetInhibitGlobal(8);
     return p;
 }
 
 void LIVEBATTLEMATCH_FLOW_Delete(int *p)
 {
     GFL_HEAP_Free((void *)p[12]);
-    if (p[0x67] == 1) UI_ClearFlags39Global(8);
+    if (p[0x67] == 1) UI_ClearSoftResetInhibitGlobal(8);
     DIGITALCARDCHECK_DeleteRecord(p);
     DIGITALCARDCHECK_DeleteRecord2(p);
     WIFIBATTLEMATCH_VIEW_DeleteActorArray((int *)p[7]);
     LIVEBATTLEMATCH_IRC_Delete((int *)p[3]);
-    BTLV_CORE_IsSlotKind1Index15((int)((void *)p[0]));
+    WIFIBATTLEMATCH_UTIL_DeleteCallback((int)((void *)p[0]));
     GF_FONT_Delete((void *)p[10]);
     MSGDATA_Delete((struct Rec *)p[9]);
     MSGDATA_Delete((struct Rec *)p[8]);
-    WORDSET_DeleteStrbufED04((struct WordSet *)p[11]);
+    WORDSET_Delete((struct WordSet *)p[11]);
     GFL_HEAP_Free(p);
 }
 
@@ -724,7 +724,7 @@ void LIVEBATTLEMATCH_FLOW_Result(int *sys,unsigned int *state,u8 *p)
     case 13:DIGITALCARDCHECK_SetBattleRecordValue(*(int * *)&((struct LiveBattleMatchWork *)p)->battleData,(int *)p);if(LIVEBATTLEMATCH_IRC_SendRegulation(*(int *)&((struct LiveBattleMatchWork *)p)->irc,*(int *)&((struct LiveBattleMatchWork *)p)->battleData))*state=14;break;
     case 14:{
         void *out;
-        if(LIVEBATTLEMATCH_IRC_GetRegulation(*(char * *)&((struct LiveBattleMatchWork *)p)->irc,&out)){MI_CpuCopy8(out,((struct LiveBattleMatchWork *)p)->partyData,POKE_REGULATION_GetDataSize()+0xd4);*state=15;}break;
+        if(LIVEBATTLEMATCH_IRC_TakeRegulation(*(char * *)&((struct LiveBattleMatchWork *)p)->irc,&out)){MI_CpuCopy8(out,((struct LiveBattleMatchWork *)p)->partyData,POKE_REGULATION_GetDataSize()+0xd4);*state=15;}break;
     }
     case 15:
         if(((struct BattleRecord *)(*(u8 * *)&((struct LiveBattleMatchWork *)p)->battleData))->cardValue==((struct BattleRecord *)(*(u8 * *)&((struct LiveBattleMatchWork *)p)->partyData))->cardValue){
@@ -776,8 +776,8 @@ void LIVEBATTLEMATCH_FLOW_Card(int *sys,unsigned int *state,u8 *p)
     }
     switch(*state){
     case 0:{
-        void *v=MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(((struct LiveBattleMatchWork *)p)->save));
-        MISC_SAVEDATA_InsertRecentValue(v,MYSTATUS_GetId(((struct LiveBattleMatchWork *)p)->partyData));
+        void *v=MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl(((struct LiveBattleMatchWork *)p)->save));
+        MET_TRAINERS_Insert(v,MYSTATUS_GetId(((struct LiveBattleMatchWork *)p)->partyData));
         *state=1;break;
     }
     case 1:if(LIVEBATTLEMATCH_IRC_ResetState(*(int * *)&((struct LiveBattleMatchWork *)p)->irc)) *state=2;break;

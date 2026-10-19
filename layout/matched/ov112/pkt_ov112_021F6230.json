@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "MUSICAL_MCSS_SetFieldB",
+   "name": "MUSICAL_MCSS_SetAnimVramBase",
    "address": "0x021F6230",
    "kind": "game",
    "region": "ov112",

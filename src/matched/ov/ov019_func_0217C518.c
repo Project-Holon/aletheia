@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   UNION_ONESELF_CheckNetError  0x0217BB04  thumb  ov019
+ *   UNION_ONESELF_HandleNetError  0x0217BB04  thumb  ov019
  *   UNION_COMM_ClearPartnerSelects  0x02173518  thumb  ov012
  *   UNION_COMM_SetSituationParam  0x021734A8  thumb  ov012
  *   UNION_COMM_AddMemberFromBeaconPc  0x021735FC  thumb  ov012
@@ -24,7 +24,7 @@
 
 typedef unsigned char u8;
 
-extern int UNION_ONESELF_CheckNetError(char *p);
+extern int UNION_ONESELF_HandleNetError(char *p);
 extern void UNION_COMM_ClearPartnerSelects(u8 *a);
 typedef unsigned int   u32;
 extern void UNION_COMM_SetSituationParam(u8 *self, u32 id, u32 v);
@@ -41,7 +41,7 @@ extern unsigned int func_02080D24(int a);
 int UNION_ONESELF_TalkChildStart(u8 *a, u8 *b, int c, u8 *d)
 {
     int r;
-    if (UNION_ONESELF_CheckNetError((char *)a) == 1)
+    if (UNION_ONESELF_HandleNetError((char *)a) == 1)
         return 1;
     switch (*d) {
     case 0:

@@ -16,7 +16,7 @@
  *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
  *   BOX2_SEQ_DeleteB 0x021EA750 thumb ov170
  *   BOX2_SEQ_IsActorAnimActive 0x021EBFEC thumb ov170
- *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb ov170
+ *   BOX2_MAIN_RefreshCurrentBoxMonInfo 0x021DEFEC thumb ov170
  *   CURSOR_MOVE_SetState 0x020260F4 thumb
  *   BOX2_UI_ShowWindowB 0x021EF68C thumb ov170
  */
@@ -32,7 +32,7 @@ struct Struct_02025CD0;
 extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 extern void BOX2_SEQ_DeleteB(char *p);
 extern u32 BOX2_SEQ_IsActorAnimActive(char *p, int i);
-extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
+extern void BOX2_MAIN_RefreshCurrentBoxMonInfo(char *p, int b);
 extern void CURSOR_MOVE_SetState(struct Struct_02025CD0 *obj, u32 state);
 extern void BOX2_UI_ShowWindowB(char *w);
 #define WORK(p) (*(char **)((p) + 0x2C))
@@ -53,7 +53,7 @@ int BOX2_SEQ_StateMoveItemD(unsigned char *p)
     case 1:
         if (BOX2_SEQ_IsActorAnimActive(WORK(p), 10) == 1)
             break;
-        BOX2_MAIN_ChangeBoxFormPreserve((char *)p, p[0x16]);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p, p[0x16]);
         CURSOR_MOVE_SetState(*(void **)(WORK(p) + 0x70), 1);
         BOX2_UI_ShowWindowB(WORK(p));
         return 0x46;

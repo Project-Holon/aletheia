@@ -13,7 +13,7 @@
  *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   ICA_ANIME_GetField1C 0x020120F4 thumb
- *   WORLDTRADE_BOX_ClampSlot 0x021F6B34 thumb ov135
+ *   WORLDTRADE_BOX_IsPartyBox 0x021F6B34 thumb ov135
  *   WORLDTRADE_BOX_GetMonCount 0x021F6B80 thumb ov135
  *   WORLDTRADE_BOX_GetPartyMon 0x021F6B40 thumb ov135
  *   PROCSYS_Push 0x02031348 arm
@@ -47,7 +47,7 @@ struct Ctx;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *,u32,u32);
 extern void *ICA_ANIME_GetField1C(const struct Ctx *p);
-extern int WORLDTRADE_BOX_ClampSlot(int);
+extern int WORLDTRADE_BOX_IsPartyBox(int);
 extern u32 WORLDTRADE_BOX_GetMonCount(u8 *p, u32 b, u32 c);
 extern void *WORLDTRADE_BOX_GetPartyMon(void *,void *,int,int);
 extern void PROCSYS_Push(void *,u32,const void *,void *);
@@ -60,7 +60,7 @@ void WORLDTRADE_STATUS_Open(u8 *p)
     r=*(Request * *)&((struct Obj01162 *)p)->f10DC;
     r->ctx=((struct Obj23428 *)(*(u8 * *)&((struct Obj01162 *)p)->f0))->f20;
     r->save=ICA_ANIME_GetField1C(((struct Obj23429 *)(*(u8 * *)&((struct Obj01162 *)p)->f0))->f40);
-    if(WORLDTRADE_BOX_ClampSlot(((struct Obj01162 *)p)->fC4))
+    if(WORLDTRADE_BOX_IsPartyBox(((struct Obj01162 *)p)->fC4))
         r->fE=WORLDTRADE_BOX_GetMonCount(((struct Obj23430 *)(*(u8 * *)&((struct Obj01162 *)p)->f0))->f8,(u32)(((struct Obj23431 *)(*(u8 * *)&((struct Obj01162 *)p)->f0))->fC),((struct Obj01162 *)p)->fC4);
     else r->fE=30;
     r->fF=((struct Obj01162 *)p)->fC6;
@@ -69,7 +69,7 @@ void WORLDTRADE_STATUS_Open(u8 *p)
     r->f10=0;
     r->f18=((struct Obj23432 *)(*(u8 * *)&((struct Obj01162 *)p)->f0))->f2C;
     r->f20=0;
-    if(WORLDTRADE_BOX_ClampSlot(((struct Obj01162 *)p)->fC4)) {
+    if(WORLDTRADE_BOX_IsPartyBox(((struct Obj01162 *)p)->fC4)) {
         r->mon=((struct Obj23433 *)(*(u8 * *)&((struct Obj01162 *)p)->f0))->f8;
         r->type=1;
     } else {

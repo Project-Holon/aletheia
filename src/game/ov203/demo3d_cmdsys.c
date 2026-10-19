@@ -19,13 +19,13 @@
  *   DEMO3D_CMDSYS_Delete 0x021BF810 thumb ov203
  *   DEMO3D_CMDSYS_Update 0x021BF858 thumb
  *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
- *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_SetBgmPaused 0x02005DE4 thumb
  *   GFL_USE_PopBgm 0x02005E9C thumb
  *   DEMO3D_DATA_DeleteCapture 0x021BE9E8 thumb
  *   d_021C3D4C 0x021C3D4C data a4
- *   DEMO3D_DATA_GetRecordField 0x021BE9A4 thumb ov203
+ *   DEMO3D_DATA_GetExitCommandList 0x021BE9A4 thumb ov203
  *   TCBL_Main 0x020310C4 arm
- *   DEMO3D_DATA_GetAnimIndex 0x021BE990 thumb ov203
+ *   DEMO3D_DATA_GetCommandList 0x021BE990 thumb ov203
  *   TCBL_Create 0x0203101C arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
@@ -56,17 +56,17 @@ typedef struct {int kind;unsigned time;int values[8];} Record;
 
 extern void GFL_USE_FadeInBgmFull(u32 a);
 
-extern void GFL_USE_SetBgmPlayerParam(void *);
+extern void GFL_USE_SetBgmPaused(void *);
 
 extern void DEMO3D_DATA_DeleteCapture(int);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 DEMO3D_DATA_GetRecordField(u32 id);
+extern u32 DEMO3D_DATA_GetExitCommandList(u32 id);
 
 extern void TCBL_Main(struct Tcbl *p);
 
-extern Record *DEMO3D_DATA_GetAnimIndex(int);
+extern Record *DEMO3D_DATA_GetCommandList(int);
 
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, unsigned int count, unsigned int workSize);
 
@@ -116,7 +116,7 @@ void DEMO3D_CMDSYS_Delete(char *p)
     Record *r;
     char *owner;
     int i;
-    owner=((Demo3dCmdContext *)p)->owner;r=(Record *)DEMO3D_DATA_GetRecordField(((Demo3dCmdContext *)p)->config);
+    owner=((Demo3dCmdContext *)p)->owner;r=(Record *)DEMO3D_DATA_GetExitCommandList(((Demo3dCmdContext *)p)->config);
     for(i=0;i<9999;i++,r++) {
         if(r->kind==18) break;
         DEMO3D_CMDSYS_Dispatch((Demo3dCmdContext *)p,(char *)owner,r);
@@ -134,7 +134,7 @@ void DEMO3D_CMDSYS_Update(Demo3dCmdContext *p,int time,int flag)
     p->flags[2]=flag?1:0;
     TCBL_Main(p->task);
     if(p->ended==0 && time!=-4096) {
-        r=DEMO3D_DATA_GetAnimIndex(p->config)+p->index;
+        r=DEMO3D_DATA_GetCommandList(p->config)+p->index;
         time>>=12;
         if(r->time==time && p->previous!=time) {
             i=0;
@@ -161,7 +161,7 @@ void DEMO3D_CMDSYS_Release(char *p)
     if(((Demo3dCmdContext *)p)->extra) DEMO3D_DATA_DeleteCapture(((Demo3dCmdContext *)p)->extra);
     TCBL_DeleteAllTasks(((Demo3dCmdContext *)p)->task);
     if(((Demo3dCmdContext *)p)->flags[1]) {
-        GFL_USE_PopBgm();GFL_USE_SetBgmPlayerParam(0);GFL_USE_FadeInBgmFull(60);
+        GFL_USE_PopBgm();GFL_USE_SetBgmPaused(0);GFL_USE_FadeInBgmFull(60);
     }
     ARC_TOOL_DeleteHandle(((Demo3dCmdContext *)p)->assets);GF_FONT_Delete(((Demo3dCmdContext *)p)->text);TCBL_Destroy((struct S02031140 *)((Demo3dCmdContext *)p)->task);
 }
@@ -170,7 +170,7 @@ int DEMO3D_CMDSYS_Seek(char *p,char *owner,int *index)
 {
     Record *r;
     int i;
-    r=DEMO3D_DATA_GetAnimIndex(((struct Demo3dOwner *)owner)->config);
+    r=DEMO3D_DATA_GetCommandList(((struct Demo3dOwner *)owner)->config);
     for(i=0;i<9999;i++) {
         if(r[i].kind==18) return 1;
         if(r[i].time==-1) DEMO3D_CMDSYS_Dispatch((Demo3dCmdContext *)p,owner,&r[i]);

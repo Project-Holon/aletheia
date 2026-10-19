@@ -19,7 +19,7 @@
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BOX2_SEQ_SetSeqThird 0x021E8FC0 thumb ov170
  *   BOX2_MAIN_IsWindowBusy 0x021E01B0 thumb ov170
- *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb ov170
+ *   BOX2_MAIN_RefreshCurrentBoxMonInfo 0x021DEFEC thumb ov170
  *   BOX2_UI_ShowWindowB 0x021EF68C thumb ov170
  *   BOX2_UI_MoveCursor 0x021EE364 thumb ov170
  */
@@ -38,7 +38,7 @@ extern void BOX2_SEQ_HidePartialSlots(char **, int);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 extern int BOX2_SEQ_SetSeqThird(char *p, int a, int b);
 extern int BOX2_MAIN_IsWindowBusy(unsigned char *);
-extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
+extern void BOX2_MAIN_RefreshCurrentBoxMonInfo(char *p, int b);
 extern void BOX2_UI_ShowWindowB(char *);
 extern void BOX2_UI_MoveCursor(char **p, int idx, int v);
 #define W(p) (*(char **)((p) + 0x2C))
@@ -61,7 +61,7 @@ int BOX2_SEQ_StateSwapFinish(unsigned char *p)
         return BOX2_SEQ_SetSeqThird((char *)p, (int)BOX2_MAIN_IsWindowBusy, 0x1A);
     case 1:
         *(int *)(W(p) + 0xA194) = 0;
-        BOX2_MAIN_ChangeBoxFormPreserve((char *)p, 0x1E);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p, 0x1E);
         BOX2_UI_ShowWindowB(W(p));
         if (((struct Obj23896 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f24 == 3) {
             BOX2_UI_MoveCursor((char **)p, 8, 0);

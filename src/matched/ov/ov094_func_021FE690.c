@@ -10,15 +10,15 @@
  * status:   EXACT*
  *
  * symbols:
- *   TCBL_GetTaskUserData  0x02030EE8  arm
+ *   TCBL_IsDeletePending  0x02030EE8  arm
  */
 typedef unsigned int   u32;
 struct S02030EE8;
-extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
+extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
 
 void BTLV_EFFVM_SeVolumeTweenTaskEnd(void *h)
 {
-    unsigned int *p = *((unsigned int **)TCBL_GetTaskUserData(h));
+    unsigned int *p = *((unsigned int **)TCBL_IsDeletePending(h));
 
     *p &= ~8u;
 }

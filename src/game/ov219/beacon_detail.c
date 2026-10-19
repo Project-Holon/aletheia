@@ -76,7 +76,7 @@
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   APP_KEYCURSOR_Delete 0x02028604 thumb
  *   TCBL_Destroy 0x02031140 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   GX_SetBankForLCDC 0x0208068C arm
@@ -87,7 +87,7 @@
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   G3D_SYSTEM_Init 0x02046440 arm
- *   BG_SYS_SetLowBit 0x0204044C arm
+ *   BG_SYS_EnableBg0WithPriority 0x0204044C arm
  *   BMP_WIN_Init 0x02045088 arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   d_02185F18 0x02185F18 data ov219 a4
@@ -128,7 +128,7 @@
  *   APP_TASKMENU_WIN_Create 0x02027FEC thumb
  *   d_02185E40 0x02185E40 data ov219 a4
  *   APP_TASKMENU_WIN_Delete 0x02028148 thumb
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_Delete 0x020452E8 arm
@@ -146,7 +146,7 @@
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   BMP_MENUWORK_Create 0x0201F81C thumb
  *   BMP_MENUWORK_AddMsgItem 0x0201F878 thumb
- *   GF_FONT_GetField58 0x0201DC80 thumb
+ *   GF_FONT_GetLineHeight 0x0201DC80 thumb
  *   BMP_MENULIST_Create 0x0201FF30 thumb
  *   BMP_MENULIST_ResetCursorTile 0x02020CF8 thumb
  *   d_02185F7C 0x02185F7C data a4
@@ -154,10 +154,10 @@
  *   BMP_MENULIST_Delete 0x0202020C thumb
  *   BMP_MENUWORK_Delete 0x0201F868 thumb
  *   WORDSET_SetSlotFromMsgE7 0x0201F048 thumb
- *   WORDSET_DeleteMsgdataF094 0x0201F094 thumb
+ *   WORDSET_SetSlotFromKeyedMessage 0x0201F094 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   d_02185DCB 0x02185DCB data ov219 a1
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   G3D_SYSTEM_CreateResourceArc 0x02046DB8 arm
  *   G3D_SYSTEM_TransVramTexture 0x02046FF8 arm
@@ -452,13 +452,13 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *),PRINTSYS_QUE_Delete(struct PrintSys *);
 extern int APP_KEYCURSOR_Delete(int);
 extern void TCBL_Destroy(struct S02031140 *);
-extern unsigned WORDSET_DeleteStrbufED04(struct WordSet *);
+extern unsigned WORDSET_Delete(struct WordSet *);
 extern void BEACON_DETAIL_ExitGraphics(int),PROCSYS_FreeProcWork(struct Proc *),GFL_HEAP_DeleteChecked(unsigned int);
 extern void GX_SetBankForLCDC(unsigned),MIi_CpuClearFast(unsigned,void *,unsigned),GX_DisableBankForLCDC(void);
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
 extern void BG_SYS_Create(unsigned),BG_SYS_SetGraphicsMode(struct DispConfig *);
 extern void G3D_SYSTEM_Init(unsigned,unsigned,unsigned,unsigned,u16,unsigned,void (*)(void));
-extern void BG_SYS_SetLowBit(unsigned),BMP_WIN_Init(unsigned),BG_SYS_ResetSubDisplay(void);
+extern void BG_SYS_EnableBg0WithPriority(unsigned),BMP_WIN_Init(unsigned),BG_SYS_ResetSubDisplay(void);
 extern int BMP_WIN_Exit(int);
 extern int G3D_SYSTEM_Exit(int);
 extern int BG_SYS_Delete(int);
@@ -485,7 +485,7 @@ extern void *MSGDATA_AllocString(struct MsgBank *,unsigned);
 extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16,u16,unsigned,unsigned,u16);
 extern unsigned APP_TASKMENU_WIN_Create(unsigned,unsigned,unsigned,unsigned,u8,u16);
 extern void APP_TASKMENU_WIN_Delete(u8*);
-extern void BG_SYS_SetFlagField06(u32);
+extern void BG_SYS_MarkTileDirty(u32);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern void STRBUF_Delete(struct U16Vec *);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
@@ -503,16 +503,15 @@ extern void PRINTSYS_PrintStreamReleasePause(void *);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *);
 extern void *BMP_MENUWORK_Create(u32,u32);
 extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
-extern u32 GF_FONT_GetField58(struct Font *);
+extern u32 GF_FONT_GetLineHeight(struct Font *);
 extern struct Obj *BMP_MENULIST_Create(struct BeaconMenuConfig *src, u16 a, u16 b, u32 heap);
 extern void BMP_MENULIST_ResetCursorTile(struct Obj *,int);
 extern void BMP_MENUWORK_DrawWindow(void *,int,int,int);
 extern void BMP_MENUWORK_DrawWindowBorder(void*,u32);
 extern void BMP_MENULIST_Delete(struct Obj*,u16*,u16*);
 extern u32 BMP_MENUWORK_Delete(void *p);
-extern void WORDSET_SetSlotFromMsgE7(struct WordSet *,unsigned,unsigned),WORDSET_DeleteMsgdataF094(struct WordSet *,unsigned,unsigned,unsigned);
+extern void WORDSET_SetSlotFromMsgE7(struct WordSet *,unsigned,unsigned),WORDSET_SetSlotFromKeyedMessage(struct WordSet *,unsigned,unsigned,unsigned);
 extern void MSGDATA_ReadString(struct MsgBank *,unsigned,void *),WORDSET_CopyTaggedText(struct WordSet *,void *,void *);
-extern void BG_SYS_SetFlagField06(unsigned);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void *G3D_SYSTEM_CreateResourceArc(unsigned,unsigned),*G3D_SYSTEM_CreateRender(void *,unsigned,void *),*G3D_SYSTEM_CreateObject(unsigned,unsigned *,int);
 extern int G3D_SYSTEM_TransVramTexture(int *);
@@ -1129,7 +1128,7 @@ int BEACON_DETAIL_Exit(struct Proc *controller,void *unused1,void *unused2,char 
     BMP_SetDisplaySwap(1);
     APP_KEYCURSOR_Delete(((BeaconDetailWork *)p)->keyCursor.id);
     TCBL_Destroy(((BeaconDetailWork *)p)->tcbl);
-    BEACON_DETAIL_ExitGraphics(WORDSET_DeleteStrbufED04(((BeaconDetailWork *)p)->wordSet));
+    BEACON_DETAIL_ExitGraphics(WORDSET_Delete(((BeaconDetailWork *)p)->wordSet));
     PROCSYS_FreeProcWork(controller);GFL_HEAP_DeleteChecked((u16)heap);
     return 1;
 }
@@ -1183,7 +1182,7 @@ void BEACON_DETAIL_InitGraphics(unsigned heap)
     struct DispConfig cfg=d_02185F18;
     BG_SYS_Create(heap);BG_SYS_SetGraphicsMode(&cfg);
     G3D_SYSTEM_Init(0,3,0,2,0,heap,0);
-    BG_SYS_SetLowBit(1);BMP_WIN_Init(heap);BG_SYS_ResetSubDisplay();
+    BG_SYS_EnableBg0WithPriority(1);BMP_WIN_Init(heap);BG_SYS_ResetSubDisplay();
 }
 
 
@@ -1445,7 +1444,7 @@ void BEACON_DETAIL_InitMainScreen(char *p,void *arc)
     ((BeaconDetailWork *)p)->printState=0;
     BG_SYS_InitBgLayer(2,&d_02185E58,0);
     BG_SYS_ClearSlot(2);
-    BG_SYS_SetLowBit(1);
+    BG_SYS_EnableBg0WithPriority(1);
     BG_SYS_InitBgLayer(3,&d_02185E78,0);
     ARC_UTIL_UploadBgCharFromHandle(arc,5,3,0,0,0,((BeaconDetailWork *)p)->heapId);
     ARC_UTIL_UploadPaletteFromHandleWhole(arc,6,0,0,0x80,((BeaconDetailWork *)p)->heapId);
@@ -1497,7 +1496,7 @@ void BEACON_DETAIL_CreateTaskMenuWin(char *p,int i)
 
 
 
-void BEACON_DETAIL_DeleteTaskMenuWin(u8 *p,u32 i){u32 off=i*4;u8 *slots=(u8 *)((BeaconDetailWork *)p)->win;if(*(void**)(slots+off)){APP_TASKMENU_WIN_Delete(*(void**)(slots+off));BG_SYS_SetFlagField06(2);*(void**)(slots+off)=0;}}
+void BEACON_DETAIL_DeleteTaskMenuWin(u8 *p,u32 i){u32 off=i*4;u8 *slots=(u8 *)((BeaconDetailWork *)p)->win;if(*(void**)(slots+off)){APP_TASKMENU_WIN_Delete(*(void**)(slots+off));BG_SYS_MarkTileDirty(2);*(void**)(slots+off)=0;}}
 
 
 
@@ -1686,7 +1685,7 @@ void BEACON_DETAIL_CreateMenuList(char *p,const unsigned char *descriptor,const 
     cfg.w[3]=(u32)((BeaconDetailWork *)p)->bmp18;
     cfg.w[1]=(u32)BEACON_DETAIL_OnMessageDone;
     *(u16 *)((char *)&cfg+32)=12;
-    *(u16 *)((char *)&cfg+34)=GF_FONT_GetField58(*(struct Font * *)&((BeaconDetailWork *)p)->font.ptr);
+    *(u16 *)((char *)&cfg+34)=GF_FONT_GetLineHeight(*(struct Font * *)&((BeaconDetailWork *)p)->font.ptr);
     cfg.w[9]=((BeaconDetailWork *)p)->msgBank.id;
     cfg.w[10]=(u32)(p+0xC078);
     cfg.w[11]=((BeaconDetailWork *)p)->printQue.id;
@@ -1716,7 +1715,7 @@ void BEACON_DETAIL_SetupMenuList(char *p,const struct BeaconMenuConfig *source,u
     cfg.w[3]=*(unsigned *)&((BeaconDetailWork *)p)->bmp18;
     cfg.w[1]=(unsigned)BEACON_DETAIL_OnMessageDone;
     *(u16 *)((char *)&cfg+32)=12;
-    *(u16 *)((char *)&cfg+34)=GF_FONT_GetField58(*(struct Font * *)&((BeaconDetailWork *)p)->font.ptr);
+    *(u16 *)((char *)&cfg+34)=GF_FONT_GetLineHeight(*(struct Font * *)&((BeaconDetailWork *)p)->font.ptr);
     cfg.w[10]=(unsigned)(p+0xc078);
     cfg.w[11]=((BeaconDetailWork *)p)->printQue.id;
     cfg.w[12]=*(unsigned *)&((BeaconDetailWork *)p)->font.ptr;
@@ -1893,7 +1892,7 @@ void BEACON_DETAIL_DrawCurrentArea(char *p)
     dst=STRBUF_Create(1024,(u16)(((BeaconDetailWork *)p)->heapId));src=STRBUF_Create(1024,(u16)(((BeaconDetailWork *)p)->heapId));
     *(struct Descriptor * *)&((BeaconDetailWork *)p)->bmp40=(struct Descriptor *)BEACON_DETAIL_CreateBmpWin(d_02185DCB,1);
     WORDSET_SetSlotFromMsgE7(*(struct WordSet * *)&((BeaconDetailWork *)p)->wordSet,0,((BeaconDetailWork *)p)->nation);
-    WORDSET_DeleteMsgdataF094(*(struct WordSet * *)&((BeaconDetailWork *)p)->wordSet,1,((BeaconDetailWork *)p)->nation,((BeaconDetailWork *)p)->area);
+    WORDSET_SetSlotFromKeyedMessage(*(struct WordSet * *)&((BeaconDetailWork *)p)->wordSet,1,((BeaconDetailWork *)p)->nation,((BeaconDetailWork *)p)->area);
     MSGDATA_ReadString(*(struct MsgBank * *)&((BeaconDetailWork *)p)->msgBank.ptr,14,src);
     WORDSET_CopyTaggedText(*(struct WordSet * *)&((BeaconDetailWork *)p)->wordSet,dst,src);
     BEACON_DETAIL_DrawTextRecord(p,&((BeaconDetailWork *)p)->msg44,*(struct Descriptor * *)&((BeaconDetailWork *)p)->bmp40,dst,0,0);
@@ -1924,7 +1923,7 @@ void BEACON_DETAIL_DrawEntryDetail(char *p,unsigned key,unsigned member)
     object=((BeaconDetailWork *)p)->bmp40;
     BMP_WIN_TransferChars(object);
     BMP_WIN_MakeScreen(object);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(object));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(object));
 }
 
 

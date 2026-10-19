@@ -9,8 +9,8 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
  */
 
-extern void BG_SYS_DeleteHalf(unsigned int, unsigned int, unsigned int);
-void MONOLITH_TOOL_LIST_FreeBgChar(unsigned int *p) { BG_SYS_DeleteHalf(5, p[1], 0x80); }
+extern void BG_SYS_FreeTileRun(unsigned int, unsigned int, unsigned int);
+void MONOLITH_TOOL_LIST_FreeBgChar(unsigned int *p) { BG_SYS_FreeTileRun(5, p[1], 0x80); }

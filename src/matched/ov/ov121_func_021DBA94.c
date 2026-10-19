@@ -12,7 +12,7 @@
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  */
 #include "../include/Obj02834.h"
 typedef signed short s16;
@@ -27,7 +27,7 @@ struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-extern void BG_SYS_FillScrollArea(u32,u32,u32);
+extern void BG_SYS_ChangeScrollImmediate(u32,u32,u32);
 int MYSTERY_ALBUM_UpdateScroll(char *p)
 {
     int amount,i;
@@ -53,8 +53,8 @@ int MYSTERY_ALBUM_UpdateScroll(char *p)
             CLACT_SetActorDrawEnable(((struct Obj02834 *)p)->fAF0,1);
         else CLACT_SetActorDrawEnable(((struct Obj02834 *)p)->fAF0,0);
     }
-    BG_SYS_FillScrollArea(3,1,amount);
-    BG_SYS_FillScrollArea(2,1,amount);
+    BG_SYS_ChangeScrollImmediate(3,1,amount);
+    BG_SYS_ChangeScrollImmediate(2,1,amount);
     if((((struct Obj02834 *)p)->fAD8)++>=15) {
         ((struct Obj02834 *)p)->fAD0^=1;
         ((struct Obj02834 *)p)->fADC=0;

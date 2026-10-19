@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PROC_FLD_SetFlagIfClear
+ * function: SCRCMD_PROC_FLD_SpawnMovePokemonIfInactive
  * address:  0x021B5154
  * packet:   pkt_ov021_021B5154
  * region:   ov021
@@ -30,7 +30,7 @@ extern unsigned int SCRIPT_WORK_ReadWorkValue(void *, void *);
 extern u8 MOVE_POKEMON_SAVE_IsEntryActive(struct Blk38 *p, u32 i);
 extern void MOVE_POKEMON_SpawnEntry(void *sys, u8 which);
 
-int SCRCMD_PROC_FLD_SetFlagIfClear(u32 a, u32 b)
+int SCRCMD_PROC_FLD_SpawnMovePokemonIfInactive(u32 a, u32 b)
 {
     void *e = SCRCMD_WORK_GetGameData((void *)b);
     u32 g = (u32)MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(e));

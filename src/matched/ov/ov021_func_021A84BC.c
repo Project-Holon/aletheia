@@ -19,7 +19,7 @@
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
  *   CLACT_ReleaseCharacter  0x0204A8D4  arm
  *   CLACT_ReleasePalette  0x0204ADA4  arm
- *   BG_SYS_FillScrollArea  0x02040618  arm
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
@@ -70,7 +70,7 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleasePalette(u32 i);
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
@@ -95,7 +95,7 @@ void FIELD_MENU_Delete(Obj *p)
     CLACT_ReleaseCellAnim((u32)p->f118);
     CLACT_ReleaseCharacter((u32)p->f114);
     CLACT_ReleasePalette((u32)p->f110);
-    BG_SYS_FillScrollArea(6, 3, 0);
+    BG_SYS_ChangeScrollImmediate(6, 3, 0);
     BG_SYS_FreeLayerBuf(7);
     BG_SYS_FreeLayerBuf(5);
     BG_SYS_FreeLayerBuf(6);

@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * BTLV_CORE_MakeSlotKind1Empty returns a one-word struct (Word): the by-value struct return
+ * BTL_SICKCONT_MakeKind1Empty returns a one-word struct (Word): the by-value struct return
  * reserves a 4-byte stack temporary, which is the second slot of the original's
  * `sub sp,#8` frame. An int return keeps m in the push's r3 slot with no sub sp.
  *
@@ -19,7 +19,7 @@
  *   BTL_POKEPARAM_HasType  0x021D5814  thumb  ov093
  *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb  ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
- *   BTLV_CORE_MakeSlotKind1Empty  0x021E89C0  thumb  ov093
+ *   BTL_SICKCONT_MakeKind1Empty  0x021E89C0  thumb  ov093
  *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb  ov093
  *   BTL_SERVER_FLOW_AppendMsgRecordArg  0x021C8860  thumb  ov093
  *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb  ov093
@@ -56,7 +56,7 @@ extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern int BTL_POKEPARAM_HasType(void *m, int k);
 extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
-extern Word BTLV_CORE_MakeSlotKind1Empty(void);
+extern Word BTL_SICKCONT_MakeKind1Empty(void);
 extern void BTL_SERVER_FLOW_InitMsgRecord(void *p, int a, int b);
 struct S;
 extern void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *p, u32 v);
@@ -83,7 +83,7 @@ void HAND_WAZA_CurseApply(int a, void *q, int id)
                 r = (RecA *)BTL_SERVER_FLOW_AllocCmdRecord(q, 12, id);
                 r->f0f = k;
                 r->f04 = 10;
-                r->f08 = BTLV_CORE_MakeSlotKind1Empty();
+                r->f08 = BTL_SICKCONT_MakeKind1Empty();
                 BTL_SERVER_FLOW_InitMsgRecord((u8 *)r + 0x14, 2, 1064);
                 BTL_SERVER_FLOW_AppendMsgRecordArg((struct S *)((u8 *)r + 0x14), id);
                 BTL_SERVER_FLOW_AppendMsgRecordArg((struct S *)((u8 *)r + 0x14), k);

@@ -19,7 +19,7 @@
  *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   func_02045EC0  0x02045EC0  arm
  *   STRBUF_Delete  0x02045808  arm
@@ -93,7 +93,7 @@ extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -206,7 +206,7 @@ int INTRUDE_FIELD_TaskAreaChange(int a0, int *state, Obj *o)
         if (o->fc != 0) {
             FIELD_MSGBG_DeleteMsgWin((void *)o->fc);
             MSGDATA_Delete((struct Rec *)o->f8);
-            WORDSET_DeleteStrbufED04(o->f10);
+            WORDSET_Delete(o->f10);
         }
         FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(o->f0));
         return 1;

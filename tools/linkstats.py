@@ -14,7 +14,8 @@ Regions (one row each)
             through the region hook of tools/twllink.py);
   the autoload blocks arm9_autoload1/2 (MAIN_TWL) and 3 (VRAM_LCDC): code, no
   src/game folder.
-  ov230d (the decrypted view of ov230) is left out, as tools/ovstats.py does.
+  ov230d (the decrypted view of ov230) counts as part of ov230, as in tools/ovstats.py
+  (ovstats.ov230d_extras: its functions outside the loader, with their own bytes).
 
 Denominator (rule D), the measure of tools/ovstats.py, applied to every region:
   D1  a function is a func_/sub_ label of the region's listing; its size is the
@@ -154,6 +155,12 @@ def listing_functions(region, path):
         ovstats.FUNCNAME = old
     addrs = [a for a, _ in labels]
     code = ovstats.code_bytes_from(insns, addrs)
+    if ovstats.is_ov230_listing(path):
+        # the decrypted view counts as part of ov230 (tools/ovstats.py)
+        names, extra = ovstats.ov230d_extras(set(addrs))
+        labels = sorted(labels + list(names.items()))
+        addrs = [a for a, _ in labels]
+        code.update(extra)
     ven = set(ovstats.veneer_labels(path))
     ven |= {a for a, n in labels if VENEER_LABEL.match(n)}
     sdk = ovstats.sdk_addrs(region)

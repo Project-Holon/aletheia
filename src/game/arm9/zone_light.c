@@ -23,7 +23,7 @@
  *   ARC_TOOL_GetMemberSize       0x020490A8  arm
  *   ARC_TOOL_LoadMember       0x02048F60  arm
  *   VEC_Fx16Normalize   0x0207CDB8  arm
- *   VM_GetTimeZoneLight  0x02011400  thumb
+ *   TIMEZONE_GetLight  0x02011400  thumb
  */
 #include "field_status_shared_types.h"
 #include "zone_light_shared_types.h"
@@ -57,7 +57,7 @@ extern void *ARC_TOOL_LoadMember(u32 archive, u32 member, u32 heap);
 
 extern void  VEC_Fx16Normalize(void *dest, const void *src);
 
-extern u8 VM_GetTimeZoneLight(int season, int key);
+extern u8 TIMEZONE_GetLight(int season, int key);
 
 void ZONEDATA_GetTimeLightColors(u32 zoneId, u32 hour, u32 minute, u32 lightTableId, u32 season, u16 *outColors, u16 heapId);
 
@@ -185,7 +185,7 @@ void ZONEDATA_FindLightEntryColors(u8 *table, u32 count, s32 time, u32 season, u
     if (count != 0) {
         do {
             e = (struct LightTableEntry *)(table + i * 0x34);
-            entryTime = 0xE10 * (s32)VM_GetTimeZoneLight(season, e->hourKey);
+            entryTime = 0xE10 * (s32)TIMEZONE_GetLight(season, e->hourKey);
             entryTime += e->minute * 0x3C;
             if (prevTime <= time && entryTime > time) {
                 break;

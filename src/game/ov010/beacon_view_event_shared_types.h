@@ -1,0 +1,6 @@
+#ifndef BEACON_VIEW_EVENT_SHARED_TYPES_H
+#define BEACON_VIEW_EVENT_SHARED_TYPES_H
+
+struct SaveControl;
+
+#endif

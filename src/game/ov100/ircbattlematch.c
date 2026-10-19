@@ -14,7 +14,7 @@
  *
  * symbols:
  *   APP_TASKMENU_WIN_Delete 0x02028148 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   TCB_DeleteTask 0x02030EAC arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   CLACT_ExitSystem 0x0204A5AC arm
@@ -57,11 +57,11 @@
  *   GAME_DATA_GetPlayerStatusById 0x02012950 thumb
  *   MYSTATUS_Copy 0x02008494 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
+ *   MET_TRAINERS_GetFromSave 0x0200ED48 thumb
  *   MYSTATUS_GetId 0x02008530 thumb
- *   MISC_SAVEDATA_InsertRecentValue 0x0200ED54 thumb
+ *   MET_TRAINERS_Insert 0x0200ED54 thumb
  *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
- *   GFL_NET_ERR_InsertFriend 0x0200F5EC thumb
+ *   WIFILIST_InsertFriend 0x0200F5EC thumb
  *   GFL_NET_IsParentAid 0x0203D378 arm
  *   GF_STANDARD_CompareBytes 0x0203EFC8 arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
@@ -78,14 +78,14 @@
  *   GFL_NET_SendData 0x0203D3F8 arm
  *   GFL_NET_SendToHandle 0x0203D3A8 arm
  *   OS_GetMacAddress 0x02087C6C arm
- *   GAME_DATA_GetField1A0 0x0201283C thumb
+ *   GAME_DATA_GetWifiList 0x0201283C thumb
  *   WIFILIST_CreateExchangeToken 0x02009CA8 thumb
  *   APP_TASKMENU_CloseMenu 0x02027858 thumb
  *   MYSTATUS_GetSize 0x02008468 thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   APP_TASKMENU_IsFinish 0x020279E8 thumb
  *   APP_TASKMENU_GetCursorPos 0x02027A04 thumb
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   gIrcBattleMatchMsgQuitConfirm 0x021BB65C data a4
  *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
@@ -161,8 +161,8 @@
  *   GFL_NET_IRC_WIRELESS_SetSessionParam 0x0203D0C4 arm
  *   GFL_NET_IRC_WIRELESS_SetRetryRequest 0x0203D164 arm
  *   GFL_NET_SetGameKindOverride 0x0203D0AC arm
- *   BG_SYS_SetTileUnit 0x02040DA8 arm
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
+ *   BG_SYS_FreeTiles 0x02040DA8 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -192,7 +192,7 @@
  *   GX_LoadBGPltt 0x0207E3D0 arm
  *   APP_TASKMENU_UpdateMenu 0x02027974 thumb
  *   APP_TASKMENU_WIN_Update 0x02028178 thumb
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   CLACT_DrawSystem 0x0204A600 arm
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   GFL_NET_ERR_GetErrorLevel 0x0200FB24 thumb
@@ -397,11 +397,11 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern struct Rec44 *GAME_DATA_GetPlayerStatusById(struct Sub24 *p, u32 i);
 extern void MYSTATUS_Copy(void *src, void *dst);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *MISC_SAVEDATA_GetBlock44(void *p);
+extern void *MET_TRAINERS_GetFromSave(void *p);
 extern u32 MYSTATUS_GetId(const struct Sub0200852CObj *obj);
-extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *l, u32 val);
+extern void MET_TRAINERS_Insert(struct L0200ED54 *l, u32 val);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
-extern int GFL_NET_ERR_InsertFriend(void *saveData, void *profile, void *friendData, void *heapId);
+extern int WIFILIST_InsertFriend(void *saveData, void *profile, void *friendData, void *heapId);
 extern unsigned GFL_NET_IsParentAid(void);
 extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 extern int TOUCHPANEL_GetTrg(void);
@@ -416,14 +416,14 @@ extern int POKE_REGULATION_GetDataSize(void);
 extern u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 extern void OS_GetMacAddress(void *);
-extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
+extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 extern void WIFILIST_CreateExchangeToken(void *account, void *out);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern int MYSTATUS_GetSize(void);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 extern u8 APP_TASKMENU_GetCursorPos(struct TaskMenu *menu);
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern void GFL_NET_COMMAND_AddCommandTable(unsigned,unsigned,unsigned,IrcBattleMatchWork *);
@@ -479,8 +479,8 @@ extern void GFL_NET_StartSession(NetSessionReq *,u32,IrcBattleMatchWork *);
 extern void GFL_NET_IRC_WIRELESS_SetSessionParam(int (*isCompatible)(int, int));
 extern void GFL_NET_IRC_WIRELESS_SetRetryRequest(int);
 extern void GFL_NET_SetGameKindOverride(int);
-extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTiles(u32 idx, u32 count, u32 tile);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 extern void BG_SYS_FreeLayerBuf(u32 i);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(struct GfFont *font);
@@ -503,14 +503,14 @@ extern void G2x_SetBlendAlpha_(int, int, int, int, int);
 extern void GX_LoadBGPltt(void *, int, int);
 extern void APP_TASKMENU_UpdateMenu(struct TaskMenu *);
 extern void APP_TASKMENU_WIN_Update(u8 *);
-extern void BG_SYS_FillScrollArea(u32, u32, u32);
+extern void BG_SYS_ChangeScrollImmediate(u32, u32, u32);
 extern void CLACT_DrawSystem(void);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern void GFL_NET_ERR_RequestScreen(void);
 extern void WIPE_SetBrightnessFadeOut(u32, u32);
 extern void APP_TASKMENU_WIN_Delete(u8 *win);
-extern void WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
+extern void WORDSET_Delete(struct WordSet *wordSet);
 extern void TCB_DeleteTask(struct Node *task);
 extern u32 CLACT_DeleteUnit(struct Bank *unit);
 extern void CLACT_ExitSystem(void);
@@ -752,8 +752,8 @@ void IRCBATTLEMATCH_RecvMyStatusHandler(int aid,int size,int data,IrcBattleMatch
  if(handle==(int)GFL_NET_HANDLE_GetCurrentHandle()) {
   record=(int)GAME_DATA_GetPlayerStatusById((struct Sub24 *)work->param->gameData,aid);
   MYSTATUS_Copy((void *)data,(void *)record);
-  saveData=(int)MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl((struct Big *)work->param->gameData));
- MISC_SAVEDATA_InsertRecentValue((struct L0200ED54 *)saveData,MYSTATUS_GetId((const struct Sub0200852CObj *)record));
+  saveData=(int)MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)work->param->gameData));
+ MET_TRAINERS_Insert((struct L0200ED54 *)saveData,MYSTATUS_GetId((const struct Sub0200852CObj *)record));
  }
 }
 
@@ -771,7 +771,7 @@ void IRCBATTLEMATCH_RecvTrainerInfoHandler(int aid,int size,int data,IrcBattleMa
  if (handle == (int)GFL_NET_HANDLE_GetCurrentHandle()) {
   if (aid != GFL_NET_SYSTEM_GetCurrentAid()) {
    int record = (int)GAME_DATA_GetPlayerStatusById((struct Sub24 *)records,aid);
-   work->regulationResult = GFL_NET_ERR_InsertFriend(records,(void *)record,(void *)data,(void *)(work->heapId));
+   work->regulationResult = WIFILIST_InsertFriend(records,(void *)record,(void *)data,(void *)(work->heapId));
   }
  }
 }
@@ -927,7 +927,7 @@ void IRCBATTLEMATCH_StepSendTrainerInfo(IrcBattleMatchWork *work)
  int syncId=12;
  if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x7b,syncId)!=0) {
   if(work->mode==7) {
-   WIFILIST_CreateExchangeToken((void *)GAME_DATA_GetField1A0((const struct BigObj *)work->param->gameData),trainerInfo);
+   WIFILIST_CreateExchangeToken((void *)GAME_DATA_GetWifiList((const struct BigObj *)work->param->gameData),trainerInfo);
    if(GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(),0xc03,syncId,(u32)trainerInfo)!=0) {
     GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x79,syncId);
     IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepSendMacAddress);
@@ -987,7 +987,7 @@ void IRCBATTLEMATCH_StepWaitQuitChoice(IrcBattleMatchWork *work) {
   int choice=APP_TASKMENU_GetCursorPos(work->taskMenu);
   APP_TASKMENU_CloseMenu(work->taskMenu);
   work->taskMenu=0;
-  BG_SYS_SetFlagField06(6);
+  BG_SYS_MarkTileDirty(6);
   if(choice==0) {
    IRCBATTLEMATCH_FreeMessageWindows(work);
    IRCBATTLEMATCH_AbortSession(work);
@@ -1016,7 +1016,7 @@ void IRCBATTLEMATCH_StepSendMode(IrcBattleMatchWork *work)
             APP_TASKMENU_GetCursorPos(work->taskMenu);
             APP_TASKMENU_CloseMenu(work->taskMenu);
             work->taskMenu = 0;
-            BG_SYS_SetFlagField06(6);
+            BG_SYS_MarkTileDirty(6);
             IRCBATTLEMATCH_SetStep(work, IRCBATTLEMATCH_StepOpenQuitConfirm);
             return;
         }
@@ -1152,7 +1152,7 @@ void IRCBATTLEMATCH_PrintPlayerMessage(int msgId,IrcBattleMatchWork *work) {
  }
  BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp(work->infoWin)),255);
  MSGDATA_ReadString(work->msgData,msgId,work->tempStr);
- WORDSET_SetSlotNumber(work->wordSet,0,WIFILIST_CountFriends((struct Sub020097BCObj *)GAME_DATA_GetField1A0((const struct BigObj *)work->param->gameData)),2,1,1);
+ WORDSET_SetSlotNumber(work->wordSet,0,WIFILIST_CountFriends((struct Sub020097BCObj *)GAME_DATA_GetWifiList((const struct BigObj *)work->param->gameData)),2,1,1);
  WORDSET_SetSlotNumber(work->wordSet,1,32,2,1,1);
  WORDSET_CopyTaggedText(work->wordSet,work->msgStr,work->tempStr);
  PRINTSYS_Print(BMP_WIN_GetBmp(work->infoWin),0,2,work->msgStr,work->font);
@@ -1204,7 +1204,7 @@ void IRCBATTLEMATCH_DeleteActor(IrcBattleMatchWork *work,unsigned slot)
 void IRCBATTLEMATCH_PrintWaitingMessage(IrcBattleMatchWork *work) {
  if(work->partnerLeft==1) {MessageRef message=gIrcBattleMatchMsgPartnerLeft;IRCBATTLEMATCH_PrintMainMessage(&message,work);return;}
  if(work->mode==7) {
-  if(WIFILIST_CountFriends((struct Sub020097BCObj *)GAME_DATA_GetField1A0((const struct BigObj *)work->param->gameData))==32) {MessageRef message=gIrcBattleMatchMsgWaitingMode7Full;IRCBATTLEMATCH_PrintMainMessage(&message,work);return;}
+  if(WIFILIST_CountFriends((struct Sub020097BCObj *)GAME_DATA_GetWifiList((const struct BigObj *)work->param->gameData))==32) {MessageRef message=gIrcBattleMatchMsgWaitingMode7Full;IRCBATTLEMATCH_PrintMainMessage(&message,work);return;}
   else {MessageRef message=gIrcBattleMatchMsgWaitingMode7;IRCBATTLEMATCH_PrintMainMessage(&message,work);IRCBATTLEMATCH_PrintPlayerMessage(0x22,work);return;}
  }
  if(work->mode==6) {MessageRef message=gIrcBattleMatchMsgWaitingMode6;IRCBATTLEMATCH_PrintMainMessage(&message,work);return;}
@@ -1262,7 +1262,7 @@ void IRCBATTLEMATCH_InitScreen(IrcBattleMatchWork *work) {
 void IRCBATTLEMATCH_StepWaitFadeIn(IrcBattleMatchWork *work) {
  if(FADE_IsActive()!=0) {
   if(work->mode==7) {
-   if(WIFILIST_CountFriends((struct Sub020097BCObj *)GAME_DATA_GetField1A0((const struct BigObj *)work->param->gameData))==32) {
+   if(WIFILIST_CountFriends((struct Sub020097BCObj *)GAME_DATA_GetWifiList((const struct BigObj *)work->param->gameData))==32) {
     IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepCountdownThenExit);
     work->timer=180;
     return;
@@ -1361,11 +1361,11 @@ void IRCBATTLEMATCH_StepStartSession(IrcBattleMatchWork *work)
 void IRCBATTLEMATCH_ExitScreen(IrcBattleMatchWork *work) {
  GF_FONT_SetDefaultTextColor();
  IRCBATTLEMATCH_FreeMessageWindows(work);
- BG_SYS_SetTileUnit(5,1,0);
+ BG_SYS_FreeTiles(5,1,0);
  {
   unsigned int windowPalette=work->windowPalette;
   unsigned int paletteHigh=windowPalette>>16;
-  BG_SYS_DeleteHalf(5,(unsigned short)windowPalette,(unsigned short)paletteHigh);
+  BG_SYS_FreeTileRun(5,(unsigned short)windowPalette,(unsigned short)paletteHigh);
  }
  BG_SYS_FreeLayerBuf(5);
  MSGDATA_Delete((struct Rec *)work->msgData);
@@ -1408,7 +1408,7 @@ void IRCBATTLEMATCH_StepWaitQuitChoiceDuringWait(IrcBattleMatchWork *work) {
   int choice=APP_TASKMENU_GetCursorPos(work->taskMenu);
   APP_TASKMENU_CloseMenu(work->taskMenu);
   work->taskMenu=0;
-  BG_SYS_SetFlagField06(6);
+  BG_SYS_MarkTileDirty(6);
   if(choice==0) {
    IRCBATTLEMATCH_FreeMessageWindows(work); IRCBATTLEMATCH_AbortSession(work); IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StartExitWipe);
   } else IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepRedrawWaitMenu);
@@ -1422,7 +1422,7 @@ void IRCBATTLEMATCH_StepWaitErrorDialogClose(IrcBattleMatchWork *work)
   APP_TASKMENU_GetCursorPos(work->taskMenu);
   APP_TASKMENU_CloseMenu(work->taskMenu);
   work->taskMenu=0;
-  BG_SYS_SetFlagField06(6);
+  BG_SYS_MarkTileDirty(6);
   IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepOpenErrorConfirm);
  }
 }
@@ -1433,7 +1433,7 @@ void IRCBATTLEMATCH_StepWaitWirelessStep(IrcBattleMatchWork *work) {
   APP_TASKMENU_GetCursorPos(work->taskMenu);
   APP_TASKMENU_CloseMenu(work->taskMenu);
   work->taskMenu=0;
-  BG_SYS_SetFlagField06(6);
+  BG_SYS_MarkTileDirty(6);
   IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepOpenErrorConfirm);
  }
 }
@@ -1455,7 +1455,7 @@ void IRCBATTLEMATCH_StepWaitCancelChoice(IrcBattleMatchWork *work) {
   APP_TASKMENU_CloseMenu(work->taskMenu);
   work->taskMenu=0;
   if(choice==0) {
-   IRCBATTLEMATCH_FreeMessageWindows(work); BG_SYS_SetFlagField06(6); IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepOpenWirelessWaitMenu); return;
+   IRCBATTLEMATCH_FreeMessageWindows(work); BG_SYS_MarkTileDirty(6); IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepOpenWirelessWaitMenu); return;
   } else { IRCBATTLEMATCH_FreeMessageWindows(work); IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepRestoreWaitMenu); }
  }
 }
@@ -1517,7 +1517,7 @@ void IRCBATTLEMATCH_StepWaitErrorChoice(IrcBattleMatchWork *work) {
   int choice=APP_TASKMENU_GetCursorPos(work->taskMenu);
   APP_TASKMENU_CloseMenu(work->taskMenu);
   work->taskMenu=0;
-  BG_SYS_SetFlagField06(6);
+  BG_SYS_MarkTileDirty(6);
   if(choice==0) {
    IRCBATTLEMATCH_FreeMessageWindows(work); IRCBATTLEMATCH_AbortSession(work); IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StartExitWipe);
   } else IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepShowErrorMessage);
@@ -1648,7 +1648,7 @@ void IRCBATTLEMATCH_StepWaitSession(IrcBattleMatchWork *work)
         choice=APP_TASKMENU_GetCursorPos(work->taskMenu);
         APP_TASKMENU_CloseMenu(work->taskMenu);
         work->taskMenu=0;
-        BG_SYS_SetFlagField06(6);
+        BG_SYS_MarkTileDirty(6);
         if(work->menuKind) {
             IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepOpenQuitConfirmDuringWait);return;
         }
@@ -1716,7 +1716,7 @@ storeFlag:
     if (work->taskMenu) APP_TASKMENU_UpdateMenu(work->taskMenu);
     if (work->okWin) APP_TASKMENU_WIN_Update(work->okWin);
     if (work->cancelWin) APP_TASKMENU_WIN_Update(work->cancelWin);
-    BG_SYS_FillScrollArea(4, 3, work->scrollY);
+    BG_SYS_ChangeScrollImmediate(4, 3, work->scrollY);
     work->scrollY = work->scrollY - 1;
     CLACT_DrawSystem();
     PRINTSYS_QUE_Main(work->printQue);
@@ -1740,7 +1740,7 @@ int IRCBATTLEMATCH_ProcExit(struct Proc *proc, int b, int c, IrcBattleMatchWork 
     if(work->buttonMan) BUTTON_MAN_Delete(work->buttonMan);
     GFL_HEAP_Free(work->paletteBackup);
     work->buttonMan=0;
-    WORDSET_DeleteStrbufED04(work->wordSet);
+    WORDSET_Delete(work->wordSet);
     IRCBATTLEMATCH_ExitScreen(work);
     TCB_DeleteTask(work->vblankTask);
     CLACT_DeleteUnit(work->clactUnit);

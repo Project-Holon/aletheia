@@ -1,5 +1,5 @@
 /*
- * function: FIELDMAP_CheckPlayerRequest
+ * function: FIELDMAP_ApplyPlayerFormRequest
  * address:  0x02188BF8
  * packet:   pkt_ov021_02188BF8
  * region:   ov021
@@ -35,7 +35,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 
-u32 FIELDMAP_CheckPlayerRequest(u8 *a)
+u32 FIELDMAP_ApplyPlayerFormRequest(u8 *a)
 {
     u32 r = 0;
     u32 t = FIELD_PLAYER_GetFormCode((u8 *)(*(u32 *)&((struct Obj00020 *)a)->f8C));

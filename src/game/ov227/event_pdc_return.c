@@ -57,7 +57,7 @@
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
- *   POKE_TOOL_Dummy  0x020185F0  thumb
+ *   POKE_TOOL_CastToBoxParam  0x020185F0  thumb
  *   POKEPARTY_Add  0x0201A98C  thumb
  *   POKEPARTY_GetCapacity  0x0201AA14  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
@@ -166,7 +166,7 @@ extern int NAMEIN_SETUP_IsCanceled(int *p);
 extern void NAMEIN_SETUP_CopyName(int *p, int a1);
 extern int NAMEIN_SETUP_FreeArgs(int a0);
 extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
-extern u32 POKE_TOOL_Dummy(u32 a);
+extern u32 POKE_TOOL_CastToBoxParam(u32 a);
 extern int BOX_SAVEDATA_AddPokemon(void **save, const struct BoxEntry *src);
 void *EVENT_PDC_RETURN_CreateArgs(u32 a, int b, u32 c, u32 heap);
 void EVENT_PDC_RETURN_DeleteArgs(void *p);
@@ -301,7 +301,7 @@ u32 EVENT_PDC_RETURN_Step(u32 task, u32 *state, EventPdcReturnArgs *args, EventP
             POKEPARTY_Add((struct Party *)party, (const struct PartyMon *)args->partyMon);
         } else {
             tmp = GAME_DATA_GetBoxManager((const struct GameData *)args->gameData);
-            BOX_SAVEDATA_AddPokemon((void **)tmp, (const struct BoxEntry *)POKE_TOOL_Dummy(args->partyMon));
+            BOX_SAVEDATA_AddPokemon((void **)tmp, (const struct BoxEntry *)POKE_TOOL_CastToBoxParam(args->partyMon));
         }
         (*state)++;
         break;

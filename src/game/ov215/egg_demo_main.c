@@ -74,7 +74,7 @@
  *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   EGG_DEMO_MENU_Create 0x021F6060 thumb ov215
  *   EGG_DEMO_MENU_InitDialog 0x021F6280 thumb ov215
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   BG_SYS_LoadPlttEntry 0x02040EBC arm
  *   EGG_DEMO_VIEW_Create 0x021F6720 thumb ov215
@@ -107,7 +107,7 @@
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   GFL_USE_CancelChangeAndStopBgm  0x02005D28  thumb
- *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb
+ *   GFL_USE_SetBgmPaused  0x02005DE4  thumb
  *   GFL_USE_IsBgmFading  0x02005E50  thumb
  *   GFL_USE_PushBgm  0x02005E64  thumb
  *   GFL_USE_IsBgmPlaying  0x02005F38  thumb
@@ -183,7 +183,7 @@ extern u32 PRINTSYS_QUE_Create(void *);
 extern void *GFL_USE_AddMainTask(u32,u32,u32);
 extern void EGG_DEMO_MENU_Create(int,char *);
 extern void EGG_DEMO_MENU_InitDialog(int,u8 *);
-extern void BG_SYS_SetVisibleLayer(int,u16);
+extern void BG_SYS_SetPriority(int,u16);
 extern void G2x_SetBlendAlpha_(u32 *,u32,u32,int,int);
 extern void BG_SYS_LoadPlttEntry(u32,u32);
 extern char *EGG_DEMO_VIEW_Create(u32,void *);
@@ -215,7 +215,7 @@ extern void CLACT_SetActorAnimIndex(int actor, int anim_idx);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern void GFL_USE_FadeOutBgm(u32 a);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
-extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_SetBgmPaused(void *p);
 extern int  GFL_USE_IsBgmFading(void);
 extern int GFL_USE_PushBgm(void);
 extern int  GFL_USE_IsBgmPlaying(void);
@@ -378,10 +378,10 @@ void EGG_DEMO_MAIN_Init(int args,char *work)
     EGG_DEMO_MAIN_InitActors(args,(struct EggDemoWork *)work);
     EGG_DEMO_MENU_Create(args,work);
     EGG_DEMO_MENU_InitDialog(args,(u8 *)work);
-    BG_SYS_SetVisibleLayer(0,2);
-    BG_SYS_SetVisibleLayer(2,1);
-    BG_SYS_SetVisibleLayer(1,0);
-    BG_SYS_SetVisibleLayer(4,0);
+    BG_SYS_SetPriority(0,2);
+    BG_SYS_SetPriority(2,1);
+    BG_SYS_SetPriority(1,0);
+    BG_SYS_SetPriority(4,0);
     BG_SYS_SetPlaneVisible(0,1);
     BG_SYS_SetPlaneVisible(2,1);
     BG_SYS_SetPlaneVisible(4,1);
@@ -521,7 +521,7 @@ void EGG_DEMO_MAIN_UpdateBgm(u8 *args, u8 *work)
         break;
     case 1:
         if (GFL_USE_IsBgmFading() == 0) {
-            GFL_USE_SetBgmPlayerParam((void *)1);
+            GFL_USE_SetBgmPaused((void *)1);
             GFL_USE_PushBgm();
             ((struct EggDemoWork *)work)->bgmState = 0;
         }
@@ -601,7 +601,7 @@ int EGG_DEMO_MAIN_IsBgm1Loaded(void *unused, char *work)
 
 void EGG_DEMO_MAIN_PushBgm(void *args, void *work)
 {
-    GFL_USE_SetBgmPlayerParam((void *)1);
+    GFL_USE_SetBgmPaused((void *)1);
     GFL_USE_PushBgm();
 }
 
@@ -610,7 +610,7 @@ void EGG_DEMO_MAIN_PushBgm(void *args, void *work)
 void EGG_DEMO_MAIN_PopBgm(void *args, void *work)
 {
     GFL_USE_PopBgm();
-    GFL_USE_SetBgmPlayerParam(0);
+    GFL_USE_SetBgmPaused(0);
     GFL_USE_FadeInBgmFull(6);
 }
 

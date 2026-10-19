@@ -10,20 +10,20 @@
  * status: EXACT
  * volatile: hardware halfword store at 0x021853F8 to 0x04000050.
  * symbols:
- *   OEKAKI_NotifyHostSync 0x02186304 thumb ov023
+ *   OEKAKI_HostOpenGroupLimited 0x02186304 thumb ov023
  *   OEKAKI_SetNextScene 0x02186444 thumb ov023
  *   OEKAKI_ApplyRemoteStrokes 0x02185354 thumb ov023
  */
 #include "../include/Obj20348.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void OEKAKI_NotifyHostSync(char *p, int a);
+extern void OEKAKI_HostOpenGroupLimited(char *p, int a);
 extern void OEKAKI_SetNextScene(char *p, u32 v);
 extern void OEKAKI_ApplyRemoteStrokes(char *p);
 int OEKAKI_StepEnterDraw(char *p, int result)
 {
     *(volatile u16 *)0x04000050 = 0;
-    OEKAKI_NotifyHostSync(p, 1);
+    OEKAKI_HostOpenGroupLimited(p, 1);
     OEKAKI_SetNextScene(p, 4);
     OEKAKI_ApplyRemoteStrokes(p);
     ((struct Obj20348 *)p)->f9E7C = 0;

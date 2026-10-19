@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   GAME_DATA_GetSaveControl 0x02012EBC  thumb
- *   MISC_SAVEDATA_GetBlock44 0x0200ED48  thumb
+ *   MET_TRAINERS_GetFromSave 0x0200ED48  thumb
  *   GAME_DATA_GetWifiList 0x0201283C  thumb
  *   FIELDMAP_GetUnionEff 0x02188CE0  thumb  ov021
  *   UNION_CHARA_GetMmdl 0x0217AFB0  thumb  ov019
@@ -38,7 +38,7 @@ struct Big;
 struct BigObj;
 struct L0200EDC4;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *MISC_SAVEDATA_GetBlock44(void *p);
+extern void *MET_TRAINERS_GetFromSave(void *p);
 extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 extern u32 FIELDMAP_GetUnionEff(u8 *p);
 extern void *UNION_CHARA_GetMmdl(void **a, u8 *b, u8 *c);
@@ -55,7 +55,7 @@ void UNION_CHARA_RefreshParentMarks(char *base, int x, void *y)
     int r;
     int i;
 
-    a = (int)MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl((struct Big *)x));
+    a = (int)MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)x));
     b = GAME_DATA_GetWifiList((const struct BigObj *)x);
     c = FIELDMAP_GetUnionEff((u8 *)y);
     q = (struct ent *)(base + 0x2910);

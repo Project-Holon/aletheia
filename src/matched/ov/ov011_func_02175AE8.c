@@ -1,5 +1,5 @@
 /*
- * function: INTRUDE_COMM_UpdateSessionResult
+ * function: INTRUDE_COMM_UpdateSessionJoinNotices
  * address: 0x02175AE8
  * packet: pkt_ov011_02175AE8
  * region: ov011
@@ -17,7 +17,7 @@
 typedef unsigned char u8;
 extern int INTRUDE_COMM_GetSessionWaitRemaining(u8 *p);
 extern int INTRUDE_CMD_SendMemberValue(int a, int b, int c);
-void INTRUDE_COMM_UpdateSessionResult(int ctx, u8 *p)
+void INTRUDE_COMM_UpdateSessionJoinNotices(int ctx, u8 *p)
 {
     u8 mask = p[0x19E];
     if (mask != 0) {

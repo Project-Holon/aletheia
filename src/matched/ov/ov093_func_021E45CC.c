@@ -19,7 +19,7 @@
  *   MI_CpuCopy8  0x02082D44  arm
  *   BTL_CALC_Random  0x021D78AC  thumb  ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
- *   BTLV_CORE_PackByteTwice  0x021E8CF0  thumb  ov093
+ *   BTL_TYPEPAIR_MakeSingle  0x021E8CF0  thumb  ov093
  *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb  ov093
  */
 #include "../include/Obj13520.h"
@@ -36,7 +36,7 @@ extern int BTL_POKEPARAM_HasType(void *p, int k);
 extern void MI_CpuCopy8(u8 *src, u8 *dst, u32 n);
 extern u32 BTL_CALC_Random(u32 n);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
-extern int BTLV_CORE_PackByteTwice(int a);
+extern int BTL_TYPEPAIR_MakeSingle(int a);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 
 void HAND_WAZA_Conversion2ChangeType(int a0, u8 *s, int k)
@@ -69,7 +69,7 @@ void HAND_WAZA_Conversion2ChangeType(int a0, u8 *s, int k)
                 if (n != 0) {
                     c = p[BTL_CALC_Random(n)];
                     e = BTL_SERVER_FLOW_AllocCmdRecord((char *)s, 0x14, k);
-                    ((struct Obj13520 *)e)->f4 = BTLV_CORE_PackByteTwice(c);
+                    ((struct Obj13520 *)e)->f4 = BTL_TYPEPAIR_MakeSingle(c);
                     e[6] = k;
                     BTL_SERVER_FLOW_CommitCmdRecord(s, e);
                 }

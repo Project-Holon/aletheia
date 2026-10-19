@@ -38,7 +38,7 @@
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
  *   BTLV_GAUGE_SetSavedBgmNo  0x02208918  thumb  ov094
  *   BTLV_GAUGE_SetBgmReplaced  0x02208924  thumb  ov094
- *   TCBL_GetTaskUserData   0x02030EE8  arm
+ *   TCBL_IsDeletePending   0x02030EE8  arm
  *   KEY_GetTrg 0x020362DC arm
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   MIi_CpuClear16  0x02082A48  arm
@@ -102,7 +102,7 @@
  *   BTL_POKEPARAM_GetDisplayMon 0x021D5864 thumb ov093
  *   POKE_TOOL_GetGender 0x02017F00 thumb
  *   BTL_POKEPARAM_GetSickContRaw 0x021D6314 thumb ov093
- *   BTLV_CORE_IsSlotKind1Index15 0x021E8A78 thumb ov093
+ *   BTL_SICKCONT_IsKind1Index15 0x021E8A78 thumb ov093
  *   BTL_POKEPARAM_GetMajorStatusIndex 0x021D62A8 thumb ov093
  *   ZUKAN_SAVE_IsCaught 0x0200CED4 thumb
  *   POKE_TOOL_GetStatusCondition 0x02017F90 thumb
@@ -139,11 +139,10 @@
  *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
  *   BTLV_EFFECT_GetOwner 0x021F86D4 thumb ov094
  *   sGaugeFlashMasks 0x0220AB4C data a4
- *   _u32_div_f  0x0209C2B0  arm
- *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb  arm9
+ *   GFL_USE_SetBgmPaused  0x02005DE4  thumb  arm9
  *   BTLV_EFFECT_GetMode 0x021F8710 thumb ov094
  *   BTLV_EFFECT_GetCompetitorType 0x021F8720 thumb ov094
- *   GFL_NET_ERR_IsWifiGameKind  0x0200F300  thumb  arm9
+ *   GFL_NET_IsWifiGameKind  0x0200F300  thumb  arm9
  */
 #include "btlv_effvm_types.h"
 #include "btlv_gauge_types.h"
@@ -164,7 +163,7 @@ void BTLV_GAUGE_SetStatusIcon(BtlvGaugeWork *work, int status, int slotIdx);
 
 extern int GFL_USE_PopBgm(void);
 
-extern void *TCBL_GetTaskUserData(void *task);
+extern void *TCBL_IsDeletePending(void *task);
 
 
 extern u32 KEY_GetTrg(void);
@@ -263,7 +262,7 @@ extern u8 POKE_TOOL_GetGender(void *);
 
 extern BtlSickCont BTL_POKEPARAM_GetSickContRaw(struct BtlPokeParam *, int);
 
-extern int BTLV_CORE_IsSlotKind1Index15(BtlSickCont);
+extern int BTL_SICKCONT_IsKind1Index15(BtlSickCont);
 
 extern int BTL_POKEPARAM_GetMajorStatusIndex(struct BtlPokeParam *pp);
 
@@ -415,7 +414,7 @@ void BTLV_GAUGE_Delete(BtlvGaugeWork *work)
     CLACT_DeleteUnit(work->unit);
     GFL_HEAP_Free(work->screenData);
     ARC_TOOL_DeleteHandle(work->arcHandle);
-    GFL_HEAP_Free(TCBL_GetTaskUserData(work->flashTask));
+    GFL_HEAP_Free(TCBL_IsDeletePending(work->flashTask));
     TCB_DeleteTask(work->flashTask);
     GFL_HEAP_Free(work);
 }
@@ -493,7 +492,7 @@ void BTLV_GAUGE_FlashTaskMain(BtlvGaugeWork *work)
  * Battle-side twin of BTLV_GAUGE_InitSlotFromPartyPoke (same slot layout).
  *
  * lever: BTL_POKEPARAM_GetSickContRaw returns a one-word struct (BtlSickCont) passed by value to
- * BTLV_CORE_IsSlotKind1Index15, as in the ov093 callers. The struct-return temporary
+ * BTL_SICKCONT_IsKind1Index15, as in the ov093 callers. The struct-return temporary
  * reserves the extra frame word (push r3, sub sp #0x28, slot sp+0x24 never
  * touched) and that one change also flips the slot stores to share work + i*0x80
  * in a scratch register; with int prototypes both residues remained
@@ -532,7 +531,7 @@ void BTLV_GAUGE_InitSlotFromBattlePoke(BtlvGaugeWork *work, struct BtlMain *batt
         work->slots[slotIdx].gender = POKE_TOOL_GetGender(BTL_POKEPARAM_GetDisplayMon(battlePoke));
     else
         work->slots[slotIdx].gender = 2;
-    if (BTLV_CORE_IsSlotKind1Index15(BTL_POKEPARAM_GetSickContRaw(battlePoke, 5)) == 1 && BTL_POKEPARAM_GetMajorStatusIndex(battlePoke) == 5)
+    if (BTL_SICKCONT_IsKind1Index15(BTL_POKEPARAM_GetSickContRaw(battlePoke, 5)) == 1 && BTL_POKEPARAM_GetMajorStatusIndex(battlePoke) == 5)
         statusIcon = 6;
     else
         statusIcon = BTL_POKEPARAM_GetMajorStatusIndex(battlePoke);
@@ -799,11 +798,10 @@ extern int PALANM_RequestFade(struct PalAnmSystem *palAnm, u16 bank, u16 mask, s
 
 extern u32 PALANM_GetFadeRequestBits(const struct PalAnmSystem *palAnm);
 
-extern int GFL_NET_ERR_IsWifiGameKind(void);
+extern int GFL_NET_IsWifiGameKind(void);
 
-extern void GFL_USE_SetBgmPlayerParam(int param);
+extern void GFL_USE_SetBgmPaused(int param);
 
-extern int _u32_div_f(int dividend, int divisor);
 
 void BTLV_GAUGE_StartHpChangeAnimated(BtlvGaugeWork *work, int slotIdx, int newHp);
 
@@ -1795,14 +1793,14 @@ void BTLV_GAUGE_TaskFlashPalettes(void *task, void *arg)
 /* Sets the BGM player parameter unless the player is locked. */
 void BTLV_GAUGE_SetBgmPlayerParam(int bgmParam)
 {
-    if (GFL_NET_ERR_IsWifiGameKind() != 1)
-        GFL_USE_SetBgmPlayerParam(bgmParam);
+    if (GFL_NET_IsWifiGameKind() != 1)
+        GFL_USE_SetBgmPaused(bgmParam);
 }
 
 /* Returns value * scale / maxValue, at least 1 when value is not 0. */
 int BTLV_GAUGE_CalcBarPixels(int value, int maxValue, int scale)
 {
-    int result = _u32_div_f(value * scale, maxValue);
+    int result = (u32)(value * scale) / maxValue;
     if (result == 0 && value != 0)
         result = 1;
     return result;

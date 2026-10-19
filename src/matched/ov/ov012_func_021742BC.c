@@ -1,5 +1,5 @@
 /*
- * function: UNION_MAIN_StepPokemonTrade
+ * function: UNION_SCENE_StepPokemonTrade
  * address:  0x021742BC
  * packet:   pkt_ov012_021742BC
  * region:   ov012
@@ -67,7 +67,7 @@ extern char ov195_id[];
 extern u8 gPokemonTradeProcData[];
 extern u8 d_02208C40[];
 
-int UNION_MAIN_StepPokemonTrade(u32 a0, u32 a1, u32 a2, Ctx *ctx, u32 a4, void **out, u8 *state)
+int UNION_SCENE_StepPokemonTrade(u32 a0, u32 a1, u32 a2, Ctx *ctx, u32 a4, void **out, u8 *state)
 {
     Req *r;
 

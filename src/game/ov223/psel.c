@@ -1,7 +1,7 @@
 /*
  * file:     psel.c
  * unit:     yes
- * function: PSEL_SetAnimFrame, PSEL_CreateRecords, PSEL_DeleteRecords, PSEL_Init, PSEL_Exit, PSEL_Main, PSEL_Task, PSEL_DrawObjects, PSEL_CreateG3dUtil, PSEL_DeleteG3dUtil, PSEL_SetupListAnime, PSEL_DeleteListAnime, PSEL_UpdateListAnime, PSEL_SetupSelectAnime, PSEL_DeleteSelectAnime, PSEL_UpdateSelectAnime, PSEL_SetAnimTarget, PSEL_IsAnimTargetReached, PSEL_StepAnim, PSEL_SetAnimTargetIndex, PSEL_StepAnimIndex, PSEL_SelectUnit, PSEL_UpdateUnitAnime, PSEL_CreateUnits, PSEL_DeleteUnits, PSEL_InterpolateCurve, PSEL_UpdateUnitPositions, PSEL_SetUnitVisible, PSEL_UpdateFadeUnit, PSEL_UpdateUnitAnime2, PSEL_CreateUnits2, PSEL_DeleteActors, PSEL_SetActorPosition, PSEL_UpdateActorPosition, PSEL_CreateBmpWindows, PSEL_NopBgWindows, PSEL_InitBgLayers, PSEL_IsBgReady, PSEL_DeleteBgLayers, PSEL_NopBgDelete, PSEL_SetBgSys, PSEL_ClearBgLayerEx, PSEL_UploadBgPalette, PSEL_NopBgUpdate, PSEL_CreateWin, PSEL_DeleteWin, PSEL_UpdateTcbl, PSEL_UpdateWindows, PSEL_SetMode, PSEL_IsModeDone, PSEL_UpdateSubWindow, PSEL_PrintSubWindow, PSEL_ClearWin, PSEL_ClearWin2, PSEL_ClearWin3, PSEL_CreateTaskRes, PSEL_DeleteTaskResData, PSEL_ShowTaskRes, PSEL_SetTaskResActive
+ * function: PSEL_SetAnimFrame, PSEL_CreateRecords, PSEL_DeleteRecords, PSEL_Init, PSEL_Exit, PSEL_Main, PSEL_Task, PSEL_DrawObjects, PSEL_CreateG3dUtil, PSEL_DeleteG3dUtil, PSEL_SetupListAnime, PSEL_DeleteListAnime, PSEL_UpdateListAnime, PSEL_SetupSelectAnime, PSEL_DeleteSelectAnime, PSEL_UpdateSelectAnime, PSEL_SetAnimTarget, PSEL_IsAnimTargetReached, PSEL_StepAnim, PSEL_SetAnimTargetIndex, PSEL_StepAnimIndex, PSEL_SelectUnit, PSEL_UpdateUnitAnime, PSEL_CreateUnits, PSEL_DeleteUnits, PSEL_InterpolateCurve, PSEL_UpdateUnitPositions, PSEL_SetUnitVisible, PSEL_UpdateFadeUnit, PSEL_UpdateUnitAnime2, PSEL_CreateUnits2, PSEL_DeleteActors, PSEL_SetActorPosition, PSEL_UpdateActorPosition, PSEL_CreateBmpWindows, PSEL_NopBgWindows, PSEL_InitBgLayers, PSEL_ClearBgLayer2, PSEL_DeleteBgLayers, PSEL_NopBgDelete, PSEL_SetBgSys, PSEL_ClearBgLayerEx, PSEL_UploadBgPalette, PSEL_NopBgUpdate, PSEL_CreateWin, PSEL_DeleteWin, PSEL_UpdateTcbl, PSEL_UpdateWindows, PSEL_SetMode, PSEL_IsModeDone, PSEL_UpdateSubWindow, PSEL_PrintSubWindow, PSEL_ClearWin, PSEL_ClearWin2, PSEL_ClearWin3, PSEL_CreateTaskRes, PSEL_DeleteTaskResData, PSEL_ShowTaskRes, PSEL_SetTaskResActive
  * address:  0x021B95A0
  * region:   ov223
  * compiler: dsi/1.1p1
@@ -108,7 +108,7 @@
  *   BG_SYS_LoadTileData 0x02040B1C arm
  *   BMP_Delete 0x020437AC arm
  *   BG_SYS_DrawTile 0x02041090 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   BG_SYS_ClearLayerEx  0x02041570  arm
  *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
@@ -145,9 +145,9 @@
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   STRBUF_Create 0x020457B0 arm
- *   WORDSET_Callback 0x0201EE60 thumb
+ *   WORDSET_SetSlotSpeciesName 0x0201EE60 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   d_021BC730 0x021BC730 data a4
  *   d_021BC710 0x021BC710 data a2
@@ -316,7 +316,7 @@ extern u32 BMP_GetByteSize(const struct Bmp *bmp);
 extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 extern void BMP_Delete(struct Bmp *p);
 extern void BG_SYS_DrawTile(unsigned,unsigned,unsigned,unsigned,u8,u8);
-extern void BG_SYS_SetFlagField06(unsigned);
+extern void BG_SYS_MarkTileDirty(unsigned);
 extern int BG_SYS_ClearLayerEx(int, int);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -355,9 +355,9 @@ extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void WORDSET_Callback(struct WordSet *p, u32 i, u16 v);
+extern void WORDSET_SetSlotSpeciesName(struct WordSet *p, u32 i, u16 v);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void PRINTSYS_PrintQueColor(void *, unsigned, unsigned, unsigned, unsigned, unsigned, u16);
 extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16,u16,u32,u32,u16);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
@@ -405,7 +405,7 @@ void PSEL_UpdateActorPosition(char *p, int unused);
 void PSEL_CreateBmpWindows(u16 *p);
 void PSEL_NopBgWindows(int *unused);
 void PSEL_InitBgLayers(u16 *p);
-int PSEL_IsBgReady(void);
+int PSEL_ClearBgLayer2(void);
 void PSEL_DeleteBgLayers(u16 *p);
 void PSEL_NopBgDelete(void);
 void PSEL_SetBgSys(const u16 *p);
@@ -1333,7 +1333,7 @@ void PSEL_InitBgLayers(u16 *p)
         }
     }
     BG_SYS_DrawTile(2,(unsigned)buffer,0,0,32,24);
-    BG_SYS_SetFlagField06(2);
+    BG_SYS_MarkTileDirty(2);
     GFL_HEAP_Free(buffer);
 }
 
@@ -1344,7 +1344,7 @@ void PSEL_InitBgLayers(u16 *p)
 /*
  * Addresses are Black-image addresses.
  */
-int PSEL_IsBgReady(void)
+int PSEL_ClearBgLayer2(void)
 {
     return BG_SYS_ClearLayerEx(2, 0xd000);
 }
@@ -1386,7 +1386,7 @@ void PSEL_SetBgSys(const u16 *p)
         n++;
     }
     BG_SYS_DrawTile(2,(u32)buffer,0,0,32,24);
-    BG_SYS_SetFlagField06(2);GFL_HEAP_Free(buffer);
+    BG_SYS_MarkTileDirty(2);GFL_HEAP_Free(buffer);
     buffer=GFL_HEAP_Alloc(*p,1536,1,site,2488);
     n=0;
     for(x=0;x<24;x++)for(y=0;y<32;y++) {
@@ -1395,7 +1395,7 @@ void PSEL_SetBgSys(const u16 *p)
         n++;
     }
     BG_SYS_DrawTile(6,(u32)buffer,0,0,32,24);
-    BG_SYS_SetFlagField06(6);GFL_HEAP_Free(buffer);
+    BG_SYS_MarkTileDirty(6);GFL_HEAP_Free(buffer);
 }
 
 
@@ -1496,7 +1496,7 @@ int PSEL_UpdateWindows(char *p)
                 struct Descriptor *d = *(struct Descriptor * *)&((struct PselWork *)q)->winMain;
                 BMP_WIN_TransferChars(d);
                 BMP_WIN_MakeScreen((struct Cfg *)d);
-                BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(d));
+                BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(d));
                 ((struct PselWork *)q)->winFlag = 1;
             }
         }
@@ -1531,7 +1531,7 @@ void PSEL_SetMode(char *p, int idx)
                                          *(u32 *)(p + 0x254), 2, *(u16 *)p, 0);
     BMP_WIN_TransferChars(desc);
     BMP_WIN_MakeScreen((struct Cfg *)desc);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(desc));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(desc));
 }
 
 
@@ -1576,7 +1576,7 @@ void PSEL_UpdateSubWindow(char *p)
     d = *(struct Descriptor * *)&((struct PselWork *)p)->winSub;
     BMP_WIN_TransferChars(d);
     BMP_WIN_MakeScreen((struct Cfg *)d);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(d));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(d));
     if (*(struct Rec3 * *)&((struct PselWork *)p)->printStream)
         PRINTSYS_PrintStreamDelete(*(struct Rec3 * *)&((struct PselWork *)p)->printStream);
     *(int *)&((struct PselWork *)p)->printStream = 0;
@@ -1609,10 +1609,10 @@ void PSEL_PrintSubWindow(char *p, int idx)
     words = WORDSET_CreateDefault(*(u16 *)p);
     text = MSGDATA_AllocString(*(struct MsgBank **)(p + 0x234), d_021BC730[idx]);
     buf = (struct StrObj *)STRBUF_Create(0x40, *(u16 *)p);
-    WORDSET_Callback(words, 1, d_021BC710[idx]);
+    WORDSET_SetSlotSpeciesName(words, 1, d_021BC710[idx]);
     WORDSET_CopyTaggedText(words, buf, text);
     STRBUF_Delete((struct U16Vec *)text);
-    WORDSET_DeleteStrbufED04(words);
+    WORDSET_Delete(words);
     BMP_Clear((struct CharBuf *)BMP_WIN_GetBmp(desc), 0);
     GF_FONT_MeasureWidestLine(buf, *(unsigned *)(p + 0x18), 0);
     height = GF_FONT_CountLines(buf, *(void **)(p + 0x18));
@@ -1628,7 +1628,7 @@ void PSEL_PrintSubWindow(char *p, int idx)
 
 
 
-void PSEL_ClearWin(char *p) {struct Descriptor *d;u32 off;off=0x240;BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(p+off)),0);d=*(struct Descriptor **)(p+off);BMP_WIN_TransferChars(d);BMP_WIN_MakeScreen((struct Cfg *)d);BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(d));}
+void PSEL_ClearWin(char *p) {struct Descriptor *d;u32 off;off=0x240;BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(p+off)),0);d=*(struct Descriptor **)(p+off);BMP_WIN_TransferChars(d);BMP_WIN_MakeScreen((struct Cfg *)d);BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(d));}
 
 
 
@@ -1660,7 +1660,7 @@ void PSEL_ClearWin2(char *p)
 
 
 
-void PSEL_ClearWin3(char *p) {struct Descriptor *d;u32 off;off=0x238;BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(p+off)),0);d=*(struct Descriptor **)(p+off);BMP_WIN_TransferChars(d);BMP_WIN_MakeScreen((struct Cfg *)d);BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(d));}
+void PSEL_ClearWin3(char *p) {struct Descriptor *d;u32 off;off=0x238;BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(p+off)),0);d=*(struct Descriptor **)(p+off);BMP_WIN_TransferChars(d);BMP_WIN_MakeScreen((struct Cfg *)d);BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(d));}
 
 
 

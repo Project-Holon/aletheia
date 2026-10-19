@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   GF_STANDARD_SetField00  0x0203F4CC  arm
+ *   GF_STANDARD_GetCachedTime  0x0203F4CC  arm
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   _u32_div_f     0x0209C2B0  arm
  *   CLACT_GetActorAnimSeqCount  0x0204B918  arm
@@ -31,7 +31,7 @@ typedef struct {
 } RtcTime;
 
 struct RtcTime;
-extern void GF_STANDARD_SetField00(struct RtcTime *time);
+extern void GF_STANDARD_GetCachedTime(struct RtcTime *time);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 extern u16 CLACT_GetActorAnimSeqCount(struct Obj *p);
@@ -53,7 +53,7 @@ void C_GEAR_UpdateClock(char *p)
     int o;
     int v;
 
-    GF_STANDARD_SetField00((struct RtcTime *)(&t));
+    GF_STANDARD_GetCachedTime((struct RtcTime *)(&t));
     CLACT_SetActorDrawEnable((struct Obj *)((struct Obj00811 *)p)->f12C, 0);
 
     o = ((struct Obj00811 *)p)->f130;

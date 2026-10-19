@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * note:     BTLV_CORE_MakeSlotKind2 returns a one-word struct (Word): its return temporary is
+ * note:     BTL_SICKCONT_MakeKind2 returns a one-word struct (Word): its return temporary is
  *           the unreferenced third frame word and moves n/k to r6/r7
  *           (an-unused-frame-word-is-a-callee-returning-a-one-word-struct.md);
  *           the enum N keeps n + 1 out of constant folding.
@@ -22,7 +22,7 @@
  *   HAND_TOKUSEI_RollChanceOrFlag  0x021D85C0  thumb  ov093
  *   BTL_POKEPARAM_TestTurnFlag  0x021D5BB0  thumb  ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
- *   BTLV_CORE_MakeSlotKind2  0x021E896C  thumb  ov093
+ *   BTL_SICKCONT_MakeKind2  0x021E896C  thumb  ov093
  *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb  ov093
  */
 #include "../include/Obj10064.h"
@@ -42,7 +42,7 @@ extern int func_021DBE50(u32 k);
 extern int HAND_TOKUSEI_RollChanceOrFlag(int a, u32 b);
 extern int BTL_POKEPARAM_TestTurnFlag(struct UtilWork *p, u32 n);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
-extern Word BTLV_CORE_MakeSlotKind2(int a, int b);
+extern Word BTL_SICKCONT_MakeKind2(int a, int b);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 
 void HAND_TOKUSEI_CursedBody_DisableAttackerMove(int u, void *a, int b)
@@ -67,7 +67,7 @@ void HAND_TOKUSEI_CursedBody_DisableAttackerMove(int u, void *a, int b)
                 }
                 e = BTL_SERVER_FLOW_AllocCmdRecord(a, 0xc, b);
                 ((struct Obj10064 *)e)->f4 = 0xd;
-                *(Word *)(e + 8) = BTLV_CORE_MakeSlotKind2(n, k);
+                *(Word *)(e + 8) = BTL_SICKCONT_MakeKind2(n, k);
                 e[0xf] = t;
                 ((struct Obj10064 *)e)->f0 |= 2 << 22;
                 BTL_SERVER_FLOW_CommitCmdRecord(a, e);

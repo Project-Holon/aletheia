@@ -1,5 +1,5 @@
 /*
- * function: EVENT_FIELD_PROCLINK_IsHopDone
+ * function: EVENT_FIELD_PROCLINK_StartHopAnim
  * address:  0x02161B1C
  * packet:   pkt_ov010_02161B1C
  * region:   ov010
@@ -37,7 +37,7 @@ extern u16 FLDMMDL_GetDirDisp(void *p);
 extern void *FLDMMDL_FreeAcmd(char *p);
 extern int FLDMMDL_ACMD_ListCreate(void *a, const char *b);
 
-int EVENT_FIELD_PROCLINK_IsHopDone(void *a)
+int EVENT_FIELD_PROCLINK_StartHopAnim(void *a)
 {
     const char *s;
     void *p;

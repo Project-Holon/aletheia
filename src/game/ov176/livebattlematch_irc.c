@@ -1,7 +1,7 @@
 /*
  * file:     livebattlematch_irc.c
  * unit:     yes
- * function: LIVEBATTLEMATCH_IRC_ShowMenu, LIVEBATTLEMATCH_IRC_CreateWindow, LIVEBATTLEMATCH_IRC_DeleteWindow, LIVEBATTLEMATCH_IRC_GetWindowResult, LIVEBATTLEMATCH_IRC_SetMenuValue, LIVEBATTLEMATCH_IRC_GetMenuValue, LIVEBATTLEMATCH_IRC_ToggleSe, LIVEBATTLEMATCH_IRC_DeleteMenuRecord, LIVEBATTLEMATCH_IRC_Create, LIVEBATTLEMATCH_IRC_Delete, LIVEBATTLEMATCH_IRC_NoOp, LIVEBATTLEMATCH_IRC_CheckError, LIVEBATTLEMATCH_IRC_InitState, LIVEBATTLEMATCH_IRC_StartSession, LIVEBATTLEMATCH_IRC_Exit, LIVEBATTLEMATCH_IRC_WaitExit, LIVEBATTLEMATCH_IRC_EndSession, LIVEBATTLEMATCH_IRC_SendRegulation, LIVEBATTLEMATCH_IRC_GetRegulation, LIVEBATTLEMATCH_IRC_SendSaveData, LIVEBATTLEMATCH_IRC_RecvSaveData, LIVEBATTLEMATCH_IRC_SendSyncValue, LIVEBATTLEMATCH_IRC_RecvSyncValue, LIVEBATTLEMATCH_IRC_CreateDelivery, LIVEBATTLEMATCH_IRC_DeliveryMain, LIVEBATTLEMATCH_IRC_DeliveryEnd, LIVEBATTLEMATCH_IRC_RecvHandler0, LIVEBATTLEMATCH_IRC_RecvHandler1, LIVEBATTLEMATCH_IRC_RecvHandler2, LIVEBATTLEMATCH_IRC_RecvHandler3, LIVEBATTLEMATCH_IRC_RecvHandler4, LIVEBATTLEMATCH_IRC_OnFilter
+ * function: LIVEBATTLEMATCH_IRC_ShowMenu, LIVEBATTLEMATCH_IRC_CreateWindow, LIVEBATTLEMATCH_IRC_DeleteWindow, LIVEBATTLEMATCH_IRC_PollWindowResult, LIVEBATTLEMATCH_IRC_SetMenuValue, LIVEBATTLEMATCH_IRC_GetMenuValue, LIVEBATTLEMATCH_IRC_ToggleSe, LIVEBATTLEMATCH_IRC_DeleteMenuRecord, LIVEBATTLEMATCH_IRC_Create, LIVEBATTLEMATCH_IRC_Delete, LIVEBATTLEMATCH_IRC_NoOp, LIVEBATTLEMATCH_IRC_CheckError, LIVEBATTLEMATCH_IRC_InitState, LIVEBATTLEMATCH_IRC_StartSession, LIVEBATTLEMATCH_IRC_Exit, LIVEBATTLEMATCH_IRC_WaitExit, LIVEBATTLEMATCH_IRC_EndSession, LIVEBATTLEMATCH_IRC_SendRegulation, LIVEBATTLEMATCH_IRC_TakeRegulation, LIVEBATTLEMATCH_IRC_SendSaveData, LIVEBATTLEMATCH_IRC_RecvSaveData, LIVEBATTLEMATCH_IRC_SendSyncValue, LIVEBATTLEMATCH_IRC_RecvSyncValue, LIVEBATTLEMATCH_IRC_CreateDelivery, LIVEBATTLEMATCH_IRC_DeliveryMain, LIVEBATTLEMATCH_IRC_DeliveryEnd, LIVEBATTLEMATCH_IRC_RecvHandler0, LIVEBATTLEMATCH_IRC_RecvHandler1, LIVEBATTLEMATCH_IRC_RecvHandler2, LIVEBATTLEMATCH_IRC_RecvHandler3, LIVEBATTLEMATCH_IRC_RecvHandler4, LIVEBATTLEMATCH_IRC_OnFilter
  * address:  0x0217DEA4
  * region:   ov176
  * compiler: dsi/1.1p1
@@ -120,7 +120,7 @@ extern u32 GFL_NET_IsIdle(void);
 void LIVEBATTLEMATCH_IRC_ShowMenu(int *p, int a);
 void LIVEBATTLEMATCH_IRC_CreateWindow(char *p, int mode);
 void LIVEBATTLEMATCH_IRC_DeleteWindow(int *p);
-int LIVEBATTLEMATCH_IRC_GetWindowResult(int *p);
+int LIVEBATTLEMATCH_IRC_PollWindowResult(int *p);
 void LIVEBATTLEMATCH_IRC_SetMenuValue(int *p, int a, int b);
 int LIVEBATTLEMATCH_IRC_GetMenuValue(int *p);
 int LIVEBATTLEMATCH_IRC_ToggleSe(int unused, int b);
@@ -136,7 +136,7 @@ int LIVEBATTLEMATCH_IRC_WaitExit(int *p);
 int LIVEBATTLEMATCH_IRC_ResetState(int *p);
 int LIVEBATTLEMATCH_IRC_EndSession(int *p);
 int LIVEBATTLEMATCH_IRC_SendRegulation(int unused, int arg);
-int LIVEBATTLEMATCH_IRC_GetRegulation(char *p, void **out);
+int LIVEBATTLEMATCH_IRC_TakeRegulation(char *p, void **out);
 int LIVEBATTLEMATCH_IRC_SendSaveData(int unused, int arg);
 int LIVEBATTLEMATCH_IRC_RecvSaveData(u8 *p,const void *q);
 u32 LIVEBATTLEMATCH_IRC_SendSyncValue(int unused,int a);
@@ -206,7 +206,7 @@ void LIVEBATTLEMATCH_IRC_DeleteWindow(int *p)
 
 
 
-int LIVEBATTLEMATCH_IRC_GetWindowResult(int *p)
+int LIVEBATTLEMATCH_IRC_PollWindowResult(int *p)
 {
     if (*(int *)&((Request *)p)->window)
         return WIFIBATTLEMATCH_UTIL_UpdateMenu(*(int *)&((Request *)p)->window);
@@ -342,7 +342,7 @@ int LIVEBATTLEMATCH_IRC_EndSession(int *p) {switch(*p) {case 0:GFL_NET_COMMAND_D
 
 
 /*
- * extent: remaining code is the separate leaf LIVEBATTLEMATCH_IRC_GetRegulation
+ * extent: remaining code is the separate leaf LIVEBATTLEMATCH_IRC_TakeRegulation
  */
 int LIVEBATTLEMATCH_IRC_SendRegulation(int unused, int arg)
 {
@@ -363,7 +363,7 @@ int LIVEBATTLEMATCH_IRC_SendRegulation(int unused, int arg)
 /*
  * leaf: follower of LIVEBATTLEMATCH_IRC_SendRegulation
  */
-int LIVEBATTLEMATCH_IRC_GetRegulation(char *p, void **out)
+int LIVEBATTLEMATCH_IRC_TakeRegulation(char *p, void **out)
 {
     int value = ((struct LiveBattleMatchIrcWork *)p)->recvFlag0;
     if (value) {

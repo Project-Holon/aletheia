@@ -1,5 +1,5 @@
 /*
- * function: BUTTON_MAN_GetScaleX
+ * function: PARTICLE_EMITTER_GetScaleX
  * address:  0x020517D0
  * packet:   pkt_02051790
  * region:   arm9
@@ -13,7 +13,7 @@
  */
 #include "../include/Obj16169.h"
 
-int BUTTON_MAN_GetScaleX(char *p)
+int PARTICLE_EMITTER_GetScaleX(char *p)
 {
     return ((struct Obj16169 *)p)->f5C;
 }

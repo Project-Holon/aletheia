@@ -1,5 +1,5 @@
 /*
- * function: BTLV_STAGE_SetLayerEnableMask
+ * function: BTLV_STAGE_SetLayerHidden
  * address:  0x021F6A28
  * packet:   pkt_ov094_021F6A28
  * region:   ov094
@@ -16,7 +16,7 @@
 typedef unsigned int u32;
 typedef struct { char pad[0xB4]; u32 f : 2; u32 rest : 30; } Obj;
 
-void BTLV_STAGE_SetLayerEnableMask(Obj *o, u32 mode, u32 on)
+void BTLV_STAGE_SetLayerHidden(Obj *o, u32 mode, u32 on)
 {
     if (mode == 2) {
         if (on)

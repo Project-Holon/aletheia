@@ -1,5 +1,5 @@
 /*
- * function: BUTTON_MAN_SetUserData
+ * function: PARTICLE_EMITTER_SetUserData
  * address:  0x02051A2C
  * packet:   pkt_02051A2C
  * region:   arm9
@@ -16,7 +16,7 @@
  */
 #include "../include/Obj16192.h"
 
-void BUTTON_MAN_SetUserData(void *p, int v)
+void PARTICLE_EMITTER_SetUserData(void *p, int v)
 {
     ((struct Obj16192 *)p)->f94 = v;
 }

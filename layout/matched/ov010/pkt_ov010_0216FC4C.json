@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "WAZA_OSHIE_GetTexFormatCount",
+   "name": "TEXT_TEXTURE_GetTexFormatCount",
    "address": "0x0216FC4C",
    "kind": "game",
    "region": "ov010",

@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PROC_FLD_CallCustomEvent
+ * function: SCRCMD_PROC_FLD_StartCameraShake
  * address:  0x021B5528
  * packet:   pkt_ov021_021B5528
  * region:   ov021
@@ -42,7 +42,7 @@ struct Blk021D2D50;
 extern void *FIELD_CAMERA_CreateShakeTask(void *a, struct Blk021D2D50 *src);
 extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
-int SCRCMD_PROC_FLD_CallCustomEvent(int a0, int a1)
+int SCRCMD_PROC_FLD_StartCameraShake(int a0, int a1)
 {
     int v0 = SCRIPT_WORK_ReadWorkValue((void *)a0, (void *)a1);
     int v1 = SCRIPT_WORK_ReadWorkValue((void *)a0, (void *)a1);

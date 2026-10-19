@@ -12,7 +12,7 @@
  *
  * symbols:
  *   VIEWER_MAIN_CopyBg6  0x021C59B0  thumb  ov111
- *   GAME_DATA_GetSaveBlock21  0x02012F5C  thumb
+ *   GAME_DATA_GetTrainerCardSign  0x02012F5C  thumb
  *   func_020089CC  0x020089CC  thumb
  *   MI_CpuCopy8  0x02082D44  arm
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
@@ -93,7 +93,7 @@ struct Obj;
 struct Proc;
 struct Sub0200852CObj;
 struct Sub020089A8Obj;
-extern void *GAME_DATA_GetSaveBlock21(void **h);
+extern void *GAME_DATA_GetTrainerCardSign(void **h);
 extern void *func_020089CC(void *p);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
@@ -121,11 +121,11 @@ int VIEWER_MAIN_Delete(void *man, int *state, Args *args, Work *p)
 
     if (!p->info->f4_5) {
         VIEWER_MAIN_CopyBg6(p->pix, p->info->bitmap);
-        MI_CpuCopy8(p->info->bitmap, func_020089CC(GAME_DATA_GetSaveBlock21(p->args->f4)), 0x600);
+        MI_CpuCopy8(p->info->bitmap, func_020089CC(GAME_DATA_GetTrainerCardSign(p->args->f4)), 0x600);
     }
     if (args->f8 != 0) {
         a = GAME_DATA_GetMyStatus(p->args->f4);
-        b = GAME_DATA_GetSaveBlock21(p->args->f4);
+        b = GAME_DATA_GetTrainerCardSign(p->args->f4);
         func_02008558(a, p->info->b6);
         func_02008A14(b, p->info->f48);
         func_02008A1C(b, p->info->f4_4);

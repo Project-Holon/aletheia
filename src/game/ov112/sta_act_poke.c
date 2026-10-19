@@ -1,7 +1,7 @@
 /*
  * file:     sta_act_poke.c
  * unit:     yes
- * function: STA_ACT_LIGHT_AddBillboardImage, STA_ACT_LIGHT_DeleteBillboardImage, STA_ACT_LIGHT_UpdateBillboard, STA_ACT_LIGHT_UpdateSprite, STA_ACT_LIGHT_CalcSpriteXform, STA_ACT_LIGHT_SetSpritePos, STA_ACT_LIGHT_UpdateElem, STA_ACT_LIGHT_CopyElemB, STA_ACT_LIGHT_SetElemFrame, STA_ACT_LIGHT_AddPokemonElem, STA_ACT_LIGHT_FreeElem, STA_ACT_LIGHT_SetupElem, STA_ACT_LIGHT_HandleElemAnim, STA_ACT_LIGHT_IsElemActive, STA_ACT_LIGHT_AnimNone, STA_ACT_LIGHT_StopSe, STA_ACT_LIGHT_AnimA, STA_ACT_LIGHT_AnimB, STA_ACT_LIGHT_AnimC, STA_ACT_LIGHT_AnimD, STA_ACT_LIGHT_AnimE, STA_ACT_LIGHT_AnimF, STA_ACT_LIGHT_AnimG, STA_ACT_LIGHT_AnimH, STA_ACT_LIGHT_CopyActorPos, STA_ACT_LIGHT_SetActorPos, STA_ACT_LIGHT_SetActorAngle, STA_ACT_LIGHT_SetActorOffset, STA_ACT_LIGHT_StartRenderAnim, STA_ACT_LIGHT_ResetRenderAnim, STA_ACT_LIGHT_SetRenderAnim, STA_ACT_LIGHT_SetSlotVisible, STA_ACT_LIGHT_GetRenderHandle, STA_ACT_LIGHT_SetActorFlagB, STA_ACT_LIGHT_SetActorVisible, STA_ACT_LIGHT_SetElemValue
+ * function: STA_ACT_LIGHT_AddBillboardImage, STA_ACT_LIGHT_DeleteBillboardImage, STA_ACT_LIGHT_UpdateBillboard, STA_ACT_LIGHT_UpdateSprite, STA_ACT_LIGHT_CalcSpriteXform, STA_ACT_LIGHT_SetSpritePos, STA_ACT_LIGHT_UpdateElem, STA_ACT_LIGHT_CopyElemB, STA_ACT_LIGHT_SetElemFrame, STA_ACT_LIGHT_AddPokemonElem, STA_ACT_LIGHT_FreeElem, STA_ACT_LIGHT_SetupElem, STA_ACT_LIGHT_HandleElemAnim, STA_ACT_LIGHT_IsElemActive, STA_ACT_LIGHT_AnimNone, STA_ACT_LIGHT_StopSe, STA_ACT_LIGHT_AnimA, STA_ACT_LIGHT_AnimB, STA_ACT_LIGHT_AnimC, STA_ACT_LIGHT_AnimD, STA_ACT_LIGHT_AnimE, STA_ACT_LIGHT_AnimF, STA_ACT_LIGHT_AnimG, STA_ACT_LIGHT_AnimH, STA_ACT_LIGHT_CopyActorPos, STA_ACT_LIGHT_SetActorPos, STA_ACT_LIGHT_SetActorAngle, STA_ACT_LIGHT_SetActorOffset, STA_ACT_LIGHT_StartRenderAnim, STA_ACT_LIGHT_ResetRenderAnim, STA_ACT_LIGHT_SetRenderAnim, STA_ACT_LIGHT_SetSlotVisible, STA_ACT_LIGHT_IsRenderVisible, STA_ACT_LIGHT_SetActorFlagB, STA_ACT_LIGHT_SetActorVisible, STA_ACT_LIGHT_SetElemValue
  * address:  0x021F709C
  * region:   ov112
  * compiler: dsi/1.1p1
@@ -20,7 +20,7 @@
  *   BILLBOARD_AddImageFromArchive 0x0204EFC8 arm
  *   d_021F8464 0x021F8464 data a1
  *   BILLBOARD_DeleteImage 0x0204F150 arm
- *   STA_ACT_EFFECT_GetSceneOwner 0x021F9E44 thumb ov132
+ *   STA_ACTING_GetElapsedTicks 0x021F9E44 thumb ov132
  *   MUSICAL_MCSS_UpdateObject 0x021F4990 thumb ov112
  *   MUSICAL_MCSS_GetRenderFlags 0x021F545C thumb ov112
  *   MUSICAL_MCSS_GetRenderMatrix 0x021F5464 thumb ov112
@@ -28,10 +28,10 @@
  *   MTX_RotZ33_ 0x0207AF38 thumb
  *   MTX_MultVec33 0x0207B51C arm
  *   VEC_Subtract 0x0207CA00 arm
- *   MUSICAL_MCSS_GetRenderPos 0x021F5350 thumb ov112
+ *   MUSICAL_MCSS_SetRenderPos 0x021F5350 thumb ov112
  *   MUSICAL_MCSS_SetRenderFrame 0x021F5368 thumb ov112
- *   MUSICAL_MCSS_GetRenderRot 0x021F535C thumb ov112
- *   MUSICAL_MCSS_GetRenderSize 0x021F5424 thumb ov112
+ *   MUSICAL_MCSS_SetRenderScale 0x021F535C thumb ov112
+ *   MUSICAL_MCSS_SetRenderDrawOffset 0x021F5424 thumb ov112
  *   GFL_USE_GetRandom 0x020056EC thumb
  *   table 0x020A1B38 data a2
  *   MUSICAL_MCSS_GetRenderElem 0x021F5450 thumb ov112
@@ -53,11 +53,11 @@
  *   MUSICAL_MCSS_FreeElem 0x021F4D40 thumb ov112
  *   MUSICAL_MCSS_FreeResourceArc 0x021F4B4C thumb ov112
  *   MUSICAL_MCSS_FreeRenderObj 0x021F5330 thumb ov112
- *   MUSICAL_MCSS_NoOp5 0x021F4F10 thumb ov112
+ *   MUSICAL_MCSS_GetActorPoolResource 0x021F4F10 thumb ov112
  *   MUSICAL_MCSS_GetElemB 0x021F514C thumb ov112
  *   GFL_USE_PlaySeInSlot 0x0200616C thumb
  *   d_021F832C 0x021F832C data a4
- *   STA_ACTING_GetAnimHandle 0x021F9DC0 thumb ov132
+ *   STA_ACTING_GetEffectSystem 0x021F9DC0 thumb ov132
  *   STA_ACT_EFFECT_StartSystem 0x021F9EDC thumb ov132
  *   STA_ACT_EFFECT_StartEffect 0x021F9F74 thumb ov132
  *   MUSICAL_MCSS_SetElemScale 0x021F4EA4 thumb ov112
@@ -66,11 +66,11 @@
  *   STA_ACT_EFFECT_KillSystem 0x021F9F58 thumb ov132
  *   GFL_USE_StopSeSlot 0x020061F8 thumb
  *   MUSICAL_MCSS_SetElemRot 0x021F4EC4 thumb ov112
- *   MUSICAL_MCSS_GetRenderFieldA 0x021F539C thumb ov112
- *   MUSICAL_MCSS_GetRenderFieldB 0x021F53B4 thumb ov112
+ *   MUSICAL_MCSS_ResumeRenderAnim 0x021F539C thumb ov112
+ *   MUSICAL_MCSS_PauseRenderAnim 0x021F53B4 thumb ov112
  *   MUSICAL_MCSS_SetRenderAnim 0x021F53CC thumb ov112
- *   MUSICAL_MCSS_SetRenderMode 0x021F5374 thumb ov112
- *   MUSICAL_MCSS_GetRenderHandle 0x021F5388 thumb ov112
+ *   MUSICAL_MCSS_SetRenderVisible 0x021F5374 thumb ov112
+ *   MUSICAL_MCSS_IsRenderVisible 0x021F5388 thumb ov112
  *   MUSICAL_MCSS_ResetRender2 0x021F5414 thumb ov112
  */
 #include "sta_act_light_shared_types.h"
@@ -196,7 +196,7 @@ extern u32 BILLBOARD_AddImageFromArchive(struct Desc *desc, u32 arcId, u32 dataI
 
 extern void BILLBOARD_DeleteImage(u8 *board, int i);
 
-extern u32 STA_ACT_EFFECT_GetSceneOwner(u8 *p);
+extern u32 STA_ACTING_GetElapsedTicks(u8 *p);
 
 extern void MUSICAL_MCSS_UpdateObject(int);
 
@@ -212,13 +212,13 @@ extern void MTX_MultVec33(const Vec3 *,const Mtx *,Vec3 *);
 
 extern void VEC_Subtract(const Vec3 *,const Vec3 *,Vec3 *);
 
-extern void MUSICAL_MCSS_GetRenderPos(int *p, int *q);
+extern void MUSICAL_MCSS_SetRenderPos(int *p, int *q);
 
 extern void MUSICAL_MCSS_SetRenderFrame(int *,u16);
 
-extern void MUSICAL_MCSS_GetRenderRot(int *p, int *q);
+extern void MUSICAL_MCSS_SetRenderScale(int *p, int *q);
 
-extern void MUSICAL_MCSS_GetRenderSize(int,int);
+extern void MUSICAL_MCSS_SetRenderDrawOffset(int,int);
 
 extern u32 GFL_USE_GetRandom(u32);
 
@@ -260,7 +260,7 @@ extern void MUSICAL_MCSS_FreeResourceArc(struct Tagged *resourceArc);
 
 extern void MUSICAL_MCSS_FreeRenderObj(int, int);
 
-extern u32 MUSICAL_MCSS_NoOp5(u8 *);
+extern u32 MUSICAL_MCSS_GetActorPoolResource(u8 *);
 
 extern unsigned char MUSICAL_MCSS_GetElemB(void *p, int i);
 
@@ -268,7 +268,7 @@ extern void GFL_USE_PlaySeInSlot(void *,int);
 
 extern void GFL_USE_StopSeSlot(int);
 
-extern void *STA_ACTING_GetAnimHandle(void *p);
+extern void *STA_ACTING_GetEffectSystem(void *p);
 
 extern char *STA_ACT_EFFECT_StartSystem(char *p, u32 a);
 
@@ -284,15 +284,15 @@ extern void STA_ACT_EFFECT_KillSystem(u8 *unused, u8 *p);
 
 extern void MUSICAL_MCSS_SetElemRot(u32 unused, u32 p, s16 *a, s16 *b);
 
-extern void MUSICAL_MCSS_GetRenderFieldA(void **p);
+extern void MUSICAL_MCSS_ResumeRenderAnim(void **p);
 
-extern void MUSICAL_MCSS_GetRenderFieldB(int);
+extern void MUSICAL_MCSS_PauseRenderAnim(int);
 
 extern void MUSICAL_MCSS_SetRenderAnim(int, unsigned int);
 
-extern void MUSICAL_MCSS_SetRenderMode(int *p, int b);
+extern void MUSICAL_MCSS_SetRenderVisible(int *p, int b);
 
-extern int MUSICAL_MCSS_GetRenderHandle(u8 **p);
+extern int MUSICAL_MCSS_IsRenderVisible(u8 **p);
 
 extern void MUSICAL_MCSS_ResetRender2(int a, int b);
 
@@ -360,7 +360,7 @@ void STA_ACT_LIGHT_SetRenderAnim(int a, Elem *b, unsigned int c);
 
 void STA_ACT_LIGHT_SetSlotVisible(BillboardImage *p, Elem *q, int v);
 
-int STA_ACT_LIGHT_GetRenderHandle(int unused,u8 *p);
+int STA_ACT_LIGHT_IsRenderVisible(int unused,u8 *p);
 
 int STA_ACT_LIGHT_SetActorFlagB(int unused, int *p, int flag);
 
@@ -415,7 +415,7 @@ void STA_ACT_LIGHT_UpdateSprite(char *p) {
         if (((Record *)(p + i * 0x108))->flag == 1) {
             STA_ACT_LIGHT_SetSpritePos((unsigned char *)p, (unsigned char *)(p + 0x14 + i * 0x108));
             if (((BillboardImage *)p)->b != 0) {
-                for (j = 0; j < STA_ACT_EFFECT_GetSceneOwner((u8 *)(((BillboardImage *)p)->b)); j++) {
+                for (j = 0; j < STA_ACTING_GetElapsedTicks((u8 *)(((BillboardImage *)p)->b)); j++) {
                     if (*(void (**)(char *, char *))(p + i * 0x108 + 0x118) != 0)
                         (*(void (**)(char *, char *))(p + i * 0x108 + 0x118))(p, p + 0x14 + i * 0x108);
                 }
@@ -449,18 +449,18 @@ void STA_ACT_LIGHT_CalcSpriteXform(u8 *p,u8 *elem)
     VEC_Subtract((const Vec3 *)&delta, (const Vec3 *)((Vec3 *)(elem+60)), (Vec3 *)(elem+60));
     pos.x=(pos.x-a->x-((Elem *)elem)->pivotShiftX)/16;
     pos.y=(0xc0000-(pos.y-a->y+((Elem *)elem)->pivotShiftY))/16;
-    MUSICAL_MCSS_GetRenderPos(*(int * *)&((Elem *)elem)->renderElem,(int *)(&pos));
+    MUSICAL_MCSS_SetRenderPos(*(int * *)&((Elem *)elem)->renderElem,(int *)(&pos));
     MUSICAL_MCSS_SetRenderFrame(*(int * *)&((Elem *)elem)->renderElem,((Elem *)elem)->angle);
     scale.x=((Elem *)elem)->scaleX<<4;
     scale.y=((Elem *)elem)->scaleY<<4;
     scale.z=((Elem *)elem)->scaleZ<<4;
     if(((Elem *)elem)->flipX==1) scale.x*=-1;
-    MUSICAL_MCSS_GetRenderRot(*(int * *)&((Elem *)elem)->renderElem,(int *)(&scale));
+    MUSICAL_MCSS_SetRenderScale(*(int * *)&((Elem *)elem)->renderElem,(int *)(&scale));
     ((Elem *)elem)->dirty=0;
     if(((Elem *)elem)->renderAnimActive==1) {
         ((Elem *)elem)->animTimer+=(u16)GFL_USE_GetRandom(2);
-        if(((Elem *)elem)->animTimer>120) MUSICAL_MCSS_GetRenderSize(*(int *)&((Elem *)elem)->renderElem,1);
-        else MUSICAL_MCSS_GetRenderSize(*(int *)&((Elem *)elem)->renderElem,0);
+        if(((Elem *)elem)->animTimer>120) MUSICAL_MCSS_SetRenderDrawOffset(*(int *)&((Elem *)elem)->renderElem,1);
+        else MUSICAL_MCSS_SetRenderDrawOffset(*(int *)&((Elem *)elem)->renderElem,0);
         if(((Elem *)elem)->animTimer>125) ((Elem *)elem)->animTimer=GFL_USE_GetRandom(120)/3U;
     }
 }
@@ -548,7 +548,7 @@ void STA_ACT_LIGHT_SetSpritePos(u8 *self, u8 *q)
     BILLBOARD_SetElemPos(*(void **)(self + 8), *(u32 *)(q + 0x5C), (struct Trip *)(&elemPos));
 }
 
-void STA_ACT_LIGHT_UpdateElem(u8 *p) { int i; for(i=0;i<4;i++) if(*(int *)(p+i*264+20)==1) { if(STA_ACT_LIGHT_GetRenderHandle((int)p,p+20+i*264)==1) STA_ACT_LIGHT_CopyElemB(p,p+20+i*264); } }
+void STA_ACT_LIGHT_UpdateElem(u8 *p) { int i; for(i=0;i<4;i++) if(*(int *)(p+i*264+20)==1) { if(STA_ACT_LIGHT_IsRenderVisible((int)p,p+20+i*264)==1) STA_ACT_LIGHT_CopyElemB(p,p+20+i*264); } }
 
 void STA_ACT_LIGHT_CopyElemB(u8 *unused, u8 *elem) { }
 
@@ -704,7 +704,7 @@ void STA_ACT_LIGHT_HandleElemAnim(char *image,char *elem,int index)
 {
     u32 v;
     if(*(int *)(elem+132+index*4)==0 || ((Elem *)elem)->handler.active!=0) return;
-    v=MUSICAL_MCSS_GetElemB((void *)MUSICAL_MCSS_NoOp5((u8 *)((BillboardImage *)image)->actorPool),**(u16 **)(elem+168+index*4));
+    v=MUSICAL_MCSS_GetElemB((void *)MUSICAL_MCSS_GetActorPoolResource((u8 *)((BillboardImage *)image)->actorPool),**(u16 **)(elem+168+index*4));
     ((Elem *)elem)->tail.anim.count=0;
     ((Elem *)elem)->tail.anim.index=index;
     ((Elem *)elem)->tail.anim.a=0;
@@ -746,7 +746,7 @@ void STA_ACT_LIGHT_StopSe(char *image, char *elem) {
  */
 void STA_ACT_LIGHT_AnimA(char *image, char *elem) {
     ElemTailSigned *t = &((Elem *)elem)->tail.animSigned;
-    int a = (int)STA_ACTING_GetAnimHandle((void *)(((BillboardImage *)image)->b));
+    int a = (int)STA_ACTING_GetEffectSystem((void *)(((BillboardImage *)image)->b));
     char *r = (char *)MUSICAL_MCSS_GetRenderElem((u8 *)((Elem *)elem)->renderElem, ((Elem *)elem)->tail.anim.index);
     Vec3 v;
     t->a = (int)STA_ACT_EFFECT_StartSystem((char *)a, 0x35);
@@ -784,7 +784,7 @@ void STA_ACT_LIGHT_AnimB(u8 *image,u8 *elem)
     STA_ACT_EFFECT_SetEmitterPos((char *)t->a,0,(int)&v);
     t->count++;
     if(t->count>=180) {
-        a=(int)STA_ACTING_GetAnimHandle((void *)(((BillboardImage *)image)->b));
+        a=(int)STA_ACTING_GetEffectSystem((void *)(((BillboardImage *)image)->b));
         STA_ACT_EFFECT_KillEffect((char *)t->a,0);
         STA_ACT_EFFECT_KillSystem((void *)a,(void *)t->a);
         ((Elem *)elem)->handler.active=0;
@@ -923,7 +923,7 @@ void STA_ACT_LIGHT_SetActorAngle(int self, char *elem, u16 v)
 
 void STA_ACT_LIGHT_SetActorOffset(void *unused,u32 *p,const u32 *q) { p[12]=q[0]; p[13]=q[1]; p[14]=q[2]; if(p[4]==1) p[13]=0; p[1]=1; }
 
-void STA_ACT_LIGHT_StartRenderAnim(int unused,u8 *elem) { MUSICAL_MCSS_GetRenderFieldA(((Elem *)elem)->renderElem); ((Elem *)elem)->renderAnimActive=1; }
+void STA_ACT_LIGHT_StartRenderAnim(int unused,u8 *elem) { MUSICAL_MCSS_ResumeRenderAnim(((Elem *)elem)->renderElem); ((Elem *)elem)->renderAnimActive=1; }
 
 /*
  * Struct parameter fixes the zero/load/store scheduling. The extent's
@@ -931,9 +931,9 @@ void STA_ACT_LIGHT_StartRenderAnim(int unused,u8 *elem) { MUSICAL_MCSS_GetRender
  */
 void STA_ACT_LIGHT_ResetRenderAnim(int unused, Elem *elem)
 {
-    MUSICAL_MCSS_GetRenderFieldB((int)elem->renderElem);
+    MUSICAL_MCSS_PauseRenderAnim((int)elem->renderElem);
     elem->renderAnimActive = 0;
-    MUSICAL_MCSS_GetRenderSize((int)elem->renderElem, 0);
+    MUSICAL_MCSS_SetRenderDrawOffset((int)elem->renderElem, 0);
 }
 
 void STA_ACT_LIGHT_SetRenderAnim(int unused, Elem *elem, unsigned int anim)
@@ -947,7 +947,7 @@ void STA_ACT_LIGHT_SetRenderAnim(int unused, Elem *elem, unsigned int anim)
 void STA_ACT_LIGHT_SetSlotVisible(BillboardImage *p, Elem *q, int v) {
     int i;
     int value = v;
-    MUSICAL_MCSS_SetRenderMode((int *)q->renderElem, value);
+    MUSICAL_MCSS_SetRenderVisible((int *)q->renderElem, value);
     for (i = 0; i < 9; i++) {
         if (q->slotImage[i] != 0 && q->slotActive[i] == 1)
             MUSICAL_MCSS_SetElemVisible((u8 *)p->actorPool, (u8 *)q->slotImage[i], value);
@@ -958,7 +958,7 @@ void STA_ACT_LIGHT_SetSlotVisible(BillboardImage *p, Elem *q, int v) {
 /*
  * extent: Existing matched follower STA_ACT_LIGHT_SetActorFlagB.c follows.
  */
-int STA_ACT_LIGHT_GetRenderHandle(int a,u8 *elem) { return MUSICAL_MCSS_GetRenderHandle(((Elem *)elem)->renderElem); }
+int STA_ACT_LIGHT_IsRenderVisible(int a,u8 *elem) { return MUSICAL_MCSS_IsRenderVisible(((Elem *)elem)->renderElem); }
 
 /*
  * note: parent-coordinated blocker leaf for ov132 021FB258.

@@ -99,7 +99,7 @@
  *   TOUCHPANEL_GetCont  0x02035C38  arm
  *   CTVT_COMM_PopStroke  0x021B8BB8  thumb  ov172
  *   CTVT_COMM_AdvanceWriteCursor  0x021B8BFC  thumb  ov172
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   CLACT_SetActorAnimFrame  0x0204B8C4  arm
  *   gCtvtDrawPenButtonAnimSeq     0x021C6FB2  data
@@ -107,7 +107,7 @@
  *   gCtvtDrawEraserButtonAnimSeq     0x021C6FB6  data
  *   gCtvtDrawStampButtonAnimSeq     0x021C6FB8  data
  *   CTVT_COMM_GetNetMode  0x021B80E4  thumb  ov172
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   APP_ICON_GetArchiveId 0x020275E4 thumb
@@ -115,7 +115,7 @@
  *   BG_SYS_FillTileMap 0x020413B0 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   COMM_TVT_SYS_GetInputLocked 0x021BE0C8 thumb ov172
- *   BG_SYS_FillScrollArea  0x02040618  arm  arm9
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm  arm9
  *   ARC_UTIL_UploadBgPaletteAddFromHandle  0x02049990  arm  arm9
  */
 #include "ctvt_types.h"
@@ -135,10 +135,10 @@ extern struct ArcHandle *ARC_TOOL_CreateHandle(u32 id, u32 heapId);
 extern void BG_SYS_ClearSlot(u32 a);
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(struct ArcHandle *arc, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void BG_SYS_FillScrollArea(u32 a, u32 b, u32 c);
+extern void BG_SYS_ChangeScrollImmediate(u32 a, u32 b, u32 c);
 extern void ARC_TOOL_DeleteHandle(struct ArcHandle *arc);
-extern void BG_SYS_ResetSlot(u32 a, u32 b, u32 c);
-extern void BG_SYS_SetFlagField06(u32 layer);
+extern void BG_SYS_ChangeScroll(u32 a, u32 b, u32 c);
+extern void BG_SYS_MarkTileDirty(u32 layer);
 extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, int tileBase, int palette);
 extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *win, u32 kind);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 heapId);
@@ -281,7 +281,7 @@ void CTVT_DRAW_Init(CtvtWork *work, CtvtDrawScene *scene)
     ARC_UTIL_UploadBgPaletteAddFromHandle(arc, APP_ICON_GetStatusDataFileId(), 0, 0x60, 0, 0x600, 0, heapId);
     BG_SYS_FillTileMap(0, 0, 0x15, 0x20, 3, 0);
     BG_SYS_PushTile(0);
-    BG_SYS_FillScrollArea(0, 3, 0);
+    BG_SYS_ChangeScrollImmediate(0, 3, 0);
     ARC_TOOL_DeleteHandle(arc);
     d.x = 0x10;
     d.y = 0xcc;
@@ -423,7 +423,7 @@ void CTVT_DRAW_Exit(CtvtWork *work, CtvtDrawScene *scene)
     CLACT_DeleteActor(scene->penPicker);
     BG_SYS_ClearSlot(0);
     BG_SYS_PushTile(0);
-    BG_SYS_FillScrollArea(0, 3, 0);
+    BG_SYS_ChangeScrollImmediate(0, 3, 0);
     BG_SYS_ClearSlot(6);
     BG_SYS_PushTile(6);
     BG_SYS_SetPlaneVisible(5, 1);
@@ -574,7 +574,7 @@ int CTVT_DRAW_Main(CtvtWork *work, CtvtDrawScene *scene)
             BMP_MENUWORK_DrawWindow(scene->helpWin, 2, 0x140, 9);
             BMP_WIN_TransferChars(scene->helpWin);
             BMP_WIN_MakeScreen(scene->helpWin);
-            BG_SYS_SetFlagField06(4);
+            BG_SYS_MarkTileDirty(4);
             i = 0;
             scene->helpPending = 0;
             if (scene->helpPage == 1) {
@@ -928,7 +928,7 @@ void CTVT_DRAW_SlidePanel(CtvtWork *work, CtvtDrawScene *scene)
         else if ((u8)scene->panelTarget > (u8)scene->panelPos) { scene->panelPos += 24; changed = 1; }
     }
     if (changed == 1) {
-        BG_SYS_ResetSlot(0, 3, 24 - (u8)scene->panelPos);
+        BG_SYS_ChangeScroll(0, 3, 24 - (u8)scene->panelPos);
         for (i = 0; i < 6; i++) {
             CLACT_GetActorSurfacePos(scene->button[i], &pos, 0);
             pos.y = scene->panelPos + 180;

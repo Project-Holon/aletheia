@@ -1,7 +1,7 @@
 /*
  * file:     musical_program.c
  * unit:     yes
- * function: MUSICAL_PROGRAM_Create, MUSICAL_PROGRAM_Delete, MUSICAL_PROGRAM_SplitBonus, MUSICAL_PROGRAM_GetCategoryBonus, MUSICAL_PROGRAM_PackBonus, MUSICAL_PROGRAM_UnpackBonus, MUSICAL_PROGRAM_PackPicks, MUSICAL_PROGRAM_UnpackPicks, MUSICAL_PROGRAM_GetBestCategory, MUSICAL_PROGRAM_CreateNpcPerformer, MUSICAL_PROGRAM_GetBaseProgramId, MUSICAL_PROGRAM_GetPropRow, MUSICAL_PROGRAM_GetNpcPortraitClass, MUSICAL_PROGRAM_GetNpcNameId, MUSICAL_PROGRAM_GetCategoryShare, IRC_BATTLE_TASK_Main, IRC_BATTLE_TASK_Create, IRC_BATTLE_TASK_SetFormationOnce, IRC_BATTLE_TASK_Empty0, IRC_BATTLE_TASK_Empty1, IRC_BATTLE_TASK_Empty2, IRC_BATTLE_TASK_Empty3
+ * function: MUSICAL_PROGRAM_Create, MUSICAL_PROGRAM_Delete, MUSICAL_PROGRAM_SplitBonus, MUSICAL_PROGRAM_GetCategoryBonus, MUSICAL_PROGRAM_PackBonus, MUSICAL_PROGRAM_UnpackBonus, MUSICAL_PROGRAM_PackPicks, MUSICAL_PROGRAM_UnpackPicks, MUSICAL_PROGRAM_GetBestCategory, MUSICAL_PROGRAM_CreateNpcPerformer, MUSICAL_PROGRAM_GetBaseProgramId, MUSICAL_PROGRAM_GetPropRow, MUSICAL_PROGRAM_GetNpcPortraitClass, MUSICAL_PROGRAM_GetNpcNameId, MUSICAL_PROGRAM_GetCategoryShare
  * address:  0x02157028
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -10,110 +10,27 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Cut from musical_dressup_sys.c by tools/splitfile.py.
+ * Cut from musical_program.c by tools/splitfile.py.
  *
  * symbols:
- *   GAME_EVENT_CallEvent  0x02012374  thumb
- *   GAMESYSTEM_GetGameData  0x020120F4  thumb
- *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   BTL_SETUP_SetupCommSingle  0x02013790  thumb
- *   BTL_SETUP_SetupCommDouble  0x020137C0  thumb
- *   BTL_SETUP_SetupCommTriple  0x02013864  thumb
- *   BTL_SETUP_SetupCommRotation  0x02013894  thumb
- *   BTL_SETUP_SetupCommMulti  0x020137F0  thumb
- *   BTL_SETUP_SetParty  0x02013128  thumb
- *   BTL_SETUP_AllocRecordBuffer  0x02013980  thumb
- *   GAME_EVENT_CreateOverlayEvent  0x020124AC  thumb
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   GFL_HEAP_Free  0x020307B0  arm
- *   FIELD_STATUS_CreateFieldOpenEvent  0x020145CC  thumb
- *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
- *   EVENT_BATTLE_REC_SAVE_Start  0x021550A0  thumb  ov008
- *   ov008_id       0x00000008  data
- *   GAME_EVENT_Create  0x020122C0  thumb
- *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   MUSICAL_MCSS_LoadActorData  0x021F4F14  thumb  ov112
  *   MUSICAL_MCSS_GetElemA  0x021F5140  thumb  ov112
  *   MUSICAL_MCSS_FreeActorData  0x021F4F40  thumb  ov112
- *   FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask  0x02029CC0  thumb
- *   _s32_div_f  0x0209C0A4  arm
  *   GF_STANDARD_Rand  0x0203F0A8  arm
  *   sMusicalProgramFileName  0x02172768  data
- *   FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask  0x02029BCC  thumb
- *   BTL_SETUP_FreeSlots  0x020130DC  thumb
- *   FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask  0x02029C00  thumb
- *   BTL_SETUP_ApplyRegulation  0x02013160  thumb
- *   SAVEDATA_PanicFail  0x02034714  arm
- *   d_0217277C     0x0217277C  data
  *   MUSICAL_STAGE_SYS_CreateNpcPerformer 0x02156FD0 thumb ov010
  *   MUSICAL_STAGE_SYS_SetPerformerProp 0x0215700C thumb ov010
  */
-#include "../arm9/btl_setup_types.h"
 #include "event_ircbattle_shared_types.h"
 #include "musical_event_shared_types.h"
 
 typedef unsigned long long u64;
 
-/* Slot description handed to the battle recorder (0x50 bytes). */
-typedef struct IrcBattleSlotInfo {
-    u8 data[0x48];
-    int formation;                      /* 0x48 */
-    int flag;                           /* 0x4C */
-} IrcBattleSlotInfo;
-
-typedef struct IrcBattleRequest {
-    void *party;                        /* 0x00 */
-    u8 pad04[0xC];
-    u16 bgmBattle;                      /* 0x10 */
-    u8 multiTeam;                       /* 0x12 */
-    u8 pad13;
-    void *regulation;                   /* 0x14 */
-    IrcBattleSlotInfo slot;             /* 0x18 */
-} IrcBattleRequest;
-
-/* Work of the IR battle task (0xFC bytes). */
-typedef struct IrcBattleTaskWork {
-    void *gameSys;                      /* 0x00 */
-    void *gameData;                     /* 0x04 */
-    struct BattleSetupParam setup;      /* 0x08 */
-    IrcBattleSlotInfo *slot;            /* 0xF8 */
-} IrcBattleTaskWork;
-
-extern void GAME_EVENT_CallEvent(void *parentEvent, void *childEvent);
-
-extern void *GAMESYSTEM_GetGameData(void *gameSys);
-
-extern struct NetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
-
-extern void BTL_SETUP_SetupCommSingle(struct BattleSetupParam *setup, void *gameData, struct NetHandle *handle, u32 a, u16 heapId);
-
-extern void BTL_SETUP_SetupCommDouble(struct BattleSetupParam *setup, void *gameData, struct NetHandle *handle, u32 a, u16 heapId);
-
-extern void BTL_SETUP_SetupCommTriple(struct BattleSetupParam *setup, void *gameData, struct NetHandle *handle, u32 a, u16 heapId);
-
-extern void BTL_SETUP_SetupCommRotation(struct BattleSetupParam *setup, void *gameData, struct NetHandle *handle, u32 a, u16 heapId);
-
-extern void BTL_SETUP_SetupCommMulti(struct BattleSetupParam *setup, void *gameData, struct NetHandle *handle, u32 a, u8 team, u16 heapId);
-
-extern void BTL_SETUP_SetParty(struct BattleSetupParam *setup, void *party, int index);
-
-extern void BTL_SETUP_AllocRecordBuffer(struct BattleSetupParam *setup, u32 flag);
-
-extern struct GameEvent *GAME_EVENT_CreateOverlayEvent(void *gameSys, u32 overlayId, void *proc, void *procArg);
-
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 
 extern u32 GFL_HEAP_Free(void *ptr);
-
-extern void *FIELD_STATUS_CreateFieldOpenEvent(void *gameSys);
-
-extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(void *gameSys, void *fieldMap, int sel, int d, int e, u8 f, u8 g);
-
-extern void *EVENT_BATTLE_REC_SAVE_Start(void *a, const int *p);
-
-extern struct GameEvent *GAME_EVENT_Create(void *gameSys, void *a, void *proc, u32 size);
-
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 
 extern void *MUSICAL_MCSS_LoadActorData(int heapId);
 
@@ -121,28 +38,10 @@ extern unsigned char MUSICAL_MCSS_GetElemA(void *table, int propId);
 
 extern void MUSICAL_MCSS_FreeActorData(void **table);
 
-extern void *FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(void *gameSys);
-
 extern u32 GF_STANDARD_Rand(void);
 
-extern int _s32_div_f(int dividend, int divisor);
-
-extern void *FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask(void *gameSys, u32 b);
-
-extern void BTL_SETUP_FreeSlots(struct BattleSetupParam *setup);
-
-extern void *FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask(void *gameSys);
-
-extern void BTL_SETUP_ApplyRegulation(struct BattleSetupParam *setup, void *regulation, u32 heapId);
-
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
-
-/* Overlay ids (absolute linker symbols) and data of other overlays. */
-extern u8 ov008_id[];
 
 extern const char sMusicalProgramFileName[];
-
-extern u8 d_0217277C[];
 
 void MUSICAL_STAGE_SYS_CreateNpcPerformer(MusicalStage *stage, u8 slot, u16 monsNo, u8 form, u32 personality, u16 appealBase, u16 heapId);
 
@@ -177,20 +76,6 @@ u8 MUSICAL_PROGRAM_GetNpcPortraitClass(MusicalShowProgram *program, u8 npcIndex)
 u8 MUSICAL_PROGRAM_GetNpcNameId(MusicalShowProgram *program, int npcIndex);
 
 u16 MUSICAL_PROGRAM_GetCategoryShare(MusicalShowProgram *program, int category);
-
-int IRC_BATTLE_TASK_Main(void *event, u32 *state, IrcBattleTaskWork *work);
-
-struct GameEvent *IRC_BATTLE_TASK_Create(void *gameSys, void *gameData, u32 kind, IrcBattleRequest *request);
-
-void IRC_BATTLE_TASK_SetFormationOnce(int *formation, int value);
-
-void IRC_BATTLE_TASK_Empty0(void);
-
-void IRC_BATTLE_TASK_Empty1(void);
-
-void IRC_BATTLE_TASK_Empty2(void);
-
-void IRC_BATTLE_TASK_Empty3(void);
 
 static inline u32 RandBelow(u32 n)
 {
@@ -313,7 +198,7 @@ void MUSICAL_PROGRAM_SplitBonus(u32 heapId, MusicalShowProgram *program, Musical
         }
     }
     for (i = 0; i < 4; i++)
-        program->sharePerProp[i] = _s32_div_f(program->categoryBonus[i], propsInCategory[i]);
+        program->sharePerProp[i] = program->categoryBonus[i] / propsInCategory[i];
     for (i = 0; i < 4; i++) {
         MusicalPerformer *performer = stage->performers[i];
         for (j = 0; j < 4; j++) {
@@ -448,171 +333,4 @@ u8 MUSICAL_PROGRAM_GetNpcNameId(MusicalShowProgram *program, int npcIndex)
 u16 MUSICAL_PROGRAM_GetCategoryShare(MusicalShowProgram *program, int category)
 {
     return program->sharePerProp[category];
-}
-
-/*
- * Task callback of the IR battle task: a 10-state sequence that closes the
- * field, runs the battle (the ov008 runner gets the setup, the slot record
- * and a zero word) and returns 1 when done.
- */
-int IRC_BATTLE_TASK_Main(void *event, u32 *state, IrcBattleTaskWork *work)
-{
-    void *gameSys = work->gameSys;
-
-    switch (*state) {
-    case 0:
-        *state = 3;
-        break;
-    case 1:
-    case 2:
-        break;
-    case 3:
-        GAME_EVENT_CallEvent(event, FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask(gameSys, work->setup.bgmBattle));
-        (*state)++;
-        break;
-    case 4: {
-        BattleRecSaveArgs args;
-
-        args.setup = &work->setup;
-        args.slotData = work->slot;
-        args.flag = 0;
-        GAME_EVENT_CallEvent(event, GAME_EVENT_CreateOverlayEvent(gameSys, (u32)ov008_id, EVENT_BATTLE_REC_SAVE_Start, &args));
-        (*state)++;
-        break;
-    }
-    case 5:
-        BTL_SETUP_FreeSlots(&work->setup);
-        GAME_EVENT_CallEvent(event, FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask(gameSys));
-        (*state)++;
-        break;
-    case 6:
-        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateFieldOpenEvent(gameSys));
-        (*state)++;
-        break;
-    case 7:
-        GAME_EVENT_CallEvent(event, EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSys, work->gameData, 0, 0, 1, 0, 0));
-        (*state)++;
-        break;
-    case 8:
-        GAME_EVENT_CallEvent(event, FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(gameSys));
-        (*state)++;
-        break;
-    case 9:
-        return 1;
-    }
-    return 0;
-}
-
-/*
- * Creates the IR battle task: allocates it with IRC_BATTLE_TASK_Main as its
- * callback, picks the formation slot for battle kinds 4..23 (four kinds per
- * rule, the first matching case wins through IRC_BATTLE_TASK_SetFormationOnce), runs the
- * matching setup builder and returns the event.
- */
-struct GameEvent *IRC_BATTLE_TASK_Create(void *gameSys, void *gameData, u32 kind, IrcBattleRequest *request)
-{
-    int formation = 0x29;
-    struct GameEvent *event = GAME_EVENT_Create(gameSys, 0, IRC_BATTLE_TASK_Main, 0xFC);
-    IrcBattleTaskWork *work = GAME_EVENT_GetWork(event);
-    struct BattleSetupParam *setup;
-    void *sysData;
-
-    work->gameSys = gameSys;
-    work->gameData = gameData;
-    work->slot = &request->slot;
-    setup = &work->setup;
-    switch (kind) {
-    case 5:
-        IRC_BATTLE_TASK_SetFormationOnce(&formation, 0);
-    case 4:
-        IRC_BATTLE_TASK_SetFormationOnce(&formation, 2);
-    case 7:
-        IRC_BATTLE_TASK_SetFormationOnce(&formation, 1);
-    case 6:
-        IRC_BATTLE_TASK_SetFormationOnce(&formation, 3);
-        sysData = GAMESYSTEM_GetGameData(gameSys);
-        BTL_SETUP_SetupCommSingle(setup, sysData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
-        break;
-    case 9:
-        IRC_BATTLE_TASK_SetFormationOnce(&formation, 4);
-    case 8:
-        IRC_BATTLE_TASK_SetFormationOnce(&formation, 6);
-    case 11:
-        IRC_BATTLE_TASK_SetFormationOnce(&formation, 5);
-    case 10:
-        IRC_BATTLE_TASK_SetFormationOnce(&formation, 7);
-        sysData = GAMESYSTEM_GetGameData(gameSys);
-        BTL_SETUP_SetupCommDouble(setup, sysData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
-        break;
-    case 13:
-        IRC_BATTLE_TASK_SetFormationOnce(&formation, 8);
-    case 12:
-        IRC_BATTLE_TASK_SetFormationOnce(&formation, 10);
-    case 15:
-        IRC_BATTLE_TASK_SetFormationOnce(&formation, 9);
-    case 14:
-        IRC_BATTLE_TASK_SetFormationOnce(&formation, 11);
-        sysData = GAMESYSTEM_GetGameData(gameSys);
-        BTL_SETUP_SetupCommTriple(setup, sysData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
-        break;
-    case 17:
-        IRC_BATTLE_TASK_SetFormationOnce(&formation, 12);
-    case 16:
-        IRC_BATTLE_TASK_SetFormationOnce(&formation, 14);
-    case 19:
-        IRC_BATTLE_TASK_SetFormationOnce(&formation, 13);
-    case 18:
-        IRC_BATTLE_TASK_SetFormationOnce(&formation, 15);
-        sysData = GAMESYSTEM_GetGameData(gameSys);
-        BTL_SETUP_SetupCommRotation(setup, sysData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
-        break;
-    case 21:
-        IRC_BATTLE_TASK_SetFormationOnce(&formation, 16);
-    case 20:
-        IRC_BATTLE_TASK_SetFormationOnce(&formation, 18);
-    case 23:
-        IRC_BATTLE_TASK_SetFormationOnce(&formation, 17);
-    case 22:
-        IRC_BATTLE_TASK_SetFormationOnce(&formation, 19);
-        sysData = GAMESYSTEM_GetGameData(gameSys);
-        BTL_SETUP_SetupCommMulti(setup, sysData, GFL_NET_HANDLE_GetCurrentHandle(), 1, request->multiTeam, 4);
-        break;
-    default:
-        SAVEDATA_PanicFail((const char *)d_0217277C, 0, (const char *)d_0217277C);
-        return 0;
-    }
-    BTL_SETUP_SetParty(setup, request->party, 0);
-    BTL_SETUP_ApplyRegulation(setup, request->regulation, 4);
-    setup->bgmBattle = request->bgmBattle;
-    work->slot->formation = formation;
-    work->slot->flag = 0;
-    BTL_SETUP_AllocRecordBuffer(setup, 1);
-    return event;
-}
-
-/*
- * Stores value into *formation only while it still holds the unset
- * sentinel 0x29, so the first call wins.
- */
-void IRC_BATTLE_TASK_SetFormationOnce(int *formation, int value)
-{
-    if (*formation == 0x29)
-        *formation = value;
-}
-
-/* Four empty leaves (unused callback slots). */
-void IRC_BATTLE_TASK_Empty0(void)
-{
-}
-
-void IRC_BATTLE_TASK_Empty1(void)
-{
-}
-
-void IRC_BATTLE_TASK_Empty2(void)
-{
-}
-
-void IRC_BATTLE_TASK_Empty3(void)
-{
 }

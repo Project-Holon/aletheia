@@ -25,7 +25,7 @@
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb  arm9
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb  arm9
  *   WORDSET_CreateDefault  0x0201EC64  thumb  arm9
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
+ *   WORDSET_Delete  0x0201ED04  thumb  arm9
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
  */
 #include "../include/Obj00112.h"
@@ -43,7 +43,7 @@ struct U16Vec;
 struct WordSet;
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void P_STATUS_PrintMsgToWin(u8 *,void *,int,int,s16,u32);
 extern void P_STATUS_PrintWordSetMsgRightToWin(unsigned char *p, unsigned int a, void *b, int c, unsigned short d, unsigned short e, unsigned short f);
 extern int P_STA_SKILL_GetNatureStatColor(u32 a, u32 b, unsigned char c, u32 d);
@@ -68,37 +68,37 @@ void P_STA_SKILL_PrintStats(u8 *a,u8 *p)
     o1=WORDSET_CreateDefault(((struct Obj00112 *)a)->f0);
     WORDSET_SetSlotNumber(o1,0,POKE_TOOL_GetPartyValue(data,160,0),3,one,one);
     P_STATUS_PrintWordSetMsgRightToWin(a,(unsigned int)(((struct Obj01061 *)p)->f5C),o1,119,89,one,1088);
-    WORDSET_DeleteStrbufED04(o1);
+    WORDSET_Delete(o1);
     P_STATUS_PrintMsgToWin(a,((struct Obj01061 *)p)->f5C,117,93,one,1088);
     o2=WORDSET_CreateDefault(((struct Obj00112 *)a)->f0);
     WORDSET_SetSlotNumber(o2,0,POKE_TOOL_GetPartyValue(data,161,0),3,one,one);
     P_STATUS_PrintWordSetMsgRightToWin(a,(unsigned int)(((struct Obj01061 *)p)->f5C),o2,118,121,one,1088);
-    WORDSET_DeleteStrbufED04(o2);
+    WORDSET_Delete(o2);
     P_STATUS_PrintMsgToWin(a,((struct Obj01061 *)p)->f64,111,one,one,P_STA_SKILL_GetNatureStatColor((u32)a,(u32)p,selected,one));
     o3=WORDSET_CreateDefault(((struct Obj00112 *)a)->f0);
     WORDSET_SetSlotNumber(o3,0,POKE_TOOL_GetPartyValue(data,162,0),3,one,one);
     P_STATUS_PrintWordSetMsgRightToWin(a,(unsigned int)(((struct Obj01061 *)p)->f64),o3,120,105,one,1088);
-    WORDSET_DeleteStrbufED04(o3);
+    WORDSET_Delete(o3);
     P_STATUS_PrintMsgToWin(a,((struct Obj01061 *)p)->f68,112,one,one,P_STA_SKILL_GetNatureStatColor((u32)a,(u32)p,selected,2));
     o4=WORDSET_CreateDefault(((struct Obj00112 *)a)->f0);
     WORDSET_SetSlotNumber(o4,0,POKE_TOOL_GetPartyValue(data,163,0),3,one,one);
     P_STATUS_PrintWordSetMsgRightToWin(a,(unsigned int)(((struct Obj01061 *)p)->f68),o4,121,105,one,1088);
-    WORDSET_DeleteStrbufED04(o4);
+    WORDSET_Delete(o4);
     P_STATUS_PrintMsgToWin(a,((struct Obj01061 *)p)->f6C,113,one,one,P_STA_SKILL_GetNatureStatColor((u32)a,(u32)p,selected,3));
     o5=WORDSET_CreateDefault(((struct Obj00112 *)a)->f0);
     WORDSET_SetSlotNumber(o5,0,POKE_TOOL_GetPartyValue(data,165,0),3,one,one);
     P_STATUS_PrintWordSetMsgRightToWin(a,(unsigned int)(((struct Obj01061 *)p)->f6C),o5,122,105,one,1088);
-    WORDSET_DeleteStrbufED04(o5);
+    WORDSET_Delete(o5);
     P_STATUS_PrintMsgToWin(a,((struct Obj01061 *)p)->f70,114,one,one,P_STA_SKILL_GetNatureStatColor((u32)a,(u32)p,selected,4));
     o6=WORDSET_CreateDefault(((struct Obj00112 *)a)->f0);
     WORDSET_SetSlotNumber(o6,0,POKE_TOOL_GetPartyValue(data,166,0),3,one,one);
     P_STATUS_PrintWordSetMsgRightToWin(a,(unsigned int)(((struct Obj01061 *)p)->f70),o6,123,105,one,1088);
-    WORDSET_DeleteStrbufED04(o6);
+    WORDSET_Delete(o6);
     P_STATUS_PrintMsgToWin(a,((struct Obj01061 *)p)->f74,115,one,one,P_STA_SKILL_GetNatureStatColor((u32)a,(u32)p,selected,5));
     o7=WORDSET_CreateDefault(((struct Obj00112 *)a)->f0);
     WORDSET_SetSlotNumber(o7,0,POKE_TOOL_GetPartyValue(data,164,0),3,one,one);
     P_STATUS_PrintWordSetMsgRightToWin(a,(unsigned int)(((struct Obj01061 *)p)->f74),o7,124,105,one,1088);
-    WORDSET_DeleteStrbufED04(o7);
+    WORDSET_Delete(o7);
     P_STATUS_PrintMsgToWin(a,((struct Obj01061 *)p)->f78,116,5,one,15424);
     value=POKE_TOOL_GetPartyValue(data,10,0);
     t1=func_02045B38(0,2,183,((struct Obj00112 *)a)->f0);

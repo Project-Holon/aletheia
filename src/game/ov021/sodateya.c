@@ -1,7 +1,7 @@
 /*
  * file:     sodateya.c
  * unit:     yes
- * function: SODATEYA_Create, SODATEYA_Delete, SODATEYA_DepositPokemon, SODATEYA_PrepareDeposit, SODATEYA_RevertShaymin, SODATEYA_WithdrawPokemon, SODATEYA_ReturnHeldItem, SODATEYA_ReceiveEgg, SODATEYA_DeclineEgg, SODATEYA_AddStep, SODATEYA_SetEggFlag, SODATEYA_ClearEggFlag, SODATEYA_HasEgg, SODATEYA_GetPokemonCount, SODATEYA_GetCurrentLevel, SODATEYA_GetLevelsGained, SODATEYA_GetWithdrawCost, SODATEYA_GetCompatibility, SODATEYA_GetPokemon, SODATEYA_AddExpSaturated, SODATEYA_GrantExp, SODATEYA_LearnMove, SODATEYA_MonKnowsMove, SODATEYA_CompactSlots, SODATEYA_CalcCompatibility, SODATEYA_CalcCompatibilityScore, SODATEYA_UpdateStepCounter, SODATEYA_CreateEggMon, SODATEYA_SyncPartyAfterDeposit, SODATEYA_BuildEgg, SODATEYA_SortParentsByGender, SODATEYA_PutDittoSecond, SODATEYA_SwapParents, SODATEYA_InitEgg, SODATEYA_SetBaseSpecies, SODATEYA_RollNidoranSpecies, SODATEYA_RollVolbeatSpecies, SODATEYA_ApplyPhioneRule, SODATEYA_ApplyIncenseBabyRule, SODATEYA_GetSpeciesParent, SODATEYA_ResetEggForm, SODATEYA_InheritFormShellos, SODATEYA_InheritFormBurmy, SODATEYA_InheritFormBasculin, SODATEYA_GetFormParent, SODATEYA_RollNature, SODATEYA_ApplyEverstoneRule, SODATEYA_RollAbilitySlot, SODATEYA_RollDittoAbilitySlot, SODATEYA_SetAbilityFromSlot, SODATEYA_SetBaseFriendship, SODATEYA_ApplyPowerItemRule, SODATEYA_RollRandomIvInheritance, SODATEYA_CopyInheritedIvs, SODATEYA_SetOtId, SODATEYA_RollPersonalRnd, SODATEYA_ApplyMasudaMethod, SODATEYA_RollRandomU32, SODATEYA_AddLevelUpMoves, SODATEYA_AddEggMoves, SODATEYA_AddSharedMoves, SODATEYA_AddTmMoves, SODATEYA_AddVoltTackle, SODATEYA_AddMove, SODATEYA_SetupEggMon, SODATEYA_CanLearnTm, SODATEYA_GetBaseSpecies, SODATEYA_GetAbilitySlot
+ * function: SODATEYA_Create, SODATEYA_Delete, SODATEYA_DepositPokemon, SODATEYA_PrepareDeposit, SODATEYA_RevertShaymin, SODATEYA_WithdrawPokemon, SODATEYA_RegisterCaughtIfNew, SODATEYA_ReceiveEgg, SODATEYA_DeclineEgg, SODATEYA_AddStep, SODATEYA_SetEggFlag, SODATEYA_ClearEggFlag, SODATEYA_HasEgg, SODATEYA_GetPokemonCount, SODATEYA_GetCurrentLevel, SODATEYA_GetLevelsGained, SODATEYA_GetWithdrawCost, SODATEYA_GetCompatibility, SODATEYA_GetPokemon, SODATEYA_AddExpSaturated, SODATEYA_GrantExp, SODATEYA_LearnMove, SODATEYA_MonKnowsMove, SODATEYA_CompactSlots, SODATEYA_CalcCompatibility, SODATEYA_CalcCompatibilityScore, SODATEYA_UpdateStepCounter, SODATEYA_CreateEggMon, SODATEYA_SyncPartyAfterDeposit, SODATEYA_BuildEgg, SODATEYA_SortParentsByGender, SODATEYA_PutDittoSecond, SODATEYA_SwapParents, SODATEYA_InitEgg, SODATEYA_SetBaseSpecies, SODATEYA_RollNidoranSpecies, SODATEYA_RollVolbeatSpecies, SODATEYA_ApplyPhioneRule, SODATEYA_ApplyIncenseBabyRule, SODATEYA_GetSpeciesParent, SODATEYA_ResetEggForm, SODATEYA_InheritFormShellos, SODATEYA_InheritFormBurmy, SODATEYA_InheritFormBasculin, SODATEYA_GetFormParent, SODATEYA_RollNature, SODATEYA_ApplyEverstoneRule, SODATEYA_RollAbilitySlot, SODATEYA_RollDittoAbilitySlot, SODATEYA_SetAbilityFromSlot, SODATEYA_SetBaseFriendship, SODATEYA_ApplyPowerItemRule, SODATEYA_RollRandomIvInheritance, SODATEYA_CopyInheritedIvs, SODATEYA_SetOtId, SODATEYA_RollPersonalRnd, SODATEYA_ApplyMasudaMethod, SODATEYA_RollRandomU32, SODATEYA_AddLevelUpMoves, SODATEYA_AddEggMoves, SODATEYA_AddSharedMoves, SODATEYA_AddTmMoves, SODATEYA_AddVoltTackle, SODATEYA_AddMove, SODATEYA_SetupEggMon, SODATEYA_CanLearnTm, SODATEYA_GetBaseSpecies, SODATEYA_GetAbilitySlot
  * address:  0x021C31D4
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -26,7 +26,7 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   DAYCARE_GetSlotMon  0x0200BC2C  thumb
- *   GAME_DATA_GetBoxSave  0x02012F98  thumb
+ *   GAME_DATA_GetPerapVoiceSave  0x02012F98  thumb
  *   PERAPVOICE_ClearIfNoChatot  0x02007C34  thumb
  *   MI_CpuFill8  0x02082BCC  arm
  *   sSodateyaIncenseBabyTable     0x021DA960  data  ov021  a4
@@ -43,7 +43,7 @@
  *   GFL_HEAP_Free  0x020307B0  arm
  *   sSodateyaEggMoveSlotIds     0x021DA908  data  ov021  a4
  *   sSodateyaSharedMoveSlotIds     0x021DA8F8  data  ov021  a4
- *   FILE_UTIL_Get_12B0  0x020212B0  thumb
+ *   FILE_UTIL_GetMachineMove  0x020212B0  thumb
  *   sSodateyaTmMoveSlotIds     0x021DA8E8  data  ov021  a4
  *   POKE_TOOL_SetupPartyParamEx  0x02017588  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
@@ -57,7 +57,7 @@
  *   POKE_TOOL_HealFull  0x0201B9F0  thumb
  *   gSpeciesNameBank     0x020A7370  data
  *   sSodateyaEggIvIds     0x021DA948  data  ov021  a4
- *   FILE_UTIL_Check1288  0x02021288  thumb
+ *   FILE_UTIL_IsMachineItem  0x02021288  thumb
  *   FILE_UTIL_GetId  0x0202130C  thumb
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   GAME_DATA_GetMyParty  0x02012934  thumb
@@ -230,7 +230,7 @@ extern void *GAMESYSTEM_GetGameData(const void *p);
 extern struct MyStatus *GAME_DATA_GetMyStatus(void *p);
 extern struct Pokemon *DAYCARE_GetSlotMon(void *dayCare, int slot);
 extern u32 PERAPVOICE_ClearIfNoChatot(void *p, void *party);
-extern void *GAME_DATA_GetBoxSave(void *p);
+extern void *GAME_DATA_GetPerapVoiceSave(void *p);
 extern u32 MI_CpuFill8(void *dst, u32 value, u32 size);
 extern void *POKE_PERSONAL_Create(u32 species, int form, u32 heapId);
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
@@ -240,7 +240,7 @@ extern u32 POKE_TOOL_IsShinyOtIdPersonality(u32 otId, u32 personalRnd);
 extern void POKE_PERSONAL_LoadDataDirect(unsigned int species, int form, void *dest);
 extern void *ARC_TOOL_LoadMember(u32 archive, u32 member, u32 heapId);
 extern u32 GFL_HEAP_Free(void *p);
-extern u16 FILE_UTIL_Get_12B0(u16 item);
+extern u16 FILE_UTIL_GetMachineMove(u16 item);
 extern void POKE_TOOL_SetupPartyParamEx(struct Pokemon *mon, u16 species, u16 level, unsigned long long otId, u32 power, unsigned long long personalRnd);
 extern void POKE_TOOL_SetPartyValue(struct Pokemon *mon, u32 dataId, u32 value);
 extern void POKE_TOOL_SetAbility(struct Pokemon *mon, u32 species, u32 form);
@@ -251,7 +251,7 @@ extern void SAVE_EVENT_Write(struct Pokemon *mon, u32 mode, struct MyStatus *sta
 extern void POKE_TOOL_RecoverAllPP(struct Pokemon *mon);
 extern void POKE_TOOL_RecalcParam(struct Pokemon *mon);
 extern void POKE_TOOL_HealFull(struct Pokemon *mon);
-extern u32 FILE_UTIL_Check1288(u32 item);
+extern u32 FILE_UTIL_IsMachineItem(u32 item);
 extern u32 FILE_UTIL_GetId(u32 item);
 extern void ARC_TOOL_ReadMemberRange(void *dst, u32 archive, u32 member, u32 mode, u32 *sizeOut);
 extern void *gSpeciesNameBank;
@@ -344,7 +344,7 @@ void SODATEYA_DepositPokemon(SodateyaWork *work, void *party, u32 partyPos);
 void SODATEYA_PrepareDeposit(void *mon);
 void SODATEYA_RevertShaymin(void *mon);
 void SODATEYA_WithdrawPokemon(SodateyaWork *work, u32 slot, void *party);
-void SODATEYA_ReturnHeldItem(SodateyaWork *work, void *mon);
+void SODATEYA_RegisterCaughtIfNew(SodateyaWork *work, void *mon);
 void SODATEYA_ReceiveEgg(SodateyaWork *work, void *party);
 void SODATEYA_DeclineEgg(SodateyaWork *work);
 int SODATEYA_AddStep(SodateyaWork *work);
@@ -419,7 +419,7 @@ void SODATEYA_WithdrawPokemon(SodateyaWork *work, u32 slot, void *party)
     if (DAYCARE_IsSlotInUse(work->dayCare, slot) == 1) {
         mon = (u32)DAYCARE_GetSlotMon(work->dayCare, slot);
         SODATEYA_GrantExp((void *)mon, DAYCARE_GetSlotSteps(work->dayCare, slot));
-        SODATEYA_ReturnHeldItem(work, (void *)mon);
+        SODATEYA_RegisterCaughtIfNew(work, (void *)mon);
         POKEPARTY_Add(party, (void *)mon);
         DAYCARE_ClearSlot(work->dayCare, slot);
         SODATEYA_CompactSlots(work->dayCare);
@@ -429,7 +429,7 @@ void SODATEYA_WithdrawPokemon(SodateyaWork *work, u32 slot, void *party)
 /*
  * Returns the Pokemon's held item to the bag when it fits.
  */
-void SODATEYA_ReturnHeldItem(SodateyaWork *work, void *mon)
+void SODATEYA_RegisterCaughtIfNew(SodateyaWork *work, void *mon)
 {
     void *bag = ZUKAN_SAVE_GetFromGameData(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(work->fieldMap)));
     if (ZUKAN_SAVE_IsCaught(bag, POKE_TOOL_GetPartyValue(mon, 5, 0)) == 0)
@@ -784,7 +784,7 @@ void SODATEYA_CreateEggMon(SodateyaWork *work, struct Pokemon *eggMon)
  */
 int SODATEYA_SyncPartyAfterDeposit(struct FieldMap *fieldMap, void *party)
 {
-    return PERAPVOICE_ClearIfNoChatot(GAME_DATA_GetBoxSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), party);
+    return PERAPVOICE_ClearIfNoChatot(GAME_DATA_GetPerapVoiceSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), party);
 }
 
 /*
@@ -1400,7 +1400,7 @@ void SODATEYA_AddTmMoves(struct Pokemon **parents, DayCareEgg *egg, u32 heapId)
         int tmItem;
 
         for (tmItem = TM_ITEM_FIRST; tmItem <= TM_ITEM_LAST; tmItem++) {
-            if (move == FILE_UTIL_Get_12B0(tmItem)) {
+            if (move == FILE_UTIL_GetMachineMove(tmItem)) {
                 if (SODATEYA_CanLearnTm(heapId, (u16)egg->species, (u16)egg->form, (u16)tmItem)) {
                     SODATEYA_AddMove(egg, move);
                     break;
@@ -1503,7 +1503,7 @@ int SODATEYA_CanLearnTm(u32 heapId, u32 species, u32 form, u32 tmItem)
 
     if (species >= SPECIES_COUNT)
         return 0;
-    if (FILE_UTIL_Check1288(tmItem) == 0)
+    if (FILE_UTIL_IsMachineItem(tmItem) == 0)
         return 0;
     personal = (u32)POKE_PERSONAL_Create(species, form, heapId);
     tmIndex = FILE_UTIL_GetId(tmItem);

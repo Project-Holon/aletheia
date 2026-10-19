@@ -1,5 +1,5 @@
 /*
- * function: GAME_DATA_GetMysteryRecvFlagA
+ * function: GAME_DATA_GetMusicalShotTitle
  * address:  0x020127E0
  * packet:   pkt_020127E0
  * region:   arm9
@@ -15,4 +15,4 @@
  */
 #include "../include/Obj15627.h"
 
-int GAME_DATA_GetMysteryRecvFlagA(int a0){ int t0, t1; t0 = MUSICAL_SHOT_GetFromSave((int)((struct Obj15627 *)((char *)(a0)))->f0); t1 = MUSICAL_SHOT_GetTitle((int)t0); return t1; }
+int GAME_DATA_GetMusicalShotTitle(int a0){ int t0, t1; t0 = MUSICAL_SHOT_GetFromSave((int)((struct Obj15627 *)((char *)(a0)))->f0); t1 = MUSICAL_SHOT_GetTitle((int)t0); return t1; }

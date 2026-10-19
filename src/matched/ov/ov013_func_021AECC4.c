@@ -11,7 +11,7 @@
  *
  * symbols:
  *   VCT_SESSION_SendPeerReply  0x021B2180  arm  ov013
- *   VCT_SESSION_AddMember  0x021B0614  arm  ov013
+ *   VCT_MIXER_AddMember  0x021B0614  arm  ov013
  *   gVctWork     0x021B3C80  data  ov013
  */
 #include "../include/Obj19303.h"
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 extern struct Work *gVctWork;
 
 extern int VCT_SESSION_SendPeerReply(int a, int b);
-extern int VCT_SESSION_AddMember(void *p);
+extern int VCT_MIXER_AddMember(void *p);
 
 int VCT_MAIN_AcceptPendingPeer(int x)
 {
@@ -35,7 +35,7 @@ int VCT_MAIN_AcceptPendingPeer(int x)
         if (VCT_SESSION_SendPeerReply((int)p, 0) != 0) {
             return r;
         }
-        if (VCT_SESSION_AddMember(*(void **)(((u8 *)gVctWork) + 0x1A1C)) != 0) {
+        if (VCT_MIXER_AddMember(*(void **)(((u8 *)gVctWork) + 0x1A1C)) != 0) {
             r = 1;
         }
         return r;

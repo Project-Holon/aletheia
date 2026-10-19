@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTLV_CORE_GetHighByte",
+   "name": "BTL_TYPEPAIR_GetHigh",
    "address": "0x021E8CFC",
    "kind": "game",
    "region": "ov093",

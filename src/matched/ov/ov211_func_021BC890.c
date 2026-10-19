@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   BG_SYS_SetScrollY  0x02041F6C  arm
+ *   BG_SYS_ChangeScale  0x02041F6C  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -18,12 +18,12 @@
 typedef unsigned int u32;
 
 typedef unsigned short u16;
-extern void BG_SYS_SetScrollY(u32 which, u32 op, u32 value);
+extern void BG_SYS_ChangeScale(u32 which, u32 op, u32 value);
 
 void ZUKAN_SEARCH_SCREEN_Tick(void)
 {
-    BG_SYS_SetScrollY(3, 4, 0x80);
-    BG_SYS_SetScrollY(3, 7, 0x80);
-    BG_SYS_SetScrollY(7, 4, 0x80);
-    BG_SYS_SetScrollY(7, 7, 0x80);
+    BG_SYS_ChangeScale(3, 4, 0x80);
+    BG_SYS_ChangeScale(3, 7, 0x80);
+    BG_SYS_ChangeScale(7, 4, 0x80);
+    BG_SYS_ChangeScale(7, 7, 0x80);
 }

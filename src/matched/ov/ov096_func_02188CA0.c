@@ -18,8 +18,8 @@
  *   TR_AI_GetPoke  0x0218A2FC  thumb  ov096
  *   TR_AI_GetMoveParam  0x0218A378  thumb  ov096
  *   BTL_POKEPARAM_GetTypePair  0x021D57FC  thumb  ov093
- *   BTLV_CORE_GetHighByte  0x021E8CFC  thumb  ov093
- *   BTLV_CORE_GetLowByte  0x021E8D04  thumb  ov093
+ *   BTL_TYPEPAIR_GetHigh  0x021E8CFC  thumb  ov093
+ *   BTL_TYPEPAIR_GetLow  0x021E8D04  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -44,8 +44,8 @@ extern u8 *TR_AI_GetPoke(u8 *p, u8 i);
 extern int TR_AI_GetMoveParam(Conn *, int, int);
 typedef signed int     s32;
 extern u16 BTL_POKEPARAM_GetTypePair(void *p);
-extern u8 BTLV_CORE_GetHighByte(s32 v);
-extern int BTLV_CORE_GetLowByte(int x);
+extern u8 BTL_TYPEPAIR_GetHigh(s32 v);
+extern int BTL_TYPEPAIR_GetLow(int x);
 
 int TR_AI_CmdLoadType(struct Cursor *a, Conn *b)
 {
@@ -58,31 +58,31 @@ int TR_AI_CmdLoadType(struct Cursor *a, Conn *b)
     q = BTL_POKEPARAM_GetTypePair(b->fc0);
     switch (k) {
     case 1:
-        b->f38 = BTLV_CORE_GetHighByte(p);
+        b->f38 = BTL_TYPEPAIR_GetHigh(p);
         break;
     case 0:
-        b->f38 = BTLV_CORE_GetHighByte(q);
+        b->f38 = BTL_TYPEPAIR_GetHigh(q);
         break;
     case 3:
-        b->f38 = BTLV_CORE_GetLowByte(p);
+        b->f38 = BTL_TYPEPAIR_GetLow(p);
         break;
     case 2:
-        b->f38 = BTLV_CORE_GetLowByte(q);
+        b->f38 = BTL_TYPEPAIR_GetLow(q);
         break;
     case 4:
         b->f38 = TR_AI_GetMoveParam(b, b->f2, 0);
         break;
     case 6:
-        b->f38 = BTLV_CORE_GetHighByte(BTL_POKEPARAM_GetTypePair(TR_AI_GetPoke((u8 *)b, TR_AI_GetPosition((u8 *)b, 3))));
+        b->f38 = BTL_TYPEPAIR_GetHigh(BTL_POKEPARAM_GetTypePair(TR_AI_GetPoke((u8 *)b, TR_AI_GetPosition((u8 *)b, 3))));
         break;
     case 5:
-        b->f38 = BTLV_CORE_GetHighByte(BTL_POKEPARAM_GetTypePair(TR_AI_GetPoke((u8 *)b, TR_AI_GetPosition((u8 *)b, 2))));
+        b->f38 = BTL_TYPEPAIR_GetHigh(BTL_POKEPARAM_GetTypePair(TR_AI_GetPoke((u8 *)b, TR_AI_GetPosition((u8 *)b, 2))));
         break;
     case 8:
-        b->f38 = BTLV_CORE_GetLowByte(BTL_POKEPARAM_GetTypePair(TR_AI_GetPoke((u8 *)b, TR_AI_GetPosition((u8 *)b, 3))));
+        b->f38 = BTL_TYPEPAIR_GetLow(BTL_POKEPARAM_GetTypePair(TR_AI_GetPoke((u8 *)b, TR_AI_GetPosition((u8 *)b, 3))));
         break;
     case 7:
-        b->f38 = BTLV_CORE_GetLowByte(BTL_POKEPARAM_GetTypePair(TR_AI_GetPoke((u8 *)b, TR_AI_GetPosition((u8 *)b, 2))));
+        b->f38 = BTL_TYPEPAIR_GetLow(BTL_POKEPARAM_GetTypePair(TR_AI_GetPoke((u8 *)b, TR_AI_GetPosition((u8 *)b, 2))));
         break;
     }
     return b->fc4;

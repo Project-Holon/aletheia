@@ -65,7 +65,7 @@
  *   PARTICLE_InitManager 0x02050B80 arm
  *   PARTICLE_CreateSystemDefault 0x02050C04 arm
  *   PARTICLE_LoadArchiveMember 0x0205121C arm
- *   BUTTON_MAN_GetResourceType 0x02051B04 arm
+ *   PARTICLE_RESOURCE_GetType 0x02051B04 arm
  *   PARTICLE_SetupSystem 0x02051230 arm
  *   d_021F7300 0x021F7300 data a4
  *   PARTICLE_ExitManager 0x02050ED4 arm
@@ -270,7 +270,7 @@ extern int PARTICLE_CreateSystemDefault(int,int,int,int);
 
 extern int PARTICLE_LoadArchiveMember(unsigned,unsigned,unsigned);
 
-extern u16 BUTTON_MAN_GetResourceType(void *);
+extern u16 PARTICLE_RESOURCE_GetType(void *);
 
 extern void PARTICLE_SetupSystem(void *,unsigned,unsigned,unsigned);
 
@@ -650,7 +650,7 @@ char *EGG_DEMO_VIEW_CreateParticles(unsigned heap,unsigned count,const void *tab
     *(int *)&((struct EggDemoParticles *)work)->system=PARTICLE_CreateSystemDefault((int)(work+12),0x4800,1,heap);
     config=d_021F7300;
     resource=PARTICLE_LoadArchiveMember((unsigned)config,(unsigned)(config>>32),heap);
-    ((struct EggDemoParticles *)work)->resourceType=BUTTON_MAN_GetResourceType((void *)resource);
+    ((struct EggDemoParticles *)work)->resourceType=PARTICLE_RESOURCE_GetType((void *)resource);
     PARTICLE_SetupSystem(((struct EggDemoParticles *)work)->system,resource,1,0);
     return work;
 }

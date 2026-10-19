@@ -21,8 +21,8 @@
  *   MIC_StartAutoSamplingAsync  0x0208B2BC  arm
  *   MIC_StartLimitedSamplingAsync  0x0208B4C8  arm
  *   MIC_GetLastSamplingAddress  0x0208B4B8  arm
- *   VCT_SESSION_MixVoices  0x021B0B48  arm  ov013
- *   VCT_SESSION_QueueFrame  0x021B07F8  arm  ov013
+ *   VCT_MIXER_MixVoices  0x021B0B48  arm  ov013
+ *   VCT_MIXER_QueueFrame  0x021B07F8  arm  ov013
  *   VCT_MAIN_MicRestartDone  0x021AEB78  thumb  ov013
  *   gVctWork     0x021B3C80  data  ov013
  */
@@ -40,8 +40,8 @@ extern u32 APP_ENV_IsRunOnTwl(void);
 extern int MIC_StartAutoSamplingAsync(void *param, void (*cb)(void), void *arg);
 extern int MIC_StartLimitedSamplingAsync(void *param, void (*cb)(void), void *arg);
 extern u32 MIC_GetLastSamplingAddress(void);
-extern int VCT_SESSION_MixVoices(void *a, u32 b, int *out);
-extern int VCT_SESSION_QueueFrame(const u8 *src, u32 n);
+extern int VCT_MIXER_MixVoices(void *a, u32 b, int *out);
+extern int VCT_MIXER_QueueFrame(const u8 *src, u32 n);
 extern void VCT_MAIN_MicRestartDone(void);
 
 void VCT_MAIN_StreamCallback(int mode, u32 n, void **bufs, u32 size, int unused, u32 arg6)
@@ -76,10 +76,10 @@ void VCT_MAIN_StreamCallback(int mode, u32 n, void **bufs, u32 size, int unused,
         addr = ((u8 *)gVctWork) + 0x1104;
     }
     for (i = 0; i < n; i++) {
-        VCT_SESSION_MixVoices(bufs[i], size, 0);
+        VCT_MIXER_MixVoices(bufs[i], size, 0);
     }
     if (*(u16 *)(((u8 *)gVctWork) + 0x19B0) == 0) {
-        VCT_SESSION_QueueFrame(addr, size);
+        VCT_MIXER_QueueFrame(addr, size);
     }
     ((u8 *)gVctWork)[0x1A4A] = 2;
 }

@@ -15,7 +15,7 @@
  *   STRBUF_GetLength 0x020458F8 arm
  *   STRBUF_Create 0x020457B0 arm
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   STRBUF_Delete 0x02045808 arm
  */
 extern int BR_BTN_DATA_GetRowField(void *,int);
@@ -31,7 +31,7 @@ struct WordSet;
 extern u16 STRBUF_GetLength(struct U16Vec *vec);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void STRBUF_Delete(struct U16Vec *vec);
 void *BR_BTN_DATA_CreateLabel(unsigned *const *p,void *record,struct MsgBank *archive,unsigned short heap)
 {
@@ -47,7 +47,7 @@ void *BR_BTN_DATA_CreateLabel(unsigned *const *p,void *record,struct MsgBank *ar
             src=func_02045EC0(archive,(int)BR_BTN_DATA_GetRowField(record,3));
             result=STRBUF_Create(STRBUF_GetLength(src)+7,heap);
             WORDSET_CopyTaggedText(tmp,result,src);
-            WORDSET_DeleteStrbufED04(tmp);
+            WORDSET_Delete(tmp);
             STRBUF_Delete(src);
         }else{
             result=func_02045EC0(archive,(int)BR_BTN_DATA_GetRowField(record,3));

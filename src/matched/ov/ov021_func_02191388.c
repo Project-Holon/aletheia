@@ -13,7 +13,7 @@
  *   TALKMSGWIN_IsShown  0x02194974  thumb  ov021
  *   TALKMSGWIN_GetPrintStream  0x02194984  thumb  ov021
  *   PRINTSYS_PrintStreamGetState  0x0201CE30  thumb
- *   BG_SYS_FillScrollArea  0x02040618  arm
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm
  *   FIELD_MSGBG_IsCursorDrawn  0x021927F8  thumb  ov021
  *   TALKMSGWIN_GetBmpWin  0x02194990  thumb  ov021
  *   BMP_WIN_GetBmp  0x02045770  arm
@@ -38,7 +38,7 @@ typedef signed short   s16;
 extern int TALKMSGWIN_IsShown(u8 *p, int i);
 extern u32 TALKMSGWIN_GetPrintStream(u32, u32);
 extern u32 PRINTSYS_PrintStreamGetState(void *p);
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 extern u8 FIELD_MSGBG_IsCursorDrawn(u8 *p);
 extern u32 TALKMSGWIN_GetBmpWin(u32, u32);
 struct Descriptor;
@@ -67,7 +67,7 @@ u32 FIELD_MSGBG_TalkWinMain(u32 *a)
     }
     h = TALKMSGWIN_GetPrintStream(a[2], *((u8 *)a + 1));
     r = PRINTSYS_PrintStreamGetState((void *)h);
-    BG_SYS_FillScrollArea(1, 3, *(s16 *)((u8 *)a + 2));
+    BG_SYS_ChangeScrollImmediate(1, 3, *(s16 *)((u8 *)a + 2));
     if (*(s16 *)((u8 *)a + 2) < 0) {
         *(s16 *)((u8 *)a + 2) += 2;
         if (*(s16 *)((u8 *)a + 2) > 0) {
@@ -107,7 +107,7 @@ u32 FIELD_MSGBG_TalkWinMain(u32 *a)
     case 2:
         if (*(s16 *)((u8 *)a + 2) != 0) {
             *(s16 *)((u8 *)a + 2) = 0;
-            BG_SYS_FillScrollArea(1, 3, *(s16 *)((u8 *)a + 2));
+            BG_SYS_ChangeScrollImmediate(1, 3, *(s16 *)((u8 *)a + 2));
         }
         return 1;
     }

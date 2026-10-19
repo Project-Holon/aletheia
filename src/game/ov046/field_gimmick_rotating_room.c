@@ -54,7 +54,7 @@
  *   GFL_USE_StopAllSe  0x02006210  thumb
  *   FIELD_PLAYER_SetPos  0x021A3044  thumb  ov021
  *   sRotatingRoomHopHeights  0x021F4130  data  a4
- *   DEMO3D_ENGINE_Delete  0x021BE4B4  thumb  ov203
+ *   FLD_EXP_OBJ_SetModelHidden  0x021BE4B4  thumb  ov021
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   FLDMMDL_SysSearchUseMmdl  0x0216DD1C  thumb  ov010
  *   FLDMMDL_GetObjId  0x0216D588  thumb  ov010
@@ -112,7 +112,7 @@ extern int FLD_EXP_OBJ_IsAnimeStopped(struct FldExpAnime *anime);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern void GFL_USE_StopAllSe(void);
 extern void FIELD_PLAYER_SetPos(struct FieldPlayer *player, Vec3Fx *pos);
-extern void DEMO3D_ENGINE_Delete(struct FldExpObj *expObj, int unitIndex, int modelIndex, u32 hidden);
+extern void FLD_EXP_OBJ_SetModelHidden(struct FldExpObj *expObj, int unitIndex, int modelIndex, u32 hidden);
 extern struct FldMmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
 extern int FLDMMDL_SysSearchUseMmdl(struct FldMmdlSys *mmdlSys, struct Mmdl **outMmdl, u32 *iterator);
 extern u16 FLDMMDL_GetObjId(struct Mmdl *mmdl);
@@ -651,12 +651,12 @@ int FIELD_GIMMICK_ROTATING_ROOM_HopEventProc(struct GameEvent *event, int *state
 
 void FIELD_GIMMICK_ROTATING_ROOM_SetExteriorHidden(struct FldExpObj *expObj, struct FieldMap *fieldMap, u32 hidden)
 {
-    DEMO3D_ENGINE_Delete(expObj, 0, 15, hidden);
-    DEMO3D_ENGINE_Delete(expObj, 0, 10, hidden);
-    DEMO3D_ENGINE_Delete(expObj, 0, 11, hidden);
-    DEMO3D_ENGINE_Delete(expObj, 0, 12, hidden);
-    DEMO3D_ENGINE_Delete(expObj, 0, 13, hidden);
-    DEMO3D_ENGINE_Delete(expObj, 0, 14, hidden);
+    FLD_EXP_OBJ_SetModelHidden(expObj, 0, 15, hidden);
+    FLD_EXP_OBJ_SetModelHidden(expObj, 0, 10, hidden);
+    FLD_EXP_OBJ_SetModelHidden(expObj, 0, 11, hidden);
+    FLD_EXP_OBJ_SetModelHidden(expObj, 0, 12, hidden);
+    FLD_EXP_OBJ_SetModelHidden(expObj, 0, 13, hidden);
+    FLD_EXP_OBJ_SetModelHidden(expObj, 0, 14, hidden);
     FIELD_GIMMICK_ROTATING_ROOM_SetMmdlVanish(fieldMap, 4, hidden);
     FIELD_GIMMICK_ROTATING_ROOM_SetMmdlVanish(fieldMap, 5, hidden);
     FIELD_GIMMICK_ROTATING_ROOM_SetMmdlVanish(fieldMap, 9, hidden);

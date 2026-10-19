@@ -14,7 +14,7 @@
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
  *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093
  *   BTL_POKEPARAM_TestTurnFlag  0x021D5BB0  thumb  ov093
- *   BTLV_CORE_EventScaleDamage  0x021E8860  thumb  ov093
+ *   HAND_COMMON_EventScaleDamage  0x021E8860  thumb  ov093
  *   gEruptionHandlers     0x021F24A4  data   ov093  a4
  */
 
@@ -25,14 +25,14 @@ extern int BTL_EVENT_GetVar(int key);
 struct UtilWork;
 extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern int BTL_POKEPARAM_TestTurnFlag(struct UtilWork *p, u32 n);
-extern void BTLV_CORE_EventScaleDamage(int n);
+extern void HAND_COMMON_EventScaleDamage(int n);
 extern int gEruptionHandlers[];
 
 void HAND_WAZA_PaybackDoublePowerIfTargetMoved(int a, void *b, int c)
 {
     if (c == BTL_EVENT_GetVar(3)) {
         if (BTL_POKEPARAM_TestTurnFlag(BTL_SERVER_FLOW_GetPokeParam(b, (u8)BTL_EVENT_GetVar(4)), 1))
-            BTLV_CORE_EventScaleDamage(2);
+            HAND_COMMON_EventScaleDamage(2);
     }
 }
 

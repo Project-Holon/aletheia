@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   BTLV_CORE_GetZeroMasked  0x021E8918  thumb  ov093
+ *   BTL_SICKCONT_MakeNone  0x021E8918  thumb  ov093
  *   BTL_CALC_HasDefaultSickCont  0x021D7D6C  thumb  ov093
  *   BTL_POKEPARAM_ClearMajorStatus  0x021D61F0  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 struct Slot { u32 a : 3; u32 rest : 29; };
-extern struct Slot BTLV_CORE_GetZeroMasked(void);
+extern struct Slot BTL_SICKCONT_MakeNone(void);
 struct UtilSlots { u8 pad[0x1c]; struct Slot s[16]; u8 pad5C[0x50]; u8 b[16]; };
 extern int BTL_CALC_HasDefaultSickCont(int x);
 extern void BTL_POKEPARAM_ClearMajorStatus(struct UtilSlots *p);
@@ -28,6 +28,6 @@ void BTL_POKEPARAM_CureSick(struct UtilSlots *p, int k)
         BTL_POKEPARAM_ClearMajorStatus(p);
         return;
     }
-    p->s[k] = BTLV_CORE_GetZeroMasked();
+    p->s[k] = BTL_SICKCONT_MakeNone();
     p->b[k] = 0;
 }

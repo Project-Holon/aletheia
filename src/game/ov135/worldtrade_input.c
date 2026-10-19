@@ -1,8 +1,8 @@
 /*
  * file:     worldtrade_input.c
  * unit:     yes
- * function: WORLDTRADE_INPUT_MenuFinish, WORLDTRADE_INPUT_MenuCreate, WORLDTRADE_INPUT_MenuSetMode, WORLDTRADE_INPUT_MenuDelete, WORLDTRADE_INPUT_MenuUpdate, WORLDTRADE_INPUT_CheckTouch, WORLDTRADE_INPUT_UpdateCategoryGrid, WORLDTRADE_INPUT_ClampPageChoice, WORLDTRADE_INPUT_UpdateButtonRow, WORLDTRADE_INPUT_GetPageCount, WORLDTRADE_INPUT_HandlePagedKey4, WORLDTRADE_INPUT_ScrollPage4, WORLDTRADE_INPUT_UpdatePagedList4, WORLDTRADE_INPUT_UpdateThreeOptionMenu, WORLDTRADE_INPUT_ScrollPage4Alt, WORLDTRADE_INPUT_HandlePagedKey4Alt, WORLDTRADE_INPUT_UpdatePagedList4Alt, WORLDTRADE_INPUT_MapModeToLabel, WORLDTRADE_INPUT_UpdateCategoryGridAlt, WORLDTRADE_INPUT_HandlePagedKey5, WORLDTRADE_INPUT_ScrollPage5, WORLDTRADE_INPUT_UpdatePagedList5, WORLDTRADE_INPUT_DrawFrame, WORLDTRADE_INPUT_DrawThreeOptionScreen, WORLDTRADE_INPUT_DrawGenderListScreen, WORLDTRADE_INPUT_PutBmpWinString, WORLDTRADE_INPUT_StateNone, WORLDTRADE_INPUT_StateWaitFrameIn, WORLDTRADE_INPUT_StateWaitFrameMove, WORLDTRADE_INPUT_StateStartFrameOutSlow, WORLDTRADE_INPUT_StateWaitFrameHide, WORLDTRADE_INPUT_StateStartFrameOut, WORLDTRADE_INPUT_StateStartCategoryScreen, WORLDTRADE_INPUT_StateCategoryInput, WORLDTRADE_INPUT_StateCategorySelected, WORLDTRADE_INPUT_DrawCategoryScreen, WORLDTRADE_INPUT_DrawSubCategoryScreen, WORLDTRADE_INPUT_StateSubCategoryInput, WORLDTRADE_INPUT_StateSubCategorySelected, WORLDTRADE_INPUT_StateRestoreCursor, WORLDTRADE_INPUT_CheckSpeciesSeen, WORLDTRADE_INPUT_CreateSpeciesMenu, WORLDTRADE_INPUT_PrintPageNumberA, WORLDTRADE_INPUT_PrintPageNumberB, WORLDTRADE_INPUT_DrawSpeciesListScreen, WORLDTRADE_INPUT_StateSpeciesListInput, WORLDTRADE_INPUT_StateSpeciesListSelected, WORLDTRADE_INPUT_StateSpeciesListClose, WORLDTRADE_INPUT_StateStartCategoryScreenAlt, WORLDTRADE_INPUT_StateCategoryInputAlt, WORLDTRADE_INPUT_StateCategorySelectedAlt, WORLDTRADE_INPUT_StateReturnToCategoryAlt, WORLDTRADE_INPUT_DrawSubCategoryScreenAlt, WORLDTRADE_INPUT_StateSubCategoryInputAlt, WORLDTRADE_INPUT_StateSubCategorySelectedAlt, WORLDTRADE_INPUT_StateRestoreCursorAlt, WORLDTRADE_INPUT_DrawConditionListScreen, WORLDTRADE_INPUT_StateConditionListInput, WORLDTRADE_INPUT_StateConditionListSelected, WORLDTRADE_INPUT_StateConditionListClose, WORLDTRADE_INPUT_StateStartThreeOptionScreen, WORLDTRADE_INPUT_StateThreeOptionInput, WORLDTRADE_INPUT_StateThreeOptionClose, WORLDTRADE_INPUT_StateStartGenderListScreen, WORLDTRADE_INPUT_StateGenderListInput, WORLDTRADE_INPUT_StateGenderListClose, WORLDTRADE_INPUT_PrintFrameString, WORLDTRADE_INPUT_PrintFrameStringAlt, WORLDTRADE_INPUT_PrintPageLabel, WORLDTRADE_INPUT_CountSpeciesInList, WORLDTRADE_INPUT_CategoryHasSpecies, WORLDTRADE_INPUT_GetListRangeCount, WORLDTRADE_INPUT_CategoryHasListEntries
- * address:  0x021F9660
+ * function: WORLDTRADE_INPUT_PrintStringTop, WORLDTRADE_INPUT_PrintStringPlain, WORLDTRADE_INPUT_PrintBankString, WORLDTRADE_INPUT_PrintStringAligned, WORLDTRADE_INPUT_PrintStringAlignedLine, WORLDTRADE_INPUT_PrintStringAlignedWrapped, WORLDTRADE_INPUT_PrintCentered, WORLDTRADE_ENTER_RestartNetTimeout, WORLDTRADE_INPUT_CreateModeWindows, WORLDTRADE_INPUT_MenuFinish, WORLDTRADE_INPUT_MenuCreate, WORLDTRADE_INPUT_MenuSetMode, WORLDTRADE_INPUT_MenuDelete, WORLDTRADE_INPUT_MenuUpdate, WORLDTRADE_INPUT_CheckTouch, WORLDTRADE_INPUT_UpdateCategoryGrid, WORLDTRADE_INPUT_ClampPageChoice, WORLDTRADE_INPUT_UpdateButtonRow, WORLDTRADE_INPUT_GetPageCount, WORLDTRADE_INPUT_HandlePagedKey4, WORLDTRADE_INPUT_ScrollPage4, WORLDTRADE_INPUT_UpdatePagedList4, WORLDTRADE_INPUT_UpdateThreeOptionMenu, WORLDTRADE_INPUT_ScrollPage4Alt, WORLDTRADE_INPUT_HandlePagedKey4Alt, WORLDTRADE_INPUT_UpdatePagedList4Alt, WORLDTRADE_INPUT_MapModeToLabel, WORLDTRADE_INPUT_UpdateCategoryGridAlt, WORLDTRADE_INPUT_HandlePagedKey5, WORLDTRADE_INPUT_ScrollPage5, WORLDTRADE_INPUT_UpdatePagedList5, WORLDTRADE_INPUT_DrawFrame, WORLDTRADE_INPUT_DrawThreeOptionScreen, WORLDTRADE_INPUT_DrawGenderListScreen, WORLDTRADE_INPUT_PutBmpWinString, WORLDTRADE_INPUT_StateNone, WORLDTRADE_INPUT_StateWaitFrameIn, WORLDTRADE_INPUT_StateWaitFrameMove, WORLDTRADE_INPUT_StateStartFrameOutSlow, WORLDTRADE_INPUT_StateWaitFrameHide, WORLDTRADE_INPUT_StateStartFrameOut, WORLDTRADE_INPUT_StateStartCategoryScreen, WORLDTRADE_INPUT_StateCategoryInput, WORLDTRADE_INPUT_StateCategorySelected, WORLDTRADE_INPUT_DrawCategoryScreen, WORLDTRADE_INPUT_DrawSubCategoryScreen, WORLDTRADE_INPUT_StateSubCategoryInput, WORLDTRADE_INPUT_StateSubCategorySelected, WORLDTRADE_INPUT_StateRestoreCursor, WORLDTRADE_INPUT_CountSeenSpecies, WORLDTRADE_INPUT_CreateSpeciesMenu, WORLDTRADE_INPUT_PrintPageNumberA, WORLDTRADE_INPUT_PrintPageNumberB, WORLDTRADE_INPUT_DrawSpeciesListScreen, WORLDTRADE_INPUT_StateSpeciesListInput, WORLDTRADE_INPUT_StateSpeciesListSelected, WORLDTRADE_INPUT_StateSpeciesListClose, WORLDTRADE_INPUT_StateStartCategoryScreenAlt, WORLDTRADE_INPUT_StateCategoryInputAlt, WORLDTRADE_INPUT_StateCategorySelectedAlt, WORLDTRADE_INPUT_StateReturnToCategoryAlt, WORLDTRADE_INPUT_DrawSubCategoryScreenAlt, WORLDTRADE_INPUT_StateSubCategoryInputAlt, WORLDTRADE_INPUT_StateSubCategorySelectedAlt, WORLDTRADE_INPUT_StateRestoreCursorAlt, WORLDTRADE_INPUT_DrawConditionListScreen, WORLDTRADE_INPUT_StateConditionListInput, WORLDTRADE_INPUT_StateConditionListSelected, WORLDTRADE_INPUT_StateConditionListClose, WORLDTRADE_INPUT_StateStartThreeOptionScreen, WORLDTRADE_INPUT_StateThreeOptionInput, WORLDTRADE_INPUT_StateThreeOptionClose, WORLDTRADE_INPUT_StateStartGenderListScreen, WORLDTRADE_INPUT_StateGenderListInput, WORLDTRADE_INPUT_StateGenderListClose, WORLDTRADE_INPUT_PrintFrameString, WORLDTRADE_INPUT_PrintFrameStringAlt, WORLDTRADE_INPUT_PrintPageLabel, WORLDTRADE_INPUT_CountSpeciesInList, WORLDTRADE_INPUT_CategoryHasSpecies, WORLDTRADE_INPUT_GetListRangeCount, WORLDTRADE_INPUT_CategoryHasListEntries
+ * address:  0x021F9088
  * region:   ov135
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -10,41 +10,69 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
- *
- * Cut from worldtrade_box.c, worldtrade_enter.c, worldtrade_adapter.c, WORLDTRADE_ADAPTER_QueueMessagePrint.c by tools/splitfile.py.
+ * Cut from worldtrade_deposit.c, worldtrade_enter.c, worldtrade_input.c by tools/splitfile.py.
  *
  * symbols:
- *   WORLDTRADE_ADAPTER_InitPrinter  0x022026D8  thumb
- *   WORLDTRADE_ADAPTER_UpdatePrinter 0x02202770 thumb ov135
  *   GFL_HEAP_Free 0x020307B0 arm
- *   WORLDTRADE_ADAPTER_ExitPrinter 0x02202744 thumb ov135
  *   SAVEDATA_PanicFail 0x02034714 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   MSGDATA_AllocString 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   BG_SYS_PushTile  0x020409B4  arm
+ *   WORLDTRADE_ENTER_RestartNetTimeout 0x021F9254 thumb ov135
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
- *   UI_GetInputMode  0x020355C4  arm
+ *   WORLDTRADE_INPUT_PrintStringAlignedLine  0x021F91A0  thumb
  *   BMP_WIN_Delete 0x020452E8 arm
  *   GFL_HEAP_Alloc 0x02030734 arm
+ *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   BMP_WIN_GetBmp   0x02045770  arm
  *   BMP_Clear   0x02043B5C  arm
  *   BMP_WIN_TransferChars   0x02045334  arm
+ *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
+ *   WORLDTRADE_ADAPTER_QueuePrintDefaultColor  0x02202858  thumb  ov135
+ *   WORLDTRADE_INPUT_MenuCreate 0x021F9890 thumb ov135
+ *   WORLDTRADE_INPUT_MenuDelete 0x021F99D0 thumb ov135
  *   BG_SYS_SetTileEntry  0x02041300  arm
+ *   BMP_WIN_Create 0x020450F0 arm
+ *   WORLDTRADE_INPUT_MenuSetMode  0x021F9968  thumb  ov135
+ *   WORLDTRADE_INPUT_MenuUpdate 0x021F99F0 thumb ov135
  *   WORLDTRADE_ADAPTER_PrintQueColor  0x022028C8  thumb
  *   BMP_MENUWORK_Create  0x0201F81C  thumb  arm9
  *   BMP_MENUWORK_Delete  0x0201F868  thumb  arm9
  *   BMP_MENUWORK_AddMsgItem  0x0201F878  thumb  arm9
- *   TOUCHPANEL_HitTrg  0x02035C08  arm  arm9
- *   CLACT_IsActorAnimActive  0x0204B98C  arm  arm9
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  *   KEY_GetTrg  0x020362DC  arm  arm9
  *   ZUKAN_SAVE_IsSeen  0x0200D064  thumb  arm9
+ *   WORLDTRADE_DEPOSIT_CreateGenderMenu 0x021F87E0 thumb ov135
+ *   WORLDTRADE_DEPOSIT_LoadSpeciesList  0x021F8498  thumb
+ *   WORLDTRADE_DEPOSIT_GetSpeciesRange  0x021F84BC  thumb
+ *   WORLDTRADE_ADAPTER_StartPrintStream 0x02202878 thumb ov135
+ *   WORLDTRADE_ADAPTER_StrObjThunk 0x022026C4 thumb ov135
+ *   BMP_WIN_GetWidth 0x02045738 arm
+ *   tbl_022031EC   0x022031EC  data
+ *   BG_SYS_Init  0x02040C14  arm
+ *   data_02203200  0x02203200  data
+ *   data_02203206  0x02203206  data
+ *   data_0220322A  0x0220322A  data
+ *   data_02203242  0x02203242  data
+ *   data_022032AE  0x022032AE  data
+ *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm  arm9
+ *   WORLDTRADE_ENTER_CreateListMenu 0x021F8908 thumb ov135
+ *   WORLDTRADE_ENTER_GetListRange  0x021F88D8  thumb  ov135
+ *   WORLDTRADE_INPUT_PrintStringAlignedWrapped  0x021F91DC  thumb
+ *   WORLDTRADE_INPUT_PrintCentered  0x021F9218  thumb
+ *   WORLDTRADE_INPUT_PrintStringPlain  0x021F90A0  thumb
+ *   WORLDTRADE_INPUT_PrintStringTop  0x021F9088  thumb  ov135
+ *   WORLDTRADE_ADAPTER_InitPrinter  0x022026D8  thumb
+ *   WORLDTRADE_ADAPTER_UpdatePrinter 0x02202770 thumb ov135
+ *   WORLDTRADE_ADAPTER_ExitPrinter 0x02202744 thumb ov135
+ *   UI_GetInputMode  0x020355C4  arm
+ *   TOUCHPANEL_HitTrg  0x02035C08  arm  arm9
+ *   CLACT_IsActorAnimActive  0x0204B98C  arm  arm9
  *   BGWINFRM_GetPos  0x0202CF98  thumb
- *   BG_SYS_SetTileUnit  0x02040DA8  arm
+ *   BG_SYS_FreeTiles  0x02040DA8  arm
  *   BGWINFRM_Create  0x0202C9B4  thumb
  *   BGWINFRM_AddFrame  0x0202CA3C  thumb
  *   WORLDTRADE_SetActorPos  0x021F4FF4  thumb
@@ -78,29 +106,272 @@
  *   BGWINFRM_PutFrame 0x0202CB4C thumb
  *   BGWINFRM_ShowFrame 0x0202CC58 thumb
  *   BGWINFRM_StartMove 0x0202CD64 thumb
- *   WORLDTRADE_DEPOSIT_CreateGenderMenu 0x021F87E0 thumb ov135
  *   BGWINFRM_PutBmpWin  0x0202CEBC  thumb
  *   BGWINFRM_IsMoving 0x0202CE40 thumb
  *   CLACT_GetActorAnimSeq 0x0204B898 arm
  *   tbl_022033F8   0x022033F8  data
  *   tbl_02203440   0x02203440  data
- *   WORLDTRADE_DEPOSIT_LoadSpeciesList  0x021F8498  thumb
- *   WORLDTRADE_DEPOSIT_GetSpeciesRange  0x021F84BC  thumb
  *   g_022033FC  0x022033FC  data  ov135
  *   BGWINFRM_Delete  0x0202CA0C  thumb  arm9
  *   BGWINFRM_HideFrame  0x0202CC70  thumb  arm9
  *   BGWINFRM_UpdateMoves  0x0202CD94  thumb  arm9
  *   WORLDTRADE_ADAPTER_QueueMessagePrint  0x02202B20  thumb
  *   WORLDTRADE_INPUT_CreateModeWindows 0x021F9260 thumb ov135
- *   WORLDTRADE_ENTER_CreateListMenu 0x021F8908 thumb ov135
  *   g_0220320E  0x0220320E  data  ov135
  *   g_0220320F  0x0220320F  data  ov135
  *   g_02203216  0x02203216  data  ov135
  *   g_02203217  0x02203217  data  ov135
- *   WORLDTRADE_ENTER_GetListRange  0x021F88D8  thumb  ov135
  *   WORLDTRADE_ADAPTER_PrintNumber 0x02202A50 thumb ov135
  */
 #include "worldtrade_types.h"
+
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+
+extern u32 GFL_HEAP_Free(void *p);
+
+extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+
+extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+
+extern void STRBUF_Delete(struct U16Vec *vec);
+
+extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
+
+extern void BG_SYS_SetTileEntry(u32 layer, int value, int x0, int y0, u8 w, u8 h, u8 mode);
+
+extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
+
+extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+
+extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+
+extern void BMP_Clear(struct CharBuf *buf, u8 value);
+
+extern void BMP_WIN_TransferChars(struct Descriptor *d);
+
+extern u32 BMP_WIN_Delete(struct Descriptor *d);
+
+extern u32 KEY_GetTrg(void);
+
+extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
+
+extern u32 BMP_MENUWORK_Delete(void *p);
+
+extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
+
+extern u32 WORLDTRADE_ADAPTER_QueuePrintDefaultColor(void *p, u8 b, void *s, u32 x, u32 y, void *out);
+
+extern u32 ZUKAN_SAVE_IsSeen(struct Blk37 *p, u16 id);
+
+extern void *BMP_MENUWORK_Create(u32 n, u32 heap);
+
+extern void GFL_USE_PlaySeDefaultVolume(u32 id);
+
+extern void MI_CpuFill8(void *p, u32 value, u32 size);
+
+extern void BMP_MENUWORK_DrawWindow(void *, int, int, int);
+
+extern void WORLDTRADE_ADAPTER_StartPrintStream(void *a, unsigned b, unsigned c, int d, int e, PrintStreamCtx *p);
+
+extern int WORLDTRADE_ADAPTER_StrObjThunk(u32 *p, u32 b, u32 a, u32 c);
+
+extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
+
+extern u32 WORLDTRADE_ADAPTER_PrintQueColor(u8 *p, u32 z, u32 b, u32 r, u32 d, u32 z2, u16 f, u32 g);
+
+extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+
+extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
+
+void WORLDTRADE_INPUT_PrintStringTop(u32 a, u32 b, u32 c, u32 d, u16 e);
+
+void WORLDTRADE_INPUT_PrintStringPlain(u32 a, u32 b, u32 c, u32 d, u16 e);
+
+void WORLDTRADE_INPUT_PrintBankString(Work *p, void *bank, u32 index, int unused1, int unused2, int slow);
+
+int WORLDTRADE_INPUT_PrintStringAligned(void *win, void *str, int x, int align, int unused, int font, void *ctx);
+
+int WORLDTRADE_INPUT_PrintStringAlignedLine(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g);
+
+int WORLDTRADE_INPUT_PrintStringAlignedWrapped(u8 *p, u32 b, u32 c, u32 d, u32 e, u16 f, u32 g);
+
+void WORLDTRADE_INPUT_PrintCentered(void *win, void *bank, int idx, void *g);
+
+void WORLDTRADE_ENTER_RestartNetTimeout(u8 *p);
+
+void WORLDTRADE_INPUT_CreateModeWindows(Menu *p, u32 mode);
+
+extern const u32 tbl_022031EC[];
+
+extern const u8 data_02203200[3][2];
+
+extern const u8 data_02203206[4][2];
+
+extern const u8 data_0220322A[4][3];
+
+extern const u8 data_02203242[5][2];
+
+extern const u8 data_022032AE[9][2];
+
+/*
+ * Forward the u16 stack argument to WORLDTRADE_INPUT_PrintBankString with mode 1.
+ */
+void WORLDTRADE_INPUT_PrintStringTop(u32 work, u32 bank, u32 msgId, u32 unused1, u16 unused2)
+{
+    WORLDTRADE_INPUT_PrintBankString((Work *)work, (void *)bank, msgId, unused1, unused2, 1);
+}
+
+/*
+ * Forward the u16 stack argument to WORLDTRADE_INPUT_PrintBankString with mode 0.
+ */
+void WORLDTRADE_INPUT_PrintStringPlain(u32 work, u32 bank, u32 msgId, u32 unused1, u16 unused2)
+{
+    WORLDTRADE_INPUT_PrintBankString((Work *)work, (void *)bank, msgId, unused1, unused2, 0);
+}
+
+void WORLDTRADE_INPUT_PrintBankString(Work *p, void *bank, u32 index, int unused1, int unused2, int slow)
+{
+    void *str;
+    str = MSGDATA_AllocString(bank, index);
+    WORDSET_CopyTaggedText(p->words, p->str, str);
+    STRBUF_Delete(str);
+    BMP_Clear(BMP_WIN_GetBmp(p->d40), 15);
+    BMP_WIN_TransferChars(p->d40);
+    BMP_MENUWORK_DrawWindow(p->d40, 0, 1, 14);
+    if (slow)
+        WORLDTRADE_ADAPTER_StartPrintStream(p->d40, 0, (unsigned int)(p->str), 0, 0, &p->printCtx);
+    else
+        WORLDTRADE_ADAPTER_QueuePrintDefaultColor(p->d40, 0, p->str, 0, 0, &p->printCtx);
+    p->cnt = 0;
+}
+
+/*
+ * lever: unused fifth argument leaves font and context in stack slots +4/+8.
+ */
+int WORLDTRADE_INPUT_PrintStringAligned(void *win, void *str, int x, int align, int unused, int font, void *ctx)
+{
+    int width;
+    switch (align) {
+    case 1:
+        width = WORLDTRADE_ADAPTER_StrObjThunk(ctx, (u8)font, (u32)str, (int)0);
+        x = (BMP_WIN_GetWidth(win) * 8 - width) / 2;
+        break;
+    case 2:
+        width = WORLDTRADE_ADAPTER_StrObjThunk(ctx, (u8)font, (u32)str, (int)0);
+        x = BMP_WIN_GetWidth(win) * 8 - width;
+        break;
+    }
+    return x;
+}
+
+/*
+ * Seven-argument wrapper: forwards the object, three words, the 0 and the u16/g pair to the two helpers.
+ */
+int WORLDTRADE_INPUT_PrintStringAlignedLine(u8 *win, u32 str, u32 x, u32 y, u32 align, u16 color, u32 printer)
+{
+    u32 r = WORLDTRADE_INPUT_PrintStringAligned(win, (void *)str, x, align, color, 0, (void *)printer);
+
+    return WORLDTRADE_ADAPTER_PrintQueColor(win, 0, str, r, y, 0, color, printer);
+}
+
+int WORLDTRADE_INPUT_PrintStringAlignedWrapped(u8 *win, u32 str, u32 x, u32 y, u32 align, u16 color, u32 printer)
+{
+    u32 r = WORLDTRADE_INPUT_PrintStringAligned(win, (void *)str, x, align, color, 0, (void *)printer);
+
+    return WORLDTRADE_ADAPTER_PrintQueColor(win, 0, str, r, y, 0, color, printer);
+}
+
+void WORLDTRADE_INPUT_PrintCentered(void *win, void *bank, int idx, void *printer)
+{
+    void *str;
+
+    str = MSGDATA_AllocString(bank, tbl_022031EC[idx]);
+    WORLDTRADE_INPUT_PrintStringAlignedLine(win, (u32)str, 0, 0, 0, 0x440, (u32)printer);
+    STRBUF_Delete(str);
+}
+
+/*
+ * Tail call into GFL_NET_RestartWithDefaultTimeout with the fixed 0/0x48 pair.
+ */
+void WORLDTRADE_ENTER_RestartNetTimeout(u8 *p)
+{
+    GFL_NET_RestartWithDefaultTimeout(0, 0x48);
+}
+
+void WORLDTRADE_INPUT_CreateModeWindows(Menu *p, u32 mode)
+{
+    int i;
+
+    BG_SYS_Init(p->layer, 0, 1, 0);
+    switch (mode) {
+    case 4:
+        p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[14])), 10);
+        for (i = 0; i < 9; i++) {
+            p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_022032AE[i][0], data_022032AE[i][1], 3, 2, 1, 1);
+            BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[i])), 10);
+        }
+        break;
+    case 5:
+        p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[14])), 10);
+        p->wins[0] = (void *)BMP_WIN_Create((u8)p->layer, 2, 2, 3, 2, 1, 1);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[0])), 7);
+        for (i = 1; i < 4; i++) {
+            p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_022032AE[i - 1][0], data_022032AE[i - 1][1], 2, 2, 1, 1);
+            BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[i])), 10);
+        }
+        break;
+    case 0:
+        p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[14])), 10);
+        for (i = 0; i < 4; i++) {
+            p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_0220322A[i][0], data_0220322A[i][1], 8, 2, 1, 1);
+            BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[i])), 10);
+        }
+        p->wins[4] = (void *)BMP_WIN_Create((u8)p->layer, 5, 14, 5, 1, 1, 1);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[4])), 8);
+        break;
+    case 6:
+        p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[14])), 10);
+        for (i = 0; i < 9; i++) {
+            p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_022032AE[i][0], data_022032AE[i][1], 3, 2, 1, 1);
+            BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[i])), 10);
+        }
+        p->wins[15] = (void *)BMP_WIN_Create((u8)p->layer, 1, 2, 9, 2, 1, 1);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[15])), 10);
+        break;
+    case 3:
+        p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 24, 17, 6, 2, 1, 1);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[14])), 10);
+        for (i = 0; i < 5; i++) {
+            p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_02203242[i][0], data_02203242[i][1], 23, 2, 1, 1);
+            BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[i])), 10);
+        }
+        p->wins[5] = (void *)BMP_WIN_Create((u8)p->layer, 14, 16, 5, 1, 1, 1);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[5])), 10);
+        break;
+    case 1:
+        p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[14])), 10);
+        for (i = 0; i < 3; i++) {
+            p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_02203200[i][0], data_02203200[i][1], 9, 2, 1, 1);
+            BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[i])), 10);
+        }
+        break;
+    case 2:
+        p->wins[14] = (void *)BMP_WIN_Create((u8)p->layer, 9, 17, 6, 2, 1, 1);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[14])), 10);
+        for (i = 0; i < 4; i++) {
+            p->wins[i] = (void *)BMP_WIN_Create((u8)p->layer, data_02203206[i][0], data_02203206[i][1], 11, 2, 1, 1);
+            BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[i])), 10);
+        }
+        p->wins[4] = (void *)BMP_WIN_Create((u8)p->layer, 5, 14, 5, 1, 1, 1);
+        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->wins[4])), 8);
+        break;
+    }
+}
 
 typedef struct {
     u32 w00;
@@ -163,164 +434,276 @@ typedef struct {
     int f4;
 } Layout;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void WORLDTRADE_ADAPTER_InitPrinter(void *ctx, u32 arg);
-extern u32 GFL_HEAP_Free(void *p);
-extern void WORLDTRADE_ADAPTER_ExitPrinter(u8 *p);
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern void STRBUF_Delete(struct U16Vec *vec);
-extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
-extern void BG_SYS_SetTileEntry(u32 layer, int value, int x0, int y0, u8 w, u8 h, u8 mode);
-extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern u8 UI_GetInputMode(void);
-extern void *BMP_WIN_GetBmp(struct Descriptor *p);
-extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern u32 BMP_WIN_Delete(struct Descriptor *d);
-extern void UI_SetInputMode(u8 v);
-extern u32 KEY_GetTrg(void);
-extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
-extern u32 BMP_MENUWORK_Delete(void *p);
-extern u32 CLACT_IsActorAnimActive(struct Actor *a);
-extern u32 ZUKAN_SAVE_IsSeen(struct Blk37 *p, u16 id);
-extern void *BMP_MENUWORK_Create(u32 n, u32 heap);
-extern void GFL_USE_PlaySeDefaultVolume(u32 id);
-extern void MI_CpuFill8(void *p, u32 value, u32 size);
-extern u32 WORLDTRADE_ADAPTER_PrintQueColor(u8 *p, u32 z, u32 b, u32 r, u32 d, u32 z2, u16 f, u32 g);
-extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
-extern void BG_SYS_PushTile(u32 layer);
-extern void BG_SYS_SetTileUnit(u32, u32, u32);
-extern struct WinMgr *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heap);
-extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
-extern void WORLDTRADE_SetActorPos(u32 a, u32 b, u32 c);
-extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
-extern void *WORLDTRADE_ADAPTER_InitMessageSystem(u32 a, u32 b, u32 c, u32 heap);
-extern void WORLDTRADE_ADAPTER_ExitMessageSystem(MsgSys *p);
-extern void BGWINFRM_Delete(struct WinMgr *mgr);
-extern void BGWINFRM_UpdateMoves(struct WinMgr *mgr);
-extern void WORLDTRADE_ADAPTER_UpdatePrinter(void *g);
-extern void WORLDTRADE_ADAPTER_UpdateMessageSystem(void *printer);
-extern int TOUCHPANEL_HitTrg(const void *p);
-extern unsigned int KEY_GetRepeat(void);
-extern int _s32_div_f(int a, int b);
-extern void BGWINFRM_SetFrameDataArc(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
-extern u32 BGWINFRM_GetFrameBuffer(struct WinMgr *mgr, u32 idx);
-extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
-extern void BGWINFRM_ShowFrame(struct WinMgr *mgr, u32 idx);
-extern void BGWINFRM_StartMove(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
-extern int WORLDTRADE_DEPOSIT_CreateGenderMenu(void **, void *, int);
-extern void BGWINFRM_PutBmpWin(struct WinMgr *mgr, u32 idx, void *a);
-extern u32 BGWINFRM_IsMoving(struct WinMgr *mgr, u32 idx);
-extern void BGWINFRM_HideFrame(struct WinMgr *mgr, u32 idx);
-extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
-extern u16 *WORLDTRADE_DEPOSIT_LoadSpeciesList(u32 heap, u32 unused, u32 *count);
-extern void WORLDTRADE_DEPOSIT_GetSpeciesRange(u32 i, int *start, int *end);
-void WORLDTRADE_INPUT_CreateModeWindows(Menu *p, u32 mode);
-extern int WORLDTRADE_ENTER_CreateListMenu(void **menu, void *msg, int id);
-extern void WORLDTRADE_ADAPTER_QueueMessagePrint(struct Obj *p, int unusedArg, void *win, int x, int y);
-extern int WORLDTRADE_ENTER_GetListRange(u32 id, u32 *start);
-void WORLDTRADE_ADAPTER_PrintNumber(MsgSys *ctx, u32 num, u32 digits, u32 mode, void *win, int x, int y);
-void WORLDTRADE_INPUT_MenuFinish(Menu *p, int mode);
-InputMenu *WORLDTRADE_INPUT_MenuCreate(Init *init, u32 a, u32 b);
-void WORLDTRADE_INPUT_MenuSetMode(Menu *p, int mode);
-void WORLDTRADE_INPUT_MenuDelete(Menu *p);
-int WORLDTRADE_INPUT_MenuUpdate(Menu *p);
-int WORLDTRADE_INPUT_CheckTouch(Menu *p, int mode);
-int WORLDTRADE_INPUT_UpdateCategoryGrid(Menu *p, u8 *enable);
-int WORLDTRADE_INPUT_ClampPageChoice(Menu *p, int v);
-int WORLDTRADE_INPUT_UpdateButtonRow(Menu *p, int base);
-int WORLDTRADE_INPUT_GetPageCount(int total, int perPage);
-int WORLDTRADE_INPUT_HandlePagedKey4(Menu *m, int key);
-void WORLDTRADE_INPUT_ScrollPage4(Menu *m, int dir);
-int WORLDTRADE_INPUT_UpdatePagedList4(Menu *m);
-int WORLDTRADE_INPUT_UpdateThreeOptionMenu(Menu *p);
-void WORLDTRADE_INPUT_ScrollPage4Alt(Menu *m, int dir);
-int WORLDTRADE_INPUT_HandlePagedKey4Alt(Menu *m, int key);
-int WORLDTRADE_INPUT_UpdatePagedList4Alt(Menu *m);
-int WORLDTRADE_INPUT_MapModeToLabel(int unused, int mode);
-int WORLDTRADE_INPUT_UpdateCategoryGridAlt(Menu *p, u8 *enable);
-int WORLDTRADE_INPUT_HandlePagedKey5(Menu *m, int key);
-void WORLDTRADE_INPUT_ScrollPage5(Menu *m, int dir);
-int WORLDTRADE_INPUT_UpdatePagedList5(Menu *m);
-void WORLDTRADE_INPUT_DrawFrame(Menu *p, int mode, int pos);
-void WORLDTRADE_INPUT_DrawThreeOptionScreen(Menu *p);
-void WORLDTRADE_INPUT_DrawGenderListScreen(Menu *p);
-void WORLDTRADE_INPUT_PutBmpWinString(void *mgr, void *win, void *str, u32 x, u16 color, void *g);
-int WORLDTRADE_INPUT_StateNone(void);
-int WORLDTRADE_INPUT_StateWaitFrameIn(Menu *p);
-int WORLDTRADE_INPUT_StateWaitFrameMove(Menu *p);
-int WORLDTRADE_INPUT_StateStartFrameOutSlow(Menu *p);
-int WORLDTRADE_INPUT_StateWaitFrameHide(Menu *p);
-int WORLDTRADE_INPUT_StateStartFrameOut(Menu *p);
-void WORLDTRADE_INPUT_StateStartCategoryScreen(Menu *p);
-int WORLDTRADE_INPUT_StateCategoryInput(Menu *p);
-int WORLDTRADE_INPUT_StateCategorySelected(Menu *p);
-int WORLDTRADE_INPUT_DrawCategoryScreen(Menu *p);
-int WORLDTRADE_INPUT_DrawSubCategoryScreen(Menu *m);
-int WORLDTRADE_INPUT_StateSubCategoryInput(Menu *p);
-int WORLDTRADE_INPUT_StateSubCategorySelected(Menu *p);
-int WORLDTRADE_INPUT_StateRestoreCursor(Menu *p);
-int WORLDTRADE_INPUT_CheckSpeciesSeen(u32 unused, u32 item, u32 c, u16 *list, int start, int end);
-int WORLDTRADE_INPUT_CreateSpeciesMenu(Item **menu, void *msg, void *bank, u32 x, u32 kind, void *bag);
-void WORLDTRADE_INPUT_PrintPageNumberA(Menu *m, int page, int total);
-void WORLDTRADE_INPUT_PrintPageNumberB(Menu *m, int page, int total);
-int WORLDTRADE_INPUT_DrawSpeciesListScreen(Menu *p);
-int WORLDTRADE_INPUT_StateSpeciesListInput(Menu *p);
-int WORLDTRADE_INPUT_StateSpeciesListSelected(Menu *p);
-int WORLDTRADE_INPUT_StateSpeciesListClose(Menu *p);
-int WORLDTRADE_INPUT_StateStartCategoryScreenAlt(Menu *p);
-int WORLDTRADE_INPUT_StateCategoryInputAlt(Menu *p);
-int WORLDTRADE_INPUT_StateCategorySelectedAlt(Menu *p);
-int WORLDTRADE_INPUT_StateReturnToCategoryAlt(Menu *p);
-int WORLDTRADE_INPUT_DrawSubCategoryScreenAlt(Menu *p);
-int WORLDTRADE_INPUT_StateSubCategoryInputAlt(Menu *p);
-int WORLDTRADE_INPUT_StateSubCategorySelectedAlt(Menu *p);
-int WORLDTRADE_INPUT_StateRestoreCursorAlt(Menu *p);
-int WORLDTRADE_INPUT_DrawConditionListScreen(Menu *p);
-int WORLDTRADE_INPUT_StateConditionListInput(Menu *p);
-int WORLDTRADE_INPUT_StateConditionListSelected(Menu *p);
-int WORLDTRADE_INPUT_StateConditionListClose(Menu *p);
-int WORLDTRADE_INPUT_StateStartThreeOptionScreen(Menu *p);
-int WORLDTRADE_INPUT_StateThreeOptionInput(Menu *p);
-int WORLDTRADE_INPUT_StateThreeOptionClose(Menu *p);
-int WORLDTRADE_INPUT_StateStartGenderListScreen(Menu *p);
-int WORLDTRADE_INPUT_StateGenderListInput(Menu *p);
-int WORLDTRADE_INPUT_StateGenderListClose(Menu *p);
-void WORLDTRADE_INPUT_PrintFrameString(void *mgr, void *bank, void *win, u32 index, u32 x, u16 color, void *g);
-void WORLDTRADE_INPUT_PrintFrameStringAlt(void *mgr, void *bank, void *win, u32 index, void *g);
-void WORLDTRADE_INPUT_PrintPageLabel(void *mgr, void *ctx, void *win, int page, u32 pages);
-int WORLDTRADE_INPUT_CountSpeciesInList(Menu *m, u32 idx);
-int WORLDTRADE_INPUT_CategoryHasSpecies(void *p, int idx);
-int WORLDTRADE_INPUT_GetListRangeCount(void *p, u32 a);
-int WORLDTRADE_INPUT_CategoryHasListEntries(void *p, int idx);
-extern u8 g_02203CD8[];
-extern u8 tbl_02203370[];
-extern u8 tbl_022033C8[];
-extern u8 tbl_022032DE[];
-extern u8 tbl_02203270[];
-extern u8 tbl_022032FE[];
-extern u8 tbl_02203284[];
-extern const Link tbl_02203348[];
-extern const Cell tbl_022032C6[];
-extern const Layout tbl_022033FC[];
-extern const Link tbl_02203260[];
-extern u8 *const tbl_02203324[];
-extern const CurPos tbl_02203220[];
-extern const Cell tbl_0220320E[];
-extern const int tbl_02203250[];
-extern const CurPos tbl_02203216[];
-extern const Link tbl_0220339C[];
-extern const Cell tbl_02203298[];
-extern const CurPos tbl_02203236[];
-extern const Range tbl_022033F8[];
-extern const u32 tbl_02203440[];
-extern u8 g_022033FC[];
-extern u8 g_0220320E[];
-extern u8 g_0220320F[];
-extern u8 g_02203216[];
-extern u8 g_02203217[];
 
+extern void WORLDTRADE_ADAPTER_ExitPrinter(u8 *p);
+
+extern u8 UI_GetInputMode(void);
+
+extern void UI_SetInputMode(u8 v);
+
+extern u32 CLACT_IsActorAnimActive(struct Actor *a);
+
+extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
+
+extern void BG_SYS_PushTile(u32 layer);
+
+extern void BG_SYS_FreeTiles(u32, u32, u32);
+
+extern struct WinMgr *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heap);
+
+extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
+
+extern void WORLDTRADE_SetActorPos(u32 a, u32 b, u32 c);
+
+extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
+
+extern void *WORLDTRADE_ADAPTER_InitMessageSystem(u32 a, u32 b, u32 c, u32 heap);
+
+extern void WORLDTRADE_ADAPTER_ExitMessageSystem(MsgSys *p);
+
+extern void BGWINFRM_Delete(struct WinMgr *mgr);
+
+extern void BGWINFRM_UpdateMoves(struct WinMgr *mgr);
+
+extern void WORLDTRADE_ADAPTER_UpdatePrinter(void *g);
+
+extern void WORLDTRADE_ADAPTER_UpdateMessageSystem(void *printer);
+
+extern int TOUCHPANEL_HitTrg(const void *p);
+
+extern unsigned int KEY_GetRepeat(void);
+
+
+extern void BGWINFRM_SetFrameDataArc(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
+
+extern u32 BGWINFRM_GetFrameBuffer(struct WinMgr *mgr, u32 idx);
+
+extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
+
+extern void BGWINFRM_ShowFrame(struct WinMgr *mgr, u32 idx);
+
+extern void BGWINFRM_StartMove(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
+
+extern int WORLDTRADE_DEPOSIT_CreateGenderMenu(void **, void *, int);
+
+extern void BGWINFRM_PutBmpWin(struct WinMgr *mgr, u32 idx, void *a);
+
+extern u32 BGWINFRM_IsMoving(struct WinMgr *mgr, u32 idx);
+
+extern void BGWINFRM_HideFrame(struct WinMgr *mgr, u32 idx);
+
+extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
+
+extern u16 *WORLDTRADE_DEPOSIT_LoadSpeciesList(u32 heap, u32 unused, u32 *count);
+
+extern void WORLDTRADE_DEPOSIT_GetSpeciesRange(u32 i, int *start, int *end);
+
+extern int WORLDTRADE_ENTER_CreateListMenu(void **menu, void *msg, int id);
+
+extern void WORLDTRADE_ADAPTER_QueueMessagePrint(struct Obj *p, int unusedArg, void *win, int x, int y);
+
+extern int WORLDTRADE_ENTER_GetListRange(u32 id, u32 *start);
+
+void WORLDTRADE_ADAPTER_PrintNumber(MsgSys *ctx, u32 num, u32 digits, u32 mode, void *win, int x, int y);
+
+void WORLDTRADE_INPUT_MenuFinish(Menu *p, int mode);
+
+InputMenu *WORLDTRADE_INPUT_MenuCreate(Init *init, u32 a, u32 b);
+
+void WORLDTRADE_INPUT_MenuSetMode(Menu *p, int mode);
+
+void WORLDTRADE_INPUT_MenuDelete(Menu *p);
+
+int WORLDTRADE_INPUT_MenuUpdate(Menu *p);
+
+int WORLDTRADE_INPUT_CheckTouch(Menu *p, int mode);
+
+int WORLDTRADE_INPUT_UpdateCategoryGrid(Menu *p, u8 *enable);
+
+int WORLDTRADE_INPUT_ClampPageChoice(Menu *p, int v);
+
+int WORLDTRADE_INPUT_UpdateButtonRow(Menu *p, int base);
+
+int WORLDTRADE_INPUT_GetPageCount(int total, int perPage);
+
+int WORLDTRADE_INPUT_HandlePagedKey4(Menu *m, int key);
+
+void WORLDTRADE_INPUT_ScrollPage4(Menu *m, int dir);
+
+int WORLDTRADE_INPUT_UpdatePagedList4(Menu *m);
+
+int WORLDTRADE_INPUT_UpdateThreeOptionMenu(Menu *p);
+
+void WORLDTRADE_INPUT_ScrollPage4Alt(Menu *m, int dir);
+
+int WORLDTRADE_INPUT_HandlePagedKey4Alt(Menu *m, int key);
+
+int WORLDTRADE_INPUT_UpdatePagedList4Alt(Menu *m);
+
+int WORLDTRADE_INPUT_MapModeToLabel(int unused, int mode);
+
+int WORLDTRADE_INPUT_UpdateCategoryGridAlt(Menu *p, u8 *enable);
+
+int WORLDTRADE_INPUT_HandlePagedKey5(Menu *m, int key);
+
+void WORLDTRADE_INPUT_ScrollPage5(Menu *m, int dir);
+
+int WORLDTRADE_INPUT_UpdatePagedList5(Menu *m);
+
+void WORLDTRADE_INPUT_DrawFrame(Menu *p, int mode, int pos);
+
+void WORLDTRADE_INPUT_DrawThreeOptionScreen(Menu *p);
+
+void WORLDTRADE_INPUT_DrawGenderListScreen(Menu *p);
+
+void WORLDTRADE_INPUT_PutBmpWinString(void *mgr, void *win, void *str, u32 x, u16 color, void *g);
+
+int WORLDTRADE_INPUT_StateNone(void);
+
+int WORLDTRADE_INPUT_StateWaitFrameIn(Menu *p);
+
+int WORLDTRADE_INPUT_StateWaitFrameMove(Menu *p);
+
+int WORLDTRADE_INPUT_StateStartFrameOutSlow(Menu *p);
+
+int WORLDTRADE_INPUT_StateWaitFrameHide(Menu *p);
+
+int WORLDTRADE_INPUT_StateStartFrameOut(Menu *p);
+
+void WORLDTRADE_INPUT_StateStartCategoryScreen(Menu *p);
+
+int WORLDTRADE_INPUT_StateCategoryInput(Menu *p);
+
+int WORLDTRADE_INPUT_StateCategorySelected(Menu *p);
+
+int WORLDTRADE_INPUT_DrawCategoryScreen(Menu *p);
+
+int WORLDTRADE_INPUT_DrawSubCategoryScreen(Menu *m);
+
+int WORLDTRADE_INPUT_StateSubCategoryInput(Menu *p);
+
+int WORLDTRADE_INPUT_StateSubCategorySelected(Menu *p);
+
+int WORLDTRADE_INPUT_StateRestoreCursor(Menu *p);
+
+int WORLDTRADE_INPUT_CountSeenSpecies(u32 unused, u32 item, u32 c, u16 *list, int start, int end);
+
+int WORLDTRADE_INPUT_CreateSpeciesMenu(Item **menu, void *msg, void *bank, u32 x, u32 kind, void *bag);
+
+void WORLDTRADE_INPUT_PrintPageNumberA(Menu *m, int page, int total);
+
+void WORLDTRADE_INPUT_PrintPageNumberB(Menu *m, int page, int total);
+
+int WORLDTRADE_INPUT_DrawSpeciesListScreen(Menu *p);
+
+int WORLDTRADE_INPUT_StateSpeciesListInput(Menu *p);
+
+int WORLDTRADE_INPUT_StateSpeciesListSelected(Menu *p);
+
+int WORLDTRADE_INPUT_StateSpeciesListClose(Menu *p);
+
+int WORLDTRADE_INPUT_StateStartCategoryScreenAlt(Menu *p);
+
+int WORLDTRADE_INPUT_StateCategoryInputAlt(Menu *p);
+
+int WORLDTRADE_INPUT_StateCategorySelectedAlt(Menu *p);
+
+int WORLDTRADE_INPUT_StateReturnToCategoryAlt(Menu *p);
+
+int WORLDTRADE_INPUT_DrawSubCategoryScreenAlt(Menu *p);
+
+int WORLDTRADE_INPUT_StateSubCategoryInputAlt(Menu *p);
+
+int WORLDTRADE_INPUT_StateSubCategorySelectedAlt(Menu *p);
+
+int WORLDTRADE_INPUT_StateRestoreCursorAlt(Menu *p);
+
+int WORLDTRADE_INPUT_DrawConditionListScreen(Menu *p);
+
+int WORLDTRADE_INPUT_StateConditionListInput(Menu *p);
+
+int WORLDTRADE_INPUT_StateConditionListSelected(Menu *p);
+
+int WORLDTRADE_INPUT_StateConditionListClose(Menu *p);
+
+int WORLDTRADE_INPUT_StateStartThreeOptionScreen(Menu *p);
+
+int WORLDTRADE_INPUT_StateThreeOptionInput(Menu *p);
+
+int WORLDTRADE_INPUT_StateThreeOptionClose(Menu *p);
+
+int WORLDTRADE_INPUT_StateStartGenderListScreen(Menu *p);
+
+int WORLDTRADE_INPUT_StateGenderListInput(Menu *p);
+
+int WORLDTRADE_INPUT_StateGenderListClose(Menu *p);
+
+void WORLDTRADE_INPUT_PrintFrameString(void *mgr, void *bank, void *win, u32 index, u32 x, u16 color, void *g);
+
+void WORLDTRADE_INPUT_PrintFrameStringAlt(void *mgr, void *bank, void *win, u32 index, void *g);
+
+void WORLDTRADE_INPUT_PrintPageLabel(void *mgr, void *ctx, void *win, int page, u32 pages);
+
+int WORLDTRADE_INPUT_CountSpeciesInList(Menu *m, u32 idx);
+
+int WORLDTRADE_INPUT_CategoryHasSpecies(void *p, int idx);
+
+int WORLDTRADE_INPUT_GetListRangeCount(void *p, u32 a);
+
+int WORLDTRADE_INPUT_CategoryHasListEntries(void *p, int idx);
+
+extern u8 g_02203CD8[];
+
+extern u8 tbl_02203370[];
+
+extern u8 tbl_022033C8[];
+
+extern u8 tbl_022032DE[];
+
+extern u8 tbl_02203270[];
+
+extern u8 tbl_022032FE[];
+
+extern u8 tbl_02203284[];
+
+extern const Link tbl_02203348[];
+
+extern const Cell tbl_022032C6[];
+
+extern const Layout tbl_022033FC[];
+
+extern const Link tbl_02203260[];
+
+extern u8 *const tbl_02203324[];
+
+extern const CurPos tbl_02203220[];
+
+extern const Cell tbl_0220320E[];
+
+extern const int tbl_02203250[];
+
+extern const CurPos tbl_02203216[];
+
+extern const Link tbl_0220339C[];
+
+extern const Cell tbl_02203298[];
+
+extern const CurPos tbl_02203236[];
+
+extern const Range tbl_022033F8[];
+
+extern const u32 tbl_02203440[];
+
+extern u8 g_022033FC[];
+
+extern u8 g_0220320E[];
+
+extern u8 g_0220320F[];
+
+extern u8 g_02203216[];
+
+extern u8 g_02203217[];
 
 /*
  * Redraw the text windows of layout `mode` (0..6): clear and refresh the
@@ -410,9 +793,8 @@ void WORLDTRADE_INPUT_MenuFinish(Menu *p, int mode)
         BMP_WIN_Delete(p->wins[14]);
         break;
     }
-    BG_SYS_SetTileUnit(p->layer, 1, 0);
+    BG_SYS_FreeTiles(p->layer, 1, 0);
 }
-
 
 InputMenu *WORLDTRADE_INPUT_MenuCreate(Init *init, u32 layer, u32 listKind)
 {
@@ -452,7 +834,6 @@ InputMenu *WORLDTRADE_INPUT_MenuCreate(Init *init, u32 layer, u32 listKind)
     return m;
 }
 
-
 /*
  * trailing: two-byte zero alignment padding at 0x021F99CE.
  */
@@ -487,7 +868,6 @@ void WORLDTRADE_INPUT_MenuSetMode(Menu *p, int mode)
     }
 }
 
-
 /*
  * Tear the object down: sub-object at +0x7c, buffer at +0x34, then the object.
  */
@@ -499,9 +879,7 @@ void WORLDTRADE_INPUT_MenuDelete(Menu *p)
     GFL_HEAP_Free((void *)((u32)p));
 }
 
-
 extern int (*const tbl_02203C48[])(Menu *p);
-
 
 int WORLDTRADE_INPUT_MenuUpdate(Menu *p)
 {
@@ -512,7 +890,6 @@ int WORLDTRADE_INPUT_MenuUpdate(Menu *p)
     WORLDTRADE_ADAPTER_UpdateMessageSystem(p->num);
     return r;
 }
-
 
 /*
  * Touch hit test against the rectangle table of screen mode `mode`
@@ -538,7 +915,6 @@ int WORLDTRADE_INPUT_CheckTouch(Menu *p, int mode)
         return TOUCHPANEL_HitTrg(tbl_02203284);
     }
 }
-
 
 /*
  * Cursor input for the ten-entry mode-4 menu: the mode-6 grid of nine
@@ -637,7 +1013,6 @@ int WORLDTRADE_INPUT_UpdateCategoryGrid(Menu *p, u8 *enable)
     return -1;
 }
 
-
 /*
  * Validate a touched entry index: 3 maps to -2; for layouts 0..8 (+0x38)
  * an index at or past the layout's entry count (first word of its 8-byte
@@ -656,7 +1031,6 @@ int WORLDTRADE_INPUT_ClampPageChoice(Menu *p, int choice)
     }
     return -2;
 }
-
 
 /*
  * Cursor input for the five-entry mode-5 menu: the d-pad walks the link
@@ -747,7 +1121,6 @@ int WORLDTRADE_INPUT_UpdateButtonRow(Menu *p, int base)
     return -1;
 }
 
-
 /*
  * Number of pages needed for total entries, at least 1.
  */
@@ -759,9 +1132,8 @@ int WORLDTRADE_INPUT_GetPageCount(int total, int perPage)
         return 1;
     }
     last = perPage - 1;
-    return _s32_div_f(total + last, perPage);
+    return (total + last) / perPage;
 }
-
 
 int WORLDTRADE_INPUT_HandlePagedKey4(Menu *menu, int key)
 {
@@ -784,7 +1156,6 @@ int WORLDTRADE_INPUT_HandlePagedKey4(Menu *menu, int key)
     }
     return -1;
 }
-
 
 void WORLDTRADE_INPUT_ScrollPage4(Menu *menu, int dir)
 {
@@ -816,7 +1187,6 @@ void WORLDTRADE_INPUT_ScrollPage4(Menu *menu, int dir)
     WORLDTRADE_INPUT_PrintPageNumberA((Menu *)menu, menu->page, menu->total);
     WORLDTRADE_INPUT_PrintPageLabel(menu->mgr, menu->num, menu->wins[4], menu->page, WORLDTRADE_INPUT_GetPageCount(menu->total, 4));
 }
-
 
 int WORLDTRADE_INPUT_UpdatePagedList4(Menu *menu)
 {
@@ -886,7 +1256,6 @@ int WORLDTRADE_INPUT_UpdatePagedList4(Menu *menu)
     return -1;
 }
 
-
 int WORLDTRADE_INPUT_UpdateThreeOptionMenu(Menu *p)
 {
     int old = p->pos;
@@ -954,7 +1323,6 @@ int WORLDTRADE_INPUT_UpdateThreeOptionMenu(Menu *p)
     return -1;
 }
 
-
 void WORLDTRADE_INPUT_ScrollPage4Alt(Menu *menu, int dir)
 {
     if (dir < 0) {
@@ -980,7 +1348,6 @@ void WORLDTRADE_INPUT_ScrollPage4Alt(Menu *menu, int dir)
     WORLDTRADE_INPUT_PrintPageLabel(menu->mgr, menu->num, menu->wins[4], menu->page, WORLDTRADE_INPUT_GetPageCount(menu->total, 4));
 }
 
-
 int WORLDTRADE_INPUT_HandlePagedKey4Alt(Menu *menu, int key)
 {
     int idx;
@@ -1003,7 +1370,6 @@ int WORLDTRADE_INPUT_HandlePagedKey4Alt(Menu *menu, int key)
     }
     return -1;
 }
-
 
 int WORLDTRADE_INPUT_UpdatePagedList4Alt(Menu *menu)
 {
@@ -1073,7 +1439,6 @@ int WORLDTRADE_INPUT_UpdatePagedList4Alt(Menu *menu)
     return -1;
 }
 
-
 /*
  * Map a mode value: 9 and 10 have fixed answers, everything else passes through.
  */
@@ -1088,7 +1453,6 @@ int WORLDTRADE_INPUT_MapModeToLabel(int unused, int mode)
         return mode;
     }
 }
-
 
 /*
  * Cursor input for the eleven-entry mode-6 menu: a 3-column grid of nine
@@ -1196,7 +1560,6 @@ int WORLDTRADE_INPUT_UpdateCategoryGridAlt(Menu *p, u8 *enable)
     return -1;
 }
 
-
 int WORLDTRADE_INPUT_HandlePagedKey5(Menu *menu, int key)
 {
     int idx;
@@ -1219,7 +1582,6 @@ int WORLDTRADE_INPUT_HandlePagedKey5(Menu *menu, int key)
     }
     return -1;
 }
-
 
 void WORLDTRADE_INPUT_ScrollPage5(Menu *menu, int dir)
 {
@@ -1251,7 +1613,6 @@ void WORLDTRADE_INPUT_ScrollPage5(Menu *menu, int dir)
     WORLDTRADE_INPUT_PrintPageNumberB((Menu *)menu, menu->page, menu->total);
     WORLDTRADE_INPUT_PrintPageLabel(menu->mgr, menu->num, menu->wins[5], menu->page, WORLDTRADE_INPUT_GetPageCount(menu->total, 5));
 }
-
 
 int WORLDTRADE_INPUT_UpdatePagedList5(Menu *menu)
 {
@@ -1321,7 +1682,6 @@ int WORLDTRADE_INPUT_UpdatePagedList5(Menu *menu)
     return -1;
 }
 
-
 void WORLDTRADE_INPUT_DrawFrame(Menu *p, int mode, int pos)
 {
     int i;
@@ -1366,7 +1726,6 @@ void WORLDTRADE_INPUT_DrawFrame(Menu *p, int mode, int pos)
     BGWINFRM_ShowFrame(p->mgr, 0);
 }
 
-
 void WORLDTRADE_INPUT_DrawThreeOptionScreen(Menu *p)
 {
     int i;
@@ -1384,7 +1743,6 @@ void WORLDTRADE_INPUT_DrawThreeOptionScreen(Menu *p)
     BGWINFRM_ShowFrame(p->mgr, 0);
     BGWINFRM_StartMove(p->mgr, 0, -4, 0, 4);
 }
-
 
 void WORLDTRADE_INPUT_DrawGenderListScreen(Menu *p)
 {
@@ -1409,7 +1767,6 @@ void WORLDTRADE_INPUT_DrawGenderListScreen(Menu *p)
     *(int *)(unsigned int *)&p->state = 34;
 }
 
-
 void WORLDTRADE_INPUT_PutBmpWinString(void *mgr, void *win, void *str, u32 x, u16 color, void *printer)
 {
     WORLDTRADE_ADAPTER_PrintQueColor((u8 *)win, 0, (u32)str, x, 0, 0, color, (u32)printer);
@@ -1417,12 +1774,10 @@ void WORLDTRADE_INPUT_PutBmpWinString(void *mgr, void *win, void *str, u32 x, u1
     BGWINFRM_PutBmpWin((struct WinMgr *)mgr, 0, win);
 }
 
-
 int WORLDTRADE_INPUT_StateNone(void)
 {
     return -1;
 }
-
 
 /*
  * lever: explicit if/else calls preserve the flag argument's scheduling.
@@ -1449,7 +1804,6 @@ int WORLDTRADE_INPUT_StateWaitFrameIn(Menu *p)
     return -1;
 }
 
-
 /*
  * Flush the queued value when the probe reports empty, then answer -1.
  */
@@ -1460,7 +1814,6 @@ int WORLDTRADE_INPUT_StateWaitFrameMove(Menu *p)
     }
     return -1;
 }
-
 
 /*
  * trailing: two-byte zero alignment padding at 0x021FAD82.
@@ -1479,7 +1832,6 @@ int WORLDTRADE_INPUT_StateStartFrameOutSlow(Menu *p)
     return -1;
 }
 
-
 /*
  * Drain the queue then flush the shadowed value, always answering -1.
  */
@@ -1492,7 +1844,6 @@ int WORLDTRADE_INPUT_StateWaitFrameHide(Menu *p)
     return -1;
 }
 
-
 int WORLDTRADE_INPUT_StateStartFrameOut(Menu *p)
 {
     if (CLACT_IsActorAnimActive((*(void * *)&p->cursor))) return -1;
@@ -1504,9 +1855,7 @@ int WORLDTRADE_INPUT_StateStartFrameOut(Menu *p)
     return -1;
 }
 
-
 void WORLDTRADE_INPUT_StateStartCategoryScreen(Menu *p) {WORLDTRADE_INPUT_DrawFrame(p,4,32);CLACT_SetActorAnimSeq((*(void * *)&p->cursor),18);WORLDTRADE_SetActorPos(*(u32 *)(void * *)&p->cursor,144,40);BGWINFRM_StartMove(p->mgr,0,-4,0,4);(*(unsigned int *)&p->state)=1;(*(unsigned int *)&p->nextState)=7;p->layout=-1;}
-
 
 int WORLDTRADE_INPUT_StateCategoryInput(Menu *p)
 {
@@ -1528,7 +1877,6 @@ int WORLDTRADE_INPUT_StateCategoryInput(Menu *p)
     return -1;
 }
 
-
 int WORLDTRADE_INPUT_StateCategorySelected(Menu *p)
 {
     if (CLACT_IsActorAnimActive((*(void * *)&p->cursor))) return -1;
@@ -1544,7 +1892,6 @@ int WORLDTRADE_INPUT_StateCategorySelected(Menu *p)
     } else return -2;
     return -1;
 }
-
 
 int WORLDTRADE_INPUT_DrawCategoryScreen(Menu *p)
 {
@@ -1583,7 +1930,6 @@ int WORLDTRADE_INPUT_DrawCategoryScreen(Menu *p)
         CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
     return -1;
 }
-
 
 int WORLDTRADE_INPUT_DrawSubCategoryScreen(Menu *menu)
 {
@@ -1624,7 +1970,6 @@ int WORLDTRADE_INPUT_DrawSubCategoryScreen(Menu *menu)
     return -1;
 }
 
-
 int WORLDTRADE_INPUT_StateSubCategoryInput(Menu *p)
 {
     int r;
@@ -1646,9 +1991,7 @@ int WORLDTRADE_INPUT_StateSubCategoryInput(Menu *p)
     return -1;
 }
 
-
 int WORLDTRADE_INPUT_StateSubCategorySelected(Menu *p) { if(CLACT_IsActorAnimActive((*(void * *)&p->cursor)))return -1;CLACT_SetActorDrawEnable((*(void * *)&p->cursor),0);WORLDTRADE_INPUT_MenuFinish((Menu *)p, 5);if(p->start>=0)*(u32 *)&p->state=14;else *(u32 *)&p->state=9;return -1; }
-
 
 /*
  * State select before the notify call.
@@ -1670,11 +2013,10 @@ int WORLDTRADE_INPUT_StateRestoreCursor(Menu *p)
     return -1;
 }
 
-
 /*
  * Count the entries of a u16 table that the query accepts.
  */
-int WORLDTRADE_INPUT_CheckSpeciesSeen(u32 unused, u32 item, u32 count, u16 *list, int start, int end)
+int WORLDTRADE_INPUT_CountSeenSpecies(u32 unused, u32 item, u32 count, u16 *list, int start, int end)
 {
     int i;
     int n = 0;
@@ -1686,7 +2028,6 @@ int WORLDTRADE_INPUT_CheckSpeciesSeen(u32 unused, u32 item, u32 count, u16 *list
     }
     return n;
 }
-
 
 int WORLDTRADE_INPUT_CreateSpeciesMenu(Item **menu, void *msg, void *bank, u32 speciesFlags, u32 kind, void *bag)
 {
@@ -1700,7 +2041,7 @@ int WORLDTRADE_INPUT_CreateSpeciesMenu(Item **menu, void *msg, void *bank, u32 s
     list = WORLDTRADE_DEPOSIT_LoadSpeciesList(0x48, 0, &count);
     WORLDTRADE_DEPOSIT_GetSpeciesRange(kind, &start, &end);
     count = end - start;
-    n = WORLDTRADE_INPUT_CheckSpeciesSeen(speciesFlags, (u32)bag, count, list, start, end);
+    n = WORLDTRADE_INPUT_CountSeenSpecies(speciesFlags, (u32)bag, count, list, start, end);
     *menu = BMP_MENUWORK_Create(n + 1, 0x48);
     for (i = start; i < end; i++) {
         if (ZUKAN_SAVE_IsSeen(bag, list[i]) != 0) {
@@ -1710,7 +2051,6 @@ int WORLDTRADE_INPUT_CreateSpeciesMenu(Item **menu, void *msg, void *bank, u32 s
     GFL_HEAP_Free(list);
     return n;
 }
-
 
 void WORLDTRADE_INPUT_PrintPageNumberA(Menu *menu, int page, int total)
 {
@@ -1727,7 +2067,6 @@ void WORLDTRADE_INPUT_PrintPageNumberA(Menu *menu, int page, int total)
     }
 }
 
-
 void WORLDTRADE_INPUT_PrintPageNumberB(Menu *menu, int page, int total)
 {
     int i;
@@ -1742,7 +2081,6 @@ void WORLDTRADE_INPUT_PrintPageNumberB(Menu *menu, int page, int total)
         }
     }
 }
-
 
 int WORLDTRADE_INPUT_DrawSpeciesListScreen(Menu *p)
 {
@@ -1783,7 +2121,6 @@ int WORLDTRADE_INPUT_DrawSpeciesListScreen(Menu *p)
     return -1;
 }
 
-
 int WORLDTRADE_INPUT_StateSpeciesListInput(Menu *p)
 {
     int r;
@@ -1808,7 +2145,6 @@ int WORLDTRADE_INPUT_StateSpeciesListInput(Menu *p)
     return -1;
 }
 
-
 /*
  * If the buffer is still live return -1; otherwise release the three pointers and pick the 0xd/0x9 code from the table.
  */
@@ -1826,9 +2162,7 @@ int WORLDTRADE_INPUT_StateSpeciesListSelected(Menu *p)
     return -1;
 }
 
-
 int WORLDTRADE_INPUT_StateSpeciesListClose(Menu *p) { if(CLACT_IsActorAnimActive((*(void * *)&p->cursor)))return -1;CLACT_SetActorDrawEnable((*(void * *)&p->cursor),0);WORLDTRADE_INPUT_MenuFinish((Menu *)p, 0);BMP_MENUWORK_Delete((void *)p->items);return p->speciesResult; }
-
 
 int WORLDTRADE_INPUT_StateStartCategoryScreenAlt(Menu *p)
 {
@@ -1843,7 +2177,6 @@ int WORLDTRADE_INPUT_StateStartCategoryScreenAlt(Menu *p)
     CLACT_SetActorAnimSeq((struct Obj *)(p->cursor), 6);
     return -1;
 }
-
 
 int WORLDTRADE_INPUT_StateCategoryInputAlt(Menu *p)
 {
@@ -1875,7 +2208,6 @@ int WORLDTRADE_INPUT_StateCategoryInputAlt(Menu *p)
     return -1;
 }
 
-
 int WORLDTRADE_INPUT_StateCategorySelectedAlt(Menu *p)
 {
     if (CLACT_IsActorAnimActive((*(void * *)&p->cursor)) != 0) return -1;
@@ -1900,7 +2232,6 @@ int WORLDTRADE_INPUT_StateCategorySelectedAlt(Menu *p)
     return -1;
 }
 
-
 int WORLDTRADE_INPUT_StateReturnToCategoryAlt(Menu *p)
 {
     WORLDTRADE_INPUT_DrawFrame(p, 6, 0x10);
@@ -1913,7 +2244,6 @@ int WORLDTRADE_INPUT_StateReturnToCategoryAlt(Menu *p)
     p->state = 19;
     return -1;
 }
-
 
 int WORLDTRADE_INPUT_DrawSubCategoryScreenAlt(Menu *p)
 {
@@ -1956,7 +2286,6 @@ int WORLDTRADE_INPUT_DrawSubCategoryScreenAlt(Menu *p)
     return -1;
 }
 
-
 int WORLDTRADE_INPUT_StateSubCategoryInputAlt(Menu *p)
 {
     int r;
@@ -1977,7 +2306,6 @@ int WORLDTRADE_INPUT_StateSubCategoryInputAlt(Menu *p)
     }
     return -1;
 }
-
 
 /*
  * Tail: two zero bytes of alignment padding after the return.
@@ -2000,7 +2328,6 @@ int WORLDTRADE_INPUT_StateSubCategorySelectedAlt(Menu *p)
     return -1;
 }
 
-
 /*
  * State select before the notify call.
  */
@@ -2021,7 +2348,6 @@ int WORLDTRADE_INPUT_StateRestoreCursorAlt(Menu *p)
     CLACT_SetActorDrawEnable((struct Obj *)v, n);
     return -1;
 }
-
 
 int WORLDTRADE_INPUT_DrawConditionListScreen(Menu *p)
 {
@@ -2058,7 +2384,6 @@ int WORLDTRADE_INPUT_DrawConditionListScreen(Menu *p)
     return -1;
 }
 
-
 int WORLDTRADE_INPUT_StateConditionListInput(Menu *p)
 {
     int r;
@@ -2083,7 +2408,6 @@ int WORLDTRADE_INPUT_StateConditionListInput(Menu *p)
     return -1;
 }
 
-
 /*
  * If the buffer is still live return -1; otherwise release the three pointers and pick the 0x19/0x15 code from the table.
  */
@@ -2101,7 +2425,6 @@ int WORLDTRADE_INPUT_StateConditionListSelected(Menu *p)
     return -1;
 }
 
-
 int WORLDTRADE_INPUT_StateConditionListClose(Menu *p)
 {
     if (CLACT_IsActorAnimActive((*(void * *)&p->cursor)) != 0) return -1;
@@ -2112,7 +2435,6 @@ int WORLDTRADE_INPUT_StateConditionListClose(Menu *p)
     BMP_MENUWORK_Delete(p->items);
     return p->conditionResult;
 }
-
 
 /*
  * Reset, re-arm the 6 frame, then index the two parallel stride-2 tables from the cursor at +0x44.
@@ -2130,7 +2452,6 @@ int WORLDTRADE_INPUT_StateStartThreeOptionScreen(Menu *p)
     p->nextState = 0x1f;
     return -1;
 }
-
 
 int WORLDTRADE_INPUT_StateThreeOptionInput(Menu *p)
 {
@@ -2156,12 +2477,10 @@ int WORLDTRADE_INPUT_StateThreeOptionInput(Menu *p)
     return -1;
 }
 
-
 /*
  * Extent remainder: 2-byte zero alignment padding.
  */
 int WORLDTRADE_INPUT_StateThreeOptionClose(Menu *p) { if(CLACT_IsActorAnimActive((void *)p->cursor))return -1;CLACT_SetActorDrawEnable((void *)p->cursor,0);WORLDTRADE_INPUT_MenuFinish(p,1);return p->optionResult; }
-
 
 int WORLDTRADE_INPUT_StateStartGenderListScreen(Menu *p)
 {
@@ -2176,7 +2495,6 @@ int WORLDTRADE_INPUT_StateStartGenderListScreen(Menu *p)
     p->nextState = 0x22;
     return -1;
 }
-
 
 int WORLDTRADE_INPUT_StateGenderListInput(Menu *p)
 {
@@ -2202,9 +2520,7 @@ int WORLDTRADE_INPUT_StateGenderListInput(Menu *p)
     return -1;
 }
 
-
 int WORLDTRADE_INPUT_StateGenderListClose(Menu *p) { if(CLACT_IsActorAnimActive((*(void * *)&p->cursor)))return -1;CLACT_SetActorDrawEnable((*(void * *)&p->cursor),0);WORLDTRADE_INPUT_MenuFinish(p,2);BMP_MENUWORK_Delete(p->items);return p->genderResult; }
-
 
 void WORLDTRADE_INPUT_PrintFrameString(void *mgr, void *bank, void *win, u32 index, u32 x, u16 color, void *printer)
 {
@@ -2213,7 +2529,6 @@ void WORLDTRADE_INPUT_PrintFrameString(void *mgr, void *bank, void *win, u32 ind
     WORLDTRADE_INPUT_PutBmpWinString(mgr, win, str, x, color, printer);
     STRBUF_Delete(str);
 }
-
 
 void WORLDTRADE_INPUT_PrintFrameStringAlt(void *mgr, void *bank, void *win, u32 index, void *printer)
 {
@@ -2225,7 +2540,6 @@ void WORLDTRADE_INPUT_PrintFrameStringAlt(void *mgr, void *bank, void *win, u32 
     STRBUF_Delete(str);
 }
 
-
 void WORLDTRADE_INPUT_PrintPageLabel(void *mgr, void *ctx, void *win, int page, u32 pages)
 {
     BMP_Clear(BMP_WIN_GetBmp(win), 8);
@@ -2235,7 +2549,6 @@ void WORLDTRADE_INPUT_PrintPageLabel(void *mgr, void *ctx, void *win, int page, 
     BMP_WIN_TransferChars(win);
     BGWINFRM_PutBmpWin(mgr, 0, win);
 }
-
 
 int WORLDTRADE_INPUT_CountSpeciesInList(Menu *menu, u32 idx)
 {
@@ -2248,11 +2561,10 @@ int WORLDTRADE_INPUT_CountSpeciesInList(Menu *menu, u32 idx)
     list = WORLDTRADE_DEPOSIT_LoadSpeciesList(0x48, 0, &n);
     WORLDTRADE_DEPOSIT_GetSpeciesRange(idx, &start, &end);
     n = end - start;
-    r = WORLDTRADE_INPUT_CheckSpeciesSeen(menu->speciesFlags, (u32)menu->bag, n, list, start, end);
+    r = WORLDTRADE_INPUT_CountSeenSpecies(menu->speciesFlags, (u32)menu->bag, n, list, start, end);
     GFL_HEAP_Free(list);
     return r;
 }
-
 
 int WORLDTRADE_INPUT_CategoryHasSpecies(void *p, int idx)
 {
@@ -2269,7 +2581,6 @@ int WORLDTRADE_INPUT_CategoryHasSpecies(void *p, int idx)
     return 0;
 }
 
-
 /*
  * Hand the second argument to WORLDTRADE_ENTER_GetListRange with a scratch word.
  */
@@ -2279,7 +2590,6 @@ int WORLDTRADE_INPUT_GetListRangeCount(void *p, u32 id)
 
     return WORLDTRADE_ENTER_GetListRange(id, &tmp);
 }
-
 
 int WORLDTRADE_INPUT_CategoryHasListEntries(void *p, int idx)
 {

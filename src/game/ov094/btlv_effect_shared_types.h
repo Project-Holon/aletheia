@@ -46,7 +46,7 @@ typedef struct BtlvEffSetup {
     BtlvEffFieldSituation situation;    /* 0x08 */
     u16 trainerType[4];                 /* 0x18 */
     int isMultiMode;                    /* 0x20: BTL_MAIN_IsMultiMode */
-    int param;                          /* 0x24: second argument of BTLV_EFFECT_CreateSetupFromBattleMain, returned by BTLV_EFFECT_GetRule */
+    int sceneUnit;                        /* 0x24: second argument of BTLV_EFFECT_CreateSetupFromBattleMain, returned by BTLV_EFFECT_GetSceneUnit */
     void *battle;                       /* 0x28: battle main, 0 outside battle */
 } BtlvEffSetup;
 
@@ -90,7 +90,7 @@ typedef struct BtlvEff {
     unsigned int hitTaskMask : 8;
     unsigned int spriteTransitionTaskMask : 2;
     unsigned int visibilityMode : 8;
-    unsigned int flag26 : 1;
+    unsigned int seSuppressed : 1;
     unsigned short heap;                                /* 0x1F0 */
     char pad_1F2[2];
     int bgmSaved;                                       /* 0x1F4 */

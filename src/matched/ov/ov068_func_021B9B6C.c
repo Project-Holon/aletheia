@@ -12,7 +12,7 @@
  * symbols:
  *   BMP_WIN_Delete  0x020452E8  arm
  *   func_020307B0  0x020307B0  arm
- *   BG_SYS_SetTileUnit  0x02040DA8  arm
+ *   BG_SYS_FreeTiles  0x02040DA8  arm
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   BMP_WIN_Exit  0x020450C8  arm
  *   BG_SYS_Delete  0x0203F9B4  arm
@@ -26,7 +26,7 @@ typedef unsigned int  u32;
 struct Descriptor;
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 func_020307B0(void *p);
-extern void BG_SYS_SetTileUnit(u32 a, u32 b, u32 c);
+extern void BG_SYS_FreeTiles(u32 a, u32 b, u32 c);
 extern void BG_SYS_FreeLayerBuf(u32 a);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
@@ -43,9 +43,9 @@ void OPTION_MENU_ExitGfx(u32 *p)
         }
     }
     func_020307B0((void *)p[21]);
-    BG_SYS_SetTileUnit(4, 1, 0);
+    BG_SYS_FreeTiles(4, 1, 0);
     i = 0;
-    BG_SYS_SetTileUnit(3, 1, 0);
+    BG_SYS_FreeTiles(3, 1, 0);
     for (i = 0; i < 6; i++) {
         BG_SYS_FreeLayerBuf((u8)gOptionMenuBgLayers[i][0]);
     }

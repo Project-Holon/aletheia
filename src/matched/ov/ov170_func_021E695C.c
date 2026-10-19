@@ -25,7 +25,7 @@
  *   BOX2_UI_DeleteSlotObjects 0x021EE038 thumb ov170
  *   CURSOR_MOVE_GetCurrent 0x020260E0 thumb
  *   BOX2_UI_MoveCursor 0x021EE364 thumb ov170
- *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb ov170
+ *   BOX2_MAIN_RefreshCurrentBoxMonInfo 0x021DEFEC thumb ov170
  *   BOX2_UI_ShowWindowA 0x021EF670 thumb ov170
  *   BOX2_UI_ShowWindowB 0x021EF68C thumb ov170
  */
@@ -55,7 +55,7 @@ extern void BOX2_UI_DeleteSlotObjects(char *p, int a, int b, int c);
 struct Sound;
 extern u8 CURSOR_MOVE_GetCurrent(struct Sound *obj);
 extern void BOX2_UI_MoveCursor(char **, int, int);
-extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
+extern void BOX2_MAIN_RefreshCurrentBoxMonInfo(char *p, int b);
 extern void BOX2_UI_ShowWindowA(char *);
 extern void BOX2_UI_ShowWindowB(char *);
 int BOX2_SEQ_StateCloseItem(u8 *p)
@@ -88,7 +88,7 @@ int BOX2_SEQ_StateCloseItem(u8 *p)
             else if (index >= 30)
                 index = 0;
             BOX2_UI_MoveCursor((char **)p, 7, index);
-            BOX2_MAIN_ChangeBoxFormPreserve((char *)p, index);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p, index);
             BOX2_UI_ShowWindowA(*(char * *)&((struct Obj00000 *)p)->f2C);
             return 57;
         } else {
@@ -97,7 +97,7 @@ int BOX2_SEQ_StateCloseItem(u8 *p)
             if (index < 36 && index >= 30)
                 selection = index - 30;
             BOX2_UI_MoveCursor((char **)p, 8, selection);
-            BOX2_MAIN_ChangeBoxFormPreserve((char *)p, selection + 30);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p, selection + 30);
             BOX2_UI_ShowWindowB(*(char * *)&((struct Obj00000 *)p)->f2C);
             return 70;
         }

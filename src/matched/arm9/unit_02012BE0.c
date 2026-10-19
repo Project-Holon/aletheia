@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: GAME_DATA_SetSaveFlag
+ * function: GAME_DATA_SetRecentId
  *
  * symbols:
  *   RECENT_ID_LIST_SAVEDATA_GetBlock  0x0200C40C  thumb
@@ -21,7 +21,7 @@
  * 0x02012BF8, 20 bytes, is the twin of this one and reproduces every concrete
  * byte:
  *
- *     void GAME_DATA_CheckSaveFlag(void *p, u32 a)
+ *     void GAME_DATA_ContainsRecentId(void *p, u32 a)
  *     {
  *         RECENT_ID_LIST_SAVEDATA_ContainsId(RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(GAME_DATA_GetSaveControlWork(p)), a);
  *     }
@@ -48,7 +48,7 @@ extern void RECENT_ID_LIST_SAVEDATA_SetId(u8 *a, u32 id, u32 on);
 struct Big;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 
-void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b)
+void GAME_DATA_SetRecentId(void *p, u32 a, u32 b)
 {
     RECENT_ID_LIST_SAVEDATA_SetId(RECENT_ID_LIST_SAVEDATA_GetBlock(GAME_DATA_GetSaveControl(p)), a, b);
 }

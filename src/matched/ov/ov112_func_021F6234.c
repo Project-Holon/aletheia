@@ -1,5 +1,5 @@
 /*
- * function: MUSICAL_MCSS_GetFieldA
+ * function: MUSICAL_MCSS_SetMCAnimPos
  * address:  0x021F6234
  * packet:   pkt_021F6234
  * region:   ov112
@@ -11,7 +11,7 @@
  */
 #include "../include/Obj10307.h"
 
-void MUSICAL_MCSS_GetFieldA(char *p, int *q)
+void MUSICAL_MCSS_SetMCAnimPos(char *p, int *q)
 {
     ((struct Obj10307 *)p)->fC8 = q[0];
     ((struct Obj10307 *)p)->fCC = q[1];

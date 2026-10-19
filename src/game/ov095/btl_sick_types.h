@@ -38,13 +38,13 @@ extern union SickCont BTL_POKEPARAM_GetSickContRaw(struct BtlPokeParam *bpp, int
 extern int BTL_POKEPARAM_GetSickTurn(struct BtlPokeParam *bpp, int sickKind);
 extern int BTL_POKEPARAM_IsHpFull(struct BtlPokeParam *bpp);
 extern int BTL_POKEPARAM_GetMovePPById(struct BtlPokeParam *bpp, int moveId);
-extern int BTLV_CORE_GetSlotLow(union SickCont slot);
-extern int BTLV_CORE_GetSlotValue(union SickCont slot);
-extern int BTLV_CORE_GetSlotFlag(union SickCont slot);
+extern int BTL_SICKCONT_GetLow(union SickCont slot);
+extern int BTL_SICKCONT_GetValue(union SickCont slot);
+extern int BTL_SICKCONT_GetFlag(union SickCont slot);
 extern int BTL_SERVER_FLOW_GetPosTableEntryForPoke(struct BtlServerFlow *flow, int pokeId);
 extern int BTL_CALC_RandRange(int min, int max);
 extern int BTL_POKEPARAM_GetMajorStatusIndex(struct BtlPokeParam *bpp);
-extern int BTLV_CORE_IsSlotKind1Index15(union SickCont slot);
+extern int BTL_SICKCONT_IsKind1Index15(union SickCont slot);
 extern void BTL_SERVER_FLOW_ClearMsgRecord(void *message);
 
 /* Command record kind 6: recover HP of one Pokemon, then show a message. */

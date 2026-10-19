@@ -19,7 +19,7 @@
  *   BEACON_SetEntryCount  0x0200C334  thumb
  *   BEACON_SetRecentId  0x0200C344  thumb
  *   BEACON_SetRecentValue  0x0200C358  thumb
- *   GF_STANDARD_SetupRtc  0x0203F524  arm
+ *   GF_STANDARD_GetRtcTimestamp  0x0203F524  arm
  *   BEACON_SetLastTime  0x0200C384  thumb
  */
 
@@ -40,7 +40,7 @@ extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
 extern void BEACON_SetEntryCount(struct Blk34 *p, u8 v);
 extern void BEACON_SetRecentId(struct Blk34 *p, u8 i, u8 v);
 extern void BEACON_SetRecentValue(struct Blk34 *p, u32 i, int v);
-extern u64 GF_STANDARD_SetupRtc();
+extern u64 GF_STANDARD_GetRtcTimestamp();
 extern void BEACON_SetLastTime(struct Blk34 *p, u32 lo, u32 hi);
 
 int SCRCMD_RESEARCH_CmdStartMission(int a0, int a1)
@@ -67,7 +67,7 @@ int SCRCMD_RESEARCH_CmdStartMission(int a0, int a1)
         BEACON_SetRecentId(h, i, s[i]);
         BEACON_SetRecentValue(h, (u8)i, z);
     }
-    t = GF_STANDARD_SetupRtc();
+    t = GF_STANDARD_GetRtcTimestamp();
     BEACON_SetLastTime(h, (u32)t, (u32)(t >> 32));
     return z;
 }

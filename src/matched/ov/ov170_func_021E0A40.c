@@ -1,5 +1,5 @@
 /*
- * function: BOX2_MAIN_Check0A40
+ * function: BOX2_MAIN_StateMachineShowHandScroll
  * address: 0x021E0A40
  * packet: pkt_ov170_021E0A40
  * region: ov170
@@ -24,7 +24,7 @@ extern int BOX2_MAIN_SceneApplyScroll(char *p);
 extern int BOX2_UI_UpdateListPacks(struct WinMgr *mgr);
 extern void BOX2_SEQ_ShowHandSlots(char *w);
 #define WORK(p) (*(char **)((p) + 0x2C))
-int BOX2_MAIN_Check0A40(char *p)
+int BOX2_MAIN_StateMachineShowHandScroll(char *p)
 {
     char *s;
     int a;

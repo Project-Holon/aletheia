@@ -10,7 +10,7 @@
  * status:   EXACT*
  * symbols:
  *   MUSICAL_MCSS_CopyField  0x021F62FC  thumb  ov112
- *   MUSICAL_MCSS_NoOp8  0x021F62DC  thumb  ov112
+ *   MUSICAL_MCSS_HideMCAnim  0x021F62DC  thumb  ov112
  */
 #include "../include/Obj01717.h"
 
@@ -22,18 +22,18 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void MUSICAL_MCSS_CopyField(int, int);
-extern void MUSICAL_MCSS_NoOp8(char *p);
+extern void MUSICAL_MCSS_HideMCAnim(char *p);
 
 void MUSICAL_MCSS_ResetRender(int a) {
     if (((struct Obj01717 *)a)->f4 == 1) {
         MUSICAL_MCSS_CopyField(((struct Obj01717 *)a)->fC, ((struct Obj01717 *)a)->f10);
         ((struct Obj01717 *)a)->f8 = ((struct Obj01717 *)a)->f10;
         ((struct Obj01717 *)a)->f4 = 0;
-        MUSICAL_MCSS_NoOp8((char *)(((struct Obj01717 *)a)->fC));
+        MUSICAL_MCSS_HideMCAnim((char *)(((struct Obj01717 *)a)->fC));
     } else {
         MUSICAL_MCSS_CopyField(((struct Obj01717 *)a)->f10, ((struct Obj01717 *)a)->fC);
         ((struct Obj01717 *)a)->f8 = ((struct Obj01717 *)a)->fC;
         ((struct Obj01717 *)a)->f4 = 1;
-        MUSICAL_MCSS_NoOp8((char *)(((struct Obj01717 *)a)->f10));
+        MUSICAL_MCSS_HideMCAnim((char *)(((struct Obj01717 *)a)->f10));
     }
 }

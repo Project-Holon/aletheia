@@ -1,5 +1,5 @@
 /*
- * function: BG_SYS_GetModeValue
+ * function: BG_SYS_GetScreenSizeInTiles
  * address:  0x020422D4
  * packet:   pkt_02041F28
  * region:   arm9
@@ -17,14 +17,14 @@
  * order they are given.  The arms are byte stores, so the values are `u8`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/BG_SYS_GetModeValue.c \
- *       --func BG_SYS_GetModeValue --addr 0x020422D4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_GetScreenSizeInTiles.c \
+ *       --func BG_SYS_GetScreenSizeInTiles --addr 0x020422D4 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-void BG_SYS_GetModeValue(u32 mode, u8 *a, u8 *b)
+void BG_SYS_GetScreenSizeInTiles(u32 mode, u8 *a, u8 *b)
 {
     switch (mode) {
     case 0:

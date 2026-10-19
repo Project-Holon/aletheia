@@ -21,8 +21,8 @@
  *   MUSICAL_PROGRAM_GetNpcNameId  0x02157384  thumb  ov010
  *   MUS_COMM_FUNC_GetSlotValueB  0x021FCE44  thumb  ov132
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
- *   WORDSET_SetSlotMonSpeciesAlt  0x0201EF14  thumb
+ *   WORDSET_SetSlotMonNickname  0x0201EEF4  thumb
+ *   WORDSET_SetSlotMonNicknameAlt  0x0201EF14  thumb
  *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  *   func_02045B38  0x02045B38  arm
  *   func_02045EC0  0x02045EC0  arm
@@ -58,8 +58,8 @@ struct WordSet;
 extern u8 MUSICAL_PROGRAM_GetNpcNameId(struct Table *t, int i);
 extern int MUS_COMM_FUNC_GetSlotValueB(char *p, u32 index);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
-extern void WORDSET_SetSlotMonSpeciesAlt(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonNickname(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonNicknameAlt(struct WordSet *p, u32 i, void *mon);
 extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -74,12 +74,12 @@ void MUSICAL_EVENT_SetPokemonNameWord(Work *w, u8 j, void *ws, u32 slot)
 
     if (j == w->f4c) {
         GAME_DATA_GetMyStatus(w->f04);
-        WORDSET_SetSlotMonSpecies(ws, slot, w->f18);
+        WORDSET_SetSlotMonNickname(ws, slot, w->f18);
         done = 1;
     } else if (w->f14 == 1) {
         p = (void *)MUS_COMM_FUNC_GetSlotValueB(w->f28, k);
         if (p != 0) {
-            WORDSET_SetSlotMonSpeciesAlt(ws, slot, p);
+            WORDSET_SetSlotMonNicknameAlt(ws, slot, p);
             done = 1;
         }
     }

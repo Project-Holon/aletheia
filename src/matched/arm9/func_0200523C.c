@@ -41,7 +41,7 @@
  *   GFL_USE_InitSound  0x02005B24  thumb
  *   PM_VOICE_Init  0x02006544  thumb
  *   SAVE_CONTROL_Create  0x02006F20  thumb
- *   CONFIG_ApplyAppliedFlag  0x02008414  thumb
+ *   CONFIG_ApplyTextLanguage  0x02008414  thumb
  *   WIH_DWC_CreateFilterBuffer  0x02010794  thumb
  *   WIH_DWC_ResetFilterState  0x020107CC  thumb
  *   GPOWER_Init  0x02010DB4  thumb
@@ -72,7 +72,7 @@ extern struct SaveCtrl *SAVE_CONTROL_Create(int heap);
 extern struct Sub02007084Ctrl *func_020070A4(void);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 struct Flags02008414;
-extern u8 CONFIG_ApplyAppliedFlag(const struct Flags02008414 *p);
+extern u8 CONFIG_ApplyTextLanguage(const struct Flags02008414 *p);
 extern void MSG_SPEED_SetSaveControl(void *val);
 extern void func_0200F6B8(void);
 extern void func_0200F6D8(u32 kind);
@@ -104,7 +104,7 @@ void GFL_USE_InitGameSystems(void)
     WIH_DWC_ResetFilterState();
     PROCSYS_PushGlobal(v - 0xD, (u32)(void *)0x020A0480, 0);
     SAVE_CONTROL_Create(7);
-    CONFIG_ApplyAppliedFlag((const struct Flags02008414 *)func_0200873C(func_020070A4()));
+    CONFIG_ApplyTextLanguage((const struct Flags02008414 *)func_0200873C(func_020070A4()));
     MSG_SPEED_SetSaveControl(func_020070A4());
     func_0200F6B8();
     func_0200F6D8(8);

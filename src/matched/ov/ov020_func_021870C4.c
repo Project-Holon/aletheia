@@ -27,7 +27,7 @@
  *   FIELD_G3D_MAPPER_GetWfbc  0x0218DC70  thumb  ov021
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
- *   GAME_DATA_GetMysteryRecvFlagB  0x020127F0  thumb
+ *   GAME_DATA_GetMusicalShotExtraData  0x020127F0  thumb
  *   FIELD_PLAYER_GetFrontGridPos  0x021A3460  thumb  ov021
  *   FLDMMDL_SysSearchGridPos  0x0216DDC0  thumb  ov010
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
@@ -65,7 +65,7 @@ void *FIELD_G3D_MAPPER_GetWfbc(u8 *p);
 struct Obj00020;
 void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 void *FIELDMAP_GetMmdlSys(u8 *p);
-int GAME_DATA_GetMysteryRecvFlagB(int a0);
+int GAME_DATA_GetMusicalShotExtraData(int a0);
 int FIELD_PLAYER_GetFrontGridPos(u32 a, u32 b, u32 c, u32 d);
 void *FLDMMDL_SysSearchGridPos(u32 a, u32 b, u32 c, u32 d);
 struct Actor;
@@ -114,7 +114,7 @@ void *FIELD_WFBC_DATA_LOCAL_CreatePersonTalkEvent(void *a0, void *a1)
     a = FIELD_G3D_MAPPER_GetWfbc((u8 *)FIELDMAP_GetG3dMapper(a1));
     b = FIELDMAP_GetFieldPlayer(a1);
     c = FIELDMAP_GetMmdlSys(a1);
-    GAME_DATA_GetMysteryRecvFlagB((int)GAMESYSTEM_GetGameData(a0));
+    GAME_DATA_GetMusicalShotExtraData((int)GAMESYSTEM_GetGameData(a0));
     FIELD_PLAYER_GetFrontGridPos((u32)b, (u32)(&v[2]), (u32)(&v[1]), (u32)(&v[0]));
     d = (int)FLDMMDL_SysSearchGridPos((u32)c, v[2], v[0], 0);
     FLDMMDL_GetPos((const struct Actor *)d, (struct VecFx32 *)(o + 0x34));

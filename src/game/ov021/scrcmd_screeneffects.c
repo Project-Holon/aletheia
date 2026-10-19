@@ -1,7 +1,7 @@
 /*
  * file:     scrcmd_screeneffects.c
  * unit:     yes
- * function: SCRCMD_SCREENEFFECTS_StartBrightnessChange, SCRCMD_SCREENEFFECTS_CheckBrightnessDone, SCRCMD_SCREENEFFECTS_CheckScriptEffectDone, SCRCMD_SCREENEFFECTS_StartFieldFadeIn, SCRCMD_SCREENEFFECTS_FadeInSlow, SCRCMD_SCREENEFFECTS_FadeInSlowAgain, SCRCMD_SCREENEFFECTS_FadeOutSlow, SCRCMD_SCREENEFFECTS_FadeInSlowAltScreens, SCRCMD_SCREENEFFECTS_FadeOutSlowAltScreens, SCRCMD_SCREENEFFECTS_FadeInFast, SCRCMD_SCREENEFFECTS_FadeOutFast, SCRCMD_SCREENEFFECTS_FadeInFastAltScreens, SCRCMD_SCREENEFFECTS_FadeOutFastAltScreens, SCRCMD_SCREENEFFECTS_WaitBrightness, SCRCMD_SCREENEFFECTS_WaitScriptEffect, SCRCMD_SCREENEFFECTS_StartMapEffectEvent, SCRCMD_SCREENEFFECTS_StartMapEffectEventWithParam, SCRCMD_SCREENEFFECTS_StartDoorOpen, SCRCMD_SCREENEFFECTS_StartDoorSetOpen, SCRCMD_SCREENEFFECTS_StartDoorClose, SCRCMD_SCREENEFFECTS_GetBuildModelMgr, SCRCMD_SCREENEFFECTS_FindBuildModelEntry, SCRCMD_SCREENEFFECTS_PlayBuildModelAnimPair, SCRCMD_SCREENEFFECTS_PlayBuildModelAnimTwo, SCRCMD_SCREENEFFECTS_SwapBuildModelId, SCRCMD_SCREENEFFECTS_SetBuildModelIndex, SCRCMD_SCREENEFFECTS_CreateBuildModelNode, SCRCMD_SCREENEFFECTS_DeleteBuildModelNode, SCRCMD_SCREENEFFECTS_PlayBuildModelNodeSlotWithSe, SCRCMD_SCREENEFFECTS_PlayBuildModelNodeSlotMode2, SCRCMD_SCREENEFFECTS_PlayBuildModelNodeCurrentMode3, SCRCMD_SCREENEFFECTS_WaitBuildModelNodeAnim, SCRCMD_SCREENEFFECTS_CheckBuildModelNodeAnimDone, SCRCMD_SCREENEFFECTS_CreateFadeTask, SCRCMD_SCREENEFFECTS_StepFadeTask, SCRCMD_SCREENEFFECTS_ShowPlaceName
+ * function: SCRCMD_SCREENEFFECTS_StartBrightnessChange, SCRCMD_SCREENEFFECTS_CheckBrightnessDone, SCRCMD_SCREENEFFECTS_CheckScriptEffectDone, SCRCMD_SCREENEFFECTS_StartFieldFadeIn, SCRCMD_SCREENEFFECTS_FadeInSlow, SCRCMD_SCREENEFFECTS_FadeInSlowAgain, SCRCMD_SCREENEFFECTS_FadeOutSlow, SCRCMD_SCREENEFFECTS_FadeInSlowAltScreens, SCRCMD_SCREENEFFECTS_FadeOutSlowAltScreens, SCRCMD_SCREENEFFECTS_FadeInFast, SCRCMD_SCREENEFFECTS_FadeOutFast, SCRCMD_SCREENEFFECTS_FadeInFastAltScreens, SCRCMD_SCREENEFFECTS_FadeOutFastAltScreens, SCRCMD_SCREENEFFECTS_WaitBrightness, SCRCMD_SCREENEFFECTS_WaitScriptEffect, SCRCMD_SCREENEFFECTS_StartRecoveryPartyEvent, SCRCMD_SCREENEFFECTS_StartRecoveryBallsEvent, SCRCMD_SCREENEFFECTS_StartDoorOpen, SCRCMD_SCREENEFFECTS_StartDoorSetOpen, SCRCMD_SCREENEFFECTS_StartDoorClose, SCRCMD_SCREENEFFECTS_GetBuildModelMgr, SCRCMD_SCREENEFFECTS_FindBuildModelEntry, SCRCMD_SCREENEFFECTS_PlayBuildModelAnimPair, SCRCMD_SCREENEFFECTS_PlayBuildModelAnimTwo, SCRCMD_SCREENEFFECTS_SwapBuildModelId, SCRCMD_SCREENEFFECTS_SetBuildModelIndex, SCRCMD_SCREENEFFECTS_CreateBuildModelNode, SCRCMD_SCREENEFFECTS_DeleteBuildModelNode, SCRCMD_SCREENEFFECTS_PlayBuildModelNodeSlotWithSe, SCRCMD_SCREENEFFECTS_PlayBuildModelNodeSlotMode2, SCRCMD_SCREENEFFECTS_PlayBuildModelNodeCurrentMode3, SCRCMD_SCREENEFFECTS_WaitBuildModelNodeAnim, SCRCMD_SCREENEFFECTS_CheckBuildModelNodeAnimDone, SCRCMD_SCREENEFFECTS_CreateFadeTask, SCRCMD_SCREENEFFECTS_StepFadeTask, SCRCMD_SCREENEFFECTS_ShowPlaceName
  * address:  0x021B2830
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -165,8 +165,8 @@ int SCRCMD_SCREENEFFECTS_FadeInFastAltScreens(struct ScriptVm *vm, struct Scrcmd
 int SCRCMD_SCREENEFFECTS_FadeOutFastAltScreens(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 int SCRCMD_SCREENEFFECTS_WaitBrightness(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 int SCRCMD_SCREENEFFECTS_WaitScriptEffect(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_SCREENEFFECTS_StartMapEffectEvent(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-int SCRCMD_SCREENEFFECTS_StartMapEffectEventWithParam(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_SCREENEFFECTS_StartRecoveryPartyEvent(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_SCREENEFFECTS_StartRecoveryBallsEvent(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 int SCRCMD_SCREENEFFECTS_StartDoorOpen(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 int SCRCMD_SCREENEFFECTS_StartDoorSetOpen(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 int SCRCMD_SCREENEFFECTS_StartDoorClose(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
@@ -357,7 +357,7 @@ int SCRCMD_SCREENEFFECTS_WaitScriptEffect(struct ScriptVm *vm, struct ScrcmdWork
 }
 
 /* Script command: start a map effect event on the script's event. */
-int SCRCMD_SCREENEFFECTS_StartMapEffectEvent(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_SCREENEFFECTS_StartRecoveryPartyEvent(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     struct ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
@@ -367,7 +367,7 @@ int SCRCMD_SCREENEFFECTS_StartMapEffectEvent(struct ScriptVm *vm, struct ScrcmdW
 }
 
 /* Script command: start a map effect event that takes one script argument. */
-int SCRCMD_SCREENEFFECTS_StartMapEffectEventWithParam(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_SCREENEFFECTS_StartRecoveryBallsEvent(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     struct ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);

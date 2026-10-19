@@ -1,7 +1,7 @@
 /*
  * file:     fldmmdl_draw.c
  * unit:     yes
- * function: FLDMMDL_DRAW_GetBlactAnime, FLDMMDL_DRAW_SetBlactAnime, FLDMMDL_DRAW_InitDirAnime, FLDMMDL_DRAW_DeleteDirAnime, FLDMMDL_DRAW_DrawDirAnime, FLDMMDL_DRAW_GetBlactIdDirAnime, FLDMMDL_DRAW_DrawDirAnimeMoving, FLDMMDL_DRAW_InitDirAnimeB, FLDMMDL_DRAW_DeleteDirAnimeB, FLDMMDL_DRAW_DrawDirAnimeB, FLDMMDL_DRAW_DrawDirAnimeSized, FLDMMDL_DRAW_DrawWalkAnime, FLDMMDL_DRAW_DrawWalkAnimeB, FLDMMDL_DRAW_GetBlactIdWalkAnime, FLDMMDL_DRAW_DrawTwoFrame, FLDMMDL_DRAW_DrawThreeFrame, FLDMMDL_DRAW_SetState, FLDMMDL_DRAW_RotateByCamera, FLDMMDL_DRAW_GetFrameOffsetZero, FLDMMDL_DRAW_DrawBillboardOffset, FLDMMDL_DRAW_DrawStatic, FLDMMDL_DRAW_GetFrameGroup, FLDMMDL_DRAW_DrawPositionOnly, FLDMMDL_DRAW_InitFixedState, FLDMMDL_DRAW_DeleteFixedState, FLDMMDL_DRAW_DrawWalking, FLDMMDL_DRAW_UpdateWalkOffset, FLDMMDL_DRAW_ShiftOffsetByDir, FLDMMDL_DRAW_CheckStepFrame, FLDMMDL_DRAW_GetBlactIdFixedState, FLDMMDL_DRAW_InitDirAnimeC, FLDMMDL_DRAW_DeleteDirAnimeC, FLDMMDL_DRAW_DrawMultiPattern, FLDMMDL_DRAW_GetBlactIdMultiPattern, FLDMMDL_DRAW_GetBlactAnimeTypeA, FLDMMDL_DRAW_GetBlactAnimeTypeB, FLDMMDL_DRAW_DrawTwoPattern, FLDMMDL_DRAW_DrawThreePattern, FLDMMDL_DRAW_CheckBlactReady, FLDMMDL_DRAW_ResetBlactAnime, FLDMMDL_DRAW_InitDirState, FLDMMDL_DRAW_UpdateDirAnime, FLDMMDL_DRAW_AddHeightOffset, FLDMMDL_DRAW_GetDirIndex, FLDMMDL_DRAW_UpdateBlactFlags, FLDMMDL_DRAW_InitBlactId, FLDMMDL_DRAW_DrawEffect, FLDMMDL_DRAW_DeleteEffect, FLDMMDL_DRAW_DeleteEffectAlias, FLDMMDL_DRAW_InitEffectAlias
+ * function: FLDMMDL_DRAW_GetBlactAnime, FLDMMDL_DRAW_SetBlactAnime, FLDMMDL_DRAW_InitDirAnime, FLDMMDL_DRAW_DeleteDirAnime, FLDMMDL_DRAW_DrawDirAnime, FLDMMDL_DRAW_GetBlactIdDirAnime, FLDMMDL_DRAW_DrawDirAnimeMoving, FLDMMDL_DRAW_InitDirAnimeB, FLDMMDL_DRAW_DeleteDirAnimeB, FLDMMDL_DRAW_DrawDirAnimeB, FLDMMDL_DRAW_DrawDirAnimeSized, FLDMMDL_DRAW_DrawWalkAnime, FLDMMDL_DRAW_DrawWalkAnimeB, FLDMMDL_DRAW_GetBlactIdWalkAnime, FLDMMDL_DRAW_DrawTwoFrame, FLDMMDL_DRAW_DrawThreeFrame, FLDMMDL_DRAW_SetState, FLDMMDL_DRAW_RotateByCamera, FLDMMDL_DRAW_GetFrameOffsetZero, FLDMMDL_DRAW_DrawBillboardOffset, FLDMMDL_DRAW_DrawStatic, FLDMMDL_DRAW_SyncFrameGroup, FLDMMDL_DRAW_DrawPositionOnly, FLDMMDL_DRAW_InitFixedState, FLDMMDL_DRAW_DeleteFixedState, FLDMMDL_DRAW_DrawWalking, FLDMMDL_DRAW_UpdateWalkOffset, FLDMMDL_DRAW_ShiftOffsetByDir, FLDMMDL_DRAW_CheckStepFrame, FLDMMDL_DRAW_GetBlactIdFixedState, FLDMMDL_DRAW_InitDirAnimeC, FLDMMDL_DRAW_DeleteDirAnimeC, FLDMMDL_DRAW_DrawMultiPattern, FLDMMDL_DRAW_GetBlactIdMultiPattern, FLDMMDL_DRAW_GetBlactAnimeTypeA, FLDMMDL_DRAW_GetBlactAnimeTypeB, FLDMMDL_DRAW_DrawTwoPattern, FLDMMDL_DRAW_DrawThreePattern, FLDMMDL_DRAW_CheckBlactReady, FLDMMDL_DRAW_ResetBlactAnime, FLDMMDL_DRAW_InitDirState, FLDMMDL_DRAW_UpdateDirAnime, FLDMMDL_DRAW_AddHeightOffset, FLDMMDL_DRAW_GetDirIndex, FLDMMDL_DRAW_UpdateBlactFlags, FLDMMDL_DRAW_InitBlactId, FLDMMDL_DRAW_DrawEffect, FLDMMDL_DRAW_DeleteEffect, FLDMMDL_DRAW_DeleteEffectAlias, FLDMMDL_DRAW_InitEffectAlias
  * address:  0x0219F058
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -584,7 +584,7 @@ void FLDMMDL_DRAW_DrawStatic(Mmdl *mmdl)
 }
 
 /* Maps an animation command index to one of 13 groups; rewinds the cursor when the actor is in another group. */
-int FLDMMDL_DRAW_GetFrameGroup(Mmdl *mmdl, u32 command)
+int FLDMMDL_DRAW_SyncFrameGroup(Mmdl *mmdl, u32 command)
 {
     u32 group;
     MmdlDrawWork *work;

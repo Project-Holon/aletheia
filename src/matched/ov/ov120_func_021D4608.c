@@ -14,12 +14,12 @@
  *   MSGDATA_Delete 0x02045C04 arm
  *   STRBUF_Delete 0x02045808 arm
  *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
- *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
+ *   MET_TRAINERS_GetFromSave 0x0200ED48 thumb
  *   GTSNEGO_DISP_SetStateCallback 0x021D4244 thumb ov120
  *   GTSNEGO_DISP_ShowTradeConfirm 0x021D4584 thumb ov120
  *   MYSTATUS_Copy  0x02008494  thumb  arm9
  *   GAME_DATA_GetPlayerStatus  0x02012950  thumb  arm9
- *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb  arm9
+ *   MET_TRAINERS_Insert  0x0200ED54  thumb  arm9
  */
 #include "../include/Obj08076.h"
 #include "../include/Obj22823.h"
@@ -43,8 +43,8 @@ struct Sub24;
 extern struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, u32 i);
 extern void MYSTATUS_Copy(void *src, void *dst);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
-extern void *MISC_SAVEDATA_GetBlock44(void *p);
-extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *l, u32 val);
+extern void *MET_TRAINERS_GetFromSave(void *p);
+extern void MET_TRAINERS_Insert(struct L0200ED54 *l, u32 val);
 extern void GTSNEGO_DISP_SetStateCallback(int *p, int v, int a2);
 extern void GTSNEGO_DISP_ShowTradeConfirm(u8 *p);
 void GTSNEGO_DISP_ConfirmStatus(u8 *p)
@@ -68,7 +68,7 @@ void GTSNEGO_DISP_ConfirmStatus(u8 *p)
         }
         MYSTATUS_Copy((void *)value, GAME_DATA_GetPlayerStatus((struct Sub24 *)(((struct Obj08076 *)p)->f2C), 1 - GFL_NET_SYSTEM_GetCurrentAid()));
         result = func_02008530((const struct Sub0200852CObj *)value);
-        MISC_SAVEDATA_InsertRecentValue(MISC_SAVEDATA_GetBlock44((void *)(((struct Obj08076 *)p)->f30)), result);
+        MET_TRAINERS_Insert(MET_TRAINERS_GetFromSave((void *)(((struct Obj08076 *)p)->f30)), result);
         GTSNEGO_DISP_SetStateCallback((int *)p, (int)((void (*)(int))GTSNEGO_DISP_ShowTradeConfirm), 0x283);
     }
 }

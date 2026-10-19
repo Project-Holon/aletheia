@@ -1,5 +1,5 @@
 /*
- * function: FLDMMDL_DRAW_GetFrameGroup
+ * function: FLDMMDL_DRAW_SyncFrameGroup
  * address:  0x0219F7CC
  * packet:   pkt_ov021_0219F7CC
  * region:   ov021
@@ -34,7 +34,7 @@ extern u32 FLDMMDL_BLACT_GetBbActSys(u8 *p);
 extern u16 BILLBOARD_ACT_GetEntryCursor(u8 *p, int i);
 extern void BILLBOARD_ACT_SetEntryCursor(void *p, int idx, u32 v);
 
-int FLDMMDL_DRAW_GetFrameGroup(u32 a, u32 b)
+int FLDMMDL_DRAW_SyncFrameGroup(u32 a, u32 b)
 {
     u32 idx;
     u16 *p;

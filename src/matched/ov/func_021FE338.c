@@ -17,7 +17,7 @@
  *   POKE_PERSONAL_Create  0x0201ADE4  thumb
  *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
  *   POKE_PERSONAL_Delete  0x0201AE14  thumb
- *   WORLDTRADE_DEPOSIT_CheckGenderEvent  0x021F7B9C  thumb
+ *   WORLDTRADE_DEPOSIT_SetGenderFromEvent  0x021F7B9C  thumb
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
@@ -30,7 +30,7 @@
  * Menu input handler. A touch on an entry (WORLDTRADE_SEARCH_HitTestButtons) selects it and
  * acts at once; otherwise the d-pad moves the cursor (WORLDTRADE_SEARCH_UpdateKeyCursor) and A
  * acts on the current entry, B jumps to the last entry of page 1. Entry 1
- * hands the +0xB56 record to WORLDTRADE_DEPOSIT_CheckGenderEvent, entry 5 compares the two
+ * hands the +0xB56 record to WORLDTRADE_DEPOSIT_SetGenderFromEvent, entry 5 compares the two
  * records, entry 4 depends on the +0xD0 word; every path picks the next
  * state (+0x28) and a sound. Always returns 2.
  */
@@ -92,7 +92,7 @@ struct Obj;
 struct Personal;
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern void POKE_PERSONAL_Delete(void *p);
-extern int WORLDTRADE_DEPOSIT_CheckGenderEvent(u8 *p, int event);
+extern int WORLDTRADE_DEPOSIT_SetGenderFromEvent(u8 *p, int event);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
@@ -117,7 +117,7 @@ int WORLDTRADE_SEARCH_StateMainInput(Work *p)
                 u32 v = POKE_PERSONAL_GetParam((const struct Personal *)h, 0x14);
                 POKE_PERSONAL_Delete((void *)h);
                 p->st->f20 = v;
-                if (WORLDTRADE_DEPOSIT_CheckGenderEvent((u8 *)(&p->rec[0]), p->st->f20) != 0) {
+                if (WORLDTRADE_DEPOSIT_SetGenderFromEvent((u8 *)(&p->rec[0]), p->st->f20) != 0) {
                     CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
                     CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[WORLDTRADE_SEARCH_GetSelectedButton(p)].anim2);
                     GFL_USE_PlaySeDefaultVolume(0x557);
@@ -179,7 +179,7 @@ int WORLDTRADE_SEARCH_StateMainInput(Work *p)
                     u32 v = POKE_PERSONAL_GetParam((const struct Personal *)h, 0x14);
                     POKE_PERSONAL_Delete((void *)h);
                     p->st->f20 = v;
-                    if (WORLDTRADE_DEPOSIT_CheckGenderEvent((u8 *)(&p->rec[0]), p->st->f20) != 0) {
+                    if (WORLDTRADE_DEPOSIT_SetGenderFromEvent((u8 *)(&p->rec[0]), p->st->f20) != 0) {
                         CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
                         CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[WORLDTRADE_SEARCH_GetSelectedButton(p)].anim2);
                         GFL_USE_PlaySeDefaultVolume(0x557);

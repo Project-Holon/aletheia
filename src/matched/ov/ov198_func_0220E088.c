@@ -15,7 +15,7 @@
  *   B_PLIST_MAIN_GetOrderIndex 0x022110D4 thumb ov198
  *   B_PLIST_DRAW_PrintNumberAt 0x0220C4DC thumb ov198
  *   B_PLIST_DRAW_PrintMoveRowValues 0x0220D6DC thumb ov198
- *   FILE_UTIL_Get_0FE4 0x02020FE4 thumb
+ *   FILE_UTIL_GetItemParam 0x02020FE4 thumb
  *   B_PLIST_DRAW_PrintHeader 0x0220C60C thumb ov198
  */
 #include "../include/Obj00507.h"
@@ -31,7 +31,7 @@ extern int B_PLIST_MAIN_GetOrderIndex(u8 *,int);
 extern void B_PLIST_DRAW_PrintNumberAt(char *,int,int,int,u16,short,unsigned);
 extern void B_PLIST_DRAW_PrintMoveRowValues(char *p, u8 *record, int slot);
 typedef unsigned int   u32;
-extern u32 FILE_UTIL_Get_0FE4(void *a, u32 sel, u32 id);
+extern u32 FILE_UTIL_GetItemParam(void *a, u32 sel, u32 id);
 extern void B_PLIST_DRAW_PrintHeader(char *p, int id);
 void B_PLIST_DRAW_DrawMode5(char *p)
 {
@@ -52,6 +52,6 @@ void B_PLIST_DRAW_DrawMode5(char *p)
             B_PLIST_DRAW_PrintMoveRowValues((char *)p,(u8 *)(rec+offset),i+1);
         }
     }
-    if (FILE_UTIL_Get_0FE4((void *)(((struct Obj25192 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f24),40,((struct Obj25193 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f10) == 0)
+    if (FILE_UTIL_GetItemParam((void *)(((struct Obj25192 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f24),40,((struct Obj25193 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f10) == 0)
         B_PLIST_DRAW_PrintHeader((char *)p,104);
 }

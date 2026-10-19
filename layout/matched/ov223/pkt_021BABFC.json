@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "PSEL_IsBgReady",
+   "name": "PSEL_ClearBgLayer2",
    "address": "0x021BABFC",
    "kind": "game",
    "region": "ov223",

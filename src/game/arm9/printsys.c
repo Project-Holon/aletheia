@@ -1,8 +1,8 @@
 /*
  * file:     printsys.c
  * unit:     yes
- * function: GF_FONT_Task, GF_FONT_Apply, GF_FONT_MeasureTextWidth, GF_FONT_CountLine, GF_FONT_MeasureWidestLine, GF_FONT_InitCallerSuppliedArray, GF_FONT_CopyLine, GF_FONT_CountLines, GF_FONT_CountControlTag, GF_FONT_SearchIndex, GF_FONT_MeasureText, GF_FONT_GetTagChar, GF_FONT_CheckD5CC, GF_FONT_GetTagGroup, GF_FONT_AppendTag, GF_FONT_GetTagKind, GF_FONT_GetTagParam, GF_FONT_SkipTag, GF_FONT_GetAlignedSize, GF_FONT_GetAllocSize, GF_FONT_GetQueueLength, GF_FONT_CopyStrbufD6D8, GF_FONT_Copy, GF_FONT_UpdatePrintsy
- * address:  0x0201CEE0
+ * function: PRINTSYS_Init, PRINTSYS_QUE_Create, PRINTSYS_QUE_CreateEx, PRINTSYS_QUE_Delete, PRINTSYS_QUE_SetForceQueue, PRINTSYS_QUE_SetLimitTick, PRINTSYS_QUE_Main, PRINTSYS_QUE_IsFinished, PRINTSYS_QUE_IsExistTarget, PRINTSYS_QUE_Clear, PRINTSYS_PrintQue, PRINTSYS_PrintQueColor, PRINTSYS_SubmitJob, PRINTSYS_Print, PRINTSYS_PrintColor, PRINTSYS_SetupJob, PRINTSYS_SetJobColor, PRINTSYS_RunJob, PRINTSYS_PrintStep, PRINTSYS_PutGlyph4bpp, PRINTSYS_PutGlyph8bpp, PRINTSYS_ProcGeneralTag, PRINTSYS_ProcColorTag, PRINTSYS_PrintStream, PRINTSYS_PrintStreamCallBack, PRINTSYS_SplitWait, PRINTSYS_PrintStreamStop, PRINTSYS_PrintStreamRun, PRINTSYS_PrintStreamGetState, PRINTSYS_PrintStreamGetWaitKind, PRINTSYS_PrintStreamReleasePause, PRINTSYS_PrintStreamDelete, PRINTSYS_PrintStreamShortWait, PRINTSYS_PrintStreamSetSpeed, PRINTSYS_PrintStreamResetSpeed, PRINTSYS_PrintStreamIsOverrideSpeed, GF_FONT_Task, GF_FONT_Apply, GF_FONT_MeasureTextWidth, GF_FONT_CountLine, GF_FONT_MeasureWidestLine, GF_FONT_InitCallerSuppliedArray, GF_FONT_CopyLine, GF_FONT_CountLines, GF_FONT_CountControlTag, GF_FONT_SearchIndex, GF_FONT_MeasureText, GF_FONT_GetTagChar, GF_FONT_IsWordSlotTag, GF_FONT_GetTagGroup, GF_FONT_AppendTag, GF_FONT_GetTagKind, GF_FONT_GetTagParam, GF_FONT_SkipTag, GF_FONT_GetAlignedSize, GF_FONT_GetAllocSize, GF_FONT_GetQueueFreeSpace, GF_FONT_EnqueuePrint, GF_FONT_Copy, GF_FONT_GetNextRecord
+ * address:  0x0201C41C
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -10,12 +10,40 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Cut from gf_font.c by tools/splitfile.py.
+ * Cut from printsys_head.c, printsys.c by tools/splitfile.py.
  *
  * symbols:
+ *   GFL_HEAP_Alloc 0x02030734  arm
+ *   GFL_HEAP_Free   0x020307B0  arm
+ *   _pGlyphBmp         0x02146558  data
+ *   printsys_File   0x020A734C  data
+ *   GF_FONT_GetTextColor  0x0201DE00  thumb
+ *   GF_FONT_IsTextColorDifferent  0x0201DE18  thumb
+ *   GF_FONT_SetTextColor  0x0201DD78  thumb
+ *   OS_GetTick  0x020870D0  arm
+ *   GF_FONT_GetNextRecord  0x0201D7C4  thumb
+ *   _PrintJobWork   0x0214655C  data
+ *   STRBUF_GetChars  0x02045A90  arm
+ *   GF_FONT_MeasureTextWidth  0x0201D26C  thumb
  *   BMP_GetWidth  0x020437DC  arm
- *   BMP_GetHeight  0x020437E4  arm
+ *   BMP_WIN_GetBmp  0x02045770  arm
+ *   TCBL_AddTask  0x020311B8  arm
+ *   TCBL_GetWork  0x02031290  arm
+ *   GF_FONT_Task  0x0201CEE0  thumb
+ *   GF_FONT_ReadGlyph  0x0201DB04  thumb
+ *   TCBL_DeleteTask  0x02031194  arm
+ *   BMP_GetTileBytes  0x02043994  arm
+ *   BMP_BlitPaletteOffset  0x02043AAC  arm
+ *   STRBUF_SetEosChar  0x020457A0  arm
+ *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
+ *   BMP_Create  0x02043678  arm
+ *   BMP_GetPixels  0x020437D4  arm
  *   BMP_Blit  0x020439A0  arm
+ *   MSG_SPEED_GetWaitForSpeed  0x02013080  thumb
+ *   GF_FONT_EnqueuePrint  0x0201D6D8  thumb
+ *   GF_FONT_GetAllocSize  0x0201D6B8  thumb
+ *   GF_FONT_GetQueueFreeSpace  0x0201D6C4  thumb
+ *   BMP_GetHeight  0x020437E4  arm
  *   BMP_FillRect  0x02043AF4  arm
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
@@ -25,45 +53,108 @@
  *   MSG_SPEED_GetFasterWait  0x02013050  thumb
  *   PRINTSYS_SplitWait   0x0201CDF4  thumb
  *   GF_FONT_GetCharWidth  0x0201DC6C  thumb
- *   STRBUF_GetChars  0x02045A90  arm
  *   STRBUF_Clear  0x0204581C  arm
  *   STRBUF_AppendChar  0x02045AFC  arm
- *   GF_FONT_GetField58  0x0201DC80  thumb
+ *   GF_FONT_GetLineHeight  0x0201DC80  thumb
  *   memcpy         0x02082D44  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   STRBUF_GetLength  0x020458F8  arm
  */
+#include "pokeparty_shared_types.h"
+#include "waza_tool_shared_types.h"
 #include "gf_font_shared_types.h"
 #include "printsys_shared_types.h"
 
+struct Strbuf;
+
 struct Bmp;
 
-struct Descriptor;
+struct BmpWin;
 
-typedef signed short   s16;
+struct GfFont;
 
-struct PrintCtx {
-    s16   penX;
-    s16   penY;
-    s32   originX : 10;
-    u32   originY : 10;
-    s32   colorMode : 4;
-    u32   extra : 8;
-    u16   letterSpacing;
-    u16   lineSpacing;
-    u16   textColor;
-    u16   shadowColor;
-    void *font;
-    void *bmp;
-    void *blitGlyph;
+struct Tcbl;
+
+struct TcblNode;
+
+/* Pen origin and colour mode, packed in one word of PrintCtx. */
+union PrintPos {
+    u32 raw;
+    struct {
+        s32 originX : 10;
+        u32 originY : 10;
+        s32 colorMode : 4;
+        u32 extra : 8;
+    } bits;
 };
 
+typedef void (*PrintBlitFn)(struct Bmp *bmp, s32 x, s32 y, struct GfFont *font, u16 code, const u8 *glyphInfo);
+
+/* One print job: the pen, the colours, the font and the target bitmap. */
+struct PrintCtx {
+    s16 penX;
+    s16 penY;
+    union PrintPos pos;
+    u16 letterSpacing;
+    u16 lineSpacing;
+    u16 textColor;
+    u16 activeColor;
+    struct GfFont *font;
+    struct Bmp *bmp;
+    PrintBlitFn blitGlyph;
+};
+
+union PrintTicks {
+    u64 value;
+    struct {
+        u32 low;
+        u32 high;
+    } half;
+};
+
+union PrintQueueState {
+    u8 raw;
+    struct {
+        u8 pending : 4;
+        u8 forceQueue : 4;
+    } bits;
+};
+
+/* The print queue: a byte ring of queued jobs and their strings after the
+ * 0x18 byte header. */
+struct PrintQueue {
+    u16 head;
+    u16 tail;
+    u16 capacity;
+    u8  frameCount;
+    union PrintQueueState state;
+    union PrintTicks limitTicks;
+    struct PrintCtx *job;
+    u16 *cursor;
+    u8  data[4];
+};
+
+typedef u8 (*PrintCallback)(u32 arg);
+
+union TextPrinterFlags {
+    u8 raw;
+    struct {
+        u8 halted : 1;
+        u8 scrolling : 1;
+        u8 advance : 1;
+        u8 useOverrideSpeed : 1;
+        u8 clearOverridePending : 1;
+        u8 reserved : 3;
+    } bits;
+};
+
+/* A streamed text print (0x50 byte task work). */
 struct TextPrinter {
     u32  state;
     u32  waitKind;
-    struct Descriptor *updateTarget;
+    struct BmpWin *bmpWin;
     struct Bmp *bmp;
-    void *task;
+    struct TcblNode *task;
     u16 *cursor;
     u8   defaultWait;
     u8   defaultGlyphs;
@@ -75,58 +166,1174 @@ struct TextPrinter {
     u8   scrollPixels;
     u8   fillColor;
     u8   callbackResult;
-    struct {
-        u8 halted : 1;
-        u8 scrolling : 1;
-        u8 advance : 1;
-        u8 useOverrideSpeed : 1;
-        u8 clearOverridePending : 1;
-        u8 reserved : 3;
-    } flags;
+    union TextPrinterFlags flags;
     u8   pad23;
-    u8 (*callback)(u32);
+    PrintCallback callback;
     u32  initialCallbackArg;
     u32  nextCallbackArg;
     u32  callbackArg;
     struct PrintCtx ctx;
 };
 
-struct PrintQueue {
-    u16 head;
-    u16 tail;
-    u16 capacity;
-    u8  submitCount;
-    u8  stateBits;
-    u32 timeoutTicksLow;
-    u32 timeoutTicksHigh;
-    void *firstRecord;
-    void *text;
-    u8  data[4];
-};
+extern void *GFL_HEAP_Alloc(u32 heap, u32 size, int fromTail, const char *file, u16 line);
 
-extern u16 BMP_GetWidth(const struct Bmp *bmp);
+extern u32   GFL_HEAP_Free(void *ptr);
+
+extern void  STRBUF_SetEosChar(u16 eosChar);
+
+extern struct Bmp *BMP_Create(u32 widthTiles, u32 heightTiles, u32 tileBytes, u32 heap);
+
+extern void  GF_FONT_GetTextColor(u8 *letter, u8 *shadow, u8 *background);
+
+extern u32   GF_FONT_IsTextColorDifferent(u32 letter, u32 shadow, u32 background);
+
+extern void  GF_FONT_SetTextColor(u32 letter, u32 shadow, u32 background);
+
+extern u64   OS_GetTick(void);
+
+struct PrintCtx *GF_FONT_GetNextRecord(struct PrintQueue *queue, struct PrintCtx *job);
+
+extern int   GFL_NET_GetNegotiationNum(void);
+
+u32 GF_FONT_GetAllocSize(struct Strbuf *text);
+
+u32 GF_FONT_GetQueueFreeSpace(const struct PrintQueue *queue);
+
+void GF_FONT_EnqueuePrint(struct PrintQueue *queue, struct PrintCtx *job, struct Strbuf *str);
+
+extern u16  *STRBUF_GetChars(struct Strbuf *str);
+
+extern u8    BMP_GetTileBytes(struct Bmp *bmp);
+
+extern void *BMP_GetPixels(const struct Bmp *bmp);
+
+extern void  BMP_Blit(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, int dstX, int dstY, u32 width, u32 height, u32 colorKey);
+
+extern void  GF_FONT_ReadGlyph(struct GfFont *font, u16 code, void *dst, void *metrics);
+
+extern void  BMP_BlitPaletteOffset(struct Bmp *src, u32 dst, u32 srcX, u32 srcY, u32 dstX, u32 dstY, u32 width, u32 height, u16 colorKey, u16 shift);
+
+u32 GF_FONT_MeasureTextWidth(u16 *cursor, struct GfFont *font, u32 spacing, u16 **next);
+
+extern u16   BMP_GetWidth(const struct Bmp *bmp);
+
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+
+extern struct TcblNode *TCBL_AddTask(struct Tcbl *tcbl, void *func, u32 workSize, u32 priority);
+
+extern void *TCBL_GetWork(struct TcblNode *task);
+
+void GF_FONT_Task(void *task, struct TextPrinter *printer);
+
+extern void  TCBL_DeleteTask(struct TcblNode *task);
+
+extern signed char MSG_SPEED_GetWaitForSpeed(u32 speed);
+
+void PRINTSYS_Init(u32 heap);
+
+struct PrintQueue *PRINTSYS_QUE_Create(u32 heap);
+
+struct PrintQueue *PRINTSYS_QUE_CreateEx(u16 bufSize, u32 heap);
+
+void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
+
+void PRINTSYS_QUE_SetForceQueue(struct PrintQueue *queue, u32 forceQueue);
+
+void PRINTSYS_QUE_SetLimitTick(struct PrintQueue *queue, u32 tickLow, u32 tickHigh);
+
+u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
+
+u32 PRINTSYS_QUE_IsFinished(const struct PrintQueue *queue);
+
+u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
+
+void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
+
+void PRINTSYS_PrintQue(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font);
+
+void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
+
+void PRINTSYS_SubmitJob(struct PrintQueue *queue, struct PrintCtx *job, struct Strbuf *str);
+
+void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font);
+
+void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
+
+void PRINTSYS_SetupJob(struct PrintCtx *job, struct GfFont *font, struct Bmp *bmp, u32 x, s16 y);
+
+void PRINTSYS_SetJobColor(struct PrintCtx *job, u16 color);
+
+void PRINTSYS_RunJob(struct PrintCtx *job, struct Strbuf *str);
+
+u16 *PRINTSYS_PrintStep(struct PrintCtx *job, u16 *cursor, u32 stopAtPause);
+
+void PRINTSYS_PutGlyph4bpp(struct Bmp *bmp, s32 x, s32 y, struct GfFont *font, u16 code, const u8 *glyphInfo);
+
+void PRINTSYS_PutGlyph8bpp(struct Bmp *bmp, s32 x, s32 y, struct GfFont *font, u16 code, const u8 *glyphInfo);
+
+u16 *PRINTSYS_ProcGeneralTag(struct PrintCtx *job, u16 *cursor);
+
+u16 *PRINTSYS_ProcColorTag(struct PrintCtx *job, u16 *cursor);
+
+void PRINTSYS_PrintStream(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait, struct Tcbl *tcbl, u32 priority, u16 heap, u16 fillColor);
+
+struct TextPrinter *PRINTSYS_PrintStreamCallBack(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait, struct Tcbl *tcbl, u32 priority, u32 heap, u16 fillColor, PrintCallback callback);
+
+void PRINTSYS_SplitWait(int wait, u8 *speed);
+
+void PRINTSYS_PrintStreamStop(struct TextPrinter *printer);
+
+void PRINTSYS_PrintStreamRun(struct TextPrinter *printer);
+
+u32 PRINTSYS_PrintStreamGetState(const struct TextPrinter *printer);
+
+u32 PRINTSYS_PrintStreamGetWaitKind(const struct TextPrinter *printer);
+
+void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
+
+void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
+
+void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, s32 wait);
+
+void PRINTSYS_PrintStreamSetSpeed(struct TextPrinter *printer, s32 wait);
+
+void PRINTSYS_PrintStreamResetSpeed(struct TextPrinter *printer);
+
+u32 PRINTSYS_PrintStreamIsOverrideSpeed(const struct TextPrinter *printer);
+
+extern struct Bmp *_pGlyphBmp;
+
+extern const char printsys_File[];
+
+extern struct PrintCtx _PrintJobWork;
+
+void PRINTSYS_Init(u32 heap)
+{
+    STRBUF_SetEosChar(0xFFFF);
+    _pGlyphBmp = BMP_Create(2, 2, 0x20, heap);
+}
+
+/*
+ * A 12-byte pool-word-and-bx tail call
+ * (docs/idioms/tail-call-is-a-pool-word-and-bx.md), swapping its own
+ * parameter into the callee's second argument slot and passing the literal
+ * 0x400 as the first: `PRINTSYS_QUE_CreateEx(0x400, p)`.  PRINTSYS_QUE_CreateEx (0x0201C450)
+ * is a bigger constructor with an inline division-by-multiplication trick
+ * and is left as an unresolved extern; only its address is needed here.
+ *
+ * Verified with:
+ *   python tools/match.py tu --src src/matched/unit_0201C440.c \
+ *       --addr 0x0201C440 --thumb
+ */
+struct PrintQueue *PRINTSYS_QUE_Create(u32 heap)
+{
+    return PRINTSYS_QUE_CreateEx(0x400, heap);
+}
+
+/*
+ * The head of printsys.c: the module constructor and three accessors on the
+ * object it builds.  The file identity is in the image, the same way
+ * src/matched/unit_0201D69C.c recovers gf_font.c: the constructor loads
+ * 0x020A734C as the debug allocator's __FILE__ argument and the bytes there
+ * spell "printsys.c", with "waza_tool.c" ending at 0x020A734B so the `string`
+ * class carries the address.  The __LINE__ argument is 287.
+ *
+ * The constructor was a documented two-byte near miss and this is what closed
+ * it: the field at +8 is one `u64`, not two `u32`.  Written as two words the
+ * whole function is right except that the pool constant 0x1130 arrives in r1
+ * instead of r2; assigning it to a 64 bit field makes the compiler take the
+ * other scratch register, because the high half comes from the register that
+ * already holds zero.  See
+ * docs/idioms/a-u64-field-store-picks-a-different-scratch-register.md.
+ *
+ * PRINTSYS_QUE_SetLimitTick writes the two halves of that u64 separately, which is what
+ * fixes the field as a union of the 64 bit value and a two-word struct rather
+ * than a plain `u64` (docs/idioms/long-long-aligns-to-four.md is why +8 is a
+ * legal offset for it at all).
+ *
+ * The size the constructor allocates is (u16)(n + 0x1C) rounded up to a
+ * multiple of four and then + 0x18, and the rounding is a `while (v % 4)` loop
+ * over a `u16` local: the signed `lsrs #31` / `lsls #30` / `subs` / `rors #30`
+ * quartet is `% 4` on the promoted int, exactly as src/matched/MUSICAL_SAVE_AddProp.c
+ * records for `% 8`.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py tu --src src/matched/unit_0201C450.c \
+ *       --addr 0x0201C450 --thumb
+ */
+struct PrintQueue *PRINTSYS_QUE_CreateEx(u16 bufSize, u32 heap)
+{
+    u16 allocSize = bufSize + 0x1C;
+    struct PrintQueue *queue;
+
+    while (allocSize % 4 != 0) {
+        allocSize++;
+    }
+    queue = GFL_HEAP_Alloc(heap, allocSize + 0x18, 0, printsys_File, 287);
+    queue->capacity = bufSize;
+    queue->limitTicks.value = 0x1130;
+    queue->job = 0;
+    queue->cursor = 0;
+    queue->state.raw = queue->state.raw & ~0xFu;
+    queue->state.raw = queue->state.raw & ~0xF0u;
+    queue->frameCount = 0;
+    queue->head = 0;
+    queue->tail = bufSize;
+    return queue;
+}
+
+void PRINTSYS_QUE_Delete(struct PrintQueue *queue)
+{
+    GFL_HEAP_Free(queue);
+}
+
+void PRINTSYS_QUE_SetForceQueue(struct PrintQueue *queue, u32 forceQueue)
+{
+    queue->state.raw = (queue->state.raw & ~0xF0u) | (u8)((u8)forceQueue << 4);
+}
+
+void PRINTSYS_QUE_SetLimitTick(struct PrintQueue *queue, u32 tickLow, u32 tickHigh)
+{
+    queue->limitTicks.half.low = tickLow;
+    queue->limitTicks.half.high = tickHigh;
+}
+
+static inline u16 PrintQueue_WrapOffset(struct PrintQueue *queue, u16 offset)
+{
+    u16 result = offset;
+
+    if (result >= queue->capacity)
+        result = 0;
+    return result;
+}
+
+/*
+ * note 2026-10-05 (wave D9r lane 131): removed the dead first assignment
+ * (`base = (u8 *)ps;` before `base = (u8 *)ps + 0x18;`). Game code has no
+ * line table, so these were stand-ins. The plain single assignment gives
+ * EXACT in --lang c99 and --lang c: the output bytes do not change. Older
+ * text in this header that asks for the double assignment is superseded.
+ *
+ * printsys.c: the per-frame print pump.  Bumps the frame counter at +6,
+ * saves the current text colour, applies the head request's colour when its
+ * 4-bit kind is 0 or 2, then runs glyphs through PRINTSYS_PrintStep until the
+ * string ends or the tick budget at +8 (OS_GetTick is OS_GetTick) runs
+ * out.  On string end it pops the request (GF_FONT_GetNextRecord) and moves the
+ * glyph cursor to the next record's text in the byte ring at +0x18,
+ * wrapping twice at the ring size.  Restores the colour and reports idle.
+ *
+ * The last five bytes closed on the SHAPE OF THE INLINE WRAP HELPER: it
+ * copies its parameter into a named local, conditionally zeroes the local
+ * and returns it (`u16 r = o; if (r >= size) r = 0; return r;`).  The
+ * early-return spelling (`if (o >= size) return 0; return o;`) truncates
+ * `off + 0x1C` in place and hoists the ring-size load between the two
+ * shifts; the named-local spelling keeps the image's
+ * `lsls r0, r7 / lsrs r1, r0 / ldrh r0, [r5, #4]` order.  History in
+ * docs/notes/PRINTSYS_QUE_Main.c.txt.
+ */
+u32 PRINTSYS_QUE_Main(struct PrintQueue *queue)
+{
+    
+    u8  color[3];
+    u32 timedOut;
+    u16 savedColor;
+    u32 jobLetter;
+    u32 jobBackground;
+    u8 *ring;
+    u32 letter;
+    u32 shadow;
+    u32 background;
+    u32 applyColor;
+    u32 jobShadow;
+    u32 jobOffset;
+    u16 offset;
+    u64 startTick;
+
+    timedOut = 0;
+    queue->frameCount = (u8)(queue->frameCount + 1);
+    if (queue->job == 0) {
+        return 1;
+    }
+    GF_FONT_GetTextColor(&color[2], &color[1], &color[0]);
+    savedColor = (u16)(((color[2] & 0x1F) << 10) | ((color[1] & 0x1F) << 5) |
+                  (color[0] & 0x1F));
+    applyColor = 0;
+    if (queue->job->pos.bits.colorMode == 0 || queue->job->pos.bits.colorMode == 2) {
+        letter = (u8)((queue->job->activeColor >> 10) & 0x1F);
+        shadow = (u8)((queue->job->activeColor >> 5) & 0x1F);
+        background = (u8)(queue->job->activeColor & 0x1F);
+        applyColor = 1;
+    }
+    if (applyColor != 0) {
+        if (GF_FONT_IsTextColorDifferent(letter, shadow, background) != 0) {
+            GF_FONT_SetTextColor(letter, shadow, background);
+        }
+    }
+    startTick = OS_GetTick();
+    if (queue->job != 0) {
+        ring = queue->data;
+        do {
+            if (queue->job->pos.bits.colorMode == 1) {
+                jobLetter = (u8)((queue->job->activeColor >> 10) & 0x1F);
+                jobShadow = (u8)((queue->job->activeColor >> 5) & 0x1F);
+                jobBackground = (u8)(queue->job->activeColor & 0x1F);
+                if (GF_FONT_IsTextColorDifferent(jobLetter, jobShadow, jobBackground) != 0) {
+                    GF_FONT_SetTextColor(jobLetter, jobShadow, jobBackground);
+                }
+                queue->job->pos.bits.colorMode = 2;
+            }
+            while (queue->cursor[0] != 0xFFFF) {
+                queue->cursor = PRINTSYS_PrintStep(queue->job, queue->cursor, 1);
+                if (OS_GetTick() - startTick > queue->limitTicks.value) {
+                    timedOut = 1;
+                    break;
+                }
+            }
+            if (queue->cursor[0] == 0xFFFF) {
+                jobOffset = (u16)((u8 *)queue->job - ring);
+                queue->job = GF_FONT_GetNextRecord(queue, queue->job);
+                if (queue->job != 0) {
+                    offset = PrintQueue_WrapOffset(queue, jobOffset + 0x1C);
+                    offset = PrintQueue_WrapOffset(queue, offset + 4);
+                    queue->cursor = (u16 *)(queue->data + offset);
+                }
+            }
+        } while (timedOut == 0 && queue->job != 0);
+    }
+    GF_FONT_SetTextColor((u8)((savedColor >> 10) & 0x1F), (u8)((savedColor >> 5) & 0x1F),
+                  (u8)(savedColor & 0x1F));
+    if (queue->job != 0) {
+        queue->tail = (u16)((u8 *)queue->cursor - queue->data);
+        return 0;
+    }
+    queue->head = 0;
+    queue->tail = queue->capacity;
+    queue->state.bits.pending = 0;
+    return 1;
+}
+
+u32 PRINTSYS_QUE_IsFinished(const struct PrintQueue *queue)
+{
+    if (queue->job == 0) {
+        return 1;
+    }
+    return 0;
+}
+
+u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp)
+{
+    struct PrintCtx *job = queue->job;
+
+    if (job != 0) {
+        while (job != 0) {
+            if (job->bmp == bmp) {
+                return 1;
+            }
+            job = GF_FONT_GetNextRecord(queue, job);
+        }
+    }
+    return 0;
+}
+
+void PRINTSYS_QUE_Clear(struct PrintQueue *queue)
+{
+    queue->head = 0;
+    queue->tail = queue->capacity;
+    queue->cursor = 0;
+    queue->job = 0;
+}
+
+/*
+ * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
+ *
+ * note:     168 bytes, three functions
+ *
+ * printsys.c's two public print entry points and the dispatcher they share.
+ * PRINTSYS_SubmitJob decides between drawing straight away and queueing the request
+ * into the ring: when the module is not busy and the flags nibble in the byte
+ * at +7 is clear it calls PRINTSYS_RunJob directly, otherwise it queues with
+ * GF_FONT_EnqueuePrint provided the request fits in the free space GF_FONT_GetQueueFreeSpace
+ * reports.
+ *
+ * Why it is capped: the `bl` at 0x0201C79C is the only branch to GF_FONT_EnqueuePrint
+ * anywhere in the image, and no pool word holds the address either, so the
+ * `label` class has no witness once the compared range holds that call.  No
+ * cut helps, because the range cannot be made smaller than PRINTSYS_SubmitJob and
+ * the call is inside it.  The `matched` class would carry it, but
+ * GF_FONT_EnqueuePrint is not matched: it is EXACT only in a range that also holds
+ * GF_FONT_Copy, and GF_FONT_Copy is four bytes short (the original spills
+ * the byte counter and keeps the ring cursor in a callee-saved register; every
+ * source shape tried makes the opposite choice).  See the header of
+ * src/matched/unit_0201D7C4.c.
+ *
+ * It closes the day GF_FONT_Copy's register allocation is reproduced, which
+ * makes GF_FONT_EnqueuePrint an EXACT entry and the `matched` class applies.
+ *
+ * PRINTSYS_SubmitJob's busy test is normalised to 0 or 1 before it is used, which is
+ * what a `!= 0` assigned to a local gives; the flags nibble is read as a four
+ * bit unsigned bitfield, `((u32)((u8 *)p)[7] << 24) >> 28`, the same spelling
+ * src/matched/unit_0201CE5C.c needs for a one bit field.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py tu --src src/pending/unit_0201C6FC.c \
+ *       --addr 0x0201C6FC --thumb
+ */
+void PRINTSYS_PrintQue(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font)
+{
+    PRINTSYS_SetupJob(&_PrintJobWork, font, bmp, x, y);
+    PRINTSYS_SubmitJob(queue, &_PrintJobWork, str);
+}
+
+void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font,
+                  u16 color)
+{
+    PRINTSYS_SetupJob(&_PrintJobWork, font, bmp, x, y);
+    PRINTSYS_SetJobColor(&_PrintJobWork, color);
+    PRINTSYS_SubmitJob(queue, &_PrintJobWork, str);
+}
+
+void PRINTSYS_SubmitJob(struct PrintQueue *queue, struct PrintCtx *job, struct Strbuf *str)
+{
+    u32 busy = GFL_NET_GetNegotiationNum() != 0;
+    u32 size;
+
+    if (busy == 0 && queue->state.bits.forceQueue == 0) {
+        PRINTSYS_RunJob(job, str);
+        return;
+    }
+    size = GF_FONT_GetAllocSize(str);
+    if (size <= GF_FONT_GetQueueFreeSpace(queue)) {
+        GF_FONT_EnqueuePrint(queue, job, str);
+    }
+}
+
+/*
+ * A printsys entry point: builds the shared print request in the static
+ * scratch through PRINTSYS_SetupJob and hands it to PRINTSYS_RunJob with the
+ * string object.  The leading STRBUF_GetChars(s) call's result is unused.
+ *
+ * Withdrawn 2026-09-24 (wave 20, lane 20G): the ../2.0/sp2 pin is retired.
+ * The scratch address is held as an integer, a u32 local assigned
+ * (u32)&_PrintJobWork and cast back at each site, matching PRINTSYS_PrintColor.c.
+ * Spelled this way, dsi/1.1p1 caches the address in a callee-saved
+ * register and copies it into r0 at each site, byte-exact under the
+ * default compiler.
+ */
+void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font)
+{
+    u32 jobAddr;
+
+    STRBUF_GetChars(str);
+    jobAddr = (u32)&_PrintJobWork;
+    PRINTSYS_SetupJob((struct PrintCtx *)jobAddr, font, bmp, x, y);
+    PRINTSYS_RunJob((struct PrintCtx *)jobAddr, str);
+}
+
+/*
+ * A printsys entry point: the PRINTSYS_Print body plus a
+ * PRINTSYS_SetJobColor(scratch, v) step between building the shared print request
+ * in the static scratch and handing it to PRINTSYS_RunJob.  The leading
+ * STRBUF_GetChars(s) call's result is unused.
+ *
+ * What closed it (wave 20): the scratch address is held as an integer, a
+ * u32 local assigned (u32)&_PrintJobWork and cast back at each of the three
+ * sites.  Spelled `&_PrintJobWork` at every site, 1.1p1 value-numbers the
+ * address once, caches it in r4 and schedules z's outgoing stack store
+ * straight after the first call to free that register (37 bytes out).
+ * Through the integer local the address is rematerialised from its one pool
+ * word at every site, z stays in r4 until its store after r0..r3 as the
+ * image does, and the stacked u16 read keeps the 1.1p1 base.  This retires
+ * the ../2.0/sp2 near miss (2 out) the notes carried.
+ */
+void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color)
+{
+    u32 jobAddr;
+
+    STRBUF_GetChars(str);
+    jobAddr = (u32)&_PrintJobWork;
+    PRINTSYS_SetupJob((struct PrintCtx *)jobAddr, font, bmp, x, y);
+    PRINTSYS_SetJobColor((struct PrintCtx *)jobAddr, color);
+    PRINTSYS_RunJob((struct PrintCtx *)jobAddr, str);
+}
+
+/*
+ * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
+ *
+ * note:     156 bytes including five pool words, one function
+ *
+ * printsys.c's render-context set-up: it records the surface and the string,
+ * picks the blitter, packs the pen position into two ten bit fields of the
+ * word at +4 and snapshots the current text colour into +0xC and +0xE.
+ *
+ * The two blitter addresses are the reason this is parked.  0x0201CA2C and
+ * 0x0201CA78 are reached only through the two pool words in this function's
+ * own literal pool, so `literal` discards both witnesses under the honesty
+ * rule and no cut helps.  The `matched` class covers 0x0201CA2C now
+ * (src/matched/unit_0201CA2C.c) but not 0x0201CA78, which is parked in
+ * src/pending/PRINTSYS_PutGlyph8bpp.c for a reason of its own.  This file graduates
+ * with that one.
+ *
+ * Two details worth keeping.  The three edits of the word at +4 are plain
+ * integer mask-and-or arithmetic, the same spelling
+ * src/matched/unit_0201C8A4.c uses, and the compiler writes the field only
+ * twice for three statements because it keeps the value in a register across
+ * the last two.  And the pen coordinates are read back out of the halfwords
+ * that were just stored, with `ldrsh` and a register offset, which is the only
+ * evidence that +0 and +2 are signed
+ * (docs/idioms/ldrsh-register-offset-is-signedness.md).
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py tu --src src/pending/PRINTSYS_SetupJob.c \
+ *       --addr 0x0201C808 --thumb
+ */
+void PRINTSYS_SetupJob(struct PrintCtx *job, struct GfFont *font, struct Bmp *bmp, u32 x, s16 y)
+{
+    u8 color[3];
+
+    job->bmp = bmp;
+    if (BMP_GetTileBytes(bmp) == 0x20) {
+        job->blitGlyph = PRINTSYS_PutGlyph4bpp;
+    } else {
+        job->blitGlyph = PRINTSYS_PutGlyph8bpp;
+    }
+    job->font = font;
+    job->penX = x;
+    job->pos.raw = (job->pos.raw & 0xFFFFFC00u) | (job->penX & 0x3FF);
+    job->penY = y;
+    job->pos.raw = (job->pos.raw & 0xFFF003FFu) | ((job->penY & 0x3FF) << 10);
+    job->pos.raw = (job->pos.raw & 0xFF0FFFFFu) | (1u << 20);
+    GF_FONT_GetTextColor(&color[2], &color[1], &color[0]);
+    job->textColor = (u16)(((color[2] & 0x1F) << 10) | ((color[1] & 0x1F) << 5)
+                     | (color[0] & 0x1F));
+    job->activeColor = job->textColor;
+}
+
+/*
+ * Stores a halfword parameter at +0xE, then clears a four-bit field at bits
+ * 20-23 of the word at +4 and sets it unconditionally to 1 (the mask/OR
+ * pair is plain integer arithmetic, `(x & ~0xF00000) | (1 << 20)`; no
+ * bitfield struct is needed since the two shift amounts in the AND/OR would
+ * not match docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md's
+ * shape anyway).
+ *
+ * Verified with:
+ *   python tools/match.py tu --src src/matched/unit_0201C8A4.c \
+ *       --addr 0x0201C8A4 --thumb
+ */
+void PRINTSYS_SetJobColor(struct PrintCtx *job, u16 color)
+{
+    job->activeColor = color;
+    job->pos.raw = (job->pos.raw & ~0xF00000u) | (1u << 20);
+}
+
+/*
+ * printsys.c: if the 4-bit field at bits 20..23 of PrintCtx+0x04 is 1,
+ * split the packed 5/5/5 triple at +0x0E and pass it to GF_FONT_IsTextColorDifferent; on a
+ * nonzero result fill buf through GF_FONT_GetTextColor, pass the triple to
+ * GF_FONT_SetTextColor and set done; then set the field to 2.  Render glyphs
+ * through PRINTSYS_PrintStep until 0xFFFF, and if done, pass buf back to
+ * GF_FONT_SetTextColor.
+ *
+ * Two facts the bytes pin (docs/notes/pkt_0201C8BC.c.txt has the history):
+ *
+ *  1. `done` is a PLAIN u8, not a volatile int.  The image reloads the
+ *     zero from [sp,#4] before each of the three byte stores and forms buf's
+ *     address as `add r1, sp, #8`: [sp,#4] is the SPILL slot of a register
+ *     candidate, and buf is the first addressable local.  A plain int done
+ *     has its zero forwarded into the stores (180 bytes); a volatile done
+ *     gets a home next to buf in the local area and the stores go off
+ *     `add r0, sp, #4` plus 4/5/6 (17 out).  A u8 (or u16, or signed char)
+ *     flag is neither forwarded nor addressable
+ *     (docs/idioms/a-narrow-flag-local-is-spilled-not-constant-propagated.md).
+ *
+ *  2. The rewrite mask is 0xFF0FFFFF (clear bits 20..23, the field the
+ *     `<< 8 >> 28` test reads), then or 0x200000 (field = 2).  Earlier
+ *     notes and docs/families/printsys.h wrote 0xFFFF0FFF.
+ *
+ * hi and mid are int (the u8 truncation is in the expression), lo is u8:
+ * that is what puts hi in r7, mid in r6 and lo in the [sp] spill slot.
+ */
+void PRINTSYS_RunJob(struct PrintCtx *job, struct Strbuf *str)
+{
+    u16 *cursor = (u16 *)STRBUF_GetChars(str);
+    u8 savedColor[3];
+    u8 changed = 0;
+    int letter;
+    int shadow;
+    u8 background;
+
+    savedColor[0] = changed;
+    savedColor[1] = changed;
+    savedColor[2] = changed;
+    if (((int)(job->pos.raw << 8)) >> 28 == 1) {
+        int color = job->activeColor;
+
+        letter = (u8)((color >> 10) & 0x1F);
+        shadow = (u8)((color >> 5) & 0x1F);
+        background = (u8)(color & 0x1F);
+        if (GF_FONT_IsTextColorDifferent(letter, shadow, background) != 0) {
+            GF_FONT_GetTextColor(&savedColor[2], &savedColor[1], &savedColor[0]);
+            GF_FONT_SetTextColor((int)letter, (int)shadow, (int)background);
+            changed = 1;
+        }
+        job->pos.raw = (job->pos.raw & 0xFF0FFFFF) | 0x200000;
+    }
+    while (*cursor != 0xFFFF) {
+        cursor = (u16 *)PRINTSYS_PrintStep(job, cursor, 1);
+    }
+    if (changed) {
+        GF_FONT_SetTextColor((int)savedColor[2], (int)savedColor[1], (int)savedColor[0]);
+    }
+}
+
+/*
+ * printsys.c: the glyph-run interpreter.  Walks the halfword string `p`
+ * rendering one glyph per call to the renderer hook at PrintCtx+0x18 and
+ * returns the cursor one halfword past the glyph it drew; 0xFFFF (end) and a
+ * 0xF000 control block whose code byte is 0xBE with `f == 0` return the
+ * cursor unchanged.
+ *
+ * Three facts the bytes pin, each one worth a whole spelling:
+ *
+ *  1. PrintCtx+0x04 is a SIGNED 10-BIT BITFIELD, not the `u32` flag word
+ *     docs/families/printsys.h had.  The 0xFFFE (line break) arm reads it as
+ *     `lsls #0x16 / asrs #0x16`, a 22-bit equal-width pair with a signed right
+ *     half, which only `s32 :10` produces
+ *     (docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md).  Spelled
+ *     `u32` the store is a bare `strh` and the pair is gone.
+ *
+ *  2. The control-code dispatch is a SWITCH, not an if/else chain.  The
+ *     original tests 0xBD, 0xBE, 0xFF with three forward `beq`s and a final
+ *     `b default`; an if/else chain of the same three tests emits `bne` skips
+ *     instead and costs 86 concrete bytes here.  The switch is sparse (0xBD,
+ *     0xBE, 0xFF), so no jump table appears, only the compare chain.
+ *
+ *  3. The 0xBE arm's guard is spelled `if (f != 0) { ...; break; } return p;`
+ *     and NOT `if (f == 0) return p;`.  The original's `cmp r1, #0 / beq` puts
+ *     the return out of line as the TAKEN target; the equality form emits
+ *     `bne` and mirrors the last seven instructions
+ *     (docs/idioms/the-fall-through-arm-is-the-source-order.md).  This was the
+ *     last 13 concrete bytes.
+ *
+ * The block-layout shape also matters: the glyph body is reached by an
+ * explicit `goto glyph` to a label AFTER the `while (1)`, which is what places
+ * it physically last (at +0x8E) rather than in the middle.  Written as the
+ * final `else` arm of the chain the compiler sinks the F000 block instead and
+ * the function comes out 180 bytes, four short.
+ *
+ * The redundant inner `if (v == 0xF000) k = (u8)(p[1] >> 8); else k = 0xFF;`
+ * inside the F000 arm is real: the original repeats the same `cmp r0, r7` test
+ * (at +0x3C, reusing the flags of the outer one at +0x12) rather than assuming
+ * it.  That is an inlined code-fetch helper, and collapsing it to a plain
+ * `k = (u8)(p[1] >> 8)` loses the `bne`/`movs #0xff` pair.
+ */
+u16 *PRINTSYS_PrintStep(struct PrintCtx *job, u16 *cursor, u32 stopAtPause)
+{
+    u8 glyphInfo[4];
+    s16 *penY = &job->penY;
+
+    while (1) {
+        u16 code = *cursor;
+        if (code != 0xF000) {
+            if (code != 0xFFFE) {
+                if (code == 0xFFFF) {
+                    return cursor;
+                }
+                goto glyph;
+            }
+            job->penX = (s16)job->pos.bits.originX;
+            cursor = cursor + 1;
+            *penY = (s16)(*penY + 0x10);
+            continue;
+        }
+        {
+            u32 tag;
+            if (code == 0xF000) {
+                tag = (u8)(cursor[1] >> 8);
+            } else {
+                tag = 0xFF;
+            }
+            switch (tag) {
+            case 0xBD:
+                cursor = PRINTSYS_ProcGeneralTag(job, cursor);
+                break;
+            case 0xFF:
+                cursor = PRINTSYS_ProcColorTag(job, cursor);
+                break;
+            case 0xBE:
+                if (stopAtPause != 0) {
+                    if (code != 0xF000) {
+                        continue;
+                    }
+                    cursor = (u16 *)((u8 *)(cursor + 3) + cursor[2] * 2);
+                    break;
+                }
+                return cursor;
+            default:
+                if (code != 0xF000) {
+                    continue;
+                }
+                cursor = (u16 *)((u8 *)(cursor + 3) + cursor[2] * 2);
+                break;
+            }
+        }
+    }
+  glyph:
+    {
+        u16 code = *cursor;
+        job->blitGlyph(job->bmp, job->penX, job->penY, job->font, code, glyphInfo);
+        job->penX = (s16)(job->penX + glyphInfo[2]);
+        return cursor + 1;
+    }
+}
+
+/*
+ * One of the two printsys.c glyph blitters, both of which forward the caller's
+ * pen record to GF_FONT_ReadGlyph and then hand the result to a renderer reached
+ * through the module object at 0x02146558.  The pair is cut here rather than
+ * matched as one range because GF_FONT_ReadGlyph is reached from exactly two places
+ * in the image, 0x0201CA4C and 0x0201CA98, one in each function: matched
+ * together neither site has a witness, matched apart each is the other's `label`
+ * witness.  That is
+ * docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md.
+ *
+ * Its sibling at 0x0201CA78 stays parked (src/pending/PRINTSYS_PutGlyph8bpp.c): it calls
+ * 0x02043AAC, and 0x0201CABC is the only branch to that address anywhere in the
+ * image, so no cut reaches it.
+ *
+ * f is a four-byte pen record: f[0] is an x bias added to the caller's x, f[1]
+ * and f[3] are passed straight through.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py tu --src src/matched/unit_0201CA2C.c \
+ *       --addr 0x0201CA2C --thumb
+ */
+void PRINTSYS_PutGlyph4bpp(struct Bmp *bmp, s32 x, s32 y, struct GfFont *font, u16 code, const u8 *glyphInfo)
+{
+    GF_FONT_ReadGlyph(font, code, BMP_GetPixels(_pGlyphBmp), (void *)glyphInfo);
+    BMP_Blit(_pGlyphBmp, bmp, 0, 0, x + glyphInfo[0], y, glyphInfo[1], glyphInfo[3], 0);
+}
+
+/*
+ * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
+ *
+ * note:     80 bytes including two pool words, one function
+ *
+ * printsys.c's second glyph blitter, the twin of PRINTSYS_PutGlyph4bpp in
+ * src/matched/unit_0201CA2C.c.  The two differ only in which renderer they
+ * call and in the two extra stack arguments this one passes, 0xF and 0.
+ *
+ * Why it is capped: the `blx` at 0x0201CABC is the only branch to 0x02043AAC
+ * anywhere in the image, checked over every Thumb BL/BLX pair and every ARM
+ * branch in all 242 regions, and no pool word holds the address either.  The
+ * `label` class therefore has no witness once the compared range holds that
+ * call, and no cut helps, because the range cannot be smaller than this one
+ * function.  Cutting it away from PRINTSYS_PutGlyph4bpp is what let that function come
+ * out EXACT, since the two are the only callers of GF_FONT_ReadGlyph and each is
+ * now the other's witness
+ * (docs/idioms/split-a-unit-so-two-call-sites-attest-each-other.md).
+ *
+ * It closes the day 0x02043AAC is matched (the `matched` class) or acquires a
+ * second caller.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py tu --src src/pending/PRINTSYS_PutGlyph8bpp.c \
+ *       --addr 0x0201CA78 --thumb
+ */
+void PRINTSYS_PutGlyph8bpp(struct Bmp *bmp, s32 x, s32 y, struct GfFont *font, u16 code, const u8 *glyphInfo)
+{
+    GF_FONT_ReadGlyph(font, code, BMP_GetPixels(_pGlyphBmp), (void *)glyphInfo);
+    BMP_BlitPaletteOffset(_pGlyphBmp, (u32)bmp, 0, 0, x + glyphInfo[0], y, glyphInfo[1], glyphInfo[3], 0xF, 0);
+}
+
+/*
+ * printsys.c: applies one 0xF000 control block whose code byte is 0xBD -- the
+ * "set colour / align line" family -- and steps the cursor past the block.
+ * Called from exactly one place image-wide, 0x0201C9D0 inside PRINTSYS_PrintStep,
+ * which is why PRINTSYS_PrintStep resolved that call `sole-ref/code` until this
+ * file existed; it is `matched` now.
+ *
+ * The dispatch is a DENSE switch on a 7-entry PC-relative halfword table at
+ * +0x30..+0x3D, so cases 0..6 must ALL be written, including `case 6:` which
+ * is empty and shares the default's exit
+ * (docs/idioms/empty-switch-arms-are-what-make-the-table.md and
+ * docs/idioms/dense-switch-is-a-pc-relative-halfword-table.md).  Without the
+ * empty case 6 the bound check is `cmp r1, #5` and the table has six entries.
+ *
+ * Two spellings the bytes pin:
+ *
+ *  1. The switch selector is `((u32)(u8)p[1] << 16) >> 16`, TWO stacked
+ *     narrowings: the original has `lsls #0x18 / lsrs #0x18` (the byte) and
+ *     then `lsls #0x10 / lsrs #0x10` (a u16) before the bound check.  Written
+ *     as a plain `(u8)p[1]` into a `u16` local the second pair folds away and
+ *     the function is four bytes short.  Two nested inlined accessors, one
+ *     returning u8 and one u16.
+ *
+ *  2. The 5/5/5 pack in case 0 is `(b & 0x1F) | (((r << 27) >> 17) |
+ *     ((g << 27) >> 22))`, i.e. RED shifts to bit 10 and GREEN to bit 5.  The
+ *     reversed grouping is size-exact and eight bytes out; the order of the
+ *     two `lsls #0x1b` operands in the image names which byte is which
+ *     (docs/idioms/commutative-operand-order-names-the-temporary.md).
+ *
+ * Also corrected against docs/families/printsys.h as it stood: the measuring
+ * arms (cases 2 and 3) hand BMP_GetWidth the handle at PrintCtx+0x14, not
+ * +0x18; +0x18 is the renderer hook PRINTSYS_PrintStep calls through.  And
+ * PrintCtx+0x04 is a SIGNED 10-BIT BITFIELD (`lsls #0x16 / asrs #0x16`), not
+ * a u32 flag word -- the same fact src/matched/PRINTSYS_PrintStep.c records.
+ *
+ * Case order in the source is 0, 1, 3, 2, 4, 5, 6: the table's displacements
+ * put case 3's body (0x0201CB7E) before case 2's (0x0201CBB6), and this
+ * compiler emits switch arms in source order.
+ */
+u16 *PRINTSYS_ProcGeneralTag(struct PrintCtx *job, u16 *cursor)
+{
+    u32 background;
+    u16 code = *cursor;
+    u32 tag;
+
+    if (code == 0xF000) {
+        tag = ((u32)(u8)cursor[1] << 16) >> 16;
+    } else {
+        tag = 0xFFFF;
+    }
+
+    switch (tag) {
+    case 0: {
+        u32 letter, shadow, unusedBackground;
+        letter = (u8)((code == 0xF000) ? cursor[3] : 0);
+        shadow = (u8)((code == 0xF000) ? cursor[4] : 0);
+        background = (u8)((code == 0xF000) ? cursor[5] : 0);
+        GF_FONT_SetTextColor(letter, shadow, background);
+        job->activeColor = (u16)((background & 0x1F) | (((letter << 27) >> 17) | ((shadow << 27) >> 22)));
+        break;
+    }
+    case 1: {
+        u16 color = job->textColor;
+        GF_FONT_SetTextColor((u8)((color >> 10) & 0x1F), (u8)((color >> 5) & 0x1F), (u8)(color & 0x1F));
+        break;
+    }
+    case 3: {
+        s32 width = BMP_GetWidth(job->bmp);
+        s32 room = (s32)(width - job->pos.bits.originX);
+        u32 strWidth;
+        u32 unusedMargin = 0;
+        strWidth = (u32)GF_FONT_MeasureTextWidth(cursor, job->font, 0, 0);
+        {
+            u32 margin = 0;
+            if (*cursor == 0xF000) {
+                margin = cursor[3];
+            }
+            job->penX = (s16)(job->pos.bits.originX + (room - (s32)strWidth) - 1 - (s32)margin);
+        }
+        break;
+    }
+    case 2: {
+        s32 width = BMP_GetWidth(job->bmp);
+        s32 room = (s32)(width - job->pos.bits.originX);
+        s32 strWidth = GF_FONT_MeasureTextWidth(cursor, job->font, 0, 0);
+        if (strWidth < room) {
+            job->penX = (s16)(job->pos.bits.originX + (room - strWidth) / 2);
+        } else {
+            job->penX = (s16)job->pos.bits.originX;
+        }
+        break;
+    }
+    case 4: {
+        u32 offset = (code == 0xF000) ? cursor[3] : 0;
+        job->penX = (s16)(job->penX + (s16)offset);
+        break;
+    }
+    case 5: {
+        u32 offset = (code == 0xF000) ? cursor[3] : 0;
+        job->penX = (s16)offset;
+        break;
+    }
+    case 6:
+        break;
+    default:
+        break;
+    }
+
+    if (*cursor == 0xF000) {
+        cursor = (u16 *)((u8 *)(cursor + 3) + cursor[2] * 2);
+    }
+    return cursor;
+}
+
+u16 *PRINTSYS_ProcColorTag(struct PrintCtx *job, u16 *cursor)
+{
+    u16 tag;
+    u8 paletteRow;
+    u8 background;
+    int base;
+
+    if (cursor[0] == 0xF000) {
+        tag = (u16)(cursor[1] & 0xFF);
+    } else {
+        tag = 0xFFFF;
+    }
+    if (tag == 0) {
+        paletteRow = (u8)((cursor[0] == 0xF000) ? cursor[3] : 0);
+        if (paletteRow == 0xFF) {
+            GF_FONT_SetTextColor((u8)((job->activeColor >> 10) & 0x1F), (u8)((job->activeColor >> 5) & 0x1F),
+                          (u8)(job->activeColor & 0x1F));
+        } else {
+            int letter;
+            int shadow;
+            base = paletteRow * 2;
+            background = (u8)(job->textColor & 0x1F);
+            shadow = base + 2;
+            letter = base + 1;
+            GF_FONT_SetTextColor((u8)letter, (u8)shadow, background);
+            job->activeColor = (u16)((((u8)letter & 0x1F) << 10) | (((u8)shadow & 0x1F) << 5)
+                          | (background & 0x1F));
+        }
+    }
+    if (cursor[0] == 0xF000) return (u16 *)((char *)cursor + 6 + cursor[2] * 2);
+    return cursor;
+}
+
+/*
+ * Verified with:
+ *   python tools/match.py one --src src/matched/PRINTSYS_PrintStream.c \
+ *       --func PRINTSYS_PrintStream --addr 0x0201CCE4 --cc 1.1p1 --thumb
+ */
+void PRINTSYS_PrintStream(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait, struct Tcbl *tcbl,
+                   u32 priority, u16 heap, u16 fillColor)
+{
+    PRINTSYS_PrintStreamCallBack(win, x, y, str, font, wait, tcbl, priority, heap, fillColor, 0);
+}
+
+/*
+ * The printsys text-record constructor: registers GF_FONT_Task as a
+ * task with a 0x50-byte work area, builds the PrintCtx at +0x34 through
+ * PRINTSYS_SetupJob, splits the signed speed argument into the sign/magnitude
+ * pairs at +0x18..+0x1D, and initialises every other field of struct Rec
+ * (the same layout src/matched/GF_FONT_Task.c consumes).  Returns the
+ * record.
+ *
+ * The two-load swap the notes carried at +0x28/+0x30 (a4 read before a1)
+ * was a declaration fact, not a scheduling one:
+ *  - PRINTSYS_SetupJob's real prototype (src/matched/PRINTSYS_SetupJob.c) is
+ *    (struct PrintCtx *, void *, void *, s16, s16), so a1 and a2 are s16
+ *    parameters here;
+ *  - the byte stored to +0x20 is the tenth argument declared `u16 a9`.
+ *    Thumb ldrh cannot use sp as a base, which is where the notes'
+ *    `*(u16 *)((u8 *)&a4 + 0x14)` came from; taking a4's address to fake
+ *    it pinned the a4 load late.  With a9 a real u16 parameter nothing
+ *    takes an address and the loads schedule as in the image.
+ */
+struct TextPrinter *PRINTSYS_PrintStreamCallBack(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str,
+                          struct GfFont *font, s32 wait, struct Tcbl *tcbl, u32 priority, u32 heap, u16 fillColor,
+                          PrintCallback callback)
+{
+    struct TextPrinter *printer;
+    struct TcblNode *task;
+    struct Bmp *bmp;
+    u8 speed[2];
+
+    bmp = BMP_WIN_GetBmp(win);
+    task = TCBL_AddTask(tcbl, (void *)GF_FONT_Task, 0x50, priority);
+    printer = TCBL_GetWork(task);
+
+    printer->task = task;
+    PRINTSYS_SetupJob(&printer->ctx, font, bmp, x, y);
+    PRINTSYS_SplitWait(wait, speed);
+    printer->defaultGlyphs = speed[1];
+    {
+        u8 waitFrames = speed[0];
+        printer->defaultWait = waitFrames;
+        printer->overrideWait = waitFrames;
+        printer->waitFrames = waitFrames;
+    }
+    {
+        u8 glyphs = printer->defaultGlyphs;
+        printer->overrideGlyphs = glyphs;
+        printer->glyphsPerTick = glyphs;
+    }
+    printer->cursor = STRBUF_GetChars(str);
+    printer->waitCounter = 0;
+    printer->callback = callback;
+    printer->initialCallbackArg = 0;
+    printer->nextCallbackArg = 0;
+    printer->callbackArg = 0;
+    printer->bmpWin = win;
+    printer->bmp = bmp;
+    printer->state = 0;
+    printer->fillColor = fillColor;
+    printer->waitKind = 1;
+    printer->scrollPixels = 0;
+    printer->flags.bits.advance = 0;
+    printer->flags.bits.halted = 0;
+    printer->flags.bits.scrolling = 0;
+    printer->callbackResult = 0;
+    printer->flags.bits.useOverrideSpeed = 0;
+    printer->flags.bits.clearOverridePending = 0;
+    return printer;
+}
+
+/*
+ * A whole translation unit, matched as one byte range.
+ *
+ *           PRINTSYS_PrintStreamGetWaitKind, PRINTSYS_PrintStreamReleasePause, PRINTSYS_PrintStreamDelete
+ *
+ * PRINTSYS_SplitWait splits a signed delta into a sign-magnitude pair of output
+ * bytes: byte[1]=1 and byte[0]=the value when it is non-negative, byte[1]=
+ * the absolute value and byte[0]=0 when it is negative.  The two branches
+ * store to the two bytes in opposite order from each other, which is what
+ * the original does and is not an artefact of how it is written.
+ *
+ * PRINTSYS_PrintStreamStop, PRINTSYS_PrintStreamRun and PRINTSYS_PrintStreamReleasePause are three single-bit
+ * operations on a byte at offset 0x22 of an object: set bit 0 (written
+ * through a redundant clear-then-set, `(x & ~1) | 1`, rather than a plain
+ * `x |= 1`, which is what the bytes show), clear bit 0, and set bit 2 with
+ * a plain OR.  All three read and write the field through two separate
+ * `((u8 *)p)[0x22]` expressions rather than a named pointer local, which is
+ * what keeps the load address and the store address computed independently
+ * the way the original does it.
+ *
+ * PRINTSYS_PrintStreamGetState and PRINTSYS_PrintStreamGetWaitKind are the two four-byte word getters this
+ * neighbourhood keeps reusing (the same shape as
+ * src/matched/unit_0201AA14.c's pair); disasm.py's prologue sweep does not
+ * label either of them, since a two-instruction leaf saves nothing
+ * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md), so both were
+ * read directly out of the `.word` run the listing prints between
+ * PRINTSYS_PrintStreamRun and PRINTSYS_PrintStreamReleasePause.
+ *
+ * PRINTSYS_PrintStreamDelete frees and clears an owned pointer at offset 0x10 if it is
+ * non-null.
+ *
+ * Verified with:
+ *   python tools/match.py tu --src src/matched/unit_0201CDF4.c \
+ *       --addr 0x0201CDF4 --thumb
+ */
+void PRINTSYS_SplitWait(int wait, u8 *speed)
+{
+    if (wait >= 0) {
+        speed[1] = 1;
+        speed[0] = (u8)wait;
+    } else {
+        speed[1] = (u8)(-wait);
+        speed[0] = 0;
+    }
+}
+
+void PRINTSYS_PrintStreamStop(struct TextPrinter *printer)
+{
+    printer->flags.raw = (printer->flags.raw & ~1u) | 1u;
+}
+
+void PRINTSYS_PrintStreamRun(struct TextPrinter *printer)
+{
+    printer->flags.raw = printer->flags.raw & ~1u;
+}
+
+u32 PRINTSYS_PrintStreamGetState(const struct TextPrinter *printer)
+{
+    return printer->state;
+}
+
+u32 PRINTSYS_PrintStreamGetWaitKind(const struct TextPrinter *printer)
+{
+    return printer->waitKind;
+}
+
+void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer)
+{
+    printer->flags.raw = printer->flags.raw | 4u;
+}
+
+void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer)
+{
+    if (printer->task != 0) {
+        TCBL_DeleteTask(printer->task);
+        printer->task = 0;
+    }
+}
+
+/*
+ * Four more operations on the object src/matched/unit_0201CDF4.c works on,
+ * continuing its run of single-bit edits of the flag byte at +0x22: this
+ * range sets bit 4 and bit 3, clears bit 3, and reads bit 3 back.
+ *
+ * PRINTSYS_PrintStreamShortWait lowers a level-like byte at +0x1E and, when the new value is
+ * zero, replaces the pair at +0x1C/+0x1D through PRINTSYS_PrintStreamSetSpeed with whatever
+ * MSG_SPEED_GetWaitForSpeed(2) returns.  PRINTSYS_PrintStreamResetSpeed is the undo: it clears the bit and
+ * restores the pair from the backup at +0x18/+0x19.
+ *
+ * PRINTSYS_PrintStreamIsOverrideSpeed is an unlabelled follower, eight bytes with no prologue.  It
+ * reads bit 3 as a `lsls #0x1C` / `lsrs #0x1F` pair, which is the bitfield
+ * extraction shape of
+ * docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md rather than
+ * the `lsrs #3` / `ands #1` a shift and mask would give.
+ *
+ * The bit read has to be cast to u32 before the shift pair: on the promoted
+ * `int` the right shift is an `asrs` and the one byte is wrong.
+ *
+ * Every one of the four reaches the flag byte through two independent
+ * `((u8 *)p)[0x22]` expressions, the same spelling unit_0201CDF4.c needs, so
+ * the load address and the store address are computed separately.
+ *
+ * Verified with:
+ *   python tools/match.py tu --src src/matched/unit_0201CE5C.c \
+ *       --addr 0x0201CE5C --thumb
+ */
+void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, s32 wait)
+{
+    if (wait < printer->waitCounter) {
+        printer->waitCounter = (u8)wait;
+        if (wait == 0) {
+            PRINTSYS_PrintStreamSetSpeed(printer, MSG_SPEED_GetWaitForSpeed(2));
+            printer->flags.raw = 0x10u | printer->flags.raw;
+        }
+    }
+}
+
+void PRINTSYS_PrintStreamSetSpeed(struct TextPrinter *printer, s32 wait)
+{
+    u8 speed[2];
+
+    PRINTSYS_SplitWait(wait, speed);
+    printer->overrideGlyphs = speed[1];
+    printer->overrideWait = speed[0];
+    printer->flags.raw = 8u | printer->flags.raw;
+}
+
+void PRINTSYS_PrintStreamResetSpeed(struct TextPrinter *printer)
+{
+    printer->flags.raw = printer->flags.raw & ~8u;
+    printer->overrideGlyphs = printer->defaultGlyphs;
+    printer->overrideWait = printer->defaultWait;
+}
+
+u32 PRINTSYS_PrintStreamIsOverrideSpeed(const struct TextPrinter *printer)
+{
+    return ((u32)printer->flags.raw << 28) >> 31;
+}
+
+typedef signed short   s16;
 
 extern u16 BMP_GetHeight(const struct Bmp *bmp);
-
-extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, int dstX, int dstY, u32 width, u32 height, u32 transparentColor);
 
 extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 width, u32 height, u32 fillColor);
 
 extern void BMP_Clear(struct Bmp *bmp, u8 fillColor);
 
-extern void BMP_WIN_TransferChars(struct Descriptor *target);
-
-extern u16 *PRINTSYS_PrintStep(struct PrintCtx *ctx, u16 *cursor, u32 stopAtPause);
-
-extern void PRINTSYS_PrintStreamResetSpeed(struct TextPrinter *printer);
+extern void BMP_WIN_TransferChars(struct BmpWin *target);
 
 extern signed char MSG_SPEED_GetSlowerWait(void);
 
 extern signed char MSG_SPEED_GetFasterWait(void);
-
-extern void PRINTSYS_SplitWait(s32 speedSetting, u8 *waitAndGlyphs);
-
-extern u16 *STRBUF_GetChars(struct Strbuf *text);
 
 extern void STRBUF_Clear(struct Strbuf *text);
 
@@ -138,11 +1345,7 @@ extern void *memcpy(void *dst, const void *src, u32 n);
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
-void GF_FONT_Task(void *task, struct TextPrinter *printer);
-
 void GF_FONT_Apply(struct TextPrinter *printer);
-
-u32 GF_FONT_MeasureTextWidth(u16 *cursor, struct GfFont *font, u32 spacing, u16 **next);
 
 u32 GF_FONT_CountLine(struct Strbuf *text);
 
@@ -162,7 +1365,7 @@ u32 GF_FONT_MeasureText(struct Strbuf *text, u8 markerId, struct GfFont *font, u
 
 u32 GF_FONT_GetTagChar(void);
 
-u32 GF_FONT_CheckD5CC(const u16 *tag);
+u32 GF_FONT_IsWordSlotTag(const u16 *tag);
 
 u32 GF_FONT_GetTagGroup(const u16 *tag);
 
@@ -176,19 +1379,11 @@ u16 *GF_FONT_SkipTag(u16 *tag);
 
 u32 GF_FONT_GetAlignedSize(struct Strbuf *text);
 
-u32 GF_FONT_GetAllocSize(struct Strbuf *text);
-
-u32 GF_FONT_GetQueueLength(const struct PrintQueue *queue);
-
-void GF_FONT_CopyStrbufD6D8(struct PrintQueue *queue, void *record, struct Strbuf *text);
-
 void *GF_FONT_Copy(struct PrintQueue *queue, const u8 *src, u16 length, u16 unit);
-
-void *GF_FONT_UpdatePrintsy(struct PrintQueue *queue, void *record);
 
 u32 GF_FONT_GetCharWidth(struct GfFont *font, u16 ch);
 
-u32 GF_FONT_GetField58(struct GfFont *font);
+u32 GF_FONT_GetLineHeight(struct GfFont *font);
 
 static inline u32 TagGroupOrNone(u16 code, const u16 *tag)
 {
@@ -245,12 +1440,12 @@ void GF_FONT_Task(void *task, struct TextPrinter *printer)
         printer->callbackArg = printer->nextCallbackArg;
     }
 
-    if (printer->flags.halted)
+    if (printer->flags.bits.halted)
         goto end;
 
     switch (printer->state) {
     case 0:
-        if (printer->flags.scrolling) {
+        if (printer->flags.bits.scrolling) {
             if (printer->scrollPixels < 0x10) {
                 u16 step = 4;
                 if (printer->scrollPixels + 4 > 0x10)
@@ -260,22 +1455,22 @@ void GF_FONT_Task(void *task, struct TextPrinter *printer)
                 height = BMP_GetHeight(printer->bmp) - step;
                 BMP_Blit(printer->bmp, printer->bmp, 0, step, 0, 0, width, height, 0xFFFF);
                 BMP_FillRect(printer->bmp, 0, (s16)height, width, step, printer->fillColor);
-                BMP_WIN_TransferChars(printer->updateTarget);
+                BMP_WIN_TransferChars(printer->bmpWin);
                 return;
             }
-            printer->ctx.penX = printer->ctx.originX;
+            printer->ctx.penX = printer->ctx.pos.bits.originX;
             printer->ctx.penY = 0x10;
-            printer->flags.scrolling = 0;
+            printer->flags.bits.scrolling = 0;
             return;
         }
         if (printer->waitCounter == 0) {
-            if (printer->flags.useOverrideSpeed)
+            if (printer->flags.bits.useOverrideSpeed)
                 glyphsThisTick = printer->overrideGlyphs;
             else
                 glyphsThisTick = printer->glyphsPerTick;
-            if (printer->flags.clearOverridePending) {
+            if (printer->flags.bits.clearOverridePending) {
                 PRINTSYS_PrintStreamResetSpeed(printer);
-                printer->flags.clearOverridePending = 0;
+                printer->flags.bits.clearOverridePending = 0;
             }
             glyphIndex = 0;
             if (glyphIndex < glyphsThisTick) {
@@ -306,12 +1501,12 @@ void GF_FONT_Task(void *task, struct TextPrinter *printer)
                         if (code == 0xFFFF) {
                             printer->state = 2;
                         } else if (code != 0xFFFE) {
-                            if (printer->flags.useOverrideSpeed)
+                            if (printer->flags.bits.useOverrideSpeed)
                                 printer->waitCounter = printer->overrideWait;
                             else
                                 printer->waitCounter = printer->waitFrames;
                         }
-                        BMP_WIN_TransferChars(printer->updateTarget);
+                        BMP_WIN_TransferChars(printer->bmpWin);
                         if (printer->callback != 0) {
                             printer->callbackResult = printer->callback(printer->callbackArg);
                             if (printer->callbackResult != 0)
@@ -329,10 +1524,10 @@ void GF_FONT_Task(void *task, struct TextPrinter *printer)
         }
         return;
     case 1:
-        if (printer->flags.advance) {
+        if (printer->flags.bits.advance) {
             switch (printer->waitKind) {
             case 0:
-                printer->flags.scrolling = 1;
+                printer->flags.bits.scrolling = 1;
                 printer->state = 0;
                 return;
             case 1:
@@ -425,16 +1620,16 @@ void GF_FONT_Apply(struct TextPrinter *printer)
         skipLineBreak = 1;
         SetWaitState(printer, 0);
         printer->scrollPixels = 0;
-        printer->flags.advance = 0;
-        printer->ctx.penX = printer->ctx.originX;
+        printer->flags.bits.advance = 0;
+        printer->ctx.penX = printer->ctx.pos.bits.originX;
         printer->ctx.penY = 0;
         break;
     case 1:
         skipLineBreak = 1;
         SetWaitState(printer, 1);
         printer->scrollPixels = 0;
-        printer->flags.advance = 0;
-        printer->ctx.penX = printer->ctx.originX;
+        printer->flags.bits.advance = 0;
+        printer->ctx.penX = printer->ctx.pos.bits.originX;
         printer->ctx.penY = 0;
         break;
     case 2:
@@ -682,7 +1877,7 @@ u32 GF_FONT_CopyLine(struct Strbuf *src, struct Strbuf *dst, u32 lineNumber)
 
 /*
  * printsys.c: the pixel height of a string object, i.e. its line count times
- * the font's line height (GF_FONT_GetField58).  The line counter is a u16, so the
+ * the font's line height (GF_FONT_GetLineHeight).  The line counter is a u16, so the
  * increment carries the halfword truncation pair.
  *
  * Verified with:
@@ -711,11 +1906,11 @@ u32 GF_FONT_CountLines(struct Strbuf *text, struct GfFont *font)
         }
         code = *cursor;
     }
-    return (lineBreaks + 1) * GF_FONT_GetField58(font);
+    return (lineBreaks + 1) * GF_FONT_GetLineHeight(font);
 }
 
 /*
- * Counts the control tags of a message string for which GF_FONT_CheckD5CC returns
+ * Counts the control tags of a message string for which GF_FONT_IsWordSlotTag returns
  * true.  The walk is the one every routine in this neighbourhood uses: 0xF000
  * opens a tag and GF_FONT_SkipTag steps over it, anything else is one halfword,
  * and 0xFFFF ends the string.
@@ -741,7 +1936,7 @@ u32 GF_FONT_CountControlTag(struct Strbuf *text)
 
     while (cursor[0] != 0xFFFF) {
         if (cursor[0] == 0xF000) {
-            if (GF_FONT_CheckD5CC(cursor) != 0) {
+            if (GF_FONT_IsWordSlotTag(cursor) != 0) {
                 count = (u16)(count + 1);
             }
             cursor = GF_FONT_SkipTag(cursor);
@@ -908,7 +2103,7 @@ u32 GF_FONT_GetTagChar(void)
     return 0xF000;
 }
 
-u32 GF_FONT_CheckD5CC(const u16 *tag)
+u32 GF_FONT_IsWordSlotTag(const u16 *tag)
 {
     u32 group;
 
@@ -984,13 +2179,13 @@ u16 *GF_FONT_SkipTag(u16 *tag)
  * function would be four bytes shorter with no loop at all.  The loop really
  * is in the original.
  *
- * GF_FONT_GetQueueLength is the used-byte count of a wrap-around byte ring.  The
+ * GF_FONT_GetQueueFreeSpace is the used-byte count of a wrap-around byte ring.  The
  * fall-through arm of `cmp r1, r2` / `bhs` is the non-wrapped case, so the
  * source wrote `if (head < tail)` first
  * (docs/idioms/the-fall-through-arm-is-the-source-order.md); written as the
  * wrapped case first it is ten of the twenty bytes wrong.
  *
- * Left open at 0x0201D6D8: GF_FONT_CopyStrbufD6D8 and GF_FONT_Copy reproduce the
+ * Left open at 0x0201D6D8: GF_FONT_EnqueuePrint and GF_FONT_Copy reproduce the
  * right size and the right instruction multiset but allocate registers the
  * other way round.  The original keeps the ring's write cursor in a
  * callee-saved register across the MI_CpuCopy8 call and spills the loop
@@ -1024,7 +2219,7 @@ u32 GF_FONT_GetAllocSize(struct Strbuf *text)
     return GF_FONT_GetAlignedSize(text) + 0x20;
 }
 
-u32 GF_FONT_GetQueueLength(const struct PrintQueue *queue)
+u32 GF_FONT_GetQueueFreeSpace(const struct PrintQueue *queue)
 {
     if (queue->head < queue->tail) {
         return queue->tail - queue->head;
@@ -1052,10 +2247,10 @@ u32 GF_FONT_GetQueueLength(const struct PrintQueue *queue)
  * GF_FONT_Copy(p, STRBUF_GetChars(c), (u16)GF_FONT_GetAlignedSize(c), 2) for a slot
  * keyed by the record at `c`, stores a second slot for `b` (0x1c/0x1c) in a
  * stack local, zero-initialises a 4-byte stack local through a third call,
- * and then walks the list hanging off queue->firstRecord through GF_FONT_UpdatePrintsy until it
+ * and then walks the list hanging off queue->job through GF_FONT_GetNextRecord until it
  * runs out, rebasing the node pointer on p+0x18 and clamping the resulting
  * offset against p->f4 (u16) before a 4-byte memcpy into the local.  When
- * queue->firstRecord is null it installs the two slots instead.
+ * queue->job is null it installs the two slots instead.
  *
  * Two details that cost a compile each: STRBUF_GetChars is ARM, not Thumb (the
  * the offset is truncated to u16 twice -- once right after the subtraction and
@@ -1063,26 +2258,26 @@ u32 GF_FONT_GetQueueLength(const struct PrintQueue *queue)
  * local, not a single cast.
  *
  * Verified with
- *   python tools/match.py one --src src/pending/GF_FONT_CopyStrbufD6D8.c \
- *       --func GF_FONT_CopyStrbufD6D8 --addr 0x0201D6D8 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/GF_FONT_EnqueuePrint.c \
+ *       --func GF_FONT_EnqueuePrint --addr 0x0201D6D8 --cc 1.1p1 --thumb
  */
-void GF_FONT_CopyStrbufD6D8(struct PrintQueue *queue, void *record, struct Strbuf *text)
+void GF_FONT_EnqueuePrint(struct PrintQueue *queue, struct PrintCtx *job, struct Strbuf *text)
 {
     void *newRecord;
-    void *node;
-    void *next;
+    struct PrintCtx *node;
+    struct PrintCtx *next;
     void *textCopy;
     u32 zero;
 
     textCopy = GF_FONT_Copy(queue, (const u8 *)STRBUF_GetChars(text),
                            (u16)GF_FONT_GetAlignedSize(text), 2);
-    newRecord = GF_FONT_Copy(queue, record, 0x1c, 0x1c);
+    newRecord = GF_FONT_Copy(queue, (const u8 *)job, 0x1c, 0x1c);
     zero = 0;
     GF_FONT_Copy(queue, (const u8 *)(&zero), 4, 4);
-    node = queue->firstRecord;
+    node = queue->job;
     if (node != 0) {
         for (;;) {
-            next = GF_FONT_UpdatePrintsy(queue, node);
+            next = GF_FONT_GetNextRecord(queue, node);
             if (next == 0) break;
             node = next;
         }
@@ -1094,14 +2289,14 @@ void GF_FONT_CopyStrbufD6D8(struct PrintQueue *queue, void *record, struct Strbu
         }
         return;
     }
-    queue->firstRecord = newRecord;
-    queue->text = textCopy;
+    queue->job = newRecord;
+    queue->cursor = textCopy;
 }
 
 /*
  * printsys.c: append `len` bytes to the byte ring at +0x18 in `unit`-sized
  * copies, wrapping the head back to 0 at ring->size, and return the address
- * the first copy landed at.  The three callers are GF_FONT_CopyStrbufD6D8's.
+ * the first copy landed at.  The three callers are GF_FONT_EnqueuePrint's.
  *
  * Rewritten from the start in wave 20 (lane printsys_fresh; 63 bytes out for
  * the inherited source).  What closed it: the head advance is the compound
@@ -1159,13 +2354,13 @@ void *GF_FONT_Copy(struct PrintQueue *queue, const u8 *src, u16 length, u16 unit
  * of the four points; a `u16` local folds the redundant casts away and the
  * function is ten bytes short.
  *
- * GF_FONT_CopyStrbufD6D8 and GF_FONT_Copy, the two functions in front of this one, are
+ * GF_FONT_EnqueuePrint and GF_FONT_Copy, the two functions in front of this one, are
  * still open; see the note in src/matched/unit_0201D69C.c, which this work
- * narrows.  GF_FONT_CopyStrbufD6D8 is EXACT when it is compiled in a range with
+ * narrows.  GF_FONT_EnqueuePrint is EXACT when it is compiled in a range with
  * GF_FONT_Copy, and GF_FONT_Copy is four bytes short: the original spills the
  * byte counter and keeps the ring cursor in r4, and every source shape tried
  * makes the opposite choice.  Since GF_FONT_Copy's only callers are the three
- * inside GF_FONT_CopyStrbufD6D8 the two cannot be cut apart, so neither lands.
+ * inside GF_FONT_EnqueuePrint the two cannot be cut apart, so neither lands.
  *
  * Addresses are Black-image addresses.
  *
@@ -1173,13 +2368,13 @@ void *GF_FONT_Copy(struct PrintQueue *queue, const u8 *src, u16 length, u16 unit
  *   python tools/match.py tu --src src/matched/unit_0201D7C4.c \
  *       --addr 0x0201D7C4 --thumb
  */
-void *GF_FONT_UpdatePrintsy(struct PrintQueue *queue, void *record)
+struct PrintCtx *GF_FONT_GetNextRecord(struct PrintQueue *queue, struct PrintCtx *job)
 {
-    u32 offset = (u16)((u8 *)record - &queue->data[0]);
+    u32 offset = (u16)((u8 *)job - &queue->data[0]);
 
     offset = (u16)((u16)offset + 0x1C);
     if (offset >= queue->capacity) {
         offset = 0;
     }
-    return *(void **)&queue->data[(u16)offset];
+    return *(struct PrintCtx **)&queue->data[(u16)offset];
 }

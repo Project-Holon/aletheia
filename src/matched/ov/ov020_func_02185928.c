@@ -25,7 +25,7 @@
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   GAME_DATA_GetSecondUnionInfo  0x020127C4  thumb
  *   func_020127D0  0x020127D0  thumb
- *   GAME_DATA_GetMysteryRecvFlagA  0x020127E0  thumb
+ *   GAME_DATA_GetMusicalShotTitle  0x020127E0  thumb
  *   func_020307B0  0x020307B0  arm
  *   FIELD_WFBC_DATA_LOCAL_CreateMmdlHeaders  0x02186538  thumb  ov020
  *   FIELD_WFBC_DATA_LOCAL_CountPeople  0x02186278  thumb  ov020
@@ -46,7 +46,7 @@ u32 GAME_DATA_GetOccupyInfo(const struct BigObj *p);
 u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 u8 *GAME_DATA_GetSecondUnionInfo(void *p);
 u8 *func_020127D0(u8 *o, u32 idx);
-int GAME_DATA_GetMysteryRecvFlagA(int a);
+int GAME_DATA_GetMusicalShotTitle(int a);
 u32 func_020307B0(void *p);
 int FIELD_WFBC_DATA_LOCAL_CreateMmdlHeaders(unsigned short *a, int b, int c);
 int FIELD_WFBC_DATA_LOCAL_CountPeople(char *p, int which);
@@ -82,7 +82,7 @@ void EVENT_MAPCHANGE_AddWfbcMmdl(void *a, const short *p)
     if (r5 != 0)
         func_020307B0((void *)r5);
 
-    r5 = GAME_DATA_GetMysteryRecvFlagA((int)a);
+    r5 = GAME_DATA_GetMusicalShotTitle((int)a);
     r4 = FIELD_WFBC_DATA_LOCAL_CountItemSlots((u16 *)r5);
     r5 = FIELD_WFBC_DATA_LOCAL_CreateItemMmdlHeaders(r5, r6, r7[1], 1);
     if (r5 != 0 && r4 != 0)

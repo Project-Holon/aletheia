@@ -33,7 +33,7 @@
  *   MI_CpuFill8     0x02082BCC  arm
  *   BMP_WIN_Create   0x020450F0  arm
  *   GF_FONT_Create   0x0201D7EC  thumb
- *   GF_FONT_GetField58   0x0201DC80  thumb
+ *   GF_FONT_GetLineHeight   0x0201DC80  thumb
  *   PRINTSYS_QUE_Create   0x0201C440  thumb
  *   BMP_WIN_MakeScreen   0x02045374  arm
  *   BMP_WIN_TransferChars   0x02045334  arm
@@ -147,7 +147,7 @@ extern struct BmpWin *BMP_WIN_Create(u32 bgFrame, u32 x, u32 y, u32 width, u8 he
 
 extern struct GfFont *GF_FONT_Create(int fontKind, int flagA, int flagB, int flagC, u32 heapId);
 
-extern u32 GF_FONT_GetField58(struct GfFont *p);
+extern u32 GF_FONT_GetLineHeight(struct GfFont *p);
 
 extern void *PRINTSYS_QUE_Create(void *heapIdAsPtr);
 
@@ -579,7 +579,7 @@ BmpMenu *BMP_MENU_CreateYesNo(const WinDat *winData, u16 tileBase, u8 palette, u
     header.wrap = 0;
     header.util = GFL_HEAP_Alloc(heapId, sizeof(PrintUtil), 1, sBmpMenuFile, 0x263);
     header.fontH = GF_FONT_Create(0x17, 0, 0, 0, heapId);
-    header.lineHeight = GF_FONT_GetField58(header.fontH);
+    header.lineHeight = GF_FONT_GetLineHeight(header.fontH);
     header.xPad = 10;
     PrintUtil_Init(header.util, header.win);
     header.que = PRINTSYS_QUE_Create((void *)heapId);

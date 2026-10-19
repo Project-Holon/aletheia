@@ -1,0 +1,22 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "ov230d",
+ "shard": "pkt_ov230d_0218940C",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "OV230_CallSealedBody17",
+   "address": "0x0218940C",
+   "kind": "game",
+   "region": "ov230d",
+   "source": "src/game/ov230/sealed_call_stubs_f.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  }
+ ]
+}

@@ -11,8 +11,8 @@
  * note: Packed word supplies low/high halfwords, not duplicate low halves. Includes tail-call follower 021B7AAC.
  * symbols:
  * func_02030EAC 0x02030EAC arm
- * BG_SYS_DeleteHalf 0x0203FB44 arm
- * BG_SYS_SetTileUnit 0x02040DA8 arm
+ * BG_SYS_FreeTileRun 0x0203FB44 arm
+ * BG_SYS_FreeTiles 0x02040DA8 arm
  * BG_SYS_FreeLayerBuf 0x020403F4 arm
  * BMP_WIN_Exit 0x020450C8 arm
  * BG_SYS_Delete 0x0203F9B4 arm
@@ -24,8 +24,8 @@ typedef unsigned short u16;
 struct Node;
 extern void func_02030EAC(struct Node *n);
 typedef unsigned int   u32;
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
-extern void BG_SYS_SetTileUnit(unsigned,unsigned,unsigned);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTiles(unsigned,unsigned,unsigned);
 extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
@@ -36,8 +36,8 @@ void IRC_COMPATIBLE_MENU_ExitBackgrounds(unsigned *p) {
  unsigned q;
  func_02030EAC((struct Node *)p[1]);
  q=p[0];
- BG_SYS_DeleteHalf(5,(u16)q,(u16)(q>>16));
- BG_SYS_SetTileUnit(5,1,0);
+ BG_SYS_FreeTileRun(5,(u16)q,(u16)(q>>16));
+ BG_SYS_FreeTiles(5,1,0);
  for(i=0;i<8;i++) BG_SYS_FreeLayerBuf((u8)IRC_COMPATIBLE_MENU_BgLayerIds[i]);
  BMP_WIN_Exit();
  BG_SYS_Delete();

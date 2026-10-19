@@ -12,7 +12,7 @@
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   WORDSET_CreateDefault  0x0201EC64  thumb  arm9
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
+ *   WORDSET_Delete  0x0201ED04  thumb  arm9
  *   WORDSET_SetSlotTag  0x0201EE0C  thumb  arm9
  */
 #include "../include/Obj00004.h"
@@ -27,7 +27,7 @@ extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 void DUP_FITTING_SetTextHelp(u8 *p, int state)
 {
     int index;
@@ -53,5 +53,5 @@ void DUP_FITTING_SetTextHelp(u8 *p, int state)
     WORDSET_SetSlotTag(w, 0, str, 0, 1, 2);
     DUP_FITTING_SetText(p, 4, w);
     STRBUF_Delete(str);
-    WORDSET_DeleteStrbufED04(w);
+    WORDSET_Delete(w);
 }

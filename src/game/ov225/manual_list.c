@@ -38,7 +38,7 @@
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   gManualCommonListWorkAllocFile 0x021BC028 data ov225 a1
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   APP_TASKMENU_WIN_Update 0x02028178 thumb
@@ -53,7 +53,7 @@
  *   NNS_GfdRegisterNewVramTransferTask 0x02061CA4 arm
  *   UI_GetInputMode 0x020355C4 arm
  *   APP_TASKMENU_WIN_SetActive 0x02028218 thumb
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   APP_TASKMENU_WIN_Delete 0x02028148 thumb
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
@@ -164,7 +164,7 @@ extern u32 TOUCHPANEL_GetPointTrg(u32 *,u32 *);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 
-extern void BG_SYS_ResetSlot(u32, u32, u32);
+extern void BG_SYS_ChangeScroll(u32, u32, u32);
 
 extern void CLACT_AddActorSurfacePos(struct Obj *, const struct ManualClactPos *, u32);
 
@@ -190,7 +190,7 @@ extern u8 UI_GetInputMode(void);
 
 extern void APP_TASKMENU_WIN_SetActive(struct Obj *, unsigned);
 
-extern void BG_SYS_SetFlagField06(u32);
+extern void BG_SYS_MarkTileDirty(u32);
 
 extern void APP_TASKMENU_WIN_Delete(u8 *);
 
@@ -283,7 +283,7 @@ void *MANUAL_COMMON_CreateListWork(char *owner, struct ManualData *data)
   work->listReady = 0;
   MANUAL_COMMON_LoadListWorkAssets((char *)work);
   MANUAL_COMMON_SetListWorkBgMode(work);
-  BG_SYS_ResetSlot(5, 3, 12);
+  BG_SYS_ChangeScroll(5, 3, 12);
   flag = 0;
   if ((*((u16 *) (work->owner + 4))) > 6)
     flag = 1;
@@ -313,7 +313,7 @@ void *MANUAL_COMMON_CreateListWork(char *owner, struct ManualData *data)
 void MANUAL_COMMON_DeleteListWork(char *work)
 {
     TCB_DeleteTask(((struct ManualListWork *)work)->task);
-    BG_SYS_ResetSlot(5, 3, 0);
+    BG_SYS_ChangeScroll(5, 3, 0);
     GFL_HEAP_Free(work);
 }
 
@@ -417,11 +417,11 @@ void MANUAL_COMMON_CreateListWorkMenu(char *work)
     }
 }
 
-void MANUAL_COMMON_SetListWorkBgMode(struct ManualListWork *work) { BG_SYS_SetFlagField06(4); }
+void MANUAL_COMMON_SetListWorkBgMode(struct ManualListWork *work) { BG_SYS_MarkTileDirty(4); }
 
 void MANUAL_COMMON_DeleteListWorkAssets(char *work) { u8 i; MANUAL_COMMON_DeleteListWorkMenu(work); for(i=0;i<8;i++) CLACT_DeleteActor(*(struct Obj **)(work+i*4+0x60)); CLACT_DeleteActor(*(struct Obj * *)&((struct ManualListWork *)work)->actor); CLACT_ReleaseCellAnim(((struct ManualListWork *)work)->reg2); CLACT_ReleaseCharacter(((struct ManualListWork *)work)->reg0); CLACT_ReleasePalette(((struct ManualListWork *)work)->reg1); }
 
-void MANUAL_COMMON_DeleteListWorkMenu(char *work) { u8 i; PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->printQue1); for(i=0;i<8;i++) if(*(u8 **)(work+i*4+12)) APP_TASKMENU_WIN_Delete(*(u8 **)(work+i*4+12)); APP_TASKMENU_RES_Delete(*(struct TaskMenuState * *)&((struct ManualListWork *)work)->resource); BG_SYS_SetFlagField06(5); }
+void MANUAL_COMMON_DeleteListWorkMenu(char *work) { u8 i; PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->printQue1); for(i=0;i<8;i++) if(*(u8 **)(work+i*4+12)) APP_TASKMENU_WIN_Delete(*(u8 **)(work+i*4+12)); APP_TASKMENU_RES_Delete(*(struct TaskMenuState * *)&((struct ManualListWork *)work)->resource); BG_SYS_MarkTileDirty(5); }
 
 int MANUAL_COMMON_UpdateListWorkInput(char *work)
 {

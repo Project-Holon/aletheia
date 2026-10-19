@@ -20,7 +20,7 @@
  *   FX_SinCosTable_   0x020A1B38  data
  *   _u32_div_f     0x0209C2B0  arm
  *   WORDSET_CopyString   0x0201F41C  thumb
- *   GF_STANDARD_SetupRtc_F540  0x0203F540  arm
+ *   GF_STANDARD_GetDayOfYear  0x0203F540  arm
  */
 #include "wifilist_tail_shared_types.h"
 #include "musical_save_shared_types.h"
@@ -57,7 +57,7 @@ extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
-extern s32  GF_STANDARD_SetupRtc_F540(struct RTCDate *date);
+extern s32  GF_STANDARD_GetDayOfYear(struct RTCDate *date);
 
 extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
 
@@ -230,7 +230,7 @@ int IRC_RANKING_HasEntry(struct IrcRankEntry *entries, u32 trainerId)
 /*
  * A date interpolation: copy the caller's 16-byte date record onto the
  * stack (the `ldm/stm` pair of docs/idioms/aggregate-assignment-is-ldm-stm.md),
- * take its day number with GF_STANDARD_SetupRtc_F540, overwrite the two fields at +4 and
+ * take its day number with GF_STANDARD_GetDayOfYear, overwrite the two fields at +4 and
  * +8 with the two scalar arguments, take the day number again, and wrap the
  * difference into a year.  The tail is the fixed-point sine lookup
  * src/matched/GF_STANDARD_Get_F684.c already evidences -- the same 4096-entry signed
@@ -258,10 +258,10 @@ u8 IRC_RANKING_GetDateScore(u32 month, u32 day, struct RTCDate *today)
 {
     struct RTCDate date = *today;
     u32 todayNum, dayNum;
-    todayNum = GF_STANDARD_SetupRtc_F540(&date);
+    todayNum = GF_STANDARD_GetDayOfYear(&date);
     date.month = month;
     date.day = day;
-    dayNum = GF_STANDARD_SetupRtc_F540(&date);
+    dayNum = GF_STANDARD_GetDayOfYear(&date);
     if (todayNum >= dayNum) {
         dayNum += 365;
     }

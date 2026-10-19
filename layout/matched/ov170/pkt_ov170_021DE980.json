@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BOX2_MAIN_ClearFlagsScene",
+   "name": "BOX2_MAIN_StartHandMotionToBoxArrow",
    "address": "0x021DE980",
    "kind": "game",
    "region": "ov170",

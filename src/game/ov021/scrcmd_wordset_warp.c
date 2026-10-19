@@ -26,20 +26,20 @@
  *   VM_GetU16  0x02011330  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
- *   WORDSET_Callback_EF40  0x0201EF40  thumb
- *   WORDSET_Callback_EF4C  0x0201EF4C  thumb
+ *   WORDSET_SetSlotFromMsg36  0x0201EF40  thumb
+ *   WORDSET_SetSlotFromMsg117  0x0201EF4C  thumb
  *   WORDSET_SetSlotFromMsg118  0x0201EF5C  thumb
- *   WORDSET_Callback  0x0201EE60  thumb
- *   WORDSET_Callback_EEC4  0x0201EEC4  thumb
+ *   WORDSET_SetSlotSpeciesName  0x0201EE60  thumb
+ *   WORDSET_SetSlotFromMsg119  0x0201EEC4  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
- *   WORDSET_SetSlotMonName  0x0201EE84  thumb
- *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
+ *   WORDSET_SetSlotMonSpeciesName  0x0201EE84  thumb
+ *   WORDSET_SetSlotMonNickname  0x0201EEF4  thumb
  *   FIELDMAP_GetSodateya  0x02188D50  thumb  ov021
  *   SODATEYA_GetPokemon  0x021C34F8  thumb  ov021
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
- *   WORDSET_Set  0x0201F0F8  thumb
- *   WORDSET_Callback_F124  0x0201F124  thumb
+ *   WORDSET_SetSlotFromMsgBF  0x0201F0F8  thumb
+ *   WORDSET_SetSlotFromMsg11B  0x0201F124  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   BEACON_GetBlock  0x0200C0F0  thumb
  *   BEACON_GetThanksCount  0x0200C1DC  thumb
@@ -65,7 +65,7 @@
  *   EVENT_MAPCHANGE_CreateRailWarpEventWithTransition  0x02184DE8  thumb  ov020
  *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
  *   ZONEDATA_GetPlaceNameId  0x02013E4C  thumb  arm9
- *   FILE_UTIL_Get_12B0  0x020212B0  thumb  arm9
+ *   FILE_UTIL_GetMachineMove  0x020212B0  thumb  arm9
  *   WORDSET_SetSlotFromMsgCB  0x0201EF34  thumb  arm9
  *   WORDSET_SetSlotPmsWord  0x0201EFC8  thumb  arm9
  *   WORDSET_SetSlotFromMsgC7  0x0201F020  thumb  arm9
@@ -118,19 +118,19 @@ extern u16 VM_GetU16(ScriptVm *vm);
 extern WordSet *SCRIPT_WORK_GetWordSet(ScriptWork *scriptWork);
 extern PlayerStatus *GAME_DATA_GetMyStatus(GameData *gameData);
 extern void WORDSET_SetSlotMyStatus(WordSet *wordSet, u32 slot, PlayerStatus *myStatus);
-extern void WORDSET_Callback_EF40(WordSet *wordSet, u32 slot, u32 entryIndex);
-extern void WORDSET_Callback_EF4C(WordSet *wordSet, u32 slot, u32 entryIndex);
+extern void WORDSET_SetSlotFromMsg36(WordSet *wordSet, u32 slot, u32 entryIndex);
+extern void WORDSET_SetSlotFromMsg117(WordSet *wordSet, u32 slot, u32 entryIndex);
 extern void WORDSET_SetSlotFromMsg118(WordSet *wordSet, u32 slot, u32 entryIndex);
-extern u32 FILE_UTIL_Get_12B0(u32 value);
+extern u32 FILE_UTIL_GetMachineMove(u32 value);
 extern void WORDSET_SetSlotFromMsgCB(WordSet *wordSet, u32 slot, u32 entryIndex);
 extern void WORDSET_SetSlotFromMsgC7(WordSet *wordSet, u32 slot, u32 entryIndex);
-extern void WORDSET_Callback(WordSet *wordSet, u32 slot, u16 speciesId);
-extern void WORDSET_Callback_EEC4(WordSet *wordSet, u32 slot, u32 entryIndex);
+extern void WORDSET_SetSlotSpeciesName(WordSet *wordSet, u32 slot, u16 speciesId);
+extern void WORDSET_SetSlotFromMsg119(WordSet *wordSet, u32 slot, u32 entryIndex);
 extern void WORDSET_SetSlotFromMsg37(WordSet *wordSet, u32 slot, u32 entryIndex);
 extern Party *GAME_DATA_GetMyParty(GameData *gameData);
 extern PokemonParam *POKEPARTY_GetMember(Party *party, u32 pos);
-extern void WORDSET_SetSlotMonName(WordSet *wordSet, u32 slot, PokemonParam *mon);
-extern void WORDSET_SetSlotMonSpecies(WordSet *wordSet, u32 slot, PokemonParam *mon);
+extern void WORDSET_SetSlotMonSpeciesName(WordSet *wordSet, u32 slot, PokemonParam *mon);
+extern void WORDSET_SetSlotMonNickname(WordSet *wordSet, u32 slot, PokemonParam *mon);
 extern Sodateya *FIELDMAP_GetSodateya(FieldMap *fieldMap);
 extern PokemonParam *SODATEYA_GetPokemon(Sodateya *sodateya, u32 index);
 extern void WORDSET_SetSlotNumber(WordSet *wordSet, u32 slot, u32 number, u32 topDigitIndex, u32 padMode, u32 isHalfWidth);
@@ -141,8 +141,8 @@ extern void WORDSET_SetSlotFromMsgE7(WordSet *wordSet, u32 slot, u32 entryIndex)
 extern void WORDSET_SetSlotFromMsg2B(WordSet *wordSet, u32 slot, u32 entryIndex);
 extern void WORDSET_SetSlotFromMsg00(WordSet *wordSet, u32 slot, u8 entryIndex);
 extern void WORDSET_SetSlotFromMsgA0(WordSet *wordSet, u32 slot, s32 entryIndex);
-extern void WORDSET_Set(WordSet *wordSet, u32 slot, u32 entryIndex);
-extern void WORDSET_Callback_F124(WordSet *wordSet, u32 slot, u32 entryIndex);
+extern void WORDSET_SetSlotFromMsgBF(WordSet *wordSet, u32 slot, u32 entryIndex);
+extern void WORDSET_SetSlotFromMsg11B(WordSet *wordSet, u32 slot, u32 entryIndex);
 extern SaveControl *GAME_DATA_GetSaveControl(GameData *gameData);
 extern BeaconSave *BEACON_GetBlock(SaveControl *saveControl);
 extern u32 BEACON_GetThanksCount(BeaconSave *beacon);
@@ -239,8 +239,8 @@ int SCRCMD_BufferEntryCommon(ScriptVm *vm, ScrcmdWork *cmdWork, WordSetRegisterF
     return 0;
 }
 
-int SCRCMD_BufferItemName(ScriptVm *vm, ScrcmdWork *cmdWork) { return SCRCMD_BufferEntryCommon(vm, cmdWork, WORDSET_Callback_EF40); }
-int SCRCMD_BufferItemNameAlt(ScriptVm *vm, ScrcmdWork *cmdWork) { return SCRCMD_BufferEntryCommon(vm, cmdWork, WORDSET_Callback_EF4C); }
+int SCRCMD_BufferItemName(ScriptVm *vm, ScrcmdWork *cmdWork) { return SCRCMD_BufferEntryCommon(vm, cmdWork, WORDSET_SetSlotFromMsg36); }
+int SCRCMD_BufferItemNameAlt(ScriptVm *vm, ScrcmdWork *cmdWork) { return SCRCMD_BufferEntryCommon(vm, cmdWork, WORDSET_SetSlotFromMsg117); }
 
 /*
  * Script command: register an entry (slot byte, entry value, count value,
@@ -261,9 +261,9 @@ void SCRCMD_BufferItemNameWithCount(ScriptVm *vm, ScrcmdWork *cmdWork)
     if (count > 1) {
         WORDSET_SetSlotFromMsg118(wordSet, slot, entry);
     } else if (useAltList != 0) {
-        WORDSET_Callback_EF4C(wordSet, slot, entry);
+        WORDSET_SetSlotFromMsg117(wordSet, slot, entry);
     } else {
-        WORDSET_Callback_EF40(wordSet, slot, entry);
+        WORDSET_SetSlotFromMsg36(wordSet, slot, entry);
     }
 }
 
@@ -273,7 +273,7 @@ int SCRCMD_BufferConvertedEntryName(ScriptVm *vm, ScrcmdWork *cmdWork)
     WordSet *wordSet = SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork(cmdWork));
     u8 slot = ScriptVm_ReadU8(vm);
 
-    WORDSET_SetSlotFromMsgCB(wordSet, slot, FILE_UTIL_Get_12B0(SCRIPT_WORK_ReadWorkValue(vm, cmdWork)));
+    WORDSET_SetSlotFromMsgCB(wordSet, slot, FILE_UTIL_GetMachineMove(SCRIPT_WORK_ReadWorkValue(vm, cmdWork)));
     return 0;
 }
 
@@ -305,8 +305,8 @@ int SCRCMD_BufferSpeciesNameCommon(ScriptVm *vm, ScrcmdWork *cmdWork, WordSetReg
     return 0;
 }
 
-int SCRCMD_BufferSpeciesName(ScriptVm *vm, ScrcmdWork *cmdWork) { return SCRCMD_BufferSpeciesNameCommon(vm, cmdWork, (WordSetRegisterFn)WORDSET_Callback); }
-int SCRCMD_BufferSpeciesEntryName(ScriptVm *vm, ScrcmdWork *cmdWork) { return SCRCMD_BufferSpeciesNameCommon(vm, cmdWork, WORDSET_Callback_EEC4); }
+int SCRCMD_BufferSpeciesName(ScriptVm *vm, ScrcmdWork *cmdWork) { return SCRCMD_BufferSpeciesNameCommon(vm, cmdWork, (WordSetRegisterFn)WORDSET_SetSlotSpeciesName); }
+int SCRCMD_BufferSpeciesEntryName(ScriptVm *vm, ScrcmdWork *cmdWork) { return SCRCMD_BufferSpeciesNameCommon(vm, cmdWork, WORDSET_SetSlotFromMsg119); }
 
 int SCRCMD_BufferShortEntryName(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
@@ -327,7 +327,7 @@ int SCRCMD_BufferPartyMonSpeciesName(ScriptVm *vm, ScrcmdWork *cmdWork)
     u32 partyIndex;
 
     partyIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    WORDSET_SetSlotMonName(wordSet, slot, POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), partyIndex));
+    WORDSET_SetSlotMonSpeciesName(wordSet, slot, POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), partyIndex));
     return 0;
 }
 
@@ -341,7 +341,7 @@ int SCRCMD_BufferPartyMonNickname(ScriptVm *vm, ScrcmdWork *cmdWork)
     u32 partyIndex;
 
     partyIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    WORDSET_SetSlotMonSpecies(wordSet, slot, POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), partyIndex));
+    WORDSET_SetSlotMonNickname(wordSet, slot, POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), partyIndex));
     return 0;
 }
 
@@ -353,7 +353,7 @@ int SCRCMD_BufferDaycareMonSpeciesName(ScriptVm *vm, ScrcmdWork *cmdWork)
     u32 daycareIndex;
 
     daycareIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    WORDSET_SetSlotMonName(wordSet, slot, SODATEYA_GetPokemon(FIELDMAP_GetSodateya(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork))), daycareIndex));
+    WORDSET_SetSlotMonSpeciesName(wordSet, slot, SODATEYA_GetPokemon(FIELDMAP_GetSodateya(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork))), daycareIndex));
     return 0;
 }
 
@@ -365,7 +365,7 @@ int SCRCMD_BufferDaycareMonNickname(ScriptVm *vm, ScrcmdWork *cmdWork)
     u32 daycareIndex;
 
     daycareIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    WORDSET_SetSlotMonSpecies(wordSet, slot, SODATEYA_GetPokemon(FIELDMAP_GetSodateya(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork))), daycareIndex));
+    WORDSET_SetSlotMonNickname(wordSet, slot, SODATEYA_GetPokemon(FIELDMAP_GetSodateya(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork))), daycareIndex));
     return 0;
 }
 
@@ -450,8 +450,8 @@ int SCRCMD_BufferByteEntryCommon(ScriptVm *vm, ScrcmdWork *cmdWork, WordSetRegis
     return 0;
 }
 
-int SCRCMD_BufferMapEntryNameA(ScriptVm *vm, ScrcmdWork *cmdWork) { return SCRCMD_BufferByteEntryCommon(vm, cmdWork, WORDSET_Set); }
-int SCRCMD_BufferMapEntryNameB(ScriptVm *vm, ScrcmdWork *cmdWork) { return SCRCMD_BufferByteEntryCommon(vm, cmdWork, WORDSET_Callback_F124); }
+int SCRCMD_BufferMapEntryNameA(ScriptVm *vm, ScrcmdWork *cmdWork) { return SCRCMD_BufferByteEntryCommon(vm, cmdWork, WORDSET_SetSlotFromMsgBF); }
+int SCRCMD_BufferMapEntryNameB(ScriptVm *vm, ScrcmdWork *cmdWork) { return SCRCMD_BufferByteEntryCommon(vm, cmdWork, WORDSET_SetSlotFromMsg11B); }
 
 /* Script command: register the beacon save thanks count as a 9-digit number (slot byte). */
 int SCRCMD_BufferBeaconThanksCount(ScriptVm *vm, ScrcmdWork *cmdWork)

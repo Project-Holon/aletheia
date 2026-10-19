@@ -14,7 +14,7 @@
  *           bne reaches the decoder LOADER_DECRYPT_DecodeBlocks (loader_decrypt.c) with r0
  *           naming the table. The 40 bytes after the bne are that table
  *           (four {0x02189EC0+k*0x3C, 0x0218AFC4} pairs and a zero word pair),
- *           data rather than code. The decoder at 0x02188A48 is now filed in
+ *           data rather than code; it is written out here as DCD words. The decoder at 0x02188A48 is now filed in
  *           loader_decrypt.c, so the bne resolves and the file is EXACT.
  *
  * symbols:
@@ -23,10 +23,20 @@
 
 extern void LOADER_DECRYPT_DecodeBlocks(void);
 
-/* hand-written in the original: position-independent entry reading pc (orr r0, pc, #0), followed by a data table */
+/* hand-written in the original: position-independent entry reading pc (orr r0, pc, #0), followed by its range table (four biased start/end pairs, then the terminator) */
 asm void LOADER_ENTRY_Start(void)
 {
     orr     r0, pc, #0
     adds    r0, r0, #4
     bne     LOADER_DECRYPT_DecodeBlocks
+    DCD     0x02189EC0
+    DCD     0x0218AFC4
+    DCD     0x02189EFC
+    DCD     0x0218AFC4
+    DCD     0x02189F38
+    DCD     0x0218AFC4
+    DCD     0x02189F74
+    DCD     0x0218AFC4
+    DCD     0x00000000
+    DCD     0x00000000
 }

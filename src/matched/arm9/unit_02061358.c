@@ -1,5 +1,5 @@
 /*
- * function: NNS_G2dInitCellBank, NNS_G2dStubReturnZeroA, NNS_G2dStubReturnMinusOneA, NNS_G2dStubReturnZeroB,
+ * function: NNS_FndInitAllocatorForExpHeap, NNS_G2dStubReturnZeroA, NNS_G2dStubReturnMinusOneA, NNS_G2dStubReturnZeroB,
  *           NNS_G2dStubReturnMinusOneB
  * address:  0x02061358
  * packet:   pkt_0206123C
@@ -12,7 +12,7 @@
  * unit:     yes
  *
  * functions:
- *   NNS_G2dInitCellBank  0x02061358  arm
+ *   NNS_FndInitAllocatorForExpHeap  0x02061358  arm
  *   NNS_G2dStubReturnZeroA  0x02061370  arm
  *   NNS_G2dStubReturnMinusOneA  0x02061378  arm
  *   NNS_G2dStubReturnZeroB  0x02061380  arm
@@ -29,7 +29,7 @@
  * `.word`s between two literal pools -- see
  * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  They are read
  * out of the bytes here, and folding them into this unit is also what makes
- * the unit EXACT rather than EXACT*: on its own, NNS_G2dInitCellBank's inferred
+ * the unit EXACT rather than EXACT*: on its own, NNS_FndInitAllocatorForExpHeap's inferred
  * extent runs 56 bytes to the next label at 0x02061390.
  *
  * The store order in the first function is the whole of its codegen: the zero
@@ -65,7 +65,7 @@ struct S02061358 {
 
 extern u8 g_020A1708[];
 
-void NNS_G2dInitCellBank(struct S02061358 *s, u32 a, u32 b)
+void NNS_FndInitAllocatorForExpHeap(struct S02061358 *s, u32 a, u32 b)
 {
     s->unk0 = (u32)g_020A1708;
     s->unkC = 0;

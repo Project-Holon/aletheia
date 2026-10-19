@@ -1,7 +1,7 @@
 /*
  * file:     beacon.c
  * unit:     yes
- * function: BEACON_GetSize, BEACON_Init, BEACON_GetFromSave, BEACON_GetBlock, BEACON_SetInputFlag, BEACON_GetInputFlag, BEACON_ClearInputFlags, BEACON_SetSelect, BEACON_GetSelect, BEACON_GetBestScore, BEACON_SetBestScore, BEACON_GetRank, BEACON_SetRank, BEACON_GetGreetCount, BEACON_IncrementGreetCount, BEACON_GetThanksCount, BEACON_IncrementThanksCount, BEACON_GetGreetMessage, BEACON_SetGreetMessage, BEACON_GetThanksMessage, BEACON_SetThanksMessage, BEACON_GetMode, BEACON_SetMode, BEACON_GetFlag, BEACON_SetFlag, BEACON_CountFlags, BEACON_GetPoints, BEACON_AddPoints, BEACON_SubPoints, BEACON_SetTeam, BEACON_GetTeam, BEACON_SetSlotState, BEACON_GetSlotState, BEACON_GetSlotStates, BEACON_SetSlotStates, BEACON_GetEntryCount, BEACON_SetEntryCount, BEACON_GetRecentId, BEACON_SetRecentId, BEACON_GetRecentValue, BEACON_SetRecentValue, BEACON_AddRecentValue, BEACON_GetLastTime, BEACON_SetLastTime, BEACON_SetHashedId, BEACON_GetHashedId, BEACON_GetGatePoints, BEACON_SetGatePoints, BEACON_SubGatePoints, BEACON_GetRecorderFlag, BEACON_SetRecorderFlag
+ * function: BEACON_GetSize, BEACON_Init, BEACON_GetFromSave, BEACON_GetBlock, BEACON_SetInputFlag, BEACON_GetInputFlag, BEACON_ClearInputFlags, BEACON_SetSelect, BEACON_GetSelect, BEACON_GetBestScore, BEACON_SetBestScore, BEACON_GetRank, BEACON_SetRank, BEACON_GetGreetCount, BEACON_IncrementGreetCount, BEACON_GetThanksCount, BEACON_IncrementThanksCount, BEACON_GetGreetMessage, BEACON_SetGreetMessage, BEACON_GetThanksMessage, BEACON_SetThanksMessage, BEACON_GetMode, BEACON_SetMode, BEACON_GetBadge, BEACON_SetBadge, BEACON_CountBadges, BEACON_GetMoney, BEACON_AddMoney, BEACON_SubMoney, BEACON_SetTeam, BEACON_GetTeam, BEACON_SetSlotState, BEACON_GetSlotState, BEACON_GetSlotStates, BEACON_SetSlotStates, BEACON_GetEntryCount, BEACON_SetEntryCount, BEACON_GetRecentId, BEACON_SetRecentId, BEACON_GetRecentValue, BEACON_SetRecentValue, BEACON_AddRecentValue, BEACON_GetLastTime, BEACON_SetLastTime, BEACON_SetHashedId, BEACON_GetHashedId, BEACON_GetGatePoints, BEACON_SetGatePoints, BEACON_SubGatePoints, BEACON_GetRecorderFlag, BEACON_SetRecorderFlag
  * address:  0x0200C054
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -61,8 +61,8 @@ struct BeaconTeam {
 };
 
 struct BeaconSave {
-    u32 points;
-    u32 flags;
+    u32 money;
+    u32 badges;
     u16 selectId;
     struct BeaconSelect select;
     u8  padding;
@@ -151,17 +151,17 @@ u8 BEACON_GetMode(struct BeaconSave *beacon);
 
 void BEACON_SetMode(struct BeaconSave *beacon, u8 mode);
 
-u32 BEACON_GetFlag(struct BeaconSave *beacon, u32 bit);
+u32 BEACON_GetBadge(struct BeaconSave *beacon, u32 bit);
 
-void BEACON_SetFlag(struct BeaconSave *beacon, u32 bit);
+void BEACON_SetBadge(struct BeaconSave *beacon, u32 bit);
 
-u32 BEACON_CountFlags(struct BeaconSave *beacon);
+u32 BEACON_CountBadges(struct BeaconSave *beacon);
 
-u32 BEACON_GetPoints(struct BeaconSave *beacon);
+u32 BEACON_GetMoney(struct BeaconSave *beacon);
 
-u32 BEACON_AddPoints(struct BeaconSave *beacon, u32 add);
+u32 BEACON_AddMoney(struct BeaconSave *beacon, u32 add);
 
-u32 BEACON_SubPoints(struct BeaconSave *beacon, u32 sub);
+u32 BEACON_SubMoney(struct BeaconSave *beacon, u32 sub);
 
 void BEACON_SetTeam(struct BeaconSave *beacon, u32 index, const u16 *species);
 
@@ -244,8 +244,8 @@ void BEACON_Init(struct BeaconSave *beacon)
  *           BEACON_SetBestScore, BEACON_GetRank, BEACON_SetRank, BEACON_GetGreetCount,
  *           BEACON_IncrementGreetCount, BEACON_GetThanksCount, BEACON_IncrementThanksCount, BEACON_GetGreetMessage,
  *           BEACON_SetGreetMessage, BEACON_GetThanksMessage, BEACON_SetThanksMessage, BEACON_GetMode,
- *           BEACON_SetMode, BEACON_GetFlag, BEACON_SetFlag, BEACON_CountFlags,
- *           BEACON_GetPoints, BEACON_AddPoints, BEACON_SubPoints, BEACON_SetTeam,
+ *           BEACON_SetMode, BEACON_GetBadge, BEACON_SetBadge, BEACON_CountBadges,
+ *           BEACON_GetMoney, BEACON_AddMoney, BEACON_SubMoney, BEACON_SetTeam,
  *           BEACON_GetTeam, BEACON_SetSlotState, BEACON_GetSlotState, BEACON_GetSlotStates,
  *           BEACON_SetSlotStates, BEACON_GetEntryCount, BEACON_SetEntryCount, BEACON_GetRecentId,
  *           BEACON_SetRecentId, BEACON_GetRecentValue, BEACON_SetRecentValue, BEACON_AddRecentValue,
@@ -401,22 +401,22 @@ void BEACON_SetMode(struct BeaconSave *beacon, u8 mode)
     beacon->mode = mode;
 }
 
-u32 BEACON_GetFlag(struct BeaconSave *beacon, u32 bit)
+u32 BEACON_GetBadge(struct BeaconSave *beacon, u32 bit)
 {
-    return (beacon->flags & (1 << bit)) != 0;
+    return (beacon->badges & (1 << bit)) != 0;
 }
 
-void BEACON_SetFlag(struct BeaconSave *beacon, u32 bit)
+void BEACON_SetBadge(struct BeaconSave *beacon, u32 bit)
 {
-    beacon->flags |= 1 << bit;
+    beacon->badges |= 1 << bit;
 }
 
-u32 BEACON_CountFlags(struct BeaconSave *beacon)
+u32 BEACON_CountBadges(struct BeaconSave *beacon)
 {
     u32 count = 0;
     u32 bits;
 
-    for (bits = beacon->flags; bits != 0; bits >>= 1) {
+    for (bits = beacon->badges; bits != 0; bits >>= 1) {
         if (bits & 1) {
             count++;
         }
@@ -424,32 +424,32 @@ u32 BEACON_CountFlags(struct BeaconSave *beacon)
     return count;
 }
 
-u32 BEACON_GetPoints(struct BeaconSave *beacon)
+u32 BEACON_GetMoney(struct BeaconSave *beacon)
 {
-    return beacon->points;
+    return beacon->money;
 }
 
-u32 BEACON_AddPoints(struct BeaconSave *beacon, u32 add)
+u32 BEACON_AddMoney(struct BeaconSave *beacon, u32 add)
 {
     if (add > 9999999) {
-        beacon->points = 9999999;
+        beacon->money = 9999999;
     } else {
-        beacon->points += add;
+        beacon->money += add;
     }
-    if (beacon->points > 9999999) {
-        beacon->points = 9999999;
+    if (beacon->money > 9999999) {
+        beacon->money = 9999999;
     }
-    return beacon->points;
+    return beacon->money;
 }
 
-u32 BEACON_SubPoints(struct BeaconSave *beacon, u32 sub)
+u32 BEACON_SubMoney(struct BeaconSave *beacon, u32 sub)
 {
-    if (beacon->points < sub) {
-        beacon->points = 0;
+    if (beacon->money < sub) {
+        beacon->money = 0;
     } else {
-        beacon->points -= sub;
+        beacon->money -= sub;
     }
-    return beacon->points;
+    return beacon->money;
 }
 
 void BEACON_SetTeam(struct BeaconSave *beacon, u32 index, const u16 *species)

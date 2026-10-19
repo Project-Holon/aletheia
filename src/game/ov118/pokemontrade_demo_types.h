@@ -74,7 +74,7 @@ typedef struct PokeTradeDemoWork {
     unsigned char       ownSpecialMon;   /* 0x11F0 */
 } PokeTradeDemoWork;
 
-/* Button-emitter user data reached through BUTTON_MAN_GetUserData. The object
+/* Button-emitter user data reached through PARTICLE_EMITTER_GetUserData. The object
  * holds a pointer at 0xC to the emitter's ICA animation record, whose anime
  * handle sits at 0x98 and whose second handle sits at 0x9C. */
 typedef struct {

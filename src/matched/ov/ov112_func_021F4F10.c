@@ -1,5 +1,5 @@
 /*
- * function: MUSICAL_MCSS_NoOp5
+ * function: MUSICAL_MCSS_GetActorPoolResource
  * address:  0x021F4F10
  * packet:   pkt_ov112_021F4F10
  * region:   ov112
@@ -18,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-u32 MUSICAL_MCSS_NoOp5(u8 *p) { return ((struct Obj22528 *)p)->fC; }
+u32 MUSICAL_MCSS_GetActorPoolResource(u8 *p) { return ((struct Obj22528 *)p)->fC; }

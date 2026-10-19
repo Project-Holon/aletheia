@@ -12,7 +12,7 @@
  * symbols:
  *   BOX2_MAIN_DeleteVBlankTask  0x021DC964  thumb  ov170
  *   BOX2_MAIN_DeleteTaskMenu  0x021DCF30  thumb  ov170
- *   BOX2_UI_DeleteSound  0x021EE3CC  thumb  ov170
+ *   BOX2_UI_DeleteCursorMove  0x021EE3CC  thumb  ov170
  *   BOX2_UI_DeleteWindowFrames  0x021EF310  thumb  ov170
  *   BOX2_SEQ_DeleteBox2UiScene  0x021EBDD8  thumb  ov170
  *   BOX2_SEQ_DeleteBmpWins  0x021EAAC4  thumb  ov170
@@ -36,7 +36,7 @@ typedef unsigned int u32;
 
 extern void BOX2_MAIN_DeleteVBlankTask(char *p);
 extern void BOX2_MAIN_DeleteTaskMenu(char *p);
-extern void BOX2_UI_DeleteSound(int *p);
+extern void BOX2_UI_DeleteCursorMove(int *p);
 extern void BOX2_UI_DeleteWindowFrames(char *p);
 extern void BOX2_SEQ_DeleteBox2UiScene(char *p);
 extern void BOX2_SEQ_DeleteBmpWins(char *p);
@@ -57,7 +57,7 @@ int BOX2_SEQ_DeleteBox2Main(u8 *p)
 {
     BOX2_MAIN_DeleteVBlankTask((char *)p);
     BOX2_MAIN_DeleteTaskMenu((char *)p);
-    BOX2_UI_DeleteSound((int *)p);
+    BOX2_UI_DeleteCursorMove((int *)p);
     BOX2_UI_DeleteWindowFrames(((struct Obj00000 *)p)->f2C);
     BOX2_SEQ_DeleteBox2UiScene(((struct Obj00000 *)p)->f2C);
     BOX2_SEQ_DeleteBmpWins((char *)p);

@@ -1,5 +1,5 @@
 /*
- * function: MUSICAL_MCSS_InitBg
+ * function: MUSICAL_SHOT_INFO_InitBgLayer
  * address: 0x021F4684
  * packet: pkt_ov112_021F4684
  * region: ov112
@@ -22,4 +22,4 @@ extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type
 extern void func_02040588(u32 which, unsigned char enable);
 extern void BG_SYS_FreeSlot(u32);
 extern void BG_SYS_PushTile(u32);
-void MUSICAL_MCSS_InitBg(const void *a,u32 b,u32 c) { BG_SYS_InitBgLayer(b,a,c); func_02040588(b,1); BG_SYS_FreeSlot(b); BG_SYS_PushTile(b); }
+void MUSICAL_SHOT_INFO_InitBgLayer(const void *a,u32 b,u32 c) { BG_SYS_InitBgLayer(b,a,c); func_02040588(b,1); BG_SYS_FreeSlot(b); BG_SYS_PushTile(b); }

@@ -1,5 +1,5 @@
 /*
- * function: WF2DMAP_OBJDRAW_RefreshActor
+ * function: WF2DMAP_OBJDRAW_StepActorAnim
  * address:  0x021C57E8
  * packet:   pkt_ov127_021C57E8
  * region:   ov127
@@ -20,7 +20,7 @@
 typedef unsigned char  u8;
 extern void WIFI_2DCHAR_StepActorAnim(u8 *p);
 
-void WF2DMAP_OBJDRAW_RefreshActor(char *p)
+void WF2DMAP_OBJDRAW_StepActorAnim(char *p)
 {
     WIFI_2DCHAR_StepActorAnim(((struct Obj23047 *)p)->f4);
 }

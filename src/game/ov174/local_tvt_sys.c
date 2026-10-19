@@ -16,8 +16,8 @@
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   GAME_DATA_GetSeason 0x02012984 thumb
- *   VM_GetTimeZoneLight 0x02011400 thumb
- *   GF_STANDARD_SetField00 0x0203F4CC arm
+ *   TIMEZONE_GetLight 0x02011400 thumb
+ *   GF_STANDARD_GetCachedTime 0x0203F4CC arm
  *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
  *   TCB_DeleteTask 0x02030EAC arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
@@ -32,7 +32,7 @@
  *   CLACT_DrawSystem 0x0204A600 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   GFL_USE_GetRandomBelow 0x02005728 thumb
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   WIPE_SetBrightnessFadeOut 0x0202223C thumb
@@ -95,7 +95,7 @@
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -107,7 +107,7 @@
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   BMP_WIN_ClearScreen 0x020456F8 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
@@ -199,9 +199,9 @@ extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
 
 extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
 
-extern u8 VM_GetTimeZoneLight(int row, int col);
+extern u8 TIMEZONE_GetLight(int row, int col);
 
-extern void GF_STANDARD_SetField00(struct RtcTime *),GFL_NET_RestartWithDefaultTimeout(unsigned,unsigned);
+extern void GF_STANDARD_GetCachedTime(struct RtcTime *),GFL_NET_RestartWithDefaultTimeout(unsigned,unsigned);
 
 extern void TCB_DeleteTask(struct Node *n);
 
@@ -229,7 +229,7 @@ extern void CLACT_VBlankSystem(void);
 
 extern int GFL_USE_GetRandomBelow(int);
 
-extern void BG_SYS_FillScrollArea(unsigned,unsigned,unsigned);
+extern void BG_SYS_ChangeScrollImmediate(unsigned,unsigned,unsigned);
 
 extern void BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void);
 
@@ -323,7 +323,7 @@ extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 
 extern void STRBUF_Delete(struct U16Vec *vec);
 
-extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern unsigned int WORDSET_Delete(struct WordSet *p);
 
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 
@@ -347,7 +347,7 @@ extern void BMP_MENUWORK_DrawWindowBorder(void *desc, unsigned int kind);
 
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 
-extern void BG_SYS_SetFlagField06(unsigned);
+extern void BG_SYS_MarkTileDirty(unsigned);
 
 extern void BMP_MENUWORK_DrawWindow(void *,int,int,int);
 
@@ -478,8 +478,8 @@ void LOCAL_TVT_SYS_Create(u8 *p)
  ((struct LocalTvtSys *)p)->arcHandle=ARC_TOOL_CreateHandle(131,((struct LocalTvtSys *)p)->heapId);
  LOCAL_TVT_SYS_LoadMenuData((char *)p);LOCAL_TVT_SYS_CreateGraphics(p);LOCAL_TVT_SYS_CreateTextResources(p);
  season=GAME_DATA_GetSeason(((struct LocalTvtSysMode *)((struct LocalTvtSys *)p)->modeData)->gameData);
- earlyHour=VM_GetTimeZoneLight(season,0);midHour=VM_GetTimeZoneLight(season,2);lateHour=VM_GetTimeZoneLight(season,3);
- GF_STANDARD_SetField00(&time);
+ earlyHour=TIMEZONE_GetLight(season,0);midHour=TIMEZONE_GetLight(season,2);lateHour=TIMEZONE_GetLight(season,3);
+ GF_STANDARD_GetCachedTime(&time);
  if(time.hour>=earlyHour && time.hour<midHour) ((struct LocalTvtSys *)p)->timeSlot=0;
  else if(time.hour>=midHour && time.hour<lateHour) ((struct LocalTvtSys *)p)->timeSlot=1;
  else ((struct LocalTvtSys *)p)->timeSlot=2;
@@ -574,7 +574,7 @@ int LOCAL_TVT_SYS_Main(u8 *p)
     return 0;
 }
 
-void LOCAL_TVT_SYS_VBlankHandler(void) {CLACT_VBlankSystem();BG_SYS_FillScrollArea(1,0,GFL_USE_GetRandomBelow(256));BG_SYS_FillScrollArea(1,3,GFL_USE_GetRandomBelow(256));}
+void LOCAL_TVT_SYS_VBlankHandler(void) {CLACT_VBlankSystem();BG_SYS_ChangeScrollImmediate(1,0,GFL_USE_GetRandomBelow(256));BG_SYS_ChangeScrollImmediate(1,3,GFL_USE_GetRandomBelow(256));}
 
 /*
  *   one --arm, no region: MATCH, 16 bytes, blocker434CC.log; concrete bytes agree,
@@ -705,7 +705,7 @@ void LOCAL_TVT_SYS_DeleteTextResources(u8 *p)
     PRINTSYS_QUE_Delete(((struct LocalTvtSys *)p)->printQueue.ptr);
     if(((struct LocalTvtSys *)p)->printStream.ptr) PRINTSYS_PrintStreamDelete(((struct LocalTvtSys *)p)->printStream.ptr);
     if(((struct LocalTvtSys *)p)->textBuf.ptr) STRBUF_Delete(((struct LocalTvtSys *)p)->textBuf.ptr);
-    if(((struct LocalTvtSys *)p)->wordSet.ptr) WORDSET_DeleteStrbufED04(((struct LocalTvtSys *)p)->wordSet.ptr);
+    if(((struct LocalTvtSys *)p)->wordSet.ptr) WORDSET_Delete(((struct LocalTvtSys *)p)->wordSet.ptr);
     MSGDATA_Delete(((struct LocalTvtSys *)p)->msgBankB.ptr);
     MSGDATA_Delete(((struct LocalTvtSys *)p)->msgBankA.ptr);
     if(((struct LocalTvtSys *)p)->window.ptr) BMP_WIN_Delete(((struct LocalTvtSys *)p)->window.ptr);
@@ -744,7 +744,7 @@ void LOCAL_TVT_SYS_CreateTextWindow(u8 *p,int mode)
  void *tmp;
  if(((struct LocalTvtSys *)p)->window.ptr){
  BMP_MENUWORK_DrawWindowBorder(((struct LocalTvtSys *)p)->window.ptr,1);
- tmp=((struct LocalTvtSys *)p)->window.ptr;BMP_WIN_ClearScreen(tmp);BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(tmp));
+ tmp=((struct LocalTvtSys *)p)->window.ptr;BMP_WIN_ClearScreen(tmp);BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(tmp));
  BMP_WIN_Delete(((struct LocalTvtSys *)p)->window.ptr);((struct LocalTvtSys *)p)->window.ptr=0;
  }
  if(mode==0) ((struct LocalTvtSys *)p)->window.ptr=(void *)BMP_WIN_Create(0,1,1,30,4,12,1);
@@ -752,7 +752,7 @@ void LOCAL_TVT_SYS_CreateTextWindow(u8 *p,int mode)
  BMP_MENUWORK_DrawWindow(((struct LocalTvtSys *)p)->window.ptr,1,1,13);
  BMP_Clear(BMP_WIN_GetBmp(((struct LocalTvtSys *)p)->window.ptr),15);
  BMP_WIN_TransferChars(((struct LocalTvtSys *)p)->window.ptr);BMP_WIN_MakeScreen(((struct LocalTvtSys *)p)->window.ptr);
- BG_SYS_SetFlagField06(0);PRINTSYS_CTRL_Init(((struct LocalTvtSys *)p)->printCtrl,6);
+ BG_SYS_MarkTileDirty(0);PRINTSYS_CTRL_Init(((struct LocalTvtSys *)p)->printCtrl,6);
 }
 
 void LOCAL_TVT_SYS_DeleteTextWindow(u8 *p)
@@ -760,7 +760,7 @@ void LOCAL_TVT_SYS_DeleteTextWindow(u8 *p)
  void *tmp; u8 i;
  if(((struct LocalTvtSys *)p)->window.ptr){
  BMP_MENUWORK_DrawWindowBorder(((struct LocalTvtSys *)p)->window.ptr,1);tmp=((struct LocalTvtSys *)p)->window.ptr;
- BMP_WIN_ClearScreen(tmp);BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(tmp));
+ BMP_WIN_ClearScreen(tmp);BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(tmp));
  BMP_WIN_Delete(((struct LocalTvtSys *)p)->window.ptr);((struct LocalTvtSys *)p)->window.ptr=0;
  }
  if(((struct LocalTvtSys *)p)->printStream.ptr){PRINTSYS_PrintStreamDelete(((struct LocalTvtSys *)p)->printStream.ptr);((struct LocalTvtSys *)p)->printStream.ptr=0;}
@@ -822,7 +822,7 @@ void LOCAL_TVT_SYS_ApplyStep(u8 *p)
         LOCAL_TVT_SYS_CreateTextWindow(p, 0);
     }
     if (((struct LocalTvtSys *)p)->wordSet.ptr != 0) {
-        WORDSET_DeleteStrbufED04(((struct LocalTvtSys *)p)->wordSet.ptr);
+        WORDSET_Delete(((struct LocalTvtSys *)p)->wordSet.ptr);
     }
     ((struct LocalTvtSys *)p)->wordSet.ptr = WORDSET_CreateDefault(((struct LocalTvtSys *)p)->heapId);
     WORDSET_SetSlotMyStatus(((struct LocalTvtSys *)p)->wordSet.ptr, 0, GAME_DATA_GetMyStatus(((struct LocalTvtSysMode *)((struct LocalTvtSys *)p)->modeData)->gameData));

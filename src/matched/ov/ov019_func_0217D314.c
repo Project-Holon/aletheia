@@ -11,7 +11,7 @@
  *
  * symbols:
  *   UNION_CHARA_GetBeaconIndex  0x0217AEFC  thumb  ov019
- *   UNION_ONESELF_CheckNetError  0x0217BB04  thumb  ov019
+ *   UNION_ONESELF_HandleNetError  0x0217BB04  thumb  ov019
  *   UNION_COMM_SetGameKindByStatus  0x021736E0  thumb  ov012
  *   GFL_NET_SetChangeoverModeWrapper  0x0203D14C  arm
  *   UNION_MSG_CheckTalkPrintEnd  0x0217F1EC  thumb  ov019
@@ -59,7 +59,7 @@ typedef struct {
 
 extern u16 UNION_CHARA_GetBeaconIndex(unsigned int x);
 struct Link;
-extern int UNION_ONESELF_CheckNetError(char *p);
+extern int UNION_ONESELF_HandleNetError(char *p);
 extern void UNION_COMM_SetGameKindByStatus(unsigned int x);
 extern void GFL_NET_SetChangeoverModeWrapper(int a, int b, u8 *c);
 extern u32 UNION_MSG_CheckTalkPrintEnd(u8 *p);
@@ -86,7 +86,7 @@ int UNION_ONESELF_JoinMain(u8 *a, Obj *b, u8 *c, u8 *d)
     int idx;
     int n;
     idx = UNION_CHARA_GetBeaconIndex(b->f58);
-    if (UNION_ONESELF_CheckNetError((char *)a) == 1)
+    if (UNION_ONESELF_HandleNetError((char *)a) == 1)
         return 1;
     switch (*d) {
     case 0:

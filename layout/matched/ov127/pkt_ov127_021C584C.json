@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "WF2DMAP_OBJDRAW_SetActorValue2",
+   "name": "WF2DMAP_OBJDRAW_SetSubActorDrawEnable",
    "address": "0x021C584C",
    "kind": "game",
    "region": "ov127",

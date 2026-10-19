@@ -23,7 +23,7 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
  *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb
- *   BG_SYS_FillScrollArea  0x02040618  arm
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm
  *   GFL_NET_GetRunState  0x0203CD98  arm
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   GFL_USE_AddMainTask  0x020056A0  thumb
@@ -137,9 +137,9 @@
  *   TOWNMAP_GRH_LoadTownInfo  0x021BBB24  thumb
  *   TOWNMAP_GRH_FreeTownInfo  0x021BBB34  thumb
  *   TOWNMAP_GRH_GetTownInfoValue  0x021BBB3C  thumb
- *   BG_SYS_ResetSlot  0x02041EE4  arm
- *   BG_SYS_SetAffine  0x02041FB0  arm
- *   BG_SYS_SetScrollY  0x02041F6C  arm
+ *   BG_SYS_ChangeScroll  0x02041EE4  arm
+ *   BG_SYS_ChangeCenter  0x02041FB0  arm
+ *   BG_SYS_ChangeScale  0x02041F6C  arm
  *   BMP_WIN_GetWidth  0x02045738  arm
  *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
  *   TOWNMAP_MapSetZoom  0x021BA5B0  thumb
@@ -156,7 +156,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   TOWNMAP_TownGetField  0x021BA774  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
@@ -251,7 +251,7 @@ extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fi
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void GF_FONT_SetTextColor(u32 a, u32 b, u32 c);
 extern void GF_FONT_SetDefaultTextColor(void);
-extern void BG_SYS_FillScrollArea(u32 a, u32 b, u32 c);
+extern void BG_SYS_ChangeScrollImmediate(u32 a, u32 b, u32 c);
 extern int GFL_NET_GetRunState(void);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern u32 GFL_USE_AddMainTask(void (*cb)(void *, void *), void *arg, int pri);
@@ -420,9 +420,9 @@ extern char ov067_id[];
 extern const TownMapPoint d_021BBB78;
 extern ButtonTable d_021BBB8C;
 extern char d_021BBD60[];
-extern void BG_SYS_ResetSlot(u32 bgId, u32 which, u32 value);
-extern void BG_SYS_SetAffine(u32 bgId, u32 which, u16 value);
-extern void BG_SYS_SetScrollY(u32 bgId, u32 which, u32 value);
+extern void BG_SYS_ChangeScroll(u32 bgId, u32 which, u32 value);
+extern void BG_SYS_ChangeCenter(u32 bgId, u32 which, u16 value);
+extern void BG_SYS_ChangeScale(u32 bgId, u32 which, u32 value);
 extern struct BmpWin *BMP_WIN_Create(u32 bgId, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 baseTile);
 extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct StrBuf *text);
@@ -437,7 +437,7 @@ extern void PRINTSYS_Print(struct Bitmap *bitmap, s16 x, s16 y, struct StrBuf *t
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void BG_SYS_SetFlagField06(u32 bgBit);
+extern void BG_SYS_MarkTileDirty(u32 bgBit);
 extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 
 
@@ -471,7 +471,7 @@ int TOWNMAP_Create(void *taskArg, void *unused, TownMapArgs *args)
     }
     TOWNMAP_BackButtonInit(&work->buttonBar, work->args->mode, TOWNMAP_GRH_GetHandle(work->gfx, 0), TOWNMAP_GRH_GetBgId(work->gfx, 0), 0xf, 8, ctx, 0x44);
     TOWNMAP_GRH_InitLabel(&work->label, TOWNMAP_GRH_GetBgId(work->gfx, 1), work->fontSystem, work->nameMsg, TOWNMAP_GRH_GetActor(work->gfx, 0), 0x44);
-    BG_SYS_FillScrollArea(TOWNMAP_GRH_GetBgId(work->gfx, 1), 3, -4);
+    BG_SYS_ChangeScrollImmediate(TOWNMAP_GRH_GetBgId(work->gfx, 1), 3, -4);
     TOWNMAP_MapInit(&work->map, args->townId, args->townSubId, work->mapInfo, work->gfx, (u32)GAMESYSTEM_GetGameData((const struct Ctx *)work->args->gameCtx), (u16)0x44, pickMode);
     TOWNMAP_CursorInit(&work->cursor, (void *)TOWNMAP_GRH_GetActor(work->gfx, 1), (void *)TOWNMAP_GRH_GetActor(work->gfx, 2), 0x44);
     town = TOWNMAP_MapFindTownById(&work->map, args->townId, args->townSubId);
@@ -1638,18 +1638,18 @@ void TOWNMAP_ApplyScroll(TownMapScroll *scroll, const TownMapPoint *pos)
     scroll->pos.x = (pos->x > scroll->maxX) ? scroll->maxX : ((pos->x < scroll->minX) ? scroll->minX : pos->x);
     scroll->pos.y = (pos->y > scroll->maxY) ? scroll->maxY : ((pos->y < scroll->minY) ? scroll->minY : pos->y);
 
-    BG_SYS_ResetSlot(scroll->bgId[0], 0, scroll->pos.x);
-    BG_SYS_ResetSlot(scroll->bgId[0], 3, scroll->pos.y);
-    BG_SYS_SetAffine(scroll->bgId[0], 9, 0x80);
-    BG_SYS_SetAffine(scroll->bgId[0], 12, 0x60);
-    BG_SYS_SetScrollY(scroll->bgId[0], 3, scroll->scale);
-    BG_SYS_SetScrollY(scroll->bgId[0], 6, scroll->scale);
-    BG_SYS_ResetSlot(scroll->bgId[1], 0, scroll->pos.x);
-    BG_SYS_ResetSlot(scroll->bgId[1], 3, scroll->pos.y);
-    BG_SYS_SetAffine(scroll->bgId[1], 9, 0x80);
-    BG_SYS_SetAffine(scroll->bgId[1], 12, 0x60);
-    BG_SYS_SetScrollY(scroll->bgId[1], 3, scroll->scale);
-    BG_SYS_SetScrollY(scroll->bgId[1], 6, scroll->scale);
+    BG_SYS_ChangeScroll(scroll->bgId[0], 0, scroll->pos.x);
+    BG_SYS_ChangeScroll(scroll->bgId[0], 3, scroll->pos.y);
+    BG_SYS_ChangeCenter(scroll->bgId[0], 9, 0x80);
+    BG_SYS_ChangeCenter(scroll->bgId[0], 12, 0x60);
+    BG_SYS_ChangeScale(scroll->bgId[0], 3, scroll->scale);
+    BG_SYS_ChangeScale(scroll->bgId[0], 6, scroll->scale);
+    BG_SYS_ChangeScroll(scroll->bgId[1], 0, scroll->pos.x);
+    BG_SYS_ChangeScroll(scroll->bgId[1], 3, scroll->pos.y);
+    BG_SYS_ChangeCenter(scroll->bgId[1], 9, 0x80);
+    BG_SYS_ChangeCenter(scroll->bgId[1], 12, 0x60);
+    BG_SYS_ChangeScale(scroll->bgId[1], 3, scroll->scale);
+    BG_SYS_ChangeScale(scroll->bgId[1], 6, scroll->scale);
 }
 
 void TOWNMAP_GetScrollPosition(TownMapScroll *scroll, TownMapPoint *out)
@@ -1739,7 +1739,7 @@ void TOWNMAP_DrawSelection(TownMapSelection *sel, TownMapTown *town)
     win = sel->box.win;
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(win));
 }
 
 void TOWNMAP_ClearSelection(TownMapSelection *sel)
@@ -1747,5 +1747,5 @@ void TOWNMAP_ClearSelection(TownMapSelection *sel)
     struct BmpWin *win = sel->box.win;
 
     BMP_WIN_ClearScreen(win);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(win));
 }

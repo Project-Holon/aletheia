@@ -1,5 +1,5 @@
 /*
- * function: UNION_ONESELF_CheckNetError
+ * function: UNION_ONESELF_HandleNetError
  * address: 0x0217BB04
  * packet: pkt_ov019_0217BB04
  * region: ov019
@@ -14,7 +14,7 @@
  */
 extern unsigned int func_0200FB24(void);
 extern int UNION_ONESELF_SetNextPlayCategory(char *p, int v);
-int UNION_ONESELF_CheckNetError(char *p)
+int UNION_ONESELF_HandleNetError(char *p)
 {
     if (func_0200FB24() != 0) {
         UNION_ONESELF_SetNextPlayCategory(p, 1);

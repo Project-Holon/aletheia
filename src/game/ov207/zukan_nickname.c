@@ -18,20 +18,20 @@
  *   file_0220BC38 0x0220BC38 data a1
  *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   WORDSET_CreateDefault 0x0201EC64 thumb
- *   WORDSET_SetSlotMonName 0x0201EE84 thumb
+ *   WORDSET_SetSlotMonSpeciesName 0x0201EE84 thumb
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   MSGDATA_AllocString 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   MSGDATA_Delete 0x02045C04 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   TCBL_Create 0x0203101C arm
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   MSG_SPEED_GetWait 0x02012FFC thumb
@@ -41,7 +41,7 @@
  *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   TCB_DeleteTask 0x02030EAC arm
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   TCBL_Destroy 0x02031140 arm
  *   GFL_HEAP_Free 0x020307B0 arm
@@ -55,7 +55,7 @@
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   PRINTSYS_PrintStreamReleasePause 0x0201CE38 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
+ *   WORDSET_SetSlotMonNickname 0x0201EEF4 thumb
  *   WORDSET_SetSlotBoxName 0x0201F164 thumb
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   BMP_WIN_MakeScreen 0x02045374 arm
@@ -140,20 +140,20 @@ extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 extern void MI_CpuFill8(void *,int,int);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
 extern struct WordSet *WORDSET_CreateDefault(u32);
-extern void WORDSET_SetSlotMonName(struct WordSet *,u32,void *);
+extern void WORDSET_SetSlotMonSpeciesName(struct WordSet *,u32,void *);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32,u32,u32,u32);
 extern void *MSGDATA_AllocString(struct MsgBank *,u32);
 extern struct U16Vec *STRBUF_Create(u32,u32);
 extern void WORDSET_CopyTaggedText(struct WordSet *,void *,void *);
 extern void STRBUF_Delete(struct U16Vec *);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *,u8);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
-extern void BG_SYS_SetFlagField06(u32);
+extern void BG_SYS_MarkTileDirty(u32);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void GF_FONT_SetTextColor(u32,u32,u32);
 extern signed char MSG_SPEED_GetWait(void);
@@ -163,7 +163,7 @@ extern u8 UI_GetInputMode(void);
 extern void *GFL_USE_AddMainTask(u32,u32,u32);
 extern void TCB_DeleteTask(struct Node *n);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void TCBL_Destroy(struct S02031140 *p);
 extern u32 GFL_HEAP_Free(void *p);
@@ -177,7 +177,7 @@ extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern void PRINTSYS_PrintStreamReleasePause(void *);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
-extern void WORDSET_SetSlotMonSpecies(struct WordSet *,u32,void *);
+extern void WORDSET_SetSlotMonNickname(struct WordSet *,u32,void *);
 extern void WORDSET_SetSlotBoxName(struct WordSet *,u32,u32,u32);
 extern void BMP_MENUWORK_DrawWindow(void *,int,unsigned short,int);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
@@ -235,18 +235,18 @@ char *ZUKAN_NICKNAME_Create(u16 heap,u32 a,u32 b,u32 c,u32 d,u32 e,u32 f,u32 g,u
     p->counter=0;
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17,5,0,0x120,32,p->heapId);
     ws=WORDSET_CreateDefault(p->heapId);
-    WORDSET_SetSlotMonName(ws,0,p->titleStr);
+    WORDSET_SetSlotMonSpeciesName(ws,0,p->titleStr);
     bank=MSGDATA_CreateFromArchive(0,2,0xea,p->heapId);
     str=MSGDATA_AllocString(bank,0xaf);
     p->strbuf=STRBUF_Create(64,p->heapId);
     WORDSET_CopyTaggedText(ws,p->strbuf,str);
     STRBUF_Delete(str);
     MSGDATA_Delete((struct Rec *)bank);
-    WORDSET_DeleteStrbufED04(ws);
+    WORDSET_Delete(ws);
     p->bmpWin2=(void *)BMP_WIN_Create(3,0,0,1,1,9,0);
     BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&p->bmpWin2),0);
     BMP_WIN_TransferChars(*(struct Descriptor * *)&p->bmpWin2);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(*(struct Descriptor * *)&p->bmpWin2));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(*(struct Descriptor * *)&p->bmpWin2));
     p->tcbl=TCBL_Create(p->heapId,p->heapId,1,0);
     p->bmpWin=(void *)BMP_WIN_Create(3,1,19,30,4,9,1);
     BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&p->bmpWin),15);
@@ -270,7 +270,7 @@ void ZUKAN_NICKNAME_Delete(ZukanNicknameWork *p)
     ZUKAN_NICKNAME_DeleteKeyboard((ZukanNicknameWork *)p);
     TCB_DeleteTask((struct Node *)p->task);
     PRINTSYS_PrintStreamDelete(p->printStream);
-    BG_SYS_DeleteHalf(3, (u16)(u32)p->lineBuf, (u16)((u32)p->lineBuf >> 16));
+    BG_SYS_FreeTileRun(3, (u16)(u32)p->lineBuf, (u16)((u32)p->lineBuf >> 16));
     BMP_WIN_Delete((struct Descriptor *)p->bmpWin);
     STRBUF_Delete((struct U16Vec *)p->strbuf);
     TCBL_Destroy((struct S02031140 *)p->tcbl);
@@ -316,11 +316,11 @@ int ZUKAN_NICKNAME_Main(ZukanNicknameWork *p)
             PRINTSYS_PrintStreamDelete(p->printStream);
             STRBUF_Delete(*(struct U16Vec * *)&p->strbuf);
             ws=WORDSET_CreateDefault(p->heapId);
-            WORDSET_SetSlotMonSpecies(ws,0,p->titleStr);
+            WORDSET_SetSlotMonNickname(ws,0,p->titleStr);
             WORDSET_SetSlotBoxName(ws,1,p->textId,p->textParam);
             p->strbuf=STRBUF_Create(64,p->heapId);
             WORDSET_CopyTaggedText(ws,p->strbuf,p->nameStr);
-            WORDSET_DeleteStrbufED04(ws);
+            WORDSET_Delete(ws);
             *(u32 *)&p->printStream=PRINTSYS_PrintStream((u32)p->bmpWin,0,0,(u32)p->strbuf,p->font,MSG_SPEED_GetWait(),(u32)p->tcbl,2,p->heapId,15);
             p->state=3;
         } else p->state=5;
@@ -355,7 +355,7 @@ int ZUKAN_NICKNAME_Main(ZukanNicknameWork *p)
 }
 
 
-void ZUKAN_NICKNAME_SetupScreen(ZukanNicknameWork *p){if(!p->state){struct Descriptor *d;unsigned flag=1;BMP_MENUWORK_DrawWindow(p->bmpWin,1,(int)p->lineBuf,8);d=*(struct Descriptor * *)&p->bmpWin;BMP_WIN_TransferChars(d);BMP_WIN_MakeScreen((struct Cfg *)d);BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(d));p->state=flag;}}
+void ZUKAN_NICKNAME_SetupScreen(ZukanNicknameWork *p){if(!p->state){struct Descriptor *d;unsigned flag=1;BMP_MENUWORK_DrawWindow(p->bmpWin,1,(int)p->lineBuf,8);d=*(struct Descriptor * *)&p->bmpWin;BMP_WIN_TransferChars(d);BMP_WIN_MakeScreen((struct Cfg *)d);BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(d));p->state=flag;}}
 
 
 /*

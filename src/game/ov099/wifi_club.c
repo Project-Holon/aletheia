@@ -41,7 +41,7 @@
  *   PRINTSYS_CTRL_Init  0x02028470  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   BMP_MENULIST_GetUserData  0x02020D0C  thumb
@@ -167,7 +167,7 @@
  *   GFL_NET_SendToHandle 0x0203D3A8 arm
  *   GFL_NET_GetInitParam 0x0203D798 arm
  *   d_021C390C 0x021C390C data ov099 a4
- *   GAME_DATA_GetField1A0  0x0201283C  thumb
+ *   GAME_DATA_GetWifiList  0x0201283C  thumb
  *   WIFILIST_GetWork  0x02009860  thumb
  *   WIFILIST_GetDwcFriendData  0x020099C8  thumb
  *   WIFILIST_MergeFriendRecord  0x02009C24  thumb
@@ -195,7 +195,7 @@
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   MSGDATA_Delete 0x02045C04 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   BG_SYS_SetVramBanks  0x020433E0  arm
@@ -205,7 +205,7 @@
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_Init 0x02040C14 arm
  *   BG_SYS_InitSlot 0x020414C4 arm
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  *   d_021C37F4 0x021C37F4 data a4
  *   d_021C396C 0x021C396C data a4
  *   d_021C382C 0x021C382C data a4
@@ -221,7 +221,7 @@
  *   ARC_UTIL_RegisterObjCharFromHandle 0x02049740 arm
  *   ARC_UTIL_LoadScreenDataFromHandle 0x02049E74 arm
  *   ARC_UTIL_LoadPaletteDataFromHandle 0x02049EF4 arm
- *   BG_SYS_DeleteHalf  0x0203FB44  arm
+ *   BG_SYS_FreeTileRun  0x0203FB44  arm
  *   BG_SYS_SetupTileScreen  0x02042FB0  arm
  *   WIPE_SYS_Start  0x0202208C  thumb
  *   BMP_MENUWORK_LoadFrameGfx  0x0201F5DC  thumb
@@ -237,7 +237,7 @@
  *   DWC_RAP_StopVchat 0x021563D0 thumb ov009
  *   GFL_USE_GetTargetBgmNo 0x02005C4C thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
- *   BG_SYS_SetVisibleLayer  0x0204047C  arm
+ *   BG_SYS_SetPriority  0x0204047C  arm
  *   DWC_RAP_SetOwnStatus  0x0215683C  thumb  ov009
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   MYSTATUS_GetOutfit 0x02008554 thumb
@@ -301,7 +301,7 @@
  *   GFL_NET_HANDLE_IsNegotiationDone 0x020399B8 arm
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
  *   GFL_NET_HANDLE_CheckNegotiation 0x02039ACC arm
- *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
+ *   MET_TRAINERS_GetFromSave 0x0200ED48 thumb
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   GFL_NET_GetRunState  0x0203CD98  arm
  *   BUTTON_MAN_Create 0x02051B84 arm
@@ -342,8 +342,8 @@
  *   OS_GetMacAddress 0x02087C6C arm
  *   MYSTATUS_GetSize  0x02008468  thumb  arm9
  *   MYSTATUS_Copy  0x02008494  thumb  arm9
- *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb  arm9
- *   GFL_NET_ERR_UpdateFriendRecord  0x0200F4E4  thumb  arm9
+ *   MET_TRAINERS_Insert  0x0200ED54  thumb  arm9
+ *   WIFILIST_UpdateFriendRecord  0x0200F4E4  thumb  arm9
  *   GAME_DATA_GetPlayerStatusById  0x02012950  thumb  arm9
  *   WIFILIST_CompactFriendList  0x02009B3C  thumb  arm9
  */
@@ -424,7 +424,7 @@ extern PrintStream *PRINTSYS_PrintStream(BmpWin *win, u32 x, u32 y, StrBuf *str,
 extern void PRINTSYS_CTRL_Init(void *streamWait, u32 v);
 extern void BMP_WIN_TransferChars(struct BmpWin *window);
 extern void BMP_WIN_MakeScreen(BmpWin *win);
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 archiveId, u32 fileId, u32 type, u32 offset, u32 size, u16 heapId);
 extern void BMP_WIN_ClearScreen(BmpWin *win);
 extern WifiClubWork *BMP_MENULIST_GetUserData(void *menuList);
@@ -526,7 +526,7 @@ extern void GFL_NET_SetAutoExit(u8 enable);
 extern int GFL_NET_SetLoginOption(int);
 extern int GFL_NET_SendToHandle(struct NetHandle *handle, u32 command, u32 size, u32 data);
 extern void *GFL_NET_GetInitParam(void);
-extern void *GAME_DATA_GetField1A0(void *gameData);
+extern void *GAME_DATA_GetWifiList(void *gameData);
 extern struct FriendRoster *WIFILIST_GetWork(struct FriendRoster *obj);
 extern struct FriendEntry *WIFILIST_GetDwcFriendData(struct FriendRoster *obj, int i);
 extern void WIFILIST_MergeFriendRecord(struct FriendRoster *obj, int src, int dest);
@@ -552,7 +552,7 @@ extern void CLACT_ExitSystem(void);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern unsigned int MSGDATA_Delete(struct MsgData *rec);
-extern unsigned int WORDSET_DeleteStrbufED04(WordSet *p);
+extern unsigned int WORDSET_Delete(WordSet *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern void CLACT_VBlankSystem(void);
 extern void BG_SYS_SetVramBanks(const struct VramBankConfig *c);
@@ -561,12 +561,12 @@ extern void BG_SYS_SetGraphicsMode(WifiClubDispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const WifiClubBgTemplate *tmpl, u32 type);
 extern void BG_SYS_Init(u32, u32, u32, u32);
 extern void BG_SYS_InitSlot(u32 idx);
-extern void BG_SYS_SetVisibleLayer(int, u16);
+extern void BG_SYS_SetPriority(int, u16);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *archive, u32 type, u32 index, u32 offset, u32 size, u16 heapId);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *archive, u32 type, u32 index, u32 offset, u32 size, u16 heapId);
 extern void *ARC_UTIL_LoadScreenDataFromHandle(void *archive, u32 type, u32 index, u32 outData, u16 heapId);
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *archive, u32 type, u32 index, void **outData, u16 heapId);
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 extern void BG_SYS_SetupTileScreen(u32 idx, u32 x, u32 y, u16 value);
 extern void WIPE_SYS_Start(void *unused, u32 type, u32 direction, u32 color, u32 frames, u32 step, u32 heapId);
 extern void *BMP_MENUWORK_LoadFrameGfx(void *kind, u32 size, u32 flags, u32 heapId);
@@ -579,7 +579,6 @@ extern int DWC_RAP_IsDisconnected(void);
 extern void DWC_RAP_StopVchat(void);
 extern u32 GFL_USE_GetTargetBgmNo(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(int, int);
-extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
 extern int DWC_RAP_SetOwnStatus(WifiClubPlayerStatus *status, int size);
 extern u8 *GAME_DATA_GetMyStatus(void *);
 extern u8 MYSTATUS_GetOutfit(const struct PlayerProfile *obj);
@@ -627,10 +626,10 @@ extern u32 GFL_NET_GetHandleNetID(struct NetHandle *p);
 extern int GFL_NET_HANDLE_CheckNegotiation(void);
 extern void *GAME_DATA_GetPlayerStatusById(void *gameData, u32 index);
 extern void MYSTATUS_Copy(void *, void *);
-extern void *MISC_SAVEDATA_GetBlock44(void *);
-extern void MISC_SAVEDATA_InsertRecentValue(void *l, u32 val);
+extern void *MET_TRAINERS_GetFromSave(void *);
+extern void MET_TRAINERS_Insert(void *l, u32 val);
 extern int MYSTATUS_GetSize(void);
-extern int GFL_NET_ERR_UpdateFriendRecord(void *o);
+extern int WIFILIST_UpdateFriendRecord(void *o);
 extern int GFL_NET_GetRunState(void);
 extern void WIFILIST_CompactFriendList(void *obj);
 extern int GFL_NET_GetRunState(void);
@@ -1157,7 +1156,7 @@ void WIFICLUB_PrintTalkMessage(WifiClubWork *work, int messageId, int useAltBank
     }
     BMP_WIN_TransferChars(work->talkWin);
     BMP_WIN_MakeScreen(work->talkWin);
-    BG_SYS_SetFlagField06(2);
+    BG_SYS_MarkTileDirty(2);
 }
 
 
@@ -1247,7 +1246,7 @@ void WIFICLUB_CreateMenuList(WifiClubWork *work, WifiClubMenuListHeader *header,
         } while (PRINTSYS_QUE_IsFinished(work->menuPrintQueue) == 0);
     }
     BMP_MENULIST_ResetCursorTile(work->menuList, 0x21);
-    BG_SYS_SetFlagField06(2);
+    BG_SYS_MarkTileDirty(2);
 }
 
 
@@ -1302,7 +1301,7 @@ void WIFICLUB_CreateAnswerMenu(WifiClubWork *work)
     }
     BMP_MENULIST_ResetCursorTile(work->menuList, 33);
     BMP_WIN_MakeScreen(work->menuWin);
-    BG_SYS_SetFlagField06(2);
+    BG_SYS_MarkTileDirty(2);
 }
 
 
@@ -1384,7 +1383,7 @@ void WIFICLUB_DeleteAllWindows(WifiClubWork *work)
     if (work->partyWin) { BMP_WIN_Delete(work->partyWin); work->partyWin = 0; }
     if (work->noticeWin) {
         BMP_WIN_ClearScreen(work->noticeWin);
-        BG_SYS_SetFlagField06(2);
+        BG_SYS_MarkTileDirty(2);
         WIFICLUB_DeleteWindow(work->noticeWin);
         work->noticeWin = 0;
     }
@@ -1454,7 +1453,7 @@ void WIFICLUB_OpenPartnerPanelWithBg(WifiClubWork *work, int panelPlane)
     BMP_Clear(BMP_WIN_GetBmp(work->statWin), 0);
     BMP_Clear(BMP_WIN_GetBmp(work->nameWin), 0);
     WIFICLUB_DrawPartnerPanel(work, panelPlane);
-    BG_SYS_SetFlagField06(7);
+    BG_SYS_MarkTileDirty(7);
     BMP_WIN_TransferChars(work->statWin);
     BMP_WIN_TransferChars(work->nameWin);
     BG_SYS_SetSubPlaneVisible(2, 0);
@@ -1591,7 +1590,7 @@ void WIFICLUB_DrawPartnerPanel(WifiClubWork *work, int panelPlane)
     BMP_WIN_TransferChars(work->statWin);
     BMP_WIN_MakeScreen(work->nameWin);
     BMP_WIN_TransferChars(work->nameWin);
-    BG_SYS_SetFlagField06(7);
+    BG_SYS_MarkTileDirty(7);
     WIFICLUB_DrawPhaseIcon(&work->bgLoad, 6, 2, 1, kind, variant, 32);
     WIFICLUB_DrawTileBlock(&work->bgLoad, 6, 28, 1, WIFICLUB_GetStatusModeFlag(status) ? 47 : 43, 0);
     WIFICLUB_CreateTrainerActor(work, index, panelPlane);
@@ -1724,7 +1723,7 @@ void WIFICLUB_DrawPartyListWindow(WifiClubWork *work, void *party)
     STRBUF_Delete(templateText);
     BMP_WIN_MakeScreen(work->partyWin);
     BMP_WIN_TransferChars(work->partyWin);
-    BG_SYS_SetFlagField06(2);
+    BG_SYS_MarkTileDirty(2);
 }
 
 
@@ -3591,21 +3590,21 @@ int WIFICLUB_StateApplyRuleSelection(WifiClubWork *work, int state)
 /* Loads the friend roster from the game data. */
 void WIFICLUB_LoadFriendRoster(WifiClubWork *work)
 {
-    WIFILIST_GetWork((struct FriendRoster *)GAME_DATA_GetField1A0(work->gameData));
+    WIFILIST_GetWork((struct FriendRoster *)GAME_DATA_GetWifiList(work->gameData));
 }
 
 
 /* Looks up the first entry of the friend roster. */
 void WIFICLUB_GetFirstFriendEntry(WifiClubWork *work)
 {
-    WIFILIST_GetDwcFriendData((struct FriendRoster *)GAME_DATA_GetField1A0(work->gameData), 0);
+    WIFILIST_GetDwcFriendData((struct FriendRoster *)GAME_DATA_GetWifiList(work->gameData), 0);
 }
 
 
 /* Copies a friend roster entry. */
 void WIFICLUB_CopyFriendEntry(int srcIndex, int destIndex, WifiClubWork *work)
 {
-    WIFILIST_MergeFriendRecord((struct FriendRoster *)GAME_DATA_GetField1A0(work->gameData), srcIndex, destIndex);
+    WIFILIST_MergeFriendRecord((struct FriendRoster *)GAME_DATA_GetWifiList(work->gameData), srcIndex, destIndex);
 }
 
 
@@ -3790,7 +3789,7 @@ void WIFICLUB_ExitScreen(WifiClubWork *work)
     BG_SYS_Delete();
     MSGDATA_Delete(work->msgBankAlt);
     MSGDATA_Delete(work->msgBank);
-    WORDSET_DeleteStrbufED04(work->wordSet);
+    WORDSET_Delete(work->wordSet);
     GF_FONT_Delete(work->nameFont);
     GF_FONT_Delete(work->textFont);
 }
@@ -3850,10 +3849,10 @@ void WIFICLUB_InitBackgrounds(u16 heapId)
     BG_SYS_InitBgLayer(7, &bg7, 0);
     BG_SYS_FreeSlot(7);
     for (; i < 7; i++) BG_SYS_InitSlot((u8)i);
-    BG_SYS_SetVisibleLayer(0, 3);
-    BG_SYS_SetVisibleLayer(1, 1);
-    BG_SYS_SetVisibleLayer(3, 1);
-    BG_SYS_SetVisibleLayer(2, 0);
+    BG_SYS_SetPriority(0, 3);
+    BG_SYS_SetPriority(1, 1);
+    BG_SYS_SetPriority(3, 1);
+    BG_SYS_SetPriority(2, 0);
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;
 }
@@ -3942,8 +3941,8 @@ void WIFICLUB_FreeBgResources(WifiClubBgLoad *bgLoad)
         GFL_HEAP_Free(bgLoad->cellHandle);
         bgLoad->cellHandle = 0;
     }
-    BG_SYS_DeleteHalf(1, (u16)bgLoad->mainRegion, (u16)(bgLoad->mainRegion >> 16));
-    BG_SYS_DeleteHalf(6, (u16)bgLoad->subRegion, (u16)(bgLoad->subRegion >> 16));
+    BG_SYS_FreeTileRun(1, (u16)bgLoad->mainRegion, (u16)(bgLoad->mainRegion >> 16));
+    BG_SYS_FreeTileRun(6, (u16)bgLoad->subRegion, (u16)(bgLoad->subRegion >> 16));
 }
 
 
@@ -3964,7 +3963,7 @@ void WIFICLUB_DrawTileBlock(WifiClubBgLoad *bgLoad, int layer, u8 x, u8 y, unsig
             BG_SYS_SetupTileScreen(layer, j + x, i + y, (paletteIndex << 12) + (tiles + (tileIndex & 0xF) * 2)[(row + i) * stride + j]);
         }
     }
-    BG_SYS_SetFlagField06((u8)layer);
+    BG_SYS_MarkTileDirty((u8)layer);
 }
 
 
@@ -4097,10 +4096,10 @@ int WIFICLUB_StateEnterClub(WifiClubWork *work, int state)
 /* Resets the layer scroll values and goes to the intro state. */
 int WIFICLUB_StateResetBgScroll(WifiClubWork *work, int state)
 {
-    BG_SYS_SetVisibleLayer(0, 3);
-    BG_SYS_SetVisibleLayer(1, 1);
-    BG_SYS_SetVisibleLayer(3, 1);
-    BG_SYS_SetVisibleLayer(2, 0);
+    BG_SYS_SetPriority(0, 3);
+    BG_SYS_SetPriority(1, 1);
+    BG_SYS_SetPriority(3, 1);
+    BG_SYS_SetPriority(2, 0);
     work->state = WIFICLUB_STATE_WATCH_LOGIN;
     return state;
 }
@@ -6358,8 +6357,8 @@ void WIFICLUB_RecvFriendTrainerCard(int friendIndex, int unused, void *receivedS
     if (handle == (int)GFL_NET_HANDLE_GetCurrentHandle()) {
         friendStatus = GAME_DATA_GetPlayerStatusById(work->gameData, friendIndex);
         MYSTATUS_Copy(receivedStatus, friendStatus);
-        friendRecords = MISC_SAVEDATA_GetBlock44(work->saveData);
-        MISC_SAVEDATA_InsertRecentValue(friendRecords, MYSTATUS_GetId(friendStatus));
+        friendRecords = MET_TRAINERS_GetFromSave(work->saveData);
+        MET_TRAINERS_Insert(friendRecords, MYSTATUS_GetId(friendStatus));
     }
 }
 
@@ -6601,7 +6600,7 @@ int WIFICLUB_StateBranchOnPartnerPhase(WifiClubWork *work, int procState)
     if (WIFICLUB_HandleNetFailure(work) == 0) {
         if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 18, 10) != 0) {
             if (WIFICLUB_IsTalkFinishedOrClosed(work) == 1) {
-                GFL_NET_ERR_UpdateFriendRecord(WIFILIST_GetDwcFriendData(GAME_DATA_GetField1A0(work->gameData), 0));
+                WIFILIST_UpdateFriendRecord(WIFILIST_GetDwcFriendData(GAME_DATA_GetWifiList(work->gameData), 0));
                 WIFICLUB_ClearTalkWindow(work);
                 partnerStatus = WIFICLUB_GetFriendStatus(DWC_RAP_GetTargetFriendIndex());
                 WIFICLUB_GetStatusKind(work, partnerStatus);
@@ -7051,7 +7050,7 @@ void WIFICLUB_CloseSlotPanel(WifiClubWork *work)
         WIFICLUB_DeleteSlotPanelWindows(work);
         BUTTON_MAN_Delete(work->buttonMan);
         work->buttonMan = 0;
-        WORDSET_DeleteStrbufED04(work->detailWordSet);
+        WORDSET_Delete(work->detailWordSet);
         work->detailWordSet = 0;
         BG_SYS_SetSubPlaneVisible(1, 1);
         BG_SYS_SetSubPlaneVisible(14, 0);
@@ -7433,8 +7432,8 @@ void WIFICLUB_RedrawSlotPanels(WifiClubWork *work)
             }
         }
     }
-    BG_SYS_SetFlagField06(7);
-    BG_SYS_SetFlagField06(6);
+    BG_SYS_MarkTileDirty(7);
+    BG_SYS_MarkTileDirty(6);
     BG_SYS_SetSubPlaneVisible(2, 1);
     BG_SYS_SetSubPlaneVisible(8, 1);
 }
@@ -7493,7 +7492,7 @@ void WIFICLUB_DrawSlotStatusIcons(WifiClubWork *work, void *pairWins, int slotNu
     if (WIFICLUB_GetStatusModeFlag(status)) iconTile = 15;
     else iconTile = 11;
     WIFICLUB_DrawTileBlock(&work->bgLoad, 6, tileX + 12, tileY + 2, (int)(iconTile + offset), 0);
-    BG_SYS_SetFlagField06(7);
+    BG_SYS_MarkTileDirty(7);
 }
 
 
@@ -7644,7 +7643,7 @@ int WIFICLUB_ProcInit(void *procObj, int unused, WifiClubSession *session)
     work->gameData = session->gameData;
     work->savedRegulation = WIFICLUB_LoadSavedRegulation(work->gameData);
     work->party = GAME_DATA_GetMyParty(work->gameData);
-    work->friendList = GAME_DATA_GetField1A0(work->gameData);
+    work->friendList = GAME_DATA_GetWifiList(work->gameData);
     work->myStatus = SYSTEM_DATA_GetConfig(session->saveData);
     work->entryMode = session->isFriendMatch;
     work->connectionMode = session->connectionMode;

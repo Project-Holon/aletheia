@@ -1,5 +1,5 @@
 /*
- * function: VCT_SESSION_ClearMemberCount
+ * function: VCT_MIXER_ClearMemberCount
  * address: 0x021B0600
  * packet: pkt_ov013_021B0600
  * region: ov013
@@ -15,4 +15,4 @@
 #include "../include/G_021B3C84.h"
 
 extern struct G_021B3C84 gVctSendState;
-void VCT_SESSION_ClearMemberCount(void) { ((int *)&gVctSendState)[8] = 0; }
+void VCT_MIXER_ClearMemberCount(void) { ((int *)&gVctSendState)[8] = 0; }

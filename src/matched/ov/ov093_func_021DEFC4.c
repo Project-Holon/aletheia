@@ -12,7 +12,7 @@
  *   BTL_EVENT_GetVar 0x021D775C thumb ov093
  *   BTL_SERVER_FLOW_CheckShowdownThunk 0x021C83D4 thumb ov093
  *   BTL_POKEPARAM_GetTypePair 0x021D57FC thumb ov093
- *   BTLV_CORE_HasByte 0x021E8D24 thumb ov093
+ *   BTL_TYPEPAIR_HasType 0x021E8D24 thumb ov093
  *   BTL_SERVER_FLOW_GetPokeParam 0x021C7CF4 thumb ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord 0x021C88A4 thumb ov093
  *   HAND_ITEM_GetParam 0x021DCFF8 thumb ov093
@@ -32,7 +32,7 @@ extern int BTL_EVENT_GetVar(int key);
 struct QQ;
 extern int BTL_SERVER_FLOW_CheckShowdownThunk(u8 *p);
 extern u16 BTL_POKEPARAM_GetTypePair(void *p);
-extern int BTLV_CORE_HasByte(int x, int k);
+extern int BTL_TYPEPAIR_HasType(int x, int k);
 extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
 extern int HAND_ITEM_GetParam(int a, int b);
@@ -49,7 +49,7 @@ void HAND_ITEM_BlackSludge_HealOrDamage(int a, void *b, int c)
     u8 *r;
     if (c == BTL_EVENT_GetVar(2) && BTL_SERVER_FLOW_CheckShowdownThunk(b) == 0) {
         m = BTL_SERVER_FLOW_GetPokeParam(b, c);
-        if (BTLV_CORE_HasByte(BTL_POKEPARAM_GetTypePair(m), 3)) {
+        if (BTL_TYPEPAIR_HasType(BTL_POKEPARAM_GetTypePair(m), 3)) {
             r = (u8 *)BTL_SERVER_FLOW_AllocCmdRecord(b, 5, c);
             r[6] = c;
             ((struct Obj03702 *)r)->f4 = BTL_CALC_DivideMaxHpMin1(m, HAND_ITEM_GetParam(a, 2));

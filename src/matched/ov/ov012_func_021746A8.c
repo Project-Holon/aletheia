@@ -1,5 +1,5 @@
 /*
- * function: UNION_MAIN_StepPlayEffectAtSeatLow
+ * function: UNION_SCENE_StepWarpToZone97AtSeat
  * address:  0x021746A8
  * packet:   pkt_ov012_021746A8
  * region:   ov012
@@ -31,7 +31,7 @@ extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 typedef unsigned short u16;
 extern void *EVENT_MAPCHANGE_CreateWarpEvent(void *p, int unused, int a, const int *q, u16 s, int t);
 
-int UNION_MAIN_StepPlayEffectAtSeatLow(int a, int b, int c, int d, int e, int *out, u8 *cnt)
+int UNION_SCENE_StepWarpToZone97AtSeat(int a, int b, int c, int d, int e, int *out, u8 *cnt)
 {
     P s;
     int z;

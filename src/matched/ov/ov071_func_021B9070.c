@@ -17,7 +17,7 @@
  *   WORDSET_SetSlotFromMsgA0 0x0201F184 thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   GFL_USE_IsBgmFading 0x02005E50 thumb
- *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_SetBgmPaused 0x02005DE4 thumb
  *   GFL_USE_PushBgm 0x02005E64 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   GFL_USE_IsBgmPlaying 0x02005F38 thumb
@@ -118,7 +118,7 @@ extern int INTRUDE_COMM_SendPairMessage(int,...);
 extern void MONOLITH_TOOL_LIST_ShowFormattedMessage(char *a, char *b, u32 c);
 extern void GFL_USE_FadeOutBgm(u32 a);
 extern int GFL_USE_IsBgmFading(void);
-extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_SetBgmPaused(void *p);
 extern int GFL_USE_PushBgm(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
 extern int GFL_USE_IsBgmPlaying(void);
@@ -221,11 +221,11 @@ write10:
         if (MONOLITH_TOOL_LIST_IsMessageDone(CP(4),o)==1) { GFL_USE_FadeOutBgm(6); ++*state; }
         break;
     case 11:
-        if (GFL_USE_IsBgmFading()==0) { GFL_USE_SetBgmPlayerParam((void *)1); GFL_USE_PushBgm(); ++*state; }
+        if (GFL_USE_IsBgmFading()==0) { GFL_USE_SetBgmPaused((void *)1); GFL_USE_PushBgm(); ++*state; }
         break;
     case 12: GFL_USE_CancelChangeAndPlayBgm(0x531,0xffff); ++*state; break;
     case 13:
-        if (GFL_USE_IsBgmPlaying()==0) { GFL_USE_PopBgm(); GFL_USE_SetBgmPlayerParam(0); GFL_USE_FadeInBgmFull(6); ++*state; }
+        if (GFL_USE_IsBgmPlaying()==0) { GFL_USE_PopBgm(); GFL_USE_SetBgmPaused(0); GFL_USE_FadeInBgmFull(6); ++*state; }
         break;
     case 14: if (GFL_USE_IsBgmFading()==0) *state=15; break;
     case 15:

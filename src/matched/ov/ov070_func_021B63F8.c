@@ -14,7 +14,7 @@
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
  *   ITEMMENU_SetCursorActive  0x021B80C4  thumb  ov070
- *   COMM_HISTORY_ScaleValue  0x0202EDE4  thumb
+ *   SCROLLBAR_GetValueFromPos  0x0202EDE4  thumb
  *   ITEMMENU_UpdateCursorFromTouch  0x021BA654  thumb  ov070
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  */
@@ -28,7 +28,7 @@ extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern int TOUCHPANEL_GetTrg(void);
 struct Obj;
 extern void ITEMMENU_SetCursorActive(struct Obj *o, int flag);
-extern u32 COMM_HISTORY_ScaleValue(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
+extern u32 SCROLLBAR_GetValueFromPos(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
 extern void ITEMMENU_UpdateCursorFromTouch(char *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 
@@ -51,7 +51,7 @@ u32 ITEMMENU_HandleScrollbarTouch(u8 *p)
         }
         ITEMMENU_SetCursorActive((struct Obj *)p, 0);
         old = *(u32 *)&((struct Obj00002 *)p)->f814;
-        *(u32 *)&((struct Obj00002 *)p)->f814 = COMM_HISTORY_ScaleValue(k - 6, y, 0x1A, 0x8E, 0) - 1;
+        *(u32 *)&((struct Obj00002 *)p)->f814 = SCROLLBAR_GetValueFromPos(k - 6, y, 0x1A, 0x8E, 0) - 1;
         ITEMMENU_UpdateCursorFromTouch((char *)p);
         if (*(u32 *)&((struct Obj00002 *)p)->f814 != old) {
             GFL_USE_PlaySeDefaultVolume(0x548);

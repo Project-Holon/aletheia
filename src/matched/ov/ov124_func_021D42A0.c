@@ -15,7 +15,7 @@
  *   func_02041B6C 0x02041B6C arm
  *   CLACT_DrawSystem 0x0204A600 arm
  *   BMP_WIN_TransferChars 0x02045334 arm
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   APP_TASKMENU_WIN_IsFinish  0x02028230  thumb  arm9
  *   APP_TASKMENU_WIN_ResetDecide  0x020282A4  thumb  arm9
  *   APP_TASKMENU_WIN_ClearScreen  0x0202843C  thumb  arm9
@@ -48,7 +48,7 @@ extern void CG_HELP_UpdatePageGraphics(char *,u32);
 extern void APP_TASKMENU_WIN_ResetDecide(struct Obj *obj);
 extern void APP_TASKMENU_WIN_ClearScreen(u8 *p);
 extern void APP_TASKMENU_WIN_TransChar(u8 *p);
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 int CG_HELP_Main(char *p)
 {
     switch(((struct Obj00122 *)p)->f10) {
@@ -100,6 +100,6 @@ int CG_HELP_Main(char *p)
             APP_TASKMENU_WIN_ResetDecide(((struct Obj00122 *)p)->f38);
         }
     }
-    BG_SYS_FillScrollArea(7,5,1);
+    BG_SYS_ChangeScrollImmediate(7,5,1);
     return 0;
 }

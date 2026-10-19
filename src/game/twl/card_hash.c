@@ -24,7 +24,6 @@
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   OS_WakeupThreadDirect  0x02085868  arm
- *   _u32_div_f  0x0209C2B0  arm
  *   data_02150FEC  0x02150FEC  data
  *   OS_SleepThread  0x020857B0  arm
  *   OSi_EnterNDmaCallback  0x020848EC  arm
@@ -113,7 +112,6 @@ extern int OS_GetBootType(void);
 extern void *CARD_IsPulledOut(void);
 extern void MI_CpuFill(void *p, int v, u32 n);
 extern void OS_Terminate(void);
-extern u32 _u32_div_f(u32, u32);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32);
 extern void OS_WakeupThreadDirect(u32);
@@ -231,7 +229,7 @@ void CARD_NotifyRomHashReadAsync(CardHash *obj)
 
 Node *CARDi_TouchRomHashBlock(CardHash *obj, u32 sector)
 {
-    u32 key = _u32_div_f(sector, obj->blockSectorCount);
+    u32 key = sector / obj->blockSectorCount;
     Node *res;
     Node *tail;
     Node **pp = &obj->cache_b;
@@ -305,7 +303,7 @@ u32 CARDi_TouchRomHashSector(CardHash *obj, u32 addr)
             OS_Terminate();
         }
     }
-    key = _u32_div_f(off, obj->sectorSize);
+    key = off / obj->sectorSize;
     pp = &obj->cache_a;
     for (;;) {
         Node *n = *pp;
@@ -442,7 +440,7 @@ void CARDi_ReadRomHashImageDirect(CardHash *obj, u8 *buf, u32 off, u32 len)
             OS_Terminate();
         }
     }
-    key = _u32_div_f(a, obj->sectorSize);
+    key = a / obj->sectorSize;
     while (off < end) {
         u32 n;
 

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   UNION_ONESELF_CheckNetError  0x0217BB04  thumb  ov019
+ *   UNION_ONESELF_HandleNetError  0x0217BB04  thumb  ov019
  *   func_02034714  0x02034714  arm
  *   func_02030734  0x02030734  arm
  *   TRCARD_SYS_BuildProfile  0x0216F40C  thumb  ov010
@@ -23,8 +23,8 @@
  *   UNION_COMMAND_SendTrainerCard  0x02173BB0  thumb  ov012
  *   UNION_MSG_CheckTalkPrintEnd  0x0217F1EC  thumb  ov019
  *   TRCARD_SYS_CreateEditWork  0x0216F7F4  thumb  ov010
- *   UNION_MAIN_RequestScene  0x0217422C  thumb  ov012
- *   UNION_MAIN_IsScenePending  0x02174268  thumb  ov012
+ *   UNION_SCENE_RequestScene  0x0217422C  thumb  ov012
+ *   UNION_SCENE_IsScenePending  0x02174268  thumb  ov012
  *   func_020307B0  0x020307B0  arm
  *   GFL_NET_IsParentAid  0x0203D378  arm
  *   UNION_ONESELF_SetNextPlayCategory  0x0217B8E4  thumb  ov019
@@ -44,7 +44,7 @@ typedef struct {
 
 typedef unsigned short u16;
 struct Profile;
-extern int UNION_ONESELF_CheckNetError(char *p);
+extern int UNION_ONESELF_HandleNetError(char *p);
 extern void func_02034714(const char *expr, unsigned int line, const char *file);
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern void TRCARD_SYS_BuildProfile(struct Profile *out, void *save, int mode, int flag, volatile u16 heap);
@@ -60,8 +60,8 @@ extern void UNION_MSG_SetupPrintTalkMsg(u8 *p, u8 *a, u32 b);
 extern u32 UNION_COMMAND_SendTrainerCard(unsigned char *p);
 extern u32 UNION_MSG_CheckTalkPrintEnd(u8 *p);
 extern void *TRCARD_SYS_CreateEditWork(int a, void *b, int c);
-extern void UNION_MAIN_RequestScene(u8 *p, int a, int b);
-extern int UNION_MAIN_IsScenePending(u8 *a);
+extern void UNION_SCENE_RequestScene(u8 *p, int a, int b);
+extern int UNION_SCENE_IsScenePending(u8 *a);
 extern u32 func_020307B0(void *p);
 extern u32 GFL_NET_IsParentAid(void);
 extern int UNION_ONESELF_SetNextPlayCategory(char *p, int v);
@@ -71,7 +71,7 @@ extern u8 d_021807E8[];
 int UNION_ONESELF_TrainerCardMain(u8 *a, Obj *b, u8 *c, u8 *d)
 {
     u8 *q;
-    if (UNION_ONESELF_CheckNetError((char *)a) == 1)
+    if (UNION_ONESELF_HandleNetError((char *)a) == 1)
         return 1;
     switch (*d) {
     case 0:
@@ -110,11 +110,11 @@ int UNION_ONESELF_TrainerCardMain(u8 *a, Obj *b, u8 *c, u8 *d)
             (*d)++;
         break;
     case 6:
-        UNION_MAIN_RequestScene(a, 1, (int)(((struct Obj00610 *)a)->f353C));
+        UNION_SCENE_RequestScene(a, 1, (int)(((struct Obj00610 *)a)->f353C));
         (*d)++;
         break;
     case 7:
-        if (UNION_MAIN_IsScenePending(a) == 0)
+        if (UNION_SCENE_IsScenePending(a) == 0)
             (*d)++;
         break;
     case 8:

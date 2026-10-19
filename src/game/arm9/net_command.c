@@ -33,7 +33,7 @@
  *   GFL_NET_SYSTEM_IsError  0x020393D0  arm
  *   lbl_020A7A20    0x020A7A20  data
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
+ *   GF_STANDARD_CalcCrc16  0x0203F1FC  arm
  *   d_020A7A24     0x020A7A24  data
  *   d_020A7A50     0x020A7A50  data
  *   str_020A7A54   0x020A7A54  data

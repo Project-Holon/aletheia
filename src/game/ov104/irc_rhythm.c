@@ -18,8 +18,8 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   GAMESYSTEM_GetGameComm 0x02012138 thumb
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
- *   BG_SYS_SetScrollY 0x02041F6C arm
- *   BG_SYS_SetAffine 0x02041FB0 arm
+ *   BG_SYS_ChangeScale 0x02041F6C arm
+ *   BG_SYS_ChangeCenter 0x02041FB0 arm
  *   IRC_APPBAR_Create 0x021B70DC thumb ov101
  *   COMPATIBLE_IRC_SYS_SetOwnValue 0x021B63CC thumb ov101
  *   G2x_SetBlendBrightness_ 0x0207D658 arm
@@ -57,8 +57,8 @@
  *   sRhythmBackgroundLayers 0x021B8F5C data
  *   sRhythmBackgroundTemplates 0x021B8FB4 data
  *   sRhythmBackgroundTypes 0x021B8F40 data ov104
- *   BG_SYS_SetTileUnit 0x02040DA8 arm
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
+ *   BG_SYS_FreeTiles 0x02040DA8 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
@@ -86,7 +86,7 @@
  *   CLACT_ExitSystem 0x0204A5AC arm
  *   CLACT_DrawSystem  0x0204A600  arm
  *   CLACT_VBlankSystem 0x0204A648 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -234,8 +234,8 @@ extern void *PROCSYS_AllocProcWork(struct Proc *proc,u32 size,u32 heapId);
 extern void MI_CpuFill8(void *,int,int);
 extern u32 GAMESYSTEM_GetGameComm(const void *gameSystem);
 extern void BMP_MENUWORK_DrawWindow(void *window, int commitMode, int tileBase, int palette);
-extern void BG_SYS_SetScrollY(u32 which, u32 op, u32 value);
-extern void BG_SYS_SetAffine(u32,u32,u16);
+extern void BG_SYS_ChangeScale(u32 which, u32 op, u32 value);
+extern void BG_SYS_ChangeCenter(u32,u32,u16);
 extern void COMPATIBLE_IRC_SYS_SetOwnValue(IrcSys *sys,int value);
 extern void G2x_SetBlendBrightness_(u32,int,int);
 extern void *GFL_USE_AddMainTask(IrcTaskProc proc,void *work,u32 priority);
@@ -264,8 +264,8 @@ extern void BG_SYS_Init(u32,u32,u32,u32);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
-extern void BG_SYS_SetTileUnit(u32,u32,u32);
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTiles(u32,u32,u32);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
@@ -298,7 +298,7 @@ extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int 
 extern void *PRINTSYS_QUE_Create(u32 heapId);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct MsgBank *messages);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
@@ -453,10 +453,10 @@ int IRC_RHYTHM_Init(struct Proc *proc,void *state,IrcRhythmContext *context) {
  IRC_RHYTHM_InitCountdown(&work->countdown,&work->screen,0x38);
  IRC_RHYTHM_InitTextWindow(&work->timerWindow,7,6,3,20,5,8,1,1,0x38);
  IRC_RHYTHM_PrintCenteredMessage(&work->timerWindow,&work->text,IRC_RHYTHM_MSG_TITLE);
- BG_SYS_SetScrollY(7,3,0x1000);
- BG_SYS_SetScrollY(7,6,0x1000);
- BG_SYS_SetAffine(7,9,0x80);
- BG_SYS_SetAffine(7,12,0x28);
+ BG_SYS_ChangeScale(7,3,0x1000);
+ BG_SYS_ChangeScale(7,6,0x1000);
+ BG_SYS_ChangeCenter(7,9,0x80);
+ BG_SYS_ChangeCenter(7,12,0x28);
  IRC_RHYTHM_InitTextWindow(&work->captionWindow,2,8,10,16,2,13,0,0,0x38);
  IRC_RHYTHM_InitNetSync(&work->netSync,work->context->ircSys);
  IRC_RHYTHM_InitRecord(&work->record);
@@ -549,7 +549,7 @@ void IRC_RHYTHM_InitBackgrounds(IrcScreen *screen,u16 heapId) {
  BG_SYS_Init(2,0,1,0);
 }
 
-void IRC_RHYTHM_ExitBackgrounds(u32 *bgCharRegion) { int i; BG_SYS_SetTileUnit(2,1,0); BG_SYS_DeleteHalf(5,(u16)(*bgCharRegion),(u16)(*bgCharRegion>>16)); BG_SYS_SetTileUnit(5,1,0); for(i=0;i<7;i++) BG_SYS_FreeLayerBuf((u8)sRhythmBackgroundLayers[i]); BMP_WIN_Exit(); BG_SYS_Delete(); }
+void IRC_RHYTHM_ExitBackgrounds(u32 *bgCharRegion) { int i; BG_SYS_FreeTiles(2,1,0); BG_SYS_FreeTileRun(5,(u16)(*bgCharRegion),(u16)(*bgCharRegion>>16)); BG_SYS_FreeTiles(5,1,0); for(i=0;i<7;i++) BG_SYS_FreeLayerBuf((u8)sRhythmBackgroundLayers[i]); BMP_WIN_Exit(); BG_SYS_Delete(); }
 
 void IRC_RHYTHM_VBlankBackgrounds(void *unused) { BG_SYS_Update(); }
 
@@ -644,7 +644,7 @@ void IRC_RHYTHM_InitTextSystem(IrcTextSystem *text, int fontStyle, u16 heapId) {
  ARC_UTIL_UploadPaletteFromArchiveWhole(0x17,5,0,0x1C0,0x20,heapId);
 }
 
-void IRC_RHYTHM_ExitTextSystem(IrcTextSystem *text) { WORDSET_DeleteStrbufED04(text->wordSet); MSGDATA_Delete(text->messages); PRINTSYS_QUE_Delete(text->printQueue); GF_FONT_Delete(text->font); MI_CpuFill8(text,0,16); }
+void IRC_RHYTHM_ExitTextSystem(IrcTextSystem *text) { WORDSET_Delete(text->wordSet); MSGDATA_Delete(text->messages); PRINTSYS_QUE_Delete(text->printQueue); GF_FONT_Delete(text->font); MI_CpuFill8(text,0,16); }
 
 int IRC_RHYTHM_RunPrintQueue(IrcTextSystem *text) { return PRINTSYS_QUE_Main(text->printQueue); }
 

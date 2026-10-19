@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  */
 #include "../include/Obj20758.h"
 
-extern void BG_SYS_ResetSlot(unsigned, unsigned, unsigned);
-void MONOLITH_TOOL_UpdateBgScroll(char *p) { BG_SYS_ResetSlot(6, 3, (((struct Obj20758 *)p)->f2D8 >> 8) % 64); }
+extern void BG_SYS_ChangeScroll(unsigned, unsigned, unsigned);
+void MONOLITH_TOOL_UpdateBgScroll(char *p) { BG_SYS_ChangeScroll(6, 3, (((struct Obj20758 *)p)->f2D8 >> 8) % 64); }

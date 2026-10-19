@@ -73,7 +73,7 @@
  *   DPW_BT_SetProfileAsync 0x021C9744 arm ov114
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   WIFI_HISTORY_GetBlock 0x02009470 thumb
- *   GAME_DATA_GetField1A0 0x0201283C thumb
+ *   GAME_DATA_GetWifiList 0x0201283C thumb
  *   SAVEDATA_GetExtraBlock 0x0200E6F0 thumb
  *   MYSTATUS_GetName 0x020084F4 thumb
  *   MI_CpuCopy8 0x02082D44 arm
@@ -119,7 +119,7 @@
  *   d_021DA62C 0x021DA62C data ov129 a4
  *   ov129_id 0x81 data
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
- *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb  arm9
+ *   GFL_USE_SetBgmPaused  0x02005DE4  thumb  arm9
  *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb  arm9
  *   GFL_USE_FadeOutBgm  0x02005E30  thumb  arm9
  *   GFL_USE_IsBgmFading  0x02005E50  thumb  arm9
@@ -182,13 +182,13 @@ extern void MI_CpuFill8(void *,int,unsigned);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008AECObj *CONSOLE_STAMP_GetFromSave(void *sys);
-extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
+extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *GAME_DATA_GetSaveBlock3B(void **p);
 extern void *GAME_DATA_GetSaveBlock3A(void **p);
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern int GFL_USE_IsBgmFading(void);
-extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_SetBgmPaused(void *p);
 extern int GFL_USE_PushBgm(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
 extern void GFL_USE_FadeInBgmFull(unsigned);
@@ -340,7 +340,7 @@ int WIFI_BSUBWAY_Create(void *task,int unused,u8 *parent) {
     parent=GAME_DATA_GetSaveControl(saveControl);
     *(void **)(work+0x1844)=saveControl;
     *(int *)(work+0x1848)=(int)CONSOLE_STAMP_GetFromSave(parent);
-    *(int *)(work+0x184c)=GAME_DATA_GetField1A0(saveControl);
+    *(int *)(work+0x184c)=GAME_DATA_GetWifiList(saveControl);
     *(int *)(work+0x1850)=(int)GAME_DATA_GetMyStatus(saveControl);
     *(int *)(work+0x1854)=(int)GAME_DATA_GetSaveBlock3B(saveControl);
     *(int *)(work+0x1858)=(int)GAME_DATA_GetSaveBlock3A(saveControl);
@@ -358,7 +358,7 @@ int WIFI_BSUBWAY_Step(void *unusedA,int *state,int unusedB,u8 *work)
     }
     switch(*state) {
     case 0: GFL_USE_FadeOutBgm(6); ++*state; break;
-    case 1: if(GFL_USE_IsBgmFading()==0) { GFL_USE_SetBgmPlayerParam((void *)1); GFL_USE_PushBgm(); GFL_USE_CancelChangeAndPlayBgm(1153,65535); GFL_USE_FadeInBgmFull(6); ++*state; } break;
+    case 1: if(GFL_USE_IsBgmFading()==0) { GFL_USE_SetBgmPaused((void *)1); GFL_USE_PushBgm(); GFL_USE_CancelChangeAndPlayBgm(1153,65535); GFL_USE_FadeInBgmFull(6); ++*state; } break;
     case 2: WIFI_BSUBWAY_GRAPHIC_StartSaveProc(work); ++*state; break;
     case 3: if(WIFI_BSUBWAY_GRAPHIC_GetSaveState(work)==0) ++*state; else { ((struct WifiBsubwayParent *)(*(u8 * *)&((struct WifiBsubwayWork *)work)->parent))->state=2; *state=17; } break;
     case 4: WIFI_BSUBWAY_GRAPHIC_CreateWindow(work+4,125); FADE_Start(3,16,0,1); ++*state; break;
@@ -395,7 +395,7 @@ int WIFI_BSUBWAY_Delete(void *unusedA, int unusedB, int unusedC, u8 *work) {
     GFL_HEAP_DeleteChecked(125);
     GF_OVERLAY_Unload((int)ov_id);
     GFL_USE_PopBgm();
-    GFL_USE_SetBgmPlayerParam(0);
+    GFL_USE_SetBgmPaused(0);
     GFL_USE_FadeInBgmFull(60);
     return 1;
 }
@@ -554,7 +554,7 @@ void WIFI_BSUBWAY_BuildProfile(u8 *profileRecord, void *saveControl, void *train
     int i;
     profile = GAME_DATA_GetSaveControl(saveControl);
     WIFI_HISTORY_GetBlock(profile);
-    GAME_DATA_GetField1A0(saveControl);
+    GAME_DATA_GetWifiList(saveControl);
     saveBlockA = GAME_DATA_GetSaveBlock3A(saveControl);
     saveData = SAVEDATA_GetExtraBlock((u32)profile);
     MI_CpuFill8(profileRecord, 0, 240);

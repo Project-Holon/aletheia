@@ -17,7 +17,7 @@
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetSodateya  0x02188D50  thumb  ov021
  *   SODATEYA_GetPokemon  0x021C34F8  thumb  ov021
- *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
+ *   WORDSET_SetSlotMonNickname  0x0201EEF4  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -39,7 +39,7 @@ struct WordSet;
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern void *FIELDMAP_GetSodateya(u8 *);
 extern void *SODATEYA_GetPokemon(void *, u32);
-extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonNickname(struct WordSet *p, u32 i, void *mon);
 
 int SCRCMD_BufferDaycareMonNickname(Script *a, u32 b)
 {
@@ -49,6 +49,6 @@ int SCRCMD_BufferDaycareMonNickname(Script *a, u32 b)
     u32 e;
     a->cur = p + 1;
     e = SCRIPT_WORK_ReadWorkValue(a, (void *)b);
-    WORDSET_SetSlotMonSpecies((void *)x, v, SODATEYA_GetPokemon(FIELDMAP_GetSodateya(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem((void *)b))), e));
+    WORDSET_SetSlotMonNickname((void *)x, v, SODATEYA_GetPokemon(FIELDMAP_GetSodateya(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem((void *)b))), e));
     return 0;
 }

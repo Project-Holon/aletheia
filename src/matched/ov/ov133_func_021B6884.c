@@ -27,7 +27,7 @@
  *   DUP_FITTING_ITEM_FreeElemImage 0x021BA1EC thumb ov133
  *   DUP_FITTING_ITEM_ElemGetNext 0x021BA208 thumb ov133
  *   DUP_FITTING_FreeHeldElem 0x021B7A18 thumb ov133
- *   MUSICAL_MCSS_NoOp5 0x021F4F10 thumb ov112
+ *   MUSICAL_MCSS_GetActorPoolResource 0x021F4F10 thumb ov112
  *   MUSICAL_MCSS_GetElemPtr 0x021F4F54 thumb ov112
  *   MUSICAL_MCSS_NoOp6 0x021F4F70 thumb ov112
  *   MUSICAL_MCSS_FreeElemImage 0x021F4D74 thumb ov112
@@ -52,7 +52,7 @@ extern u32 DUP_FITTING_ITEM_ElemGetSprite(u8 *p);
 extern void DUP_FITTING_ITEM_FreeElemImage(u8 *p, u8 *q, u8 *r);
 extern u32 DUP_FITTING_ITEM_ElemGetNext(u8 *p);
 extern void DUP_FITTING_FreeHeldElem(u8 *);
-extern u32 MUSICAL_MCSS_NoOp5(u8 *);
+extern u32 MUSICAL_MCSS_GetActorPoolResource(u8 *);
 extern u8 *MUSICAL_MCSS_GetElemPtr(u8 *, int);
 extern int MUSICAL_MCSS_NoOp6(int *);
 extern void MUSICAL_MCSS_FreeElemImage(u8 *, u8 *, int, u16);
@@ -89,7 +89,7 @@ void DUP_FITTING_VBlank(void *unused, u8 *p)
     if (*(u8 **)(p + 0x38)) {
         q = (u8 *)DUP_FITTING_ITEM_ElemGetData(*(u8 **)(p + 0x38));
         if (*(u16 *)(p + 0x50) != *(u16 *)q) {
-            table = (u8 *)MUSICAL_MCSS_NoOp5(*(u8 **)(p + 0x1884));
+            table = (u8 *)MUSICAL_MCSS_GetActorPoolResource(*(u8 **)(p + 0x1884));
             *(u16 *)(p + 0x50) = *(u16 *)q;
             BILLBOARD_GetImagePlttKey((int)(*(void **)(p + 0x188c)), *(int *)(p + 0x54), (int)(&height));
             BILLBOARD_GetImageTexKey(*(u8 **)(p + 0x188c), *(int *)(q + 4), &width);

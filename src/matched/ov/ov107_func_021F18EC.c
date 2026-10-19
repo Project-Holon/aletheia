@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  */
 
 typedef struct {
@@ -19,12 +19,12 @@ typedef struct {
 
 struct WordSet;
 typedef unsigned int   u32;
-u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+u32 WORDSET_Delete(struct WordSet *p);
 
 void MB_UTIL_MSG_DeleteWordSet(Ov107Ctx *p)
 {
     if (p->f24 != 0) {
-        WORDSET_DeleteStrbufED04(p->f24);
+        WORDSET_Delete(p->f24);
         p->f24 = 0;
     }
 }

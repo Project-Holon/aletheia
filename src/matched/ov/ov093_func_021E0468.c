@@ -19,7 +19,7 @@
  *   BTL_POKEPARAM_HasType  0x021D5814  thumb  ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
  *   BTL_CALC_Random  0x021D78AC  thumb  ov093
- *   BTLV_CORE_PackByteTwice  0x021E8CF0  thumb  ov093
+ *   BTL_TYPEPAIR_MakeSingle  0x021E8CF0  thumb  ov093
  *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb  ov093
  */
 #include "../include/Obj13503.h"
@@ -37,7 +37,7 @@ extern u8 WAZA_TOOL_GetType(void *p);
 extern int BTL_POKEPARAM_HasType(void *q, int k);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
 extern u32 BTL_CALC_Random(u32 range);
-extern int BTLV_CORE_PackByteTwice(int a);
+extern int BTL_TYPEPAIR_MakeSingle(int a);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 
 void HAND_WAZA_ConversionEffect(void *a, void *b, int c)
@@ -66,7 +66,7 @@ void HAND_WAZA_ConversionEffect(void *a, void *b, int c)
         }
         if (cnt != 0) {
             p = BTL_SERVER_FLOW_AllocCmdRecord(b, 0x14, c);
-            ((struct Obj13503 *)p)->f4 = BTLV_CORE_PackByteTwice(buf[(u16)BTL_CALC_Random(cnt)]);
+            ((struct Obj13503 *)p)->f4 = BTL_TYPEPAIR_MakeSingle(buf[(u16)BTL_CALC_Random(cnt)]);
             ((struct Obj13503 *)p)->f6 = c;
             BTL_SERVER_FLOW_CommitCmdRecord(b, p);
         }

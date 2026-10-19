@@ -1,7 +1,7 @@
 /*
  * file:     bmp_menuwork.c
  * unit:     yes
- * function: BMP_MENUWORK_GetCharFileId, BMP_MENUWORK_GetPlttFileId, BMP_MENUWORK_LoadChar, BMP_MENUWORK_LoadPltt, BMP_MENUWORK_LoadCharAndPltt, BMP_MENUWORK_LoadFrameGfx, BMP_MENUWORK_DeleteHalf, BMP_MENUWORK_DrawFrame, BMP_MENUWORK_DrawWindow, BMP_MENUWORK_DrawWindowEx, BMP_MENUWORK_DrawWindowBorder, BMP_MENUWORK_Create, BMP_MENUWORK_Delete, BMP_MENUWORK_AddMsgItem, BMP_MENUWORK_AddStrItem, BMP_MENUWORK_FindFreeEntry, BMP_MENUWORK_ReleaseItems, BMP_MENUWORK_CountItems
+ * function: BMP_MENUWORK_GetCharFileId, BMP_MENUWORK_GetPlttFileId, BMP_MENUWORK_LoadChar, BMP_MENUWORK_LoadPltt, BMP_MENUWORK_LoadCharAndPltt, BMP_MENUWORK_LoadFrameGfx, BMP_MENUWORK_FreeTileRun, BMP_MENUWORK_DrawFrame, BMP_MENUWORK_DrawWindow, BMP_MENUWORK_DrawWindowEx, BMP_MENUWORK_DrawWindowBorder, BMP_MENUWORK_Create, BMP_MENUWORK_Delete, BMP_MENUWORK_AddMsgItem, BMP_MENUWORK_AddStrItem, BMP_MENUWORK_FindFreeEntry, BMP_MENUWORK_ReleaseItems, BMP_MENUWORK_CountItems
  * address:  0x0201F53C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -15,7 +15,7 @@
  * symbols:
  *   sub_0209E8C8_Map  0x0209E8C8  data
  *   sub_0209E8CA_Map  0x0209E8CA  data  a1
- *   BG_SYS_DeleteHalf  0x0203FB44  arm
+ *   BG_SYS_FreeTileRun  0x0203FB44  arm
  *   BG_SYS_SetTileEntry  0x02041300  arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   BMP_WIN_GetPosX 0x02045758 arm
@@ -23,7 +23,7 @@
  *   BMP_WIN_GetDispWidth 0x02045748 arm
  *   BMP_WIN_GetDispHeight 0x02045750 arm
  *   BG_SYS_PushTile 0x020409B4 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   GFL_HEAP_Alloc        0x02030734  arm
  *   sBmpMenuWorkFile     0x020A7374  data
  *   GFL_HEAP_Free  0x020307B0  arm
@@ -43,7 +43,7 @@ extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 arcId, u32 fileId, u32 pa
 
 extern void *ARC_UTIL_RegisterObjCharFromArchive(u32 arcId, u32 fileId, u32 layer, u32 flagA, u32 flagB, u32 heapId);
 
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 
 extern void BG_SYS_SetTileEntry(u32 bgId, u32 tile, u8 x, u8 y, u8 width, u8 height,
                           u32 palette);
@@ -60,7 +60,7 @@ extern u8 BMP_WIN_GetDispHeight(struct BmpWin *p);
 
 extern void BG_SYS_PushTile(u32 index);
 
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
@@ -84,7 +84,7 @@ void BMP_MENUWORK_LoadCharAndPltt(u32 layer, u32 tileOffset, u32 palSlot, u32 fr
 
 void *BMP_MENUWORK_LoadFrameGfx(u32 layer, u32 palSlot, u32 frameId, u16 heapId);
 
-void BMP_MENUWORK_DeleteHalf(int layer, u32 packedOffsets);
+void BMP_MENUWORK_FreeTileRun(int layer, u32 packedOffsets);
 
 void BMP_MENUWORK_DrawFrame(u16 bgId, u8 x, u8 y, u8 width, u8 height, u32 palette, u16 tileBase);
 
@@ -222,9 +222,9 @@ void *BMP_MENUWORK_LoadFrameGfx(u32 layer, u32 palSlot, u32 frameId, u16 heapId)
     return charResult;
 }
 
-void BMP_MENUWORK_DeleteHalf(int layer, u32 packedOffsets)
+void BMP_MENUWORK_FreeTileRun(int layer, u32 packedOffsets)
 {
-    BG_SYS_DeleteHalf(layer, (u16)packedOffsets, (u16)(packedOffsets >> 16));
+    BG_SYS_FreeTileRun(layer, (u16)packedOffsets, (u16)(packedOffsets >> 16));
 }
 
 /*
@@ -330,7 +330,7 @@ void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, u16 tileBase, u
     if (commitMode == 0) {
         BG_SYS_PushTile(bgId);
     } else if (commitMode == 1) {
-        BG_SYS_SetFlagField06(bgId);
+        BG_SYS_MarkTileDirty(bgId);
     }
 }
 
@@ -386,7 +386,7 @@ void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, u32 commitMode)
         return;
     }
     if (commitMode == 1) {
-        BG_SYS_SetFlagField06(bgId);
+        BG_SYS_MarkTileDirty(bgId);
     }
 }
 

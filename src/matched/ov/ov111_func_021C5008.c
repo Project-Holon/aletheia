@@ -1,5 +1,5 @@
 /*
- * function: VIEWER_MAIN_CheckInputHeld
+ * function: VIEWER_MAIN_CheckInputModeSwitch
  * address:  0x021C5008
  * packet:   pkt_ov111_021C5008
  * region:   ov111
@@ -27,7 +27,7 @@ typedef struct {
 extern int TOUCHPANEL_GetCont(void);
 extern unsigned int KEY_GetCont(void);
 
-int VIEWER_MAIN_CheckInputHeld(Work *p)
+int VIEWER_MAIN_CheckInputModeSwitch(Work *p)
 {
     if (p->mode == 1) {
         if (TOUCHPANEL_GetCont()) {

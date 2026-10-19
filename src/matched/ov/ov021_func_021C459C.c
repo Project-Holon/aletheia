@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PLAYER_GRID_EVENT_StartA
+ * function: SCRCMD_PLAYER_GRID_EVENT_StartHop
  * address:  0x021C459C
  * packet:   pkt_ov021_021C459C
  * region:   ov021
@@ -21,7 +21,7 @@
  *   FIELD_PLAYER_GRID_EVENT_CreateHopTask  0x021C1024  thumb  ov021
  *   SCRCMD_WORK_SetTargetObject  0x0215A644  thumb  ov010
  *   VM_SetWait  0x020113D0  thumb
- *   SCRCMD_PLAYER_GRID_EVENT_WaitA  0x021C457C  thumb  ov021
+ *   SCRCMD_PLAYER_GRID_EVENT_WaitHop  0x021C457C  thumb  ov021
  */
 
 typedef unsigned int u32;
@@ -42,9 +42,9 @@ extern int MAP_ATTR_GetAt(void *a, void *b);
 extern u32 FIELD_PLAYER_GRID_EVENT_CreateHopTask(void *a, u32 b, u32 c, u32 d);
 extern void SCRCMD_WORK_SetTargetObject(void *p, u32 v);
 extern void VM_SetWait(char *p, int val);
-extern int SCRCMD_PLAYER_GRID_EVENT_WaitA(void *a, void *b);
+extern int SCRCMD_PLAYER_GRID_EVENT_WaitHop(void *a, void *b);
 
-u32 SCRCMD_PLAYER_GRID_EVENT_StartA(u32 a, u32 b)
+u32 SCRCMD_PLAYER_GRID_EVENT_StartHop(u32 a, u32 b)
 {
     u32 buf[3];
     u32 z, w, t;
@@ -60,6 +60,6 @@ u32 SCRCMD_PLAYER_GRID_EVENT_StartA(u32 a, u32 b)
     t = MAP_ATTR_GetAt(x, buf);
     t = FIELD_PLAYER_GRID_EVENT_CreateHopTask(y, z, t, w);
     SCRCMD_WORK_SetTargetObject((void *)b, t);
-    VM_SetWait((char *)a, (int)SCRCMD_PLAYER_GRID_EVENT_WaitA);
+    VM_SetWait((char *)a, (int)SCRCMD_PLAYER_GRID_EVENT_WaitHop);
     return 1;
 }

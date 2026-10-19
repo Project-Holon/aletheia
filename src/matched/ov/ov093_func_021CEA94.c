@@ -32,7 +32,7 @@
  *   BTL_CLIENT_PollTimeLimitAndSetSub 0x021CE0BC thumb ov093
  *   BTLV_CORE_AbortMoveMenu 0x021E98AC thumb ov093
  *   BTLV_CORE_PollMoveMenu 0x021E98B4 thumb ov093
- *   BTL_CALC_ActionGetKind 0x021D8454 thumb ov093
+ *   BTL_ACTION_GetKind 0x021D8454 thumb ov093
  *   BTL_SLOT_GetRotateSrcIndex 0x021B9AB0 thumb ov093
  *   BTL_ACTION_GetFightSlotFlag 0x021D832C thumb ov093
  *   BTL_POKEPARAM_FindMoveSlot 0x021D5778 thumb ov093
@@ -70,7 +70,7 @@ extern void BTLV_CORE_StartMoveMenuForEntry(char *p, u32 *q, int c);
 extern int BTL_CLIENT_PollTimeLimitAndSetSub(u8 *p, void *q);
 extern void BTLV_CORE_AbortMoveMenu(void *);
 extern u32 BTLV_CORE_PollMoveMenu(void *);
-extern u32 BTL_CALC_ActionGetKind(u32 *);
+extern u32 BTL_ACTION_GetKind(u32 *);
 extern int BTL_SLOT_GetRotateSrcIndex(int);
 struct Unk021D82FC;
 extern u32 BTL_ACTION_GetFightSlotFlag(struct Unk021D82FC *p);
@@ -120,7 +120,7 @@ int BTL_CLIENT_StepSelectMove(u8 *p, u32 *state)
             return 0;
         }
         if (BTLV_CORE_PollMoveMenu(((struct Obj00434 *)p)->f54)) {
-            k = BTL_CALC_ActionGetKind(*(u32 * *)&((struct Obj00434 *)p)->fC);
+            k = BTL_ACTION_GetKind(*(u32 * *)&((struct Obj00434 *)p)->fC);
             if (k == 0) BTL_CLIENT_SetSubFn(p, (void *)((u32)BTL_CLIENT_StepSelectAction));
             else if (k == 5) BTL_CLIENT_SetSubFn(p, (void *)((u32)BTL_CLIENT_StepAdvanceSlot));
             else {

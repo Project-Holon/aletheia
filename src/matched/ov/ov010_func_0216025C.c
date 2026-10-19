@@ -33,7 +33,7 @@
  *   EVENT_SHORTCUT_MENU_CloseLink  0x0216060C  thumb  ov010
  *   EVENT_SHORTCUT_MENU_CreateProcEvent  0x0216075C  thumb  ov010
  *   GAME_EVENT_CallEvent  0x02012374  thumb
- *   EVENTDATA_SYSTEM_CreateFieldLinkEvent  0x021644F4  thumb  ov010
+ *   FIELD_LINK_EVENT_Create  0x021644F4  thumb  ov010
  *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   GAME_DATA_GetPlayerObjectCode  0x02012B28  thumb
  *   EVENT_SHORTCUT_MENU_OpenMessage  0x021606DC  thumb  ov010
@@ -88,7 +88,7 @@ extern u32 *FLDMMDL_SysResumeMove(void *c);
 extern int EVENT_SHORTCUT_MENU_CloseLink(int a0, int a1);
 extern void *EVENT_SHORTCUT_MENU_CreateProcEvent(struct Owner *o, u16 id);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
-extern int EVENTDATA_SYSTEM_CreateFieldLinkEvent(int i, void *a, void *p);
+extern int FIELD_LINK_EVENT_Create(int i, void *a, void *p);
 extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
 extern u32 GAME_DATA_GetPlayerObjectCode(const struct Rec44 *p);
 extern void *EVENT_SHORTCUT_MENU_OpenMessage(void *p, u32 a);
@@ -161,7 +161,7 @@ int EVENT_SHORTCUT_MENU_ReturnEvent(void *evt, u32 *state, Ctx *c)
         next = c->req->next;
         func_020307B0(c->req);
         c->req = 0;
-        h = (void *)EVENTDATA_SYSTEM_CreateFieldLinkEvent(next, c->f04, c->f08);
+        h = (void *)FIELD_LINK_EVENT_Create(next, c->f04, c->f08);
         GAME_EVENT_CallEvent(evt, h);
         *state = 6;
         break;

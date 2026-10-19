@@ -31,7 +31,7 @@
  *   FIELD_COMM_ACTOR_CreateSubscreenChangeEvent 0x021945A4 thumb ov021
  *   BEACON_VIEW_CreateTaskProc 0x021F254C thumb ov032
  *   BEACON_VIEW_ClearEndRequest 0x021F2544 thumb ov032
- *   CALENDER_CreateTask 0x02164B38 thumb ov010
+ *   BEACON_VIEW_EVENT_Create 0x02164B38 thumb ov010
  *   GAME_EVENT_CreateOverlayEvent 0x020124AC thumb
  *   EVENT_NAMEIN_Create 0x021CD2A4 thumb ov021
  *   GPOWER_EVENT_CreateActivateEvent 0x021F5260 thumb ov083
@@ -56,7 +56,7 @@ extern void *BEACON_STATUS_GetViewFlags(char *p);
 extern void *FIELD_COMM_ACTOR_CreateSubscreenChangeEvent(void *a, u32 b, u32 c);
 extern void *BEACON_VIEW_CreateTaskProc(char *p, void *task, int a, u32 b);
 extern void BEACON_VIEW_ClearEndRequest(char *p);
-extern void *CALENDER_CreateTask(void *a, void *b, u8 c);
+extern void *BEACON_VIEW_EVENT_Create(void *a, void *b, u8 c);
 extern struct Desc *GAME_EVENT_CreateOverlayEvent(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3);
 extern u32 EVENT_NAMEIN_Create(u32 a, u32 b, u32 x, u32 c, u32 d);
 extern void *GPOWER_EVENT_CreateActivateEvent(void *a0, int *a1);
@@ -78,7 +78,7 @@ void *BEACON_VIEW_CreateLeaveEvent(char *p, int go)
         r = BEACON_VIEW_CreateTaskProc(p, FIELD_COMM_ACTOR_CreateSubscreenChangeEvent(*(void **)p, (u32)(*(void **)(p + 8)), 0), 0, 3);
         break;
     case 4:
-        r = BEACON_VIEW_CreateTaskProc(p, CALENDER_CreateTask(*(void **)p, *(void **)(p + 8), *(u8 *)(p + 0x7e) + *(u8 *)(p + 0x7c)), 1, 0);
+        r = BEACON_VIEW_CreateTaskProc(p, BEACON_VIEW_EVENT_Create(*(void **)p, *(void **)(p + 8), *(u8 *)(p + 0x7e) + *(u8 *)(p + 0x7c)), 1, 0);
         break;
     case 5:
         args.a = *(u8 *)(p + 0x7f);

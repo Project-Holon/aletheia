@@ -51,7 +51,7 @@
  *   BSUBWAY_RECORD_LIST_InitPageCount  0x021BA350  thumb  ov069
  *   GFL_HEAP_Free  0x020307B0  arm
  *   STRBUF_Delete  0x02045808  arm
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  *   TCB_DeleteTask  0x02030EAC  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
@@ -137,11 +137,11 @@
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   WORDSET_SetSlotFromMsgE7  0x0201F048  thumb
- *   WORDSET_DeleteMsgdataF094  0x0201F094  thumb
+ *   WORDSET_SetSlotFromKeyedMessage  0x0201F094  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   STRBUF_SetStringN  0x02045994  arm
  *   PMSI_PARAM_ToString  0x0202435C  thumb
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   KEY_GetTrg 0x020362DC arm
  *   sTouchRects 0x021BA5FC data a4
@@ -217,7 +217,7 @@ extern u32 BSUBWAY_SAVEDATA_CountHistoryEntries(struct BsubwayWifiRecordList *re
 extern void BSUBWAY_RECORD_LIST_InitPageCount(BsubwayRecordListWork *work);
 extern u32 GFL_HEAP_Free(void *p);
 extern void STRBUF_Delete(struct Strbuf *vec);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern void TCB_DeleteTask(void *task);
 extern void ARC_TOOL_DeleteHandle(void *p);
@@ -363,11 +363,11 @@ extern const u8 *CURSOR_MOVE_GetEntry(struct CursorMove *cursor, unsigned int in
 extern void CLACT_AddActorSurfacePos(struct Actor *actor, const struct Vec2 *delta, u32 which);
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 dispType, u32 codeType);
 extern void WORDSET_SetSlotFromMsgE7(struct WordSet *wordSet, u32 index, u32 trainerClass);
-extern void WORDSET_DeleteMsgdataF094(struct WordSet *wordSet, u32 index, u32 trainerClass, u32 trainerIndex);
+extern void WORDSET_SetSlotFromKeyedMessage(struct WordSet *wordSet, u32 index, u32 trainerClass, u32 trainerIndex);
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, void *dst, void *src);
 extern void STRBUF_SetStringN(struct Strbuf *dst, const u16 *src, u32 len);
 extern struct Strbuf *PMSI_PARAM_ToString(const BsubwayPmsData *pms, unsigned int heap);
-extern void BG_SYS_SetFlagField06(u32);
+extern void BG_SYS_MarkTileDirty(u32);
 extern int TOUCHPANEL_HitTrg(const void *rects);
 extern unsigned KEY_GetTrg(void);
 extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 animIndex);
@@ -499,7 +499,7 @@ void BSUBWAY_RECORD_LIST_FreeWork(BsubwayRecordListWork *work)
         STRBUF_Delete(work->messages[i]);
     }
     STRBUF_Delete(work->textBuf);
-    WORDSET_DeleteStrbufED04(work->wordSet);
+    WORDSET_Delete(work->wordSet);
     MSGDATA_Delete(work->msgBank);
     TCB_DeleteTask(work->vblankTask);
     ARC_TOOL_DeleteHandle(work->arcHandle);
@@ -848,7 +848,7 @@ void BSUBWAY_RECORD_LIST_ShowRecordDetails(BsubwayRecordListWork *work, BsubwayW
     WORDSET_SetSlotNumber(work->wordSet, 0, work->args->wordNumber0, 2, 0, 1);
     WORDSET_SetSlotNumber(work->wordSet, 1, work->args->wordNumber1, 3, 0, 1);
     WORDSET_SetSlotFromMsgE7(work->wordSet, 2, trainerClass);
-    WORDSET_DeleteMsgdataF094(work->wordSet, 3, trainerClass, trainerIndex);
+    WORDSET_SetSlotFromKeyedMessage(work->wordSet, 3, trainerClass, trainerIndex);
     BMP_Clear(BMP_WIN_GetBmp(work->windows[BSUBWAY_RECORD_LIST_WIN_SUMMARY]), 0);
     BMP_Clear(BMP_WIN_GetBmp(work->windows[BSUBWAY_RECORD_LIST_WIN_TRAINER_LINE]), 0);
     BMP_Clear(BMP_WIN_GetBmp(work->windows[BSUBWAY_RECORD_LIST_WIN_NAME]), 0);
@@ -884,11 +884,11 @@ void BSUBWAY_RECORD_LIST_ShowRecordDetails(BsubwayRecordListWork *work, BsubwayW
         STRBUF_Delete(greetingStr);
     } else {
         win = work->windows[BSUBWAY_RECORD_LIST_WIN_NAME];
-        BMP_WIN_TransferChars(win); BMP_WIN_MakeScreen(win); BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
+        BMP_WIN_TransferChars(win); BMP_WIN_MakeScreen(win); BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(win));
         win = work->windows[BSUBWAY_RECORD_LIST_WIN_SCORE];
-        BMP_WIN_TransferChars(win); BMP_WIN_MakeScreen(win); BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
+        BMP_WIN_TransferChars(win); BMP_WIN_MakeScreen(win); BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(win));
         win = work->windows[BSUBWAY_RECORD_LIST_WIN_GREETING];
-        BMP_WIN_TransferChars(win); BMP_WIN_MakeScreen(win); BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
+        BMP_WIN_TransferChars(win); BMP_WIN_MakeScreen(win); BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(win));
     }
     STRBUF_Delete(nameStr);
 }

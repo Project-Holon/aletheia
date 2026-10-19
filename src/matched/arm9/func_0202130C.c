@@ -11,9 +11,9 @@
  * function: FILE_UTIL_GetId
  *
  * symbols:
- *   FILE_UTIL_Check1288  0x02021288  thumb
+ *   FILE_UTIL_IsMachineItem  0x02021288  thumb
  *
- * Maps an id in one of FILE_UTIL_Check1288's two accepted windows onto a byte-wide
+ * Maps an id in one of FILE_UTIL_IsMachineItem's two accepted windows onto a byte-wide
  * slot number, in three ranges with three different subtrahends: 0x26A.. off
  * 0x20E, 0x1A4..0x269 off 0x145, and the rest off 0x148.  Ids the window test
  * rejects answer 0xFF.
@@ -30,11 +30,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 FILE_UTIL_Check1288(u32 id);
+extern u32 FILE_UTIL_IsMachineItem(u32 id);
 
 u32 FILE_UTIL_GetId(u32 id)
 {
-    if (FILE_UTIL_Check1288(id) == 0) {
+    if (FILE_UTIL_IsMachineItem(id) == 0) {
         return 0xFF;
     }
     if (id >= 0x26A) {

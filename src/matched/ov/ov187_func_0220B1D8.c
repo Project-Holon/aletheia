@@ -10,7 +10,7 @@
  * symbols:
  *   GAME_DATA_GetBgmInfo 0x02012A30 thumb
  *   GFL_USE_PopBgm 0x02005E9C thumb
- *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_SetBgmPaused 0x02005DE4 thumb
  *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
  *   FIELD_SOUND_SYSTEM_FadeVolume 0x02028A58 thumb
  *   func_020307B0 0x020307B0 arm
@@ -28,7 +28,7 @@ struct BigObj;
 extern unsigned int GAME_DATA_GetBgmInfo(const struct BigObj *);
 extern int GFL_USE_PopBgm(void);
 struct SoundSys;
-extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_SetBgmPaused(void *p);
 extern void GFL_USE_FadeInBgmFull(u32);
 extern void FIELD_SOUND_SYSTEM_FadeVolume(struct SoundSys *sys, u8 level, u16 frames);
 extern u32 func_020307B0(void *p);
@@ -39,7 +39,7 @@ void BR_MAIN_DeleteReplayScene(u8 *a, u8 *b)
 {
     void *p = (void *)GAME_DATA_GetBgmInfo(((struct Obj24886 *)(*(u8 * *)&((struct Obj10802 *)b)->f17F0))->f4);
     GFL_USE_PopBgm();
-    GFL_USE_SetBgmPlayerParam(0);
+    GFL_USE_SetBgmPaused(0);
     GFL_USE_FadeInBgmFull(30);
     if (*(u32 *)*(u8 * *)&((struct Obj10802 *)b)->f17F0 == 0) FIELD_SOUND_SYSTEM_FadeVolume(p,64,0);
     ((struct Obj10802 *)b)->f17E4 = ((Flag *)(a+0xC1))->flag;

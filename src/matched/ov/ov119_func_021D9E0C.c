@@ -1,5 +1,5 @@
 /*
- * function: POKETRADE_PROC_CheckPartyBoxSelected
+ * function: POKETRADE_PROC_StepSendPartyBoxSelected
  * address: 0x021D9E0C
  * packet: pkt_ov119_021D9E0C
  * region: ov119
@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
 extern void POKETRADE_PROC_SetStep(void *,int);
 extern void POKETRADE_PROC_StepOpenMenu(void *);
-void POKETRADE_PROC_CheckPartyBoxSelected(char *p)
+void POKETRADE_PROC_StepSendPartyBoxSelected(char *p)
 {
     int v = 0;
     if (((struct Obj13890 *)p)->fF88 == ((struct Obj13890 *)p)->f630) v=1;

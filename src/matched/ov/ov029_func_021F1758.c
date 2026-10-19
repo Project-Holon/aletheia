@@ -25,7 +25,7 @@
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   C_GEAR_IsAnyIndicatorShown  0x021F2DA8  thumb  ov029
  *   C_GEAR_SetPaintModeIcon  0x021F1910  thumb  ov029
- *   BG_SYS_DeleteHalf  0x0203FB44  arm
+ *   BG_SYS_FreeTileRun  0x0203FB44  arm
  *   func_020090E8  0x020090E8  thumb
  *   C_GEAR_LoadSkin  0x021F1458  thumb  ov029
  *   C_GEAR_DrawAllCells  0x021F13FC  thumb  ov029
@@ -48,7 +48,7 @@ extern void BG_SYS_PushTile(u32 layer);
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 extern int C_GEAR_IsAnyIndicatorShown(u8 *p);
 extern void C_GEAR_SetPaintModeIcon(char *p, int on);
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 extern void func_020090E8(struct Sub020090B0Obj *obj, u8 value);
 extern u32 C_GEAR_LoadSkin(u8 *p, int a, int b, int c);
 extern void C_GEAR_DrawAllCells(void *p);
@@ -113,7 +113,7 @@ void C_GEAR_HandleButton(u8 *p, int key)
     case 5:
         GFL_USE_PlaySeDefaultVolume(0x628);
         v = ((struct Obj00042 *)p)->f14;
-        BG_SYS_DeleteHalf((int)6, (u16)v, (u16)(v >> 16));
+        BG_SYS_FreeTileRun((int)6, (u16)v, (u16)(v >> 16));
         p[0x458]++;
         p[0x458] = p[0x458] % 5;
         func_020090E8((struct Sub020090B0Obj *)(*(int *)&((struct Obj00042 *)p)->f20), p[0x458]);

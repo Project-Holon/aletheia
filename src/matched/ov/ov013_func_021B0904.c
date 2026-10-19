@@ -1,5 +1,5 @@
 /*
- * function: VCT_SESSION_ReadChannel
+ * function: VCT_MIXER_ReadChannel
  * address:  0x021B0904
  * packet:   pkt_ov013_021B0904
  * region:   ov013
@@ -76,7 +76,7 @@ extern void MIi_CpuCopyFast(const void *src, void *dst, u32 n);
 extern void VCT_POOL_FreeFrame(Pkt *p);
 extern int VCT_AUDIO_SetLastPacket(Slot *s, Pkt *p);
 
-int VCT_SESSION_ReadChannel(void *dst, u32 size, u32 idx, u32 *mask)
+int VCT_MIXER_ReadChannel(void *dst, u32 size, u32 idx, u32 *mask)
 {
     int n;
     Pkt *pkt;

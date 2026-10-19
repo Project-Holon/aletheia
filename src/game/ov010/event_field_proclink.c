@@ -1,7 +1,7 @@
 /*
  * file:     event_field_proclink.c
  * unit:     yes
- * function: EVENT_FIELD_PROCLINK_CreatePokeListParam, EVENT_FIELD_PROCLINK_ReturnPokeList, EVENT_FIELD_PROCLINK_CreateZukanParam, EVENT_FIELD_PROCLINK_ReturnZukan, EVENT_FIELD_PROCLINK_CreatePokeStatusParam, EVENT_FIELD_PROCLINK_ReturnPokeStatus, EVENT_FIELD_PROCLINK_IsSpecialZone, EVENT_FIELD_PROCLINK_CreateBagParam, EVENT_FIELD_PROCLINK_ReturnBag, EVENT_FIELD_PROCLINK_CreateTrainerCardView, EVENT_FIELD_PROCLINK_ReturnTrainerCardView, EVENT_FIELD_PROCLINK_CreateTownMapParam, EVENT_FIELD_PROCLINK_ReturnTownMapSelect, EVENT_FIELD_PROCLINK_CreateConfigParam, EVENT_FIELD_PROCLINK_ReturnConfig, EVENT_FIELD_PROCLINK_StartConfigEvent, EVENT_FIELD_PROCLINK_CreateTrainerCardParam, EVENT_FIELD_PROCLINK_ReturnTrainerCard, EVENT_FIELD_PROCLINK_CreateMailParam, EVENT_FIELD_PROCLINK_ReturnMail, EVENT_FIELD_PROCLINK_UnloadMailOverlay, EVENT_FIELD_PROCLINK_CreateEvolutionParam, EVENT_FIELD_PROCLINK_ReturnEvolution, EVENT_FIELD_PROCLINK_CreateReportParam, EVENT_FIELD_PROCLINK_ReturnReport, EVENT_FIELD_PROCLINK_CreateFreeEvent, EVENT_FIELD_PROCLINK_FreeEventMain, EVENT_FIELD_PROCLINK_FreeAnimWork, EVENT_FIELD_PROCLINK_AnimEventMain, EVENT_FIELD_PROCLINK_CreateAnimEvent, EVENT_FIELD_PROCLINK_ObjAnimEventMain, EVENT_FIELD_PROCLINK_CreateObjAnimEvent, EVENT_FIELD_PROCLINK_StartObjAnim, EVENT_FIELD_PROCLINK_InitAnimNode, EVENT_FIELD_PROCLINK_ClearAnimNode, EVENT_FIELD_PROCLINK_IsAnimNodeDone, EVENT_FIELD_PROCLINK_UpdateAnimNode, EVENT_FIELD_PROCLINK_HopEventMain, EVENT_FIELD_PROCLINK_CreateHopEvent, EVENT_FIELD_PROCLINK_IsHopDone, EVENT_FIELD_PROCLINK_IsAnimFlagSet, EVENT_FIELD_PROCLINK_CreateCommExitEvent, EVENT_FIELD_PROCLINK_CommExitEventMain, EVENT_FIELD_PROCLINK_SetCommProcParam, EVENT_FIELD_PROCLINK_StartCommProc, EVENT_FIELD_PROCLINK_StartSeasonCommProc, EVENT_FIELD_PROCLINK_CheckZoneFlag, EVENT_FIELD_PROCLINK_InitEventdataSystem, EVENT_FIELD_PROCLINK_GetEventdataEntry
+ * function: EVENT_FIELD_PROCLINK_CreatePokeListParam, EVENT_FIELD_PROCLINK_ReturnPokeList, EVENT_FIELD_PROCLINK_CreateZukanParam, EVENT_FIELD_PROCLINK_ReturnZukan, EVENT_FIELD_PROCLINK_CreatePokeStatusParam, EVENT_FIELD_PROCLINK_ReturnPokeStatus, EVENT_FIELD_PROCLINK_IsSpecialZone, EVENT_FIELD_PROCLINK_CreateBagParam, EVENT_FIELD_PROCLINK_ReturnBag, EVENT_FIELD_PROCLINK_CreateTrainerCardView, EVENT_FIELD_PROCLINK_ReturnTrainerCardView, EVENT_FIELD_PROCLINK_CreateTownMapParam, EVENT_FIELD_PROCLINK_ReturnTownMapSelect, EVENT_FIELD_PROCLINK_CreateConfigParam, EVENT_FIELD_PROCLINK_ReturnConfig, EVENT_FIELD_PROCLINK_StartConfigEvent, EVENT_FIELD_PROCLINK_CreateTrainerCardParam, EVENT_FIELD_PROCLINK_ReturnTrainerCard, EVENT_FIELD_PROCLINK_CreateMailParam, EVENT_FIELD_PROCLINK_ReturnMail, EVENT_FIELD_PROCLINK_UnloadMailOverlay, EVENT_FIELD_PROCLINK_CreateEvolutionParam, EVENT_FIELD_PROCLINK_ReturnEvolution, EVENT_FIELD_PROCLINK_CreateReportParam, EVENT_FIELD_PROCLINK_ReturnReport, EVENT_FIELD_PROCLINK_CreateFreeEvent, EVENT_FIELD_PROCLINK_FreeEventMain, EVENT_FIELD_PROCLINK_FreeAnimWork, EVENT_FIELD_PROCLINK_AnimEventMain, EVENT_FIELD_PROCLINK_CreateAnimEvent, EVENT_FIELD_PROCLINK_ObjAnimEventMain, EVENT_FIELD_PROCLINK_CreateObjAnimEvent, EVENT_FIELD_PROCLINK_StartObjAnim, EVENT_FIELD_PROCLINK_InitAnimNode, EVENT_FIELD_PROCLINK_ClearAnimNode, EVENT_FIELD_PROCLINK_IsAnimNodeDone, EVENT_FIELD_PROCLINK_UpdateAnimNode, EVENT_FIELD_PROCLINK_HopEventMain, EVENT_FIELD_PROCLINK_CreateHopEvent, EVENT_FIELD_PROCLINK_StartHopAnim, EVENT_FIELD_PROCLINK_IsHopAnimDone, EVENT_FIELD_PROCLINK_CreateCommExitEvent, EVENT_FIELD_PROCLINK_CommExitEventMain, EVENT_FIELD_PROCLINK_SetCommProcParam, EVENT_FIELD_PROCLINK_StartCommProc, EVENT_FIELD_PROCLINK_StartSeasonCommProc, EVENT_FIELD_PROCLINK_ApplyZoneChangeEnable, EVENT_FIELD_PROCLINK_InitEventdataSystem, EVENT_FIELD_PROCLINK_GetEventdataEntry
  * address:  0x02160A94
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -46,7 +46,7 @@
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   GAME_DATA_GetSeason  0x02012984  thumb
  *   GF_OVERLAY_Unload  0x02034A5C  arm
- *   MAILTOOL_HasMail  0x021C3E00  thumb  ov136
+ *   MAILTOOL_IsMailSent  0x021C3E00  thumb  ov136
  *   ov136_id       0x00000088  data
  *   d_02172978     0x02172978  data  a1
  *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
@@ -60,7 +60,7 @@
  *   ZONEDATA_IsZone1A6 0x02013CC8 thumb
  *   BAG_PARAM_Create  0x0202E474  thumb
  *   MYITEM_SAVEDATA_SetLastFieldPocket  0x02008298  thumb
- *   FILE_UTIL_Check136C  0x0202136C  thumb
+ *   FILE_UTIL_IsMailItem  0x0202136C  thumb
  *   TRCARD_SYS_CreateViewWork  0x0216F7BC  thumb  ov010
  *   GAME_DATA_GetEscapeLocation  0x020128B8  thumb
  *   FILE_UTIL_GetItemSlot  0x0202138C  thumb
@@ -103,7 +103,7 @@
  *   gDemo3dProcData     0x021BFB3C  data  ov203
  *   ov203_id       0x000000CB  data
  *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
- *   GF_STANDARD_SetField00 0x0203F4CC arm
+ *   GF_STANDARD_GetCachedTime 0x0203F4CC arm
  *   COMM_PLAYER_SUPPORT_GetSeasonFromClock 0x0202E888 thumb
  *   FIELD_CLOCK_GetHour 0x02169100 thumb ov010
  *   FIELD_CLOCK_GetMinute 0x02169110 thumb ov010
@@ -367,7 +367,7 @@ extern void *MAIL_GetBox(GameData *gameData);
 extern void *ZUKAN_SAVE_GetFromGameData(GameData *gameData);
 extern u8 GAME_DATA_GetSeason(const GameData *gameData);
 extern void GF_OVERLAY_Unload(int handle);
-extern u32 MAILTOOL_HasMail(void *mailParam);
+extern u32 MAILTOOL_IsMailSent(void *mailParam);
 extern u32 GAME_DATA_GetBgmInfo(const GameData *gameData);
 extern u32 GAMESYSTEM_GetIssSystem(const GameSystem *gameSystem);
 extern void FIELD_SOUND_SYSTEM_LowerVolume(u8 *a, u32 b);
@@ -379,7 +379,7 @@ extern u16 GAME_DATA_GetPlayerZoneId(const void *playerWork);
 extern u32 ZONEDATA_IsZone1A6(u32);
 extern BagParam *BAG_PARAM_Create(const GameData *gameData, u8 *itemCheck, int mode, int heapId);
 extern void MYITEM_SAVEDATA_SetLastFieldPocket(void *myItem, u16 pocket);
-extern u32 FILE_UTIL_Check136C(u16 v);
+extern u32 FILE_UTIL_IsMailItem(u16 v);
 extern TrainerCardViewWork *TRCARD_SYS_CreateViewWork(GameData *gameData, int mode, int canFly);
 extern struct EscapeLocation *GAME_DATA_GetEscapeLocation(const GameData *gameData);
 extern u8 FILE_UTIL_GetItemSlot(u16 v);
@@ -415,7 +415,7 @@ extern void *FLDMMDL_FreeAcmd(void *object);
 extern void GAME_BEACON_SEARCH_SetSimpleEventB(void);
 extern u8 GAMESYSTEM_IsCommBlocked(const GameSystem *gameSystem);
 extern u8 MYSTATUS_GetOutfitVariant(const u8 *myStatus);
-extern void GF_STANDARD_SetField00(RtcTime *time);
+extern void GF_STANDARD_GetCachedTime(RtcTime *time);
 extern u8 COMM_PLAYER_SUPPORT_GetSeasonFromClock(void);
 extern int FIELD_CLOCK_GetHour(GameData *gameData);
 extern int FIELD_CLOCK_GetMinute(GameData *gameData);
@@ -463,14 +463,14 @@ ObjAnimWork *EVENT_FIELD_PROCLINK_IsAnimNodeDone(ObjAnimWork *work, int handle);
 int EVENT_FIELD_PROCLINK_UpdateAnimNode(ObjAnimWork *work);
 int EVENT_FIELD_PROCLINK_HopEventMain(GameEvent *event, u32 *seq, HopWork *work);
 GameEvent *EVENT_FIELD_PROCLINK_CreateHopEvent(GameSystem *gameSystem, void *object, VecFx32 *start, VecFx32 *target);
-int EVENT_FIELD_PROCLINK_IsHopDone(void *fieldObject);
-int EVENT_FIELD_PROCLINK_IsAnimFlagSet(int handle);
+int EVENT_FIELD_PROCLINK_StartHopAnim(void *fieldObject);
+int EVENT_FIELD_PROCLINK_IsHopAnimDone(int handle);
 GameEvent *EVENT_FIELD_PROCLINK_CreateCommExitEvent(GameSystem *gameSystem, GameEvent *parent, int kind, int sub, int useRealTime);
 int EVENT_FIELD_PROCLINK_CommExitEventMain(GameEvent *event, int *state, CommProcWork *work);
 void EVENT_FIELD_PROCLINK_SetCommProcParam(CommProcParam *param, GameSystem *gameSystem, int kind, u8 sub, u32 flags, u8 hour, u8 minute, u8 season);
 void EVENT_FIELD_PROCLINK_StartCommProc(CommProcParam *param, GameSystem *gameSystem, u8 kind, u8 sub);
 void EVENT_FIELD_PROCLINK_StartSeasonCommProc(CommProcParam *param, GameSystem *gameSystem, u8 kind, u8 sub);
-int EVENT_FIELD_PROCLINK_CheckZoneFlag(ZoneFlagSetting *setting);
+int EVENT_FIELD_PROCLINK_ApplyZoneChangeEnable(ZoneFlagSetting *setting);
 void EVENT_FIELD_PROCLINK_InitEventdataSystem(ProcLinkReturnList *list);
 ProcLinkEntry *EVENT_FIELD_PROCLINK_GetEventdataEntry(ProcLinkReturnList *list, int id, unsigned mode);
 
@@ -580,7 +580,7 @@ PokeListParam *EVENT_FIELD_PROCLINK_CreatePokeListParam(ProcLinkWork *work, int 
         int mailResult;
 
         GF_OVERLAY_Load((u32)ov136_id);
-        mailResult = MAILTOOL_HasMail(source);
+        mailResult = MAILTOOL_IsMailSent(source);
         GF_OVERLAY_Unload((u32)ov136_id);
         if (work->purpose == 0) {
             list->listMode = 0xB;
@@ -933,7 +933,7 @@ int EVENT_FIELD_PROCLINK_ReturnBag(ProcLinkWork *work, PokeListParam *listResult
         work->context->command = 5;
         return 3;
     case 2:
-        if (FILE_UTIL_Check136C(listResult->listArg) == 1)
+        if (FILE_UTIL_IsMailItem(listResult->listArg) == 1)
             work->purpose = 0;
         work->nextState = 0;
         return 4;
@@ -1162,7 +1162,7 @@ int EVENT_FIELD_PROCLINK_ReturnMail(ProcLinkWork *work, void *mailParam)
     gameData = GAMESYSTEM_GetGameData(work->context->gameSystem);
     if (work->childResult == 0) {
         if (work->purpose == 0 || work->purpose == 2) {
-            if (MAILTOOL_HasMail(mailParam) == 1) {
+            if (MAILTOOL_IsMailSent(mailParam) == 1) {
                 MAILTOOL_StoreMailToPartyMon(mailParam, POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), work->resultSlot));
                 nextState = 0;
             } else if (work->purpose == 0) {
@@ -1179,7 +1179,7 @@ int EVENT_FIELD_PROCLINK_ReturnMail(ProcLinkWork *work, void *mailParam)
     }
     if (work->childResult == 2) {
         if (work->purpose == 2) {
-            if (MAILTOOL_HasMail(mailParam) == 1) {
+            if (MAILTOOL_IsMailSent(mailParam) == 1) {
                 MAILTOOL_StoreMailToPartyMon(mailParam, POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), work->resultSlot));
                 work->nextState = 0;
             } else {
@@ -1606,7 +1606,7 @@ GameEvent *EVENT_FIELD_PROCLINK_CreateHopEvent(GameSystem *gameSystem, void *obj
 }
 
 
-int EVENT_FIELD_PROCLINK_IsHopDone(void *fieldObject)
+int EVENT_FIELD_PROCLINK_StartHopAnim(void *fieldObject)
 {
     const char *animName;
     void *object;
@@ -1631,7 +1631,7 @@ int EVENT_FIELD_PROCLINK_IsHopDone(void *fieldObject)
 }
 
 
-int EVENT_FIELD_PROCLINK_IsAnimFlagSet(int handle)
+int EVENT_FIELD_PROCLINK_IsHopAnimDone(int handle)
 {
     if (FLDMMDL_ACMD_ListCheckEnd(handle) == 1) {
         FLDMMDL_ACMD_ListDelete(handle);
@@ -1712,7 +1712,7 @@ void EVENT_FIELD_PROCLINK_StartCommProc(CommProcParam *param, GameSystem *gameSy
     RtcTime time;
     u8 season;
 
-    GF_STANDARD_SetField00(&time);
+    GF_STANDARD_GetCachedTime(&time);
     season = COMM_PLAYER_SUPPORT_GetSeasonFromClock();
     EVENT_FIELD_PROCLINK_SetCommProcParam(param, gameSystem, kind, sub, 0, time.hour, time.minute, season);
 }
@@ -1734,7 +1734,7 @@ void EVENT_FIELD_PROCLINK_StartSeasonCommProc(CommProcParam *param, GameSystem *
 }
 
 
-int EVENT_FIELD_PROCLINK_CheckZoneFlag(ZoneFlagSetting *setting)
+int EVENT_FIELD_PROCLINK_ApplyZoneChangeEnable(ZoneFlagSetting *setting)
 {
     int result;
 

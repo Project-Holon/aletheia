@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PROC_GetDaycareSlotExp
+ * function: SCRCMD_PROC_GetDaycareSlotLevel
  * address: 0x0215D0A4
  * packet: pkt_ov010_0215D0A4
  * region: ov010
@@ -24,7 +24,7 @@ extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern void *FIELDMAP_GetSodateya(unsigned char *);
 extern int SODATEYA_GetCurrentLevel(unsigned int *, unsigned int);
 
-int SCRCMD_PROC_GetDaycareSlotExp(void *a, void *b)
+int SCRCMD_PROC_GetDaycareSlotLevel(void *a, void *b)
 {
     u16 *p = SCRIPT_WORK_ReadWorkPointer(a, b);
     int v = SCRIPT_WORK_ReadWorkValue(a, b);

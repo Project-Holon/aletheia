@@ -1,7 +1,7 @@
 /*
  * file:     mictest.c
  * unit:     yes
- * function: MICTEST_Create, MICTEST_Exit, MICTEST_Main, MICTEST_InitStepMachine, MICTEST_RunStepMachine, MICTEST_SetStep, MICTEST_GetOwner, MICTEST_IsStepDone, MICTEST_MarkStepDone, MICTEST_StepWipeIn, MICTEST_StepRecord, MICTEST_StepWaitAnim, MICTEST_StepWipeOut, MICTEST_StepFinish, MICTEST_ResetDisplay, MICTEST_ClearDisplay, MICTEST_SetupVramBanks, MICTEST_VBlank, MICTEST_InitActorSystem, MICTEST_ExitActorSystem, MICTEST_UpdateActors, MICTEST_CreateActors, MICTEST_DeleteUnit, MICTEST_ActorVBlank, MICTEST_InitBg, MICTEST_ExitBg, MICTEST_BgNoop, MICTEST_InitBgTiles, MICTEST_UpdateBg, MICTEST_CreateWindows, MICTEST_DeleteWindows, MICTEST_InitMic, MICTEST_ExitMic, MICTEST_UpdateMic, MICTEST_ArmMic, MICTEST_DisarmMic, MICTEST_GetMicLevel, MICTEST_OnMicEvent, MICTEST_LevelToAnim, MICTEST_HasFreeSlot, MICTEST_SpawnSprite, MICTEST_InitSpriteTask, MICTEST_UpdateSpriteTask, MICTEST_DeleteSpriteTasks, MICTEST_TouchHit, MICTEST_CheckTouchOrKey
+ * function: MICTEST_Create, MICTEST_Exit, MICTEST_Main, MICTEST_InitStepMachine, MICTEST_RunStepMachine, MICTEST_SetStep, MICTEST_GetOwner, MICTEST_IsStepDone, MICTEST_MarkStepDone, MICTEST_StepWipeIn, MICTEST_StepRecord, MICTEST_StepWaitAnim, MICTEST_StepWipeOut, MICTEST_StepFinish, MICTEST_ResetDisplay, MICTEST_ClearDisplay, MICTEST_SetupVramBanks, MICTEST_VBlank, MICTEST_InitActorSystem, MICTEST_ExitActorSystem, MICTEST_UpdateActors, MICTEST_CreateActors, MICTEST_DeleteUnit, MICTEST_ActorVBlank, MICTEST_InitBg, MICTEST_ExitBg, MICTEST_BgNoop, MICTEST_InitBgTiles, MICTEST_UpdateBg, MICTEST_CreateWindows, MICTEST_DeleteWindows, MICTEST_InitMic, MICTEST_ExitMic, MICTEST_UpdateMic, MICTEST_ArmMic, MICTEST_DisarmMic, MICTEST_GetMicLevel, MICTEST_OnMicEvent, MICTEST_LevelToAnim, MICTEST_AreAllSpritesIdle, MICTEST_SpawnSprite, MICTEST_InitSpriteTask, MICTEST_UpdateSpriteTask, MICTEST_DeleteSpriteTasks, MICTEST_TouchHit, MICTEST_CheckTouchOrKey
  * address:  0x02183B60
  * region:   ov168
  * compiler: dsi/1.1p1
@@ -113,8 +113,8 @@
  *   d_02184A40 0x02184A40 data a4
  *   GFL_USE_GetRandom 0x020056EC thumb
  *   TCB_AddTask  0x02030DA8  arm
- *   TCBL_GetTaskUserData  0x02030EE8  arm
- *   GF_STANDARD_Get_F5FC  0x0203F5FC  arm
+ *   TCBL_IsDeletePending  0x02030EE8  arm
+ *   GF_STANDARD_SinFromDegrees  0x0203F5FC  arm
  *   CLACT_SetActorPosAxis  0x0204B550  arm
  *   _ll_mul        0x0209C054  arm
  *   _fflt          0x0209BDBC  arm
@@ -352,8 +352,8 @@ extern void MIC_StartLimitedSampling(int *);
 extern int MIC_StopLimitedSampling(void);
 extern u32 GFL_USE_GetRandom(u32 range);
 extern u32 TCB_AddTask(int owner, void (*fn)(), int arg, int n);
-extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
-extern int GF_STANDARD_Get_F5FC(u32 x);
+extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
+extern int GF_STANDARD_SinFromDegrees(u32 x);
 extern void CLACT_SetActorPosAxis(struct Actor *actor, signed short value, u32 axis);
 extern void VEC_Add(void *, void *, void *);
 extern int TOUCHPANEL_HitTrg(const void *p);
@@ -398,7 +398,7 @@ void MICTEST_DisarmMic(MictestMic *p);
 int MICTEST_GetMicLevel(MictestMic *p);
 void MICTEST_OnMicEvent(int event, MictestWork *p);
 int MICTEST_LevelToAnim(u8 level);
-int MICTEST_HasFreeSlot(MictestWork *p);
+int MICTEST_AreAllSpritesIdle(MictestWork *p);
 int MICTEST_SpawnSprite(MictestWork *p, int unused, s16 x, s16 y, void *owner);
 void MICTEST_InitSpriteTask(int owner, void *handle, MictestSprite *entry, s16 x, s16 y, int speed, u32 angle, u32 radius, u32 wait);
 void MICTEST_UpdateSpriteTask(void *task, MictestMotion *p);
@@ -873,7 +873,7 @@ void MICTEST_OnMicEvent(int event, MictestWork *p)
                 CLACT_SetActorAnimSeq(p->actor[2],1);
                 q->levelChanged=0;
             }
-            if(MICTEST_HasFreeSlot(p)){
+            if(MICTEST_AreAllSpritesIdle(p)){
                 MICTEST_SpawnSprite(p,p->heapId,128,64,p->taskCtx);
             }else{
                 --p->messageTimer;
@@ -895,7 +895,7 @@ void MICTEST_OnMicEvent(int event, MictestWork *p)
 
 int MICTEST_LevelToAnim(u8 level) { if(level<=150)return 0;if(level>=151 && level<=162)return 1;if(level>=163 && level<=176)return 2;if(level>=177 && level<=197)return 3;if(level>=198)level=4;return level; }
 
-int MICTEST_HasFreeSlot(MictestWork *p) { int i;for(i=0;i<3;i++)if(p->sprite[i].task)return 0;return 1; }
+int MICTEST_AreAllSpritesIdle(MictestWork *p) { int i;for(i=0;i<3;i++)if(p->sprite[i].task)return 0;return 1; }
 
 int MICTEST_SpawnSprite(MictestWork *p, int unused, s16 x, s16 y, void *owner)
 {
@@ -936,15 +936,15 @@ void MICTEST_InitSpriteTask(int owner, void *handle, MictestSprite *entry, s16 x
 
     t = TCB_AddTask(owner, MICTEST_UpdateSpriteTask, (int)entry, 0);
     entry->task = (void *)t;
-    o = (MictestMotion *)TCBL_GetTaskUserData((struct S02030EE8 *)t);
+    o = (MictestMotion *)TCBL_IsDeletePending((struct S02030EE8 *)t);
     o->actor = handle;
     o->wait = wait;
     o->x = FX_F32_TO_FX32(x);
     o->y = FX_F32_TO_FX32(y);
     o->z = 0;
-    c = GF_STANDARD_Get_F5FC((u16)(angle + 0x5a));
+    c = GF_STANDARD_SinFromDegrees((u16)(angle + 0x5a));
     o->vx = FX_MUL(speed, c);
-    c = GF_STANDARD_Get_F5FC((u16)angle);
+    c = GF_STANDARD_SinFromDegrees((u16)angle);
     o->vy = -FX_MUL(speed, c);
     o->vz = 0;
     o->angle = 0;
@@ -976,7 +976,7 @@ void MICTEST_UpdateSpriteTask(void *task, MictestMotion *p)
     p->angle += p->step;
     while (p->angle > 0x168000)
         p->angle -= 0x168000;
-    angle = GF_STANDARD_Get_F5FC((u16)(p->angle >> 12));
+    angle = GF_STANDARD_SinFromDegrees((u16)(p->angle >> 12));
     x += (s16)((p->radius * angle) >> 12);
     CLACT_SetActorPosAxis(p->actor, x, 0);
     CLACT_SetActorPosAxis(p->actor, y, 1);

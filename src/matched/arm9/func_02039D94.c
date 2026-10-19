@@ -21,7 +21,7 @@
  *   GFL_NET_HANDLE_SendNegotiation  0x02039A5C  arm
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   GFL_NET_HANDLE_CheckTimingSyncAll  0x02039CD8  arm
+ *   GFL_NET_HANDLE_SendTimingSyncAll  0x02039CD8  arm
  *   GFL_NET_HANDLE_IsBitSet  0x0203A2F0  arm
  *   GFL_NET_HANDLE_SetBitMask  0x0203A28C  arm
  *   GFL_NET_IsParentAid  0x0203D378  arm
@@ -66,7 +66,7 @@ extern void GFL_NET_HANDLE_SendNegotiation(void);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern int GFL_NET_HANDLE_CheckTimingSyncAll(struct Obj *p);
+extern int GFL_NET_HANDLE_SendTimingSyncAll(struct Obj *p);
 extern u32 GFL_NET_HANDLE_IsBitSet(u32 a0, u32 a1);
 extern u16 GFL_NET_HANDLE_SetBitMask(u16 mask, u32 idx, u32 set);
 extern u32 GFL_NET_IsParentAid(void);
@@ -133,7 +133,7 @@ void GFL_NET_HANDLE_Main(void)
                     continue;
                 if (GFL_NET_HANDLE_IsBitSet(((struct Obj04750 *)e)->f40, i) != 0)
                     continue;
-                if (GFL_NET_HANDLE_CheckTimingSyncAll((struct Obj *)e) != 0)
+                if (GFL_NET_HANDLE_SendTimingSyncAll((struct Obj *)e) != 0)
                     ((struct Obj04750 *)e)->f40 =
                         GFL_NET_HANDLE_SetBitMask(((struct Obj04750 *)e)->f40, i, 1);
             }

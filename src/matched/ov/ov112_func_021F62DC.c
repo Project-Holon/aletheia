@@ -1,5 +1,5 @@
 /*
- * function: MUSICAL_MCSS_NoOp8
+ * function: MUSICAL_MCSS_HideMCAnim
  * address: 0x021F62DC
  * packet: pkt_ov112_021F62DC
  * region: ov112
@@ -12,4 +12,4 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void MUSICAL_MCSS_NoOp8(char *p) {((struct Obj22548 *)p)->fEC|=4u;}
+void MUSICAL_MCSS_HideMCAnim(char *p) {((struct Obj22548 *)p)->fEC|=4u;}

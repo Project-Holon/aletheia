@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PROC_FLD_StoreByteValue
+ * function: SCRCMD_PROC_FLD_StoreBattleKindFlag
  * address:  0x021B50D0
  * packet:   pkt_ov021_021B50D0
  * region:   ov021
@@ -28,7 +28,7 @@ extern u32 GAME_DATA_GetFieldMode(const struct BigObj *p);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern u8 EVENT_BATTLE_GetKindFlag(int i);
 
-int SCRCMD_PROC_FLD_StoreByteValue(u32 a, u32 b)
+int SCRCMD_PROC_FLD_StoreBattleKindFlag(u32 a, u32 b)
 {
     u32 x = GAME_DATA_GetFieldMode(SCRCMD_WORK_GetGameData((void *)b));
     u16 *o = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);

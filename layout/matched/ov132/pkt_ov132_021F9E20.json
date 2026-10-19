@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "STA_ACTING_SetField10",
+   "name": "STA_ACTING_SetCameraHoldScore",
    "address": "0x021F9E3C",
    "kind": "game",
    "region": "ov132",

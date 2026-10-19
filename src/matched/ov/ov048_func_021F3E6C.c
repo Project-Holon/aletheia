@@ -15,7 +15,7 @@
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   WORDSET_SetSlotMonth  0x0201F230  thumb
  *   GIMMICK_OBJ_ELBOARD_AddMessage  0x021F3D38  thumb  ov048
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   gElboardLayout     0x021F50C0  data  a4
  */
 
@@ -35,7 +35,7 @@ extern int RTC_GetDate(struct RTCDate *date);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_SetSlotMonth(struct WordSet *p, u32 i, u32 v);
 extern void GIMMICK_OBJ_ELBOARD_AddMessage(int *p, int a, int b, int *c);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 
 void GIMMICK_OBJ_ELBOARD_AddDateMessage(int *p)
 {
@@ -55,5 +55,5 @@ void GIMMICK_OBJ_ELBOARD_AddDateMessage(int *p)
     L.r.f14 = *(u32 *)(*(u32 *)((u32)p + 0x1c) + 0x18);
     L.r.f18 = (u32)w;
     GIMMICK_OBJ_ELBOARD_AddMessage(p, (int)(&L.r), 1, 0);
-    WORDSET_DeleteStrbufED04(w);
+    WORDSET_Delete(w);
 }

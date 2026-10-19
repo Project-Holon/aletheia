@@ -1,7 +1,7 @@
 /*
  * file:     btlv_effvm.c
  * unit:     yes
- * function: BTLV_EFFVM_Create, BTLV_EFFVM_Main, BTLV_EFFVM_Destroy, BTLV_EFFVM_StartScript, BTLV_EFFVM_StopScript, BTLV_EFFVM_ClearBlockedFlag, BTLV_EFFVM_GetFallbackScriptFlag, BTLV_EFFVM_InitParams, BTLV_EFFVM_StartSePlayTask, BTLV_EFFVM_StartSeVolumeTask, BTLV_EFFVM_StopLiveSounds, BTLV_EFFVM_ClearLastEffect, BTLV_EFFVM_CmdSetupCamera, BTLV_EFFVM_CmdMoveCameraTo, BTLV_EFFVM_CmdRotateCameraOrbit, BTLV_EFFVM_CmdMoveCameraEased, BTLV_EFFVM_CmdSetBillboardMode, BTLV_EFFVM_CmdSaveCameraPosition, BTLV_EFFVM_CmdLoadParticleResource, BTLV_EFFVM_CmdStartParticleEffect, BTLV_EFFVM_CmdStartParticleEffectFixedPos, BTLV_EFFVM_CmdStartParticleEffectTargeted, BTLV_EFFVM_CmdStartParticleEffectForEachInstance, BTLV_EFFVM_CmdDeleteParticleEmitter, BTLV_EFFVM_CmdStartParticleEffectOffset, BTLV_EFFVM_CmdStartParticleEffectConstOffset, BTLV_EFFVM_CmdStartParticleEffectTargetedOffset, BTLV_EFFVM_CmdStartParticleEffectTargetedConstOffset, BTLV_EFFVM_ParticleInitCallbackSource, BTLV_EFFVM_ParticleInitCallbackTarget, BTLV_EFFVM_CmdStartPokePositionTween, BTLV_EFFVM_CmdStartPokeShake, BTLV_EFFVM_CmdStartPokeBounce, BTLV_EFFVM_CmdStartPokeShadowScaleTween, BTLV_EFFVM_CmdStartPokeRotateTween, BTLV_EFFVM_CmdStartPokeAlphaTween, BTLV_EFFVM_CmdStartPokeMosaicTween, BTLV_EFFVM_CmdStartPokeBlink, BTLV_EFFVM_CmdSetPokeAnimStop, BTLV_EFFVM_CmdSetPokePaletteFade, BTLV_EFFVM_CmdSetPokeVanish, BTLV_EFFVM_CmdSetPokeShadowVanish, BTLV_EFFVM_CmdStartPokeShadowScaleTweenSecondary, BTLV_EFFVM_CmdDeletePokeSprites, BTLV_EFFVM_CmdAddPokeSprite, BTLV_EFFVM_CmdSetPokePosition, BTLV_EFFVM_CmdSetPokeAnimIndex, BTLV_EFFVM_CmdReleasePokeSprite, BTLV_EFFVM_CmdLoadBgPalette, BTLV_EFFVM_CmdStartBgScroll, BTLV_EFFVM_CmdNop4, BTLV_EFFVM_CmdNop5, BTLV_EFFVM_CmdSetBgLayerEnable, BTLV_EFFVM_CmdSetBlendRegister, BTLV_EFFVM_CmdSetStageFieldTint, BTLV_EFFVM_CmdSetStageLayerEnable, BTLV_EFFVM_CmdStartFadeTask, BTLV_EFFVM_CmdLoadClactAtPoke, BTLV_EFFVM_CmdStartClactMoveShort, BTLV_EFFVM_CmdStartClactMoveDefault, BTLV_EFFVM_CmdSetClactAnim, BTLV_EFFVM_CmdFadeClactPalette, BTLV_EFFVM_CmdReleaseClact, BTLV_EFFVM_CmdSetGaugeVisibility, BTLV_EFFVM_CmdPlaySe, BTLV_EFFVM_CmdStopSe, BTLV_EFFVM_CmdStartSeVolumeTween, BTLV_EFFVM_CmdStartSeVolumeTask, BTLV_EFFVM_CmdWaitFrames, BTLV_EFFVM_CmdWaitParticles, BTLV_EFFVM_CmdSetResult, BTLV_EFFVM_CmdJumpIf, BTLV_EFFVM_CmdJumpIfNot, BTLV_EFFVM_CompareAndJump, BTLV_EFFVM_CmdJumpIfPokeLoaded, BTLV_EFFVM_CmdSetScriptVar, BTLV_EFFVM_CmdEvalCondition, BTLV_EFFVM_CmdSetParam, BTLV_EFFVM_CmdSetPokeCellFlag, BTLV_EFFVM_CmdCopyPokeSpriteState, BTLV_EFFVM_CmdStartPokeCry, BTLV_EFFVM_CmdSetTypeSource, BTLV_EFFVM_CmdLoadClactFromPoke, BTLV_EFFVM_CmdCallScript, BTLV_EFFVM_CmdReturnScript, BTLV_EFFVM_CmdJumpScript, BTLV_EFFVM_CmdWaitForTask, BTLV_EFFVM_CmdJumpToArchiveScript, BTLV_EFFVM_CmdStartWaitTask, BTLV_EFFVM_CmdSetPokeSpriteAnimMode, BTLV_EFFVM_ReleaseScriptResources, BTLV_EFFVM_IsAllIdle, BTLV_EFFVM_WaitFramesCallback, BTLV_EFFVM_WaitTaskCallback, BTLV_EFFVM_WaitParticleCallback, BTLV_EFFVM_ResolveBattlerList, BTLV_EFFVM_ResolveBattlerListExpanded, BTLV_EFFVM_ResolveSlotKey, BTLV_EFFVM_ResolveSide, BTLV_EFFVM_ResolveSideFromVm, BTLV_EFFVM_ResolveAnchorSlot, BTLV_EFFVM_AllocEmitterSlot, BTLV_EFFVM_SetEmitterHandle, BTLV_EFFVM_FindEmitterSlot, BTLV_EFFVM_GetEmitterHandle, BTLV_EFFVM_ParticleStartCallback, BTLV_EFFVM_ParticleMotionStep, BTLV_EFFVM_EmitterInitCallback, BTLV_EFFVM_EmitterMoveCallbackB, BTLV_EFFVM_DeleteEmitter, BTLV_EFFVM_RefreshMcssOrtho, BTLV_EFFVM_PlaySeWithParams, BTLV_EFFVM_EvalCondition, BTLV_EFFVM_StartParticleEffectInternal, BTLV_EFFVM_SetupEmitterCallbacks, BTLV_EFFVM_TransformVecByMtx44, BTLV_EFFVM_TransformVecByMtx43, BTLV_EFFVM_ResolveParticleKey, BTLV_EFFVM_StartSeVolumeTweenTask, BTLV_EFFVM_FindFreeSeSlot, BTLV_EFFVM_ResetPokePositionIfLoaded, BTLV_EFFVM_SetShadowVanishIfLoaded, BTLV_EFFVM_SePlayTaskMain, BTLV_EFFVM_SePlayTaskEnd, BTLV_EFFVM_SeVolumeTweenTaskMain, BTLV_EFFVM_SeVolumeTweenTaskEnd, BTLV_EFFVM_SeModulationTaskMain, BTLV_EFFVM_SeModulationTaskEnd, BTLV_EFFVM_DelayTaskMain, BTLV_EFFVM_BlendRegisterTaskMain, BTLV_EFFVM_BlendRegisterTaskEnd, BTLV_EFFVM_WaitVoiceTaskMain, BTLV_EFFVM_MultiPokeTaskMain, BTLV_EFFVM_ParticleLoadTaskMain, BTLV_EFFVM_SpriteCleanupTaskMain, BTLV_EFFVM_IsMultiSideResourceId
+ * function: BTLV_EFFVM_Create, BTLV_EFFVM_Main, BTLV_EFFVM_Destroy, BTLV_EFFVM_StartScript, BTLV_EFFVM_StopScript, BTLV_EFFVM_ClearBlockedFlag, BTLV_EFFVM_GetFallbackScriptFlag, BTLV_EFFVM_InitParams, BTLV_EFFVM_StartSePlayTask, BTLV_EFFVM_StartSeVolumeTask, BTLV_EFFVM_StopLiveSounds, BTLV_EFFVM_ClearLastEffect, BTLV_EFFVM_CmdSetupCamera, BTLV_EFFVM_CmdMoveCameraTo, BTLV_EFFVM_CmdRotateCameraOrbit, BTLV_EFFVM_CmdMoveCameraEased, BTLV_EFFVM_CmdSetBillboardMode, BTLV_EFFVM_CmdSaveCameraPosition, BTLV_EFFVM_CmdLoadParticleResource, BTLV_EFFVM_CmdStartParticleEffect, BTLV_EFFVM_CmdStartParticleEffectFixedPos, BTLV_EFFVM_CmdStartParticleEffectTargeted, BTLV_EFFVM_CmdStartParticleEffectForEachInstance, BTLV_EFFVM_CmdDeleteParticleEmitter, BTLV_EFFVM_CmdStartParticleEffectOffset, BTLV_EFFVM_CmdStartParticleEffectConstOffset, BTLV_EFFVM_CmdStartParticleEffectTargetedOffset, BTLV_EFFVM_CmdStartParticleEffectTargetedConstOffset, BTLV_EFFVM_ParticleInitCallbackSource, BTLV_EFFVM_ParticleInitCallbackTarget, BTLV_EFFVM_CmdStartPokePositionTween, BTLV_EFFVM_CmdStartPokeShake, BTLV_EFFVM_CmdStartPokeBounce, BTLV_EFFVM_CmdStartPokeShadowScaleTween, BTLV_EFFVM_CmdStartPokeRotateTween, BTLV_EFFVM_CmdStartPokeAlphaTween, BTLV_EFFVM_CmdStartPokeMosaicTween, BTLV_EFFVM_CmdStartPokeBlink, BTLV_EFFVM_CmdSetPokeAnimStop, BTLV_EFFVM_CmdSetPokePaletteFade, BTLV_EFFVM_CmdSetPokeVanish, BTLV_EFFVM_CmdSetPokeShadowVanish, BTLV_EFFVM_CmdStartPokeShadowScaleTweenSecondary, BTLV_EFFVM_CmdDeletePokeSprites, BTLV_EFFVM_CmdAddPokeSprite, BTLV_EFFVM_CmdSetPokePosition, BTLV_EFFVM_CmdSetPokeAnimIndex, BTLV_EFFVM_CmdReleasePokeSprite, BTLV_EFFVM_CmdLoadBgPalette, BTLV_EFFVM_CmdStartBgScroll, BTLV_EFFVM_CmdNop4, BTLV_EFFVM_CmdNop5, BTLV_EFFVM_CmdSetBgLayerEnable, BTLV_EFFVM_CmdSetBlendRegister, BTLV_EFFVM_CmdSetStageFieldTint, BTLV_EFFVM_CmdSetStageLayerHidden, BTLV_EFFVM_CmdStartFadeTask, BTLV_EFFVM_CmdLoadClactAtPoke, BTLV_EFFVM_CmdStartClactPosTween, BTLV_EFFVM_CmdStartClactScaleTween, BTLV_EFFVM_CmdSetClactAnim, BTLV_EFFVM_CmdFadeClactPalette, BTLV_EFFVM_CmdReleaseClact, BTLV_EFFVM_CmdSetGaugeVisibility, BTLV_EFFVM_CmdPlaySe, BTLV_EFFVM_CmdStopSe, BTLV_EFFVM_CmdStartSeVolumeTween, BTLV_EFFVM_CmdStartSeVolumeTask, BTLV_EFFVM_CmdWaitFrames, BTLV_EFFVM_CmdWaitParticles, BTLV_EFFVM_CmdSetResult, BTLV_EFFVM_CmdJumpIf, BTLV_EFFVM_CmdJumpIfCondCompare, BTLV_EFFVM_CompareAndJump, BTLV_EFFVM_CmdJumpIfPokeLoaded, BTLV_EFFVM_CmdSetScriptVar, BTLV_EFFVM_CmdEvalCondition, BTLV_EFFVM_CmdSetParam, BTLV_EFFVM_CmdSetPokeCellFlag, BTLV_EFFVM_CmdCopyPokeSpriteState, BTLV_EFFVM_CmdStartPokeCry, BTLV_EFFVM_CmdSetTypeSource, BTLV_EFFVM_CmdLoadClactFromPoke, BTLV_EFFVM_CmdCallScript, BTLV_EFFVM_CmdReturnScript, BTLV_EFFVM_CmdJumpScript, BTLV_EFFVM_CmdWaitForTask, BTLV_EFFVM_CmdJumpToArchiveScript, BTLV_EFFVM_CmdStartWaitTask, BTLV_EFFVM_CmdSetPokeSpriteAnimMode, BTLV_EFFVM_ReleaseScriptResources, BTLV_EFFVM_IsAllIdle, BTLV_EFFVM_WaitFramesCallback, BTLV_EFFVM_WaitTaskCallback, BTLV_EFFVM_WaitParticleCallback, BTLV_EFFVM_ResolveBattlerList, BTLV_EFFVM_ResolveBattlerListExpanded, BTLV_EFFVM_ResolveSlotKey, BTLV_EFFVM_ResolveSide, BTLV_EFFVM_ResolveSideFromVm, BTLV_EFFVM_ResolveAnchorSlot, BTLV_EFFVM_AllocEmitterSlot, BTLV_EFFVM_SetEmitterHandle, BTLV_EFFVM_FindEmitterSlot, BTLV_EFFVM_GetEmitterHandle, BTLV_EFFVM_ParticleStartCallback, BTLV_EFFVM_ParticleMotionStep, BTLV_EFFVM_EmitterInitCallback, BTLV_EFFVM_EmitterMoveCallbackB, BTLV_EFFVM_DeleteEmitter, BTLV_EFFVM_RefreshMcssOrtho, BTLV_EFFVM_PlaySeWithParams, BTLV_EFFVM_EvalCondition, BTLV_EFFVM_StartParticleEffectInternal, BTLV_EFFVM_SetupEmitterCallbacks, BTLV_EFFVM_TransformVecByMtx44, BTLV_EFFVM_TransformVecByMtx43, BTLV_EFFVM_ResolveParticleKey, BTLV_EFFVM_StartSeVolumeTweenTask, BTLV_EFFVM_FindFreeSeSlot, BTLV_EFFVM_ResetPokePositionIfLoaded, BTLV_EFFVM_SetShadowVanishIfLoaded, BTLV_EFFVM_SePlayTaskMain, BTLV_EFFVM_SePlayTaskEnd, BTLV_EFFVM_SeVolumeTweenTaskMain, BTLV_EFFVM_SeVolumeTweenTaskEnd, BTLV_EFFVM_SeModulationTaskMain, BTLV_EFFVM_SeModulationTaskEnd, BTLV_EFFVM_DelayTaskMain, BTLV_EFFVM_BlendRegisterTaskMain, BTLV_EFFVM_BlendRegisterTaskEnd, BTLV_EFFVM_WaitVoiceTaskMain, BTLV_EFFVM_MultiPokeTaskMain, BTLV_EFFVM_ParticleLoadTaskMain, BTLV_EFFVM_SpriteCleanupTaskMain, BTLV_EFFVM_IsMultiSideResourceId
  * address:  0x021F93F4
  * region:   ov094
  * compiler: dsi/1.1p1
@@ -24,7 +24,7 @@
  *   GFL_USE_AddMainTask  0x020056A0  thumb
  *   TCB_AddTask  0x02030DA8  arm
  *   BG_SYS_SetPlaneVisible  0x02040588  arm
- *   TCBL_GetTaskUserData   0x02030EE8  arm
+ *   TCBL_IsDeletePending   0x02030EE8  arm
  *   d_0220AE68     0x0220AE68  data   ov094  a1
  *   d_02209DCC     0x02209DCC  data   ov094  a4
  *   GFL_HEAP_Alloc  0x02030734  arm
@@ -51,7 +51,7 @@
  *   PARTICLE_SetupSystemNoHandlers 0x02051380 arm
  *   PARTICLE_StartEffectWithCallback 0x020515CC arm
  *   PARTICLE_InitCamera 0x02051648 arm
- *   BUTTON_MAN_GetBlock 0x02051788 arm
+ *   PARTICLE_EMITTER_GetBlock 0x02051788 arm
  *   d_02209E1C 0x02209E1C data a4
  *   d_02209D90 0x02209D90 data a4
  *   d_02209D78 0x02209D78 data a4
@@ -60,7 +60,7 @@
  *   d_02209D84 0x02209D84 data ov094 a4
  *   d_02209DA8 0x02209DA8 data ov094 a4
  *   d_02209D9C 0x02209D9C data ov094 a4
- *   BG_SYS_SetVisibleLayer  0x0204047C  arm
+ *   BG_SYS_SetPriority  0x0204047C  arm
  *   ARC_UTIL_UploadBgCharFromArchive  0x02049624  arm
  *   ARC_UTIL_UploadBgPaletteFromArchive  0x0204989C  arm
  *   PALANM_LoadArcPaletteToSlotAt  0x020215EC  thumb
@@ -79,7 +79,7 @@
  *   VM_Return  0x020113C4  thumb
  *   VM_End 0x02011290 thumb
  *   BTLV_SCU_ReloadGraphics 0x021EB2A8 thumb ov093
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   BTLV_BG_IsScrolling 0x0220985C thumb ov094
  *   PARTICLE_GetEffectCount 0x02051614 arm
  *   GFL_USE_IsAnySeBusy 0x02006238 thumb
@@ -91,8 +91,8 @@
  *   d_0220AD38 0x0220AD38 data ov094 a4
  *   d_0220AD58     0x0220AD58  data   ov094
  *   PARTICLE_GetCallbackArg 0x02051774 arm
- *   BUTTON_MAN_SetUserData 0x02051A2C arm
- *   BUTTON_MAN_SetCallback 0x02051A24 arm
+ *   PARTICLE_EMITTER_SetUserData 0x02051A2C arm
+ *   PARTICLE_EMITTER_SetCallback 0x02051A24 arm
  *   VEC_Distance 0x0207CF3C arm
  *   VEC_Normalize 0x0207CCA4 arm
  *   VEC_DotProduct 0x0207CA68 arm
@@ -100,27 +100,27 @@
  *   VEC_CrossProduct 0x0207CAE8 arm
  *   MTX_RotAxis43 0x0207B65C arm
  *   MTX_MultVec43 0x0207BC08 arm
- *   BUTTON_MAN_SetRow2 0x020519C4 arm
- *   BUTTON_MAN_SetRow5 0x02051A04 arm
- *   BUTTON_MAN_GetRot 0x020517B4 arm
- *   BUTTON_MAN_SetRow3Half 0x020519E4 arm
- *   BUTTON_MAN_SetRot 0x02051880 arm
- *   BUTTON_MAN_GetScaleX 0x020517D0 arm
- *   BUTTON_MAN_GetAlpha 0x02051830 arm
- *   BUTTON_MAN_GetAngle 0x02051820 arm
- *   BUTTON_MAN_GetScaleY 0x020517E0 arm
- *   BUTTON_MAN_SetScaleX 0x020517D8 arm
- *   BUTTON_MAN_SetScaleY 0x020517E8 arm
- *   BUTTON_MAN_SetAlpha 0x020518A4 arm
- *   BUTTON_MAN_SetAngle 0x0205189C arm
- *   BUTTON_MAN_GetPos 0x02051790 arm
- *   BUTTON_MAN_SetPos 0x020517A4 arm
- *   BUTTON_MAN_GetOffsetX 0x020517F0 arm
- *   BUTTON_MAN_SetOffsetX 0x02051800 arm
- *   BUTTON_MAN_GetOffsetY 0x02051808 arm
- *   BUTTON_MAN_SetOffsetY 0x02051818 arm
- *   BUTTON_MAN_SetEmitterPos 0x02051838 arm
- *   BUTTON_MAN_GetUserData  0x02051A34  arm
+ *   PARTICLE_EMITTER_SetBehavior2Data 0x020519C4 arm
+ *   PARTICLE_EMITTER_SetBehavior5Data 0x02051A04 arm
+ *   PARTICLE_EMITTER_GetRot 0x020517B4 arm
+ *   PARTICLE_EMITTER_SetBehavior3Half 0x020519E4 arm
+ *   PARTICLE_EMITTER_SetRot 0x02051880 arm
+ *   PARTICLE_EMITTER_GetScaleX 0x020517D0 arm
+ *   PARTICLE_EMITTER_GetAlpha 0x02051830 arm
+ *   PARTICLE_EMITTER_GetAngle 0x02051820 arm
+ *   PARTICLE_EMITTER_GetScaleY 0x020517E0 arm
+ *   PARTICLE_EMITTER_SetScaleX 0x020517D8 arm
+ *   PARTICLE_EMITTER_SetScaleY 0x020517E8 arm
+ *   PARTICLE_EMITTER_SetAlpha 0x020518A4 arm
+ *   PARTICLE_EMITTER_SetAngle 0x0205189C arm
+ *   PARTICLE_EMITTER_GetPos 0x02051790 arm
+ *   PARTICLE_EMITTER_SetPos 0x020517A4 arm
+ *   PARTICLE_EMITTER_GetOffsetX 0x020517F0 arm
+ *   PARTICLE_EMITTER_SetOffsetX 0x02051800 arm
+ *   PARTICLE_EMITTER_GetOffsetY 0x02051808 arm
+ *   PARTICLE_EMITTER_SetOffsetY 0x02051818 arm
+ *   PARTICLE_EMITTER_SetEmitPos 0x02051838 arm
+ *   PARTICLE_EMITTER_GetUserData  0x02051A34  arm
  *   PARTICLE_GetWorkBase  0x02051640  arm
  *   PARTICLE_DeleteSystem  0x02050DB8  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
@@ -131,7 +131,6 @@
  *   NNS_SndHandleSetVolume  0x02072F34  arm
  *   NNS_SndHandleSetTrackModDepth  0x02073058  arm
  *   NNS_SndHandleSetTrackModSpeed  0x02073078  arm
- *   _s32_div_f 0x0209C0A4 arm
  *   d_02209E10 0x02209E10 data
  *   d_02209DB4 0x02209DB4 data
  *   MTX_Copy43To44_  0x0207B5C0  arm
@@ -139,7 +138,7 @@
  *   FX_Div           0x0207C768  arm
  *   g_renderStateDrawParams       0x02148B98  data
  *   SCREENTEX_ProjectionMatrix       0x02148B54  data
- *   GFL_NET_ERR_SetBgmTrackVolume  0x0200F698  thumb
+ *   GFL_NET_SetBgmTrackVolumeUnlessVoiceChat  0x0200F698  thumb
  *   PARTICLE_ApplyLoadHandlers  0x02051394  arm
  *   d_02209DD8  0x02209DD8  data  ov094
  *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
@@ -149,8 +148,8 @@
  *   BTLV_CAMERA_RotateOrbit 0x021F6F20 thumb ov094
  *   BTLV_CAMERA_StartMove 0x021F6F48 thumb ov094
  *   BTLV_CAMERA_StartMoveWithEasing 0x021F7000 thumb ov094
- *   BTLV_CAMERA_GetEyeAndUp 0x021F70F0 thumb ov094
- *   BTLV_CAMERA_ComputeOrbitOffset 0x021F7108 thumb ov094
+ *   BTLV_CAMERA_GetEyeAndTarget 0x021F70F0 thumb ov094
+ *   BTLV_CAMERA_AdvanceOrbitEye 0x021F7108 thumb ov094
  *   BTLV_CAMERA_GetDefaultEyeAndTarget 0x021F7208 thumb ov094
  *   BTLV_CAMERA_IsMoving 0x021F722C thumb ov094
  *   BTLV_EFFECT_DeletePokeSprite 0x021F7F04 thumb ov094
@@ -161,7 +160,7 @@
  *   BTLV_EFFECT_GaugeSetSlotVisible 0x021F81B4 thumb ov094
  *   BTLV_EFFECT_SetStageFieldTint 0x021F8298 thumb ov094
  *   BTLV_EFFECT_IsStageFieldBusy 0x021F8324 thumb ov094
- *   BTLV_EFFECT_SetStageLayerEnable 0x021F839C thumb ov094
+ *   BTLV_EFFECT_SetStageLayerHidden 0x021F839C thumb ov094
  *   BTLV_EFFECT_GetPokeSlot 0x021F84D0 thumb ov094
  *   BTLV_EFFECT_GetCamera 0x021F8684 thumb ov094
  *   BTLV_EFFECT_GetMcss 0x021F8694 thumb ov094
@@ -169,10 +168,10 @@
  *   BTLV_EFFECT_GetClact 0x021F86F0 thumb ov094
  *   BTLV_EFFECT_GetBg 0x021F8700 thumb ov094
  *   BTLV_EFFECT_GetMode 0x021F8710 thumb ov094
- *   BTLV_EFFECT_GetFieldSituationFlags 0x021F8730 thumb ov094
+ *   BTLV_EFFECT_IsMultiMode 0x021F8730 thumb ov094
  *   BTLV_EFFECT_GetTrainerType 0x021F8740 thumb ov094
- *   BTLV_EFFECT_GetRule 0x021F8764 thumb ov094
- *   BTLV_EFFECT_GetFlag26 0x021F88E0 thumb ov094
+ *   BTLV_EFFECT_GetSceneUnit 0x021F8764 thumb ov094
+ *   BTLV_EFFECT_IsSeSuppressed 0x021F88E0 thumb ov094
  *   BTLV_EFFECT_SetAllPokeSpriteAnim 0x021F8934 thumb ov094
  *   BTLV_EFFECT_DeleteTasksByArg 0x021F8A10 thumb ov094
  *   BTLV_EFFECT_ComputeScalarStep 0x021F9154 thumb ov094
@@ -219,8 +218,8 @@
  *   BTLV_CLACT_LoadActorSimple 0x02201AF8 thumb ov094
  *   BTLV_CLACT_LoadActor 0x02201B20 thumb ov094
  *   BTLV_CLACT_ReleaseActor 0x02201CA4 thumb ov094
- *   BTLV_CLACT_StartMoveShort 0x02201CD0 thumb ov094
- *   BTLV_CLACT_StartMoveDefault 0x02201D5C thumb ov094
+ *   BTLV_CLACT_StartPosTween 0x02201CD0 thumb ov094
+ *   BTLV_CLACT_StartScaleTween 0x02201D5C thumb ov094
  *   BTLV_CLACT_SetActorAnimSeq 0x02201DA0 thumb ov094
  *   BTLV_CLACT_RequestPaletteFade 0x02201DB4 thumb ov094
  */
@@ -295,7 +294,7 @@ extern void *TCB_AddTask(void *owner, void (*fn)(void *, void *), void *p, u32 n
 
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
-extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
+extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
 
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -332,9 +331,9 @@ extern int PARTICLE_StartEffectWithCallback(struct ParticleSys *sys, int resId, 
 
 extern void PARTICLE_InitCamera(struct ParticleSys *sys, struct ParticleCameraParams *params, u16 angle, BtlvEffVmVec *pos, BtlvEffVmVec *target, BtlvEffVmVec *up, u16 heapId);
 
-extern int BUTTON_MAN_GetBlock(struct ParticleSys *p);
+extern int PARTICLE_EMITTER_GetBlock(struct ParticleSys *p);
 
-extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+extern void BG_SYS_SetPriority(int idx, unsigned short val);
 
 extern u32 ARC_UTIL_UploadBgCharFromArchive(void *archiveID, void *memberIdx, void *bgId, void *tileOffset, u32 size, u32 heapID, u16 allocFlags);
 
@@ -380,7 +379,7 @@ extern struct ScriptVm *VM_End(struct ScriptVm *vm);
 
 extern void BTLV_SCU_ReloadGraphics(const u8 *a);
 
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 
 extern int BTLV_BG_IsScrolling(void *);
 
@@ -394,9 +393,9 @@ extern u32 PM_VOICE_IsActive(u32 i);
 
 extern u32 PARTICLE_GetCallbackArg(void);
 
-extern void BUTTON_MAN_SetUserData(struct Obj3D *p, int v);
+extern void PARTICLE_EMITTER_SetUserData(struct Obj3D *p, int v);
 
-extern void BUTTON_MAN_SetCallback(struct Obj3D *p, int v);
+extern void PARTICLE_EMITTER_SetCallback(struct Obj3D *p, int v);
 
 extern int VEC_Distance(const BtlvEffVmVec *a, const BtlvEffVmVec *b);
 
@@ -412,47 +411,47 @@ extern void MTX_RotAxis43(void *m, const BtlvEffVmVec *axis, int s, int c);
 
 extern void MTX_MultVec43(const BtlvEffVmVec *a, const void *m, BtlvEffVmVec *out);
 
-extern void BUTTON_MAN_SetRow2(struct Obj3D *p, BtlvEffVmVec *q);
+extern void PARTICLE_EMITTER_SetBehavior2Data(struct Obj3D *p, BtlvEffVmVec *q);
 
-extern void BUTTON_MAN_SetRow5(struct Obj3D *p, BtlvEffVmVec *q);
+extern void PARTICLE_EMITTER_SetBehavior5Data(struct Obj3D *p, BtlvEffVmVec *q);
 
-extern void BUTTON_MAN_GetRot(struct Obj3D *p, BtlvEffVmVec16 *out);
+extern void PARTICLE_EMITTER_GetRot(struct Obj3D *p, BtlvEffVmVec16 *out);
 
-extern void BUTTON_MAN_SetRow3Half(struct Obj3D *p, u16 *q);
+extern void PARTICLE_EMITTER_SetBehavior3Half(struct Obj3D *p, u16 *q);
 
-extern void BUTTON_MAN_SetRot(struct Obj3D *o, const BtlvEffVmVec16 *v);
+extern void PARTICLE_EMITTER_SetRot(struct Obj3D *o, const BtlvEffVmVec16 *v);
 
-extern int BUTTON_MAN_GetScaleX(struct Obj3D *p);
+extern int PARTICLE_EMITTER_GetScaleX(struct Obj3D *p);
 
-extern unsigned short BUTTON_MAN_GetAlpha(struct Obj3D *p);
+extern unsigned short PARTICLE_EMITTER_GetAlpha(struct Obj3D *p);
 
-extern short BUTTON_MAN_GetAngle(struct Obj3D *p);
+extern short PARTICLE_EMITTER_GetAngle(struct Obj3D *p);
 
-extern int BUTTON_MAN_GetScaleY(struct Obj3D *p);
+extern int PARTICLE_EMITTER_GetScaleY(struct Obj3D *p);
 
-extern void BUTTON_MAN_SetScaleX(struct Obj3D *p, int v);
+extern void PARTICLE_EMITTER_SetScaleX(struct Obj3D *p, int v);
 
-extern void BUTTON_MAN_SetScaleY(struct Obj3D *p, int v);
+extern void PARTICLE_EMITTER_SetScaleY(struct Obj3D *p, int v);
 
-extern void BUTTON_MAN_SetAlpha(struct Obj3D *o, u16 v);
+extern void PARTICLE_EMITTER_SetAlpha(struct Obj3D *o, u16 v);
 
-extern void BUTTON_MAN_SetAngle(struct Obj3D *o, u32 v);
+extern void PARTICLE_EMITTER_SetAngle(struct Obj3D *o, u32 v);
 
-extern void BUTTON_MAN_GetPos(struct Obj3D *p, BtlvEffVmVec *out);
+extern void PARTICLE_EMITTER_GetPos(struct Obj3D *p, BtlvEffVmVec *out);
 
-extern void BUTTON_MAN_SetPos(struct Obj3D *p, const BtlvEffVmVec *v);
+extern void PARTICLE_EMITTER_SetPos(struct Obj3D *p, const BtlvEffVmVec *v);
 
-extern short BUTTON_MAN_GetOffsetX(struct Obj3D *p);
+extern short PARTICLE_EMITTER_GetOffsetX(struct Obj3D *p);
 
-extern void BUTTON_MAN_SetOffsetX(struct Obj3D *p, int v);
+extern void PARTICLE_EMITTER_SetOffsetX(struct Obj3D *p, int v);
 
-extern short BUTTON_MAN_GetOffsetY(struct Obj3D *p);
+extern short PARTICLE_EMITTER_GetOffsetY(struct Obj3D *p);
 
-extern void BUTTON_MAN_SetOffsetY(struct Obj3D *p, int v);
+extern void PARTICLE_EMITTER_SetOffsetY(struct Obj3D *p, int v);
 
-extern void BUTTON_MAN_SetEmitterPos(struct Obj3D *p, const BtlvEffVmVec *v);
+extern void PARTICLE_EMITTER_SetEmitPos(struct Obj3D *p, const BtlvEffVmVec *v);
 
-extern int BUTTON_MAN_GetUserData(struct Obj3D *p);
+extern int PARTICLE_EMITTER_GetUserData(struct Obj3D *p);
 
 extern void *PARTICLE_GetWorkBase(struct ParticleSys *sys);
 
@@ -474,7 +473,6 @@ extern void NNS_SndHandleSetTrackModDepth(struct SndHandle *handle, u32 trackMas
 
 extern void NNS_SndHandleSetTrackModSpeed(struct SndHandle *handle, u32 trackMask, u32 value);
 
-extern int _s32_div_f(int, int);
 
 void MTX_Copy43To44_(const MtxFx43 *src, MtxFx44 *dst);
 
@@ -482,7 +480,7 @@ void MTX_Concat44(const MtxFx44 *a, const MtxFx44 *b, MtxFx44 *ab);
 
 fx32 FX_Div(fx32 numer, fx32 denom);
 
-extern void GFL_NET_ERR_SetBgmTrackVolume(void *a, void *b);
+extern void GFL_NET_SetBgmTrackVolumeUnlessVoiceChat(void *a, void *b);
 
 extern void PARTICLE_ApplyLoadHandlers(struct ParticleSys *sys);
 
@@ -494,9 +492,9 @@ void BTLV_CAMERA_StartMove(struct BtlvCamera *camera, BtlvEffVmVec *a, BtlvEffVm
 
 void BTLV_CAMERA_StartMoveWithEasing(struct BtlvCamera *camera, int mode, fx32 v, int unused, int n, int g, int h);
 
-void BTLV_CAMERA_GetEyeAndUp(struct BtlvCamera *camera, BtlvEffVmVec *eye, BtlvEffVmVec *target);
+void BTLV_CAMERA_GetEyeAndTarget(struct BtlvCamera *camera, BtlvEffVmVec *eye, BtlvEffVmVec *target);
 
-void BTLV_CAMERA_ComputeOrbitOffset(struct BtlvCamera *camera, int yaw, int pitch, BtlvEffVmVec *eye, BtlvEffVmVec *target);
+void BTLV_CAMERA_AdvanceOrbitEye(struct BtlvCamera *camera, int yaw, int pitch, BtlvEffVmVec *eye, BtlvEffVmVec *target);
 
 void BTLV_CAMERA_GetDefaultEyeAndTarget(BtlvEffVmVec *eye, BtlvEffVmVec *target);
 
@@ -518,7 +516,7 @@ void BTLV_EFFECT_SetStageFieldTint(u32 a, u8 b, u8 c, u8 d, u16 e);
 
 int BTLV_EFFECT_IsStageFieldBusy(u32 a);
 
-void BTLV_EFFECT_SetStageLayerEnable(u32 a, u32 b);
+void BTLV_EFFECT_SetStageLayerHidden(u32 a, u32 b);
 
 int BTLV_EFFECT_GetPokeSlot(int a);
 
@@ -536,13 +534,13 @@ int BTLV_EFFECT_GetBg(void);
 
 int BTLV_EFFECT_GetMode(void);
 
-int BTLV_EFFECT_GetFieldSituationFlags(void);
+int BTLV_EFFECT_IsMultiMode(void);
 
 unsigned short BTLV_EFFECT_GetTrainerType(int a);
 
-int BTLV_EFFECT_GetRule(void);
+int BTLV_EFFECT_GetSceneUnit(void);
 
-int BTLV_EFFECT_GetFlag26(void);
+int BTLV_EFFECT_IsSeSuppressed(void);
 
 void BTLV_EFFECT_SetAllPokeSpriteAnim(int a);
 
@@ -668,15 +666,15 @@ int BTLV_EFFVM_CmdSetBlendRegister(struct ScriptVm *vm, BtlvEffVmWork *work);
 
 int BTLV_EFFVM_CmdSetStageFieldTint(struct ScriptVm *vm, BtlvEffVmWork *work);
 
-int BTLV_EFFVM_CmdSetStageLayerEnable(struct ScriptVm *vm, BtlvEffVmWork *work);
+int BTLV_EFFVM_CmdSetStageLayerHidden(struct ScriptVm *vm, BtlvEffVmWork *work);
 
 int BTLV_EFFVM_CmdStartFadeTask(struct ScriptVm *vm, BtlvEffVmWork *work);
 
 int BTLV_EFFVM_CmdLoadClactAtPoke(struct ScriptVm *vm, BtlvEffVmWork *work);
 
-int BTLV_EFFVM_CmdStartClactMoveShort(struct ScriptVm *vm, BtlvEffVmWork *work);
+int BTLV_EFFVM_CmdStartClactPosTween(struct ScriptVm *vm, BtlvEffVmWork *work);
 
-int BTLV_EFFVM_CmdStartClactMoveDefault(struct ScriptVm *vm, BtlvEffVmWork *work);
+int BTLV_EFFVM_CmdStartClactScaleTween(struct ScriptVm *vm, BtlvEffVmWork *work);
 
 int BTLV_EFFVM_CmdSetClactAnim(struct ScriptVm *vm, BtlvEffVmWork *work);
 
@@ -702,7 +700,7 @@ void BTLV_EFFVM_CmdSetResult(struct ScriptVm *vm, BtlvEffVmWork *work);
 
 int BTLV_EFFVM_CmdJumpIf(struct ScriptVm *vm, BtlvEffVmWork *work);
 
-int BTLV_EFFVM_CmdJumpIfNot(struct ScriptVm *vm, BtlvEffVmWork *work);
+int BTLV_EFFVM_CmdJumpIfCondCompare(struct ScriptVm *vm, BtlvEffVmWork *work);
 
 void BTLV_EFFVM_CompareAndJump(struct ScriptVm *vm, int lhs, int rhs, int op, int off);
 
@@ -912,9 +910,9 @@ int BTLV_CLACT_LoadActor(BtlvClact *clact, u32 archiveId, int charFile, u32 palF
 
 void BTLV_CLACT_ReleaseActor(BtlvClact *clact, int slot);
 
-void BTLV_CLACT_StartMoveShort(BtlvClact *clact, int slot, int mode, s16 *offset, int frames, int waitTicks, int repeats);
+void BTLV_CLACT_StartPosTween(BtlvClact *clact, int slot, int mode, s16 *offset, int frames, int waitTicks, int repeats);
 
-void BTLV_CLACT_StartMoveDefault(BtlvClact *clact, int slot, int mode, BtlvVec3 *scaleEnd, int frames, int waitTicks, int repeats);
+void BTLV_CLACT_StartScaleTween(BtlvClact *clact, int slot, int mode, BtlvVec3 *scaleEnd, int frames, int waitTicks, int repeats);
 
 u32 BTLV_CLACT_SetActorAnimSeq(BtlvClact *clact, int slot, int seq);
 
@@ -1148,7 +1146,7 @@ void BTLV_EFFVM_StartSePlayTask(void *vm, u32 seId, int slot, u32 pan, int pitch
     BtlvEffVmWork *work;
     BtlvEffVmSePlayJob *job;
     work = VM_GetUserData(vm);
-    if (BTLV_EFFECT_GetFlag26() == 1)
+    if (BTLV_EFFECT_IsSeSuppressed() == 1)
         return;
     work->flags.bit.stopSeOnEnd = 1;
     if (pan == 2)
@@ -1539,7 +1537,7 @@ int BTLV_EFFVM_CmdMoveCameraTo(struct ScriptVm *vm, BtlvEffVmWork *work)
         BTLV_CAMERA_StartMove(BTLV_EFFECT_GetCamera(), &eye, &target, frames, easeIn, easeMode);
         break;
     case 2:
-        BTLV_CAMERA_GetEyeAndUp(BTLV_EFFECT_GetCamera(), &curEye, &curTarget);
+        BTLV_CAMERA_GetEyeAndTarget(BTLV_EFFECT_GetCamera(), &curEye, &curTarget);
         VEC_Add(&curEye, &eye, &eye);
         VEC_Add(&curTarget, &target, &target);
         BTLV_CAMERA_StartMove(BTLV_EFFECT_GetCamera(), &eye, &target, frames, easeIn, easeMode);
@@ -1571,7 +1569,7 @@ int BTLV_EFFVM_CmdRotateCameraOrbit(struct ScriptVm *vm, BtlvEffVmWork *work)
         BTLV_CAMERA_RotateOrbit(BTLV_EFFECT_GetCamera(), yaw, pitch);
         break;
     case 1:
-        BTLV_CAMERA_ComputeOrbitOffset(BTLV_EFFECT_GetCamera(), yaw, pitch, &eye, &target);
+        BTLV_CAMERA_AdvanceOrbitEye(BTLV_EFFECT_GetCamera(), yaw, pitch, &eye, &target);
         BTLV_CAMERA_StartMove(BTLV_EFFECT_GetCamera(), &eye, &target, frames, easeIn, easeMode);
         break;
     }
@@ -1625,7 +1623,7 @@ int BTLV_EFFVM_CmdSetBillboardMode(struct ScriptVm *vm, BtlvEffVmWork *work)
 int BTLV_EFFVM_CmdSaveCameraPosition(int vm, BtlvEffVmWork *work)
 {
     work->camVecSaved = 1;
-    BTLV_CAMERA_GetEyeAndUp(BTLV_EFFECT_GetCamera(), &work->camEye, &work->camTarget);
+    BTLV_CAMERA_GetEyeAndTarget(BTLV_EFFECT_GetCamera(), &work->camEye, &work->camTarget);
     return work->result;
 }
 
@@ -1741,7 +1739,7 @@ int BTLV_EFFVM_CmdStartParticleEffectFixedPos(struct ScriptVm *vm, BtlvEffVmWork
 }
 
 /*
- * witness: arm9 BUTTON_MAN_GetBlock filed as src/matched/arm9/BUTTON_MAN_GetBlock.c.
+ * witness: arm9 PARTICLE_EMITTER_GetBlock filed as src/matched/arm9/PARTICLE_EMITTER_GetBlock.c.
  */
 int BTLV_EFFVM_CmdStartParticleEffectTargeted(struct ScriptVm *vm, BtlvEffVmWork *work)
 {
@@ -1784,7 +1782,7 @@ int BTLV_EFFVM_CmdStartParticleEffectTargeted(struct ScriptVm *vm, BtlvEffVmWork
         projection.nearZ = 0x1000;
         projection.farZ = 0x200000;
         projection.projScale = 0x1000;
-        if (BUTTON_MAN_GetBlock(work->emitters[slot]) == 0)
+        if (PARTICLE_EMITTER_GetBlock(work->emitters[slot]) == 0)
             PARTICLE_InitCamera(work->emitters[slot], &projection, 0x2000, &cameraPos, &cameraTarget, &cameraUp, (u16)((work->heapId & 0x7fff) | 0x8000));
         BTLV_EFFVM_StartParticleEffectInternal(work, req, slot, effectIdx);
     }
@@ -1831,7 +1829,7 @@ int BTLV_EFFVM_CmdStartParticleEffectForEachInstance(struct ScriptVm *vm, BtlvEf
             projection.nearZ = 0x1000;
             projection.farZ = 0x200000;
             projection.projScale = 0x1000;
-            if (BUTTON_MAN_GetBlock(work->emitters[slot]) == 0)
+            if (PARTICLE_EMITTER_GetBlock(work->emitters[slot]) == 0)
                 PARTICLE_InitCamera(work->emitters[slot], &projection, 0x2000, &cameraPos, &cameraTarget, &cameraUp, (u16)((work->heapId & 0x7fff) | 0x8000));
             req->mode = 2;
         }
@@ -1966,7 +1964,7 @@ int BTLV_EFFVM_CmdStartParticleEffectTargetedOffset(struct ScriptVm *vm, BtlvEff
         projection.nearZ = 0x1000;
         projection.farZ = 0x200000;
         projection.projScale = 0x1000;
-        if (BUTTON_MAN_GetBlock(work->emitters[slot]) == 0)
+        if (PARTICLE_EMITTER_GetBlock(work->emitters[slot]) == 0)
             PARTICLE_InitCamera(work->emitters[slot], &projection, 0x2000, &cameraPos, &cameraTarget, &cameraUp, (work->heapId & 0x7fff) | 0x8000);
         if (PARTICLE_StartEffectWithCallback(work->emitters[slot], effectIdx, BTLV_EFFVM_ParticleStartCallback, (int)req) == -1) {
             GFL_HEAP_Free(req);
@@ -1978,7 +1976,7 @@ int BTLV_EFFVM_CmdStartParticleEffectTargetedOffset(struct ScriptVm *vm, BtlvEff
 }
 
 /*
- * witness: arm9 BUTTON_MAN_GetBlock filed as src/matched/arm9/BUTTON_MAN_GetBlock.c.
+ * witness: arm9 PARTICLE_EMITTER_GetBlock filed as src/matched/arm9/PARTICLE_EMITTER_GetBlock.c.
  * trailing: 021FAC94 and 021FACA0 are tail-call stubs; not filed while ARM9 blocks.
  */
 int BTLV_EFFVM_CmdStartParticleEffectTargetedConstOffset(struct ScriptVm *vm, BtlvEffVmWork *work)
@@ -2021,7 +2019,7 @@ int BTLV_EFFVM_CmdStartParticleEffectTargetedConstOffset(struct ScriptVm *vm, Bt
         projection.nearZ = 0x1000;
         projection.farZ = 0x200000;
         projection.projScale = 0x1000;
-        if (BUTTON_MAN_GetBlock(work->emitters[slot]) == 0)
+        if (PARTICLE_EMITTER_GetBlock(work->emitters[slot]) == 0)
             PARTICLE_InitCamera(work->emitters[slot], &projection, 0x2000, &cameraPos, &cameraTarget, &cameraUp, (work->heapId & 0x7fff) | 0x8000);
         if (PARTICLE_StartEffectWithCallback(work->emitters[slot], effectIdx, BTLV_EFFVM_ParticleStartCallback, (int)req) == -1) {
             GFL_HEAP_Free(req);
@@ -2428,7 +2426,7 @@ int BTLV_EFFVM_CmdLoadBgPalette(struct ScriptVm *vm, BtlvEffVmWork *work)
     int fileId;
 
     fileId = VM_GetU32(vm);
-    BG_SYS_SetVisibleLayer(3, 1);
+    BG_SYS_SetPriority(3, 1);
     ARC_UTIL_UploadBgCharFromArchive((void *)0x5f, (void *)(fileId + 1), (void *)3, 0, 0, 0, (work->heapId & 0x7fff) | 0x8000);
     ARC_UTIL_UploadBgPaletteFromArchive(0x5f, fileId, 3, 0, 0, 0, (work->heapId & 0x7fff) | 0x8000);
     PALANM_LoadArcPaletteToSlotAt((struct PalAnmSlot *)BTLV_EFFECT_GetPalanm(), (int)0x5f, (int)(fileId + 2), (u16)((work->heapId & 0x7fff) | 0x8000), (int)0, (int)0, (int)0x80, (int)0);
@@ -2480,11 +2478,11 @@ int BTLV_EFFVM_CmdNop5(struct ScriptVm *vm, BtlvEffVmWork *work)
 }
 
 /*
- * Script command: BG_SYS_SetVisibleLayer(3, arg) and sets the gfxReloadPending flag.
+ * Script command: BG_SYS_SetPriority(3, arg) and sets the gfxReloadPending flag.
  */
 int BTLV_EFFVM_CmdSetBgLayerEnable(struct ScriptVm *vm, BtlvEffVmWork *work)
 {
-    BG_SYS_SetVisibleLayer(3, (unsigned char)VM_GetU32(vm));
+    BG_SYS_SetPriority(3, (unsigned char)VM_GetU32(vm));
     work->flags.bit.gfxReloadPending = 1;
     return work->result;
 }
@@ -2521,12 +2519,12 @@ int BTLV_EFFVM_CmdSetStageFieldTint(struct ScriptVm *vm, BtlvEffVmWork *work)
 }
 
 /*
- * Script command: passes two arguments to BTLV_EFFECT_SetStageLayerEnable.
+ * Script command: passes two arguments to BTLV_EFFECT_SetStageLayerHidden.
  */
-int BTLV_EFFVM_CmdSetStageLayerEnable(struct ScriptVm *vm, BtlvEffVmWork *work)
+int BTLV_EFFVM_CmdSetStageLayerHidden(struct ScriptVm *vm, BtlvEffVmWork *work)
 {
     int layer = VM_GetU32(vm);
-    BTLV_EFFECT_SetStageLayerEnable(layer, VM_GetU32(vm));
+    BTLV_EFFECT_SetStageLayerHidden(layer, VM_GetU32(vm));
     return work->result;
 }
 
@@ -2575,7 +2573,7 @@ int BTLV_EFFVM_CmdLoadClactAtPoke(struct ScriptVm *vm, BtlvEffVmWork *work)
     return work->result;
 }
 
-int BTLV_EFFVM_CmdStartClactMoveShort(struct ScriptVm *vm, BtlvEffVmWork *work)
+int BTLV_EFFVM_CmdStartClactPosTween(struct ScriptVm *vm, BtlvEffVmWork *work)
 {
     s16 offset[2];
     int slot, mode, frames, waitTicks, repeats;
@@ -2587,11 +2585,11 @@ int BTLV_EFFVM_CmdStartClactMoveShort(struct ScriptVm *vm, BtlvEffVmWork *work)
     frames = VM_GetU32(vm);
     waitTicks = VM_GetU32(vm);
     repeats = VM_GetU32(vm);
-    BTLV_CLACT_StartMoveShort(BTLV_EFFECT_GetClact(), work->resources[slot], mode, offset, frames, waitTicks, repeats);
+    BTLV_CLACT_StartPosTween(BTLV_EFFECT_GetClact(), work->resources[slot], mode, offset, frames, waitTicks, repeats);
     return work->result;
 }
 
-int BTLV_EFFVM_CmdStartClactMoveDefault(struct ScriptVm *vm, BtlvEffVmWork *work)
+int BTLV_EFFVM_CmdStartClactScaleTween(struct ScriptVm *vm, BtlvEffVmWork *work)
 {
     BtlvVec3 scaleEnd;
     int slot, mode, frames, waitTicks, repeats;
@@ -2604,7 +2602,7 @@ int BTLV_EFFVM_CmdStartClactMoveDefault(struct ScriptVm *vm, BtlvEffVmWork *work
     frames = VM_GetU32(vm);
     waitTicks = VM_GetU32(vm);
     repeats = VM_GetU32(vm);
-    BTLV_CLACT_StartMoveDefault(BTLV_EFFECT_GetClact(), work->resources[slot], mode, &scaleEnd, frames, waitTicks, repeats);
+    BTLV_CLACT_StartScaleTween(BTLV_EFFECT_GetClact(), work->resources[slot], mode, &scaleEnd, frames, waitTicks, repeats);
     return work->result;
 }
 
@@ -2859,7 +2857,7 @@ int BTLV_EFFVM_CmdJumpIf(struct ScriptVm *vm, BtlvEffVmWork *work)
     return work->result;
 }
 
-int BTLV_EFFVM_CmdJumpIfNot(struct ScriptVm *vm, BtlvEffVmWork *work)
+int BTLV_EFFVM_CmdJumpIfCondCompare(struct ScriptVm *vm, BtlvEffVmWork *work)
 {
     int lhs = BTLV_EFFVM_EvalCondition(work, VM_GetU32(vm));
     int op = VM_GetU32(vm);
@@ -3226,13 +3224,13 @@ int BTLV_EFFVM_ReleaseScriptResources(struct ScriptVm *vm, BtlvEffVmWork *work)
     VM_End(vm);
     work->result = 1;
     if (work->flags.bit.gfxReloadPending) {
-        scu = (void *)BTLV_EFFECT_GetRule();
+        scu = (void *)BTLV_EFFECT_GetSceneUnit();
         if (scu != 0)
             BTLV_SCU_ReloadGraphics(scu);
-        BG_SYS_SetVisibleLayer(3, 0);
+        BG_SYS_SetPriority(3, 0);
         work->flags.bit.gfxReloadPending = 0;
-        BG_SYS_FillScrollArea(3, 0, work->bg3ScrollX);
-        BG_SYS_FillScrollArea(3, 3, work->bg3ScrollY);
+        BG_SYS_ChangeScrollImmediate(3, 0, work->bg3ScrollX);
+        BG_SYS_ChangeScrollImmediate(3, 3, work->bg3ScrollY);
     }
     if (work->flags.bit.blendActive) {
         G2x_SetBlendAlpha_(0x04000050, 2, 0x3d, 0x1f, 7);
@@ -3998,8 +3996,8 @@ void BTLV_EFFVM_ParticleStartCallback(void *emitter)
         work = VM_GetUserData((void *)req->vm);
         (BtlvEffVmEmitterMotion *)work->allocBuffers[work->allocBufferCount] = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x60, 0, d_0220AE68, 0x194a);
         motion = (BtlvEffVmEmitterMotion *)work->allocBuffers[work->allocBufferCount];
-        BUTTON_MAN_SetUserData(emitter, (int)motion);
-        BUTTON_MAN_SetCallback(emitter, (int)BTLV_EFFVM_ParticleMotionStep);
+        PARTICLE_EMITTER_SetUserData(emitter, (int)motion);
+        PARTICLE_EMITTER_SetCallback(emitter, (int)BTLV_EFFVM_ParticleMotionStep);
         work->allocBufferCount += 1;
         motion->phaseA = 0;
         motion->delayLeft = 0;
@@ -4055,12 +4053,12 @@ void BTLV_EFFVM_ParticleStartCallback(void *emitter)
         dstPos.x -= srcPos.x;
         dstPos.y -= srcPos.y;
         dstPos.z -= srcPos.z;
-        BUTTON_MAN_SetRow2(emitter, &dstPos);
-        BUTTON_MAN_SetRow5(emitter, &dstPos);
+        PARTICLE_EMITTER_SetBehavior2Data(emitter, &dstPos);
+        PARTICLE_EMITTER_SetBehavior5Data(emitter, &dstPos);
         toDirXZ.x = dstPos.x;
         toDirXZ.y = 0;
         toDirXZ.z = dstPos.z;
-        BUTTON_MAN_GetRot(emitter, &emitterDir.dir);
+        PARTICLE_EMITTER_GetRot(emitter, &emitterDir.dir);
         fromDirXZ.x = emitterDir.dir.x;
         fromDirXZ.y = 0;
         fromDirXZ.z = emitterDir.dir.z;
@@ -4084,38 +4082,38 @@ void BTLV_EFFVM_ParticleStartCallback(void *emitter)
         emitterDir.dir.z = fromDirXZ.z;
         if (angle < 0x2000 || (angle > 0x6000 && angle < 0xa000) || angle > 0xe000)
             emitterDir.mode = 0;
-        BUTTON_MAN_SetRow3Half(emitter, &emitterDir.mode);
-        BUTTON_MAN_SetRot(emitter, &emitterDir.dir);
+        PARTICLE_EMITTER_SetBehavior3Half(emitter, &emitterDir.mode);
+        PARTICLE_EMITTER_SetRot(emitter, &emitterDir.dir);
     }
     if ((req->mode != 0 && (req->srcKey & 1)) || req->mode == 0 || (u32)(req->mode - 2) <= 1) {
-        oldScaleX = BUTTON_MAN_GetScaleX(emitter);
-        oldAlpha = BUTTON_MAN_GetAlpha(emitter) << 12;
-        oldAngle = BUTTON_MAN_GetAngle(emitter);
-        oldScaleY = BUTTON_MAN_GetScaleY(emitter);
+        oldScaleX = PARTICLE_EMITTER_GetScaleX(emitter);
+        oldAlpha = PARTICLE_EMITTER_GetAlpha(emitter) << 12;
+        oldAngle = PARTICLE_EMITTER_GetAngle(emitter);
+        oldScaleY = PARTICLE_EMITTER_GetScaleY(emitter);
         if (req->scaleX != 0) {
-            BUTTON_MAN_SetScaleX(emitter, MUL(oldScaleX, req->scaleX));
-            BUTTON_MAN_SetScaleY(emitter, MUL(oldScaleY, req->scaleX));
+            PARTICLE_EMITTER_SetScaleX(emitter, MUL(oldScaleX, req->scaleX));
+            PARTICLE_EMITTER_SetScaleY(emitter, MUL(oldScaleY, req->scaleX));
         }
         if (req->alphaScale != 0)
-            BUTTON_MAN_SetAlpha(emitter, (u16)(MUL(oldAlpha, req->alphaScale) >> 12));
+            PARTICLE_EMITTER_SetAlpha(emitter, (u16)(MUL(oldAlpha, req->alphaScale) >> 12));
         if (req->angleScale != 0)
-            BUTTON_MAN_SetAngle(emitter, (s16)MUL(oldAngle, req->angleScale));
+            PARTICLE_EMITTER_SetAngle(emitter, (s16)MUL(oldAngle, req->angleScale));
         if (req->posScale != 0) {
-            BUTTON_MAN_GetPos(emitter, &scaled);
+            PARTICLE_EMITTER_GetPos(emitter, &scaled);
             scaled.x = MUL(scaled.x, req->posScale);
             scaled.y = MUL(scaled.y, req->posScale);
             scaled.z = MUL(scaled.z, req->posScale);
-            BUTTON_MAN_SetPos(emitter, (const BtlvEffVmVec *)&scaled);
-            oldScaleX = BUTTON_MAN_GetOffsetX(emitter);
-            BUTTON_MAN_SetOffsetX(emitter, (s16)MUL(oldScaleX, req->posScale));
-            oldScaleX = BUTTON_MAN_GetOffsetY(emitter);
-            BUTTON_MAN_SetOffsetY(emitter, (s16)MUL(oldScaleX, req->posScale));
+            PARTICLE_EMITTER_SetPos(emitter, (const BtlvEffVmVec *)&scaled);
+            oldScaleX = PARTICLE_EMITTER_GetOffsetX(emitter);
+            PARTICLE_EMITTER_SetOffsetX(emitter, (s16)MUL(oldScaleX, req->posScale));
+            oldScaleX = PARTICLE_EMITTER_GetOffsetY(emitter);
+            PARTICLE_EMITTER_SetOffsetY(emitter, (s16)MUL(oldScaleX, req->posScale));
         }
     }
     if (req->mode == 3)
-        BUTTON_MAN_SetEmitterPos(emitter, (const BtlvEffVmVec *)&emitterPos);
+        PARTICLE_EMITTER_SetEmitPos(emitter, (const BtlvEffVmVec *)&emitterPos);
     else
-        BUTTON_MAN_SetEmitterPos(emitter, (const BtlvEffVmVec *)&srcPos);
+        PARTICLE_EMITTER_SetEmitPos(emitter, (const BtlvEffVmVec *)&srcPos);
     GFL_HEAP_Free(req);
 }
 
@@ -4137,7 +4135,7 @@ void BTLV_EFFVM_ParticleMotionStep(void *emitter, int active)
     u16 angleB;
     BtlvEffVmEmitterMotion *motion;
 
-    motion = (BtlvEffVmEmitterMotion *)BUTTON_MAN_GetUserData(emitter);
+    motion = (BtlvEffVmEmitterMotion *)PARTICLE_EMITTER_GetUserData(emitter);
     if (motion->framesLeft == 0 || active == 0)
         return;
     if (motion->kind == 3) {
@@ -4173,7 +4171,7 @@ void BTLV_EFFVM_ParticleMotionStep(void *emitter, int active)
     MTX_MultVec43(&pos, motion, &pos);
     if (motion->projectToScreen != 0)
         BTLV_EFFVM_TransformVecByMtx44((&pos), (const BtlvEffVmVec *)((const BtlvEffVmVec *)0));
-    BUTTON_MAN_SetEmitterPos(emitter, (const BtlvEffVmVec *)&pos);
+    PARTICLE_EMITTER_SetEmitPos(emitter, (const BtlvEffVmVec *)&pos);
 }
 
 void BTLV_EFFVM_EmitterInitCallback(void *emitter)
@@ -4181,16 +4179,16 @@ void BTLV_EFFVM_EmitterInitCallback(void *emitter)
     BtlvEffVmCircleMotion *motion = (BtlvEffVmCircleMotion *)PARTICLE_GetCallbackArg();
 
     if (motion->projectToScreen != 0 && motion->center.z < 0)
-        BUTTON_MAN_SetAngle(emitter, 0x800);
-    BUTTON_MAN_SetUserData(emitter, (int)motion);
-    BUTTON_MAN_SetCallback(emitter, (int)BTLV_EFFVM_EmitterMoveCallbackB);
+        PARTICLE_EMITTER_SetAngle(emitter, 0x800);
+    PARTICLE_EMITTER_SetUserData(emitter, (int)motion);
+    PARTICLE_EMITTER_SetCallback(emitter, (int)BTLV_EFFVM_EmitterMoveCallbackB);
 }
 
 void BTLV_EFFVM_EmitterMoveCallbackB(void *emitter, int active)
 {
     BtlvEffVmCircleMotion *motion;
     BtlvEffVmVec pos;
-    motion = (BtlvEffVmCircleMotion *)BUTTON_MAN_GetUserData(emitter);
+    motion = (BtlvEffVmCircleMotion *)PARTICLE_EMITTER_GetUserData(emitter);
     if (active == 0)
         return;
     if (motion->pauseCounter == 0) {
@@ -4210,7 +4208,7 @@ void BTLV_EFFVM_EmitterMoveCallbackB(void *emitter, int active)
             pos.z += motion->center.z;
             if (motion->projectToScreen != 0)
                 BTLV_EFFVM_TransformVecByMtx44((&pos), (const BtlvEffVmVec *)((const BtlvEffVmVec *)0));
-            BUTTON_MAN_SetEmitterPos(emitter, (const BtlvEffVmVec *)&pos);
+            PARTICLE_EMITTER_SetEmitPos(emitter, (const BtlvEffVmVec *)&pos);
             if (motion->stepsLeft != 0) {
                 motion->stepsLeft--;
             } else {
@@ -4290,7 +4288,7 @@ int BTLV_EFFVM_EvalCondition(BtlvEffVmWork *work, unsigned int key)
     case 29: case 30: case 31: case 32: case 33: case 34: case 35: case 36:
         return BTLV_MCSS_HasPersonalParam10(BTLV_EFFECT_GetMcss(), key - 29);
     case 37: return BTLV_MCSS_HasPersonalParam10(BTLV_EFFECT_GetMcss(), work->attackerPos);
-    case 38: return BTLV_EFFECT_GetFieldSituationFlags();
+    case 38: return BTLV_EFFECT_IsMultiMode();
     case 39: return BTLV_EFFECT_GetMode();
     case 40: case 41: case 42: case 43: return BTLV_EFFECT_GetTrainerType(key - 40);
     case 44: case 45: case 46: case 47: case 48: case 49: case 50: case 51:
@@ -4393,12 +4391,12 @@ int BTLV_EFFVM_SetupEmitterCallbacks(void *vm, BtlvEffVmWork *work, int mode)
     motion->scriptArg12 = VM_GetU32(vm);
     motion->pauseCounter = 0;
     motion->pauseFrames = VM_GetU32(vm);
-    motion->phaseStep = _s32_div_f(0x10000, motion->stepsLeft);
+    motion->phaseStep = 0x10000 / motion->stepsLeft;
     motion->projectToScreen = mode;
     if (idx == 16)
         goto end;
     if (mode == 1) {
-        if (BUTTON_MAN_GetBlock(work->emitters[idx]) == 0) {
+        if (PARTICLE_EMITTER_GetBlock(work->emitters[idx]) == 0) {
             struct ParticleCameraParams projection;
             BtlvEffVmVec cameraPos = {0, 0, 0};
             BtlvEffVmVec cameraTarget;
@@ -4594,7 +4592,7 @@ void BTLV_EFFVM_SePlayTaskMain(void *task, void *arg)
 
 void BTLV_EFFVM_SePlayTaskEnd(void *task)
 {
-    BtlvEffVmWork *work = *((BtlvEffVmWork **)TCBL_GetTaskUserData(task));
+    BtlvEffVmWork *work = *((BtlvEffVmWork **)TCBL_IsDeletePending(task));
 
     work->flags.word &= ~4u;
 }
@@ -4667,7 +4665,7 @@ void BTLV_EFFVM_SeVolumeTweenTaskMain(void *task, void *arg)
 
 void BTLV_EFFVM_SeVolumeTweenTaskEnd(void *task)
 {
-    BtlvEffVmWork *work = *((BtlvEffVmWork **)TCBL_GetTaskUserData(task));
+    BtlvEffVmWork *work = *((BtlvEffVmWork **)TCBL_IsDeletePending(task));
 
     work->flags.word &= ~8u;
 }
@@ -4696,7 +4694,7 @@ void BTLV_EFFVM_SeModulationTaskMain(void *task, void *arg)
 
 void BTLV_EFFVM_SeModulationTaskEnd(void *task)
 {
-    BtlvEffVmWork *work = *((BtlvEffVmWork **)TCBL_GetTaskUserData(task));
+    BtlvEffVmWork *work = *((BtlvEffVmWork **)TCBL_IsDeletePending(task));
 
     work->flags.word &= ~0x800u;
 }
@@ -4708,7 +4706,7 @@ void BTLV_EFFVM_DelayTaskMain(void *task, void *arg)
     int flag = 1;
 
     BTLV_EFFECT_StepScalarWithLimit(&job->current, &job->step, &job->target, &flag);
-    GFL_NET_ERR_SetBgmTrackVolume((void *)0xffff, (void *)(job->current >> 12));
+    GFL_NET_SetBgmTrackVolumeUnlessVoiceChat((void *)0xffff, (void *)(job->current >> 12));
     if (flag)
         BTLV_EFFECT_DeleteTask(task);
 }
@@ -4768,7 +4766,7 @@ void BTLV_EFFVM_BlendRegisterTaskMain(void *task, void *arg)
 
 void BTLV_EFFVM_BlendRegisterTaskEnd(void *task)
 {
-    BtlvEffVmWindowWipeJob *job = (BtlvEffVmWindowWipeJob *)TCBL_GetTaskUserData(task);
+    BtlvEffVmWindowWipeJob *job = (BtlvEffVmWindowWipeJob *)TCBL_IsDeletePending(task);
 
     if (job->keepWindow == 0)
         *(volatile unsigned int *)0x04000000 &= ~0xE000u;

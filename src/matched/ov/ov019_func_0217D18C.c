@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   UNION_ONESELF_CheckNetError  0x0217BB04  thumb  ov019
+ *   UNION_ONESELF_HandleNetError  0x0217BB04  thumb  ov019
  *   UNION_MSG_SetupPrintTalkMsg  0x0217F210  thumb  ov019
  *   UNION_MSG_CheckTalkPrintEnd  0x0217F1EC  thumb  ov019
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
@@ -18,15 +18,15 @@
  *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
+ *   MET_TRAINERS_GetFromSave  0x0200ED48  thumb
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
  *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
  *   func_02008530  0x02008530  thumb
- *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb
+ *   MET_TRAINERS_Insert  0x0200ED54  thumb
  *   func_02030734  0x02030734  arm
  *   POKEPARTY_Create  0x0201A920  thumb
- *   UNION_MAIN_RequestScene  0x0217422C  thumb  ov012
- *   UNION_MAIN_IsScenePending  0x02174268  thumb  ov012
+ *   UNION_SCENE_RequestScene  0x0217422C  thumb  ov012
+ *   UNION_SCENE_IsScenePending  0x02174268  thumb  ov012
  *   func_020307B0  0x020307B0  arm
  *   GFL_NET_IsParentAid  0x0203D378  arm
  *   UNION_ONESELF_SetNextPlayCategory  0x0217B8E4  thumb  ov019
@@ -57,7 +57,7 @@ typedef struct {
     Rec14 *f20;
 } Rec30;
 
-extern int UNION_ONESELF_CheckNetError(char *p);
+extern int UNION_ONESELF_HandleNetError(char *p);
 typedef unsigned int   u32;
 extern void UNION_MSG_SetupPrintTalkMsg(u8 *p, u8 *a, u32 b);
 extern u32 UNION_MSG_CheckTalkPrintEnd(u8 *p);
@@ -75,15 +75,15 @@ struct Sub0200852CObj;
 struct Sub24;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *MISC_SAVEDATA_GetBlock44(void *p);
+extern void *MET_TRAINERS_GetFromSave(void *p);
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 extern struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, u32 i);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
-extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *l, u32 val);
+extern void MET_TRAINERS_Insert(struct L0200ED54 *l, u32 val);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, u16 line);
 extern struct Party *POKEPARTY_Create(u32 heap);
-extern void UNION_MAIN_RequestScene(u8 *p, int a, int b);
-extern int UNION_MAIN_IsScenePending(u8 *a);
+extern void UNION_SCENE_RequestScene(u8 *p, int a, int b);
+extern int UNION_SCENE_IsScenePending(u8 *a);
 extern u32 func_020307B0(void *p);
 extern u32 GFL_NET_IsParentAid(void);
 extern int UNION_ONESELF_SetNextPlayCategory(char *p, int v);
@@ -94,7 +94,7 @@ int UNION_ONESELF_TradeMain(u8 *a, int b, u8 *c, u8 *d)
     int x, y;
     Rec30 *p;
     Rec14 *q;
-    if (*d != 4 && UNION_ONESELF_CheckNetError((char *)a) == 1)
+    if (*d != 4 && UNION_ONESELF_HandleNetError((char *)a) == 1)
         return 1;
     switch (*d) {
     case 0:
@@ -110,8 +110,8 @@ int UNION_ONESELF_TradeMain(u8 *a, int b, u8 *c, u8 *d)
     case 2:
         if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 6, 0x14) == 1) {
             x = (int)GAMESYSTEM_GetGameData((const struct Ctx *)((*(int **)a)[3]));
-            y = (int)MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl((struct Big *)x));
-            MISC_SAVEDATA_InsertRecentValue((struct L0200ED54 *)y, func_02008530((const struct Sub0200852CObj *)GAME_DATA_GetPlayerStatus((struct Sub24 *)x, GFL_NET_GetHandleNetID((struct Link *)((int)GFL_NET_HANDLE_GetCurrentHandle())) ^ 1)));
+            y = (int)MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)x));
+            MET_TRAINERS_Insert((struct L0200ED54 *)y, func_02008530((const struct Sub0200852CObj *)GAME_DATA_GetPlayerStatus((struct Sub24 *)x, GFL_NET_GetHandleNetID((struct Link *)((int)GFL_NET_HANDLE_GetCurrentHandle())) ^ 1)));
             (*d)++;
         }
         break;
@@ -130,11 +130,11 @@ int UNION_ONESELF_TradeMain(u8 *a, int b, u8 *c, u8 *d)
         p->f20 = q;
         p->f08 = 0;
         *(Rec30 * *)&((struct Obj07385 *)a)->f3558 = p;
-        UNION_MAIN_RequestScene(a, 2, (int)p);
+        UNION_SCENE_RequestScene(a, 2, (int)p);
         (*d)++;
         break;
     case 4:
-        if (UNION_MAIN_IsScenePending(a) == 0) {
+        if (UNION_SCENE_IsScenePending(a) == 0) {
             p = *(Rec30 * *)&((struct Obj07385 *)a)->f3558;
             func_020307B0(p->f20);
             func_020307B0((void *)p->f1c);

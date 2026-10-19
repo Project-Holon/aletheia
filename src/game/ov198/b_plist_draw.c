@@ -29,7 +29,7 @@
  *   B_PLIST_MAIN_GetOrderIndex 0x022110D4 thumb ov198
  *   STRBUF_Create 0x020457B0 arm
  *   MSGDATA_AllocString 0x02045EC0 arm
- *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
+ *   WORDSET_SetSlotMonNickname 0x0201EEF4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
@@ -41,7 +41,7 @@
  *   BGWINFRM_ScaleRatio 0x0202D01C thumb
  *   BGWINFRM_GetScaleRank 0x0202D034 thumb
  *   BMP_FillRect 0x02043AF4 arm
- *   WORDSET_Callback_EF40 0x0201EF40 thumb
+ *   WORDSET_SetSlotFromMsg36 0x0201EF40 thumb
  *   WORDSET_SetSlotFromMsgCB 0x0201EF34 thumb
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   MSGDATA_Delete 0x02045C04 arm
@@ -52,7 +52,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   d_02211B06 0x02211B06 data a1
  *   d_02211B3C 0x02211B3C data a4
  *   d_02211B50 0x02211B50 data a1
@@ -62,7 +62,7 @@
  *   d_02211B2C 0x02211B2C data a1
  *   WAZA_TOOL_IsAlwaysHit 0x0201C1F4 thumb
  *   d_02211AF9 0x02211AF9 data a1
- *   FILE_UTIL_Get_0FE4 0x02020FE4 thumb
+ *   FILE_UTIL_GetItemParam 0x02020FE4 thumb
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   MSG_SPEED_GetWait 0x02012FFC thumb
@@ -112,7 +112,7 @@
  *   APP_ICON_GetMoveKindPaletteOffset 0x02027604 thumb
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
- *   FILE_UTIL_Check136C 0x0202136C thumb
+ *   FILE_UTIL_IsMailItem 0x0202136C thumb
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   d_02211DB4 0x02211DB4 data a2
  *   d_02211DCC 0x02211DCC data a2
@@ -233,7 +233,7 @@ extern u8 BMP_WIN_GetPalette(struct Descriptor *p);
 extern int B_PLIST_MAIN_GetOrderIndex(u8 *, int);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonNickname(struct WordSet *p, u32 i, void *mon);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, s16 b, s16 c, void *d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -244,7 +244,7 @@ extern void WORDSET_SetSlotFromMsgB6(struct WordSet *p, u32 i, u32 v);
 extern u8 BGWINFRM_ScaleRatio(u32,u32,u32);
 extern int BGWINFRM_GetScaleRank(u32,u32);
 extern void BMP_FillRect(struct Bmp *b, u32 x, u32 y, u32 w, u32 h, u32 value);
-extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotFromMsg36(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_SetSlotFromMsgCB(struct WordSet *p, u32 i, u32 v);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 MSGDATA_Delete(struct Rec *rec);
@@ -253,10 +253,10 @@ extern int B_PLIST_MAIN_GetRowStatus(u8 *p);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
-extern void BG_SYS_SetFlagField06(unsigned);
+extern void BG_SYS_MarkTileDirty(unsigned);
 extern unsigned WAZA_TOOL_GetParam(u16,unsigned);
 extern u32 WAZA_TOOL_IsAlwaysHit(u16 id);
-extern u32 FILE_UTIL_Get_0FE4(void *a, u32 sel, u32 id);
+extern u32 FILE_UTIL_GetItemParam(void *a, u32 sel, u32 id);
 extern void BMP_MENUWORK_DrawWindow(void *,int,int,int);
 extern unsigned GF_FONT_SetTextColor(unsigned,unsigned,unsigned);
 extern int MSG_SPEED_GetWait(unsigned);
@@ -306,7 +306,7 @@ extern u32 GFL_HEAP_Free(void *p);
 extern u8 APP_ICON_GetTypePaletteOffset(int i);
 extern u8 APP_ICON_GetMoveKindPaletteOffset(u8 i);
 extern void CLACT_AddActorSurfacePos(struct Obj *,const struct Vec2 *,u32),CLACT_SetActorAnimSeq(struct Obj *,u32);
-extern u32 FILE_UTIL_Check136C(u32);
+extern u32 FILE_UTIL_IsMailItem(u32);
 extern void B_PLIST_MAIN_SyncMoveActors(u8 *p);
 void B_PLIST_DRAW_CreateStateWindows(u8 *p,u32 state);
 void B_PLIST_DRAW_ToggleAuxWindow(u8 *p);
@@ -651,7 +651,7 @@ void B_PLIST_DRAW_PrintRowName(u8 *p, int slot, u16 rowIndex, u8 xPos, u8 extra)
     rec = (struct B_PlistSlotView *)(base + off);
     vec = STRBUF_Create(12, P->hdr->heapId);
     msg = MSGDATA_AllocString(P->msgBank, d_02211B68[rowIndex]);
-    WORDSET_SetSlotMonSpecies(P->wordSet, 0, *(void **)rec);
+    WORDSET_SetSlotMonNickname(P->wordSet, 0, *(void **)rec);
     WORDSET_CopyTaggedText(P->wordSet, vec, msg);
     if (k == 9) {
         u32 h9 = P->printQue;
@@ -1029,7 +1029,7 @@ void B_PLIST_DRAW_PrintItemOrName(char *p, int i, int index)
     else {
         t = (void *)STRBUF_Create(0x12, ((struct B_PlistWork *)p)->owner->heapId);
         format = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 15);
-        WORDSET_Callback_EF40(((struct B_PlistWork *)p)->wordSet, 0, ((struct B_PlistSlot *)elem)->u1A.heldItem);
+        WORDSET_SetSlotFromMsg36(((struct B_PlistWork *)p)->wordSet, 0, ((struct B_PlistSlot *)elem)->u1A.heldItem);
         WORDSET_CopyTaggedText(((struct B_PlistWork *)p)->wordSet, (void *)((u32)t), format);
         STRBUF_Delete(format);
     }
@@ -1970,11 +1970,11 @@ void B_PLIST_DRAW_DrawMode1(char *p)
     obj = ((struct B_PlistWork *)p)->win[4].handle;
     BMP_WIN_TransferChars(obj);
     BMP_WIN_MakeScreen(obj);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(obj));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(obj));
     obj = ((struct B_PlistWork *)p)->win[5].handle;
     BMP_WIN_TransferChars(obj);
     BMP_WIN_MakeScreen(obj);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(obj));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(obj));
 }
 
 
@@ -2054,7 +2054,7 @@ void B_PLIST_DRAW_DrawRowCenteredName(u8 *p, int idx)
     rec = (struct B_PlistSlotView *)(base + off);
     vec = STRBUF_Create(12, *(u16 *)(*(u8 **)p + 0x10));
     msg = MSGDATA_AllocString(*(struct MsgBank **)(p + 0x1EA0), d_02211B68[idx]);
-    WORDSET_SetSlotMonSpecies(*(struct WordSet **)(p + 0x1EA4), 0, *(void **)rec);
+    WORDSET_SetSlotMonNickname(*(struct WordSet **)(p + 0x1EA4), 0, *(void **)rec);
     msg2 = 0;
     WORDSET_CopyTaggedText(*(struct WordSet **)(p + 0x1EA4), vec, msg);
     STRBUF_Delete(msg);
@@ -2294,7 +2294,7 @@ void B_PLIST_DRAW_DrawMode5(char *p)
             B_PLIST_DRAW_PrintMoveRowValues((char *)p,(u8 *)(rec+offset),i+1);
         }
     }
-    if (FILE_UTIL_Get_0FE4((void *)(((struct B_PlistWork *)p)->owner->itemId),40,((struct B_PlistWork *)p)->owner->heapId) == 0)
+    if (FILE_UTIL_GetItemParam((void *)(((struct B_PlistWork *)p)->owner->itemId),40,((struct B_PlistWork *)p)->owner->heapId) == 0)
         B_PLIST_DRAW_PrintHeader((char *)p,104);
 }
 
@@ -2334,7 +2334,7 @@ void B_PLIST_DRAW_PrintStream(char *p)
     obj = ((struct B_PlistWork *)p)->win[1].handle;
     BMP_WIN_TransferChars(obj);
     BMP_WIN_MakeScreen(obj);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(obj));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(obj));
 }
 
 
@@ -2361,7 +2361,7 @@ void B_PLIST_DRAW_FormatRowWord(u8 *p)
     void *t;
     row = p + 4 + B_PLIST_MAIN_GetOrderIndex(p, (*(u8 **)p)[32]) * 0x4c;
     t = MSGDATA_AllocString(*(struct MsgBank **)(p + 0x1ea0), 105);
-    WORDSET_SetSlotMonSpecies(*(struct WordSet **)(p + 0x1ea4), 0, *(void **)row);
+    WORDSET_SetSlotMonNickname(*(struct WordSet **)(p + 0x1ea4), 0, *(void **)row);
     WORDSET_SetSlotFromMsgCB(*(struct WordSet **)(p + 0x1ea4), 1, 373);
     WORDSET_CopyTaggedText(*(struct WordSet **)(p + 0x1ea4), *(void **)(p + 0x1ea8), t);
     STRBUF_Delete(t);
@@ -2821,7 +2821,7 @@ void B_PLIST_DRAW_SwapActorPair(char *p,u8 *q,const Pair *pos)
 
 
 
-void B_PLIST_DRAW_SetActorAnimByMode(u32 mode,u8 *p,const struct Vec2 *q) { if(mode==0)CLACT_AddActorSurfacePos((struct Obj *)p,q,1);else {if(FILE_UTIL_Check136C(mode)==1)CLACT_SetActorAnimSeq((struct Obj *)p,1);else CLACT_SetActorAnimSeq((struct Obj *)p,0);B_PLIST_DRAW_PlaceActor(p,(u32)q);} }
+void B_PLIST_DRAW_SetActorAnimByMode(u32 mode,u8 *p,const struct Vec2 *q) { if(mode==0)CLACT_AddActorSurfacePos((struct Obj *)p,q,1);else {if(FILE_UTIL_IsMailItem(mode)==1)CLACT_SetActorAnimSeq((struct Obj *)p,1);else CLACT_SetActorAnimSeq((struct Obj *)p,0);B_PLIST_DRAW_PlaceActor(p,(u32)q);} }
 
 
 

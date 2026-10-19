@@ -1,5 +1,5 @@
 /*
- * function: BTLV_CLACT_StartMoveDefault
+ * function: BTLV_CLACT_StartScaleTween
  * address:  0x02201D5C
  * packet:   pkt_ov094_02201D5C
  * region:   ov094
@@ -26,7 +26,7 @@ extern void BTLV_CLACT_MoveTaskEndWide(void *a);
 extern void BTLV_CLACT_StartMoveTask(void *o, int idx, int c, Vec *v, void *d, int s1, int s2, int s3,
                           void (*f1)(void *, void *), void (*f2)(void *));
 
-void BTLV_CLACT_StartMoveDefault(char *o, int idx, int c, void *d, int s1, int s2, int s3)
+void BTLV_CLACT_StartScaleTween(char *o, int idx, int c, void *d, int s1, int s2, int s3)
 {
     Vec v;
 

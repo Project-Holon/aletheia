@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   BG_SYS_ResetSlot  0x02041EE4  arm  arm9
+ *   BG_SYS_ChangeScroll  0x02041EE4  arm  arm9
  *   (none)
 
  * Restarts the widget when its +5 counter has run out, otherwise counts it down.
@@ -19,7 +19,7 @@
 
 
 typedef unsigned int   u32;
-extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
+extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
 
 void ZUKAN_DETAIL_COMMON_TickFlashEffect(char *p)
 {
@@ -27,7 +27,7 @@ void ZUKAN_DETAIL_COMMON_TickFlashEffect(char *p)
 
     c = ((struct Obj07226 *)p)->f5;
     if (c == 0) {
-        BG_SYS_ResetSlot(((struct Obj07226 *)p)->f4, 1, 1);
+        BG_SYS_ChangeScroll(((struct Obj07226 *)p)->f4, 1, 1);
         ((struct Obj07226 *)p)->f5 = 4;
     } else {
         ((struct Obj07226 *)p)->f5 = c - 1;

@@ -13,9 +13,9 @@
  * symbols:
  *   GFL_USE_IsBgmPlaying 0x02005F38 thumb
  *   GFL_USE_PopBgm 0x02005E9C thumb
- *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_SetBgmPaused 0x02005DE4 thumb
  */
 extern int GFL_USE_IsBgmPlaying(void);
 extern int GFL_USE_PopBgm(void);
-extern void GFL_USE_SetBgmPlayerParam(void *);
-int GURU2_MAIN_PopBgmWhenDone(void) { if(GFL_USE_IsBgmPlaying()==0) { GFL_USE_PopBgm();GFL_USE_SetBgmPlayerParam(0);return 0; }return 1; }
+extern void GFL_USE_SetBgmPaused(void *);
+int GURU2_MAIN_PopBgmWhenDone(void) { if(GFL_USE_IsBgmPlaying()==0) { GFL_USE_PopBgm();GFL_USE_SetBgmPaused(0);return 0; }return 1; }

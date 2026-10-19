@@ -1,7 +1,7 @@
 /*
  * file:     guru2_receipt.c
  * unit:     yes
- * function: GURU2_RECEIPT_ProcInit, GURU2_RECEIPT_GetUnionApp, GURU2_RECEIPT_SendMemberCount, GURU2_RECEIPT_UnionAppNoop, GURU2_RECEIPT_ProcMain, GURU2_RECEIPT_ProcExit, GURU2_RECEIPT_AnimatePalette, GURU2_RECEIPT_VBlank, GURU2_RECEIPT_UpdateQueues, GURU2_RECEIPT_SetVramBanks, GURU2_RECEIPT_InitBg, GURU2_RECEIPT_InitStrings, GURU2_RECEIPT_FreeStrings, GURU2_RECEIPT_ExitBg, GURU2_RECEIPT_LoadGraphics, GURU2_RECEIPT_InitActors, GURU2_RECEIPT_FreeActors, GURU2_RECEIPT_CreatePlayerActors, GURU2_RECEIPT_CreateWindows, GURU2_RECEIPT_PrintTitle, GURU2_RECEIPT_DeleteWindows, GURU2_RECEIPT_StateInit, GURU2_RECEIPT_StateIdleStart, GURU2_RECEIPT_HandleKeys, GURU2_RECEIPT_Noop, GURU2_RECEIPT_StateGoToMessage, GURU2_RECEIPT_SetPendingState, GURU2_RECEIPT_StateWaitMessage, GURU2_RECEIPT_StateReopenRecruit, GURU2_RECEIPT_StateOpenStartMenu, GURU2_RECEIPT_StateStartMenu, GURU2_RECEIPT_StateResetWait, GURU2_RECEIPT_StateWaitAnswers, GURU2_RECEIPT_StateAnswersDone, GURU2_RECEIPT_StateOpenCancelMenu, GURU2_RECEIPT_StateCancelMenu, GURU2_RECEIPT_StateSendStartRequest, GURU2_RECEIPT_StateWaitStartReady, GURU2_RECEIPT_StateShowStartMessage, GURU2_RECEIPT_StateWaitEndWipe, GURU2_RECEIPT_StateOpenQuitMenu, GURU2_RECEIPT_StateQuitMenu, GURU2_RECEIPT_StateShowQuitMessage, GURU2_RECEIPT_StateQuitDelay, GURU2_RECEIPT_StateSetSyncToken, GURU2_RECEIPT_StateCheckSyncToken, GURU2_RECEIPT_StateWaitMessageToError, GURU2_RECEIPT_StateWaitMessageToStart, GURU2_RECEIPT_StateShowTimeoutMessage, GURU2_RECEIPT_StateArmTimeout, GURU2_RECEIPT_StateTimeout, GURU2_RECEIPT_StateEndSession, GURU2_RECEIPT_SetStateFromParent, GURU2_RECEIPT_SetStateFromChild, GURU2_RECEIPT_CountMembers, GURU2_RECEIPT_PrintMemberList, GURU2_RECEIPT_Noop2, GURU2_RECEIPT_GetMemberCount, GURU2_RECEIPT_GetJoinedBits, GURU2_RECEIPT_UpdateMemberSlots, GURU2_RECEIPT_PrintMessage, GURU2_RECEIPT_IsMessageDone, GURU2_RECEIPT_ClearMessageFrame, GURU2_RECEIPT_UpdatePlayerActors, GURU2_RECEIPT_LoadCharBuffer, GURU2_RECEIPT_FreeCharBuffer, GURU2_RECEIPT_SetPlayerIcon, GURU2_RECEIPT_CheckMemberChange, GURU2_RECEIPT_GetKeyTrg
+ * function: GURU2_RECEIPT_ProcInit, GURU2_RECEIPT_GetUnionApp, GURU2_RECEIPT_SendMemberCount, GURU2_RECEIPT_UnionAppNoop, GURU2_RECEIPT_ProcMain, GURU2_RECEIPT_ProcExit, GURU2_RECEIPT_AnimatePalette, GURU2_RECEIPT_VBlank, GURU2_RECEIPT_UpdateQueues, GURU2_RECEIPT_SetVramBanks, GURU2_RECEIPT_InitBg, GURU2_RECEIPT_InitStrings, GURU2_RECEIPT_FreeStrings, GURU2_RECEIPT_ExitBg, GURU2_RECEIPT_LoadGraphics, GURU2_RECEIPT_InitActors, GURU2_RECEIPT_FreeActors, GURU2_RECEIPT_CreatePlayerActors, GURU2_RECEIPT_CreateWindows, GURU2_RECEIPT_PrintTitle, GURU2_RECEIPT_DeleteWindows, GURU2_RECEIPT_StateInit, GURU2_RECEIPT_StateIdleStart, GURU2_RECEIPT_HandleKeys, GURU2_RECEIPT_Noop, GURU2_RECEIPT_StateGoToMessage, GURU2_RECEIPT_SetPendingState, GURU2_RECEIPT_StateWaitMessage, GURU2_RECEIPT_StateReopenRecruit, GURU2_RECEIPT_StateOpenStartMenu, GURU2_RECEIPT_StateStartMenu, GURU2_RECEIPT_StateResetWait, GURU2_RECEIPT_StateWaitAnswers, GURU2_RECEIPT_StateAnswersDone, GURU2_RECEIPT_StateOpenCancelMenu, GURU2_RECEIPT_StateCancelMenu, GURU2_RECEIPT_StateSendStartRequest, GURU2_RECEIPT_StateWaitStartReady, GURU2_RECEIPT_StateShowStartMessage, GURU2_RECEIPT_StateWaitEndWipe, GURU2_RECEIPT_StateOpenQuitMenu, GURU2_RECEIPT_StateQuitMenu, GURU2_RECEIPT_StateShowQuitMessage, GURU2_RECEIPT_StateQuitDelay, GURU2_RECEIPT_StateSetSyncToken, GURU2_RECEIPT_StateCheckSyncToken, GURU2_RECEIPT_StateWaitMessageToError, GURU2_RECEIPT_StateWaitMessageToStart, GURU2_RECEIPT_StateShowTimeoutMessage, GURU2_RECEIPT_StateArmTimeout, GURU2_RECEIPT_StateTimeout, GURU2_RECEIPT_StateEndSession, GURU2_RECEIPT_SetStateFromParent, GURU2_RECEIPT_SetStateFromChild, GURU2_RECEIPT_CountMembers, GURU2_RECEIPT_PrintMemberList, GURU2_RECEIPT_Noop2, GURU2_RECEIPT_GetMemberCount, GURU2_RECEIPT_GetJoinedBits, GURU2_RECEIPT_UpdateMemberSlots, GURU2_RECEIPT_PrintMessage, GURU2_RECEIPT_IsMessageDone, GURU2_RECEIPT_ClearMessageFrame, GURU2_RECEIPT_UpdatePlayerActors, GURU2_RECEIPT_LoadCharBuffer, GURU2_RECEIPT_FreeCharBuffer, GURU2_RECEIPT_SetPlayerIcon, GURU2_RECEIPT_UpdateMemberChange, GURU2_RECEIPT_GetKeyTrg
  * address:  0x021DCE10
  * region:   ov137
  * compiler: dsi/1.1p1
@@ -49,7 +49,7 @@
  *   UNION_APP_IsResetDone 0x0218417C thumb ov022
  *   GURU2_RECEIPT_PrintMemberList 0x021DE248 thumb ov137
  *   GURU2_RECEIPT_UpdatePlayerActors 0x021DE5D0 thumb ov137
- *   GURU2_RECEIPT_CheckMemberChange 0x021DE738 thumb ov137
+ *   GURU2_RECEIPT_UpdateMemberChange 0x021DE738 thumb ov137
  *   GFL_NET_COMMAND_DeleteCommandTable 0x0203A5E4 arm
  *   CLACT_DrawSystem 0x0204A600 arm
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
@@ -158,7 +158,7 @@
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   CLACT_CreateActor 0x0204B294 arm
  *   gGuru2LobbyActorResourceIds 0x021E1B20 data a4
  *   gGuru2LobbyCellIds 0x021E1B30 data a4
@@ -264,7 +264,7 @@ int GURU2_RECEIPT_PrintMemberList(void *window,int unused,u16 color,Context *p);
 
 void GURU2_RECEIPT_UpdatePlayerActors(u8 *p);
 
-int GURU2_RECEIPT_CheckMemberChange(FrameObj *obj);
+int GURU2_RECEIPT_UpdateMemberChange(FrameObj *obj);
 
 extern void GFL_NET_COMMAND_DeleteCommandTable(unsigned);
 
@@ -284,7 +284,7 @@ void GURU2_RECEIPT_ExitBg(u32 unused);
 
 extern u32 MSGDATA_Delete(struct Rec *rec);
 
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 
 extern u32 GF_FONT_Delete(void *ptr);
 
@@ -438,7 +438,7 @@ extern int (*const gGuru2LobbyStateTable[])(u8 *,u32);
  * GURU2_RECEIPT_UnionAppNoop 0x021DCF7C thumb ov137
  * GURU2_RECEIPT_PrintMemberList 0x021DE248 thumb ov137
  * GURU2_RECEIPT_UpdatePlayerActors 0x021DE5D0 thumb ov137
- * GURU2_RECEIPT_CheckMemberChange 0x021DE738 thumb ov137
+ * GURU2_RECEIPT_UpdateMemberChange 0x021DE738 thumb ov137
  * GURU2_RECEIPT_UpdateQueues 0x021DD1B4 thumb ov137
  * GFL_NET_COMMAND_DeleteCommandTable 0x0203A5E4 arm
  * CLACT_DrawSystem 0x0204A600 arm
@@ -464,7 +464,7 @@ int GURU2_RECEIPT_ProcMain(int proc,int seq,int parentWork,u8 *p)
         if(((struct Guru2Comm *)((struct Guru2Lobby *)p)->comm)->sessionClosed==0) GURU2_RECEIPT_PrintMemberList(((struct Guru2Lobby *)p)->memberWindow,0,1152,(Context *)p);
         GURU2_RECEIPT_UpdatePlayerActors(p);
         if(GFL_NET_SYSTEM_GetCurrentAid()==0) {
-            v=((int (*)(void *,int))GURU2_RECEIPT_CheckMemberChange)(p,1);
+            v=((int (*)(void *,int))GURU2_RECEIPT_UpdateMemberChange)(p,1);
             if(*(unsigned int *)&((struct Guru2Lobby *)p)->state==1) *(unsigned int *)&((struct Guru2Lobby *)p)->state=v;
         }
         break;
@@ -508,7 +508,7 @@ int GURU2_RECEIPT_ProcExit(void *proc,int seq,void *parentWork,u8 *p)
     TCBL_DeleteAllTasks((struct Tcbl *)(*(unsigned int *)&((struct Guru2Lobby *)p)->tcbl)); TCBL_Destroy((struct S02031140 *)(*(unsigned int *)&((struct Guru2Lobby *)p)->tcbl));
     PRINTSYS_QUE_Clear((struct PrintSys *)(*(unsigned int *)&((struct Guru2Lobby *)p)->printQue)); PRINTSYS_QUE_Delete((struct PrintSys *)(*(unsigned int *)&((struct Guru2Lobby *)p)->printQue));
     GURU2_RECEIPT_FreeActors(p); GURU2_RECEIPT_ExitBg(((u32 (*)(void *))GURU2_RECEIPT_DeleteWindows)(p));
-    MSGDATA_Delete((struct Rec *)(*(unsigned int *)&((struct Guru2Lobby *)p)->msgData)); WORDSET_DeleteStrbufED04((struct WordSet *)(*(unsigned int *)&((struct Guru2Lobby *)p)->wordSet)); GF_FONT_Delete((void *)(*(unsigned int *)&((struct Guru2Lobby *)p)->font));
+    MSGDATA_Delete((struct Rec *)(*(unsigned int *)&((struct Guru2Lobby *)p)->msgData)); WORDSET_Delete((struct WordSet *)(*(unsigned int *)&((struct Guru2Lobby *)p)->wordSet)); GF_FONT_Delete((void *)(*(unsigned int *)&((struct Guru2Lobby *)p)->font));
     *(volatile u16 *)0x04000304 |= 0x8000;
     TCB_DeleteTask((struct Node *)(*(unsigned int *)&((struct Guru2Lobby *)p)->vblankTask));
     ((struct Guru2Session *)((struct Guru2Lobby *)p)->session)->startConfirmed=*(unsigned int *)&((struct Guru2Lobby *)p)->startConfirmed;
@@ -1586,7 +1586,7 @@ void GURU2_RECEIPT_SetPlayerIcon(u8 *p, u8 *paletteData, int member, int outfit,
 /*
  * volatile: previous state at +0x4804 is read at 0x021DE764 and 0x021DE7CA.
  */
-int GURU2_RECEIPT_CheckMemberChange(FrameObj *obj)
+int GURU2_RECEIPT_UpdateMemberChange(FrameObj *obj)
 {
     u8 *p = (u8 *)obj;
     int state;

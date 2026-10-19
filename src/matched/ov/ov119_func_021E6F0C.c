@@ -12,7 +12,7 @@
  *   ARC_UTIL_LoadPaletteDataFromHandle 0x02049EF4 arm
  *   BG_SYS_DrawTile 0x02041090 arm
  *   func_020307B0 0x020307B0 arm
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   func_02041B6C 0x02041B6C arm
  */
@@ -25,7 +25,7 @@ extern void *func_020490F4(u32 id, u32 heap);
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *, u32, u32, void **, u16);
 extern void BG_SYS_DrawTile(u32, u32, u32, u32, u8, u8);
 extern u32 func_020307B0(void *p);
-extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+extern void BG_SYS_SetPriority(int idx, unsigned short val);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void func_02041B6C(u32 bit);
 void POKETRADE_2D_LoadMonPalette(char *p, int side, void *mon)
@@ -47,10 +47,10 @@ void POKETRADE_2D_LoadMonPalette(char *p, int side, void *mon)
     else
         BG_SYS_DrawTile(1, (u32)pal->data, 16, 0, 16, 24);
     func_020307B0(f);
-    BG_SYS_SetVisibleLayer(3, 2);
-    BG_SYS_SetVisibleLayer(2, 3);
-    BG_SYS_SetVisibleLayer(1, 1);
-    BG_SYS_SetVisibleLayer(0, 0);
+    BG_SYS_SetPriority(3, 2);
+    BG_SYS_SetPriority(2, 3);
+    BG_SYS_SetPriority(1, 1);
+    BG_SYS_SetPriority(0, 0);
     ARC_TOOL_DeleteHandle(h);
     func_02041B6C(1);
 }

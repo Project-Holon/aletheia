@@ -69,7 +69,7 @@
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   GAME_DATA_GetSaveBlock42 0x02012F68 thumb
@@ -98,7 +98,6 @@
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   sRotationStepByCount 0x021DEB50 data a4
  *   WIPE_SYS_Start 0x0202208C thumb
- *   _s32_div_f 0x0209C0A4 arm
  *   sAngleSpacingByCount 0x021DEB56 data
  *   BMP_WIN_Init 0x02045088 arm
  *   BMP_WIN_Create 0x020450F0 arm
@@ -110,7 +109,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   BMP_Clear 0x02043B5C arm
  *   MSGDATA_AllocString 0x02045EC0 arm
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
@@ -120,7 +119,7 @@
  *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   BMP_OAM_UploadChars 0x020257D0 thumb
- *   WORDSET_Callback 0x0201EE60 thumb
+ *   WORDSET_SetSlotSpeciesName 0x0201EE60 thumb
  *   WORDSET_SetSlotTag 0x0201EE0C thumb
  *   WORDSET_SetSlotFromMsgCB 0x0201EF34 thumb
  *   BMP_WIN_ClearScreen 0x020456F8 arm
@@ -161,8 +160,8 @@
  *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
  *   sMemberActorTemplates 0x021DEC04 data a4
  *   sMemberSlotsByCount 0x021DEC94 data a4
- *   GF_STANDARD_Sin 0x0203F6D8 arm
- *   GF_STANDARD_Get_F684 0x0203F684 arm
+ *   GF_STANDARD_CosFromDegreesWrapped 0x0203F6D8 arm
+ *   GF_STANDARD_SinFromDegreesWrapped 0x0203F684 arm
  *   _ll_mul 0x0209C054 arm
  *   CLACT_SetActorDrawPriority 0x0204B800 arm
  *   BMP_OAM_CreateSys 0x02025538 thumb
@@ -177,7 +176,6 @@
  *   KEY_GetTrg 0x020362DC arm
  *   d_021DED24 0x021DED24 data a4
  *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
- *   _s32_div_f  0x0209C0A4  arm
  */
 #include "dendou_view_types.h"
 
@@ -245,7 +243,7 @@ extern struct PrintQue *PRINTSYS_QUE_Create(u32 heapId);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct Strbuf *str);
 extern void PRINTSYS_QUE_Delete(struct PrintQue *que);
-extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
+extern unsigned int WORDSET_Delete(struct WordSet *wordSet);
 extern u32 GF_FONT_Delete(struct GfFont *font);
 extern u32 MSGDATA_Delete(struct MsgData *msgData);
 extern void *GAME_DATA_GetSaveBlock42(void *gameData);
@@ -271,7 +269,6 @@ extern u32 PRINTSYS_QUE_IsFinished(const struct PrintQue *que);
 extern u32 WIPE_SYS_EndCheck(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void WIPE_SYS_Start(void *, u32, u32, u32, u32, u32, u32);
-extern int _s32_div_f(int, int);
 extern void BMP_WIN_Init(u16 heapId);
 extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
@@ -282,7 +279,7 @@ extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQue *que, struct Bmp *bmp);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 extern void BMP_Clear(struct Bmp *bmp, u8 value);
 extern struct Strbuf *MSGDATA_AllocString(struct MsgData *msgData, u32 index);
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 i, u32 a, u32 b, u32 c, u32 d);
@@ -292,7 +289,7 @@ extern void TOUCHBAR_PrintAligned(DendouViewWindow *window, struct PrintQue *que
 extern u32 GF_FONT_MeasureWidestLine(struct Strbuf *str, struct GfFont *font, u32 b);
 extern void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
 extern void BMP_OAM_UploadChars(struct BmpOam *oam);
-extern void WORDSET_Callback(struct WordSet *wordSet, u32 i, u16 v);
+extern void WORDSET_SetSlotSpeciesName(struct WordSet *wordSet, u32 i, u16 v);
 extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 i, struct Strbuf *src, u32 n, u32 f, u32 c);
 extern void WORDSET_SetSlotFromMsgCB(struct WordSet *wordSet, u32 i, u32 v);
 extern void BMP_WIN_ClearScreen(struct BmpWin *win);
@@ -329,8 +326,8 @@ extern u32 POKEGRA_RegisterPalette(void *handle, u32 species, u32 form, u32 gend
 extern u32 POKEGRA_RegisterCellAnim(u32 species, u32 form, u32 gender, u32 shiny, u32, u32, u32, u32, u16 heap);
 extern u32 POKE_TOOL_IsShinyOtIdPersonality(u32 trainerId, u32 personality);
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *palAnm, u32 bank, u32 off, u32 size);
-extern s16 GF_STANDARD_Sin(s32 x);
-extern short GF_STANDARD_Get_F684(unsigned short x);
+extern s16 GF_STANDARD_CosFromDegreesWrapped(s32 x);
+extern short GF_STANDARD_SinFromDegreesWrapped(unsigned short x);
 extern void CLACT_SetActorDrawPriority(struct ClactActor *actor, u32 val);
 extern struct BmpOamSys *BMP_OAM_CreateSys(unsigned int heapId, struct ClactUnit *unit);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
@@ -603,7 +600,7 @@ void DENDOU_VIEW_ExitText(DendouViewWork *work)
 {
     STRBUF_Delete(work->textBuf);
     PRINTSYS_QUE_Delete(work->printQueue);
-    WORDSET_DeleteStrbufED04(work->wordSet);
+    WORDSET_Delete(work->wordSet);
     GF_FONT_Delete(work->fontLevelLabel);
     GF_FONT_Delete(work->fontBody);
     MSGDATA_Delete(work->msgData);
@@ -1046,7 +1043,7 @@ void DENDOU_VIEW_StartRotation(DendouViewWork *work, int step)
     for (i = 0; i < (unsigned)count; i++) {
         work->targetAngle[dst] = work->angle[src];
         work->fadeTarget[dst] = work->fadeSettled[src];
-        dst += (s16)_s32_div_f(step, step < 0 ? -step : step);
+        dst += (s16)(step / (step < 0 ? -step : step));
         if (dst < 0) {
             count = work->rows[work->rowIndex].memberCount;
             dst = count - 1;
@@ -1055,7 +1052,7 @@ void DENDOU_VIEW_StartRotation(DendouViewWork *work, int step)
             if (dst >= count)
                 dst = 0;
         }
-        src += (s16)_s32_div_f(step, step < 0 ? -step : step);
+        src += (s16)(step / (step < 0 ? -step : step));
         if (src < 0)
             src = count - 1;
         else if (src >= count)
@@ -1066,7 +1063,7 @@ void DENDOU_VIEW_StartRotation(DendouViewWork *work, int step)
         stepAngle = -stepAngle;
     if (step < 0)
         step = -step;
-    stepAngle = _s32_div_f(sAngleSpacingByCount[count - 1], stepAngle);
+    stepAngle = sAngleSpacingByCount[count - 1] / stepAngle;
     work->rotationFramesLeft = stepAngle * step;
 }
 
@@ -1145,7 +1142,7 @@ void DENDOU_VIEW_FlushWindows(DendouViewWork *work)
 void DENDOU_VIEW_PresentWindow(DendouViewWindow *window)
 {
     BMP_WIN_MakeScreen(window->win);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window->win));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(window->win));
 }
 
 /*
@@ -1225,7 +1222,7 @@ void DENDOU_VIEW_DrawMemberInfo(DendouViewWork *work)
     member = &work->rows[work->rowIndex].members[work->cursor];
     BMP_Clear(BMP_WIN_GetBmp(work->windows[1].win), 0);
     speciesText = MSGDATA_AllocString(work->msgData, 5);
-    WORDSET_Callback(work->wordSet, 0, member->species);
+    WORDSET_SetSlotSpeciesName(work->wordSet, 0, member->species);
     WORDSET_CopyTaggedText(work->wordSet, work->textBuf, speciesText);
     TOUCHBAR_PrintAligned(&work->windows[1], work->printQueue, 0, 0, work->textBuf, work->fontBody, 0x440, 0);
     STRBUF_Delete(speciesText);
@@ -1274,7 +1271,7 @@ void DENDOU_VIEW_DrawMemberInfo(DendouViewWork *work)
 void DENDOU_VIEW_ClearInfoWindow(DendouViewWork *work)
 {
     BMP_WIN_ClearScreen(work->windows[1].win);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(work->windows[1].win));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(work->windows[1].win));
     BMP_Clear(BMP_WIN_GetBmp(work->windows[1].win), 0);
     BMP_WIN_TransferChars(work->windows[1].win);
 }
@@ -1539,8 +1536,8 @@ int DENDOU_VIEW_GetActiveActorBase(DendouViewWork *work)
 void DENDOU_VIEW_PlaceActorOnEllipse(DendouViewWork *work, int actorIndex, int angle)
 {
     int x, y;
-    x = (int)(((long long)GF_STANDARD_Sin((u16)angle) * 0x64000 + 0x800) >> 12);
-    y = (int)(((long long)GF_STANDARD_Get_F684((u16)angle) * 0x2c000 + 0x800) >> 12);
+    x = (int)(((long long)GF_STANDARD_CosFromDegreesWrapped((u16)angle) * 0x64000 + 0x800) >> 12);
+    y = (int)(((long long)GF_STANDARD_SinFromDegreesWrapped((u16)angle) * 0x2c000 + 0x800) >> 12);
     x += 0x80000;
     y += 0x58000;
     DENDOU_VIEW_MoveActor(work, actorIndex, (short)((x & 0x7ffff000) >> 12),

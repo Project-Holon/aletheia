@@ -15,15 +15,15 @@
  *
  * Levers: the copy-back loop is a 4-byte struct assignment of the nested
  * Item (two field stores allocate r2/r3 the other way round); `e = &ents[i]`
- * taken before the first FILE_UTIL_Get_1014 call places the i*8 spill there.
+ * taken before the first FILE_UTIL_GetItemRecordParam call places the i*8 spill there.
  *
  * symbols:
  *   func_02030734  0x02030734  arm
  *   MYITEM_SAVEDATA_CopyPocket   0x02007CC8  thumb
  *   ITEMMENU_GetItemCount  0x021B61C8  thumb  ov070
- *   FILE_UTIL_Create_0F14  0x02020F14  thumb
+ *   FILE_UTIL_CreateItemArcHandle  0x02020F14  thumb
  *   FILE_UTIL_LoadArcMember  0x02020F20  thumb
- *   FILE_UTIL_Get_1014  0x02021014  thumb
+ *   FILE_UTIL_GetItemRecordParam  0x02021014  thumb
  *   func_020307B0  0x020307B0  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   MATH_QSort     0x02081BE4  arm
@@ -59,10 +59,10 @@ extern char d_021BBBC0[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MYITEM_SAVEDATA_CopyPocket(u8 *base, void *buf, u32 id, int save);
 extern int ITEMMENU_GetItemCount(u8 *p);
-extern void *FILE_UTIL_Create_0F14(u32 a);
+extern void *FILE_UTIL_CreateItemArcHandle(u32 a);
 extern int FILE_UTIL_LoadArcMember(int h, int id, u16 heap);
 struct Rec;
-extern u32 FILE_UTIL_Get_1014(struct Rec *p, u32 sel);
+extern u32 FILE_UTIL_GetItemRecordParam(struct Rec *p, u32 sel);
 extern u32 func_020307B0(void *p);
 extern void ARC_TOOL_DeleteHandle(int h);
 extern void MATH_QSort(void *head, u32 num, u32 width, int (*comp)(Ent *, Ent *), void *buf);
@@ -83,12 +83,12 @@ void ITEMMENU_SortPocket(Obj *o)
     items = func_02030734(o->heap, 0x4D8, 0, d_021BBBC0, 0xB36);
     MYITEM_SAVEDATA_CopyPocket(o->save, items, o->pocket, 1);
     n = ITEMMENU_GetItemCount((u8 *)o);
-    h = (int)FILE_UTIL_Create_0F14(o->heap);
+    h = (int)FILE_UTIL_CreateItemArcHandle(o->heap);
     for (i = 0; i < n; i++) {
         rec = FILE_UTIL_LoadArcMember(h, items[i].id, o->heap);
         e = &ents[i];
-        x = FILE_UTIL_Get_1014((struct Rec *)rec, 0xF);
-        e->key = (x << 28) + (FILE_UTIL_Get_1014((struct Rec *)rec, 0x11) << 16) + items[i].id;
+        x = FILE_UTIL_GetItemRecordParam((struct Rec *)rec, 0xF);
+        e->key = (x << 28) + (FILE_UTIL_GetItemRecordParam((struct Rec *)rec, 0x11) << 16) + items[i].id;
         e->item = items[i];
         func_020307B0((void *)rec);
     }

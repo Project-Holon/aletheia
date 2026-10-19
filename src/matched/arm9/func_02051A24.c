@@ -1,5 +1,5 @@
 /*
- * function: BUTTON_MAN_SetCallback
+ * function: PARTICLE_EMITTER_SetCallback
  * address:  0x02051A24
  * packet:   pkt_02051A24
  * region:   arm9
@@ -17,7 +17,7 @@
  */
 #include "../include/Obj16191.h"
 
-void BUTTON_MAN_SetCallback(void *p, int v)
+void PARTICLE_EMITTER_SetCallback(void *p, int v)
 {
     ((struct Obj16191 *)p)->f90 = v;
 }

@@ -1,8 +1,8 @@
 /*
  * file:     iss_switch_set.c
  * unit:     yes
- * function: ISS_SWITCH_SET_Alloc, ISS_SWITCH_SET_Free, ISS_SWITCH_SET_CreateSwitches, ISS_SWITCH_SET_DeleteSwitches, ISS_SWITCH_SET_LoadData, ISS_SWITCH_SET_UpdateSwitches, ISS_SWITCH_SET_StartSwitchOn, ISS_SWITCH_SET_StartSwitchOff, ISS_SWITCH_SET_ResetSwitches, ISS_SWITCH_SET_ReadBgmNo, ISS_SWITCH_SET_GetZoneCount, ISS_SWITCH_SET_GetZone, ISS_SWITCH_SET_CheckZone, ISS_SWITCH_SET_CheckSwitchOn, ISS_SWITCH_SET_GetSwitch, ISS_SWITCH_SET_ApplySwitchVolumes, ISS_SWITCH_Create, ISS_SWITCH_Delete, ISS_SWITCH_Setup, ISS_SWITCH_IsOn, ISS_SWITCH_On, ISS_SWITCH_Off, ISS_SWITCH_ForceOn, ISS_SWITCH_ForceOff, ISS_SWITCH_Main, ISS_SWITCH_SetVolume
- * address:  0x0202C384
+ * function: ISS_SWITCH_SET_Create, ISS_SWITCH_SET_Delete, ISS_SWITCH_SET_Load, ISS_SWITCH_SET_Main, ISS_SWITCH_SET_SwitchOn, ISS_SWITCH_SET_SwitchOff, ISS_SWITCH_SET_ResetSwitch, ISS_SWITCH_SET_GetBgmNo, ISS_SWITCH_SET_IsValidZone, ISS_SWITCH_SET_IsSwitchOn, ISS_SWITCH_SET_UpdateVolume, ISS_SWITCH_SET_Init, ISS_SWITCH_SET_Alloc, ISS_SWITCH_SET_Free, ISS_SWITCH_SET_CreateSwitches, ISS_SWITCH_SET_DeleteSwitches, ISS_SWITCH_SET_LoadData, ISS_SWITCH_SET_UpdateSwitches, ISS_SWITCH_SET_StartSwitchOn, ISS_SWITCH_SET_StartSwitchOff, ISS_SWITCH_SET_ResetSwitches, ISS_SWITCH_SET_ReadBgmNo, ISS_SWITCH_SET_GetZoneCount, ISS_SWITCH_SET_GetZone, ISS_SWITCH_SET_CheckZone, ISS_SWITCH_SET_CheckSwitchOn, ISS_SWITCH_SET_GetSwitch, ISS_SWITCH_SET_ApplySwitchVolumes
+ * address:  0x0202C2EC
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -10,34 +10,63 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Cut from iss_switch_sys.c by tools/splitfile.py.
+ * Cut from iss_switch_set.c, iss_switch.c by tools/splitfile.py.
  *
  * symbols:
+ *   ISS_SWITCH_SET_Alloc 0x0202C384 thumb arm9
+ *   ISS_SWITCH_SET_Free 0x0202C3A0 thumb arm9
+ *   ISS_SWITCH_SET_CreateSwitches 0x0202C3A8 thumb arm9
+ *   ISS_SWITCH_SET_DeleteSwitches 0x0202C3C4 thumb arm9
+ *   ISS_SWITCH_SET_LoadData 0x0202C3E0 thumb arm9
+ *   ISS_SWITCH_SET_UpdateSwitches 0x0202C470 thumb arm9
+ *   ISS_SWITCH_SET_StartSwitchOn 0x0202C48C thumb arm9
+ *   ISS_SWITCH_SET_StartSwitchOff 0x0202C498 thumb arm9
+ *   ISS_SWITCH_SET_ResetSwitches 0x0202C4A4 thumb arm9
+ *   ISS_SWITCH_SET_ReadBgmNo 0x0202C4C8 thumb arm9
+ *   ISS_SWITCH_SET_CheckZone 0x0202C4D8 thumb arm9
+ *   ISS_SWITCH_SET_CheckSwitchOn 0x0202C504 thumb arm9
+ *   ISS_SWITCH_SET_ApplySwitchVolumes 0x0202C518 thumb arm9
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   GFL_HEAP_Free  0x020307B0  arm
  *   IssSwitchSetFileName     0x020A776C  data
  *   FSi_ConvertStringSjisToUnicode  0x02048F74  arm
- *   ISS_SWITCH_Alloc 0x0202C590 thumb arm9
- *   ISS_SWITCH_Free 0x0202C5AC thumb arm9
- *   ISS_SWITCH_Init 0x0202C5B4 thumb arm9
- *   ISS_SWITCH_SetParam 0x0202C5C4 thumb arm9
- *   ISS_SWITCH_Update 0x0202C5F0 thumb arm9
- *   ISS_SWITCH_StartFadeIn 0x0202C670 thumb arm9
- *   ISS_SWITCH_StartFadeOut 0x0202C688 thumb arm9
- *   ISS_SWITCH_SetOnState 0x0202C6A0 thumb arm9
- *   ISS_SWITCH_SetOffState 0x0202C6AC thumb arm9
- *   ISS_SWITCH_ApplyVolume 0x0202C710 thumb arm9
- *   ISS_SWITCH_IsOnState 0x0202C72C thumb arm9
+ *   ISS_SWITCH_Create 0x0202C538 thumb arm9
+ *   ISS_SWITCH_Delete 0x0202C548 thumb arm9
+ *   ISS_SWITCH_Setup 0x0202C550 thumb arm9
+ *   ISS_SWITCH_IsOn 0x0202C558 thumb arm9
+ *   ISS_SWITCH_On 0x0202C560 thumb arm9
+ *   ISS_SWITCH_Off 0x0202C568 thumb arm9
+ *   ISS_SWITCH_ForceOn 0x0202C570 thumb arm9
+ *   ISS_SWITCH_ForceOff 0x0202C578 thumb arm9
+ *   ISS_SWITCH_Main 0x0202C580 thumb arm9
+ *   ISS_SWITCH_SetVolume 0x0202C588 thumb arm9
  */
 #include "iss_switch_sys_shared_types.h"
 #include "iss_switch_set_shared_types.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+u32 ISS_SWITCH_SET_Create(void *heapId);
 
-extern u32 GFL_HEAP_Free(void *p);
+void ISS_SWITCH_SET_Delete(void *set);
 
-extern u32 FSi_ConvertStringSjisToUnicode(void *dst, u32 term, void *src,
-                                           u32 srcOffset, u32 dstSize);
+u32 ISS_SWITCH_SET_Load(void *set, u32 datId, u32 heapId);
+
+u32 ISS_SWITCH_SET_Main(void *set);
+
+u32 ISS_SWITCH_SET_SwitchOn(void *set, u32 switchIdx);
+
+u32 ISS_SWITCH_SET_SwitchOff(void *set, u32 switchIdx);
+
+void ISS_SWITCH_SET_ResetSwitch(void *set);
+
+u32 ISS_SWITCH_SET_GetBgmNo(void *set);
+
+u32 ISS_SWITCH_SET_IsValidZone(void *set, void *zoneId);
+
+u32 ISS_SWITCH_SET_IsSwitchOn(void *set, u32 switchIdx);
+
+void ISS_SWITCH_SET_UpdateVolume(void *set);
+
+void ISS_SWITCH_SET_Init(struct IssSwitchSet *set);
 
 void *ISS_SWITCH_SET_Alloc(void *heapId);
 
@@ -59,17 +88,103 @@ void ISS_SWITCH_SET_ResetSwitches(void *set);
 
 u32 ISS_SWITCH_SET_ReadBgmNo(u32 *set);
 
-u32 ISS_SWITCH_SET_GetZoneCount(struct IssSwitchSet *set);
-
-u32 ISS_SWITCH_SET_GetZone(struct IssSwitchSet *set, u32 idx);
-
 u32 ISS_SWITCH_SET_CheckZone(void *set, u32 zoneId);
 
 u32 ISS_SWITCH_SET_CheckSwitchOn(void *set, u32 switchIdx);
 
-u32 ISS_SWITCH_SET_GetSwitch(struct IssSwitchSet *set, u32 idx);
-
 void ISS_SWITCH_SET_ApplySwitchVolumes(void *set);
+
+/*
+ * Closed: ISS_SWITCH_SET_Alloc became an EXACT manifest entry, so the matched class attests the call at 0x0202C2F0.
+ */
+u32 ISS_SWITCH_SET_Create(void *heapId)
+{
+    u32 set = (u32)ISS_SWITCH_SET_Alloc(heapId);
+
+    ISS_SWITCH_SET_Init((void *)set);
+    ISS_SWITCH_SET_CreateSwitches((char *)set, (int)heapId);
+    return set;
+}
+
+void ISS_SWITCH_SET_Delete(void *set)
+{
+    ISS_SWITCH_SET_DeleteSwitches(set);
+    ISS_SWITCH_SET_Free(set);
+}
+
+u32 ISS_SWITCH_SET_Load(void *set, u32 datId, u32 heapId)
+{
+    return ISS_SWITCH_SET_LoadData(set, (void *)datId);
+}
+
+u32 ISS_SWITCH_SET_Main(void *set)
+{
+    return ISS_SWITCH_SET_UpdateSwitches(set);
+}
+
+u32 ISS_SWITCH_SET_SwitchOn(void *set, u32 switchIdx)
+{
+    return ISS_SWITCH_SET_StartSwitchOn(set, switchIdx);
+}
+
+u32 ISS_SWITCH_SET_SwitchOff(void *set, u32 switchIdx)
+{
+    return ISS_SWITCH_SET_StartSwitchOff(set, switchIdx);
+}
+
+void ISS_SWITCH_SET_ResetSwitch(void *set)
+{
+    ISS_SWITCH_SET_ResetSwitches(set);
+}
+
+u32 ISS_SWITCH_SET_GetBgmNo(void *set)
+{
+    return ISS_SWITCH_SET_ReadBgmNo(set);
+}
+
+u32 ISS_SWITCH_SET_IsValidZone(void *set, void *zoneId)
+{
+    return ISS_SWITCH_SET_CheckZone(set, (u32)zoneId);
+}
+
+u32 ISS_SWITCH_SET_IsSwitchOn(void *set, u32 switchIdx)
+{
+    return ISS_SWITCH_SET_CheckSwitchOn(set, switchIdx);
+}
+
+void ISS_SWITCH_SET_UpdateVolume(void *set)
+{
+    ISS_SWITCH_SET_ApplySwitchVolumes(set);
+}
+
+void ISS_SWITCH_SET_Init(struct IssSwitchSet *set)
+{
+    int i;
+
+    set->bgmNo = 0;
+    set->zoneCount = 0;
+
+    for (i = 0; i < 9; i++) {
+        set->zones[i] = 0;
+    }
+
+    for (i = 0; i < 9; i++) {
+        set->switches[i] = 0;
+    }
+}
+
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+
+extern u32 GFL_HEAP_Free(void *p);
+
+extern u32 FSi_ConvertStringSjisToUnicode(void *dst, u32 term, void *src,
+                                           u32 srcOffset, u32 dstSize);
+
+u32 ISS_SWITCH_SET_GetZoneCount(struct IssSwitchSet *set);
+
+u32 ISS_SWITCH_SET_GetZone(struct IssSwitchSet *set, u32 idx);
+
+u32 ISS_SWITCH_SET_GetSwitch(struct IssSwitchSet *set, u32 idx);
 
 void *ISS_SWITCH_Create(u32 heapId);
 
@@ -90,28 +205,6 @@ u32 ISS_SWITCH_ForceOff(void *sw);
 void ISS_SWITCH_Main(void *sw);
 
 void ISS_SWITCH_SetVolume(void *sw, u32 maxVolume);
-
-void *ISS_SWITCH_Alloc(u32 heapId);
-
-u32 ISS_SWITCH_Free(void *sw);
-
-void ISS_SWITCH_Init(struct IssSwitch *sw);
-
-u32 ISS_SWITCH_SetParam(struct IssSwitch *sw, u16 fadeFrames, u16 trackBits);
-
-void ISS_SWITCH_Update(void *sw);
-
-u32 ISS_SWITCH_StartFadeIn(void *sw);
-
-u32 ISS_SWITCH_StartFadeOut(void *sw);
-
-u32 ISS_SWITCH_SetOnState(void *sw);
-
-u32 ISS_SWITCH_SetOffState(void *sw);
-
-void ISS_SWITCH_ApplyVolume(struct IssSwitch *sw, s32 maxVolume);
-
-u32 ISS_SWITCH_IsOnState(void *sw);
 
 extern const char IssSwitchSetFileName[];
 
@@ -260,57 +353,4 @@ void ISS_SWITCH_SET_ApplySwitchVolumes(void *set)
     for (i = 0; i < 9; i++) {
         ISS_SWITCH_SetVolume((void *)ISS_SWITCH_SET_GetSwitch(set, i), 0x7F);
     }
-}
-
-void *ISS_SWITCH_Create(u32 heapId)
-{
-    void *sw = ISS_SWITCH_Alloc(heapId);
-
-    ISS_SWITCH_Init(sw);
-    return sw;
-}
-
-u32 ISS_SWITCH_Delete(void *sw)
-{
-    return ISS_SWITCH_Free(sw);
-}
-
-u32 ISS_SWITCH_Setup(void *sw, u16 fadeFrames, u16 trackBits)
-{
-    return ISS_SWITCH_SetParam(sw, fadeFrames, trackBits);
-}
-
-u32 ISS_SWITCH_IsOn(void *sw)
-{
-    return ISS_SWITCH_IsOnState(sw);
-}
-
-u32 ISS_SWITCH_On(void *sw)
-{
-    return ISS_SWITCH_StartFadeIn(sw);
-}
-
-u32 ISS_SWITCH_Off(void *sw)
-{
-    return ISS_SWITCH_StartFadeOut(sw);
-}
-
-u32 ISS_SWITCH_ForceOn(void *sw)
-{
-    return ISS_SWITCH_SetOnState(sw);
-}
-
-u32 ISS_SWITCH_ForceOff(void *sw)
-{
-    return ISS_SWITCH_SetOffState(sw);
-}
-
-void ISS_SWITCH_Main(void *sw)
-{
-    ISS_SWITCH_Update(sw);
-}
-
-void ISS_SWITCH_SetVolume(void *sw, u32 maxVolume)
-{
-    ISS_SWITCH_ApplyVolume(sw, maxVolume);
 }

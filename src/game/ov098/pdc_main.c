@@ -42,7 +42,7 @@
  *   G3D_SYSTEM_SetSwapBuffersMode 0x02046BE0 arm
  *   G3X_SetFog 0x0207DC44 arm
  *   CLACT_InitSystem 0x0204A48C arm
- *   BG_SYS_SetLowBit 0x0204044C arm
+ *   BG_SYS_EnableBg0WithPriority 0x0204044C arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   gPdcDispVram 0x021B6DF4 data a4
  *   gPdcDispConfig 0x021B6DB0 data a4
@@ -93,7 +93,7 @@
  *   PDC_MSG_PrintMessage4 0x021B6A00 thumb ov098
  *   PDC_MSG_Update 0x021B6A3C thumb ov098
  *   PDC_MSG_StartFadeIn 0x021B6B5C thumb ov098
- *   PDC_MSG_IsFadeIdle 0x021B6B68 thumb ov098
+ *   PDC_MSG_UpdateFade 0x021B6B68 thumb ov098
  *   PDC_MSG_TakeStreamEnded 0x021B6B74 thumb ov098
  */
 #include "pdc_types.h"
@@ -151,7 +151,7 @@ extern void G3D_SYSTEM_Init(u32, u32, u32, u32, u16, u32, void (*)(void));
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32, u32);
 extern void G3X_SetFog(int, int, int, int);
 extern void CLACT_InitSystem(const struct Cfg *, u32, u32);
-extern void BG_SYS_SetLowBit(u32);
+extern void BG_SYS_EnableBg0WithPriority(u32);
 extern void BG_SYS_SetMainPlaneVisible(u32, u32);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
@@ -196,7 +196,7 @@ extern void PDC_MSG_PrintMessage2(struct PdcMsg *msg, struct PdcArgs *args);
 extern void PDC_MSG_PrintMessage4(struct PdcMsg *msg, struct PdcArgs *args);
 extern int PDC_MSG_Update(struct PdcMsg *msg);
 extern void PDC_MSG_StartFadeIn(struct PdcMsg *msg);
-extern int PDC_MSG_IsFadeIdle(struct PdcMsg *msg);
+extern int PDC_MSG_UpdateFade(struct PdcMsg *msg);
 extern int PDC_MSG_TakeStreamEnded(struct PdcMsg *msg);
 
 struct PdcSys *PDC_MAIN_Create(struct PdcArgs *args, u16 heapId);
@@ -292,7 +292,7 @@ void PDC_MAIN_InitGraphics(u16 heapId)
     G3X_SetFog(0, 0, 0, 0);
     BG0CNT = (u16)((BG0CNT & ~3) | 1);
     CLACT_InitSystem(&gPdcClactInit, (u32)&gPdcDispVram, heapId);
-    BG_SYS_SetLowBit(1);
+    BG_SYS_EnableBg0WithPriority(1);
     BG_SYS_SetMainPlaneVisible(16, 1);
 }
 
@@ -312,7 +312,7 @@ int PDC_MAIN_StepIntro(struct PdcSys *sys)
         sys->state++;
         break;
     case 1:
-        if (PDC_MSG_IsFadeIdle(sys->msg) != 0) {
+        if (PDC_MSG_UpdateFade(sys->msg) != 0) {
             BTLV_EFFECT_SetPokeSpriteKey(sys->mon, 1);
             BTLV_EFFECT_StartEffect(0x231);
             PDC_MAIN_StartFadeIn(2);
@@ -334,7 +334,7 @@ int PDC_MAIN_StepIntro(struct PdcSys *sys)
         }
         break;
     case 4:
-        if (PDC_MSG_IsFadeIdle(sys->msg) != 0) {
+        if (PDC_MSG_UpdateFade(sys->msg) != 0) {
             BTLV_EFFECT_StartEffect(0x23e);
             sys->state++;
         }

@@ -1,5 +1,5 @@
 /*
- * function: SCRIPT_COMMAND_CmdShowAnim
+ * function: SCRIPT_COMMAND_CmdShowButton
  * address:  0x021FB1CC
  * packet:   pkt_021FB1CC
  * region:   ov132
@@ -10,22 +10,22 @@
  * status:   EXACT
  *
  * symbols:
- *   STA_ACTING_ShowAnim  0x021F9D80  thumb
+ *   STA_ACTING_ShowButton  0x021F9D80  thumb
  *   STA_ACTING_ScheduleActions  0x021F9AD8  thumb
  *
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj14100.h"
 
-extern void STA_ACTING_ShowAnim(char *p);
+extern void STA_ACTING_ShowButton(char *p);
 typedef unsigned char  u8;
 extern void STA_ACTING_ScheduleActions(char *p, int mode, u8 slot);
 
-int SCRIPT_COMMAND_CmdShowAnim(int a, char **pp)
+int SCRIPT_COMMAND_CmdShowButton(int a, char **pp)
 {
     char *p = *pp;
 
-    STA_ACTING_ShowAnim(((struct Obj14100 *)p)->f34);
+    STA_ACTING_ShowButton(((struct Obj14100 *)p)->f34);
     STA_ACTING_ScheduleActions(((struct Obj14100 *)p)->f34, 0, 0);
     return 0;
 }

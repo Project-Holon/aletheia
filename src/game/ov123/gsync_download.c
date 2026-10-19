@@ -1,7 +1,7 @@
 /*
  * file:     gsync_download.c
  * unit:     yes
- * function: GSYNC_DOWNLOAD_SetRequestMode, GSYNC_DOWNLOAD_AllocWork, GSYNC_DOWNLOAD_FreeWork, GSYNC_DOWNLOAD_NoteFinished, GSYNC_DOWNLOAD_CleanupAsync, GSYNC_DOWNLOAD_InitAsync, GSYNC_DOWNLOAD_ClearResult, GSYNC_DOWNLOAD_Reset, GSYNC_DOWNLOAD_SetAttr, GSYNC_DOWNLOAD_IsBusy, GSYNC_DOWNLOAD_CancelAsync, GSYNC_DOWNLOAD_GetFileListAsync, GSYNC_DOWNLOAD_GetFileAsync, GSYNC_DOWNLOAD_CleanupOnce, GSYNC_DOWNLOAD_Process
+ * function: GSYNC_DOWNLOAD_SetRequestMode, GSYNC_DOWNLOAD_AllocWork, GSYNC_DOWNLOAD_FreeWork, GSYNC_DOWNLOAD_GetFileBuffer, GSYNC_DOWNLOAD_CleanupAsync, GSYNC_DOWNLOAD_InitAsync, GSYNC_DOWNLOAD_ClearResult, GSYNC_DOWNLOAD_Reset, GSYNC_DOWNLOAD_SetAttr, GSYNC_DOWNLOAD_IsBusy, GSYNC_DOWNLOAD_CancelAsync, GSYNC_DOWNLOAD_GetFileListAsync, GSYNC_DOWNLOAD_GetFileAsync, GSYNC_DOWNLOAD_CleanupOnce, GSYNC_DOWNLOAD_Process, GSYNC_DOWNLOAD_GetFileSize
  * address:  0x021D5AC0
  * region:   ov123
  * compiler: dsi/1.1p1
@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Cut from gsync_state.c by tools/splitfile.py.
+ * Cut from gsync_download.c, gsync_disp.c by tools/splitfile.py.
  *
  * symbols:
  *   GFL_HEAP_Free 0x020307B0 arm
@@ -35,6 +35,7 @@
  */
 #include "../ov114/dwci_nd_types.h"
 #include "gsync_download_types.h"
+#include "gsync_common_types.h"
 
 extern u32 GFL_HEAP_Free(void *p);
 
@@ -68,7 +69,7 @@ GsyncDownloadWork *GSYNC_DOWNLOAD_AllocWork(int heap, int fileBufferSize);
 
 void GSYNC_DOWNLOAD_FreeWork(GsyncDownloadWork *work);
 
-void *GSYNC_DOWNLOAD_NoteFinished(GsyncDownloadWork *work);
+void *GSYNC_DOWNLOAD_GetFileBuffer(GsyncDownloadWork *work);
 
 int GSYNC_DOWNLOAD_CleanupAsync(GsyncDownloadWork *work);
 
@@ -106,6 +107,7 @@ extern const char sGsyncDownloadAttrFormat[];
 
 /* Error codes the nd callback reports in its second argument. */
 #define GSYNC_DOWNLOAD_ERR_FATAL 6
+
 #define GSYNC_DOWNLOAD_ERR_NEEDS_RESET 8
 
 static inline u32 filterCallbackError(u32 err)
@@ -161,7 +163,7 @@ void GSYNC_DOWNLOAD_FreeWork(GsyncDownloadWork *work)
     }
 }
 
-void *GSYNC_DOWNLOAD_NoteFinished(GsyncDownloadWork *work)
+void *GSYNC_DOWNLOAD_GetFileBuffer(GsyncDownloadWork *work)
 {
     return work->fileBuffer;
 }
@@ -277,3 +279,6 @@ void GSYNC_DOWNLOAD_Process(GsyncDownloadWork *work)
     if (GSYNC_DOWNLOAD_CancelAsync(work) != 0)
         DWC_NdProcess();
 }
+
+/* Returns fileInfo.size (+0xAC) of the download work. Misnamed: still called GSYNC_DOWNLOAD_GetFileSize by gsync_state.c; rename to GSYNC_DOWNLOAD_GetFileSize with its callers. */
+unsigned int GSYNC_DOWNLOAD_GetFileSize(GsyncDownloadWork *work){return work->fileInfo.size;}

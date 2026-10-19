@@ -39,7 +39,7 @@
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
@@ -77,7 +77,7 @@
  *   ZONEDATA_GetPlaceNameId 0x02013E4C thumb
  *   WORDSET_SetSlotFromMsg59 0x0201F158 thumb
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
- *   BEACON_CountFlags 0x0200C258 thumb
+ *   BEACON_CountBadges 0x0200C258 thumb
  *   GAME_DATA_GetEventWork 0x0201296C thumb
  *   ZONEDATA_CheckEventFlag 0x020142E8 thumb
  *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
@@ -93,7 +93,7 @@
  *   PLAYTIME_GetStampDay 0x020086D8 thumb
  *   PLAYTIME_GetStampHour 0x020086E0 thumb
  *   PLAYTIME_GetStampMinute 0x020086E8 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_Clear 0x02043B5C arm
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
@@ -208,7 +208,7 @@ extern unsigned int POKEPARTY_GetCount(struct PartyHolder *party);
 extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, unsigned int visible);
 extern void BG_SYS_SetPlaneVisible(unsigned char layer, unsigned char enable);
 extern void BMP_WIN_MakeScreen(struct BmpWin *bmpWin);
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 extern u32 PRINTSYS_QUE_Main(struct PrintQue *printQue);
 extern void *BMP_WIN_GetBmp(struct BmpWin *bmpWin);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQue *printQue, void *bitmap);
@@ -249,7 +249,7 @@ extern u16 GAME_DATA_GetPlayerZoneId(const u8 *playerState);
 extern u32 ZONEDATA_GetPlaceNameId(u32 zoneId);
 extern void WORDSET_SetSlotFromMsg59(struct WordSet *wordSet, u32 i, u32 msgId);
 extern void *GAME_DATA_GetMiscSave(struct GameData *gameData);
-extern u32 BEACON_CountFlags(void *badgeData);
+extern u32 BEACON_CountBadges(void *badgeData);
 extern void *GAME_DATA_GetEventWork(const struct GameData *gameData);
 extern u32 ZONEDATA_CheckEventFlag(void *eventWork, int flagId);
 extern void *ZUKAN_SAVE_GetFromGameData(struct GameData *gameData);
@@ -265,7 +265,7 @@ extern u32 PLAYTIME_GetStampMonth(const struct PlayTime *playTime);
 extern u32 PLAYTIME_GetStampDay(const struct PlayTime *playTime);
 extern u32 PLAYTIME_GetStampHour(const struct PlayTime *playTime);
 extern u32 PLAYTIME_GetStampMinute(const struct PlayTime *playTime);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
+extern u32 WORDSET_Delete(struct WordSet *wordSet);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern u32 GF_FONT_Delete(struct GfFont *font);
 extern u32 BMP_WIN_Delete(struct BmpWin *bmpWin);
@@ -383,7 +383,7 @@ void REPORT_UpdateWindows(ReportWork *work)
         BG_SYS_SetPlaneVisible(6, 1);
         for (i = 0; i < REPORT_WINDOW_COUNT; i++)
             BMP_WIN_MakeScreen(work->windows[i].bmpWin);
-        BG_SYS_SetFlagField06(5);
+        BG_SYS_MarkTileDirty(5);
         work->shownFlags |= REPORT_SHOWN_WINDOWS;
     }
     PRINTSYS_QUE_Main(work->printQue);
@@ -445,7 +445,7 @@ void REPORT_StartSaveAnim(ReportWork *work)
     unsigned int i;
 
     BMP_WIN_ClearScreen(saveWindow);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(saveWindow));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(saveWindow));
     for (i = 6; i <= 15; i++)
         CLACT_SetActorDrawEnable(work->actors[i], 1);
     work->saveAnimRunning = 1;
@@ -598,7 +598,7 @@ void REPORT_InitWindows(ReportWork *work)
     WORDSET_CopyTaggedText(wordSet, buf, msgLocation);
     printRecordLine(work, 3, buf, msgLocation, 0, 0x3DC0, one);
     msgBadges = MSGDATA_AllocString(msgBank, 4);
-    WORDSET_SetSlotNumber(wordSet, 0, BEACON_CountFlags(GAME_DATA_GetMiscSave(gameData)), 2, 0, 1);
+    WORDSET_SetSlotNumber(wordSet, 0, BEACON_CountBadges(GAME_DATA_GetMiscSave(gameData)), 2, 0, 1);
     WORDSET_CopyTaggedText(wordSet, buf, msgBadges);
     printRecordLine(work, 4, buf, msgBadges, 0, 0x3DC0, one);
     if (ZONEDATA_CheckEventFlag(GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(work->gameSystem)), 0x962) == 1) {
@@ -625,7 +625,7 @@ void REPORT_InitWindows(ReportWork *work)
         printRecordLine(work, 7, buf, msgLastSave, 4, 0x3580, one);
     } else BMP_WIN_TransferChars(work->windows[7].bmpWin);
     STRBUF_Delete(buf);
-    WORDSET_DeleteStrbufED04(wordSet);
+    WORDSET_Delete(wordSet);
     MSGDATA_Delete(msgBank);
 }
 

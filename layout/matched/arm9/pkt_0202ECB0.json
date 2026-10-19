@@ -43,7 +43,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "COMM_HISTORY_ScaleValue",
+   "name": "SCROLLBAR_GetValueFromPos",
    "address": "0x0202EDE4",
    "kind": "game",
    "region": "arm9",

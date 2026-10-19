@@ -17,7 +17,7 @@
  *   BTL_MSG_BuildBallStatusOpen 0x021EF71C thumb ov093
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  */
 typedef unsigned char u8;
@@ -48,7 +48,7 @@ extern void BG_SYS_PushTile(u32 index);
 extern void BTL_MSG_BuildBallStatusOpen(u32, u32, u32, u32, u32, u32, u32);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 int BTLV_SCU_StepBallWindowOpen(int *st, struct C *c)
 {
@@ -71,8 +71,8 @@ int BTLV_SCU_StepBallWindowOpen(int *st, struct C *c)
         (*st)++;
         break;
     case 3:
-        BG_SYS_FillScrollArea(3, 0, 0);
-        BG_SYS_FillScrollArea(3, 3, 0x100);
+        BG_SYS_ChangeScrollImmediate(3, 0, 0);
+        BG_SYS_ChangeScrollImmediate(3, 3, 0x100);
         GFL_USE_PlaySeDefaultVolume(0x547);
         (*st)++;
         break;

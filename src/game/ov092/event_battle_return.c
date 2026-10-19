@@ -32,8 +32,8 @@
  *   POKERUS_TryInfectParty 0x0201B038 thumb
  *   POKERUS_SpreadParty 0x0201B170 thumb
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
- *   BEACON_AddPoints 0x0200C278 thumb
- *   BEACON_SubPoints 0x0200C29C thumb
+ *   BEACON_AddMoney 0x0200C278 thumb
+ *   BEACON_SubMoney 0x0200C29C thumb
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   MYSTATUS_NameToStrbuf 0x02008500 thumb
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
@@ -65,7 +65,7 @@
  *   RECORD_AddOne 0x02008DF0 thumb
  *   NAMEIN_SETUP_FreeArgs 0x0216C0C0 thumb ov010
  *   POKEPARTY_Add 0x0201A98C thumb
- *   POKE_TOOL_Dummy 0x020185F0 thumb
+ *   POKE_TOOL_CastToBoxParam 0x020185F0 thumb
  *   BOX_SAVEDATA_AddPokemon 0x020074D8 thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   GFL_USE_IsBgmFading 0x02005E50 thumb
@@ -243,8 +243,8 @@ extern void POKEPARTY_Copy(const struct PokeParty *src, struct PokeParty *dst);
 extern void POKERUS_TryInfectParty(struct PokeParty *party);
 extern void POKERUS_SpreadParty(struct PokeParty *party);
 extern struct MiscSave *GAME_DATA_GetMiscSave(const struct GameData *gameData);
-extern u32 BEACON_AddPoints(struct MiscSave *misc, u32 amount);
-extern u32 BEACON_SubPoints(struct MiscSave *misc, u32 amount);
+extern u32 BEACON_AddMoney(struct MiscSave *misc, u32 amount);
+extern u32 BEACON_SubMoney(struct MiscSave *misc, u32 amount);
 extern struct PokemonParam *POKEPARTY_GetMember(struct PokeParty *party, u32 index);
 extern void MYSTATUS_NameToStrbuf(struct MyStatus *status, struct Strbuf *name);
 extern void POKE_TOOL_SetPartyValue(struct PokemonParam *mon, u32 paramId, u32 value);
@@ -276,7 +276,7 @@ extern struct RecordBlock *GAME_DATA_GetTrainerRecord(const struct GameData *gam
 extern u32 RECORD_AddOne(struct RecordBlock *record, int index);
 extern int NAMEIN_SETUP_FreeArgs(struct NameInArgs *args);
 extern u32 POKEPARTY_Add(struct PokeParty *party, const struct PokemonParam *mon);
-extern struct BoxPokemon *POKE_TOOL_Dummy(struct PokemonParam *mon);
+extern struct BoxPokemon *POKE_TOOL_CastToBoxParam(struct PokemonParam *mon);
 extern int BOX_SAVEDATA_AddPokemon(struct BoxManager *boxManager, const struct BoxPokemon *mon);
 extern void GFL_USE_FadeOutBgm(u32 frames);
 extern int GFL_USE_IsBgmFading(void);
@@ -414,8 +414,8 @@ int EVENT_BATTLE_RETURN_Main(struct ProcObj *proc, u32 *seq, struct EventBattleR
             EVENT_BATTLE_RETURN_ApplyBurmyForms(args, party, EVENT_BATTLE_RETURN_GetBurmyForm(&args->battleParam->field, work->heapId));
             EVENT_BATTLE_RETURN_RegisterShayminForms(args, party);
             moneyDelta = args->battleParam->moneyDelta;
-            if (moneyDelta > 0) BEACON_AddPoints(GAME_DATA_GetMiscSave(args->gameData), moneyDelta);
-            else if (moneyDelta < 0) BEACON_SubPoints(GAME_DATA_GetMiscSave(args->gameData), -moneyDelta);
+            if (moneyDelta > 0) BEACON_AddMoney(GAME_DATA_GetMiscSave(args->gameData), moneyDelta);
+            else if (moneyDelta < 0) BEACON_SubMoney(GAME_DATA_GetMiscSave(args->gameData), -moneyDelta);
         }
         EVENT_BATTLE_RETURN_ApplyNaturalCure(party);
         if (args->battleParam->outcome == BATTLE_OUTCOME_CAUGHT) {
@@ -482,7 +482,7 @@ int EVENT_BATTLE_RETURN_Main(struct ProcObj *proc, u32 *seq, struct EventBattleR
         if (!work->boxFullMsg) POKEPARTY_Add(party, work->caughtMon);
         else {
             boxManager = GAME_DATA_GetBoxManager(args->gameData);
-            BOX_SAVEDATA_AddPokemon(boxManager, POKE_TOOL_Dummy(work->caughtMon));
+            BOX_SAVEDATA_AddPokemon(boxManager, POKE_TOOL_CastToBoxParam(work->caughtMon));
         }
         ++*seq;
         break;

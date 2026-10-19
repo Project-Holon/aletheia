@@ -15,7 +15,7 @@
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200873C  0x0200873C  thumb
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
- *   CONFIG_GetAppliedFlag  0x020083E4  thumb
+ *   CONFIG_GetTextLanguage  0x020083E4  thumb
  */
 
 typedef unsigned char u8;
@@ -28,7 +28,7 @@ extern void *SCRCMD_WORK_GetGameData(void *a0);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
-extern int CONFIG_GetAppliedFlag(unsigned short *p);
+extern int CONFIG_GetTextLanguage(unsigned short *p);
 
 int SCRCMD_WORK_CmdGetConfigFlag(int a0, int a1)
 {
@@ -52,7 +52,7 @@ a0 = t5 + 0;
 a1 = t6 + 0;
     q = SCRIPT_WORK_ReadWorkPointer((void *)a0, (void *)a1);
 loc_0215AAAE:
-    a0 = CONFIG_GetAppliedFlag((short unsigned int *)t4);
+    a0 = CONFIG_GetTextLanguage((short unsigned int *)t4);
 loc_0215AAB6:
 *q = a0;
 a0 = 0;

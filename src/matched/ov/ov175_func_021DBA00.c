@@ -12,7 +12,7 @@
  *   nested direct access each gave 252 bytes / 50 differences, pointer EXACT.
  * retry: three runs; prior permuter300 not repeated.
  * symbols:
- *   WIFIBATTLEMATCH_NET_CompareField 0x021DD044 thumb ov175
+ *   WIFIBATTLEMATCH_NET_LookupFieldEntry 0x021DD044 thumb ov175
  *   GF_STANDARD_CompareString 0x0203F028 arm
  *   MI_CpuCopy8 0x02082D44 arm
  *   d_021E2F7C 0x021E2F7C data a4
@@ -24,7 +24,7 @@ typedef unsigned long u32;
 struct Blob { const void *data; u32 size; };
 union Payload { u32 value; struct Blob blob; };
 struct Field { const char *name;u32 type;union Payload payload; };
-extern int WIFIBATTLEMATCH_NET_CompareField(int);
+extern int WIFIBATTLEMATCH_NET_LookupFieldEntry(int);
 extern int GF_STANDARD_CompareString(const char *,const char *);
 extern void MI_CpuCopy8(const void *,void *,unsigned long);
 extern const char d_021E2F7C[],d_021E2F8C[];
@@ -35,11 +35,11 @@ void WIFIBATTLEMATCH_NET_GdbCopyFieldsB(int count,struct Field **fields,u8 *p,in
     for(i=0;i<count;i++) {
         for(j=0;j<n;j++) {
             f=&fields[i][j];
-            if(GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(0x25))==0) ((struct Obj05461 *)p)->f8=f->payload.value;
-            else if(GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(0x26))==0) ((struct Obj05461 *)p)->fC=f->payload.value;
-            else if(GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(0x24))==0) ((struct Obj05461 *)p)->f10=f->payload.value;
-            else if(GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(0x28))==0) ((struct Obj05461 *)p)->f4=f->payload.value;
-            else if(GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(0x27))==0) ((struct Obj05461 *)p)->f0=f->payload.value;
+            if(GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_LookupFieldEntry(0x25))==0) ((struct Obj05461 *)p)->f8=f->payload.value;
+            else if(GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_LookupFieldEntry(0x26))==0) ((struct Obj05461 *)p)->fC=f->payload.value;
+            else if(GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_LookupFieldEntry(0x24))==0) ((struct Obj05461 *)p)->f10=f->payload.value;
+            else if(GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_LookupFieldEntry(0x28))==0) ((struct Obj05461 *)p)->f4=f->payload.value;
+            else if(GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_LookupFieldEntry(0x27))==0) ((struct Obj05461 *)p)->f0=f->payload.value;
             else if(GF_STANDARD_CompareString(f->name,d_021E2F7C)==0) ((struct Obj05461 *)p)->f14=f->payload.value;
             else if(GF_STANDARD_CompareString(f->name,d_021E2F8C)==0) {
                 const struct Blob *blob=&f->payload.blob;

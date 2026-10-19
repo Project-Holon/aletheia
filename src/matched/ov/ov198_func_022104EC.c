@@ -13,7 +13,7 @@
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_ClearSlot 0x020414EC arm
  *   BG_SYS_InitRun 0x02040B94 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   d_02212144 0x02212144 data a4
  *   d_02212174 0x02212174 data a4
@@ -41,7 +41,7 @@ extern void BG_SYS_ApplyGraphicsMode(const struct BgVramReq *,u32);
 extern void BG_SYS_InitBgLayer(u32,const struct BgTemplate *,u32);
 extern void BG_SYS_ClearSlot(u32);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
-extern void BG_SYS_SetFlagField06(u32);
+extern void BG_SYS_MarkTileDirty(u32);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 void B_PLIST_MAIN_InitBg(u8 *p)
 {
@@ -60,7 +60,7 @@ void B_PLIST_MAIN_InitBg(u8 *p)
     BG_SYS_ClearSlot(4);
     BG_SYS_InitRun(5,32,0,((struct Obj25245 *)(*(u8 * *)&((struct Obj14568 *)p)->f0))->f10);
     BG_SYS_InitRun(4,32,0,((struct Obj25246 *)(*(u8 * *)&((struct Obj14568 *)p)->f0))->f10);
-    BG_SYS_SetFlagField06(5);
-    BG_SYS_SetFlagField06(4);
+    BG_SYS_MarkTileDirty(5);
+    BG_SYS_MarkTileDirty(4);
     BG_SYS_SetSubPlaneVisible(15,1);
 }

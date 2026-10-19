@@ -1,5 +1,5 @@
 /*
- * function: BTL_SERVER_FLOW_CheckConfusionSelfHit
+ * function: BTL_SERVER_FLOW_CheckInfatuationFail
  * address:  0x021C03AC
  * packet:   pkt_ov093_021C03AC
  * region:   ov093
@@ -22,7 +22,7 @@ extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern void BTL_SERVER_FLOW_PushInfatuationMessage(u8 *p, u8 *a);
 extern int BTL_CALC_RollPercent(u32 pct);
 
-int BTL_SERVER_FLOW_CheckConfusionSelfHit(u8 *p, u8 *a)
+int BTL_SERVER_FLOW_CheckInfatuationFail(u8 *p, u8 *a)
 {
     if (BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)a, 7) != 0) {
         BTL_SERVER_FLOW_PushInfatuationMessage(p, a);

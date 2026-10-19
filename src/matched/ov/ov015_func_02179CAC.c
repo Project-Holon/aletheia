@@ -1,5 +1,5 @@
 /*
- * function: IRCNET_IsLinkUp
+ * function: IRCNET_IsLinkLost
  * address:  0x02179CAC
  * packet:   pkt_02179CAC
  * region:   ov015
@@ -22,7 +22,7 @@ extern struct State d_0217AB80;
 extern struct s_aba0 d_0217ABA0;
 extern int IRCNET_IsLinkAlive(void);
 
-int IRCNET_IsLinkUp(void)
+int IRCNET_IsLinkLost(void)
 {
     if (((unsigned char *)&d_0217AB80)[0xc] == 0)
         return 0;

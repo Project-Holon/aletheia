@@ -15,7 +15,7 @@
  *   GAME_DATA_GetMyParty 0x02012934 thumb
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   func_02034A5C 0x02034A5C arm
- *   MAILTOOL_HasMail 0x021C3E00 thumb ov136
+ *   MAILTOOL_IsMailSent 0x021C3E00 thumb ov136
  *   MAILTOOL_StoreMailToPartyMon 0x021C3E04 thumb ov136
  *   ov136_id 0x00000088 data
  */
@@ -40,7 +40,7 @@ struct BigObj;
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void *POKEPARTY_GetMember(void *a, u32 b);
 extern void func_02034A5C(s32 handle);
-extern u32 MAILTOOL_HasMail(u32 *p);
+extern u32 MAILTOOL_IsMailSent(u32 *p);
 extern int MAILTOOL_StoreMailToPartyMon(u32 *p, void *q);
 int EVENT_FIELD_PROCLINK_ReturnMail(Ctx *c, void *p)
 {
@@ -49,7 +49,7 @@ int EVENT_FIELD_PROCLINK_ReturnMail(Ctx *c, void *p)
     sv = GAMESYSTEM_GetGameData((const struct Ctx *)(*c->f18));
     if (c->f08 == 0) {
         if (c->f68 == 0 || c->f68 == 2) {
-            if (MAILTOOL_HasMail(p) == 1) {
+            if (MAILTOOL_IsMailSent(p) == 1) {
                 MAILTOOL_StoreMailToPartyMon(p, POKEPARTY_GetMember(GAME_DATA_GetMyParty(sv), c->f60));
                 v = 0;
             } else if (c->f68 == 0) {
@@ -66,7 +66,7 @@ int EVENT_FIELD_PROCLINK_ReturnMail(Ctx *c, void *p)
     }
     if (c->f08 == 2) {
         if (c->f68 == 2) {
-            if (MAILTOOL_HasMail(p) == 1) {
+            if (MAILTOOL_IsMailSent(p) == 1) {
                 MAILTOOL_StoreMailToPartyMon(p, POKEPARTY_GetMember(GAME_DATA_GetMyParty(sv), c->f60));
                 c->f0c = 0;
             } else {

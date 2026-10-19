@@ -1,5 +1,5 @@
 /*
- * function: WAZA_OSHIE_UploadTextTexture
+ * function: TEXT_TEXTURE_UploadTextTexture
  * address: 0x0216FD54
  * packet: pkt_ov010_0216FD54
  * region: ov010
@@ -22,7 +22,7 @@
  * and off into r4, so the final add is r5,r4 instead of r4,r5.
  *
  * final push 2026-10-05 G5L10 (40 compiles, 3 rounds): 23 -> 7 B. Fixes: (1) c and d are u16
- * here and u16 in WAZA_OSHIE_PrintToClearedBitmap (the caller WAZA_OSHIE_LoadTexPlttByName declares them u16): the entry
+ * here and u16 in TEXT_TEXTURE_PrintToClearedBitmap (the caller WAZA_OSHIE_LoadTexPlttByName declares them u16): the entry
  * spills come out r2, r3, r1 as in the original; b is u32 (FAB4 passes u32). (2) the tail
  * mirrors the matched sibling WAZA_OSHIE_UploadPalette (u32 b,a; a = base field first, then b = (u16)field*8):
  * base is read BEFORE off and declared AFTER it (u32 off; u32 base;), which gives the base load
@@ -50,8 +50,8 @@
  * symbols:
  *   d_021726A0     0x021726A0  data  ov010
  *   BMP_Create  0x02043678  arm
- *   WAZA_OSHIE_PrintToClearedBitmap  0x0216FC74  thumb  ov010
- *   WAZA_OSHIE_ConvertToTileOrder  0x0216FCA0  thumb  ov010
+ *   TEXT_TEXTURE_PrintToClearedBitmap  0x0216FC74  thumb  ov010
+ *   TEXT_TEXTURE_ConvertToTileOrder  0x0216FCA0  thumb  ov010
  *   BMP_GetPixels  0x020437D4  arm
  *   func_0207F7A0  0x0207F7A0  arm
  *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
@@ -73,8 +73,8 @@ extern TE d_021726A0[];
 
 struct Bmp;
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
-extern void WAZA_OSHIE_PrintToClearedBitmap(void *a, u16 b, u16 c, u16 d, void *e, void *f);
-extern void WAZA_OSHIE_ConvertToTileOrder(void *a, void *b);
+extern void TEXT_TEXTURE_PrintToClearedBitmap(void *a, u16 b, u16 c, u16 d, void *e, void *f);
+extern void TEXT_TEXTURE_ConvertToTileOrder(void *a, void *b);
 struct Bmp;
 struct Obj020437AC;
 extern void *BMP_GetPixels(const struct Bmp *bmp);
@@ -84,7 +84,7 @@ extern void func_0207F7FC(void *p, int src, int n);
 extern void func_0207F9B4(void);
 extern void BMP_Delete(struct Obj020437AC *p);
 
-void WAZA_OSHIE_UploadTextTexture(char *a, u32 b, u16 c, u16 d, u16 e, u16 f)
+void TEXT_TEXTURE_UploadTextTexture(char *a, u32 b, u16 c, u16 d, u16 e, u16 f)
 {
     u16 h;
     u32 hi;
@@ -101,8 +101,8 @@ void WAZA_OSHIE_UploadTextTexture(char *a, u32 b, u16 c, u16 d, u16 e, u16 f)
     wi = (u32)d_021726A0[*(u16 *)a].w >> 3;
     tmp = BMP_Create(wi, hi, 0x20, f);
     buf = BMP_Create(wi, hi, 0x20, f);
-    WAZA_OSHIE_PrintToClearedBitmap((void *)b, c, d, e, buf, *(void **)(a + 0x14));
-    WAZA_OSHIE_ConvertToTileOrder(buf, tmp);
+    TEXT_TEXTURE_PrintToClearedBitmap((void *)b, c, d, e, buf, *(void **)(a + 0x14));
+    TEXT_TEXTURE_ConvertToTileOrder(buf, tmp);
     vram = BMP_GetPixels(tmp);
     base = *(u32 *)(a + 0xc);
     off = (u16)*(int *)(a + 4) << 3;

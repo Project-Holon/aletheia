@@ -1,5 +1,5 @@
 /*
- * function: BUTTON_MAN_SetOffsetY
+ * function: PARTICLE_EMITTER_SetOffsetY
  * address:  0x02051818
  * packet:   pkt_02051790
  * region:   arm9
@@ -13,7 +13,7 @@
  */
 #include "../include/Obj16176.h"
 
-void BUTTON_MAN_SetOffsetY(char *p, int v)
+void PARTICLE_EMITTER_SetOffsetY(char *p, int v)
 {
     ((struct Obj16176 *)p)->f68 = v;
 }

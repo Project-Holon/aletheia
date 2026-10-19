@@ -13,9 +13,9 @@
  *   ov208_func_021BC3A8  0x021BC3A8  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_GetWorkPtr  0x021BC3B4  thumb  ov208
  *   ov208_func_021BC3B8  0x021BC3B8  thumb  ov208
- *   BG_SYS_FillScrollArea  0x02040618  arm
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm
  *   BG_SYS_FreeSlot  0x020414AC  arm
- *   BG_SYS_SetVisibleLayer  0x0204047C  arm
+ *   BG_SYS_SetPriority  0x0204047C  arm
  *   ov208_func_021BDCA4  0x021BDCA4  thumb  ov208
  *   GX_SetGraphicsMode  0x0207D4B0  arm
  *   ov208_func_021BCF58  0x021BCF58  thumb  ov208
@@ -37,13 +37,13 @@
  *   MCSS_CheckPaletteFade  0x0201600C  thumb
  *   ov208_func_021BC6D8  0x021BC6D8  thumb  ov208
  *   ZUKAN_DETAIL_TOUCHBAR_GetMode  0x021BDAD0  thumb  ov208
- *   ZUKAN_DETAIL_COMMON_GetMaxValue  0x021BC3BC  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_GetEntryCount  0x021BC3BC  thumb  ov208
  *   ZUKAN_DETAIL_TOUCHBAR_SetMode  0x021BDAAC  thumb  ov208
  *   ZUKAN_DETAIL_TOUCHBAR_SetEnabled  0x021BDAD4  thumb  ov208
  *   ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind  0x021BDBB8  thumb  ov208
  *   ov208_func_021BDC48  0x021BDC48  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_GetSource  0x021BC3A4  thumb  ov208
- *   GAME_DATA_CheckSaveFlag  0x02012BF8  thumb
+ *   GAME_DATA_ContainsRecentId  0x02012BF8  thumb
  *   ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq  0x021BDC14  thumb  ov208
  *   ZUKAN_DETAIL_HEADBAR_GetIconKind  0x021BE840  thumb  ov208
  *   ZUKAN_DETAIL_HEADBAR_SetIconKind  0x021BE82C  thumb  ov208
@@ -82,9 +82,9 @@ typedef int            s32;
 extern void *ov208_func_021BC3A8(int key);
 extern void *ZUKAN_DETAIL_COMMON_GetWorkPtr(int key);
 extern void *ov208_func_021BC3B8(int key);
-extern void BG_SYS_FillScrollArea(u32 bgId, u32 which, u32 value);
+extern void BG_SYS_ChangeScrollImmediate(u32 bgId, u32 which, u32 value);
 extern void BG_SYS_FreeSlot(u32 bgId);
-extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+extern void BG_SYS_SetPriority(int idx, unsigned short val);
 extern void ov208_func_021BDCA4(void *s, u8 v);
 extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
 extern void ov208_func_021BCF58(void *s, int x);
@@ -110,13 +110,13 @@ extern void ZUKAN_DETAIL_FORM_SetActorsNormalMode(u16 *heap, u8 *p, int key);
 extern int MCSS_CheckPaletteFade(void *p);
 extern void ov208_func_021BC6D8(u32 fade);
 extern int  ZUKAN_DETAIL_TOUCHBAR_GetMode(void *s);
-extern u16  ZUKAN_DETAIL_COMMON_GetMaxValue(char *p);
+extern u16  ZUKAN_DETAIL_COMMON_GetEntryCount(char *p);
 extern void ZUKAN_DETAIL_TOUCHBAR_SetMode(void *s, u32 mode, u32 kind, u32 flag);
 extern void ZUKAN_DETAIL_TOUCHBAR_SetEnabled(void *s, int v);
 extern void ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind(void *s, u32 kind);
 extern void ov208_func_021BDC48(void *s, u32 on);
 extern int  ZUKAN_DETAIL_COMMON_GetSource(int key);
-extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
+extern int GAME_DATA_ContainsRecentId(int a0, int a1);
 extern void ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(void *s, int b);
 extern int  ZUKAN_DETAIL_HEADBAR_GetIconKind(void *icon);
 extern void ZUKAN_DETAIL_HEADBAR_SetIconKind(void *icon, int kind);
@@ -168,17 +168,17 @@ int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, u8 *p, int key)
         *seq = 1;
         for (i = 0; i <= 7; i++) {
             if (i != 1 && i != 5) {
-                BG_SYS_FillScrollArea(i, 0, 0);
-                BG_SYS_FillScrollArea(i, 3, 0);
+                BG_SYS_ChangeScrollImmediate(i, 0, 0);
+                BG_SYS_ChangeScrollImmediate(i, 3, 0);
                 BG_SYS_FreeSlot(i);
             }
         }
-        BG_SYS_SetVisibleLayer(0, 0);
-        BG_SYS_SetVisibleLayer(2, 2);
-        BG_SYS_SetVisibleLayer(3, 3);
-        BG_SYS_SetVisibleLayer(6, 1);
-        BG_SYS_SetVisibleLayer(4, 3);
-        BG_SYS_SetVisibleLayer(7, 2);
+        BG_SYS_SetPriority(0, 0);
+        BG_SYS_SetPriority(2, 2);
+        BG_SYS_SetPriority(3, 3);
+        BG_SYS_SetPriority(6, 1);
+        BG_SYS_SetPriority(4, 3);
+        BG_SYS_SetPriority(7, 2);
         ov208_func_021BDCA4(scene, 2);
         GX_SetGraphicsMode(1, 0, 1);
         ov208_func_021BCF58(res, *heap);
@@ -220,13 +220,13 @@ int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, u8 *p, int key)
             *seq = 4;
             ov208_func_021BC6D8(W(0x6ac));
             if (ZUKAN_DETAIL_TOUCHBAR_GetMode(scene) != 2) {
-                ZUKAN_DETAIL_TOUCHBAR_SetMode(scene, 0, 3, ZUKAN_DETAIL_COMMON_GetMaxValue((char *)key) > 1);
+                ZUKAN_DETAIL_TOUCHBAR_SetMode(scene, 0, 3, ZUKAN_DETAIL_COMMON_GetEntryCount((char *)key) > 1);
                 ZUKAN_DETAIL_TOUCHBAR_SetEnabled(scene, 0);
             } else {
                 ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind(scene, 3);
             }
             ov208_func_021BDC48(scene, 0);
-            ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(scene, GAME_DATA_CheckSaveFlag(ZUKAN_DETAIL_COMMON_GetSource(key), 20));
+            ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(scene, GAME_DATA_ContainsRecentId(ZUKAN_DETAIL_COMMON_GetSource(key), 20));
             if (ZUKAN_DETAIL_HEADBAR_GetIconKind(icon) != 2) {
                 ZUKAN_DETAIL_HEADBAR_SetIconKind(icon, 3);
                 ZUKAN_DETAIL_HEADBAR_SetIconSpecies(icon);

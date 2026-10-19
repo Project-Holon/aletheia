@@ -27,7 +27,7 @@
  *   INTRUDE_CMD_SendProfile  0x02174374  thumb  ov011
  *   INTRUDE_COMM_UpdateUnionInfoAndReturnSlots  0x02174C38  thumb  ov011
  *   INTRUDE_COMM_UpdatePageRequests  0x02174CCC  thumb  ov011
- *   INTRUDE_COMM_UpdateQueuedRequest  0x02174DF4  thumb  ov011
+ *   INTRUDE_COMM_SendSaveSummaryToReadyPeers  0x02174DF4  thumb  ov011
  *   INTRUDE_COMM_UpdateSelfRecord  0x021752DC  thumb  ov011
  *   INTRUDE_COMM_SendPeerStatus  0x02173984  thumb  ov011
  *   GAME_DATA_IsSaving  0x02012E40  thumb
@@ -69,7 +69,7 @@ extern void INTRUDE_COMM_UpdateSession(u8 *, u8 *);
 extern int INTRUDE_CMD_SendProfile(int *a);
 extern void INTRUDE_COMM_UpdateUnionInfoAndReturnSlots(u8 *);
 extern void INTRUDE_COMM_UpdatePageRequests(u8 *);
-extern void INTRUDE_COMM_UpdateQueuedRequest(u8 *);
+extern void INTRUDE_COMM_SendSaveSummaryToReadyPeers(u8 *);
 extern int INTRUDE_COMM_UpdateSelfRecord(u8 *);
 extern int INTRUDE_COMM_SendPeerStatus(char *p, int b);
 extern u8 GAME_DATA_IsSaving(const u8 *o);
@@ -114,7 +114,7 @@ void INTRUDE_COMM_UpdateRunning(u8 *s)
     }
     INTRUDE_COMM_UpdateUnionInfoAndReturnSlots(s);
     INTRUDE_COMM_UpdatePageRequests(s);
-    INTRUDE_COMM_UpdateQueuedRequest(s);
+    INTRUDE_COMM_SendSaveSummaryToReadyPeers(s);
     if (INTRUDE_COMM_UpdateSelfRecord(s) == 1) {
         s[0x900] = 1;
     }

@@ -18,7 +18,7 @@
  *   SHORTCUT_MENU_UpdateInput 0x021C553C thumb ov021
  *   SHORTCUT_MENU_GetSelection 0x021C5768 thumb ov021
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  */
 #include "../include/Obj01216.h"
 
@@ -36,7 +36,7 @@ extern void SHORTCUT_MENU_UpdateInput(char *p);
 extern int SHORTCUT_MENU_GetSelection(char *p);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 
 void SHORTCUT_MENU_Main(char *p)
 {
@@ -86,7 +86,7 @@ void SHORTCUT_MENU_Main(char *p)
         ((struct Obj01216 *)p)->f70 = 5;
         break;
     case 5:
-        BG_SYS_FillScrollArea(1, 3, ((struct Obj01216 *)p)->f72 * 0xC0 / 4 - 0xC0);
+        BG_SYS_ChangeScrollImmediate(1, 3, ((struct Obj01216 *)p)->f72 * 0xC0 / 4 - 0xC0);
         if ((((struct Obj01216 *)p)->f72)-- == 0) {
             ((struct Obj01216 *)p)->f70 = 0;
         }

@@ -11,9 +11,9 @@
  *
  * symbols:
  *   PARTICLE_GetCallbackArg  0x02051774  arm
- *   BUTTON_MAN_SetAngle  0x0205189C  arm
- *   BUTTON_MAN_SetUserData  0x02051A2C  arm
- *   BUTTON_MAN_SetCallback  0x02051A24  arm
+ *   PARTICLE_EMITTER_SetAngle  0x0205189C  arm
+ *   PARTICLE_EMITTER_SetUserData  0x02051A2C  arm
+ *   PARTICLE_EMITTER_SetCallback  0x02051A24  arm
  *   BTLV_EFFVM_EmitterMoveCallbackB  0x021FDA28  thumb  ov094
  */
 typedef struct {
@@ -26,9 +26,9 @@ typedef struct {
 extern unsigned int PARTICLE_GetCallbackArg(void);
 typedef unsigned int   u32;
 struct Obj;
-extern void BUTTON_MAN_SetAngle(struct Obj *o, u32 v);
-extern void BUTTON_MAN_SetUserData(void *p, int v);
-extern void BUTTON_MAN_SetCallback(void *p, int v);
+extern void PARTICLE_EMITTER_SetAngle(struct Obj *o, u32 v);
+extern void PARTICLE_EMITTER_SetUserData(void *p, int v);
+extern void PARTICLE_EMITTER_SetCallback(void *p, int v);
 extern void BTLV_EFFVM_EmitterMoveCallbackB(void *p, int active);
 
 void BTLV_EFFVM_EmitterInitCallback(void *p)
@@ -36,7 +36,7 @@ void BTLV_EFFVM_EmitterInitCallback(void *p)
     State *s = (State *)PARTICLE_GetCallbackArg();
 
     if (s->k3c != 0 && s->k0c < 0)
-        BUTTON_MAN_SetAngle(p, 0x800);
-    BUTTON_MAN_SetUserData(p, (int)s);
-    BUTTON_MAN_SetCallback(p, (int)BTLV_EFFVM_EmitterMoveCallbackB);
+        PARTICLE_EMITTER_SetAngle(p, 0x800);
+    PARTICLE_EMITTER_SetUserData(p, (int)s);
+    PARTICLE_EMITTER_SetCallback(p, (int)BTLV_EFFVM_EmitterMoveCallbackB);
 }

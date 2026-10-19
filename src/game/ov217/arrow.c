@@ -1,7 +1,7 @@
 /*
  * file:     arrow.c
  * unit:     yes
- * function: ARROW_Create, ARROW_Destroy, ARROW_Layout, ARROW_Update, ARROW_Start, ARROW_Reset, ARROW_RunState, ARROW_RunIdle, ARROW_RunDrawing, ARROW_RunDone, ARROW_SetState, ARROW_IsComplete, ARROW_ShowPart, ARROW_StopPart, ARROW_HideAll, ARROW_BuildParts, ARROW_InitPart, ARROW_Alloc, ARROW_Init, ARROW_Free, ARROW_CreateUnit, ARROW_DeleteUnit, ARROW_CreateActors, ARROW_DeleteActors, ARROW_SetResources, GRAPHTABLE_GetEntryId, GRAPHTABLE_GetEntryRed, GRAPHTABLE_GetEntryGreen, GRAPHTABLE_GetEntryBlue, GRAPHTABLE_FindGroup, GRAPHTABLE_FindEntry
+ * function: ARROW_Create, ARROW_Destroy, ARROW_Layout, ARROW_Update, ARROW_Start, ARROW_Reset, ARROW_RunState, ARROW_RunIdle, ARROW_RunDrawing, ARROW_RunDone, ARROW_SetState, ARROW_IsComplete, ARROW_ShowPart, ARROW_StopPart, ARROW_HideAll, ARROW_BuildParts, ARROW_InitPart, ARROW_Alloc, ARROW_Init, ARROW_Free, ARROW_CreateUnit, ARROW_DeleteUnit, ARROW_CreateActors, ARROW_DeleteActors, ARROW_SetResources
  * address:  0x021C2070
  * region:   ov217
  * compiler: dsi/1.1p1
@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Cut from research_top.c, unit_021BFFC8.c, queue.c, palette_anime.c, PALETTE_ANIME_ReleaseOriginal.c by tools/splitfile.py.
+ * Cut from arrow.c by tools/splitfile.py.
  *
  * symbols:
  *   GFL_HEAP_Free 0x020307B0 arm
@@ -20,18 +20,12 @@
  *   CLACT_DeleteActor  0x0204B3B4  arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
- *   _fadd 0x0209C95C arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   ARROW_Update  0x021C20C4  thumb  ov217
- *   GRAPHTABLE_FindEntry 0x021C26AC thumb ov217
- *   GRAPHTABLE_GetEntryRed 0x021C2654 thumb ov217
- *   GRAPHTABLE_GetEntryGreen 0x021C2664 thumb ov217
- *   GRAPHTABLE_GetEntryBlue 0x021C2674 thumb ov217
  *   ARROW_Reset 0x021C20D8 thumb ov217
  *   ARROW_Layout 0x021C20B4 thumb ov217
  *   ARROW_Start 0x021C20CC thumb ov217
  *   CLACT_SetActorAnimLoopCount 0x0204B9C4 arm
- *   GRAPHTABLE_GetEntryId 0x021C2644 thumb ov217
  *   ARROW_Create 0x021C2070 thumb ov217
  *   ARROW_Destroy  0x021C209C  thumb  ov217
  *   CLACT_SetActorAnimFrame  0x0204B8C4  arm  arm9
@@ -42,58 +36,86 @@
  *   CLACT_StopActorAnim  0x0204B974  arm  arm9
  */
 #include "arrow.h"
-#include "research_graph_table.h"
-
-typedef char ArrowSizeCheck[(sizeof(struct Arrow) == 0x29C) ? 1 : -1];
-typedef char GraphTableSizeCheck[(sizeof(struct GraphTable) == 0x280) ? 1 : -1];
 
 extern u32 GFL_HEAP_Free(void *mem);
+
 extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, unsigned int enable);
+
 extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+
 extern u32 CLACT_DeleteUnit(struct ClactUnit *unit);
+
 extern void CLACT_DeleteActor(struct ClactActor *actor);
+
 extern struct ClactActor *CLACT_CreateActor(void *unit, unsigned int charId, unsigned int palId, unsigned int cellId, const struct ActorHeader *header, unsigned short priority, unsigned short heapId);
+
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+
 extern void CLACT_AddActorSurfacePos(struct ClactActor *actor, const struct SurfacePos *pos, u32 space);
+
 extern void CLACT_SetActorAnimSeq(struct ClactActor *actor, u16 seq);
+
 extern void CLACT_SetActorAnimFrame(struct ClactActor *actor, u32 frame);
+
 extern void CLACT_SetActorAnimLoopCount(struct ClactActor *actor, u32 count);
+
 extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable);
+
 extern void CLACT_SetActorAutoAnimSpeed(struct ClactActor *actor, u32 speed);
+
 extern void CLACT_StartActorAnim(struct ClactActor *actor);
+
 extern void CLACT_StopActorAnim(struct ClactActor *actor);
 
 struct Arrow *ARROW_Create(u32 heapId, const struct ArrowResources *resources);
+
 u32 ARROW_Destroy(struct Arrow *arrow);
+
 void ARROW_Layout(struct Arrow *arrow, int tipX, int tipY, int cornerX, int endY);
+
 void ARROW_Update(struct Arrow *arrow);
+
 void ARROW_Start(struct Arrow *arrow);
+
 void ARROW_Reset(struct Arrow *arrow);
+
 void ARROW_RunState(struct Arrow *arrow);
+
 void ARROW_RunIdle(struct Arrow *arrow);
+
 void ARROW_RunDrawing(struct Arrow *arrow);
+
 void ARROW_RunDone(struct Arrow *arrow);
+
 void ARROW_SetState(struct Arrow *arrow, u32 state);
+
 u32 ARROW_IsComplete(struct Arrow *arrow);
+
 void ARROW_ShowPart(struct Arrow *arrow, int index);
+
 void ARROW_StopPart(struct Arrow *arrow, u32 index);
+
 void ARROW_HideAll(struct Arrow *arrow);
+
 void ARROW_BuildParts(struct Arrow *arrow, int tipX, int tipY, int cornerX, int endY);
+
 void ARROW_InitPart(struct ArrowPart *part, u8 x, u8 y, u32 startTime, u32 kind);
+
 struct Arrow *ARROW_Alloc(u32 heapId);
+
 void ARROW_Init(struct Arrow *arrow, u32 heapId);
+
 u32 ARROW_Free(struct Arrow *arrow);
+
 void ARROW_CreateUnit(struct Arrow *arrow);
+
 void ARROW_DeleteUnit(struct Arrow *arrow);
+
 void ARROW_CreateActors(struct Arrow *arrow);
+
 void ARROW_DeleteActors(struct Arrow *arrow);
+
 void ARROW_SetResources(struct Arrow *arrow, const struct ArrowResources *resources);
-u32 GRAPHTABLE_GetEntryId(const struct GraphTable *table, u32 group, u8 entry);
-u32 GRAPHTABLE_GetEntryRed(const struct GraphTable *table, u32 group, u32 entry);
-u32 GRAPHTABLE_GetEntryGreen(const struct GraphTable *table, u32 group, u32 entry);
-u32 GRAPHTABLE_GetEntryBlue(const struct GraphTable *table, u32 group, u32 entry);
-u32 GRAPHTABLE_FindGroup(const struct GraphTable *table, u32 key);
-u32 GRAPHTABLE_FindEntry(const struct GraphTable *table, u8 key, u8 entryId);
 
 /* Allocates an arrow, sets it up and creates its unit and actors. */
 struct Arrow *ARROW_Create(u32 heapId, const struct ArrowResources *resources)
@@ -397,52 +419,4 @@ void ARROW_DeleteActors(struct Arrow *arrow)
 void ARROW_SetResources(struct Arrow *arrow, const struct ArrowResources *resources)
 {
     arrow->resources = *resources;
-}
-
-/* Returns the id of an entry of a graph group. */
-u32 GRAPHTABLE_GetEntryId(const struct GraphTable *table, u32 group, u8 entry)
-{
-    return table->groups[group].entries[entry].id;
-}
-
-/* Returns the red component of an entry of a graph group. */
-u32 GRAPHTABLE_GetEntryRed(const struct GraphTable *table, u32 group, u32 entry)
-{
-    return table->groups[group].entries[entry].red;
-}
-
-/* Returns the green component of an entry of a graph group. */
-u32 GRAPHTABLE_GetEntryGreen(const struct GraphTable *table, u32 group, u32 entry)
-{
-    return table->groups[group].entries[entry].green;
-}
-
-/* Returns the blue component of an entry of a graph group. */
-u32 GRAPHTABLE_GetEntryBlue(const struct GraphTable *table, u32 group, u32 entry)
-{
-    return table->groups[group].entries[entry].blue;
-}
-
-/* Returns the index of the group with the given key, or zero. */
-u32 GRAPHTABLE_FindGroup(const struct GraphTable *table, u32 key)
-{
-    int i;
-    for (i = 0; i < 3; i++) {
-        if (table->groups[i].key == key)
-            return (u8)i;
-    }
-    return 0;
-}
-
-/* Returns the index of the entry with the given id in the group with the given key, or zero. */
-u32 GRAPHTABLE_FindEntry(const struct GraphTable *table, u8 key, u8 entryId)
-{
-    s32 i;
-    const struct GraphTableGroup *group;
-    group = &table->groups[GRAPHTABLE_FindGroup(table, key)];
-    for (i = 0; i < group->entryCount; i++) {
-        if (entryId == group->entries[i].id)
-            return (u8)i;
-    }
-    return 0;
 }

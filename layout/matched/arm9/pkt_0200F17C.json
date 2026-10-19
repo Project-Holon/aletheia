@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "GFL_NET_ERR_IsWifiGameKind",
+   "name": "GFL_NET_IsWifiGameKind",
    "address": "0x0200F300",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "GFL_NET_ERR_CompareFriend",
+   "name": "WIFILIST_CompareFriendData",
    "address": "0x0200F34C",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "GFL_NET_ERR_SetBgmTrackVolume",
+   "name": "GFL_NET_SetBgmTrackVolumeUnlessVoiceChat",
    "address": "0x0200F698",
    "kind": "game",
    "region": "arm9",

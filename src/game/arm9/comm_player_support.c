@@ -20,7 +20,7 @@
  *   MYSTATUS_Init  0x020084A0  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetAreaSlotFlag  0x02158468  thumb
- *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
+ *   GF_STANDARD_GetCachedDate  0x0203F4E4  arm
  *   GAME_DATA_SetSeason  0x0201298C  thumb
  *   MYSTATUS_GetName  0x020084F4  thumb
  *   MYSTATUS_GetIdLow16  0x02008534  thumb
@@ -69,7 +69,7 @@ extern u32 GAMESYSTEM_GetGameComm(const struct PlayerInfo *info);
 
 extern int INTRUDE_COMM_GetAreaSlotFlag(int value);
 
-extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
+extern void GF_STANDARD_GetCachedDate(struct RtcDate *date);
 
 extern u8 GAME_DATA_SetSeason(s32 handle, u8 value);
 
@@ -266,7 +266,7 @@ u8 COMM_PLAYER_SUPPORT_GetSeasonFromClock(void)
 {
     struct RtcDate date;
 
-    GF_STANDARD_SetField00_F4E4(&date);
+    GF_STANDARD_GetCachedDate(&date);
     return (u8)((date.month - 1) & 3);
 }
 

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "WORLDTRADE_ADAPTER_GetDateTime",
+   "name": "WORLDTRADE_ADAPTER_StoreDateAsLastId",
    "address": "0x0220246C",
    "kind": "game",
    "region": "ov135",

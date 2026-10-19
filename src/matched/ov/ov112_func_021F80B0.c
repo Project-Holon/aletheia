@@ -12,20 +12,20 @@
  * Struct parameter fixes the zero/load/store scheduling. The extent's
  * 021F80C8 tail stub is included; 021F53CC has its own verified shard.
  * symbols:
- *   MUSICAL_MCSS_GetRenderFieldB 0x021F53B4 thumb ov112
- *   MUSICAL_MCSS_GetRenderSize 0x021F5424 thumb ov112
+ *   MUSICAL_MCSS_PauseRenderAnim 0x021F53B4 thumb ov112
+ *   MUSICAL_MCSS_SetRenderDrawOffset 0x021F5424 thumb ov112
  *   MUSICAL_MCSS_SetRenderAnim 0x021F53CC thumb ov112
  */
 typedef unsigned char u8;
 typedef struct { u8 pad0[0x4c]; int zero; u8 pad50[8]; int target; } Obj;
-extern void MUSICAL_MCSS_GetRenderFieldB(int);
-extern void MUSICAL_MCSS_GetRenderSize(int, int);
+extern void MUSICAL_MCSS_PauseRenderAnim(int);
+extern void MUSICAL_MCSS_SetRenderDrawOffset(int, int);
 extern void MUSICAL_MCSS_SetRenderAnim(int, unsigned int);
 void STA_ACT_LIGHT_CallElemB(int a, Obj *b)
 {
-    MUSICAL_MCSS_GetRenderFieldB(b->target);
+    MUSICAL_MCSS_PauseRenderAnim(b->target);
     b->zero = 0;
-    MUSICAL_MCSS_GetRenderSize(b->target, 0);
+    MUSICAL_MCSS_SetRenderDrawOffset(b->target, 0);
 }
 void STA_ACT_LIGHT_CallElemC(int a, Obj *b, unsigned int c)
 {

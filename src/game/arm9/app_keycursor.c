@@ -1,8 +1,8 @@
 /*
  * file:     app_keycursor.c
  * unit:     yes
- * function: APP_KEYCURSOR_Create, APP_KEYCURSOR_Delete, APP_KEYCURSOR_DrawMark, APP_KEYCURSOR_Animate, APP_KEYCURSOR_Update, FIELD_SKILL_USE_FLAGS_SetSkill, FIELD_SKILL_USE_FLAGS_IsSkillUsable
- * address:  0x020285A4
+ * function: PRINTSYS_CTRL_Init, PRINTSYS_CTRL_Update, PRINTSYS_CTRL_IsInputTrg, PRINTSYS_CTRL_IsInputCont, PRINTSYS_CTRL_IsInputIdle, APP_KEYCURSOR_CreateDefault, APP_KEYCURSOR_Create, APP_KEYCURSOR_Delete, APP_KEYCURSOR_DrawMark, APP_KEYCURSOR_Animate, APP_KEYCURSOR_Update, FIELD_SKILL_USE_FLAGS_SetSkill, FIELD_SKILL_USE_FLAGS_IsSkillUsable
+ * address:  0x02028470
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -10,9 +10,20 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Cut from app_keycursor.c by tools/splitfile.py.
+ * Cut from app_keycursor_head.c, app_keycursor.c by tools/splitfile.py.
  *
  * symbols:
+ *   MI_CpuFill8 0x02082BCC  arm
+ *   KEY_GetTrg  0x020362DC  arm
+ *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
+ *   PRINTSYS_PrintStreamGetState  0x0201CE30  thumb
+ *   PRINTSYS_PrintStreamReleasePause  0x0201CE38  thumb
+ *   PRINTSYS_PrintStreamShortWait  0x0201CE5C  thumb
+ *   _KeyCursorDefaultPixels  0x0209FD10  data
+ *   APP_KEYCURSOR_Create  0x020285A4  thumb
+ *   TOUCHPANEL_GetCont  0x02035C38  arm
+ *   TOUCHPANEL_GetTrg  0x02035C60  arm
+ *   KEY_GetCont  0x0203630C  arm
  *   GFL_HEAP_Alloc      0x02030734  arm
  *   BMP_CreateFromBuffer      0x020436FC  arm
  *   app_keycursor_File 0x020A74F0  data
@@ -21,18 +32,180 @@
  *   BMP_GetHeight  0x020437E4  arm
  *   BMP_FillRect  0x02043AF4  arm
  *   BMP_Blit  0x020439A0  arm
- *   PRINTSYS_PrintStreamGetState   0x0201CE30  thumb
- *   KEY_GetTrg  0x020362DC  arm
- *   TOUCHPANEL_GetTrg  0x02035C60  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   GFL_HEAP_Free  0x020307B0  arm
  */
+#include "beacon_status_shared_types.h"
 #include "app_keycursor_shared_types.h"
 
-typedef signed short   s16;
-
 typedef signed int     s32;
+
+struct TextPrinter;     /* message print stream (printsys.c) */
+
+struct KeyCursor;       /* key cursor mark (app_keycursor.c) */
+
+/* ------------------------------------------------------------------ */
+/* print stream key/touch control                                      */
+/* ------------------------------------------------------------------ */
+
+/* 8 bytes, cleared by PRINTSYS_CTRL_Init. */
+typedef struct PrintStreamCtrl {
+    u8 isKeyReleased;           /* +0x00 keys were released once since the stream started */
+    u8 pad_01[3];
+    u32 inputType;              /* +0x04 bit 1 keys, bit 2 touch, bit 10 no fast-forward */
+} PrintStreamCtrl;
+
+extern void MI_CpuFill8(void *dst, u8 value, u32 size);
+
+extern u32 KEY_GetTrg(void);
+
+extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
+
+extern u32 PRINTSYS_PrintStreamGetState(const struct TextPrinter *printer);
+
+extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
+
+extern void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, s32 wait);
+
+extern int TOUCHPANEL_GetTrg(void);
+
+extern unsigned int KEY_GetCont(void);
+
+extern int TOUCHPANEL_GetCont(void);
+
+struct KeyCursor *APP_KEYCURSOR_Create(u32 id, u32 live, u32 flip, u16 heap, void *pixels);
+
+void PRINTSYS_CTRL_Init(PrintStreamCtrl *ctrl, u32 inputType);
+
+int PRINTSYS_CTRL_Update(PrintStreamCtrl *ctrl, struct TextPrinter *stream);
+
+u32 PRINTSYS_CTRL_IsInputTrg(u32 inputType);
+
+u32 PRINTSYS_CTRL_IsInputCont(u32 inputType);
+
+u32 PRINTSYS_CTRL_IsInputIdle(u32 inputType);
+
+struct KeyCursor *APP_KEYCURSOR_CreateDefault(u32 id, u32 isLive, u32 isFlip, u16 heapId);
+
+extern const u8 _KeyCursorDefaultPixels[];
+
+/* ================================================================== */
+/* print stream key/touch control                                      */
+/* ================================================================== */
+void PRINTSYS_CTRL_Init(PrintStreamCtrl *ctrl, u32 inputType)
+{
+    MI_CpuFill8(ctrl, 0, sizeof(PrintStreamCtrl));
+    ctrl->inputType = inputType;
+}
+
+/*
+ * Per-frame control of a print stream. Paused (1): a key or touch
+ * releases it with SE 0x547. Running (0): unless bit 10 is set, once the
+ * keys were released, holding a key prints the rest at once. Returns 1
+ * when the stream is finished (2) or absent.
+ */
+int PRINTSYS_CTRL_Update(PrintStreamCtrl *ctrl, struct TextPrinter *stream)
+{
+    u32 mask;
+
+    if (stream != 0) {
+        switch (PRINTSYS_PrintStreamGetState(stream)) {
+        case 2:
+            return 1;
+        case 1:
+            if (PRINTSYS_CTRL_IsInputTrg(ctrl->inputType) != 0) {
+                GFL_USE_PlaySeDefaultVolume(0x547);
+                PRINTSYS_PrintStreamReleasePause(stream);
+            }
+            break;
+        case 0:
+            mask = 1 << 10;
+            if ((mask & ctrl->inputType) == 0) {
+                if (ctrl->isKeyReleased == 0) {
+                    if (PRINTSYS_CTRL_IsInputIdle(ctrl->inputType) != 0) {
+                        ctrl->isKeyReleased = 1;
+                    }
+                } else {
+                    if (PRINTSYS_CTRL_IsInputCont(ctrl->inputType) != 0) {
+                        PRINTSYS_PrintStreamShortWait(stream, 0);
+                    }
+                }
+            }
+            break;
+        }
+        return 0;
+    }
+    return 1;
+}
+
+/* A or B pressed, or the panel touched, as inputType allows. */
+u32 PRINTSYS_CTRL_IsInputTrg(u32 inputType)
+{
+    u32 result = 0;
+    if (inputType == 0) {
+        result = 1;
+    }
+    if (inputType & 2) {
+        if (KEY_GetTrg() & 3) {
+            result = 1;
+        }
+    }
+    if (inputType & 4) {
+        if (TOUCHPANEL_GetTrg() != 0) {
+            result = 1;
+        }
+    }
+    return result;
+}
+
+/* A or B held, or the panel held, as inputType allows. */
+u32 PRINTSYS_CTRL_IsInputCont(u32 inputType)
+{
+    u32 result = 0;
+    if (inputType == 0) {
+        result = 1;
+    }
+    if (inputType & 2) {
+        if (KEY_GetCont() & 3) {
+            result = 1;
+        }
+    }
+    if (inputType & 4) {
+        if (TOUCHPANEL_GetCont() != 0) {
+            result = 1;
+        }
+    }
+    return result;
+}
+
+/* No key held, or the panel not held, as inputType allows. */
+u32 PRINTSYS_CTRL_IsInputIdle(u32 inputType)
+{
+    u32 result = 0;
+    if (inputType == 0) {
+        result = 1;
+    }
+    if (inputType & 2) {
+        if (KEY_GetCont() == 0) {
+            result = 1;
+        }
+    }
+    if (inputType & 4) {
+        if (TOUCHPANEL_GetCont() == 0) {
+            result = 1;
+        }
+    }
+    return result;
+}
+
+/* Key cursor with the default mark pixels. */
+struct KeyCursor *APP_KEYCURSOR_CreateDefault(u32 id, u32 isLive, u32 isFlip, u16 heapId)
+{
+    return APP_KEYCURSOR_Create(id, isLive, isFlip, heapId, (void *)_KeyCursorDefaultPixels);
+}
+
+typedef signed short   s16;
 
 struct Bmp {
     void *pixels;
@@ -62,6 +235,8 @@ struct FieldSkillUseFlags {
 
 struct Descriptor;
 
+struct TextPrinter;
+
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern struct Bmp *BMP_CreateFromBuffer(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
@@ -76,19 +251,11 @@ extern void BMP_FillRect(const struct Bmp *b, u32 x, u32 y, u32 w, u32 h, u32 va
 
 extern void BMP_Blit(struct Bmp *dst, const struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
 
-extern u32   PRINTSYS_PrintStreamGetState(void *p);
-
-extern u32   KEY_GetTrg(void);
-
-extern int TOUCHPANEL_GetTrg(void);
-
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 
 extern u32 GFL_HEAP_Free(void *p);
-
-struct KeyCursor *APP_KEYCURSOR_Create(u16 id, u32 live, u32 flip, u16 heap, void *pixels);
 
 void APP_KEYCURSOR_Delete(struct KeyCursor *cursor);
 
@@ -96,7 +263,7 @@ void APP_KEYCURSOR_DrawMark(struct KeyCursor *cursor, const struct Bmp *bmp, u32
 
 void APP_KEYCURSOR_Animate(struct KeyCursor *cursor, const struct Bmp *bmp, u32 color);
 
-void APP_KEYCURSOR_Update(struct KeyCursor *cursor, void *printStream, void *win);
+void APP_KEYCURSOR_Update(struct KeyCursor *cursor, struct TextPrinter *printStream, void *win);
 
 void FIELD_SKILL_USE_FLAGS_SetSkill(struct FieldSkillUseFlags *flags, int skillIndex, int usable);
 
@@ -107,7 +274,7 @@ extern const char app_keycursor_File[];
 /*
  * TU: app_keycursor.c (__FILE__ 0x020A74F0, line 149).
  */
-struct KeyCursor *APP_KEYCURSOR_Create(u16 id, u32 live, u32 flip, u16 heap,
+struct KeyCursor *APP_KEYCURSOR_Create(u32 id, u32 live, u32 flip, u16 heap,
                                 void *pixels)
 {
     struct KeyCursor *cursor;
@@ -157,7 +324,7 @@ void APP_KEYCURSOR_Animate(struct KeyCursor *cursor, const struct Bmp *bmp, u32 
     BMP_Blit(cursor->item, bmp, 0, 2, w, h + cursor->phase, 0xa, 7, 0);
 }
 
-void APP_KEYCURSOR_Update(struct KeyCursor *cursor, void *printStream, void *win)
+void APP_KEYCURSOR_Update(struct KeyCursor *cursor, struct TextPrinter *printStream, void *win)
 {
     u32 mode = PRINTSYS_PrintStreamGetState(printStream);
 

@@ -31,9 +31,9 @@
  *   VCT_MAIN_OnEventGroup  0x021AED08  thumb  ov013
  *   VCT_MAIN_OnEventPair  0x021AED30  thumb  ov013
  *   VCT_Init  0x021B370C  arm  ov013
- *   VCT_SESSION_SetCodecMode  0x021B0C64  arm  ov013
+ *   VCT_MIXER_SetCodecMode  0x021B0C64  arm  ov013
  *   VCT_MAIN_StartStream  0x021AF124  thumb  ov013
- *   VCT_SESSION_SetFilterEnabled  0x021B0D08  arm  ov013
+ *   VCT_MIXER_SetFilterEnabled  0x021B0D08  arm  ov013
  */
 
 typedef unsigned char u8;
@@ -96,9 +96,9 @@ extern u8 DWC_GetMyAID(void);
 extern void VCT_MAIN_OnEventGroup(int unused, int code, void *p);
 extern void VCT_MAIN_OnEventPair(int a, int code, u32 *p);
 extern void VCT_Init(WorkerParam *p);
-extern int VCT_SESSION_SetCodecMode(int x);
+extern int VCT_MIXER_SetCodecMode(int x);
 extern void VCT_MAIN_StartStream(void);
-extern void VCT_SESSION_SetFilterEnabled(int x);
+extern void VCT_MIXER_SetFilterEnabled(int x);
 
 void VCT_MAIN_Start(void *heap, int arg1, int mode)
 {
@@ -150,7 +150,7 @@ void VCT_MAIN_Start(void *heap, int arg1, int mode)
     param.size = mode * 0x23C0 + 0x20;
     VCT_Init(&param);
     gVctWork->f19B0 = 0;
-    VCT_SESSION_SetCodecMode(arg1);
+    VCT_MIXER_SetCodecMode(arg1);
     VCT_MAIN_StartStream();
-    VCT_SESSION_SetFilterEnabled(1);
+    VCT_MIXER_SetFilterEnabled(1);
 }

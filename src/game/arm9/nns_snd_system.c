@@ -1,8 +1,8 @@
 /*
  * file:     nns_snd_system.c
  * unit:     yes
- * function: NNSi_G3dTexMtxScaleRot_Max, NNSi_G3dTexMtxRot_Max, NNSi_G3dTexMtxScale_Max, NNSi_G3dTexMtxIdentity_Max, NNSi_G3dSendTexMtx_Max, NNS_SndInit, NNS_SndBoot, NNS_SndSetMasterVolume, NNS_SndSetMasterPan, NNS_SndReadDriverInfo, NNS_SndReadTrackInfo, NNS_SndPrependPostSleepCallback, NNS_SndAppendPostSleepCallback
- * address:  0x02072374
+ * function: NNS_SndInit, NNS_SndBoot, NNS_SndSetMasterVolume, NNS_SndSetMasterPan, NNS_SndReadDriverInfo, NNS_SndReadTrackInfo, NNS_SndPrependPostSleepCallback, NNS_SndAppendPostSleepCallback
+ * address:  0x020726D0
  * region:   arm9
  * compiler: dsi/../2.0/sp2
  * flags:    -O4,p
@@ -10,13 +10,9 @@
  * isa:      arm
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Cut from nns_snd_system.c by tools/splitfile.py.
  *
  * symbols:
- *   FX_DivAsync  0x0207C930  arm
- *   FX_GetDivResult  0x0207C86C  arm
- *   NNS_G3dGeBufferOP_N  0x0206DDA4  arm
- *   data_020A8478  0x020A8478  data
  *   g_0214BAC0     0x0214BAC0  data
  *   SND_Init       0x02089848  arm
  *   PM_PrependPostSleepCallback  0x0208C808  arm
@@ -31,12 +27,10 @@
  *   SND_FlushCommand  0x02089B38  arm
  *   SND_SetMasterVolume  0x0208970C  arm
  *   g_0214BB00     0x0214BB00  data
- *   SND_RecvCommandReply      0x02089978  arm
  *   SND_IsFinishedCommandTag  0x02089D6C  arm
  *   SND_ReadDriverInfo        0x02089794  arm
  *   SND_GetCurrentCommandTag  0x02089D40  arm
  *   DC_InvalidateRange        0x020862B8  arm
- *   SND_FlushCommand          0x02089B38  arm
  *   SND_ReadTrackInfo 0x0208A0A4  arm
  *   NNSi_SndCaptureReset  0x02073F3C  arm
  *   NNS_SndStartTimer  0x02073EE4  arm
@@ -45,87 +39,13 @@
  *   SND_ResetMasterPan  0x02089774  arm
  *   SND_WaitForCommandProc  0x02089CD4  arm
  */
+#include "nns_g3d_tex_mtx_shared_types.h"
+
 struct SNDCommand;
+
 struct SNDDriverInfo;
+
 struct SNDTrackInfo;
-typedef unsigned char  u8;
-
-typedef unsigned short u16;
-
-typedef signed short   s16;
-
-typedef int            s32;
-
-typedef long long      s64;
-
-typedef unsigned int   u32;
-
-/*
- * Operand of the (DST, SRC) matrix-constructor family at 0x02071EAC, kept with
- * the five constructors that live at the top of this file; see
- * docs/families/cluster_02071EAC.h.  origHeight is volatile because NNSi_G3dTexMtxScaleRot_Max
- * reads it twice and the image keeps both loads.
- */
-struct SRC {
-    u8  pad_00[0x18];
-    s32 scaleS;
-    s32 scaleT;
-    s16 rotSin;
-    s16 rotCos;
-    s32 transS;
-    s32 transT;
-    u16 origWidth;
-    volatile u16 origHeight;
-};
-
-struct DST {
-    s32 _00;
-    s32 _01;
-    u8  pad_08[8];
-    s32 _10;
-    s32 _11;
-    u8  pad_18[0x18];
-    s32 _30;
-    s32 _31;
-};
-
-typedef struct Obj {
-    u32 flag;
-    u8  pad04[0x18 - 4];
-    s32 scaleS;
-    s32 scaleT;
-    s16 rotSin;
-    s16 rotCos;
-    s32 transS;
-    s32 transT;
-    u8  pad2c[0x30 - 0x2c];
-    volatile s32 magW;
-    volatile s32 magH;
-} Obj;
-
-typedef struct Rec {
-    u32 hdr;
-    s32 texMtxMode;
-    s32 _00;
-    s32 _01;
-    s32 _02;
-    s32 _03;
-    s32 _10;
-    s32 _11;
-    s32 _12;
-    s32 _13;
-    s32 _20;
-    s32 _21;
-    s32 _22;
-    s32 _23;
-    s32 _30;
-    s32 _31;
-    s32 _32;
-    s32 _33;
-    s32 posMtxMode;
-} Rec;
-
-typedef void (*Fill)(s32 *out, Obj *o);
 
 struct SleepCb { void (*fn)(void *); void *arg; void *p08; void *p0c; };
 
@@ -141,417 +61,71 @@ struct Sys {
 
 typedef signed char s8;
 
-extern void FX_DivAsync(s32 a, s32 b);
-extern s32  FX_GetDivResult(void);
-extern void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 n);
 extern void SND_Init(void);
+
 extern void PM_PrependPostSleepCallback(struct SleepCb *cb);
+
 extern void PM_AppendPostSleepCallback(struct SleepCb *cb);
+
 extern void NNS_SndWaveOutInit(void);
+
 extern void NNSi_SndMainReset(void);
+
 extern void NNS_SndPlayerInit(void);
+
 extern const struct SNDCommand *SND_RecvCommandReply(u32 flags);
+
 extern void NNS_SndPlayerMain(void);
+
 extern void NNS_SndMain(void);
+
 extern void NNSi_SndArcPlayerUpdate(void);
+
 extern void SND_SetMasterVolume(int volume);
+
 extern void SND_SetMasterPan(int pan);
+
 extern void SND_ResetMasterPan(void);
+
 extern u32  SND_IsFinishedCommandTag(u32 tag);
+
 extern void SND_ReadDriverInfo(void *dst);
+
 extern u32  SND_GetCurrentCommandTag(void);
+
 extern void DC_InvalidateRange(void *p, u32 n);
+
 extern void SND_FlushCommand(u32 flags);
+
 extern int SND_ReadTrackInfo(struct SNDDriverInfo *, int playerNo, int trackNo, struct SNDTrackInfo *trackInfo);
+
 extern void NNS_SndStartTimer(void);
+
 extern void SND_StopTimer(u32 a, u32 b, u32 c, u32 d);
+
 extern void SND_WaitForCommandProc(u32 a);
+
 extern void NNSi_SndCaptureReset(void);
-void NNSi_G3dTexMtxScaleRot_Max(struct DST *d, struct SRC *s);
-void NNSi_G3dTexMtxRot_Max(struct DST *d, struct SRC *s);
-void NNSi_G3dTexMtxScale_Max(struct DST *d, struct SRC *s);
-void NNSi_G3dTexMtxIdentity_Max(struct DST *d);
-void NNSi_G3dSendTexMtx_Max(Obj *o);
+
 void NNS_SndInit(void);
+
 void NNS_SndBoot(void);
+
 void NNS_SndSetMasterVolume(int volume);
+
 void NNS_SndSetMasterPan(u32 flag);
+
 u32 NNS_SndReadDriverInfo(void);
+
 int NNS_SndReadTrackInfo(int playerNo, int trackNo, struct SNDTrackInfo *trackInfo);
+
 void NNS_SndPrependPostSleepCallback(void);
+
 void NNS_SndAppendPostSleepCallback(void *p);
-extern Fill data_020A8478[];
+
 extern struct Sys g_0214BAC0;
+
 extern u8 g_0214BB00[];
-
-
-
-
-/*
- * The s32 2x2 member of the (DST_02072374, SRC) matrix-constructor family
- * (docs/families/cluster_02071EAC.h): scaleS/scaleT x rotSin/rotCos through four
- * `smull`s reduced by the family's `>> 12`, with both FX divisions and the
- * plain 32-bit _30/_31 pair.
- *
- * CLOSED AFTER THREE PREVIOUS PASSES.  docs/notes/pkt_02072374.c.txt records
- * this address at DIFF 17, then 7, then 8 across three lanes and some
- * thirty-odd measured spellings, and concludes that the residue -- a stable
- * r5/r6 exchange over seven instructions, all of them `smull` / `lsr` /
- * `orr` / `mul` / `rsb`, i.e. multiply-class instructions or direct consumers
- * of one -- "is chosen after linearisation and is not source-addressable".
- * It IS source-addressable, and the address is ONE STATEMENT REORDER.
- *
- * THE LEVER: THE `d->_00` STORE SITS AFTER BOTH `q` AND `r`, NOT BEFORE THEM.
- * The note's best source writes
- *     d->_00 = (s32)(((s64_02072374)e * a) >> 12);
- *     q = ...; r = ...; d->_11 = r;
- * which is the image's STORE order but not its VALUE order.  Moving the f00
- * store down, so the three narrowings are computed as a run and only then
- * stored,
- *     q = (s32)(((s64_02072374)e * b) >> 12);
- *     r = (s32)(((s64_02072374)c * a) >> 12);
- *     d->_00 = (s32)(((s64_02072374)e * a) >> 12);
- *     d->_11 = r;
- * takes it from 8 concrete bytes to 0.  The reason is the one the cluster
- * header's L8 names: a value's colour follows its first-definition order, and
- * an intervening store re-numbers everything after it.  With the store out of
- * the way, `c`'s product is numbered before `q`'s and the two take the
- * image's registers.  The note's own row "q hoisted above r with the f14
- * store last (7, the same as the filed shape)" was one step from this and
- * stopped at moving the f14 store rather than the f00 store.
- *
- * Found by tools/permuter.py in a single hill pass -- `reorder(+2)`, 269
- * compiles, 8 -> 0 -- after thirty-odd hand spellings had not reached it.
- *
- * The other three levers the note establishes are all still required and are
- * carried below unchanged:
- *   - the two `<< 12` shifted angle values are NAMED LOCALS live across the
- *     whole body (L4 of docs/families/cluster_02070B64.h), which is what
- *     forces the ten-register push {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr};
- *   - `b` (rotSin) is bound BEFORE `c` (scaleT), matching the image's load order
- *     rotCos / scaleS / rotSin / scaleT at 0x0207239C..0x020723A8;
- *   - `s->origHeight` is `volatile`, so the second `ldrh` at 0x020723B0 survives.
- *
- * NO PIN.  With the reorder in place the DEFAULT dsi/1.1p1 produces the bytes
- * exactly as ../2.0/sp2 does (both 204 bytes, 0 mismatches), so the file takes
- * the project default.  This retires the note's standing question about which
- * front end is "the better of the two" here: at the correct source neither is
- * better, and the 8-vs-14 gap the note measured was an artefact of the
- * mis-ordered store, not a front-end tell.
- */
-/*
- * The s32 2x2 member of the (DST, SRC) matrix-constructor family
- * (docs/families/cluster_02071EAC.h): scaleS/scaleT x rotSin/rotCos through four
- * `smull`s reduced by the family's `>> 12`, with both FX divisions and the
- * plain 32-bit _30/_31 pair.
- *
- * CLOSED AFTER THREE PREVIOUS PASSES.  docs/notes/pkt_02072374.c.txt records
- * this address at DIFF 17, then 7, then 8 across three lanes and some
- * thirty-odd measured spellings, and concludes that the residue -- a stable
- * r5/r6 exchange over seven instructions, all of them `smull` / `lsr` /
- * `orr` / `mul` / `rsb`, i.e. multiply-class instructions or direct consumers
- * of one -- "is chosen after linearisation and is not source-addressable".
- * It IS source-addressable, and the address is ONE STATEMENT REORDER.
- *
- * THE LEVER: THE `d->_00` STORE SITS AFTER BOTH `q` AND `r`, NOT BEFORE THEM.
- * The note's best source writes
- *     d->_00 = (s32)(((s64)e * a) >> 12);
- *     q = ...; r = ...; d->_11 = r;
- * which is the image's STORE order but not its VALUE order.  Moving the f00
- * store down, so the three narrowings are computed as a run and only then
- * stored,
- *     q = (s32)(((s64)e * b) >> 12);
- *     r = (s32)(((s64)c * a) >> 12);
- *     d->_00 = (s32)(((s64)e * a) >> 12);
- *     d->_11 = r;
- * takes it from 8 concrete bytes to 0.  The reason is the one the cluster
- * header's L8 names: a value's colour follows its first-definition order, and
- * an intervening store re-numbers everything after it.  With the store out of
- * the way, `c`'s product is numbered before `q`'s and the two take the
- * image's registers.  The note's own row "q hoisted above r with the f14
- * store last (7, the same as the filed shape)" was one step from this and
- * stopped at moving the f14 store rather than the f00 store.
- *
- * Found by tools/permuter.py in a single hill pass -- `reorder(+2)`, 269
- * compiles, 8 -> 0 -- after thirty-odd hand spellings had not reached it.
- *
- * The other three levers the note establishes are all still required and are
- * carried below unchanged:
- *   - the two `<< 12` shifted angle values are NAMED LOCALS live across the
- *     whole body (L4 of docs/families/cluster_02070B64.h), which is what
- *     forces the ten-register push {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr};
- *   - `b` (rotSin) is bound BEFORE `c` (scaleT), matching the image's load order
- *     rotCos / scaleS / rotSin / scaleT at 0x0207239C..0x020723A8;
- *   - `s->origHeight` is `volatile`, so the second `ldrh` at 0x020723B0 survives.
- *
- * NO PIN.  With the reorder in place the DEFAULT dsi/1.1p1 produces the bytes
- * exactly as ../2.0/sp2 does (both 204 bytes, 0 mismatches), so the file takes
- * the project default.  This retires the note's standing question about which
- * front end is "the better of the two" here: at the correct source neither is
- * better, and the 8-vs-14 gap the note measured was an artefact of the
- * mis-ordered store, not a front-end tell.
- */
-void NNSi_G3dTexMtxScaleRot_Max(struct DST *d, struct SRC *s)
-{
-    s32 e, a, c, b;
-    s32 q, r;
-    s32 f12, e12;
-
-    f12 = (s32)s->origWidth << 12;
-    e12 = (s32)s->origHeight << 12;
-    FX_DivAsync(e12, f12);
-
-    e = s->scaleS;
-    a = (s32)s->rotCos;
-    b = (s32)s->rotSin;
-    c = s->scaleT;
-
-    q = (s32)(((s64)e * b) >> 12);
-    r = (s32)(((s64)c * a) >> 12);
-    d->_00 = (s32)(((s64)e * a) >> 12);
-    d->_11 = r;
-    d->_01 = ((s32)(((s64)c * b) >> 12) * FX_GetDivResult()) >> 12;
-
-    FX_DivAsync(f12, e12);
-
-    d->_30 = ((s32)s->origWidth * q) << 4;
-    d->_31 = ((0 - (s32)s->origHeight) * (r - 0x1000)) << 4;
-    d->_10 = ((0 - q) * FX_GetDivResult()) >> 12;
-}
-
-
-
-
-/*
- * Two functions of the 0x02071CDC constructor family, 228 bytes: the
- * all-s16_02072374 variant at 0x02072440 (164 B, no smull anywhere - every term is
- * a plain `ldrsh` times an `ldrh`) and the UNLABELLED leaf at 0x020724E4
- * (64 B), which saves no lr and so never gets a func_ label. Folding the
- * follower in here is what turns the lead function's EXACT* into EXACT.
- *
- * The third leaf of the file, the pure-identity writer at 0x02072524
- * (36 B, byte-identical to the one at 0x02071EFC), is NOT in this unit:
- * 1.1p1 -O4,p hoists `mov r1, #0` ahead of `mov r2, #0x1000` where the
- * image materialises 0x1000 first. Nine store-order and constant-binding
- * spellings all give the same 3-instruction swap; see
- * docs/notes/NNSi_G3dTexMtxIdentity2.c.txt.
- */
-/*
- * Two functions of the 0x02071CDC constructor family, 228 bytes: the
- * all-s16 variant at 0x02072440 (164 B, no smull anywhere - every term is
- * a plain `ldrsh` times an `ldrh`) and the UNLABELLED leaf at 0x020724E4
- * (64 B), which saves no lr and so never gets a func_ label. Folding the
- * follower in here is what turns the lead function's EXACT* into EXACT.
- *
- * The third leaf of the file, the pure-identity writer at 0x02072524
- * (36 B, byte-identical to the one at 0x02071EFC), is NOT in this unit:
- * 1.1p1 -O4,p hoists `mov r1, #0` ahead of `mov r2, #0x1000` where the
- * image materialises 0x1000 first. Nine store-order and constant-binding
- * spellings all give the same 3-instruction swap; see
- * docs/notes/NNSi_G3dTexMtxIdentity2.c.txt.
- */
-void NNSi_G3dTexMtxRot_Max(struct DST *d, struct SRC *s)
-{
-    s32 e12, f12, t;
-
-    e12 = (s32)((u32)s->origWidth << 12);
-    f12 = (s32)((u32)s->origHeight << 12);
-
-    FX_DivAsync(f12, e12);
-
-    d->_00 = s->rotCos;
-    d->_11 = s->rotCos;
-
-    t = FX_GetDivResult();
-    d->_01 = (s->rotSin * t) >> 12;
-
-    FX_DivAsync(e12, f12);
-
-    d->_30 = ((s32)s->origWidth * s->rotSin) << 4;
-    d->_31 = ((0 - (s32)s->origHeight) * (s->rotCos - 0x1000)) << 4;
-
-    t = FX_GetDivResult();
-    d->_10 = ((0 - (s32)s->rotSin) * t) >> 12;
-}
-
-
-
-void NNSi_G3dTexMtxScale_Max(struct DST *d, struct SRC *s)
-{
-    d->_00 = s->scaleS;
-    d->_11 = s->scaleT;
-    d->_01 = 0;
-    d->_30 = 0;
-    d->_31 = ((0 - (s32)s->origHeight) * (s->scaleT - 0x1000)) << 4;
-    d->_10 = 0;
-}
-
-
-
-
-
-/*
- * The identity member of the 0x02071CDC constructor family, an unlabelled
- * leaf (saves no lr). The same 36-byte body appears twice in this file, at
- * 0x02072524 and 0x02072524.
- *
- * PINNED ../2.0/sp2 on the "kept constants" tell (docs/FRONTEND-PINS.md),
- * the same measurement already taken for src/matched/NNSi_G3dTexMtxIdentity.c: the
- * image materialises the unit scale FIRST, `mov r2, #0x1000`
- * (`01 2a a0 e3`) at 0x02072524 followed by `str r2, [r0]`, and only then
- * `mov r1, #0` (`00 10 a0 e3`) at 0x0207252C. dsi/1.1p1 -O4,p schedules the
- * zero first for the same 36 bytes, 9 concrete bytes out, under all ten
- * spellings measured in docs/notes/NNSi_G3dTexMtxIdentity_Max.c.txt (store order,
- * constants bound to locals, zero derived from the live 0x1000, re-read of
- * a stored field). Under the pin the same C is 36 bytes, 0 mismatches.
- */
-void NNSi_G3dTexMtxIdentity_Max(struct DST *d)
-{
-    d->_00 = 0x1000;
-    d->_01 = 0;
-    d->_10 = 0;
-    d->_11 = 0x1000;
-    d->_30 = 0;
-    d->_31 = 0;
-}
-
-
-
-
-
-/*
- * One of the two CALLERS of the 0x02071CDC constructor family
- * (docs/notes/pkt_02071DD4.c.txt).  It builds a 0x4c-byte command record
- * on the stack, fills the record's 2x3 matrix block by dispatching on the
- * low three bits of the object's flag word through a pointer table, then
- * applies the object's magW/magH scales to the two rows -- each through the
- * family's `>> 12` on an s64_02072524 product, which folds to `lsr #0xc` +
- * `orr ..., lsl #20` -- and hands the record to NNS_G3dGeBufferOP_N.
- *
- * Each scale is skipped outright when it is already the unit 0x1000, so
- * both are guarded compares against 0x1000 rather than multiplies by one.
- *
- * Three levers, all measured, and all needed:
- *
- * L1  magW/magH ARE `volatile`.  The image RE-READS the scale from the
- *     object before the second and third multiply of each block
- *     (`ldr r2,[r4,#0x30]` at 0x02071FC4, `ldr r1,[r4,#0x30]` at
- *     0x02071FDC); 1.1p1 otherwise forwards the register it still holds
- *     live and batches all three smulls, which is 8 bytes short.  But
- *     plain `volatile` also re-reads for the GUARD compare and comes out
- *     4 bytes LONG, so the guard's own load is bound to a local `s` and
- *     the FIRST multiply uses that local while the other two re-read.
- * L2  THE CALL'S BASE IS A POINTER LOCAL.  The image spends two
- *     instructions on the argument, `add r1, sp, #0` then
- *     `add r1, r1, #4` (0x02072040/0x02072048); `&r.texMtxMode` folds to a
- *     single `add r1, sp, #4` and loses 4 bytes.  `(s32 *)&r` bound
- *     first, then `base + 1`, reproduces the pair.
- * L3  THE FOUR HEADER CONSTANTS ARE ORDERED BY THE STORES, NOT THE
- *     DECLARATIONS.  mwcc emits the constant movs in order of the first
- *     store that uses each, and sinks any constant whose store sits
- *     after the zero run.  `f04, f48, f40, f44` is the only one of the
- *     orderings measured that gives the image's `mov r1,#0 / mov r3,#3 /
- *     mov r2,#2 / mov r0,#0x1000`; f44-first is 27 bytes out and
- *     f48-first 8, differing by a pure rotation of the three non-zero
- *     constants.  Declaration order and binding the constants to locals
- *     at all are both insensitive.
- *
- * Derived from src/matched/NNSi_G3dSendTexMtx.c, its sibling and the other caller of
- * the 0x02071CDC constructor family (docs/notes/pkt_02071DD4.c.txt, "NOT
- * ATTEMPTED").  Same 0x4c-byte stack record, same two header constants
- * (0x00101610 / 0x00101810), same 2x3 fill dispatched through the low three
- * flag bits -- through data_020A8478 here rather than gNNSiG3dTexMtxFuncTable -- and the
- * same two f30/f34 scale blocks.  L1, L2 and L3 above all transferred
- * unchanged, including the `volatile` f30/f34 with the guard's own load bound
- * to `s`, and were not re-derived.
- *
- * What this one adds over NNSi_G3dSendTexMtx: three flag-guarded writes back into
- * the OBJECT, ahead of the dispatch -- bit 0 sets f1c and f18 to the unit
- * scale, bit 1 sets h22 to 0x1000 and h20 to 0, bit 2 clears f28 and f24.  The
- * store order inside each pair is high field first, and each guard re-reads
- * o->flag (`ldr r0,[r4]` at 0x020725AC, 0x020725BC, 0x020725D8, 0x020725EC).
- * h20/h22 are s16_02072524: the pair is `strh`.
- *
- * PIN ../2.0/sp2, the "kept branches" tell (docs/FRONTEND-PINS.md), and exactly
- * the one docs/notes/pkt_02071DD4.c.txt flagged at this address in advance.
- * The image keeps `tst r0, #2` at 0x020725C0 (`02 00 10 e3`) and `beq 0x020725D8`
- * at 0x020725C4 (`03 00 00 0a`) over the FOUR-instruction bit-1 guard body at
- * 0x020725C8..0x020725D4 (`mov r0,#0x1000` / `strh r0,[r4,#0x22]` /
- * `mov r0,#0` / `strh r0,[r4,#0x20]`).  1.1p1 -O4,p predicates it to
- * `movne/strhne/movne/strhne` -- and, having done so, reverses the pair to
- * h20-then-h22 -- giving 388 bytes against the original's 392, 226 concrete
- * bytes out and the whole body shifted by four.  The bit-0 and bit-2 guards,
- * being two instructions each, are predicated under BOTH front ends and are
- * not evidence either way.  Under the pin the same C is 392 bytes,
- * 0 mismatches.
- */
-void NNSi_G3dSendTexMtx_Max(Obj *o)
-{
-    Rec r;
-    s32 zero;
-    s32 three = 3;
-    s32 two = 2;
-    s32 unit = 0x1000;
-
-    zero = 0;
-    if (o->flag & 8) {
-        r.hdr = 0x00101610;
-    } else {
-        r.hdr = 0x00101810;
-    }
-    r.texMtxMode = three;
-    r.posMtxMode = two;
-    r._32 = zero;
-    r._33 = unit;
-    r._23 = zero;
-    r._22 = zero;
-    r._21 = zero;
-    r._20 = zero;
-    r._13 = zero;
-    r._12 = zero;
-    r._03 = zero;
-    r._02 = zero;
-
-    if (o->flag & 1) {
-        o->scaleT = unit;
-        o->scaleS = unit;
-    }
-    if (o->flag & 2) {
-        o->rotCos = 0x1000;
-        o->rotSin = 0;
-    }
-    if (o->flag & 4) {
-        o->transT = 0;
-        o->transS = 0;
-    }
-
-    data_020A8478[o->flag & 7](&r._00, o);
-
-    {
-        s32 s = o->magW;
-        if (s != 0x1000) {
-            r._00 = (s32)(((s64)s * r._00) >> 12);
-            r._01 = (s32)(((s64)o->magW * r._01) >> 12);
-            r._30 = (s32)(((s64)o->magW * r._30) >> 12);
-        }
-    }
-    {
-        s32 s = o->magH;
-        if (s != 0x1000) {
-            r._10 = (s32)(((s64)s * r._10) >> 12);
-            r._11 = (s32)(((s64)o->magH * r._11) >> 12);
-            r._31 = (s32)(((s64)o->magH * r._31) >> 12);
-        }
-    }
-
-    {
-        s32 *matrixWords = (s32 *)&r;
-        NNS_G3dGeBufferOP_N(r.hdr, matrixWords + 1, 0x12);
-    }
-}
-
-
-
 
 /*
  * Sound-system one-shot init: take the f0c latch, SND_Init(), register the two
@@ -608,10 +182,6 @@ void NNS_SndInit(void)
     g_0214BAC0.pending = 1;
 }
 
-
-
-
-
 /*
  * Not a member of the 0x02071CDC constructor family: the subsystem's boot
  * sequence. Spins until SND_RecvCommandReply(0) reports ready, runs the three
@@ -659,14 +229,10 @@ void NNS_SndBoot(void)
     SND_FlushCommand(0);
 }
 
-
 void NNS_SndSetMasterVolume(int volume)
 {
     SND_SetMasterVolume(volume);
 }
-
-
-
 
 void NNS_SndSetMasterPan(u32 flag)
 {
@@ -676,9 +242,6 @@ void NNS_SndSetMasterPan(u32 flag)
         SND_ResetMasterPan();
     }
 }
-
-
-
 
 /*
  * Double-buffered SND_ReadDriverInfo pump over the 0x0214BAC0 control block
@@ -738,9 +301,6 @@ u32 NNS_SndReadDriverInfo(void)
     return 0;
 }
 
-
-
-
 /*
  *           and it is this function, so no branch outside 0x02072894..0x020728E8
  *           witnesses it.  Every concrete byte reproduces.
@@ -761,9 +321,6 @@ int NNS_SndReadTrackInfo(int playerNo, int trackNo, struct SNDTrackInfo *trackIn
     return SND_ReadTrackInfo((struct SNDDriverInfo *)p, playerNo, trackNo, trackInfo);
 }
 
-
-
-
 void NNS_SndPrependPostSleepCallback(void)
 {
     u32 res;
@@ -774,7 +331,6 @@ void NNS_SndPrependPostSleepCallback(void)
     SND_FlushCommand(1);
     SND_WaitForCommandProc(res);
 }
-
 
 void NNS_SndAppendPostSleepCallback(void *p)
 {

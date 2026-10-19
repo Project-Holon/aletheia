@@ -13,7 +13,7 @@
  * symbols:
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200873C  0x0200873C  thumb
- *   CONFIG_GetAppliedFlag  0x020083E4  thumb
+ *   CONFIG_GetTextLanguage  0x020083E4  thumb
  */
 #include "../include/Obj05853.h"
 
@@ -26,7 +26,7 @@ struct Sub02008700Obj;
 
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
-extern int CONFIG_GetAppliedFlag(unsigned short *p);
+extern int CONFIG_GetTextLanguage(unsigned short *p);
 
 int EVENT_GAMECLEAR_InitStaffRollParam(int a0)
 {
@@ -49,7 +49,7 @@ a0 = ((struct Obj05853 *)t4)->f4;
 loc_0215F938:
     obj = func_0200873C(big);
 loc_0215F93C:
-    a0 = CONFIG_GetAppliedFlag((short unsigned int *)obj);
+    a0 = CONFIG_GetTextLanguage((short unsigned int *)obj);
 loc_0215F940:
 ((struct Obj05853 *)t4)->f2C = a0;
 ((struct Obj05853 *)t4)->f30 = a0;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "SCRCMD_PROC_FLD_ReleaseFieldRegionTask",
+   "name": "SCRCMD_PROC_FLD_RestoreCameraTask",
    "address": "0x021B52E0",
    "kind": "game",
    "region": "ov021",

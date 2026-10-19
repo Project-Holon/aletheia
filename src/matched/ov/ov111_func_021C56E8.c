@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   VIEWER_MAIN_CheckInputHeld  0x021C5008  thumb  ov111
+ *   VIEWER_MAIN_CheckInputModeSwitch  0x021C5008  thumb  ov111
  *   VIEWER_MAIN_HandlePageTouch  0x021C555C  thumb  ov111
  *   VIEWER_MAIN_CheckTouch  0x021C5B80  thumb  ov111
  *   VIEWER_MAIN_HandleInput  0x021C567C  thumb  ov111
@@ -26,7 +26,7 @@ typedef struct {
     int mode;
 } Work;
 
-extern int VIEWER_MAIN_CheckInputHeld(Work *p);
+extern int VIEWER_MAIN_CheckInputModeSwitch(Work *p);
 extern void VIEWER_MAIN_HandlePageTouch(Work *p);
 extern void VIEWER_MAIN_CheckTouch(Work *p);
 extern int VIEWER_MAIN_HandleInput(Work *p);
@@ -34,7 +34,7 @@ extern int VIEWER_MAIN_HandleKey(Work *p);
 
 int VIEWER_MAIN_UpdateInput(Work *p)
 {
-    VIEWER_MAIN_CheckInputHeld(p);
+    VIEWER_MAIN_CheckInputModeSwitch(p);
     VIEWER_MAIN_HandlePageTouch(p);
     VIEWER_MAIN_CheckTouch(p);
     if (p->mode == 1) {

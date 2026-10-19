@@ -44,7 +44,7 @@
  * BTL_REC_SEL_ClearWindowClear 0x021BA0DC thumb ov214
  * BTL_REC_SEL_DrawWindowBorder 0x021BA0A4 thumb ov214
  * BTL_REC_SEL_PrintQueEntry 0x021BA254 thumb ov214
- * BTL_REC_SEL_IsEntryShown 0x021BA2B8 thumb ov214
+ * BTL_REC_SEL_TryShowEntry 0x021BA2B8 thumb ov214
  * func_020056BC 0x020056BC thumb
  * TIME_ICON_Create 0x0202EE30 thumb
  * BATTLE_REC_Save 0x0200B6E0 thumb
@@ -101,7 +101,7 @@ extern void BTL_REC_SEL_InitBgGfx3(int unused, u8 *p);
 extern void BTL_REC_SEL_SetEntryA(void*,char*,u32,u32,u32),BATTLE_REC_Delete(void*);
 extern void BTL_REC_SEL_ClearList(int,char*),BTL_REC_SEL_DeleteCellActors(int,int),BTL_REC_SEL_ClearWindowClear(int,char*),BTL_REC_SEL_DrawWindowBorder(int,char*);
 extern void BTL_REC_SEL_PrintQueEntry(void*,char*,u32);
-extern u32 BTL_REC_SEL_IsEntryShown(int unused, u8 *p);
+extern u32 BTL_REC_SEL_TryShowEntry(int unused, u8 *p);
 extern u32 func_020056BC(void);
 extern u8 *TIME_ICON_Create(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
 extern u32 BATTLE_REC_Save(void*,u16,u32,u32,u32,u16*,u16*);
@@ -216,7 +216,7 @@ int BTL_REC_SEL_Main(void *unused,u32 *state,const char *obj,char *p)
         BTL_REC_SEL_ResetTimer((void*)obj,p);break;
     case 10:BTL_REC_SEL_PrintQueEntry((void*)obj,p,9);*state=11;break;
     case 11:
-        if(BTL_REC_SEL_IsEntryShown((int)obj,(u8 *)p)){
+        if(BTL_REC_SEL_TryShowEntry((int)obj,(u8 *)p)){
             (*(u32*)(p+0x2ec))=(u32)TIME_ICON_Create((void *)func_020056BC(),(void*)(*(u32*)(p+0x6c)),15,16,*(u16*)p);
             (*(u32*)(p+0x2b4))=0;*(u16*)(p+0x2b8)=0;*(u16*)(p+0x2ba)=0;(*(u32*)(p+0x2bc))=0;
             *state=12;
@@ -243,7 +243,7 @@ int BTL_REC_SEL_Main(void *unused,u32 *state,const char *obj,char *p)
         *state=16;break;
     case 16:
         done=0;
-        if((*(u32*)(obj+8))){if(BTL_REC_SEL_IsEntryShown((int)obj,(u8 *)p))done=1;}
+        if((*(u32*)(obj+8))){if(BTL_REC_SEL_TryShowEntry((int)obj,(u8 *)p))done=1;}
         else if(BTL_REC_SEL_WaitPrint((int)obj,p))done=1;
         if(done){
             if((*(u32*)(obj+8))){

@@ -22,7 +22,7 @@
  *   MOVE_POKEMON_MoveActiveEntries  0x0215E364  thumb ov010
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   ZONEDATA_ResetEventFlag  0x0201433C  thumb
- *   EVENTDATA_SYSTEM_RespawnHiddenItems  0x02164728  thumb ov010
+ *   HIDDEN_ITEM_Respawn  0x02164728  thumb ov010
  *   ZONEDATA_IsZoneInTableDFB8  0x02013FFC  thumb
  *   func_02008854  0x02008854  thumb
  *   func_02008988  0x02008988  thumb
@@ -47,7 +47,7 @@ extern void MOVE_POKEMON_SetCommonArea(int a0, int a1);
 extern void  MOVE_POKEMON_MoveActiveEntries(void *a);
 extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 extern void ZONEDATA_ResetEventFlag(char *a0, int a1);
-extern void  EVENTDATA_SYSTEM_RespawnHiddenItems(void *a);
+extern void  HIDDEN_ITEM_Respawn(void *a);
 extern u32 ZONEDATA_IsZoneInTableDFB8(u32 id);
 extern struct Sub02008828Obj *func_02008854(void *sys);
 extern void func_02008988(struct Sub02008828Obj *obj, u16 value);
@@ -63,7 +63,7 @@ void FIELD_MAP_CHANGE_SetupZone(void *a, void *b)
     MOVE_POKEMON_MoveActiveEntries(a);
     c = (void *)GAME_DATA_GetEventWork(a);
     ZONEDATA_ResetEventFlag(c, 0x964);
-    EVENTDATA_SYSTEM_RespawnHiddenItems(c);
+    HIDDEN_ITEM_Respawn(c);
     if (ZONEDATA_IsZoneInTableDFB8((u32)b) == 0) {
         func_02008988(func_02008854(GAME_DATA_GetSaveControl(a)), 0);
     }

@@ -14,7 +14,7 @@
  *   CLACT_ReleaseCellAnim 0x0204AFD8 arm
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
  *   MI_CpuFill8 0x02082BCC arm
  */
 typedef unsigned char u8;
@@ -23,13 +23,13 @@ typedef unsigned int u32;
 extern void CLACT_ReleaseCellAnim(u32);
 extern void CLACT_ReleaseCharacter(u32);
 extern void CLACT_ReleasePalette(u32);
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 extern void MI_CpuFill8(void *, u32, u32);
 void TOUCHBAR_FreeGfx(u32 *p)
 {
     CLACT_ReleaseCellAnim(p[2]);
     CLACT_ReleaseCharacter(p[1]);
     CLACT_ReleasePalette(p[0]);
-    BG_SYS_DeleteHalf(p[3], (u16)p[4], (u16)(p[4] >> 16));
+    BG_SYS_FreeTileRun(p[3], (u16)p[4], (u16)(p[4] >> 16));
     MI_CpuFill8(p, 0, 0x14);
 }

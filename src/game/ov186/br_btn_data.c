@@ -27,7 +27,7 @@
  *   STRBUF_GetLength 0x020458F8 arm
  *   STRBUF_Create 0x020457B0 arm
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  */
 #include "br_types.h"
 
@@ -57,7 +57,7 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 
 void *BR_BTN_DATA_Create(int *configPtr, int heapId);
 
@@ -159,7 +159,7 @@ void *BR_BTN_DATA_CreateLabel(unsigned *const *wordSetSrc,void *record,struct Ms
             src=MSGDATA_AllocString(archive,(int)BR_BTN_DATA_GetRowField(record,3));
             result=STRBUF_Create(STRBUF_GetLength(src)+7,heapId);
             WORDSET_CopyTaggedText(wordSet,result,src);
-            WORDSET_DeleteStrbufED04(wordSet);
+            WORDSET_Delete(wordSet);
             STRBUF_Delete(src);
         }else{
             result=MSGDATA_AllocString(archive,(int)BR_BTN_DATA_GetRowField(record,3));

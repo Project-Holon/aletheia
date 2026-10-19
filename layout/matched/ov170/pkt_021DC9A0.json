@@ -187,7 +187,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BOX2_MAIN_PlayCursorSound",
+   "name": "BOX2_MAIN_ActivateKeyCursor",
    "address": "0x021DD238",
    "kind": "game",
    "region": "ov170",
@@ -319,7 +319,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BOX2_MAIN_PlaceMonSceneFromBox",
+   "name": "BOX2_MAIN_StartHandMotionToBoxSlot",
    "address": "0x021DEA3C",
    "kind": "game",
    "region": "ov170",
@@ -331,7 +331,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BOX2_MAIN_PlaceTargetMonScene",
+   "name": "BOX2_MAIN_StartHandMotionToTargetBoxSlot",
    "address": "0x021DEA4C",
    "kind": "game",
    "region": "ov170",
@@ -343,7 +343,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BOX2_MAIN_IsSwapScene",
+   "name": "BOX2_MAIN_StepHandMotionToSlot",
    "address": "0x021DEAFC",
    "kind": "game",
    "region": "ov170",
@@ -391,7 +391,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "BOX2_MAIN_GetBoxFormId",
+   "name": "BOX2_MAIN_GetBoxWallpaper",
    "address": "0x021DEDCC",
    "kind": "game",
    "region": "ov170",
@@ -427,7 +427,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BOX2_MAIN_ChangeBoxFormPreserve",
+   "name": "BOX2_MAIN_RefreshCurrentBoxMonInfo",
    "address": "0x021DEFEC",
    "kind": "game",
    "region": "ov170",
@@ -888,7 +888,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "BOX2_SEQ_StatePlayCry",
+   "name": "BOX2_SEQ_StateExitBoxWithSe",
    "address": "0x021E9284",
    "kind": "game",
    "region": "ov170",
@@ -1020,7 +1020,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "BOX2_SEQ_ResetEntry",
+   "name": "BOX2_SEQ_RefreshBoxUiAndWait",
    "address": "0x021EA83C",
    "kind": "game",
    "region": "ov170",

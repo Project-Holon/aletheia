@@ -1,5 +1,5 @@
 /*
- * function: BTLV_EFFECT_GetFieldSituationFlags
+ * function: BTLV_EFFECT_IsMultiMode
  * address:  0x021F8730
  * packet:   pkt_ov094_021F8730
  * region:   ov094
@@ -16,7 +16,7 @@
  */
 extern char *gBtlvEff;
 
-int BTLV_EFFECT_GetFieldSituationFlags(void)
+int BTLV_EFFECT_IsMultiMode(void)
 {
     return *(int *)(gBtlvEff + 0x1dc);
 }

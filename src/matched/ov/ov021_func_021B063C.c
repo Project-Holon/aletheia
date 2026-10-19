@@ -24,7 +24,7 @@
  *   func_02045B38  0x02045B38  arm
  *   STRBUF_Create  0x020457B0  arm
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   BEACON_GetPoints  0x0200C274  thumb
+ *   BEACON_GetMoney  0x0200C274  thumb
  *   FIELD_MSGBG_DeleteMsgWin  0x02190728  thumb  ov021
  *   FIELD_MSGBG_CreateMsgWin  0x02190708  thumb  ov021
  *   FIELDMAP_SetInfoWindow  0x02188D4C  thumb  ov021
@@ -63,7 +63,7 @@ extern u16 FIELDMAP_GetHeapId(u8 *p);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *GAME_DATA_GetMiscSave(int *p);
-extern u32 BEACON_GetPoints(struct Blk34 *p);
+extern u32 BEACON_GetMoney(struct Blk34 *p);
 extern int FIELD_MSGBG_DeleteMsgWin(void *a);
 struct Fx;
 extern void *FIELD_MSGBG_CreateMsgWin(struct Fx *p, u32 a, u16 b, u16 c, u16 d, u16 e);
@@ -96,7 +96,7 @@ int SCRCMD_MSGWIN_CmdOpenMoneyWin(u32 a, u32 b)
     h = FIELDMAP_GetHeapId(y);
     z = (u32)func_02045B38(0, 3, 0x9e, h);
     h = (u32)STRBUF_Create(0x80, h);
-    g = BEACON_GetPoints(GAME_DATA_GetMiscSave((int *)x));
+    g = BEACON_GetMoney(GAME_DATA_GetMiscSave((int *)x));
     if (w != 0)
         FIELD_MSGBG_DeleteMsgWin((void *)w);
     obj = (u32)FIELD_MSGBG_CreateMsgWin((struct Fx *)m, z, (u16)(v1 - 9), (u16)v2, 9, 2);

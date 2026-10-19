@@ -12,7 +12,7 @@
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   POKETRADE_PROC_ClearDragIcon 0x021D8C6C thumb ov119
  *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
- *   POKETRADE_PROC_CheckPartyBoxSelected 0x021D9E0C thumb ov119
+ *   POKETRADE_PROC_StepSendPartyBoxSelected 0x021D9E0C thumb ov119
  */
 #include "../include/Obj04474.h"
 
@@ -21,7 +21,7 @@ struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void POKETRADE_PROC_ClearDragIcon(void *);
 extern void POKETRADE_PROC_SetStep(void *,int);
-extern void POKETRADE_PROC_CheckPartyBoxSelected(char *p);
+extern void POKETRADE_PROC_StepSendPartyBoxSelected(char *p);
 void POKETRADE_PROC_HideTouchbarButtons(char *p) {
     TOUCHBAR_SetButtonVisible((unsigned char *)(((struct Obj04474 *)p)->f9C0),7,0);
     TOUCHBAR_SetButtonVisible((unsigned char *)(((struct Obj04474 *)p)->f9C0),8,0);
@@ -29,5 +29,5 @@ void POKETRADE_PROC_HideTouchbarButtons(char *p) {
     TOUCHBAR_SetButtonVisible((unsigned char *)(((struct Obj04474 *)p)->f9C0),1,0);
     CLACT_SetActorDrawEnable((struct Obj *)((struct Obj04474 *)p)->fF04,0);
     POKETRADE_PROC_ClearDragIcon(p);
-    POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_CheckPartyBoxSelected);
+    POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepSendPartyBoxSelected);
 }

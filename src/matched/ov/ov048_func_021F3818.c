@@ -1,5 +1,5 @@
 /*
- * function: FIELD_GIMMICK_GATE_StoreMiscSaveValue
+ * function: FIELD_GIMMICK_GATE_StoreGatePoints
  * address: 0x021F3818
  * packet: pkt_ov048_021F3818
  * region: ov048
@@ -20,4 +20,4 @@ struct Blk34;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *BEACON_GetBlock(void *p);
 extern void BEACON_SetGatePoints(struct Blk34 *p, u16 v);
-void FIELD_GIMMICK_GATE_StoreMiscSaveValue(int *p) { BEACON_SetGatePoints(BEACON_GetBlock(GAME_DATA_GetSaveControl(((struct Obj00377 *)p)->f8)), ((struct Obj00377 *)p)->f64); }
+void FIELD_GIMMICK_GATE_StoreGatePoints(int *p) { BEACON_SetGatePoints(BEACON_GetBlock(GAME_DATA_GetSaveControl(((struct Obj00377 *)p)->f8)), ((struct Obj00377 *)p)->f64); }

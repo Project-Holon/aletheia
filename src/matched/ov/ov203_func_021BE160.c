@@ -11,7 +11,7 @@
  * 2026-10-05 (integrator): the angle divisor is the plain literal 360 and the alloc size the literal 0x88; mwcc derives 0x168 from the live 0x88 itself (`adds r7,#0xE0`), so the earlier `sz` local was not needed. EXACT in c99 and c.
  * note: 2026-10-05 wave P2 lane Q3 (pengy share, user-approved). Levers: heap is a u16
  *   parameter (entry spill of r2 first, raw reload at every use); cam written as
- *   `cam = ctx->f74 = DEMO3D_ENGINE_GetAnimeId(...)` (store to ctx first, then the local slot sp+0x24);
+ *   `cam = ctx->f74 = DEMO3D_ENGINE_GetCameraRecord(...)` (store to ctx first, then the local slot sp+0x24);
  *   cnt is a signed int (ble guard); ortho bounds as in ov088 021B9C2C (FX_Mul/FX_Div,
  *   top = FX_Div(t, c), bottom = -FX_Div(t, c)). The angle divisor is written sz + 0xE0:
  *   the original keeps 0x88 live in r7 (alloc size) and derives 0x168 from it with
@@ -19,15 +19,15 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   TIMEZONE_GetTimeZoneOfHour 0x020113F0 thumb
- *   DEMO3D_ENGINE_GetAnimeId 0x021BE7A8 thumb ov203
+ *   DEMO3D_ENGINE_GetCameraRecord 0x021BE7A8 thumb ov203
  *   FX_Div 0x0207C768 arm
  *   _ll_mul 0x0209C054 arm
  *   G3D_CAMERA_Create 0x02048A24 arm
  *   G3D_CAMERA_GetNearClipAlt 0x02048B9C arm
  *   G3D_CAMERA_GetFarClipAlt 0x02048BB0 arm
  *   DEMO3D_ENGINE_SetupLighting 0x021BE63C thumb ov203
- *   DEMO3D_DATA_GetAnimId 0x021BE920 thumb ov203
- *   DEMO3D_DATA_GetAnimCount 0x021BE938 thumb ov203
+ *   DEMO3D_DATA_GetTimeStep 0x021BE920 thumb ov203
+ *   DEMO3D_DATA_IsDouble3dDisplay 0x021BE938 thumb ov203
  *   DOUBLE3DDISP_Init 0x0204E8C0 arm
  *   func_02005654 0x02005654 thumb
  *   DEMO3D_GRAPHIC_DeleteDouble3d 0x021BE150 thumb ov203
@@ -100,14 +100,14 @@ struct G3dSys;
 struct Light;
 struct Record;
 extern int TIMEZONE_GetTimeZoneOfHour(int row, int col);
-extern u32 DEMO3D_ENGINE_GetAnimeId(u32 id);
+extern u32 DEMO3D_ENGINE_GetCameraRecord(u32 id);
 extern fx32 FX_Div(fx32, fx32);
 extern void *G3D_CAMERA_Create(int, int, int, int, int, int, int, int, VecFx32 *, VecFx32 *, VecFx32 *, int);
 extern void G3D_CAMERA_GetNearClipAlt(struct Light *l, u32 *out);
 extern void G3D_CAMERA_GetFarClipAlt(struct Light *l, u32 *out);
 extern void DEMO3D_ENGINE_SetupLighting(struct Context *ctx, struct Config *cfg, const struct Record *record, u16 heap);
-extern u32 DEMO3D_DATA_GetAnimId(u32);
-extern int DEMO3D_DATA_GetAnimCount(void *a);
+extern u32 DEMO3D_DATA_GetTimeStep(u32);
+extern int DEMO3D_DATA_IsDouble3dDisplay(void *a);
 extern void DOUBLE3DDISP_Init(u32);
 extern int func_02005654(int a, int b);
 extern void DEMO3D_GRAPHIC_DeleteDouble3d(void);
@@ -162,7 +162,7 @@ struct Ctx *DEMO3D_ENGINE_Create(void *owner, struct Cfg *cfg, u16 heap)
     ctx->b83 = cfg->fd;
     ctx->b84 = cfg->fe;
     ctx->b85 = cfg->sec;
-    cam = ctx->f74 = (struct Cam *)DEMO3D_ENGINE_GetAnimeId(ctx->id);
+    cam = ctx->f74 = (struct Cam *)DEMO3D_ENGINE_GetCameraRecord(ctx->id);
     q = (((cam->fc >> 12) / 2) << 16) / 360;
     c = FX_SinCosTable_[(q >> 4) * 2 + 1];
     far = cam->f1c;
@@ -182,8 +182,8 @@ struct Ctx *DEMO3D_ENGINE_Create(void *owner, struct Cfg *cfg, u16 heap)
     G3D_CAMERA_GetNearClipAlt(ctx->f20, &ctx->f24);
     G3D_CAMERA_GetFarClipAlt(ctx->f20, &ctx->f28);
     DEMO3D_ENGINE_SetupLighting((struct Context *)ctx, (struct Config *)cfg, (const struct Record *)ctx->f74, heap);
-    ctx->f14 = DEMO3D_DATA_GetAnimId(ctx->id);
-    ctx->f10 = DEMO3D_DATA_GetAnimCount((void *)ctx->id);
+    ctx->f14 = DEMO3D_DATA_GetTimeStep(ctx->id);
+    ctx->f10 = DEMO3D_DATA_IsDouble3dDisplay((void *)ctx->id);
     if (ctx->f10) {
         DOUBLE3DDISP_Init(heap);
         func_02005654((int)DEMO3D_GRAPHIC_DeleteDouble3d, 0);

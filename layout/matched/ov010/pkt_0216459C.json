@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "EVENTDATA_SYSTEM_CheckFrontTileUsable",
+   "name": "FIELD_SKILL_CHECK_FrontTile",
    "address": "0x0216459C",
    "kind": "game",
    "region": "ov010",

@@ -1,5 +1,5 @@
 /*
- * function: EVENTDATA_SYSTEM_CheckFrontTileUsable
+ * function: FIELD_SKILL_CHECK_FrontTile
  * address:  0x0216459C
  * packet:   pkt_0216459C
  * region:   ov010
@@ -27,7 +27,7 @@ extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
 extern u32 ZONEDATA_IsNormalFieldZone(u32 id);
 extern int FISHING_CheckFacingWater(u32 unused, u32 a, u32 *out);
 
-int EVENTDATA_SYSTEM_CheckFrontTileUsable(int a0, int a1, int a2)
+int FIELD_SKILL_CHECK_FrontTile(int a0, int a1, int a2)
 {
     int t4;
     int t5;

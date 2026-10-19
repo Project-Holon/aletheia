@@ -1,5 +1,5 @@
 /*
- * function: UNION_MAIN_StepStartOv111Proc
+ * function: UNION_SCENE_StepStartOv111Proc
  * address: 0x02174284
  * packet: pkt_ov012_02174284
  * region: ov012
@@ -17,7 +17,7 @@ typedef unsigned char u8;
 extern void *FIELD_STATUS_CreateSubProcEvent(char *, int, int, int, int);
 extern u8 ov111_id[];
 extern const int gOv111ProcData[];
-int UNION_MAIN_StepStartOv111Proc(char *a, u8 *p, int b, int c, int x, void **out, u8 *state)
+int UNION_SCENE_StepStartOv111Proc(char *a, u8 *p, int b, int c, int x, void **out, u8 *state)
 {
     if (*state == 0) {
         *out = FIELD_STATUS_CreateSubProcEvent(a, b, (int)ov111_id, (int)gOv111ProcData, c);

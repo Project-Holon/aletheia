@@ -1,5 +1,5 @@
 /*
- * function: EVENT_FIELD_PROCLINK_CheckZoneFlag
+ * function: EVENT_FIELD_PROCLINK_ApplyZoneChangeEnable
  * address:  0x02161D64
  * packet:   pkt_02161D64
  * region:   ov010
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 extern int func_02013A80();
 
-int EVENT_FIELD_PROCLINK_CheckZoneFlag(int a0)
+int EVENT_FIELD_PROCLINK_ApplyZoneChangeEnable(int a0)
 {
     int a1;
     int t4;

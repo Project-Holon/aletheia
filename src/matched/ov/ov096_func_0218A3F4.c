@@ -17,7 +17,7 @@
  *   pad.
  * symbols:
  *   FILE_UTIL_LoadArcMember  0x02020F20  thumb
- *   FILE_UTIL_Get_1014  0x02021014  thumb
+ *   FILE_UTIL_GetItemRecordParam  0x02021014  thumb
  *   func_020307B0  0x020307B0  arm
  */
 #include "../include/Obj13672.h"
@@ -31,7 +31,7 @@ typedef int s32;
 
 extern int FILE_UTIL_LoadArcMember(int, int, u16);
 struct Rec;
-extern u32 FILE_UTIL_Get_1014(struct Rec *p, u32 sel);
+extern u32 FILE_UTIL_GetItemRecordParam(struct Rec *p, u32 sel);
 extern u32 func_020307B0(void *p);
 
 int TR_AI_GetItemField(int a, int b, int c) {
@@ -40,7 +40,7 @@ int TR_AI_GetItemField(int a, int b, int c) {
     int q;
     h = ((struct Obj13672 *)a)->fA0;
     p = FILE_UTIL_LoadArcMember(((struct Obj13672 *)a)->fA8, b, h);
-    q = FILE_UTIL_Get_1014((struct Rec *)p, c);
+    q = FILE_UTIL_GetItemRecordParam((struct Rec *)p, c);
     func_020307B0((void *)p);
     return q;
 }

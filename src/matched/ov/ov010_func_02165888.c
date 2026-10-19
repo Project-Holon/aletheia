@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GAME_BEACON_ACCESSOR_TableAddNewLogs 0x02165888 thumb
- *   GF_STANDARD_SetField00 0x0203F4CC arm
+ *   GF_STANDARD_GetCachedTime 0x0203F4CC arm
  *   GAME_BEACON_GetNextNewLogIndex 0x02026CA0 thumb
  *   GAME_BEACON_GetLog 0x02026C1C thumb
  *   GAME_BEACON_ACCESSOR_TableAdd 0x02165960 thumb ov010
@@ -19,7 +19,7 @@
  */
 
 struct RtcTime;
-extern void GF_STANDARD_SetField00(struct RtcTime *time);
+extern void GF_STANDARD_GetCachedTime(struct RtcTime *time);
 extern int GAME_BEACON_GetNextNewLogIndex(int *);
 extern void *GAME_BEACON_GetLog(int n);
 struct Queue;
@@ -39,7 +39,7 @@ int GAME_BEACON_ACCESSOR_TableAddNewLogs(int a0)
 
     n = 0;
     cur = 0;
-    GF_STANDARD_SetField00((struct RtcTime *)t);
+    GF_STANDARD_GetCachedTime((struct RtcTime *)t);
     h = (unsigned short)((t[0] << 8) | t[1]);
     for (;;) {
         k = GAME_BEACON_GetNextNewLogIndex(&cur);

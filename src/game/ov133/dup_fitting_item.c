@@ -1,7 +1,7 @@
 /*
  * file:     dup_fitting_item.c
  * unit:     yes
- * function: DUP_FITTING_ITEM_NoOp, DUP_FITTING_ITEM_CreateList, DUP_FITTING_ITEM_DeleteList, DUP_FITTING_ITEM_InsertElem, DUP_FITTING_ITEM_InsertElemTail, DUP_FITTING_ITEM_RemoveElem, DUP_FITTING_ITEM_ListGetHead, DUP_FITTING_ITEM_ListGetCount, DUP_FITTING_ITEM_ListIsFull, DUP_FITTING_ITEM_CreateElem, DUP_FITTING_ITEM_DeleteElem, DUP_FITTING_ITEM_FreeElemImage, DUP_FITTING_ITEM_ElemGetNext, DUP_FITTING_ITEM_ElemGetData, DUP_FITTING_ITEM_ElemSetSprite, DUP_FITTING_ITEM_ElemGetSprite, DUP_FITTING_ITEM_ElemGetRenderElem, DUP_FITTING_ITEM_ElemSetPos, DUP_FITTING_ITEM_ElemGetPos, DUP_FITTING_ITEM_ElemSetBasePos, DUP_FITTING_ITEM_ElemGetBasePos, DUP_FITTING_ITEM_ElemSetF2C, DUP_FITTING_ITEM_ElemGetF2C, DUP_FITTING_ITEM_ElemSetF18, DUP_FITTING_ITEM_ElemGetF18, DUP_FITTING_ITEM_ElemSetF1C, DUP_FITTING_ITEM_ElemGetF1C, DUP_FITTING_ITEM_ElemSetF20, DUP_FITTING_ITEM_ElemGetF20, DUP_FITTING_ITEM_ElemHitTest, DUP_FITTING_ITEM_ElemHitDistance
+ * function: DUP_FITTING_ITEM_NoOp, DUP_FITTING_ITEM_CreateList, DUP_FITTING_ITEM_DeleteList, DUP_FITTING_ITEM_InsertElem, DUP_FITTING_ITEM_InsertElemTail, DUP_FITTING_ITEM_RemoveElem, DUP_FITTING_ITEM_ListGetHead, DUP_FITTING_ITEM_ListGetCount, DUP_FITTING_ITEM_ListIsFull, DUP_FITTING_ITEM_CreateElem, DUP_FITTING_ITEM_DeleteElem, DUP_FITTING_ITEM_FreeElemImage, DUP_FITTING_ITEM_ElemGetNext, DUP_FITTING_ITEM_ElemGetData, DUP_FITTING_ITEM_ElemSetSprite, DUP_FITTING_ITEM_ElemGetSprite, DUP_FITTING_ITEM_ElemGetRenderElem, DUP_FITTING_ITEM_ElemSetPos, DUP_FITTING_ITEM_ElemGetPos, DUP_FITTING_ITEM_ElemSetBasePos, DUP_FITTING_ITEM_ElemGetBasePos, DUP_FITTING_ITEM_ElemSetStartScale, DUP_FITTING_ITEM_ElemGetStartScale, DUP_FITTING_ITEM_ElemSetScale, DUP_FITTING_ITEM_ElemGetScale, DUP_FITTING_ITEM_ElemSetAnimFrames, DUP_FITTING_ITEM_ElemGetAnimFrames, DUP_FITTING_ITEM_ElemSetFrameIndex, DUP_FITTING_ITEM_ElemGetFrameIndex, DUP_FITTING_ITEM_ElemHitTest, DUP_FITTING_ITEM_ElemHitDistance
  * address:  0x021BA0C8
  * region:   ov133
  * compiler: dsi/1.1p1
@@ -88,21 +88,21 @@ void DUP_FITTING_ITEM_ElemSetBasePos(u8 *p, const u8 *src);
 
 u8 * DUP_FITTING_ITEM_ElemGetBasePos(u8 *p);
 
-void DUP_FITTING_ITEM_ElemSetF2C(u8 *p, u32 value);
+void DUP_FITTING_ITEM_ElemSetStartScale(u8 *p, u32 value);
 
-u32 DUP_FITTING_ITEM_ElemGetF2C(u8 *p);
+u32 DUP_FITTING_ITEM_ElemGetStartScale(u8 *p);
 
-void DUP_FITTING_ITEM_ElemSetF18(u8 *p, u32 value);
+void DUP_FITTING_ITEM_ElemSetScale(u8 *p, u32 value);
 
-int DUP_FITTING_ITEM_ElemGetF18(char *p);
+int DUP_FITTING_ITEM_ElemGetScale(char *p);
 
-void DUP_FITTING_ITEM_ElemSetF1C(char *p, u32 v);
+void DUP_FITTING_ITEM_ElemSetAnimFrames(char *p, u32 v);
 
-u16 DUP_FITTING_ITEM_ElemGetF1C(char *p);
+u16 DUP_FITTING_ITEM_ElemGetAnimFrames(char *p);
 
-void DUP_FITTING_ITEM_ElemSetF20(char *p, int v);
+void DUP_FITTING_ITEM_ElemSetFrameIndex(char *p, int v);
 
-u32 DUP_FITTING_ITEM_ElemGetF20(char *p);
+u32 DUP_FITTING_ITEM_ElemGetFrameIndex(char *p);
 
 int DUP_FITTING_ITEM_ElemHitTest(u8 *p, int x, int y);
 
@@ -184,30 +184,30 @@ u8 * DUP_FITTING_ITEM_ElemGetBasePos(u8 *elem)
     return elem+36;
 }
 
-void DUP_FITTING_ITEM_ElemSetF2C(u8 *elem, u32 value)
+void DUP_FITTING_ITEM_ElemSetStartScale(u8 *elem, u32 value)
 {
     ((struct DupFittingItemElem *)elem)->startScale=value;
 }
 
-u32 DUP_FITTING_ITEM_ElemGetF2C(u8 *elem)
+u32 DUP_FITTING_ITEM_ElemGetStartScale(u8 *elem)
 {
     return ((struct DupFittingItemElem *)elem)->startScale;
 }
 
-void DUP_FITTING_ITEM_ElemSetF18(u8 *elem, u32 value)
+void DUP_FITTING_ITEM_ElemSetScale(u8 *elem, u32 value)
 {
     ((struct DupFittingItemElem *)elem)->scale=value;
 }
 
-int DUP_FITTING_ITEM_ElemGetF18(char *elem) { return ((struct DupFittingItemElem *)elem)->scale; }
+int DUP_FITTING_ITEM_ElemGetScale(char *elem) { return ((struct DupFittingItemElem *)elem)->scale; }
 
-void DUP_FITTING_ITEM_ElemSetF1C(char *elem, u32 value) { ((struct DupFittingItemElem *)elem)->animFrames=value; }
+void DUP_FITTING_ITEM_ElemSetAnimFrames(char *elem, u32 value) { ((struct DupFittingItemElem *)elem)->animFrames=value; }
 
-u16 DUP_FITTING_ITEM_ElemGetF1C(char *elem) { return ((struct DupFittingItemElem *)elem)->animFrames; }
+u16 DUP_FITTING_ITEM_ElemGetAnimFrames(char *elem) { return ((struct DupFittingItemElem *)elem)->animFrames; }
 
-void DUP_FITTING_ITEM_ElemSetF20(char *elem, int value) { ((struct DupFittingItemElem *)elem)->frameIndex=value; }
+void DUP_FITTING_ITEM_ElemSetFrameIndex(char *elem, int value) { ((struct DupFittingItemElem *)elem)->frameIndex=value; }
 
-u32 DUP_FITTING_ITEM_ElemGetF20(char *elem) { return ((struct DupFittingItemElem *)elem)->frameIndex; }
+u32 DUP_FITTING_ITEM_ElemGetFrameIndex(char *elem) { return ((struct DupFittingItemElem *)elem)->frameIndex; }
 
 int DUP_FITTING_ITEM_ElemHitTest(u8 *elem, int x, int y)
 {

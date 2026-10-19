@@ -34,7 +34,7 @@
  *   BATTLE_REC_LoadToolOverlay 0x0200BA58 thumb
  *   BATTLE_REC_UnloadToolOverlay 0x0200BA68 thumb
  *   BATTLE_REC_TOOL_UnpackSetup 0x021EEEA8 thumb ov188
- *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_SetBgmPaused 0x02005DE4 thumb
  *   GFL_USE_PushBgm 0x02005E64 thumb
  *   BR_MAIN_SanitizeBgmIds 0x0220B240 thumb ov187
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
@@ -144,7 +144,7 @@ extern void BATTLE_REC_UnloadToolOverlay(void);
 
 extern void BATTLE_REC_TOOL_UnpackSetup(struct BattleSetupParam *, u32);
 
-extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_SetBgmPaused(void *p);
 
 extern int GFL_USE_PushBgm(void);
 
@@ -317,7 +317,7 @@ void *BR_MAIN_CreateReplayScene(u32 heapId, BrMainWork *work)
     BATTLE_REC_LoadToolOverlay();
     BATTLE_REC_TOOL_UnpackSetup(setup, heapId);
     BATTLE_REC_UnloadToolOverlay();
-    GFL_USE_SetBgmPlayerParam((void *)1);
+    GFL_USE_SetBgmPaused((void *)1);
     GFL_USE_PushBgm();
     BR_MAIN_SanitizeBgmIds(&setup->bgmBattle, &setup->bgmWin);
     GFL_USE_CancelChangeAndPlayBgm(setup->bgmBattle, 65535);
@@ -328,7 +328,7 @@ void BR_MAIN_DeleteReplayScene(struct BattleSetupParam *setup, BrMainWork *work)
 {
     void *soundSys = (void *)GAME_DATA_GetBgmInfo(work->launch->gameData);
     GFL_USE_PopBgm();
-    GFL_USE_SetBgmPlayerParam(0);
+    GFL_USE_SetBgmPaused(0);
     GFL_USE_FadeInBgmFull(30);
     if (work->launch->kind == 0) FIELD_SOUND_SYSTEM_FadeVolume(soundSys, 64, 0);
     work->hidePlayerNames = setup->bits.recordComplete;

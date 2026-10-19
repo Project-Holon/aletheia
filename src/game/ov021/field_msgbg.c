@@ -23,7 +23,7 @@
  *   GFL_USE_AddMainTask  0x020056A0  thumb
  *   TALKMSGWIN_Delete  0x02194798  thumb  ov021
  *   TCBL_Destroy  0x02031140  arm
- *   BG_SYS_SetTileUnit  0x02040DA8  arm
+ *   BG_SYS_FreeTiles  0x02040DA8  arm
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   STRBUF_Delete  0x02045808  arm
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
@@ -84,7 +84,7 @@
  *   TALKMSGWIN_Reprint  0x0219499C  thumb  ov021
  *   TALKMSGWIN_IsShown  0x02194974  thumb  ov021
  *   TALKMSGWIN_GetPrintStream  0x02194984  thumb  ov021
- *   BG_SYS_FillScrollArea  0x02040618  arm
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm
  *   TALKMSGWIN_AddFrameWindow  0x02194A00  thumb  ov021
  *   TALKMSGWIN_DeleteFrameWindow  0x02194A48  thumb  ov021
  *   TALKMSGWIN_ClearWindowFrame  0x02194A34  thumb  ov021
@@ -115,7 +115,7 @@
  *   ARC_UTIL_LoadMember  0x0204A1BC  arm  arm9
  *   NNS_G2dGetUnpackedCharacterDataEx  0x02062A4C  arm  arm9
  *   MI_CpuCopy  0x02082EA4  arm  arm9
- *   GF_FONT_GetField58  0x0201DC80  thumb
+ *   GF_FONT_GetLineHeight  0x0201DC80  thumb
  *   STRBUF_Clone  0x02045874  arm
  *   BMP_CreateFromBuffer  0x020436FC  arm  arm9
  *   sCursorOffsetY     0x021D3E50  data   ov021  a1
@@ -134,7 +134,7 @@
  *   d_021D3EB8     0x021D3EB8  data  a4
  *   GFL_USE_IsCardIrqEnabled  0x02005C8C  thumb  arm9
  *   TCB_DeleteTask  0x02030EAC  arm  arm9
- *   BG_SYS_SetVisibleLayer  0x0204047C  arm
+ *   BG_SYS_SetPriority  0x0204047C  arm
  *   d_021D3F18     0x021D3F18  data  a4
  *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm
  *   BMP_MENUWORK_LoadCharAndPltt  0x0201F5BC  thumb
@@ -179,7 +179,7 @@ extern int GFL_USE_IsCardIrqEnabled(void);
 extern void TALKMSGWIN_LoadTexture(struct TalkMsgWinSys *talkSys);
 extern TalkMsgWinSys *TALKMSGWIN_Create(const TalkMsgWinParam *param);
 extern void TCB_DeleteTask(void *task);
-extern void BG_SYS_SetVisibleLayer(u32 frame, u16 value);
+extern void BG_SYS_SetPriority(u32 frame, u16 value);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 arcId, u32 fileId, u32 type, u32 offset, u32 size, u32 heapId);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32 frame, u32 charStart, u32 palette, u32 trans, u32 heapId);
 extern void TALKMSGWIN_ReloadFrameGraphics(struct TalkMsgWinSys *talkSys);
@@ -218,7 +218,7 @@ extern void FIELD_MSGBG_LoadWindowGraphicsAll(int bgFrame, int heapId);
 extern void FIELD_MSGBG_LoadWindowGraphicsStepFn(int bgFrame, int heapId, int step);
 extern void TALKMSGWIN_Delete(struct TalkMsgWinSys *talkSys);
 extern void TCBL_Destroy(struct Tcbl *tcbl);
-extern void BG_SYS_SetTileUnit(u32 frame, u32 visible, u32 mode);
+extern void BG_SYS_FreeTiles(u32 frame, u32 visible, u32 mode);
 extern void BG_SYS_FreeLayerBuf(u32 frame);
 extern void STRBUF_Delete(struct Strbuf *str);
 extern void PRINTSYS_QUE_Delete(struct PrintQue *printQue);
@@ -293,7 +293,7 @@ extern struct BmpWin *TALKMSGWIN_GetBmpWin(struct TalkMsgWinSys *talkSys, u32 in
 extern void TALKMSGWIN_Reprint(struct TalkMsgWinSys *talkSys, int index, struct Strbuf *str, u32 wait);
 extern int TALKMSGWIN_IsShown(struct TalkMsgWinSys *talkSys, int index);
 extern struct PrintStream *TALKMSGWIN_GetPrintStream(struct TalkMsgWinSys *talkSys, u32 index);
-extern void BG_SYS_FillScrollArea(u32 frame, u32 op, u32 value);
+extern void BG_SYS_ChangeScrollImmediate(u32 frame, u32 op, u32 value);
 extern struct BmpWin *TALKMSGWIN_AddFrameWindow(struct TalkMsgWinSys *talkSys, u8 x, u8 y, u8 width, u8 height, u32 winType);
 extern u32 TALKMSGWIN_DeleteFrameWindow(struct TalkMsgWinSys *talkSys, struct BmpWin *bmpWin);
 extern int TALKMSGWIN_ClearWindowFrame(struct TalkMsgWinSys *talkSys, struct BmpWin *bmpWin);
@@ -325,7 +325,7 @@ extern u16 BMP_GetHeight(const struct Bmp *bmp);
 extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, int dstX, int dstY, u32 width, u32 height, u16 colorKey);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void MI_CpuCopy(void *src, void *dst, u32 size);
-extern u32 GF_FONT_GetField58(struct GfFont *font);
+extern u32 GF_FONT_GetLineHeight(struct GfFont *font);
 extern void FIELD_MSGBG_AnimateCursorOnFrame(FieldMsgCursor *cursor, struct Bmp *bmp, struct Bmp *backBmp);
 extern struct Strbuf *STRBUF_Clone(struct Strbuf *src, u32 heapId);
 extern struct Bmp *BMP_CreateFromBuffer(void *pixels, u32 width, u32 height, u32 colorMode, u16 heapId);
@@ -540,7 +540,7 @@ void FIELD_MSGBG_Delete(FieldMsgBg *msgBg)
         TCBL_Destroy(msgBg->tcbl);
     }
     if (msgBg->bgFrame != 0xff) {
-        BG_SYS_SetTileUnit(msgBg->bgFrame, 1, 0);
+        BG_SYS_FreeTiles(msgBg->bgFrame, 1, 0);
         BG_SYS_FreeLayerBuf((u8)msgBg->bgFrame);
     }
     if (msgBg->bgFrameSys != 0xff) {
@@ -569,7 +569,7 @@ void FIELD_MSGBG_ReleaseBg(FieldMsgBg *msgBg)
         msgBg->talkSys = 0;
     }
     if (msgBg->bgFrame != 0xff) {
-        BG_SYS_SetTileUnit(msgBg->bgFrame, 1, 0);
+        BG_SYS_FreeTiles(msgBg->bgFrame, 1, 0);
         BG_SYS_FreeLayerBuf((u8)msgBg->bgFrame);
         msgBg->bgFrame = 0xff;
     }
@@ -1479,7 +1479,7 @@ u32 FIELD_MSGBG_TalkWinMain(FieldTalkWin *talkWin)
     }
     stream = TALKMSGWIN_GetPrintStream(talkWin->talkSys, talkWin->index);
     state = PRINTSYS_PrintStreamGetState(stream);
-    BG_SYS_FillScrollArea(1, 3, talkWin->shakeOffset);
+    BG_SYS_ChangeScrollImmediate(1, 3, talkWin->shakeOffset);
     if (talkWin->shakeOffset < 0) {
         talkWin->shakeOffset += 2;
         if (talkWin->shakeOffset > 0) {
@@ -1519,7 +1519,7 @@ u32 FIELD_MSGBG_TalkWinMain(FieldTalkWin *talkWin)
     case 2:
         if (talkWin->shakeOffset != 0) {
             talkWin->shakeOffset = 0;
-            BG_SYS_FillScrollArea(1, 3, talkWin->shakeOffset);
+            BG_SYS_ChangeScrollImmediate(1, 3, talkWin->shakeOffset);
         }
         return 1;
     }
@@ -1627,7 +1627,7 @@ u32 FIELD_MSGBG_PlainWinMain(FieldPlainWin *plainWin)
     KEY_GetCont();
     state = FIELD_MSGBG_MsgStreamMain(plainWin->stream);
     plainWin->streamState = PRINTSYS_PrintStreamGetState(plainWin->stream->stream);
-    BG_SYS_FillScrollArea(1, 3, plainWin->shakeOffset);
+    BG_SYS_ChangeScrollImmediate(1, 3, plainWin->shakeOffset);
     if (plainWin->shakeOffset < 0) {
         plainWin->shakeOffset += 2;
         if (plainWin->shakeOffset > 0) {
@@ -1651,7 +1651,7 @@ u32 FIELD_MSGBG_PlainWinMain(FieldPlainWin *plainWin)
     case 2:
         if (plainWin->shakeOffset != 0) {
             plainWin->shakeOffset = 0;
-            BG_SYS_FillScrollArea(1, 3, plainWin->shakeOffset);
+            BG_SYS_ChangeScrollImmediate(1, 3, plainWin->shakeOffset);
         }
         return 1;
     }
@@ -1807,8 +1807,8 @@ FieldBgWin *FIELD_MSGBG_CreateBgWinFont(FieldMsgBg *msgBg, u32 winType, struct G
     bgWin->msgBg = msgBg;
     bgWin->font = font;
     bgWin->scrollY = -48;
-    BG_SYS_FillScrollArea((u8)msgBg->bgFrame, 0, 0);
-    BG_SYS_FillScrollArea((u8)bgWin->msgBg->bgFrame, 3, bgWin->scrollY);
+    BG_SYS_ChangeScrollImmediate((u8)msgBg->bgFrame, 0, 0);
+    BG_SYS_ChangeScrollImmediate((u8)bgWin->msgBg->bgFrame, 3, bgWin->scrollY);
     bgWin->bmpWin = BMP_WIN_Create((u8)msgBg->bgFrame, 2, 0x13, 0x1c, 4, 9, 1);
     bgWin->nextBmp = BMP_Create(0x1c, 4, 0x20, msgBg->heapId);
     bgWin->prevBmp = BMP_Create(0x1c, 4, 0x20, msgBg->heapId);
@@ -1850,7 +1850,7 @@ void FIELD_MSGBG_DeleteBgWin(FieldBgWin *bgWin)
     BMP_WIN_TransferChars(bgWin->bmpWin);
     BMP_WIN_Delete(bgWin->bmpWin);
     BG_SYS_PushTile((u8)bgWin->msgBg->bgFrame);
-    BG_SYS_FillScrollArea((u8)bgWin->msgBg->bgFrame, 3, 0);
+    BG_SYS_ChangeScrollImmediate((u8)bgWin->msgBg->bgFrame, 3, 0);
     BMP_Delete(bgWin->prevBmp);
     BMP_Delete(bgWin->nextBmp);
     if (bgWin->lineStr != 0) {
@@ -1877,7 +1877,7 @@ u32 FIELD_MSGBG_BgWinMain(FieldBgWin *bgWin, struct Strbuf *str)
             bgWin->scrollY = 0;
             bgWin->seq++;
         }
-        BG_SYS_FillScrollArea((u8)bgWin->msgBg->bgFrame, 3, bgWin->scrollY);
+        BG_SYS_ChangeScrollImmediate((u8)bgWin->msgBg->bgFrame, 3, bgWin->scrollY);
         break;
     case 2:
         if (FIELD_MSGBG_IsLineMissing(bgWin->str, bgWin->lineStr, bgWin->lineIndex) == 1) {
@@ -1916,7 +1916,7 @@ u32 FIELD_MSGBG_BgWinMain(FieldBgWin *bgWin, struct Strbuf *str)
         if (bgWin->scrollY <= -48) {
             bgWin->scrollY = -48;
         }
-        BG_SYS_FillScrollArea((u8)bgWin->msgBg->bgFrame, 3, bgWin->scrollY);
+        BG_SYS_ChangeScrollImmediate((u8)bgWin->msgBg->bgFrame, 3, bgWin->scrollY);
         if (bgWin->scrollY == -48) {
             bgWin->seq++;
             return 1;
@@ -2099,7 +2099,7 @@ void FIELD_MSGBG_PrintLines(u16 x, u16 y, struct Bmp *bmp, struct GfFont *font, 
     struct Strbuf *lineStr;
     int lineHeight;
 
-    lineHeight = GF_FONT_GetField58(font) + 2;
+    lineHeight = GF_FONT_GetLineHeight(font) + 2;
     lineStr = STRBUF_Create(STRBUF_GetLength(str) + 1, heapId);
     for (line = 0; GF_FONT_CopyLine(str, lineStr, line) == 1; line++) {
         PRINTSYS_Print(bmp, (s16)x, (s16)y, lineStr, font);
@@ -2484,7 +2484,7 @@ void FIELD_MSGBG_SetupSysFrameBg(int useTemplate)
     BG_SYS_SetTileEntry(2, 0, 0, 0, 0x20, 0x20, 0x11);
     BG_SYS_PushTile(2);
     G2x_SetBlendAlpha_(REG_BLDCNT_ADDR, 4, 0x1b, 0x10, 4);
-    BG_SYS_SetVisibleLayer(2, 2);
+    BG_SYS_SetPriority(2, 2);
     BG_SYS_SetPlaneVisible(2, 1);
 }
 
@@ -2537,7 +2537,7 @@ void FIELD_MSGBG_SetBlendThunk(u32 enable)
 
 void FIELD_MSGBG_ReloadBg(FieldMsgBg *msgBg)
 {
-    BG_SYS_SetTileUnit(msgBg->bgFrame, 1, 0);
+    BG_SYS_FreeTiles(msgBg->bgFrame, 1, 0);
     BG_SYS_Init(msgBg->bgFrame, 0, 1, 0);
     BG_SYS_SetTileEntry((u8)msgBg->bgFrame, 0, 0, 0, 0x20, 0x20, 0x11);
     BG_SYS_PushTile((u8)msgBg->bgFrame);

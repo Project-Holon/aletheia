@@ -22,7 +22,7 @@
  * symbols:
  *   EVENTDATA_SYSTEM_IsBgEventGridHit  0x02162E48  thumb  ov010
  *   EVENTDATA_SYSTEM_IsBgEventRailHit  0x02162E9C  thumb  ov010
- *   EVENTDATA_SYSTEM_GetHiddenItemFlag  0x02164708  thumb  ov010
+ *   HIDDEN_ITEM_GetFlag  0x02164708  thumb  ov010
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  */
 
@@ -50,7 +50,7 @@ struct CellKey;
 struct VecFx32;
 extern int EVENTDATA_SYSTEM_IsBgEventGridHit(struct Trigger *t, const struct VecFx32 *pos);
 extern int EVENTDATA_SYSTEM_IsBgEventRailHit(struct Trigger *t, const struct CellKey *k);
-extern u16 EVENTDATA_SYSTEM_GetHiddenItemFlag(u16 id);
+extern u16 HIDDEN_ITEM_GetFlag(u16 id);
 extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
 
 u16 EVENTDATA_SYSTEM_SearchBgEventScriptId(TriggerSet *set, void *flags, const void *where, u16 type)
@@ -71,7 +71,7 @@ u16 EVENTDATA_SYSTEM_SearchBgEventScriptId(TriggerSet *set, void *flags, const v
                 continue;
         }
         if (t->kind2 == 2) {
-            if (ZONEDATA_CheckEventFlag(flags, EVENTDATA_SYSTEM_GetHiddenItemFlag(t->id)) == 0)
+            if (ZONEDATA_CheckEventFlag(flags, HIDDEN_ITEM_GetFlag(t->id)) == 0)
                 return t->id;
             continue;
         }

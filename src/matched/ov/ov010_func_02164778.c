@@ -1,5 +1,5 @@
 /*
- * function: EVENTDATA_SYSTEM_ScrCmdRunOverlay47
+ * function: SCRCMD_GIMMICK_BRIDGE_ResetSave
  * address: 0x02164778
  * packet: pkt_ov010_02164778
  * region: ov010
@@ -22,4 +22,4 @@ extern int func_02034AC4(int);
 extern void FIELD_GIMMICK_BRIDGE_ResetSave(u32 a);
 extern void func_02034A5C(int);
 extern u8 ov_id_47[];
-int EVENTDATA_SYSTEM_ScrCmdRunOverlay47(void *a,void *b){void *v=SCRCMD_WORK_GetGameSystem(b);func_02034AC4((int)ov_id_47);FIELD_GIMMICK_BRIDGE_ResetSave((u32)v);func_02034A5C((int)ov_id_47);return 0;}
+int SCRCMD_GIMMICK_BRIDGE_ResetSave(void *a,void *b){void *v=SCRCMD_WORK_GetGameSystem(b);func_02034AC4((int)ov_id_47);FIELD_GIMMICK_BRIDGE_ResetSave((u32)v);func_02034A5C((int)ov_id_47);return 0;}

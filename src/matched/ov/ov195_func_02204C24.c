@@ -14,7 +14,7 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   func_02034AC4 0x02034AC4 arm
  *   func_02040588 0x02040588 arm
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  *   BG_SYS_LoadPlttEntry 0x02040EBC arm
  *   func_0207D63C 0x0207D63C arm
  *   GF_FONT_Create 0x0201D7EC thumb
@@ -67,7 +67,7 @@ struct Anim;
 struct Owner;
 extern int func_02034AC4(s32 handle);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+extern void BG_SYS_SetPriority(int idx, unsigned short val);
 extern void BG_SYS_LoadPlttEntry(u32 a0, u32 a1);
 extern void func_0207D63C(int, int, int, int, int);
 struct GfFont;
@@ -103,10 +103,10 @@ void SHINKA_DEMO_SetupScene(App *a, Scene *s)
     s->f60 = 0;
     if (s->f28 == 0)
         SHINKA_DEMO_CreateActors((int)a, (char *)s);
-    BG_SYS_SetVisibleLayer(0, 2);
-    BG_SYS_SetVisibleLayer(2, 1);
-    BG_SYS_SetVisibleLayer(1, 0);
-    BG_SYS_SetVisibleLayer(4, 2);
+    BG_SYS_SetPriority(0, 2);
+    BG_SYS_SetPriority(2, 1);
+    BG_SYS_SetPriority(1, 0);
+    BG_SYS_SetPriority(4, 2);
     func_02040588(0, 1);
     func_02040588(2, 1);
     func_02040588(4, 1);

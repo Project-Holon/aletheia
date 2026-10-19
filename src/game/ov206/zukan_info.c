@@ -19,7 +19,7 @@
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  *   POKE_PERSONAL_GetParam 0x0201AE1C thumb
  *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_RegisterObjCharFromHandle 0x02049740 arm
@@ -34,11 +34,11 @@
  *   GFL_HEAP_Free 0x020307B0 arm
  *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   G2x_SetBlendBrightness_ 0x0207D658 arm
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   d_021BC220 0x021BC220 data
  *   TCB_DeleteTask 0x02030EAC arm
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   PM_VOICE_Play 0x02006984 thumb
@@ -48,7 +48,7 @@
  *   POKE_PERSONAL_Delete 0x0201AE14 thumb
  *   POKE_PERSONAL_Create 0x0201ADE4 thumb
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  *   ARC_UTIL_LoadHandleMemberWithSize 0x0204A39C arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
@@ -65,7 +65,7 @@
  *   POKE_PERSONAL_LoadFormTable 0x0201AF80 thumb
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   gSpeciesNameBank 0x020A7370 data
  *   d_021BC110 0x021BC110 data a2
  *   d_021BC11C 0x021BC11C data a2
@@ -73,7 +73,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   BMP_Delete  0x020437AC  arm
  *   BMP_CreateFromArchive  0x0204384C  arm
  *   BMP_Blit  0x020439A0  arm
@@ -295,7 +295,7 @@ extern unsigned POKE_TOOL_IsShiny(void *);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *p, int v, int n);
 extern u32 PRINTSYS_QUE_Create(void *p);
-extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+extern void BG_SYS_SetPriority(int idx, unsigned short val);
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
@@ -310,10 +310,10 @@ extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **ou
 extern u32 GFL_HEAP_Free(void *p);
 extern void *GFL_USE_AddMainTask(void (*cb)(int, char *), void *arg, int pri);
 extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 extern void BG_SYS_PushTile(u32 layer);
 extern void TCB_DeleteTask(struct Node *n);
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 PM_VOICE_Play(u32, u32, u32, u32, u32, u32, u32, u32);
@@ -323,7 +323,7 @@ extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void *POKE_PERSONAL_Create(u32 a, int b, u32 c);
 extern void POKE_PERSONAL_Delete(void *p);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
+extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
 extern void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u32 c, u32 d, u32 slot);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
@@ -339,12 +339,12 @@ extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern unsigned int PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern void BMP_WIN_TransferChars(struct Descriptor *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 extern struct Bmp *BMP_CreateFromArchive(u32 arc, u32 member, u32 heap2, u32 heap);
 extern void BMP_Blit(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
 extern void BMP_Delete(struct Bmp *p);
@@ -559,9 +559,9 @@ void *ZUKAN_INFO_Create(u32 heap, u16 species, u16 form, u16 gender, u16 rare, u
         ((struct ZukanInfo *)p)->layerUpper = 6;
         ((struct ZukanInfo *)p)->layerLower = 4;
     }
-    BG_SYS_SetVisibleLayer(((struct ZukanInfo *)p)->layerMain, ((struct ZukanInfo *)p)->bgLayerBase);
-    BG_SYS_SetVisibleLayer(((struct ZukanInfo *)p)->layerUpper, (u8)(((struct ZukanInfo *)p)->bgLayerBase + 1));
-    BG_SYS_SetVisibleLayer(((struct ZukanInfo *)p)->layerLower, (u8)(((struct ZukanInfo *)p)->bgLayerBase + 2));
+    BG_SYS_SetPriority(((struct ZukanInfo *)p)->layerMain, ((struct ZukanInfo *)p)->bgLayerBase);
+    BG_SYS_SetPriority(((struct ZukanInfo *)p)->layerUpper, (u8)(((struct ZukanInfo *)p)->bgLayerBase + 1));
+    BG_SYS_SetPriority(((struct ZukanInfo *)p)->layerLower, (u8)(((struct ZukanInfo *)p)->bgLayerBase + 2));
     ((struct ZukanInfo *)p)->tileDirty = 0;
     ((struct ZukanInfo *)p)->reloadFlag = 0;
     switch (((struct ZukanInfo *)p)->mode) {
@@ -649,9 +649,9 @@ void *ZUKAN_INFO_Create(u32 heap, u16 species, u16 form, u16 gender, u16 rare, u
         G2_SetWndOutsidePlane(0x1f, 0);
         G2x_SetBlendBrightness_((u32)((volatile u16 *)0x04000050), 0x10, -0x10);
     }
-    BG_SYS_FillScrollArea(((struct ZukanInfo *)p)->layerUpper, 3, -((struct ZukanInfo *)p)->yOffset);
-    BG_SYS_FillScrollArea(((struct ZukanInfo *)p)->layerLower, 3, -((struct ZukanInfo *)p)->yOffset);
-    BG_SYS_FillScrollArea(((struct ZukanInfo *)p)->layerMain, 3, -((struct ZukanInfo *)p)->yOffset);
+    BG_SYS_ChangeScrollImmediate(((struct ZukanInfo *)p)->layerUpper, 3, -((struct ZukanInfo *)p)->yOffset);
+    BG_SYS_ChangeScrollImmediate(((struct ZukanInfo *)p)->layerLower, 3, -((struct ZukanInfo *)p)->yOffset);
+    BG_SYS_ChangeScrollImmediate(((struct ZukanInfo *)p)->layerMain, 3, -((struct ZukanInfo *)p)->yOffset);
     BG_SYS_PushTile(((struct ZukanInfo *)p)->layerUpper);
     BG_SYS_PushTile(((struct ZukanInfo *)p)->layerLower);
     return p;
@@ -675,11 +675,11 @@ void ZUKAN_INFO_Delete(char *p)
     TCB_DeleteTask(((struct ZukanInfo *)p)->task);
     ZUKAN_INFO_DeleteMainWindows(p);
     if(((struct ZukanInfo *)p)->gfxSlot!=0) {
-        BG_SYS_DeleteHalf(((struct ZukanInfo *)p)->layerLower,(u16)((struct ZukanInfo *)p)->cellHandle,(u16)(((struct ZukanInfo *)p)->cellHandle>>16));
+        BG_SYS_FreeTileRun(((struct ZukanInfo *)p)->layerLower,(u16)((struct ZukanInfo *)p)->cellHandle,(u16)(((struct ZukanInfo *)p)->cellHandle>>16));
         ((struct ZukanInfo *)p)->gfxSlot=0;
     }
-    BG_SYS_DeleteHalf(((struct ZukanInfo *)p)->layerLower,(u16)((struct ZukanInfo *)p)->charHandle2,(u16)(((struct ZukanInfo *)p)->charHandle2>>16));
-    BG_SYS_DeleteHalf(((struct ZukanInfo *)p)->layerUpper,(u16)((struct ZukanInfo *)p)->charHandle,(u16)(((struct ZukanInfo *)p)->charHandle>>16));
+    BG_SYS_FreeTileRun(((struct ZukanInfo *)p)->layerLower,(u16)((struct ZukanInfo *)p)->charHandle2,(u16)(((struct ZukanInfo *)p)->charHandle2>>16));
+    BG_SYS_FreeTileRun(((struct ZukanInfo *)p)->layerUpper,(u16)((struct ZukanInfo *)p)->charHandle,(u16)(((struct ZukanInfo *)p)->charHandle>>16));
     ZUKAN_INFO_FreeResources((struct ZukanInfo *)p);
     PRINTSYS_QUE_Clear(((struct ZukanInfo *)p)->printQue);
     PRINTSYS_QUE_Delete(((struct ZukanInfo *)p)->printQue);
@@ -946,7 +946,7 @@ void ZUKAN_INFO_Show(struct ZukanInfo *p)
         p->hidden = 1;
         BG_SYS_SetPlaneVisible(p->layerMain, 0);
         BG_SYS_SetPlaneVisible(p->layerUpper, 0);
-        BG_SYS_ResetSlot(p->layerLower, 3, -256);
+        BG_SYS_ChangeScroll(p->layerLower, 3, -256);
         ZUKAN_INFO_SetSlotDrawEnable((struct ZukanInfo *)p, p->hidden == 0);
     }
 }
@@ -962,7 +962,7 @@ void ZUKAN_INFO_Hide(struct ZukanInfo *p)
         p->hidden = 0;
         BG_SYS_SetPlaneVisible(p->layerMain, 1);
         BG_SYS_SetPlaneVisible(p->layerUpper, 1);
-        BG_SYS_ResetSlot(p->layerLower, 3, -p->yOffset);
+        BG_SYS_ChangeScroll(p->layerLower, 3, -p->yOffset);
         ZUKAN_INFO_SetSlotDrawEnable((struct ZukanInfo *)p, p->hidden == 0);
     }
 }
@@ -977,7 +977,7 @@ void ZUKAN_INFO_Task(int unused, char *p)
 {
     if (((struct ZukanInfo *)p)->reloadFlag & 1)
     {
-        BG_SYS_ResetSlot(((struct ZukanInfo *)p)->layerLower, 1, 1);
+        BG_SYS_ChangeScroll(((struct ZukanInfo *)p)->layerLower, 1, 1);
     }
     ((struct ZukanInfo *)p)->tileDirty = 0;
     ((struct ZukanInfo *)p)->reloadFlag = 0;
@@ -1121,7 +1121,7 @@ void ZUKAN_INFO_DrawMainPage(char *p)
         h2 = (u32)WORDSET_CreateDefault(((struct ZukanInfo *)p)->heap);
         WORDSET_SetSlotNumber((struct WordSet *)h2, 0, r7, 3, 2, 1);
         ZUKAN_INFO_DrawText(((struct ZukanInfo *)p)->heap, *(int *)&((struct ZukanInfo *)p)->win[1], (void *)(((struct ZukanInfo *)p)->printQue), ((struct ZukanInfo *)p)->font, ((struct ZukanInfo *)p)->text.input[0], 8, 5, 0x3e7 + 0x59, 0, h2);
-        WORDSET_DeleteStrbufED04((struct WordSet *)h2);
+        WORDSET_Delete((struct WordSet *)h2);
     } else {
         ZUKAN_INFO_DrawText(((struct ZukanInfo *)p)->heap, *(int *)&((struct ZukanInfo *)p)->win[1], (void *)(((struct ZukanInfo *)p)->printQue), ((struct ZukanInfo *)p)->font, ((struct ZukanInfo *)p)->text.input[1], 8, 5, 0x3e7 + 0x59, 0, 0);
     }
@@ -1192,7 +1192,7 @@ void ZUKAN_INFO_DrawPage(char *p, int idx)
             WORDSET_SetSlotNumber((struct WordSet *)h, 0, c, 3, 2, 1);
         }
         ZUKAN_INFO_DrawText(((struct ZukanInfo *)p)->heap, ((struct ZukanInfo *)p)->win[1], (void *)((struct ZukanInfo *)p)->printQue, ((struct ZukanInfo *)p)->font, ((struct ZukanInfo *)p)->text.input[0], 8, 5, 0x440, 0, h);
-        WORDSET_DeleteStrbufED04((struct WordSet *)h);
+        WORDSET_Delete((struct WordSet *)h);
     } else {
         ZUKAN_INFO_DrawText(((struct ZukanInfo *)p)->heap, ((struct ZukanInfo *)p)->win[1], (void *)((struct ZukanInfo *)p)->printQue, ((struct ZukanInfo *)p)->font, ((struct ZukanInfo *)p)->text.input[1], 8, 5, 0x440, 0, 0);
     }
@@ -1249,7 +1249,7 @@ void ZUKAN_INFO_FlushSlotWindows(char *p)
             int window = ((struct ZukanInfo *)p)->win[i];
             BMP_WIN_TransferChars((struct Descriptor *)window);
             BMP_WIN_MakeScreen((struct Cfg *)window);
-            BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)window));
+            BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct Descriptor *)window));
             ((struct ZukanInfo *)p)->slotDirty[i] = 1;
         }
     }
@@ -1321,13 +1321,13 @@ void ZUKAN_INFO_FlushMainWindow(void *obj)
         p = ((struct ZukanInfo *)obj)->winMain;
         BMP_WIN_TransferChars((struct Descriptor *)p);
         BMP_WIN_MakeScreen((struct Cfg *)p);
-        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)p));
+        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct Descriptor *)p));
         return;
     }
     p = ((struct ZukanInfo *)obj)->winAlt;
     BMP_WIN_TransferChars((struct Descriptor *)p);
     BMP_WIN_MakeScreen((struct Cfg *)p);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)p));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct Descriptor *)p));
 }
 
 

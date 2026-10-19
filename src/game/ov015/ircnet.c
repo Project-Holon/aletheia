@@ -1,7 +1,7 @@
 /*
  * file:     ircnet.c
  * unit:     yes
- * function: IRCNET_CbInit, IRCNET_CbConnect, IRCNET_CbResend, IRCNET_CbReturnTrue, IRCNET_CbStop, IRCNET_CbIsRunning, IRCNET_IsNotRunning, IRCNET_SendAndNotify, IRCNET_CbSetRecvCallback, IRCNET_CbGetPeerHandle, IRCNET_CbIsLinkUp, IRCNET_CbUpdate, IRCNET_CbCanSend, IRCNET_CbIsSendReady, IRCNET_CbHasPeer, IRCNET_CbIsConnected, IRCNET_CbIsLinkAlive, IRCNET_CbGetRunning, IRCNET_CbGetLinkState, IRCNET_CbIsClosing, IRCNET_CbOnConnect, IRCNET_CbSetTimeoutLimit, IRCNET_CbSetFilter, IRCNET_GetHandlerTable, IRCNET_SendPacket, IRCNET_InitWork, IRCNET_SetTimeoutLimit, IRCNET_Stop, IRCNET_SetRecvCallback, IRCNET_SetFilter, IRCNET_Start, IRCNET_IsRunning, IRCNET_IsSendReady, IRCNET_IsClosing, IRCNET_IsIdle, IRCNET_QueueSend, IRCNET_ResendPending, IRCNET_IsReceiver, IRCNET_OnRecv, IRCNET_IsSender, IRCNET_IsLinkUp, IRCNET_OnConnect, IRCNET_OnPeerFound, IRCNET_GetSenderFlag, IRCNET_IsLinkAlive, IRCNET_HasPeer, IRCNET_IsConnected, IRCNET_Update
+ * function: IRCNET_CbInit, IRCNET_CbConnect, IRCNET_CbResend, IRCNET_CbReturnTrue, IRCNET_CbStop, IRCNET_CbIsRunning, IRCNET_IsNotRunning, IRCNET_SendAndNotify, IRCNET_CbSetRecvCallback, IRCNET_CbIsLinkedReceiver, IRCNET_CbIsLinkLost, IRCNET_CbUpdate, IRCNET_CbCanSend, IRCNET_CbIsSendReady, IRCNET_CbHasPeer, IRCNET_CbIsConnected, IRCNET_CbIsLinkAlive, IRCNET_CbGetRunning, IRCNET_CbGetLinkState, IRCNET_CbIsClosing, IRCNET_CbOnConnect, IRCNET_CbSetTimeoutLimit, IRCNET_CbSetFilter, IRCNET_GetHandlerTable, IRCNET_SendPacket, IRCNET_InitWork, IRCNET_SetTimeoutLimit, IRCNET_Stop, IRCNET_SetRecvCallback, IRCNET_SetFilter, IRCNET_Start, IRCNET_IsRunning, IRCNET_IsSendReady, IRCNET_IsClosing, IRCNET_IsIdle, IRCNET_QueueSend, IRCNET_ResendPending, IRCNET_IsReceiver, IRCNET_OnRecv, IRCNET_IsSender, IRCNET_IsLinkLost, IRCNET_OnConnect, IRCNET_OnPeerFound, IRCNET_GetSenderFlag, IRCNET_IsLinkAlive, IRCNET_HasPeer, IRCNET_IsConnected, IRCNET_Update
  * address:  0x021797C0
  * region:   ov015
  * compiler: dsi/1.1p1
@@ -21,7 +21,7 @@
  *   SAVEDATA_PanicFail  0x02034714  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
+ *   GF_STANDARD_CalcCrc16  0x0203F1FC  arm
  *   WM_GetNextTgid  0x0208F1B4  arm
  *   GFL_USE_GetRandom  0x020056EC  thumb
  *   GFL_NET_HANDLE_RemoveHandle  0x0203A338  arm
@@ -51,7 +51,7 @@ extern GFLNetSession *GFL_NET_GetInitParam(void);
 extern void SAVEDATA_PanicFail(const char *expr, unsigned int line, const char *file);
 extern void MI_CpuCopy8(void *src, void *dst, int n);
 extern void MI_CpuFill8(void *p, int v, u32 n);
-extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
+extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
 extern u16 WM_GetNextTgid(void);
 extern u32 GFL_USE_GetRandom(u32 x);
 extern void GFL_NET_HANDLE_RemoveHandle(u32 netId);
@@ -67,7 +67,7 @@ extern unsigned int IRC_GetUnitNumber(void);
 
 void IRCNET_OnRecv(u8 *pkt, u32 len, u32 type);
 int IRCNET_IsLinkAlive(void);
-int IRCNET_IsLinkUp(void);
+int IRCNET_IsLinkLost(void);
 void IRCNET_Update(void);
 u8 IRCNET_HasPeer(void);
 int IRCNET_IsConnected(void);
@@ -149,16 +149,16 @@ int IRCNET_CbSetRecvCallback(int v)
     return 1;
 }
 
-int IRCNET_CbGetPeerHandle(void)
+int IRCNET_CbIsLinkedReceiver(void)
 {
     if (IRCNET_IsLinkAlive())
         return IRCNET_IsReceiver();
     return 0;
 }
 
-int IRCNET_CbIsLinkUp(void)
+int IRCNET_CbIsLinkLost(void)
 {
-    return IRCNET_IsLinkUp();
+    return IRCNET_IsLinkLost();
 }
 
 void IRCNET_CbUpdate(void)
@@ -238,7 +238,7 @@ void IRCNET_SendPacket(void *dst, int n, u8 a, u8 b)
     gIrcNetWork.packet.seq = b;
     if (dst != 0)
         MI_CpuCopy8(dst, gIrcNetWork.packet.payload, 0xA6);
-    gIrcNetWork.packet.checksum = GF_STANDARD_SetupCalc(&gIrcNetWork.packet.type, n + 12);
+    gIrcNetWork.packet.checksum = GF_STANDARD_CalcCrc16(&gIrcNetWork.packet.type, n + 12);
     IRC_Send((u8 *)&gIrcNetWork.packet, (u8)(n + 14), a);
 }
 
@@ -343,7 +343,7 @@ int IRCNET_IsReceiver(void)
 
 /*
  * Receive handler for one packet: rejects a length of 0 or over 0xB4 (the over-length case also
- * reports through SAVEDATA_PanicFail), checks the checksum against GF_STANDARD_SetupCalc over the rest, filters
+ * reports through SAVEDATA_PanicFail), checks the checksum against GF_STANDARD_CalcCrc16 over the rest, filters
  * on the group id (through the optional hook), tracks the two session ids, then hands the payload
  * to the receive callback once per new sequence number.
  */
@@ -363,7 +363,7 @@ void IRCNET_OnRecv(u8 *rawPacket, u32 len, u32 type)
         SAVEDATA_PanicFail((const char *)gIrcNetAssertText, 0, (const char *)gIrcNetAssertText);
     if (!(len != 0 && len <= 0xB4))
         return;
-    if (pkt->checksum != GF_STANDARD_SetupCalc(rawPacket + 2, len - 2))
+    if (pkt->checksum != GF_STANDARD_CalcCrc16(rawPacket + 2, len - 2))
         return;
     filter = gIrcNetWork.filter;
     if (filter != 0) {
@@ -425,7 +425,7 @@ int IRCNET_IsSender(void)
     return 0;
 }
 
-int IRCNET_IsLinkUp(void)
+int IRCNET_IsLinkLost(void)
 {
     if (gIrcNetWork.isRunning == 0)
         return 0;

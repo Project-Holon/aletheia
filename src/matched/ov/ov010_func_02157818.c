@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   GF_STANDARD_Shuffle  0x0203F328  arm
+ *   GF_STANDARD_XorCrypt  0x0203F328  arm
  *   MI_CpuCopy8  0x02082D44  arm
  */
 #include "../include/Obj04914.h"
@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void GF_STANDARD_Shuffle(u16 *p, u32 size, u32 seed);
+extern void GF_STANDARD_XorCrypt(u16 *p, u32 size, u32 seed);
 extern void MI_CpuCopy8(void *, void *, u32);
 
 void DELIVERY_BEACON_DecodePieces(u8 *p)
@@ -37,7 +37,7 @@ void DELIVERY_BEACON_DecodePieces(u8 *p)
         u8 *e = base + i * 100;
         u32 n;
 
-        GF_STANDARD_Shuffle((u16 *)(e + 8), 0x54, ((struct Obj18737 *)e)->f4);
+        GF_STANDARD_XorCrypt((u16 *)(e + 8), 0x54, ((struct Obj18737 *)e)->f4);
         n = (u16)off;
         if (((struct Obj04914 *)p)->f8 > (int)(n + 0x54))
             MI_CpuCopy8(e + 8, (u8 *)((struct Obj04914 *)p)->fC + off, 0x54);

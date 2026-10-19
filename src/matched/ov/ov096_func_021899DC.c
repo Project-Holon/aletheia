@@ -1,5 +1,5 @@
 /*
- * function: TR_AI_CmdJumpIfNoMoveValue
+ * function: TR_AI_CmdJumpIfAllMovesUsed
  * address:  0x021899DC
  * packet:   pkt_ov096_021899DC
  * region:   ov096
@@ -37,7 +37,7 @@ extern u8 *TR_AI_GetPoke(u8 *p, u8 i);
 extern u8 BTL_POKEPARAM_CountUsedMoves(struct Work *p);
 extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
 
-int TR_AI_CmdJumpIfNoMoveValue(struct Cursor *a, int b) {
+int TR_AI_CmdJumpIfAllMovesUsed(struct Cursor *a, int b) {
     int r4;
     int r7;
     u8 t;

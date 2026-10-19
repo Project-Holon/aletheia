@@ -1,5 +1,5 @@
 /*
- * function: TR_AI_GetLastMoveParam2
+ * function: TR_AI_CmdLoadLastMoveParam2
  * address:  0x02189A44
  * packet:   pkt_ov096_02189A44
  * region:   ov096
@@ -25,7 +25,7 @@ extern int TR_AI_GetMoveParam(int, int, int);
 struct QL;
 extern u16 BTL_POKEPARAM_GetLastUsedMoveId(struct QL *p);
 
-int TR_AI_GetLastMoveParam2(int a, int b) {
+int TR_AI_CmdLoadLastMoveParam2(int a, int b) {
     int t;
     t = BTL_POKEPARAM_GetLastUsedMoveId((struct QL *)(*(u8 * *)&((struct Obj10189 *)b)->fC0));
     if (t != 0) {

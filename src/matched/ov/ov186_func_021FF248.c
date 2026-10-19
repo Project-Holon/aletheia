@@ -14,7 +14,7 @@
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   CLACT_SetActorSurfacePosAxis 0x0204B49C arm
  *   CLACT_SetActorScaleAxis 0x0204B5D4 arm
- *   GF_STANDARD_Get_F684 0x0203F684 arm
+ *   GF_STANDARD_SinFromDegreesWrapped 0x0203F684 arm
  *   _fflt 0x0209BDBC arm
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
@@ -30,7 +30,7 @@ extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
 extern void CLACT_SetActorSurfacePosAxis(struct Actor *actor, s16 value, u32 space, u32 axis);
 extern void CLACT_SetActorScaleAxis(struct Actor *actor, u32 value, u32 which);
 typedef signed int     s32;
-extern short GF_STANDARD_Get_F684(unsigned short x);
+extern short GF_STANDARD_SinFromDegreesWrapped(unsigned short x);
 void BR_SIDEBAR_UpdateWobble(char *p)
 {
     int direction;
@@ -51,7 +51,7 @@ void BR_SIDEBAR_UpdateWobble(char *p)
     case 1:
         direction=-1;
         if(((struct Obj00595 *)p)->f48!=0)direction=1;
-        position=((struct Obj00595 *)p)->f10+-(signed char)direction*(GF_STANDARD_Get_F684((u16)(((struct Obj00595 *)p)->f20*65535/360))*3);
+        position=((struct Obj00595 *)p)->f10+-(signed char)direction*(GF_STANDARD_SinFromDegreesWrapped((u16)(((struct Obj00595 *)p)->f20*65535/360))*3);
         ((struct Obj00595 *)p)->f20+=((struct Obj00595 *)p)->f42;
         ((struct Obj00595 *)p)->f20%=360;
         CLACT_SetActorSurfacePosAxis(((struct Obj00595 *)p)->f4,position>>12,(u16)(((struct Obj00595 *)p)->f44),0);

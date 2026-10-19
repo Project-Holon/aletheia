@@ -12,7 +12,7 @@
  * symbols:
  *   BTL_CLIENT_StepLearnLevelUpMoves   0x021D2CA8  thumb
  *   GFL_USE_CancelChangeAndPlayBgm   0x02005D90  thumb
- *   GFL_USE_SetBgmPlayerParam   0x02005DE4  thumb
+ *   GFL_USE_SetBgmPaused   0x02005DE4  thumb
  *   GFL_USE_PushBgm   0x02005E64  thumb
  *   GFL_USE_PopBgm   0x02005E9C  thumb
  *   GFL_USE_IsBgmPlaying   0x02005F38  thumb
@@ -78,7 +78,7 @@ extern void BTLV_CORE_BuildAndPrintMessage(char *p, struct H *h);
 extern void BTLV_CORE_BuildAndPrintMessageFlag(char *p, struct H *h, int c);
 extern int BTLV_CORE_ConsumeMessageFlag(u32 *p);
 extern int BTLV_CORE_WaitMessage(u32 *p);
-extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_SetBgmPaused(void *p);
 extern int GFL_USE_PushBgm(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(int a, int b);
 extern int GFL_USE_IsBgmPlaying(void);
@@ -127,7 +127,7 @@ int BTL_CLIENT_StepLearnLevelUpMoves(LearnSeq *s, int *state, void *mon)
     }
     case 3:
         if (BTLV_CORE_ConsumeMessageFlag(s->msgWin)) {
-            GFL_USE_SetBgmPlayerParam((void *)1);
+            GFL_USE_SetBgmPaused((void *)1);
             GFL_USE_PushBgm();
             GFL_USE_CancelChangeAndPlayBgm(0x515, 0xFFFF);
         }
@@ -137,7 +137,7 @@ int BTL_CLIENT_StepLearnLevelUpMoves(LearnSeq *s, int *state, void *mon)
     case 4:
         if (GFL_USE_IsBgmPlaying() == 0) {
             GFL_USE_PopBgm();
-            GFL_USE_SetBgmPlayerParam(0);
+            GFL_USE_SetBgmPaused(0);
             *state = 1;
         }
         break;

@@ -22,7 +22,7 @@
  *   func_02045B38  0x02045B38  arm
  *   STRBUF_Create  0x020457B0  arm
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   BEACON_GetPoints  0x0200C274  thumb
+ *   BEACON_GetMoney  0x0200C274  thumb
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
@@ -56,7 +56,7 @@ extern u16 FIELDMAP_GetHeapId(u8 *p);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *GAME_DATA_GetMiscSave(int *p);
-extern u32 BEACON_GetPoints(struct Blk34 *p);
+extern u32 BEACON_GetMoney(struct Blk34 *p);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
@@ -82,7 +82,7 @@ int SCRCMD_MSGWIN_CmdUpdateMoneyWin(u32 a, u32 b)
     r4 = FIELDMAP_GetHeapId(y);
     z = (u32)func_02045B38(0, 3, 0x9e, r4);
     r4 = (u32)STRBUF_Create(0x80, r4);
-    WORDSET_SetSlotNumber((struct WordSet *)r6, 2, BEACON_GetPoints(GAME_DATA_GetMiscSave((int *)x)), 7, 1, 1);
+    WORDSET_SetSlotNumber((struct WordSet *)r6, 2, BEACON_GetMoney(GAME_DATA_GetMiscSave((int *)x)), 7, 1, 1);
     MSGDATA_ReadString((struct MsgBank *)z, 1, (void *)r7);
     WORDSET_CopyTaggedText((struct WordSet *)r6, (void *)r4, (void *)r7);
     FIELD_MSGBG_ClearMsgWin((u8 *)r5);

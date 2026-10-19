@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_WORK_CmdSetZukanFlagB
+ * function: SCRCMD_WORK_CmdSetZukanObtained
  * address:  0x0215B014
  * packet:   pkt_0215B014
  * region:   ov010
@@ -24,7 +24,7 @@ extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 struct Blk37;
 extern struct Blk37 *ZUKAN_SAVE_SetDexObtained(struct Blk37 *p);
 
-int SCRCMD_WORK_CmdSetZukanFlagB(int a0, int a1)
+int SCRCMD_WORK_CmdSetZukanObtained(int a0, int a1)
 {
     void *p;
     void *v0;

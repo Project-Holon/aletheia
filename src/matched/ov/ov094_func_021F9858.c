@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   VM_GetUserData 0x02011324 thumb
- *   BTLV_EFFECT_GetFlag26 0x021F88E0 thumb ov094
+ *   BTLV_EFFECT_IsSeSuppressed 0x021F88E0 thumb ov094
  *   BTLV_EFFVM_ResolveSlotKey 0x021FCF2C thumb ov094
  *   BTLV_EFFVM_PlaySeWithParams 0x021FDB40 thumb ov094
  *   func_02030734 0x02030734 arm
@@ -41,7 +41,7 @@ typedef struct {
 } Job;
 struct ScriptVm;
 extern void *VM_GetUserData(struct ScriptVm *vm);
-extern int BTLV_EFFECT_GetFlag26(void);
+extern int BTLV_EFFECT_IsSeSuppressed(void);
 extern int BTLV_EFFVM_ResolveSlotKey(int a, int idx);
 extern void BTLV_EFFVM_PlaySeWithParams(u32 a, int b, int c, int d, u32 e, u32 f, u32 g);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, u16 line);
@@ -56,7 +56,7 @@ void BTLV_EFFVM_StartSePlayTask(void *vm, u32 a, int b, u32 c, int e, u32 f, int
     Work *w;
     Job *j;
     w = VM_GetUserData(vm);
-    if (BTLV_EFFECT_GetFlag26() == 1)
+    if (BTLV_EFFECT_IsSeSuppressed() == 1)
         return;
     w->flags |= 0x1000;
     if (c == 2)

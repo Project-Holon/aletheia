@@ -51,7 +51,7 @@
  *   TIME_ICON_Delete  0x0202F038  thumb
  *   TIME_ICON_CreateNode  0x0202EE8C  thumb
  *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
@@ -74,8 +74,8 @@
  *   sTopMenuTouchRects     0x021D404C  data  a4
  *   sTopMenuWinDescs     0x021DDB84  data  a4
  *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb
- *   BG_SYS_SetTileUnit  0x02040DA8  arm
- *   BG_SYS_DeleteHalf  0x0203FB44  arm
+ *   BG_SYS_FreeTiles  0x02040DA8  arm
+ *   BG_SYS_FreeTileRun  0x0203FB44  arm
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   GF_FONT_Delete  0x0201D83C  thumb
@@ -175,11 +175,11 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   G2x_SetBlendAlpha_  0x0207D63C  arm
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
- *   GAME_DATA_GetField1A0  0x0201283C  thumb
+ *   GAME_DATA_GetWifiList  0x0201283C  thumb
  *   WIH_DWC_PollStatus  0x0201058C  thumb
  *   APP_TASKMENU_UpdateMenu  0x02027974  thumb
  *   APP_TASKMENU_WIN_Update  0x02028178  thumb
- *   BG_SYS_FillScrollArea  0x02040618  arm
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm
  *   TCBL_Main  0x020310C4  arm
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
  *   CLACT_DrawSystem  0x0204A600  arm
@@ -222,7 +222,7 @@
  *   FLDMMDL_SysGetTcbSys  0x0216D514  thumb  ov010
  *   TCB_AddTask  0x02030DA8  arm
  *   d_021DDBE0     0x021DDBE0  data  a4
- *   TCBL_GetTaskUserData  0x02030EE8  arm
+ *   TCBL_IsDeletePending  0x02030EE8  arm
  *   FLDMMDL_EndAcmd  0x0216D480  thumb  ov010
  *   d_021D4A50     0x021D4A50  data  a4
  *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
@@ -341,7 +341,7 @@ extern void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct StrBuf *str, st
 extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int transfer, int frameChar, int palNo);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern void BG_SYS_SetFlagField06(u32 frame);
+extern void BG_SYS_MarkTileDirty(u32 frame);
 extern void BG_SYS_ClearLayerEx(int frame, u16 value);
 extern int GAME_DATA_SaveMain(struct GameData *gameData);
 extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *win, u32 transfer);
@@ -377,11 +377,11 @@ extern struct GameSystem *IRC_BATTLE_ENTRY_GetGameSys(IrcBattleEntryWork *entry)
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSys);
 extern void G2x_SetBlendAlpha_(u32 reg, u32 plane1, u32 plane2, u32 ev1, u32 ev2);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 type, u32 heapId);
-extern struct WifiList *GAME_DATA_GetField1A0(const struct GameData *gameData);
+extern struct WifiList *GAME_DATA_GetWifiList(const struct GameData *gameData);
 extern u32 WIH_DWC_PollStatus(struct WifiList *wifiList);
 extern void APP_TASKMENU_UpdateMenu(struct TaskMenuWork *menu);
 extern void APP_TASKMENU_WIN_Update(struct TaskMenuWin *win);
-extern void BG_SYS_FillScrollArea(u32 frame, u32 op, u32 value);
+extern void BG_SYS_ChangeScrollImmediate(u32 frame, u32 op, u32 value);
 extern void TCBL_Main(struct Tcbl *tcbl);
 extern u32 PRINTSYS_QUE_Main(struct PrintQue *printQue);
 extern void CLACT_DrawSystem(void);
@@ -491,8 +491,8 @@ extern u32 BMP_MENUWORK_LoadFrameGfx(u32 a, u32 b, u32 c, u32 heapId);
 extern struct TouchSwitch *BUTTON_MAN_Create(const u8 *table, void (*callback)(u32 index, int event, IrcBattleMenuWork *work), IrcBattleMenuWork *work, int heapId);
 extern s32 BUTTON_MAN_UpdateSlots(struct TouchSwitch *touchSw);
 extern void GF_FONT_SetDefaultTextColor(void);
-extern void BG_SYS_SetTileUnit(u32 a, u32 b, u32 c);
-extern void BG_SYS_DeleteHalf(u32 a, u32 b, u32 c);
+extern void BG_SYS_FreeTiles(u32 a, u32 b, u32 c);
+extern void BG_SYS_FreeTileRun(u32 a, u32 b, u32 c);
 extern u32 MSGDATA_Delete(struct MsgData *msgData);
 extern u32 GF_FONT_Delete(struct GfFont *font);
 extern struct CommSys *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSys);
@@ -713,7 +713,7 @@ void IRCBATTLEMENU_ClearMessageWindow(IrcBattleMenuWork *work)
     }
     BMP_MENUWORK_DrawWindowBorder(work->msgWin, 2);
     BMP_WIN_ClearScreen(work->msgWin);
-    BG_SYS_SetFlagField06(5);
+    BG_SYS_MarkTileDirty(5);
 }
 
 /* Closes the message window. */
@@ -768,7 +768,7 @@ void IRCBATTLEMENU_CreateButtonWindows(int count, u32 *msgIds, IrcBattleMenuWork
         BUTTON_MAN_Delete(work->touchSw);
     }
     work->touchSw = 0;
-    BG_SYS_SetFlagField06(7);
+    BG_SYS_MarkTileDirty(7);
     BG_SYS_SetPlaneVisible(7, 1);
 }
 
@@ -783,7 +783,7 @@ void IRCBATTLEMENU_DeleteButtonWindows(IrcBattleMenuWork *work)
     for (i = 0; i < 4; i++) {
         if (work->menuWins[i] != 0) {
             BMP_WIN_ClearScreen(work->menuWins[i]);
-            BG_SYS_SetFlagField06(5);
+            BG_SYS_MarkTileDirty(5);
             BMP_MENUWORK_DrawWindowBorder(work->menuWins[i], 2);
             BMP_WIN_Delete(work->menuWins[i]);
         }
@@ -896,9 +896,9 @@ void IRCBATTLEMENU_FreeMenuGraphics(IrcBattleMenuWork *work)
 
     GF_FONT_SetDefaultTextColor();
     IRCBATTLEMENU_DeleteButtonWindows(work);
-    BG_SYS_SetTileUnit(5, 1, 0);
+    BG_SYS_FreeTiles(5, 1, 0);
     frameChar = work->winFrameChar;
-    BG_SYS_DeleteHalf(5, (u16)frameChar, (u16)(frameChar >> 16));
+    BG_SYS_FreeTileRun(5, (u16)frameChar, (u16)(frameChar >> 16));
     BG_SYS_FreeLayerBuf(5);
     BG_SYS_FreeLayerBuf(4);
     MSGDATA_Delete(work->msgData);
@@ -1578,7 +1578,7 @@ void IRCBATTLEMENU_PrintMessage(IrcBattleMenuWork *work, u32 isInstant)
     BMP_MENUWORK_DrawWindow(win, 1, (u16)work->winFrameChar, 12);
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    BG_SYS_SetFlagField06(5);
+    BG_SYS_MarkTileDirty(5);
 }
 
 /* Shows the save question (string 25). */
@@ -1598,7 +1598,7 @@ void IRCBATTLEMENU_SeqSaveMain(IrcBattleMenuWork *work)
         IRCBATTLEMENU_SetSubPaletteActive(work, 0);
         BMP_MENUWORK_DrawWindowBorder(work->msgWin, 2);
         BMP_WIN_ClearScreen(work->msgWin);
-        BG_SYS_SetFlagField06(5);
+        BG_SYS_MarkTileDirty(5);
         if (work->mode == 1) {
             IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSetupKindMenu, 0x776);
         } else {
@@ -1725,7 +1725,7 @@ u32 IRCBATTLEMENU_Main(u32 proc, u32 seq, u32 param, IrcBattleMenuWork *work)
 
     seqFunc = work->seqFunc;
     ret = 1;
-    WIH_DWC_PollStatus(GAME_DATA_GetField1A0(work->gameData));
+    WIH_DWC_PollStatus(GAME_DATA_GetWifiList(work->gameData));
     if (seqFunc != 0) {
         seqFunc(work);
         ret = 0;
@@ -1736,7 +1736,7 @@ u32 IRCBATTLEMENU_Main(u32 proc, u32 seq, u32 param, IrcBattleMenuWork *work)
     if (work->taskMenuWin != 0) {
         APP_TASKMENU_WIN_Update(work->taskMenuWin);
     }
-    BG_SYS_FillScrollArea(4, 3, work->bgAnimCount);
+    BG_SYS_ChangeScrollImmediate(4, 3, work->bgAnimCount);
     work->bgAnimCount = work->bgAnimCount - 1;
     TCBL_Main(work->tcbl);
     PRINTSYS_QUE_Main(work->printQue);

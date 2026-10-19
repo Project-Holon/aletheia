@@ -1,7 +1,7 @@
 /*
  * file:     itemmenu.c
  * unit:     yes
- * function: ITEMMENU_SetTask, ITEMMENU_ForceRedrawList, ITEMMENU_RedrawList, ITEMMENU_GetSlot, ITEMMENU_GetSellTotal, ITEMMENU_GetCursorIndex, ITEMMENU_GetItemCount, ITEMMENU_RegisterItemName, ITEMMENU_RegisterItemNameCounted, ITEMMENU_SwapSlots, ITEMMENU_MoveSlot, ITEMMENU_SwitchPocketCursor, ITEMMENU_MoveCursorDown, ITEMMENU_MoveCursorUp, ITEMMENU_HandleScrollbarTouch, ITEMMENU_HandleMoveModeKeys, ITEMMENU_HandleListKeys, ITEMMENU_HandleListTouch, ITEMMENU_IsBackButtonTouched, ITEMMENU_TaskFinishClose, ITEMMENU_TaskListInput, ITEMMENU_IsRepelItem, ITEMMENU_GetFieldUseKind, ITEMMENU_UseRepel, ITEMMENU_TaskWaitMessage, ITEMMENU_ShowKeyItemRefusal, ITEMMENU_ShowMessageThenWait, ITEMMENU_TryStartUse, ITEMMENU_TryStartGive, ITEMMENU_TryStartRegister, ITEMMENU_TryStartCheck, ITEMMENU_TryStartToss, ITEMMENU_TryStartSort, ITEMMENU_TryStartPlant, ITEMMENU_TryStartSell, ITEMMENU_FindUseRange, ITEMMENU_HandleActionMenuChoice, ITEMMENU_TaskSelectItem, ITEMMENU_TaskBagMain, ITEMMENU_TaskActionMenuInput, ITEMMENU_TaskOpenActionMenu, ITEMMENU_TaskRegisterResultMessage, ITEMMENU_TaskStartRegisterResult, ITEMMENU_TaskUseNoticeMessage, ITEMMENU_TaskReturnToListAfterMessage, ITEMMENU_TaskBeginReturnToList, ITEMMENU_TaskTossConfirmInput, ITEMMENU_TaskOpenTossConfirm, ITEMMENU_TaskTossAskQuantity, ITEMMENU_TaskTossQuantityInput, ITEMMENU_TaskGiveItem, ITEMMENU_TaskSellQuantityInput, ITEMMENU_TaskSellAskConfirm, ITEMMENU_TaskSellConfirmInput, ITEMMENU_TaskWaitMessageDismiss, ITEMMENU_TaskReturnToListFromQuantity, ITEMMENU_RemoveSelectedItems, ITEMMENU_ShowQuantityWindows, ITEMMENU_HideQuantityWindows, ITEMMENU_HandleQuantityInput, ITEMMENU_CompareSortEntries, ITEMMENU_SortPocket, ITEMMENU_ShowInputGuardError, ITEMMENU_SortAndRedraw, ITEMMENU_RefreshInputGuard, ITEMMENU_SetCursorActive, ITEMMENU_IsBrowseMode, ITEMMENU_ToggleRegisteredItem, ITEMMENU_GetPocketSortFlag, ITEMMENU_TogglePocketSortFlag, ITEMMENU_UpdatePocketSortIcon, ITEMMENU_CheckItemFilter, ITEMMENU_BuildActionList, ITEMMENU_OpenActionMenu, ITEMMENU_IsItemRegistered, ITEMMENU_HandleTouchTarget, ITEMMENU_VBlankCallback, ITEMMENU_TaskStartFadeIn, ITEMMENU_TaskWaitFadeIn, ITEMMENU_Init, ITEMMENU_Main, ITEMMENU_Exit, ITEMMENU_ReturnToBagMain, ITEMMENU_ReturnToListInput, ITEMMENU_CreateBlinkPalAnm, ITEMMENU_DeleteBlinkPalAnm, ITEMMENU_TaskSelectItemFlash, ITEMMENU_StartSideButtonPress, ITEMMENU_TaskWaitSideButtonPress, ITEMMENU_StartPocketTabPress, ITEMMENU_TaskWaitPocketTabPress, ITEMMENU_CheckTouchRelease, ITEMMENU_TaskReopenListFromQuantity, ITEMMENU_TaskReturnFromQuantity, ITEMMENU_AllocPalAnmSlots, ITEMMENU_FreePalAnmSlots, ITEMMENU_TaskInputGuardMessage, ITEMMENU_TaskWaitMessageThenList, ITEMMENU_IsCheckModeAllowed, ITEMMENU_ReturnToBagMainAlias, ITEMMENU_InitDisplayBanks, ITEMMENU_ResetDisplayLayers, ITEMMENU_LoadBagGraphics, ITEMMENU_LoadTabGraphics, ITEMMENU_SetupGraphics, ITEMMENU_ApplyBgPalettes, ITEMMENU_SetLayersVisible, ITEMMENU_SetMoveTypeIconsVisible, ITEMMENU_DrawMoveInfo, ITEMMENU_HideMoveInfo, ITEMMENU_FreeGraphics, ITEMMENU_PrintMenuTitle, ITEMMENU_InitWindows, ITEMMENU_DestroyMovingCursor, ITEMMENU_CreateMovingCursor, ITEMMENU_FreeActionMenuResources, ITEMMENU_LoadPocketGraphics, ITEMMENU_CreateCursorActors, ITEMMENU_GetRowColorKind, ITEMMENU_PrintItemList, ITEMMENU_SnapSelectorToCursor, ITEMMENU_UploadSlotGraphics, ITEMMENU_UpdateCursorFromTouch, ITEMMENU_MoveCursorToRow, ITEMMENU_CreateSideButtonActors, ITEMMENU_CreateTabActors, ITEMMENU_SelectTab, ITEMMENU_ClearMessageWindow, ITEMMENU_OpenPopupList, ITEMMENU_LoadBgPaletteMode, ITEMMENU_PrintMoveInfoText, ITEMMENU_ShowMessage, ITEMMENU_ShowMessageDefault, ITEMMENU_ShowItemUseMessage, ITEMMENU_IsMessageFinished, ITEMMENU_PrintPocketName, ITEMMENU_HideSideWindows, ITEMMENU_PrintPocketCount, ITEMMENU_PrintMoney, ITEMMENU_EnterQuantityMode, ITEMMENU_LeaveQuantityMode, ITEMMENU_OpenYesNoList, ITEMMENU_CloseYesNoList, ITEMMENU_LoadSellPalette, ITEMMENU_PrintQuantityPrice, ITEMMENU_PocketToSortFlag, ITEMMENU_UpdateSlotActorPosition, ITEMMENU_UpdateSideButtons, ITEMMENU_SetBackButtonAnim, ITEMMENU_UpdateInputGuardAnim, ITEMMENU_UpdateSideButtonsForMode, ITEMMENU_MoveActorToPoint, ITEMMENU_PrintToWindow, ITEMMENU_FlushWindowAt, ITEMMENU_FlushDirtyWindows
+ * function: ITEMMENU_SetTask, ITEMMENU_ForceRedrawList, ITEMMENU_RedrawList, ITEMMENU_GetSlot, ITEMMENU_GetSellTotal, ITEMMENU_GetCursorIndex, ITEMMENU_GetItemCount, ITEMMENU_RegisterItemName, ITEMMENU_RegisterItemNameCounted, ITEMMENU_SwapSlots, ITEMMENU_MoveSlot, ITEMMENU_SwitchPocketCursor, ITEMMENU_MoveCursorDown, ITEMMENU_MoveCursorUp, ITEMMENU_HandleScrollbarTouch, ITEMMENU_HandleMoveModeKeys, ITEMMENU_HandleListKeys, ITEMMENU_HandleListTouch, ITEMMENU_IsBackButtonTouched, ITEMMENU_TaskFinishClose, ITEMMENU_TaskListInput, ITEMMENU_IsRepelItem, ITEMMENU_GetFieldUseKind, ITEMMENU_UseRepel, ITEMMENU_TaskWaitMessage, ITEMMENU_ShowKeyItemRefusal, ITEMMENU_ShowMessageThenWait, ITEMMENU_TryStartUse, ITEMMENU_TryStartGive, ITEMMENU_TryStartRegister, ITEMMENU_TryStartCheck, ITEMMENU_TryStartToss, ITEMMENU_TryStartSort, ITEMMENU_TryStartPlant, ITEMMENU_TryStartSell, ITEMMENU_FindUseRange, ITEMMENU_HandleActionMenuChoice, ITEMMENU_TaskSelectItem, ITEMMENU_TaskBagMain, ITEMMENU_TaskActionMenuInput, ITEMMENU_TaskOpenActionMenu, ITEMMENU_TaskRegisterResultMessage, ITEMMENU_TaskStartRegisterResult, ITEMMENU_TaskUseNoticeMessage, ITEMMENU_TaskReturnToListAfterMessage, ITEMMENU_TaskBeginReturnToList, ITEMMENU_TaskTossConfirmInput, ITEMMENU_TaskOpenTossConfirm, ITEMMENU_TaskTossAskQuantity, ITEMMENU_TaskTossQuantityInput, ITEMMENU_TaskGiveItem, ITEMMENU_TaskSellQuantityInput, ITEMMENU_TaskSellAskConfirm, ITEMMENU_TaskSellConfirmInput, ITEMMENU_TaskWaitMessageDismiss, ITEMMENU_TaskReturnToListFromQuantity, ITEMMENU_RemoveSelectedItems, ITEMMENU_ShowQuantityWindows, ITEMMENU_HideQuantityWindows, ITEMMENU_HandleQuantityInput, ITEMMENU_CompareSortEntries, ITEMMENU_SortPocket, ITEMMENU_ShowInputGuardError, ITEMMENU_SortAndRedraw, ITEMMENU_RefreshInputGuard, ITEMMENU_SetCursorActive, ITEMMENU_IsBrowseMode, ITEMMENU_ToggleRegisteredItem, ITEMMENU_GetPocketSortFlag, ITEMMENU_TogglePocketSortFlag, ITEMMENU_UpdatePocketSortIcon, ITEMMENU_CheckItemFilter, ITEMMENU_BuildActionList, ITEMMENU_OpenActionMenu, ITEMMENU_IsItemRegistered, ITEMMENU_HandleTouchTarget, ITEMMENU_VBlankCallback, ITEMMENU_TaskStartFadeIn, ITEMMENU_TaskWaitFadeIn, ITEMMENU_Init, ITEMMENU_Main, ITEMMENU_Exit, ITEMMENU_ReturnToBagMain, ITEMMENU_ReturnToListInput, ITEMMENU_CreateBlinkPalAnm, ITEMMENU_DeleteBlinkPalAnm, ITEMMENU_TaskSelectItemFlash, ITEMMENU_StartSideButtonPress, ITEMMENU_TaskWaitSideButtonPress, ITEMMENU_StartPocketTabPress, ITEMMENU_TaskWaitPocketTabPress, ITEMMENU_GetYesNoTouchChoice, ITEMMENU_TaskReopenListFromQuantity, ITEMMENU_TaskReturnFromQuantity, ITEMMENU_AllocPalAnmSlots, ITEMMENU_FreePalAnmSlots, ITEMMENU_TaskInputGuardMessage, ITEMMENU_TaskWaitMessageThenList, ITEMMENU_IsCheckModeAllowed, ITEMMENU_ReturnToBagMainAlias, ITEMMENU_InitDisplayBanks, ITEMMENU_ResetDisplayLayers, ITEMMENU_LoadBagGraphics, ITEMMENU_LoadTabGraphics, ITEMMENU_SetupGraphics, ITEMMENU_ApplyBgPalettes, ITEMMENU_SetLayersVisible, ITEMMENU_SetMoveTypeIconsVisible, ITEMMENU_DrawMoveInfo, ITEMMENU_HideMoveInfo, ITEMMENU_FreeGraphics, ITEMMENU_PrintMenuTitle, ITEMMENU_InitWindows, ITEMMENU_DestroyMovingCursor, ITEMMENU_CreateMovingCursor, ITEMMENU_FreeActionMenuResources, ITEMMENU_LoadPocketGraphics, ITEMMENU_CreateCursorActors, ITEMMENU_GetRowColorKind, ITEMMENU_PrintItemList, ITEMMENU_SnapSelectorToCursor, ITEMMENU_UploadSlotGraphics, ITEMMENU_UpdateCursorFromTouch, ITEMMENU_MoveCursorToRow, ITEMMENU_CreateSideButtonActors, ITEMMENU_CreateTabActors, ITEMMENU_SelectTab, ITEMMENU_ClearMessageWindow, ITEMMENU_OpenPopupList, ITEMMENU_LoadBgPaletteMode, ITEMMENU_PrintMoveInfoText, ITEMMENU_ShowMessage, ITEMMENU_ShowMessageDefault, ITEMMENU_ShowItemUseMessage, ITEMMENU_IsMessageFinished, ITEMMENU_PrintPocketName, ITEMMENU_HideSideWindows, ITEMMENU_PrintPocketCount, ITEMMENU_PrintMoney, ITEMMENU_EnterQuantityMode, ITEMMENU_LeaveQuantityMode, ITEMMENU_OpenYesNoList, ITEMMENU_CloseYesNoList, ITEMMENU_LoadSellPalette, ITEMMENU_PrintQuantityPrice, ITEMMENU_PocketToSortFlag, ITEMMENU_UpdateSlotActorPosition, ITEMMENU_UpdateSideButtons, ITEMMENU_SetBackButtonAnim, ITEMMENU_UpdateInputGuardAnim, ITEMMENU_UpdateSideButtonsForMode, ITEMMENU_MoveActorToPoint, ITEMMENU_PrintToWindow, ITEMMENU_FlushWindowAt, ITEMMENU_FlushDirtyWindows
  * address:  0x021B6100
  * region:   ov070
  * compiler: dsi/1.1p1
@@ -20,10 +20,10 @@
  *   ITEMMENU_PrintItemList 0x021BA218 thumb ov070
  *   ITEMMENU_UpdatePocketSortIcon 0x021B81F4 thumb ov070
  *   MYITEM_SAVEDATA_GetSlot 0x020081DC thumb
- *   FILE_UTIL_Get_0FE4 0x02020FE4 thumb
+ *   FILE_UTIL_GetItemParam 0x02020FE4 thumb
  *   MYITEM_SAVEDATA_CountUsedSlots 0x02007F7C thumb
  *   MYITEM_SAVEDATA_CountUsedSlotsInPocket 0x02007FA0 thumb
- *   WORDSET_Callback_EF40 0x0201EF40 thumb
+ *   WORDSET_SetSlotFromMsg36 0x0201EF40 thumb
  *   WORDSET_SetSlotFromBank 0x0201EF6C thumb
  *   MI_CpuCopy8 0x02082D44 arm
  *   MYITEM_SAVEDATA_SetLastFieldPocket  0x02008298  thumb
@@ -36,7 +36,7 @@
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   TOUCHPANEL_GetTrg  0x02035C60  arm
  *   ITEMMENU_SetCursorActive  0x021B80C4  thumb  ov070
- *   COMM_HISTORY_ScaleValue  0x0202EDE4  thumb
+ *   SCROLLBAR_GetValueFromPos  0x0202EDE4  thumb
  *   ITEMMENU_UpdateCursorFromTouch  0x021BA654  thumb  ov070
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   KEY_GetRepeat  0x0203633C  arm
@@ -71,17 +71,17 @@
  *   GAME_BEACON_SetItemUse  0x02027324  thumb
  *   APP_TASKMENU_CloseMenu  0x02027858  thumb
  *   PALANM_IsOutsideReservedIdRange  0x020213E0  thumb
- *   FILE_UTIL_Check136C  0x0202136C  thumb
+ *   FILE_UTIL_IsMailItem  0x0202136C  thumb
  *   BUTTON_MAN_UpdateSlots  0x02051C88  arm
  *   UI_SetInputMode  0x020355D8  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   GFL_USE_IsAnySeBusy  0x02006238  thumb
- *   FILE_UTIL_Get_12B0  0x020212B0  thumb
+ *   FILE_UTIL_GetMachineMove  0x020212B0  thumb
  *   WORDSET_SetSlotFromMsgCB  0x0201EF34  thumb
  *   FILE_UTIL_GetMachineIndex  0x02021350  thumb
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   BEACON_AddPoints  0x0200C278  thumb
+ *   BEACON_AddMoney  0x0200C278  thumb
  *   MYITEM_SAVEDATA_RemoveItem  0x02007F1C  thumb
  *   MYITEM_SAVEDATA_GetItemQuantity  0x02007FB8  thumb
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
@@ -89,18 +89,18 @@
  *   sQuantityTouchRects     0x021BB960  data  a1
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   MYITEM_SAVEDATA_CopyPocket   0x02007CC8  thumb
- *   FILE_UTIL_Create_0F14  0x02020F14  thumb
+ *   FILE_UTIL_CreateItemArcHandle  0x02020F14  thumb
  *   FILE_UTIL_LoadArcMember  0x02020F20  thumb
- *   FILE_UTIL_Get_1014  0x02021014  thumb
+ *   FILE_UTIL_GetItemRecordParam  0x02021014  thumb
  *   GFL_HEAP_Free  0x020307B0  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   MATH_QSort     0x02081BE4  arm
  *   sHeapSiteName     0x021BBBC0  data  ov070  a1
  *   BLINK_PALANM_ResetPhase  0x0202EB04  thumb
- *   BAG_PARAM_GetItemValue  0x0202E448  thumb
- *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
- *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
- *   FILE_UTIL_CreateArcTool0F34  0x02020F34  thumb
+ *   ITEM_GetRegisterFlagId  0x0202E448  thumb
+ *   GAME_DATA_SetRecentId  0x02012BE0  thumb
+ *   GAME_DATA_ContainsRecentId 0x02012BF8 thumb
+ *   FILE_UTIL_LoadItemRecord  0x02020F34  thumb
  *   sActionMsgIds 0x021BB998 data ov070 a4
  *   sDefaultActionIds 0x021BB95C data a1
  *   sTabPockets     0x021BB984  data  a4
@@ -114,10 +114,10 @@
  *   TCBL_Destroy  0x02031140  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   STRBUF_Delete  0x02045808  arm
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
- *   BG_SYS_DeleteHalf  0x0203FB44  arm
+ *   WORDSET_Delete  0x0201ED04  thumb
+ *   BG_SYS_FreeTileRun  0x0203FB44  arm
  *   BMP_WIN_Delete  0x020452E8  arm
- *   BG_SYS_SetTileUnit  0x02040DA8  arm
+ *   BG_SYS_FreeTiles  0x02040DA8  arm
  *   GF_FONT_Delete  0x0201D83C  thumb
  *   APP_KEYCURSOR_Delete  0x02028604  thumb
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
@@ -185,7 +185,7 @@
  *   CLACT_DrawSystem 0x0204A600 arm
  *   APP_TASKMENU_UpdateMenu 0x02027974 thumb
  *   BMP_Create  0x02043678  arm
- *   FILE_UTIL_Check1288  0x02021288  thumb
+ *   FILE_UTIL_IsMachineItem  0x02021288  thumb
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   sRowStyleFlags     0x021BBA79  data  ov070  a1
  *   PRINTSYS_PrintColor  0x0201C7D0  thumb
@@ -197,7 +197,7 @@
  *   BMP_GetByteSize  0x020437EC  arm
  *   DC_FlushRange  0x020862F0  arm
  *   GX_LoadOBJ  0x0207E780  arm
- *   COMM_HISTORY_ScaleSpan  0x0202EE0C  thumb
+ *   SCROLLBAR_GetPosFromValue  0x0202EE0C  thumb
  *   sSideButtonAnimSeqs     0x021BBAA8  data  ov070  a1
  *   sSideButtonXPositions     0x021BBA6C  data  a1
  *   sArrowAnimSeqs     0x021BBA68  data  a1
@@ -224,11 +224,11 @@
  *   PRINTSYS_PrintStreamShortWait  0x0201CE5C  thumb
  *   WORDSET_SetSlotFromMsg37  0x0201F14C  thumb
  *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
- *   BEACON_GetPoints 0x0200C274 thumb
+ *   BEACON_GetMoney 0x0200C274 thumb
  *   ARC_UTIL_LoadHandleMember  0x0204A380  arm
  *   NNS_G2dGetUnpackedScreenData  0x02062B30  arm
  *   BG_SYS_DrawTile  0x02041090  arm
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
  *   GFL_USE_GetMainTaskList  0x020056BC  thumb
  *   PALANM_RequestFade  0x0202173C  thumb
@@ -456,7 +456,7 @@ typedef struct ItemMenuArgs {
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
 extern u8 APP_TASKMENU_GetCursorPos(const struct TaskMenu *p);
 extern void GAME_BEACON_SetItemUse(u16 id);
-extern u32 FILE_UTIL_Get_0FE4(u16 a, u32 sel, u32 id);
+extern u32 FILE_UTIL_GetItemParam(u16 a, u32 sel, u32 id);
 struct FieldSkillUseFlags;
 extern u32 FIELD_SKILL_USE_FLAGS_IsSkillUsable(const struct FieldSkillUseFlags *flags, u32 skillIndex);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
@@ -466,7 +466,7 @@ extern void CLACT_SetActorAutoAnim(struct Actor *p, u32 v);
 extern u8 UI_GetInputMode(void);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern u32 PALANM_IsOutsideReservedIdRange(u16 v);
-extern unsigned int FILE_UTIL_Check136C(u16 v);
+extern unsigned int FILE_UTIL_IsMailItem(u16 v);
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
 extern int TOUCHPANEL_GetCont(void);
 extern s32 BUTTON_MAN_UpdateSlots(struct ButtonTask *task);
@@ -480,29 +480,29 @@ extern unsigned int KEY_GetRepeat(void);
 extern void BG_SYS_ClearSlot(u32 i);
 extern int GFL_USE_IsAnySeBusy(void);
 extern int TOUCHPANEL_GetTrg(void);
-extern u16 FILE_UTIL_Get_12B0(u16 id);
+extern u16 FILE_UTIL_GetMachineMove(u16 id);
 extern void WORDSET_SetSlotFromMsgCB(struct WordSet *p, u32 i, u32 v);
 extern u8 FILE_UTIL_GetMachineIndex(u16 id);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern struct MiscSave *GAME_DATA_GetMiscSave(struct GameData *gameData);
-extern u32 BEACON_AddPoints(struct MiscSave *p, u32 v);
+extern u32 BEACON_AddMoney(struct MiscSave *p, u32 v);
 extern u32 MYITEM_SAVEDATA_RemoveItem(u8 *base, u16 id, u16 qty, u16 d);
 extern u32 MYITEM_SAVEDATA_GetItemQuantity(u8 *base, u16 id, u16 d);
 extern void CLACT_SetActorDrawEnable(struct Actor *p, u32 v);
 extern int TOUCHPANEL_HitCont(const void *p);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MYITEM_SAVEDATA_CopyPocket(u8 *base, void *buf, u32 id, int save);
-extern void *FILE_UTIL_Create_0F14(u32 a);
+extern void *FILE_UTIL_CreateItemArcHandle(u32 a);
 extern int FILE_UTIL_LoadArcMember(int h, int id, u16 heap);
-extern u32 FILE_UTIL_Get_1014(struct ItemData *p, u32 sel);
+extern u32 FILE_UTIL_GetItemRecordParam(struct ItemData *p, u32 sel);
 extern u32 GFL_HEAP_Free(void *p);
 extern void ARC_TOOL_DeleteHandle(void *arc);
 extern void MATH_QSort(void *head, u32 num, u32 width, int (*comp)(SortEntry *, SortEntry *), void *buf);
 extern void BLINK_PALANM_ResetPhase(struct BlinkPalAnm *p);
-extern u32 BAG_PARAM_GetItemValue(u32 id);
-extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
-extern int GAME_DATA_CheckSaveFlag(void *p, int a);
-extern void *FILE_UTIL_CreateArcTool0F34(unsigned int item, unsigned int which, unsigned int heap);
+extern u32 ITEM_GetRegisterFlagId(u32 id);
+extern void GAME_DATA_SetRecentId(void *p, u32 a, u32 b);
+extern int GAME_DATA_ContainsRecentId(void *p, int a);
+extern void *FILE_UTIL_LoadItemRecord(unsigned int item, unsigned int which, unsigned int heap);
 extern void PALANM_TransferPalettes(struct PalAnmSlot *p);
 extern void CLACT_VBlankSystem();
 extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
@@ -515,10 +515,10 @@ extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuRes *s);
 extern void TCBL_Destroy(struct Tcbl *p);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern void STRBUF_Delete(struct Strbuf *vec);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern u32 WORDSET_Delete(struct WordSet *p);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 extern u32 BMP_WIN_Delete(struct BmpWin *d);
-extern void BG_SYS_SetTileUnit(u32 a, u32 b, u32 c);
+extern void BG_SYS_FreeTiles(u32 a, u32 b, u32 c);
 extern u32 GF_FONT_Delete(void *ptr);
 extern int APP_KEYCURSOR_Delete(struct KeyCursor *keyCursor);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
@@ -600,7 +600,7 @@ extern int FILE_UTIL_Get(unsigned short, int);
 extern void CLACT_DrawSystem(void);
 extern void APP_TASKMENU_UpdateMenu(void *);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
-extern u32 FILE_UTIL_Check1288(u32 id);
+extern u32 FILE_UTIL_IsMachineItem(u32 id);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *p);
 extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct SurfacePos *out, u16 space);
@@ -612,7 +612,7 @@ extern u32 BMP_GetByteSize(const struct Bmp *bmp);
 extern void DC_FlushRange(void *, u32);
 extern void GX_LoadOBJ(void *, void *, u32);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
-extern u32 COMM_HISTORY_ScaleSpan(u32 a, u32 b, u32 c, u32 d, u32 e);
+extern u32 SCROLLBAR_GetPosFromValue(u32 a, u32 b, u32 c, u32 d, u32 e);
 extern void BMP_MENUWORK_DrawWindowBorder(void *, unsigned);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, struct TaskMenuRes *res);
@@ -632,11 +632,11 @@ extern unsigned int KEY_GetCont(void);
 extern void PRINTSYS_PrintStreamShortWait(struct TextStream *p, s32 v);
 extern void WORDSET_SetSlotFromMsg37(struct WordSet *p, u32 i, u32 v);
 extern u32 GF_FONT_MeasureWidestLine(struct Strbuf *s, u32 a, u32 b);
-extern u32 BEACON_GetPoints(struct MiscSave *);
+extern u32 BEACON_GetMoney(struct MiscSave *);
 extern void *ARC_UTIL_LoadHandleMember(void *narc, unsigned int fileID, unsigned int decompress, unsigned int heapID);
 extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
 extern void BG_SYS_DrawTile(unsigned int index, unsigned int src, unsigned int dx, unsigned int dy, u8 cw, u8 ch);
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 extern u32 GFL_USE_GetMainTaskList(void);
 extern int PALANM_RequestFade(void *p, u16 mask, u16 col, FadeStep step, u8 b, u8 c, u16 d, u32 ctx);
 extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
@@ -713,7 +713,7 @@ void ITEMMENU_StartSideButtonPress(ItemMenuWork *work, int a, ItemMenuTaskFn cal
 void ITEMMENU_TaskWaitSideButtonPress(ItemMenuWork *work);
 void ITEMMENU_StartPocketTabPress(ItemMenuWork *work, int u, int a, ItemMenuTaskFn callback);
 void ITEMMENU_TaskWaitPocketTabPress(ItemMenuWork *work);
-int ITEMMENU_CheckTouchRelease(void);
+int ITEMMENU_GetYesNoTouchChoice(void);
 void ITEMMENU_TaskReopenListFromQuantity(ItemMenuWork *work);
 void ITEMMENU_TaskReturnFromQuantity(ItemMenuWork *work);
 void ITEMMENU_AllocPalAnmSlots(ItemMenuWork *work);
@@ -817,10 +817,10 @@ typedef struct ItemUseRange {
 extern BagSlot *MYITEM_SAVEDATA_GetSlot(void *bag, u32 pocket, u32 index);
 extern unsigned int MYITEM_SAVEDATA_CountUsedSlots(const BagSlot *items, unsigned int maxCount);
 extern u32 MYITEM_SAVEDATA_CountUsedSlotsInPocket(void *bag, u32 pocket);
-extern void WORDSET_Callback_EF40(void *wordSet, u32 slot, u32 itemId);
+extern void WORDSET_SetSlotFromMsg36(void *wordSet, u32 slot, u32 itemId);
 extern void WORDSET_SetSlotFromBank(void *wordSet, u32 slot, u32 itemId, u32 isPlural, u32 flags);
 extern void MI_CpuCopy8(const void *src, void *dest, unsigned int size);
-extern u32 COMM_HISTORY_ScaleValue(u32 range, u32 position, u32 thumbSize, u32 trackSize, u32 flags);
+extern u32 SCROLLBAR_GetValueFromPos(u32 range, u32 position, u32 thumbSize, u32 trackSize, u32 flags);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outX, u32 *outY);
 extern void *GAME_DATA_GetSaveControl(void *saveData);
 extern void *MOVE_POKEMON_SAVE_GetBlock(void *fieldSave);
@@ -909,7 +909,7 @@ int ITEMMENU_GetSellTotal(int itemId, int count, unsigned int heapId)
 {
     typedef enum { HALF_ZERO } Half;
     Half unitPrice;
-    unitPrice = (Half)((int)FILE_UTIL_Get_0FE4((u16)itemId, 0, heapId) / 2);
+    unitPrice = (Half)((int)FILE_UTIL_GetItemParam((u16)itemId, 0, heapId) / 2);
     return (int)((unsigned int)unitPrice * (unsigned int)count);
 }
 
@@ -927,7 +927,7 @@ int ITEMMENU_GetItemCount(ItemMenuWork *work)
 
 void ITEMMENU_RegisterItemName(ItemMenuWork *work, int slot, unsigned int itemId)
 {
-    WORDSET_Callback_EF40(work->wordSet, slot, itemId);
+    WORDSET_SetSlotFromMsg36(work->wordSet, slot, itemId);
 }
 
 /*
@@ -1038,7 +1038,7 @@ u32 ITEMMENU_HandleScrollbarTouch(ItemMenuWork *work)
         }
         ITEMMENU_SetCursorActive(work, 0);
         prevScroll = work->scrollOffset;
-        work->scrollOffset = COMM_HISTORY_ScaleValue(itemCount - 6, touchY, 0x1A, 0x8E, 0) - 1;
+        work->scrollOffset = SCROLLBAR_GetValueFromPos(itemCount - 6, touchY, 0x1A, 0x8E, 0) - 1;
         ITEMMENU_UpdateCursorFromTouch(work);
         if (work->scrollOffset != prevScroll) {
             GFL_USE_PlaySeDefaultVolume(ITEMMENU_SE_CURSOR);
@@ -1281,7 +1281,7 @@ void ITEMMENU_UseRepel(ItemMenuWork *work)
     if (ITEMMENU_IsRepelItem(work->selectedItemId)) {
         repelState = MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(work->saveData));
         if (MOVE_POKEMON_SAVE_IsCooldownDone(repelState)) {
-            steps = FILE_UTIL_Get_0FE4(work->selectedItemId, 2, work->heapId);
+            steps = FILE_UTIL_GetItemParam(work->selectedItemId, 2, work->heapId);
             MOVE_POKEMON_SAVE_SetCooldown(repelState, steps);
             ITEMMENU_RemoveSelectedItems(work, 1);
             MSGDATA_ReadString(work->msgBank, ITEMMENU_MSG_REPEL_USED, work->tempString);
@@ -1525,7 +1525,7 @@ void ITEMMENU_HandleActionMenuChoice(ItemMenuWork *work)
                 GAME_BEACON_SetItemUse(work->selectedItemId);
             if (work->currentPocket == 2) {
                 ITEMMENU_SetTask(work, ITEMMENU_TaskUseNoticeMessage);
-            } else if (FILE_UTIL_Get_0FE4(work->selectedItemId, 0x1D, work->heapId) == 1) {
+            } else if (FILE_UTIL_GetItemParam(work->selectedItemId, 0x1D, work->heapId) == 1) {
                 work->nextState = 0xC;
                 ITEMMENU_SetTask(work, 0);
             } else if (ITEMMENU_FindUseRange(work->selectedItemId) >= 0) {
@@ -1622,8 +1622,8 @@ void ITEMMENU_TaskSelectItem(ItemMenuWork *work)
         work->selectedItemId = *itemIdPtr;
     mode = work->bagMode;
     if (mode == 2) {
-        if (FILE_UTIL_Get_0FE4(work->selectedItemId, 3, work->heapId) == 0 && PALANM_IsOutsideReservedIdRange(work->selectedItemId) == 1) {
-            if (FILE_UTIL_Check136C(work->selectedItemId) != 0)
+        if (FILE_UTIL_GetItemParam(work->selectedItemId, 3, work->heapId) == 0 && PALANM_IsOutsideReservedIdRange(work->selectedItemId) == 1) {
+            if (FILE_UTIL_IsMailItem(work->selectedItemId) != 0)
                 work->nextState = 0x12;
             else
                 work->nextState = 3;
@@ -1828,7 +1828,7 @@ void ITEMMENU_TaskRegisterResultMessage(ItemMenuWork *work)
     if ((KEY_GetTrg() & 3) == 0 && TOUCHPANEL_GetTrg() == 0)
         return;
     MSGDATA_ReadString(work->msgBank, 0x3E, work->tempString);
-    WORDSET_SetSlotFromMsgCB(work->wordSet, 0, FILE_UTIL_Get_12B0(work->selectedItemId));
+    WORDSET_SetSlotFromMsgCB(work->wordSet, 0, FILE_UTIL_GetMachineMove(work->selectedItemId));
     WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
     ITEMMENU_ShowMessage(work, 1);
     ITEMMENU_SetTask(work, ITEMMENU_TaskOpenActionMenu);
@@ -1959,7 +1959,7 @@ void ITEMMENU_TaskTossQuantityInput(ItemMenuWork *work)
         return;
     if (ITEMMENU_HandleQuantityInput(work) == 1)
         return;
-    choice = ITEMMENU_CheckTouchRelease();
+    choice = ITEMMENU_GetYesNoTouchChoice();
     if (choice == -1) {
         if (KEY_GetTrg() & 1) {
             choice = 0;
@@ -1998,8 +1998,8 @@ void ITEMMENU_TaskGiveItem(ItemMenuWork *work)
     unsigned int isKeyItem;
 
     CLACT_SetActorAutoAnim(work->cursorActor, 0);
-    canHold = FILE_UTIL_Get_0FE4(work->selectedItemId, 0, work->heapId);
-    isKeyItem = FILE_UTIL_Get_0FE4(work->selectedItemId, 3, work->heapId);
+    canHold = FILE_UTIL_GetItemParam(work->selectedItemId, 0, work->heapId);
+    isKeyItem = FILE_UTIL_GetItemParam(work->selectedItemId, 3, work->heapId);
     if (canHold == 0 || isKeyItem != 0) {
         ITEMMENU_UpdateSideButtons(work, 0);
         MSGDATA_ReadString(work->msgBank, 0x4D, work->tempString);
@@ -2039,7 +2039,7 @@ void ITEMMENU_TaskSellQuantityInput(ItemMenuWork *work)
         return;
     if (ITEMMENU_HandleQuantityInput(work) == 1)
         return;
-    choice = ITEMMENU_CheckTouchRelease();
+    choice = ITEMMENU_GetYesNoTouchChoice();
     if (choice == -1) {
         if (KEY_GetTrg() & 1) {
             choice = 0;
@@ -2100,7 +2100,7 @@ void ITEMMENU_TaskSellConfirmInput(ItemMenuWork *work)
     case 0:
         sellTotal = ITEMMENU_GetSellTotal(work->selectedItemId, work->listCount, work->heapId);
         ITEMMENU_RemoveSelectedItems(work, work->listCount);
-        BEACON_AddPoints(GAME_DATA_GetMiscSave(work->saveData), sellTotal);
+        BEACON_AddMoney(GAME_DATA_GetMiscSave(work->saveData), sellTotal);
         GFL_USE_PlaySeDefaultVolume(0x655);
         ITEMMENU_PrintMoney(work);
         MSGDATA_ReadString(work->msgBank, 0x50, work->tempString);
@@ -2312,12 +2312,12 @@ void ITEMMENU_SortPocket(ItemMenuWork *work)
     items = GFL_HEAP_Alloc(work->heapId, 0x4D8, 0, sHeapSiteName, 0xB36);
     MYITEM_SAVEDATA_CopyPocket(work->bag, items, work->currentPocket, 1);
     itemCount = ITEMMENU_GetItemCount(work);
-    itemArchive = (int)FILE_UTIL_Create_0F14(work->heapId);
+    itemArchive = (int)FILE_UTIL_CreateItemArcHandle(work->heapId);
     for (i = 0; i < itemCount; i++) {
         itemData = FILE_UTIL_LoadArcMember(itemArchive, items[i].itemId, work->heapId);
         entry = &ents[i];
-        iconKind = FILE_UTIL_Get_1014((struct ItemData *)itemData, 0xF);
-        entry->key = (iconKind << 28) + (FILE_UTIL_Get_1014((struct ItemData *)itemData, 0x11) << 16) + items[i].itemId;
+        iconKind = FILE_UTIL_GetItemRecordParam((struct ItemData *)itemData, 0xF);
+        entry->key = (iconKind << 28) + (FILE_UTIL_GetItemRecordParam((struct ItemData *)itemData, 0x11) << 16) + items[i].itemId;
         entry->item = items[i];
         GFL_HEAP_Free((void *)itemData);
     }
@@ -2397,13 +2397,13 @@ int ITEMMENU_ToggleRegisteredItem(ItemMenuWork *work, int row)
         if (ITEMMENU_GetItemCount(work) <= row)
             return 0;
         itemIdPtr = (void *)ITEMMENU_GetSlot(work, row);
-        registerSlot = BAG_PARAM_GetItemValue(*itemIdPtr);
+        registerSlot = ITEM_GetRegisterFlagId(*itemIdPtr);
         if (registerSlot == 0x19)
             return 0;
         if (ITEMMENU_IsItemRegistered(work, *itemIdPtr) == 1)
-            GAME_DATA_SetSaveFlag(work->saveData, registerSlot, 0);
+            GAME_DATA_SetRecentId(work->saveData, registerSlot, 0);
         else
-            GAME_DATA_SetSaveFlag(work->saveData, registerSlot, 1);
+            GAME_DATA_SetRecentId(work->saveData, registerSlot, 1);
         GFL_USE_PlaySeDefaultVolume(0x646);
         work->shownItemId = 0xFFFF;
         return 1;
@@ -2425,13 +2425,13 @@ int ITEMMENU_GetPocketSortFlag(int pocket)
 
 
 
-void ITEMMENU_TogglePocketSortFlag(ItemMenuWork *work) { int a; int v; a=ITEMMENU_GetPocketSortFlag(work->currentPocket); v=GAME_DATA_CheckSaveFlag(work->saveData,a); GAME_DATA_SetSaveFlag(work->saveData,a,v^1); GFL_USE_PlaySeDefaultVolume(0x646); ITEMMENU_UpdatePocketSortIcon(work); }
+void ITEMMENU_TogglePocketSortFlag(ItemMenuWork *work) { int a; int v; a=ITEMMENU_GetPocketSortFlag(work->currentPocket); v=GAME_DATA_ContainsRecentId(work->saveData,a); GAME_DATA_SetRecentId(work->saveData,a,v^1); GFL_USE_PlaySeDefaultVolume(0x646); ITEMMENU_UpdatePocketSortIcon(work); }
 
 
 
 
 
-void ITEMMENU_UpdatePocketSortIcon(ItemMenuWork *work) { if (work->usingWorkCopy!=1) CLACT_SetActorAnimSeq(((work->sideActor[2])), (unsigned int)GAME_DATA_CheckSaveFlag(work->saveData,ITEMMENU_GetPocketSortFlag(work->currentPocket))+6u); }
+void ITEMMENU_UpdatePocketSortIcon(ItemMenuWork *work) { if (work->usingWorkCopy!=1) CLACT_SetActorAnimSeq(((work->sideActor[2])), (unsigned int)GAME_DATA_ContainsRecentId(work->saveData,ITEMMENU_GetPocketSortFlag(work->currentPocket))+6u); }
 
 
 
@@ -2440,8 +2440,8 @@ void ITEMMENU_UpdatePocketSortIcon(ItemMenuWork *work) { if (work->usingWorkCopy
 
 void ITEMMENU_CheckItemFilter(ItemMenuWork *work, void *itemData, u16 *itemIdPtr, u8 *filterKind)
 {
-    if (FILE_UTIL_Get_1014(itemData, 6) != 0) {
-        if (FILE_UTIL_Check136C(*itemIdPtr) == 1)
+    if (FILE_UTIL_GetItemRecordParam(itemData, 6) != 0) {
+        if (FILE_UTIL_IsMailItem(*itemIdPtr) == 1)
             *filterKind = 2;
         else if (*itemIdPtr == 0x1C2 && work->bagFilter == 1)
             *filterKind = 1;
@@ -2460,13 +2460,13 @@ void ITEMMENU_BuildActionList(ItemMenuWork *work, unsigned char *actions)
 {
     unsigned short *itemIdPtr = (void *)ITEMMENU_GetSlot(work, ITEMMENU_GetCursorIndex(work));
     if (itemIdPtr != 0 && *itemIdPtr != 0) {
-        void *itemData = FILE_UTIL_CreateArcTool0F34(*itemIdPtr, 0, work->heapId);
+        void *itemData = FILE_UTIL_LoadItemRecord(*itemIdPtr, 0, work->heapId);
         unsigned char pocket = work->currentPocket;
         ITEMMENU_CheckItemFilter(work, itemData, itemIdPtr, actions);
         if (ITEMMENU_IsCheckModeAllowed(work, pocket) == 0 && actions[0] != 2) {
             actions[0] = 0xFF;
         }
-        if (FILE_UTIL_Get_1014(itemData, 3) == 0) {
+        if (FILE_UTIL_GetItemRecordParam(itemData, 3) == 0) {
             if (PALANM_IsOutsideReservedIdRange(*itemIdPtr) == 1) {
                 actions[1] = 6;
             }
@@ -2474,7 +2474,7 @@ void ITEMMENU_BuildActionList(ItemMenuWork *work, unsigned char *actions)
                 actions[2] = 3;
             }
         }
-        if (FILE_UTIL_Get_1014(itemData, 4) != 0) {
+        if (FILE_UTIL_GetItemRecordParam(itemData, 4) != 0) {
             if (ITEMMENU_IsItemRegistered(work, *itemIdPtr) == 1) {
                 actions[2] = 5;
             } else {
@@ -2518,7 +2518,7 @@ void ITEMMENU_OpenActionMenu(ItemMenuWork *work)
 
 int ITEMMENU_IsItemRegistered(ItemMenuWork *work, int value)
 {
-    return GAME_DATA_CheckSaveFlag(work->saveData, (int)BAG_PARAM_GetItemValue((u16)value));
+    return GAME_DATA_ContainsRecentId(work->saveData, (int)ITEM_GetRegisterFlagId((u16)value));
 }
 
 
@@ -2785,13 +2785,13 @@ int ITEMMENU_Exit(void *proc, int subState, ItemMenuResult *parentArgs, ItemMenu
     STRBUF_Delete(work->tempString);
     STRBUF_Delete(work->messageString);
     STRBUF_Delete(work->listStrings);
-    WORDSET_DeleteStrbufED04(work->wordSet);
+    WORDSET_Delete(work->wordSet);
     ITEMMENU_HideSideWindows(work);
     if (work->messageWindows[0].window != 0) {
-        BG_SYS_DeleteHalf(3, (unsigned short)work->keyRepeatPacked, (unsigned short)(work->keyRepeatPacked >> 16));
+        BG_SYS_FreeTileRun(3, (unsigned short)work->keyRepeatPacked, (unsigned short)(work->keyRepeatPacked >> 16));
         BMP_WIN_Delete(work->messageWindows[0].window);
     }
-    BG_SYS_SetTileUnit(3, 1, 0);
+    BG_SYS_FreeTiles(3, 1, 0);
     GF_FONT_Delete((void *)work->menuTaskArg);
     APP_KEYCURSOR_Delete(work->itemDescWindow);
     PRINTSYS_QUE_Clear(work->printSys);
@@ -3003,7 +3003,7 @@ void ITEMMENU_TaskWaitPocketTabPress(ItemMenuWork *work)
  * Return-observed exception: 02035C08's legacy definition says void,
  * but the original retains its r0 result in r4 and returns it.
  */
-int ITEMMENU_CheckTouchRelease(void)
+int ITEMMENU_GetYesNoTouchChoice(void)
 {
     int result;
     result = TOUCHPANEL_HitTrg(sBackButtonHitRect);
@@ -3443,15 +3443,15 @@ void ITEMMENU_ApplyBgPalettes(ItemMenuWork *work)
 {
     unsigned packedPalette;
     packedPalette = work->bgPaletteA;
-    BG_SYS_DeleteHalf(4, (unsigned short)packedPalette, (unsigned short)(packedPalette >> 16));
+    BG_SYS_FreeTileRun(4, (unsigned short)packedPalette, (unsigned short)(packedPalette >> 16));
     packedPalette = work->bgPaletteB;
-    BG_SYS_DeleteHalf(5, (unsigned short)packedPalette, (unsigned short)(packedPalette >> 16));
+    BG_SYS_FreeTileRun(5, (unsigned short)packedPalette, (unsigned short)(packedPalette >> 16));
     packedPalette = work->bgPaletteD;
-    BG_SYS_DeleteHalf(3, (unsigned short)packedPalette, (unsigned short)(packedPalette >> 16));
+    BG_SYS_FreeTileRun(3, (unsigned short)packedPalette, (unsigned short)(packedPalette >> 16));
     packedPalette = work->frameCounter;
-    BG_SYS_DeleteHalf(0, (unsigned short)packedPalette, (unsigned short)(packedPalette >> 16));
+    BG_SYS_FreeTileRun(0, (unsigned short)packedPalette, (unsigned short)(packedPalette >> 16));
     packedPalette = work->bgPaletteC;
-    BG_SYS_DeleteHalf(1, (unsigned short)packedPalette, (unsigned short)(packedPalette >> 16));
+    BG_SYS_FreeTileRun(1, (unsigned short)packedPalette, (unsigned short)(packedPalette >> 16));
 }
 
 
@@ -3487,7 +3487,7 @@ void ITEMMENU_SetMoveTypeIconsVisible(ItemMenuWork *work, int mode)
     if (work->movingCursorActor != 0) {
         CLACT_SetActorDrawEnable(work->movingCursorActor, mode);
     }
-    moveId = FILE_UTIL_Get_12B0(ITEMMENU_GetSlot(work, ITEMMENU_GetCursorIndex(work))->itemId);
+    moveId = FILE_UTIL_GetMachineMove(ITEMMENU_GetSlot(work, ITEMMENU_GetCursorIndex(work))->itemId);
     if (moveId != 0) {
         CLACT_SetActorDrawEnable(work->damageClassActors[WAZA_TOOL_GetDamageType(moveId)], mode);
         CLACT_SetActorDrawEnable(work->typeActors[WAZA_TOOL_GetType((void *)moveId)], mode);
@@ -3523,7 +3523,7 @@ void ITEMMENU_DrawMoveInfo(ItemMenuWork *work)
     BMP_Clear(BMP_WIN_GetBmp(work->listWindows[ITEMMENU_WINDOW_ITEM_COUNT].window), 0);
     BMP_Clear(BMP_WIN_GetBmp(work->listWindows[ITEMMENU_WINDOW_ITEM_PRICE].window), 0);
     BMP_Clear(BMP_WIN_GetBmp(work->listWindows[ITEMMENU_WINDOW_ITEM_DESC].window), 0);
-    moveId = FILE_UTIL_Get_12B0(*slotPtr);
+    moveId = FILE_UTIL_GetMachineMove(*slotPtr);
     if (moveId == 0) {
         MSGDATA_ReadString(work->msgBank, 0x86, work->tempString);
         ITEMMENU_RegisterItemName(work, 0, *slotPtr);
@@ -3805,8 +3805,8 @@ void ITEMMENU_CreateCursorActors(ItemMenuWork *work)
 
 int ITEMMENU_GetRowColorKind(u16 itemId)
 {
-    if (FILE_UTIL_Check1288(itemId) == 1) {
-        switch (FILE_UTIL_Get_12B0(itemId)) {
+    if (FILE_UTIL_IsMachineItem(itemId) == 1) {
+        switch (FILE_UTIL_GetMachineMove(itemId)) {
         case 0xF:
         case 0x13:
         case 0x39:
@@ -3849,7 +3849,7 @@ void ITEMMENU_PrintItemList(ItemMenuWork *work)
     if (work->shownItemId == work->scrollOffset) {
         return;
     }
-    itemArchive = (int)FILE_UTIL_Create_0F14(work->heapId);
+    itemArchive = (int)FILE_UTIL_CreateItemArcHandle(work->heapId);
     for (i = 0; i < 8; i++) {
         work->slotAnimIndex[i] = 0;
         itemIndex = work->scrollOffset + i;
@@ -3861,7 +3861,7 @@ void ITEMMENU_PrintItemList(ItemMenuWork *work)
             continue;
         }
         itemData = FILE_UTIL_LoadArcMember(itemArchive, *itemIdPtr, work->heapId);
-        iconKind = FILE_UTIL_Get_1014((struct ItemData *)itemData, 0xf);
+        iconKind = FILE_UTIL_GetItemRecordParam((struct ItemData *)itemData, 0xf);
         if (sRowStyleFlags[i] == 0) {
             if (ITEMMENU_GetRowColorKind(*itemIdPtr) == 1) {
                 color = 0x18AD;
@@ -3877,7 +3877,7 @@ void ITEMMENU_PrintItemList(ItemMenuWork *work)
         }
         BMP_Clear(work->slotBitmap[i], 0xd);
         MSGDATA_ReadString(work->msgBank, 0x82, work->tempString);
-        moveId = FILE_UTIL_Get_12B0(*itemIdPtr);
+        moveId = FILE_UTIL_GetMachineMove(*itemIdPtr);
         if (moveId == 0) {
             ITEMMENU_RegisterItemName(work, 0, *itemIdPtr);
         } else {
@@ -3895,7 +3895,7 @@ void ITEMMENU_PrintItemList(ItemMenuWork *work)
             work->slotAnimIndex[i] = 8;
         } else if (FILE_UTIL_GetId(*itemIdPtr) != 0xff) {
             work->slotAnimIndex[i] = 7;
-        } else if (FILE_UTIL_Get_1014((struct ItemData *)itemData, 4) == 0) {
+        } else if (FILE_UTIL_GetItemRecordParam((struct ItemData *)itemData, 4) == 0) {
             work->slotAnimIndex[i] = 3;
         } else if (ITEMMENU_IsItemRegistered(work, *itemIdPtr) == 0) {
             work->slotAnimIndex[i] = 2;
@@ -4025,7 +4025,7 @@ void ITEMMENU_MoveCursorToRow(ItemMenuWork *work)
     int itemCount = ITEMMENU_GetItemCount(work);
     if (itemCount >= 7) {
         CLACT_GetActorSurfacePos(work->cursorActor, &surfacePos, 0xFFFF);
-        surfacePos.y = COMM_HISTORY_ScaleSpan(itemCount - 6, work->scrollOffset + 1, 0x1A, 0x8E, 0);
+        surfacePos.y = SCROLLBAR_GetPosFromValue(itemCount - 6, work->scrollOffset + 1, 0x1A, 0x8E, 0);
         CLACT_AddActorSurfacePos(work->cursorActor, &surfacePos, 0xFFFF);
     }
 }
@@ -4390,7 +4390,7 @@ void ITEMMENU_PrintMoney(ItemMenuWork *work)
     ITEMMENU_PrintToWindow(work, &work->listWindows[ITEMMENU_WINDOW_MENU_1], work->tempString, 0, 4, 0x3C40);
     ITEMMENU_FlushWindowAt(&work->listWindows[ITEMMENU_WINDOW_MENU_1]);
     MSGDATA_ReadString(work->msgBank, 0x52, work->tempString);
-    WORDSET_SetSlotNumber(work->wordSet, 0, BEACON_GetPoints(GAME_DATA_GetMiscSave(work->saveData)), 7, 1, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 0, BEACON_GetMoney(GAME_DATA_GetMiscSave(work->saveData)), 7, 1, 1);
     WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
     ITEMMENU_PrintToWindow(work, &work->listWindows[ITEMMENU_WINDOW_MENU_2], work->messageString, 0, 4, 0x3C40);
     ITEMMENU_FlushWindowAt(&work->listWindows[ITEMMENU_WINDOW_MENU_2]);
@@ -4475,7 +4475,7 @@ void ITEMMENU_LoadSellPalette(ItemMenuWork *work)
             tiles[i] += (u16)((u16)(int)work->bgPaletteD | 0x3000);
         }
         BG_SYS_DrawTile(3, (unsigned int)screenImage->data, 0x10, 0xC, (unsigned)screenImage->width >> 3, (unsigned)screenImage->height >> 3);
-        BG_SYS_SetFlagField06(3);
+        BG_SYS_MarkTileDirty(3);
     }
     GFL_HEAP_Free((void *)screenData);
     ARC_TOOL_DeleteHandle(archive);
@@ -4567,7 +4567,7 @@ void ITEMMENU_UpdateSideButtons(ItemMenuWork *work, int page)
         return;
     }
     work->currentPage = page;
-    isSortFlagSet = GAME_DATA_CheckSaveFlag(work->saveData, ITEMMENU_PocketToSortFlag(work->currentPocket));
+    isSortFlagSet = GAME_DATA_ContainsRecentId(work->saveData, ITEMMENU_PocketToSortFlag(work->currentPocket));
     if (page == 1) {
         PALANM_RequestFade(work->palAnmSlot, 4, 0x23CF, 0, 0, 0, 0, GFL_USE_GetMainTaskList());
         PALANM_RequestFade(work->palAnmSlot, 1, 1, 0, 0, 0, 0, GFL_USE_GetMainTaskList());
@@ -4622,7 +4622,7 @@ void ITEMMENU_UpdateInputGuardAnim(ItemMenuWork *work) { if (work->currentPocket
 
 void ITEMMENU_UpdateSideButtonsForMode(ItemMenuWork *work, int mode)
 {
-    int isSortFlagSet = GAME_DATA_CheckSaveFlag(work->saveData, ITEMMENU_PocketToSortFlag(work->currentPocket));
+    int isSortFlagSet = GAME_DATA_ContainsRecentId(work->saveData, ITEMMENU_PocketToSortFlag(work->currentPocket));
 
     if (mode == 1) {
         ITEMMENU_UpdateInputGuardAnim(work);
@@ -4693,7 +4693,7 @@ void ITEMMENU_PrintToWindow(ItemMenuWork *work, ItemMenuWindow *slot, void *str,
 void ITEMMENU_FlushWindowAt(ItemMenuWindow *slot)
 {
     BMP_WIN_MakeScreen(slot->window);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(slot->window));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(slot->window));
 }
 
 

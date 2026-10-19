@@ -37,7 +37,7 @@
  *   RINGTONE_SYS_RegisterSleepCallbacks 0x02029F6C thumb
  *   FIELD_STATUS_CreateFieldOpenEvent 0x020145CC thumb
  *   ICA_ANIME_GetField1C 0x020120F4 thumb
- *   GAME_DATA_GetField1A0 0x0201283C thumb
+ *   GAME_DATA_GetWifiList 0x0201283C thumb
  *   BTL_SETUP_Delete 0x020130B4 thumb
  *   BTL_SETUP_Create 0x02013090 thumb
  *   GAME_EVENT_CallProc 0x02012444 thumb
@@ -145,7 +145,7 @@ extern void PROCSYS_Push(void *,u32,u32,u32);
 extern u32 PROCSYS_Main(void *);
 extern void func_0203133C(struct S020314B8 *p);
 extern u32 GFL_NET_ERR_ShowScreen(u32 a0);
-extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
+extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 extern u32 func_02009A34(struct Sub020097BCObj *obj);
 extern int func_02034AC4(int);
 extern void func_02034A5C(int);
@@ -252,7 +252,7 @@ int EVENT_WIFICLUB_Main(void *evt,u32 *state,char *obj)
         if (PROCSYS_Main((void *)W(obj,0x1c))) { GFL_NET_ERR_ShowScreen(0); return 0; }
         func_0203133C((void *)W(obj,0x1c));
         if (!W(obj,0xb4)) {
-            if (!func_02009A34((void *)GAME_DATA_GetField1A0((void *)W(obj,0x90)))) *state=30;
+            if (!func_02009A34((void *)GAME_DATA_GetWifiList((void *)W(obj,0x90)))) *state=30;
             else { *state=11; GFL_USE_FadeOutBgm(6); }
         } else { GFL_USE_FadeOutBgm(6); *state=25; }
         break;
@@ -348,9 +348,9 @@ int EVENT_WIFICLUB_Main(void *evt,u32 *state,char *obj)
     case 17:
         if (!GFL_NET_GetRunState()) goto cleanup;
         if (W(obj,0x120)==0)
-            func_02009BB8((void *)GAME_DATA_GetField1A0((void *)ICA_ANIME_GetField1C((void *)W(obj,4))),B(W(obj,0x5c),0x47)-1,1,0,0);
+            func_02009BB8((void *)GAME_DATA_GetWifiList((void *)ICA_ANIME_GetField1C((void *)W(obj,4))),B(W(obj,0x5c),0x47)-1,1,0,0);
         else if (W(obj,0x120)==1)
-            func_02009BB8((void *)GAME_DATA_GetField1A0((void *)ICA_ANIME_GetField1C((void *)W(obj,4))),B(W(obj,0x5c),0x47)-1,0,1,0);
+            func_02009BB8((void *)GAME_DATA_GetWifiList((void *)ICA_ANIME_GetField1C((void *)W(obj,4))),B(W(obj,0x5c),0x47)-1,0,1,0);
         GFL_NET_COMMAND_DeleteCommandTable(0x100);
         *state=11;
         break;

@@ -1,7 +1,7 @@
 /*
  * file:     net_state.c
  * unit:     yes
- * function: GFL_NET_STATE_ChangeState, GFL_NET_STATE_ChangeStateDebug, GFL_NET_STATE_InitWork, GFL_NET_STATE_InitRandom, GFL_NET_STATE_FreeWork, GFL_NET_STATE_DeviceInitialized, GFL_NET_STATE_DeviceInitialize, GFL_NET_STATE_ConnectMacDone, GFL_NET_STATE_ExtendConnectTimer, GFL_NET_STATE_ConnectMac, GFL_NET_STATE_StartConnectMac, GFL_NET_STATE_ConnectMacAddress, GFL_NET_STATE_BeaconScanIdle, GFL_NET_STATE_StartBeaconScan, GFL_NET_STATE_BeaconScan, GFL_NET_STATE_Main, GFL_NET_STATE_ParentConnected, GFL_NET_STATE_ParentWait, GFL_NET_STATE_ParentConnectCallback, GFL_NET_STATE_StartParent, GFL_NET_STATE_ChangeParentWait, GFL_NET_STATE_InitParent, GFL_NET_STATE_GetChildWaitTime, GFL_NET_STATE_GetParentWaitTime, GFL_NET_STATE_ChangeoverConnect, GFL_NET_STATE_ChangeoverWaitDevice, GFL_NET_STATE_ChangeoverStopParent, GFL_NET_STATE_ChangeoverStopParentRetry, GFL_NET_STATE_ChangeoverParentConnectWait, GFL_NET_STATE_ChangeoverParentMain, GFL_NET_STATE_ChangeoverParentRestart, GFL_NET_STATE_ChangeoverParentCallback, GFL_NET_STATE_ChangeoverStartParent, GFL_NET_STATE_ChangeoverChildNegotiation, GFL_NET_STATE_ChildNegotiationWait, GFL_NET_STATE_ParentNegotiationWait, GFL_NET_STATE_ChangeoverChildConnected, GFL_NET_STATE_ChangeoverStopChild, GFL_NET_STATE_ChangeoverChildMain, GFL_NET_STATE_ChangeoverChildScan, GFL_NET_STATE_StartChangeover, GFL_NET_STATE_ChangeoverRestart, GFL_NET_STATE_ChangeChangeoverMode, GFL_NET_STATE_ChangeoverStopChildDevice, GFL_NET_STATE_SetChangeoverMode, GFL_NET_STATE_WaitDisconnect, GFL_NET_STATE_RecvExitCommand, GFL_NET_STATE_IsExitReady, GFL_NET_STATE_ExitWait, GFL_NET_STATE_ExitStopDevice, GFL_NET_STATE_Exit, GFL_NET_STATE_ClearExitFlag, GFL_NET_STATE_Idle, GFL_NET_STATE_EndDevice, GFL_NET_STATE_SetMPMode, GFL_NET_STATE_WifiError, GFL_NET_STATE_WifiLoggedOut, GFL_NET_STATE_WifiFatal, GFL_NET_STATE_WifiErrorWait, GFL_NET_STATE_WifiStopError, GFL_NET_STATE_SetWifiErrorCode, GFL_NET_STATE_WifiLoginMain, GFL_NET_STATE_WifiLoginStart, GFL_NET_STATE_WifiEnterLogin, GFL_NET_STATE_WifiEnterRandomMatch, GFL_NET_STATE_WifiEnterFriendMatch, GFL_NET_STATE_WifiEnterLoginDefault, GFL_NET_STATE_GetWifiState, GFL_NET_STATE_WifiConnected, GFL_NET_STATE_WifiMatchDisconnect, GFL_NET_STATE_WifiDisconnect, GFL_NET_STATE_WifiDisconnectFinal, GFL_NET_STATE_IsWifiDisconnectFinal, GFL_NET_STATE_IsWifiLoginState, GFL_NET_STATE_IsWifiLoginOrConnected, GFL_NET_STATE_WifiLogoutWait, GFL_NET_STATE_WifiLogoutStop, GFL_NET_STATE_WifiLogout, GFL_NET_STATE_WifiMatchWait, GFL_NET_STATE_WifiMatchStart, GFL_NET_STATE_WifiStartMatch, GFL_NET_STATE_SetAutoExit, GFL_NET_STATE_SetLoginOption, GFL_NET_STATE_NoProc, GFL_NET_STATE_SetErrorMode, GFL_NET_STATE_ClearErrorMode, GFL_NET_STATE_GetErrorMode, GFL_NET_STATE_SetError, GFL_NET_STATE_SetWifiError, GFL_NET_STATE_GetError, GFL_NET_STATE_FatalError, GFL_NET_STATE_IsFatalError
+ * function: GFL_NET_STATE_ChangeState, GFL_NET_STATE_ChangeStateDebug, GFL_NET_STATE_InitWork, GFL_NET_STATE_InitRandom, GFL_NET_STATE_FreeWork, GFL_NET_STATE_DeviceInitialized, GFL_NET_STATE_DeviceInitialize, GFL_NET_STATE_ConnectMacDone, GFL_NET_STATE_ExtendConnectTimer, GFL_NET_STATE_ConnectMac, GFL_NET_STATE_StartConnectMac, GFL_NET_STATE_ConnectMacAddress, GFL_NET_STATE_BeaconScanIdle, GFL_NET_STATE_StartBeaconScan, GFL_NET_STATE_BeaconScan, GFL_NET_STATE_Main, GFL_NET_STATE_ParentConnected, GFL_NET_STATE_ParentWait, GFL_NET_STATE_ParentConnectCallback, GFL_NET_STATE_StartParent, GFL_NET_STATE_ChangeParentWait, GFL_NET_STATE_InitParent, GFL_NET_STATE_GetChildWaitTime, GFL_NET_STATE_GetParentWaitTime, GFL_NET_STATE_ChangeoverConnect, GFL_NET_STATE_ChangeoverWaitDevice, GFL_NET_STATE_ChangeoverStopParent, GFL_NET_STATE_ChangeoverStopParentRetry, GFL_NET_STATE_ChangeoverParentConnectWait, GFL_NET_STATE_ChangeoverParentMain, GFL_NET_STATE_ChangeoverParentRestart, GFL_NET_STATE_ChangeoverParentCallback, GFL_NET_STATE_ChangeoverStartParent, GFL_NET_STATE_ChangeoverChildNegotiation, GFL_NET_STATE_ChildNegotiationWait, GFL_NET_STATE_ParentNegotiationWait, GFL_NET_STATE_ChangeoverChildConnected, GFL_NET_STATE_ChangeoverStopChild, GFL_NET_STATE_ChangeoverChildMain, GFL_NET_STATE_ChangeoverChildScan, GFL_NET_STATE_StartChangeover, GFL_NET_STATE_ChangeoverRestart, GFL_NET_STATE_ChangeChangeoverMode, GFL_NET_STATE_ChangeoverStopChildDevice, GFL_NET_STATE_SetChangeoverMode, GFL_NET_STATE_WaitDisconnect, GFL_NET_STATE_RecvExitCommand, GFL_NET_STATE_ExitIfChild, GFL_NET_STATE_ExitWait, GFL_NET_STATE_ExitStopDevice, GFL_NET_STATE_Exit, GFL_NET_STATE_ClearExitFlag, GFL_NET_STATE_Idle, GFL_NET_STATE_EndDevice, GFL_NET_STATE_SetMPMode, GFL_NET_STATE_WifiError, GFL_NET_STATE_WifiLoggedOut, GFL_NET_STATE_WifiFatal, GFL_NET_STATE_WifiErrorWait, GFL_NET_STATE_WifiStopError, GFL_NET_STATE_SetWifiErrorCode, GFL_NET_STATE_WifiLoginMain, GFL_NET_STATE_WifiLoginStart, GFL_NET_STATE_WifiEnterLogin, GFL_NET_STATE_WifiEnterRandomMatch, GFL_NET_STATE_WifiEnterFriendMatch, GFL_NET_STATE_WifiEnterLoginDefault, GFL_NET_STATE_GetWifiState, GFL_NET_STATE_WifiConnected, GFL_NET_STATE_WifiMatchDisconnect, GFL_NET_STATE_WifiDisconnect, GFL_NET_STATE_WifiDisconnectFinal, GFL_NET_STATE_IsWifiDisconnectFinal, GFL_NET_STATE_IsWifiLoginState, GFL_NET_STATE_IsWifiLoginOrConnected, GFL_NET_STATE_WifiLogoutWait, GFL_NET_STATE_WifiLogoutStop, GFL_NET_STATE_WifiLogout, GFL_NET_STATE_WifiMatchWait, GFL_NET_STATE_WifiMatchStart, GFL_NET_STATE_WifiStartMatch, GFL_NET_STATE_SetAutoExit, GFL_NET_STATE_SetLoginOption, GFL_NET_STATE_NoProc, GFL_NET_STATE_SetErrorMode, GFL_NET_STATE_ClearErrorMode, GFL_NET_STATE_GetErrorMode, GFL_NET_STATE_SetError, GFL_NET_STATE_SetWifiError, GFL_NET_STATE_GetError, GFL_NET_STATE_FatalError, GFL_NET_STATE_IsFatalError
  * address:  0x0203AD74
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -69,8 +69,8 @@
  *   GFL_NET_COMMAND_Exit  0x0203A53C  arm
  *   GFL_NET_HANDLE_IsNegotiationDone  0x020399B8  arm
  *   GFL_NET_HANDLE_CheckNegotiation  0x02039ACC  arm
- *   UI_SetFlags39Global  0x0203516C  arm
- *   UI_ClearFlags39Global  0x020351A0  arm
+ *   UI_SetSoftResetInhibitGlobal  0x0203516C  arm
+ *   UI_ClearSoftResetInhibitGlobal  0x020351A0  arm
  */
 
 struct NetStateWork;
@@ -165,9 +165,9 @@ extern void UI_SetKeepAwakeFlagsGlobal(u32 a);
 
 extern void GFL_NET_SYSTEM_SetNoChildError(u8 v);
 
-extern int UI_ClearFlags39Global(u32 v);
+extern int UI_ClearSoftResetInhibitGlobal(u32 v);
 
-extern void UI_SetFlags39Global(u32 a);
+extern void UI_SetSoftResetInhibitGlobal(u32 a);
 
 extern void GFL_NET_SYSTEM_SetNoSend(void);
 
@@ -316,7 +316,7 @@ void GFL_NET_STATE_WaitDisconnect(void);
 
 void GFL_NET_STATE_RecvExitCommand(u32 netID, u32 size, u32 data, u32 work, u32 handle);
 
-u32 GFL_NET_STATE_IsExitReady(void);
+u32 GFL_NET_STATE_ExitIfChild(void);
 
 void GFL_NET_STATE_ExitWait(struct NetStateWork *work);
 
@@ -2620,10 +2620,10 @@ void GFL_NET_STATE_RecvExitCommand(u32 netID, u32 size, u32 data, u32 work, u32 
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GFL_NET_STATE_IsExitReady.c \
- *       --func GFL_NET_STATE_IsExitReady --addr 0x0203BEAC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_STATE_ExitIfChild.c \
+ *       --func GFL_NET_STATE_ExitIfChild --addr 0x0203BEAC --cc 1.1p1 --arm
  */
-u32 GFL_NET_STATE_IsExitReady(void)
+u32 GFL_NET_STATE_ExitIfChild(void)
 {
     u32 result;
 
@@ -3874,7 +3874,7 @@ void GFL_NET_STATE_WifiLogout(u32 exitCallback)
         return;
 
     session = GFL_NET_GetSession();
-    UI_ClearFlags39Global(1);
+    UI_ClearSoftResetInhibitGlobal(1);
     _pNetState->exitCallback = (void (*)(void))exitCallback;
     session->ops->pollDisconnect(1, 0);
 
@@ -4013,7 +4013,7 @@ void GFL_NET_STATE_WifiStartMatch(void)
         return;
 
     GFL_NET_GetInitParam();
-    UI_SetFlags39Global(1);
+    UI_SetSoftResetInhibitGlobal(1);
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_WifiMatchStart, 0, 0x760);
 }
 

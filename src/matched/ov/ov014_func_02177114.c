@@ -11,12 +11,12 @@
  * status: EXACT
  * symbols:
  *   NET_WHPIPE_GetEntryBssid 0x02177B58 thumb ov014
- *   WIH_HasBeaconBeenSent 0x02177C08 thumb ov014
+ *   NET_WHPIPE_HasBeaconBeenSent 0x02177C08 thumb ov014
  */
 typedef unsigned char  u8;
 extern u8 *NET_WHPIPE_GetEntryBssid(int i);
 void *GFL_NET_DEVWIRELESS_GetScanResultMac(int index) { if (index >= 16) return 0; return NET_WHPIPE_GetEntryBssid(index); }
-extern int WIH_HasBeaconBeenSent(void);
+extern int NET_WHPIPE_HasBeaconBeenSent(void);
 int GFL_NET_DEVWIRELESS_UnusedSlot12(void) { return 1; }
 int GFL_NET_DEVWIRELESS_UnusedSlot13(void) { return 1; }
-int GFL_NET_DEVWIRELESS_HasBeaconBeenSent(void) { return WIH_HasBeaconBeenSent(); }
+int GFL_NET_DEVWIRELESS_HasBeaconBeenSent(void) { return NET_WHPIPE_HasBeaconBeenSent(); }

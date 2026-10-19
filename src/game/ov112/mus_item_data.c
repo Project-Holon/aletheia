@@ -1,7 +1,7 @@
 /*
  * file:     mus_item_data.c
  * unit:     yes
- * function: MUSICAL_MCSS_LoadActorData, MUSICAL_MCSS_FreeActorData, MUSICAL_MCSS_GetElemPtr, MUSICAL_MCSS_GetOffset, MUSICAL_MCSS_NoOp6, MUSICAL_MCSS_SetModeA, MUSICAL_MCSS_SetModeB, MUSICAL_MCSS_SetModeC, MUSICAL_MCSS_GetStateA, MUSICAL_MCSS_GetStateB, MUSICAL_MCSS_GetIndex, MUSICAL_MCSS_GetElemA, MUSICAL_MCSS_GetElemB, MUSICAL_MCSS_GetElemC
+ * function: MUSICAL_MCSS_LoadActorData, MUSICAL_MCSS_FreeActorData, MUSICAL_MCSS_GetElemPtr, MUSICAL_MCSS_GetOffset, MUSICAL_MCSS_NoOp6, MUSICAL_MCSS_IsModeSupportedA, MUSICAL_MCSS_IsModeSupportedB, MUSICAL_MCSS_IsModeSupportedC, MUSICAL_MCSS_GetStateA, MUSICAL_MCSS_GetStateB, MUSICAL_MCSS_GetIndex, MUSICAL_MCSS_GetElemA, MUSICAL_MCSS_GetElemB, MUSICAL_MCSS_GetElemC
  * address:  0x021F4F14
  * region:   ov112
  * compiler: dsi/1.1p1
@@ -59,11 +59,11 @@ void MUSICAL_MCSS_GetOffset(u8 *p, McssOffset *out);
 
 int MUSICAL_MCSS_NoOp6(int *p);
 
-int MUSICAL_MCSS_SetModeA(u16 *p, int mode);
+int MUSICAL_MCSS_IsModeSupportedA(u16 *p, int mode);
 
-int MUSICAL_MCSS_SetModeB(u16 *p, int mode);
+int MUSICAL_MCSS_IsModeSupportedB(u16 *p, int mode);
 
-int MUSICAL_MCSS_SetModeC(u8 *p, int mode);
+int MUSICAL_MCSS_IsModeSupportedC(u8 *p, int mode);
 
 int MUSICAL_MCSS_GetStateA(const unsigned char *p);
 
@@ -99,11 +99,11 @@ void MUSICAL_MCSS_GetOffset(u8 *elemData, McssOffset *out)
 }
 
 /*
- * follower: MUSICAL_MCSS_SetModeA filed separately.
+ * follower: MUSICAL_MCSS_IsModeSupportedA filed separately.
  */
 int MUSICAL_MCSS_NoOp6(int *p) { return *p; }
 
-int MUSICAL_MCSS_SetModeA(u16 *p, int mode)
+int MUSICAL_MCSS_IsModeSupportedA(u16 *p, int mode)
 {
     switch (mode) {
     case 0: case 1: if (p[3] & 1) return 1; break;
@@ -118,7 +118,7 @@ int MUSICAL_MCSS_SetModeA(u16 *p, int mode)
     return 0;
 }
 
-int MUSICAL_MCSS_SetModeB(u16 *p, int mode)
+int MUSICAL_MCSS_IsModeSupportedB(u16 *p, int mode)
 {
     switch (mode) {
     case 0: case 1: if (p[3] & 1) return 1; break;
@@ -132,7 +132,7 @@ int MUSICAL_MCSS_SetModeB(u16 *p, int mode)
     return 0;
 }
 
-int MUSICAL_MCSS_SetModeC(u8 *p, int mode)
+int MUSICAL_MCSS_IsModeSupportedC(u8 *p, int mode)
 {
     switch (mode) {
     case 0: case 1: if (p[8] == 0) return 1; break;

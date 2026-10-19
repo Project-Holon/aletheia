@@ -30,7 +30,7 @@
  *   BTL_MAIN_GetCommPos 0x021B86C0 thumb ov093
  *   BTL_ADAPTER_GetSendBuffer  0x021EEB64  thumb  ov093
  *   BTL_MAIN_CheckShiftModePrompt  0x021B85A8  thumb  ov093
- *   BTL_CALC_ActionGetKind  0x021D8454  thumb  ov093
+ *   BTL_ACTION_GetKind  0x021D8454  thumb  ov093
  *   BTL_REC_MakeResetPacket  0x021EE9A4  thumb  ov093
  *   BTL_MAIN_GetWinBgm  0x021B86DC  thumb  ov093
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
@@ -99,7 +99,7 @@ extern void BTL_ADAPTER_Delete(void *p);
 extern u8 BTL_MAIN_GetCommPos(struct BtlMain *main);
 extern void *BTL_ADAPTER_GetSendBuffer(void *adapter, u32 *out);
 extern int BTL_MAIN_CheckShiftModePrompt(struct BtlMain *main);
-extern u32 BTL_CALC_ActionGetKind(Action *);
+extern u32 BTL_ACTION_GetKind(Action *);
 extern u8 *BTL_REC_MakeResetPacket(u8 *p, unsigned int *out);
 extern u16 BTL_MAIN_GetWinBgm(struct BtlMain *main);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32, u32);
@@ -599,7 +599,7 @@ u32 BTL_SERVER_GetShiftPromptMon(BtlServer *server)
     Action *action;
     if (BTL_SERVER_IsClientSlotUsed(client) != 0) {
         action = BTL_ADAPTER_GetSendBuffer(client->adapter, 0);
-        if (BTL_CALC_ActionGetKind(action) == 3) {
+        if (BTL_ACTION_GetKind(action) == 3) {
             u8 *party = BTL_SIDE_GetClientPoke(server->partyTable, 1, action->small.move);
             return BTL_POKEPARAM_GetPokeId(party);
         }

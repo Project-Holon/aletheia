@@ -1,5 +1,5 @@
 /*
- * function: BOX2_MAIN_GetBoxFormId
+ * function: BOX2_MAIN_GetBoxWallpaper
  * address:  0x021DEDCC
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -19,7 +19,7 @@
 
 extern unsigned char func_0200781C(int save, unsigned int box);
 
-int BOX2_MAIN_GetBoxFormId(char *p, int box)
+int BOX2_MAIN_GetBoxWallpaper(char *p, int box)
 {
     return func_0200781C(((struct Obj18456 *)(*(char * *)&((struct Obj18455 *)p)->f0))->f4, box);
 }

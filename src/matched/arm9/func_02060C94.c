@@ -11,8 +11,8 @@
  * status:   EXACT
  *
  * symbols:
- *   FNDHEAP_Finalize  0x0206074C  arm
+ *   NNSi_FndFinalizeHeap  0x0206074C  arm
  */
 
-extern void FNDHEAP_Finalize(void *heap);
-void NNSi_FndDestroyExpHeap(void *heap){ FNDHEAP_Finalize(heap); }
+extern void NNSi_FndFinalizeHeap(void *heap);
+void NNSi_FndDestroyExpHeap(void *heap){ NNSi_FndFinalizeHeap(heap); }

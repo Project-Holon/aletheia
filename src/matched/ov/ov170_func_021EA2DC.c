@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb
+ *   BOX2_MAIN_RefreshCurrentBoxMonInfo 0x021DEFEC thumb
  *   BOX2_MAIN_GetPartyValueAt 0x021DD25C thumb
  *   BOX2_SEQ_SetActorAnim 0x021EA878 thumb
  *   BOX2_UI_CloseListPack 0x021EF534 thumb
@@ -23,9 +23,9 @@
  *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
  *   BOX2_SEQ_SetState 0x021E8FE0 thumb
  *   BOX2_SEQ_SetSeqThird 0x021E8FC0 thumb
- *   BOX2_MAIN_Check0A40 0x021E0A40 thumb
+ *   BOX2_MAIN_StateMachineShowHandScroll 0x021E0A40 thumb
  *   BOX2_MAIN_RefreshCursorBox  0x021DD14C  thumb
- *   BOX2_MAIN_StateMachineCoin  0x021E0ABC  thumb
+ *   BOX2_MAIN_StateMachineDrag  0x021E0ABC  thumb
  *   BOX2_SEQ_CreateB  0x021EA728  thumb
  *   BOX2_SEQ_ShowWindowObject  0x021EBA5C  thumb
  *   BOX2_SEQ_GetActorDrawEnable  0x021EC01C  thumb
@@ -80,12 +80,12 @@ extern void BOX2_UI_ResetSlotFrames(struct WinMgr *mgr);
 extern void BOX2_UI_CloseListPack(struct WinMgr *mgr);
 extern void BOX2_SEQ_CreateB(void *p);
 extern void BOX2_SEQ_SetActorAnim(Obj *p, int v);
-extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
+extern void BOX2_MAIN_RefreshCurrentBoxMonInfo(char *p, int b);
 extern u8 CURSOR_MOVE_GetCurrent(struct Sound *obj);
 extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 extern void BOX2_UI_MoveCursorBetweenIcons(char *w, int k, int v);
-extern int BOX2_MAIN_StateMachineCoin(unsigned char *p);
-extern int BOX2_MAIN_Check0A40(char *p);
+extern int BOX2_MAIN_StateMachineDrag(unsigned char *p);
+extern int BOX2_MAIN_StateMachineShowHandScroll(char *p);
 
 #define OBJ(p) (*(void **)((p)->work + 0x70))
 #define MGR(p) (*(struct WinMgr **)((p)->work + 0x74))
@@ -96,7 +96,7 @@ int BOX2_SEQ_SetCursorMove(Obj *p, int i)
     p->b16 = i;
     p->b17 = p->b14;
     p->work[0xA172] = 1;
-    BOX2_MAIN_ChangeBoxFormPreserve((char *)p, p->b16);
+    BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p, p->b16);
     CNT(p) = BOX2_MAIN_GetPartyValueAt((void ***)p, p->b16, p->b14, 6, 0);
     BOX2_SEQ_SetActorAnim(p, (short)CNT(p));
     BOX2_UI_CloseListPack(MGR(p));
@@ -111,5 +111,5 @@ int BOX2_SEQ_SetCursorMove(Obj *p, int i)
         BOX2_UI_MoveCursorBetweenIcons(p->work, 0x25, CURSOR_MOVE_GetCurrent(OBJ(p)));
         CURSOR_MOVE_SetCurrent(OBJ(p), 0x25);
     }
-    return BOX2_SEQ_SetSeqThird((char *)p, (int)BOX2_MAIN_Check0A40, BOX2_SEQ_SetState((char *)p, 0x39));
+    return BOX2_SEQ_SetSeqThird((char *)p, (int)BOX2_MAIN_StateMachineShowHandScroll, BOX2_SEQ_SetState((char *)p, 0x39));
 }

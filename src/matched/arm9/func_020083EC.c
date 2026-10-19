@@ -1,5 +1,5 @@
 /*
- * function: CONFIG_SetAppliedFlag
+ * function: CONFIG_SetTextLanguage
  * address:  0x020083EC
  * packet:   pkt_020083EC
  * region:   arm9
@@ -14,13 +14,13 @@
  * Mask pool word 0xFFFFFEFF, tail-target pool word 0x020461D4.
  *
  * symbols:
- *   CONFIG_SetAppliedFlag  0x020083EC  thumb
+ *   CONFIG_SetTextLanguage  0x020083EC  thumb
  *   func_020461D4  0x020461D4  arm
  */
 
 extern void func_020461D4(unsigned char);
 
-void CONFIG_SetAppliedFlag(unsigned short *p, unsigned int v)
+void CONFIG_SetTextLanguage(unsigned short *p, unsigned int v)
 {
     unsigned short w = (unsigned short)v;
 

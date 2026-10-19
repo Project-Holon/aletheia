@@ -31,7 +31,7 @@
  *   TOWNMAP_BackButtonInit  0x021B9E38  thumb  ov072
  *   TOWNMAP_GRH_GetActor  0x021BB784  thumb  ov072
  *   TOWNMAP_GRH_InitLabel  0x021BB4B4  thumb  ov072
- *   BG_SYS_FillScrollArea  0x02040618  arm
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm
  *   TOWNMAP_MapInit  0x021BA490  thumb  ov072
  *   TOWNMAP_CursorInit  0x021BA04C  thumb  ov072
  *   TOWNMAP_MapFindTownById  0x021BA7F8  thumb  ov072
@@ -94,7 +94,7 @@ extern unsigned int TOWNMAP_GRH_GetHandle(char *p, int n);
 extern void TOWNMAP_BackButtonInit(u32 *o, u32 a1, u32 a2, u8 a3, u8 s0, u8 s1, u32 s2, u16 heap);
 extern unsigned int TOWNMAP_GRH_GetActor(char *p, int n);
 extern void TOWNMAP_GRH_InitLabel(u32 *p, u32 a, u32 b, u32 c, u32 d, u16 e);
-extern void BG_SYS_FillScrollArea(u32 a, u32 b, u32 c);
+extern void BG_SYS_ChangeScrollImmediate(u32 a, u32 b, u32 c);
 extern void TOWNMAP_MapInit(void *p, u16 x, u16 y, int a, u32 b, u32 c, int heap, int flag);
 extern void TOWNMAP_CursorInit(void *p, u32 a, u32 b, int heap);
 extern void *TOWNMAP_MapFindTownById(char *p, u32 b, int y);
@@ -143,7 +143,7 @@ int TOWNMAP_Create(void *a, void *b, Arg *c)
     }
     TOWNMAP_BackButtonInit((u32 *)(o + 0x14), (*(Arg * *)&((struct Obj00433 *)o)->f130)->f0, TOWNMAP_GRH_GetHandle((char *)(*(u32 *)&((struct Obj00433 *)o)->f0), 0), TOWNMAP_GRH_GetBgId(*(u32 *)&((struct Obj00433 *)o)->f0, 0), 0xf, 8, v, 0x44);
     TOWNMAP_GRH_InitLabel((u32 *)(o + 0xd4), TOWNMAP_GRH_GetBgId(*(u32 *)&((struct Obj00433 *)o)->f0, 1), *(int *)&((struct Obj00433 *)o)->f124, ((struct Obj00433 *)o)->f128, TOWNMAP_GRH_GetActor((char *)(*(u32 *)&((struct Obj00433 *)o)->f0), 0), 0x44);
-    BG_SYS_FillScrollArea(TOWNMAP_GRH_GetBgId(*(u32 *)&((struct Obj00433 *)o)->f0, 1), 3, -4);
+    BG_SYS_ChangeScrollImmediate(TOWNMAP_GRH_GetBgId(*(u32 *)&((struct Obj00433 *)o)->f0, 1), 3, -4);
     TOWNMAP_MapInit(o + 0x50, c->f8, c->fA, ((struct Obj00433 *)o)->f34, *(u32 *)&((struct Obj00433 *)o)->f0, (u32)ICA_ANIME_GetField1C((const struct Ctx *)((*(u32 **)(o + 0x130))[5])), 0x44, flag);
     TOWNMAP_CursorInit(o + 0x38, TOWNMAP_GRH_GetActor((char *)(*(u32 *)&((struct Obj00433 *)o)->f0), 1), TOWNMAP_GRH_GetActor((char *)(*(u32 *)&((struct Obj00433 *)o)->f0), 2), 0x44);
     e = (int)TOWNMAP_MapFindTownById((char *)(o + 0x50), c->f8, c->fA);

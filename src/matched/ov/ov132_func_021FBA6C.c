@@ -28,12 +28,12 @@
  *   PARTICLE_DeleteSystem 0x02050DB8 arm
  *   PARTICLE_StartEffect 0x020515B4 arm
  *   PARTICLE_KillEffect  0x02051630  arm
- *   BUTTON_MAN_SetEmitterPos  0x02051838  arm
+ *   PARTICLE_EMITTER_SetEmitPos  0x02051838  arm
  *   d_021FDCC4 0x021FDCC4 data a4
  *   STA_ACTING_GetCameraPos 0x021F9DFC thumb ov132
  *   func_02005728 0x02005728 thumb
  *   MUSICAL_PROGRAM_GetCategoryBonus 0x0215725C thumb ov010
- *   STA_ACTING_GetCameraTarget 0x021F9E04 thumb ov132
+ *   STA_ACTING_GetCameraScrollX 0x021F9E04 thumb ov132
  *   STA_ACTING_GetActorSystem 0x021F9DA0 thumb ov132
  *   STA_ACTING_GetActor 0x021F9DA4 thumb ov132
  *   STA_ACTING_GetCharSystem 0x021F9DD4 thumb ov132
@@ -48,7 +48,7 @@
  *   BG_SYS_SetTileEntry 0x02041300 arm
  *   func_02041B6C 0x02041B6C arm
  *   d_021FDC16 0x021FDC16 data a2
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   d_021FDCD8 0x021FDCD8 data a4
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
@@ -111,9 +111,9 @@
  *   STA_ACTING_PlayRankSe 0x021F96D0 thumb ov132
  *   STA_ACTING_SetCameraPos 0x021F9E00 thumb ov132
  *   STA_ACTING_SetCameraTarget 0x021F9E08 thumb ov132
- *   STA_ACTING_ShowAnim  0x021F9D80  thumb
+ *   STA_ACTING_ShowButton  0x021F9D80  thumb
  *   STA_ACTING_ScheduleActions  0x021F9AD8  thumb
- *   STA_ACTING_HideAnim  0x021F9D90  thumb
+ *   STA_ACTING_HideButton  0x021F9D90  thumb
  *   STA_ACT_LIGHT_SetSlotVisible 0x021F80D4 thumb ov112
  *   STA_ACT_LIGHT_SetActorFlagB 0x021F812C thumb ov112
  *   STA_ACT_LIGHT_SetActorPos 0x021F8054 thumb ov112
@@ -134,7 +134,7 @@
  *   func_0209C0A4  0x0209C0A4  arm
  *   STA_ACTING_GetRecordScore 0x021F9E20 thumb ov132
  *   STA_ACTING_GetBonus 0x021F9E34 thumb ov132
- *   STA_ACTING_SetField10 0x021F9E3C thumb ov132
+ *   STA_ACTING_SetCameraHoldScore 0x021F9E3C thumb ov132
  *   _s32_to_float 0x0209BDBC arm
  *   func_0209C494 0x0209C494 arm
  *   func_0209CB8C 0x0209CB8C arm
@@ -147,7 +147,7 @@
  *   STA_ACT_LIGHT_SetElemVisible 0x021F6BC0 thumb ov112
  *   STA_ACT_OBJ_SetEntryTarget 0x021F6B9C thumb ov112
  *   STA_ACT_OBJ_GetEntryTarget 0x021F6BB0 thumb ov112
- *   STA_ACTING_GetAnimHandle 0x021F9DC0 thumb ov132
+ *   STA_ACTING_GetEffectSystem 0x021F9DC0 thumb ov132
  *   STA_ACTING_SetAnimSlot 0x021F9DCC thumb ov132
  *   STA_ACTING_GetAnimSlot 0x021F9DC4 thumb ov132
  *   STA_ACT_LIGHT_CreateActor 0x021F6E78 thumb ov112
@@ -157,7 +157,7 @@
  *   STA_ACTING_MarkDirty 0x021F95E8 thumb ov132
  *   STA_ACT_LIGHT_DeleteActor 0x021F6EE4 thumb ov112
  *   STA_ACT_LIGHT_CopyElemA 0x021F6EF4 thumb ov112
- *   STA_ACTING_GetBoard 0x021F9DF4 thumb ov132
+ *   STA_ACTING_GetAudience 0x021F9DF4 thumb ov132
  *   STA_ACTING_PrintText 0x021F93D8 thumb ov132
  *   STA_ACTING_ClearText  0x021F94B0  thumb
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
@@ -209,7 +209,7 @@
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   MI_CpuCopy8 0x02082D44 arm
  *   func_020084BC 0x020084BC thumb
- *   STA_ACT_EFFECT_SetSceneField14  0x021F9E40  thumb  ov132
+ *   STA_ACTING_SetCameraHoldScript  0x021F9E40  thumb  ov132
  *   STA_ACT_SCRIPT_AddTask  0x021FADA0  thumb  ov132
  *   SCRIPT_COMMAND_TaskCameraTarget  0x021FB190  thumb  ov132
  *   SCRIPT_COMMAND_TaskActorMove  0x021FB528  thumb  ov132
@@ -218,7 +218,7 @@
  *   GAME_COMM_Start  0x020263D8  thumb  arm9
  *   ICA_ANIME_GetField1C  0x020120F4  thumb  arm9
  *   STA_ACT_LIGHT_SetActorAngle  0x021F8068  thumb  ov112
- *   STA_ACT_EFFECT_GetSceneOwner  0x021F9E44  thumb
+ *   STA_ACTING_GetElapsedTicks  0x021F9E44  thumb
  *   STA_ACT_EFFECT_Noop  0x021F9E4C  thumb
  *   STA_ACT_EFFECT_Create  0x021F9E50  thumb
  *   STA_ACT_EFFECT_Delete  0x021F9E94  thumb
@@ -273,8 +273,8 @@
  *   SCRIPT_COMMAND_TaskCameraPos  0x021FB0DC  thumb
  *   SCRIPT_COMMAND_CmdSetCameraTarget  0x021FB104  thumb
  *   SCRIPT_COMMAND_CmdSkipArg  0x021FB1C0  thumb
- *   SCRIPT_COMMAND_CmdShowAnim  0x021FB1CC  thumb
- *   SCRIPT_COMMAND_CmdHideAnim  0x021FB1E4  thumb
+ *   SCRIPT_COMMAND_CmdShowButton  0x021FB1CC  thumb
+ *   SCRIPT_COMMAND_CmdHideButton  0x021FB1E4  thumb
  *   SCRIPT_COMMAND_GetActorMask  0x021FB1F4  thumb
  *   SCRIPT_COMMAND_CmdSetActorFrame  0x021FB208  thumb
  *   SCRIPT_COMMAND_CmdSetActorVisible  0x021FB258  thumb
@@ -488,11 +488,11 @@ extern void PARTICLE_KillAllEffects(u32);
 extern void PARTICLE_DeleteSystem(u8 *p);
 extern int PARTICLE_StartEffect(void *p, int b, int c);
 extern void PARTICLE_KillEffect(void **p, void *q);
-extern void BUTTON_MAN_SetEmitterPos(void *, int);
+extern void PARTICLE_EMITTER_SetEmitPos(void *, int);
 extern u16 STA_ACTING_GetCameraPos(void *p);
 extern unsigned func_02005728(unsigned);
 extern u8 MUSICAL_PROGRAM_GetCategoryBonus(u8 *, int);
-extern u16 STA_ACTING_GetCameraTarget(u8 *p);
+extern u16 STA_ACTING_GetCameraScrollX(u8 *p);
 extern void *STA_ACTING_GetActorSystem(char *p);
 extern void *STA_ACTING_GetActor(char *p, u32 i);
 extern void *STA_ACTING_GetCharSystem(void *);
@@ -501,7 +501,7 @@ extern void STA_ACT_LIGHT_CopyActorPos(void *unused, u32 *p, u32 *q);
 extern void STA_ACT_LIGHT_GetElemPos(void *,char *,Vec *);
 extern void BG_SYS_SetTileEntry(u32,u16,u8,u8,u8,u8,u8);
 extern void func_02041B6C(u32);
-extern void BG_SYS_FillScrollArea(unsigned, unsigned, unsigned);
+extern void BG_SYS_ChangeScrollImmediate(unsigned, unsigned, unsigned);
 extern void CLACT_DeleteActor(struct Obj_021F9E40 *p);
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
@@ -555,9 +555,9 @@ extern u32 VM_GetU32(struct Cursor *p);
 extern void STA_ACTING_PlayRankSe(char *p);
 extern void STA_ACTING_SetCameraPos(void *, u16);
 extern void STA_ACTING_SetCameraTarget(u8 *p, u16 v);
-extern void STA_ACTING_ShowAnim(char *p);
+extern void STA_ACTING_ShowButton(char *p);
 extern void STA_ACTING_ScheduleActions(char *p, int mode, u8 slot);
-extern void STA_ACTING_HideAnim(char *p);
+extern void STA_ACTING_HideButton(char *p);
 extern void STA_ACT_LIGHT_SetSlotVisible(char *, char *, int);
 extern int STA_ACT_LIGHT_SetActorFlagB(int unused, int *p, int flag);
 extern void STA_ACT_LIGHT_SetActorPos(void *unused, u32 *p, const u32 *q);
@@ -576,7 +576,7 @@ extern int func_0209C0A4();
 extern void STA_ACT_LIGHT_SetActorAngle(int self, char *p, u16 v);
 extern u16 STA_ACTING_GetRecordScore(char *p, u32 i);
 extern u16 STA_ACTING_GetBonus(char *p, u32 i);
-extern void STA_ACTING_SetField10(char *p, u32 v);
+extern void STA_ACTING_SetCameraHoldScore(char *p, u32 v);
 extern int _s32_to_float(int a);
 extern u32 func_0209C494(u32 a);
 extern u32 func_0209CB8C(u32 a, u32 b);
@@ -589,7 +589,7 @@ extern void STA_ACT_OBJ_FreeEntry(unsigned int *,unsigned int *);
 extern void STA_ACT_LIGHT_SetElemVisible(char *,unsigned int *,unsigned int);
 extern void STA_ACT_OBJ_SetEntryTarget(void *,u32 *,u32 *);
 extern void STA_ACT_OBJ_GetEntryTarget(void *,u32 *,u32 *);
-extern void *STA_ACTING_GetAnimHandle(void *p);
+extern void *STA_ACTING_GetEffectSystem(void *p);
 extern void STA_ACTING_SetAnimSlot(void *p, void *v, u32 i);
 extern void *STA_ACTING_GetAnimSlot(void *,u8);
 extern u8 *STA_ACT_LIGHT_CreateActor(u8 *p, int v);
@@ -599,7 +599,7 @@ extern void STA_ACTING_SetCharSlot(void *,void *,u8);
 extern void STA_ACTING_MarkDirty(char *p);
 extern void STA_ACT_LIGHT_DeleteActor(void *,u8 *);
 extern void STA_ACT_LIGHT_CopyElemA(void *unused, u32 *p, const u32 *q);
-extern void *STA_ACTING_GetBoard(void *p);
+extern void *STA_ACTING_GetAudience(void *p);
 extern void STA_ACTING_PrintText(u8 *,u16,u32);
 extern void STA_ACTING_ClearText(u8 *p);
 extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
@@ -650,8 +650,8 @@ extern struct Entry *GFL_NET_HANDLE_GetNetHandle(int);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void MI_CpuCopy8(void *,void *,u32);
 extern int func_020084BC(const u16 *values);
-void STA_ACT_EFFECT_SetSceneField14(u8 *p,u32 v);
-u32 STA_ACT_EFFECT_GetSceneOwner(u8 *p);
+void STA_ACTING_SetCameraHoldScript(u8 *p,u32 v);
+u32 STA_ACTING_GetElapsedTicks(u8 *p);
 void STA_ACT_EFFECT_Noop(u8 *a0);
 char *STA_ACT_EFFECT_Create(unsigned heap);
 void STA_ACT_EFFECT_Delete(u8 *p);
@@ -708,8 +708,8 @@ void SCRIPT_COMMAND_TaskCameraPos(void *unused, char *p);
 int SCRIPT_COMMAND_CmdSetCameraTarget(void *unused, char *ctx);
 void SCRIPT_COMMAND_TaskCameraTarget(void *unused, char *p);
 int SCRIPT_COMMAND_CmdSkipArg(void *unused,char *p);
-int SCRIPT_COMMAND_CmdShowAnim(int a, char **pp);
-int SCRIPT_COMMAND_CmdHideAnim(void *a, void **pp);
+int SCRIPT_COMMAND_CmdShowButton(int a, char **pp);
+int SCRIPT_COMMAND_CmdHideButton(void *a, void **pp);
 int SCRIPT_COMMAND_GetActorMask(char *p, int i);
 int SCRIPT_COMMAND_CmdSetActorFrame(int unused, char *p);
 int SCRIPT_COMMAND_CmdSetActorVisible(int unused, char *p);
@@ -896,15 +896,15 @@ int SCRIPT_COMMAND_CmdCompareScores(int unused, Msg *m)
         c->f10 = o;
         c->f00 = o->f34;
         c->f0E = 0;
-        c->f04 = STA_ACTING_GetCameraTarget((u8 *)o->f34);
+        c->f04 = STA_ACTING_GetCameraScrollX((u8 *)o->f34);
         f = _s32_to_float((int)total / 4);
         f = func_0209CE10(f, 0x45800000);
         f = func_0209CB8C(f, 0x43000000);
         c->f08 = func_0209C494(f);
         c->f0C = x;
         c->f14 = STA_ACT_SCRIPT_AddTask((char *)o, (u32)SCRIPT_COMMAND_TaskCameraTarget, (u32)c, 10);
-        STA_ACT_EFFECT_SetSceneField14((u8 *)o->f34, 1);
-        STA_ACTING_SetField10(o->f34, 1);
+        STA_ACTING_SetCameraHoldScript((u8 *)o->f34, 1);
+        STA_ACTING_SetCameraHoldScore(o->f34, 1);
         if (y == 1) {
             m->f14 = x;
             return 1;

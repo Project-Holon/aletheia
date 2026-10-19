@@ -25,7 +25,7 @@
  *   PRINTSYS_PrintColor  0x0201C7D0  thumb  arm9
  *   GF_FONT_Create  0x0201D7EC  thumb  arm9
  *   WORDSET_CreateDefault  0x0201EC64  thumb  arm9
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
+ *   WORDSET_Delete  0x0201ED04  thumb  arm9
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
  *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
  */
@@ -56,7 +56,7 @@ extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c,
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 struct Strbuf;
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
@@ -87,7 +87,7 @@ void MUSICAL_MCSS_DrawLabel(u8 *p)
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(((struct Obj00669 *)p)->f54),0,0,buf,((struct Obj00669 *)p)->f5C,3424);
     STRBUF_Delete(buf);
     STRBUF_Delete(b);
-    WORDSET_DeleteStrbufED04(t);
+    WORDSET_Delete(t);
     MSGDATA_Delete(f);
     buf=STRBUF_Create(37,((struct Obj00669 *)p)->f0);
     STRBUF_SetString(buf,(const u16 *)(*(u8 * *)&((struct Obj00669 *)p)->f4+356));

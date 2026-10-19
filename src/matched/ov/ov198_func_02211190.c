@@ -15,7 +15,7 @@
  *   B_PLIST_MAIN_IsIndexInParty 0x02210F98 thumb ov198
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
- *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
+ *   WORDSET_SetSlotMonNickname 0x0201EEF4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  */
 #include "../include/Obj01431.h"
@@ -32,7 +32,7 @@ struct WordSet;
 extern unsigned B_PLIST_MAIN_IsIndexInParty(u8 *p, int index);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonNickname(struct WordSet *p, u32 i, void *mon);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 int B_PLIST_MAIN_PrintRowMessage(u8 *p)
 {
@@ -52,21 +52,21 @@ int B_PLIST_MAIN_PrintRowMessage(u8 *p)
             text = func_02045EC0(((struct Obj01431 *)p)->f1EA0, 0x6b);
         else
             text = func_02045EC0(((struct Obj01431 *)p)->f1EA0, 0x6a);
-        WORDSET_SetSlotMonSpecies(((struct Obj01431 *)p)->f1EA4, 0, ((struct Obj08366 *)row)->f0);
+        WORDSET_SetSlotMonNickname(((struct Obj01431 *)p)->f1EA4, 0, ((struct Obj08366 *)row)->f0);
         WORDSET_CopyTaggedText(((struct Obj01431 *)p)->f1EA4, ((struct Obj01431 *)p)->f1EA8, text);
         STRBUF_Delete(text);
         return 0;
     }
     if (B_PLIST_MAIN_IsIndexInParty(p, (*(u8 **)p)[0x20]) == 1) {
         text = func_02045EC0(((struct Obj01431 *)p)->f1EA0, 0x56);
-        WORDSET_SetSlotMonSpecies(((struct Obj01431 *)p)->f1EA4, 0, ((struct Obj08366 *)row)->f0);
+        WORDSET_SetSlotMonNickname(((struct Obj01431 *)p)->f1EA4, 0, ((struct Obj08366 *)row)->f0);
         WORDSET_CopyTaggedText(((struct Obj01431 *)p)->f1EA4, ((struct Obj01431 *)p)->f1EA8, text);
         STRBUF_Delete(text);
         return 0;
     }
     if (((struct Obj08366 *)row)->f10 != 0) {
         text = func_02045EC0(((struct Obj01431 *)p)->f1EA0, 0x56);
-        WORDSET_SetSlotMonSpecies(((struct Obj01431 *)p)->f1EA4, 0, ((struct Obj08366 *)row)->f0);
+        WORDSET_SetSlotMonNickname(((struct Obj01431 *)p)->f1EA4, 0, ((struct Obj08366 *)row)->f0);
         WORDSET_CopyTaggedText(((struct Obj01431 *)p)->f1EA4, ((struct Obj01431 *)p)->f1EA8, text);
         STRBUF_Delete(text);
         return 0;

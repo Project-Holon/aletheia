@@ -27,7 +27,7 @@
  *   func_0207D63C 0x0207D63C arm
  *   GFL_USE_AddHBlankTask 0x02005624 thumb
  *   WIFILOGIN_DISP_ScanlineEffect 0x021D58B4 thumb ov115
- *   PMSI_PARAM_MakeSineTable 0x02024230 thumb
+ *   FX_MakeSineTable 0x02024230 thumb
  */
 #include "../include/Obj00198.h"
 typedef unsigned char u8;
@@ -51,7 +51,7 @@ extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
 extern void func_0207D63C(void *,int,int,int,int);
 extern void *GFL_USE_AddHBlankTask(u32,u32,u32);
 extern void WIFILOGIN_DISP_ScanlineEffect(void *,u8 *);
-extern void PMSI_PARAM_MakeSineTable(s16 *,u32,u16,int);
+extern void FX_MakeSineTable(s16 *,u32,u16,int);
 
 void WIFILOGIN_DISP_CreateActors(u8 *p)
 {
@@ -85,6 +85,6 @@ void WIFILOGIN_DISP_CreateActors(u8 *p)
     func_0207D63C((void *)0x04000050,4,3,6,16);
     func_0207D63C((void *)0x04001050,8,21,6,16);
     ((struct Obj00198 *)p)->f988 = GFL_USE_AddHBlankTask((u32)WIFILOGIN_DISP_ScanlineEffect,(u32)p,0);
-    PMSI_PARAM_MakeSineTable((s16 *)(p+0x9ca),192,1456,6144);
+    FX_MakeSineTable((s16 *)(p+0x9ca),192,1456,6144);
     ((struct Obj00198 *)p)->fB4A = 10;
 }

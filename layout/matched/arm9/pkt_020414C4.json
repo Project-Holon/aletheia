@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BG_SYS_SetFlagField06",
+   "name": "BG_SYS_MarkTileDirty",
    "address": "0x02041B6C",
    "kind": "game",
    "region": "arm9",

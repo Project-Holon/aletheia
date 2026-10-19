@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   BG_SYS_SetTileUnit  0x02040DA8  arm
+ *   BG_SYS_FreeTiles  0x02040DA8  arm
  *   BG_SYS_FreeSlot  0x020414AC  arm
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   BMP_WIN_Exit  0x020450C8  arm
@@ -26,7 +26,7 @@ typedef unsigned int  u32;
 
 extern struct Ent sTownMapGrhBgTable[];
 
-extern void BG_SYS_SetTileUnit(u32 a, u32 b, u32 c);
+extern void BG_SYS_FreeTiles(u32 a, u32 b, u32 c);
 extern void BG_SYS_FreeSlot(u8 a);
 extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BMP_WIN_Exit(void);
@@ -38,7 +38,7 @@ void TOWNMAP_GRH_ExitBgLayers(void *p)
     int i;
     u32 id;
 
-    BG_SYS_SetTileUnit(1, 1, 0);
+    BG_SYS_FreeTiles(1, 1, 0);
     for (i = 0; i < 7; i++) {
         id = sTownMapGrhBgTable[i].id;
         BG_SYS_FreeSlot(id);

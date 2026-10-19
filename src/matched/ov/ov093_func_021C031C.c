@@ -1,5 +1,5 @@
 /*
- * function: BTL_SERVER_FLOW_CheckParalysisFail
+ * function: BTL_SERVER_FLOW_CheckConfusionFail
  * address:  0x021C031C
  * packet:   pkt_ov093_021C031C
  * region:   ov093
@@ -13,7 +13,7 @@
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   BTL_SERVER_CMD_PushVariable  0x021CD64C  thumb  ov093
  *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
- *   BTL_POKEPARAM_TickSlot6Turn  0x021D61A8  thumb  ov093
+ *   BTL_POKEPARAM_TickConfusionTurn  0x021D61A8  thumb  ov093
  *   BTL_SERVER_FLOW_CureSick  0x021C5620  thumb  ov093
  *   BTL_SERVER_FLOW_PushConfusionMessage  0x021C54C8  thumb  ov093
  *   BTL_CALC_RollPercent  0x021D7AF0  thumb  ov093
@@ -28,11 +28,11 @@ extern void BTL_SERVER_CMD_PushVariable(void *w, u8 id, ...);
 struct Unk021D62A8;
 struct UtilSlots;
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
-extern int BTL_POKEPARAM_TickSlot6Turn(struct UtilSlots *p);
+extern int BTL_POKEPARAM_TickConfusionTurn(struct UtilSlots *p);
 extern void BTL_SERVER_FLOW_CureSick(u8 *p, u8 *a, int k, struct Slot *out);
 extern void BTL_SERVER_FLOW_PushConfusionMessage(u8 *p, u8 *a);
 extern int BTL_CALC_RollPercent(u32 pct);
-int BTL_SERVER_FLOW_CheckParalysisFail(u8 *p, u8 *a)
+int BTL_SERVER_FLOW_CheckConfusionFail(u8 *p, u8 *a)
 {
     int k = 6;
     if (((struct Obj04359 *)p)->f1F78 == 3) {
@@ -40,7 +40,7 @@ int BTL_SERVER_FLOW_CheckParalysisFail(u8 *p, u8 *a)
         return 1;
     }
     if (BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)a, k) != 0) {
-        if (BTL_POKEPARAM_TickSlot6Turn((struct UtilSlots *)a) != 0) {
+        if (BTL_POKEPARAM_TickConfusionTurn((struct UtilSlots *)a) != 0) {
             BTL_SERVER_FLOW_CureSick(p, a, k, 0);
             BTL_SERVER_CMD_PushVariable(((struct Obj04359 *)p)->fC, 0x5b, 0x15f, BTL_POKEPARAM_GetPokeId(a), 0xffff0000);
             return 0;

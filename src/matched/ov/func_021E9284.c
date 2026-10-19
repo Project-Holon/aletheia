@@ -1,5 +1,5 @@
 /*
- * function: BOX2_SEQ_StatePlayCry
+ * function: BOX2_SEQ_StateExitBoxWithSe
  * address:  0x021E9284
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   BOX2_MAIN_PlayMonCry  0x021DE898  thumb  ov170
+ *   BOX2_MAIN_ClearPerapVoiceIfNoChatot  0x021DE898  thumb  ov170
  *   BOX2_SEQ_StartWipeBlack  0x021E8F90  thumb  ov170
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  *
@@ -22,12 +22,12 @@
 
 typedef unsigned int   u32;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void BOX2_MAIN_PlayMonCry(int *q);
+extern void BOX2_MAIN_ClearPerapVoiceIfNoChatot(int *q);
 extern int BOX2_SEQ_StartWipeBlack(void *p, int a);
-int BOX2_SEQ_StatePlayCry(char *p)
+int BOX2_SEQ_StateExitBoxWithSe(char *p)
 {
     GFL_USE_PlaySeDefaultVolume(0x55D);
-    BOX2_MAIN_PlayMonCry((int *)p);
+    BOX2_MAIN_ClearPerapVoiceIfNoChatot((int *)p);
     ((struct Obj18472 *)p)->f28 = 0x69;
     return BOX2_SEQ_StartWipeBlack(p, 1);
 }

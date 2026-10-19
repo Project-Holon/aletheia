@@ -27,7 +27,7 @@
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   P_STATUS_PrintWordSetMsgRight 0x021D6244 thumb ov131
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   P_STATUS_PrintWordSetMsg 0x021D61B8 thumb ov131
  *   P_STA_OAM_CreateBitmapActors 0x021DBAD0 thumb ov131
  *   P_STA_SKILL_SlotTilePos 0x021DC2B8 data a1 ov131
@@ -62,7 +62,7 @@ extern void P_STATUS_PrintMsg(u8 *,int,int,int,s16,u16);
 extern struct WordSet *WORDSET_CreateDefault(u32);
 extern void WORDSET_SetSlotNumber(struct WordSet *,u32,u32,u32,u32,u32);
 extern void P_STATUS_PrintWordSetMsgRight(u8 *,int,void *,int,u16,s16,u16);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void P_STATUS_PrintWordSetMsg(u8 *,int,void *,int,s16,s16,u16);
 extern u8 *P_STA_OAM_CreateBitmapActors(u8 *a, const u8 *b);
 void P_STA_SKILL_InitSlotText(u8 *p,u8 *q,u8 *entry)
@@ -94,12 +94,12 @@ void P_STA_SKILL_InitSlotText(u8 *p,u8 *q,u8 *entry)
         first=WORDSET_CreateDefault(((struct Obj02846 *)p)->f0);
         WORDSET_SetSlotNumber(first,0,count,3,1,1);
         P_STATUS_PrintWordSetMsgRight(p,*(int *)&((struct Obj01409 *)entry)->f10,first,136,57,17,1088);
-        WORDSET_DeleteStrbufED04(first);
+        WORDSET_Delete(first);
         P_STATUS_PrintMsg(p,*(int *)&((struct Obj01409 *)entry)->f10,117,57,17,1088);
         second=WORDSET_CreateDefault(((struct Obj02846 *)p)->f0);
         WORDSET_SetSlotNumber(second,0,value,3,1,1);
         P_STATUS_PrintWordSetMsg(p,*(int *)&((struct Obj01409 *)entry)->f10,second,141,61,17,1088);
-        WORDSET_DeleteStrbufED04(second);
+        WORDSET_Delete(second);
     } else {
         P_STATUS_PrintMsg(p,*(int *)&((struct Obj01409 *)entry)->f10,153,49,17,1088);
     }

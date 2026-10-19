@@ -12,14 +12,14 @@
  *   BG_SYS_ClearSlot 0x020414EC arm
  *   func_02041B6C 0x02041B6C arm
  *   BG_SYS_SetTileEntry 0x02041300 arm
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  */
 typedef unsigned int u32;
 typedef unsigned char u8;
 extern void BG_SYS_ClearSlot(u32);
 extern void func_02041B6C(u32);
 extern void BG_SYS_SetTileEntry(u32, int, int, int, u8, u8, u8);
-extern void BG_SYS_ResetSlot(u32, u32, u32);
+extern void BG_SYS_ChangeScroll(u32, u32, u32);
 void ZKNSEARCH_MAIN_SetFadeStateB(u8 *p)
 {
     p[0x2b8] = 2;
@@ -31,6 +31,6 @@ void ZKNSEARCH_MAIN_SetFadeStateB(u8 *p)
     func_02041B6C(5);
     BG_SYS_SetTileEntry(0, 0, 0, 0, 32, 21, 0);
     func_02041B6C(0);
-    BG_SYS_ResetSlot(1, 3, 0);
-    BG_SYS_ResetSlot(5, 3, 0);
+    BG_SYS_ChangeScroll(1, 3, 0);
+    BG_SYS_ChangeScroll(5, 3, 0);
 }

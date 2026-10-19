@@ -59,7 +59,7 @@ extern u16 MAP_ATTR_GetTerrainId(u32 attr);
 extern int MAP_ATTR_IsNoDash(u16 terrainId);
 extern void FLDMMDL_SetDrawOffsetOutside(Mmdl *mmdl, const MmdlVec *offset);
 extern u32 GFL_USE_GetRandomBelow(u32 range);
-extern short GF_STANDARD_Get_F684(unsigned short degrees);
+extern short GF_STANDARD_SinFromDegreesWrapped(unsigned short degrees);
 extern void MI_CpuFill8(void *dst, int value, int size);
 
 void FIELD_GIMMICK_BRIDGE_Init(FieldMap *fieldMap);

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GFL_NET_ERR_FindFriendByKey",
+   "name": "WIFILIST_FindFriendByKey",
    "address": "0x0200F43C",
    "kind": "game",
    "region": "arm9",

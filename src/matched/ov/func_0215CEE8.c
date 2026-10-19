@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PROC_StopDaycareTimer
+ * function: SCRCMD_PROC_DeclineDaycareEgg
  * address:  0x0215CEE8
  * packet:   pkt_0215CEE8
  * region:   ov010
@@ -26,7 +26,7 @@ extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern void *FIELDMAP_GetSodateya(void *a0);
 extern void SODATEYA_DeclineEgg(void **p);
 
-int SCRCMD_PROC_StopDaycareTimer(int a0, int a1)
+int SCRCMD_PROC_DeclineDaycareEgg(int a0, int a1)
 {
     void *v0;
     void *v1;

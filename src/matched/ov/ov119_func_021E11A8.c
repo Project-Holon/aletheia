@@ -16,7 +16,7 @@
  *   APP_TASKMENU_WIN_Delete 0x02028148 thumb
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
  *   BMP_WIN_Delete 0x020452E8 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   STRBUF_Delete 0x02045808 arm
@@ -42,7 +42,7 @@ extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void APP_TASKMENU_WIN_Delete(u8 *p);
 extern unsigned int APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
-extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern unsigned int WORDSET_Delete(struct WordSet *p);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 typedef unsigned int   u32;
 extern u32 GF_FONT_Delete(void *ptr);
@@ -63,7 +63,7 @@ void POKETRADE_SAVE_DeleteMessageResources(char *p)
         if(((struct Obj00001 *)p)->f6B0) {APP_TASKMENU_RES_Delete(((struct Obj00001 *)p)->f6B0);((struct Obj00001 *)p)->f6B0=0;}
         if(((struct Obj00001 *)p)->f6B4) {BMP_WIN_Delete(((struct Obj00001 *)p)->f6B4);((struct Obj00001 *)p)->f6B4=0;}
         for(i=0;i<2;i++) {if(*(void **)(p+i*4+0x5bc)) {BMP_WIN_Delete(*(void **)(p+i*4+0x5bc));*(void **)(p+i*4+0x5bc)=0;}}
-        WORDSET_DeleteStrbufED04(((struct Obj00001 *)p)->f724);
+        WORDSET_Delete(((struct Obj00001 *)p)->f724);
         MSGDATA_Delete(((struct Obj00001 *)p)->f720);
         GF_FONT_Delete(((struct Obj00001 *)p)->f728);
         STRBUF_Delete(((struct Obj00001 *)p)->f730);

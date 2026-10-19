@@ -36,7 +36,7 @@
  *   INTRUDE_COMM_RefreshSelfRecord  0x02174E3C  thumb  ov011
  *   INTRUDE_COMM_ApplyPlayerBeacon  0x02174EAC  thumb  ov011
  *   INTRUDE_COMM_SendStatusRecord  0x02173828  thumb  ov011
- *   GF_STANDARD_GetTime  0x0203F4FC  arm
+ *   GF_STANDARD_GetSecondsOfDay  0x0203F4FC  arm
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
  *   GAMESYSTEM_IsFieldMapExist  0x02012114  thumb
  *   INTRUDE_COMM_UpdateRunning  0x02174978  thumb  ov011
@@ -125,7 +125,7 @@ extern int EVENT_FIELD_PROCLINK_InitReturnSlotsWithAid(int a0);
 extern void INTRUDE_COMM_RefreshSelfRecord(u8 *p);
 extern void INTRUDE_COMM_ApplyPlayerBeacon(u8 *p, int idx, u8 *q);
 extern int INTRUDE_COMM_SendStatusRecord(char *p);
-extern u32 GF_STANDARD_GetTime(void);
+extern u32 GF_STANDARD_GetSecondsOfDay(void);
 extern int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
 struct Ctx;
 extern u32   GAMESYSTEM_IsFieldMapExist(const struct Ctx *p);
@@ -211,7 +211,7 @@ void INTRUDE_COMM_MainStep(int *state, Param *p, Work *w)
     case 3:
         if (INTRUDE_COMM_SendStatusRecord((char *)w) == 1) {
             w->step = 7;
-            w->stamp = GF_STANDARD_GetTime();
+            w->stamp = GF_STANDARD_GetSecondsOfDay();
             (*state)++;
         }
         break;
@@ -228,7 +228,7 @@ void INTRUDE_COMM_MainStep(int *state, Param *p, Work *w)
         }
         if (GFL_NET_IsParentAid() == 1 && INTRUDE_COMM_IsSessionActive((u8 *)w + 0x1ac) == 0) {
             base = w->stamp;
-            now = GF_STANDARD_GetTime();
+            now = GF_STANDARD_GetSecondsOfDay();
             if (now < base) {
                 now += 86399;
             }

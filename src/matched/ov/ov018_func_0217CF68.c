@@ -1,5 +1,5 @@
 /*
- * function: INTRUDE_SUBDISP_ScriptResetFieldState
+ * function: INTRUDE_SUBDISP_ScriptAddAreaMmdls
  * address: 0x0217CF68
  * packet: pkt_ov018_0217CF68
  * region: ov018
@@ -20,7 +20,7 @@ struct Ctx;
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern void INTRUDE_FIELD_AddAreaMmdls(int a);
-int INTRUDE_SUBDISP_ScriptResetFieldState(void *unused, void *p)
+int INTRUDE_SUBDISP_ScriptAddAreaMmdls(void *unused, void *p)
 {
     void *sys;
     void *obj;

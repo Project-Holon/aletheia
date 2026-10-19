@@ -1,7 +1,7 @@
 /*
  * file:     pokemontrade_proc.c
  * unit:     yes
- * function: POKETRADE_PROC_ResetTouchbarBackButton, POKETRADE_PROC_CheckSaveFlag, POKETRADE_PROC_ClearNetAutoExit, POKETRADE_PROC_IsMonValid, POKETRADE_PROC_GetStoredBoxIndex, POKETRADE_PROC_IsNetSession, POKETRADE_PROC_IncrementTimer, POKETRADE_PROC_IsHostSide, POKETRADE_PROC_IsWifiMode, POKETRADE_PROC_GetBoxIndexForSlot, POKETRADE_PROC_GetSlotIndexInBox, POKETRADE_PROC_RequestBoxRedraw, POKETRADE_PROC_UpdateDragState, POKETRADE_PROC_UpdateDragIcon, POKETRADE_PROC_ClearDragIcon, POKETRADE_PROC_ShowDragIcon, POKETRADE_PROC_BeginDrag, POKETRADE_PROC_LoadSlotMon, POKETRADE_PROC_LoadSlotMonAlt, POKETRADE_PROC_GetSlotMonPtr, POKETRADE_PROC_StepNone, POKETRADE_PROC_SetStep, POKETRADE_PROC_GetPlayerMonPtr, POKETRADE_PROC_GetPlayerMonPtrAlt, POKETRADE_PROC_GetNetIdOffset, POKETRADE_PROC_RecvPlayerMonA, POKETRADE_PROC_GetSideValue, POKETRADE_PROC_SetSideValue, POKETRADE_PROC_GetSideMon, POKETRADE_PROC_RecvMonCopy, POKETRADE_PROC_RecvMonChunkCommon, POKETRADE_PROC_RecvMonChunk0, POKETRADE_PROC_RecvMonChunk1, POKETRADE_PROC_RecvMonChunk2, POKETRADE_PROC_RecvOfferMonCommon, POKETRADE_PROC_RecvOfferMon0, POKETRADE_PROC_RecvOfferMon1, POKETRADE_PROC_RecvOfferMon2, POKETRADE_PROC_RecvPlayerFlag, POKETRADE_PROC_RecvPeerSelection, POKETRADE_PROC_RecvPeerValue, POKETRADE_PROC_RecvPeerFlags, POKETRADE_PROC_RecvPeerState, POKETRADE_PROC_RecvTradeSummary, POKETRADE_PROC_RecvStateByte, POKETRADE_PROC_RecvPeerByte, POKETRADE_PROC_RecvPeerWord, POKETRADE_PROC_RecvPeerWordB, POKETRADE_PROC_RecvPeerHalf, POKETRADE_PROC_RecvPeerByteB, POKETRADE_PROC_RecvIgnoredA, POKETRADE_PROC_RecvPeerByteC, POKETRADE_PROC_RecvIgnoredB, POKETRADE_PROC_RecvIgnoredC, POKETRADE_PROC_StepWaitWipeEnd, POKETRADE_PROC_StepBeginWipeOut, POKETRADE_PROC_SetSideMon, POKETRADE_PROC_ClearSideMon, POKETRADE_PROC_IsSelfMonReady, POKETRADE_PROC_IsSelectedOfferSlot, POKETRADE_PROC_GetMonSpeciesFlag, POKETRADE_PROC_IsHostSideAlt, POKETRADE_PROC_IsGuestSide, POKETRADE_PROC_IsMonTradeable, POKETRADE_PROC_BuildPartyPacket, POKETRADE_PROC_ShowIntroMessage, POKETRADE_PROC_PlaceCursorIcon, POKETRADE_PROC_StepReturnFromSummary, POKETRADE_PROC_StepMain, POKETRADE_PROC_StepAfterSummaryWipe, POKETRADE_PROC_StepMainMenuChoice, POKETRADE_PROC_StepShowTradeSummary, POKETRADE_PROC_StepOpenMainMenu, POKETRADE_PROC_StepWaitSync20, POKETRADE_PROC_StepStartSync20, POKETRADE_PROC_StepIntro, POKETRADE_PROC_StepSendIntroReady, POKETRADE_PROC_StepMenuChoice, POKETRADE_PROC_StepOpenMenu, POKETRADE_PROC_CheckPartyBoxSelected, POKETRADE_PROC_HideTouchbarButtons, POKETRADE_PROC_SetDragTarget, POKETRADE_PROC_PollGridTouch, POKETRADE_PROC_PollGridTouchDrag, POKETRADE_PROC_StepWaitKeyAfterMessage, POKETRADE_PROC_ShowCancelMessage, POKETRADE_PROC_ShowSelectMessage, POKETRADE_PROC_ShowPeerSummary, POKETRADE_PROC_StepAddSelectedOffer, POKETRADE_PROC_StepSendAddOffer, POKETRADE_PROC_StepApplyAddOffer, POKETRADE_PROC_StepSendApplyAddOffer, POKETRADE_PROC_StepWaitTouchReleasePeer, POKETRADE_PROC_StepPeerSummaryMenu, POKETRADE_PROC_StepOpenPeerSummary, POKETRADE_PROC_StepSendCursorChoice, POKETRADE_PROC_StepWaitCursorSync, POKETRADE_PROC_StepResolveCursorResult, POKETRADE_PROC_StepRebuildTradeScene, POKETRADE_PROC_StepRestoreBrowseScene, POKETRADE_PROC_StepWaitThenRestoreScene, POKETRADE_PROC_StepBeginWipeToRestore, POKETRADE_PROC_StepWaitSyncThenWipe, POKETRADE_PROC_StepSendTradeData, POKETRADE_PROC_StepBuildTradeRecord, POKETRADE_PROC_StepBuildMarkingTable, POKETRADE_PROC_StepSendBoxInfo, POKETRADE_PROC_StepLoadBoxIconGfx, POKETRADE_PROC_StepWaitNetSync22, POKETRADE_PROC_StepAfterWipeLoadBox, POKETRADE_PROC_StepRestartNetSession, POKETRADE_PROC_StepResetForNewRound, POKETRADE_PROC_StepWaitMessageThenResolve, POKETRADE_PROC_StepSendNewRound, POKETRADE_PROC_StepClearOffersNewRound, POKETRADE_PROC_StepWaitMessageThenClear, POKETRADE_PROC_StepShowWaitMessageA, POKETRADE_PROC_StepSendContinue, POKETRADE_PROC_StepSendStartRound, POKETRADE_PROC_StepSummaryMenuChoice, POKETRADE_PROC_SendSideMon, POKETRADE_PROC_StepOpenSummaryMenu, POKETRADE_PROC_StepShowSummaryMessage, POKETRADE_PROC_StepSlideInSubScreen, POKETRADE_PROC_FindMatchingBoxIcon, POKETRADE_PROC_StepCloseSubScreenDone, POKETRADE_PROC_StepExitSubScreen, POKETRADE_PROC_StepWaitCursorFade, POKETRADE_PROC_StepSubScreenList, POKETRADE_PROC_StepOpenSubScreen, POKETRADE_PROC_StepBeginOpenSubScreen, POKETRADE_PROC_GetSlotPosition, POKETRADE_PROC_IsSlotVisible, POKETRADE_PROC_PollGridKeys, POKETRADE_PROC_RedrawAndSyncGrid, POKETRADE_PROC_DragScrollGrid, POKETRADE_PROC_StepWaitBrowseRelease, POKETRADE_PROC_StepClearPeerSelection, POKETRADE_PROC_StepBeginBrowse, POKETRADE_PROC_StepResetGrid, POKETRADE_PROC_StepEnterBrowsing, POKETRADE_PROC_UpdateTouchbarButtons, POKETRADE_PROC_StepRebuildBrowseScene, POKETRADE_PROC_StepConfirmSendOffer, POKETRADE_PROC_StepSendOfferConfirm, POKETRADE_PROC_StepWaitIconFlight, POKETRADE_PROC_IsTradeTargetValid, POKETRADE_PROC_StepPeerSelectAction, POKETRADE_PROC_StepBrowseGrid, POKETRADE_PROC_StepTouchbarAction, POKETRADE_PROC_StepWaitKeyThenBrowse, POKETRADE_PROC_InitMcssSystem, POKETRADE_PROC_ExitMcssSystem, POKETRADE_PROC_InitDisplay, POKETRADE_PROC_ExitDisplay, POKETRADE_PROC_LoadSceneResources, POKETRADE_PROC_VBlank, POKETRADE_PROC_SetupGameData, POKETRADE_PROC_FreeMons, POKETRADE_PROC_SetupBoxCounts, POKETRADE_PROC_BuildTradeRecords, POKETRADE_PROC_DeleteAllResources, POKETRADE_PROC_ExitBgm, POKETRADE_PROC_AllocTradeWork, POKETRADE_PROC_InitTradeWork, POKETRADE_PROC_StartRequest2, POKETRADE_PROC_StartRequest0, POKETRADE_PROC_StartRequest1, POKETRADE_PROC_StartRequest3, POKETRADE_PROC_SetupMcssPokemon, POKETRADE_PROC_StartRequest4, POKETRADE_PROC_StartRequest7, POKETRADE_PROC_StartRequest8, POKETRADE_PROC_StartRequest6, POKETRADE_PROC_Main, POKETRADE_PROC_Exit, POKETRADE_PROC_ClampScrollColumn, POKETRADE_PROC_SetSyncRange, POKETRADE_PROC_UpdatePickedIcon, POKETRADE_PROC_CanTradeMon, POKETRADE_PROC_TickWifiTimer
+ * function: POKETRADE_PROC_ResetTouchbarBackButton, POKETRADE_PROC_IsMailBoxFull, POKETRADE_PROC_ClearNetAutoExit, POKETRADE_PROC_IsMonValid, POKETRADE_PROC_GetStoredBoxIndex, POKETRADE_PROC_IsNetSession, POKETRADE_PROC_IncrementTimer, POKETRADE_PROC_IsHostSide, POKETRADE_PROC_IsWifiMode, POKETRADE_PROC_GetBoxIndexForSlot, POKETRADE_PROC_GetSlotIndexInBox, POKETRADE_PROC_RequestBoxRedraw, POKETRADE_PROC_UpdateDragState, POKETRADE_PROC_UpdateDragIcon, POKETRADE_PROC_ClearDragIcon, POKETRADE_PROC_ShowDragIcon, POKETRADE_PROC_BeginDrag, POKETRADE_PROC_LoadSlotMon, POKETRADE_PROC_LoadSlotMonAlt, POKETRADE_PROC_GetSlotMonPtr, POKETRADE_PROC_StepNone, POKETRADE_PROC_SetStep, POKETRADE_PROC_GetPlayerMonPtr, POKETRADE_PROC_GetPlayerMonPtrAlt, POKETRADE_PROC_GetNetIdOffset, POKETRADE_PROC_RecvPlayerMonA, POKETRADE_PROC_GetSideValue, POKETRADE_PROC_SetSideValue, POKETRADE_PROC_GetSideMon, POKETRADE_PROC_RecvMonCopy, POKETRADE_PROC_RecvMonChunkCommon, POKETRADE_PROC_RecvMonChunk0, POKETRADE_PROC_RecvMonChunk1, POKETRADE_PROC_RecvMonChunk2, POKETRADE_PROC_RecvOfferMonCommon, POKETRADE_PROC_RecvOfferMon0, POKETRADE_PROC_RecvOfferMon1, POKETRADE_PROC_RecvOfferMon2, POKETRADE_PROC_RecvPlayerFlag, POKETRADE_PROC_RecvPeerSelection, POKETRADE_PROC_RecvPeerValue, POKETRADE_PROC_RecvPeerFlags, POKETRADE_PROC_RecvPeerState, POKETRADE_PROC_RecvTradeSummary, POKETRADE_PROC_RecvStateByte, POKETRADE_PROC_RecvPeerByte, POKETRADE_PROC_RecvPeerWord, POKETRADE_PROC_RecvPeerWordB, POKETRADE_PROC_RecvPeerHalf, POKETRADE_PROC_RecvPeerByteB, POKETRADE_PROC_RecvIgnoredA, POKETRADE_PROC_RecvPeerByteC, POKETRADE_PROC_RecvIgnoredB, POKETRADE_PROC_RecvIgnoredC, POKETRADE_PROC_StepWaitWipeEnd, POKETRADE_PROC_StepBeginWipeOut, POKETRADE_PROC_SetSideMon, POKETRADE_PROC_ClearSideMon, POKETRADE_PROC_IsSelfMonReady, POKETRADE_PROC_IsSelectedOfferSlot, POKETRADE_PROC_IsMonBadEggOrInvalid, POKETRADE_PROC_IsCurrentSideMonInvalid, POKETRADE_PROC_IsOtherSideMonInvalid, POKETRADE_PROC_IsMonTradeable, POKETRADE_PROC_BuildPartyPacket, POKETRADE_PROC_ShowIntroMessage, POKETRADE_PROC_PlaceCursorIcon, POKETRADE_PROC_StepReturnFromSummary, POKETRADE_PROC_StepMain, POKETRADE_PROC_StepAfterSummaryWipe, POKETRADE_PROC_StepMainMenuChoice, POKETRADE_PROC_StepShowTradeSummary, POKETRADE_PROC_StepOpenMainMenu, POKETRADE_PROC_StepWaitSync20, POKETRADE_PROC_StepStartSync20, POKETRADE_PROC_StepIntro, POKETRADE_PROC_StepSendIntroReady, POKETRADE_PROC_StepMenuChoice, POKETRADE_PROC_StepOpenMenu, POKETRADE_PROC_StepSendPartyBoxSelected, POKETRADE_PROC_HideTouchbarButtons, POKETRADE_PROC_SetDragTarget, POKETRADE_PROC_PollGridTouch, POKETRADE_PROC_PollGridTouchDrag, POKETRADE_PROC_StepWaitKeyAfterMessage, POKETRADE_PROC_ShowCancelMessage, POKETRADE_PROC_ShowSelectMessage, POKETRADE_PROC_ShowPeerSummary, POKETRADE_PROC_StepAddSelectedOffer, POKETRADE_PROC_StepSendAddOffer, POKETRADE_PROC_StepApplyAddOffer, POKETRADE_PROC_StepSendApplyAddOffer, POKETRADE_PROC_StepWaitTouchReleasePeer, POKETRADE_PROC_StepPeerSummaryMenu, POKETRADE_PROC_StepOpenPeerSummary, POKETRADE_PROC_StepSendCursorChoice, POKETRADE_PROC_StepWaitCursorSync, POKETRADE_PROC_StepResolveCursorResult, POKETRADE_PROC_StepRebuildTradeScene, POKETRADE_PROC_StepRestoreBrowseScene, POKETRADE_PROC_StepWaitThenRestoreScene, POKETRADE_PROC_StepBeginWipeToRestore, POKETRADE_PROC_StepWaitSyncThenWipe, POKETRADE_PROC_StepSendTradeData, POKETRADE_PROC_StepBuildTradeRecord, POKETRADE_PROC_StepBuildMarkingTable, POKETRADE_PROC_StepSendBoxInfo, POKETRADE_PROC_StepLoadBoxIconGfx, POKETRADE_PROC_StepWaitNetSync22, POKETRADE_PROC_StepAfterWipeLoadBox, POKETRADE_PROC_StepRestartNetSession, POKETRADE_PROC_StepResetForNewRound, POKETRADE_PROC_StepWaitMessageThenResolve, POKETRADE_PROC_StepSendNewRound, POKETRADE_PROC_StepClearOffersNewRound, POKETRADE_PROC_StepWaitMessageThenClear, POKETRADE_PROC_StepShowWaitMessageA, POKETRADE_PROC_StepSendContinue, POKETRADE_PROC_StepSendStartRound, POKETRADE_PROC_StepSummaryMenuChoice, POKETRADE_PROC_SendSideMon, POKETRADE_PROC_StepOpenSummaryMenu, POKETRADE_PROC_StepShowSummaryMessage, POKETRADE_PROC_StepSlideInSubScreen, POKETRADE_PROC_FindMatchingBoxIcon, POKETRADE_PROC_StepCloseSubScreenDone, POKETRADE_PROC_StepExitSubScreen, POKETRADE_PROC_StepWaitCursorFade, POKETRADE_PROC_StepSubScreenList, POKETRADE_PROC_StepOpenSubScreen, POKETRADE_PROC_StepBeginOpenSubScreen, POKETRADE_PROC_GetSlotPosition, POKETRADE_PROC_IsSlotVisible, POKETRADE_PROC_PollGridKeys, POKETRADE_PROC_RedrawAndSyncGrid, POKETRADE_PROC_DragScrollGrid, POKETRADE_PROC_StepWaitBrowseRelease, POKETRADE_PROC_StepClearPeerSelection, POKETRADE_PROC_StepBeginBrowse, POKETRADE_PROC_StepResetGrid, POKETRADE_PROC_StepEnterBrowsing, POKETRADE_PROC_UpdateTouchbarButtons, POKETRADE_PROC_StepRebuildBrowseScene, POKETRADE_PROC_StepConfirmSendOffer, POKETRADE_PROC_StepSendOfferConfirm, POKETRADE_PROC_StepWaitIconFlight, POKETRADE_PROC_IsTradeTargetValid, POKETRADE_PROC_StepPeerSelectAction, POKETRADE_PROC_StepBrowseGrid, POKETRADE_PROC_StepTouchbarAction, POKETRADE_PROC_StepWaitKeyThenBrowse, POKETRADE_PROC_InitMcssSystem, POKETRADE_PROC_ExitMcssSystem, POKETRADE_PROC_InitDisplay, POKETRADE_PROC_ExitDisplay, POKETRADE_PROC_LoadSceneResources, POKETRADE_PROC_VBlank, POKETRADE_PROC_SetupGameData, POKETRADE_PROC_FreeMons, POKETRADE_PROC_SetupBoxCounts, POKETRADE_PROC_BuildTradeRecords, POKETRADE_PROC_DeleteAllResources, POKETRADE_PROC_ExitBgm, POKETRADE_PROC_AllocTradeWork, POKETRADE_PROC_InitTradeWork, POKETRADE_PROC_StartRequest2, POKETRADE_PROC_StartRequest0, POKETRADE_PROC_StartRequest1, POKETRADE_PROC_StartRequest3, POKETRADE_PROC_SetupMcssPokemon, POKETRADE_PROC_StartRequest4, POKETRADE_PROC_StartRequest7, POKETRADE_PROC_StartRequest8, POKETRADE_PROC_StartRequest6, POKETRADE_PROC_Main, POKETRADE_PROC_Exit, POKETRADE_PROC_ClampScrollColumn, POKETRADE_PROC_SetSyncRange, POKETRADE_PROC_UpdatePickedIcon, POKETRADE_PROC_CanTradeMon, POKETRADE_PROC_TickWifiTimer
  * address:  0x021D8980
  * region:   ov119
  * compiler: dsi/1.1p1
@@ -23,11 +23,10 @@
  *   GFL_NET_STATE_WifiDisconnect 0x0203C554 arm
  *   POKE_TOOL_GetPartyParamSize 0x020173EC thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
- *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_SetBgmPaused 0x02005DE4 thumb
  *   GFL_USE_PushBgm 0x02005E64 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   GFL_USE_FadeInBgmFull 0x02005DF8 thumb
- *   _s32_div_f 0x0209C0A4 arm
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
@@ -57,7 +56,7 @@
  *   MYSTATUS_SetLanguageAndVersion  0x02008574  thumb
  *   BMP_OAM_CheckRangeGetId  0x02025C1C  thumb
  *   BMP_OAM_CheckRangeGetMin  0x02025C30  thumb
- *   COMM_HISTORY_InsertIfNamed  0x0202EB7C  thumb
+ *   COMM_HISTORY_InsertIfLanguageSet  0x0202EB7C  thumb
  *   POKETRADE_2D_DeleteOfferIconActor 0x021E62D4 thumb ov119
  *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  *   POKETRADE_NEGO_FlashMarker 0x021DF8A0 thumb ov119
@@ -69,8 +68,8 @@
  *   POKETRADE_SAVE_DeleteOfferCardWindow  0x021E2438  thumb  ov119
  *   POKEPARTY_GetAliveNonEggCount 0x0201AC80 thumb
  *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
- *   EVENT_ID_AreSlotsClear 0x0202F738 thumb
- *   FILE_UTIL_Check136C 0x0202136C thumb
+ *   POKE_TOOL_HasNoHmMove 0x0202F738 thumb
+ *   FILE_UTIL_IsMailItem 0x0202136C thumb
  *   POKETRADE_SAVE_IsMessagePrintDone 0x021E12AC thumb ov119
  *   GFL_NET_SendToHandle 0x0203D3A8 arm
  *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
@@ -86,7 +85,7 @@
  *   POKETRADE_SAVE_CloseSummaryPage 0x021E1CE8 thumb ov119
  *   POKETRADE_2D_LoadBackgroundGfx 0x021E3E80 thumb ov119
  *   POKETRADE_3D_AddUnitAndInit 0x021E3208 thumb ov119
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   KEY_GetTrg 0x020362DC arm
  *   UI_SetInputMode 0x020355D8 arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
@@ -99,7 +98,7 @@
  *   APP_TASKMENU_GetCursorPos 0x02027A04 thumb
  *   POKETRADE_SAVE_CloseTaskMenu 0x021E12F8 thumb ov119
  *   POKETRADE_SAVE_CloseMessageWindowClear 0x021E1098 thumb ov119
- *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
+ *   WORDSET_SetSlotMonNickname 0x0201EEF4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   POKETRADE_SAVE_OpenTaskMenu 0x021E1410 thumb ov119
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
@@ -186,7 +185,7 @@
  *   POKETRADE_2D_CreateBoxIconActors 0x021E467C thumb ov119
  *   POKETRADE_2D_LoadMainGfxAndMessageWindow 0x021E3F74 thumb ov119
  *   CLACT_VBlankSystem 0x0204A648 arm
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   GAME_DATA_GetBoxManager 0x0201293C thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
@@ -369,7 +368,7 @@ extern int GFL_NET_GetRunState(void);
 
 extern void GFL_USE_FadeOutBgm(u32 a);
 
-extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_SetBgmPaused(void *p);
 
 extern int GFL_USE_PushBgm(void);
 
@@ -377,7 +376,6 @@ extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
 
 extern void GFL_USE_FadeInBgmFull(u32 a);
 
-extern int _s32_div_f(int a, int b);
 
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 
@@ -437,7 +435,7 @@ extern u32 BMP_OAM_CheckRangeGetId(u32 a, u32 b, u32 c);
 
 extern u32 BMP_OAM_CheckRangeGetMin(u32 a, u32 b, u32 c);
 
-extern u32 COMM_HISTORY_InsertIfNamed(u32 owner, u32 entry);
+extern u32 COMM_HISTORY_InsertIfLanguageSet(u32 owner, u32 entry);
 
 extern void POKETRADE_2D_DeleteOfferIconActor(void *, int, int);
 
@@ -461,9 +459,9 @@ extern u32 POKEPARTY_GetAliveNonEggCount(void *p);
 
 extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 
-extern int EVENT_ID_AreSlotsClear(void *p, int unused);
+extern int POKE_TOOL_HasNoHmMove(void *p, int unused);
 
-extern u32 FILE_UTIL_Check136C(u16 v);
+extern u32 FILE_UTIL_IsMailItem(u16 v);
 
 extern int POKETRADE_SAVE_IsMessagePrintDone(char *p);
 
@@ -491,7 +489,7 @@ extern void POKETRADE_2D_LoadBackgroundGfx(char *p);
 
 extern void POKETRADE_3D_AddUnitAndInit(void *,int);
 
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 
 extern int TOUCHPANEL_HitTrg(const void *);
 
@@ -515,7 +513,7 @@ extern void POKETRADE_SAVE_CloseTaskMenu(char *p);
 
 extern void POKETRADE_SAVE_CloseMessageWindowClear(char *p);
 
-extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonNickname(struct WordSet *p, u32 i, void *mon);
 
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
@@ -677,7 +675,7 @@ extern void POKETRADE_2D_LoadMainGfxAndMessageWindow(void *);
 
 extern void CLACT_VBlankSystem(void);
 
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 
 extern void *GFL_HEAP_Alloc(unsigned,unsigned,int,const char *,u16);
 
@@ -829,7 +827,7 @@ extern int POKE_REGULATION_IsInSpeciesTable(unsigned short);
 
 int POKETRADE_PROC_ResetTouchbarBackButton(char *p);
 
-int POKETRADE_PROC_CheckSaveFlag(char *p);
+int POKETRADE_PROC_IsMailBoxFull(char *p);
 
 void POKETRADE_PROC_ClearNetAutoExit(char *p);
 
@@ -943,11 +941,11 @@ int POKETRADE_PROC_IsSelfMonReady(char *p);
 
 int POKETRADE_PROC_IsSelectedOfferSlot(char *p,int a,int b);
 
-u32 POKETRADE_PROC_GetMonSpeciesFlag(void *mon);
+u32 POKETRADE_PROC_IsMonBadEggOrInvalid(void *mon);
 
-int POKETRADE_PROC_IsHostSideAlt(void *p);
+int POKETRADE_PROC_IsCurrentSideMonInvalid(void *p);
 
-u32 POKETRADE_PROC_IsGuestSide(void *p);
+u32 POKETRADE_PROC_IsOtherSideMonInvalid(void *p);
 
 int POKETRADE_PROC_IsMonTradeable(unsigned char *p);
 
@@ -981,7 +979,7 @@ void POKETRADE_PROC_StepMenuChoice(char *p);
 
 void POKETRADE_PROC_StepOpenMenu(void *p);
 
-void POKETRADE_PROC_CheckPartyBoxSelected(char *p);
+void POKETRADE_PROC_StepSendPartyBoxSelected(char *p);
 
 void POKETRADE_PROC_HideTouchbarButtons(char *p);
 
@@ -1259,7 +1257,7 @@ int POKETRADE_PROC_ResetTouchbarBackButton(char *p)
     return TOUCHBAR_SetButtonEnabled((unsigned char *)(*(u32 * *)&((TradeWork *)p)->touchbar), 1, 1);
 }
 
-int POKETRADE_PROC_CheckSaveFlag(char *p)
+int POKETRADE_PROC_IsMailBoxFull(char *p)
 {
     void *o = MAIL_GetBox(((TradeWork *)p)->gameData);
     int r = 0;
@@ -1316,7 +1314,7 @@ void POKETRADE_PROC_IncrementTimer(void *p) {
  v=++((TradeWork *)p)->repeatCounter;
  if(v==2) {GFL_USE_FadeOutBgm(6); return;}
  if(v==8) {
- GFL_USE_SetBgmPlayerParam((void *)1); GFL_USE_PushBgm();
+ GFL_USE_SetBgmPaused((void *)1); GFL_USE_PushBgm();
  ++((TradeWork *)p)->sceneState;
  GFL_USE_CancelChangeAndPlayBgm(0x3f3,0xffff); GFL_USE_FadeInBgmFull(1);
  ((TradeWork *)p)->repeatCounter=0;
@@ -1354,7 +1352,7 @@ int POKETRADE_PROC_IsWifiMode(char *p)
 int POKETRADE_PROC_GetBoxIndexForSlot(int a, char *p)
 {
     if (a >= 2)
-        return _s32_div_f(a - 2, 6);
+        return (a - 2) / 6;
     return ((TradeWork *)p)->partyBoxId;
 }
 
@@ -1726,7 +1724,7 @@ void POKETRADE_PROC_RecvTradeSummary(void *netId, int size, void *data, char *wo
         MYSTATUS_SetLanguageAndVersion((struct Sub0200852CObj *)buf, x, y);
     else
         MYSTATUS_SetLanguageAndVersion((struct Sub0200852CObj *)buf, 0, 0);
-    COMM_HISTORY_InsertIfNamed((u32)saved, (u32)buf);
+    COMM_HISTORY_InsertIfLanguageSet((u32)saved, (u32)buf);
 }
 
 void POKETRADE_PROC_RecvStateByte(u32 a, u32 b, u8 *src, u8 *base, void *e)
@@ -1858,9 +1856,9 @@ void POKETRADE_PROC_ClearSideMon(void *p, int a)
 
 int POKETRADE_PROC_IsSelfMonReady(char *p) { int w; void *v; int z; if(POKETRADE_PROC_IsHostSide(p)==0) {v=POKETRADE_PROC_GetSideMon(p,0);w=POKETRADE_PROC_GetSideValue(p,0);} else {v=POKETRADE_PROC_GetSideMon(p,1);w=POKETRADE_PROC_GetSideValue(p,1);} z=0;if(POKE_TOOL_GetPartyValue(v,160,0)==0)return z;if(POKE_TOOL_GetPartyValue(v,76,0))return z;if(POKEPARTY_GetAliveNonEggCount((void *)((*(int *)&((TradeWork *)p)->partyData)))==1 && w!=0)return 1;return 0; }
 
-int POKETRADE_PROC_IsSelectedOfferSlot(char *p,int a,int b) { int v=(int)POKETRADE_PROC_LoadSlotMonAlt((void *)(((TradeWork *)p)->boxManager),a,b,p); int r; if(((TradeWork *)p)->tradeState) return 0; if(a!=((TradeWork *)p)->partyBoxId) return 0; r=0; if(POKE_TOOL_GetBoxValue((void *)v,76,0)) return r; if(EVENT_ID_AreSlotsClear((void *)v,r)==0) r=1; return r; }
+int POKETRADE_PROC_IsSelectedOfferSlot(char *p,int a,int b) { int v=(int)POKETRADE_PROC_LoadSlotMonAlt((void *)(((TradeWork *)p)->boxManager),a,b,p); int r; if(((TradeWork *)p)->tradeState) return 0; if(a!=((TradeWork *)p)->partyBoxId) return 0; r=0; if(POKE_TOOL_GetBoxValue((void *)v,76,0)) return r; if(POKE_TOOL_HasNoHmMove((void *)v,r)==0) r=1; return r; }
 
-u32 POKETRADE_PROC_GetMonSpeciesFlag(void *mon)
+u32 POKETRADE_PROC_IsMonBadEggOrInvalid(void *mon)
 {
     u32 r = 0;
     if (POKE_TOOL_GetPartyValue(mon, 3, 0) == 1)
@@ -1873,24 +1871,24 @@ u32 POKETRADE_PROC_GetMonSpeciesFlag(void *mon)
 /*
  * Select the alternate buffer when the object is idle.
  */
-int POKETRADE_PROC_IsHostSideAlt(void *p)
+int POKETRADE_PROC_IsCurrentSideMonInvalid(void *p)
 {
     int b = 0;
 
     if (POKETRADE_PROC_IsHostSide(p))
         b = 1;
-    return POKETRADE_PROC_GetMonSpeciesFlag(POKETRADE_PROC_GetSideMon(p, b));
+    return POKETRADE_PROC_IsMonBadEggOrInvalid(POKETRADE_PROC_GetSideMon(p, b));
 }
 
-u32 POKETRADE_PROC_IsGuestSide(void *p)
+u32 POKETRADE_PROC_IsOtherSideMonInvalid(void *p)
 {
     int r = 1;
     if (POKETRADE_PROC_IsHostSide(p) != 0)
         r = 0;
-    return POKETRADE_PROC_GetMonSpeciesFlag(POKETRADE_PROC_GetSideMon(p, r));
+    return POKETRADE_PROC_IsMonBadEggOrInvalid(POKETRADE_PROC_GetSideMon(p, r));
 }
 
-int POKETRADE_PROC_IsMonTradeable(unsigned char *p) { void *v; int w; if(POKETRADE_PROC_IsHostSide(p)==0) {v=POKETRADE_PROC_GetSideMon(p,0); w=POKETRADE_PROC_GetSideValue(p,1);} else {v=POKETRADE_PROC_GetSideMon(p,1); w=POKETRADE_PROC_GetSideValue(p,0);} if(FILE_UTIL_Check136C(POKE_TOOL_GetPartyValue(v,6,0)) && p[0x11f4]!=0 && w==0) return 1; return 0; }
+int POKETRADE_PROC_IsMonTradeable(unsigned char *p) { void *v; int w; if(POKETRADE_PROC_IsHostSide(p)==0) {v=POKETRADE_PROC_GetSideMon(p,0); w=POKETRADE_PROC_GetSideValue(p,1);} else {v=POKETRADE_PROC_GetSideMon(p,1); w=POKETRADE_PROC_GetSideValue(p,0);} if(FILE_UTIL_IsMailItem(POKE_TOOL_GetPartyValue(v,6,0)) && p[0x11f4]!=0 && w==0) return 1; return 0; }
 
 void POKETRADE_PROC_BuildPartyPacket(char *p)
 {
@@ -1904,10 +1902,10 @@ void POKETRADE_PROC_BuildPartyPacket(char *p)
         if (POKETRADE_PROC_IsSelfMonReady(p)) {
             b[4] = 5;
             r = GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0xc00, 1, &b[4]);
-        } else if (POKETRADE_PROC_IsHostSideAlt(p)) {
+        } else if (POKETRADE_PROC_IsCurrentSideMonInvalid(p)) {
             b[3] = 7;
             r = GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0xc00, 1, &b[3]);
-        } else if (POKETRADE_PROC_IsGuestSide(p)) {
+        } else if (POKETRADE_PROC_IsOtherSideMonInvalid(p)) {
             b[2] = 8;
             r = GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0xc00, 1, &b[2]);
         } else if (POKETRADE_PROC_IsMonTradeable((unsigned char *)p)) {
@@ -1966,7 +1964,7 @@ void POKETRADE_PROC_PlaceCursorIcon(char *p, int cursorIndex, int showSummary)
     }
 }
 
-void POKETRADE_PROC_StepReturnFromSummary(char *p) { int z,one; if(WIPE_SYS_EndCheck()) {z=0;BG_SYS_SetPlaneVisible(3,0);one=1;POKETRADE_SAVE_CloseSummaryPage(p,1);BG_SYS_SetPlaneVisible(4,0);POKETRADE_2D_LoadBackgroundGfx(p);POKETRADE_3D_AddUnitAndInit(p,0);BG_SYS_SetFlagField06(3);*(u16 *)0x04000050=z;POKETRADE_PROC_SetSideMon(p,0,POKETRADE_PROC_GetSideMon(p,0));POKETRADE_PROC_SetSideMon(p,1,POKETRADE_PROC_GetSideMon(p,1));POKETRADE_PROC_RequestBoxRedraw(p);WIPE_SYS_Start((void *)3,1,1,0,6,one,((TradeWork *)p)->heapId);POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepShowTradeSummary); } }
+void POKETRADE_PROC_StepReturnFromSummary(char *p) { int z,one; if(WIPE_SYS_EndCheck()) {z=0;BG_SYS_SetPlaneVisible(3,0);one=1;POKETRADE_SAVE_CloseSummaryPage(p,1);BG_SYS_SetPlaneVisible(4,0);POKETRADE_2D_LoadBackgroundGfx(p);POKETRADE_3D_AddUnitAndInit(p,0);BG_SYS_MarkTileDirty(3);*(u16 *)0x04000050=z;POKETRADE_PROC_SetSideMon(p,0,POKETRADE_PROC_GetSideMon(p,0));POKETRADE_PROC_SetSideMon(p,1,POKETRADE_PROC_GetSideMon(p,1));POKETRADE_PROC_RequestBoxRedraw(p);WIPE_SYS_Start((void *)3,1,1,0,6,one,((TradeWork *)p)->heapId);POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepShowTradeSummary); } }
 
 static inline int poll(void) {int v=KEY_GetTrg();if(v)UI_SetInputMode(0);return v;}
 
@@ -2009,7 +2007,7 @@ void POKETRADE_PROC_StepAfterSummaryWipe(char *p) { if(WIPE_SYS_EndCheck()) { ((
 
 void POKETRADE_PROC_StepMainMenuChoice(char *p) { int v; if(APP_TASKMENU_IsFinish((struct TaskMenu *)(((TradeWork *)p)->taskMenu))) {v=APP_TASKMENU_GetCursorPos((const u8 *)(((TradeWork *)p)->taskMenu));POKETRADE_SAVE_CloseTaskMenu(p);POKETRADE_SAVE_CloseMessageWindowClear(p);((TradeWork *)p)->taskMenu=0;switch(v) {case 0:POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_ShowIntroMessage);return;case 1:WIPE_SYS_Start((void *)3,0,0,0,6,1,((TradeWork *)p)->heapId);POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepAfterSummaryWipe);return;case 2:POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepSendNewRound);return;} } }
 
-void POKETRADE_PROC_StepShowTradeSummary(char *p) { int i; MSGDATA_ReadString((struct MsgBank *)(((TradeWork *)p)->messageBank),17,(void *)((*(int *)&((TradeWork *)p)->messageTemplate)));for(i=0;i<2;i++) WORDSET_SetSlotMonSpecies((*(void * *)&((TradeWork *)p)->wordSet),i,POKETRADE_PROC_GetSideMon(p,i));WORDSET_CopyTaggedText((struct WordSet *)(((TradeWork *)p)->wordSet),(void *)(((TradeWork *)p)->messageText),(void *)((*(int *)&((TradeWork *)p)->messageTemplate)));POKETRADE_SAVE_OpenMessageWindowTop(p);POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepOpenMainMenu); }
+void POKETRADE_PROC_StepShowTradeSummary(char *p) { int i; MSGDATA_ReadString((struct MsgBank *)(((TradeWork *)p)->messageBank),17,(void *)((*(int *)&((TradeWork *)p)->messageTemplate)));for(i=0;i<2;i++) WORDSET_SetSlotMonNickname((*(void * *)&((TradeWork *)p)->wordSet),i,POKETRADE_PROC_GetSideMon(p,i));WORDSET_CopyTaggedText((struct WordSet *)(((TradeWork *)p)->wordSet),(void *)(((TradeWork *)p)->messageText),(void *)((*(int *)&((TradeWork *)p)->messageTemplate)));POKETRADE_SAVE_OpenMessageWindowTop(p);POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepOpenMainMenu); }
 
 void POKETRADE_PROC_StepOpenMainMenu(char *p) { if(POKETRADE_SAVE_IsMessagePrintDone(p)) { IntTriple t=gMainMenuLayout; POKETRADE_SAVE_OpenTaskMenu(p,(int *)(&t),3); BG_SYS_SetMainVisiblePlanes(31); TOUCHBAR_SetButtonVisible((unsigned char *)(((TradeWork *)p)->touchbar),1,0); POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepMainMenuChoice); } }
 
@@ -2100,7 +2098,7 @@ void POKETRADE_PROC_StepOpenMenu(void *p)
     }
 }
 
-void POKETRADE_PROC_CheckPartyBoxSelected(char *p)
+void POKETRADE_PROC_StepSendPartyBoxSelected(char *p)
 {
     int v = 0;
     if (((TradeWork *)p)->selectedBox == ((TradeWork *)p)->partyBoxId) v=1;
@@ -2115,7 +2113,7 @@ void POKETRADE_PROC_HideTouchbarButtons(char *p) {
     TOUCHBAR_SetButtonVisible((unsigned char *)(((TradeWork *)p)->touchbar),1,0);
     CLACT_SetActorDrawEnable((struct Obj *)((TradeWork *)p)->cursorActor,0);
     POKETRADE_PROC_ClearDragIcon(p);
-    POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_CheckPartyBoxSelected);
+    POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepSendPartyBoxSelected);
 }
 
 void POKETRADE_PROC_SetDragTarget(char *p,int a,int b) {
@@ -2345,7 +2343,7 @@ void POKETRADE_PROC_StepPeerSummaryMenu(char *p)
         POKETRADE_2D_DeleteMarkingIcon(p+0x964);
         POKETRADE_2D_DeleteMarkingIcon(p+0x978);
         POKETRADE_SAVE_CloseSummaryWindow(p,1);
-        BG_SYS_SetFlagField06(6);
+        BG_SYS_MarkTileDirty(6);
         POKETRADE_2D_ClearSummaryBackground(p);
         POKETRADE_SAVE_CloseTaskMenu(p);
         ((TradeWork *)p)->taskMenu=0;
@@ -2491,7 +2489,7 @@ void POKETRADE_PROC_StepBuildMarkingTable(char *p) {
 void POKETRADE_PROC_StepSendBoxInfo(char *p) {
  u8 b[2];
  if(POKETRADE_PROC_IsNetSession(p)) {
-  b[0]=((TradeWork *)p)->partyBoxId;b[1]=POKETRADE_PROC_CheckSaveFlag(p);
+  b[0]=((TradeWork *)p)->partyBoxId;b[1]=POKETRADE_PROC_IsMailBoxFull(p);
   if(GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(),0xc10,2,(void *)b)) {((TradeWork *)p)->waitCounter=0;POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepBuildMarkingTable);}
  } else {
   p[0x11f2]=((TradeWork *)p)->partyBoxId;(*(unsigned short *)&((TradeWork *)p)->scrollY)=((TradeWork *)p)->storedBoxIndex*160+16;
@@ -3318,8 +3316,8 @@ void POKETRADE_PROC_VBlank(int a, char *p)
 {
     CLACT_VBlankSystem();
     if (((TradeWork *)p)->redrawNeeded) {
-        BG_SYS_FillScrollArea(7, 0, ((TradeWork *)p)->scrollSub);
-        BG_SYS_FillScrollArea(5, 0, ((TradeWork *)p)->scrollSub);
+        BG_SYS_ChangeScrollImmediate(7, 0, ((TradeWork *)p)->scrollSub);
+        BG_SYS_ChangeScrollImmediate(5, 0, ((TradeWork *)p)->scrollSub);
         ((TradeWork *)p)->redrawNeeded = 0;
     }
 }
@@ -3413,10 +3411,10 @@ void POKETRADE_PROC_ExitBgm(char *p)
         break;
     case 2:
         GFL_USE_PopBgm();
-        GFL_USE_SetBgmPlayerParam(0);
+        GFL_USE_SetBgmPaused(0);
     case 1:
         GFL_USE_PopBgm();
-        GFL_USE_SetBgmPlayerParam(0);
+        GFL_USE_SetBgmPaused(0);
         GFL_USE_FadeInBgmFull(30);
     }
     ((TradeWork *)p)->sceneState = 0;

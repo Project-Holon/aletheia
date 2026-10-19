@@ -15,7 +15,7 @@
  *   matched callers 4418,4240,7BF0 supply remaining two-argument calls.
  *   Full original 6CDC and 909C confirm both incoming payloads are passed.
  * symbols:
- *   P_STATUS_SetFastMode 0x021D60D4 thumb ov131
+ *   P_STATUS_SetParamDecoded 0x021D60D4 thumb ov131
  *   P_STA_SUB_FreeWindows 0x021D6CDC thumb ov131
  *   P_STA_RIBBON_Noop 0x021D91EC thumb ov131
  *   P_STA_SUB_InitWindows 0x021D697C thumb ov131
@@ -33,7 +33,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void P_STATUS_SetFastMode(u8 *,int);
+extern void P_STATUS_SetParamDecoded(u8 *,int);
 extern void P_STA_SUB_FreeWindows(unsigned char *a, unsigned char *b);
 extern void P_STA_RIBBON_Noop(void *,void *);
 extern void P_STA_SUB_InitWindows(u8 *,int *);
@@ -48,7 +48,7 @@ extern void P_STA_RIBBON_Init(void *,u8 *);
 extern void P_STA_SKILL_InitMovesPage(u8 *a, u8 *p);
 void P_STATUS_RequestRefresh(u8 *p)
 {
-    P_STATUS_SetFastMode(p,1);
+    P_STATUS_SetParamDecoded(p,1);
     if (p[0x1a]!=((struct Obj00039 *)p)->f18) {
         if (p[0x1a]!=255) {
             P_STA_SUB_FreeWindows(p,((struct Obj00039 *)p)->f88);
@@ -76,6 +76,6 @@ void P_STATUS_RequestRefresh(u8 *p)
         *(volatile u16 *)0x0400100a |= 64;
         *(volatile u16 *)0x0400100c |= 64;
     }
-    P_STATUS_SetFastMode(p,0);
+    P_STATUS_SetParamDecoded(p,0);
     ((struct Obj00039 *)p)->fC=1;
 }

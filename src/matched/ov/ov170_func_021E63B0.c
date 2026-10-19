@@ -18,13 +18,13 @@
  *   BOX2_SEQ_SetWindow9 0x021ED508 thumb ov170
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  *   POKEPARTY_GetCount  0x0201AA18  thumb  arm9
- *   BOX2_MAIN_ChangeBoxFormPreserve  0x021DEFEC  thumb
+ *   BOX2_MAIN_RefreshCurrentBoxMonInfo  0x021DEFEC  thumb
  *   BOX2_MAIN_ClearCursorBox  0x021DF0BC  thumb
  *   BOX2_MAIN_IsWindowMoving  0x021E0190  thumb
  *   BOX2_MAIN_IsWindowBusy  0x021E01B0  thumb
  *   BOX2_SEQ_ReturnAfterClear  0x021E8F50  thumb
  *   BOX2_SEQ_SetSeqThird  0x021E8FC0  thumb
- *   BOX2_SEQ_ResetEntry  0x021EA83C  thumb
+ *   BOX2_SEQ_RefreshBoxUiAndWait  0x021EA83C  thumb
  *   BOX2_SEQ_SetActorAnim  0x021EA878  thumb
  *   BOX2_SEQ_PrintPrompt  0x021EBC58  thumb
  *   BOX2_SEQ_PrintPromptB  0x021EBCB4  thumb
@@ -55,7 +55,7 @@ extern u8 func_020355C4(void);
 extern unsigned POKEPARTY_GetCount(void *);
 extern void BOX2_MAIN_RefreshCursorBox(char *p);
 extern void BOX2_MAIN_ClearCursorBox(unsigned char *);
-extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
+extern void BOX2_MAIN_RefreshCurrentBoxMonInfo(char *p, int b);
 extern void BOX2_SEQ_ShowWindowObject(char *, int);
 extern void BOX2_SEQ_SetSlotDim(char **p, int v);
 extern void BOX2_UI_SetCursorPos(char **, unsigned);
@@ -77,7 +77,7 @@ extern void BOX2_SEQ_PrintPromptB(unsigned char *, int, int);
 extern void BOX2_SEQ_SetSlotActors(char *p, int f, int c);
 extern void BOX2_SEQ_HidePartialSlots(char **p, int flag);
 extern void BOX2_UI_MoveCursor(char **p, int idx, int v);
-extern int BOX2_SEQ_ResetEntry(char *p, int a);
+extern int BOX2_SEQ_RefreshBoxUiAndWait(char *p, int a);
 extern int BOX2_SEQ_ReturnAfterClear(char *p, int v);
 extern int BOX2_SEQ_SetSeqThird(char *p, int a, int b);
 extern int BOX2_MAIN_IsWindowMoving(char *p);

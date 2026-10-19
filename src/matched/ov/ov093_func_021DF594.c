@@ -15,7 +15,7 @@
  *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb  ov093
  *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb  ov093
  *   BTL_SERVER_FLOW_AppendMsgRecordArg  0x021C8860  thumb  ov093
- *   BTLV_CORE_MakeSlotKind1Index15  0x021E8A58  thumb  ov093
+ *   BTL_SICKCONT_MakeKind1Index15  0x021E8A58  thumb  ov093
  *   BTL_EVENT_GetFactorKey  0x021D70A8  thumb  ov093
  */
 
@@ -39,7 +39,7 @@ extern void BTL_SERVER_FLOW_InitMsgRecord(void *p, int a, int b);
 struct S;
 extern void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *p, u32 v);
 struct QQ;
-extern int BTLV_CORE_MakeSlotKind1Index15(void);
+extern int BTL_SICKCONT_MakeKind1Index15(void);
 extern u16 BTL_EVENT_GetFactorKey(struct QQ *p);
 
 void HAND_ITEM_ToxicOrbPoisonHolderOnTurnEnd(void *self, void *q, int id)
@@ -50,7 +50,7 @@ void HAND_ITEM_ToxicOrbPoisonHolderOnTurnEnd(void *self, void *q, int id)
         return;
     r = (Rec *)BTL_SERVER_FLOW_AllocCmdRecord(q, 12, id);
     r->f04 = 5;
-    r->f08 = BTLV_CORE_MakeSlotKind1Index15();
+    r->f08 = BTL_SICKCONT_MakeKind1Index15();
     r->f0c = 0;
     r->id = id;
     BTL_SERVER_FLOW_InitMsgRecord((u8 *)r + 0x14, 2, 0xf0);

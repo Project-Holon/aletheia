@@ -28,8 +28,8 @@
  *   EVENT_BATTLE_RETURN_ApplyBurmyForms 0x021B9C34 thumb ov092
  *   EVENT_BATTLE_RETURN_RegisterShayminForms 0x021B9CA4 thumb ov092
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
- *   BEACON_AddPoints 0x0200C278 thumb
- *   BEACON_SubPoints 0x0200C29C thumb
+ *   BEACON_AddMoney 0x0200C278 thumb
+ *   BEACON_SubMoney 0x0200C29C thumb
  *   EVENT_BATTLE_RETURN_ApplyNaturalCure 0x021B9BD8 thumb ov092
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   func_02008500 0x02008500 thumb
@@ -63,7 +63,7 @@
  *   NAMEIN_SETUP_FreeArgs 0x0216C0C0 thumb ov010
  *   EVENT_BATTLE_RETURN_ApplyHealBall 0x021B9D04 thumb ov092
  *   POKEPARTY_Add 0x0201A98C thumb
- *   POKE_TOOL_Dummy 0x020185F0 thumb
+ *   POKE_TOOL_CastToBoxParam 0x020185F0 thumb
  *   func_020074D8 0x020074D8 thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   GFL_USE_IsBgmFading 0x02005E50 thumb
@@ -116,8 +116,8 @@ extern u32 EVENT_BATTLE_RETURN_GetBurmyForm(u32, u32);
 extern void EVENT_BATTLE_RETURN_ApplyBurmyForms(struct S *s, void *party, int c);
 extern void EVENT_BATTLE_RETURN_RegisterShayminForms(struct S *s, void *party);
 extern void *GAME_DATA_GetMiscSave(int *p);
-extern u32 BEACON_AddPoints(struct Blk34 *p, u32 v);
-extern u32 BEACON_SubPoints(struct Blk34 *p, u32 v);
+extern u32 BEACON_AddMoney(struct Blk34 *p, u32 v);
+extern u32 BEACON_SubMoney(struct Blk34 *p, u32 v);
 extern void EVENT_BATTLE_RETURN_ApplyNaturalCure(void *);
 extern void *POKEPARTY_GetMember(void *, u32);
 extern void func_02008500(void *, void *);
@@ -151,7 +151,7 @@ extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 extern int NAMEIN_SETUP_FreeArgs(int a0);
 extern void EVENT_BATTLE_RETURN_ApplyHealBall(void *);
 extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
-extern void *POKE_TOOL_Dummy(void *);
+extern void *POKE_TOOL_CastToBoxParam(void *);
 extern int func_020074D8(void **save, const struct Sub02007454Entry *src);
 extern void GFL_USE_FadeOutBgm(u32);
 extern int GFL_USE_IsBgmFading(void);
@@ -194,8 +194,8 @@ int EVENT_BATTLE_RETURN_Main(void *unused, u32 *step, u8 *s, u8 *r)
             EVENT_BATTLE_RETURN_ApplyBurmyForms((struct S *)s, party, EVENT_BATTLE_RETURN_GetBurmyForm((u32)(*(void **)((u8 *)(s)+( 4))) + 8, (*(u16 *)((u8 *)(r)+( 60)))));
             EVENT_BATTLE_RETURN_RegisterShayminForms((struct S *)s, party);
             amount = (*(u32 *)((u8 *)((*(void **)((u8 *)(s)+( 4))))+( 136)));
-            if (amount > 0) BEACON_AddPoints(GAME_DATA_GetMiscSave((*(void **)((u8 *)(s)+( 0)))), amount);
-            else if (amount < 0) BEACON_SubPoints(GAME_DATA_GetMiscSave((*(void **)((u8 *)(s)+( 0)))), -amount);
+            if (amount > 0) BEACON_AddMoney(GAME_DATA_GetMiscSave((*(void **)((u8 *)(s)+( 0)))), amount);
+            else if (amount < 0) BEACON_SubMoney(GAME_DATA_GetMiscSave((*(void **)((u8 *)(s)+( 0)))), -amount);
         }
         EVENT_BATTLE_RETURN_ApplyNaturalCure(party);
         if ((*(u32 *)((u8 *)((*(void **)((u8 *)(s)+( 4))))+( 140))) == 5) {
@@ -262,7 +262,7 @@ int EVENT_BATTLE_RETURN_Main(void *unused, u32 *step, u8 *s, u8 *r)
         if (!(*(void **)((u8 *)(r)+( 44)))) POKEPARTY_Add(party, (*(void **)((u8 *)(r)+( 8))));
         else {
             save = (void *)GAME_DATA_GetBoxManager((*(void **)((u8 *)(s)+( 0))));
-            func_020074D8(save, POKE_TOOL_Dummy((*(void **)((u8 *)(r)+( 8)))));
+            func_020074D8(save, POKE_TOOL_CastToBoxParam((*(void **)((u8 *)(r)+( 8)))));
         }
         ++*step;
         break;

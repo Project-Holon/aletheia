@@ -15,7 +15,7 @@
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   TOUCHPANEL_GetCont 0x02035C38 arm
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
- *   BOX2_MAIN_StopSeq 0x021DD16C thumb
+ *   BOX2_MAIN_StepToAdjacentBox 0x021DD16C thumb
  *   BOX2_MAIN_WaitCursorMove 0x021DD930 thumb
  *   BOX2_MAIN_WaitBoxScroll 0x021DDAE8 thumb
  *   BOX2_MAIN_SwapWithNeighbour 0x021DE428 thumb
@@ -24,8 +24,8 @@
  *   BOX2_MAIN_ResetBoxView 0x021DF040 thumb
  *   BOX2_MAIN_HitBoxGrid 0x021DF1DC thumb
  *   BOX2_MAIN_MoveCursorActor 0x021DF43C thumb
- *   BOX2_MAIN_IsSeqIdle 0x021E00C4 thumb
- *   BOX2_MAIN_IsSeqStep 0x021E0128 thumb
+ *   BOX2_MAIN_StepScrollToPrevBox 0x021E00C4 thumb
+ *   BOX2_MAIN_StepScrollToNextBox 0x021E0128 thumb
  *   BOX2_SEQ_SetSlotActors 0x021ECB20 thumb
  *   BOX2_SEQ_SetSlotDim 0x021ED6E4 thumb
  *   BOX2_SEQ_MoveCursorToSlot 0x021ED7C4 thumb
@@ -68,10 +68,10 @@ extern void BOX2_UI_CloseListPack(struct WinMgr *mgr);
 extern int BOX2_UI_GetPageButtonHit(void);
 extern void BOX2_UI_OpenBar(struct WinMgr *mgr);
 extern int BOX2_UI_GetCloseButtonHit(void);
-extern void BOX2_MAIN_StopSeq(unsigned char *p, int dir);
+extern void BOX2_MAIN_StepToAdjacentBox(unsigned char *p, int dir);
 extern void BOX2_MAIN_MoveCursorActor(char *p, int x, int y);
-extern int BOX2_MAIN_IsSeqIdle(char *p);
-extern int BOX2_MAIN_IsSeqStep(char *p);
+extern int BOX2_MAIN_StepScrollToPrevBox(char *p);
+extern int BOX2_MAIN_StepScrollToNextBox(char *p);
 extern int BOX2_MAIN_WaitCursorMove(unsigned char *p);
 extern void BOX2_MAIN_SetMoverEntry(unsigned char *p, void *e);
 extern void BOX2_SEQ_MoveCursorToSlot(char *p, int i);
@@ -132,11 +132,11 @@ int BOX2_MAIN_StateMachineMove(unsigned char *p)
                 int dir = BOX2_UI_GetCloseButtonHit();
                 if (dir == 0) {
                     GFL_USE_PlaySeDefaultVolume(0x548);
-                    BOX2_MAIN_StopSeq(p, 0);
+                    BOX2_MAIN_StepToAdjacentBox(p, 0);
                     b->state = 2;
                 } else if (dir == 1) {
                     GFL_USE_PlaySeDefaultVolume(0x548);
-                    BOX2_MAIN_StopSeq(p, 1);
+                    BOX2_MAIN_StepToAdjacentBox(p, 1);
                     b->state = 3;
                 }
             }
@@ -144,7 +144,7 @@ int BOX2_MAIN_StateMachineMove(unsigned char *p)
         BOX2_MAIN_MoveCursorActor((char *)p, x, y);
         break;
     case 2:
-        if (BOX2_MAIN_IsSeqIdle((char *)p) == 0) {
+        if (BOX2_MAIN_StepScrollToPrevBox((char *)p) == 0) {
             b->timer = 0x10;
             b->state = 1;
         }
@@ -152,7 +152,7 @@ int BOX2_MAIN_StateMachineMove(unsigned char *p)
             BOX2_MAIN_MoveCursorActor((char *)p, x, y);
         break;
     case 3:
-        if (BOX2_MAIN_IsSeqStep((char *)p) == 0) {
+        if (BOX2_MAIN_StepScrollToNextBox((char *)p) == 0) {
             b->timer = 0x10;
             b->state = 1;
         }

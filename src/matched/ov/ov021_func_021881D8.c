@@ -66,12 +66,12 @@
  *   ZONEDATA_GetLightId  0x02013F2C  thumb
  *   FIELD_ZONEFOG_SetUp  0x021A0338  thumb  ov021
  *   ZONEDATA_GetAreaLightType  0x020140DC  thumb
- *   GF_STANDARD_GetTime  0x0203F4FC  arm
+ *   GF_STANDARD_GetSecondsOfDay  0x0203F4FC  arm
  *   COMM_PLAYER_SUPPORT_GetInfoCode  0x0202E83C  thumb
  *   FIELD_LIGHT_Create  0x021A03D0  thumb  ov021
  *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  *   WEATHER_Create  0x021A19E8  thumb  ov021
- *   GAME_DATA_GetSubscreenMode  0x02012994  thumb
+ *   GAME_DATA_GetWeatherId  0x02012994  thumb
  *   WEATHER_SetImmediate  0x021A1B74  thumb  ov021
  *   FIELD_GIMMICK_Setup  0x021BE1DC  thumb  ov021
  *   GAME_DATA_GetSubscreenType  0x020129AC  thumb
@@ -173,13 +173,13 @@ extern u32 ZONEDATA_GetFogId(u32 id);
 extern u32 ZONEDATA_GetLightId(u32 id);
 extern void FIELD_ZONEFOG_SetUp(u8 *p, u32 id, u32 c, u8 d);
 extern u8 ZONEDATA_GetAreaLightType(struct Sub020140BCObj *p);
-extern u32 GF_STANDARD_GetTime(void);
+extern u32 GF_STANDARD_GetSecondsOfDay(void);
 extern int COMM_PLAYER_SUPPORT_GetInfoCode(void *a0);
 extern u8 *FIELD_LIGHT_Create(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 struct BigObj;
 extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *p);
 extern int WEATHER_Create(int a0, int a1, int a2, int a3, int a4, int a5, int heap);
-extern u8 GAME_DATA_GetSubscreenMode(const struct BigObj *p);
+extern u8 GAME_DATA_GetWeatherId(const struct BigObj *p);
 extern void WEATHER_SetImmediate(u8 *p, int a, int f);
 extern void FIELD_GIMMICK_Setup(void *arg);
 extern u8 GAME_DATA_GetSubscreenType(const struct BigObj *p);
@@ -278,11 +278,11 @@ int FIELDMAP_SeqCreateSubsystems(int a, char *p)
         r = ZONEDATA_GetFogId(F16(0xd0));
         FIELD_ZONEFOG_SetUp((u8 *)F32(0x1c), r, ZONEDATA_GetLightId(F16(0xd0)), 1);
         r = ZONEDATA_GetAreaLightType((struct Sub020140BCObj *)F32(0xc));
-        g = GF_STANDARD_GetTime();
+        g = GF_STANDARD_GetSecondsOfDay();
         F32(0x14) = (int)FIELD_LIGHT_Create(r, g, COMM_PLAYER_SUPPORT_GetInfoCode((void *)a), F32(0x18), F32(0xa8), F16(0));
         r = GAME_DATA_GetBgmInfo((const struct BigObj *)F32(8));
         F32(0x20) = WEATHER_Create(F32(0x10), F32(0x14), F32(0x18), F32(0x1c), r, COMM_PLAYER_SUPPORT_GetInfoCode((void *)a), 0x92);
-        WEATHER_SetImmediate((u8 *)F32(0x20), (u16)((int)GAME_DATA_GetSubscreenMode((const struct BigObj *)F32(8))), 0x92);
+        WEATHER_SetImmediate((u8 *)F32(0x20), (u16)((int)GAME_DATA_GetWeatherId((const struct BigObj *)F32(8))), 0x92);
         FIELD_GIMMICK_Setup(p);
         break;
     }

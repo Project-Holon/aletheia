@@ -19,7 +19,7 @@
  *   LIVEBATTLEMATCH_IRC_SetMenuValue 0x0217DFD0 thumb ov176
  *   LIVEBATTLEMATCH_IRC_GetMenuValue 0x0217DFE4 thumb ov176
  *   LIVEBATTLEMATCH_IRC_CreateWindow 0x0217DEDC thumb ov176
- *   LIVEBATTLEMATCH_IRC_GetWindowResult 0x0217DFBC thumb ov176
+ *   LIVEBATTLEMATCH_IRC_PollWindowResult 0x0217DFBC thumb ov176
  *   LIVEBATTLEMATCH_IRC_DeleteWindow 0x0217DFA8 thumb ov176
  *   DIGITALCARDCHECK_IsInitWorkDone 0x0217DE98 thumb ov176
  *   DIGITALCARDCHECK_EndPhase 0x0217DC20 thumb ov176
@@ -36,7 +36,7 @@ extern int LIVEBATTLEMATCH_IRC_ToggleSe(int, int);
 extern void LIVEBATTLEMATCH_IRC_SetMenuValue(int *, int, int);
 extern int LIVEBATTLEMATCH_IRC_GetMenuValue(int *);
 extern void LIVEBATTLEMATCH_IRC_CreateWindow(char *, int);
-extern int LIVEBATTLEMATCH_IRC_GetWindowResult(int *);
+extern int LIVEBATTLEMATCH_IRC_PollWindowResult(int *);
 extern void LIVEBATTLEMATCH_IRC_DeleteWindow(int *);
 extern int DIGITALCARDCHECK_IsInitWorkDone(int *);
 extern void DIGITALCARDCHECK_EndPhase(int);
@@ -54,7 +54,7 @@ void DIGITALCARDCHECK_Phase4(int sys, int *state, int *p)
     case 4: if (LIVEBATTLEMATCH_IRC_GetMenuValue(p)) *state = 5; break;
     case 5: LIVEBATTLEMATCH_IRC_CreateWindow((char *)p, 1); *state = 6; break;
     case 6:
-        result = LIVEBATTLEMATCH_IRC_GetWindowResult(p);
+        result = LIVEBATTLEMATCH_IRC_PollWindowResult(p);
         if (result != -1) { LIVEBATTLEMATCH_IRC_DeleteWindow(p); if (result == 0) *state = 7; }
         break;
     case 7: if (DIGITALCARDCHECK_IsInitWorkDone(p)) *state = 8; break;

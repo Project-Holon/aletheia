@@ -1,5 +1,5 @@
 /*
- * function: EVENT_POKE_STATUS_SetTrainerRecord
+ * function: EVENT_TRAINER_SetScriptTrainerEntry
  * address:  0x0215A438
  * packet:   pkt_ov010_0215A438
  * region:   ov010
@@ -21,7 +21,7 @@ typedef struct {
 extern int SCRIPT_SYS_GetEventScriptWork(int);
 extern char *SCRIPT_WORK_GetTrainerEntry(char *p, int i);
 
-void EVENT_POKE_STATUS_SetTrainerRecord(int a, int b, S24 *src)
+void EVENT_TRAINER_SetScriptTrainerEntry(int a, int b, S24 *src)
 {
     int *q = (int *)SCRIPT_WORK_GetTrainerEntry((char *)SCRIPT_SYS_GetEventScriptWork(a), b);
 

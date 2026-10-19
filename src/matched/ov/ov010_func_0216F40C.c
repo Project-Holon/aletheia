@@ -40,8 +40,8 @@
  *   func_020084F4  0x020084F4  thumb
  *   func_02008550  0x02008550  thumb
  *   func_02008530  0x02008530  thumb
- *   BEACON_GetPoints  0x0200C274  thumb
- *   BEACON_GetFlag  0x0200C234  thumb
+ *   BEACON_GetMoney  0x0200C274  thumb
+ *   BEACON_GetBadge  0x0200C234  thumb
  *   GAME_DATA_GetPlayTime  0x02012FCC  thumb
  *   func_02008554  0x02008554  thumb
  *   func_0200864C  0x0200864C  thumb
@@ -181,8 +181,8 @@ extern int func_020084BC(const u16 *values);
 extern const void *func_020084F4(const void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
-extern u32 BEACON_GetPoints(struct Blk34 *p);
-extern u32 BEACON_GetFlag(struct Blk34 *p, u32 bit);
+extern u32 BEACON_GetMoney(struct Blk34 *p);
+extern u32 BEACON_GetBadge(struct Blk34 *p, u32 bit);
 extern int GAME_DATA_GetPlayTime(int p0);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern u16 func_0200864C(const struct PlayTime *p);
@@ -258,11 +258,11 @@ void TRCARD_SYS_BuildProfile(Profile *out, void *save, int mode, int flag, volat
     out->f03 = (u32)TRCARD_SYS_CountStars(save);
     out->b1 = (u32)func_02008550(player);
     out->f28 = func_02008530(player);
-    out->f20 = BEACON_GetPoints(x1c);
+    out->f20 = BEACON_GetMoney(x1c);
     out->f08 = 0;
     out->kind = 0x15;
     for (i = 0, bit = 1; i < 8; i++) {
-        if (BEACON_GetFlag(x1c, i) == 1)
+        if (BEACON_GetBadge(x1c, i) == 1)
             out->f08 |= bit;
         bit <<= 1;
     }

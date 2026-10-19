@@ -1,7 +1,7 @@
 /*
  * file:     hand_pos.c
  * unit:     yes
- * function: HAND_POS_AddFactor, BTL_EVENT_IsFactorKeyRegistered, HAND_POS_IsNotRegistered, HAND_POS_GetHandlersWish, HAND_POS_WishHealOnTurn, HAND_POS_GetHandlersLunarDance, HAND_POS_LunarDanceOnSwitchIn, HAND_POS_GetHandlersHealingWish, HAND_POS_HealingWishOnSwitchIn, HAND_POS_GetHandlersFutureSight, HAND_POS_FutureSightOnTurn, HAND_POS_GetHandlersPending, HAND_POS_PendingOnEnter
+ * function: HAND_POS_AddFactor, HAND_POS_IsRegistered, HAND_POS_IsNotRegistered, HAND_POS_GetHandlersWish, HAND_POS_WishHealOnTurn, HAND_POS_GetHandlersLunarDance, HAND_POS_LunarDanceOnSwitchIn, HAND_POS_GetHandlersHealingWish, HAND_POS_HealingWishOnSwitchIn, HAND_POS_GetHandlersFutureSight, HAND_POS_FutureSightOnTurn, HAND_POS_GetHandlersPending, HAND_POS_PendingOnEnter
  * address:  0x068981F0
  * region:   ov095
  * compiler: dsi/1.1p1
@@ -58,7 +58,7 @@ extern u8 BTL_POKEPARAM_GetMovePPLost(struct BtlPokeParam *bpp, u8 moveIndex);
 extern int BTL_POKEPARAM_GetValue(struct BtlPokeParam *bpp, int valueId);
 extern int BTL_POKEPARAM_IsFainted(struct BtlPokeParam *bpp);
 struct BtlEventFactor *HAND_POS_AddFactor(int effectId, int position, u32 userPokeId, u32 *values, u8 valueCount);
-int BTL_EVENT_IsFactorKeyRegistered(int a, int b);
+int HAND_POS_IsRegistered(int a, int b);
 int HAND_POS_IsNotRegistered(int effectId, int position);
 const BtlEventHandler *HAND_POS_GetHandlersWish(u32 *handlerCount);
 void HAND_POS_WishHealOnTurn(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int position, HandWishWork *work);
@@ -109,7 +109,7 @@ struct BtlEventFactor *HAND_POS_AddFactor(int effectId, int position, u32 userPo
 }
 
 
-int BTL_EVENT_IsFactorKeyRegistered(int a, int b)
+int HAND_POS_IsRegistered(int a, int b)
 {
     if (HAND_POS_IsNotRegistered(a, b) == 0)
         return 1;

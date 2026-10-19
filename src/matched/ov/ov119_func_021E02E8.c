@@ -23,7 +23,7 @@
  *   func_020086F8 0x020086F8 thumb
  *   func_02007AEC 0x02007AEC thumb
  *   func_02007AF4 0x02007AF4 thumb
- *   GAME_DATA_GetBoxSave 0x02012F98 thumb
+ *   GAME_DATA_GetPerapVoiceSave 0x02012F98 thumb
  *   func_02007B5C 0x02007B5C thumb
  *   MI_CpuFill8 0x02082BCC arm
  */
@@ -43,7 +43,7 @@ extern struct Sub02008F80Obj *func_02008FEC(void *sys);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern int GAME_DATA_GetPlayTime(int p0);
 extern struct Sub02007AC8Entry *func_02007AF4(void **save, u32 box);
-extern struct Sub02007AC8Entry *GAME_DATA_GetBoxSave(void *p);
+extern struct Sub02007AC8Entry *GAME_DATA_GetPerapVoiceSave(void *p);
 extern u32 func_02008FFC(void);
 extern u32 func_02008C20(void);
 extern u32 func_02007AEC(void);
@@ -91,6 +91,6 @@ void POKETRADE_SAVE_RestoreBackups(char *p)
         MI_CpuCopy8(((struct Obj00589 *)p)->f624,src,n);
         func_020307B0(((struct Obj00589 *)p)->f624);
     }
-    if(((struct Obj00589 *)p)->f62C) func_02007B5C((struct PerapVoice *)GAME_DATA_GetBoxSave(((struct Obj00589 *)p)->f82C));
+    if(((struct Obj00589 *)p)->f62C) func_02007B5C((struct PerapVoice *)GAME_DATA_GetPerapVoiceSave(((struct Obj00589 *)p)->f82C));
     MI_CpuFill8(p+0x60c,0,0x24);
 }

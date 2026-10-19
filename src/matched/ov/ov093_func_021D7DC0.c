@@ -12,10 +12,10 @@
  * symbols:
  *   BTL_CALC_MakeDefaultSickCont  0x021D7D18  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
- *   BTLV_CORE_MakeSlotKind3  0x021E899C  thumb  ov093
+ *   BTL_SICKCONT_MakeKind3  0x021E899C  thumb  ov093
  *   BTL_CALC_RandRange  0x021D7B8C  thumb  ov093
- *   BTLV_CORE_MakeSlotKind2Index  0x021E8940  thumb  ov093
- *   BTLV_CORE_MakeSlotKind1Empty  0x021E89C0  thumb  ov093
+ *   BTL_SICKCONT_MakeKind2Index  0x021E8940  thumb  ov093
+ *   BTL_SICKCONT_MakeKind1Empty  0x021E89C0  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -29,10 +29,10 @@ typedef struct { u32 v; } Word;
 
 extern Word BTL_CALC_MakeDefaultSickCont(int x);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
-extern Word BTLV_CORE_MakeSlotKind3(u32 a);
+extern Word BTL_SICKCONT_MakeKind3(u32 a);
 extern u32 BTL_CALC_RandRange(u32 lo, u32 hi);
-extern Word BTLV_CORE_MakeSlotKind2Index(u8 a);
-extern Word BTLV_CORE_MakeSlotKind1Empty(void);
+extern Word BTL_SICKCONT_MakeKind2Index(u8 a);
+extern Word BTL_SICKCONT_MakeKind1Empty(void);
 
 void BTL_CALC_MakeSickContFromKind(int a, int b, Word *out)
 {
@@ -45,14 +45,14 @@ void BTL_CALC_MakeSickContFromKind(int a, int b, Word *out)
     out->v = 0;
     switch (a) {
     case 7:
-        *out = BTLV_CORE_MakeSlotKind3(BTL_POKEPARAM_GetPokeId((u8 *)b));
+        *out = BTL_SICKCONT_MakeKind3(BTL_POKEPARAM_GetPokeId((u8 *)b));
         break;
     case 6:
         y = BTL_CALC_RandRange(2, 5);
-        *out = BTLV_CORE_MakeSlotKind2Index(y);
+        *out = BTL_SICKCONT_MakeKind2Index(y);
         break;
     default:
-        *out = BTLV_CORE_MakeSlotKind1Empty();
+        *out = BTL_SICKCONT_MakeKind1Empty();
         break;
     }
 }

@@ -13,7 +13,7 @@
  * Battle-side twin of BTLV_GAUGE_InitSlotFromPartyPoke (same row layout).
  *
  * lever: BTL_POKEPARAM_GetSickContRaw returns a one-word struct (Word) passed by value to
- * BTLV_CORE_IsSlotKind1Index15, as in the ov093 callers. The struct-return temporary
+ * BTL_SICKCONT_IsKind1Index15, as in the ov093 callers. The struct-return temporary
  * reserves the extra frame word (push r3, sub sp #0x28, slot sp+0x24 never
  * touched) and that one change also flips the row stores to share p + i*0x80
  * in a scratch register; with int prototypes both residues remained
@@ -29,7 +29,7 @@
  *   BTL_POKEPARAM_GetDisplayMon 0x021D5864 thumb ov093
  *   POKE_TOOL_GetGender 0x02017F00 thumb
  *   BTL_POKEPARAM_GetSickContRaw 0x021D6314 thumb ov093
- *   BTLV_CORE_IsSlotKind1Index15 0x021E8A78 thumb ov093
+ *   BTL_SICKCONT_IsKind1Index15 0x021E8A78 thumb ov093
  *   BTL_POKEPARAM_GetMajorStatusIndex 0x021D62A8 thumb ov093
  *   BTLV_GAUGE_SetStatusIcon 0x02208814 thumb ov094
  *   BTLV_GAUGE_PlaceSlot 0x022079C0 thumb ov094
@@ -57,7 +57,7 @@ extern void *BTL_POKEPARAM_GetDisplayMon(struct Work *p);
 extern u8 POKE_TOOL_GetGender(void *);
 typedef struct { u32 v; } Word;
 extern Word BTL_POKEPARAM_GetSickContRaw(void *, int);
-extern int BTLV_CORE_IsSlotKind1Index15(Word);
+extern int BTL_SICKCONT_IsKind1Index15(Word);
 extern int BTL_POKEPARAM_GetMajorStatusIndex(struct Unk021D62A8 *p);
 extern void BTLV_GAUGE_SetStatusIcon(struct O *obj, int k, int idx);
 extern void BTLV_GAUGE_PlaceSlot(char *, int, Pt *);
@@ -97,7 +97,7 @@ void BTLV_GAUGE_InitSlotFromBattlePoke(W *p, void *a, void *q, int mode, int i)
         p->rows[i].sex = POKE_TOOL_GetGender(BTL_POKEPARAM_GetDisplayMon(q));
     else
         p->rows[i].sex = 2;
-    if (BTLV_CORE_IsSlotKind1Index15(BTL_POKEPARAM_GetSickContRaw(q, 5)) == 1 && BTL_POKEPARAM_GetMajorStatusIndex(q) == 5)
+    if (BTL_SICKCONT_IsKind1Index15(BTL_POKEPARAM_GetSickContRaw(q, 5)) == 1 && BTL_POKEPARAM_GetMajorStatusIndex(q) == 5)
         item = 6;
     else
         item = BTL_POKEPARAM_GetMajorStatusIndex(q);

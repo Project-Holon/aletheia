@@ -1,5 +1,5 @@
 /*
- * function: BTLV_CORE_MakeSlotKind1
+ * function: BTL_SICKCONT_MakeKind1
  * address:  0x021E89F8
  * packet:   pkt_ov093_021E89F8
  * region:   ov093
@@ -15,7 +15,7 @@
  */
 typedef unsigned int u32;
 struct S { unsigned a:3; unsigned b:6; unsigned c:16; unsigned d:7; };
-int BTLV_CORE_MakeSlotKind1(u32 a, u32 b)
+int BTL_SICKCONT_MakeKind1(u32 a, u32 b)
 {
     struct S s = {0};
     s.a = 1;

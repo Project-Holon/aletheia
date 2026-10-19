@@ -58,7 +58,7 @@
  *   WIFIBATTLEMATCH_UTIL_CreateCallback 0x021E8A3C thumb ov177
  *   d_0217E61C 0x0217E61C data a1
  *   WIFIBATTLEMATCH_UTIL_DeleteCallback 0x021E8A78 thumb ov177
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   WIFIBATTLEMATCH_UTIL_InvokeCallback  0x021E8A80  thumb  ov177
  *   WIFIBATTLEMATCH_VIEW_UpdatePokeList  0x021E64C0  thumb  ov177
@@ -71,7 +71,7 @@
  *   LIVEBATTLEMATCH_IRC_SetMenuValue 0x0217DFD0 thumb ov176
  *   LIVEBATTLEMATCH_IRC_GetMenuValue 0x0217DFE4 thumb ov176
  *   LIVEBATTLEMATCH_IRC_CreateWindow 0x0217DEDC thumb ov176
- *   LIVEBATTLEMATCH_IRC_GetWindowResult 0x0217DFBC thumb ov176
+ *   LIVEBATTLEMATCH_IRC_PollWindowResult 0x0217DFBC thumb ov176
  *   LIVEBATTLEMATCH_IRC_DeleteWindow 0x0217DFA8 thumb ov176
  *   WIFIBATTLEMATCH_UTIL_SetRequest 0x021E8AB4 thumb ov177
  *   WIFIBATTLEMATCH_UTIL_CommitRequest 0x021E8AB8 thumb ov177
@@ -168,7 +168,7 @@ extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fi
 extern int WORDSET_Create(int,int,int);
 extern int *WIFIBATTLEMATCH_UTIL_CreateCallback(int a, int b, int c);
 extern void WIFIBATTLEMATCH_UTIL_DeleteCallback(void *p);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void WIFIBATTLEMATCH_UTIL_InvokeCallback(int);
 extern int WIFIBATTLEMATCH_VIEW_UpdatePokeList(unsigned char *, void *);
@@ -181,7 +181,7 @@ extern int LIVEBATTLEMATCH_IRC_ToggleSe(int, int);
 extern void LIVEBATTLEMATCH_IRC_SetMenuValue(int *, int, int);
 extern int LIVEBATTLEMATCH_IRC_GetMenuValue(int *);
 extern void LIVEBATTLEMATCH_IRC_CreateWindow(char *, int);
-extern int LIVEBATTLEMATCH_IRC_GetWindowResult(int *);
+extern int LIVEBATTLEMATCH_IRC_PollWindowResult(int *);
 extern void LIVEBATTLEMATCH_IRC_DeleteWindow(int *);
 extern void WIFIBATTLEMATCH_UTIL_SetRequest(u32, u32);
 extern void WIFIBATTLEMATCH_UTIL_CommitRequest(u32);
@@ -434,7 +434,7 @@ Request *DIGITALCARDCHECK_Create(RequestConfig *p, int heap)
 
 
 
-void DIGITALCARDCHECK_Delete(int *p) {WIFIBATTLEMATCH_UTIL_DeleteCallback((void *)p[4]);DIGITALCARDCHECK_DeleteInitRecord(p);WORDSET_DeleteStrbufED04((struct WordSet *)p[1]);MSGDATA_Delete((struct Rec *)p[0]);GFL_HEAP_Free(p);}
+void DIGITALCARDCHECK_Delete(int *p) {WIFIBATTLEMATCH_UTIL_DeleteCallback((void *)p[4]);DIGITALCARDCHECK_DeleteInitRecord(p);WORDSET_Delete((struct WordSet *)p[1]);MSGDATA_Delete((struct Rec *)p[0]);GFL_HEAP_Free(p);}
 
 
 
@@ -508,19 +508,19 @@ void DIGITALCARDCHECK_Phase1(int *a, int *state, int *p)
         *state = 19; WIFIBATTLEMATCH_UTIL_SetRequest((u32)a, 4); break;
     case 4: LIVEBATTLEMATCH_IRC_CreateWindow((char *)p, 2); *state = 5; break;
     case 5:
-        result = LIVEBATTLEMATCH_IRC_GetWindowResult(p);
+        result = LIVEBATTLEMATCH_IRC_PollWindowResult(p);
         if (result != -1) { LIVEBATTLEMATCH_IRC_DeleteWindow(p); if (result == 0) *state = 6; else if (result == 1) *state = 17; }
         break;
     case 6: LIVEBATTLEMATCH_IRC_SetMenuValue(p, 0x71, 1); *state = 19; WIFIBATTLEMATCH_UTIL_SetRequest((u32)a, 7); break;
     case 7: LIVEBATTLEMATCH_IRC_CreateWindow((char *)p, 0); *state = 8; break;
     case 8:
-        result = LIVEBATTLEMATCH_IRC_GetWindowResult(p);
+        result = LIVEBATTLEMATCH_IRC_PollWindowResult(p);
         if (result != -1) { LIVEBATTLEMATCH_IRC_DeleteWindow(p); if (result == 0) *state = 9; else if (result == 1) *state = 17; }
         break;
     case 9: LIVEBATTLEMATCH_IRC_SetMenuValue(p, 0x72, 1); *state = 19; WIFIBATTLEMATCH_UTIL_SetRequest((u32)a, 10); break;
     case 10: LIVEBATTLEMATCH_IRC_CreateWindow((char *)p, 0); *state = 11; break;
     case 11:
-        result = LIVEBATTLEMATCH_IRC_GetWindowResult(p);
+        result = LIVEBATTLEMATCH_IRC_PollWindowResult(p);
         if (result != -1) { LIVEBATTLEMATCH_IRC_DeleteWindow(p); if (result == 0) *state = 12; else if (result == 1) *state = 17; }
         break;
     case 12: LIVEBATTLEMATCH_IRC_SetMenuValue(p, 0x6B, 2); *state = 19; WIFIBATTLEMATCH_UTIL_SetRequest((u32)a, 13); break;
@@ -558,19 +558,19 @@ void DIGITALCARDCHECK_Phase2(int *a, int *state, int *p)
         *state = 19; WIFIBATTLEMATCH_UTIL_SetRequest((u32)a, 4); break;
     case 4: LIVEBATTLEMATCH_IRC_CreateWindow((char *)p, 2); *state = 5; break;
     case 5:
-        result = LIVEBATTLEMATCH_IRC_GetWindowResult(p);
+        result = LIVEBATTLEMATCH_IRC_PollWindowResult(p);
         if (result != -1) { LIVEBATTLEMATCH_IRC_DeleteWindow(p); if (result == 0) *state = 6; else if (result == 1) *state = 17; }
         break;
     case 6: LIVEBATTLEMATCH_IRC_SetMenuValue(p, 0x69, 1); *state = 19; WIFIBATTLEMATCH_UTIL_SetRequest((u32)a, 7); break;
     case 7: LIVEBATTLEMATCH_IRC_CreateWindow((char *)p, 0); *state = 8; break;
     case 8:
-        result = LIVEBATTLEMATCH_IRC_GetWindowResult(p);
+        result = LIVEBATTLEMATCH_IRC_PollWindowResult(p);
         if (result != -1) { LIVEBATTLEMATCH_IRC_DeleteWindow(p); if (result == 0) *state = 9; else if (result == 1) *state = 17; }
         break;
     case 9: LIVEBATTLEMATCH_IRC_SetMenuValue(p, 0x72, 1); *state = 19; WIFIBATTLEMATCH_UTIL_SetRequest((u32)a, 10); break;
     case 10: LIVEBATTLEMATCH_IRC_CreateWindow((char *)p, 0); *state = 11; break;
     case 11:
-        result = LIVEBATTLEMATCH_IRC_GetWindowResult(p);
+        result = LIVEBATTLEMATCH_IRC_PollWindowResult(p);
         if (result != -1) { LIVEBATTLEMATCH_IRC_DeleteWindow(p); if (result == 0) *state = 12; else if (result == 1) *state = 17; }
         break;
     case 12: LIVEBATTLEMATCH_IRC_SetMenuValue(p, 0x6B, 2); *state = 19; WIFIBATTLEMATCH_UTIL_SetRequest((u32)a, 13); break;
@@ -606,7 +606,7 @@ void DIGITALCARDCHECK_Phase3(int *a, int *state, int *p)
     case 4: if (LIVEBATTLEMATCH_IRC_GetMenuValue(p)) *state = 5; break;
     case 5: LIVEBATTLEMATCH_IRC_CreateWindow((char *)p, 1); *state = 6; break;
     case 6:
-        result = LIVEBATTLEMATCH_IRC_GetWindowResult(p);
+        result = LIVEBATTLEMATCH_IRC_PollWindowResult(p);
         if (result != -1) {
             LIVEBATTLEMATCH_IRC_DeleteWindow(p);
             if (result == 0) *state = 7;
@@ -635,7 +635,7 @@ void DIGITALCARDCHECK_Phase4(int sys, int *state, int *p)
     case 4: if (LIVEBATTLEMATCH_IRC_GetMenuValue(p)) *state = 5; break;
     case 5: LIVEBATTLEMATCH_IRC_CreateWindow((char *)p, 1); *state = 6; break;
     case 6:
-        result = LIVEBATTLEMATCH_IRC_GetWindowResult(p);
+        result = LIVEBATTLEMATCH_IRC_PollWindowResult(p);
         if (result != -1) { LIVEBATTLEMATCH_IRC_DeleteWindow(p); if (result == 0) *state = 7; }
         break;
     case 7: if (DIGITALCARDCHECK_IsInitWorkDone(p)) *state = 8; break;
@@ -658,7 +658,7 @@ void DIGITALCARDCHECK_Phase5(int sys, int *state, int *p)
     case 4: if (LIVEBATTLEMATCH_IRC_GetMenuValue(p)) *state = 5; break;
     case 5: LIVEBATTLEMATCH_IRC_CreateWindow((char *)p, 1); *state = 6; break;
     case 6:
-        result = LIVEBATTLEMATCH_IRC_GetWindowResult(p);
+        result = LIVEBATTLEMATCH_IRC_PollWindowResult(p);
         if (result != -1) { LIVEBATTLEMATCH_IRC_DeleteWindow(p); if (result == 0) *state = 7; }
         break;
     case 7: if (DIGITALCARDCHECK_IsInitWorkDone(p)) *state = 8; break;

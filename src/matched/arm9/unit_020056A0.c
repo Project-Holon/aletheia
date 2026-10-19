@@ -17,7 +17,7 @@
  *   sub_020056A0_Sys  0x020AA194  data
  *   func_02030DA8     0x02030DA8  arm
  *   GF_STANDARD_RandSeed     0x0203F034  arm
- *   GF_STANDARD_CalcHash     0x0203F258  arm
+ *   GF_STANDARD_SeedLcg64     0x0203F258  arm
  *   _ull_mul          0x0209C054  arm
  *
  * The tail of the packet: the second heap's allocator wrapper, the shutdown
@@ -81,7 +81,7 @@
  *       blocked functions and three linker veneers in between, so no
  *       contiguous range makes the site `local`.
  *   0x02005230..0x0200523C, 12 bytes.  `label` twice: the only caller of
- *       GFL_USE_PollTwlService is the `bl` at 0x02005232 and the only caller of
+ *       GFL_USE_DoVramTransfer is the `bl` at 0x02005232 and the only caller of
  *       sub_0200567C is the `bl` at 0x02005236.  Same obstruction as above in
  *       both directions at once.
  *   0x0200523C..0x020052EC, 176 bytes.  19 unresolved sites, 18 of them
@@ -159,7 +159,7 @@ struct Lcg64;
 struct Node;
 extern struct Node *func_02030DA8(struct Ctx *c, void (*callback)(struct Node *, void *), void *work, u32 key);
 extern void  GF_STANDARD_RandSeed(u32 seed);
-extern void GF_STANDARD_CalcHash(struct Lcg64 *out);
+extern void GF_STANDARD_SeedLcg64(struct Lcg64 *out);
 
 void GFL_USE_InitRandomState(void *heap);
 u32  GFL_USE_GetRandom(u32 range);
@@ -176,7 +176,7 @@ void *GFL_USE_GetMainTaskList(void)
 
 void GFL_USE_InitRandomState(void *heap)
 {
-    GF_STANDARD_CalcHash(heap);
+    GF_STANDARD_SeedLcg64(heap);
 }
 
 void GFL_USE_InitRandom(void)

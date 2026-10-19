@@ -103,7 +103,7 @@ struct GameData {
     unsigned int     fieldMode;
     unsigned int     saveStatus;
     unsigned char    season;
-    unsigned char    subscreenMode;
+    unsigned char    weatherId;
     unsigned char    subscreenType;
     unsigned char    fieldMenuCursor;
     unsigned char    walkCount;

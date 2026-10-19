@@ -1,5 +1,5 @@
 /*
- * function: GFL_NET_HANDLE_CheckTimingSyncAll
+ * function: GFL_NET_HANDLE_SendTimingSyncAll
  * address:  0x02039CD8
  * packet:   pkt_02039CD8
  * region:   arm9
@@ -25,8 +25,8 @@
  * 0x10 are the register arguments).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_CheckTimingSyncAll.c \
- *       --func GFL_NET_HANDLE_CheckTimingSyncAll --addr 0x02039CD8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_SendTimingSyncAll.c \
+ *       --func GFL_NET_HANDLE_SendTimingSyncAll --addr 0x02039CD8 --cc 1.1p1 --arm
  */
 #include "../include/Obj15949.h"
 
@@ -45,7 +45,7 @@ struct Obj {
     u16  key;
 };
 
-int GFL_NET_HANDLE_CheckTimingSyncAll(struct Obj *p)
+int GFL_NET_HANDLE_SendTimingSyncAll(struct Obj *p)
 {
     int i;
 

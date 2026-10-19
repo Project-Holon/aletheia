@@ -349,9 +349,9 @@ extern u16 BTL_POKEPARAM_GetSpecies(struct BtlPokeParam *poke);
 
 extern void BTL_SERVER_FLOW_TryFinishMainCounter(struct BtlServerFlow *flow, int pokeId);
 
-extern int BTLV_CORE_EventTrySetFlagIfAttacker(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId);
+extern int HAND_COMMON_EventTrySetFlagIfAttacker(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId);
 
-extern union SickCont BTLV_CORE_MakeSlotKind1Index15(void);
+extern union SickCont BTL_SICKCONT_MakeKind1Index15(void);
 
 extern union SickCont BTL_CALC_MakeDefaultSickCont(int sickKind);
 
@@ -474,7 +474,7 @@ typedef struct {
 } BtlChangeTypeCmd;
 
 /* Services used by the handlers of this part. */
-extern void BTLV_CORE_SetSlotFlag(u32 *packedCont, int slot);
+extern void BTL_SICKCONT_SetFlag(u32 *packedCont, int slot);
 
 extern int BTL_POKEPARAM_CanChangeStatStage(struct BtlPokeParam *pokeParam, int statId, int amount);
 
@@ -512,6 +512,6 @@ extern int BTL_POKEPARAM_HasType(struct BtlPokeParam *bpp, int type);
 
 extern u32 BTL_CALC_Random(u32 range);
 
-extern u16 BTLV_CORE_PackByteTwice(int value);
+extern u16 BTL_TYPEPAIR_MakeSingle(int value);
 
 #endif

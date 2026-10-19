@@ -1,5 +1,5 @@
 /*
- * function: WORLDTRADE_BOX_IsSpeciesFlagged
+ * function: WORLDTRADE_BOX_IsHoldingMail
  * address:  0x021F6DE8
  * packet:   pkt_021F6DE8
  * region:   ov135
@@ -11,7 +11,7 @@
  *
  * symbols:
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb  arm9
- *   FILE_UTIL_Check136C  0x0202136C  thumb  arm9
+ *   FILE_UTIL_IsMailItem  0x0202136C  thumb  arm9
  *
 
  *
@@ -23,14 +23,14 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 extern u32 POKE_TOOL_GetPartyValue(void *a, u32 b, u32 c);
-extern u32 FILE_UTIL_Check136C(u16 v);
+extern u32 FILE_UTIL_IsMailItem(u16 v);
 
-int WORLDTRADE_BOX_IsSpeciesFlagged(u32 handle)
+int WORLDTRADE_BOX_IsHoldingMail(u32 handle)
 {
     int ok = 0;
     u16 v = (u16)POKE_TOOL_GetPartyValue((void *)handle, 6, 0);
 
-    if (FILE_UTIL_Check136C(v) != 0) {
+    if (FILE_UTIL_IsMailItem(v) != 0) {
         ok = 1;
     }
     return ok;

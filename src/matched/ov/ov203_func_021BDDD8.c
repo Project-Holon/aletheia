@@ -11,7 +11,7 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
- *   DEMO3D_DATA_GetAnimCount 0x021BE938 thumb ov203
+ *   DEMO3D_DATA_IsDouble3dDisplay 0x021BE938 thumb ov203
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   BMP_SetDisplaySwap 0x0204363C arm
@@ -32,7 +32,7 @@ extern const char d_021C3CCC[];
 extern const unsigned char d_021BFBC4[][48];
 extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
 extern void MI_CpuFill8(void *, unsigned, unsigned);
-extern int DEMO3D_DATA_GetAnimCount(void *);
+extern int DEMO3D_DATA_IsDouble3dDisplay(void *);
 extern void BG_SYS_ClearGraphicsMemory(unsigned);
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
@@ -52,7 +52,7 @@ void *DEMO3D_GRAPHIC_Create(unsigned swap, void *config, unsigned heap)
 {
     unsigned char *ctx = func_02030734(heap, 24, 0, d_021C3CCC, 0x15a);
     MI_CpuFill8(ctx, 0, 24);
-    ((struct Obj08374 *)ctx)->f14 = DEMO3D_DATA_GetAnimCount(config);
+    ((struct Obj08374 *)ctx)->f14 = DEMO3D_DATA_IsDouble3dDisplay(config);
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
     *(volatile unsigned *)0x04000000 &= 0xffff1fff;

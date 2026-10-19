@@ -1,5 +1,5 @@
 /*
- * function: UNION_MAIN_SubEventMain
+ * function: UNION_SCENE_SubEventMain
  * address:  0x0217416C
  * packet:   pkt_ov012_0217416C
  * region:   ov012
@@ -35,7 +35,7 @@ extern u8 d_0217549C[];
 extern u8 d_0217549D[];
 extern u8 d_02175498[];
 
-int UNION_MAIN_SubEventMain(int a, int *b, int *c)
+int UNION_SCENE_SubEventMain(int a, int *b, int *c)
 {
     int first;
     u8 *base;

@@ -29,13 +29,13 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BUTTON_MAN_Delete  0x02051C6C  arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   STRBUF_Create 0x020457B0 arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   GFL_HEAP_Free 0x020307B0 arm
  *   BMP_MENUWORK_LoadFrameGfx 0x0201F5DC thumb
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   STRBUF_Delete 0x02045808 arm
@@ -53,7 +53,7 @@
  *   BMP_WIN_Exit 0x020450C8 arm
  *   d_021DAA30 0x021DAA30 data a1
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
- *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
+ *   WORDSET_SetSlotMonNickname 0x0201EEF4 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   G2x_SetBlendBrightness_ 0x0207D658 arm
@@ -65,7 +65,7 @@
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb  arm9
  *   PDWACC_MESSAGE_FormatNumber 0x021D97CC thumb ov123
  *   WORDSET_CreateDefault  0x0201EC64  thumb  arm9
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
+ *   WORDSET_Delete  0x0201ED04  thumb  arm9
  *   GF_FONT_InitTextColor  0x0201DD60  thumb  arm9
  *   PRINTSYS_CTRL_Init  0x02028470  thumb  arm9
  *   PRINTSYS_CTRL_Update  0x02028484  thumb  arm9
@@ -108,7 +108,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 
 extern void BUTTON_MAN_Delete(void *p);
 
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
@@ -120,7 +120,7 @@ extern u32 GFL_HEAP_Free(void *p);
 
 extern void *BMP_MENUWORK_LoadFrameGfx(void *, u32, u32, u32);
 
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 
 extern u32 MSGDATA_Delete(void *rec);
 
@@ -172,11 +172,11 @@ extern void BMP_WIN_Exit(void);
 
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 
 extern void PRINTSYS_CTRL_Init(u8 *p, u32 v);
 
-extern void WORDSET_SetSlotMonSpecies(struct WordSet *,u32,void *);
+extern void WORDSET_SetSlotMonNickname(struct WordSet *,u32,void *);
 
 extern void WORDSET_SetSlotNumber(struct WordSet *,u32,u32,u32,u32,u32);
 
@@ -276,12 +276,12 @@ void GSYNC_MESSAGE_ExitSystem(GsyncMessageWork *work)
             BMP_WIN_Delete(work->windows[windowIndex]);
     }
     high = work->bg5Frame >> 16;
-    BG_SYS_DeleteHalf((int)5, (u16)(work->bg5Frame), (u16)high);
+    BG_SYS_FreeTileRun((int)5, (u16)(work->bg5Frame), (u16)high);
     high = work->bg6Frame >> 16;
-    BG_SYS_DeleteHalf((int)6, (u16)(work->bg6Frame), (u16)high);
+    BG_SYS_FreeTileRun((int)6, (u16)(work->bg6Frame), (u16)high);
     GSYNC_MESSAGE_DeleteButtonManager(work);
     APP_KEYCURSOR_Delete((int)(work->keyCursor));
-    WORDSET_DeleteStrbufED04(work->wordSet);
+    WORDSET_Delete(work->wordSet);
     GF_FONT_SetDefaultTextColor();
     MSGDATA_Delete(work->msgData);
     GF_FONT_Delete(work->font);
@@ -313,7 +313,7 @@ void GSYNC_MESSAGE_PrintStream(GsyncMessageWork *work, int instant)
     BMP_MENUWORK_DrawWindow(win, 1, (u16)(work->bg5Frame), 12);
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    BG_SYS_SetFlagField06(5);
+    BG_SYS_MarkTileDirty(5);
 }
 
 void GSYNC_MESSAGE_PrintStreamId(GsyncMessageWork *work, int msgId)
@@ -326,7 +326,7 @@ void GSYNC_MESSAGE_PrintStreamId(GsyncMessageWork *work, int msgId)
 void GSYNC_MESSAGE_SetMonName(GsyncMessageWork *work, int msgId, int digits, void *mon)
 {
     MSGDATA_ReadString(work->msgData, msgId, work->tmpBuf);
-    WORDSET_SetSlotMonSpecies(work->wordSet, 0, mon);
+    WORDSET_SetSlotMonNickname(work->wordSet, 0, mon);
     WORDSET_SetSlotNumber(work->wordSet, 1, digits, 3, 1, 1);
     WORDSET_CopyTaggedText(work->wordSet, work->msgBuf, work->tmpBuf);
 }
@@ -357,7 +357,7 @@ void GSYNC_MESSAGE_ClearStream(GsyncMessageWork *work)
     if (work->mainWindow) {
         BMP_MENUWORK_DrawWindowBorder(work->mainWindow, 2);
         BMP_WIN_ClearScreen(work->mainWindow);
-        BG_SYS_SetFlagField06(5);
+        BG_SYS_MarkTileDirty(5);
     }
 }
 
@@ -406,7 +406,7 @@ void GSYNC_MESSAGE_PrintInWindow(GsyncMessageWork *work, int top, int height)
     BMP_MENUWORK_DrawWindow(win, 1, (u16)(work->bg6Frame), 12);
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    BG_SYS_SetFlagField06(6);
+    BG_SYS_MarkTileDirty(6);
 }
 
 void GSYNC_MESSAGE_PrintInSubWindow(GsyncMessageWork *work)
@@ -422,14 +422,14 @@ void GSYNC_MESSAGE_PrintInSubWindow(GsyncMessageWork *work)
     BMP_MENUWORK_DrawWindow(win, 1, (u16)(work->bg6Frame), 12);
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    BG_SYS_SetFlagField06(6);
+    BG_SYS_MarkTileDirty(6);
 }
 
 void GSYNC_MESSAGE_ClearWindow(GsyncMessageWork *work)
 {
     BMP_MENUWORK_DrawWindowBorder(work->subWindow, 2);
     BMP_WIN_ClearScreen(work->subWindow);
-    BG_SYS_SetFlagField06(6);
+    BG_SYS_MarkTileDirty(6);
 }
 
 void GSYNC_MESSAGE_RestartTimeIcon(GsyncMessageWork *work)

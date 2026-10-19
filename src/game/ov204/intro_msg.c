@@ -17,7 +17,7 @@
  *   GFL_USE_SetSeSlotVolume 0x020062BC thumb
  *   GFL_USE_SetSeSlotParams 0x02006268 thumb
  *   KEY_GetTrg 0x020362DC arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   GFL_HEAP_Free 0x020307B0 arm
  *   gIntroSite 0x021C0AE4 data a1
@@ -44,7 +44,7 @@
  *   TCBL_Destroy 0x02031140 arm
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   MSGDATA_Delete 0x02045C04 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   TCBL_Main 0x020310C4 arm
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
@@ -163,7 +163,7 @@ extern int TOUCHPANEL_GetTrg(void);
 
 extern u32 KEY_GetTrg(void);
 
-extern void BG_SYS_SetFlagField06(u32);
+extern void BG_SYS_MarkTileDirty(u32);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *sitePath, u16 tag);
 
@@ -215,7 +215,7 @@ extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 
-extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern unsigned int WORDSET_Delete(struct WordSet *p);
 
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
@@ -327,7 +327,7 @@ char *INTRO_MSG_Create(u16 heap)
     p->menuWin=(void *)BMP_WIN_Create(1,22,13,9,4,10,1);
     BMP_Clear(BMP_WIN_GetBmp(p->menuWin),0);
     obj=p->menuWin;
-    BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(obj));
+    BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(obj));
     p->textWin=(void *)BMP_WIN_Create(1,1,19,30,4,10,1);
     p->keyCursor=APP_KEYCURSOR_CreateDefault(15,1,1,p->heapId);
     p->timeIcon=TIME_ICON_Alloc(p->heapId);
@@ -351,7 +351,7 @@ void INTRO_MSG_Delete(char *p)
     PRINTSYS_QUE_Delete(work->printSys);
     if (work->msgBank)
         MSGDATA_Delete(work->msgBank);
-    WORDSET_DeleteStrbufED04(work->wordSet);
+    WORDSET_Delete(work->wordSet);
     GFL_HEAP_Free(p);
 }
 
@@ -386,7 +386,7 @@ void INTRO_MSG_PrintText(char *p, void *a, int flag)
         BMP_MENUWORK_DrawWindow(desc, 1, 16, 8);
     BMP_WIN_TransferChars(desc);
     BMP_WIN_MakeScreen(desc);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(desc));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(desc));
 }
 
 void INTRO_MSG_DrawWindowBorder(u8*p){IntroMsgWork *work=(IntroMsgWork*)p;BMP_MENUWORK_DrawWindowBorder(work->textWin,0);}

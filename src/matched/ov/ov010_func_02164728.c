@@ -1,5 +1,5 @@
 /*
- * function: EVENTDATA_SYSTEM_RespawnHiddenItems
+ * function: HIDDEN_ITEM_Respawn
  * address:  0x02164728
  * packet:   pkt_ov010_02164728
  * region:   ov010
@@ -31,7 +31,7 @@ extern u32 func_020056EC(u32 range);
 extern void ZONEDATA_ResetEventFlag(char *a0, int a1);
 extern u8 HiddenItemTable[];
 
-void EVENTDATA_SYSTEM_RespawnHiddenItems(void *o)
+void HIDDEN_ITEM_Respawn(void *o)
 {
     u32 i;
     if (ZONEDATA_PopTimeFlagsCleared(o) != 0) {

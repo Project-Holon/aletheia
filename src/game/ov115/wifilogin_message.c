@@ -46,9 +46,9 @@
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   TIME_ICON_Delete 0x0202F038 thumb
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
  *   STRBUF_Delete 0x02045808 arm
@@ -69,7 +69,7 @@
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   GFL_USE_GetMainTaskList 0x020056BC thumb
  *   TIME_ICON_Create 0x0202EE30 thumb
  *   PRINTSYS_CTRL_Update 0x02028484 thumb
@@ -213,11 +213,11 @@ extern void TIME_ICON_Delete(u8 *p);
 
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 
 extern void GF_FONT_SetDefaultTextColor(void);
 
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 
 extern u32 MSGDATA_Delete(struct Rec *rec);
 
@@ -259,7 +259,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *);
 
 extern void BMP_WIN_MakeScreen(struct Cfg *);
 
-extern void BG_SYS_SetFlagField06(u32);
+extern void BG_SYS_MarkTileDirty(u32);
 
 extern unsigned int GFL_USE_GetMainTaskList(void);
 
@@ -429,11 +429,11 @@ void WIFILOGIN_MSG_Delete(u8 *p) {
     if (((struct WifiloginMsg *)p)->printStream) { PRINTSYS_PrintStreamDelete(((struct WifiloginMsg *)p)->printStream); ((struct WifiloginMsg *)p)->printStream=0; }
     WIFILOGIN_MSG_CloseMessage(p);
     n=((struct WifiloginMsg *)p)->frameGfx0;
-    BG_SYS_DeleteHalf(WIFILOGIN_MSG_GetFrameIdA(((struct WifiloginMsg *)p)->mode),(u16)n,(u16)(n>>16));
+    BG_SYS_FreeTileRun(WIFILOGIN_MSG_GetFrameIdA(((struct WifiloginMsg *)p)->mode),(u16)n,(u16)(n>>16));
     n=((struct WifiloginMsg *)p)->frameGfx1;
-    BG_SYS_DeleteHalf(WIFILOGIN_MSG_GetFrameIdB(((struct WifiloginMsg *)p)->mode),(u16)n,(u16)(n>>16));
+    BG_SYS_FreeTileRun(WIFILOGIN_MSG_GetFrameIdB(((struct WifiloginMsg *)p)->mode),(u16)n,(u16)(n>>16));
     GF_FONT_SetDefaultTextColor();
-    WORDSET_DeleteStrbufED04(((struct WifiloginMsg *)p)->wordSet);
+    WORDSET_Delete(((struct WifiloginMsg *)p)->wordSet);
     MSGDATA_Delete(((struct WifiloginMsg *)p)->msgBank);
     GF_FONT_Delete(((struct WifiloginMsg *)p)->gfFont);
     STRBUF_Delete(((struct WifiloginMsg *)p)->strbuf);
@@ -474,7 +474,7 @@ void WIFILOGIN_MSG_DrawWindow(char *p, struct MsgBank *a, int b)
     BMP_MENUWORK_DrawWindow((void *)w, 1, (u16)(*(u32 *)p), 12);
     BMP_WIN_TransferChars((struct Descriptor *)w);
     BMP_WIN_MakeScreen((struct Cfg *)w);
-    BG_SYS_SetFlagField06(WIFILOGIN_MSG_GetFrameIdA(*(u32 *)(p + 0x50)));
+    BG_SYS_MarkTileDirty(WIFILOGIN_MSG_GetFrameIdA(*(u32 *)(p + 0x50)));
 }
 
 void WIFILOGIN_MSG_SetMessage(void *p, int b) { WIFILOGIN_MSG_SetMessageWithIcon(p, (unsigned int)((struct WifiloginMsg *)p)->msgBank, b); }
@@ -490,7 +490,7 @@ void WIFILOGIN_MSG_SetMessageWithIcon(u8 *p, unsigned int a, int b) {
 
 int WIFILOGIN_MSG_IsPrintDone(u8 *p) { int result=1; if(((struct WifiloginMsg *)p)->printStream) { result=PRINTSYS_CTRL_Update((Blk *)(p+60),((struct WifiloginMsg *)p)->printStream); if(result) { PRINTSYS_PrintStreamDelete(((struct WifiloginMsg *)p)->printStream); ((struct WifiloginMsg *)p)->printStream=0; } } return result; }
 
-void WIFILOGIN_MSG_RedrawWindow(u8 *p) { if(*(u8 * *)&((struct WifiloginMsg *)p)->timeIcon) { TIME_ICON_Delete(*(u8 * *)&((struct WifiloginMsg *)p)->timeIcon); *(u8 * *)&((struct WifiloginMsg *)p)->timeIcon=0; } if(((struct WifiloginMsg *)p)->window) { BMP_MENUWORK_DrawWindowBorder(((struct WifiloginMsg *)p)->window,2); BMP_WIN_ClearScreen(((struct WifiloginMsg *)p)->window); BG_SYS_SetFlagField06(WIFILOGIN_MSG_GetFrameIdA(((struct WifiloginMsg *)p)->mode)); } }
+void WIFILOGIN_MSG_RedrawWindow(u8 *p) { if(*(u8 * *)&((struct WifiloginMsg *)p)->timeIcon) { TIME_ICON_Delete(*(u8 * *)&((struct WifiloginMsg *)p)->timeIcon); *(u8 * *)&((struct WifiloginMsg *)p)->timeIcon=0; } if(((struct WifiloginMsg *)p)->window) { BMP_MENUWORK_DrawWindowBorder(((struct WifiloginMsg *)p)->window,2); BMP_WIN_ClearScreen(((struct WifiloginMsg *)p)->window); BG_SYS_MarkTileDirty(WIFILOGIN_MSG_GetFrameIdA(((struct WifiloginMsg *)p)->mode)); } }
 
 void WIFILOGIN_MSG_ShowMessage(u8 *p, u32 n) {
     void *w;
@@ -501,10 +501,10 @@ void WIFILOGIN_MSG_ShowMessage(u8 *p, u32 n) {
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(w),0,0,((struct WifiloginMsg *)p)->strbuf,((struct WifiloginMsg *)p)->gfFont,0x3cc0);
     BMP_WIN_TransferChars(w);
     BMP_WIN_MakeScreen(w);
-    BG_SYS_SetFlagField06(1);
+    BG_SYS_MarkTileDirty(1);
 }
 
-void WIFILOGIN_MSG_CloseMessage(u8 *p) { if(((struct WifiloginMsg *)p)->window3) { BMP_WIN_ClearScreen(((struct WifiloginMsg *)p)->window3); BMP_WIN_Delete(((struct WifiloginMsg *)p)->window3); ((struct WifiloginMsg *)p)->window3=0; BG_SYS_SetFlagField06(1); } }
+void WIFILOGIN_MSG_CloseMessage(u8 *p) { if(((struct WifiloginMsg *)p)->window3) { BMP_WIN_ClearScreen(((struct WifiloginMsg *)p)->window3); BMP_WIN_Delete(((struct WifiloginMsg *)p)->window3); ((struct WifiloginMsg *)p)->window3=0; BG_SYS_MarkTileDirty(1); } }
 
 /*
  * evidence: 5FE8 forwards the pointer returned by matched 0201FDA0;
@@ -571,11 +571,11 @@ void WIFILOGIN_MSG_PrintMessage(u8 *p,u32 n) {
     BMP_MENUWORK_DrawWindow(w,(u32)1,(u16)(((struct WifiloginMsg *)p)->frameGfx1),(u32)12);
     BMP_WIN_TransferChars(w);
     BMP_WIN_MakeScreen(w);
-    BG_SYS_SetFlagField06(WIFILOGIN_MSG_GetFrameIdB(((struct WifiloginMsg *)p)->mode));
+    BG_SYS_MarkTileDirty(WIFILOGIN_MSG_GetFrameIdB(((struct WifiloginMsg *)p)->mode));
     STRBUF_Delete(s);
 }
 
-void WIFILOGIN_MSG_RedrawBorder(u8 *p) { if(((struct WifiloginMsg *)p)->window2){BMP_MENUWORK_DrawWindowBorder(((struct WifiloginMsg *)p)->window2,2);BMP_WIN_ClearScreen(((struct WifiloginMsg *)p)->window2);BG_SYS_SetFlagField06(WIFILOGIN_MSG_GetFrameIdB(((struct WifiloginMsg *)p)->mode));} }
+void WIFILOGIN_MSG_RedrawBorder(u8 *p) { if(((struct WifiloginMsg *)p)->window2){BMP_MENUWORK_DrawWindowBorder(((struct WifiloginMsg *)p)->window2,2);BMP_WIN_ClearScreen(((struct WifiloginMsg *)p)->window2);BG_SYS_MarkTileDirty(WIFILOGIN_MSG_GetFrameIdB(((struct WifiloginMsg *)p)->mode));} }
 
 u32 WIFILOGIN_MSG_GetFrameIdA(u32 a) { switch(a){case 1:return 1;case 0:return 5;default:SAVEDATA_PanicFail(d_021D663C,0,d_021D663C);return 0;} }
 

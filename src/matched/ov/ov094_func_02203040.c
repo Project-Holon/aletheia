@@ -1,5 +1,5 @@
 /*
- * function: BTLV_INPUT_GetScreenButtonTable
+ * function: BTLV_INPUT_StepFingerDemo
  * address:  0x02203040
  * packet:   pkt_ov094_02203040
  * region:   ov094
@@ -49,7 +49,7 @@ extern int BTLV_FINGER_CURSOR_Start(int h, int x, int y, int k, int m, int n);
 extern int BTLV_FINGER_CURSOR_IsActive(int h);
 extern void BTLV_INPUT_PlaySelectSe(char *p);
 
-int BTLV_INPUT_GetScreenButtonTable(Main *m)
+int BTLV_INPUT_StepFingerDemo(Main *m)
 {
     int r = 0;
     Tbl t;

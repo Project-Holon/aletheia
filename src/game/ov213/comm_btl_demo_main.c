@@ -32,7 +32,7 @@
  *   music 0x0203D34C arm
  *   fade 0x0204E720 arm
  *   ov067_id 0x00000043 data a1
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  *   UI_SCENE_Delete 0x021B613C thumb ov067
  *   MSGDATA_Delete 0x02045C04 arm
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
@@ -99,7 +99,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   COMM_BTL_DEMO_MAIN_UpdateRowContext 0x021BA30C thumb ov213
  *   RECORD_AddOne 0x02008DF0 thumb
  *   GFL_NET_GetGameKind 0x0203D5D4 arm
@@ -122,7 +122,7 @@
  *   PARTICLE_ReleaseCamera 0x02051758 arm
  *   PARTICLE_InitCamera 0x02051648 arm
  *   PARTICLE_LoadArchiveMember 0x0205121C arm
- *   BUTTON_MAN_GetResourceType 0x02051B04 arm
+ *   PARTICLE_RESOURCE_GetType 0x02051B04 arm
  *   GFL_USE_GetMainTaskList 0x020056BC thumb
  *   PARTICLE_SetupSystem 0x02051230 arm
  *   d_021BB324 0x021BB324 data a4
@@ -324,7 +324,7 @@ extern void menu(char *,void *,int);
 extern void cursor(char *,void *,int);
 extern void music(u32,u32);
 extern void fade(u32,int,int,int);
-extern void BG_SYS_ResetSlot(u32,u32,u32);
+extern void BG_SYS_ChangeScroll(u32,u32,u32);
 extern void UI_SCENE_Delete(void *);
 extern void MSGDATA_Delete(struct MsgData *);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *);
@@ -380,7 +380,7 @@ extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
 extern void BMP_WIN_TransferChars(struct BmpWin *d);
 extern void BMP_WIN_MakeScreen(struct BmpWinCfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *p);
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 void COMM_BTL_DEMO_MAIN_UpdateRowContext();
 extern u32 RECORD_AddOne(struct AnimUnit *obj, int i);
 extern u32 GFL_NET_GetGameKind(void);
@@ -402,7 +402,7 @@ extern int PARTICLE_CreateSystemDefault(int a,int b,int c,int d);
 extern int PARTICLE_ReleaseCamera(int a);
 extern void PARTICLE_InitCamera(struct ParticleCamera *p,struct ParticleCameraParam *src,u16 angle,int *pos,int *target,int *up,u32 heap);
 extern int PARTICLE_LoadArchiveMember(u32 a,u32 b,u32 c);
-extern u16 BUTTON_MAN_GetResourceType(void *res);
+extern u16 PARTICLE_RESOURCE_GetType(void *res);
 extern u32 GFL_USE_GetMainTaskList(void);
 extern void PARTICLE_SetupSystem(u8 *o,u32 block,u32 applyNow,u32 taskMgr);
 extern void PARTICLE_KillAllEffects(u8 *);
@@ -553,7 +553,7 @@ int COMM_BTL_DEMO_MAIN_Create(void *manager,int *state,struct CommBtlDemoArgs *a
 
 int COMM_BTL_DEMO_MAIN_Delete(struct ProcOwner *owner,int unused,const void *cfg,char *p) {
 u16 heap;
-BG_SYS_ResetSlot(3,0,0);
+BG_SYS_ChangeScroll(3,0,0);
 if(*(int *)((unsigned)cfg+0x44)==2 || *(int *)((unsigned)cfg+0x44)==4)COMM_BTL_DEMO_MAIN_UpdateNetKind(p);
 UI_SCENE_Delete(((struct CommBtlDemoMain *)p)->uiScene);
 MSGDATA_Delete(((struct CommBtlDemoMain *)p)->messages);
@@ -584,7 +584,7 @@ int COMM_BTL_DEMO_MAIN_Update(int a,int b,int c,char *p)
     PRINTSYS_QUE_Main(((struct CommBtlDemoMain *)p)->printQue);
     COMM_BTL_DEMO_GRAPHIC_Draw(((struct CommBtlDemoMain *)p)->graphic);
     (((struct CommBtlDemoMain *)p)->frameCount)++;
-    BG_SYS_ResetSlot(3,0,((struct CommBtlDemoMain *)p)->frameCount/2);
+    BG_SYS_ChangeScroll(3,0,((struct CommBtlDemoMain *)p)->frameCount/2);
     return 0;
 }
 
@@ -1180,7 +1180,7 @@ void COMM_BTL_DEMO_MAIN_DrawRowText(struct CommBtlDemoRow *p, int a)
     q = p->window;
     BMP_WIN_TransferChars((struct BmpWin *)q);
     BMP_WIN_MakeScreen((struct BmpWinCfg *)q);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct BmpWin *)q));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)q));
 }
 
 
@@ -1375,7 +1375,7 @@ void COMM_BTL_DEMO_MAIN_InitEffect(u8 *p,unsigned code)
     PARTICLE_ReleaseCamera(*(int *)&((struct CommBtlDemoGfx *)p)->particleSystem);
     PARTICLE_InitCamera(*(struct ParticleCamera * *)&((struct CommBtlDemoGfx *)p)->particleSystem,&config,0x2000,d_021BB330,d_021BB324,d_021BB360,((struct CommBtlDemoGfx *)p)->heap);
     resource=PARTICLE_LoadArchiveMember(0xB5,code,((struct CommBtlDemoGfx *)p)->heap);
-    ((struct CommBtlDemoGfx *)p)->resourceType=BUTTON_MAN_GetResourceType((void *)resource);
+    ((struct CommBtlDemoGfx *)p)->resourceType=PARTICLE_RESOURCE_GetType((void *)resource);
     context=GFL_USE_GetMainTaskList();
     PARTICLE_SetupSystem(*(u8 * *)&((struct CommBtlDemoGfx *)p)->particleSystem,resource,0,context);
 }

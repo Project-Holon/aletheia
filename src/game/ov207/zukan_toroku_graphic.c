@@ -49,14 +49,14 @@
  *   ZUKAN_NICKNAME_GetResult 0x0220B940 thumb ov207
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   BG_SYS_ClearSlot 0x020414EC arm
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_RegisterObjCharFromHandle 0x02049740 arm
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BG_SYS_PushTile 0x020409B4 arm
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
@@ -188,14 +188,14 @@ extern void ZUKAN_NICKNAME_SetupScreen(char *);
 extern int ZUKAN_NICKNAME_GetResult(char *);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *);
 extern void BG_SYS_ClearSlot(u32 i);
-extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+extern void BG_SYS_SetPriority(int idx, unsigned short val);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void BG_SYS_PushTile(u32 index);
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
@@ -391,8 +391,8 @@ void ZUKAN_TOROKU_GRAPHIC_CreateBg(ZukanTorokuWork *work)
     void *r;
     work->bgActive=1;
     BG_SYS_ClearSlot(3);
-    BG_SYS_SetVisibleLayer(1,3);
-    BG_SYS_SetVisibleLayer(3,0);
+    BG_SYS_SetPriority(1,3);
+    BG_SYS_SetPriority(3,0);
     r=ARC_TOOL_CreateHandle(159,work->heapId);
     ARC_UTIL_UploadPaletteFromHandleWhole(r,7,0,0,32,work->heapId);
     work->bgHandle=ARC_UTIL_RegisterObjCharFromHandle(r,17,1,2048,0,work->heapId);
@@ -405,7 +405,7 @@ void ZUKAN_TOROKU_GRAPHIC_CreateBg(ZukanTorokuWork *work)
 
 
 
-void ZUKAN_TOROKU_GRAPHIC_DeleteBg(ZukanTorokuWork *work){u32 v,hi;v=work->bgHandle;hi=v>>16;BG_SYS_DeleteHalf(1,(u16)v,(u16)hi);}
+void ZUKAN_TOROKU_GRAPHIC_DeleteBg(ZukanTorokuWork *work){u32 v,hi;v=work->bgHandle;hi=v>>16;BG_SYS_FreeTileRun(1,(u16)v,(u16)hi);}
 
 
 

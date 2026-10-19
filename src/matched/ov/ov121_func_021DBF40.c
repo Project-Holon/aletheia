@@ -1,5 +1,5 @@
 /*
- * function: MYSTERY_ALBUM_GetEntryArcId
+ * function: MYSTERY_ALBUM_GetEntryPaletteResId
  * address: 0x021DBF40
  * packet: pkt_ov121_021DBF40
  * region: ov121
@@ -19,4 +19,4 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int MYSTERY_ALBUM_GetEntryKind(void *); extern char *MYSTERY_ALBUM_GetEntryCard(void *); extern int POKE_TOOL_GetIconPaletteArcId(void); extern u32 FILE_UTIL_Get(u16,u32);
-u32 MYSTERY_ALBUM_GetEntryArcId(void *p) { switch(MYSTERY_ALBUM_GetEntryKind(p)) { case 1:return POKE_TOOL_GetIconPaletteArcId(); case 2:return FILE_UTIL_Get(*(u32 *)MYSTERY_ALBUM_GetEntryCard(p),2); default:return 3; } }
+u32 MYSTERY_ALBUM_GetEntryPaletteResId(void *p) { switch(MYSTERY_ALBUM_GetEntryKind(p)) { case 1:return POKE_TOOL_GetIconPaletteArcId(); case 2:return FILE_UTIL_Get(*(u32 *)MYSTERY_ALBUM_GetEntryCard(p),2); default:return 3; } }

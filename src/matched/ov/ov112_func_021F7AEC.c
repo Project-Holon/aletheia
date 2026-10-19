@@ -9,7 +9,7 @@
  * status: EXACT*
  * extent: two-byte zero padding before 021F7BA8.
  * symbols:
- *   STA_ACTING_GetAnimHandle 0x021F9DC0 thumb ov132
+ *   STA_ACTING_GetEffectSystem 0x021F9DC0 thumb ov132
  *   STA_ACT_EFFECT_StartSystem 0x021F9EDC thumb ov132
  *   STA_ACT_EFFECT_StartEffect 0x021F9F74 thumb ov132
  *   MUSICAL_MCSS_GetRenderElem 0x021F5450 thumb ov112
@@ -23,7 +23,7 @@
 typedef struct { int x, y, z; } Vec;
 typedef struct { short count, pad; int index, a, b; } Tail;
 typedef unsigned short u16;
-extern void *STA_ACTING_GetAnimHandle(void *p);
+extern void *STA_ACTING_GetEffectSystem(void *p);
 typedef unsigned int   u32;
 extern char *STA_ACT_EFFECT_StartSystem(char *p, u32 a);
 extern void STA_ACT_EFFECT_StartEffect(int, int, Vec *);
@@ -33,7 +33,7 @@ extern void VEC_Add(Vec *, Vec *, Vec *);
 extern void MUSICAL_MCSS_SetElemScale(u32 unused, u32 p, u32 q);
 void STA_ACT_LIGHT_AnimA(char *p, char *q) {
     Tail *t = (Tail *)(q + 0xf0);
-    int a = (int)STA_ACTING_GetAnimHandle((void *)(((struct Obj13843 *)p)->f4));
+    int a = (int)STA_ACTING_GetEffectSystem((void *)(((struct Obj13843 *)p)->f4));
     char *r = MUSICAL_MCSS_GetRenderElem(*(char * *)&((struct Obj08027 *)q)->f58, ((struct Obj08027 *)q)->fF4);
     Vec v;
     t->a = (int)STA_ACT_EFFECT_StartSystem((char *)a, 0x35);

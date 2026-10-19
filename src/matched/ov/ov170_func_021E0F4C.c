@@ -1,5 +1,5 @@
 /*
- * function: BOX2_MAIN_Check0F4C
+ * function: BOX2_MAIN_StateMachineHideHand
  * address: 0x021E0F4C
  * packet: pkt_ov170_021E0F4C
  * region: ov170
@@ -24,7 +24,7 @@ extern void BOX2_SEQ_SetActorAnimSeq(char *, int, int);
 extern void BOX2_SEQ_SetActorDrawEnable(char *, int, int);
 extern int BOX2_MAIN_IsWindowMoving(char *p);
 #define W(p) (*(char **)((p) + 0x2C))
-int BOX2_MAIN_Check0F4C(unsigned char *p)
+int BOX2_MAIN_StateMachineHideHand(unsigned char *p)
 {
     char *b = W(p) + 0x58;
     switch (((struct Obj10652 *)b)->fC) {

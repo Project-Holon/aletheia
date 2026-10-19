@@ -25,7 +25,7 @@
  *   FIELD_MSGBG_DeleteMsgWin  0x02190728  thumb  ov021
  *   BG_SYS_PushTile  0x020409B4  arm
  *   STRBUF_Delete  0x02045808  arm
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  *   GFL_HEAP_Free  0x020307B0  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
@@ -133,7 +133,7 @@ extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fi
 extern u32 MSGDATA_Delete(struct MsgBank *msgData);
 extern void MSGDATA_ReadString(struct MsgBank *msgData, u32 strId, struct StrBuf *dest);
 extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
+extern u32 WORDSET_Delete(struct WordSet *wordSet);
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 bufId, u32 number, u32 digits, u32 dispType, u32 code);
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct StrBuf *dest, struct StrBuf *src);
 extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
@@ -215,7 +215,7 @@ int PDW_POSTMAN_DeleteListWin(PdwPostmanListWin *listWin)
     BG_SYS_PushTile(1);
     STRBUF_Delete(listWin->strBuf);
     STRBUF_Delete(listWin->expandBuf);
-    WORDSET_DeleteStrbufED04(listWin->wordSet);
+    WORDSET_Delete(listWin->wordSet);
     MSGDATA_Delete(listWin->msgData);
     return GFL_HEAP_Free(listWin);
 }

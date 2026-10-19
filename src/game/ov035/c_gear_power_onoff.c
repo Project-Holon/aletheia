@@ -16,7 +16,7 @@
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   sCGearPowerOnOffFileName    0x021F0678 data ov035 a1
  *   GAMESYSTEM_GetGameComm 0x02012138 thumb
- *   APP_ENV_InitParentalControl 0x0202EB44 thumb
+ *   APP_ENV_IsWirelessAvailable 0x0202EB44 thumb
  *   GAMESYSTEM_IsAlwaysNetFlagSet 0x0201214C thumb
  *   GFL_HEAP_Free 0x020307B0 arm
  *   sPowerOnOffTable 0x021F0640 data ov035 a4
@@ -50,7 +50,7 @@
  *   sBgTemplate5    0x021F05C8 data ov035 a4
  *   sBgTemplate4    0x021F05E8 data ov035 a4
  *   sBgTemplate6    0x021F0608 data ov035 a4
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
  *   BG_SYS_FreeLayerBuf  0x020403F4 arm
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   APP_TASKMENU_RES_Delete 0x02027FD8 thumb
@@ -69,7 +69,7 @@
  *   APP_KEYCURSOR_Delete 0x02028604 thumb
  *   TCBL_Destroy 0x02031140 arm
  *   BMP_WIN_Delete 0x020452E8 arm
- *   BMP_MENUWORK_DeleteHalf 0x0201F614 thumb
+ *   BMP_MENUWORK_FreeTileRun 0x0201F614 thumb
  *   MSGDATA_AllocString 0x02045EC0 arm
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   BMP_MENUWORK_DrawWindowEx 0x0201F79C thumb
@@ -138,7 +138,7 @@ typedef struct CGearPowerOnOffTable {
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *GAMESYSTEM_GetGameComm(const void *gameSystem);
-extern int APP_ENV_InitParentalControl(void);
+extern int APP_ENV_IsWirelessAvailable(void);
 extern u32 GAMESYSTEM_IsAlwaysNetFlagSet(const void *gameSystem);
 extern u32 GFL_HEAP_Free(void *p);
 extern void FIELD_SUBSCREEN_SetPanelResult(FieldSubscreen *subscreen, int mode);
@@ -167,7 +167,7 @@ extern u32 ARC_UTIL_RegisterObjCharFromHandle(struct ArcHandle *arc, u32 fileId,
 extern void ARC_UTIL_UploadBgPaletteAddFromHandle(struct ArcHandle *arc, u32 fileId, u32 layer, u32 ofs, u32 chrOfs, u32 size, u32 heapID,
     u32 heap);
 extern void ARC_TOOL_DeleteHandle(struct ArcHandle *arc);
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GfFont *font, struct PrintQue *printQue, u16 heap);
 extern u32 APP_TASKMENU_RES_Delete(void *taskMenuRes);
@@ -186,7 +186,7 @@ extern void STRBUF_Delete(struct Strbuf *text);
 extern int APP_KEYCURSOR_Delete(void *keyCursor);
 extern void TCBL_Destroy(void *tcbl);
 extern u32 BMP_WIN_Delete(struct BmpWin *window);
-extern void BMP_MENUWORK_DeleteHalf(int, unsigned int);
+extern void BMP_MENUWORK_FreeTileRun(int, unsigned int);
 extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void PRINTSYS_Print(void *bitmap, s16 x, s16 y, struct Strbuf *msg, struct GfFont *font);
 extern void BMP_MENUWORK_DrawWindowEx(struct BmpWin *window, u32 kind, void *menuWork, u32 pal);
@@ -246,7 +246,7 @@ CGearPowerOnOffWork *C_GEAR_POWER_ONOFF_Create(FieldSubscreen *subscreen, void *
     work->subscreen = subscreen;
     work->heapId = heapId;
     C_GEAR_POWER_ONOFF_InitScreen(work, heapId);
-    if (APP_ENV_InitParentalControl() == 0)
+    if (APP_ENV_IsWirelessAvailable() == 0)
         work->scene = C_GEAR_POWER_ONOFF_SCENE_UNAVAILABLE;
     else if (GAMESYSTEM_IsAlwaysNetFlagSet(gameSystem) == 1)
         work->scene = C_GEAR_POWER_ONOFF_SCENE_TURN_OFF;
@@ -324,7 +324,7 @@ void C_GEAR_POWER_ONOFF_InitBgs(CGearPowerOnOffWork *work, u32 heapId)
 void C_GEAR_POWER_ONOFF_ExitBgs(CGearPowerOnOffWork *work)
 {
     unsigned int charAlloc = work->bgCharAlloc;
-    BG_SYS_DeleteHalf(6, (unsigned short)charAlloc, (unsigned short)(charAlloc >> 16));
+    BG_SYS_FreeTileRun(6, (unsigned short)charAlloc, (unsigned short)(charAlloc >> 16));
     BG_SYS_FreeLayerBuf(6);
     BG_SYS_FreeLayerBuf(5);
     BG_SYS_FreeLayerBuf(4);
@@ -377,7 +377,7 @@ void C_GEAR_POWER_ONOFF_InitWindows(CGearPowerOnOffWork *work, int heapId)
 /*
  * interface: 0201F614 forwards r0 and splits packed r1 into two halfwords;
  *            02028604 uses only r0; legacy trailing inputs are unread.
- * 2026-10-05 (D8 lane 15): 0201F614 now filed EXACT as src/matched/arm9/BMP_MENUWORK_DeleteHalf.c (u16 lo, u16 hi split of r1).
+ * 2026-10-05 (D8 lane 15): 0201F614 now filed EXACT as src/matched/arm9/BMP_MENUWORK_FreeTileRun.c (u16 lo, u16 hi split of r1).
  * Re-run after the integrator regenerates the layout; expected EXACT.
  */
 void C_GEAR_POWER_ONOFF_ExitWindows(CGearPowerOnOffWork *work)
@@ -392,7 +392,7 @@ void C_GEAR_POWER_ONOFF_ExitWindows(CGearPowerOnOffWork *work)
     TCBL_Destroy(work->tcbl);
     BMP_WIN_Delete(work->menuWindow);
     BMP_WIN_Delete(work->messageWindow);
-    BMP_MENUWORK_DeleteHalf(5, (unsigned int)work->bmpMenuWork);
+    BMP_MENUWORK_FreeTileRun(5, (unsigned int)work->bmpMenuWork);
 }
 
 

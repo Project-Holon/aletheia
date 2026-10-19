@@ -19,7 +19,7 @@
  *   func_02048A18  0x02048A18  arm
  *   G3D_SYSTEM_GetObjectAnimeCount  0x0204779C  arm
  *   G3D_SYSTEM_EnableObjectAnime  0x020477A4  arm
- *   BUTTON_MAN_GetResourceType  0x02051B04  arm
+ *   PARTICLE_RESOURCE_GetType  0x02051B04  arm
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   func_020122C0  0x020122C0  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
@@ -45,7 +45,7 @@ struct Evt;
 struct Obj;
 int G3D_SYSTEM_GetObjectAnimeCount(int *p);
 u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
-u16 BUTTON_MAN_GetResourceType(void *res);
+u16 PARTICLE_RESOURCE_GetType(void *res);
 void *GAME_EVENT_GetGameSystem(struct Obj *p);
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
@@ -83,7 +83,7 @@ void FLD3D_CI_SetupSequence(void *a, char *p, char *q, int d)
     ((struct Obj00616 *)p)->f60 = ((struct Obj00456 *)q)->f24;
     ((struct Obj00616 *)p)->f62 = ((struct Obj00456 *)q)->f26;
     if (t != 0)
-        r = BUTTON_MAN_GetResourceType((void *)t);
+        r = PARTICLE_RESOURCE_GetType((void *)t);
     else
         r = 0;
     if (r == 2) {

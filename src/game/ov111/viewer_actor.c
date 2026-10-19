@@ -1,7 +1,7 @@
 /*
  * file:     viewer_actor.c
  * unit:     yes
- * function: VIEWER_ACTOR_CreateObjects, VIEWER_ACTOR_DeleteObjects, VIEWER_ACTOR_Init3D, VIEWER_ACTOR_Exit3D, VIEWER_ACTOR_CreateModel, VIEWER_ACTOR_DeleteModel, VIEWER_ACTOR_DrawModel, VIEWER_ACTOR_InitBgWindow, VIEWER_ACTOR_DeleteBgWindow, VIEWER_ACTOR_FlushBgWindow, VIEWER_ACTOR_CreateFont, VIEWER_ACTOR_DeleteFont, VIEWER_ACTOR_PrintQueMain, VIEWER_ACTOR_DispatchState, VIEWER_ACTOR_IsWipeEnded, VIEWER_ACTOR_UpdateMain, VIEWER_ACTOR_IsActorAnimActive, VIEWER_ACTOR_StartWipe, VIEWER_ACTOR_CheckWipeEnd, VIEWER_ACTOR_PrintTextAt, VIEWER_ACTOR_DrawLabel, VIEWER_ACTOR_WrapAngle, VIEWER_ACTOR_StepBounce, VIEWER_ACTOR_HandleDrag, VIEWER_ACTOR_HandleInput, VIEWER_ACTOR_FindNearestPreset, VIEWER_ACTOR_SelectActor, VIEWER_ACTOR_ToggleFavorite, VIEWER_ACTOR_SetPageCount, VIEWER_ACTOR_SetRowDrawEnable, VIEWER_ACTOR_UpdateRowVisibility, VIEWER_ACTOR_SetSelection, VIEWER_ACTOR_SetRtcDate, VIEWER_ACTOR_GetRtcDate, VIEWER_ACTOR_LoadPalette, VIEWER_ACTOR_LoadTexture, VIEWER_ACTOR_SetRowActorDrawEnable, VIEWER_ACTOR_RefreshRows, VIEWER_ACTOR_HandleScrollRepeat, VIEWER_ACTOR_ResetDragFlags, VIEWER_ACTOR_StepScrollCount, VIEWER_ACTOR_HandleTouchDrag
+ * function: VIEWER_ACTOR_CreateObjects, VIEWER_ACTOR_DeleteObjects, VIEWER_ACTOR_Init3D, VIEWER_ACTOR_Exit3D, VIEWER_ACTOR_CreateModel, VIEWER_ACTOR_DeleteModel, VIEWER_ACTOR_DrawModel, VIEWER_ACTOR_InitBgWindow, VIEWER_ACTOR_DeleteBgWindow, VIEWER_ACTOR_FlushBgWindow, VIEWER_ACTOR_CreateFont, VIEWER_ACTOR_DeleteFont, VIEWER_ACTOR_PrintQueMain, VIEWER_ACTOR_DispatchState, VIEWER_ACTOR_StepWaitWipeIn, VIEWER_ACTOR_UpdateMain, VIEWER_ACTOR_StepWaitActorAnim, VIEWER_ACTOR_StartWipe, VIEWER_ACTOR_StepWaitWipeOut, VIEWER_ACTOR_PrintTextAt, VIEWER_ACTOR_DrawLabel, VIEWER_ACTOR_WrapAngle, VIEWER_ACTOR_StepBounce, VIEWER_ACTOR_HandleDrag, VIEWER_ACTOR_HandleInput, VIEWER_ACTOR_FindNearestPreset, VIEWER_ACTOR_SelectActor, VIEWER_ACTOR_ToggleFavorite, VIEWER_ACTOR_SetPageCount, VIEWER_ACTOR_SetRowDrawEnable, VIEWER_ACTOR_UpdateRowVisibility, VIEWER_ACTOR_SetSelection, VIEWER_ACTOR_SaveBadgeTimers, VIEWER_ACTOR_LoadBadgeTimers, VIEWER_ACTOR_LoadPalette, VIEWER_ACTOR_LoadTexture, VIEWER_ACTOR_SetRowActorDrawEnable, VIEWER_ACTOR_RefreshRows, VIEWER_ACTOR_HandleScrollRepeat, VIEWER_ACTOR_ResetDragFlags, VIEWER_ACTOR_StepScrollCount, VIEWER_ACTOR_HandleTouchDrag
  * address:  0x021C75E4
  * region:   ov111
  * compiler: dsi/1.1p1
@@ -94,11 +94,11 @@
  *   d_021C8808  0x021C8808  data
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   UI_SetInputMode  0x020355D8  arm
- *   GAME_DATA_CheckSaveFlag  0x02012BF8  thumb
- *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
+ *   GAME_DATA_ContainsRecentId  0x02012BF8  thumb
+ *   GAME_DATA_SetRecentId  0x02012BE0  thumb
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   BEACON_GetFlag  0x0200C234  thumb
+ *   BEACON_GetBadge  0x0200C234  thumb
  *   GF_STANDARD_CopyCachedRtc  0x0203F49C  arm
  *   TRCARD_SIGN_SetLastBadgeTime  0x02008A34  thumb
  *   TRCARD_SIGN_SetBadgeTimer  0x02008ADC  thumb
@@ -272,11 +272,11 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void VIEWER_ACTOR_HandleTouchDrag(ViewerTextWork *p, int idx);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void UI_SetInputMode(u8 v);
-extern int GAME_DATA_CheckSaveFlag(int gd, int id);
-extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
+extern int GAME_DATA_ContainsRecentId(int gd, int id);
+extern void GAME_DATA_SetRecentId(void *p, u32 a, u32 b);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void *GAME_DATA_GetMiscSave(int *p);
-extern u32 BEACON_GetFlag(struct Blk34 *p, u32 bit);
+extern u32 BEACON_GetBadge(struct Blk34 *p, u32 bit);
 extern void GF_STANDARD_CopyCachedRtc(struct RtcDate *date, struct RtcTime *time);
 extern s64 RTC_ConvertDateTimeToSecond(const RTCDate *date, const RTCTime *time);
 extern void TRCARD_SIGN_SetLastBadgeTime(struct Sub020089A8Obj *obj, u32 lo, u32 hi);
@@ -302,11 +302,11 @@ void VIEWER_ACTOR_CreateFont(ViewerTextWork *p);
 void VIEWER_ACTOR_DeleteFont(ViewerTextWork *p);
 void VIEWER_ACTOR_PrintQueMain(ViewerTextWork *p);
 int VIEWER_ACTOR_DispatchState(ViewerTextWork *p);
-int VIEWER_ACTOR_IsWipeEnded(ViewerTextWork *p);
+int VIEWER_ACTOR_StepWaitWipeIn(ViewerTextWork *p);
 int VIEWER_ACTOR_UpdateMain(ViewerTextWork *p);
-int VIEWER_ACTOR_IsActorAnimActive(ViewerTextWork *p);
+int VIEWER_ACTOR_StepWaitActorAnim(ViewerTextWork *p);
 int VIEWER_ACTOR_StartWipe(ViewerTextWork *p);
-int VIEWER_ACTOR_CheckWipeEnd(ViewerTextWork *p);
+int VIEWER_ACTOR_StepWaitWipeOut(ViewerTextWork *p);
 void VIEWER_ACTOR_PrintTextAt(ViewerTextWork *p, int x, int k, int col);
 void VIEWER_ACTOR_DrawLabel(ViewerTextWork *p, int mode, int idx);
 int VIEWER_ACTOR_WrapAngle(int a, int b);
@@ -320,8 +320,8 @@ void VIEWER_ACTOR_SetPageCount(ViewerTextWork *p);
 void VIEWER_ACTOR_SetRowDrawEnable(ViewerTextWork *p, int row, int v);
 void VIEWER_ACTOR_UpdateRowVisibility(ViewerTextWork *p, int a, int b);
 void VIEWER_ACTOR_SetSelection(ViewerTextWork *p, u16 v);
-void VIEWER_ACTOR_SetRtcDate(ViewerTextWork *p);
-void VIEWER_ACTOR_GetRtcDate(ViewerTextWork *p);
+void VIEWER_ACTOR_SaveBadgeTimers(ViewerTextWork *p);
+void VIEWER_ACTOR_LoadBadgeTimers(ViewerTextWork *p);
 void VIEWER_ACTOR_LoadPalette(ViewerTextWork *p, int idx, int k);
 void VIEWER_ACTOR_LoadTexture(ViewerTextWork *p, int idx, int k);
 void VIEWER_ACTOR_SetRowActorDrawEnable(ViewerTextWork *p, int row, int n);
@@ -569,7 +569,7 @@ int VIEWER_ACTOR_DispatchState(ViewerTextWork *p)
 
 
 
-int VIEWER_ACTOR_IsWipeEnded(ViewerTextWork *p)
+int VIEWER_ACTOR_StepWaitWipeIn(ViewerTextWork *p)
 {
     if (WIPE_SYS_EndCheck()) {
         p->state = 1;
@@ -593,7 +593,7 @@ int VIEWER_ACTOR_UpdateMain(ViewerTextWork *p)
 
 
 
-int VIEWER_ACTOR_IsActorAnimActive(ViewerTextWork *p)
+int VIEWER_ACTOR_StepWaitActorAnim(ViewerTextWork *p)
 {
     switch (p->action) {
     case 0x12:
@@ -625,7 +625,7 @@ int VIEWER_ACTOR_StartWipe(ViewerTextWork *p)
 
 
 
-int VIEWER_ACTOR_CheckWipeEnd(ViewerTextWork *p)
+int VIEWER_ACTOR_StepWaitWipeOut(ViewerTextWork *p)
 {
     if (WIPE_SYS_EndCheck()) {
         if (p->action == 0x12) {
@@ -952,10 +952,10 @@ void VIEWER_ACTOR_SelectActor(ViewerTextWork *p, int sel, int flag)
 
 void VIEWER_ACTOR_ToggleFavorite(ViewerTextWork *p)
 {
-    int v = GAME_DATA_CheckSaveFlag((int)p->parent->gameData, 0x17) ^ 1;
+    int v = GAME_DATA_ContainsRecentId((int)p->parent->gameData, 0x17) ^ 1;
 
     CLACT_SetActorAnimSeq(p->actors.named.actorD, v + 6);
-    GAME_DATA_SetSaveFlag(p->parent->gameData, 0x17, v);
+    GAME_DATA_SetRecentId(p->parent->gameData, 0x17, v);
     GFL_USE_PlaySeDefaultVolume(0x646);
 }
 
@@ -1018,7 +1018,7 @@ void VIEWER_ACTOR_UpdateRowVisibility(ViewerTextWork *p, int a, int b)
 
     obj = GAME_DATA_GetMiscSave(p->parent->gameData);
     for (i = 0; i < 8; i++) {
-        if (BEACON_GetFlag(obj, i)) {
+        if (BEACON_GetBadge(obj, i)) {
             CLACT_SetActorDrawEnable(p->actors.named.rowActor[i], 1);
             VIEWER_ACTOR_SetRowDrawEnable((ViewerTextWork *)p, i, 1);
             p->rowEnabled[i] = 1;
@@ -1028,7 +1028,7 @@ void VIEWER_ACTOR_UpdateRowVisibility(ViewerTextWork *p, int a, int b)
             p->rowEnabled[i] = 0;
         }
     }
-    CLACT_SetActorAnimSeq(p->actors.named.actorD, GAME_DATA_CheckSaveFlag((int)p->parent->gameData, 0x17) + 6);
+    CLACT_SetActorAnimSeq(p->actors.named.actorD, GAME_DATA_ContainsRecentId((int)p->parent->gameData, 0x17) + 6);
 }
 
 
@@ -1056,7 +1056,7 @@ void VIEWER_ACTOR_SetSelection(ViewerTextWork *p, u16 v)
 
 
 
-void VIEWER_ACTOR_SetRtcDate(ViewerTextWork *p)
+void VIEWER_ACTOR_SaveBadgeTimers(ViewerTextWork *p)
 {
     RTCDate date;
     RTCTime time;
@@ -1080,7 +1080,7 @@ void VIEWER_ACTOR_SetRtcDate(ViewerTextWork *p)
 
 
 
-void VIEWER_ACTOR_GetRtcDate(ViewerTextWork *p)
+void VIEWER_ACTOR_LoadBadgeTimers(ViewerTextWork *p)
 {
     RTCDate date;
     RTCDate date2;

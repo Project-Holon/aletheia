@@ -41,7 +41,7 @@
  *   GAME_DATA_GetMyParty 0x02012934 thumb
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
- *   GF_STANDARD_SetField00_F4E4 0x0203F4E4 arm
+ *   GF_STANDARD_GetCachedDate 0x0203F4E4 arm
  *   MATH_CountPopulation 0x02080D24 arm
  *   MI_CpuCopy8 0x02082D44 arm
  *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
@@ -89,7 +89,7 @@ extern void MYSTATUS_Copy(void *,void *);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
-extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
+extern void GF_STANDARD_GetCachedDate(struct RtcDate *date);
 extern u32 MATH_CountPopulation(u32);
 extern void MI_CpuCopy8(void *,const void *,unsigned);
 extern unsigned short GFL_NET_SYSTEM_GetCurrentAid(void);
@@ -397,7 +397,7 @@ void COMPATIBLE_IRC_SYS_BuildProfile(void *playerData,IrcCompatibleProfile *out)
     out->leadType2=POKE_TOOL_GetPartyValue(record,111,0);
     out->leadType1=POKE_TOOL_GetPartyValue(record,110,0);
     out->leadNature=POKE_TOOL_GetPartyValue(record,76,0);
-    GF_STANDARD_SetField00_F4E4((struct RtcDate *)(&date));
+    GF_STANDARD_GetCachedDate((struct RtcDate *)(&date));
     if(date.day == 14) flag=1;
     out->isDay14=(u8)flag;
     out->packedDate=((u32)date.year << 24) | (((u32)date.month << 24) >> 8) | (((u32)date.day << 24) >> 16) | date.week;

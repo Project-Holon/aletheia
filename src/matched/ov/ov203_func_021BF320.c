@@ -21,7 +21,7 @@
  *   BG_SYS_PushTile 0x020409B4 arm
  *   BMP_MENUWORK_DrawWindowEx 0x0201F79C thumb
  *   sub_02045C04 0x02045C04 arm
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
  */
 typedef unsigned int u32;
@@ -48,7 +48,7 @@ extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
 extern void BG_SYS_PushTile(u32);
 extern void BMP_MENUWORK_DrawWindowEx(void *,u32,u32,u32);
 extern u32 sub_02045C04(struct Rec *rec);
-extern void BG_SYS_SetVisibleLayer(int,u16);
+extern void BG_SYS_SetPriority(int,u16);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 void DEMO3D_DATA_MessageMain(struct TcblNode *task, struct Context *ctx)
 {
@@ -71,8 +71,8 @@ void DEMO3D_DATA_MessageMain(struct TcblNode *task, struct Context *ctx)
         BG_SYS_PushTile(BMP_WIN_GetBgLayer(desc));
         BMP_MENUWORK_DrawWindowEx(ctx->desc,1,ctx->base,0);
         sub_02045C04((struct Rec *)bank);
-        BG_SYS_SetVisibleLayer(1,0);
-        BG_SYS_SetVisibleLayer(0,1);
+        BG_SYS_SetPriority(1,0);
+        BG_SYS_SetPriority(0,1);
         BG_SYS_SetPlaneVisible(1,1);
         ctx->state++;
         break;

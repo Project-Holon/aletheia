@@ -1,7 +1,7 @@
 /*
  * file:     worldtrade_demo.c
  * unit:     yes
- * function: WORLDTRADE_DEMO_Init, WORLDTRADE_DEMO_EvolveStep, WORLDTRADE_DEMO_Exit, WORLDTRADE_DEMO_ReadMyStatus, WORLDTRADE_DEMO_GetSlotRecord, WORLDTRADE_DEMO_InitSlotRecord
+ * function: WORLDTRADE_DEMO_Init, WORLDTRADE_DEMO_EvolveStep, WORLDTRADE_DEMO_Exit, WORLDTRADE_DEMO_CreateMyStatusFromEntry, WORLDTRADE_DEMO_GetSlotRecord, WORLDTRADE_DEMO_InitSlotRecord
  * address:  0x021F6E58
  * region:   ov135
  * compiler: dsi/1.1p1
@@ -54,10 +54,10 @@
  *   BOX_SAVEDATA_AddPokemonToBox  0x0200752C  thumb
  *   WORLDTRADE_ExitPlanes 0x021F50EC thumb ov135
  *   WORLDTRADE_ClearAndShowPlanes  0x021F5074  thumb  ov135
- *   WORLDTRADE_ClearBusyFlag  0x021F4EC8  thumb  ov135
+ *   WORLDTRADE_AdvanceScreenId  0x021F4EC8  thumb  ov135
  *   WORLDTRADE_SetStateAndReturn  0x021F4EC0  thumb
  *   WORLDTRADE_ADAPTER_QueueMessagePrint  0x02202B20  thumb
- *   WORLDTRADE_DEMO_ReadMyStatus 0x021F72C4 thumb ov135
+ *   WORLDTRADE_DEMO_CreateMyStatusFromEntry 0x021F72C4 thumb ov135
  */
 #include "worldtrade_types.h"
 
@@ -132,7 +132,7 @@ extern int BOX_SAVEDATA_AddPokemonToBox(void **save, u32 box, const struct Sub02
 
 void WORLDTRADE_SetStateAndReturn(Work *p, u32 a, u32 b);
 
-void WORLDTRADE_ClearBusyFlag(Work *p);
+void WORLDTRADE_AdvanceScreenId(Work *p);
 
 void WORLDTRADE_ClearAndShowPlanes(Work *p);
 
@@ -144,7 +144,7 @@ int WORLDTRADE_DEMO_EvolveStep(Work *p);
 
 int WORLDTRADE_DEMO_Exit(Work *p);
 
-TradePartnerInfo *WORLDTRADE_DEMO_ReadMyStatus(Entry *e);
+TradePartnerInfo *WORLDTRADE_DEMO_CreateMyStatusFromEntry(Entry *e);
 
 Entry *WORLDTRADE_DEMO_GetSlotRecord(Work *p, int kind);
 
@@ -181,7 +181,7 @@ int WORLDTRADE_DEMO_Init(Work *p)
     switch (p->kind) {
     case 7:
         d->partnerMon = d->ownMon = WORLDTRADE_NoOp(p->ctx->sys);
-        d->partnerStatus = p->info = (void *)WORLDTRADE_DEMO_ReadMyStatus(p->ent);
+        d->partnerStatus = p->info = (void *)WORLDTRADE_DEMO_CreateMyStatusFromEntry(p->ent);
         tmpl = d_021E75FC;
         break;
     case 8:
@@ -191,7 +191,7 @@ int WORLDTRADE_DEMO_Init(Work *p)
             d->partnerMon = WORLDTRADE_NoOp(p->ctx->sys);
         }
         d->ownMon = d->partnerMon;
-        d->partnerStatus = p->info = (void *)WORLDTRADE_DEMO_ReadMyStatus(p->ent);
+        d->partnerStatus = p->info = (void *)WORLDTRADE_DEMO_CreateMyStatusFromEntry(p->ent);
         tmpl = d_021E75B4;
         break;
     case 10:
@@ -202,14 +202,14 @@ int WORLDTRADE_DEMO_Init(Work *p)
         }
         WORLDTRADE_CopyPokemon(p->ctx->sys, p->monCopy);
         d->ownMon = p->monCopy;
-        d->partnerStatus = p->info = (void *)WORLDTRADE_DEMO_ReadMyStatus(p->ent);
+        d->partnerStatus = p->info = (void *)WORLDTRADE_DEMO_CreateMyStatusFromEntry(p->ent);
         tmpl = d_021E75CC;
         break;
     case 9:
         POKE_TOOL_CopyPartyPokemon(p->tradeMon, p->monCopy);
         d->ownMon = p->tradeMon;
         d->partnerMon = &p->arr[p->cur];
-        d->partnerStatus = p->info = (void *)WORLDTRADE_DEMO_ReadMyStatus(&p->arr[p->cur]);
+        d->partnerStatus = p->info = (void *)WORLDTRADE_DEMO_CreateMyStatusFromEntry(&p->arr[p->cur]);
         tmpl = d_021E75CC;
         break;
     default:
@@ -364,12 +364,12 @@ int WORLDTRADE_DEMO_Exit(Work *p)
     }
     p->checkEvolution = 0;
     WORLDTRADE_ClearAndShowPlanes((Work *)p);
-    WORLDTRADE_ClearBusyFlag(p);
+    WORLDTRADE_AdvanceScreenId(p);
     *(volatile unsigned short *)0x04000050 = 0;
     return 0;
 }
 
-TradePartnerInfo *WORLDTRADE_DEMO_ReadMyStatus(Entry *ent)
+TradePartnerInfo *WORLDTRADE_DEMO_CreateMyStatusFromEntry(Entry *ent)
 {
     TradePartnerInfo *info;
 

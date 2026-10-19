@@ -12,9 +12,9 @@
  *   BG_SYS_Init 0x02040C14 arm
  *   BG_SYS_SetTileEntry 0x02041300 arm
  *   BG_SYS_PushTile 0x020409B4 arm
- *   BG_SYS_SetLowBit 0x0204044C arm
+ *   BG_SYS_EnableBg0WithPriority 0x0204044C arm
  *   func_02040588 0x02040588 arm
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  *   gMainBgTemplateC 0x021E7F24 data a4
  *   gMainBgTemplateB 0x021E7E84 data a4
  *   gMainBgTemplateA 0x021E7EA4 data a4
@@ -28,9 +28,9 @@ extern void BG_SYS_InitBgLayer(u32,const BgTemplate *,u32);
 extern void BG_SYS_Init(u32,u32,u32,u32);
 extern void BG_SYS_SetTileEntry(u32,int,int,int,u8,u8,u8);
 extern void BG_SYS_PushTile(u32);
-extern void BG_SYS_SetLowBit(u32);
+extern void BG_SYS_EnableBg0WithPriority(u32);
 extern void func_02040588(unsigned char which, unsigned char enable);
-extern void BG_SYS_SetVisibleLayer(int,u16);
+extern void BG_SYS_SetPriority(int,u16);
 void POKETRADE_2D_SetupMainBgs(void *a0)
 {
  BgTemplate a,b,c;
@@ -43,5 +43,5 @@ void POKETRADE_2D_SetupMainBgs(void *a0)
  c=gMainBgTemplateA;
  BG_SYS_InitBgLayer(1,&c,0);
  BG_SYS_SetTileEntry(1,0,0,0,32,24,17);BG_SYS_PushTile(1);
- BG_SYS_SetLowBit(0);func_02040588(0,1);BG_SYS_SetVisibleLayer(0,0);
+ BG_SYS_EnableBg0WithPriority(0);func_02040588(0,1);BG_SYS_SetPriority(0,0);
 }

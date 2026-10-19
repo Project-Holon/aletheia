@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "VCT_SESSION_AddMember",
+   "name": "VCT_MIXER_AddMember",
    "address": "0x021B0614",
    "kind": "game",
    "region": "ov013",

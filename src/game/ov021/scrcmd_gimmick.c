@@ -13,6 +13,8 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  * Split from scrcmd_screeneffects.c at 0x021B2380 (lane L135, ov043 launcher command handlers; original unknown).
  *
+ * Boundary audit (wave 16): kept as one file. The commands are ordered by script command id, not by gimmick: CART_LANES (021B2380..), FLAG_ANIME, BUTTON_STATES, CART_LANES_UnlockLane, PLATE_DOORS, LIFT_ELEVATOR, BUTTON_STATES_CreateOneShotEventU16, SWITCH_TOGGLE, PLATE_DOORS_StartDoorEvent, ROTATING_ROOM. Gimmick prefixes recur out of run, so no per-gimmick file exists; no __FILE__ anchor in 021B2380..021B27F7.
+ *
  * symbols:
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010

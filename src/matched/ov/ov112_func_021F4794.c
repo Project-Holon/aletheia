@@ -1,5 +1,5 @@
 /*
- * function: MUSICAL_MCSS_PrintStream
+ * function: MUSICAL_SHOT_INFO_PrintMessageStream
  * address: 0x021F4794
  * packet: pkt_ov112_021F4794
  * region: ov112
@@ -34,7 +34,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern signed char MSG_SPEED_GetWait(void);
 extern u32 PRINTSYS_PrintStream(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
 extern void BMP_MENUWORK_DrawWindow(void *,int,int,int);
-void MUSICAL_MCSS_PrintStream(u8 *p,u32 index)
+void MUSICAL_SHOT_INFO_PrintMessageStream(u8 *p,u32 index)
 {
     u32 t;
     if (((struct Obj01395 *)p)->f24) {

@@ -8,7 +8,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * lever: BTLV_CORE_MakeSlotKind1Empty returns a one-word aggregate, reserving its frame temporary.
+ * lever: BTL_SICKCONT_MakeKind1Empty returns a one-word aggregate, reserving its frame temporary.
  * symbols:
  *   BTL_EVENT_GetVar 0x021D775C thumb ov093
  *   BTL_SERVER_FLOW_GetPokeParam 0x021C7CF4 thumb ov093
@@ -16,7 +16,7 @@
  *   BTL_SERVER_FLOW_IsPokeGroundedById 0x021C8234 thumb ov093
  *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
  *   BTL_POKEPARAM_TestContFlag 0x021D5BDC thumb ov093
- *   BTLV_CORE_MakeSlotKind1Empty 0x021E89C0 thumb ov093
+ *   BTL_SICKCONT_MakeKind1Empty 0x021E89C0 thumb ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord 0x021C88A4 thumb ov093
  *   BTL_SERVER_FLOW_InitMsgRecord 0x021C8838 thumb ov093
  *   BTL_SERVER_FLOW_AppendMsgRecordArg 0x021C8860 thumb ov093
@@ -35,7 +35,7 @@ struct Unk021D62A8;
 struct UtilWork;
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern int BTL_POKEPARAM_TestContFlag(struct UtilWork *p, u32 n);
-extern Word BTLV_CORE_MakeSlotKind1Empty(u32);
+extern Word BTL_SICKCONT_MakeKind1Empty(u32);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
 extern void BTL_SERVER_FLOW_InitMsgRecord(void *, int, int);
 struct S;
@@ -57,7 +57,7 @@ void HAND_WAZA_SmackDownGroundTarget(int a, int b, int c)
                 p = BTL_SERVER_FLOW_AllocCmdRecord((char *)b, 12, c);
                 p[15] = k;
                 ((struct Obj02139 *)p)->f4 = 0x1f;
-                *(Word *)(p + 8) = BTLV_CORE_MakeSlotKind1Empty(0x1f);
+                *(Word *)(p + 8) = BTL_SICKCONT_MakeKind1Empty(0x1f);
                 BTL_SERVER_FLOW_InitMsgRecord(p + 20, 2, 0x468);
                 BTL_SERVER_FLOW_AppendMsgRecordArg((struct S *)(p + 20), k);
                 BTL_SERVER_FLOW_CommitCmdRecord((void *)b, p);

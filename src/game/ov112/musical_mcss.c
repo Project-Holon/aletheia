@@ -1,7 +1,7 @@
 /*
  * file:     musical_mcss.c
  * unit:     yes
- * function: MUSICAL_MCSS_AllocRenderPool, MUSICAL_MCSS_FreeRenderPool, MUSICAL_MCSS_TickMCAnim, MUSICAL_MCSS_DrawMC, MUSICAL_MCSS_DrawSprite, MUSICAL_MCSS_LoadMC, MUSICAL_MCSS_FreeMC, MUSICAL_MCSS_NoOp7, MUSICAL_MCSS_SetFieldA, MUSICAL_MCSS_SetFieldB, MUSICAL_MCSS_GetFieldA, MUSICAL_MCSS_GetFieldB, MUSICAL_MCSS_SetFieldC, MUSICAL_MCSS_GetFieldC, MUSICAL_MCSS_GetFieldD, MUSICAL_MCSS_GetFieldE, MUSICAL_MCSS_GetFieldF, MUSICAL_MCSS_SetMCAnim, MUSICAL_MCSS_GetFieldG, MUSICAL_MCSS_NoOp8, MUSICAL_MCSS_NoOp9, MUSICAL_MCSS_CopyField, MUSICAL_MCSS_LoadCellBank, MUSICAL_MCSS_FreeCellBank, MUSICAL_MCSS_InitMCAnim, MUSICAL_MCSS_SetupG3, MUSICAL_MCSS_CalcMatrix, MUSICAL_MCSS_GetMonValue
+ * function: MUSICAL_MCSS_AllocRenderPool, MUSICAL_MCSS_FreeRenderPool, MUSICAL_MCSS_TickMCAnim, MUSICAL_MCSS_DrawMC, MUSICAL_MCSS_DrawSprite, MUSICAL_MCSS_LoadMC, MUSICAL_MCSS_FreeMC, MUSICAL_MCSS_SetCameraBack, MUSICAL_MCSS_SetCellVramBase, MUSICAL_MCSS_SetAnimVramBase, MUSICAL_MCSS_SetMCAnimPos, MUSICAL_MCSS_SetMCAnimScale, MUSICAL_MCSS_SetMCAnimFrame, MUSICAL_MCSS_EnableDrawOffset, MUSICAL_MCSS_DisableDrawOffset, MUSICAL_MCSS_PauseMCAnim, MUSICAL_MCSS_ResumeMCAnim, MUSICAL_MCSS_SetMCAnim, MUSICAL_MCSS_IsMCAnimHidden, MUSICAL_MCSS_HideMCAnim, MUSICAL_MCSS_ShowMCAnim, MUSICAL_MCSS_CopyField, MUSICAL_MCSS_LoadCellBank, MUSICAL_MCSS_FreeCellBank, MUSICAL_MCSS_InitMCAnim, MUSICAL_MCSS_SetupG3, MUSICAL_MCSS_CalcMatrix, MUSICAL_MCSS_GetMonValue
  * address:  0x021F55F8
  * region:   ov112
  * compiler: dsi/1.1p1
@@ -17,7 +17,7 @@
  *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   TCB_DeleteTask 0x02030EAC arm
  *   GFL_HEAP_Free 0x020307B0 arm
- *   MUSICAL_MCSS_SetRenderFieldA 0x021F5438 thumb ov112
+ *   MUSICAL_MCSS_SetRenderCellVramBase 0x021F5438 thumb ov112
  *   FX_SinCosTable_ 0x020A1B38 data a2
  *   BILLBOARD_AddElem 0x0204F428 arm
  *   GFL_HEAP_Alloc 0x02030734 arm
@@ -167,7 +167,7 @@ typedef unsigned long long u64;
  * The render pool (allocated 28 bytes by MUSICAL_MCSS_AllocRenderPool). Holds
  * the child MC anim pointers and the VRAM bases for the cell and anim banks.
  * cellVram/animVram start as 3<<16 and 1<<12 and are rewritten by
- * MUSICAL_MCSS_SetRenderFieldA/SetRenderFieldB.
+ * MUSICAL_MCSS_SetRenderCellVramBase/SetRenderFieldB.
  */
 typedef struct McssRenderPool {
     int count;              /* 0x00 number of child slots */
@@ -175,7 +175,7 @@ typedef struct McssRenderPool {
     union {
         u32 flags;          /* 0x08 */
         struct {
-            u32 cameraBack : 1;  /* bit 0 set by MUSICAL_MCSS_NoOp7 */
+            u32 cameraBack : 1;  /* bit 0 set by MUSICAL_MCSS_SetCameraBack */
             u32 rest : 31;
         } bits;
     };
@@ -204,18 +204,18 @@ typedef struct McssMcAnim {
     u8 pad_28[0x64];        /* 0x28 embedded NNS MC animation */
     void *workArea;         /* 0x8C NNS MC work area */
     u8 pad_90[0x38];        /* 0x90 */
-    int posX;                /* 0xC8 MUSICAL_MCSS_GetFieldA[0] */
-    int posY;                /* 0xCC MUSICAL_MCSS_GetFieldA[1] */
-    int posZ;                /* 0xD0 MUSICAL_MCSS_GetFieldA[2] */
-    int scaleX;              /* 0xD4 MUSICAL_MCSS_GetFieldB[0] */
-    int scaleY;              /* 0xD8 MUSICAL_MCSS_GetFieldB[1] */
-    int scaleZ;              /* 0xDC MUSICAL_MCSS_GetFieldB[2] */
+    int posX;                /* 0xC8 MUSICAL_MCSS_SetMCAnimPos[0] */
+    int posY;                /* 0xCC MUSICAL_MCSS_SetMCAnimPos[1] */
+    int posZ;                /* 0xD0 MUSICAL_MCSS_SetMCAnimPos[2] */
+    int scaleX;              /* 0xD4 MUSICAL_MCSS_SetMCAnimScale[0] */
+    int scaleY;              /* 0xD8 MUSICAL_MCSS_SetMCAnimScale[1] */
+    int scaleZ;              /* 0xDC MUSICAL_MCSS_SetMCAnimScale[2] */
     u8 pad_E0[0x0C];        /* 0xE0 */
     union {
         u32 flags;          /* 0xEC MC anim state bits */
         struct {
             u32 drawOffset : 1;  /* bit 0 adjusts the drawn position */
-            u32 paused : 1;      /* bit 1 cleared by MUSICAL_MCSS_GetFieldF */
+            u32 paused : 1;      /* bit 1 cleared by MUSICAL_MCSS_ResumeMCAnim */
             u32 stopped : 1;     /* bit 2 read by GetFieldG, toggled by SetRenderMode */
             u32 rest : 29;
         } bits;
@@ -223,7 +223,7 @@ typedef struct McssMcAnim {
     u32 childIndex;         /* 0xF0 index in the render pool */
     u32 heapTag;            /* 0xF4 heap tag */
     void *ownerSlot;        /* 0xF8 slot passed to MUSICAL_MCSS_LoadMC */
-    u16 frame;              /* 0xFC MUSICAL_MCSS_SetFieldC */
+    u16 frame;              /* 0xFC MUSICAL_MCSS_SetMCAnimFrame */
     u8 pad_FE[0x26];        /* 0xFE */
 } McssMcAnim;
 
@@ -319,33 +319,33 @@ char *MUSICAL_MCSS_LoadMC(char *a,u32 b,u32 c,u32 d,u32 e,u32 f,u32 g);
 
 void MUSICAL_MCSS_FreeMC(char *a, char *p);
 
-void MUSICAL_MCSS_NoOp7(void *p);
+void MUSICAL_MCSS_SetCameraBack(void *p);
 
-void MUSICAL_MCSS_SetFieldA(char *p,int b);
+void MUSICAL_MCSS_SetCellVramBase(char *p,int b);
 
-void MUSICAL_MCSS_SetFieldB(u8 *p, int a);
+void MUSICAL_MCSS_SetAnimVramBase(u8 *p, int a);
 
-void MUSICAL_MCSS_GetFieldA(char *p, int *q);
+void MUSICAL_MCSS_SetMCAnimPos(char *p, int *q);
 
-void MUSICAL_MCSS_GetFieldB(char *p, int *q);
+void MUSICAL_MCSS_SetMCAnimScale(char *p, int *q);
 
-void MUSICAL_MCSS_SetFieldC(char *p, unsigned short v);
+void MUSICAL_MCSS_SetMCAnimFrame(char *p, unsigned short v);
 
-void MUSICAL_MCSS_GetFieldC(u8 *p);
+void MUSICAL_MCSS_EnableDrawOffset(u8 *p);
 
-void MUSICAL_MCSS_GetFieldD(u8 *p);
+void MUSICAL_MCSS_DisableDrawOffset(u8 *p);
 
-void MUSICAL_MCSS_GetFieldE(u8 *p);
+void MUSICAL_MCSS_PauseMCAnim(u8 *p);
 
-void MUSICAL_MCSS_GetFieldF(char *p);
+void MUSICAL_MCSS_ResumeMCAnim(char *p);
 
 void MUSICAL_MCSS_SetMCAnim(char *p,u32 n);
 
-u32 MUSICAL_MCSS_GetFieldG(u8 *p);
+u32 MUSICAL_MCSS_IsMCAnimHidden(u8 *p);
 
-void MUSICAL_MCSS_NoOp8(char *p);
+void MUSICAL_MCSS_HideMCAnim(char *p);
 
-void MUSICAL_MCSS_NoOp9(char *p);
+void MUSICAL_MCSS_ShowMCAnim(char *p);
 
 void MUSICAL_MCSS_CopyField(Object *a,Object *b);
 
@@ -1503,56 +1503,56 @@ void MUSICAL_MCSS_FreeMC(char *a, char *mcAnim)
     GFL_HEAP_Free(mcAnim);
 }
 
-void MUSICAL_MCSS_NoOp7(void *renderPool)
+void MUSICAL_MCSS_SetCameraBack(void *renderPool)
 {
     unsigned int v = ((McssRenderPool *)renderPool)->flags;
     ((McssRenderPool *)renderPool)->flags = (v & ~1u) | 1u;
 }
 
 /*
- * note: blocker leaf of MUSICAL_MCSS_SetRenderFieldA; following 021F6230 is already matched.
+ * note: blocker leaf of MUSICAL_MCSS_SetRenderCellVramBase; following 021F6230 is already matched.
  */
-void MUSICAL_MCSS_SetFieldA(char *renderPool,int b) { ((McssRenderPool *)renderPool)->cellVram=b; }
+void MUSICAL_MCSS_SetCellVramBase(char *renderPool,int b) { ((McssRenderPool *)renderPool)->cellVram=b; }
 
-void MUSICAL_MCSS_SetFieldB(u8 *renderPool, int a)
+void MUSICAL_MCSS_SetAnimVramBase(u8 *renderPool, int a)
 {
     ((McssRenderPool *)renderPool)->animVram = a;
 }
 
-void MUSICAL_MCSS_GetFieldA(char *mcAnim, int *q)
+void MUSICAL_MCSS_SetMCAnimPos(char *mcAnim, int *q)
 {
     ((McssMcAnim *)mcAnim)->posX = q[0];
     ((McssMcAnim *)mcAnim)->posY = q[1];
     ((McssMcAnim *)mcAnim)->posZ = q[2];
 }
 
-void MUSICAL_MCSS_GetFieldB(char *mcAnim, int *q)
+void MUSICAL_MCSS_SetMCAnimScale(char *mcAnim, int *q)
 {
     ((McssMcAnim *)mcAnim)->scaleX = q[0];
     ((McssMcAnim *)mcAnim)->scaleY = q[1];
     ((McssMcAnim *)mcAnim)->scaleZ = q[2];
 }
 
-void MUSICAL_MCSS_SetFieldC(char *mcAnim, unsigned short v)
+void MUSICAL_MCSS_SetMCAnimFrame(char *mcAnim, unsigned short v)
 {
     ((McssMcAnim *)mcAnim)->frame = v;
 }
 
-void MUSICAL_MCSS_GetFieldC(u8 *p) { ((Flags *)(p+236))->a=1; }
+void MUSICAL_MCSS_EnableDrawOffset(u8 *p) { ((Flags *)(p+236))->a=1; }
 
-void MUSICAL_MCSS_GetFieldD(u8 *p) { ((Flags *)(p+236))->a=0; }
+void MUSICAL_MCSS_DisableDrawOffset(u8 *p) { ((Flags *)(p+236))->a=0; }
 
-void MUSICAL_MCSS_GetFieldE(u8 *p) { ((Flags *)(p+236))->b=1; }
+void MUSICAL_MCSS_PauseMCAnim(u8 *p) { ((Flags *)(p+236))->b=1; }
 
-void MUSICAL_MCSS_GetFieldF(char *mcAnim) {((McssMcAnim *)mcAnim)->flags&=~2u;}
+void MUSICAL_MCSS_ResumeMCAnim(char *mcAnim) {((McssMcAnim *)mcAnim)->flags&=~2u;}
 
 void MUSICAL_MCSS_SetMCAnim(char *mcAnim,u32 n) {void *a; a=NNS_G2dGetAnimSequenceByIdx(((McssMcAnim *)mcAnim)->animSequenceBank,n);MUSICAL_MCSS_InitMCAnim(mcAnim,1);NNS_G2dSetAnimSequenceToMCAnimation(mcAnim+40,a);}
 
-u32 MUSICAL_MCSS_GetFieldG(u8 *mcAnim) { return (((McssMcAnim *)mcAnim)->flags << 29) >> 31; }
+u32 MUSICAL_MCSS_IsMCAnimHidden(u8 *mcAnim) { return (((McssMcAnim *)mcAnim)->flags << 29) >> 31; }
 
-void MUSICAL_MCSS_NoOp8(char *mcAnim) {((McssMcAnim *)mcAnim)->flags|=4u;}
+void MUSICAL_MCSS_HideMCAnim(char *mcAnim) {((McssMcAnim *)mcAnim)->flags|=4u;}
 
-void MUSICAL_MCSS_NoOp9(char *mcAnim) {((McssMcAnim *)mcAnim)->flags&=~4u;}
+void MUSICAL_MCSS_ShowMCAnim(char *mcAnim) {((McssMcAnim *)mcAnim)->flags&=~4u;}
 
 void MUSICAL_MCSS_CopyField(Object *a,Object *b)
 {

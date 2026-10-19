@@ -10,7 +10,7 @@
  * symbols:
  *   WF2DMAP_SCRDRAW_DrawTilesClipped 0x021C5B98 thumb ov127
  *   func_02041B6C 0x02041B6C arm
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  */
 #include "../include/Obj02840.h"
 typedef unsigned char u8;
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 typedef signed short s16;
 extern void WF2DMAP_SCRDRAW_DrawTilesClipped(void *p, int layer, unsigned int q, s16 x, s16 y);
 extern void func_02041B6C(u32 bit);
-extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
+extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
 void WF2DMAP_SCRDRAW_SetScroll(char *p,int x,int y)
 {
     s16 tx,ty,rx,ry;
@@ -29,6 +29,6 @@ void WF2DMAP_SCRDRAW_SetScroll(char *p,int x,int y)
         WF2DMAP_SCRDRAW_DrawTilesClipped(((struct Obj02840 *)p)->f4,((struct Obj02840 *)p)->f14,(unsigned int)(((struct Obj02840 *)p)->fC),-tx,-ty);
         func_02041B6C((u8)(((struct Obj02840 *)p)->f14));
     }
-    BG_SYS_ResetSlot((u8)(((struct Obj02840 *)p)->f14),(int)0,(int)rx);
-    BG_SYS_ResetSlot((u8)(((struct Obj02840 *)p)->f14),(int)3,(int)ry);
+    BG_SYS_ChangeScroll((u8)(((struct Obj02840 *)p)->f14),(int)0,(int)rx);
+    BG_SYS_ChangeScroll((u8)(((struct Obj02840 *)p)->f14),(int)3,(int)ry);
 }

@@ -18,22 +18,22 @@
  * PRINTSYS_SubmitJob decides between drawing straight away and queueing the request
  * into the ring: when the module is not busy and the flags nibble in the byte
  * at +7 is clear it calls PRINTSYS_RunJob directly, otherwise it queues with
- * GF_FONT_CopyStrbufD6D8 provided the request fits in the free space GF_FONT_GetQueueLength
+ * GF_FONT_EnqueuePrint provided the request fits in the free space GF_FONT_GetQueueFreeSpace
  * reports.
  *
- * Why it is capped: the `bl` at 0x0201C79C is the only branch to GF_FONT_CopyStrbufD6D8
+ * Why it is capped: the `bl` at 0x0201C79C is the only branch to GF_FONT_EnqueuePrint
  * anywhere in the image, and no pool word holds the address either, so the
  * `label` class has no witness once the compared range holds that call.  No
  * cut helps, because the range cannot be made smaller than PRINTSYS_SubmitJob and
  * the call is inside it.  The `matched` class would carry it, but
- * GF_FONT_CopyStrbufD6D8 is not matched: it is EXACT only in a range that also holds
+ * GF_FONT_EnqueuePrint is not matched: it is EXACT only in a range that also holds
  * GF_FONT_Copy, and GF_FONT_Copy is four bytes short (the original spills
  * the byte counter and keeps the ring cursor in a callee-saved register; every
  * source shape tried makes the opposite choice).  See the header of
  * src/matched/unit_0201D7C4.c.
  *
  * It closes the day GF_FONT_Copy's register allocation is reproduced, which
- * makes GF_FONT_CopyStrbufD6D8 an EXACT entry and the `matched` class applies.
+ * makes GF_FONT_EnqueuePrint an EXACT entry and the `matched` class applies.
  *
  * PRINTSYS_SubmitJob's busy test is normalised to 0 or 1 before it is used, which is
  * what a `!= 0` assigned to a local gives; the flags nibble is read as a four
@@ -52,9 +52,9 @@
  *   PRINTSYS_SetJobColor  0x0201C8A4  thumb
  *   PRINTSYS_RunJob  0x0201C8BC  thumb
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
- *   GF_FONT_CopyStrbufD6D8  0x0201D6D8  thumb
+ *   GF_FONT_EnqueuePrint  0x0201D6D8  thumb
  *   GF_FONT_GetAllocSize  0x0201D6B8  thumb
- *   GF_FONT_GetQueueLength  0x0201D6C4  thumb
+ *   GF_FONT_GetQueueFreeSpace  0x0201D6C4  thumb
  */
 
 #include "../include/G_Scratch.h"
@@ -103,8 +103,8 @@ extern int GFL_NET_GetNegotiationNum(void);
 extern u32   GF_FONT_GetAllocSize(void *s);
 struct Rec2;
 struct Ring;
-extern u32 GF_FONT_GetQueueLength(const struct Ring *p);
-extern void  GF_FONT_CopyStrbufD6D8(struct PrintSys *p, void *a, void *b);
+extern u32 GF_FONT_GetQueueFreeSpace(const struct Ring *p);
+extern void  GF_FONT_EnqueuePrint(struct PrintSys *p, void *a, void *b);
 
 extern void PRINTSYS_SetupJob(struct PrintCtx *c, u32 a, u32 b, u32 d, u32 e);
 extern void PRINTSYS_SetJobColor(struct Rec2 *p, u16 v);
@@ -136,7 +136,7 @@ void PRINTSYS_SubmitJob(struct PrintSys *p, struct PrintCtx *c, void *s)
         return;
     }
     need = GF_FONT_GetAllocSize(s);
-    if (need <= GF_FONT_GetQueueLength((const struct Ring *)p)) {
-        GF_FONT_CopyStrbufD6D8(p, c, s);
+    if (need <= GF_FONT_GetQueueFreeSpace((const struct Ring *)p)) {
+        GF_FONT_EnqueuePrint(p, c, s);
     }
 }

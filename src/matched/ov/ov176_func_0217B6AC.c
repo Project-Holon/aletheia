@@ -19,7 +19,7 @@
  *   BATTLE_CHAMPIONSHIP_FLOW_MenuExtraConfirm 0x0217B768 thumb ov176
  *   BATTLE_CHAMPIONSHIP_FLOW_MenuCardCheck2 0x0217B620 thumb ov176
  *   BATTLE_CHAMPIONSHIP_FLOW_MenuMain 0x0217B3C0 thumb ov176
- *   APP_ENV_InitParentalControl 0x0202EB44 thumb
+ *   APP_ENV_IsWirelessAvailable 0x0202EB44 thumb
  *   BATTLE_REC_ClearWork 0x0200B480 thumb
  */
 extern void BATTLE_CHAMPIONSHIP_FLOW_SetOption(int *,int);
@@ -34,7 +34,7 @@ extern void BATTLE_CHAMPIONSHIP_FLOW_MenuExtraBrowse(int *p, int *state, u8 *q);
 extern void BATTLE_CHAMPIONSHIP_FLOW_MenuExtraConfirm(int *p, int *state, u8 *q);
 extern void BATTLE_CHAMPIONSHIP_FLOW_MenuCardCheck2(int p, int *state, char *q);
 extern void BATTLE_CHAMPIONSHIP_FLOW_MenuMain(int p, unsigned *state, int *q);
-extern int APP_ENV_InitParentalControl(void);
+extern int APP_ENV_IsWirelessAvailable(void);
 extern void BATTLE_REC_ClearWork(void);
 void BATTLE_CHAMPIONSHIP_FLOW_MenuExtra(int p,unsigned *state,int *q)
 {
@@ -48,7 +48,7 @@ void BATTLE_CHAMPIONSHIP_FLOW_MenuExtra(int p,unsigned *state,int *q)
         if(result!=-1) {
             switch(result) {
             case 0:
-                if(APP_ENV_InitParentalControl()==0) WIFIBATTLEMATCH_UTIL_SetCallback((int *)p,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuExtraBrowse);
+                if(APP_ENV_IsWirelessAvailable()==0) WIFIBATTLEMATCH_UTIL_SetCallback((int *)p,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuExtraBrowse);
                 else {BATTLE_REC_ClearWork(); BATTLE_CHAMPIONSHIP_FLOW_FinishMenu(q,3);}
                 break;
             case 1: WIFIBATTLEMATCH_UTIL_SetCallback((int *)p,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuExtraConfirm); break;

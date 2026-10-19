@@ -54,7 +54,7 @@
  *   BMP_WIN_Delete 0x020452E8 arm
  *   STRBUF_Create 0x020457B0 arm
  *   GFL_HEAP_Alloc 0x02030734 arm
- *   WORLDTRADE_ADAPTER_IsStreamDone  0x02202840  thumb  ov135
+ *   WORLDTRADE_ADAPTER_IsStreamBusy  0x02202840  thumb  ov135
  *   BMP_WIN_GetBmp   0x02045770  arm
  *   BMP_Clear   0x02043B5C  arm
  *   BMP_WIN_TransferChars   0x02045334  arm
@@ -79,7 +79,7 @@
  *   CLACT_IsActorAnimActive  0x0204B98C  arm  arm9
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  *   KEY_GetTrg  0x020362DC  arm  arm9
- *   WORLDTRADE_ClearBusyFlag  0x021F4EC8  thumb  ov135
+ *   WORLDTRADE_AdvanceScreenId  0x021F4EC8  thumb  ov135
  *   WORLDTRADE_SetStateAndReturn  0x021F4EC0  thumb
  *   WORLDTRADE_CancelSave  0x021F513C  thumb  ov135
  *   WORLDTRADE_DeleteTimeIcon  0x021F4FC4  thumb  ov135
@@ -87,19 +87,19 @@
  *   DPW_TR_GetAsyncResult  0x021C86A8  arm
  *   DPW_TR_End 0x021C8658 arm ov114
  *   BG_SYS_Init  0x02040C14  arm
- *   BG_SYS_SetTileUnit  0x02040DA8  arm
+ *   BG_SYS_FreeTiles  0x02040DA8  arm
  *   WORLDTRADE_SetActorPos  0x021F4FF4  thumb
  *   UI_SetInputMode  0x020355D8  arm
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm  arm9
  *   WORLDTRADE_ADAPTER_QueueMessagePrint  0x02202B20  thumb
- *   WORLDTRADE_DEPOSIT_GetConditionIndex 0x021F886C thumb ov135
+ *   WORLDTRADE_DEPOSIT_FindLevelBracketIndex 0x021F886C thumb ov135
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   WORLDTRADE_SetNextState 0x021F4E98 thumb ov135
  *   WORLDTRADE_UpdateTaskMenuYesNo 0x021F4D14 thumb ov135
  *   WORLDTRADE_CloseTaskMenu 0x021F4CE4 thumb ov135
  *   WORLDTRADE_SetActorSurfacePos 0x021F4EA0 thumb ov135
  *   WORLDTRADE_INPUT_PrintStringAlignedWrapped  0x021F91DC  thumb
- *   BG_SYS_FillScrollArea  0x02040618  arm
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm
  *   WORLDTRADE_DEPOSIT_PrintName  0x021F7F9C  thumb
  *   WORLDTRADE_DEPOSIT_PrintModeLabelAligned  0x021F8098  thumb
  *   WORLDTRADE_DEPOSIT_PrintLevelRange  0x021F8154  thumb
@@ -115,10 +115,10 @@
  *   tbl_022037A8   0x022037A8  data  a2
  *   tbl_022037B0   0x022037B0  data  a2
  *   tbl_022037BC   0x022037BC  data  a2
- *   WORLDTRADE_DEPOSIT_GetSpeciesFlag  0x021F84EC  thumb
+ *   WORLDTRADE_DEPOSIT_CreateSpeciesFlagTable  0x021F84EC  thumb
  *   g_02203E18     0x02203E18  data  ov135
  *   g_022037D4  0x022037D4  data  ov135
- *   WORLDTRADE_DEPOSIT_CheckGenderEvent 0x021F7B9C thumb ov135
+ *   WORLDTRADE_DEPOSIT_SetGenderFromEvent 0x021F7B9C thumb ov135
  *   tbl_02203D46   0x02203D46  data  a2
  *   DPW_TR_DownloadMatchDataAsync 0x021C8B18 arm ov114
  *   DPW_TR_DownloadMatchDataRawAsync 0x021C8BC4 arm ov114
@@ -128,7 +128,7 @@
  *   GFL_NET_STATE_SetWifiError  0x0203CA04  arm
  *   GFL_NET_STATE_ClearErrorMode  0x0203C968  arm
  *   WORLDTRADE_DEPOSIT_GetLevelBracket 0x021F882C thumb ov135
- *   WORLDTRADE_ENTER_ClearFlags 0x021F88B0 thumb ov135
+ *   WORLDTRADE_ENTER_SetCountryFilter 0x021F88B0 thumb ov135
  *   d_02202EAC 0x02202EAC data a4
  *   WORLDTRADE_OpenTaskMenuYesNoDefault  0x021F4BE0  thumb  ov135
  *   d_02203D4A 0x02203D4A data a2
@@ -230,7 +230,7 @@ extern void POKE_PERSONAL_Delete(void *p);
 
 extern void WORLDTRADE_ENTER_SetListRangeEntry(u8 *p, int i, u16 a, u16 b);
 
-extern void WORLDTRADE_ClearBusyFlag(Work *p);
+extern void WORLDTRADE_AdvanceScreenId(Work *p);
 
 extern s32 DPW_TR_GetAsyncResult(void);
 
@@ -300,7 +300,7 @@ extern void CLACT_SetActorAutoAnim(struct Obj *,u32);
 
 extern int WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 
-extern int WORLDTRADE_DEPOSIT_GetConditionIndex(int,int,int);
+extern int WORLDTRADE_DEPOSIT_FindLevelBracketIndex(int,int,int);
 
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 
@@ -339,7 +339,7 @@ extern unsigned WIPE_SYS_EndCheck(void);
 
 extern void WORLDTRADE_INPUT_PrintStringAlignedWrapped(void *p, void *b, u32 c, u32 d, u32 e, u16 f, void *g);
 
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 
 extern void *WORLDTRADE_INPUT_MenuCreate(Init *init, u32 a, u32 b);
 
@@ -353,11 +353,11 @@ extern void WORLDTRADE_DEPOSIT_PrintMessageLine(void *win, void *bank, void *ban
 
 extern void BG_SYS_Init(u32 a, u32 b, u32 c, u32 d);
 
-extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
+extern void BG_SYS_FreeTiles(u32 idx, u32 count, u32 tile);
 
-extern u8 *WORLDTRADE_DEPOSIT_GetSpeciesFlag(u32 id);
+extern u8 *WORLDTRADE_DEPOSIT_CreateSpeciesFlagTable(u32 id);
 
-extern int WORLDTRADE_DEPOSIT_CheckGenderEvent(u8 *p, int event);
+extern int WORLDTRADE_DEPOSIT_SetGenderFromEvent(u8 *p, int event);
 
 extern void DPW_TR_DownloadMatchDataAsync(void *, int, void *);
 
@@ -381,7 +381,7 @@ extern int WORLDTRADE_INPUT_MenuUpdate(void *obj);
 
 extern void WORLDTRADE_DEPOSIT_GetLevelBracket(u8 *dst, int i, int kind);
 
-extern void WORLDTRADE_ENTER_ClearFlags(Work *p, u32 n);
+extern void WORLDTRADE_ENTER_SetCountryFilter(Work *p, u32 n);
 
 extern void WORLDTRADE_OpenTaskMenuYesNoDefault(u32 a, u32 b, u32 c, u32 d, u8 e);
 
@@ -523,7 +523,7 @@ void WORLDTRADE_TITLE_LoadSubBgSwap(Work *p);
 
 void WORLDTRADE_TITLE_CreateMenuWindow(Work *p, u32 k);
 
-u32 WORLDTRADE_ADAPTER_IsStreamDone(PrintStreamCtx *p);
+u32 WORLDTRADE_ADAPTER_IsStreamBusy(PrintStreamCtx *p);
 
 u32 WORLDTRADE_ADAPTER_QueuePrintDefaultColor(void *p,u8 b,void *s,u32 x,u32 y,void *out);
 
@@ -588,7 +588,7 @@ int WORLDTRADE_SEARCH_Init(Work *p)
     WORLDTRADE_SEARCH_DrawHistoryHeader(p->wDB0, p->bank, p->historyFlag, p->printerBlock);
     WORLDTRADE_DEPOSIT_PrintName(p->win_p4[1], p->names, p->rec.name, 0, 0, 0x3C40, p->printerBlock);
     WORLDTRADE_DEPOSIT_PrintModeLabelAligned(p->win_p4[3], p->bank, p->rec.mode, 1, 0, 0, 0x3C40, p->printerBlock);
-    WORLDTRADE_DEPOSIT_PrintLevelRange(p->wDA4, p->bank, WORLDTRADE_DEPOSIT_GetConditionIndex(p->rec.key, p->rec.val, 1), 0, 0, 0x3C40, 1, p->printerBlock);
+    WORLDTRADE_DEPOSIT_PrintLevelRange(p->wDA4, p->bank, WORLDTRADE_DEPOSIT_FindLevelBracketIndex(p->rec.key, p->rec.val, 1), 0, 0, 0x3C40, 1, p->printerBlock);
     WORLDTRADE_DEPOSIT_PrintMessageLine(p->win2[1], p->msg_p, p->bank, p->countryFilter, 0, 0, 0x3C40, p->printerBlock);
     p->vblank = WORLDTRADE_SEARCH_ScrollBgs;
     if (p->kind == 0xd) {
@@ -627,7 +627,7 @@ int WORLDTRADE_SEARCH_Exit(Work *p)
         *(int *)&p->keepBgLayers = 1;
     WORLDTRADE_TITLE_ExitBgPlanes(p);
     CLACT_SetActorDrawEnable((struct Obj *)((struct Obj *)*(u32 *)(void * *)&p->scrollBarObj), 0);
-    WORLDTRADE_ClearBusyFlag(p);
+    WORLDTRADE_AdvanceScreenId(p);
     return 0;
 }
 
@@ -785,7 +785,7 @@ void WORLDTRADE_SEARCH_DeleteWindows(unsigned char *p)
         BMP_WIN_Delete(*(void **)(p + i * 4 + 0xd90));
     for (i = 0; i < 2; ++i)
         BMP_WIN_Delete(*(void **)(p + i * 4 + 0xdd8));
-    BG_SYS_SetTileUnit(3, 1, 0);
+    BG_SYS_FreeTiles(3, 1, 0);
 }
 
 void WORLDTRADE_SEARCH_CreateStrings(Work *p)
@@ -794,7 +794,7 @@ void WORLDTRADE_SEARCH_CreateStrings(Work *p)
     p->titleStr = MSGDATA_AllocString(p->bank, 0x30);
     (*(void **)&p->st) = GFL_HEAP_Alloc(0x48, 0x30, 0, (const char *)g_02203E18, 0x351);
     MIi_CpuClearFast(0, (void *)p->st, 0x30);
-    *(u8 * *)&((DepositState *)(*(u8 * *)(void **)&p->st))->speciesFlags = WORLDTRADE_DEPOSIT_GetSpeciesFlag(0x48);
+    *(u8 * *)&((DepositState *)(*(u8 * *)(void **)&p->st))->speciesFlags = WORLDTRADE_DEPOSIT_CreateSpeciesFlagTable(0x48);
     WORLDTRADE_ENTER_ClearListRange((u8 *)p + 0xeec);
 }
 
@@ -841,7 +841,7 @@ void WORLDTRADE_SEARCH_HandleButton(Work *p, int mode)
             v=POKE_PERSONAL_GetParam((const struct Personal *)h,0x14);
             POKE_PERSONAL_Delete((void *)h);
             p->st->genderEvent=v;
-            if(WORLDTRADE_DEPOSIT_CheckGenderEvent((u8 *)p+0xB56,p->st->genderEvent)) break;
+            if(WORLDTRADE_DEPOSIT_SetGenderFromEvent((u8 *)p+0xB56,p->st->genderEvent)) break;
         }
         p->state=7;
         break;
@@ -865,7 +865,7 @@ void WORLDTRADE_SEARCH_HandleButton(Work *p, int mode)
  * Menu input handler. A touch on an entry (WORLDTRADE_SEARCH_HitTestButtons) selects it and
  * acts at once; otherwise the d-pad moves the cursor (WORLDTRADE_SEARCH_UpdateKeyCursor) and A
  * acts on the current entry, B jumps to the last entry of page 1. Entry 1
- * hands the +0xB56 record to WORLDTRADE_DEPOSIT_CheckGenderEvent, entry 5 compares the two
+ * hands the +0xB56 record to WORLDTRADE_DEPOSIT_SetGenderFromEvent, entry 5 compares the two
  * records, entry 4 depends on the +0xD0 word; every path picks the next
  * state (+0x28) and a sound. Always returns 2.
  */
@@ -884,7 +884,7 @@ int WORLDTRADE_SEARCH_StateMainInput(Work *p)
                 u32 v = POKE_PERSONAL_GetParam((const struct Personal *)h, 0x14);
                 POKE_PERSONAL_Delete((void *)h);
                 p->st->genderEvent = v;
-                if (WORLDTRADE_DEPOSIT_CheckGenderEvent((u8 *)(&p->rec_rec2[0]), p->st->genderEvent) != 0) {
+                if (WORLDTRADE_DEPOSIT_SetGenderFromEvent((u8 *)(&p->rec_rec2[0]), p->st->genderEvent) != 0) {
                     CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
                     CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[WORLDTRADE_SEARCH_GetSelectedButton(p)].anim2);
                     GFL_USE_PlaySeDefaultVolume(0x557);
@@ -946,7 +946,7 @@ int WORLDTRADE_SEARCH_StateMainInput(Work *p)
                     u32 v = POKE_PERSONAL_GetParam((const struct Personal *)h, 0x14);
                     POKE_PERSONAL_Delete((void *)h);
                     p->st->genderEvent = v;
-                    if (WORLDTRADE_DEPOSIT_CheckGenderEvent((u8 *)(&p->rec_rec2[0]), p->st->genderEvent) != 0) {
+                    if (WORLDTRADE_DEPOSIT_SetGenderFromEvent((u8 *)(&p->rec_rec2[0]), p->st->genderEvent) != 0) {
                         CLACT_SetActorDrawEnable((struct Obj *)p->cursor, 1);
                         CLACT_SetActorAnimSeq((struct Obj *)p->cursor, tbl_02203D46[WORLDTRADE_SEARCH_GetSelectedButton(p)].anim2);
                         GFL_USE_PlaySeDefaultVolume(0x557);
@@ -1352,7 +1352,7 @@ int WORLDTRADE_SEARCH_StateNameMenuInput(Work *p)
         POKE_PERSONAL_Delete((void *)h);
         p->target->genderEvent = v;
         WORLDTRADE_ENTER_SetListRangeEntry(p->area, p->target->menuScroll + p->target->menuRow, p->target->restoreScroll, p->target->restoreRow);
-        if (WORLDTRADE_DEPOSIT_CheckGenderEvent((u8 *)(&p->sel_h), p->target->genderEvent) != 0) {
+        if (WORLDTRADE_DEPOSIT_SetGenderFromEvent((u8 *)(&p->sel_h), p->target->genderEvent) != 0) {
             BMP_Clear(BMP_WIN_GetBmp(p->winB), 0);
             WORLDTRADE_DEPOSIT_PrintModeLabelAligned(p->winB, p->bank, p->mode_sb, 1, 0, 0, 0x3C40, p->printerBlock);
         }
@@ -1491,7 +1491,7 @@ int WORLDTRADE_SEARCH_StateConditionMenuInput(Work *p)
         p->state_i = 0;
     } else {
         WORLDTRADE_SEARCH_SetBlendEffect(0);
-        WORLDTRADE_ENTER_ClearFlags(p, r);
+        WORLDTRADE_ENTER_SetCountryFilter(p, r);
         p->state_i = 0;
         BMP_Clear(BMP_WIN_GetBmp(p->win2[1]), 0);
         WORLDTRADE_DEPOSIT_PrintMessageLine(p->win2[1], p->msg_p, p->bank, p->countryFilter, 0, 0, 0x3c40, (char *)p + 0xfa0);
@@ -1540,7 +1540,7 @@ int WORLDTRADE_SEARCH_StatePrintMessage9E(Work *p)
 
 int WORLDTRADE_SEARCH_StateWaitMessage(u8 *p)
 {
-    if (WORLDTRADE_ADAPTER_IsStreamDone((PrintStreamCtx *)(p + 0xfa0)) == 0) {
+    if (WORLDTRADE_ADAPTER_IsStreamBusy((PrintStreamCtx *)(p + 0xfa0)) == 0) {
         ((Work *)p)->state = ((Work *)p)->returnState;
     }
     return 2;
@@ -1551,7 +1551,7 @@ int WORLDTRADE_SEARCH_StateWaitMessage(u8 *p)
  */
 int WORLDTRADE_SEARCH_StateWaitMessageOrKey(u8 *p)
 {
-    if (WORLDTRADE_ADAPTER_IsStreamDone((PrintStreamCtx *)(p + 0xfa0)) == 0) {
+    if (WORLDTRADE_ADAPTER_IsStreamBusy((PrintStreamCtx *)(p + 0xfa0)) == 0) {
         if (KEY_GetTrg() != 0 || TOUCHPANEL_GetTrg() != 0) {
             ((Work *)p)->state = ((Work *)p)->returnState;
         }
@@ -1564,7 +1564,7 @@ int WORLDTRADE_SEARCH_StateWaitMessageOrKey(u8 *p)
  */
 int WORLDTRADE_SEARCH_StateWaitMessageTimed(u8 *p)
 {
-    if (WORLDTRADE_ADAPTER_IsStreamDone((PrintStreamCtx *)(p + 0xfa0)) == 0) {
+    if (WORLDTRADE_ADAPTER_IsStreamBusy((PrintStreamCtx *)(p + 0xfa0)) == 0) {
         if (++((Work *)p)->cnt > 0x2d) {
             ((Work *)p)->cnt = 0;
             ((Work *)p)->state = ((Work *)p)->returnState;
@@ -1755,14 +1755,14 @@ int WORLDTRADE_SEARCH_CompareRecords(Rec *x, Rec *y, int m, int n)
 
 void WORLDTRADE_SEARCH_ScrollBgs(Work *p)
 {
-    BG_SYS_FillScrollArea(0, 3, p->scroll);
-    BG_SYS_FillScrollArea(1, 3, p->scroll);
-    BG_SYS_FillScrollArea(2, 3, p->scroll);
-    BG_SYS_FillScrollArea(3, 3, p->scroll);
-    BG_SYS_FillScrollArea(4, 3, -p->scroll);
-    BG_SYS_FillScrollArea(5, 3, -p->scroll);
-    BG_SYS_FillScrollArea(6, 3, -p->scroll);
-    BG_SYS_FillScrollArea(7, 3, -p->scroll);
+    BG_SYS_ChangeScrollImmediate(0, 3, p->scroll);
+    BG_SYS_ChangeScrollImmediate(1, 3, p->scroll);
+    BG_SYS_ChangeScrollImmediate(2, 3, p->scroll);
+    BG_SYS_ChangeScrollImmediate(3, 3, p->scroll);
+    BG_SYS_ChangeScrollImmediate(4, 3, -p->scroll);
+    BG_SYS_ChangeScrollImmediate(5, 3, -p->scroll);
+    BG_SYS_ChangeScrollImmediate(6, 3, -p->scroll);
+    BG_SYS_ChangeScrollImmediate(7, 3, -p->scroll);
 }
 
 /*

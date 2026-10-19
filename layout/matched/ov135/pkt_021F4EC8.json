@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "WORLDTRADE_ClearBusyFlag",
+   "name": "WORLDTRADE_AdvanceScreenId",
    "address": "0x021F4EC8",
    "kind": "game",
    "region": "ov135",

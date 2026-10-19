@@ -1,5 +1,5 @@
 /*
- * function: MUSICAL_MCSS_SetFieldA
+ * function: MUSICAL_MCSS_SetCellVramBase
  * address: 0x021F622C
  * packet: pkt_ov112_021F622C
  * region: ov112
@@ -10,4 +10,4 @@
  * note: blocker leaf of MUSICAL_MCSS_SetRenderFieldA; following 021F6230 is already matched.
  */
 #include "../include/Obj22543.h"
-void MUSICAL_MCSS_SetFieldA(char *p,int b) { ((struct Obj22543 *)p)->fC=b; }
+void MUSICAL_MCSS_SetCellVramBase(char *p,int b) { ((struct Obj22543 *)p)->fC=b; }

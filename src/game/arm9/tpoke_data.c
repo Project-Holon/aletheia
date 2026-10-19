@@ -34,7 +34,7 @@
  *   TPOKE_DATA_ReadRecord  0x0202A3AC  thumb
  *   MIi_CpuCopy16  0x02082A60  arm
  *   PMSI_PARAM_ClearSentence  0x0202428C  thumb
- *   NET_DEVICE_TABLE_RemapId  0x0200F128  thumb
+ *   FLDMMDL_ObjCodeToTableIndex  0x0200F128  thumb
  */
 struct ArcFile;
 struct MsgBank;
@@ -135,7 +135,7 @@ u8 TPOKE_DATA_GetTrainerKind(u32 key);
 u32 TPOKE_DATA_GetTrainerGroup(u32 key);
 extern void  MIi_CpuCopy16(const void *src, void *dest, u32 size);
 extern void  PMSI_PARAM_ClearSentence(void *p);
-extern int   NET_DEVICE_TABLE_RemapId(int index);
+extern int   FLDMMDL_ObjCodeToTableIndex(int index);
 Tpoke *TPOKE_DATA_Create(int heap);
 void TPOKE_Delete(Tpoke *tpoke);
 u32 TPOKE_DATA_GetRecordIndex(struct Container *c, u32 key, u32 type, u32 subtype);
@@ -273,7 +273,7 @@ u32 TPOKE_DATA_GetEntryIndex(u8 *p, u32 key, u32 type, u32 subtype)
 }
 
 
-int TPOKE_DATA_GetRecordPtr(struct Container *c, int recordIndex){ int t0 = NET_DEVICE_TABLE_RemapId((int)(recordIndex + 0)); return (c->records + (t0 * 0x1c)); }
+int TPOKE_DATA_GetRecordPtr(struct Container *c, int recordIndex){ int t0 = FLDMMDL_ObjCodeToTableIndex((int)(recordIndex + 0)); return (c->records + (t0 * 0x1c)); }
 
 
 u32 TPOKE_DATA_GetRecordField(void *a, u32 idx)

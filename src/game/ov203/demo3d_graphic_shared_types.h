@@ -26,7 +26,7 @@ typedef struct Demo3dGraphic {
     int               g3dTag;     /* 0x08 never written */
     struct LightSlot *lightSlots; /* 0x0C G3D light slots */
     void             *proc;       /* 0x10 GFL_USE_AddMainTask proc handle */
-    int               engineOn;   /* 0x14 DEMO3D_DATA_GetAnimCount result */
+    int               engineOn;   /* 0x14 DEMO3D_DATA_IsDouble3dDisplay result */
 } Demo3dGraphic;
 
 struct Cfg {

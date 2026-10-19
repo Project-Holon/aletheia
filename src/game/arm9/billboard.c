@@ -20,7 +20,6 @@
  *   G3D_SYSTEM_TransVramTexture   0x02046FF8  arm
  *   G3D_SYSTEM_GetTexVramKey   0x02047388  arm
  *   G3D_SYSTEM_GetPlttVramKey   0x020473B8  arm
- *   _s32_div_f   0x0209C0A4  arm
  *   gTexSizeTbl  0x020A14C0  data
  *   gTexParamS   0x020A14D4  data
  *   gTexParamT   0x020A14D8  data
@@ -417,7 +416,6 @@ extern u32 G3D_SYSTEM_GetTexVramKey(struct G3dResource *resource);
 
 extern u32 G3D_SYSTEM_GetPlttVramKey(struct G3dResource *resource);
 
-extern s32 _s32_div_f(s32 a, s32 b);
 
 extern void *G3D_SYSTEM_CreateResourceArc(u32 arcId, u32 dataId);
 
@@ -618,8 +616,8 @@ void BILLBOARD_SetImageFormat(struct BbImage *image, u32 formatIndex, s32 sizeCo
     image->texHeight = 1 << ((sizeCode & 7) + 3);
     image->cellHeight = rows;
     image->cellWidth = columns;
-    image->cellColumns = _s32_div_f(image->texWidth, image->cellWidth);
-    image->cellRows = _s32_div_f(image->texHeight, image->cellHeight);
+    image->cellColumns = image->texWidth / image->cellWidth;
+    image->cellRows = image->texHeight / image->cellHeight;
 }
 
 /*

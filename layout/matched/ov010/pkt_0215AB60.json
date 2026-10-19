@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "SCRCMD_WORK_CmdGetFieldRecordPair",
+   "name": "SCRCMD_WORK_CmdGetMonthAndDay",
    "address": "0x0215AB60",
    "kind": "game",
    "region": "ov010",

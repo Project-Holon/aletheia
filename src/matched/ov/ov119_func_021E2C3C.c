@@ -17,7 +17,7 @@
  *   G3X_SetClearColor 0x0207DD24 arm
  *   G3D_SYSTEM_SetLight 0x02046A94 arm
  *   ICA_ANIME_GetTranslate 0x02011610 thumb
- *   BUTTON_MAN_SetEmitterPos 0x02051838 arm
+ *   PARTICLE_EMITTER_SetEmitPos 0x02051838 arm
  *   gDrawLightTable 0x021E79C8 data a4
  */
 typedef unsigned short u16;
@@ -56,7 +56,7 @@ extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 struct IcaAnime;
 struct Rec12;
 extern u32 ICA_ANIME_GetTranslate(struct IcaAnime *t, struct Rec12 *out);
-extern void BUTTON_MAN_SetEmitterPos(void *obj, VecFx32 *v);
+extern void PARTICLE_EMITTER_SetEmitPos(void *obj, VecFx32 *v);
 extern char gDrawLightTable[];
 static inline void shading(Shading s) { *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~0x3002) | (s << 1)); }
 static inline void antialias(int b) { if(b) *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~0x3000) | 0x10); else *(volatile u16 *)0x04000060 &= (u16)~0x3010; }
@@ -88,11 +88,11 @@ void POKETRADE_SAVE_Setup3DDrawState(Work *w, Transform *t)
     if (w->sub != 0) {
         if (w->sub->objA0 != 0) {
             ICA_ANIME_GetTranslate((struct IcaAnime *)w->sub->anim98, (struct Rec12 *)&v1);
-            BUTTON_MAN_SetEmitterPos(w->sub->objA0, &v1);
+            PARTICLE_EMITTER_SetEmitPos(w->sub->objA0, &v1);
         }
         if (w->sub->objA4 != 0) {
             ICA_ANIME_GetTranslate((struct IcaAnime *)w->sub->anim9c, (struct Rec12 *)&v2);
-            BUTTON_MAN_SetEmitterPos(w->sub->objA4, &v2);
+            PARTICLE_EMITTER_SetEmitPos(w->sub->objA4, &v2);
         }
     }
 }

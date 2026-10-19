@@ -17,7 +17,7 @@
  *   BTL_POKEPARAM_HasMove  0x021D5750  thumb  ov093
  *   BTL_POKEPARAM_TestTurnFlag  0x021D5BB0  thumb  ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
- *   BTLV_CORE_MakeSlotKind2  0x021E896C  thumb  ov093
+ *   BTL_SICKCONT_MakeKind2  0x021E896C  thumb  ov093
  *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -36,7 +36,7 @@ typedef struct Word { u32 v; } Word;
 typedef enum { K_0 } KType;
 struct Rec { u32 f0; u32 f4; Word f8; u8 fc; u8 fd; u8 fe; u8 ff; };
 
-extern Word BTLV_CORE_MakeSlotKind2(int a, int b);
+extern Word BTL_SICKCONT_MakeKind2(int a, int b);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 
 void HAND_WAZA_DisableOnUncategorizedMove(int a0, u8 *s, int k)
@@ -58,7 +58,7 @@ void HAND_WAZA_DisableOnUncategorizedMove(int a0, u8 *s, int k)
                     c = (u8)(c + 1);
                 e = (struct Rec *)BTL_SERVER_FLOW_AllocCmdRecord((char *)s, 12, k);
                 e->f4 = 0xd;
-                e->f8 = BTLV_CORE_MakeSlotKind2(c, w);
+                e->f8 = BTL_SICKCONT_MakeKind2(c, w);
                 e->ff = v;
                 BTL_SERVER_FLOW_CommitCmdRecord(s, (u8 *)e);
             }

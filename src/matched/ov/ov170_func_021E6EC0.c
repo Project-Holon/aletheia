@@ -20,7 +20,7 @@
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   BOX2_UI_IsListOpen 0x021EF5E8 thumb
- *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb
+ *   BOX2_MAIN_RefreshCurrentBoxMonInfo 0x021DEFEC thumb
  *   BOX2_SEQ_DeleteGridSlot 0x021EA598 thumb
  *   BOX2_MAIN_ResetBoxView 0x021DF040 thumb
  *   CURSOR_MOVE_GetCurrent 0x020260E0 thumb
@@ -76,7 +76,7 @@ extern unsigned BOX2_MAIN_GetPartyValueAt(void ***p, unsigned short a, int box, 
 extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern int BOX2_UI_IsListOpen(struct WinMgr *mgr);
-extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
+extern void BOX2_MAIN_RefreshCurrentBoxMonInfo(char *p, int b);
 extern int BOX2_SEQ_DeleteGridSlot(Obj *p, int i);
 extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 extern void BOX2_UI_SetCursorPos(char **p, unsigned idx);
@@ -116,7 +116,7 @@ int BOX2_SEQ_StateCursorMoveB(Obj *p)
         if (BOX2_MAIN_GetPartyValueAt((void ***)p, r + 0x1E, p->b14, 0xA9, 0)) {
             GFL_USE_PlaySeDefaultVolume(0x666);
             TOUCHPANEL_GetPointTrg((u32 *)(p->work + 0xA180), (u32 *)(p->work + 0xA184));
-            BOX2_MAIN_ChangeBoxFormPreserve((char *)p, (int)r + 0x1E);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p, (int)r + 0x1E);
             return BOX2_SEQ_DeleteGridSlot(p, r + 0x1E);
         }
         BOX2_MAIN_ResetBoxView((char *)p);
@@ -177,7 +177,7 @@ int BOX2_SEQ_StateCursorMoveB(Obj *p)
     case -3: {
         unsigned char v = CURSOR_MOVE_GetCurrent(OBJ(p));
         if (v < 6)
-            BOX2_MAIN_ChangeBoxFormPreserve((char *)p, v + 0x1E);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p, v + 0x1E);
         else if (v == 6)
             BOX2_MAIN_ResetBoxView((char *)p);
         GFL_USE_PlaySeDefaultVolume(0x548);

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "DEMO3D_DATA_IsCaptureDone",
+   "name": "DEMO3D_DATA_ScaleTime",
    "address": "0x021BF7AC",
    "kind": "game",
    "region": "ov203",

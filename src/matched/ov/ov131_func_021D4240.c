@@ -31,7 +31,7 @@
  *   P_STA_SUB_InitWindows 0x021D697C thumb ov131
  *   P_STA_SKILL_InitMovesPage 0x021DA6A4 thumb ov131
  *   P_STA_RIBBON_CollectOwned 0x021D911C thumb ov131
- *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
+ *   GAME_DATA_ContainsRecentId 0x02012BF8 thumb
  *   P_STA_SKILL_InitStatsPage 0x021D9C3C thumb ov131
  *   P_STA_RIBBON_Init 0x021D8F50 thumb ov131
  *   P_STA_INFO_Setup 0x021D7C38 thumb ov131
@@ -62,7 +62,7 @@ extern void P_STATUS_LoadPokemonState(u8 *);
 extern void P_STA_SUB_InitWindows(u8 *,int *);
 extern void P_STA_SKILL_InitMovesPage(u8 *a, u8 *p);
 extern void P_STA_RIBBON_CollectOwned(u8 *a, u8 *p);
-extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
+extern int GAME_DATA_ContainsRecentId(int a0, int a1);
 extern void P_STA_SKILL_InitStatsPage(void *,u8 *);
 extern void P_STA_RIBBON_Init(void *,u8 *);
 extern void P_STA_INFO_Setup(void *,u8 *);
@@ -116,7 +116,7 @@ int P_STATUS_InitWork(char *p)
     } else {
         ((struct Obj00238 *)p)->f58=(*(u8 **)(p+8))[16];
         if (((struct Obj00238 *)p)->f58<3) {
-            for(i=0;i<3;i++) *(int *)(p+0x60+i*4)=GAME_DATA_CheckSaveFlag((int)(((struct Obj23119 *)(*(char * *)&((struct Obj00238 *)p)->f8))->f8),i+7);
+            for(i=0;i<3;i++) *(int *)(p+0x60+i*4)=GAME_DATA_ContainsRecentId((int)(((struct Obj23119 *)(*(char * *)&((struct Obj00238 *)p)->f8))->f8),i+7);
         }
         P_STA_SUB_InitWindows((u8 *)p,*(int * *)&((struct Obj00238 *)p)->f88);
         P_STA_RIBBON_CollectOwned((u8 *)p,((struct Obj00238 *)p)->f94);

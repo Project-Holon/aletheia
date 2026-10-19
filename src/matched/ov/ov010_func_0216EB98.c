@@ -69,7 +69,7 @@
  *   func_02034AC4  0x02034AC4  arm
  *   func_02034A5C  0x02034A5C  arm
  *   func_020056A0  0x020056A0  thumb
- *   GAMESYSTEM_ReadTimerTwice  0x02011D34  thumb
+ *   GAMESYSTEM_RandTwice  0x02011D34  thumb
  *   _u32_div_f     0x0209C2B0  arm
  *   SCRCMD_NETWORK_CreateCommProcEvent  0x0215F6E8  thumb  ov010
  *   FLD_BTL_INST_TOOL_AddBattleTally  0x02168D30  thumb  ov010
@@ -151,7 +151,7 @@ extern void COMM_PLAYER_SUPPORT_StashMode(u32 *p);
 extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(s32 handle);
 extern void *func_020056A0(void (*callback)(void *, void *), void *work, u32 key);
-extern void GAMESYSTEM_ReadTimerTwice(void);
+extern void GAMESYSTEM_RandTwice(void);
 extern void *SCRCMD_NETWORK_CreateCommProcEvent(void *sys);
 extern void FLD_BTL_INST_TOOL_AddBattleTally(struct Record *r, struct Result *s);
 extern int EVENT_BATTLE_IsTaskResultSilent(int *w);
@@ -265,7 +265,7 @@ int EVENT_BATTLE_ProcBattleTask(void *evt, u32 *state, Work *w)
         return 1;
     }
     if (sum % 0x1933 != 0) {
-        func_020056A0((void (*)(void *, void *))GAMESYSTEM_ReadTimerTwice, 0, 0x7F);
+        func_020056A0((void (*)(void *, void *))GAMESYSTEM_RandTwice, 0, 0x7F);
         g_0214624C++;
     }
     return 0;

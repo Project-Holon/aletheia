@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   WIFIBATTLEMATCH_NET_CompareField 0x021DD044 thumb ov175
+ *   WIFIBATTLEMATCH_NET_LookupFieldEntry 0x021DD044 thumb ov175
  *   GF_STANDARD_CompareString 0x0203F028 arm
  *   d_021E2F4C 0x021E2F4C data a4
  *   d_021E2F60 0x021E2F60 data a4
@@ -18,7 +18,7 @@
 #include "../include/Obj00922.h"
 typedef unsigned long u32;
 struct Field { const char *name; u32 type; u32 value; u32 pad; };
-extern int WIFIBATTLEMATCH_NET_CompareField(int);
+extern int WIFIBATTLEMATCH_NET_LookupFieldEntry(int);
 extern int GF_STANDARD_CompareString(const char *,const char *);
 extern const char d_021E2F4C[],d_021E2F60[],d_021E2F7C[],d_021E2F70[];
 void WIFIBATTLEMATCH_NET_GdbCopyFieldsA(int count,struct Field **fields,char *p,int n) {
@@ -27,23 +27,23 @@ void WIFIBATTLEMATCH_NET_GdbCopyFieldsA(int count,struct Field **fields,char *p,
     for(i=0;i<count;i++) {
         for(j=0;j<n;j++) {
             f=&fields[i][j];
-            if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(9))) ((struct Obj00922 *)p)->f40=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(10))) ((struct Obj00922 *)p)->f3C=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(12))) ((struct Obj00922 *)p)->f28=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(11))) ((struct Obj00922 *)p)->f24=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(13))) ((struct Obj00922 *)p)->f30=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(14))) ((struct Obj00922 *)p)->f2C=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(15))) ((struct Obj00922 *)p)->f48=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(16))) ((struct Obj00922 *)p)->f44=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(17))) ((struct Obj00922 *)p)->f38=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(18))) ((struct Obj00922 *)p)->f34=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(19))) ((struct Obj00922 *)p)->fC=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(20))) ((struct Obj00922 *)p)->f0=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(21))) ((struct Obj00922 *)p)->f4=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(22))) ((struct Obj00922 *)p)->f10=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(23))) ((struct Obj00922 *)p)->f8=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(3))) ((struct Obj00922 *)p)->f20=f->value;
-            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_CompareField(24))) ((struct Obj00922 *)p)->f18=f->value;
+            if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_LookupFieldEntry(9))) ((struct Obj00922 *)p)->f40=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_LookupFieldEntry(10))) ((struct Obj00922 *)p)->f3C=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_LookupFieldEntry(12))) ((struct Obj00922 *)p)->f28=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_LookupFieldEntry(11))) ((struct Obj00922 *)p)->f24=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_LookupFieldEntry(13))) ((struct Obj00922 *)p)->f30=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_LookupFieldEntry(14))) ((struct Obj00922 *)p)->f2C=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_LookupFieldEntry(15))) ((struct Obj00922 *)p)->f48=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_LookupFieldEntry(16))) ((struct Obj00922 *)p)->f44=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_LookupFieldEntry(17))) ((struct Obj00922 *)p)->f38=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_LookupFieldEntry(18))) ((struct Obj00922 *)p)->f34=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_LookupFieldEntry(19))) ((struct Obj00922 *)p)->fC=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_LookupFieldEntry(20))) ((struct Obj00922 *)p)->f0=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_LookupFieldEntry(21))) ((struct Obj00922 *)p)->f4=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_LookupFieldEntry(22))) ((struct Obj00922 *)p)->f10=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_LookupFieldEntry(23))) ((struct Obj00922 *)p)->f8=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_LookupFieldEntry(3))) ((struct Obj00922 *)p)->f20=f->value;
+            else if(!GF_STANDARD_CompareString(f->name,(const char *)WIFIBATTLEMATCH_NET_LookupFieldEntry(24))) ((struct Obj00922 *)p)->f18=f->value;
             else if(!GF_STANDARD_CompareString(f->name,d_021E2F4C)) ((struct Obj00922 *)p)->f4C=f->value;
             else if(!GF_STANDARD_CompareString(f->name,d_021E2F60)) ((struct Obj00922 *)p)->f50=f->value;
             else if(!GF_STANDARD_CompareString(f->name,d_021E2F7C)) ((struct Obj00922 *)p)->f54=f->value;

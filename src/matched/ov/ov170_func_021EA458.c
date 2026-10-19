@@ -29,9 +29,9 @@
  *   BOX2_SEQ_MoveActorToSlotB 0x021ED198 thumb
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
- *   BOX2_MAIN_ChangeBoxFormPreserve  0x021DEFEC  thumb
- *   BOX2_MAIN_Check0A40  0x021E0A40  thumb
- *   BOX2_MAIN_StateMachineCoin  0x021E0ABC  thumb
+ *   BOX2_MAIN_RefreshCurrentBoxMonInfo  0x021DEFEC  thumb
+ *   BOX2_MAIN_StateMachineShowHandScroll  0x021E0A40  thumb
+ *   BOX2_MAIN_StateMachineDrag  0x021E0ABC  thumb
  *   BOX2_SEQ_SetActorAnim  0x021EA878  thumb
  *   BOX2_UI_MoveCursorBetweenIcons  0x021EEF74  thumb
  *   BOX2_UI_CloseListPack  0x021EF534  thumb
@@ -84,16 +84,16 @@ extern void BOX2_UI_ResetSlotFrames(struct WinMgr *mgr);
 extern void BOX2_UI_CloseListPack(struct WinMgr *mgr);
 extern void BOX2_SEQ_CreateB(void *p);
 extern void BOX2_SEQ_SetActorAnim(Obj *p, int v);
-extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
+extern void BOX2_MAIN_RefreshCurrentBoxMonInfo(char *p, int b);
 extern u8 CURSOR_MOVE_GetCurrent(struct Sound *obj);
 extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 extern void BOX2_UI_MoveCursorBetweenIcons(char *w, int k, int v);
-extern int BOX2_MAIN_StateMachineCoin(unsigned char *p);
+extern int BOX2_MAIN_StateMachineDrag(unsigned char *p);
 extern int BOX2_SEQ_StateMenuSelect(char *p);
 extern void BOX2_SEQ_MoveActorToSlotB(char *w, int i, int v);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 
-extern int BOX2_MAIN_Check0A40(char *p);
+extern int BOX2_MAIN_StateMachineShowHandScroll(char *p);
 
 #define OBJ(p) (*(void **)((p)->work + 0x70))
 #define MGR(p) (*(struct WinMgr **)((p)->work + 0x74))

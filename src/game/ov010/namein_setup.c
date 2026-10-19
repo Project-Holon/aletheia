@@ -32,7 +32,7 @@
  *   ICA_ANIME_CreateFull  0x020114D0  thumb
  *   GFL_USE_GetSeSlot  0x02006148  thumb
  *   GFL_USE_PlaySeInSlot  0x0200616C  thumb
- *   ICA_ANIME_Get  0x02011610  thumb
+ *   ICA_ANIME_GetTranslate  0x02011610  thumb
  *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
  *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
@@ -340,7 +340,7 @@ extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
 extern void *ICA_ANIME_CreateFull(u32 heap, u32 arcId, u32 dataId);
 extern int GFL_USE_GetSeSlot(u32 seqNo);
 extern void GFL_USE_PlaySeInSlot(void *arg, int i);
-extern u32 ICA_ANIME_Get(struct IcaAnime *anim, VecFx32 *out);
+extern u32 ICA_ANIME_GetTranslate(struct IcaAnime *anim, VecFx32 *out);
 extern void *FIELDMAP_GetExpObj(FieldMap *fieldMap);
 extern VecFx32 *FLD_EXP_OBJ_GetModelStatus(void *p, int a, int b);
 extern void *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
@@ -615,7 +615,7 @@ int NAMEIN_SETUP_RunFallEvent(GameEvent *event, u32 *state, FallEventWork *work)
         (*state)++;
         break;
     case 3:
-        ICA_ANIME_Get(work->anim, &cur);
+        ICA_ANIME_GetTranslate(work->anim, &cur);
         FLD_EXP_OBJ_GetModelStatus(FIELDMAP_GetExpObj(fieldMap), 0, 0)->y = cur.y;
         playerObj = FIELDMAP_GetFieldPlayer(fieldMap);
         FIELD_PLAYER_GetPos(playerObj, &v);
@@ -696,7 +696,7 @@ void *NAMEIN_SETUP_SyncObjHeightToAnim(LandEventWork *work)
     VecFx32 animPos;
     VecFx32 *mapPos;
 
-    ICA_ANIME_Get(work->anim, &animPos);
+    ICA_ANIME_GetTranslate(work->anim, &animPos);
     mapPos = FLD_EXP_OBJ_GetModelStatus(FIELDMAP_GetExpObj(work->fieldMap), 0, 0);
     mapPos->y = animPos.y;
 

@@ -18,8 +18,8 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   GAMESYSTEM_GetGameComm 0x02012138 thumb
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
- *   BG_SYS_SetScrollY 0x02041F6C arm
- *   BG_SYS_SetAffine 0x02041FB0 arm
+ *   BG_SYS_ChangeScale 0x02041F6C arm
+ *   BG_SYS_ChangeCenter 0x02041FB0 arm
  *   IRC_APPBAR_Create 0x021B70DC thumb ov101
  *   COMPATIBLE_IRC_SYS_SetOwnValue 0x021B63CC thumb ov101
  *   IRC_APPBAR_Delete 0x021B71C0 thumb ov101
@@ -55,8 +55,8 @@
  *   IRC_COMPATIBLE_TOUCH_TEST_BgLayerIds 0x021B927C data a4
  *   IRC_COMPATIBLE_TOUCH_TEST_BgLayerTypes 0x021B9298 data a4
  *   IRC_COMPATIBLE_TOUCH_TEST_BgTemplates 0x021B9310 data ov103 a4
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
- *   BG_SYS_SetTileUnit 0x02040DA8 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
+ *   BG_SYS_FreeTiles 0x02040DA8 arm
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
@@ -120,7 +120,7 @@
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   WORDSET_CreateDefault 0x0201EC64 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -175,7 +175,7 @@
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   _u32_div_f 0x0209C2B0 arm
  *   BG_SYS_SetTileEntry 0x02041300 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb  arm9
  *   G3D_SYSTEM_DrawEnd  0x02047970  arm  arm9
@@ -183,7 +183,7 @@
  *   CLACT_DrawSystem  0x0204A600  arm  arm9
  *   IRC_RANKING_GetFromSave  0x0200A8A0  thumb  arm9
  *   BG_SYS_GetBuf  0x0204162C  arm  arm9
- *   BG_SYS_GetField16  0x0204169C  arm  arm9
+ *   BG_SYS_GetColorMode  0x0204169C  arm  arm9
  *   BG_SYS_DrawTileEx  0x020410D0  arm  arm9
  *   BG_SYS_FillTileMap  0x020413B0  arm  arm9
  *   BG_SYS_Update  0x020419E4  arm  arm9
@@ -344,8 +344,8 @@ extern void *PROCSYS_AllocProcWork(void *proc, u32 size, u32 heapId);
 extern void MI_CpuFill8(void *dest, int value, u32 size);
 extern u32 GAMESYSTEM_GetGameComm(void *gameSystem);
 extern void BMP_MENUWORK_DrawWindow(void *bmpWin, int commitMode, int tileBase, int palette);
-extern void BG_SYS_SetScrollY(u32 which, u32 op, u32 value);
-extern void BG_SYS_SetAffine(u32 which, u32 op, u16 value);
+extern void BG_SYS_ChangeScale(u32 which, u32 op, u32 value);
+extern void BG_SYS_ChangeCenter(u32 which, u32 op, u16 value);
 extern void COMPATIBLE_IRC_SYS_SetOwnValue(IrcSys *sys, int value);
 extern void PROCSYS_FreeProcWork(void *proc);
 extern void GFL_HEAP_DeleteChecked(unsigned heapId);
@@ -373,8 +373,8 @@ extern void BG_SYS_Init(u32, u32, u32, u32);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *, u32, u32, u32, u32, u16);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void G2x_SetBlendAlpha_(int, int, int, int, int);
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
-extern void BG_SYS_SetTileUnit(int, int, int);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTiles(int, int, int);
 extern void BG_SYS_FreeLayerBuf(u8);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
@@ -435,7 +435,7 @@ extern void *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWi
 extern void *PRINTSYS_QUE_Create(u32 heapId);
 extern void *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *WORDSET_CreateDefault(u32 heap);
-extern u32 WORDSET_DeleteStrbufED04(void *wordSet);
+extern u32 WORDSET_Delete(void *wordSet);
 extern void MSGDATA_Delete(void *msgData);
 extern void PRINTSYS_QUE_Delete(void *printQueue);
 extern void GF_FONT_Delete(void *font);
@@ -486,13 +486,13 @@ extern u32 TOUCHPANEL_GetPointTrg(u32 *outX, u32 *outY);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outX, u32 *outY);
 extern void *ARC_UTIL_LoadHandleMember(void *arc, u32 memberId, u32 compressed, u32 flags);
 extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
-extern u8 BG_SYS_GetField16(int channel);
+extern u8 BG_SYS_GetColorMode(int channel);
 extern u32 BG_SYS_GetBuf(int channel);
 extern void BG_SYS_DrawTileEx(u32 index, u32 dx, u32 dy, u32 cw, u8 ch, u32 src, u8 sx, u8 sy, u8 sw, u8 sh);
 extern void BG_SYS_FillTileMap(u8, u8, u8, u8, u8, u8);
 extern u32 GFL_HEAP_Free(void *p);
 extern void BG_SYS_SetTileEntry(u8, u8, u8, u8, u8, u8, u8);
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 extern void CLACT_SetActorPaletteOffset(void *actor, u32 offset, u32 flag);
 
 extern u8 IRC_COMPATIBLE_TOUCH_TEST_VramBankConfig[];
@@ -605,10 +605,10 @@ int IRC_COMPATIBLE_TOUCH_TEST_ProcInit(void *proc, int unused, IrcSecondTestArgs
     BMP_MENUWORK_DrawWindow(work->title.bmpWin, 0, (u16)work->bgCharRange, 6);
     IRC_COMPATIBLE_TOUCH_TEST_InitWindow(&work->bottomWin, 7, 6, 3, 20, 5, 8, 1, 1, 55);
     IRC_COMPATIBLE_TOUCH_TEST_PrintMessageCentered(&work->bottomWin, &work->text, 16);
-    BG_SYS_SetScrollY(7, 3, 0x1000);
-    BG_SYS_SetScrollY(7, 6, 0x1000);
-    BG_SYS_SetAffine(7, 9, 128);
-    BG_SYS_SetAffine(7, 12, 40);
+    BG_SYS_ChangeScale(7, 3, 0x1000);
+    BG_SYS_ChangeScale(7, 6, 0x1000);
+    BG_SYS_ChangeCenter(7, 9, 128);
+    BG_SYS_ChangeCenter(7, 12, 40);
     IRC_COMPATIBLE_TOUCH_TEST_ClearStroke(&work->drawing.strokeA);
     IRC_COMPATIBLE_TOUCH_TEST_ClearStroke(&work->drawing.strokeB);
     IRC_COMPATIBLE_TOUCH_TEST_InitTrail(&work->trail, work, 0, 1, 0, 1);
@@ -777,8 +777,8 @@ void IRC_COMPATIBLE_TOUCH_TEST_ExitBackgrounds(u32 *charRange)
 {
     int i;
     REG_BLDCNT_MAIN = 0;
-    BG_SYS_DeleteHalf(5, (u16)(*charRange), (u16)(*charRange >> 16));
-    BG_SYS_SetTileUnit(5, 1, 0);
+    BG_SYS_FreeTileRun(5, (u16)(*charRange), (u16)(*charRange >> 16));
+    BG_SYS_FreeTiles(5, 1, 0);
     for (i = 0; i < 7; i++) BG_SYS_FreeLayerBuf(IRC_COMPATIBLE_TOUCH_TEST_BgLayerIds[i]);
     BMP_WIN_Exit();
     BG_SYS_Delete();
@@ -985,7 +985,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_InitText(IrcTextSystem *text, int skipFont, u32 h
 
 void IRC_COMPATIBLE_TOUCH_TEST_ExitText(IrcTextSystem *text)
 {
-    WORDSET_DeleteStrbufED04(text->wordSet);
+    WORDSET_Delete(text->wordSet);
     MSGDATA_Delete(text->msgData);
     PRINTSYS_QUE_Delete(text->printQueue);
     GF_FONT_Delete(text->font);
@@ -1601,7 +1601,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_LoadScreenBlock(void *arc, int memberId, int bgLa
     u16 *screen;
     file = ARC_UTIL_LoadHandleMember(arc, memberId, compressed, (u16)((heapId & 0x7fff) | 0x8000));
     NNS_G2dGetUnpackedScreenData(file, (void **)(&data));
-    if (tileOffset && !BG_SYS_GetField16((u8)bgLayer)) {
+    if (tileOffset && !BG_SYS_GetColorMode((u8)bgLayer)) {
         screen = (u16 *)(data + 12);
         for (t = 0; t < (srcWidth * srcHeight); t++) screen[t] += (u16)tileOffset;
     }
@@ -1620,7 +1620,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_LoadGuideScreens(int mask, u16 heapId)
     else BG_SYS_SetTileEntry(2, 0, 0, 0, 16, 24, 9);
     if (mask & 2) IRC_COMPATIBLE_TOUCH_TEST_LoadScreenBlock(arc, 8, 2, 0, 0, 0, 16, 24, 16, 0, 16, 24, 9, 0, heapId);
     else BG_SYS_SetTileEntry(2, 0, 16, 0, 16, 24, 9);
-    BG_SYS_SetFlagField06(2);
+    BG_SYS_MarkTileDirty(2);
     ARC_TOOL_DeleteHandle(arc);
 }
 

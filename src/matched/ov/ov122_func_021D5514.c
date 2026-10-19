@@ -20,7 +20,7 @@
  *   INTRUDE_COMM_VIEW_SumPeerTimers 0x021D533C thumb ov122
  *   TCBL_Main 0x020310C4 arm
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   GAMESYSTEM_TryStartAutoComm 0x020121CC thumb
  *   GAMESYSTEM_IsNetOffBySleep 0x02012204 thumb
@@ -44,7 +44,7 @@ typedef unsigned char  u8;
 extern u32 INTRUDE_COMM_VIEW_SumPeerTimers(u8 *p);
 extern void TCBL_Main(struct Tcbl *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-extern void BG_SYS_FillScrollArea(u32, u32, u32);
+extern void BG_SYS_ChangeScrollImmediate(u32, u32, u32);
 extern u32 WIPE_SYS_EndCheck(void);
 extern u32 GAMESYSTEM_TryStartAutoComm(struct IcaAnime *p);
 extern u32 GAMESYSTEM_IsNetOffBySleep(const struct Ctx *p);
@@ -68,7 +68,7 @@ int INTRUDE_COMM_VIEW_Main(void *a, void *b, void *c, char *p)
     }
     TCBL_Main(((struct Obj00208 *)p)->f31C);
     PRINTSYS_QUE_Main(((struct Obj00208 *)p)->f320);
-    BG_SYS_FillScrollArea(4, 3, ((struct Obj00208 *)p)->f358);
+    BG_SYS_ChangeScrollImmediate(4, 3, ((struct Obj00208 *)p)->f358);
     ((struct Obj00208 *)p)->f358 = ((struct Obj00208 *)p)->f358 - 1;
     if (WIPE_SYS_EndCheck() && ((struct Obj00208 *)p)->f38C == 0) GAMESYSTEM_TryStartAutoComm(((struct Obj00208 *)p)->f354);
     if (WIPE_SYS_EndCheck() && GAMESYSTEM_IsNetOffBySleep(((struct Obj00208 *)p)->f354)) {

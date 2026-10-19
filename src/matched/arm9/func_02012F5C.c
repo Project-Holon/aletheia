@@ -1,5 +1,5 @@
 /*
- * function: GAME_DATA_GetSaveBlock21
+ * function: GAME_DATA_GetTrainerCardSign
  * address:  0x02012F5C
  * packet:   pkt_02012F5C
  * region:   arm9
@@ -22,7 +22,7 @@
 struct Sub020089A8Obj;
 extern struct Sub020089A8Obj *func_020089C0(void *sys);
 
-void *GAME_DATA_GetSaveBlock21(void **h)
+void *GAME_DATA_GetTrainerCardSign(void **h)
 {
     return func_020089C0(*h);
 }

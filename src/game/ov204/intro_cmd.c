@@ -40,7 +40,7 @@
  *   SAVE_CONTROL_INTR_Resume 0x021BD374 thumb ov088
  *   SAVE_CONTROL_INTR_NoOp 0x021BD39C thumb ov088
  *   SAVE_CONTROL_INTR_IsFinished 0x021BD3A0 thumb ov088
- *   CONFIG_SetAppliedFlag 0x020083EC thumb
+ *   CONFIG_SetTextLanguage 0x020083EC thumb
  *   MYSTATUS_SetOutfitVariant 0x0200854C thumb
  *   GFL_USE_IsAnySeBusy  0x02006238  thumb
  *   PM_VOICE_Start  0x02006A64  thumb
@@ -57,7 +57,7 @@
  *   INTRO_G3D_UpdateAnimFrame 0x021BFBA0 thumb ov204
  *   BG_SYS_DrawTileSub 0x020411E8 arm
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   BG_SYS_SetTileEntry 0x02041300 arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   MYSTATUS_GetOutfitVariant 0x02008550 thumb
@@ -167,7 +167,7 @@ extern void SAVE_CONTROL_INTR_NoOp(int);
 
 extern int SAVE_CONTROL_INTR_IsFinished(unsigned char *p);
 
-extern void CONFIG_SetAppliedFlag(u16*,u32);
+extern void CONFIG_SetTextLanguage(u16*,u32);
 
 extern void MYSTATUS_SetOutfitVariant(struct IntroGameState*,u32);
 
@@ -201,7 +201,7 @@ extern void BG_SYS_DrawTileSub(u32,u32,u32,u32,u8,u32,u8,u8,u8,u8);
 
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
-extern void BG_SYS_SetFlagField06(u32);
+extern void BG_SYS_MarkTileDirty(u32);
 
 extern void BG_SYS_SetTileEntry(u32,int,int,int,u8,u8,u8);
 
@@ -588,7 +588,7 @@ int INTRO_CMD_CmdSaveTimeIcon(char *p, int *state)
     return 0;
 }
 
-int INTRO_CMD_CmdSetAppliedFlag(u8*p,u32 unused,u32*q){IntroCmdWork *work=(IntroCmdWork *)p;u16*obj=(u16 *)((IntroArgs *)work->args)->appliedFlag;Bool flag;if(*q==0)flag=B_FALSE;else flag=B_TRUE;CONFIG_SetAppliedFlag(obj,flag);return 1;}
+int INTRO_CMD_CmdSetAppliedFlag(u8*p,u32 unused,u32*q){IntroCmdWork *work=(IntroCmdWork *)p;u16*obj=(u16 *)((IntroArgs *)work->args)->appliedFlag;Bool flag;if(*q==0)flag=B_FALSE;else flag=B_TRUE;CONFIG_SetTextLanguage(obj,flag);return 1;}
 
 /*
  * prototype: 0200854C widened to u32: original has no byte truncation; its u8 prototype added a shift pair.
@@ -715,31 +715,31 @@ int INTRO_CMD_CmdDrawTile(IntroCmdWork *p,u32 *q)
     case 0:
         BG_SYS_SetPlaneVisible(2,1);
         BG_SYS_DrawTileSub(2,0,8,64,2,(u32)p->data,0,8,64,32);
-        BG_SYS_SetFlagField06(2);
+        BG_SYS_MarkTileDirty(2);
         (*q)++;
         break;
     case 1:
         BG_SYS_DrawTileSub(2,0,7,64,1,(u32)p+0xA8,0,7,64,32);
         BG_SYS_DrawTileSub(2,0,10,64,1,(u32)p->data,0,10,64,32);
-        BG_SYS_SetFlagField06(2);
+        BG_SYS_MarkTileDirty(2);
         (*q)++;
         break;
     case 2:
         BG_SYS_DrawTileSub(2,0,6,64,1,(u32)p+0xA8,0,6,64,32);
         BG_SYS_DrawTileSub(2,0,11,64,1,(u32)p->data,0,11,64,32);
-        BG_SYS_SetFlagField06(2);
+        BG_SYS_MarkTileDirty(2);
         (*q)++;
         break;
     case 3:
         BG_SYS_DrawTileSub(2,0,5,64,1,(u32)p+0xA8,0,5,64,32);
         BG_SYS_DrawTileSub(2,0,12,64,1,(u32)p->data,0,12,64,32);
-        BG_SYS_SetFlagField06(2);
+        BG_SYS_MarkTileDirty(2);
         (*q)++;
         break;
     case 4:
         BG_SYS_DrawTileSub(2,0,4,64,1,(u32)p+0xA8,0,4,64,32);
         BG_SYS_DrawTileSub(2,0,13,64,1,(u32)p->data,0,13,64,32);
-        BG_SYS_SetFlagField06(2);
+        BG_SYS_MarkTileDirty(2);
         *q=0;
         return 1;
     }
@@ -755,25 +755,25 @@ int INTRO_CMD_CmdSetTile(void *p,u32 *q)
     case 0:
         BG_SYS_SetTileEntry(2,0,0,7,64,1,0);
         BG_SYS_SetTileEntry(2,0,0,16,64,1,0);
-        BG_SYS_SetFlagField06(2);
+        BG_SYS_MarkTileDirty(2);
         (*q)++;
         break;
     case 1:
         BG_SYS_SetTileEntry(2,0,0,8,64,1,0);
         BG_SYS_SetTileEntry(2,0,0,15,64,1,0);
-        BG_SYS_SetFlagField06(2);
+        BG_SYS_MarkTileDirty(2);
         (*q)++;
         break;
     case 2:
         BG_SYS_SetTileEntry(2,0,0,6,64,1,0);
         BG_SYS_SetTileEntry(2,0,0,14,64,1,0);
-        BG_SYS_SetFlagField06(2);
+        BG_SYS_MarkTileDirty(2);
         (*q)++;
         break;
     case 3:
         BG_SYS_SetTileEntry(2,0,0,5,64,1,0);
         BG_SYS_SetTileEntry(2,0,0,13,64,1,0);
-        BG_SYS_SetFlagField06(2);
+        BG_SYS_MarkTileDirty(2);
         (*q)++;
         break;
     case 4:

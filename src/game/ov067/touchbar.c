@@ -1,7 +1,7 @@
 /*
  * file:     touchbar.c
  * unit:     yes
- * function: TOUCHBAR_Create, TOUCHBAR_Delete, TOUCHBAR_Update, TOUCHBAR_GetPressedButtonIdIfDone, TOUCHBAR_GetPressedButtonIdIfPressing, TOUCHBAR_IsBusy, TOUCHBAR_SetAllButtonsEnabled, TOUCHBAR_SetAllButtonsVisible, TOUCHBAR_SetAllButtonsBgPriority, TOUCHBAR_SetAllButtonsPriority, TOUCHBAR_SetButtonEnabled, TOUCHBAR_SetButtonVisible, TOUCHBAR_SetButtonSound, TOUCHBAR_SetButtonKeyMask, TOUCHBAR_SetButtonBgPriority, TOUCHBAR_SetButtonToggled, TOUCHBAR_IsButtonToggled, TOUCHBAR_ResetAndEnableButton, TOUCHBAR_FindButton, TOUCHBAR_GetButton, TOUCHBAR_LoadGfx, TOUCHBAR_FreeGfx, TOUCHBAR_GetGfxWord, TOUCHBAR_LoadCharToBg, TOUCHBAR_InitButton, TOUCHBAR_FreeButton, TOUCHBAR_CheckButtonPressed, TOUCHBAR_IsButtonActorIdle, TOUCHBAR_GetButtonId, TOUCHBAR_SetButtonActorVisible, TOUCHBAR_CallSetEnabled, TOUCHBAR_SetButtonSoundId, TOUCHBAR_SetButtonKeys, TOUCHBAR_SetButtonToggle, TOUCHBAR_IsButtonDown, TOUCHBAR_SetButtonActorPriority, TOUCHBAR_SetButtonActorBgPriority, TOUCHBAR_OnPressPlain, TOUCHBAR_OnPressToggle, TOUCHBAR_SetEnabledPlain, TOUCHBAR_SetEnabledToggle, TOUCHBAR_PrintAligned, TOUCHBAR_PrintYesNoCancelLabels, TOUCHBAR_GetStringAlignOffset
+ * function: TOUCHBAR_Create, TOUCHBAR_Delete, TOUCHBAR_Update, TOUCHBAR_GetPressedButtonIdIfDone, TOUCHBAR_GetPressedButtonIdIfPressing, TOUCHBAR_IsBusy, TOUCHBAR_SetAllButtonsEnabled, TOUCHBAR_SetAllButtonsVisible, TOUCHBAR_SetAllButtonsBgPriority, TOUCHBAR_SetAllButtonsPriority, TOUCHBAR_SetButtonEnabled, TOUCHBAR_SetButtonVisible, TOUCHBAR_SetButtonSound, TOUCHBAR_SetButtonKeyMask, TOUCHBAR_SetButtonBgPriority, TOUCHBAR_SetButtonToggled, TOUCHBAR_IsButtonToggled, TOUCHBAR_ResetAndEnableButton, TOUCHBAR_FindButton, TOUCHBAR_GetButton, TOUCHBAR_LoadGfx, TOUCHBAR_FreeGfx, TOUCHBAR_GetGfxWord, TOUCHBAR_LoadCharToBg, TOUCHBAR_InitButton, TOUCHBAR_FreeButton, TOUCHBAR_PollButtonPress, TOUCHBAR_IsButtonActorIdle, TOUCHBAR_GetButtonId, TOUCHBAR_SetButtonActorVisible, TOUCHBAR_CallSetEnabled, TOUCHBAR_SetButtonSoundId, TOUCHBAR_SetButtonKeys, TOUCHBAR_SetButtonToggle, TOUCHBAR_IsButtonDown, TOUCHBAR_SetButtonActorPriority, TOUCHBAR_SetButtonActorBgPriority, TOUCHBAR_OnPressPlain, TOUCHBAR_OnPressToggle, TOUCHBAR_SetEnabledPlain, TOUCHBAR_SetEnabledToggle, TOUCHBAR_PrintAligned, TOUCHBAR_PrintYesNoCancelLabels, TOUCHBAR_GetStringAlignOffset
  * address:  0x021B62E0
  * region:   ov067
  * compiler: dsi/1.1p1
@@ -37,10 +37,10 @@
  *   APP_ICON_GetMoveKindAnimFileId  0x02027618  thumb
  *   APP_ICON_GetStatusCellFileId  0x0202761C  thumb
  *   APP_ICON_GetStatusPaletteFileId  0x02027620  thumb
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
  *   ARC_UTIL_LoadHandleMember  0x0204A380  arm
  *   NNS_G2dGetUnpackedScreenData  0x02062B30  arm
- *   BG_SYS_GetField16  0x0204169C  arm
+ *   BG_SYS_GetColorMode  0x0204169C  arm
  *   BG_SYS_GetBuf  0x0204162C  arm
  *   BG_SYS_DrawTileEx  0x020410D0  arm
  *   BG_SYS_FillTileMap  0x020413B0  arm
@@ -67,7 +67,7 @@
  *   STRBUF_Delete  0x02045808  arm
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  */
 
@@ -117,10 +117,10 @@ extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
 extern u32 APP_ICON_GetMoveKindAnimFileId(void);
 extern u32 APP_ICON_GetStatusCellFileId(u32 iconSet);
 extern u32 APP_ICON_GetStatusPaletteFileId(u32 iconSet);
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 extern void *ARC_UTIL_LoadHandleMember(void *arc, u32 fileId, u32 loadMode, u32 heapFlags);
 extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
-extern u8 BG_SYS_GetField16(int bgLayer);
+extern u8 BG_SYS_GetColorMode(int bgLayer);
 extern u32 BG_SYS_GetBuf(int bgLayer);
 extern void BG_SYS_DrawTileEx(u8 bgLayer, u32 dstX, u32 dstY, u32 dstWidth, u8 dstHeight, u32 src, u8 srcX, u8 srcY, u8 srcWidth, u8 srcHeight);
 extern void BG_SYS_FillTileMap(u8 bgLayer, u8 x, u8 y, u8 width, u8 height, u8 plttSlot);
@@ -146,7 +146,7 @@ extern u32 GF_FONT_MeasureWidestLine(struct StrObj *str, u32 fontId, u32 spacing
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 slot, u32 value, u32 digits, u32 padMode, u32 flags);
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, void *dst, void *src);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
+extern u32 WORDSET_Delete(struct WordSet *wordSet);
 extern u32 MSGDATA_Delete(struct Rec *msgBank);
 TouchBar *TOUCHBAR_Create(TouchBarParams *params, u16 heapId);
 void TOUCHBAR_Delete(TouchBar *bar);
@@ -174,7 +174,7 @@ int TOUCHBAR_GetGfxWord(const TouchBarGfx *gfx, int index);
 void TOUCHBAR_LoadCharToBg(void *arc, u32 fileId, u32 bgLayer, u32 tileOffset, u8 srcX, u8 srcY, u8 srcWidth, u8 srcHeight, u8 dstX, u8 dstY, u8 dstWidth, u8 dstHeight, u8 plttSlot, u32 loadMode, u32 heapId);
 void TOUCHBAR_InitButton(TouchBarButton *button, struct Unit *actorSys, const TouchBarGfx *gfx, const TouchBarButtonDef *def, u32 screen, u16 heapId);
 void TOUCHBAR_FreeButton(TouchBarButton *button);
-int TOUCHBAR_CheckButtonPressed(TouchBarButton *button);
+int TOUCHBAR_PollButtonPress(TouchBarButton *button);
 int TOUCHBAR_IsButtonActorIdle(TouchBarButton *button);
 int TOUCHBAR_GetButtonId(TouchBarButton *button);
 void TOUCHBAR_SetButtonActorVisible(TouchBarButton *button, unsigned int visible);
@@ -242,7 +242,7 @@ void TOUCHBAR_Update(TouchBar *bar)
     case TOUCHBAR_STATE_IDLE:
         bar->pressedIndex = -1;
         for (i = 0; i < bar->buttonCount; i++) {
-            if (TOUCHBAR_CheckButtonPressed(&bar->buttons[i])) {
+            if (TOUCHBAR_PollButtonPress(&bar->buttons[i])) {
                 bar->pressedIndex = i;
                 bar->state = TOUCHBAR_STATE_PRESSED;
                 return;
@@ -431,7 +431,7 @@ void TOUCHBAR_FreeGfx(TouchBarGfx *gfx)
     CLACT_ReleaseCellAnim(gfx->animHandle);
     CLACT_ReleaseCharacter(gfx->charHandle);
     CLACT_ReleasePalette(gfx->plttHandle);
-    BG_SYS_DeleteHalf(gfx->bgLayer, (u16)gfx->tileAlloc, (u16)(gfx->tileAlloc >> 16));
+    BG_SYS_FreeTileRun(gfx->bgLayer, (u16)gfx->tileAlloc, (u16)(gfx->tileAlloc >> 16));
     MI_CpuFill8(gfx, 0, sizeof(TouchBarGfx));
 }
 
@@ -475,7 +475,7 @@ void TOUCHBAR_LoadCharToBg(void *arc, u32 fileId, u32 bgLayer, u32 tileOffset,
     file = ARC_UTIL_LoadHandleMember(arc, fileId, loadMode, (u16)((*(u16 *)&heapId & 0x7fff) | 0x8000));
     NNS_G2dGetUnpackedScreenData(file, (void **)(&data));
     if (tileOffset != 0) {
-        if (BG_SYS_GetField16((u8)bgLayer) == 0) {
+        if (BG_SYS_GetColorMode((u8)bgLayer) == 0) {
             cells = (u16 *)(data + 0xc);
             for (i = 0; i < srcWidth * srcHeight; i++) {
                 cells[i] += tileOffset;
@@ -550,7 +550,7 @@ void TOUCHBAR_FreeButton(TouchBarButton *button)
 }
 
 
-int TOUCHBAR_CheckButtonPressed(TouchBarButton *button)
+int TOUCHBAR_PollButtonPress(TouchBarButton *button)
 {
     u32 touchX;
     u32 touchY;
@@ -760,7 +760,7 @@ void TOUCHBAR_PrintYesNoCancelLabels(TouchBarWindow *window, void *textCtx, u32 
     TOUCHBAR_PrintAligned(window, textCtx, x + strWidth, y, (u32)buf, fontId, color, 0);
     STRBUF_Delete(str);
     STRBUF_Delete(buf);
-    WORDSET_DeleteStrbufED04(wordSet);
+    WORDSET_Delete(wordSet);
     MSGDATA_Delete(msgBank);
 }
 

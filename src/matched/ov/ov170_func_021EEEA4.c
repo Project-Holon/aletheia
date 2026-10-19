@@ -14,7 +14,7 @@
  *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
  *   BOX2_UI_UpdateCursor 0x021EE408 thumb ov170
  *   KEY_GetRepeat 0x0203633C arm
- *   BOX2_MAIN_PlayCursorSound 0x021DD238 thumb ov170
+ *   BOX2_MAIN_ActivateKeyCursor 0x021DD238 thumb ov170
  */
 struct WinMgr;
 typedef unsigned char  u8;
@@ -25,7 +25,7 @@ extern int BOX2_UI_IsListOpen(struct WinMgr *mgr);
 extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 extern void BOX2_UI_UpdateCursor(char *, int);
 extern unsigned int KEY_GetRepeat(void);
-extern void BOX2_MAIN_PlayCursorSound(char *);
+extern void BOX2_MAIN_ActivateKeyCursor(char *);
 #define WORK(p) (*(char **)((p)+0x2c))
 #define OBJ(p) (*(void **)(WORK(p)+0x70))
 unsigned BOX2_UI_CursorInputPage(char *p)
@@ -48,8 +48,8 @@ unsigned BOX2_UI_CursorInputPage(char *p)
         return -1;
     }
     if(r==-1) {
-        if(KEY_GetRepeat()&0x200) { BOX2_MAIN_PlayCursorSound(p); return 0x1f; }
-        if(KEY_GetRepeat()&0x100) { BOX2_MAIN_PlayCursorSound(p); return 0x20; }
+        if(KEY_GetRepeat()&0x200) { BOX2_MAIN_ActivateKeyCursor(p); return 0x1f; }
+        if(KEY_GetRepeat()&0x100) { BOX2_MAIN_ActivateKeyCursor(p); return 0x20; }
     }
     return r;
 }

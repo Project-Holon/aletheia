@@ -18,7 +18,7 @@
  *   G3D_SYSTEM_SetSwapBuffersMode 0x02046BE0 arm
  *   G3X_SetFog 0x0207DC44 arm
  *   CLACT_InitSystem 0x0204A48C arm
- *   BG_SYS_SetLowBit 0x0204044C arm
+ *   BG_SYS_EnableBg0WithPriority 0x0204044C arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   gPdcDispVram 0x021B6DF4 data a4
  *   gPdcDispConfig 0x021B6DB0 data a4
@@ -41,7 +41,7 @@ extern void G3D_SYSTEM_Init(u32, u32, u32, u32, u16, u32, void (*)(void));
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32, u32);
 extern void G3X_SetFog(int, int, int, int);
 extern void CLACT_InitSystem(const struct Cfg *, u32, u32);
-extern void BG_SYS_SetLowBit(u32);
+extern void BG_SYS_EnableBg0WithPriority(u32);
 extern void BG_SYS_SetMainPlaneVisible(u32, u32);
 #define BLDCNT (*(volatile u16 *)0x04000050)
 #define SBLDCNT (*(volatile u16 *)0x04001050)
@@ -66,6 +66,6 @@ void PDC_MAIN_InitGraphics(u16 heap)
     G3X_SetFog(0, 0, 0, 0);
     BG0CNT = (u16)((BG0CNT & ~3) | 1);
     CLACT_InitSystem(&gPdcClactInit, (u32)&gPdcDispVram, heap);
-    BG_SYS_SetLowBit(1);
+    BG_SYS_EnableBg0WithPriority(1);
     BG_SYS_SetMainPlaneVisible(16, 1);
 }

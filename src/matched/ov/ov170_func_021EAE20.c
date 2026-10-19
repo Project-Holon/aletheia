@@ -10,7 +10,7 @@
  * symbols:
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
- *   WORDSET_SetSlotMonSpeciesAlt 0x0201EF14 thumb
+ *   WORDSET_SetSlotMonNicknameAlt 0x0201EF14 thumb
  *   BOX2_SEQ_PrintTextWinEx 0x021EAC28 thumb ov170
  *   BOX2_SEQ_MakeScreen 0x021EABA0 thumb ov170
  */
@@ -22,13 +22,13 @@ struct Descriptor;
 struct WordSet;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void WORDSET_SetSlotMonSpeciesAlt(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonNicknameAlt(struct WordSet *p, u32 i, void *mon);
 extern void BOX2_SEQ_PrintTextWinEx(char *, int, void *, unsigned, int, int, unsigned, unsigned short);
 extern void BOX2_SEQ_MakeScreen(void **);
 void BOX2_SEQ_FillTextWin(char *p, void **q, int i)
 {
     BMP_Clear(BMP_WIN_GetBmp(*(void **)(p + 0x94 + i * 8)), 0);
-    WORDSET_SetSlotMonSpeciesAlt(((struct Obj00414 *)p)->f84, 0, *q);
+    WORDSET_SetSlotMonNicknameAlt(((struct Obj00414 *)p)->f84, 0, *q);
     BOX2_SEQ_PrintTextWinEx(p, i, ((struct Obj00414 *)p)->f80, 1, 0, 0, ((struct Obj00414 *)p)->f78, 0x440);
     BOX2_SEQ_MakeScreen((void **)(p + 0x94 + i * 8));
 }

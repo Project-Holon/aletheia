@@ -34,20 +34,20 @@
  *
  * symbols:
  *   MUSICAL_MCSS_CreateMon  0x021F675C  thumb
- *   STA_NET_GetField48  0x021FD904  thumb
- *   STA_NET_SetState12  0x021FD938  thumb  ov132
+ *   STA_NET_GetRole  0x021FD904  thumb
+ *   STA_NET_BeginKind5Phase  0x021FD938  thumb  ov132
  */
 #include "../include/Obj05850.h"
 
 extern int MUSICAL_MCSS_CreateMon(int, int);
-extern void STA_NET_GetField48(int);
-extern void STA_NET_SetState12(char *p);
+extern void STA_NET_GetRole(int);
+extern void STA_NET_BeginKind5Phase(char *p);
 
 void MUSICAL_EVENT_CreateLocalPerformer(int *p)
 {
     ((struct Obj05850 *)p)->f3C = MUSICAL_MCSS_CreateMon(((struct Obj05850 *)p)->f18, 4);
     if (((struct Obj05850 *)p)->f14 != 0) {
-        STA_NET_GetField48(*(int *)(((struct Obj05850 *)p)->f8 + 4));
-        STA_NET_SetState12((char *)(*(int *)(((struct Obj05850 *)p)->f8 + 4)));
+        STA_NET_GetRole(*(int *)(((struct Obj05850 *)p)->f8 + 4));
+        STA_NET_BeginKind5Phase((char *)(*(int *)(((struct Obj05850 *)p)->f8 + 4)));
     }
 }

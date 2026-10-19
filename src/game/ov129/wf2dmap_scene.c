@@ -128,7 +128,7 @@
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   PRINTSYS_Print 0x0201C7A4 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BG_SYS_PushTile 0x020409B4 arm
  */
@@ -476,7 +476,7 @@ extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void PRINTSYS_Print(void *,short,short,void *,void *);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BG_SYS_PushTile(u32);
 int WF2DMAP_SCENE_Create(void *obj,void *unused,const Param *cfg);
@@ -1808,7 +1808,7 @@ void WF2DMAP_SCENE_DrawMessage(void *window,int msgId,void *msgBank,u32 number)
     STRBUF_Delete(out);
     STRBUF_Delete(msg);
     MSGDATA_Delete(bank);
-    WORDSET_DeleteStrbufED04(ws);
+    WORDSET_Delete(ws);
     BMP_WIN_TransferChars(window);
     BG_SYS_PushTile(4);
 }

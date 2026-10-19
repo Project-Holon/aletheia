@@ -48,8 +48,8 @@
  *   BTL_SERVER_FLOW_IsPokeGroundedById  0x021C8234  thumb
  *   gHandSideSpikesHandlers  0x0689D740  data  ov095  a4
  *   BTL_POKEPARAM_HasType  0x021D5814  thumb
- *   BTLV_CORE_MakeSlotKind1Empty  0x021E89C0  thumb
- *   BTLV_CORE_MakeSlotKind1Index15  0x021E8A58  thumb
+ *   BTL_SICKCONT_MakeKind1Empty  0x021E89C0  thumb
+ *   BTL_SICKCONT_MakeKind1Index15  0x021E8A58  thumb
  *   gHandSideToxicSpikesHandlers  0x0689D708  data  ov095  a4
  *   gHandSideRainbowHandlers  0x0689D768  data  ov095  a4
  *   BTL_SERVER_FLOW_IsPokeInPosTable  0x021C814C  thumb
@@ -640,9 +640,9 @@ void HAND_SIDE_ToxicSpikesOnEnter(struct BtlEventFactor *factor, struct BtlServe
             sickCmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_ADD_SICK, 0x1f);
             sickCmd->sickKind = BTL_SICK_POISON;
             if ((u32)GetStackCountResult(factor, side).stackCount > 1)
-                sickCmd->sickCont.raw = BTLV_CORE_MakeSlotKind1Index15();
+                sickCmd->sickCont.raw = BTL_SICKCONT_MakeKind1Index15();
             else
-                sickCmd->sickCont.raw = BTLV_CORE_MakeSlotKind1Empty();
+                sickCmd->sickCont.raw = BTL_SICKCONT_MakeKind1Empty();
             sickCmd->pokeId = pokeId;
             BTL_SERVER_FLOW_CommitCmdRecord(flow, sickCmd);
         }

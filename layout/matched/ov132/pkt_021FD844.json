@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "STA_NET_GetIndexedWord5E",
+   "name": "STA_NET_GetSlot3Done",
    "address": "0x021FD844",
    "kind": "game",
    "region": "ov132",

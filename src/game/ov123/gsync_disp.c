@@ -1,8 +1,8 @@
 /*
  * file:     gsync_disp.c
  * unit:     yes
- * function: GSYNC_DISP_GetPokeIconActor, GSYNC_DISP_Init, GSYNC_DISP_Draw, GSYNC_DISP_Exit, GSYNC_DISP_InitBgLayers, GSYNC_DISP_VBlankTask, GSYNC_DISP_LoadResources, GSYNC_DISP_CreateEffectActorDefault, GSYNC_DISP_CreateSlotActor, GSYNC_DISP_SetSlotAnimSeq, GSYNC_DISP_SetSlotAnimCommand, GSYNC_DISP_DeleteSlotActor, GSYNC_DISP_CreateEffectActorAt, GSYNC_DISP_CreateSlotActorAt, GSYNC_DISP_SetMainActorAnimSeq, GSYNC_DISP_DeleteMainActor, GSYNC_DISP_LoadEffectResources, GSYNC_DISP_CreateMonIconActor, GSYNC_DISP_EnableActorAutoAnim, GSYNC_DISP_RestartActorAnim, GSYNC_DISP_PaletteWaveTask, GSYNC_DISP_StartPaletteWave, GSYNC_DISP_SetFadeDirection, GSYNC_DISP_UpdateBlendFade, GSYNC_DISP_UpdateProgressPosition, GSYNC_DISP_SpawnParticleLeft, GSYNC_DISP_HideParticle, GSYNC_DISP_SpawnParticleRight, GSYNC_DISP_UpdateParticle, GSYNC_DISP_UpdateParticles, GSYNC_DISP_SetIconRecord, GSYNC_DISP_SetIconRecordSpecies, GSYNC_DISP_LoadIconResources, GSYNC_DISP_CopyIconPaletteMain, GSYNC_DISP_CopyIconPaletteSub, GSYNC_DISP_CreatePokeIconActor, GSYNC_DISP_CreateBackdropActors
- * address:  0x021D5D8C
+ * function: GSYNC_DISP_Init, GSYNC_DISP_Draw, GSYNC_DISP_Exit, GSYNC_DISP_InitBgLayers, GSYNC_DISP_VBlankTask, GSYNC_DISP_LoadResources, GSYNC_DISP_CreateEffectActorDefault, GSYNC_DISP_CreateSlotActor, GSYNC_DISP_SetSlotAnimSeq, GSYNC_DISP_SetSlotAnimCommand, GSYNC_DISP_DeleteSlotActor, GSYNC_DISP_CreateEffectActorAt, GSYNC_DISP_CreateSlotActorAt, GSYNC_DISP_SetMainActorAnimSeq, GSYNC_DISP_DeleteMainActor, GSYNC_DISP_LoadEffectResources, GSYNC_DISP_CreateMonIconActor, GSYNC_DISP_EnableActorAutoAnim, GSYNC_DISP_RestartActorAnim, GSYNC_DISP_PaletteWaveTask, GSYNC_DISP_StartPaletteWave, GSYNC_DISP_SetFadeDirection, GSYNC_DISP_UpdateBlendFade, GSYNC_DISP_UpdateProgressPosition, GSYNC_DISP_SpawnParticleLeft, GSYNC_DISP_HideParticle, GSYNC_DISP_SpawnParticleRight, GSYNC_DISP_UpdateParticle, GSYNC_DISP_UpdateParticles, GSYNC_DISP_SetIconRecord, GSYNC_DISP_SetIconRecordSpecies, GSYNC_DISP_LoadIconResources, GSYNC_DISP_CopyIconPaletteMain, GSYNC_DISP_CopyIconPaletteSub, GSYNC_DISP_CreatePokeIconActor, GSYNC_DISP_CreateBackdropActors
+ * address:  0x021D5D94
  * region:   ov123
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -10,9 +10,11 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Cut from gsync_state.c by tools/splitfile.py.
+ * Cut from gsync_download.c, gsync_disp.c by tools/splitfile.py.
  *
  * symbols:
+ *   GFL_HEAP_Free 0x020307B0 arm
+ *   GFL_HEAP_Alloc 0x02030734 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
@@ -26,14 +28,13 @@
  *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_LoadPaletteBlockFromHandle 0x02049F78 arm
  *   MI_CpuCopy8 0x02082D44 arm
- *   GFL_HEAP_Free 0x020307B0 arm
  *   ARC_UTIL_RegisterObjCharFromHandle 0x02049740 arm
  *   ARC_UTIL_UploadBgPaletteAddFromHandle 0x02049990 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterPaletteEx 0x0204AC18 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
- *   BG_SYS_SetTileUnit 0x02040DA8 arm
+ *   BG_SYS_FreeTiles 0x02040DA8 arm
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   CLACT_ApplyActorAnimCommand 0x0204BA00 arm
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
@@ -49,7 +50,6 @@
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
- *   GFL_HEAP_Alloc 0x02030734 arm
  *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   CLACT_DrawSystem 0x0204A600 arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
@@ -82,7 +82,7 @@
  *   CLACT_SetActorPaletteOffset 0x0204B6F4 arm
  *   gGsyncPaletteWaveColors 0x021DAA88 data a2
  *   GFL_USE_AddHBlankTask 0x02005624 thumb
- *   PMSI_PARAM_MakeSineTable 0x02024230 thumb
+ *   FX_MakeSineTable 0x02024230 thumb
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorScale 0x0204B5AC arm
  *   gGsyncParticlePosLeft 0x021DA730 data a2
@@ -104,7 +104,12 @@
  *   GX_LoadOBJPltt 0x0207E51C arm
  *   GFL_USE_AddMainTask 0x020056A0 thumb
  */
+#include "../ov114/dwci_nd_types.h"
 #include "gsync_common_types.h"
+
+extern u32 GFL_HEAP_Free(void *p);
+
+extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 
 struct ArcFile;
 
@@ -136,8 +141,6 @@ extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, u32 u
 
 extern void MI_CpuCopy8(const void *, void *, u32);
 
-extern u32 GFL_HEAP_Free(void *p);
-
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *, u32, u32, u32, u32, u16);
 
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
@@ -150,7 +153,7 @@ extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u
 
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
-extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
+extern void BG_SYS_FreeTiles(u32 idx, u32 count, u32 tile);
 
 extern void BG_SYS_FreeLayerBuf(u32 i);
 
@@ -183,8 +186,6 @@ extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
 extern void *GFL_USE_AddMainTask(void *,void *,int);
-
-extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 
 extern void G2x_SetBlendAlpha_(void *,int,int,int,int);
 
@@ -228,7 +229,7 @@ extern void CLACT_SetActorPaletteOffset(struct ClActor *o, u32 v, u32 flag);
 
 extern void *GFL_USE_AddHBlankTask(u32 a, u32 b, u32 c);
 
-extern void PMSI_PARAM_MakeSineTable(s16 *out, u32 count, u16 step, s32 amp);
+extern void FX_MakeSineTable(s16 *out, u32 count, u16 step, s32 amp);
 
 extern void CLACT_AddActorSurfacePos(struct ClActor *p, const struct ActorPos *delta, unsigned int which);
 
@@ -257,8 +258,6 @@ extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isE
 extern void CLACT_GetActorImageProxy(const char *src, struct ActorImageProxy *dst);
 
 extern void GX_LoadOBJPltt(void *,int,int);
-
-void *GSYNC_DISP_GetPokeIconActor(GsyncDispWork *disp);
 
 u8 *GSYNC_DISP_Init(u32 heap);
 
@@ -364,8 +363,6 @@ extern const struct ActorScale gGsyncParticleScaleRight;
 
 extern const s16 FX_SinCosTable_[][2];
 
-void *GSYNC_DISP_GetPokeIconActor(GsyncDispWork *disp){return disp->actors[GSYNC_DISP_ACTOR_EFFECT];}
-
 /*
  * volatile: display register 04001000 read/write at 021D5DCA/021D5DD0.
  */
@@ -406,7 +403,7 @@ void GSYNC_DISP_Exit(GsyncDispWork *disp)
     TCB_DeleteTask(disp->vblankTcb);
     CLACT_DeleteUnit(disp->clactUnit);
     CLACT_ExitSystem();
-    BG_SYS_SetTileUnit(1,1,0); BG_SYS_SetTileUnit(6,1,0);
+    BG_SYS_FreeTiles(1,1,0); BG_SYS_FreeTiles(6,1,0);
     BG_SYS_FreeLayerBuf(5); BG_SYS_FreeLayerBuf(4);
     BG_SYS_SetPlaneVisible(5,0); BG_SYS_Delete(); GFL_HEAP_Free(disp);
     GF_OVERLAY_Unload((int)ov_id);
@@ -605,7 +602,7 @@ void GSYNC_DISP_StartPaletteWave(GsyncDispWork *disp)
     ARC_UTIL_UploadBgPaletteAddFromHandle(archiveHandle, 22, 3, 0, (u16)disp->paletteBase, 0, 0, disp->heapId);
     ARC_TOOL_DeleteHandle(archiveHandle);
     disp->paletteWaveTcb = GFL_USE_AddHBlankTask((u32)GSYNC_DISP_PaletteWaveTask, (u32)disp, 0);
-    PMSI_PARAM_MakeSineTable(disp->sineTable, 192, 0x5b0, 0x1800);
+    FX_MakeSineTable(disp->sineTable, 192, 0x5b0, 0x1800);
 }
 
 void GSYNC_DISP_SetFadeDirection(GsyncDispWork *disp,int flag){if(flag){disp->fadeProgress=0;disp->fadeDelta=1;}else{disp->fadeProgress=65536;disp->fadeDelta=-1;}}

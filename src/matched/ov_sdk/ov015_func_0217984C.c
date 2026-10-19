@@ -1,5 +1,5 @@
 /*
- * function: IRCNET_CbGetPeerHandle
+ * function: IRCNET_CbIsLinkedReceiver
  * address:  0x0217984C
  * packet:   pkt_0217984C
  * region:   ov015
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 int IRCNET_IsLinkAlive(void);
 int IRCNET_IsReceiver(void);
 
-int IRCNET_CbGetPeerHandle(void)
+int IRCNET_CbIsLinkedReceiver(void)
 {
     if (IRCNET_IsLinkAlive())
         return IRCNET_IsReceiver();

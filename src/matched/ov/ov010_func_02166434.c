@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * Reads two 4-bit values (bitfields at bits 6..9 and 10..13 of the word at +0x50 of
- * the record behind INTRUDE_COMM_GetPartnerRecord) into the out parameters, or takes them
+ * the record behind INTRUDE_COMM_GetPartnerSymbolPage) into the out parameters, or takes them
  * from the two ov010 accessors when INTRUDE_COMM_GetPartnerSlot answers 4.
  *
  * symbols:
@@ -22,7 +22,7 @@
  *   COMM_PLAYER_GetState849  0x021673C4  thumb  ov010
  *   COMM_PLAYER_GetState848  0x021673A8  thumb  ov010
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
- *   INTRUDE_COMM_GetPartnerRecord  0x02176880  thumb  ov011
+ *   INTRUDE_COMM_GetPartnerSymbolPage  0x02176880  thumb  ov011
  */
 
 typedef unsigned char u8;
@@ -46,7 +46,7 @@ struct Rec {
     u32 b : 4;
 };
 
-extern u8 *INTRUDE_COMM_GetPartnerRecord(u8 *p);
+extern u8 *INTRUDE_COMM_GetPartnerSymbolPage(u8 *p);
 
 int SYMBOL_MAP_GetSelection(void *a, u32 *out0, u32 *out1)
 {
@@ -69,7 +69,7 @@ int SYMBOL_MAP_GetSelection(void *a, u32 *out0, u32 *out1)
         *out1 = 0;
         return 0;
     }
-    rec = (struct Rec *)INTRUDE_COMM_GetPartnerRecord(r);
+    rec = (struct Rec *)INTRUDE_COMM_GetPartnerSymbolPage(r);
     *out0 = rec->a;
     *out1 = rec->b;
     return 1;

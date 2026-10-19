@@ -7,7 +7,7 @@
  *   lbl_021469D0   0x021469D0  data
  *   GFL_NET_GetInitParam  0x0203D798  arm
  *   GFL_NET_GetChildSendSize  0x0203D6BC  arm
- *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
+ *   GF_STANDARD_CalcCrc16  0x0203F1FC  arm
  *   GFL_NET_SYSTEM_SetError  0x02039548  arm
  *   GFL_NET_STATE_GetError  0x0203CA98  arm
  *   GFL_NET_STATE_SetError  0x0203C9AC  arm
@@ -24,7 +24,7 @@ typedef signed int     s32;
 extern u8 *lbl_021469D0;
 extern int GFL_NET_GetInitParam(void);
 extern void GFL_NET_GetChildSendSize(void);
-extern u16 GF_STANDARD_SetupCalc(u8 *p, s32 n);
+extern u16 GF_STANDARD_CalcCrc16(u8 *p, s32 n);
 extern void GFL_NET_SYSTEM_SetError(void);
 extern u8 *GFL_NET_STATE_GetError(void);
 extern void GFL_NET_STATE_SetError(u32 a, u32 b, u32 c, u32 d);
@@ -53,7 +53,7 @@ int GFL_NET_SYSTEM_RecvParentData(u32 a0, u8 *p, s32 n)
         if (v & 2)
             return 0;
     }
-    r = GF_STANDARD_SetupCalc(p + 2, n - 2);
+    r = GF_STANDARD_CalcCrc16(p + 2, n - 2);
     if (p[0] != (u8)r || ((r & 0xff00) >> 8) != p[1]) {
         GFL_NET_SYSTEM_SetError();
         q = GFL_NET_STATE_GetError();

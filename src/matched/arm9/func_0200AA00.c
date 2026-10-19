@@ -11,11 +11,11 @@
  * symbols:
  *   FX_SinCosTable_   0x020A1B38  data
  *   _u32_div_f     0x0209C2B0  arm
- *   GF_STANDARD_SetupRtc_F540  0x0203F540  arm
+ *   GF_STANDARD_GetDayOfYear  0x0203F540  arm
  *
  * A date interpolation: copy the caller's 16-byte date record onto the
  * stack (the `ldm/stm` pair of docs/idioms/aggregate-assignment-is-ldm-stm.md),
- * take its day number with GF_STANDARD_SetupRtc_F540, overwrite the two fields at +4 and
+ * take its day number with GF_STANDARD_GetDayOfYear, overwrite the two fields at +4 and
  * +8 with the two scalar arguments, take the day number again, and wrap the
  * difference into a year.  The tail is the fixed-point sine lookup
  * src/matched/GF_STANDARD_Get_F684.c already evidences -- the same 4096-entry signed
@@ -54,17 +54,17 @@ struct Date {
 
 extern s16  FX_SinCosTable_[];
 struct RtcDate;
-extern s32  GF_STANDARD_SetupRtc_F540(struct RtcDate *d);
+extern s32  GF_STANDARD_GetDayOfYear(struct RtcDate *d);
 
 u8 IRC_RANKING_GetDateScore(u32 a0, u32 a1, struct Date *src)
 {
     struct Date d = *src;
     u32 a, b;
 
-    a = GF_STANDARD_SetupRtc_F540((struct RtcDate *)&d);
+    a = GF_STANDARD_GetDayOfYear((struct RtcDate *)&d);
     d.f04 = a0;
     d.f08 = a1;
-    b = GF_STANDARD_SetupRtc_F540((struct RtcDate *)&d);
+    b = GF_STANDARD_GetDayOfYear((struct RtcDate *)&d);
     if (a >= b) {
         b += 365;
     }

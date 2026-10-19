@@ -23,8 +23,8 @@
  *   func_02007B50  0x02007B50  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   WORDSET_CreateDefault  0x0201EC64  thumb
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
- *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
+ *   WORDSET_SetSlotMonNickname  0x0201EEF4  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   FIELD_SOUND_SYSTEM_StartPushTask  0x020295A4  thumb
  *   FIELD_SOUND_SYSTEM_StartPopAndWaitTask  0x02029620  thumb
@@ -116,7 +116,7 @@ extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern u32 SND_MIC_StartRecording(void *a, u32 b);
 extern void EVENT_PERAP_RECORD_OnRecorded(void *unused, int *done);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonNickname(struct WordSet *p, u32 i, void *mon);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void FIELD_MSGBG_SysWinPrintStr(struct P *p, u32 b, u16 c, u32 d);
@@ -129,7 +129,7 @@ extern void PM_VOICE_GetPerapVoiceSave(void **out);
 extern u32 PM_VOICE_Play(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 extern u32 PM_VOICE_IsActive(u32 i);
 extern void EVENT_PERAP_RECORD_Cleanup(Work *);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern int FIELD_MSGBG_DeleteSysWin(u32 a);
 extern u32 FIELD_MSGBG_DeleteMsgData(struct Rec *a0);
 extern int EVENT_PERAP_RECORD_ResumeMmdls(u32 a);
@@ -203,7 +203,7 @@ int EVENT_PERAP_RECORD_Main(void *proc, int *seq, Work *w)
                 *seq = 7;
             } else {
                 a = func_02045EC0(w->x18, 3);
-                WORDSET_SetSlotMonSpecies(w->x28, 0, w->x14);
+                WORDSET_SetSlotMonNickname(w->x28, 0, w->x14);
                 WORDSET_CopyTaggedText(w->x28, w->x2C, a);
                 STRBUF_Delete(a);
                 FIELD_MSGBG_ClearSysWin(w->x20);
@@ -227,7 +227,7 @@ int EVENT_PERAP_RECORD_Main(void *proc, int *seq, Work *w)
     case 8:
         if (EVENT_PERAP_RECORD_HopPokeIcon((u8 *)w) == 0) {
             a = func_02045EC0(w->x18, 2);
-            WORDSET_SetSlotMonSpecies(w->x28, 0, w->x14);
+            WORDSET_SetSlotMonNickname(w->x28, 0, w->x14);
             WORDSET_CopyTaggedText(w->x28, w->x2C, a);
             STRBUF_Delete(a);
             FIELD_MSGBG_ClearSysWin(w->x20);
@@ -258,7 +258,7 @@ int EVENT_PERAP_RECORD_Main(void *proc, int *seq, Work *w)
     case 13:
         EVENT_PERAP_RECORD_Cleanup(w);
         STRBUF_Delete(w->x2C);
-        WORDSET_DeleteStrbufED04(w->x28);
+        WORDSET_Delete(w->x28);
         FIELD_MSGBG_DeleteSysWin((u32)w->x20);
         FIELD_MSGBG_DeleteMsgData(w->x18);
         *seq = 14;

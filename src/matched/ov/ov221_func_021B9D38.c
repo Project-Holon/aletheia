@@ -9,7 +9,7 @@
  * status: EXACT*
  * symbols:
  *   func_02040804 0x02040804 arm
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  */
@@ -18,7 +18,7 @@
 struct Obj;
 struct Vec2 { short x,y; };
 extern unsigned func_02040804(unsigned);
-extern void BG_SYS_ResetSlot(unsigned,unsigned,unsigned);
+extern void BG_SYS_ChangeScroll(unsigned,unsigned,unsigned);
 struct Actor;
 struct PtS;
 typedef unsigned short u16;
@@ -33,8 +33,8 @@ void CHIHOU_ZUKAN_AWARD_UpdateActor(unsigned char *p)
     if(p[0x44]==0) {
         struct Vec2 pair;
         if(amount>=2) amount=2;
-        BG_SYS_ResetSlot(1,5,amount);
-        BG_SYS_ResetSlot(2,5,amount);
+        BG_SYS_ChangeScroll(1,5,amount);
+        BG_SYS_ChangeScroll(2,5,amount);
         CLACT_GetActorSurfacePos((struct Actor *)*(struct Obj * *)&((struct Obj02558 *)p)->f54,(struct PtS *)&pair,0);
         pair.y+=(short)amount;
         CLACT_AddActorSurfacePos(*(struct Obj * *)&((struct Obj02558 *)p)->f54,&pair,0);

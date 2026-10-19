@@ -14,7 +14,7 @@
  *   WIH_DWC_PollStatus  0x0201058C  thumb
  *   APP_TASKMENU_UpdateMenu  0x02027974  thumb
  *   APP_TASKMENU_WIN_Update  0x02028178  thumb
- *   BG_SYS_FillScrollArea  0x02040618  arm
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm
  *   TCBL_Main  0x020310C4  arm
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
  *   CLACT_DrawSystem  0x0204A600  arm
@@ -40,7 +40,7 @@ extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 extern u32 WIH_DWC_PollStatus(void *key);
 extern void APP_TASKMENU_UpdateMenu(u32);
 extern void APP_TASKMENU_WIN_Update(u8 *p);
-extern void BG_SYS_FillScrollArea(u32, u32, u32);
+extern void BG_SYS_ChangeScrollImmediate(u32, u32, u32);
 extern void TCBL_Main(struct Tcbl *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void CLACT_DrawSystem(void);
@@ -68,7 +68,7 @@ u32 IRCBATTLEMENU_Main(u32 r0, u32 r1, u32 r2, u8 *a)
     if (((struct Obj01495 *)a)->f2E0 != 0) {
         APP_TASKMENU_WIN_Update((u8 *)(((struct Obj01495 *)a)->f2E0));
     }
-    BG_SYS_FillScrollArea(4, 3, ((struct Obj01495 *)a)->f2AC);
+    BG_SYS_ChangeScrollImmediate(4, 3, ((struct Obj01495 *)a)->f2AC);
     ((struct Obj01495 *)a)->f2AC = ((struct Obj01495 *)a)->f2AC - 1;
     TCBL_Main((struct Tcbl *)(((struct Obj01495 *)a)->f2B8));
     PRINTSYS_QUE_Main((struct PrintSys *)(((struct Obj01495 *)a)->f2BC));

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "WORLDTRADE_BOX_IsSpeciesFlagged",
+   "name": "WORLDTRADE_BOX_IsHoldingMail",
    "address": "0x021F6DE8",
    "kind": "game",
    "region": "ov135",

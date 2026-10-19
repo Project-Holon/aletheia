@@ -1,7 +1,7 @@
 /*
  * file:     net_system.c
  * unit:     yes
- * function: GFL_NET_SYSTEM_SetDebugByte, GFL_NET_SYSTEM_InitRecvState, GFL_NET_SYSTEM_GetSendSize, GFL_NET_SYSTEM_InitWork, GFL_NET_SYSTEM_ResetBuffers, GFL_NET_SYSTEM_ResetRecvBuffer, GFL_NET_SYSTEM_InitDevice, GFL_NET_SYSTEM_SetDeviceOption, GFL_NET_SYSTEM_RecvCallback, GFL_NET_SYSTEM_ConnectDevice, GFL_NET_SYSTEM_ParentConnectHook, GFL_NET_SYSTEM_ChildConnectHook, GFL_NET_SYSTEM_StartParent, GFL_NET_SYSTEM_StartBeaconScan, GFL_NET_SYSTEM_EndDevice, GFL_NET_SYSTEM_SetDeviceMode, GFL_NET_SYSTEM_ConnectToParent, GFL_NET_SYSTEM_FreeWork, GFL_NET_SYSTEM_CheckAutoFree, GFL_NET_SYSTEM_ResetMachineBuffer, GFL_NET_SYSTEM_Main, GFL_NET_SYSTEM_ResetAll, GFL_NET_SYSTEM_PackSendData, GFL_NET_SYSTEM_SendParentData, GFL_NET_SYSTEM_SendWireless, GFL_NET_SYSTEM_SendWifi, GFL_NET_SYSTEM_RecvData, GFL_NET_SYSTEM_RecvParentCallback, GFL_NET_SYSTEM_SendIrc, GFL_NET_SYSTEM_SendMP, GFL_NET_SYSTEM_SendMPParent, GFL_NET_SYSTEM_CheckAllChildRecv, GFL_NET_SYSTEM_ClearChildRecv, GFL_NET_SYSTEM_UpdateMPParent, GFL_NET_SYSTEM_RecvChildData, GFL_NET_SYSTEM_RecvParentData, GFL_NET_SYSTEM_SendCallback, GFL_NET_SYSTEM_SendEndCallback, GFL_NET_SYSTEM_BuildSendPacket, GFL_NET_SYSTEM_SetSendQueue, GFL_NET_SYSTEM_GetChildRingDataSize, GFL_NET_SYSTEM_GetParentRingDataSize, GFL_NET_SYSTEM_DispatchRecv, GFL_NET_SYSTEM_ProcessRecvRing, GFL_NET_SYSTEM_ProcessParentRecv, GFL_NET_SYSTEM_ProcessChildRecv, GFL_NET_SYSTEM_IsConnectMember, GFL_NET_SYSTEM_GetConnectNum, GFL_NET_SYSTEM_IsDeviceReady, GFL_NET_SYSTEM_GetCurrentAid, GFL_NET_SYSTEM_GetChildBitmap, GFL_NET_SYSTEM_IsError, GFL_NET_SYSTEM_CheckError, GFL_NET_SYSTEM_IsSendQueueEntry, GFL_NET_SYSTEM_IsSendQueueEmpty, GFL_NET_SYSTEM_SetNoChildError, GFL_NET_SYSTEM_SetWaitMode, GFL_NET_SYSTEM_SetError, GFL_NET_SYSTEM_ResetError, GFL_NET_SYSTEM_SetNoSend, GFL_NET_SYSTEM_IsSendEnable, GFL_NET_SYSTEM_ClampNetId
+ * function: GFL_NET_SYSTEM_SetDebugByte, GFL_NET_SYSTEM_InitRecvState, GFL_NET_SYSTEM_GetSendSize, GFL_NET_SYSTEM_InitWork, GFL_NET_SYSTEM_ResetBuffers, GFL_NET_SYSTEM_ResetRecvBuffer, GFL_NET_SYSTEM_InitDevice, GFL_NET_SYSTEM_SetDeviceOption, GFL_NET_SYSTEM_RecvCallback, GFL_NET_SYSTEM_ConnectDevice, GFL_NET_SYSTEM_ParentConnectHook, GFL_NET_SYSTEM_ChildConnectHook, GFL_NET_SYSTEM_StartParent, GFL_NET_SYSTEM_StartBeaconScan, GFL_NET_SYSTEM_EndDevice, GFL_NET_SYSTEM_SetDeviceMode, GFL_NET_SYSTEM_ConnectToParent, GFL_NET_SYSTEM_FreeWork, GFL_NET_SYSTEM_FreeWorkIfAuto, GFL_NET_SYSTEM_ResetMachineBuffer, GFL_NET_SYSTEM_Main, GFL_NET_SYSTEM_ResetAll, GFL_NET_SYSTEM_PackSendData, GFL_NET_SYSTEM_SendParentData, GFL_NET_SYSTEM_SendWireless, GFL_NET_SYSTEM_SendWifi, GFL_NET_SYSTEM_RecvData, GFL_NET_SYSTEM_RecvParentCallback, GFL_NET_SYSTEM_SendIrc, GFL_NET_SYSTEM_SendMP, GFL_NET_SYSTEM_SendMPParent, GFL_NET_SYSTEM_CheckAllChildRecv, GFL_NET_SYSTEM_ClearChildRecv, GFL_NET_SYSTEM_UpdateMPParent, GFL_NET_SYSTEM_RecvChildData, GFL_NET_SYSTEM_RecvParentData, GFL_NET_SYSTEM_SendCallback, GFL_NET_SYSTEM_SendEndCallback, GFL_NET_SYSTEM_BuildSendPacket, GFL_NET_SYSTEM_SetSendQueue, GFL_NET_SYSTEM_GetChildRingDataSize, GFL_NET_SYSTEM_GetParentRingDataSize, GFL_NET_SYSTEM_DispatchRecv, GFL_NET_SYSTEM_ProcessRecvRing, GFL_NET_SYSTEM_ProcessParentRecv, GFL_NET_SYSTEM_ProcessChildRecv, GFL_NET_SYSTEM_IsConnectMember, GFL_NET_SYSTEM_GetConnectNum, GFL_NET_SYSTEM_IsDeviceReady, GFL_NET_SYSTEM_GetCurrentAid, GFL_NET_SYSTEM_GetChildBitmap, GFL_NET_SYSTEM_IsError, GFL_NET_SYSTEM_CheckError, GFL_NET_SYSTEM_IsSendQueueEntry, GFL_NET_SYSTEM_IsSendQueueEmpty, GFL_NET_SYSTEM_SetNoChildError, GFL_NET_SYSTEM_SetWaitMode, GFL_NET_SYSTEM_SetError, GFL_NET_SYSTEM_ResetError, GFL_NET_SYSTEM_SetNoSend, GFL_NET_SYSTEM_IsSendEnable, GFL_NET_SYSTEM_ClampNetId
  * address:  0x02037224
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -29,7 +29,7 @@
  *   GFL_NET_SYSTEM_GetChildBitmap   0x020393A8  arm
  *   GFL_NET_SYSTEM_IsError  0x020393D0  arm
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
+ *   GF_STANDARD_CalcCrc16  0x0203F1FC  arm
  *   _AssertAlways     0x020A7A50  data
  *   _AssertNotMpMode   0x020A7A54  data
  *   GFL_NET_SYSTEM_IsSendEnable  0x02039594  arm
@@ -159,7 +159,7 @@ extern int  GFL_NET_SYSTEM_IsError(void);
 
 extern GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 
-extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
+extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
 
 extern int    GFL_NET_SYSTEM_IsSendEnable(void);
 
@@ -243,7 +243,7 @@ u32 GFL_NET_SYSTEM_ConnectToParent(u32 beaconArg0, u32 beaconArg1, u16 packetSiz
 
 void GFL_NET_SYSTEM_FreeWork(void);
 
-void GFL_NET_SYSTEM_CheckAutoFree(void);
+void GFL_NET_SYSTEM_FreeWorkIfAuto(void);
 
 void GFL_NET_SYSTEM_ResetMachineBuffer(u32 netId);
 
@@ -1492,10 +1492,10 @@ void GFL_NET_SYSTEM_FreeWork(void)
  * copies in the original, which is what the two arms give.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GFL_NET_SYSTEM_CheckAutoFree.c \
- *       --func GFL_NET_SYSTEM_CheckAutoFree --addr 0x02037BA4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_SYSTEM_FreeWorkIfAuto.c \
+ *       --func GFL_NET_SYSTEM_FreeWorkIfAuto --addr 0x02037BA4 --cc 1.1p1 --arm
  */
-void GFL_NET_SYSTEM_CheckAutoFree(void)
+void GFL_NET_SYSTEM_FreeWorkIfAuto(void)
 {
     if (_pNetSys->autoFree == 0)
         return;
@@ -1665,7 +1665,7 @@ skip:
             _pNetSys->memberBitmap);
     }
     GFL_NET_COMMAND_Main();
-    GFL_NET_SYSTEM_CheckAutoFree();
+    GFL_NET_SYSTEM_FreeWorkIfAuto();
     goto done;
 
 bail:
@@ -2111,7 +2111,7 @@ u32 GFL_NET_SYSTEM_RecvData(u32 netId, u8 *packet, u32 length)
     if (_pNetSys->recvRing[netId].state == 0 && (packet[4] & 2))
         return 0;
 
-    checksum = GF_STANDARD_SetupCalc(packet + 2, length - 2);
+    checksum = GF_STANDARD_CalcCrc16(packet + 2, length - 2);
     if (packet[0] != (u8)checksum || ((checksum & 0xFF00) >> 8) != packet[1])
         return 0;
     if (_pNetSys->recvSeq[netId] != 0 &&
@@ -2716,7 +2716,7 @@ int GFL_NET_SYSTEM_RecvChildData(u32 netId, NetPacketHeader *packet, s32 length)
         if (flags & 2)
             return 0;
     }
-    checksum = GF_STANDARD_SetupCalc(&packet->size, length - 2);
+    checksum = GF_STANDARD_CalcCrc16(&packet->size, length - 2);
     if (packet->checksumLow != (u8)checksum || ((checksum & 0xff00) >> 8) != packet->checksumHigh) {
         GFL_NET_SYSTEM_SetError();
         errorInfo = GFL_NET_STATE_GetError();
@@ -2802,7 +2802,7 @@ int GFL_NET_SYSTEM_RecvParentData(u32 netId, NetPacketHeader *packet, s32 length
         if (flags & 2)
             return 0;
     }
-    checksum = GF_STANDARD_SetupCalc(&packet->size, length - 2);
+    checksum = GF_STANDARD_CalcCrc16(&packet->size, length - 2);
     if (packet->checksumLow != (u8)checksum || ((checksum & 0xff00) >> 8) != packet->checksumHigh) {
         GFL_NET_SYSTEM_SetError();
         errorInfo = GFL_NET_STATE_GetError();
@@ -3025,7 +3025,7 @@ body:
     header->size = (u8)dataSize;
     header->seq = seq;
 
-    checksum = GF_STANDARD_SetupCalc(&header->size, packetSize - 2);
+    checksum = GF_STANDARD_CalcCrc16(&header->size, packetSize - 2);
     header->checksumLow = (u8)checksum;
     header->checksumHigh = (u8)((checksum & 0xff00) >> 8);
 

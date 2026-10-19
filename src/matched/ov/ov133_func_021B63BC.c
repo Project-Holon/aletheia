@@ -36,13 +36,13 @@
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  *   BILLBOARD_Draw 0x0204F7DC arm
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  *   BG_SYS_ClearLayer 0x0204152C arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   DUP_FITTING_SetTextMon 0x021B9C90 thumb ov133
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
  *   DUP_FITTING_ITEM_NoOp 0x021BA0C8 thumb ov133
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  *   func_0204989C 0x0204989C arm
  *   func_02041B6C 0x02041B6C arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
@@ -90,11 +90,11 @@ extern void MUSICAL_MCSS_DrawRenderObj(void **p);
 extern void MUSICAL_MCSS_UpdateObject(void *);
 extern void CLACT_DrawSystem(void),func_02047964(void),G3D_SYSTEM_ApplyLookAt(void),G3D_SYSTEM_DrawEnd(void);
 extern void BILLBOARD_Draw(struct Board *b, struct Camera *cam, struct Lights *lights);
-extern void BG_SYS_ResetSlot(u32,u32,u32);
+extern void BG_SYS_ChangeScroll(u32,u32,u32);
 extern void BG_SYS_ClearLayer(int,u16);
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 extern void DUP_FITTING_SetTextMon(u8 *),BMP_MENUWORK_DrawWindow(void *,int,int,int),DUP_FITTING_ITEM_NoOp(u8 *,u8);
-extern void BG_SYS_SetVisibleLayer(int,u16),func_0204989C(u32,u32,u32,u32,u32,u32,u16),func_02041B6C(u32);
+extern void BG_SYS_SetPriority(int,u16),func_0204989C(u32,u32,u32,u32,u32,u32,u16),func_02041B6C(u32);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 struct Descriptor;
@@ -110,8 +110,8 @@ struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int);
 static inline void brightness(u8 *value)
 {
-    BG_SYS_ResetSlot(6,0,128-*value);
-    BG_SYS_ResetSlot(5,0,*value-128);
+    BG_SYS_ChangeScroll(6,0,128-*value);
+    BG_SYS_ChangeScroll(5,0,*value-128);
 }
 int DUP_FITTING_Main(Context *p)
 {
@@ -170,7 +170,7 @@ int DUP_FITTING_Main(Context *p)
     p->counter++;
     if(p->counter>1) {
         p->counter=0;
-        BG_SYS_ResetSlot(3,1,1); BG_SYS_ResetSlot(3,5,1);
+        BG_SYS_ChangeScroll(3,1,1); BG_SYS_ChangeScroll(3,5,1);
     }
     if(p->mode==0) {
         if(p->brightness<128) { p->brightness+=8; brightness(&p->brightness); }
@@ -183,7 +183,7 @@ int DUP_FITTING_Main(Context *p)
     } else {
         if(p->flag==1) {
             DUP_FITTING_ITEM_NoOp((u8 *)p,2); p->flag=0;
-            BG_SYS_SetVisibleLayer(7,3); BG_SYS_SetVisibleLayer(4,0); BG_SYS_SetVisibleLayer(5,1); BG_SYS_SetVisibleLayer(6,2);
+            BG_SYS_SetPriority(7,3); BG_SYS_SetPriority(4,0); BG_SYS_SetPriority(5,1); BG_SYS_SetPriority(6,2);
             DUP_FITTING_ITEM_NoOp((u8 *)p,4); func_0204989C(46,13,7,0,0,0,H(0)); func_02041B6C(7);
             p->busy=0; PRINTSYS_QUE_Clear((struct PrintSys *)P(0x18e8)); BMP_WIN_Delete((struct Descriptor *)p->window); p->window=0; DUP_FITTING_ITEM_NoOp((u8 *)p,6);
         } else if(p->brightness!=0) {
@@ -200,7 +200,7 @@ int DUP_FITTING_Main(Context *p)
     if(p->busy==1 && PRINTSYS_QUE_IsFinished((const struct PrintSys *)P(0x18e8))==1) {
         p->busy=0; desc=(u8 *)p->window;
         BMP_WIN_TransferChars(desc); BMP_WIN_MakeScreen(desc); func_02041B6C(BMP_WIN_GetBgLayer(desc));
-        BG_SYS_SetVisibleLayer(4,1); BG_SYS_SetVisibleLayer(5,2); BG_SYS_SetVisibleLayer(6,3); BG_SYS_SetVisibleLayer(7,0);
+        BG_SYS_SetPriority(4,1); BG_SYS_SetPriority(5,2); BG_SYS_SetPriority(6,3); BG_SYS_SetPriority(7,0);
     }
     DUP_FITTING_ITEM_NoOp((u8 *)p,12);
     if(P(0x18e8)!=0) PRINTSYS_QUE_Main((struct PrintSys *)P(0x18e8));

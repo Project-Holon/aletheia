@@ -29,7 +29,7 @@
    ]
   },
   {
-   "name": "BG_SYS_GetModeValue",
+   "name": "BG_SYS_GetScreenSizeInTiles",
    "address": "0x020422D4",
    "kind": "game",
    "region": "arm9",
@@ -53,7 +53,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BG_SYS_RotScale",
+   "name": "BG_SYS_ResetAffineMatrix",
    "address": "0x020423D4",
    "kind": "game",
    "region": "arm9",

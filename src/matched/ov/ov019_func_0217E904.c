@@ -22,8 +22,8 @@
  *   UNION_COMM_RequestStart  0x02172D50  thumb  ov012
  *   UNION_COMM_ClearBeaconPcs  0x02173408  thumb  ov012
  *   UNION_COMM_InitConnectInfo  0x02173524  thumb  ov012
- *   UNION_MAIN_RequestScene  0x0217422C  thumb  ov012
- *   UNION_MAIN_IsScenePending  0x02174268  thumb  ov012
+ *   UNION_SCENE_RequestScene  0x0217422C  thumb  ov012
+ *   UNION_SCENE_IsScenePending  0x02174268  thumb  ov012
  *   COLOSSEUM_Delete  0x0217505C  thumb  ov012
  *   func_0200FB24  0x0200FB24  thumb
  *   GAMESYSTEM_SetFieldMapState  0x02012124  thumb
@@ -66,8 +66,8 @@ void UNION_COMM_RequestShutdown(u8 *w);
 void UNION_COMM_RequestStart(u8 *w);
 void UNION_COMM_ClearBeaconPcs(u8 *w);
 void UNION_COMM_InitConnectInfo(u8 *w, u8 *q);
-void UNION_MAIN_RequestScene(u8 *p, int a, int b);
-int UNION_MAIN_IsScenePending(u8 *w);
+void UNION_SCENE_RequestScene(u8 *p, int a, int b);
+int UNION_SCENE_IsScenePending(u8 *w);
 void COLOSSEUM_Delete(int *p, int x);
 u32 func_0200FB24(void);
 struct Ctx;
@@ -166,11 +166,11 @@ int UNION_ONESELF_ColosseumExitMain(u8 *w, u8 *obj, u8 *a2, u8 *state)
         UNION_COMM_ClearBeaconPcs(w);
         UNION_CHARA_ClearTable(w);
         UNION_COMM_InitConnectInfo(w, obj + 0x14);
-        UNION_MAIN_RequestScene(w, 0x19, 0);
+        UNION_SCENE_RequestScene(w, 0x19, 0);
         (*state)++;
         break;
     case 10:
-        if (UNION_MAIN_IsScenePending(w) == 0) {
+        if (UNION_SCENE_IsScenePending(w) == 0) {
             if (*(u8 **)(w + 0x355C) != 0) {
                 COLOSSEUM_Delete((int *)(*(u8 **)(w + 0x355C)), (*(Sys * *)&((struct Obj00033 *)w)->f0)->fc);
                 *(u8 **)(w + 0x355C) = 0;

@@ -27,13 +27,13 @@
  *   gNoGearCharFileIds     0x021F0140  data  ov030  a4
  *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   BG_SYS_InitBgLayer  0x0203FCA0  arm
- *   BG_SYS_SetVisibleLayer  0x0204047C  arm
+ *   BG_SYS_SetPriority  0x0204047C  arm
  *   BG_SYS_SetTileEntry  0x02041300  arm
  *   BG_SYS_PushTile  0x020409B4  arm
  *   gNoGearBgTemplateMain     0x021F014C  data  ov030  a4
  *   gNoGearBgTemplateMid     0x021F016C  data  ov030  a4
  *   gNoGearBgTemplateBack     0x021F018C  data  ov030  a4
- *   BG_SYS_DeleteHalf  0x0203FB44  arm
+ *   BG_SYS_FreeTileRun  0x0203FB44  arm
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   str_021F01C0   0x021F01C0  data   ov030  a1
@@ -91,10 +91,10 @@ extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void BG_SYS_SetSubPlaneVisible(u32 planeMask, u32 enable);
 extern void BG_SYS_SetPlaneVisible(unsigned char bgId, unsigned char visible);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *template, u32 type);
-extern void BG_SYS_SetVisibleLayer(int bgId, unsigned short priority);
+extern void BG_SYS_SetPriority(int bgId, unsigned short priority);
 extern void BG_SYS_SetTileEntry(u32 bgId, int value, int x0, int y0, u8 width, u8 height, u8 mode);
 extern void BG_SYS_PushTile(u32 bgId);
-extern void BG_SYS_DeleteHalf(u32 bgId, u32 offset, u32 size);
+extern void BG_SYS_FreeTileRun(u32 bgId, u32 offset, u32 size);
 extern void BG_SYS_FreeLayerBuf(u32 bgId);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *GAME_DATA_GetWifiList(struct GameData *gameData);
@@ -167,7 +167,7 @@ void NO_GEAR_SetupBackgrounds(void)
         struct BgTemplate template = gNoGearBgTemplateMain;
         BG_SYS_InitBgLayer(6, &template, 0);
         BG_SYS_SetPlaneVisible((u8)6, 1);
-        BG_SYS_SetVisibleLayer(6, 3);
+        BG_SYS_SetPriority(6, 3);
         BG_SYS_SetTileEntry(6, 0, 0, 0, 0x20, 0x20, 0x11);
         BG_SYS_PushTile(6);
     }
@@ -175,7 +175,7 @@ void NO_GEAR_SetupBackgrounds(void)
         struct BgTemplate template = gNoGearBgTemplateMid;
         BG_SYS_InitBgLayer(5, &template, 0);
         BG_SYS_SetPlaneVisible((u8)5, 1);
-        BG_SYS_SetVisibleLayer(5, 1);
+        BG_SYS_SetPriority(5, 1);
         BG_SYS_SetTileEntry(5, 0, 0, 0, 0x20, 0x20, 0x11);
         BG_SYS_PushTile(5);
     }
@@ -183,7 +183,7 @@ void NO_GEAR_SetupBackgrounds(void)
         struct BgTemplate template = gNoGearBgTemplateBack;
         BG_SYS_InitBgLayer(4, &template, 0);
         BG_SYS_SetPlaneVisible((u8)4, 1);
-        BG_SYS_SetVisibleLayer(4, 2);
+        BG_SYS_SetPriority(4, 2);
         BG_SYS_SetTileEntry(4, 0, 0, 0, 0x20, 0x20, 0x11);
         BG_SYS_PushTile(4);
     }
@@ -206,7 +206,7 @@ void NO_GEAR_ReleaseGraphics(NoGearWork *work)
 {
     u32 charBlock = work->charBlock;
 
-    BG_SYS_DeleteHalf(6, (u16)charBlock, (u16)(charBlock >> 16));
+    BG_SYS_FreeTileRun(6, (u16)charBlock, (u16)(charBlock >> 16));
     BG_SYS_FreeLayerBuf(4);
     BG_SYS_FreeLayerBuf(5);
     BG_SYS_FreeLayerBuf(6);

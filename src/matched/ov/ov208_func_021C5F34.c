@@ -16,7 +16,7 @@
  * symbols:
  *   ZUKAN_DETAIL_COMMON_GetSource  0x021BC3A4  thumb
  *   ZUKAN_DETAIL_COMMON_GetWorkPtr  0x021BC3B4  thumb
- *   ZUKAN_DETAIL_COMMON_GetCursorValue  0x021BC3B8  thumb
+ *   ZUKAN_DETAIL_COMMON_GetHeadbar  0x021BC3B8  thumb
  *   func_021BC3BC  0x021BC3BC  thumb
  *   ZUKAN_DETAIL_FORM_SignalAnimDone  0x021C5200  thumb
  *   ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled  0x021BDC48  thumb
@@ -28,7 +28,7 @@
  *   func_021BE82C  0x021BE82C  thumb
  *   func_021BDBA0  0x021BDBA0  thumb
  *   func_021C50F8  0x021C50F8  thumb
- *   GAME_DATA_CheckSaveFlag  0x02012BF8  thumb
+ *   GAME_DATA_ContainsRecentId  0x02012BF8  thumb
  *   ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq  0x021BDC14  thumb
  *   func_021C7534  0x021C7534  thumb
  *   func_021C4F30  0x021C4F30  thumb
@@ -50,7 +50,7 @@ typedef struct {
 
 extern int ZUKAN_DETAIL_COMMON_GetSource(int *p);
 extern int ZUKAN_DETAIL_COMMON_GetWorkPtr(int *p);
-extern int ZUKAN_DETAIL_COMMON_GetCursorValue(char *p);
+extern int ZUKAN_DETAIL_COMMON_GetHeadbar(char *p);
 extern u16  func_021BC3BC(char *p);
 extern void ZUKAN_DETAIL_FORM_SignalAnimDone(int *p);
 extern void ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(void *s, u32 on);
@@ -62,7 +62,7 @@ extern void func_021BDBEC(void *s, int v);
 extern void func_021BE82C(void *icon, int kind);
 extern void func_021BDBA0(void *s);
 extern void func_021C50F8(u32 obj, Vec *out);
-extern int GAME_DATA_CheckSaveFlag(int a0, int a1);
+extern int GAME_DATA_ContainsRecentId(int a0, int a1);
 extern void ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(char *p, int b);
 extern void func_021C7534(void *a0, u8 *p, void *ctx);
 extern void func_021C4F30(void *a0, u8 *p, void *ctx);
@@ -88,7 +88,7 @@ void ZUKAN_DETAIL_FORM_HandleStateEvent(void *a0, u8 *p, void *ctx, int ev)
     Vec v2;
 
     scene = (void *)ZUKAN_DETAIL_COMMON_GetWorkPtr(ctx);
-    icon = (void *)ZUKAN_DETAIL_COMMON_GetCursorValue(ctx);
+    icon = (void *)ZUKAN_DETAIL_COMMON_GetHeadbar(ctx);
     flag = 0;
     switch (W(0x6b8)) {
     case 0:
@@ -198,7 +198,7 @@ void ZUKAN_DETAIL_FORM_HandleStateEvent(void *a0, u8 *p, void *ctx, int ev)
                 }
             }
             ZUKAN_DETAIL_TOUCHBAR_SetMode(scene, 0, 3, func_021BC3BC(ctx) > 1);
-            ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(scene, GAME_DATA_CheckSaveFlag(ZUKAN_DETAIL_COMMON_GetSource(ctx), 0x14));
+            ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(scene, GAME_DATA_ContainsRecentId(ZUKAN_DETAIL_COMMON_GetSource(ctx), 0x14));
             func_021BE82C(icon, 3);
             if (H(0x548) >= 2) {
                 W(0x6c8) = 1;

@@ -8,9 +8,9 @@
  * isa: thumb
  * status: EXACT*
  * blocker: ARM9 0x0201F614 lacks a witness outside this caller; scratch verification EXACT, 20 bytes.
- *   symbols: BG_SYS_DeleteHalf 0x0203FB44 arm
- *   extern void BG_SYS_DeleteHalf(unsigned,unsigned short,unsigned short);
- *   void BMP_MENUWORK_DeleteHalf(unsigned a,unsigned b) { BG_SYS_DeleteHalf(a,(unsigned short)b,b>>16); }
+ *   symbols: BG_SYS_FreeTileRun 0x0203FB44 arm
+ *   extern void BG_SYS_FreeTileRun(unsigned,unsigned short,unsigned short);
+ *   void BMP_MENUWORK_FreeTileRun(unsigned a,unsigned b) { BG_SYS_FreeTileRun(a,(unsigned short)b,b>>16); }
  * padding: 0x021BF4C2..0x021BF4C4 is zero alignment padding.
  * symbols:
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
@@ -18,9 +18,9 @@
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   BMP_MENUWORK_DrawWindowBorder 0x0201F7A8 thumb
  *   BMP_WIN_Delete 0x020452E8 arm
- *   BMP_MENUWORK_DeleteHalf 0x0201F614 thumb
+ *   BMP_MENUWORK_FreeTileRun 0x0201F614 thumb
  *   MI_CpuFill8 0x02082BCC arm
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  *   func_02040588 0x02040588 arm
  */
 typedef unsigned int   u32;
@@ -32,15 +32,15 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern void BMP_MENUWORK_DrawWindowBorder(void *,unsigned);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
-extern void BMP_MENUWORK_DeleteHalf(int a, u32 x);
+extern void BMP_MENUWORK_FreeTileRun(int a, u32 x);
 extern void MI_CpuFill8(void *,int,int);
-extern void BG_SYS_SetVisibleLayer(int,unsigned short);
+extern void BG_SYS_SetPriority(int,unsigned short);
 extern void func_02040588(unsigned char which, unsigned char enable);
 void DEMO3D_DATA_DeleteMessageWindow(char *p)
 {
     if(*(void **)(p+0x20)) PRINTSYS_PrintStreamDelete(*(void **)(p+0x20));
     STRBUF_Delete(*(void **)(p+0x24));GF_FONT_SetDefaultTextColor();
     BMP_MENUWORK_DrawWindowBorder(*(void **)(p+0x1C),1);BMP_WIN_Delete(*(void **)(p+0x1C));
-    BMP_MENUWORK_DeleteHalf(1,*(int *)(p+0x18));MI_CpuFill8(p,0,0x28);
-    BG_SYS_SetVisibleLayer(1,1);BG_SYS_SetVisibleLayer(0,0);func_02040588(1,0);
+    BMP_MENUWORK_FreeTileRun(1,*(int *)(p+0x18));MI_CpuFill8(p,0,0x28);
+    BG_SYS_SetPriority(1,1);BG_SYS_SetPriority(0,0);func_02040588(1,0);
 }

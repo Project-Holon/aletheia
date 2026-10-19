@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PROC_FLD_CallSubProcWithFlag
+ * function: SCRCMD_PROC_FLD_ObtainCGearAndCallCommResetEvent
  * address:  0x021B4F1C
  * packet:   pkt_ov021_021B4F1C
  * region:   ov021
@@ -39,7 +39,7 @@ extern struct Sub02009210Obj *func_02009210(void *sys);
 extern void func_020090D8(struct Sub020090B0Obj *obj, u8 value);
 extern void *FLD_BTL_INST_TOOL_CreateCommResetEvent(void *a, void *b);
 
-int SCRCMD_PROC_FLD_CallSubProcWithFlag(u32 a, u32 b)
+int SCRCMD_PROC_FLD_ObtainCGearAndCallCommResetEvent(u32 a, u32 b)
 {
     u32 r7;
     u32 r5;

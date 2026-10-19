@@ -52,8 +52,8 @@
  *   MYSTATUS_GetName  0x020084F4  thumb
  *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
  *   MYSTATUS_GetId  0x02008530  thumb
- *   BEACON_GetPoints  0x0200C274  thumb
- *   BEACON_GetFlag  0x0200C234  thumb
+ *   BEACON_GetMoney  0x0200C274  thumb
+ *   BEACON_GetBadge  0x0200C234  thumb
  *   GAME_DATA_GetPlayTime  0x02012FCC  thumb
  *   PLAYTIME_GetHours  0x0200864C  thumb
  *   PLAYTIME_GetMinutes  0x02008650  thumb
@@ -247,8 +247,8 @@ extern int MYSTATUS_IsNameEmpty(const u16 *values);
 extern const void *MYSTATUS_GetName(const void *p);
 extern u8 MYSTATUS_GetOutfitVariant(const struct MyStatus *obj);
 extern u32 MYSTATUS_GetId(const struct MyStatus *obj);
-extern u32 BEACON_GetPoints(struct BadgeSave *p);
-extern u32 BEACON_GetFlag(struct BadgeSave *p, u32 bit);
+extern u32 BEACON_GetMoney(struct BadgeSave *p);
+extern u32 BEACON_GetBadge(struct BadgeSave *p, u32 bit);
 extern int GAME_DATA_GetPlayTime(int gd);
 extern u16 PLAYTIME_GetHours(const struct PlayTime *p);
 extern u8 PLAYTIME_GetMinutes(const struct PlayTime *p);
@@ -661,11 +661,11 @@ void TRCARD_SYS_BuildProfile(TrainerCardProfile *out, void *save, int mode, int 
     out->starCount = (u32)TRCARD_SYS_CountStars(save);
     out->outfitVariant = (u32)MYSTATUS_GetOutfitVariant(myStatus);
     out->trainerId = MYSTATUS_GetId(myStatus);
-    out->badgeCount = BEACON_GetPoints(badges);
+    out->money = BEACON_GetMoney(badges);
     out->badgeMask = 0;
     out->formatVersion = 0x15;
     for (badgeIndex = 0, badgeBit = 1; badgeIndex < 8; badgeIndex++) {
-        if (BEACON_GetFlag(badges, badgeIndex) == 1)
+        if (BEACON_GetBadge(badges, badgeIndex) == 1)
             out->badgeMask |= badgeBit;
         badgeBit <<= 1;
     }

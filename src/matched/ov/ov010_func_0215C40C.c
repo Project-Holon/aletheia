@@ -16,7 +16,7 @@
  *   POKE_TOOL_CreatePersonalRnd 0x020186C8 thumb
  *   POKE_TOOL_CreateEx 0x02017430 thumb
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
- *   FILE_UTIL_Get_0FE4 0x02020FE4 thumb
+ *   FILE_UTIL_GetItemParam 0x02020FE4 thumb
  *   PALANM_GetPairedCodeForFirst 0x0202142C thumb
  *   GAME_DATA_GetMyPlayerWork 0x020127A4 thumb
  *   GAME_DATA_GetPlayerZoneId 0x02012AC8 thumb
@@ -38,7 +38,7 @@ extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern u32 POKE_TOOL_CreatePersonalRnd(u32 a0, int a1, int a2, int a3, int a4, int a5);
 extern void *POKE_TOOL_CreateEx(u16, u16, u64, u32, u64, u16);
 extern void POKE_TOOL_SetPartyValue(void *, u32, u32);
-extern int FILE_UTIL_Get_0FE4(u16, u32, u16);
+extern int FILE_UTIL_GetItemParam(u16, u32, u16);
 extern unsigned short PALANM_GetPairedCodeForFirst(int a0);
 struct SaveBlock;
 struct Rec44;
@@ -58,7 +58,7 @@ void *SCRCMD_PROC_CreateMonFromSpec(void *a, Spec *s)
     r4 = POKE_TOOL_CreateEx(s->f04, s->f0c, (u32)r4, -1, t, s->f00);
     POKE_TOOL_SetPartyValue(r4, 0x6F, s->f08);
     POKE_TOOL_SetPartyValue(r4, 6, s->f10);
-    if (FILE_UTIL_Get_0FE4(s->f20, 0xF, s->f00) == 4)
+    if (FILE_UTIL_GetItemParam(s->f20, 0xF, s->f00) == 4)
         POKE_TOOL_SetPartyValue(r4, 0x98, (u32)PALANM_GetPairedCodeForFirst((u16)s->f20));
     SAVE_EVENT_Write(r4, 0, (u32)r7, ZONEDATA_GetPlaceNameId(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(a))), s->f00);
     POKE_TOOL_RecalcParam(r4);

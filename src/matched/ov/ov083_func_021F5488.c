@@ -14,7 +14,7 @@
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_FindFirstBattleReady  0x0201AB08  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
- *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
+ *   WORDSET_SetSlotMonNickname  0x0201EEF4  thumb
  *   GPOWER_UseHpRestore  0x0201104C  thumb
  *   GPOWER_UsePpRestore  0x020110CC  thumb
  */
@@ -29,7 +29,7 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern u32   POKEPARTY_FindFirstBattleReady(void *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
-extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonNickname(struct WordSet *p, u32 i, void *mon);
 extern u32   GPOWER_UseHpRestore(void *p);
 extern u32   GPOWER_UsePpRestore(void *p);
 
@@ -39,7 +39,7 @@ void GPOWER_EVENT_RestoreParty(void *a0, void *a1, int a2)
     u8 i;
 
     i = POKEPARTY_FindFirstBattleReady(h);
-    WORDSET_SetSlotMonSpecies(a1, 1, POKEPARTY_GetMember(h, i));
+    WORDSET_SetSlotMonNickname(a1, 1, POKEPARTY_GetMember(h, i));
     switch (a2) {
     case 5:
         GPOWER_UseHpRestore(h);

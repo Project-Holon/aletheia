@@ -1,5 +1,5 @@
 /*
- * function: BTLV_CORE_SetSlotIndex
+ * function: BTL_SICKCONT_SetIndex
  * address:  0x021E8C9C
  * packet:   pkt_ov093_021E8C9C
  * region:   ov093
@@ -13,7 +13,7 @@ typedef unsigned int u32;
 union U {
     struct { u32 kind : 3; u32 f : 6; u32 rest : 23; } a;
 };
-void BTLV_CORE_SetSlotIndex(union U *p, int v)
+void BTL_SICKCONT_SetIndex(union U *p, int v)
 {
     if (p->a.kind == 2 && p->a.f < 8) p->a.f = v;
     if (p->a.kind == 4 && p->a.f < 8) p->a.f = v;

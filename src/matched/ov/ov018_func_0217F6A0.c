@@ -40,7 +40,7 @@
  *   INTRUDE_FIELD_GetStartKind  0x0217BF28  thumb  ov018
  *   FIELD_MSGBG_IsMsgWinTransDone  0x0219077C  thumb  ov021
  *   KEY_GetTrg  0x020362DC  arm
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   FIELD_MSGBG_DeleteMsgWin  0x02190728  thumb  ov021
  *   MSGDATA_Delete  0x02045C04  arm
  */
@@ -96,7 +96,7 @@ int INTRUDE_COMM_SendReady(int a, int b);
 u8 INTRUDE_FIELD_GetStartKind(u8 *p);
 int FIELD_MSGBG_IsMsgWinTransDone(u8 *p);
 u32 KEY_GetTrg(void);
-u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+u32 WORDSET_Delete(struct WordSet *p);
 int FIELD_MSGBG_DeleteMsgWin(void *a);
 u32 MSGDATA_Delete(struct Rec *rec);
 
@@ -188,7 +188,7 @@ int EVENT_COMM_COMMON_ExitSyncEventMain(void *a0, int *state, Ctx *c)
         break;
     case 6:
         if (KEY_GetTrg() & 0xF3) {
-            WORDSET_DeleteStrbufED04((struct WordSet *)c->f8);
+            WORDSET_Delete((struct WordSet *)c->f8);
             FIELD_MSGBG_DeleteMsgWin((void *)c->f4);
             MSGDATA_Delete((struct Rec *)c->f0);
             (*state)++;

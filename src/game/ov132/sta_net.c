@@ -1,7 +1,7 @@
 /*
  * file:     sta_net.c
  * unit:     yes
- * function: STA_NET_FindRecValueByKey, STA_NET_BeginTransfer, STA_NET_UpdateTransferState, STA_NET_SendChunk, STA_NET_AdvanceChunk, STA_NET_GetChunkPtr, STA_NET_IsTransferDone, STA_NET_NotifyHostKind4, STA_NET_NotifyHostKind5, STA_NET_NotifyHostKind6, STA_NET_SendSlot1Command, STA_NET_SendSlot2Command, STA_NET_SendSlot3Command, STA_NET_GetSlot1Done, STA_NET_GetIndexedWord5E, STA_NET_SendRandomOrder, STA_NET_SendKindA, STA_NET_GetCurrentSlotValue, STA_NET_GetSlotValueByIndex, STA_NET_GetField48, STA_NET_GetField158, STA_NET_GetIndexedWord57, STA_NET_SetState6Pair, STA_NET_SetState12
+ * function: STA_NET_FindRecValueByKey, STA_NET_BeginTransfer, STA_NET_UpdateTransferState, STA_NET_SendChunk, STA_NET_AdvanceChunk, STA_NET_GetChunkPtr, STA_NET_IsTransferDone, STA_NET_NotifyHostKind4, STA_NET_NotifyHostKind5, STA_NET_NotifyHostKind6, STA_NET_SendSlot1Command, STA_NET_SendSlot2Command, STA_NET_SendSlot3Command, STA_NET_GetSlot1Done, STA_NET_GetSlot3Done, STA_NET_SendRandomOrder, STA_NET_SendKindA, STA_NET_GetCurrentSlotValue, STA_NET_GetSlotValueByIndex, STA_NET_GetRole, STA_NET_GetBoxesReceived, STA_NET_GetRecordsReceived, STA_NET_SetState6Pair, STA_NET_BeginKind5Phase
  * address:  0x021FD4F8
  * region:   ov132
  * compiler: dsi/1.1p1
@@ -91,17 +91,17 @@ int STA_NET_SendSlot3Command(u8 *p);
 void STA_NET_SetSlot3Done(void *a, void *b, void *c, u8 *p);
 u32 STA_NET_GetSlot3Value(void *a, u8 *p);
 u32 STA_NET_GetSlot1Done(char *p);
-int STA_NET_GetIndexedWord5E(int *p);
+int STA_NET_GetSlot3Done(int *p);
 int STA_NET_SendRandomOrder(u8 *p);
 void STA_NET_SendKindA(char *p, int a);
 u32 STA_NET_GetCurrentSlotValue(char *p);
 u8 STA_NET_GetSlotValueByIndex(char *p, int index);
 u32 STA_NET_GetSlotWordByIndex(char *p,u32 index);
-int STA_NET_GetField48(int *p);
-u32 STA_NET_GetField158(u8 *p);
-int STA_NET_GetIndexedWord57(int *p);
+int STA_NET_GetRole(int *p);
+u32 STA_NET_GetBoxesReceived(u8 *p);
+int STA_NET_GetRecordsReceived(int *p);
 void STA_NET_SetState6Pair(char *p, u32 a, int b);
-void STA_NET_SetState12(char *p);
+void STA_NET_BeginKind5Phase(char *p);
 void STA_NET_SetState18Value(char *p,u32 value);
 u32 STA_NET_GetPairA(char *p);
 u32 STA_NET_GetPairB(char *p);
@@ -301,7 +301,7 @@ u32 STA_NET_GetSlot1Done(char *p) {return ((struct ActingHost *)p)->slot1Done;}
  * argument viewed as an int array.  Matched to supply the `matched` witness
  * for the pending ov010 caller SCRCMD_MUSICAL_WaitSessionReady.
  */
-int STA_NET_GetIndexedWord5E(int *p)
+int STA_NET_GetSlot3Done(int *p)
 {
     return p[0x5e];
 }
@@ -354,7 +354,7 @@ u32 STA_NET_GetSlotWordByIndex(char *p,u32 index){return *(u32 *)((u32)p+index*0
  * Matched to supply the `matched` witness for the pending ov010 caller
  * MUSICAL_EVENT_CreateLocalPerformer.
  */
-int STA_NET_GetField48(int *p)
+int STA_NET_GetRole(int *p)
 {
     return ((struct ActingHost *)p)->role;
 }
@@ -362,7 +362,7 @@ int STA_NET_GetField48(int *p)
 /*
  * Getter: returns the word at offset 0x158.
  */
-u32 STA_NET_GetField158(u8 *p)
+u32 STA_NET_GetBoxesReceived(u8 *p)
 {
  return *(u32 *)(p+0x158);
 }
@@ -372,14 +372,14 @@ u32 STA_NET_GetField158(u8 *p)
  * argument viewed as an int array.  Matched to supply the `matched` witness
  * for the pending ov010 caller SCRCMD_MUSICAL_WaitSessionFinish.
  */
-int STA_NET_GetIndexedWord57(int *p)
+int STA_NET_GetRecordsReceived(int *p)
 {
     return p[0x57];
 }
 
 void STA_NET_SetState6Pair(char *p, u32 pairA, int pairB) {MUS_COMM_FUNC_SetTimingSync((int)p,0x40);((struct ActingHost *)p)->state=6;((struct ActingHost *)p)->pairValueA.s=pairA;((struct ActingHost *)p)->pairValueB.s=pairB;}
 
-void STA_NET_SetState12(char *p) {MUS_COMM_FUNC_SetTimingSync((int)p,0x42);((struct ActingHost *)p)->state=12;}
+void STA_NET_BeginKind5Phase(char *p) {MUS_COMM_FUNC_SetTimingSync((int)p,0x42);((struct ActingHost *)p)->state=12;}
 
 /*
  * The larger indexed follower at 021FD964 is parked separately at DIFF.

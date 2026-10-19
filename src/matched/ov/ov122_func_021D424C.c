@@ -16,7 +16,7 @@
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
  *   BG_SYS_PushTile 0x020409B4 arm
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  *   func_02040588 0x02040588 arm
  *   BG_SYS_Init 0x02040C14 arm
  *   BG_SYS_SetTileEntry 0x02041300 arm
@@ -30,7 +30,7 @@ struct BgTemplate;
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u32);
 extern void BG_SYS_PushTile(u32);
-extern void BG_SYS_SetVisibleLayer(int, u16);
+extern void BG_SYS_SetPriority(int, u16);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_Init(u32, u32, u32, u32);
 extern void BG_SYS_SetTileEntry(u32, int, int, int, u8, u8, u8);
@@ -41,7 +41,7 @@ void INTRUDE_COMM_VIEW_SetupBackgrounds(void *a0)
     BG_SYS_InitBgLayer(0, (const struct BgTemplate *)(&a), 0);
     BG_SYS_FreeSlot(0);
     BG_SYS_PushTile(0);
-    BG_SYS_SetVisibleLayer(0, 0);
+    BG_SYS_SetPriority(0, 0);
     func_02040588(0, 1);
     b = d_021D57A0;
     BG_SYS_InitBgLayer(4, (const struct BgTemplate *)(&b), 0);

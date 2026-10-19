@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "ISS_SWITCH_CheckAreaOwner",
+   "name": "WEATHER_GetAreaOwnerWeather",
    "address": "0x0202C8B8",
    "kind": "game",
    "region": "arm9",

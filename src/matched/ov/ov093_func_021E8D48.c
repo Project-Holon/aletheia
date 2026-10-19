@@ -1,5 +1,5 @@
 /*
- * function: BTLV_CORE_BytesOverlap
+ * function: BTL_TYPEPAIR_ShareType
  * address:  0x021E8D48
  * packet:   pkt_ov093_021E8D48
  * region:   ov093
@@ -10,18 +10,18 @@
  * status:   EXACT
  *
  * symbols:
- *   BTLV_CORE_GetHighByte  0x021E8CFC  thumb  ov093
- *   BTLV_CORE_GetLowByte  0x021E8D04  thumb  ov093
+ *   BTL_TYPEPAIR_GetHigh  0x021E8CFC  thumb  ov093
+ *   BTL_TYPEPAIR_GetLow  0x021E8D04  thumb  ov093
  */
 typedef unsigned char u8;
-extern u8 BTLV_CORE_GetHighByte(int v);
-extern int BTLV_CORE_GetLowByte(int x);
+extern u8 BTL_TYPEPAIR_GetHigh(int v);
+extern int BTL_TYPEPAIR_GetLow(int x);
 
-int BTLV_CORE_BytesOverlap(int a, int b)
+int BTL_TYPEPAIR_ShareType(int a, int b)
 {
-    if (BTLV_CORE_GetHighByte(a) == BTLV_CORE_GetHighByte(b)) return 1;
-    if (BTLV_CORE_GetHighByte(a) == BTLV_CORE_GetLowByte(b)) return 1;
-    if (BTLV_CORE_GetLowByte(a) == BTLV_CORE_GetHighByte(b)) return 1;
-    if (BTLV_CORE_GetLowByte(a) == BTLV_CORE_GetLowByte(b)) return 1;
+    if (BTL_TYPEPAIR_GetHigh(a) == BTL_TYPEPAIR_GetHigh(b)) return 1;
+    if (BTL_TYPEPAIR_GetHigh(a) == BTL_TYPEPAIR_GetLow(b)) return 1;
+    if (BTL_TYPEPAIR_GetLow(a) == BTL_TYPEPAIR_GetHigh(b)) return 1;
+    if (BTL_TYPEPAIR_GetLow(a) == BTL_TYPEPAIR_GetLow(b)) return 1;
     return 0;
 }

@@ -20,7 +20,7 @@
  * TH_AWARD_GRAPHIC_Create 0x021BA0D8 thumb ov220
  * GF_FONT_Create 0x0201D7EC thumb
  * PRINTSYS_QUE_Create 0x0201C440 thumb
- * BG_SYS_SetVisibleLayer 0x0204047C arm
+ * BG_SYS_SetPriority 0x0204047C arm
  * func_020056A0 0x020056A0 thumb
  * TH_AWARD_TaskNoop 0x021B995C thumb ov220
  * TH_AWARD_GetLevelIndex 0x021BA068 thumb ov220
@@ -65,7 +65,7 @@ extern void MI_CpuFill8(void*,u32,u32);
 extern void * TH_AWARD_GRAPHIC_Create(u32,u32);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void*);
-extern void BG_SYS_SetVisibleLayer(int,u16);
+extern void BG_SYS_SetPriority(int,u16);
 extern void *func_020056A0(u32,u32,u32);
 extern void TH_AWARD_TaskNoop(void);
 extern u8 TH_AWARD_GetLevelIndex(u32);
@@ -100,7 +100,7 @@ int TH_AWARD_Init(void *host,void *unused,void *args)
     *(void **)(p+8)=TH_AWARD_GRAPHIC_Create(1,*(u16 *)p);
     *(void **)(p+0xC)=GF_FONT_Create(23,0,0,0,*(u16 *)p);
     *(u32 *)(p+0x10)=PRINTSYS_QUE_Create((void *)(u32)*(u16 *)p);
-    BG_SYS_SetVisibleLayer(1,2);BG_SYS_SetVisibleLayer(2,1);BG_SYS_SetVisibleLayer(3,0);
+    BG_SYS_SetPriority(1,2);BG_SYS_SetPriority(2,1);BG_SYS_SetPriority(3,0);
     *(void **)(p+0x14)=func_020056A0((u32)TH_AWARD_TaskNoop,(u32)p,1);
     if (*(u32 *)(*(char **)(p+4)+8)) desc=*(char **)(*(char **)(p+4)+4)+0x14;
     else desc=*(char **)(*(char **)(p+4)+4);

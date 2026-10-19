@@ -20,7 +20,7 @@
  *   APP_TASKMENU_WIN_Delete 0x02028148 thumb
  *   BUTTON_MAN_Delete 0x02051C6C arm
  *   func_020307B0 0x020307B0 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   IRCBATTLEMATCH_ExitScreen 0x021BAC08 thumb ov100
  *   func_02030EAC 0x02030EAC arm
  *   CLACT_DeleteUnit 0x0204B1CC arm
@@ -42,7 +42,7 @@ extern void APP_TASKMENU_CloseMenu(struct TaskMenu *);
 extern void APP_TASKMENU_WIN_Delete(u8 *);
 extern void BUTTON_MAN_Delete(void *);
 extern u32 func_020307B0(void *p);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void IRCBATTLEMATCH_ExitScreen(int);
 extern void func_02030EAC(struct Node *);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
@@ -71,7 +71,7 @@ int IRCBATTLEMATCH_ProcExit(struct Proc *a,int b,int c,u8 *p)
     off=Words;
     zero=Clear;
     *(int *)&((struct Obj02805 *)p)->fCA4=zero;
-    WORDSET_DeleteStrbufED04(*(struct WordSet **)(p+off));
+    WORDSET_Delete(*(struct WordSet **)(p+off));
     IRCBATTLEMATCH_ExitScreen((int)p);
     func_02030EAC(*(struct Node **)(p+(off+0x24)));
     CLACT_DeleteUnit(*(struct Bank **)(p+(off+0x28)));

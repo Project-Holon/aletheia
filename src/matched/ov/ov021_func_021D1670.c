@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * GAME_DATA_GetSaveBlockWork (arm9 Thumb leaf) is filed as src/matched/arm9/GAME_DATA_GetSaveBlockWork.c
+ * GAME_DATA_GetGameSync (arm9 Thumb leaf) is filed as src/matched/arm9/GAME_DATA_GetGameSync.c
  * to give the witness.
  *
  * symbols:
@@ -18,7 +18,7 @@
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
- *   GAME_DATA_GetSaveBlockWork  0x02012F8C  thumb
+ *   GAME_DATA_GetGameSync  0x02012F8C  thumb
  *   func_020092EC  0x020092EC  thumb
  *   func_020092D8  0x020092D8  thumb
  * Addresses are Black-image addresses.
@@ -33,7 +33,7 @@ extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 extern void *SCRCMD_WORK_GetGameData(void *a0);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
-extern u32 GAME_DATA_GetSaveBlockWork(u32 *p);
+extern u32 GAME_DATA_GetGameSync(u32 *p);
 struct Sub02009210Obj;
 extern u8 func_020092EC(const struct Sub02009210Obj *obj);
 extern u8 func_020092D8(const struct Sub02009210Obj *obj);
@@ -52,7 +52,7 @@ int SCRCMD_CheckWifiListFlags(u32 a, u32 b)
     SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
     SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
     r4 = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
-    r5 = GAME_DATA_GetSaveBlockWork(r7);
+    r5 = GAME_DATA_GetGameSync(r7);
     if (r6 == 0) {
         if (func_020092EC((const struct Sub02009210Obj *)r5) == 1 && func_020092D8((const struct Sub02009210Obj *)r5) == 1) {
             *r4 = 1;

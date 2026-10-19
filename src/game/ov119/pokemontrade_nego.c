@@ -31,7 +31,7 @@
  *   WIPE_SYS_Start  0x0202208C  thumb
  *   POKETRADE_3D_DeleteMcssSlot  0x021E36D8  thumb  ov119
  *   POKETRADE_3D_AddPokemonMcssFlipped  0x021E36A8  thumb  ov119
- *   FILE_UTIL_Check136C 0x0202136C thumb
+ *   FILE_UTIL_IsMailItem 0x0202136C thumb
  *   POKETRADE_SAVE_IsMessagePrintDone 0x021E12AC thumb ov119
  *   GFL_NET_SendToHandle 0x0203D3A8 arm
  *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
@@ -44,7 +44,7 @@
  *   POKETRADE_SAVE_CloseSummaryPage 0x021E1CE8 thumb ov119
  *   POKETRADE_2D_LoadBackgroundGfx 0x021E3E80 thumb ov119
  *   POKETRADE_3D_AddUnitAndInit 0x021E3208 thumb ov119
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   KEY_GetTrg 0x020362DC arm
  *   UI_SetInputMode 0x020355D8 arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
@@ -56,7 +56,7 @@
  *   APP_TASKMENU_GetCursorPos 0x02027A04 thumb
  *   POKETRADE_SAVE_CloseTaskMenu 0x021E12F8 thumb ov119
  *   POKETRADE_SAVE_CloseMessageWindowClear 0x021E1098 thumb ov119
- *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
+ *   WORDSET_SetSlotMonNickname 0x0201EEF4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   POKETRADE_SAVE_OpenTaskMenu 0x021E1410 thumb ov119
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
@@ -217,8 +217,8 @@
  *   POKETRADE_PROC_SetSideValue 0x021D8F60 thumb ov119
  *   POKETRADE_PROC_SetSideMon 0x021D9468 thumb ov119
  *   POKETRADE_PROC_IsSelfMonReady 0x021D94D4 thumb ov119
- *   POKETRADE_PROC_IsHostSideAlt 0x021D95D0 thumb ov119
- *   POKETRADE_PROC_IsGuestSide 0x021D95F0 thumb ov119
+ *   POKETRADE_PROC_IsCurrentSideMonInvalid 0x021D95D0 thumb ov119
+ *   POKETRADE_PROC_IsOtherSideMonInvalid 0x021D95F0 thumb ov119
  *   POKETRADE_PROC_IsMonTradeable 0x021D9610 thumb ov119
  *   POKETRADE_PROC_StepWaitCursorSync 0x021DA76C thumb ov119
  *   POKETRADE_PROC_DeleteAllResources 0x021DC720 thumb ov119
@@ -289,7 +289,7 @@ extern void POKETRADE_2D_LoadBackgroundGfx(char *p);
 
 extern void POKETRADE_3D_AddUnitAndInit(void *,int);
 
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 
 extern int TOUCHPANEL_HitTrg(const void *);
 
@@ -313,7 +313,7 @@ void POKETRADE_SAVE_CloseTaskMenu(char *p);
 
 void POKETRADE_SAVE_CloseMessageWindowClear(char *p);
 
-extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonNickname(struct WordSet *p, u32 i, void *mon);
 
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
@@ -455,9 +455,9 @@ void POKETRADE_PROC_SetSideMon(void *p, int a, void *b);
 
 int POKETRADE_PROC_IsSelfMonReady(char *p);
 
-int POKETRADE_PROC_IsHostSideAlt(void *p);
+int POKETRADE_PROC_IsCurrentSideMonInvalid(void *p);
 
-u32 POKETRADE_PROC_IsGuestSide(void *p);
+u32 POKETRADE_PROC_IsOtherSideMonInvalid(void *p);
 
 int POKETRADE_PROC_IsMonTradeable(unsigned char *p);
 
@@ -844,7 +844,7 @@ void POKETRADE_NEGO_DrawPlayerNames(char *p)
     }
     BMP_WIN_TransferChars(h2);
     BMP_WIN_MakeScreen(h2);
-    BG_SYS_SetFlagField06(3);
+    BG_SYS_MarkTileDirty(3);
 }
 
 /*
@@ -869,13 +869,13 @@ void POKETRADE_NEGO_DrawOfferStatusLabel(u8 *p,int i,int msg,int force)
     PRINTSYS_Print(BMP_WIN_GetBmp((struct Descriptor *)w),0,0,(void *)(((TradeWork *)p)->infoTextOut),(void *)(*(int *)&((TradeWork *)p)->font));
     BMP_WIN_TransferChars((struct Descriptor *)w);
     BMP_WIN_MakeScreen((struct Cfg *)w);
-    BG_SYS_SetFlagField06(3);
+    BG_SYS_MarkTileDirty(3);
     (p+i)[0x11e8]=3;
 }
 
 void POKETRADE_NEGO_DeleteHeaderWindows(unsigned char *p)
 {
-    if(((TradeWork *)p)->statusWin0){BMP_WIN_ClearScreen((struct Descriptor *)(((TradeWork *)p)->statusWin0));BMP_WIN_Delete((struct Descriptor *)(((TradeWork *)p)->statusWin0));((TradeWork *)p)->statusWin0=0;}if(((TradeWork *)p)->statusWin1){BMP_WIN_ClearScreen((struct Descriptor *)(((TradeWork *)p)->statusWin1));BMP_WIN_Delete((struct Descriptor *)(((TradeWork *)p)->statusWin1));((TradeWork *)p)->statusWin1=0;}if(((TradeWork *)p)->nameRowWin){BMP_WIN_ClearScreen((struct Descriptor *)(((TradeWork *)p)->nameRowWin));BMP_WIN_Delete((struct Descriptor *)(((TradeWork *)p)->nameRowWin));((TradeWork *)p)->nameRowWin=0;}if(((TradeWork *)p)->valueRowWin){BMP_WIN_ClearScreen((struct Descriptor *)(((TradeWork *)p)->valueRowWin));BMP_WIN_Delete((struct Descriptor *)(((TradeWork *)p)->valueRowWin));((TradeWork *)p)->valueRowWin=0;}BG_SYS_SetFlagField06(3);
+    if(((TradeWork *)p)->statusWin0){BMP_WIN_ClearScreen((struct Descriptor *)(((TradeWork *)p)->statusWin0));BMP_WIN_Delete((struct Descriptor *)(((TradeWork *)p)->statusWin0));((TradeWork *)p)->statusWin0=0;}if(((TradeWork *)p)->statusWin1){BMP_WIN_ClearScreen((struct Descriptor *)(((TradeWork *)p)->statusWin1));BMP_WIN_Delete((struct Descriptor *)(((TradeWork *)p)->statusWin1));((TradeWork *)p)->statusWin1=0;}if(((TradeWork *)p)->nameRowWin){BMP_WIN_ClearScreen((struct Descriptor *)(((TradeWork *)p)->nameRowWin));BMP_WIN_Delete((struct Descriptor *)(((TradeWork *)p)->nameRowWin));((TradeWork *)p)->nameRowWin=0;}if(((TradeWork *)p)->valueRowWin){BMP_WIN_ClearScreen((struct Descriptor *)(((TradeWork *)p)->valueRowWin));BMP_WIN_Delete((struct Descriptor *)(((TradeWork *)p)->valueRowWin));((TradeWork *)p)->valueRowWin=0;}BG_SYS_MarkTileDirty(3);
 }
 
 void POKETRADE_NEGO_StepQuitMenuChoice(void *p)
@@ -967,7 +967,7 @@ void POKETRADE_NEGO_StepResolveReplies(char *p)
 
 void POKETRADE_NEGO_StepSendReply(unsigned char *p)
 {
-    unsigned char b=13;if(POKETRADE_PROC_IsSelfMonReady((char *)p))b=5;else if(POKETRADE_PROC_IsHostSideAlt(p))b=7;else if(POKETRADE_PROC_IsGuestSide(p))b=8;else if(POKETRADE_PROC_IsMonTradeable(p))b=6;if(GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(),0xc00,1,(u32)&b)){POKETRADE_PROC_SetSyncRange(GFL_NET_HANDLE_GetCurrentHandle(),(void *)29,p);POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepResolveReplies);}
+    unsigned char b=13;if(POKETRADE_PROC_IsSelfMonReady((char *)p))b=5;else if(POKETRADE_PROC_IsCurrentSideMonInvalid(p))b=7;else if(POKETRADE_PROC_IsOtherSideMonInvalid(p))b=8;else if(POKETRADE_PROC_IsMonTradeable(p))b=6;if(GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(),0xc00,1,(u32)&b)){POKETRADE_PROC_SetSyncRange(GFL_NET_HANDLE_GetCurrentHandle(),(void *)29,p);POKETRADE_PROC_SetStep(p,(int)POKETRADE_NEGO_StepResolveReplies);}
 }
 
 void POKETRADE_NEGO_StepWaitReplySync(unsigned char *p)
@@ -1032,7 +1032,7 @@ void POKETRADE_NEGO_StepResolveConfirm(char *p)
     if (c == 11 && (unsigned char)(p + b)[0x11E0] == 11) {
         MSGDATA_ReadString((*(void * *)&((TradeWork *)p)->messageBank), 0x92, ((TradeWork *)p)->messageTemplate);
         do {
-            WORDSET_SetSlotMonSpecies((*(void * *)&((TradeWork *)p)->wordSet), i, POKETRADE_PROC_GetSideMon(p, i));
+            WORDSET_SetSlotMonNickname((*(void * *)&((TradeWork *)p)->wordSet), i, POKETRADE_PROC_GetSideMon(p, i));
             i++;
         } while (i < 2);
         WORDSET_CopyTaggedText((*(void * *)&((TradeWork *)p)->wordSet), (*(void * *)&((TradeWork *)p)->messageText), ((TradeWork *)p)->messageTemplate);
@@ -1150,7 +1150,7 @@ void POKETRADE_NEGO_StepReturnFromSummary(char *p)
         ARC_UTIL_UploadBgPaletteAddFromHandle(resource,11,2,0,(u16)((TradeWork *)p)->subBgHandle,zero,zero,((TradeWork *)p)->heapId);
         ARC_TOOL_DeleteHandle(resource);
         POKETRADE_3D_AddUnitAndInit(p,0);
-        BG_SYS_SetFlagField06(3);
+        BG_SYS_MarkTileDirty(3);
         p[0x11f3]=zero;
         slot=1;
         if(POKETRADE_PROC_IsMonValid(POKETRADE_PROC_GetSideMon(p,slot))) {
@@ -1463,7 +1463,7 @@ extern void NHTTP_RAP_FreePostData(u8 *);
 
 extern void POKE_TOOL_SetPartyValue(void *,u32,u32);
 
-extern u32 FILE_UTIL_Check136C(u16);
+extern u32 FILE_UTIL_IsMailItem(u16);
 
 extern void *MAIL_Create(int);
 
@@ -1846,7 +1846,7 @@ void POKETRADE_NEGO_StepPollMonCheck(u8 *p)
                             bank=MSGDATA_CreateFromArchive(0,2,81,((TradeWork *)p)->heapId);
                             text=MSGDATA_AllocString(bank,15);
                             MSGDATA_Delete(bank);
-                            if(FILE_UTIL_Check136C(value)) {
+                            if(FILE_UTIL_IsMailItem(value)) {
                                 name=MAIL_Create(*heap);
                                 POKE_TOOL_GetPartyValue(mon,167,(u32)name);
                                 MAIL_SetWriterName(name,STRBUF_GetChars(text));
@@ -2249,7 +2249,7 @@ void POKETRADE_NEGO_ShowOfferSlotMon(void *p,int i,void *v)
     POKETRADE_2D_LoadMonPalette(p,i,v);
     POKETRADE_SAVE_DrawPartnerOfferCard(p,i,v);
     one=1;
-    BG_SYS_SetFlagField06(1);
+    BG_SYS_MarkTileDirty(1);
     POKETRADE_3D_AddPokemonMcssFlipped(p,i,one-i,v,one-i,one);
 }
 
@@ -2263,7 +2263,7 @@ void POKETRADE_NEGO_TickOfferSlotTimers(void *p)
         if (((unsigned char *)p+i)[0x11e2]==0) {
             POKETRADE_SAVE_DeletePartnerOfferCard(p,i);
             BG_SYS_SetTileEntry(1,0,(unsigned char)(i<<4),0,16,24,16);
-            BG_SYS_SetFlagField06(1);
+            BG_SYS_MarkTileDirty(1);
             POKETRADE_3D_DeleteMcssSlot(p,i);
             POKETRADE_2D_SetOfferIconsVisible(p,i,1);
         }

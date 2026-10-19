@@ -1,5 +1,5 @@
 /*
- * function: WIH_HasBeaconBeenSent
+ * function: NET_WHPIPE_HasBeaconBeenSent
  * address:  0x02177C08
  * packet:   pkt_ov014_02177C08
  * region:   ov014
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * sdk:      WIH_HasBeaconBeenSent (libdwcaccount.TWL.HYB.thumb.a(dwc_account.o))
+ * sdk:      NET_WHPIPE_HasBeaconBeenSent (libdwcaccount.TWL.HYB.thumb.a(dwc_account.o))
  *
  * symbols:
  *   WIH_GetBeaconSendCount  0x02179614  thumb  ov014
@@ -17,7 +17,7 @@
 
 extern unsigned short WIH_GetBeaconSendCount(void);
 
-int WIH_HasBeaconBeenSent(void *frienddata)
+int NET_WHPIPE_HasBeaconBeenSent(void *frienddata)
 {
     if (WIH_GetBeaconSendCount())
         return 1;

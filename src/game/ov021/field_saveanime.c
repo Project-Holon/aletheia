@@ -48,7 +48,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_Delete  0x020452E8  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   BMP_WIN_GetCharOffset  0x02045768  arm
@@ -126,7 +126,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern u32 BG_SYS_SetPlaneVisible(u32 which, u32 enable);
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u16 BMP_WIN_GetCharOffset(struct Descriptor *p);
@@ -274,14 +274,14 @@ u32 FIELD_SAVEANIME_DeleteWindow(FieldSaveAnime *work)
 int FIELD_SAVEANIME_ShowWindow(FieldSaveAnime *work)
 {
     BMP_WIN_MakeScreen((struct Cfg *)work->bmpWin);
-    BG_SYS_SetFlagField06(_SAVEANIME_BG_FRAME);
+    BG_SYS_MarkTileDirty(_SAVEANIME_BG_FRAME);
     return BG_SYS_SetPlaneVisible(_SAVEANIME_BG_FRAME, 1);
 }
 
 int FIELD_SAVEANIME_HideWindow(FieldSaveAnime *work)
 {
     BMP_WIN_ClearScreen(work->bmpWin);
-    BG_SYS_SetFlagField06(_SAVEANIME_BG_FRAME);
+    BG_SYS_MarkTileDirty(_SAVEANIME_BG_FRAME);
     return BG_SYS_SetPlaneVisible(_SAVEANIME_BG_FRAME, 0);
 }
 

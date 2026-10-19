@@ -1,5 +1,5 @@
 /*
- * function: BUTTON_MAN_GetOffsetY
+ * function: PARTICLE_EMITTER_GetOffsetY
  * address:  0x02051808
  * packet:   pkt_02051790
  * region:   arm9
@@ -13,7 +13,7 @@
  */
 #include "../include/Obj16175.h"
 
-short BUTTON_MAN_GetOffsetY(char *p)
+short PARTICLE_EMITTER_GetOffsetY(char *p)
 {
     return ((struct Obj16175 *)p)->f68;
 }

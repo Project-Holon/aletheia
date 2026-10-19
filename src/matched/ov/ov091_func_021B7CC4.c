@@ -11,7 +11,7 @@
  * extent: final two bytes at 021B817E are alignment padding.
  * symbols:
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
- *   FILE_UTIL_Check136C 0x0202136C thumb
+ *   FILE_UTIL_IsMailItem 0x0202136C thumb
  *   func_02009050 0x02009050 thumb
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
  *   func_0200902C 0x0200902C thumb
@@ -59,7 +59,7 @@ struct Sub02008F80Obj;
 extern void BG_SYS_PushTile(u32 index);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
-extern u32 FILE_UTIL_Check136C(u16);
+extern u32 FILE_UTIL_IsMailItem(u16);
 extern struct Sub02008F80Obj *func_02009050(struct Sub02008F80Obj *arr, u32 unused, int i, u32 heap);
 extern void POKE_TOOL_SetPartyValue(void *,u32,u32);
 extern u32 func_020307B0(void *p);
@@ -137,7 +137,7 @@ void POKELIST_ApplySelection(u8 *p)
     case 9:
         old=POKE_TOOL_GetPartyValue((void *)W(0x38),6,0);
         if (old == 0) {
-            if (FILE_UTIL_Check136C(H(0x44)) == 1) {
+            if (FILE_UTIL_IsMailItem(H(0x44)) == 1) {
                 p[0xc]=19; T(0x3c)=W(0x2c); T(0x40)=6; return;
             }
             T(0x40)=10;
@@ -154,7 +154,7 @@ void POKELIST_ApplySelection(u8 *p)
             } else POKELIST_ShowMessage(p,0x56,1,(int)POKELIST_EndMessageToExit);
             PLIST_MESSAGE_DestroyWordSet(p,W(0x150)); return;
         }
-        if (FILE_UTIL_Check136C(old)==1) {
+        if (FILE_UTIL_IsMailItem(old)==1) {
             T(0x40)=10; POKELIST_ShowMessage(p,0x39,1,(int)POKELIST_EndMessageToExit); return;
         }
         PLIST_MESSAGE_CreateWordSet((u16 *)p,W(0x150));

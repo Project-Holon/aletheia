@@ -21,9 +21,9 @@
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   GF_OVERLAY_Load  0x02034AC4  arm
  *   GF_OVERLAY_Unload  0x02034A5C  arm
- *   GIMMICK_INIT_SetCartLanesFlags  0x021F36C0  thumb  ov037
+ *   DAILY_LAYOUT_Generate  0x021F36C0  thumb  ov036
  *   gPleasureBoatFileName     0x021DE534  data  a4
- *   d_00000024     0x00000024  data  a4
+ *   ov036_id     0x00000024  data  a4
  *   PLEASURE_BOAT_GetTimeEvent  0x021C87E0  thumb  ov021
  *   SCRIPT_SYS_CreateScriptEventSimple  0x02158768  thumb  ov010
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
@@ -49,7 +49,7 @@ extern int GF_OVERLAY_Load(s32 overlayId);
 
 extern void GF_OVERLAY_Unload(int overlayId);
 
-extern void GIMMICK_INIT_SetCartLanesFlags(PleasureBoatWork *work);
+extern void DAILY_LAYOUT_Generate(PleasureBoatWork *work);
 
 extern int PLEASURE_BOAT_GetTimeEvent(PleasureBoatWork *work);
 
@@ -57,7 +57,7 @@ extern GameEvent *SCRIPT_SYS_CreateScriptEventSimple(GameSystem *gameSystem, int
 
 extern char gPleasureBoatFileName;
 
-extern char d_00000024[];
+extern char ov036_id[];
 
 PleasureBoatWork *PLEASURE_BOAT_Create(void);
 
@@ -80,9 +80,9 @@ PleasureBoatWork *PLEASURE_BOAT_Create(void)
     work->groupCount[2] = 0;
     work->groupCount[3] = 0;
     work->locked = 0;
-    GF_OVERLAY_Load((int)d_00000024); /* stand-in: overlay id passed as a raw address constant; a plain 0x24 changes the literal pool */
-    GIMMICK_INIT_SetCartLanesFlags(work);
-    GF_OVERLAY_Unload((int)d_00000024);
+    GF_OVERLAY_Load((int)ov036_id); /* stand-in: overlay id passed as a raw address constant; a plain 0x24 changes the literal pool */
+    DAILY_LAYOUT_Generate(work);
+    GF_OVERLAY_Unload((int)ov036_id);
     return work;
 }
 

@@ -20,7 +20,7 @@
  *   MSGDATA_ReadUnits  0x02045F5C  arm
  *   POKE_TOOL_GetExpForLevel  0x02018584  thumb
  *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb
- *   POKE_TOOL_GetPersonalGender  0x02019C7C  thumb
+ *   POKE_TOOL_GetPersonalAbilityCount  0x02019C7C  thumb
  *   POKE_TOOL_GetBoxGender  0x02017F08  thumb
  *   POKE_TOOL_SetBoxDefaultMoves  0x02017FB0  thumb
  *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb
@@ -67,7 +67,7 @@ extern u32   POKE_TOOL_CheckShiny(u32 a, u32 b);
 extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
 extern u32   POKE_TOOL_GetExpForLevel(u16 a, u16 b, u16 c);
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
-extern u32   POKE_TOOL_GetPersonalGender(void *a);
+extern u32   POKE_TOOL_GetPersonalAbilityCount(void *a);
 extern u8 POKE_TOOL_GetBoxGender(void *p);
 extern u32 POKE_TOOL_SetBoxDefaultMoves(void *p);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
@@ -131,7 +131,7 @@ void POKE_TOOL_SetupBoxParamEx(void *obj, u16 species, u16 level, u64 id, u32 po
     }
 
     v = 0x1a;
-    if (POKE_TOOL_GetPersonalGender(rec) == 2 && (rnd & 0x10000) != 0) {
+    if (POKE_TOOL_GetPersonalAbilityCount(rec) == 2 && (rnd & 0x10000) != 0) {
         v = 0x1b;
     }
     POKE_TOOL_SetBoxValue(obj, 0xa, POKE_PERSONAL_GetParam(rec, v));

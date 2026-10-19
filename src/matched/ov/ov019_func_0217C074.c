@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   UNION_ONESELF_CheckNetError  0x0217BB04  thumb ov019
+ *   UNION_ONESELF_HandleNetError  0x0217BB04  thumb ov019
  *   gUnionEmptyString1     0x021807E4  data a1
  *   func_02034714  0x02034714  arm
  *   GFL_NET_SetChangeoverModeWrapper  0x0203D14C  arm
@@ -42,7 +42,7 @@ typedef struct {
 
 extern char gUnionEmptyString1[];
 
-int UNION_ONESELF_CheckNetError(char *p);
+int UNION_ONESELF_HandleNetError(char *p);
 void func_02034714(const char *expr, u32 line, const char *file);
 void GFL_NET_SetChangeoverModeWrapper(int a, int b, void *c);
 int GFL_NET_GetNegotiationNum(void);
@@ -58,7 +58,7 @@ u32 UNION_MSG_CheckTalkPrintEnd(u8 *p);
 
 int UNION_ONESELF_ConnectChildMain(void *ctx, Obj *obj, u8 *a2, u8 *state)
 {
-    if (UNION_ONESELF_CheckNetError(ctx) == 1)
+    if (UNION_ONESELF_HandleNetError(ctx) == 1)
         return 1;
 
     switch (*state) {

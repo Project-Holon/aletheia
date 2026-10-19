@@ -1,5 +1,5 @@
 /*
- * function: NNS_G2dCallVtableSlot0
+ * function: NNS_FndAllocFromAllocator
  * address:  0x02061330
  * packet:   pkt_0206123C
  * region:   arm9
@@ -11,8 +11,8 @@
  * unit:     yes
  *
  * functions:
- *   NNS_G2dCallVtableSlot0  0x02061330  arm
- *   NNS_G2dCallVtableSlot1  0x02061344  arm
+ *   NNS_FndAllocFromAllocator  0x02061330  arm
+ *   NNS_FndFreeToAllocator  0x02061344  arm
  *
  * Two two-argument vtable forwarders, 20 bytes each, no relocations at all.
  * The object at r0 holds a pointer to a table of function pointers at r0[0];
@@ -47,12 +47,12 @@ typedef void (*Vfn)(void *self, u32 x);
 struct Vt02061330 { Vfn f0; Vfn f1; };
 struct Obj02061330 { struct Vt02061330 *vt; };
 
-void NNS_G2dCallVtableSlot0(struct Obj02061330 *o, u32 x)
+void NNS_FndAllocFromAllocator(struct Obj02061330 *o, u32 x)
 {
     o->vt->f0(o, x);
 }
 
-void NNS_G2dCallVtableSlot1(struct Obj02061330 *o, u32 x)
+void NNS_FndFreeToAllocator(struct Obj02061330 *o, u32 x)
 {
     o->vt->f1(o, x);
 }

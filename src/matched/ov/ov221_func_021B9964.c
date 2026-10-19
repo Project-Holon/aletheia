@@ -15,7 +15,7 @@
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   func_0200873C 0x0200873C thumb
- *   CONFIG_GetAppliedFlag 0x020083E4 thumb
+ *   CONFIG_GetTextLanguage 0x020083E4 thumb
  *   ARC_UTIL_UploadPaletteFromArchive 0x02049B90 arm
  *   func_02045B38 0x02045B38 arm
  *   BMP_WIN_Create 0x020450F0 arm
@@ -33,7 +33,7 @@
  *   BMP_GetWidth 0x020437DC arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
@@ -70,7 +70,7 @@ extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void func_02041B6C(u32);
@@ -103,7 +103,7 @@ void CHIHOU_ZUKAN_AWARD_SetupWindows(struct Obj *p)
     PRINTSYS_PrintQueColor(p->bmp, (u32)BMP_WIN_GetBmp(p->ptr[2]), 0, 0, x, (u32)p->str, 0x440);
     STRBUF_Delete((struct U16Vec *)x);
     STRBUF_Delete((struct U16Vec *)t);
-    WORDSET_DeleteStrbufED04((struct WordSet *)ws);
+    WORDSET_Delete((struct WordSet *)ws);
     t = (u32)func_02045EC0(p->bank, 1);
     PRINTSYS_PrintQueColor(p->bmp, (u32)BMP_WIN_GetBmp(p->ptr[3]), 0, 0, t, (u32)p->str, 0x440);
     STRBUF_Delete((struct U16Vec *)t);

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   UNION_ONESELF_CheckNetError  0x0217BB04  thumb  ov019
+ *   UNION_ONESELF_HandleNetError  0x0217BB04  thumb  ov019
  *   func_02034714  0x02034714  arm
  *   COLOSSEUM_Create  0x02174F4C  thumb  ov012
  *   UNION_MSG_GetColosseumStartMsg  0x0217EC94  thumb  ov019
@@ -20,8 +20,8 @@
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
  *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
- *   UNION_MAIN_RequestScene  0x0217422C  thumb  ov012
- *   UNION_MAIN_IsScenePending  0x02174268  thumb  ov012
+ *   UNION_SCENE_RequestScene  0x0217422C  thumb  ov012
+ *   UNION_SCENE_IsScenePending  0x02174268  thumb  ov012
  *   UNION_ONESELF_SetFieldBusy  0x0217BAF0  thumb  ov019
  *   UNION_ONESELF_SetNextPlayCategory  0x0217B8E4  thumb  ov019
  *   gUnionEmptyString1     0x021807E4  data  a4
@@ -47,7 +47,7 @@ typedef struct {
     u8 b1 : 1;
 } Obj;
 
-extern int UNION_ONESELF_CheckNetError(char *p);
+extern int UNION_ONESELF_HandleNetError(char *p);
 extern void func_02034714(const char *expr, unsigned int line, const char *file);
 extern int COLOSSEUM_Create(int a, int b, int c, int d);
 extern u16 UNION_MSG_GetColosseumStartMsg(int i);
@@ -60,8 +60,8 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *a, u32 b, u32 c);
 extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *a, u32 b, u32 c);
-extern void UNION_MAIN_RequestScene(u8 *a, int b, int c);
-extern int UNION_MAIN_IsScenePending(u8 *a);
+extern void UNION_SCENE_RequestScene(u8 *a, int b, int c);
+extern int UNION_SCENE_IsScenePending(u8 *a);
 extern void UNION_ONESELF_SetFieldBusy(char *p, int x, unsigned int v);
 extern int UNION_ONESELF_SetNextPlayCategory(char *p, int v);
 extern u8 gUnionEmptyString1[];
@@ -69,7 +69,7 @@ extern u8 gUnionEmptyString1[];
 int UNION_ONESELF_ColosseumEnterChildMain(u8 *a, Obj *b, u8 *c, u8 *d)
 {
     int *p;
-    if (*d < 4 && UNION_ONESELF_CheckNetError((char *)a) == 1)
+    if (*d < 4 && UNION_ONESELF_HandleNetError((char *)a) == 1)
         return 1;
     switch (*d) {
     case 0:
@@ -97,11 +97,11 @@ int UNION_ONESELF_ColosseumEnterChildMain(u8 *a, Obj *b, u8 *c, u8 *d)
         }
         break;
     case 4:
-        UNION_MAIN_RequestScene(a, b->f2d + 1, 0);
+        UNION_SCENE_RequestScene(a, b->f2d + 1, 0);
         (*d)++;
         break;
     case 5:
-        if (UNION_MAIN_IsScenePending(a) == 0) {
+        if (UNION_SCENE_IsScenePending(a) == 0) {
             if (((struct Obj09414 *)a)->f355C != 0)
                 func_02034714((const char *)gUnionEmptyString1, 0, (const char *)gUnionEmptyString1);
             p = *(int * *)&((struct Obj09414 *)a)->f0;

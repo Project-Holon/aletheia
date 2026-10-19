@@ -18,7 +18,7 @@
  *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
  *   BOX2_UI_SetCursorPos 0x021EE3E4 thumb ov170
  *   BOX2_SEQ_SetCursorDraw 0x021ED55C thumb ov170
- *   FILE_UTIL_Check136C 0x0202136C thumb
+ *   FILE_UTIL_IsMailItem 0x0202136C thumb
  *   BOX2_SEQ_SetSlotActorMode 0x021ECB60 thumb ov170
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BOX2_SEQ_ReturnAfterClear 0x021E8F50 thumb ov170
@@ -35,7 +35,7 @@ extern void BOX2_SEQ_PrintPromptB(u8 *, int, int);
 extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
 extern void BOX2_UI_SetCursorPos(char **p, unsigned idx);
 extern void BOX2_SEQ_SetCursorDraw(char **p, int flag);
-extern unsigned FILE_UTIL_Check136C(u16);
+extern unsigned FILE_UTIL_IsMailItem(u16);
 extern void BOX2_SEQ_SetSlotActorMode(char *p, int i, int f);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 extern int BOX2_SEQ_ReturnAfterClear(char *p, int v);
@@ -60,7 +60,7 @@ int BOX2_SEQ_StateMoveItemC(u8 *p)
         BOX2_SEQ_DeleteB((char *)p);
         CURSOR_MOVE_SetCurrent(*(void **)(W(p) + 112), 9);
         BOX2_UI_SetCursorPos((char **)p, 9);
-        if (FILE_UTIL_Check136C(*(u16 *)(W(p) + 0xa16c)) == 1 && second != p[22]) {
+        if (FILE_UTIL_IsMailItem(*(u16 *)(W(p) + 0xa16c)) == 1 && second != p[22]) {
             BOX2_SEQ_SetSlotActorMode((char *)W(p), p[22], 0);
             BOX2_SEQ_PrintPromptB(p, 7, 24);
             GFL_USE_PlaySeDefaultVolume(0x557);
@@ -71,7 +71,7 @@ int BOX2_SEQ_StateMoveItemC(u8 *p)
         BOX2_SEQ_SetCursorDraw((char **)p, 1);
         return 70;
     }
-    if (FILE_UTIL_Check136C(item) == 1) {
+    if (FILE_UTIL_IsMailItem(item) == 1) {
         BOX2_SEQ_DeleteB((char *)p);
         GFL_USE_PlaySeDefaultVolume(0x557);
         BOX2_SEQ_SetSlotActorMode((char *)W(p), p[22], 0);

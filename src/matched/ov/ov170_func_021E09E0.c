@@ -1,5 +1,5 @@
 /*
- * function: BOX2_MAIN_Check09E0
+ * function: BOX2_MAIN_StateMachineRunSwap
  * address: 0x021E09E0
  * packet: pkt_ov170_021E09E0
  * region: ov170
@@ -23,7 +23,7 @@ extern int BOX2_MAIN_WaitBoxScroll(unsigned char *p);
 extern void BOX2_MAIN_SetMoverEntry(char *p, void *a);
 typedef unsigned int   u32;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-int BOX2_MAIN_Check09E0(char *p)
+int BOX2_MAIN_StateMachineRunSwap(char *p)
 {
     char *s;
     s = *(char * *)&((struct Obj00000 *)p)->f2C + 0x58;

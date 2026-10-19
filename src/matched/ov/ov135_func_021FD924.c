@@ -23,7 +23,7 @@
  *   WORLDTRADE_SEARCH_DrawHistoryHeader  0x021FF474  thumb
  *   WORLDTRADE_DEPOSIT_PrintName  0x021F7F9C  thumb
  *   WORLDTRADE_DEPOSIT_PrintModeLabelAligned  0x021F8098  thumb
- *   WORLDTRADE_DEPOSIT_GetConditionIndex  0x021F886C  thumb
+ *   WORLDTRADE_DEPOSIT_FindLevelBracketIndex  0x021F886C  thumb
  *   WORLDTRADE_DEPOSIT_PrintLevelRange  0x021F8154  thumb
  *   WORLDTRADE_DEPOSIT_PrintMessageLine  0x021F8010  thumb
  *   WORLDTRADE_SEARCH_ScrollBgs  0x021FF50C  thumb
@@ -125,7 +125,7 @@ extern void WORLDTRADE_SEARCH_DrawFormLabels(void **win, void **win2, void *bank
 extern void WORLDTRADE_SEARCH_DrawHistoryHeader(void *win, void *bank, int flag, void *g);
 extern void WORLDTRADE_DEPOSIT_PrintName(void *win, void *bank, u32 index, u32 y, u32 x, u16 color, void *g);
 extern void WORLDTRADE_DEPOSIT_PrintModeLabelAligned(void *win, void *bank, int mode, int force, u32 x, int y, u16 color, void *g);
-extern int WORLDTRADE_DEPOSIT_GetConditionIndex(int key, int val, int which);
+extern int WORLDTRADE_DEPOSIT_FindLevelBracketIndex(int key, int val, int which);
 extern void WORLDTRADE_DEPOSIT_PrintLevelRange(void *win, void *bank, int idx, u32 e, u32 y, u16 color, int alt, void *g);
 extern void WORLDTRADE_DEPOSIT_PrintMessageLine(void *win, void *bank, void *bank2, u32 index, u32 y, u32 x, u16 color, void *g);
 extern void WORLDTRADE_SEARCH_ScrollBgs(void *p);
@@ -160,7 +160,7 @@ int WORLDTRADE_SEARCH_Init(Work *p)
     WORLDTRADE_SEARCH_DrawHistoryHeader(p->wDB0, p->bank, p->fE1A, p->fFA0);
     WORLDTRADE_DEPOSIT_PrintName(p->win[1], p->names, p->rec.name, 0, 0, 0x3C40, p->fFA0);
     WORLDTRADE_DEPOSIT_PrintModeLabelAligned(p->win[3], p->bank, p->rec.mode, 1, 0, 0, 0x3C40, p->fFA0);
-    WORLDTRADE_DEPOSIT_PrintLevelRange(p->wDA4, p->bank, WORLDTRADE_DEPOSIT_GetConditionIndex(p->rec.key, p->rec.val, 1), 0, 0, 0x3C40, 1, p->fFA0);
+    WORLDTRADE_DEPOSIT_PrintLevelRange(p->wDA4, p->bank, WORLDTRADE_DEPOSIT_FindLevelBracketIndex(p->rec.key, p->rec.val, 1), 0, 0, 0x3C40, 1, p->fFA0);
     WORLDTRADE_DEPOSIT_PrintMessageLine(p->win2[1], p->msg, p->bank, p->fF84, 0, 0, 0x3C40, p->fFA0);
     p->vblank = WORLDTRADE_SEARCH_ScrollBgs;
     if (p->kind == 0xd) {

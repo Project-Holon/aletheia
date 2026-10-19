@@ -51,7 +51,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   ARC_UTIL_LoadPaletteBlockFromArchive 0x02049F34 arm
  *   ARC_UTIL_LoadBgCharDataFromArchive 0x02049DB4 arm
  *   CLACT_TransferPalette 0x0204ADEC arm
@@ -86,7 +86,7 @@
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   POKE_TOOL_IsBoxShiny 0x02017EB4 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   WORDSET_SetSlotTag 0x0201EE0C thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
@@ -103,7 +103,7 @@
  *   POKE_PERSONAL_Create  0x0201ADE4  thumb  arm9
  *   POKE_PERSONAL_Delete  0x0201AE14  thumb  arm9
  *   POKE_PERSONAL_GetParam  0x0201AE1C  thumb  arm9
- *   WORDSET_Callback_EF40  0x0201EF40  thumb  arm9
+ *   WORDSET_SetSlotFromMsg36  0x0201EF40  thumb  arm9
  *   APP_ICON_GetArchiveId  0x020275E4  thumb  arm9
  *   APP_ICON_GetStatusIconAnim  0x020276C4  thumb  arm9
  *   APP_ICON_GetBallThrowCellFileId  0x02027720  thumb  arm9
@@ -262,7 +262,7 @@ extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void BG_SYS_SetFlagField06(u32 flag);
+extern void BG_SYS_MarkTileDirty(u32 flag);
 extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 arcId, u32 fileId, u32 out, u32 heapId);
 extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 arcId, u32 fileId, u32 a, u32 out, u16 heapId);
 extern void CLACT_TransferPalette(u32 plttRes, void *pltt, u32 a);
@@ -276,10 +276,10 @@ extern void POKEPARTY_SetSlotFlag(void *party, u32 pos, u32 showFront);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
 extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 index, const struct Strbuf *src, u32 a, u32 b, u32 c);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *wordSet);
+extern u32 WORDSET_Delete(struct WordSet *wordSet);
 extern u32 POKE_TOOL_CalcBoxLevel(struct BoxPokemon *mon);
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 a, u32 b);
-extern void WORDSET_Callback_EF40(struct WordSet *wordSet, u32 index, u32 itemId);
+extern void WORDSET_SetSlotFromMsg36(struct WordSet *wordSet, u32 index, u32 itemId);
 extern void MCSS_ResetAnmStopFlag(void *mcss);
 extern void MCSS_SetPosition(void *mcss, const VecFx32 *src);
 extern int _ffix(float);
@@ -533,11 +533,11 @@ void P_STA_SUB_Refresh(PStatusWork *wk, PStaSubWork *work)
     win = work->nameWin;
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(win));
     win = work->itemWin;
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(win));
     ballId = POKE_TOOL_GetBoxValue(mon, 0x98, 0);
     ballArc = APP_ICON_GetArchiveId();
     ballBuf = ARC_UTIL_LoadPaletteBlockFromArchive(ballArc, APP_ICON_GetBallThrowCellFileId(ballId), (u32)&ballPltt, wk->heapId);
@@ -630,7 +630,7 @@ void P_STA_SUB_PrintWindows(PStatusWork *wk, PStaSubWork *work, void *mon)
     text = MSGDATA_AllocString(wk->msgData, 0);
     WORDSET_CopyTaggedText(wordSet, buf, text);
     PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->nameWin), 25, 1, buf, wk->font, 1088);
-    STRBUF_Delete(name); STRBUF_Delete(text); STRBUF_Delete(buf); WORDSET_DeleteStrbufED04(wordSet);
+    STRBUF_Delete(name); STRBUF_Delete(text); STRBUF_Delete(buf); WORDSET_Delete(wordSet);
     if (wk->isEgg == 0 && POKE_TOOL_GetBoxValue(mon, 173, 0) == 1) {
         u32 gender = POKE_TOOL_GetBoxValue(mon, 110, 0);
         if (gender == 0) {
@@ -650,7 +650,7 @@ void P_STA_SUB_PrintWindows(PStatusWork *wk, PStaSubWork *work, void *mon)
         levelText = MSGDATA_AllocString(wk->msgData, 3);
         WORDSET_CopyTaggedText(wordSet, buf, levelText);
         PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->nameWin), 9, 17, buf, wk->font, 1088);
-        STRBUF_Delete(levelText); STRBUF_Delete(buf); WORDSET_DeleteStrbufED04(wordSet);
+        STRBUF_Delete(levelText); STRBUF_Delete(buf); WORDSET_Delete(wordSet);
     }
     buf = MSGDATA_AllocString(wk->msgData, 4);
     PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->itemWin), 10, 1, buf, wk->font, 1088);
@@ -658,11 +658,11 @@ void P_STA_SUB_PrintWindows(PStatusWork *wk, PStaSubWork *work, void *mon)
     {
         struct Strbuf *itemText;
         wordSet = WORDSET_CreateDefault(wk->heapId); buf = STRBUF_Create(16, wk->heapId);
-        WORDSET_Callback_EF40(wordSet, 0, POKE_TOOL_GetBoxValue(mon, 6, 0));
+        WORDSET_SetSlotFromMsg36(wordSet, 0, POKE_TOOL_GetBoxValue(mon, 6, 0));
         itemText = MSGDATA_AllocString(wk->msgData, 5);
         WORDSET_CopyTaggedText(wordSet, buf, itemText);
         PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->itemWin), 6, 17, buf, wk->font, 1088);
-        STRBUF_Delete(itemText); STRBUF_Delete(buf); WORDSET_DeleteStrbufED04(wordSet);
+        STRBUF_Delete(itemText); STRBUF_Delete(buf); WORDSET_Delete(wordSet);
     }
 }
 

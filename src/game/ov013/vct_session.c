@@ -1,7 +1,7 @@
 /*
  * file:     vct_session.c
  * unit:     yes
- * function: VCT_SESSION_CheckAnnounceTimeout, VCT_SESSION_HandlePacket, VCT_SESSION_AllocPeer, VCT_SESSION_SendCommand, VCT_SESSION_SendReply, VCT_SESSION_FillAnnounceFields, VCT_SESSION_BroadcastPacket, VCT_SESSION_BroadcastState, VCT_SESSION_InitPeer, VCT_SESSION_SendPacket, VCT_SESSION_GetEventCode, VCT_SESSION_InitPacketHeader, VCT_SESSION_AdvancePhase, VCT_SESSION_HasNoOtherTalker, VCT_SESSION_CheckCommandAllowed, VCT_SESSION_FindPeer, VCT_SESSION_HandlePairedPacket, VCT_SESSION_HandleSharedPacket, VCT_SESSION_HandleUnknownProtocolPacket, VCT_SESSION_HandleAnnounce, VCT_POOL_InitFrames, VCT_POOL_Reset, VCT_POOL_AllocFrame, VCT_POOL_FreeFrame
+ * function: VCT_SESSION_CheckAnnounceTimeout, VCT_SESSION_HandlePacket, VCT_SESSION_AllocPeer, VCT_SESSION_SendCommand, VCT_SESSION_SendReply, VCT_SESSION_FillAnnounceFields, VCT_SESSION_BroadcastPacket, VCT_SESSION_BroadcastState, VCT_SESSION_InitPeer, VCT_SESSION_SendPacket, VCT_SESSION_GetEventCode, VCT_SESSION_InitPacketHeader, VCT_SESSION_AdvancePhase, VCT_SESSION_HasNoOtherTalker, VCT_SESSION_CheckCommandAllowed, VCT_SESSION_FindPeer, VCT_SESSION_HandlePairedPacket, VCT_SESSION_HandleSharedPacket, VCT_SESSION_HandleUnknownProtocolPacket, VCT_SESSION_HandleAnnounce
  * address:  0x021B23E0
  * region:   ov013
  * compiler: dsi/1.1p1
@@ -10,14 +10,21 @@
  * isa:      arm
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
+ * Cut from vct_audio.c, vct_session.c by tools/splitfile.py.
  *
  * symbols:
- *   gVctSession  0x021B60D8  data  ov013  a4
- *   gVctGroup  0x021B4BD0  data  ov013  a4
- *   gVctAnnounceTimeout  0x021B3C48  data  ov013  a4
- *   gVctPeerPool  0x021B4BE0  data  a4
+ *   gVctSession  0x021B60D8  data  ov013  a1
  *   OS_GetTick  0x020870D0  arm
+ *   VCT_SESSION_AllocPeer 0x021B24FC arm ov013
+ *   gVctPeerPool  0x021B4BE0  data  a4
+ *   VCT_SESSION_InitPacketHeader  0x021B2848  arm  ov013
+ *   VCT_SESSION_CheckCommandAllowed  0x021B29A4  arm  ov013
+ *   VCT_SESSION_HasNoOtherTalker  0x021B2958  arm  ov013
+ *   VCT_SESSION_SendCommand 0x021B2564 arm ov013
+ *   VCT_SESSION_SendReply 0x021B25B0 arm ov013
+ *   gVctGroup     0x021B4BD0  data  ov013  a4
+ *   VCT_SESSION_FindPeer  0x021B2A20  arm   ov013
+ *   gVctAnnounceTimeout  0x021B3C48  data  ov013  a4
  *   VCT_SESSION_BuildGroupCommand  0x021B2010  arm  ov013
  *   VCT_SESSION_BuildPeerReply  0x021B20D4  arm  ov013
  *   DWC_SendReliable  0x02176E90  arm  ov009
@@ -29,56 +36,74 @@
  *   gVctHostAllowTable 0x021B3B40 data ov013 a1
  *   gVctClientAllowTable 0x021B3B84 data ov013 a1
  *   VCT_SESSION_FreePeerRecord  0x021B1F54  arm  ov013
- *   gVoiceFramePool 0x021B4C24 data a4
- *   MIi_CpuClearFast 0x02082AC0 arm
- *   OS_DisableInterrupts 0x02087988 arm
- *   OS_RestoreInterrupts 0x0208799C arm
  */
 #include "vct_types.h"
 
 extern u64 OS_GetTick(void);
+
 extern int DWC_SendReliable(int peerId, VctPacket *packet, int length);
+
 extern void *MSL_C_LIB_MemsetPtr(void *, int, unsigned int);
-extern void MIi_CpuClearFast(int, void *, u32);
+
 extern int VCT_SESSION_FreePeerRecord(VctPeer *peer);
+
 extern int VCT_SESSION_BuildGroupCommand(void *a, unsigned int b, unsigned char *buf, unsigned int c);
+
 extern int VCT_SESSION_BuildPeerReply(VctPeer *peer, unsigned int command, unsigned char *buf, unsigned int length);
-typedef u32 OSIntrMode;
-extern OSIntrMode OS_DisableInterrupts(void);
-extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
+
 void VCT_SESSION_CheckAnnounceTimeout(void);
+
 int VCT_SESSION_HandlePacket(int senderId, VctPacket *packet, int length, VctEvent *event);
+
 VctPeer *VCT_SESSION_AllocPeer(unsigned int peerId);
+
 int VCT_SESSION_SendCommand(int peer, int command);
+
 int VCT_SESSION_SendReply(int peer, int command);
+
 void VCT_SESSION_FillAnnounceFields(VctPeer *peer, VctPacket *packet);
+
 int VCT_SESSION_BroadcastPacket(VctPeer *peer, VctPacket *packet);
+
 void VCT_SESSION_BroadcastState(int flag);
+
 void VCT_SESSION_InitPeer(VctPeer *peer, unsigned int peerId);
+
 int VCT_SESSION_SendPacket(VctPeer *peer, VctPacket *packet);
+
 int VCT_SESSION_GetEventCode(VctPacket *packet, VctPeer *peer);
+
 int VCT_SESSION_InitPacketHeader(VctPeer *peer, VctPacket *packet, int command);
+
 int VCT_SESSION_AdvancePhase(VctPeer *peer, VctPacket *packet);
+
 int VCT_SESSION_HasNoOtherTalker(VctPeer *peer);
+
 int VCT_SESSION_CheckCommandAllowed(VctPeer *peer, const VctPacket *packet);
+
 VctPeer *VCT_SESSION_FindPeer(int peerId);
+
 int VCT_SESSION_HandlePairedPacket(VctPacket *packet, VctEvent *event);
+
 int VCT_SESSION_HandleSharedPacket(VctPacket *packet, VctEvent *event);
+
 int VCT_SESSION_HandleUnknownProtocolPacket(VctPacket *packet, VctEvent *event);
+
 int VCT_SESSION_HandleAnnounce(VctPacket *packet, VctEvent *event);
-int VCT_POOL_InitFrames(VctRxPacket *buffer, u32 size);
-void VCT_POOL_Reset(void);
-VctRxPacket *VCT_POOL_AllocFrame(void);
-void VCT_POOL_FreeFrame(VctRxPacket *frame);
+
 extern VctGroup gVctGroup;
+
 extern u64 gVctAnnounceTimeout;
+
 extern u8 gVctGroupEventCodes[];
+
 extern u8 gVctPeerEventCodes[];
+
 extern s8 gVctHostPhaseTable[][11];
+
 extern s8 gVctClientPhaseTable[][11];
+
 extern s8 gVctHostAllowTable[], gVctClientAllowTable[];
-
-
 
 /* Client mode: if the host announced a session and stays silent past the timeout, close it and tell the game. */
 void VCT_SESSION_CheckAnnounceTimeout(void)
@@ -101,7 +126,6 @@ void VCT_SESSION_CheckAnnounceTimeout(void)
     gVctSession.eventCallback(gVctPeerPool.active.peerId, 9, &gVctPeerPool.active, gVctSession.callbackArg);
 }
 
-
 /* Entry point for a received control packet. Returns 1 when event is filled in. */
 int VCT_SESSION_HandlePacket(int senderId, VctPacket *packet, int length, VctEvent *event)
 {
@@ -115,7 +139,6 @@ int VCT_SESSION_HandlePacket(int senderId, VctPacket *packet, int length, VctEve
         return VCT_SESSION_HandlePairedPacket(packet, event);
     return VCT_SESSION_HandleSharedPacket(packet, event);
 }
-
 
 /* Take a peer record from the free list and put it on the active list. Fails for ids above 31 and the local id. */
 VctPeer *VCT_SESSION_AllocPeer(unsigned int peerId)
@@ -136,7 +159,6 @@ VctPeer *VCT_SESSION_AllocPeer(unsigned int peerId)
     return peer;
 }
 
-
 /* Build a command packet for a peer, send it, return -4 when the send fails. */
 int VCT_SESSION_SendCommand(int peer, int command)
 {
@@ -150,7 +172,6 @@ int VCT_SESSION_SendCommand(int peer, int command)
         return 0;
     return -4;
 }
-
 
 /* Same as above for a reply to a peer record. */
 int VCT_SESSION_SendReply(int peer, int command)
@@ -166,7 +187,6 @@ int VCT_SESSION_SendReply(int peer, int command)
     return -4;
 }
 
-
 /* An announcement (flag 1) carries the floor holder and the member mask. */
 void VCT_SESSION_FillAnnounceFields(VctPeer *peer, VctPacket *packet)
 {
@@ -175,7 +195,6 @@ void VCT_SESSION_FillAnnounceFields(VctPeer *peer, VctPacket *packet)
         packet->memberMask = gVctGroup.peerMask;
     }
 }
-
 
 /* Send the packet to every group member except the local one. Returns -4 when no send worked. */
 int VCT_SESSION_BroadcastPacket(VctPeer *peer, VctPacket *packet)
@@ -200,7 +219,6 @@ int VCT_SESSION_BroadcastPacket(VctPeer *peer, VctPacket *packet)
     return sent == 0 ? -4 : 0;
 }
 
-
 /* Broadcast the session state: flag 1 announces the session, 0 closes it. */
 void VCT_SESSION_BroadcastState(int flag)
 {
@@ -212,7 +230,6 @@ void VCT_SESSION_BroadcastState(int flag)
     VCT_SESSION_BroadcastPacket(&gVctPeerPool.active, (VctPacket *)buffer);
 }
 
-
 /* Clear a peer record and bind it to a peer id. */
 void VCT_SESSION_InitPeer(VctPeer *peer, unsigned int peerId)
 {
@@ -221,7 +238,6 @@ void VCT_SESSION_InitPeer(VctPeer *peer, unsigned int peerId)
     peer->phase = 0;
     peer->peerId = peerId;
 }
-
 
 /* Send a control packet: group packets with command 4 go to all members, others to the peer. Returns 1 on success. */
 int VCT_SESSION_SendPacket(VctPeer *peer, VctPacket *packet)
@@ -233,7 +249,6 @@ int VCT_SESSION_SendPacket(VctPeer *peer, VctPacket *packet)
     }
     return 1;
 }
-
 
 /* Map a received packet to the event code for the game and update the peer. */
 int VCT_SESSION_GetEventCode(VctPacket *packet, VctPeer *peer)
@@ -260,7 +275,6 @@ int VCT_SESSION_GetEventCode(VctPacket *packet, VctPeer *peer)
     return 12;
 }
 
-
 /*
  * lever: Returning zero keeps the clearing value in r0 and frees r2 for byte loads.
  */
@@ -276,7 +290,6 @@ int VCT_SESSION_InitPacketHeader(VctPeer *peer, VctPacket *packet, int command)
     packet->memberMask = 0;
     return 0;
 }
-
 
 /* Look up the next phase of the peer for this packet. -2 and -3 close the link and send a reply. */
 int VCT_SESSION_AdvancePhase(VctPeer *peer, VctPacket *packet)
@@ -313,7 +326,6 @@ int VCT_SESSION_AdvancePhase(VctPeer *peer, VctPacket *packet)
     }
 }
 
-
 /* Returns 1 when no other peer than the given one is in phase 2. */
 int VCT_SESSION_HasNoOtherTalker(VctPeer *peer)
 {
@@ -330,9 +342,7 @@ int VCT_SESSION_HasNoOtherTalker(VctPeer *peer)
     return 1;
 }
 
-
 static inline s8 lookup(u32 table, int row, u32 column) { return *(s8 *)(row * 11 + table + column); }
-
 
 /*
  * lever: Calling the indexed inline in each table-selection arm restores the MLA register and independent -1/-2 constants.
@@ -362,7 +372,6 @@ int VCT_SESSION_CheckCommandAllowed(VctPeer *peer, const VctPacket *packet)
     return 1;
 }
 
-
 /* Find the record of a peer in use. */
 VctPeer *VCT_SESSION_FindPeer(int peerId)
 {
@@ -381,7 +390,6 @@ VctPeer *VCT_SESSION_FindPeer(int peerId)
     }
     return 0;
 }
-
 
 /* Packet handler when each pair of peers has its own link (sharedSession 0). */
 int VCT_SESSION_HandlePairedPacket(VctPacket *packet, VctEvent *event)
@@ -428,7 +436,6 @@ int VCT_SESSION_HandlePairedPacket(VctPacket *packet, VctEvent *event)
     peer->phase = next;
     return event->code != 0;
 }
-
 
 /*
  * note: Audio session start/continue gate.
@@ -498,7 +505,6 @@ int VCT_SESSION_HandleSharedPacket(VctPacket *packet, VctEvent *event)
     return 1;
 }
 
-
 /* Packet with a protocol other than 0x10: drop the peer, answer with reply 2 and report event 2. */
 int VCT_SESSION_HandleUnknownProtocolPacket(VctPacket *packet, VctEvent *event)
 {
@@ -518,7 +524,6 @@ int VCT_SESSION_HandleUnknownProtocolPacket(VctPacket *packet, VctEvent *event)
     VCT_SESSION_SendReply((int)&gVctPeerPool.rejectPeer, 2);
     return 0;
 }
-
 
 /* Client mode: the host announces (flag 1) or closes (flag 0) the shared session. */
 int VCT_SESSION_HandleAnnounce(VctPacket *packet, VctEvent *event)
@@ -557,66 +562,4 @@ int VCT_SESSION_HandleAnnounce(VctPacket *packet, VctEvent *event)
         return 0;
     }
     return 1;
-}
-
-
-/*
- * lever: fill call takes data, p and b; r1/r2 stay live across the guards.
- */
-/* Set up the frame buffer pool over a 32 byte aligned area of 4 to 72 frames and chain the free list. */
-int VCT_POOL_InitFrames(VctRxPacket *buffer, u32 size)
-{
-    u32 i;
-    u32 count;
-    VctRxPacket *area;
-    count = size / 0x478;
-    area = buffer;
-    gVoiceFramePool.base = area;
-    if (count < 4 || count > 0x48) return 0;
-    if (area == 0) return 0;
-    if ((u32)area & 0x1f) {
-        gVoiceFramePool.base = 0;
-        return 0;
-    }
-    i = 0;
-    MIi_CpuClearFast(i, area, size);
-    for (i = 0; i < count - 1; i++)
-        gVoiceFramePool.base[i].freeLink = &gVoiceFramePool.base[i + 1];
-    (gVoiceFramePool.base + count)[-1].freeLink = 0;
-    gVoiceFramePool.freeHead = gVoiceFramePool.base;
-    return 1;
-}
-
-
-/* Forget the frame buffer area of the frame pool. */
-void VCT_POOL_Reset(void)
-{
-    gVoiceFramePool.freeHead = 0;
-    gVoiceFramePool.base = 0;
-}
-
-
-/* Take a frame buffer from the free list, or return 0 when the pool is empty. */
-VctRxPacket *VCT_POOL_AllocFrame(void)
-{
-    VctRxPacket *result=0;
-    int irq=OS_DisableInterrupts();
-    if(gVoiceFramePool.freeHead != 0) {
-        result=gVoiceFramePool.freeHead;
-        gVoiceFramePool.freeHead=gVoiceFramePool.freeHead->freeLink;
-    }
-    OS_RestoreInterrupts(irq);
-    return result;
-}
-
-
-/* Clear the list links of a frame buffer and put it back on the free list. */
-void VCT_POOL_FreeFrame(VctRxPacket *frame)
-{
-    int irq=OS_DisableInterrupts();
-    frame->freeLink=gVoiceFramePool.freeHead;
-    gVoiceFramePool.freeHead=frame;
-    frame->prev=0;
-    frame->next=0;
-    OS_RestoreInterrupts(irq);
 }

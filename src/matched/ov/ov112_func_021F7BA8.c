@@ -13,7 +13,7 @@
  *   MUSICAL_MCSS_SetElemScale 0x021F4EA4 thumb ov112
  *   VEC_Add 0x0207C9D0 arm
  *   STA_ACT_EFFECT_SetEmitterPos 0x021F9FD0 thumb ov132
- *   STA_ACTING_GetAnimHandle 0x021F9DC0 thumb ov132
+ *   STA_ACTING_GetEffectSystem 0x021F9DC0 thumb ov132
  *   STA_ACT_EFFECT_KillEffect 0x021F9FB4 thumb ov132
  *   STA_ACT_EFFECT_KillSystem 0x021F9F58 thumb ov132
  *   GFL_USE_StopSeSlot 0x020061F8 thumb
@@ -31,7 +31,7 @@ typedef unsigned int   u32;
 extern void MUSICAL_MCSS_SetElemScale(u32 unused, u32 p, u32 q);
 extern void VEC_Add(const Vec *,const Vec *,Vec *);
 extern void STA_ACT_EFFECT_SetEmitterPos(char *,int,int);
-extern void *STA_ACTING_GetAnimHandle(void *p);
+extern void *STA_ACTING_GetEffectSystem(void *p);
 extern void STA_ACT_EFFECT_KillEffect(char *,int);
 extern void STA_ACT_EFFECT_KillSystem(u8 *unused, u8 *p);
 extern void GFL_USE_StopSeSlot(int);
@@ -55,7 +55,7 @@ void STA_ACT_LIGHT_AnimB(u8 *p,u8 *q)
     STA_ACT_EFFECT_SetEmitterPos((char *)t->a,0,(int)&v);
     t->count++;
     if(t->count>=180) {
-        a=(int)STA_ACTING_GetAnimHandle((void *)(((struct Obj08028 *)p)->f4));
+        a=(int)STA_ACTING_GetEffectSystem((void *)(((struct Obj08028 *)p)->f4));
         STA_ACT_EFFECT_KillEffect((char *)t->a,0);
         STA_ACT_EFFECT_KillSystem((void *)a,(void *)t->a);
         ((struct Obj06409 *)q)->f104=0;

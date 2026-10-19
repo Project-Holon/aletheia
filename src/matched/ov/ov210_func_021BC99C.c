@@ -12,7 +12,7 @@
  * symbols:
  *   STRBUF_Delete  0x02045808  arm
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   GF_FONT_Delete  0x0201D83C  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  * Addresses are Black-image addresses.
@@ -31,7 +31,7 @@ struct U16Vec;
 struct WordSet;
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 
@@ -39,7 +39,7 @@ u32 ZKNSEARCH_MAIN_DeleteTextSystem(u8 *p)
 {
     STRBUF_Delete((struct U16Vec *)(((struct Obj00085 *)p)->f1D8));
     PRINTSYS_QUE_Delete((struct PrintSys *)(((struct Obj00085 *)p)->f1DC));
-    WORDSET_DeleteStrbufED04((struct WordSet *)(((struct Obj00085 *)p)->f1D4));
+    WORDSET_Delete((struct WordSet *)(((struct Obj00085 *)p)->f1D4));
     GF_FONT_Delete((void *)(((struct Obj00085 *)p)->f1CC));
     return MSGDATA_Delete((struct Rec *)(((struct Obj00085 *)p)->f1D0));
 }

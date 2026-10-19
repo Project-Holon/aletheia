@@ -40,7 +40,7 @@
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
- *   FILE_UTIL_Check136C  0x0202136C  thumb
+ *   FILE_UTIL_IsMailItem  0x0202136C  thumb
  *   MAIL_FindEmptySlot  0x02009020  thumb
  *   MAIL_Create  0x02008F08  thumb
  *   MAIL_SetSlot   0x0200903C  thumb
@@ -51,7 +51,7 @@
  *   func_02025C1C  0x02025C1C  thumb
  *   func_02025C30  0x02025C30  thumb
  *   func_02008574  0x02008574  thumb
- *   GAME_DATA_GetSaveBlock1F  0x02012F14  thumb
+ *   GAME_DATA_GetTradeHistory  0x02012F14  thumb
  *   TRADE_HISTORY_AddPartner   0x02009DE8  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_02009470  0x02009470  thumb
@@ -120,7 +120,7 @@ extern struct Sub02007AC8Entry *BOX_SAVEDATA_GetBoxPokemon(void **save, u32 box)
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
-extern u32 FILE_UTIL_Check136C(u16 v);
+extern u32 FILE_UTIL_IsMailItem(u16 v);
 extern int MAIL_FindEmptySlot(void *obj, int v);
 extern void *MAIL_Create(int a0);
 extern void MAIL_SetSlot(struct Sub02008F80Obj *arr, u32 unused, int i, const struct Sub02008F80Obj *src);
@@ -131,7 +131,7 @@ extern u8 func_02008564(const struct Sub0200852CObj *obj);
 extern u32 func_02025C1C(u32 a, u32 b, u32 c);
 extern u32 func_02025C30(u32 a, u32 b, u32 c);
 extern void func_02008574(struct Sub0200852CObj *obj, u8 a, u8 b);
-extern void *GAME_DATA_GetSaveBlock1F(void **h);
+extern void *GAME_DATA_GetTradeHistory(void **h);
 extern void TRADE_HISTORY_AddPartner(struct Sub02009D9CObj *obj, struct Sub0200852CObj *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern struct Sub02009470Obj *func_02009470(void *sys);
@@ -223,7 +223,7 @@ void POKETRADE_SAVE_ApplyTradeResult(char *p)
         Trade *t = T(p);
         if (t->box != BOX_SAVEDATA_GetUsableBoxCount(I(p, 0x828))) {
             mon = POKEPARTY_GetMember(t->party, 0);
-            if (FILE_UTIL_Check136C(POKE_TOOL_GetPartyValue(mon, 6, 0))) {
+            if (FILE_UTIL_IsMailItem(POKE_TOOL_GetPartyValue(mon, 6, 0))) {
                 void *o = MAIL_GetBox(I(p, 0x82C));
                 int idx = MAIL_FindEmptySlot(o, 0);
                 if (idx != -1) {
@@ -248,7 +248,7 @@ void POKETRADE_SAVE_ApplyTradeResult(char *p)
             func_02008574(I(p, 0x834), 0, 0);
     }
 
-    TRADE_HISTORY_AddPartner(GAME_DATA_GetSaveBlock1F(I(p, 0x82C)), I(p, 0x834));
+    TRADE_HISTORY_AddPartner(GAME_DATA_GetTradeHistory(I(p, 0x82C)), I(p, 0x834));
     obj = func_02009470(GAME_DATA_GetSaveControl(I(p, 0x82C)));
     list[0] = I(p, 0x830);
     list[1] = I(p, 0x834);
@@ -284,7 +284,7 @@ void POKETRADE_SAVE_ApplyTradeResult(char *p)
     }
     ZUKAN_SAVE_RegisterCaught(ZUKAN_SAVE_GetFromGameData(I(p, 0x82C)), mon);
     if (W(p, 0x118C) == 3)
-        TRADE_HISTORY_IncrementTradeCount(GAME_DATA_GetSaveBlock1F(I(p, 0x82C)));
+        TRADE_HISTORY_IncrementTradeCount(GAME_DATA_GetTradeHistory(I(p, 0x82C)));
     if (POKE_TOOL_GetPartyValue(mon, 5, 0) == 0x1EC && POKE_TOOL_GetPartyValue(mon, 0x6F, 0) == 1) {
         POKE_TOOL_ChangeForm(mon, 0);
         ZUKAN_SAVE_RegisterCaught(ZUKAN_SAVE_GetFromGameData(I(p, 0x82C)), mon);

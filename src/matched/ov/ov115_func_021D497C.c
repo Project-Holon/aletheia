@@ -12,7 +12,7 @@
  * callbacks: both zero-status arms use 42E0; mode2 and final else use 46CC;
  * missing profile uses 45D0, missing console uses 493C, mode1 uses 460C.
  * symbols:
- *   APP_ENV_InitParentalControl 0x0202EB44 thumb
+ *   APP_ENV_IsWirelessAvailable 0x0202EB44 thumb
  *   APP_ENV_IsEulaAgreed 0x0202EB4C thumb
  *   WIFILOGIN_MSG_CloseMessage 0x021D5D3C thumb ov115
  *   WIFILOGIN_MSG_PrintMessage 0x021D5ED8 thumb ov115
@@ -31,7 +31,7 @@
 #include "../include/Obj13850.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int APP_ENV_InitParentalControl(u8 *);
+extern int APP_ENV_IsWirelessAvailable(u8 *);
 struct DWCstAccUserData;
 extern u32 APP_ENV_IsEulaAgreed(void);
 extern void WIFILOGIN_MSG_CloseMessage(u8 *p);
@@ -48,7 +48,7 @@ extern void WIFILOGIN_DISP_StepCancelWait(u8 *),WIFILOGIN_DISP_StepConfirmConsol
 #define P(k) (*(u8 **)(p+(k)))
 void WIFILOGIN_DISP_StepCheckAccount(u8 *p)
 {
-    if(APP_ENV_InitParentalControl(p)==0) {
+    if(APP_ENV_IsWirelessAvailable(p)==0) {
         WIFILOGIN_MSG_CloseMessage(P(0x38));
         WIFILOGIN_MSG_PrintMessage(P(0x38),39);
         *(int *)(P(0x40)+0x1c)=1;

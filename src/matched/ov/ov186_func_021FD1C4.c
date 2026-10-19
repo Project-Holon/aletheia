@@ -162,7 +162,7 @@
  *   GDS_PROFILE_GetEggFlag 0x0200D6EC thumb
  *   GDS_PROFILE_GetSpecies 0x0200D6FC thumb
  *   GDS_PROFILE_GetFormSpecies 0x0200D70C thumb
- *   GDS_PROFILE_GetMonFlagBit7 0x0200D72C thumb
+ *   GDS_PROFILE_GetNicknameFlag 0x0200D72C thumb
  *   GDS_PROFILE_GetMonFlagBit0 0x0200D73C thumb
  *   GDS_PROFILE_GetRecordWord1C 0x0200D74C thumb
  *   GDS_PROFILE_GetRecordWord30 0x0200D760 thumb
@@ -177,7 +177,7 @@
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   WORDSET_SetSlotMonth 0x0201F230 thumb
  *   WORDSET_SetSlotFromMsgE7 0x0201F048 thumb
- *   WORDSET_DeleteMsgdataF094 0x0201F094 thumb
+ *   WORDSET_SetSlotFromKeyedMessage 0x0201F094 thumb
  *   func_020490F4 0x020490F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   POKE_TOOL_GetIconPaletteArcId 0x0201BC3C thumb
@@ -236,7 +236,7 @@ extern void *GDS_PROFILE_CreateNameStr(const void *,u32);
 extern u32 GDS_PROFILE_GetEggFlag(struct RecGet *p);
 extern u32 GDS_PROFILE_GetSpecies(struct RecGet *p);
 extern u32 GDS_PROFILE_GetFormSpecies(struct RecGet *p);
-extern u32 GDS_PROFILE_GetMonFlagBit7(struct RecGet *p);
+extern u32 GDS_PROFILE_GetNicknameFlag(struct RecGet *p);
 extern u32 GDS_PROFILE_GetMonFlagBit0(struct RecGet *p);
 struct GdsProfile;
 extern u32 GDS_PROFILE_GetRecordWord1C(struct GdsProfile *p);
@@ -252,7 +252,7 @@ extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n,
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void WORDSET_SetSlotMonth(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_SetSlotFromMsgE7(struct WordSet *p, u32 i, u32 n);
-extern void WORDSET_DeleteMsgdataF094(struct WordSet *p, u32 i, u32 a, u32 n);
+extern void WORDSET_SetSlotFromKeyedMessage(struct WordSet *p, u32 i, u32 a, u32 n);
 extern void *func_020490F4(u32,u16);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern int POKE_TOOL_GetIconPaletteArcId(void),POKE_TOOL_GetIconCellArcId(void),POKE_TOOL_GetIconCellEntryId(void);
@@ -337,7 +337,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
             w=GDS_PROFILE_GetRecordWord30(prof);
             text=STRBUF_Create(0x80,(u16)heap);
             msg=func_02045EC0(bank,d_02200B34[i].msg);
-            WORDSET_DeleteMsgdataF094(words,0,v,w);
+            WORDSET_SetSlotFromKeyedMessage(words,0,v,w);
             WORDSET_CopyTaggedText(words,text,msg);
             STRBUF_Delete(msg);
             BR_UTIL_SetTextLayout(*(void **)(p+i*4),8,1,0);
@@ -374,7 +374,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
     A=GDS_PROFILE_GetMonFlagBit0(prof);
     B=GDS_PROFILE_GetSpecies(prof);
     C=GDS_PROFILE_GetFormSpecies(prof);
-    D=GDS_PROFILE_GetMonFlagBit7(prof);
+    D=GDS_PROFILE_GetNicknameFlag(prof);
     if(B) {
         u32 hf;
         void *h;

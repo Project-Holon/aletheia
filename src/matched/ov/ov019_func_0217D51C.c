@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   UNION_ONESELF_CheckNetError  0x0217BB04  thumb  ov019
+ *   UNION_ONESELF_HandleNetError  0x0217BB04  thumb  ov019
  *   UNION_COMM_StartConnectSync  0x02172EDC  thumb  ov012
  *   UNION_COMM_IsResetting  0x02172D68  thumb  ov012
  *   GFL_NET_IsSessionNull  0x0203CDBC  arm
@@ -24,7 +24,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern int UNION_ONESELF_CheckNetError(char *p);
+extern int UNION_ONESELF_HandleNetError(char *p);
 extern void UNION_COMM_StartConnectSync(u8 *a);
 extern int UNION_COMM_IsResetting(u8 *a);
 extern int GFL_NET_IsSessionNull(void);
@@ -37,7 +37,7 @@ extern u32 KEY_GetTrg(void);
 int UNION_ONESELF_ConnectGroupMain(u8 *a, int *b, int c, u8 *d)
 {
     int r, t;
-    if (*d < 3 && UNION_ONESELF_CheckNetError((char *)a) == 1)
+    if (*d < 3 && UNION_ONESELF_HandleNetError((char *)a) == 1)
         return 1;
     switch (*d) {
     case 0:

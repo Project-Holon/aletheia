@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   GF_STANDARD_SetField00_F4E4   0x0203F4E4  arm
+ *   GF_STANDARD_GetCachedDate   0x0203F4E4  arm
  *   POKE_TOOL_SetBoxValue   0x02017E64  thumb
  *
  * Addresses are Black-image addresses.
@@ -23,14 +23,14 @@
 typedef unsigned int u32;
 
 struct RtcDate;
-extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *date);
+extern void GF_STANDARD_GetCachedDate(struct RtcDate *date);
 extern void POKE_TOOL_SetBoxValue(void *p, u32 id, u32 v);
 
 void SAVE_EVENT_StoreTodayDate(void *a0)
 {
     u32 buf[4];
 
-    GF_STANDARD_SetField00_F4E4((struct RtcDate *)buf);
+    GF_STANDARD_GetCachedDate((struct RtcDate *)buf);
 
     POKE_TOOL_SetBoxValue(a0, 0x92, buf[0]);
     POKE_TOOL_SetBoxValue(a0, 0x93, buf[1]);

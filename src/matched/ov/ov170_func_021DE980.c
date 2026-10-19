@@ -1,5 +1,5 @@
 /*
- * function: BOX2_MAIN_ClearFlagsScene
+ * function: BOX2_MAIN_StartHandMotionToBoxArrow
  * address:  0x021DE980
  * packet:   pkt_ov170_021DE980
  * region:   ov170
@@ -33,7 +33,7 @@ extern void BOX2_SEQ_GetActorSurfacePos(char *p, int i, short *a, short *b, unsi
 #define FLAGS(o) (*(unsigned *)((char *)(o) + 0x18))
 #define WORK(p) (*(char **)((p) + 0x2C))
 
-void BOX2_MAIN_ClearFlagsScene(unsigned char *p, int mode)
+void BOX2_MAIN_StartHandMotionToBoxArrow(unsigned char *p, int mode)
 {
     Mover *o = *(Mover **)(WORK(p) + 0x60);
     short pos[2];

@@ -1,5 +1,5 @@
 /*
- * function: GFL_NET_SYSTEM_CheckAutoFree
+ * function: GFL_NET_SYSTEM_FreeWorkIfAuto
  * address:  0x02037BA4
  * packet:   pkt_02037A6C
  * region:   arm9
@@ -22,8 +22,8 @@
  * copies in the original, which is what the two arms give.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GFL_NET_SYSTEM_CheckAutoFree.c \
- *       --func GFL_NET_SYSTEM_CheckAutoFree --addr 0x02037BA4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_SYSTEM_FreeWorkIfAuto.c \
+ *       --func GFL_NET_SYSTEM_FreeWorkIfAuto --addr 0x02037BA4 --cc 1.1p1 --arm
  */
 
 #include "../include/G_LinkState.h"
@@ -36,7 +36,7 @@ extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern int   GFL_NET_SYSTEM_GetChildBitmap(void);
 extern void  GFL_NET_SYSTEM_FreeWork(void);
 
-void GFL_NET_SYSTEM_CheckAutoFree(void)
+void GFL_NET_SYSTEM_FreeWorkIfAuto(void)
 {
     if (*(u8 *)(((char *)_pNetSys) + 0x1EC) == 0)
         return;

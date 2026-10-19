@@ -1,5 +1,5 @@
 /*
- * function: P_STATUS_SetFastMode
+ * function: P_STATUS_SetParamDecoded
  * address: 0x021D60D4
  * packet: pkt_ov131_021D60D4
  * region: ov131
@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   P_STATUS_GetPokePara 0x021D6064 thumb ov131
- *   P_STATUS_SetFastMode 0x021D60D4 thumb ov131
+ *   P_STATUS_SetParamDecoded 0x021D60D4 thumb ov131
  *   POKE_TOOL_DecodePartyParam  0x02017D30  thumb  arm9
  *   POKE_TOOL_EncodePartyParam  0x02017D70  thumb  arm9
  *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb  arm9
@@ -25,7 +25,7 @@ extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
 extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
-void P_STATUS_SetFastMode(unsigned char *p,int a) {
+void P_STATUS_SetParamDecoded(unsigned char *p,int a) {
  void *m;
  switch((*(unsigned char **)(p+8))[12]) {
  case 0:

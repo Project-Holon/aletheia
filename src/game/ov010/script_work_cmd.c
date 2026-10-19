@@ -21,7 +21,6 @@
  *   VM_GetU16   0x02011330  thumb
  *   VM_PushStack  0x0201137C  thumb
  *   VM_PopStack  0x02011398  thumb
- *   _u32_div_f  0x0209C2B0  arm
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   SCRIPT_SYS_AddScript  0x021589A0  thumb  ov010
@@ -41,7 +40,6 @@
  *   FIELD_STATUS_GetContinueFlag  0x02014460  thumb
  *   ZONEDATA_SetEventFlag  0x02014314  thumb
  *   ZONEDATA_ResetEventFlag  0x0201433C  thumb
- *   _u32_div_f 0x0209C2B0 arm
  *   SCRCMD_FLDMMDL_PauseMmdls  0x021B1BB8  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   SCRCMD_FLDMMDL_UnpauseAllMmdls  0x021B1BE8  thumb
@@ -114,7 +112,6 @@ extern void VM_End(ScriptVm *vm);
 extern void VM_Jump(ScriptVm *vm, u32 target);
 extern void VM_Call(ScriptVm *vm, u32 target);
 extern void VM_SetWait(ScriptVm *vm, int (*waitFn)(ScriptVm *, ScrcmdWork *));
-extern u64 _u32_div_f(u32 dividend, u32 divisor);
 
 /* Game data and system accessors. */
 extern struct EventWork *GAME_DATA_GetEventWork(const struct GameData *gameData);
@@ -312,7 +309,7 @@ int SCRIPT_WORK_CmdDiv(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     u32 divisor = VM_PopStack(vm);
     u32 dividend = VM_PopStack(vm);
-    VM_PushStack(vm, (u32)_u32_div_f(dividend, divisor));
+    VM_PushStack(vm, dividend / divisor);
     return 0;
 }
 
@@ -512,7 +509,7 @@ int SCRIPT_WORK_CmdDivWork(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     u16 *workPtr = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     u32 divisor = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    *workPtr = (u32)_u32_div_f(*workPtr, divisor);
+    *workPtr = *workPtr / divisor;
     return 0;
 }
 
@@ -530,7 +527,7 @@ int SCRIPT_WORK_CmdModWork(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     u16 *workPtr = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     u32 divisor = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    *workPtr = (u32)(_u32_div_f(*workPtr, divisor) >> 32);
+    *workPtr = *workPtr % divisor;
     return 0;
 }
 

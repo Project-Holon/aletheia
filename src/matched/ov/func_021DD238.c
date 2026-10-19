@@ -1,5 +1,5 @@
 /*
- * function: BOX2_MAIN_PlayCursorSound
+ * function: BOX2_MAIN_ActivateKeyCursor
  * address:  0x021DD238
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -28,7 +28,7 @@ extern void UI_SetInputMode(u8 v);
 extern u32 CURSOR_MOVE_GetState(struct Sound *obj);
 extern void CURSOR_MOVE_SetState(struct Struct_02025CD0 *obj, u32 state);
 
-void BOX2_MAIN_PlayCursorSound(char *p)
+void BOX2_MAIN_ActivateKeyCursor(char *p)
 {
     UI_SetInputMode(0);
     if (CURSOR_MOVE_GetState(((struct Obj18441 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f70) == 0)

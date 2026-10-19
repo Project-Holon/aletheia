@@ -13,6 +13,8 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  * Cleanup (lane WXT): the unplaced spawner 021EF634 is merged in. One file for the four kinds snow (weather id 1), blizzard (4), downpour (5) and diamond dust (8): the const tables of all four sit in one run sorted by size (blizzard 9, 11, 16, 16 bytes, then the 337 byte snow wobble table), which one object file gives and four do not.
  *
+ * Boundary audit (wave 16): kept as one file. The const tables of the four kinds form one run sorted by size (blizzard 9, 11, 16 and 16 bytes at 0x021EF75C.., then the 337 byte snow table gSnowWobbleOffsetX 0x021EF790), which one object file gives and four do not; the blizzard tables precede the snow table although the snow code comes first.
+ *
  * symbols:
  *   WEATHER_TASK_GetWorkBuffer  0x021A21B8  thumb  ov021
  *   WEATHER_TASK_SetupSpawner  0x021A21F8  thumb  ov021

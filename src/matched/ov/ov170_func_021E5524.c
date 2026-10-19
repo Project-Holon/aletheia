@@ -15,7 +15,7 @@
  *   BOX2_UI_DeleteSlotObjects 0x021EE038 thumb ov170
  *   BOX2_SEQ_PrintPrompt 0x021EBC58 thumb ov170
  *   BOX2_UI_ToggleSlotPair 0x021ED888 thumb ov170
- *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb ov170
+ *   BOX2_MAIN_RefreshCurrentBoxMonInfo 0x021DEFEC thumb ov170
  *   CURSOR_MOVE_SetCurrent  0x020260E4  thumb  arm9
  */
 extern void BOX2_MAIN_UpdateBoxSlots(unsigned char *);
@@ -28,7 +28,7 @@ extern void BOX2_SEQ_SetCursorDraw(char **, int);
 extern void BOX2_UI_DeleteSlotObjects(char *, int, int, int);
 extern void BOX2_SEQ_PrintPrompt(unsigned char *, int, int, int);
 extern void BOX2_UI_ToggleSlotPair(char *, int);
-extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
+extern void BOX2_MAIN_RefreshCurrentBoxMonInfo(char *p, int b);
 #define WORK(p) (*(char **)((p) + 0x2c))
 #define OBJ(p) (*(void **)(WORK(p) + 0x70))
 int BOX2_SEQ_DeleteBox2UiB(unsigned char *p)

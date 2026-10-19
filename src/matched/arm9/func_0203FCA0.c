@@ -13,9 +13,9 @@
  *   g_02146A44    0x02146A44  data
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   MIi_CpuClear16  0x02082A48  arm
- *   BG_SYS_ResolveScroll  0x02042218  arm
- *   BG_SYS_RotScale  0x020423D4  arm
- *   BG_SYS_FillScrollArea  0x02040618  arm
+ *   BG_SYS_ToHwScreenSize  0x02042218  arm
+ *   BG_SYS_ResetAffineMatrix  0x020423D4  arm
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm
  *   BG_SYS_SetupLayer  0x02042FF8  arm
  *
  * bg_sys.c: initialise one BG layer from its template.  Program BGxCNT of
@@ -98,9 +98,9 @@ extern struct BgSys *g_02146A44;
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
-extern void BG_SYS_FillScrollArea(u32 bgId, u32 which, u32 value);
-extern int BG_SYS_ResolveScroll(int a0, int a1);
-extern void BG_SYS_RotScale(u32 bgId);
+extern void BG_SYS_ChangeScrollImmediate(u32 bgId, u32 which, u32 value);
+extern int BG_SYS_ToHwScreenSize(int a0, int a1);
+extern void BG_SYS_ResetAffineMatrix(u32 bgId);
 extern void BG_SYS_SetupLayer(u32 bgId, u32 offset, u32 size);
 extern void MIi_CpuClear16(u32 value, void *dest, u32 size);
 
@@ -276,7 +276,7 @@ static inline void G2S_BG3Mosaic(BOOL enable)
 }
 void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type)
 {
-    u32 ss = BG_SYS_ResolveScroll(tmpl->unk_10, type);
+    u32 ss = BG_SYS_ToHwScreenSize(tmpl->unk_10, type);
 
     switch (bgId) {
     case 0:
@@ -394,9 +394,9 @@ void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type)
         g_02146A44->bgs[bgId].unk_17 = 0x40;
     }
 
-    BG_SYS_FillScrollArea(bgId, 0, tmpl->unk_00);
-    BG_SYS_FillScrollArea(bgId, 3, tmpl->unk_04);
-    BG_SYS_RotScale(bgId);
+    BG_SYS_ChangeScrollImmediate(bgId, 0, tmpl->unk_00);
+    BG_SYS_ChangeScrollImmediate(bgId, 3, tmpl->unk_04);
+    BG_SYS_ResetAffineMatrix(bgId);
 
     g_02146A44->unk_170[bgId] = tmpl->unk_13 << 14;
     g_02146A44->unk_190[bgId] = tmpl->unk_12 << 11;

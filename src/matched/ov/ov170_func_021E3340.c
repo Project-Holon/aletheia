@@ -18,7 +18,7 @@
  *   BOX2_SEQ_Delete 0x021EA1E8 thumb
  *   BOX2_UI_IsInfoBarOpen 0x021EF770 thumb
  *   BOX2_UI_MoveCursor 0x021EE364 thumb
- *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb
+ *   BOX2_MAIN_RefreshCurrentBoxMonInfo 0x021DEFEC thumb
  *   BOX2_MAIN_GetPartyValueAt 0x021DD25C thumb
  *   BOX2_UI_IsTopBarOpen 0x021EF45C thumb
  *   BOX2_MAIN_ResetBoxView 0x021DF040 thumb
@@ -46,7 +46,7 @@ extern void BOX2_SEQ_SetCursorDraw(char **p, int flag);
 extern void BOX2_SEQ_Delete(char *p);
 extern int BOX2_UI_IsInfoBarOpen(struct WinMgr *mgr);
 extern void BOX2_UI_MoveCursor(char **p, int idx, int v);
-extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
+extern void BOX2_MAIN_RefreshCurrentBoxMonInfo(char *p, int b);
 extern unsigned BOX2_MAIN_GetPartyValueAt(void ***p, unsigned short a, int box, unsigned id, unsigned v);
 extern int BOX2_UI_IsTopBarOpen(struct WinMgr *mgr);
 extern void BOX2_MAIN_ResetBoxView(char *p);
@@ -88,14 +88,14 @@ int BOX2_SEQ_StateSwapMenu(unsigned char *p)
     if (BOX2_UI_IsInfoBarOpen(MGR(p)) == 1) {
         if (STATE(p) == 0x20) {
             BOX2_UI_MoveCursor((char **)p, 4, sel);
-            BOX2_MAIN_ChangeBoxFormPreserve((char *)p, sel);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p, sel);
             STATE(p) = 0x15;
             if (BOX2_MAIN_GetPartyValueAt((void ***)p, sel, p[0x14], 0xA9, 0))
                 arg = 0;
             else
                 arg = 2;
         } else if (sel < 0x1E && BOX2_MAIN_GetPartyValueAt((void ***)p, sel, p[0x14], 0xA9, 0)) {
-            BOX2_MAIN_ChangeBoxFormPreserve((char *)p, sel);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p, sel);
             arg = 0;
         } else {
             BOX2_MAIN_ResetBoxView((char *)p);
@@ -107,21 +107,21 @@ int BOX2_SEQ_StateSwapMenu(unsigned char *p)
             if (sel > 0x20)
                 sel = p[0x16];
             BOX2_UI_MoveCursor((char **)p, 6, sel);
-            BOX2_MAIN_ChangeBoxFormPreserve((char *)p, sel);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p, sel);
             STATE(p) = 0x20;
             if (BOX2_MAIN_GetPartyValueAt((void ***)p, sel, p[0x14], 0xA9, 0))
                 arg = 0;
             else
                 arg = 2;
         } else if (sel < 0x24 && BOX2_MAIN_GetPartyValueAt((void ***)p, sel, p[0x14], 0xA9, 0)) {
-            BOX2_MAIN_ChangeBoxFormPreserve((char *)p, sel);
+            BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p, sel);
             arg = 0;
         } else {
             BOX2_MAIN_ResetBoxView((char *)p);
             arg = 2;
         }
     } else if (sel < 0x24 && BOX2_MAIN_GetPartyValueAt((void ***)p, sel, p[0x14], 0xA9, 0)) {
-        BOX2_MAIN_ChangeBoxFormPreserve((char *)p, sel);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p, sel);
         arg = 0;
     } else {
         BOX2_MAIN_ResetBoxView((char *)p);

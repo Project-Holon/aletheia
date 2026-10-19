@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PROC_FLD_PollFieldRegionStart
+ * function: SCRCMD_PROC_FLD_PollCameraSaveReady
  * address:  0x021B55C8
  * packet:   pkt_ov021_021B55C8
  * region:   ov021
@@ -29,7 +29,7 @@ extern void *FIELDMAP_GetCamera(void *o);
 extern u32 FIELD_CAMERA_IsDelayEnabled(u8 *a);
 extern void FIELD_CAMERA_PushState(u8 *a);
 
-int SCRCMD_PROC_FLD_PollFieldRegionStart(void *a)
+int SCRCMD_PROC_FLD_PollCameraSaveReady(void *a)
 {
     u8 *x = FIELDMAP_GetCamera(GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(a)));
 

@@ -1,5 +1,5 @@
 /*
- * function: BOX2_MAIN_Check0E50
+ * function: BOX2_MAIN_StateMachineHideHandScroll
  * address: 0x021E0E50
  * packet: pkt_ov170_021E0E50
  * region: ov170
@@ -24,7 +24,7 @@ extern void BOX2_SEQ_SetActorDrawEnable(char *w, int i, int v);
 extern int BOX2_MAIN_SceneApplyScroll(char *p);
 extern int BOX2_MAIN_IsWindowMoving(char *p);
 #define WORK(p) (*(char **)((p) + 0x2C))
-int BOX2_MAIN_Check0E50(char *p)
+int BOX2_MAIN_StateMachineHideHandScroll(char *p)
 {
     char *s;
     int a;

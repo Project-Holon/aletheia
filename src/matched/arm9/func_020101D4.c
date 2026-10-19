@@ -27,7 +27,7 @@
  *   STRBUF_Delete     0x02045808  arm
  *   MSGDATA_Delete     0x02045C04  arm
  *   GF_FONT_Delete     0x0201D83C  thumb
- *   WORDSET_DeleteStrbufED04     0x0201ED04  thumb
+ *   WORDSET_Delete     0x0201ED04  thumb
  *   BMP_Delete     0x020437AC  arm
  *
  * Draws net_err.c's error window: tiles BG1's screen with a running
@@ -75,7 +75,7 @@ extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void BMP_Delete(struct Obj020437AC *p);
 extern u32 GFL_NET_ERR_GetMessageId(u8 *obj, u32 a);
 
@@ -142,6 +142,6 @@ void GFL_NET_ERR_DrawWindow(u32 a0, u32 a1)
     STRBUF_Delete(k);
     MSGDATA_Delete(arc);
     GF_FONT_Delete(pal);
-    WORDSET_DeleteStrbufED04(obj);
+    WORDSET_Delete(obj);
     BMP_Delete(surf);
 }

@@ -27,7 +27,7 @@
  *   INTRUDE_COMM_HasResult  0x02175DA8  thumb  ov011
  *   INTRUDE_COMM_PickEntryForKind  0x021763D8  thumb  ov011
  *   INTRUDE_COMM_RecordResultOutcome  0x02175E30  thumb  ov011
- *   INTRUDE_COMM_CountOutcomes  0x02176424  thumb  ov011
+ *   INTRUDE_COMM_TallyOutcomesAndResetIfComplete  0x02176424  thumb  ov011
  *   INTRUDE_COMM_SetResultRecord  0x02175D7C  thumb  ov011
  *
  * Addresses are Black-image addresses.
@@ -50,7 +50,7 @@ extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 extern int INTRUDE_COMM_HasResult(u8 *);
 extern void INTRUDE_COMM_PickEntryForKind(u8 *, u32);
 extern void INTRUDE_COMM_RecordResultOutcome(void *, u8 *, struct Rec *);
-extern int INTRUDE_COMM_CountOutcomes(u8 *, u8 *, u8 *);
+extern int INTRUDE_COMM_TallyOutcomesAndResetIfComplete(u8 *, u8 *, u8 *);
 extern void INTRUDE_COMM_SetResultRecord(void *, u8 *, void *);
 
 void INTRUDE_CMD_RecvResultRecord(int a0, int a1, u8 *b, u8 *s)
@@ -83,7 +83,7 @@ void INTRUDE_CMD_RecvResultRecord(int a0, int a1, u8 *b, u8 *s)
             INTRUDE_COMM_RecordResultOutcome(x, s, (struct Rec *)b);
             s[0x907] = 1;
         }
-        if (INTRUDE_COMM_CountOutcomes(y, &buf[1], &buf[0]) == 1) {
+        if (INTRUDE_COMM_TallyOutcomesAndResetIfComplete(y, &buf[1], &buf[0]) == 1) {
             flag = 1;
             s[0x907] = 1;
         }

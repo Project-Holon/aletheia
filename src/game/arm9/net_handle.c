@@ -1,7 +1,7 @@
 /*
  * file:     net_handle.c
  * unit:     yes
- * function: GFL_NET_HANDLE_GetNetHandleID, GFL_NET_HANDLE_ResetHandle, GFL_NET_HANDLE_ClearTimingMask, GFL_NET_HANDLE_CreateHandle, GFL_NET_HANDLE_InitWork, GFL_NET_HANDLE_ExitWork, GFL_NET_HANDLE_GetNetHandle, GFL_NET_HANDLE_GetCurrentHandle, GFL_NET_HANDLE_IsNegotiationDone, GFL_NET_HANDLE_GetNegotiationState, GFL_NET_HANDLE_GetNegotiationNum, GFL_NET_HANDLE_RequestNegotiation, GFL_NET_HANDLE_SendNegotiation, GFL_NET_HANDLE_CheckNegotiation, GFL_NET_HANDLE_RecvTimingSync, GFL_NET_HANDLE_RecvTimingTag, GFL_NET_HANDLE_StartTimingSync, GFL_NET_HANDLE_SetTimingSyncRange, GFL_NET_HANDLE_IsTimingSync, GFL_NET_HANDLE_IsTimingSyncRange, GFL_NET_HANDLE_CheckTimingSyncAll, GFL_NET_HANDLE_Main, GFL_NET_HANDLE_RecvNegotiation, GFL_NET_HANDLE_SetNegotiationEnd, GFL_NET_HANDLE_RecvNegotiationReturn, GFL_NET_HANDLE_RecvRemoveHandle, GFL_NET_HANDLE_SetBitMask, GFL_NET_HANDLE_IsBitSet, GFL_NET_HANDLE_RemoveHandle, GFL_NET_HANDLE_RecvInfoData, GFL_NET_HANDLE_SetUserInfo, GFL_NET_HANDLE_SetAllTimingValue
+ * function: GFL_NET_HANDLE_GetNetHandleID, GFL_NET_HANDLE_ResetHandle, GFL_NET_HANDLE_ClearTimingMask, GFL_NET_HANDLE_CreateHandle, GFL_NET_HANDLE_InitWork, GFL_NET_HANDLE_ExitWork, GFL_NET_HANDLE_GetNetHandle, GFL_NET_HANDLE_GetCurrentHandle, GFL_NET_HANDLE_IsNegotiationDone, GFL_NET_HANDLE_GetNegotiationState, GFL_NET_HANDLE_GetNegotiationNum, GFL_NET_HANDLE_RequestNegotiation, GFL_NET_HANDLE_SendNegotiation, GFL_NET_HANDLE_CheckNegotiation, GFL_NET_HANDLE_RecvTimingSync, GFL_NET_HANDLE_RecvTimingTag, GFL_NET_HANDLE_StartTimingSync, GFL_NET_HANDLE_SetTimingSyncRange, GFL_NET_HANDLE_IsTimingSync, GFL_NET_HANDLE_IsTimingSyncRange, GFL_NET_HANDLE_SendTimingSyncAll, GFL_NET_HANDLE_Main, GFL_NET_HANDLE_RecvNegotiation, GFL_NET_HANDLE_SetNegotiationEnd, GFL_NET_HANDLE_RecvNegotiationReturn, GFL_NET_HANDLE_RecvRemoveHandle, GFL_NET_HANDLE_SetBitMask, GFL_NET_HANDLE_IsBitSet, GFL_NET_HANDLE_RemoveHandle, GFL_NET_HANDLE_RecvInfoData, GFL_NET_HANDLE_SetUserInfo, GFL_NET_HANDLE_SetAllTimingValue
  * address:  0x020395EC
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -182,7 +182,7 @@ u32 GFL_NET_HANDLE_IsTimingSync(GFLNetHandle *p, u32 key);
 
 u32 GFL_NET_HANDLE_IsTimingSyncRange(GFLNetHandle *p, u32 lo, u32 hi);
 
-int GFL_NET_HANDLE_CheckTimingSyncAll(GFLNetHandle *p);
+int GFL_NET_HANDLE_SendTimingSyncAll(GFLNetHandle *p);
 
 void GFL_NET_HANDLE_Main(void);
 
@@ -1447,10 +1447,10 @@ u32 GFL_NET_HANDLE_IsTimingSyncRange(GFLNetHandle *handle, u32 timingLow, u32 ti
  * 0x10 are the register arguments).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_CheckTimingSyncAll.c \
- *       --func GFL_NET_HANDLE_CheckTimingSyncAll --addr 0x02039CD8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_SendTimingSyncAll.c \
+ *       --func GFL_NET_HANDLE_SendTimingSyncAll --addr 0x02039CD8 --cc 1.1p1 --arm
  */
-int GFL_NET_HANDLE_CheckTimingSyncAll(GFLNetHandle *handle)
+int GFL_NET_HANDLE_SendTimingSyncAll(GFLNetHandle *handle)
 {
     int i;
     for (i = 0; i < 8; i++) {
@@ -1555,7 +1555,7 @@ void GFL_NET_HANDLE_Main(void)
                     continue;
                 if (GFL_NET_HANDLE_IsBitSet(ownHandle->memberMask, i) != 0)
                     continue;
-                if (GFL_NET_HANDLE_CheckTimingSyncAll(ownHandle) != 0)
+                if (GFL_NET_HANDLE_SendTimingSyncAll(ownHandle) != 0)
                     ownHandle->memberMask =
                         GFL_NET_HANDLE_SetBitMask(ownHandle->memberMask, i, 1);
             }

@@ -1,5 +1,5 @@
 /*
- * function: POKE_TOOL_FindBoxMoveSlot
+ * function: POKE_TOOL_AddBoxMoveAlt
  * address:  0x02018240
  * packet:   pkt_02018240
  * region:   arm9
@@ -33,8 +33,8 @@
  * the otherwise identical loop in POKE_TOOL_RecoverBoxAllPP, which is `blo`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/POKE_TOOL_FindBoxMoveSlot.c \
- *       --func POKE_TOOL_FindBoxMoveSlot --addr 0x02018240 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/POKE_TOOL_AddBoxMoveAlt.c \
+ *       --func POKE_TOOL_AddBoxMoveAlt --addr 0x02018240 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -47,7 +47,7 @@ extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern u32  POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern void POKE_TOOL_ReplaceBoxMoveSlot(void *p, u16 move, u8 slot);
 
-u32 POKE_TOOL_FindBoxMoveSlot(void *p, u16 move)
+u32 POKE_TOOL_AddBoxMoveAlt(void *p, u16 move)
 {
     u32 r = 0xFFFF;
     u32 t = POKE_TOOL_DecodeBoxParam(p);

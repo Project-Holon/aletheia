@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   TCBL_GetTaskUserData  0x02030EE8  arm
+ *   TCBL_IsDeletePending  0x02030EE8  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02030EAC  0x02030EAC  arm
  *   BTLV_INPUT_FindTask  0x02206864  thumb  ov094
@@ -19,7 +19,7 @@
 typedef unsigned int   u32;
 struct S02030EE8;
 extern int BTLV_INPUT_FindTask(char *p, int v);
-extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
+extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
 extern u32 func_020307B0(void *p);
 struct Node;
 extern void func_02030EAC(struct Node *n);
@@ -30,7 +30,7 @@ void BTLV_INPUT_DeleteTask(char *p, void *q)
     int off;
 
     if (q != 0) {
-        void *r = (void *)TCBL_GetTaskUserData(q);
+        void *r = (void *)TCBL_IsDeletePending(q);
         char *t = p + 0x28;
         void (*cb)(void *);
 

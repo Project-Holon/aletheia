@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: GF_STANDARD_SetField00_F4E4
+ * function: GF_STANDARD_GetCachedDate
  * address:  0x0203F4E4
  * packet:   pkt_0203EF5C
  * region:   arm9
@@ -17,8 +17,8 @@
  * pair, no frame.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GF_STANDARD_SetField00_F4E4.c \
- *       --func GF_STANDARD_SetField00_F4E4 --addr 0x0203F4E4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_STANDARD_GetCachedDate.c \
+ *       --func GF_STANDARD_GetCachedDate --addr 0x0203F4E4 --cc 1.1p1 --arm
  */
 
 #include "../include/G_RtcDate.h"
@@ -27,7 +27,7 @@ typedef unsigned int u32;
 
 extern struct RtcDate g_02146A0C;
 
-void GF_STANDARD_SetField00_F4E4(struct RtcDate *date)
+void GF_STANDARD_GetCachedDate(struct RtcDate *date)
 {
     *date = g_02146A0C;
 }

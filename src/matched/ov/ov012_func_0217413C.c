@@ -1,5 +1,5 @@
 /*
- * function: UNION_MAIN_CreateSubEvent
+ * function: UNION_SCENE_CreateSubEvent
  * address: 0x0217413C
  * packet: pkt_ov012_0217413C
  * region: ov012
@@ -11,7 +11,7 @@
  * symbols:
  *   func_020122C0 0x020122C0 thumb
  *   func_020124E8 0x020124E8 thumb
- *   UNION_MAIN_SubEventMain 0x0217416C thumb ov012
+ *   UNION_SCENE_SubEventMain 0x0217416C thumb ov012
  */
 #include "../include/Obj19269.h"
 typedef unsigned char u8;
@@ -21,12 +21,12 @@ struct Desc;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 struct Obj;
 extern void *func_020124E8(struct Obj *p);
-extern int UNION_MAIN_SubEventMain(int, int *, int *);
-int UNION_MAIN_CreateSubEvent(int a, int b, u8 *p)
+extern int UNION_SCENE_SubEventMain(int, int *, int *);
+int UNION_SCENE_CreateSubEvent(int a, int b, u8 *p)
 {
     int task;
     Work *w;
-    task = (int)func_020122C0((void *)a, 0, (void *)((int)UNION_MAIN_SubEventMain), 12);
+    task = (int)func_020122C0((void *)a, 0, (void *)((int)UNION_SCENE_SubEventMain), 12);
     w = func_020124E8((struct Obj *)task);
     w->f0 = a;
     w->f4 = b;

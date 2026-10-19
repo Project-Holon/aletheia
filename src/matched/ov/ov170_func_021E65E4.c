@@ -14,11 +14,11 @@
  * symbols:
  *   BOX2_SEQ_ReturnAfterClear 0x021E8F50 thumb
  *   KEY_GetTrg 0x020362DC arm
- *   BOX2_MAIN_PlayCursorSound 0x021DD238 thumb
+ *   BOX2_MAIN_ActivateKeyCursor 0x021DD238 thumb
  *   BOX2_UI_GetBodySlotHit 0x021EF1A4 thumb
  *   CURSOR_MOVE_SetState 0x020260F4 thumb
  *   BOX2_MAIN_GetPartyValueAt 0x021DD25C thumb
- *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb
+ *   BOX2_MAIN_RefreshCurrentBoxMonInfo 0x021DEFEC thumb
  *   BOX2_SEQ_SetActorDrawEnable 0x021EC000 thumb
  *   BOX2_SEQ_SelectGridSlot 0x021EA39C thumb
  *   BOX2_MAIN_ResetBoxView 0x021DF040 thumb
@@ -63,14 +63,14 @@ typedef struct {
 
 extern int BOX2_SEQ_ReturnAfterClear(char *p, int v);
 extern u32 KEY_GetTrg(void);
-extern void BOX2_MAIN_PlayCursorSound(char *p);
+extern void BOX2_MAIN_ActivateKeyCursor(char *p);
 extern unsigned BOX2_UI_GetBodySlotHit(void);
 typedef unsigned char  u8;
 struct Sound;
 struct Struct_02025CD0;
 extern void CURSOR_MOVE_SetState(struct Struct_02025CD0 *obj, u32 state);
 extern unsigned BOX2_MAIN_GetPartyValueAt(void ***p, unsigned short a, int box, unsigned id, unsigned v);
-extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
+extern void BOX2_MAIN_RefreshCurrentBoxMonInfo(char *p, int b);
 extern void BOX2_SEQ_SetActorDrawEnable(char *p, int i, int v);
 extern int BOX2_SEQ_SelectGridSlot(Obj *p, unsigned i);
 extern void BOX2_MAIN_ResetBoxView(char *p);
@@ -101,7 +101,7 @@ int BOX2_SEQ_StateItemMenuF(Obj *p)
         return BOX2_SEQ_ReturnAfterClear((char *)p, 0x41);
     }
     if ((KEY_GetTrg() & 4) && p->lo != 0 && p->b18 == 0) {
-        BOX2_MAIN_PlayCursorSound((char *)p);
+        BOX2_MAIN_ActivateKeyCursor((char *)p);
         p->lo = 0;
         return BOX2_SEQ_ReturnAfterClear((char *)p, 0x41);
     }
@@ -110,7 +110,7 @@ int BOX2_SEQ_StateItemMenuF(Obj *p)
         if (r != -1) {
             CURSOR_MOVE_SetState(OBJ(p), 0);
             if (BOX2_MAIN_GetPartyValueAt((void ***)p, r + 0x1E, p->b14, 0xA9, 0)) {
-                BOX2_MAIN_ChangeBoxFormPreserve((char *)p, (int)r + 0x1E);
+                BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p, (int)r + 0x1E);
                 BOX2_SEQ_SetActorDrawEnable(p->work, 4, 0);
                 return BOX2_SEQ_SelectGridSlot(p, r + 0x1E);
             }
@@ -122,7 +122,7 @@ int BOX2_SEQ_StateItemMenuF(Obj *p)
         if (r != -1) {
             CURSOR_MOVE_SetState(OBJ(p), 0);
             if (BOX2_MAIN_GetPartyValueAt((void ***)p, r, p->b14, 0xA9, 0)) {
-                BOX2_MAIN_ChangeBoxFormPreserve((char *)p, r);
+                BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p, r);
                 BOX2_SEQ_SetActorDrawEnable(p->work, 4, 0);
                 return BOX2_SEQ_SelectGridSlot(p, r);
             }
@@ -192,7 +192,7 @@ int BOX2_SEQ_StateItemMenuF(Obj *p)
         if (p->b18 == 0) {
             unsigned char v = CURSOR_MOVE_GetCurrent(OBJ(p));
             if (v < 0x24)
-                BOX2_MAIN_ChangeBoxFormPreserve((char *)p, v);
+                BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p, v);
             else
                 BOX2_MAIN_ResetBoxView((char *)p);
         }

@@ -13,9 +13,9 @@
  *   KEY_GetTrg                0x020362DC  arm
  *   WIFIBATTLEMATCH_UTIL_PrintMessage                0x021E8738  thumb  ov177
  *   WIFIBATTLEMATCH_UTIL_GetBusy                0x021E8844  thumb  ov177
- *   WIFIBATTLEMATCH_NET_SetupSprite                0x021D6550  thumb
- *   WIFIBATTLEMATCH_NET_IsSpriteAnimDone                0x021D65DC  thumb
- *   WIFIBATTLEMATCH_NET_DeleteSprite                0x021D65C8  thumb
+ *   WIFIBATTLEMATCH_NET_SetupChoiceMenu                0x021D6550  thumb
+ *   WIFIBATTLEMATCH_NET_PollChoiceMenu                0x021D65DC  thumb
+ *   WIFIBATTLEMATCH_NET_DeleteChoiceMenu                0x021D65C8  thumb
  *   WIFIBATTLEMATCH_NET_SendSessionQuery                0x021DA434  thumb
  *   WIFIBATTLEMATCH_VIEW_SetActorVisible                0x021E7E0C  thumb  ov177
  *   WIFIBATTLEMATCH_NET_DisconnectWifi                0x021DA36C  thumb
@@ -30,9 +30,9 @@ typedef unsigned long u32;
 extern u32 KEY_GetTrg(void);
 extern void WIFIBATTLEMATCH_UTIL_PrintMessage(int *p, int a, int b, int c);
 extern int WIFIBATTLEMATCH_UTIL_GetBusy(const int *p);
-extern void WIFIBATTLEMATCH_NET_SetupSprite(u32 *obj, int kind);
-extern int WIFIBATTLEMATCH_NET_IsSpriteAnimDone(char *obj);
-extern void WIFIBATTLEMATCH_NET_DeleteSprite(char *obj);
+extern void WIFIBATTLEMATCH_NET_SetupChoiceMenu(u32 *obj, int kind);
+extern int WIFIBATTLEMATCH_NET_PollChoiceMenu(char *obj);
+extern void WIFIBATTLEMATCH_NET_DeleteChoiceMenu(char *obj);
 extern int WIFIBATTLEMATCH_NET_SendSessionQuery(u32 h);
 extern void WIFIBATTLEMATCH_VIEW_SetActorVisible(void **p, int on);
 extern void WIFIBATTLEMATCH_NET_DisconnectWifi(u32 h);
@@ -60,14 +60,14 @@ int WIFIBATTLEMATCH_NET_HandleCancel(char *obj, int trigger, int go)
         ((struct Obj00171 *)obj)->fE4 = ((struct Obj00171 *)obj)->fE4 + 1;
         break;
     case 3:
-        WIFIBATTLEMATCH_NET_SetupSprite((u32 *)obj, 0);
+        WIFIBATTLEMATCH_NET_SetupChoiceMenu((u32 *)obj, 0);
         ((struct Obj00171 *)obj)->fE4 = ((struct Obj00171 *)obj)->fE4 + 1;
         break;
     case 4:
-        r = WIFIBATTLEMATCH_NET_IsSpriteAnimDone(obj);
+        r = WIFIBATTLEMATCH_NET_PollChoiceMenu(obj);
         if (r == -1)
             break;
-        WIFIBATTLEMATCH_NET_DeleteSprite(obj);
+        WIFIBATTLEMATCH_NET_DeleteChoiceMenu(obj);
         switch (r) {
         case 0:
             ((struct Obj00171 *)obj)->fE4 = 5;

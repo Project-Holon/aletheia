@@ -1,5 +1,5 @@
 /*
- * function: BOX2_MAIN_PlaceMonScene
+ * function: BOX2_MAIN_StartHandMotionToSlot
  * address: 0x021DE8B4
  * packet: pkt_ov170_021DE8B4
  * region: ov170
@@ -24,7 +24,7 @@ typedef struct {
 } Mover;
 extern void BOX2_SEQ_GetActorSurfacePos(char *, int, short *, short *, unsigned short);
 extern void BOX2_SEQ_GetSlotPos(unsigned, short *, short *, int);
-void BOX2_MAIN_PlaceMonScene(unsigned char *p, int slot, unsigned idx, int mode, int flag)
+void BOX2_MAIN_StartHandMotionToSlot(unsigned char *p, int slot, unsigned idx, int mode, int flag)
 {
     Mover *o = *(Mover * *)&((struct Obj23852 *)(*(char * *)&((struct Obj10648 *)p)->f2C))->f60;
     short pos[2];

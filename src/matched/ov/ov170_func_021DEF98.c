@@ -1,5 +1,5 @@
 /*
- * function: BOX2_MAIN_ChangeBoxForm
+ * function: BOX2_MAIN_RefreshMonInfo
  * address: 0x021DEF98
  * packet: pkt_ov170_021DEF98
  * region: ov170
@@ -25,7 +25,7 @@ extern void BOX2_MAIN_SetupSummary(char *p, int a);
 extern void BOX2_MAIN_DeleteHandle(void *s);
 extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern void BOX2_MAIN_ResetBoxView(char *p);
-int BOX2_MAIN_ChangeBoxForm(char *p, int a, unsigned b)
+int BOX2_MAIN_RefreshMonInfo(char *p, int a, unsigned b)
 {
     void *mon;
     int state;

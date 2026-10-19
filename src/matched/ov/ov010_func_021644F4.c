@@ -1,5 +1,5 @@
 /*
- * function: EVENTDATA_SYSTEM_CreateFieldLinkEvent
+ * function: FIELD_LINK_EVENT_Create
  * address:  0x021644F4
  * packet:   pkt_ov010_021644F4
  * region:   ov010
@@ -24,7 +24,7 @@ typedef struct Entry {
 
 extern Entry FieldLinkEventTable[];
 
-int EVENTDATA_SYSTEM_CreateFieldLinkEvent(int i, void *a, void *p)
+int FIELD_LINK_EVENT_Create(int i, void *a, void *p)
 {
     return FieldLinkEventTable[i].fn(p, a);
 }

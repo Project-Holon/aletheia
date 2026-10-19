@@ -19,7 +19,7 @@
  *   WIFICLUB_GetStatusPhase 0x021BDD54 thumb ov099
  *   WIFICLUB_SetOwnStatusAndPublish 0x021C18C8 thumb ov099
  *   GAME_DATA_GetWifiList  0x0201283C  thumb  arm9
- *   GFL_NET_ERR_UpdateFriendRecord  0x0200F4E4  thumb  arm9
+ *   WIFILIST_UpdateFriendRecord  0x0200F4E4  thumb  arm9
  */
 #include "../include/Obj10211.h"
 typedef unsigned char u8;
@@ -35,7 +35,7 @@ extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 struct Sub020097BCFriend;
 struct Sub020097BCObj;
 extern struct Sub020097BCFriend *func_020099C8(struct Sub020097BCObj *obj, int i);
-extern int GFL_NET_ERR_UpdateFriendRecord(void *o);
+extern int WIFILIST_UpdateFriendRecord(void *o);
 extern void WIFICLUB_ClearTalkWindow(char *);
 extern int DWC_RAP_GetTargetFriendIndex(void);
 extern int WIFICLUB_GetFriendStatus(int i);
@@ -49,7 +49,7 @@ int WIFICLUB_StateBranchOnPartnerPhase(char *p, int ret)
     if (WIFICLUB_HandleNetFailure(p) == 0) {
         if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 18, 10) != 0) {
             if (WIFICLUB_IsTalkFinishedOrClosed(p) == 1) {
-                GFL_NET_ERR_UpdateFriendRecord(func_020099C8((struct Sub020097BCObj *)GAME_DATA_GetWifiList(((struct Obj10211 *)p)->fC4), 0));
+                WIFILIST_UpdateFriendRecord(func_020099C8((struct Sub020097BCObj *)GAME_DATA_GetWifiList(((struct Obj10211 *)p)->fC4), 0));
                 WIFICLUB_ClearTalkWindow(p);
                 s = (void *)WIFICLUB_GetFriendStatus(DWC_RAP_GetTargetFriendIndex());
                 WIFICLUB_GetStatusKind(p, s);

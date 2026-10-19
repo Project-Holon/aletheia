@@ -94,7 +94,7 @@
  *   _fadd          0x0209C95C  arm
  *   _fsub          0x0209CB8C  arm
  *   _ffix          0x0209C494  arm
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   GAME_BEACON_ACCESSOR_RegisterRecordWords 0x02165FCC thumb ov010
  *   GAME_BEACON_SEARCH_SetPresetEvent 0x02165374 thumb ov010
  *   BEACON_IncrementGreetCount 0x0200C1C8 thumb
@@ -115,7 +115,7 @@
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   d_021F36A0 0x021F36A0 data ov032 a1
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
@@ -129,7 +129,7 @@
  *   GAME_BEACON_ACCESSOR_TableAddNewLogs 0x02165888 thumb ov010
  *   INTRUDE_COMM_SetCompleted 0x02158614 thumb ov010
  *   FIELD_COMM_ACTOR_CreateSubscreenChangeEvent 0x021945A4 thumb ov021
- *   CALENDER_CreateTask 0x02164B38 thumb ov010
+ *   BEACON_VIEW_EVENT_Create 0x02164B38 thumb ov010
  *   GAME_EVENT_CreateOverlayEvent 0x020124AC thumb
  *   EVENT_NAMEIN_Create 0x021CD2A4 thumb ov021
  *   GPOWER_EVENT_CreateActivateEvent 0x021F5260 thumb ov083
@@ -149,7 +149,7 @@
  *   INTRUDE_GetFromSave  0x0200BE48  thumb
  *   INTRUDE_GetMonolithLevel  0x0200BF10  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
- *   GAME_DATA_GetField1A0  0x0201283C  thumb
+ *   GAME_DATA_GetWifiList  0x0201283C  thumb
  *   GAME_DATA_GetMyItem  0x0201292C  thumb
  *   BEACON_GetFromSave  0x0200C0E8  thumb
  *   BEACON_GetThanksCount  0x0200C1DC  thumb
@@ -176,7 +176,7 @@
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_Delete 0x02045808 arm
  *   MSGDATA_Delete 0x02045C04 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   PALANM_FreeSlotBuffers 0x020215A0 thumb
@@ -427,7 +427,7 @@ extern void *TCBL_AddTask(u32 a, void *fn, u32 sz, u32 priority);
 extern void *TCBL_GetWork(struct Tcbl *p);
 extern void MI_CpuFill8(void *p, int v, int n);
 extern u32 FX_Div(u32 a, u32 b);
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 extern void GAME_BEACON_ACCESSOR_RegisterRecordWords(int a, int b, u16 c);
 extern void GAME_BEACON_SEARCH_SetPresetEvent(unsigned a0);
 extern u32 BEACON_IncrementGreetCount(struct Blk34 *p);
@@ -447,7 +447,7 @@ extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BG_SYS_PushTile(u32 index);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
@@ -460,7 +460,7 @@ extern void TCBL_Main(struct Tcbl *p);
 extern int GAME_BEACON_ACCESSOR_TableAddNewLogs(int a0);
 extern void INTRUDE_COMM_SetCompleted(void *p);
 extern void *FIELD_COMM_ACTOR_CreateSubscreenChangeEvent(void *a, u32 b, u32 c);
-extern void *CALENDER_CreateTask(void *a, void *b, u8 c);
+extern void *BEACON_VIEW_EVENT_Create(void *a, void *b, u8 c);
 extern struct Desc *GAME_EVENT_CreateOverlayEvent(void *gameSystem, u32 overlayId, u32 (*fn)(void *, u32), u32 arg);
 extern u32 EVENT_NAMEIN_Create(u32 a, u32 b, u32 x, u32 c, u32 d);
 extern void *GPOWER_EVENT_CreateActivateEvent(void *a0, int *a1);
@@ -480,7 +480,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern u16 *INTRUDE_GetFromSave(void *sys);
 extern u8 INTRUDE_GetMonolithLevel(struct Rec1B0 *p);
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
-extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
+extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
 extern void *BEACON_GetFromSave(void *sys);
 extern u32 BEACON_GetThanksCount(struct Blk34 *p);
@@ -507,7 +507,7 @@ extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fi
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(void *rec);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
@@ -2537,7 +2537,7 @@ void BEACON_VIEW_ScrollStepTask(void *task, BeaconViewScrollStepTask *taskData)
     if (old < taskData->steps) {
         x = *(signed char *)&taskData->position;
         taskData->position = x + *(signed char *)&taskData->delta;
-        BG_SYS_FillScrollArea(6, 3, *(signed char *)&taskData->position);
+        BG_SYS_ChangeScrollImmediate(6, 3, *(signed char *)&taskData->position);
         return;
     }
     (*taskData->busyCounter)--;
@@ -3145,7 +3145,7 @@ void BEACON_VIEW_WindowBTask(void *task, BeaconViewWindowBTask *taskData)
     }
     if (drawn[4] == 0) {
         BMP_WIN_MakeScreen((struct Cfg *)taskData->window->handle);
-        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)taskData->window->handle));
+        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct Descriptor *)taskData->window->handle));
         r = taskData->busyCounter;
         if (r != 0)
             (*r)--;
@@ -3376,7 +3376,7 @@ void *BEACON_VIEW_CreateLeaveEvent(BeaconViewWork *work, int go)
         r = BEACON_VIEW_CreateTaskProc(work, (unsigned)(FIELD_COMM_ACTOR_CreateSubscreenChangeEvent(work->fieldSystem, (u32)(work->sessionInfo), 0)), 0, 3);
         break;
     case 4:
-        r = BEACON_VIEW_CreateTaskProc(work, (unsigned)(CALENDER_CreateTask(work->fieldSystem, work->sessionInfo, work->touchedRow + work->scrollTop)), 1, 0);
+        r = BEACON_VIEW_CreateTaskProc(work, (unsigned)(BEACON_VIEW_EVENT_Create(work->fieldSystem, work->sessionInfo, work->touchedRow + work->scrollTop)), 1, 0);
         break;
     case 5:
         args.powerId = *(u8 *)&work->powerIdArg;
@@ -3725,7 +3725,7 @@ void BEACON_VIEW_InitWorkFromSave(BeaconViewWork *work)
     sv = (u32)GAME_DATA_GetSaveControl((struct Big *)(work->saveInfo));
     *(u32 *)&work->powerId = INTRUDE_GetMonolithLevel((struct Rec1B0 *)INTRUDE_GetFromSave((void *)sv));
     *(u32 *)&work->playerProfile = GAMESYSTEM_GetGameComm((const struct Ctx *)(*(u32 *)&work->fieldSystem));
-    *(u32 *)&work->optionData = GAME_DATA_GetField1A0((const struct BigObj *)(work->saveInfo));
+    *(u32 *)&work->optionData = GAME_DATA_GetWifiList((const struct BigObj *)(work->saveInfo));
     work->messageArchive = (u32)GAME_DATA_GetMyItem((const struct BigObj *)(work->saveInfo));
     *(u32 *)&work->playerBlock = (u32)BEACON_GetFromSave((void *)sv);
     work->playTime = BEACON_GetThanksCount((struct Blk34 *)(*(u32 *)&work->playerBlock));
@@ -3800,7 +3800,7 @@ void BEACON_VIEW_DestroySubSystems(BeaconViewWork *work)
     STRBUF_Delete((struct U16Vec *)((int)work->formatBuffer));
     STRBUF_Delete((struct U16Vec *)((int)work->messageBuffer));
     MSGDATA_Delete(work->messageBank);
-    WORDSET_DeleteStrbufED04((struct WordSet *)((int)work->wordSet));
+    WORDSET_Delete((struct WordSet *)((int)work->wordSet));
     PRINTSYS_QUE_Clear((struct PrintSys *)((int)work->printQueue));
     PRINTSYS_QUE_Delete((struct PrintSys *)((int)work->printQueue));
     GF_FONT_SetDefaultTextColor();

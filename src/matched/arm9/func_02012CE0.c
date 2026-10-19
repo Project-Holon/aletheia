@@ -14,7 +14,7 @@
  *   func_020087E8  0x020087E8  thumb
  *   func_02008860  0x02008860  thumb
  *   GAME_DATA_GetOccupyInfo  0x02012964  thumb
- *   NET_DEVICE_TABLE_BuildFromProducer  0x0200EE64  thumb
+ *   FLDMMDL_StoreSaveTable  0x0200EE64  thumb
  *   func_020071CC  0x020071CC  thumb
  *   INTRUDE_StoreOccupy  0x0200BE54  thumb
  *   GAME_DATA_GetLastBattleRecSlot  0x020127B8  thumb
@@ -65,7 +65,7 @@ extern void func_020087E8(void *sys, const struct Sub020087E8Arg *src);
 extern void func_02008860(void *sys, const struct Sub02008860Buf *src);
 struct BigObj;
 extern u32 GAME_DATA_GetOccupyInfo(const struct BigObj *p);
-extern void NET_DEVICE_TABLE_BuildFromProducer(u32 a0, u8 *a1);
+extern void FLDMMDL_StoreSaveTable(u32 a0, u8 *a1);
 struct Sub020071CCCtrl;
 extern void *func_020071CC(struct Sub020071CCCtrl *h, u32 id);
 extern void INTRUDE_StoreOccupy(void *sys, const u16 *src);
@@ -95,7 +95,7 @@ void GAME_DATA_WriteToSave(u8 *p)
     func_02008860((void *)(*(u32 *)&((struct Obj00054 *)p)->f0), (const struct Sub02008860Buf *)v);
 
     v = GAME_DATA_GetOccupyInfo((const struct BigObj *)p);
-    NET_DEVICE_TABLE_BuildFromProducer(v, (u8 *)((u32)func_020071CC((struct Sub020071CCCtrl *)*(u32 *)&((struct Obj00054 *)p)->f0, 0x29)));
+    FLDMMDL_StoreSaveTable(v, (u8 *)((u32)func_020071CC((struct Sub020071CCCtrl *)*(u32 *)&((struct Obj00054 *)p)->f0, 0x29)));
 
     INTRUDE_StoreOccupy((void *)(*(u32 *)&((struct Obj00054 *)p)->f0), (const u16 *)GAME_DATA_GetLastBattleRecSlot(p));
 

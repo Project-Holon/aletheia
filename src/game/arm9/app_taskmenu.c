@@ -1,8 +1,8 @@
 /*
  * file:     app_taskmenu.c
  * unit:     yes
- * function: BEACON_STATUS_Create, BEACON_STATUS_Delete, BEACON_STATUS_GetLog, BEACON_STATUS_GetViewTop, BEACON_STATUS_SetViewTop, BEACON_STATUS_GetMessage, BEACON_STATUS_GetViewFlags, BEACON_STATUS_IsLocked, BEACON_STATUS_DoNothing, APP_ICON_GetArchiveId, APP_ICON_GetTouchBarFileId, APP_ICON_GetTypePaletteOffset, APP_ICON_GetTypeCellFileId, APP_ICON_GetTypePaletteFileId, APP_ICON_GetTypeAnimFileId, APP_ICON_GetMoveKindPaletteOffset, APP_ICON_GetMoveKindCellFileId, APP_ICON_GetMoveKindPaletteFileId, APP_ICON_GetMoveKindAnimFileId, APP_ICON_GetStatusCellFileId, APP_ICON_GetStatusPaletteFileId, APP_ICON_GetStatusAnimFileId, APP_ICON_GetStatusFrameFileId, APP_ICON_GetStatusDataFileId, APP_ICON_GetStatusExtraFileId, APP_ICON_LoadTouchBar, APP_ICON_GetItemCellFileId, APP_ICON_GetItemPaletteFileId, APP_ICON_GetItemAnimFileId, APP_ICON_GetItemFrameFileId, APP_ICON_GetItemDataFileId, APP_ICON_GetItemExtraFileId, APP_ICON_GetItemAnim2FileId, APP_ICON_GetItemFrame2FileId, APP_ICON_GetSealCellFileId, APP_ICON_GetSealPaletteFileId, APP_ICON_GetSealAnimFileId, APP_ICON_GetSealFrameFileId, APP_ICON_GetStatusIconAnim, APP_ICON_GetBallCellFileId, APP_ICON_GetBallPaletteFileId, APP_ICON_GetBallAnimFileId, APP_ICON_GetBallFrameFileId, APP_ICON_GetBallThrowCellFileId, APP_ICON_GetBallThrowAnimFileId, APP_ICON_GetBallOpenCellFileId, APP_ICON_GetBallOpenPaletteFileId, APP_ICON_GetBallOpenAnimFileId, APP_ICON_GetEffectCellFileId, APP_ICON_GetEffectPaletteFileId, APP_ICON_GetEffectAnimFileId, APP_ICON_GetNoneFileId, APP_ICON_GetGearCellFileId, APP_ICON_GetGearPaletteFileId, APP_ICON_GetGearAnimFileId, APP_ICON_GetGearDataFileId, APP_ICON_GetGearExtraFileId, APP_ICON_GetGearFrameFileId, APP_ICON_GetGearAnim2FileId, APP_TASKMENU_OpenMenu, APP_TASKMENU_OpenMenuFastDecide, APP_TASKMENU_CloseMenu, APP_TASKMENU_TransWinAfterPrint, APP_TASKMENU_UpdateMenu, APP_TASKMENU_IsFinish, APP_TASKMENU_GetCursorPos, APP_TASKMENU_SetCursorActive, APP_TASKMENU_IsDecide, APP_TASKMENU_CreateWindows, APP_TASKMENU_SetWinActive, APP_TASKMENU_UpdateCursorColor, APP_TASKMENU_UpdateCursorColorBlend, APP_TASKMENU_SetDisableKey, APP_TASKMENU_SetCursorPos, APP_TASKMENU_UpdateKey, APP_TASKMENU_UpdateTouch, APP_TASKMENU_RES_Create, APP_TASKMENU_RES_Delete, APP_TASKMENU_WIN_Create, APP_TASKMENU_WIN_CreateEx, APP_TASKMENU_WIN_CreateExNoScreen, APP_TASKMENU_WIN_CreateCore, APP_TASKMENU_WIN_Delete, APP_TASKMENU_WIN_DeleteNoClear, APP_TASKMENU_WIN_Free, APP_TASKMENU_WIN_Update, APP_TASKMENU_WIN_SetActive, APP_TASKMENU_WIN_SetDecide, APP_TASKMENU_WIN_IsFinish, APP_TASKMENU_WIN_IsTouch, APP_TASKMENU_WIN_ResetDecide, APP_TASKMENU_WIN_ChangePalette, APP_TASKMENU_DrawWinFrame, APP_TASKMENU_WIN_ClearScreen, APP_TASKMENU_WIN_TransChar, APP_TASKMENU_WIN_IsUpdateTrans, PRINTSYS_CTRL_Init, PRINTSYS_CTRL_Update, PRINTSYS_CTRL_IsInputTrg, PRINTSYS_CTRL_IsInputCont, PRINTSYS_CTRL_IsInputIdle, APP_KEYCURSOR_CreateDefault, APP_TASKMENU_WIN_SetDecideReturn
- * address:  0x0202751C
+ * function: APP_TASKMENU_OpenMenu, APP_TASKMENU_OpenMenuFastDecide, APP_TASKMENU_CloseMenu, APP_TASKMENU_TransWinAfterPrint, APP_TASKMENU_UpdateMenu, APP_TASKMENU_IsFinish, APP_TASKMENU_GetCursorPos, APP_TASKMENU_SetCursorActive, APP_TASKMENU_IsDecide, APP_TASKMENU_CreateWindows, APP_TASKMENU_SetWinActive, APP_TASKMENU_UpdateCursorColor, APP_TASKMENU_UpdateCursorColorBlend, APP_TASKMENU_SetDisableKey, APP_TASKMENU_SetCursorPos, APP_TASKMENU_UpdateKey, APP_TASKMENU_UpdateTouch, APP_TASKMENU_RES_Create, APP_TASKMENU_RES_Delete, APP_TASKMENU_WIN_Create, APP_TASKMENU_WIN_CreateEx, APP_TASKMENU_WIN_CreateExNoScreen, APP_TASKMENU_WIN_CreateCore, APP_TASKMENU_WIN_Delete, APP_TASKMENU_WIN_DeleteNoClear, APP_TASKMENU_WIN_Free, APP_TASKMENU_WIN_Update, APP_TASKMENU_WIN_SetActive, APP_TASKMENU_WIN_SetDecide, APP_TASKMENU_WIN_IsFinish, APP_TASKMENU_WIN_IsTouch, APP_TASKMENU_WIN_ResetDecide, APP_TASKMENU_WIN_ChangePalette, APP_TASKMENU_DrawWinFrame, APP_TASKMENU_WIN_ClearScreen, APP_TASKMENU_WIN_TransChar, APP_TASKMENU_WIN_IsUpdateTrans
+ * address:  0x02027778
  * region:   arm9
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -10,45 +10,17 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
- * Split from app_taskmenu.c at 0x0202751C (__FILE__ anchor boundary, certain cut).
- *
- * Contents, in image order (the file holds four original files):
- *   0x0202751C..0x020275E3  beacon_status.c (anchor 0x020A74D0): the
- *                           0xB10-byte beacon status work.
- *   0x020275E4..0x02027777  app common resources (no anchor): archive file
- *                           index getters for the shared UI archive, the
- *                           touch bar screen loader and the status icon
- *                           index of a Pokemon.
- *   0x02027778..0x0202846F  app_taskmenu.c (anchor 0x020A74E0): the task
- *                           menu (a column of selectable windows) and the
- *                           single task menu window.
- *   0x02028470..0x02028590  print stream key/touch control (no anchor) and a
- *                           key cursor wrapper for app_keycursor.c.
+ * Cut from app_taskmenu.c by tools/splitfile.py.
  *
  * symbols:
  *   MI_CpuFill8 0x02082BCC  arm
  *   GFL_HEAP_Alloc  0x02030734  arm
- *   _u32_div_f     0x0209C2B0  arm
- *   STRBUF_Create       0x020457B0  arm
- *   MSGDATA_CreateFromArchive       0x02045B38  arm
- *   MSGDATA_AllocString       0x02045EC0  arm
- *   STRBUF_ToChars       0x02045A38  arm
- *   STRBUF_SetString       0x02045924  arm
- *   STRBUF_Delete       0x02045808  arm
- *   MSGDATA_Delete       0x02045C04  arm
- *   beacon_status_File  0x020A74D0  data
- *   _PokeTypePltOffset  0x0209FCF8  data
- *   _WazaKindPltOffset  0x0209FCEC  data
- *   BG_SYS_GetBuf  0x0204162C  arm
- *   ARC_UTIL_LoadPaletteDataFromHandle  0x02049EF4  arm
- *   MI_CpuCopy8  0x02082D44  arm
  *   GFL_HEAP_Free  0x020307B0  arm
  *   MIi_CpuCopy16     0x02082A60  arm
  *   app_taskmenu_File  0x020A74E0  data
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
  *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   BMP_WIN_Delete  0x020452E8  arm
  *   BMP_WIN_ClearScreen  0x020456F8  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
@@ -76,61 +48,21 @@
  *   BMP_WIN_GetHeight  0x02045740  arm
  *   BMP_GetPixels  0x020437D4  arm
  *   MIi_CpuCopy32  0x02082A90  arm
- *   PRINTSYS_PrintStreamGetState  0x0201CE30  thumb
- *   PRINTSYS_PrintStreamReleasePause  0x0201CE38  thumb
- *   PRINTSYS_PrintStreamShortWait  0x0201CE5C  thumb
- *   _KeyCursorDefaultPixels  0x0209FD10  data
- *   APP_KEYCURSOR_Create  0x020285A4  thumb
- *   TOUCHPANEL_GetCont  0x02035C38  arm
- *   TOUCHPANEL_GetTrg  0x02035C60  arm
- *   KEY_GetCont  0x0203630C  arm
- *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
+ *   APP_ICON_GetArchiveId 0x020275E4 thumb arm9
  */
+#include "beacon_status_shared_types.h"
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
 typedef signed short   s16;
+
 typedef signed int     s32;
 
-/* Objects of other files, used here only through pointers. */
-struct StrBuf;          /* string buffer */
-struct MsgData;         /* opened message bank */
-struct ArcHandle;       /* opened archive */
 struct BmpWin;          /* BG bitmap window */
+
 struct Bmp;             /* bitmap of a window */
+
 struct PrintQueue;      /* deferred text print queue */
+
 struct GFont;           /* font */
-struct PokemonParam;    /* Pokemon data */
-struct PrintStream;     /* message print stream */
-struct KeyCursor;       /* key cursor mark (app_keycursor.c) */
-
-/* ------------------------------------------------------------------ */
-/* beacon_status.c                                                     */
-/* ------------------------------------------------------------------ */
-
-/* 0xB10 bytes, allocated with the beacon_status.c __FILE__ string. */
-typedef struct BeaconStatus {
-    u8 log[0xB08];              /* +0x000 beacon log area (handed out whole) */
-    struct StrBuf *message;     /* +0xB08 9-character string from message 0x11 */
-    u16 viewFlags;              /* +0xB0C handed out by address */
-    u8 viewTop;                 /* +0xB0E top row of the beacon log view */
-    u8 pad_B0F;
-} BeaconStatus;
-
-/* ------------------------------------------------------------------ */
-/* app common resources                                                */
-/* ------------------------------------------------------------------ */
-
-/*
- * A BG screen of 32x24 cells: the touch bar is the last three rows. The
- * screen file data starts 0xC bytes into the loaded file, after the
- * screen header, and has the same layout.
- */
-typedef struct BarScreen {
-    u16 upperCells[0x2A0];      /* rows 0..20 */
-    u16 barCells[0x60];         /* +0x540 rows 21..23 */
-} BarScreen;
 
 /* ------------------------------------------------------------------ */
 /* app_taskmenu.c                                                      */
@@ -210,555 +142,153 @@ typedef struct TaskMenuWin {
     u16 activeColor1;           /* +0x1E */
 } TaskMenuWin;
 
-/* ------------------------------------------------------------------ */
-/* print stream key/touch control                                      */
-/* ------------------------------------------------------------------ */
-
-/* 8 bytes, cleared by PRINTSYS_CTRL_Init. */
-typedef struct PrintStreamCtrl {
-    u8 isKeyReleased;           /* +0x00 keys were released once since the stream started */
-    u8 pad_01[3];
-    u32 inputType;              /* +0x04 bit 1 keys, bit 2 touch, bit 10 no fast-forward */
-} PrintStreamCtrl;
-
 extern void MI_CpuFill8(void *dst, u8 value, u32 size);
+
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern struct StrBuf *STRBUF_Create(u32 length, u32 heapId);
-extern struct MsgData *MSGDATA_CreateFromArchive(u32 loadType, u32 arcId, u32 datId, u32 heapId);
-extern struct StrBuf *MSGDATA_AllocString(struct MsgData *msgData, u32 strId);
-extern void STRBUF_ToChars(struct StrBuf *str, u16 *code, u32 length);
-extern void STRBUF_SetString(struct StrBuf *str, const u16 *code);
-extern void STRBUF_Delete(struct StrBuf *str);
-extern u32 MSGDATA_Delete(struct MsgData *msgData);
+
 extern u32 GFL_HEAP_Free(void *memory);
-extern void *BG_SYS_GetBuf(int bgFrame);
-extern void *ARC_UTIL_LoadPaletteDataFromHandle(struct ArcHandle *arc, u32 datId, u32 compressed, void **file, u32 heapId);
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
+
 extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
-extern u32 POKE_TOOL_GetPartyValue(const struct PokemonParam *pp, int paramId, void *buf);
+
 extern u32 PRINTSYS_QUE_Main(struct PrintQueue *printQue);
+
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *printQue, struct Bmp *bmp);
-extern void BG_SYS_SetFlagField06(u32 bgFrame);
+
+extern void BG_SYS_MarkTileDirty(u32 bgFrame);
+
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
+
 extern void BMP_WIN_ClearScreen(struct BmpWin *win);
+
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
+
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
+
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern u32 _u32_div_f(u32 a, u32 b);
+
 extern struct BmpWin *BMP_WIN_Create(u32 bgFrame, u32 charPosX, u32 charPosY, u32 sizeX, u8 sizeY,
                                    u8 palNo, u8 dir);
+
 extern void PRINTSYS_PrintQueColor(struct PrintQueue *printQue, struct Bmp *bmp, u32 x, u32 y,
                          struct StrBuf *str, struct GFont *font, u16 color);
+
 extern void BMP_WIN_SetPalette(struct BmpWin *win, u8 palNo);
+
 extern s32 NNS_GfdRegisterNewVramTransferTask(u32 transType, u32 offset, const void *src, s32 size);
+
 extern u8 UI_GetInputMode(void);
+
 extern u32 KEY_GetTrg(void);
+
 extern unsigned int KEY_GetRepeat(void);
+
 extern void UI_SetInputMode(u8 isTouch);
+
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
+
 extern int TOUCHPANEL_HitTrg(const void *hitTbl);
+
 extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 arcId, u32 datId, u32 compressed, TaskMenuChrData **chrData, u16 heapId);
+
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 arcId, u32 datId, u32 pltType, u32 offset, u32 size, u16 heapId);
+
 extern u32 GF_FONT_MeasureWidestLine(struct StrBuf *str, struct GFont *font, u32 margin);
+
 extern u32 TOUCHPANEL_GetPointTrg(u32 *x, u32 *y);
+
 extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
+
 extern u8 BMP_WIN_GetPosX(struct BmpWin *win);
+
 extern u8 BMP_WIN_GetPosY(struct BmpWin *win);
+
 extern u8 BMP_WIN_GetHeight(struct BmpWin *win);
+
 extern void *BMP_GetPixels(const struct Bmp *bmp);
+
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 n);
-extern u32 PRINTSYS_PrintStreamGetState(struct PrintStream *stream);
-extern void PRINTSYS_PrintStreamReleasePause(struct PrintStream *stream);
-extern void PRINTSYS_PrintStreamShortWait(struct PrintStream *stream, int wait);
-extern int TOUCHPANEL_GetTrg(void);
-extern unsigned int KEY_GetCont(void);
-extern int TOUCHPANEL_GetCont(void);
-extern struct KeyCursor *APP_KEYCURSOR_Create(u32 id, u32 isLive, u32 isFlip, u16 heapId, const void *pixels);
 
-BeaconStatus *BEACON_STATUS_Create(u32 heapId, u32 msgHeapId);
-void BEACON_STATUS_Delete(BeaconStatus *bs);
-u8 *BEACON_STATUS_GetLog(BeaconStatus *bs);
-u8 BEACON_STATUS_GetViewTop(BeaconStatus *bs);
-void BEACON_STATUS_SetViewTop(BeaconStatus *bs, int top);
-struct StrBuf *BEACON_STATUS_GetMessage(BeaconStatus *bs);
-u16 *BEACON_STATUS_GetViewFlags(BeaconStatus *bs);
-int BEACON_STATUS_IsLocked(void);
-void BEACON_STATUS_DoNothing(void);
 u32 APP_ICON_GetArchiveId(void);
-u32 APP_ICON_GetTouchBarFileId(void);
-u8 APP_ICON_GetTypePaletteOffset(int type);
-u32 APP_ICON_GetTypeCellFileId(u32 type);
-u32 APP_ICON_GetTypePaletteFileId(u32 mapping);
-u32 APP_ICON_GetTypeAnimFileId(u32 mapping);
-u8 APP_ICON_GetMoveKindPaletteOffset(u8 kind);
-u32 APP_ICON_GetMoveKindCellFileId(u32 kind);
-u32 APP_ICON_GetMoveKindPaletteFileId(void);
-u32 APP_ICON_GetMoveKindAnimFileId(void);
-u32 APP_ICON_GetStatusCellFileId(u32 mapping);
-u32 APP_ICON_GetStatusPaletteFileId(u32 mapping);
-u32 APP_ICON_GetStatusAnimFileId(void);
-u32 APP_ICON_GetStatusFrameFileId(void);
-u32 APP_ICON_GetStatusDataFileId(void);
-u32 APP_ICON_GetStatusExtraFileId(void);
-void APP_ICON_LoadTouchBar(struct ArcHandle *arc, int bgFrame, u32 heapId, int charOffset, u32 palNo);
-u32 APP_ICON_GetItemCellFileId(void);
-u32 APP_ICON_GetItemPaletteFileId(void);
-u32 APP_ICON_GetItemAnimFileId(u32 mapping);
-u32 APP_ICON_GetItemFrameFileId(u32 mapping);
-u32 APP_ICON_GetItemDataFileId(void);
-u32 APP_ICON_GetItemExtraFileId(void);
-u32 APP_ICON_GetItemAnim2FileId(u32 mapping);
-u32 APP_ICON_GetItemFrame2FileId(u32 mapping);
-u32 APP_ICON_GetSealCellFileId(void);
-u32 APP_ICON_GetSealPaletteFileId(void);
-u32 APP_ICON_GetSealAnimFileId(u32 mapping);
-u32 APP_ICON_GetSealFrameFileId(u32 mapping);
-int APP_ICON_GetStatusIconAnim(const struct PokemonParam *pp);
-int APP_ICON_GetBallCellFileId(int mapping);
-int APP_ICON_GetBallPaletteFileId(int mapping);
-int APP_ICON_GetBallAnimFileId(int mapping);
-int APP_ICON_GetBallFrameFileId(int mapping);
-int APP_ICON_GetBallThrowCellFileId(int ballId);
-int APP_ICON_GetBallThrowAnimFileId(int ballId);
-int APP_ICON_GetBallOpenCellFileId(int ballId, int mapping);
-int APP_ICON_GetBallOpenPaletteFileId(int ballId, int mapping);
-int APP_ICON_GetBallOpenAnimFileId(void);
-int APP_ICON_GetEffectCellFileId(int mapping);
-int APP_ICON_GetEffectPaletteFileId(int mapping);
-int APP_ICON_GetEffectAnimFileId(int mapping);
-int APP_ICON_GetNoneFileId(void);
-int APP_ICON_GetGearCellFileId(int mapping);
-int APP_ICON_GetGearPaletteFileId(int mapping);
-int APP_ICON_GetGearAnimFileId(int mapping);
-int APP_ICON_GetGearDataFileId(void);
-int APP_ICON_GetGearExtraFileId(int mapping);
-int APP_ICON_GetGearFrameFileId(int mapping);
-int APP_ICON_GetGearAnim2FileId(int mapping);
+
 TaskMenuWork *APP_TASKMENU_OpenMenu(TaskMenuInitWork *init, TaskMenuRes *res);
+
 TaskMenuWork *APP_TASKMENU_OpenMenuFastDecide(TaskMenuInitWork *init, TaskMenuRes *res);
+
 void APP_TASKMENU_CloseMenu(TaskMenuWork *menu);
+
 void APP_TASKMENU_TransWinAfterPrint(TaskMenuWork *menu);
+
 void APP_TASKMENU_UpdateMenu(TaskMenuWork *menu);
+
 u32 APP_TASKMENU_IsFinish(TaskMenuWork *menu);
+
 u8 APP_TASKMENU_GetCursorPos(const TaskMenuWork *menu);
+
 void APP_TASKMENU_SetCursorActive(TaskMenuWork *menu, u32 isActive);
+
 u32 APP_TASKMENU_IsDecide(TaskMenuWork *menu);
+
 void APP_TASKMENU_CreateWindows(TaskMenuWork *menu, TaskMenuRes *res);
+
 void APP_TASKMENU_SetWinActive(struct BmpWin *win, TaskMenuRes *res, int isActive);
+
 void APP_TASKMENU_UpdateCursorColor(u16 *colorPhase, u16 *color, u32 bgFrame, u32 palNo);
+
 void APP_TASKMENU_UpdateCursorColorBlend(u16 *colorPhase, u16 *color, u16 bgFrame, u32 palNo, u16 color0, u16 color1);
+
 void APP_TASKMENU_SetDisableKey(TaskMenuWork *menu, int isDisable);
+
 void APP_TASKMENU_SetCursorPos(TaskMenuWork *menu, int pos);
+
 void APP_TASKMENU_UpdateKey(TaskMenuWork *menu);
+
 void APP_TASKMENU_UpdateTouch(TaskMenuWork *menu);
+
 TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GFont *font, struct PrintQueue *printQue, u16 heapId);
+
 void APP_TASKMENU_RES_Delete(TaskMenuRes *res);
+
 TaskMenuWin *APP_TASKMENU_WIN_Create(TaskMenuRes *res, const TaskMenuItem *item, u16 charPosX, u16 charPosY, u8 width, u16 heapId);
+
 TaskMenuWin *APP_TASKMENU_WIN_CreateEx(TaskMenuRes *res, const TaskMenuItem *item, u16 charPosX, u16 charPosY, u8 width, u8 height, u32 anmSpeed, u32 isCenter, u16 heapId);
+
 TaskMenuWin *APP_TASKMENU_WIN_CreateExNoScreen(TaskMenuRes *res, const TaskMenuItem *item, u16 charPosX, u16 charPosY, u8 width, u8 height, u32 anmSpeed, u32 isCenter, u16 heapId);
+
 TaskMenuWin *APP_TASKMENU_WIN_CreateCore(TaskMenuRes *res, const TaskMenuItem *item, u16 charPosX, u16 charPosY, u8 width, u8 height, u32 anmSpeed, u32 isCenter, u16 heapId);
+
 void APP_TASKMENU_WIN_Delete(TaskMenuWin *win);
+
 void APP_TASKMENU_WIN_DeleteNoClear(TaskMenuWin *win);
+
 void APP_TASKMENU_WIN_Free(TaskMenuWin *win);
+
 void APP_TASKMENU_WIN_Update(TaskMenuWin *win);
+
 void APP_TASKMENU_WIN_SetActive(TaskMenuWin *win, u32 isActive);
+
 void APP_TASKMENU_WIN_SetDecide(TaskMenuWin *win, int isDecide);
+
 u32 APP_TASKMENU_WIN_IsFinish(TaskMenuWin *win);
+
 u32 APP_TASKMENU_WIN_IsTouch(TaskMenuWin *win);
+
 void APP_TASKMENU_WIN_ResetDecide(TaskMenuWin *win);
+
 void APP_TASKMENU_WIN_ChangePalette(TaskMenuWin *win, TaskMenuRes *res, u32 palNo, u32 color0, u16 color1);
+
 void APP_TASKMENU_DrawWinFrame(struct BmpWin *win, TaskMenuRes *res, u32 frameStyle);
+
 void APP_TASKMENU_WIN_ClearScreen(TaskMenuWin *win);
+
 void APP_TASKMENU_WIN_TransChar(TaskMenuWin *win);
+
 u32 APP_TASKMENU_WIN_IsUpdateTrans(TaskMenuWin *win);
-void PRINTSYS_CTRL_Init(PrintStreamCtrl *ctrl, u32 inputType);
-int PRINTSYS_CTRL_Update(PrintStreamCtrl *ctrl, struct PrintStream *stream);
-u32 PRINTSYS_CTRL_IsInputTrg(u32 inputType);
-u32 PRINTSYS_CTRL_IsInputCont(u32 inputType);
-u32 PRINTSYS_CTRL_IsInputIdle(u32 inputType);
-struct KeyCursor *APP_KEYCURSOR_CreateDefault(u32 id, u32 isLive, u32 isFlip, u16 heapId);
 
-extern const char beacon_status_File[];
-extern const u8 _PokeTypePltOffset[];
-extern const u8 _WazaKindPltOffset[];
 extern const char app_taskmenu_File[];
+
 extern const s16 FX_SinCosTable_[];
-extern const u8 _KeyCursorDefaultPixels[];
-
-/* ================================================================== */
-/* beacon_status.c                                                     */
-/* ================================================================== */
-
-/*
- * Allocate the cleared beacon status work and fill its 9-character string
- * with message 0x11 of bank 8.
- */
-BeaconStatus *BEACON_STATUS_Create(u32 heapId, u32 msgHeapId)
-{
-    BeaconStatus *bs;
-    struct MsgData *msgData;
-    struct StrBuf *str;
-    u16 code[10];
-
-    bs = GFL_HEAP_Alloc(heapId, sizeof(BeaconStatus), 1, beacon_status_File, 42);
-    bs->message = STRBUF_Create(9, heapId);
-    msgData = MSGDATA_CreateFromArchive(0, 2, 8, msgHeapId);
-    str = MSGDATA_AllocString(msgData, 0x11);
-    STRBUF_ToChars(str, code, 9);
-    STRBUF_SetString(bs->message, code);
-    STRBUF_Delete(str);
-    MSGDATA_Delete(msgData);
-    return bs;
-}
-
-void BEACON_STATUS_Delete(BeaconStatus *bs)
-{
-    STRBUF_Delete(bs->message);
-    MI_CpuFill8(bs, 0, sizeof(BeaconStatus));
-    GFL_HEAP_Free(bs);
-}
-
-u8 *BEACON_STATUS_GetLog(BeaconStatus *bs)
-{
-    return bs->log;
-}
-
-u8 BEACON_STATUS_GetViewTop(BeaconStatus *bs)
-{
-    return bs->viewTop;
-}
-
-void BEACON_STATUS_SetViewTop(BeaconStatus *bs, int top)
-{
-    bs->viewTop = top;
-}
-
-struct StrBuf *BEACON_STATUS_GetMessage(BeaconStatus *bs)
-{
-    return bs->message;
-}
-
-u16 *BEACON_STATUS_GetViewFlags(BeaconStatus *bs)
-{
-    return &bs->viewFlags;
-}
-
-int BEACON_STATUS_IsLocked(void)
-{
-    return 0;
-}
-
-void BEACON_STATUS_DoNothing(void)
-{
-}
-
-/* ================================================================== */
-/* app common resources: file indices in archive 0x53                  */
-/* ================================================================== */
-
-u32 APP_ICON_GetArchiveId(void)
-{
-    return 0x53;
-}
-
-u32 APP_ICON_GetTouchBarFileId(void)
-{
-    return 0x21;
-}
-
-/* Palette offset of a type icon; called with a u8 type. */
-u8 APP_ICON_GetTypePaletteOffset(int type)
-{
-    return _PokeTypePltOffset[type];
-}
-
-u32 APP_ICON_GetTypeCellFileId(u32 type)
-{
-    return type + 0x22;
-}
-
-u32 APP_ICON_GetTypePaletteFileId(u32 mapping)
-{
-    return mapping + 0x3b;
-}
-
-u32 APP_ICON_GetTypeAnimFileId(u32 mapping)
-{
-    return mapping + 0x3e;
-}
-
-/* Palette offset of a move kind icon. */
-u8 APP_ICON_GetMoveKindPaletteOffset(u8 kind)
-{
-    return _WazaKindPltOffset[kind];
-}
-
-u32 APP_ICON_GetMoveKindCellFileId(u32 kind)
-{
-    return kind + 0x38;
-}
-
-u32 APP_ICON_GetMoveKindPaletteFileId(void)
-{
-    return 0x13;
-}
-
-u32 APP_ICON_GetMoveKindAnimFileId(void)
-{
-    return 0x14;
-}
-
-u32 APP_ICON_GetStatusCellFileId(u32 mapping)
-{
-    return mapping + 0x15;
-}
-
-u32 APP_ICON_GetStatusPaletteFileId(u32 mapping)
-{
-    return mapping + 0x18;
-}
-
-u32 APP_ICON_GetStatusAnimFileId(void)
-{
-    return 0x1b;
-}
-
-u32 APP_ICON_GetStatusFrameFileId(void)
-{
-    return 0x1c;
-}
-
-u32 APP_ICON_GetStatusDataFileId(void)
-{
-    return 0x1d;
-}
-
-u32 APP_ICON_GetStatusExtraFileId(void)
-{
-    return 0x1e;
-}
-
-/*
- * Copy the touch bar rows (the last three rows, 0x60 cells) of screen file
- * 0x1D into the screen buffer of bgFrame and re-base each cell: character
- * number + charOffset, palette number palNo in the top nibble.
- *
- * The bar cells are one u16[0x60] field at +0x540 of one struct type, and
- * the file's screen data is that same struct 0xC bytes into the file; with
- * both written as `->barCells` the offset 0x540 is one constant kept in r7
- * and the +0xC is added on its own, which is the image. The re-base is
- * `(palNo << 12) + (charOffset + (cell & 0xfff))`.
- */
-void APP_ICON_LoadTouchBar(struct ArcHandle *arc, int bgFrame, u32 heapId, int charOffset, u32 palNo)
-{
-    BarScreen *scrn;
-    void *file;
-    void *fileBuf;
-    int i;
-
-    scrn = (BarScreen *)BG_SYS_GetBuf(bgFrame);
-    fileBuf = ARC_UTIL_LoadPaletteDataFromHandle(arc, 0x1d, 0, &file, heapId);
-    MI_CpuCopy8(((BarScreen *)((u8 *)file + 0xc))->barCells, scrn->barCells, 0xc0);
-    GFL_HEAP_Free(fileBuf);
-    for (i = 0; i < 0x60; i++)
-        scrn->barCells[i] = (palNo << 12) + (charOffset + (scrn->barCells[i] & 0xfff));
-}
-
-u32 APP_ICON_GetItemCellFileId(void)
-{
-    return 0x42;
-}
-
-u32 APP_ICON_GetItemPaletteFileId(void)
-{
-    return 0x41;
-}
-
-u32 APP_ICON_GetItemAnimFileId(u32 mapping)
-{
-    return mapping + 0x43;
-}
-
-u32 APP_ICON_GetItemFrameFileId(u32 mapping)
-{
-    return mapping + 0x46;
-}
-
-u32 APP_ICON_GetItemDataFileId(void)
-{
-    return 0x49;
-}
-
-u32 APP_ICON_GetItemExtraFileId(void)
-{
-    return 0x4a;
-}
-
-u32 APP_ICON_GetItemAnim2FileId(u32 mapping)
-{
-    return mapping + 0x4b;
-}
-
-u32 APP_ICON_GetItemFrame2FileId(u32 mapping)
-{
-    return mapping + 0x4e;
-}
-
-u32 APP_ICON_GetSealCellFileId(void)
-{
-    return 0xb;
-}
-
-u32 APP_ICON_GetSealPaletteFileId(void)
-{
-    return 0xc;
-}
-
-u32 APP_ICON_GetSealAnimFileId(u32 mapping)
-{
-    return mapping + 0xd;
-}
-
-u32 APP_ICON_GetSealFrameFileId(u32 mapping)
-{
-    return mapping + 0x10;
-}
-
-/*
- * Status icon animation of a Pokemon: 6 when its HP (parameter 0xA0) is 0,
- * else the icon of its status condition (parameter 0x9D, 1..5), 8 for none.
- */
-int APP_ICON_GetStatusIconAnim(const struct PokemonParam *pp)
-{
-    u32 sick;
-
-    if (POKE_TOOL_GetPartyValue(pp, 0xa0, 0) == 0) {
-        return 6;
-    }
-    sick = POKE_TOOL_GetPartyValue(pp, 0x9d, 0);
-    if (sick == 1) {
-        return 1;
-    } else if (sick == 2) {
-        return 3;
-    } else if (sick == 3) {
-        return 2;
-    } else if (sick == 4) {
-        return 5;
-    } else if (sick == 5) {
-        return 4;
-    } else {
-        return 8;
-    }
-}
-
-int APP_ICON_GetBallCellFileId(int mapping)
-{
-    return mapping + 0x51;
-}
-
-int APP_ICON_GetBallPaletteFileId(int mapping)
-{
-    return mapping + 0x54;
-}
-
-int APP_ICON_GetBallAnimFileId(int mapping)
-{
-    return mapping + 0xa6;
-}
-
-int APP_ICON_GetBallFrameFileId(int mapping)
-{
-    return mapping + 0xa9;
-}
-
-/* Ball id 0 is shown as ball 4. */
-int APP_ICON_GetBallThrowCellFileId(int ballId)
-{
-    if (ballId == 0) {
-        ballId = 4;
-    }
-    return ballId + 0x56;
-}
-
-int APP_ICON_GetBallThrowAnimFileId(int ballId)
-{
-    if (ballId == 0) {
-        ballId = 4;
-    }
-    return ballId + 0x6f;
-}
-
-/* All balls share the cell and animation files; ballId is not read. */
-int APP_ICON_GetBallOpenCellFileId(int ballId, int mapping)
-{
-    return mapping + 0x89;
-}
-
-int APP_ICON_GetBallOpenPaletteFileId(int ballId, int mapping)
-{
-    return mapping + 0x8c;
-}
-
-int APP_ICON_GetBallOpenAnimFileId(void)
-{
-    return 0x8f;
-}
-
-int APP_ICON_GetEffectCellFileId(int mapping)
-{
-    return mapping + 0x90;
-}
-
-int APP_ICON_GetEffectPaletteFileId(int mapping)
-{
-    return mapping + 0x93;
-}
-
-int APP_ICON_GetEffectAnimFileId(int mapping)
-{
-    return mapping + 0x96;
-}
-
-int APP_ICON_GetNoneFileId(void)
-{
-    return 0;
-}
-
-int APP_ICON_GetGearCellFileId(int mapping)
-{
-    return mapping + 2;
-}
-
-int APP_ICON_GetGearPaletteFileId(int mapping)
-{
-    return mapping + 5;
-}
-
-int APP_ICON_GetGearAnimFileId(int mapping)
-{
-    return mapping + 8;
-}
-
-int APP_ICON_GetGearDataFileId(void)
-{
-    return 0x99;
-}
-
-int APP_ICON_GetGearExtraFileId(int mapping)
-{
-    return mapping + 0x9a;
-}
-
-int APP_ICON_GetGearFrameFileId(int mapping)
-{
-    return mapping + 0x9d;
-}
-
-int APP_ICON_GetGearAnim2FileId(int mapping)
-{
-    return mapping + 0xa0;
-}
 
 /* ================================================================== */
 /* app_taskmenu.c                                                      */
@@ -845,7 +375,7 @@ void APP_TASKMENU_CloseMenu(TaskMenuWork *menu)
         BMP_WIN_ClearScreen(menu->winWork[j]);
         BMP_WIN_Delete(menu->winWork[j]);
     }
-    BG_SYS_SetFlagField06(bgFrame);
+    BG_SYS_MarkTileDirty(bgFrame);
     GFL_HEAP_Free(menu->winWork);
     GFL_HEAP_Free(menu->itemWork);
     GFL_HEAP_Free(menu);
@@ -880,7 +410,7 @@ void APP_TASKMENU_TransWinAfterPrint(TaskMenuWork *menu)
         struct BmpWin *win = menu->winWork[i];
         BMP_WIN_TransferChars(win);
         BMP_WIN_MakeScreen(win);
-        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
+        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(win));
     }
     menu->isUpdateTrans = 0;
 }
@@ -978,7 +508,7 @@ void APP_TASKMENU_CreateWindows(TaskMenuWork *menu, TaskMenuRes *res)
         win = menu->winWork[i];
         BMP_WIN_TransferChars(win);
         BMP_WIN_MakeScreen(win);
-        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
+        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(win));
     }
 }
 
@@ -991,7 +521,7 @@ void APP_TASKMENU_SetWinActive(struct BmpWin *win, TaskMenuRes *res, int isActiv
         BMP_WIN_SetPalette(win, (u8)(res->palNo + 1));
     }
     BMP_WIN_MakeScreen(win);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(win));
 }
 
 /*
@@ -1252,7 +782,7 @@ TaskMenuWin *APP_TASKMENU_WIN_CreateEx(TaskMenuRes *res, const TaskMenuItem *ite
     struct BmpWin *bmpWin = win->bmpWin;
     BMP_WIN_TransferChars(bmpWin);
     BMP_WIN_MakeScreen(bmpWin);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(bmpWin));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(bmpWin));
     return win;
 }
 
@@ -1262,7 +792,7 @@ TaskMenuWin *APP_TASKMENU_WIN_CreateExNoScreen(TaskMenuRes *res, const TaskMenuI
 {
     TaskMenuWin *win = APP_TASKMENU_WIN_CreateCore(res, item, charPosX, charPosY, width, height, anmSpeed, isCenter, heapId);
     BMP_WIN_MakeScreen(win->bmpWin);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win->bmpWin));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(win->bmpWin));
     return win;
 }
 
@@ -1338,7 +868,7 @@ void APP_TASKMENU_WIN_Update(TaskMenuWin *win)
             bmpWin = win->bmpWin;
             BMP_WIN_TransferChars(bmpWin);
             BMP_WIN_MakeScreen(bmpWin);
-            BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(bmpWin));
+            BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(bmpWin));
             win->isUpdateTrans = 0;
         }
     }
@@ -1371,7 +901,6 @@ void APP_TASKMENU_WIN_SetDecide(TaskMenuWin *win, int isDecide)
  * Alternate entry: APP_TASKMENU_WIN_SetDecideReturn() is the `bx lr` at APP_TASKMENU_WIN_SetDecide + 2
  * (the function map lists it as its own symbol); it has no code of its own.
  */
-
 u32 APP_TASKMENU_WIN_IsFinish(TaskMenuWin *win)
 {
     s32 frames = 0x10 / win->anmSpeed;
@@ -1427,7 +956,7 @@ void APP_TASKMENU_WIN_ChangePalette(TaskMenuWin *win, TaskMenuRes *res, u32 palN
     win->activeColor1 = color1;
     BMP_WIN_SetPalette(win->bmpWin, (u8)(palNo + 1));
     BMP_WIN_MakeScreen(win->bmpWin);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win->bmpWin));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(win->bmpWin));
 }
 
 /*
@@ -1506,132 +1035,16 @@ nextrow:
 void APP_TASKMENU_WIN_ClearScreen(TaskMenuWin *win)
 {
     BMP_WIN_ClearScreen(win->bmpWin);
-    BG_SYS_SetFlagField06((u8)win->res->bgFrame);
+    BG_SYS_MarkTileDirty((u8)win->res->bgFrame);
 }
 
 void APP_TASKMENU_WIN_TransChar(TaskMenuWin *win)
 {
     BMP_WIN_MakeScreen(win->bmpWin);
-    BG_SYS_SetFlagField06((u8)win->res->bgFrame);
+    BG_SYS_MarkTileDirty((u8)win->res->bgFrame);
 }
 
 u32 APP_TASKMENU_WIN_IsUpdateTrans(TaskMenuWin *win)
 {
     return win->isUpdateTrans;
-}
-
-/* ================================================================== */
-/* print stream key/touch control                                      */
-/* ================================================================== */
-
-void PRINTSYS_CTRL_Init(PrintStreamCtrl *ctrl, u32 inputType)
-{
-    MI_CpuFill8(ctrl, 0, sizeof(PrintStreamCtrl));
-    ctrl->inputType = inputType;
-}
-
-/*
- * Per-frame control of a print stream. Paused (1): a key or touch
- * releases it with SE 0x547. Running (0): unless bit 10 is set, once the
- * keys were released, holding a key prints the rest at once. Returns 1
- * when the stream is finished (2) or absent.
- */
-int PRINTSYS_CTRL_Update(PrintStreamCtrl *ctrl, struct PrintStream *stream)
-{
-    u32 mask;
-
-    if (stream != 0) {
-        switch (PRINTSYS_PrintStreamGetState(stream)) {
-        case 2:
-            return 1;
-        case 1:
-            if (PRINTSYS_CTRL_IsInputTrg(ctrl->inputType) != 0) {
-                GFL_USE_PlaySeDefaultVolume(0x547);
-                PRINTSYS_PrintStreamReleasePause(stream);
-            }
-            break;
-        case 0:
-            mask = 1 << 10;
-            if ((mask & ctrl->inputType) == 0) {
-                if (ctrl->isKeyReleased == 0) {
-                    if (PRINTSYS_CTRL_IsInputIdle(ctrl->inputType) != 0) {
-                        ctrl->isKeyReleased = 1;
-                    }
-                } else {
-                    if (PRINTSYS_CTRL_IsInputCont(ctrl->inputType) != 0) {
-                        PRINTSYS_PrintStreamShortWait(stream, 0);
-                    }
-                }
-            }
-            break;
-        }
-        return 0;
-    }
-    return 1;
-}
-
-/* A or B pressed, or the panel touched, as inputType allows. */
-u32 PRINTSYS_CTRL_IsInputTrg(u32 inputType)
-{
-    u32 result = 0;
-    if (inputType == 0) {
-        result = 1;
-    }
-    if (inputType & 2) {
-        if (KEY_GetTrg() & 3) {
-            result = 1;
-        }
-    }
-    if (inputType & 4) {
-        if (TOUCHPANEL_GetTrg() != 0) {
-            result = 1;
-        }
-    }
-    return result;
-}
-
-/* A or B held, or the panel held, as inputType allows. */
-u32 PRINTSYS_CTRL_IsInputCont(u32 inputType)
-{
-    u32 result = 0;
-    if (inputType == 0) {
-        result = 1;
-    }
-    if (inputType & 2) {
-        if (KEY_GetCont() & 3) {
-            result = 1;
-        }
-    }
-    if (inputType & 4) {
-        if (TOUCHPANEL_GetCont() != 0) {
-            result = 1;
-        }
-    }
-    return result;
-}
-
-/* No key held, or the panel not held, as inputType allows. */
-u32 PRINTSYS_CTRL_IsInputIdle(u32 inputType)
-{
-    u32 result = 0;
-    if (inputType == 0) {
-        result = 1;
-    }
-    if (inputType & 2) {
-        if (KEY_GetCont() == 0) {
-            result = 1;
-        }
-    }
-    if (inputType & 4) {
-        if (TOUCHPANEL_GetCont() == 0) {
-            result = 1;
-        }
-    }
-    return result;
-}
-
-/* Key cursor with the default mark pixels. */
-struct KeyCursor *APP_KEYCURSOR_CreateDefault(u32 id, u32 isLive, u32 isFlip, u16 heapId)
-{
-    return APP_KEYCURSOR_Create(id, isLive, isFlip, heapId, _KeyCursorDefaultPixels);
 }

@@ -57,7 +57,7 @@
  *   FLDMMDL_SysSearchObjId  0x0216DE94  thumb  ov010
  *   FLDMMDL_DeleteMmdl  0x0216CF2C  thumb  ov010
  *   FIELDMAP_SetUpdateStopped  0x02189A58  thumb  ov021
- *   BG_SYS_SetVisibleLayer  0x0204047C  arm
+ *   BG_SYS_SetPriority  0x0204047C  arm
  *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   GX_SetBankForBG  0x0207FDCC  arm
  *   G2x_SetBlendAlpha_  0x0207D63C  arm
@@ -83,7 +83,7 @@
  *   G3D_SYSTEM_GetObjectAnimeCount  0x0204779C  arm
  *   G3D_SYSTEM_IncObjectAnimeFrame  0x020478B8  arm
  *   G3D_SYSTEM_EnableObjectAnime  0x020477A4  arm
- *   BUTTON_MAN_GetResourceType  0x02051B04  arm
+ *   PARTICLE_RESOURCE_GetType  0x02051B04  arm
  *   G3D_UTIL_RemoveUnit  0x020480E4  arm
  *   PARTICLE_StartEffectWithCallback  0x020515CC  arm
  *   ARC_TOOL_ReadMember  0x02048F4C  arm
@@ -134,19 +134,19 @@
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   STRBUF_Delete  0x02045808  arm
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
- *   WORDSET_ParsePackedLimits  0x0201F4A0  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
+ *   WORDSET_AppendUnpackedString  0x0201F4A0  thumb
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
  *   GF_FONT_Delete  0x0201D83C  thumb
- *   WAZA_OSHIE_LoadTexPlttByName  0x0216FAB4  thumb  ov010
+ *   TEXT_TEXTURE_LoadTexPlttByName  0x0216FAB4  thumb  ov010
  *   MSGDATA_Delete  0x02045C04  arm
  *   d_021DA720     0x021DA720  data  ov021
  *   d_021DA700     0x021DA700  data  ov021
  *   G3D_UTIL_Delete  0x02047E54  arm  arm9
  *   G3D_CAMERA_Delete  0x02048AC4  arm  arm9
  *   NNS_G3dGetResDataByName  0x0206E62C  arm  arm9
- *   BG_SYS_Get  0x020416D4  arm  arm9
+ *   BG_SYS_GetPriority  0x020416D4  arm  arm9
  *   GX_ResetBankForBG  0x020808F4  arm  arm9
  *   FLD_PARTICLE_CreateEffect 0x021C1A48 thumb ov021
  *   FLD_PARTICLE_DeleteEffect 0x021C1A84 thumb ov021
@@ -246,7 +246,7 @@ extern void FLDMMDL_DeleteMmdl(u32 a);
 
 extern void FIELDMAP_SetUpdateStopped(u8 *p, u32 v);
 
-extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+extern void BG_SYS_SetPriority(int idx, unsigned short val);
 
 extern void BG_SYS_SetGraphicsMode(void *dispConfig);
 
@@ -296,7 +296,7 @@ int G3D_SYSTEM_IncObjectAnimeFrame(G3dObject *object, int animIndex, int amount)
 
 u32 G3D_SYSTEM_EnableObjectAnime(G3dObject *object, u32 animIndex);
 
-u16 BUTTON_MAN_GetResourceType(void *res);
+u16 PARTICLE_RESOURCE_GetType(void *res);
 
 extern void G3D_UTIL_RemoveUnit(void *gfxUnits, u32 index);
 
@@ -308,7 +308,7 @@ extern void GX_SetBankForLCDC(u32 a);
 
 extern void TCB_DeleteTask(void *n);
 
-extern u8 BG_SYS_Get(u32 layer);
+extern u8 BG_SYS_GetPriority(u32 layer);
 
 u32 BMP_GetVisiblePlane(void);
 
@@ -392,9 +392,9 @@ extern void WORDSET_CopyTaggedText(void *ws, void *dst, void *src);
 
 extern void STRBUF_Delete(void *vec);
 
-extern u32 WORDSET_DeleteStrbufED04(void *p);
+extern u32 WORDSET_Delete(void *p);
 
-extern void WORDSET_ParsePackedLimits(void *dst, void *src);
+extern void WORDSET_AppendUnpackedString(void *dst, void *src);
 
 extern void *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
@@ -402,7 +402,7 @@ extern u32 GF_FONT_MeasureWidestLine(void *s, u32 a, u32 b);
 
 extern u32 GF_FONT_Delete(void *ptr);
 
-extern int WAZA_OSHIE_LoadTexPlttByName(void *texBlock, const char *texName, void *palette, const char *plttName, u32 text, u16 xOffset, u16 a6, u16 a7, u16 heap, void *texKey);
+extern int TEXT_TEXTURE_LoadTexPlttByName(void *texBlock, const char *texName, void *palette, const char *plttName, u32 text, u16 xOffset, u16 a6, u16 a7, u16 heap, void *texKey);
 
 extern u32 MSGDATA_Delete(void *rec);
 
@@ -785,8 +785,8 @@ int FLD3D_CI_EventMain(void *event, int *state, Fld3dCiEventWork *work)
     case 3:
         if (ci->captureDone == 0)
             break;
-        BG_SYS_SetVisibleLayer(0, 0);
-        BG_SYS_SetVisibleLayer(2, 1);
+        BG_SYS_SetPriority(0, 0);
+        BG_SYS_SetPriority(2, 1);
         bgMode = d_021DA710;
         BG_SYS_SetGraphicsMode(&bgMode);
         *(vu16 *)0x0400000C = (*(vu16 *)0x0400000C & 0x43) | 0x4084;
@@ -992,7 +992,7 @@ void FLD3D_CI_SetupSequence(void *event, Fld3dCi *ci, Fld3dCiSeq *seq, int seque
     ci->waitDelay[0] = seq->waitDelay[0];
     ci->waitDelay[1] = seq->waitDelay[1];
     if (effectRes != 0)
-        trackKind = BUTTON_MAN_GetResourceType((void *)effectRes);
+        trackKind = PARTICLE_RESOURCE_GetType((void *)effectRes);
     else
         trackKind = 0;
     if (trackKind == 2) {
@@ -1190,7 +1190,7 @@ void FLD3D_CI_SaveLayerPriorities(Fld3dCi *ci)
 {
     int i;
     for (i = 0; i < 4; i++)
-        ci->savedLayerPriority[i] = BG_SYS_Get((u8)i);
+        ci->savedLayerPriority[i] = BG_SYS_GetPriority((u8)i);
 }
 
 void FLD3D_CI_SaveVisiblePlanes(Fld3dCi *ci)
@@ -1205,7 +1205,7 @@ void FLD3D_CI_RestoreLayerPriorities(Fld3dCi *ci)
 {
     int i;
     for (i = 0; i < 4; i++)
-        BG_SYS_SetVisibleLayer((u8)i, ci->savedLayerPriority[i]);
+        BG_SYS_SetPriority((u8)i, ci->savedLayerPriority[i]);
 }
 
 void FLD3D_CI_RestoreVisiblePlanes(Fld3dCi *ci)
@@ -1623,11 +1623,11 @@ void FLD3D_CI_DrawMessageTexture(void *playerStatus, Fld3dCi *ci, const char *te
         WORDSET_SetSlotMyStatus(wordSet, 0, playerStatus);
         WORDSET_CopyTaggedText(wordSet, text, rawMsg);
         STRBUF_Delete(rawMsg);
-        WORDSET_DeleteStrbufED04(wordSet);
+        WORDSET_Delete(wordSet);
     } else {
         rawMsg = MSGDATA_AllocString(msgBank, msgId);
         text = STRBUF_Create(0x10, (heapId & 0x7FFF) | 0x8000);
-        WORDSET_ParsePackedLimits(text, rawMsg);
+        WORDSET_AppendUnpackedString(text, rawMsg);
         STRBUF_Delete(rawMsg);
     }
     xOffset = 0;
@@ -1643,7 +1643,7 @@ void FLD3D_CI_DrawMessageTexture(void *playerStatus, Fld3dCi *ci, const char *te
     palette = ci->pltt->raw;
     palette[1] = 0x7FFF;
     palette[2] = 0;
-    WAZA_OSHIE_LoadTexPlttByName(texBlock, texName, palette, plttName, (u32)text, xOffset, 0, 0x440, heapId, texKey);
+    TEXT_TEXTURE_LoadTexPlttByName(texBlock, texName, palette, plttName, (u32)text, xOffset, 0, 0x440, heapId, texKey);
     GFL_HEAP_Free(ci->plttRes);
     GFL_HEAP_Free(text);
     MSGDATA_Delete(msgBank);

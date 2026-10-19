@@ -11,7 +11,7 @@
  *
  * symbols:
  *   VCT_SESSION_SendPeerReply  0x021B2180  arm  ov013
- *   VCT_SESSION_AddMember  0x021B0614  arm  ov013
+ *   VCT_MIXER_AddMember  0x021B0614  arm  ov013
  *   VCT_SESSION_FreePeerRecord  0x021B1F54  arm  ov013
  *   VCT_MAIN_ReleasePeer  0x021AEDEC  thumb  ov013
  *   gVctWork     0x021B3C80  data  ov013
@@ -32,7 +32,7 @@ extern struct W *gVctWork;
 
 struct Node;
 extern int VCT_SESSION_SendPeerReply(int a, int b);
-extern int VCT_SESSION_AddMember(void *p);
+extern int VCT_MIXER_AddMember(void *p);
 extern int VCT_SESSION_FreePeerRecord(struct Node *p);
 extern void VCT_MAIN_ReleasePeer(struct Node *p);
 
@@ -63,7 +63,7 @@ void VCT_MAIN_OnEventPair(int a, int code, u32 *p)
             VCT_MAIN_ReleasePeer((struct Node *)p);
             return;
         }
-        if (VCT_SESSION_AddMember(p) != 0) {
+        if (VCT_MIXER_AddMember(p) != 0) {
             gVctWork->f19AC = 2;
             return;
         }

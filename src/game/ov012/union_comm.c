@@ -32,7 +32,7 @@
  *   MATH_CountPopulation  0x02080D24  arm
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   GFL_NET_SetLoginOption  0x0203D7BC  arm
- *   UNION_MAIN_IsScenePending  0x02174268  thumb  ov012
+ *   UNION_SCENE_IsScenePending  0x02174268  thumb  ov012
  *   COMM_PLAYER_Update  0x02167590  thumb  ov010
  *   COMM_PLAYER_UpdateMyPackage  0x0216786C  thumb  ov010
  *   COLOSSEUM_SendPackage  0x02174C90  thumb  ov012
@@ -53,7 +53,7 @@
  *   MYSTATUS_GetLanguage  0x0200856C  thumb
  *   MYSTATUS_GetVersion  0x02008570  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
- *   GAME_DATA_GetField1A0  0x0201283C  thumb
+ *   GAME_DATA_GetWifiList  0x0201283C  thumb
  *   WIFILIST_MakeExchangeToken  0x02009CB0  thumb
  *   UNION_APP_IsClosed  0x021840C8  thumb  ov022
  *   UNION_APP_Delete  0x02183BE0  thumb  ov022
@@ -105,7 +105,7 @@ extern int GFL_NET_GetNegotiationNum(void);
 
 extern void GFL_NET_SetLoginOption(u8 option);
 
-extern int UNION_MAIN_IsScenePending(UnionRoomWork *work);
+extern int UNION_SCENE_IsScenePending(UnionRoomWork *work);
 
 extern void COMM_PLAYER_Update(struct GameSystem *gameSystem, void *commPlayer);
 
@@ -147,7 +147,7 @@ extern u8 MYSTATUS_GetVersion(const struct MyStatus *status);
 
 extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 
-extern struct WifiList *GAME_DATA_GetField1A0(struct GameData *gameData);
+extern struct WifiList *GAME_DATA_GetWifiList(struct GameData *gameData);
 
 extern int WIFILIST_MakeExchangeToken(struct WifiList *wifiList, u8 *friendKey);
 
@@ -492,7 +492,7 @@ void UNION_COMM_UpdateColosseum(UnionRoomWork *work)
 {
     if (work->colosseum != 0 && work->colosseum->startFlag) {
         if (UNION_MAIN_IsFieldReady(work) == 1) {
-            if (UNION_MAIN_IsScenePending(work) == 0) {
+            if (UNION_SCENE_IsScenePending(work) == 0) {
                 COMM_PLAYER_Update(work->parent->gameSystem, work->colosseum->commPlayer);
                 if (work->colosseum->packageChanged == 0) {
                     if (COMM_PLAYER_UpdateMyPackage(work->colosseum->commPlayer, &work->colosseum->myPackage) == 1) {
@@ -613,7 +613,7 @@ void UNION_COMM_BuildBeacon(UnionRoomWork *work, UnionBeacon *beacon)
     beacon->nation = MYSTATUS_GetLanguage(work->parent->myStatus);
     beacon->area = MYSTATUS_GetVersion(work->parent->myStatus);
     beacon->group = situation->connect.group;
-    WIFILIST_MakeExchangeToken(GAME_DATA_GetField1A0(GAMESYSTEM_GetGameData(work->parent->gameSystem)), beacon->friendKey);
+    WIFILIST_MakeExchangeToken(GAME_DATA_GetWifiList(GAMESYSTEM_GetGameData(work->parent->gameSystem)), beacon->friendKey);
     if (work->app != 0)
         beacon->appActive = UNION_APP_IsClosed(work->app);
     else

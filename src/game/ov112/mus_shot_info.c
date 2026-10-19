@@ -1,7 +1,7 @@
 /*
  * file:     mus_shot_info.c
  * unit:     yes
- * function: MUSICAL_MCSS_Create, MUSICAL_MCSS_Delete, MUSICAL_MCSS_Main, MUSICAL_MCSS_NoOp2, MUSICAL_MCSS_CreateUnits, MUSICAL_MCSS_InitBg, MUSICAL_MCSS_InitWindows, MUSICAL_MCSS_DeleteWindows, MUSICAL_MCSS_PrintStream, MUSICAL_MCSS_PrintQue, MUSICAL_MCSS_OpenMenu
+ * function: MUSICAL_SHOT_INFO_Create, MUSICAL_SHOT_INFO_Delete, MUSICAL_SHOT_INFO_Main, MUSICAL_SHOT_INFO_IsFinished, MUSICAL_SHOT_INFO_InitGraphics, MUSICAL_SHOT_INFO_InitBgLayer, MUSICAL_SHOT_INFO_InitWindows, MUSICAL_SHOT_INFO_DeleteWindows, MUSICAL_SHOT_INFO_PrintMessageStream, MUSICAL_SHOT_INFO_PrintMessageQueued, MUSICAL_SHOT_INFO_OpenYesNoMenu
  * address:  0x021F4284
  * region:   ov112
  * compiler: dsi/1.1p1
@@ -14,12 +14,12 @@
  *
  * symbols:
  *   GFL_HEAP_Alloc 0x02030734 arm
- *   MUSICAL_MCSS_Create 0x021F4284 thumb ov112
+ *   MUSICAL_SHOT_INFO_Create 0x021F4284 thumb ov112
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
- *   MUSICAL_MCSS_Delete 0x021F4300 thumb ov112
+ *   MUSICAL_SHOT_INFO_Delete 0x021F4300 thumb ov112
  *   GFL_HEAP_Free 0x020307B0 arm
- *   MUSICAL_MCSS_Main 0x021F4350 thumb ov112
- *   MUSICAL_MCSS_NoOp2 0x021F44E8 thumb ov112
+ *   MUSICAL_SHOT_INFO_Main 0x021F4350 thumb ov112
+ *   MUSICAL_SHOT_INFO_IsFinished 0x021F44E8 thumb ov112
  *   BMP_WIN_Delete 0x020452E8 arm
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_UTIL_UploadBgCharFromHandle  0x02049658  arm
@@ -71,7 +71,7 @@
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
  *   TIME_ICON_CreateNode 0x0202EE8C thumb
  *   TCBL_Main 0x020310C4 arm
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  *   d_021F8290 0x021F8290 data a1
  *   CLACT_CreateUnit 0x0204B100 arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
@@ -164,7 +164,7 @@ typedef struct Menu { u32 heap; u8 count; u8 pad[3]; Item *items; int zero; u8 a
 typedef union { void *ptr; u32 val; } McssPtrWord;
 
 /*
- * The MUSICAL_MCSS work object. MUSICAL_MCSS_Create allocates 0x5C bytes for it.
+ * The MUSICAL_MCSS work object. MUSICAL_SHOT_INFO_Create allocates 0x5C bytes for it.
  * Main, Delete, CreateUnits, InitWindows, DeleteWindows, PrintStream, PrintQue
  * and OpenMenu all read this one record.
  */
@@ -286,7 +286,7 @@ extern u8 *TIME_ICON_CreateNode(u32,void *,u8,u8,u16);
 
 extern void TCBL_Main(struct Tcbl *p);
 
-extern void BG_SYS_ResetSlot(u32,u32,u32);
+extern void BG_SYS_ChangeScroll(u32,u32,u32);
 
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
@@ -348,27 +348,27 @@ extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, 
 
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *res);
 
-void *MUSICAL_MCSS_Create(u32 a, u32 b, u32 c, u32 d, H16 heap);
+void *MUSICAL_SHOT_INFO_Create(u32 a, u32 b, u32 c, u32 d, H16 heap);
 
-void MUSICAL_MCSS_Delete(u8 *p);
+void MUSICAL_SHOT_INFO_Delete(u8 *p);
 
-void MUSICAL_MCSS_Main(u8 *p);
+void MUSICAL_SHOT_INFO_Main(u8 *p);
 
-int MUSICAL_MCSS_NoOp2(u32 *p);
+int MUSICAL_SHOT_INFO_IsFinished(u32 *p);
 
-void MUSICAL_MCSS_CreateUnits(u8 *p);
+void MUSICAL_SHOT_INFO_InitGraphics(u8 *p);
 
-void MUSICAL_MCSS_InitBg(const void *a,u32 b,u32 c);
+void MUSICAL_SHOT_INFO_InitBgLayer(const void *a,u32 b,u32 c);
 
-void MUSICAL_MCSS_InitWindows(u8 *p);
+void MUSICAL_SHOT_INFO_InitWindows(u8 *p);
 
-void MUSICAL_MCSS_DeleteWindows(u8 *p);
+void MUSICAL_SHOT_INFO_DeleteWindows(u8 *p);
 
-void MUSICAL_MCSS_PrintStream(u8 *p,u32 index);
+void MUSICAL_SHOT_INFO_PrintMessageStream(u8 *p,u32 index);
 
-void MUSICAL_MCSS_PrintQue(u8 *p,u32 index);
+void MUSICAL_SHOT_INFO_PrintMessageQueued(u8 *p,u32 index);
 
-void MUSICAL_MCSS_OpenMenu(u8 *p);
+void MUSICAL_SHOT_INFO_OpenYesNoMenu(u8 *p);
 
 extern char d_021F8394[];
 
@@ -380,7 +380,7 @@ extern const u32 d_021F82B8[];
 
 extern const u32 d_021F82D8[];
 
-void *MUSICAL_MCSS_Create(u32 a, u32 b, u32 c, u32 d, H16 heap)
+void *MUSICAL_SHOT_INFO_Create(u32 a, u32 b, u32 c, u32 d, H16 heap)
 {
     u8 *p = GFL_HEAP_Alloc(*(u16 *)&heap, 0x5c, 1, d_021F8394, 0x8d);
     *(u16 *)p = *(u16 *)&heap;
@@ -391,8 +391,8 @@ void *MUSICAL_MCSS_Create(u32 a, u32 b, u32 c, u32 d, H16 heap)
     *(u32 *)(p + 0x2c) = 0;
     *(u8 *)(p + 8) = 0;
     if (c == 1) *(u32 *)(p + 4) = 0; else *(u32 *)(p + 4) = 1;
-    MUSICAL_MCSS_CreateUnits(p);
-    MUSICAL_MCSS_InitWindows(p);
+    MUSICAL_SHOT_INFO_InitGraphics(p);
+    MUSICAL_SHOT_INFO_InitWindows(p);
     *(u32 *)(p + 0x40) = (u32)APP_TASKMENU_RES_Create(4, 12, *(u32 *)(p + 0x20), *(u32 *)(p + 0x38), *(u16 *)p);
     GFL_NET_RestartWithDefaultTimeout(0, *(u16 *)&heap);
     BG_SYS_SetSubPlaneVisible(16, 1);
@@ -402,7 +402,7 @@ void *MUSICAL_MCSS_Create(u32 a, u32 b, u32 c, u32 d, H16 heap)
 /*
  * extent: trailing two-byte padding at 0x021F434E.
  */
-void MUSICAL_MCSS_Delete(u8 *p)
+void MUSICAL_SHOT_INFO_Delete(u8 *p)
 {
     APP_TASKMENU_RES_Delete((struct TaskMenuState *)(((MusicalMcssWork *)p)->taskMenuRes));
     if (((MusicalMcssWork *)p)->mode==0) {
@@ -412,7 +412,7 @@ void MUSICAL_MCSS_Delete(u8 *p)
         CLACT_DeleteActor((struct Obj *)(((MusicalMcssWork *)p)->actor));
     }
     CLACT_DeleteUnit((struct Bank *)(((MusicalMcssWork *)p)->unit));
-    MUSICAL_MCSS_DeleteWindows(p);
+    MUSICAL_SHOT_INFO_DeleteWindows(p);
     BG_SYS_FreeLayerBuf(4);
     BG_SYS_FreeLayerBuf(6);
     BG_SYS_FreeLayerBuf(7);
@@ -423,7 +423,7 @@ void MUSICAL_MCSS_Delete(u8 *p)
  * volatile: byte +8 is re-read after the increment at 0x021F44BA.
  * ABI: 0200A640 leaves its incoming pointer in r0; the caller copies that return.
  */
-void MUSICAL_MCSS_Main(u8 *p)
+void MUSICAL_SHOT_INFO_Main(u8 *p)
 {
     u8 v;
     switch (((MusicalMcssWork *)p)->state) {
@@ -433,14 +433,14 @@ void MUSICAL_MCSS_Main(u8 *p)
     case 1:
         if(WIPE_SYS_EndCheck()==1) {
             if(((MusicalMcssWork *)p)->mode==1) {
-                MUSICAL_MCSS_PrintStream(p,3);
+                MUSICAL_SHOT_INFO_PrintMessageStream(p,3);
                 ((MusicalMcssWork *)p)->state=2;
             } else ((MusicalMcssWork *)p)->state=5;
         }
         break;
     case 2:
         if(!((MusicalMcssWork *)p)->printStream.ptr) {
-            MUSICAL_MCSS_OpenMenu(p);
+            MUSICAL_SHOT_INFO_OpenYesNoMenu(p);
             ((MusicalMcssWork *)p)->state=3;
         }
         break;
@@ -453,7 +453,7 @@ void MUSICAL_MCSS_Main(u8 *p)
             if(*(int *)&((MusicalMcssWork *)p)->musComm) {
                 ((MusicalMcssWork *)p)->state=4;
                 MUS_COMM_FUNC_SetTimingSync(*(int *)&((MusicalMcssWork *)p)->musComm,71);
-                MUSICAL_MCSS_PrintQue(p,6);
+                MUSICAL_SHOT_INFO_PrintMessageQueued(p,6);
             } else ((MusicalMcssWork *)p)->state=7;
         } else if(GFL_NET_ERR_GetErrorLevel()!=0) {
             APP_TASKMENU_CloseMenu(((MusicalMcssWork *)p)->taskMenu);
@@ -491,25 +491,25 @@ void MUSICAL_MCSS_Main(u8 *p)
     (*(volatile u8 *)&((MusicalMcssWork *)p)->counter)++;
     if(*(volatile u8 *)&((MusicalMcssWork *)p)->counter>1) {
         *(volatile u8 *)&((MusicalMcssWork *)p)->counter=0;
-        BG_SYS_ResetSlot(7,1,1);
-        BG_SYS_ResetSlot(7,5,1);
+        BG_SYS_ChangeScroll(7,1,1);
+        BG_SYS_ChangeScroll(7,5,1);
     }
 }
 
-int MUSICAL_MCSS_NoOp2(u32 *p) { if(p[1]==7) return 1; return 0; }
+int MUSICAL_SHOT_INFO_IsFinished(u32 *p) { if(p[1]==7) return 1; return 0; }
 
 /*
  * ABI: 0204B294 returns an Obj pointer, which the original stores at +88.
  */
-void MUSICAL_MCSS_CreateUnits(u8 *p)
+void MUSICAL_SHOT_INFO_InitGraphics(u8 *p)
 {
     Desc d;
     void *t;
     u32 v;
     u32 w;
-    MUSICAL_MCSS_InitBg(d_021F8298,4,0);
-    MUSICAL_MCSS_InitBg(d_021F82B8,6,0);
-    MUSICAL_MCSS_InitBg(d_021F82D8,7,0);
+    MUSICAL_SHOT_INFO_InitBgLayer(d_021F8298,4,0);
+    MUSICAL_SHOT_INFO_InitBgLayer(d_021F82B8,6,0);
+    MUSICAL_SHOT_INFO_InitBgLayer(d_021F82D8,7,0);
     ((MusicalMcssWork *)p)->unit=CLACT_CreateUnit(8,0,((MusicalMcssWork *)p)->heap);
     CLACT_SetUnitDefaultRenderer(((MusicalMcssWork *)p)->unit);
     BG_SYS_SetSubPlaneVisible(16,1);
@@ -540,9 +540,9 @@ void MUSICAL_MCSS_CreateUnits(u8 *p)
     }
 }
 
-void MUSICAL_MCSS_InitBg(const void *a,u32 b,u32 c) { BG_SYS_InitBgLayer(b,a,c); BG_SYS_SetPlaneVisible(b,1); BG_SYS_FreeSlot(b); BG_SYS_PushTile(b); }
+void MUSICAL_SHOT_INFO_InitBgLayer(const void *a,u32 b,u32 c) { BG_SYS_InitBgLayer(b,a,c); BG_SYS_SetPlaneVisible(b,1); BG_SYS_FreeSlot(b); BG_SYS_PushTile(b); }
 
-void MUSICAL_MCSS_InitWindows(u8 *p)
+void MUSICAL_SHOT_INFO_InitWindows(u8 *p)
 {
     int zero;
     ((MusicalMcssWork *)p)->win.val=BMP_WIN_Create(4,1,1,30,4,10,1);
@@ -562,7 +562,7 @@ void MUSICAL_MCSS_InitWindows(u8 *p)
     ((MusicalMcssWork *)p)->printQue.val=PRINTSYS_QUE_Create((void *)(((MusicalMcssWork *)p)->heap));
 }
 
-void MUSICAL_MCSS_DeleteWindows(u8 *p)
+void MUSICAL_SHOT_INFO_DeleteWindows(u8 *p)
 {
     PRINTSYS_QUE_Clear((struct PrintSys *)(((MusicalMcssWork *)p)->printQue.val));
     PRINTSYS_QUE_Delete((struct PrintSys *)(((MusicalMcssWork *)p)->printQue.val));
@@ -578,7 +578,7 @@ void MUSICAL_MCSS_DeleteWindows(u8 *p)
     TCBL_Destroy(((MusicalMcssWork *)p)->tcbl.ptr);
 }
 
-void MUSICAL_MCSS_PrintStream(u8 *p,u32 index)
+void MUSICAL_SHOT_INFO_PrintMessageStream(u8 *p,u32 index)
 {
     u32 t;
     if (((MusicalMcssWork *)p)->printStream.ptr) {
@@ -596,7 +596,7 @@ void MUSICAL_MCSS_PrintStream(u8 *p,u32 index)
     BMP_MENUWORK_DrawWindow(((MusicalMcssWork *)p)->win.ptr,1,1,11);
 }
 
-void MUSICAL_MCSS_PrintQue(u8 *p,u32 index)
+void MUSICAL_SHOT_INFO_PrintMessageQueued(u8 *p,u32 index)
 {
     u32 win;
     if (((MusicalMcssWork *)p)->strbuf.ptr) {
@@ -611,7 +611,7 @@ void MUSICAL_MCSS_PrintQue(u8 *p,u32 index)
     BMP_MENUWORK_DrawWindow(((MusicalMcssWork *)p)->win.ptr,1,1,11);
 }
 
-void MUSICAL_MCSS_OpenMenu(u8 *p)
+void MUSICAL_SHOT_INFO_OpenYesNoMenu(u8 *p)
 {
     Item items[2];
     Menu menu;

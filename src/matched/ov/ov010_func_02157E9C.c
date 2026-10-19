@@ -66,7 +66,7 @@
  *   POKE_TOOL_AddMove  0x0201808C  thumb
  *   POKE_TOOL_PushMove  0x020180F4  thumb
  *   POKE_TOOL_SetAbility  0x02018A00  thumb
- *   POKE_TOOL_Dummy  0x020185F0  thumb
+ *   POKE_TOOL_CastToBoxParam  0x020185F0  thumb
  *   POKE_TOOL_RecalcParam  0x020185C4  thumb
  *   SAVE_EVENT_WriteWithDate  0x0202F2AC  thumb
  *   func_020307B0  0x020307B0  arm
@@ -146,7 +146,7 @@ extern u32 POKE_TOOL_SetDefaultMoves(void *p);
 extern u32 POKE_TOOL_AddMove(void *p, u32 move);
 extern void POKE_TOOL_PushMove(void *p, int move);
 extern void POKE_TOOL_SetAbility(void *p, u32 a, u32 b);
-extern void *POKE_TOOL_Dummy(void *p);
+extern void *POKE_TOOL_CastToBoxParam(void *p);
 extern void POKE_TOOL_RecalcParam(void *p);
 extern void SAVE_EVENT_WriteWithDate(void *a0, u32 a1, u32 a2, u32 a3, u32 a4);
 extern u32 func_020307B0(void *p);
@@ -341,7 +341,7 @@ void *MYSTERY_GIFT_CreateMon(const GiftMon *g, int heap, void *save)
     month = (u8)(g->date >> 8);
     day = g->date;
     loc = g->isEgg ? g->eggLoc : g->metLoc;
-    SAVE_EVENT_WriteWithDate(POKE_TOOL_Dummy(pp), loc, year - 2000, month, day);
+    SAVE_EVENT_WriteWithDate(POKE_TOOL_CastToBoxParam(pp), loc, year - 2000, month, day);
     POKE_TOOL_RecalcParam(pp);
     ret = 0;
     if (POKE_TOOL_GetPartyValue(pp, 3, 0) != 0)

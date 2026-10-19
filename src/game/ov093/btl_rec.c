@@ -33,7 +33,7 @@
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   PRINTSYS_Print 0x0201C7A4 thumb
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BTL_POKEPARAM_ReadStatsFromMon  0x021D590C  thumb  ov093
  *   BMP_WIN_GetPosX  0x02045758  arm
@@ -65,16 +65,16 @@
  *   gBtlMsgState     0x021F6398  data  ov093  a4
  *   gBtlMsgFlags     0x021F63D8  data  ov093  a4
  *   sBtlMsgBankFileIds     0x021F3990  data  ov093  a2
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   BTL_SIDE_GetPokeById  0x021B9940  thumb  ov093
  *   BTL_POKEPARAM_GetDisplayMon  0x021D5864  thumb  ov093
- *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
+ *   WORDSET_SetSlotMonNickname  0x0201EEF4  thumb
  *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
- *   WORDSET_SetSlotMonName  0x0201EE84  thumb
+ *   WORDSET_SetSlotMonSpeciesName  0x0201EE84  thumb
  *   BTL_MAIN_GetTrainerType  0x021BA020  thumb  ov093
- *   WORDSET_Set  0x0201F0F8  thumb
+ *   WORDSET_SetSlotFromMsgBF  0x0201F0F8  thumb
  *   BTL_MAIN_IsTrainerSlotNpc  0x021B9F70  thumb  ov093
  *   BTL_MAIN_GetCompetitor  0x021B86B8  thumb  ov093
  *   BTL_MAIN_GetTrainerId  0x021BA004  thumb  ov093
@@ -94,7 +94,7 @@
  *   d_021F39DC  0x021F39DC  data  a4
  *   STRBUF_GetEosChar  0x02045A98  arm
  *   GF_FONT_GetTagChar  0x0201D5C4  thumb
- *   GF_FONT_CheckD5CC  0x0201D5CC  thumb
+ *   GF_FONT_IsWordSlotTag  0x0201D5CC  thumb
  *   GF_FONT_GetTagParam  0x0201D670  thumb
  *   GF_FONT_GetTagGroup  0x0201D5F4  thumb
  *   GF_FONT_GetTagKind  0x0201D658  thumb
@@ -103,12 +103,12 @@
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_SetSlotFromMsgB6 0x0201EF8C thumb
  *   WORDSET_SetSlotFromMsgCB 0x0201EF34 thumb
- *   WORDSET_Callback_EF40 0x0201EF40 thumb
+ *   WORDSET_SetSlotFromMsg36 0x0201EF40 thumb
  *   WORDSET_SetSlotFromMsgC7 0x0201F020 thumb
  *   BTL_MAIN_PokeIdToClientIdThunk  0x021B8DDC  thumb  ov093
  *   BTL_MAIN_IsOpposingPos  0x021B8CE8  thumb  ov093
  *   BTL_MAIN_GetOwnClientId  0x021B8FF4  thumb  ov093
- *   BTLV_CORE_GetZeroMasked  0x021E8918  thumb  ov093
+ *   BTL_SICKCONT_MakeNone  0x021E8918  thumb  ov093
  *   gBtlFieldCountdown  0x021F63F4  data  a4
  *   BTL_FIELD_RemoveSlot  0x021EFA94  thumb  ov093
  *   BTL_FIELD_AddSlotHolder  0x021EFAD8  thumb  ov093
@@ -117,7 +117,7 @@
  *   BTL_FIELD_TickSlots  0x021EFC78  thumb  ov093
  *   BTL_FIELD_IsSlotInUse  0x021EFCE4  thumb  ov093
  *   gBtlFieldFileName  0x021F3AF8  data  a4
- *   BTLV_CORE_GetSlotPosition  0x021E8A98  thumb  ov093
+ *   BTL_SICKCONT_GetPosition  0x021E8A98  thumb  ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;

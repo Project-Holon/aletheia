@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTLV_STAGE_InitLayerEntry",
+   "name": "BTLV_STAGE_StartTint",
    "address": "0x021F69E8",
    "kind": "game",
    "region": "ov094",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTLV_STAGE_IsEffectActive",
+   "name": "BTLV_STAGE_IsTintActive",
    "address": "0x021F6A18",
    "kind": "game",
    "region": "ov094",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTLV_FIELD_InitEntry",
+   "name": "BTLV_FIELD_StartTint",
    "address": "0x021F6DEC",
    "kind": "game",
    "region": "ov094",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTLV_FIELD_IsEffectActive",
+   "name": "BTLV_FIELD_IsTintActive",
    "address": "0x021F6E1C",
    "kind": "game",
    "region": "ov094",

@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BG_SYS_ResolveScroll",
+   "name": "BG_SYS_ToHwScreenSize",
    "address": "0x02042218",
    "kind": "game",
    "region": "arm9",

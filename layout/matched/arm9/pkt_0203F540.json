@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GF_STANDARD_SetupRtc_F540",
+   "name": "GF_STANDARD_GetDayOfYear",
    "address": "0x0203F540",
    "kind": "game",
    "region": "arm9",
@@ -24,7 +24,7 @@
    }
   },
   {
-   "name": "GF_STANDARD_Get_F684",
+   "name": "GF_STANDARD_SinFromDegreesWrapped",
    "address": "0x0203F684",
    "kind": "game",
    "region": "arm9",
@@ -36,7 +36,7 @@
    "status": "EXACT"
   },
   {
-   "name": "GF_STANDARD_Sin",
+   "name": "GF_STANDARD_CosFromDegreesWrapped",
    "address": "0x0203F6D8",
    "kind": "game",
    "region": "arm9",

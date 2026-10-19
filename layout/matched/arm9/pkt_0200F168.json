@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "NET_DEVICE_TABLE_GetNextUsed",
+   "name": "FLDMMDL_GetNextUsed",
    "address": "0x0200F0CC",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "NET_DEVICE_TABLE_RemapId",
+   "name": "FLDMMDL_ObjCodeToTableIndex",
    "address": "0x0200F128",
    "kind": "game",
    "region": "arm9",

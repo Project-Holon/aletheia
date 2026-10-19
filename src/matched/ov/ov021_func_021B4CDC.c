@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PROC_FLD_CallOv001Event
+ * function: SCRCMD_PROC_FLD_CallGtsNegoEvent
  * address:  0x021B4CDC
  * packet:   pkt_ov021_021B4CDC
  * region:   ov021
@@ -38,7 +38,7 @@ extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 struct Desc;
 extern struct Desc *GAME_EVENT_CreateOverlayEvent(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3);
 
-int SCRCMD_PROC_FLD_CallOv001Event(u32 a, u32 b)
+int SCRCMD_PROC_FLD_CallGtsNegoEvent(u32 a, u32 b)
 {
     void *r5;
     void *r4;

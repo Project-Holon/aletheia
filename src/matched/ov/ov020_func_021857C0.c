@@ -27,7 +27,7 @@
  *   ISS_SYS_ChangeZone  0x0202B544  thumb
  *   GAME_DATA_SetStartLocation  0x02012854  thumb
  *   GAME_DATA_SetWarpId  0x02012900  thumb
- *   ISS_SWITCH_ApplySubscreenMode  0x0202C83C  thumb
+ *   WEATHER_StoreZoneWeatherId  0x0202C83C  thumb
  *   ZONEDATA_GetMapSubType  0x0201405C  thumb
  *   GAME_DATA_GetOccupyInfo  0x02012964  thumb
  *   EVENT_MAPCHANGE_ResolveLocation  0x02185788  thumb  ov020
@@ -84,7 +84,7 @@ u32 GAMESYSTEM_GetIssSystem(u32 *p);
 void ISS_SYS_ChangeZone(u32 a, u16 b);
 void GAME_DATA_SetStartLocation(struct BigObj *p, const struct Rec1C *src);
 void GAME_DATA_SetWarpId(const struct BigObj *p, u16 v);
-int ISS_SWITCH_ApplySubscreenMode(int a0, int a1);
+int WEATHER_StoreZoneWeatherId(int a0, int a1);
 u8 ZONEDATA_GetMapSubType(u32 id);
 u32 GAME_DATA_GetOccupyInfo(const struct BigObj *p);
 void EVENT_MAPCHANGE_ResolveLocation(int a, int b, Obj *o);
@@ -140,7 +140,7 @@ void EVENT_MAPCHANGE_ApplyLocation(void *a, int b)
     EVENT_MAPCHANGE_AddEventDataMmdl((int)r5, (const short int *)b);
     EVENT_MAPCHANGE_SetMapEffectMask(r5, (u16)s.h4);
     EVENT_MAPCHANGE_ReloadMmdl(r5, (const short int *)(&s));
-    ISS_SWITCH_ApplySubscreenMode((int)a, s.h4);
+    WEATHER_StoreZoneWeatherId((int)a, s.h4);
     n = (int)ZONEDATA_GetMapSubType((u16)s.h4);
     q = (void *)GAME_DATA_GetOccupyInfo(r5);
     if (n < 16)

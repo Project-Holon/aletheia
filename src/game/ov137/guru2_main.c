@@ -103,20 +103,20 @@
  *   TCB_Noop 0x02030DA4 arm
  *   G3D_UTIL_Delete 0x02047E54 arm
  *   G3D_SYSTEM_Exit 0x02046788 arm
- *   UI_ClearFlags39Global 0x020351A0 arm
+ *   UI_ClearSoftResetInhibitGlobal 0x020351A0 arm
  *   gGuru2MainStateTable 0x021E217C data a4
  *   TCB_Main 0x02030D28 arm
  *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
  *   GFL_NET_SendDataMask 0x0203D4D0 arm
  *   gGuru2PointerAngleTable 0x021E1FDC data a2
- *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
+ *   MET_TRAINERS_GetFromSave 0x0200ED48 thumb
  *   GURU2_MAIN_BroadcastResult 0x021E19C0 thumb ov137
  *   GFL_USE_GetRandom 0x020056EC thumb
  *   GAME_DATA_GetMyItem 0x0201292C thumb
  *   MYITEM_SAVEDATA_AddItem 0x02007E50 thumb
  *   gGuru2RewardRangeTable 0x021E1F34 data a4
  *   RECORD_AddOne 0x02008DF0 thumb
- *   UI_SetFlags39Global 0x0203516C arm
+ *   UI_SetSoftResetInhibitGlobal 0x0203516C arm
  *   GFL_NET_SAVE_Create 0x0201088C thumb
  *   TIME_ICON_Create 0x0202EE30 thumb
  *   GFL_NET_SAVE_CheckFinished 0x02010904 thumb
@@ -178,10 +178,10 @@
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   PALANM_LoadArcPaletteToSlot 0x02021640 thumb
  *   BMP_WIN_ClearScreen 0x020456F8 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
- *   BG_SYS_SetFlagField06 0x02041B6C arm
- *   WORDSET_Callback_EF40 0x0201EF40 thumb
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
+ *   WORDSET_SetSlotFromMsg36 0x0201EF40 thumb
  *   gGuru2SlotDescTable 0x021E1E30 data a4
  *   G3D_CAMERA_Delete 0x02048AC4 arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
@@ -199,8 +199,8 @@
  *   gGuru2CardUnitSetupTable 0x021E212C data a4
  *   MTX_Identity33_ 0x0207ADC4 arm
  *   FX_SinCosTable_ 0x020A1B38 data a2
- *   GF_STANDARD_SinDeg 0x0203F63C arm
- *   GF_STANDARD_Get_F5FC 0x0203F5FC arm
+ *   GF_STANDARD_CosFromDegrees 0x0203F63C arm
+ *   GF_STANDARD_SinFromDegrees 0x0203F5FC arm
  *   G3D_SYSTEM_LoopObjectAnimeFrame 0x02047910 arm
  *   TCB_AddTask 0x02030DA8 arm
  *   gGuru2DropEffectStateTable 0x021E1CB8 data a4
@@ -218,14 +218,14 @@
  *   POKE_TOOL_CopyPartyPokemon 0x02019CE0 thumb
  *   gGuru2PlayerAngleRangeLists 0x021E1F04 data a4
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
- *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_SetBgmPaused 0x02005DE4 thumb
  *   GFL_USE_PushBgm 0x02005E64 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   GFL_USE_IsBgmPlaying 0x02005F38 thumb
  *   GFL_USE_PopBgm 0x02005E9C thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
  *   GURU2_MAIN_RotateAll   0x021E1604  thumb  ov137
- *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb  arm9
+ *   MET_TRAINERS_Insert  0x0200ED54  thumb  arm9
  */
 #include "ov137_types.h"
 #include "guru2_shared_types.h"
@@ -293,7 +293,7 @@ extern void PRINTSYS_QUE_Delete(struct PrintSys *);
 
 extern u32 MSGDATA_Delete(struct Rec *rec);
 
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 
 extern u32 GF_FONT_Delete(void *ptr);
 
@@ -532,7 +532,7 @@ extern void G3D_UTIL_Delete(struct Rec *p);
 
 extern void G3D_SYSTEM_Exit(void);
 
-extern int UI_ClearFlags39Global(u32);
+extern int UI_ClearSoftResetInhibitGlobal(u32);
 
 extern void TCB_Main(struct Ctx *c);
 
@@ -546,9 +546,9 @@ extern void GFL_USE_CancelChangeAndPlayBgm(int, int);
 
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 
-extern void *MISC_SAVEDATA_GetBlock44(void *);
+extern void *MET_TRAINERS_GetFromSave(void *);
 
-extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *l, u32 val);
+extern void MET_TRAINERS_Insert(struct L0200ED54 *l, u32 val);
 
 extern void GURU2_MAIN_BroadcastResult(struct Guru2Game *,int);
 
@@ -558,7 +558,7 @@ extern u32 MYITEM_SAVEDATA_AddItem(u8 *, u16, u16, u16);
 
 extern u32 RECORD_AddOne(struct Sub02008C20Obj *,int);
 
-extern void UI_SetFlags39Global(u32);
+extern void UI_SetSoftResetInhibitGlobal(u32);
 
 extern void *GFL_NET_SAVE_Create(unsigned, unsigned);
 
@@ -629,9 +629,9 @@ extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 
-extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotFromMsg36(struct WordSet *p, u32 i, u32 v);
 
 extern u32 G3D_CAMERA_Delete(void *ptr);
 
@@ -649,9 +649,9 @@ extern void G3D_SYSTEM_DrawObject(void *obj, struct Arg *status);
 
 extern void MTX_Identity33_(Mtx *);
 
-extern s16 GF_STANDARD_SinDeg(u32 x);
+extern s16 GF_STANDARD_CosFromDegrees(u32 x);
 
-extern int GF_STANDARD_Get_F5FC(u32 x);
+extern int GF_STANDARD_SinFromDegrees(u32 x);
 
 extern int G3D_SYSTEM_LoopObjectAnimeFrame(void *a, int idx, int amount);
 
@@ -679,7 +679,7 @@ extern u32 POKEPARTY_GetCount(void *p);
 
 extern unsigned POKE_TOOL_GetPartyValue(void *, unsigned, unsigned);
 
-extern void GFL_USE_SetBgmPlayerParam(void *);
+extern void GFL_USE_SetBgmPaused(void *);
 
 extern int GFL_USE_PushBgm(void);
 
@@ -1176,7 +1176,7 @@ int GURU2_MAIN_ProcExit(struct Proc *proc, int seq, int parentWork, struct Guru2
     ARC_TOOL_DeleteHandle(p->arcHandle);
     PROCSYS_FreeProcWork(proc);
     GFL_HEAP_DeleteChecked(0x72);
-    UI_ClearFlags39Global(8);
+    UI_ClearSoftResetInhibitGlobal(8);
     return 1;
 }
 
@@ -1370,10 +1370,10 @@ void GURU2_MAIN_RegisterPlayerRecords(struct Guru2Game *obj)
 {
     void *q;
     int i;
-    q = MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(obj->session->param->gameData));
+    q = MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl(obj->session->param->gameData));
     for (i = 0; i < 5; i++) {
         if (obj->memberEntry[i] && i != GFL_NET_SYSTEM_GetCurrentAid())
-            MISC_SAVEDATA_InsertRecentValue(q, MYSTATUS_GetId(obj->memberEntry[i]));
+            MET_TRAINERS_Insert(q, MYSTATUS_GetId(obj->memberEntry[i]));
     }
 }
 
@@ -1629,7 +1629,7 @@ int GURU2_MAIN_StateWaitTimerToEnd(struct Guru2Game *p)
     return 0;
 }
 
-int GURU2_MAIN_StateSaveResult(struct Guru2Game *p) { struct Link *link; link=(struct Link *)GFL_NET_HANDLE_GetCurrentHandle(); RECORD_AddOne(*(struct Sub02008C20Obj * *)&p->session->param->playerInfo,90); GURU2_MAIN_PrintMessage(p,11); GFL_NET_HANDLE_SetTimingSyncRange(link,205,40); p->state=43; UI_SetFlags39Global(8); return 0; }
+int GURU2_MAIN_StateSaveResult(struct Guru2Game *p) { struct Link *link; link=(struct Link *)GFL_NET_HANDLE_GetCurrentHandle(); RECORD_AddOne(*(struct Sub02008C20Obj * *)&p->session->param->playerInfo,90); GURU2_MAIN_PrintMessage(p,11); GFL_NET_HANDLE_SetTimingSyncRange(link,205,40); p->state=43; UI_SetSoftResetInhibitGlobal(8); return 0; }
 
 int GURU2_MAIN_StateAfterSync4(struct Guru2Game *p)
 {
@@ -2000,7 +2000,7 @@ void GURU2_MAIN_DeleteWindows(struct Guru2Game *p)
     BMP_WIN_Delete(s->mainWindow);
     GURU2_MAIN_DeleteNameWindows(p);
     MSGDATA_Delete(s->msgData);
-    WORDSET_DeleteStrbufED04(s->wordSet);
+    WORDSET_Delete(s->wordSet);
     GF_FONT_Delete(s->font);
     STRBUF_Delete(s->textBuf);
     for(i=0;i<5;i++) STRBUF_Delete(p->nameBuf[i]);
@@ -2022,7 +2022,7 @@ void GURU2_MAIN_PrintMessage(struct Guru2Game *p,int message)
     s->printPending=1;
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(window));
 }
 
 void GURU2_MAIN_PrintMessageWithName(struct Guru2Game *p,int message,void *value)
@@ -2044,7 +2044,7 @@ void GURU2_MAIN_PrintMessageWithName(struct Guru2Game *p,int message,void *value
     s->printPending=1;
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(window));
 }
 
 /*
@@ -2055,7 +2055,7 @@ void GURU2_MAIN_PrintMessageWithNumber(struct Guru2Game *p,int message,unsigned 
     struct Guru2Windows *s=&p->windows;
     void *window,*text,*owner,*data;
     window=s->mainWindow;
-    WORDSET_Callback_EF40(s->wordSet,0,value);
+    WORDSET_SetSlotFromMsg36(s->wordSet,0,value);
     text=STRBUF_Create(256,114);
     MSGDATA_ReadString(s->msgData,message,text);
     WORDSET_CopyTaggedText(s->wordSet,s->textBuf,text);
@@ -2068,10 +2068,10 @@ void GURU2_MAIN_PrintMessageWithNumber(struct Guru2Game *p,int message,unsigned 
     s->printPending=1;
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(window));
 }
 
-void GURU2_MAIN_ClearMessageWindow(struct Guru2Game *p){struct Descriptor *w=(struct Descriptor *)p->windows.mainWindow;BMP_MENUWORK_DrawWindowBorder(w,0);BMP_Clear(BMP_WIN_GetBmp(w),0);BMP_WIN_TransferChars(w);BMP_WIN_MakeScreen((struct Cfg *)w);BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(w));}
+void GURU2_MAIN_ClearMessageWindow(struct Guru2Game *p){struct Descriptor *w=(struct Descriptor *)p->windows.mainWindow;BMP_MENUWORK_DrawWindowBorder(w,0);BMP_Clear(BMP_WIN_GetBmp(w),0);BMP_WIN_TransferChars(w);BMP_WIN_MakeScreen((struct Cfg *)w);BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(w));}
 
 /*
  * lever: Store the call result directly into its slot, then reuse that slot; declare counter before section base.
@@ -2112,12 +2112,12 @@ void GURU2_MAIN_PrintNameWindow(struct Guru2Game *p,void *text,int index,int col
     s->slot[index].printed=1;
     BMP_WIN_TransferChars(window);
     BMP_WIN_MakeScreen(window);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(window));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(window));
 }
 
 void GURU2_MAIN_PrintPlayerName(struct Guru2Game *p,void *text,int index,int aid){int color=0x440;if(aid==GFL_NET_SYSTEM_GetCurrentAid())color=0xc80;GURU2_MAIN_PrintNameWindow(p,text,index,color);}
 
-void GURU2_MAIN_ClearNameWindow(struct Guru2Game *p,u32 index){struct Descriptor *w=(struct Descriptor *)p->windows.window[index];BMP_MENUWORK_DrawWindowBorder(w,0);BMP_Clear(BMP_WIN_GetBmp(w),0);BMP_WIN_TransferChars(w);BMP_WIN_MakeScreen((struct Cfg *)w);BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(w));}
+void GURU2_MAIN_ClearNameWindow(struct Guru2Game *p,u32 index){struct Descriptor *w=(struct Descriptor *)p->windows.window[index];BMP_MENUWORK_DrawWindowBorder(w,0);BMP_Clear(BMP_WIN_GetBmp(w),0);BMP_WIN_TransferChars(w);BMP_WIN_MakeScreen((struct Cfg *)w);BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(w));}
 
 void GURU2_MAIN_DeleteCamera(struct Guru2Game *p){G3D_CAMERA_Delete(p->light);}
 
@@ -2296,11 +2296,11 @@ void GURU2_MAIN_RotatePlayerRecords(struct Guru2Game *p,int amount)
  *   FX_SinCosTable_ 0x020A1B38 data a2
  * typedef unsigned short u16;
  * extern const short FX_SinCosTable_[];
- * int GF_STANDARD_SinDeg(u16 angle) {
+ * int GF_STANDARD_CosFromDegrees(u16 angle) {
  *     if (angle >= 360) return 0;
  *     return FX_SinCosTable_[((angle * 65535 / 360) >> 4) * 2 + 1];
  * }
- * int GF_STANDARD_Get_F5FC(u16 angle) {
+ * int GF_STANDARD_SinFromDegrees(u16 angle) {
  *     if (angle >= 360) return 0;
  *     return FX_SinCosTable_[((angle * 65535 / 360) >> 4) * 2];
  * }
@@ -2310,9 +2310,9 @@ void GURU2_MAIN_UpdateRecordPosition(struct Guru2Player *p,struct Guru2Vec3 *spi
     u16 angle;
     GURU2_MAIN_AddAngleWrapped(&amount,p->speed);
     angle=amount/4096;
-    p->pos.x=p->basePos.x+spinnerOffset->x+22*GF_STANDARD_SinDeg(angle);
+    p->pos.x=p->basePos.x+spinnerOffset->x+22*GF_STANDARD_CosFromDegrees(angle);
     p->pos.y=extra+(p->basePos.y-0x6000+spinnerOffset->y);
-    p->pos.z=p->basePos.z+spinnerOffset->z+22*GF_STANDARD_Get_F5FC(angle);
+    p->pos.z=p->basePos.z+spinnerOffset->z+22*GF_STANDARD_SinFromDegrees(angle);
     p->rotX=p->rotXFixed/4096;
     p->rotY=p->rotYFixed/4096;
     p->rotZ=p->rotZFixed/4096;
@@ -2561,7 +2561,7 @@ void GURU2_MAIN_AddSettleEffect(struct Guru2Game *p, int key)
 /*
  *   typedef unsigned short u16;
  *   extern const short FX_SinCosTable_[];
- *   int GF_STANDARD_Get_F5FC(u16 angle) {
+ *   int GF_STANDARD_SinFromDegrees(u16 angle) {
  *       if (angle >= 360) return 0;
  *       return FX_SinCosTable_[((angle * 65535 / 360) >> 4) * 2];
  *   }
@@ -2579,7 +2579,7 @@ void GURU2_MAIN_UpdateWobbleEffect(int *p)
         p[3] = 0x14000;
         p[1]++;
     case 1:
-        amount = GF_STANDARD_Get_F5FC((u16)(p[4] / 4096)) * (p[2] / 4096);
+        amount = GF_STANDARD_SinFromDegrees((u16)(p[4] / 4096)) * (p[2] / 4096);
         q[13] = 0;
         GURU2_MAIN_AddAngleWrapped(q + 13, amount);
         old = p[4];
@@ -3117,13 +3117,13 @@ int GURU2_MAIN_IsAbortVoted(struct Guru2Game *p)
     return p->comm->abortMask != 0;
 }
 
-void GURU2_MAIN_PushAndPlayBgm(unsigned int bgmId) { GFL_USE_SetBgmPlayerParam((void *)1);GFL_USE_PushBgm();GFL_USE_CancelChangeAndPlayBgm(bgmId,65535); }
+void GURU2_MAIN_PushAndPlayBgm(unsigned int bgmId) { GFL_USE_SetBgmPaused((void *)1);GFL_USE_PushBgm();GFL_USE_CancelChangeAndPlayBgm(bgmId,65535); }
 
 /*
  * prototype: Legacy 02005E9C source lists four inputs, but its complete
  * body starts with 02005FBC(void) and reads no entry inputs; omitted them.
  */
-int GURU2_MAIN_PopBgmWhenDone(void) { if(GFL_USE_IsBgmPlaying()==0) { GFL_USE_PopBgm();GFL_USE_SetBgmPlayerParam(0);return 0; }return 1; }
+int GURU2_MAIN_PopBgmWhenDone(void) { if(GFL_USE_IsBgmPlaying()==0) { GFL_USE_PopBgm();GFL_USE_SetBgmPaused(0);return 0; }return 1; }
 
 void GURU2_MAIN_BroadcastResult(struct Guru2Game *p, int amount)
 {

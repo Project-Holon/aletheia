@@ -115,7 +115,7 @@
  *   MIi_CpuCopy16 0x02082A60 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BG_SYS_Delete  0x0203F9B4  arm  arm9
- *   BG_SYS_ResetSlot  0x02041EE4  arm  arm9
+ *   BG_SYS_ChangeScroll  0x02041EE4  arm  arm9
  *   BMP_GetVisiblePlane  0x02043658  arm  arm9
  */
 #include "intro_types.h"
@@ -243,7 +243,7 @@ extern void BG_SYS_SetPlaneVisible(unsigned char, unsigned char);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern u32 BMP_GetVisiblePlane(void);
-extern void BG_SYS_ResetSlot(u32, u32, u32);
+extern void BG_SYS_ChangeScroll(u32, u32, u32);
 extern void BG_SYS_Update(void);
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
@@ -559,7 +559,7 @@ void INTRO_GRAPHIC_ExitBg(IntroDisplay *disp)
 void INTRO_GRAPHIC_ResetBgSlot(IntroDisplay *disp)
 {
     if (BMP_GetVisiblePlane() & 4) {
-        BG_SYS_ResetSlot(2, 1, 1);
+        BG_SYS_ChangeScroll(2, 1, 1);
     }
 }
 

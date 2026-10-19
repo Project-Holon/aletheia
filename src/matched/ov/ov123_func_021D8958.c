@@ -9,8 +9,8 @@
  * status: EXACT
  * symbols:
  *   func_020093C8 0x020093C8 thumb
- *   GF_STANDARD_SetField00_F4E4 0x0203F4E4 arm
- *   GF_STANDARD_SetupRtc_F540 0x0203F540 arm
+ *   GF_STANDARD_GetCachedDate 0x0203F4E4 arm
+ *   GF_STANDARD_GetDayOfYear 0x0203F540 arm
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
@@ -31,8 +31,8 @@ extern int func_02008BD0(const struct Sub02008AECSession *s);
 extern struct Sub02009448Obj *func_02009448(void *sys);
 struct Sub02009210Obj;
 extern u32 func_020093C8(const struct Sub02009210Obj *obj);
-extern void GF_STANDARD_SetField00_F4E4(struct RtcDate *);
-extern int GF_STANDARD_SetupRtc_F540(struct RtcDate *);
+extern void GF_STANDARD_GetCachedDate(struct RtcDate *);
+extern int GF_STANDARD_GetDayOfYear(struct RtcDate *);
 extern int GFL_NET_GetRunState(void);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
@@ -55,9 +55,9 @@ void GSYNC_STATE_StateSendFinalRequest(char *p)
     saved.month=(u8)(value>>16);
     saved.day=(u8)(value>>8);
     saved.week=(u8)value;
-    GF_STANDARD_SetField00_F4E4(&current);
-    day=GF_STANDARD_SetupRtc_F540(&saved);
-    if (day==GF_STANDARD_SetupRtc_F540(&current)) {
+    GF_STANDARD_GetCachedDate(&current);
+    day=GF_STANDARD_GetDayOfYear(&saved);
+    if (day==GF_STANDARD_GetDayOfYear(&current)) {
         GSYNC_STATE_ChangeState((u8 *)p,(int)GSYNC_STATE_StateWaitMessageThenPrintSecond,0x869);
         return;
     }

@@ -12,13 +12,13 @@
  * status:   EXACT
  * function: BATTLE_EXAMINATION_RefreshMarker, BATTLE_EXAMINATION_GetGreetingSize
  *
- * GF_STANDARD_SetupCalc: not otherwise called in arm9_main
+ * GF_STANDARD_CalcCrc16: not otherwise called in arm9_main
  * symbols:
- *   GF_STANDARD_SetupCalc 0x0203F1FC  arm
+ *   GF_STANDARD_CalcCrc16 0x0203F1FC  arm
  *
  * alias: BATTLE_EXAMINATION_RefreshMarker toggles one flag half of a caller object's field pair
  * addressed by the constant id 0x5c6: it looks the field up through
- * GF_STANDARD_SetupCalc, and if the stored halfword at +0x5c6 already equals the
+ * GF_STANDARD_CalcCrc16, and if the stored halfword at +0x5c6 already equals the
  * looked-up value, rewrites the paired halfword at +0x5c2 with the constant
  * 0x7da and refreshes +0x5c6 with a second lookup.  BATTLE_EXAMINATION_GetGreetingSize is an
  * unlabelled getter returning the constant 0x28, sitting in what disasm.py
@@ -35,14 +35,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
+extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
 
 void BATTLE_EXAMINATION_RefreshMarker(void *obj)
 {
     u32 id = 0x5c6;
-    if (*(u16 *)((u8 *)obj + id) == GF_STANDARD_SetupCalc(obj, id)) {
+    if (*(u16 *)((u8 *)obj + id) == GF_STANDARD_CalcCrc16(obj, id)) {
         *(u16 *)((u8 *)obj + (id - 4)) = 0x7da;
-        *(u16 *)((u8 *)obj + id) = GF_STANDARD_SetupCalc(obj, id);
+        *(u16 *)((u8 *)obj + id) = GF_STANDARD_CalcCrc16(obj, id);
     }
 }
 

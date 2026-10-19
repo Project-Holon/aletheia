@@ -13,7 +13,7 @@
  * Cut from wifilogin_disp.c by tools/splitfile.py.
  *
  * symbols:
- *   GAME_DATA_GetField1A0 0x0201283C thumb
+ *   GAME_DATA_GetWifiList 0x0201283C thumb
  *   WIFILIST_GetWork 0x02009860 thumb
  *   WIFILIST_GetDwcFriendData 0x020099C8 thumb
  *   WIFILIST_MergeFriendRecord 0x02009C24 thumb
@@ -53,7 +53,7 @@
  *   REGULATION_Card_SetValue 0x0200B110 thumb
  *   WIFILIST_Init 0x02009800 thumb
  *   REGULATION_Card_GetValue 0x0200B078 thumb
- *   APP_ENV_InitParentalControl 0x0202EB44 thumb
+ *   APP_ENV_IsWirelessAvailable 0x0202EB44 thumb
  *   APP_ENV_IsEulaAgreed 0x0202EB4C thumb
  *   DWC_CheckHasProfile 0x020597C8 arm
  *   DWC_CheckValidConsole 0x02059760 arm
@@ -82,7 +82,7 @@
  *   d_021D65E4 0x021D65E4 data a4
  *   d_021D65D4 0x021D65D4 data a4
  *   TCB_DeleteTask 0x02030EAC arm
- *   BG_SYS_SetTileUnit 0x02040DA8 arm
+ *   BG_SYS_FreeTiles 0x02040DA8 arm
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
  *   GFL_HEAP_Free 0x020307B0 arm
@@ -120,7 +120,7 @@
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   GX_LoadBGPltt 0x0207E3D0 arm
  *   GXS_LoadBGPltt 0x0207E468 arm
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_RegisterObjCharFromHandle 0x02049740 arm
@@ -133,7 +133,7 @@
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   GFL_USE_AddHBlankTask 0x02005624 thumb
- *   PMSI_PARAM_MakeSineTable 0x02024230 thumb
+ *   FX_MakeSineTable 0x02024230 thumb
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_CreateUnit 0x0204B100 arm
  *   gClActorInitParam 0x020A1448 data a4
@@ -198,7 +198,7 @@ typedef struct BgTemplate {
 
 struct Rect { short x,y; u16 z; u8 kind,mode; };
 
-extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
+extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 
 extern struct Sub020097BCObj *WIFILIST_GetWork(struct Sub020097BCObj *obj);
 
@@ -272,7 +272,7 @@ extern void WIFILIST_Init(void *p);
 
 extern int REGULATION_Card_GetValue(struct Reg2 *p, u32 id);
 
-extern int APP_ENV_InitParentalControl(u8 *);
+extern int APP_ENV_IsWirelessAvailable(u8 *);
 
 extern u32 APP_ENV_IsEulaAgreed(void);
 
@@ -322,7 +322,7 @@ extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 
 extern void TCB_DeleteTask(struct Node *n);
 
-extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
+extern void BG_SYS_FreeTiles(u32 idx, u32 count, u32 tile);
 
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
@@ -365,7 +365,7 @@ extern void GX_LoadBGPltt(void *, int, int);
 
 extern void GXS_LoadBGPltt(void *, int, int);
 
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
@@ -391,7 +391,7 @@ extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
 
 extern void *GFL_USE_AddHBlankTask(u32,u32,u32);
 
-extern void PMSI_PARAM_MakeSineTable(short *,u32,u16,int);
+extern void FX_MakeSineTable(short *,u32,u16,int);
 
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 
@@ -569,14 +569,14 @@ extern const BgTemplate d_021D6404, d_021D6344, d_021D64E4, d_021D6504;
 
 extern u8 gClActorInitParam[];
 
-void WIFILOGIN_DISP_OpenProfileCard(u8 *p) { WIFILIST_GetWork((struct Sub020097BCObj *)GAME_DATA_GetField1A0(((struct WifiloginWork *)p)->userdata)); }
+void WIFILOGIN_DISP_OpenProfileCard(u8 *p) { WIFILIST_GetWork((struct Sub020097BCObj *)GAME_DATA_GetWifiList(((struct WifiloginWork *)p)->userdata)); }
 
-void WIFILOGIN_DISP_GetProfileSlot0(u8 *p) { WIFILIST_GetDwcFriendData((void *)GAME_DATA_GetField1A0(((struct WifiloginWork *)p)->userdata),0); }
+void WIFILOGIN_DISP_GetProfileSlot0(u8 *p) { WIFILIST_GetDwcFriendData((void *)GAME_DATA_GetWifiList(((struct WifiloginWork *)p)->userdata),0); }
 
 /*
  * extent: Two zero bytes of alignment padding follow the return.
  */
-void WIFILOGIN_DISP_CopyProfileSlot(int a,int b,u8 *p) { WIFILIST_MergeFriendRecord((void *)GAME_DATA_GetField1A0(((struct WifiloginWork *)p)->userdata),a,b); }
+void WIFILOGIN_DISP_CopyProfileSlot(int a,int b,u8 *p) { WIFILIST_MergeFriendRecord((void *)GAME_DATA_GetWifiList(((struct WifiloginWork *)p)->userdata),a,b); }
 
 void WIFILOGIN_DISP_StepCancelOnReady(u8 *p) { if(WIPE_SYS_EndCheck() && WIFILOGIN_MSG_IsPrintDone((u8 *)(((struct WifiloginWork *)p)->message)) && WIFILOGIN_COMMON_IsCancelInput(p)) WIFILOGIN_COMMON_SetStateHandler(p,(u32)WIFILOGIN_DISP_StepCallSync); }
 
@@ -659,7 +659,7 @@ void WIFILOGIN_DISP_StepCancelWait(u8 *p) {
  */
 void WIFILOGIN_DISP_StepCheckAccount(u8 *p)
 {
-    if(APP_ENV_InitParentalControl(p)==0) {
+    if(APP_ENV_IsWirelessAvailable(p)==0) {
         WIFILOGIN_MSG_CloseMessage((u8 *)((int)(((struct WifiloginWork *)p)->message)));
         WIFILOGIN_MSG_PrintMessage(((struct WifiloginWork *)p)->message,39);
         ((struct WifiloginWork *)p)->state->aidMismatch=1;
@@ -768,7 +768,7 @@ int WIFILOGIN_DISP_Create(void *ctx,int unused,u8 *q)
     ((struct WifiloginWork *)p)->disp=WIFILOGIN_DISP_CreateDisplay(((struct WifiloginWork *)p)->heapId,((struct WifiloginState *)q)->mode,((struct WifiloginState *)q)->reconnect);
     ((struct WifiloginWork *)p)->message=WIFILOGIN_MSG_Create(((struct WifiloginWork *)p)->heapId,232,((struct WifiloginState *)q)->reconnect);
     ((struct WifiloginWork *)p)->saveControl=GAME_DATA_GetSaveControl(((struct WifiloginState *)q)->userdata);
-    ((struct WifiloginWork *)p)->profile=(void *)GAME_DATA_GetField1A0(((struct WifiloginState *)q)->userdata);
+    ((struct WifiloginWork *)p)->profile=(void *)GAME_DATA_GetWifiList(((struct WifiloginState *)q)->userdata);
     WIPE_SYS_Start(0,1,1,0,6,1,((struct WifiloginWork *)p)->heapId);
     *(u8 * *)&((struct WifiloginWork *)p)->state=q;
     if(GFL_NET_GetRunState()) {
@@ -838,8 +838,8 @@ void WIFILOGIN_DISP_DeleteDisplay(u8 *p) {
         ((struct WifiloginDisp *)p)->frameTask = 0;
         ((struct WifiloginDisp *)p)->paletteReady = 0;
     }
-    BG_SYS_SetTileUnit(5, 1, 0);
-    BG_SYS_SetTileUnit(6, 1, 0);
+    BG_SYS_FreeTiles(5, 1, 0);
+    BG_SYS_FreeTiles(6, 1, 0);
     BG_SYS_FreeLayerBuf(5);
     BG_SYS_FreeLayerBuf(4);
     BG_SYS_SetPlaneVisible(5, 0);
@@ -1046,7 +1046,7 @@ void WIFILOGIN_DISP_UpdatePalette(void *unused, u8 *p) {
     GXS_LoadBGPltt(p + 0x1f0 + ((struct WifiloginDisp *)p)->palIndex * 32, 40, 14);
     ++((struct WifiloginDisp *)p)->palIndex;
     if (((struct WifiloginDisp *)p)->palIndex >= 60) ((struct WifiloginDisp *)p)->palIndex = 0;
-    BG_SYS_FillScrollArea(((struct WifiloginDisp *)p)->palLayer, 2, 7);
+    BG_SYS_ChangeScrollImmediate(((struct WifiloginDisp *)p)->palLayer, 2, 7);
 }
 
 /*
@@ -1087,7 +1087,7 @@ void WIFILOGIN_DISP_CreateActors(u8 *p)
     G2x_SetBlendAlpha_((void *)0x04000050,4,3,6,16);
     G2x_SetBlendAlpha_((void *)0x04001050,8,21,6,16);
     ((struct WifiloginDisp *)p)->hblankTask = GFL_USE_AddHBlankTask((u32)WIFILOGIN_DISP_ScanlineEffect,(u32)p,0);
-    PMSI_PARAM_MakeSineTable(((struct WifiloginDisp *)p)->sineTable,192,1456,6144);
+    FX_MakeSineTable(((struct WifiloginDisp *)p)->sineTable,192,1456,6144);
     ((struct WifiloginDisp *)p)->frameTimer = 10;
 }
 
@@ -1135,7 +1135,7 @@ void WIFILOGIN_DISP_ScanlineEffect(void *unused, u8 *p) {
     }
 }
 
-void WIFILOGIN_DISP_VBlank(void *task,u8 *p) { if(((struct WifiloginDisp *)p)->frameTimer>0) { BG_SYS_FillScrollArea(7,0,((struct WifiloginDisp *)p)->frameTimer-1); BG_SYS_FillScrollArea(2,0,((struct WifiloginDisp *)p)->frameTimer-1); } CLACT_VBlankSystem(); }
+void WIFILOGIN_DISP_VBlank(void *task,u8 *p) { if(((struct WifiloginDisp *)p)->frameTimer>0) { BG_SYS_ChangeScrollImmediate(7,0,((struct WifiloginDisp *)p)->frameTimer-1); BG_SYS_ChangeScrollImmediate(2,0,((struct WifiloginDisp *)p)->frameTimer-1); } CLACT_VBlankSystem(); }
 
 void WIFILOGIN_DISP_SetPaletteFlag(u8 *p) { ((struct WifiloginDisp *)p)->palFlag = 1; }
 

@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   UNION_ONESELF_CheckNetErrorExit  0x0217BB20  thumb  ov019
+ *   UNION_ONESELF_HandleNetErrorExit  0x0217BB20  thumb  ov019
  *   UNION_MSG_CloseAllWindows  0x0217F074  thumb  ov019
  *   UNION_MSG_SetupPrintTalkMsg  0x0217F210  thumb  ov019
  *   UNION_MSG_CheckTalkPrintEnd  0x0217F1EC  thumb  ov019
@@ -28,7 +28,7 @@
 
 typedef unsigned char u8;
 
-int UNION_ONESELF_CheckNetErrorExit(char *p);
+int UNION_ONESELF_HandleNetErrorExit(char *p);
 typedef unsigned short u16;
 typedef unsigned int   u32;
 void UNION_MSG_CloseAllWindows(void *p);
@@ -52,7 +52,7 @@ int UNION_ONESELF_ColosseumLeaveConfirmMain(u8 *w, void *obj, void *a2, u8 *stat
     int flag;
 
     h = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(a2));
-    if (UNION_ONESELF_CheckNetErrorExit((char *)w) == 1) {
+    if (UNION_ONESELF_HandleNetErrorExit((char *)w) == 1) {
         UNION_MSG_CloseAllWindows(w);
         return 1;
     }

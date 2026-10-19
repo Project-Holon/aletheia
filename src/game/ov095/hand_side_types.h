@@ -94,8 +94,8 @@ extern int BTL_SERVER_FLOW_IsPokeGroundedById(struct BtlServerFlow *flow, int po
 extern int BTL_SERVER_FLOW_IsPokeInPosTable(struct BtlServerFlow *flow, u8 pokeId);
 extern int BTL_SERVER_FLOW_GetPokeViewPos(struct BtlServerFlow *flow, int pokeId);
 extern int BTL_POKEPARAM_HasType(struct BtlPokeParam *bpp, int typeId);
-extern u32 BTLV_CORE_MakeSlotKind1Empty(void);
-extern u32 BTLV_CORE_MakeSlotKind1Index15(void);
+extern u32 BTL_SICKCONT_MakeKind1Empty(void);
+extern u32 BTL_SICKCONT_MakeKind1Index15(void);
 extern int HAND_SIDE_GetStackCountByFactor(struct BtlEventFactor *factor, u32 side);
 
 extern u8 BTL_MAIN_IsPokeIdInSecondPair(u32 pokeId);

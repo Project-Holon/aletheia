@@ -14,7 +14,7 @@
  *   WIFIBATTLEMATCH_VIEW_DeleteRecordActor 0x021E7C14 thumb ov177
  *   WIFIBATTLEMATCH_VIEW_DeleteRecordWin 0x021E7B44 thumb ov177
  *   PMS_DRAW_Delete 0x0202DC08 thumb
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   func_020307B0 0x020307B0 arm
  *   WIFIBATTLEMATCH_VIEW_UpdateRecordWindowInner 0x021E7AE0 thumb ov177
  */
@@ -25,7 +25,7 @@ struct Obj;
 extern void WIFIBATTLEMATCH_VIEW_DeleteRecordActor(char *p);
 extern void WIFIBATTLEMATCH_VIEW_DeleteRecordWin(void *);
 extern void PMS_DRAW_Delete(struct Obj *p);
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 extern u32 func_020307B0(void *p);
 extern int WIFIBATTLEMATCH_VIEW_UpdateRecordWindowInner(unsigned char *p, void *mgr);
 void WIFIBATTLEMATCH_VIEW_DeleteRecordWindow(char *p)
@@ -38,8 +38,8 @@ void WIFIBATTLEMATCH_VIEW_DeleteRecordWindow(char *p)
     WIFIBATTLEMATCH_VIEW_DeleteRecordActor(p);
     WIFIBATTLEMATCH_VIEW_DeleteRecordWin(p);
     PMS_DRAW_Delete(((struct Obj14374 *)p)->f7C);
-    BG_SYS_FillScrollArea(2, 0, -256);
-    BG_SYS_FillScrollArea(1, 0, -256);
+    BG_SYS_ChangeScrollImmediate(2, 0, -256);
+    BG_SYS_ChangeScrollImmediate(1, 0, -256);
     func_020307B0(p);
 }
 int WIFIBATTLEMATCH_VIEW_UpdateRecordWindow(void *p, void *mgr)

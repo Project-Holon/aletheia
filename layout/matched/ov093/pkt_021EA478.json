@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BTLV_CORE_GetZeroMasked",
+   "name": "BTL_SICKCONT_MakeNone",
    "address": "0x021E8918",
    "kind": "game",
    "region": "ov093",

@@ -22,7 +22,7 @@
  *   NNS_FndFreeToExpHeap  0x02060E30  arm
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   NNS_G2dInitCellBank         0x02061358  arm
+ *   NNS_FndInitAllocatorForExpHeap         0x02061358  arm
  *   NNS_FndResizeForMBlockExpHeap    0x02060CD0  arm
  *   NNSi_FndGetMBlockSize    0x02060F90  arm
  *   NNSi_FndGetListTotalSize    0x02060E6C  arm
@@ -126,7 +126,7 @@ extern void  NNSi_FndDestroyExpHeap(void *block);
 extern void NNS_FndFreeToExpHeap(struct ExpHeap *heap, void *block);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 state);
-extern void NNS_G2dInitCellBank(struct HeapAllocator *s, u32 a, u32 b);
+extern void NNS_FndInitAllocatorForExpHeap(struct HeapAllocator *s, u32 a, u32 b);
 extern u32 NNS_FndResizeForMBlockExpHeap(struct ExpHeap *heap, void *memBlock, u32 size);
 extern int NNSi_FndGetMBlockSize(char *p);
 extern int NNSi_FndGetListTotalSize(int *p);
@@ -731,7 +731,7 @@ fail:
 
 /*
  * BLOCKED on one relocation site: all 100 concrete code bytes (108 with the
- * trailing pool) are correct, but the call to NNS_G2dInitCellBank at +0048 has no
+ * trailing pool) are correct, but the call to NNS_FndInitAllocatorForExpHeap at +0048 has no
  * witness. 0x02061358 is the 20-byte record-initialiser in the NNS-shaped
  * library block around 0x02060000; it has exactly one branch reference in
  * the whole image and it is this call, so class `label` cannot carry it
@@ -760,7 +760,7 @@ fail:
  *
  * The arena is passed straight from GFL_HEAP_GetHeap's return into r1 with no
  * local bound in between, so the call is the nested form
- * NNS_G2dInitCellBank(p, GFL_HEAP_GetHeap(heapId & 0x7fff), len).
+ * NNS_FndInitAllocatorForExpHeap(p, GFL_HEAP_GetHeap(heapId & 0x7fff), len).
  *
  * Verified with:
  *   python tools/match.py one --src src/pending/GFL_HEAP_InitAllocator.c \
@@ -781,7 +781,7 @@ u32 GFL_HEAP_InitAllocator(void *allocator, u32 heapIdAndDirection, s32 alignmen
         gHeapManager.lastError = 1;
         goto fail;
     }
-    NNS_G2dInitCellBank(allocator, (u32)GFL_HEAP_GetHeap(heapIdAndDirection & 0x7FFF), signedAlignment);
+    NNS_FndInitAllocatorForExpHeap(allocator, (u32)GFL_HEAP_GetHeap(heapIdAndDirection & 0x7FFF), signedAlignment);
     gHeapManager.lastError = 0;
     return 1;
 

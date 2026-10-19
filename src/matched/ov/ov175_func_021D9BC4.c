@@ -12,7 +12,7 @@
  * symbols:
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
- *   POKE_TOOL_Dummy  0x020185F0  thumb
+ *   POKE_TOOL_CastToBoxParam  0x020185F0  thumb
  *   POKE_TOOL_GetBoxParamSize  0x020173E8  thumb
  *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  *
@@ -25,7 +25,7 @@ typedef unsigned long u32;
 
 extern unsigned int POKEPARTY_GetCount(void *list);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
-extern u8 *POKE_TOOL_Dummy(u32 entry);
+extern u8 *POKE_TOOL_CastToBoxParam(u32 entry);
 extern u32 POKE_TOOL_GetBoxParamSize(void);
 extern int GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 
@@ -38,8 +38,8 @@ int WIFIBATTLEMATCH_NET_CompareParty(u32 a, u32 b)
         for (i = 0; i < n; i++) {
             u32 ea = (u32)POKEPARTY_GetMember((void *)a, i);
             u32 eb = (u32)POKEPARTY_GetMember((void *)b, i);
-            u8 *pa = POKE_TOOL_Dummy(ea);
-            u8 *pb = POKE_TOOL_Dummy(eb);
+            u8 *pa = POKE_TOOL_CastToBoxParam(ea);
+            u8 *pb = POKE_TOOL_CastToBoxParam(eb);
             if (GF_STANDARD_CompareBytes(pa, pb, POKE_TOOL_GetBoxParamSize()) != 0)
                 return 0;
         }

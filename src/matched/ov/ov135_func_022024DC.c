@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   WORLDTRADE_BOX_IsSpeciesFlagged  0x021F6DE8  thumb
+ *   WORLDTRADE_BOX_IsHoldingMail  0x021F6DE8  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  */
 
@@ -31,12 +31,12 @@ typedef struct {
     u16 species;
 } Work;
 
-extern int WORLDTRADE_BOX_IsSpeciesFlagged(u32 handle);
+extern int WORLDTRADE_BOX_IsHoldingMail(u32 handle);
 extern u32 POKEPARTY_GetCount(void *p);
 
 int WORLDTRADE_ADAPTER_CheckPartyHasOther(Work *p, void *mon)
 {
-    if (WORLDTRADE_BOX_IsSpeciesFlagged((u32)mon) != 0 && POKEPARTY_GetCount(p->ctx->party) == 6) {
+    if (WORLDTRADE_BOX_IsHoldingMail((u32)mon) != 0 && POKEPARTY_GetCount(p->ctx->party) == 6) {
         return 2;
     }
     if (p->species == 0x2D0 && POKEPARTY_GetCount(p->ctx->party) == 6) {

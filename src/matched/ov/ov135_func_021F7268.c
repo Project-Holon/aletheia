@@ -11,14 +11,14 @@
  * symbols:
  *   func_020307B0 0x020307B0 arm
  *   WORLDTRADE_ClearAndShowPlanes 0x021F5074 thumb ov135
- *   WORLDTRADE_ClearBusyFlag 0x021F4EC8 thumb ov135
+ *   WORLDTRADE_AdvanceScreenId 0x021F4EC8 thumb ov135
  */
 #include "../include/Obj03829.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
 extern void WORLDTRADE_ClearAndShowPlanes(void *p);
-extern void WORLDTRADE_ClearBusyFlag(u8 *p);
+extern void WORLDTRADE_AdvanceScreenId(u8 *p);
 int WORLDTRADE_DEMO_Exit(u8 *p)
 {
     if (((struct Obj03829 *)p)->fD8) {
@@ -32,7 +32,7 @@ int WORLDTRADE_DEMO_Exit(u8 *p)
     }
     ((struct Obj03829 *)p)->f12F8 = 0;
     WORLDTRADE_ClearAndShowPlanes(p);
-    WORLDTRADE_ClearBusyFlag(p);
+    WORLDTRADE_AdvanceScreenId(p);
     *(volatile unsigned short *)0x04000050 = 0;
     return 0;
 }

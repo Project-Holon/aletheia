@@ -1,5 +1,5 @@
 /*
- * function: WAZA_OSHIE_LoadTexPlttByName
+ * function: TEXT_TEXTURE_LoadTexPlttByName
  * address:  0x0216FAB4
  * packet:   pkt_ov010_0216FAB4
  * region:   ov010
@@ -11,7 +11,7 @@
  *
  * Look up a texture and a palette by name in a G3D texture resource,
  * derive their formats from the 7-entry d_021726A0 table, and load them
- * through WAZA_OSHIE_UploadTextTexture (optionally WAZA_OSHIE_UploadPalette). One lever: the four
+ * through TEXT_TEXTURE_UploadTextTexture (optionally TEXT_TEXTURE_UploadPalette). One lever: the four
  * stack aggregates declared in reverse of their frame order.
  *
  * symbols:
@@ -20,8 +20,8 @@
  *   NNS_G3dGetResDataByName        0x0206E62C  arm
  *   GF_FONT_Create        0x0201D7EC  thumb
  *   GF_FONT_Delete        0x0201D83C  thumb
- *   WAZA_OSHIE_UploadTextTexture        0x0216FD54  thumb  ov010
- *   WAZA_OSHIE_UploadPalette        0x0216FE04  thumb  ov010
+ *   TEXT_TEXTURE_UploadTextTexture        0x0216FD54  thumb  ov010
+ *   TEXT_TEXTURE_UploadPalette        0x0216FE04  thumb  ov010
  *   d_021726A0           0x021726A0  data
  */
 #include "../include/Obj09341.h"
@@ -72,11 +72,11 @@ extern void *NNS_G3dGetResDataByName(const void *dict, const char *name);
 struct GfFont;
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 GF_FONT_Delete(void *ptr);
-extern void WAZA_OSHIE_UploadTextTexture(char *a, u32 b, u16 c, u16 d, u16 e, u16 f);
-extern void WAZA_OSHIE_UploadPalette(char *p, void *q);
+extern void TEXT_TEXTURE_UploadTextTexture(char *a, u32 b, u16 c, u16 d, u16 e, u16 f);
+extern void TEXT_TEXTURE_UploadPalette(char *p, void *q);
 extern const Fmt d_021726A0[];
 
-int WAZA_OSHIE_LoadTexPlttByName(void *file, const char *texName, void *extra, const char *plttName, u32 a4, u16 a5, u16 a6, u16 a7, u16 heap, TexKey *out)
+int TEXT_TEXTURE_LoadTexPlttByName(void *file, const char *texName, void *extra, const char *plttName, u32 a4, u16 a5, u16 a6, u16 a7, u16 heap, TexKey *out)
 {
     TexKey key;
     char tn[16];
@@ -142,9 +142,9 @@ int WAZA_OSHIE_LoadTexPlttByName(void *file, const char *texName, void *extra, c
     req.texOfs = key.texOfs;
     req.f08 = key.f08;
     req.plttOfs = key.plttOfs;
-    WAZA_OSHIE_UploadTextTexture((char *)(&req), a4, a5, a6, a7, heap);
+    TEXT_TEXTURE_UploadTextTexture((char *)(&req), a4, a5, a6, a7, heap);
     if (extra != 0)
-        WAZA_OSHIE_UploadPalette((char *)(&req), extra);
+        TEXT_TEXTURE_UploadPalette((char *)(&req), extra);
     GF_FONT_Delete(font);
     if (out != 0)
         *out = key;

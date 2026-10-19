@@ -22,8 +22,8 @@
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  *   BG_SYS_SetTileEntry 0x02041300 arm
  *   BG_SYS_DrawTileEx 0x020410D0 arm
  */
@@ -89,8 +89,8 @@ extern void CLACT_SetSurfacePos(void *,int,void *);
 extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BG_SYS_InitBgLayer(u8,void *,int);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void BG_SYS_SetFlagField06(u32 bit);
-extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
+extern void BG_SYS_MarkTileDirty(u32 bit);
+extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
 extern void BG_SYS_SetTileEntry(u8,int,int,int,u8,u8,u8);
 extern void BG_SYS_DrawTileEx(u8, u8, u8, u8, u8, void *, u8, u8, u32, u32);
 void WF2DMAP_SCRDRAW_SetPoint(Wf2dmapPoint *p, s16 y, s16 x);
@@ -174,10 +174,10 @@ void WF2DMAP_SCRDRAW_SetScroll(char *surface,int x,int y)
     if(tx!=((Wf2dmapSurface *)surface)->tileX||ty!=((Wf2dmapSurface *)surface)->tileY) {
         ((Wf2dmapSurface *)surface)->tileY=ty; ((Wf2dmapSurface *)surface)->tileX=tx;
         WF2DMAP_SCRDRAW_DrawTilesClipped(((Wf2dmapSurface *)surface)->surface,((Wf2dmapSurface *)surface)->layer,(unsigned int)(((Wf2dmapSurface *)surface)->size),-tx,-ty);
-        BG_SYS_SetFlagField06((u8)(((Wf2dmapSurface *)surface)->layer));
+        BG_SYS_MarkTileDirty((u8)(((Wf2dmapSurface *)surface)->layer));
     }
-    BG_SYS_ResetSlot((u8)(((Wf2dmapSurface *)surface)->layer),(int)0,(int)rx);
-    BG_SYS_ResetSlot((u8)(((Wf2dmapSurface *)surface)->layer),(int)3,(int)ry);
+    BG_SYS_ChangeScroll((u8)(((Wf2dmapSurface *)surface)->layer),(int)0,(int)rx);
+    BG_SYS_ChangeScroll((u8)(((Wf2dmapSurface *)surface)->layer),(int)3,(int)ry);
 }
 
 /*

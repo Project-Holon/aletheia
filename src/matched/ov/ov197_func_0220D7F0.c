@@ -9,23 +9,23 @@
  * status: EXACT*
  * trailing: 2 zero alignment bytes at 0x0220D846.
  * symbols:
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  */
-extern void BG_SYS_ResetSlot(unsigned int, unsigned int, unsigned int);
+extern void BG_SYS_ChangeScroll(unsigned int, unsigned int, unsigned int);
 void B_BAG_MAIN_ResetBgSlot(void *unused, int mode)
 {
     switch (mode) {
     case 0:
-        BG_SYS_ResetSlot(6, 0, 0);
-        BG_SYS_ResetSlot(6, 3, 0);
+        BG_SYS_ChangeScroll(6, 0, 0);
+        BG_SYS_ChangeScroll(6, 3, 0);
         break;
     case 1:
-        BG_SYS_ResetSlot(6, 0, 256);
-        BG_SYS_ResetSlot(6, 3, 0);
+        BG_SYS_ChangeScroll(6, 0, 256);
+        BG_SYS_ChangeScroll(6, 3, 0);
         break;
     case 2:
-        BG_SYS_ResetSlot(6, 0, 0);
-        BG_SYS_ResetSlot(6, 3, 256);
+        BG_SYS_ChangeScroll(6, 0, 0);
+        BG_SYS_ChangeScroll(6, 3, 256);
         break;
     }
 }

@@ -25,10 +25,10 @@
  *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   func_02045EC0  0x02045EC0  arm
  *   STRBUF_Create  0x020457B0  arm
- *   WORDSET_Callback  0x0201EE60  thumb
+ *   WORDSET_SetSlotSpeciesName  0x0201EE60  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   STRBUF_Delete  0x02045808  arm
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   func_021C0740  0x021C0740  thumb  ov208
  *   BMP_WIN_TransferChars  0x02045334  arm
@@ -69,10 +69,10 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void WORDSET_Callback(struct WordSet *p, u32 i, u16 v);
+extern void WORDSET_SetSlotSpeciesName(struct WordSet *p, u32 i, u16 v);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_021C0740(u16 *heap, u8 *p, int key, u8 i);
 extern void BMP_WIN_TransferChars(struct Descriptor *p);
@@ -120,10 +120,10 @@ void ZUKAN_DETAIL_AREA_LoadAreaEntries(u16 *heap, u8 *p, int key)
     win = WORDSET_CreateDefault(*heap);
     str = func_02045EC0((struct MsgBank *)W(0xc), 0xbd);
     buf = STRBUF_Create(0x40, *heap);
-    WORDSET_Callback(win, 0, id);
+    WORDSET_SetSlotSpeciesName(win, 0, id);
     WORDSET_CopyTaggedText(win, buf, str);
     STRBUF_Delete(str);
-    WORDSET_DeleteStrbufED04(win);
+    WORDSET_Delete(win);
     PRINTSYS_PrintQueColor((void *)W(0x34), (u32)BMP_WIN_GetBmp((struct Descriptor *)W(0x14)), 0, 5, (u32)buf, W(4), 0x3c40);
     STRBUF_Delete(buf);
     W(0x24) = 1;

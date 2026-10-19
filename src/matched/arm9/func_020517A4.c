@@ -1,5 +1,5 @@
 /*
- * function: BUTTON_MAN_SetPos
+ * function: PARTICLE_EMITTER_SetPos
  * address:  0x020517A4
  * packet:   pkt_02051790
  * region:   arm9
@@ -16,7 +16,7 @@ typedef struct {
     int x, y, z;
 } Vec;
 
-void BUTTON_MAN_SetPos(char *p, const Vec *v)
+void PARTICLE_EMITTER_SetPos(char *p, const Vec *v)
 {
     *(Vec *)(p + 0x34) = *v;
 }

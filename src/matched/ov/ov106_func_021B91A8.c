@@ -19,7 +19,7 @@
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -40,7 +40,7 @@ extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
 extern struct WordSet *WORDSET_CreateDefault(u32);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *,u32,void *);
 extern void WORDSET_CopyTaggedText(struct WordSet *,void *,void *);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 void IRC_RANKING_PrintCentered(struct Descriptor *desc,struct StrObj *text,void *value,u32 font) {
  u16 x,y; struct WordSet *set; struct U16Vec *expanded;
  if(!value) {
@@ -60,6 +60,6 @@ void IRC_RANKING_PrintCentered(struct Descriptor *desc,struct StrObj *text,void 
   y-=(u16)(func_0201D42C((struct StrObj *)expanded,(void *)font)>>1);
   PRINTSYS_Print(BMP_WIN_GetBmp(desc),(s16)x,(s16)y,expanded,(void *)font);
   STRBUF_Delete(expanded);
-  WORDSET_DeleteStrbufED04(set);
+  WORDSET_Delete(set);
  }
 }

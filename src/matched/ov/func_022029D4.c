@@ -13,7 +13,7 @@
  *   GF_FONT_Delete  0x0201D83C  thumb  arm9
  *   MSGDATA_Delete  0x02045C04  arm  arm9
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb  arm9
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
+ *   WORDSET_Delete  0x0201ED04  thumb  arm9
  *
 
  *
@@ -29,7 +29,7 @@ typedef signed short s16;
 struct PrintSys;
 struct Rec;
 struct WordSet;
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
 extern u32 GF_FONT_Delete(void *ptr);
@@ -37,7 +37,7 @@ extern u32 func_020307B0(void *p);
 
 void WORLDTRADE_ADAPTER_ExitMessageSystem(u8 *p)
 {
-    WORDSET_DeleteStrbufED04((struct WordSet *)(((struct Obj07259 *)p)->f8));
+    WORDSET_Delete((struct WordSet *)(((struct Obj07259 *)p)->f8));
     MSGDATA_Delete((struct Rec *)(((struct Obj07259 *)p)->fC));
     PRINTSYS_QUE_Delete((struct PrintSys *)(((struct Obj07259 *)p)->f4));
     GF_FONT_Delete((void *)(((struct Obj07259 *)p)->f0));

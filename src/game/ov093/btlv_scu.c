@@ -140,7 +140,7 @@
  *   BMP_Delete  0x020437AC  arm
  *   BTLV_EFFECT_SetPokeEffectValue  0x021F8AE8  thumb  ov094
  *   BG_SYS_LoadTileData 0x02040B1C arm
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   BMP_GetPixels 0x020437D4 arm
  *   BTLV_EFFECT_GetOwner 0x021F86D4 thumb ov094
  *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
@@ -180,12 +180,12 @@
  *   gBtlMsgState     0x021F6398  data  ov093  a4
  *   gBtlMsgFlags     0x021F63D8  data  ov093  a4
  *   sBtlMsgBankFileIds     0x021F3990  data  ov093  a2
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  *   BTL_SIDE_GetPokeById  0x021B9940  thumb  ov093
- *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
- *   WORDSET_SetSlotMonName  0x0201EE84  thumb
- *   WORDSET_Set  0x0201F0F8  thumb
+ *   WORDSET_SetSlotMonNickname  0x0201EEF4  thumb
+ *   WORDSET_SetSlotMonSpeciesName  0x0201EE84  thumb
+ *   WORDSET_SetSlotFromMsgBF  0x0201F0F8  thumb
  *   BTL_MAIN_GetTrainerId  0x021BA004  thumb  ov093
  *   BTL_MAIN_GetTrainerNameAndType  0x021B9FAC  thumb  ov093
  *   BTL_MAIN_GetTrainerHandle  0x021BA064  thumb  ov093
@@ -202,7 +202,7 @@
  *   d_021F39DC  0x021F39DC  data  a4
  *   STRBUF_GetEosChar  0x02045A98  arm
  *   GF_FONT_GetTagChar  0x0201D5C4  thumb
- *   GF_FONT_CheckD5CC  0x0201D5CC  thumb
+ *   GF_FONT_IsWordSlotTag  0x0201D5CC  thumb
  *   GF_FONT_GetTagParam  0x0201D670  thumb
  *   GF_FONT_GetTagGroup  0x0201D5F4  thumb
  *   GF_FONT_GetTagKind  0x0201D658  thumb
@@ -211,11 +211,11 @@
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_SetSlotFromMsgB6 0x0201EF8C thumb
  *   WORDSET_SetSlotFromMsgCB 0x0201EF34 thumb
- *   WORDSET_Callback_EF40 0x0201EF40 thumb
+ *   WORDSET_SetSlotFromMsg36 0x0201EF40 thumb
  *   WORDSET_SetSlotFromMsgC7 0x0201F020 thumb
  *   BTL_MAIN_PokeIdToClientIdThunk  0x021B8DDC  thumb  ov093
  *   BTL_MAIN_IsOpposingPos  0x021B8CE8  thumb  ov093
- *   BTLV_CORE_GetZeroMasked  0x021E8918  thumb  ov093
+ *   BTL_SICKCONT_MakeNone  0x021E8918  thumb  ov093
  *   gBtlFieldCountdown  0x021F63F4  data  a4
  *   BTL_FIELD_RemoveSlot  0x021EFA94  thumb  ov093
  *   BTL_FIELD_AddSlotHolder  0x021EFAD8  thumb  ov093
@@ -224,7 +224,7 @@
  *   BTL_FIELD_TickSlots  0x021EFC78  thumb  ov093
  *   BTL_FIELD_IsSlotInUse  0x021EFCE4  thumb  ov093
  *   gBtlFieldFileName  0x021F3AF8  data  a4
- *   BTLV_CORE_GetSlotPosition  0x021E8A98  thumb  ov093
+ *   BTL_SICKCONT_GetPosition  0x021E8A98  thumb  ov093
  *   BTL_MSG_GetUiString  0x021EF694  thumb
  *   BTL_MSG_BuildBallStatusOpen  0x021EF71C  thumb
  *   BTL_MSG_BuildBallStatusRefresh  0x021EF7AC  thumb
@@ -410,7 +410,7 @@ extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heapId);
 extern void BMP_Delete(struct Bmp *bmp);
 extern void BTLV_EFFECT_SetPokeEffectValue(int viewPos, u32 speciesId);
 extern void BG_SYS_LoadTileData(int bgPlane, const void *src, u32 size, u32 tile);
-extern void BG_SYS_FillScrollArea(u32 bgPlane, u32 mode, u32 value);
+extern void BG_SYS_ChangeScrollImmediate(u32 bgPlane, u32 mode, u32 value);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void *BTLV_EFFECT_GetOwner(void);
 extern int PALANM_RequestFade(void *slots, u16 mode, u16 mask, s16 start, u8 end, u8 wait, u16 color, void *ctx);
@@ -2989,18 +2989,18 @@ int BTLV_SCU_ProcNamePlate(BtlvScuNamePlate *plate)
             plate->slideX = -0x90000;
             plate->slideDx = 0x12000;
         }
-        BG_SYS_FillScrollArea(plate->bgPlane, 0, plate->slideX >> 12);
-        BG_SYS_FillScrollArea(plate->bgPlane, 3, 0);
+        BG_SYS_ChangeScrollImmediate(plate->bgPlane, 0, plate->slideX >> 12);
+        BG_SYS_ChangeScrollImmediate(plate->bgPlane, 3, 0);
         GFL_USE_PlaySeDefaultVolume(BTLV_SCU_SE_PLATE_SLIDE);
         plate->phase++;
         break;
     case 2:
         if (plate->timer != 0) {
             plate->slideX += plate->slideDx;
-            BG_SYS_FillScrollArea(plate->bgPlane, 0, plate->slideX >> 12);
+            BG_SYS_ChangeScrollImmediate(plate->bgPlane, 0, plate->slideX >> 12);
             plate->timer--;
         } else {
-            BG_SYS_FillScrollArea(plate->bgPlane, 0, 0);
+            BG_SYS_ChangeScrollImmediate(plate->bgPlane, 0, 0);
             plate->counter = 0;
             plate->phase++;
         }
@@ -3094,9 +3094,9 @@ void BTLV_SCU_DrawNamePlate(BtlvScuNamePlate *plate)
 void BTLV_SCU_HideNamePlate(BtlvScuNamePlate *plate)
 {
     if (plate->sideIdx == 0)
-        BG_SYS_FillScrollArea(plate->bgPlane, 0, 0x90);
+        BG_SYS_ChangeScrollImmediate(plate->bgPlane, 0, 0x90);
     else
-        BG_SYS_FillScrollArea(plate->bgPlane, 0, -0x90);
+        BG_SYS_ChangeScrollImmediate(plate->bgPlane, 0, -0x90);
     plate->isShown = 0;
 }
 
@@ -3385,8 +3385,8 @@ int BTLV_SCU_StepBallWindowOpen(int *state, BtlvScu *scu)
         (*state)++;
         break;
     case 3:
-        BG_SYS_FillScrollArea(3, 0, 0);
-        BG_SYS_FillScrollArea(3, 3, 0x100);
+        BG_SYS_ChangeScrollImmediate(3, 0, 0);
+        BG_SYS_ChangeScrollImmediate(3, 3, 0x100);
         GFL_USE_PlaySeDefaultVolume(0x547);
         (*state)++;
         break;
@@ -3442,8 +3442,8 @@ int BTLV_SCU_StepBallWindowClose(int *state, BtlvScu *scu)
         (*state)++;
         break;
     case 1:
-        BG_SYS_FillScrollArea(3, 0, -0x90);
-        BG_SYS_FillScrollArea(3, 3, 0);
+        BG_SYS_ChangeScrollImmediate(3, 0, -0x90);
+        BG_SYS_ChangeScrollImmediate(3, 3, 0);
         (*state)++;
         break;
     case 2:

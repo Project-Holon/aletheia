@@ -17,16 +17,16 @@
  *   GFL_HEAP_Free 0x020307B0  arm
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   TCB_DeleteTask 0x02030EAC arm
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
- *   BG_SYS_FillScrollArea 0x02040618 arm
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
+ *   BG_SYS_SetPriority 0x0204047C arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
@@ -66,25 +66,25 @@
  *   ZUKAN_DETAIL_COMMON_GetWorkPtr 0x021BC3B4 thumb
  *   ZUKAN_DETAIL_TOUCHBAR_SetMode 0x021BDAAC thumb
  *   ZUKAN_DETAIL_COMMON_GetSource 0x021BC3A4 thumb
- *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
+ *   GAME_DATA_ContainsRecentId 0x02012BF8 thumb
  *   ZUKAN_DETAIL_HEADBAR_SetIconKind 0x021BE82C thumb
  *   ZUKAN_DETAIL_TOUCHBAR_ClearButtonState 0x021BDBA0 thumb
  *   ZUKAN_DETAIL_COMMON_GetCurrentEntry  0x021BC3C0  thumb  ov208
- *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
+ *   GAME_DATA_SetRecentId  0x02012BE0  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   CLACT_SetActorObjMode 0x0204B688 arm
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   ZUKAN_SAVE_GetViewGenderAndForm 0x0200CC40 thumb
  *   ZUKAN_SAVE_GetSpindaPersonality 0x0200D288 thumb
  *   ZUKAN_DETAIL_COMMON_GetWorkPtr  0x021BC3B4  thumb  ov208
- *   ZUKAN_DETAIL_COMMON_GetCursorValue  0x021BC3B8  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_GetHeadbar  0x021BC3B8  thumb  ov208
  *   GX_SetGraphicsMode  0x0207D4B0  arm
  *   ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc  0x021BC844  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_CopyHwPalettesToSlots  0x021BC758  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_StartFadeIn  0x021BC718  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_SetBrightnessFull  0x021BC4F4  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_StartFadeOut  0x021BC6D8  thumb  ov208
- *   ZUKAN_DETAIL_COMMON_GetMaxValue  0x021BC3BC  thumb  ov208
+ *   ZUKAN_DETAIL_COMMON_GetEntryCount  0x021BC3BC  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_GetSource  0x021BC3A4  thumb  ov208
  *   ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq  0x021BDC14  thumb  ov208
  *   ZUKAN_DETAIL_COMMON_IsFadeBusy  0x021BC6C8  thumb  ov208
@@ -109,9 +109,9 @@
  *   ZUKAN_DETAIL_TOUCHBAR_SetButtonDrawEnable  0x021BDBAC  thumb  ov208
  *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
- *   WORDSET_Callback  0x0201EE60  thumb
+ *   WORDSET_SetSlotSpeciesName  0x0201EE60  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   CLACT_SetActorAnimFrame  0x0204B8C4  arm
  *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
  *   BMP_GetWidth  0x020437DC  arm
@@ -252,7 +252,7 @@
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
+extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
 
 extern void TCB_DeleteTask(struct Node *n);
 
@@ -302,7 +302,7 @@ extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 
 extern void ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(void *s);
 
-extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
+extern void GAME_DATA_SetRecentId(void *p, u32 a, u32 b);
 
 extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
 
@@ -354,11 +354,11 @@ extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern void WORDSET_Callback(struct WordSet *p, u32 i, u16 v);
+extern void WORDSET_SetSlotSpeciesName(struct WordSet *p, u32 i, u16 v);
 
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
 
@@ -366,7 +366,7 @@ extern int POKEGRA_GetArcID(void);
 
 extern void TCB_Main(struct Ctx *c);
 
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 
 extern u32 PRINTSYS_QUE_Create(void *p);
 
@@ -453,11 +453,11 @@ extern void ZUKAN_DETAIL_COMMON_FreeBlendWork(u32 a);
 
 extern void ZUKAN_DETAIL_PROCSYS_FreeBuffer(void *proc);
 
-extern void BG_SYS_FillScrollArea(u32 bgId, u32 which, u32 value);
+extern void BG_SYS_ChangeScrollImmediate(u32 bgId, u32 which, u32 value);
 
 extern void BG_SYS_FreeSlot(u32 bgId);
 
-extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+extern void BG_SYS_SetPriority(int idx, unsigned short val);
 
 extern void ZUKAN_DETAIL_GRAPHIC_Init3dSystem(void *s, int x);
 
@@ -480,7 +480,7 @@ extern void ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind(void *s, u32 kind);
 
 extern void ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(void *s, u32 on);
 
-extern int GAME_DATA_CheckSaveFlag(void *gd, int flag);
+extern int GAME_DATA_ContainsRecentId(void *gd, int flag);
 
 extern int  ZUKAN_DETAIL_HEADBAR_GetIconKind(void *icon);
 
@@ -676,23 +676,23 @@ int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, struct Ov208Form *p,
 
     res = ZUKAN_DETAIL_COMMON_GetDisplay(key);
     scene = ZUKAN_DETAIL_COMMON_GetWorkPtr(key);
-    icon = ZUKAN_DETAIL_COMMON_GetCursorValue(key);
+    icon = ZUKAN_DETAIL_COMMON_GetHeadbar(key);
     switch (*seq) {
     case 0:
         *seq = 1;
         for (i = 0; i <= 7; i++) {
             if (i != 1 && i != 5) {
-                BG_SYS_FillScrollArea(i, 0, 0);
-                BG_SYS_FillScrollArea(i, 3, 0);
+                BG_SYS_ChangeScrollImmediate(i, 0, 0);
+                BG_SYS_ChangeScrollImmediate(i, 3, 0);
                 BG_SYS_FreeSlot(i);
             }
         }
-        BG_SYS_SetVisibleLayer(0, 0);
-        BG_SYS_SetVisibleLayer(2, 2);
-        BG_SYS_SetVisibleLayer(3, 3);
-        BG_SYS_SetVisibleLayer(6, 1);
-        BG_SYS_SetVisibleLayer(4, 3);
-        BG_SYS_SetVisibleLayer(7, 2);
+        BG_SYS_SetPriority(0, 0);
+        BG_SYS_SetPriority(2, 2);
+        BG_SYS_SetPriority(3, 3);
+        BG_SYS_SetPriority(6, 1);
+        BG_SYS_SetPriority(4, 3);
+        BG_SYS_SetPriority(7, 2);
         ZUKAN_DETAIL_TOUCHBAR_SetBgPriority(scene, 2);
         GX_SetGraphicsMode(1, 0, 1);
         ZUKAN_DETAIL_GRAPHIC_Init3dSystem(res, *heap);
@@ -734,13 +734,13 @@ int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, struct Ov208Form *p,
             *seq = 4;
             ZUKAN_DETAIL_COMMON_StartFadeOut(W(0x6ac));
             if (ZUKAN_DETAIL_TOUCHBAR_GetMode(scene) != 2) {
-                ZUKAN_DETAIL_TOUCHBAR_SetMode(scene, 0, 3, ZUKAN_DETAIL_COMMON_GetMaxValue(key) > 1);
+                ZUKAN_DETAIL_TOUCHBAR_SetMode(scene, 0, 3, ZUKAN_DETAIL_COMMON_GetEntryCount(key) > 1);
                 ZUKAN_DETAIL_TOUCHBAR_SetEnabled(scene, 0);
             } else {
                 ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind(scene, 3);
             }
             ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(scene, 0);
-            ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(scene, GAME_DATA_CheckSaveFlag(ZUKAN_DETAIL_COMMON_GetSource(key), 20));
+            ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(scene, GAME_DATA_ContainsRecentId(ZUKAN_DETAIL_COMMON_GetSource(key), 20));
             if (ZUKAN_DETAIL_HEADBAR_GetIconKind(icon) != 2) {
                 ZUKAN_DETAIL_HEADBAR_SetIconKind(icon, 3);
                 ZUKAN_DETAIL_HEADBAR_SetIconSpecies(icon);
@@ -1004,7 +1004,7 @@ void ZUKAN_DETAIL_FORM_HandleKeyEvent(void *proc, int *seq, u16 *heap, struct Ov
         ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(sys);
         return;
     case 5:
-        GAME_DATA_SetSaveFlag(ZUKAN_DETAIL_COMMON_GetSource(key), 0x14, ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive(sys));
+        GAME_DATA_SetRecentId(ZUKAN_DETAIL_COMMON_GetSource(key), 0x14, ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive(sys));
         ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(sys);
         return;
     case 22:
@@ -1064,9 +1064,9 @@ void ZUKAN_DETAIL_FORM_BuildFormLabelText(u16 *heap, struct Ov208Form *p, struct
         ws = (u32)WORDSET_CreateDefault(*heap);
         src = p->str[2];
         str = (u32)STRBUF_Create(0x40, *heap);
-        WORDSET_Callback((struct WordSet *)ws, 0, k);
+        WORDSET_SetSlotSpeciesName((struct WordSet *)ws, 0, k);
         WORDSET_CopyTaggedText((struct WordSet *)ws, (void *)str, (void *)src);
-        WORDSET_DeleteStrbufED04((struct WordSet *)ws);
+        WORDSET_Delete((struct WordSet *)ws);
         c = 1;
         break;
     case 1:
@@ -1189,7 +1189,7 @@ void ZUKAN_DETAIL_FORM_FlushPrintWindow(void *heap, struct Ov208Form *p, struct 
         w = p->win[i];
         BMP_WIN_TransferChars((struct Descriptor *)w);
         BMP_WIN_MakeScreen((struct Cfg *)w);
-        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)w));
+        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct Descriptor *)w));
         p->active[i] = 0;
     }
 }
@@ -1227,7 +1227,7 @@ void ZUKAN_DETAIL_FORM_DrawSpeciesLabels(u16 *heap, struct Ov208Form *p, struct 
     WORDSET_CopyTaggedText(ws, str, src);
     PRINTSYS_PrintQueColor((void *)p->print[1], (u32)bmp2, (s16)0, (s16)1, (u32)str, p->font, 0x3c40);
     STRBUF_Delete(str);
-    WORDSET_DeleteStrbufED04(ws);
+    WORDSET_Delete(ws);
     ws2 = WORDSET_CreateDefault(*heap);
     src2 = (void *)p->str[1];
     str = STRBUF_Create(8, *heap);
@@ -1235,7 +1235,7 @@ void ZUKAN_DETAIL_FORM_DrawSpeciesLabels(u16 *heap, struct Ov208Form *p, struct 
     WORDSET_CopyTaggedText(ws2, str, src2);
     PRINTSYS_PrintQueColor((void *)p->print[1], (u32)bmp2, (s16)0, (s16)0x11, (u32)str, p->font, 0x3c40);
     STRBUF_Delete(str);
-    WORDSET_DeleteStrbufED04(ws2);
+    WORDSET_Delete(ws2);
     p->active[1] = 1;
     for (i = 0; i <= 1; i++)
         ZUKAN_DETAIL_FORM_FlushPrintWindow(heap, (struct Ov208Form *)p, key, i);
@@ -1303,13 +1303,13 @@ void ZUKAN_DETAIL_FORM_UpdateBgScrollForState(void *unused, struct Ov208Form *p,
 {
     switch (p->state) {
     case 0:
-        BG_SYS_ResetSlot(2, 0, -0x40);
+        BG_SYS_ChangeScroll(2, 0, -0x40);
         break;
     case 4:
         if (p->count >= 2)
-            BG_SYS_ResetSlot(2, 0, 0);
+            BG_SYS_ChangeScroll(2, 0, 0);
         else
-            BG_SYS_ResetSlot(2, 0, -0x40);
+            BG_SYS_ChangeScroll(2, 0, -0x40);
         break;
     }
 }
@@ -2258,7 +2258,7 @@ void ZUKAN_DETAIL_FORM_HandleStateEvent(u16 *heap, struct Ov208Form *p, struct O
     Vec restorePos;
 
     scene = ZUKAN_DETAIL_COMMON_GetWorkPtr(ctx);
-    icon = ZUKAN_DETAIL_COMMON_GetCursorValue(ctx);
+    icon = ZUKAN_DETAIL_COMMON_GetHeadbar(ctx);
     flag = 0;
     switch (p->state) {
     case 0:
@@ -2309,7 +2309,7 @@ void ZUKAN_DETAIL_FORM_HandleStateEvent(u16 *heap, struct Ov208Form *p, struct O
                     MCSS_SetPosition((void *)p->item[3].obj, (u32 *)(&spreadPos));
                 }
             }
-            ZUKAN_DETAIL_TOUCHBAR_SetMode(scene, 2, 3, ZUKAN_DETAIL_COMMON_GetMaxValue(ctx) > 1);
+            ZUKAN_DETAIL_TOUCHBAR_SetMode(scene, 2, 3, ZUKAN_DETAIL_COMMON_GetEntryCount(ctx) > 1);
             if (p->count >= 3)
                 ZUKAN_DETAIL_TOUCHBAR_SetButtonVisible(scene, 1);
             else
@@ -2367,8 +2367,8 @@ void ZUKAN_DETAIL_FORM_HandleStateEvent(u16 *heap, struct Ov208Form *p, struct O
                     MCSS_SetPosition((void *)p->item[3].obj, (u32 *)(&restorePos));
                 }
             }
-            ZUKAN_DETAIL_TOUCHBAR_SetMode(scene, 0, 3, ZUKAN_DETAIL_COMMON_GetMaxValue(ctx) > 1);
-            ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(scene, GAME_DATA_CheckSaveFlag(ZUKAN_DETAIL_COMMON_GetSource(ctx), 0x14));
+            ZUKAN_DETAIL_TOUCHBAR_SetMode(scene, 0, 3, ZUKAN_DETAIL_COMMON_GetEntryCount(ctx) > 1);
+            ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(scene, GAME_DATA_ContainsRecentId(ZUKAN_DETAIL_COMMON_GetSource(ctx), 0x14));
             ZUKAN_DETAIL_HEADBAR_SetIconKind(icon, 3);
             if (p->count >= 2) {
                 p->slideForward = 1;

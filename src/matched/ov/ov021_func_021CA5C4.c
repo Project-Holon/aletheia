@@ -74,8 +74,8 @@
  *   BSUBWAY_SAVEDATA_GetHistoryTagB  0x0200DF4C  thumb
  *   BSUBWAY_SAVEDATA_AllocHistoryCopy  0x0200DF58  thumb
  *   BSUBWAY_SAVEDATA_CountHistoryEntries  0x0200DF94  thumb
- *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
- *   MISC_SAVEDATA_InsertRecentValue  0x0200ED54  thumb
+ *   MET_TRAINERS_GetFromSave  0x0200ED48  thumb
+ *   MET_TRAINERS_Insert  0x0200ED54  thumb
  *   func_0200FB24  0x0200FB24  thumb
  *   GFL_NET_ERR_RequestScreen  0x0200FB38  thumb
  *   VM_ReadU16  0x02011330  thumb
@@ -391,8 +391,8 @@ extern u32 COMM_ENTRY_MENU_Create(u32 a, void *b, u32 c, u32 d, u32 e, u32 f, u3
 extern void BSUBWAY_COMM_SetSendData(struct Obj *o, u32 cmd, u32 arg);
 extern void BSUBWAY_COMM_SetRecvMode(u8 *w, u8 v);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
-extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *l, u32 val);
-extern void *MISC_SAVEDATA_GetBlock44(void *p);
+extern void MET_TRAINERS_Insert(struct L0200ED54 *l, u32 val);
+extern void *MET_TRAINERS_GetFromSave(void *p);
 extern void GFL_NET_ERR_RequestScreen(void);
 extern void ICA_ANIME_SetField30(struct Ctx *p, u32 v);
 extern u32 func_0200FB24(void);
@@ -1139,7 +1139,7 @@ int BSUBWAY_SCR_CmdTool(void *a, u32 b)
         }
         break;
     case 410:
-        MISC_SAVEDATA_InsertRecentValue(MISC_SAVEDATA_GetBlock44((void *)s48), ((struct Obj00335 *)w)->f73C);
+        MET_TRAINERS_Insert(MET_TRAINERS_GetFromSave((void *)s48), ((struct Obj00335 *)w)->f73C);
         break;
     case 411:
         *dst = FIELD_PLAYER_GetFormObjCode(GFL_NET_SYSTEM_GetCurrentAid() == 0 ? FIELD_PLAYER_GetSex(FIELDMAP_GetFieldPlayer((void *)s30)) : w[0x749], 0);

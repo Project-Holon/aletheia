@@ -14,7 +14,7 @@
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorBgPriority 0x0204B84C arm
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  */
 #include "../include/Obj22816.h"
 typedef struct { short x,y; } Pt;
@@ -27,7 +27,7 @@ struct Obj;
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_SetActorBgPriority(void *,unsigned int);
-extern void BG_SYS_SetVisibleLayer(int,unsigned short);
+extern void BG_SYS_SetPriority(int,unsigned short);
 void POKETRADE_2D_SetCursorSlidePositions(const char *p)
 {
     int i,j;
@@ -61,6 +61,6 @@ void POKETRADE_2D_SetCursorSlidePositions(const char *p)
             CLACT_SetActorBgPriority(*(void **)(p+j*4+0x1014),3);
         }
     }
-    BG_SYS_SetVisibleLayer(4,2);
-    BG_SYS_SetVisibleLayer(5,3);
+    BG_SYS_SetPriority(4,2);
+    BG_SYS_SetPriority(5,3);
 }

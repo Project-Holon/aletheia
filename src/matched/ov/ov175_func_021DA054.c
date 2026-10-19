@@ -1,5 +1,5 @@
 /*
- * function: WIFIBATTLEMATCH_NET_IsGdbIdle
+ * function: WIFIBATTLEMATCH_NET_StepGdbEnsureRecord
  * address: 0x021DA054
  * packet: pkt_ov175_021DA054
  * region: ov175
@@ -18,7 +18,7 @@ extern void WIFIBATTLEMATCH_NET_GdbRequest(char *, unsigned long, int, unsigned 
 extern int WIFIBATTLEMATCH_NET_GdbGetMyRecords(char *);
 extern void WIFIBATTLEMATCH_NET_GdbClearRecord(char *);
 extern int WIFIBATTLEMATCH_NET_GdbCreateRecord(char *);
-int WIFIBATTLEMATCH_NET_IsGdbIdle(char *ctx)
+int WIFIBATTLEMATCH_NET_StepGdbEnsureRecord(char *ctx)
 {
     int result;
     switch (((struct Obj00629 *)ctx)->f128) {

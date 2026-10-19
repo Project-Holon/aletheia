@@ -20,7 +20,7 @@
  *   OEKAKI_DeleteWindows  0x02185004  thumb  ov023
  *   OEKAKI_ResetDisplay  0x02184B34  thumb  ov023
  *   MSGDATA_Delete  0x02045C04  arm
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   GF_FONT_Delete  0x0201D83C  thumb
  *   OEKAKI_GetJoinedBits  0x02186558  thumb  ov023
  *   OEKAKI_FreeWork  0x02184B04  thumb  ov023
@@ -46,7 +46,7 @@ extern void OEKAKI_CloseYesNoMenu(char *p);
 extern void OEKAKI_DeleteWindows(char *p);
 extern void OEKAKI_ResetDisplay(void);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern u32 GF_FONT_Delete(void *ptr);
 extern int OEKAKI_GetJoinedBits(char *p);
 extern void OEKAKI_FreeWork(char *p);
@@ -76,7 +76,7 @@ int OEKAKI_Exit(u32 a, int *seq, u8 *c, u8 *d)
         OEKAKI_DeleteWindows((char *)d);
         OEKAKI_ResetDisplay();
         MSGDATA_Delete((struct Rec *)(((struct Obj01361 *)d)->f14));
-        WORDSET_DeleteStrbufED04((struct WordSet *)(((struct Obj01361 *)d)->f10));
+        WORDSET_Delete((struct WordSet *)(((struct Obj01361 *)d)->f10));
         GF_FONT_Delete((void *)(((struct Obj01361 *)d)->fC));
         (*seq)++;
         break;

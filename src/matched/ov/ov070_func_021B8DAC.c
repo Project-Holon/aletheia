@@ -1,5 +1,5 @@
 /*
- * function: ITEMMENU_CheckTouchRelease
+ * function: ITEMMENU_GetYesNoTouchChoice
  * address: 0x021B8DAC
  * packet: pkt_ov070_021B8DAC
  * region: ov070
@@ -19,7 +19,7 @@ extern const char d_021BB978[];
 extern int TOUCHPANEL_HitTrg(const void *p);
 typedef unsigned char  u8;
 extern void UI_SetInputMode(u8 v);
-int ITEMMENU_CheckTouchRelease(void)
+int ITEMMENU_GetYesNoTouchChoice(void)
 {
     int result;
     result = TOUCHPANEL_HitTrg(d_021BB978);

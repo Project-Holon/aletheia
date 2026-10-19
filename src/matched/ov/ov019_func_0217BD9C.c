@@ -16,8 +16,8 @@
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   func_02030734  0x02030734  arm
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   UNION_MAIN_RequestScene  0x0217422C  thumb  ov012
- *   UNION_MAIN_IsScenePending  0x02174268  thumb  ov012
+ *   UNION_SCENE_RequestScene  0x0217422C  thumb  ov012
+ *   UNION_SCENE_IsScenePending  0x02174268  thumb  ov012
  *   UNION_COMM_SetChatPms  0x021736A0  thumb  ov012
  *   func_020307B0  0x020307B0  arm
  *   d_021807E8     0x021807E8  data  a4
@@ -32,8 +32,8 @@ extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, co
 typedef unsigned short u16;
 struct Big;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void UNION_MAIN_RequestScene(u8 *p, int a, int b);
-extern int UNION_MAIN_IsScenePending(u8 *a);
+extern void UNION_SCENE_RequestScene(u8 *p, int a, int b);
+extern int UNION_SCENE_IsScenePending(u8 *a);
 extern void UNION_COMM_SetChatPms(u8 *a, volatile u16 *s);
 extern u32 func_020307B0(void *p);
 extern int d_021807E8[];
@@ -52,11 +52,11 @@ int UNION_ONESELF_ChatInputMain(u8 *a, int b, int c, u8 *d)
         p = func_02030734(4, 12, 1, (const char *)d_021807E8, 0x41A);
         *p = (int)GAME_DATA_GetSaveControl((struct Big *)(*(int *)(((struct Obj04183 *)a)->f0 + 8)));
         *(int * *)&((struct Obj04183 *)a)->f3558 = p;
-        UNION_MAIN_RequestScene(a, 0x1d, (int)p);
+        UNION_SCENE_RequestScene(a, 0x1d, (int)p);
         (*d)++;
         break;
     case 1:
-        if (UNION_MAIN_IsScenePending(a) == 0)
+        if (UNION_SCENE_IsScenePending(a) == 0)
             (*d)++;
         break;
     case 2:

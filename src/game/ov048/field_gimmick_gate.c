@@ -1,7 +1,7 @@
 /*
  * file:     field_gimmick_gate.c
  * unit:     yes
- * function: FIELD_GIMMICK_GATE_Init, FIELD_GIMMICK_GATE_Exit, FIELD_GIMMICK_GATE_Update, FIELD_GIMMICK_GATE_GetBoardFacing, FIELD_GIMMICK_GATE_GetSave, FIELD_GIMMICK_GATE_SaveState, FIELD_GIMMICK_GATE_LoadState, FIELD_GIMMICK_GATE_StoreMiscSaveValue, FIELD_GIMMICK_GATE_RestoreLoggedFlags, FIELD_GIMMICK_GATE_ApplyBoardScroll, FIELD_GIMMICK_GATE_CreateWork, FIELD_GIMMICK_GATE_DeleteWork, FIELD_GIMMICK_GATE_InitMiscSaveValue, FIELD_GIMMICK_GATE_LoadBoardRecord, FIELD_GIMMICK_GATE_FreeBoardRecord, FIELD_GIMMICK_GATE_StartBoardAnime, FIELD_GIMMICK_GATE_PlaceBoardModel, FIELD_GIMMICK_GATE_LogMessage, FIELD_GIMMICK_GATE_HasMessagesToShow, FIELD_GIMMICK_GATE_IsSaveBlockListOn, FIELD_GIMMICK_GATE_IsExtraSaveListOn, FIELD_GIMMICK_GATE_ReadExtraSaveValues, FIELD_GIMMICK_GATE_ReadSaveBlockValues, FIELD_GIMMICK_GATE_LoadNewsList, FIELD_GIMMICK_GATE_FreeNewsList, FIELD_GIMMICK_GATE_FindNewsEntry, FIELD_GIMMICK_GATE_FindListNewsEntry
+ * function: FIELD_GIMMICK_GATE_Init, FIELD_GIMMICK_GATE_Exit, FIELD_GIMMICK_GATE_Update, FIELD_GIMMICK_GATE_GetBoardFacing, FIELD_GIMMICK_GATE_GetSave, FIELD_GIMMICK_GATE_SaveState, FIELD_GIMMICK_GATE_LoadState, FIELD_GIMMICK_GATE_StoreGatePoints, FIELD_GIMMICK_GATE_RestoreLoggedFlags, FIELD_GIMMICK_GATE_ApplyBoardScroll, FIELD_GIMMICK_GATE_CreateWork, FIELD_GIMMICK_GATE_DeleteWork, FIELD_GIMMICK_GATE_InitGatePoints, FIELD_GIMMICK_GATE_LoadBoardRecord, FIELD_GIMMICK_GATE_FreeBoardRecord, FIELD_GIMMICK_GATE_StartBoardAnime, FIELD_GIMMICK_GATE_PlaceBoardModel, FIELD_GIMMICK_GATE_LogMessage, FIELD_GIMMICK_GATE_HasMessagesToShow, FIELD_GIMMICK_GATE_IsSaveBlockListOn, FIELD_GIMMICK_GATE_IsExtraSaveListOn, FIELD_GIMMICK_GATE_ReadExtraSaveValues, FIELD_GIMMICK_GATE_ReadSaveBlockValues, FIELD_GIMMICK_GATE_LoadNewsList, FIELD_GIMMICK_GATE_FreeNewsList, FIELD_GIMMICK_GATE_FindNewsEntry, FIELD_GIMMICK_GATE_FindListNewsEntry
  * address:  0x021F36C0
  * region:   ov048
  * compiler: dsi/1.1p1
@@ -19,7 +19,7 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   SYSTEM_DATA_GetConfig  0x0200873C  thumb
- *   CONFIG_GetAppliedFlag  0x020083E4  thumb
+ *   CONFIG_GetTextLanguage  0x020083E4  thumb
  *   GIMMICK_OBJ_ELBOARD_FillMessages  0x021F3D78  thumb  ov048
  *   gGateExpObjSetups     0x021F4E94  data  a4
  *   FIELDMAP_GetCommonWork 0x021897BC thumb ov021
@@ -91,7 +91,7 @@ extern void *GAME_DATA_GetSaveBlock42(struct GameData *gameData);
 extern void *GIMMICK_WORK_GetWork(struct GimmickWork *gimmickWork, u32 gimmickId);
 extern s32 GIMMICK_WORK_GetId(struct GimmickWork *gimmickWork);
 extern struct ConfigSave *SYSTEM_DATA_GetConfig(struct SaveControl *saveControl);
-extern int CONFIG_GetAppliedFlag(struct ConfigSave *config);
+extern int CONFIG_GetTextLanguage(struct ConfigSave *config);
 extern void *BEACON_GetFromSave(struct SaveControl *saveControl);
 extern u16 BEACON_GetGatePoints(struct MiscSave *miscSave);
 extern struct MiscSave *BEACON_GetBlock(struct SaveControl *saveControl);
@@ -139,12 +139,12 @@ u8 FIELD_GIMMICK_GATE_GetBoardFacing(FieldMap *fieldMap);
 GateSave *FIELD_GIMMICK_GATE_GetSave(FieldMap *fieldMap);
 void FIELD_GIMMICK_GATE_SaveState(GateWork *work);
 void FIELD_GIMMICK_GATE_LoadState(GateWork *work);
-void FIELD_GIMMICK_GATE_StoreMiscSaveValue(GateWork *work);
+void FIELD_GIMMICK_GATE_StoreGatePoints(GateWork *work);
 void FIELD_GIMMICK_GATE_RestoreLoggedFlags(GateWork *work);
 void FIELD_GIMMICK_GATE_ApplyBoardScroll(GateWork *work);
 GateWork *FIELD_GIMMICK_GATE_CreateWork(FieldMap *fieldMap);
 void FIELD_GIMMICK_GATE_DeleteWork(GateWork *work);
-void FIELD_GIMMICK_GATE_InitMiscSaveValue(GateWork *work);
+void FIELD_GIMMICK_GATE_InitGatePoints(GateWork *work);
 void FIELD_GIMMICK_GATE_LoadBoardRecord(GateWork *work);
 void FIELD_GIMMICK_GATE_FreeBoardRecord(GateWork *work);
 void FIELD_GIMMICK_GATE_StartBoardAnime(GateWork *work);
@@ -175,7 +175,7 @@ void FIELD_GIMMICK_GATE_Init(FieldMap *fieldMap)
     int textMode;
 
     expObj = FIELDMAP_GetExpObj(fieldMap);
-    textMode = CONFIG_GetAppliedFlag(SYSTEM_DATA_GetConfig(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)))));
+    textMode = CONFIG_GetTextLanguage(SYSTEM_DATA_GetConfig(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)))));
     if (textMode != 0) {
         if (textMode == 1) {
             setupIndex = 0;
@@ -189,9 +189,9 @@ void FIELD_GIMMICK_GATE_Init(FieldMap *fieldMap)
     FIELD_GIMMICK_GATE_LoadNewsList(work);
     FIELD_GIMMICK_GATE_LoadState(work);
     if (work->initialized == 0) {
-        FIELD_GIMMICK_GATE_InitMiscSaveValue(work);
+        FIELD_GIMMICK_GATE_InitGatePoints(work);
     } else {
-        FIELD_GIMMICK_GATE_StoreMiscSaveValue(work);
+        FIELD_GIMMICK_GATE_StoreGatePoints(work);
         FIELD_GIMMICK_GATE_RestoreLoggedFlags(work);
     }
     GIMMICK_OBJ_ELBOARD_FillMessages(work);
@@ -248,7 +248,7 @@ void FIELD_GIMMICK_GATE_SaveState(GateWork *work)
     save = FIELD_GIMMICK_GATE_GetSave(work->fieldMap);
     save->initialized = work->initialized;
     save->scrollPos = GIMMICK_OBJ_ELBOARD_GetScroll(work->board) >> 12;
-    save->miscSaveValue = work->miscSaveValue;
+    save->gatePoints = work->gatePoints;
     save->messageLog = work->messageLog;
 }
 
@@ -260,13 +260,13 @@ void FIELD_GIMMICK_GATE_LoadState(GateWork *work)
     save = FIELD_GIMMICK_GATE_GetSave(work->fieldMap);
     work->initialized = save->initialized;
     work->scrollPos = save->scrollPos;
-    work->miscSaveValue = save->miscSaveValue;
+    work->gatePoints = save->gatePoints;
 }
 
 /* Writes the work's misc value to the misc save. */
-void FIELD_GIMMICK_GATE_StoreMiscSaveValue(GateWork *work)
+void FIELD_GIMMICK_GATE_StoreGatePoints(GateWork *work)
 {
-    BEACON_SetGatePoints(BEACON_GetBlock(GAME_DATA_GetSaveControl(work->gameData)), work->miscSaveValue);
+    BEACON_SetGatePoints(BEACON_GetBlock(GAME_DATA_GetSaveControl(work->gameData)), work->gatePoints);
 }
 
 /* Sets the event flag of every news message that was logged as shown. */
@@ -330,10 +330,10 @@ void FIELD_GIMMICK_GATE_DeleteWork(GateWork *work)
 }
 
 /* First visit: takes the misc value from the misc save. */
-void FIELD_GIMMICK_GATE_InitMiscSaveValue(GateWork *work)
+void FIELD_GIMMICK_GATE_InitGatePoints(GateWork *work)
 {
     if (work->initialized == 0) {
-        work->miscSaveValue = BEACON_GetGatePoints(BEACON_GetFromSave(GAME_DATA_GetSaveControlWork(work->gameData)));
+        work->gatePoints = BEACON_GetGatePoints(BEACON_GetFromSave(GAME_DATA_GetSaveControlWork(work->gameData)));
         work->initialized = 1;
     }
 }
@@ -432,7 +432,7 @@ void FIELD_GIMMICK_GATE_LogMessage(GateWork *work, int messageType, int flagId)
 int FIELD_GIMMICK_GATE_HasMessagesToShow(GateWork *work)
 {
     if (FIELD_GIMMICK_GATE_IsSaveBlockListOn(work) == 1 || FIELD_GIMMICK_GATE_IsExtraSaveListOn(work) == 1) {
-        if (work->miscSaveValue != 0) {
+        if (work->gatePoints != 0) {
             return 1;
         }
     }

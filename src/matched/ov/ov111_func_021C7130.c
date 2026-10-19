@@ -20,8 +20,8 @@
  *   func_020056A0  0x020056A0  thumb
  *   VIEWER_TEXT_VBlank  0x021C70EC  thumb
  *   VIEWER_ACTOR_SetPageCount  0x021C80B4  thumb
- *   GAME_DATA_GetSaveBlock21  0x02012F5C  thumb
- *   VIEWER_ACTOR_GetRtcDate  0x021C8208  thumb
+ *   GAME_DATA_GetTrainerCardSign  0x02012F5C  thumb
+ *   VIEWER_ACTOR_LoadBadgeTimers  0x021C8208  thumb
  *
  * Addresses are Black-image addresses.
  */
@@ -100,8 +100,8 @@ extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
 extern void *func_020056A0(void (*cb)(void *, Work *), Work *p, int pri);
 extern void VIEWER_TEXT_VBlank(void *unused, Work *p);
 extern void VIEWER_ACTOR_SetPageCount(Work *p);
-extern void *GAME_DATA_GetSaveBlock21(void **h);
-extern void VIEWER_ACTOR_GetRtcDate(Work *p);
+extern void *GAME_DATA_GetTrainerCardSign(void **h);
+extern void VIEWER_ACTOR_LoadBadgeTimers(Work *p);
 
 void VIEWER_TEXT_LoadResources(Work *p, Parent *parent)
 {
@@ -121,6 +121,6 @@ void VIEWER_TEXT_LoadResources(Work *p, Parent *parent)
     p->f118 = 8;
     p->f144 = -1;
     VIEWER_ACTOR_SetPageCount(p);
-    p->f184 = GAME_DATA_GetSaveBlock21(p->f108->f4);
-    VIEWER_ACTOR_GetRtcDate(p);
+    p->f184 = GAME_DATA_GetTrainerCardSign(p->f108->f4);
+    VIEWER_ACTOR_LoadBadgeTimers(p);
 }

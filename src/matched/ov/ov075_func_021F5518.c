@@ -16,7 +16,7 @@
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   ENCEFF_RequestScreenCapture  0x021F54A0  thumb  ov075
- *   BG_SYS_SetVisibleLayer  0x0204047C  arm
+ *   BG_SYS_SetPriority  0x0204047C  arm
  *   FIELDMAP_GetDrawMode  0x021899F0  thumb  ov021
  *   GX_GetBankForTex  0x02080C44  arm
  *   GX_DisableBankForLCDC  0x02080B98  arm
@@ -49,7 +49,7 @@ struct Obj;
 extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern void ENCEFF_RequestScreenCapture(char *p);
-extern void BG_SYS_SetVisibleLayer(int idx, u16 val);
+extern void BG_SYS_SetPriority(int idx, u16 val);
 extern u32 FIELDMAP_GetDrawMode(u8 *p);
 extern u16 GX_GetBankForTex(void);
 extern void GX_DisableBankForLCDC(void);
@@ -78,8 +78,8 @@ int ENCEFF_ScreenTexEventMain(void *task, int *st, Work *w)
         break;
     case 1:
         if (w->f10 != 0) {
-            BG_SYS_SetVisibleLayer(0, 0);
-            BG_SYS_SetVisibleLayer(2, 3);
+            BG_SYS_SetPriority(0, 0);
+            BG_SYS_SetPriority(2, 3);
             w->fC = FIELDMAP_GetDrawMode((u8 *)v);
             bank = GX_GetBankForTex();
             w->f4 = bank;

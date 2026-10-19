@@ -1,5 +1,5 @@
 /*
- * function: BG_SYS_RotScale
+ * function: BG_SYS_ResetAffineMatrix
  * address:  0x020423D4
  * packet:   pkt_02041F28
  * region:   arm9
@@ -24,8 +24,8 @@
  * shared the same way and survives into the second call.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/BG_SYS_RotScale.c \
- *       --func BG_SYS_RotScale --addr 0x020423D4 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/BG_SYS_ResetAffineMatrix.c \
+ *       --func BG_SYS_ResetAffineMatrix --addr 0x020423D4 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -42,7 +42,7 @@ struct Mtx22;
 extern void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode);
 extern void BG_SYS_SetScrollRegs(u32 layer, u32 a, u32 b, u32 c);
 
-void BG_SYS_RotScale(u32 layer)
+void BG_SYS_ResetAffineMatrix(u32 layer)
 {
     struct Param p;
 

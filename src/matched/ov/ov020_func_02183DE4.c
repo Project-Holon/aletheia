@@ -42,7 +42,7 @@
  *   GAME_BEACON_SetZone  0x0202735C  thumb
  *   FIELD_CLOCK_Update  0x02168EEC  thumb  ov010
  *   FIELD_MAP_CHANGE_MoveActiveEntries  0x02164474  thumb  ov010
- *   ISS_SWITCH_RefreshSubscreenMode  0x0202C860  thumb
+ *   WEATHER_RefreshStoredWeatherId  0x0202C860  thumb
  *   ZONEDATA_GetMapSubType  0x0201405C  thumb
  *   GAME_DATA_GetOccupyInfo  0x02012964  thumb
  *   FLDMMDL_SysLoadObjCodeParamCache  0x0216E29C  thumb  ov010
@@ -83,7 +83,7 @@ extern void EVENT_MAPCHANGE_ApplyLocation(void *a, int b);
 extern void GAME_BEACON_SetZone(u32 a0, u32 a1);
 extern void FIELD_CLOCK_Update(int a);
 extern void FIELD_MAP_CHANGE_MoveActiveEntries(int a, int b);
-extern void ISS_SWITCH_RefreshSubscreenMode(u8 *a0, int a1);
+extern void WEATHER_RefreshStoredWeatherId(u8 *a0, int a1);
 extern u8 ZONEDATA_GetMapSubType(u32 id);
 extern u32 GAME_DATA_GetOccupyInfo(const struct BigObj *p);
 extern void FLDMMDL_SysLoadObjCodeParamCache(struct Obj *o, int v);
@@ -129,7 +129,7 @@ int EVENT_MAPCHANGE_ContinueEvent(int ctx, int *state, u8 *p)
             EVENT_MAPCHANGE_StartSeasonEffect(s);
             FIELD_CLOCK_Update(s);
             FIELD_MAP_CHANGE_MoveActiveEntries(s, *(u16 *)(p + 8));
-            ISS_SWITCH_RefreshSubscreenMode((u8 *)s, *(u16 *)(p + 8));
+            WEATHER_RefreshStoredWeatherId((u8 *)s, *(u16 *)(p + 8));
             n = ZONEDATA_GetMapSubType(*(u16 *)(p + 8));
             t = GAME_DATA_GetOccupyInfo((const struct BigObj *)s);
             if (n < 16) {

@@ -60,8 +60,8 @@
  *   EVENT_FIELD_PROCLINK_IsReturnEntryValid 0x02161ECC thumb ov010
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   GAME_DATA_GetSecondUnionInfo  0x020127C4  thumb
- *   GAME_DATA_GetMysteryRecvFlagA  0x020127E0  thumb
- *   GAME_DATA_GetMysteryRecvFlagB  0x020127F0  thumb
+ *   GAME_DATA_GetMusicalShotTitle  0x020127E0  thumb
+ *   GAME_DATA_GetMusicalShotExtraData  0x020127F0  thumb
  *   ZONEDATA_IsZoneInTableDFEC  0x02013DE0  thumb
  *   EVENT_FIELD_PROCLINK_CompactReturnList  0x02161E60  thumb
  *   EVENT_FIELD_PROCLINK_InitIdList  0x02161EEC  thumb
@@ -103,7 +103,7 @@
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
- *   GF_STANDARD_SetField00_F4E4  0x0203F4E4  arm
+ *   GF_STANDARD_GetCachedDate  0x0203F4E4  arm
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   FIELD_WFBC_GetCityType  0x0219391C  thumb  ov021
@@ -132,7 +132,7 @@
  *   EVENT_FIELD_PROCLINK_ApplyReturnEntry  0x02161F90  thumb  ov010
  *   FIELD_WFBC_RemovePeople  0x02193B20  thumb  ov021
  *   FLDMMDL_DeleteMmdl  0x0216CF2C  thumb  ov010
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   FIELD_MSGBG_AddTalkWin  0x0219129C  thumb  ov021
@@ -145,8 +145,8 @@
  *   FIELD_MSGBG_DeleteTalkWin  0x021912D8  thumb  ov021
  *   FIELD_MSGBG_WaitTalkWinClose  0x021912F8  thumb  ov021
  *   FIELD_MSGBG_ClearTalkWin 0x0219131C thumb ov021
- *   WAZA_OSHIE_GetTexFormatCount  0x0216FC4C  thumb  ov010
- *   WAZA_OSHIE_LoadTexPlttByName  0x0216FAB4  thumb  ov010
+ *   TEXT_TEXTURE_GetTexFormatCount  0x0216FC4C  thumb  ov010
+ *   TEXT_TEXTURE_LoadTexPlttByName  0x0216FAB4  thumb  ov010
  *   EL_SCOREBOARD_SourceFileName     0x02187EDC  data  ov020  a4
  *   NNS_GfdRegisterNewVramTransferTask 0x02061CA4 arm
  *   EL_SCOREBOARD_LampPaletteColors 0x02187ECC data ov020 a4
@@ -155,7 +155,7 @@
  *   BG_SYS_GetMainVisiblePlanes 0x02043658 arm
  *   FIELDMAP_SetBgMode 0x02188DA0 thumb ov021
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  *   BG_SYS_FreeSlot 0x020414AC arm
  *   BG_SYS_SetVramBanks  0x020433E0  arm
  *   BG_SYS_Create  0x0203F8F4  arm
@@ -219,15 +219,15 @@ u16 FIELDMAP_GetHeapId(u8 *p);
 struct GameEvent *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
 void *GAME_EVENT_GetWork(struct GameEvent *p);
 extern u32 KEY_GetTrg(void);
-extern int WAZA_OSHIE_GetTexFormatCount(void);
-extern int WAZA_OSHIE_LoadTexPlttByName(void *file, const char *texName, void *extra, const char *plttName, u32 a4, u16 a5, u16 a6, u16 a7, u16 heap, struct TexKey *out);
+extern int TEXT_TEXTURE_GetTexFormatCount(void);
+extern int TEXT_TEXTURE_LoadTexPlttByName(void *file, const char *texName, void *extra, const char *plttName, u32 a4, u16 a5, u16 a6, u16 a7, u16 heap, struct TexKey *out);
 extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 extern u32 *GAME_EVENT_GetSeq(struct GameEvent *p);
 extern u8 COMM_PLAYER_SUPPORT_PrevSeason(int);
 extern u32 BG_SYS_GetMainVisiblePlanes(void);
 extern void FIELDMAP_SetBgMode(void);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
-extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+extern void BG_SYS_SetPriority(int idx, unsigned short val);
 extern void BG_SYS_FreeSlot(int a);
 void BG_SYS_SetVramBanks(const struct DispVram *c);
 void BG_SYS_Create(u16 heapId);
@@ -298,11 +298,11 @@ ElLamp *EL_SCOREBOARD_CreateLamp(void *archive, const char *texName, const char 
 
     lamp = GFL_HEAP_Alloc(((u16 *)&loadParams)[4], 0x1c, 1, (const char *)&EL_SCOREBOARD_SourceFileName, 0x19c);
     lamp->flags = 0;
-    lamp->texIndex = WAZA_OSHIE_GetTexFormatCount() - 1;
-    lamp->plttIndex = WAZA_OSHIE_GetTexFormatCount() - 1;
+    lamp->texIndex = TEXT_TEXTURE_GetTexFormatCount() - 1;
+    lamp->plttIndex = TEXT_TEXTURE_GetTexFormatCount() - 1;
     lamp->texVram = -1;
     lamp->plttVram = (char *)-1;
-    if (WAZA_OSHIE_LoadTexPlttByName(archive, texName, 0, plttName, texFormat, ((u16 *)&loadParams)[0], ((u16 *)&loadParams)[2], 0xC40, ((u16 *)&loadParams)[4], (struct TexKey *)(&loaded)) != 0) {
+    if (TEXT_TEXTURE_LoadTexPlttByName(archive, texName, 0, plttName, texFormat, ((u16 *)&loadParams)[0], ((u16 *)&loadParams)[2], 0xC40, ((u16 *)&loadParams)[4], (struct TexKey *)(&loaded)) != 0) {
         lamp->texAddr = loaded.texAddr;
         lamp->plttSlot = loaded.plttSlot;
         lamp->texVram = loaded.texVram;
@@ -417,10 +417,10 @@ void EL_SCOREBOARD_SetupSharedDisplay(ElScoreboardWork *work)
     planes = BG_SYS_GetMainVisiblePlanes();
     FIELDMAP_SetBgMode();
     BG_SYS_SetMainVisiblePlanes(planes);
-    BG_SYS_SetVisibleLayer(0, 1);
-    BG_SYS_SetVisibleLayer(3, 0);
-    BG_SYS_SetVisibleLayer(1, 3);
-    BG_SYS_SetVisibleLayer(2, 3);
+    BG_SYS_SetPriority(0, 1);
+    BG_SYS_SetPriority(3, 0);
+    BG_SYS_SetPriority(1, 3);
+    BG_SYS_SetPriority(2, 3);
     BG_SYS_FreeSlot(3);
 }
 
@@ -430,10 +430,10 @@ void EL_SCOREBOARD_SetupStandaloneDisplay(ElScoreboardWork *work)
     BG_SYS_Create(work->heapId);
     BG_SYS_SetGraphicsMode((struct DispConfig *)EL_SCOREBOARD_DispConfig);
     BG_SYS_InitBgLayer(3, (const struct BgTemplate *)EL_SCOREBOARD_BgTemplate, 0);
-    BG_SYS_SetVisibleLayer(0, 1);
-    BG_SYS_SetVisibleLayer(3, 0);
-    BG_SYS_SetVisibleLayer(1, 3);
-    BG_SYS_SetVisibleLayer(2, 3);
+    BG_SYS_SetPriority(0, 1);
+    BG_SYS_SetPriority(3, 0);
+    BG_SYS_SetPriority(1, 3);
+    BG_SYS_SetPriority(2, 3);
     BG_SYS_FreeSlot(3);
 }
 

@@ -19,7 +19,7 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   SAVE_CONTROL_LoadExtraSaveWithBuffer  0x020072CC  thumb
- *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
+ *   GF_STANDARD_CalcCrc16  0x0203F1FC  arm
  *   func_02009210  0x02009210  thumb
  *   func_0200910C  0x0200910C  thumb
  *   MUSICAL_DIST_SAVE_IsFooterSet  0x0200C6F0  thumb
@@ -49,7 +49,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 struct Ctrl;
 extern u32 SAVE_CONTROL_LoadExtraSaveWithBuffer(struct Ctrl *sv, u32 id, u8 heap, void *buf, u32 size);
 struct Sub020090B0Obj;
-extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
+extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
 extern struct Sub02009210Obj *func_02009210(void *sys);
 extern u16 func_0200910C(const struct Sub020090B0Obj *obj);
 struct Buf2000;
@@ -78,7 +78,7 @@ int C_GEAR_LoadCustomBackground(u8 *p, int a)
     buf = func_02030734(0x70, 0x3000, 0, (const char *)&d_021F3554, 0x104E);
     h = (u32)GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData((const struct Ctx *)a));
     if (SAVE_CONTROL_LoadExtraSaveWithBuffer((struct Ctrl *)h, 4, 0x70, buf, 0x3000) == 1) {
-        crc = GF_STANDARD_SetupCalc(buf, 0x2600);
+        crc = GF_STANDARD_CalcCrc16(buf, 0x2600);
         x = func_0200910C((const struct Sub020090B0Obj *)func_02009210((void *)h));
         base = (u16)((struct Obj20396 *)p)->f14;
         if (crc == x && MUSICAL_DIST_SAVE_IsFooterSet((struct Buf2000 *)buf) != 0) {

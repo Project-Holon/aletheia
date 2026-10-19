@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BOX2_UI_DeleteSlotIcon",
+   "name": "BOX2_UI_UpdateCurrentBoxMarker",
    "address": "0x021EDF5C",
    "kind": "game",
    "region": "ov170",

@@ -23,7 +23,7 @@
  *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   func_0201D304 0x0201D304 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  */
@@ -53,7 +53,7 @@ extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void PRINTSYS_PrintQueColor(void *,u32,u32,u32,u32,u32,u16);
 void LOCAL_TVT_CHARA_DrawLabel(u8 *p,u8 *q)
@@ -75,7 +75,7 @@ void LOCAL_TVT_CHARA_DrawLabel(u8 *p,u8 *q)
         WORDSET_SetSlotMyStatus(ws,0,save);
         WORDSET_CopyTaggedText(ws,dst,s);
         STRBUF_Delete(s);
-        WORDSET_DeleteStrbufED04(ws);
+        WORDSET_Delete(ws);
         s=dst;
     }
     q[7]=func_0201D304(s,*(u32 *)(p+0x60),0);

@@ -17,7 +17,7 @@
  *   BMP_WIN_Delete  0x020452E8  arm
  *   BG_SYS_SetTileEntry  0x02041300  arm
  *   BG_SYS_PushTile  0x020409B4  arm
- *   BG_SYS_SetTileUnit  0x02040DA8  arm
+ *   BG_SYS_FreeTiles  0x02040DA8  arm
  *
  * Redraw the text windows of layout `mode` (0..6): clear and refresh the
  * first n windows of the window table, and when the second brightness
@@ -48,7 +48,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void BG_SYS_SetTileEntry(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
 extern void BG_SYS_PushTile(u32 layer);
-extern void BG_SYS_SetTileUnit(u32, u32, u32);
+extern void BG_SYS_FreeTiles(u32, u32, u32);
 
 void WORLDTRADE_INPUT_MenuFinish(Obj *p, int mode)
 {
@@ -131,5 +131,5 @@ void WORLDTRADE_INPUT_MenuFinish(Obj *p, int mode)
         BMP_WIN_Delete(p->win[14]);
         break;
     }
-    BG_SYS_SetTileUnit(p->f50, 1, 0);
+    BG_SYS_FreeTiles(p->f50, 1, 0);
 }

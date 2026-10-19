@@ -1,7 +1,7 @@
 /*
  * file:     mystery_util.c
  * unit:     yes
- * function: MYSTERY_UTIL_CreateWindow, MYSTERY_UTIL_DeleteWindow, MYSTERY_UTIL_ClearWindow, MYSTERY_UTIL_ShowMessage, MYSTERY_UTIL_ShowString, MYSTERY_UTIL_SetColor, MYSTERY_UTIL_SetPosition, MYSTERY_UTIL_IsMessageDone, MYSTERY_UTIL_TransferWindowChars, MYSTERY_UTIL_ComputeTextPosition, MYSTERY_UTIL_AlignText, MYSTERY_UTIL_CreateMenuWindow, MYSTERY_UTIL_CreateMenuWindow2, MYSTERY_UTIL_DeleteMenuWindow, MYSTERY_UTIL_UpdateMenuWindow, MYSTERY_UTIL_SetMenuMessage, MYSTERY_UTIL_SetMenuMode, MYSTERY_UTIL_GetMenuState, MYSTERY_UTIL_DrawMenuWindow, MYSTERY_UTIL_ResetMenuWindow, MYSTERY_UTIL_CreateMenu, MYSTERY_UTIL_DeleteMenu, MYSTERY_UTIL_UpdateMenu, MYSTERY_UTIL_CreateWindowList, MYSTERY_UTIL_DeleteWindowList, MYSTERY_UTIL_ClearWindowList, MYSTERY_UTIL_IsWindowListDone, MYSTERY_UTIL_ClearListWindow, MYSTERY_UTIL_TransferWindowList, MYSTERY_UTIL_CreateBmpList, MYSTERY_UTIL_DeleteBmpList, MYSTERY_UTIL_DrawBmpList, MYSTERY_UTIL_CopyBmpList, MYSTERY_UTIL_CreateDetailWindow, MYSTERY_UTIL_DeleteDetailWindow, MYSTERY_UTIL_SetVoice, MYSTERY_UTIL_Update, MYSTERY_UTIL_SetListValue, MYSTERY_UTIL_CreateTask, MYSTERY_UTIL_DeleteTask, MYSTERY_UTIL_DispatchTask, MYSTERY_UTIL_GetTaskField04, MYSTERY_UTIL_SetTaskHandler, MYSTERY_UTIL_MarkTaskDone, MYSTERY_UTIL_SetTaskArg, MYSTERY_UTIL_GetTaskArg, MYSTERY_UTIL_CreateTaskEx, MYSTERY_UTIL_DeleteActorPair, MYSTERY_UTIL_UpdateActorPair, MYSTERY_UTIL_SetActorPairText, MYSTERY_UTIL_SetFlag, MYSTERY_UTIL_SetVec, MYSTERY_UTIL_IsMenuFinished, MYSTERY_UTIL_BuildPaletteRow, MYSTERY_UTIL_BlendPalette, MYSTERY_UTIL_BlendPaletteRange
+ * function: MYSTERY_UTIL_CreateWindow, MYSTERY_UTIL_DeleteWindow, MYSTERY_UTIL_ClearWindow, MYSTERY_UTIL_ShowMessage, MYSTERY_UTIL_ShowString, MYSTERY_UTIL_SetColor, MYSTERY_UTIL_SetPosition, MYSTERY_UTIL_IsMessageDone, MYSTERY_UTIL_TransferWindowChars, MYSTERY_UTIL_ComputeTextPosition, MYSTERY_UTIL_AlignText, MYSTERY_UTIL_CreateMenuWindow, MYSTERY_UTIL_CreateMenuWindow2, MYSTERY_UTIL_DeleteMenuWindow, MYSTERY_UTIL_UpdateMenuWindow, MYSTERY_UTIL_SetMenuMessage, MYSTERY_UTIL_SetMenuMode, MYSTERY_UTIL_GetMenuState, MYSTERY_UTIL_DrawMenuWindow, MYSTERY_UTIL_ResetMenuWindow, MYSTERY_UTIL_CreateMenu, MYSTERY_UTIL_DeleteMenu, MYSTERY_UTIL_UpdateMenu, MYSTERY_UTIL_CreateWindowList, MYSTERY_UTIL_DeleteWindowList, MYSTERY_UTIL_ClearWindowList, MYSTERY_UTIL_IsWindowListDone, MYSTERY_UTIL_ClearListWindow, MYSTERY_UTIL_TransferWindowList, MYSTERY_UTIL_CreateBmpList, MYSTERY_UTIL_DeleteBmpList, MYSTERY_UTIL_DrawBmpList, MYSTERY_UTIL_CopyBmpList, MYSTERY_UTIL_CreateDetailWindow, MYSTERY_UTIL_DeleteDetailWindow, MYSTERY_UTIL_SetVoice, MYSTERY_UTIL_Update, MYSTERY_UTIL_SetListValue, MYSTERY_UTIL_CreateTask, MYSTERY_UTIL_DeleteTask, MYSTERY_UTIL_DispatchTask, MYSTERY_UTIL_IsTaskDone, MYSTERY_UTIL_SetTaskHandler, MYSTERY_UTIL_MarkTaskDone, MYSTERY_UTIL_SetTaskArg, MYSTERY_UTIL_GetTaskArg, MYSTERY_UTIL_CreateTaskEx, MYSTERY_UTIL_DeleteActorPair, MYSTERY_UTIL_UpdateActorPair, MYSTERY_UTIL_SetActorPairText, MYSTERY_UTIL_SetActorPairColor, MYSTERY_UTIL_SetVec, MYSTERY_UTIL_IsMenuFinished, MYSTERY_UTIL_BuildPaletteRow, MYSTERY_UTIL_BlendPalette, MYSTERY_UTIL_BlendPaletteRange
  * address:  0x021D99A4
  * region:   ov121
  * compiler: dsi/1.1p1
@@ -30,7 +30,7 @@
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   MSGDATA_ReadString 0x02045CAC arm
  *   STRBUF_Copy 0x02045838 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   BMP_GetWidth 0x020437DC arm
  *   BMP_GetHeight 0x020437E4 arm
  *   TCBL_Create 0x0203101C arm
@@ -58,7 +58,6 @@
  *   d_021DF770 0x021DF770 data a4
  *   KEY_GetTrg 0x020362DC arm
  *   KEY_GetRepeat 0x0203633C arm
- *   _u32_div_f 0x0209C2B0 arm
  *   BMP_OAM_Delete 0x0202570C thumb
  *   BMP_OAM_UploadChars  0x020257D0  thumb
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
@@ -381,7 +380,7 @@ extern void STRBUF_Copy(void *dst, void *src);
 
 extern u32 PRINTSYS_QUE_IsExistTarget(void *p, void *v);
 
-extern void BG_SYS_SetFlagField06(unsigned);
+extern void BG_SYS_MarkTileDirty(unsigned);
 
 extern u16 BMP_GetWidth(const void *bmp);
 
@@ -469,7 +468,6 @@ extern u32 KEY_GetRepeat(void);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
-extern u64 _u32_div_f(u32,u32);
 
 extern struct Grid *BMP_OAM_Create(void *sys, const void *param);
 
@@ -561,7 +559,7 @@ void MYSTERY_UTIL_DeleteTask(void *p);
 
 void MYSTERY_UTIL_DispatchTask(char *p);
 
-int MYSTERY_UTIL_GetTaskField04(u32 *p);
+int MYSTERY_UTIL_IsTaskDone(u32 *p);
 
 void MYSTERY_UTIL_SetTaskHandler(u32 *p,u32 a);
 
@@ -579,7 +577,7 @@ void MYSTERY_UTIL_UpdateActorPair(char *p);
 
 void MYSTERY_UTIL_SetActorPairText(char *p,int a,int b,int c);
 
-void MYSTERY_UTIL_SetFlag(u8 *p,int a);
+void MYSTERY_UTIL_SetActorPairColor(u8 *p,int a);
 
 void MYSTERY_UTIL_SetVec(u32 *p,u32 a,u32 b,u32 c);
 
@@ -704,7 +702,7 @@ void MYSTERY_UTIL_TransferWindowChars(u8 *p) {
     BMP_WIN_TransferChars(((MysteryUtilWindow *)p)->bmpWin2);
     if(((MysteryUtilWindow *)p)->variant==1) {
         BMP_WIN_MakeScreen(((MysteryUtilWindow *)p)->bmpWin2);
-        BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(((MysteryUtilWindow *)p)->bmpWin2));
+        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(((MysteryUtilWindow *)p)->bmpWin2));
     }
 }
 
@@ -1156,7 +1154,7 @@ int MYSTERY_UTIL_SetVoice(u8 *p)
     } else if(repeat&128) {
         if(((MysteryUtilVoiceSelect *)p)->count!=1) GFL_USE_PlaySeDefaultVolume(0x548);
         ((MysteryUtilVoiceSelect *)p)->index+=1;
-        ((MysteryUtilVoiceSelect *)p)->index=(u32)(_u32_div_f(((MysteryUtilVoiceSelect *)p)->index,((MysteryUtilVoiceSelect *)p)->count)>>32);
+        ((MysteryUtilVoiceSelect *)p)->index=((MysteryUtilVoiceSelect *)p)->index%((MysteryUtilVoiceSelect *)p)->count;
         changed=1;
     } else if(keys&1) {
         GFL_USE_PlaySeDefaultVolume(0x54c);
@@ -1212,7 +1210,7 @@ void MYSTERY_UTIL_DispatchTask(char *p)
         ((MysteryUtilTask *)p)->handler(p, p + 8, ((MysteryUtilTask *)p)->arg.value);
 }
 
-int MYSTERY_UTIL_GetTaskField04(u32 *p) { return p[1]; }
+int MYSTERY_UTIL_IsTaskDone(u32 *p) { return p[1]; }
 
 void MYSTERY_UTIL_SetTaskHandler(u32 *p,u32 a) { p[0]=a; p[2]=0; }
 
@@ -1268,7 +1266,7 @@ void MYSTERY_UTIL_SetActorPairText(char *p,int a,int b,int c)
     ((MysteryUtilActorPair *)p)->done=1;
 }
 
-void MYSTERY_UTIL_SetFlag(u8 *p,int a) { ((MysteryUtilActorPair *)p)->color=a; }
+void MYSTERY_UTIL_SetActorPairColor(u8 *p,int a) { ((MysteryUtilActorPair *)p)->color=a; }
 
 void MYSTERY_UTIL_SetVec(u32 *p,u32 a,u32 b,u32 c) { p[3]=a; p[4]=b; p[5]=c; }
 

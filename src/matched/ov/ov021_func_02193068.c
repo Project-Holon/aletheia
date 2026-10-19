@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   BG_SYS_SetTileUnit  0x02040DA8  arm
+ *   BG_SYS_FreeTiles  0x02040DA8  arm
  *   BG_SYS_Init  0x02040C14  arm
  *   BG_SYS_SetTileEntry  0x02041300  arm
  *   BG_SYS_PushTile  0x020409B4  arm
@@ -22,7 +22,7 @@
 typedef unsigned short u16;
 
 typedef unsigned int   u32;
-extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
+extern void BG_SYS_FreeTiles(u32 idx, u32 count, u32 tile);
 extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 extern void BG_SYS_SetTileEntry(int, int, int, int, int, int, int);
 extern void BG_SYS_PushTile(u32 index);
@@ -32,7 +32,7 @@ extern void TALKMSGWIN_ReloadFrameGraphics(u8 *p);
 
 void FIELD_MSGBG_ReloadBg(char *p)
 {
-    BG_SYS_SetTileUnit(((struct Obj04209 *)p)->f2, 1, 0);
+    BG_SYS_FreeTiles(((struct Obj04209 *)p)->f2, 1, 0);
     BG_SYS_Init(((struct Obj04209 *)p)->f2, 0, 1, 0);
     BG_SYS_SetTileEntry(((struct Obj04209 *)p)->f2 & 0xff, 0, 0, 0, 0x20, 0x20, 0x11);
     BG_SYS_PushTile(((struct Obj04209 *)p)->f2 & 0xff);

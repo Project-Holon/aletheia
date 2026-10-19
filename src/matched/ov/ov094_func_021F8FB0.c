@@ -13,7 +13,7 @@
  *
  * symbols:
  *   gBtlvEff  0x0220AF20  data  ov094
- *   TCBL_GetTaskUserData 0x02030EE8 arm
+ *   TCBL_IsDeletePending 0x02030EE8 arm
  *   BTLV_EFFECT_GetBitMask 0x021F935C thumb ov094
  */
 typedef struct {
@@ -26,11 +26,11 @@ typedef struct {
 extern Work *gBtlvEff;
 typedef unsigned int   u32;
 struct S02030EE8;
-extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
+extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
 extern int BTLV_EFFECT_GetBitMask(int);
 
 void BTLV_EFFECT_ClearTaskMaskM2(void *h)
 {
-    int m = BTLV_EFFECT_GetBitMask(((int *)TCBL_GetTaskUserData(h))[2]);
+    int m = BTLV_EFFECT_GetBitMask(((int *)TCBL_IsDeletePending(h))[2]);
     gBtlvEff->m2 &= m ^ 0xffffffff;
 }

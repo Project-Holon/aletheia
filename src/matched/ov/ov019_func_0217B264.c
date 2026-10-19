@@ -10,8 +10,8 @@
  * status:   EXACT
  * symbols:
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
- *   GAME_DATA_GetField1A0  0x0201283C  thumb
+ *   MET_TRAINERS_GetFromSave  0x0200ED48  thumb
+ *   GAME_DATA_GetWifiList  0x0201283C  thumb
  *   GAME_DATA_GetOccupyInfo  0x02012964  thumb
  *   FIELDMAP_GetUnionEff  0x02188CE0  thumb  ov021
  *   memcmp         0x0203EFC8  arm
@@ -44,8 +44,8 @@ typedef struct Entry {
 struct Big;
 struct BigObj;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *MISC_SAVEDATA_GetBlock44(void *p);
-extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
+extern void *MET_TRAINERS_GetFromSave(void *p);
+extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 extern u32 GAME_DATA_GetOccupyInfo(const struct BigObj *p);
 extern u32 FIELDMAP_GetUnionEff(u8 *p);
 extern int   memcmp(const void *a, const void *b, u32 n);
@@ -69,8 +69,8 @@ void UNION_CHARA_Main(u8 *w, void *sys, void *q)
     u8 buf[6] = {0, 0, 0, 0, 0, 0};
 
     flag = 0;
-    a = (u32)MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(sys));
-    b = GAME_DATA_GetField1A0(sys);
+    a = (u32)MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl(sys));
+    b = GAME_DATA_GetWifiList(sys);
     c = FIELDMAP_GetUnionEff(q);
     GAME_DATA_GetOccupyInfo(sys);
     if (memcmp(buf, w + 0x28A4, 6) != 0) {

@@ -1,5 +1,5 @@
 /*
- * function: ZUKAN_LIST_IsActorHidden
+ * function: ZUKAN_LIST_FindHiddenSpeciesActor
  * address:  0x021BE25C
  * packet:   pkt_021BE25C
  * region:   ov209
@@ -16,7 +16,7 @@
 typedef unsigned int   u32;
 extern u32 ZUKAN_LIST_GetActorVisible(char *p, u32 idx);
 
-int ZUKAN_LIST_IsActorHidden(int p, int t)
+int ZUKAN_LIST_FindHiddenSpeciesActor(int p, int t)
 {
     unsigned int i;
 

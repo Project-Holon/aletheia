@@ -1,5 +1,5 @@
 /*
- * function: BUTTON_MAN_CallHandlerById
+ * function: G2_GetBGCharPtrById
  * address:  0x02051B0C
  * packet:   pkt_02051A54
  * region:   arm9
@@ -31,8 +31,8 @@
  *   G2S_GetBG3CharPtr  0x0207E388  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/BUTTON_MAN_CallHandlerById.c \
- *       --func BUTTON_MAN_CallHandlerById --addr 0x02051B0C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/G2_GetBGCharPtrById.c \
+ *       --func G2_GetBGCharPtrById --addr 0x02051B0C --cc 1.1p1 --arm
  */
 
 extern void *G2_GetBG0CharPtr(void);
@@ -44,7 +44,7 @@ extern int func_0207E280(void);
 extern void *G2S_GetBG2CharPtr(void);
 extern void *G2S_GetBG3CharPtr(void);
 
-int BUTTON_MAN_CallHandlerById(int i)
+int G2_GetBGCharPtrById(int i)
 {
     switch (i) {
     case 0: return (int)G2_GetBG0CharPtr();

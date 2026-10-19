@@ -12,7 +12,7 @@
  *   ov208 as in the matched siblings 021BEA04/021BEA90); the region token on their symbols lines is ov206.
  * 2026-10-05 (D5-03): MATCH. Byte-correct except the five calls to the ov093 callees 0x021B9E68,
  *   0x021BA7C8, 0x021BA374 (no witness label; ov093 below 0x021D4000, pengy). Fixes: the colour loop
- *   calls are BG_SYS_FillScrollArea(i, 0, 0) and (i, 3, 0) (the draft passed i; the image keeps the 0 in r7, which
+ *   calls are BG_SYS_ChangeScrollImmediate(i, 0, 0) and (i, 3, 0) (the draft passed i; the image keeps the 0 in r7, which
  *   is why ctx left r7), the first 9E68 call passes (2, 0, 1), locals v54 before v50 before w, the
  *   021BDAD0 test written `!= 2` first, and case 4 writes `*state = 5` in both arms.
  * 2026-10-04 (wD2 lane19): also tried ctx as a one-field struct by value and as u32 with casts: no change (frame 0x74/0x78 vs 0x70,
@@ -24,10 +24,10 @@
  *   home slot. Also blocked: ZUKAN_INFO_Create, ZUKAN_INFO_Show, ZUKAN_INFO_Update have no label (ov093 low, pengy).
  * symbols:
  *   ZUKAN_DETAIL_COMMON_GetWorkPtr 0x021BC3B4 thumb
- *   ZUKAN_DETAIL_COMMON_GetCursorValue 0x021BC3B8 thumb
+ *   ZUKAN_DETAIL_COMMON_GetHeadbar 0x021BC3B8 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
  *   func_021BDAD0 0x021BDAD0 thumb
  *   func_021BC3BC 0x021BC3BC thumb
@@ -36,7 +36,7 @@
  *   func_021BDBB8 0x021BDBB8 thumb
  *   ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled 0x021BDC48 thumb
  *   ZUKAN_DETAIL_COMMON_GetSource 0x021BC3A4 thumb
- *   GAME_DATA_CheckSaveFlag 0x02012BF8 thumb
+ *   GAME_DATA_ContainsRecentId 0x02012BF8 thumb
  *   ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq 0x021BDC14 thumb
  *   func_021BE840 0x021BE840 thumb
  *   func_021BE82C 0x021BE82C thumb
@@ -92,10 +92,10 @@ struct GfFont;
 struct MsgBank;
 struct S;
 extern int ZUKAN_DETAIL_COMMON_GetWorkPtr(int *p);
-extern int ZUKAN_DETAIL_COMMON_GetCursorValue(char *p);
+extern int ZUKAN_DETAIL_COMMON_GetHeadbar(char *p);
 extern struct GfFont *GF_FONT_Create(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 extern void BG_SYS_FreeSlot(u8 a);
 extern int func_021BDAD0(void *s);
 extern u16 func_021BC3BC(int *ctx);
@@ -104,7 +104,7 @@ extern void func_021BDAD4(void *s, int a);
 extern void func_021BDBB8(void *s, u32 a);
 extern void ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(void *s, u32 a);
 extern int ZUKAN_DETAIL_COMMON_GetSource(int *ctx);
-extern int GAME_DATA_CheckSaveFlag(int a, int b);
+extern int GAME_DATA_ContainsRecentId(int a, int b);
 extern void ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(char *p, int b);
 extern int func_021BE840(void *s);
 extern void func_021BE82C(void *s, int a);
@@ -136,7 +136,7 @@ extern void func_021BC46C(struct Ov208Blend *a, struct Ov208Blend *b);
 int ZUKAN_DETAIL_INFO_Main(void *unused, int *state, struct Ov208Heap *h, struct Ov208Scn *p, int *ctx)
 {
     void *scn = (void *)ZUKAN_DETAIL_COMMON_GetWorkPtr(ctx);
-    void *icon = (void *)ZUKAN_DETAIL_COMMON_GetCursorValue((char *)ctx);
+    void *icon = (void *)ZUKAN_DETAIL_COMMON_GetHeadbar((char *)ctx);
     int v40;
     int v44;
     u32 v54;
@@ -154,8 +154,8 @@ int ZUKAN_DETAIL_INFO_Main(void *unused, int *state, struct Ov208Heap *h, struct
         p->msg2 = func_02045B38(1, 2, 0x10c, h->heap);
         for (i = 0; i <= 7; i++) {
             if (i != 1 && i != 5) {
-                BG_SYS_FillScrollArea(i, 0, 0);
-                BG_SYS_FillScrollArea(i, 3, 0);
+                BG_SYS_ChangeScrollImmediate(i, 0, 0);
+                BG_SYS_ChangeScrollImmediate(i, 3, 0);
                 BG_SYS_FreeSlot(i);
             }
         }
@@ -166,7 +166,7 @@ int ZUKAN_DETAIL_INFO_Main(void *unused, int *state, struct Ov208Heap *h, struct
             func_021BDBB8(scn, 0);
         }
         ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(scn, 0);
-        ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(scn, GAME_DATA_CheckSaveFlag(ZUKAN_DETAIL_COMMON_GetSource(ctx), 0x11));
+        ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(scn, GAME_DATA_ContainsRecentId(ZUKAN_DETAIL_COMMON_GetSource(ctx), 0x11));
         if (func_021BE840(icon) != 2) {
             func_021BE82C(icon, 0);
             func_021BE844(icon);

@@ -9,12 +9,12 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   BTLV_CORE_GetHighByte 0x021E8CFC thumb ov093
- *   BTLV_CORE_GetLowByte 0x021E8D04 thumb ov093
+ *   BTL_TYPEPAIR_GetHigh 0x021E8CFC thumb ov093
+ *   BTL_TYPEPAIR_GetLow 0x021E8D04 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u8 BTLV_CORE_GetHighByte(int);
-extern int BTLV_CORE_GetLowByte(int x);
-void BTL_POKEPARAM_SetTypes(u8 *p,int n) { p[0xf8]=BTLV_CORE_GetHighByte(n); p[0xf9]=BTLV_CORE_GetLowByte(n); }
+extern u8 BTL_TYPEPAIR_GetHigh(int);
+extern int BTL_TYPEPAIR_GetLow(int x);
+void BTL_POKEPARAM_SetTypes(u8 *p,int n) { p[0xf8]=BTL_TYPEPAIR_GetHigh(n); p[0xf9]=BTL_TYPEPAIR_GetLow(n); }

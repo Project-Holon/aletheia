@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "EVENT_POKE_STATUS_AddMs3000",
+   "name": "EVENT_TRAINER_GetPrimaryScriptId",
    "address": "0x0215A480",
    "kind": "game",
    "region": "ov010",

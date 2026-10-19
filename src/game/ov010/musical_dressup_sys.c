@@ -17,7 +17,7 @@
  *   GF_OVERLAY_Unload  0x02034A5C  arm
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   GFL_HEAP_Free  0x020307B0  arm
- *   STA_NET_GetField48  0x021FD904  thumb  ov132
+ *   STA_NET_GetRole  0x021FD904  thumb  ov132
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
  *   MUSICAL_SAVE_GetFromSave  0x0200A5F8  thumb
@@ -51,7 +51,7 @@ extern u32 GFL_HEAP_Free(void *ptr);
 
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 
-extern int STA_NET_GetField48(void *session);
+extern int STA_NET_GetRole(void *session);
 
 extern void GFL_HEAP_DeleteChecked(u32 heapId);
 
@@ -126,7 +126,7 @@ int MUSICAL_DRESSUP_SYS_Main(void *proc, int *state, int unused, MusicalDressupW
         work->ui = DUP_FITTING_Create(work->paramCopy, 0x2d);
         *state = 1;
         if (work->param->session != 0) {
-            if (STA_NET_GetField48(work->param->session) == 1)
+            if (STA_NET_GetRole(work->param->session) == 1)
                 STA_NET_BeginTransfer(work->param->session);
         }
         break;

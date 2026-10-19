@@ -1,5 +1,5 @@
 /*
- * function: UNION_MAIN_StepColosseumPartyEntry
+ * function: UNION_SCENE_StepColosseumPartyEntry
  * address:  0x02174744
  * packet:   pkt_ov012_02174744
  * region:   ov012
@@ -183,7 +183,7 @@ extern u8 gPartyListProcData[];
 extern u8 gPokeStatusProcData[];
 extern u8 gUnionMainEmptyString[];
 
-int UNION_MAIN_StepColosseumPartyEntry(u32 a0, u8 *self, u32 a2, Work *w, void *obj, u32 *res, u8 *state)
+int UNION_SCENE_StepColosseumPartyEntry(u32 a0, u8 *self, u32 a2, Work *w, void *obj, u32 *res, u8 *state)
 {
     u8 *q = self + 0x2830;
     Trade *t = *(Trade **)(self + 0x355C);

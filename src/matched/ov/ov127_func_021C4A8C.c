@@ -1,5 +1,5 @@
 /*
- * function: WF2DMAP_OBJ_GetTableByte
+ * function: WF2DMAP_OBJ_GetDirectionTableEntry
  * address:  0x021C4A8C
  * packet:   pkt_ov127_021C4A8C
  * region:   ov127
@@ -19,7 +19,7 @@
 
 extern unsigned char sWf2dmapDirectionTable[];
 
-unsigned char WF2DMAP_OBJ_GetTableByte(int i)
+unsigned char WF2DMAP_OBJ_GetDirectionTableEntry(int i)
 {
     return sWf2dmapDirectionTable[i];
 }

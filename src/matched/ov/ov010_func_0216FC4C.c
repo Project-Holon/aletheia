@@ -1,5 +1,5 @@
 /*
- * function: WAZA_OSHIE_GetTexFormatCount
+ * function: TEXT_TEXTURE_GetTexFormatCount
  * address:  0x0216FC4C
  * packet:   pkt_ov010_0216FC4C
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-int WAZA_OSHIE_GetTexFormatCount(void)
+int TEXT_TEXTURE_GetTexFormatCount(void)
 {
     return 7;
 }

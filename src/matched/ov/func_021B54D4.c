@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PROC_FLD_SetFieldRegionValue
+ * function: SCRCMD_PROC_FLD_StartCameraMoveToSetting
  * address:  0x021B54D4
  * packet:   pkt_021B54D4
  * region:   ov021
@@ -33,7 +33,7 @@ extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 extern void *FIELDMAP_GetCamera(void *p);
 extern void FIELD_CAMERA_StartMoveToSetting(u8 *p, u16 v);
 
-int SCRCMD_PROC_FLD_SetFieldRegionValue(u32 a, u32 b, u32 c, u32 d)
+int SCRCMD_PROC_FLD_StartCameraMoveToSetting(u32 a, u32 b, u32 c, u32 d)
 {
 FIELD_CAMERA_StartMoveToSetting(FIELDMAP_GetCamera(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem((void *)b))), VM_GetU16((struct Stream *)a));
 return 0;

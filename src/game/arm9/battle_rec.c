@@ -18,10 +18,10 @@
  *   pBattleRec   0x0214616C  data
  *   MIi_CpuClear32  0x02082A7C  arm
  *   GF_STANDARD_Checksum   0x0203F2FC  arm
- *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
+ *   GF_STANDARD_CalcCrc16  0x0203F1FC  arm
  *   MI_CpuFill8          0x02082BCC  arm
- *   GF_STANDARD_ShuffleEx  0x0203F37C  arm
- *   GF_STANDARD_Shuffle  0x0203F328  arm
+ *   GF_STANDARD_XorCryptEx  0x0203F37C  arm
+ *   GF_STANDARD_XorCrypt  0x0203F328  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   BattleRecModeTable 0x0209DDCC data
  *   ov188_id       0x000000BC  data  a1
@@ -74,11 +74,11 @@ extern u32 GFL_HEAP_Free(void *mem);
 
 extern u32 GF_STANDARD_Checksum(const u8 *data, u32 size);
 
-extern u16 GF_STANDARD_SetupCalc(const u8 *data, u32 size);
+extern u16 GF_STANDARD_CalcCrc16(const u8 *data, u32 size);
 
-extern void GF_STANDARD_Shuffle(void *data, u32 size, u32 code);
+extern void GF_STANDARD_XorCrypt(void *data, u32 size, u32 code);
 
-extern void GF_STANDARD_ShuffleEx(void *data, u32 size, u32 code);
+extern void GF_STANDARD_XorCryptEx(void *data, u32 size, u32 code);
 
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 
@@ -499,7 +499,7 @@ u32 BATTLE_REC_BeginSave(struct GameData *gameData, u16 heap, u32 modeIndex, u32
         body = &rec->body;
         BATTLE_REC_MakeHeader(save, head, body, modeIndex, battleCount);
         head->magic = BATTLE_REC_MAGIC;
-        head->crc = GF_STANDARD_SetupCalc((const u8 *)head, 0x38);
+        head->crc = GF_STANDARD_CalcCrc16((const u8 *)head, 0x38);
         body->magic = BATTLE_REC_MAGIC;
         BATTLE_REC_SetBodyCrc(body);
         crc = body->crc;
@@ -675,11 +675,11 @@ u32 BATTLE_REC_IsValid(struct SaveControl *save, struct BattleRecSave *rec)
     if (body->magic != BATTLE_REC_MAGIC || head->magic != BATTLE_REC_MAGIC) {
         return 0;
     }
-    crc = GF_STANDARD_SetupCalc((const u8 *)head, 0x38);
+    crc = GF_STANDARD_CalcCrc16((const u8 *)head, 0x38);
     if (crc != head->crc) {
         return 0;
     }
-    crc = GF_STANDARD_SetupCalc((const u8 *)body, 0x17DC);
+    crc = GF_STANDARD_CalcCrc16((const u8 *)body, 0x17DC);
     if (crc == body->crc) {
         return 1;
     }
@@ -714,12 +714,12 @@ u32 BATTLE_REC_IsValid(struct SaveControl *save, struct BattleRecSave *rec)
  */
 void BATTLE_REC_Decode(void *data, u32 size, u32 code)
 {
-    GF_STANDARD_ShuffleEx(data, size, code);
+    GF_STANDARD_XorCryptEx(data, size, code);
 }
 
 void BATTLE_REC_Encode(void *data, u32 size, u32 code)
 {
-    GF_STANDARD_Shuffle(data, size, code);
+    GF_STANDARD_XorCrypt(data, size, code);
 }
 
 struct BattleRecSave *BATTLE_REC_GetWork(void)
@@ -859,7 +859,7 @@ u32 BATTLE_REC_IsVersionSupported(u32 version)
 
 void BATTLE_REC_SetBodyCrc(struct BattleRecBody *body)
 {
-    body->crc = GF_STANDARD_SetupCalc((const u8 *)body, 0x17DC);
+    body->crc = GF_STANDARD_CalcCrc16((const u8 *)body, 0x17DC);
 }
 
 /*

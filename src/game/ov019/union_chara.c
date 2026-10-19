@@ -31,14 +31,14 @@
  *   MI_CpuFill8    0x02082BCC  arm
  *   OS_GetMacAddress  0x02087C6C  arm
  *   UNION_CHARA_IsWifiFriendBeacon  0x0217F894  thumb  ov019
- *   MISC_SAVEDATA_ContainsRecentValue  0x0200EDC4  thumb
+ *   MET_TRAINERS_Contains  0x0200EDC4  thumb
  *   UNION_EFF_AddIcon  0x0217F948  thumb  ov019
  *   memcmp  0x0203EFC8  arm
  *   GAMESYSTEM_IsFieldMapActive 0x02012114  thumb
  *   UNION_EFF_AddAnimEffect 0x0217F93C  thumb  ov019
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   MISC_SAVEDATA_GetBlock44  0x0200ED48  thumb
- *   GAME_DATA_GetField1A0  0x0201283C  thumb
+ *   MET_TRAINERS_GetFromSave  0x0200ED48  thumb
+ *   GAME_DATA_GetWifiList  0x0201283C  thumb
  *   gUnionCharaActionStart  0x02180044  data  a4
  *   gUnionCharaActionMain  0x02180048  data  a4
  *   gUnionCharaActionEnd  0x0218004C  data  a4
@@ -104,7 +104,7 @@ extern void OS_GetMacAddress(void *ownMac);
 
 extern int UNION_CHARA_IsWifiFriendBeacon(void *wifiFriends, UnionBeaconPc *beaconPc);
 
-extern int MISC_SAVEDATA_ContainsRecentValue(void *metTrainers, u32 trainerId);
+extern int MET_TRAINERS_Contains(void *metTrainers, u32 trainerId);
 
 extern void UNION_EFF_AddIcon(char *markSys, u32 mmdl, u32 kind);
 
@@ -114,9 +114,9 @@ extern void UNION_EFF_AddAnimEffect(int markSys, int mmdl);
 
 extern void *GAME_DATA_GetSaveControl(const struct GameData *gameData);
 
-extern void *MISC_SAVEDATA_GetBlock44(void *saveControl);
+extern void *MET_TRAINERS_GetFromSave(void *saveControl);
 
-extern u32 GAME_DATA_GetField1A0(const struct GameData *gameData);
+extern u32 GAME_DATA_GetWifiList(const struct GameData *gameData);
 
 extern int UNION_MSG_GetCategoryTableValue(int status);
 
@@ -342,7 +342,7 @@ void UNION_CHARA_AddBeaconMembers(UnionRoomWork *work, u32 metTrainers, u32 wifi
             if (i == 0) {
                 if (UNION_CHARA_IsWifiFriendBeacon((void *)wifiFriends, beaconPc) == 1)
                     UNION_EFF_AddIcon((char *)markSys, mmdl, 0);
-                else if (MISC_SAVEDATA_ContainsRecentValue((void *)metTrainers, beaconPc->beacon.trainerId) == 1)
+                else if (MET_TRAINERS_Contains((void *)metTrainers, beaconPc->beacon.trainerId) == 1)
                     UNION_EFF_AddIcon((char *)markSys, mmdl, 1);
             }
         }
@@ -416,8 +416,8 @@ void UNION_CHARA_Main(UnionRoomWork *work, struct GameData *gameData, void *fiel
     u8 zeroMac[6] = {0, 0, 0, 0, 0, 0};
 
     focusPending = 0;
-    metTrainers = (u32)MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(gameData));
-    wifiFriends = GAME_DATA_GetField1A0(gameData);
+    metTrainers = (u32)MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl(gameData));
+    wifiFriends = GAME_DATA_GetWifiList(gameData);
     markSys = FIELDMAP_GetUnionEff(fieldMap);
     GAME_DATA_GetOccupyInfo(gameData);
     if (memcmp(zeroMac, work->mySituation.focusMac, 6) != 0) {
@@ -518,8 +518,8 @@ void UNION_CHARA_RefreshParentMarks(UnionRoomWork *work, struct GameData *gameDa
     int mmdl;
     int i;
 
-    metTrainers = (int)MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(gameData));
-    wifiFriends = GAME_DATA_GetField1A0(gameData);
+    metTrainers = (int)MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl(gameData));
+    wifiFriends = GAME_DATA_GetWifiList(gameData);
     markSys = FIELDMAP_GetUnionEff(fieldMap);
     beaconPc = work->beaconPc;
     for (i = 0; i < UNION_BEACON_PC_MAX; i++, beaconPc++) {
@@ -528,7 +528,7 @@ void UNION_CHARA_RefreshParentMarks(UnionRoomWork *work, struct GameData *gameDa
             if (mmdl != 0) {
                 if (UNION_CHARA_IsWifiFriendBeacon((void *)wifiFriends, beaconPc) == 1) {
                     UNION_EFF_AddIcon((char *)markSys, mmdl, 0);
-                } else if (MISC_SAVEDATA_ContainsRecentValue((void *)metTrainers, beaconPc->beacon.trainerId) == 1) {
+                } else if (MET_TRAINERS_Contains((void *)metTrainers, beaconPc->beacon.trainerId) == 1) {
                     UNION_EFF_AddIcon((char *)markSys, mmdl, 1);
                 }
             }

@@ -23,7 +23,7 @@
  *   WIFIBATTLEMATCH_NET_HandleNetError 0x021D9F04 thumb ov175
  *   WIFIBATTLEMATCH_UTIL_GetBusy 0x021E8844 thumb ov177
  *   WIFIBATTLEMATCH_NET_ClearErrorFlags 0x021DA044 thumb ov175
- *   WIFIBATTLEMATCH_NET_IsGdbIdle 0x021DA054 thumb ov175
+ *   WIFIBATTLEMATCH_NET_StepGdbEnsureRecord 0x021DA054 thumb ov175
  *   WIFIBATTLEMATCH_NET_CompStepC 0x021D6DB8 thumb ov175
  */
 typedef unsigned int u32;
@@ -46,7 +46,7 @@ extern void WIFIBATTLEMATCH_NET_CompStepC(int *sys, int *state, char *p);
 extern int WIFIBATTLEMATCH_NET_HandleNetError(char *,void *,void *);
 extern int WIFIBATTLEMATCH_UTIL_GetBusy(const int *p);
 extern void WIFIBATTLEMATCH_NET_ClearErrorFlags(u8 *p);
-extern int WIFIBATTLEMATCH_NET_IsGdbIdle(char *);
+extern int WIFIBATTLEMATCH_NET_StepGdbEnsureRecord(char *);
 void WIFIBATTLEMATCH_NET_CompStepB(u32 sys,int *state,u32 *p)
 {
     u32 *ctx=(u32 *)p[0x104/4];
@@ -72,7 +72,7 @@ void WIFIBATTLEMATCH_NET_CompStepB(u32 sys,int *state,u32 *p)
     case 6: if(WIFIBATTLEMATCH_UTIL_GetBusy((const int *)p[0x2c/4])) WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys,(int)WIFIBATTLEMATCH_NET_CompExit); break;
     case 7: if(*(u32 *)ctx[8]==0) {WIFIBATTLEMATCH_NET_ClearErrorFlags((u8 *)p[0x34/4]); *state=8;} break;
     case 8:
-        r=WIFIBATTLEMATCH_NET_IsGdbIdle((char *)p[0x34/4]);
+        r=WIFIBATTLEMATCH_NET_StepGdbEnsureRecord((char *)p[0x34/4]);
         if(r==1) { *(u32 *)((u32 *)p[0x104/4])[8]=0x708; *state=9; }
         if(r!=0) {
             r=WIFIBATTLEMATCH_NET_HandleNetError((char *)p[0x34/4],(void *)1,0);

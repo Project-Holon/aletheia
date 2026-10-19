@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   TCBL_DeleteTask 0x02031194 arm
  */
 #include "../include/Obj04637.h"
@@ -17,6 +17,6 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct TcblNode;
-extern void BG_SYS_FillScrollArea(u32,u32,u32);
+extern void BG_SYS_ChangeScrollImmediate(u32,u32,u32);
 extern void TCBL_DeleteTask(struct TcblNode*);
-void BEACON_DETAIL_GRA_Callback(struct TcblNode*task,u8*p){u32 old=p[2]++;if(old<p[1]){((struct Obj04637 *)p)->f3=((struct Obj04637 *)p)->f3+((struct Obj04637 *)p)->f4;BG_SYS_FillScrollArea(1,3,((struct Obj04637 *)p)->f3);}else{--**(u32* *)&((struct Obj04637 *)p)->f8;TCBL_DeleteTask(task);}}
+void BEACON_DETAIL_GRA_Callback(struct TcblNode*task,u8*p){u32 old=p[2]++;if(old<p[1]){((struct Obj04637 *)p)->f3=((struct Obj04637 *)p)->f3+((struct Obj04637 *)p)->f4;BG_SYS_ChangeScrollImmediate(1,3,((struct Obj04637 *)p)->f3);}else{--**(u32* *)&((struct Obj04637 *)p)->f8;TCBL_DeleteTask(task);}}

@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "GF_STANDARD_SetupCalc",
+   "name": "GF_STANDARD_CalcCrc16",
    "address": "0x0203F1FC",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "GF_STANDARD_Shuffle",
+   "name": "GF_STANDARD_XorCrypt",
    "address": "0x0203F328",
    "kind": "game",
    "region": "arm9",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "GF_STANDARD_Reset",
+   "name": "GF_STANDARD_InitRtc",
    "address": "0x0203F3B4",
    "kind": "game",
    "region": "arm9",
@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "GF_STANDARD_Setup",
+   "name": "GF_STANDARD_UpdateRtc",
    "address": "0x0203F3F0",
    "kind": "game",
    "region": "arm9",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "GF_STANDARD_Task",
+   "name": "GF_STANDARD_RtcReadDone",
    "address": "0x0203F42C",
    "kind": "game",
    "region": "arm9",
@@ -139,7 +139,7 @@
    "status": "EXACT"
   },
   {
-   "name": "GF_STANDARD_GetRtc",
+   "name": "GF_STANDARD_RequestRtc",
    "address": "0x0203F46C",
    "kind": "game",
    "region": "arm9",
@@ -163,7 +163,7 @@
    "status": "EXACT"
   },
   {
-   "name": "GF_STANDARD_SetField00",
+   "name": "GF_STANDARD_GetCachedTime",
    "address": "0x0203F4CC",
    "kind": "game",
    "region": "arm9",
@@ -175,7 +175,7 @@
    "status": "EXACT"
   },
   {
-   "name": "GF_STANDARD_SetField00_F4E4",
+   "name": "GF_STANDARD_GetCachedDate",
    "address": "0x0203F4E4",
    "kind": "game",
    "region": "arm9",
@@ -187,7 +187,7 @@
    "status": "EXACT"
   },
   {
-   "name": "GF_STANDARD_SetupRtc",
+   "name": "GF_STANDARD_GetRtcTimestamp",
    "address": "0x0203F524",
    "kind": "game",
    "region": "arm9",

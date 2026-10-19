@@ -100,7 +100,7 @@
  *   TOUCHBAR_GetPressedButtonIdIfPressing  0x021B6470  thumb  ov067
  *   TOUCHBAR_GetPressedButtonIdIfDone  0x021B6448  thumb  ov067
  *   TOUCHBAR_IsButtonToggled  0x021B65A8  thumb  ov067
- *   GAME_DATA_SetSaveFlag  0x02012BE0  thumb
+ *   GAME_DATA_SetRecentId  0x02012BE0  thumb
  *   gOptionMenuConfirmRect     0x021BB550  data  a4
  *   func_020061E4_2  0x020061E4  thumb
  *   gOptionMenuCancelRect     0x021BB560  data  ov068  a4
@@ -140,7 +140,7 @@ extern void TOUCHBAR_Update(struct S *p);
 extern int TOUCHBAR_GetPressedButtonIdIfPressing(u8 *p);
 extern int TOUCHBAR_GetPressedButtonIdIfDone(u8 *p);
 extern int TOUCHBAR_IsButtonToggled(unsigned char *p, int id);
-extern void GAME_DATA_SetSaveFlag(void *p, u32 a, u32 b);
+extern void GAME_DATA_SetRecentId(void *p, u32 a, u32 b);
 
 void OPTION_MENU_UpdateButtons(W *p, void *obj, void *arg)
 {
@@ -252,9 +252,9 @@ void OPTION_MENU_UpdateButtons(W *p, void *obj, void *arg)
         if (r != 0) {
             if (r == 6) {
                 if (TOUCHBAR_IsButtonToggled((unsigned char *)p->f8, 6))
-                    GAME_DATA_SetSaveFlag((void *)p->f3C, 0x18, 1);
+                    GAME_DATA_SetRecentId((void *)p->f3C, 0x18, 1);
                 else
-                    GAME_DATA_SetSaveFlag((void *)p->f3C, 0x18, 0);
+                    GAME_DATA_SetRecentId((void *)p->f3C, 0x18, 0);
                 p->fC = 3;
             }
         } else {

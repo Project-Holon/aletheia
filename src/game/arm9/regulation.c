@@ -15,7 +15,7 @@
  * symbols:
  *   MI_CpuFill8    0x02082BCC  arm
  *   MI_CpuCopy8    0x02082D44  arm
- *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
+ *   GF_STANDARD_CalcCrc16  0x0203F1FC  arm
  *   func_0200ADF0_File  0x020A71B4  data
  *   STRBUF_Create  0x020457B0  arm
  *   MSGDATA_Delete  0x02045C04  arm
@@ -118,7 +118,7 @@ extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
-extern u16  GF_STANDARD_SetupCalc(const void *data, u32 size);
+extern u16  GF_STANDARD_CalcCrc16(const void *data, u32 size);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
@@ -361,7 +361,7 @@ u32 REGULATION_Card_IsCrcValid(struct RegulationCard *card)
 
 u16 REGULATION_Card_CalcCrc(struct RegulationCard *card)
 {
-    return GF_STANDARD_SetupCalc(card, 0x15E);
+    return GF_STANDARD_CalcCrc16(card, 0x15E);
 }
 
 struct RegulationCard *REGULATION_GetCard(struct RegulationCard *cards, u32 index)

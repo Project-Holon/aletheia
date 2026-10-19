@@ -16,7 +16,7 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   EVENT_TRAINER_EYE_GetTrainerId  0x021AE884  thumb  ov021
- *   EVENT_POKE_STATUS_CheckFlag  0x0215A4D8  thumb  ov010
+ *   EVENT_TRAINER_CheckDefeatedFlag  0x0215A4D8  thumb  ov010
  * Addresses are Black-image addresses.
  */
 
@@ -29,12 +29,12 @@ struct BigObj;
 struct Ctx;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
-extern unsigned EVENT_POKE_STATUS_CheckFlag(void *a, unsigned b);
+extern unsigned EVENT_TRAINER_CheckDefeatedFlag(void *a, unsigned b);
 extern void *FIELDMAP_GetGameSystem(void *p);
 extern int EVENT_TRAINER_EYE_GetTrainerId(u32 a);
 
 int EVENT_TRAINER_EYE_IsTrainerDefeated(u32 a, u32 b)
 {
-return EVENT_POKE_STATUS_CheckFlag((void *)GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData((const struct Ctx *)FIELDMAP_GetGameSystem((void *)a))), EVENT_TRAINER_EYE_GetTrainerId(b));
+return EVENT_TRAINER_CheckDefeatedFlag((void *)GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData((const struct Ctx *)FIELDMAP_GetGameSystem((void *)a))), EVENT_TRAINER_EYE_GetTrainerId(b));
 }
 

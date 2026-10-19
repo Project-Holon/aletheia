@@ -87,8 +87,8 @@
  *   SHINKA_DEMO_IsConfirmPressed 0x0220546C thumb ov195
  *   SHINKA_DEMO_SetupMessageBox 0x022054E8 thumb ov195
  *   SHINKA_DEMO_SetMenuText 0x022055BC thumb ov195
- *   SHINKA_DEMO_AddEvolvedPokemon 0x022056E8 thumb ov195
- *   SHINKA_DEMO_ClearPartyValue 0x02205844 thumb ov195
+ *   SHINKA_DEMO_AddShedinja 0x022056E8 thumb ov195
+ *   SHINKA_DEMO_ClearHeldItem 0x02205844 thumb ov195
  *   SHINKA_DEMO_GRAPHIC_Draw 0x022059FC thumb ov195
  *   SHINKA_DEMO_GRAPHIC_Update 0x02205A10 thumb ov195
  *   SHINKA_DEMO_GRAPHIC_DrawEnd 0x02205A1C thumb ov195
@@ -203,8 +203,8 @@ extern void SHINKA_DEMO_PrintText(char *,u32,u32,u32,u32,u32,u32,u32);
 extern int SHINKA_DEMO_AdvanceText(char *),SHINKA_DEMO_IsConfirmPressed(char *);
 extern void SHINKA_DEMO_SetupMessageBox(int a, int *p, int flag);
 extern void SHINKA_DEMO_SetMenuText(char *,u32,u32,u32,u32,u32,u32,u32,u32,u32,u32,u32,u32);
-extern void SHINKA_DEMO_AddEvolvedPokemon(u32 *a, char *b);
-extern void SHINKA_DEMO_ClearPartyValue(int a, char *b);
+extern void SHINKA_DEMO_AddShedinja(u32 *a, char *b);
+extern void SHINKA_DEMO_ClearHeldItem(int a, char *b);
 extern void SHINKA_DEMO_GRAPHIC_Draw(char *a);
 extern void SHINKA_DEMO_GRAPHIC_Update(char *a);
 extern void SHINKA_DEMO_GRAPHIC_DrawEnd(char *a);
@@ -278,7 +278,7 @@ int SHINKA_DEMO_Main(int unused0,int unused1,char *a,char *s)
     case 14:W(0x88)=1;W(0x28)=15;break;
     case 15:SHINKA_DEMO_PrintText(s,W(0x78),1,0,2,W(0x10),4,0);W(0x28)=16;break;
     case 16:if(SHINKA_DEMO_AdvanceText(s)&&SHINKA_DEMO_IsConfirmPressed(s))W(0x28)=42;break;
-    case 17:switch(AB(11)){case 14:SHINKA_DEMO_AddEvolvedPokemon((u32 *)a,s);break;case 6:case 19:case 20:SHINKA_DEMO_ClearPartyValue((int)a,s);break;}W(0x28)=18;W(0x20)=0;break;
+    case 17:switch(AB(11)){case 14:SHINKA_DEMO_AddShedinja((u32 *)a,s);break;case 6:case 19:case 20:SHINKA_DEMO_ClearHeldItem((int)a,s);break;}W(0x28)=18;W(0x20)=0;break;
     case 18:
         H(0x1c)=POKE_TOOL_GetLevelUpMove(P(0x10),(u32 *)(s+0x20),H(0));
         if(!H(0x1c))W(0x28)=42;else if(H(0x1c)!=0xfffe){if(H(0x1c)&0x8000){H(0x1c)&=0x7fff;W(0x28)=20;}else{W(0x28)=19;SHINKA_DEMO_PrintText(s,W(0x7c),3,0,2,W(0x10),3,(u32)(s+0x1c));SHINKA_DEMO_PlayResultBgm((int)a,(int *)s);}}break;

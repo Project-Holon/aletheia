@@ -185,7 +185,7 @@
  *   BR_UTIL_GetListMenuField 0x021FCE0C thumb ov186
  *   BR_UTIL_GetListItemBitmap 0x021FCDE8 thumb ov186
  *   BMP_Delete 0x020437AC arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   BR_UTIL_DeleteListMenu 0x021FCC80 thumb ov186
  *   BMP_MENUWORK_Delete 0x0201F868 thumb
  *   BR_UTIL_MainListMenu 0x021FCD0C thumb ov186
@@ -218,7 +218,7 @@
  *   BMP_MENUWORK_AddStrItem 0x0201F898 thumb
  *   BMP_OAM_GetRecordValue 0x02025B64 thumb
  *   WORDSET_SetSlotFromMsgE7 0x0201F048 thumb
- *   WORDSET_DeleteMsgdataF094 0x0201F094 thumb
+ *   WORDSET_SetSlotFromKeyedMessage 0x0201F094 thumb
  *   d_021E3780 0x021E3780 data a4
  *   d_021E372E 0x021E372E data a4
  *   d_021E37D8 0x021E37D8 data ov183
@@ -601,7 +601,7 @@ extern void BR_UTIL_RefreshList(char *p);
 extern int BR_UTIL_GetListMenuField(char *p, unsigned field);
 extern u32 BR_UTIL_GetListItemBitmap(u8 *p, u16 i);
 extern void BMP_Delete(struct Bmp *p);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void BR_UTIL_DeleteListMenu(char *p);
 extern u32 BMP_MENUWORK_Delete(void *p);
 extern void BR_UTIL_MainListMenu(char *p);
@@ -631,7 +631,7 @@ extern int BR_POKESEARCH_GetResult(int *, u16 *);
 extern void BMP_MENUWORK_AddStrItem(BmpMenuWorkSlot *table, u32 a, u32 b, u32 tag);
 extern u8 BMP_OAM_GetRecordValue(u32);
 extern void WORDSET_SetSlotFromMsgE7(struct WordSet *p, u32 i, u32 n);
-extern void WORDSET_DeleteMsgdataF094(struct WordSet *p, u32 i, u32 a, u32 n);
+extern void WORDSET_SetSlotFromKeyedMessage(struct WordSet *p, u32 i, u32 a, u32 n);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void BUTTON_MAN_Delete(void *);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
@@ -4079,7 +4079,7 @@ void BR_CODEIN_SearchDeleteList(char *work)
     for (i = 0; i < BR_UTIL_GetListMenuField(((struct CodeinWorkG *)work)->listMenu, 3); i++) {
         BMP_Delete((struct Bmp *)BR_UTIL_GetListItemBitmap(((struct CodeinWorkG *)work)->listMenu, i));
     }
-    WORDSET_DeleteStrbufED04(((struct CodeinWorkG *)work)->wordSet);
+    WORDSET_Delete(((struct CodeinWorkG *)work)->wordSet);
     BR_UTIL_DeleteListMenu(((struct CodeinWorkG *)work)->listMenu);
     BMP_MENUWORK_Delete(((struct CodeinWorkG *)work)->menuWork);
     MI_CpuFill8(work, 0, 0xD4);
@@ -4755,7 +4755,7 @@ int BR_CODEIN_CodeSetupPokeList(struct CodeinWorkB *work,struct CodeinArgA *arg)
     ws=BR_RES_GetWordSet(*(char * *)&arg->res);
     data=MSGDATA_AllocString((void *)second,125);
     if(!BMP_OAM_GetRecordValue(a))WORDSET_SetSlotFromMsgE7((void *)ws,0,a);
-    else WORDSET_DeleteMsgdataF094((void *)ws,0,a,b);
+    else WORDSET_SetSlotFromKeyedMessage((void *)ws,0,a,b);
     WORDSET_CopyTaggedText((void *)ws,text,data);
     STRBUF_Delete(data);
     *(BmpMenuWorkSlot * *)&work->menuWork=BMP_MENUWORK_Create(1,work->heapId);
@@ -4896,7 +4896,7 @@ void BR_CODEIN_CodeSetMenuText(struct CodeinWorkB *work,struct CodeinArgB *arg,i
         data=MSGDATA_AllocString((void *)second,24);
         text=STRBUF_Create(128,work->heapId);
         if(!BMP_OAM_GetRecordValue(arg->language))WORDSET_SetSlotFromMsgE7((void *)ws,0,arg->language);
-        else WORDSET_DeleteMsgdataF094((void *)ws,0,arg->language,arg->version);
+        else WORDSET_SetSlotFromKeyedMessage((void *)ws,0,arg->language,arg->version);
         WORDSET_CopyTaggedText((void *)ws,text,data);
         BR_UTIL_SetTextFromBuffer(work->versionText,text,(void *)first,0x3da0);
         STRBUF_Delete(data);STRBUF_Delete(text);

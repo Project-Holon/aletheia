@@ -41,7 +41,7 @@
  *   BG_SYS_Init 0x02040C14 arm
  *   d_021BFB50 0x021BFB50 data a4
  *   d_021BFC24 0x021BFC24 data a4
- *   BG_SYS_SetTileUnit 0x02040DA8 arm
+ *   BG_SYS_FreeTiles 0x02040DA8 arm
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BMP_WIN_Exit 0x020450C8 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
@@ -68,7 +68,7 @@
  *   G3D_CAMERA_Delete 0x02048AC4 arm
  *   DEMO3D_GRAPHIC_SetLightSlot 0x021BDF74 thumb ov203
  *   DEMO3D_GRAPHIC_SetLightVector 0x021BDF88 thumb ov203
- *   DEMO3D_DATA_GetAnimCount 0x021BE938 thumb ov203
+ *   DEMO3D_DATA_IsDouble3dDisplay 0x021BE938 thumb ov203
  */
 #include "demo3d_graphic_shared_types.h"
 
@@ -143,7 +143,7 @@ extern void BG_SYS_SetPlaneVisible(unsigned char, unsigned char);
 
 extern void BG_SYS_Init(unsigned, unsigned, unsigned, unsigned);
 
-extern void BG_SYS_SetTileUnit(unsigned, unsigned, unsigned);
+extern void BG_SYS_FreeTiles(unsigned, unsigned, unsigned);
 
 extern void BG_SYS_FreeLayerBuf(u32 i);
 
@@ -242,7 +242,7 @@ void DEMO3D_GRAPHIC_DeleteDouble3d(void);
 
 void DEMO3D_GRAPHIC_DeleteCamera(void *p);
 
-int DEMO3D_DATA_GetAnimCount(void *a);
+int DEMO3D_DATA_IsDouble3dDisplay(void *a);
 
 extern const char d_021C3CCC[];
 
@@ -261,7 +261,7 @@ Demo3dGraphic *DEMO3D_GRAPHIC_Create(unsigned swap, void *config, u8 heap)
 {
     Demo3dGraphic *ctx = GFL_HEAP_Alloc(heap, 24, 0, d_021C3CCC, 0x15a);
     MI_CpuFill8(ctx, 0, 24);
-    ctx->engineOn = DEMO3D_DATA_GetAnimCount(config);
+    ctx->engineOn = DEMO3D_DATA_IsDouble3dDisplay(config);
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
     *(volatile unsigned *)0x04000000 &= 0xffff1fff;
@@ -366,7 +366,7 @@ void DEMO3D_GRAPHIC_DeleteBg(Demo3dGraphic *ctx)
 {
     unsigned i = 0;
     unsigned layer;
-    BG_SYS_SetTileUnit(1, 1, 0);
+    BG_SYS_FreeTiles(1, 1, 0);
     for (; i < 4; i++) {
         layer = d_021BFC24[i].layer;
         BG_SYS_SetPlaneVisible((unsigned char)layer, 0);

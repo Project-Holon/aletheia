@@ -11,7 +11,7 @@
  * symbols:
  *   GX_LoadBGPltt 0x0207E3D0 arm
  *   func_0207E468 0x0207E468 arm
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  */
 #include "../include/Obj03274.h"
 typedef unsigned char u8;
@@ -19,7 +19,7 @@ typedef short s16;
 extern void GX_LoadBGPltt(void *, unsigned int, unsigned int);
 extern void func_0207E468(void *, unsigned int, unsigned int);
 typedef unsigned int   u32;
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 void PDWACC_DISP_PaletteTask(void *unused, char *p)
 {
     if (((struct Obj03274 *)p)->f4) {
@@ -29,7 +29,7 @@ void PDWACC_DISP_PaletteTask(void *unused, char *p)
             func_0207E468(p+0x1f0+((struct Obj03274 *)p)->f968*32,40,14);
             ++((struct Obj03274 *)p)->f968;
             if (*(volatile s16 *)&((struct Obj03274 *)p)->f968>=60) ((struct Obj03274 *)p)->f968=0;
-            BG_SYS_FillScrollArea(((struct Obj03274 *)p)->f96C,2,7);
+            BG_SYS_ChangeScrollImmediate(((struct Obj03274 *)p)->f96C,2,7);
         }
     }
 }

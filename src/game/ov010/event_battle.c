@@ -76,7 +76,7 @@
  *   GF_OVERLAY_Load  0x02034AC4  arm
  *   GF_OVERLAY_Unload  0x02034A5C  arm
  *   GFL_USE_AddMainTask  0x020056A0  thumb
- *   GAMESYSTEM_ReadTimerTwice  0x02011D34  thumb
+ *   GAMESYSTEM_RandTwice  0x02011D34  thumb
  *   FLD_BTL_INST_TOOL_AddBattleTally  0x02168D30  thumb  ov010
  *   FIELDMAP_GetEncEff  0x02189A08  thumb  ov021
  *   OV230_CallSealedBody1  0x021882DC  arm  ov230d
@@ -109,7 +109,7 @@
  *   MOVE_POKEMON_HandleBattleResult 0x0215E5B0 thumb ov010
  *   GAME_DATA_GetMyPlayerWork 0x020127A4 thumb
  *   GAME_DATA_GetPlayerZoneId 0x02012AC8 thumb
- *   ISS_SWITCH_ApplySubscreenMode 0x0202C83C thumb
+ *   WEATHER_StoreZoneWeatherId 0x0202C83C thumb
  *   MIi_CpuClear32 0x02082A7C arm
  *   BTL_SETUP_Delete  0x020130B4  thumb
  *   GF_STANDARD_Rand  0x0203F0A8  arm
@@ -252,7 +252,7 @@ extern void COMM_PLAYER_SUPPORT_StashMode(u32 *p);
 extern int GF_OVERLAY_Load(s32 handle);
 extern void GF_OVERLAY_Unload(s32 handle);
 extern void *GFL_USE_AddMainTask(void (*callback)(void *, void *), void *work, u32 key);
-extern void GAMESYSTEM_ReadTimerTwice(void);
+extern void GAMESYSTEM_RandTwice(void);
 extern void FLD_BTL_INST_TOOL_AddBattleTally(struct TallyRecord *r, struct Result *s);
 extern int FIELDMAP_GetEncEff(unsigned char *p);
 extern u32 OV230_CallSealedBody1(void (*a)(void), void (*b)(void), u32 c);
@@ -276,7 +276,7 @@ extern void GAME_DATA_SetFieldMode(struct BtlSetup *p, u32 v);
 extern void MOVE_POKEMON_HandleBattleResult(void *gameData, struct BtlSetup *w);
 extern void *GAME_DATA_GetMyPlayerWork(struct SaveData *p);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *p);
-extern int ISS_SWITCH_ApplySubscreenMode(int,int);
+extern int WEATHER_StoreZoneWeatherId(int,int);
 extern void MIi_CpuClear32(int,void *,int);
 extern int BTL_SETUP_Delete(int param);
 extern u32 GF_STANDARD_Rand(void);
@@ -721,7 +721,7 @@ int EVENT_BATTLE_ProcBattleTask(void *event, u32 *state, BattleTask *work)
         return 1;
     }
     if (integritySum % 0x1933 != 0) {
-        GFL_USE_AddMainTask((void (*)(void *, void *))GAMESYSTEM_ReadTimerTwice, 0, 0x7F);
+        GFL_USE_AddMainTask((void (*)(void *, void *))GAMESYSTEM_RandTwice, 0, 0x7F);
         g_0214624C++;
     }
     return 0;
@@ -911,7 +911,7 @@ int EVENT_BATTLE_IsTaskResultSilent(BattleTask *task)
 
 
 /*
- * ISS_SWITCH_ApplySubscreenMode's body consumes only r0/r1, forwarding those to
+ * WEATHER_StoreZoneWeatherId's body consumes only r0/r1, forwarding those to
  * ISS_SWITCH_GetSubscreenMode; original supplies no new r2/r3. Legacy trailing
  * arguments are omitted. GAME_DATA_GetPlayerZoneId consumes the preceding result.
  */
@@ -921,7 +921,7 @@ void EVENT_BATTLE_FinishBattleTask(BattleTask *task, void *gameSystem)
     MOVE_POKEMON_HandleBattleResult(gameSystem, task->btlSetup);
     EVENT_BATTLE_NotifyBattleEnd((struct BattleEndCtx *)task);
     EVENT_BATTLE_SetResultSound(task);
-    ISS_SWITCH_ApplySubscreenMode((int)task->gameSystem, GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameSystem)));
+    WEATHER_StoreZoneWeatherId((int)task->gameSystem, GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameSystem)));
 }
 
 

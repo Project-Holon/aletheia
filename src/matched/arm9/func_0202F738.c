@@ -1,5 +1,5 @@
 /*
- * function: EVENT_ID_AreSlotsClear
+ * function: POKE_TOOL_HasNoHmMove
  * address:  0x0202F738
  * packet:   pkt_0202F498
  * region:   arm9
@@ -10,21 +10,21 @@
  * status:   EXACT*
  * symbols:
  *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
- *   FILE_UTIL_Check12E4  0x020212E4  thumb
+ *   FILE_UTIL_IsHmMove  0x020212E4  thumb
  */
 
 typedef unsigned short u16;
 
 typedef unsigned int   u32;
 extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
-extern u32 FILE_UTIL_Check12E4(u16 v);
+extern u32 FILE_UTIL_IsHmMove(u16 v);
 
-int EVENT_ID_AreSlotsClear(void *p, int a1)
+int POKE_TOOL_HasNoHmMove(void *p, int a1)
 {
     int i;
 
     for (i = 0; i < 4; i++) {
-        if (FILE_UTIL_Check12E4((u16)POKE_TOOL_GetBoxValue(p, i + 0x36, 0)) != 0) {
+        if (FILE_UTIL_IsHmMove((u16)POKE_TOOL_GetBoxValue(p, i + 0x36, 0)) != 0) {
             return 0;
         }
     }

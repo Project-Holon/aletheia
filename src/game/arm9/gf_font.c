@@ -1,7 +1,7 @@
 /*
  * file:     gf_font.c
  * unit:     yes
- * function: GF_FONT_Create, GF_FONT_Delete, GF_FONT_LoadResource, GF_FONT_FreeBuffers, GF_FONT_SetFormat, GF_FONT_InitPreloadedGlyphs, GF_FONT_InitStreamedGlyphs, GF_FONT_ExitFormat, GF_FONT_FreeGlyphData, GF_FONT_ExitStreamedGlyphs, GF_FONT_ReadGlyph, GF_FONT_GetGlyphIndex, GF_FONT_ReadPreloadedGlyph, GF_FONT_ReadStreamedGlyph, GF_FONT_DecodeGlyph, GF_FONT_GetCharWidth, GF_FONT_GetField58, GF_FONT_GetProportionalWidth, GF_FONT_GetFixedWidth, GF_FONT_InitTextColor, GF_FONT_SetDefaultTextColor, GF_FONT_SetTextColor, GF_FONT_GetTextColor, GF_FONT_IsTextColorDifferent, GF_FONT_DecodeGlyph8x8, GF_FONT_InitBitReader, GF_FONT_ReadBits, GF_FONT_DecodeGlyph8x16, GF_FONT_DecodeGlyph16x8, GF_FONT_DecodeGlyph16x16, WORDSET_CreateDefault
+ * function: GF_FONT_Create, GF_FONT_Delete, GF_FONT_LoadResource, GF_FONT_FreeBuffers, GF_FONT_SetFormat, GF_FONT_InitPreloadedGlyphs, GF_FONT_InitStreamedGlyphs, GF_FONT_ExitFormat, GF_FONT_FreeGlyphData, GF_FONT_ExitStreamedGlyphs, GF_FONT_ReadGlyph, GF_FONT_GetGlyphIndex, GF_FONT_ReadPreloadedGlyph, GF_FONT_ReadStreamedGlyph, GF_FONT_DecodeGlyph, GF_FONT_GetCharWidth, GF_FONT_GetLineHeight, GF_FONT_GetProportionalWidth, GF_FONT_GetFixedWidth, GF_FONT_InitTextColor, GF_FONT_SetDefaultTextColor, GF_FONT_SetTextColor, GF_FONT_GetTextColor, GF_FONT_IsTextColorDifferent, GF_FONT_DecodeGlyph8x8, GF_FONT_InitBitReader, GF_FONT_ReadBits, GF_FONT_DecodeGlyph8x16, GF_FONT_DecodeGlyph16x8, GF_FONT_DecodeGlyph16x16, WORDSET_CreateDefault
  * address:  0x0201D7EC
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -14,7 +14,7 @@
  *
  * symbols:
  *   GF_FONT_GetCharWidth  0x0201DC6C  thumb
- *   GF_FONT_GetField58  0x0201DC80  thumb
+ *   GF_FONT_GetLineHeight  0x0201DC80  thumb
  *   MI_CpuCopy8  0x02082D44  arm
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
@@ -114,7 +114,7 @@ void GF_FONT_DecodeGlyph(const struct GfFont *font, const u8 *glyph, u32 lastGro
 
 u32 GF_FONT_GetCharWidth(struct GfFont *font, u16 ch);
 
-u32 GF_FONT_GetField58(struct GfFont *font);
+u32 GF_FONT_GetLineHeight(struct GfFont *font);
 
 u32 GF_FONT_GetProportionalWidth(struct GfFont *font, u32 glyphIndex);
 
@@ -627,7 +627,7 @@ void GF_FONT_DecodeGlyph(const struct GfFont *font, const u8 *glyph, u32 lastGro
  * bytes whether the C declares a return value or not, so the return type is
  * fixed by the caller instead: GF_FONT_MeasureText adds the result to a running width.
  *
- * GF_FONT_GetField58 has no label in the listing; it is three halfwords between two
+ * GF_FONT_GetLineHeight has no label in the listing; it is three halfwords between two
  * literal pools.
  *
  * Addresses are Black-image addresses.
@@ -641,7 +641,7 @@ u32 GF_FONT_GetCharWidth(struct GfFont *font, u16 ch)
     return font->getCharWidth(font, GF_FONT_GetGlyphIndex(font, ch));
 }
 
-u32 GF_FONT_GetField58(struct GfFont *font)
+u32 GF_FONT_GetLineHeight(struct GfFont *font)
 {
     return font->info.lineHeight;
 }

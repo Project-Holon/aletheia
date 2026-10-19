@@ -162,7 +162,7 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "GAME_DATA_SetSaveFlag"
+    "GAME_DATA_SetRecentId"
    ],
    "addresses": [
     "0x02012BE0"

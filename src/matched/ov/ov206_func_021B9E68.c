@@ -12,7 +12,7 @@
  *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  *   ZUKAN_INFO_LoadResources 0x021BBE5C thumb ov206
  *   POKE_PERSONAL_GetParam 0x0201AE1C thumb
  *   func_02049B68 0x02049B68 arm
@@ -36,7 +36,7 @@
  *   ZUKAN_INFO_RefreshDisplay 0x021BBC38 thumb ov206
  *   ZUKAN_INFO_SetActors 0x021BB13C thumb ov206
  *   G2x_SetBlendBrightness_ 0x0207D658 arm
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   d_021BC220 0x021BC220 data
  */
@@ -53,7 +53,7 @@ struct Personal;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *p, int v, int n);
 extern u32 PRINTSYS_QUE_Create(void *p);
-extern void BG_SYS_SetVisibleLayer(int idx, unsigned short val);
+extern void BG_SYS_SetPriority(int idx, unsigned short val);
 struct S;
 struct State;
 extern void ZUKAN_INFO_LoadResources(struct S *p);
@@ -79,7 +79,7 @@ extern void ZUKAN_INFO_CreateWindows(char *p);
 extern void ZUKAN_INFO_RefreshDisplay(struct S *p);
 extern void ZUKAN_INFO_SetActors(void *a0, void *a1, void *a2, void *a3);
 extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 extern void BG_SYS_PushTile(u32 layer);
 static inline void G2_SetWnd0Position(int x1, int y1, int x2, int y2)
 {
@@ -144,9 +144,9 @@ void *ZUKAN_INFO_Create(u32 heap, u16 a1, u16 a2, u16 a3, u16 a4, u32 a5, u32 a6
         ((struct Obj00022 *)p)->f4D = 6;
         ((struct Obj00022 *)p)->f4E = 4;
     }
-    BG_SYS_SetVisibleLayer(((struct Obj00022 *)p)->f4C, ((struct Obj00022 *)p)->f20);
-    BG_SYS_SetVisibleLayer(((struct Obj00022 *)p)->f4D, (u8)(((struct Obj00022 *)p)->f20 + 1));
-    BG_SYS_SetVisibleLayer(((struct Obj00022 *)p)->f4E, (u8)(((struct Obj00022 *)p)->f20 + 2));
+    BG_SYS_SetPriority(((struct Obj00022 *)p)->f4C, ((struct Obj00022 *)p)->f20);
+    BG_SYS_SetPriority(((struct Obj00022 *)p)->f4D, (u8)(((struct Obj00022 *)p)->f20 + 1));
+    BG_SYS_SetPriority(((struct Obj00022 *)p)->f4E, (u8)(((struct Obj00022 *)p)->f20 + 2));
     ((struct Obj00022 *)p)->f38 = 0;
     ((struct Obj00022 *)p)->f39 = 0;
     switch (((struct Obj00022 *)p)->f18) {
@@ -234,9 +234,9 @@ void *ZUKAN_INFO_Create(u32 heap, u16 a1, u16 a2, u16 a3, u16 a4, u32 a5, u32 a6
         G2_SetWndOutsidePlane(0x1f, 0);
         G2x_SetBlendBrightness_((u32)((volatile u16 *)0x04000050), 0x10, -0x10);
     }
-    BG_SYS_FillScrollArea(((struct Obj00022 *)p)->f4D, 3, -((struct Obj00022 *)p)->f1B4);
-    BG_SYS_FillScrollArea(((struct Obj00022 *)p)->f4E, 3, -((struct Obj00022 *)p)->f1B4);
-    BG_SYS_FillScrollArea(((struct Obj00022 *)p)->f4C, 3, -((struct Obj00022 *)p)->f1B4);
+    BG_SYS_ChangeScrollImmediate(((struct Obj00022 *)p)->f4D, 3, -((struct Obj00022 *)p)->f1B4);
+    BG_SYS_ChangeScrollImmediate(((struct Obj00022 *)p)->f4E, 3, -((struct Obj00022 *)p)->f1B4);
+    BG_SYS_ChangeScrollImmediate(((struct Obj00022 *)p)->f4C, 3, -((struct Obj00022 *)p)->f1B4);
     BG_SYS_PushTile(((struct Obj00022 *)p)->f4D);
     BG_SYS_PushTile(((struct Obj00022 *)p)->f4E);
     return p;

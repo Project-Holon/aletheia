@@ -1,7 +1,7 @@
 /*
  * file:     intrude_comm_view.c
  * unit:     yes
- * function: INTRUDE_COMM_VIEW_StoreCallback, INTRUDE_COMM_VIEW_SetCallback, INTRUDE_COMM_VIEW_SetupBackgrounds, INTRUDE_COMM_VIEW_BuildRowList, INTRUDE_COMM_VIEW_RebuildRow, INTRUDE_COMM_VIEW_DeleteRowSlot, INTRUDE_COMM_VIEW_ResetRowSlot, INTRUDE_COMM_VIEW_DeleteRows, INTRUDE_COMM_VIEW_InvokeCallback, INTRUDE_COMM_VIEW_BrightenPalette, INTRUDE_COMM_VIEW_CreateActors, INTRUDE_COMM_VIEW_CreateResources, INTRUDE_COMM_VIEW_InitMenu, INTRUDE_COMM_VIEW_DeleteResources, INTRUDE_COMM_VIEW_CheckExitRequest, INTRUDE_COMM_VIEW_BeginExit, INTRUDE_COMM_VIEW_StartExit, INTRUDE_COMM_VIEW_Noop, INTRUDE_COMM_VIEW_AnimateSelectedRow, INTRUDE_COMM_VIEW_SelectRow, INTRUDE_COMM_VIEW_DrawRowText, INTRUDE_COMM_VIEW_UpdatePeerList, INTRUDE_COMM_VIEW_Update, INTRUDE_COMM_VIEW_InitStatusText, INTRUDE_COMM_VIEW_UpdateActorAnim, INTRUDE_COMM_VIEW_SetFoundPeerMac, INTRUDE_COMM_VIEW_ClearFoundPeerMac, INTRUDE_COMM_VIEW_OnScanResult, INTRUDE_COMM_VIEW_StorePeerRecord, INTRUDE_COMM_VIEW_TickPeerTimers, INTRUDE_COMM_VIEW_SumPeerTimers, INTRUDE_COMM_VIEW_VBlankHandler, INTRUDE_COMM_VIEW_Create, INTRUDE_COMM_VIEW_Main, INTRUDE_COMM_VIEW_Exit
+ * function: INTRUDE_COMM_VIEW_StoreCallback, INTRUDE_COMM_VIEW_SetCallback, INTRUDE_COMM_VIEW_SetupBackgrounds, INTRUDE_COMM_VIEW_BuildRowList, INTRUDE_COMM_VIEW_RebuildRow, INTRUDE_COMM_VIEW_DeleteRowSlot, INTRUDE_COMM_VIEW_ResetRowSlot, INTRUDE_COMM_VIEW_DeleteRows, INTRUDE_COMM_VIEW_InvokeCallback, INTRUDE_COMM_VIEW_BrightenPalette, INTRUDE_COMM_VIEW_CreateActors, INTRUDE_COMM_VIEW_CreateResources, INTRUDE_COMM_VIEW_InitMenu, INTRUDE_COMM_VIEW_DeleteResources, INTRUDE_COMM_VIEW_WaitExitWipe, INTRUDE_COMM_VIEW_BeginExit, INTRUDE_COMM_VIEW_StartExit, INTRUDE_COMM_VIEW_Noop, INTRUDE_COMM_VIEW_AnimateSelectedRow, INTRUDE_COMM_VIEW_SelectRow, INTRUDE_COMM_VIEW_DrawRowText, INTRUDE_COMM_VIEW_UpdatePeerList, INTRUDE_COMM_VIEW_Update, INTRUDE_COMM_VIEW_InitStatusText, INTRUDE_COMM_VIEW_UpdateActorAnim, INTRUDE_COMM_VIEW_SetFoundPeerMac, INTRUDE_COMM_VIEW_ClearFoundPeerMac, INTRUDE_COMM_VIEW_OnScanResult, INTRUDE_COMM_VIEW_StorePeerRecord, INTRUDE_COMM_VIEW_TickPeerTimers, INTRUDE_COMM_VIEW_SumPeerTimers, INTRUDE_COMM_VIEW_VBlankHandler, INTRUDE_COMM_VIEW_Create, INTRUDE_COMM_VIEW_Main, INTRUDE_COMM_VIEW_Exit
  * address:  0x021D4240
  * region:   ov122
  * compiler: dsi/1.1p1
@@ -21,7 +21,7 @@
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
  *   BG_SYS_PushTile 0x020409B4 arm
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BG_SYS_Init 0x02040C14 arm
  *   BG_SYS_SetTileEntry 0x02041300 arm
@@ -39,7 +39,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BUTTON_MAN_Delete 0x02051C6C arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   data_021D5708 0x021D5708 data a1
  *   data_021D5704 0x021D5704 data a1
  *   data_021D570C 0x021D570C data a1
@@ -68,8 +68,8 @@
  *   d_021D5728 0x021D5728 data a4
  *   BUTTON_MAN_Create 0x02051B84 arm
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
- *   BG_SYS_SetTileUnit 0x02040DA8 arm
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
+ *   BG_SYS_FreeTiles 0x02040DA8 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   STRBUF_Delete 0x02045808 arm
@@ -119,11 +119,11 @@
  *   data_021D5740 0x021D5740 data a4
  *   APP_TASKMENU_UpdateMenu 0x02027974 thumb
  *   CLACT_DrawSystem 0x0204A600 arm
- *   GAME_DATA_GetField1A0 0x0201283C thumb
+ *   GAME_DATA_GetWifiList 0x0201283C thumb
  *   WIH_DWC_PollStatus 0x0201058C thumb
  *   TCBL_Main 0x020310C4 arm
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   GAMESYSTEM_TryStartAutoComm 0x020121CC thumb
  *   GAMESYSTEM_IsNetOffBySleep 0x02012204 thumb
  *   WIPE_SetBrightnessFadeOut 0x0202223C thumb
@@ -141,7 +141,7 @@
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb  arm9
  *   GAME_DATA_GetBgmInfo  0x02012A30  thumb  arm9
  *   WORDSET_Create  0x0201EC74  thumb  arm9
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
+ *   WORDSET_Delete  0x0201ED04  thumb  arm9
  *   BG_SYS_Delete  0x0203F9B4  arm  arm9
  *   GF_FONT_InitTextColor  0x0201DD60  thumb  arm9
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
@@ -295,7 +295,7 @@ typedef struct { u32 v[4]; } Display;
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u32);
 extern void BG_SYS_PushTile(u32);
-extern void BG_SYS_SetVisibleLayer(int, u16);
+extern void BG_SYS_SetPriority(int, u16);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void BG_SYS_Init(u32, u32, u32, u32);
 extern void BG_SYS_SetTileEntry(u32, int, int, int, u8, u8, u8);
@@ -313,7 +313,7 @@ extern void PRINTSYS_PrintColor(void *, s16, s16, void *, void *, u16);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BUTTON_MAN_Delete(void *);
-extern void BG_SYS_SetFlagField06(u32);
+extern void BG_SYS_MarkTileDirty(u32);
 extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 space, u16 heap);
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
@@ -335,8 +335,8 @@ extern void ARC_TOOL_DeleteHandle(u32);
 extern void *BMP_MENUWORK_LoadFrameGfx(void *layer, u32 palSlot, u32 frameId, u32 heapId);
 extern void *BUTTON_MAN_Create(u8 *rects, int a1, int arg, int heap);
 extern void GF_FONT_SetDefaultTextColor(void);
-extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTiles(u32 idx, u32 count, u32 tile);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 extern void BG_SYS_FreeLayerBuf(u32 i);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern u32 GF_FONT_Delete(void *ptr);
@@ -361,7 +361,7 @@ extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void *GFL_NET_GetInitParam(void);
 extern void *GFL_NET_GetScanResultMac(u32);
-extern u32 GAME_DATA_GetField1A0(const struct BigObj *p);
+extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 extern int WIH_DWC_FindSlotByKey(void *);
 extern u32 GFL_NET_GetScanResult(u32 a);
 extern u16 *COMM_PLAYER_SUPPORT_GetRecordFieldPtr(void *);
@@ -400,7 +400,7 @@ extern void CLACT_DrawSystem(void);
 extern u32 WIH_DWC_PollStatus(void *);
 extern void TCBL_Main(struct Tcbl *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-extern void BG_SYS_FillScrollArea(u32, u32, u32);
+extern void BG_SYS_ChangeScrollImmediate(u32, u32, u32);
 extern u32 GAMESYSTEM_TryStartAutoComm(struct IcaAnime *p);
 extern u32 GAMESYSTEM_IsNetOffBySleep(const struct Ctx *p);
 extern void WIPE_SetBrightnessFadeOut(u32, u32);
@@ -415,7 +415,7 @@ extern void TCB_DeleteTask(struct Node *n);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
 extern void BMP_WIN_Exit(void);
@@ -436,7 +436,7 @@ void INTRUDE_COMM_VIEW_CreateActors(char *p);
 void INTRUDE_COMM_VIEW_CreateResources(char *p);
 void INTRUDE_COMM_VIEW_InitMenu(char *p);
 void INTRUDE_COMM_VIEW_DeleteResources(char *p);
-void INTRUDE_COMM_VIEW_CheckExitRequest(char *p);
+void INTRUDE_COMM_VIEW_WaitExitWipe(char *p);
 void INTRUDE_COMM_VIEW_BeginExit(char *p);
 void INTRUDE_COMM_VIEW_StartExit(char *p);
 void INTRUDE_COMM_VIEW_Noop(void);
@@ -496,7 +496,7 @@ void INTRUDE_COMM_VIEW_SetupBackgrounds(void *unused)
     BG_SYS_InitBgLayer(0, (const struct BgTemplate *)(&bg0), 0);
     BG_SYS_FreeSlot(0);
     BG_SYS_PushTile(0);
-    BG_SYS_SetVisibleLayer(0, 0);
+    BG_SYS_SetPriority(0, 0);
     BG_SYS_SetPlaneVisible(0, 1);
     bg4 = d_021D57A0;
     BG_SYS_InitBgLayer(4, (const struct BgTemplate *)(&bg4), 0);
@@ -551,7 +551,7 @@ void INTRUDE_COMM_VIEW_BuildRowList(int count, int *values, IntrudeCommView *p, 
     }
     if (p->buttonMan) BUTTON_MAN_Delete(p->buttonMan);
     p->buttonMan = 0;
-    BG_SYS_SetFlagField06(7);
+    BG_SYS_MarkTileDirty(7);
 }
 
 
@@ -581,7 +581,7 @@ void INTRUDE_COMM_VIEW_RebuildRow(int i, IntrudeCommView *p, Row *row, const int
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(p->rows[i]), x, y, ((IntrudeCommView *)p)->textBuf, ((IntrudeCommView *)p)->font, 0x39e3);
     BMP_WIN_TransferChars(p->rows[i]);
     BMP_WIN_MakeScreen(p->rows[i]);
-    BG_SYS_SetFlagField06(7);
+    BG_SYS_MarkTileDirty(7);
 }
 
 
@@ -590,7 +590,7 @@ void INTRUDE_COMM_VIEW_RebuildRow(int i, IntrudeCommView *p, Row *row, const int
 
 
 
-void INTRUDE_COMM_VIEW_DeleteRowSlot(u32 i,u32 p) {if(*(void **)(p+0x10+i*4)) {BMP_WIN_ClearScreen(*(void **)(p+0x10+i*4));BMP_MENUWORK_DrawWindowBorder(*(void **)(p+0x10+i*4),2);BMP_WIN_Delete(*(void **)(p+0x10+i*4));}*(void **)(p+0x10+i*4)=0;BG_SYS_SetFlagField06(5);}
+void INTRUDE_COMM_VIEW_DeleteRowSlot(u32 i,u32 p) {if(*(void **)(p+0x10+i*4)) {BMP_WIN_ClearScreen(*(void **)(p+0x10+i*4));BMP_MENUWORK_DrawWindowBorder(*(void **)(p+0x10+i*4),2);BMP_WIN_Delete(*(void **)(p+0x10+i*4));}*(void **)(p+0x10+i*4)=0;BG_SYS_MarkTileDirty(5);}
 
 
 
@@ -598,7 +598,7 @@ void INTRUDE_COMM_VIEW_DeleteRowSlot(u32 i,u32 p) {if(*(void **)(p+0x10+i*4)) {B
 
 
 
-void INTRUDE_COMM_VIEW_ResetRowSlot(u32 i,u32 p) {if(*(void **)(p+0x10+i*4)) {BMP_WIN_ClearScreen(*(void **)(p+0x10+i*4));BMP_MENUWORK_DrawWindowBorder(*(void **)(p+0x10+i*4),2);BMP_WIN_Delete(*(void **)(p+0x10+i*4));}*(void **)(p+0x10+i*4)=0;BG_SYS_SetFlagField06(7);}
+void INTRUDE_COMM_VIEW_ResetRowSlot(u32 i,u32 p) {if(*(void **)(p+0x10+i*4)) {BMP_WIN_ClearScreen(*(void **)(p+0x10+i*4));BMP_MENUWORK_DrawWindowBorder(*(void **)(p+0x10+i*4),2);BMP_WIN_Delete(*(void **)(p+0x10+i*4));}*(void **)(p+0x10+i*4)=0;BG_SYS_MarkTileDirty(7);}
 
 
 
@@ -619,7 +619,7 @@ void INTRUDE_COMM_VIEW_DeleteRows(char *p)
         q = p + i * 4;
         if (((IntrudeCommView *)q)->rows[0]) {
             BMP_WIN_ClearScreen(((IntrudeCommView *)q)->rows[0]);
-            BG_SYS_SetFlagField06(5);
+            BG_SYS_MarkTileDirty(5);
             BMP_MENUWORK_DrawWindowBorder(((IntrudeCommView *)q)->rows[0], 2);
             BMP_WIN_Delete(((IntrudeCommView *)q)->rows[0]);
         }
@@ -778,9 +778,9 @@ void INTRUDE_COMM_VIEW_DeleteResources(char *p)
     unsigned ranges;
     GF_FONT_SetDefaultTextColor();
     INTRUDE_COMM_VIEW_DeleteRows(p);
-    BG_SYS_SetTileUnit(5, 1, 0);
+    BG_SYS_FreeTiles(5, 1, 0);
     ranges = (u32)((IntrudeCommView *)p)->frameGfx;
-    BG_SYS_DeleteHalf(5, (u16)ranges, (u16)(ranges >> 16));
+    BG_SYS_FreeTileRun(5, (u16)ranges, (u16)(ranges >> 16));
     BG_SYS_FreeLayerBuf(5);
     BG_SYS_FreeLayerBuf(4);
     MSGDATA_Delete(((IntrudeCommView *)p)->msgBank);
@@ -797,7 +797,7 @@ void INTRUDE_COMM_VIEW_DeleteResources(char *p)
 
 
 
-void INTRUDE_COMM_VIEW_CheckExitRequest(char *p)
+void INTRUDE_COMM_VIEW_WaitExitWipe(char *p)
 {
     if (WIPE_SYS_EndCheck()) {
         if (((IntrudeCommView *)p)->state == 1) {
@@ -827,7 +827,7 @@ void INTRUDE_COMM_VIEW_BeginExit(char *p)
     NET_WHPIPE_SetNotifyCallback(0, 0);
     if (((IntrudeCommView *)p)->state == 1 && GAME_COMM_GetKind((void *)GAMESYSTEM_GetGameComm(((IntrudeCommView *)p)->icaAnime)))
         GAME_COMM_RequestExitNoCallback((struct Comm *)GAMESYSTEM_GetGameComm(((IntrudeCommView *)p)->icaAnime));
-    INTRUDE_COMM_VIEW_SetCallback(p, (u32)INTRUDE_COMM_VIEW_CheckExitRequest, 0x35e);
+    INTRUDE_COMM_VIEW_SetCallback(p, (u32)INTRUDE_COMM_VIEW_WaitExitWipe, 0x35e);
 }
 
 
@@ -996,7 +996,7 @@ void INTRUDE_COMM_VIEW_UpdatePeerList(char *p)
         }
         ((IntrudeCommView *)p)->peerCacheMode = mode;
     }
-    BG_SYS_SetFlagField06(7);
+    BG_SYS_MarkTileDirty(7);
 }
 
 
@@ -1107,7 +1107,7 @@ void INTRUDE_COMM_VIEW_OnScanResult(char *p)
 {
     int index;
     void *record, *text;
-    index = WIH_DWC_FindSlotByKey((void *)GAME_DATA_GetField1A0(((IntrudeCommView *)p)->gameData));
+    index = WIH_DWC_FindSlotByKey((void *)GAME_DATA_GetWifiList(((IntrudeCommView *)p)->gameData));
     if (index != -1) {
         record = (void *)GFL_NET_GetScanResult(index);
         text = STRBUF_Create(200, ((IntrudeCommView *)p)->heapId);
@@ -1119,7 +1119,7 @@ void INTRUDE_COMM_VIEW_OnScanResult(char *p)
             BMP_WIN_TransferChars(((IntrudeCommView *)p)->rowWin);
             BMP_WIN_MakeScreen(((IntrudeCommView *)p)->rowWin);
             CLACT_SetActorDrawEnable(((IntrudeCommView *)p)->actors[4], 1);
-            BG_SYS_SetFlagField06(5);
+            BG_SYS_MarkTileDirty(5);
             INTRUDE_COMM_VIEW_SetFoundPeerMac(p, index);
         }
         STRBUF_Delete(text);
@@ -1252,13 +1252,13 @@ int INTRUDE_COMM_VIEW_Main(void *owner, void *unused1, void *unused2, char *p)
     CLACT_DrawSystem();
     if (GFL_NET_GetRunState()) {
         ((IntrudeCommView *)p)->peerTimerPrev = ((IntrudeCommView *)p)->peerTimer;
-        ((IntrudeCommView *)p)->peerTimer = WIH_DWC_PollStatus((void *)GAME_DATA_GetField1A0(((IntrudeCommView *)p)->gameData));
+        ((IntrudeCommView *)p)->peerTimer = WIH_DWC_PollStatus((void *)GAME_DATA_GetWifiList(((IntrudeCommView *)p)->gameData));
         ((IntrudeCommView *)p)->peerSumPrev = ((IntrudeCommView *)p)->peerSum;
         ((IntrudeCommView *)p)->peerSum = INTRUDE_COMM_VIEW_SumPeerTimers((u8 *)p);
     }
     TCBL_Main(((IntrudeCommView *)p)->tcbl);
     PRINTSYS_QUE_Main(((IntrudeCommView *)p)->printQueue);
-    BG_SYS_FillScrollArea(4, 3, ((IntrudeCommView *)p)->wipeDelay);
+    BG_SYS_ChangeScrollImmediate(4, 3, ((IntrudeCommView *)p)->wipeDelay);
     ((IntrudeCommView *)p)->wipeDelay = ((IntrudeCommView *)p)->wipeDelay - 1;
     if (WIPE_SYS_EndCheck() && ((IntrudeCommView *)p)->exitStarted == 0) GAMESYSTEM_TryStartAutoComm(((IntrudeCommView *)p)->icaAnime);
     if (WIPE_SYS_EndCheck() && GAMESYSTEM_IsNetOffBySleep(((IntrudeCommView *)p)->icaAnime)) {
@@ -1299,7 +1299,7 @@ int INTRUDE_COMM_VIEW_Exit(void *owner, void *unused, char *out, char *p)
     CLACT_DeleteUnit(((IntrudeCommView *)p)->clactUnit);
     CLACT_ExitSystem();
     if (((IntrudeCommView *)p)->printStream) PRINTSYS_PrintStreamDelete(((IntrudeCommView *)p)->printStream);
-    WORDSET_DeleteStrbufED04(((IntrudeCommView *)p)->wordSet);
+    WORDSET_Delete(((IntrudeCommView *)p)->wordSet);
     if (((IntrudeCommView *)p)->taskMenu) {
         APP_TASKMENU_CloseMenu(((IntrudeCommView *)p)->taskMenu);
         ((IntrudeCommView *)p)->taskMenu = 0;

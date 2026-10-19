@@ -49,7 +49,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BMP_WIN_GetBgLayer  0x02045730  arm
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   TOUCHPANEL_GetPointCont  0x02035CB8  arm
  *   VEC_Subtract  0x0207CA00  arm
@@ -74,7 +74,7 @@
  *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm
  *   BG_SYS_Init  0x02040C14  arm
  *   sTownMapGrhDispConfig     0x021BBBCC  data  a4
- *   BG_SYS_SetTileUnit  0x02040DA8  arm
+ *   BG_SYS_FreeTiles  0x02040DA8  arm
  *   BG_SYS_FreeSlot  0x020414AC  arm
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   BMP_WIN_Exit  0x020450C8  arm
@@ -140,7 +140,7 @@ extern void PRINTSYS_Print(struct Bitmap *bitmap, s16 x, s16 y, struct StrBuf *t
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void BG_SYS_SetFlagField06(u32 bgBit);
+extern void BG_SYS_MarkTileDirty(u32 bgBit);
 extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outX, u32 *outY);
 extern void VEC_Subtract(const TownMapVec *a, const TownMapVec *b, TownMapVec *out);
@@ -161,7 +161,7 @@ extern u32 ARC_UTIL_UploadBgCharFromHandle(void *arc, u32 a, u32 b, u32 c, u32 d
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *arc, u32 a, u32 b, u32 c, u32 d, u32 e, u16 heap);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heap);
 extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
-extern void BG_SYS_SetTileUnit(u32 a, u32 b, u32 c);
+extern void BG_SYS_FreeTiles(u32 a, u32 b, u32 c);
 extern void BG_SYS_FreeSlot(u8 a);
 extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BMP_WIN_Exit(void);
@@ -232,7 +232,7 @@ void TOWNMAP_GRH_PrintTextBoxMessage(TownMapTextBox *box, u32 msgId, int x, int 
     win = box->win;
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(win));
 }
 
 void TOWNMAP_GRH_ClearTextBox(TownMapTextBox *box)
@@ -240,7 +240,7 @@ void TOWNMAP_GRH_ClearTextBox(TownMapTextBox *box)
     struct BmpWin *win = box->win;
 
     BMP_WIN_ClearScreen(win);
-    BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer(win));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(win));
 }
 
 /* Hover label. */
@@ -482,7 +482,7 @@ void TOWNMAP_GRH_ExitBgLayers(TownMapGfx *gfx)
     int i;
     u32 bgId;
 
-    BG_SYS_SetTileUnit(1, 1, 0);
+    BG_SYS_FreeTiles(1, 1, 0);
     for (i = 0; i < TOWNMAP_GRH_BG_COUNT; i++) {
         bgId = sTownMapGrhBgTable[i].bgId;
         BG_SYS_FreeSlot(bgId);

@@ -13,13 +13,13 @@
  *   func_02045EC0 0x02045EC0 arm
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   WORDSET_SetSlotTag 0x0201EE0C thumb
- *   WORDSET_SetSlotMonName 0x0201EE84 thumb
- *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
+ *   WORDSET_SetSlotMonSpeciesName 0x0201EE84 thumb
+ *   WORDSET_SetSlotMonNickname 0x0201EEF4 thumb
  *   WORDSET_SetSlotFromMsgCB 0x0201EF34 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   STRBUF_Delete 0x02045808 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  */
 
 typedef unsigned short u16;
@@ -37,13 +37,13 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 struct WordSet;
-extern void WORDSET_SetSlotMonName(struct WordSet *p, u32 i, void *mon);
-extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonSpeciesName(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonNickname(struct WordSet *p, u32 i, void *mon);
 extern void WORDSET_SetSlotFromMsgCB(struct WordSet *p, u32 i, u32 v);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 
 u32 SHINKA_DEMO_BuildString(u32 heap, u32 a, u32 b, u32 k0, u32 v0, u32 k1, u32 v1)
 {
@@ -66,10 +66,10 @@ u32 SHINKA_DEMO_BuildString(u32 heap, u32 a, u32 b, u32 k0, u32 v0, u32 k1, u32 
                 WORDSET_SetSlotTag((struct WordSet *)w, i, (const void *)p[i].val, z, 1, z);
                 break;
             case 1:
-                WORDSET_SetSlotMonName((void *)w, i, (void *)p[i].val);
+                WORDSET_SetSlotMonSpeciesName((void *)w, i, (void *)p[i].val);
                 break;
             case 2:
-                WORDSET_SetSlotMonSpecies((void *)w, i, (void *)p[i].val);
+                WORDSET_SetSlotMonNickname((void *)w, i, (void *)p[i].val);
                 break;
             case 3:
                 WORDSET_SetSlotFromMsgCB((struct WordSet *)w, i, *(u16 *)p[i].val);
@@ -79,7 +79,7 @@ u32 SHINKA_DEMO_BuildString(u32 heap, u32 a, u32 b, u32 k0, u32 v0, u32 k1, u32 
         r = (u32)STRBUF_Create(0x100, heap);
         WORDSET_CopyTaggedText((struct WordSet *)w, (void *)r, (void *)src);
         STRBUF_Delete((struct U16Vec *)src);
-        WORDSET_DeleteStrbufED04((struct WordSet *)w);
+        WORDSET_Delete((struct WordSet *)w);
     }
     return r;
 }

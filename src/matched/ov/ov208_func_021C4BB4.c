@@ -22,7 +22,7 @@
  *   STRBUF_Create 0x020457B0 arm
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   ZUKAN_DETAIL_FORM_FlushPrintWindow 0x021C4B60 thumb ov208
  *   data_020A7370 0x020A7370 data a4
  */
@@ -59,7 +59,7 @@ extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct U16Vec *STRBUF_Create(u32 size, u32 heap);
 extern void WORDSET_SetSlotNumber(struct WordSet *ws, u32 a, u32 b, u32 c, u32 d, u32 e);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern void ZUKAN_DETAIL_FORM_FlushPrintWindow(u16 *heap, struct Ov208Menu *p, int key, int i);
 extern struct MsgBank *data_020A7370;
 
@@ -96,7 +96,7 @@ void ZUKAN_DETAIL_FORM_DrawSpeciesLabels(u16 *heap, struct Ov208Menu *p, int key
     WORDSET_CopyTaggedText(ws, str, src);
     PRINTSYS_PrintQueColor((void *)p->print[1], (u32)bmp2, (s16)0, (s16)1, (u32)str, p->font, 0x3c40);
     STRBUF_Delete(str);
-    WORDSET_DeleteStrbufED04(ws);
+    WORDSET_Delete(ws);
     ws2 = WORDSET_CreateDefault(*heap);
     src2 = ((struct Obj01179 *)p)->f5A0;
     str = STRBUF_Create(8, *heap);
@@ -104,7 +104,7 @@ void ZUKAN_DETAIL_FORM_DrawSpeciesLabels(u16 *heap, struct Ov208Menu *p, int key
     WORDSET_CopyTaggedText(ws2, str, src2);
     PRINTSYS_PrintQueColor((void *)p->print[1], (u32)bmp2, (s16)0, (s16)0x11, (u32)str, p->font, 0x3c40);
     STRBUF_Delete(str);
-    WORDSET_DeleteStrbufED04(ws2);
+    WORDSET_Delete(ws2);
     p->active[1] = 1;
     for (i = 0; i <= 1; i++)
         ZUKAN_DETAIL_FORM_FlushPrintWindow(heap, p, key, i);

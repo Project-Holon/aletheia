@@ -1,7 +1,7 @@
 /*
  * file:     box2_main.c
  * unit:     yes
- * function: BOX2_MAIN_Init, BOX2_MAIN_Main, BOX2_MAIN_Exit, BOX2_MAIN_CreateVBlankTask, BOX2_MAIN_DeleteVBlankTask, BOX2_MAIN_VBlankHandler, BOX2_MAIN_InitSeq, BOX2_MAIN_SetSeqParam, BOX2_MAIN_RestartSeq, BOX2_MAIN_ResetGraphics, BOX2_MAIN_GetDispVram, BOX2_MAIN_InitBgSys, BOX2_MAIN_DeleteBgSys, BOX2_MAIN_LoadBgData, BOX2_MAIN_CreatePalAnm, BOX2_MAIN_DeletePalAnm, BOX2_MAIN_SetDisplayControl, BOX2_MAIN_CreateTextSystem, BOX2_MAIN_DeleteTextSystem, BOX2_MAIN_CreateTaskMenu, BOX2_MAIN_DeleteTaskMenu, BOX2_MAIN_OpenTaskMenu, BOX2_MAIN_IsTaskMenuFinished, BOX2_MAIN_UpdateWindowFrame, BOX2_MAIN_RefreshCursorBox, BOX2_MAIN_StopSeq, BOX2_MAIN_SelectBox, BOX2_MAIN_RefreshBoxUi, BOX2_MAIN_IsWrappedDistance, BOX2_MAIN_PlayCursorSound, BOX2_MAIN_GetPartyValueAt, BOX2_MAIN_SetBoxValueAt, BOX2_MAIN_GetMonAt, BOX2_MAIN_ClearSlot, BOX2_MAIN_SwapBoxAndPartyMon, BOX2_MAIN_AddMonToParty, BOX2_MAIN_DepositPartyMon, BOX2_MAIN_SwapPartyMembers, BOX2_MAIN_ShiftMemberToEnd, BOX2_MAIN_MoveMonToListedBox, BOX2_MAIN_MovePartyMonToListedBox, BOX2_MAIN_UpdateBoxSlots, BOX2_MAIN_WrapSlot, BOX2_MAIN_HasOtherTradable, BOX2_MAIN_ChangeFormAndRegister, BOX2_MAIN_SyncItemForm, BOX2_MAIN_ResetShayminFormInBox, BOX2_MAIN_RecalcPartyParam, BOX2_MAIN_LoadFormTable, BOX2_MAIN_DeleteFormTable, BOX2_MAIN_GetBoxValue, BOX2_MAIN_WaitCursorMove, BOX2_MAIN_WaitBoxScroll, BOX2_MAIN_HandleMonPickup, BOX2_MAIN_ComparePartyValue, BOX2_MAIN_CompareSlots, BOX2_MAIN_AdvanceMover, BOX2_MAIN_UpdateMoverX, BOX2_MAIN_UpdateMoverY, BOX2_MAIN_StepMover, BOX2_MAIN_MoveCursorWithMon, BOX2_MAIN_SwapWithNeighbour, BOX2_MAIN_SetMoverTarget, BOX2_MAIN_FindMoverSlot, BOX2_MAIN_StartMover, BOX2_MAIN_SetMoverEntry, BOX2_MAIN_GetMinusOne, BOX2_MAIN_ResetMovers, BOX2_MAIN_DeleteScroll, BOX2_MAIN_StepScroll, BOX2_MAIN_PlayMonCry, BOX2_MAIN_PlaceMonScene, BOX2_MAIN_ClearFlagsScene, BOX2_MAIN_PlaceMonSceneFromBox, BOX2_MAIN_PlaceTargetMonScene, BOX2_MAIN_CheckSceneMode, BOX2_MAIN_IsSwapScene, BOX2_MAIN_IsMoveScene, BOX2_MAIN_WrapOffset, BOX2_MAIN_LoadBgCharTile, BOX2_MAIN_LoadBgPaletteTile, BOX2_MAIN_LoadBgTileSet, BOX2_MAIN_LoadBgTiles, BOX2_MAIN_SetBoxScroll, BOX2_MAIN_LoadBoxPalette, BOX2_MAIN_GetBoxFormId, BOX2_MAIN_CreateSummary, BOX2_MAIN_DeleteHandle, BOX2_MAIN_SetupSummary, BOX2_MAIN_ChangeBoxForm, BOX2_MAIN_ChangeBoxFormPreserve, BOX2_MAIN_SetBoxForm, BOX2_MAIN_ResetBoxView, BOX2_MAIN_ClearCursorBox, BOX2_MAIN_SetSceneSlots, BOX2_MAIN_SetHandSlots, BOX2_MAIN_SetBodySlots, BOX2_MAIN_HideSlots, BOX2_MAIN_SetupSummaryActors, BOX2_MAIN_HitRect, BOX2_MAIN_HitBoxGrid, BOX2_MAIN_HitPartySlots, BOX2_MAIN_HitPartyGrid, BOX2_MAIN_PushPartyScene, BOX2_MAIN_PushPartySceneB, BOX2_MAIN_PushBagScene, BOX2_MAIN_PopSubArgs, BOX2_MAIN_PushNameScene, BOX2_MAIN_PopNameScene, BOX2_MAIN_MoveCursorActor, BOX2_MAIN_StateMachinePick, BOX2_MAIN_StateMachineScroll, BOX2_MAIN_StateMachineOpen, BOX2_MAIN_StateMachineClose, BOX2_MAIN_IsSeqIdle, BOX2_MAIN_IsSeqStep, BOX2_MAIN_IsWindowMoving, BOX2_MAIN_UpdateWindowMove, BOX2_MAIN_IsWindowBusy, BOX2_MAIN_ShiftWindowRight, BOX2_MAIN_ShiftWindowLeft, BOX2_MAIN_StateMachineMove, BOX2_MAIN_StateMachinePen, BOX2_MAIN_SceneApplyScroll, BOX2_MAIN_SceneWaitScroll, BOX2_MAIN_SceneMoveCursor, BOX2_MAIN_SceneWaitCursor, BOX2_MAIN_SceneOpenBox, BOX2_MAIN_Check09E0, BOX2_MAIN_Check0A40, BOX2_MAIN_StateMachineCoin, BOX2_MAIN_Check0E50, BOX2_MAIN_Check0ED4, BOX2_MAIN_Check0F4C, BOX2_MAIN_MoveCursorTo, BOX2_MAIN_StateMachineSlide, BOX2_MAIN_Check122C
+ * function: BOX2_MAIN_Init, BOX2_MAIN_Main, BOX2_MAIN_Exit, BOX2_MAIN_CreateVBlankTask, BOX2_MAIN_DeleteVBlankTask, BOX2_MAIN_VBlankHandler, BOX2_MAIN_InitSeq, BOX2_MAIN_SetSeqParam, BOX2_MAIN_RestartSeq, BOX2_MAIN_ResetGraphics, BOX2_MAIN_GetDispVram, BOX2_MAIN_InitBgSys, BOX2_MAIN_DeleteBgSys, BOX2_MAIN_LoadBgData, BOX2_MAIN_CreatePalAnm, BOX2_MAIN_DeletePalAnm, BOX2_MAIN_SetDisplayControl, BOX2_MAIN_CreateTextSystem, BOX2_MAIN_DeleteTextSystem, BOX2_MAIN_CreateTaskMenu, BOX2_MAIN_DeleteTaskMenu, BOX2_MAIN_OpenTaskMenu, BOX2_MAIN_StepWindowFrameFade, BOX2_MAIN_SetupWindowFrameFade, BOX2_MAIN_RefreshCursorBox, BOX2_MAIN_StepToAdjacentBox, BOX2_MAIN_SelectBox, BOX2_MAIN_RefreshBoxUi, BOX2_MAIN_IsWrappedDistance, BOX2_MAIN_ActivateKeyCursor, BOX2_MAIN_GetPartyValueAt, BOX2_MAIN_SetBoxValueAt, BOX2_MAIN_GetMonAt, BOX2_MAIN_ClearSlot, BOX2_MAIN_SwapBoxAndPartyMon, BOX2_MAIN_AddMonToParty, BOX2_MAIN_DepositPartyMon, BOX2_MAIN_SwapPartyMembers, BOX2_MAIN_ShiftMemberToEnd, BOX2_MAIN_MoveMonToListedBox, BOX2_MAIN_MovePartyMonToListedBox, BOX2_MAIN_UpdateBoxSlots, BOX2_MAIN_WrapSlot, BOX2_MAIN_HasOtherTradable, BOX2_MAIN_ChangeFormAndRegister, BOX2_MAIN_SyncItemForm, BOX2_MAIN_ResetShayminFormInBox, BOX2_MAIN_RecalcPartyParam, BOX2_MAIN_LoadFormTable, BOX2_MAIN_DeleteFormTable, BOX2_MAIN_GetBoxValue, BOX2_MAIN_WaitCursorMove, BOX2_MAIN_WaitBoxScroll, BOX2_MAIN_HandleMonPickup, BOX2_MAIN_ComparePartyValue, BOX2_MAIN_CompareSlots, BOX2_MAIN_AdvanceMover, BOX2_MAIN_UpdateMoverX, BOX2_MAIN_UpdateMoverY, BOX2_MAIN_StepMover, BOX2_MAIN_MoveCursorWithMon, BOX2_MAIN_SwapWithNeighbour, BOX2_MAIN_SetMoverTarget, BOX2_MAIN_FindMoverSlot, BOX2_MAIN_StartMover, BOX2_MAIN_SetMoverEntry, BOX2_MAIN_GetMinusOne, BOX2_MAIN_ResetMovers, BOX2_MAIN_DeleteScroll, BOX2_MAIN_StepScroll, BOX2_MAIN_ClearPerapVoiceIfNoChatot, BOX2_MAIN_StartHandMotionToSlot, BOX2_MAIN_StartHandMotionToBoxArrow, BOX2_MAIN_StartHandMotionToBoxSlot, BOX2_MAIN_StartHandMotionToTargetBoxSlot, BOX2_MAIN_StepHandMotion, BOX2_MAIN_StepHandMotionToSlot, BOX2_MAIN_StepHandMotionToSlotB, BOX2_MAIN_WrapOffset, BOX2_MAIN_LoadBgCharTile, BOX2_MAIN_LoadBgPaletteTile, BOX2_MAIN_LoadBgTileSet, BOX2_MAIN_LoadBgTiles, BOX2_MAIN_SetBoxScroll, BOX2_MAIN_LoadBoxPalette, BOX2_MAIN_GetBoxWallpaper, BOX2_MAIN_CreateSummary, BOX2_MAIN_DeleteHandle, BOX2_MAIN_SetupSummary, BOX2_MAIN_RefreshMonInfo, BOX2_MAIN_RefreshCurrentBoxMonInfo, BOX2_MAIN_SetBoxForm, BOX2_MAIN_ResetBoxView, BOX2_MAIN_ClearCursorBox, BOX2_MAIN_SetSceneSlots, BOX2_MAIN_SetHandSlots, BOX2_MAIN_SetBodySlots, BOX2_MAIN_HideSlots, BOX2_MAIN_SetupSummaryActors, BOX2_MAIN_HitRect, BOX2_MAIN_HitBoxGrid, BOX2_MAIN_HitPartySlots, BOX2_MAIN_HitPartyGrid, BOX2_MAIN_PushPartyScene, BOX2_MAIN_PushPartySceneB, BOX2_MAIN_PushBagScene, BOX2_MAIN_PopSubArgs, BOX2_MAIN_PushNameScene, BOX2_MAIN_PopNameScene, BOX2_MAIN_MoveCursorActor, BOX2_MAIN_StateMachinePick, BOX2_MAIN_StateMachineScroll, BOX2_MAIN_StateMachineOpen, BOX2_MAIN_StateMachineClose, BOX2_MAIN_StepScrollToPrevBox, BOX2_MAIN_StepScrollToNextBox, BOX2_MAIN_IsWindowMoving, BOX2_MAIN_UpdateWindowMove, BOX2_MAIN_IsWindowBusy, BOX2_MAIN_ShiftWindowRight, BOX2_MAIN_ShiftWindowLeft, BOX2_MAIN_StateMachineMove, BOX2_MAIN_StateMachinePen, BOX2_MAIN_SceneApplyScroll, BOX2_MAIN_SceneWaitScroll, BOX2_MAIN_SceneMoveCursor, BOX2_MAIN_SceneWaitCursor, BOX2_MAIN_SceneOpenBox, BOX2_MAIN_StateMachineRunSwap, BOX2_MAIN_StateMachineShowHandScroll, BOX2_MAIN_StateMachineDrag, BOX2_MAIN_StateMachineHideHandScroll, BOX2_MAIN_StateMachineHideHandWindow, BOX2_MAIN_StateMachineHideHand, BOX2_MAIN_MoveCursorTo, BOX2_MAIN_StateMachineDragNoBar, BOX2_MAIN_StateMachineReturnHeld
  * address:  0x021DC860
  * region:   ov170
  * compiler: dsi/1.1p1
@@ -62,7 +62,7 @@
  *   APP_ICON_GetStatusAnimFileId  0x02027624  thumb
  *   APP_ICON_GetStatusDataFileId  0x0202762C  thumb
  *   BG_SYS_FillTileMap  0x020413B0  arm
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   BG_SYS_GetBuf  0x0204162C  arm
  *   BMP_MENUWORK_LoadFrameGfx  0x0201F5DC  thumb
  *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm
@@ -76,7 +76,7 @@
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_Delete 0x02045808 arm
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   MSGDATA_AllocString 0x02045EC0 arm
@@ -98,7 +98,7 @@
  *   BOX2_UI_SetMiniIconVisible  0x021EE008  thumb  ov170
  *   BOX2_UI_RefreshBoxName  0x021ED904  thumb  ov170
  *   BOX2_UI_SetCloseButtonPos  0x021ED9B4  thumb  ov170
- *   BOX2_UI_DeleteSlotIcon  0x021EDF5C  thumb  ov170
+ *   BOX2_UI_UpdateCurrentBoxMarker  0x021EDF5C  thumb  ov170
  *   BOX2_SEQ_DrawOffsetName  0x021EB85C  thumb  ov170
  *   BOX2_UI_PutInfoBar  0x021EF738  thumb  ov170
  *   POKEPARTY_GetCount 0x0201AA18 thumb
@@ -106,7 +106,7 @@
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   BOX_SAVEDATA_GetPokemon 0x02007A18 thumb
- *   POKE_TOOL_Dummy 0x020185F0 thumb
+ *   POKE_TOOL_CastToBoxParam 0x020185F0 thumb
  *   BOX2_UI_DrawSlot 0x021EDAB0 thumb ov170
  *   POKE_TOOL_CreateFromBoxParam 0x0201747C thumb
  *   POKE_TOOL_GetBoxParam 0x020185F4 thumb
@@ -138,13 +138,13 @@
  *   BOX2_SEQ_SetSlotDrawPriority 0x021EC768 thumb
  *   BOX2_SEQ_SetSlotDimB 0x021ED75C thumb
  *   BOX2_SEQ_MoveCursorToSlot 0x021ED7C4 thumb
- *   FILE_UTIL_Check136C 0x0202136C thumb
+ *   FILE_UTIL_IsMailItem 0x0202136C thumb
  *   BOX2_SEQ_GetActorSurfacePos 0x021EC0B0 thumb
  *   BOX2_UI_FindSlotPos 0x021EDA70 thumb
  *   BOX2_SEQ_SwapSlotActorsB 0x021ECBD8 thumb
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   d_021F1400 0x021F1400 data a1
- *   GAME_DATA_GetBoxSave  0x02012F98  thumb
+ *   GAME_DATA_GetPerapVoiceSave  0x02012F98  thumb
  *   PERAPVOICE_ClearIfNoChatot  0x02007C34  thumb
  *   BOX2_SEQ_MoveActorToSlot 0x021ED164 thumb ov170
  *   BOX2_SEQ_MoveActorToSlotB 0x021ED198 thumb ov170
@@ -172,7 +172,7 @@
  *   POKE_TOOL_DecodeBoxParam 0x02017DBC thumb
  *   POKE_TOOL_EncodeBoxParam 0x02017DE4 thumb
  *   BOX2_SEQ_ClearTextWin 0x021EB324 thumb
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  *   BOX2_SEQ_SetSlotDim  0x021ED6E4  thumb  ov170
  *   d_021EF798 0x021EF798 data a1
  *   BOX2_UI_GetGridSlotPoint  0x021EF224  thumb  ov170
@@ -194,8 +194,8 @@
  *   BGWINFRM_IsMoving 0x0202CE40 thumb
  *   TOUCHPANEL_GetCont 0x02035C38 arm
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
- *   BOX2_MAIN_IsSeqIdle 0x021E00C4 thumb
- *   BOX2_MAIN_IsSeqStep 0x021E0128 thumb
+ *   BOX2_MAIN_StepScrollToPrevBox 0x021E00C4 thumb
+ *   BOX2_MAIN_StepScrollToNextBox 0x021E0128 thumb
  *   BOX2_MAIN_ShiftWindowRight 0x021E01C4 thumb
  *   BOX2_MAIN_ShiftWindowLeft 0x021E01E0 thumb
  *   BOX2_SEQ_OpenBoxUp 0x021E19D4 thumb
@@ -245,7 +245,7 @@
  *   BOX2_UI_ShiftSlotOams 0x021EE26C thumb
  *   BOX2_UI_UpdateTopBarMove 0x021EF6E0 thumb ov170
  *   BOX2_UI_MoveSlotIcon  0x021ED918  thumb  ov170
- *   BOX2_MAIN_StopSeq 0x021DD16C thumb
+ *   BOX2_MAIN_StepToAdjacentBox 0x021DD16C thumb
  *   BOX2_MAIN_WaitBoxScroll 0x021DDAE8 thumb
  *   BOX2_MAIN_SwapWithNeighbour 0x021DE428 thumb
  *   BOX2_MAIN_FindMoverSlot 0x021DE5C8 thumb
@@ -258,17 +258,17 @@
  *   BOX2_SEQ_RefreshHandSlot 0x021ECC1C thumb ov170
  *   BOX2_SEQ_SetCursorFrame 0x021ED544 thumb
  *   BOX2_MAIN_IsWrappedDistance 0x021DD210 thumb
- *   BOX2_MAIN_GetBoxFormId 0x021DEDCC thumb
+ *   BOX2_MAIN_GetBoxWallpaper 0x021DEDCC thumb
  *   BOX2_MAIN_SetBoxScroll 0x021DEC98 thumb
  *   BOX2_MAIN_IsWindowBusy 0x021E01B0 thumb
  *   BOX2_MAIN_SceneApplyScroll 0x021E066C thumb ov170
  *   BOX2_MAIN_CompareSlots 0x021DDE80 thumb
- *   BOX2_MAIN_PlaceMonSceneFromBox 0x021DEA3C thumb
- *   BOX2_MAIN_IsSwapScene 0x021DEAFC thumb
+ *   BOX2_MAIN_StartHandMotionToBoxSlot 0x021DEA3C thumb
+ *   BOX2_MAIN_StepHandMotionToSlot 0x021DEAFC thumb
  *   BOX2_MAIN_IsWindowMoving 0x021E0190 thumb ov170
- *   BOX2_MAIN_ClearFlagsScene 0x021DE980 thumb
- *   BOX2_MAIN_PlaceTargetMonScene 0x021DEA4C thumb
- *   BOX2_MAIN_IsMoveScene 0x021DEB08 thumb ov170
+ *   BOX2_MAIN_StartHandMotionToBoxArrow 0x021DE980 thumb
+ *   BOX2_MAIN_StartHandMotionToTargetBoxSlot 0x021DEA4C thumb
+ *   BOX2_MAIN_StepHandMotionToSlotB 0x021DEB08 thumb ov170
  *   BOX2_MAIN_ResetGraphics 0x021DC9C4 thumb ov170
  *   BOX2_MAIN_InitBgSys 0x021DC9E0 thumb ov170
  *   BOX2_MAIN_CreatePalAnm 0x021DCDB8 thumb ov170
@@ -285,15 +285,15 @@
  *   BOX2_MAIN_DeletePalAnm  0x021DCDD8  thumb  ov170
  *   BOX2_MAIN_DeleteBgSys  0x021DCB48  thumb  ov170
  *   GFL_HEAP_DeleteChecked  0x020306F0  arm
- *   BOX2_MAIN_IsTaskMenuFinished  0x021DCFC0  thumb  ov170
- *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb ov170
+ *   BOX2_MAIN_StepWindowFrameFade  0x021DCFC0  thumb  ov170
+ *   BOX2_MAIN_RefreshCurrentBoxMonInfo 0x021DEFEC thumb ov170
  *   BOX2_MAIN_SelectBox 0x021DD1C4 thumb
  *   CURSOR_MOVE_SetState 0x020260F4 thumb
  *   BOX2_MAIN_GetPartyValueAt 0x021DD25C thumb
  *   BOX2_MAIN_RefreshCursorBox 0x021DD14C thumb
  *   BOX2_MAIN_ClearCursorBox 0x021DF0BC thumb
  *   BOX2_MAIN_UpdateBoxSlots 0x021DD530 thumb ov170
- *   BOX2_MAIN_PlayCursorSound 0x021DD238 thumb
+ *   BOX2_MAIN_ActivateKeyCursor 0x021DD238 thumb
  *   BOX2_MAIN_SceneWaitScroll 0x021E070C thumb ov170
  *   BOX2_MAIN_StateMachineClose 0x021E0068 thumb ov170
  *   BOX2_MAIN_SceneWaitCursor 0x021E0778 thumb
@@ -303,7 +303,7 @@
  *   BOX2_MAIN_SyncItemForm 0x021DD718 thumb
  *   BOX2_MAIN_RecalcPartyParam 0x021DD8A8 thumb
  *   BOX2_MAIN_GetBoxValue 0x021DD908 thumb ov170
- *   BOX2_MAIN_ChangeBoxForm 0x021DEF98 thumb ov170
+ *   BOX2_MAIN_RefreshMonInfo 0x021DEF98 thumb ov170
  *   BOX2_MAIN_SetHandSlots 0x021DF110 thumb ov170
  *   BOX2_MAIN_UpdateWindowMove 0x021E01A8 thumb ov170
  *   BOX2_MAIN_SetBodySlots 0x021DF11C thumb ov170
@@ -318,8 +318,8 @@
  *   BOX2_MAIN_OpenTaskMenu 0x021DCF58 thumb
  *   BOX2_MAIN_SetBoxForm 0x021DEFF8 thumb ov170
  *   BOX2_MAIN_ResetMovers 0x021DE728 thumb ov170
- *   BOX2_MAIN_PlayMonCry  0x021DE898  thumb  ov170
- *   BOX2_MAIN_UpdateWindowFrame  0x021DD090  thumb  ov170
+ *   BOX2_MAIN_ClearPerapVoiceIfNoChatot  0x021DE898  thumb  ov170
+ *   BOX2_MAIN_SetupWindowFrameFade  0x021DD090  thumb  ov170
  *   BOX2_MAIN_RefreshBoxUi 0x021DD1E8 thumb
  *   BOX2_MAIN_SceneMoveCursor 0x021E072C thumb
  *   BOX2_MAIN_StateMachineScroll 0x021DFA30 thumb
@@ -736,7 +736,7 @@ extern u32 APP_ICON_GetStatusDataFileId(void);
 
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
-extern void BG_SYS_SetFlagField06(u32);
+extern void BG_SYS_MarkTileDirty(u32);
 
 extern u32 BG_SYS_GetBuf(int channel);
 
@@ -769,7 +769,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 struct PrintBoxTask;
 extern void PRINTSYS_QUE_Delete(struct PrintBoxTask *p);
 
-extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern unsigned int WORDSET_Delete(struct WordSet *p);
 
 extern u32 GF_FONT_Delete(void *ptr);
 
@@ -815,7 +815,7 @@ extern void BOX2_UI_RefreshBoxName(unsigned char *p);
 
 extern void BOX2_UI_SetCloseButtonPos(BoxWork *);
 
-extern void BOX2_UI_DeleteSlotIcon(BoxTask *p);
+extern void BOX2_UI_UpdateCurrentBoxMarker(BoxTask *p);
 
 extern void BOX2_SEQ_DrawOffsetName(unsigned char *p, int i);
 
@@ -835,7 +835,7 @@ extern struct Sub020079BCEntry *BOX_SAVEDATA_GetPokemon(void **save, u32 box, u3
 
 extern void POKE_TOOL_SetBoxValue(void *p, u32 id, u32 v);
 
-extern int POKE_TOOL_Dummy(void *p);
+extern int POKE_TOOL_CastToBoxParam(void *p);
 
 extern void BOX_SAVEDATA_ClearPokemon(void *save, u32 box, u32 slot);
 
@@ -903,7 +903,7 @@ extern void BOX2_SEQ_SetSlotDimB(char **p, int i);
 
 extern void BOX2_SEQ_MoveCursorToSlot(BoxWork *w, int i);
 
-extern unsigned FILE_UTIL_Check136C(unsigned short v);
+extern unsigned FILE_UTIL_IsMailItem(unsigned short v);
 
 extern void BOX2_SEQ_GetActorSurfacePos(BoxWork *w, int i, short *x, short *y, unsigned short z);
 
@@ -913,7 +913,7 @@ extern void BOX2_SEQ_SwapSlotActorsB(BoxWork *p, int i);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern struct Sub02007AC8Entry *GAME_DATA_GetBoxSave(void *p);
+extern struct Sub02007AC8Entry *GAME_DATA_GetPerapVoiceSave(void *p);
 
 extern void PERAPVOICE_ClearIfNoChatot(struct PerapVoice *p, void *a);
 
@@ -963,7 +963,7 @@ extern void BOX2_SEQ_ShowHandSlotB(BoxWork *p, unsigned char *q);
 
 extern void BOX2_SEQ_DeleteTextEntries(BoxTask *p, int a);
 
-extern void BG_SYS_ResetSlot(unsigned index, unsigned a, unsigned b);
+extern void BG_SYS_ChangeScroll(unsigned index, unsigned a, unsigned b);
 
 extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
 
@@ -1039,9 +1039,9 @@ extern void BOX2_UI_OpenBar(struct WinMgr *mgr);
 
 extern int BOX2_UI_GetExitButtonHit(void);
 
-int BOX2_MAIN_IsSeqIdle(BoxTask *p);
+int BOX2_MAIN_StepScrollToPrevBox(BoxTask *p);
 
-int BOX2_MAIN_IsSeqStep(BoxTask *p);
+int BOX2_MAIN_StepScrollToNextBox(BoxTask *p);
 
 extern int BOX2_SEQ_OpenBoxDown(BoxTask *p);
 
@@ -1093,13 +1093,13 @@ void BOX2_MAIN_DeleteTaskMenu(BoxTask *p);
 
 void BOX2_MAIN_OpenTaskMenu(BoxTask *p, int sel);
 
-int BOX2_MAIN_IsTaskMenuFinished(BoxTask *p);
+int BOX2_MAIN_StepWindowFrameFade(BoxTask *p);
 
-void BOX2_MAIN_UpdateWindowFrame(BoxTask *p, unsigned idx);
+void BOX2_MAIN_SetupWindowFrameFade(BoxTask *p, unsigned idx);
 
 void BOX2_MAIN_RefreshCursorBox(BoxTask *p);
 
-void BOX2_MAIN_StopSeq(BoxTask *p, int dir);
+void BOX2_MAIN_StepToAdjacentBox(BoxTask *p, int dir);
 
 void BOX2_MAIN_SelectBox(BoxTask *p, int a);
 
@@ -1107,7 +1107,7 @@ void BOX2_MAIN_RefreshBoxUi(BoxTask *p);
 
 int BOX2_MAIN_IsWrappedDistance(unsigned char *p, unsigned a, unsigned b);
 
-void BOX2_MAIN_PlayCursorSound(BoxTask *p);
+void BOX2_MAIN_ActivateKeyCursor(BoxTask *p);
 
 unsigned BOX2_MAIN_GetPartyValueAt(void ***p, unsigned short a, unsigned short box, unsigned id, unsigned v);
 
@@ -1189,21 +1189,21 @@ void BOX2_MAIN_DeleteScroll(BoxTask *p);
 
 int BOX2_MAIN_StepScroll(BoxTask *p);
 
-void BOX2_MAIN_PlayMonCry(int *q);
+void BOX2_MAIN_ClearPerapVoiceIfNoChatot(int *q);
 
-void BOX2_MAIN_PlaceMonScene(BoxTask *p, int slot, unsigned idx, int mode, int flag);
+void BOX2_MAIN_StartHandMotionToSlot(BoxTask *p, int slot, unsigned idx, int mode, int flag);
 
-void BOX2_MAIN_ClearFlagsScene(BoxTask *p, int mode);
+void BOX2_MAIN_StartHandMotionToBoxArrow(BoxTask *p, int mode);
 
-void BOX2_MAIN_PlaceMonSceneFromBox(int a, int b, int c, int d);
+void BOX2_MAIN_StartHandMotionToBoxSlot(int a, int b, int c, int d);
 
-void BOX2_MAIN_PlaceTargetMonScene(BoxTask *p, int a, int b);
+void BOX2_MAIN_StartHandMotionToTargetBoxSlot(BoxTask *p, int a, int b);
 
-int BOX2_MAIN_CheckSceneMode(BoxTask *p, int a);
+int BOX2_MAIN_StepHandMotion(BoxTask *p, int a);
 
-int BOX2_MAIN_IsSwapScene(int a);
+int BOX2_MAIN_StepHandMotionToSlot(int a);
 
-int BOX2_MAIN_IsMoveScene(unsigned char *p);
+int BOX2_MAIN_StepHandMotionToSlotB(unsigned char *p);
 
 unsigned char BOX2_MAIN_WrapOffset(unsigned char *p, int a);
 
@@ -1219,7 +1219,7 @@ void BOX2_MAIN_SetBoxScroll(BoxTask *p, void *a, int dir);
 
 void BOX2_MAIN_LoadBoxPalette(BoxTask *p, int a);
 
-int BOX2_MAIN_GetBoxFormId(BoxTask *p, int box);
+int BOX2_MAIN_GetBoxWallpaper(BoxTask *p, int box);
 
 Summary *BOX2_MAIN_CreateSummary(void *mon);
 
@@ -1227,9 +1227,9 @@ void BOX2_MAIN_DeleteHandle(void *s);
 
 void BOX2_MAIN_SetupSummary(BoxTask *p, int a);
 
-int BOX2_MAIN_ChangeBoxForm(char *p, int a, unsigned b);
+int BOX2_MAIN_RefreshMonInfo(char *p, int a, unsigned b);
 
-void BOX2_MAIN_ChangeBoxFormPreserve(BoxTask *p, int b);
+void BOX2_MAIN_RefreshCurrentBoxMonInfo(BoxTask *p, int b);
 
 void BOX2_MAIN_SetBoxForm(BoxTask *p, unsigned b);
 
@@ -1403,7 +1403,7 @@ void BOX2_MAIN_LoadBgData(struct Ov170Ctx *ctx)
     ARC_UTIL_UploadPaletteFromHandleWhole((void *)arc2, APP_ICON_GetStatusAnimFileId(), 0, 0xe0, 0x20, 0x4c);
     ARC_UTIL_UploadBgPaletteFromHandle((void *)arc2, APP_ICON_GetStatusDataFileId(), 0, 0, 0, 0, 0x4c);
     BG_SYS_FillTileMap(0, 0, 0x15, 0x20, 3, 7);
-    BG_SYS_SetFlagField06(0);
+    BG_SYS_MarkTileDirty(0);
     r6 = ARC_UTIL_RegisterObjCharFromHandle((void *)arc2, APP_ICON_GetStatusFrameFileId(), 2, 0, 0, 0x4c);
     ARC_TOOL_DeleteHandle((void *)arc2);
     a = (u16 *)BG_SYS_GetBuf(0);
@@ -1411,7 +1411,7 @@ void BOX2_MAIN_LoadBgData(struct Ov170Ctx *ctx)
     for (i = 0; i < 0x60u; i++) {
         *(u16 *)((char *)b + 0x540 + i * 2) = r6 + *(u16 *)((char *)a + 0x540 + i * 2);
     }
-    BG_SYS_SetFlagField06(2);
+    BG_SYS_MarkTileDirty(2);
     *(int *)(ctx->work + 0x178) = (int)BMP_MENUWORK_LoadFrameGfx(0, 10, 0, 0x4c);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x160, 0x20, 0x4c);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 4, 0x1e0, 0x20, 0x4c);
@@ -1469,7 +1469,7 @@ void BOX2_MAIN_DeleteTextSystem(char *task)
 {
     STRBUF_Delete((*(void **)((char *)((BoxTask *)(task))->work + (0x88))));
     PRINTSYS_QUE_Delete((*(void **)((char *)((BoxTask *)(task))->work + (0x8c))));
-    WORDSET_DeleteStrbufED04((*(void **)((char *)((BoxTask *)(task))->work + (0x84))));
+    WORDSET_Delete((*(void **)((char *)((BoxTask *)(task))->work + (0x84))));
     GF_FONT_Delete((*(void **)((char *)((BoxTask *)(task))->work + (0x7c))));
     GF_FONT_Delete((*(void **)((char *)((BoxTask *)(task))->work + (0x78))));
     MSGDATA_Delete((*(void **)((char *)((BoxTask *)(task))->work + (0x80))));
@@ -1531,7 +1531,7 @@ void BOX2_MAIN_OpenTaskMenu(BoxTask *task, int sel)
     t.y = 0x12;
     t.w = 8;
     t.h = 3;
-    if (CURSOR_MOVE_GetState(task->work->sound) == 1)
+    if (CURSOR_MOVE_GetState(task->work->cursorMove) == 1)
         UI_SetInputMode(0);
     else
         UI_SetInputMode(1);
@@ -1539,7 +1539,7 @@ void BOX2_MAIN_OpenTaskMenu(BoxTask *task, int sel)
     APP_TASKMENU_SetCursorPos((u8 *)task->work->taskMenu, sel);
 }
 
-int BOX2_MAIN_IsTaskMenuFinished(BoxTask *task)
+int BOX2_MAIN_StepWindowFrameFade(BoxTask *task)
 {
     BoxFade *f = &task->work->fade;
     switch (f->state) {
@@ -1548,7 +1548,7 @@ int BOX2_MAIN_IsTaskMenuFinished(BoxTask *task)
             BOX2_SEQ_SetActorAutoAnim((BoxWork *)task->work, f->id, f->lo);
         } else {
             BG_SYS_FillTileMap(f->id, f->x, f->y, f->w, f->h, f->lo);
-            BG_SYS_SetFlagField06(f->id);
+            BG_SYS_MarkTileDirty(f->id);
         }
         f->state++;
         break;
@@ -1560,7 +1560,7 @@ int BOX2_MAIN_IsTaskMenuFinished(BoxTask *task)
             f->count++;
             if (f->count == 4) {
                 BG_SYS_FillTileMap(f->id, f->x, f->y, f->w, f->h, f->hi);
-                BG_SYS_SetFlagField06(f->id);
+                BG_SYS_MarkTileDirty(f->id);
                 f->count = 0;
                 f->state++;
             }
@@ -1575,7 +1575,7 @@ int BOX2_MAIN_IsTaskMenuFinished(BoxTask *task)
     return 1;
 }
 
-void BOX2_MAIN_UpdateWindowFrame(BoxTask *task, unsigned idx)
+void BOX2_MAIN_SetupWindowFrameFade(BoxTask *task, unsigned idx)
 {
     unsigned short w;
     unsigned short h;
@@ -1601,7 +1601,7 @@ void BOX2_MAIN_RefreshCursorBox(BoxTask *task)
     BOX2_UI_PutFadeFrame(task->work->winMgr);
 }
 
-void BOX2_MAIN_StopSeq(BoxTask *task, int dir)
+void BOX2_MAIN_StepToAdjacentBox(BoxTask *task, int dir)
 {
     if (dir == 0) {
         task->curBox = task->curBox == 0 ? task->boxLimit - 1 : task->curBox - 1;
@@ -1611,7 +1611,7 @@ void BOX2_MAIN_StopSeq(BoxTask *task, int dir)
         BOX2_SEQ_SetActorAnimSeq((BoxWork *)task->work, 1, 4);
     }
     BOX2_SEQ_LoadMonIcon((char **)task, task->curBox);
-    BOX2_MAIN_SetBoxScroll((BoxTask *)task, (void *)BOX2_MAIN_GetBoxFormId((BoxTask *)task, task->curBox), dir);
+    BOX2_MAIN_SetBoxScroll((BoxTask *)task, (void *)BOX2_MAIN_GetBoxWallpaper((BoxTask *)task, task->curBox), dir);
 }
 
 /*
@@ -1633,7 +1633,7 @@ void BOX2_MAIN_RefreshBoxUi(BoxTask *task)
 {
     BOX2_UI_RefreshBoxName((unsigned char *)task);
     BOX2_UI_SetCloseButtonPos(task->work);
-    BOX2_UI_DeleteSlotIcon((BoxTask *)task);
+    BOX2_UI_UpdateCurrentBoxMarker((BoxTask *)task);
     BOX2_SEQ_DrawOffsetName((unsigned char *)task, 0);
     BOX2_UI_PutInfoBar(task->work->winMgr);
 }
@@ -1655,11 +1655,11 @@ int BOX2_MAIN_IsWrappedDistance(unsigned char *task, unsigned a, unsigned b)
 /*
  * Enable the pooled object when it reports zero.
  */
-void BOX2_MAIN_PlayCursorSound(BoxTask *task)
+void BOX2_MAIN_ActivateKeyCursor(BoxTask *task)
 {
     UI_SetInputMode(0);
-    if (CURSOR_MOVE_GetState(task->work->sound) == 0)
-        CURSOR_MOVE_SetState(task->work->sound, 1);
+    if (CURSOR_MOVE_GetState(task->work->cursorMove) == 0)
+        CURSOR_MOVE_SetState(task->work->cursorMove, 1);
 }
 
 unsigned BOX2_MAIN_GetPartyValueAt(void ***task, unsigned short a, unsigned short box, unsigned id, unsigned v)
@@ -1693,7 +1693,7 @@ int BOX2_MAIN_GetMonAt(void ***task, int a, unsigned b)
         if (b >= 0x1E)
             b -= 0x1E;
         if (POKEPARTY_GetCount((*task)[2]) > b)
-            return POKE_TOOL_Dummy(POKEPARTY_GetMember((*task)[2], b));
+            return POKE_TOOL_CastToBoxParam(POKEPARTY_GetMember((*task)[2], b));
     } else if (b != 0xFF) {
         return (int)BOX_SAVEDATA_GetPokemon((*task)[1], a, b);
     }
@@ -1953,7 +1953,7 @@ void BOX2_MAIN_ResetShayminFormInBox(BoxTask *task,unsigned a,unsigned b,unsigne
     BOX2_MAIN_RecalcPartyParam((void **)task,a);
     if(box==task->curBox)
         BOX2_SEQ_ShowSlotIcon((BoxTask *)task,box,a,*(unsigned char *)((char *)task->work +a+0x3dd2));
-    if(task->cursorSlot==a) BOX2_MAIN_ChangeBoxFormPreserve((BoxTask *)task,a);
+    if(task->cursorSlot==a) BOX2_MAIN_RefreshCurrentBoxMonInfo((BoxTask *)task,a);
 }
 
 void BOX2_MAIN_RecalcPartyParam(void **pp, u32 idx)
@@ -2090,7 +2090,7 @@ int BOX2_MAIN_HandleMonPickup(BoxTask *task, unsigned a, unsigned b)
                 (((BoxTask *)(task))->work->result) = 3;
                 return 0;
             }
-            if (FILE_UTIL_Check136C(POKE_TOOL_GetPartyValue(POKEPARTY_GetMember((void *)task->params->party, a - 0x1E), 6, 0)) == 1) {
+            if (FILE_UTIL_IsMailItem(POKE_TOOL_GetPartyValue(POKEPARTY_GetMember((void *)task->params->party, a - 0x1E), 6, 0)) == 1) {
                 (((BoxTask *)(task))->work->result) = 2;
                 return 0;
             }
@@ -2125,12 +2125,12 @@ int BOX2_MAIN_HandleMonPickup(BoxTask *task, unsigned a, unsigned b)
                 return 0;
             }
         }
-        if (b < 0x1E && FILE_UTIL_Check136C(POKE_TOOL_GetPartyValue(POKEPARTY_GetMember((void *)task->params->party, a - 0x1E), 6, 0)) == 1) {
+        if (b < 0x1E && FILE_UTIL_IsMailItem(POKE_TOOL_GetPartyValue(POKEPARTY_GetMember((void *)task->params->party, a - 0x1E), 6, 0)) == 1) {
             (((BoxTask *)(task))->work->result) = 2;
             return 0;
         }
     } else if (b >= 0x1E && m != 0) {
-        if (FILE_UTIL_Check136C(POKE_TOOL_GetPartyValue(POKEPARTY_GetMember((void *)task->params->party, b - 0x1E), 6, 0)) == 1) {
+        if (FILE_UTIL_IsMailItem(POKE_TOOL_GetPartyValue(POKEPARTY_GetMember((void *)task->params->party, b - 0x1E), 6, 0)) == 1) {
             (((BoxTask *)(task))->work->result) = 2;
             return 0;
         }
@@ -2153,7 +2153,7 @@ int BOX2_MAIN_ComparePartyValue(unsigned char *task,unsigned a,unsigned b)
         return result;
     if (!BOX2_MAIN_HasOtherTradable((void ***)task,a-30))
         return result;
-    if (FILE_UTIL_Check136C((unsigned short)POKE_TOOL_GetPartyValue(POKEPARTY_GetMember((*(void ***)task)[2],a-30),6,0)) != 1)
+    if (FILE_UTIL_IsMailItem((unsigned short)POKE_TOOL_GetPartyValue(POKEPARTY_GetMember((*(void ***)task)[2],a-30),6,0)) != 1)
         result = 1;
     return result;
 }
@@ -2164,9 +2164,9 @@ int BOX2_MAIN_CompareSlots(unsigned char *task, unsigned a, unsigned b)
         return 0;
     if (BOX2_MAIN_GetPartyValueAt((void ***)task, b, task[0x14], 0x4C, 0) != 0)
         return 0;
-    if (FILE_UTIL_Check136C(BOX2_MAIN_GetPartyValueAt((void ***)task, a, task[0x14], 6, 0)) == 1)
+    if (FILE_UTIL_IsMailItem(BOX2_MAIN_GetPartyValueAt((void ***)task, a, task[0x14], 6, 0)) == 1)
         return 0;
-    if (FILE_UTIL_Check136C(BOX2_MAIN_GetPartyValueAt((void ***)task, b, task[0x14], 6, 0)) == 1)
+    if (FILE_UTIL_IsMailItem(BOX2_MAIN_GetPartyValueAt((void ***)task, b, task[0x14], 6, 0)) == 1)
         return 0;
     return 1;
 }
@@ -2647,21 +2647,21 @@ int BOX2_MAIN_StepScroll(BoxTask *task)
 }
 
 /*
- *   GAME_DATA_GetBoxSave ((void *)0x02012F98) stays wildcarded because the target is an
+ *   GAME_DATA_GetPerapVoiceSave ((void *)0x02012F98) stays wildcarded because the target is an
  *   unlabelled leaf emitted inside a .word run -- no traced func_ start,
  *   no branch outside this range, no literal pool word elsewhere, so
  *   `label` and `sole-ref/code` both refuse.  Evidence class: label /
  *   sole-ref/code (target not a traced function start).
  */
-void BOX2_MAIN_PlayMonCry(int *q)
+void BOX2_MAIN_ClearPerapVoiceIfNoChatot(int *q)
 {
     int *r = *(int * *)&((BoxTask *)(q))->params;
 
     if ((((unsigned int)((BoxParam *)(r))->mode) - 4) > 1)
-        PERAPVOICE_ClearIfNoChatot((struct PerapVoice *)GAME_DATA_GetBoxSave((void *)(((BoxParam *)(r))->gameData)), (void *)(((BoxParam *)(r))->party));
+        PERAPVOICE_ClearIfNoChatot((struct PerapVoice *)GAME_DATA_GetPerapVoiceSave((void *)(((BoxParam *)(r))->gameData)), (void *)(((BoxParam *)(r))->party));
 }
 
-void BOX2_MAIN_PlaceMonScene(BoxTask *task, int slot, unsigned idx, int mode, int flag)
+void BOX2_MAIN_StartHandMotionToSlot(BoxTask *task, int slot, unsigned idx, int mode, int flag)
 {
     BoxMotor *o = task->work->seq.entry;
     short pos[2];
@@ -2691,7 +2691,7 @@ void BOX2_MAIN_PlaceMonScene(BoxTask *task, int slot, unsigned idx, int mode, in
     }
 }
 
-void BOX2_MAIN_ClearFlagsScene(BoxTask *task, int mode)
+void BOX2_MAIN_StartHandMotionToBoxArrow(BoxTask *task, int mode)
 {
     BoxMotor *o = task->work->seq.entry;
     short pos[2];
@@ -2737,14 +2737,14 @@ void BOX2_MAIN_ClearFlagsScene(BoxTask *task, int mode)
 /*
  * Same call with the fifth argument fixed to 1.
  */
-void BOX2_MAIN_PlaceMonSceneFromBox(int a, int b, int c, int d)
+void BOX2_MAIN_StartHandMotionToBoxSlot(int a, int b, int c, int d)
 {
-    BOX2_MAIN_PlaceMonScene((BoxTask *)a, b, c, d, 1);
+    BOX2_MAIN_StartHandMotionToSlot((BoxTask *)a, b, c, d, 1);
 }
 
-void BOX2_MAIN_PlaceTargetMonScene(BoxTask *task, int a, int b)
+void BOX2_MAIN_StartHandMotionToTargetBoxSlot(BoxTask *task, int a, int b)
 {
-    BOX2_MAIN_PlaceMonScene((BoxTask *)task, task->work->targetBox, a, b, 0);
+    BOX2_MAIN_StartHandMotionToSlot((BoxTask *)task, task->work->targetBox, a, b, 0);
 }
 
 
@@ -2756,7 +2756,7 @@ void BOX2_MAIN_PlaceTargetMonScene(BoxTask *task, int a, int b)
 /*
  * extent: final two bytes are zero alignment padding.
  */
-int BOX2_MAIN_CheckSceneMode(BoxTask *task, int a)
+int BOX2_MAIN_StepHandMotion(BoxTask *task, int a)
 {
     Motion *m;
     m = task->work->seq.entry;
@@ -2787,17 +2787,17 @@ int BOX2_MAIN_CheckSceneMode(BoxTask *task, int a)
 /*
  * Set the flag on the object.
  */
-int BOX2_MAIN_IsSwapScene(int a)
+int BOX2_MAIN_StepHandMotionToSlot(int a)
 {
-    return BOX2_MAIN_CheckSceneMode((BoxTask *)a, 1);
+    return BOX2_MAIN_StepHandMotion((BoxTask *)a, 1);
 }
 
 /*
- * Steps the object with mode 0 (sibling of BOX2_MAIN_IsSwapScene, which passes 1).
+ * Steps the object with mode 0 (sibling of BOX2_MAIN_StepHandMotionToSlot, which passes 1).
  */
-int BOX2_MAIN_IsMoveScene(unsigned char *task)
+int BOX2_MAIN_StepHandMotionToSlotB(unsigned char *task)
 {
-    return BOX2_MAIN_CheckSceneMode((BoxTask *)task, 0);
+    return BOX2_MAIN_StepHandMotion((BoxTask *)task, 0);
 }
 
 /*
@@ -2879,7 +2879,7 @@ void BOX2_MAIN_LoadBgTiles(void *a, void *b, int c, void *d, int e)
     BOX2_MAIN_LoadBgCharTile((int)a, (int)b, d);
     BOX2_MAIN_LoadBgPaletteTile((int)a, (int)b, e);
     BOX2_MAIN_LoadBgTileSet(a, b, c, (unsigned int)d, e);
-    BG_SYS_SetFlagField06(3);
+    BG_SYS_MarkTileDirty(3);
 }
 
 void BOX2_MAIN_SetBoxScroll(BoxTask *task, void *a, int dir)
@@ -2940,13 +2940,13 @@ void BOX2_MAIN_LoadBoxPalette(BoxTask *task, int a)
     BOX2_MAIN_LoadBgCharTile((unsigned int)task, a, (void *)offset);
     PALANM_LoadArcPaletteToSlot(task->work->palAnm, 0x74, a + 0x26, 0x4C, 0, 0x20, bank << 4);
     BOX2_MAIN_LoadBgTileSet(task, (void *)a, task->work->scrollOffset, offset, bank);
-    BG_SYS_SetFlagField06(3);
+    BG_SYS_MarkTileDirty(3);
 }
 
 /*
  * Forward the second word of the head object.
  */
-int BOX2_MAIN_GetBoxFormId(BoxTask *task, int box)
+int BOX2_MAIN_GetBoxWallpaper(BoxTask *task, int box)
 {
     return BOX_SAVEDATA_GetWallpaper((int)task->params->boxSave, box);
 }
@@ -3015,10 +3015,10 @@ void BOX2_MAIN_SetupSummary(BoxTask *task, int a)
     BOX2_SEQ_DeleteTextEntries((BoxTask *)task, a);
     BOX2_MAIN_SetBodySlots((char *)task, ((Summary *)(a))->item);
     BOX2_MAIN_SetupSummaryActors(task->work, (Summary *)a);
-    BG_SYS_ResetSlot(5, 3, 0);
+    BG_SYS_ChangeScroll(5, 3, 0);
 }
 
-int BOX2_MAIN_ChangeBoxForm(char *task, int a, unsigned b)
+int BOX2_MAIN_RefreshMonInfo(char *task, int a, unsigned b)
 {
     void *mon;
     int state;
@@ -3046,9 +3046,9 @@ int BOX2_MAIN_ChangeBoxForm(char *task, int a, unsigned b)
 /*
  * Forward with the byte field at +0x14.
  */
-void BOX2_MAIN_ChangeBoxFormPreserve(BoxTask *task, int b)
+void BOX2_MAIN_RefreshCurrentBoxMonInfo(BoxTask *task, int b)
 {
-    BOX2_MAIN_ChangeBoxForm((char *)task, task->curBox, b);
+    BOX2_MAIN_RefreshMonInfo((char *)task, task->curBox, b);
 }
 
 void BOX2_MAIN_SetBoxForm(BoxTask *task, unsigned b)
@@ -3083,7 +3083,7 @@ void BOX2_MAIN_ResetBoxView(BoxTask *task)
     BOX2_SEQ_SetActorDrawEnable((BoxWork *)task->work, 0x19, 0);
     BOX2_SEQ_SetActorDrawEnable((BoxWork *)task->work, 0x1A, 0);
     BOX2_SEQ_SetActorDrawEnable((BoxWork *)task->work, 0x1B, 0);
-    BG_SYS_ResetSlot(5, 3, 0xC0);
+    BG_SYS_ChangeScroll(5, 3, 0xC0);
 }
 
 /*
@@ -3358,7 +3358,7 @@ int BOX2_MAIN_StateMachinePick(BoxTask *task)
                 BOX2_UI_ToggleSlotPair((BoxWork *)task->work, 1);
                 BOX2_UI_MoveCursor((char **)task, 6, task->cursorSlot);
                 if ((*(int **)task)[9] == 4)
-                    CURSOR_MOVE_ClearSkipBit(task->work->sound, 0x27);
+                    CURSOR_MOVE_ClearSkipBit(task->work->cursorMove, 0x27);
                 BOX2_UI_DeleteSlotObjects((BoxTask *)task, 2, 1, 2);
                 task->work->heldSlot = task->cursorSlot;
                 task->work->waitFrames = 0x17;
@@ -3367,11 +3367,11 @@ int BOX2_MAIN_StateMachinePick(BoxTask *task)
                 int dir = BOX2_UI_GetCloseButtonHit();
                 if (dir == 0) {
                     GFL_USE_PlaySeDefaultVolume(0x548);
-                    BOX2_MAIN_StopSeq((BoxTask *)task, 0);
+                    BOX2_MAIN_StepToAdjacentBox((BoxTask *)task, 0);
                     b->state = 6;
                 } else if (dir == 1) {
                     GFL_USE_PlaySeDefaultVolume(0x548);
-                    BOX2_MAIN_StopSeq((BoxTask *)task, 1);
+                    BOX2_MAIN_StepToAdjacentBox((BoxTask *)task, 1);
                     b->state = 7;
                 }
             }
@@ -3380,7 +3380,7 @@ int BOX2_MAIN_StateMachinePick(BoxTask *task)
                     if (task->work->touchState == 0) {
                         if (BOX2_UI_IsInfoBarOpen(task->work->winMgr) == 1) {
                             BOX2_UI_CloseInfoBar(task->work->winMgr);
-                            BOX2_MAIN_UpdateWindowFrame((BoxTask *)task, 0xA);
+                            BOX2_MAIN_SetupWindowFrameFade((BoxTask *)task, 0xA);
                             GFL_USE_PlaySeDefaultVolume(0x54C);
                             GFL_USE_PlaySeDefaultVolume(0x669);
                             task->work->touchState = 1;
@@ -3388,7 +3388,7 @@ int BOX2_MAIN_StateMachinePick(BoxTask *task)
                         }
                         if (BOX2_UI_IsTopBarOpen(task->work->winMgr) == 1) {
                             BOX2_UI_OpenBar(task->work->winMgr);
-                            BOX2_MAIN_UpdateWindowFrame((BoxTask *)task, 0xB);
+                            BOX2_MAIN_SetupWindowFrameFade((BoxTask *)task, 0xB);
                             GFL_USE_PlaySeDefaultVolume(0x54C);
                             GFL_USE_PlaySeDefaultVolume(0x669);
                             task->work->touchState = 1;
@@ -3434,7 +3434,7 @@ int BOX2_MAIN_StateMachinePick(BoxTask *task)
             b->state = 0x10;
         break;
     case 6:
-        if (BOX2_MAIN_IsSeqIdle(task) == 0) {
+        if (BOX2_MAIN_StepScrollToPrevBox(task) == 0) {
             b->timer = 0x10;
             b->state = 1;
         }
@@ -3442,7 +3442,7 @@ int BOX2_MAIN_StateMachinePick(BoxTask *task)
             BOX2_MAIN_MoveCursorActor((BoxTask *)task, x, y);
         break;
     case 7:
-        if (BOX2_MAIN_IsSeqStep(task) == 0) {
+        if (BOX2_MAIN_StepScrollToNextBox(task) == 0) {
             b->timer = 0x10;
             b->state = 1;
         }
@@ -3468,7 +3468,7 @@ int BOX2_MAIN_StateMachinePick(BoxTask *task)
             BOX2_MAIN_MoveCursorActor((BoxTask *)task, x, y);
         break;
     case 11:
-        BOX2_MAIN_IsTaskMenuFinished(task);
+        BOX2_MAIN_StepWindowFrameFade(task);
         if (BOX2_MAIN_ShiftWindowLeft(task) == 0) {
             BOX2_UI_PutBottomBarClosed(task->work->winMgr);
             BOX2_UI_CloseBar(task->work->winMgr);
@@ -3488,7 +3488,7 @@ int BOX2_MAIN_StateMachinePick(BoxTask *task)
             BOX2_MAIN_MoveCursorActor((BoxTask *)task, x, y);
         break;
     case 13:
-        BOX2_MAIN_IsTaskMenuFinished(task);
+        BOX2_MAIN_StepWindowFrameFade(task);
         if (busy == 0) {
             BOX2_MAIN_RefreshBoxUi(task);
             BOX2_UI_HideWindowB((BoxWork *)task->work);
@@ -3506,7 +3506,7 @@ int BOX2_MAIN_StateMachinePick(BoxTask *task)
             BOX2_SEQ_SetSlotDim((char **)task, 1);
         } else {
             BOX2_SEQ_SetSlotDim((char **)task, 0);
-            CURSOR_MOVE_SetCurrent(task->work->sound, task->cursorSlot);
+            CURSOR_MOVE_SetCurrent(task->work->cursorMove, task->cursorSlot);
             BOX2_UI_SetCursorPos((char **)task, task->cursorSlot);
             BOX2_SEQ_SetCursorDraw((char **)task, 1);
         }
@@ -3586,7 +3586,7 @@ int BOX2_MAIN_StateMachineScroll(BoxTask *task)
                 r = BOX2_MAIN_IsWrappedDistance((unsigned char *)task, task->curBox, task->heldSlot);
                 task->curBox = task->heldSlot;
                 BOX2_SEQ_LoadMonIcon((char **)task, task->curBox);
-                BOX2_MAIN_SetBoxScroll((BoxTask *)task, (void *)BOX2_MAIN_GetBoxFormId((BoxTask *)task, task->curBox), r);
+                BOX2_MAIN_SetBoxScroll((BoxTask *)task, (void *)BOX2_MAIN_GetBoxWallpaper((BoxTask *)task, task->curBox), r);
                 if (r == 0)
                     b->state = 4;
                 else
@@ -3614,11 +3614,11 @@ int BOX2_MAIN_StateMachineScroll(BoxTask *task)
             int dir = BOX2_UI_GetCloseButtonHit();
             if (dir == 0) {
                 GFL_USE_PlaySeDefaultVolume(0x548);
-                BOX2_MAIN_StopSeq((BoxTask *)task, 0);
+                BOX2_MAIN_StepToAdjacentBox((BoxTask *)task, 0);
                 b->state = 6;
             } else if (dir == 1) {
                 GFL_USE_PlaySeDefaultVolume(0x548);
-                BOX2_MAIN_StopSeq((BoxTask *)task, 1);
+                BOX2_MAIN_StepToAdjacentBox((BoxTask *)task, 1);
                 b->state = 7;
             }
         }
@@ -3627,7 +3627,7 @@ int BOX2_MAIN_StateMachineScroll(BoxTask *task)
                 if (task->work->touchState == 0) {
                     if (BOX2_UI_IsInfoBarOpen(task->work->winMgr) == 1) {
                         BOX2_UI_CloseInfoBar(task->work->winMgr);
-                        BOX2_MAIN_UpdateWindowFrame((BoxTask *)task, 0xA);
+                        BOX2_MAIN_SetupWindowFrameFade((BoxTask *)task, 0xA);
                         GFL_USE_PlaySeDefaultVolume(0x54C);
                         GFL_USE_PlaySeDefaultVolume(0x669);
                         task->work->touchState = 1;
@@ -3635,7 +3635,7 @@ int BOX2_MAIN_StateMachineScroll(BoxTask *task)
                     }
                     if (BOX2_UI_IsTopBarOpen(task->work->winMgr) == 1) {
                         BOX2_UI_OpenBar(task->work->winMgr);
-                        BOX2_MAIN_UpdateWindowFrame((BoxTask *)task, 0xB);
+                        BOX2_MAIN_SetupWindowFrameFade((BoxTask *)task, 0xB);
                         GFL_USE_PlaySeDefaultVolume(0x54C);
                         GFL_USE_PlaySeDefaultVolume(0x669);
                         task->work->touchState = 1;
@@ -3670,11 +3670,11 @@ int BOX2_MAIN_StateMachineScroll(BoxTask *task)
         BOX2_MAIN_MoveCursorActor((BoxTask *)task, x, y);
         break;
     case 4:
-        if (BOX2_MAIN_IsSeqIdle(task) == 0)
+        if (BOX2_MAIN_StepScrollToPrevBox(task) == 0)
             b->state = 2;
         break;
     case 5:
-        if (BOX2_MAIN_IsSeqStep(task) == 0)
+        if (BOX2_MAIN_StepScrollToNextBox(task) == 0)
             b->state = 2;
         break;
     case 2:
@@ -3688,7 +3688,7 @@ int BOX2_MAIN_StateMachineScroll(BoxTask *task)
             b->state = 0x10;
         break;
     case 6:
-        if (BOX2_MAIN_IsSeqIdle(task) == 0) {
+        if (BOX2_MAIN_StepScrollToPrevBox(task) == 0) {
             b->timer = 0x10;
             b->state = 1;
         }
@@ -3696,7 +3696,7 @@ int BOX2_MAIN_StateMachineScroll(BoxTask *task)
             BOX2_MAIN_MoveCursorActor((BoxTask *)task, x, y);
         break;
     case 7:
-        if (BOX2_MAIN_IsSeqStep(task) == 0) {
+        if (BOX2_MAIN_StepScrollToNextBox(task) == 0) {
             b->timer = 0x10;
             b->state = 1;
         }
@@ -3722,7 +3722,7 @@ int BOX2_MAIN_StateMachineScroll(BoxTask *task)
             BOX2_MAIN_MoveCursorActor((BoxTask *)task, x, y);
         break;
     case 11:
-        BOX2_MAIN_IsTaskMenuFinished(task);
+        BOX2_MAIN_StepWindowFrameFade(task);
         if (BOX2_MAIN_ShiftWindowLeft(task) == 0) {
             BOX2_UI_PutBottomBarClosed(task->work->winMgr);
             BOX2_UI_CloseBar(task->work->winMgr);
@@ -3744,7 +3744,7 @@ int BOX2_MAIN_StateMachineScroll(BoxTask *task)
             BOX2_MAIN_MoveCursorActor((BoxTask *)task, x, y);
         break;
     case 13:
-        BOX2_MAIN_IsTaskMenuFinished(task);
+        BOX2_MAIN_StepWindowFrameFade(task);
         if (BOX2_UI_UpdateBarMove((BoxTask *)task) == 0) {
             BOX2_MAIN_RefreshBoxUi(task);
             BOX2_UI_HideWindowB((BoxWork *)task->work);
@@ -3777,7 +3777,7 @@ int BOX2_MAIN_StateMachineScroll(BoxTask *task)
             BOX2_SEQ_SetSlotDim((char **)task, 1);
         } else {
             BOX2_SEQ_SetSlotDim((char **)task, 0);
-            CURSOR_MOVE_SetCurrent(task->work->sound, task->cursorSlot);
+            CURSOR_MOVE_SetCurrent(task->work->cursorMove, task->cursorSlot);
             BOX2_UI_SetCursorPos((char **)task, task->cursorSlot);
             BOX2_SEQ_SetCursorDraw((char **)task, 1);
         }
@@ -3831,16 +3831,16 @@ int BOX2_MAIN_StateMachineClose(BoxTask *task)
     return 1;
 }
 
-int BOX2_MAIN_IsSeqIdle(BoxTask *task)
+int BOX2_MAIN_StepScrollToPrevBox(BoxTask *task)
 {
     if (task->work->seq.timer == 0x17) {
         BOX2_SEQ_SetCursorDraw((char **)task, 1);
         if (BOX2_UI_IsInfoBarOpen(task->work->winMgr) == 1)
-            BOX2_UI_DeleteSlotIcon((BoxTask *)task);
+            BOX2_UI_UpdateCurrentBoxMarker((BoxTask *)task);
         task->work->seq.timer = 0;
         return 0;
     }
-    BG_SYS_ResetSlot(3, 2, 8);
+    BG_SYS_ChangeScroll(3, 2, 8);
     BOX2_SEQ_ShiftSlotIcons((char **)task, 8);
     BOX2_UI_ShiftSlotOams((BoxWork *)task->work, 8);
     BOX2_UI_UpdateListPacks(task->work->winMgr);
@@ -3848,16 +3848,16 @@ int BOX2_MAIN_IsSeqIdle(BoxTask *task)
     return 1;
 }
 
-int BOX2_MAIN_IsSeqStep(BoxTask *task)
+int BOX2_MAIN_StepScrollToNextBox(BoxTask *task)
 {
     if (task->work->seq.timer == 0x17) {
         BOX2_SEQ_SetCursorDraw((char **)task, 1);
         if (BOX2_UI_IsInfoBarOpen(task->work->winMgr) == 1)
-            BOX2_UI_DeleteSlotIcon((BoxTask *)task);
+            BOX2_UI_UpdateCurrentBoxMarker((BoxTask *)task);
         task->work->seq.timer = 0;
         return 0;
     }
-    BG_SYS_ResetSlot(3, 1, 8);
+    BG_SYS_ChangeScroll(3, 1, 8);
     BOX2_SEQ_ShiftSlotIcons((char **)task, -8);
     BOX2_UI_ShiftSlotOams((BoxWork *)task->work, -8);
     BOX2_UI_UpdateListPacks(task->work->winMgr);
@@ -3960,11 +3960,11 @@ int BOX2_MAIN_StateMachineMove(BoxTask *task)
                 int dir = BOX2_UI_GetCloseButtonHit();
                 if (dir == 0) {
                     GFL_USE_PlaySeDefaultVolume(0x548);
-                    BOX2_MAIN_StopSeq((BoxTask *)task, 0);
+                    BOX2_MAIN_StepToAdjacentBox((BoxTask *)task, 0);
                     b->state = 2;
                 } else if (dir == 1) {
                     GFL_USE_PlaySeDefaultVolume(0x548);
-                    BOX2_MAIN_StopSeq((BoxTask *)task, 1);
+                    BOX2_MAIN_StepToAdjacentBox((BoxTask *)task, 1);
                     b->state = 3;
                 }
             }
@@ -3972,7 +3972,7 @@ int BOX2_MAIN_StateMachineMove(BoxTask *task)
         BOX2_MAIN_MoveCursorActor((BoxTask *)task, x, y);
         break;
     case 2:
-        if (BOX2_MAIN_IsSeqIdle(task) == 0) {
+        if (BOX2_MAIN_StepScrollToPrevBox(task) == 0) {
             b->timer = 0x10;
             b->state = 1;
         }
@@ -3980,7 +3980,7 @@ int BOX2_MAIN_StateMachineMove(BoxTask *task)
             BOX2_MAIN_MoveCursorActor((BoxTask *)task, x, y);
         break;
     case 3:
-        if (BOX2_MAIN_IsSeqStep(task) == 0) {
+        if (BOX2_MAIN_StepScrollToNextBox(task) == 0) {
             b->timer = 0x10;
             b->state = 1;
         }
@@ -4253,7 +4253,7 @@ int BOX2_MAIN_SceneOpenBox(BoxTask *task)
                 r = BOX2_MAIN_IsWrappedDistance((unsigned char *)task, task->curBox, task->heldSlot);
                 task->curBox = task->heldSlot;
                 BOX2_SEQ_LoadMonIcon((char **)task, task->curBox);
-                BOX2_MAIN_SetBoxScroll((BoxTask *)task, (void *)BOX2_MAIN_GetBoxFormId((BoxTask *)task, task->curBox), r);
+                BOX2_MAIN_SetBoxScroll((BoxTask *)task, (void *)BOX2_MAIN_GetBoxWallpaper((BoxTask *)task, task->curBox), r);
                 if (r == 0)
                     b->state = 2;
                 else
@@ -4267,11 +4267,11 @@ int BOX2_MAIN_SceneOpenBox(BoxTask *task)
         b->state = 4;
         break;
     case 2:
-        if (BOX2_MAIN_IsSeqIdle(task) == 0)
+        if (BOX2_MAIN_StepScrollToPrevBox(task) == 0)
             b->state = 1;
         break;
     case 3:
-        if (BOX2_MAIN_IsSeqStep(task) == 0)
+        if (BOX2_MAIN_StepScrollToNextBox(task) == 0)
             b->state = 1;
         break;
     case 4:
@@ -4306,23 +4306,23 @@ typedef struct {
 } BoxSlotRef;
 
 
-int BOX2_MAIN_Check09E0(BoxTask *task);
+int BOX2_MAIN_StateMachineRunSwap(BoxTask *task);
 
-int BOX2_MAIN_Check0A40(BoxTask *task);
+int BOX2_MAIN_StateMachineShowHandScroll(BoxTask *task);
 
-int BOX2_MAIN_StateMachineCoin(BoxTask *task);
+int BOX2_MAIN_StateMachineDrag(BoxTask *task);
 
-int BOX2_MAIN_Check0E50(BoxTask *task);
+int BOX2_MAIN_StateMachineHideHandScroll(BoxTask *task);
 
-int BOX2_MAIN_Check0ED4(BoxTask *task);
+int BOX2_MAIN_StateMachineHideHandWindow(BoxTask *task);
 
-int BOX2_MAIN_Check0F4C(BoxTask *task);
+int BOX2_MAIN_StateMachineHideHand(BoxTask *task);
 
 void BOX2_MAIN_MoveCursorTo(BoxWork *w, int x, int y);
 
-int BOX2_MAIN_StateMachineSlide(BoxTask *task);
+int BOX2_MAIN_StateMachineDragNoBar(BoxTask *task);
 
-int BOX2_MAIN_Check122C(BoxTask *task);
+int BOX2_MAIN_StateMachineReturnHeld(BoxTask *task);
 
 void BOX2_SEQ_SetActorAnim(BoxTask *task, int v);
 
@@ -4334,7 +4334,7 @@ void BOX2_SEQ_ShowHandSlots(BoxWork *task);
 
 
 
-int BOX2_MAIN_Check09E0(BoxTask *task)
+int BOX2_MAIN_StateMachineRunSwap(BoxTask *task)
 {
     char *s;
     s = (char *)task->work + 0x58;
@@ -4357,7 +4357,7 @@ int BOX2_MAIN_Check09E0(BoxTask *task)
     return 1;
 }
 
-int BOX2_MAIN_Check0A40(BoxTask *task)
+int BOX2_MAIN_StateMachineShowHandScroll(BoxTask *task)
 {
     char *s;
     int a;
@@ -4393,7 +4393,7 @@ int BOX2_MAIN_Check0A40(BoxTask *task)
  * lower address), and the two identical "fall back to p[0x16]" arms are an
  * if/else-if that the compiler tail-merges (bne then b), not one `||`.
  */
-int BOX2_MAIN_StateMachineCoin(BoxTask *task)
+int BOX2_MAIN_StateMachineDrag(BoxTask *task)
 {
     BoxSeq *b = (BoxSeq *)((char *)task->work + 0x58);
     int busy = BOX2_UI_UpdateListPacks(task->work->winMgr);
@@ -4442,12 +4442,12 @@ int BOX2_MAIN_StateMachineCoin(BoxTask *task)
                 back = 1;
             }
             if (flag == 1) {
-                BOX2_MAIN_PlaceMonSceneFromBox((int)task, first, r, 2);
+                BOX2_MAIN_StartHandMotionToBoxSlot((int)task, first, r, 2);
                 if (back == 1 && task->heldSlot != 0xFF && task->heldSlot != task->curBox) {
                     int dir = BOX2_MAIN_IsWrappedDistance((unsigned char *)task, task->curBox, task->heldSlot);
                     task->curBox = task->heldSlot;
                     BOX2_SEQ_LoadMonIcon((char **)task, task->curBox);
-                    BOX2_MAIN_SetBoxScroll((BoxTask *)task, (void *)BOX2_MAIN_GetBoxFormId((BoxTask *)task, task->curBox), dir);
+                    BOX2_MAIN_SetBoxScroll((BoxTask *)task, (void *)BOX2_MAIN_GetBoxWallpaper((BoxTask *)task, task->curBox), dir);
                     if (dir == 0)
                         b->state = 5;
                     else
@@ -4456,7 +4456,7 @@ int BOX2_MAIN_StateMachineCoin(BoxTask *task)
                     b->state = 7;
                 }
             } else {
-                BOX2_MAIN_PlaceMonSceneFromBox((int)task, first, r, 0);
+                BOX2_MAIN_StartHandMotionToBoxSlot((int)task, first, r, 0);
                 BOX2_UI_CloseListPack(task->work->winMgr);
                 b->state = 8;
             }
@@ -4472,8 +4472,8 @@ int BOX2_MAIN_StateMachineCoin(BoxTask *task)
             BOX2_SEQ_SetSlotActors((char *)task, 0x82, 1);
             GFL_USE_PlaySeDefaultVolume(0x669);
             BOX2_UI_MoveCursor((char **)task, 6, task->cursorSlot);
-            CURSOR_MOVE_ClearSkipBit(task->work->sound, 0x27);
-            CURSOR_MOVE_ClearSkipBit(task->work->sound, 0x28);
+            CURSOR_MOVE_ClearSkipBit(task->work->cursorMove, 0x27);
+            CURSOR_MOVE_ClearSkipBit(task->work->cursorMove, 0x28);
             BOX2_UI_DeleteSlotObjects((BoxTask *)task, 2, 1, 1);
             task->barFlag = 0;
             task->work->cancelFlag = 0;
@@ -4484,18 +4484,18 @@ int BOX2_MAIN_StateMachineCoin(BoxTask *task)
             int dir = BOX2_UI_GetCloseButtonHit();
             if (dir == 0) {
                 GFL_USE_PlaySeDefaultVolume(0x548);
-                BOX2_MAIN_StopSeq((BoxTask *)task, 0);
+                BOX2_MAIN_StepToAdjacentBox((BoxTask *)task, 0);
                 b->state = 3;
             } else if (dir == 1) {
                 GFL_USE_PlaySeDefaultVolume(0x548);
-                BOX2_MAIN_StopSeq((BoxTask *)task, 1);
+                BOX2_MAIN_StepToAdjacentBox((BoxTask *)task, 1);
                 b->state = 4;
             }
         }
         BOX2_MAIN_MoveCursorTo(task->work, x, y);
         break;
     case 3:
-        if (BOX2_MAIN_IsSeqIdle(task) == 0) {
+        if (BOX2_MAIN_StepScrollToPrevBox(task) == 0) {
             b->timer = 0x10;
             b->state = 2;
         }
@@ -4503,7 +4503,7 @@ int BOX2_MAIN_StateMachineCoin(BoxTask *task)
             BOX2_MAIN_MoveCursorTo(task->work, x, y);
         break;
     case 4:
-        if (BOX2_MAIN_IsSeqStep(task) == 0) {
+        if (BOX2_MAIN_StepScrollToNextBox(task) == 0) {
             b->timer = 0x10;
             b->state = 2;
         }
@@ -4511,21 +4511,21 @@ int BOX2_MAIN_StateMachineCoin(BoxTask *task)
             BOX2_MAIN_MoveCursorTo(task->work, x, y);
         break;
     case 5:
-        if (BOX2_MAIN_IsSeqIdle(task) == 0)
+        if (BOX2_MAIN_StepScrollToPrevBox(task) == 0)
             b->state = 7;
         break;
     case 6:
-        if (BOX2_MAIN_IsSeqStep(task) == 0)
+        if (BOX2_MAIN_StepScrollToNextBox(task) == 0)
             b->state = 7;
         break;
     case 7:
-        if (BOX2_MAIN_IsSwapScene((int)task) == 0) {
+        if (BOX2_MAIN_StepHandMotionToSlot((int)task) == 0) {
             GFL_USE_PlaySeDefaultVolume(0x667);
             b->state = 9;
         }
         break;
     case 8:
-        if (BOX2_MAIN_IsSwapScene((int)task) == 0) {
+        if (BOX2_MAIN_StepHandMotionToSlot((int)task) == 0) {
             GFL_USE_PlaySeDefaultVolume(0x667);
             if ((((BoxTask *)(task))->work->counter) != 0) {
                 BOX2_SEQ_SetActorAffineMode((BoxWork *)task->work, 0);
@@ -4558,7 +4558,7 @@ int BOX2_MAIN_StateMachineCoin(BoxTask *task)
     return 1;
 }
 
-int BOX2_MAIN_Check0E50(BoxTask *task)
+int BOX2_MAIN_StateMachineHideHandScroll(BoxTask *task)
 {
     char *s;
     int a;
@@ -4588,7 +4588,7 @@ int BOX2_MAIN_Check0E50(BoxTask *task)
     return 1;
 }
 
-int BOX2_MAIN_Check0ED4(BoxTask *task)
+int BOX2_MAIN_StateMachineHideHandWindow(BoxTask *task)
 {
     char *b = (char *)task->work + 0x58;
     switch (((BoxSeq *)b)->state) {
@@ -4614,7 +4614,7 @@ int BOX2_MAIN_Check0ED4(BoxTask *task)
     return 1;
 }
 
-int BOX2_MAIN_Check0F4C(BoxTask *task)
+int BOX2_MAIN_StateMachineHideHand(BoxTask *task)
 {
     char *b = (char *)task->work + 0x58;
     switch (((BoxSeq *)b)->state) {
@@ -4645,9 +4645,9 @@ void BOX2_MAIN_MoveCursorTo(BoxWork *w, int x, int y)
 }
 
 /*
- * Sibling of src/matched/BOX2_MAIN_StateMachineCoin.c.
+ * Sibling of src/matched/BOX2_MAIN_StateMachineDrag.c.
  */
-int BOX2_MAIN_StateMachineSlide(BoxTask *task)
+int BOX2_MAIN_StateMachineDragNoBar(BoxTask *task)
 {
     BoxSeq *b = (BoxSeq *)((char *)task->work + 0x58);
     unsigned x;
@@ -4683,12 +4683,12 @@ int BOX2_MAIN_StateMachineSlide(BoxTask *task)
                 r = task->cursorSlot;
                 back = 1;
             }
-            BOX2_MAIN_PlaceMonSceneFromBox((int)task, first, r, 2);
+            BOX2_MAIN_StartHandMotionToBoxSlot((int)task, first, r, 2);
             if (back == 1 && task->heldSlot != 0xFF && task->heldSlot != task->curBox) {
                 int dir = BOX2_MAIN_IsWrappedDistance((unsigned char *)task, task->curBox, task->heldSlot);
                 task->curBox = task->heldSlot;
                 BOX2_SEQ_LoadMonIcon((char **)task, task->curBox);
-                BOX2_MAIN_SetBoxScroll((BoxTask *)task, (void *)BOX2_MAIN_GetBoxFormId((BoxTask *)task, task->curBox), dir);
+                BOX2_MAIN_SetBoxScroll((BoxTask *)task, (void *)BOX2_MAIN_GetBoxWallpaper((BoxTask *)task, task->curBox), dir);
                 if (dir == 0)
                     b->state = 5;
                 else
@@ -4705,18 +4705,18 @@ int BOX2_MAIN_StateMachineSlide(BoxTask *task)
             int dir = BOX2_UI_GetCloseButtonHit();
             if (dir == 0) {
                 GFL_USE_PlaySeDefaultVolume(0x548);
-                BOX2_MAIN_StopSeq((BoxTask *)task, 0);
+                BOX2_MAIN_StepToAdjacentBox((BoxTask *)task, 0);
                 b->state = 3;
             } else if (dir == 1) {
                 GFL_USE_PlaySeDefaultVolume(0x548);
-                BOX2_MAIN_StopSeq((BoxTask *)task, 1);
+                BOX2_MAIN_StepToAdjacentBox((BoxTask *)task, 1);
                 b->state = 4;
             }
         }
         BOX2_MAIN_MoveCursorTo(task->work, x, y);
         break;
     case 3:
-        if (BOX2_MAIN_IsSeqIdle(task) == 0) {
+        if (BOX2_MAIN_StepScrollToPrevBox(task) == 0) {
             b->timer = 0x10;
             b->state = 2;
         }
@@ -4724,7 +4724,7 @@ int BOX2_MAIN_StateMachineSlide(BoxTask *task)
             BOX2_MAIN_MoveCursorTo(task->work, x, y);
         break;
     case 4:
-        if (BOX2_MAIN_IsSeqStep(task) == 0) {
+        if (BOX2_MAIN_StepScrollToNextBox(task) == 0) {
             b->timer = 0x10;
             b->state = 2;
         }
@@ -4733,12 +4733,12 @@ int BOX2_MAIN_StateMachineSlide(BoxTask *task)
         break;
     case 5:
     case 6:
-        if (b->state == 5 && BOX2_MAIN_IsSeqIdle(task) == 0)
+        if (b->state == 5 && BOX2_MAIN_StepScrollToPrevBox(task) == 0)
             b->state = 7;
-        if (b->state == 6 && BOX2_MAIN_IsSeqStep(task) == 0)
+        if (b->state == 6 && BOX2_MAIN_StepScrollToNextBox(task) == 0)
             b->state = 7;
     case 7:
-        if (BOX2_MAIN_IsSwapScene((int)task) == 0 && b->state == 7) {
+        if (BOX2_MAIN_StepHandMotionToSlot((int)task) == 0 && b->state == 7) {
             GFL_USE_PlaySeDefaultVolume(0x667);
             b->state = 8;
         }
@@ -4767,7 +4767,7 @@ int BOX2_MAIN_StateMachineSlide(BoxTask *task)
  * Callback of BOX2_SEQ_StateMoveItemScroll (state machine in the 021E1324 family): show
  * window 10, return the held item to its slot, then hide the window.
  */
-int BOX2_MAIN_Check122C(BoxTask *task)
+int BOX2_MAIN_StateMachineReturnHeld(BoxTask *task)
 {
     BoxSeq *b = (BoxSeq *)((char *)task->work + 0x58);
     switch (b->state) {
@@ -4787,14 +4787,14 @@ int BOX2_MAIN_Check122C(BoxTask *task)
         unsigned char old = task->cursorSlot;
         task->cursorSlot = ((BoxSlotRef *)b->entry)->idx;
         if (task->heldSlot != 0xFF && task->heldSlot != task->curBox)
-            BOX2_MAIN_ClearFlagsScene((BoxTask *)task, 2);
+            BOX2_MAIN_StartHandMotionToBoxArrow((BoxTask *)task, 2);
         else
-            BOX2_MAIN_PlaceMonSceneFromBox((int)task, old, old, 2);
+            BOX2_MAIN_StartHandMotionToBoxSlot((int)task, old, old, 2);
         b->state = 3;
         break;
     }
     case 3:
-        if (BOX2_MAIN_IsSwapScene((int)task) != 0)
+        if (BOX2_MAIN_StepHandMotionToSlot((int)task) != 0)
             break;
         if (task->heldSlot != 0xFF && task->heldSlot != task->curBox) {
             b->state = 5;

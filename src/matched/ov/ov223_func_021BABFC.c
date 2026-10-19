@@ -1,5 +1,5 @@
 /*
- * function: PSEL_IsBgReady
+ * function: PSEL_ClearBgLayer2
  * address:  0x021BABFC
  * packet:   pkt_021BABFC
  * region:   ov223
@@ -17,7 +17,7 @@
 
 extern int BG_SYS_ClearLayerEx(int, int);
 
-int PSEL_IsBgReady(void)
+int PSEL_ClearBgLayer2(void)
 {
     return BG_SYS_ClearLayerEx(2, 0xd000);
 }

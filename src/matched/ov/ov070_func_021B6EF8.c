@@ -21,7 +21,7 @@
  *   GAME_BEACON_SetItemUse  0x02027324  thumb
  *   ITEMMENU_SetTask  0x021B6100  thumb  ov070
  *   ITEMMENU_TaskUseNoticeMessage  0x021B7640  thumb  ov070
- *   FILE_UTIL_Get_0FE4  0x02020FE4  thumb
+ *   FILE_UTIL_GetItemParam  0x02020FE4  thumb
  *   ITEMMENU_FindUseRange  0x021B6EC8  thumb  ov070
  *   gItemMenuUseRanges     0x021BB9C4  data  a4
  *   ITEMMENU_GetFieldUseKind  0x021B690C  thumb  ov070
@@ -70,7 +70,7 @@ extern void ITEMMENU_SetBackButtonAnim(char *p, int v);
 extern void GAME_BEACON_SetItemUse(u16 id);
 extern void ITEMMENU_SetTask(char *p, int k);
 extern void ITEMMENU_TaskUseNoticeMessage(struct Obj *o);
-extern u32  FILE_UTIL_Get_0FE4(u16 a, u32 sel, u32 id);
+extern u32  FILE_UTIL_GetItemParam(u16 a, u32 sel, u32 id);
 extern int  ITEMMENU_FindUseRange(u16 id);
 extern int  ITEMMENU_GetFieldUseKind(u16 id);
 extern void ITEMMENU_UseRepel(u8 *p);
@@ -111,7 +111,7 @@ void ITEMMENU_HandleActionMenuChoice(u8 *p)
                 GAME_BEACON_SetItemUse(((struct Obj00002 *)p)->f84C);
             if (*(u32 *)&((struct Obj00002 *)p)->f80C == 2) {
                 ITEMMENU_SetTask((char *)p, (int)((void *)ITEMMENU_TaskUseNoticeMessage));
-            } else if (FILE_UTIL_Get_0FE4(((struct Obj00002 *)p)->f84C, 0x1D, ((struct Obj00002 *)p)->f544) == 1) {
+            } else if (FILE_UTIL_GetItemParam(((struct Obj00002 *)p)->f84C, 0x1D, ((struct Obj00002 *)p)->f544) == 1) {
                 ((struct Obj00002 *)p)->f844 = 0xC;
                 ITEMMENU_SetTask((char *)p, 0);
             } else if (ITEMMENU_FindUseRange(((struct Obj00002 *)p)->f84C) >= 0) {

@@ -26,7 +26,7 @@
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   BG_SYS_Get 0x020416D4 arm
+ *   BG_SYS_GetPriority 0x020416D4 arm
  *   CLACT_SetActorBgPriority 0x0204B84C arm
  *   PMS_WORD_LoadString 0x02024838 thumb
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
@@ -52,7 +52,7 @@ extern u8 BMP_WIN_GetPosY(struct Descriptor *);
 extern void CLACT_SetActorAnimSeq(struct Obj *,u16);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
-extern u8 BG_SYS_Get(u32);
+extern u8 BG_SYS_GetPriority(u32);
 extern void CLACT_SetActorBgPriority(struct Obj *,u32);
 extern void PMS_WORD_LoadString(u32,void *,u32);
 extern void GF_FONT_SetTextColor(u32,u32,u32);
@@ -77,7 +77,7 @@ void PMSIV_EDIT_DrawSlotWord(u8 *p,struct Descriptor *window,const Vec2 *input,u
         CLACT_SetActorAnimSeq(sprite,index);
         CLACT_AddActorSurfacePos(sprite,&pos,(u16)layer);
         CLACT_SetActorDrawEnable(sprite,1);
-        CLACT_SetActorBgPriority(sprite,BG_SYS_Get(BMP_WIN_GetBgLayer(window)));
+        CLACT_SetActorBgPriority(sprite,BG_SYS_GetPriority(BMP_WIN_GetBgLayer(window)));
     } else {
         PMS_WORD_LoadString(id,((struct Obj10277 *)p)->f30,42);
         GF_FONT_SetTextColor(3,4,14);

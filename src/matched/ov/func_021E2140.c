@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   BOX2_MAIN_IsTaskMenuFinished  0x021DCFC0  thumb  ov170
+ *   BOX2_MAIN_StepWindowFrameFade  0x021DCFC0  thumb  ov170
  *
  * 8 while busy, else the 0x28 field.
  */
@@ -18,10 +18,10 @@
 
 
 
-extern int BOX2_MAIN_IsTaskMenuFinished(char *p);
+extern int BOX2_MAIN_StepWindowFrameFade(char *p);
 int BOX2_SEQ_StateCheckTaskMenu(int p)
 {
-    if (BOX2_MAIN_IsTaskMenuFinished((char *)p) == 0)
+    if (BOX2_MAIN_StepWindowFrameFade((char *)p) == 0)
         return ((struct Obj00000 *)p)->f28;
     return 8;
 }

@@ -14,9 +14,9 @@
  *   GAME_DATA_GetPlayerStatus 0x02012950 thumb
  *   MYSTATUS_Copy 0x02008494 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
+ *   MET_TRAINERS_GetFromSave 0x0200ED48 thumb
  *   func_02008530 0x02008530 thumb
- *   MISC_SAVEDATA_InsertRecentValue 0x0200ED54 thumb
+ *   MET_TRAINERS_Insert 0x0200ED54 thumb
  */
 #include "../include/Obj13707.h"
 struct Entry;
@@ -30,9 +30,9 @@ struct Sub24;
 extern struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, u32 i);
 extern void MYSTATUS_Copy(void *src, void *dst);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *MISC_SAVEDATA_GetBlock44(void *p);
+extern void *MET_TRAINERS_GetFromSave(void *p);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
-extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *l, u32 val);
+extern void MET_TRAINERS_Insert(struct L0200ED54 *l, u32 val);
 void IRCBATTLEMATCH_RecvMyStatusHandler(int a,int b,int c,int d,int e)
 {
  int p;
@@ -40,8 +40,8 @@ void IRCBATTLEMATCH_RecvMyStatusHandler(int a,int b,int c,int d,int e)
  if(e==(int)GFL_NET_HANDLE_GetCurrentHandle()) {
   p=(int)GAME_DATA_GetPlayerStatus((struct Sub24 *)(**(int * *)&((struct Obj13707 *)d)->f244),a);
   MYSTATUS_Copy((void *)c,(void *)p);
-  q=(int)MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl((struct Big *)(**(int * *)&((struct Obj13707 *)d)->f244)));
- MISC_SAVEDATA_InsertRecentValue((struct L0200ED54 *)q,func_02008530((const struct Sub0200852CObj *)p));
+  q=(int)MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)(**(int * *)&((struct Obj13707 *)d)->f244)));
+ MET_TRAINERS_Insert((struct L0200ED54 *)q,func_02008530((const struct Sub0200852CObj *)p));
  }
 }
 void IRCBATTLEMATCH_NoOp(void) {}

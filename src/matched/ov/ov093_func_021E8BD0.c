@@ -1,5 +1,5 @@
 /*
- * function: BTLV_CORE_SetSlotFlag
+ * function: BTL_SICKCONT_SetFlag
  * address:  0x021E8BD0
  * packet:   pkt_ov093_021E8BD0
  * region:   ov093
@@ -14,7 +14,7 @@ union U {
     struct { u32 kind : 3; u32 pad : 22; u32 f : 1; u32 rest : 6; } a;
     struct { u32 kind : 3; u32 pad : 28; u32 f : 1; } b;
 };
-void BTLV_CORE_SetSlotFlag(union U *p, int v)
+void BTL_SICKCONT_SetFlag(union U *p, int v)
 {
     if (p->a.kind == 1) p->a.f = v;
     else if (p->a.kind == 3) p->a.f = v;

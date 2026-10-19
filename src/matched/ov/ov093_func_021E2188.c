@@ -14,7 +14,7 @@
  *   BTL_SERVER_FLOW_GetPokeParam  0x021C7CF4  thumb  ov093
  *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
- *   BTLV_CORE_MakeSlotKind1Empty  0x021E89C0  thumb  ov093
+ *   BTL_SICKCONT_MakeKind1Empty  0x021E89C0  thumb  ov093
  *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb  ov093
  *   BTL_SERVER_FLOW_AppendMsgRecordArg  0x021C8860  thumb  ov093
  *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb  ov093
@@ -28,7 +28,7 @@ extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 struct Unk021D62A8;
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
-extern int BTLV_CORE_MakeSlotKind1Empty(void);
+extern int BTL_SICKCONT_MakeKind1Empty(void);
 extern void BTL_SERVER_FLOW_InitMsgRecord(void *p, int a, int b);
 struct S;
 extern void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *p, u32 val);
@@ -42,7 +42,7 @@ void HAND_WAZA_AquaRingApplyEffect(int u, int a, int b)
         if (BTL_POKEPARAM_HasSick(BTL_SERVER_FLOW_GetPokeParam((int *)a, b), 0x23) == 0) {
             r = BTL_SERVER_FLOW_AllocCmdRecord((char *)a, 0xc, b);
             ((struct Obj10073 *)r)->f4 = 0x23;
-            ((struct Obj10073 *)r)->f8 = BTLV_CORE_MakeSlotKind1Empty();
+            ((struct Obj10073 *)r)->f8 = BTL_SICKCONT_MakeKind1Empty();
             r[0xf] = b;
             BTL_SERVER_FLOW_InitMsgRecord(r + 0x14, 2, 0x259);
             BTL_SERVER_FLOW_AppendMsgRecordArg((struct S *)(r + 0x14), b);

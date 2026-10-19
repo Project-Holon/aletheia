@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PROC_FLD_CallEventMode4
+ * function: SCRCMD_PROC_FLD_CallCatchTutorial
  * address:  0x021B50F8
  * packet:   pkt_ov021_021B50F8
  * region:   ov021
@@ -26,7 +26,7 @@ extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern void *EVENT_BATTLE_CreateCatchTutorial(void *sys, u32 arg, u32 heap);
 extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
-int SCRCMD_PROC_FLD_CallEventMode4(u32 a, u32 b)
+int SCRCMD_PROC_FLD_CallCatchTutorial(u32 a, u32 b)
 {
     void *s = SCRCMD_WORK_GetScriptWork((void *)b);
     void *d = SCRCMD_WORK_GetGameSystem((void *)b);

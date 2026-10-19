@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   BTLV_CORE_EventTrySetFlagIfAttacker  0x021E889C  thumb  ov093
+ *   HAND_COMMON_EventTrySetFlagIfAttacker  0x021E889C  thumb  ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
  *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb  ov093
  *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb  ov093
@@ -22,7 +22,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int BTLV_CORE_EventTrySetFlagIfAttacker(int a, int b, int c);
+extern int HAND_COMMON_EventTrySetFlagIfAttacker(int a, int b, int c);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 extern void BTL_SERVER_FLOW_InitMsgRecord(void *p, int a, int b);
@@ -32,7 +32,7 @@ void HAND_TOKUSEI_RunAway_ShowEscapeMessage(int unused, void *a, int id)
 {
     u8 *r;
 
-    if (BTLV_CORE_EventTrySetFlagIfAttacker(unused, (int)a, id) != 0) {
+    if (HAND_COMMON_EventTrySetFlagIfAttacker(unused, (int)a, id) != 0) {
         r = (u8 *)BTL_SERVER_FLOW_AllocCmdRecord(a, 4, id);
         ((struct Obj21319 *)r)->f0 |= 0x800000;
         BTL_SERVER_FLOW_InitMsgRecord(r + 4, 1, 0x48);

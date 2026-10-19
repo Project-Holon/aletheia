@@ -1,7 +1,7 @@
 /*
  * file:     bgwinfrm.c
  * unit:     yes
- * function: BGWINFRM_Create, BGWINFRM_Delete, BGWINFRM_AddFrame, BGWINFRM_SetFrameData, BGWINFRM_SetFrameDataArc, BGWINFRM_SetFrameDataArcHandle, BGWINFRM_PutFrame, BGWINFRM_ShowFrame, BGWINFRM_HideFrame, BGWINFRM_StartMove, BGWINFRM_UpdateMoves, BGWINFRM_UpdateMove, BGWINFRM_IsMoving, BGWINFRM_ChangePalette, BGWINFRM_PutBmpWin, BGWINFRM_GetFrameBuffer, BGWINFRM_GetBgFrame, BGWINFRM_GetPos, BGWINFRM_GetSize, BGWINFRM_SetClipArea, BGWINFRM_EmptyStub, BGWINFRM_ScaleRatio, BGWINFRM_GetScaleRank, POKEGRA_GetArcID, POKEGRA_GetCgrArcIndex, POKEGRA_GetCbrArcIndex, POKEGRA_GetPalArcIndex, POKEGRA_GetCelArcIndex, POKEGRA_GetAnmArcIndex, POKEGRA_GetMCelArcIndex, POKEGRA_GetMAnmArcIndex, POKEGRA_GetNcecArcIndex
+ * function: BGWINFRM_Create, BGWINFRM_Delete, BGWINFRM_AddFrame, BGWINFRM_SetFrameData, BGWINFRM_SetFrameDataArc, BGWINFRM_SetFrameDataArcHandle, BGWINFRM_PutFrame, BGWINFRM_ShowFrame, BGWINFRM_HideFrame, BGWINFRM_StartMove, BGWINFRM_UpdateMoves, BGWINFRM_UpdateMove, BGWINFRM_IsMoving, BGWINFRM_ChangePalette, BGWINFRM_PutBmpWin, BGWINFRM_GetFrameBuffer, BGWINFRM_GetBgFrame, BGWINFRM_GetPos, BGWINFRM_GetSize, BGWINFRM_SetClipArea, BGWINFRM_EmptyStub, BGWINFRM_ScaleRatio, BGWINFRM_GetScaleRank
  * address:  0x0202C9B4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Cut from iss_switch_sys.c by tools/splitfile.py.
+ * Cut from bgwinfrm.c, pokegra.c by tools/splitfile.py.
  *
  * symbols:
  *   GFL_HEAP_Alloc  0x02030734  arm
@@ -28,7 +28,6 @@
  *   BMP_WIN_GetHeight  0x02045740  arm
  *   BMP_WIN_GetPosX  0x02045758  arm
  *   BMP_WIN_GetPosY  0x02045760  arm
- *   POKEGRA_CalcArcIndex 0x0202D4A8 thumb arm9
  */
 #include "iss_switch_sys_shared_types.h"
 #include "iss_switch_set_shared_types.h"
@@ -137,26 +136,6 @@ void BGWINFRM_EmptyStub(void);
 u8 BGWINFRM_ScaleRatio(u32 a, u32 b, u32 c);
 
 int BGWINFRM_GetScaleRank(u32 a, u32 b);
-
-int POKEGRA_GetArcID(void);
-
-s32 POKEGRA_GetCgrArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg);
-
-s32 POKEGRA_GetCbrArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg);
-
-s32 POKEGRA_GetPalArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg);
-
-s32 POKEGRA_GetCelArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg);
-
-s32 POKEGRA_GetAnmArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg);
-
-s32 POKEGRA_GetMCelArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg);
-
-s32 POKEGRA_GetMAnmArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg);
-
-s32 POKEGRA_GetNcecArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg);
-
-void POKEGRA_CalcArcIndex(void *arcId, u32 monsNo, s32 formNo, s32 sex, u32 rare, u32 dir, u32 egg, u32 *outIndex, u32 *outDirOffset, u32 *outSex, u32 *outRare, u32 **outFormPalIndex, u32 isCgr);
 
 extern const char BgWinFrmFileName[];
 
@@ -573,128 +552,4 @@ int BGWINFRM_GetScaleRank(u32 a, u32 b)
         return 2;
     }
     return 3;
-}
-
-int POKEGRA_GetArcID(void){ return 4; }
-
-/*
- * The two consecutive three-out-pointer wrappers around the 13-argument
- * text/window measurement routine at 0x0202D4A8, folded into one
- * translation unit. The first sets the trailing flag to one and returns the
- * plain sum of the three accumulators; the second leaves every flag zero
- * and adds two.
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0202D064.c \
- *       --addr 0x0202D064 --cc 1.1p1 --thumb
- */
-s32 POKEGRA_GetCgrArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg)
-{
-    s32 index;
-    s32 dirOffset;
-    s32 sexOffset;
-
-    POKEGRA_CalcArcIndex((void *)arcId, monsNo, formNo, sex, rare, dir, egg, (u32 *)(&index), (u32 *)(&dirOffset), (u32 *)(&sexOffset), 0, 0, 1);
-    return sexOffset + (index + dirOffset);
-}
-
-s32 POKEGRA_GetCbrArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg)
-{
-    s32 index;
-    s32 dirOffset;
-    s32 sexOffset;
-
-    POKEGRA_CalcArcIndex((void *)arcId, monsNo, formNo, sex, rare, dir, egg, (u32 *)(&index), (u32 *)(&dirOffset), (u32 *)(&sexOffset), 0, 0, 0);
-    return sexOffset + (index + dirOffset + 2);
-}
-
-/*
- * One of a family of thin wrappers around the 13-argument text/window
- * measurement routine at 0x0202D4A8: it forwards its own three stack
- * arguments, hands the callee out-pointers for two width accumulators and
- * a status word, and folds the results into a single returned extent.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/POKEGRA_GetPalArcIndex.c \
- *       --func POKEGRA_GetPalArcIndex --addr 0x0202D0D4 --cc 1.1p1 --thumb
- */
-s32 POKEGRA_GetPalArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg)
-{
-    s32 index;
-    s32 rareOffset;
-    s32 palIndex;
-
-    palIndex = 0;
-    POKEGRA_CalcArcIndex((void *)arcId, monsNo, formNo, sex, rare, dir, egg, (u32 *)(&index), 0, 0, (u32 *)(&rareOffset), (u32 **)(&palIndex), 0);
-    if (palIndex == 0) {
-        palIndex = index + 0x12 + rareOffset;
-    }
-    return palIndex;
-}
-
-/*
- * The three consecutive wrappers around the 13-argument text/window
- * measurement routine at 0x0202D4A8, folded into one translation unit.
- * Each forwards its three stack arguments, hands the callee two
- * out-pointers and returns their sum plus a per-function constant
- * (4, 5, 6).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0202D110.c \
- *       --addr 0x0202D110 --cc 1.1p1 --thumb
- */
-s32 POKEGRA_GetCelArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg)
-{
-    s32 index;
-    s32 dirOffset;
-
-    POKEGRA_CalcArcIndex((void *)arcId, monsNo, formNo, sex, rare, dir, egg, (u32 *)(&index), (u32 *)(&dirOffset), 0, 0, 0, 0);
-    return index + dirOffset + 4;
-}
-
-s32 POKEGRA_GetAnmArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg)
-{
-    s32 index;
-    s32 dirOffset;
-
-    POKEGRA_CalcArcIndex((void *)arcId, monsNo, formNo, sex, rare, dir, egg, (u32 *)(&index), (u32 *)(&dirOffset), 0, 0, 0, 0);
-    return index + dirOffset + 5;
-}
-
-s32 POKEGRA_GetMCelArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg)
-{
-    s32 index;
-    s32 dirOffset;
-
-    POKEGRA_CalcArcIndex((void *)arcId, monsNo, formNo, sex, rare, dir, egg, (u32 *)(&index), (u32 *)(&dirOffset), 0, 0, 0, 0);
-    return index + dirOffset + 6;
-}
-
-/*
- * The two consecutive wrappers around the 13-argument text/window
- * measurement routine at 0x0202D4A8, folded into one translation unit.
- * Each forwards its three stack arguments, hands the callee two
- * out-pointers and returns their sum plus a per-function constant
- * (7, 8).
- *
- * Verified with:
- *   python tools/match.py tu --src src/matched/unit_0202D1AC.c \
- *       --addr 0x0202D1AC --cc 1.1p1 --thumb
- */
-s32 POKEGRA_GetMAnmArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg)
-{
-    s32 index;
-    s32 dirOffset;
-
-    POKEGRA_CalcArcIndex((void *)arcId, monsNo, formNo, sex, rare, dir, egg, (u32 *)(&index), (u32 *)(&dirOffset), 0, 0, 0, 0);
-    return index + dirOffset + 7;
-}
-
-s32 POKEGRA_GetNcecArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg)
-{
-    s32 index;
-    s32 dirOffset;
-
-    POKEGRA_CalcArcIndex((void *)arcId, monsNo, formNo, sex, rare, dir, egg, (u32 *)(&index), (u32 *)(&dirOffset), 0, 0, 0, 0);
-    return index + dirOffset + 8;
 }

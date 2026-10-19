@@ -22,12 +22,12 @@
  *   BOX2_UI_MoveCursor 0x021EE364 thumb
  *   BOX2_UI_ShowWindowB 0x021EF68C thumb
  *   BOX2_SEQ_RefreshCursorSlot 0x021ED588 thumb
- *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb
+ *   BOX2_MAIN_RefreshCurrentBoxMonInfo 0x021DEFEC thumb
  *   BOX2_SEQ_DrawFrameList 0x021EB988 thumb
  *   data_021EF918 0x021EF918 data a1
  *   BOX2_UI_PutListFrames 0x021EF4E4 thumb
  *   BOX2_SEQ_PrintPrompt 0x021EBC58 thumb
- *   FILE_UTIL_Check136C 0x0202136C thumb
+ *   FILE_UTIL_IsMailItem 0x0202136C thumb
  *   BOX2_MAIN_GetMonAt 0x021DD2D0 thumb
  *   BOX2_MAIN_SetBoxValueAt 0x021DD2B4 thumb
  *   BOX2_MAIN_CanPlaceInBox 0x021DD718 thumb
@@ -48,12 +48,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Sound;
-extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
+extern void BOX2_MAIN_RefreshCurrentBoxMonInfo(char *p, int b);
 extern void BOX2_SEQ_DrawFrameList(unsigned char *,const void *,unsigned);
 extern const unsigned char data_021EF918[];
 extern void BOX2_UI_PutListFrames(struct WinMgr *mgr);
 extern void BOX2_SEQ_PrintPrompt(unsigned char *,int,int,int);
-extern unsigned FILE_UTIL_Check136C(unsigned short);
+extern unsigned FILE_UTIL_IsMailItem(unsigned short);
 extern int BOX2_MAIN_GetMonAt(void ***p, int a, unsigned b);
 extern void BOX2_MAIN_SetBoxValueAt(int a, int b, int c, int d, int e);
 extern int BOX2_MAIN_CanPlaceInBox(void **pp, void *mon);

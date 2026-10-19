@@ -16,7 +16,7 @@
  *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb  ov093
  *   BTL_SERVER_FLOW_AppendMsgRecordArg  0x021C8860  thumb  ov093
  *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb  ov093
- *   BTLV_CORE_EventCounterMove  0x021E8798  thumb  ov093
+ *   HAND_COMMON_EventCounterMove  0x021E8798  thumb  ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
@@ -27,7 +27,7 @@ extern void BTL_SERVER_FLOW_InitMsgRecord(void *l, int a, int b);
 struct S;
 extern void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *l, u32 v);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
-extern void BTLV_CORE_EventCounterMove(int u, void *a, int b, int d);
+extern void HAND_COMMON_EventCounterMove(int u, void *a, int b, int d);
 
 void HAND_WAZA_MagicCoatOnWazaExecute(int u, void *p, int key, int *o)
 {
@@ -43,5 +43,5 @@ void HAND_WAZA_MagicCoatOnWazaExecute(int u, void *p, int key, int *o)
 
 void HAND_WAZA_MagicCoatOnWazaCounter(int a, int b, int c, int d)
 {
-    BTLV_CORE_EventCounterMove(a, (void *)b, c, d);
+    HAND_COMMON_EventCounterMove(a, (void *)b, c, d);
 }

@@ -15,7 +15,7 @@
  *   func_020124E8  0x020124E8  thumb
  *   MI_CpuFill8  0x02082BCC  arm
  *   POKE_TOOL_GetPartyParamSize  0x020173EC  thumb
- *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
+ *   GF_STANDARD_CalcCrc16  0x0203F1FC  arm
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   SYMBOL_SAVE_FindRecord  0x0200E2BC  thumb
  *   FIELD_ENCOUNT_SetFieldSituation  0x021AA304  thumb
@@ -38,7 +38,7 @@ struct Work;
 extern void *func_020124E8(struct Obj *p);
 extern void MI_CpuFill8();
 extern u32 POKE_TOOL_GetPartyParamSize(void);
-extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
+extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern u32 SYMBOL_SAVE_FindRecord(void *a0, u32 *a1, void *heap, u32 mode);
 extern void FIELD_ENCOUNT_SetFieldSituation();
@@ -59,7 +59,7 @@ struct Desc *SCRCMD_SYMBOL_CreateViewEvent(int a0, int a1, int a2, int a3, u16 *
     ((struct Obj03543 *)p)->f24 = a5;
     ((struct Obj03543 *)p)->fC = a2;
     *(int *)&((struct Obj03543 *)p)->f20 = a3;
-    ((struct Obj03543 *)p)->f2C = GF_STANDARD_SetupCalc((const u8 *)a2, POKE_TOOL_GetPartyParamSize());
+    ((struct Obj03543 *)p)->f2C = GF_STANDARD_CalcCrc16((const u8 *)a2, POKE_TOOL_GetPartyParamSize());
     if (SYMBOL_SAVE_FindRecord(GAME_DATA_GetSaveControl(h), (u32 *)(&a3), (void *)a5, 0) == 0)
         ((struct Obj03543 *)p)->f20 = (((struct Obj03543 *)p)->f20 & 0xFFFFF800) | 0x28B;
     FIELD_ENCOUNT_SetFieldSituation(p + 0x10, h, a1);

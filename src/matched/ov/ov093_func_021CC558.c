@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
- *   BTLV_CORE_CheckPartySlotPair  0x021E869C  thumb  ov093
+ *   HAND_COMMON_IsHeldItemBoundToOwnSpecies  0x021E869C  thumb  ov093
  *   BTL_POKEPARAM_GetItem  0x021D5B40  thumb  ov093
  *   BTL_SERVER_FLOW_BeginHandExScope  0x021CC8D8  thumb  ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
@@ -28,7 +28,7 @@ typedef unsigned int u32;
 
 extern u32 BTL_SERVER_FLOW_BeginHandExScope(void *lock, int line);
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
-extern int BTLV_CORE_CheckPartySlotPair(void *p, int id);
+extern int HAND_COMMON_IsHeldItemBoundToOwnSpecies(void *p, int id);
 struct QI;
 extern u16 BTL_POKEPARAM_GetItem(struct QI *p);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
@@ -45,7 +45,7 @@ int BTL_SERVER_FLOW_ItemEffectPushHeldItemMessage(char *p, void *m)
     u32 t;
     char *q;
 
-    if (BTLV_CORE_CheckPartySlotPair(p, BTL_POKEPARAM_GetPokeId(m)) == 0) {
+    if (HAND_COMMON_IsHeldItemBoundToOwnSpecies(p, BTL_POKEPARAM_GetPokeId(m)) == 0) {
         t = (u16)(u32)BTL_POKEPARAM_GetItem(m);
         if (t != 0) {
             s = BTL_SERVER_FLOW_BeginHandExScope(p + 0x1d74, 1944);

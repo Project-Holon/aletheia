@@ -1,5 +1,5 @@
 /*
- * function: INTRUDE_COMM_VIEW_CheckExitRequest
+ * function: INTRUDE_COMM_VIEW_WaitExitWipe
  * address: 0x021D4B30
  * packet: pkt_ov122_021D4B30
  * region: ov122
@@ -20,7 +20,7 @@ extern unsigned int GAMESYSTEM_GetGameComm(const struct Ctx *p);
 typedef unsigned int   u32;
 extern u32 GAME_COMM_GetKind(void *obj);
 extern void INTRUDE_COMM_VIEW_SetCallback(void *p, u32 a, int a2);
-void INTRUDE_COMM_VIEW_CheckExitRequest(char *p)
+void INTRUDE_COMM_VIEW_WaitExitWipe(char *p)
 {
     if (WIPE_SYS_EndCheck()) {
         if (((struct Obj13964 *)p)->f8 == 1) {

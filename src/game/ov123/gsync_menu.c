@@ -21,7 +21,7 @@
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_FreeSlot 0x020414AC arm
  *   BG_SYS_PushTile 0x020409B4 arm
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  *   BG_SYS_SetPlaneVisible 0x02040588 arm
  *   BG_SYS_Init 0x02040C14 arm
  *   BG_SYS_SetTileEntry 0x02041300 arm
@@ -48,7 +48,7 @@
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
  *   BUTTON_MAN_Delete  0x02051C6C  arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   d_021DA638 0x021DA638 data a1
  *   d_021DA634 0x021DA634 data a1
  *   d_021DA63C 0x021DA63C data a1
@@ -75,8 +75,8 @@
  *   sGsyncMenuButtonWinDefs 0x021DA9C0 data a4
  *   d_021DA640 0x021DA640 data a4
  *   d_021DA648 0x021DA648 data a4
- *   BG_SYS_SetTileUnit 0x02040DA8 arm
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
+ *   BG_SYS_FreeTiles 0x02040DA8 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   MSGDATA_Delete 0x02045C04 arm
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -141,7 +141,7 @@
  *   d_021DAA20 0x021DAA20 data a1
  *   GAMESYSTEM_IsNetOffBySleep 0x02012204 thumb
  *   TCBL_Main 0x020310C4 arm
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   CLACT_DrawSystem 0x0204A600 arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
@@ -202,7 +202,7 @@ extern void BG_SYS_FreeSlot(u32);
 
 extern void BG_SYS_PushTile(u32);
 
-extern void BG_SYS_SetVisibleLayer(int, u16);
+extern void BG_SYS_SetPriority(int, u16);
 
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
@@ -268,7 +268,7 @@ extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 
 extern void BUTTON_MAN_Delete(void *p);
 
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 
 extern struct ClActor *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 
@@ -308,9 +308,9 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
 extern void *BUTTON_MAN_Create(const void *rects, void (*callback)(int, int, void *), void *work, u32 heapId);
 
-extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
+extern void BG_SYS_FreeTiles(u32 idx, u32 count, u32 tile);
 
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 
 extern void BG_SYS_FreeLayerBuf(u32 i);
 
@@ -448,7 +448,7 @@ extern void TCBL_Main(struct Tcbl *p);
 
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 
 extern void CLACT_DrawSystem(void);
 
@@ -569,7 +569,7 @@ void GSYNC_MENU_InitBgLayers(GsyncMenuWork *work)
     BG_SYS_InitBgLayer(0, &bgTemplates[4], 0);
     BG_SYS_FreeSlot(0);
     BG_SYS_PushTile(0);
-    BG_SYS_SetVisibleLayer(0, 0);
+    BG_SYS_SetPriority(0, 0);
     BG_SYS_SetPlaneVisible(0, 1);
     bgTemplates[3] = d_021DA6B0;
     BG_SYS_InitBgLayer(4, &bgTemplates[3], 0);
@@ -754,7 +754,7 @@ void GSYNC_MENU_DeleteButtonWindows(GsyncMenuWork *work)
     for (buttonIndex = 0; buttonIndex < 4; buttonIndex++) {
         if (work->buttonWins[buttonIndex]) {
             BMP_WIN_ClearScreen(work->buttonWins[buttonIndex]);
-            BG_SYS_SetFlagField06(5);
+            BG_SYS_MarkTileDirty(5);
             BMP_MENUWORK_DrawWindowBorder(work->buttonWins[buttonIndex], 2);
             BMP_WIN_Delete(work->buttonWins[buttonIndex]);
         }
@@ -851,8 +851,8 @@ void GSYNC_MENU_FreeResources(GsyncMenuWork *work)
 {
     GF_FONT_SetDefaultTextColor();
     GSYNC_MENU_DeleteButtonWindows(work);
-    BG_SYS_SetTileUnit(5, 1, 0);
-    BG_SYS_DeleteHalf((int)5, (u16)(work->bgFrame), (u16)(work->bgFrame >> 16));
+    BG_SYS_FreeTiles(5, 1, 0);
+    BG_SYS_FreeTileRun((int)5, (u16)(work->bgFrame), (u16)(work->bgFrame >> 16));
     BG_SYS_FreeLayerBuf(5);
     BG_SYS_FreeLayerBuf(4);
     MSGDATA_Delete(work->msgBank);
@@ -1031,7 +1031,7 @@ void GSYNC_MENU_HideMessage(GsyncMenuWork *work)
     }
     BMP_MENUWORK_DrawWindowBorder(work->msgWin, 2);
     BMP_WIN_ClearScreen(work->msgWin);
-    BG_SYS_SetFlagField06(5);
+    BG_SYS_MarkTileDirty(5);
 }
 
 void GSYNC_MENU_DeleteMessageWindow(GsyncMenuWork *work)
@@ -1086,7 +1086,7 @@ void GSYNC_MENU_PrintMessage(GsyncMenuWork *work, int lineCount, int stream)
     BMP_MENUWORK_DrawWindow(win, 1, (u16)(work->bgFrame), 12);
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
-    BG_SYS_SetFlagField06(5);
+    BG_SYS_MarkTileDirty(5);
 }
 
 void GSYNC_MENU_PrintMessageNoStream(GsyncMenuWork *work)
@@ -1239,7 +1239,7 @@ int GSYNC_MENU_ProcMain(int unused0, int unused1, int unused2, GsyncMenuWork *wo
     }
     TCBL_Main(work->tcbl);
     PRINTSYS_QUE_Main(work->printQue);
-    BG_SYS_FillScrollArea(4, 3, work->bgScrollY);
+    BG_SYS_ChangeScrollImmediate(4, 3, work->bgScrollY);
     --work->bgScrollY;
     CLACT_DrawSystem();
     if (!work->exiting) GAMESYSTEM_TryStartAutoComm(work->gameSystem);

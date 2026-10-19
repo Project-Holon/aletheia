@@ -16,12 +16,12 @@
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  *   GAME_DATA_GetMyItem  0x0201292C  thumb
  *   GAME_DATA_GetLastBattleRecSlot  0x020127B8  thumb
- *   BEACON_GetPoints  0x0200C274  thumb
- *   BEACON_SubPoints  0x0200C29C  thumb
+ *   BEACON_GetMoney  0x0200C274  thumb
+ *   BEACON_SubMoney  0x0200C29C  thumb
  *   func_02007E3C  0x02007E3C  thumb
  *   func_02007E50  0x02007E50  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
- *   WORDSET_Callback_EF40  0x0201EF40  thumb
+ *   WORDSET_SetSlotFromMsg36  0x0201EF40  thumb
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   INTRUDE_COMM_SendReply  0x02173AE0  thumb  ov011
@@ -72,12 +72,12 @@ extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *GAME_DATA_GetMiscSave(int *p);
 extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
 extern void *GAME_DATA_GetLastBattleRecSlot(void *);
-extern u32 BEACON_GetPoints(struct Blk34 *p);
-extern u32 BEACON_SubPoints(struct Blk34 *p, u32 v);
+extern u32 BEACON_GetMoney(struct Blk34 *p);
+extern u32 BEACON_SubMoney(struct Blk34 *p, u32 v);
 extern u32 func_02007E3C(u8 *base, u16 id, u16 qty, u16 d);
 extern u32 func_02007E50(u8 *base, u16 id, u16 qty, u16 d);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
-extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotFromMsg36(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
 extern int INTRUDE_COMM_SendReply(int a, int b, int c, int d);
@@ -119,7 +119,7 @@ int EVENT_COMM_COMMON_ItemPurchaseEventMain(void *a, int *state, Outer *c)
     switch (*state) {
     case 0:
         WORDSET_SetSlotMyStatus(c->p10, 0, c->f78);
-        WORDSET_Callback_EF40(c->p10, 1, h[0]);
+        WORDSET_SetSlotFromMsg36(c->p10, 1, h[0]);
         WORDSET_SetSlotNumber(c->p10, 2, h[1], 5, 0, 1);
         WORDSET_SetSlotMyStatus(c->p10, 3, GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(sub)));
         EVENT_COMM_COMMON_PrintMsg((u8 *)c + 0x10, d_021839A4[0][c->b42]);
@@ -143,7 +143,7 @@ int EVENT_COMM_COMMON_ItemPurchaseEventMain(void *a, int *state, Outer *c)
         switch (r) {
         case 0:
             EVENT_COMM_COMMON_DeleteChoice((u8 *)c + 0x10);
-            if (h[1] > BEACON_GetPoints(GAME_DATA_GetMiscSave(x))) {
+            if (h[1] > BEACON_GetMoney(GAME_DATA_GetMiscSave(x))) {
                 flag = 1;
                 *state = 5;
             } else if (func_02007E3C(GAME_DATA_GetMyItem(x), h[0], 1, 0x15) == 0) {
@@ -165,7 +165,7 @@ int EVENT_COMM_COMMON_ItemPurchaseEventMain(void *a, int *state, Outer *c)
         break;
     case 4:
         if (INTRUDE_COMM_SendReply((int)v, v[0x154], 7, v[0x158]) == 1) {
-            BEACON_SubPoints(GAME_DATA_GetMiscSave(x), h[1]);
+            BEACON_SubMoney(GAME_DATA_GetMiscSave(x), h[1]);
             func_02007E50(GAME_DATA_GetMyItem(x), h[0], 1, 0x15);
             EVENT_COMM_COMMON_PrintMsg((u8 *)c + 0x10, d_021839A4[5][c->b42]);
             *state = 8;

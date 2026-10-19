@@ -13,14 +13,14 @@
  *   BOX2_SEQ_SetActorDrawEnable 0x021EC000 thumb
  *   BOX2_SEQ_ClearTextWin 0x021EB324 thumb
  *   BOX2_MAIN_HideSlots 0x021DF128 thumb
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  */
 
 extern void BOX2_SEQ_SetActorDrawEnable(char *p, int i, int v);
 extern void BOX2_SEQ_ClearTextWin(char *w);
 extern void BOX2_MAIN_HideSlots(int p);
 typedef unsigned int   u32;
-extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
+extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 
@@ -38,5 +38,5 @@ void BOX2_MAIN_ResetBoxView(char *p)
     BOX2_SEQ_SetActorDrawEnable(WORK(p), 0x19, 0);
     BOX2_SEQ_SetActorDrawEnable(WORK(p), 0x1A, 0);
     BOX2_SEQ_SetActorDrawEnable(WORK(p), 0x1B, 0);
-    BG_SYS_ResetSlot(5, 3, 0xC0);
+    BG_SYS_ChangeScroll(5, 3, 0xC0);
 }

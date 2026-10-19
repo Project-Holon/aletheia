@@ -14,7 +14,7 @@
  *   MSGDATA_ReadString 0x02045CAC arm
  *   POKETRADE_PROC_IsHostSide 0x021D8AA8 thumb ov119
  *   POKETRADE_PROC_GetSideMon 0x021D8FA4 thumb ov119
- *   WORDSET_SetSlotMonSpecies 0x0201EEF4 thumb
+ *   WORDSET_SetSlotMonNickname 0x0201EEF4 thumb
  *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   BMP_MENUWORK_LoadFrameGfx 0x0201F5DC thumb
@@ -36,7 +36,7 @@ extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern int POKETRADE_PROC_IsHostSide(void *);
 extern void *BMP_MENUWORK_LoadFrameGfx(void *a0, u32 a1, u32 a2, u32 a3);
 extern void *POKETRADE_PROC_GetSideMon(void *,int);
-extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonNickname(struct WordSet *p, u32 i, void *mon);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void POKETRADE_SAVE_OpenMessageWindowAtPos(void *,int,int);
@@ -58,7 +58,7 @@ void POKETRADE_SAVE_StepEventMessage1(char *p)
     else MSGDATA_ReadString((struct MsgBank *)(((struct Obj00985 *)p)->f720),48,(void *)(((struct Obj00985 *)p)->f73C));
     if(POKETRADE_PROC_IsHostSide(p)) mon=POKETRADE_PROC_GetSideMon(p,0);
     else mon=POKETRADE_PROC_GetSideMon(p,1);
-    WORDSET_SetSlotMonSpecies(((struct Obj00985 *)p)->f724,1,mon);
+    WORDSET_SetSlotMonNickname(((struct Obj00985 *)p)->f724,1,mon);
     z=0;
     WORDSET_SetSlotMyStatus((struct WordSet *)(*(int *)&((struct Obj00985 *)p)->f724),0,(void *)(((struct Obj00985 *)p)->f834));
     WORDSET_CopyTaggedText((struct WordSet *)(*(int *)&((struct Obj00985 *)p)->f724),(void *)(((struct Obj00985 *)p)->f738),(void *)(((struct Obj00985 *)p)->f73C));

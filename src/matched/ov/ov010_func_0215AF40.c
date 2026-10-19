@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_WORK_CmdGetZukanSeenCount
+ * function: SCRCMD_WORK_CmdCheckZukanSeenOrCaught
  * address:  0x0215AF40
  * packet:   pkt_ov010_0215AF40
  * region:   ov010
@@ -29,7 +29,7 @@ extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 extern int ZUKAN_SAVE_IsSeen();
 extern int ZUKAN_SAVE_IsCaught();
 
-int SCRCMD_WORK_CmdGetZukanSeenCount(int a0, int a1)
+int SCRCMD_WORK_CmdCheckZukanSeenOrCaught(int a0, int a1)
 {
     void *v;
     int k, x;

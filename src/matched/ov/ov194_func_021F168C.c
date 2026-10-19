@@ -24,7 +24,7 @@
  *   func_020315D4 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   BMP_OAM_DeleteSys 0x02025588 thumb
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -51,7 +51,7 @@ extern void NAMEIN_GRAPHIC_DeleteActors(u8 *);
 extern int NAMEIN_GRAPHIC_UpdateBg(void *a0);
 extern void BMP_OAM_DeleteSys(void *);
 extern void NAMEIN_GRAPHIC_DeleteDisplay(unsigned char *p);
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
@@ -73,7 +73,7 @@ int NAMEIN_GRAPHIC_Delete(void *a,u32 b,u32 c,u8 *d)
     NAMEIN_GRAPHIC_UpdateBg(d+100);
     BMP_OAM_DeleteSys(((struct Obj02908 *)d)->f2C0);
     NAMEIN_GRAPHIC_DeleteDisplay(((struct Obj02908 *)d)->f0);
-    WORDSET_DeleteStrbufED04(((struct Obj02908 *)d)->f2BC);
+    WORDSET_Delete(((struct Obj02908 *)d)->f2BC);
     MSGDATA_Delete(((struct Obj02908 *)d)->f2B8);
     PRINTSYS_QUE_Clear(((struct Obj02908 *)d)->f2B4);
     PRINTSYS_QUE_Delete(((struct Obj02908 *)d)->f2B4);

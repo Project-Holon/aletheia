@@ -1,5 +1,5 @@
 /*
- * function: GAME_DATA_GetSaveBlock1F
+ * function: GAME_DATA_GetTradeHistory
  * address:  0x02012F14
  * packet:   pkt_02012F14
  * region:   arm9
@@ -21,7 +21,7 @@
 
 extern void *TRADE_HISTORY_GetFromSave(void *sys);
 
-void *GAME_DATA_GetSaveBlock1F(void **h)
+void *GAME_DATA_GetTradeHistory(void **h)
 {
     return TRADE_HISTORY_GetFromSave(*h);
 }

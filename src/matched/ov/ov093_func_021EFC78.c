@@ -9,13 +9,13 @@
  * isa:      thumb
  * status:   EXACT*
  *
- * Lever: BTLV_CORE_GetSlotLow takes a one-word struct by value (its own file spells
+ * Lever: BTL_SICKCONT_GetLow takes a one-word struct by value (its own file spells
  * it as a union); the `adds r0,r5,#0 ; adds r0,#0x28 ; ldr r0,[r0]` argument
  * setup is that struct copy, not a plain u32 load.
  *
  * symbols:
  *   BTL_FIELD_IsSlotInUse  0x021EFCE4  thumb  ov093
- *   BTLV_CORE_GetSlotLow  0x021E8AFC  thumb  ov093
+ *   BTL_SICKCONT_GetLow  0x021E8AFC  thumb  ov093
  *   WEATHER_LIGHTNING_GetFlashColor  0x021EFCD4  thumb  ov093
  *   BTL_FIELD_ResetSlot  0x021EF83C  thumb  ov093
  */
@@ -27,7 +27,7 @@ typedef unsigned int u32;
 
 extern void *BTL_FIELD_IsSlotInUse(char *a, int b);
 typedef struct { u32 v; } Slot;
-extern u8 BTLV_CORE_GetSlotLow(Slot s);
+extern u8 BTL_SICKCONT_GetLow(Slot s);
 extern void WEATHER_LIGHTNING_GetFlashColor(u32 a);
 extern void BTL_FIELD_ResetSlot(char *a, u32 b);
 
@@ -42,7 +42,7 @@ void BTL_FIELD_TickSlots(char *a, void (*cb)(u32, u32), u32 arg)
         if (BTL_FIELD_IsSlotInUse(a, k) == 0)
             continue;
         e = a + k * 4;
-        lim = BTLV_CORE_GetSlotLow(*(Slot *)(e + 0x28));
+        lim = BTL_SICKCONT_GetLow(*(Slot *)(e + 0x28));
         if (lim == 0)
             continue;
         ((struct Obj06299 *)e)->f48 += 1;

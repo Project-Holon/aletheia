@@ -1,5 +1,5 @@
 /*
- * function: FILE_UTIL_Create_0F14
+ * function: FILE_UTIL_CreateItemArcHandle
  * address:  0x02020F14
  * packet:   pkt_02020E60
  * region:   arm9
@@ -16,8 +16,8 @@
  *   func_020490F4  0x020490F4  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/FILE_UTIL_Create_0F14.c \
- *       --func FILE_UTIL_Create_0F14 --addr 0x02020F14 --thumb --cc 1.1p1
+ *   python tools/match.py one --src src/pending/FILE_UTIL_CreateItemArcHandle.c \
+ *       --func FILE_UTIL_CreateItemArcHandle --addr 0x02020F14 --thumb --cc 1.1p1
  */
 
 typedef unsigned char u8;
@@ -25,7 +25,7 @@ typedef unsigned int  u32;
 
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 
-void *FILE_UTIL_Create_0F14(u32 a)
+void *FILE_UTIL_CreateItemArcHandle(u32 a)
 {
     return func_020490F4(0x18, a);
 }

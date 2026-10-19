@@ -31,13 +31,13 @@
  *   CLACT_RegisterCharacter        0x0204A6C8  arm
  *   CLACT_RegisterCellAnim        0x0204AF28  arm
  *   KEY_GetTrg 0x020362DC arm
- *   BG_SYS_FillScrollArea 0x02040618 arm
- *   BG_SYS_SetVisibleLayer 0x0204047C arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
+ *   BG_SYS_SetPriority 0x0204047C arm
  *   ZUKAN_DETAIL_TOUCHBAR_LoadResources 0x021BDCF8 thumb ov208
  *   d_021C8DE4 0x021C8DE4 data a1
  *   CLACT_DeleteUnit 0x0204B1CC arm
  *   BG_SYS_GetScrollY 0x02040804 arm
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  *   d_021C8388 0x021C8388 data a4
  *   d_021C8384 0x021C8384 data a1
  *   ZUKAN_DETAIL_TOUCHBAR_ApplyPaletteLeft  0x021BE170  thumb
@@ -96,7 +96,7 @@ extern u32 GFL_HEAP_Free(void *p);
 
 extern void ARC_TOOL_DeleteHandle(void *h);
 
-extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
+extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
 
 extern void TCB_DeleteTask(struct Node *n);
 
@@ -128,9 +128,9 @@ extern void CLACT_ReleasePalette(u32 i);
 
 extern u32 KEY_GetTrg(void);
 
-extern void BG_SYS_FillScrollArea(unsigned,unsigned,unsigned);
+extern void BG_SYS_ChangeScrollImmediate(unsigned,unsigned,unsigned);
 
-extern void BG_SYS_SetVisibleLayer(int,u16);
+extern void BG_SYS_SetPriority(int,u16);
 
 
 extern u32 BG_SYS_GetScrollY(u32 layer);
@@ -294,7 +294,7 @@ char *ZUKAN_DETAIL_TOUCHBAR_Create(u16 heap,unsigned dexFlags)
     p->heap=heap;p->dexFlags=dexFlags;
     p->state=0;p->prevMode=0;p->mode=0;
     p->prevKind=1;p->kind=0;p->arrowKind=0;p->scrollIdx=0;
-    BG_SYS_FillScrollArea(1,3,-24);BG_SYS_SetVisibleLayer(1,0);
+    BG_SYS_ChangeScrollImmediate(1,3,-24);BG_SYS_SetPriority(1,0);
     p->bgPriority=0;p->bgDirty=0;
     p->clactUnit=CLACT_CreateUnit(16,0,p->heap);
     CLACT_SetUnitDefaultRenderer(p->clactUnit);
@@ -326,7 +326,7 @@ void ZUKAN_DETAIL_TOUCHBAR_Update(struct Ov208Scene *m)
     case 1:
         if (m->step == 0) {
             if ((int)BG_SYS_GetScrollY((int)1) >= 0) {
-                BG_SYS_ResetSlot(1, 3, 0);
+                BG_SYS_ChangeScroll(1, 3, 0);
                 m->pos = 0;
                 ZUKAN_DETAIL_TOUCHBAR_OffsetActorPos((char *)m, m->pos);
                 m->state = 2;
@@ -334,7 +334,7 @@ void ZUKAN_DETAIL_TOUCHBAR_Update(struct Ov208Scene *m)
                     ZKND_TBAR_SetTouchEnable(m->mgr, 1);
                 break;
             }
-            BG_SYS_ResetSlot(1, 4, d_021C8388[m->scrollIdx]);
+            BG_SYS_ChangeScroll(1, 4, d_021C8388[m->scrollIdx]);
             m->pos = m->pos - (short)d_021C8388[m->scrollIdx];
             ZUKAN_DETAIL_TOUCHBAR_OffsetActorPos((char *)m, m->pos);
             m->step = d_021C8384[m->scrollIdx];
@@ -345,12 +345,12 @@ void ZUKAN_DETAIL_TOUCHBAR_Update(struct Ov208Scene *m)
     case 3:
         if (m->step == 0) {
             if ((int)BG_SYS_GetScrollY((int)1) <= -24) {
-                BG_SYS_ResetSlot(1, 3, -24);
+                BG_SYS_ChangeScroll(1, 3, -24);
                 m->pos = 24;
                 ZUKAN_DETAIL_TOUCHBAR_OffsetActorPos((char *)m, m->pos);
                 m->state = 0;
             } else {
-                BG_SYS_ResetSlot(1, 5, d_021C8388[m->scrollIdx]);
+                BG_SYS_ChangeScroll(1, 5, d_021C8388[m->scrollIdx]);
                 m->pos = m->pos + (short)d_021C8388[m->scrollIdx];
                 ZUKAN_DETAIL_TOUCHBAR_OffsetActorPos((char *)m, m->pos);
                 m->step = d_021C8384[m->scrollIdx];
@@ -556,7 +556,7 @@ void ZUKAN_DETAIL_TOUCHBAR_SetBgPriority(char *p, unsigned char priority)
 void ZUKAN_DETAIL_TOUCHBAR_FlushBar(int unused, char *p)
 {
     if (((struct Ov208Scene *)p)->bgDirty != 0) {
-        BG_SYS_SetVisibleLayer(1, ((struct Ov208Scene *)p)->bgPriority);
+        BG_SYS_SetPriority(1, ((struct Ov208Scene *)p)->bgPriority);
         ((struct Ov208Scene *)p)->bgDirty = 0;
     }
 }

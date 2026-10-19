@@ -34,8 +34,8 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   MI_CpuFill8 0x02082BCC arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
- *   MISC_SAVEDATA_InsertRecentValue 0x0200ED54 thumb
+ *   MET_TRAINERS_GetFromSave 0x0200ED48 thumb
+ *   MET_TRAINERS_Insert 0x0200ED54 thumb
  *   func_02008530 0x02008530 thumb
  */
 #include "../include/Obj00477.h"
@@ -72,10 +72,10 @@ extern u32 WIFIBATTLEMATCH_NET_GetReportState(u8 *p);
 extern void WIFIBATTLEMATCH_NET_DisconnectWifi(char *),WIFIBATTLEMATCH_NET_ClearCancelFlag(char *);
 extern int WIFIBATTLEMATCH_NET_StopMatchmaking(char *);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *MISC_SAVEDATA_GetBlock44(void *);
+extern void *MET_TRAINERS_GetFromSave(void *);
 struct Sub0200852CObj;
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
-extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *,unsigned int);
+extern void MET_TRAINERS_Insert(struct L0200ED54 *,unsigned int);
 extern void MI_CpuFill8(void *,int,unsigned);
 extern void WIFIBATTLEMATCH_NET_SetupGdbUpload(u8 *p, u32 mode, struct Record *src);
 extern int WIFIBATTLEMATCH_NET_GdbUpdateRecord(char *);
@@ -115,8 +115,8 @@ void WIFIBATTLEMATCH_NET_CompStepG(u32 sys,int *state,char *p)
     case 4:DWC_RAPCOMMON_DestroySubHeap();
         if(((struct Obj02512 *)q)->fC==2)WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys,(int)WIFIBATTLEMATCH_NET_CompStepH);
         else *state=5;break;
-    case 5:list=MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl(**(void ** *)&((struct Obj02512 *)q)->f8));
-        MISC_SAVEDATA_InsertRecentValue(list,func_02008530(((struct Obj02512 *)q)->f18));
+    case 5:list=MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl(**(void ** *)&((struct Obj02512 *)q)->f8));
+        MET_TRAINERS_Insert(list,func_02008530(((struct Obj02512 *)q)->f18));
         WIFIBATTLEMATCH_NET_ClearCancelFlag(*(char * *)&((struct Obj00477 *)p)->f34);*state=6;break;
     case 6:if(WIFIBATTLEMATCH_NET_StopMatchmaking(*(char * *)&((struct Obj00477 *)p)->f34)) *state=7;
         switch(WIFIBATTLEMATCH_NET_HandleNetError(*(char * *)&((struct Obj00477 *)p)->f34,0,(void *)1)) {

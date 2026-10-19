@@ -42,7 +42,7 @@
  *   d_021D5600     0x021D5600  data
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
+ *   WORDSET_SetSlotMonNickname  0x0201EEF4  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   BG_SYS_SetTileEntry  0x02041300  arm
@@ -127,7 +127,7 @@ extern void MCSS_SetVanishFlag(void *p);
 extern void POKETRADE_PROC_SetStep(void *p, int next);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonNickname(struct WordSet *p, u32 i, void *mon);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void BG_SYS_SetTileEntry(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
@@ -244,7 +244,7 @@ void POKETRADE_IRCDEMO_PrintMessage(u8 *p)
     } else {
         MSGDATA_ReadString((struct MsgBank *)(((PokeTradeDemoWork *)p)->msgBank), 0x81, (void *)(((PokeTradeDemoWork *)p)->stringSrc));
     }
-    WORDSET_SetSlotMonSpecies(((PokeTradeDemoWork *)p)->wordSet, 0, POKETRADE_PROC_GetSideMon(p, POKETRADE_PROC_IsHostSide(p)));
+    WORDSET_SetSlotMonNickname(((PokeTradeDemoWork *)p)->wordSet, 0, POKETRADE_PROC_GetSideMon(p, POKETRADE_PROC_IsHostSide(p)));
     WORDSET_SetSlotMyStatus((struct WordSet *)(*(u32 *)&((PokeTradeDemoWork *)p)->wordSet), 1, (void *)(((PokeTradeDemoWork *)p)->enemyMonKey));
     WORDSET_CopyTaggedText((struct WordSet *)(*(u32 *)&((PokeTradeDemoWork *)p)->wordSet), (void *)(((PokeTradeDemoWork *)p)->stringDst), (void *)(((PokeTradeDemoWork *)p)->stringSrc));
     BG_SYS_SetTileEntry(4, 0, 0, 0, 0x20, 0x18, 0x11);

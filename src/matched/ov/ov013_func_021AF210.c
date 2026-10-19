@@ -10,18 +10,18 @@
  * status: EXACT
  * symbols:
  *   gVctWork 0x021B3C80 data ov013 a4
- *   VCT_DSP_SetVoiceGateConfig 0x021B3064 arm ov013
+ *   VCT_DSP_GetVoiceGateConfig 0x021B3064 arm ov013
  */
 
 #include "../include/G_Work.h"
 
 extern struct Work *gVctWork;
-extern void VCT_DSP_SetVoiceGateConfig(void *);
+extern void VCT_DSP_GetVoiceGateConfig(void *);
 int VCT_MAIN_GetVoiceLevel(void)
 {
     int a[4];
     if (gVctWork != 0) {
-        VCT_DSP_SetVoiceGateConfig(a);
+        VCT_DSP_GetVoiceGateConfig(a);
         if (a[1] > 2) return a[0];
     }
     return 0;

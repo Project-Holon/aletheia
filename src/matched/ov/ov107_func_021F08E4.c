@@ -1,5 +1,5 @@
 /*
- * function: MB_PARENT_SYS_CheckRequest
+ * function: MB_PARENT_SYS_AcceptRequest
  * address: 0x021F08E4
  * packet: pkt_ov107_021F08E4
  * region: ov107
@@ -26,7 +26,7 @@ extern u32 OS_DisableInterrupts(void);
 extern u32 OS_RestoreInterrupts(u32);
 typedef struct {u8 pad[10];u16 f0A,f0C,f0E,f10,f12,f14;} Masks;
 extern struct Masks gMbParentSys;
-void MB_PARENT_SYS_CheckRequest(u16 aid){
+void MB_PARENT_SYS_AcceptRequest(u16 aid){
  u16 mask; u32 state;
  if(!MB_CommResponseRequest(aid,1)){
  mask=~(1<<aid);state=OS_DisableInterrupts();

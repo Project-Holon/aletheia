@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   CONFIG_SetAppliedFlag 0x020083EC thumb
+ *   CONFIG_SetTextLanguage 0x020083EC thumb
  */
 #include "../include/Obj25363.h"
 #include "../include/Obj25365.h"
@@ -17,5 +17,5 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef enum { B_FALSE, B_TRUE } Bool;
-extern void CONFIG_SetAppliedFlag(u16*,u32);
-int INTRO_CMD_CmdSetAppliedFlag(u8*p,u32 unused,u32*q){u16*obj=*(u16* *)&((struct Obj25365 *)(*(u8* *)&((struct Obj25363 *)p)->f4))->f4;Bool flag;if(*q==0)flag=B_FALSE;else flag=B_TRUE;CONFIG_SetAppliedFlag(obj,flag);return 1;}
+extern void CONFIG_SetTextLanguage(u16*,u32);
+int INTRO_CMD_CmdSetAppliedFlag(u8*p,u32 unused,u32*q){u16*obj=*(u16* *)&((struct Obj25365 *)(*(u8* *)&((struct Obj25363 *)p)->f4))->f4;Bool flag;if(*q==0)flag=B_FALSE;else flag=B_TRUE;CONFIG_SetTextLanguage(obj,flag);return 1;}

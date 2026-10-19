@@ -12,7 +12,7 @@
  * symbols:
  *   GFL_USE_IsBgmFading 0x02005E50 thumb
  *   GFL_USE_IsBgmPlaying 0x02005F38 thumb
- *   GFL_USE_SetBgmPlayerParam 0x02005DE4 thumb
+ *   GFL_USE_SetBgmPaused 0x02005DE4 thumb
  *   GFL_USE_PushBgm 0x02005E64 thumb
  *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
  *   GFL_USE_StepBgmLoad 0x020063B4 thumb
@@ -25,7 +25,7 @@ extern int GFL_USE_IsBgmFading(void);
 extern int GFL_USE_IsBgmPlaying(void);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
-extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_SetBgmPaused(void *p);
 extern int GFL_USE_PushBgm(void);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern u32 GFL_USE_StepBgmLoad(u8 *a0, u32 *a1, u32 a2);
@@ -39,7 +39,7 @@ void SHINKA_DEMO_UpdateBgm(char *a, char *b)
     case 1:
         if (GFL_USE_IsBgmFading() == 0) {
             if (((struct Obj24944 *)a)->fC != 0) {
-                GFL_USE_SetBgmPlayerParam((void *)1);
+                GFL_USE_SetBgmPaused((void *)1);
                 GFL_USE_PushBgm();
             }
             ((struct Obj03902 *)b)->f30 = 0;

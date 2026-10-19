@@ -1,5 +1,5 @@
 /*
- * function: BTL_EVENT_GetClientPartyCount
+ * function: BTL_POKEPARAM_GetFoughtCount
  * address:  0x021D6E04
  * packet:   pkt_021D6E04
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT* (extent runs past compiled, trailing padding)
  */
 
-unsigned char BTL_EVENT_GetClientPartyCount(unsigned char *p)
+unsigned char BTL_POKEPARAM_GetFoughtCount(unsigned char *p)
 {
     return p[0xd0];
 }

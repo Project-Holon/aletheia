@@ -1,5 +1,5 @@
 /*
- * function: CALENDER_OverlaySequenceEvent
+ * function: BEACON_VIEW_EVENT_Sequence
  * address:  0x02164A2C
  * packet:   pkt_ov010_02164A2C
  * region:   ov010
@@ -82,7 +82,7 @@ extern void *FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(void *sys);
 extern u8 ov216_id[];
 extern const u8 d_021BDB40[];
 
-int CALENDER_OverlaySequenceEvent(void *evt, u32 *seq, SeqWork2 *w)
+int BEACON_VIEW_EVENT_Sequence(void *evt, u32 *seq, SeqWork2 *w)
 {
     void *sys;
     void *p;

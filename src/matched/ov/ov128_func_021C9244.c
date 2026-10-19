@@ -16,7 +16,7 @@
  *   WF2DMAP_TOUCH_StartEditAnim 0x021C958C thumb ov128
  *   WF2DMAP_TOUCH_StepSlideIn 0x021C95CC thumb ov128
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
- *   BG_SYS_ResetSlot 0x02041EE4 arm
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
  *   WF2DMAP_TOUCH_FindPrevEntry 0x021C9D0C thumb ov128
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   WF2DMAP_TOUCH_ReleaseEditWidgets 0x021C98EC thumb ov128
@@ -40,7 +40,7 @@ extern int WF2DMAP_TOUCH_StepSlideIn(u8 *,void *,void *,int);
 struct Actor;
 struct PrintSys;
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
-extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
+extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
 extern int WF2DMAP_TOUCH_FindPrevEntry(u8 *,int);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void WF2DMAP_TOUCH_ReleaseEditWidgets(char *p, u8 *q);
@@ -68,7 +68,7 @@ int WF2DMAP_TOUCH_FriendEditScreen(u8 *p,u8 *q,u8 *r,u16 heap)
     case 4: if(WF2DMAP_TOUCH_StepSlideIn(p,q,r,heap)==1)q[8]=5; break;
     case 5:
         if(PRINTSYS_QUE_IsFinished(((struct Obj10491 *)r)->f34)==1) {
-            BG_SYS_ResetSlot(2,0,0);BG_SYS_ResetSlot(3,0,0);q[8]=2;
+            BG_SYS_ChangeScroll(2,0,0);BG_SYS_ChangeScroll(3,0,0);q[8]=2;
         } break;
     case 6:
         if(((struct Obj00773 *)p)->fE) {

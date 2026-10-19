@@ -22,7 +22,7 @@
  *   MSGDATA_ReadString  0x02045CAC  arm  arm9
  *   BMP_WIN_GetBgLayer  0x02045730  arm  arm9
  *   BMP_WIN_GetBmp  0x02045770  arm  arm9
- *   WORDSET_DeleteMsgdataF094  0x0201F094  thumb  arm9
+ *   WORDSET_SetSlotFromKeyedMessage  0x0201F094  thumb  arm9
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
  *   WORDSET_SetSlotFromMsgE7  0x0201F048  thumb  arm9
  *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
@@ -70,7 +70,7 @@ struct Sub0200852CObj;
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u8 func_02008570(const struct Sub0200852CObj *obj);
 extern void WORDSET_SetSlotFromMsgE7(struct WordSet *p, u32 i, u32 n);
-extern void WORDSET_DeleteMsgdataF094(struct WordSet *p, u32 i, u32 a, u32 n);
+extern void WORDSET_SetSlotFromKeyedMessage(struct WordSet *p, u32 i, u32 a, u32 n);
 extern void PMS_DRAW_SetPrintColor(struct PmsDraw *p, u16 v);
 extern void PMS_DRAW_Print(void *, void *, const void *, unsigned);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
@@ -142,7 +142,7 @@ void WIFIBATTLEMATCH_VIEW_SetupRecordWindow(Work *p, const Record *data, unsigne
             break;
         case 5:
             MSGDATA_ReadString(msg, 23, buf);
-            WORDSET_DeleteMsgdataF094(fmt, 0, func_0200856C((const struct Sub0200852CObj *)data), func_02008570((const struct Sub0200852CObj *)data));
+            WORDSET_SetSlotFromKeyedMessage(fmt, 0, func_0200856C((const struct Sub0200852CObj *)data), func_02008570((const struct Sub0200852CObj *)data));
             WORDSET_CopyTaggedText(fmt, str, buf);
             break;
         case 6:

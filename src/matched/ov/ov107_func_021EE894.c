@@ -67,7 +67,7 @@
  *   GAME_DATA_SaveCancel 0x02012E08 thumb
  *   WIPE_SYS_Start 0x0202208C thumb
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
- *   APP_ENV_InitParentalControl 0x0202EB44 thumb
+ *   APP_ENV_IsWirelessAvailable 0x0202EB44 thumb
  *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   BEACON_GetBestScore 0x0200C184 thumb
@@ -99,7 +99,7 @@ struct Sub02008C20Obj;
 extern void GAME_DATA_SaveCancel(char *p);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern u32 WIPE_SYS_EndCheck(void);
-extern int APP_ENV_InitParentalControl(void);
+extern int APP_ENV_IsWirelessAvailable(void);
 extern signed char MSG_SPEED_GetWait(void);
 extern void GFL_USE_FadeOutBgm(u32),GFL_NET_RestartWithDefaultTimeout(u32,u32);
 extern void MB_UTIL_MSG_SetWindowLayout(void *,int);
@@ -176,7 +176,7 @@ int MB_COMM_SYS_Main(u8 *p) {
  case 0:WIPE_SYS_Start(0,1,1,0,6,1,H(0));W(32)=1;break;
  case 1:
   if(WIPE_SYS_EndCheck()==1) {
-   if(APP_ENV_InitParentalControl()==1){if(p[40]==0)W(32)=7;else W(32)=4;}
+   if(APP_ENV_IsWirelessAvailable()==1){if(p[40]==0)W(32)=7;else W(32)=4;}
    else {MB_UTIL_MSG_SetWindowLayout(M,5);MB_UTIL_MSG_PrintStreamSystemMsg(M,MSG_SPEED_GetWait());MB_UTIL_MSG_SetKeyWaitFlag(M,1);W(32)=33;}
   }break;
  case 2:

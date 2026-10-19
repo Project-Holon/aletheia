@@ -17,7 +17,7 @@
  *   BTL_POKEPARAM_ResetBattleMoves  0x021D5150  thumb  ov093
  *   BTL_POKEPARAM_ResetMoveHistory  0x021D5364  thumb  ov093
  *   BTL_POKEPARAM_ClearMoveFlags  0x021D539C  thumb  ov093
- *   BTL_EVENT_ClearClientReservedChoice  0x021D6E88  thumb  ov093
+ *   BTL_POKEPARAM_ClearStoredPokeMove  0x021D6E88  thumb  ov093
  *   BTL_POKEPARAM_ClearIllusion  0x021D6C2C  thumb  ov093
  *   BTL_POKEPARAM_ClearSubstitute  0x021D6D70  thumb  ov093
  *   BTL_POKEPARAM_ClearSickConts  0x021D63B8  thumb  ov093
@@ -44,7 +44,7 @@ extern void BTL_POKEPARAM_RestoreIfNeeded(struct S *p);
 extern void BTL_POKEPARAM_ResetBattleMoves(struct Work *p);
 extern void BTL_POKEPARAM_ResetMoveHistory(struct UtilWork *p);
 extern void BTL_POKEPARAM_ClearMoveFlags(struct UtilWork *p);
-extern void BTL_EVENT_ClearClientReservedChoice(u8 *p);
+extern void BTL_POKEPARAM_ClearStoredPokeMove(u8 *p);
 extern void BTL_POKEPARAM_ClearIllusion(struct Unk021D6C2C *p);
 extern void BTL_POKEPARAM_ClearSubstitute(unsigned char *p);
 extern void BTL_POKEPARAM_ClearSickConts(u8 *p, int all);
@@ -58,7 +58,7 @@ void BTL_POKEPARAM_ResetAllEffects(Obj *p)
     BTL_POKEPARAM_ResetBattleMoves((struct Work *)p);
     BTL_POKEPARAM_ResetMoveHistory((struct UtilWork *)p);
     BTL_POKEPARAM_ClearMoveFlags((struct UtilWork *)p);
-    BTL_EVENT_ClearClientReservedChoice((u8 *)p);
+    BTL_POKEPARAM_ClearStoredPokeMove((u8 *)p);
     BTL_POKEPARAM_ClearIllusion((struct Unk021D6C2C *)p);
     BTL_POKEPARAM_ClearSubstitute((unsigned char *)p);
     BTL_POKEPARAM_ClearSickConts((u8 *)p, 1);

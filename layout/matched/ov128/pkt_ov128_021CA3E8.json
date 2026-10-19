@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "WF2DMAP_TOUCH_SetBgOffset",
+   "name": "WF2DMAP_TOUCH_SetScreenBrightness",
    "address": "0x021CA3E8",
    "kind": "game",
    "region": "ov128",

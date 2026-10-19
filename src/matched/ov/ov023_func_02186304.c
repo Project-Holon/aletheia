@@ -1,5 +1,5 @@
 /*
- * function: OEKAKI_NotifyHostSync
+ * function: OEKAKI_HostOpenGroupLimited
  * address: 0x02186304
  * packet: pkt_ov023_02186304
  * region: ov023
@@ -18,7 +18,7 @@
 extern unsigned short GFL_NET_SYSTEM_GetCurrentAid(void);
 extern int OEKAKI_GetJoinedCount(char *p);
 extern void OEKAKI_OpenGroup(char *, int);
-void OEKAKI_NotifyHostSync(char *p, int a)
+void OEKAKI_HostOpenGroupLimited(char *p, int a)
 {
     if (GFL_NET_SYSTEM_GetCurrentAid() == 0) {
         OEKAKI_GetJoinedCount(p);

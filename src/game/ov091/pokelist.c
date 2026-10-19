@@ -37,7 +37,7 @@
  *   d_021BED80     0x021BED80  data  a1
  *   POKEPARTY_GetCount  0x0201AA18  thumb
  *   UI_GetInputMode  0x020355C4  arm
- *   FILE_UTIL_Get_12B0  0x020212B0  thumb
+ *   FILE_UTIL_GetMachineMove  0x020212B0  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   PLIST_PLATE_Create  0x021BA6A0  thumb  ov091
  *   PLIST_PLATE_CreateEmpty  0x021BA81C  thumb  ov091
@@ -48,7 +48,7 @@
  *   GFL_USE_AddMainTask  0x020056A0  thumb
  *   PLIST_MESSAGE_Create  0x021BB594  thumb  ov091
  *   PLIST_MENU_Create  0x021BBA8C  thumb  ov091
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
  *   TCB_DeleteTask  0x02030EAC  arm
  *   PLIST_MENU_DeleteTaskMenuWin  0x021BBE44  thumb  ov091
@@ -99,7 +99,7 @@
  *   BMP_WIN_Init  0x02045088  arm
  *   BG_SYS_SetGraphicsMode  0x0203FC28  arm
  *   G2x_SetBlendAlpha_  0x0207D63C  arm
- *   BG_SYS_FillScrollArea  0x02040618  arm
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm
  *   CLACT_InitSystem  0x0204A48C  arm
  *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
@@ -200,7 +200,7 @@
  *   POKELIST_ShowMoveLearned 0x021BA004 thumb ov091
  *   POKELIST_CloseMessageToList 0x021B9E20 thumb ov091
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
- *   FILE_UTIL_Check136C 0x0202136C thumb
+ *   FILE_UTIL_IsMailItem 0x0202136C thumb
  *   MAIL_CreateSlotCopy 0x02009050 thumb
  *   MAIL_ClearSlot 0x0200902C thumb
  *   POKELIST_EnterMenuPhase 0x021B907C thumb ov091
@@ -288,7 +288,7 @@
  *   MAIL_Create  0x02008F08  thumb
  *   MAIL_SetSlot  0x0200903C  thumb
  *   POKE_TOOL_AddMove 0x0201808C thumb
- *   POKE_TOOL_FindMoveSlot 0x02018238 thumb
+ *   POKE_TOOL_AddMoveAlt 0x02018238 thumb
  *   POKE_TOOL_SetMoveSlot 0x020181F4 thumb
  *   POKE_TOOL_ReplaceMoveSlot 0x020182A0 thumb
  *   NATSUKI_Calc 0x0201B7A0 thumb
@@ -317,9 +317,9 @@
  *   POKE_TOOL_GetIconPalette  0x0201BBE8  thumb
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
  *   WORDSET_CreateDefault  0x0201EC64  thumb
- *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
+ *   WORDSET_SetSlotMonNickname  0x0201EEF4  thumb
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   POKE_TOOL_CalcLevel  0x02018430  thumb
  *   BGWINFRM_ScaleRatio  0x0202D01C  thumb
  *   BMP_FillRect  0x02043AF4  arm
@@ -349,14 +349,14 @@
  *   PRINTSYS_CTRL_Init  0x02028470  thumb
  *   MSG_SPEED_GetWait  0x02012FFC  thumb
  *   PRINTSYS_PrintStreamCallBack  0x0201CD10  thumb
- *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb
+ *   GFL_USE_SetBgmPaused  0x02005DE4  thumb
  *   GFL_USE_PushBgm  0x02005E64  thumb
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
  *   GFL_USE_IsBgmPlaying  0x02005F38  thumb
  *   GFL_USE_PopBgm  0x02005E9C  thumb
  *   GFL_USE_IsAnySeBusy  0x02006238  thumb
- *   WORDSET_Callback_EF40 0x0201EF40 thumb
- *   WORDSET_Callback_EF4C 0x0201EF4C thumb
+ *   WORDSET_SetSlotFromMsg36 0x0201EF40 thumb
+ *   WORDSET_SetSlotFromMsg117 0x0201EF4C thumb
  *   WORDSET_SetSlotFromMsgCB 0x0201EF34 thumb
  *   WORDSET_SetSlotFromMsgB4 0x0201F140 thumb
  *   APP_KEYCURSOR_DrawMark 0x02028618 thumb
@@ -374,9 +374,9 @@
  *   APP_TASKMENU_WIN_Update  0x02028178  thumb
  *   APP_TASKMENU_WIN_SetActive  0x02028218  thumb
  *   APP_TASKMENU_WIN_SetDecide  0x0202822C  thumb
- *   FILE_UTIL_CreateArcTool0F34 0x02020F34 thumb
- *   FILE_UTIL_Get_1014 0x02021014 thumb
- *   FILE_UTIL_Get_0FE4 0x02020FE4 thumb
+ *   FILE_UTIL_LoadItemRecord 0x02020F34 thumb
+ *   FILE_UTIL_GetItemRecordParam 0x02021014 thumb
+ *   FILE_UTIL_GetItemParam 0x02020FE4 thumb
  *   POKE_TOOL_GetPlateTypeForwarder 0x02019CF8 thumb
  *   POKE_TOOL_ChangeForm 0x02017988 thumb
  *   POKE_TOOL_GetBoxParamIndex  0x02019D00  thumb
@@ -414,8 +414,8 @@
  *   PARTICLE_DeleteSystem 0x02050DB8 arm
  *   GFL_NET_FreeAligned 0x0203D7FC arm
  *   ZUKAN_SAVE_RegisterCaught 0x0200CDE0 thumb
- *   VM_GetTimeZoneLight  0x02011400  thumb
- *   GF_STANDARD_SetField00  0x0203F4CC  arm
+ *   TIMEZONE_GetLight  0x02011400  thumb
+ *   GF_STANDARD_GetCachedTime  0x0203F4CC  arm
  *   WAZA_TOOL_GetMaxPP 0x0201C158 thumb
  *   POKE_TOOL_IsPPRestorable 0x0201B920 thumb
  *   POKE_TOOL_GetExpForLevel 0x02018584 thumb
@@ -544,7 +544,7 @@ extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
 extern u32 POKEPARTY_GetCount(void *);
 extern u8 UI_GetInputMode(void);
-extern u16 FILE_UTIL_Get_12B0(u16 id);
+extern u16 FILE_UTIL_GetMachineMove(u16 id);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern struct PlistPlate *PLIST_PLATE_Create(PokelistWork *work, int k, void *mon);
 extern struct PlistPlate *PLIST_PLATE_CreateEmpty(PokelistWork *work, int k);
@@ -553,7 +553,7 @@ extern void PLIST_MENU_InitTimer(PokelistWork *work);
 extern int GFL_USE_AddMainTask(void (*cb)(void *, PokelistWork *), PokelistWork *work, int pri);
 extern u32 *PLIST_MESSAGE_Create(PokelistWork *work);
 extern u32 *PLIST_MENU_Create(PokelistWork *work);
-extern void BG_SYS_SetFlagField06(u32 id);
+extern void BG_SYS_MarkTileDirty(u32 id);
 extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
 extern void TCB_DeleteTask(struct Node *n);
 extern void PLIST_MENU_DeleteTaskMenuWin(int x);
@@ -595,7 +595,7 @@ extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_Create(u16 heapId);
 extern void BMP_WIN_Init(u16 heapId);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
@@ -670,7 +670,7 @@ extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
-extern u32 FILE_UTIL_Check136C(u16);
+extern u32 FILE_UTIL_IsMailItem(u16);
 extern struct Sub02008F80Obj *MAIL_CreateSlotCopy(struct Sub02008F80Obj *arr, u32 unused, int i, u32 heap);
 extern void MAIL_ClearSlot(struct Sub02008F80Obj *arr, u32 unused, int i);
 extern int PLIST_MENU_IsSpecialItemKind(PokelistWork *work, int id);
@@ -714,7 +714,7 @@ extern int   MAIL_FindEmptySlot(void *obj, int v);
 extern void *MAIL_Create(int heapId);
 extern void MAIL_SetSlot(struct Sub02008F80Obj *arr, u32 unused, int i, const struct Sub02008F80Obj *src);
 extern u32 POKE_TOOL_AddMove(void *,u32);
-extern u32 POKE_TOOL_FindMoveSlot(void *,u16);
+extern u32 POKE_TOOL_AddMoveAlt(void *,u16);
 extern void POKE_TOOL_SetMoveSlot(void *,u16,u32);
 extern void POKE_TOOL_ReplaceMoveSlot(void *,u16,u32);
 extern void NATSUKI_Calc(void *, int, int, int);
@@ -1108,7 +1108,7 @@ int POKELIST_InitWork(PokelistWork *work)
     }
     arg = work->arg;
     if (arg->mode == 6 && arg->moveId == 0)
-        work->arg->moveId = FILE_UTIL_Get_12B0(arg->itemId);
+        work->arg->moveId = FILE_UTIL_GetMachineMove(arg->itemId);
     POKELIST_SetupDisplay(work);
     POKELIST_LoadGraphics(work);
     POKELIST_CreateFonts(work);
@@ -1129,9 +1129,9 @@ int POKELIST_InitWork(PokelistWork *work)
     work->messageWindow = (int)PLIST_MESSAGE_Create(work);
     work->contextMenu = (int)PLIST_MENU_Create(work);
     POKELIST_StartMode(work);
-    BG_SYS_SetFlagField06(3);
-    BG_SYS_SetFlagField06(2);
-    BG_SYS_SetFlagField06(7);
+    BG_SYS_MarkTileDirty(3);
+    BG_SYS_MarkTileDirty(2);
+    BG_SYS_MarkTileDirty(7);
     GFL_NET_RestartWithDefaultTimeout(1, work->heapId);
     return 1;
 }
@@ -1507,8 +1507,8 @@ void POKELIST_SetupDisplay(PokelistWork *work)
     POKELIST_SetupBgPlanes(work);
     G2x_SetBlendAlpha_(0x04000050, 0x14, 8, 0x10, 10);
     G2x_SetBlendAlpha_(0x04001050, 4, 8, 0x10, 10);
-    BG_SYS_FillScrollArea(2, 0, 0x80);
-    BG_SYS_FillScrollArea(1, 0, 0x80);
+    BG_SYS_ChangeScrollImmediate(2, 0, 0x80);
+    BG_SYS_ChangeScrollImmediate(1, 0, 0x80);
     b = gClActorInitParam;
     CLACT_InitSystem((const struct Cfg *)(&b), (u32)(&a), work->heapId);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
@@ -1952,7 +1952,7 @@ void POKELIST_ApplySelection(PokelistWork *work)
     case 9:
         old=POKE_TOOL_GetPartyValue((void *)work->selectedMon,6,0);
         if (old == 0) {
-            if (FILE_UTIL_Check136C(work->arg->itemId) == 1) {
+            if (FILE_UTIL_IsMailItem(work->arg->itemId) == 1) {
                 work->phase=19; work->arg->selectedIndex=work->selectedSlot; work->arg->exitCode=6; return;
             }
             work->arg->exitCode=10;
@@ -1969,7 +1969,7 @@ void POKELIST_ApplySelection(PokelistWork *work)
             } else POKELIST_ShowMessage(work,0x56,1,POKELIST_EndMessageToExit);
             PLIST_MESSAGE_DestroyWordSet(work,work->messageWindow); return;
         }
-        if (FILE_UTIL_Check136C(old)==1) {
+        if (FILE_UTIL_IsMailItem(old)==1) {
             work->arg->exitCode=10; POKELIST_ShowMessage(work,0x39,1,POKELIST_EndMessageToExit); return;
         }
         PLIST_MESSAGE_CreateWordSet(work,work->messageWindow);
@@ -2050,7 +2050,7 @@ void POKELIST_OpenContextMenu(PokelistWork *work)
             buf[0] = 0;
             buf[4] = 6;
             buf[5] = 0x10;
-            if (FILE_UTIL_Check136C(POKE_TOOL_GetPartyValue((void *)work->selectedMon, 6, 0)) == 1) {
+            if (FILE_UTIL_IsMailItem(POKE_TOOL_GetPartyValue((void *)work->selectedMon, 6, 0)) == 1) {
                 buf[3] = 5;
             }
         }
@@ -2809,7 +2809,7 @@ void POKELIST_EnterMenuPhase(PokelistWork *work)
     work->fadeMode = 1;
     CLACT_SetActorDrawEnable(work->switchButtonActor, 0);
     CLACT_SetActorDrawEnable(work->backButtonActor, 0);
-    BG_SYS_SetFlagField06(0);
+    BG_SYS_MarkTileDirty(0);
     UI_SetInputMode(work->touchMode);
 }
 
@@ -3446,7 +3446,7 @@ void POKELIST_OnTakeItemChoice(PokelistWork *work, int choice)
                 PLIST_MESSAGE_CloseWindow(work, (u32 *)work->messageWindow);
                 POKELIST_ShowMessage(work, 0x3f, 1, POKELIST_EndMessageToExit);
             }
-        } else if (FILE_UTIL_Check136C(work->arg->itemId) == 1) {
+        } else if (FILE_UTIL_IsMailItem(work->arg->itemId) == 1) {
             work->arg->selectedIndex = work->selectedSlot;
             work->phase = 0x13;
             work->arg->exitCode = 6;
@@ -3644,7 +3644,7 @@ u32 POKELIST_TryLearnMove(PokelistWork *work, void *mon)
     if (arg->mode == 5 || arg->mode == 8)
         return POKE_TOOL_AddMove(mon, arg->moveId);
     else
-        return POKE_TOOL_FindMoveSlot(mon, arg->moveId);
+        return POKE_TOOL_AddMoveAlt(mon, arg->moveId);
 }
 
 /*

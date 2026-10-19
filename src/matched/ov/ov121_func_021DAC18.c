@@ -13,7 +13,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   MIi_CpuClear32 0x02082A7C arm
  *   func_0203084C 0x0203084C arm
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   MYSTERY_ALBUM_SetupEntry 0x021DBDF4 thumb ov121
  *   MYSTERY_UTIL_CreateTask 0x021DA854 thumb ov121
  *   MYSTERY_ALBUM_Setup 0x021DB018 thumb ov121
@@ -46,7 +46,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void MI_CpuFill8(void *,int,int);
 extern void MIi_CpuClear32(int,void *,int);
 extern void *func_0203084C(u32 heapId);
-extern void BG_SYS_FillScrollArea(u32,u32,u32);
+extern void BG_SYS_ChangeScrollImmediate(u32,u32,u32);
 struct Obj;
 extern u32 MYSTERY_DATA_GetCardSlotNum(struct Obj *);
 extern u32 MYSTERY_DATA_IsCardExist(u8 *p, u32 a);
@@ -111,8 +111,8 @@ char *MYSTERY_ALBUM_Create(const Input *src,u16 heap)
         MYSTERY_ALBUM_RequestSetup(((struct Obj00910 *)out)->fA7C,0);
         func_0203084C(29);
     }
-    BG_SYS_FillScrollArea(3,3,0);
-    BG_SYS_FillScrollArea(7,3,0);
+    BG_SYS_ChangeScrollImmediate(3,3,0);
+    BG_SYS_ChangeScrollImmediate(7,3,0);
     return out;
 }
 

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTLV_INPUT_GetScreenButtonTable",
+   "name": "BTLV_INPUT_StepFingerDemo",
    "address": "0x02203040",
    "kind": "game",
    "region": "ov094",

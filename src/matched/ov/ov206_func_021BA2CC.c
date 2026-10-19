@@ -15,7 +15,7 @@
  *   ZUKAN_INFO_DeleteIconActors 0x021BB480 thumb ov206
  *   func_02030EAC 0x02030EAC arm
  *   ZUKAN_INFO_DeleteMainWindows 0x021BB0E4 thumb ov206
- *   BG_SYS_DeleteHalf 0x0203FB44 arm
+ *   BG_SYS_FreeTileRun 0x0203FB44 arm
  *   ZUKAN_INFO_FreeResources 0x021BC008 thumb ov206
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_QUE_Delete 0x0201C4C0 thumb
@@ -34,7 +34,7 @@ extern void ZUKAN_INFO_DeleteFormGfx(char *p);
 extern void ZUKAN_INFO_DeleteIconActors(char *p);
 extern void func_02030EAC(struct Node *n);
 extern void ZUKAN_INFO_DeleteMainWindows(char *p);
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 struct S;
 extern void ZUKAN_INFO_FreeResources(struct S *p);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
@@ -52,11 +52,11 @@ void ZUKAN_INFO_Delete(char *p)
     func_02030EAC(((struct Obj00173 *)p)->f50);
     ZUKAN_INFO_DeleteMainWindows(p);
     if(((struct Obj00173 *)p)->f40!=0) {
-        BG_SYS_DeleteHalf(((struct Obj00173 *)p)->f4E,(u16)((struct Obj00173 *)p)->f3C,(u16)(((struct Obj00173 *)p)->f3C>>16));
+        BG_SYS_FreeTileRun(((struct Obj00173 *)p)->f4E,(u16)((struct Obj00173 *)p)->f3C,(u16)(((struct Obj00173 *)p)->f3C>>16));
         ((struct Obj00173 *)p)->f40=0;
     }
-    BG_SYS_DeleteHalf(((struct Obj00173 *)p)->f4E,(u16)((struct Obj00173 *)p)->f34,(u16)(((struct Obj00173 *)p)->f34>>16));
-    BG_SYS_DeleteHalf(((struct Obj00173 *)p)->f4D,(u16)((struct Obj00173 *)p)->f30,(u16)(((struct Obj00173 *)p)->f30>>16));
+    BG_SYS_FreeTileRun(((struct Obj00173 *)p)->f4E,(u16)((struct Obj00173 *)p)->f34,(u16)(((struct Obj00173 *)p)->f34>>16));
+    BG_SYS_FreeTileRun(((struct Obj00173 *)p)->f4D,(u16)((struct Obj00173 *)p)->f30,(u16)(((struct Obj00173 *)p)->f30>>16));
     ZUKAN_INFO_FreeResources((struct S *)p);
     PRINTSYS_QUE_Clear(((struct Obj00173 *)p)->f2C);
     PRINTSYS_QUE_Delete(((struct Obj00173 *)p)->f2C);

@@ -28,7 +28,7 @@
  *   BOX2_SEQ_SetSeqThird 0x021E8FC0 thumb
  *   BOX2_MAIN_StateMachineOpen 0x021E002C thumb
  *   BOX2_SEQ_Delete 0x021EA1E8 thumb
- *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb
+ *   BOX2_MAIN_RefreshCurrentBoxMonInfo 0x021DEFEC thumb
  *   BOX2_UI_ShowWindowB 0x021EF68C thumb
  *
  * Four-step machine on the work word at 0xA194 for releasing a Pokemon:
@@ -56,7 +56,7 @@ extern void BOX2_SEQ_Create(void *p);
 extern int BOX2_SEQ_SetSeqThird(char *p, int a, int b);
 extern int BOX2_MAIN_StateMachineOpen(unsigned char *p);
 extern void BOX2_SEQ_Delete(char *p);
-extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
+extern void BOX2_MAIN_RefreshCurrentBoxMonInfo(char *p, int b);
 extern void BOX2_UI_ShowWindowB(char *w);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
@@ -110,7 +110,7 @@ int BOX2_SEQ_StateMoveItemF(unsigned char *p)
     case 3:
         STEP(p) = 0;
         BOX2_SEQ_Delete((char *)p);
-        BOX2_MAIN_ChangeBoxFormPreserve((char *)p, p[0x16]);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p, p[0x16]);
         CURSOR_MOVE_SetCurrent(OBJ(p), p[0x16] - 0x1E);
         BOX2_UI_SetCursorPos((char **)p, p[0x16] - 0x1E);
         BOX2_SEQ_SetCursorDraw((char **)p, 1);

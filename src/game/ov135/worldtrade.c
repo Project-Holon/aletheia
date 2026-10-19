@@ -1,7 +1,7 @@
 /*
  * file:     worldtrade.c
  * unit:     yes
- * function: WORLDTRADE_ProcInit, WORLDTRADE_ProcMain, WORLDTRADE_ProcExit, WORLDTRADE_VBlankTask, WORLDTRADE_SetupVramBanks, WORLDTRADE_CallStateHandler, WORLDTRADE_Nop, WORLDTRADE_SetupWindowPlanes, WORLDTRADE_InitClactSystem, WORLDTRADE_SetPlaneVisibleAll, WORLDTRADE_OpenTaskMenuYesNoDefault, WORLDTRADE_OpenTaskMenuYesNo, WORLDTRADE_CloseTaskMenu, WORLDTRADE_UpdateTaskMenuYesNo, WORLDTRADE_OpenTaskMenuList, WORLDTRADE_UpdateTaskMenuList, WORLDTRADE_CloseTaskMenuList, WORLDTRADE_SetNextState, WORLDTRADE_SetActorSurfacePos, WORLDTRADE_GetWifiLinkLevel, WORLDTRADE_SetStateAndReturn, WORLDTRADE_ClearBusyFlag, WORLDTRADE_QueryGameData, WORLDTRADE_SetupGraphics, WORLDTRADE_ReleaseGraphics, WORLDTRADE_DecrementTimer, WORLDTRADE_ClearSelectedSpecies, WORLDTRADE_CreateTimeIcon, WORLDTRADE_DeleteTimeIcon, WORLDTRADE_SetActorPos, WORLDTRADE_SetBrightnessIn, WORLDTRADE_SetBrightnessOut, WORLDTRADE_ClearBlendRegs, WORLDTRADE_ClearAndShowPlanes, WORLDTRADE_ExitPlanes, WORLDTRADE_CancelSave
+ * function: WORLDTRADE_ProcInit, WORLDTRADE_ProcMain, WORLDTRADE_ProcExit, WORLDTRADE_VBlankTask, WORLDTRADE_SetupVramBanks, WORLDTRADE_CallStateHandler, WORLDTRADE_Nop, WORLDTRADE_SetupWindowPlanes, WORLDTRADE_InitClactSystem, WORLDTRADE_SetPlaneVisibleAll, WORLDTRADE_OpenTaskMenuYesNoDefault, WORLDTRADE_OpenTaskMenuYesNo, WORLDTRADE_CloseTaskMenu, WORLDTRADE_UpdateTaskMenuYesNo, WORLDTRADE_OpenTaskMenuList, WORLDTRADE_UpdateTaskMenuList, WORLDTRADE_CloseTaskMenuList, WORLDTRADE_SetNextState, WORLDTRADE_SetActorSurfacePos, WORLDTRADE_GetWifiLinkLevel, WORLDTRADE_SetStateAndReturn, WORLDTRADE_AdvanceScreenId, WORLDTRADE_GetMessageWait, WORLDTRADE_SetupGraphics, WORLDTRADE_ReleaseGraphics, WORLDTRADE_DecrementTimer, WORLDTRADE_ClearSelectedSpecies, WORLDTRADE_CreateTimeIcon, WORLDTRADE_DeleteTimeIcon, WORLDTRADE_SetActorPos, WORLDTRADE_SetBrightnessIn, WORLDTRADE_SetBrightnessOut, WORLDTRADE_ClearBlendRegs, WORLDTRADE_ClearAndShowPlanes, WORLDTRADE_ExitPlanes, WORLDTRADE_CancelSave
  * address:  0x021F4580
  * region:   ov135
  * compiler: dsi/1.1p1
@@ -92,7 +92,7 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GF_OVERLAY_Load  0x02034AC4  arm
  *   GFL_USE_CancelChangeAndStopBgm  0x02005D28  thumb  arm9
- *   GFL_USE_SetBgmPlayerParam  0x02005DE4  thumb  arm9
+ *   GFL_USE_SetBgmPaused  0x02005DE4  thumb  arm9
  *   GAME_DATA_SaveCancel  0x02012E08  thumb  arm9
  *   PROCSYS_Create  0x02031324  arm  arm9
  *   BG_SYS_ClearGraphicsMemory  0x0204335C  arm  arm9
@@ -109,7 +109,7 @@
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm  arm9
  *   WORLDTRADE_ExitPlanes 0x021F50EC thumb ov135
  *   WORLDTRADE_ClearAndShowPlanes  0x021F5074  thumb  ov135
- *   WORLDTRADE_ClearBusyFlag  0x021F4EC8  thumb  ov135
+ *   WORLDTRADE_AdvanceScreenId  0x021F4EC8  thumb  ov135
  *   WORLDTRADE_SetStateAndReturn  0x021F4EC0  thumb
  *   WORLDTRADE_CancelSave  0x021F513C  thumb  ov135
  *   WORLDTRADE_DeleteTimeIcon  0x021F4FC4  thumb  ov135
@@ -126,11 +126,11 @@
  *   WORLDTRADE_SetActorSurfacePos 0x021F4EA0 thumb ov135
  *   WORLDTRADE_OpenTaskMenuYesNoDefault  0x021F4BE0  thumb  ov135
  *   WORLDTRADE_ClearSelectedSpecies 0x021F4F90 thumb ov135
- *   WORLDTRADE_QueryGameData 0x021F4ED4 thumb ov135
+ *   WORLDTRADE_GetMessageWait 0x021F4ED4 thumb ov135
  *   WORLDTRADE_CreateTimeIcon  0x021F4FA4  thumb
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   WORDSET_Create  0x0201EC74  thumb  arm9
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb  arm9
+ *   WORDSET_Delete  0x0201ED04  thumb  arm9
  *   BG_SYS_Create  0x0203F8F4  arm  arm9
  *   BG_SYS_Update  0x020419E4  arm  arm9
  *   G2x_SetBlendBrightness_  0x0207D658  arm  arm9
@@ -211,7 +211,7 @@ extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fi
 
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 
-extern void GFL_USE_SetBgmPlayerParam(void *p);
+extern void GFL_USE_SetBgmPaused(void *p);
 
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 
@@ -239,7 +239,7 @@ extern void CLACT_DrawSystem(void *);
 
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 
-extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern unsigned int WORDSET_Delete(struct WordSet *p);
 
 extern void TCB_Noop(void *);
 
@@ -413,9 +413,9 @@ int WORLDTRADE_GetWifiLinkLevel(void);
 
 void WORLDTRADE_SetStateAndReturn(Work *p, u32 a, u32 b);
 
-void WORLDTRADE_ClearBusyFlag(Work *p);
+void WORLDTRADE_AdvanceScreenId(Work *p);
 
-int WORLDTRADE_QueryGameData(void);
+int WORLDTRADE_GetMessageWait(void);
 
 void WORLDTRADE_SetupGraphics(Work *p);
 
@@ -489,7 +489,7 @@ int WORLDTRADE_ProcInit(void *proc, int *seq, Args *args)
     WORLDTRADE_CallStateHandler((Work *)p, (Args *)args);
     BG_SYS_ClearGraphicsMemory(0);
     WORLDTRADE_ClearAndShowPlanes(p);
-    GFL_USE_SetBgmPlayerParam(0);
+    GFL_USE_SetBgmPaused(0);
     GFL_USE_CancelChangeAndStopBgm();
     return 1;
 }
@@ -547,7 +547,7 @@ int WORLDTRADE_ProcExit(void *ctx, int unused1, int unused2, Work *p)
     MSGDATA_Delete(p->msg[2]);
     MSGDATA_Delete(p->bank);
     MSGDATA_Delete(p->msg_p);
-    WORDSET_DeleteStrbufED04(p->words);
+    WORDSET_Delete(p->words);
     TCB_Noop(p->rec_p);
     GFL_HEAP_Free(p->recMem);
     PROCSYS_Delete(p->procSys);
@@ -846,13 +846,13 @@ void WORLDTRADE_SetStateAndReturn(Work *p, u32 nextScreenId, u32 kind)
 /*
  * Save the current value at +0x10 into +0x1c and move +0x14 down into +0x10.
  */
-void WORLDTRADE_ClearBusyFlag(Work *p)
+void WORLDTRADE_AdvanceScreenId(Work *p)
 {
     p->prevScreenId = p->screenId;
     p->screenId = p->nextScreenId;
 }
 
-int WORLDTRADE_QueryGameData(void)
+int WORLDTRADE_GetMessageWait(void)
 {
     return MSG_SPEED_GetWait();
 }

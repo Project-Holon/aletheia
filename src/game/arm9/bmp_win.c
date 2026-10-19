@@ -17,11 +17,11 @@
  *   GFL_HEAP_Free  0x020307B0  arm
  *   sBmpWinHeapRecord     0x02146A50  data
  *   bmpWin_File   0x020A7E70  data
- *   BG_SYS_GetField16  0x0204169C  arm
+ *   BG_SYS_GetColorMode  0x0204169C  arm
  *   BG_SYS_CreateRun  0x0203FA08  arm
  *   BG_SYS_ReserveTileRun  0x0203FAF0  arm
- *   BG_SYS_DeleteHalf  0x0203FB44  arm
- *   BG_SYS_GetField17  0x020416B8  arm
+ *   BG_SYS_FreeTileRun  0x0203FB44  arm
+ *   BG_SYS_GetTileBytes  0x020416B8  arm
  *   BG_SYS_LoadTileData  0x02040B1C  arm
  *   BG_SYS_GetType  0x02041680  arm
  *   BG_SYS_DrawTileEx  0x020410D0  arm
@@ -59,15 +59,15 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern u8 BG_SYS_GetField16(int channel);
+extern u8 BG_SYS_GetColorMode(int channel);
 
 extern u32 BG_SYS_CreateRun(u32 layer, u32 size, u32 top);
 
 extern u32 BG_SYS_ReserveTileRun(u32 layer, u32 offset, u32 units);
 
-extern void BG_SYS_DeleteHalf(u32 layer, u32 offset, u32 size);
+extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 
-extern u8 BG_SYS_GetField17(int channel);
+extern u8 BG_SYS_GetTileBytes(int channel);
 
 extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 
@@ -181,7 +181,7 @@ void BMP_WIN_Exit(void)
 
 /*
  * Set up a BG layer whose character data is placed at a VRAM offset chosen
- * by the allocator.  BG_SYS_GetField16 says whether the layer is 8bpp; that
+ * by the allocator.  BG_SYS_GetColorMode says whether the layer is 8bpp; that
  * decides both the flag handed to BMP_WIN_Alloc and whether a cell costs one
  * or two units, and the unit count is scaled by 32 to bytes before
  * BG_SYS_CreateRun is asked for room.  A returned -1 (not 0) is the allocator's
@@ -203,7 +203,7 @@ struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 heig
     u32 charCount;
     s32 offset;
 
-    if (BG_SYS_GetField16(bgLayer) == 0) {
+    if (BG_SYS_GetColorMode(bgLayer) == 0) {
         is8bpp = 0;
         charCount = width * height;
     } else {
@@ -249,7 +249,7 @@ struct BmpWin *BMP_WIN_CreateAt(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 he
     u8 is8bpp;
     u32 charCount;
 
-    if (BG_SYS_GetField16(bgLayer) == 0) {
+    if (BG_SYS_GetColorMode(bgLayer) == 0) {
         is8bpp = 0;
         charCount = width * height;
     } else {
@@ -328,7 +328,7 @@ struct BmpWin *BMP_WIN_Alloc(u32 bgLayer, u32 posX, u32 posY,
 
 /*
  * The descriptor family's destructor: release the payload through
- * BG_SYS_DeleteHalf, release the heap handle through BMP_Delete, then free
+ * BG_SYS_FreeTileRun, release the heap handle through BMP_Delete, then free
  * the descriptor itself with the generic free at 0x020307B0 (the same
  * free STRBUF_Delete tail-calls).
  *
@@ -369,7 +369,7 @@ u32 BMP_WIN_Delete(struct BmpWin *win)
     } else {
         charCount = (win->width * win->height) * 2;
     }
-    BG_SYS_DeleteHalf(win->bgLayer, win->charOffset, charCount * 32);
+    BG_SYS_FreeTileRun(win->bgLayer, win->charOffset, charCount * 32);
     BMP_Delete(win->bmp);
     return GFL_HEAP_Free(win);
 }
@@ -379,7 +379,7 @@ u32 BMP_WIN_Delete(struct BmpWin *win)
  * BMP_WIN_Delete immediately before it). It sizes the descriptor's payload
  * as
  *
- *   BG_SYS_GetField17(win->bgLayer) * (win->width * win->height)
+ *   BG_SYS_GetTileBytes(win->bgLayer) * (win->width * win->height)
  *
  * and passes that, the heap handle obtained from d->heap via
  * BMP_GetPixels, and win->charOffset on to BG_SYS_LoadTileData.
@@ -406,7 +406,7 @@ void BMP_WIN_TransferChars(struct BmpWin *win)
 {
     u32 byteCount;
 
-    byteCount = (win->width * win->height) * BG_SYS_GetField17(win->bgLayer);
+    byteCount = (win->width * win->height) * BG_SYS_GetTileBytes(win->bgLayer);
     BG_SYS_LoadTileData(win->bgLayer, BMP_GetPixels(win->bmp), byteCount, win->charOffset);
 }
 

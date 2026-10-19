@@ -12,7 +12,7 @@
  *   CLACT_GetActorSurfacePos  0x0204B454  arm  arm9
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
  *   CLACT_AddActorSurfacePos  0x0204B404  arm  arm9
- *   BG_SYS_ResetSlot  0x02041EE4  arm  arm9
+ *   BG_SYS_ChangeScroll  0x02041EE4  arm  arm9
  */
 typedef struct { short x, y; } Pt;
 typedef struct {
@@ -33,7 +33,7 @@ extern void CLACT_AddActorSurfacePos(void *, const Pt *, unsigned short);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 extern unsigned func_0209C2B0(unsigned, unsigned);
 typedef unsigned int   u32;
-extern void BG_SYS_ResetSlot(u32 index, u32 a, u32 b);
+extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
 int WIFIBATTLEMATCH_VIEW_StepMainWindowIdle(Work *w)
 {
     int ret = 0;
@@ -62,7 +62,7 @@ int WIFIBATTLEMATCH_VIEW_StepMainWindowIdle(Work *w)
         w->count = 0;
         ret = 1;
     }
-    BG_SYS_ResetSlot((unsigned char)(w->bg + 1), (int)0, (int)level);
-    BG_SYS_ResetSlot((unsigned char)w->bg, (int)0, (int)level);
+    BG_SYS_ChangeScroll((unsigned char)(w->bg + 1), (int)0, (int)level);
+    BG_SYS_ChangeScroll((unsigned char)w->bg, (int)0, (int)level);
     return ret;
 }

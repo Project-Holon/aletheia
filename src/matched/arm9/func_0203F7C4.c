@@ -1,5 +1,5 @@
 /*
- * function: GF_STANDARD_SetupCalc_F7C4
+ * function: GF_STANDARD_SignedDistanceToLine
  * address:  0x0203F7C4
  * packet:   pkt_0203F7C4
  * region:   arm9
@@ -17,7 +17,7 @@
  * gf_standard.c: signed distance from point C to the line through A and B,
  * six plain-integer coordinates shifted into 20.12 on entry
  * (docs/families/gf_standard.h).  Closed from the 304-byte / 55-out source
- * of docs/notes/GF_STANDARD_SetupCalc_F7C4.c.txt by one change: the value tested for the
+ * of docs/notes/GF_STANDARD_SignedDistanceToLine.c.txt by one change: the value tested for the
  * sign is the SUM OF ALL THREE COMPONENTS of f = (0, 0, cross_z),
  *     cross = f.x + f.y + f.z;
  * not `f.z + a.z`.  The image's `add r2, r7, #0` is f.x + f.y (the zero
@@ -50,7 +50,7 @@ static inline fx32 cross2(const struct VecFx32 *p, const struct VecFx32 *q)
     return mulfx(px, q->y) - mulfx(q->x, py);
 }
 
-s32 GF_STANDARD_SetupCalc_F7C4(s32 ax, s32 ay, s32 bx, s32 by, s32 cx, s32 cy)
+s32 GF_STANDARD_SignedDistanceToLine(s32 ax, s32 ay, s32 bx, s32 by, s32 cx, s32 cy)
 {
     struct VecFx32 a;
     struct VecFx32 b;

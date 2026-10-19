@@ -1,8 +1,8 @@
 /*
  * file:     gds_socket.c
  * unit:     yes
- * function: GDS_SOCKET_Unlock, GDS_SOCKET_InitLock, GDS_SOCKET_Nop, GDS_SOCKET_InitTick, GDS_SOCKET_NopVoid, GDS_SOCKET_ThreadEntry, GDS_SOCKET_StartThread, GDS_SOCKET_IsDottedQuad, GDS_SOCKET_ResolveHost, GDS_SOCKET_OpenAndResolve, GDS_SOCKET_Close, GDS_SOCKET_Connect, GDS_SOCKET_Send, GDS_SOCKET_Receive, GDS_SOCKET_Sleep, GDS_SOCKET_WaitToken, GDS_SOCKET_NopBegin, GDS_SOCKET_InitSsl, GDS_SOCKET_Begin, GDS_SOCKET_Shutdown, GDS_SOCKET_GetState, GDS_SOCKET_GetError, GDS_SOCKET_GetReply, GDS_SOCKET_GetReplySize, GDS_SOCKET_GetMaxReplySize, GDS_SOCKET_SendUploadEntry, GDS_SOCKET_SendDownloadEntries, GDS_SOCKET_SendUploadVideo, GDS_SOCKET_SendSearchByCondition, GDS_SOCKET_SendSearchKind1, GDS_SOCKET_SendSearchKind3, GDS_SOCKET_SendSearchKind2, GDS_SOCKET_SendGetVideo, GDS_SOCKET_SendMarkVideo, GDS_SOCKET_GetRequestSize, GDS_SOCKET_GetMaxReplySizeOf, GDS_SOCKET_SslAuthCallback, GDS_SOCKET_InitSslTemplate, GDS_SOCKET_SetSslTemplate, GDS_SOCKET_SetSslAuthCallback, GDS_SOCKET_SetRootCa, GDS_SOCKET_CopySslTemplate, GDS_SOCKET_FreeSslServerName
- * address:  0x021D7CC0
+ * function: GDS_SOCKET_Reset, GDS_SOCKET_Start, GDS_SOCKET_ResetConnection, GDS_SOCKET_RunConnection, GDS_SOCKET_SendRequest, GDS_SOCKET_GetStateUnlocked, GDS_SOCKET_GetReplyUnlocked, GDS_SOCKET_GetReplySizeUnlocked, GDS_SOCKET_GetErrorUnlocked, GDS_SOCKET_Alloc, GDS_SOCKET_Free, GDS_SOCKET_Lock, GDS_SOCKET_Unlock, GDS_SOCKET_InitLock, GDS_SOCKET_Nop, GDS_SOCKET_InitTick, GDS_SOCKET_NopVoid, GDS_SOCKET_ThreadEntry, GDS_SOCKET_StartThread, GDS_SOCKET_IsDottedQuad, GDS_SOCKET_ResolveHost, GDS_SOCKET_OpenAndResolve, GDS_SOCKET_Close, GDS_SOCKET_Connect, GDS_SOCKET_Send, GDS_SOCKET_Receive, GDS_SOCKET_Sleep, GDS_SOCKET_WaitToken, GDS_SOCKET_NopBegin, GDS_SOCKET_InitSsl, GDS_SOCKET_Begin, GDS_SOCKET_Shutdown, GDS_SOCKET_GetState, GDS_SOCKET_GetError, GDS_SOCKET_GetReply, GDS_SOCKET_GetReplySize, GDS_SOCKET_GetMaxReplySize, GDS_SOCKET_SendUploadEntry, GDS_SOCKET_SendDownloadEntries, GDS_SOCKET_SendUploadVideo, GDS_SOCKET_SendSearchByCondition, GDS_SOCKET_SendSearchKind1, GDS_SOCKET_SendSearchKind3, GDS_SOCKET_SendSearchKind2, GDS_SOCKET_SendGetVideo, GDS_SOCKET_SendMarkVideo, GDS_SOCKET_GetRequestSize, GDS_SOCKET_GetMaxReplySizeOf, GDS_SOCKET_SslAuthCallback, GDS_SOCKET_InitSslTemplate, GDS_SOCKET_SetSslTemplate, GDS_SOCKET_SetSslAuthCallback, GDS_SOCKET_SetRootCa, GDS_SOCKET_CopySslTemplate, GDS_SOCKET_FreeSslServerName
+ * address:  0x021D770C
  * region:   ov125
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -49,6 +49,8 @@
  *   SOC_Shutdown 0x0215F638 arm ov009
  *   SOC_Close 0x0215F644 arm ov009
  *   gGdsHostTail 0x021DA040 data a4
+ *   gGdsSocketObj 0x021D9E40 data a4
+ *   gGdsHostTailObj 0x021DA040 data a4
  *   OS_GetTick 0x020870D0 arm
  *   _ll_udiv 0x0209C00C arm
  *   SOC_Connect 0x0215F480 arm ov009
@@ -86,6 +88,10 @@
  *   STD_CopyString 0x0208CADC arm
  *   GDS_SOCKET_Free  0x021D7C90  arm  ov125
  *   strcpy  0x02094798  arm  arm9
+ *   DWC_Alloc  0x0205A16C  arm
+ *   DWC_Free 0x0205A1B0 arm
+ *   OS_LockMutex  0x02086028  arm
+ *   memcpy 0x02092344 arm
  */
 
 typedef unsigned char u8;
@@ -126,8 +132,12 @@ extern void OS_Sleep(unsigned long msec);
 extern int DWC_SVLGetTokenAsync(const char *svl, DWCSvlResult *result);
 extern int DWC_SVLProcess(void);
 extern int DWC_GetLastErrorEx(int *errorCode, int *errorType);
-extern void GDS_SOCKET_Start(const char *host, int port, GdsClientInfo *client);
+int GDS_SOCKET_Start(const char *host, int port, GdsClientInfo *client);
+extern char *DWC_Alloc(int heap, int size);
+extern void DWC_Free(int heap, int ptr, int flags);
+extern void OS_LockMutex(void *mutex);
 extern void GDS_SOCKET_Reset(void);
+void GDS_SOCKET_ResetConnection(void);
 extern unsigned GDS_SOCKET_GetStateUnlocked(void);
 extern int GDS_SOCKET_GetErrorUnlocked(void);
 extern void *GDS_SOCKET_GetReplyUnlocked(void);
@@ -139,7 +149,7 @@ extern void CPS_SslAddRandomSeed(void *seed, u32 size);
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u32 STD_GetStringLength(const char *s);
-extern char *GDS_SOCKET_Alloc(u32 size);
+char *GDS_SOCKET_Alloc(int size);
 extern char *STD_CopyString(char *dst, const char *src);
 void GDS_SOCKET_Free(int ptr);
 void GDS_SOCKET_Unlock(void);
@@ -196,6 +206,10 @@ extern char gGdsConnectThreadStackTop[];
 extern char gGdsHostName[];
 extern CPSSslConnection gGdsSslConnection;
 extern GdsSocket d_021D9E40b;
+/* The same objects as plain (sized) declarations: the first two functions of the
+ * file were compiled against these, the unsized spellings schedule differently. */
+extern GdsSocket gGdsSocketObj;
+extern struct GdsHostTail gGdsHostTailObj;
 extern char gGdsReceiveThread[];
 extern const char sGdsSvlService[];
 extern const GdsRequestIdTable sGdsRequestIds;
@@ -203,6 +217,244 @@ extern u32 gGdsEntropyBuffer[8];
 extern CPSSslConnection gGdsSslTemplate;
 extern CPSSslConnection *gGdsSslTemplatePtr;
 extern SOCLCaInfo *sGdsRootCaList[];
+
+
+void GDS_SOCKET_Reset(void)
+{
+    GDS_SOCKET_ResetConnection();
+    __builtin__clear(&gGdsSocketObj, sizeof(GdsClientInfo));
+    gGdsSocketObj.tokenReady = 0;
+    gGdsSocketObj.hostName[0] = 0;
+    gGdsHostTailObj.port = 0;
+    GDS_SOCKET_Nop(&gGdsHostTailObj);
+    GDS_SOCKET_NopVoid();
+}
+
+int GDS_SOCKET_Start(const char *host, int port, GdsClientInfo *client)
+{
+    if (client) {
+        gGdsSocketObj.client = *client;
+        gGdsSocketObj.tokenReady = 0;
+    }
+    GDS_SOCKET_NopBegin();
+    if (!GDS_SOCKET_InitTick()) return 0;
+    GDS_SOCKET_InitLock();
+    strcpy(gGdsSocketObj.hostName, host);
+    gGdsHostTailObj.port = port;
+    gGdsSocketObj.sendBuffer = 0;
+    gGdsSocketObj.socket = -1;
+    GDS_SOCKET_ResetConnection();
+    return 1;
+}
+
+
+
+void GDS_SOCKET_ResetConnection(void) {
+ GDS_SOCKET_Close();
+ if(gGdsSocket->sendBuffer) {
+  GDS_SOCKET_Free((int)gGdsSocket->sendBuffer);
+  gGdsSocket->sendBuffer=0;
+ }
+ gGdsSocket->connectTimeout=15;
+ gGdsSocket->sendTimeout=30;
+ gGdsSocket->receiveTimeout=30;
+ gGdsSocket->sendSize=0;
+ gGdsSocket->receiveSize=0;
+ gGdsSocket->receiveBuffer=0;
+ gGdsSocket->serverAddress=0;
+ gGdsSocket->cancelRequested=0;
+ gGdsSocket->state=GDS_SOCKET_STATE_READY;
+ gGdsSocket->errorCode=0;
+ GDS_SOCKET_InitSsl();
+}
+
+
+
+/*
+ * lever: case 6 uses an explicit nested if for the error-13 split; the ternary spelling compiled four bytes short.
+ */
+void GDS_SOCKET_RunConnection(void)
+{
+    int finish, next;
+    for (;;) {
+        finish = 0;
+        switch (gGdsSocket->state) {
+        case GDS_SOCKET_STATE_IDLE: case GDS_SOCKET_STATE_READY: case GDS_SOCKET_STATE_CANCELLED: case GDS_SOCKET_STATE_DONE: case GDS_SOCKET_STATE_FAILED:
+            finish = 1;
+            break;
+        case GDS_SOCKET_STATE_TOKEN:
+            if (!GDS_SOCKET_WaitToken()) {
+                next = gGdsSocket->errorCode == GDS_SOCKET_ERROR_ABORTED ? 7 : 9;
+                finish = 1;
+            } else next = 3;
+            GDS_SOCKET_Lock();
+            gGdsSocket->state = next;
+            break;
+        case GDS_SOCKET_STATE_RESOLVE:
+            if (!GDS_SOCKET_OpenAndResolve()) {
+                next = gGdsSocket->errorCode == GDS_SOCKET_ERROR_ABORTED ? 7 : 9;
+                finish = 1;
+            } else next = 4;
+            GDS_SOCKET_Lock();
+            gGdsSocket->state = next;
+            break;
+        case GDS_SOCKET_STATE_CONNECT:
+            if (!GDS_SOCKET_Connect()) {
+                next = gGdsSocket->errorCode == GDS_SOCKET_ERROR_ABORTED ? 7 : 9;
+                finish = 1;
+            } else next = 5;
+            GDS_SOCKET_Lock();
+            gGdsSocket->state = next;
+            break;
+        case GDS_SOCKET_STATE_SEND:
+            if (!GDS_SOCKET_Send()) {
+                next = gGdsSocket->errorCode == GDS_SOCKET_ERROR_ABORTED ? 7 : 9;
+                finish = 1;
+            } else next = 6;
+            if (gGdsSocket->sendBuffer) {
+                GDS_SOCKET_Free((int)gGdsSocket->sendBuffer);
+                gGdsSocket->sendBuffer = 0;
+            }
+            GDS_SOCKET_Lock();
+            gGdsSocket->state = next;
+            break;
+        case GDS_SOCKET_STATE_RECEIVE:
+            if (!GDS_SOCKET_Receive()) {
+                if (gGdsSocket->errorCode == GDS_SOCKET_ERROR_ABORTED) next = 7;
+                else next = 9;
+            } else {
+                next = 8;
+            }
+            finish = 1;
+            GDS_SOCKET_Lock();
+            gGdsSocket->state = next;
+            break;
+        }
+        if (finish != 0) break;
+        if (gGdsSocket->cancelRequested == 1) {
+            gGdsSocket->state = GDS_SOCKET_STATE_CANCELLED;
+            gGdsSocket->errorCode = GDS_SOCKET_ERROR_ABORTED;
+            break;
+        }
+        GDS_SOCKET_Unlock();
+        GDS_SOCKET_Sleep(1);
+    }
+    GDS_SOCKET_Unlock();
+}
+
+
+
+typedef struct GdsLengthWord { u8 b[4]; } GdsLengthWord;
+
+
+
+/*
+ * 2026-10-05 (user decision): the long long temp for the call result is accepted as plausible original design (a 64-bit size type).
+ */
+int GDS_SOCKET_SendRequest(int requestId, void *body, void *replyBuffer, int bodySize)
+{
+    GdsLengthWord hdr;
+    GdsPacketHeader *packet;
+    GdsPacketHeader *q;
+    unsigned char *h;
+    int z;
+    GDS_SOCKET_Lock();
+    switch (gGdsSocket->state) {
+    case 0: case 2: case 3: case 4: case 5: case 6:
+        GDS_SOCKET_Unlock();
+        gGdsSocket->state = GDS_SOCKET_STATE_FAILED;
+        gGdsSocket->errorCode = 1;
+        return 0;
+    case 7:
+    case 8:
+    case 9:
+        GDS_SOCKET_ResetConnection();
+        break;
+    }
+    GDS_SOCKET_Unlock();
+    gGdsSocket->receiveSize = GDS_SOCKET_GetMaxReplySizeOf(requestId);
+    if (gGdsSocket->receiveSize == -1) {
+        gGdsSocket->state = GDS_SOCKET_STATE_FAILED;
+        gGdsSocket->errorCode = 2;
+        return 0;
+    }
+    gGdsSocket->receiveBuffer = replyBuffer;
+    if (bodySize != -1) {
+        bodySize += GDS_WIRE_HEADER_SIZE;
+        *(int *)&hdr = bodySize;
+    } else {
+        long long v = GDS_SOCKET_GetRequestSize(requestId);
+        bodySize = (int)v;
+        *(int *)&hdr = (int)v;
+        if ((int)v == -1) {
+            gGdsSocket->state = GDS_SOCKET_STATE_FAILED;
+            gGdsSocket->errorCode = 2;
+            return 0;
+        }
+    }
+    packet = (GdsPacketHeader *)GDS_SOCKET_Alloc(bodySize);
+    gGdsSocket->sendBuffer = (u8 *)packet;
+    if (packet == 0) return 0;
+    gGdsSocket->sendSize = bodySize;
+    h = (unsigned char *)&hdr;
+    ((u8 *)packet)[0] = h[0]; ((u8 *)packet)[1] = h[1]; ((u8 *)packet)[2] = h[2]; ((u8 *)packet)[3] = h[3];
+    q = (GdsPacketHeader *)gGdsSocket->sendBuffer;
+    q->requestId = requestId;
+    q->client = gGdsSocket->client;
+    z = 0;
+    q->reserved = z;
+    memcpy((u8 *)q + GDS_WIRE_HEADER_SIZE, body, bodySize - GDS_WIRE_HEADER_SIZE);
+    gGdsSocket->state = GDS_SOCKET_STATE_TOKEN;
+    GDS_SOCKET_Lock();
+    if (GDS_SOCKET_StartThread() == 0) {
+        gGdsSocket->state = GDS_SOCKET_STATE_FAILED;
+        gGdsSocket->errorCode = 6;
+        GDS_SOCKET_Unlock();
+        return z;
+    }
+    GDS_SOCKET_Unlock();
+    return 1;
+}
+
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ */
+unsigned int GDS_SOCKET_GetStateUnlocked(void)
+{
+    return gGdsSocket->state;
+}
+
+
+void *GDS_SOCKET_GetReplyUnlocked(void) {GDS_SOCKET_Lock(); if(GDS_SOCKET_GetStateUnlocked()!=GDS_SOCKET_STATE_DONE){GDS_SOCKET_Unlock();return 0;} GDS_SOCKET_Unlock();return gGdsSocket->receiveBuffer+4;}
+
+
+int GDS_SOCKET_GetReplySizeUnlocked(void){GDS_SOCKET_Lock();if(GDS_SOCKET_GetStateUnlocked()!=GDS_SOCKET_STATE_DONE){GDS_SOCKET_Unlock();return -1;}else{GDS_SOCKET_Unlock();return gGdsSocket->receiveSize;}}
+
+
+int GDS_SOCKET_GetErrorUnlocked(void){GDS_SOCKET_Lock();if(GDS_SOCKET_GetStateUnlocked()!=GDS_SOCKET_STATE_FAILED){GDS_SOCKET_Unlock();return 0;}else{GDS_SOCKET_Unlock();return gGdsSocket->errorCode;}}
+
+
+
+/*
+ * Addresses are Black-image addresses.
+ */
+char *GDS_SOCKET_Alloc(int size)
+{
+    return DWC_Alloc(0, size);
+}
+
+
+void GDS_SOCKET_Free(int ptr){if(ptr)DWC_Free(0,ptr,0);}
+
+
+
+void GDS_SOCKET_Lock(void)
+{
+    OS_LockMutex(gGdsSocketMutex);
+}
 
 
 void GDS_SOCKET_Unlock(void)

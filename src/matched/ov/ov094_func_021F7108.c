@@ -1,5 +1,5 @@
 /*
- * function: BTLV_CAMERA_ComputeOrbitOffset
+ * function: BTLV_CAMERA_AdvanceOrbitEye
  * address: 0x021F7108
  * packet: pkt_ov094_021F7108
  * region: ov094
@@ -17,7 +17,7 @@ extern const s16 FX_SinCosTable_[];
 extern void G3D_CAMERA_GetCamTarget(int, int *);
 #define MUL(a,b) ((int)(((long long)(a) * (b) + 0x800) >> 12))
 
-void BTLV_CAMERA_ComputeOrbitOffset(int *p, int a, int b, int *out, int *base)
+void BTLV_CAMERA_AdvanceOrbitEye(int *p, int a, int b, int *out, int *base)
 {
     G3D_CAMERA_GetCamTarget(p[1], base);
     p[2] += a;

@@ -1,5 +1,5 @@
 /*
- * function: WORLDTRADE_QueryGameData
+ * function: WORLDTRADE_GetMessageWait
  * address:  0x021F4ED4
  * packet:   pkt_021F4ED4
  * region:   ov135
@@ -18,7 +18,7 @@
 
 extern signed char sub_02012FFC(void);
 
-int WORLDTRADE_QueryGameData(void)
+int WORLDTRADE_GetMessageWait(void)
 {
     return sub_02012FFC();
 }

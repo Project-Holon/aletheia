@@ -1,5 +1,5 @@
 /*
- * function: BTL_EVENT_GetClientReservedChoice
+ * function: BTL_POKEPARAM_GetStoredPokeMove
  * address: 0x021D6E50
  * packet: pkt_ov093_021D6E50
  * region: ov093
@@ -12,7 +12,7 @@
 #include "../include/Obj10052.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-int BTL_EVENT_GetClientReservedChoice(u8 *p, u8 *id, u16 *value)
+int BTL_POKEPARAM_GetStoredPokeMove(u8 *p, u8 *id, u16 *value)
 {
     if (p[0x1f6] != 0x1f) {
         *id = p[0x1f6];

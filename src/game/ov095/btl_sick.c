@@ -31,21 +31,21 @@
  *   BTL_SERVER_FLOW_AppendMsgRecordArg  0x021C8860  thumb
  *   BTL_POKEPARAM_GetSickContRaw  0x021D6314  thumb
  *   BTL_POKEPARAM_GetSickTurn  0x021D631C  thumb
- *   BTLV_CORE_GetSlotLow  0x021E8AFC  thumb
+ *   BTL_SICKCONT_GetLow  0x021E8AFC  thumb
  *   BTL_SERVER_FLOW_GetPosTableEntryForPoke  0x021C7D44  thumb
  *   BTL_SERVER_FLOW_GetPokeViewPos  0x021C8010  thumb
  *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb
  *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb
  *   BTL_POKEPARAM_GetValue  0x021D59B4  thumb
  *   BTL_CALC_DivideMaxHpMin1  0x021D7B74  thumb
- *   BTLV_CORE_GetSlotValue  0x021E8B80  thumb
+ *   BTL_SICKCONT_GetValue  0x021E8B80  thumb
  *   BTL_POKEPARAM_IsHpFull  0x021D5B48  thumb
- *   BTLV_CORE_GetSlotFlag  0x021E8C24  thumb
+ *   BTL_SICKCONT_GetFlag  0x021E8C24  thumb
  *   BTL_POKEPARAM_GetMovePPById  0x021D55A0  thumb
  *   BTL_POKEPARAM_GetMajorStatusIndex  0x021D62A8  thumb
  *   BTL_CALC_RandRange  0x021D7B8C  thumb
- *   BTLV_CORE_MakeSlotKind2Index  0x021E8940  thumb
- *   BTLV_CORE_IsSlotKind1Index15  0x021E8A78  thumb
+ *   BTL_SICKCONT_MakeKind2Index  0x021E8940  thumb
+ *   BTL_SICKCONT_IsKind1Index15  0x021E8A78  thumb
  *   BTL_SERVER_FLOW_ClearMsgRecord  0x021C8810  thumb
  *   gSickAddStringTable   0x0689E21C  data  ov095  a4
  *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb
@@ -181,7 +181,7 @@ void BTL_SICK_TickPerishSong(struct BtlServerFlow *flow, struct BtlPokeParam *bp
 
     if (BTL_POKEPARAM_IsFainted(bpp) == 0) {
         cont = BTL_POKEPARAM_GetSickContRaw(bpp, BTL_SICK_PERISH_SONG);
-        totalTurns = BTLV_CORE_GetSlotLow(cont);
+        totalTurns = BTL_SICKCONT_GetLow(cont);
         turnsLeft = totalTurns - BTL_POKEPARAM_GetSickTurn(bpp, BTL_SICK_PERISH_SONG);
         if (turnsLeft > 0)
             BTL_SICK_ShowPerishCount(flow, bpp, turnsLeft);
@@ -200,7 +200,7 @@ void BTL_SICK_ApplyLeechSeed(struct BtlServerFlow *flow, struct BtlPokeParam *bp
     BtlCmdRecoverHp *recover;
     int effectStringId;
     cont = BTL_POKEPARAM_GetSickContRaw(bpp, BTL_SICK_LEECH_SEED);
-    sourceId = (u8)BTLV_CORE_GetSlotValue(*(union SickCont *)&cont);
+    sourceId = (u8)BTL_SICKCONT_GetValue(*(union SickCont *)&cont);
     sourceEntry = BTL_SERVER_FLOW_GetPosTableEntryForPoke(flow, sourceId);
     if (sourceEntry == BTL_CMD_ACTIVE_NONE) return;
     amount = BTL_CALC_DivideMaxHpMin1(bpp, 8);
@@ -256,7 +256,7 @@ void BTL_SICK_ApplyBindDamage(struct BtlServerFlow *flow, struct BtlPokeParam *b
     if (BTL_POKEPARAM_IsFainted(bpp) != 0)
         return;
     cont = BTL_POKEPARAM_GetSickContRaw(bpp, BTL_SICK_BIND);
-    moveId = BTLV_CORE_GetSlotValue(cont);
+    moveId = BTL_SICKCONT_GetValue(cont);
     effectStringId = -1;
     switch (moveId) {
     case 0x23: effectStringId = 0x277; break;
@@ -269,7 +269,7 @@ void BTL_SICK_ApplyBindDamage(struct BtlServerFlow *flow, struct BtlPokeParam *b
     }
     damage = BTL_SERVER_FLOW_AllocCmdRecord(flow, BTL_CMD_DAMAGE, pokeId);
     damage->pokeId = pokeId;
-    if (BTLV_CORE_GetSlotFlag(cont) != 0)
+    if (BTL_SICKCONT_GetFlag(cont) != 0)
         damage->amount = BTL_CALC_DivideMaxHpMin1(bpp, 8);
     else
         damage->amount = BTL_CALC_DivideMaxHpMin1(bpp, 16);
@@ -308,7 +308,7 @@ void BTL_SICK_EndEncoreWhenPpEmpty(struct BtlServerFlow *flow, struct BtlPokePar
 {
     HandExCureSick *cure;
 
-    if (BTL_POKEPARAM_GetMovePPById(bpp, BTLV_CORE_GetSlotValue(BTL_POKEPARAM_GetSickContRaw(bpp, BTL_SICK_ENCORE))) == 0) {
+    if (BTL_POKEPARAM_GetMovePPById(bpp, BTL_SICKCONT_GetValue(BTL_POKEPARAM_GetSickContRaw(bpp, BTL_SICK_ENCORE))) == 0) {
         cure = BTL_SERVER_FLOW_AllocCmdRecord(flow, BTL_CMD_CURE_SICK, pokeId);
         cure->sickKind = BTL_SICK_ENCORE;
         cure->pokeIds[0] = pokeId;
@@ -360,7 +360,7 @@ void BTL_SICK_StartYawnSleep(struct BtlServerFlow *flow, struct BtlPokeParam *bp
             add = BTL_SERVER_FLOW_AllocCmdRecord(flow, BTL_CMD_ADD_SICK, pokeId);
             add->suppressMessage = 1;
             add->sickKind = 2;
-            add->sickCont = BTLV_CORE_MakeSlotKind2Index((u8)turns);
+            add->sickCont = BTL_SICKCONT_MakeKind2Index((u8)turns);
             add->pokeId = pokeId;
             BTL_SERVER_FLOW_CommitCmdRecord(flow, add);
         }
@@ -440,7 +440,7 @@ int BTL_SICK_GetCureStringId(unsigned int sickKind, union SickCont cont)
     case 13: stringId = 0x250; break;
     case 15: stringId = 0x371; break;
     case 5:
-        if (BTLV_CORE_IsSlotKind1Index15(cont) != 0) stringId = 0xed;
+        if (BTL_SICKCONT_IsKind1Index15(cont) != 0) stringId = 0xed;
         else stringId = 0xea;
         break;
     }
@@ -459,7 +459,7 @@ void BTL_SICK_BuildCureMessage(int sickKind, union SickCont cont, struct BtlPoke
         BTL_SERVER_FLOW_InitMsgRecord(message, BTL_STR_TYPE_STD, (u16)stringId);
         BTL_SERVER_FLOW_AppendMsgRecordArg(message, BTL_POKEPARAM_GetPokeId(bpp));
         if (sickKind == 8 || sickKind == 13)
-            BTL_SERVER_FLOW_AppendMsgRecordArg(message, BTLV_CORE_GetSlotValue(cont));
+            BTL_SERVER_FLOW_AppendMsgRecordArg(message, BTL_SICKCONT_GetValue(cont));
     } else {
         BTL_SERVER_FLOW_ClearMsgRecord(message);
     }
@@ -505,7 +505,7 @@ int BTL_SICK_BuildAddMessage(int sickKind, union SickCont cont, struct BtlPokePa
             BTL_SERVER_FLOW_AppendMsgRecordArg(message, argValue);
         switch (sickKind) {
         case 8:
-            BTL_SERVER_FLOW_AppendMsgRecordArg(message, BTLV_CORE_GetSlotValue(cont));
+            BTL_SERVER_FLOW_AppendMsgRecordArg(message, BTL_SICKCONT_GetValue(cont));
             break;
         case 0x12:
             BTL_SERVER_FLOW_AppendMsgRecordArg(message, 0x49);
@@ -527,9 +527,9 @@ void BTL_SICK_OverrideGroundImmunity(struct BtlEventFactor *factor, struct BtlPo
     sickKind = BTL_SICK_IDENTIFIED;
     if (BTL_POKEPARAM_HasSick(bpp, sickKind) != 0) {
         cont = BTL_POKEPARAM_GetSickContRaw(bpp, sickKind);
-        identifiedType = BTLV_CORE_GetSlotValue(cont);
+        identifiedType = BTL_SICKCONT_GetValue(cont);
         if (identifiedType == (u8)BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_TYPE)) {
-            BTL_EVENT_OverwriteVar(BTLV_CORE_GetSlotFlag(cont) == 0 ? BTL_EVAR_IMMUNITY_OVERRIDE_FLAG : BTL_EVAR_IMMUNITY_OVERRIDE_FLAG + 1, 1);
+            BTL_EVENT_OverwriteVar(BTL_SICKCONT_GetFlag(cont) == 0 ? BTL_EVAR_IMMUNITY_OVERRIDE_FLAG : BTL_EVAR_IMMUNITY_OVERRIDE_FLAG + 1, 1);
         }
     }
     if (BTL_POKEPARAM_HasSick(bpp, BTL_SICK_INGRAIN) != 0) {

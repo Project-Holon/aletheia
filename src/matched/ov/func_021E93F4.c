@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   BOX2_MAIN_PlayMonCry  0x021DE898  thumb  ov170
+ *   BOX2_MAIN_ClearPerapVoiceIfNoChatot  0x021DE898  thumb  ov170
  *   BOX2_SEQ_StartWipeBlack  0x021E8F90  thumb  ov170
  *
  * candidate BOX2_SEQ_SaveMenuPosAndExit: copy two bytes into a sub object
@@ -18,11 +18,11 @@
 #include "../include/Obj05869.h"
 
 
-extern void BOX2_MAIN_PlayMonCry(int *q);
+extern void BOX2_MAIN_ClearPerapVoiceIfNoChatot(int *q);
 extern int BOX2_SEQ_StartWipeBlack(void *p, int a);
 void BOX2_SEQ_SaveMenuPosAndExit(char *p)
 {
-    BOX2_MAIN_PlayMonCry((int *)((int)p));
+    BOX2_MAIN_ClearPerapVoiceIfNoChatot((int *)((int)p));
     *(unsigned char *)(((struct Obj05869 *)p)->f0 + 0x2a) = ((struct Obj05869 *)p)->f14;
     *(unsigned char *)(((struct Obj05869 *)p)->f0 + 0x2b) = ((struct Obj05869 *)p)->f16;
     ((struct Obj05869 *)p)->f28 = 0x69;

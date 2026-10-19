@@ -13,7 +13,7 @@
  *   _pNetSys     0x021469D0  data
  *   GFL_NET_GetInitParam  0x0203D798  arm
  *   GFL_NET_GetChildSendSize  0x0203D6BC  arm
- *   GF_STANDARD_SetupCalc  0x0203F1FC  arm
+ *   GF_STANDARD_CalcCrc16  0x0203F1FC  arm
  *   GFL_NET_RING_BUFF_Write  0x02036428  arm
  *
  * Validates one incoming record against the per-slot table reached through
@@ -42,7 +42,7 @@ typedef unsigned int u32;
 extern struct LinkState *_pNetSys;
 extern void *GFL_NET_GetInitParam(void);
 extern u32 GFL_NET_GetChildSendSize(void);
-extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
+extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
 extern void GFL_NET_RING_BUFF_Write(u8 *p, u8 *q, u32 v);
 
 u32 GFL_NET_SYSTEM_RecvData(u32 a0, u8 *rec, u32 len)
@@ -58,7 +58,7 @@ u32 GFL_NET_SYSTEM_RecvData(u32 a0, u8 *rec, u32 len)
     if (*(u32 *)(((u8 *)_pNetSys) + (a0 << 4) + 0x54) == 0 && (rec[4] & 2))
         return 0;
 
-    v = GF_STANDARD_SetupCalc(rec + 2, len - 2);
+    v = GF_STANDARD_CalcCrc16(rec + 2, len - 2);
     if (rec[0] != (u8)v || ((v & 0xFF00) >> 8) != rec[1])
         return 0;
     if (*(u8 *)(((u8 *)_pNetSys) + 0x1D7 + a0) != 0 &&

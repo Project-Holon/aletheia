@@ -1,5 +1,5 @@
 /*
- * function: BTLV_EFFECT_GetRule
+ * function: BTLV_EFFECT_GetSceneUnit
  * address:  0x021F8764
  * packet:   pkt_ov094_021F8764
  * region:   ov094
@@ -16,7 +16,7 @@
  */
 extern char *gBtlvEff;
 
-int BTLV_EFFECT_GetRule(void)
+int BTLV_EFFECT_GetSceneUnit(void)
 {
     return *(int *)(gBtlvEff + 0x1e0);
 }

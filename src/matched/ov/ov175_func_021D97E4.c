@@ -1,5 +1,5 @@
 /*
- * function: WIFIBATTLEMATCH_NET_StartTradeIconAnim
+ * function: WIFIBATTLEMATCH_NET_DrawCompStatusWindow
  * address:  0x021D97E4
  * packet:   pkt_021D97E4
  * region:   ov175
@@ -27,7 +27,7 @@ typedef unsigned long u32;
 
 extern void WIFIBATTLEMATCH_VIEW_DrawStatusWindow(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
 
-void WIFIBATTLEMATCH_NET_StartTradeIconAnim(char *obj, u32 arg)
+void WIFIBATTLEMATCH_NET_DrawCompStatusWindow(char *obj, u32 arg)
 {
     if (((struct Obj00013 *)obj)->f1C != 0)
         WIFIBATTLEMATCH_VIEW_DrawStatusWindow(((struct Obj00013 *)obj)->f1C, arg, ((struct Obj00013 *)obj)->f14,

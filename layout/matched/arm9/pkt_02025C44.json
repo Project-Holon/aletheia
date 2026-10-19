@@ -133,7 +133,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "CURSOR_MOVE_DeleteVecSet",
+   "name": "GAME_COMM_Delete",
    "address": "0x02026250",
    "kind": "game",
    "region": "arm9",

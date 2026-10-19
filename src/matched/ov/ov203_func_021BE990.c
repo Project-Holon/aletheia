@@ -1,5 +1,5 @@
 /*
- * function: DEMO3D_DATA_GetAnimIndex
+ * function: DEMO3D_DATA_GetCommandList
  * address:  0x021BE990
  * packet:   pkt_021BE990
  * region:   ov203
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   DEMO3D_ENGINE_ClampAnimeId  0x021BE79C  thumb  ov203
+ *   DEMO3D_ENGINE_ClampDemoId  0x021BE79C  thumb  ov203
  *   d_021C1860  0x021C1860  data
  * closed: dropping the contested ov203 token lets the function's own region
  * pick the object; the +0010 ABS32 resolves as sole-ref/data and the file is
@@ -23,11 +23,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 DEMO3D_ENGINE_ClampAnimeId(u32 id);
+extern u32 DEMO3D_ENGINE_ClampDemoId(u32 id);
 extern u8 d_021C1860[];
 
-u32 DEMO3D_DATA_GetAnimIndex(u32 id)
+u32 DEMO3D_DATA_GetCommandList(u32 id)
 {
-    return *(u32 *)(d_021C1860 + DEMO3D_ENGINE_ClampAnimeId(id) * 0x14);
+    return *(u32 *)(d_021C1860 + DEMO3D_ENGINE_ClampDemoId(id) * 0x14);
 }
 

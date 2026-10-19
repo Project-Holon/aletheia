@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "INTRUDE_SUBDISP_ScriptResetFieldState",
+   "name": "INTRUDE_SUBDISP_ScriptAddAreaMmdls",
    "address": "0x0217CF68",
    "kind": "game",
    "region": "ov018",

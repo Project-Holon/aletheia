@@ -66,7 +66,7 @@
  *   TALKMSGWIN_ClearWindowFrame  0x02194A34  thumb
  *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
  *   WORDSET_CreateDefault  0x0201EC64  thumb
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   APP_TASKMENU_OpenMenu 0x02027778 thumb
  *   APP_TASKMENU_IsFinish 0x020279E8 thumb
@@ -221,7 +221,7 @@ void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, struct StrBuf *s
 int TALKMSGWIN_ClearWindowFrame(struct TalkMsgWin *, struct BmpWin *);
 void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *win, u32 kind);
 struct WordSet *WORDSET_CreateDefault(u32 heap);
-u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+u32 WORDSET_Delete(struct WordSet *p);
 void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(MbMenuTemplate *tmpl, struct TaskMenuRes *res);
 extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
@@ -504,7 +504,7 @@ void MB_UTIL_MSG_CreateWordSet(MbMsgWork *work)
 void MB_UTIL_MSG_DeleteWordSet(MbMsgWork *work)
 {
     if (work->wordSet != 0) {
-        WORDSET_DeleteStrbufED04(work->wordSet);
+        WORDSET_Delete(work->wordSet);
         work->wordSet = 0;
     }
 }

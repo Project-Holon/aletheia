@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "EVENT_ID_GetBank",
+   "name": "PLACE_NAME_GetBank",
    "address": "0x0202F688",
    "kind": "game",
    "region": "arm9",

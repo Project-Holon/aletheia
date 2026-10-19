@@ -14,8 +14,8 @@
  *
  * symbols:
  *   GetTaggedPayloadSize    0x02069C14  arm
- *   NNS_G2dCallVtableSlot0    0x02061330  arm
- *   NNS_G2dCallVtableSlot1  0x02061344  arm
+ *   NNS_FndAllocFromAllocator    0x02061330  arm
+ *   NNS_FndFreeToAllocator  0x02061344  arm
  */
 struct NNSFndAllocator;
 typedef unsigned int   u32;
@@ -64,8 +64,8 @@ typedef struct {
 #define POLYATTR_ID_SHIFT      24
 #define POLYATTR_ID_MASK       0x3f000000u
 
-extern void *NNS_G2dCallVtableSlot0(struct NNSFndAllocator *pAllocator, u32 size);
-extern void NNS_G2dCallVtableSlot1(struct NNSFndAllocator *pAllocator, void *pBlock);
+extern void *NNS_FndAllocFromAllocator(struct NNSFndAllocator *pAllocator, u32 size);
+extern void NNS_FndFreeToAllocator(struct NNSFndAllocator *pAllocator, void *pBlock);
 extern u32 GetTaggedPayloadSize(const u8 *pAnm, const ResMdl *pMdl);
 void *NNS_G3dAllocRenderObj(struct NNSFndAllocator *pAllocator);
 void NNS_G3dFreeRenderObj(struct NNSFndAllocator *pAllocator, void *pRenderObj);
@@ -79,14 +79,14 @@ void NNS_G3dMdlSetMdlAlpha(ResMdl *pMdl, u32 matIdx, u32 alpha);
 void NNS_G3dMdlSetMdlPolygonIDAll(ResMdl *pMdl, u32 polygonId);
 
 /* NNS_G3dAllocRenderObj: 0x54 bytes from the allocator. */
-void *NNS_G3dAllocRenderObj(struct NNSFndAllocator *pAllocator){ return NNS_G2dCallVtableSlot0(pAllocator, 0x54); }
+void *NNS_G3dAllocRenderObj(struct NNSFndAllocator *pAllocator){ return NNS_FndAllocFromAllocator(pAllocator, 0x54); }
 
 /* NNS_G3dFreeRenderObj */
-void NNS_G3dFreeRenderObj(struct NNSFndAllocator *pAllocator, void *pRenderObj){ NNS_G2dCallVtableSlot1(pAllocator, pRenderObj); }
+void NNS_G3dFreeRenderObj(struct NNSFndAllocator *pAllocator, void *pRenderObj){ NNS_FndFreeToAllocator(pAllocator, pRenderObj); }
 
 /*
  * NNS_G3dAllocAnmObj: forwards the two tail arguments through GetTaggedPayloadSize and hands the result,
- * with the first argument, to NNS_G2dCallVtableSlot0 -- the argument shuffle is why the
+ * with the first argument, to NNS_FndAllocFromAllocator -- the argument shuffle is why the
  * first parameter moves into r4 before either call.
  *
  * Verified with:
@@ -95,11 +95,11 @@ void NNS_G3dFreeRenderObj(struct NNSFndAllocator *pAllocator, void *pRenderObj){
  */
 void *NNS_G3dAllocAnmObj(struct NNSFndAllocator *pAllocator, const u8 *pAnm, const ResMdl *pMdl)
 {
-    return NNS_G2dCallVtableSlot0(pAllocator, GetTaggedPayloadSize(pAnm, pMdl));
+    return NNS_FndAllocFromAllocator(pAllocator, GetTaggedPayloadSize(pAnm, pMdl));
 }
 
 /* NNS_G3dFreeAnmObj */
-void NNS_G3dFreeAnmObj(struct NNSFndAllocator *pAllocator, void *pAnmObj){ NNS_G2dCallVtableSlot1(pAllocator, pAnmObj); }
+void NNS_G3dFreeAnmObj(struct NNSFndAllocator *pAllocator, void *pAnmObj){ NNS_FndFreeToAllocator(pAllocator, pAnmObj); }
 
 /*
  * A family of five near-identical bitfield setters over the same inlined

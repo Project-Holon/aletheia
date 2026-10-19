@@ -18,7 +18,7 @@
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   POKEPARTY_RemoveMember 0x0201A9C8 thumb
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
- *   GAME_DATA_GetBoxSave 0x02012F98 thumb
+ *   GAME_DATA_GetPerapVoiceSave 0x02012F98 thumb
  *   GAME_DATA_GetMyParty 0x02012934 thumb
  *   func_02007C34 0x02007C34 thumb
  *   WORLDTRADE_SetIsDeposited 0x0200AD94 thumb
@@ -52,7 +52,7 @@ extern void *POKEPARTY_GetMember(void *, unsigned);
 extern u32 POKEPARTY_RemoveMember(struct Party *p, s32 idx);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct Sub02007AC8Entry;
-extern struct Sub02007AC8Entry *GAME_DATA_GetBoxSave(void *p);
+extern struct Sub02007AC8Entry *GAME_DATA_GetPerapVoiceSave(void *p);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
 extern void func_02007C34(struct PerapVoice *p, void *a);
 extern void WORLDTRADE_SetIsDeposited(struct Rec0200AD94 *p, u16 v);
@@ -72,7 +72,7 @@ void WORLDTRADE_ADAPTER_RemovePartyMon(u8 *p, int flag)
         if (flag) WORLDTRADE_SetPokemon(((struct Obj23464 *)(*(u8 * *)&((struct Obj01260 *)p)->f0))->f0, mon, ((struct Obj01260 *)p)->fC4);
         POKEPARTY_RemoveMember(((struct Obj23465 *)(*(u8 * *)&((struct Obj01260 *)p)->f0))->f8, ((struct Obj01260 *)p)->fC6);
         save = GAMESYSTEM_GetGameData(((struct Obj23466 *)(*(u8 * *)&((struct Obj01260 *)p)->f0))->f40);
-        box = GAME_DATA_GetBoxSave(save);
+        box = GAME_DATA_GetPerapVoiceSave(save);
         func_02007C34(box, GAME_DATA_GetMyParty(save));
     }
     if (flag) WORLDTRADE_SetIsDeposited(((struct Obj23467 *)(*(u8 * *)&((struct Obj01260 *)p)->f0))->f0, 1);

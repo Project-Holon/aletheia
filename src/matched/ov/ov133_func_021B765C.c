@@ -137,7 +137,7 @@
  *   DUP_FITTING_ITEM_ElemSetSprite 0x021BA210 thumb ov133
  *   DUP_FITTING_ITEM_ElemGetRenderElem 0x021BA218 thumb ov133
  *   DUP_FITTING_ITEM_ElemSetPos 0x021BA21C thumb ov133
- *   DUP_FITTING_ITEM_ElemSetF18 0x021BA244 thumb ov133
+ *   DUP_FITTING_ITEM_ElemSetScale 0x021BA244 thumb ov133
  *   MUSICAL_MCSS_SetElemPos 0x021F4E8C thumb ov112
  *   MUSICAL_MCSS_SetElemField 0x021F4ED4 thumb ov112
  *   MUSICAL_MCSS_SetElemRotZ 0x021F4EB4 thumb ov112
@@ -170,7 +170,7 @@ extern u32 DUP_FITTING_ITEM_ElemGetData(u8 *p);
 extern void DUP_FITTING_ITEM_ElemSetSprite(u8 *p, u32 v);
 extern u32 DUP_FITTING_ITEM_ElemGetRenderElem(u8 *p);
 extern void DUP_FITTING_ITEM_ElemSetPos(u8 *p, const u8 *src);
-extern void DUP_FITTING_ITEM_ElemSetF18(u8 *p, u32 v);
+extern void DUP_FITTING_ITEM_ElemSetScale(u8 *p, u32 v);
 extern void MUSICAL_MCSS_SetElemPos(int, int, Vec *);
 extern void MUSICAL_MCSS_SetElemField(u32 unused, u32 p, u16 v);
 extern void MUSICAL_MCSS_SetElemRotZ(u32 unused, u32 p, s16 a, s16 b);
@@ -260,20 +260,20 @@ void *DUP_FITTING_SetModelTransform(u8 *p, u16 base, s16 speed, u16 rx, u16 ry)
             sc = h >> 3;
             MUSICAL_MCSS_SetElemRotZ(*(int *)(p + 0x1884), (int)spr, h >> 3, h >> 3);
             MUSICAL_MCSS_SetElemVisible((u8 *)(*(int *)(p + 0x1884)), (u8 *)((int)spr), 1);
-            DUP_FITTING_ITEM_ElemSetF18(e, h >> 3);
+            DUP_FITTING_ITEM_ElemSetScale(e, h >> 3);
         } else if (a < 0x6E00) {
             sc = ((u16)(0x6E00 - a) << 11) / 0x2E00 + (h >> 4);
             MUSICAL_MCSS_SetElemRotZ(*(int *)(p + 0x1884), (int)spr, sc, sc);
             MUSICAL_MCSS_SetElemVisible((u8 *)(*(int *)(p + 0x1884)), (u8 *)((int)spr), 1);
-            DUP_FITTING_ITEM_ElemSetF18(e, sc);
+            DUP_FITTING_ITEM_ElemSetScale(e, sc);
         } else if (a < 0x78E0) {
             sc = ((u16)(0x78E0 - a) << 11) / 0xAE0;
             MUSICAL_MCSS_SetElemRotZ(*(int *)(p + 0x1884), (int)spr, sc, sc);
             MUSICAL_MCSS_SetElemVisible((u8 *)(*(int *)(p + 0x1884)), (u8 *)((int)spr), 1);
-            DUP_FITTING_ITEM_ElemSetF18(e, sc);
+            DUP_FITTING_ITEM_ElemSetScale(e, sc);
         } else {
             MUSICAL_MCSS_SetElemVisible((u8 *)(*(int *)(p + 0x1884)), (u8 *)((int)spr), 0);
-            DUP_FITTING_ITEM_ElemSetF18(e, 0);
+            DUP_FITTING_ITEM_ElemSetScale(e, 0);
             sc = 0;
         }
         if (*(int *)(cur + 0x10) == 1 && GetTimer(p) < 45) {

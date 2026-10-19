@@ -21,7 +21,7 @@
  *   GFL_USE_AddMainTask     0x020056A0  thumb
  *   sFileMcss  0x020A72CC  data
  *   MCSS_CloseHandle   0x02014CD4  thumb
- *   TCBL_GetTaskUserData   0x02030EE8  arm
+ *   TCBL_IsDeletePending   0x02030EE8  arm
  *   GFL_HEAP_Free   0x020307B0  arm
  *   TCB_DeleteTask   0x02030EAC  arm
  *   MCSS_Del   0x02015BA4  thumb
@@ -457,7 +457,7 @@ extern void *GFL_USE_AddMainTask(void *fn, void *work, u32 priority);
 
 extern void MCSS_CloseHandle(McssSys *sys);
 
-extern void *TCBL_GetTaskUserData(void *task);
+extern void *TCBL_IsDeletePending(void *task);
 
 extern u32 GFL_HEAP_Free(void *p);
 
@@ -831,7 +831,7 @@ McssSys *MCSS_Init(u32 maxCount, u32 heapId)
 
 /*
  * Tear-down of a "list of arrays" record: close the open sub-object at +0xC
- * (three frees through the handle returned by TCBL_GetTaskUserData, then the handle
+ * (three frees through the handle returned by TCBL_IsDeletePending, then the handle
  * itself), then walk the +0x14 array of +0x10 entries and release each live
  * one through MCSS_Del, finally the array and the record itself.
  *
@@ -845,7 +845,7 @@ void MCSS_Exit(McssSys *sys)
 
     MCSS_CloseHandle(sys);
     if (sys->shadowPlttTask != 0) {
-        McssTransTask *task = TCBL_GetTaskUserData(sys->shadowPlttTask);
+        McssTransTask *task = TCBL_IsDeletePending(sys->shadowPlttTask);
 
         GFL_HEAP_Free(task->plttData->data);
         GFL_HEAP_Free(task->plttData);
@@ -2846,7 +2846,7 @@ dec:
  * zeroes the other four (+0xc, +0x1c, +0x14, +0x24, +0x2c) and, if the
  * object's own field at +0 is non-zero, recurses into MCSS_DeleteTextureTask with
  * that field's value before zeroing it too. MCSS_DeleteTextureTask turns an id into
- * an object through TCBL_GetTaskUserData, releases one or two of the object's own
+ * an object through TCBL_IsDeletePending, releases one or two of the object's own
  * pointer fields the same way, releases the object itself, and finally
  * releases the id through TCB_DeleteTask.
  *
@@ -2892,7 +2892,7 @@ void MCSS_FreeResource(McssWork *work)
 
 void MCSS_DeleteTextureTask(void *taskHandle)
 {
-    McssTransTask *task = TCBL_GetTaskUserData(taskHandle);
+    McssTransTask *task = TCBL_IsDeletePending(taskHandle);
 
     if (task->texBuf != 0) {
         GFL_HEAP_Free(task->texBuf);
@@ -2906,7 +2906,7 @@ void MCSS_DeleteTextureTask(void *taskHandle)
 
 void MCSS_DeletePaletteTask(void *taskHandle)
 {
-    McssTransTask *task = TCBL_GetTaskUserData(taskHandle);
+    McssTransTask *task = TCBL_IsDeletePending(taskHandle);
     GFL_HEAP_Free(task->plttData->data);
     GFL_HEAP_Free(task->plttData);
     GFL_HEAP_Free(task);

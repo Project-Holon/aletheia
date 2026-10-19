@@ -1,5 +1,5 @@
 /*
- * function: WORLDTRADE_ADAPTER_GetDateTime
+ * function: WORLDTRADE_ADAPTER_StoreDateAsLastId
  * address:  0x0220246C
  * packet:   pkt_0220246C
  * region:   ov135
@@ -39,7 +39,7 @@ struct RegB;
 extern void WORLDTRADE_SetLastSearchId(struct RegB *p, u32 value);
 extern void WORLDTRADE_SetLastTradeId(struct RegB *p, u32 value);
 
-void WORLDTRADE_ADAPTER_GetDateTime(void *p, int which)
+void WORLDTRADE_ADAPTER_StoreDateAsLastId(void *p, int which)
 {
     RTCDate date;
     RTCTime time;

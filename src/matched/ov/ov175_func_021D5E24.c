@@ -23,9 +23,9 @@
  *   WIFIBATTLEMATCH_NET_TakeRegValue 0x021DC2D8 thumb ov175
  *   WIFIBATTLEMATCH_NET_HandleNetError 0x021D9F04 thumb ov175
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   MISC_SAVEDATA_GetBlock44 0x0200ED48 thumb
+ *   MET_TRAINERS_GetFromSave 0x0200ED48 thumb
  *   func_02008530 0x02008530 thumb
- *   MISC_SAVEDATA_InsertRecentValue 0x0200ED54 thumb
+ *   MET_TRAINERS_Insert 0x0200ED54 thumb
  *   WIFIBATTLEMATCH_UTIL_SetSaveState 0x021E8AC0 thumb ov177
  *   WIFIBATTLEMATCH_NET_ClearCancelFlag 0x021DA384 thumb ov175
  *   WIFIBATTLEMATCH_NET_StopMatchmaking 0x021DA390 thumb ov175
@@ -51,9 +51,9 @@ extern int WIFIBATTLEMATCH_NET_SendRegValue(ul, void *);
 extern ul WIFIBATTLEMATCH_NET_TakeRegValue(char *, ul *);
 extern int WIFIBATTLEMATCH_NET_HandleNetError(char *, void *, void *);
 extern void *GAME_DATA_GetSaveControl(struct Big *);
-extern void *MISC_SAVEDATA_GetBlock44(void *);
+extern void *MET_TRAINERS_GetFromSave(void *);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
-extern void MISC_SAVEDATA_InsertRecentValue(struct L0200ED54 *, u32);
+extern void MET_TRAINERS_Insert(struct L0200ED54 *, u32);
 extern void WIFIBATTLEMATCH_UTIL_SetSaveState(int, int);
 extern void WIFIBATTLEMATCH_NET_ClearCancelFlag(char *);
 extern int WIFIBATTLEMATCH_NET_StopMatchmaking(char *);
@@ -88,8 +88,8 @@ void WIFIBATTLEMATCH_NET_TaskStepM(unsigned sys, int *state, char *p)
         }
         break;
     case 4:
-        list = MISC_SAVEDATA_GetBlock44(GAME_DATA_GetSaveControl((struct Big *)**(int * *)&((struct Obj02885 *)q)->f8));
-        MISC_SAVEDATA_InsertRecentValue(list, func_02008530(((struct Obj02885 *)q)->f18));
+        list = MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)**(int * *)&((struct Obj02885 *)q)->f8));
+        MET_TRAINERS_Insert(list, func_02008530(((struct Obj02885 *)q)->f18));
         WIFIBATTLEMATCH_UTIL_SetSaveState(**(int * *)&((struct Obj02885 *)q)->f8, **(int * *)&((struct Obj02885 *)q)->f2C);
         WIFIBATTLEMATCH_NET_ClearCancelFlag((char *)P(0x30));
         *state = 5;

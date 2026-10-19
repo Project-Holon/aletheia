@@ -1,7 +1,7 @@
 /*
  * file:     btlv_input.c
  * unit:     yes
- * function: BTLV_INPUT_CreateDefault, BTLV_INPUT_CreateWithMode, BTLV_INPUT_Create, BTLV_INPUT_Delete, BTLV_INPUT_UpdateInfoWindow, BTLV_INPUT_InfoWindowTask, BTLV_INPUT_LoadScreenResources, BTLV_INPUT_ReleaseScreenResources, BTLV_INPUT_InitBgLayers, BTLV_INPUT_ReleaseBgLayers, BTLV_INPUT_StartPaletteFadeTask, BTLV_INPUT_StartScreenFadeTask, BTLV_INPUT_IsScreenBusy, BTLV_INPUT_ChangeScreen, BTLV_INPUT_ProcessTouchInput, BTLV_INPUT_GetScreenButtonTable, BTLV_INPUT_ProcessKeyInput, BTLV_INPUT_IsInputBlocked, BTLV_INPUT_GetPendingResult, BTLV_INPUT_LoadCommonGraphics, BTLV_INPUT_ActionScreenOpenTask, BTLV_INPUT_WazaScreenOpenTask, BTLV_INPUT_WazaScreenOpenInstantTask, BTLV_INPUT_ActionScreenOpenInstantTask, BTLV_INPUT_TargetScreenOpenTask, BTLV_INPUT_WazaScreenCloseTask, BTLV_INPUT_WaitScreenOpenTask, BTLV_INPUT_WaitScreenOpenInstantTask, BTLV_INPUT_MessageScreenOpenTask, BTLV_INPUT_ListScreenOpenTask, BTLV_INPUT_SelectScreenOpenTask, BTLV_INPUT_ConfirmScreenOpenTask, BTLV_INPUT_ListScreenOpenInstantTask, BTLV_INPUT_ScreenResetTask, BTLV_INPUT_TaskEndClearBusyBit, BTLV_INPUT_StartBgScrollTask, BTLV_INPUT_BgScrollTaskMain, BTLV_INPUT_BgScrollTaskEnd, BTLV_INPUT_StartBgWipeTask, BTLV_INPUT_BgWipeTaskMain, BTLV_INPUT_BgWipeTaskEnd, BTLV_INPUT_StartPaletteCycleTask, BTLV_INPUT_PaletteCycleTaskMain, BTLV_INPUT_PaletteCycleTaskEnd, BTLV_INPUT_CreateCursorActors, BTLV_INPUT_CursorActorTaskMain, BTLV_INPUT_CursorActorTaskEnd, BTLV_INPUT_StartPaletteFlashTask, BTLV_INPUT_PaletteFlashTaskMain, BTLV_INPUT_PaletteFlashTaskEnd, BTLV_INPUT_StartBgScrollOffsetTask, BTLV_INPUT_BgScrollOffsetTaskMain, BTLV_INPUT_WaitFadeTaskMain, BTLV_INPUT_WaitFadeTaskEnd, BTLV_INPUT_CursorMoveTaskMain, BTLV_INPUT_CursorMoveTaskEnd, BTLV_INPUT_StartScreenTransition, BTLV_INPUT_VisibilityTaskMain, BTLV_INPUT_WindowOpenTaskMain, BTLV_INPUT_WindowCloseTaskMain, BTLV_INPUT_GetTextBlockSize, BTLV_INPUT_DrawWazaButtons, BTLV_INPUT_DrawTargetButtons, BTLV_INPUT_DrawMessageText, BTLV_INPUT_InitButtonState, BTLV_INPUT_DrawSelectScreenText, BTLV_INPUT_ClearButtonState, BTLV_INPUT_GetNeighbourIndex, BTLV_INPUT_CreateActionButtons, BTLV_INPUT_DeleteActionButtonActors, BTLV_INPUT_SetActionUnitVisible, BTLV_INPUT_CreateStatusIcons, BTLV_INPUT_DeleteStatusIcons, BTLV_INPUT_CreateWazaCursorActors, BTLV_INPUT_DeleteWazaCursorActors, BTLV_INPUT_CreateTargetActors, BTLV_INPUT_DeleteTargetActors, BTLV_INPUT_DeleteWazaActors, BTLV_INPUT_CreateBackActor, BTLV_INPUT_DeleteBackActor, BTLV_INPUT_ProcessButtonSelection, BTLV_INPUT_ProcessKeyRepeat, BTLV_INPUT_UpdateButtonActors, BTLV_INPUT_SetSelection, BTLV_INPUT_ButtonFlashTaskMain, BTLV_INPUT_ButtonFlashTaskEnd, BTLV_INPUT_DrawRunButtonText, BTLV_INPUT_PrepareCommandSelect, BTLV_INPUT_ClearSlotEvents, BTLV_INPUT_RegisterTask, BTLV_INPUT_FindTask, BTLV_INPUT_DeleteTask, BTLV_INPUT_AllocTaskSlot, BTLV_INPUT_DeleteAllTasks, BTLV_INPUT_IsWazaSelectable, BTLV_INPUT_UpdateWazaRow, BTLV_INPUT_BlendWindowPalette, BTLV_INPUT_RestoreWindowPalette, BTLV_INPUT_GetMessageBoxMode, BTLV_INPUT_PlayConfirmSe, BTLV_INPUT_PlayCancelSe, BTLV_INPUT_PlaySelectSe, BTLV_INPUT_PlayCursorSe, BTLV_INPUT_PlayPageSe, BTLV_INPUT_PlayOpenSe, BTLV_INPUT_PlayBackSe
+ * function: BTLV_INPUT_CreateDefault, BTLV_INPUT_CreateWithMode, BTLV_INPUT_Create, BTLV_INPUT_Delete, BTLV_INPUT_UpdateInfoWindow, BTLV_INPUT_InfoWindowTask, BTLV_INPUT_LoadScreenResources, BTLV_INPUT_ReleaseScreenResources, BTLV_INPUT_InitBgLayers, BTLV_INPUT_ReleaseBgLayers, BTLV_INPUT_StartPaletteFadeTask, BTLV_INPUT_StartScreenFadeTask, BTLV_INPUT_IsScreenBusy, BTLV_INPUT_ChangeScreen, BTLV_INPUT_ProcessTouchInput, BTLV_INPUT_StepFingerDemo, BTLV_INPUT_ProcessKeyInput, BTLV_INPUT_IsInputBlocked, BTLV_INPUT_GetScreen, BTLV_INPUT_LoadCommonGraphics, BTLV_INPUT_ActionScreenOpenTask, BTLV_INPUT_WazaScreenOpenTask, BTLV_INPUT_WazaScreenOpenInstantTask, BTLV_INPUT_ActionScreenOpenInstantTask, BTLV_INPUT_TargetScreenOpenTask, BTLV_INPUT_WazaScreenCloseTask, BTLV_INPUT_WaitScreenOpenTask, BTLV_INPUT_WaitScreenOpenInstantTask, BTLV_INPUT_MessageScreenOpenTask, BTLV_INPUT_ListScreenOpenTask, BTLV_INPUT_SelectScreenOpenTask, BTLV_INPUT_ConfirmScreenOpenTask, BTLV_INPUT_ListScreenOpenInstantTask, BTLV_INPUT_ScreenResetTask, BTLV_INPUT_TaskEndClearBusyBit, BTLV_INPUT_StartBgScrollTask, BTLV_INPUT_BgScrollTaskMain, BTLV_INPUT_BgScrollTaskEnd, BTLV_INPUT_StartBgWipeTask, BTLV_INPUT_BgWipeTaskMain, BTLV_INPUT_BgWipeTaskEnd, BTLV_INPUT_StartPaletteCycleTask, BTLV_INPUT_PaletteCycleTaskMain, BTLV_INPUT_PaletteCycleTaskEnd, BTLV_INPUT_CreateCursorActors, BTLV_INPUT_CursorActorTaskMain, BTLV_INPUT_CursorActorTaskEnd, BTLV_INPUT_StartPaletteFlashTask, BTLV_INPUT_PaletteFlashTaskMain, BTLV_INPUT_PaletteFlashTaskEnd, BTLV_INPUT_StartBgScrollOffsetTask, BTLV_INPUT_BgScrollOffsetTaskMain, BTLV_INPUT_WaitFadeTaskMain, BTLV_INPUT_WaitFadeTaskEnd, BTLV_INPUT_CursorMoveTaskMain, BTLV_INPUT_CursorMoveTaskEnd, BTLV_INPUT_StartScreenTransition, BTLV_INPUT_VisibilityTaskMain, BTLV_INPUT_WindowOpenTaskMain, BTLV_INPUT_WindowCloseTaskMain, BTLV_INPUT_GetTextBlockSize, BTLV_INPUT_DrawWazaButtons, BTLV_INPUT_DrawTargetButtons, BTLV_INPUT_DrawMessageText, BTLV_INPUT_InitButtonState, BTLV_INPUT_DrawSelectScreenText, BTLV_INPUT_ClearButtonState, BTLV_INPUT_GetPpTextColor, BTLV_INPUT_CreateActionButtons, BTLV_INPUT_DeleteActionButtonActors, BTLV_INPUT_SetActionUnitVisible, BTLV_INPUT_CreateStatusIcons, BTLV_INPUT_DeleteStatusIcons, BTLV_INPUT_CreateWazaCursorActors, BTLV_INPUT_DeleteWazaCursorActors, BTLV_INPUT_CreateTargetActors, BTLV_INPUT_DeleteTargetActors, BTLV_INPUT_DeleteWazaActors, BTLV_INPUT_CreateBackActor, BTLV_INPUT_DeleteBackActor, BTLV_INPUT_ProcessButtonSelection, BTLV_INPUT_ProcessKeyRepeat, BTLV_INPUT_UpdateButtonActors, BTLV_INPUT_SetSelection, BTLV_INPUT_ButtonFlashTaskMain, BTLV_INPUT_ButtonFlashTaskEnd, BTLV_INPUT_DrawRunButtonText, BTLV_INPUT_PrepareCommandSelect, BTLV_INPUT_ClearSlotEvents, BTLV_INPUT_RegisterTask, BTLV_INPUT_FindTask, BTLV_INPUT_DeleteTask, BTLV_INPUT_AllocTaskSlot, BTLV_INPUT_DeleteAllTasks, BTLV_INPUT_IsWazaSelectable, BTLV_INPUT_UpdateWazaRow, BTLV_INPUT_BlendWindowPalette, BTLV_INPUT_RestoreWindowPalette, BTLV_INPUT_GetMessageBoxMode, BTLV_INPUT_PlayConfirmSe, BTLV_INPUT_PlayCancelSe, BTLV_INPUT_PlaySelectSe, BTLV_INPUT_PlayCursorSe, BTLV_INPUT_PlayPageSe, BTLV_INPUT_PlayOpenSe, BTLV_INPUT_PlayBackSe
  * address:  0x02202058
  * region:   ov094
  * compiler: dsi/1.1p1
@@ -27,11 +27,11 @@
  *   PALANM_RequestFade  0x0202173C  thumb
  *   PALANM_GetFadeRequestBits  0x02021ED8  thumb
  *   BG_SYS_SetPlaneVisible  0x02040588  arm
- *   TCBL_GetTaskUserData   0x02030EE8  arm
+ *   TCBL_IsDeletePending   0x02030EE8  arm
  *   KEY_GetTrg 0x020362DC arm
  *   PALANM_BlendColors  0x02021F64  thumb
  *   GFL_HEAP_Alloc  0x02030734  arm
- *   BG_SYS_FillScrollArea 0x02040618 arm
+ *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
@@ -119,9 +119,9 @@
  *   GF_FONT_GetTextColor  0x0201DE00  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   WORDSET_CreateDefault  0x0201EC64  thumb
- *   WORDSET_SetSlotMonSpecies  0x0201EEF4  thumb
+ *   WORDSET_SetSlotMonNickname  0x0201EEF4  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  *   ARC_UTIL_LoadPaletteBlockFromArchive  0x02049F34  arm
  *   PALANM_CopyToSlot  0x020215BC  thumb
  *   d_0220A7FC     0x0220A7FC  data
@@ -537,7 +537,7 @@ extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
-extern u32 TCBL_GetTaskUserData(struct S02030EE8 *p);
+extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
 
 
 extern u32 KEY_GetTrg(void);
@@ -546,7 +546,7 @@ extern void PALANM_BlendColors(u16 *src, u16 *dst, u32 count, int weight, u16 co
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
@@ -718,9 +718,9 @@ extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
 extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 
-extern u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern u32 WORDSET_Delete(struct WordSet *p);
 
-extern void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon);
+extern void WORDSET_SetSlotMonNickname(struct WordSet *p, u32 i, void *mon);
 
 extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
 
@@ -816,13 +816,13 @@ void BTLV_INPUT_ChangeScreen(BtlvInput *input, int mode, void *arg);
 
 int BTLV_INPUT_ProcessTouchInput(BtlvInput *input, Cmd *c, int x);
 
-int BTLV_INPUT_GetScreenButtonTable(BtlvInput *input);
+int BTLV_INPUT_StepFingerDemo(BtlvInput *input);
 
 int BTLV_INPUT_ProcessKeyInput(BtlvInput *input, u8 *key, int *out);
 
 int BTLV_INPUT_IsInputBlocked(BtlvInput *input);
 
-int BTLV_INPUT_GetPendingResult(BtlvInput *input);
+int BTLV_INPUT_GetScreen(BtlvInput *input);
 
 void BTLV_INPUT_LoadCommonGraphics(BtlvInput *input);
 
@@ -920,7 +920,7 @@ void BTLV_INPUT_DrawSelectScreenText(BtlvInput *input, const int *b);
 
 void BTLV_INPUT_ClearButtonState(BtlvInput *input);
 
-int BTLV_INPUT_GetNeighbourIndex(int a, int b);
+int BTLV_INPUT_GetPpTextColor(int a, int b);
 
 void BTLV_INPUT_CreateActionButtons(BtlvInput *input, BtlvInputPartyInfo *info);
 
@@ -1629,7 +1629,7 @@ int BTLV_INPUT_ProcessTouchInput(BtlvInput *input, Cmd *table, int neighbours)
     return r;
 }
 
-int BTLV_INPUT_GetScreenButtonTable(BtlvInput *input)
+int BTLV_INPUT_StepFingerDemo(BtlvInput *input)
 {
     int r = 0;
     BtlvInputFingerTable t;
@@ -1742,7 +1742,7 @@ int BTLV_INPUT_IsInputBlocked(BtlvInput *input)
     return 0;
 }
 
-int BTLV_INPUT_GetPendingResult(BtlvInput *input)
+int BTLV_INPUT_GetScreen(BtlvInput *input)
 {
     return input->screen;
 }
@@ -2273,7 +2273,7 @@ typedef struct BtlvInputScrollTask {
 
 void BTLV_INPUT_TaskEndClearBusyBit(void *task)
 {
-    BtlvInput *input = *(BtlvInput **)TCBL_GetTaskUserData(task);
+    BtlvInput *input = *(BtlvInput **)TCBL_IsDeletePending(task);
     input->flags.busy = 0;
 }
 
@@ -2310,7 +2310,7 @@ void BTLV_INPUT_BgScrollTaskMain(void *task, void *arg)
 
 void BTLV_INPUT_BgScrollTaskEnd(void *task)
 {
-    BtlvInput *input = *(BtlvInput **)TCBL_GetTaskUserData(task);
+    BtlvInput *input = *(BtlvInput **)TCBL_IsDeletePending(task);
     input->flags.animTasks--;
 }
 
@@ -2334,13 +2334,13 @@ void BTLV_INPUT_BgWipeTaskMain(void *task, void *arg)
     BtlvInputScrollTask *c = arg;
 
     if (c->state == 0) {
-        BG_SYS_FillScrollArea(4, 0, c->x);
-        BG_SYS_FillScrollArea(4, 3, c->y);
+        BG_SYS_ChangeScrollImmediate(4, 0, c->x);
+        BG_SYS_ChangeScrollImmediate(4, 3, c->y);
         c->state = c->state + 1;
         return;
     }
     c->y = c->y + c->dy;
-    BG_SYS_FillScrollArea(4, 3, c->y);
+    BG_SYS_ChangeScrollImmediate(4, 3, c->y);
     c->count = c->count - 1;
     if (c->count == 0)
         BTLV_INPUT_DeleteTask((void *)c->input, (void *)task);
@@ -2348,7 +2348,7 @@ void BTLV_INPUT_BgWipeTaskMain(void *task, void *arg)
 
 void BTLV_INPUT_BgWipeTaskEnd(void *task)
 {
-    BtlvInput *input = *(BtlvInput **)TCBL_GetTaskUserData(task);
+    BtlvInput *input = *(BtlvInput **)TCBL_IsDeletePending(task);
     input->flags.animTasks--;
 }
 
@@ -2377,10 +2377,10 @@ void BTLV_INPUT_PaletteCycleTaskMain(void *task, void *arg)
     t->count = t->count - 1;
     if (t->count == 0) {
         t->count = 2;
-        BG_SYS_FillScrollArea(5, 0, d_0220A46C[t->palSet][t->tab].color0);
+        BG_SYS_ChangeScrollImmediate(5, 0, d_0220A46C[t->palSet][t->tab].color0);
         i = t->tab;
         t->tab = i + 1;
-        BG_SYS_FillScrollArea(5, 3, d_0220A46C[t->palSet][i].color1);
+        BG_SYS_ChangeScrollImmediate(5, 3, d_0220A46C[t->palSet][i].color1);
         if (t->tab >= 2)
             BTLV_INPUT_DeleteTask((void *)t->input, task);
     }
@@ -2388,7 +2388,7 @@ void BTLV_INPUT_PaletteCycleTaskMain(void *task, void *arg)
 
 void BTLV_INPUT_PaletteCycleTaskEnd(void *task)
 {
-    BtlvInput *input = *(BtlvInput **)TCBL_GetTaskUserData(task);
+    BtlvInput *input = *(BtlvInput **)TCBL_IsDeletePending(task);
     input->flags.animTasks--;
 }
 
@@ -2440,7 +2440,7 @@ void BTLV_INPUT_CursorActorTaskMain(void *task, void *arg)
 
 void BTLV_INPUT_CursorActorTaskEnd(void *task)
 {
-    BtlvInputCursorActorTask *t = (BtlvInputCursorActorTask *)TCBL_GetTaskUserData(task);
+    BtlvInputCursorActorTask *t = (BtlvInputCursorActorTask *)TCBL_IsDeletePending(task);
     int i;
 
     for (i = 0; i < 6; i++) {
@@ -2502,7 +2502,7 @@ void BTLV_INPUT_PaletteFlashTaskMain(void *task, void *arg)
 
 void BTLV_INPUT_PaletteFlashTaskEnd(void *task)
 {
-    BtlvInput *input = *(BtlvInput **)TCBL_GetTaskUserData(task);
+    BtlvInput *input = *(BtlvInput **)TCBL_IsDeletePending(task);
     input->flags.animTasks--;
 }
 
@@ -2527,8 +2527,8 @@ void BTLV_INPUT_BgScrollOffsetTaskMain(void *task, void *arg)
     BtlvInputBgScrollOffsetTask *t = arg;
 
     if (t->bg != -1) {
-        BG_SYS_FillScrollArea((u8)t->bg, (int)0, (int)t->scrollX);
-        BG_SYS_FillScrollArea((u8)t->bg, (int)3, (int)t->scrollY);
+        BG_SYS_ChangeScrollImmediate((u8)t->bg, (int)0, (int)t->scrollX);
+        BG_SYS_ChangeScrollImmediate((u8)t->bg, (int)3, (int)t->scrollY);
     }
     if (t->bg4 != 2) {
         BG_SYS_SetPlaneVisible((int)4, (u8)t->bg4);
@@ -2560,7 +2560,7 @@ void BTLV_INPUT_WaitFadeTaskMain(void *task, void *arg)
 
 void BTLV_INPUT_WaitFadeTaskEnd(void *task)
 {
-    BtlvInput *input = *(BtlvInput **)TCBL_GetTaskUserData(task);
+    BtlvInput *input = *(BtlvInput **)TCBL_IsDeletePending(task);
     input->flags.fadeKind = 0;
 }
 
@@ -2583,7 +2583,7 @@ void BTLV_INPUT_CursorMoveTaskMain(void *task, void *arg)
 
 void BTLV_INPUT_CursorMoveTaskEnd(void *task)
 {
-    BtlvInput *input = *(BtlvInput **)TCBL_GetTaskUserData(task);
+    BtlvInput *input = *(BtlvInput **)TCBL_IsDeletePending(task);
     input->flags.animTasks--;
 }
 
@@ -2924,7 +2924,7 @@ void BTLV_INPUT_DrawWazaButtons(BtlvInput *input, const Slots *slots)
             WORDSET_SetSlotNumber(font, 0, slots->a[i], 2, 1, 1);
             WORDSET_SetSlotNumber(font, 1, slots->b[i], 2, 1, 1);
             WORDSET_CopyTaggedText((struct WordSet *)font, str2, m2);
-            col = BTLV_INPUT_GetNeighbourIndex(slots->a[i], slots->b[i]);
+            col = BTLV_INPUT_GetPpTextColor(slots->a[i], slots->b[i]);
             cb = (u8)(col & 0x1f);
             cg = (u8)((col >> 5) & 0x1f);
             cr = (u8)((col >> 10) & 0x1f);
@@ -2947,7 +2947,7 @@ void BTLV_INPUT_DrawWazaButtons(BtlvInput *input, const Slots *slots)
     if (input->battleType == 2) {
         input->enabled[i + 1] = 1;
     }
-    WORDSET_DeleteStrbufED04((struct WordSet *)font);
+    WORDSET_Delete((struct WordSet *)font);
     STRBUF_Delete(str1);
     STRBUF_Delete(m1);
     STRBUF_Delete(m0);
@@ -2984,7 +2984,7 @@ void BTLV_INPUT_DrawTargetButtons(BtlvInput *input, Out *out, const BtlvInputTar
     for (i = 0; i < n; i++) {
         if (targetInfo->buttons[i].show != 0) {
             w = MSGDATA_AllocString(input->msgData, targetInfo->buttons[i].kind + 3);
-            WORDSET_SetSlotMonSpecies((void *)h, 0, targetInfo->buttons[i].text);
+            WORDSET_SetSlotMonNickname((void *)h, 0, targetInfo->buttons[i].text);
             WORDSET_CopyTaggedText((struct WordSet *)h, v, w);
             BTLV_INPUT_GetTextBlockSize((struct StrObj *)v, (int)input->font, &ww, &hh);
             PRINTSYS_Print((void *)(input->bmpA), d_0220A7FC[k][i][0] - ww / 2, d_0220A7FC[k][i][1], v, (void *)(input->font));
@@ -2994,7 +2994,7 @@ void BTLV_INPUT_DrawTargetButtons(BtlvInput *input, Out *out, const BtlvInputTar
     }
     input->enabled[i] = 1;
     GF_FONT_SetTextColor(c[2], c[1], c[0]);
-    WORDSET_DeleteStrbufED04((struct WordSet *)h);
+    WORDSET_Delete((struct WordSet *)h);
     STRBUF_Delete(v);
     idx = (targetInfo->battlerCount - 2) / 2;
     input->flags2.targetGroup = targetInfo->targetGroup;
@@ -3104,7 +3104,7 @@ void BTLV_INPUT_DrawSelectScreenText(BtlvInput *input, const int *params)
     PRINTSYS_Print((void *)(input->bmpA), 0x7c, 8, extra, (void *)(input->font));
     STRBUF_Delete(extra);
     GF_FONT_SetTextColor(c[2], c[1], c[0]);
-    WORDSET_DeleteStrbufED04((struct WordSet *)h);
+    WORDSET_Delete((struct WordSet *)h);
     STRBUF_Delete(w);
     STRBUF_Delete(v);
     PALANM_CopyToSlot((struct PalAnmSlot *)(input->palAnm), (u16 *)(PALANM_GetDefaultWork((char *)BTLV_EFFECT_GetPalanm(), 1) + 0x40), 1, 0x70, 0x20);
@@ -3134,7 +3134,7 @@ void BTLV_INPUT_ClearButtonState(BtlvInput *input)
     PALANM_RequestFadeOverwrite((void *)input->palAnm, 8, 0x700, 0, 0, 0, 0, input->taskMgr);
 }
 
-int BTLV_INPUT_GetNeighbourIndex(int index, int count)
+int BTLV_INPUT_GetPpTextColor(int index, int count)
 {
     if (index == 0) {
         return 0x1d00;
@@ -3467,7 +3467,7 @@ void BTLV_INPUT_CreateBackActor(BtlvInput *input)
     }
     STRBUF_Delete(str);
     STRBUF_Delete(msg);
-    WORDSET_DeleteStrbufED04((struct WordSet *)font);
+    WORDSET_Delete((struct WordSet *)font);
     BMP_Delete(bmp);
 }
 
@@ -3740,7 +3740,7 @@ void BTLV_INPUT_ButtonFlashTaskMain(void *task, void *arg)
 
 void BTLV_INPUT_ButtonFlashTaskEnd(void *task)
 {
-    (*(BtlvInput **)TCBL_GetTaskUserData((struct S02030EE8 *)task))->flags.inputLock = 0;
+    (*(BtlvInput **)TCBL_IsDeletePending((struct S02030EE8 *)task))->flags.inputLock = 0;
 }
 
 void BTLV_INPUT_DrawRunButtonText(BtlvInput *input, char *runInfo)
@@ -3764,7 +3764,7 @@ void BTLV_INPUT_DrawRunButtonText(BtlvInput *input, char *runInfo)
     BTLV_INPUT_GetTextBlockSize((struct StrObj *)v, (int)input->font, &textWidth, &textHeight);
     PRINTSYS_Print((void *)(input->bmpB), 12 - textWidth / 2, 0, v, (void *)(input->font));
     GF_FONT_SetTextColor(c[2], c[1], c[0]);
-    WORDSET_DeleteStrbufED04((struct WordSet *)h);
+    WORDSET_Delete((struct WordSet *)h);
     STRBUF_Delete(w);
     STRBUF_Delete(v);
 }
@@ -3817,7 +3817,7 @@ void BTLV_INPUT_DeleteTask(BtlvInput *input, void *task)
     int off;
 
     if (task != 0) {
-        void *r = (void *)TCBL_GetTaskUserData((struct S02030EE8 *)task);
+        void *r = (void *)TCBL_IsDeletePending((struct S02030EE8 *)task);
         char *t = (char *)input->taskEnd;
         void (*cb)(void *);
 

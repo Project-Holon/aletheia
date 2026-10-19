@@ -34,7 +34,7 @@
  *   FIELD_WFBC_DATA_LOCAL_FreeTalkMessage  0x021875B8  thumb  ov020
  *   STRBUF_Delete  0x02045808  arm
  *   MSGDATA_Delete  0x02045C04  arm
- *   WORDSET_DeleteStrbufED04  0x0201ED04  thumb
+ *   WORDSET_Delete  0x0201ED04  thumb
  */
 
 typedef unsigned char u8;
@@ -68,7 +68,7 @@ int FIELD_WFBC_DATA_LOCAL_UpdateTalkMessage(char *p);
 int FIELD_WFBC_DATA_LOCAL_FreeTalkMessage(char *p);
 void STRBUF_Delete(struct U16Vec *vec);
 u32 MSGDATA_Delete(struct Rec *rec);
-u32 WORDSET_DeleteStrbufED04(struct WordSet *p);
+u32 WORDSET_Delete(struct WordSet *p);
 
 #define P(o)  (*(void **)(o))
 #define P18   (*(void **)(o + 0x18))
@@ -192,7 +192,7 @@ int FIELD_WFBC_DATA_LOCAL_PersonTalkEventMain(void *a, int *st, char *o)
         STRBUF_Delete(P20);
         STRBUF_Delete(P24);
         MSGDATA_Delete(P18);
-        WORDSET_DeleteStrbufED04(P1C);
+        WORDSET_Delete(P1C);
         return 1;
     }
     return 0;

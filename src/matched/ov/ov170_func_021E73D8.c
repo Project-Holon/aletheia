@@ -19,7 +19,7 @@
  *   BOX2_MAIN_CanPlaceInBox 0x021DD718 thumb
  *   BOX2_MAIN_RecalcPartyParam 0x021DD8A8 thumb
  *   BOX2_SEQ_ShowSlotIcon 0x021EC48C thumb
- *   BOX2_MAIN_ChangeBoxFormPreserve 0x021DEFEC thumb
+ *   BOX2_MAIN_RefreshCurrentBoxMonInfo 0x021DEFEC thumb
  *   BOX2_SEQ_DeleteB 0x021EA750 thumb
  *   BOX2_UI_ShowWindowB 0x021EF68C thumb
  *   CURSOR_MOVE_SetCurrent 0x020260E4 thumb
@@ -51,7 +51,7 @@ extern int BOX2_MAIN_GetMonAt(void ***p, int a, unsigned b);
 extern int BOX2_MAIN_CanPlaceInBox(void **pp, void *mon);
 extern void BOX2_MAIN_RecalcPartyParam(unsigned char *p, unsigned idx);
 extern void BOX2_SEQ_ShowSlotIcon(unsigned char *p, int box, int pos, int win);
-extern void BOX2_MAIN_ChangeBoxFormPreserve(char *p, int b);
+extern void BOX2_MAIN_RefreshCurrentBoxMonInfo(char *p, int b);
 extern void BOX2_SEQ_DeleteB(char *p);
 extern void BOX2_UI_ShowWindowB(char *w);
 typedef unsigned int   u32;
@@ -89,7 +89,7 @@ int BOX2_SEQ_StatePlaceItemB(unsigned char *p)
         BOX2_MAIN_RecalcPartyParam(p, o->idx);
         BOX2_SEQ_ShowSlotIcon(p, p[0x14], o->idx, WIN(p, o->idx));
     }
-    BOX2_MAIN_ChangeBoxFormPreserve((char *)p, o->idx);
+    BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p, o->idx);
     ITEM(p) = item;
     BOX2_MAIN_SetBoxValueAt((int)p, p[0x16], p[0x17], 6, ITEM(p));
     if (p[0x17] == 0xFF || p[0x17] == p[0x14]) {
@@ -103,7 +103,7 @@ int BOX2_SEQ_StatePlaceItemB(unsigned char *p)
         BOX2_SEQ_DeleteB((char *)p);
         BOX2_UI_ShowWindowB(WORK(p));
         CURSOR_MOVE_SetCurrent(OBJ(p), p[0x16] - 0x1E);
-        BOX2_MAIN_ChangeBoxFormPreserve((char *)p, p[0x16]);
+        BOX2_MAIN_RefreshCurrentBoxMonInfo((char *)p, p[0x16]);
         CURSOR_MOVE_SetState(OBJ(p), 1);
         return 0x46;
     }

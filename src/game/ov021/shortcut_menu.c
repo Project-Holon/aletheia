@@ -38,9 +38,9 @@
  *   PRINTSYS_QUE_CreateEx  0x0201C450  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   RECENT_ID_LIST_SAVEDATA_GetBlock  0x0200C40C  thumb
- *   BG_SYS_SetFlagField06  0x02041B6C  arm
+ *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   G2x_SetBlendAlpha_  0x0207D63C  arm
- *   BG_SYS_FillScrollArea  0x02040618  arm
+ *   BG_SYS_ChangeScrollImmediate  0x02040618  arm
  *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   gShortcutMenuFileName     0x021DE498  data  ov021  a1
  *   gShortcutMenuBgTemplate     0x021DAA60  data  a4
@@ -54,7 +54,7 @@
  *   CLACT_ReleaseCharacter  0x0204A8D4  arm
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
  *   CLACT_DeleteUnit  0x0204B1CC  arm
- *   BG_SYS_SetTileUnit  0x02040DA8  arm
+ *   BG_SYS_FreeTiles  0x02040DA8  arm
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   GFL_USE_AddMainTask 0x020056A0 thumb
@@ -261,9 +261,9 @@ extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int 
 extern void *PRINTSYS_QUE_CreateEx(u16 n, u32 heap);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *RECENT_ID_LIST_SAVEDATA_GetBlock(void *sys);
-extern void BG_SYS_SetFlagField06(u32 bit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 extern void G2x_SetBlendAlpha_(int, int, int, int, int);
-extern void BG_SYS_FillScrollArea(u32 layer, u32 a, u32 b);
+extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void CLACT_DeleteActor(struct Obj *p);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
@@ -274,7 +274,7 @@ extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
-extern void BG_SYS_SetTileUnit(u32 idx, u32 count, u32 tile);
+extern void BG_SYS_FreeTiles(u32 idx, u32 count, u32 tile);
 extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern void *GFL_USE_AddMainTask(void *callback, void *ctx, int priority);
@@ -390,16 +390,16 @@ ShortcutMenu *SHORTCUT_MENU_Create(void *gameSystem, int mode, const u16 *savedS
     menu->ownedPrintSys = PRINTSYS_QUE_CreateEx(0x1000, heapId);
     SHORTCUT_MENU_InitList(menu, menu->savedState, menu->ownedMsgBank, menu->ownedFont,
         menu->ownedPrintSys, RECENT_ID_LIST_SAVEDATA_GetBlock(GAME_DATA_GetSaveControl(gameSystem)), menu->actors, textHeapId);
-    BG_SYS_SetFlagField06(1);
+    BG_SYS_MarkTileDirty(1);
     G2x_SetBlendAlpha_(0x04000050, 2, 1, 12, 4);
     switch (mode) {
     case 0:
-        BG_SYS_FillScrollArea(1, 3, -0xC0);
+        BG_SYS_ChangeScrollImmediate(1, 3, -0xC0);
         BG_SYS_SetPlaneVisible(1, 0);
         menu->state = 0;
         break;
     case 1:
-        BG_SYS_FillScrollArea(1, 3, 0);
+        BG_SYS_ChangeScrollImmediate(1, 3, 0);
         BG_SYS_SetPlaneVisible(1, 1);
         menu->state = 3;
         break;
@@ -425,7 +425,7 @@ void SHORTCUT_MENU_Delete(ShortcutMenu *menu)
     CLACT_ReleaseCharacter(menu->palResId);
     CLACT_ReleaseCellAnim(menu->cellResId);
     CLACT_DeleteUnit(menu->actorBank);
-    BG_SYS_SetTileUnit(1, 1, 0);
+    BG_SYS_FreeTiles(1, 1, 0);
     BG_SYS_FreeLayerBuf(1);
     GFL_HEAP_Free(menu);
 }
@@ -478,7 +478,7 @@ void SHORTCUT_MENU_Main(ShortcutMenu *menu)
         menu->state = 5;
         break;
     case 5:
-        BG_SYS_FillScrollArea(1, 3, menu->scrollFrame * 0xC0 / 4 - 0xC0);
+        BG_SYS_ChangeScrollImmediate(1, 3, menu->scrollFrame * 0xC0 / 4 - 0xC0);
         if ((menu->scrollFrame)-- == 0) {
             menu->state = 0;
         }
@@ -771,7 +771,7 @@ void SHORTCUT_MENU_UpdateCursorBg(void *list, int unused0, int unused1)
         BG_SYS_FillTileMap(1, 1, 12, 30, 12, 11);
         BG_SYS_FillTileMap(1, 1, cursorRow + 12, 30, rowHeightTiles, 12);
         BG_SYS_FillTileMap(1, 0, 11, 32, 1, 10);
-        BG_SYS_SetFlagField06(1);
+        BG_SYS_MarkTileDirty(1);
     } else if (menu->moveMode == 1) {
         BG_SYS_FillTileMap(1, 1, 12, 30, 12, 11);
         BMP_MENULIST_GetPos(list, &listPos[1], &listPos[0]);
@@ -781,7 +781,7 @@ void SHORTCUT_MENU_UpdateCursorBg(void *list, int unused0, int unused1)
         baseY = baseY + cursorOffset * rowHeight;
         BG_SYS_FillTileMap(1, 1, (baseY >> 3) + 12, 30, rowHeightTiles, 12);
         BG_SYS_FillTileMap(1, 0, 11, 32, 1, 10);
-        BG_SYS_SetFlagField06(1);
+        BG_SYS_MarkTileDirty(1);
     }
     if (menu->cursorWrapped == 1) {
         row = BMP_MENULIST_GetAttr(menu->list, 3);
@@ -875,7 +875,7 @@ void SHORTCUT_MENU_ScrollStep(void *task, ShortcutMenu *menu)
         offset = 0;
         menu->scrollDone = 1;
     }
-    BG_SYS_FillScrollArea(1, 3, offset);
+    BG_SYS_ChangeScrollImmediate(1, 3, offset);
 }
 
 /*

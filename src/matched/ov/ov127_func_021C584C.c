@@ -1,5 +1,5 @@
 /*
- * function: WF2DMAP_OBJDRAW_SetActorValue2
+ * function: WF2DMAP_OBJDRAW_SetSubActorDrawEnable
  * address:  0x021C584C
  * packet:   pkt_ov127_021C584C
  * region:   ov127
@@ -26,7 +26,7 @@ typedef unsigned int u32;
 
 extern void WIFI_2DCHAR_SetSubActorDrawEnable(char *p, int a);
 
-void WF2DMAP_OBJDRAW_SetActorValue2(u8 *p, int a)
+void WF2DMAP_OBJDRAW_SetSubActorDrawEnable(u8 *p, int a)
 {
     WIFI_2DCHAR_SetSubActorDrawEnable(*(char * *)&((struct Obj23051 *)p)->f4, a);
 }

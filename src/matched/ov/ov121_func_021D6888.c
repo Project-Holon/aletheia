@@ -18,7 +18,7 @@
  *   MYSTERY_UTIL_UpdateMenuWindow 0x021D9E50 thumb ov121
  *   MYSTERY_UTIL_IsWindowListDone 0x021DA2C8 thumb ov121
  *   MYSTERY_UTIL_Update 0x021DA840 thumb ov121
- *   MYSTERY_UTIL_GetTaskField04 0x021DA8AC thumb ov121
+ *   MYSTERY_UTIL_IsTaskDone 0x021DA8AC thumb ov121
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb  arm9
  */
 #include "../include/Obj01402.h"
@@ -35,7 +35,7 @@ extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void MYSTERY_UTIL_UpdateMenuWindow(u8 *p);
 extern int MYSTERY_UTIL_IsWindowListDone(u8 *p);
 extern int MYSTERY_UTIL_Update(void **);
-extern int MYSTERY_UTIL_GetTaskField04(u32 *p);
+extern int MYSTERY_UTIL_IsTaskDone(u32 *p);
 int MYSTERY_Main(int a, int b, int c, char *p)
 {
     MYSTERY_NET_Step(((struct Obj01402 *)p)->f3B0);
@@ -51,6 +51,6 @@ int MYSTERY_Main(int a, int b, int c, char *p)
     if (((struct Obj01402 *)p)->f28C) MYSTERY_UTIL_IsWindowListDone(((struct Obj01402 *)p)->f28C);
     if (((struct Obj01402 *)p)->f288) MYSTERY_UTIL_IsWindowListDone(((struct Obj01402 *)p)->f288);
     if (((struct Obj01402 *)p)->f270) MYSTERY_UTIL_Update(*(void ** *)&((struct Obj01402 *)p)->f270);
-    if (MYSTERY_UTIL_GetTaskField04(((struct Obj01402 *)p)->f290)) return 1;
+    if (MYSTERY_UTIL_IsTaskDone(((struct Obj01402 *)p)->f290)) return 1;
     return 0;
 }

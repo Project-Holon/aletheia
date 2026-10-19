@@ -25,7 +25,7 @@
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   CLACT_DeleteActor  0x0204B3B4  arm  arm9
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
@@ -86,7 +86,7 @@ extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
-extern void BG_SYS_SetFlagField06(u32);
+extern void BG_SYS_MarkTileDirty(u32);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
@@ -176,7 +176,7 @@ void B_APP_TOOL_LayoutActors(int *actors, u8 *rect)
 /*
  * EXACT* tail: two zero alignment bytes after the function.
  */
-void B_APP_TOOL_ShowWindow(void **p) { BMP_WIN_MakeScreen((struct Cfg *)*p); BG_SYS_SetFlagField06(BMP_WIN_GetBgLayer((struct Descriptor *)*p)); }
+void B_APP_TOOL_ShowWindow(void **p) { BMP_WIN_MakeScreen((struct Cfg *)*p); BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct Descriptor *)*p)); }
 
 
 

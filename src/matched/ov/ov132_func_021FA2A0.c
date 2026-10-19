@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   STA_ACTING_GetCameraTarget 0x021F9E04 thumb ov132
+ *   STA_ACTING_GetCameraScrollX 0x021F9E04 thumb ov132
  *   STA_ACTING_GetActorSystem 0x021F9DA0 thumb ov132
  *   STA_ACTING_GetActor 0x021F9DA4 thumb ov132
  *   STA_ACTING_GetCharSystem 0x021F9DD4 thumb ov132
@@ -31,7 +31,7 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 typedef struct {int x,y,z;} Vec;
-extern u16 STA_ACTING_GetCameraTarget(u8 *p);
+extern u16 STA_ACTING_GetCameraScrollX(u8 *p);
 extern void *STA_ACTING_GetActorSystem(char *p);
 extern void *STA_ACTING_GetActor(char *p, u32 i);
 extern void *STA_ACTING_GetCharSystem(void *);
@@ -55,7 +55,7 @@ void STA_ACT_AUDIENCE_UpdateRecord(char *p,u8 *rec)
             else if(rec[6]<6) STA_ACT_AUDIENCE_DrawRecord(p,rec,1);
             else STA_ACT_AUDIENCE_DrawRecord(p,rec,0);
         } else {
-            STA_ACTING_GetCameraTarget(((struct Obj04514 *)p)->f1E8);
+            STA_ACTING_GetCameraScrollX(((struct Obj04514 *)p)->f1E8);
             x=((rec[6]*32-64)*4)/3;
             if(rec[0]!=255) {
                 a=STA_ACTING_GetActorSystem(((struct Obj04514 *)p)->f1E8);

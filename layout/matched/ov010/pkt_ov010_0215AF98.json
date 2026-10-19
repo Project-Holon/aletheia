@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "SCRCMD_WORK_CmdGetZukanGetCount",
+   "name": "SCRCMD_WORK_CmdGetNationalZukanCount",
    "address": "0x0215AF98",
    "kind": "game",
    "region": "ov010",

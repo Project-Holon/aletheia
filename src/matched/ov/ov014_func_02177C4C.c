@@ -13,7 +13,7 @@
  *   g_ParentConnectModes     0x0217967C  data   a2
  *   WIH_GetSysState  0x02178E4C  thumb  ov014
  *   GFL_NET_GetInitParam  0x0203D798  arm
- *   WIH_GetMeasureChannel  0x02179024  thumb  ov014
+ *   WIH_FinishMeasureChannel  0x02179024  thumb  ov014
  *   WM_GetNextTgid  0x0208F1B4  arm
  *   NET_WHPIPE_PublishBeacon  0x0217778C  thumb  ov014
  *   WIH_ParentConnect  0x02179288  thumb  ov014
@@ -30,7 +30,7 @@ extern struct W *g_pWhPipeWork;
 extern u16 g_ParentConnectModes[2];
 extern int WIH_GetSysState(void);
 extern void *GFL_NET_GetInitParam(void);
-extern u16 WIH_GetMeasureChannel(void);
+extern u16 WIH_FinishMeasureChannel(void);
 extern u16 WM_GetNextTgid(void);
 extern void NET_WHPIPE_PublishBeacon(void);
 extern int WIH_ParentConnect(int mode, u16 a, int b, u16 c);
@@ -52,7 +52,7 @@ void NET_WHPIPE_TaskConnectParent(u8 *p)
         p[0xCEF] = 0;
         p[0xCE9] = 0;
         p[0xCE8] = 0;
-        r6 = WIH_GetMeasureChannel();
+        r6 = WIH_FinishMeasureChannel();
         if (p[0xCE6] == 0xFF)
             p[0xCE6] = r6;
         else

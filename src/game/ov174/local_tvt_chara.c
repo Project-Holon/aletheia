@@ -32,9 +32,9 @@
  *   CLACT_RestartActorAnim 0x0204B9A0 arm
  *   d_021B7380 0x021B7380 data a1
  *   STRBUF_Delete 0x02045808 arm
- *   WORDSET_DeleteStrbufED04 0x0201ED04 thumb
+ *   WORDSET_Delete 0x0201ED04 thumb
  *   BMP_WIN_Delete 0x020452E8 arm
- *   BG_SYS_SetFlagField06 0x02041B6C arm
+ *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   BMP_Clear 0x02043B5C arm
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
@@ -158,11 +158,11 @@ extern void CLACT_RestartActorAnim(struct ClactActor *a);
 
 extern void STRBUF_Delete(struct U16Vec *vec);
 
-extern unsigned int WORDSET_DeleteStrbufED04(struct WordSet *p);
+extern unsigned int WORDSET_Delete(struct WordSet *p);
 
 extern unsigned int BMP_WIN_Delete(struct BmpWin *d);
 
-extern void BG_SYS_SetFlagField06(unsigned);
+extern void BG_SYS_MarkTileDirty(unsigned);
 
 extern void BMP_Clear(struct Bmp *buf, u8 value);
 
@@ -359,8 +359,8 @@ void LOCAL_TVT_CHARA_SetupPalette(char *p,u8 *q)
     ARC_UTIL_UploadPaletteFromHandle(((struct LocalTvtSys *)p)->arcHandle,((struct LocalTvtSys *)p)->timeSlot+d_021B7480[((struct LocalTvtChara *)q)->subId*2],2,0,0x6000+((struct LocalTvtChara *)q)->index*0x200,0x200,((struct LocalTvtSys *)p)->heapId);
     BG_SYS_FillTileMap(2,(((struct LocalTvtChara *)q)->index%2)*16,(((struct LocalTvtChara *)q)->index/2)*height,16,height,((struct LocalTvtChara *)q)->index);
     BG_SYS_FillTileMap(3,(((struct LocalTvtChara *)q)->index%2)*16,(((struct LocalTvtChara *)q)->index/2)*height,16,height,((struct LocalTvtChara *)q)->index);
-    BG_SYS_SetFlagField06(3);
-    BG_SYS_SetFlagField06(2);
+    BG_SYS_MarkTileDirty(3);
+    BG_SYS_MarkTileDirty(2);
 }
 
 /*
@@ -426,7 +426,7 @@ void LOCAL_TVT_CHARA_DrawLabel(u8 *p,u8 *q)
         WORDSET_SetSlotMyStatus(ws,0,save);
         WORDSET_CopyTaggedText(ws,dst,s);
         STRBUF_Delete(s);
-        WORDSET_DeleteStrbufED04(ws);
+        WORDSET_Delete(ws);
         s=dst;
     }
     ((struct LocalTvtChara *)q)->labelWidth=GF_FONT_MeasureWidestLine(s,((struct LocalTvtSys *)p)->font.value,0);
@@ -442,7 +442,7 @@ void LOCAL_TVT_CHARA_DrawLabel(u8 *p,u8 *q)
 void LOCAL_TVT_CHARA_ShowWindow(int a, int *p)
 {
     BMP_WIN_MakeScreen((struct Cfg *)(((struct LocalTvtChara *)p)->window));
-    BG_SYS_SetFlagField06(0);
+    BG_SYS_MarkTileDirty(0);
 }
 
 unsigned LOCAL_TVT_CHARA_GetState(unsigned char *p) {return ((struct LocalTvtChara *)p)->labelWidth;}
