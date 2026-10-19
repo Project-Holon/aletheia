@@ -1,5 +1,5 @@
 /*
- * function: func_021C0A2C
+ * function: checkParam
  * address:  0x021C0A2C
  * packet:   pkt_ov016_021C0A2C
  * region:   ov016
@@ -36,7 +36,7 @@ typedef struct UtilState {
 
 extern UtilState gDwcutilMainWork;
 
-int func_021C0A2C(int lang, unsigned int param)
+int checkParam(int lang, unsigned int param)
 {
     gDwcutilMainWork.lang = lang;
     *(unsigned int *)&gDwcutilMainWork.param = param;

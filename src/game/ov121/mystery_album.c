@@ -241,7 +241,7 @@ typedef struct MysteryAlbumEntry {
  */
 typedef struct MysteryAlbumWork {
     unsigned int mode;              /* 0x00 */
-    unsigned int param4;            /* 0x04 */
+    unsigned int reserved04;            /* 0x04 */
     unsigned int clactUnit;            /* 0x08 */
     void *cardList;                 /* 0x0C MYSTERY_DATA card list */
     void *font;                  /* 0x10 */
@@ -405,7 +405,7 @@ struct MysteryAlbumViewCard {
     u8 padB0[2];
     u8 messageIndex;
     u8 giftType;
-    u8 fB4a:1;
+    u8 reservedB4:1;
     u8 altMessageSet:1;
 };
 
@@ -625,7 +625,7 @@ extern u8 *GAME_DATA_GetMyStatus(void *p);
 
 extern u32 MYSTATUS_GetId(const void *obj);
 
-extern void *POKE_TOOL_Create(u16 species, u16 level, u32 otId, u32 a3, u32 heap);
+extern void *POKE_TOOL_Create(u16 species, u16 level, u32 otId, u32 otIdHigh, u32 heap);
 
 extern u32 POKE_TOOL_CreatePersonalRnd(u32 otId, int species, int form, int ratioMode, int shinyWanted, int mode);
 

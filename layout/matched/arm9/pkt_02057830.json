@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "SPL_EMITTER_TransformVec",
+   "name": "SPLEmitter_ComputeOrthogonalAxes",
    "address": "0x02057830",
    "kind": "game",
    "region": "arm9",
@@ -24,7 +24,7 @@
    }
   },
   {
-   "name": "SPL_EMITTER_ClampU16",
+   "name": "SPLAnim_ChildAlpha",
    "address": "0x02057AB8",
    "kind": "game",
    "region": "arm9",
@@ -36,7 +36,7 @@
    "status": "EXACT"
   },
   {
-   "name": "SPL_EMITTER_ClampShort",
+   "name": "SPLAnim_ChildScale",
    "address": "0x02057B10",
    "kind": "game",
    "region": "arm9",
@@ -48,7 +48,7 @@
    "status": "EXACT"
   },
   {
-   "name": "SPL_EMITTER_EvalCurve",
+   "name": "SPLAnim_Scale",
    "address": "0x02057E68",
    "kind": "game",
    "region": "arm9",
@@ -96,7 +96,7 @@
    "status": "EXACT"
   },
   {
-   "name": "SPL_EMITTER_FreeNode",
+   "name": "SPLList_Erase",
    "address": "0x02058300",
    "kind": "game",
    "region": "arm9",
@@ -108,7 +108,7 @@
    "status": "EXACT"
   },
   {
-   "name": "SPL_EMITTER_AllocNode",
+   "name": "SPLList_PopFront",
    "address": "0x02058380",
    "kind": "game",
    "region": "arm9",

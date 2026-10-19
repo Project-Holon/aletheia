@@ -1,5 +1,5 @@
 /*
- * function: func_021BA3F4
+ * function: GetWLanSetElement
  * address:  0x021BA3F4
  * packet:   pkt_ov016_021BA3F4
  * region:   ov016
@@ -53,7 +53,7 @@ extern struct {
 extern char g_021DD388[4][0x28];
 extern struct { int w[18]; } g_021DD420;
 
-int func_021BA3F4(u8 *lpelement)
+int GetWLanSetElement(u8 *lpelement)
 {
     int retv;
     u8 *lpb;

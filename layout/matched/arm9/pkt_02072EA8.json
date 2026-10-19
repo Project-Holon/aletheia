@@ -47,8 +47,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "NNS_SndHandleSetSeqPriority",
-    "NNS_SndHandleSetPlayerPriority"
+    "NNS_SndHandleSetVolume",
+    "NNS_SndHandleSetInitialVolume"
    ],
    "addresses": [
     "0x02072F34",

@@ -30,7 +30,7 @@
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
- *   GAME_DATA_GetPlayerRailLocation  0x02012AB8  thumb
+ *   GAME_DATA_GetPlayerRail  0x02012AB8  thumb
  *   FIELD_NOGRID_MAPPER_BindCameraWork  0x021BB3AC  thumb  ov021
  *   FIELD_PLAYER_SetPos  0x021A3044  thumb  ov021
  *   FIELD_PLAYER_SetDirDisp  0x021A305C  thumb  ov021
@@ -71,7 +71,7 @@ extern void *FIELDMAP_GetGameSystem(FieldMap *fieldMap);
 extern VecFx32 *FLDMMDL_GetPosPtr(struct Mmdl *mmdl);
 extern void *GAMESYSTEM_GetGameData(void *gameSystem);
 extern void *GAME_DATA_GetMyPlayerWork(void *gameData);
-extern RailLocation *GAME_DATA_GetPlayerRailLocation(void *saveRecord);
+extern RailLocation *GAME_DATA_GetPlayerRail(void *saveRecord);
 extern void FIELD_NOGRID_MAPPER_BindCameraWork(struct FieldNogridMapper *mapper, u32 railWork);
 extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
 extern void FIELD_PLAYER_SetPos(struct FieldPlayer *player, VecFx32 *pos);
@@ -104,7 +104,7 @@ void FIELDMAP_CTRL_NOGRID_WORK_Create(FieldMap *fieldMap, VecFx32 *pos, u32 dir)
     player = FIELDMAP_GetFieldPlayer(fieldMap);
     FIELDMAP_SetCtrlWork(fieldMap, FIELDMAP_CTRL_NOGRID_WORK_CreateWork(fieldMap, FIELDMAP_GetHeapId(fieldMap)));
     FIELDMAP_SetTargetPos(fieldMap, FLDMMDL_GetPosPtr(FIELD_PLAYER_GetMmdl(player)));
-    FIELD_PLAYER_SetNogridRailLocation(player, GAME_DATA_GetPlayerRailLocation(GAME_DATA_GetMyPlayerWork(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)))));
+    FIELD_PLAYER_SetNogridRailLocation(player, GAME_DATA_GetPlayerRail(GAME_DATA_GetMyPlayerWork(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)))));
     FIELD_PLAYER_GetNogridRailPos(player, pos);
     FIELD_PLAYER_SetPos(player, pos);
     FIELD_PLAYER_SetDirDisp(player, dir);

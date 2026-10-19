@@ -12,12 +12,12 @@
  * symbols:
  *   g_02146BC8     0x02146BC8  data  a4
  *   g_020A81E4     0x020A81E4  data  a4
- *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   DC_FlushRange  0x020862F0  arm
  *   GX_LoadOAM  0x0207E684  arm
  *   GXS_LoadOAM  0x0207E708  arm
  *
  * NitroSystem g2d_OAM.c NNS_G2dApplyOamManagerToHW(pMan).  Fast-transfer
- * managers: LoadOamAndAffineFast_ (DC_FlushRange DWCi_ScreenDC_FlushRange over the
+ * managers: LoadOamAndAffineFast_ (DC_FlushRange DC_FlushRange over the
  * span, then GX_LoadOAM GX_LoadOAM or GXS_LoadOAM GXS_LoadOAM by
  * type).  Otherwise LoadOam_ pushes each entry's three attribute halfwords
  * through the per-type loader, and when the affine area is valid
@@ -137,7 +137,7 @@ static inline BOOL HasEnoughCapacity_(const NNSG2dOAMManageArea *pArea, u16 num)
 typedef void (OBJLoadFunction)(const void *pSrc, u32 offset, u32 szByte);
 
 extern OBJLoadFunction *g_020A81E4[5];  /* GetOBJLoadFunction_'s funcTbl */
-extern void DWCi_ScreenDC_FlushRange(const void *startAddr, u32 nBytes);         /* DC_FlushRange */
+extern void DC_FlushRange(const void *startAddr, u32 nBytes);         /* DC_FlushRange */
 extern void GX_LoadOAM(const void *pSrc, u32 offset, u32 szByte);  /* GX_LoadOAM */
 extern void GXS_LoadOAM(const void *pSrc, u32 offset, u32 szByte);  /* GXS_LoadOAM */
 
@@ -162,7 +162,7 @@ static inline void LoadOamAndAffineFast_(NNSG2dOamType type, u16 fromIdx, u16 to
     const u16 szByte = (u16)(sizeof(GXOamAttr) * (toIdx - fromIdx + 1));
     u16 offset = (u16)(sizeof(GXOamAttr) * fromIdx);
 
-    DWCi_ScreenDC_FlushRange(pFrom, szByte);
+    DC_FlushRange(pFrom, szByte);
 
     switch (type) {
     case NNS_G2D_OAMTYPE_MAIN:

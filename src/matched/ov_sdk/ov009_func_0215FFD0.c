@@ -1,5 +1,5 @@
 /*
- * function: func_0215FFD0
+ * function: purge_session
  * address:  0x0215FFD0
  * packet:   pkt_ov009_0215FFD0
  * region:   ov009
@@ -36,7 +36,7 @@ typedef unsigned char  u8;
 extern int func_020923F0(const u8 *a, const u8 *b, int n);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 
-static void func_0215FFD0(CPSSslConnection *con)
+static void purge_session(CPSSslConnection *con)
 {
     int i;
     CPSSslSession *p;

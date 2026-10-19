@@ -1,5 +1,5 @@
 /*
- * function: sub_020130DC
+ * function: BTL_SETUP_FreeSlots
  * address:  0x020130DC
  * packet:   pkt_020130DC
  * region:   arm9
@@ -34,7 +34,7 @@ extern u32 GFL_HEAP_Free(void *p);
 extern int sub_02013270(int a0);
 extern void sub_02082BCC(void *p, int c, int n);
 
-void sub_020130DC(S *p)
+void BTL_SETUP_FreeSlots(S *p)
 {
     int i;
 

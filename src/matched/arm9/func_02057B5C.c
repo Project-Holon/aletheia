@@ -1,5 +1,5 @@
 /*
- * function: SPL_EMITTER_UpdateList
+ * function: SPLAnim_Texture
  * address:  0x02057B5C
  * packet:   pkt_02057B5C
  * region:   arm9
@@ -55,7 +55,7 @@ struct S {
     struct P *f10;
 };
 
-void SPL_EMITTER_UpdateList(struct O *o, struct S *s, int t)
+void SPLAnim_Texture(struct O *o, struct S *s, int t)
 {
     struct P *p;
     int i;

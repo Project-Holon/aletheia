@@ -1,5 +1,5 @@
 /*
- * function: SPL_EMITTER_ClearNodeList
+ * function: SPLList_PushFront
  * address:  0x020583CC
  * packet:   pkt_020583CC
  * region:   arm9
@@ -13,7 +13,7 @@
  * Node { next +0, prev +4 } (the shapes fixed by SPL_EMITTER_FreeNode /
  * SPL_EMITTER_AllocNode, both already EXACT).
  *
- * Body recovered from docs/notes/SPL_EMITTER_ClearNodeList.c.txt (wave r3a): under the
+ * Body recovered from docs/notes/SPLList_PushFront.c.txt (wave r3a): under the
  * pinned dsi/1.1p1 -O4,p this body is 72 bytes and if-converts the non-empty
  * arm into five predicated instructions; under the 1.2 front end the same
  * source lays out the original's 80 bytes. Constant-materialisation pin:
@@ -27,8 +27,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/SPL_EMITTER_ClearNodeList.c \
- *       --func SPL_EMITTER_ClearNodeList --addr 0x020583CC --arm --cc ../1.2/sp2
+ *   python tools/match.py one --src src/matched/SPLList_PushFront.c \
+ *       --func SPLList_PushFront --addr 0x020583CC --arm --cc ../1.2/sp2
  */
 
 struct Node;
@@ -44,7 +44,7 @@ struct Node {
     volatile struct Node *prev;
 };
 
-void SPL_EMITTER_ClearNodeList(volatile struct List *list, volatile struct Node *node)
+void SPLList_PushFront(volatile struct List *list, volatile struct Node *node)
 {
     volatile struct Node *head;
 

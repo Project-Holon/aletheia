@@ -46,7 +46,7 @@
     "POKE_TOOL_GetBoxValue",
     "POKE_TOOL_IsShiny",
     "POKE_TOOL_IsBoxShiny",
-    "POKE_TOOL_CheckShiny",
+    "POKE_TOOL_IsShinyOtIdPersonality",
     "POKE_TOOL_GetGender",
     "POKE_TOOL_GetBoxGender",
     "POKE_TOOL_CalcGender",

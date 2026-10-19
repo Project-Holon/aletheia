@@ -32,9 +32,9 @@
  * status:   EXACT
  *
  * SPLEmitter_Update: the per-frame emitter step.  Emits new particles on the
- * emission interval (SPL_EMITTER_LoadResource), collects the enabled animation
- * functions (SPL_EMITTER_EvalCurve scale, SPL_EMITTER_EvalKey colour, SPL_EMITTER_UpdateRecord
- * alpha, SPL_EMITTER_UpdateList texture; children SPL_EMITTER_ClampShort / SPL_EMITTER_ClampU16),
+ * emission interval (SPLEmitter_EmitParticles), collects the enabled animation
+ * functions (SPLAnim_Scale scale, SPLAnim_Color colour, SPLAnim_Alpha
+ * alpha, SPLAnim_Texture texture; children SPLAnim_ChildScale / SPLAnim_ChildAlpha),
  * then integrates every particle and child particle (behaviours, air
  * resistance, velocity, polygon ID, age), erasing the dead ones back to the
  * manager free list, with the pre/post update callback around it all.

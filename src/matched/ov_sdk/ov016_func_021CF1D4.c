@@ -1,5 +1,5 @@
 /*
- * function: func_021CF1D4
+ * function: renewInfo
  * address:  0x021CF1D4
  * packet:   pkt_ov016_021CF1D4
  * region:   ov016
@@ -93,7 +93,7 @@ extern tagMEMSEARCH *gSearchWork;
 extern u8 sSearchZeroBssid[6];
 extern u8 sSearchBeaconTag[4];
 
-void func_021CF1D4(WMStartScanExCallback *prm)
+void renewInfo(WMStartScanExCallback *prm)
 {
     tagAPINFO *info;
     WMBssDesc *desc;

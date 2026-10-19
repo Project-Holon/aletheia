@@ -41,11 +41,11 @@
    "status": "EXACT",
    "functions": [
     "BG_SYS_GetBuf",
-    "BG_SYS_GetScrollX_1648",
-    "BG_SYS_GetScrollY_1664",
+    "BG_SYS_GetChannelScrollX",
+    "BG_SYS_GetChannelScrollY",
     "BG_SYS_GetType",
-    "BG_SYS_GetField16",
-    "BG_SYS_GetField17"
+    "BG_SYS_GetColorMode",
+    "BG_SYS_GetTileBytes"
    ],
    "addresses": [
     "0x0204162C",

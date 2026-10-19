@@ -1,5 +1,5 @@
 /*
- * function: func_021C80B8
+ * function: procInit
  * address:  0x021C80B8
  * packet:   pkt_ov016_021C80B8
  * region:   ov016
@@ -23,7 +23,7 @@ extern void DWCi_GXlVisible(int lcd, int plane);
 extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021C80F4();
 
-void func_021C80B8(void)
+void procInit(void)
 {
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(0, 0x15);

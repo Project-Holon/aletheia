@@ -77,7 +77,7 @@
  *   VCT_MAIN_Exit 0x021AF1A0 thumb ov013
  *   VCT_MAIN_DisconnectPeers 0x021AF2AC thumb ov013
  *   VCT_MAIN_SetMuted 0x021AF30C thumb ov013
- *   CTRDG_IsBitID  0x0205912C  arm
+ *   DWC_IsBuddyFriendData  0x0205912C  arm
  *   DWC_GetFriendStatusData  0x02168848  arm  ov009
  *   DWC_SetOwnStatusData 0x021688FC arm ov009
  *   DWC_SetupGameServer  0x0216B354  arm  ov009
@@ -211,7 +211,7 @@ extern void VCT_MAIN_SetMuted(int);
 
 extern void VCT_MAIN_HangUp(void);
 
-extern int CTRDG_IsBitID(u8 *);
+extern int DWC_IsBuddyFriendData(u8 *);
 
 extern unsigned char DWC_GetFriendStatusData(void *p, int a, int b);
 
@@ -1414,7 +1414,7 @@ void DWC_RAP_PollFriendStatus(void)
         u32 slot = _pRapWork->friendPollCursor & 0x1f;
         u32 byteOffset = slot * 12;
         int statusLen;
-        if (CTRDG_IsBitID(_pRapWork->friendList + byteOffset) != 0) {
+        if (DWC_IsBuddyFriendData(_pRapWork->friendList + byteOffset) != 0) {
             u32 status = DWC_GetFriendStatusData(_pRapWork->friendList + byteOffset,
                                   (int)_pRapWork->friendStatusData[slot], (int)(&statusLen));
             if (statusLen < 1) {

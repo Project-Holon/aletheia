@@ -128,7 +128,7 @@ typedef enum { B_FALSE, B_TRUE } Bool;
 
 extern void *SCRCMD_WORK_GetScriptWork(void *p);
 
-extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *SCRCMD_WORK_GetGameSystem(void *work);
 
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 
@@ -154,9 +154,9 @@ extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
-extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *vm, void *cmdWork);
 
-extern void *SCRCMD_WORK_GetGameData(void *a0);
+extern void *SCRCMD_WORK_GetGameData(void *work);
 
 extern void SCRIPT_SYS_CallEvent(void *a, void *b);
 

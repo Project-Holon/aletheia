@@ -91,7 +91,7 @@ typedef struct Wifi2dcharContext {
     u32 bmpCharHandle;            /* 0x2E0: bitmap character handle */
     u32 bmpPaletteHandle;         /* 0x2E4: bitmap palette handle */
     u32 bmpAnimHandle;            /* 0x2E8: bitmap cell anim handle */
-    u32 unk2EC;                   /* 0x2EC */
+    u32 reserved2EC;                   /* 0x2EC */
     u32 bmpParam;                 /* 0x2F0 */
     u32 paletteHandle;            /* 0x2F4 */
     void *charHandle;             /* 0x2F8: CLACT cell/character resource */

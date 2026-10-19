@@ -20,7 +20,7 @@
  *   DWC_GetGsProfileId  0x020598EC  arm
  *   func_02059194  0x02059194  arm
  *   DWCi_SetReverseBuddyFlag  0x02059240  arm
- *   CTRDG_IsBitID  0x0205912C  arm
+ *   DWC_IsBuddyFriendData  0x0205912C  arm
  *   DWCi_SetExpIsBuddyFriendFlag  0x02059270  arm
  *   g_021AA860     0x021AA860  data
  *
@@ -66,7 +66,7 @@ struct DWCstAccUserData;
 extern int DWC_GetGsProfileId(struct DWCstAccUserData *userdata, void *frienddata);
 extern int func_02059194(FriendData *frienddata);
 extern void DWCi_SetReverseBuddyFlag(void *frienddata, int setflag);
-extern int CTRDG_IsBitID(FriendData *frienddata);
+extern int DWC_IsBuddyFriendData(FriendData *frienddata);
 extern void DWCi_SetExpIsBuddyFriendFlag(void *frienddata, int setflag);
 
 #define CNT (*(MatchCnt **)(((unsigned char *)&g_021AA860) + 0xC))
@@ -94,7 +94,7 @@ void DWCi_GetReverseBuddiesCallback(void *connection, GPGetReverseBuddiesListRes
                     if (!func_02059194(&CNT->friendList[i])) {
                         CNT->reverseChanged = 1;
                         DWCi_SetReverseBuddyFlag(&CNT->friendList[i], 1);
-                        if (CTRDG_IsBitID(&CNT->friendList[i]))
+                        if (DWC_IsBuddyFriendData(&CNT->friendList[i]))
                             DWCi_SetExpIsBuddyFriendFlag(&CNT->friendList[i], 1);
                     }
                     break;
@@ -104,7 +104,7 @@ void DWCi_GetReverseBuddiesCallback(void *connection, GPGetReverseBuddiesListRes
                 CNT->reverseChanged = 1;
                 DWCi_SetReverseBuddyFlag(&CNT->friendList[i], 0);
             }
-            if (CTRDG_IsBitID(&CNT->friendList[i]))
+            if (DWC_IsBuddyFriendData(&CNT->friendList[i]))
                 DWCi_SetExpIsBuddyFriendFlag(&CNT->friendList[i], 1);
         }
     }

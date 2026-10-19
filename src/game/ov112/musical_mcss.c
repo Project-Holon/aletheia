@@ -106,7 +106,7 @@ typedef struct {
 } Ent;
 
 typedef struct {
-    u32 f0;
+    u32 reserved00;
     u32 kind;
     int x;
     int z;
@@ -114,7 +114,7 @@ typedef struct {
 } Part;
 
 typedef struct {
-    u16 f0;
+    u16 reserved00;
     s16 x;
     s16 z;
     u16 h;

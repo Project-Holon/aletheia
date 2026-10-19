@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0202DFD4
+ * function: PMS_DRAW_ReleaseResources
  * address:  0x0202DFD4
  * packet:   pkt_0202DBC4
  * region:   arm9
@@ -19,8 +19,8 @@
  * different ARM entry point, in the order the fields sit in the struct.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202DFD4.c \
- *       --func sub_0202DFD4 --addr 0x0202DFD4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PMS_DRAW_ReleaseResources.c \
+ *       --func PMS_DRAW_ReleaseResources --addr 0x0202DFD4 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -37,7 +37,7 @@ extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 
-void sub_0202DFD4(struct Obj0202DFD4 *p)
+void PMS_DRAW_ReleaseResources(struct Obj0202DFD4 *p)
 {
     CLACT_ReleasePalette((u32)p->unk08);
     CLACT_ReleaseCharacter((u32)p->unk0C);

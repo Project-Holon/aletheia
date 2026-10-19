@@ -1,5 +1,5 @@
 /*
- * function: func_021D41F0
+ * function: _DWCi_MOVStartWaitChild
  * address:  0x021D41F0
  * packet:   pkt_ov016_021D41F0
  * region:   ov016
@@ -35,7 +35,7 @@ typedef struct {
 extern Wk *gDwcMoveidWork;
 extern void DWCi_MOV_MBP_Init(u32 ggid, u16 tgid);
 
-void func_021D41F0(void)
+void _DWCi_MOVStartWaitChild(void)
 {
     DWCi_MOV_MBP_Init(gDwcMoveidWork->ggid, gDwcMoveidWork->moveid_tgid);
 }

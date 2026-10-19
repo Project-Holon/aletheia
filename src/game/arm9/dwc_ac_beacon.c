@@ -54,7 +54,7 @@ typedef struct {
     unsigned char passphrase[0x20];
     unsigned char pmk[0x20];
     unsigned char ssid[2][0x20];
-    unsigned char unk80;
+    unsigned char reserved80;
     unsigned char wpaMode;
     unsigned char proxyMode;
     unsigned char proxyAuthType;

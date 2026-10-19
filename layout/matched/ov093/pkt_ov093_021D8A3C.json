@@ -18,8 +18,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "BTL_CALC_CompoundEyesBoostAccuracy",
-    "BTL_CALC_GetCompoundEyesHandlers"
+    "HAND_TOKUSEI_CompoundEyesBoostAccuracy",
+    "HAND_TOKUSEI_GetCompoundEyesHandlers"
    ],
    "addresses": [
     "0x021D8A3C",

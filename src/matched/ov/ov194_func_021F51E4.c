@@ -12,7 +12,7 @@
  *   CLACT_GetActorCharacterIndex 0x0204B7F0 arm
  *   CLACT_TransferCharacterPart 0x0204AA94 arm
  *   func_020307B0 0x020307B0 arm
- *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
+ *   DC_FlushRange 0x020862F0 arm
  *   CLACT_GetActorPaletteProxy 0x0204B764 arm
  *   NNSi_G2dGetVramHandleEx 0x02063800 arm
  *   GX_LoadOBJPltt 0x0207E51C arm
@@ -35,7 +35,7 @@ extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
 extern u16 CLACT_GetActorCharacterIndex(u8 *);
 extern void CLACT_TransferCharacterPart(int,void *,u32,int,int);
 extern u32 func_020307B0(void *p);
-extern void DWCi_ScreenDC_FlushRange(void *,unsigned);
+extern void DC_FlushRange(void *,unsigned);
 struct Struct20;
 extern void CLACT_GetActorPaletteProxy(const char *src, struct Struct20 *dst);
 extern int NNSi_G2dGetVramHandleEx(char *,int);
@@ -71,7 +71,7 @@ void NAMEIN_GRAPHIC_LoadIconMember(u8 *dst,unsigned arc,u32 member,u32 index,u16
     CLACT_TransferCharacterPart(CLACT_GetActorCharacterIndex(dst),buf,size,pos,mode);
     func_020307B0(buf);
     u32 poff=((struct Obj14519 *)tex)->f38;
-    DWCi_ScreenDC_FlushRange(tex+poff,32);
+    DC_FlushRange(tex+poff,32);
     CLACT_GetActorPaletteProxy((const char *)dst,(struct Struct20 *)(&pal));
     if(mode==0 || mode==2) GX_LoadOBJPltt(tex+poff,NNSi_G2dGetVramHandleEx((char *)&pal,1),32);
     if(mode==1 || mode==2) func_0207E5D0(tex+poff,NNSi_G2dGetVramHandleEx((char *)&pal,2),32);

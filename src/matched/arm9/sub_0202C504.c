@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0202C504
+ * function: ISS_SWITCH_SET_CheckSwitchOn
  * address:  0x0202C504
  * packet:   pkt_0202C504
  * region:   arm9
@@ -25,8 +25,8 @@
  * src/matched/unit_0202C558.c, so the `matched` class witnesses the site.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202C504.c \
- *       --func sub_0202C504 --addr 0x0202C504 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ISS_SWITCH_SET_CheckSwitchOn.c \
+ *       --func ISS_SWITCH_SET_CheckSwitchOn --addr 0x0202C504 --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
@@ -35,7 +35,7 @@ struct Arr0202C510;
 extern u32 sub_0202C510(struct Arr0202C510 *p, u32 idx);
 extern u32 sub_0202C558(void *w);
 
-u32 sub_0202C504(void *p, u32 idx)
+u32 ISS_SWITCH_SET_CheckSwitchOn(void *p, u32 idx)
 {
     return sub_0202C558((void *)sub_0202C510(p, idx));
 }

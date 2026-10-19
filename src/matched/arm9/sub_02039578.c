@@ -1,5 +1,5 @@
 /*
- * function: sub_02039578
+ * function: GFL_NET_SYSTEM_SetNoSend
  * address:  0x02039578
  * packet:   pkt_020393A8
  * region:   arm9
@@ -18,7 +18,7 @@
  * was loaded into, because that register is dead by then.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02039578.c \n *       --func sub_02039578 --addr 0x02039578 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_SYSTEM_SetNoSend.c \n *       --func GFL_NET_SYSTEM_SetNoSend --addr 0x02039578 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -35,7 +35,7 @@ struct LinkState {
 
 extern struct LinkState *unk_021469D0;
 
-void sub_02039578(void)
+void GFL_NET_SYSTEM_SetNoSend(void)
 {
     if (unk_021469D0 != 0) {
         unk_021469D0->unk_1ea = 1;

@@ -36,7 +36,7 @@
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
- *   BMP_SetDisplaySwap 0x0204363C arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   GFL_USE_AddMainTask 0x020056A0 thumb
@@ -305,7 +305,7 @@ extern int FADE_IsActive(void);
 extern void CLACT_SetActorAutoAnim(void *actor, u32 enable);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32 bgmId, u16 volume);
 extern void BG_SYS_ClearGraphicsMemory(unsigned);
-extern void BMP_SetDisplaySwap(unsigned);
+extern void BG_SYS_SetLcdSwap(unsigned);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_SetVramBanks(const void *config);
 extern unsigned GFL_USE_AddMainTask(void (*task)(unsigned, void *), void *work, unsigned priority);
@@ -591,7 +591,7 @@ void IRC_COMPATIBLE_MENU_InitDisplay(IrcMenuWork *work, u16 heapId)
     REG_DISPCNT_MAIN &= ~0xe000;
     REG_DISPCNT_SUB &= ~0xe000;
     BG_SYS_ClearGraphicsMemory(0);
-    BMP_SetDisplaySwap(0);
+    BG_SYS_SetLcdSwap(0);
     BG_SYS_ResetSubDisplay();
     BG_SYS_SetVramBanks(IRC_COMPATIBLE_MENU_VramBankConfig);
     IRC_COMPATIBLE_MENU_InitSprites(&work->sprites, IRC_COMPATIBLE_MENU_VramBankConfig, heapId);

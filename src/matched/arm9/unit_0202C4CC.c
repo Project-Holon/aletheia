@@ -10,10 +10,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0202C4CC, sub_0202C4D0
+ * function: ISS_SWITCH_SET_GetZoneCount, ISS_SWITCH_SET_GetZone
  *
- * Two accessors, no relocations. sub_0202C4CC reads a byte at offset 0x16;
- * sub_0202C4D0 indexes a u16 array at offset 4 (unchecked).
+ * Two accessors, no relocations. ISS_SWITCH_SET_GetZoneCount reads a byte at offset 0x16;
+ * ISS_SWITCH_SET_GetZone indexes a u16 array at offset 4 (unchecked).
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0202C4CC.c \
@@ -29,7 +29,7 @@ struct Obj0202C4CC {
     u8 unk16;
 };
 
-u32 sub_0202C4CC(struct Obj0202C4CC *p)
+u32 ISS_SWITCH_SET_GetZoneCount(struct Obj0202C4CC *p)
 {
     return p->unk16;
 }
@@ -39,7 +39,7 @@ struct Arr0202C4D0 {
     u16 unk04[1];
 };
 
-u32 sub_0202C4D0(struct Arr0202C4D0 *p, u32 idx)
+u32 ISS_SWITCH_SET_GetZone(struct Arr0202C4D0 *p, u32 idx)
 {
     return p->unk04[idx];
 }

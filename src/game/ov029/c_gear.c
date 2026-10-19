@@ -195,7 +195,7 @@
  *   FIELD_SUBSCREEN_CreateAnimTask  0x021D297C  thumb  ov021
  *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
  *   GFL_NET_GetRunState  0x0203CD98  arm
- *   CTRDGi_IsAgbCartridgeAtInit 0x02035c60 arm
+ *   TOUCHPANEL_GetTrg 0x02035c60 arm
  *   BLOCK20_SAVEDATA_InitPanelMarks  0x020091FC  thumb
  *   ARC_TOOL_ReadHandleMember  0x0204932C  arm
  */
@@ -563,7 +563,7 @@ struct ArcFile;
 struct HexMap;
 void C_GEAR_LoadSkinMember(struct HexMap *hexMap, struct ArcFile *arc, int skinIndex, int heapId);
 int CTRDG_IsAgbCartridge(CGearWork *work);
-extern int CTRDGi_IsAgbCartridgeAtInit(void);
+extern int TOUCHPANEL_GetTrg(void);
 extern void *BLOCK20_SAVEDATA_InitPanelMarks(void *cgearSave);
 extern void ARC_TOOL_ReadHandleMember(struct ArcFile *arc, u32 member, void *dst);
 
@@ -3484,7 +3484,7 @@ int C_GEAR_IsCellKind(const CGearWork *work, int col, int row, int kind)
 int CTRDG_IsAgbCartridge(CGearWork *work)
 {
     if (work->agbSlotPresent) {
-        if (CTRDGi_IsAgbCartridgeAtInit())
+        if (TOUCHPANEL_GetTrg())
             return 1;
     }
     return 0;

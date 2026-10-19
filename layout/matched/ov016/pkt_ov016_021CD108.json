@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CD108",
+   "name": "DWCi_SceneSetSelectWayDispPush",
    "address": "0x021CD108",
    "kind": "sdk",
    "region": "ov016",

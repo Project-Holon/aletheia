@@ -43,7 +43,7 @@
  *   FLDMMDL_ChangeHeader  0x0216E0AC  thumb  ov010
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
- *   GAME_DATA_GetPlayerRailLocation  0x02012AB8  thumb
+ *   GAME_DATA_GetPlayerRail  0x02012AB8  thumb
  *   FIELD_NOGRID_MAPPER_BindCameraWork  0x021BB3AC  thumb  ov021
  *   GAME_DATA_GetPlayerMoveForm  0x02012AC0  thumb
  *   FLDMMDL_DRAW_GetBlactAnime  0x0219F058  thumb  ov021
@@ -137,7 +137,7 @@ extern void *FIELDMAP_GetGameSystem(FieldMap *fieldMap);
 extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(FieldMap *fieldMap);
 extern void *GAMESYSTEM_GetGameData(void *gameSystem);
 extern void *GAME_DATA_GetMyPlayerWork(void *gameData);
-extern void *GAME_DATA_GetPlayerRailLocation(void *saveRecord);
+extern struct RailLocationWords *GAME_DATA_GetPlayerRail(struct PlayerWork *player);
 extern u8 GAME_DATA_GetPlayerMoveForm(void *saveRecord);
 extern u8 ZONEDATA_DirToRailKey(int dir);
 extern void FLDMMDL_MOVE_AddDirVector(int dir, VecFx32 *vec, int amount);
@@ -260,7 +260,7 @@ void FIELDMAP_CTRL_HYBRID_Create(FieldMap *fieldMap, VecFx32 *pos, u16 dir)
         FIELD_PLAYER_SetDirDisp(work->player, dir);
         FIELDMAP_CTRL_HYBRID_SetMode(fieldMap, work, mode, pos, dir, blactAnime[0], blactAnime[1]);
     } else {
-        savedLocation = GAME_DATA_GetPlayerRailLocation(saveRecord);
+        savedLocation = GAME_DATA_GetPlayerRail(saveRecord);
         FIELD_PLAYER_CreateNogrid(work->player, heapId);
         FIELD_PLAYER_CreateGrid(work->player, heapId);
         FIELD_PLAYER_SetDirDisp(work->player, dir);

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "ov135_func_021F9260",
+   "name": "WORLDTRADE_INPUT_CreateModeWindows",
    "address": "0x021F9260",
    "kind": "game",
    "region": "ov135",

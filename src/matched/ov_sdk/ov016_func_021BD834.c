@@ -1,5 +1,5 @@
 /*
- * function: func_021BD834
+ * function: taskRenew
  * address:  0x021BD834
  * packet:   pkt_ov016_021BD834
  * region:   ov016
@@ -43,7 +43,7 @@ extern void DWCi_CEINlSet(int lcd, int idx, GXOamAttr *obj);
 extern struct MemIcon *gIconWork;
 extern unsigned char sIconCellIds[][4];
 
-void func_021BD834(void)
+void taskRenew(void)
 {
     WMLinkLevel lv = 0;
     volatile unsigned short *ime = (volatile unsigned short *)0x04000208;

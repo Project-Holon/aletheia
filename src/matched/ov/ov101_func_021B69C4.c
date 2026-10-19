@@ -1,5 +1,5 @@
 /*
- * function: PDC_MSG_PrintMessage2
+ * function: IRC_COMPATIBLE_ProcExit
  * address: 0x021B69C4
  * packet: pkt_ov101_021B69C4
  * region: ov101
@@ -29,6 +29,6 @@ extern u32 func_020307B0(void *p);
 struct Proc;
 extern void func_020315D4(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
-int PDC_MSG_PrintMessage2(int a,int b,int c,u8 *d) {
+int IRC_COMPATIBLE_ProcExit(int a,int b,int c,u8 *d) {
  GFL_USE_PopBgm(); GFL_USE_SetBgmPaused(0); COMPATIBLE_IRC_SYS_Delete(((struct Obj13717 *)d)->f0); IRC_COMPATIBLE_StepRunnerExit(d+4); func_020307B0(((struct Obj13717 *)d)->f3C); func_020315D4((void *)a); GFL_HEAP_DeleteChecked(58); return 1;
 }

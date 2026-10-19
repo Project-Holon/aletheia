@@ -234,7 +234,7 @@ extern u32 GFL_HEAP_Free(void *ptr);
 
 extern int GFL_NET_GetRunState(void);
 
-extern int GFL_NET_Exit(int a0);
+extern int GFL_NET_Exit(int exitCallback);
 
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *gameSys);
 

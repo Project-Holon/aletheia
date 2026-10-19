@@ -7239,6 +7239,24 @@ def entry_from_source(path, header, kind, rel, verify=False):
         # every shard that predates the class stays byte for byte identical.
         sole = sole_ref_sites(r)
         sdk_ev = sdk_sites(r)
+    if is_unit and not piece_kind and unit_tl is not None:
+        # The header's `function:` row names the lead function only when the
+        # other members are leaves that disasm.py never labelled.  The
+        # compiled layout knows every function the source defines, so the
+        # manifest lists them all, in layout order (2026-10-19).
+        # A lead name `unit_XXXXXXXX` is a placeholder for the function at the
+        # unit's start, not a symbol: it becomes that function's name.
+        lead = [n for _b, _sz, _pad, pn in unit_tl.parts[:1] for n in pn
+                if n in unit_tl.locals and unit_tl.locals[n] == 0]
+        if lead:
+            names = [lead[0] if (re.fullmatch(r"unit_[0-9A-Fa-f]{8}", n)
+                                 and n not in unit_tl.locals) else n
+                     for n in names]
+        have = set(names)
+        extra = [n for _b, _sz, _pad, pn in unit_tl.parts for n in pn
+                 if n not in have and n in unit_tl.locals]
+        if extra:
+            names = names + list(dict.fromkeys(extra))
     entry = {
         "name": os.path.splitext(fn)[0] if is_unit else names[0],
         "address": "0x%08X" % addr,

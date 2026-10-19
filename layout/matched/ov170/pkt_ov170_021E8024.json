@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BOX2_SEQ_StateMoveItemE",
+   "name": "BOX2_SEQ_StateConfirmRelease",
    "address": "0x021E8024",
    "kind": "game",
    "region": "ov170",

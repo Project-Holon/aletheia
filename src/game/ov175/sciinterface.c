@@ -25,7 +25,7 @@
  *   gScStatsServiceUrl  0x021E52B4  data
  *   gsDebugFormat  0x0217D254  arm ov009
  *   gsimalloc  0x0217EAB0  arm ov009
- *   memset  0x020923B0  arm
+ *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
  *   strcpy  0x02094798  arm
  */
 #include "../../matched/arm9_sdk/libc/string.h"
@@ -59,7 +59,7 @@ int sciInterfaceCreate(SCInterface **theInterfaceOut)
     *theInterfaceOut = theInterface;
     if (theInterface == 0)
         return SCResult_OUT_OF_MEMORY;
-    memset(theInterface, 0, sizeof(SCInterface));
+    MSL_C_LIB_MemsetPtr(theInterface, 0, sizeof(SCInterface));
     return SCResult_NO_ERROR;
 }
 
@@ -73,8 +73,8 @@ int sciInterfaceInit(SCInterface *theInterface)
 
     if (theResult != 0)
         return theResult;
-    memset(theInterface->mSessionId, 0, SC_GUID_SIZE);
-    memset(theInterface->mConnectionId, 0, SC_GUID_SIZE);
+    MSL_C_LIB_MemsetPtr(theInterface->mSessionId, 0, SC_GUID_SIZE);
+    MSL_C_LIB_MemsetPtr(theInterface->mConnectionId, 0, SC_GUID_SIZE);
     theInterface->mInit = 1;
     return SCResult_NO_ERROR;
 }
@@ -89,8 +89,8 @@ void sciInterfaceDestroy(SCInterface *theInterface)
     unsigned int theGuidSize = SC_GUID_SIZE;
 
     sciWsDestroy(&theInterface->mWebServices);
-    memset(theInterface->mSessionId, theZero, theGuidSize);
-    memset(theInterface->mConnectionId, theZero, theGuidSize);
+    MSL_C_LIB_MemsetPtr(theInterface->mSessionId, theZero, theGuidSize);
+    MSL_C_LIB_MemsetPtr(theInterface->mConnectionId, theZero, theGuidSize);
     theInterface->mSessionId[0] = 0xde;
     theInterface->mSessionId[1] = 0xad;
     theInterface->mConnectionId[0] = 0xde;

@@ -89,7 +89,7 @@
 #include "pokemontrade_demo_types.h"
 #include "pokemontrade_demo_up_shared_types.h"
 
-extern void POKETRADE_MCSS_SlideUpdate(void *p, void *a1);
+extern void POKETRADE_MCSS_SlideUpdate(void *p, void *eventArg);
 
 extern void POKETRADE_2D_ScheduleMainPlaneVisible(void *p, int a);
 

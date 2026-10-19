@@ -14,7 +14,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   POKETRADE_3D_FillTextureHeader 0x021E380C thumb ov119
  *   POKETRADE_3D_FillTexturePage 0x021E37D8 thumb ov119
- *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
+ *   DC_FlushRange 0x020862F0 arm
  *   func_0207F7FC 0x0207F7FC arm
  *   func_020307B0 0x020307B0 arm
  *   func_0207F9B4 0x0207F9B4 arm
@@ -30,7 +30,7 @@ extern void MI_CpuFill8(void *, int, int);
 extern void POKETRADE_3D_FillTextureHeader(u16 *p, unsigned char *src, int a2);
 typedef unsigned char  u8;
 extern void POKETRADE_3D_FillTexturePage(u16 *p, u8 *src, int k, int a3);
-extern void DWCi_ScreenDC_FlushRange(void *, int);
+extern void DC_FlushRange(void *, int);
 extern void func_0207F7FC(void *, int, int);
 extern u32 func_020307B0(void *p);
 extern void func_0207F9B4(void);
@@ -47,7 +47,7 @@ void POKETRADE_3D_UploadTexturePages(char *p, int count)
             POKETRADE_3D_FillTextureHeader((u16 *)v, (unsigned char *)(p + 0x5B6), 2);
         else
             POKETRADE_3D_FillTexturePage((u16 *)v, (u8 *)(p + 0x2E6), i - 1, 2);
-        DWCi_ScreenDC_FlushRange(v, 0x200);
+        DC_FlushRange(v, 0x200);
         func_0207F7FC(v, i * 0x200 + 0x3000, 0x200);
     }
     func_020307B0(v);

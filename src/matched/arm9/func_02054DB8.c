@@ -23,7 +23,7 @@
  * SPLDraw_Child_DirectionalBillboard: draws one child particle as a
  * billboard stretched along its velocity (the "directional billboard" draw
  * type), through SPLDraw_Setup (POLYGON_ATTR), a hand-built 4x3 load matrix
- * and SPLUtil_DrawXYPlane (SPL_EMITTER_DrawQuad) with the child texture tiling.
+ * and SPLUtil_DrawXYPlane (SPLUtil_DrawXYPlane) with the child texture tiling.
  *
  * Wave 9, third lane: this body and every declaration it uses are the public
  * pret/pokeplatinum decompilation of the same NitroSystem particle library

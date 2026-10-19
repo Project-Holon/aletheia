@@ -20,7 +20,7 @@
    "functions": [
     "MSL_C_LIB_MemsetPtr",
     "memchr",
-    "func_020923F0"
+    "memcmp"
    ],
    "addresses": [
     "0x020923B0",

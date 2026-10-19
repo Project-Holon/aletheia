@@ -1,5 +1,5 @@
 /*
- * function: func_021D73BC
+ * function: clearVram
  * address:  0x021D73BC
  * packet:   pkt_ov016_021D73BC
  * region:   ov016
@@ -21,7 +21,7 @@ extern void GX_SetBankForLCDC(int lcdc);
 extern void MIi_CpuClearFast(unsigned long data, void *destp, unsigned long size);
 extern int GX_DisableBankForLCDC(void);
 
-void func_021D73BC(void)
+void clearVram(void)
 {
 	GX_SetBankForLCDC(0x1f3);
 	MIi_CpuClearFast(0, (void *)0x06800000, 0x40000);

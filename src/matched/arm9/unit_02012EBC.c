@@ -2,8 +2,8 @@
  * A whole translation unit, matched as one byte range.
  *
  * unit:     yes
- * function: sub_02012EBC, sub_02012EC0, sub_02012EC4, sub_02012ED0,
- *           sub_02012ED8
+ * function: GAME_DATA_GetSaveControl, GAME_DATA_GetSaveControlWork, GAME_DATA_GetFieldSave, GAME_DATA_GetEventState,
+ *           GAME_DATA_GetCurrentEvent
  * address:  0x02012EBC
  * packet:   pkt_02012E4C
  * region:   arm9
@@ -36,27 +36,27 @@ struct Big {
     void *unk_688;
 };
 
-void *sub_02012EBC(struct Big *p)
+void *GAME_DATA_GetSaveControl(struct Big *p)
 {
     return p->unk_00;
 }
 
-void *sub_02012EC0(struct Big *p)
+void *GAME_DATA_GetSaveControlWork(struct Big *p)
 {
     return p->unk_00;
 }
 
-u8 *sub_02012EC4(struct Big *p)
+u8 *GAME_DATA_GetFieldSave(struct Big *p)
 {
     return &p->unk_5ec;
 }
 
-u8 *sub_02012ED0(struct Big *p)
+u8 *GAME_DATA_GetEventState(struct Big *p)
 {
     return &p->unk_680;
 }
 
-void *sub_02012ED8(struct Big *p)
+void *GAME_DATA_GetCurrentEvent(struct Big *p)
 {
     return p->unk_688;
 }

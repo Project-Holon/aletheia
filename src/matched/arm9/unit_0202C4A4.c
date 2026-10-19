@@ -10,7 +10,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0202C4A4
+ * function: ISS_SWITCH_SET_ResetSwitches
  *
  * symbols:
  *   sub_0202C510  0x0202C510  thumb
@@ -48,7 +48,7 @@ typedef unsigned int   u32;
 extern u32 sub_0202C570(void *p);
 extern u32 sub_0202C578(void *p);
 
-void sub_0202C4A4(void *p)
+void ISS_SWITCH_SET_ResetSwitches(void *p)
 {
     s32 i;
 

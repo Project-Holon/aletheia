@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * function: POKE_TOOL_SetBoxValue, POKE_TOOL_GetBoxValue, POKE_TOOL_IsShiny, POKE_TOOL_IsBoxShiny,
- *           POKE_TOOL_CheckShiny, POKE_TOOL_GetGender, POKE_TOOL_GetBoxGender, POKE_TOOL_CalcGender,
+ *           POKE_TOOL_IsShinyOtIdPersonality, POKE_TOOL_GetGender, POKE_TOOL_GetBoxGender, POKE_TOOL_CalcGender,
  *           POKE_TOOL_GetStatusCondition, POKE_TOOL_SetStatusCondition, POKE_TOOL_SetDefaultMoves
  *
  * symbols:
@@ -33,7 +33,7 @@
  * and POKE_TOOL_SetDefaultMoves each tail call the function immediately after them, which
  * makes two of the three sites the `local` class.
  *
- * POKE_TOOL_CheckShiny folds two words to sixteen bits and its four XOR operands have
+ * POKE_TOOL_IsShinyOtIdPersonality folds two words to sixteen bits and its four XOR operands have
  * exactly one source order, which is not the order the `eors` appear in; see
  * docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md.
  *
@@ -67,7 +67,7 @@ extern void *POKE_TOOL_GetPersonalData(u32 a, u32 b);
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 
 u32 POKE_TOOL_IsBoxShiny(void *p);
-u32 POKE_TOOL_CheckShiny(u32 a, u32 b);
+u32 POKE_TOOL_IsShinyOtIdPersonality(u32 a, u32 b);
 u8 POKE_TOOL_GetBoxGender(void *p);
 u8 POKE_TOOL_CalcGender(u32 a, u16 b, u32 c);
 
@@ -98,10 +98,10 @@ u32 POKE_TOOL_IsBoxShiny(void *p)
 {
     u32 a = POKE_TOOL_GetBoxValue(p, 7, 0);
 
-    return POKE_TOOL_CheckShiny(a, POKE_TOOL_GetBoxValue(p, 0, 0));
+    return POKE_TOOL_IsShinyOtIdPersonality(a, POKE_TOOL_GetBoxValue(p, 0, 0));
 }
 
-u32 POKE_TOOL_CheckShiny(u32 a, u32 b)
+u32 POKE_TOOL_IsShinyOtIdPersonality(u32 a, u32 b)
 {
     u32 x = ((a & 0xFFFF0000) >> 16) ^ (u16)a ^ ((b & 0xFFFF0000) >> 16) ^ (u16)b;
 

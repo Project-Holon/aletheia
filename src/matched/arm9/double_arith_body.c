@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: _double_arith_body
+ * function: sqrt
  * address:  0x0209C5E0
  * packet:   pkt_0209C5E0
  * region:   arm9
@@ -25,11 +25,11 @@
  * FPSCR-like exception status word this routine's tail stores 0x21 into.
  *
  * Verified with:
- *   python tools/match.py one --src <this file> --func _double_arith_body
+ *   python tools/match.py one --src <this file> --func sqrt
  *     --addr 0x0209C5E0 --cc 1.1p1 --arm
  */
 
-asm void _double_arith_body(void)
+asm void sqrt(void)
 {
     stmdb sp!, {r4, r5, r6, lr}
     ldr r2, [pc, #0x184]

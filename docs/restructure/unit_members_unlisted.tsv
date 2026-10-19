@@ -1,3 +1,4 @@
+# RESOLVED (wave 18, lane UNITS): tools/match.py entry_from_source now records every member a unit defines; all 53 units below list their members after manifest --verify --force.
 # Game units whose manifest entry lists fewer functions than the source defines (found while porting, 2026-10-19).
 # A caller in another file that names a member by its address cannot be resolved from the manifest (eidos's generators read functions/addresses).
 # Columns: region  lead address  source  counts  members missing from the manifest's functions/addresses
@@ -41,7 +42,7 @@ arm9	0x0204B9C4	src/matched/arm9/unit_0204B9C4.c	1 listed, 3 defined	CLACT_Apply
 arm9	0x0204D3C4	src/matched/arm9/unit_0204D3C4.c	1 listed, 4 defined	CLACT_AddCellAnimFrame,CLACT_AddMultiCellAnimFrame,CLACT_AddVramAnimFrame
 arm9	0x0204D410	src/matched/arm9/unit_0204D410.c	1 listed, 4 defined	CLACT_GetCellAnimCtrl,CLACT_GetMultiCellAnimCtrl,CLACT_GetVramAnimCtrl
 arm9	0x0204D444	src/matched/arm9/unit_0204D444.c	1 listed, 4 defined	CLACT_GetCellAnimObject,CLACT_GetMultiCellAnimObject,CLACT_GetVramAnimObject
-arm9	0x0204D4C4	src/matched/arm9/unit_0204D4C4.c	1 listed, 3 defined	CLACT_UpdateCellAnim,CLACT_UpdateMultiCellAnim
+arm9	0x0204D4C4	src/matched/arm9/unit_0204D4C4.c	1 listed, 3 defined	CLACT_SetCellAnimSpeed,CLACT_SetMultiCellAnimSpeed
 arm9	0x0204E720	src/matched/arm9/unit_0204E720.c	1 listed, 2 defined	FADE_IsActive
 arm9	0x0205841C	src/matched/arm9/unit_0205841C.c	1 listed, 2 defined	SPLRandom_VecFx32
 arm9	0x02061330	src/matched/arm9/unit_02061330.c	1 listed, 2 defined	NNS_FndFreeToAllocator

@@ -1,5 +1,5 @@
 /*
- * function: func_021573B8
+ * function: empty_func
  * address:  0x021573B8
  * packet:   pkt_ov009_021573B8
  * region:   ov009
@@ -16,6 +16,6 @@
  * sdk:      empty_func (libcps.TWL.HYB.a network.o, static)
  */
 
-void func_021573B8(void)
+void empty_func(void)
 {
 }

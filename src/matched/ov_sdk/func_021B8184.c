@@ -1,5 +1,5 @@
 /*
- * function: func_021B8184
+ * function: Free
  * address:  0x021B8184
  * packet:   pkt_021B816C
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B8184   0x021B8184  thumb
+ *   Free   0x021B8184  thumb
  *   func_021DCE2C   0x021DCE2C  data  ov016
 
  *
@@ -18,13 +18,13 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021B8184.c \
- *       --func func_021B8184 --addr 0x021B8184 --region ov016 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/Free.c \
+ *       --func Free --addr 0x021B8184 --region ov016 --cc dsi/1.1p1 --thumb
  */
 
 extern void (*func_021DCE2C)(int);
 
-void func_021B8184(int a, int b)
+void Free(int a, int b)
 {
     func_021DCE2C(b);
 }

@@ -18,8 +18,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "BTL_CALC_ThickFatHalveFireIce",
-    "BTL_CALC_GetHugePowerHandlers"
+    "HAND_TOKUSEI_ThickFatHalveFireIce",
+    "HAND_TOKUSEI_GetHugePowerHandlers"
    ],
    "addresses": [
     "0x021D86FC",

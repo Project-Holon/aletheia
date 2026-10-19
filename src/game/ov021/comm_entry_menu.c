@@ -500,7 +500,7 @@ extern u32 FIELD_MSGBG_SysWinMain(FieldSysWin *sysWin);
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern void GFL_NET_BeaconScanStart(void);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *ws, u32 slot, const void *myStatus);
-extern int GFL_NET_Exit(int a0);
+extern int GFL_NET_Exit(int exitCallback);
 extern int GFL_NET_IsSessionNull(void);
 extern void GFL_NET_StartSession(GFLNetInitializeStruct *init, u32 transportArg, u32 userArg);
 extern FieldMenuFunc *FIELD_MSGBG_CreateYesNoMenu(FieldMsgBg *msgBg, u32 cursorPos);

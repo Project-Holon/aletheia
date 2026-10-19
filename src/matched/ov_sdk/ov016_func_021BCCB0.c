@@ -1,5 +1,5 @@
 /*
- * function: func_021BCCB0
+ * function: taskStart1
  * address:  0x021BCCB0
  * packet:   pkt_ov016_021BCCB0
  * region:   ov016
@@ -26,7 +26,7 @@ extern struct tagMEMBTN *gButtonWork;
 extern void DWCi_TSKlSetParam(char *p, unsigned int v);
 extern void func_021BCD00(void);
 
-void func_021BCCB0(void *task)
+void taskStart1(void *task)
 {
     gButtonWork->input = -1;
     gButtonWork->count++;

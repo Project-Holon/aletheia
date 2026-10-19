@@ -1,5 +1,5 @@
 /*
- * function: func_021C0AA8
+ * function: initGame
  * address:  0x021C0AA8
  * packet:   pkt_ov016_021C0AA8
  * region:   ov016
@@ -59,7 +59,7 @@ extern int DWC_BM_Init(void *work);
 extern void DWCi_HEAPlFree_(void **mem);
 extern struct UtilState gDwcutilMainWork;
 
-void func_021C0AA8(void)
+void initGame(void)
 {
     void *work;
     int zero;

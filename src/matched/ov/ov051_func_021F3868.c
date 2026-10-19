@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: GIMMICK49_ExitExtra, FIELD_GIMMICK_D06_Update
+ * function: FIELD_GIMMICK_D06_Exit, FIELD_GIMMICK_D06_Update
  * address: 0x021F3868
  * packet: pkt_ov051_021F3868
  * region: ov051
@@ -34,7 +34,7 @@ extern int FIELD_GIMMICK_D06_GetGimmickId(int);
 extern char *GIMMICK_WORK_GetSaveArea(unsigned,int);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
-void GIMMICK49_ExitExtra(u8 *p)
+void FIELD_GIMMICK_D06_Exit(u8 *p)
 {
     unsigned h;
     FIELDMAP_GetHeapId(p);

@@ -29,7 +29,7 @@
  *   FIELDMAP_AllocCommonWork  0x02189764  thumb  ov021
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
- *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
+ *   GIMMICK_WORK_GetWork  0x0200B3A4  thumb
  *   HEIGHT_EX_SetArea  0x021C0628  thumb  ov021
  *   FLD_EXP_OBJ_AddUnitFromArchive  0x021BE760  thumb  ov021
  *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb  ov021
@@ -98,7 +98,7 @@ extern void *FIELD_G3D_MAPPER_GetHeightEx(void *g3dMapper);
 extern void *FIELDMAP_AllocCommonWork(unsigned char *fieldMap, int id, int a, int size);
 extern void *GAMESYSTEM_GetGameData(void *gameSystem);
 extern struct FieldSave *GAME_DATA_GetFieldSave(struct GameData *gameData);
-extern FieldGimmickLiftElevatorSave *GIMMICK_WORK_GetSaveArea(struct FieldSave *fieldSave, u32 blockId);
+extern FieldGimmickLiftElevatorSave *GIMMICK_WORK_GetWork(struct FieldSave *fieldSave, u32 blockId);
 extern void  HEIGHT_EX_SetArea(u8 areaId, int tileX, int tileZ, int width, int depth, int height, int c, void *heightEx);
 extern void  FLD_EXP_OBJ_AddUnitFromArchive(void *expObj, void *unitDesc, int b);
 extern VecFx32 *FLD_EXP_OBJ_GetModelStatus(void *expObj, unsigned unit, u16 model);
@@ -188,7 +188,7 @@ void FIELD_GIMMICK_LIFT_ELEVATOR_Init(void *fieldMap)
 
     expObj = FIELDMAP_GetExpObj(fieldMap);
     fog = FIELDMAP_GetFog(fieldMap);
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_LIFT_ELEVATOR_SAVE_BLOCK);
+    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_LIFT_ELEVATOR_SAVE_BLOCK);
     FIELDMAP_AllocCommonWork(fieldMap, 1, FIELDMAP_GetHeapId(fieldMap), sizeof(FieldGimmickLiftElevatorWork));
     heightEx = FIELD_G3D_MAPPER_GetHeightEx(FIELDMAP_GetG3dMapper(fieldMap));
     for (i = 0; i < FIELD_GIMMICK_LIFT_ELEVATOR_FIXED_AREA_COUNT; i++) {
@@ -262,7 +262,7 @@ void FIELD_GIMMICK_LIFT_ELEVATOR_Update(u8 *fieldMap)
 {
     void *expObj = FIELDMAP_GetExpObj(fieldMap);
     FIELDMAP_GetCommonWork(fieldMap, 1);
-    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_LIFT_ELEVATOR_SAVE_BLOCK);
+    GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_LIFT_ELEVATOR_SAVE_BLOCK);
     FLD_EXP_OBJ_UpdateAnimes(expObj);
 }
 
@@ -277,7 +277,7 @@ void *FIELD_GIMMICK_LIFT_ELEVATOR_CallLiftEvent(void *gameSystem, int liftIndex)
     int step;
 
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_LIFT_ELEVATOR_SAVE_BLOCK);
+    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_LIFT_ELEVATOR_SAVE_BLOCK);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
     if (liftIndex >= FIELD_GIMMICK_LIFT_ELEVATOR_LIFT_COUNT) {
         return 0;
@@ -317,7 +317,7 @@ void FIELD_GIMMICK_LIFT_ELEVATOR_CallElevatorEvent(void *gameSystem, int isRisin
     int step;
 
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_LIFT_ELEVATOR_SAVE_BLOCK);
+    GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_LIFT_ELEVATOR_SAVE_BLOCK);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
     work->isRising = isRising;
     if (isRising) {
@@ -372,7 +372,7 @@ int FIELD_GIMMICK_LIFT_ELEVATOR_LiftEventMain(void *event, int *seq)
     expObj = FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
     camera = FIELDMAP_GetCamera(fieldMap);
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_LIFT_ELEVATOR_SAVE_BLOCK);
+    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_LIFT_ELEVATOR_SAVE_BLOCK);
     switch (*seq) {
     case 0:
         riderCount = 0;
@@ -489,7 +489,7 @@ int FIELD_GIMMICK_LIFT_ELEVATOR_ElevatorEventMain(void *event, int *seq)
     expObj = FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
     camera = FIELDMAP_GetCamera(fieldMap);
-    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_LIFT_ELEVATOR_SAVE_BLOCK);
+    GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_LIFT_ELEVATOR_SAVE_BLOCK);
     switch (*seq) {
     case 0:
         if (work->isRising != 0) {
@@ -655,7 +655,7 @@ void FIELD_GIMMICK_LIFT_ELEVATOR_UpdateBigLift(void *gameSystem)
     expObj = FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
     camera = FIELDMAP_GetCamera(fieldMap);
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_LIFT_ELEVATOR_SAVE_BLOCK);
+    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_LIFT_ELEVATOR_SAVE_BLOCK);
     if (work->liftIndex != FIELD_GIMMICK_LIFT_ELEVATOR_BIG_LIFT) {
         return;
     }

@@ -1,5 +1,5 @@
 /*
- * function: func_021D6D8C
+ * function: DWCi_LSTlErase
  * address:  0x021D6D8C
  * packet:   pkt_ov016_021D6D8C
  * region:   ov016
@@ -24,7 +24,7 @@ typedef struct ListNode {
 extern unsigned long OS_DisableIrqMask(unsigned long intr);
 extern unsigned long OS_EnableIrqMask(unsigned long intr);
 
-void func_021D6D8C(void *ob)
+void DWCi_LSTlErase(void *ob)
 {
     ListNode *ln = ob;
     unsigned long irq = OS_DisableIrqMask(1);

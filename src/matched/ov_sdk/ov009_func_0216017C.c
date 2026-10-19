@@ -1,5 +1,5 @@
 /*
- * function: func_0216017C
+ * function: cert_item_len
  * address:  0x0216017C
  * packet:   pkt_ov009_0216017C
  * region:   ov009
@@ -15,7 +15,7 @@
  *   (none)
  */
 
-static int func_0216017C(unsigned char **ps)
+static int cert_item_len(unsigned char **ps)
 {
     unsigned char *s;
     int len;

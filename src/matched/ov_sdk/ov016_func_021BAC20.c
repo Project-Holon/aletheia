@@ -1,5 +1,5 @@
 /*
- * function: func_021BAC20
+ * function: keywrap_encrypt
  * address:  0x021BAC20
  * packet:   pkt_ov016_021BAC20
  * region:   ov016
@@ -40,7 +40,7 @@ extern int func_021BAFD8(unsigned long *rk, unsigned char *cipherKey, int keyBit
 extern void func_021BB420(unsigned long *rk, int Nr, unsigned char *pt, unsigned char *ct);
 extern void func_021BAF90(unsigned char *srcA, unsigned char *srcB, unsigned char *dst);
 
-static int func_021BAC20(char *dest, char *src, unsigned long buflen, char *keyptr, unsigned long keylen)
+static int keywrap_encrypt(char *dest, char *src, unsigned long buflen, char *keyptr, unsigned long keylen)
 {
     unsigned long long xort;
     unsigned long long iv;

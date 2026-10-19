@@ -10,7 +10,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0202AE60, sub_0202AE64
+ * function: ISS_CITY_SYS_SetFadeLevel, ISS_CITY_SYS_GetVolume
  *
  * A setter at offset 0x10 immediately followed by a getter at offset 0xc,
  * back to back with no gap. Neither has a relocation.
@@ -24,12 +24,12 @@
 
 typedef unsigned int u32;
 
-void sub_0202AE60(void *obj, u32 value)
+void ISS_CITY_SYS_SetFadeLevel(void *obj, u32 value)
 {
     ((struct Obj17264 *)obj)->f10 = value;
 }
 
-u32 sub_0202AE64(void *obj)
+u32 ISS_CITY_SYS_GetVolume(void *obj)
 {
     return ((struct Obj11306 *)obj)->fC;
 }

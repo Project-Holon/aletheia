@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02161BE8",
+   "name": "tcp_read_raw_nbytes",
    "address": "0x02161BE8",
    "kind": "sdk",
    "region": "ov009",

@@ -32,7 +32,7 @@
  *   G3D_SYSTEM_GetResourceTex 0x02047250 arm
  *   NNS_G3dPlttSetPlttKey 0x0206A124 arm
  *   NNS_G3dPlttLoad 0x0206A12C arm
- *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
+ *   DC_FlushRange 0x020862F0 arm
  *   BILLBOARD_GetImageSizeFromFlags 0x0204EDD0 arm
  *   BILLBOARD_AddImageFromVramKeys 0x0204F044 arm
  *   BILLBOARD_AddImageFromArchive 0x0204EFC8 arm
@@ -84,7 +84,7 @@ extern void *G3D_SYSTEM_GetResourceFile(struct Tagged *p);
 extern void *G3D_SYSTEM_GetResourceTex(void *);
 extern void NNS_G3dPlttSetPlttKey(int *p, int v);
 extern void NNS_G3dPlttLoad(void *, u32);
-extern void DWCi_ScreenDC_FlushRange(void *, u32);
+extern void DC_FlushRange(void *, u32);
 extern void BILLBOARD_GetImageSizeFromFlags(int, u16 *, u16 *);
 extern int BILLBOARD_AddImageFromVramKeys(struct Board *b, int w, int h, int a3, u32 a4, u8 a5, u8 a6);
 extern u32 BILLBOARD_AddImageFromArchive(struct Desc *desc, u32 a1, u32 a2, u32 a3, u32 a4, u8 a5, u8 a6);
@@ -167,7 +167,7 @@ void DUP_FITTING_InitFrames(u8 *p)
         buf = G3D_SYSTEM_GetResourceFile(h);
         res = G3D_SYSTEM_GetResourceTex(h);
         NNS_G3dPlttSetPlttKey(res, vram);
-        DWCi_ScreenDC_FlushRange(buf, *(u32 *)(buf + 8));
+        DC_FlushRange(buf, *(u32 *)(buf + 8));
         NNS_G3dPlttLoad(res, 1);
         *(u32 *)(p + i * 0x14 + 0xb4) = BILLBOARD_AddImageFromVramKeys(*(void **)(p + 0x188c), w, vram, 0, flags, sizes[1], sizes[0]);
         MUSICAL_MCSS_FreeResourceArc(h);

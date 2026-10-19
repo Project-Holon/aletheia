@@ -19,7 +19,7 @@
  *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
  *   FIELD_GIMMICK_BSUBWAY_FindZoneEntry  0x021F3998  thumb  ov052
- *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
+ *   GIMMICK_WORK_GetWork  0x0200B3A4  thumb
  *   sFieldGimmickBsubwayZoneHandlers     0x021F3A2C  data  a4
  *   FIELDMAP_GetEffect  0x02188CD0  thumb  ov021
  *   FLDEFF_BTRAIN_Start  0x021D0218  thumb  ov021
@@ -69,7 +69,7 @@ void FIELD_GIMMICK_BSUBWAY_Init(struct FieldMap *fieldMap)
     gimmickWork = GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(gameSystem));
     zoneId = FIELDMAP_GetZoneId(fieldMap);
     FIELD_GIMMICK_BSUBWAY_FindZoneEntry(zoneId, &slotId, &handlerIndex);
-    zone = GIMMICK_WORK_GetSaveArea(gimmickWork, slotId);
+    zone = GIMMICK_WORK_GetWork(gimmickWork, slotId);
     zone->handlerIndex = handlerIndex;
     zone->slotId = slotId;
     zone->zoneId = zoneId;
@@ -93,7 +93,7 @@ void FIELD_GIMMICK_BSUBWAY_Update(struct FieldMap *fieldMap)
     FIELDMAP_GetHeapId(fieldMap);
     gimmickWork = GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
     FIELD_GIMMICK_BSUBWAY_FindZoneEntry(FIELDMAP_GetZoneId(fieldMap), &slotId, &handlerIndex);
-    zone = GIMMICK_WORK_GetSaveArea(gimmickWork, slotId);
+    zone = GIMMICK_WORK_GetWork(gimmickWork, slotId);
     update = sFieldGimmickBsubwayZoneHandlers[zone->handlerIndex].update;
     if (update)
         update(zone, fieldMap);
@@ -109,7 +109,7 @@ void FIELD_GIMMICK_BSUBWAY_Exit(struct FieldMap *fieldMap)
     gimmickWork = GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
     FIELD_GIMMICK_BSUBWAY_FindZoneEntry(FIELDMAP_GetZoneId(fieldMap), &slotId, &handlerIndex);
     if (sFieldGimmickBsubwayZoneHandlers[handlerIndex].exit) {
-        BsubwayZoneGimmick *zone = GIMMICK_WORK_GetSaveArea(gimmickWork, slotId);
+        BsubwayZoneGimmick *zone = GIMMICK_WORK_GetWork(gimmickWork, slotId);
         sFieldGimmickBsubwayZoneHandlers[handlerIndex].exit(zone, fieldMap);
     }
 }
@@ -125,7 +125,7 @@ void FIELD_GIMMICK_BSUBWAY_StartTrain(struct FieldMap *fieldMap, u32 modelIndex,
     FIELDMAP_GetHeapId(fieldMap);
     gimmickWork = GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
     FIELD_GIMMICK_BSUBWAY_FindZoneEntry(FIELDMAP_GetZoneId(fieldMap), &slotId, &handlerIndex);
-    train = GIMMICK_WORK_GetSaveArea(gimmickWork, slotId)->work.train;
+    train = GIMMICK_WORK_GetWork(gimmickWork, slotId)->work.train;
     train->effect = FLDEFF_BTRAIN_Start(FIELDMAP_GetEffect(fieldMap), modelIndex, pos);
 }
 
@@ -138,7 +138,7 @@ struct FieldEffectObj *FIELD_GIMMICK_BSUBWAY_GetTrainEffect(struct FieldMap *fie
     FIELDMAP_GetHeapId(fieldMap);
     gimmickWork = GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
     FIELD_GIMMICK_BSUBWAY_FindZoneEntry(FIELDMAP_GetZoneId(fieldMap), &slotId, &handlerIndex);
-    return GIMMICK_WORK_GetSaveArea(gimmickWork, slotId)->work.train->effect;
+    return GIMMICK_WORK_GetWork(gimmickWork, slotId)->work.train->effect;
 }
 
 /* Train handler init: allocates the train work and loads the train effect resources. */
@@ -164,7 +164,7 @@ void FIELD_GIMMICK_BSUBWAY_HaltTrainSway(struct FieldMap *fieldMap)
     struct GimmickWork *gimmickWork = GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
 
     if (FIELDMAP_GetZoneId(fieldMap) == BSUBWAY_ZONE_TRAIN) {
-        BsubwayZoneGimmick *zone = GIMMICK_WORK_GetSaveArea(gimmickWork, BSUBWAY_SLOT_TRAIN_SWAY);
+        BsubwayZoneGimmick *zone = GIMMICK_WORK_GetWork(gimmickWork, BSUBWAY_SLOT_TRAIN_SWAY);
         if (zone != 0) {
             BsubwayTrainSway *sway = zone->work.sway;
             if (sway != 0)

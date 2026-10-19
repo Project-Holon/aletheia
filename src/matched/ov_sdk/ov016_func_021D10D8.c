@@ -1,5 +1,5 @@
 /*
- * function: func_021D10D8
+ * function: taskFirst
  * address:  0x021D10D8
  * packet:   pkt_ov016_021D10D8
  * region:   ov016
@@ -45,7 +45,7 @@ extern void DWCi_TSKlDelete(int kind, void *task);
 extern MemUsbT *gUsbapWork;
 extern u8 sUsbApZeroBssid[6];
 
-void func_021D10D8(void *task)
+void taskFirst(void *task)
 {
     u64 tick;
     int i;

@@ -179,12 +179,9 @@
  *   G2x_SetBlendBrightness_  0x0207D658  arm
  *   G2x_SetBlendAlpha_  0x0207D63C  arm
  *   GXx_SetMasterBrightness_  0x0207D534  arm
- *   _ffltu  0x0209BE04  arm
  *   __fdiv  0x0209CE10  arm
  *   __fmul  0x0209C77C  arm
  *   __fadd  0x0209C95C  arm
- *   _fsub  0x0209CB8C  arm
- *   _ffix  0x0209C494  arm
  *   COMM_PLAYER_SUPPORT_NextSeason  0x0202E8A4  thumb
  *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   FIELDMAP_ResetBgAffineShowMsg  0x02188DB0  thumb  ov021
@@ -220,7 +217,7 @@ struct GameEvent *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
 void *GAME_EVENT_GetWork(struct GameEvent *p);
 extern u32 KEY_GetTrg(void);
 extern int TEXT_TEXTURE_GetTexFormatCount(void);
-extern int TEXT_TEXTURE_LoadTexPlttByName(void *file, const char *texName, void *extra, const char *plttName, u32 a4, u16 a5, u16 a6, u16 a7, u16 heap, struct TexKey *out);
+extern int TEXT_TEXTURE_LoadTexPlttByName(void *file, const char *texName, void *extra, const char *plttName, u32 text, u16 xPos, u16 yPos, u16 color, u16 heap, struct TexKey *out);
 extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 extern u32 *GAME_EVENT_GetSeq(struct GameEvent *p);
 extern u8 COMM_PLAYER_SUPPORT_PrevSeason(int);
@@ -244,12 +241,6 @@ void BG_SYS_PushTileSource(u32 index, const void *src, u32 mode, u32 offset);
 void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 void G2x_SetBlendAlpha_(u32 addr, int plane1, int plane2, int ev1, int ev2);
 void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
-u32 _ffltu(u32 x);
-u32 __fdiv(u32 a, u32 b);
-u32 __fmul(u32 a, u32 b);
-u32 __fadd(u32 a, u32 b);
-u32 _fsub(u32 a, u32 b);
-u32 _ffix(u32 x);
 u8 COMM_PLAYER_SUPPORT_NextSeason(u8 x);
 void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 void FIELDMAP_ResetBgAffineShowMsg(u8 *a);
@@ -536,22 +527,22 @@ void EL_SCOREBOARD_UpdateFadeShared(const ElScoreboardWork *work, int state)
 
 void EL_SCOREBOARD_UpdateFadeStandalone(ElScoreboardWork *work, int state)
 {
-    u32 elapsed, ratio;
+    float elapsed, ratio;
 
     if (state == 2) {
-        elapsed = _ffltu(work->stateTimer);
-        ratio = _ffltu(work->stateDuration);
-        ratio = __fdiv(elapsed, ratio);
-        ratio = __fmul(0x41800000, ratio);
-        ratio = __fadd(0xC1800000, ratio);
-        G2x_SetBlendBrightness_(0x04000050, 8, _ffix(ratio));
+        elapsed = (float)work->stateTimer;
+        ratio = (float)work->stateDuration;
+        ratio = elapsed / ratio;
+        ratio = 16.0f * ratio;
+        ratio = -16.0f + ratio;
+        G2x_SetBlendBrightness_(0x04000050, 8, (int)ratio);
     } else if (state == 4) {
-        elapsed = _ffltu(work->stateTimer);
-        ratio = _ffltu(work->stateDuration);
-        ratio = __fdiv(elapsed, ratio);
-        ratio = __fmul(0x41800000, ratio);
-        ratio = _fsub(0, ratio);
-        G2x_SetBlendBrightness_(0x04000050, 8, _ffix(ratio));
+        elapsed = (float)work->stateTimer;
+        ratio = (float)work->stateDuration;
+        ratio = elapsed / ratio;
+        ratio = 16.0f * ratio;
+        ratio = 0.0f - ratio;
+        G2x_SetBlendBrightness_(0x04000050, 8, (int)ratio);
     }
 }
 

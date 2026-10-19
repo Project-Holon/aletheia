@@ -161,7 +161,7 @@ extern void BR_UTIL_SetTextFromMessage(char *,void *,void *,void *,unsigned shor
 extern void BR_SIDEBAR_SetVisibleBySpace(int, int, int);
 extern void BR_RES_ApplyBgSet(int, int);
 extern void BR_RES_ReleaseUiPalette(int, int);
-extern int BR_GRAPHIC_Begin3d(u8 *p, int a1);
+extern int BR_GRAPHIC_Begin3d(u8 *p, int unusedB);
 extern int MUSICAL_SHOT_SYS_CreateScene(int, int);
 extern void MUSICAL_SHOT_SYS_DeleteScene(u8 *);
 extern void BR_GRAPHIC_End3d(void *,unsigned);
@@ -173,7 +173,7 @@ extern void *BR_BTN_CreateFromMessage(void *,int,int,int,int,int,int,int,void *,
 extern void *BR_UTIL_Create(u16,unsigned,u16,u16,unsigned char,unsigned char,void *,u16);
 extern void BR_BTN_DeleteObject(char *p);
 extern void BR_UTIL_Delete(u8 *p);
-extern char *BR_UTIL_CreateProfileScreen(void *prof, char *q, void *a2, void *a3, int mode, u16 heap);
+extern char *BR_UTIL_CreateProfileScreen(void *prof, char *q, void *unit, void *printQue, int mode, u16 heap);
 extern void BR_UTIL_DeleteProfileScreen(int *p);
 extern void *BR_UTIL_CreateTextWin(int a, void *owner, u16 heap);
 extern void *ZUKAN_SAVE_GetFromGameData(void *a);

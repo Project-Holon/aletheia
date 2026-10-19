@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02174790",
+   "name": "DWCi_EvaluateServers",
    "address": "0x02174790",
    "kind": "sdk",
    "region": "ov009",

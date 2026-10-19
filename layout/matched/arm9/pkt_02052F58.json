@@ -115,7 +115,7 @@
    "status": "EXACT"
   },
   {
-   "name": "SPL_EMITTER_DrawQuadEx",
+   "name": "SPLUtil_DrawXZPlane",
    "address": "0x0205650C",
    "kind": "game",
    "region": "arm9",
@@ -127,7 +127,7 @@
    "status": "EXACT"
   },
   {
-   "name": "SPL_EMITTER_DrawQuad",
+   "name": "SPLUtil_DrawXYPlane",
    "address": "0x020565C8",
    "kind": "game",
    "region": "arm9",
@@ -139,7 +139,7 @@
    "status": "EXACT"
   },
   {
-   "name": "SPL_EMITTER_EmitParticle",
+   "name": "SPLEmitter_EmitChildren",
    "address": "0x02056684",
    "kind": "game",
    "region": "arm9",
@@ -151,7 +151,7 @@
    "status": "EXACT"
   },
   {
-   "name": "SPL_EMITTER_LoadResource",
+   "name": "SPLEmitter_EmitParticles",
    "address": "0x020569A4",
    "kind": "game",
    "region": "arm9",
@@ -160,15 +160,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -proc arm946e -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "code:0x02058478"
-    ]
-   }
+   "status": "EXACT"
   },
   {
-   "name": "SPL_EMITTER_EvalKey",
+   "name": "SPLAnim_Color",
    "address": "0x02057C9C",
    "kind": "game",
    "region": "arm9",

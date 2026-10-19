@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: PSEL_ShowTaskRes, PSEL_DeleteTaskRes, PSEL_UpdateB414
+ * function: PSEL_ShowTaskRes, PSEL_DeleteTaskRes, PSEL_UpdateTaskResWin
  * address: 0x021BB3BC
  * packet: pkt_ov223_021BB3BC
  * region: ov223
@@ -41,7 +41,7 @@ void PSEL_DeleteTaskRes(char *p)
 {
     APP_TASKMENU_WIN_Delete(*(u8 * *)&((struct Obj00084 *)p)->f260);
 }
-void PSEL_UpdateB414(char *p)
+void PSEL_UpdateTaskResWin(char *p)
 {
     APP_TASKMENU_WIN_Update(*(u8 * *)&((struct Obj00084 *)p)->f260);
 }

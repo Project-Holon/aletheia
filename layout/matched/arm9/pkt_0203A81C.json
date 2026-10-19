@@ -30,10 +30,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "GFL_NET_STATE_ChangeState"
+    "GFL_NET_STATE_ChangeState",
+    "GFL_NET_STATE_ChangeStateDebug"
    ],
    "addresses": [
-    "0x0203AD74"
+    "0x0203AD74",
+    "0x0203AD80"
    ]
   }
  ]

@@ -1,5 +1,5 @@
 /*
- * function: func_021D4624
+ * function: Parent_StepDataShare
  * address:  0x021D4624
  * packet:   pkt_ov016_021D4624
  * region:   ov016
@@ -47,7 +47,7 @@ extern int DWCi_MOV_WH_StepDS(void *data);
 extern u16 DWCi_MOV_WH_GetBitmap(void);
 extern u16 *DWCi_MOV_WH_GetSharedDataAdr(u16 aid);
 
-void func_021D4624(u16 kind, u16 counter, u8 *data)
+void Parent_StepDataShare(u16 kind, u16 counter, u8 *data)
 {
     u16 i;
     u16 *adr;

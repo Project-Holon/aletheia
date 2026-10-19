@@ -10,11 +10,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0202C244, sub_0202C24C
+ * function: ISS_SWITCH_SYS_GetSet, ISS_SWITCH_SYS_GetActiveSet
  *
- * Two plain accessors on the same object, no relocations. sub_0202C244
+ * Two plain accessors on the same object, no relocations. ISS_SWITCH_SYS_GetSet
  * indexes a pointer table held at offset 8 (unchecked, `lsls #2` then
- * `ldr`); sub_0202C24C reads back the word at offset 0xc. Both are called
+ * `ldr`); ISS_SWITCH_SYS_GetActiveSet reads back the word at offset 0xc. Both are called
  * repeatedly through the rest of this file's own packet.
  *
  * Verified with:
@@ -31,12 +31,12 @@ struct Obj0202C244 {
     u32 unk0c;
 };
 
-u32 sub_0202C244(struct Obj0202C244 *p, u32 idx)
+u32 ISS_SWITCH_SYS_GetSet(struct Obj0202C244 *p, u32 idx)
 {
     return p->unk08[idx];
 }
 
-u32 sub_0202C24C(struct Obj0202C244 *p)
+u32 ISS_SWITCH_SYS_GetActiveSet(struct Obj0202C244 *p)
 {
     return p->unk0c;
 }

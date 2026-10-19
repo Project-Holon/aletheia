@@ -251,11 +251,11 @@ typedef unsigned char u8;
 typedef struct App {
     u32 gameData;     /* 0x00 */
     void *party;      /* 0x04: party data */
-    u16 f08;          /* 0x08 */
+    u16 evolvedSpecies;          /* 0x08 */
     u8 partyIndex;    /* 0x0a */
-    u8 f0b;           /* 0x0b */
+    u8 evoKind;           /* 0x0b */
     u32 flag0C;       /* 0x0c */
-    u32 f10;          /* 0x10 */
+    u32 reserved10;          /* 0x10 */
 } App;
 
 typedef struct Scene {
@@ -373,7 +373,7 @@ extern u32 KEY_GetTrg(void);
 extern int FADE_IsActive(void);
 extern void *YESNO_MENU_Create(u16,u32,u32,u32,u8,u32,u32,u32,u32);
 extern void YESNO_MENU_Delete(u8 *p);
-extern void YESNO_MENU_Start(struct YesNoMenu *s, u32 a1, u32 a2);
+extern void YESNO_MENU_Start(struct YesNoMenu *s, u32 upperText, u32 lowerText);
 extern void YESNO_MENU_Close(struct YesNoMenu *s);
 extern void YESNO_MENU_Update(struct YesNoMenu *p);
 extern int YESNO_MENU_GetAnswer(struct YesNoMenu *p);
@@ -411,7 +411,7 @@ extern void G2x_SetBlendAlpha_(int, int, int, int, int);
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern char *SHINKA_DEMO_GRAPHIC_Create(u32 a, u32 b);
-extern struct Owner *SHINKA_DEMO_VIEW_Create(u16 heap, u32 f08, void *res0, u16 f0c);
+extern struct Owner *SHINKA_DEMO_VIEW_Create(u16 heap, u32 mode, void *res0, u16 evolvedSpecies);
 extern struct Anim *SHINKA_DEMO_EFFECT_Create(u16 heap, u32 x);
 extern void SHINKA_DEMO_EFFECT_Destroy(char *a);
 extern void SHINKA_DEMO_VIEW_Destroy(char *p);
@@ -767,14 +767,14 @@ void SHINKA_DEMO_SetupScene(App *a, Scene *s)
     BG_SYS_LoadPlttEntry(0, 0);
     BG_SYS_LoadPlttEntry(4, 0);
     if (s->state == 0) {
-        b = a->f0b;
+        b = a->evoKind;
         if (b == 8 || (u8)(b + 0xef) <= 1)
-            a->f10 = 0;
+            a->reserved10 = 0;
     }
     if (s->state == 0)
-        s->view = SHINKA_DEMO_VIEW_Create(s->heap, 0, s->partyMon, a->f08);
+        s->view = SHINKA_DEMO_VIEW_Create(s->heap, 0, s->partyMon, a->evolvedSpecies);
     else
-        s->view = SHINKA_DEMO_VIEW_Create(s->heap, 1, s->partyMon, a->f08);
+        s->view = SHINKA_DEMO_VIEW_Create(s->heap, 1, s->partyMon, a->evolvedSpecies);
     if (s->state == 0)
         s->effect = SHINKA_DEMO_EFFECT_Create(s->heap, 0);
     else

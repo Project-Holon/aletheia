@@ -1,5 +1,5 @@
 /*
- * function: SPL_EMITTER_ClampShort
+ * function: SPLAnim_ChildScale
  * address:  0x02057B10
  * packet:   pkt_02057830
  * region:   arm9
@@ -25,7 +25,7 @@ struct Obj {
     short _34;
 };
 
-void SPL_EMITTER_ClampShort(struct Obj *o, struct Src *s, int t)
+void SPLAnim_ChildScale(struct Obj *o, struct Src *s, int t)
 {
     short cur;
 

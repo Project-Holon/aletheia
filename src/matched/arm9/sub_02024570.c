@@ -1,5 +1,5 @@
 /*
- * function: sub_02024570
+ * function: PMSI_PARAM_Copy
  * address:  0x02024570
  * packet:   pkt_02024344
  * region:   arm9
@@ -12,8 +12,8 @@
  * A plain 4-halfword struct copy.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02024570.c \
- *       --func sub_02024570 --addr 0x02024570 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PMSI_PARAM_Copy.c \
+ *       --func PMSI_PARAM_Copy --addr 0x02024570 --cc 1.1p1 --thumb
  */
 
 typedef unsigned short u16;
@@ -25,7 +25,7 @@ struct Rec8 {
     u16 d;
 };
 
-void sub_02024570(struct Rec8 *dst, const struct Rec8 *src)
+void PMSI_PARAM_Copy(struct Rec8 *dst, const struct Rec8 *src)
 {
     *dst = *src;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_02161678
+ * function: rcv_finished
  * address:  0x02161678
  * packet:   pkt_ov009_02161678
  * region:   ov009
@@ -35,7 +35,7 @@ typedef unsigned char  u8;
 extern int func_020923F0(const u8 *a, const u8 *b, int n);
 extern void finished_sha1(struct _CPSSslConnection *con, unsigned char *d, int flag);
 
-static void func_02161678(CPSSslConnection *con, unsigned char *s)
+static void rcv_finished(CPSSslConnection *con, unsigned char *s)
 {
     unsigned char tmp[20];
 

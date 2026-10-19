@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0202E0C8
+ * function: PMS_DRAW_DeleteElem
  * address:  0x0202E0C8
  * packet:   pkt_0202DBC4
  * region:   arm9
@@ -19,8 +19,8 @@
  * counter is signed (`blt`, not `blo`).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202E0C8.c \
- *       --func sub_0202E0C8 --addr 0x0202E0C8 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PMS_DRAW_DeleteElem.c \
+ *       --func PMS_DRAW_DeleteElem --addr 0x0202E0C8 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -34,7 +34,7 @@ struct Obj0202E0C8 {
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 
-void sub_0202E0C8(struct Obj0202E0C8 *p)
+void PMS_DRAW_DeleteElem(struct Obj0202E0C8 *p)
 {
     s32 i;
 

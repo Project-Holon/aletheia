@@ -52,9 +52,9 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "WORDSET_Set",
+    "WORDSET_SetSlotFromMsgBF",
     "WORDSET_SetSlotPokeData",
-    "WORDSET_Callback_F124",
+    "WORDSET_SetSlotFromMsg11B",
     "WORDSET_SetSlotFromMsgBE",
     "WORDSET_SetSlotFromMsgB4",
     "WORDSET_SetSlotFromMsg37",
@@ -64,7 +64,7 @@
     "WORDSET_SetSlotFromMsg2B",
     "WORDSET_SetSlotFromMsg00",
     "WORDSET_SetSlotFromMsg38",
-    "WORDSET_DrawF1E0",
+    "WORDSET_SetSlotWeekday",
     "WORDSET_SetSlotMonth"
    ],
    "addresses": [
@@ -117,7 +117,7 @@
    "status": "EXACT",
    "functions": [
     "WORDSET_CopyString",
-    "WORDSET_CheckF448"
+    "WORDSET_IsStringEqual"
    ],
    "addresses": [
     "0x0201F41C",

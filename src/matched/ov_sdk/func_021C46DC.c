@@ -1,5 +1,5 @@
 /*
- * function: func_021C46DC
+ * function: endScene
  * address:  0x021C46DC
  * packet:   pkt_021C46DC
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C46DC 0x021C46DC arm
+ *   endScene 0x021C46DC arm
  *   DWCi_BTNlDisable  0x021BCB9C  arm
  *   DWCi_ChangeScene  0x021C0E40  arm
  *   DWCi_MOVlEnd  0x021C115C  arm
@@ -25,7 +25,7 @@ extern void DWCi_BTNlDisable(void);
 extern void DWCi_EFFlWait(int);
 extern void DWCi_ChangeScene(unsigned int v);
 
-void func_021C46DC(void)
+void endScene(void)
 {
     if (*(unsigned char *)0x021DE5C8 == 0)
         DWCi_MOVlEnd();

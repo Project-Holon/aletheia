@@ -1,5 +1,5 @@
 /*
- * function: func_021C4890
+ * function: DWCi_SceneOptMovWaitCbMov
  * address:  0x021C4890
  * packet:   pkt_ov016_021C4890
  * region:   ov016
@@ -27,7 +27,7 @@ extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021C46DC();
 extern unsigned char gSceneOptMovWaitWork;
 
-void func_021C4890(int state)
+void DWCi_SceneOptMovWaitCbMov(int state)
 {
     DWCi_SNDlStop();
     if (state == 0) {

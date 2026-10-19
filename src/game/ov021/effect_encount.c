@@ -131,8 +131,8 @@ extern int FLDMMDL_GetGridNowZ(struct Mmdl *mmdl);
 extern struct FieldEffectSys *FIELDMAP_GetEffect(struct FieldMap *fieldMap);
 extern void *GAME_DATA_GetFieldWork(const struct GameData *gameData);
 extern void FLDMMDL_GetPos(const struct Mmdl *mmdl, VecFx32 *out);
-extern int MAP_MATRIX_IsInRangeByPos(int a0, int a1, int a2);
-extern int MAP_MATRIX_GetZoneIdByPos(int a0, int a1, int a2);
+extern int MAP_MATRIX_IsInRangeByPos(int matrix, int posX, int posZ);
+extern int MAP_MATRIX_GetZoneIdByPos(int matrix, int posX, int posZ);
 extern struct MiscSave *GAME_DATA_GetMiscSave(struct GameData *gameData);
 extern u32 MISC_GetBadge(struct MiscSave *beacon, u32 bit);
 extern u32 FIELDMAP_GetMoveKind(struct FieldMap *fieldMap);
@@ -141,10 +141,6 @@ extern int FIELD_PLAYER_IsGridHopping(struct FieldPlayer *player);
 extern void FIELD_PLAYER_FinishGridHop(struct FieldPlayer *player);
 extern int FIELD_G3D_MAPPER_GetFocusSlot(struct FieldG3dMapper *mapper);
 extern int FIELD_G3D_MAPPER_CheckSlotReady(struct FieldG3dMapper *mapper, int blockIndex);
-extern int _s32_to_float(int a);
-extern int __fadd(int a, int b);
-extern int _fsub(int a, int b);
-extern int _ffix(int a);
 extern int FIELD_G3D_MAPPER_QuerySlotPlane(struct FieldG3dMapper *mapper, int blockIndex, VecFx32 *pos, MapCellInfo *out);
 extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
 extern int FLDMMDL_SysSearchUseMmdl(struct MmdlSys *sys, struct Mmdl **out, u32 *iter);
@@ -153,7 +149,7 @@ extern MmdlObjSize *FLDMMDL_GetObjCodeParam(struct Mmdl *mmdl);
 extern FieldEffectObj *FLDEFF_ENCOUNT_Start(FieldEncount *encount, FieldEffectSys *fieldEffectSys, int gridX, int gridZ, int heightFx, int kind);
 extern void FLDEFF_ENCOUNT_SetPaused(FieldEffectObj *effect, int paused);
 extern void FLDEFF_ENCOUNT_SetDrawHidden(FieldEffectObj *effect, int flag);
-extern int SCRIPT_SYS_CreateScriptEventSimple(struct GameSystem *gameSystem, u32 scriptId, int a2, u16 heapId);
+extern int SCRIPT_SYS_CreateScriptEventSimple(struct GameSystem *gameSystem, u32 scriptId, int target, u16 heapId);
 extern int FIELD_ENCOUNT_CheckWildEncount(FieldEncount *encount, int triggerMode);
 extern int MAP_ATTR_GetEncounterEffectKind(u32 attribute);
 extern void FIELD_EFFECT_DeleteObject(FieldEffectObj *effect);
@@ -510,7 +506,7 @@ void EFFECT_ENCOUNT_CollectCandidates(FieldEncount *encount, EffectEncount *effe
     s16 z;
     s16 x;
     struct FieldG3dMapper *mapper;
-    int fixed;
+    float fixed;
     int kind;
 
     mapper = FIELDMAP_GetG3dMapper(encount->fieldMap);
@@ -522,15 +518,15 @@ void EFFECT_ENCOUNT_CollectCandidates(FieldEncount *encount, EffectEncount *effe
     EFFECT_ENCOUNT_MakeSearchArea(encount, effectEncount, &area);
     z = area.minZ;
     if ((z << 4) > 0)
-        fixed = __fadd(0x3f000000, _s32_to_float(z << 16));
+        fixed = 0.5f + (float)(z << 16);
     else
-        fixed = _fsub(_s32_to_float(z << 16), 0x3f000000);
-    cellPos.z = _ffix(fixed) + 0x8000;
+        fixed = (float)(z << 16) - 0.5f;
+    cellPos.z = (int)fixed + 0x8000;
     if ((area.minX << 4) > 0)
-        fixed = __fadd(0x3f000000, _s32_to_float(area.minX << 16));
+        fixed = 0.5f + (float)(area.minX << 16);
     else
-        fixed = _fsub(_s32_to_float(area.minX << 16), 0x3f000000);
-    startX = _ffix(fixed) + 0x8000;
+        fixed = (float)(area.minX << 16) - 0.5f;
+    startX = (int)fixed + 0x8000;
     for (; z <= area.maxZ; z++) {
         cellPos.x = startX;
         for (x = area.minX; x <= area.maxX; x++) {

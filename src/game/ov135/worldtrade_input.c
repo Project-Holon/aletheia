@@ -431,7 +431,7 @@ typedef struct {
 
 typedef struct {
     int count;
-    int f4;
+    int reserved04;
 } Layout;
 
 extern void WORLDTRADE_ADAPTER_InitPrinter(void *ctx, u32 arg);

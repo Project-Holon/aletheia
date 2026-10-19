@@ -9,15 +9,15 @@
  * isa:      arm
  * status:   EXACT
  *
- * sdk:      DWC_IsSendableReliable (libdwcmatch.TWL.HYB.a dwc_transport.o)
+ * sdk:      WM_StartParent (libwm.TWL.HYB.a(wm_standard.o))
  *
  * symbols:
- *   DWCi_IsSendableReliable 0x0208F5C8 arm
+ *   WMi_StartParentEx 0x0208F5C8 arm
  */
 
-extern int DWCi_IsSendableReliable(unsigned char aid, unsigned short type);
+extern int WMi_StartParentEx(void *callback, int powerSave);
 
-int WM_StartParent(unsigned char aid)
+int WM_StartParent(void *callback)
 {
-    return DWCi_IsSendableReliable(aid, 1);
+    return WMi_StartParentEx(callback, 1);
 }

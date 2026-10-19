@@ -1,5 +1,5 @@
 /*
- * function: func_021CDA48
+ * function: endScene1
  * address:  0x021CDA48
  * packet:   pkt_ov016_021CDA48
  * region:   ov016
@@ -12,7 +12,7 @@
  * sdk:      endScene1 (libdwcutil.TWL.HYB.a scenesettestconf)
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CDA48.c \n *       --func func_021CDA48 --addr 0x021CDA48 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CDA48.c \n *       --func endScene1 --addr 0x021CDA48 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  *
  * symbols:
  *   DWCi_EFFlCheck  0x021D5580  arm  ov016
@@ -28,7 +28,7 @@ extern void DWCi_SetParam_(unsigned int a, unsigned int b);
 extern void DWCi_ChangeScene(unsigned int v);
 extern void DWCi_SceneSetTest(void);
 
-void func_021CDA48(void)
+void endScene1(void)
 {
     if (DWCi_EFFlCheck(0))
         return;

@@ -1,5 +1,5 @@
 /*
- * function: func_021CD40C
+ * function: endScene
  * address:  0x021CD40C
  * packet:   pkt_ov016_021CD40C
  * region:   ov016
@@ -21,7 +21,7 @@ extern int DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021CD434(void);
 
-void func_021CD40C(void)
+void endScene(void)
 {
 	DWCi_EFFlFade(3, 0, 0x15, 8);
 	DWCi_ChangeScene((unsigned int)func_021CD434);

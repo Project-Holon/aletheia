@@ -1,5 +1,5 @@
 /*
- * function: func_0205F298
+ * function: ConnectTestCreate
  * address:  0x0205F298
  * packet:   pkt_0205DC74
  * region:   arm9
@@ -23,7 +23,7 @@ extern void *DWCi_AC_GetMemPtr(unsigned long name);
 extern int DWC_Netcheck_Create(DWCNetcheckParam *param);
 extern void DWCi_AC_SetError(int error);
 
-static unsigned char func_0205F298(void)
+static unsigned char ConnectTestCreate(void)
 {
     DWCNetcheckParam *nc = (DWCNetcheckParam *)DWCi_AC_GetMemPtr(8);
 

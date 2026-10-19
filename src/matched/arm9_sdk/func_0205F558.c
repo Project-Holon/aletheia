@@ -1,5 +1,5 @@
 /*
- * function: func_0205F558
+ * function: ConvNetMask
  * address:  0x0205F558
  * packet:   pkt_0205DC74
  * region:   arm9
@@ -17,7 +17,7 @@
 
 #define SWAP32(x) ((((x) >> 24) & 0xFF) | (((x) >> 8) & 0xFF00) | (((x) << 8) & 0xFF0000) | (((x) << 24) & 0xFF000000))
 
-static unsigned long func_0205F558(unsigned char netmask)
+static unsigned long ConvNetMask(unsigned char netmask)
 {
     int i;
     int n;

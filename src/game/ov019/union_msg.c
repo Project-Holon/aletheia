@@ -190,7 +190,7 @@ extern void *FIELD_MSGBG_CreatePlainWin(void *a, u32 b, u32 c, u16 d, u16 e, u16
 extern void FIELD_MSGBG_ClearPlainWin(void *r);
 extern void FIELD_MSGBG_OpenPlainWin(void *p);
 extern int FIELD_MSGBG_DeletePlainWin(void *a);
-extern u32 FIELD_MSGBG_DeleteMsgData(void *a0);
+extern u32 FIELD_MSGBG_DeleteMsgData(void *msgData);
 extern void MSGDATA_ReadString(void *bank, u32 index, void *dest);
 extern void WORDSET_CopyTaggedText(void *ws, void *dst, void *src);
 extern void FIELD_MSGBG_PlainWinPrintStream(void *r, u32 b, u16 c, u32 d);

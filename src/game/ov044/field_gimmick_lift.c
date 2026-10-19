@@ -31,7 +31,7 @@
  *   FLD_EXP_OBJ_UpdateAnimes 0x021BE580 thumb ov021
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetFieldSave 0x02012EC4 thumb
- *   GIMMICK_WORK_GetSaveArea 0x0200B3A4 thumb
+ *   GIMMICK_WORK_GetWork 0x0200B3A4 thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FLD_EXP_OBJ_SetAnimeEnabled  0x021BE700  thumb  ov021
  *   GAME_EVENT_Create  0x020122C0  thumb

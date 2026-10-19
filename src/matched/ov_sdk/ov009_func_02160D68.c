@@ -1,5 +1,5 @@
 /*
- * function: func_02160D68
+ * function: has_method
  * address:  0x02160D68
  * packet:   pkt_ov009_02160D68
  * region:   ov009
@@ -15,7 +15,7 @@
  *   (none)
  */
 
-static int func_02160D68(unsigned char *s, int num, int size, unsigned short method)
+static int has_method(unsigned char *s, int num, int size, unsigned short method)
 {
     unsigned long n;
     int i;

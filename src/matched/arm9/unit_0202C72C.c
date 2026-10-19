@@ -10,7 +10,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0202C72C
+ * function: ISS_SWITCH_IsOnState
  *
  * symbols:
  *   sub_0202C6B8  0x0202C6B8  thumb
@@ -41,7 +41,7 @@ typedef unsigned int u32;
 struct Obj0202C6B8;
 extern u32 sub_0202C6B8(struct Obj0202C6B8 *p);
 
-u32 sub_0202C72C(void *p)
+u32 ISS_SWITCH_IsOnState(void *p)
 {
     switch (sub_0202C6B8(p)) {
     case 0:

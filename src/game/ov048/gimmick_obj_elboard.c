@@ -282,7 +282,6 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern unsigned int GF_FONT_Delete(struct GfFont *font);
 extern u32 GFL_HEAP_Free(void *p);
-extern int _s32_div_f(int a, int b);
 extern u32 G3D_SYSTEM_SetObjectAnimeFrame(G3dObject *obj, u16 animIndex, s32 *frame);
 extern u32 G3D_SYSTEM_EnableObjectAnime(G3dObject *obj, u32 animIndex);
 extern int G3D_SYSTEM_DisableObjectAnime(G3dObject *obj, u32 animIndex);

@@ -60,7 +60,7 @@ struct CodeinWorkA {
     void * nextArrowActor;
     unsigned char pad_208[36];
     int  animSeq;
-    int  f230;
+    int  reserved230;
     int  phase;
     int  phaseTimer;
     int  recordCount;
@@ -143,7 +143,7 @@ struct CodeinWorkB {
     void * menuWork;
     void * textWin;
     unsigned int  procQuery;
-    int  f20;
+    int  buttonDataId;
     char * categoryText;
     void * noticeText;
     char * speciesText;
@@ -245,10 +245,10 @@ struct CodeinWorkD {
     unsigned char pad_3A[2];
     char * arg;
     unsigned char pad_40[20];
-    int  f54;
-    void * f58;
+    int  reserved54;
+    void * reserved58;
     unsigned char pad_5C[116];
-    void * fD0;
+    void * reservedD0;
     unsigned char pad_D4[44];
     int  listCreated;
     int  spriteLoaded;
@@ -327,7 +327,7 @@ struct CodeinStateA {
 
 struct CodeinSubB {
     unsigned char pad_0[16];
-    unsigned short  f10;
+    unsigned short  reserved10;
 };
 
 struct CodeinStateB {
@@ -346,7 +346,7 @@ struct CodeinArgC {
     int  procQuery;
     int  saveProcQuery;
     unsigned char pad_14[4];
-    unsigned int  f18;
+    unsigned int  reserved18;
 };
 
 struct CodeinWorkG {
@@ -356,9 +356,9 @@ struct CodeinWorkG {
     unsigned char pad_C[8];
     unsigned short  paletteRes;
     unsigned short  cellAnimRes;
-    unsigned short  f18;
+    unsigned short  reserved18;
     unsigned char pad_1A[62];
-    void * f58;
+    void * reserved58;
 };
 
 struct CodeinSpecialA {
@@ -381,9 +381,9 @@ struct CodeinDataA {
 };
 
 struct CodeinArgD {
-    int  f0;
+    int  reserved00;
     unsigned char pad_4[8];
-    int  fC;
+    int  reserved0C;
     unsigned long long  result;
 };
 
@@ -424,7 +424,7 @@ struct CodeinMenuArg {
 /* The three option entries of the menu: a presence flag, the option text and
  * its length. */
 struct CodeinMenuEntries {
-    unsigned int f0;            /* 0x00 */
+    unsigned int reserved00;            /* 0x00 */
     unsigned int present[3];    /* 0x04 */
     unsigned int pad_10;        /* 0x10 */
     char * text[3];             /* 0x14 */

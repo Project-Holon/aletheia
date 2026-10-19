@@ -321,7 +321,7 @@ struct Rec {
     u8 pad10[8];
     u16 value;
     u8 pad1A[6];
-    u8 f20;
+    u8 changeStamp;
     u8 f21_0 : 1;
     u8 f21_1 : 1;
     u8 f21_2 : 6;
@@ -336,7 +336,7 @@ struct Bits2 {
 struct Slot {
     unsigned long active;
     unsigned long unseen;
-    unsigned long f8;
+    unsigned long selected;
     u8 padC[8];
     u8 *buf;
     u8 kind;
@@ -1492,7 +1492,7 @@ void CTVT_CALL_RefreshPeers(void *ctx, u8 *list)
                                 refresh = 1;
                             }
                         }
-                        if (kind == 0x20 && (((CtvtCallEntry *)(e + 0x1e4))->peer)[0x20] != p->f20) {
+                        if (kind == 0x20 && (((CtvtCallEntry *)(e + 0x1e4))->peer)[0x20] != p->changeStamp) {
                             found = 0;
                             diff = 1;
                             slot = k;

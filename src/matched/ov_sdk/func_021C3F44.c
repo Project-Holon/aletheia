@@ -1,5 +1,5 @@
 /*
- * function: func_021C3F44
+ * function: input
  * address:  0x021C3F44
  * packet:   pkt_021C3F44
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C3F44   0x021C3F44  arm
+ *   input   0x021C3F44  arm
  *   DWCi_BTNlSet  0x021BCB28  arm
  *   DWCi_IPTlCheckTrigger  0x021D6824  arm
  *
@@ -18,14 +18,14 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021C3F44.c \
- *       --func func_021C3F44 --addr 0x021C3F44 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/input.c \
+ *       --func input --addr 0x021C3F44 --region ov016 --cc dsi/1.1p1 --arm
  */
 
 extern int DWCi_IPTlCheckTrigger(unsigned int f);
 extern void DWCi_BTNlSet(signed char v);
 
-void func_021C3F44(void)
+void input(void)
 {
     if (DWCi_IPTlCheckTrigger(1))
         DWCi_BTNlSet(1);

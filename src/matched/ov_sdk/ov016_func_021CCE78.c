@@ -1,5 +1,5 @@
 /*
- * function: func_021CCE78
+ * function: endScene1
  * address:  0x021CCE78
  * packet:   pkt_ov016_021CCE78
  * region:   ov016
@@ -12,7 +12,7 @@
  * sdk:      endScene1 (libdwcutil.TWL.HYB.a scenesetselectwa)
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CCE78.c \n *       --func func_021CCE78 --addr 0x021CCE78 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CCE78.c \n *       --func endScene1 --addr 0x021CCE78 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  *
  * symbols:
  *   DWCi_EFFlCheck  0x021D5580  arm  ov016
@@ -33,7 +33,7 @@ typedef struct { signed char last; signed char cur; unsigned char flag; void *sc
 extern struct FocusState gFocusState;
 extern void func_021CCEE4(void);
 
-void func_021CCE78(void)
+void endScene1(void)
 {
     if (DWCi_EFFlCheck(1))
         return;

@@ -19,7 +19,7 @@
    "status": "EXACT",
    "functions": [
     "MONOLITH_TOOL_StartBlink",
-    "MONOLITH_TOOL_IsBlinking"
+    "MONOLITH_TOOL_IsBlinkActive"
    ],
    "addresses": [
     "0x021B7108",

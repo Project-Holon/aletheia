@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: MONOLITH_TOOL_ShowRowHighlight, MONOLITH_TOOL_ClearRowHighlight
+ * function: MONOLITH_TOOL_SetRowHighlightSelected, MONOLITH_TOOL_SetRowHighlightNormal
  * address:  0x021B9FEC
  * packet:   pkt_ov071_021B9FEC
  * region:   ov071
@@ -17,13 +17,13 @@
  */
 
 typedef unsigned char  u8;
-void MONOLITH_TOOL_ShowRowHighlight(void *p, int a)
+void MONOLITH_TOOL_SetRowHighlightSelected(void *p, int a)
 {
     void MONOLITH_TOOL_SetRowHighlight(u8 *p, int i, int v);
     MONOLITH_TOOL_SetRowHighlight(p, a, 3);
 }
 
-void MONOLITH_TOOL_ClearRowHighlight(void *p, int a)
+void MONOLITH_TOOL_SetRowHighlightNormal(void *p, int a)
 {
     void MONOLITH_TOOL_SetRowHighlight(u8 *p, int i, int v);
     MONOLITH_TOOL_SetRowHighlight(p, a, 0);

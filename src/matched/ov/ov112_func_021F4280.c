@@ -1,5 +1,5 @@
 /*
- * function: MUSICAL_MCSS_NoOp
+ * function: MUSICAL_SHOT_SYS_NoOp
  * address:  0x021F4280
  * packet:   pkt_ov112_021F4280
  * region:   ov112
@@ -17,4 +17,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void MUSICAL_MCSS_NoOp(u8 *a0) { }
+void MUSICAL_SHOT_SYS_NoOp(u8 *a0) { }

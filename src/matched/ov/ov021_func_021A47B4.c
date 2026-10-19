@@ -1,5 +1,5 @@
 /*
- * function: ov021_func_021A47B4
+ * function: FIELD_PLAYER_GRID_GetWalkResultOnFootHop
  * address:  0x021A47B4
  * packet:   pkt_ov021_021A47B4
  * region:   ov021
@@ -28,7 +28,7 @@ extern int FIELD_PLAYER_GRID_GetHopStepHitFlags(u8 *a, void *b, int c, int *d);
 extern int MAP_ATTR_IsBlocked(u32 attr);
 extern void FIELD_PLAYER_GRID_SetHopFlag(u32 *p, int on);
 
-int ov021_func_021A47B4(u32 a, u32 b, u8 *c)
+int FIELD_PLAYER_GRID_GetWalkResultOnFootHop(u32 a, u32 b, u8 *c)
 {
     int sp;
     u32 r;

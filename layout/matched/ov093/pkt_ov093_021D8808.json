@@ -18,8 +18,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "BTL_CALC_TangledFeetHalveAccuracy",
-    "BTL_CALC_GetTangledFeetHandlers"
+    "HAND_TOKUSEI_TangledFeetHalveAccuracy",
+    "HAND_TOKUSEI_GetTangledFeetHandlers"
    ],
    "addresses": [
     "0x021D8808",

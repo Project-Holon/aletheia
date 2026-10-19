@@ -1,5 +1,5 @@
 ﻿/*
- * function: CTRDGi_IsTaskAvailable_0201C408
+ * function: WAZA_TOOL_IsCacheCreated
  * address:  0x0201C408
  * packet:   pkt_0201C408
  * region:   arm9
@@ -13,7 +13,7 @@
  *           0x02146530.
  */
 
-asm void CTRDGi_IsTaskAvailable_0201C408(void)
+asm void WAZA_TOOL_IsCacheCreated(void)
 {
     ldr r0, =0x02146530
     ldr r0, [r0]

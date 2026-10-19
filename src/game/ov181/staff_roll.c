@@ -25,7 +25,7 @@
  *   GF_OVERLAY_Load  0x02034AC4  arm
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
- *   BMP_SetDisplaySwap  0x0204363C  arm
+ *   BG_SYS_SetLcdSwap  0x0204363C  arm
  *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   GFL_USE_PlayFanfare  0x02005DAC  thumb
  *   ov067_id       0x00000043  data
@@ -106,7 +106,7 @@
  *   G3D_UTIL_RemoveUnit 0x020480E4 arm
  *   G3D_UTIL_Delete 0x02047E54 arm
  *   G3D_SYSTEM_Exit 0x02046788 arm
- *   BMP_GetVisiblePlane 0x02043658 arm
+ *   BG_SYS_GetMainVisiblePlanes 0x02043658 arm
  *   G3D_SYSTEM_LoopObjectAnimeFrame 0x02047910 arm
  *   G3D_SYSTEM_DrawStart 0x02047964 arm
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
@@ -215,7 +215,7 @@ typedef struct StaffRoll {
     void *g3dUtil;
     void *camera;
     void *lightSlot;
-    u32 field14;
+    u32 reserved14;
     u16 unitId;
     u8 pad01A[2];
     int brightness;
@@ -267,7 +267,7 @@ extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern int GF_OVERLAY_Load(s32 handle);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
-extern void BMP_SetDisplaySwap(u32 swap);
+extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern void GFL_USE_PlayFanfare(void *arg);
 extern u32 WIPE_SYS_EndCheck(void);
@@ -331,7 +331,7 @@ extern void G3D_LIGHT_DeleteSlots(void *);
 extern void G3D_UTIL_RemoveUnit(struct Ctx *,unsigned);
 extern void G3D_UTIL_Delete(struct Rec *);
 extern void G3D_SYSTEM_Exit(void);
-extern unsigned BMP_GetVisiblePlane(void);
+extern unsigned BG_SYS_GetMainVisiblePlanes(void);
 extern int G3D_SYSTEM_LoopObjectAnimeFrame(void *a, int idx, int amount);
 extern void G3D_SYSTEM_DrawStart(void);
 extern void G3D_SYSTEM_ApplyLookAt(void);
@@ -472,7 +472,7 @@ int STAFF_ROLL_Setup(u8 *p)
     BG_SYS_SetSubVisiblePlanes(0);
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;
-    BMP_SetDisplaySwap(1);
+    BG_SYS_SetLcdSwap(1);
     GXx_SetMasterBrightness_((void *)0x0400006c, -0x10);
     GXx_SetMasterBrightness_((void *)0x0400106c, -0x10);
     STAFF_ROLL_SetupVramBanks();
@@ -885,7 +885,7 @@ void STAFF_ROLL_Exit3d(char *p){G3D_CAMERA_Delete(*(void **)(p+12));G3D_LIGHT_De
 void STAFF_ROLL_Draw3d(char *p)
 {
     unsigned i;
-    if (**(int * *)&((StaffRoll *)p)->sys != 1 && (BMP_GetVisiblePlane() & 1)) {
+    if (**(int * *)&((StaffRoll *)p)->sys != 1 && (BG_SYS_GetMainVisiblePlanes() & 1)) {
         STAFF_ROLL_UpdateBrightness(p);
         STAFF_ROLL_UpdateLights(p);
         for (i = 0; i < ((StaffRoll *)p)->animeCount; i++)

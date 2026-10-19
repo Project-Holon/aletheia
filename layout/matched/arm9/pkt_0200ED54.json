@@ -30,9 +30,9 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "MISC_SAVEDATA_ContainsRecentValue",
-    "MISC_SAVEDATA_TestBitmapBit",
-    "MISC_SAVEDATA_SetBitmapBit"
+    "MET_TRAINERS_Contains",
+    "MET_TRAINERS_TestBit",
+    "MET_TRAINERS_SetBit"
    ],
    "addresses": [
     "0x0200EDC4",

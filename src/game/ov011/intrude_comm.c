@@ -48,7 +48,7 @@
  *   GFL_NET_HANDLE_IsNegotiationDone  0x020399B8  arm
  *   GF_STANDARD_GetSecondsOfDay  0x0203F4FC  arm
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
- *   GAMESYSTEM_IsFieldMapExist  0x02012114  thumb
+ *   GAMESYSTEM_IsFieldMapActive  0x02012114  thumb
  *   GFL_NET_IsParentAid  0x0203D378  arm
  *   GFL_NET_Exit  0x0203CEAC  arm
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
@@ -88,9 +88,7 @@
  *   NET_WHPIPE_PublishBeacon  0x0217778C  thumb  ov014
  *   GFL_NET_SendToHandle 0x0203D3A8 arm
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
- *   GAME_DATA_SetEnterMode 0x02012B4C thumb
  *   GFL_NET_SendData  0x0203D3F8  arm
- *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   GFL_NET_IsSendQueueEntryOfHandle  0x0203D578  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   COMM_PLAYER_Del 0x02167658 thumb ov010
@@ -109,7 +107,6 @@
  *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
  *   FIELD_STATUS_GetSeasonDispFlag  0x02014484  thumb
  *   COMM_PLAYER_SUPPORT_GetMode  0x0202E7E0  thumb
- *   GAME_DATA_GetMyStatusPlayer  0x02012950  thumb
  *   COMM_PLAYER_SUPPORT_SetModeAndCurrent  0x0202E7C4  thumb
  *   GAME_COMM_PushPairMessage 0x020266AC thumb
  *   GAME_DATA_GetUnionInfo  0x020127D0  thumb
@@ -118,8 +115,6 @@
  *   GAME_DATA_TakeUnionInfo  0x02012800  thumb
  *   EVENT_FIELD_PROCLINK_SetReturnSlotDefaultIfOffline  0x02161FF0  thumb ov010
  *   EVENT_FIELD_PROCLINK_SetReturnSlotIfOffline  0x02162008  thumb ov010
- *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
- *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   ZONEDATA_IsZoneGroup118To120  0x02013D9C  thumb
  *   INTRUDE_AddLogEntry  0x0200BE84  thumb
  *   EVENT_FIELD_PROCLINK_GetReturnResultSlot 0x02162024 thumb ov010
@@ -130,10 +125,8 @@
  *   SYMBOL_MAP_GetEntryPage  0x0216749C  thumb ov010
  *   SYMBOL_MAP_GetSymbolIndex  0x021673C4  thumb ov010
  *   SYMBOL_MAP_GetGroup  0x021673A8  thumb ov010
- *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   MYSTATUS_GetSize  0x02008468  thumb
  *   MYSTATUS_GetId  0x02008530  thumb
- *   GAME_DATA_GetBattleRecSlot  0x020127AC  thumb
  *   GAME_DATA_SetSlotFlag  0x02012BA4  thumb
  *   GAME_COMM_PushPlayerMessage  0x020266D4  thumb
  *   ZONEDATA_IsSameMatrixGroup  0x02013E90  thumb
@@ -142,13 +135,11 @@
  *   gIntrudeCommZonePairs  0x02176AA0  data ov011 a2
  *   COMM_PLAYER_UpdateMyPackage  0x0216786C  thumb ov010
  *   GAME_DATA_GetSymbolMapFlag  0x02012FB0  thumb
- *   MI_CpuFill8  0x02082BCC  arm
  *   GAMESYSTEM_IsEventActive  0x020120D8  thumb
  *   MYSTATUS_GetSex  0x02008550  thumb
  *   gIntrudeCommObjCodesMale   0x02176A90  data  ov011  a2
  *   gIntrudeCommObjCodesFemale   0x02176A98  data  ov011  a2
  *   INTRUDE_GetMissionClearCount  0x0200BF70  thumb
- *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
  *   GAME_DATA_GetPlayTime  0x02012FCC  thumb
  *   INTRUDE_UpdatePlaySeconds  0x0200BFA4  thumb
  *   INTRUDE_GetPlaySeconds  0x0200BF94  thumb
@@ -156,7 +147,6 @@
  *   gIntrudeCommValidObjCodes 0x02176B08 data ov011 a2
  *   gIntrudeCommValidProfileCodes 0x02176AD0 data ov011 a2
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
- *   GAME_DATA_SetIntrudeId  0x02012B8C  thumb
  *   EVENT_FIELD_PROCLINK_SetReturnLinkId  0x02161FEC  thumb  ov010
  *   INTRUDE_COMM_NormalizeVersion  0x021584F4  thumb  ov010
  *   MYSTATUS_CopyNameChars 0x020084F8 thumb
@@ -356,7 +346,7 @@ extern GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_HANDLE_IsNegotiationDone(GFLNetHandle *handle);
 extern u32 GF_STANDARD_GetSecondsOfDay(void);
 extern int GAME_DATA_GetIntrudeCount(const struct GameData *gameData);
-extern u32   GAMESYSTEM_IsFieldMapExist(const struct GameSystem *gameSystem);
+extern u32   GAMESYSTEM_IsFieldMapActive(const struct GameSystem *gameSystem);
 extern u32 GFL_NET_IsParentAid(void);
 extern int GFL_NET_Exit(void (*exitCallback)(IntrudeCommSys *work));
 extern int   GFL_NET_GetNegotiationNum(void);
@@ -452,7 +442,7 @@ extern unsigned long long INTRUDE_GetPlaySeconds(void *profileSys);
 extern void INTRUDE_GetObtainedFlags(void *profileSys, u8 *dest, u32 n);
 extern void *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern void EVENT_FIELD_PROCLINK_SetReturnLinkId(u8 *slots, u16 intrudeId);
-extern int INTRUDE_COMM_NormalizeVersion(int a0, int a1);
+extern int INTRUDE_COMM_NormalizeVersion(int version, int trainerId);
 extern u32 MYSTATUS_CopyNameChars(void *record, void *dest, u32 count);
 extern int GAME_DATA_GetBattleRecSlotByNetId(void *saveData, int index);
 extern u8 MYSTATUS_GetRomCode(const struct MyStatus *record);
@@ -500,7 +490,7 @@ extern void *FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask(void *a);
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *gameSystem);
 extern void *FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(void *a);
 extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int sel, int d, int e, u8 f, u8 g);
-extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
+extern int INTRUDE_COMM_GetWorkIfRunning(int comm);
 extern u8 GAME_DATA_GetIntrudeId(const struct GameData *p);
 IntrudeCommSys *INTRUDE_COMM_Create(void *proc, IntrudeCommParam *param);
 int INTRUDE_COMM_StartSession(int *state, IntrudeCommParam *param, IntrudeCommSys *work);
@@ -928,7 +918,7 @@ void INTRUDE_COMM_MainStep(int *state, IntrudeCommParam *param, IntrudeCommSys *
         break;
     case 4:
         if (GAME_DATA_GetIntrudeCount(gameData) == 0 && work->localPeer.season != GAME_DATA_GetSeason(gameData)
-            && GAMESYSTEM_IsFieldMapExist(param->gameSystem) == 1) {
+            && GAMESYSTEM_IsFieldMapActive(param->gameSystem) == 1) {
             GAME_COMM_RequestExitNoCallback(work->gameComm);
             return;
         }
@@ -1085,7 +1075,7 @@ int INTRUDE_COMM_Destroy(int unused, void **proc, IntrudeCommSys *work)
             GFL_NET_ERR_ResetState();
             ok = 1;
         } else if (ZONEDATA_IsEntralink(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork((struct GameData *)gameData))) == 1
-                   && GAMESYSTEM_IsFieldMapExist(proc[0]) == 1
+                   && GAMESYSTEM_IsFieldMapActive(proc[0]) == 1
                    && FIELDMAP_IsReady(GAMESYSTEM_GetFieldMap(proc[0])) == 1) {
             ok = 1;
         }

@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: OPTION_MENU_GetTextWait, OPTION_MENU_TakeLastChanged
+ * function: OPTION_MENU_GetTextSpeedWait, OPTION_MENU_TakeChangedSetting
  * address:  0x021BB0D0
  * packet:   pkt_ov068_021BB0D0
  * region:   ov068
@@ -17,13 +17,13 @@
  */
 #include "../include/Obj13144.h"
 
-void OPTION_MENU_GetTextWait(void)
+void OPTION_MENU_GetTextSpeedWait(void)
 {
     signed char MSG_SPEED_GetWait(void);
     MSG_SPEED_GetWait();
 }
 
-int OPTION_MENU_TakeLastChanged(void *p)
+int OPTION_MENU_TakeChangedSetting(void *p)
 {
     unsigned char old = ((struct Obj13144 *)p)->f5;
     ((struct Obj13144 *)p)->f5 = 0xb;

@@ -1,5 +1,5 @@
 /*
- * function: func_021CEDC4
+ * function: isTouch
  * address:  0x021CEDC4
  * packet:   pkt_ov016_021CEDC4
  * region:   ov016
@@ -20,7 +20,7 @@ extern void func_021CEE10(int idx, void *r);
 typedef unsigned short u16;
 extern int DWCi_TPlCheck(u16 *a);
 
-int func_021CEDC4(int a)
+int isTouch(int a)
 {
 	int idx;
 	int r[2];

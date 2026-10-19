@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: MSL_C_LIB_MemsetPtr, memchr, func_020923F0
+ * function: MSL_C_LIB_MemsetPtr, memchr, memcmp
  * address:  0x020923B0
  * packet:   pkt_020923B0
  * region:   arm9
@@ -13,7 +13,7 @@
  * String / memory utilities:
  *   MSL_C_LIB_MemsetPtr (20 B)  wraps __fill_mem (memset) and returns ptr
  *   memchr (44 B)  memchr (byte search)
- *   func_020923F0 (64 B)  memcmp (memory comparison)
+ *   memcmp (64 B)  memcmp (memory comparison)
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_020923B0.c \
@@ -48,7 +48,7 @@ u8 *memchr(u8 *s, u32 c, u32 n)
     return 0;
 }
 
-int func_020923F0(const u8 *s1, const u8 *s2, u32 n)
+int memcmp(const u8 *s1, const u8 *s2, u32 n)
 {
     u8 b1;
     u8 b2;

@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0202C688
+ * function: ISS_SWITCH_StartFadeOut
  * address:  0x0202C688
  * packet:   pkt_0202C4CC
  * region:   arm9
@@ -20,8 +20,8 @@
  * reads 1, resets the object to state 3.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202C688.c \
- *       --func sub_0202C688 --addr 0x0202C688 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ISS_SWITCH_StartFadeOut.c \
+ *       --func ISS_SWITCH_StartFadeOut --addr 0x0202C688 --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
@@ -30,7 +30,7 @@ extern u32 sub_0202C760(void *p);
 struct Obj0202C6B8;
 extern struct Obj0202C6B8 *sub_0202C6BC(struct Obj0202C6B8 *p, u32 v);
 
-u32 sub_0202C688(void *p)
+u32 ISS_SWITCH_StartFadeOut(void *p)
 {
     if (sub_0202C760(p) != 1) {
         sub_0202C6BC(p, 3);

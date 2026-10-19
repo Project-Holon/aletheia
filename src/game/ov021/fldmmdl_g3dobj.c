@@ -53,7 +53,7 @@ typedef struct {
 } MmdlG3dObjCont;
 extern u32 FLDMMDL_SysGetHeapId(u8 *p);
 extern u32 GFL_HEAP_Free(void *p);
-extern void *FLDMMDL_GetMmdlSys(void *a0);
+extern void *FLDMMDL_GetMmdlSys(void *mmdl);
 extern void *FLDMMDL_GetObjCodeParam(void *p);
 extern int FLDMMDL_CheckSameObjCodeOther(void *a, u32 id);
 extern u16 FLDMMDL_GetObjCode(void *p);

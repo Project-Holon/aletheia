@@ -1,5 +1,5 @@
 /*
- * function: func_021CB4BC
+ * function: procScene
  * address:  0x021CB4BC
  * packet:   pkt_021CA980
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CB4BC   0x021CB4BC  arm
+ *   procScene   0x021CB4BC  arm
  *   DWCi_SceneSetRakuReady_draw  0x021CB514  arm
  *   OS_Sleep  0x02085A38  arm  arm9
  *
@@ -18,8 +18,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021CB4BC.c \
- *       --func func_021CB4BC --addr 0x021CB4BC --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/procScene.c \
+ *       --func procScene --addr 0x021CB4BC --region ov016 --cc dsi/1.1p1 --arm
  */
 
 typedef unsigned int   u32;
@@ -29,7 +29,7 @@ extern void func_021CB4DC(void);
 extern void DWCi_SceneSetRakuReady_draw(void);
 extern void func_021CB518(void);
 
-void func_021CB4BC(void)
+void procScene(void)
 {
     OS_Sleep(0xa);
     func_021CB6A4();

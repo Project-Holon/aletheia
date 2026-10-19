@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   DC_FlushRange  0x020862F0  arm
  *   func_0207F47C  0x0207F47C  arm
  *   func_0207F4C4  0x0207F4C4  arm
  *   func_0207F560  0x0207F560  arm
@@ -41,7 +41,7 @@
  *
  * FOUR THINGS THE BYTES FORCED, in the order they cost time:
  *
- *   1. The two products are NAMED LOCALS computed before DWCi_ScreenDC_FlushRange, not
+ *   1. The two products are NAMED LOCALS computed before DC_FlushRange, not
  *      expressions at the six call sites.  Writing `a + step * i` inline gives
  *      `mla r0, r6, r4, r5` repeated in every arm where the image has one
  *      `mul r4, r8, r7` / `mul r6, r8, r0` pair at 0x02063FA8 and a plain
@@ -109,7 +109,7 @@ typedef struct List02063F4C {
     u16 *items;
 } List02063F4C;
 
-extern void DWCi_ScreenDC_FlushRange(u32 a, u32 b);
+extern void DC_FlushRange(u32 a, u32 b);
 extern void func_0207F47C(u32 a);
 extern void func_0207F4C4(u32 a, u32 b, u32 c);
 extern void func_0207F560(void);
@@ -141,7 +141,7 @@ void NNSi_G2dLoadVramResourceList(Self02063F4C *self, List02063F4C *list, u32 ba
             a = self->fC;
             d = step * i;
             t = step * list->items[i];
-            DWCi_ScreenDC_FlushRange(a, self->f8);
+            DC_FlushRange(a, self->f8);
             switch (sel) {
             case 1:
                 if (self->f4 != 0) {

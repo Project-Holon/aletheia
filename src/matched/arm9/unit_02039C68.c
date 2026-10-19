@@ -2,7 +2,7 @@
  * A whole translation unit, matched as one byte range.
  *
  * unit:     yes
- * function: GFL_NET_HANDLE_SetTimingSyncRange, sub_02039CA0, GFL_NET_HANDLE_IsTimingSyncRange
+ * function: GFL_NET_HANDLE_SetTimingSyncRange, GFL_NET_HANDLE_IsTimingSync, GFL_NET_HANDLE_IsTimingSyncRange
  * address:  0x02039C68
  * packet:   pkt_020399B8
  * region:   arm9
@@ -19,7 +19,7 @@
  * of the link record: the key is always assembled as `lo + (hi << 8)` from a
  * pair of separate arguments rather than passed whole.
  *
- * sub_02039CA0 has no label in the listing: it is a leaf that saves nothing,
+ * GFL_NET_HANDLE_IsTimingSync has no label in the listing: it is a leaf that saves nothing,
  * so disasm.py prints it inside GFL_NET_HANDLE_SetTimingSyncRange's extent (see
  * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  Keeping the
  * three in one unit is what reproduces its bytes at all.
@@ -60,7 +60,7 @@ void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *p, u32 lo, u32 hi)
     }
 }
 
-u32 sub_02039CA0(struct Link *p, u32 key)
+u32 GFL_NET_HANDLE_IsTimingSync(struct Link *p, u32 key)
 {
     return p->unk44 == key;
 }

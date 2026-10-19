@@ -1,5 +1,5 @@
 /*
- * function: func_021D3CD0
+ * function: _DWCi_MOVPrepare
  * address:  0x021D3CD0
  * packet:   pkt_ov016_021D3CD0
  * region:   ov016
@@ -60,7 +60,7 @@ extern void DWCi_MOV_WH_SetGgid(u32 ggid);
 extern u16 WM_GetNextTgid(void);
 extern void MI_CpuCopy8(void *srcp, void *dstp, u32 size);
 
-void func_021D3CD0(void)
+void _DWCi_MOVPrepare(void)
 {
     DWCi_MOV_WH_SetGgid(gDwcMoveidWork->game_registry.ggid);
     gDwcMoveidWork->mov_stt = 1;

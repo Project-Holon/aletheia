@@ -11,12 +11,12 @@
  * function: GAME_DATA_GetMapMatrix, GAME_DATA_GetMyItem, GAME_DATA_GetMyParty, GAME_DATA_GetBoxManager,
  *           GAME_DATA_GetMyStatus, GAME_DATA_GetMyStatusPlayer, GAME_DATA_GetBagCursor, GAME_DATA_GetOccupyInfo,
  *           GAME_DATA_GetEventWork, GAME_DATA_GetFieldWork, GAME_DATA_GetMusicalWork, GAME_DATA_GetSeason,
- *           GAME_DATA_SetSeason, GAME_DATA_GetSubscreenMode, GAME_DATA_SetSubscreenMode, GAME_DATA_GetSubscreenType,
- *           GAME_DATA_SetSubscreenType, GAME_DATA_GetFrameRate, GAME_DATA_SetFrameRate, GAME_DATA_SetWalkCountEnable,
+ *           GAME_DATA_SetSeason, GAME_DATA_GetWeatherId, GAME_DATA_SetWeatherId, GAME_DATA_GetSubscreenType,
+ *           GAME_DATA_SetSubscreenType, GAME_DATA_GetFieldMenuCursor, GAME_DATA_SetFieldMenuCursor, GAME_DATA_SetWalkCountEnabled,
  *           GAME_DATA_ResetWalkCount, GAME_DATA_IncWalkCount, GAME_DATA_IsWalkCountEnabled, GAME_DATA_GetBgmInfo,
- *           GAME_DATA_GetFieldGimmick, GAME_DATA_GetFieldMode, GAME_DATA_SetFieldMode, GAME_DATA_GetItemUseWork,
- *           GAME_DATA_InitPlayerWork, GAME_DATA_SetPlayerPosition, GAME_DATA_GetPlayerPosition, GAME_DATA_SetPlayerRailLocation,
- *           GAME_DATA_GetPlayerRailLocation, GAME_DATA_SetPlayerMoveForm, GAME_DATA_GetPlayerMoveForm, GAME_DATA_SetPlayerZoneId,
+ *           GAME_DATA_GetFieldGimmick, GAME_DATA_GetLastBattleResult, GAME_DATA_SetLastBattleResult, GAME_DATA_GetItemUseWork,
+ *           GAME_DATA_InitPlayerWork, GAME_DATA_SetPlayerPosition, GAME_DATA_GetPlayerPosition, GAME_DATA_SetPlayerRail,
+ *           GAME_DATA_GetPlayerRail, GAME_DATA_SetPlayerMoveForm, GAME_DATA_GetPlayerMoveForm, GAME_DATA_SetPlayerZoneId,
  *           GAME_DATA_GetPlayerZoneId, GAME_DATA_SetPlayerDirection, GAME_DATA_GetPlayerDirection
  *
  * symbols:
@@ -39,7 +39,7 @@
  *    constructor: its store order is the source's statement order, and the
  *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
  *    are what make +0x10 a union of a four-halfword view (the one
- *    GAME_DATA_SetPlayerRailLocation copies whole) and a five-field view.
+ *    GAME_DATA_SetPlayerRail copies whole) and a five-field view.
  *
  * GAME_DATA_IncWalkCount is a post-increment and not an assignment:
  * `return p->unk1C8++;` spends an extra `adds r1, r4, #0` copy that
@@ -211,12 +211,12 @@ void GAME_DATA_SetSeason(struct BigObj *p, u8 v)
     p->unk1C4 = v;
 }
 
-u8 GAME_DATA_GetSubscreenMode(const struct BigObj *p)
+u8 GAME_DATA_GetWeatherId(const struct BigObj *p)
 {
     return p->unk1C5;
 }
 
-void GAME_DATA_SetSubscreenMode(struct BigObj *p, u8 v)
+void GAME_DATA_SetWeatherId(struct BigObj *p, u8 v)
 {
     p->unk1C5 = v;
 }
@@ -231,17 +231,17 @@ void GAME_DATA_SetSubscreenType(struct BigObj *p, u32 v)
     p->unk1C6 = v;
 }
 
-u8 GAME_DATA_GetFrameRate(const struct BigObj *p)
+u8 GAME_DATA_GetFieldMenuCursor(const struct BigObj *p)
 {
     return p->unk1C7;
 }
 
-void GAME_DATA_SetFrameRate(struct BigObj *p, u8 v)
+void GAME_DATA_SetFieldMenuCursor(struct BigObj *p, u8 v)
 {
     p->unk1C7 = v;
 }
 
-void GAME_DATA_SetWalkCountEnable(struct BigObj *p, u8 v)
+void GAME_DATA_SetWalkCountEnabled(struct BigObj *p, u8 v)
 {
     p->unk1C9 = v;
     if (v != 0) {
@@ -277,12 +277,12 @@ u32 GAME_DATA_GetFieldGimmick(const struct BigObj *p)
     return p->unk5E4;
 }
 
-u32 GAME_DATA_GetFieldMode(const struct BigObj *p)
+u32 GAME_DATA_GetLastBattleResult(const struct BigObj *p)
 {
     return p->unk1BC;
 }
 
-void GAME_DATA_SetFieldMode(struct BigObj *p, u32 v)
+void GAME_DATA_SetLastBattleResult(struct BigObj *p, u32 v)
 {
     p->unk1BC = v;
 }
@@ -321,12 +321,12 @@ struct Vec12 *GAME_DATA_GetPlayerPosition(struct Rec44 *p)
     return &p->unk04;
 }
 
-void GAME_DATA_SetPlayerRailLocation(struct Rec44 *p, const struct H4 *src)
+void GAME_DATA_SetPlayerRail(struct Rec44 *p, const struct H4 *src)
 {
     p->unk10.all = *src;
 }
 
-struct H4 *GAME_DATA_GetPlayerRailLocation(struct Rec44 *p)
+struct H4 *GAME_DATA_GetPlayerRail(struct Rec44 *p)
 {
     return &p->unk10.all;
 }

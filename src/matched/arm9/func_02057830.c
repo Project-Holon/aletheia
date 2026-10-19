@@ -1,5 +1,5 @@
 /*
- * function: SPL_EMITTER_TransformVec
+ * function: SPLEmitter_ComputeOrthogonalAxes
  * address:  0x02057830
  * packet:   pkt_02057830
  * region:   arm9
@@ -41,8 +41,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/SPL_EMITTER_TransformVec.c \
- *       --func SPL_EMITTER_TransformVec --addr 0x02057830 --arm --cc ../1.2/sp2
+ *   python tools/match.py one --src src/matched/SPLEmitter_ComputeOrthogonalAxes.c \
+ *       --func SPLEmitter_ComputeOrthogonalAxes --addr 0x02057830 --arm --cc ../1.2/sp2
  */
 
 typedef int          fx32;
@@ -80,7 +80,7 @@ extern void VEC_Fx16Normalize(struct Vec16 *v, struct Vec16 *w);
 extern fx32 VEC_Fx16DotProduct(const struct Vec16 *a, const struct Vec16 *b);
 extern const struct Vec16 g_020A7FEC;
 
-void SPL_EMITTER_TransformVec(struct Rig *m)
+void SPLEmitter_ComputeOrthogonalAxes(struct Rig *m)
 {
     struct Vec16 a;
     struct Vec16 v;

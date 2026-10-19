@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: POKELIST_UpdateChoiceMenu, POKELIST_OpenChoiceMenu
+ * function: POKELIST_PollContextMenuChoice, POKELIST_OpenMenuWithCallback
  * address:  0x021B97D4
  * packet:   pkt_ov091_021B97D4
  * region:   ov091
@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * POKELIST_OpenChoiceMenu is an unlabelled tail-call stub inside the extent.
+ * POKELIST_OpenMenuWithCallback is an unlabelled tail-call stub inside the extent.
  *
  * symbols:
  *   PLIST_MENU_Update  0x021BBBD8  thumb  ov091
@@ -28,7 +28,7 @@ extern void PLIST_MENU_OpenFixed(u8 *a, u8 *b);
 
 #define W(o) (*(int *)(p + (o)))
 
-void POKELIST_UpdateChoiceMenu(u8 *p)
+void POKELIST_PollContextMenuChoice(u8 *p)
 {
     int r;
 
@@ -40,7 +40,7 @@ void POKELIST_UpdateChoiceMenu(u8 *p)
     }
 }
 
-void POKELIST_OpenChoiceMenu(u8 *p, int a1)
+void POKELIST_OpenMenuWithCallback(u8 *p, int a1)
 {
     p[0xc] = 9;
     W(0x14c) = a1;

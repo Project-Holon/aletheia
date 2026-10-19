@@ -13,24 +13,19 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   complete 0x0204E804 arm
- *   overlayLoad 0x02034AC4 arm
- *   heapCreate 0x0203064C arm
- *   create 0x0203159C arm
- *   clear 0x02082BCC arm
- *   initialize 0x021BAA20 thumb ov213
- *   video 0x021BAB64 thumb ov213
- *   font 0x0201D7EC thumb
- *   messages 0x02045B38 arm
- *   text 0x0201C440 thumb
- *   modeFor 0x021B9E28 thumb ov213
- *   dispatch 0x021B6100 thumb ov067
+ *   FADE_IsActive 0x0204E804 arm
+ *   GF_OVERLAY_Load 0x02034AC4 arm
+ *   GFL_HEAP_CreateChildHeap 0x0203064C arm
+ *   PROCSYS_AllocProcWork 0x0203159C arm
+ *   MI_CpuFill8 0x02082BCC arm
+ *   COMM_BTL_DEMO_GRAPHIC_Create 0x021BAB64 thumb ov213
+ *   GF_FONT_Create 0x0201D7EC thumb
+ *   MSGDATA_CreateFromArchive 0x02045B38 arm
+ *   PRINTSYS_QUE_Create 0x0201C440 thumb
+ *   UI_SCENE_Create 0x021B6100 thumb ov067
  *   callbacks 0x021BB02C data ov213 a4
- *   graphics 0x021B9794 thumb ov213
- *   menu 0x021BA780 thumb ov213
- *   cursor 0x021BA6C8 thumb ov213
- *   music 0x0203D34C arm
- *   fade 0x0204E720 arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
+ *   FADE_Start 0x0204E720 arm
  *   ov067_id 0x00000043 data a1
  *   BG_SYS_ChangeScroll 0x02041EE4 arm
  *   UI_SCENE_Delete 0x021B613C thumb ov067
@@ -54,19 +49,9 @@
  *   UI_SCENE_SetNextScene 0x021B61F8 thumb ov067
  *   G3D_UTIL_GetObject 0x02048A18 arm
  *   d_021BB004 0x021BB004 data ov213 a4
- *   getState 0x021B61FC thumb ov067
- *   advance 0x021B6200 thumb ov067
- *   tick 0x021BA444 thumb ov213
- *   code 0x021BA81C thumb ov213
- *   test 0x021B9E50 thumb ov213
- *   select 0x021BA95C thumb ov213
- *   first 0x021B9864 thumb ov213
- *   second 0x021B98A0 thumb ov213
- *   reset 0x021BA480 thumb ov213
- *   busy 0x021BA9D0 thumb ov213
- *   soundFor 0x021B98DC thumb ov213
- *   sound 0x020061E4 thumb
- *   animate 0x021BA8E8 thumb ov213
+ *   UI_SCENE_GetPhaseFrame 0x021B61FC thumb ov067
+ *   UI_SCENE_AdvancePhaseFrame 0x021B6200 thumb ov067
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   records 0x021BB0A4 data a4
  *   UI_SCENE_GetPhaseFrame 0x021B61FC thumb ov067
  *   UI_SCENE_AdvancePhaseFrame 0x021B6200 thumb ov067
@@ -135,7 +120,7 @@
  *   G3D_SYSTEM_GetObjectRender 0x02047788 arm
  *   G3D_SYSTEM_GetRenderTexRes 0x02047554 arm
  *   G3D_SYSTEM_GetRenderObj 0x0204755C arm
- *   DWCi_LSTlPopFront 0x02047250 arm
+ *   G3D_SYSTEM_GetResourceTex 0x02047250 arm
  *   NNS_G3dReleaseMdlPltt 0x0206A67C arm
  *   NNS_G3dBindMdlPlttEx 0x0206A5B4 arm
  *   G3D_UTIL_AddUnit 0x02047E88 arm
@@ -307,23 +292,18 @@ typedef enum { SHADING1 = 1 } GXShading;
 
 typedef int BOOL;
 
-extern int complete(void);
-extern int overlayLoad(int);
-extern void heapCreate(u32,u32,u32);
-extern void *create(void *,u32,u32);
-extern void clear(void *,u32,u32);
-extern void initialize(u8 *);
-extern void *video(u32,u32);
-extern void *font(int,int,int,int,u32);
-extern void *messages(u32,u32,u32,u32);
-extern void *text(u32);
-extern int modeFor(const char *);
-extern void *dispatch(u32,const void *,u8,u32,void *);
-extern void graphics(int,u16,int);
-extern void menu(char *,void *,int);
-extern void cursor(char *,void *,int);
-extern void music(u32,u32);
-extern void fade(u32,int,int,int);
+extern int FADE_IsActive(void);
+extern int GF_OVERLAY_Load(int);
+extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
+extern void *PROCSYS_AllocProcWork(void *,u32,u32);
+extern void MI_CpuFill8(void *,u32,u32);
+extern void *COMM_BTL_DEMO_GRAPHIC_Create(u32,u32);
+extern void *GF_FONT_Create(int,int,int,int,u32);
+extern void *MSGDATA_CreateFromArchive(u32,u32,u32,u32);
+extern void *PRINTSYS_QUE_Create(u32);
+extern void *UI_SCENE_Create(u32,const void *,u8,u32,void *);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
+extern void FADE_Start(u32,int,int,int);
 extern void BG_SYS_ChangeScroll(u32,u32,u32);
 extern void UI_SCENE_Delete(void *);
 extern void MSGDATA_Delete(struct MsgData *);
@@ -343,19 +323,8 @@ extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,unsigned,unsigned,unsigned
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void UI_SCENE_SetNextScene(unsigned char *task, int value);
 extern u32 G3D_UTIL_GetObject(u8 *, int);
-extern u32 getState(const u8 *);
-extern void advance(u8 *);
-extern void tick(char *);
-extern void code(u8 *,u32);
-extern int test(u32);
-extern void select(u8 *,int);
-extern void first(u8 *);
-extern void second(char *);
-extern void reset(char *);
-extern int busy(u8 *);
-extern int soundFor(int,int);
-extern void sound(int);
-extern int animate(char *,int,const struct AnimRecord *);
+extern u32 UI_SCENE_GetPhaseFrame(const u8 *);
+extern void UI_SCENE_AdvancePhaseFrame(u8 *);
 extern u32 UI_SCENE_GetPhaseFrame(const unsigned char*);
 extern void UI_SCENE_AdvancePhaseFrame(unsigned char*);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
@@ -410,7 +379,7 @@ extern void PARTICLE_DeleteSystem(u8 *);
 extern void PARTICLE_ExitManager(void);
 extern int PARTICLE_StartEffect(void *,int,int);
 extern int G3D_SYSTEM_GetObjectRender(int *),G3D_SYSTEM_GetRenderTexRes(int *),G3D_SYSTEM_GetRenderObj(int *);
-extern int DWCi_LSTlPopFront(char *);
+extern int G3D_SYSTEM_GetResourceTex(char *);
 extern void NNS_G3dReleaseMdlPltt(char *);
 extern int NNS_G3dBindMdlPlttEx(char *,char *,u32,u32);
 extern u16 G3D_UTIL_AddUnit(Util *util, const struct G3dUnitSetup *setup);
@@ -464,11 +433,11 @@ void COMM_BTL_DEMO_MAIN_InitBattleContext(struct CommBtlDemoBattleContext *p,con
 void COMM_BTL_DEMO_MAIN_DeleteBattleContext(struct CommBtlDemoBattleContext *p);
 void COMM_BTL_DEMO_MAIN_UpdateBattleActors(char *p);
 void COMM_BTL_DEMO_MAIN_ShowBattleActor(struct CommBtlDemoBattleContext *p,unsigned i,int kind);
-void COMM_BTL_DEMO_MAIN_InitCursor(char *p, void *state, short heap);
+void COMM_BTL_DEMO_MAIN_InitCursor(char *p, void *state, int heap);
 void COMM_BTL_DEMO_MAIN_DeleteCursor(char *p);
 void *COMM_BTL_DEMO_MAIN_CreateActor(char *p,int a,int b,unsigned short c);
 void *COMM_BTL_DEMO_MAIN_CreateSideActor(void *p,int kind,unsigned a);
-void COMM_BTL_DEMO_MAIN_InitGraphics(char *p,void *state,short heap);
+void COMM_BTL_DEMO_MAIN_InitGraphics(char *p,void *state,int heap);
 void COMM_BTL_DEMO_MAIN_DeleteGraphics(char *p);
 void COMM_BTL_DEMO_MAIN_DrawGraphics(unsigned char *p);
 void COMM_BTL_DEMO_MAIN_InitEffect(u8 *p,unsigned code);
@@ -513,27 +482,27 @@ extern const unsigned short d_021BB1A8[][4];
 int COMM_BTL_DEMO_MAIN_Create(void *manager,int *state,struct CommBtlDemoArgs *args)
 {
     struct CommBtlDemoMain *p;
-    if(*state==1 && complete()==1) return 1;
-    overlayLoad((int)ov067_id);
-    heapCreate(1,116,0x80000);
-    p=create(manager,0x49D8,116);
-    clear(p,0,0x49D8);
+    if(*state==1 && FADE_IsActive()==1) return 1;
+    GF_OVERLAY_Load((int)ov067_id);
+    GFL_HEAP_CreateChildHeap(1,116,0x80000);
+    p=PROCSYS_AllocProcWork(manager,0x49D8,116);
+    MI_CpuFill8(p,0,0x49D8);
     p->heap=116;
     p->args=args;
     p->mode=(u8)args->partyMode;
     p->variant=p->args->battleKind;
-    initialize((u8 *)args);
-    p->graphic=video(0,p->heap);
-    p->font=font(23,0,0,0,p->heap);
-    p->messages=messages(0,2,65,p->heap);
-    p->printQue=text(p->heap);
-    p->uiScene=dispatch(p->heap,callbacks,3,modeFor((char *)args),p);
-    graphics((int)((char *)p+8),p->heap,p->args->soundKind);
-    menu((char *)p+0x24,p->graphic,p->heap);
-    cursor((char *)p+0xC,p->graphic,p->heap);
+    COMM_BTL_DEMO_MAIN_InitializeFlags((u8 *)args);
+    p->graphic=COMM_BTL_DEMO_GRAPHIC_Create(0,p->heap);
+    p->font=GF_FONT_Create(23,0,0,0,p->heap);
+    p->messages=MSGDATA_CreateFromArchive(0,2,65,p->heap);
+    p->printQue=PRINTSYS_QUE_Create(p->heap);
+    p->uiScene=UI_SCENE_Create(p->heap,callbacks,3,COMM_BTL_DEMO_MAIN_GetModeIndex((const struct CommBtlDemoArgs *)args),p);
+    COMM_BTL_DEMO_MAIN_LoadGraphics((int)((char *)p+8),p->heap,p->args->soundKind);
+    COMM_BTL_DEMO_MAIN_InitGraphics((char *)p+0x24,p->graphic,p->heap);
+    COMM_BTL_DEMO_MAIN_InitCursor((char *)p+0xC,p->graphic,p->heap);
     *(volatile u16 *)0x04000304 |= 0x8000;
-    music(0,p->heap);
-    fade(3,16,0,1);
+    GFL_NET_RefreshWmIconAtTopRight(0,p->heap);
+    FADE_Start(3,16,0,1);
     *state=1;
     return 0;
 }
@@ -728,41 +697,41 @@ int COMM_BTL_DEMO_MAIN_Tick(u8 *task,char *p)
 {
     u32 state;
     struct AnimRecord a,b,c,d;
-    state=getState(task);
-    tick(p);
+    state=UI_SCENE_GetPhaseFrame(task);
+    COMM_BTL_DEMO_MAIN_UpdateRows(p);
     switch(state) {
     case 0:
-        code((u8 *)p+0x24,13);
-        if(test(((struct CommBtlDemoMain *)p)->mode)) {
-            select((u8 *)p+0x24,0);
-            first((u8 *)p);
+        COMM_BTL_DEMO_MAIN_InitEffect((u8 *)p+0x24,13);
+        if(COMM_BTL_DEMO_MAIN_IsFullPartyMode(((struct CommBtlDemoMain *)p)->mode)) {
+            COMM_BTL_DEMO_MAIN_LoadObject((u8 *)p+0x24,0);
+            COMM_BTL_DEMO_MAIN_SetupFirstSide((struct CommBtlDemoMain *)p);
         } else {
-            select((u8 *)p+0x24,2);
-            second(p);
+            COMM_BTL_DEMO_MAIN_LoadObject((u8 *)p+0x24,2);
+            COMM_BTL_DEMO_MAIN_SetupSecondSide((struct CommBtlDemoMain *)p);
         }
-        reset(p);
-        advance(task);
+        COMM_BTL_DEMO_MAIN_MarkRowsDone(p);
+        UI_SCENE_AdvancePhaseFrame(task);
         break;
     case 1:
-        if(busy((u8 *)p+0x24)==0) {
-            select((u8 *)p+0x24,4);
-            if(((struct CommBtlDemoMain *)p)->args->soundKind) code((u8 *)p+0x24,11);
-            else code((u8 *)p+0x24,10);
+        if(COMM_BTL_DEMO_MAIN_UpdateObjectAnime((u8 *)p+0x24)==0) {
+            COMM_BTL_DEMO_MAIN_LoadObject((u8 *)p+0x24,4);
+            if(((struct CommBtlDemoMain *)p)->args->soundKind) COMM_BTL_DEMO_MAIN_InitEffect((u8 *)p+0x24,11);
+            else COMM_BTL_DEMO_MAIN_InitEffect((u8 *)p+0x24,10);
             ((struct CommBtlDemoMain *)p)->stage=0;
-            advance(task);
+            UI_SCENE_AdvancePhaseFrame(task);
         }
         break;
     case 2:
-        busy((u8 *)p+0x24);
+        COMM_BTL_DEMO_MAIN_UpdateObjectAnime((u8 *)p+0x24);
         if(((struct CommBtlDemoMain *)p)->stage==15) {
-            sound(soundFor(1,((struct CommBtlDemoMain *)p)->args->soundKind));
-            a=records.recA; animate(p+0x24,0,&a);
-            b=records.recD; animate(p+0x24,1,&b);
-            c=records.recB; animate(p+0x24,2,&c);
+            GFL_USE_PlaySeDefaultVolume(COMM_BTL_DEMO_MAIN_GetSoundId(1,((struct CommBtlDemoMain *)p)->args->soundKind));
+            a=records.recA; COMM_BTL_DEMO_MAIN_StartEffect(p+0x24,0,(int)&a);
+            b=records.recD; COMM_BTL_DEMO_MAIN_StartEffect(p+0x24,1,(int)&b);
+            c=records.recB; COMM_BTL_DEMO_MAIN_StartEffect(p+0x24,2,(int)&c);
         } else if(((struct CommBtlDemoMain *)p)->stage==25) {
-            d=records.recC; animate(p+0x24,3,&d);
-        } else if(((struct CommBtlDemoMain *)p)->stage==160) { fade(12,0,16,-3);
-        } else if(((struct CommBtlDemoMain *)p)->stage==150) { sound(soundFor(3,((struct CommBtlDemoMain *)p)->args->soundKind));
+            d=records.recC; COMM_BTL_DEMO_MAIN_StartEffect(p+0x24,3,(int)&d);
+        } else if(((struct CommBtlDemoMain *)p)->stage==160) { FADE_Start(12,0,16,-3);
+        } else if(((struct CommBtlDemoMain *)p)->stage==150) { GFL_USE_PlaySeDefaultVolume(COMM_BTL_DEMO_MAIN_GetSoundId(3,((struct CommBtlDemoMain *)p)->args->soundKind));
         } else if(((struct CommBtlDemoMain *)p)->stage==168) {return 1;
         }
         (((struct CommBtlDemoMain *)p)->stage)++;
@@ -1294,7 +1263,7 @@ void COMM_BTL_DEMO_MAIN_ShowBattleActor(struct CommBtlDemoBattleContext *p,unsig
 
 
 
-void COMM_BTL_DEMO_MAIN_InitCursor(char *p, void *state, short heap)
+void COMM_BTL_DEMO_MAIN_InitCursor(char *p, void *state, int heap)
 {
     int resource;
     UiSceneActorGfxConfig config;
@@ -1331,7 +1300,7 @@ void *COMM_BTL_DEMO_MAIN_CreateSideActor(void *p,int kind,unsigned a){int x,y;vo
 
 
 
-void COMM_BTL_DEMO_MAIN_InitGraphics(char *p,void *state,short heap){G2x_SetBlendAlpha_((void *)0x04000050,1,31,0,0);((struct CommBtlDemoGfx *)p)->state=state;((struct CommBtlDemoGfx *)p)->heap=heap;((struct CommBtlDemoGfx *)p)->util=G3D_UTIL_Create(16,20,heap);PARTICLE_InitManager(heap);}
+void COMM_BTL_DEMO_MAIN_InitGraphics(char *p,void *state,int heap){G2x_SetBlendAlpha_((void *)0x04000050,1,31,0,0);((struct CommBtlDemoGfx *)p)->state=state;((struct CommBtlDemoGfx *)p)->heap=heap;((struct CommBtlDemoGfx *)p)->util=G3D_UTIL_Create(16,20,heap);PARTICLE_InitManager(heap);}
 
 
 
@@ -1404,7 +1373,7 @@ void COMM_BTL_DEMO_MAIN_StartEffects(char *p,int v) { int i; for(i=0;i<((struct 
 /*
  * EXACT* tail: two zero alignment bytes after the function.
  */
-int COMM_BTL_DEMO_MAIN_BindModelPalette(int *p,u32 b,u32 c) { int *q; char *a,*h,*r; q=(int *)G3D_SYSTEM_GetObjectRender(p); a=(char *)G3D_SYSTEM_GetRenderTexRes(q); h=*(char * *)&((struct G3dRenderObjRef *)((char *)G3D_SYSTEM_GetRenderObj(q)))->resMdl; r=(char *)DWCi_LSTlPopFront(a); NNS_G3dReleaseMdlPltt(h); return NNS_G3dBindMdlPlttEx(h,r,b,c)&1; }
+int COMM_BTL_DEMO_MAIN_BindModelPalette(int *p,u32 b,u32 c) { int *q; char *a,*h,*r; q=(int *)G3D_SYSTEM_GetObjectRender(p); a=(char *)G3D_SYSTEM_GetRenderTexRes(q); h=*(char * *)&((struct G3dRenderObjRef *)((char *)G3D_SYSTEM_GetRenderObj(q)))->resMdl; r=(char *)G3D_SYSTEM_GetResourceTex(a); NNS_G3dReleaseMdlPltt(h); return NNS_G3dBindMdlPlttEx(h,r,b,c)&1; }
 
 
 

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CE45C",
+   "name": "cbUsb",
    "address": "0x021CE45C",
    "kind": "sdk",
    "region": "ov016",

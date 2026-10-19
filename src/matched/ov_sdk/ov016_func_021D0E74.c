@@ -1,5 +1,5 @@
 /*
- * function: func_021D0E74
+ * function: scanFirst
  * address:  0x021D0E74
  * packet:   pkt_ov016_021D0E74
  * region:   ov016
@@ -65,7 +65,7 @@ extern MemUsbT *gUsbapWork;
 extern char sUsbApSsid[9];
 extern u8 sUsbApZeroBssid[6];
 
-void func_021D0E74(ScanCbT *prm)
+void scanFirst(ScanCbT *prm)
 {
     BssDescT *info;
     int i;

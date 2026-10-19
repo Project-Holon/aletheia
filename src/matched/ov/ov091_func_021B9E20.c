@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: POKELIST_EndMessageToList, POKELIST_EndMessageToExit
+ * function: POKELIST_CloseMessageToList, POKELIST_EndMessageToExit
  * address: 0x021B9E20
  * packet: pkt_ov091_021B9E20
  * region: ov091
@@ -18,5 +18,5 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void PLIST_MESSAGE_CloseWindow(void *p, u32 *s);
 extern void POKELIST_SetupModeScreen(u8 *);
-void POKELIST_EndMessageToList(u8 *p) { PLIST_MESSAGE_CloseWindow(p,(u32 *)(*(u32 *)&((struct Obj00009 *)p)->f150)); p[12]=2; POKELIST_SetupModeScreen(p); }
+void POKELIST_CloseMessageToList(u8 *p) { PLIST_MESSAGE_CloseWindow(p,(u32 *)(*(u32 *)&((struct Obj00009 *)p)->f150)); p[12]=2; POKELIST_SetupModeScreen(p); }
 void POKELIST_EndMessageToExit(u8 *p) { p[12]=19; }

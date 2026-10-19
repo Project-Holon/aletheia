@@ -18,7 +18,7 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "TR_AI_CompareKnowsMoveParam28",
+    "TR_AI_CompareKnowsMoveEffectSequence",
     "TR_AI_CmdNop2",
     "TR_AI_CmdSetNoMoveFlag",
     "TR_AI_CmdNop3",

@@ -1,5 +1,5 @@
 /*
- * function: func_021CC2D0
+ * function: endScene2
  * address:  0x021CC2D0
  * packet:   pkt_ov016_021CC2D0
  * region:   ov016
@@ -84,7 +84,7 @@ extern void DWCi_SceneSetSelectWay();
 extern void DWCi_SceneSetList();
 extern void func_021CDCAC();
 
-static void func_021CC2D0(void)
+static void endScene2(void)
 {
     int i;
 

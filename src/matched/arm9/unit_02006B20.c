@@ -12,7 +12,7 @@
  * isa:      thumb
  * status:   EXACT
  * function: PM_VOICE_GetVolume, PM_VOICE_GetFrequency, PM_VOICE_GetData, PM_VOICE_GetDataSize,
- *           PM_VOICE_GetSampleRate, PM_VOICE_StopSlot, PM_VOICE_IsActive, PM_VOICE_ReverseBytes,
+ *           PM_VOICE_GetSampleRate, PM_VOICE_StopSlot, PM_VOICE_IsSlotActive, PM_VOICE_ReverseBytes,
  *           PM_VOICE_GetCryIndex
  *
  * symbols:
@@ -29,7 +29,7 @@
  * lands in the listing as a run of `.word`s:
  * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.  They are
  * PM_VOICE_GetVolume, PM_VOICE_GetFrequency, PM_VOICE_GetData, PM_VOICE_GetDataSize, PM_VOICE_GetSampleRate,
- * PM_VOICE_IsActive and PM_VOICE_GetCryIndex.
+ * PM_VOICE_IsSlotActive and PM_VOICE_GetCryIndex.
  *
  * Three details pin the source:
  *
@@ -175,7 +175,7 @@ void PM_VOICE_StopSlot(u32 i)
     }
 }
 
-u32 PM_VOICE_IsActive(u32 i)
+u32 PM_VOICE_IsSlotActive(u32 i)
 {
     return sub_02006B20_Table[i].unk00;
 }

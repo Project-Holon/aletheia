@@ -140,7 +140,7 @@
  *   BG_SYS_Delete  0x0203F9B4  arm  arm9
  *   BG_SYS_Init  0x02040C14  arm  arm9
  *   BG_SYS_ClearSlot  0x020414EC  arm  arm9
- *   BMP_SetDisplaySwap  0x0204363C  arm  arm9
+ *   BG_SYS_SetLcdSwap  0x0204363C  arm  arm9
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm  arm9
  *   PROCSYS_FreeProcWork  0x020315D4  arm  arm9
  *   GFL_USE_ClearVBlankHook  0x0200566C  thumb  arm9
@@ -218,7 +218,7 @@ extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
-extern void BMP_SetDisplaySwap(u32 swap);
+extern void BG_SYS_SetLcdSwap(u32 swap);
 
 extern void PROCSYS_FreeProcWork(struct Proc *);
 
@@ -717,7 +717,7 @@ u32 RESEARCH_TOP_InitProc(u32 procsys, u32 state, u8 *work, u32 proc)
     case 1:
     RESEARCH_TOP_ResetProc((void *)proc, ((struct ProcArg *)((u8*)work))->appResource);
     BG_SYS_SetVramBanks((const struct DispVram *)0x21C2EA0);
-    BMP_SetDisplaySwap(0);
+    BG_SYS_SetLcdSwap(0);
     RESEARCH_TOP_InitBackgrounds(((struct ResearchProc *)proc)->heapId);
     RESEARCH_TOP_LoadTopAssets(((struct ResearchProc *)proc)->heapId);
     RESEARCH_TOP_LoadSubAssets(((struct ResearchProc *)proc)->heapId);

@@ -22,7 +22,7 @@
  *   FIELDMAP_AllocCommonWork  0x02189764  thumb  ov021
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
- *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
+ *   GIMMICK_WORK_GetWork  0x0200B3A4  thumb
  *   FLD_EXP_OBJ_AddUnitFromArchive  0x021BE760  thumb  ov021
  *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb  ov021
  *   FLD_EXP_OBJ_SetModelCullDraw  0x021BE4A4  thumb  ov021
@@ -74,7 +74,7 @@ void FIELD_GIMMICK_BUTTON_STATES_Init(struct FieldMap *fieldMap)
     FieldGimmickButtonStatesPosTable oneShotPos;
 
     expObj = FIELDMAP_GetExpObj(fieldMap);
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 4);
+    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 4);
     FIELDMAP_AllocCommonWork(fieldMap, 1, FIELDMAP_GetHeapId(fieldMap), 4);
     FLD_EXP_OBJ_AddUnitFromArchive(expObj, &gButtonStatesUnitSetup, 0);
     statePos = gButtonStatesStatePos;
@@ -124,7 +124,7 @@ struct GameEvent *FIELD_GIMMICK_BUTTON_STATES_CreateStateEvent(struct GameSystem
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     expObj = FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 4);
+    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 4);
     if (stateModel >= FIELD_GIMMICK_BUTTON_STATES_STATE_MODEL_COUNT)
         return 0;
     event = GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_BUTTON_STATES_EventSetState, 0);
@@ -147,7 +147,7 @@ struct GameEvent *FIELD_GIMMICK_BUTTON_STATES_CreateOneShotEvent(struct GameSyst
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     expObj = FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 4);
+    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 4);
     if (oneShotIndex > FIELD_GIMMICK_BUTTON_STATES_ONE_SHOT_COUNT)
         return 0;
     event = GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_BUTTON_STATES_EventPlayOneShot, 0);
@@ -168,7 +168,7 @@ int FIELD_GIMMICK_BUTTON_STATES_EventSetState(struct GameEvent *event, int *seq,
     fieldMap = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event));
     expObj = FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
-    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 4);
+    GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 4);
     switch (*seq) {
     case 0:
         modelIndex = work->stateModel;
@@ -204,7 +204,7 @@ int FIELD_GIMMICK_BUTTON_STATES_EventPlayOneShot(struct GameEvent *event, int *s
     fieldMap = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event));
     expObj = FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 4);
+    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 4);
     switch (*seq) {
     case 0:
         modelIndex = work->oneShotIndex + FIELD_GIMMICK_BUTTON_STATES_ONE_SHOT_FIRST_MODEL;

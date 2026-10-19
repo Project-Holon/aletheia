@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0202C550
+ * function: ISS_SWITCH_Setup
  * address:  0x0202C550
  * packet:   pkt_0202C4CC
  * region:   arm9
@@ -18,8 +18,8 @@
  * Same move as sub_0202C4D8.c and unit_0202C510.c for their sibling units.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202C550.c \
- *       --func sub_0202C550 --addr 0x0202C550 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ISS_SWITCH_Setup.c \
+ *       --func ISS_SWITCH_Setup --addr 0x0202C550 --cc 1.1p1 --thumb
  *
  * symbols:
  *   ISS_SWITCH_SetParam  0x0202C5C4  thumb
@@ -29,7 +29,7 @@ typedef unsigned int u32;
 
 extern u32 ISS_SWITCH_SetParam(void *p, u32 a, u32 b);
 
-u32 sub_0202C550(void *p, u32 a, u32 b)
+u32 ISS_SWITCH_Setup(void *p, u32 a, u32 b)
 {
     return ISS_SWITCH_SetParam(p, a, b);
 }

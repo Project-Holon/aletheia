@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0202C5B4
+ * function: ISS_SWITCH_Init
  * address:  0x0202C5B4
  * packet:   pkt_0202C4CC
  * region:   arm9
@@ -19,7 +19,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/unit_0202C5B4.c \
- *       --func sub_0202C5B4 --addr 0x0202C5B4 --cc 1.1p1 --thumb
+ *       --func ISS_SWITCH_Init --addr 0x0202C5B4 --cc 1.1p1 --thumb
  */
 
 typedef unsigned short u16;
@@ -32,7 +32,7 @@ struct Counter0202C5B4 {
     u16 unk08;
 };
 
-void sub_0202C5B4(struct Counter0202C5B4 *p)
+void ISS_SWITCH_Init(struct Counter0202C5B4 *p)
 {
     p->unk00 = 1;
     p->unk04 = 0;

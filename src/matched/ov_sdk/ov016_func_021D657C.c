@@ -1,5 +1,5 @@
 /*
- * function: func_021D657C
+ * function: readKey
  * address:  0x021D657C
  * packet:   pkt_ov016_021D657C
  * region:   ov016
@@ -67,7 +67,7 @@
  *
  * symbols:
  *   gInputStatics     0x021DE688 data
- *   _ZZ13func_021D657CvE5count 0x021DE690 data
+ *   _ZZ7readKeyvE5count 0x021DE690 data
  */
 
 struct keystate {
@@ -85,7 +85,7 @@ struct keyfold {
 
 extern struct keyfold gInputStatics;
 
-void func_021D657C(void)
+void readKey(void)
 {
     static unsigned char count[14];
     unsigned short *input;

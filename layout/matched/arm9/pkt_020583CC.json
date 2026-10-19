@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "SPL_EMITTER_ClearNodeList",
+   "name": "SPLList_PushFront",
    "address": "0x020583CC",
    "kind": "game",
    "region": "arm9",
@@ -30,10 +30,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -proc arm7tdmi -lang c99",
    "status": "EXACT",
    "functions": [
-    "SPLRandom_VecFx32_XY"
+    "SPLRandom_VecFx32_XY",
+    "SPLRandom_VecFx32"
    ],
    "addresses": [
-    "0x0205841C"
+    "0x0205841C",
+    "0x02058478"
    ]
   }
  ]

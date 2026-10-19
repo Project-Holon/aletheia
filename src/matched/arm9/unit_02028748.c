@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02028748
+ * function: FIELD_SKILL_USE_FLAGS_SetSkill
  * address:  0x02028748
  * packet:   pkt_02028748
  * region:   arm9
@@ -21,12 +21,12 @@ struct Obj {
     u32 flags;
 };
 
-void func_02028748(struct Obj *obj, int n, int mask)
+void FIELD_SKILL_USE_FLAGS_SetSkill(struct Obj *obj, int n, int mask)
 {
     obj->flags = obj->flags | (mask << n);
 }
 
-u32 func_02028754(struct Obj *obj, u32 n)
+u32 FIELD_SKILL_USE_FLAGS_IsSkillUsable(struct Obj *obj, u32 n)
 {
     return (obj->flags >> n) & 1;
 }

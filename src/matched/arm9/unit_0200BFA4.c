@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: INTRUDE_UpdatePlaySeconds, BEACON_GetSize
+ * function: INTRUDE_UpdatePlaySeconds, MISC_GetSize
  * address:  0x0200BFA4
  * packet:   pkt_0200BFA4
  * region:   arm9
@@ -17,7 +17,7 @@
  *   g_02146170     0x02146170  data  a8
  *
  * battle_rec.c, 0x0200BFA4..0x0200C058: the play-clock accumulator and the
- * unlabelled 4-byte follower BEACON_GetSize (`return 0xEC;`, a size getter).
+ * unlabelled 4-byte follower MISC_GetSize (`return 0xEC;`, a size getter).
  *
  * INTRUDE_UpdatePlaySeconds converts the h:m:s clock at q to seconds and, by mode,
  * latches it (0), adds the elapsed delta into the u64 at +0x1A8 (1), or
@@ -69,7 +69,7 @@ u64 INTRUDE_UpdatePlaySeconds(u8 *p, void *q, u32 mode)
     return ((struct Obj07120 *)p)->f1A8;
 }
 
-u32 BEACON_GetSize(void)
+u32 MISC_GetSize(void)
 {
     return 0xEC;
 }

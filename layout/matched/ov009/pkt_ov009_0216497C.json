@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0216497C",
+   "name": "CPSi_big_montmult",
    "address": "0x0216497C",
    "kind": "sdk",
    "region": "ov009",

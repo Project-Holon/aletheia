@@ -1,5 +1,5 @@
 /*
- * function: func_021C3250
+ * function: procInit1
  * address:  0x021C3250
  * packet:   pkt_ov016_021C3250
  * region:   ov016
@@ -25,7 +25,7 @@ extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021C3358(int state);
 extern void DWCi_SceneOptMovComm_procScene(void);
 
-void func_021C3250(void)
+void procInit1(void)
 {
 	if (DWCi_EFFlCheck(0))
 		return;

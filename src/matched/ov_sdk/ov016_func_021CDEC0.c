@@ -1,5 +1,5 @@
 /*
- * function: func_021CDEC0
+ * function: button
  * address:  0x021CDEC0
  * packet:   pkt_ov016_021CDEC0
  * region:   ov016
@@ -26,7 +26,7 @@ extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021CDF10(void);
 extern struct G_021DE628 gSceneSetUsbReadyWork;
 
-void func_021CDEC0(void)
+void button(void)
 {
     switch (DWCi_BTNlGet()) {
     case 0:

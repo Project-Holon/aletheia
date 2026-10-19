@@ -26,7 +26,7 @@
  *   FATFSi_IsInitialized  0x02704318  arm  twl
  *   FATFS_UnmountAll      0x02704328  arm  twl
  *   OSi_SendToPxi         0x02084A84  arm
- *   OSi_TerminateCore     0x020882C0  arm
+ *   OSi_DisableInterruptsAndHalt     0x020882C0  arm
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_Halt  0x020882D0  arm
  */
@@ -65,7 +65,7 @@ extern BOOL OS_IsRunOnTwl(void);
 extern BOOL FATFSi_IsInitialized(void);
 extern BOOL FATFS_UnmountAll(void);
 extern void OSi_SendToPxi(u16 data);
-extern void OSi_TerminateCore(void);
+extern void OSi_DisableInterruptsAndHalt(void);
 extern void OS_DisableInterrupts(void);
 extern void OS_Halt(void);
 void OS_Terminate(void);
@@ -100,7 +100,7 @@ void OS_Terminate(void)
         }
         OSi_SendToPxi(0x20);
     }
-    OSi_TerminateCore();
+    OSi_DisableInterruptsAndHalt();
 }
 
 

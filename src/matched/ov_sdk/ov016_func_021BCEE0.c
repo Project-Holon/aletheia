@@ -1,5 +1,5 @@
 /*
- * function: func_021BCEE0
+ * function: taskEnd1
  * address:  0x021BCEE0
  * packet:   pkt_ov016_021BCEE0
  * region:   ov016
@@ -33,7 +33,7 @@ extern void DWCi_CELLlDelete(u8 *p);
 extern void DWCi_HEAPlFree_(void **mem);
 extern struct tagMEMBTN *gMemButton;
 
-void func_021BCEE0(void *task)
+void taskEnd1(void *task)
 {
     int i;
 

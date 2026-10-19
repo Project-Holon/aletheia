@@ -170,7 +170,7 @@ typedef struct Cell {
     u8 pad15;
     fx16 v[4][3];
     u8 pad2e[2];
-    s32 f30;
+    s32 reserved30;
     VecFx32 start;
     s32 velX, velY, velZ, angle, radius, height, targetX, targetY, targetZ, progress;
     VecFx32 cur;
@@ -410,7 +410,7 @@ extern void MTX_MultVec43(const Vec *,const Matrix *,Vec *);
 
 extern fx32 FX_InvSqrt(fx32);
 
-Owner *SHINKA_DEMO_VIEW_Create(u16 heap, u32 f08, void *res0, u16 f0c);
+Owner *SHINKA_DEMO_VIEW_Create(u16 heap, u32 mode, void *res0, u16 evolvedSpecies);
 
 void SHINKA_DEMO_VIEW_Destroy(char *p);
 
@@ -1278,7 +1278,7 @@ void SHINKA_DEMO_VIEW_InitGrid(Grid *grid, u16 heap)
         m = q % 3;
         for (; j < 18; j++) {
             e = &row[j];
-            e->f30 = 0;
+            e->reserved30 = 0;
             e->start = e->cur;
             if (m == 0) {
                 if (j < 9)

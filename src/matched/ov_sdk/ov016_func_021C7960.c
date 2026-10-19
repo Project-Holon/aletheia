@@ -1,5 +1,5 @@
 /*
- * function: func_021C7960
+ * function: DWCi_SceneSetEditAddressDispCaret
  * address:  0x021C7960
  * packet:   pkt_ov016_021C7960
  * region:   ov016
@@ -43,7 +43,7 @@ static inline void SetObjPosition(GXOamAttr *oam, int x, int y)
     oam->u.attr01 = (oam->u.attr01 & ~(0x01FF0000 | 0x000000FF)) | (y & 0xFF) | ((x & 0x1FF) << 16);
 }
 
-void func_021C7960(void)
+void DWCi_SceneSetEditAddressDispCaret(void)
 {
     int x = gMemSsea->pos;
 

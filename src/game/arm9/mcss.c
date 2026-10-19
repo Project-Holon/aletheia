@@ -22,12 +22,11 @@
  *   sFileMcss  0x020A72CC  data
  *   MCSS_CloseHandle   0x02014CD4  thumb
  *   TCBL_IsDeletePending   0x02030EE8  arm
- *   GFL_HEAP_Free   0x020307B0  arm
  *   TCB_DeleteTask   0x02030EAC  arm
  *   MCSS_Del   0x02015BA4  thumb
  *   MCSS_RestartAnime  0x02016374  thumb
  *   ARC_TOOL_CreateHandle         0x020490F4  arm
- *   ENV_SetResourceSet_2  0x02049238  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   MCSS_FreeResource  0x02016BA0  thumb
  *   NNS_G3dGeFlushBuffer    0x0206DB80  arm
  *   MTX_Inverse43    0x0207B67C  arm
@@ -48,7 +47,7 @@
  *   FX_SinCosTable_  0x020A1B38  data
  *   d_0209E090       0x0209E090  data
  *   d_0209E09C       0x0209E09C  data
- *   G3i_FrustumW_    0x0207D760  arm
+ *   G3i_OrthoW_    0x0207D760  arm
  *   MCSS_DeleteTextureTask  0x02016C0C  thumb
  *   NNS_G2dSetCellAnimationParam  0x02063000  arm
  *   NNSi_G2dMCEnumAnimBank  0x02064D70  arm
@@ -60,7 +59,6 @@
  *   NNS_G2dRestartMCAnimation  0x02064CBC  arm
  *   NNSi_G2dLoadVramResourceSub  0x02063A54  arm
  *   NNSi_G2dLoadVramResourceBySel  0x02063E54  arm
- *   TCB_DeleteTask   0x02030EAC  arm
  *   _s32_to_double  0x0209B750  arm
  *   pow   0x0209AB80  arm
  *   _d2s            0x0209C508  arm
@@ -459,7 +457,6 @@ extern void MCSS_CloseHandle(McssSys *sys);
 
 extern void *TCBL_IsDeletePending(void *task);
 
-extern u32 GFL_HEAP_Free(void *p);
 
 extern void TCB_DeleteTask(void *task);
 
@@ -471,7 +468,7 @@ extern void MCSS_RestartAnime(McssWork *work);
 
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
-extern void  ENV_SetResourceSet_2(void *arcHandle);
+extern void  ARC_TOOL_DeleteHandle(void *arcHandle);
 
 extern void MCSS_FreeResource(McssWork *work);
 
@@ -498,7 +495,7 @@ extern void G3_MultMtx44(const MtxFx44 *m);
 
 extern u32 FX_Div(u32 value, u32 divisor);
 
-extern void G3i_FrustumW_(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f,
+extern void G3i_OrthoW_(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f,
                           fx32 scaleW, int draw, void *mtx);
 
 extern void MCSS_DeleteTextureTask(void *taskHandle);
@@ -960,7 +957,7 @@ void MCSS_OpenHandle(McssSys *sys, u32 arcId)
 void MCSS_CloseHandle(McssSys *sys)
 {
     if (sys->arcHandle != 0) {
-        ENV_SetResourceSet_2(sys->arcHandle);
+        ARC_TOOL_DeleteHandle(sys->arcHandle);
         sys->arcId = 0;
         sys->arcHandle = 0;
     }
@@ -1319,7 +1316,7 @@ void MCSS_DrawShadow(McssSys *sys, McssWork *work, fx32 x, fx32 y,
     }
 
     if (ortho != 0) {
-        G3i_FrustumW_(6 << 16, -6 << 16, -8 << 16, 8 << 16, 0x1000,
+        G3i_OrthoW_(6 << 16, -6 << 16, -8 << 16, 8 << 16, 0x1000,
                       (sys->flags.bits.nearDepthRange ? 0x200 : 0x400) << 12, 0x1000, 1, 0);
         REG_MTX_MODE = 2;
     }

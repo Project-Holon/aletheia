@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: POKE_TOOL_GetPersonalGender, POKE_TOOL_GetPersonalParam, POKE_TOOL_SetLevelAndRecalc, POKE_TOOL_CopyPartyPokemon
+ * function: POKE_TOOL_GetPersonalAbilityCount, POKE_TOOL_GetPersonalParam, POKE_TOOL_SetLevelAndRecalc, POKE_TOOL_CopyPartyPokemon
  *
  * POKE_TOOL_CopyPartyPokemon carries no label in the generated listing: it saves r3 and r4
  * but not lr, so disasm.py's prologue sweep never fires on it and its 24 bytes
@@ -48,7 +48,7 @@ struct RecDC {
     u32 unk00[0x37];
 };
 
-u32 POKE_TOOL_GetPersonalGender(void *h)
+u32 POKE_TOOL_GetPersonalAbilityCount(void *h)
 {
     if (POKE_PERSONAL_GetParam(h, 0x1B) != 0) {
         return 2;

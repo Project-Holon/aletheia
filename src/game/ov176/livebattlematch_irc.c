@@ -82,7 +82,7 @@ typedef struct {
 } IrcDeliveryParam;
 
 extern void WIFIBATTLEMATCH_VIEW_DrawStatusWindow(char *,int,void *,void *,int,u16);
-extern void WIFIBATTLEMATCH_VIEW_DrawDateWindow(char *p, int mode, void *mgr, void *print, int font, u32 a5);
+extern void WIFIBATTLEMATCH_VIEW_DrawDateWindow(char *p, int mode, void *mgr, void *print, int font, u32 unused);
 extern void MI_CpuFill8(void *, int, u32);
 extern void *WIFIBATTLEMATCH_UTIL_CreateMenu(WifibattlematchMenuDesc *, u8, u8, u8, u8, int);
 extern void WIFIBATTLEMATCH_UTIL_DeleteMenu(int);
@@ -97,14 +97,14 @@ extern void GFL_NET_COMMAND_AddCommandTable(u32 a, u32 b, u32 c, u32 d);
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32 key);
 extern u32 GFL_HEAP_Free(void *p);
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
-extern int DELIVERY_IRC_Delete(void *a0);
+extern int DELIVERY_IRC_Delete(void *work);
 extern u32 GFL_NET_ERR_WaitLinkClosed(void);
 extern void GFL_NET_ERR_ShowSimpleScreen(void);
 extern void GFL_NET_StartSession(struct Req *req, unsigned int transportArg, unsigned int userArg);
 extern void IRCNET_SetFilter(int);
 extern int GFL_NET_StartChangeoverChild(int changeoverParam);
 extern int GFL_NET_GetNegotiationNum(void);
-extern int GFL_NET_Exit(int a0);
+extern int GFL_NET_Exit(int exitCallback);
 extern int GFL_NET_IsSessionNull(void);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);

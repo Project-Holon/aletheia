@@ -1,5 +1,5 @@
 /*
- * function: func_0215E450
+ * function: SOCLi_WriteCallBack
  * address:  0x0215E450
  * packet:   pkt_ov009_0215E450
  * region:   ov009
@@ -86,7 +86,7 @@ static inline int isStream(signed char m)
     return r;
 }
 
-static int func_0215E450(void *arg)
+static int SOCLi_WriteCallBack(void *arg)
 {
     unsigned char *sndbuf;
     struct SOCLSocket *socket;

@@ -1,5 +1,5 @@
 /*
- * function: func_021D0DE0
+ * function: cbWm
  * address:  0x021D0DE0
  * packet:   pkt_ov016_021D0DE0
  * region:   ov016
@@ -59,7 +59,7 @@ extern int func_021D0CB8(void);
 extern void OS_Terminate(void);
 extern MemUsbT *gUsbapWork;
 
-void func_021D0DE0(void *arg)
+void cbWm(void *arg)
 {
     ScanCbT *prm = (ScanCbT *)arg;
 

@@ -10,7 +10,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0202C518
+ * function: ISS_SWITCH_SET_ApplySwitchVolumes
  *
  * symbols:
  *   sub_0202C510  0x0202C510  thumb
@@ -44,7 +44,7 @@ struct Arr0202C510;
 extern u32 sub_0202C510(struct Arr0202C510 *p, u32 idx);
 extern u32 sub_0202C588(void *p, u32 v);
 
-void sub_0202C518(void *p)
+void ISS_SWITCH_SET_ApplySwitchVolumes(void *p)
 {
     s32 i;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021C519C
+ * function: initGraphics
  * address:  0x021C519C
  * packet:   pkt_021C519C
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C519C   0x021C519C  arm
+ *   initGraphics   0x021C519C  arm
  *   DWCi_CMNlLoadResource   0x021BD1D4  arm  ov016
  *   DWCi_Char   0x021BD170  arm  ov016
  *   DWCi_ARClReadEx   0x021D4B68  arm  ov016
@@ -31,8 +31,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021C519C.c \
- *       --func func_021C519C --addr 0x021C519C --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/initGraphics.c \
+ *       --func initGraphics --addr 0x021C519C --region ov016 --cc dsi/1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -53,7 +53,7 @@ extern unsigned char sSceneSetApListPathJb4ApListScr[];
 extern unsigned char GX_LoadBG3Scr[];
 extern unsigned char gSceneSetApListWork[];
 
-void func_021C519C(void)
+void initGraphics(void)
 {
     T25 buf2;
     T22 buf;

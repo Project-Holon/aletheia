@@ -18,10 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "STRBUF_Append"
+    "STRBUF_Append",
+    "STRBUF_AppendChar"
    ],
    "addresses": [
-    "0x02045AA8"
+    "0x02045AA8",
+    "0x02045AFC"
    ]
   },
   {

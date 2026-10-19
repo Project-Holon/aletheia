@@ -21,7 +21,7 @@
     "PDC_MSG_PrintMessage0",
     "PDC_MSG_PrintMessage3",
     "PDC_MSG_PrintMessage1",
-    "IRC_COMPATIBLE_ProcExit"
+    "PDC_MSG_PrintMessage2"
    ],
    "addresses": [
     "0x021B6910",

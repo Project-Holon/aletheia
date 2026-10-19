@@ -1,7 +1,7 @@
 /*
  * file:     clact.c
  * unit:     yes
- * function: CLACT_InitSystem, CLACT_ExitSystem, CLACT_DrawSystem, CLACT_VBlankSystem, CLACT_FlushOamIfPending, CLACT_RegisterCharacter, CLACT_RegisterEmptyCharacter, CLACT_ReleaseCharacter, CLACT_TransferCharacter, CLACT_TransferCharacterPart, CLACT_GetCharacterProxy, CLACT_GetCharacterVramAddress, CLACT_RegisterPalette, CLACT_RegisterPaletteEx, CLACT_RegisterPaletteCompressed, CLACT_ReleasePalette, CLACT_TransferPalette, CLACT_GetPaletteProxy, CLACT_RegisterCellAnim, CLACT_ReleaseCellAnim, CLACT_CreateRenderer, CLACT_DeleteRenderer, CLACT_SetSurfacePos, CLACT_GetSurfacePos, CLACT_SetRendererCulling, CLACT_CreateUnit, CLACT_DeleteUnit, CLACT_SetUnitDrawEnable, CLACT_GetUnitDrawEnable, CLACT_SetUnitRenderer, CLACT_SetUnitDefaultRenderer, CLACT_CreateActor, CLACT_CreateAffineActor, CLACT_DeleteActor, CLACT_SetActorDrawEnable, CLACT_GetActorDrawEnable, CLACT_AddActorSurfacePos, CLACT_GetActorSurfacePos, CLACT_SetActorSurfacePosAxis, CLACT_GetActorSurfacePosAxis, CLACT_SetActorPos, CLACT_GetActorPos, CLACT_SetActorPosAxis, CLACT_GetActorPosAxis, CLACT_SetActorAffineMode, CLACT_SetActorAffineOriginAxis, CLACT_SetActorScale, CLACT_GetActorScale, CLACT_SetActorScaleAxis, CLACT_GetActorScaleAxis, CLACT_SetActorRotation, CLACT_GetActorRotation, CLACT_SetActorFlip, CLACT_GetActorFlip, CLACT_SetActorObjMode, CLACT_GetActorObjMode, CLACT_SetActorPaletteOffset, CLACT_GetActorPaletteOffset, CLACT_SetActorPaletteProxy, CLACT_GetActorPaletteProxy, CLACT_SetActorImageProxy, CLACT_GetActorImageProxy, CLACT_GetActorCharacterIndex, CLACT_GetActorPaletteIndex, CLACT_SetActorDrawPriority, CLACT_GetActorDrawPriority, CLACT_SetActorBgPriority, CLACT_GetActorBgPriority, CLACT_SetActorAnimSeq, CLACT_GetActorAnimSeq, CLACT_ChangeActorAnimSeq, CLACT_SetActorAnimFrame, CLACT_AddActorAnimFrame, CLACT_GetActorAnimFrame, CLACT_SetActorAnimIndex, CLACT_GetActorAnimSeqCount, CLACT_SetActorAutoAnim, CLACT_GetActorAutoAnim, CLACT_SetActorAutoAnimSpeed, CLACT_StartActorAnim, CLACT_StopActorAnim, CLACT_IsActorAnimActive, CLACT_RestartActorAnim, CLACT_SetActorAnimLoopCount, CLACT_ApplyActorAnimCommand, CLACT_ResetActorAnimCommand, CLACT_SetActorVisible, CLACT_InitDefaultRenderer, CLACT_SetPaletteBaseOffsets, CLACT_SetSystemActive, CLACT_IsSystemActive, CLACT_SetOamPending, CLACT_IsOamPending, CLACT_ResetOamIfPending, CLACT_DrawAllUnits, CLACT_LinkUnit, CLACT_UnlinkUnit, CLACT_InitOamManagers, CLACT_ExitOamManagers, CLACT_ApplyOamManagers, CLACT_ResetOamManagers, CLACT_InitOamManager, CLACT_ApplyOamManager, CLACT_ResetOamManager, CLACT_InitRenderer, CLACT_ExitRenderer, CLACT_SetSurfaceCulling, CLACT_InitSurface, CLACT_SetSurfaceType, CLACT_EntryOam, CLACT_EntryOamMain, CLACT_EntryOamSub, CLACT_EntryAffineMain, CLACT_EntryAffineSub, CLACT_IsAffineCellInView, CLACT_IsCellInView, CLACT_CullOam, CLACT_IsRectInView, CLACT_InitTransferPool, CLACT_ExitTransferPool, CLACT_AllocTransferEntries, CLACT_FreeTransferEntries, CLACT_ExecuteTransfers, CLACT_GetFreeTransferEntry, CLACT_RequestTransfer, CLACT_SetTransferEntry, CLACT_ExecuteTransfer, CLACT_GetFreeActor, CLACT_DrawUnit, CLACT_LinkActor, CLACT_UnlinkActor, CLACT_FindActorBefore, CLACT_FindActorAfter, CLACT_ClearActor, CLACT_DrawActor, CLACT_SetupActorDraw, CLACT_ApplyActorTransform, CLACT_UpdateActorAutoAnim, CLACT_ApplyActorInit, CLACT_ApplyActorResources, CLACT_GetSurfaceOrigin, CLACT_InitActorRequest, CLACT_CreateActorCore, CLACT_CreateActorFull, CLACT_InitAnimCtl, CLACT_ExitAnimCtl, CLACT_GetAnimCtlKind, CLACT_InitCellAnimCtl, CLACT_InitMultiCellAnimCtl, CLACT_InitVramAnimCtl, CLACT_ExitCellAnimCtl, CLACT_ExitMultiCellAnimCtl, CLACT_ExitVramAnimCtl, CLACT_SetAnimSeq, CLACT_SetCellAnimSeq, CLACT_SetMultiCellAnimSeq, CLACT_SetVramAnimSeq, CLACT_SetAnimFrame, CLACT_AddAnimFrame, CLACT_GetAnimCtrl, CLACT_GetAnimObject, CLACT_SetAnimIndex, CLACT_SetVramAnimIndex, CLACT_UpdateAnim, CLACT_UpdateVramAnim, CLACT_SetCellAnimIndex, CLACT_SetMultiCellAnimIndex, CLACT_ResetAnim, CLACT_ResetCellAnim, CLACT_ResetMultiCellAnim, CLACT_ResetVramAnim, CLACT_GetCellUserAttr, CLACT_GetMultiCellUserAttr, CLACT_GetVramCellUserAttr, CLACT_GetCellUserAttrTable, CLACT_GetMultiCellUserAttrTable, CLACT_GetVramCellUserAttrTable, CLACT_GetCellBankCount, CLACT_GetMultiCellBankCount, CLACT_GetVramCellBankCount, CLACT_ApplyAnimCommand, CLACT_ResetAnimCommand, CLACT_InitResources, CLACT_ExitResources, CLACT_IsVramTypeCompatible, CLACT_LoadArchiveData, CLACT_AllocCharacterTable, CLACT_SetupCharacterVram, CLACT_FreeCharacterTable, CLACT_UpdateObjMapping, CLACT_AllocPaletteTable, CLACT_TransferPaletteData, CLACT_TransferPaletteDataEx, CLACT_FreePaletteTable, CLACT_AllocCellAnimTable, CLACT_LoadCellAnimBanks, CLACT_FreeCellAnimTable, CLACT_SetupCharacter
+ * function: CLACT_InitSystem, CLACT_ExitSystem, CLACT_DrawSystem, CLACT_VBlankSystem, CLACT_FlushOamIfPending, CLACT_RegisterCharacter, CLACT_RegisterEmptyCharacter, CLACT_ReleaseCharacter, CLACT_TransferCharacter, CLACT_TransferCharacterPart, CLACT_GetCharacterProxy, CLACT_GetCharacterVramAddress, CLACT_RegisterPalette, CLACT_RegisterPaletteEx, CLACT_RegisterPaletteCompressed, CLACT_ReleasePalette, CLACT_TransferPalette, CLACT_GetPaletteProxy, CLACT_RegisterCellAnim, CLACT_ReleaseCellAnim, CLACT_CreateRenderer, CLACT_DeleteRenderer, CLACT_SetSurfacePos, CLACT_GetSurfacePos, CLACT_SetRendererCulling, CLACT_CreateUnit, CLACT_DeleteUnit, CLACT_SetUnitDrawEnable, CLACT_GetUnitDrawEnable, CLACT_SetUnitRenderer, CLACT_SetUnitDefaultRenderer, CLACT_CreateActor, CLACT_CreateAffineActor, CLACT_DeleteActor, CLACT_SetActorDrawEnable, CLACT_GetActorDrawEnable, CLACT_AddActorSurfacePos, CLACT_GetActorSurfacePos, CLACT_SetActorSurfacePosAxis, CLACT_GetActorSurfacePosAxis, CLACT_SetActorPos, CLACT_GetActorPos, CLACT_SetActorPosAxis, CLACT_GetActorPosAxis, CLACT_SetActorAffineMode, CLACT_SetActorAffineOriginAxis, CLACT_SetActorScale, CLACT_GetActorScale, CLACT_SetActorScaleAxis, CLACT_GetActorScaleAxis, CLACT_SetActorRotation, CLACT_GetActorRotation, CLACT_SetActorFlip, CLACT_GetActorFlip, CLACT_SetActorObjMode, CLACT_GetActorObjMode, CLACT_SetActorPaletteOffset, CLACT_GetActorPaletteOffset, CLACT_SetActorPaletteProxy, CLACT_GetActorPaletteProxy, CLACT_SetActorImageProxy, CLACT_GetActorImageProxy, CLACT_GetActorCharacterIndex, CLACT_GetActorPaletteIndex, CLACT_SetActorDrawPriority, CLACT_GetActorDrawPriority, CLACT_SetActorBgPriority, CLACT_GetActorBgPriority, CLACT_SetActorAnimSeq, CLACT_GetActorAnimSeq, CLACT_ChangeActorAnimSeq, CLACT_SetActorAnimFrame, CLACT_AddActorAnimFrame, CLACT_GetActorAnimFrame, CLACT_SetActorAnimIndex, CLACT_GetActorAnimSeqCount, CLACT_SetActorAutoAnim, CLACT_GetActorAutoAnim, CLACT_SetActorAutoAnimSpeed, CLACT_StartActorAnim, CLACT_StopActorAnim, CLACT_IsActorAnimActive, CLACT_RestartActorAnim, CLACT_SetActorAnimLoopCount, CLACT_ApplyActorAnimCommand, CLACT_ResetActorAnimCommand, CLACT_SetActorVisible, CLACT_InitDefaultRenderer, CLACT_SetPaletteBaseOffsets, CLACT_SetSystemActive, CLACT_IsSystemActive, CLACT_SetOamPending, CLACT_IsOamPending, CLACT_ResetOamIfPending, CLACT_DrawAllUnits, CLACT_LinkUnit, CLACT_UnlinkUnit, CLACT_InitOamManagers, CLACT_ExitOamManagers, CLACT_ApplyOamManagers, CLACT_ResetOamManagers, CLACT_InitOamManager, CLACT_ApplyOamManager, CLACT_ResetOamManager, CLACT_InitRenderer, CLACT_ExitRenderer, CLACT_SetSurfaceCulling, CLACT_InitSurface, CLACT_SetSurfaceType, CLACT_EntryOam, CLACT_EntryOamMain, CLACT_EntryOamSub, CLACT_EntryAffineMain, CLACT_EntryAffineSub, CLACT_IsAffineCellInView, CLACT_IsCellInView, CLACT_CullOam, CLACT_IsRectInView, CLACT_InitTransferPool, CLACT_ExitTransferPool, CLACT_AllocTransferEntries, CLACT_FreeTransferEntries, CLACT_ExecuteTransfers, CLACT_GetFreeTransferEntry, CLACT_RequestTransfer, CLACT_SetTransferEntry, CLACT_ExecuteTransfer, CLACT_GetFreeActor, CLACT_DrawUnit, CLACT_LinkActor, CLACT_UnlinkActor, CLACT_FindActorBefore, CLACT_FindActorAfter, CLACT_ClearActor, CLACT_DrawActor, CLACT_SetupActorDraw, CLACT_ApplyActorTransform, CLACT_UpdateActorAutoAnim, CLACT_ApplyActorInit, CLACT_ApplyActorResources, CLACT_GetSurfaceOrigin, CLACT_InitActorRequest, CLACT_CreateActorCore, CLACT_CreateActorFull, CLACT_InitAnimCtl, CLACT_ExitAnimCtl, CLACT_GetAnimCtlKind, CLACT_InitCellAnimCtl, CLACT_InitMultiCellAnimCtl, CLACT_InitVramAnimCtl, CLACT_ExitCellAnimCtl, CLACT_ExitMultiCellAnimCtl, CLACT_ExitVramAnimCtl, CLACT_SetAnimSeq, CLACT_SetCellAnimSeq, CLACT_SetMultiCellAnimSeq, CLACT_SetVramAnimSeq, CLACT_SetAnimFrame, CLACT_AddAnimFrame, CLACT_GetAnimCtrl, CLACT_GetAnimObject, CLACT_SetAnimIndex, CLACT_SetVramAnimIndex, CLACT_SetAnimSpeed, CLACT_SetVramAnimSpeed, CLACT_SetCellAnimIndex, CLACT_SetMultiCellAnimIndex, CLACT_ResetAnim, CLACT_ResetCellAnim, CLACT_ResetMultiCellAnim, CLACT_ResetVramAnim, CLACT_GetCellUserAttr, CLACT_GetMultiCellUserAttr, CLACT_GetVramCellUserAttr, CLACT_GetCellUserAttrTable, CLACT_GetMultiCellUserAttrTable, CLACT_GetVramCellUserAttrTable, CLACT_GetCellBankCount, CLACT_GetMultiCellBankCount, CLACT_GetVramCellBankCount, CLACT_ApplyAnimCommand, CLACT_ResetAnimCommand, CLACT_InitResources, CLACT_ExitResources, CLACT_IsVramTypeCompatible, CLACT_LoadArchiveData, CLACT_AllocCharacterTable, CLACT_SetupCharacterVram, CLACT_FreeCharacterTable, CLACT_UpdateObjMapping, CLACT_AllocPaletteTable, CLACT_TransferPaletteData, CLACT_TransferPaletteDataEx, CLACT_FreePaletteTable, CLACT_AllocCellAnimTable, CLACT_LoadCellAnimBanks, CLACT_FreeCellAnimTable, CLACT_SetupCharacter
  * address:  0x0204A48C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -31,7 +31,7 @@
  *   GX_LoadOBJPltt  0x0207E51C  arm
  *   GXS_LoadOBJPltt  0x0207E5D0  arm
  *   NNSi_G2dGetCellAnimFrameIdx   0x02062F1C  arm
- *   g_020A7F3C     0x020A7F3C  data
+ *   gClactTables     0x020A7F3C  data
  *   NNS_G2dInitOamManagerModule  0x02063078  arm
  *   NNS_G2dApplyOamManagerToHW  0x0206343C  arm
  *   NNS_G2dResetOamManagerBuffer  0x02063640  arm
@@ -76,7 +76,6 @@
  *   NNS_G2dTickMCAnimation   0x020649D4  arm
  *   NNS_G2dSetCellAnimationCurrentFrame  0x02064384  arm
  *   NNS_G2dSetMCAnimationCurrentFrame  0x02064AB4  arm
- *   gUnk_020A7F3C  0x020A7F3C  data
  *   NNS_G2dSetCellAnimationSpeed   0x020643C4  arm
  *   NNS_G2dSetMCAnimationSpeed  0x02064B68  arm
  *   g_ClactAnimResetFuncs  0x020A7F48  data
@@ -530,8 +529,8 @@ typedef void (*AnimResetFn)(struct AnimCtl *ctl);
 struct Cmd {
     u16 op;     /* 0x00 */
     u16 tag;    /* 0x02 */
-    u32 arg1;   /* 0x04 */
-    u32 arg2;   /* 0x08 */
+    u32 param;  /* 0x04 */
+    u32 func;   /* 0x08 */
 };
 
 struct Caps {
@@ -818,10 +817,10 @@ void *CLACT_SetAnimIndex(struct AnimCtl *anim_ctl, u32 anim_idx);
 void CLACT_SetCellAnimIndex(u8 *anim_base, u32 frame);
 void CLACT_SetMultiCellAnimIndex(u8 *anim_base, u32 frame);
 void CLACT_SetVramAnimIndex(struct AnimCtl *anim_ctl, u32 frame);
-void CLACT_UpdateAnim(struct AnimCtl *anim_ctl, u32 frames);
-void CLACT_UpdateCellAnim(struct AnimCtl *anim_ctl, u32 value);
-void CLACT_UpdateMultiCellAnim(struct AnimCtl *anim_ctl, u32 value);
-void CLACT_UpdateVramAnim(struct AnimCtl *anim_ctl, u32 target);
+void CLACT_SetAnimSpeed(struct AnimCtl *anim_ctl, u32 frames);
+void CLACT_SetCellAnimSpeed(struct AnimCtl *anim_ctl, u32 value);
+void CLACT_SetMultiCellAnimSpeed(struct AnimCtl *anim_ctl, u32 value);
+void CLACT_SetVramAnimSpeed(struct AnimCtl *anim_ctl, u32 target);
 void CLACT_ResetAnim(struct AnimCtl *anim_ctl);
 void CLACT_ResetCellAnim(void *anim_base);
 void CLACT_ResetMultiCellAnim(u8 *anim_base);
@@ -856,7 +855,7 @@ void CLACT_SetupCharacter(struct Res *res, s32 idx, u32 handle, u32 vram_mode, u
 extern struct Sys *g_ClactSystem;
 extern const char s_clact_c[];
 extern const struct CharData g_ClactEmptyCharTemplate;
-extern struct ClactTables g_020A7F3C;
+extern struct ClactTables gClactTables;
 extern SurfaceFuncs  g_ClactSurfaceFuncTable[];
 extern u32  g_ClactSurfaceModeTable[];
 extern u16 g_ClactSurfaceTypeTable[];
@@ -864,7 +863,6 @@ extern const u16 NNSi_objSizeHTbl[4][4];
 extern const u16 NNSi_objSizeWTbl[4][4];
 extern const char s_clact_assert_expr[];
 extern s16 FX_SinCosTable_[];
-extern AnimUpdateFn const gUnk_020A7F3C[];
 extern AnimResetFn g_ClactAnimResetFuncs[];
 
 
@@ -2718,13 +2716,13 @@ void CLACT_SetActorAnimFrame(struct Actor *actor, u32 frame)
 
 
 /*
- * Run CLACT_UpdateAnim over the sub-object embedded at +0x68 of the
+ * Run CLACT_SetAnimSpeed over the sub-object embedded at +0x68 of the
  * 0x0204Bxxx object, then CLACT_AddAnimFrame on it with 0x1000.  The address
  * is recomputed with a second `add r0, r4, #0x68` rather than kept in a
  * register across the call
  * (docs/idioms/keeping-a-cursor-in-a-named-local-costs-a-callee-saved-register.md).
  *
- * Was capped at MATCH: CLACT_UpdateAnim is called from this one site and
+ * Was capped at MATCH: CLACT_SetAnimSpeed is called from this one site and
  * nowhere else in the image, so its PC24 had no outside witness, and
  * CLACT_AddAnimFrame resolved fine (label).  0x0204D4C4 is now the lead function
  * of src/matched/unit_0204D4C4.c and this site resolves `matched` against
@@ -2735,7 +2733,7 @@ void CLACT_SetActorAnimFrame(struct Actor *actor, u32 frame)
  */
 void CLACT_AddActorAnimFrame(struct Actor *actor, u32 frames)
 {
-    CLACT_UpdateAnim((&actor->ctl), frames);
+    CLACT_SetAnimSpeed((&actor->ctl), frames);
     CLACT_AddAnimFrame((&actor->ctl), 0x1000);
 }
 
@@ -3005,7 +3003,7 @@ void CLACT_SetActorVisible(struct Actor *actor, u32 visible)
  * The two pool words 0x020A7F3C and 0x020A7F54 are one symbol, not two: the
  * stores reach the record array as +0x18/+0x1a/+0x28/+0x2a off the base, so
  * the scratch block is the tail of the same static object whose first 0x18
- * bytes are the six function pointers CLACT_UpdateCellAnim..CLACT_ResetVramAnim that
+ * bytes are the six function pointers CLACT_SetCellAnimSpeed..CLACT_ResetVramAnim that
  * 0x0204D4DC also loads
  * (docs/idioms/pool-base-for-a-far-field-is-the-symbol-offset-masked-by-the-load-reach.md).
  * Reading them as two objects splits the symbol and loses the relocation.
@@ -3020,12 +3018,12 @@ void CLACT_SetActorVisible(struct Actor *actor, u32 visible)
  */
 void CLACT_InitDefaultRenderer(struct Renderer *renderer, const s16 *src, u32 heap_id)
 {
-    g_020A7F3C.default_surfaces[0].x = src[0];
-    g_020A7F3C.default_surfaces[0].y = src[1];
-    g_020A7F3C.default_surfaces[1].x = src[2];
-    g_020A7F3C.default_surfaces[1].y = src[3];
+    gClactTables.default_surfaces[0].x = src[0];
+    gClactTables.default_surfaces[0].y = src[1];
+    gClactTables.default_surfaces[1].x = src[2];
+    gClactTables.default_surfaces[1].y = src[3];
 
-    CLACT_InitRenderer(renderer, g_020A7F3C.default_surfaces, 2, heap_id);
+    CLACT_InitRenderer(renderer, gClactTables.default_surfaces, 2, heap_id);
 }
 
 
@@ -5779,19 +5777,19 @@ void CLACT_SetVramAnimIndex(struct AnimCtl *anim_ctl, u32 frame)
  * src/matched/unit_0204D410.c allocates r2 then r1
  * (docs/idioms/a-forwarding-call-passes-one-argument-and-the-rest-are-leftovers.md).
  *
- * The third handler, CLACT_UpdateVramAnim at 0x0204D500, is deliberately left out
+ * The third handler, CLACT_SetVramAnimSpeed at 0x0204D500, is deliberately left out
  * of the range: its tail-call target 0x02064B68 is named only by its own
  * pool word, so including it caps the whole unit at MATCH.  It is parked
- * byte-correct in src/pending/CLACT_UpdateVramAnim.c, and it graduates when
+ * byte-correct in src/pending/CLACT_SetVramAnimSpeed.c, and it graduates when
  * 0x02064B68 does (docs/notes/NNS_G2dSetMCAnimationSpeed.c.txt).
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0204D4C4.c \
  *       --addr 0x0204D4C4 --arm
  */
-void CLACT_UpdateAnim(struct AnimCtl *anim_ctl, u32 frames)
+void CLACT_SetAnimSpeed(struct AnimCtl *anim_ctl, u32 frames)
 {
-    gUnk_020A7F3C[anim_ctl->kind](anim_ctl, frames);
+    gClactTables.anim_update[anim_ctl->kind](anim_ctl, frames);
 }
 
 
@@ -5803,7 +5801,7 @@ void CLACT_UpdateAnim(struct AnimCtl *anim_ctl, u32 frames)
 
 
 
-void CLACT_UpdateCellAnim(struct AnimCtl *anim_ctl, u32 value)
+void CLACT_SetCellAnimSpeed(struct AnimCtl *anim_ctl, u32 value)
 {
     NNS_G2dSetCellAnimationSpeed((struct MultiCellAnim *)(anim_ctl->anim), value);
 }
@@ -5817,7 +5815,7 @@ void CLACT_UpdateCellAnim(struct AnimCtl *anim_ctl, u32 value)
 
 
 
-void CLACT_UpdateMultiCellAnim(struct AnimCtl *anim_ctl, u32 value)
+void CLACT_SetMultiCellAnimSpeed(struct AnimCtl *anim_ctl, u32 value)
 {
     NNS_G2dSetCellAnimationSpeed((struct MultiCellAnim *)(anim_ctl->anim), value);
 }
@@ -5848,10 +5846,10 @@ void CLACT_UpdateMultiCellAnim(struct AnimCtl *anim_ctl, u32 value)
  * would cap that whole range at MATCH for one unattestable word.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/CLACT_UpdateVramAnim.c \
- *       --func CLACT_UpdateVramAnim --addr 0x0204D500 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/CLACT_SetVramAnimSpeed.c \
+ *       --func CLACT_SetVramAnimSpeed --addr 0x0204D500 --cc 1.1p1 --arm
  */
-void CLACT_UpdateVramAnim(struct AnimCtl *anim_ctl, u32 target)
+void CLACT_SetVramAnimSpeed(struct AnimCtl *anim_ctl, u32 target)
 {
     NNS_G2dSetMCAnimationSpeed((anim_ctl->anim), (void *)target);
 }
@@ -6105,13 +6103,13 @@ void CLACT_ApplyAnimCommand(struct AnimCtl *anim_ctl, const struct Cmd *cmd)
 
     switch (cmd->op) {
     case 0:
-        NNS_G2dSetCellAnimationParam((int)anim_ctrl, 1, cmd->arg1, cmd->arg2);
+        NNS_G2dSetCellAnimationParam((int)anim_ctrl, 1, cmd->param, cmd->func);
         break;
     case 2:
-        NNS_G2dSetCellAnimationParam((int)anim_ctrl, 3, cmd->arg1, cmd->arg2);
+        NNS_G2dSetCellAnimationParam((int)anim_ctrl, 3, cmd->param, cmd->func);
         break;
     case 1:
-        NNS_G2dSetCellAnimationParamTagged(anim_ctrl, cmd->arg1, cmd->arg2, cmd->tag);
+        NNS_G2dSetCellAnimationParamTagged(anim_ctrl, cmd->param, cmd->func, cmd->tag);
         break;
     }
 }

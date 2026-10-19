@@ -2,8 +2,8 @@
  * A whole translation unit, matched as one byte range.
  *
  * unit:     yes
- * function: BG_SYS_GetBuf, BG_SYS_GetScrollX_1648, BG_SYS_GetScrollY_1664, BG_SYS_GetType,
- *           BG_SYS_GetField16, BG_SYS_GetField17
+ * function: BG_SYS_GetBuf, BG_SYS_GetChannelScrollX, BG_SYS_GetChannelScrollY, BG_SYS_GetType,
+ *           BG_SYS_GetColorMode, BG_SYS_GetTileBytes
  * address:  0x0204162C
  * packet:   pkt_0204152C
  * region:   arm9
@@ -46,12 +46,12 @@ u32 BG_SYS_GetBuf(int channel)
     return ptr_02146A44[channel].field_08;
 }
 
-u32 BG_SYS_GetScrollX_1648(u8 channel)
+u32 BG_SYS_GetChannelScrollX(u8 channel)
 {
     return ptr_02146A44[channel].field_14;
 }
 
-u32 BG_SYS_GetScrollY_1664(u8 channel)
+u32 BG_SYS_GetChannelScrollY(u8 channel)
 {
     return ptr_02146A44[channel].field_18;
 }
@@ -61,12 +61,12 @@ u8 BG_SYS_GetType(int channel)
     return ptr_02146A44[channel].field_1c;
 }
 
-u8 BG_SYS_GetField16(int channel)
+u8 BG_SYS_GetColorMode(int channel)
 {
     return ptr_02146A44[channel].field_1e;
 }
 
-u8 BG_SYS_GetField17(int channel)
+u8 BG_SYS_GetTileBytes(int channel)
 {
     return ptr_02146A44[channel].field_1f;
 }

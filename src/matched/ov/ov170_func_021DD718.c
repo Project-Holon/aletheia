@@ -1,5 +1,5 @@
 /*
- * function: BOX2_MAIN_CanPlaceInBox
+ * function: BOX2_MAIN_SyncItemForm
  * address:  0x021DD718
  * packet:   pkt_ov170_021DD718
  * region:   ov170
@@ -36,7 +36,7 @@ extern u16 POKE_TOOL_GetPlateTypeForwarder(u32 item);
 extern u32 POKE_TOOL_GetBoxParamIndex(u32 item);
 extern void BOX2_MAIN_ChangeFormAndRegister(void **pp, void *a, u32 b);
 
-int BOX2_MAIN_CanPlaceInBox(void **pp, void *mon)
+int BOX2_MAIN_SyncItemForm(void **pp, void *mon)
 {
     u16 species = POKE_TOOL_GetBoxValue(mon, 5, 0);
     if (species == 0x1ED) {

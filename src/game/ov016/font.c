@@ -29,8 +29,8 @@
  *   gMemFont                  0x021DE680  data
  *   DWCi_QUElPopBack                 0x021D54C4  arm  ov016
  *   DWCi_OVRlAlloc                   0x021D705C  arm  ov016
- *   NNSi_G2dCalcRequiredOBJ          0x02069184  arm
- *   NNS_G2dCharCanvasInitForOBJ1D    0x02068FF0  arm
+ *   NNSi_G2dCalcCharAreaSize          0x02069184  arm
+ *   NNS_G2dCharCanvasInitForVRAM    0x02068FF0  arm
  *   NNSi_G2dInitPenSimple  0x02068FC4  arm
  *   G2S_GetBG0ScrPtr  0x0207DF94  arm
  *   G2_GetBG0ScrPtr  0x0207DF60  arm
@@ -43,19 +43,19 @@
  *   DC_FlushRange                  0x020862F0  arm
  *   GX_LoadBG0Char                  0x0207EE68  arm
  *   GXS_LoadBG0Char                  0x0207EEFC  arm
- *   DWCi_TSKlDeleteEx                0x021D7744  arm  ov016
+ *   DWCi_TSKlDeleteByIndex                0x021D7744  arm  ov016
  *   G2_GetBG0CharPtr                 0x0207E1F8  arm
  *   MIi_CpuClear16                   0x02082A48  arm
- *   NNSi_G2dTextCanvasDrawText       0x020696F4  arm
- *   NNS_G2dFontFindGlyphIndex        0x02067F9C  arm
+ *   NNSi_G2dCalcTextBox       0x020696F4  arm
+ *   NNS_G2dFontGetGlyphIndex        0x02067F9C  arm
  *   NNS_G2dFontGetCharWidthsFromIndex 0x02067FE4  arm
  *   DWCi_FNTlDrawCharEx              0x021D5D74  arm  ov016
- *   NNSi_G2dTextCanvasDrawTextRect   0x02069818  arm
+ *   NNSi_G2dAlignTextVertical   0x02069818  arm
  *   DWCi_CELLlGetObj                 0x021D4FE0  arm  ov016
  *   DWCi_CELLlSetEffect              0x021D4FF4  arm  ov016
  *   DWCi_CELLlSetPalette             0x021D5098  arm  ov016
  *   DWCi_CELLlSetPriority            0x021D51F0  arm  ov016
- *   NNS_G2dArrangeOBJ1D              0x020691E0  arm
+ *   NNSi_G2dMakeCharObjArea              0x020691E0  arm
  *   NNSi_G2dCharCanvasDrawChar  0x02068EA0  arm  arm9
  */
 struct Ctx;
@@ -142,8 +142,8 @@ extern void DWCi_QUElDelete(void *queue);
 extern void DWCi_HEAPlFree_(void **mem);
 extern void *DWCi_QUElPopBack(void *queue);
 extern void *DWCi_OVRlAlloc(int lcd, int num, int head, int *name);
-extern u32 NNSi_G2dCalcRequiredOBJ(int w, int h);
-extern void NNS_G2dCharCanvasInitForOBJ1D(Canvas *cnv, void *base, int w, int h, int fmt);
+extern u32 NNSi_G2dCalcCharAreaSize(int w, int h);
+extern void NNS_G2dCharCanvasInitForVRAM(Canvas *cnv, void *base, int w, int h, int fmt);
 extern void DWCi_OVRlFree(void *ovram);
 extern void DWCi_QUElPushBack(void *queue, void *data);
 extern void NNSi_G2dInitPenSimple(int a, int b, int c, int d, int e);
@@ -154,20 +154,20 @@ extern void *DWCi_TSKlForm(int kind, void (*f)(void *), void *w, unsigned char p
 extern void DC_FlushRange(void *startAddr, unsigned long nBytes);
 extern void GX_LoadBG0Char(void *pSrc, unsigned long offset, unsigned long szByte);
 extern void GXS_LoadBG0Char(void *pSrc, unsigned long offset, unsigned long szByte);
-extern void DWCi_TSKlDeleteEx(int a, void *task);
+extern void DWCi_TSKlDeleteByIndex(int a, void *task);
 extern void *G2_GetBG0CharPtr(void);
 extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
-extern void NNSi_G2dTextCanvasDrawText(TextCanvas *tc, int x, int y, int color, u32 flag, u16 *txt, Pair p);
+extern void NNSi_G2dCalcTextBox(TextCanvas *tc, int x, int y, int color, u32 flag, u16 *txt, Pair p);
 extern s8 NNSi_G2dCharCanvasDrawChar(struct Ctx *ctx, struct Fnt2 **font, int x, int y, int cl, u16 code);
-extern int NNS_G2dFontFindGlyphIndex(void *font, u16 c);
+extern int NNS_G2dFontGetGlyphIndex(void *font, u16 c);
 extern CharWidths *NNS_G2dFontGetCharWidthsFromIndex(void *font, int idx);
 int DWCi_FNTlDrawCharEx(void *canvas, int x, int y, int color, unsigned short chr, int font);
-extern void NNSi_G2dTextCanvasDrawTextRect(TextCanvas *tc, int x, int y, int w, int h, int color, u32 flag, u16 *txt, Pair p);
+extern void NNSi_G2dAlignTextVertical(TextCanvas *tc, int x, int y, int w, int h, int color, u32 flag, u16 *txt, Pair p);
 extern void *DWCi_CELLlGetObj(void *cell, int idx);
 extern void DWCi_CELLlSetEffect(void *cell, int idx, int effect, int affine);
 extern void DWCi_CELLlSetPalette(void *cell, int idx, int mode, int plt);
 extern void DWCi_CELLlSetPriority(void *cell, int idx, int priority);
-extern void NNS_G2dArrangeOBJ1D(void *oam, int w, int h, int x, int y, int a, int name, int b);
+extern void NNSi_G2dMakeCharObjArea(void *oam, int w, int h, int x, int y, int a, int name, int b);
 void DWCi_FNTlInit(void);
 void DWCi_FNTlEnd(void);
 void *DWCi_FNTlFormEx(int lcd, int width, int height, bool_0 head, int *obj, int font);
@@ -239,10 +239,10 @@ void *DWCi_FNTlFormEx(int lcd, int width, int height, bool_0 head, int *obj, int
     cnv->u.obj.height = height;
     cnv->buf = DWCi_OVRlAlloc(lcd, width * height, head, &name);
     cnv->u.obj.name = name;
-    *obj = NNSi_G2dCalcRequiredOBJ(width, height);
+    *obj = NNSi_G2dCalcCharAreaSize(width, height);
     base = (u8 *)(lcd == 1 ? 0x6600000 : 0x6400000);
     base += name * 128;
-    NNS_G2dCharCanvasInitForOBJ1D(cnv, base, width, height, 4);
+    NNS_G2dCharCanvasInitForVRAM(cnv, base, width, height, 4);
     cnv->pFmt->pfnClear(cnv, 0);
     fp = &gFontWork->font[font];
     cnv->text.pCanvas = cnv;
@@ -347,7 +347,7 @@ static void taskLoad(void *task, void *work)
 void DWCi_FNTlDeleteBg(void *canvas)
 {
     Canvas *cnv = canvas;
-    DWCi_TSKlDeleteEx(1, cnv->u.task);
+    DWCi_TSKlDeleteByIndex(1, cnv->u.task);
     if (cnv == gFontWork->bg)
         MIi_CpuClear16(0, G2_GetBG0CharPtr(), 0x6000);
     else
@@ -388,7 +388,7 @@ void DWCi_FNTlDraw(void *canvas, int x, int y, int color, u32 flag, u16 *txt)
         p.b = -1;
         break;
     }
-    NNSi_G2dTextCanvasDrawText(&cnv->text, x, y, color, flag, txt, p);
+    NNSi_G2dCalcTextBox(&cnv->text, x, y, color, flag, txt, p);
 }
 
 
@@ -409,7 +409,7 @@ void DWCi_FNTlDrawStringEx(void *canvas, int x, int y, int color, int interval, 
         return;
     do {
         f = &gFontWork->font[font];
-        idx = NNS_G2dFontFindGlyphIndex(f, *txt);
+        idx = NNS_G2dFontGetGlyphIndex(f, *txt);
         if (idx == 0xffff)
             idx = ((u16 *)f->res)[1];
         DWCi_FNTlDrawCharEx(canvas, x + ((interval - NNS_G2dFontGetCharWidthsFromIndex(f, idx)->charWidth) >> 1), y, color, *txt, font);
@@ -444,7 +444,7 @@ void DWCi_FNTlDrawRect(void *canvas, int x, int y, int w, int h, int color, u32 
         p.b = -1;
         break;
     }
-    NNSi_G2dTextCanvasDrawTextRect(&cnv->text, x, y, w, h, color, flag, txt, p);
+    NNSi_G2dAlignTextVertical(&cnv->text, x, y, w, h, color, flag, txt, p);
 }
 
 
@@ -465,7 +465,7 @@ void DWCi_FNTlDisp(void *canvas, int x, int y, void *cell, int prio)
     DWCi_CELLlSetEffect(cell, -1, 0, 0);
     DWCi_CELLlSetPalette(cell, -1, 0, 15);
     DWCi_CELLlSetPriority(cell, -1, prio);
-    NNS_G2dArrangeOBJ1D(oam, cnv->u.obj.width, cnv->u.obj.height, x, y, 0, cnv->u.obj.name, 2);
+    NNSi_G2dMakeCharObjArea(oam, cnv->u.obj.width, cnv->u.obj.height, x, y, 0, cnv->u.obj.name, 2);
 }
 
 

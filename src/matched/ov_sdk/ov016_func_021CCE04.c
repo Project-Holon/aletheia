@@ -1,5 +1,5 @@
 /*
- * function: func_021CCE04
+ * function: button
  * address:  0x021CCE04
  * packet:   pkt_ov016_021CCE04
  * region:   ov016
@@ -12,7 +12,7 @@
  * sdk:      button (libdwcutil.TWL.HYB.a scenesetselectwa)
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CCE04.c \n *       --func func_021CCE04 --addr 0x021CCE04 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CCE04.c \n *       --func button --addr 0x021CCE04 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  *
  * symbols:
  *   DWCi_BTNlGet  0x021BCB14  arm  ov016
@@ -33,7 +33,7 @@ typedef struct { signed char last; signed char cur; unsigned char flag; void *sc
 extern struct FocusState gFocusState;
 extern void func_021CCE58(void);
 
-void func_021CCE04(void)
+void button(void)
 {
     switch (DWCi_BTNlGet()) {
     case 0:

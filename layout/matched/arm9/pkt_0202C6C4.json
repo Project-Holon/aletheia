@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_0202C6C4",
+   "name": "ISS_SWITCH_GetVolume",
    "address": "0x0202C6C4",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0202C710",
+   "name": "ISS_SWITCH_ApplyVolume",
    "address": "0x0202C710",
    "kind": "game",
    "region": "arm9",
@@ -42,7 +42,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0202C72C"
+    "ISS_SWITCH_IsOnState"
+   ],
+   "addresses": [
+    "0x0202C72C"
    ]
   }
  ]

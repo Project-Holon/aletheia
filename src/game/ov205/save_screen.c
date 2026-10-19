@@ -42,7 +42,7 @@
  *   TIME_ICON_Update 0x0202F0B0 thumb
  *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
- *   BMP_SetDisplaySwap 0x0204363C arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   GX_SetBankForLCDC 0x0208068C arm
  *   MIi_CpuClearFast 0x02082AC0 arm
  *   GX_DisableBankForLCDC 0x02080B98 arm
@@ -219,7 +219,7 @@ extern void TCBL_Main(struct Tcbl *p);
 extern void TIME_ICON_Update(u8 *p);
 extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
-extern void BMP_SetDisplaySwap(u32);
+extern void BG_SYS_SetLcdSwap(u32);
 extern void GX_SetBankForLCDC(u32);
 extern void MIi_CpuClearFast(u32,u32,u32);
 extern void GX_DisableBankForLCDC(void);
@@ -414,7 +414,7 @@ int SAVE_SCREEN_Exit(void *p)
 }
 
 
-void SAVE_SCREEN_Setup(SaveScreenWork *p, SaveScreenContext *context) { BMP_SetDisplaySwap(1);GX_SetBankForLCDC(511);MIi_CpuClearFast(0,0x6800000,0xa4000);GX_DisableBankForLCDC();SAVE_SCREEN_SetupBackground(*(u16 *)p);*(struct GfFont **)&p->font=GF_FONT_Create(23,0,0,0,*(u16 *)p);ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,416,32,*(u16 *)p);*(struct MsgBank **)&p->msgBank=MSGDATA_CreateFromArchive(0,2,*(u16 *)((char *)p+2),*(u16 *)p);*(struct WordSet **)&p->wordset=WORDSET_CreateDefault(*(u16 *)p);BMP_MENUWORK_LoadCharAndPltt(0,1,12,0,*(u16 *)p);*(u32 *)&p->bmpWin=BMP_WIN_Create(0,2,18,27,4,13,1);*(struct Tcbl **)&p->tcbl=TCBL_Create(*(u16 *)p,*(u16 *)p,10,32);*(struct U16Vec **)&p->textBuf=STRBUF_Create(1024,*(u16 *)p); }
+void SAVE_SCREEN_Setup(SaveScreenWork *p, SaveScreenContext *context) { BG_SYS_SetLcdSwap(1);GX_SetBankForLCDC(511);MIi_CpuClearFast(0,0x6800000,0xa4000);GX_DisableBankForLCDC();SAVE_SCREEN_SetupBackground(*(u16 *)p);*(struct GfFont **)&p->font=GF_FONT_Create(23,0,0,0,*(u16 *)p);ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,416,32,*(u16 *)p);*(struct MsgBank **)&p->msgBank=MSGDATA_CreateFromArchive(0,2,*(u16 *)((char *)p+2),*(u16 *)p);*(struct WordSet **)&p->wordset=WORDSET_CreateDefault(*(u16 *)p);BMP_MENUWORK_LoadCharAndPltt(0,1,12,0,*(u16 *)p);*(u32 *)&p->bmpWin=BMP_WIN_Create(0,2,18,27,4,13,1);*(struct Tcbl **)&p->tcbl=TCBL_Create(*(u16 *)p,*(u16 *)p,10,32);*(struct U16Vec **)&p->textBuf=STRBUF_Create(1024,*(u16 *)p); }
 
 
 void SAVE_SCREEN_Delete(SaveScreenWork *p)

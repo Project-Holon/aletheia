@@ -1,5 +1,5 @@
 /*
- * function: func_021CCE58
+ * function: endScene
  * address:  0x021CCE58
  * packet:   pkt_ov016_021CCE58
  * region:   ov016
@@ -12,7 +12,7 @@
  * sdk:      endScene (libdwcutil.TWL.HYB.a scenesetselectwa)
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CCE58.c \n *       --func func_021CCE58 --addr 0x021CCE58 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CCE58.c \n *       --func endScene --addr 0x021CCE58 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  *
  * symbols:
  *   DWCi_BTNlDisable  0x021BCB9C  arm  ov016
@@ -26,7 +26,7 @@ extern int DWCi_EFFlWait(int frame);
 extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021CCE78(void);
 
-void func_021CCE58(void)
+void endScene(void)
 {
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);

@@ -1,5 +1,5 @@
 /*
- * function: func_021C3E48
+ * function: procInit
  * address:  0x021C3E48
  * packet:   pkt_ov016_021C3E48
  * region:   ov016
@@ -25,7 +25,7 @@ extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021C3EC4();
 extern unsigned char gSceneOptMovFailureWork;
 
-void func_021C3E48(void)
+void procInit(void)
 {
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(0, 0x15);

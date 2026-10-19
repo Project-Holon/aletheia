@@ -26,7 +26,7 @@
  *   MYSTATUS_GetArea 0x02008570 thumb
  *   WIFI_HISTORY_GetMode 0x02009524 thumb
  *   WORDSET_Create 0x0201EC74 thumb
- *   BMP_SetDisplaySwap 0x0204363C arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   TCBL_Create 0x0203101C arm
  *   APP_KEYCURSOR_CreateDefault 0x02028590 thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
@@ -410,7 +410,7 @@ extern u8 MYSTATUS_GetNation(const struct Sub0200852CObj *obj);
 extern u8 MYSTATUS_GetArea(const struct Sub0200852CObj *obj);
 extern u8 WIFI_HISTORY_GetMode(const struct Sub02009470Obj *obj);
 extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
-extern void BMP_SetDisplaySwap(u32);
+extern void BG_SYS_SetLcdSwap(u32);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u32 APP_KEYCURSOR_CreateDefault(u32,u32,u32,u16);
 extern u32 PRINTSYS_QUE_Create(void *);
@@ -652,7 +652,7 @@ int BEACON_DETAIL_Init(void *obj,void *unused,void *ctx)
     BEACON_DETAIL_InitGraphics((u16)(((BeaconDetailWork *)p)->heapId));
     ((BeaconDetailWork *)p)->wordSet=WORDSET_Create(8,0x40,((BeaconDetailWork *)p)->heapId);
     ((BeaconDetailWork *)p)->drawState=0;
-    BMP_SetDisplaySwap(0);
+    BG_SYS_SetLcdSwap(0);
     ((BeaconDetailWork *)p)->tcbl=TCBL_Create((u16)(((BeaconDetailWork *)p)->heapId),((BeaconDetailWork *)p)->heapId,0x20,0x20);
     ((BeaconDetailWork *)p)->keyCursor.id=APP_KEYCURSOR_CreateDefault(0xf,1,0,((BeaconDetailWork *)p)->heapId);
     ((BeaconDetailWork *)p)->printQue.id=PRINTSYS_QUE_Create((void *)(u16)((BeaconDetailWork *)p)->heapId);
@@ -1125,7 +1125,7 @@ int BEACON_DETAIL_Exit(struct Proc *controller,void *unused1,void *unused2,char 
     PRINTSYS_QUE_Clear(((BeaconDetailWork *)p)->printQue.ptr);
     PRINTSYS_QUE_Delete(((BeaconDetailWork *)p)->printQue.ptr);
     BG_SYS_SetPlaneVisible(6,0);BG_SYS_SetPlaneVisible(2,0);BG_SYS_SetPlaneVisible(7,0);BG_SYS_SetPlaneVisible(3,0);
-    BMP_SetDisplaySwap(1);
+    BG_SYS_SetLcdSwap(1);
     APP_KEYCURSOR_Delete(((BeaconDetailWork *)p)->keyCursor.id);
     TCBL_Destroy(((BeaconDetailWork *)p)->tcbl);
     BEACON_DETAIL_ExitGraphics(WORDSET_Delete(((BeaconDetailWork *)p)->wordSet));

@@ -1,5 +1,5 @@
 /*
- * function: func_021C5FA8
+ * function: drapApObj
  * address:  0x021C5FA8
  * packet:   pkt_021C5FA8
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C5FA8   0x021C5FA8  arm
+ *   drapApObj   0x021C5FA8  arm
  *
  * Bail out when a0 is at or past the count in the shared record's +0x51 byte,
  * then splice two 10-bit palette fields into the +4 halfword of the a1-th
@@ -21,7 +21,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-void func_021C5FA8(int a0, int a1)
+void drapApObj(int a0, int a1)
 {
     u8 *g = (u8 *)0x021DE5D8;
     u8 *p = *(u8 **)(g + 4);

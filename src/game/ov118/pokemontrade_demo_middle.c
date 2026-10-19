@@ -117,7 +117,7 @@ typedef struct {
 } Tbl;
 
 extern void POKETRADE_DEMO_DOWN_StepFade(s8 *fade);
-extern void POKETRADE_MCSS_SlideUpdate(void *p, int a1);
+extern void POKETRADE_MCSS_SlideUpdate(void *p, int eventArg);
 extern int POKETRADE_DEMO_DOWN_PassThrough(int);
 extern void POKETRADE_2D_ScheduleMainPlaneVisible(void *p, int a);
 extern void POKETRADE_2D_ScheduleSubPlaneVisible(void *p, int a);
@@ -133,7 +133,7 @@ extern u32 PM_VOICE_Play(u32 species, u32 form, u32 pan, u32 dual, u32 volumeBia
 extern u32 GFL_HEAP_Free(void *p);
 extern void MCSS_GetPosition(void *p, u32 *out);
 extern void POKETRADE_SAVE_FreeIfSet(u32 *p);
-extern void *POKETRADE_MCSS_SlideCreateWithOffsets(void *a0, void *a1, void *a2, void *a3, u16 heapId);
+extern void *POKETRADE_MCSS_SlideCreateWithOffsets(void *mcss, void *frameCount, void *targetPos, void *offsetTable, u16 heapId);
 extern void POKETRADE_3D_AddPokemonMcssPlain(void *p, int a, int b, void *mon, int c);
 extern void MCSS_SetAnmStopFlag(void *p);
 extern void MCSS_SetVanishFlag(void *p);
@@ -152,7 +152,7 @@ extern int POKETRADE_SAVE_IsMessagePrintDone(char *p);
 extern void POKETRADE_SAVE_CloseMessageWindowClear(char *p);
 extern void POKETRADE_3D_DeleteMcssSlot(void *p, int a);
 extern void POKETRADE_DEMO_DOWN_ReleaseUnit(void *);
-extern void POKETRADE_3D_ExitParticleManager(u32 *p, int a1);
+extern void POKETRADE_3D_ExitParticleManager(u32 *p, int unused);
 extern void POKETRADE_3D_FreeParticleResources(void *);
 extern void POKETRADE_SAVE_ResetClactAndBeginEvent(void *p);
 extern void MCSS_GetScale(void *p, u32 *out);
@@ -538,8 +538,8 @@ extern void POKETRADE_DEMO_DOWN_CreateUnitActor(void *);
 extern void POKETRADE_DEMO_DOWN_LoadUnitResources(void *);
 extern void POKETRADE_3D_RemoveCurrentUnit(void *);
 extern void POKETRADE_NEGO_PlaySeByKeyA(u32 key);
-extern void POKETRADE_MCSS_SlideBegin(void *p, void *a1, void *a2);
-extern void *POKETRADE_MCSS_SlideCreate(void *a0, void *a1, void *a2, u32 heapId);
+extern void POKETRADE_MCSS_SlideBegin(void *p, void *frameCount, void *targetPos);
+extern void *POKETRADE_MCSS_SlideCreate(void *mcss, void *frameCount, void *targetPos, u32 heapId);
 extern int PARTICLE_StartEffectWithCallback(int *p, int a, int b, int c);
 extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
 extern const Tbl d_021D7CEC;

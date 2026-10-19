@@ -10,8 +10,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: ZONEDATA_IsZone1A6, ZONEDATA_IsZone96Pair, ZONEDATA_IsZone4BPair, ZONEDATA_IsZone34,
- *           ZONEDATA_IsNoGameEventZone, ZONEDATA_IsZone117
+ * function: ZONEDATA_IsUnionRoom, ZONEDATA_IsZone96Pair, ZONEDATA_IsZone4BPair, ZONEDATA_IsZone34,
+ *           ZONEDATA_IsNoGameEventZone, ZONEDATA_IsEntralink
  *
  * symbols:
  *   ZONEDATA_GetChangedZoneId  0x02013A94  thumb
@@ -29,7 +29,7 @@
  * back down to a subs regardless of how the literal is written in C, so the
  * pool word is what has to be reproduced, not a stylistic choice.
  *
- * ZONEDATA_IsNoGameEventZone is a genuine `||` of ZONEDATA_IsZone1A6, ZONEDATA_IsZone96Pair and
+ * ZONEDATA_IsNoGameEventZone is a genuine `||` of ZONEDATA_IsUnionRoom, ZONEDATA_IsZone96Pair and
  * ZONEDATA_IsZone34 (single conjunction/disjunction sharing one exit block),
  * confirmed by trying it first as three separate `if (x) return 1;`
  * statements: that phrasing gives each early return its own copy of the
@@ -49,7 +49,7 @@ typedef unsigned int   u32;
 
 extern u16 ZONEDATA_GetChangedZoneId(u32 key);
 
-u32 ZONEDATA_IsZone1A6(u32 id)
+u32 ZONEDATA_IsUnionRoom(u32 id)
 {
     return ZONEDATA_GetChangedZoneId(id) == 0x1a6;
 }
@@ -71,10 +71,10 @@ u32 ZONEDATA_IsZone34(u32 id)
 
 u32 ZONEDATA_IsNoGameEventZone(u32 id)
 {
-    return ZONEDATA_IsZone1A6(id) || ZONEDATA_IsZone96Pair(id) || ZONEDATA_IsZone34(id);
+    return ZONEDATA_IsUnionRoom(id) || ZONEDATA_IsZone96Pair(id) || ZONEDATA_IsZone34(id);
 }
 
-u32 ZONEDATA_IsZone117(u32 id)
+u32 ZONEDATA_IsEntralink(u32 id)
 {
     return ZONEDATA_GetChangedZoneId(id) == 0x117;
 }

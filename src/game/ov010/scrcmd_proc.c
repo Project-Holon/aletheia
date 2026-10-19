@@ -22,7 +22,7 @@
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue   0x02017E1C  thumb
  *   POKE_TOOL_HealParty  0x0201BA34  thumb
- *   VM_GetU16  0x02011330  thumb
+ *   VM_ReadU16  0x02011330  thumb
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
  *   POKEPARTY_FindFirstBattleReady  0x0201AB08  thumb
  *   POKEPARTY_FindFirstNonEgg  0x0201AB18  thumb
@@ -307,7 +307,7 @@ extern u32 POKE_TOOL_GetPartyValue(void *, u32 id, u32);
 
 extern void POKE_TOOL_HealParty(void *);
 
-extern u16 VM_GetU16(struct ScriptVm *);
+extern u16 VM_ReadU16(struct ScriptVm *);
 
 extern void POKE_TOOL_SetPartyValue(void *, u32 id, u32);
 
@@ -1017,7 +1017,7 @@ int SCRCMD_PROC_ChangeMonFriendship(int vm, int cmdWork)
 {
     int partyIndex = SCRIPT_WORK_ReadWorkValue((void *)vm, (void *)cmdWork);
     int amount = SCRIPT_WORK_ReadWorkValue((void *)vm, (void *)cmdWork);
-    int operation = VM_GetU16((struct ScriptVm *)vm);
+    int operation = VM_ReadU16((struct ScriptVm *)vm);
     int mon = 0;
     u8 friendship;
     if (SCRCMD_PROC_GetPartyMember((void *)cmdWork, partyIndex, (void **)(&mon)) == 0) {

@@ -18,7 +18,7 @@
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_Delete  0x02045808  arm
  *   d_021B9558     0x021B9558  data  a1
- *   ENV_SetResourceSet  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   STRBUF_GetLength 0x020458F8 arm
  *   MIi_CpuClear32 0x02082A7C arm
  *   MSGDATA_GetMessageCount 0x02045F50 arm
@@ -35,7 +35,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern struct StrBuf *STRBUF_Create(u32 capacity, u16 heapId);
 extern void STRBUF_Delete(struct StrBuf *str);
-extern void ENV_SetResourceSet(void *p);
+extern u32 GFL_HEAP_Free(void *block);
 extern u16 STRBUF_GetLength(struct StrBuf *str);
 extern void MIi_CpuClear32(u32 value, void *dest, u32 size);
 extern u16 MSGDATA_GetMessageCount(const struct MsgBank *bank);
@@ -70,7 +70,7 @@ MsgSearch *MSGSEARCH_Create(struct MsgBank **banks, u32 bankCount, u16 heapId)
 void MSGSEARCH_Delete(MsgSearch *search)
 {
     STRBUF_Delete(search->scratch);
-    ENV_SetResourceSet(search);
+    GFL_HEAP_Free(search);
 }
 
 

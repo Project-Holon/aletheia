@@ -1,5 +1,5 @@
 /*
- * function: func_021CD2A0
+ * function: initAc
  * address:  0x021CD2A0
  * packet:   pkt_ov016_021CD2A0
  * region:   ov016
@@ -12,7 +12,7 @@
  * sdk:      initAc (libdwcutil.TWL.HYB.a scenesettest.o)
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CD2A0.c \n *       --func func_021CD2A0 --addr 0x021CD2A0 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CD2A0.c \n *       --func initAc --addr 0x021CD2A0 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  *
  * symbols:
  *   DWCi_SETTIGNlGet  0x021CF404  arm  ov016
@@ -41,7 +41,7 @@ extern void DWCi_AC_InsertApInfo(int no, struct NCFGApInfo *info);
 extern void *DWCi_TSKlForm(int kind, void (*func)(void *), void *work, unsigned char prio);
 extern void func_021CD4F4(void *task);
 
-void func_021CD2A0(void)
+void initAc(void)
 {
     SettingInfo *info;
     ACConfig config;

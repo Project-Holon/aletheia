@@ -19,7 +19,7 @@
  * The two pool words 0x020A7F3C and 0x020A7F54 are one symbol, not two: the
  * stores reach the record array as +0x18/+0x1a/+0x28/+0x2a off the base, so
  * the scratch block is the tail of the same static object whose first 0x18
- * bytes are the six function pointers CLACT_UpdateCellAnim..CLACT_ResetVramAnim that
+ * bytes are the six function pointers CLACT_SetCellAnimSpeed..CLACT_ResetVramAnim that
  * 0x0204D4DC also loads
  * (docs/idioms/pool-base-for-a-far-field-is-the-symbol-offset-masked-by-the-load-reach.md).
  * Reading them as two objects splits the symbol and loses the relocation.

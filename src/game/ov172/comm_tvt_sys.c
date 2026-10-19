@@ -79,7 +79,7 @@
  *   CTVT_TALK_GetMic  0x021B9F98  thumb
  *   CTVT_COMM_SendSlotHit 0x021B8720 thumb ov172
  *   APP_ENV_IsRunOnTwl  0x0202EB0C  thumb
- *   unit_0202EB14  0x0202EB14  thumb
+ *   APP_ENV_HasParentalControlBits  0x0202EB14  thumb
  *   APP_TASKMENU_OpenMenu 0x02027778 thumb
  *   d_021C7048 0x021C7048 data ov172
  *   d_021C704C 0x021C704C data ov172
@@ -154,7 +154,7 @@ extern u32 PRINTSYS_MeasureWidestLine(struct StrBuf *str, u32 font, u32 flags);
 extern void TIME_ICON_Delete(struct TimeIcon *icon);
 extern struct TimeIcon *TIME_ICON_CreateNode(void *src, void *arg, u8 x, u8 y, u16 heapId);
 extern u32 APP_ENV_IsRunOnTwl(void);
-extern int unit_0202EB14(void);
+extern int APP_ENV_HasParentalControlBits(void);
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(CtvtMenuTemplate *tmpl, struct TaskMenu *res);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *data);
 extern struct SaveRecord *MET_TRAINERS_GetFromSave(struct SaveControl *save);
@@ -393,7 +393,7 @@ void COMM_TVT_SYS_SetCameraBusy(CtvtWork *work, s32 value)
 
 int COMM_TVT_SYS_IsNetIdle(void)
 {
-    if (APP_ENV_IsRunOnTwl() == 1 && unit_0202EB14() == 0) {
+    if (APP_ENV_IsRunOnTwl() == 1 && APP_ENV_HasParentalControlBits() == 0) {
         return 1;
     }
     return 0;

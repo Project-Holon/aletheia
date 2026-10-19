@@ -1,5 +1,5 @@
 /*
- * function: func_02086810
+ * function: DLExtract
  * address:  0x02086810
  * packet:   pkt_02086788
  * region:   arm9
@@ -15,7 +15,7 @@ struct Node {
     struct Node *next;
 };
 
-struct Node *func_02086810(struct Node *list, struct Node *node)
+struct Node *DLExtract(struct Node *list, struct Node *node)
 {
     if (node->next != 0) {
         node->next->prev = node->prev;

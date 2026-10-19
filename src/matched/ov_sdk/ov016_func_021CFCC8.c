@@ -1,5 +1,5 @@
 /*
- * function: write
+ * function: writeSettingPage
  * address:  0x021CFCC8
  * packet:   pkt_ov016_021CF3B0
  * region:   ov016
@@ -39,15 +39,15 @@
  *   atoi                             0x020964E0  arm
  *   memcmp                           0x020923F0  arm
  *   setting_str_20971                0x021DB8C4  data
- *   write                            0x021CFCC8  arm
+ *   writeSettingPage                            0x021CFCC8  arm
  *
- * SDK: TwlDWC libdwcutil.TWL.HYB.a(setting.o), symbol write (name and prototype from the
+ * SDK: TwlDWC libdwcutil.TWL.HYB.a(setting.o), symbol writeSettingPage (name and prototype from the
  * vendor object DWARF). The object is stamped Metrowerks C/C++ for ARM 4.0.0.1025, which
  * no tools/mwccarm build writes, so it stays on the default dsi/1.1p1.
  *
  * Verified with:
  *   python tools/match.py one --src src/pending/ov_sdk/ov016_func_021CFCC8.c \
- *       --func write --addr 0x021CFCC8 --region ov016 --cc 1.1p1 --arm
+ *       --func writeSettingPage --addr 0x021CFCC8 --region ov016 --cc 1.1p1 --arm
  */
 typedef unsigned char bool;
 
@@ -141,7 +141,7 @@ extern int DWCi_BACKUPlWritePage(DWCMemMap *data, int *page, void *work);
 extern int DWCi_STRlNLen(char *s, int maxlen);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern int ascii2hex(unsigned char ascii);
-static void write(int page);
+static void writeSettingPage(int page);
 extern unsigned char *DWCi_BACKUPlConvWifiInfo(DWCWiFiInfo *info);
 extern unsigned char DWCi_BACKUPlConvMaskCidr(unsigned char *mask);
 extern unsigned short MATH_CalcCRC16(MATHCRC16Table *table, void *data, unsigned long dataLength);
@@ -157,7 +157,7 @@ extern void MIi_CpuClear16(unsigned short data, void *destp, unsigned long size)
 
 
 
-static void write(int page)
+static void writeSettingPage(int page)
 {
     void *work;
     int type;

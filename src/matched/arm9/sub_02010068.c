@@ -24,7 +24,7 @@
  *   MIi_CpuClear32  0x02082A7C  arm
  *   ARC_UTIL_LoadMember  0x0204A1BC  arm
  *   NNS_G2dGetUnpackedCharacterDataEx  0x02062A4C  arm
- *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   DC_FlushRange  0x020862F0  arm
  *   MIi_CpuCopy16  0x02082A60  arm
  *   func_020307B0  0x020307B0  arm
  *   NNS_G2dGetUnpackedScreenData  0x02062B30  arm
@@ -71,7 +71,7 @@ typedef signed int     s32;
 struct NitroFileHeader;
 extern int ARC_UTIL_LoadMember(int a0, int a1, int a2, int a3);
 extern s32 NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out);
-extern void DWCi_ScreenDC_FlushRange(void *p, u32 n);
+extern void DC_FlushRange(void *p, u32 n);
 extern void MIi_CpuCopy16(void *dst, const void *src, u32 n);
 extern u32 func_020307B0(void *p);
 extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
@@ -94,7 +94,7 @@ void GFL_NET_ERR_LoadScreenGraphics(u32 a0)
     if (NNS_G2dGetUnpackedCharacterDataEx(h, (void **)(&r0p)) != 0) {
         u32 n;
         void *src;
-        DWCi_ScreenDC_FlushRange(r0p->ptr, r0p->len);
+        DC_FlushRange(r0p->ptr, r0p->len);
         n = r0p->len;
         src = G2_GetBG1CharPtr();
         MIi_CpuCopy16(r0p->ptr, src, n);
@@ -105,7 +105,7 @@ void GFL_NET_ERR_LoadScreenGraphics(u32 a0)
     if (NNS_G2dGetUnpackedScreenData(h, (void **)(&r1p)) != 0) {
         u32 n;
         void *src;
-        DWCi_ScreenDC_FlushRange(r1p->buf, r1p->len);
+        DC_FlushRange(r1p->buf, r1p->len);
         n = r1p->len;
         src = G2_GetBG1ScrPtr();
         MIi_CpuCopy16(r1p->buf, src, n);
@@ -115,7 +115,7 @@ void GFL_NET_ERR_LoadScreenGraphics(u32 a0)
     h = (void *)ARC_UTIL_LoadMember(id, g0209DEA0[a0].f6, 0, 1);
     NNS_G2dGetUnpackedPaletteCompressInfo(h, (void **)(&sp0));
     if (NNS_G2dGetUnpackedPaletteData(h, (void **)(&r2p)) != 0) {
-        DWCi_ScreenDC_FlushRange(r2p->ptr, 0x20);
+        DC_FlushRange(r2p->ptr, 0x20);
         MIi_CpuCopy16(r2p->ptr, (void *)0x05000000, 0x20);
     }
     func_020307B0(h);

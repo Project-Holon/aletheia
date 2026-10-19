@@ -21,7 +21,7 @@
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
- *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
+ *   GIMMICK_WORK_GetWork  0x0200B3A4  thumb
  *   GFL_HEAP_GetTotalFreeSize  0x02030344  arm
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   FIELDMAP_AllocCommonWork  0x02189764  thumb  ov021
@@ -65,10 +65,9 @@
  *   gPlateDoorsReleaseAcmdSide0     0x021F4608  data  a4
  *   gPlateDoorsPullAcmdSide0     0x021F4620  data  a4
  *   FIELD_GIMMICK_PLATE_DOORS_EventScripted 0x021F44C0 thumb ov038
- *   GIMMICK_WORK_GetProgress 0x0200B3A8 thumb
+ *   GIMMICK_WORK_GetSubWork 0x0200B3A8 thumb
  *   gPlateDoorsPlatePrerequisite    0x021F4628 data a1
  *   gPlateDoorsPlateDoor    0x021F4632 data a1
- *   GAME_EVENT_GetGameSystem 0x020124E4 thumb
  *   SCRIPT_SYS_CallScriptEvent 0x02158780 thumb ov010
  *   SCRIPT_SYS_ChangeScriptEvent 0x021587B0 thumb ov010
  *   gPlateDoorsEffectPos 0x021F465C data a4
@@ -95,7 +94,7 @@ extern int FIELDMAP_GetExpObj(int *fieldMap);
 extern void *FIELDMAP_GetGameSystem(void *fieldMap);
 extern void *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
-extern void *GIMMICK_WORK_GetSaveArea(struct GimmickWork *gimmickSave, u32 gimmickId);
+extern void *GIMMICK_WORK_GetWork(struct GimmickWork *gimmickSave, u32 gimmickId);
 extern void *GFL_HEAP_GetTotalFreeSize(u32 heapId);
 extern u16 FIELDMAP_GetHeapId(u8 *fieldMap);
 extern void *FIELDMAP_AllocCommonWork(unsigned char *fieldMap, int id, int heapId, int size);
@@ -135,7 +134,7 @@ extern int FLDMMDL_ACMD_ListCheckEnd(u32 acmdList);
 extern void FLDMMDL_ACMD_ListDelete(void *acmdList);
 extern int FLDMMDL_ACMD_ListCreate(void *mmdl, void *acmdTable);
 extern int FIELD_GIMMICK_PLATE_DOORS_EventScripted(void *, int *);
-extern u16 *GIMMICK_WORK_GetProgress(struct GimmickWork *gimmickSave, u32 gimmickId);
+extern u16 *GIMMICK_WORK_GetSubWork(struct GimmickWork *gimmickSave, u32 gimmickId);
 void FIELD_GIMMICK_PLATE_DOORS_Init(void *fieldMap);
 void FIELD_GIMMICK_PLATE_DOORS_Exit(void *fieldMap);
 void FIELD_GIMMICK_PLATE_DOORS_Update(void *fieldMap);
@@ -162,9 +161,8 @@ extern const s8 gPlateDoorsPlatePrerequisite[];
 extern const u8 gPlateDoorsPlateDoor[];
 /* The enum type keeps the narrowing of the script event ids, see the note above. */
 typedef enum { SCRIPT_EVENT_ID_ZERO } ScriptEventId;
-extern void *GAME_EVENT_GetGameSystem(struct GameEvent *event);
-extern int SCRIPT_SYS_CallScriptEvent(void *gameSystem, u16 scriptId, int arg1, int arg2, u16 flags);
-extern int SCRIPT_SYS_ChangeScriptEvent(int gameSystem, int scriptId, int arg1, int flags);
+extern int SCRIPT_SYS_CallScriptEvent(void *gameSystem, u16 scriptId, int target, int parentWork, u16 flags);
+extern int SCRIPT_SYS_ChangeScriptEvent(int gameSystem, int scriptId, int target, int flags);
 extern const VecFx32 gPlateDoorsEffectPos[];
 
 /*
@@ -186,7 +184,7 @@ void FIELD_GIMMICK_PLATE_DOORS_Init(void *fieldMap)
     VecFx32 pos;
 
     expObj = (void *)FIELDMAP_GetExpObj(fieldMap);
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 6);
+    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 6);
     GFL_HEAP_GetTotalFreeSize(0x15);
     FIELDMAP_AllocCommonWork(fieldMap, 1, FIELDMAP_GetHeapId(fieldMap), 0x24);
     FLD_EXP_OBJ_AddUnitFromArchive(expObj, &gPlateDoorsUnitDef, 0);
@@ -276,7 +274,7 @@ void FIELD_GIMMICK_PLATE_DOORS_Update(void *fieldMap)
 {
     int expObj = FIELDMAP_GetExpObj(fieldMap);
     FIELDMAP_GetCommonWork(fieldMap, 1);
-    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 6);
+    GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 6);
     FLD_EXP_OBJ_UpdateAnimes((void *)expObj);
 }
 
@@ -339,7 +337,7 @@ int FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent(int gameSystem, int cellX, int cell
     fieldInfo = (int)GAMESYSTEM_GetFieldMap((void *)gameSystem);
     runtime = FIELDMAP_GetCommonWork((char *)((void *)fieldInfo), 1);
     fieldInfo = (int)FIELDMAP_GetFieldPlayer((void *)fieldInfo);
-    workOrDoor = (int)GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData((const struct GameSystem *)(int)FIELDMAP_GetGameSystem(GAMESYSTEM_GetFieldMap((void *)gameSystem)))), 6);
+    workOrDoor = (int)GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData((const struct GameSystem *)(int)FIELDMAP_GetGameSystem(GAMESYSTEM_GetFieldMap((void *)gameSystem)))), 6);
     fieldInfo = FIELD_PLAYER_GetDirDisp((u8 *)fieldInfo);
     if (fieldInfo != 0 && fieldInfo != 1)
         return 0;
@@ -397,7 +395,7 @@ int FIELD_GIMMICK_PLATE_DOORS_EventSlideDoor(int event, int *state)
     expObj = FIELDMAP_GetExpObj(fieldMap);
     runtime = FIELDMAP_GetCommonWork(fieldMap, 1);
     fieldPlayer = FIELDMAP_GetFieldPlayer(fieldMap);
-    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 6);
+    GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 6);
     side = 0;
     openModel = runtime->doorIdx + 0x19;
     if (runtime->side == 1)
@@ -601,7 +599,7 @@ int FIELD_GIMMICK_PLATE_DOORS_EventBumpDoorSide(int event, int *state)
     expObj = FIELDMAP_GetExpObj(fieldMap);
     runtime = FIELDMAP_GetCommonWork(fieldMap, 1);
     FIELDMAP_GetFieldPlayer(fieldMap);
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 6);
+    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 6);
     if (save->doorOpen[runtime->doorIdx] == 0) {
         srcModel = runtime->doorIdx + 0x12;
         tempModel = 0x21;
@@ -756,8 +754,8 @@ int FIELD_GIMMICK_PLATE_DOORS_EventPressSwitch(int event, int *state)
     expObj = FIELDMAP_GetExpObj(fieldMap);
     runtime = FIELDMAP_GetCommonWork(fieldMap, 1);
     gimmickSave = (unsigned int)GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData((const struct GameSystem *)FIELDMAP_GetGameSystem(fieldMap)));
-    save = GIMMICK_WORK_GetSaveArea((struct GimmickWork *)gimmickSave, 6);
-    progress = GIMMICK_WORK_GetProgress((struct GimmickWork *)gimmickSave, 6);
+    save = GIMMICK_WORK_GetWork((struct GimmickWork *)gimmickSave, 6);
+    progress = GIMMICK_WORK_GetSubWork((struct GimmickWork *)gimmickSave, 6);
     switch (*state) {
     case 0:
         switchModel = runtime->switchIdx;
@@ -804,7 +802,7 @@ int FIELD_GIMMICK_PLATE_DOORS_EventPressPlate(int event, int *state)
     fieldMap = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem((void *)event));
     expObj = FIELDMAP_GetExpObj(fieldMap);
     runtime = FIELDMAP_GetCommonWork((char *)fieldMap, 1);
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData((const struct GameSystem *)FIELDMAP_GetGameSystem(fieldMap))), 6);
+    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData((const struct GameSystem *)FIELDMAP_GetGameSystem(fieldMap))), 6);
     switch (*state) {
     case 0:
         plateModel = runtime->plateIdx + 8;
@@ -884,7 +882,7 @@ int FIELD_GIMMICK_PLATE_DOORS_EventScripted(void *event, int *state)
     fieldMap = (void *)GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event));
     expObj = (void *)FIELDMAP_GetExpObj(fieldMap);
     runtime = FIELDMAP_GetCommonWork(fieldMap, 1);
-    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData((void *)FIELDMAP_GetGameSystem(fieldMap))), 6);
+    GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData((void *)FIELDMAP_GetGameSystem(fieldMap))), 6);
     switch (*state) {
     case 0:
         for (i = 0; i < 2; i++) {

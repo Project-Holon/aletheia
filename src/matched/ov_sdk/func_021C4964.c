@@ -1,5 +1,5 @@
 /*
- * function: func_021C4964
+ * function: initGraphics
  * address:  0x021C4964
  * packet:   pkt_021C4964
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C4964   0x021C4964  arm
+ *   initGraphics   0x021C4964  arm
  *   DWCi_CMNlLoadResource   0x021BD1D4  arm  ov016
  *   sSceneSetAossButtonPathJbBgStep3Char    0x021DB3E0  data
  *   sSceneSetAossButtonPathYbBgStep3Pltt    0x021DB3F8  data
@@ -34,7 +34,7 @@ extern unsigned short GX_LoadBG2Char[];
 extern unsigned short GX_LoadBGPltt[];
 extern unsigned short GX_LoadBG2Scr[];
 
-void func_021C4964(void)
+void initGraphics(void)
 {
     u16 *p;
 

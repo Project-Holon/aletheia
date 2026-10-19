@@ -35,7 +35,7 @@
  *   sTallyCategoryEntryCount     0x0217219C  data  ov010  a1
  *   sTallyCategoryEntryIds     0x021721BC  data  ov010  a1
  *   SYMBOL_SAVE_GetQuestionnaireBits  0x0200E3A0  thumb
- *   SYMBOL_SAVE_SetQuestionnaireAnswer  0x0200E3E8  thumb
+ *   SYMBOL_SAVE_WriteBitField  0x0200E3E8  thumb
  *   GAME_BEACON_SetQuestionnaire  0x02027100  thumb
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   EVENT_RESEARCH_RADAR_CreateReportTask  0x021670F8  thumb  ov010
@@ -109,7 +109,7 @@ extern u32 MISC_SAVEDATA_GetTallyValue(u8 *tally, u32 category, u32 entry);
 
 extern void *SYMBOL_SAVE_GetQuestionnaireBits(void *survey);
 
-extern void SYMBOL_SAVE_SetQuestionnaireAnswer(u8 *answers, int questionId, u32 answer);
+extern void SYMBOL_SAVE_WriteBitField(u8 *answers, int questionId, u32 answer);
 
 extern void GAME_BEACON_SetQuestionnaire(const void *answers);
 
@@ -349,7 +349,7 @@ int SCRCMD_RESEARCH_CmdSetSurveyAnswer(struct ScriptContext *ctx, struct ScrCmdW
     answers = SYMBOL_SAVE_GetQuestionnaireBits(SYMBOL_SAVE_GetBitBlock(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(scrWork))));
     questionId = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
     answer = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
-    SYMBOL_SAVE_SetQuestionnaireAnswer(answers, (u8)questionId, answer);
+    SYMBOL_SAVE_WriteBitField(answers, (u8)questionId, answer);
     GAME_BEACON_SetQuestionnaire(answers);
     return 0;
 }

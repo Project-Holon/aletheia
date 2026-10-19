@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: TR_AI_CmdLoadPokeValueTwoArgs, TR_AI_NopA, TR_AI_NopB, TR_AI_NopC
+ * function: TR_AI_CmdLoadPokeValueDiffFromSelf, TR_AI_NopA, TR_AI_NopB, TR_AI_NopC
  * address:  0x02189CEC
  * packet:   pkt_ov096_02189CEC
  * region:   ov096
@@ -37,7 +37,7 @@ extern u8 TR_AI_GetPosition(u8 *p, int k);
 extern u8 *TR_AI_GetPoke(u8 *p, u8 i);
 extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 
-int TR_AI_CmdLoadPokeValueTwoArgs(struct Cursor *a, int b) {
+int TR_AI_CmdLoadPokeValueDiffFromSelf(struct Cursor *a, int b) {
     int r6;
     int r4;
     u8 s;

@@ -174,7 +174,7 @@ extern void STA_ACT_LIGHT_SetRenderAnim(int, void *, u8);
 
 extern void STA_ACT_LIGHT_SetActorVisible(int a, u8 *p, int b);
 
-extern int STA_ACT_LIGHT_SetElemValue(int a0, int *a1, int a2);
+extern int STA_ACT_LIGHT_SetElemValue(int unused, int *elem, int value);
 
 extern void STA_ACTING_PositionAnim(char *p, unsigned i);
 
@@ -194,14 +194,6 @@ extern u16 STA_ACTING_GetRecordScore(char *p, u32 i);
 extern u16 STA_ACTING_GetBonus(char *p, u32 i);
 
 extern void STA_ACTING_SetCameraHoldScore(char *p, u32 v);
-
-extern int _s32_to_float(int a);
-
-extern u32 _ffix(u32 a);
-
-extern u32 _fsub(u32 a, u32 b);
-
-extern u32 __fdiv(u32 a, u32 b);
 
 extern void *STA_ACTING_GetActObj(void *p);
 
@@ -1039,15 +1031,15 @@ int SCRIPT_COMMAND_CmdCompareScores(int unused, Msg *ctx)
     }
     {
         ScriptCameraTargetTask *c = GFL_HEAP_Alloc(o->heapId, 0x18, 0, d_021FDD00, 0x563);
-        u32 f;
+        float f;
         c->system = o;
         c->scene = o->scene;
         c->counter = 0;
         c->start = STA_ACTING_GetCameraScrollX((u8 *)o->scene);
-        f = _s32_to_float((int)total / 4);
-        f = __fdiv(f, 0x45800000);
-        f = _fsub(f, 0x43000000);
-        c->end = _ffix(f);
+        f = (float)((int)total / 4);
+        f = f / 4096.0f;
+        f = f - 128.0f;
+        c->end = (int)f;
         c->duration = x;
         c->node = STA_ACT_SCRIPT_AddTask((char *)o, (u32)SCRIPT_COMMAND_TaskCameraTarget, (u32)c, 10);
         STA_ACTING_SetCameraHoldScript((u8 *)o->scene, 1);

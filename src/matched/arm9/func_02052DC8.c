@@ -10,7 +10,7 @@
  * status:   EXACT
  * symbols:
  *   MI_CpuFill8    0x02082BCC  arm
- *   SPL_EMITTER_ClearNodeList  0x020583CC  arm
+ *   SPLList_PushFront  0x020583CC  arm
  *
  * The rig constructor: allocate and zero the 0x4c-byte Head through the
  * caller's allocator, record the two pool sizes (+0x34, +0x36), pack the
@@ -67,7 +67,7 @@ struct Node44 { u8 b[0x44]; };
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 struct List;
 struct Node;
-extern void SPL_EMITTER_ClearNodeList(volatile struct List *list, volatile struct Node *node);
+extern void SPLList_PushFront(volatile struct List *list, volatile struct Node *node);
 
 struct Head *SPL_EMITTER_AllocNodeFromHeap(AllocFn alloc, u16 n1, u16 n2, u16 a3, u16 a4, u16 a5)
 {
@@ -99,12 +99,12 @@ struct Head *SPL_EMITTER_AllocNodeFromHeap(AllocFn alloc, u16 n1, u16 n2, u16 a3
     p = alloc(n1 * sizeof(struct Node9C));
     MI_CpuFill8(p, 0, n1 * sizeof(struct Node9C));
     for (i = 0; i < n1; i++)
-        SPL_EMITTER_ClearNodeList((volatile struct List *)(&h->f10), (volatile struct Node *)(&p[i]));
+        SPLList_PushFront((volatile struct List *)(&h->f10), (volatile struct Node *)(&p[i]));
 
     q = alloc(n2 * sizeof(struct Node44));
     MI_CpuFill8(q, 0, n2 * sizeof(struct Node44));
     for (i = 0; i < n2; i++)
-        SPL_EMITTER_ClearNodeList((volatile struct List *)(&h->f1c), (volatile struct Node *)(&q[i]));
+        SPLList_PushFront((volatile struct List *)(&h->f1c), (volatile struct Node *)(&q[i]));
 
     h->f28 = 0;
     h->f2c = 0;

@@ -1079,10 +1079,10 @@ int FLDMMDL_MOVECODE_RoutePatrolStepWalk(Mmdl *mmdl, MmdlRoutePatrolWork *work)
 {
     u32 *route;
     u32 dir;
-    int x0;
-    int y0;
-    int x1;
-    int y1;
+    int initX;
+    int initZ;
+    int nowX;
+    int nowZ;
     int hit;
     int speed;
 
@@ -1091,23 +1091,23 @@ int FLDMMDL_MOVECODE_RoutePatrolStepWalk(Mmdl *mmdl, MmdlRoutePatrolWork *work)
     }
     if (work->routeIndex == work->axisCheckIndex) {
         if (work->axis == 0) {
-            x0 = FLDMMDL_GetGridInitX(mmdl);
-            if (x0 == FLDMMDL_GetGridNowX(mmdl)) {
+            initX = FLDMMDL_GetGridInitX(mmdl);
+            if (initX == FLDMMDL_GetGridNowX(mmdl)) {
                 work->routeIndex++;
             }
         } else {
-            x0 = FLDMMDL_GetGridInitZ(mmdl);
-            if (x0 == FLDMMDL_GetGridNowZ(mmdl)) {
+            initZ = FLDMMDL_GetGridInitZ(mmdl);
+            if (initZ == FLDMMDL_GetGridNowZ(mmdl)) {
                 work->routeIndex++;
             }
         }
     }
     if (work->routeIndex == 3) {
-        x0 = FLDMMDL_GetGridInitX(mmdl);
-        y0 = FLDMMDL_GetGridInitZ(mmdl);
-        x1 = FLDMMDL_GetGridNowX(mmdl);
-        y1 = FLDMMDL_GetGridNowZ(mmdl);
-        if (x0 == x1 && y0 == y1) {
+        initX = FLDMMDL_GetGridInitX(mmdl);
+        initZ = FLDMMDL_GetGridInitZ(mmdl);
+        nowX = FLDMMDL_GetGridNowX(mmdl);
+        nowZ = FLDMMDL_GetGridNowZ(mmdl);
+        if (initX == nowX && initZ == nowZ) {
             work->routeIndex = 0;
         }
     }
@@ -1288,10 +1288,10 @@ int FLDMMDL_MOVECODE_RoutePatrolSwapStepWalk(Mmdl *mmdl, MmdlRoutePatrolSwapWork
 {
     u32 *route;
     u32 dir;
-    int x0;
-    int y0;
-    int x1;
-    int y1;
+    int initX;
+    int initZ;
+    int nowX;
+    int nowZ;
     int hit;
     int speed;
 
@@ -1300,23 +1300,23 @@ int FLDMMDL_MOVECODE_RoutePatrolSwapStepWalk(Mmdl *mmdl, MmdlRoutePatrolSwapWork
     }
     if (work->routeIndex == work->axisCheckIndex) {
         if (work->axis == 0) {
-            x0 = FLDMMDL_GetGridInitX(mmdl);
-            if (x0 == FLDMMDL_GetGridNowX(mmdl)) {
+            initX = FLDMMDL_GetGridInitX(mmdl);
+            if (initX == FLDMMDL_GetGridNowX(mmdl)) {
                 FLDMMDL_MOVECODE_AdvanceRouteIndex(work);
             }
         } else {
-            x0 = FLDMMDL_GetGridInitZ(mmdl);
-            if (x0 == FLDMMDL_GetGridNowZ(mmdl)) {
+            initZ = FLDMMDL_GetGridInitZ(mmdl);
+            if (initZ == FLDMMDL_GetGridNowZ(mmdl)) {
                 FLDMMDL_MOVECODE_AdvanceRouteIndex(work);
             }
         }
     }
     if (work->routeIndex == 3) {
-        x0 = FLDMMDL_GetGridInitX(mmdl);
-        y0 = FLDMMDL_GetGridInitZ(mmdl);
-        x1 = FLDMMDL_GetGridNowX(mmdl);
-        y1 = FLDMMDL_GetGridNowZ(mmdl);
-        if (x0 == x1 && y0 == y1) {
+        initX = FLDMMDL_GetGridInitX(mmdl);
+        initZ = FLDMMDL_GetGridInitZ(mmdl);
+        nowX = FLDMMDL_GetGridNowX(mmdl);
+        nowZ = FLDMMDL_GetGridNowZ(mmdl);
+        if (initX == nowX && initZ == nowZ) {
             work->routeIndex = 0;
         }
     }

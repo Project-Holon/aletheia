@@ -1,5 +1,5 @@
 /*
- * function: func_020056BC
+ * function: GFL_USE_GetMainTaskList
  * address:  0x020056BC
  * packet:   pkt_020056BC
  * region:   arm9
@@ -26,7 +26,7 @@ typedef unsigned int u32;
 
 extern struct GflSys d_020AA194;
 
-u32 func_020056BC(void)
+u32 GFL_USE_GetMainTaskList(void)
 {
     return *(u32 *)(*(u32 *)(((unsigned char *)&d_020AA194) + 0x10) + 0x20);
 }

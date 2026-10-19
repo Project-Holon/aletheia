@@ -1,5 +1,5 @@
 /*
- * function: func_021D19F4
+ * function: dispCell
  * address:  0x021D19F4
  * packet:   pkt_ov016_021D19F4
  * region:   ov016
@@ -26,7 +26,7 @@ extern unsigned char DWCi_CELLlGetState(char *p);
 extern void DWCi_CELLlGetPosition(void *cell, int idx, int *x, int *y);
 extern void DWCi_CELLlSetEffect(void *cell, int idx, Eff eff, int affine);
 
-void func_021D19F4(void *cell, int y)
+void dispCell(void *cell, int y)
 {
     Eff eff;
     int num;

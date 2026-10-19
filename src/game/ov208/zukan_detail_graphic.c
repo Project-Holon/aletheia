@@ -32,7 +32,7 @@
  *   ZUKAN_DETAIL_GRAPHIC_Init3dSettings 0x021BCD68 thumb ov208
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   BMP_SetDisplaySwap 0x0204363C arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
@@ -139,7 +139,7 @@ extern void BG_SYS_ClearGraphicsMemory(unsigned);
 
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
-extern void BMP_SetDisplaySwap(unsigned);
+extern void BG_SYS_SetLcdSwap(unsigned);
 
 extern void BG_SYS_ResetSubDisplay(void);
 
@@ -274,7 +274,7 @@ char *ZUKAN_DETAIL_GRAPHIC_InitBgGraphics(unsigned display,unsigned short heap,i
     *(volatile unsigned *)0x04001000 &= ~0xe000;
     BG_SYS_ClearGraphicsMemory(0);
     BG_SYS_SetVramBanks((const struct DispVram *)d_021C8184);
-    BMP_SetDisplaySwap(display);
+    BG_SYS_SetLcdSwap(display);
     BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();

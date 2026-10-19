@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: sub_0202AB64
+ * function: ISS_CITY_SYS_InitState
  * address:  0x0202AB64
  * packet:   pkt_0202A188
  * region:   arm9
@@ -22,7 +22,7 @@
  * out on its own footprint instead of against that extent.
  *
  * Verified with:
- *   python tools/match.py tu --src src/matched/sub_0202AB64.c \
+ *   python tools/match.py tu --src src/matched/ISS_CITY_SYS_InitState.c \
  *       --addr 0x0202AB64 --thumb
  */
 #include "../include/Obj03492.h"
@@ -30,7 +30,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-void sub_0202AB64(void *obj, u32 unused, u32 value)
+void ISS_CITY_SYS_InitState(void *obj, u32 unused, u32 value)
 {
     ((struct Obj03492 *)obj)->f4 = 0;
     ((struct Obj03492 *)obj)->f8 = 0;

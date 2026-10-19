@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BBB98",
+   "name": "MY_MD5Init",
    "address": "0x021BBB98",
    "kind": "sdk",
    "region": "ov016",

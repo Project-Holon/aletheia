@@ -12,7 +12,7 @@
  * symbols:
  *   POKE_TOOL_CastToBoxParam  0x020185F0  thumb
  *   POKEGRA_LoadCharDataPP  0x0202D6F4  thumb
- *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   DC_FlushRange  0x020862F0  arm
  *   func_0207E780  0x0207E780  arm
  *   func_020307B0  0x020307B0  arm
  *   POKEGRA_GetArcID  0x0202D060  thumb
@@ -35,7 +35,7 @@ typedef struct {
 
 extern void *POKE_TOOL_CastToBoxParam(void);
 extern u32 POKEGRA_LoadCharDataPP(void *a0, void *mon, u32 a2, u32 a3);
-extern void DWCi_ScreenDC_FlushRange(void *p, u32 n);
+extern void DC_FlushRange(void *p, u32 n);
 extern void func_0207E780(void *src, u32 dst, u32 n);
 extern u32 func_020307B0(void *p);
 typedef signed int     s32;
@@ -56,7 +56,7 @@ void WORLDTRADE_DETAIL_LoadMonGraphics(void *mon)
     u32 id;
 
     h = (void *)POKEGRA_LoadCharDataPP(&pal, POKE_TOOL_CastToBoxParam(), 0, 0x48);
-    DWCi_ScreenDC_FlushRange(pal->data, 0x1200);
+    DC_FlushRange(pal->data, 0x1200);
     func_0207E780(pal->data, 0x3F80, 0x1200);
     func_020307B0(h);
     arc = POKEGRA_GetArcID();

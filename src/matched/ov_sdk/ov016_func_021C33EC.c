@@ -1,5 +1,5 @@
 /*
- * function: func_021C33EC
+ * function: initGraphics
  * address:  0x021C33EC
  * packet:   pkt_ov016_021C33EC
  * region:   ov016
@@ -13,7 +13,7 @@
  */
 typedef volatile unsigned short vu16;
 
-void func_021C33EC(void)
+void initGraphics(void)
 {
     *(vu16 *)0x04001008 = (*(vu16 *)0x04001008 & ~3) | 3;
     *(vu16 *)0x0400100A = (*(vu16 *)0x0400100A & ~3) | 3;

@@ -67,14 +67,14 @@
     "GAMESYSTEM_SetEvent",
     "GAMESYSTEM_GetFieldMap",
     "GAMESYSTEM_SetFieldMap",
-    "GAMESYSTEM_IsFieldMapExist",
+    "GAMESYSTEM_IsFieldMapActive",
     "GAMESYSTEM_SetFieldMapState",
     "GAMESYSTEM_GetFieldMapState",
     "GAMESYSTEM_GetIssSystem",
     "GAMESYSTEM_GetGameComm",
     "GAMESYSTEM_SetCommBlocked",
     "GAMESYSTEM_IsCommBlocked",
-    "GAMESYSTEM_GetAlwaysNetFlag"
+    "GAMESYSTEM_IsAlwaysNetFlagSet"
    ],
    "addresses": [
     "0x020120F0",

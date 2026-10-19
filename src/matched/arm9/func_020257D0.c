@@ -14,7 +14,7 @@
  * symbols:
  *   BMP_GetPixels  0x020437D4  arm
  *   BMP_GetByteSize  0x020437EC  arm
- *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   DC_FlushRange  0x020862F0  arm
  *   BMP_GetWidth  0x020437DC  arm
  *   BMP_GetHeight  0x020437E4  arm
  *   CLACT_GetCharacterVramAddress  0x0204ABBC  arm
@@ -51,7 +51,7 @@ struct Obj {
 struct Bmp;
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern u32 BMP_GetByteSize(const struct Bmp *bmp);
-extern void  DWCi_ScreenDC_FlushRange(void *p, u32 n);
+extern void  DC_FlushRange(void *p, u32 n);
 typedef unsigned short u16;
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 extern u16 BMP_GetHeight(const struct Bmp *bmp);
@@ -76,7 +76,7 @@ void BMP_OAM_UploadChars(struct Obj *o)
     void *src;
 
     base = (u8 *)BMP_GetPixels(o->bmp);
-    DWCi_ScreenDC_FlushRange(base, BMP_GetByteSize(o->bmp));
+    DC_FlushRange(base, BMP_GetByteSize(o->bmp));
     if (o->engine == 0) {
         load = GX_LoadOBJ;
     } else {

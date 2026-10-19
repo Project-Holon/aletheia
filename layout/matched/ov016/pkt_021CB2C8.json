@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CB2C8",
+   "name": "DWCi_IsFold",
    "address": "0x021CB2C8",
    "kind": "sdk",
    "region": "ov016",

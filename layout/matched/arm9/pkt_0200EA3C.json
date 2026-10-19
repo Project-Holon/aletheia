@@ -66,9 +66,9 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "MISC_SAVEDATA_GetRingIndex",
-    "MISC_SAVEDATA_GetRingRemaining",
-    "MISC_SAVEDATA_GetRingRecordIndex"
+    "DENDOU_SAVEDATA_GetRecordCount",
+    "DENDOU_SAVEDATA_GetHallNumber",
+    "DENDOU_SAVEDATA_GetRingMemberCount"
    ],
    "addresses": [
     "0x0200ECB4",

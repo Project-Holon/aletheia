@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0202C510
+ * function: ISS_SWITCH_SET_GetSwitch
  * address:  0x0202C510
  * packet:   pkt_0202C4CC
  * region:   arm9
@@ -16,7 +16,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/unit_0202C510.c \
- *       --func sub_0202C510 --addr 0x0202C510 --cc 1.1p1 --thumb
+ *       --func ISS_SWITCH_SET_GetSwitch --addr 0x0202C510 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -27,7 +27,7 @@ struct Arr0202C510 {
     u32 unk18[1];
 };
 
-u32 sub_0202C510(struct Arr0202C510 *p, u32 idx)
+u32 ISS_SWITCH_SET_GetSwitch(struct Arr0202C510 *p, u32 idx)
 {
     return p->unk18[idx];
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "DWCi_SceneSetSelectAp_draw",
+   "name": "draw",
    "address": "0x021CC0E4",
    "kind": "game",
    "region": "ov016",

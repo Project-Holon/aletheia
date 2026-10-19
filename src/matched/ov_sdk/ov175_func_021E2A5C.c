@@ -1,5 +1,5 @@
 /*
- * function: func_021E2A5C
+ * function: wsLoginCertReadXML
  * address:  0x021E2A5C
  * packet:   pkt_021E2A5C
  * region:   ov175
@@ -47,8 +47,8 @@
  * a gamespy XML key string, so this packet has no non-SDK dependency leaf.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021E2A5C.c \
- *       --func func_021E2A5C --addr 0x021E2A5C --cc dsi/1.1p1 --arm \
+ *   python tools/match.py one --src src/matched/wsLoginCertReadXML.c \
+ *       --func wsLoginCertReadXML --addr 0x021E2A5C --cc dsi/1.1p1 --arm \
  *       --region ov175 --flags=-O4,p
  */
 
@@ -98,7 +98,7 @@ extern char sWsTagPeerKeyExponent[];
 extern char sWsTagServerData[];
 extern char sWsTagSignature[];
 
-int func_021E2A5C(GsProfile *p, void *xml)
+int wsLoginCertReadXML(GsProfile *p, void *xml)
 {
     char buf[0x101];
     int outLen;

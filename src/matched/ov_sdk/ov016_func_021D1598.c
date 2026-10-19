@@ -1,5 +1,5 @@
 /*
- * function: func_021D1598
+ * function: taskV
  * address:  0x021D1598
  * packet:   pkt_ov016_021D1598
  * region:   ov016
@@ -43,7 +43,7 @@ extern void DWCi_TSKlSetParam(char *p, unsigned int v);
 extern void func_021D15F0(void *task);
 extern struct MemWinT *gWindowWork;
 
-void func_021D1598(void *task)
+void taskV(void *task)
 {
     gWindowWork->count--;
     DWCi_WindowG2x_ChangeBlendBrightness_(0x04000050, gWindowWork->count);

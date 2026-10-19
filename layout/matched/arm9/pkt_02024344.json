@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_02024508",
+   "name": "PMSI_PARAM_IsDecoWord",
    "address": "0x02024508",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02024520",
+   "name": "PMSI_PARAM_GetDecoId",
    "address": "0x02024520",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02024570",
+   "name": "PMSI_PARAM_Copy",
    "address": "0x02024570",
    "kind": "game",
    "region": "arm9",

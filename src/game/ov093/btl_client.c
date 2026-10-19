@@ -974,8 +974,8 @@ typedef struct {
 
 typedef struct {
     u8 pad00[0x28];
-    u8 f28[0x40];
-    u32 f68;
+    u8 reserved28[0x40];
+    u32 reserved68;
 } Out;
 
 

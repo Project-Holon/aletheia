@@ -19,17 +19,17 @@
    "status": "EXACT",
    "functions": [
     "GAME_BEACON_SetPokeGet",
-    "sub_02027220",
+    "GAME_BEACON_WritePokeGet",
     "GAME_BEACON_SetSpecialPokeGet",
-    "sub_02027258",
+    "GAME_BEACON_WriteSpecialPokeGet",
     "GAME_BEACON_SetPokeLevelUp",
-    "sub_02027290",
+    "GAME_BEACON_WritePokeLevelUp",
     "GAME_BEACON_SetPokeEvolution",
-    "sub_020272D0",
+    "GAME_BEACON_WritePokeEvolution",
     "GAME_BEACON_SetPlayTime",
-    "sub_02027314",
+    "GAME_BEACON_WritePlayTime",
     "GAME_BEACON_SetItemUse",
-    "sub_0202734C"
+    "GAME_BEACON_WriteItemUse"
    ],
    "addresses": [
     "0x020271F8",

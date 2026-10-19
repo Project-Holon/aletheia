@@ -11,8 +11,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: GDS_PROFILE_GetEggFlag, GDS_PROFILE_GetSpecies, GDS_PROFILE_GetFormSpecies, GDS_PROFILE_GetMonFlagBit7,
- *           GDS_PROFILE_GetMonFlagBit0
+ * function: GDS_PROFILE_GetEggFlag, GDS_PROFILE_GetSpecies, GDS_PROFILE_GetFormSpecies, GDS_PROFILE_GetNicknameFlag,
+ *           GDS_PROFILE_GetBadEggFlag
  *
  * 96 bytes, 0x0200D6EC..0x0200D74C, 5 functions, none of which carries a
  * label in the generated listing.
@@ -22,16 +22,16 @@
  * field and substitutes a safe value when it is out of range, and the shape
  * of the guard is what says how the source was written.
  *
- * GDS_PROFILE_GetEggFlag and GDS_PROFILE_GetMonFlagBit7 both test the value against 0 and then
+ * GDS_PROFILE_GetEggFlag and GDS_PROFILE_GetNicknameFlag both test the value against 0 and then
  * against 1 with two `beq` to the same address, which is one `if` with `&&`
  * and not two statements; see
  * docs/idioms/guard-chain-sharing-one-exit-block-is-a-single-conjunction.md.
- * That the test survives at all in GDS_PROFILE_GetMonFlagBit7 is the interesting part: the
+ * That the test survives at all in GDS_PROFILE_GetNicknameFlag is the interesting part: the
  * field there is one bit wide, so `v != 0 && v != 1` is provably false and
  * the compiler still emits both compares, which is the same reading as
  * docs/idioms/a-guard-on-a-struct-member-survives-constant-folding.md.
  *
- * GDS_PROFILE_GetMonFlagBit0 clamps rather than zeroes, and the branch is `bls` over a
+ * GDS_PROFILE_GetBadEggFlag clamps rather than zeroes, and the branch is `bls` over a
  * `movs r0, #1`, so its guard is `if (v > 1) v = 1;` and the fall-through arm
  * is the assignment.
  *
@@ -88,7 +88,7 @@ u32 GDS_PROFILE_GetFormSpecies(struct RecGet *p)
     return POKE_TOOL_FilterSpecies(p->unk1C, p->b1);
 }
 
-u32 GDS_PROFILE_GetMonFlagBit7(struct RecGet *p)
+u32 GDS_PROFILE_GetNicknameFlag(struct RecGet *p)
 {
     u32 v = p->b7;
 
@@ -98,7 +98,7 @@ u32 GDS_PROFILE_GetMonFlagBit7(struct RecGet *p)
     return v;
 }
 
-u32 GDS_PROFILE_GetMonFlagBit0(struct RecGet *p)
+u32 GDS_PROFILE_GetBadEggFlag(struct RecGet *p)
 {
     u32 v = p->b0;
 

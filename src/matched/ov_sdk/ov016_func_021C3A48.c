@@ -1,5 +1,5 @@
 /*
- * function: endScene
+ * function: endDisableButtons
  * address:  0x021C3A48
  * packet:   pkt_ov016_021C3A48
  * region:   ov016
@@ -15,7 +15,7 @@
  *   DWCi_ChangeScene                 0x021C0E40  arm
  *   endScene1                        0x021C3A68  arm
  *
- * SDK: TwlDWC libdwcutil.TWL.HYB.a(sceneoptmovconfi.o), symbol endScene (name and
+ * SDK: TwlDWC libdwcutil.TWL.HYB.a(sceneoptmovconfi.o), symbol endDisableButtons (name and
  * prototype from the vendor object DWARF). The object is stamped Metrowerks C/C++ for
  * ARM 4.0.0.1025, which no tools/mwccarm build writes, so it stays on default 1.1p1.
  */
@@ -27,7 +27,7 @@ extern void DWCi_ChangeScene(void (*scene)());
 
 static void endScene1(void);
 
-static void endScene(void)
+static void endDisableButtons(void)
 {
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);

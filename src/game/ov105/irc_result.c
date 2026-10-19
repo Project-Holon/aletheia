@@ -32,7 +32,7 @@
  *   COMPATIBLE_IRC_SYS_UpdateValueSync 0x021B63D0 thumb ov101
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   BMP_SetDisplaySwap 0x0204363C arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   GFL_USE_AddMainTask 0x020056A0 thumb
@@ -225,7 +225,7 @@ extern int FADE_IsActive(void);
 extern int COMPATIBLE_IRC_SYS_UpdateValueSync(IrcSys *sys);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void BG_SYS_SetVramBanks(const void *banks);
-extern void BMP_SetDisplaySwap(u32 swap);
+extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void *GFL_USE_AddMainTask(IrcTaskProc proc,void *work,int priority);
@@ -477,7 +477,7 @@ int IRC_RESULT_Main(void *proc,u32 *state,void *unused,IrcResult *work)
 
 void IRC_RESULT_InitScreen(IrcResultScreen *screen,int heapId) {
  MI_CpuFill8(screen,0,0xb0); BG_SYS_ClearGraphicsMemory(0); BG_SYS_SetVramBanks(sResultVramBankConfig);
- BMP_SetDisplaySwap(0); BG_SYS_ResetSubDisplay(); BG_SYS_ClearMainPlanes();
+ BG_SYS_SetLcdSwap(0); BG_SYS_ResetSubDisplay(); BG_SYS_ClearMainPlanes();
  IRC_RESULT_InitActorSystem(&screen->actorSystem,sResultVramBankConfig,heapId); IRC_RESULT_InitBackgrounds(screen,heapId);
  screen->vblankTask=GFL_USE_AddMainTask(IRC_RESULT_ScreenVBlankTask,screen,0);
 }

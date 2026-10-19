@@ -36,7 +36,6 @@
  *   gSBSortContext  0x021AEB04  data
  *   gSBEmptyString  0x021A8230  data
  *   strlen  0x0209477C  arm
- *   strcmp  0x020948E0  arm
  *   ArraySort  0x021843C8  arm  ov009
  *   ArrayAppend  0x02184234  arm  ov009
  *   ArrayLength  0x02184200  arm  ov009
@@ -59,7 +58,6 @@
  *   srand  0x020946C8  arm
  *   SocketStartUp  0x0217F25C  arm  ov009
  *   gGsAvailabilityState  0x021ACEF8  data
- *   strlen  0x0209477C  arm
  *   strncmp  0x020949F4  arm
  *   gSBMasterHostname  0x021A821C  data
  *   gSBNullServer  0x021AEB00  data
@@ -73,7 +71,6 @@
  *   closesocket  0x0217EB2C  arm  ov009
  *   gSBMasterHostFormat     0x021A8234  data
  *   memcpy  0x02092344  arm
- *   unit_02092344  0x02092344  arm
  *   rand  0x02094694  arm  ov009
  *   send  0x0217EC90  arm  ov009
  *   gsimalloc  0x0217EAB0  arm  ov009
@@ -94,7 +91,6 @@
  *   gSBNatNegMagic  0x021A8250  data
  *   GOADecrypt  0x0219D478  arm  ov009
  *   memmove  0x02092364  arm
- *   memmove        0x02092364  arm
  *   CanReceiveOnSocket  0x0217EF50  arm  ov009
  *   recv  0x0217EC4C  arm  ov009
  *   recvfrom  0x0217EC60  arm  ov009
@@ -214,7 +210,7 @@ extern SOCHostEnt *SOC_GetHostByName(char *name);
 extern int socket(int pf, int type, int protocol);
 extern int connect(int sock, void *addr, int len);
 extern int closesocket(int sock);
-extern void *unit_02092344(void *dst, const void *src, unsigned long n);
+extern void *memcpy(void *dest, const void *src, size_t n);
 extern int rand(void);
 extern int send(int sock, char *buf, int len, int flags);
 extern void *gsimalloc(unsigned long size);
@@ -941,7 +937,7 @@ void BufferAddIntLE(char **buffer, int ival, int *len)
  */
 void BufferAddData(char **buffer, char *data, int dlen, int *len)
 {
-    unit_02092344(*buffer, data, dlen);
+    memcpy(*buffer, data, dlen);
     *len += dlen;
     *buffer += dlen;
 }

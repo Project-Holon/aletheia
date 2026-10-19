@@ -31,7 +31,7 @@
  *   IRC_APPBAR_Update 0x021B71E4 thumb ov101
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   BMP_SetDisplaySwap 0x0204363C arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   GFL_USE_AddMainTask 0x020056A0 thumb
@@ -354,7 +354,7 @@ extern int FADE_IsActive(void);
 extern int COMPATIBLE_IRC_SYS_UpdateValueSync(IrcSys *sys);
 extern void BG_SYS_ClearGraphicsMemory(int);
 extern void BG_SYS_SetVramBanks(const void *config);
-extern int BMP_SetDisplaySwap(int);
+extern int BG_SYS_SetLcdSwap(int);
 extern int BG_SYS_ResetSubDisplay(int);
 extern void BG_SYS_ClearMainPlanes(int);
 extern unsigned GFL_USE_AddMainTask(void (*task)(unsigned, void *), void *work, unsigned priority);
@@ -695,7 +695,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_InitScene(IrcTouchWork *work, u16 heapId)
     MI_CpuFill8(work, 0, 0x174);
     BG_SYS_ClearGraphicsMemory(0);
     BG_SYS_SetVramBanks(IRC_COMPATIBLE_TOUCH_TEST_VramBankConfig);
-    BG_SYS_ClearMainPlanes(BG_SYS_ResetSubDisplay(BMP_SetDisplaySwap(0)));
+    BG_SYS_ClearMainPlanes(BG_SYS_ResetSubDisplay(BG_SYS_SetLcdSwap(0)));
     IRC_COMPATIBLE_TOUCH_TEST_InitSprites(&work->sprites, IRC_COMPATIBLE_TOUCH_TEST_VramBankConfig, heapId);
     IRC_COMPATIBLE_TOUCH_TEST_InitBackgrounds(&work->bgCharRange, heapId);
     IRC_COMPATIBLE_TOUCH_TEST_Init3D(&work->scene, heapId);

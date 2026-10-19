@@ -1,5 +1,5 @@
 /*
- * function: func_021D16B0
+ * function: taskMain
  * address:  0x021D16B0
  * packet:   pkt_ov016_021D16B0
  * region:   ov016
@@ -68,7 +68,7 @@ extern CoordT sWindowTable8[];
 extern signed char sWindowTable5[][2];
 extern signed char sWindowTable6[][2];
 
-void func_021D16B0(void)
+void taskMain(void)
 {
     RectT r;
     int i;

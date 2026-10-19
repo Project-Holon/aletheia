@@ -19,7 +19,7 @@
  *   SVC_WaitByLoop  0x02004490  thumb
  *   MIi_CpuClear32         0x02082A7C  arm
  *   OSi_SyncWithOtherProc  0x02084AB0  arm
- *   FSi_HasEnoughSpaceInFreeArea  0x02084C1C  arm
+ *   OSi_DoLockByWord  0x02084C1C  arm
  *   OS_DisableInterrupts            0x02087988  arm
  *   OS_RestoreInterrupts            0x0208799C  arm
  *   OS_DisableInterrupts_IrqAndFiq  0x020879B4  arm

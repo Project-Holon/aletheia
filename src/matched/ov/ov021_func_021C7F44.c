@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: FIELD_FLASH_CmdShowExpanded, FIELD_FLASH_CmdHide
+ * function: FIELD_FLASH_ShowExpanded, FIELD_FLASH_HideMask
  * address:  0x021C7F44
  * packet:   pkt_ov021_021C7F44
  * region:   ov021
@@ -23,15 +23,15 @@ typedef struct { u32 f0; u8 sub[0x18]; u16 f1C; u16 f1E; } M;
 extern u32 func_020307B0(void *p);
 extern void FIELD_FLASH_SetTweenSize(u8 *p, u32 v);
 extern u8 *FIELD_FLASH_SetTweenAlpha(u8 *p, u8 v);
-void FIELD_FLASH_CmdHide(M *m);
-void FIELD_FLASH_CmdShowExpanded(M *m)
+void FIELD_FLASH_HideMask(M *m);
+void FIELD_FLASH_ShowExpanded(M *m)
 {
     m->f1C = 3;
     FIELD_FLASH_SetTweenSize(m->sub, 0xaa00);
     FIELD_FLASH_SetTweenAlpha(m->sub, 0x1f);
 }
 
-void FIELD_FLASH_CmdHide(M *m)
+void FIELD_FLASH_HideMask(M *m)
 {
     m->f1C = 0;
     FIELD_FLASH_SetTweenSize(m->sub, 0);

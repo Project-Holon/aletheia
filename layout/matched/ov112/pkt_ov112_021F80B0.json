@@ -18,8 +18,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "STA_ACT_LIGHT_CallElemB",
-    "STA_ACT_LIGHT_CallElemC"
+    "STA_ACT_LIGHT_ResetRenderAnim",
+    "STA_ACT_LIGHT_SetRenderAnim"
    ],
    "addresses": [
     "0x021F80B0",

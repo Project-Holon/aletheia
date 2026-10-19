@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02094694",
+   "name": "rand",
    "address": "0x02094694",
    "kind": "game",
    "region": "arm9",

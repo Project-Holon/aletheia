@@ -1,5 +1,5 @@
 /*
- * function: func_021C4E98
+ * function: procCancel
  * address:  0x021C4E98
  * packet:   pkt_021C4E98
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C4E98 0x021C4E98 arm
+ *   procCancel 0x021C4E98 arm
  *   DWCi_ChangeScene  0x021C0E40  arm
  *   DWCi_SNDlPlay  0x021CFFAC  arm
  *   DWCi_SNDlStop  0x021D0014  arm
@@ -23,7 +23,7 @@ extern void DWCi_SNDlStop(void);
 extern void DWCi_SNDlPlay(unsigned int v);
 extern void DWCi_ChangeScene(unsigned int v);
 
-void func_021C4E98(void)
+void procCancel(void)
 {
     DWCi_SNDlStop();
     DWCi_SNDlPlay(7);

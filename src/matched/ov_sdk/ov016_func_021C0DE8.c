@@ -1,5 +1,5 @@
 /*
- * function: func_021C0DE8
+ * function: procEnd
  * address:  0x021C0DE8
  * packet:   pkt_ov016_021C0DE8
  * region:   ov016
@@ -43,7 +43,7 @@ extern void DWCi_TSKlEnd(void);
 extern void DWCi_HEAPlEnd(void);
 extern void DWCi_RepairVram(void);
 
-void func_021C0DE8(void)
+void procEnd(void)
 {
     GX_DispOff();
     *(volatile unsigned int *)0x04001000 &= ~0x10000;

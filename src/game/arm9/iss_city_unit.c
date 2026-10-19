@@ -29,12 +29,6 @@ extern void *ARC_TOOL_LoadMemberRange(u32 archiveId, u32 memberIndex, u32 heapId
 
 extern u32 GFL_HEAP_Free(void *block);
 
-extern double _s32_to_double(s32 v);
-
-extern double _double_arith_prelude(double lhs, double rhs);
-
-extern s32 _d2s(double d);
-
 struct IssCityUnit *ISS_CITY_UNIT_Create(u32 heapId, u32 memberIndex);
 
 void ISS_CITY_UNIT_Delete(struct IssCityUnit *unit);
@@ -322,17 +316,17 @@ u32 ISS_CITY_UNIT_FindStepZ(const struct IssCityUnit *unit, const s32 *playerPos
 
 s32 ISS_CITY_UNIT_GetCenterX(const struct IssCityUnit *unit)
 {
-    return _d2s(_double_arith_prelude(8.0, _s32_to_double((s32)(unit->centerGridX << 4))));
+    return (s32)(8.0 + (double)(s32)(unit->centerGridX << 4));
 }
 
 s32 ISS_CITY_UNIT_GetCenterY(const struct IssCityUnit *unit)
 {
-    return _d2s(_double_arith_prelude(8.0, _s32_to_double((s32)(unit->centerGridY << 4))));
+    return (s32)(8.0 + (double)(s32)(unit->centerGridY << 4));
 }
 
 s32 ISS_CITY_UNIT_GetCenterZ(const struct IssCityUnit *unit)
 {
-    return _d2s(_double_arith_prelude(8.0, _s32_to_double((s32)(unit->centerGridZ << 4))));
+    return (s32)(8.0 + (double)(s32)(unit->centerGridZ << 4));
 }
 
 s32 ISS_CITY_UNIT_Interpolate(s32 distA, s32 volumeA, s32 distB, s32 volumeB, s32 dist)

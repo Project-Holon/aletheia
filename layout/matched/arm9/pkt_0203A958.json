@@ -30,10 +30,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "GFL_NET_COMMAND_SetSendSlot"
+    "GFL_NET_COMMAND_SetSendSlot",
+    "GFL_NET_COMMAND_SendNextSlot",
+    "GFL_NET_COMMAND_Main"
    ],
    "addresses": [
-    "0x0203AA94"
+    "0x0203AA94",
+    "0x0203ABC0",
+    "0x0203ACAC"
    ]
   }
  ]

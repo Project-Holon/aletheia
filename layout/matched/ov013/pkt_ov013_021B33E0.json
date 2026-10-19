@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sakeGetFileIdFromHeaders",
+   "name": "VCT_DSP_SetEchoReference",
    "address": "0x021B33E0",
    "kind": "sdk",
    "region": "ov013",

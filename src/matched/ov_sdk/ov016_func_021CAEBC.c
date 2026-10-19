@@ -1,5 +1,5 @@
 /*
- * function: func_021CAEBC
+ * function: endScene2
  * address:  0x021CAEBC
  * packet:   pkt_ov016_021CAEBC
  * region:   ov016
@@ -40,7 +40,7 @@ extern void DWCi_SceneSetSelectWay(void);
 extern void DWCi_SceneSetRakuComplete(void);
 extern struct G_021DE5FC gSceneSetRakuButton1Work;
 
-void func_021CAEBC(void)
+void endScene2(void)
 {
     if (DWCi_EFFlCheck(0) != 0)
         return;

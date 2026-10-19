@@ -302,7 +302,7 @@ extern void *SCRCMD_WORK_GetScriptWork(void *p);
 
 extern void *SCRIPT_WORK_GetUserWorkPtr(void *p);
 
-extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *SCRCMD_WORK_GetGameSystem(void *work);
 
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 
@@ -540,7 +540,7 @@ extern unsigned int KEY_GetRepeat(void);
 
 extern void BG_SYS_SetTileEntry(u32 index, u32 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
 
-extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *vm, void *cmdWork);
 
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 
@@ -550,7 +550,7 @@ extern u32 WIFILIST_IsProfileValid(struct Sub020097BCObj *obj);
 
 extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 
-extern void *SCRCMD_WORK_GetGameData(void *a0);
+extern void *SCRCMD_WORK_GetGameData(void *work);
 
 extern u32 WIFILIST_CountFriends(struct Sub020097BCObj *obj);
 
@@ -588,13 +588,13 @@ extern void *BATTLE_BOX_CreateParty(int box, int heap);
 
 extern u32 BATTLE_BOX_IsLocked(struct Obj *p, u32 mask);
 
-extern void *FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(char *gameSystem, int fieldMap, int overlayId, int procData, int procWork, int a5, int callbackWork);
+extern void *FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(char *gameSystem, int fieldMap, int overlayId, int procData, int procWork, int callback, int callbackWork);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern u32 EVENT_NAMEIN_Create(u32 a, u32 b, u32 x, u32 c, u32 d);
 
-extern void *EVENT_GAMECLEAR_Create(void *p, int a1);
+extern void *EVENT_GAMECLEAR_Create(void *p, int mode);
 
 extern void SCRIPT_SYS_SetNextEventFromWork(int a, int b);
 
@@ -614,7 +614,7 @@ extern void *EVENT_GAME_MANUAL_Create(void *, u16 *);
 
 extern void *SCRIPT_WORK_GetGameSystem(void *p);
 
-extern int SCRIPT_WORK_ResetFieldParam(int a0);
+extern int SCRIPT_WORK_ResetFieldParam(int work);
 
 extern u32 FIELDMAP_GetEncount(u8 *p);
 

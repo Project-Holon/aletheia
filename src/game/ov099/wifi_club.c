@@ -67,7 +67,7 @@
  *   BMP_MENUWORK_Delete 0x0201F868 thumb
  *   BMP_MENU_DeleteYesNo 0x0201FEF4 thumb
  *   STRBUF_Create  0x020457B0  arm
- *   unit_0201C440  0x0201C440  thumb
+ *   PRINTSYS_QUE_Create  0x0201C440  thumb
  *   TCBL_Create  0x0203101C  arm
  *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb
  *   APP_KEYCURSOR_Delete  0x02028604  thumb
@@ -121,8 +121,6 @@
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
- *   unit_0204B92C  0x0204B92C  arm
- *   unit_0204B3DC  0x0204B3DC  arm
  *   gWifiClubRuleChoiceItems 0x021C39F0 data a4
  *   BMP_MENULIST_SetCancelDisabled 0x02020D10 thumb
  *   POKE_REGULATION_CreateText 0x0201A4D4 thumb
@@ -151,10 +149,7 @@
  *   BATTLE_BOX_CreateParty 0x0200BAF4 thumb
  *   GFL_HEAP_Free  0x020307B0  arm
  *   gWifiClubRuleIdTable     0x021C3A30  data  a4
- *   GFL_HEAP_Free  0x020307B0  arm
  *   POKE_REGULATION_Load  0x0201A354  thumb
- *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb
- *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   POKEPARTY_Copy  0x0201AC2C  thumb
  *   BMP_MENULIST_GetPos 0x020202FC thumb
  *   POKE_REGULATION_GetDataSize  0x0201A918  thumb
@@ -184,7 +179,7 @@
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   GF_FONT_Create 0x0201D7EC thumb
- *   BMP_SetDisplaySwap 0x0204363C arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   BMP_WIN_Init 0x02045088 arm
  *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
@@ -237,7 +232,6 @@
  *   DWC_RAP_StopVchat 0x021563D0 thumb ov009
  *   GFL_USE_GetTargetBgmNo 0x02005C4C thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
- *   BG_SYS_SetPriority  0x0204047C  arm
  *   DWC_RAP_SetOwnStatus  0x0215683C  thumb  ov009
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   MYSTATUS_GetTrainerView 0x02008554 thumb
@@ -303,7 +297,6 @@
  *   GFL_NET_HANDLE_CheckNegotiation 0x02039ACC arm
  *   MET_TRAINERS_GetFromSave 0x0200ED48 thumb
  *   GFL_NET_GetRunState 0x0203CD98 arm
- *   GFL_NET_GetRunState  0x0203CD98  arm
  *   BUTTON_MAN_Create 0x02051B84 arm
  *   d_021C377C 0x021C377C data a4
  *   BUTTON_MAN_Delete 0x02051C6C arm
@@ -445,7 +438,7 @@ extern void BMP_MENULIST_Delete(struct BmpMenuList *menu, u16 *cursorPos, u16 *l
 extern u32 BMP_MENUWORK_Delete(void *p);
 extern void BMP_MENU_DeleteYesNo(void *menu);
 extern StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern PrintQue *unit_0201C440(int heapId);
+extern PrintQue *PRINTSYS_QUE_Create(int heapId);
 extern void *TCBL_Create(u16 heapId, u16 tag, u32 count, u32 workSize);
 extern void *APP_KEYCURSOR_CreateDefault(int a, int b, int c, int d);
 extern int APP_KEYCURSOR_Delete(void *keyCursor);
@@ -488,8 +481,6 @@ extern int POKE_TOOL_GetIconCellEntryId(void);
 extern s32 CLACT_RegisterCellAnim(void *archive, u32 first, u32 second, u32 mode);
 extern void CLACT_SetActorAutoAnim(void *actor, unsigned int v);
 extern void CLACT_SetActorDrawEnable(void *actor, unsigned int v);
-extern void unit_0204B92C(void *actor, unsigned int v);
-extern void unit_0204B3DC(void *actor, unsigned int v);
 extern void BMP_MENULIST_SetCancelDisabled(void *menuList, u32 v);
 extern StrBuf **POKE_REGULATION_CreateText(void *regulationData, WordSet *wordSet, u16 heapId, u32 flag);
 extern StrBuf *REGULATION_CreateCupName(void *regulationData, u32 heapId);
@@ -515,7 +506,6 @@ extern u32 BATTLE_BOX_HasMon(void *obj);
 extern void *BATTLE_BOX_CreateParty(void *obj, int heapId);
 extern u32 GFL_HEAP_Free(void *p);
 extern void *POKE_REGULATION_Load(u32 ruleId, int heapId);
-extern void GF_FONT_SetDefaultTextColor(void);
 extern void POKEPARTY_Copy(const struct PokeParty *src, struct PokeParty *dst);
 extern void BMP_MENULIST_GetPos(struct BmpMenuList *menu, u16 *cursorPos, u16 *listPos);
 extern int POKE_REGULATION_GetDataSize(void);
@@ -542,7 +532,7 @@ extern void BG_SYS_SetSubVisiblePlanes(u32);
 extern WordSet *WORDSET_CreateDefault(u32 heapId);
 extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 archiveId, u32 fileId, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int archive, int fileId, int type, int flags, u32 heapId);
-extern void BMP_SetDisplaySwap(u32);
+extern void BG_SYS_SetLcdSwap(u32);
 extern void BMP_WIN_Init(u16);
 extern void *GFL_USE_AddMainTask(u32, u32, u32);
 extern void BG_SYS_SetMainPlaneVisible(u32, u32);
@@ -632,7 +622,6 @@ extern int MYSTATUS_GetSize(void);
 extern int WIFILIST_UpdateFriendRecord(void *o);
 extern int GFL_NET_GetRunState(void);
 extern void WIFILIST_CompactFriendList(void *obj);
-extern int GFL_NET_GetRunState(void);
 extern void *BUTTON_MAN_Create(const void *table, void *callback, void *userData, int heap);
 extern void BUTTON_MAN_Delete(void *);
 extern s32 BUTTON_MAN_UpdateSlots(void *c);
@@ -1403,8 +1392,8 @@ void WIFICLUB_CreateTextBuffers(WifiClubWork *work)
     work->extraText = STRBUF_Create(0x17C, 0x21);
     work->rawText = STRBUF_Create(0x17C, 0x21);
     work->shortText = STRBUF_Create(0xB4, 0x21);
-    work->msgPrintQueue = unit_0201C440(0x21);
-    work->menuPrintQueue = unit_0201C440(0x21);
+    work->msgPrintQueue = PRINTSYS_QUE_Create(0x21);
+    work->menuPrintQueue = PRINTSYS_QUE_Create(0x21);
     work->tcbl = TCBL_Create(0x21, 0x21, 2, 0);
     work->keyCursor = APP_KEYCURSOR_CreateDefault(0xF, 1, 0, 0x21);
 }
@@ -1831,8 +1820,8 @@ void WIFICLUB_FreezePartyIcons(WifiClubWork *work)
     int i;
     for (i = 0; i < 12; i++) {
         if (work->partyIconActor[i] != 0) {
-            unit_0204B92C(work->partyIconActor[i], 0);
-            unit_0204B3DC(work->partyIconActor[i], 0);
+            CLACT_SetActorAutoAnim(work->partyIconActor[i], 0);
+            CLACT_SetActorDrawEnable(work->partyIconActor[i], 0);
         }
     }
 }
@@ -3757,7 +3746,7 @@ void WIFICLUB_InitScreen(WifiClubWork *work)
     work->msgBankAlt = MSGDATA_CreateFromArchive(0, 2, 0xe8, 0x21);
     work->textFont = GF_FONT_Create(0x17, 0, 0, 0, 0x21);
     work->nameFont = GF_FONT_Create(0x17, 3, 0, 0, 0x21);
-    BMP_SetDisplaySwap(1);
+    BG_SYS_SetLcdSwap(1);
     WIFICLUB_InitVram();
     WIFICLUB_InitBackgrounds(0x21);
     BMP_WIN_Init(0x21);

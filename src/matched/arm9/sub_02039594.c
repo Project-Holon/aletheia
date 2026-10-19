@@ -1,5 +1,5 @@
 /*
- * function: sub_02039594
+ * function: GFL_NET_SYSTEM_IsSendEnable
  * address:  0x02039594
  * packet:   pkt_020393A8
  * region:   arm9
@@ -23,7 +23,7 @@
  * `if`s the shared block is duplicated.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02039594.c \n *       --func sub_02039594 --addr 0x02039594 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_SYSTEM_IsSendEnable.c \n *       --func GFL_NET_SYSTEM_IsSendEnable --addr 0x02039594 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -42,7 +42,7 @@ struct Session {
 extern struct LinkState *unk_021469D0;
 extern void *GFL_NET_GetInitParam(void);
 
-int sub_02039594(void)
+int GFL_NET_SYSTEM_IsSendEnable(void)
 {
     struct Session *s;
 

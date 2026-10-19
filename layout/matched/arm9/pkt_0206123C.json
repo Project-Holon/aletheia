@@ -42,10 +42,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "NNS_FndAllocFromAllocator"
+    "NNS_FndAllocFromAllocator",
+    "NNS_FndFreeToAllocator"
    ],
    "addresses": [
-    "0x02061330"
+    "0x02061330",
+    "0x02061344"
    ]
   },
   {

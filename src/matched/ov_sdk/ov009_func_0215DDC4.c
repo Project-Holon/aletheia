@@ -1,5 +1,5 @@
 /*
- * function: func_0215DDC4
+ * function: SOCLi_ReadUdpBuffer
  * address:  0x0215DDC4
  * packet:   pkt_ov009_0215DDC4
  * region:   ov009
@@ -66,7 +66,7 @@ static inline int isNotReady(struct SOCLSocket *socket)
     return r;
 }
 
-static int func_0215DDC4(struct SOCLSocket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
+static int SOCLi_ReadUdpBuffer(struct SOCLSocket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
                          unsigned long *remote_ip, long flag_block)
 {
     unsigned long enable;

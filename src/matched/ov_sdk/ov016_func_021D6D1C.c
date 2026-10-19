@@ -1,5 +1,5 @@
 /*
- * function: func_021D6D1C
+ * function: intrVBlank
  * address:  0x021D6D1C
  * packet:   pkt_ov016_021D6D1C
  * region:   ov016
@@ -19,7 +19,7 @@
 extern void DWCi_TSKlAct(int kind);
 extern int sInterruptTable;
 
-void func_021D6D1C(void)
+void intrVBlank(void)
 {
     DWCi_TSKlAct(1);
     *(volatile unsigned int *)((unsigned int)&sInterruptTable + 0x3FF8) |= 1;

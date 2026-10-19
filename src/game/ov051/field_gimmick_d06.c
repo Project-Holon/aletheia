@@ -22,7 +22,7 @@
  *   FIELDMAP_GetEffect  0x02188CD0  thumb  ov021
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
  *   FIELD_GIMMICK_D06_GetGimmickId  0x021F3D94  thumb  ov051
- *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
+ *   GIMMICK_WORK_GetWork  0x0200B3A4  thumb
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   FIELD_EFFECT_LoadResources  0x021ABE30  thumb  ov021
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb
@@ -175,7 +175,7 @@ void FIELD_GIMMICK_D06_Init(struct FieldMap *fieldMap)
     gimmickWork = GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
     effects = FIELDMAP_GetEffect(fieldMap);
     zoneId = FIELDMAP_GetZoneId(fieldMap);
-    save = GIMMICK_WORK_GetSaveArea(gimmickWork, FIELD_GIMMICK_D06_GetGimmickId(zoneId));
+    save = GIMMICK_WORK_GetWork(gimmickWork, FIELD_GIMMICK_D06_GetGimmickId(zoneId));
     work = GFL_HEAP_Alloc(heapId, sizeof(GimmickD06Work), 1, gGimmickD06SourceFile, 0xca);
     save->work = work;
     work->save = save;
@@ -224,7 +224,7 @@ void FIELD_GIMMICK_D06_Exit(struct FieldMap *fieldMap)
     FIELDMAP_GetHeapId(fieldMap);
     gimmickWork = GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
     FIELDMAP_GetEffect(fieldMap);
-    GFL_HEAP_Free(GIMMICK_WORK_GetSaveArea(gimmickWork, FIELD_GIMMICK_D06_GetGimmickId(FIELDMAP_GetZoneId(fieldMap)))->work);
+    GFL_HEAP_Free(GIMMICK_WORK_GetWork(gimmickWork, FIELD_GIMMICK_D06_GetGimmickId(FIELDMAP_GetZoneId(fieldMap)))->work);
 }
 
 /*
@@ -515,7 +515,7 @@ void FIELD_GIMMICK_D06_AddPanelPulse(GimmickD06Work *work, struct FieldEffectObj
 void FIELD_GIMMICK_D06_TriggerPanelPulse(struct FieldMap *fieldMap, int panelIndex)
 {
     struct GimmickWork *gimmickWork = GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
-    GimmickD06Work *work = GIMMICK_WORK_GetSaveArea(gimmickWork, FIELD_GIMMICK_D06_GetGimmickId(FIELDMAP_GetZoneId(fieldMap)))->work;
+    GimmickD06Work *work = GIMMICK_WORK_GetWork(gimmickWork, FIELD_GIMMICK_D06_GetGimmickId(FIELDMAP_GetZoneId(fieldMap)))->work;
 
     FLDEFF_D06DENKI_PulseTrigger(work->panelPulse[panelIndex]);
 }
@@ -534,7 +534,7 @@ GimmickD06Work *FIELD_GIMMICK_D06_GetWork(struct FieldMap *fieldMap)
 {
     struct GimmickWork *gimmickWork = GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
 
-    return GIMMICK_WORK_GetSaveArea(gimmickWork, FIELD_GIMMICK_D06_GetGimmickId(FIELDMAP_GetZoneId(fieldMap)))->work;
+    return GIMMICK_WORK_GetWork(gimmickWork, FIELD_GIMMICK_D06_GetGimmickId(FIELDMAP_GetZoneId(fieldMap)))->work;
 }
 
 /* The gimmick id of the zone (the id of its save area); the first one for an unknown zone. */

@@ -1,5 +1,5 @@
 /*
- * function: func_021CA980
+ * function: procScene
  * address:  0x021CA980
  * packet:   pkt_021CA980
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CA980   0x021CA980  arm
+ *   procScene   0x021CA980  arm
  *   DWCi_SceneSetListSave_button  0x021CA9D8  arm
  *   OS_Sleep  0x02085A38  arm  arm9
  *
@@ -18,8 +18,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021CA980.c \
- *       --func func_021CA980 --addr 0x021CA980 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/procScene.c \
+ *       --func procScene --addr 0x021CA980 --region ov016 --cc dsi/1.1p1 --arm
  */
 
 typedef unsigned int   u32;
@@ -29,7 +29,7 @@ extern void func_021CA9A0(void);
 extern void DWCi_SceneSetListSave_button(void);
 extern void func_021CA9DC(void);
 
-void func_021CA980(void)
+void procScene(void)
 {
     OS_Sleep(0xa);
     func_021CAB68();

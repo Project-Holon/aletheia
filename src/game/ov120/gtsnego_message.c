@@ -306,7 +306,7 @@ extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *res);
 extern s32 BUTTON_MAN_UpdateSlots(struct Ctx *c);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void *BUTTON_MAN_Create(u8 *rects, int a1, int arg, int heap);
+extern void *BUTTON_MAN_Create(u8 *rects, int cb, int arg, int heap);
 extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern u32 *APP_TASKMENU_WIN_CreateEx(u32 res, u32 item, u32 charPosX, u32 charPosY, u8 width, u8 height, u32 anmSpeed, u32 isCenter, u16 heapId);
 extern u8 MYSTATUS_GetNation(const struct Sub0200852CObj *obj);

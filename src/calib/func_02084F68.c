@@ -1,5 +1,5 @@
 /*
- * function: func_02084F68
+ * function: OS_VSPrintf
  * address:  0x02084F68
  * packet:   pkt_02084F44
  * region:   arm9
@@ -27,7 +27,7 @@
 
 extern void func_02084FA8(void *a0, int a1, int a2, int a3);
 
-void func_02084F68(void *a0, int a1, int a2)
+void OS_VSPrintf(void *a0, int a1, int a2)
 {
     func_02084FA8(a0, 0x7fffffff, a1, a2);
 }

@@ -33,7 +33,7 @@
  *   MYSTATUS_GetSize  0x02008468  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   SYSTEM_DATA_GetMyStatus  0x02008730  thumb
- *   memcpy         0x02082D44  arm
+ *   MI_CpuCopy8         0x02082D44  arm
  *   EVENTDATA_SYSTEM_Create  0x0216237C  thumb  ov010
  *   EVENTDATA_SYSTEM_Clear  0x021623DC  thumb  ov010
  *   GAME_DATA_GetEventWorkFromSave  0x02012FE4  thumb
@@ -71,7 +71,6 @@
  *   PLAYER_LOCATION_GetShortData  0x02008850  thumb
  *   GAME_DATA_SetConfigFlag  0x02012BC8  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   MI_CpuCopy8  0x02082D44  arm
  *   MUSICAL_SHOT_GetFromSave  0x0200A864  thumb
  *   MUSICAL_SHOT_GetTitle  0x0200A890  thumb
  *   MUSICAL_SHOT_GetExtraData  0x0200A898  thumb
@@ -170,7 +169,7 @@ struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 
 extern struct MyStatus *SYSTEM_DATA_GetMyStatus(struct SaveControl *saveControl);
 
-extern void *memcpy(void *dst, const void *src, u32 size);
+extern void *MI_CpuCopy8(void *dst, const void *src, u32 size);
 
 extern int EVENTDATA_SYSTEM_Create(int heapId);
 
@@ -246,7 +245,6 @@ extern u16 *MUSICAL_SHOT_GetTitle(struct UnionInfo *shot);
 
 extern u8 *MUSICAL_SHOT_GetExtraData(struct UnionInfo *shot);
 
-extern void MI_CpuCopy8(void *dst, const void *src, u32 size);
 
 extern int EVENT_FIELD_PROCLINK_ApplyZoneChangeEnable(int unionInfo);
 
@@ -345,7 +343,7 @@ extern const char _GameDataFileName[];
  *
  * 2. THE memcpy ARGUMENTS ARE EVALUATED THROUGH TWO NAMED LOCALS, in the
  *    original's order: `n = MYSTATUS_GetSize(); src = GAME_DATA_GetMyStatus(p);` and
- *    only then `memcpy(SYSTEM_DATA_GetMyStatus(*(u32 *)p), src, n)`.  Written as one
+ *    only then `MI_CpuCopy8(SYSTEM_DATA_GetMyStatus(*(u32 *)p), src, n)`.  Written as one
  *    nested expression mwcc schedules SYSTEM_DATA_GetMyStatus first and the whole
  *    tail of the function reallocates: that alone was 169 of the 176
  *    mismatches.  (docs/idioms/an-inline-call-argument-is-scheduled-per-site-
@@ -382,7 +380,7 @@ struct GameData *GAME_DATA_Create(u16 heapId)
 
     statusSize = MYSTATUS_GetSize();
     status = GAME_DATA_GetMyStatus(gameData);
-    memcpy(SYSTEM_DATA_GetMyStatus(gameData->saveControl), status, statusSize);
+    MI_CpuCopy8(SYSTEM_DATA_GetMyStatus(gameData->saveControl), status, statusSize);
 
     gameData->eventData = eventData = (void *)EVENTDATA_SYSTEM_Create(heapId);
     EVENTDATA_SYSTEM_Clear(eventData);

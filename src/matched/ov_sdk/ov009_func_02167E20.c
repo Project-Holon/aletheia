@@ -1,5 +1,5 @@
 /*
- * function: func_02167E20
+ * function: WcmWmcbSetDCFDataAsync
  * address:  0x02167E20
  * packet:   pkt_ov009_02167E20
  * region:   ov009
@@ -51,7 +51,7 @@ extern WCMCpsifWork *WCMi_GetCpsifWork(void);
 extern void WCMi_ResetKeepAliveAlarm(void);
 extern void WCMi_CpsifUnlockMutexInIRQ(OSMutex *mutex);
 
-static void func_02167E20(void *arg)
+static void WcmWmcbSetDCFDataAsync(void *arg)
 {
     WMCallback *cb = (WMCallback *)arg;
     WCMCpsifWork *wcmiw = WCMi_GetCpsifWork();

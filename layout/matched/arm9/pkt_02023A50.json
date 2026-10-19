@@ -31,7 +31,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "sub_02023D94",
+   "name": "WIPE_SUB_WindowVisibleTask",
    "address": "0x02023D94",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "sub_02023DA8",
+   "name": "WIPE_SUB_WindowInsideTask",
    "address": "0x02023DA8",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "sub_02023DC4",
+   "name": "WIPE_SUB_WindowOutsideTask",
    "address": "0x02023DC4",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0202428C",
+   "name": "PMSI_PARAM_ClearSentence",
    "address": "0x0202428C",
    "kind": "game",
    "region": "arm9",

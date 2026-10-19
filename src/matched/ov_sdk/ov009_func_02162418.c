@@ -1,5 +1,5 @@
 /*
- * function: func_02162418
+ * function: send_client_hello
  * address:  0x02162418
  * packet:   pkt_ov009_02162418
  * region:   ov009
@@ -58,7 +58,7 @@ struct _CPSSoc;
 extern u32 CPSi_TcpWrite2Raw(u8 *buf, u32 len, u8 *buf2, u32 len2, struct _CPSSoc *soc);
 extern void update_digest(CPSSslConnection *con, unsigned char *s, unsigned long len);
 
-static void func_02162418(CPSSoc *soc)
+static void send_client_hello(CPSSoc *soc)
 {
     CPSSslConnection *con = soc->con;
     unsigned long sec;

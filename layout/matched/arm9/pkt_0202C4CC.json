@@ -18,12 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0202C4CC",
-    "sub_0202C4D0"
+    "ISS_SWITCH_SET_GetZoneCount",
+    "ISS_SWITCH_SET_GetZone"
+   ],
+   "addresses": [
+    "0x0202C4CC",
+    "0x0202C4D0"
    ]
   },
   {
-   "name": "sub_0202C510",
+   "name": "ISS_SWITCH_SET_GetSwitch",
    "address": "0x0202C510",
    "kind": "game",
    "region": "arm9",
@@ -35,7 +39,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0202C548",
+   "name": "ISS_SWITCH_Delete",
    "address": "0x0202C548",
    "kind": "game",
    "region": "arm9",
@@ -47,7 +51,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0202C550",
+   "name": "ISS_SWITCH_Setup",
    "address": "0x0202C550",
    "kind": "game",
    "region": "arm9",
@@ -70,13 +74,22 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0202C558",
-    "sub_0202C560",
-    "sub_0202C568",
-    "sub_0202C570",
-    "sub_0202C578",
-    "sub_0202C580",
-    "sub_0202C588"
+    "ISS_SWITCH_IsOn",
+    "ISS_SWITCH_On",
+    "ISS_SWITCH_Off",
+    "ISS_SWITCH_ForceOn",
+    "ISS_SWITCH_ForceOff",
+    "ISS_SWITCH_Main",
+    "ISS_SWITCH_SetVolume"
+   ],
+   "addresses": [
+    "0x0202C558",
+    "0x0202C560",
+    "0x0202C568",
+    "0x0202C570",
+    "0x0202C578",
+    "0x0202C580",
+    "0x0202C588"
    ]
   },
   {
@@ -92,7 +105,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0202C5B4",
+   "name": "ISS_SWITCH_Init",
    "address": "0x0202C5B4",
    "kind": "game",
    "region": "arm9",
@@ -127,12 +140,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0202C5CC",
-    "sub_0202C5E0"
+    "ISS_SWITCH_CountUpFade",
+    "ISS_SWITCH_IsFadeEnd"
+   ],
+   "addresses": [
+    "0x0202C5CC",
+    "0x0202C5E0"
    ]
   },
   {
-   "name": "sub_0202C638",
+   "name": "ISS_SWITCH_UpdateFadeIn",
    "address": "0x0202C638",
    "kind": "game",
    "region": "arm9",
@@ -144,7 +161,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0202C654",
+   "name": "ISS_SWITCH_UpdateFadeOut",
    "address": "0x0202C654",
    "kind": "game",
    "region": "arm9",
@@ -167,11 +184,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0202C670"
+    "ISS_SWITCH_StartFadeIn"
+   ],
+   "addresses": [
+    "0x0202C670"
    ]
   },
   {
-   "name": "sub_0202C688",
+   "name": "ISS_SWITCH_StartFadeOut",
    "address": "0x0202C688",
    "kind": "game",
    "region": "arm9",
@@ -214,8 +234,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0202C6B8",
-    "sub_0202C6BC"
+    "ISS_SWITCH_GetState",
+    "ISS_SWITCH_SetState"
+   ],
+   "addresses": [
+    "0x0202C6B8",
+    "0x0202C6BC"
    ]
   },
   {
@@ -230,7 +254,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0202C760"
+    "ISS_SWITCH_IsOffState"
+   ],
+   "addresses": [
+    "0x0202C760"
    ]
   }
  ]

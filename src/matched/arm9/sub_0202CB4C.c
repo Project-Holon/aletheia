@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0202CB4C
+ * function: BGWINFRM_PutFrame
  * address:  0x0202CB4C
  * packet:   pkt_0202C794
  * region:   arm9
@@ -46,8 +46,8 @@
  *    `y + win->h` are named (`x1`, `y1`), and those two stay in registers.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202CB4C.c \
- *       --func sub_0202CB4C --addr 0x0202CB4C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BGWINFRM_PutFrame.c \
+ *       --func BGWINFRM_PutFrame --addr 0x0202CB4C --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -84,7 +84,7 @@ extern void BG_SYS_DrawTileEx(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5,
                           u8 a6, u8 a7, u8 a8, u8 a9);
 extern void (*g_020A0058[])(u32);
 
-void sub_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y)
+void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y)
 {
     struct Win *win = &mgr->wins[idx];
     u8 sx, ow, ox;

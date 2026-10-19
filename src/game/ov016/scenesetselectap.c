@@ -33,7 +33,7 @@
  *   GX_LoadBGPltt                  0x0207E3D0  arm  arm9
  *   GX_LoadBG2Scr                  0x0207EB78  arm  arm9
  *   GX_LoadBG2Char                 0x0207F0B8  arm  arm9
- *   DWCi_SceneSetSelectApInitGraphics 0x021CBCF0  arm  ov016
+ *   initGraphics 0x021CBCF0  arm  ov016
  *   DWCi_SceneSetSelectAp  0x021CBC90  arm
  *   DWCi_HEAPlAllocEx                0x021d6414 arm
  *   DWCi_HLlLoad                     0x021bd674 arm
@@ -49,11 +49,8 @@
  *   sSceneSetSelectApPathYbObjWayPltt   0x021DB708  data
  *   GX_LoadOBJPltt   0x0207E51C  data
  *   sSceneSetSelectApPathJbBgStep1Char   0x021DB71C  data
- *   GX_LoadBG2Char   0x0207F0B8  data
  *   sSceneSetSelectApPathJbBgStep1Pltt   0x021DB734  data
- *   GX_LoadBGPltt   0x0207E3D0  data
  *   sSceneSetSelectApPathJb2ApScr   0x021DB74C  data
- *   GX_LoadBG2Scr   0x0207EB78  data
  *   DWCi_SETTINGlGetSetType  0x021CF7F4 arm   ov016
  *   DWCi_CEINlSetExCell  0x021D5394 arm   ov016
  *   DWCi_CELLlSetPosition  0x021D5118 arm   ov016
@@ -96,7 +93,6 @@
  *   DWCi_SetParam2_  0x021C0E8C  arm  ov016
  *   DWCi_SetListReturn  0x021CA5C0  arm  ov016
  *   DWCi_HEAPlFree_  0x021D6438  arm  ov016
- *   GX_LoadOBJPltt  0x0207E51C  arm
  *   DWCi_SceneMenu  0x021C1984  arm  ov016
  *   DWCi_SceneSetSelectWay  0x021CC998  arm  ov016
  *   DWCi_SceneSetList  0x021C82FC  arm  ov016
@@ -105,13 +101,12 @@
  *   DWCi_FOCUSlDisp4                 0x021bd4c8 arm
  *   DWCi_FOCUSlDisp                  0x021bd41c arm
  *   R_FOCUS                          0x021da77c data
- *   DWCi_SceneSetSelectApDispFocus  0x021CC46C  arm  ov016
+ *   dispFocus  0x021CC46C  arm  ov016
  *   DWCi_CELLlGetObj                 0x021d4fe0 arm
  *   DWCi_CEINlSet                    0x021d52d4 arm
  *   DWCi_WINlGet                     0x021D1568  arm
  *   DWCi_SETTINGlErasePage           0x021CFBE4  arm
  *   DWCi_WINlEnd                     0x021D1524  arm
- *   C_CELL                       0x021DA72C  data
  *   sSceneSetSelectApCellPosY                       0x021DA72E  data
  *   DWCi_WINlIsInit                  0x021d157c arm
  *   DWCi_SCREENlCopyPalette          0x021ce7b0 arm

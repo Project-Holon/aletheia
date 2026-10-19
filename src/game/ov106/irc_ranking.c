@@ -89,7 +89,7 @@
  *   CLACT_ExitSystem 0x0204A5AC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   BMP_SetDisplaySwap 0x0204363C arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   GF_FONT_InitTextColor 0x0201DD60 thumb
@@ -493,7 +493,7 @@ extern void CLACT_DrawSystem(void);
 extern void CLACT_VBlankSystem(void);
 extern void BG_SYS_ClearGraphicsMemory(u32);
 extern void BG_SYS_SetVramBanks(const struct DispVramConfig *c);
-extern void BMP_SetDisplaySwap(u32);
+extern void BG_SYS_SetLcdSwap(u32);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void GF_FONT_InitTextColor(void);
@@ -547,11 +547,6 @@ extern u32 KEY_GetTrg(void);
 extern unsigned int KEY_GetCont(void);
 extern int TOUCHPANEL_GetCont(void);
 extern void VEC_Subtract(const Vec3 *, const Vec3 *, Vec3 *);
-extern float _fflt(int);
-extern int _ffix(float);
-extern float _fadd(float, float);
-extern float _fsub(float, float);
-extern float _ffltu(u32);
 extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
 extern u8 BMP_WIN_GetHeight(struct BmpWin *win);
 extern u32 PRINTSYS_CountLines(struct Strbuf *, struct GfFont *);
@@ -938,7 +933,7 @@ void IRC_RANKING_DisplayInit(IrcRankingDisplay *display, struct GameData *gameDa
     REG_DISPCNT_SUB &= ~0xe000;
     BG_SYS_ClearGraphicsMemory(0);
     BG_SYS_SetVramBanks(&gIrcRankingVramConfig);
-    BMP_SetDisplaySwap(1);
+    BG_SYS_SetLcdSwap(1);
     BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
     GF_FONT_InitTextColor();
@@ -1426,10 +1421,10 @@ static inline int ToFixedRounded(int v)
 {
     float f;
     if (v > 0)
-        f = _fadd(0.5f, _fflt((int)((u32)v << 12)));
+        f = (0.5f + (float)((int)((u32)v << 12)));
     else
-        f = _fsub(_fflt((int)((u32)v << 12)), 0.5f);
-    return _ffix(f);
+        f = ((float)((int)((u32)v << 12)) - 0.5f);
+    return (int)f;
 }
 
 /* Reports the finished touch once (start, end, direction vector, hold time) when no key is held. */
@@ -1494,8 +1489,8 @@ void IRC_RANKING_InertiaUpdate(IrcRankingInertia *inertia)
 static inline int Abs32(int v) { return v < 0 ? (int)(0u - (u32)v) : v; }
 
 static inline int ToFixedRoundedUnsigned(int v) {
-    if (v != 0) return _ffix(_fadd(0.5f, _ffltu((u32)v << 12)));
-    return _ffix(_fsub(_ffltu((u32)v << 12), 0.5f));
+    if (v != 0) return (int)(0.5f + (float)((u32)v << 12));
+    return (int)((float)((u32)v << 12) - 0.5f);
 }
 
 /*

@@ -1,5 +1,5 @@
 /*
- * function: func_021BC924
+ * function: taskAnime
  * address:  0x021BC924
  * packet:   pkt_ov016_021BC924
  * region:   ov016
@@ -44,7 +44,7 @@ extern int FX_ModS32(int a, int b);
 extern int FX_DivS32(int a, int b);
 extern void DWCi_CEINlSet(int a, int b, void *obj);
 
-void func_021BC924(void)
+void taskAnime(void)
 {
 	int name;
 	u32 pal;

@@ -1,5 +1,5 @@
 /*
- * function: func_021D1868
+ * function: disp
  * address:  0x021D1868
  * packet:   pkt_ov016_021D1868
  * region:   ov016
@@ -16,7 +16,7 @@
  * cmp ahead of the pair of ldrh, giving 10 reordered instructions at +0128.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021D1868.c \n *       --func func_021D1868 --addr 0x021D1868 --region ov016 --arm --cc 1.1p1 --lang c99
+ *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021D1868.c \n *       --func disp --addr 0x021D1868 --region ov016 --arm --cc 1.1p1 --lang c99
  *
  * symbols:
  *   DWCi_CELLlSetPosition  0x021D5118  arm  ov016
@@ -74,7 +74,7 @@ extern struct G_021DAA2E sWindowTable14[][2];
 extern u16 sWindowTable13[][2];
 extern u16 sWindowTable12[][2];
 
-void func_021D1868(int y)
+void disp(int y)
 {
     RectT r;
     int y0;

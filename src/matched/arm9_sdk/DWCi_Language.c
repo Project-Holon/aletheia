@@ -1,5 +1,5 @@
 /*
- * function: DWCi_Language
+ * function: MSGDATA_GetLanguage
  * address:  0x020461E4
  * packet:   pkt_020461E4
  * region:   arm9
@@ -14,7 +14,7 @@
  */
 
 extern void g_02146A54(void);
-asm void DWCi_Language(void)
+asm void MSGDATA_GetLanguage(void)
 {
     ldr r0, =g_02146A54
     ldrb r0, [r0]

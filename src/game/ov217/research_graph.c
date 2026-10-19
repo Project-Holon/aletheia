@@ -185,7 +185,7 @@
  *   d_021C3646 0x021C3646 data ov217 a1
  *   d_021C3632 0x021C3632 data ov217 a1
  *   SYMBOL_SAVE_GetQuestionnaireBits 0x0200E3A0 thumb
- *   SYMBOL_SAVE_GetQuestionnaireAnswer 0x0200E3A4 thumb
+ *   SYMBOL_SAVE_ReadBitField 0x0200E3A4 thumb
  *   GRAPHTABLE_GetEntryId 0x021C2644 thumb ov217
  *   GAME_DATA_GetPlayTime 0x02012FCC thumb
  *   PLAYTIME_GetHours 0x0200864C thumb
@@ -698,7 +698,7 @@ extern int CircleGraph_IsAnimating(u8 *p);
 
 extern void *SYMBOL_SAVE_GetQuestionnaireBits(void *a);
 
-extern u32 SYMBOL_SAVE_GetQuestionnaireAnswer(const u8 *, int);
+extern u32 SYMBOL_SAVE_ReadBitField(const u8 *, int);
 
 extern u32 GRAPHTABLE_GetEntryId(void *, u32, u8);
 
@@ -2976,7 +2976,7 @@ u32 RESEARCH_GRAPH_GetEntryIdBySave(u8 *graph)
     bits = SYMBOL_SAVE_GetQuestionnaireBits(SYMBOL_SAVE_GetBitBlock(GAME_DATA_GetSaveControl((struct Big *)RESEARCH_GRAPH_GetAppResource(graph))));
     index = RESEARCH_GRAPH_GetGroupKey(graph);
     if (index == 29) return RESEARCH_GRAPH_GetPlayTimeGroupId(graph);
-    n = SYMBOL_SAVE_GetQuestionnaireAnswer((const u8 *)bits, index);
+    n = SYMBOL_SAVE_ReadBitField((const u8 *)bits, index);
     if (n == 0) return 0;
     n--;
     return (u8)GRAPHTABLE_GetEntryId(graph + 0x38, graph[0x2b8], n);

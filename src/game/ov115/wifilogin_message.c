@@ -303,7 +303,7 @@ extern void GFL_NET_IRC_WIRELESS_Exit(void);
 
 extern int GFL_NET_IsSessionNull(void);
 
-extern int GFL_NET_Exit(int a0);
+extern int GFL_NET_Exit(int exitCallback);
 
 extern void WIFILOGIN_MSG_SetExitFlag(u8 *p);
 

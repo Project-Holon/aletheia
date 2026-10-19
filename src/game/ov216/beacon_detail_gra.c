@@ -102,7 +102,7 @@
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   BMP_SetDisplaySwap 0x0204363C arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
@@ -521,7 +521,7 @@ extern int PMS_DRAW_Main(u32);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void BMP_SetDisplaySwap(u32 swap);
+extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
@@ -562,7 +562,7 @@ extern void GXS_LoadBGPltt(void *,unsigned,unsigned);
 extern void GX_LoadOBJPltt(void *,unsigned,unsigned);
 extern void GXS_LoadOBJPltt(void *,unsigned,unsigned);
 extern int TOUCHBAR_SetButtonEnabled(unsigned char *p, unsigned int id, int v);
-extern unsigned int GAME_BEACON_ACCESSOR_GetPmVersion(void *a0);
+extern unsigned int GAME_BEACON_ACCESSOR_GetPmVersion(void *info);
 extern unsigned GAME_BEACON_ACCESSOR_GetDetailsType(const char *);
 extern unsigned short GAME_BEACON_ACCESSOR_GetDetailsMonsNo(const char *);
 extern unsigned short GAME_BEACON_ACCESSOR_GetDetailsTrainerNo(const char *);
@@ -583,13 +583,13 @@ extern u32 PMS_DRAW_IsActive(const struct BeaconDetailGraPmsDraw *, u32);
 extern void PMS_DRAW_SetVisible(struct BeaconDetailGraPmsDraw *, int, u32);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void BG_SYS_ChangeScrollImmediate(u32,u32,u32);
-extern void GAME_BEACON_ACCESSOR_GetFavoriteColorRgb(int a0, int a1);
+extern void GAME_BEACON_ACCESSOR_GetFavoriteColorRgb(int rgb, int info);
 extern void PALANM_BlendColors(u16 *,u16 *,u32,int,u16);
 extern void GAME_BEACON_ACCESSOR_GetPlayerName(struct GameBeaconRecord *,void *);
-extern int GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerSecond(int a0);
+extern int GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerSecond(int info);
 extern void STRBUF_Clear(struct U16Vec *);
 extern void WORDSET_SetSlotFromMsg38(struct WordSet *,u32,u32);
-extern int GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerFirst(int a0);
+extern int GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerFirst(int info);
 extern void WORDSET_SetSlotFromMsg2B(struct WordSet *,u32,u32);
 extern void GAME_BEACON_ACCESSOR_GetPlayTime(const struct GameBeaconRecord *p, u16 *a, u16 *b);
 extern void WORDSET_SetSlotNumber(struct WordSet *,u32,u32,u32,u32,u32);
@@ -1238,7 +1238,7 @@ void *BEACON_DETAIL_GRA_Create(int a,int heap)
     *(volatile unsigned *)0x04001000 &= ~0xe000;
     BG_SYS_ClearGraphicsMemory(0);
     BG_SYS_SetVramBanks((const struct DispVram *)d_021BDBD8);
-    BMP_SetDisplaySwap(a);
+    BG_SYS_SetLcdSwap(a);
     BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();

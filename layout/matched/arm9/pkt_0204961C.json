@@ -18,7 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "unit_0204961C"
+    "ARC_TOOL_GetHandleFileCount",
+    "ARC_UTIL_UploadBgCharFromArchive"
+   ],
+   "addresses": [
+    "0x0204961C",
+    "0x02049624"
    ]
   },
   {

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CAB68",
+   "name": "checkRaku",
    "address": "0x021CAB68",
    "kind": "sdk",
    "region": "ov016",

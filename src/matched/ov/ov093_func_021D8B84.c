@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: BTL_CALC_SniperBoostCritical, BTL_CALC_GetSniperHandlers
+ * function: HAND_TOKUSEI_SniperBoostCritical, HAND_TOKUSEI_GetSniperHandlers
  * address: 0x021D8B84
  * packet: pkt_ov093_021D8B84
  * region: ov093
@@ -17,8 +17,8 @@
 extern int BTL_EVENT_GetVar(int);
 extern void BTL_EVENT_MultiplyVar(int, int);
 extern unsigned int gSniperHandlers;
-void BTL_CALC_SniperBoostCritical(int a, int b, int c)
+void HAND_TOKUSEI_SniperBoostCritical(int a, int b, int c)
 {
     if (c == BTL_EVENT_GetVar(3) && BTL_EVENT_GetVar(0x45)) BTL_EVENT_MultiplyVar(0x35, 3 << 11);
 }
-void *BTL_CALC_GetSniperHandlers(int *p) { *p = 1; return &gSniperHandlers; }
+void *HAND_TOKUSEI_GetSniperHandlers(int *p) { *p = 1; return &gSniperHandlers; }

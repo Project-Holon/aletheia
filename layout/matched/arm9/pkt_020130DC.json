@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_020130DC",
+   "name": "BTL_SETUP_FreeSlots",
    "address": "0x020130DC",
    "kind": "game",
    "region": "arm9",

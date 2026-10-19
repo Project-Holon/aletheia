@@ -21,7 +21,7 @@
  *   NNS_G3dGetAnmByIdx  0x0206E9A4  arm
  *   G3D_SYSTEM_GetResourceFile  0x02046F48  arm
  *   NNS_G3dGetMdlSet  0x0206E954  arm
- *   DWCi_LSTlPopFront  0x02047250  arm
+ *   G3D_SYSTEM_GetResourceTex  0x02047250  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   NNS_G3dAnmObjInit  0x02069C74  arm
  *   NNS_G3dRenderObjAddAnmObj  0x02069E88  arm
@@ -323,7 +323,7 @@ extern void *ARC_UTIL_LoadMember(u32 arcId, u32 memberId, u32 zero, u16 heapId);
 extern NNSG3dResAnm *NNS_G3dGetAnmByIdx(void *file, u32 idx);
 extern void *G3D_SYSTEM_GetResourceFile(void *resource);
 extern ModelSetRes *NNS_G3dGetMdlSet(void *file);
-extern TexRes *DWCi_LSTlPopFront(void *resource);
+extern TexRes *G3D_SYSTEM_GetResourceTex(void *resource);
 extern void MI_CpuFill8(void *p, u32 value, u32 size);
 extern void NNS_G3dAnmObjInit(NNSG3dAnmObj *anmObj, NNSG3dResAnm *pResAnm, u32 pResMdl, u32 pResTex);
 extern void NNS_G3dRenderObjAddAnmObj(void *renderObj, NNSG3dAnmObj *anmObj);
@@ -591,7 +591,7 @@ u32 FIELD_GROUND_ANIME_AnmEntryBind(GroundAnmEntry *entry, u32 fileRes, u32 texR
     u32 pResMdl;
     pResMdl = ModelSetGetFirstModel(NNS_G3dGetMdlSet(G3D_SYSTEM_GetResourceFile((void *)fileRes)));
     if (texRes != 0)
-        texRes = (u32)DWCi_LSTlPopFront((void *)texRes);
+        texRes = (u32)G3D_SYSTEM_GetResourceTex((void *)texRes);
     else
         texRes = 0;
     MI_CpuFill8(entry->anmObj, 0, 0x80);
@@ -781,8 +781,8 @@ int FIELD_GROUND_ANIME_GetModelTexVramOffset(void *modelRes, void *animRes, u32 
     int modelTexIdx;
     u32 *texParam;
 
-    modelTex = DWCi_LSTlPopFront(modelRes);
-    animTex = DWCi_LSTlPopFront(animRes);
+    modelTex = G3D_SYSTEM_GetResourceTex(modelRes);
+    animTex = G3D_SYSTEM_GetResourceTex(animRes);
     texName = animTex ? DictGetNameByIdx(&animTex->dict, animTexIdx) : 0;
     if (modelTex) {
         modelTexIdx = NNS_G3dGetResDictIdxByName(&modelTex->dict, texName);
@@ -803,7 +803,7 @@ u32 FIELD_GROUND_ANIME_GetTexSize(void *animRes, u32 texIdx)
     u32 *texParam;
     u32 param;
 
-    tex = DWCi_LSTlPopFront(animRes);
+    tex = G3D_SYSTEM_GetResourceTex(animRes);
     texParam = tex ? DictGetByIdx(&tex->dict, texIdx) : 0;
     param = *texParam;
     return (u32)(gTexDimensionTable[(param & 0x700000) >> 20] * gTexDimensionTable[(param & 0x3800000) >> 23]) / gTexPixelsPerByteTable[(param & 0x1C000000) >> 26];
@@ -815,7 +815,7 @@ u8 *FIELD_GROUND_ANIME_GetTexData(void *animRes, u32 texIdx)
     TexRes *tex;
     u32 *texParam;
 
-    tex = DWCi_LSTlPopFront(animRes);
+    tex = G3D_SYSTEM_GetResourceTex(animRes);
     texParam = tex ? DictGetByIdx(&tex->dict, texIdx) : 0;
     return (u8 *)tex + tex->ofsTex + ((*texParam & 0xFFFF) << 3);
 }

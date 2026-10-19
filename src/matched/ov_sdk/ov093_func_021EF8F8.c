@@ -1,5 +1,5 @@
 /*
- * function: DWC_StartUtilityEx
+ * function: BTL_FIELD_AddStaticSlotHolder
  * address:  0x021EF8F8
  * packet:   pkt_ov093_021EF8F8
  * region:   ov093
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * DWC_StartUtilityEx (libdwcutil/main.o): second copy in ov093, a two-argument
+ * BTL_FIELD_AddStaticSlotHolder (libdwcutil/main.o): second copy in ov093, a two-argument
  * wrapper forwarding the persistent heap block and both parameters to its own
  * local entry point (BTL_FIELD_AddSlotHolder); tail call.
  *
@@ -22,7 +22,7 @@ extern char HeapMem;
 typedef unsigned int   u32;
 extern int BTL_FIELD_AddSlotHolder(char *a, u32 b, u32 c);
 
-int DWC_StartUtilityEx(int a, int b)
+int BTL_FIELD_AddStaticSlotHolder(int a, int b)
 {
     return BTL_FIELD_AddSlotHolder(&HeapMem, a, b);
 }

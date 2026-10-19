@@ -128,7 +128,7 @@ extern void SOUND_OBJ_SetAnime(struct SoundObj *obj, u32 arcId, u32 dataId, u32 
 extern u32 GFL_HEAP_Free(void *p);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
-extern FieldGimmickSoundObjsSave *GIMMICK_WORK_GetSaveArea(struct GimmickWork *gimmickWork, u32 slotId);
+extern FieldGimmickSoundObjsSave *GIMMICK_WORK_GetWork(struct GimmickWork *gimmickWork, u32 slotId);
 extern u32 SOUND_OBJ_GetAnimeFrame(struct SoundObj *obj);
 extern void SOUND_OBJ_SetAnimeFrame(struct SoundObj *obj, s32 frame);
 extern unsigned GFL_USE_GetRandomBelow(unsigned limit);

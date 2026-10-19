@@ -1,5 +1,5 @@
 /*
- * function: sub_0202C3E0
+ * function: ISS_SWITCH_SET_LoadData
  * address:  0x0202C3E0
  * packet:   pkt_0202C244
  * region:   arm9
@@ -34,8 +34,8 @@
  * of their siblings, or the image acquires a second, non-trampoline caller.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202C3E0.c \
- *       --func sub_0202C3E0 --addr 0x0202C3E0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ISS_SWITCH_SET_LoadData.c \
+ *       --func ISS_SWITCH_SET_LoadData --addr 0x0202C3E0 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -54,7 +54,7 @@ struct Obj0202C3E0 {
     u8 unk16;
 };
 
-u32 sub_0202C3E0(struct Obj0202C3E0 *a, void *b)
+u32 ISS_SWITCH_SET_LoadData(struct Obj0202C3E0 *a, void *b)
 {
     u16 digits[9];
     u16 sep;

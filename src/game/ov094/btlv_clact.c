@@ -72,14 +72,6 @@ extern u32 TCBL_IsDeletePending(void *task);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern float _fflt(int);
-
-extern float _fadd(float, float);
-
-extern float _fsub(float, float);
-
-extern int _ffix(float);
-
 extern struct Unit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
 extern unsigned int CLACT_DeleteUnit(struct Unit *unit);
@@ -292,8 +284,8 @@ void BTLV_CLACT_RequestPaletteFade(BtlvClact *clact, int slot, u8 startLevel, u8
 
 static inline int FxFromInt(int x)
 {
-    if (x > 0) return _ffix(_fadd(0.5f, _fflt(x << 12)));
-    else return _ffix(_fsub(_fflt(x << 12), 0.5f));
+    if (x > 0) return (int)(0.5f + (float)(x << 12));
+    else return (int)((float)(x << 12) - 0.5f);
 }
 
 void BTLV_CLACT_StartMoveTask(BtlvClact *clact, int slot, u32 mode, BtlvVec3 *start, BtlvVec3 *end, int frames, int waitTicks, int repeats,

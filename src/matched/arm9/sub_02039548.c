@@ -1,5 +1,5 @@
 /*
- * function: sub_02039548
+ * function: GFL_NET_SYSTEM_SetError
  * address:  0x02039548
  * packet:   pkt_020393A8
  * region:   arm9
@@ -16,7 +16,7 @@
  * the two are byte-for-byte the same but for the stored constant.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02039548.c \n *       --func sub_02039548 --addr 0x02039548 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_SYSTEM_SetError.c \n *       --func GFL_NET_SYSTEM_SetError --addr 0x02039548 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -33,7 +33,7 @@ struct LinkState {
 
 extern struct LinkState *unk_021469D0;
 
-void sub_02039548(void)
+void GFL_NET_SYSTEM_SetError(void)
 {
     unk_021469D0->unk_1e9 = 1;
 }

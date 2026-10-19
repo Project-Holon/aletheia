@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
+ *   DC_FlushRange 0x020862F0 arm
  *   CARDi_ReadRomWithDMA 0x02077008 arm
  *   CARD_NotifyRomHashReadAsync 0x0272EE2C arm twl
  *   data_02150200 0x02150200 data
@@ -35,7 +35,7 @@ struct Request {
 
 extern struct SysState data_02150200;
 extern struct Request data_02732DA8;
-extern void DWCi_ScreenDC_FlushRange(u32, u32);
+extern void DC_FlushRange(u32, u32);
 extern void CARDi_ReadRomWithDMA(struct Request *);
 extern void CARD_NotifyRomHashReadAsync(void *);
 
@@ -44,7 +44,7 @@ u32 CARDi_ReadCardWithHashInternalAsync(u32 a, u32 b, u32 c, u32 d)
     if (data_02150200.state == -1) {
         d = 0;
     } else {
-        DWCi_ScreenDC_FlushRange(b, d);
+        DC_FlushRange(b, d);
         data_02732DA8.callback = CARD_NotifyRomHashReadAsync;
         data_02732DA8.a = a;
         data_02732DA8.c = c;

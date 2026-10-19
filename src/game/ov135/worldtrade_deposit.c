@@ -53,7 +53,6 @@
  *   BMP_WIN_GetBmp   0x02045770  arm
  *   BMP_Clear   0x02043B5C  arm
  *   BMP_WIN_TransferChars   0x02045334  arm
- *   unit_02045730  0x02045730  arm
  *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   WORLDTRADE_ADAPTER_QueuePrintDefaultColor  0x02202858  thumb  ov135
  *   MIi_CpuCopyFast  0x02082B0C  arm
@@ -268,11 +267,9 @@ extern int POKE_TOOL_ChangeBoxForm(int box, int newForm);
 
 extern u32 WORLDTRADE_ADAPTER_IsStreamBusy(PrintStreamCtx *p);
 
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
-extern u8 unit_02045730(u32 a);
 
 extern void BMP_MENUWORK_DrawWindow(void *win, int commitMode, int tileBase, int palette);
 
@@ -565,7 +562,7 @@ void WORLDTRADE_DEPOSIT_PrintMessage(Work *p, u32 msgId, u32 unused1, u32 unused
     h = p->frame;
     BMP_WIN_TransferChars((struct Descriptor *)h);
     BMP_WIN_MakeScreen((struct Cfg *)h);
-    BG_SYS_PushTile(unit_02045730(h));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)h));
     BMP_MENUWORK_DrawWindow((void *)(p->frame), 0, 1, 0xe);
     WORLDTRADE_ADAPTER_QueuePrintDefaultColor((void *)(p->frame), 0, (void *)((*(unsigned int *)&p->str)), 0, 0, (u8 *)p + 0xfa0);
     STRBUF_Delete((struct U16Vec *)v);
@@ -1414,8 +1411,8 @@ void WORLDTRADE_DEPOSIT_ClearListRange(SelTable *p)
         p->a[i] = zero;
         p->b[i] = zero;
     }
-    p->f0 = zero;
-    p->f2 = zero;
+    p->reserved00 = zero;
+    p->reserved02 = zero;
 }
 
 /*

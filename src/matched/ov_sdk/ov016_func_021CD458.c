@@ -1,5 +1,5 @@
 /*
- * function: func_021CD458
+ * function: endScene2
  * address:  0x021CD458
  * packet:   pkt_ov016_021CD458
  * region:   ov016
@@ -39,7 +39,7 @@ extern unsigned char gSceneSetTestWork;
 extern void DWCi_SceneSetError(void);
 extern void DWCi_SceneSetTestCompletet(void);
 
-void func_021CD458(void)
+void endScene2(void)
 {
     unsigned char *map = DWCi_SETTINGlGetMemMap();
     if (DWC_AC_Destroy() == 0)

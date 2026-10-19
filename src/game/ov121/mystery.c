@@ -300,7 +300,7 @@ typedef union { int i; u32 val; void *ptr; } MysteryWord;
 
 typedef struct {
     void *sys;              /* 0x00 particle system */
-    u32 field04;
+    u32 reserved04;
     void *buffer;           /* 0x08 archive member */
     MysteryPtrWord created; /* 0x0C */
 } MysteryParticle;
@@ -362,12 +362,12 @@ typedef struct {
 
 typedef struct {
     MysteryPtrWord gameData; /* 0x00 */
-    u32 field04;
+    u32 reserved04;
     u32 flag;               /* 0x08 */
     u32 mode;               /* 0x0C */
-    u32 field10;
+    u32 reserved10;
     u32 saveType;           /* 0x14 */
-    u32 field18;
+    u32 reserved18;
     u32 ready;              /* 0x1C */
     u8 pad_020[8];
 } MysteryNetSaveParam;
@@ -1614,10 +1614,10 @@ void MYSTERY_TaskNetExit(void *task,u32 *state,u8 *p)
         *(u8 * *)&((MysteryWork *)p)->saveParam=GFL_HEAP_Alloc(29,40,0,d_021DFB80,2664);
         MI_CpuFill8(((MysteryWork *)p)->saveParam,0,40);
         ((MysteryNetSaveParam *)(*(u8 * *)&((MysteryWork *)p)->saveParam))->gameData.val=((MysteryWork *)p)->gameData.val;
-        ((MysteryNetSaveParam *)(*(u8 * *)&((MysteryWork *)p)->saveParam))->field04=0;
+        ((MysteryNetSaveParam *)(*(u8 * *)&((MysteryWork *)p)->saveParam))->reserved04=0;
         ((MysteryNetSaveParam *)(*(u8 * *)&((MysteryWork *)p)->saveParam))->flag=1;
-        ((MysteryNetSaveParam *)(*(u8 * *)&((MysteryWork *)p)->saveParam))->field10=0;
-        ((MysteryNetSaveParam *)(*(u8 * *)&((MysteryWork *)p)->saveParam))->field18=0;
+        ((MysteryNetSaveParam *)(*(u8 * *)&((MysteryWork *)p)->saveParam))->reserved10=0;
+        ((MysteryNetSaveParam *)(*(u8 * *)&((MysteryWork *)p)->saveParam))->reserved18=0;
         ((MysteryNetSaveParam *)(*(u8 * *)&((MysteryWork *)p)->saveParam))->mode=9;
         if(!MYSTERY_DATA_IsMainSave(((MysteryWork *)p)->mysteryData.ptr)) ((MysteryNetSaveParam *)(*(u8 * *)&((MysteryWork *)p)->saveParam))->saveType=2;
         else ((MysteryNetSaveParam *)(*(u8 * *)&((MysteryWork *)p)->saveParam))->saveType=0;

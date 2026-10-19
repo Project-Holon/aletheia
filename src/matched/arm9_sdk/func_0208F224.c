@@ -9,16 +9,15 @@
  * isa:      arm
  * status:   EXACT
  *
- * sdk:      FATFS_FormatDrive (libfatfs.TWL.HYB.a fatfs_api.o)
+ * sdk:      WM_Enable (libwm.TWL.HYB.a(wm_standard.o))
  *
  * symbols:
- *   FATFSi_FormatDriveEx  0x0208F234  arm
  *   WMi_EnableEx  0x0208F234  arm
  */
 
-extern int WMi_EnableEx(char *path, int formatMedia);
+extern int WMi_EnableEx(void *callback, unsigned long miscFlags);
 
-int WM_Enable(char *path)
+int WM_Enable(void *callback)
 {
-    return WMi_EnableEx(path, 0);
+    return WMi_EnableEx(callback, 0);
 }

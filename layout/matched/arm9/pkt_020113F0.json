@@ -19,7 +19,7 @@
    "status": "EXACT",
    "functions": [
     "TIMEZONE_GetTimeZoneOfHour",
-    "TIMEZONE_GetZoneLightLevel"
+    "TIMEZONE_GetLight"
    ],
    "addresses": [
     "0x020113F0",
@@ -92,10 +92,18 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "ICA_ANIME_IncFrameLoop"
+    "ICA_ANIME_IncFrameLoop",
+    "ICA_ANIME_IncFrameNoLoop",
+    "ICA_ANIME_SetFrame",
+    "ICA_ANIME_GetFrameNum",
+    "ICA_ANIME_GetFrame"
    ],
    "addresses": [
-    "0x02011590"
+    "0x02011590",
+    "0x020115C0",
+    "0x020115EC",
+    "0x02011608",
+    "0x0201160C"
    ]
   },
   {

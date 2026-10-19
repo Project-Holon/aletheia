@@ -1,5 +1,5 @@
 /*
- * function: func_021C7C74
+ * function: procError
  * address:  0x021C7C74
  * packet:   pkt_ov016_021C7C74
  * region:   ov016
@@ -25,7 +25,7 @@ extern void DWCi_WINlEnd();
 extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021C7CA0();
 
-void func_021C7C74(void)
+void procError(void)
 {
     if (DWCi_WINlGet())
         return;

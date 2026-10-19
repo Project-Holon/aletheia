@@ -10,7 +10,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: MISC_SAVEDATA_GetRingIndex, MISC_SAVEDATA_GetRingRemaining, MISC_SAVEDATA_GetRingRecordIndex
+ * function: DENDOU_SAVEDATA_GetRecordCount, DENDOU_SAVEDATA_GetHallNumber, DENDOU_SAVEDATA_GetRingMemberCount
  *
  * symbols:
  *   sub_0200EC14   0x0200EC14  thumb
@@ -23,7 +23,7 @@
  * MISC_SAVEDATA_GetRecordDate (which is not part of this file), and the three pool words
  * between the functions are each function's own.
  *
- * MISC_SAVEDATA_GetRingRecordIndex is a tail call through a pool word to
+ * DENDOU_SAVEDATA_GetRingMemberCount is a tail call through a pool word to
  * src/matched/DENDOU_SAVEDATA_GetMemberCount.c, and the pool word is the only reference to
  * 0x0200EC14 anywhere in the image, so that entry is what makes this file
  * verifiable at all (the `matched` class).
@@ -36,7 +36,7 @@ typedef unsigned int u32;
 
 extern int sub_0200EC14(char *o);
 
-u32 MISC_SAVEDATA_GetRingIndex(char *o)
+u32 DENDOU_SAVEDATA_GetRecordCount(char *o)
 {
     u32 v = ((struct Obj17088 *)o)->f1558;
 
@@ -45,12 +45,12 @@ u32 MISC_SAVEDATA_GetRingIndex(char *o)
     return v;
 }
 
-u32 MISC_SAVEDATA_GetRingRemaining(char *o, u32 n)
+u32 DENDOU_SAVEDATA_GetHallNumber(char *o, u32 n)
 {
     return ((struct Obj17089 *)o)->f1558 - n;
 }
 
-int MISC_SAVEDATA_GetRingRecordIndex(char *o, int idx)
+int DENDOU_SAVEDATA_GetRingMemberCount(char *o, int idx)
 {
     int n = ((struct Obj17090 *)o)->f1554 - 1 - idx;
 

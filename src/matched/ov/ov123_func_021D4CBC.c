@@ -14,7 +14,7 @@
  *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
  *   PALANM_BlendChannel 0x02021FD8 thumb
  *   PALANM_GetTransWork 0x02021730 thumb
- *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
+ *   DC_FlushRange 0x020862F0 arm
  *   func_0207E5D0 0x0207E5D0 arm
  *   func_0207E468 0x0207E468 arm
  *   PALANM_FreeSlotBuffers 0x020215A0 thumb
@@ -31,7 +31,7 @@ typedef unsigned char  u8;
 struct Chan02021FD8;
 extern void PALANM_BlendChannel(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 extern int PALANM_GetTransWork(char *p, int i);
-extern void DWCi_ScreenDC_FlushRange(void *, int);
+extern void DC_FlushRange(void *, int);
 extern void func_0207E5D0(void *, int, int);
 extern void func_0207E468(void *, int, int);
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
@@ -47,7 +47,7 @@ void GSYNC_MENU_FadePaletteSlot(char *p, int n, int count)
     PALANM_CopyHwPaletteToSlot(obj, n, 0, bytes);
     PALANM_BlendChannel(obj, (int)n, (int)0, (u16)(count * 16), (int)6, (int)0);
     buffer = (void *)PALANM_GetTransWork(obj, n);
-    DWCi_ScreenDC_FlushRange(buffer, bytes);
+    DC_FlushRange(buffer, bytes);
     switch (n) {
     case 3: func_0207E5D0(buffer, 0, bytes); break;
     case 1: func_0207E468(buffer, 0, bytes); break;

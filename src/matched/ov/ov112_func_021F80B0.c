@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: STA_ACT_LIGHT_CallElemB, STA_ACT_LIGHT_CallElemC
+ * function: STA_ACT_LIGHT_ResetRenderAnim, STA_ACT_LIGHT_SetRenderAnim
  * address: 0x021F80B0
  * packet: pkt_ov112_021F80B0
  * region: ov112
@@ -21,13 +21,13 @@ typedef struct { u8 pad0[0x4c]; int zero; u8 pad50[8]; int target; } Obj;
 extern void MUSICAL_MCSS_PauseRenderAnim(int);
 extern void MUSICAL_MCSS_SetRenderDrawOffset(int, int);
 extern void MUSICAL_MCSS_SetRenderAnim(int, unsigned int);
-void STA_ACT_LIGHT_CallElemB(int a, Obj *b)
+void STA_ACT_LIGHT_ResetRenderAnim(int a, Obj *b)
 {
     MUSICAL_MCSS_PauseRenderAnim(b->target);
     b->zero = 0;
     MUSICAL_MCSS_SetRenderDrawOffset(b->target, 0);
 }
-void STA_ACT_LIGHT_CallElemC(int a, Obj *b, unsigned int c)
+void STA_ACT_LIGHT_SetRenderAnim(int a, Obj *b, unsigned int c)
 {
     MUSICAL_MCSS_SetRenderAnim(b->target, c);
 }

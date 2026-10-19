@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: OPTION_MENU_GetScreenActor, OPTION_MENU_GetScreenActorUnit, OPTION_MENU_GetScreenWindow, OPTION_MENU_RestartScreenBlink
+ * function: OPTION_MENU_GetScreenSpriteActor, OPTION_MENU_GetScreenSpriteUnit, OPTION_MENU_GetScreenWindow, OPTION_MENU_RestartScreenBlink
  * address:  0x021B9944
  * packet:   pkt_ov068_021B9944
  * region:   ov068
@@ -23,13 +23,13 @@
  *   OPTION_MENU_RestartGfxBlink  0x021B9D58  thumb  ov068
  */
 
-int OPTION_MENU_GetScreenActor(void *p, int i)
+int OPTION_MENU_GetScreenSpriteActor(void *p, int i)
 {
     int OPTION_MENU_GetSpriteActor(char *, int);
     return OPTION_MENU_GetSpriteActor((char *)p + 0x7c, i);
 }
 
-int OPTION_MENU_GetScreenActorUnit(void *p)
+int OPTION_MENU_GetScreenSpriteUnit(void *p)
 {
     int OPTION_MENU_GetSpriteUnit(int *p);
     return OPTION_MENU_GetSpriteUnit((int *)((char *)p + 0x7c));

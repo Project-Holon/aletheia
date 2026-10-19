@@ -8,7 +8,8 @@ named by offset or position instead of by meaning.
   locals:  locals named aN, argN, paramN, vN, tmpN, varN, localN
 
 Comments are ignored. `pad` members are not counted: padding that nothing reads is a
-legitimate name.
+legitimate name. Hits on the ACCEPTED rows (original or domain names that
+match a pattern) are reported apart.
 
     python tools/placeholdernames.py                 summary per region and total
     python tools/placeholdernames.py --list PATH...  every hit (file:line kind name); PATH is
@@ -30,6 +31,36 @@ FIELD = re.compile(r"^\s+(?:const\s+|volatile\s+|struct\s+|unsigned\s+|signed\s+
 PARAM = re.compile(r"\b((?:a|arg|param|p)[0-9])\s*(?=[,\[]|$)")
 LOCAL = re.compile(r"^\s+(?:const\s+|volatile\s+|register\s+|struct\s+|unsigned\s+|signed\s+)*[A-Za-z_]\w*[\s\*]+\**"
                    r"((?:a|arg|param|v|tmp|var|local)[0-9]+)\s*(?:\[[^\]]*\]\s*)*(?:=|;|,)")
+
+
+# Names the patterns flag that are the original or the domain's own names. Each row is
+# (file, name, reason); a hit on an accepted row is reported apart, not counted.
+ACCEPTED = [
+    ("src/game/arm9/fldmmdl_save.c", "param0 param1 param2", "mirror the Mmdl param0..2 fields (the game's own names)"),
+    ("src/game/ov010/fldmmdl_types.h", "param0 param1 param2", "MmdlHeader/Mmdl param0..2, the move model's script parameters"),
+    ("src/game/ov010/script_work.c", "param0 param1 param2 param3", "SCRIPT_PARAM0..3, the script variables 0x8000..0x8003"),
+    ("src/game/ov114/dwci_nd_types.h", "param1 param2 param3", "DWC Nd SDK field names"),
+    ("src/game/arm9/nns_g3d_sbc.c", "param0 param1", "the TEXIMAGE_PARAM words of the SBC command"),
+    ("src/game/arm9/nns_g2d_font.c", "x0 x1 xe", "glyph rectangle coordinates (x0, x1 and the end x)"),
+    ("src/game/arm9/nns_g2d_renderer_core.c", "v0 v1", "texture coordinates u0/v0 and u1/v1"),
+    ("src/game/arm9/touchpanel_shared_types.h", "x30", "calibration point coordinate, pairs with y30"),
+    ("src/game/arm9/tp.c", "x0 tmp32", "SDK TPCalibrateParam field and the SDK's own local"),
+    ("src/game/ov009/gsplatformsocket.c", "fd", "POSIX pollfd member"),
+    ("src/game/ov009/soc.c", "fd", "POSIX pollfd member"),
+    ("src/game/ov016/aoss.c", "fd", "POSIX pollfd member"),
+    ("src/game/ov016/graphics.c", "x1 x2", "rectangle coordinates"),
+    ("src/game/ov172/camera_system.c", "x0 x1", "rectangle coordinates"),
+    ("src/game/ov172/ctvt_draw.c", "x2", "line end coordinate"),
+    ("src/game/ov172/ctvt_types.h", "x0 x1", "rectangle coordinates"),
+    ("src/game/ov172/draw_system.c", "x0 x1", "rectangle coordinates"),
+    ("src/game/ov172/jpegdec.c", "tmp0 tmp10", "libjpeg's own names in the IDCT"),
+    ("src/game/ov172/jpegenc.c", "a0 a1 a2 a3 a4 a5 a6 a7 c0 c1 c2 c3 c4 c5 c6 c7", "butterfly stage temporaries of the forward DCT"),
+]
+_ACC = {(f, n) for f, names, _ in ACCEPTED for n in names.split()}
+
+
+def accepted(rel, name):
+    return (rel, name) in _ACC
 
 
 def strip_comments(text):
@@ -97,10 +128,15 @@ def main():
                 print("%s:%d\t%s\t%s" % (rel, no, kind, name))
         return
     per = {}
+    nacc = 0
     for f in files_under([GAME]):
         region = os.path.relpath(f, GAME).replace(os.sep, "/").split("/")[0]
+        rel = os.path.relpath(f, ROOT).replace(os.sep, "/")
         c = per.setdefault(region, {"field": 0, "param": 0, "local": 0, "proto": 0})
-        for _, kind, _ in scan(f):
+        for _, kind, name in scan(f):
+            if accepted(rel, name):
+                nacc += 1
+                continue
             c[kind] += 1
     tot = {"field": 0, "param": 0, "local": 0, "proto": 0}
     for r in sorted(per, key=lambda r: -sum(per[r].values())):
@@ -111,6 +147,7 @@ def main():
             tot[k] += c[k]
     print("placeholder names: fields %d, params %d, locals %d, total %d (plus %d prototype params)"
           % (tot["field"], tot["param"], tot["local"], tot["field"] + tot["param"] + tot["local"], tot["proto"]))
+    print("accepted (original or domain names, ACCEPTED in this tool): %d" % nacc)
 
 
 if __name__ == "__main__":

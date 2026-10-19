@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: FLDMMDL_RAIL_StayReturn, FLDMMDL_RAIL_LookAroundInitAll, FLDMMDL_RAIL_LookAroundInitUL, FLDMMDL_RAIL_LookAroundInitUR, FLDMMDL_RAIL_LookAroundInitDL, FLDMMDL_RAIL_LookAroundInitDR, FLDMMDL_RAIL_LookAroundInitUDL, FLDMMDL_RAIL_LookAroundInitUDR, FLDMMDL_RAIL_LookAroundInitULR, FLDMMDL_RAIL_LookAroundInitDLR, FLDMMDL_RAIL_LookAroundInitUD, FLDMMDL_RAIL_LookAroundInitLR, FLDMMDL_RAIL_LookAroundMove, FLDMMDL_RAIL_LookAroundDelete, FLDMMDL_RAIL_WanderInitAll, FLDMMDL_RAIL_WanderInitUD, FLDMMDL_RAIL_WanderMove, FLDMMDL_RAIL_WanderDelete, FLDMMDL_RAIL_ShuttleInit, FLDMMDL_RAIL_ShuttleMove, FLDMMDL_RAIL_ShuttleDelete
+ * function: FLDMMDL_RAIL_AcquireRailWorkBody, FLDMMDL_RAIL_LookAroundInitKind0, FLDMMDL_RAIL_LookAroundInitKind1, FLDMMDL_RAIL_LookAroundInitKind2, FLDMMDL_RAIL_LookAroundInitKind3, FLDMMDL_RAIL_LookAroundInitKind4, FLDMMDL_RAIL_LookAroundInitKind5, FLDMMDL_RAIL_LookAroundInitKind6, FLDMMDL_RAIL_LookAroundInitKind7, FLDMMDL_RAIL_LookAroundInitKind8, FLDMMDL_RAIL_LookAroundInitKind9, FLDMMDL_RAIL_LookAroundInitKind10, FLDMMDL_RAIL_LookAroundMove, FLDMMDL_RAIL_LookAroundDelete, FLDMMDL_RAIL_WanderInitKind0, FLDMMDL_RAIL_WanderInitKind9, FLDMMDL_RAIL_WanderMove, FLDMMDL_RAIL_WanderDelete, FLDMMDL_RAIL_ShuttleInit, FLDMMDL_RAIL_ShuttleMove, FLDMMDL_RAIL_ShuttleDelete
  * address:  0x0219E854
  * packet:   pkt_ov021_0219E854
  * region:   ov021
@@ -23,7 +23,7 @@
  *   FLDMMDL_RAIL_ShuttleMoveBody  0x0219EDC4  thumb  ov021
  *   FLDMMDL_RAIL_ShuttleDeleteBody  0x0219EF04  thumb  ov021
  * Addresses are Black-image addresses.
- * FLDMMDL_RAIL_StayReturn is followed by twenty unlabelled tail-call thunks (pool
+ * FLDMMDL_RAIL_AcquireRailWorkBody is followed by twenty unlabelled tail-call thunks (pool
  * word plus `bx r3`), eleven of them passing a state index 0..10 to
  * FLDMMDL_RAIL_LookAroundInit; the unit covers the whole 228-byte run.
  */
@@ -42,26 +42,26 @@ extern int FLDMMDL_RAIL_ShuttleInitBody();
 extern int FLDMMDL_RAIL_ShuttleMoveBody(u32 o);
 extern int FLDMMDL_RAIL_ShuttleDeleteBody(u32 *a);
 
-int FLDMMDL_RAIL_StayReturn(u32 o)
+int FLDMMDL_RAIL_AcquireRailWorkBody(u32 o)
 {
     return FLDMMDL_RAIL_AcquireRailWork((u32)FLDMMDL_GetMoveProcWork((void *)o), o);
 }
 
-int FLDMMDL_RAIL_LookAroundInitAll(u32 o) { return FLDMMDL_RAIL_LookAroundInit(o, 0); }
-int FLDMMDL_RAIL_LookAroundInitUL(u32 o) { return FLDMMDL_RAIL_LookAroundInit(o, 1); }
-int FLDMMDL_RAIL_LookAroundInitUR(u32 o) { return FLDMMDL_RAIL_LookAroundInit(o, 2); }
-int FLDMMDL_RAIL_LookAroundInitDL(u32 o) { return FLDMMDL_RAIL_LookAroundInit(o, 3); }
-int FLDMMDL_RAIL_LookAroundInitDR(u32 o) { return FLDMMDL_RAIL_LookAroundInit(o, 4); }
-int FLDMMDL_RAIL_LookAroundInitUDL(u32 o) { return FLDMMDL_RAIL_LookAroundInit(o, 5); }
-int FLDMMDL_RAIL_LookAroundInitUDR(u32 o) { return FLDMMDL_RAIL_LookAroundInit(o, 6); }
-int FLDMMDL_RAIL_LookAroundInitULR(u32 o) { return FLDMMDL_RAIL_LookAroundInit(o, 7); }
-int FLDMMDL_RAIL_LookAroundInitDLR(u32 o) { return FLDMMDL_RAIL_LookAroundInit(o, 8); }
-int FLDMMDL_RAIL_LookAroundInitUD(u32 o) { return FLDMMDL_RAIL_LookAroundInit(o, 9); }
-int FLDMMDL_RAIL_LookAroundInitLR(u32 o) { return FLDMMDL_RAIL_LookAroundInit(o, 10); }
+int FLDMMDL_RAIL_LookAroundInitKind0(u32 o) { return FLDMMDL_RAIL_LookAroundInit(o, 0); }
+int FLDMMDL_RAIL_LookAroundInitKind1(u32 o) { return FLDMMDL_RAIL_LookAroundInit(o, 1); }
+int FLDMMDL_RAIL_LookAroundInitKind2(u32 o) { return FLDMMDL_RAIL_LookAroundInit(o, 2); }
+int FLDMMDL_RAIL_LookAroundInitKind3(u32 o) { return FLDMMDL_RAIL_LookAroundInit(o, 3); }
+int FLDMMDL_RAIL_LookAroundInitKind4(u32 o) { return FLDMMDL_RAIL_LookAroundInit(o, 4); }
+int FLDMMDL_RAIL_LookAroundInitKind5(u32 o) { return FLDMMDL_RAIL_LookAroundInit(o, 5); }
+int FLDMMDL_RAIL_LookAroundInitKind6(u32 o) { return FLDMMDL_RAIL_LookAroundInit(o, 6); }
+int FLDMMDL_RAIL_LookAroundInitKind7(u32 o) { return FLDMMDL_RAIL_LookAroundInit(o, 7); }
+int FLDMMDL_RAIL_LookAroundInitKind8(u32 o) { return FLDMMDL_RAIL_LookAroundInit(o, 8); }
+int FLDMMDL_RAIL_LookAroundInitKind9(u32 o) { return FLDMMDL_RAIL_LookAroundInit(o, 9); }
+int FLDMMDL_RAIL_LookAroundInitKind10(u32 o) { return FLDMMDL_RAIL_LookAroundInit(o, 10); }
 int FLDMMDL_RAIL_LookAroundMove(u32 o) { return FLDMMDL_RAIL_LookAroundMoveBody(o); }
 int FLDMMDL_RAIL_LookAroundDelete(u32 *o) { return FLDMMDL_RAIL_LookAroundDeleteBody(o); }
-void FLDMMDL_RAIL_WanderInitAll(u32 o) { FLDMMDL_RAIL_WanderInit(o, 0); }
-void FLDMMDL_RAIL_WanderInitUD(u32 o) { FLDMMDL_RAIL_WanderInit(o, 9); }
+void FLDMMDL_RAIL_WanderInitKind0(u32 o) { FLDMMDL_RAIL_WanderInit(o, 0); }
+void FLDMMDL_RAIL_WanderInitKind9(u32 o) { FLDMMDL_RAIL_WanderInit(o, 9); }
 int FLDMMDL_RAIL_WanderMove(u32 o) { return FLDMMDL_RAIL_WanderMoveBody(o); }
 int FLDMMDL_RAIL_WanderDelete(u32 *o) { return FLDMMDL_RAIL_WanderDeleteBody(o); }
 int FLDMMDL_RAIL_ShuttleInit(u32 o) { return FLDMMDL_RAIL_ShuttleInitBody(o); }

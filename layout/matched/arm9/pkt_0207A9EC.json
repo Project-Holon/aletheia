@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0207A9EC",
+   "name": "FSi_ReadRomCallback",
    "address": "0x0207A9EC",
    "kind": "sdk",
    "region": "arm9",

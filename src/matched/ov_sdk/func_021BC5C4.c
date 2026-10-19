@@ -1,5 +1,5 @@
 /*
- * function: func_021BC5C4
+ * function: Free
  * address:  0x021BC5C4
  * packet:   pkt_021BC52C
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BC5C4   0x021BC5C4  thumb
+ *   Free   0x021BC5C4  thumb
  *   HAND_ITEM_RollChance   0x021DCFD0  data
  *
  * FILED EXACT with NO region token on the data symbol.  The `ov016` hint is
@@ -29,13 +29,13 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021BC5C4.c \
- *       --func func_021BC5C4 --addr 0x021BC5C4 --region ov016 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/Free.c \
+ *       --func Free --addr 0x021BC5C4 --region ov016 --cc dsi/1.1p1 --thumb
  */
 
 extern void (*HAND_ITEM_RollChance[])(int);
 
-void func_021BC5C4(int a)
+void Free(int a)
 {
     HAND_ITEM_RollChance[3](a);
 }

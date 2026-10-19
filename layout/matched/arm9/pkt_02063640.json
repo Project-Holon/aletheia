@@ -78,10 +78,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "NNSi_G2dSrtcInitTable"
+    "NNSi_G2dSrtcInitTable",
+    "NNSi_G2dSrtcSetTable",
+    "NNSi_G2dSrtcGetTable"
    ],
    "addresses": [
-    "0x020640B0"
+    "0x020640B0",
+    "0x020640CC",
+    "0x020640D4"
    ]
   }
  ]

@@ -18,9 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0202C5F0",
-    "sub_0202C630",
-    "sub_0202C634"
+    "ISS_SWITCH_Update",
+    "ISS_SWITCH_UpdateOn",
+    "ISS_SWITCH_UpdateOff"
+   ],
+   "addresses": [
+    "0x0202C5F0",
+    "0x0202C630",
+    "0x0202C634"
    ]
   }
  ]

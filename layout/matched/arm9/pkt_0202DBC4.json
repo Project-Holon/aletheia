@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_0202DCC4",
+   "name": "PMS_DRAW_IsActive",
    "address": "0x0202DCC4",
    "kind": "game",
    "region": "arm9",
@@ -30,7 +30,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0202DE6C"
+    "PMS_DRAW_CalcDecoPos"
+   ],
+   "addresses": [
+    "0x0202DE6C"
    ]
   },
   {
@@ -45,13 +48,18 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0202DE9C",
-    "sub_0202DEE0",
-    "sub_0202DF24"
+    "PMS_DRAW_GetDecoCgrIndex",
+    "PMS_DRAW_GetDecoCelIndex",
+    "PMS_DRAW_GetDecoAnmIndex"
+   ],
+   "addresses": [
+    "0x0202DE9C",
+    "0x0202DEE0",
+    "0x0202DF24"
    ]
   },
   {
-   "name": "sub_0202DFD4",
+   "name": "PMS_DRAW_ReleaseResources",
    "address": "0x0202DFD4",
    "kind": "game",
    "region": "arm9",
@@ -63,7 +71,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0202E0C8",
+   "name": "PMS_DRAW_DeleteElem",
    "address": "0x0202E0C8",
    "kind": "game",
    "region": "arm9",
@@ -75,7 +83,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0202E430",
+   "name": "PMS_DRAW_GetFrameSurface",
    "address": "0x0202E430",
    "kind": "game",
    "region": "arm9",
@@ -87,7 +95,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0202E43C",
+   "name": "PMS_DRAW_ClearWork",
    "address": "0x0202E43C",
    "kind": "game",
    "region": "arm9",
@@ -99,7 +107,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0202E448",
+   "name": "ITEM_GetRegisterFlagId",
    "address": "0x0202E448",
    "kind": "game",
    "region": "arm9",

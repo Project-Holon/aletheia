@@ -19,7 +19,7 @@
    "status": "EXACT",
    "functions": [
     "OPTION_MENU_IsRunnerFinished",
-    "OPTION_MENU_SetRunnerCallback",
+    "OPTION_MENU_SetRunnerState",
     "OPTION_MENU_FinishRunner"
    ],
    "addresses": [

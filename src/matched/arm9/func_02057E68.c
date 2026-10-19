@@ -1,5 +1,5 @@
 /*
- * function: SPL_EMITTER_EvalCurve
+ * function: SPLAnim_Scale
  * address:  0x02057E68
  * packet:   pkt_02057830
  * region:   arm9
@@ -30,7 +30,7 @@ struct Obj {
     short _34;
 };
 
-void SPL_EMITTER_EvalCurve(struct Obj *o, struct Src *s, int t)
+void SPLAnim_Scale(struct Obj *o, struct Src *s, int t)
 {
     struct Curve *cv;
     int b0;

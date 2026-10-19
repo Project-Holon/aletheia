@@ -1,5 +1,5 @@
 /*
- * function: procInit2
+ * function: enableButtonsStep
  * address:  0x021C3980
  * packet:   pkt_ov016_021C3980
  * region:   ov016
@@ -15,7 +15,7 @@
  *   DWCi_ChangeScene                 0x021C0E40  arm
  *   procScene                        0x021C39A4  arm
  *
- * SDK: TwlDWC libdwcutil.TWL.HYB.a(sceneoptmovconfi.o), symbol procInit2 (name and
+ * SDK: TwlDWC libdwcutil.TWL.HYB.a(sceneoptmovconfi.o), symbol enableButtonsStep (name and
  * prototype from the vendor object DWARF). The object is stamped Metrowerks C/C++ for
  * ARM 4.0.0.1025, which no tools/mwccarm build writes, so it stays on default 1.1p1.
  */
@@ -26,7 +26,7 @@ extern void DWCi_ChangeScene(void (*scene)());
 
 static void procScene(void);
 
-static void procInit2(void)
+static void enableButtonsStep(void)
 {
     if (DWCi_BTNlGet() == -2)
         return;

@@ -12,6 +12,11 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
+ * Second declaration kept on purpose: OPTION_MENU_UpdateButtons calls the sound function
+ * GFL_USE_PlaySeDefaultVolume (0x020061E4) once as func_020061E4_2 for the conditional sound id.
+ * Measured 2026-10-19: under the one name, with a u32 or an int parameter, the function is 504
+ * bytes; the original is 508. Cause not found.
+ *
  * symbols:
  *   GF_OVERLAY_Load  0x02034AC4  arm
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
@@ -38,7 +43,7 @@
  *   TCBL_Main  0x020310C4  arm
  *   BG_SYS_ClearGraphicsMemory  0x0204335C  arm
  *   BG_SYS_SetVramBanks  0x020433E0  arm
- *   BMP_SetDisplaySwap  0x0204363C  arm
+ *   BG_SYS_SetLcdSwap  0x0204363C  arm
  *   BG_SYS_ResetSubDisplay  0x0204361C  arm
  *   BG_SYS_ClearMainPlanes  0x020434CC  arm
  *   BG_SYS_ClearSubPlanes  0x02043588  arm
@@ -252,7 +257,7 @@ extern u32 PRINTSYS_QUE_Main(struct PrintSys *printSys);
 extern void TCBL_Main(struct TaskList *taskList);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void BG_SYS_SetVramBanks(const struct DispVram *config);
-extern void BMP_SetDisplaySwap(u32 v);
+extern void BG_SYS_SetLcdSwap(u32 v);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
@@ -576,7 +581,7 @@ void OPTION_MENU_InitScreen(OptionMenuScreen *screen, u16 heapId)
     REG_B_DISPCNT &= DISPCNT_WINDOWS_OFF;
     BG_SYS_ClearGraphicsMemory(0);
     BG_SYS_SetVramBanks(&gOptionMenuDispVram);
-    BMP_SetDisplaySwap(0);
+    BG_SYS_SetLcdSwap(0);
     BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();

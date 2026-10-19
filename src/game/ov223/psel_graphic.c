@@ -54,7 +54,7 @@
  *   PSEL_NopBgDelete 0x021BAC6C thumb ov223
  *   PSEL_ClearBgLayer2 0x021BABFC thumb ov223
  *   PSEL_DeleteListAnime 0x021B98F4 thumb ov223
- *   BMP_SetDisplaySwap 0x0204363C arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   PSEL_SetupSelectAnime 0x021B99A0 thumb ov223
  *   PSEL_CreateUnits 0x021B9D9C thumb ov223
  *   PSEL_CreateUnits2 0x021BA984 thumb ov223
@@ -241,7 +241,7 @@ extern void PSEL_ClearWin3(char *p);
 extern void PSEL_DeleteListAnime(char *p);
 extern void PSEL_NopBgDelete(unsigned char *);
 extern int PSEL_ClearBgLayer2(unsigned char *);
-extern void BMP_SetDisplaySwap(u32 swap);
+extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void PSEL_SetupSelectAnime(char *);
 extern void PSEL_CreateUnits(char *);
 extern void PSEL_CreateUnits2(char *);
@@ -904,7 +904,7 @@ static inline void setFlagBits(char *work,Bits b) { ((struct PselWork *)work)->f
 
 int PSEL_GRAPHIC_StateEnter(char *work)
 {
-    BMP_SetDisplaySwap(0);
+    BG_SYS_SetLcdSwap(0);
     BG_SYS_LoadPlttEntry(0,0x2f3b); BG_SYS_LoadPlttEntry(4,0x2f3b);
     PSEL_SetupSelectAnime(work); PSEL_CreateUnits(work); PSEL_CreateUnits2(work); PSEL_SetBgSys((const u16 *)work); PSEL_UploadBgPalette((u16 *)work); PSEL_GRAPHIC_InitFadePalettes(work);
     setFlagBits(work,BIT8); setFlagBits(work,BIT32);
@@ -1095,7 +1095,7 @@ void *PSEL_GRAPHIC_Create(int a,int heap)
     *(volatile unsigned *)0x04001000 &= ~0xe000;
     BG_SYS_ClearGraphicsMemory(0);
     BG_SYS_SetVramBanks((const struct DispVram *)d_021BC980);
-    BMP_SetDisplaySwap(a);
+    BG_SYS_SetLcdSwap(a);
     BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();

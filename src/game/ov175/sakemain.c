@@ -20,7 +20,7 @@
  *   gsiCoreCancelTask  0x0217CECC  arm ov009
  *   gsifree  0x0217EAE0  arm ov009
  *   gsimalloc  0x0217EAB0  arm ov009
- *   memset  0x020923B0  arm
+ *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
  *   sakeiInitRequest  0x021DD56C  arm
  *   sakeiFreeRequest  0x021DD604  arm
  *   sakeiStartCreateRecordRequest  0x021DE024  arm
@@ -101,7 +101,7 @@ int sakeStartup(SAKEInternal **sakePtr)
     sake = (SAKEInternal *)gsimalloc(sizeof(SAKEInternal));
     if (!sake)
         return SAKEStartupResult_OUT_OF_MEMORY;
-    memset(sake, 0, sizeof(SAKEInternal));
+    MSL_C_LIB_MemsetPtr(sake, 0, sizeof(SAKEInternal));
     *sakePtr = sake;
     return SAKEStartupResult_SUCCESS;
 }

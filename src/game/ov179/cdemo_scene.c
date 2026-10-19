@@ -358,8 +358,8 @@ int CDEMO_SCENE_CmdSetBlend(char *p, int *q)
  */
 int CDEMO_SCENE_CmdSetBlend2(char *p, int *q)
 {
-    ((struct CdemoState *)p)->field6034 = q[1];
-    ((struct CdemoState *)p)->field6038 = q[2];
+    ((struct CdemoState *)p)->blend2Param0 = q[1];
+    ((struct CdemoState *)p)->blend2Param1 = q[2];
     ((struct CdemoState *)p)->result = 3;
     ((struct CdemoState *)p)->fade = 5;
     return 2;

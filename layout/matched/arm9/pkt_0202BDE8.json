@@ -25,7 +25,7 @@
    ]
   },
   {
-   "name": "sub_0202C118",
+   "name": "ISS_SWITCH_SYS_Init",
    "address": "0x0202C118",
    "kind": "game",
    "region": "arm9",
@@ -37,7 +37,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0202C240",
+   "name": "ISS_SWITCH_SYS_GetSetCount",
    "address": "0x0202C240",
    "kind": "game",
    "region": "arm9",

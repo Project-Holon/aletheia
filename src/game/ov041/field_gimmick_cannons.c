@@ -33,7 +33,7 @@
  *   FLD_EXP_OBJ_UpdateAnimes 0x021BE580 thumb ov021
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetFieldSave 0x02012EC4 thumb
- *   GIMMICK_WORK_GetSaveArea 0x0200B3A4 thumb
+ *   GIMMICK_WORK_GetWork 0x0200B3A4 thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
@@ -138,7 +138,7 @@ extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
-extern void *GIMMICK_WORK_GetSaveArea(struct GimmickWork *gimmickWork, u32 gimmickId);
+extern s32 *GIMMICK_WORK_GetWork(struct GimmickWork *gimmick, u32 id);
 extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent,
@@ -165,7 +165,7 @@ extern struct Mmdl *FLDMMDL_SetMoveBit(struct Mmdl *mmdl, u32 bit);
 extern u32 *FLDMMDL_ClearStatusBit(struct Mmdl *mmdl, u32 bit);
 extern char *FLDMMDL_ClearMoveBit(struct Mmdl *mmdl, u32 bit);
 extern u32 FLDMMDL_CheckMoveBit(struct Mmdl *mmdl, u32 bit);
-extern int SCRIPT_SYS_CallScriptEvent(struct GameEvent *event, u16 scriptId, int arg1, int arg2, u16 heapId);
+extern int SCRIPT_SYS_CallScriptEvent(struct GameEvent *event, u16 scriptId, int target, int parentWork, u16 heapId);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern struct IcaAnime *ICA_ANIME_CreateWithFullBuffer(u32 heapId, u32 arcId, u32 dataId, void *buffer, u32 bufferSize);
 extern u32 ICA_ANIME_GetFrameNum(struct IcaAnime *anime);
@@ -269,7 +269,7 @@ struct GameEvent *FIELD_GIMMICK_CANNONS_CreateLaunchEvent(struct GameSystem *gam
     struct GameEvent *event;
 
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 5);
+    GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 5);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
     player = FIELDMAP_GetFieldPlayer(fieldMap);
     FIELD_PLAYER_GetPos(player, &playerPos);
@@ -348,7 +348,7 @@ int FIELD_GIMMICK_CANNONS_EventLaunch(struct GameEvent *event, int *seq, void *e
     expObj = FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
     camera = FIELDMAP_GetCamera(fieldMap);
-    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 5);
+    GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 5);
     switch (*seq) {
     case 0:
         FIELD_CAMERA_EndDelay(camera);

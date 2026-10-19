@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: OPTION_MENU_IsRunnerFinished, OPTION_MENU_SetRunnerCallback, OPTION_MENU_FinishRunner
+ * function: OPTION_MENU_IsRunnerFinished, OPTION_MENU_SetRunnerState, OPTION_MENU_FinishRunner
  * address:  0x021BB134
  * packet:   pkt_ov068_021BB134
  * region:   ov068
@@ -21,7 +21,7 @@ int OPTION_MENU_IsRunnerFinished(void *p)
     return ((struct Obj20651 *)p)->f4;
 }
 
-void OPTION_MENU_SetRunnerCallback(void *p, int v)
+void OPTION_MENU_SetRunnerState(void *p, int v)
 {
     ((struct Obj13146 *)p)->f0 = v;
     ((struct Obj13146 *)p)->f8 = 0;

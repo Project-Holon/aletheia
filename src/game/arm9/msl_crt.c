@@ -32,7 +32,7 @@
  *   _f2d  0x0209BD38  arm
  *   OS_AllocFromHeap  0x020868E0  arm
  *   OS_FreeToHeap  0x020869E8  arm
- *   ENV_InsertResourceSet  0x02086C54  arm
+ *   OS_ReferentSize  0x02086C54  arm
  *   gMslStream0  0x020A8730  data
  *   MSL_C_LIB_FlushStream 0x02091B5C arm arm9
  *   memcpy 0x02092344 arm arm9
@@ -52,13 +52,12 @@ extern void OS_UnlockMutex(void *mutex);
 
 extern int MSL_CONSOLE_IO_RegisterDestructor(int a);
 
-extern double _f2d(int x);
 
 extern void *OS_AllocFromHeap(u32 a, u32 b, u32 heap);
 
 extern void OS_FreeToHeap(u32 a, u32 b, u32 heap);
 
-u32 ENV_InsertResourceSet(void *prev, void *resSet);
+long OS_ReferentSize(int id, void *ptr);
 
 
 void SHA1_HMAC_Init(u32 ctx);
@@ -125,7 +124,7 @@ extern u32 g_02153BB0;
 
 extern u8 gMslMutexTable[];
 
-extern int g_020A8818;
+extern float g_020A8818;
 
 extern u8 gMslStream0[];
 
@@ -261,7 +260,7 @@ u32 MSL_C_LIB_LockRegisterDestructor(u32 arg)
 
 double nan(const char *tagp)
 {
-    return _f2d(g_020A8818);
+    return g_020A8818;
 }
 
 void *MSL_C_LIB_AllocAllFromHeap(u32 heap)
@@ -279,7 +278,7 @@ void MSL_C_LIB_FreeToHeap(u32 heap)
  */
 u32 MSL_C_LIB_PrependResourceSet(void *resSet)
 {
-    return ENV_InsertResourceSet(0, resSet);
+    return OS_ReferentSize(0, resSet);
 }
 
 void *MSL_C_LIB_AllocFromHeap(u32 heap)

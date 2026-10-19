@@ -1,5 +1,5 @@
 /*
- * function: func_02175D10
+ * function: DWCi_RequestSuspendMatch
  * address:  0x02175D10
  * packet:   pkt_ov009_02175D10
  * region:   ov009
@@ -62,7 +62,7 @@ extern char *DWCi_NodeInfoList_GetNodeInfoForIndex(int index);
 extern int DWCi_SendMatchCommand(unsigned char command, int pid, unsigned int ip, unsigned short port, const unsigned int *data, int len);
 extern int DWCi_HandleMatchCommandError(int error);
 
-static int func_02175D10(int suspend)
+static int DWCi_RequestSuspendMatch(int suspend)
 {
     struct DWCstNodeInfo *pServerNodeInfo;
     struct DWCstNodeInfo *pMyNodeInfo;

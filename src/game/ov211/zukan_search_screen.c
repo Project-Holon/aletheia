@@ -38,12 +38,12 @@
  *   d_021BC8F0 0x021BC8F0 data a4
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
  *   BG_SYS_Delete 0x0203F9B4 arm
- *   open 0x020490F4 arm
- *   kind 0x02008550 thumb
- *   palette 0x02049B68 arm
- *   screen 0x02049658 arm
- *   tiles 0x020498F4 arm
- *   close 0x02049238 arm
+ *   ARC_TOOL_CreateHandle 0x020490F4 arm
+ *   MYSTATUS_GetSex 0x02008550 thumb
+ *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
+ *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
+ *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
+ *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   SAVE_CONTROL_LoadExtraSave 0x0200725C thumb
  *   SAVE_CONTROL_GetExtraSaveRecord 0x020073D8 thumb
@@ -70,12 +70,11 @@
  *   UI_SetInputMode   0x020355D8  arm
  *   KEY_GetTrg   0x020362DC  arm
  *   ZUKAN_StartWipeOut   0x021C93C4  thumb ov212
- *   sound 0x020061E4 thumb
- *   setup 0x02041EE4 arm
- *   adjust 0x02041FB0 arm
- *   tick 0x021BC890 thumb ov211
- *   transition 0x0202208C thumb
- *   idle 0x020221A4 thumb
+ *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
+ *   BG_SYS_ChangeScroll 0x02041EE4 arm
+ *   BG_SYS_ChangeCenter 0x02041FB0 arm
+ *   ZUKAN_SEARCH_SCREEN_Tick 0x021BC890 thumb ov211
+ *   WIPE_SYS_Start 0x0202208C thumb
  *   BG_SYS_ChangeScale  0x02041F6C  arm
  */
 
@@ -119,12 +118,12 @@ extern void BG_SYS_ClearLayerEx(int, u16);
 extern void BG_SYS_SetMainPlaneVisible(u32, u32);
 extern void BG_SYS_SetSubPlaneVisible(u32, u32);
 extern void BG_SYS_SetMainPlaneVisible(unsigned,unsigned),BG_SYS_SetSubPlaneVisible(unsigned,unsigned),BG_SYS_FreeLayerBuf(unsigned),BG_SYS_Delete(void);
-extern void *open(u32,u16);
-extern int kind(void *);
-extern void palette(void *,u32,u32,u32,u32,u16);
-extern void screen(void *,u32,u32,u32,u32,u32,u16);
-extern void tiles(void *,u32,u32,u32,u32,u32,u16);
-extern void close(void *);
+extern void *ARC_TOOL_CreateHandle(u32,u16);
+extern u8 MYSTATUS_GetSex(const struct MyStatus *mystatus);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,u32,u32,u32,u32,u16);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 tileOffset, u32 size, u32 heapID, u16 allocFlags);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,u32,u32,u32,u32,u32,u16);
+extern void ARC_TOOL_DeleteHandle(void *);
 extern void *GAME_DATA_GetSaveControl(struct Big *);
 extern u32 SAVE_CONTROL_LoadExtraSave(struct Ctrl *,u32,u32);
 extern void *SAVE_CONTROL_GetExtraSaveRecord(struct Sub020073D8Ctrl *,u32,u32);
@@ -136,20 +135,20 @@ extern void DC_FlushRange(void *,unsigned long);
 extern void GX_BeginLoadBGExtPltt(void),GX_LoadBGExtPltt(const void *,u32,u32),GX_EndLoadBGExtPltt(void);
 extern void GXS_BeginLoadBGExtPltt(void),GXS_LoadBGExtPltt(const void *,u32,u32),GXS_EndLoadBGExtPltt(void);
 extern void SAVE_CONTROL_DeleteExtraSave(struct Sub020072A4Ctrl *,u32);
-extern void BG_SYS_SetMainVisiblePlanes(unsigned),BG_SYS_SetSubVisiblePlanes(unsigned),BG_SYS_SetLcdSwap(unsigned);
+extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void ZUKAN_StartWipeIn(unsigned);
 extern void ZUKAN_SEARCH_SCREEN_UnregisterVBlank(struct ZukanSearchWork *),ZUKAN_SEARCH_SCREEN_DeleteBg(void),BG_SYS_SetMainVisiblePlanes(unsigned),BG_SYS_SetSubVisiblePlanes(unsigned);
-extern unsigned WIPE_SYS_EndCheck(void);
+extern u32 WIPE_SYS_EndCheck(void);
 extern int  TOUCHPANEL_GetCont(void);
 extern void UI_SetInputMode(u8 v);
 extern u32 KEY_GetTrg(void);
 extern void ZUKAN_StartWipeOut(u32 heap);
-extern void sound(int);
-extern void setup(u32,u32,u32);
-extern void adjust(u32,u32,u32);
-extern void tick(void);
-extern void transition(void *,u32,u32,u32,u32,u32,u32);
-extern u32 idle(void);
+extern void GFL_USE_PlaySeDefaultVolume(u32 seqNo);
+extern void BG_SYS_ChangeScroll(u32,u32,u32);
+extern void BG_SYS_ChangeCenter(u32 which, u32 op, u16 value);
+extern void ZUKAN_SEARCH_SCREEN_Tick(void);
+extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
+extern u32 WIPE_SYS_EndCheck(void);
 extern void BG_SYS_ChangeScale(u32 which, u32 op, u32 value);
 void ZUKAN_SEARCH_SCREEN_SetupVram(void);
 void ZUKAN_SEARCH_SCREEN_VBlank(void);
@@ -231,26 +230,26 @@ void ZUKAN_SEARCH_SCREEN_DeleteBg(void){BG_SYS_SetMainPlaneVisible(14,0);BG_SYS_
 void ZUKAN_SEARCH_SCREEN_LoadGraphics(struct ZukanSearchWork *p)
 {
     void *arc;
-    arc=open(159,0x807E);
-    if(kind(p->owner->context)==0) {
-        palette(arc,102,2,0x4000,0,126);
-        palette(arc,102,2,0x6000,0,126);
-        palette(arc,102,6,0x4000,0,126);
-        palette(arc,102,6,0x6000,0,126);
+    arc=ARC_TOOL_CreateHandle(159,0x807E);
+    if(MYSTATUS_GetSex(p->owner->context)==0) {
+        ARC_UTIL_UploadPaletteFromHandleWhole(arc,102,2,0x4000,0,126);
+        ARC_UTIL_UploadPaletteFromHandleWhole(arc,102,2,0x6000,0,126);
+        ARC_UTIL_UploadPaletteFromHandleWhole(arc,102,6,0x4000,0,126);
+        ARC_UTIL_UploadPaletteFromHandleWhole(arc,102,6,0x6000,0,126);
     } else {
-        palette(arc,103,2,0x4000,0,126);
-        palette(arc,103,2,0x6000,0,126);
-        palette(arc,103,6,0x4000,0,126);
-        palette(arc,103,6,0x6000,0,126);
+        ARC_UTIL_UploadPaletteFromHandleWhole(arc,103,2,0x4000,0,126);
+        ARC_UTIL_UploadPaletteFromHandleWhole(arc,103,2,0x6000,0,126);
+        ARC_UTIL_UploadPaletteFromHandleWhole(arc,103,6,0x4000,0,126);
+        ARC_UTIL_UploadPaletteFromHandleWhole(arc,103,6,0x6000,0,126);
     }
-    screen(arc,105,2,0,0,0,126);
-    screen(arc,105,5,0,0,0,126);
-    tiles(arc,108,3,0,0,0,126);
-    tiles(arc,111,1,0,0,0,126);
-    tiles(arc,110,2,0,0,0,126);
-    tiles(arc,112,7,0,0,0,126);
-    tiles(arc,109,5,0,0,0,126);
-    close(arc);
+    ARC_UTIL_UploadBgCharFromHandle(arc,105,2,0,0,0,126);
+    ARC_UTIL_UploadBgCharFromHandle(arc,105,5,0,0,0,126);
+    ARC_UTIL_UploadBgPaletteFromHandle(arc,108,3,0,0,0,126);
+    ARC_UTIL_UploadBgPaletteFromHandle(arc,111,1,0,0,0,126);
+    ARC_UTIL_UploadBgPaletteFromHandle(arc,110,2,0,0,0,126);
+    ARC_UTIL_UploadBgPaletteFromHandle(arc,112,7,0,0,0,126);
+    ARC_UTIL_UploadBgPaletteFromHandle(arc,109,5,0,0,0,126);
+    ARC_TOOL_DeleteHandle(arc);
 }
 
 
@@ -357,33 +356,33 @@ int ZUKAN_SEARCH_SCREEN_Update(struct ZukanSearchWork *p)
     switch(p->state) {
     case 0:
         if(p->timer == 26) {
-            sound(1597);
+            GFL_USE_PlaySeDefaultVolume(1597);
             p->timer=0;
             p->state++;
         } else {
-            setup(3,5,8); setup(1,5,8); setup(2,5,8); setup(5,5,8);
+            BG_SYS_ChangeScroll(3,5,8); BG_SYS_ChangeScroll(1,5,8); BG_SYS_ChangeScroll(2,5,8); BG_SYS_ChangeScroll(5,5,8);
             p->timer++;
         }
         break;
     case 1:
         if(p->timer == 32) {
-            sound(1598);
-            adjust(3,9,128); adjust(3,12,120); adjust(7,9,128); adjust(7,12,96);
+            GFL_USE_PlaySeDefaultVolume(1598);
+            BG_SYS_ChangeCenter(3,9,128); BG_SYS_ChangeCenter(3,12,120); BG_SYS_ChangeCenter(7,9,128); BG_SYS_ChangeCenter(7,12,96);
             p->timer=0;
             p->state++;
         } else { p->timer++; }
         break;
     case 2:
-        tick();
+        ZUKAN_SEARCH_SCREEN_Tick();
         if(p->timer == 4) {
-            transition(0,0,0,0,6,4,126);
+            WIPE_SYS_Start(0,0,0,0,6,4,126);
             p->timer=0;
             p->state++;
         } else { p->timer++; }
         break;
     case 3:
-        tick();
-        if(idle() == 1) {
+        ZUKAN_SEARCH_SCREEN_Tick();
+        if(WIPE_SYS_EndCheck() == 1) {
             p->owner->state=2;
             return 1;
         }

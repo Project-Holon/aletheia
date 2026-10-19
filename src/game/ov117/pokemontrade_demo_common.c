@@ -115,7 +115,7 @@ extern void POKETRADE_PROC_SetStep(void *p, int next);
 extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *h, u32 a, u32 b);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void POKETRADE_SAVE_FreeIfSet(u32 *p);
-extern void *POKETRADE_MCSS_SlideCreate(void *a0, void *a1, void *a2, u32 heapId);
+extern void *POKETRADE_MCSS_SlideCreate(void *mcss, void *frameCount, void *targetPos, u32 heapId);
 extern void MCSS_SetAnimCallback(u32 obj, void *arg, void (*cb)(void), int a);
 extern void POKETRADE_MCSS_StopAnimation(char *p);
 extern void MCSS_SetPaletteFade(struct McssFade *w, u32 cur, u32 target, s32 step, u32 e);

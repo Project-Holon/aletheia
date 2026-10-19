@@ -16,12 +16,12 @@ typedef signed int s32;
 struct BtlNetEntry {
     u8 b0;
     u8 b1;
-    u8 f0 : 1;
-    u8 f1 : 1;
-    u8 f2 : 1;
-    u8 f3 : 1;
-    u8 f4 : 1;
-    u8 f5 : 1;
+    u8 reserved0 : 1;
+    u8 reserved1 : 1;
+    u8 reserved2 : 1;
+    u8 reserved3 : 1;
+    u8 reserved4 : 1;
+    u8 reserved5 : 1;
     u8 pad3;
     u16 h4;
     u16 h6;
@@ -32,15 +32,15 @@ struct BtlNetEntry {
 
 /* Battle net script context: reached by the command handlers. */
 struct BtlNetCtx {
-    void *f00;
-    void *f04;
+    void *reserved00;
+    void *reserved04;
     u8 pad08[0x34 - 8];
-    void *f34;
+    void *reserved34;
     u8 pad38[0x118 - 0x38];
-    u32 f118;
+    u32 reserved118;
     u8 pad11c[0x1a6 - 0x11c];
-    u8 f1a6;
+    u8 reserved1a6;
     u8 pad1a7[4];
-    u8 f1ab;
+    u8 reserved1ab;
 };
 #endif

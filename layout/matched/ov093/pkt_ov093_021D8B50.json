@@ -18,8 +18,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "BTL_CALC_FilterHalveSuperEffective",
-    "BTL_CALC_GetFilterHandlers"
+    "HAND_TOKUSEI_FilterHalveSuperEffective",
+    "HAND_TOKUSEI_GetFilterHandlers"
    ],
    "addresses": [
     "0x021D8B50",

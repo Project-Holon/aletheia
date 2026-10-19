@@ -18,10 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "CURSOR_MOVE_ClearSkipBit"
+    "CURSOR_MOVE_ClearSkipBit",
+    "CURSOR_MOVE_SetSkipBit",
+    "CURSOR_MOVE_GetEntry"
    ],
    "addresses": [
-    "0x02026124"
+    "0x02026124",
+    "0x0202614C",
+    "0x0202616C"
    ]
   }
  ]

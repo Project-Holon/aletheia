@@ -36,7 +36,7 @@
    }
   },
   {
-   "name": "func_021BC5A0",
+   "name": "Calloc",
    "address": "0x021BC5A0",
    "kind": "sdk",
    "region": "ov016",

@@ -1,5 +1,5 @@
 /*
- * function: func_02160A10
+ * function: compare_fqdn
  * address:  0x02160A10
  * packet:   pkt_ov009_02160A10
  * region:   ov009
@@ -17,7 +17,7 @@
 
 extern int chars_till_end(const char *p);
 
-static int func_02160A10(char *name, char *pat)
+static int compare_fqdn(char *name, char *pat)
 {
     int pat_len;
     int pat_cnt;

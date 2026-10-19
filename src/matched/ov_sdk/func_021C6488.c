@@ -1,5 +1,5 @@
 /*
- * function: func_021C6488
+ * function: scrollDown
  * address:  0x021C6488
  * packet:   pkt_021C6488
  * region:   ov016
@@ -26,7 +26,7 @@ extern void DWCi_SNDlPlay(unsigned int v);
 extern void *DWCi_TSKlForm(int a, void *b, int c, int d);
 extern void  func_021C61A4(void);
 
-void func_021C6488(void)
+void scrollDown(void)
 {
     u8 *p = gSceneSetApListWork.MemSsal;
 

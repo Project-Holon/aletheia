@@ -1,5 +1,5 @@
 /*
- * function: func_021CE9E8
+ * function: taskMain
  * address:  0x021CE9E8
  * packet:   pkt_ov016_021CE9E8
  * region:   ov016
@@ -50,7 +50,7 @@ extern void func_021CEB54(void);
 extern int func_021CEDC4(int a);
 extern MemSbT *gScrollBar;
 
-void func_021CE9E8(void)
+void taskMain(void)
 {
     gScrollBar->state = 0;
     switch (gScrollBar->last) {

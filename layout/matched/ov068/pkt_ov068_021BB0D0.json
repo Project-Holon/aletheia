@@ -18,8 +18,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "OPTION_MENU_GetTextWait",
-    "OPTION_MENU_TakeLastChanged"
+    "OPTION_MENU_GetTextSpeedWait",
+    "OPTION_MENU_TakeChangedSetting"
    ],
    "addresses": [
     "0x021BB0D0",

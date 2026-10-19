@@ -1,5 +1,5 @@
 /*
- * function: func_0215FDA4
+ * function: find_session_from_id
  * address:  0x0215FDA4
  * packet:   pkt_ov009_0215FDA4
  * region:   ov009
@@ -44,7 +44,7 @@ extern int func_020923F0(const u8 *a, const u8 *b, int n);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 
-static void func_0215FDA4(CPSSslConnection *con)
+static void find_session_from_id(CPSSslConnection *con)
 {
     int i;
     CPSSslSession *p;

@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: PDC_MSG_PrintMessage0, PDC_MSG_PrintMessage3, PDC_MSG_PrintMessage1, IRC_COMPATIBLE_ProcExit
+ * function: PDC_MSG_PrintMessage0, PDC_MSG_PrintMessage3, PDC_MSG_PrintMessage1, PDC_MSG_PrintMessage2
  * symbols:
  *   func_02045EC0  0x02045EC0  arm
  *   PDC_GetMon  0x021B6140  thumb  ov098
@@ -76,7 +76,7 @@ void PDC_MSG_PrintMessage1(int a, int b) {
     STRBUF_Delete((struct U16Vec *)r);
 }
 
-void IRC_COMPATIBLE_ProcExit(int a, int b) {
+void PDC_MSG_PrintMessage2(int a, int b) {
     int r;
     int t;
     r = (int)func_02045EC0((struct MsgBank *)(((struct Obj07934 *)a)->f20), 2);

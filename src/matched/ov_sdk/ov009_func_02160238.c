@@ -1,5 +1,5 @@
 /*
- * function: func_02160238
+ * function: parse_time
  * address:  0x02160238
  * packet:   pkt_ov009_02160238
  * region:   ov009
@@ -15,7 +15,7 @@
  *   (none)
  */
 
-static unsigned long func_02160238(unsigned char *s, int type)
+static unsigned long parse_time(unsigned char *s, int type)
 {
     unsigned long year;
 

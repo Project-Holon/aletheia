@@ -1,5 +1,5 @@
 /*
- * function: func_021D0CB8
+ * function: startScan
  * address:  0x021D0CB8
  * packet:   pkt_ov016_021D0CB8
  * region:   ov016
@@ -21,7 +21,7 @@ extern int WM_StartScanEx();
 extern char *gUsbapWork;
 extern void func_021D0DE0(void *arg);
 
-int func_021D0CB8(void)
+int startScan(void)
 {
     int rs = WM_StartScanEx(func_021D0DE0, gUsbapWork + 0x1374);
     return rs == 2;

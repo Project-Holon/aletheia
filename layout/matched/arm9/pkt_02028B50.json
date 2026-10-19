@@ -84,10 +84,22 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "FIELD_SOUND_SYSTEM_SetMode1"
+    "FIELD_SOUND_SYSTEM_SetMode1",
+    "FIELD_SOUND_SYSTEM_SetMode2",
+    "FIELD_SOUND_SYSTEM_SetMode3",
+    "FIELD_SOUND_SYSTEM_SetMode4",
+    "FIELD_SOUND_SYSTEM_SetMode5",
+    "FIELD_SOUND_SYSTEM_SetMode6",
+    "FIELD_SOUND_SYSTEM_SetMode7"
    ],
    "addresses": [
-    "0x02028F18"
+    "0x02028F18",
+    "0x02028F30",
+    "0x02028F48",
+    "0x02028F60",
+    "0x02028F7C",
+    "0x02028F9C",
+    "0x02028FB8"
    ]
   },
   {

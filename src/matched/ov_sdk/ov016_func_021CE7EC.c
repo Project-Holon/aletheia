@@ -1,5 +1,5 @@
 /*
- * function: func_021CE7EC
+ * function: taskCopyPltt
  * address:  0x021CE7EC
  * packet:   pkt_ov016_021CE7EC
  * region:   ov016
@@ -12,7 +12,7 @@
  * sdk:      taskCopyPltt (libdwcutil.TWL.HYB.a screen.o)
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CE7EC.c \n *       --func func_021CE7EC --addr 0x021CE7EC --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CE7EC.c \n *       --func taskCopyPltt --addr 0x021CE7EC --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  *
  * symbols:
  *   MIi_CpuCopy16  0x02082A60  arm
@@ -27,7 +27,7 @@ extern ScreenBss gScreenWork;
 extern void MIi_CpuCopy16(void *srcp, void *destp, unsigned long size);
 extern void DWCi_TSKlDelete(int kind, void *task);
 
-void func_021CE7EC(void *task)
+void taskCopyPltt(void *task)
 {
     MIi_CpuCopy16(gScreenWork.src, gScreenWork.dst, 0x20);
     DWCi_TSKlDelete(1, task);

@@ -1,5 +1,5 @@
 /*
- * function: func_021CB0E4
+ * function: initGraphics
  * address:  0x021CB0E4
  * packet:   pkt_021CB0E4
  * region:   ov016
@@ -21,7 +21,7 @@ typedef struct {
 
 void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
 
-void func_021CB0E4(void)
+void initGraphics(void)
 {
     DWCi_CMNlLoadResource((void *)0x021DB66C, (void *)0x0207EB78);
     ((BgCnt *)0x04001008)->priority = 3;

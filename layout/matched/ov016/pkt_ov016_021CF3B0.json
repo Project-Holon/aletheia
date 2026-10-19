@@ -337,7 +337,7 @@
    }
   },
   {
-   "name": "write",
+   "name": "writeSettingPage",
    "address": "0x021CFCC8",
    "kind": "sdk",
    "region": "ov016",

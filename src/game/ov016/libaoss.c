@@ -53,11 +53,11 @@ typedef struct {
 typedef struct {
     u16 kind;
     Pi pi;
-    u16 f106;
-    short f108;
-    u16 f10a;
-    short f10c;
-    short f10e;
+    u16 reserved106;
+    short reserved108;
+    u16 reserved10a;
+    short reserved10c;
+    short reserved10e;
     u8 mac[6];
     unsigned char state;      /* 0x116 */
     unsigned char area[1];    /* 0x117 */
@@ -103,11 +103,11 @@ void DWCi_AOSSlInit(void)
     MI_CpuCopy8(sLibAossDefaultName, pi.name, 12);
     ((Work *)gLibaossBlock1.work)->kind = 3;
     ((Work *)gLibaossBlock1.work)->pi = pi;
-    ((Work *)gLibaossBlock1.work)->f106 = 1;
-    ((Work *)gLibaossBlock1.work)->f108 = -1;
-    ((Work *)gLibaossBlock1.work)->f10a = 1;
-    ((Work *)gLibaossBlock1.work)->f10c = -1;
-    ((Work *)gLibaossBlock1.work)->f10e = -1;
+    ((Work *)gLibaossBlock1.work)->reserved106 = 1;
+    ((Work *)gLibaossBlock1.work)->reserved108 = -1;
+    ((Work *)gLibaossBlock1.work)->reserved10a = 1;
+    ((Work *)gLibaossBlock1.work)->reserved10c = -1;
+    ((Work *)gLibaossBlock1.work)->reserved10e = -1;
     OS_GetMacAddress(((Work *)gLibaossBlock1.work)->mac);
     if (AOSSi_InitLocal(aossAlloc, aossFree))
         OS_Terminate();

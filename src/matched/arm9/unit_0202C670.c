@@ -10,7 +10,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0202C670
+ * function: ISS_SWITCH_StartFadeIn
  *
  * symbols:
  *   sub_0202C72C  0x0202C72C  thumb
@@ -40,7 +40,7 @@ extern u32 sub_0202C72C(void *p);
 struct Obj0202C6B8;
 extern struct Obj0202C6B8 *sub_0202C6BC(struct Obj0202C6B8 *p, u32 v);
 
-u32 sub_0202C670(void *p)
+u32 ISS_SWITCH_StartFadeIn(void *p)
 {
     if (sub_0202C72C(p) != 1) {
         sub_0202C6BC(p, 2);

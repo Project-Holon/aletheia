@@ -1,5 +1,5 @@
 /*
- * function: func_021C4DE4
+ * function: taskVBlank
  * address:  0x021C4DE4
  * packet:   pkt_021C4660
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C4DE4   0x021C4DE4  arm
+ *   taskVBlank   0x021C4DE4  arm
  *   DWCi_IPTlUpdate  0x021D656C  arm
  *   DWCi_TSKlAct  0x021D75D0  arm
  *
@@ -18,8 +18,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021C4DE4.c \
- *       --func func_021C4DE4 --addr 0x021C4DE4 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/taskVBlank.c \
+ *       --func taskVBlank --addr 0x021C4DE4 --region ov016 --cc dsi/1.1p1 --arm
  */
 
 extern void DWCi_IPTlUpdate(void);
@@ -27,7 +27,7 @@ extern void DWCi_TSKlAct(int);
 extern void func_021C4BDC(void);
 extern void func_021C4C18(void);
 
-void func_021C4DE4(void)
+void taskVBlank(void)
 {
     DWCi_IPTlUpdate();
     DWCi_TSKlAct(0);

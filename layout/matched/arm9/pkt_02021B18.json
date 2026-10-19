@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_02021B18",
+   "name": "PALANM_ForceStopFade",
    "address": "0x02021B18",
    "kind": "game",
    "region": "arm9",

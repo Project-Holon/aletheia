@@ -59,7 +59,7 @@
  *   sTownMapGrhBgTable 0x021BBC28 data a4
  *   BG_SYS_ClearGraphicsMemory  0x0204335C  arm
  *   BG_SYS_SetVramBanks  0x020433E0  arm
- *   BMP_SetDisplaySwap  0x0204363C  arm
+ *   BG_SYS_SetLcdSwap  0x0204363C  arm
  *   BG_SYS_ResetSubDisplay  0x0204361C  arm
  *   BG_SYS_ClearMainPlanes  0x020434CC  arm
  *   GF_FONT_InitTextColor  0x0201DD60  thumb
@@ -147,7 +147,7 @@ extern void VEC_Subtract(const TownMapVec *a, const TownMapVec *b, TownMapVec *o
 extern int VEC_Mag(const TownMapVec *v);
 extern void BG_SYS_ClearGraphicsMemory(u32 a);
 extern void BG_SYS_SetVramBanks(const struct DispVram *banks);
-extern void BMP_SetDisplaySwap(u32 a);
+extern void BG_SYS_SetLcdSwap(u32 a);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void GF_FONT_InitTextColor(void);
@@ -432,7 +432,7 @@ void TOWNMAP_GRH_ResetDisplay(void)
     REG_DB_DISPCNT &= ~DISPCNT_WINDOW_BITS;
     BG_SYS_ClearGraphicsMemory(0);
     BG_SYS_SetVramBanks(&sTownMapGrhVramBanks);
-    BMP_SetDisplaySwap(0);
+    BG_SYS_SetLcdSwap(0);
     BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
     GF_FONT_InitTextColor();

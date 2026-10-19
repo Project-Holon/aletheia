@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0202C548
+ * function: ISS_SWITCH_Delete
  * address:  0x0202C548
  * packet:   pkt_0202C4CC
  * region:   arm9
@@ -21,15 +21,15 @@
  * range; the remaining seven are src/matched/unit_0202C558.c.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202C548.c \
- *       --func sub_0202C548 --addr 0x0202C548 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ISS_SWITCH_Delete.c \
+ *       --func ISS_SWITCH_Delete --addr 0x0202C548 --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
 
 extern u32 ISS_SWITCH_Free(void *p);
 
-u32 sub_0202C548(void *p)
+u32 ISS_SWITCH_Delete(void *p)
 {
     return ISS_SWITCH_Free(p);
 }

@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: GAMESYSTEM_CallIfSet, GAMESYSTEM_ReadTimerTwice
+ * function: GAMESYSTEM_CallIfSet, GAMESYSTEM_RandTwice
  *
  * symbols:
  *   GF_STANDARD_Rand  0x0203F0A8  arm
@@ -18,7 +18,7 @@
  * so the return value is always the bitwise complement of the function
  * pointer itself, never whatever the call returned.
  *
- * GAMESYSTEM_ReadTimerTwice calls GF_STANDARD_Rand twice and returns nothing, a debug
+ * GAMESYSTEM_RandTwice calls GF_STANDARD_Rand twice and returns nothing, a debug
  * marker pair (begin/end) around nothing in between.
  *
  * GAMESYSTEM_LeakHeapPenalty and GAMESYSTEM_LeakHeapPenaltyRepeat, on either side of the function between
@@ -56,7 +56,7 @@ u32 GAMESYSTEM_CallIfSet(u32 (*fn)(void))
     return ~(u32)fn;
 }
 
-void GAMESYSTEM_ReadTimerTwice(void)
+void GAMESYSTEM_RandTwice(void)
 {
     GF_STANDARD_Rand();
     GF_STANDARD_Rand();

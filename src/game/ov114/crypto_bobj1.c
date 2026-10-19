@@ -91,7 +91,6 @@ extern BIGNUM *CRYPTOi__BN_copy(BIGNUM *, const BIGNUM *);
 extern BN_MONT_CTX *CRYPTOi__BN_MONT_CTX_new(void);
 extern int CRYPTOi__BN_MONT_CTX_set_word(BN_MONT_CTX *, const BIGNUM *, BN_CTX *);
 extern int CRYPTOi__BN_gen_exp_bits(const BIGNUM *, unsigned char **, int, BN_CTX *);
-extern int _s32_div_f(int, int);
 BIGNUM *CRYPTOi__bn_zexpand(BIGNUM *a, int n);
 extern int CRYPTOi__BN_mod(BIGNUM *, const BIGNUM *, const BIGNUM *, BN_CTX *);
 extern BIGNUM *CRYPTOi__bn_expand2(BIGNUM *, int);

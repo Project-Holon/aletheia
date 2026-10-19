@@ -32,7 +32,6 @@ typedef enum WMLinkLevel {
 extern unsigned long OS_DisableInterrupts(void);
 extern WCMWork *WCMi_GetSystemWork(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern void _s32_div_f();
 int WcmCompareMemory(unsigned char *a, unsigned char *b, unsigned int n);
 void WCM_CompareBssID(int a, int b);
 WMLinkLevel WCM_GetLinkLevel(void);

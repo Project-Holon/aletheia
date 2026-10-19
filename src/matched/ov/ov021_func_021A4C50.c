@@ -1,5 +1,5 @@
 /*
- * function: ov021_func_021A4C50
+ * function: FIELD_PLAYER_GRID_GetBlockedResultOnSurf
  * address:  0x021A4C50
  * packet:   pkt_ov021_021A4C50
  * region:   ov021
@@ -28,7 +28,7 @@ extern int FLDMMDL_CheckPossibleAcmd(int a0);
 extern int FIELD_PLAYER_GRID_GetWalkResultOnSurf(u32, u32, u32);
 extern int FIELD_PLAYER_GRID_GetStandResultOnSurf(u32, u32, u32);
 
-int ov021_func_021A4C50(u32 a, u32 b, u8 *c)
+int FIELD_PLAYER_GRID_GetBlockedResultOnSurf(u32 a, u32 b, u8 *c)
 {
     u32 r = FLDMMDL_GetDirDisp((void *)b);
     if (((struct Obj09568 *)c)->f8 != 9 && ((struct Obj09568 *)c)->f8 != r) {

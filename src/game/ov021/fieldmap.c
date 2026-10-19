@@ -20,7 +20,7 @@
  *   GFL_HEAP_RegisterBlockHeap  0x02030678  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   GAMESYSTEM_SetFieldMap  0x02012110  thumb
- *   GAMESYSTEM_GetAlwaysNetFlag  0x0201214C  thumb
+ *   GAMESYSTEM_IsAlwaysNetFlagSet  0x0201214C  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
@@ -46,7 +46,7 @@
  *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *   BMP_WIN_Init  0x02045088  arm
- *   GF_FONT_ResetTextColor  0x0201DD60  thumb
+ *   GF_FONT_InitTextColor  0x0201DD60  thumb
  *   G3D_SYSTEM_Init  0x02046440  arm
  *   GAME_DATA_GetSeason  0x02012984  thumb
  *   FIELD_G3D_MAPPER_Create  0x0218C9E8  thumb
@@ -365,7 +365,7 @@
  *   NNS_G3dGlbFlush    0x0206A854  arm
  *   FIELD_EFFECT_Draw    0x021ABE0C  thumb  ov021
  *   FIELD_G3DOBJ_DrawAll    0x021C64E0  thumb  ov021
- *   LIST_PopFront    0x02050790  arm
+ *   BILLBOARD_ACT_Draw    0x02050790  arm
  *   UNION_EFF_Draw    0x0217F928  thumb  ov019
  *   FIELD_SUBPROC_MGR_RunDraw    0x021BB954  thumb  ov021
  *   WEATHER_Draw    0x021A1B38  thumb  ov021
@@ -444,7 +444,7 @@ void GFL_HEAP_CreateChildHeap(unsigned int src, unsigned int dst, unsigned int s
 void GFL_HEAP_RegisterBlockHeap(void *a, u32 b, u32 c);
 void *PROCSYS_AllocProcWork(struct GfProc *proc, u32 size, u32 heapId);
 void GAMESYSTEM_SetFieldMap(struct GameSystem *p, void *v);
-unsigned int GAMESYSTEM_GetAlwaysNetFlag(const struct GameSystem *x);
+unsigned int GAMESYSTEM_IsAlwaysNetFlagSet(const struct GameSystem *x);
 struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
 u32 GAME_COMM_GetKind(struct GameComm *gameComm);
 void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
@@ -463,7 +463,7 @@ extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void BMP_WIN_Init(u16 heapId);
-extern void GF_FONT_ResetTextColor(void);
+extern void GF_FONT_InitTextColor(void);
 extern void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize,
                           u32 fifoSize, u32 heap, void (*setup)(void));
 extern u8 GAME_DATA_GetSeason(const struct GameData *p);
@@ -691,7 +691,7 @@ extern struct MmdlSys *GAME_DATA_GetOccupyInfo(const struct GameData *gameData);
 extern void FLDMMDL_SetupSysProc(struct MmdlSys *mmdlSys, int heapId, struct GameData *gameData, FieldMap *fieldMap, struct FieldG3dMapper *g3dMapper, struct FieldNogridMapper *nogridMapper);
 extern void FLDMMDL_BLACT_Init(struct MmdlSys *mmdlSys, struct BbActSys *bbdAct, u32 c);
 extern void FLDMMDL_BLACT_AddCachedRes(struct MmdlSys *mmdlSys);
-extern u8 INTRUDE_FIELD_GetHostGender(void *a0);
+extern u8 INTRUDE_FIELD_GetHostGender(void *gameComm);
 extern int FIELD_PLAYER_GetObjCodeOfFormCode(int i, int v);
 extern void FLDMMDL_BLACT_AddResByCode(struct MmdlSys *mmdlSys, u32 b);
 extern void FLDMMDL_G3DOBJ_Create(struct MmdlSys *mmdlSys, struct FieldG3dObjCtrl *g3dObjCtrl);
@@ -703,7 +703,7 @@ extern int FLDMMDL_DeleteSysProc(struct MmdlSys *mmdlSys);
 extern void FLDMMDL_SysPushAll(struct MmdlSys *mmdlSys);
 extern void *GAME_DATA_GetEventData(const struct GameData *gameData);
 extern u32 EVENTDATA_SYSTEM_IsEncountDataLoaded(u8 *p);
-extern void EVENTDATA_SYSTEM_LoadEncountData(void *eventData, int a1, int a2);
+extern void EVENTDATA_SYSTEM_LoadEncountData(void *eventData, int zoneId, int encountParam);
 extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
 extern VecFx32 *GAME_DATA_GetPlayerPosition(struct PlayerWork *playerWork);
 extern void ZONEDATA_GetLocationVec(const FieldMapLocation *location, VecFx32 *out);
@@ -713,12 +713,12 @@ extern int MAP_MATRIX_GetZoneIdByPos(struct MapMatrix *mapMatrix, int x, int z);
 extern void EFFECT_ENCOUNT_Reset(struct FieldEncount *encount);
 extern void FLDMMDL_SysDeleteZoneChangeMmdl(struct MmdlSys *mmdlSys);
 extern void EVENTDATA_SYSTEM_Clear(char *p);
-extern void EVENTDATA_SYSTEM_LoadEventData(void *a0, u16 a1, u8 a2);
+extern void EVENTDATA_SYSTEM_LoadEventData(void *system, u16 zoneId, u8 unused);
 extern void FIELD_MAP_CHANGE_ApplyZoneHeader(void *a, void *b);
 extern void FIELD_PLACE_NAME_OnZoneChange(void *p, int v);
 extern void GAME_BEACON_SetZone(u32 zoneId, struct GameData *gameData);
 extern void MAP_REPLACE_SetArriveFlag(void *a, int b);
-extern void SCRIPT_SYS_RunZoneChangeScript(void *a0, void *a1);
+extern void SCRIPT_SYS_RunZoneChangeScript(void *fieldSys, void *reserved);
 extern void INTRUDE_COMM_ClearHoldMode(void *a);
 u16 EVENTDATA_SYSTEM_GetNpcCount(u8 *p);
 u32 GAME_DATA_GetEventWork(const struct GameData *p);
@@ -756,7 +756,7 @@ extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern u32 GAME_COMM_GetLastKind(void *obj);
 extern u32 GAME_COMM_IsTransition(void *obj);
 extern u32 FIELD_G3D_MAPPER_Draw(struct FieldG3dMapper *g3dMapper, struct G3dCamera *g3dCamera, int m);
-extern void FIELD_FOG_Reflect(struct FieldFog *fog, u32 a1, u32 a2, u32 a3);
+extern void FIELD_FOG_Reflect(struct FieldFog *fog, u32 fogEnable, u32 fogSlope, u32 fogOffset);
 extern void FIELD_LIGHT_Reflect(struct FieldLight *light, int force);
 extern void FIELD_MSGBG_DrawTalkSys(struct FieldMsgBg *msgBg);
 extern void FIELDSKILL_MAPEFF_Apply(struct FieldSkillMapEff *mapEff);
@@ -764,7 +764,7 @@ extern void MIi_CpuCopyFast(const void *src, void *dst, u32 size);
 extern u32 NNS_G3dGlbFlush(void);
 extern void FIELD_EFFECT_Draw(struct FieldEffectCont *effect);
 extern void FIELD_G3DOBJ_DrawAll(struct FieldG3dObjCtrl *g3dObjCtrl);
-extern void LIST_PopFront(struct BbActSys *bbdAct, struct G3dCamera *g3dCamera, struct G3dLightSlots *g3dLight);
+extern void BILLBOARD_ACT_Draw(struct BbActSys *bbdAct, struct G3dCamera *g3dCamera, struct G3dLightSlots *g3dLight);
 extern void UNION_EFF_Draw(struct UnionEff *unionEff);
 extern void FIELD_SUBPROC_MGR_RunDraw(struct FieldmapFunc *mapFunc);
 extern void WEATHER_Draw(struct WeatherSys *weather);
@@ -960,7 +960,7 @@ int FIELDMAP_ProcInit(struct GfProc *proc, int *seq, struct GameSystem *gameSyst
         (*seq)++;
         break;
     case 1:
-        if (GAMESYSTEM_GetAlwaysNetFlag(gameSystem) == 0) {
+        if (GAMESYSTEM_IsAlwaysNetFlagSet(gameSystem) == 0) {
             struct GameComm *gameComm = GAMESYSTEM_GetGameComm(gameSystem);
             switch (GAME_COMM_GetKind(gameComm)) {
             case 1:
@@ -1031,7 +1031,7 @@ int FIELDMAP_SeqInitSystem(struct GameSystem *gameSystem, FieldMap *fieldMap)
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
     BMP_WIN_Init(heapId);
-    GF_FONT_ResetTextColor();
+    GF_FONT_InitTextColor();
     G3D_SYSTEM_Init(0, 3, 0, 1, 0x1000, fieldMap->heapId, FIELDMAP_SetupG3d);
     FIELDMAP_CreateG3dResources(fieldMap);
     fieldMap->g3dMapper = FIELD_G3D_MAPPER_Create(fieldMap->heapId, GAME_DATA_GetSeason(fieldMap->gameData));
@@ -2111,8 +2111,8 @@ void FIELDMAP_Draw3dNormal(FieldMap *fieldMap)
     NNS_G3dGeFlushBuffer(NNS_G3dGlbFlush());
     FIELD_EFFECT_Draw(fieldMap->effect);
     FIELD_G3DOBJ_DrawAll(fieldMap->g3dObjCtrl);
-    LIST_PopFront(fieldMap->mmdlBbdAct, fieldMap->g3dCamera, fieldMap->g3dLight);
-    LIST_PopFront(fieldMap->groundBbdAct, fieldMap->g3dCamera, fieldMap->g3dLight);
+    BILLBOARD_ACT_Draw(fieldMap->mmdlBbdAct, fieldMap->g3dCamera, fieldMap->g3dLight);
+    BILLBOARD_ACT_Draw(fieldMap->groundBbdAct, fieldMap->g3dCamera, fieldMap->g3dLight);
     if (fieldMap->unionEff != 0)
         UNION_EFF_Draw(fieldMap->unionEff);
     proj = savedProj;
@@ -2120,7 +2120,7 @@ void FIELDMAP_Draw3dNormal(FieldMap *fieldMap)
     MIi_CpuCopyFast(&proj, &g_DefaultProjectionMtx, 0x40);
     SCREENTEX_CameraState.flag &= ~0x50;
     NNS_G3dGeFlushBuffer(NNS_G3dGlbFlush());
-    LIST_PopFront(fieldMap->effectBbdAct, fieldMap->g3dCamera, fieldMap->g3dLight);
+    BILLBOARD_ACT_Draw(fieldMap->effectBbdAct, fieldMap->g3dCamera, fieldMap->g3dLight);
     MIi_CpuCopyFast(&savedProj, &g_DefaultProjectionMtx, 0x40);
     SCREENTEX_CameraState.flag &= ~0x50;
     NNS_G3dGlbFlush();

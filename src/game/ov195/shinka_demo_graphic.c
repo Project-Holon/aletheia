@@ -23,7 +23,7 @@
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
- *   GF_FONT_ResetTextColor 0x0201DD60 thumb
+ *   GF_FONT_InitTextColor 0x0201DD60 thumb
  *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   TCB_DeleteTask 0x02030EAC arm
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
@@ -116,7 +116,7 @@ extern void BG_SYS_ClearMainPlanes(void);
 
 extern void BG_SYS_ClearSubPlanes(void);
 
-extern void GF_FONT_ResetTextColor(void);
+extern void GF_FONT_InitTextColor(void);
 
 extern u32 GFL_USE_AddMainTask(void *, void *, int);
 
@@ -259,7 +259,7 @@ char *SHINKA_DEMO_GRAPHIC_Create(u32 lcdSwap, u32 heap)
     BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
-    GF_FONT_ResetTextColor();
+    GF_FONT_InitTextColor();
     SHINKA_DEMO_GRAPHIC_SetupMainBg(p, (void *)heap);
     SHINKA_DEMO_GRAPHIC_InitClact((unsigned char *)(p + 4), (int)d_02208CEC, heap);
     SHINKA_DEMO_GRAPHIC_Init3d((u32 *)(p + 8), (void *)heap);

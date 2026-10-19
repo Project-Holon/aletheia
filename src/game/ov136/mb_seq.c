@@ -1016,7 +1016,6 @@ extern const struct MailBoxActorDef d_021C7BBC[];
 
 extern const struct Cfg d_021C7BA0;
 
-extern const struct DispVram d_021C78E0;
 
 void MB_SEQ_CollectMails(struct MailBoxProc *p)
 {
@@ -2413,11 +2412,6 @@ int MB_SEQ_FinishMailTool(struct MailBoxProc *p)
 /*
  * MB_SEQ_ReturnMailItemToBag 0x021C73C8 thumb ov136
  * MB_SEQ_DeleteSelectedMail 0x021C7420 thumb ov136
- * MB_SEQ_FreeMails 0x021C5BE0 thumb ov136
- * MB_SEQ_CollectMails 0x021C5B40 thumb ov136
- * MB_SEQ_SetActorVisible 0x021C66B8 thumb ov136
- * MB_SEQ_DrawPage 0x021C5C00 thumb ov136
- * MB_SEQ_PrintMenuMessage 0x021C630C thumb ov136
  * MB_SEQ_SetMessageWait 0x021C71A8 thumb ov136
  */
 void MB_SEQ_ReloadMailList(struct MailBoxProc *p)

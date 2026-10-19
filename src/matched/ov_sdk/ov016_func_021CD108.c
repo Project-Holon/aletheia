@@ -1,5 +1,5 @@
 /*
- * function: func_021CD108
+ * function: DWCi_SceneSetSelectWayDispPush
  * address:  0x021CD108
  * packet:   pkt_ov016_021CD108
  * region:   ov016
@@ -12,7 +12,7 @@
  * sdk:      dispPush (libdwcutil.TWL.HYB.a scenesetselectwa)
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CD108.c \n *       --func func_021CD108 --addr 0x021CD108 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CD108.c \n *       --func DWCi_SceneSetSelectWayDispPush --addr 0x021CD108 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  *
  * symbols:
  *   DWCi_SCREENlCopyPalette  0x021CE7B0  arm  ov016
@@ -28,7 +28,7 @@ typedef struct { unsigned char b[4]; } Palette4;
 extern Palette4 sSceneSetSelectWayPalette;
 extern void DWCi_SCREENlCopyPalette(void *src, int sColor, int dColor);
 
-void func_021CD108(void)
+void DWCi_SceneSetSelectWayDispPush(void)
 {
     Palette4 palette = sSceneSetSelectWayPalette;
     DWCi_SCREENlCopyPalette(gFocusState.screen, palette.b[gFocusState.cur], palette.b[gFocusState.cur]);

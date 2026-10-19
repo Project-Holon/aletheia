@@ -50,7 +50,6 @@
  *   gsifree  0x0217EAE0  arm  ov009
  *   strcmp  0x020948E0  arm
  *   strstr  0x02094B20  arm
- *   memset        0x020923B0  arm
  *   atoi  0x020964E0  arm
  *   g_02191848                               0x021A5358  data
  *   g_0219184C                               0x021A5370  data
@@ -220,7 +219,6 @@ extern void *gsirealloc(void *ptr, unsigned int size);
 extern void gsifree(void *ptr);
 extern int strcmp(const char *s1, const char *s2);
 extern char *strstr(const char *s1, const char *s2);
-extern void *memset(void *dst, int ch, unsigned long n);
 extern int atoi(const char *s);
 extern void gpiRemoveOperation(void **connection, GPIOperation *operation);
 int gpiStartProfileSearch(void **connection, GPIOperation *operation);
@@ -868,7 +866,7 @@ GPResult gpiProcessSearch(GPConnection *connection, GPIOperation *operation)
                             if (arg.matches == 0)
                                 Error(connection, GP_MEMORY_ERROR, g_021918FC);
                             match = &arg.matches[arg.numMatches - 1];
-                            memset(match, 0, sizeof(GPProfileSearchMatch));
+                            MSL_C_LIB_MemsetPtr(match, 0, sizeof(GPProfileSearchMatch));
 
                             match->profile = atoi(value);
 
@@ -1038,7 +1036,7 @@ GPResult gpiProcessSearch(GPConnection *connection, GPIOperation *operation)
                                 if (arg->matches == 0)
                                     Error(connection, GP_MEMORY_ERROR, g_021918FC);
                                 match = &arg->matches[arg->numMatches - 1];
-                                memset(match, 0, sizeof(GPFindPlayerMatch));
+                                MSL_C_LIB_MemsetPtr(match, 0, sizeof(GPFindPlayerMatch));
                                 match->status = GP_ONLINE;
 
                                 match->profile = atoi(value);
@@ -1171,7 +1169,7 @@ GPResult gpiProcessSearch(GPConnection *connection, GPIOperation *operation)
                                     Error(connection, GP_MEMORY_ERROR, g_021918FC);
                                 arg->profiles = (GPProfileSearchMatch *)tempPtr;
                                 match = &arg->profiles[arg->numProfiles];
-                                memset(match, 0, sizeof(GPProfileSearchMatch));
+                                MSL_C_LIB_MemsetPtr(match, 0, sizeof(GPProfileSearchMatch));
                                 arg->numProfiles++;
 
                                 match->profile = atoi(value);

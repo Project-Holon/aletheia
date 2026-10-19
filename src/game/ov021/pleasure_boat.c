@@ -32,7 +32,7 @@
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   PLEASURE_BOAT_Create  0x021C8608  thumb  ov021
  *   SYMBOL_MAP_DeleteLinkRecord  0x021666A4  thumb  ov010
- *   VM_GetU16  0x02011330  thumb
+ *   VM_ReadU16  0x02011330  thumb
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   PLEASURE_BOAT_GetStat  0x021C8738  thumb  ov021
  *   PLEASURE_BOAT_AdvanceTime  0x021C86E8  thumb  ov021
@@ -205,7 +205,7 @@ extern void SYMBOL_MAP_DeleteLinkRecord(PleasureBoatHolder *holder);
 
 extern void *SCRCMD_WORK_GetScriptWork(ScrCmdWork *scrCmdWork);
 
-extern u16 VM_GetU16(ScriptVm *vm);
+extern u16 VM_ReadU16(ScriptVm *vm);
 
 extern u16 *SCRIPT_WORK_ReadWorkPointer(ScriptVm *vm, ScrCmdWork *scrCmdWork);
 
@@ -305,7 +305,7 @@ int PLEASURE_BOAT_ScrCmdGetStat(ScriptVm *vm, ScrCmdWork *scrCmdWork)
 
     SCRCMD_WORK_GetScriptWork(scrCmdWork);
     holder = GAME_DATA_GetEventState(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(scrCmdWork)))));
-    kind = VM_GetU16(vm);
+    kind = VM_ReadU16(vm);
     out = SCRIPT_WORK_ReadWorkPointer(vm, scrCmdWork);
     *out = PLEASURE_BOAT_GetStat(holder->boat, kind);
     return 0;
@@ -315,7 +315,7 @@ int PLEASURE_BOAT_ScrCmdGetStat(ScriptVm *vm, ScrCmdWork *scrCmdWork)
 int PLEASURE_BOAT_ScrCmdAddTime(ScriptVm *vm, ScrCmdWork *scrCmdWork)
 {
     SCRCMD_WORK_GetScriptWork(scrCmdWork);
-    PLEASURE_BOAT_AdvanceTime(GAME_DATA_GetEventState(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(scrCmdWork)))))->boat, VM_GetU16(vm), VM_GetU16(vm));
+    PLEASURE_BOAT_AdvanceTime(GAME_DATA_GetEventState(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(scrCmdWork)))))->boat, VM_ReadU16(vm), VM_ReadU16(vm));
     return 0;
 }
 
@@ -330,8 +330,8 @@ int PLEASURE_BOAT_ScrCmdSetPassengerInfo(ScriptVm *vm, ScrCmdWork *scrCmdWork)
     SCRCMD_WORK_GetScriptWork(scrCmdWork);
     holder = GAME_DATA_GetEventState(GAMESYSTEM_GetGameData(SCRCMD_WORK_GetGameSystem(scrCmdWork)));
     index = SCRIPT_WORK_ReadWorkValue(vm, scrCmdWork);
-    subCommand = VM_GetU16(vm);
-    VM_GetU16(vm);
+    subCommand = VM_ReadU16(vm);
+    VM_ReadU16(vm);
     value = SCRIPT_WORK_ReadWorkValue(vm, scrCmdWork);
     switch (subCommand) {
     case 0:

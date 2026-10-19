@@ -1,5 +1,5 @@
 /*
- * function: sub_020393D0
+ * function: GFL_NET_SYSTEM_IsError
  * address:  0x020393D0
  * packet:   pkt_020393A8
  * region:   arm9
@@ -22,7 +22,7 @@
  * through path, and the compiler will not sink a call past a branch.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020393D0.c \n *       --func sub_020393D0 --addr 0x020393D0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_SYSTEM_IsError.c \n *       --func GFL_NET_SYSTEM_IsError --addr 0x020393D0 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -45,7 +45,7 @@ struct LinkRoot {
 extern struct LinkState *unk_021469D0;
 extern void *GFL_NET_GetSession(void);
 
-int sub_020393D0(void)
+int GFL_NET_SYSTEM_IsError(void)
 {
     struct LinkRoot *root;
 

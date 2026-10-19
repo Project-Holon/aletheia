@@ -31,7 +31,7 @@
  *   VM_Create  0x0201121C  thumb
  *   VM_Init  0x0201126C  thumb
  *   VM_Control  0x02011298  thumb
- *   VM_GetUserData  0x02011324  thumb
+ *   VM_GetContext  0x02011324  thumb
  *   VM_Delete 0x02011264 thumb
  *   VM_Start  0x0201127C  thumb
  *   MIi_CpuClear16  0x02082A48  arm
@@ -84,7 +84,7 @@
  *   PARTICLE_GetEffectCount 0x02051614 arm
  *   GFL_USE_IsAnySeBusy 0x02006238 thumb
  *   GFL_USE_IsSeSlotBusy 0x02006224 thumb
- *   PM_VOICE_IsActive 0x02006BD0 thumb
+ *   PM_VOICE_IsSlotActive 0x02006BD0 thumb
  *   d_02209E58 0x02209E58 data a4
  *   d_02209E28 0x02209E28 data ov094 a4
  *   d_0220AD18 0x0220AD18 data ov094 a4
@@ -135,7 +135,6 @@
  *   d_02209DB4 0x02209DB4 data
  *   MTX_Copy43To44_  0x0207B5C0  arm
  *   MTX_Concat44     0x0207BE14  arm
- *   FX_Div           0x0207C768  arm
  *   g_renderStateDrawParams       0x02148B98  data
  *   SCREENTEX_ProjectionMatrix       0x02148B54  data
  *   GFL_NET_SetBgmTrackVolumeUnlessVoiceChat  0x0200F698  thumb
@@ -305,7 +304,7 @@ extern void VM_Init(struct ScriptVm *vm, void *user);
 
 extern int VM_Control(struct ScriptVm *vm);
 
-extern void *VM_GetUserData(void *vm);
+extern void *VM_GetContext(void *vm);
 
 extern void VM_Delete(void *);
 
@@ -359,14 +358,6 @@ extern void GFL_USE_StopAllSe(void);
 
 extern void GFL_USE_StopSeSlot(int i);
 
-extern float _fflt(int);
-
-extern float _fadd(float, float);
-
-extern float _fsub(float, float);
-
-extern int _ffix(float);
-
 extern void VM_Jump(struct ScriptVm *c, u32 v);
 
 extern unsigned short PALANM_GetPairedCodeForFirst(int value);
@@ -389,7 +380,7 @@ extern int GFL_USE_IsAnySeBusy(void);
 
 extern int GFL_USE_IsSeSlotBusy(unsigned);
 
-extern u32 PM_VOICE_IsActive(u32 i);
+extern u32 PM_VOICE_IsSlotActive(u32 i);
 
 extern u32 PARTICLE_GetCallbackArg(void);
 
@@ -992,7 +983,7 @@ int BTLV_EFFVM_Main(void *vm)
     BtlvEffVmWork *work;
 
     status = VM_Control(vm);
-    work = VM_GetUserData(vm);
+    work = VM_GetContext(vm);
     if (work->flags.bit.blockedOnTask)
         return 0;
     if (status == 0 && work->scriptBuf != 0) {
@@ -1010,7 +1001,7 @@ int BTLV_EFFVM_Main(void *vm)
  */
 void BTLV_EFFVM_Destroy(void *vm)
 {
-    BtlvEffVmWork *work = VM_GetUserData(vm);
+    BtlvEffVmWork *work = VM_GetContext(vm);
     BTLV_EFFVM_StopScript(vm);
     GFL_HEAP_Free(work);
     VM_Delete(vm);
@@ -1023,7 +1014,7 @@ void BTLV_EFFVM_StartScript(void *vm, u32 attackerPos, u32 defenderPos, u16 effe
     int useFallback;
     u8 *scriptData;
 
-    work = VM_GetUserData(vm);
+    work = VM_GetContext(vm);
     work->scriptBuf = 0;
     BTLV_EFFECT_DeleteTasksByArg(1);
     if (params != 0)
@@ -1100,10 +1091,10 @@ void BTLV_EFFVM_StartScript(void *vm, u32 attackerPos, u32 defenderPos, u16 effe
  */
 void BTLV_EFFVM_StopScript(void *vm)
 {
-    BtlvEffVmWork *work = VM_GetUserData(vm);
+    BtlvEffVmWork *work = VM_GetContext(vm);
 
     if (work->scriptBuf != 0) {
-        BTLV_EFFVM_ReleaseScriptResources(vm, VM_GetUserData(vm));
+        BTLV_EFFVM_ReleaseScriptResources(vm, VM_GetContext(vm));
         GFL_HEAP_Free(work->scriptBuf);
         work->scriptBuf = 0;
     }
@@ -1114,7 +1105,7 @@ void BTLV_EFFVM_StopScript(void *vm)
  */
 void BTLV_EFFVM_ClearBlockedFlag(void *vm)
 {
-    ((BtlvEffVmWork *)VM_GetUserData(vm))->flags.bit.blockedOnTask = 0;
+    ((BtlvEffVmWork *)VM_GetContext(vm))->flags.bit.blockedOnTask = 0;
 }
 
 /*
@@ -1122,7 +1113,7 @@ void BTLV_EFFVM_ClearBlockedFlag(void *vm)
  */
 int BTLV_EFFVM_GetFallbackScriptFlag(void *vm)
 {
-    BtlvEffVmWork *work = VM_GetUserData(vm);
+    BtlvEffVmWork *work = VM_GetContext(vm);
     int result = -1;
 
     if (work->scriptBuf != 0)
@@ -1145,7 +1136,7 @@ void BTLV_EFFVM_StartSePlayTask(void *vm, u32 seId, int slot, u32 pan, int pitch
 {
     BtlvEffVmWork *work;
     BtlvEffVmSePlayJob *job;
-    work = VM_GetUserData(vm);
+    work = VM_GetContext(vm);
     if (BTLV_EFFECT_IsSeSuppressed() == 1)
         return;
     work->flags.bit.stopSeOnEnd = 1;
@@ -1190,7 +1181,7 @@ void BTLV_EFFVM_StartSeVolumeTask(void *vm, u32 slot, int mode, int param, int f
     BtlvEffVmSeRampJob *job;
     float stepFx;
     int spanFx;
-    work = VM_GetUserData(vm);
+    work = VM_GetContext(vm);
     job = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x38, 0, d_0220AE68, 0x455);
     job->work = work;
     job->slot = slot;
@@ -1222,7 +1213,7 @@ void BTLV_EFFVM_StartSeVolumeTask(void *vm, u32 slot, int mode, int param, int f
  */
 void BTLV_EFFVM_StopLiveSounds(void *vm)
 {
-    BtlvEffVmWork *work = VM_GetUserData(vm);
+    BtlvEffVmWork *work = VM_GetContext(vm);
     int i;
 
     for (i = 0; i < 6; i++) {
@@ -1236,7 +1227,7 @@ void BTLV_EFFVM_StopLiveSounds(void *vm)
  */
 void BTLV_EFFVM_ClearLastEffect(void *vm)
 {
-    BtlvEffVmWork *work = VM_GetUserData(vm);
+    BtlvEffVmWork *work = VM_GetContext(vm);
     work->lastEffectId = 0;
     work->lastSlot = 0;
 }
@@ -2785,15 +2776,15 @@ int BTLV_EFFVM_CmdStartSeVolumeTween(struct ScriptVm *vm, BtlvEffVmWork *work)
     job->framesPerStep = VM_GetU32(vm);
     job->passes = VM_GetU32(vm) * 2;
     if (job->mode == 1 && job->passes == 0) job->passes = 2;
-    if (job->from > 0) job->current = _ffix(_fadd(0.5f, _fflt(job->from << 12)));
-    else job->current = _ffix(_fsub(_fflt(job->from << 12), 0.5f));
-    if (job->stepsLeft > 0) stepsFx = _fadd(0.5f, _fflt(job->stepsLeft << 12));
-    else stepsFx = _fsub(_fflt(job->stepsLeft << 12), 0.5f);
+    if (job->from > 0) job->current = (int)(0.5f + (float)(job->from << 12));
+    else job->current = (int)((float)(job->from << 12) - 0.5f);
+    if (job->stepsLeft > 0) stepsFx = (0.5f + (float)(job->stepsLeft << 12));
+    else stepsFx = ((float)(job->stepsLeft << 12) - 0.5f);
     diff = job->to - job->from;
-    if (diff > 0) rangeFx = _fadd(0.5f, _fflt(diff << 12));
-    else rangeFx = _fsub(_fflt(diff << 12), 0.5f);
-    fromPos = _ffix(rangeFx);
-    toPos = _ffix(stepsFx);
+    if (diff > 0) rangeFx = (0.5f + (float)(diff << 12));
+    else rangeFx = ((float)(diff << 12) - 0.5f);
+    fromPos = (int)rangeFx;
+    toPos = (int)stepsFx;
     job->delta = FX_Div(fromPos, toPos);
     BTLV_EFFECT_RegisterTask(TCB_AddTask(work->owner, BTLV_EFFVM_SeVolumeTweenTaskMain, job, 0), BTLV_EFFVM_SeVolumeTweenTaskEnd, 1);
     work->flags.bit.sePanRamp = 1;
@@ -3367,7 +3358,7 @@ int BTLV_EFFVM_IsAllIdle(int vm, BtlvEffVmWork *work)
         if (work->flags.bit.particleTaskActive) return 0;
         for (i = 0; i < 6; i++) {
             if (work->seVoiceIds[i] != -1) {
-                if (PM_VOICE_IsActive(work->seVoiceIds[i]) != 0) return 0;
+                if (PM_VOICE_IsSlotActive(work->seVoiceIds[i]) != 0) return 0;
                 work->seVoiceIds[i] = -1;
             }
         }
@@ -3685,7 +3676,7 @@ int BTLV_EFFVM_ResolveBattlerListExpanded(BtlvEffVmWork *work, int unused, int *
 
 int BTLV_EFFVM_ResolveSlotKey(struct ScriptVm *vm, int idx)
 {
-    BtlvEffVmWork *work = VM_GetUserData(vm);
+    BtlvEffVmWork *work = VM_GetContext(vm);
     int pos;
 
     switch (idx) {
@@ -3772,14 +3763,14 @@ int BTLV_EFFVM_ResolveSideFromVm(struct ScriptVm *vm, int pos)
 {
     int result = pos;
 
-    if (((BtlvEffVmWork *)VM_GetUserData(vm))->flags.bit.flipSides)
+    if (((BtlvEffVmWork *)VM_GetContext(vm))->flags.bit.flipSides)
         result ^= 1;
     return result;
 }
 
 int BTLV_EFFVM_ResolveAnchorSlot(struct ScriptVm *vm, int *out)
 {
-    BtlvEffVmWork *work = VM_GetUserData(vm);
+    BtlvEffVmWork *work = VM_GetContext(vm);
     int mode = BTLV_EFFECT_GetMode();
     int attackerPos;
 
@@ -3993,7 +3984,7 @@ void BTLV_EFFVM_ParticleStartCallback(void *emitter)
     }
     dstPos.y += req->offset.y;
     if (req->motionKind != 0) {
-        work = VM_GetUserData((void *)req->vm);
+        work = VM_GetContext((void *)req->vm);
         (BtlvEffVmEmitterMotion *)work->allocBuffers[work->allocBufferCount] = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x60, 0, d_0220AE68, 0x194a);
         motion = (BtlvEffVmEmitterMotion *)work->allocBuffers[work->allocBufferCount];
         PARTICLE_EMITTER_SetUserData(emitter, (int)motion);
@@ -4540,9 +4531,9 @@ void BTLV_EFFVM_StartSeVolumeTweenTask(BtlvEffVmWork *work, int fromLevel, int t
     job->target = toLevel;
     job->flags = &work->flags;
     if (steps > 0)
-        stepFx = _ffix(_fadd(0.5f, _fflt(steps << 12)));
+        stepFx = (int)(0.5f + (float)(steps << 12));
     else
-        stepFx = _ffix(_fsub(_fflt(steps << 12), 0.5f));
+        stepFx = (int)((float)(steps << 12) - 0.5f);
     BTLV_EFFECT_ComputeScalarStep(job->current, job->target, &job->step, stepFx);
     BTLV_EFFECT_RegisterTask((void *)TCB_AddTask((void *)work->owner, BTLV_EFFVM_DelayTaskMain, job, 0), 0, 1);
 }
@@ -4633,9 +4624,9 @@ void BTLV_EFFVM_SeVolumeTweenTaskMain(void *task, void *arg)
             }
         }
         if (level > 0)
-            job->current = _ffix(_fadd(0.5f, _fflt(level << 12)));
+            job->current = (int)(0.5f + (float)(level << 12));
         else
-            job->current = _ffix(_fsub(_fflt(level << 12), 0.5f));
+            job->current = (int)((float)(level << 12) - 0.5f);
         switch (job->param) {
         case 0: GFL_USE_SetSeSlotParams(job->slot, -1, level, -1); break;
         case 1: NNS_SndHandleSetVolume(GFL_USE_GetSeHandle(job->slot), level); break;
@@ -4781,7 +4772,7 @@ void BTLV_EFFVM_WaitVoiceTaskMain(void *task, void *arg)
 
     for (i = 0; i < 6; i++) {
         if (job->work->seVoiceIds[i] != -1) {
-            if (PM_VOICE_IsActive(job->work->seVoiceIds[i]) != 0)
+            if (PM_VOICE_IsSlotActive(job->work->seVoiceIds[i]) != 0)
                 return;
             job->work->seVoiceIds[i] = -1;
         }

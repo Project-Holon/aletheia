@@ -236,7 +236,7 @@
    "status": "EXACT",
    "functions": [
     "ZONEDATA_GetHeader",
-    "ZONEDATA_IsZoneInTable",
+    "ZONEDATA_IsChangedZoneInTable",
     "ZONEDATA_GetAreaId",
     "ZONEDATA_GetMatrixId",
     "ZONEDATA_GetMapType",

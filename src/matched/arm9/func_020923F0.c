@@ -1,5 +1,5 @@
 /*
- * function: func_020923F0
+ * function: memcmp
  * address:  0x020923F0
  * packet:   pkt_020923F0
  * region:   arm9
@@ -30,14 +30,14 @@
  * its own so it lands in a shard no other lane writes.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_020923F0.c \
- *       --func func_020923F0 --addr 0x020923F0 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/memcmp.c \
+ *       --func memcmp --addr 0x020923F0 --cc 1.1p1 --arm
  *   EXACT, 64 bytes, no relocation sites.
  */
 
 typedef unsigned char u8;
 
-int func_020923F0(const u8 *a, const u8 *b, int n)
+int memcmp(const u8 *a, const u8 *b, int n)
 {
     while (n != 0) {
         if (*a++ != *b++)

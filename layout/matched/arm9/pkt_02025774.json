@@ -101,9 +101,9 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "BMP_OAM_Check5BEC",
-    "BMP_OAM_CheckRangeGetId",
-    "BMP_OAM_CheckRangeGetMin"
+    "NATION_AREA_IsValidNationArea",
+    "NATION_AREA_SanitizeNation",
+    "NATION_AREA_SanitizeArea"
    ],
    "addresses": [
     "0x02025BEC",

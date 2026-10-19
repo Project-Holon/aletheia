@@ -19,7 +19,7 @@
    "status": "EXACT",
    "functions": [
     "BTL_CALC_NoOp",
-    "BTL_CALC_GetMonParamWithHeap"
+    "BTL_CALC_GetItemParam"
    ],
    "addresses": [
     "0x021D8058",

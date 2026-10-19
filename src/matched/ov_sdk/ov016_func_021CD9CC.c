@@ -1,5 +1,5 @@
 /*
- * function: func_021CD9CC
+ * function: procScene
  * address:  0x021CD9CC
  * packet:   pkt_ov016_021CD9CC
  * region:   ov016
@@ -12,7 +12,7 @@
  * sdk:      procScene (libdwcutil.TWL.HYB.a scenesettestconf)
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CD9CC.c \n *       --func func_021CD9CC --addr 0x021CD9CC --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CD9CC.c \n *       --func procScene --addr 0x021CD9CC --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  *
  * symbols:
  *   DWCi_SceneSetTestConfNopA  0x021CDA0C  arm  ov016
@@ -32,7 +32,7 @@ extern void DWCi_WINlEnd(void);
 extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021CDA14(void);
 
-void func_021CD9CC(void)
+void procScene(void)
 {
     DWCi_SceneSetTestConfNopA();
     DWCi_SceneSetTestConfNopB();

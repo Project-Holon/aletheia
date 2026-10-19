@@ -50,7 +50,7 @@
  *   MIi_CpuClear32 0x02082A7C arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_ClearSlot 0x020414EC arm
- *   BMP_SetDisplaySwap 0x0204363C arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   d_021DA638 0x021DA638 data a4
  *   d_021DA698 0x021DA698 data a4
  *   PALANM_TransferPalettes  0x02021D50  thumb
@@ -409,7 +409,7 @@ extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void MIi_CpuClear32(unsigned,void *,unsigned);
 extern void BG_SYS_InitBgLayer(unsigned bgId, const struct BgTemplate *tmpl, unsigned type);
 extern void BG_SYS_ClearSlot(unsigned);
-extern void BMP_SetDisplaySwap(unsigned);
+extern void BG_SYS_SetLcdSwap(unsigned);
 extern void PALANM_TransferPalettes(struct S02021D50 *p);
 extern void CLACT_VBlankSystem(void);
 extern void WIPE_SYS_Start(void *,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned);
@@ -664,7 +664,7 @@ void WF2DMAP_SCENE_InitBg(void)
     BG_SYS_InitBgLayer(7,(const struct BgTemplate *)(&subTmpl.rows[3]),0);
     BG_SYS_ClearSlot(4); BG_SYS_ClearSlot(5); BG_SYS_ClearSlot(6); BG_SYS_ClearSlot(7);
     BG_SYS_SetSubPlaneVisible(1,1); BG_SYS_SetSubPlaneVisible(2,1); BG_SYS_SetSubPlaneVisible(4,0); BG_SYS_SetSubPlaneVisible(8,0);
-    BMP_SetDisplaySwap(0);
+    BG_SYS_SetLcdSwap(0);
     BG_SYS_SetMainPlaneVisible(16,1); BG_SYS_SetSubPlaneVisible(16,1);
 }
 

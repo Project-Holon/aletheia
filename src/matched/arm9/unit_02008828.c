@@ -12,10 +12,10 @@
  * status:   EXACT
  * function: PLAYER_LOCATION_GetSize, PLAYER_LOCATION_Init, PLAYER_LOCATION_Nop, PLAYER_LOCATION_GetLocationA,
  *           PLAYER_LOCATION_GetLocationB, PLAYER_LOCATION_GetShortData, PLAYER_LOCATION_GetData, PLAYER_LOCATION_SetRecordFromBuffer,
- *           PLAYER_LOCATION_CopyRecordToBuffer, PLAYER_LOCATION_CopyRecord, PLAYER_LOCATION_ReadStyleFrom, PLAYER_LOCATION_WriteStyleTo,
- *           PLAYER_LOCATION_SetFlagA, PLAYER_LOCATION_GetFlagA, PLAYER_LOCATION_SetFlagB, PLAYER_LOCATION_GetFlagB,
- *           PLAYER_LOCATION_SetCounter, PLAYER_LOCATION_GetCounter, PLAYER_LOCATION_GetValueA, PLAYER_LOCATION_SetValueA,
- *           PLAYER_LOCATION_SetValueB, PLAYER_LOCATION_GetValueB, PLAYER_LOCATION_GetZoneId, PLAYER_LOCATION_SetZoneId
+ *           PLAYER_LOCATION_CopyRecordToBuffer, PLAYER_LOCATION_CopyRecord, PLAYER_LOCATION_ReadFlashActiveFrom, PLAYER_LOCATION_WriteFlashActiveTo,
+ *           PLAYER_LOCATION_SetSeason, PLAYER_LOCATION_GetSeason, PLAYER_LOCATION_SetWeatherId, PLAYER_LOCATION_GetWeatherId,
+ *           PLAYER_LOCATION_SetEggStepCounter, PLAYER_LOCATION_GetEggStepCounter, PLAYER_LOCATION_GetWalkCounter, PLAYER_LOCATION_SetWalkCounter,
+ *           PLAYER_LOCATION_SetStepMessageCount, PLAYER_LOCATION_GetStepMessageCount, PLAYER_LOCATION_GetZoneId, PLAYER_LOCATION_SetZoneId
  *
  * symbols:
  *   MI_CpuFill8   0x02082BCC  arm
@@ -226,62 +226,62 @@ void PLAYER_LOCATION_CopyRecord(void *sys, struct Sub02008828Rec *dest)
 extern u8 FIELD_STATUS_IsFlashActive(struct Sub02014444Obj *o);
 extern void FIELD_STATUS_SetFlashActive(struct Sub02014444Obj *o, u8 v);
 
-void PLAYER_LOCATION_ReadStyleFrom(struct Sub02008828Obj *obj, const void *src)
+void PLAYER_LOCATION_ReadFlashActiveFrom(struct Sub02008828Obj *obj, const void *src)
 {
     obj->unk72 = FIELD_STATUS_IsFlashActive((struct Sub02014444Obj *)src);
 }
 
-void PLAYER_LOCATION_WriteStyleTo(const struct Sub02008828Obj *obj, void *dest)
+void PLAYER_LOCATION_WriteFlashActiveTo(const struct Sub02008828Obj *obj, void *dest)
 {
     FIELD_STATUS_SetFlashActive(dest, obj->unk72);
 }
 
-void PLAYER_LOCATION_SetFlagA(struct Sub02008828Obj *obj, u8 value)
+void PLAYER_LOCATION_SetSeason(struct Sub02008828Obj *obj, u8 value)
 {
     obj->unk73 = value;
 }
 
-void PLAYER_LOCATION_GetFlagA(const struct Sub02008828Obj *obj, u8 *out)
+void PLAYER_LOCATION_GetSeason(const struct Sub02008828Obj *obj, u8 *out)
 {
     *out = obj->unk73;
 }
 
-void PLAYER_LOCATION_SetFlagB(struct Sub02008828Obj *obj, u8 value)
+void PLAYER_LOCATION_SetWeatherId(struct Sub02008828Obj *obj, u8 value)
 {
     obj->unk74 = value;
 }
 
-void PLAYER_LOCATION_GetFlagB(const struct Sub02008828Obj *obj, u8 *out)
+void PLAYER_LOCATION_GetWeatherId(const struct Sub02008828Obj *obj, u8 *out)
 {
     *out = obj->unk74;
 }
 
-void PLAYER_LOCATION_SetCounter(struct Sub02008828Obj *obj, u32 value)
+void PLAYER_LOCATION_SetEggStepCounter(struct Sub02008828Obj *obj, u32 value)
 {
     obj->unk78 = value;
 }
 
-void PLAYER_LOCATION_GetCounter(const struct Sub02008828Obj *obj, u32 *out)
+void PLAYER_LOCATION_GetEggStepCounter(const struct Sub02008828Obj *obj, u32 *out)
 {
     *out = obj->unk78;
 }
 
-u16 PLAYER_LOCATION_GetValueA(const struct Sub02008828Obj *obj)
+u16 PLAYER_LOCATION_GetWalkCounter(const struct Sub02008828Obj *obj)
 {
     return obj->unk7C;
 }
 
-void PLAYER_LOCATION_SetValueA(struct Sub02008828Obj *obj, u16 value)
+void PLAYER_LOCATION_SetWalkCounter(struct Sub02008828Obj *obj, u16 value)
 {
     obj->unk7C = value;
 }
 
-void PLAYER_LOCATION_SetValueB(struct Sub02008828Obj *obj, u16 value)
+void PLAYER_LOCATION_SetStepMessageCount(struct Sub02008828Obj *obj, u16 value)
 {
     obj->unk7E = value;
 }
 
-u16 PLAYER_LOCATION_GetValueB(const struct Sub02008828Obj *obj)
+u16 PLAYER_LOCATION_GetStepMessageCount(const struct Sub02008828Obj *obj)
 {
     return obj->unk7E;
 }

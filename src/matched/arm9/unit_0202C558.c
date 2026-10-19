@@ -10,8 +10,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0202C558, sub_0202C560, sub_0202C568, sub_0202C570,
- *           sub_0202C578, sub_0202C580, sub_0202C588
+ * function: ISS_SWITCH_IsOn, ISS_SWITCH_On, ISS_SWITCH_Off, ISS_SWITCH_ForceOn,
+ *           ISS_SWITCH_ForceOff, ISS_SWITCH_Main, ISS_SWITCH_SetVolume
  *
  * symbols:
  *   sub_0202C72C   0x0202C72C  thumb
@@ -62,37 +62,37 @@ extern u32 ISS_SWITCH_SetOffState(void *p);
 extern u32 sub_0202C5F0(void *p);
 extern u32 sub_0202C710(void *p, u32 v);
 
-u32 sub_0202C558(void *p)
+u32 ISS_SWITCH_IsOn(void *p)
 {
     return sub_0202C72C(p);
 }
 
-u32 sub_0202C560(void *p)
+u32 ISS_SWITCH_On(void *p)
 {
     return sub_0202C670(p);
 }
 
-u32 sub_0202C568(void *p)
+u32 ISS_SWITCH_Off(void *p)
 {
     return sub_0202C688(p);
 }
 
-u32 sub_0202C570(void *p)
+u32 ISS_SWITCH_ForceOn(void *p)
 {
     return ISS_SWITCH_SetOnState(p);
 }
 
-u32 sub_0202C578(void *p)
+u32 ISS_SWITCH_ForceOff(void *p)
 {
     return ISS_SWITCH_SetOffState(p);
 }
 
-u32 sub_0202C580(void *p)
+u32 ISS_SWITCH_Main(void *p)
 {
     return sub_0202C5F0(p);
 }
 
-u32 sub_0202C588(void *p, u32 v)
+u32 ISS_SWITCH_SetVolume(void *p, u32 v)
 {
     return sub_0202C710(p, v);
 }

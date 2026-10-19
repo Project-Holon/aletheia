@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BD704",
+   "name": "taskLoad",
    "address": "0x021BD704",
    "kind": "sdk",
    "region": "ov016",

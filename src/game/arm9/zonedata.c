@@ -26,7 +26,7 @@
  *   _RailMapZoneTable  0x0209E010  data
  *   _ZoneSpecialKindTable  0x0209E026  data
  *   ZONEDATA_IsZoneGroup118To120  0x02013D9C  thumb
- *   ZONEDATA_IsZoneInTable  0x02013B10  thumb
+ *   ZONEDATA_IsChangedZoneInTable  0x02013B10  thumb
  *   d_0209DFC0     0x0209DFC0  data  a4
  *   d_0209DFEC     0x0209DFEC  data  a4
  *   d_0209DFB8     0x0209DFB8  data
@@ -36,14 +36,10 @@
  *   ZONEDATA_GetMatrixId  0x02013B44  thumb
  *   _ZoneSecondSpecialKindTable  0x0209DFC8  data
  *   FILE_UTIL_LoadRange  0x02020E08  thumb
- *   GFL_HEAP_Free  0x020307B0  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   _EventTempFlags  0x02146268  data
  *   ZONEDATA_ResetEventFlagRange  0x02014368  thumb
  *   _DirToRailKeyTable  0x0209E050  data
- *   ARC_TOOL_ReadHandleMemberRange  0x0204944C  arm
- *   ARC_TOOL_CreateHandle  0x020490F4  arm
- *   MI_CpuFill8  0x02082BCC  arm
  */
 #include "zonedata_shared_types.h"
 

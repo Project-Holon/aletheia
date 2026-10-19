@@ -1,5 +1,5 @@
 /*
- * function: func_02086838
+ * function: DLInsert
  * address:  0x02086838
  * packet:   pkt_02086788
  * region:   arm9
@@ -19,7 +19,7 @@ struct Cell {
     u32 size;
 };
 
-struct Cell *func_02086838(struct Cell *list, struct Cell *cell)
+struct Cell *DLInsert(struct Cell *list, struct Cell *cell)
 {
     struct Cell *prev = 0;
     struct Cell *curr = list;

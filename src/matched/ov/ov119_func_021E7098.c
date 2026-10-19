@@ -16,7 +16,7 @@
  *   PALANM_GetTransWork 0x02021730 thumb
  *   PALANM_FreeSlotBuffers 0x020215A0 thumb
  *   PALANM_Delete 0x02021540 thumb
- *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
+ *   DC_FlushRange 0x020862F0 arm
  *   func_0207E5D0 0x0207E5D0 arm
  *   func_0207E468 0x0207E468 arm
  *   GX_LoadOBJPltt 0x0207E51C arm
@@ -36,7 +36,7 @@ extern void PALANM_BlendChannel(struct Chan02021FD8 *p, u32 idx, u32 c, u32 coun
 extern int PALANM_GetTransWork(char *,int);
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 extern u32 PALANM_Delete(void *a0);
-extern void DWCi_ScreenDC_FlushRange(void *,u32);
+extern void DC_FlushRange(void *,u32);
 extern void func_0207E5D0(void *,u32,u32);
 extern void func_0207E468(void *,u32,u32);
 extern void GX_LoadOBJPltt(void *,u32,u32);
@@ -55,7 +55,7 @@ void POKETRADE_2D_FadePaletteBank(char *p, int bank, int mask)
     for(i=0;i<16;i++) {
         if(mask & (1<<i)) {
             off=i*32;
-            DWCi_ScreenDC_FlushRange(buf+off,32);
+            DC_FlushRange(buf+off,32);
             switch(bank) {
             case 3: func_0207E5D0(buf+off,off,32); break;
             case 1: func_0207E468(buf+off,off,32); break;

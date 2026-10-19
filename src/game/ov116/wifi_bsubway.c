@@ -256,7 +256,7 @@ extern void BSUBWAY_SCOREDATA_GetRecordBlob(struct Blk1AC *p, u32 which, void *d
 extern void NHTTP_RAP_DeleteConnection(unsigned char *);
 extern u32 MYSTATUS_GetProfileId(const struct Sub0200852CObj *obj);
 extern u8 *NHTTP_RAP_Create(int,int,int);
-extern void DWC_RAP_SetErrorCallback(int a0, int a1);
+extern void DWC_RAP_SetErrorCallback(int errorFunc, int errorArg);
 extern void NHTTP_RAP_AllocPostData(u8 *,int,int,int);
 extern void NHTTP_RAP_AppendPostData(u8 *p, int a, int n);
 extern int NHTTP_RAP_CreatePostRequest(u8 *p);

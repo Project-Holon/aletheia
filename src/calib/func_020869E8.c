@@ -1,5 +1,5 @@
 /*
- * function: func_020869E8
+ * function: OS_FreeToHeap
  * address:  0x020869E8
  * packet:   pkt_02086788
  * region:   arm9
@@ -44,7 +44,7 @@ extern void func_0208799C(int);
 extern struct Cell *func_02086810(struct Cell *list, struct Cell *cell);
 extern struct Cell *func_02086838(struct Cell *list, struct Cell *cell);
 
-void func_020869E8(int id, int heap, void *ptr)
+void OS_FreeToHeap(int id, int heap, void *ptr)
 {
     struct ArenaInfo *info;
     struct HeapDesc *hd;

@@ -18,10 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "BG_SYS_ResetSubDisplay"
+    "BG_SYS_ResetSubDisplay",
+    "BG_SYS_SetLcdSwap",
+    "BG_SYS_GetMainVisiblePlanes"
    ],
    "addresses": [
-    "0x0204361C"
+    "0x0204361C",
+    "0x0204363C",
+    "0x02043658"
    ]
   },
   {

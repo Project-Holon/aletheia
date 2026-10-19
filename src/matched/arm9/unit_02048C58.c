@@ -83,22 +83,22 @@ void G3D_LIGHT_ApplySlots(struct LightSlot *slots)
     }
 }
 
-void G3D_LIGHT_GetSlotColor(struct LightSlot *slots, u8 i, struct Rgb555 *out)
+void G3D_LIGHT_GetDirection(struct LightSlot *slots, u8 i, struct Rgb555 *out)
 {
     *out = slots[i].col;
 }
 
-void G3D_LIGHT_SetSlotColor(struct LightSlot *slots, u32 i, struct Rgb555 *in)
+void G3D_LIGHT_SetDirection(struct LightSlot *slots, u32 i, struct Rgb555 *in)
 {
     slots[i].col = *in;
 }
 
-void G3D_LIGHT_GetSlotFlags(struct LightSlot *slots, u8 i, u16 *out)
+void G3D_LIGHT_GetColor(struct LightSlot *slots, u8 i, u16 *out)
 {
     *out = slots[i].unk06;
 }
 
-void G3D_LIGHT_SetSlotFlags(struct LightSlot *slots, u32 i, u16 *in)
+void G3D_LIGHT_SetColor(struct LightSlot *slots, u32 i, u16 *in)
 {
     slots[i].unk06 = *in;
 }

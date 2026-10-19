@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "ov021_func_021A491C",
+   "name": "FIELD_PLAYER_GRID_GetStandResultOnCycle",
    "address": "0x021A491C",
    "kind": "game",
    "region": "ov021",

@@ -1,5 +1,5 @@
 /*
- * function: sub_02023C3C
+ * function: WIPE_SUB_SetWindowRect
  * address:  0x02023C3C
  * packet:   pkt_02023C3C
  * region:   arm9
@@ -28,7 +28,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void sub_02023C3C(u32 x2, u32 y2, u32 x1, u32 y1, int win, int sub)
+void WIPE_SUB_SetWindowRect(u32 x2, u32 y2, u32 x1, u32 y1, int win, int sub)
 {
     if (win == 0) {
         if (sub == 0) {

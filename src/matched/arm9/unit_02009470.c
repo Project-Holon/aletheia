@@ -12,7 +12,7 @@
  * isa:      thumb
  * status:   EXACT
  * function: WIFI_HISTORY_GetBlock, WIFI_HISTORY_InitLanguageRegion, WIFI_HISTORY_GetCountryRegionState, WIFI_HISTORY_SetCountryRegionState,
- *           WIFI_HISTORY_GetMode, WIFI_HISTORY_PromoteVisitedStates, sub_02009584
+ *           WIFI_HISTORY_GetMode, WIFI_HISTORY_PromoteVisitedStates, WIFI_HISTORY_GetVisitedCountryCount
  *
  * symbols:
  *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
@@ -45,7 +45,7 @@
  *   u8 sub_02009590(const struct Sub02009470Obj *obj,
  *                   const struct Sub0200852CObj *p, int flag)
  *   {
- *       u8 v = sub_02009584(obj);
+ *       u8 v = WIFI_HISTORY_GetVisitedCountryCount(obj);
  *
  *       if (flag == 0) {
  *           u8 t = MYSTATUS_GetLanguage(p);
@@ -99,7 +99,7 @@ struct Sub02009470Obj {
 };
 
 void WIFI_HISTORY_SetCountryRegionState(struct Sub02009470Obj *obj, int row, int col, int value);
-u8   sub_02009584(const struct Sub02009470Obj *obj);
+u8   WIFI_HISTORY_GetVisitedCountryCount(const struct Sub02009470Obj *obj);
 
 struct Sub02009470Obj *WIFI_HISTORY_GetBlock(void *sys)
 {
@@ -158,7 +158,7 @@ void WIFI_HISTORY_PromoteVisitedStates(struct Sub02009470Obj *obj)
     }
 }
 
-u8 sub_02009584(const struct Sub02009470Obj *obj)
+u8 WIFI_HISTORY_GetVisitedCountryCount(const struct Sub02009470Obj *obj)
 {
     return obj->unk345;
 }

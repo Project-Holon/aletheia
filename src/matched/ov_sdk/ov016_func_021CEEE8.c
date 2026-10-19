@@ -1,5 +1,5 @@
 /*
- * function: func_021CEEE8
+ * function: disp
  * address:  0x021CEEE8
  * packet:   pkt_ov016_021CEEE8
  * region:   ov016
@@ -28,7 +28,7 @@ typedef struct {
 extern void DWCi_CELLlSetPosition(void *cell, int idx, int x, int y);
 extern SB *gScrollBar;
 
-void func_021CEEE8(int pos)
+void disp(int pos)
 {
 	DWCi_CELLlSetPosition(gScrollBar->cell, -1, gScrollBar->x, pos + gScrollBar->y);
 	gScrollBar->pos = pos;

@@ -241,7 +241,7 @@ typedef struct ScrcmdKeyValueEntry {
 #define SCRCMD_HEAP_FLAG_TAIL        0x8000   /* allocate from the tail of the heap */
 
 extern ScriptWork *SCRCMD_WORK_GetScriptWork(ScrcmdWork *work);
-extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *SCRCMD_WORK_GetGameSystem(void *work);
 extern struct GameData *SCRCMD_WORK_GetGameData(void *work);
 extern u16 SCRIPT_WORK_ReadWorkValue(void *, void *);
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *p);
@@ -251,7 +251,7 @@ extern u32 GFL_HEAP_Free(void *p);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *core, void *work);
 extern void *EVENT_POKE_STATUS_CreatePokeSelectEvent(int a, u16 *b, u16 *c);
 extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
-extern int SCRCMD_PROC_GetPartyMember(void *a0, unsigned int a1, void **out);
+extern int SCRCMD_PROC_GetPartyMember(void *cmdWork, unsigned int partyIndex, void **out);
 extern struct MiscSave *GAME_DATA_GetMiscSave(struct GameData *gameData);
 extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *mon, u32 paramId, u32 arg);
 extern void MISC_SetMonRecord(struct MiscSave *p, u16 a, u32 b, u32 c, u32 d);
@@ -272,7 +272,7 @@ extern int ZUKAN_SAVE_IsRegionalSeenComplete(void *p, unsigned int heap);
 extern u16 ZUKAN_SAVE_CountCaughtRegional(struct ZukanSave *p, u32 heap);
 extern int ZUKAN_SAVE_IsRegionalCaughtComplete(void *pZukan, int heap);
 extern u32 POKE_TOOL_CheckTutorCompat(void *p, s32 v);
-extern int SCRCMD_PROC_CheckMonKnowsMove(int a0, int a1);
+extern int SCRCMD_PROC_CheckMonKnowsMove(int callArg0, int callArg1);
 extern void *EVENT_POKE_STATUS_CreatePokeSelectMoveEvent(void *t, u16 *o1, u16 *o2, u8 c, u32 v);
 extern u32 FILE_UTIL_GetId(u32 id);
 extern u32 POKE_TOOL_CheckTmCompat(void *p, int v);
@@ -326,7 +326,7 @@ extern u32 FIELDMAP_GetMapFunc(u8 *p);
 extern int *FIELD_SUBPROC_Start(int, int *, const int *);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern void *IRC_RANKING_GetFromSave(void *);
-extern void *FIELD_CLOCK_GetDate(int a0);
+extern void *FIELD_CLOCK_GetDate(int gameData);
 extern void OS_GetOwnerInfo(struct OSOwnerInfo *info);
 extern int IRC_RANKING_FindClosestEntry(void *, int, int, void *);
 extern u32 IRC_RANKING_GetEntryGender(struct MysteryData *r, u32 index);

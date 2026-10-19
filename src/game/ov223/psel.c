@@ -228,7 +228,7 @@ typedef struct PselEntry {
     u16 pad86;
     u32 phase;
     int direction;
-    int f90;
+    int animHold;
 } PselEntry;
 
 typedef struct Main {
@@ -1002,7 +1002,7 @@ void PSEL_UpdateUnitPositions(Main *p)
                 CLACT_SetActorDrawEnable(e->animActor, 1);
                 e->frame = 0;
                 e->phase = 1;
-                e->f90 = 0;
+                e->animHold = 0;
             } else {
                 if (e->direction == 2)
                     e->direction = 0;
@@ -1032,11 +1032,11 @@ void PSEL_UpdateUnitPositions(Main *p)
                 CLACT_SetActorDrawEnable(e->animActor, 0);
                 e->frame = 0;
                 e->phase = 0;
-                e->f90 = 0;
+                e->animHold = 0;
                 break;
             }
             e->frame = e->frame + d;
-            e->f90 = 0;
+            e->animHold = 0;
             if (e->frame == t[10]) {
                 e->frame = 0;
                 e->phase = 2;
@@ -1055,11 +1055,11 @@ void PSEL_UpdateUnitPositions(Main *p)
             if (e->frame == 0 && d < 0) {
                 e->frame = t[10] - 1;
                 e->phase = 1;
-                e->f90 = 0;
+                e->animHold = 0;
                 break;
             }
             e->frame = e->frame + d;
-            e->f90 = 0;
+            e->animHold = 0;
             if (e->frame == t[9]) {
                 e->frame = 0;
                 e->phase = 3;
@@ -1088,11 +1088,11 @@ void PSEL_UpdateUnitPositions(Main *p)
             if (e->frame == 0 && d < 0) {
                 e->frame = t[9] - 1;
                 e->phase = 2;
-                e->f90 = 0;
+                e->animHold = 0;
                 break;
             }
             e->frame = e->frame + d;
-            e->f90 = 0;
+            e->animHold = 0;
             if (e->frame == t[11]) {
                 e->frame = 0;
                 e->phase = 4;
@@ -1112,13 +1112,13 @@ void PSEL_UpdateUnitPositions(Main *p)
                 CLACT_SetActorBgPriority(e->animActor, 3);
                 e->frame = t[11] - 1;
                 e->phase = 3;
-                e->f90 = 0;
+                e->animHold = 0;
                 break;
             }
             if (e->direction == 1) {
                 CLACT_SetActorBgPriority(e->animActor, 2);
                 e->direction = 0;
-                if (e->f90 == 0)
+                if (e->animHold == 0)
                     p->animDone = 1;
             }
             break;

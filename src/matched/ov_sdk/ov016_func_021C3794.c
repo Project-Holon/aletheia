@@ -1,5 +1,5 @@
 /*
- * function: endScene1
+ * function: closeFadeStep
  * address:  0x021C3794
  * packet:   pkt_ov016_021C3794
  * region:   ov016
@@ -16,7 +16,7 @@
  *   DWCi_ChangeScene                 0x021C0E40  arm
  *   endScene2                        0x021C37D0  arm
  *
- * SDK: TwlDWC libdwcutil.TWL.HYB.a(sceneoptmovconfi.o), symbol endScene1 (name and
+ * SDK: TwlDWC libdwcutil.TWL.HYB.a(sceneoptmovconfi.o), symbol closeFadeStep (name and
  * prototype from the vendor object DWARF). The object is stamped Metrowerks C/C++ for
  * ARM 4.0.0.1025, which no tools/mwccarm build writes, so it stays on default 1.1p1.
  */
@@ -29,7 +29,7 @@ extern void DWCi_ChangeScene(void (*scene)());
 
 static void endScene2(void);
 
-static void endScene1(void)
+static void closeFadeStep(void)
 {
     if (DWCi_EFFlCheck(1))
         return;

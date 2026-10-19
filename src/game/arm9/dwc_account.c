@@ -1,7 +1,7 @@
 /*
  * file:     dwc_account.c
  * unit:     yes
- * function: DWCi_Acc_SetMaskBits, DWCi_Acc_GetUserId, DWCi_Acc_GetPlayerId, DWCi_Acc_GetFriendKey, DWCi_Acc_GetGsProfileId, DWCi_Acc_SetUserId, DWCi_Acc_SetPlayerId, DWCi_Acc_SetFriendKey, DWCi_Acc_SetGsProfileId, DWCi_Acc_GetFlags, DWCi_Acc_GetFlag_DataType, CTRDG_IsBitID, DWCi_IsBuddyFriendData, DWCi_IsReverseBuddyFriendData, DWCi_IsBuddyMsgAlreadySent, DWCi_Acc_GetFlagDataTypeThunk, DWCi_Acc_SetFlags, DWCi_Acc_SetFlag_DataType, DWCi_SetBuddyFriendData, DWCi_SetReverseBuddyFlag, DWCi_SetExpIsBuddyFriendFlag, DWCi_SetSentBuddyReqFlag, DWC_Acc_CreateFriendKey, DWC_CheckFriendKey, DWC_Acc_CheckFriendKey, DWC_Acc_FriendKeyToGsProfileId, DWCi_Acc_U64ToString32, DWCi_Acc_LoginIdToUserName, DWCi_Acc_CreateUserData, DWCi_Acc_CreateTempLoginId, DWCi_Acc_CheckConsoleUserId, DWCi_Acc_IsValidLoginId, DWCi_Acc_IsAuthentic, DWC_IsValidFriendData, DWCi_Acc_IsValidFriendDataThunk, DWC_CreateUserData, DWC_CheckUserData, DWC_CheckValidConsole, DWC_CheckHasProfile, DWCi_Acc_SetLoginIdToUserData, DWC_CheckDirtyFlag, DWCi_Acc_IsDirty, DWC_ClearDirtyFlag, DWCi_Acc_ClearDirty, DWC_GetFriendKey, DWC_GetGsProfileId, DWC_CreateFriendKey, DWC_CreateFriendKeyToken, DWC_CreateExchangeToken, DWC_SetGsProfileId, DWC_LoginIdToUserName, DWC_IsEqualFriendData
+ * function: DWCi_Acc_SetMaskBits, DWCi_Acc_GetUserId, DWCi_Acc_GetPlayerId, DWCi_Acc_GetFriendKey, DWCi_Acc_GetGsProfileId, DWCi_Acc_SetUserId, DWCi_Acc_SetPlayerId, DWCi_Acc_SetFriendKey, DWCi_Acc_SetGsProfileId, DWCi_Acc_GetFlags, DWCi_Acc_GetFlag_DataType, DWC_IsBuddyFriendData, DWCi_IsBuddyFriendData, DWCi_IsReverseBuddyFriendData, DWCi_IsBuddyMsgAlreadySent, DWCi_Acc_GetFlagDataTypeThunk, DWCi_Acc_SetFlags, DWCi_Acc_SetFlag_DataType, DWCi_SetBuddyFriendData, DWCi_SetReverseBuddyFlag, DWCi_SetExpIsBuddyFriendFlag, DWCi_SetSentBuddyReqFlag, DWC_Acc_CreateFriendKey, DWC_CheckFriendKey, DWC_Acc_CheckFriendKey, DWC_Acc_FriendKeyToGsProfileId, DWCi_Acc_U64ToString32, DWCi_Acc_LoginIdToUserName, DWCi_Acc_CreateUserData, DWCi_Acc_CreateTempLoginId, DWCi_Acc_CheckConsoleUserId, DWCi_Acc_IsValidLoginId, DWCi_Acc_IsAuthentic, DWC_IsValidFriendData, DWCi_Acc_IsValidFriendDataThunk, DWC_CreateUserData, DWC_CheckUserData, DWC_CheckValidConsole, DWC_CheckHasProfile, DWCi_Acc_SetLoginIdToUserData, DWC_CheckDirtyFlag, DWCi_Acc_IsDirty, DWC_ClearDirtyFlag, DWCi_Acc_ClearDirty, DWC_GetFriendKey, DWC_GetGsProfileId, DWC_CreateFriendKey, DWC_CreateFriendKeyToken, DWC_CreateExchangeToken, DWC_SetGsProfileId, DWC_LoginIdToUserName, DWC_IsEqualFriendData
  * address:  0x02059058
  * region:   arm9
  * compiler: dsi/1.2
@@ -18,8 +18,8 @@
  *
  * symbols:
  *   DWCi_Acc_GetFlags    0x02059108  arm
- *   CTRDG_IsExisting  0x0205915C  arm
- *   CTRDGi_IsBitIDAtInit  0x02059194  arm
+ *   DWCi_IsBuddyFriendData  0x0205915C  arm
+ *   DWCi_IsReverseBuddyFriendData  0x02059194  arm
  *   DWCi_Acc_GetFlag_DataType        0x0205911c arm
  *   MATHi_CRC8InitTable              0x02081940 arm
  *   MATH_CalcCRC8                    0x02081b3c arm
@@ -110,8 +110,6 @@ typedef struct MATHRandContext32 {
     unsigned long long add;
 } MATHRandContext32;
 
-extern BOOL CTRDG_IsExisting(void);
-extern BOOL CTRDGi_IsBitIDAtInit(u8 bitID);
 extern unsigned long DWCi_Acc_GetFlag_DataType(void *frienddata);
 extern void MATHi_CRC8InitTable(struct MATHCRC8Table *table, unsigned char poly);
 extern unsigned char MATH_CalcCRC8(struct MATHCRC8Table *table, void *data, unsigned long dataLength);
@@ -144,7 +142,7 @@ void DWCi_Acc_SetPlayerId(struct DWCstAccLoginId *loginId, int playerId);
 void DWCi_Acc_SetFriendKey(struct DWCstAccFriendKeyData *data, unsigned long long friendKey);
 void DWCi_Acc_SetGsProfileId(struct DWCstAccGsProfileIdData *data, int gsProfileId);
 unsigned long DWCi_Acc_GetFlags(DWCstAccFlag *userdata);
-BOOL CTRDG_IsBitID(u8 bitID);
+BOOL DWC_IsBuddyFriendData(void *frienddata);
 int DWCi_IsBuddyFriendData(void *frienddata);
 int DWCi_IsReverseBuddyFriendData(void *frienddata);
 int DWCi_IsBuddyMsgAlreadySent(void *frienddata);
@@ -266,11 +264,11 @@ unsigned long DWCi_Acc_GetFlag_DataType(void *userdata)
 
 
 /*
- * sdk:      CTRDG_IsBitID (libctrdg.TWL.HYB.a ctrdg.o)
+ * sdk:      DWC_IsBuddyFriendData (libdwcaccount.TWL.HYB.a dwc_account.o)
  */
-BOOL CTRDG_IsBitID(u8 bitID)
+BOOL DWC_IsBuddyFriendData(void *frienddata)
 {
-    return (CTRDG_IsExisting() && CTRDGi_IsBitIDAtInit(bitID)) ? 1 : 0;
+    return (DWCi_IsBuddyFriendData(frienddata) && DWCi_IsReverseBuddyFriendData(frienddata)) ? 1 : 0;
 }
 
 

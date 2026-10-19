@@ -88,7 +88,7 @@
  *   ov067_id  0x00000043  data
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
- *   BMP_SetDisplaySwap  0x0204363C  arm
+ *   BG_SYS_SetLcdSwap  0x0204363C  arm
  *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   ZUKAN_SAVE_GetViewMode  0x0200CA70  thumb
  *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
@@ -342,7 +342,7 @@ extern void ZUKAN_TickCounter(u32 a, u32 b, u32 *counter);
 extern int GF_OVERLAY_Load(s32 handle);
 extern void BG_SYS_SetMainVisiblePlanes(u32 a);
 extern void BG_SYS_SetSubVisiblePlanes(u32 a);
-extern void BMP_SetDisplaySwap(u32 a);
+extern void BG_SYS_SetLcdSwap(u32 a);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern u32 ZUKAN_SAVE_GetViewMode(struct Blk37 *p);
 extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
@@ -1319,7 +1319,7 @@ u32 ZKNSEARCH_MAIN_InitSearchScreen(u8 *work)
     BG_SYS_SetSubVisiblePlanes(0);
     *(volatile u16 *)ra = z;
     *(volatile u16 *)rb = z;
-    BMP_SetDisplaySwap(0);
+    BG_SYS_SetLcdSwap(0);
     m = -16;
     GXx_SetMasterBrightness_((volatile u16 *)(ra + 0x1c), m);
     GXx_SetMasterBrightness_((volatile u16 *)(rb + 0x1c), m);

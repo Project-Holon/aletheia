@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: CLACT_UpdateAnim
+ * function: CLACT_SetAnimSpeed
  * address:  0x0204D4C4
  * packet:   pkt_0204D3C4
  * region:   arm9
@@ -28,10 +28,10 @@
  * src/matched/unit_0204D410.c allocates r2 then r1
  * (docs/idioms/a-forwarding-call-passes-one-argument-and-the-rest-are-leftovers.md).
  *
- * The third handler, CLACT_UpdateVramAnim at 0x0204D500, is deliberately left out
+ * The third handler, CLACT_SetVramAnimSpeed at 0x0204D500, is deliberately left out
  * of the range: its tail-call target 0x02064B68 is named only by its own
  * pool word, so including it caps the whole unit at MATCH.  It is parked
- * byte-correct in src/pending/CLACT_UpdateVramAnim.c, and it graduates when
+ * byte-correct in src/pending/CLACT_SetVramAnimSpeed.c, and it graduates when
  * 0x02064B68 does (docs/notes/NNS_G2dSetMCAnimationSpeed.c.txt).
  *
  * Verified with:
@@ -55,17 +55,17 @@ extern DispatchFn const g_ClactTables[];
 struct MultiCellAnim;
 extern void NNS_G2dSetCellAnimationSpeed(struct MultiCellAnim *mca, u32 value);
 
-void CLACT_UpdateAnim(struct Obj *o, u32 arg)
+void CLACT_SetAnimSpeed(struct Obj *o, u32 arg)
 {
     g_ClactTables[o->type](o, arg);
 }
 
-void CLACT_UpdateCellAnim(struct Obj *o, u32 arg)
+void CLACT_SetCellAnimSpeed(struct Obj *o, u32 arg)
 {
     NNS_G2dSetCellAnimationSpeed((struct MultiCellAnim *)(&o->unk_0c), arg);
 }
 
-void CLACT_UpdateMultiCellAnim(struct Obj *o, u32 arg)
+void CLACT_SetMultiCellAnimSpeed(struct Obj *o, u32 arg)
 {
     NNS_G2dSetCellAnimationSpeed((struct MultiCellAnim *)(&o->unk_0c), arg);
 }

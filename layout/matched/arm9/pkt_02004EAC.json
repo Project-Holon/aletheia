@@ -18,8 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02004EAC",
-    "func_02004EB0"
+    "NitroStartUp",
+    "OSi_ReferSymbol"
+   ],
+   "addresses": [
+    "0x02004EAC",
+    "0x02004EB0"
    ]
   }
  ]

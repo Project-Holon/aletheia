@@ -23,7 +23,7 @@
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
- *   VM_GetU16  0x02011330  thumb
+ *   VM_ReadU16  0x02011330  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   GAME_DATA_GetSeason  0x02012984  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
@@ -32,7 +32,6 @@
  *   FADE_Start  0x0204E720  arm
  *   FADE_IsActive  0x0204E804  arm
  *   FIELDMAP_GetScriptEffectBusy  0x02189A24  thumb  ov021
- *   VM_SetWait   0x020113D0  thumb
  *   SCRIPT_WORK_GetEvent  0x02158F50  thumb  ov010
  *   EVENT_RECOVERY_CreatePartyEvent  0x021C0AA0  thumb  ov021
  *   EVENT_RECOVERY_CreateBallsEvent  0x021C0820  thumb  ov021
@@ -109,7 +108,7 @@ extern struct FieldMap *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
 extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int mode, int skipWait, int restoreBg, u8 season, u8 seasonAgain);
 extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
-extern u16 VM_GetU16(struct ScriptVm *vm);
+extern u16 VM_ReadU16(struct ScriptVm *vm);
 extern void VM_SetWait(struct ScriptVm *vm, int (*waitFunc)(struct ScriptVm *vm, struct ScrcmdWork *cmdWork));
 extern u8 GAME_DATA_GetSeason(struct GameData *gameData);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seNo);
@@ -190,10 +189,10 @@ int SCRCMD_SCREENEFFECTS_ShowPlaceName(struct ScriptVm *vm, struct ScrcmdWork *c
 /* Script command: change the screen brightness (mask, start level, end level, speed). */
 int SCRCMD_SCREENEFFECTS_StartBrightnessChange(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    u32 screenMask = VM_GetU16(vm);
-    u32 startLevel = VM_GetU16(vm);
-    u32 endLevel = VM_GetU16(vm);
-    u32 speed = VM_GetU16(vm);
+    u32 screenMask = VM_ReadU16(vm);
+    u32 startLevel = VM_ReadU16(vm);
+    u32 endLevel = VM_ReadU16(vm);
+    u32 speed = VM_ReadU16(vm);
 
     FADE_Start(screenMask, startLevel, endLevel, speed);
     return 0;

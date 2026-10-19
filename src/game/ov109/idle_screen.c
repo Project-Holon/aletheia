@@ -36,7 +36,7 @@
  *   ARC_UTIL_UploadBgPaletteFromArchive  0x0204989C  arm
  *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm
  *   BG_SYS_ResetSubDisplay  0x0204361C  arm
- *   BMP_SetDisplaySwap  0x0204363C  arm
+ *   BG_SYS_SetLcdSwap  0x0204363C  arm
  *   FADE_Start  0x0204E720  arm
  *   UI_Update  0x02034F5C  arm
  *   FADE_Update  0x0204E638  arm
@@ -103,7 +103,7 @@ extern void ARC_UTIL_UploadBgCharFromArchive(u32 arcId, u32 fileId, u32 frame, u
 extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 arcId, u32 fileId, u32 frame, u32 offset, u32 size, u32 compressed, u32 heapId);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 arcId, u32 fileId, u32 type, u32 offset, u32 size, u32 heapId);
 extern void BG_SYS_ResetSubDisplay(void);
-extern void BMP_SetDisplaySwap(u32 swap);
+extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void FADE_Start(u32 screenMask, u32 startLevel, u32 endLevel, u32 speed);
 extern void UI_Update(void);
 extern void FADE_Update(void);
@@ -158,7 +158,7 @@ void IDLE_SCREEN_Run(void)
     ARC_UTIL_UploadBgPaletteFromArchive(0x16, 2, 2, 0, 0, 0, 1);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x16, 0, 0, 0, 0x100, 1);
     BG_SYS_ResetSubDisplay();
-    BMP_SetDisplaySwap(0);
+    BG_SYS_SetLcdSwap(0);
     FADE_Start(0xC, 0x10, 0, 2);
     for (;;) {
         UI_Update();

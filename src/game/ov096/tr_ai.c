@@ -24,7 +24,7 @@
  *   WAZA_TOOL_CreateCache 0x0201C328 thumb
  *   gTrAiAllocSite 0x0218A7A0 data
  *   gTrAiVmParams 0x0218A574 data
- *   VM_GetUserData 0x02011324 thumb
+ *   VM_GetContext 0x02011324 thumb
  *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
  *   GF_STANDARD_Rand 0x0203F0A8 arm
  *   _ull_mul 0x0209C054 arm
@@ -110,7 +110,7 @@ extern ScriptVm *VM_Create(u32 heapId, const struct ScriptVmParams *params);
 extern void VM_Init(ScriptVm *vm, void *user);
 extern u32 WAZA_TOOL_IsCacheCreated(void);
 extern void WAZA_TOOL_CreateCache(int n, u32 heap);
-extern TrAiWork *VM_GetUserData(ScriptVm *vm);
+extern TrAiWork *VM_GetContext(ScriptVm *vm);
 extern int BTL_POKEPARAM_IsFainted(struct BtlPokeParam *m);
 extern u32 GF_STANDARD_Rand(void);
 extern void ARC_TOOL_DeleteHandle(void *);
@@ -373,7 +373,7 @@ int TR_AI_Think(ScriptVm *vm) {
     int candidates[3];
     u64 r;
     int result;
-    ai = VM_GetUserData(vm);
+    ai = VM_GetContext(vm);
     if (ai->rule == 0) {
         ai->targetPos = ai->selfPos ^ 1;
         return TR_AI_ThinkSingle(vm, ai);
@@ -403,7 +403,7 @@ int TR_AI_Think(ScriptVm *vm) {
  */
 void TR_AI_Delete(ScriptVm *vm) {
     TrAiWork *ai;
-    ai = VM_GetUserData(vm);
+    ai = VM_GetContext(vm);
     ARC_TOOL_DeleteHandle(ai->scriptArchive);
     ARC_TOOL_DeleteHandle(ai->itemArchive);
     GFL_HEAP_Free(ai);
@@ -418,7 +418,7 @@ void TR_AI_Start(ScriptVm *vm, u8 *movePp, int selfPos)
     int i;
     int zero;
 
-    ai = VM_GetUserData(vm);
+    ai = VM_GetContext(vm);
     ai->phase = 0;
     ai->moveId = 0;
     ai->moveIndex = 0;
@@ -439,9 +439,9 @@ void TR_AI_Start(ScriptVm *vm, u8 *movePp, int selfPos)
     ai->randomByte = (u32)(((u64)GF_STANDARD_Rand() * 0x100) >> 32);
 }
 
-u8 TR_AI_GetChosenMove(ScriptVm *vm) { return VM_GetUserData(vm)->chosenMove; }
+u8 TR_AI_GetChosenMove(ScriptVm *vm) { return VM_GetContext(vm)->chosenMove; }
 
-u8 TR_AI_GetChosenTarget(ScriptVm *vm) { return VM_GetUserData(vm)->chosenTarget; }
+u8 TR_AI_GetChosenTarget(ScriptVm *vm) { return VM_GetContext(vm)->chosenTarget; }
 
 inline static u32 draw_below(u32 n) {
     u32 r = GF_STANDARD_Rand();

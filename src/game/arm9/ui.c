@@ -38,7 +38,7 @@
  *   OS_Terminate  0x02088234  arm
  *   OS_IsRunOnTwl  0x02085D3C  arm
  *   PM_GetBattery  0x0208BF6C  arm
- *   PM_GetACAdapter 0x0208BFAC  arm
+ *   PM_GetBatteryLevel 0x0208BFAC  arm
  *   UI_IsPowerConnected  0x020353B0  arm
  *   PM_SetBackLight 0x0208BDD8  arm
  *   UI_GetContext   0x02035224  arm
@@ -133,7 +133,7 @@ extern u32 UI_TestSoftResetInhibit(struct UiCtx *p, u32 mask);
 extern void OS_Terminate(void);
 extern int OS_IsRunOnTwl(void);
 extern int PM_GetBattery(u32 *out);
-extern int PM_GetACAdapter(u16 *out);
+extern unsigned int PM_GetBatteryLevel(void *isConnectedBuf);
 void UI_Create(u32 heap, u8 mode);
 void UI_Main(struct UiCtx *p);
 void UI_Update(void);
@@ -953,7 +953,7 @@ void UI_PollPower(void)
         return;
 
     if (OS_IsRunOnTwl() != 0) {
-        if (PM_GetACAdapter(&ac) == 0)
+        if (PM_GetBatteryLevel(&ac) == 0)
             gUiState.ctx->powerState = ac;
         return;
     }

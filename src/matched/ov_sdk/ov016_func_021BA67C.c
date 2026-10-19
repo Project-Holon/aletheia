@@ -1,5 +1,5 @@
 /*
- * function: func_021BA67C
+ * function: StoreNetParam
  * address:  0x021BA67C
  * packet:   pkt_ov016_021BA67C
  * region:   ov016
@@ -48,7 +48,7 @@ extern EncCommon gAtermsetBlock6;
 extern char g_021DD388[4][0x28];
 extern Key64 g_021DD420;
 
-int func_021BA67C(void)
+int StoreNetParam(void)
 {
     char szwep[36];
     int i;

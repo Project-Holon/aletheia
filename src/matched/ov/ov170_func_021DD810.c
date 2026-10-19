@@ -1,5 +1,5 @@
 /*
- * function: BOX2_MAIN_MoveMonIntoBox
+ * function: BOX2_MAIN_ResetShayminFormInBox
  * address: 0x021DD810
  * packet: pkt_ov170_021DD810
  * region: ov170
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 extern void BOX2_MAIN_RecalcPartyParam(void **pp, u32 idx);
 extern void BOX2_SEQ_ShowSlotIcon(unsigned char *p, int box, int pos, int win);
 extern void BOX2_MAIN_RefreshCurrentBoxMonInfo(char *p, int b);
-void BOX2_MAIN_MoveMonIntoBox(unsigned char *p,unsigned a,unsigned b,unsigned box)
+void BOX2_MAIN_ResetShayminFormInBox(unsigned char *p,unsigned a,unsigned b,unsigned box)
 {
     if(a<30 && b<30) return;
     if(a>=30 && b>=30) return;

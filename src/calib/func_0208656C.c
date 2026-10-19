@@ -1,5 +1,5 @@
 /*
- * function: func_0208656C
+ * function: OS_GetArenaHi
  * address:  0x0208656C
  * packet:   pkt_0208656C
  * region:   arm9
@@ -12,7 +12,7 @@
 
 typedef unsigned int u32;
 
-u32 func_0208656C(u32 idx)
+u32 OS_GetArenaHi(u32 idx)
 {
     return *(u32 *)((idx << 2) + 0x02FFFDC4);
 }

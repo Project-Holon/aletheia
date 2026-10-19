@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0202C6C4
+ * function: ISS_SWITCH_GetVolume
  * address:  0x0202C6C4
  * packet:   pkt_0202C6C4
  * region:   arm9
@@ -38,8 +38,8 @@
  * src/matched/unit_0202C760.c made for sub_0202C688.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202C6C4.c \
- *       --func sub_0202C6C4 --addr 0x0202C6C4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ISS_SWITCH_GetVolume.c \
+ *       --func ISS_SWITCH_GetVolume --addr 0x0202C6C4 --cc 1.1p1 --thumb
  */
 
 typedef unsigned short u16;
@@ -54,7 +54,7 @@ struct Obj0202C6C4 {
 struct Obj0202C6B8;
 extern u32 sub_0202C6B8(struct Obj0202C6B8 *p);
 
-u32 sub_0202C6C4(struct Obj0202C6C4 *p)
+u32 ISS_SWITCH_GetVolume(struct Obj0202C6C4 *p)
 {
     u32 v;
 

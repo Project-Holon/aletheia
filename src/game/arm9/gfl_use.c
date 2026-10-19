@@ -161,7 +161,7 @@
  *   GF_PANIC_RegisterDefaultHandlers  0x02034978  arm
  *   GF_OVERLAY_Init  0x0203499C  arm
  *   UI_Create  0x02034E24  arm
- *   SNDARC_IsGroupLoaded  0x02074A54  arm
+ *   NNS_SndArcLoadGroup  0x02074A54  arm
  *   SAVE_CONTROL_Get  0x020070A4  thumb
  *   SYSTEM_DATA_GetConfig  0x0200873C  thumb
  */
@@ -439,7 +439,7 @@ extern void NNS_SndArcInit(char *arc, char *path, struct SndHeap *heap, u32 risk
 extern void SNDEXi_Init(void);
 extern u32 NNS_SndArcPlayerSetup(struct SndHeap *heap);
 extern void *NNS_SndArcGetGroupInfo(int index);
-extern void SNDARC_IsGroupLoaded(int index, struct SndHeap *heap);
+extern void NNS_SndArcLoadGroup(int index, struct SndHeap *heap);
 /* Sound manager calls carried over from pm_voice.c. */
 extern void  NNS_SndBoot(void);
 extern u32   NNS_SndReadDriverInfo(void);
@@ -1699,7 +1699,7 @@ void GFL_USE_ResetSound(int clearHeap)
     GFL_USE_SetSndStackHeap(&_SndState.heap);
     if (clearHeap != 0) {
         NNS_SndArcGetGroupInfo(0);
-        SNDARC_IsGroupLoaded(0, _SndState.heap);
+        NNS_SndArcLoadGroup(0, _SndState.heap);
         _SndState.currentBgm = 0;
     }
     GFL_USE_InitSeSlots();

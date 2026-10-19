@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: POKE_PERSONAL_IsPlaceholderAbility, POKE_PERSONAL_LoadFormTable
+ * function: POKE_PERSONAL_IsFixedGender, POKE_PERSONAL_LoadFormTable
  *
  * The tail of poke_personal.c: the "is this a placeholder ability id"
  * predicate and the form-table loader.  Cut out of
@@ -32,7 +32,7 @@
  *   999          POKE_PERSONAL_LoadFormTable's "no entry" sentinel in that form table.  It is
  *                a species-space sentinel, not a count, and it is what the
  *                entry count is measured against.
- *   0, 0xFE,0xFF POKE_PERSONAL_IsPlaceholderAbility's three accepted ids.  The callers (0x02017D00,
+ *   0, 0xFE,0xFF POKE_PERSONAL_IsFixedGender's three accepted ids.  The callers (0x02017D00,
  *                0x0201860E, 0x020186AE, 0x020186FE, 0x02018718) all feed it a
  *                value read out of the personal record, so these are content
  *                ids in the same space as the record's own fields.
@@ -40,7 +40,7 @@
  * ---------------------------------------------------------------------------
  * THE TWO FUNCTIONS
  * ---------------------------------------------------------------------------
- * POKE_PERSONAL_IsPlaceholderAbility is a disjunction and not a conjunction.  The `beq` from the
+ * POKE_PERSONAL_IsFixedGender is a disjunction and not a conjunction.  The `beq` from the
  * first test lands on the `movs r0, #1` that the second test's `bhi` falls
  * through to, and the `movs r0, #0` is out of line behind it; written
  * `if (v != 0 && v - 0xFE > 1) return 0;` every byte is still right and the
@@ -70,7 +70,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 POKE_PERSONAL_IsPlaceholderAbility(u32 v)
+u32 POKE_PERSONAL_IsFixedGender(u32 v)
 {
     if (v == 0 || v - 0xFE <= 1) {
         return 1;

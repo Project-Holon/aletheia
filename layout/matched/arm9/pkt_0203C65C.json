@@ -78,10 +78,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "GFL_NET_STATE_WifiStartMatch"
+    "GFL_NET_STATE_WifiStartMatch",
+    "GFL_NET_STATE_SetAutoExit",
+    "GFL_NET_STATE_SetLoginOption"
    ],
    "addresses": [
-    "0x0203C8A8"
+    "0x0203C8A8",
+    "0x0203C8E8",
+    "0x0203C900"
    ]
   }
  ]

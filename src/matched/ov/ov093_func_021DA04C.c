@@ -1,5 +1,5 @@
 /*
- * function: gDwcLanguageTable
+ * function: HAND_TOKUSEI_SynchronizeOnSickAdded
  * address:  0x021DA04C
  * packet:   pkt_ov093_021DA04C
  * region:   ov093
@@ -36,7 +36,7 @@ extern int BTL_SICKCONT_IsKind1Index15(S a);
 extern void BTL_CALC_MakeSickContFromKind(int a, void *b, void *out);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 
-void gDwcLanguageTable(int a, int b, int c)
+void HAND_TOKUSEI_SynchronizeOnSickAdded(int a, int b, int c)
 {
     u8 *p;
     int m;

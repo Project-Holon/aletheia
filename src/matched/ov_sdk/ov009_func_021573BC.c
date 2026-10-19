@@ -1,5 +1,5 @@
 /*
- * function: func_021573BC
+ * function: default_link_is_on
  * address:  0x021573BC
  * packet:   pkt_ov009_021573BC
  * region:   ov009
@@ -16,7 +16,7 @@
  * sdk:      default_link_is_on (libcps.TWL.HYB.a network.o, static)
  */
 
-int func_021573BC(void)
+int default_link_is_on(void)
 {
     return 1;
 }

@@ -24,7 +24,7 @@
    }
   },
   {
-   "name": "func_021CB960",
+   "name": "procScene",
    "address": "0x021CB960",
    "kind": "sdk",
    "region": "ov016",
@@ -43,7 +43,7 @@
    }
   },
   {
-   "name": "DWCi_SceneSetSelectAp_procScene",
+   "name": "procScene",
    "address": "0x021CBFD8",
    "kind": "game",
    "region": "ov016",

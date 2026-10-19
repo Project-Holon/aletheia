@@ -15,7 +15,7 @@
  *   G3D_SYSTEM_AllocPlttVramKey  0x020472F8  arm
  *   NNS_G3dTexSetTexKey  0x02069FF8  arm
  *   NNS_G3dPlttSetPlttKey  0x0206A124  arm
- *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   DC_FlushRange  0x020862F0  arm
  *   NNS_G3dTexLoad  0x0206A00C  arm
  *   NNS_G3dPlttLoad  0x0206A12C  arm
  *
@@ -32,7 +32,7 @@ extern int G3D_SYSTEM_AllocTexVramKeys(u32 a0, u32 *a1, u32 *a2);
 extern int G3D_SYSTEM_AllocPlttVramKey(struct Layer *layer, u32 *out);
 extern void NNS_G3dTexSetTexKey(char *p, int a, int b);
 extern void NNS_G3dPlttSetPlttKey(int *p, int v);
-extern void DWCi_ScreenDC_FlushRange(int a, int b);
+extern void DC_FlushRange(int a, int b);
 extern void NNS_G3dTexLoad(struct Up *u, u32 wrap);
 extern void NNS_G3dPlttLoad(int a, int b);
 
@@ -54,7 +54,7 @@ int G3D_SYSTEM_TransVramTexture(int *self)
         return 0;
     NNS_G3dTexSetTexKey((char *)p, v8, v4);
     NNS_G3dPlttSetPlttKey((int *)p, v0);
-    DWCi_ScreenDC_FlushRange(h, *(int *)&((struct Obj04802 *)h)->f8);
+    DC_FlushRange(h, *(int *)&((struct Obj04802 *)h)->f8);
     NNS_G3dTexLoad((struct Up *)p, 1);
     NNS_G3dPlttLoad(p, 1);
     return 1;

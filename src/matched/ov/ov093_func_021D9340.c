@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: HAND_TOKUSEI_HalveResidualDamage, HAND_TOKUSEI_GetHalveResidualDamageHandlers
+ * function: HAND_TOKUSEI_Simple_DoubleStatStages, HAND_TOKUSEI_GetSimpleAbilityHandlers
  * address: 0x021D9340
  * packet: pkt_ov093_021D9340
  * region: ov093
@@ -17,8 +17,8 @@
 extern int BTL_EVENT_GetVar(int);
 extern int BTL_EVENT_OverwriteVar(int, unsigned int);
 extern unsigned int gHalveResidualDamageHandlers;
-void HAND_TOKUSEI_HalveResidualDamage(int a, int b, int c)
+void HAND_TOKUSEI_Simple_DoubleStatStages(int a, int b, int c)
 {
     if (c == BTL_EVENT_GetVar(2)) BTL_EVENT_OverwriteVar(0x20, BTL_EVENT_GetVar(0x20) << 1);
 }
-void *HAND_TOKUSEI_GetHalveResidualDamageHandlers(int *p) { *p = 1; return &gHalveResidualDamageHandlers; }
+void *HAND_TOKUSEI_GetSimpleAbilityHandlers(int *p) { *p = 1; return &gHalveResidualDamageHandlers; }

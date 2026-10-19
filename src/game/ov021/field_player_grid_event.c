@@ -971,7 +971,7 @@ void FIELD_PLAYER_GRID_EVENT_UpdateJumpDown(JumpWork *work)
 
 typedef int (*Fld3dCiStateFunc)(u16 *state);
 
-extern void *FLDMMDL_GetMmdlSys(void *a0);
+extern void *FLDMMDL_GetMmdlSys(void *mmdl);
 
 extern int FLDMMDL_MOVE_GetDirAddGridX(int a);
 

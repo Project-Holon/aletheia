@@ -119,7 +119,7 @@
  *   DWCi_FNTlRenewBg                 0x021D5FC4  arm
  *   DWCi_SCREENlCopy                 0x021CE708  arm
  *   FX_DivS32                        0x0207C958  arm
- *   memset                           0x020923B0  arm
+ *   MSL_C_LIB_MemsetPtr                           0x020923B0  arm
  *   DWCi_CEINlSet                    0x021D52D4  arm
  *   calcIdxColumn                    0x021C9D54  arm
  *   DWCi_FNTlDrawStringEx            0x021D5DB0  arm
@@ -409,7 +409,7 @@ extern void DWCi_SceneSetTest(void);
 extern void DWCi_SceneSetListSave(void);
 extern void DWCi_SceneSetSelectAp(void);
 extern void DWCi_SCREENlCopy(void *src, int pos, int w, int h);
-extern void *memset(void *dst, int c, unsigned long n);
+extern void *MSL_C_LIB_MemsetPtr(void *dst, int c, unsigned long n);
 extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
 extern int DWCi_STRlConvertStringAsciiToUnicode(unsigned short *dst, char *src, int len);
 extern unsigned char DWCi_TPlCheckATrigger(AREA *a);
@@ -1027,7 +1027,7 @@ void drawColumnChar(int column, int idx)
         if (info->ap.wepNotation == 1)
             len /= 2;
         MI_CpuFill8(buf, 0, sizeof(buf));
-        memset(buf, '*', len);
+        MSL_C_LIB_MemsetPtr(buf, '*', len);
         drawString(buf, idx);
         break;
     case 3:

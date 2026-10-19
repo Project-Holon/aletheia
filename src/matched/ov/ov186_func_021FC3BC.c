@@ -18,7 +18,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   BMP_SetDisplaySwap 0x0204363C arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
@@ -39,7 +39,7 @@ extern void MI_CpuFill8(void *,int,int);
 typedef unsigned int   u32;
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
-extern void BMP_SetDisplaySwap(unsigned);
+extern void BG_SYS_SetLcdSwap(unsigned);
 extern void BG_SYS_ResetSubDisplay(void),BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void),GF_FONT_InitTextColor(void);
 extern void BR_GRAPHIC_InitBgWindows(void *,unsigned);
 extern void BR_GRAPHIC_InitActors(int *,int,int);
@@ -56,7 +56,7 @@ void *BR_GRAPHIC_Create(unsigned mode,int setting,unsigned heap)
     *(volatile unsigned short *)0x04001050=0;
     *(volatile unsigned *)0x04000000&=~0xe000;
     *(volatile unsigned *)0x04001000&=~0xe000;
-    BG_SYS_ClearGraphicsMemory(0);BG_SYS_SetVramBanks(config);BMP_SetDisplaySwap(setting);
+    BG_SYS_ClearGraphicsMemory(0);BG_SYS_SetVramBanks(config);BG_SYS_SetLcdSwap(setting);
     BG_SYS_ResetSubDisplay();BG_SYS_ClearMainPlanes();BG_SYS_ClearSubPlanes();GF_FONT_InitTextColor();
     BR_GRAPHIC_InitBgWindows(p,heap);
     BR_GRAPHIC_InitActors((int *)(p+4),(int)config,heap);

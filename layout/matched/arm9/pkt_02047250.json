@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "DWCi_LSTlPopFront",
+   "name": "G3D_SYSTEM_GetResourceTex",
    "address": "0x02047250",
    "kind": "sdk",
    "region": "arm9",

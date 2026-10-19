@@ -68,9 +68,9 @@ extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 
 extern IntrudeOfferLog *INTRUDE_GetFromSave(struct SaveControl *saveControl);
 
-extern struct ScriptWork *SCRIPT_SYS_ChangeScriptEvent(struct GameEvent *event, int scriptId, int arg1, int heapId);
+extern struct ScriptWork *SCRIPT_SYS_ChangeScriptEvent(struct GameEvent *event, int scriptId, int target, int heapId);
 
-extern void SCRIPT_WORK_SetParams(struct ScriptWork *scriptWork, int param0, int param1, int param2, u16 param3);
+extern void SCRIPT_WORK_SetParams(struct ScriptWork *scriptWork, int scriptParam0, int scriptParam1, int scriptParam2, u16 scriptParam3);
 
 extern struct WordSet *SCRIPT_WORK_GetWordSet(struct ScriptWork *scriptWork);
 

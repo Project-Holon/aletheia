@@ -24,7 +24,7 @@
  *   ArrayDeleteAt  0x0218437C  arm  ov009
  *   ArrayNth     0x02184208  arm  ov009
  *   ArrayMapBackwards  0x021844A0  arm  ov009
- *   ArrayMap2  0x021844DC  arm  ov009
+ *   ArrayMapBackwards2  0x021844DC  arm  ov009
  */
 struct HashImplementation;
 struct DArrayImplementation;
@@ -53,7 +53,7 @@ extern void ArrayDeleteAt(struct DArrayImplementation *array, int n);
 extern void *ArrayNth(struct DArrayImplementation *array, int n);
 extern void ArrayMapBackwards(struct DArrayImplementation *array,
                               void (*fn)(void *, void *), void *clientData);
-extern void *ArrayMap2(void *elem, int (*fn)(void *, void *),
+extern void *ArrayMapBackwards2(void *elem, int (*fn)(void *, void *),
                        void *clientData);
 struct HashImplementation *TableNew(int elemSize, int nBuckets, int (*hashFn)(void *, int), int (*compFn)(void *, void *), void (*freeFn)(void *));
 struct HashImplementation *TableNew2(int elemSize, int nBuckets, int nChains, int (*hashFn)(void *, int), int (*compFn)(void *, void *), void (*freeFn)(void *));
@@ -187,7 +187,7 @@ void *TableMapSafe2(struct HashImplementation *table, int (*fn)(void *, void *),
     for (i = 0; i < table->nbuckets; i++)
     {
         pcurr = table->buckets[i];
-        pcurr = ArrayMap2(pcurr, fn, clientData);
+        pcurr = ArrayMapBackwards2(pcurr, fn, clientData);
         if (pcurr != 0)
             return pcurr;
     }

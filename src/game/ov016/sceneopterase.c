@@ -26,7 +26,7 @@
  *
  * symbols:
  *   DWCi_BTNlSet                   0x021BCB28  arm  ov016
- *   DWCi_Sceneoptmovconfirm1EndScene2 0x021C3AD0  arm  ov016
+ *   DWCi_SceneOptMovConfirm1EndScene2 0x021C3AD0  arm  ov016
  *   DWCi_IPTlCheckTrigger          0x021D6824  arm  ov016
  *   DWCi_BTNlDisable                 0x021BCB9C  arm
  *   DWCi_BTNlEnable                  0x021BCB84  arm

@@ -42,7 +42,7 @@
  *   GFL_NET_GetScanResult 0x0203CF10 arm
  *   GFL_NET_GetScanResultMac 0x0203CF3C arm
  *   NET_WHPIPE_ReleaseEntry 0x02177BF4 thumb ov014
- *   memcmp            0x0203EFC8  arm
+ *   GF_STANDARD_CompareBytes            0x0203EFC8  arm
  *   MI_CpuCopy8       0x02082D44  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   OS_GetMacAddress  0x02087C6C  arm
@@ -125,7 +125,7 @@ extern const u8 *GFL_NET_GetScanResultMac(int index);
 
 extern void NET_WHPIPE_ReleaseEntry(u32 index);
 
-extern int memcmp(const void *lhs, const void *rhs, int size);
+extern int GF_STANDARD_CompareBytes(const void *lhs, const void *rhs, int size);
 
 extern void MI_CpuCopy8(const void *src, void *dst, int size);
 
@@ -537,7 +537,7 @@ int UNION_COMM_StoreBeacon(UnionRoomWork *work, const UnionBeacon *beacon, const
         return 0;
     for (i = 0; i < UNION_BEACON_PC_MAX; i++) {
         UnionBeaconPc *pc = &pcs[i];
-        if (pc->beacon.valid == 1 && memcmp(mac, pc->mac, 6) == 0) {
+        if (pc->beacon.valid == 1 && GF_STANDARD_CompareBytes(mac, pc->mac, 6) == 0) {
             MI_CpuCopy8(beacon, pc, sizeof(UnionBeacon));
             if (pcs[i].updateState != 1)
                 pcs[i].updateState = 2;
@@ -571,7 +571,7 @@ int UNION_COMM_IsNotGroupMember(UnionRoomWork *work, const UnionBeacon *beacon, 
     for (i = 0; i < UNION_BEACON_PC_MAX; i++, pc++) {
         if (pc->beacon.valid == 1) {
             for (j = 0; j < UNION_MEMBER_MAX; j++) {
-                if (pc->beacon.group.member[j].valid == 1 && memcmp(mac, pc->beacon.group.member[j].mac, 6) == 0) {
+                if (pc->beacon.group.member[j].valid == 1 && GF_STANDARD_CompareBytes(mac, pc->beacon.group.member[j].mac, 6) == 0) {
                     if (pc->life != 0) {
                         pc->life = 1;
                     }
@@ -738,7 +738,7 @@ int UNION_COMM_AddMember(UnionConnectInfo *connect, const u8 *mac, u8 trainerVie
     i = 0;
     member = connect->group.member;
     for (; i < UNION_MEMBER_MAX; i++) {
-        if (member[i].valid == 1 && memcmp(mac, member[i].mac, 6) == 0) {
+        if (member[i].valid == 1 && GF_STANDARD_CompareBytes(mac, member[i].mac, 6) == 0) {
             return i;
         }
     }
@@ -764,7 +764,7 @@ void UNION_COMM_RemoveMember(UnionConnectInfo *connect, const u8 *mac)
     i = 0;
     member = connect->group.member;
     for (; i < UNION_MEMBER_MAX; i++) {
-        if (member[i].valid == 1 && memcmp(mac, member[i].mac, 6) == 0) {
+        if (member[i].valid == 1 && GF_STANDARD_CompareBytes(mac, member[i].mac, 6) == 0) {
             MI_CpuFill8(&member[i], 0, sizeof(UnionMember));
             return;
         }

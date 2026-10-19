@@ -1,5 +1,5 @@
 /*
- * function: func_021BFED0
+ * function: DWCi_Keyboard10ExchangeBack
  * address:  0x021BFED0
  * packet:   pkt_021BFED0
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BFED0   0x021BFED0  arm
+ *   DWCi_Keyboard10ExchangeBack   0x021BFED0  arm
  *   func_021C0328   0x021C0328  arm
  *
  * Publish a new entry in the live table's byte 0x62, driving the changed flag both ways.
@@ -19,7 +19,7 @@
 
 extern void func_021C0328(int, int);
 
-void func_021BFED0(int a)
+void DWCi_Keyboard10ExchangeBack(int a)
 {
     unsigned char **g = (unsigned char **)0x021DE560;
     unsigned char *p = *g;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021C78A0",
+   "name": "DWCi_SceneSetEditAddressDrawAddress",
    "address": "0x021C78A0",
    "kind": "sdk",
    "region": "ov016",

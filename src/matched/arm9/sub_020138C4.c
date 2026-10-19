@@ -1,5 +1,5 @@
 /*
- * function: sub_020138C4
+ * function: BTL_SETUP_InitWithSlots
  * address:  0x020138C4
  * packet:   pkt_020138C4
  * region:   arm9
@@ -46,7 +46,7 @@ struct ZoneData;
 extern void sub_02013980(struct ZoneData *o, u32 heap);
 extern void sub_02082BCC(void *p, int c, int n);
 
-void sub_020138C4(S *p, int a1, void *a2)
+void BTL_SETUP_InitWithSlots(S *p, int a1, void *a2)
 {
     u32 i;
     int t;

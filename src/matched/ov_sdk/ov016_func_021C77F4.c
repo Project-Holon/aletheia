@@ -1,5 +1,5 @@
 /*
- * function: func_021C77F4
+ * function: DWCi_SceneSetEditAddressEndScene3
  * address:  0x021C77F4
  * packet:   pkt_ov016_021C77F4
  * region:   ov016
@@ -47,7 +47,7 @@ extern void DWCi_SceneSetList();
 extern struct MemSsea *gMemSsea;
 extern unsigned char sSceneSetEditAddressPathYbObjMainPltt[];
 
-void func_021C77F4(void)
+void DWCi_SceneSetEditAddressEndScene3(void)
 {
     int prm;
 

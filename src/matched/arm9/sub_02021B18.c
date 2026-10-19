@@ -1,5 +1,5 @@
 /*
- * function: sub_02021B18
+ * function: PALANM_ForceStopFade
  * address:  0x02021B18
  * packet:   pkt_02021B18
  * region:   arm9
@@ -19,8 +19,8 @@
  * a u16 truncation folded with a >> 2.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02021B18.c \
- *       --func sub_02021B18 --addr 0x02021B18 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PALANM_ForceStopFade.c \
+ *       --func PALANM_ForceStopFade --addr 0x02021B18 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -34,7 +34,7 @@ struct Obj02021B18 {
     u8  flag;       /* +0x11c */
 };
 
-void sub_02021B18(struct Obj02021B18 *o)
+void PALANM_ForceStopFade(struct Obj02021B18 *o)
 {
     if (o->hi)
         o->flag = 1;

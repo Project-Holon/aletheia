@@ -15,11 +15,10 @@
  * symbols:
  *   g_ProcSys 0x02146990 data
  *   ProcSys_AllocSiteName  0x020A783C  data
- *   ENV_SetResourceSet  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   OS_Halt       0x020882D0  arm
  *   GFL_HEAP_Alloc       0x02030734  arm
  *   ProcNew_AllocSiteName  0x020A783C  data
- *   GFL_HEAP_Free  0x020307B0  arm
  *   ProcAllocWork_AllocSiteName 0x020A783C  data
  *   GF_OVERLAY_Load  0x02034AC4  arm
  *   GF_OVERLAY_Unload  0x02034A5C  arm
@@ -70,8 +69,7 @@ typedef struct {
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void OS_Halt(void *p);
-extern void ENV_SetResourceSet(void *p);
-extern u32 GFL_HEAP_Free(void *p);
+extern u32 GFL_HEAP_Free(void *block);
 extern int GF_OVERLAY_Load(s32 handle);
 extern void GF_OVERLAY_Unload(s32 handle);
 void PROCSYS_CreateGlobal(int heapId);
@@ -282,7 +280,7 @@ void PROCSYS_DeleteInternal(ProcSys *sys)
     if (sys->current != 0) {
         OS_Halt(sys->current);
     }
-    ENV_SetResourceSet(sys);
+    GFL_HEAP_Free(sys);
 }
 
 
@@ -390,7 +388,7 @@ void *PROCSYS_AllocProcWork(Proc *proc, u32 size, u32 heapId)
  */
 void PROCSYS_FreeProcWork(Proc *proc)
 {
-    ENV_SetResourceSet(proc->work);
+    GFL_HEAP_Free(proc->work);
     proc->work = 0;
 }
 

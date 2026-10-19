@@ -18,10 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "CONFIG_ApplyTextLanguage"
+    "CONFIG_ApplyTextLanguage",
+    "CONFIG_GetButtonMode",
+    "CONFIG_SetButtonMode"
    ],
    "addresses": [
-    "0x02008414"
+    "0x02008414",
+    "0x02008428",
+    "0x02008430"
    ]
   }
  ]

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "endScene",
+   "name": "endDisableButtons",
    "address": "0x021C3A48",
    "kind": "sdk",
    "region": "ov016",

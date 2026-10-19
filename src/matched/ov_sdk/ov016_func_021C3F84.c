@@ -1,5 +1,5 @@
 /*
- * function: func_021C3F84
+ * function: button
  * address:  0x021C3F84
  * packet:   pkt_ov016_021C3F84
  * region:   ov016
@@ -25,7 +25,7 @@ extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021C3FD4();
 extern unsigned char gSceneOptMovFailureWork[];
 
-void func_021C3F84(void)
+void button(void)
 {
     int r = DWCi_BTNlGet();
     if (r != 0) {

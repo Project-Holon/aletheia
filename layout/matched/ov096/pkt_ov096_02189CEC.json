@@ -18,7 +18,7 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "TR_AI_CmdLoadPokeValueTwoArgs",
+    "TR_AI_CmdLoadPokeValueDiffFromSelf",
     "TR_AI_NopA",
     "TR_AI_NopB",
     "TR_AI_NopC"

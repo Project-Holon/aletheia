@@ -1,5 +1,5 @@
 /*
- * function: sub_0202428C
+ * function: PMSI_PARAM_ClearSentence
  * address:  0x0202428C
  * packet:   pkt_02023A50
  * region:   arm9
@@ -16,15 +16,15 @@
  * `blt` tell as the sibling function.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202428C.c \
- *       --func sub_0202428C --addr 0x0202428C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PMSI_PARAM_ClearSentence.c \
+ *       --func PMSI_PARAM_ClearSentence --addr 0x0202428C --cc 1.1p1 --thumb
  */
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef int             s32;
 
-void sub_0202428C(void *obj)
+void PMSI_PARAM_ClearSentence(void *obj)
 {
     u16 *p = (u16 *)obj;
     s32 i;

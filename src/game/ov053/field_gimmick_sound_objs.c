@@ -48,7 +48,7 @@
  *   ARC_TOOL_ReadMemberRange 0x02048F74 arm
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetFieldSave 0x02012EC4 thumb
- *   GIMMICK_WORK_GetSaveArea 0x0200B3A4 thumb
+ *   GIMMICK_WORK_GetWork 0x0200B3A4 thumb
  *   SOUND_OBJ_GetAnimeFrame 0x021C4E20 thumb ov021
  *   SOUND_OBJ_SetAnimeFrame 0x021C4E08 thumb ov021
  *   GFL_USE_GetRandomBelow 0x02005728 thumb
@@ -237,7 +237,7 @@ void FIELD_GIMMICK_SOUND_OBJS_LoadBgmFade(FieldGimmickSoundObjsWork *work)
 void FIELD_GIMMICK_SOUND_OBJS_SaveAnimeFrames(FieldGimmickSoundObjsWork *work, struct FieldMap *fieldMap)
 {
     int i;
-    FieldGimmickSoundObjsSave *save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_SOUND_OBJS_SAVE_SLOT);
+    FieldGimmickSoundObjsSave *save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_SOUND_OBJS_SAVE_SLOT);
 
     for (i = 0; i < FIELD_GIMMICK_SOUND_OBJS_SOUND_OBJ_COUNT; i++)
         save->animeFrame[i] = (int)SOUND_OBJ_GetAnimeFrame(work->soundObj[i]) >> 12;
@@ -247,7 +247,7 @@ void FIELD_GIMMICK_SOUND_OBJS_SaveAnimeFrames(FieldGimmickSoundObjsWork *work, s
 void FIELD_GIMMICK_SOUND_OBJS_RestoreAnimeFrames(FieldGimmickSoundObjsWork *work, struct FieldMap *fieldMap)
 {
     int i;
-    FieldGimmickSoundObjsSave *save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_SOUND_OBJS_SAVE_SLOT);
+    FieldGimmickSoundObjsSave *save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_SOUND_OBJS_SAVE_SLOT);
 
     for (i = 0; i < FIELD_GIMMICK_SOUND_OBJS_SOUND_OBJ_COUNT; i++)
         SOUND_OBJ_SetAnimeFrame(work->soundObj[i], (int)((unsigned)save->animeFrame[i] << 12));

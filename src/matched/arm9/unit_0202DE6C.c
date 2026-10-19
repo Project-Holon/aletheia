@@ -10,7 +10,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0202DE6C
+ * function: PMS_DRAW_CalcDecoPos
  *
  * symbols:
  *   BMP_WIN_GetPosX  0x02045758  arm
@@ -47,7 +47,7 @@ struct Descriptor;
 extern u8 BMP_WIN_GetPosX(struct Descriptor *p);
 extern u8 BMP_WIN_GetPosY(struct Descriptor *p);
 
-void sub_0202DE6C(u32 a, u32 b, u32 c, const struct Pos0202DE6C *base,
+void PMS_DRAW_CalcDecoPos(u32 a, u32 b, u32 c, const struct Pos0202DE6C *base,
                   struct Pos0202DE6C *out)
 {
     out->x = base->x + (b + BMP_WIN_GetPosX((struct Descriptor *)a) * 8);

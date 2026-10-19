@@ -1,5 +1,5 @@
 /*
- * function: func_021CECC8
+ * function: setBar
  * address:  0x021CECC8
  * packet:   pkt_ov016_021CECC8
  * region:   ov016
@@ -43,7 +43,7 @@ extern void func_021CEEE8(int pos);
 extern SB *gScrollBar;
 extern unsigned char sScrollBarStep[];
 
-void func_021CECC8(void)
+void setBar(void)
 {
 	COORD c;
 	int pos;

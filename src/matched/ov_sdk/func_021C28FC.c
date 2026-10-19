@@ -1,5 +1,5 @@
 /*
- * function: func_021C28FC
+ * function: input
  * address:  0x021C28FC
  * packet:   pkt_021C28FC
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C28FC   0x021C28FC  arm
+ *   input   0x021C28FC  arm
  *   DWCi_BTNlSet  0x021BCB28  arm
  *   DWCi_IPTlCheckTrigger  0x021D6824  arm
  *
@@ -18,14 +18,14 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021C28FC.c \
- *       --func func_021C28FC --addr 0x021C28FC --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/input.c \
+ *       --func input --addr 0x021C28FC --region ov016 --cc dsi/1.1p1 --arm
  */
 
 extern int DWCi_IPTlCheckTrigger(unsigned int f);
 extern void DWCi_BTNlSet(signed char v);
 
-void func_021C28FC(void)
+void input(void)
 {
     if (DWCi_IPTlCheckTrigger(2))
         DWCi_BTNlSet(0);

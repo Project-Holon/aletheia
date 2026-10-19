@@ -1,5 +1,5 @@
 /*
- * function: ov021_func_021A46F0
+ * function: FIELD_PLAYER_GRID_GetMoveResultOnFootHop
  * address:  0x021A46F0
  * packet:   pkt_ov021_021A46F0
  * region:   ov021
@@ -34,7 +34,7 @@ extern int FIELD_PLAYER_GRID_GetHoldResultOnFootHop(u8 *, void *, u32);
 extern int FIELD_PLAYER_GRID_GetHopAirResult(u8 *a, u32 b, u32 c);
 extern int FIELD_PLAYER_GRID_GetHopFallResult(u32 a, u32 b, u32 c);
 
-int ov021_func_021A46F0(u8 *a, u32 b)
+int FIELD_PLAYER_GRID_GetMoveResultOnFootHop(u8 *a, u32 b)
 {
     void *r = FIELD_PLAYER_CORE_GetMmdl(((struct Obj12735 *)a)->fC);
     int ret = 0;

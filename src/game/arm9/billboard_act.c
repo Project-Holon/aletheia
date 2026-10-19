@@ -1,7 +1,7 @@
 /*
  * file:     billboard_act.c
  * unit:     yes
- * function: BILLBOARD_ACT_Create, BILLBOARD_ACT_Delete, BILLBOARD_ACT_GetBoard, BILLBOARD_ACT_InitSlot, BILLBOARD_ACT_ResetPlayback, BILLBOARD_ACT_InitEntry, BILLBOARD_ACT_CreateSlots, BILLBOARD_ACT_AddSlot, BILLBOARD_ACT_DeleteSlots, BILLBOARD_ACT_DeleteSlot, BILLBOARD_ACT_GetSlotBoardId, BILLBOARD_ACT_CreateEntries, BILLBOARD_ACT_DeleteEntries, BILLBOARD_ACT_UpdateEntries, BILLBOARD_ACT_UpdateEntry, BILLBOARD_ACT_UploadSlotFrame, BILLBOARD_ACT_UploadSlotPalette, LIST_PopFront, BILLBOARD_ACT_SetEntryFlags, BILLBOARD_ACT_GetEntryFlags, BILLBOARD_ACT_SetEntryEnabled, BILLBOARD_ACT_SetEntryCommands, BILLBOARD_ACT_SetEntryList, BILLBOARD_ACT_GetEntryList, BILLBOARD_ACT_SetEntryCursor, BILLBOARD_ACT_GetEntryCursor, BILLBOARD_ACT_SetEntryPaletteFromSlot, BILLBOARD_ACT_GetEntryElemId, BILLBOARD_ACT_GetEntrySlotIndex, BILLBOARD_ACT_GetEntryLastCommand, BILLBOARD_ACT_IsControlCommand, BILLBOARD_ACT_RunControlCommand, BILLBOARD_ACT_GetControlHandler, BILLBOARD_ACT_CmdEnd, BILLBOARD_ACT_CmdSetList, BILLBOARD_ACT_CmdLoop, BILLBOARD_ACT_CmdJump
+ * function: BILLBOARD_ACT_Create, BILLBOARD_ACT_Delete, BILLBOARD_ACT_GetBoard, BILLBOARD_ACT_InitSlot, BILLBOARD_ACT_ResetPlayback, BILLBOARD_ACT_InitEntry, BILLBOARD_ACT_CreateSlots, BILLBOARD_ACT_AddSlot, BILLBOARD_ACT_DeleteSlots, BILLBOARD_ACT_DeleteSlot, BILLBOARD_ACT_GetSlotBoardId, BILLBOARD_ACT_CreateEntries, BILLBOARD_ACT_DeleteEntries, BILLBOARD_ACT_UpdateEntries, BILLBOARD_ACT_UpdateEntry, BILLBOARD_ACT_UploadSlotFrame, BILLBOARD_ACT_UploadSlotPalette, BILLBOARD_ACT_Draw, BILLBOARD_ACT_SetEntryFlags, BILLBOARD_ACT_GetEntryFlags, BILLBOARD_ACT_SetEntryEnabled, BILLBOARD_ACT_SetEntryCommands, BILLBOARD_ACT_SetEntryList, BILLBOARD_ACT_GetEntryList, BILLBOARD_ACT_SetEntryCursor, BILLBOARD_ACT_GetEntryCursor, BILLBOARD_ACT_SetEntryPaletteFromSlot, BILLBOARD_ACT_GetEntryElemId, BILLBOARD_ACT_GetEntrySlotIndex, BILLBOARD_ACT_GetEntryLastCommand, BILLBOARD_ACT_IsControlCommand, BILLBOARD_ACT_RunControlCommand, BILLBOARD_ACT_GetControlHandler, BILLBOARD_ACT_CmdEnd, BILLBOARD_ACT_CmdSetList, BILLBOARD_ACT_CmdLoop, BILLBOARD_ACT_CmdJump
  * address:  0x0204FE94
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -38,7 +38,7 @@
  *   BILLBOARD_CalcImageFrameRange  0x0204F344  arm
  *   G3D_SYSTEM_GetPlttDataAddr   0x020473EC  arm
  *   BILLBOARD_GetImagePlttVramOffset   0x0204F2CC  arm
- *   DWCi_LSTlErase 0x0204F7DC arm
+ *   BILLBOARD_Draw 0x0204F7DC arm
  *   BILLBOARD_GetElemVisible  0x0204F704  arm
  */
 #include "billboard_act_shared_types.h"
@@ -155,12 +155,6 @@ struct BbActSys {
 
 typedef int (*BbActControlFn)(struct BbActEntry *entry, struct BbActCmd *cmd);
 
-/* ---- DWC list wrapper (not billboard code, see misplaced.tsv) ---- */
-typedef struct tagLISTCB {
-    void *head;
-    void *tail;
-} LISTCB;
-
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 
 extern struct BbBoard *BILLBOARD_Create(const struct BbActBoardInit *init, u32 heapId);
@@ -207,7 +201,7 @@ extern int G3D_SYSTEM_GetPlttDataAddr(u32 payload);
 
 extern u32 BILLBOARD_GetImagePlttVramOffset(struct BbBoard *board, u16 boardId, u32 *palDst);
 
-extern void DWCi_LSTlErase(void *ob);
+extern void BILLBOARD_Draw(void *ob);
 
 extern u32 BILLBOARD_GetElemVisible(struct BbBoard *board, u32 elemId);
 
@@ -245,7 +239,7 @@ void BILLBOARD_ACT_UploadSlotFrame(struct BbActSys *sys, struct BbActSlot *slot,
 
 u32 BILLBOARD_ACT_UploadSlotPalette(struct BbActSys *sys, struct BbActSlot *slot);
 
-void LIST_PopFront(LISTCB *list, int unused1, int unused2);
+void BILLBOARD_ACT_Draw(struct BbActSys *sys, void *camera, void *light);
 
 int BILLBOARD_ACT_SetEntryFlags(struct BbActSys *sys, int entryIndex, u32 flags);
 
@@ -738,11 +732,13 @@ u32 BILLBOARD_ACT_UploadSlotPalette(struct BbActSys *sys, struct BbActSlot *slot
 }
 
 /*
- * sdk:      DWCi_LSTlPopFront (libdwcutil.TWL.HYB.a list.o)
+ * Draws the system's board. The camera and light arguments are unused here (fieldmap.c passes
+ * them); the bytes equal DWCi_LSTlPopFront in libdwcutil, which once made the SDK scan class it
+ * as that list function.
  */
-void LIST_PopFront(LISTCB *list, int unused1, int unused2)
+void BILLBOARD_ACT_Draw(struct BbActSys *sys, void *camera, void *light)
 {
-    DWCi_LSTlErase(list->tail);
+    BILLBOARD_Draw(sys->board);
 }
 
 /*

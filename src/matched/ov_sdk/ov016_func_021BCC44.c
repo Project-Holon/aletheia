@@ -1,5 +1,5 @@
 /*
- * function: func_021BCC44
+ * function: taskStart
  * address:  0x021BCC44
  * packet:   pkt_ov016_021BCC44
  * region:   ov016
@@ -30,7 +30,7 @@ extern void func_021BCBB4(int y);
 extern void DWCi_TSKlSetParam(char *p, unsigned int v);
 extern void func_021BCCB0(void *task);
 
-void func_021BCC44(void *task)
+void taskStart(void *task)
 {
     int x, y;
 

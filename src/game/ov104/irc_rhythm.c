@@ -35,7 +35,7 @@
  *   COMPATIBLE_IRC_SYS_UpdateValueSync 0x021B63D0 thumb ov101
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   BMP_SetDisplaySwap 0x0204363C arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   sRhythmVramBankConfig 0x021B8F78 data a4
@@ -247,7 +247,7 @@ extern int FADE_IsActive(void);
 extern int COMPATIBLE_IRC_SYS_UpdateValueSync(IrcSys *sys);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void BG_SYS_SetVramBanks(const void *banks);
-extern void BMP_SetDisplaySwap(u32 swap);
+extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_Create(u16);
@@ -346,11 +346,6 @@ extern void VEC_Normalize(const VecFx32 *,VecFx32 *);
 extern int VEC_Mag(VecFx32 *);
 extern void VEC_MultAdd(int,VecFx32 *,VecFx32 *,VecFx32 *);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern float _fflt(int);
-extern int _ffix(float);
-extern float _fadd(float, float);
-extern float _fsub(float, float);
-
 int IRC_RHYTHM_Init(struct Proc *proc,void *state,IrcRhythmContext *context);
 int IRC_RHYTHM_Exit(struct Proc *proc,int unused1,int unused2,IrcRhythm *work);
 int IRC_RHYTHM_Main(void *proc,u32 *state,void *unused,IrcRhythm *work);
@@ -504,7 +499,7 @@ int IRC_RHYTHM_Main(void *proc,u32 *state,void *unused,IrcRhythm *work) {
 
 /* ---- screen: backgrounds, sprites and the vblank task ---- */
 
-void IRC_RHYTHM_InitScreen(IrcScreen *screen,u16 heapId) { MI_CpuFill8(screen,0,0xbc); BG_SYS_ClearGraphicsMemory(0); BG_SYS_SetVramBanks(sRhythmVramBankConfig); BMP_SetDisplaySwap(0); BG_SYS_ResetSubDisplay(); BG_SYS_ClearMainPlanes(); IRC_RHYTHM_InitActorSystem(&screen->actorSystem,sRhythmVramBankConfig,heapId); IRC_RHYTHM_InitBackgrounds(screen,heapId); screen->vblankTask=GFL_USE_AddMainTask(IRC_RHYTHM_ScreenVBlankTask, screen, 0); }
+void IRC_RHYTHM_InitScreen(IrcScreen *screen,u16 heapId) { MI_CpuFill8(screen,0,0xbc); BG_SYS_ClearGraphicsMemory(0); BG_SYS_SetVramBanks(sRhythmVramBankConfig); BG_SYS_SetLcdSwap(0); BG_SYS_ResetSubDisplay(); BG_SYS_ClearMainPlanes(); IRC_RHYTHM_InitActorSystem(&screen->actorSystem,sRhythmVramBankConfig,heapId); IRC_RHYTHM_InitBackgrounds(screen,heapId); screen->vblankTask=GFL_USE_AddMainTask(IRC_RHYTHM_ScreenVBlankTask, screen, 0); }
 
 /*
  * extent: two zero alignment bytes follow compiled code.
@@ -1052,10 +1047,10 @@ static inline int convert(int v)
 {
     float f;
     if (v > 0)
-        f = _fadd(0.5f, _fflt(FX_FROM_INT(v)));
+        f = (0.5f + (float)(FX_FROM_INT(v)));
     else
-        f = _fsub(_fflt(FX_FROM_INT(v)), 0.5f);
-    return _ffix(f);
+        f = ((float)(FX_FROM_INT(v)) - 0.5f);
+    return (int)f;
 }
 
 /*

@@ -558,7 +558,7 @@ extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const voi
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern char *BR_UTIL_CreateProfileScreen(void *prof, char *q, void *a2, void *a3, int mode, u16 heap);
+extern char *BR_UTIL_CreateProfileScreen(void *prof, char *q, void *unit, void *printQue, int mode, u16 heap);
 extern void BR_UTIL_DeleteProfileScreen(int *);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_DeleteActor(struct Obj *p);
@@ -618,7 +618,7 @@ extern void CLACT_GetCharacterProxy(u32,struct Rec *);
 extern u32 GFL_HEAP_Free(void *p);
 extern u8 MYSTATUS_GetNation(const struct Sub0200852CObj *obj);
 extern u8 MYSTATUS_GetArea(const struct Sub0200852CObj *obj);
-extern int BR_BTN_TestHitBox(u32 *p, int a1, int a2);
+extern int BR_BTN_TestHitBox(u32 *p, int x, int y);
 extern void BMP_MENUWORK_AddMsgItem(BmpMenuWorkSlot *table, u32 a, u32 b, u32 tag, u32 heap);
 extern void *ZUKAN_SAVE_GetFromGameData(void *);
 extern char *BR_POKESEARCH_Create(void *, void *, int, int, int, int, int, u16);
@@ -1124,7 +1124,7 @@ int BR_CODEIN_ButtonCreate(int *task,int seq,char *work)
     if(((struct CodeinWorkB *)work)->task<5) BR_RES_LoadBgGraphics(*(int * *)&((struct CodeinWorkB *)work)->textWin,3,s->heapId);
     else BR_RES_LoadBgGraphics(*(int * *)&((struct CodeinWorkB *)work)->textWin,4,s->heapId);
     s->handles=(int)BR_UTIL_CreateHandles((*(int *)&((struct CodeinWorkB *)work)->menuWork),(char *)(*(int *)&((struct CodeinWorkB *)work)->textWin),1,s->heapId);
-    s->button=(int)BR_BTN_Create(((struct CodeinWorkB *)work)->task,(*(int *)&((struct CodeinWorkB *)work)->menuWork),*(int *)&((struct CodeinWorkB *)work)->textWin,((struct CodeinWorkB *)work)->f20,(*(int *)&((struct CodeinWorkB *)work)->categoryText),s->handles,s->heapId);
+    s->button=(int)BR_BTN_Create(((struct CodeinWorkB *)work)->task,(*(int *)&((struct CodeinWorkB *)work)->menuWork),*(int *)&((struct CodeinWorkB *)work)->textWin,((struct CodeinWorkB *)work)->buttonDataId,(*(int *)&((struct CodeinWorkB *)work)->categoryText),s->handles,s->heapId);
     if(((struct CodeinWorkB *)work)->button==4) BR_FADE_SetBlendLevel(((struct CodeinWorkB *)work)->screenFade,2,0);
     else BR_FADE_SetBlendLevel(((struct CodeinWorkB *)work)->screenFade,3,0);
     return 1;
@@ -5576,7 +5576,7 @@ void BR_CODEIN_ProfileInitRecordLayout(CodeinProfileState *profile)
 void BR_CODEIN_ProfileSetAnimSeq(char *work, int v)
 {
     ((struct CodeinWorkA *)work)->animSeq = v;
-    ((struct CodeinWorkA *)work)->f230 = 0;
+    ((struct CodeinWorkA *)work)->reserved230 = 0;
     ((struct CodeinWorkA *)work)->phase = 0;
     ((struct CodeinWorkA *)work)->phaseTimer = 0;
 }

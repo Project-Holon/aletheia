@@ -129,7 +129,7 @@ void CAMERA_I2CAutoExposureCore(int, int);
 
 void CAMERA_I2CAutoWhiteBalanceCore(int, int);
 
-u32 CAMERA_I2CActivateCore(u32 a0);
+u32 CAMERA_I2CActivateCore(u32 camera);
 
 void CAMERA_SetVsyncCallbackCore(void *);
 
@@ -165,9 +165,9 @@ extern u32 CAMERA_I2CSizeExCore(u32 a, u32 b, u32 c);
 
 void DSPi_StopSoundCore(void);
 
-u32 CAMERA_GetBytesAtOnceCore(u32 a0);
+u32 CAMERA_GetBytesAtOnceCore(u32 width);
 
-void MI_Camera_NDmaRecvAsync(u32 a0, u32 a1, u32 a2, u32 a3, int s0, void (*s1)(void), int s2);
+void MI_Camera_NDmaRecvAsync(u32 ch, u32 dst, u32 blockWordCount, u32 size, int s0, void (*s1)(void), int s2);
 
 void DSPi_PlayShutterSoundCore(void *, int);
 

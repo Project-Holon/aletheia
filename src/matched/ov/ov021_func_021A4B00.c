@@ -1,5 +1,5 @@
 /*
- * function: ov021_func_021A4B00
+ * function: FIELD_PLAYER_GRID_GetMoveResultOnSurf
  * address:  0x021A4B00
  * packet:   pkt_ov021_021A4B00
  * region:   ov021
@@ -28,7 +28,7 @@ extern int FIELD_PLAYER_GRID_GetWalkResultOnSurf(u8 *, void *, u32);
 extern int FIELD_PLAYER_GRID_GetTurnResultOnSurf(int a, int b, u8 *c);
 extern int FIELD_PLAYER_GRID_GetBlockedResultOnSurf(u8 *, void *, u32);
 
-int ov021_func_021A4B00(u8 *a, u32 b)
+int FIELD_PLAYER_GRID_GetMoveResultOnSurf(u8 *a, u32 b)
 {
     void *r = FIELD_PLAYER_CORE_GetMmdl(((struct Obj12738 *)a)->fC);
     int ret = 0;

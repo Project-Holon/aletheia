@@ -73,7 +73,7 @@ typedef struct {
 	signed char a;
 	signed char b;
 	unsigned short send;
-	unsigned short f4;
+	unsigned short sendLimit;
 	unsigned short recv;
 	unsigned short sendbuf;
 	unsigned short rbuf1;
@@ -90,19 +90,19 @@ typedef struct {
 
 typedef struct {
 	char pad0[0xfc];
-	unsigned short f0fc;
+	unsigned short sendLimit;
 	char pad1[0xc];
-	unsigned short f10a;
+	unsigned short cfg;
 	int exeSocket;
-	int f110;
+	int reserved110;
 } SendPipe;
 
 typedef struct {
 	char pad0[0xf8];
-	Buf f0f8;
+	Buf rbuf2;
 	char pad1[0x4];
-	int f104;
-	int f108;
+	int reserved104;
+	int reserved108;
 	void *exeSocket;
 } RecvPipe;
 
@@ -422,7 +422,7 @@ unsigned long SOCLi_GetSizeCommandPipe(SOCLSocketThreadParam *param)
  * reason: `param->pipe1` and `param->pipe2` are four-byte arrays, and passing
  * them to a `void *` is the error that first shows the qualifier is real.
  *
- * The last byte is a struct offset, not code: `spipe->f10a` is at +0x10a, so
+ * The last byte is a struct offset, not code: `spipe->cfg` is at +0x10a, so
  * the run between the u16 at +0xfc and it is 0xc bytes, not 0xa. The 0xf8
  * command pipe behind that header is the one
  * src/matched/ov_sdk/SOCLi_InitCommandPipe.c already pins (queue +0x00,
@@ -442,12 +442,12 @@ unsigned char *SOCLi_InitSocket(Sock *socket, const Param *param)
 
 		spipe = (SendPipe *)ptr;
 		socket->pipe_send = ptr;
-		spipe->f0fc = param->f4;
+		spipe->sendLimit = param->sendLimit;
 		ptr = SOCLi_InitCommandPipe(ptr + 0x114, (SOCLSocketCommandPipe *)spipe, (const SOCLSocketThreadParam *)param->pipe1);
 		ptr = SOCLi_InitSocketBuffer(ptr, &socket->b48, param->send);
 		ptr = SOCLi_InitSocketBuffer(ptr, &socket->b5c, param->sendbuf);
-		spipe->f10a = param->cfg;
-		spipe->f110 = 0;
+		spipe->cfg = param->cfg;
+		spipe->reserved110 = 0;
 		spipe->exeSocket = 0;
 	}
 	if (param->recv == 0) {
@@ -461,9 +461,9 @@ unsigned char *SOCLi_InitSocket(Sock *socket, const Param *param)
 		ptr = SOCLi_InitCommandPipe(ptr + 0x110, (SOCLSocketCommandPipe *)rpipe, (const SOCLSocketThreadParam *)param->pipe2);
 		ptr = SOCLi_InitSocketBuffer(ptr, &socket->b54, param->recv);
 		ptr = SOCLi_InitSocketBuffer(ptr, &socket->b64, param->rbuf1);
-		ptr = SOCLi_InitSocketBuffer(ptr, &rpipe->f0f8, param->rbuf2);
-		rpipe->f108 = 0;
-		rpipe->f104 = 0;
+		ptr = SOCLi_InitSocketBuffer(ptr, &rpipe->rbuf2, param->rbuf2);
+		rpipe->reserved108 = 0;
+		rpipe->reserved104 = 0;
 	}
 	return ptr;
 }

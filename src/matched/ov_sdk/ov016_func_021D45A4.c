@@ -1,5 +1,5 @@
 /*
- * function: func_021D45A4
+ * function: JudgeConnectableChild
  * address:  0x021D45A4
  * packet:   pkt_ov016_021D45A4
  * region:   ov016
@@ -40,7 +40,7 @@ typedef struct {
     u8 macAddress[6];
 } WMStartParentCallback;
 
-int func_021D45A4(WMStartParentCallback *cb)
+int JudgeConnectableChild(WMStartParentCallback *cb)
 {
     u16 playerNo = DWCi_MOV_MBP_GetPlayerNo(cb->macAddress);
     if (playerNo == 0)

@@ -1,5 +1,5 @@
 /*
- * function: BOX2_MAIN_MoveMonToParty
+ * function: BOX2_MAIN_SwapBoxAndPartyMon
  * address: 0x021DD330
  * packet: pkt_ov170_021DD330
  * region: ov170
@@ -30,7 +30,7 @@ extern void *POKE_TOOL_GetBoxParam(void *);
 extern int func_020075B0(void *save, u32 box, u32 slot, const struct Sub020075B0Entry *src);
 extern void POKEPARTY_SetMember(struct Party *p, u32 idx, const struct PartyMon *src);
 extern u32 func_020307B0(void *p);
-void BOX2_MAIN_MoveMonToParty(unsigned char *p,unsigned short *q,unsigned short *t)
+void BOX2_MAIN_SwapBoxAndPartyMon(unsigned char *p,unsigned short *q,unsigned short *t)
 {
     unsigned box;
     unsigned short slot;

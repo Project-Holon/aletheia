@@ -87,7 +87,7 @@
  *   G3D_UTIL_RemoveUnit  0x020480E4  arm
  *   PARTICLE_StartEffectWithCallback  0x020515CC  arm
  *   ARC_TOOL_ReadMember  0x02048F4C  arm
- *   BMP_GetVisiblePlane  0x02043658  arm
+ *   BG_SYS_GetMainVisiblePlanes  0x02043658  arm
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   GAME_EVENT_GetParent  0x020124F0  thumb
  *   BMP_Delete  0x020437AC  arm
@@ -266,7 +266,7 @@ extern void FIELDMAP_SetDrawMode(u8 *p, u32 v);
 
 extern int GFL_USE_IsLoaderBusy(void);
 
-extern void FLDMMDL_SetDirDispCheckPause(int a0, int a1);
+extern void FLDMMDL_SetDirDispCheckPause(int mmdl, int dir);
 
 extern void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, int fog);
 
@@ -310,7 +310,7 @@ extern void TCB_DeleteTask(void *n);
 
 extern u8 BG_SYS_GetPriority(u32 layer);
 
-u32 BMP_GetVisiblePlane(void);
+u32 BG_SYS_GetMainVisiblePlanes(void);
 
 extern void BG_SYS_SetMainVisiblePlanes(u32 a);
 
@@ -402,7 +402,7 @@ extern u32 PRINTSYS_MeasureWidestLine(void *s, u32 a, u32 b);
 
 extern u32 GF_FONT_Delete(void *ptr);
 
-extern int TEXT_TEXTURE_LoadTexPlttByName(void *texBlock, const char *texName, void *palette, const char *plttName, u32 text, u16 xOffset, u16 a6, u16 a7, u16 heap, void *texKey);
+extern int TEXT_TEXTURE_LoadTexPlttByName(void *texBlock, const char *texName, void *palette, const char *plttName, u32 text, u16 xOffset, u16 yPos, u16 color, u16 heap, void *texKey);
 
 extern u32 MSGDATA_Delete(void *rec);
 
@@ -1195,7 +1195,7 @@ void FLD3D_CI_SaveLayerPriorities(Fld3dCi *ci)
 
 void FLD3D_CI_SaveVisiblePlanes(Fld3dCi *ci)
 {
-    ci->savedVisiblePlanes = BMP_GetVisiblePlane();
+    ci->savedVisiblePlanes = BG_SYS_GetMainVisiblePlanes();
 }
 
 /*

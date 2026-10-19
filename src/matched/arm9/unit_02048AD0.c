@@ -93,37 +93,37 @@ void G3D_CAMERA_SetEye(struct Light *l, const VecFx32 *in)
     l->unk20 = *in;
 }
 
-void G3D_CAMERA_GetTarget(struct Light *l, VecFx32 *out)
+void G3D_CAMERA_GetCamUp(struct Light *l, VecFx32 *out)
 {
     *out = l->unk2C;
 }
 
-void G3D_CAMERA_SetTarget(struct Light *l, const VecFx32 *in)
+void G3D_CAMERA_SetCamUp(struct Light *l, const VecFx32 *in)
 {
     l->unk2C = *in;
 }
 
-void G3D_CAMERA_GetUp(struct Light *l, VecFx32 *out)
+void G3D_CAMERA_GetCamTarget(struct Light *l, VecFx32 *out)
 {
     *out = l->unk38;
 }
 
-void G3D_CAMERA_SetUp(struct Light *l, const VecFx32 *in)
+void G3D_CAMERA_SetCamTarget(struct Light *l, const VecFx32 *in)
 {
     l->unk38 = *in;
 }
 
-void G3D_CAMERA_GetScale(struct Light *l, u32 *out)
+void G3D_CAMERA_GetNear(struct Light *l, u32 *out)
 {
     *out = l->unk14;
 }
 
-void G3D_CAMERA_SetScale(struct Light *l, const u32 *in)
+void G3D_CAMERA_SetNear(struct Light *l, const u32 *in)
 {
     l->unk14 = *in;
 }
 
-void G3D_CAMERA_SetRoll(struct Light *l, const u32 *in)
+void G3D_CAMERA_SetFar(struct Light *l, const u32 *in)
 {
     l->unk18 = *in;
 }
@@ -133,17 +133,17 @@ int G3D_CAMERA_GetMode(struct Light *l)
     return l->unk00;
 }
 
-void G3D_CAMERA_SetNearClip(struct Light *l, u32 v)
+void G3D_CAMERA_SetFovySin(struct Light *l, u32 v)
 {
     l->unk04 = v;
 }
 
-void G3D_CAMERA_GetFarClip(struct Light *l, u32 *out)
+void G3D_CAMERA_GetFovyCos(struct Light *l, u32 *out)
 {
     *out = l->unk08;
 }
 
-void G3D_CAMERA_SetFarClip(struct Light *l, u32 v)
+void G3D_CAMERA_SetFovyCos(struct Light *l, u32 v)
 {
     l->unk08 = v;
 }

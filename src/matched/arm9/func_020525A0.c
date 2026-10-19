@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   SPL_EMITTER_AllocNode   0x02058380  arm
+ *   SPLList_PopFront   0x02058380  arm
  *   SPL_EMITTER_SetupResource   0x02053A60  arm
- *   SPL_EMITTER_ClearNodeList   0x020583CC  arm
+ *   SPLList_PushFront   0x020583CC  arm
  *
  * Promote-first callee of src/pending/PARTICLE_StartEffectWithCallback.c (parks lane 2).
  * Same shape as its neighbour SPL_EMITTER_AllocResource with two extra steps: the
  * loader takes the address of a twelve-byte zeroed scratch block as its
  * third argument, and a non-null third parameter is called back with the
- * popped node before SPL_EMITTER_ClearNodeList runs.
+ * popped node before SPLList_PushFront runs.
  *
  * Built by the 1.2 front end (ARMv4T-style `pop {... lr}; bx lr` epilogue
  * and a `sub sp, sp, #4` alignment word), see
@@ -47,9 +47,9 @@ struct List;
 struct Node;
 struct Obj;
 struct Vec3;
-extern struct Node *SPL_EMITTER_AllocNode(struct List *list);
+extern struct Node *SPLList_PopFront(struct List *list);
 extern void SPL_EMITTER_SetupResource(volatile struct Obj *o, struct Cfg *cfg, const struct Vec3 *pos);
-extern void SPL_EMITTER_ClearNodeList(volatile struct List *list, volatile struct Node *node);
+extern void SPLList_PushFront(volatile struct List *list, volatile struct Node *node);
 
 int SPL_EMITTER_AllocResourceEx(char *p, int b, void (*fn)(void *))
 {
@@ -58,11 +58,11 @@ int SPL_EMITTER_AllocResourceEx(char *p, int b, void (*fn)(void *))
     if (((struct Obj11461 *)p)->f10 != 0) {
         struct Scratch scratch = { 0, 0, 0 };
 
-        r = SPL_EMITTER_AllocNode((struct List *)(p + 0x10));
+        r = SPLList_PopFront((struct List *)(p + 0x10));
         SPL_EMITTER_SetupResource(r, (void *)(((struct Obj11461 *)p)->f28 + (b << 5)), (const struct Vec3 *)(&scratch));
         if (fn != 0)
             fn(r);
-        SPL_EMITTER_ClearNodeList((volatile struct List *)(p + 4), r);
+        SPLList_PushFront((volatile struct List *)(p + 4), r);
         if ((*(u32 *)(*(u32 *)(*(u32 *)&((struct Obj00077 *)r)->f20)) << 0x11 >> 0x1f) != 0)
             r = 0;
     }

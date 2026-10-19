@@ -1,5 +1,5 @@
 /*
- * function: sakeGetFileIdFromHeaders
+ * function: VCT_DSP_SetEchoReference
  * address:  0x021B33E0
  * packet:   pkt_ov013_021B33E0
  * region:   ov013
@@ -15,7 +15,7 @@
 
 extern void MIi_CpuCopyFast(void);
 
-asm void sakeGetFileIdFromHeaders(void)
+asm void VCT_DSP_SetEchoReference(void)
 {
 	mov r2, r1
 	ldr r1, =0x021B4C8C

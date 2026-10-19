@@ -1,5 +1,5 @@
 /*
- * function: func_021BF520
+ * function: DWC_GHTTPSetRootCAList
  * address:  0x021BF520
  * packet:   pkt_021B9500
  * region:   ov114
@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern int ghttpSetRootCAList(int, void *);
 
-int func_021BF520(int a)
+int DWC_GHTTPSetRootCAList(int a)
 {
     return ghttpSetRootCAList(a, (void *)0x021CE544) == 1;
 }

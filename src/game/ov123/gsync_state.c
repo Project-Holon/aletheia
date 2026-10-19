@@ -434,7 +434,7 @@ extern u32 GFL_NET_ERR_GetErrorLevel(void);
 
 extern void GFL_NET_ERR_HaltWithMessage(u32 value);
 
-extern int DWC_RAPCOMMON_HandleNetError(int a0, int a1);
+extern int DWC_RAPCOMMON_HandleNetError(int hasSession, int keepError);
 
 GsyncMessageWork *GSYNC_MESSAGE_InitSystem(u32 heap, u32 msgBank);
 

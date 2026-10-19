@@ -1,5 +1,5 @@
 /*
- * function: sub_02022AC4
+ * function: WIPE_SUB_FadeVTask
  * address:  0x02022AC4
  * packet:   pkt_02022AC4
  * region:   arm9
@@ -26,8 +26,8 @@
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02022AC4.c \
- *       --func sub_02022AC4 --addr 0x02022AC4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/WIPE_SUB_FadeVTask.c \
+ *       --func WIPE_SUB_FadeVTask --addr 0x02022AC4 --cc 1.1p1 --thumb
  */
 #include "../include/Obj11726.h"
 
@@ -36,7 +36,7 @@ typedef unsigned char u8;
 typedef unsigned int   u32;
 extern void sub_020222CC(u32 which, int brightness);
 
-void sub_02022AC4(void *unused, u8 *o)
+void WIPE_SUB_FadeVTask(void *unused, u8 *o)
 {
     sub_020222CC((u32)(((struct Obj11726 *)o)->f18), (int)(((struct Obj11726 *)o)->f1C));
 }

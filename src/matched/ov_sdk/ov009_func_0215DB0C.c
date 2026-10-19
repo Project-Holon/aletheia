@@ -1,5 +1,5 @@
 /*
- * function: func_0215DB0C
+ * function: SOCLi_ReadCallBack
  * address:  0x0215DB0C
  * packet:   pkt_ov009_0215DB0C
  * region:   ov009
@@ -66,7 +66,7 @@ static inline int isStream(signed char m)
     return r;
 }
 
-static int func_0215DB0C(void *arg)
+static int SOCLi_ReadCallBack(void *arg)
 {
     struct SOCLSocket *socket;
     int result;

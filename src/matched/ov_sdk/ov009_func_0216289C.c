@@ -1,5 +1,5 @@
 /*
- * function: func_0216289C
+ * function: ssl_connect_try
  * address:  0x0216289C
  * packet:   pkt_ov009_0216289C
  * region:   ov009
@@ -49,7 +49,7 @@ extern void send_client_key_exchange(CPSSoc *soc);
 extern void create_master_secret(CPSSslConnection *con);
 extern void func_0215FEE0(CPSSslConnection *con, unsigned long ip, unsigned short port);
 
-static int func_0216289C(CPSSoc *soc)
+static int ssl_connect_try(CPSSoc *soc)
 {
     CPSSslConnection *con;
     int state;

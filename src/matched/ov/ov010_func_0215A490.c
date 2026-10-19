@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: EVENT_POKE_STATUS_AddMs5000, EVENT_POKE_STATUS_IsMs5000
+ * function: EVENT_TRAINER_GetSecondaryScriptId, EVENT_TRAINER_IsSecondaryScriptId
  * address: 0x0215A490
  * packet: pkt_ov010_0215A490
  * region: ov010
@@ -8,8 +8,8 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * extent: includes unlabelled range-test EVENT_POKE_STATUS_IsMs5000; function-start seed.
+ * extent: includes unlabelled range-test EVENT_TRAINER_IsSecondaryScriptId; function-start seed.
  */
 typedef unsigned short u16;
-u16 EVENT_POKE_STATUS_AddMs5000(unsigned a) { return a + 5000; }
-int EVENT_POKE_STATUS_IsMs5000(unsigned a) { if (a >= 5000) return 1; return 0; }
+u16 EVENT_TRAINER_GetSecondaryScriptId(unsigned a) { return a + 5000; }
+int EVENT_TRAINER_IsSecondaryScriptId(unsigned a) { if (a >= 5000) return 1; return 0; }

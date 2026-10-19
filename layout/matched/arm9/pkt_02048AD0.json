@@ -18,10 +18,44 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "G3D_CAMERA_Reset"
+    "G3D_CAMERA_Reset",
+    "G3D_CAMERA_GetEye",
+    "G3D_CAMERA_SetEye",
+    "G3D_CAMERA_GetCamUp",
+    "G3D_CAMERA_SetCamUp",
+    "G3D_CAMERA_GetCamTarget",
+    "G3D_CAMERA_SetCamTarget",
+    "G3D_CAMERA_GetNear",
+    "G3D_CAMERA_SetNear",
+    "G3D_CAMERA_SetFar",
+    "G3D_CAMERA_GetMode",
+    "G3D_CAMERA_SetFovySin",
+    "G3D_CAMERA_GetFovyCos",
+    "G3D_CAMERA_SetFovyCos",
+    "G3D_CAMERA_GetNearClipAlt",
+    "G3D_CAMERA_SetNearClipAlt",
+    "G3D_CAMERA_GetFarClipAlt",
+    "G3D_CAMERA_SetFarClipAlt"
    ],
    "addresses": [
-    "0x02048AD0"
+    "0x02048AD0",
+    "0x02048AE8",
+    "0x02048AFC",
+    "0x02048B0C",
+    "0x02048B20",
+    "0x02048B30",
+    "0x02048B44",
+    "0x02048B54",
+    "0x02048B60",
+    "0x02048B6C",
+    "0x02048B78",
+    "0x02048B80",
+    "0x02048B88",
+    "0x02048B94",
+    "0x02048B9C",
+    "0x02048BA8",
+    "0x02048BB0",
+    "0x02048BBC"
    ]
   },
   {
@@ -54,10 +88,20 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "G3D_LIGHT_ApplySlots"
+    "G3D_LIGHT_ApplySlots",
+    "G3D_LIGHT_GetDirection",
+    "G3D_LIGHT_SetDirection",
+    "G3D_LIGHT_GetColor",
+    "G3D_LIGHT_SetColor",
+    "ARC_TOOL_SetTable"
    ],
    "addresses": [
-    "0x02048C58"
+    "0x02048C58",
+    "0x02048C80",
+    "0x02048CA4",
+    "0x02048CCC",
+    "0x02048CDC",
+    "0x02048CEC"
    ]
   }
  ]

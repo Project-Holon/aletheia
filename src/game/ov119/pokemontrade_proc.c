@@ -219,7 +219,7 @@
  *   ov117_id 0x00000075 data a1
  *   ov118_id 0x00000076 data a1
  *   GF_OVERLAY_Load 0x02034AC4 arm
- *   BMP_SetDisplaySwap 0x0204363C arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
  *   ZUKAN_SAVE_IsNationalDexEnabled 0x0200CA38 thumb
  *   CLACT_CreateUnit 0x0204B100 arm
@@ -346,7 +346,7 @@ typedef struct Record {u16 value;u8 a,b;} Record;
 
 
 
-extern void TOUCHBAR_ResetAndEnableButton(u32 *p, u32 a1);
+extern void TOUCHBAR_ResetAndEnableButton(u32 *p, u32 buttonId);
 
 extern void TOUCHBAR_SetButtonVisible(unsigned char *p, unsigned int id, unsigned int v);
 
@@ -723,7 +723,7 @@ extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 
 extern int GF_OVERLAY_Load(int);
 
-extern void BMP_SetDisplaySwap(unsigned int swap);
+extern void BG_SYS_SetLcdSwap(unsigned int swap);
 
 extern void *ZUKAN_SAVE_GetFromGameData(void *);
 
@@ -797,7 +797,7 @@ extern void DWC_RAP_SetErrorCallback(int,int);
 
 extern void DWC_RAPCOMMON_DestroySubHeap(void);
 
-extern int DWC_RAPCOMMON_HandleNetError(int a0, int a1);
+extern int DWC_RAPCOMMON_HandleNetError(int hasSession, int keepError);
 
 extern void GFL_NET_ERR_RequestScreen(void);
 
@@ -3434,7 +3434,7 @@ int POKETRADE_PROC_InitTradeWork(void *a,int b,char *q,char *p,int n)
     if(n<5) {GF_OVERLAY_Load((int)ov067_id);GF_OVERLAY_Load((int)ov114_id);}
     if(n==0 || n==4) GF_OVERLAY_Load((int)ov117_id);
     else GF_OVERLAY_Load((int)ov118_id);
-    BMP_SetDisplaySwap(1);
+    BG_SYS_SetLcdSwap(1);
     ((TradeWork *)p)->heapId=31;
     ((TradeWork *)p)->tradeState=n;
     ((TradeWork *)p)->request=(struct TradeRequest *)q;

@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: PLIST_MESSAGE_SetWordSetItem,PLIST_MESSAGE_SetWordSetHeldItem
+ * function: PLIST_MESSAGE_SetWordSetItem,PLIST_MESSAGE_SetWordSetItemAlt
  * address: 0x021BB9AC
  * packet: pkt_ov091_021BB9AC
  * region: ov091
@@ -20,4 +20,4 @@ struct WordSet;
 extern void WORDSET_SetSlotFromMsg36(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_SetSlotFromMsg117(struct WordSet *p, u32 i, u32 v);
 void PLIST_MESSAGE_SetWordSetItem(int a,int b,int c,int d) {WORDSET_SetSlotFromMsg36((struct WordSet *)(((struct Obj20891 *)b)->f2C),c,d);}
-void PLIST_MESSAGE_SetWordSetHeldItem(int a, u32 b, u32 c, int d) {WORDSET_SetSlotFromMsg117((struct WordSet *)(((struct Obj20892 *)b)->f2C),c,d);}
+void PLIST_MESSAGE_SetWordSetItemAlt(int a, u32 b, u32 c, int d) {WORDSET_SetSlotFromMsg117((struct WordSet *)(((struct Obj20892 *)b)->f2C),c,d);}

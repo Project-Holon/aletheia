@@ -1,5 +1,5 @@
 /*
- * function: sub_02024520
+ * function: PMSI_PARAM_GetDecoId
  * address:  0x02024520
  * packet:   pkt_02024344
  * region:   arm9
@@ -15,13 +15,13 @@
  * invisible to disasm.py's sweep; not reproduced here.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02024520.c \
- *       --func sub_02024520 --addr 0x02024520 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PMSI_PARAM_GetDecoId.c \
+ *       --func PMSI_PARAM_GetDecoId --addr 0x02024520 --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
 
-u32 sub_02024520(u32 x)
+u32 PMSI_PARAM_GetDecoId(u32 x)
 {
     return x & 0x7FF;
 }

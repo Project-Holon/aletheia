@@ -1,5 +1,5 @@
 /*
- * function: sub_02024368
+ * function: PMSI_PARAM_ToStringWords
  * address:  0x02024368
  * packet:   pkt_02024368
  * region:   arm9
@@ -60,7 +60,7 @@ extern void  *func_02045B38(int a, int b, u32 id, u16 heap);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 
-void *sub_02024368(u16 *slots, u32 heap, int count)
+void *PMSI_PARAM_ToStringWords(u16 *slots, u32 heap, int count)
 {
     void *obj;
     void *buf;

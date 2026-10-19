@@ -1,5 +1,5 @@
 /*
- * function: func_021D4A94
+ * function: userProc
  * address:  0x021D4A94
  * packet:   pkt_ov016_021D4A94
  * region:   ov016
@@ -24,7 +24,7 @@ extern void CARD_LockRom(u16 lock_id);
 extern void CARD_UnlockRom(int id);
 extern struct MemArc *gMemArchive;
 
-int func_021D4A94(int unused, unsigned long cmd)
+int userProc(int unused, unsigned long cmd)
 {
 	switch (cmd) {
 	case 9:

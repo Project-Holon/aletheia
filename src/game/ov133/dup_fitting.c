@@ -576,7 +576,7 @@ extern struct Object *MUSICAL_MCSS_CreateActorPool(u32 owner, int count, u16 hea
 
 extern void *MUSICAL_MCSS_CreateResourceArc(int type);
 
-extern void MUSICAL_MCSS_FreeResourceArc(struct Tagged *a0);
+extern void MUSICAL_MCSS_FreeResourceArc(struct Tagged *resourceArc);
 
 extern void MUSICAL_MCSS_SetElemFlag(int, Flags *, int);
 
@@ -586,7 +586,7 @@ extern void MUSICAL_MCSS_SetElemVisible(u8 *, u8 *, u32);
 
 extern void MUSICAL_MCSS_SetElemRotZ(u32 unused, u32 p, short a, short b);
 
-extern void MUSICAL_MCSS_TransferVram(char *p, char *e, void *a2);
+extern void MUSICAL_MCSS_TransferVram(char *p, char *e, void *unused);
 
 extern int G3D_SYSTEM_TransVramTexture(int *self);
 

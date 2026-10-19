@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "SNDARC_IsGroupLoaded",
+   "name": "NNS_SndArcLoadGroup",
    "address": "0x02074A54",
    "kind": "game",
    "region": "arm9",

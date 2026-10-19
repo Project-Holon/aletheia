@@ -16,7 +16,7 @@
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
- *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
+ *   GIMMICK_WORK_GetWork  0x0200B3A4  thumb
  *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
  *   FLD_EXP_OBJ_AddUnitFromArchive  0x021BE760  thumb  ov021
  *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb  ov021
@@ -37,7 +37,7 @@ struct GimmickWork;
 extern struct GameSystem *FIELDMAP_GetGameSystem(void *fieldMap);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
-extern s32 *GIMMICK_WORK_GetSaveArea(struct GimmickWork *gimmickWork, u32 slot);
+extern s32 *GIMMICK_WORK_GetWork(struct GimmickWork *gimmickWork, u32 slot);
 extern void *FIELDMAP_GetExpObj(void *fieldMap);
 extern void FLD_EXP_OBJ_AddUnitFromArchive(void *expObj, void *unitDesc, int b);
 extern VecFx32 *FLD_EXP_OBJ_GetModelStatus(void *expObj, unsigned unit, int model);
@@ -56,7 +56,7 @@ void FIELD_GIMMICK_62_Init(void *fieldMap)
     s32 *hideFlag;
     void *expObj;
 
-    hideFlag = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_62_WORK_SLOT);
+    hideFlag = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_62_WORK_SLOT);
     expObj = FIELDMAP_GetExpObj(fieldMap);
     FLD_EXP_OBJ_AddUnitFromArchive(expObj, &gFieldGimmick62UnitSetup, 0);
     *FLD_EXP_OBJ_GetModelStatus(expObj, 0, 0) = gFieldGimmick62ModelPos;

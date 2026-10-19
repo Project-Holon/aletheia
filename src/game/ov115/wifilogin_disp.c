@@ -73,7 +73,7 @@
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
- *   BMP_SetDisplaySwap 0x0204363C arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   GX_DispOn 0x0207D46C arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
@@ -310,7 +310,7 @@ extern void BG_SYS_SetMainVisiblePlanes(u32);
 
 extern void BG_SYS_SetSubVisiblePlanes(u32);
 
-extern void BMP_SetDisplaySwap(u32);
+extern void BG_SYS_SetLcdSwap(u32);
 
 extern void GX_DispOn(void);
 
@@ -802,7 +802,7 @@ u8 *WIFILOGIN_DISP_CreateDisplay(u16 heap, u32 mode, int reconnect) {
     BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     *(volatile u16 *)0x04000050=0;
-    BMP_SetDisplaySwap(1);
+    BG_SYS_SetLcdSwap(1);
     *(volatile u32 *)0x04001000 |= 0x10000;
     GX_DispOn();
     BG_SYS_Create(((struct WifiloginDisp *)p)->heapId);

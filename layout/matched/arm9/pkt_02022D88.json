@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "sub_02022D88",
+   "name": "WIPE_SUB_GetLineBuffer",
    "address": "0x02022D88",
    "kind": "game",
    "region": "arm9",

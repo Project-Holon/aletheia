@@ -16,7 +16,7 @@
  *   CTRDGi_InitCommon  0x02090F18  arm
  *   PXI_SetFifoRecvCallback  0x020885A0  arm
  *   CTRDGi_SendtoPxi  0x02091150  arm
- *   CTRDGi_DummyCallback  0x020911D4  arm
+ *   MSL_C_LIB_EmptyStub  0x020911D4  arm
  */
 
 typedef unsigned long u32;
@@ -25,12 +25,12 @@ typedef int BOOL;
 extern void CTRDGi_InitCommon(void);
 extern void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int, u32, BOOL));
 extern void CTRDGi_SendtoPxi(u32 data);
-extern void CTRDGi_DummyCallback(int tag, u32 data, BOOL err);
+extern void MSL_C_LIB_EmptyStub(int tag, u32 data, BOOL err);
 
 void CTRDG_DummyInit(void)
 {
     CTRDGi_InitCommon();
     PXI_SetFifoRecvCallback(13, 0);
-    PXI_SetFifoRecvCallback(13, CTRDGi_DummyCallback);
+    PXI_SetFifoRecvCallback(13, MSL_C_LIB_EmptyStub);
     CTRDGi_SendtoPxi(1);
 }

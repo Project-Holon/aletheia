@@ -10,8 +10,8 @@
  * status:   EXACT
  * symbols:
  *   SPL_EMITTER_UpdateParticles  0x02053218  arm
- *   SPL_EMITTER_FreeNode  0x02058300  arm
- *   SPL_EMITTER_ClearNodeList  0x020583CC  arm
+ *   SPLList_Erase  0x02058300  arm
+ *   SPLList_PushFront  0x020583CC  arm
  *
  * The rig's per-frame node walk: for every node on h->list, age it, maybe
  * dispatch it, and maybe retire it onto the recycle list.  This is the callee
@@ -27,7 +27,7 @@
  *     non-zero c->f3c cap, the expired bit set and the age past the cap) or
  *     the node's own "kill" bit (+0x24 bit 0) is set -- and then only if the
  *     node has no pending work (n->f0c == 0 && n->f18 == 0).  Retiring is
- *     SPL_EMITTER_ClearNodeList(&h->f10, SPL_EMITTER_FreeNode(&h->list, n)).
+ *     SPLList_PushFront(&h->f10, SPLList_Erase(&h->list, n)).
  * After the walk h->f48 is incremented and wrapped back to zero above 1, so
  * it is a two-frame parity counter.
  *
@@ -114,8 +114,8 @@ struct List;
 struct SPLEmitter;
 struct SPLManager;
 extern void SPL_EMITTER_UpdateParticles(struct SPLManager *mgr, struct SPLEmitter *emtr);
-extern struct Node *SPL_EMITTER_FreeNode(struct List *list, struct Node *node);
-extern void SPL_EMITTER_ClearNodeList(volatile struct List *list, volatile struct Node *node);
+extern struct Node *SPLList_Erase(struct List *list, struct Node *node);
+extern void SPLList_PushFront(volatile struct List *list, volatile struct Node *node);
 
 void SPL_EMITTER_FreeTexNode(struct Head *h)
 {
@@ -145,8 +145,8 @@ void SPL_EMITTER_FreeTexNode(struct Head *h)
             if ((c->c00_b14 != 0 && c->f3c != 0 && n->f24_b4 != 0
                  && n->f4c > c->f3c) || n->f24_b0 != 0) {
                 if (n->f0c == 0 && n->f18 == 0) {
-                    void *r = SPL_EMITTER_FreeNode((struct List *)(&h->list), n);
-                    SPL_EMITTER_ClearNodeList((volatile struct List *)(&h->f10), r);
+                    void *r = SPLList_Erase((struct List *)(&h->list), n);
+                    SPLList_PushFront((volatile struct List *)(&h->f10), r);
                 }
             }
             n = next;

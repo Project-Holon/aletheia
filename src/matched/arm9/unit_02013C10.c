@@ -10,7 +10,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: ZONEDATA_GetWeatherId, ZONEDATA_IsBikeEnabled, ZONEDATA_IsRingtoneEnabled, ZONEDATA_IsFlyEnabled,
+ * function: ZONEDATA_GetWeatherId, ZONEDATA_IsBikeEnabled, ZONEDATA_IsRideBgmEnabled, ZONEDATA_IsFlyEnabled,
  *           ZONEDATA_IsWeatherEnabled, ZONEDATA_IsPalaceEnabled
  *
  * symbols:
@@ -84,7 +84,7 @@ u32 ZONEDATA_IsBikeEnabled(u32 id)
     return r->unk1e.flag10;
 }
 
-u32 ZONEDATA_IsRingtoneEnabled(u32 id)
+u32 ZONEDATA_IsRideBgmEnabled(u32 id)
 {
     struct Sub02013AD0Rec *r = ZONEDATA_GetHeader(id);
     return r->unk1e.flag14;

@@ -10,9 +10,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0202C318, sub_0202C320, sub_0202C328, sub_0202C330,
- *           sub_0202C338, sub_0202C340, sub_0202C348, sub_0202C350,
- *           sub_0202C358
+ * function: ISS_SWITCH_SET_Load, ISS_SWITCH_SET_Main, ISS_SWITCH_SET_SwitchOn, ISS_SWITCH_SET_SwitchOff,
+ *           ISS_SWITCH_SET_ResetSwitch, ISS_SWITCH_SET_GetBgmNo, ISS_SWITCH_SET_IsValidZone, ISS_SWITCH_SET_IsSwitchOn,
+ *           ISS_SWITCH_SET_UpdateVolume
  *
  * symbols:
  *   ISS_SWITCH_SET_ReadBgmNo  0x0202C4C8  thumb
@@ -29,7 +29,7 @@
  * and sub_0202C518 are none of them called by a direct `bl`/`b` anywhere
  * in the image, so the only reference to each is the trampoline here,
  * which is inside the range under test and which no cut can put outside
- * it. The ninth, sub_0202C340's call to 0x0202C4C8, always resolved:
+ * it. The ninth, ISS_SWITCH_SET_GetBgmNo's call to 0x0202C4C8, always resolved:
  * that address is the unlabelled leaf of src/matched/sub_0202C4C8.c.
  *
  * What closed it is nine EXACT entries and no cut, one per site, through
@@ -69,47 +69,47 @@ extern u32 sub_0202C4D8(void *a, u32 b);
 extern u32 sub_0202C504(void *p, u32 idx);
 extern u32 sub_0202C518(void *p);
 
-u32 sub_0202C318(void *a, void *b)
+u32 ISS_SWITCH_SET_Load(void *a, void *b)
 {
     return sub_0202C3E0(a, b);
 }
 
-u32 sub_0202C320(void *p)
+u32 ISS_SWITCH_SET_Main(void *p)
 {
     return sub_0202C470(p);
 }
 
-u32 sub_0202C328(void *p, u32 idx)
+u32 ISS_SWITCH_SET_SwitchOn(void *p, u32 idx)
 {
     return sub_0202C48C(p, idx);
 }
 
-u32 sub_0202C330(void *p, u32 idx)
+u32 ISS_SWITCH_SET_SwitchOff(void *p, u32 idx)
 {
     return sub_0202C498(p, idx);
 }
 
-u32 sub_0202C338(void *p)
+u32 ISS_SWITCH_SET_ResetSwitch(void *p)
 {
     return sub_0202C4A4(p);
 }
 
-u32 sub_0202C340(void *p)
+u32 ISS_SWITCH_SET_GetBgmNo(void *p)
 {
     return ISS_SWITCH_SET_ReadBgmNo(p);
 }
 
-u32 sub_0202C348(void *a, void *b)
+u32 ISS_SWITCH_SET_IsValidZone(void *a, void *b)
 {
     return sub_0202C4D8(a, (u32)b);
 }
 
-u32 sub_0202C350(void *p, u32 idx)
+u32 ISS_SWITCH_SET_IsSwitchOn(void *p, u32 idx)
 {
     return sub_0202C504(p, idx);
 }
 
-u32 sub_0202C358(void *p)
+u32 ISS_SWITCH_SET_UpdateVolume(void *p)
 {
     return sub_0202C518(p);
 }

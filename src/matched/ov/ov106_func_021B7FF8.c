@@ -12,7 +12,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   BMP_SetDisplaySwap 0x0204363C arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   GF_FONT_InitTextColor 0x0201DD60 thumb
@@ -28,7 +28,7 @@ extern void MI_CpuFill8(void *,int,int);
 extern void BG_SYS_ClearGraphicsMemory(u32);
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void BMP_SetDisplaySwap(u32);
+extern void BG_SYS_SetLcdSwap(u32);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void GF_FONT_InitTextColor(void);
@@ -45,7 +45,7 @@ void IRC_RANKING_DisplayInit(u8 *p, void *a, u32 b) {
  *(volatile unsigned *)0x04001000 &= ~0xe000;
  BG_SYS_ClearGraphicsMemory(0);
  BG_SYS_SetVramBanks((const struct DispVram *)gIrcRankingVramConfig);
- BMP_SetDisplaySwap(1);
+ BG_SYS_SetLcdSwap(1);
  BG_SYS_ResetSubDisplay();
  BG_SYS_ClearMainPlanes();
  GF_FONT_InitTextColor();

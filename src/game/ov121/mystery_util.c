@@ -295,7 +295,7 @@ struct MysteryUtilDetailDef {
     u32 count;
     u16 bgLayer;
     u16 windowPalette;
-    u16 f28;
+    u16 windowPalette2;
     u16 paletteBank;
     s16 rowOffset;
     s16 colOffset;
@@ -318,7 +318,7 @@ struct MysteryUtilDetailWindow {
     u16 phase;
     u16 windowPalette;
     u16 bgLayer;
-    u16 f2a;
+    u16 windowPalette2;
     u16 paletteBank;
     u16 rowOffset;
     u16 animSeq;
@@ -1091,7 +1091,7 @@ struct MysteryUtilDetailWindow *MYSTERY_UTIL_CreateDetailWindow(const struct Mys
     out->count = in->count;
     out->actor = (u32)in->actor;
     out->windowPalette = in->windowPalette;
-    out->f2a = in->f28;
+    out->windowPalette2 = in->windowPalette2;
     out->paletteBank = in->paletteBank;
     out->bgLayer = in->bgLayer;
     out->callback = in->callback;

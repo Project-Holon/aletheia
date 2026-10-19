@@ -1,5 +1,5 @@
 /*
- * function: func_02160764
+ * function: validate_signature
  * address:  0x02160764
  * packet:   pkt_ov009_02160764
  * region:   ov009
@@ -54,7 +54,7 @@ extern void func_02164D20(unsigned char *d, unsigned short *s, int numbytes, int
 typedef unsigned char  u8;
 extern int func_020923F0(const u8 *a, const u8 *b, int n);
 
-static int func_02160764(CPSSslConnection *con, SOCLCaInfo *ca)
+static int validate_signature(CPSSslConnection *con, SOCLCaInfo *ca)
 {
     unsigned short *tmp_var;
     unsigned short *b;

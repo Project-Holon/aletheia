@@ -19,7 +19,7 @@
    "status": "EXACT",
    "functions": [
     "INTRUDE_UpdatePlaySeconds",
-    "BEACON_GetSize"
+    "MISC_GetSize"
    ],
    "addresses": [
     "0x0200BFA4",

@@ -1,5 +1,5 @@
 /*
- * function: func_021CEB54
+ * function: moveBar
  * address:  0x021CEB54
  * packet:   pkt_ov016_021CEB54
  * region:   ov016
@@ -56,7 +56,7 @@ extern struct tagRECT sScrollbarTable;
 extern SB *gScrollBar;
 extern unsigned char sScrollBarStep[];
 
-void func_021CEB54(void)
+void moveBar(void)
 {
 	COORD c;
 	int pos;

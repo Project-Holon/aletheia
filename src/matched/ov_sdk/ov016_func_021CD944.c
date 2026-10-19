@@ -1,5 +1,5 @@
 /*
- * function: func_021CD944
+ * function: procInit1
  * address:  0x021CD944
  * packet:   pkt_ov016_021CD944
  * region:   ov016
@@ -12,7 +12,7 @@
  * sdk:      procInit1 (libdwcutil.TWL.HYB.a scenesettestconf)
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CD944.c \n *       --func func_021CD944 --addr 0x021CD944 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CD944.c \n *       --func procInit1 --addr 0x021CD944 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  *
  * symbols:
  *   sSceneSetTestConfirmMessages     0x021DA8AC  data
@@ -31,7 +31,7 @@ extern void DWCi_WINlInitEx(int msg, int type, unsigned char dark, int n, int nu
 extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021CD9CC(void);
 
-void func_021CD944(void)
+void procInit1(void)
 {
     int prm;
     MsgTable msg = sSceneSetTestConfirmMessages;

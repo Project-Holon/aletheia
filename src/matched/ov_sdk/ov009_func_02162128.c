@@ -1,5 +1,5 @@
 /*
- * function: func_02162128
+ * function: set_random
  * address:  0x02162128
  * packet:   pkt_ov009_02162128
  * region:   ov009
@@ -48,7 +48,7 @@ extern unsigned char g_021AA648;
 extern Rand32Ctx gCpsSslRandCtx;
 extern unsigned char g_021AA650[20];
 
-static void func_02162128(unsigned char *d, int len)
+static void set_random(unsigned char *d, int len)
 {
     unsigned long enabled;
     CPSSha1Ctx ctx;

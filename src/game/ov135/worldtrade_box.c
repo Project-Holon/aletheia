@@ -73,13 +73,10 @@
  *   tbl_02202DA4  0x02202DA4  data  a1
  *   d_02203B68 0x02203B68 data a4
  *   WORLDTRADE_ADAPTER_IsStreamBusy  0x02202840  thumb  ov135
- *   MSGDATA_AllocString   0x02045EC0  arm
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   BMP_WIN_GetBmp   0x02045770  arm
  *   BMP_Clear   0x02043B5C  arm
  *   BMP_WIN_TransferChars   0x02045334  arm
- *   unit_02045730  0x02045730  arm
- *   BG_SYS_PushTile   0x020409B4  arm
  *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   WORLDTRADE_ADAPTER_QueuePrintDefaultColor  0x02202858  thumb  ov135
  *   POKE_TOOL_CalcGraphicIndex  0x0201BABC  thumb
@@ -293,7 +290,6 @@ extern u32 WORLDTRADE_ADAPTER_IsStreamBusy(PrintStreamCtx *p);
 
 extern int TOUCHPANEL_GetTrg(void);
 
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
@@ -301,7 +297,6 @@ extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
 
 
-extern u8 unit_02045730(u32 a);
 
 
 extern void BMP_MENUWORK_DrawWindow(void *win, int commitMode, int tileBase, int palette);
@@ -1339,7 +1334,7 @@ void WORLDTRADE_BOX_PrintMessage(Work *p, u32 msgId, u32 unused1, u32 unused2, u
     BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)h)), 0xf);
     BMP_WIN_TransferChars((struct Descriptor *)h);
     BMP_WIN_MakeScreen((struct Cfg *)h);
-    BG_SYS_PushTile(unit_02045730(h));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)h));
     BMP_MENUWORK_DrawWindow((void *)h, 0, 1, 0xe);
     WORLDTRADE_ADAPTER_QueuePrintDefaultColor((void *)h, 0, (void *)((*(unsigned int *)&p->str)), 0, 0, (u8 *)p + 0xfa0);
     STRBUF_Delete((struct U16Vec *)v);

@@ -63,7 +63,9 @@ the dead statics are placed as in the plain link.  _start_BuildParams (with the
 .version strings, crt0.c) and the SHA-1 constants (sha1.c) are source and are placed
 by their header symbols like crt0's other .rodata; "fixed" in datalink.json is empty.  The zero padding after a Thumb file is made
 by the linker (ALIGN(4)).  An own section lying inside a bigger one is parked.
-Left to the image: the secure area gaps (0x02004000..0x02004800).
+The secure area (0x02004000..0x02004800): the SVC thunks are src/game files; the filler between
+them (the SDK libsyscall.a, no source) is made by arm9data.py as secure_area_XX.c, one const array per
+range, each placed at the address its header symbol names.  No gap is left to the image.
 
 Data mode pads (all regions): the 2 zero bytes after a Thumb file whose next item sits at a
 multiple of 4 are made by the linker (ALIGN(4)), not copied from the image.  Every complete

@@ -24,11 +24,11 @@
  * word-runs.md).
  *
  * This is the file that closes the item chain
- * FILE_UTIL_Get_1014 <- FILE_UTIL_Get_0FE4 <- FILE_UTIL_CreateArcTool0F34: three separate functions
+ * FILE_UTIL_Get_1014 <- FILE_UTIL_Get_0FE4 <- FILE_UTIL_LoadItemRecord: three separate functions
  * here name the item archive id 0x18 as a plain immediate
- * (FILE_UTIL_Create_0F14's handle open, FILE_UTIL_CreateArcTool0F34's one-shot member read) and
+ * (FILE_UTIL_CreateItemArcHandle's handle open, FILE_UTIL_LoadItemRecord's one-shot member read) and
  * two name the item graphics archive 0x19 (FILE_UTIL_GetItemCount answers it as a
- * constant, FILE_UTIL_CreateArcTool0F34 reads members of it).  Archive ids are the
+ * constant, FILE_UTIL_LoadItemRecord reads members of it).  Archive ids are the
  * decimal spelling of the a/X/Y/Z path, so 0x18 = 24 = a/0/2/4 and
  * 0x19 = 25 = a/0/2/5.
  *
@@ -40,14 +40,14 @@
  *   - item_gfx_member_x (0x0209E9E8) and ITEM_GFX_GetRowIndex (0x0202F170) are
  *     named only from here anywhere in the image.
  *   - item_gfx_member (0x0209EB6C) has exactly one literal witness,
- *     0x02020F7C, which is FILE_UTIL_CreateArcTool0F34's own pool and therefore inside
+ *     0x02020F7C, which is FILE_UTIL_LoadItemRecord's own pool and therefore inside
  *     this range.  FILE_UTIL_Get's copy of the same word sits at
  *     0x02020EF4 but is not indexed as a literal pool by disasm.py: that
  *     pool is inside the `.byte` run this unit's leaf functions live in.
- *     Splitting FILE_UTIL_Get and FILE_UTIL_CreateArcTool0F34 into two files does not
+ *     Splitting FILE_UTIL_Get and FILE_UTIL_LoadItemRecord into two files does not
  *     fix it either: verified separately, the split leaves
  *     FILE_UTIL_Get attested (literal 0x02020F7C, now outside its range)
- *     and FILE_UTIL_CreateArcTool0F34 still not, since its only witness is its own
+ *     and FILE_UTIL_LoadItemRecord still not, since its only witness is its own
  *     pool word.  `tu --suggest-split` agrees and leaves both out.
  *
  * The middle piece that --suggest-split does keep, the five leaf
@@ -131,7 +131,7 @@ u32 FILE_UTIL_GetBaseIndex(void)
     return 0;
 }
 
-void *FILE_UTIL_Create_0F14(u32 heap)
+void *FILE_UTIL_CreateItemArcHandle(u32 heap)
 {
     return func_020490F4(0x18, heap);
 }
@@ -145,7 +145,7 @@ u32 FILE_UTIL_LoadArcMember(void *handle, u32 item, u32 arg)
     return (u32)ARC_TOOL_LoadHandleMember(handle, item, arg);
 }
 
-void *FILE_UTIL_CreateArcTool0F34(u32 item, u32 which, u32 heap)
+void *FILE_UTIL_LoadItemRecord(u32 item, u32 which, u32 heap)
 {
     if (item > 626) {
         item = 0;

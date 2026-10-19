@@ -171,7 +171,7 @@
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   GF_OVERLAY_Load 0x02034AC4 arm
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
- *   BMP_SetDisplaySwap 0x0204363C arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   GX_DispOn 0x0207D46C arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   CLACT_InitSystem 0x0204A48C arm
@@ -575,7 +575,7 @@ extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern void APP_TASKMENU_WIN_Update(u8 *p);
 extern void APP_TASKMENU_UpdateMenu(void *);
 extern void GTSNEGO_MSG_Main(u8 *p);
-extern int DWC_RAPCOMMON_HandleNetError(int a0, int a1);
+extern int DWC_RAPCOMMON_HandleNetError(int hasSession, int keepError);
 extern void GFL_NET_ERR_Halt(void);
 extern void GFL_NET_ERR_ClearKeepDark(void);
 extern void GFL_NET_COMMAND_DeleteCommandTable(unsigned int);
@@ -586,7 +586,7 @@ extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 extern int GF_OVERLAY_Load(int);
 extern void BG_SYS_SetMainVisiblePlanes(u32);
-extern void BMP_SetDisplaySwap(u32 swap);
+extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void GX_DispOn(void);
 extern void BG_SYS_Create(u16);
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
@@ -2228,7 +2228,7 @@ u8 *GTSNEGO_DISP_CreateMsgSystem(u32 heap,void *arg)
     GF_OVERLAY_Load((int)ov_id);
     BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
-    BMP_SetDisplaySwap(1);
+    BG_SYS_SetLcdSwap(1);
     *(volatile u32 *)0x04001000|=0x10000;
     GX_DispOn();
     BG_SYS_Create(((struct GtsnegoActorSys *)actorSys)->heapId);

@@ -10,7 +10,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: MISC_SAVEDATA_ContainsRecentValue, MISC_SAVEDATA_TestBitmapBit, MISC_SAVEDATA_SetBitmapBit
+ * function: MET_TRAINERS_Contains, MET_TRAINERS_TestBit, MET_TRAINERS_SetBit
  *
  * The three functions that follow MISC_SAVEDATA_InsertRecentValue (src/matched/
  * MISC_SAVEDATA_InsertRecentValue.c) inside this packet, none of which carries a label in
@@ -35,7 +35,7 @@ struct L0200EDC4 {
     u32 count;
 };
 
-int MISC_SAVEDATA_ContainsRecentValue(struct L0200EDC4 *l, u32 val)
+int MET_TRAINERS_Contains(struct L0200EDC4 *l, u32 val)
 {
     u32 i;
 
@@ -46,14 +46,14 @@ int MISC_SAVEDATA_ContainsRecentValue(struct L0200EDC4 *l, u32 val)
     return 0;
 }
 
-int MISC_SAVEDATA_TestBitmapBit(char *obj, int i)
+int MET_TRAINERS_TestBit(char *obj, int i)
 {
     u32 *bits = (u32 *)(obj + 0x84);
 
     return (bits[i / 32] >> (i % 32)) & 1;
 }
 
-void MISC_SAVEDATA_SetBitmapBit(char *obj, int i)
+void MET_TRAINERS_SetBit(char *obj, int i)
 {
     if (i >= 256)
         return;

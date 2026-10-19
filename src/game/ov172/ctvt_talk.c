@@ -235,14 +235,6 @@ extern void GFL_USE_PlaySeInSlot(void *, int);
 
 extern void GFL_USE_SetSeSlotParams(int i, u32 a, u32 b, u32 c);
 
-extern int _s32_to_float(int a);
-
-extern int __fadd(int a, int b);
-
-extern int _fsub(int a, int b);
-
-extern int _ffix(int a);
-
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
 
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
@@ -996,7 +988,8 @@ void CTVT_TALK_DrawLine(int ctx, char *talk, u8 *p, u8 x0, u8 y0, u8 x1, u8 y1, 
     int dy;
     int n, i;
     int accx, accy;
-    int d, r;
+    int d;
+    float r;
     int ay; int by; int yb;
     by = y1; ay = y0; dy = Abs(ay - by);
     if (dx <= dy)
@@ -1004,16 +997,16 @@ void CTVT_TALK_DrawLine(int ctx, char *talk, u8 *p, u8 x0, u8 y0, u8 x1, u8 y1, 
     n = dx + 1;
     d = x1 - x0;
     if (d > 0)
-        r = __fadd(0x3f000000, _s32_to_float(d << 12));
+        r = (0.5f + (float)(d << 12));
     else
-        r = _fsub(_s32_to_float(d << 12), 0x3f000000);
-    stepx = _ffix(r) / n;
+        r = ((float)(d << 12) - 0.5f);
+    stepx = (int)r / n;
     d = by - ay;
     if (d > 0)
-        r = __fadd(0x3f000000, _s32_to_float(d << 12));
+        r = (0.5f + (float)(d << 12));
     else
-        r = _fsub(_s32_to_float(d << 12), 0x3f000000);
-    stepy = _ffix(r) / n;
+        r = ((float)(d << 12) - 0.5f);
+    stepy = (int)r / n;
     accx = 0;
     accy = 0;
     i = 0;

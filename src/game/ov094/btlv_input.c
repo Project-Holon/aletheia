@@ -281,7 +281,7 @@ typedef struct Arg1 {
 
 typedef struct Arg2 {
     u16 h[4];
-    int f8;
+    int ppCurrent;
     int selectMode;
     int slot;
     int transformed;
@@ -301,7 +301,7 @@ typedef struct {
 
 typedef struct {
     void *key;          /* 0x00 */
-    int f4;
+    int reserved04;
     int *vals;          /* 0x08 */
 } Cmd;
 

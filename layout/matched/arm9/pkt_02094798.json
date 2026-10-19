@@ -50,10 +50,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "strncmp"
+    "strncmp",
+    "strchr"
    ],
    "addresses": [
-    "0x020949F4"
+    "0x020949F4",
+    "0x02094A28"
    ]
   },
   {

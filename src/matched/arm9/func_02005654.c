@@ -1,5 +1,5 @@
 /*
- * function: func_02005654
+ * function: GFL_USE_SetVBlankHook
  * address:  0x02005654
  * packet:   pkt_02005654
  * region:   arm9
@@ -17,7 +17,7 @@
 
 extern struct GflSys _GflUse;
 
-int func_02005654(int a, int b)
+int GFL_USE_SetVBlankHook(int a, int b)
 {
     int v = *(int *)((char *)&(*(int *)&_GflUse) + 8);
 

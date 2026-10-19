@@ -20,7 +20,7 @@
  *   GAME_DATA_GetEventWorkFromSave  0x02012FE4  thumb
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   file_020A745C  0x020A745C  data
- *   unit_020355C4  0x020355C4  arm
+ *   UI_GetInputMode  0x020355C4  arm
  *   UI_SetInputMode 0x020355D8 arm
  *   FX_SinCosTable_   0x020A1B38  data
  *   Table_0209F724   0x0209F724  data
@@ -92,7 +92,7 @@ extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern void *SAVE_CONTROL_GetBlock(struct WinPanel020071CCCtrl *ctrl, u32 id);
 extern void *GAME_DATA_GetEventWorkFromSave(struct WinPanel020071CCCtrl *save);
 extern u32 ZONEDATA_CheckEventFlag(void *bitmap, int id);
-extern u32 unit_020355C4(void);
+extern u8 UI_GetInputMode(void);
 extern void UI_SetInputMode(void *);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern u32 WORDSET_Delete(struct WordSet *p);
@@ -377,7 +377,7 @@ void PMSI_PARAM_SetResult(struct PmsiParam *obj, const u16 *words, const struct 
  */
 void PMSI_PARAM_GetUiInputMode(void)
 {
-    unit_020355C4();
+    UI_GetInputMode();
 }
 
 void PMSI_PARAM_SetUiInputMode(void *unused, void *inputMode) { UI_SetInputMode(inputMode); }

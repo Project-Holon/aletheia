@@ -1,5 +1,5 @@
 /*
- * function: MUSICAL_MCSS_DrawLabel
+ * function: MUSICAL_SHOT_SYS_DrawCaption
  * address: 0x021F40F4
  * packet: pkt_ov112_021F40F4
  * region: ov112
@@ -63,7 +63,7 @@ extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BG_SYS_PushTile(u32);
-void MUSICAL_MCSS_DrawLabel(u8 *p)
+void MUSICAL_SHOT_SYS_DrawCaption(u8 *p)
 {
     void *buf;
     void *t;

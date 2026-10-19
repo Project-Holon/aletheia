@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: POKELIST_OnLearnMoveChoice, POKELIST_OpenForgetMoveMenu
+ * function: POKELIST_OnGiveUpMoveChoice, POKELIST_OpenForgetMoveMenu
  * address:  0x021B9EC0
  * packet:   pkt_ov091_021B9EC0
  * region:   ov091
@@ -38,7 +38,7 @@ extern void POKELIST_OpenForgetMoveMenu();
 extern void POKELIST_OpenChoiceMenu(u8 *p, int a1);
 extern void POKELIST_OnForgetMoveChoice(u8 *p, u32 state);
 
-void POKELIST_OnLearnMoveChoice(u8 *p, u32 state)
+void POKELIST_OnGiveUpMoveChoice(u8 *p, u32 state)
 {
     PLIST_MESSAGE_CloseWindow(p, (u32 *)W(0x150));
     if (state == 14) {

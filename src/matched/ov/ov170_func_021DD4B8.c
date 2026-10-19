@@ -1,5 +1,5 @@
 /*
- * function: BOX2_MAIN_RegisterSeenAndForm
+ * function: BOX2_MAIN_MovePartyMonToListedBox
  * address: 0x021DD4B8
  * packet: pkt_ov170_021DD4B8
  * region: ov170
@@ -37,7 +37,7 @@ extern void *ZUKAN_SAVE_GetFromGameData(void *);
 extern void ZUKAN_SAVE_RegisterSeen(struct Blk37 *p, void *m);
 extern void *POKE_TOOL_GetBoxParam(void *);
 extern int func_0200752C(void **save, u32 box, const struct Sub02007454Entry *src);
-void BOX2_MAIN_RegisterSeenAndForm(unsigned char *p,unsigned a,unsigned b)
+void BOX2_MAIN_MovePartyMonToListedBox(unsigned char *p,unsigned a,unsigned b)
 {
     void *m;
     unsigned box;

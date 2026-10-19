@@ -18,7 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "unit_0201C6FC"
+    "PRINTSYS_PrintQue",
+    "PRINTSYS_PrintQueColor",
+    "PRINTSYS_SubmitJob"
+   ],
+   "addresses": [
+    "0x0201C6FC",
+    "0x0201C724",
+    "0x0201C758"
    ]
   },
   {

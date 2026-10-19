@@ -47,7 +47,7 @@
  *   VM_GetU32  0x0201134C  thumb
  *   d_0217062C     0x0217062C  data  ov010
  *   d_021705D8     0x021705D8  data  ov010
- *   VM_GetUserData  0x02011324  thumb
+ *   VM_GetContext  0x02011324  thumb
  *   SCRCMD_WORK_Delete  0x0215A5A4  thumb  ov010
  *   VM_Delete  0x02011264  thumb
  *   GF_PANIC_Fail  0x02034714  arm
@@ -143,7 +143,7 @@ extern void VM_Init(ScriptVm *vm, void *user);
 extern void SCRCMD_WORK_LoadMsgData(void *startData, unsigned textBank, unsigned textMsgId);
 extern void VM_Start(ScriptVm *vm, u8 *pc);
 extern u32 VM_GetU32(ScriptVm *vm);
-extern void *VM_GetUserData(ScriptVm *vm);
+extern void *VM_GetContext(ScriptVm *vm);
 extern int SCRCMD_WORK_Delete(void *vmCtx);
 extern int VM_Delete();
 extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
@@ -613,7 +613,7 @@ ScriptVm *SCRIPT_SYS_CreateVm(u16 heapId, void *scriptWork, u16 zoneId, u16 scri
 
 int SCRIPT_SYS_DeleteVm(ScriptVm *vm)
 {
-    SCRCMD_WORK_Delete(VM_GetUserData(vm));
+    SCRCMD_WORK_Delete(VM_GetContext(vm));
     GFL_HEAP_Free(vm->data);
     return VM_Delete(vm);
 }
@@ -731,6 +731,6 @@ int SCRIPT_SYS_CheckCommandPermit(ScriptVm *vm, void *cmdWork, void *fieldSys, u
  * ARM9 interface evidence: 02011324 reads +0x20; 02011328 stores r1/r2 at +0x24/+0x28.
  */
 void SCRIPT_SYS_SetCommandCheck(ScriptVm *vm) {
-    void *cmdWork = SCRCMD_WORK_GetGameSystem(VM_GetUserData(vm));
+    void *cmdWork = SCRCMD_WORK_GetGameSystem(VM_GetContext(vm));
     VM_SetHook(vm, SCRIPT_SYS_CheckCommandPermit, cmdWork);
 }

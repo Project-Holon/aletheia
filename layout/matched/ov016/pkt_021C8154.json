@@ -25,7 +25,7 @@
    }
   },
   {
-   "name": "DWCi_SceneSetList_procScene",
+   "name": "procScene",
    "address": "0x021C8794",
    "kind": "game",
    "region": "ov016",

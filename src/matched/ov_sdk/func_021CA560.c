@@ -1,5 +1,5 @@
 /*
- * function: func_021CA560
+ * function: procError
  * address:  0x021CA560
  * packet:   pkt_021CA560
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CA560   0x021CA560  arm
+ *   procError   0x021CA560  arm
  *   DWCi_WINlGet   0x021D1568  arm
  *   DWCi_SNDlPlay   0x021CFFAC  arm
  *   DWCi_WINlEnd   0x021D1524  arm
@@ -27,7 +27,7 @@ extern void DWCi_WINlEnd(void);
 extern void DWCi_SCREENlSetPalette(unsigned int v);
 extern void DWCi_ChangeScene(unsigned int v);
 
-void func_021CA560(void)
+void procError(void)
 {
     unsigned char *g = (unsigned char *)0x021DE5EC;
 

@@ -50,8 +50,6 @@
  *   BMP_WIN_GetBmp   0x02045770  arm
  *   BMP_Clear   0x02043B5C  arm
  *   BMP_WIN_TransferChars   0x02045334  arm
- *   unit_02045730  0x02045730  arm
- *   BG_SYS_PushTile   0x020409B4  arm
  *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   WORLDTRADE_ADAPTER_QueuePrintDefaultColor  0x02202858  thumb  ov135
  *   POKE_TOOL_GetBoxParam  0x020185F4  thumb
@@ -156,7 +154,6 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern u32 KEY_GetTrg(void);
 
 
-extern u8 unit_02045730(u32 a);
 
 extern void BG_SYS_PushTile(u32 index);
 
@@ -549,17 +546,17 @@ void WORLDTRADE_LIST_DeleteWindows(u8 *p)
     if (((Work *)p)->flag == 0) {
         h = ((Work *)p)->win[1];
         BMP_WIN_ClearScreen((struct Descriptor *)h);
-        BG_SYS_PushTile(unit_02045730(h));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)h));
         h = ((Work *)p)->win[0];
         BMP_WIN_ClearScreen((struct Descriptor *)h);
-        BG_SYS_PushTile(unit_02045730(h));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)h));
         BMP_WIN_Delete((struct Descriptor *)(((Work *)p)->win[1]));
         BMP_WIN_Delete((struct Descriptor *)(((Work *)p)->win[0]));
     }
     for (i = 0; i < 0x10; i++) {
         h = *(u32 *)(p + i * 4 + 0xd90);
         BMP_WIN_ClearScreen((struct Descriptor *)h);
-        BG_SYS_PushTile(unit_02045730(h));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)h));
         BMP_WIN_Delete((struct Descriptor *)(*(u32 *)(p + i * 4 + 0xd90)));
     }
 }

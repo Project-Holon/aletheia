@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: VM_GetU16, VM_GetU32, VM_PushStack, VM_PopStack,
+ * function: VM_ReadU16, VM_GetU32, VM_PushStack, VM_PopStack,
  *           VM_Jump, VM_Call, VM_Return
  *
  * Seven functions, no external calls at all, over two small structs read and
@@ -20,11 +20,11 @@
  * setter of the +0x14 field that VM_Call and VM_Return reach only
  * through a history ring.
  *
- * VM_GetU16 and VM_GetU32 are a matched pair, a little-endian u16
+ * VM_ReadU16 and VM_GetU32 are a matched pair, a little-endian u16
  * and u32 read off a byte cursor at +0x14, advancing it by 2 and by 4.
  * VM_GetU32 carries no label in the generated listing: it opens with
  * `push {r4, r5}`, which saves no `lr`, so disasm.py's prologue sweep never
- * fires on it and its 48 bytes print as a `.word` run between VM_GetU16
+ * fires on it and its 48 bytes print as a `.word` run between VM_ReadU16
  * and VM_PushStack (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  * Its four byte reads are built MSB-first through a Horner chain
  * (((0 + b3) << 8 + b2) << 8 + b1) << 8 + b0, which is what the register
@@ -64,7 +64,7 @@ struct Stream {
     u8 *cursor;
 };
 
-u16 VM_GetU16(struct Stream *s)
+u16 VM_ReadU16(struct Stream *s)
 {
     u8  b0, b1;
     u16 t;

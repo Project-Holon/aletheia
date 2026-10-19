@@ -10,10 +10,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: WORDSET_DeleteStrbufED04, WORDSET_Init, WORDSET_ResetSlot, WORDSET_SetSlotText,
- *           WORDSET_SetSlotFromMessage, WORDSET_SetSlotTag, WORDSET_Callback, WORDSET_SetSlotMonName,
- *           WORDSET_SetSlotMonNameAlt, WORDSET_Callback_EEC4, WORDSET_SetSlotMonNameEx, WORDSET_SetSlotMonSpecies,
- *           WORDSET_SetSlotMonSpeciesAlt, WORDSET_SetSlotFromMsgCB, WORDSET_Callback_EF40, WORDSET_Callback_EF4C,
+ * function: WORDSET_Delete, WORDSET_Init, WORDSET_ResetSlot, WORDSET_SetSlotText,
+ *           WORDSET_SetSlotFromMessage, WORDSET_SetSlotTag, WORDSET_SetSlotSpeciesName, WORDSET_SetSlotMonSpeciesName,
+ *           WORDSET_SetSlotMonNameAlt, WORDSET_SetSlotFromMsg119, WORDSET_SetSlotMonNameEx, WORDSET_SetSlotMonNickname,
+ *           WORDSET_SetSlotMonNicknameAlt, WORDSET_SetSlotFromMsgCB, WORDSET_SetSlotFromMsg36, WORDSET_SetSlotFromMsg117,
  *           WORDSET_SetSlotFromMsg118, WORDSET_SetSlotFromBank, WORDSET_SetSlotFromMsgB6, WORDSET_SetSlotFromMsg18,
  *           WORDSET_SetSlotNumber, WORDSET_SetSlotPmsWord
  *
@@ -57,7 +57,7 @@
  * what fixes the parameter type.  The two are the same address for an entry,
  * so the distinction is only visible at that one call site.
  *
- * WORDSET_Callback reaches a file-scope pointer at 0x020A7370.  Exactly two
+ * WORDSET_SetSlotSpeciesName reaches a file-scope pointer at 0x020A7370.  Exactly two
  * literal pools in the image hold that address, this function's and
  * WORDSET_LoadSpeciesNameBank's in src/matched/unit_0201F0F8.c, so each file is the other's
  * `literal` witness and the two may not be merged into one range.
@@ -128,13 +128,13 @@ extern void WORDSET_Init(struct Tag *t);
 extern void WORDSET_SetSlotText(struct WordSet *p, u32 i, const void *src,
                           const struct Tag *tag);
 extern void WORDSET_SetSlotFromMessage(struct WordSet *p, u32 i, u32 id, u32 v);
-extern void WORDSET_Callback(struct WordSet *p, u32 i, u16 v);
-extern void WORDSET_Callback_EEC4(struct WordSet *p, u32 i, u32 v);
-extern void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v);
-extern void WORDSET_Callback_EF4C(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotSpeciesName(struct WordSet *p, u32 i, u16 v);
+extern void WORDSET_SetSlotFromMsg119(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotFromMsg36(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotFromMsg117(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_SetSlotFromMsg118(struct WordSet *p, u32 i, u32 v);
 
-u32 WORDSET_DeleteStrbufED04(struct WordSet *p)
+u32 WORDSET_Delete(struct WordSet *p)
 {
     u32 i;
 
@@ -200,39 +200,39 @@ void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f,
     WORDSET_SetSlotText(p, i, src, &tag);
 }
 
-void WORDSET_Callback(struct WordSet *p, u32 i, u16 v)
+void WORDSET_SetSlotSpeciesName(struct WordSet *p, u32 i, u16 v)
 {
     func_02045CAC(gSpeciesNameBank, v, p->buf);
     WORDSET_SetSlotText(p, i, p->buf, 0);
 }
 
-void WORDSET_SetSlotMonName(struct WordSet *p, u32 i, void *mon)
+void WORDSET_SetSlotMonSpeciesName(struct WordSet *p, u32 i, void *mon)
 {
-    WORDSET_Callback(p, i, POKE_TOOL_GetPartyValue(mon, 5, 0));
+    WORDSET_SetSlotSpeciesName(p, i, POKE_TOOL_GetPartyValue(mon, 5, 0));
 }
 
 void WORDSET_SetSlotMonNameAlt(struct WordSet *p, u32 i, void *mon)
 {
-    WORDSET_Callback(p, i, POKE_TOOL_GetBoxValue(mon, 5, 0));
+    WORDSET_SetSlotSpeciesName(p, i, POKE_TOOL_GetBoxValue(mon, 5, 0));
 }
 
-void WORDSET_Callback_EEC4(struct WordSet *p, u32 i, u32 v)
+void WORDSET_SetSlotFromMsg119(struct WordSet *p, u32 i, u32 v)
 {
     WORDSET_SetSlotFromMessage(p, i, 0x119, v);
 }
 
 void WORDSET_SetSlotMonNameEx(struct WordSet *p, u32 i, void *mon)
 {
-    WORDSET_Callback_EEC4(p, i, (u16)POKE_TOOL_GetPartyValue(mon, 5, 0));
+    WORDSET_SetSlotFromMsg119(p, i, (u16)POKE_TOOL_GetPartyValue(mon, 5, 0));
 }
 
-void WORDSET_SetSlotMonSpecies(struct WordSet *p, u32 i, void *mon)
+void WORDSET_SetSlotMonNickname(struct WordSet *p, u32 i, void *mon)
 {
     POKE_TOOL_GetPartyValue(mon, 0x73, (u32)p->buf);
     WORDSET_SetSlotText(p, i, p->buf, 0);
 }
 
-void WORDSET_SetSlotMonSpeciesAlt(struct WordSet *p, u32 i, void *mon)
+void WORDSET_SetSlotMonNicknameAlt(struct WordSet *p, u32 i, void *mon)
 {
     POKE_TOOL_GetBoxValue(mon, 0x73, (u32)p->buf);
     WORDSET_SetSlotText(p, i, p->buf, 0);
@@ -243,12 +243,12 @@ void WORDSET_SetSlotFromMsgCB(struct WordSet *p, u32 i, u32 v)
     WORDSET_SetSlotFromMessage(p, i, 0xCB, v);
 }
 
-void WORDSET_Callback_EF40(struct WordSet *p, u32 i, u32 v)
+void WORDSET_SetSlotFromMsg36(struct WordSet *p, u32 i, u32 v)
 {
     WORDSET_SetSlotFromMessage(p, i, 0x36, v);
 }
 
-void WORDSET_Callback_EF4C(struct WordSet *p, u32 i, u32 v)
+void WORDSET_SetSlotFromMsg117(struct WordSet *p, u32 i, u32 v)
 {
     WORDSET_SetSlotFromMessage(p, i, 0x117, v);
 }
@@ -265,10 +265,10 @@ void WORDSET_SetSlotFromBank(struct WordSet *p, u32 i, u32 v, u32 a, u32 b)
         return;
     }
     if (b != 0) {
-        WORDSET_Callback_EF4C(p, i, v);
+        WORDSET_SetSlotFromMsg117(p, i, v);
         return;
     }
-    WORDSET_Callback_EF40(p, i, v);
+    WORDSET_SetSlotFromMsg36(p, i, v);
 }
 
 void WORDSET_SetSlotFromMsgB6(struct WordSet *p, u32 i, u32 v)

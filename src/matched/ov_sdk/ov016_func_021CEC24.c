@@ -1,5 +1,5 @@
 /*
- * function: func_021CEC24
+ * function: playSound
  * address:  0x021CEC24
  * packet:   pkt_ov016_021CEC24
  * region:   ov016
@@ -37,7 +37,7 @@ extern void DWCi_SNDlSetVolume(unsigned int v);
 extern void DWCi_SNDlSetPitch(unsigned int a, unsigned int b);
 extern SB *gScrollBar;
 
-void func_021CEC24(int pos)
+void playSound(int pos)
 {
 	int d;
 	int vol;

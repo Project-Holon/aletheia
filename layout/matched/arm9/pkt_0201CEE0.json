@@ -168,13 +168,13 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "GF_FONT_GetTagChar",
-    "GF_FONT_CheckD5CC",
-    "GF_FONT_GetTagGroup",
-    "GF_FONT_AppendTag",
-    "GF_FONT_GetTagKind",
-    "GF_FONT_GetTagParam",
-    "GF_FONT_SkipTag"
+    "PRINTSYS_GetTagChar",
+    "PRINTSYS_IsWordSlotTag",
+    "PRINTSYS_GetTagGroup",
+    "PRINTSYS_AppendTag",
+    "PRINTSYS_GetTagKind",
+    "PRINTSYS_GetTagParam",
+    "PRINTSYS_SkipTag"
    ],
    "addresses": [
     "0x0201D5C4",

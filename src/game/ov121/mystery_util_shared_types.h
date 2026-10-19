@@ -50,7 +50,7 @@ typedef struct {s16 x,y;} MysteryUtilVec2;
 
 struct Ctx {
     u32 mode;
-    u32 param4;
+    u32 reserved04;
     u32 clactUnit;
     u32 cardList;
     u32 font;

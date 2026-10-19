@@ -7,10 +7,10 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * blocker: ARM9 0204363C resides in src/matched/arm9/unit_0204361C.c but is omitted from function:. Owner must list BG_SYS_ResetSubDisplay,BMP_SetDisplaySwap,BMP_GetVisiblePlane and regenerate its shard. tu --suggest-split cannot isolate this caller.
+ * blocker: ARM9 0204363C resides in src/matched/arm9/unit_0204361C.c but is omitted from function:. Owner must list BG_SYS_ResetSubDisplay,BG_SYS_SetLcdSwap,BMP_GetVisiblePlane and regenerate its shard. tu --suggest-split cannot isolate this caller.
  * blocker: 0204363C independently verified EXACT28B ARM, no-region one, dsi/1.1p1 -O4,p c99.
  *   typedef unsigned short u16; typedef unsigned int u32;
- *   void BMP_SetDisplaySwap(u32 swap) {
+ *   void BG_SYS_SetLcdSwap(u32 swap) {
  *     *(volatile u16 *)0x04000304 = (*(volatile u16 *)0x04000304 & ~0x8000) | (swap << 15);
  *   }
  * prototype: 3159C's void legacy allocator leaves live r0 used as the context pointer; copy full-width payload. Heap truncations before calls use narrow extern args.
@@ -28,7 +28,7 @@
  *   BEACON_DETAIL_InitVram 0x021844E4 thumb ov219
  *   BEACON_DETAIL_InitGraphics 0x02184558 thumb ov219
  *   WORDSET_Create 0x0201EC74 thumb
- *   BMP_SetDisplaySwap 0x0204363C arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   TCBL_Create 0x0203101C arm
  *   APP_KEYCURSOR_CreateDefault 0x02028590 thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
@@ -58,7 +58,7 @@ extern void BEACON_DETAIL_InitVram(void);
 extern void BEACON_DETAIL_InitGraphics(unsigned heap);
 struct WordSet;
 extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
-extern void BMP_SetDisplaySwap(u32);
+extern void BG_SYS_SetLcdSwap(u32);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u32 APP_KEYCURSOR_CreateDefault(u32,u32,u32,u16);
 extern u32 PRINTSYS_QUE_Create(void *);
@@ -87,7 +87,7 @@ int BEACON_DETAIL_Init(void *obj,void *unused,void *ctx)
     BEACON_DETAIL_InitGraphics((u16)(*(u32 *)p));
     *(void **)(p+0xc0a8)=WORDSET_Create(8,0x40,*(u32 *)p);
     *(u32 *)(p+0xc310)=0;
-    BMP_SetDisplaySwap(0);
+    BG_SYS_SetLcdSwap(0);
     *(void **)(p+0xc0a4)=TCBL_Create((u16)(*(u32 *)p),*(u32 *)p,0x20,0x20);
     *(u32 *)(p+0xc088)=APP_KEYCURSOR_CreateDefault(0xf,1,0,*(u32 *)p);
     *(u32 *)(p+0xc080)=PRINTSYS_QUE_Create((void *)(u16)*(u32 *)p);

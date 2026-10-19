@@ -18,10 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "DWC_RAP_IsDisconnected"
+    "DWC_RAP_IsDisconnected",
+    "DWC_RAP_StoreErrorOnDisconnect"
    ],
    "addresses": [
-    "0x02156D84"
+    "0x02156D84",
+    "0x02156DB0"
    ],
    "evidence": {
     "sole-ref": [

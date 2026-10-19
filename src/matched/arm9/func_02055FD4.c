@@ -10,7 +10,7 @@
  * symbols:
  *   MTX_MultVec43        0x0207BC08  arm
  *   func_0207D918        0x0207D918  arm
- *   SPL_EMITTER_DrawQuad        0x020565C8  arm
+ *   SPLUtil_DrawXYPlane        0x020565C8  arm
  *   func_02055FD4_Verts  0x020A1B38  data
  * status:   EXACT*
  * note:     EXACT* because the follower at 0x02056420 is the unlabelled leaf
@@ -144,7 +144,7 @@ struct Frame {
 extern const s16 func_02055FD4_Verts[];
 extern void MTX_MultVec43(const void *v, const void *m, void *out);
 extern void func_0207D918(const void *);
-extern void SPL_EMITTER_DrawQuad(s32, s32, s32, s32);
+extern void SPLUtil_DrawXYPlane(s32, s32, s32, s32);
 
 static inline s32 FX_Mul(s32 a, s32 b)
 {
@@ -258,5 +258,5 @@ void SPL_EMITTER_UpdateFrame(struct Obj *obj, struct S *s)
     *(volatile u32 *)0x04000480 = (u16)v;
 
     p = obj->f40->f20->f00;
-    SPL_EMITTER_DrawQuad(obj->f40->f78, obj->f40->f7a, p->f50, p->f52);
+    SPLUtil_DrawXYPlane(obj->f40->f78, obj->f40->f7a, p->f50, p->f52);
 }

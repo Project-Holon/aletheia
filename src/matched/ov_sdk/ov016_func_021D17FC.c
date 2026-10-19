@@ -1,5 +1,5 @@
 /*
- * function: func_021D17FC
+ * function: taskMain1
  * address:  0x021D17FC
  * packet:   pkt_ov016_021D17FC
  * region:   ov016
@@ -42,7 +42,7 @@ extern void *DWCi_TSKlForm();
 extern void DWCi_WindowTaskEnd(void *task);
 extern struct MemWinT *gWindowWork;
 
-void func_021D17FC(void *task)
+void taskMain1(void *task)
 {
     gWindowWork->input = -1;
     gWindowWork->countWait++;

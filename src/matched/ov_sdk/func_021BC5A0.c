@@ -1,5 +1,5 @@
 /*
- * function: func_021BC5A0
+ * function: Calloc
  * address:  0x021BC5A0
  * packet:   pkt_021C1CF8
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BC5A0   0x021BC5A0  thumb
+ *   Calloc   0x021BC5A0  thumb
  *   HAND_ITEM_RollChance   0x021DCFD0  data
  *   MSL_C_LIB_MemsetPtr  0x020923B0  arm  arm9
 
@@ -25,15 +25,15 @@
  * function is compiled in, and the site attests sole-ref/self.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021BC5A0.c \
- *       --func func_021BC5A0 --addr 0x021BC5A0 --region ov016 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/Calloc.c \
+ *       --func Calloc --addr 0x021BC5A0 --region ov016 --cc dsi/1.1p1 --thumb
  */
 
 extern void *(*HAND_ITEM_RollChance[])(int);
 typedef unsigned int   u32;
 extern void *MSL_C_LIB_MemsetPtr(void *p, int c, u32 n);
 
-void *func_021BC5A0(int a, int b)
+void *Calloc(int a, int b)
 {
     int n = a * b;
     void *p = HAND_ITEM_RollChance[1](n);

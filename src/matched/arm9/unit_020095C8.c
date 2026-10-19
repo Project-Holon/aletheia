@@ -13,7 +13,7 @@
  * status:   EXACT
  * function: WIFI_HISTORY_GetFirstFreeEntry, WIFI_HISTORY_IncrementVisitedCountryCount, WIFI_HISTORY_SetRatingLevel, WIFI_HISTORY_GetRatingLevel,
  *           WIFI_HISTORY_SetGreetingSet, WIFI_HISTORY_GetGreetingSet, WIFI_HISTORY_GetEntryField, WIFI_HISTORY_SetEntryField,
- *           WIFI_HISTORY_GetEntry, WIFI_HISTORY_Dummy, WIFI_HISTORY_MarkCountryVisited, sub_02009794
+ *           WIFI_HISTORY_GetEntry, WIFI_HISTORY_GetEntries, WIFI_HISTORY_MarkCountryVisited, WIFI_HISTORY_IsCountryVisited
  *
  * alias: the rest of the save block with id 0x1D whose first half is
  * src/matched/unit_02009470.c.  This half is the twenty 0x28-byte records at
@@ -89,7 +89,7 @@ struct Sub02009470Obj {
     u8 unk348[0xFF0];
 };
 
-u32 sub_02009794(const struct Sub02009470Obj *obj, u32 n);
+u32 WIFI_HISTORY_IsCountryVisited(const struct Sub02009470Obj *obj, u32 n);
 
 u8 WIFI_HISTORY_GetFirstFreeEntry(const struct Sub02009470Obj *obj)
 {
@@ -205,7 +205,7 @@ struct Sub02009470Ent *WIFI_HISTORY_GetEntry(struct Sub02009470Obj *obj, int i)
     return &obj->unk000[i];
 }
 
-void WIFI_HISTORY_Dummy(void)
+void WIFI_HISTORY_GetEntries(void)
 {
 }
 
@@ -217,7 +217,7 @@ u32 WIFI_HISTORY_MarkCountryVisited(struct Sub02009470Obj *obj, u32 n)
         return ret;
     }
     if (n < 0xE9) {
-        if (sub_02009794(obj, n) == 0) {
+        if (WIFI_HISTORY_IsCountryVisited(obj, n) == 0) {
             ret = 1;
         }
         obj->unk320[n >> 3] |= (u8)(1 << (u8)(n & 7));
@@ -225,7 +225,7 @@ u32 WIFI_HISTORY_MarkCountryVisited(struct Sub02009470Obj *obj, u32 n)
     return ret;
 }
 
-u32 sub_02009794(const struct Sub02009470Obj *obj, u32 n)
+u32 WIFI_HISTORY_IsCountryVisited(const struct Sub02009470Obj *obj, u32 n)
 {
     if (n < 0xE9) {
         u8 bit = (obj->unk320[n >> 3] >> (u8)(n & 7)) & 1;

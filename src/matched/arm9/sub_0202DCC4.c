@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0202DCC4
+ * function: PMS_DRAW_IsActive
  * address:  0x0202DCC4
  * packet:   pkt_0202DBC4
  * region:   arm9
@@ -21,8 +21,8 @@
  * (docs/idioms/shift-pair-with-no-matching-type-is-a-bitfield.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202DCC4.c \
- *       --func sub_0202DCC4 --addr 0x0202DCC4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PMS_DRAW_IsActive.c \
+ *       --func PMS_DRAW_IsActive --addr 0x0202DCC4 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -40,7 +40,7 @@ struct Obj0202DCC4 {
     struct Rec0202DCC4 *unk0C;
 };
 
-u32 sub_0202DCC4(const struct Obj0202DCC4 *p, u32 i)
+u32 PMS_DRAW_IsActive(const struct Obj0202DCC4 *p, u32 i)
 {
     return p->unk0C[i].unk18_0;
 }

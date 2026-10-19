@@ -70,7 +70,7 @@ extern void MI_CpuFill8(void *,int,u32);
 extern u32 GFL_HEAP_Free(void *p);
 extern int GFL_NET_GetRunState(void);
 extern void GFL_NET_StartSession(struct Req *req, u32 transportArg, u32 userArg);
-extern int GFL_NET_Exit(int a0);
+extern int GFL_NET_Exit(int exitCallback);
 extern int GFL_NET_StartChangeoverChild(int);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *,unsigned int,unsigned int);

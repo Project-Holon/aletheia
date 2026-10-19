@@ -30,11 +30,18 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02012EBC",
-    "sub_02012EC0",
-    "sub_02012EC4",
-    "sub_02012ED0",
-    "sub_02012ED8"
+    "GAME_DATA_GetSaveControl",
+    "GAME_DATA_GetSaveControlWork",
+    "GAME_DATA_GetFieldSave",
+    "GAME_DATA_GetEventState",
+    "GAME_DATA_GetCurrentEvent"
+   ],
+   "addresses": [
+    "0x02012EBC",
+    "0x02012EC0",
+    "0x02012EC4",
+    "0x02012ED0",
+    "0x02012ED8"
    ]
   }
  ]

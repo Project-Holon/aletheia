@@ -1,5 +1,5 @@
 /*
- * function: func_021671C0
+ * function: WcmWmcbScanEx
  * address:  0x021671C0
  * packet:   pkt_ov009_021671C0
  * region:   ov009
@@ -104,9 +104,9 @@ static inline unsigned long clz32(unsigned long x)
     return x;
 }
 
-static void func_021671C0(void *arg);
+static void WcmWmcbScanEx(void *arg);
 
-static void func_021671C0(void *arg)
+static void WcmWmcbScanEx(void *arg)
 {
     unsigned long channels;
     WCMWork *wcmw;
@@ -144,7 +144,7 @@ static void func_021671C0(void *arg)
                 (1 << WCMi_GetNextScanChannel(32 - clz32(cb->channelList))) >> 1;
             DC_StoreRange(wcmw->scanExParam.scanBufPtr, wcmw->scanExParam.scanBufSize);
             wcmw->notifyCount++;
-            wmResult = WM_StartScanEx(func_021671C0, &wcmw->scanExParam);
+            wmResult = WM_StartScanEx(WcmWmcbScanEx, &wcmw->scanExParam);
             break;
         case 7:
             wmResult = WM_EndScan(WcmWmcbEndScan);

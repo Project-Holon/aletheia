@@ -1,5 +1,5 @@
 /*
- * function: func_021BC63C
+ * function: DWCi_RakurakuATERMi_ApConfigStart
  * address:  0x021BC63C
  * packet:   pkt_ov016_021BC63C
  * region:   ov016
@@ -123,7 +123,7 @@ extern void func_021BABE8(void *arg);
 #define BSS g_021DCFD0
 #define DAT g_021DAB58
 
-int func_021BC63C(int prio, int maxap, void (*notify)(struct _ATERMApConfigState *), void *(*alloc)(unsigned long), void (*free)(void *), unsigned long stackSize)
+int DWCi_RakurakuATERMi_ApConfigStart(int prio, int maxap, void (*notify)(struct _ATERMApConfigState *), void *(*alloc)(unsigned long), void (*free)(void *), unsigned long stackSize)
 {
     int ret;
 

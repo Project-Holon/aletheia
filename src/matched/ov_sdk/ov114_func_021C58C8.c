@@ -1,5 +1,5 @@
 /*
- * function: func_021C58C8
+ * function: NdCallback
  * address:  0x021C58C8
  * packet:   pkt_ov114_021C58C8
  * region:   ov114
@@ -29,7 +29,7 @@ extern void OS_UnlockMutex(void *mutex);
 extern char gDwcNdMutex[];
 extern struct NdState gDwcNdState;
 
-void func_021C58C8(int reason, int error, int servererror)
+void NdCallback(int reason, int error, int servererror)
 {
     if (error != 0)
         DWCi_NdSetError(error, servererror);

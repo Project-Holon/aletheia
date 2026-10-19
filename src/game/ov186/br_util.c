@@ -34,7 +34,6 @@
  *   BR_UTIL_CreateTextWin 0x021FD12C thumb ov186
  *   BR_UTIL_SetWindowText 0x021FD170 thumb ov186
  *   STRBUF_Clone 0x02045874 arm
- *   memset 0x02082BCC arm
  *   MSGDATA_AllocString 0x02045EC0 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorObjMode 0x0204B688 arm

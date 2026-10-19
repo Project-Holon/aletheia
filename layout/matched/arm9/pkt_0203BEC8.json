@@ -42,10 +42,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "GFL_NET_STATE_Exit"
+    "GFL_NET_STATE_Exit",
+    "GFL_NET_STATE_ClearExitFlag",
+    "GFL_NET_STATE_Idle"
    ],
    "addresses": [
-    "0x0203BF9C"
+    "0x0203BF9C",
+    "0x0203BFF0",
+    "0x0203C00C"
    ]
   },
   {

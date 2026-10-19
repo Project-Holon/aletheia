@@ -1,5 +1,5 @@
 /*
- * function: sub_0203996C
+ * function: GFL_NET_HANDLE_GetNetHandle
  * address:  0x0203996C
  * packet:   pkt_020398B4
  * region:   arm9
@@ -22,8 +22,8 @@
  * where this table ends: 0x70 + 9 * 0x50.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0203996C.c \
- *       --func sub_0203996C --addr 0x0203996C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_HANDLE_GetNetHandle.c \
+ *       --func GFL_NET_HANDLE_GetNetHandle --addr 0x0203996C --cc 1.1p1 --arm
  */
 
 typedef unsigned char u8;
@@ -40,7 +40,7 @@ struct Owner {
 
 extern void *GFL_NET_GetSession(void);
 
-struct Entry *sub_0203996C(s32 idx)
+struct Entry *GFL_NET_HANDLE_GetNetHandle(s32 idx)
 {
     struct Owner *owner = GFL_NET_GetSession();
 

@@ -140,7 +140,7 @@ typedef struct PartyStatusObj6 {
 } PartyStatusObj6;
 
 typedef struct PartyStatusObj7 {
-    void *f0;
+    void *netConfig;
 } PartyStatusObj7;
 
 struct Proc;
@@ -542,7 +542,7 @@ int PARTY_STATUS_NetSync(char **out,u32 *ctx,u32 *state)
     case 0:GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),16,36);++*state;break;
     case 1:if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),16,36))++*state;break;
     case 2:GF_OVERLAY_Load((int)ov067_id);GF_OVERLAY_Load((int)ov114_id);GF_OVERLAY_Load((int)ov175_id);
-        *out=WIFIBATTLEMATCH_NET_CreateNetContext(ctx[5],**(void ** *)&((PartyStatusObj7 *)ctx)->f0,0,88);++*state;break;
+        *out=WIFIBATTLEMATCH_NET_CreateNetContext(ctx[5],**(void ** *)&((PartyStatusObj7 *)ctx)->netConfig,0,88);++*state;break;
     case 3:GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),17,36);++*state;break;
     case 4:if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),17,36))++*state;break;
     case 5:if(WIFIBATTLEMATCH_NET_SendRegDataAlt(*out,ctx[3]))++*state;break;

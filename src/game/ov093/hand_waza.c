@@ -206,7 +206,7 @@
  *   POKE_TOOL_GetHiddenPowerType  0x02018790  thumb
  *   POKE_TOOL_GetHiddenPowerPower  0x02018820  thumb
  *   gNaturalGiftHandlers 0x021F2E18 data a4
- *   BTL_CALC_GetMonParamWithHeap  0x021D805C  thumb  ov093
+ *   BTL_CALC_GetItemParam  0x021D805C  thumb  ov093
  *   BTLV_CORE_CheckEitherSlotPair   0x021E86E8  thumb ov093
  *   HAND_COMMON_IsLastToAct  0x021E8624  thumb  ov093
  *   HAND_COMMON_EventRedirectMove  0x021E8744  thumb  ov093
@@ -5213,8 +5213,8 @@ void HAND_WAZA_NaturalGiftOnExecuteCheck(struct BtlEventFactor *factor, struct B
         }
         itemId = (u16)(int)BTL_POKEPARAM_GetItem(BTL_SERVER_FLOW_GetPokeParam(flow, pokeId));
         paramId = ITEM_PARAM_NATURAL_GIFT_POWER;
-        BTL_CALC_GetMonParamWithHeap(itemId, paramId);
-        if (itemId == 0 || BTL_CALC_GetMonParamWithHeap(itemId, paramId) == 0)
+        BTL_CALC_GetItemParam(itemId, paramId);
+        if (itemId == 0 || BTL_CALC_GetItemParam(itemId, paramId) == 0)
             BTL_EVENT_OverwriteVar(BTL_EVAR_FAIL_REASON, BTL_FAIL_REASON_MOVE_FAILED);
     }
 }
@@ -5225,7 +5225,7 @@ void HAND_WAZA_NaturalGiftOnExecuteCheck(struct BtlEventFactor *factor, struct B
 void HAND_WAZA_NaturalGiftOnWazaTypeCheck(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int *work)
 {
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_POKE_ID))
-        BTL_EVENT_OverwriteVar(BTL_EVAR_MOVE_TYPE, BTL_CALC_GetMonParamWithHeap((u16)(int)BTL_POKEPARAM_GetItem(BTL_SERVER_FLOW_GetPokeParam(flow, pokeId)), ITEM_PARAM_NATURAL_GIFT_TYPE));
+        BTL_EVENT_OverwriteVar(BTL_EVAR_MOVE_TYPE, BTL_CALC_GetItemParam((u16)(int)BTL_POKEPARAM_GetItem(BTL_SERVER_FLOW_GetPokeParam(flow, pokeId)), ITEM_PARAM_NATURAL_GIFT_TYPE));
 }
 
 
@@ -5234,7 +5234,7 @@ void HAND_WAZA_NaturalGiftOnWazaTypeCheck(struct BtlEventFactor *factor, struct 
 void HAND_WAZA_NaturalGiftOnWazaPower(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int *work)
 {
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID))
-        BTL_EVENT_OverwriteVar(BTL_EVAR_WAZA_POWER, BTL_CALC_GetMonParamWithHeap((u16)(int)BTL_POKEPARAM_GetItem(BTL_SERVER_FLOW_GetPokeParam(flow, pokeId)), ITEM_PARAM_NATURAL_GIFT_POWER));
+        BTL_EVENT_OverwriteVar(BTL_EVAR_WAZA_POWER, BTL_CALC_GetItemParam((u16)(int)BTL_POKEPARAM_GetItem(BTL_SERVER_FLOW_GetPokeParam(flow, pokeId)), ITEM_PARAM_NATURAL_GIFT_POWER));
 }
 
 
@@ -7946,7 +7946,7 @@ void HAND_WAZA_FlingCheckFail(struct BtlEventFactor *factor, struct BtlServerFlo
     {
         struct BtlPokeParam *pokeParam = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);
         u16 heldItem = (u32)BTL_POKEPARAM_GetItem(pokeParam);
-        if (heldItem == 0 || BTL_CALC_GetMonParamWithHeap(heldItem, ITEM_PARAM_FLING_POWER) == 0 || BTL_SERVER_FLOW_CanUseHeldItem(flow, pokeId) == 0
+        if (heldItem == 0 || BTL_CALC_GetItemParam(heldItem, ITEM_PARAM_FLING_POWER) == 0 || BTL_SERVER_FLOW_CanUseHeldItem(flow, pokeId) == 0
             || HAND_COMMON_IsHeldItemBoundToOwnSpecies(flow, pokeId) != 0)
             BTL_EVENT_OverwriteVar(BTL_EVAR_FAIL_REASON, BTL_FAIL_REASON_MOVE_FAILED);
     }
@@ -7960,7 +7960,7 @@ void HAND_WAZA_FlingSetBasePower(struct BtlEventFactor *factor, struct BtlServer
 {
     if (pokeId == BTL_EVENT_GetVar(HANDVAR_ATTACKER_ID)) {
         u16 heldItem = (int)BTL_POKEPARAM_GetItem(BTL_SERVER_FLOW_GetPokeParam(flow, pokeId));
-        BTL_EVENT_OverwriteVar(BTL_EVAR_BASE_POWER, BTL_CALC_GetMonParamWithHeap(heldItem, ITEM_PARAM_FLING_POWER));
+        BTL_EVENT_OverwriteVar(BTL_EVAR_BASE_POWER, BTL_CALC_GetItemParam(heldItem, ITEM_PARAM_FLING_POWER));
     }
 }
 
@@ -8009,7 +8009,7 @@ void HAND_WAZA_FlingUseItemOnTarget(struct BtlEventFactor *factor, struct BtlSer
     BTL_SERVER_FLOW_CommitCmdRecord(flow, removeItem);
     *work = 1;
     if (BTL_EVENT_GetVar(BTL_EVAR_HIT_SUBSTITUTE) == 0 && BTL_EVENT_GetVar(BTL_EVAR_MOVE_BLOCKED) == 0
-        && BTL_CALC_GetMonParamWithHeap(heldItem, ITEM_PARAM_FLING_EFFECT) != 0) {
+        && BTL_CALC_GetItemParam(heldItem, ITEM_PARAM_FLING_EFFECT) != 0) {
         useItem = BTL_SERVER_FLOW_AllocCmdRecord(flow, HAND_WAZA_KIND_USE_ITEM, pokeId);
         useItem->targetId = BTL_EVENT_GetVar(HANDVAR_DEFENDER_ID);
         useItem->itemId = heldItem;

@@ -48,7 +48,7 @@
  *   VM_End  0x02011290  thumb
  *   SCRCMD_WORK_CountDownWait  0x0215A690  thumb  ov010
  *   SCRCMD_WORK_SetWaitCount   0x0215A684  thumb  ov010
- *   VM_GetU16   0x02011330  thumb
+ *   VM_ReadU16   0x02011330  thumb
  *   VM_SetWait   0x020113D0  thumb
  *   VM_Call  0x020113B4  thumb
  *   VM_Return  0x020113C4  thumb
@@ -100,7 +100,7 @@ extern void MIi_CpuCopy16(const void *src, void *dst, unsigned int size);
 extern void *SCRCMD_WORK_GetScriptWork(ScriptVm *vm);
 extern void VM_End(ScriptVm *vm);
 extern int SCRCMD_WORK_CountDownWait(void *cmdWork);
-extern u16 VM_GetU16(ScriptVm *vm);
+extern u16 VM_ReadU16(ScriptVm *vm);
 extern void SCRCMD_WORK_SetWaitCount(void *cmdWork, unsigned short count);
 extern void VM_SetWait(ScriptVm *vm, ScriptWaitFn waitFn);
 extern void VM_Call(ScriptVm *vm, u8 *target);
@@ -479,7 +479,7 @@ int SCRIPT_WORK_WaitTime(ScriptVm *vm, void *cmdWork)
  */
 int SCRIPT_WORK_CmdTimeWait(ScriptVm *vm, void *cmdWork)
 {
-    SCRCMD_WORK_SetWaitCount(cmdWork, VM_GetU16(vm));
+    SCRCMD_WORK_SetWaitCount(cmdWork, VM_ReadU16(vm));
     VM_SetWait(vm, SCRIPT_WORK_WaitTime);
     return 1;
 }

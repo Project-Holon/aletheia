@@ -45,7 +45,6 @@
  *   g_021AAA42                   0x021AAA42 data
  *   g_021AAA48                   0x021AAA48 data
  *   DWCi_GetMatchCnt  0x02175F3C  arm  ov009
- *   DWCi_IsError  0x02059F38  arm
  *   ServerBrowserGetServer  0x0219F058  arm  ov009
  *   SBServerGetIntValueA  0x0219E120  arm  ov009
  *   DWC_GetAIDBitmap  0x0216B908  arm  ov009
@@ -61,8 +60,6 @@
  *   qr2_register_clientmessage_callback  0x0219B170  arm  ov009
  *   qr2_send_statechanged  0x0219B490  arm  ov009
  *   DWCi_QR2PublicAddrCallback  0x02174D04  arm  ov009
- *   DWC_Free                0x0205A1B0  arm
- *   DWC_Alloc               0x0205A16C  arm
  *   MI_CpuCopy8             0x02082D44  arm
  *   ServerBrowserNewA           0x0219EC74  arm  ov009
  *   g_021AAA20              0x021AAA20  data
@@ -91,7 +88,6 @@
  *   DWCi_GetAIDFromProfileID         0x02173c84 arm
  *   DWCi_IsServerChangeEnabled       0x02175fc8 arm
  *   DWCi_SendServerDownQuery         0x02175458 arm
- *   qr2_send_statechanged            0x0219b490 arm
  *   DWCi_InitClWaitTimeout           0x02173cfc arm
  *   DWCi_NodeInfoList_GetCount       0x0217603c arm
  *   DWCi_CloseConnectionHard         0x0216bea4 arm
@@ -131,7 +127,6 @@
  *   gt2AddressToString               0x02198620 arm
  *   gt2Connect                       0x02195B44 arm
  *   DWCi_HandleGT2Error              0x02173FB4 arm
- *   strlen         0x0209477C  arm
  *   DWC_Base64Decode  0x02059CBC  arm
  *   DWCi_SetError  0x02059F54  arm
  *   DWCi_GetFriendListIndex  0x02169038  arm  ov009
@@ -144,7 +139,6 @@
  *   DWC_IsServerMyself  0x0216BA08  arm  ov009
  *   NNCancel                     0x02199FB4 arm   ov009
  *   gt2CloseAllConnectionsHard                0x02195DE4 arm   ov009
- *   OS_GetTick                0x020870D0 arm
  *   DWCi_RestartFromCancel                0x02172BB8 arm   ov009
  *   d_021A207C  0x021A207C  data
  *   d_021A2080  0x021A2080  data
@@ -158,9 +152,7 @@
  *   DWCi_ClearGameMatchKeys  0x02173B18 arm
  *   DWCi_GetHostStatus            0x02175FB8  arm  ov009
  *   DWCi_NodeInfoList_Clear       0x0217601C  arm  ov009
- *   ServerBrowserFree  0x0219ED4C  arm  ov009
  *   DWCi_NNFreeNegotiateList  0x02176B34  arm  ov009
- *   DWCi_GetMathRand32  0x021685CC  arm  ov009
  *   ServerBrowserClear  0x0219F00C  arm  ov009
  *   ServerBrowserLimitUpdateA  0x0219EED4  arm  ov009
  *   stGameMatchKeys          0x021AAA40  data
@@ -170,7 +162,6 @@
  *   d_021A20AC     0x021A20AC  data
  *   d_021A20D4     0x021A20D4  data
  *   d_021A20E0     0x021A20E0  data
- *   OS_SNPrintf  0x02084F80  arm
  *   g_021A20E0     0x021A20E0  data
  *   g_021A20F0     0x021A20F0  data
  *   g_021A209C     0x021A209C  data
@@ -183,7 +174,6 @@
  *   SOC_GetHostID                    0x0215F7B0 arm
  *   IsPrivateAddr                    0x0216FBB8 arm
  *   DWCi_DoNatNegotiationAsync       0x0216FE34 arm
- *   gt2AddressToString  0x02198620  arm  ov009
  *   ServerBrowserSendNatNegotiateCookieToServerA  0x0219EF60  arm  ov009
  *   NNBeginNegotiationWithSocket  0x02199DFC  arm  ov009
  *   DWCi_NNCompletedCallback  0x02174FE8  arm  ov009
@@ -200,8 +190,6 @@
  *   DWC_CloseAllConnectionsHard                  0x0216b65c arm ov009
  *   DWCi_CheckResvCommand                        0x021713cc arm ov009
  *   DWCi_CloseAllConnectionsByTimeout            0x02172e7c arm ov009
- *   DWCi_GetFriendListIndex                      0x02169038 arm ov009
- *   DWCi_GetGT2NumConnection                     0x02176978 arm ov009
  *   DWCi_GetResvDenyReasonString                 0x021769e0 arm ov009
  *   DWCi_HandleNNError                           0x02173ef8 arm ov009
  *   DWCi_NodeInfoList_GetNodeInfoForProfileID    0x021763ac arm ov009
@@ -210,8 +198,6 @@
  *   DWCi_ProcessRequestMatch                     0x021758c4 arm ov009
  *   DWCi_ProcessResvOK                           0x02171884 arm ov009
  *   DWCi_TempNewNodeInfo_IsValid                 0x02176554 arm ov009
- *   gpIsBuddy                                    0x021861a8 arm ov009
- *   gt2CloseAllConnectionsHard                   0x02195de4 arm ov009
  *   DWCi_CheckResvCommand_Sub                0x02171524 arm   ov009
  *   DWCi_IsServerLocked              0x021767f4 arm
  *   DWCi_IsFriendByIdxList           0x02173b74 arm
@@ -220,7 +206,7 @@
  *   _s32_div_f                       0x0209C0A4 arm
  *   DWCi_GetUserData                 0x0216A39C arm
  *   DWC_GetGsProfileId               0x020598EC arm
- *   DWCi_Acc_IsValidFriendData       0x020596F0 arm
+ *   DWCi_Acc_IsValidFriendDataThunk       0x020596F0 arm
  *   gpGetBuddyIndex                  0x02186108 arm
  *   gpGetBuddyStatus                 0x02185FD4 arm
  *   DWCi_IsLockedBuddyStatus         0x02176984 arm
@@ -232,16 +218,13 @@
  *   DWCi_NodeInfo_Clear                   0x0217656C  arm
  *   DWCi_GPSetServerStatus                0x0216F20C  arm
  *   DWCi_HandleGPError                    0x02173D28  arm
- *   ServerBrowserClear                    0x0219F00C  arm
  *   DWCi_PostProcessConnectionSYNFinishFullmesh 0x021725EC arm
  *   DWCi_NodeInfoList_Append             0x021760FC arm
  *   DWCi_NodeInfoList_GetNodeInfoForAID  0x02176410 arm
  *   DWCi_PostProcessConnectionSYNFinishHybrid  0x0217253C  arm  ov009
  *   DWCi_SendMatchSynPacket                0x02173064 arm   ov009
- *   NNCancel  0x02199FB4  arm  ov009
  *   DWCi_FinishCancelMatch        0x02172A58  arm  ov009
  *   gt2CloseConnectionHard  0x02195DC4  arm  ov009
- *   gt2CloseAllConnections  0x02195DE4  arm  ov009
  *   DWCi_SendReliable                0x02176EB0 arm
  *   DWCi_ServerSynTimeoutExec        0x0217352C arm
  *   DWCi_CancelPreConnectedServerProcess  0x021720D8  arm  ov009
@@ -252,9 +235,7 @@
  *   g_021A21A4     0x021A21A4  data
  *   g_021A21B0     0x021A21B0  data
  *   DWCi_StopLogin  0x0216A3B8  arm  ov009
- *   DWCi_SBPrintServerData                     0x0217478C arm ov009
  *   ServerBrowserCount                         0x0219F068 arm ov009
- *   ServerBrowserGetServer                     0x0219F058 arm ov009
  *   ServerBrowserRemoveServer                  0x0219EFA8 arm ov009
  *   SBServerGetPublicInetAddress               0x0219E1EC arm ov009
  *   SBServerGetPublicQueryPort                 0x0219E1F4 arm ov009
@@ -265,13 +246,10 @@
  *   DWCi_NodeInfoList_GetFreeAID               0x02176474 arm ov009
  *   DWCi_EvaluateServers                       0x02174790 arm ov009
  *   DWCi_RandomizeServers                      0x02174930 arm ov009
- *   SBServerGetIntValueA                       0x0219E120 arm ov009
  *   DWCi_ConnectToGameServerAsync_InterChange  0x02175698 arm ov009
  *   DWCi_CancelReservation                     0x02171F68 arm ov009
  *   DWCi_ConnectToGameServerAsync              0x0216D27C arm ov009
  *   @24369         0x021A2188  data
- *   ServerBrowserCount  0x0219F068  arm  ov009
- *   ServerBrowserRemoveServer  0x0219EFA8  arm  ov009
  *   SBServerAddIntKeyValue  0x0219E084  arm  ov009
  *   ServerBrowserSortA  0x0219F078  arm  ov009
  *   g_021A19C0     0x021A19C0 data
@@ -281,15 +259,12 @@
  *   qr2_keybuffer_add  0x0219B5EC  arm  ov009
  *   DWCi_NNStartupAsync  0x0216FC34  arm  ov009
  *   DWCi_ProcessRecvMatchCommand    0x021702A0 arm
- *   MI_CpuCopy8                0x02082D44 arm
  *   strncmp                0x020949F4 arm
  *   g_021A2188                   0x021A2188 data
  *   DWCi_HandleNNResult              0x02173f54 arm
  *   DWCi_ProcessNNFailure            0x021753d8 arm
  *   DWC_GetNumConnectionHost 0x0216B804 arm
- *   DWCi_ResetLastSomeDataRecvTimeByAid  0x02177748  arm  ov009
  *   DWC_GetCommonValueString  0x021684CC  arm
- *   strtoul   0x02095EAC  arm
  *   g_021A21C8     0x021A21C8  data
  *   g_021A21E8     0x021A21E8  data
  *   g_021A2208     0x021A2208  data
@@ -454,7 +429,6 @@ extern int qr2_init_socketA(qr2_implementation_s **qrec, int s, int boundport, c
 extern int DWC_IsServerMyself(void);
 extern void NNCancel(int cookie);
 extern void gt2CloseAllConnectionsHard(int *p);
-extern unsigned long long OS_GetTick(void);
 extern int DWC_SetCommonKeyValueString(const char *key, const char *value, char *string, char sep);
 extern int DWC_AddCommonKeyValueString(const char *key, const char *value, char *string, char sep);
 extern int DWCi_SetGPStatus(int status, const char *statusString, const char *locString);
@@ -484,7 +458,6 @@ extern int DWCi_HandleNNError(int error);
 extern int gpIsBuddy(void *connection, int profile);
 extern int DWCi_TempNewNodeInfo_IsValid(void);
 extern void *DWCi_GetGT2ConnectionByProfileID(int profileID, int idx);
-extern int DWCi_GetGT2NumConnection(void);
 extern DWCstNodeInfo *DWCi_NodeInfoList_GetServerNodeInfo(void);
 extern void DWCi_CloseAllConnectionsByTimeout(void);
 extern int DWC_CloseAllConnectionsHard(void);
@@ -494,11 +467,10 @@ extern int DWCi_GetNumEntry(void);
 extern int DWC_GetSuspendMatch(void);
 extern void * DWCi_GetUserData(void);
 extern int DWC_GetGsProfileId(void * userdata, void * frienddata);
-extern int DWCi_Acc_IsValidFriendData(void * frienddata);
+extern int DWCi_Acc_IsValidFriendDataThunk(void * frienddata);
 extern int gpGetBuddyIndex(void * connection, int profile, int * index);
 extern int gpGetBuddyStatus(void * connection, int index, struct GPBuddyStatus * status);
 unsigned char DWCi_IsLockedBuddyStatus(char *buddyStatus);
-extern void _s32_div_f(void);
 extern int DWCi_CancelPreConnectedServerProcessWithResetLevel(int clientPid, int resetLevel);
 int DWCi_PostProcessSVConnectionFullmesh(void);
 int DWCi_PostProcessSVConnectionHybrid(void);
@@ -511,13 +483,11 @@ extern int DWCi_NodeInfoList_Append(DWCstNodeInfo *newNode);
 extern DWCstNodeInfo * DWCi_NodeInfoList_GetNodeInfoForAID(unsigned char aid);
 extern void DWCi_FinishCancelMatch(void);
 extern void gt2CloseConnectionHard(int a);
-extern void gt2CloseAllConnections(int conn);
 extern int DWCi_SendReliable(u16 type, u8 aid, void * buffer, int size);
 int DWCi_ServerSynTimeoutExec(void);
 extern int DWCi_SendCancelMatchSynCommand(int profileID, u8 command);
 extern int DWCi_GetProfileIDFromList(int idx);
 extern void DWCi_StopLogin(int dwcError, int errorCode);
-extern void DWCi_SBPrintServerData(void *server);
 extern int ServerBrowserCount(void *sb);
 extern void ServerBrowserRemoveServer(void *sb, void *server);
 extern u32 SBServerGetPublicInetAddress(void *server);
@@ -597,7 +567,7 @@ int DWCi_CheckDWCServer(void *server);
 unsigned int DWCi_GetAIDBitmask(int valid);
 int DWCi_HandleQR2Error(int error);
 void DWCi_SBCallback(void *sb, int reason, void *server);
-void DWCi_DebugPrintServerList(void);
+void DWCi_DebugPrintServerList(void *server);
 void DWCi_QR2ServerKeyCallback(int keyid, void *outbuf);
 void DWCi_QR2PlayerKeyCallback(void);
 void DWCi_QR2TeamKeyCallback(void);
@@ -2993,7 +2963,7 @@ int DWCi_ProcessRecvMatchCommand(u8 command, int srcPid, u32 srcIP, u16 srcPort,
     case 9: {
         DWCstNodeInfo *nodeInfo;
 
-        nodeInfo = DWCi_NodeInfoList_GetNodeInfoForIndex(DWCi_GetGT2NumConnection() - 1 - MC()->linkProgress);
+        nodeInfo = DWCi_NodeInfoList_GetNodeInfoForIndex(DWCi_GetNodeInfoCount() - 1 - MC()->linkProgress);
         if (MC()->state != 0x10)
             break;
         if (nodeInfo == NULL || nodeInfo->profileID != (int)data[0])
@@ -3522,7 +3492,7 @@ int DWCi_SendResvCommandToFriend(int delay, int init, int resendPid)
                     DWCi_GetMatchCnt()->friendListIndex[DWCi_GetMatchCnt()->connectCursor] * 12);
             if (profileID == 0 || profileID == -1)
                 goto next;
-            if (DWCi_Acc_IsValidFriendData(
+            if (DWCi_Acc_IsValidFriendDataThunk(
                     DWCi_GetMatchCnt()->friendKeyList +
                     DWCi_GetMatchCnt()->friendListIndex[DWCi_GetMatchCnt()->connectCursor] * 12) == 0)
                 goto next;
@@ -4157,7 +4127,7 @@ int DWCi_CloseCancelHostAsync(int profileID)
 void DWCi_CloseAllConnectionsByTimeout(void)
 {
     ((char *)DWCi_GetMatchCnt())[0x629] = 1;
-    gt2CloseAllConnections(**(int **)((char *)DWCi_GetMatchCnt() + 4));
+    gt2CloseAllConnectionsHard((int *)**(int **)((char *)DWCi_GetMatchCnt() + 4));
     ((char *)DWCi_GetMatchCnt())[0x629] = 0;
 }
 
@@ -4950,7 +4920,7 @@ void DWCi_SBCallback(void *sb, int reason, void *server)
 
     switch (reason) {
     case 0:
-        DWCi_SBPrintServerData(server);
+        DWCi_DebugPrintServerList(server);
         break;
     case 4:
         MC()->sbUpdateRequestTick = 0;
@@ -5112,7 +5082,7 @@ end:
     s_bInNNThink.sbCallbackLevel--;
 }
 
-void DWCi_DebugPrintServerList(void)
+void DWCi_DebugPrintServerList(void *server)
 {
 }
 

@@ -1,5 +1,5 @@
 /*
- * function: func_021C4AF8
+ * function: procScene
  * address:  0x021C4AF8
  * packet:   pkt_ov016_021C4AF8
  * region:   ov016
@@ -48,7 +48,7 @@ extern void func_021C4E4C();
 extern void func_021C4E00();
 extern struct SCENESETAOSSBUTT_BSS gSceneSetAossButtonWork;
 
-void func_021C4AF8(void)
+void procScene(void)
 {
     func_021C4BDC();
     DWCi_SceneSetAossButton_draw();

@@ -71,7 +71,7 @@ extern void UNION_COMM_RemoveMember(UnionConnectInfo *connect, const u8 *mac);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 len);
 extern u8 MYSTATUS_GetSex(const struct Sub0200852CObj *obj);
 extern u8 MYSTATUS_GetTrainerView(const struct Sub0200852CObj *obj);
-extern int UNION_COMM_AddMember(UnionConnectInfo *connect, const u8 *mac, u32 a2, u32 a3);
+extern int UNION_COMM_AddMember(UnionConnectInfo *connect, const u8 *mac, u32 trainerView, u32 sex);
 extern void GFL_NET_SetAcceptConnection(u32 unused, void *arg);
 extern int GFL_NET_GetRunState(void);
 UnionAppWork *UNION_APP_Create(UnionRoomWork *work, int heapId, int maxMembers, UnionAppStatusCopy *myStatus);

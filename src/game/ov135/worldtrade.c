@@ -582,7 +582,7 @@ void WORLDTRADE_CallStateHandler(Work *p, Args *args)
 {
     ASSERT(args->saveData);
     ASSERT(args->sys);
-    ASSERT(args->a4);
+    ASSERT(args->handle04);
     ASSERT(args->party);
     ASSERT(args->save);
     ASSERT(args->wifiList);

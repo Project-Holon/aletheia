@@ -18,10 +18,22 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "SCRCMD_WORK_SetWaitCount"
+    "SCRCMD_WORK_SetWaitCount",
+    "SCRCMD_WORK_CountDownWait",
+    "SCRCMD_WORK_GetFadeParam",
+    "SCRCMD_WORK_SetFadeParam",
+    "SCRCMD_WORK_GetFadeState",
+    "SCRCMD_WORK_SetFadeState",
+    "SCRCMD_WORK_AddAnimeTask"
    ],
    "addresses": [
-    "0x0215A684"
+    "0x0215A684",
+    "0x0215A690",
+    "0x0215A6AC",
+    "0x0215A6B8",
+    "0x0215A6C4",
+    "0x0215A6D0",
+    "0x0215A6DC"
    ]
   }
  ]

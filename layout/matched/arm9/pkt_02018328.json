@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "POKE_TOOL_GetLevelUpMove",
+   "name": "POKE_TOOL_LearnLevelUpMove",
    "address": "0x02018328",
    "kind": "game",
    "region": "arm9",

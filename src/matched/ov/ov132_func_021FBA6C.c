@@ -82,7 +82,7 @@
  *   ARC_UTIL_LoadMember 0x0204A1BC arm
  *   NNS_G3dGetTex 0x0206E964 arm
  *   CLACT_GetCharacterVramAddress 0x0204ABBC arm
- *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
+ *   DC_FlushRange 0x020862F0 arm
  *   func_0207E5D0 0x0207E5D0 arm
  *   func_0207E804 0x0207E804 arm
  *   func_02030CB0 0x02030CB0 arm
@@ -530,7 +530,7 @@ extern struct Obj_021F9E40 *CLACT_CreateActor(void *,unsigned int,unsigned int,u
 extern int ARC_UTIL_LoadMember(int,int,int,int);
 extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 extern int CLACT_GetCharacterVramAddress(u32 idx, u32 flag);
-extern void DWCi_ScreenDC_FlushRange(void *,u32);
+extern void DC_FlushRange(void *,u32);
 extern void func_0207E5D0(const void *,u32,u32);
 extern void func_0207E804(const void *,void *,u32);
 extern u32 func_02030CB0(u32);

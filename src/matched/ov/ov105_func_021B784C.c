@@ -11,7 +11,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   BMP_SetDisplaySwap 0x0204363C arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   IRC_RESULT_InitActorSystem 0x021B7A88 thumb ov105
@@ -27,7 +27,7 @@ typedef unsigned int   u32;
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 struct DispVram;
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void BMP_SetDisplaySwap(u32 swap);
+extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void IRC_RESULT_InitActorSystem(void **p, const void *config, int heap);
@@ -37,7 +37,7 @@ extern void *func_020056A0(void (*)(void *),void *,int);
 extern const u8 sResultVramBankConfig[];
 void IRC_RESULT_InitScreen(u8 *p,int a) {
  MI_CpuFill8(p,0,0xb0); BG_SYS_ClearGraphicsMemory(0); BG_SYS_SetVramBanks((const struct DispVram *)sResultVramBankConfig);
- BMP_SetDisplaySwap(0); BG_SYS_ResetSubDisplay(); BG_SYS_ClearMainPlanes();
+ BG_SYS_SetLcdSwap(0); BG_SYS_ResetSubDisplay(); BG_SYS_ClearMainPlanes();
  IRC_RESULT_InitActorSystem((void **)(p+4),sResultVramBankConfig,a); IRC_RESULT_InitBackgrounds((void **)p,a);
  ((struct Obj22239 *)p)->fAC=func_020056A0((void (*)(void *))IRC_RESULT_ScreenVBlankTask,p,0);
 }

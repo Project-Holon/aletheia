@@ -1,5 +1,5 @@
 /*
- * function: func_021D4C9C
+ * function: cmpBack
  * address:  0x021D4C9C
  * packet:   pkt_ov016_021D4C9C
  * region:   ov016
@@ -20,7 +20,7 @@ typedef unsigned char  u8;
 extern int strlen(const u8 *s);
 extern int func_020923F0(const u8 *a, const u8 *b, int n);
 
-int func_021D4C9C(char *str0, char *str1, int n)
+int cmpBack(char *str0, char *str1, int n)
 {
 	int len0;
 	int len1;

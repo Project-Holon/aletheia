@@ -1,5 +1,5 @@
 /*
- * function: sub_020393A8
+ * function: GFL_NET_SYSTEM_GetChildBitmap
  * address:  0x020393A8
  * packet:   pkt_020393A8
  * region:   arm9
@@ -23,7 +23,7 @@
  * read the other way, the equal-amount pair being the conversion case).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020393A8.c \n *       --func sub_020393A8 --addr 0x020393A8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_SYSTEM_GetChildBitmap.c \n *       --func GFL_NET_SYSTEM_GetChildBitmap --addr 0x020393A8 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -41,7 +41,7 @@ struct LinkRoot {
 
 extern struct LinkRoot *GFL_NET_GetSession(void);
 
-int sub_020393A8(void)
+int GFL_NET_SYSTEM_GetChildBitmap(void)
 {
     u16 mask;
 

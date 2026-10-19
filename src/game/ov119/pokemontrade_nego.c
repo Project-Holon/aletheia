@@ -1481,7 +1481,7 @@ extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 
 extern void STRBUF_Delete(struct U16Vec *vec);
 
-extern void DWC_RAP_SetErrorCallback(int a0, int a1);
+extern void DWC_RAP_SetErrorCallback(int errorFunc, int errorArg);
 
 extern void DWC_RAPCOMMON_CreateSubHeapUnlimited(int,int,int);
 

@@ -9,9 +9,9 @@
  * isa:      thumb
  * status:   EXACT
  * function: GAMESYSTEM_GetProcStatus, GAMESYSTEM_GetGameData, GAMESYSTEM_GetMyPlayerWork, GAMESYSTEM_GetEvent,
- *           GAMESYSTEM_SetEvent, GAMESYSTEM_GetFieldMap, GAMESYSTEM_SetFieldMap, GAMESYSTEM_IsFieldMapExist,
+ *           GAMESYSTEM_SetEvent, GAMESYSTEM_GetFieldMap, GAMESYSTEM_SetFieldMap, GAMESYSTEM_IsFieldMapActive,
  *           GAMESYSTEM_SetFieldMapState, GAMESYSTEM_GetFieldMapState, GAMESYSTEM_GetIssSystem, GAMESYSTEM_GetGameComm,
- *           GAMESYSTEM_SetCommBlocked, GAMESYSTEM_IsCommBlocked, GAMESYSTEM_GetAlwaysNetFlag
+ *           GAMESYSTEM_SetCommBlocked, GAMESYSTEM_IsCommBlocked, GAMESYSTEM_IsAlwaysNetFlagSet
  *
  * symbols:
  *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
@@ -30,7 +30,7 @@
  * docs/idioms/thumb-immediate-reach-costs-an-adds.md and not a pointer in the
  * source.
  *
- * GAMESYSTEM_GetMyPlayerWork and GAMESYSTEM_GetAlwaysNetFlag are tail calls through pool words: the
+ * GAMESYSTEM_GetMyPlayerWork and GAMESYSTEM_IsAlwaysNetFlagSet are tail calls through pool words: the
  * first hands +0x1C to GAME_DATA_GetMyPlayerWork and the second to GAME_DATA_IsConfigFlagSet, and
  * both are ABS32 against a Thumb target, so the pool word is odd.
  *
@@ -115,7 +115,7 @@ void GAMESYSTEM_SetFieldMap(struct Ctx *p, void *v)
     p->unk20 = v;
 }
 
-u32 GAMESYSTEM_IsFieldMapExist(const struct Ctx *p)
+u32 GAMESYSTEM_IsFieldMapActive(const struct Ctx *p)
 {
     if (p->unk20 != 0) {
         return 1;
@@ -153,7 +153,7 @@ u8 GAMESYSTEM_IsCommBlocked(const struct Ctx *p)
     return p->unk32;
 }
 
-u32 GAMESYSTEM_GetAlwaysNetFlag(const struct Ctx *p)
+u32 GAMESYSTEM_IsAlwaysNetFlagSet(const struct Ctx *p)
 {
     return GAME_DATA_IsConfigFlagSet(p->unk1C);
 }

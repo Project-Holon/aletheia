@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02004EAC, func_02004EB0
+ * function: NitroStartUp, OSi_ReferSymbol
  * address:  0x02004EAC
  * packet:   pkt_02004EAC
  * region:   arm9
@@ -11,10 +11,10 @@
  * status:   EXACT
  */
 
-void func_02004EAC(void)
+void NitroStartUp(void)
 {
 }
 
-void func_02004EB0(const void *symbol)
+void OSi_ReferSymbol(const void *symbol)
 {
 }

@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: TIMEZONE_GetTimeZoneOfHour, TIMEZONE_GetZoneLightLevel
+ * function: TIMEZONE_GetTimeZoneOfHour, TIMEZONE_GetLight
  * address:  0x020113F0
  * packet:   pkt_020113F0
  * region:   arm9
@@ -30,7 +30,7 @@ int TIMEZONE_GetTimeZoneOfHour(int row, int col)
     return _TimeZoneTable[row][col];
 }
 
-u8 TIMEZONE_GetZoneLightLevel(int row, int col)
+u8 TIMEZONE_GetLight(int row, int col)
 {
     return _TimeZoneLightTable[row][col];
 }

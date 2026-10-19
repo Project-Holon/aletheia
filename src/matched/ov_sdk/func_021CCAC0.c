@@ -1,5 +1,5 @@
 /*
- * function: func_021CCAC0
+ * function: initGraphics
  * address:  0x021CCAC0
  * packet:   pkt_021CCAC0
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CCAC0   0x021CCAC0  arm
+ *   initGraphics   0x021CCAC0  arm
  *   DWCi_CMNlLoadResource   0x021BD1D4  arm  ov016
  *   DWCi_Char   0x021BD170  arm  ov016
  *   DWCi_ARClReadEx   0x021D4B68  arm  ov016
@@ -31,8 +31,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021CCAC0.c \
- *       --func func_021CCAC0 --addr 0x021CCAC0 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/initGraphics.c \
+ *       --func initGraphics --addr 0x021CCAC0 --region ov016 --cc dsi/1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -58,7 +58,7 @@ extern unsigned char sSceneSetSelectWayPathJb3WayScr[];
 extern unsigned char GX_LoadBG2Scr[];
 extern unsigned char gFocusState[];
 
-void func_021CCAC0(void)
+void initGraphics(void)
 {
     T22 buf;
     u16 *p;

@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: BR_CODEIN_ProfileCreateActors4, BR_CODEIN_ProfileReturnTrue
+ * function: BR_CODEIN_ProfileCreateAllActors, BR_CODEIN_ProfileReturnTrue
  * address: 0x021E138C
  * packet: pkt_ov183_021E138C
  * region: ov183
@@ -31,7 +31,7 @@ extern void BR_CODEIN_ProfileUpdateActorPos(char *);
 extern void BR_CODEIN_ProfileCreateOam(char *);
 extern void BR_CODEIN_ProfileCreateOamObjects(char *);
 extern void BR_CODEIN_ProfileSetAnimSeq(char *,int);
-int BR_CODEIN_ProfileCreateActors4(char *p)
+int BR_CODEIN_ProfileCreateAllActors(char *p)
 {
     BR_CODEIN_ProfileSetupSprite(p);
     BR_CODEIN_ProfileUpdateActorVisible(p);

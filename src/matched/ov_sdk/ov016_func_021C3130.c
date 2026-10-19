@@ -1,5 +1,5 @@
 /*
- * function: func_021C3130
+ * function: DWCi_SceneOptMenuDispPush
  * address:  0x021C3130
  * packet:   pkt_ov016_021C3130
  * region:   ov016
@@ -30,7 +30,7 @@ extern void DWCi_SCREENlCopyPalette(void *p, int a, int b);
 extern struct FocusPosT gSceneOptMenuWork;
 extern unsigned char sSceneOptMenuEntryCount[3];
 
-void func_021C3130(void)
+void DWCi_SceneOptMenuDispPush(void)
 {
 	int n = sSceneOptMenuEntryCount[gSceneOptMenuWork.idx];
 	DWCi_SCREENlCopyPalette(gSceneOptMenuWork.ptr, n, n);

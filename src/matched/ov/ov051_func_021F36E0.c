@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: FIELD_GIMMICK_D06_GetStonePositions, GIMMICK49_Exit
+ * function: FIELD_GIMMICK_D06_GetStonePositions, FIELD_GIMMICK_D06_GetStoneCount
  * address:  0x021F36E0
  * packet:   pkt_ov051_021F36E0
  * region:   ov051
@@ -24,7 +24,7 @@ int FIELD_GIMMICK_D06_GetStonePositions(int a)
     return ((struct Obj20552 *)((char *)FIELD_GIMMICK_D06_FindStoneTableRow(a)))->f8;
 }
 
-int GIMMICK49_Exit(int a)
+int FIELD_GIMMICK_D06_GetStoneCount(int a)
 {
     void *FIELD_GIMMICK_D06_FindStoneTableRow(int a);
     return ((struct Obj20553 *)((char *)FIELD_GIMMICK_D06_FindStoneTableRow(a)))->f4;

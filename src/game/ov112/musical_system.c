@@ -96,7 +96,7 @@ char *MUSICAL_MCSS_CreateMon(void *a,u16 heap)
     p=GFL_HEAP_Alloc(heap,124,1,d_021F83E4,141);
     ((McssMon *)p)->kind=4;
     ((McssMon *)p)->source=a;
-    ((McssMon *)p)->field4A=0;
+    ((McssMon *)p)->reserved4A=0;
     for(i=0;i<9;i++) { *(u16 *)(p+20+6*i)=255; *(u16 *)(p+22+6*i)=0; *(u32 *)(p+84+4*i)=0; }
     ((McssMon *)p)->species=POKE_TOOL_GetPartyValue(a,5,0);
     p[10]=POKE_TOOL_GetPartyValue(a,110,0);
@@ -112,10 +112,10 @@ char *MUSICAL_MCSS_AllocMon(u16 a,u8 b,u8 c,u8 d,u32 e,u16 heap)
     char *p;
     int j;
     p=GFL_HEAP_Alloc(heap,124,1,d_021F83E4,165);
-    ((McssMon *)p)->kind=4; ((McssMon *)p)->source=0; ((McssMon *)p)->field4A=0;
+    ((McssMon *)p)->kind=4; ((McssMon *)p)->source=0; ((McssMon *)p)->reserved4A=0;
     for(i=0;i<9;i++) { *(u16 *)(p+20+6*i)=255; *(u16 *)(p+22+6*i)=0; *(u32 *)(p+84+4*i)=0; }
     for(j=0;j<4;j++) *(u16 *)(p+76+2*j)=0;
-    ((McssMon *)p)->field78=0;
+    ((McssMon *)p)->reserved78=0;
     ((McssMon *)p)->species=a; p[10]=b; p[11]=c; p[12]=d; ((McssMon *)p)->personalRnd=e;
     return p;
 }

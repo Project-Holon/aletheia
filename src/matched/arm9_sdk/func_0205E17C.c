@@ -1,5 +1,5 @@
 /*
- * function: func_0205E17C
+ * function: SearchAround2ndLap
  * address:  0x0205E17C
  * packet:   pkt_0205DC74
  * region:   arm9
@@ -36,7 +36,7 @@ typedef struct tagACWORK {
 extern int DWCi_AC_MakeSearchList(int type);
 extern signed char GetStartChannel(int lap);
 
-static unsigned char func_0205E17C(tagACWORK *wk)
+static unsigned char SearchAround2ndLap(tagACWORK *wk)
 {
     wk->count = 0;
     wk->aroundCount++;

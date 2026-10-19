@@ -146,17 +146,17 @@ typedef unsigned short u16;
 typedef unsigned long u32;
 
 typedef struct {
-    u32 f0;
-    u16 f4;
+    u32 reserved00;
+    u16 reserved04;
     u8 pad0[0x48 - 6];
-    u32 f48;
-    u32 f4c;
-    u16 f50;
-    u16 f52;
-    u32 f54;
+    u32 reserved48;
+    u32 reserved4c;
+    u16 reserved50;
+    u16 reserved52;
+    u32 reserved54;
     u8 pad1[0x12a0 - 0x58];
-    u32 f12a0;
-    u32 f12a4;
+    u32 reserved12a0;
+    u32 reserved12a4;
 } Wh;
 
 typedef struct { unsigned short apiid; unsigned short errcode; unsigned short state; } WMIndCallback;
@@ -946,15 +946,15 @@ static Wh *wh = 0;
  */
 int DWCi_MOV_WH_Initialize(void)
 {
-    wh->f12a4 = 0;
-    wh->f12a0 = 0;
-    wh->f48 = 0;
-    wh->f50 = 0;
-    wh->f52 = 1;
-    wh->f54 = 0;
-    wh->f0 = 0;
-    wh->f4 = 0;
-    wh->f4c = 0;
+    wh->reserved12a4 = 0;
+    wh->reserved12a0 = 0;
+    wh->reserved48 = 0;
+    wh->reserved50 = 0;
+    wh->reserved52 = 1;
+    wh->reserved54 = 0;
+    wh->reserved00 = 0;
+    wh->reserved04 = 0;
+    wh->reserved4c = 0;
     switch (DWCi_MOV_WH_StateInInitialize())
     {
     case 0:

@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0202C48C
+ * function: ISS_SWITCH_SET_StartSwitchOn
  * address:  0x0202C48C
  * packet:   pkt_0202C3A8
  * region:   arm9
@@ -25,8 +25,8 @@
  * src/matched/unit_0202C558.c, so the `matched` class witnesses the site.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202C48C.c \
- *       --func sub_0202C48C --addr 0x0202C48C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ISS_SWITCH_SET_StartSwitchOn.c \
+ *       --func ISS_SWITCH_SET_StartSwitchOn --addr 0x0202C48C --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
@@ -35,7 +35,7 @@ struct Arr0202C510;
 extern u32 sub_0202C510(struct Arr0202C510 *p, u32 idx);
 extern u32 sub_0202C560(void *w);
 
-u32 sub_0202C48C(void *p, u32 idx)
+u32 ISS_SWITCH_SET_StartSwitchOn(void *p, u32 idx)
 {
     return sub_0202C560((void *)sub_0202C510(p, idx));
 }

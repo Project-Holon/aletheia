@@ -121,7 +121,7 @@ struct MsgBank;
 
 extern void POKETRADE_DEMO_COMMON_StepFade(s8 *fade);
 
-extern void POKETRADE_MCSS_SlideUpdate(void *p, void *a1);
+extern void POKETRADE_MCSS_SlideUpdate(void *p, void *eventArg);
 
 extern int POKETRADE_DEMO_COMMON_PassThrough(int);
 
@@ -153,7 +153,7 @@ extern void MCSS_GetPosition(void *p, Vec *out);
 
 extern void POKETRADE_SAVE_FreeIfSet(void *p);
 
-extern void *POKETRADE_MCSS_SlideCreateWithOffsets(void *a0, void *a1, void *a2, void *a3, u16 heapId);
+extern void *POKETRADE_MCSS_SlideCreateWithOffsets(void *mcss, void *frameCount, void *targetPos, void *offsetTable, u16 heapId);
 
 extern void POKETRADE_3D_AddPokemonMcssPlain(void *p, int a, int b, void *mon, int c);
 
@@ -191,7 +191,7 @@ extern void POKETRADE_3D_DeleteMcssSlot(void *p, int a);
 
 extern void POKETRADE_DEMO_COMMON_ReleaseUnit(void *);
 
-extern void POKETRADE_3D_ExitParticleManager(u32 *p, int a1);
+extern void POKETRADE_3D_ExitParticleManager(u32 *p, int unused);
 
 extern void POKETRADE_3D_FreeParticleResources(void *);
 

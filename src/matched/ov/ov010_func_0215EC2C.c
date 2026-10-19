@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: MOVE_POKEMON_CheckDive, MOVE_POKEMON_CreateDiveEvent
+ * function: MOVE_POKEMON_IsSkill8Unusable, MOVE_POKEMON_CreateDiveEvent
  * address: 0x0215EC2C
  * packet: pkt_ov010_0215EC2C
  * region: ov010
@@ -15,7 +15,7 @@
 #include "../include/Obj12315.h"
 extern int MOVE_POKEMON_IsSkillUsable(int a0, int a1);
 typedef enum { B_FALSE, B_TRUE } Bool;
-int MOVE_POKEMON_CheckDive(void *p)
+int MOVE_POKEMON_IsSkill8Unusable(void *p)
 {
     return MOVE_POKEMON_IsSkillUsable((int)p, 8) != 0 ? B_FALSE : B_TRUE;
 }

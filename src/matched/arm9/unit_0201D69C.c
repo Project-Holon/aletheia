@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: GF_FONT_GetAlignedSize, GF_FONT_GetAllocSize, GF_FONT_GetQueueLength
+ * function: PRINTSYS_GetAlignedSize, PRINTSYS_GetAllocSize, PRINTSYS_GetQueueFreeSpace
  *
  * The first three functions of gf_font.c.  The file identity is in the image:
  * the constructor at 0x0201D7EC passes 0x020A7358 to the debug allocator at
@@ -17,14 +17,14 @@
  * functions after it are an unsolved register allocation, not a missing
  * declaration; see the note at the end of this comment.
  *
- * GF_FONT_GetAlignedSize sizes a string's storage: two bytes per character plus the
+ * PRINTSYS_GetAlignedSize sizes a string's storage: two bytes per character plus the
  * terminator, rounded up to a multiple of four.  The rounding is a `while`
  * loop over `n & 3`, not an `& ~3` or a `+ 3 & ~3`: this front end has no
  * immediate `bic`, so either of those would materialise the mask and the
  * function would be four bytes shorter with no loop at all.  The loop really
  * is in the original.
  *
- * GF_FONT_GetQueueLength is the used-byte count of a wrap-around byte ring.  The
+ * PRINTSYS_GetQueueFreeSpace is the used-byte count of a wrap-around byte ring.  The
  * fall-through arm of `cmp r1, r2` / `bhs` is the non-wrapped case, so the
  * source wrote `if (head < tail)` first
  * (docs/idioms/the-fall-through-arm-is-the-source-order.md); written as the
@@ -65,7 +65,7 @@ struct Ring {
     u16 size;
 };
 
-u32 GF_FONT_GetAlignedSize(void *s)
+u32 PRINTSYS_GetAlignedSize(void *s)
 {
     u32 n = (STRBUF_GetLength(s) + 1) * 2;
 
@@ -75,12 +75,12 @@ u32 GF_FONT_GetAlignedSize(void *s)
     return n;
 }
 
-u32 GF_FONT_GetAllocSize(void *s)
+u32 PRINTSYS_GetAllocSize(void *s)
 {
-    return GF_FONT_GetAlignedSize(s) + 0x20;
+    return PRINTSYS_GetAlignedSize(s) + 0x20;
 }
 
-u32 GF_FONT_GetQueueLength(const struct Ring *p)
+u32 PRINTSYS_GetQueueFreeSpace(const struct Ring *p)
 {
     if (p->head < p->tail) {
         return p->tail - p->head;

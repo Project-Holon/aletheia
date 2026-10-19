@@ -74,12 +74,12 @@ typedef struct PartyCheckTaskWork {
 } PartyCheckTaskWork;
 
 extern void *SCRCMD_WORK_GetScriptWork(void *p);
-extern void *SCRCMD_WORK_GetGameData(void *a0);
+extern void *SCRCMD_WORK_GetGameData(void *work);
 extern void *SCRIPT_WORK_GetWordSet(void *p);
-extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
-extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
-extern u16 SCRCMD_WORK_GetHeapId(void *a0);
-extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(void *vm, void *cmdWork);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(void *vm, void *cmdWork);
+extern u16 SCRCMD_WORK_GetHeapId(void *work);
+extern void *SCRCMD_WORK_GetGameSystem(void *work);
 extern void *POKE_REGULATION_Load(int a, int b);
 extern u32 GFL_HEAP_Free(void *p);
 extern void SCRIPT_SYS_CallEvent(void *vm, void *task);

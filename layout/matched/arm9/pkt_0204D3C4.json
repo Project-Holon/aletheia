@@ -18,10 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "CLACT_AddAnimFrame"
+    "CLACT_AddAnimFrame",
+    "CLACT_AddCellAnimFrame",
+    "CLACT_AddMultiCellAnimFrame",
+    "CLACT_AddVramAnimFrame"
    ],
    "addresses": [
-    "0x0204D3C4"
+    "0x0204D3C4",
+    "0x0204D3E0",
+    "0x0204D3F0",
+    "0x0204D400"
    ]
   },
   {
@@ -36,14 +42,18 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "CLACT_UpdateAnim"
+    "CLACT_SetAnimSpeed",
+    "CLACT_SetCellAnimSpeed",
+    "CLACT_SetMultiCellAnimSpeed"
    ],
    "addresses": [
-    "0x0204D4C4"
+    "0x0204D4C4",
+    "0x0204D4E0",
+    "0x0204D4F0"
    ]
   },
   {
-   "name": "CLACT_UpdateVramAnim",
+   "name": "CLACT_SetVramAnimSpeed",
    "address": "0x0204D500",
    "kind": "game",
    "region": "arm9",

@@ -900,7 +900,7 @@
 {"addr": "0x020A7EEC", "size": 44, "kind": "string", "name": "g_020A7EEC", "ev": "pool,datamap"},
 {"addr": "0x020A7F18", "size": 24, "kind": "string", "name": "g_020A7F18", "ev": "pool,datamap"},
 {"addr": "0x020A7F30", "size": 12, "kind": "string", "name": "g_020A7F30", "ev": "pool,datamap"},
-{"addr": "0x020A7F3C", "size": 12, "kind": "struct", "name": "g_020A7F3C", "fields": [["ptr", 2], ["u32", 1]], "targets": ["0x0204D4E0", "0x0204D4F0"], "ev": "pool,datamap"},
+{"addr": "0x020A7F3C", "size": 12, "kind": "struct", "name": "gClactTables", "fields": [["ptr", 2], ["u32", 1]], "targets": ["0x0204D4E0", "0x0204D4F0"], "ev": "pool,datamap"},
 {"addr": "0x020A7F48", "size": 12, "kind": "struct", "name": "g_020A7F48", "fields": [["ptr", 1], ["u32", 1], ["ptr", 1]], "targets": ["0x0204D52C", "0x0204D54C"], "ev": "pool,datamap"},
 {"addr": "0x020A7F54", "size": 32, "kind": "numeric", "name": "g_020A7F54", "elem": "u8", "count": 32, "ev": "pool,datamap"},
 {"addr": "0x020A7F74", "size": 8, "kind": "string", "name": "g_020A7F74", "ev": "pool,datamap"},

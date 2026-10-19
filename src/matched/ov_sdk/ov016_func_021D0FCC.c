@@ -1,5 +1,5 @@
 /*
- * function: func_021D0FCC
+ * function: scanWait
  * address:  0x021D0FCC
  * packet:   pkt_ov016_021D0FCC
  * region:   ov016
@@ -63,7 +63,7 @@ extern void DC_InvalidateRange(void *ptr, unsigned long nBytes);
 extern MemUsbT *gUsbapWork;
 extern char sUsbApSsid[9];
 
-void func_021D0FCC(ScanCbT *prm)
+void scanWait(ScanCbT *prm)
 {
     BssDescT *info;
     int i;

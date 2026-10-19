@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0202CAC4
+ * function: BGWINFRM_SetFrameData
  * address:  0x0202CAC4
  * packet:   pkt_0202C794
  * region:   arm9
@@ -24,8 +24,8 @@
  * the other without a `label` witness for the call site.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202CAC4.c \
- *       --func sub_0202CAC4 --addr 0x0202CAC4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BGWINFRM_SetFrameData.c \
+ *       --func BGWINFRM_SetFrameData --addr 0x0202CAC4 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -56,7 +56,7 @@ struct WinMgr {
 
 extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
 
-void sub_0202CAC4(struct WinMgr *mgr, u32 idx, const void *src)
+void BGWINFRM_SetFrameData(struct WinMgr *mgr, u32 idx, const void *src)
 {
     MIi_CpuCopy16(src, (void *)mgr->wins[idx].tiles,
                   mgr->wins[idx].w * mgr->wins[idx].h * 2);

@@ -43,7 +43,7 @@
    "status": "EXACT",
    "functions": [
     "GFL_NET_HANDLE_SetTimingSyncRange",
-    "sub_02039CA0",
+    "GFL_NET_HANDLE_IsTimingSync",
     "GFL_NET_HANDLE_IsTimingSyncRange"
    ],
    "addresses": [

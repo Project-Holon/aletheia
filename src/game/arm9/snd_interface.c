@@ -31,7 +31,7 @@ typedef struct SNDCommand {
     u32 arg[4];
 } SNDCommand;
 
-extern void PushCommand_impl(int id, u32 arg0, u32 arg1, u32 arg2, u32 arg3);
+extern void PushCommand_impl(int id, u32 value0, u32 value1, u32 value2, u32 value3);
 extern void SNDi_IncAlarmId(int alarmNo);
 extern unsigned char SNDi_SetAlarmHandler(int alarmNo, SNDAlarmHandler handler, void *arg);
 extern SNDCommand *SND_AllocCommand(u32 flags);
@@ -391,7 +391,7 @@ void SNDi_SetTrackParam(int playerNo, u32 trackBitMask, u32 offset, u32 data, in
 /*
  * sdk:      PushCommand_impl (snd_interface.o)
  */
-void PushCommand_impl(int id, u32 arg0, u32 arg1, u32 arg2, u32 arg3)
+void PushCommand_impl(int id, u32 value0, u32 value1, u32 value2, u32 value3)
 {
     SNDCommand *command = SND_AllocCommand(1);
 
@@ -399,9 +399,9 @@ void PushCommand_impl(int id, u32 arg0, u32 arg1, u32 arg2, u32 arg3)
         return;
     }
     command->id = id;
-    command->arg[0] = arg0;
-    command->arg[1] = arg1;
-    command->arg[2] = arg2;
-    command->arg[3] = arg3;
+    command->arg[0] = value0;
+    command->arg[1] = value1;
+    command->arg[2] = value2;
+    command->arg[3] = value3;
     SND_PushCommand(command);
 }

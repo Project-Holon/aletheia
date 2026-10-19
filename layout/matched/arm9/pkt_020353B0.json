@@ -85,12 +85,12 @@
    "functions": [
     "UI_GetInputMode",
     "UI_SetInputMode",
-    "UI_ClearPendingInputFlagOf",
+    "UI_ResetFrameCounterOf",
     "UI_SetFrameRateOf",
     "UI_GetFrameRateOf",
     "UI_SetFrameRate",
     "UI_GetFrameRate",
-    "UI_ClearPendingInputFlag"
+    "UI_ResetFrameCounter"
    ],
    "addresses": [
     "0x020355C4",

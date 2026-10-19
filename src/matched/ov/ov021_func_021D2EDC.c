@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_StartEffectAtMmdl
+ * function: SCRCMD_StartSwapNpcEvent
  * address:  0x021D2EDC
  * packet:   pkt_ov021_021D2EDC
  * region:   ov021
@@ -37,7 +37,7 @@ extern void FLDMMDL_GetPos(const struct Actor *, struct VecFx32 *);
 extern void *SP_POKE_GIMMICK_StartSwapNpc(void *a, int *v, u32 b, u32 c);
 extern void SCRIPT_SYS_CallEvent(void *a, void *b);
 
-u32 SCRCMD_StartEffectAtMmdl(u32 a, u32 b)
+u32 SCRCMD_StartSwapNpcEvent(u32 a, u32 b)
 {
     int v[3];
     void *r7;

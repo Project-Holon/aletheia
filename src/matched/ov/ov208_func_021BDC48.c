@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021BDC48
+ * function: ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled
  * address:  0x021BDC48
  * packet:   pkt_ov208_021BDC48
  * region:   ov208
@@ -27,7 +27,7 @@ struct Ov208Scene {
 extern int ZKND_TBAR_GetTouchEnable(char *p);
 extern void ZKND_TBAR_SetTouchEnable(char *p, int v);
 
-void ov208_func_021BDC48(struct Ov208Scene *p, u32 on)
+void ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(struct Ov208Scene *p, u32 on)
 {
     p->f34 = on;
     if (on != 0) {

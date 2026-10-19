@@ -1,5 +1,5 @@
 /*
- * function: sub_0202D214
+ * function: POKEGRA_ConvertCharTo2D
  * address:  0x0202D214
  * packet:   pkt_0202D1AC
  * region:   arm9
@@ -46,7 +46,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern u32 func_020307B0(void *p);
 extern void  MIi_CpuCopyFast(void *dst, const void *src, u32 size);
 
-void sub_0202D214(void *p, u32 v)
+void POKEGRA_ConvertCharTo2D(void *p, u32 v)
 {
     u8 *base = *(u8 * *)&((struct Obj13942 *)p)->f14;
     u8 *buf;

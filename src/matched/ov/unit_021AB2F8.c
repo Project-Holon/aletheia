@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: MAP_ATTR_IsRippleWater, func_021AB304
+ * function: MAP_ATTR_IsRippleWater, MAP_ATTR_IsSplashWater
  * address:  0x021AB2F8
  * packet:   pkt_021AB2F8
  * region:   ov021
@@ -18,7 +18,7 @@ int MAP_ATTR_IsRippleWater(int x)
     return x == 0x14;
 }
 
-int func_021AB304(int x)
+int MAP_ATTR_IsSplashWater(int x)
 {
     return x == 0x17;
 }

@@ -638,7 +638,7 @@ extern u16  GAME_DATA_GetPlayerZoneId(const struct Rec44 *a);
 
 extern u32  SYMBOL_MAP_ResolveZoneId(void *gameData, u32 b);
 
-extern int TOWNMAP_GRH_FindRecordIndex(int a0, int a1);
+extern int TOWNMAP_GRH_FindRecordIndex(int info, int id);
 
 
 extern void BUTTON_MAN_InitSphere(struct Ball *,struct Vec3 *,u32);

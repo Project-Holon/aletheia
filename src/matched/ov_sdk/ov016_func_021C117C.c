@@ -1,5 +1,5 @@
 /*
- * function: func_021C117C
+ * function: DWCi_MoveTaskEnd
  * address:  0x021C117C
  * packet:   pkt_ov016_021C117C
  * region:   ov016
@@ -21,7 +21,7 @@ extern int DWCi_MOVFinalize(void);
 extern void DWCi_TSKlDelete(int kind, void *task);
 extern char *gMoveWork;
 
-void func_021C117C(void *task)
+void DWCi_MoveTaskEnd(void *task)
 {
 	if (DWCi_MOVFinalize() == 0)
 		return;

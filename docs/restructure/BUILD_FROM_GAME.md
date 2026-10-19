@@ -327,8 +327,7 @@ data byte) as `DATA-ONLY ... (checked by gamelink)`, not as not exact.
 697,292 bytes, 332 objects) into objects with owner files, writes companions
 `<stem>.zdata.c`, `<stem>.zpre.c` and `<stem>.zdata_N.c` into build/datac/arm9 from the
 user's own extract, and the data-mode link places them as three segments. Result: arm9_main
-PASS, 570 files, byte-identical, with 1,980 gap bytes (the secure area) and no other image
-bytes.
+PASS, byte-identical, with no gap bytes left to the image (the secure area is generated data, see below).
 
 - `_start_BuildParams` (8 words) with the `.version` strings (0x02005030) lives in
   `src/game/arm9/crt0.c` and the four SHA-1 round constants (0x02081E6C) in
@@ -352,7 +351,7 @@ bytes.
 
 | range | bytes | what it is |
 | --- | --- | --- |
-| 0x02004000..0x02004800 | 1980 | secure area around the SVC thunks: opaque bytes, stays a prebuilt binary from the user's dump |
+| none | 0 | the secure area (0x02004000..0x02004800) is no longer image: its 1,980 filler bytes are generated C arrays (below) |
 
 Also image evidence, not bytes: the addresses of names missing from every header (read
 from the original code), and the typed stubs and absolute names, which stand for code
@@ -363,8 +362,8 @@ linked.
 Remaining gap to a link with no image input: the gap data (typed C from
 `datagen.py` compiled and linked as real objects instead of binary sections), the
 stub objects (real callees: the arm9 static module and other overlays linked as
-objects with their true code), the addresses of missing names, the 48 bytes of ov119,
-and the overlay table and `.lcf` for the whole ROM instead of one region at a time.
+objects with their true code), the addresses of missing names, and the 48 bytes of ov119.
+The whole ROM is now one link instead of one region at a time (done, see the next section).
 
 ### 3. Prebuilt pieces
 
@@ -378,12 +377,17 @@ final image by `ndsrom.py build --override`, as `build.py --pack` already does.
     python tools/romlink.py                  # reuse the region links in build/, pack, build, compare
     python tools/romlink.py --relink         # redo every region link first (about 15 minutes)
     python tools/romlink.py --image-fallback # a region without a usable link keeps its image bytes (listed)
+    python tools/romlink.py --onelink        # ARM9, ITCM and all 180 overlays in ONE mwldarm run, then the same steps
 
 Output: `build/rom/aletheia.nds`, `build/rom/report.json`, `build/rom/pack/` (the BLZ
 containers), `build/rom/arm9_dec_romlink.bin`. Nothing goes to src/ or to a tracked file.
 
 Result: the ROM built from src/game is byte-identical to the user's original,
 SHA-1 `26ad0b9967aa279c4a266ee69f52b9b2332399a5` on both sides (268,435,456 bytes); no file differs.
+
+`--onelink` replaces step 1 below: `tools/onelink.py` captures the region inputs and links all 182
+regions in one mwldarm run with one generated linker command file; each region image is cut from
+that one ELF. Same SHA-1, no file differs (details and cache rules: `docs/restructure/ONELINK.md`).
 
 What `tools/romlink.py` does:
 
@@ -422,16 +426,20 @@ What `tools/romlink.py` does:
 | `arm9i.bin` (the DSi `twl` block) | 77,604 | modcrypt, never in the denominator |
 | `header.bin`, `header_ext.bin`, `residue/0000.bin` | 4,096 + 12,288 + 12,288 | cartridge header and its extension |
 | `banner.bin`, `y9.bin` (overlay table), `fat.bin`, `fnt.bin` | 9,152 + 7,584 + 3,872 + 1,040 | banner, overlay table, file system |
-| ARM9 secure area, 18 ranges between the SVC thunks (0x02004000..0x02004800) | 1,980 | opaque bytes, binary from the dump |
 
 Generated at build time from the user's own extract, then compiled as C (not committed, not in
 src/game): the data tails of the 180 code overlays and of the ARM9 static module (369,354 bytes in
 181 regions; `datagen.py companions`, `arm9data.py`), the 288 bytes of step 4, the 1,824
-zero bytes of step 5. These are C, but their values come from the dump, not from src/game.
+zero bytes of step 5, and the 1,980 bytes of the ARM9 secure area (0x02004000..0x02004800).
+The secure area holds 17 SVC thunks (C in src/game) and, between them, filler from the SDK's
+precompiled libsyscall.a: 12 bytes of the decrypted encryObj marker (0xE7FFDEFF x3) and
+incompressible bytes. No source exists for it, so `arm9data.py` writes one `const` array per
+range (19 files `secure_area_XX.c`, each header naming its array at the original address) from the
+user's dump, like the data tails. These are C, but their values come from the dump, not from src/game.
 Everything else in the ARM9 static module, ITCM and the 180 code overlays is linked from src/game
 files (621 ARM9 files at the last run, the ITCM files, the overlay files).
 
 Overlay 230 is now linked entirely from src/game (wave 17: the decrypted view and the second-layer
-sealed bodies are C; `tools/ovcrypt.py encrypt` seals them again). Left: the 1,980 secure-area bytes; the prebuilt files
+sealed bodies are C; `tools/ovcrypt.py encrypt` seals them again). Left: the prebuilt files
 above (the overlay table `y9.bin` and the header could be generated from `layout.json`); the data
 tails still come from companions made from the dump, not from hand-written data in src/game.

@@ -2,8 +2,8 @@
  * A whole translation unit, matched as one byte range.
  *
  * unit:     yes
- * function: UI_GetInputMode, UI_SetInputMode, UI_ClearPendingInputFlagOf, UI_SetFrameRateOf,
- *           UI_GetFrameRateOf, UI_SetFrameRate, UI_GetFrameRate, UI_ClearPendingInputFlag
+ * function: UI_GetInputMode, UI_SetInputMode, UI_ResetFrameCounterOf, UI_SetFrameRateOf,
+ *           UI_GetFrameRateOf, UI_SetFrameRate, UI_GetFrameRate, UI_ResetFrameCounter
  * address:  0x020355C4
  * packet:   pkt_020353B0
  * region:   arm9
@@ -26,7 +26,7 @@
  *
  *   UI_GetInputMode  read the u8 at +0x3c of the singleton.
  *   UI_SetInputMode  write it.
- *   UI_ClearPendingInputFlagOf  clear the u8 at +0x3e of a caller-supplied instance.
+ *   UI_ResetFrameCounterOf  clear the u8 at +0x3e of a caller-supplied instance.
  *   UI_SetFrameRateOf  write the u8 at +0x3d.  Takes an instance pointer for
  *                 symmetry with UI_GetFrameRateOf but ignores it and goes
  *                 through the singleton anyway; the reload of the global
@@ -34,7 +34,7 @@
  *   UI_GetFrameRateOf  read the u8 at +0x3d of a caller-supplied instance.
  *   UI_SetFrameRate  global wrapper over UI_SetFrameRateOf.
  *   UI_GetFrameRate  global wrapper over UI_GetFrameRateOf.
- *   UI_ClearPendingInputFlag  global wrapper over UI_ClearPendingInputFlagOf.
+ *   UI_ResetFrameCounter  global wrapper over UI_ResetFrameCounterOf.
  *
  * The range deliberately stops before UI_ChangeFrameRate, the one labelled
  * function of this file: its calls to 0x02036390 and 0x02035E54 have no
@@ -71,7 +71,7 @@ void UI_SetInputMode(u8 v)
     gUiState->unk_3c = v;
 }
 
-void UI_ClearPendingInputFlagOf(struct Sys *p)
+void UI_ResetFrameCounterOf(struct Sys *p)
 {
     p->unk_3e = 0;
 }
@@ -96,7 +96,7 @@ u8 UI_GetFrameRate(void)
     return UI_GetFrameRateOf(gUiState);
 }
 
-void UI_ClearPendingInputFlag(void)
+void UI_ResetFrameCounter(void)
 {
-    UI_ClearPendingInputFlagOf(gUiState);
+    UI_ResetFrameCounterOf(gUiState);
 }

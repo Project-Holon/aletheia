@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: BTL_CALC_SwiftSwimDoubleSpeed, BTL_CALC_GetSwiftSwimHandlers
+ * function: HAND_TOKUSEI_SwiftSwimDoubleSpeed, HAND_TOKUSEI_GetSwiftSwimHandlers
  * address: 0x021D8760
  * packet: pkt_ov093_021D8760
  * region: ov093
@@ -22,5 +22,5 @@ extern u8 gSwiftSwimHandlers[];
 extern int BTL_EVENT_GetVar(int);
 extern void BTL_EVENT_MultiplyVar(int,int);
 extern int BTL_SERVER_FLOW_GetEffectiveWeatherThunk(u8 *p);
-void BTL_CALC_SwiftSwimDoubleSpeed(int a,int b,int c) { if (c==BTL_EVENT_GetVar(2)) { if (BTL_SERVER_FLOW_GetEffectiveWeatherThunk((u8 *)b)==2) BTL_EVENT_MultiplyVar(53,8192); } }
-u8 *BTL_CALC_GetSwiftSwimHandlers(u32 *p) { *p=1; return gSwiftSwimHandlers; }
+void HAND_TOKUSEI_SwiftSwimDoubleSpeed(int a,int b,int c) { if (c==BTL_EVENT_GetVar(2)) { if (BTL_SERVER_FLOW_GetEffectiveWeatherThunk((u8 *)b)==2) BTL_EVENT_MultiplyVar(53,8192); } }
+u8 *HAND_TOKUSEI_GetSwiftSwimHandlers(u32 *p) { *p=1; return gSwiftSwimHandlers; }

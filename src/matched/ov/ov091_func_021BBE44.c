@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: PLIST_MENU_ButtonWinOpen, PLIST_MENU_ButtonWinClose, PLIST_MENU_ButtonWinSetActive
+ * function: PLIST_MENU_DeleteTaskMenuWin, PLIST_MENU_UpdateTaskMenuWin, PLIST_MENU_SetTaskMenuWinActive
  * address:  0x021BBE44
  * packet:   pkt_021BBE44
  * region:   ov091
@@ -25,19 +25,19 @@ extern void APP_TASKMENU_WIN_Delete(u8 *p);
 extern void APP_TASKMENU_WIN_Update(u8 *p);
 extern void APP_TASKMENU_WIN_SetActive(struct Obj *obj, u32 a);
 
-void PLIST_MENU_ButtonWinOpen(int x)
+void PLIST_MENU_DeleteTaskMenuWin(int x)
 {
     if (x != 0)
         APP_TASKMENU_WIN_Delete((u8 *)x);
 }
 
-void PLIST_MENU_ButtonWinClose(int x)
+void PLIST_MENU_UpdateTaskMenuWin(int x)
 {
     if (x != 0)
         APP_TASKMENU_WIN_Update((u8 *)x);
 }
 
-void PLIST_MENU_ButtonWinSetActive(int x, int f)
+void PLIST_MENU_SetTaskMenuWinActive(int x, int f)
 {
     if (x != 0)
         APP_TASKMENU_WIN_SetActive((struct Obj *)x, f);

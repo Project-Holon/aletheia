@@ -56,8 +56,8 @@ typedef struct FieldCameraDirection {
 } FieldCameraDirection;
 
 extern void *SCRCMD_WORK_GetScriptWork(void *p);
-extern void *SCRCMD_WORK_GetGameSystem(void *a0);
-extern void *SCRCMD_WORK_GetGameData(void *a0);
+extern void *SCRCMD_WORK_GetGameSystem(void *work);
+extern void *SCRCMD_WORK_GetGameData(void *work);
 extern u16 SCRIPT_WORK_ReadWorkValue(void *, void *);
 extern void FLDMMDL_SetAreaIdRef(u8 *p, u32 v);
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *p);

@@ -102,10 +102,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "CLACT_SetActorAffineMode"
+    "CLACT_SetActorAffineMode",
+    "CLACT_SetActorAffineOrigin"
    ],
    "addresses": [
-    "0x0204B570"
+    "0x0204B570",
+    "0x0204B588"
    ]
   },
   {
@@ -120,10 +122,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "CLACT_SetActorAffineOriginAxis"
+    "CLACT_SetActorAffineOriginAxis",
+    "CLACT_SetActorScale",
+    "CLACT_GetActorScale"
    ],
    "addresses": [
-    "0x0204B59C"
+    "0x0204B59C",
+    "0x0204B5AC",
+    "0x0204B5C0"
    ]
   },
   {

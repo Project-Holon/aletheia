@@ -29,7 +29,6 @@
  *   PALANM_BlendColors 0x02021F64 thumb
  *   MI_CpuCopy8  0x02082D44  arm
  *   d_021C408C 0x021C408C data ov217 a1
- *   ENV_SetResourceSet  0x020307B0  arm
  */
 #include "research_types.h"
 

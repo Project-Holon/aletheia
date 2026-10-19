@@ -1,5 +1,5 @@
 /*
- * function: func_021D439C
+ * function: _DWCi_MOV_ReadyMovUserID
  * address:  0x021D439C
  * packet:   pkt_021D439C
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D439C 0x021D439C arm
+ *   _DWCi_MOV_ReadyMovUserID 0x021D439C arm
  *   DWCi_MOV_WH_SetJudgeAcceptFunc  0x021D38C8  arm
  *
  * Reset the sequence and set the state byte at +0xa90 to 8.
@@ -20,7 +20,7 @@
 extern void func_021D45E0(void);
 extern void DWCi_MOV_WH_SetJudgeAcceptFunc(unsigned int v);
 
-void func_021D439C(void)
+void _DWCi_MOV_ReadyMovUserID(void)
 {
     func_021D45E0();
     DWCi_MOV_WH_SetJudgeAcceptFunc((unsigned int)((void *)0x021D45A4));

@@ -1,5 +1,5 @@
 /*
- * function: func_02181E80
+ * function: gsiXmlUtilParseElement
  * address:  0x02181E80
  * packet:   pkt_ov009_02181E80
  * region:   ov009
@@ -68,7 +68,7 @@ extern const unsigned short __ctype_mapC[];
 
 #define isalnum(c) (((unsigned)(c) >= 0x80u) ? 0 : (__ctype_mapC[c] & 0x9))
 
-static int func_02181E80(GSIXmlStreamReader *stream, char *buffer, int len,
+static int gsiXmlUtilParseElement(GSIXmlStreamReader *stream, char *buffer, int len,
                                   int *pos, int parentIndex)
 {
     GSIXmlElement newElem;
@@ -176,7 +176,7 @@ static int func_02181E80(GSIXmlStreamReader *stream, char *buffer, int len,
         if (newElem.value.string != 0)
             return 0;
         *pos = startPos;
-        if (!func_02181E80(stream, buffer, len, pos, newElem.index))
+        if (!gsiXmlUtilParseElement(stream, buffer, len, pos, newElem.index))
             return 0;
         gsiXmlUtilSkipWhiteSpace(stream, buffer, len, pos);
     }

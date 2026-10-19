@@ -1,5 +1,5 @@
 /*
- * function: func_0205EC2C
+ * function: makeShopWepKey
  * address:  0x0205EC2C
  * packet:   pkt_0205DC74
  * region:   arm9
@@ -29,7 +29,7 @@ extern void MATH_MD5Update(MATHMD5Context *context, const void *input, unsigned 
 extern void MATH_MD5GetHash(MATHMD5Context *context, void *digest);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
 
-static void func_0205EC2C(unsigned char *seed, unsigned char *wepkey)
+static void makeShopWepKey(unsigned char *seed, unsigned char *wepkey)
 {
     unsigned char temp[17];
     MATHMD5Context context;

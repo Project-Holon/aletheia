@@ -64,7 +64,7 @@ extern u32 ZONEDATA_GetWeatherId(u32 id);
 
 extern void GAME_DATA_SetWeatherId(struct BigObj *p, u8 v);
 
-extern int MOVE_POKEMON_IsAnyEntryActive(int a0);
+extern int MOVE_POKEMON_IsAnyEntryActive(int gameData);
 
 extern u8 GAME_DATA_GetWeatherId(const struct BigObj *p);
 

@@ -1,5 +1,5 @@
 /*
- * function: func_02173BE4
+ * function: DWCi_CheckDWCServer
  * address:  0x02173BE4
  * packet:   pkt_ov009_02173BE4
  * region:   ov009
@@ -28,7 +28,7 @@ extern char g_021A20A4[];
 struct SBServer;
 extern int SBServerGetIntValueA(struct SBServer *server, char *key, int idefault);
 
-int func_02173BE4(void *server)
+int DWCi_CheckDWCServer(void *server)
 {
     if (SBServerGetIntValueA(server, g_021A21A4, -1) == -1)
         return 0;

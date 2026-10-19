@@ -1,5 +1,5 @@
 /*
- * function: func_021C2F34
+ * function: endScene1
  * address:  0x021C2F34
  * packet:   pkt_ov016_021C2F34
  * region:   ov016
@@ -36,7 +36,7 @@ extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021C2FA0(void);
 extern struct FocusPosT gSceneOptMenuWork;
 
-void func_021C2F34(void)
+void endScene1(void)
 {
 	if (DWCi_EFFlCheck(1))
 		return;

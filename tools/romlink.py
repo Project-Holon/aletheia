@@ -3,6 +3,7 @@
 
     python tools/romlink.py                    # reuse the region links in build/, build, compare
     python tools/romlink.py --relink           # redo every region link first (slow: about 15 minutes)
+    python tools/romlink.py --onelink          # link ARM9, ITCM and all overlays in ONE mwldarm run (tools/onelink.py)
     python tools/romlink.py --image-fallback   # a region that did not link keeps its image bytes (listed)
     python tools/romlink.py --out build/rom/aletheia.nds --report build/rom/report.json
 
@@ -30,6 +31,12 @@ What it does:
     files) stays the user's own dump (never committed).
  5. compare with the original ROM (manifest rom_path): SHA-1 of the image, per file what
     differs, and the exact list of bytes that did not come from our source.
+
+With --onelink, step 1 is different: the companions and pads of step 1 are written, then
+tools/onelink.py captures every region's link inputs and links all 182 regions in one mwldarm
+run (docs/restructure/ONELINK.md); each region's image is cut from that one ELF by section name
+prefix.  A capture newer than every input is reused, and the link is reused when the hashes of
+the captured objects did not change.  Steps 2 to 5 are the same.
 
 Nothing is written to src/ or to a tracked file; everything goes to build/.
 """
@@ -202,6 +209,70 @@ def load_region(name, size):
 
 
 # ---------------------------------------------------------------------------
+# 1b. the one link (--onelink)
+# ---------------------------------------------------------------------------
+
+ONELINK_STAMP = os.path.join(BUILD, "onelink", "capture.ok")
+
+
+def newest_input():
+    """Newest mtime of everything a capture reads: src/game, layout, the link tools."""
+    best = 0.0
+    for top, exts in (("src/game", (".c", ".h")), ("layout", (".json",))):
+        for dp, _dn, fns in os.walk(os.path.join(ROOT, top)):
+            for f in fns:
+                if f.endswith(exts):
+                    best = max(best, os.path.getmtime(os.path.join(dp, f)))
+    for f in ("gamelink.py", "onelink.py", "datagen.py", "arm9data.py", "match.py", "ovcrypt.py", "romlink.py"):
+        p = os.path.join(TOOLS, f)
+        if os.path.exists(p):
+            best = max(best, os.path.getmtime(p))
+    return best
+
+
+def onelink_prepare(lay, jobs, force):
+    """Companions and pads (as --relink writes them), then onelink capture; skipped when the last
+    capture is newer than every input.  Then onelink link (cached on the captured objects)."""
+    from concurrent.futures import ThreadPoolExecutor
+    code, _stub = code_overlay_ids(lay)
+    t = time.time()
+    fresh = (not force and os.path.exists(ONELINK_STAMP)
+             and os.path.getmtime(ONELINK_STAMP) > newest_input())
+    if fresh:
+        print("onelink: capture is newer than every input, reused")
+    else:
+        def comp(n):
+            r = sh([PY, "tools/datagen.py", "companions", str(n)])
+            return n, r.returncode, (r.stdout + r.stderr).strip()[-200:]
+        with ThreadPoolExecutor(jobs) as ex:
+            for n, rc, tail in ex.map(comp, code):
+                if rc:
+                    raise SystemExit("datagen companions %d: %s" % (n, tail))
+        r = sh([PY, "tools/arm9data.py"])
+        if r.returncode:
+            raise SystemExit("arm9data: " + (r.stdout + r.stderr)[-300:])
+        link_itcm()
+        link_ov230_blobs(lay)
+        print("onelink: companions and pads written, %.0f s" % (time.time() - t))
+        cap = sh([PY, "tools/onelink.py", "capture", "--jobs", str(jobs)])
+        print((cap.stdout.strip().splitlines() or ["capture: no output"])[-1])
+        if cap.returncode:
+            print("note: some regions did not link identical in the capture:")
+            for line in cap.stdout.splitlines():
+                if " FAIL" in line:
+                    print("  " + line[:200])
+        os.makedirs(os.path.dirname(ONELINK_STAMP), exist_ok=True)
+        open(ONELINK_STAMP, "w").write("%f" % time.time())
+    lk = sh([PY, "tools/onelink.py", "link"])
+    lines = [l for l in lk.stdout.splitlines() if not l.startswith("#")]
+    for l in lines[-3:]:
+        print(l)
+    if lk.returncode:
+        raise SystemExit("onelink link failed: " + lk.stdout[-800:] + lk.stderr[-400:])
+    print("onelink: %.0f s" % (time.time() - t))
+
+
+# ---------------------------------------------------------------------------
 # 2. the pieces with no src/game file
 # ---------------------------------------------------------------------------
 
@@ -289,6 +360,9 @@ def diff_ranges(a, b, limit=8):
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--relink", action="store_true", help="redo every region link first")
+    ap.add_argument("--onelink", action="store_true",
+                    help="link every region in one mwldarm run (tools/onelink.py) and cut the images from it")
+    ap.add_argument("--recapture", action="store_true", help="with --onelink: redo the capture even if it is fresh")
     ap.add_argument("--jobs", type=int, default=8)
     ap.add_argument("--image-fallback", action="store_true",
                     help="a region with no usable link keeps its bytes from the image (listed as such)")
@@ -301,9 +375,16 @@ def main(argv=None):
     lay, ext, man = load_layout()
     a9 = lay["arm9"]
     t0 = time.time()
+    if a.relink and a.onelink:
+        raise SystemExit("--relink and --onelink are different link methods; pick one")
     if a.relink:
         for line in relink_all(lay, a.jobs):
             print(line)
+    one_imgs = None
+    if a.onelink:
+        onelink_prepare(lay, a.jobs, a.recapture)
+        import onelink
+        one_imgs = onelink.extract_images()
     code_ids, stub_ids = code_overlay_ids(lay)
 
     prebuilt = []          # (what, bytes, why): bytes of the final ROM not from our source
@@ -312,7 +393,12 @@ def main(argv=None):
 
     # --- regions ---
     def get(name, size):
-        data, info = load_region(name, size)
+        if one_imgs is not None:
+            data, info = one_imgs.get(name, (None, dict(ok=False, why="not in the one link")))
+            if data is not None and len(data) != size:
+                data, info = None, dict(ok=False, why="size %d, layout says %d" % (len(data), size))
+        else:
+            data, info = load_region(name, size)
         if data is None or not info["ok"]:
             problems.append("%s: %s" % (name, info.get("why")))
             if a.image_fallback:

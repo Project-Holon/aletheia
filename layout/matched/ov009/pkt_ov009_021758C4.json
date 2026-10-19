@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021758C4",
+   "name": "DWCi_ProcessRequestMatch",
    "address": "0x021758C4",
    "kind": "sdk",
    "region": "ov009",

@@ -20,7 +20,7 @@
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
- *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
+ *   GIMMICK_WORK_GetWork  0x0200B3A4  thumb
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   FIELDMAP_AllocCommonWork  0x02189764  thumb  ov021
  *   FLD_EXP_OBJ_AddUnitFromArchive  0x021BE760  thumb  ov021
@@ -67,7 +67,7 @@ extern struct FldExpObj *FIELDMAP_GetExpObj(struct FieldMap *fieldMap);
 extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct FieldSave *GAME_DATA_GetFieldSave(struct GameData *gameData);
-extern FieldGimmickSwitchToggleSave *GIMMICK_WORK_GetSaveArea(struct FieldSave *fieldSave, u32 blockId);
+extern FieldGimmickSwitchToggleSave *GIMMICK_WORK_GetWork(struct FieldSave *fieldSave, u32 blockId);
 extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
 extern void *FIELDMAP_AllocCommonWork(struct FieldMap *fieldMap, int workId, int heapId, int size);
 extern void FLD_EXP_OBJ_AddUnitFromArchive(struct FldExpObj *expObj, struct FldExpUnitDesc *desc, int unitIndex);
@@ -124,7 +124,7 @@ void FIELD_GIMMICK_SWITCH_TOGGLE_Init(struct FieldMap *fieldMap)
     int animIdx;
 
     expObj = FIELDMAP_GetExpObj(fieldMap);
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_SWITCH_TOGGLE_SAVE_BLOCK_ID);
+    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_SWITCH_TOGGLE_SAVE_BLOCK_ID);
     FIELDMAP_AllocCommonWork(fieldMap, 1, FIELDMAP_GetHeapId(fieldMap), sizeof(FieldGimmickSwitchToggleWork));
     FLD_EXP_OBJ_AddUnitFromArchive(expObj, &sSwitchToggleUnitDesc, 0);
     for (switchIdx = 0; switchIdx < FIELD_GIMMICK_SWITCH_TOGGLE_SWITCH_COUNT; switchIdx++) {
@@ -165,7 +165,7 @@ void FIELD_GIMMICK_SWITCH_TOGGLE_Update(struct FieldMap *fieldMap)
 
     expObj = FIELDMAP_GetExpObj(fieldMap);
     FIELDMAP_GetCommonWork(fieldMap, 1);
-    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_SWITCH_TOGGLE_SAVE_BLOCK_ID);
+    GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_SWITCH_TOGGLE_SAVE_BLOCK_ID);
     FLD_EXP_OBJ_UpdateAnimes(expObj);
 }
 
@@ -206,7 +206,7 @@ void FIELD_GIMMICK_SWITCH_TOGGLE_ReplacePlayerIfRequirementMet(struct GameSystem
 
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     ctrlType = FIELDMAP_GetCtrlType(fieldMap);
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_SWITCH_TOGGLE_SAVE_BLOCK_ID);
+    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_SWITCH_TOGGLE_SAVE_BLOCK_ID);
     if (requirementIndex < FIELD_GIMMICK_SWITCH_TOGGLE_REQUIREMENT_COUNT && ctrlType == FIELD_GIMMICK_SWITCH_TOGGLE_CTRL_TYPE_HYBRID) {
         if (FIELD_GIMMICK_SWITCH_TOGGLE_IsRequirementMet(save, requirementIndex)) {
             FIELDMAP_CTRL_HYBRID_ReplacePlayer(FIELDMAP_GetCtrlWork(fieldMap), fieldMap);
@@ -263,7 +263,7 @@ int FIELD_GIMMICK_SWITCH_TOGGLE_SecondarySwitchEventProc(struct GameEvent *event
     expObj = FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
     newState = 1;
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_SWITCH_TOGGLE_SAVE_BLOCK_ID);
+    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_SWITCH_TOGGLE_SAVE_BLOCK_ID);
     switch (*state) {
     case 0:
         switchIdx = work->switchIndex;
@@ -300,7 +300,7 @@ int FIELD_GIMMICK_SWITCH_TOGGLE_SwitchToggleEventProc(struct GameEvent *event, i
     expObj = FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
     newState = 1;
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_SWITCH_TOGGLE_SAVE_BLOCK_ID);
+    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_SWITCH_TOGGLE_SAVE_BLOCK_ID);
     switch (*state) {
     case 0:
         switchIdx = work->switchIndex;

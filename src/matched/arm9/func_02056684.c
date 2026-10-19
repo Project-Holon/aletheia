@@ -1,5 +1,5 @@
 /*
- * function: SPL_EMITTER_EmitParticle
+ * function: SPLEmitter_EmitChildren
  * address:  0x02056684
  * packet:   pkt_02052F58
  * region:   arm9
@@ -8,16 +8,16 @@
  * lang:     c99
  * isa:      arm
  * symbols:
- *   SPL_EMITTER_AllocNode  0x02058380  arm
- *   SPL_EMITTER_ClearNodeList  0x020583CC  arm
+ *   SPLList_PopFront  0x02058380  arm
+ *   SPLList_PushFront  0x020583CC  arm
  *   _s32_div_f     0x0209C0A4  arm
  *   g_02146A8C     0x02146A8C  data
  * status:   EXACT
  *
  * Particle spawn for the rig emitter (the SPL-style particle system this
  * cluster renders; docs/families/cluster_02052F58.h).  For each of
- * desc->f0c particles: pop one from the free list (SPL_EMITTER_AllocNode), push it
- * on the owner's live list at +0x14 (SPL_EMITTER_ClearNodeList), copy the emitter
+ * desc->f0c particles: pop one from the free list (SPLList_PopFront), push it
+ * on the owner's live list at +0x14 (SPLList_PushFront), copy the emitter
  * position, set velocity = FX_Mul(emitter velocity, FX_Mul(f08 << 12, 0x10))
  * plus a random term in [-f02, f02) per axis from the LCG at 0x02146A8C
  * (0x5EEDF715 / 0x1B0CB173, the same generator SPL_EMITTER_UpdateNode uses), and
@@ -42,8 +42,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/SPL_EMITTER_EmitParticle.c \
- *       --func SPL_EMITTER_EmitParticle --addr 0x02056684 --arm --cc ../1.2/sp2
+ *   python tools/match.py one --src src/matched/SPLEmitter_EmitChildren.c \
+ *       --func SPLEmitter_EmitChildren --addr 0x02056684 --arm --cc ../1.2/sp2
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -113,8 +113,8 @@ struct Owner { u8 pad00[0x14]; u8 list[0x0c]; struct SubX *x; };
 extern u32 g_02146A8C;
 struct List;
 struct Node;
-extern struct Node *SPL_EMITTER_AllocNode(struct List *list);
-extern void SPL_EMITTER_ClearNodeList(volatile struct List *list, volatile struct Node *node);
+extern struct Node *SPLList_PopFront(struct List *list);
+extern void SPLList_PushFront(volatile struct List *list, volatile struct Node *node);
 
 static inline fx32 FX_Mul(fx32 a, fx32 b)
 {
@@ -123,17 +123,17 @@ static inline fx32 FX_Mul(fx32 a, fx32 b)
 
 #define RandRange(v) (((v) * (s32)((g_02146A8C = g_02146A8C * 0x5EEDF715 + 0x1B0CB173) >> 23) - ((v) << 8)) >> 8)
 
-void SPL_EMITTER_EmitParticle(struct Emt *e, struct Owner *o, void *pool)
+void SPLEmitter_EmitChildren(struct Emt *e, struct Owner *o, void *pool)
 {
     struct Ptcl *p;
     struct Desc *d = o->x->desc;
     fx32 scale = FX_Mul(d->f08 << 12, 0x10);
     s32 i;
     for (i = 0; i < d->f0c; i++) {
-        p = (struct Ptcl *)SPL_EMITTER_AllocNode(pool);
+        p = (struct Ptcl *)SPLList_PopFront(pool);
         if (p == 0)
             return;
-        SPL_EMITTER_ClearNodeList((volatile struct List *)o->list, (volatile struct Node *)p);
+        SPLList_PushFront((volatile struct List *)o->list, (volatile struct Node *)p);
         p->pos = e->pos;
         p->vel.x = FX_Mul(e->vel.x, scale) + RandRange(d->f02);
         p->vel.y = FX_Mul(e->vel.y, scale) + RandRange(d->f02);

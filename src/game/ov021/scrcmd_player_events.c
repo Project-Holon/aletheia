@@ -57,7 +57,7 @@ extern int FIELD_PLAYER_GRID_EVENT_IsHopDone(void *x);
 
 extern int FIELD_PLAYER_GRID_EVENT_DeleteHopTask(u32 a);
 
-extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *SCRCMD_WORK_GetGameSystem(void *work);
 
 extern void *GAMESYSTEM_GetFieldMap(const void *p);
 
@@ -69,7 +69,7 @@ extern u16 FLDMMDL_GetDirDisp(void *p);
 
 extern u32 FIELDMAP_GetG3dMapper(void *p);
 
-extern u16 SCRCMD_WORK_GetHeapId(void *a0);
+extern u16 SCRCMD_WORK_GetHeapId(void *work);
 
 extern void FIELD_PLAYER_GetPosInDir(u32 *a, int b, int *out);
 

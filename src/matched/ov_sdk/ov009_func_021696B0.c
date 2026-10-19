@@ -17,7 +17,7 @@
  *   DWC_SetGsProfileId  0x02059A10  arm
  *   func_0205915C  0x0205915C  arm
  *   DWCi_SetBuddyFriendData  0x02059214  arm
- *   CTRDG_IsBitID  0x0205912C  arm
+ *   DWC_IsBuddyFriendData  0x0205912C  arm
  *   DWCi_SetExpIsBuddyFriendFlag  0x02059270  arm
  *   DWCi_DeleteFriendFromList  0x0216959C  arm  ov009
  *   g_021AA860     0x021AA860  data
@@ -40,7 +40,7 @@ extern int DWCi_Acc_GetFlagDataTypeThunk(void *friendData);
 extern void DWC_SetGsProfileId(void *friendData, int pid);
 extern int func_0205915C(void *friendData);
 extern void DWCi_SetBuddyFriendData(void *friendData);
-extern int CTRDG_IsBitID(void *friendData);
+extern int DWC_IsBuddyFriendData(void *friendData);
 extern void DWCi_SetExpIsBuddyFriendFlag(void *friendData, int flag);
 extern void DWCi_DeleteFriendFromList(void *friendList, int deleteIndex, int otherIndex);
 
@@ -64,7 +64,7 @@ int DWCi_RefreshFriendListAll(u8 *friendList, int friendListLen, int profileID)
                 DWC_SetGsProfileId(friendList + i * 12, pid_i);
             if (func_0205915C(friendList + j * 12)) {
                 DWCi_SetBuddyFriendData(friendList + i * 12);
-                if (CTRDG_IsBitID(g_021AA860.ctl->friendList + i * 12))
+                if (DWC_IsBuddyFriendData(g_021AA860.ctl->friendList + i * 12))
                     DWCi_SetExpIsBuddyFriendFlag(g_021AA860.ctl->friendList + i * 12, 1);
             }
             DWCi_DeleteFriendFromList(friendList, j, i);

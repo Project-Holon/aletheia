@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: PLIST_MENU_SwitchToNextTarget, PLIST_MENU_OnLevelUpMessageDone, PLIST_MENU_SkipToMoveLearn
+ * function: PLIST_MENU_UseItemOnFoundTarget, PLIST_MENU_BeginLevelUpMoveWait, PLIST_MENU_BeginExitWait
  * address:  0x021BC628
  * packet:   pkt_ov091_021BC628
  * region:   ov091
@@ -37,7 +37,7 @@ extern void PLIST_PLATE_Redraw(u8 *a, u8 *s);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void PLIST_MESSAGE_DrawKeyCursorMark(int, int);
 
-void PLIST_MENU_SwitchToNextTarget(int p)
+void PLIST_MENU_UseItemOnFoundTarget(int p)
 {
     int n = PLIST_MENU_FindItemTarget(p);
     PLIST_MESSAGE_CloseWindow((void *)p, (u32 *)(*(int *)&((struct Obj00009 *)p)->f150));
@@ -52,7 +52,7 @@ void PLIST_MENU_SwitchToNextTarget(int p)
     GFL_USE_PlaySeDefaultVolume(0x56f);
 }
 
-void PLIST_MENU_OnLevelUpMessageDone(char *p)
+void PLIST_MENU_BeginLevelUpMoveWait(char *p)
 {
     p[0xc] = 0xd;
     p[0xe] = 0;
@@ -60,7 +60,7 @@ void PLIST_MENU_OnLevelUpMessageDone(char *p)
     PLIST_MESSAGE_DrawKeyCursorMark((int)p, ((struct Obj07736 *)p)->f150);
 }
 
-void PLIST_MENU_SkipToMoveLearn(char *p)
+void PLIST_MENU_BeginExitWait(char *p)
 {
     p[0xc] = 0xd;
     p[0xe] = 6;

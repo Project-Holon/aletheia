@@ -497,7 +497,7 @@ void *MYSTATUS_Create(u32 heapId);
 void *COMM_PLAYER_SUPPORT_GetActiveRecord(void *pmsWork);
 struct GameEvent *SCRIPT_SYS_CreateScriptEventSimple(struct GameSystem *gameSystem, int scriptId, int param, int heapId);
 void *SCRIPT_SYS_GetEventScriptWork(struct GameEvent *event);
-int SCRIPT_WORK_SetParams(void *scriptWork, int param0, int param1, int param2, u16 param3);
+int SCRIPT_WORK_SetParams(void *scriptWork, int scriptParam0, int scriptParam1, int scriptParam2, u16 scriptParam3);
 extern u32 MYSTATUS_CopyNameChars(void *myStatus, void *dest, u32 size);
 int INTRUDE_COMM_SendProfile(u32 netId, void *name);
 void WORDSET_SetSlotFromMsg36(void *wordSet, u32 index, u32 itemId);

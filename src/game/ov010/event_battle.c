@@ -213,7 +213,7 @@ extern u32 RECORD_AddOne(struct RecordBlock *obj, int i);
 extern u32 FIELDMAP_GetEncount(u8 *p);
 extern void EFFECT_ENCOUNT_ConsumeSpot(int s);
 extern void *BTL_SETUP_Create(u32 heap);
-extern void FIELD_ENCOUNT_SetupTrainerBattle(struct GameSystem *ctx, void *a1, u32 mode, u32 flag, void *mon, u32 a5, u16 heap);
+extern void FIELD_ENCOUNT_SetupTrainerBattle(struct GameSystem *ctx, void *btlSetup, u32 mode, u32 flag, void *mon, u32 trainerId2, u16 heap);
 extern void BTL_SETUP_SetStatusFlag(char *p, int v);
 extern void ENCEFF_SelectEffectAndBgmForTrainer(u32 a, u32 x, int *out, u16 *out2);
 extern void *POKEPARTY_Create(u16 heap);
@@ -222,7 +222,7 @@ extern void *GFL_HEAP_Alloc(u32 heap, u32 size, int clear, const char *site, u16
 extern void POKE_TOOL_SetupPartyParam(void *mon, u16 species, u16 level, u64 id);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
 extern u32 POKEPARTY_Add(struct PokeParty *p, const struct PokemonParam *src);
-extern void FIELD_ENCOUNT_SetFieldSituation(struct BtlSetup *out, void *a1, void *a2);
+extern void FIELD_ENCOUNT_SetFieldSituation(struct BtlSetup *out, void *gameData, void *fieldMap);
 extern void BTL_SETUP_SetupDemo(void *bs, void *ctx, void *enemyParty, void *partnerParty, BattleLocation *loc, u32 heap);
 extern u32 GFL_HEAP_Free(void *p);
 extern void *GAME_DATA_GetSaveBlock43(void **p);

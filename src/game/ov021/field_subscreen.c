@@ -40,7 +40,7 @@
  *   FIELD_MSGBG_LoadWindowGraphics  0x021902A4  thumb  ov021
  *   BLOCK20_SAVEDATA_GetPanelState  0x02009208  thumb
  *   BLOCK20_SAVEDATA_SetPanelState  0x02009200  thumb
- *   GAMESYSTEM_GetAlwaysNetFlag  0x0201214C  thumb
+ *   GAMESYSTEM_IsAlwaysNetFlagSet  0x0201214C  thumb
  *   GAMESYSTEM_IsNetOffBySleep  0x02012204  thumb
  *   GAMESYSTEM_ClearNetOffBySleep  0x02012210  thumb
  *   GF_OVERLAY_Load  0x02034AC4  arm
@@ -302,7 +302,7 @@ extern void BG_SYS_ClearSlot(u32 i);
 extern void FIELD_MSGBG_LoadWindowGraphics(u32, u32);
 extern u8 BLOCK20_SAVEDATA_GetPanelState(void *cgearSave);
 extern void BLOCK20_SAVEDATA_SetPanelState(void *cgearSave, u32 commState);
-extern u32 GAMESYSTEM_GetAlwaysNetFlag(void *gameSystem);
+extern u32 GAMESYSTEM_IsAlwaysNetFlagSet(const struct GameSystem *gameSystem);
 extern u32 GAMESYSTEM_IsNetOffBySleep(void *gameSystem);
 extern void GAMESYSTEM_ClearNetOffBySleep(void *gameSystem);
 extern int GF_OVERLAY_Load(int);
@@ -506,7 +506,7 @@ void FIELD_SUBSCREEN_InitCGear(FieldSubscreen *work)
     cgearSave = BLOCK20_SAVEDATA_GetBlock(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem)));
     GF_OVERLAY_Load((int)abs_id_1d);
     cgearPowered = BLOCK20_SAVEDATA_GetPanelState(cgearSave);
-    commState = GAMESYSTEM_GetAlwaysNetFlag(gameSystem);
+    commState = GAMESYSTEM_IsAlwaysNetFlagSet(gameSystem);
     work->cgear = C_GEAR_Create(cgearSave, work, gameSystem, commState == 1 && cgearPowered == 0);
     BLOCK20_SAVEDATA_SetPanelState(cgearSave, commState);
     if (GAMESYSTEM_IsNetOffBySleep(gameSystem) != 0)
@@ -522,7 +522,7 @@ void FIELD_SUBSCREEN_InitCGearWithCallback(FieldSubscreen *work)
     gameSystem = FIELDMAP_GetGameSystem(work->fieldMap);
     cgearSaveBase = GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem));
     GF_OVERLAY_Load((int)abs_id_1d);
-    commState = GAMESYSTEM_GetAlwaysNetFlag(gameSystem);
+    commState = GAMESYSTEM_IsAlwaysNetFlagSet(gameSystem);
     cgearSave = BLOCK20_SAVEDATA_GetBlock(cgearSaveBase);
     work->cgear = C_GEAR_Open(cgearSave, work, FIELDMAP_GetGameSystem(work->fieldMap), work->callback, work->callbackArg, commState);
     BLOCK20_SAVEDATA_SetPanelState(cgearSave, commState);
@@ -547,7 +547,7 @@ u32 FIELD_SUBSCREEN_UpdateCGear(FieldSubscreen *work, u32 active)
         gameSystem = (u32)FIELDMAP_GetGameSystem(work->fieldMap);
         savedValue = (u32)BLOCK20_SAVEDATA_GetBlock(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData((void *)gameSystem)));
         if (GAMESYSTEM_IsNetOffBySleep((void *)gameSystem) != 0) {
-            if (GAMESYSTEM_GetAlwaysNetFlag((void *)gameSystem) != 0) {
+            if (GAMESYSTEM_IsAlwaysNetFlagSet((void *)gameSystem) != 0) {
                 GAMESYSTEM_ClearNetOffBySleep((void *)gameSystem);
             } else if (C_GEAR_Restart((int *)work->cgear) != 0) {
                 BLOCK20_SAVEDATA_SetPanelState((void *)savedValue, 0);

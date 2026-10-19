@@ -18,10 +18,20 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "BGWINFRM_GetFrameBuffer"
+    "BGWINFRM_GetFrameBuffer",
+    "BGWINFRM_GetBgFrame",
+    "BGWINFRM_GetPos",
+    "BGWINFRM_GetSize",
+    "BGWINFRM_SetClipArea",
+    "BGWINFRM_EmptyStub"
    ],
    "addresses": [
-    "0x0202CF84"
+    "0x0202CF84",
+    "0x0202CF8C",
+    "0x0202CF98",
+    "0x0202CFC0",
+    "0x0202CFEC",
+    "0x0202D018"
    ]
   }
  ]

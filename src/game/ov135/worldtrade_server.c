@@ -819,7 +819,7 @@ int WORLDTRADE_SERVER_StartNameCheck(u8 *p)
     s=STRBUF_Create(8,0x48);
     STRBUF_SetStringN((struct Strbuf *)s,(u16 *)(p+0x1F4),8);
     MI_CpuFill8(p+0x1300,0,0x28);
-    ((Work *)p)->f1324=0x48;
+    ((Work *)p)->reserved1324=0x48;
     text=STRBUF_GetChars(s);
     for(i=0;i<STRBUF_GetLength(s)+1;i++) {
         c=*(u16 *)((u32)text+i*2);

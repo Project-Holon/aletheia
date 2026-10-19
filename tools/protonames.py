@@ -10,7 +10,7 @@ Parameter names in a prototype do not reach the object code, so the change is
 byte-neutral; it is still verified like any other edit.
 
 A name resolves in the prototype's own region first, then in arm9 (every overlay
-calls arm9).  A name defined twice in that scope (file statics) is skipped.
+calls arm9), then anywhere in the tree if it is defined exactly once.  A name defined twice in that scope (file statics) is skipped.
 
     python tools/protonames.py                 dry run: counts per region
     python tools/protonames.py --list          dry run: every change
@@ -111,6 +111,11 @@ def main():
                 key = (region_of(f), name)
                 names = [param_name(p) for p in split_params(params)]
                 defs.setdefault(key, []).append([n[0] if n else None for n in names])
+    # a name defined once in the whole tree also resolves from any region (an overlay
+    # calling another overlay's function, ITCM, the SDK regions)
+    anywhere = {}
+    for (_r, n), lst in defs.items():
+        anywhere.setdefault(n, []).extend(lst)
     changed_files = []
     per_region = {}
     for f in files:
@@ -120,7 +125,7 @@ def main():
         for name, params, s, e, is_def in ds:
             if is_def:
                 continue
-            cands = defs.get((reg, name)) or defs.get(("arm9", name))
+            cands = defs.get((reg, name)) or defs.get(("arm9", name)) or anywhere.get(name)
             if not cands or len(cands) != 1:
                 continue
             dnames = cands[0]

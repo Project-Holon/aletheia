@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: BTL_CALC_NoOp,BTL_CALC_GetMonParamWithHeap
+ * function: BTL_CALC_NoOp,BTL_CALC_GetItemParam
  * address: 0x021D8058
  * packet: pkt_ov093_021D8058
  * region: ov093
@@ -20,4 +20,4 @@ typedef unsigned int u32;
 extern struct Unk021F6360 gBtlCalcWork;
 extern u32 FILE_UTIL_GetItemParam(void *,u32,u32);
 void BTL_CALC_NoOp(void) { }
-u32 BTL_CALC_GetMonParamWithHeap(void *p,u32 n) { return FILE_UTIL_GetItemParam(p,n,(*(u16 *)&gBtlCalcWork)); }
+u32 BTL_CALC_GetItemParam(void *p,u32 n) { return FILE_UTIL_GetItemParam(p,n,(*(u16 *)&gBtlCalcWork)); }

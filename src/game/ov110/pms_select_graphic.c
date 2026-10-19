@@ -148,7 +148,7 @@
  *   PMSI_PARAM_GetSentence 0x02024134 thumb
  *   PMS_WORD_SetSaveEntry 0x02024918 thumb
  *   PMSI_PARAM_Delete 0x020240FC thumb
- *   BMP_SetDisplaySwap 0x0204363C arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   GF_FONT_InitTextColor 0x0201DD60 thumb
  *   gPmsSelectGraphicSceneFileName 0x021C3C98 data a1
@@ -271,7 +271,7 @@ extern void BG_SYS_SetVramBanks(const void *banks);
 extern void BG_SYS_SetMainPlaneVisible(unsigned, unsigned);
 extern void BG_SYS_SetSubPlaneVisible(unsigned, unsigned);
 extern void BG_SYS_ResetSubDisplay(void);
-extern void BMP_SetDisplaySwap(unsigned);
+extern void BG_SYS_SetLcdSwap(unsigned);
 extern void GF_FONT_InitTextColor(void);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern void BRIGHTNESS_Set(u32, u32, u32);
@@ -1263,7 +1263,7 @@ struct PmsSelectGraphicScene *PMS_SELECT_GRAPHIC_CreateScene(unsigned arg, u16 h
     *(volatile unsigned *)REG_DISPCNT_B_ADDR &= ~DISPCNT_WINDOW_ENABLE_MASK;
     BG_SYS_ClearGraphicsMemory(0);
     BG_SYS_SetVramBanks(gPmsSelectGraphicVramBanks);
-    BMP_SetDisplaySwap(arg);
+    BG_SYS_SetLcdSwap(arg);
     BG_SYS_ResetSubDisplay(); BG_SYS_ClearMainPlanes(); BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     PMS_SELECT_GRAPHIC_InitSceneBgs(scene, heap);

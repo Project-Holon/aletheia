@@ -17,7 +17,7 @@
  *   GX_LoadBGPltt   0x0207E3D0  arm
  *   GXS_LoadBGPltt   0x0207E468  arm
  *   g_wipeSys                0x021467A4  data
- *   CARD_GetBackupSectorSize  0x0204E6E0  arm
+ *   FADE_GetSpeed  0x0204E6E0  arm
  *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   g_wipePatternHandlers  0x0209F538  data
  *   GFL_USE_AddHBlankTask  0x02005624  thumb
@@ -72,7 +72,7 @@ extern void TCB_AddTask(void *ctx, void (*fn)(void *, PaletteFade *), PaletteFad
 extern u32 TCB_DeleteTask(struct Node *n);
 extern void GX_LoadBGPltt(void *a, u32 b, u32 c);
 extern void GXS_LoadBGPltt(void *a, u32 b, u32 c);
-extern u32   CARD_GetBackupSectorSize(void);
+extern s32 FADE_GetSpeed(void);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern void *GFL_USE_AddHBlankTask(u32 a, u32 b, u32 c);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -119,7 +119,7 @@ extern char  g_wipeSourceFile[];
  * lives at 0x021467A4, the same fixed object WIPE_SUB_ClearSys zero-fills in five
  * sub-ranges (0x00/0x14, 0x14/0x30, 0x44/0x30, 0x74/0x18, 0x8C/0xC0) and the
  * one WIPE_SetBrightnessFadeOut/WIPE_SetMstBrightColor read the sentinel colour out of at +0x150.
- * It divides its sixth argument by CARD_GetBackupSectorSize(), clears the
+ * It divides its sixth argument by FADE_GetSpeed(), clears the
  * object, runs two configuration calls, then builds the two screens with the
  * same eleven-argument builder WIPE_SYS_InitPanel: sub-object +0x14 with the
  * second argument and mode 0, sub-object +0x44 with the third argument and
@@ -139,8 +139,8 @@ extern char  g_wipeSourceFile[];
  * _s32_div_f, WIPE_SUB_ClearSys and WIPE_SYS_MainPanel on `label`.
  *
  * Near miss worth keeping: the division had to be written as a self-recompute,
- *   n = (s32)p6;  n = n / (s32)CARD_GetBackupSectorSize();
- * The single-expression form `(s32)p6 / (s32)CARD_GetBackupSectorSize()`
+ *   n = (s32)p6;  n = n / (s32)FADE_GetSpeed();
+ * The single-expression form `(s32)p6 / (s32)FADE_GetSpeed()`
  * compiles the call first and then rematerialises p6 out of its incoming
  * stack slot into r0, two bytes shorter and a whole-function shift; the
  * original loads p6 into a callee-saved register in the prologue shuffle and
@@ -159,7 +159,7 @@ void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 col
     u16    obj;
 
     n = (s32)wait;
-    n = n / (s32)CARD_GetBackupSectorSize();
+    n = n / (s32)FADE_GetSpeed();
     g = &g_wipeSys;
     WIPE_SUB_ClearSys(g);
     WIPE_SYS_SetDivision((u32)divisionMode, g);

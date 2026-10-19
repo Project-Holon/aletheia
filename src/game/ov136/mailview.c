@@ -71,7 +71,7 @@
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   MSGDATA_AllocString 0x02045EC0 arm
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
- *   BMP_SetDisplaySwap 0x0204363C arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   BG_SYS_InitBgLayer 0x0203FCA0 arm
  *   BG_SYS_ClearSlot 0x020414EC arm
  *   BG_SYS_InitRun 0x02040B94 arm
@@ -339,7 +339,7 @@ extern void *MSGDATA_AllocString(struct MsgData *bank, u32 index);
 
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 
-extern void BMP_SetDisplaySwap(u32);
+extern void BG_SYS_SetLcdSwap(u32);
 
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
@@ -429,7 +429,7 @@ void MAILVIEW_InitBgs(struct MailEditProc *proc)
         struct DispConfig d = g_77F4;
         BG_SYS_SetGraphicsMode(&d);
     }
-    BMP_SetDisplaySwap(0);
+    BG_SYS_SetLcdSwap(0);
     {
         struct BgSet s = g_7804;
         BG_SYS_InitBgLayer(0, &s.t[0], 0);
@@ -457,7 +457,7 @@ void MAILVIEW_FreeBgs(struct MailEditProc *proc)
     BG_SYS_FreeLayerBuf(2);
     BG_SYS_FreeLayerBuf(1);
     BG_SYS_FreeLayerBuf(0);
-    BMP_SetDisplaySwap(1);
+    BG_SYS_SetLcdSwap(1);
 }
 
 /*

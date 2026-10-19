@@ -1,5 +1,5 @@
 /*
- * function: sub_0202C2DC
+ * function: ISS_SWITCH_SYS_ResetActiveSet
  * address:  0x0202C2DC
  * packet:   pkt_0202C244
  * region:   arm9
@@ -28,8 +28,8 @@
  * address (docs/MATCHING.md, "The matched class").
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202C2DC.c \
- *       --func sub_0202C2DC --addr 0x0202C2DC --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ISS_SWITCH_SYS_ResetActiveSet.c \
+ *       --func ISS_SWITCH_SYS_ResetActiveSet --addr 0x0202C2DC --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
@@ -38,7 +38,7 @@ struct Obj0202C244;
 extern u32 sub_0202C24C(struct Obj0202C244 *p);
 extern u32 sub_0202C338(void *p);
 
-void sub_0202C2DC(void *p)
+void ISS_SWITCH_SYS_ResetActiveSet(void *p)
 {
     u32 v = sub_0202C24C(p);
 

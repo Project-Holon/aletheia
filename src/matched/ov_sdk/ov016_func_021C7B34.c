@@ -1,5 +1,5 @@
 /*
- * function: func_021C7B34
+ * function: isCorrect
  * address:  0x021C7B34
  * packet:   pkt_ov016_021C7B34
  * region:   ov016
@@ -35,7 +35,7 @@ extern void DWCi_SETTINGlConvAddress(char *adr, u8 *buf);
 extern void DWCi_GetParam2_(unsigned int *a, unsigned int *b);
 extern int func_020588D0(u8 *address);
 
-int func_021C7B34(void)
+int isCorrect(void)
 {
     Val VAL = sSceneSetEditAddressMaxOctet;
     u8 *c;

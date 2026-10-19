@@ -19,7 +19,7 @@
    "status": "EXACT",
    "functions": [
     "PDC_MSG_StartFadeIn",
-    "PDC_MSG_IsFadeIdle"
+    "PDC_MSG_UpdateFade"
    ],
    "addresses": [
     "0x021B6B5C",

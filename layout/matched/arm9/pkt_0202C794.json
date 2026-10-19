@@ -43,7 +43,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "sub_0202CAC4",
+   "name": "BGWINFRM_SetFrameData",
    "address": "0x0202CAC4",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0202CAE4",
+   "name": "BGWINFRM_SetFrameDataArc",
    "address": "0x0202CAE4",
    "kind": "game",
    "region": "arm9",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0202CB18",
+   "name": "BGWINFRM_SetFrameDataArcHandle",
    "address": "0x0202CB18",
    "kind": "game",
    "region": "arm9",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0202CB4C",
+   "name": "BGWINFRM_PutFrame",
    "address": "0x0202CB4C",
    "kind": "game",
    "region": "arm9",
@@ -102,7 +102,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0202CC58"
+    "BGWINFRM_ShowFrame"
+   ],
+   "addresses": [
+    "0x0202CC58"
    ]
   }
  ]

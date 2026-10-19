@@ -18,10 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "CURSOR_MOVE_GetCurrent"
+    "CURSOR_MOVE_GetCurrent",
+    "CURSOR_MOVE_SetCurrent",
+    "CURSOR_MOVE_GetState"
    ],
    "addresses": [
-    "0x020260E0"
+    "0x020260E0",
+    "0x020260E4",
+    "0x020260F0"
    ]
   }
  ]

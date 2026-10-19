@@ -1,5 +1,5 @@
 /*
- * function: func_020868E0
+ * function: OS_AllocFromHeap
  * address:  0x020868E0
  * packet:   pkt_02086788
  * region:   arm9
@@ -44,7 +44,7 @@ extern void func_0208799C(int);
 extern struct Cell *func_02086810(struct Cell *list, struct Cell *cell);
 extern struct Cell *func_020867F4(struct Cell *list, struct Cell *cell);
 
-void *func_020868E0(int id, int heap, int size)
+void *OS_AllocFromHeap(int id, int heap, int size)
 {
     
     struct ArenaInfo *info;

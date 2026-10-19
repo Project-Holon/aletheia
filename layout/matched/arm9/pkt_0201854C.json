@@ -60,9 +60,9 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "POKE_TOOL_Dummy",
+    "POKE_TOOL_CastToBoxParam",
     "POKE_TOOL_GetBoxParam",
-    "POKE_TOOL_GetGenderRatioClass"
+    "POKE_TOOL_GetGenderPersonalityByte"
    ],
    "addresses": [
     "0x020185F0",

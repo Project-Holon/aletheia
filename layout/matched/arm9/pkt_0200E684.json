@@ -38,8 +38,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "SAVEDATA_GetExtraBlockThunk",
-    "SAVEDATA_GetExtraBlock"
+    "GREETING_SAVEDATA_GetFromSaveThunk",
+    "GREETING_SAVEDATA_GetFromSave"
    ],
    "addresses": [
     "0x0200E6E8",
@@ -58,16 +58,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "MISC_SAVEDATA_GetMonEntrySize",
-    "MISC_SAVEDATA_ClearMonEntry",
-    "MISC_SAVEDATA_GetMonEntryFlag",
-    "MISC_SAVEDATA_GetMonEntryLevel",
-    "MISC_SAVEDATA_IsMonEntrySet",
-    "MISC_SAVEDATA_GetMonEntryTag",
-    "MISC_SAVEDATA_GetMonEntryCost",
-    "MISC_SAVEDATA_GetMonEntryPid",
-    "MISC_SAVEDATA_GetMonEntryName",
-    "MISC_SAVEDATA_GetMonEntryExperience"
+    "MON_SNAPSHOT_GetSize",
+    "MON_SNAPSHOT_Clear",
+    "MON_SNAPSHOT_IsFilled",
+    "MON_SNAPSHOT_GetLevel",
+    "MON_SNAPSHOT_HasAbility",
+    "MON_SNAPSHOT_GetAbility",
+    "MON_SNAPSHOT_GetSpeciesForSlot",
+    "MON_SNAPSHOT_GetPersonalRnd",
+    "MON_SNAPSHOT_GetNickname",
+    "MON_SNAPSHOT_GetOtId"
    ],
    "addresses": [
     "0x0200E730",
@@ -94,18 +94,18 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "MISC_SAVEDATA_SaveScratch16",
-    "MISC_SAVEDATA_LoadScratch16",
-    "MISC_SAVEDATA_GetBigBlockSize",
-    "MISC_SAVEDATA_ClearBigBlock",
-    "MISC_SAVEDATA_EmptyHook",
-    "MISC_SAVEDATA_GetScratchBase",
-    "MISC_SAVEDATA_GetFlags6200",
-    "MISC_SAVEDATA_SetFlags6200",
-    "MISC_SAVEDATA_GetMacSize",
-    "MISC_SAVEDATA_ClearMacArea",
-    "MISC_SAVEDATA_GetBlock41",
-    "MISC_SAVEDATA_InitMac"
+    "SAVE_SYNC_Store",
+    "SAVE_SYNC_Load",
+    "ZUKAN_SKIN_SAVE_GetSize",
+    "ZUKAN_SKIN_SAVE_Clear",
+    "ZUKAN_SKIN_SAVE_GetTiles",
+    "ZUKAN_SKIN_SAVE_GetPalette",
+    "ZUKAN_SKIN_SAVE_GetValidFlag",
+    "ZUKAN_SKIN_SAVE_SetValidFlag",
+    "TRIAL_HOUSE_SAVE_GetSize",
+    "TRIAL_HOUSE_SAVE_Clear",
+    "TRIAL_HOUSE_SAVE_GetFromSave",
+    "LIVEBATTLEMATCH_SAVE_InitRecord"
    ],
    "addresses": [
     "0x0200E884",
@@ -134,8 +134,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "MISC_SAVEDATA_GetKeyByte",
-    "MISC_SAVEDATA_AddKeyByte"
+    "LIVEBATTLEMATCH_SAVE_GetCounter",
+    "LIVEBATTLEMATCH_SAVE_AddCounter"
    ],
    "addresses": [
     "0x0200E918",
@@ -154,9 +154,9 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "MISC_SAVEDATA_GetKey",
-    "MISC_SAVEDATA_SetKey",
-    "MISC_SAVEDATA_SetKeyField"
+    "LIVEBATTLEMATCH_SAVE_GetOpponentMac",
+    "LIVEBATTLEMATCH_SAVE_SetOpponentMac",
+    "LIVEBATTLEMATCH_SAVE_SetOpponentResultByte"
    ],
    "addresses": [
     "0x0200E938",
@@ -176,8 +176,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "NET_DEVICE_TABLE_GetSize",
-    "NET_DEVICE_TABLE_Clear"
+    "FLDMMDL_GetSaveTableSize",
+    "FLDMMDL_ClearSaveTable"
    ],
    "addresses": [
     "0x0200EE48",

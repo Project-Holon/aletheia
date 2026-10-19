@@ -12,12 +12,16 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
+ * Second declaration kept on purpose: the case 4 branch of the state function calls UI_SetInputMode
+ * (0x020355D8) as func_020355D8x. Measured 2026-10-19: under the one name the unit differs from
+ * the original (gameverify DIFF). Cause not found.
+ *
  * symbols:
  *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   G2x_SetBlendAlpha_  0x0207D63C  arm
- *   BMP_SetDisplaySwap  0x0204363C  arm
+ *   BG_SYS_SetLcdSwap  0x0204363C  arm
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   MI_CpuFill8  0x02082BCC  arm
@@ -399,7 +403,7 @@ extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void G2x_SetBlendAlpha_(u32, u32, u32, u32, u32);
-extern void BMP_SetDisplaySwap(u32 a);
+extern void BG_SYS_SetLcdSwap(u32 a);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *p, int v, int n);
@@ -410,7 +414,7 @@ extern void PRINTSYS_CTRL_Init(u8 *p, u32 v);
 extern u32 GFL_USE_AddMainTask(void (*cb)(void), void *arg, int pri);
 extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
-extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
+extern int INTRUDE_COMM_GetWorkIfRunning(int comm);
 extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern u32 INTRUDE_COMM_SendBusyBegin(void);
@@ -486,8 +490,8 @@ extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 extern u16 PALANM_GetColor(int base, int idx, int which, u16 pos);
 extern void PALANM_BlendChannel(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
-extern int GAME_DATA_GetMyStatusByNetId(void *a0, int a1);
-extern int GAME_DATA_GetBattleRecSlotByNetId(void *a0, int a1);
+extern int GAME_DATA_GetMyStatusByNetId(void *gameData, int netId);
+extern int GAME_DATA_GetBattleRecSlotByNetId(void *gameData, int netId);
 extern void CLACT_SetActorAutoAnim(struct Actor *, unsigned int);
 extern void CLACT_ChangeActorAnimSeq(struct Actor *p, u16 v);
 extern void CLACT_SetActorPaletteOffset(struct Actor *o, u32 v, u32 flag);
@@ -832,7 +836,7 @@ int MONOLITH_TOOL_Init(struct Proc *ctx, int unused, MonolithToolSetup *setup)
     *(volatile u32 *)0x04001000 &= 0xFFFF1FFF;
     G2x_SetBlendAlpha_(0x04000050, 4, 8, 0xF, 0xF);
     G2x_SetBlendAlpha_(0x04001050, 4, 8, 0xF, 0xF);
-    BMP_SetDisplaySwap(1);
+    BG_SYS_SetLcdSwap(1);
     GFL_HEAP_CreateChildHeap(1, 0x61, 0x70000);
     work = PROCSYS_AllocProcWork(ctx, sizeof(MonolithToolWork), 0x61);
     MI_CpuFill8(work, 0, sizeof(MonolithToolWork));

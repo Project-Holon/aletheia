@@ -1,7 +1,7 @@
 /*
  * file:     bg_sys.c
  * unit:     yes
- * function: BG_SYS_Create, BG_SYS_Delete, BG_SYS_CreateRun, BG_SYS_ReserveTileRun, BG_SYS_FreeTileRun, BG_SYS_SetGraphicsMode, BG_SYS_ApplyGraphicsMode, BG_SYS_InitBgLayer, BG_SYS_FreeLayerBuf, BG_SYS_EnableBg0WithPriority, BG_SYS_SetPriority, BG_SYS_SetPlaneVisible, BG_SYS_ChangeScrollImmediate, BG_SYS_GetScrollX, BG_SYS_GetScrollY, BG_SYS_SetScroll, BG_SYS_SetScrollRegs, BG_SYS_SetupMemory, BG_SYS_PushTile, BG_SYS_PushTileSource, BG_SYS_DecodeTile, BG_SYS_DecodeTileSource, BG_SYS_LoadTileData, BG_SYS_CreateTileRun, BG_SYS_InitRun, BG_SYS_Init, BG_SYS_FreeTiles, BG_SYS_LoadPltt, BG_SYS_LoadPlttEntry, BG_SYS_GetTileMapEntry, BG_SYS_DrawTileRegion, BG_SYS_DrawTile, BG_SYS_DrawTileEx, BG_SYS_DrawTileSub, BG_SYS_SetTileEntry, BG_SYS_FillTileMap, BG_SYS_FreeSlot, BG_SYS_InitSlot, BG_SYS_ClearSlot, BG_SYS_ClearLayer, BG_SYS_ClearLayerEx, BG_SYS_GetGraphics, BG_SYS_GetBuf, BG_SYS_GetChannelScrollX, BG_SYS_GetChannelScrollY, BG_SYS_GetType, BG_SYS_GetColorMode, BG_SYS_GetTileBytes, BG_SYS_GetPriority, BG_SYS_Update, BG_SYS_CommitLayers, BG_SYS_MarkTileDirty, BG_SYS_CommitScroll, BG_SYS_ChangeScroll, BG_SYS_ChangeRotation, BG_SYS_ChangeScale, BG_SYS_ChangeCenter, BG_SYS_CheckPixelColor, BG_SYS_ToHwScreenSize, BG_SYS_GetScreenSizeInTiles, BG_SYS_SetScrollField, BG_SYS_ResetAffineMatrix, BG_SYS_LoadTileLayer, BG_SYS_LoadTileDataEx, BG_SYS_LoadTileLayerEx, BG_SYS_BlitTiles, BG_SYS_BlitPixels, BG_SYS_BlitTilesEx, BG_SYS_BlitTileMap, BG_SYS_BlitPixelsEx, BG_SYS_BlitTileMapEx, BG_SYS_SetupTileScreen, BG_SYS_SetupLayer, BG_SYS_DeleteBlock, BG_SYS_AllocTileBuf, BG_SYS_SetAffineField, BG_SYS_Apply, BG_SYS_ApplyCenterOp, BG_SYS_ClearGraphicsMemory, BG_SYS_SetVramBanks, BG_SYS_ClearMainBgPlanes, BG_SYS_ClearMainObjPlane, BG_SYS_ClearMainPlanes, BG_SYS_SetMainPlaneVisible, BG_SYS_SetMainVisiblePlanes, BG_SYS_ClearSubBgPlanes, BG_SYS_ClearSubObjPlane, BG_SYS_ClearSubPlanes, BG_SYS_SetSubPlaneVisible, BG_SYS_SetSubVisiblePlanes, BG_SYS_ResetSubDisplay, BMP_SetDisplaySwap, BMP_GetVisiblePlane, BG_SYS_GetSubVisiblePlanes
+ * function: BG_SYS_Create, BG_SYS_Delete, BG_SYS_CreateRun, BG_SYS_ReserveTileRun, BG_SYS_FreeTileRun, BG_SYS_SetGraphicsMode, BG_SYS_ApplyGraphicsMode, BG_SYS_InitBgLayer, BG_SYS_FreeLayerBuf, BG_SYS_EnableBg0WithPriority, BG_SYS_SetPriority, BG_SYS_SetPlaneVisible, BG_SYS_ChangeScrollImmediate, BG_SYS_GetScrollX, BG_SYS_GetScrollY, BG_SYS_SetScroll, BG_SYS_SetScrollRegs, BG_SYS_SetupMemory, BG_SYS_PushTile, BG_SYS_PushTileSource, BG_SYS_DecodeTile, BG_SYS_DecodeTileSource, BG_SYS_LoadTileData, BG_SYS_CreateTileRun, BG_SYS_InitRun, BG_SYS_Init, BG_SYS_FreeTiles, BG_SYS_LoadPltt, BG_SYS_LoadPlttEntry, BG_SYS_GetTileMapEntry, BG_SYS_DrawTileRegion, BG_SYS_DrawTile, BG_SYS_DrawTileEx, BG_SYS_DrawTileSub, BG_SYS_SetTileEntry, BG_SYS_FillTileMap, BG_SYS_FreeSlot, BG_SYS_InitSlot, BG_SYS_ClearSlot, BG_SYS_ClearLayer, BG_SYS_ClearLayerEx, BG_SYS_GetGraphics, BG_SYS_GetBuf, BG_SYS_GetChannelScrollX, BG_SYS_GetChannelScrollY, BG_SYS_GetType, BG_SYS_GetColorMode, BG_SYS_GetTileBytes, BG_SYS_GetPriority, BG_SYS_Update, BG_SYS_CommitLayers, BG_SYS_MarkTileDirty, BG_SYS_CommitScroll, BG_SYS_ChangeScroll, BG_SYS_ChangeRotation, BG_SYS_ChangeScale, BG_SYS_ChangeCenter, BG_SYS_CheckPixelColor, BG_SYS_ToHwScreenSize, BG_SYS_GetScreenSizeInTiles, BG_SYS_SetScrollField, BG_SYS_ResetAffineMatrix, BG_SYS_LoadTileLayer, BG_SYS_LoadTileDataEx, BG_SYS_LoadTileLayerEx, BG_SYS_BlitTiles, BG_SYS_BlitPixels, BG_SYS_BlitTilesEx, BG_SYS_BlitTileMap, BG_SYS_BlitPixelsEx, BG_SYS_BlitTileMapEx, BG_SYS_SetupTileScreen, BG_SYS_SetupLayer, BG_SYS_DeleteBlock, BG_SYS_AllocTileBuf, BG_SYS_SetAffineField, BG_SYS_Apply, BG_SYS_ApplyCenterOp, BG_SYS_ClearGraphicsMemory, BG_SYS_SetVramBanks, BG_SYS_ClearMainBgPlanes, BG_SYS_ClearMainObjPlane, BG_SYS_ClearMainPlanes, BG_SYS_SetMainPlaneVisible, BG_SYS_SetMainVisiblePlanes, BG_SYS_ClearSubBgPlanes, BG_SYS_ClearSubObjPlane, BG_SYS_ClearSubPlanes, BG_SYS_SetSubPlaneVisible, BG_SYS_SetSubVisiblePlanes, BG_SYS_ResetSubDisplay, BG_SYS_SetLcdSwap, BG_SYS_GetMainVisiblePlanes, BG_SYS_GetSubVisiblePlanes
  * address:  0x0203F8F4
  * region:   arm9
  * compiler: dsi/1.2
@@ -3503,9 +3503,9 @@ void BG_SYS_SetSubVisiblePlanes(u32 planes);
 
 void BG_SYS_ResetSubDisplay(void);
 
-void BMP_SetDisplaySwap(u32 swap);
+void BG_SYS_SetLcdSwap(u32 swap);
 
-u32 BMP_GetVisiblePlane(void);
+u32 BG_SYS_GetMainVisiblePlanes(void);
 
 u32 BG_SYS_GetSubVisiblePlanes(void);
 
@@ -3794,13 +3794,13 @@ void BG_SYS_ResetSubDisplay(void)
     *(volatile u32 *)0x04001000 |= 0x10000;
 }
 
-void BMP_SetDisplaySwap(u32 swap)
+void BG_SYS_SetLcdSwap(u32 swap)
 {
     *(volatile u16 *)0x04000304 =
         (*(volatile u16 *)0x04000304 & ~0x8000) | (swap << 15);
 }
 
-u32 BMP_GetVisiblePlane(void)
+u32 BG_SYS_GetMainVisiblePlanes(void)
 {
     return gVisiblePlanes[1];
 }

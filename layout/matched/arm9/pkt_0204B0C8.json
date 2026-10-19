@@ -54,10 +54,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "CLACT_SetUnitDrawEnable"
+    "CLACT_SetUnitDrawEnable",
+    "CLACT_GetUnitDrawEnable",
+    "CLACT_SetUnitRenderer"
    ],
    "addresses": [
-    "0x0204B22C"
+    "0x0204B22C",
+    "0x0204B248",
+    "0x0204B258"
    ]
   },
   {

@@ -10,13 +10,13 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0202D5CC, sub_0202D5D8
+ * function: POKEGRA_GetTrainerArcID, POKEGRA_GetTrainerCgrArcIndex
  *
  * symbols:
  *   sub_0202D5D8_Table  0x020A023C  data
  *
  * The first two functions of the accessor run at 0x0202D5CC; the other
- * seven are src/matched/unit_0202D5F8.c. sub_0202D5CC is not part of the
+ * seven are src/matched/unit_0202D5F8.c. POKEGRA_GetTrainerArcID is not part of the
  * family, it is a two-value picker that happens to sit in front of it.
  *
  * Leaves with no prologue at all, so `disasm.py` labels none of them and
@@ -55,7 +55,7 @@ typedef unsigned int  u32;
 
 extern const u8 sub_0202D5D8_Table[];
 
-u32 sub_0202D5CC(u32 a)
+u32 POKEGRA_GetTrainerArcID(u32 a)
 {
     if (a != 0) {
         return 0x49;
@@ -63,7 +63,7 @@ u32 sub_0202D5CC(u32 a)
     return 0x48;
 }
 
-u32 sub_0202D5D8(u32 id, u32 flags)
+u32 POKEGRA_GetTrainerCgrArcIndex(u32 id, u32 flags)
 {
     u32 v;
 

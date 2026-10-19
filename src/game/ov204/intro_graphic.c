@@ -46,7 +46,7 @@
  *   d_021BFDAC 0x021BFDAC data a2
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
- *   BMP_SetDisplaySwap 0x0204363C arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
@@ -116,7 +116,7 @@
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BG_SYS_Delete  0x0203F9B4  arm  arm9
  *   BG_SYS_ChangeScroll  0x02041EE4  arm  arm9
- *   BMP_GetVisiblePlane  0x02043658  arm  arm9
+ *   BG_SYS_GetMainVisiblePlanes  0x02043658  arm  arm9
  */
 #include "intro_types.h"
 
@@ -224,7 +224,7 @@ extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
 extern void G3D_SYSTEM_SetSwapBuffersMode(unsigned, unsigned);
 extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 extern void BG_SYS_ClearGraphicsMemory(u32);
-extern void BMP_SetDisplaySwap(u32);
+extern void BG_SYS_SetLcdSwap(u32);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
@@ -242,7 +242,7 @@ extern void BG_SYS_FreeSlot(unsigned char);
 extern void BG_SYS_SetPlaneVisible(unsigned char, unsigned char);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
-extern u32 BMP_GetVisiblePlane(void);
+extern u32 BG_SYS_GetMainVisiblePlanes(void);
 extern void BG_SYS_ChangeScroll(u32, u32, u32);
 extern void BG_SYS_Update(void);
 extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
@@ -445,7 +445,7 @@ void *INTRO_GRAPHIC_CreateDisplay(int swap, int mode, u16 heap)
     *(volatile u32 *)0x04000000 &=0xFFFF1FFF;
     *(volatile u32 *)0x04001000 &=0xFFFF1FFF;
     BG_SYS_ClearGraphicsMemory(0);
-    BMP_SetDisplaySwap(swap);
+    BG_SYS_SetLcdSwap(swap);
     BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
@@ -558,7 +558,7 @@ void INTRO_GRAPHIC_ExitBg(IntroDisplay *disp)
 
 void INTRO_GRAPHIC_ResetBgSlot(IntroDisplay *disp)
 {
-    if (BMP_GetVisiblePlane() & 4) {
+    if (BG_SYS_GetMainVisiblePlanes() & 4) {
         BG_SYS_ChangeScroll(2, 1, 1);
     }
 }

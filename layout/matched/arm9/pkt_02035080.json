@@ -31,7 +31,7 @@
    "status": "EXACT",
    "functions": [
     "UI_SetResumeHook",
-    "sub_0203512C"
+    "UI_SetWakePoweredHook"
    ],
    "addresses": [
     "0x02035120",

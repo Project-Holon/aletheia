@@ -1,5 +1,5 @@
 /*
- * function: func_021CB960
+ * function: procScene
  * address:  0x021CB960
  * packet:   pkt_021CB1C4
  * region:   ov016
@@ -10,15 +10,15 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CB960   0x021CB960  arm
+ *   procScene   0x021CB960  arm
  *   DWCi_SceneSetSearch_draw  0x021CBAC4  arm
  *
  * Call func_021CBAA0, DWCi_SceneSetSearch_draw, func_021CBAC8, func_021CB978.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021CB960.c \
- *       --func func_021CB960 --addr 0x021CB960 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/procScene.c \
+ *       --func procScene --addr 0x021CB960 --region ov016 --cc dsi/1.1p1 --arm
  */
 
 extern void func_021CBAA0(void);
@@ -26,7 +26,7 @@ extern void DWCi_SceneSetSearch_draw(void);
 extern void func_021CBAC8(void);
 extern void func_021CB978(void);
 
-void func_021CB960(void)
+void procScene(void)
 {
     func_021CBAA0();
     DWCi_SceneSetSearch_draw();

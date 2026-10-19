@@ -1,5 +1,5 @@
 /*
- * function: func_021BA2F8
+ * function: GetMacEncKey
  * address:  0x021BA2F8
  * packet:   pkt_ov016_021BA2F8
  * region:   ov016
@@ -32,7 +32,7 @@ extern int func_021BA2EC(unsigned char *lpmac);
 extern int memcmp(const void *a, const void *b, unsigned long n);
 extern int func_021BC608(char *lpwrite, char *lps);
 
-int func_021BA2F8(unsigned char *lpkey)
+int GetMacEncKey(unsigned char *lpkey)
 {
     char strmac[32];
     char strap[32];

@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: BG_SYS_SetScrollX, BG_SYS_SetScrollY, BG_SYS_SetAffine
+ * function: BG_SYS_ChangeRotation, BG_SYS_ChangeScale, BG_SYS_ChangeCenter
  * address:  0x02041F28
  * packet:   pkt_02041F28
  * region:   arm9
@@ -65,19 +65,19 @@ struct Obj;
 extern void func_02043264(struct Obj *p, u32 op, u32 value);
 extern void func_020432E4(struct Obj *p, u32 op, u32 value);
 
-void BG_SYS_SetScrollX(u32 which, u32 op, u16 value)
+void BG_SYS_ChangeRotation(u32 which, u32 op, u16 value)
 {
     BG_SYS_SetAffineField((struct Obj *)(&g_02146A44->slots[which]), op, value);
     g_02146A44->unk_04 |= (u16)(1 << which);
 }
 
-void BG_SYS_SetScrollY(u32 which, u32 op, u32 value)
+void BG_SYS_ChangeScale(u32 which, u32 op, u32 value)
 {
     func_02043264((struct Obj *)(&g_02146A44->slots[which]), op, value);
     g_02146A44->unk_04 |= (u16)(1 << which);
 }
 
-void BG_SYS_SetAffine(u32 which, u32 op, u16 value)
+void BG_SYS_ChangeCenter(u32 which, u32 op, u16 value)
 {
     func_020432E4((struct Obj *)(&g_02146A44->slots[which]), op, value);
     g_02146A44->unk_04 |= (u16)(1 << which);

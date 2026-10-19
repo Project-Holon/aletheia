@@ -19,7 +19,7 @@
    "status": "EXACT",
    "functions": [
     "FIELD_GIMMICK_D06_GetStonePositions",
-    "GIMMICK49_Exit"
+    "FIELD_GIMMICK_D06_GetStoneCount"
    ],
    "addresses": [
     "0x021F36E0",

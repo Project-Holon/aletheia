@@ -1,5 +1,5 @@
 /*
- * function: func_0215FE3C
+ * function: find_session_from_IP
  * address:  0x0215FE3C
  * packet:   pkt_ov009_0215FE3C
  * region:   ov009
@@ -37,7 +37,7 @@ extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 extern unsigned long long func_020870D0(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 
-static void func_0215FE3C(CPSSslConnection *con, unsigned long ip, unsigned short port)
+static void find_session_from_IP(CPSSslConnection *con, unsigned long ip, unsigned short port)
 {
     int i;
     CPSSslSession *p;

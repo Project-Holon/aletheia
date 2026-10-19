@@ -1,5 +1,5 @@
 /*
- * function: func_02160EE0
+ * function: client_hello
  * address:  0x02160EE0
  * packet:   pkt_ov009_02160EE0
  * region:   ov009
@@ -33,7 +33,7 @@ extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
 extern void func_0215FDA4(CPSSslConnection *con);
 extern int select_method(int a0, int a1, int a2);
 
-static void func_02160EE0(CPSSslConnection *con, unsigned char *s)
+static void client_hello(CPSSslConnection *con, unsigned char *s)
 {
     int sessionID_len;
     unsigned short method;

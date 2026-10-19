@@ -1,5 +1,5 @@
 /*
- * function: func_021BCF5C
+ * function: taskRelease
  * address:  0x021BCF5C
  * packet:   pkt_ov016_021BCF5C
  * region:   ov016
@@ -36,7 +36,7 @@ extern void DWCi_CELLlSetPriority(void *cell, int idx, int priority);
 extern void func_021BCBB4(int y);
 extern void DWCi_TSKlDelete(int kind, void *task);
 
-void func_021BCF5C(void *task)
+void taskRelease(void *task)
 {
     int btnNum;
     int i;

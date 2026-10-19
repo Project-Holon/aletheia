@@ -1,5 +1,5 @@
 /*
- * function: func_021C7CA0
+ * function: procError1
  * address:  0x021C7CA0
  * packet:   pkt_021C7CA0
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C7CA0 0x021C7CA0 arm
+ *   procError1 0x021C7CA0 arm
  *   DWCi_ChangeScene  0x021C0E40  arm
  *   DWCi_WINlIsInit  0x021D157C  arm
  *
@@ -21,7 +21,7 @@
 extern int DWCi_WINlIsInit(void);
 extern void DWCi_ChangeScene(unsigned int v);
 
-void func_021C7CA0(void)
+void procError1(void)
 {
     int *p;
 

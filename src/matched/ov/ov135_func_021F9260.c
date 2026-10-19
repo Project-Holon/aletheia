@@ -1,5 +1,5 @@
 /*
- * function: ov135_func_021F9260
+ * function: WORLDTRADE_INPUT_CreateModeWindows
  * address:  0x021F9260
  * packet:   pkt_ov135_021F9260
  * region:   ov135
@@ -43,7 +43,7 @@ struct Ov135Menu {
     u32 layer;
 };
 
-void ov135_func_021F9260(struct Ov135Menu *p, u32 mode)
+void WORLDTRADE_INPUT_CreateModeWindows(struct Ov135Menu *p, u32 mode)
 {
     int i;
 

@@ -1,5 +1,5 @@
 /*
- * function: func_0215DC5C
+ * function: SOCLi_ReadSSLNblockCallBack
  * address:  0x0215DC5C
  * packet:   pkt_ov009_0215DC5C
  * region:   ov009
@@ -60,7 +60,7 @@ static inline int isTcp(signed char m)
     return r;
 }
 
-static int func_0215DC5C(void *arg)
+static int SOCLi_ReadSSLNblockCallBack(void *arg)
 {
     struct SOCLiCommandRead *cpacket;
     struct SOCLSocket *socket;

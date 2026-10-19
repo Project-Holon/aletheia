@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0202C710
+ * function: ISS_SWITCH_ApplyVolume
  * address:  0x0202C710
  * packet:   pkt_0202C6C4
  * region:   arm9
@@ -36,8 +36,8 @@
  * (docs/idioms/runtime-helper-reloc.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202C710.c \
- *       --func sub_0202C710 --addr 0x0202C710 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ISS_SWITCH_ApplyVolume.c \
+ *       --func ISS_SWITCH_ApplyVolume --addr 0x0202C710 --cc 1.1p1 --thumb
  */
 
 typedef unsigned short u16;
@@ -54,7 +54,7 @@ struct Obj0202C710 {
 extern s32 sub_0202C6C4(struct Obj0202C710 *p);
 extern void GFL_USE_SetBgmTrackVolume(u32 a0, u32 a1);
 
-void sub_0202C710(struct Obj0202C710 *p, s32 n)
+void ISS_SWITCH_ApplyVolume(struct Obj0202C710 *p, s32 n)
 {
     GFL_USE_SetBgmTrackVolume(p->unk08, n * sub_0202C6C4(p) / 0x7F);
 }

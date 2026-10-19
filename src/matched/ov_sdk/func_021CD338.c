@@ -1,5 +1,5 @@
 /*
- * function: func_021CD338
+ * function: procInit
  * address:  0x021CD338
  * packet:   pkt_021CD338
  * region:   ov016
@@ -23,7 +23,7 @@ extern void DWCi_GetParam2_(unsigned int *a, unsigned int *b);
 extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021CD3B8(void);
 
-void func_021CD338(void)
+void procInit(void)
 {
     int v;
 

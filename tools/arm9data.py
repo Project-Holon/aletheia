@@ -553,7 +553,77 @@ def companions(out=None, relink=False, data_start=DATA_START):
                        for ob in objs if ob.get("shifted")])
     with open(os.path.join(out, "datalink.json"), "w", newline="\n") as fh:
         json.dump(dl, fh, indent=1)
+    stats["secure_arrays"], stats["secure_bytes"] = secure_area(out, base, img, bsecs)
     return dict(out=out, stats=stats, blockers=blockers)
+
+
+SECURE_END = 0x02004800          # end of the secure area (0x02004000..0x02004800)
+MARKER = bytes.fromhex("FFDEFFE7") * 3     # decrypted "encryObj" marker, 0xE7FFDEFF x3
+
+
+def secure_area(out, base, img, bsecs):
+    """Write secure_area_XX.c: the bytes of the secure area that no C file defines.
+
+    The area holds the SVC thunks (src/game/arm9/svc_*.c) and, between them, the filler of the
+    SDK's precompiled libsyscall.a (random, incompressible, no source exists).  Each range
+    between the thunk files becomes one const array in a file of its own (the compiler puts all
+    the arrays of one file into one section, and these must sit apart); the first 12 bytes
+    (0xE7FFDEFF x3) are their own array.  Each header names its array as a data symbol at the
+    original address, so gamelink places the section there, as for any data section whose file
+    names its address.  Returns (number of arrays, their bytes)."""
+    for f in os.listdir(out):
+        if re.fullmatch(r"secure_area(_[0-9A-F]+)?\.c", f):
+            os.remove(os.path.join(out, f))
+    used = sorted((x["addr"], x["addr"] + x["size"]) for x in bsecs
+                  if re.fullmatch(r"t\d+(_\d+)?", x["name"]) and base <= x["addr"] < SECURE_END)
+    gaps = []
+    cur = base
+    for a, b in used + [(SECURE_END, SECURE_END)]:
+        if a > cur:
+            # the 2 zero bytes after a Thumb file (next file 4-aligned): the linker pads them
+            if not (a - cur == 2 and cur % 4 == 2 and a % 4 == 0 and img[cur - base:a - base] == bytes(2)):
+                gaps.append((cur, a))
+        cur = max(cur, b)
+    parts = []
+    for a, b in gaps:
+        if a == base and img[:12] == MARKER:
+            parts.append((a, a + 12, True))
+            a += 12
+        parts.append((a, b, False))
+    for a, b, mark in parts:
+        n = "secure_area_%X" % (a - base)
+        text = ["/*",
+                " * file:     %s.c" % n,
+                " * function: none",
+                " * address:  0x%08X" % a,
+                " * region:   arm9",
+                " * compiler: dsi/1.1p1",
+                " * flags:    -O4,p",
+                " * lang:     c99",
+                " * isa:      arm",
+                " * status:   GENERATED",
+                " *",
+                " * Filler of the SDK's precompiled libsyscall.a around the SVC thunks (no source",
+                " * exists), generated from the user's dump by tools/arm9data.py.  Never committed.",
+                " *",
+                " * symbols:",
+                " *   %s  0x%08X  data" % (n, a),
+                " */",
+                "",
+                "typedef unsigned char u8;",
+                "typedef unsigned int u32;",
+                ""]
+        if mark:
+            text += ["/* the decrypted encryObj marker: 0xE7FFDEFF three times */",
+                     "const u32 %s[3] = { 0xE7FFDEFF, 0xE7FFDEFF, 0xE7FFDEFF };" % n]
+        else:
+            vals = ["0x%02X" % c for c in img[a - base:b - base]]
+            text.append("const u8 %s[%d] = {" % (n, b - a))
+            text += ["    " + ", ".join(vals[k:k + 12]) + "," for k in range(0, len(vals), 12)]
+            text.append("};")
+        with open(os.path.join(out, n + ".c"), "w", encoding="latin1", newline="\n") as fh:
+            fh.write("\n".join(text) + "\n")
+    return len(parts), sum(b - a for a, b, _m in parts)
 
 
 def main():

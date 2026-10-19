@@ -1,5 +1,5 @@
 /*
- * function: POKELIST_FindMoveSlot
+ * function: POKELIST_TryLearnMove
  * address: 0x021BA5B4
  * packet: pkt_ov091_021BA5B4
  * region: ov091
@@ -26,4 +26,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 POKE_TOOL_AddMove(void *,u32);
 extern u32 POKE_TOOL_AddMoveAlt(void *,u16);
-u32 POKELIST_FindMoveSlot(u8 *p, void *q) { u8 *s=*(u8 **)(p+0x280); if (*(u32 *)(s+0x34)==5 || *(u32 *)(s+0x34)==8) return POKE_TOOL_AddMove(q,*(u16 *)(s+0x46)); else return POKE_TOOL_AddMoveAlt(q,*(u16 *)(s+0x46)); }
+u32 POKELIST_TryLearnMove(u8 *p, void *q) { u8 *s=*(u8 **)(p+0x280); if (*(u32 *)(s+0x34)==5 || *(u32 *)(s+0x34)==8) return POKE_TOOL_AddMove(q,*(u16 *)(s+0x46)); else return POKE_TOOL_AddMoveAlt(q,*(u16 *)(s+0x46)); }

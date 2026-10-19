@@ -1,5 +1,5 @@
 /*
- * function: func_021728B8
+ * function: DWCi_DoCancelMatch
  * address:  0x021728B8
  * packet:   pkt_ov009_021728B8
  * region:   ov009
@@ -53,7 +53,7 @@ extern int DWCi_CancelReservation(int arg);
 extern int DWCi_HandleMatchCommandError(int error);
 extern int DWCi_InvalidateReservation(void);
 
-static void func_021728B8(void)
+static void DWCi_DoCancelMatch(void)
 {
     int anyGT2ConnectionExist;
     int result;

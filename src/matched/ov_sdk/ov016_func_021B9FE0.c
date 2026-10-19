@@ -1,5 +1,5 @@
 /*
- * function: func_021B9FE0
+ * function: SetFrameData
  * address:  0x021B9FE0
  * packet:   pkt_ov016_021B9FE0
  * region:   ov016
@@ -41,7 +41,7 @@ typedef struct _FRAMEHEADER {
 
 extern int func_021BAC20(char *dest, char *src, unsigned long buflen, char *keyptr, unsigned long keylen);
 
-int func_021B9FE0(unsigned char *lpframe, int id, unsigned char *pbody, register int size, const unsigned char *lpkey)
+int SetFrameData(unsigned char *lpframe, int id, unsigned char *pbody, register int size, const unsigned char *lpkey)
 {
     FRAMEHEADER *pfh = (FRAMEHEADER *)lpframe;
     ELEMENTHEADER *peh = (ELEMENTHEADER *)pbody;

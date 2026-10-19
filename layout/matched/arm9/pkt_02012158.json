@@ -133,7 +133,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02012E40",
+   "name": "GAME_DATA_IsSaving",
    "address": "0x02012E40",
    "kind": "game",
    "region": "arm9",

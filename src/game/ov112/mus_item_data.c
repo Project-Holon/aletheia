@@ -35,7 +35,7 @@ typedef struct McssElemData {
     u8 textGroup;   /* 0x08 MUSICAL_MCSS_GetElemC */
     u8 category;    /* 0x09 MUSICAL_MCSS_GetElemA */
     u8 animKind;    /* 0x0A MUSICAL_MCSS_GetElemB */
-    u8 fieldB;              /* 0x0B */
+    u8 reserved0B;              /* 0x0B */
 } McssElemData;
 
 /* The 8-byte actor data wrapper returned by MUSICAL_MCSS_LoadActorData; both

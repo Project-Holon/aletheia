@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: sub_0202DE5C
+ * function: PMS_DRAW_SetNullColorPalette
  * address:  0x0202DE5C
  * packet:   pkt_0202DD24
  * region:   arm9
@@ -35,17 +35,17 @@ struct PmsDraw {
     u8    unk31;
 };
 
-void sub_0202DE5C(struct PmsDraw *p, u8 v)
+void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v)
 {
     p->unk31 = v;
 }
 
-void sub_0202DE64(struct PmsDraw *p, u16 v)
+void PMS_DRAW_SetPrintColor(struct PmsDraw *p, u16 v)
 {
     p->unk24 = v;
 }
 
-void sub_0202DE68(struct PmsDraw *p, u32 v)
+void PMS_DRAW_SetFollowBgScroll(struct PmsDraw *p, u32 v)
 {
     p->unk2c = v;
 }

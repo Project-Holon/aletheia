@@ -87,10 +87,10 @@ typedef struct {
     unsigned char trigger : 1;
     unsigned char repeat : 1;
     unsigned char release : 1;
-    unsigned char f4 : 1;
-    unsigned char f5 : 1;
-    unsigned char f6 : 1;
-    unsigned char f7 : 1;
+    unsigned char reserved4 : 1;
+    unsigned char reserved5 : 1;
+    unsigned char reserved6 : 1;
+    unsigned char reserved7 : 1;
 } ByteBits;
 
 typedef struct tagAREA { unsigned short x, y, w, h; } AREA;

@@ -40,7 +40,7 @@
  *   sSoundObjsBWaitMembers 0x021F394C data a4
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetFieldSave 0x02012EC4 thumb
- *   GIMMICK_WORK_GetSaveArea 0x0200B3A4 thumb
+ *   GIMMICK_WORK_GetWork 0x0200B3A4 thumb
  *   SOUND_OBJ_GetAnimeFrame 0x021C4E20 thumb ov021
  *   SOUND_OBJ_SetAnimeFrame 0x021C4E08 thumb ov021
  *   GFL_USE_GetRandomBelow 0x02005728 thumb
@@ -160,7 +160,7 @@ void FIELD_GIMMICK_SOUND_OBJS_B_LoadWaitLimits(FieldGimmickSoundObjsBWork *work)
 /* Saves the animation frame of each sound object in the gimmick work. */
 void FIELD_GIMMICK_SOUND_OBJS_B_SaveAnimeFrames(FieldGimmickSoundObjsBWork *work, struct FieldMap *fieldMap)
 {
-    FieldGimmickSoundObjsBSave *save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_SOUND_OBJS_B_SAVE_SLOT);
+    FieldGimmickSoundObjsBSave *save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_SOUND_OBJS_B_SAVE_SLOT);
     int i;
 
     for (i = 0; i < FIELD_GIMMICK_SOUND_OBJS_B_SOUND_OBJ_COUNT; i++) {
@@ -172,7 +172,7 @@ void FIELD_GIMMICK_SOUND_OBJS_B_SaveAnimeFrames(FieldGimmickSoundObjsBWork *work
 /* Sets the animation of each sound object to the saved frame. */
 void FIELD_GIMMICK_SOUND_OBJS_B_ExitSoundObjs(FieldGimmickSoundObjsBWork *work, struct FieldMap *fieldMap)
 {
-    FieldGimmickSoundObjsBSave *save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_SOUND_OBJS_B_SAVE_SLOT);
+    FieldGimmickSoundObjsBSave *save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_SOUND_OBJS_B_SAVE_SLOT);
     int i;
 
     for (i = 0; i < FIELD_GIMMICK_SOUND_OBJS_B_SOUND_OBJ_COUNT; i++)

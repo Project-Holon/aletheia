@@ -1,5 +1,5 @@
 /*
- * function: SPL_EMITTER_FreeNode
+ * function: SPLList_Erase
  * address:  0x02058300
  * packet:   pkt_02057830
  * region:   arm9
@@ -21,7 +21,7 @@ struct List {
     struct Node *tail;
 };
 
-struct Node *SPL_EMITTER_FreeNode(struct List *list, struct Node *node)
+struct Node *SPLList_Erase(struct List *list, struct Node *node)
 {
     struct Node *next;
 

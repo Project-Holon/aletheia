@@ -42,12 +42,6 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 
 extern void MCSS_SetPosition(void *p, u32 *src);
 
-extern float _s32_to_float(int);
-
-extern float __fdiv(float, float);
-
-extern int _f2s(float);
-
 extern void MCSS_SetAnmStopFlag(void *p);
 
 void POKETRADE_NEGO_PlaySeByEvent(int eventId, u8 *work);
@@ -88,7 +82,7 @@ void *POKETRADE_MCSS_SlideCreate(void *mcss, void *frameCount, void *targetPos, 
 
     slide->mcss = mcss;
     POKETRADE_MCSS_SlideBegin(slide, frameCount, targetPos);
-    slide->fC = 0;
+    slide->reserved0C = 0;
     return slide;
 }
 
@@ -109,7 +103,7 @@ void *POKETRADE_MCSS_SlideCreateWithOffsets(void *mcss, void *frameCount, void *
 
     slide->mcss = mcss;
     POKETRADE_MCSS_SlideBegin(slide, frameCount, targetPos);
-    slide->fC = 0;
+    slide->reserved0C = 0;
     slide->offsetTable = (McssSlideVec *)(u32)offsetTable;
     return slide;
 }
@@ -184,8 +178,8 @@ void POKETRADE_MCSS_SlideUpdate(McssSlide *slide, int eventArg)
         MCSS_GetPosition(slide->mcss, &vec[0]);
         vec[3] = POKETRADE_MCSS_SlideInterpolate(slide->start.x, slide->target.x, slide, 0);
         if (slide->wobbleEnabled != 0) {
-            float q = 374.0f * __fdiv(_s32_to_float((int)(vec[0] - vec[3])), 4096.0f);
-            slide->wobblePhase -= (u16)_f2s(q);
+            float q = 374.0f * ((float)((int)(vec[0] - vec[3])) / 4096.0f);
+            slide->wobblePhase -= (u16)(int)q;
         }
         vec[4] = POKETRADE_MCSS_SlideInterpolate(slide->start.y, slide->target.y, slide, 1);
         vec[5] = POKETRADE_MCSS_SlideInterpolate(slide->start.z, slide->target.z, slide, 0);

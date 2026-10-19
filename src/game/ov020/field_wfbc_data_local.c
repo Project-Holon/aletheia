@@ -179,12 +179,9 @@
  *   G2x_SetBlendBrightness_  0x0207D658  arm
  *   G2x_SetBlendAlpha_  0x0207D63C  arm
  *   GXx_SetMasterBrightness_  0x0207D534  arm
- *   _ffltu  0x0209BE04  arm
  *   __fdiv  0x0209CE10  arm
  *   __fmul  0x0209C77C  arm
  *   __fadd  0x0209C95C  arm
- *   _fsub  0x0209CB8C  arm
- *   _ffix  0x0209C494  arm
  *   COMM_PLAYER_SUPPORT_NextSeason  0x0202E8A4  thumb
  *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   FIELDMAP_ResetBgAffineShowMsg  0x02188DB0  thumb  ov021

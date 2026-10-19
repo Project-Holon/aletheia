@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: INTRUDE_COMM_IsSessionBusy, INTRUDE_COMM_SetSessionReadyBit
+ * function: INTRUDE_COMM_IsSessionAcceptedOrResultReady, INTRUDE_COMM_SetSessionReadyBit
  * address:  0x02175BE4
  * packet:   pkt_ov011_02175BE4
  * region:   ov011
@@ -23,7 +23,7 @@ typedef unsigned int  u32;
 extern int INTRUDE_COMM_IsSessionAccepted(u8 *p);
 extern u8 *INTRUDE_COMM_GetSessionResult(u8 *p);
 
-int INTRUDE_COMM_IsSessionBusy(void *a)
+int INTRUDE_COMM_IsSessionAcceptedOrResultReady(void *a)
 {
     if (INTRUDE_COMM_IsSessionAccepted(a) == 1 || INTRUDE_COMM_GetSessionResult(a) != 0) {
         return 1;

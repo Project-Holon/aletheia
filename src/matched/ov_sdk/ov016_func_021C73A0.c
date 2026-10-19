@@ -1,5 +1,5 @@
 /*
- * function: func_021C73A0
+ * function: procInit2
  * address:  0x021C73A0
  * packet:   pkt_ov016_021C73A0
  * region:   ov016
@@ -21,7 +21,7 @@ extern unsigned char DWCi_KB10lGet(void);
 extern void DWCi_ChangeScene(unsigned int v);
 extern void DWCi_SceneSetEditAddress_procScene();
 
-void func_021C73A0(void)
+void procInit2(void)
 {
     if (DWCi_KB10lGet() == 0x1F)
         return;

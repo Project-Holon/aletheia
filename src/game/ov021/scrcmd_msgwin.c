@@ -26,7 +26,7 @@
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   FLDMMDL_GetObjId  0x0216D588  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
- *   VM_GetU16  0x02011330  thumb
+ *   VM_ReadU16  0x02011330  thumb
  *   SCRIPT_WORK_SetCheckFlag  0x02159144  thumb  ov010
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   SCRIPT_WORK_ResetCheckFlag  0x02159168  thumb  ov010
@@ -250,7 +250,7 @@ extern u16 *SCRIPT_WORK_ReadWorkPointer(ScriptVm *vm, ScrcmdWork *cmdWork);
 extern u16 FLDMMDL_GetObjId(Mmdl *mmdl);
 extern GameData *SCRCMD_WORK_GetGameData(ScrcmdWork *cmdWork);
 extern FieldMap *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
-extern u16 VM_GetU16(ScriptVm *vm);
+extern u16 VM_ReadU16(ScriptVm *vm);
 extern void SCRIPT_WORK_SetCheckFlag(int checkFlag);
 extern void VM_SetWait(ScriptVm *vm, ScrcmdWaitFn waitFn);
 extern void SCRIPT_WORK_ResetCheckFlag(int checkFlag);
@@ -569,7 +569,7 @@ int SCRCMD_MSGWIN_CmdInitMenu(ScriptVm *vm, ScrcmdWork *cmdWork)
     pc = vm->pc;
     cancelable = pc[0];
     vm->pc = pc + 1;
-    result = SCRIPT_WORK_GetWorkPtr(scriptWork, gameData, VM_GetU16(vm));
+    result = SCRIPT_WORK_GetWorkPtr(scriptWork, gameData, VM_ReadU16(vm));
     SCRCMD_WORK_InitMenu(cmdWork, x, y, cursorPos, cancelable, 0, result, SCRIPT_WORK_GetWordSet(scriptWork), 0);
     return 1;
 }
@@ -594,7 +594,7 @@ int SCRCMD_MSGWIN_CmdInitMenuMsgData(ScriptVm *vm, ScrcmdWork *cmdWork)
     pc = vm->pc;
     cancelable = pc[0];
     vm->pc = pc + 1;
-    result = SCRIPT_WORK_GetWorkPtr(scriptWork, gameData, VM_GetU16(vm));
+    result = SCRIPT_WORK_GetWorkPtr(scriptWork, gameData, VM_ReadU16(vm));
     SCRCMD_WORK_InitMenu(cmdWork, x, y, cursorPos, cancelable, 0, result, SCRIPT_WORK_GetWordSet(scriptWork), SCRCMD_WORK_GetMsgData(cmdWork));
     return 1;
 }
@@ -619,7 +619,7 @@ int SCRCMD_MSGWIN_CmdInitMenuMsgDataMode1(ScriptVm *vm, ScrcmdWork *cmdWork)
     pc = vm->pc;
     cancelable = pc[0];
     vm->pc = pc + 1;
-    result = SCRIPT_WORK_GetWorkPtr(scriptWork, gameData, VM_GetU16(vm));
+    result = SCRIPT_WORK_GetWorkPtr(scriptWork, gameData, VM_ReadU16(vm));
     SCRCMD_WORK_InitMenu(cmdWork, x, y, cursorPos, cancelable, 1, result, SCRIPT_WORK_GetWordSet(scriptWork), SCRCMD_WORK_GetMsgData(cmdWork));
     return 1;
 }
@@ -631,8 +631,8 @@ int SCRCMD_MSGWIN_CmdAddMenuItem(ScriptVm *vm, ScrcmdWork *cmdWork)
     ScriptWork *scriptWork;
 
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
-    msgId = VM_GetU16(vm);
-    helpMsgId = VM_GetU16(vm);
+    msgId = VM_ReadU16(vm);
+    helpMsgId = VM_ReadU16(vm);
     itemValue = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     SCRCMD_WORK_AddMenuItem(cmdWork, msgId, helpMsgId, itemValue, SCRIPT_WORK_GetMsgBuffer(scriptWork), SCRIPT_WORK_GetTempBuffer(scriptWork));
     return 0;
@@ -738,7 +738,7 @@ int SCRCMD_MSGWIN_CmdInfoSysWinMsg(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     msgId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    SCRCMD_MSGWIN_OpenInfoSysWin(cmdWork, (u8)VM_GetU16(vm));
+    SCRCMD_MSGWIN_OpenInfoSysWin(cmdWork, (u8)VM_ReadU16(vm));
     str = SCRCMD_MSGWIN_ExpandMessage(cmdWork, scriptWork, msgId);
     FIELD_MSGBG_InfoSysWinPrintStr(SCRCMD_WORK_GetMsgWindow(cmdWork), 0, 0, str);
     VM_SetWait(vm, SCRCMD_MSGWIN_WaitInfoSysWin);
@@ -759,7 +759,7 @@ int SCRCMD_MSGWIN_CmdInfoSysWinMsgNow(ScriptVm *vm, ScrcmdWork *cmdWork)
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     str = SCRIPT_WORK_GetMsgBuffer(scriptWork);
     msgId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    SCRCMD_MSGWIN_OpenInfoSysWin(cmdWork, (u8)VM_GetU16(vm));
+    SCRCMD_MSGWIN_OpenInfoSysWin(cmdWork, (u8)VM_ReadU16(vm));
     msgData = SCRCMD_WORK_GetMsgData(cmdWork);
     wordSet = SCRIPT_WORK_GetWordSet(scriptWork);
     tempBuffer = SCRIPT_WORK_GetTempBuffer(scriptWork);
@@ -1442,10 +1442,10 @@ int SCRCMD_MSGWIN_CmdAddSubWinMsg(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     fieldParam = SCRIPT_WORK_ResetFieldParam(scriptWork);
-    msgId = VM_GetU16(vm);
+    msgId = VM_ReadU16(vm);
     x = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     y = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    id = VM_GetU16(vm);
+    id = VM_ReadU16(vm);
     height = 2;
     str = STRBUF_Create(0x40, SCRCMD_WORK_GetHeapId(cmdWork));
     msgData = SCRCMD_WORK_GetMsgData(cmdWork);
@@ -1473,7 +1473,7 @@ int SCRCMD_MSGWIN_CmdDeleteSubWinMsg(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     ScriptFieldParam *fieldParam = SCRIPT_WORK_ResetFieldParam(SCRCMD_WORK_GetScriptWork(cmdWork));
 
-    FIELD_MSGBG_DeleteSubMsgWin(fieldParam->mapSystem, VM_GetU16(vm));
+    FIELD_MSGBG_DeleteSubMsgWin(fieldParam->mapSystem, VM_ReadU16(vm));
     if (FIELD_MSGBG_ExistsSubMsgWin(fieldParam->mapSystem) == 0) {
         SCRIPT_WORK_ResetCheckFlag(SCRIPT_FLAG_SUB_WIN);
     }
@@ -1537,8 +1537,8 @@ int SCRCMD_MSGWIN_CmdBgWinMsg(ScriptVm *vm, ScrcmdWork *cmdWork)
     WordSet *wordSet;
     Strbuf *tempBuffer;
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
-    msgId = VM_GetU16(vm);
-    winType = VM_GetU16(vm);
+    msgId = VM_ReadU16(vm);
+    winType = VM_ReadU16(vm);
     fieldParam = SCRIPT_WORK_ResetFieldParam(scriptWork);
     msgData = SCRCMD_WORK_GetMsgData(cmdWork);
     SCRCMD_WORK_SetMsgWindow(cmdWork, FIELD_MSGBG_CreateBgWin(fieldParam->mapSystem, winType));
@@ -1565,8 +1565,8 @@ int SCRCMD_MSGWIN_CmdBgWinMsgFont(ScriptVm *vm, ScrcmdWork *cmdWork)
     Strbuf *tempBuffer;
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     fieldParam = SCRIPT_WORK_ResetFieldParam(scriptWork);
-    msgId = VM_GetU16(vm);
-    winType = VM_GetU16(vm);
+    msgId = VM_ReadU16(vm);
+    winType = VM_ReadU16(vm);
     heapId = FIELDMAP_GetHeapId(fieldParam->fieldSystem);
     fontFieldParam = SCRIPT_WORK_ResetFieldParam(scriptWork);
     msgData = SCRCMD_WORK_GetMsgData(cmdWork);
@@ -1629,12 +1629,12 @@ int SCRCMD_MSGWIN_CmdSpWinMsg(ScriptVm *vm, ScrcmdWork *cmdWork)
     u16 width, height;
     u8 **pcPtr = &vm->pc;
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
-    msgId = VM_GetU16(vm);
+    msgId = VM_ReadU16(vm);
     x = **pcPtr;
     (*pcPtr)++;
     y = **pcPtr;
     (*pcPtr)++;
-    frameType = VM_GetU16(vm);
+    frameType = VM_ReadU16(vm);
     str = SCRCMD_MSGWIN_ExpandMessage(cmdWork, scriptWork, msgId);
     fieldParam = SCRIPT_WORK_ResetFieldParam(scriptWork);
     width = FIELD_MSGBG_GetStrWidthChars(fieldParam->mapSystem, str, 4);
@@ -1720,7 +1720,7 @@ int SCRCMD_MSGWIN_CmdSetAutoMode(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     ScriptFieldParam *fieldParam = SCRIPT_WORK_ResetFieldParam(SCRCMD_WORK_GetScriptWork(cmdWork));
 
-    if (VM_GetU16(vm)) {
+    if (VM_ReadU16(vm)) {
         FIELD_MSGBG_SetAutoMode(fieldParam->mapSystem, 1);
         SCRIPT_WORK_SetCheckFlag(SCRIPT_FLAG_AUTO_MODE);
     } else {

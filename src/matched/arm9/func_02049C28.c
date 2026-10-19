@@ -13,7 +13,7 @@
  *   ARC_UTIL_gPaletteLoadFns     0x020A1364  data
  *   NNS_G2dGetUnpackedPaletteCompressInfo  0x02062AD4  arm
  *   NNS_G2dGetUnpackedPaletteData  0x02062A98  arm
- *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   DC_FlushRange  0x020862F0  arm
  *   func_0207F308  0x0207F308  arm
  *   func_0207F428  0x0207F428  arm
  *   func_0207F5B0  0x0207F5B0  arm
@@ -65,7 +65,7 @@ typedef signed int     s32;
 struct NitroFileHeader;
 extern s32 NNS_G2dGetUnpackedPaletteCompressInfo(struct NitroFileHeader *file, void **out);
 extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
-extern void DWCi_ScreenDC_FlushRange(u32 addr, u32 size);
+extern void DC_FlushRange(u32 addr, u32 size);
 extern void func_0207F308(void);
 extern void func_0207F428(void);
 extern void func_0207F5B0(void);
@@ -94,7 +94,7 @@ void ARC_UTIL_UploadPalette(void *file, u32 kind, u32 offset, u32 dest, u32 size
                 size = *pmcp * (pltt->fmt == 3 ? 0x20 : 0x200);
             size -= offset;
         }
-        DWCi_ScreenDC_FlushRange(pltt->data, size);
+        DC_FlushRange(pltt->data, size);
         switch (kind) {
         case 2:
             func_0207F308();

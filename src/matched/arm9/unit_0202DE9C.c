@@ -10,7 +10,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0202DE9C, sub_0202DEE0, sub_0202DF24
+ * function: PMS_DRAW_GetDecoCgrIndex, PMS_DRAW_GetDecoCelIndex, PMS_DRAW_GetDecoAnmIndex
  *
  * Three copies of one function that differ only in the four constants
  * they answer with. Each reads the display control register of engine A
@@ -42,7 +42,7 @@
 typedef unsigned int u32;
 typedef volatile unsigned int vu32;
 
-u32 sub_0202DE9C(u32 engine)
+u32 PMS_DRAW_GetDecoCgrIndex(u32 engine)
 {
     vu32 *reg;
 
@@ -62,7 +62,7 @@ u32 sub_0202DE9C(u32 engine)
     return 0x20;
 }
 
-u32 sub_0202DEE0(u32 engine)
+u32 PMS_DRAW_GetDecoCelIndex(u32 engine)
 {
     vu32 *reg;
 
@@ -82,7 +82,7 @@ u32 sub_0202DEE0(u32 engine)
     return 0x26;
 }
 
-u32 sub_0202DF24(u32 engine)
+u32 PMS_DRAW_GetDecoAnmIndex(u32 engine)
 {
     vu32 *reg;
 

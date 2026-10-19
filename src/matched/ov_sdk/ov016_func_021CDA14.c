@@ -1,5 +1,5 @@
 /*
- * function: func_021CDA14
+ * function: endScene
  * address:  0x021CDA14
  * packet:   pkt_ov016_021CDA14
  * region:   ov016
@@ -12,7 +12,7 @@
  * sdk:      endScene (libdwcutil.TWL.HYB.a scenesettestconf)
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CDA14.c \n *       --func func_021CDA14 --addr 0x021CDA14 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CDA14.c \n *       --func endScene --addr 0x021CDA14 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  *
  * symbols:
  *   DWCi_WINlIsInit  0x021D157C  arm  ov016
@@ -26,7 +26,7 @@ extern int DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021CDA48(void);
 
-void func_021CDA14(void)
+void endScene(void)
 {
     if (DWCi_WINlIsInit())
         return;

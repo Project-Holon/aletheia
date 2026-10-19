@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CED30",
+   "name": "isTrigger",
    "address": "0x021CED30",
    "kind": "sdk",
    "region": "ov016",

@@ -1,5 +1,5 @@
 /*
- * function: func_0216497C
+ * function: CPSi_big_montmult
  * address:  0x0216497C
  * packet:   pkt_ov009_0216497C
  * region:   ov009
@@ -31,7 +31,7 @@ extern void *memmove(void *dst, const void *src, unsigned long n);
 extern int CPSi_big_compare(unsigned short *a, unsigned short *b, int digits);
 extern void CPSi_big_sub(unsigned short *c, unsigned short *a, unsigned short *b, int digits);
 
-static void func_0216497C(unsigned short *c, unsigned short *a, unsigned short *b, int digits,
+static void CPSi_big_montmult(unsigned short *c, unsigned short *a, unsigned short *b, int digits,
                           int rdigits, unsigned short *n, unsigned short *np,
                           unsigned short *m, unsigned short *m2)
 {

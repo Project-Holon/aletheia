@@ -1,5 +1,5 @@
 /*
- * function: ov021_func_021A48C8
+ * function: FIELD_PLAYER_GRID_GetMoveResultOnCycle
  * address:  0x021A48C8
  * packet:   pkt_ov021_021A48C8
  * region:   ov021
@@ -28,7 +28,7 @@ extern int FIELD_PLAYER_GRID_GetWalkResultOnCycle(u8 *a, void *b, u8 *c);
 extern int FIELD_PLAYER_GRID_GetTurnResultOnCycle(int a, int b, u8 *c);
 extern int FIELD_PLAYER_GRID_GetBlockedResultOnCycle(u8 *, void *, u32);
 
-int ov021_func_021A48C8(u8 *a, u32 b)
+int FIELD_PLAYER_GRID_GetMoveResultOnCycle(u8 *a, u32 b)
 {
     void *r = FIELD_PLAYER_CORE_GetMmdl(((struct Obj12737 *)a)->fC);
     int ret = 0;

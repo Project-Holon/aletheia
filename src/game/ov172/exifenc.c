@@ -64,7 +64,6 @@
  *   gExifMakerNoteConfigData 0x021CAEC6 data ov172
  *   gExifInteropIndex 0x021C88BC data ov172
  *   gExifRelatedImageFormat 0x021C88C0 data ov172
- *   write_exif_ifd_tables 0x021C3A28 arm ov172
  *   STD_CopyLString  0x0208CB10  arm  arm9
  *   STD_TSPrintf  0x0208D7E0  arm  arm9
  *   @12445  0x021C719C  data
@@ -173,17 +172,6 @@ struct SlotManager
   u32 thumbLength;
 };
 
-struct UnkObj
-{
-  u32 field0;
-  u32 len;
-  u32 field8;
-  u32 fieldC;
-  u32 field10;
-  u8 *buffer;
-  u32 field18;
-};
-
 struct Adf0 {
     u32 dateTimeDataFlag;
     u32 encodeFileSize;
@@ -195,7 +183,7 @@ struct Adf0 {
     u32 makerNoteBuffer;
     u32 makerNoteUserBuffer;
     u8  pad24[0x13];
-    u8  f37;
+    u8  reserved37;
 };
 
 void MI_CpuCopy(const void *src, void *dst, u32 n);
@@ -204,7 +192,6 @@ void STD_TSPrintf(char *dst, const char *fmt, ...);
 int STD_CopyLString(char *destp, const char *srcp, int siz);
 extern int STD_GetStringLength(char *str);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
-extern u32 write_exif_ifd_tables(struct SlotManager *mgr, u32 mode, u8 *thumb_src, u32 thumb_size);
 void MI_CpuFill8(void *dst, int val, u32 n);
 int  OS_IsRunOnTwl(void);
 void OS_SpinWaitSysCycles(u32 x);
@@ -1189,14 +1176,14 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
   dst[encode_file_size++] = 0xD8;
   if (cfg_encode_exif_)
   {
-    if (write_exif_ifd_tables(sb, 0, thumb_src, thumb_size) == 0)
+    if (jpeg_encode_exif((jpeg_exif_data_structure *)sb, 0, thumb_src, thumb_size) == 0)
     {
       return 0;
     }
   }
   else
   {
-    if (write_exif_ifd_tables(sb, 1, thumb_src, thumb_size) == 0)
+    if (jpeg_encode_exif((jpeg_exif_data_structure *)sb, 1, thumb_src, thumb_size) == 0)
     {
       return 0;
     }

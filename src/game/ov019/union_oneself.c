@@ -14,7 +14,7 @@
  *
  * symbols:
  *   GF_PANIC_Fail 0x02034714 arm
- *   memcmp  0x0203EFC8  arm
+ *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   MET_TRAINERS_GetFromSave  0x0200ED48  thumb
  *   UNION_MSG_GetCategoryTableValue  0x0217F060  thumb  ov019
@@ -81,7 +81,6 @@
  *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   UNION_COMMAND_SendMyStatus  0x02173B4C  thumb  ov012
  *   MATH_CountPopulation  0x02080D24  arm
- *   GAME_DATA_GetMyParty  0x02012934  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   POKEPARTY_GetNonEggCount  0x0201AA1C  thumb
  *   POKEPARTY_GetBadEggCount  0x0201AAD4  thumb
@@ -153,7 +152,6 @@
  *   COLOSSEUM_SendFinish  0x02174F34  thumb  ov012
  *   UNION_COMM_ClearBeaconPcs  0x02173408  thumb  ov012
  *   COLOSSEUM_Delete  0x0217505C  thumb  ov012
- *   GAMESYSTEM_SetFieldMapState  0x02012124  thumb
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  *   MYSTATUS_GetRomCode  0x0200855C  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
@@ -798,7 +796,7 @@ extern int  GFL_NET_SYSTEM_GetConnectNum(void);
 
 extern void *GFL_NET_HANDLE_GetCurrentHandle(void);
 
-extern int  memcmp(const void *a, const void *b, u32 n);
+extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 
 int UNION_COMMAND_SendMyMac(void);
 
@@ -1260,7 +1258,7 @@ int UNION_ONESELF_ConnectParentMain(UnionRoomWork *unisys, UnionMySituation *sit
         break;
     case 2:
         if (situation->connect.partnerMac.enabled == 1) {
-            if (memcmp(situation->connect.partnerMac.mac, situation->connect.talkPc->mac, 6) != 0) {
+            if (GF_STANDARD_CompareBytes(situation->connect.partnerMac.mac, situation->connect.talkPc->mac, 6) != 0) {
                 if (UNION_COMMAND_SendPartnerMode(2) == 1) {
                     GFL_NET_SetLoginOption(0);
                     *seq = 6;

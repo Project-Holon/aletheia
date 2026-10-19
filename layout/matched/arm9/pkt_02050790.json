@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "LIST_PopFront",
+   "name": "BILLBOARD_ACT_Draw",
    "address": "0x02050790",
    "kind": "sdk",
    "region": "arm9",

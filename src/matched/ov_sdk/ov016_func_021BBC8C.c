@@ -1,5 +1,5 @@
 /*
- * function: func_021BC500
+ * function: Decode
  * address:  0x021BC500
  * packet:   pkt_021BBC8C
  * region:   ov016
@@ -14,7 +14,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_021BC500(u32 *dst, const u8 *src, u32 count)
+void Decode(u32 *dst, const u8 *src, u32 count)
 {
     u32 i = 0;
     while (i < count) {

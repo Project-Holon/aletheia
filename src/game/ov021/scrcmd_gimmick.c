@@ -21,7 +21,7 @@
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
- *   VM_GetU16  0x02011330  thumb
+ *   VM_ReadU16  0x02011330  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELD_GIMMICK_CART_LANES_CreateSwitchEvent  0x021F3E24  thumb  ov039
  *   FIELD_GIMMICK_CART_LANES_UnlockLaneFromScript  0x021F4134  thumb  ov039
@@ -60,7 +60,7 @@ extern void SCRIPT_SYS_CallEvent(struct ScriptWork *scriptWork, struct GameEvent
 extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *cmdWork);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(ScriptVm *vm, struct ScrcmdWork *cmdWork);
 extern struct FieldMap *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
-extern u16 VM_GetU16(ScriptVm *vm);
+extern u16 VM_ReadU16(ScriptVm *vm);
 extern struct GameEvent *FIELD_GIMMICK_CART_LANES_CreateSwitchEvent(struct GameSystem *gameSystem, u32 switchId);
 extern void FIELD_GIMMICK_CART_LANES_UnlockLaneFromScript(struct GameSystem *gameSystem, u32 laneId);
 extern void FIELD_GIMMICK_CART_LANES_TransferSound(struct GameSystem *gameSystem);
@@ -122,7 +122,7 @@ int SCRCMD_FIELD_GIMMICK_CART_LANES_CreateSwitchEvent(ScriptVm *vm, struct Scrcm
 {
     struct ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    u8 switchId = VM_GetU16(vm);
+    u8 switchId = VM_ReadU16(vm);
     struct GameEvent *event = FIELD_GIMMICK_CART_LANES_CreateSwitchEvent(gameSystem, switchId);
 
     if (event == 0) {
@@ -140,7 +140,7 @@ int SCRCMD_FIELD_GIMMICK_CART_LANES_UnlockLaneFromScript(ScriptVm *vm, struct Sc
 
     SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    laneId = VM_GetU16(vm);
+    laneId = VM_ReadU16(vm);
     FIELD_GIMMICK_CART_LANES_UnlockLaneFromScript(gameSystem, laneId);
     return 0;
 }
@@ -182,7 +182,7 @@ int SCRCMD_FIELD_GIMMICK_FLAG_ANIME_CreateEvent(ScriptVm *vm, struct ScrcmdWork 
 {
     struct ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    u8 eventId = VM_GetU16(vm);
+    u8 eventId = VM_ReadU16(vm);
     struct GameEvent *event = FIELD_GIMMICK_FLAG_ANIME_CreateEvent(gameSystem, eventId);
 
     if (event == 0) {
@@ -197,7 +197,7 @@ int SCRCMD_FIELD_GIMMICK_BUTTON_STATES_CreateStateEventWithFlag(ScriptVm *vm, st
 {
     struct ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    u8 stateId = VM_GetU16(vm);
+    u8 stateId = VM_ReadU16(vm);
     u32 setFlag = 1;
     struct GameEvent *event = FIELD_GIMMICK_BUTTON_STATES_CreateStateEvent(gameSystem, stateId, setFlag);
 
@@ -213,7 +213,7 @@ int SCRCMD_FIELD_GIMMICK_BUTTON_STATES_CreateStateEvent(ScriptVm *vm, struct Scr
 {
     struct ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    u8 stateId = VM_GetU16(vm);
+    u8 stateId = VM_ReadU16(vm);
     struct GameEvent *event = FIELD_GIMMICK_BUTTON_STATES_CreateStateEvent(gameSystem, stateId, 0);
 
     if (event == 0) {
@@ -228,7 +228,7 @@ int SCRCMD_FIELD_GIMMICK_BUTTON_STATES_CreateOneShotEvent(ScriptVm *vm, struct S
 {
     struct ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    u8 eventId = VM_GetU16(vm);
+    u8 eventId = VM_ReadU16(vm);
     struct GameEvent *event = FIELD_GIMMICK_BUTTON_STATES_CreateOneShotEvent(gameSystem, eventId);
 
     if (event == 0) {
@@ -271,7 +271,7 @@ int SCRCMD_FIELD_GIMMICK_PLATE_DOORS_StartScriptedEvent(ScriptVm *vm, struct Scr
 {
     struct ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    struct GameEvent *event = FIELD_GIMMICK_PLATE_DOORS_StartScriptedEvent(gameSystem, VM_GetU16(vm));
+    struct GameEvent *event = FIELD_GIMMICK_PLATE_DOORS_StartScriptedEvent(gameSystem, VM_ReadU16(vm));
 
     if (event == 0) {
         return 1;
@@ -285,7 +285,7 @@ int SCRCMD_FIELD_GIMMICK_LIFT_ELEVATOR_CallLiftEvent(ScriptVm *vm, struct Scrcmd
 {
     struct ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    struct GameEvent *event = FIELD_GIMMICK_LIFT_ELEVATOR_CallLiftEvent(gameSystem, VM_GetU16(vm));
+    struct GameEvent *event = FIELD_GIMMICK_LIFT_ELEVATOR_CallLiftEvent(gameSystem, VM_ReadU16(vm));
 
     if (event == 0) {
         return 1;
@@ -299,7 +299,7 @@ int SCRCMD_FIELD_GIMMICK_LIFT_ELEVATOR_CallElevatorEvent(ScriptVm *vm, struct Sc
 {
     struct ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    struct GameEvent *event = FIELD_GIMMICK_LIFT_ELEVATOR_CallElevatorEvent(gameSystem, VM_GetU16(vm) ? 1 : 0);
+    struct GameEvent *event = FIELD_GIMMICK_LIFT_ELEVATOR_CallElevatorEvent(gameSystem, VM_ReadU16(vm) ? 1 : 0);
 
     if (event == 0) {
         return 1;
@@ -313,7 +313,7 @@ int SCRCMD_FIELD_GIMMICK_LIFT_CallEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork
 {
     struct ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    struct GameEvent *event = FIELD_GIMMICK_LIFT_CallEvent(gameSystem, VM_GetU16(vm) ? 1 : 0);
+    struct GameEvent *event = FIELD_GIMMICK_LIFT_CallEvent(gameSystem, VM_ReadU16(vm) ? 1 : 0);
 
     if (event == 0) {
         return 1;
@@ -341,7 +341,7 @@ int SCRCMD_FIELD_GIMMICK_SWITCH_TOGGLE_StartSecondarySwitchEvent(ScriptVm *vm, s
 {
     struct ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    struct GameEvent *event = FIELD_GIMMICK_SWITCH_TOGGLE_StartSecondarySwitchEvent(gameSystem, VM_GetU16(vm));
+    struct GameEvent *event = FIELD_GIMMICK_SWITCH_TOGGLE_StartSecondarySwitchEvent(gameSystem, VM_ReadU16(vm));
 
     if (event == 0) {
         return 1;
@@ -355,7 +355,7 @@ int SCRCMD_FIELD_GIMMICK_BUTTON_STATES_CreateOneShotEventU16(ScriptVm *vm, struc
 {
     struct ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    struct GameEvent *event = FIELD_GIMMICK_BUTTON_STATES_CreateOneShotEvent(gameSystem, VM_GetU16(vm));
+    struct GameEvent *event = FIELD_GIMMICK_BUTTON_STATES_CreateOneShotEvent(gameSystem, VM_ReadU16(vm));
 
     if (event == 0) {
         return 1;
@@ -367,7 +367,7 @@ int SCRCMD_FIELD_GIMMICK_BUTTON_STATES_CreateOneShotEventU16(ScriptVm *vm, struc
 /* Script command: ov045 state change for an immediate value. */
 int SCRCMD_FIELD_GIMMICK_SWITCH_TOGGLE_ReplacePlayerIfRequirementMet(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    FIELD_GIMMICK_SWITCH_TOGGLE_ReplacePlayerIfRequirementMet(SCRCMD_WORK_GetGameSystem(cmdWork), VM_GetU16(vm));
+    FIELD_GIMMICK_SWITCH_TOGGLE_ReplacePlayerIfRequirementMet(SCRCMD_WORK_GetGameSystem(cmdWork), VM_ReadU16(vm));
     return 0;
 }
 
@@ -376,8 +376,8 @@ int SCRCMD_FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent(ScriptVm *vm, struct ScrcmdW
 {
     struct ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    int doorId = VM_GetU16(vm);
-    int doorState = VM_GetU16(vm);
+    int doorId = VM_ReadU16(vm);
+    int doorState = VM_ReadU16(vm);
     struct GameEvent *event = FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent(gameSystem, doorId, doorState);
 
     if (event == 0) {
@@ -392,7 +392,7 @@ int SCRCMD_FIELD_GIMMICK_ROTATING_ROOM_StartHopEvent(ScriptVm *vm, struct Scrcmd
 {
     struct ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    struct GameEvent *event = FIELD_GIMMICK_ROTATING_ROOM_StartHopEvent(gameSystem, VM_GetU16(vm));
+    struct GameEvent *event = FIELD_GIMMICK_ROTATING_ROOM_StartHopEvent(gameSystem, VM_ReadU16(vm));
 
     if (event == 0) {
         return 1;

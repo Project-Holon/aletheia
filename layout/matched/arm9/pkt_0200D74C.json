@@ -18,12 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "GDS_PROFILE_GetRecordWord1C",
-    "GDS_PROFILE_GetRecordWord30",
+    "GDS_PROFILE_GetValidatedCountry",
+    "GDS_PROFILE_GetValidatedRegion",
     "GDS_PROFILE_ExportRecord",
-    "GDS_PROFILE_GetVariant",
-    "GDS_PROFILE_GetCountry",
-    "GDS_PROFILE_GetMode"
+    "GDS_PROFILE_GetBirthMonth",
+    "GDS_PROFILE_GetTrainerSprite",
+    "GDS_PROFILE_GetLanguage"
    ],
    "addresses": [
     "0x0200D74C",

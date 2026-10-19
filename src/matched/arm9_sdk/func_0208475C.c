@@ -1,5 +1,5 @@
 /*
- * function: func_0208475C
+ * function: OS_InitIrqTable
  * address:  0x0208475C
  * packet:   pkt_0208475C
  * region:   arm9
@@ -18,7 +18,7 @@
 
 extern struct OSThreadQueue g_02FE00A0;
 
-void func_0208475C(void)
+void OS_InitIrqTable(void)
 {
     ((int *)&g_02FE00A0)[1] = 0;
     ((int *)&g_02FE00A0)[0] = 0;

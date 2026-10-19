@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CCE58",
+   "name": "endScene",
    "address": "0x021CCE58",
    "kind": "sdk",
    "region": "ov016",

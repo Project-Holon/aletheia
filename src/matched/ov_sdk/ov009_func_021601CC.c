@@ -1,5 +1,5 @@
 /*
- * function: func_021601CC
+ * function: make_dn
  * address:  0x021601CC
  * packet:   pkt_ov009_021601CC
  * region:   ov009
@@ -15,7 +15,7 @@
  *   (none)
  */
 
-static void func_021601CC(char *d, char *s, int len)
+static void make_dn(char *d, char *s, int len)
 {
     char *d0;
 

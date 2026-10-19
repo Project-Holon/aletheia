@@ -1,5 +1,5 @@
 /*
- * function: SPL_EMITTER_AllocNode
+ * function: SPLList_PopFront
  * address:  0x02058380
  * packet:   pkt_02057830
  * region:   arm9
@@ -21,7 +21,7 @@ struct List {
     struct Node * volatile tail;
 };
 
-struct Node *SPL_EMITTER_AllocNode(struct List *list)
+struct Node *SPLList_PopFront(struct List *list)
 {
     struct Node *ret;
     struct Node *head;

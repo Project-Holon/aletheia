@@ -1,5 +1,5 @@
 /*
- * function: func_021CA0D4
+ * function: applyForcus1
  * address:  0x021CA0D4
  * packet:   pkt_021CA0D4
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CA0D4   0x021CA0D4  arm
+ *   applyForcus1   0x021CA0D4  arm
  *   gSceneSetListFocusColumnTable   0x021DA650  data
  *   func_021C9D10   0x021C9D10  arm
  *   func_021C9F58   0x021C9F58  arm
@@ -23,7 +23,7 @@ extern int func_021C9D10(int);
 extern void func_021C9F58(void);
 extern unsigned char gSceneSetListFocusColumnTable[];
 
-void func_021CA0D4(int a)
+void applyForcus1(int a)
 {
     unsigned char *g = (unsigned char *)0x021DE5EC;
 

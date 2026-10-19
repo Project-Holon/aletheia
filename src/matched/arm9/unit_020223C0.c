@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: WIPE_SYS_SetDivision, sub_02022424
+ * function: WIPE_SYS_SetDivision, WIPE_SYS_SetDivisionFlags
  * address:  0x020223C0
  * packet:   pkt_02022174
  * region:   arm9
@@ -37,30 +37,30 @@ struct Mode {
     u32 b2;
 };
 
-static void sub_02022424(struct Mode *p, u32 kind, u32 a, u32 b);
+static void WIPE_SYS_SetDivisionFlags(struct Mode *p, u32 kind, u32 a, u32 b);
 
 void WIPE_SYS_SetDivision(u32 mode, struct Mode *p)
 {
     switch (mode) {
     case 0:
-        sub_02022424(p, 0, 1, 1);
+        WIPE_SYS_SetDivisionFlags(p, 0, 1, 1);
         break;
     case 1:
-        sub_02022424(p, 1, 1, 1);
+        WIPE_SYS_SetDivisionFlags(p, 1, 1, 1);
         break;
     case 2:
-        sub_02022424(p, 2, 1, 1);
+        WIPE_SYS_SetDivisionFlags(p, 2, 1, 1);
         break;
     case 3:
-        sub_02022424(p, 1, 1, 0);
+        WIPE_SYS_SetDivisionFlags(p, 1, 1, 0);
         break;
     case 4:
-        sub_02022424(p, 2, 0, 1);
+        WIPE_SYS_SetDivisionFlags(p, 2, 0, 1);
         break;
     }
 }
 
-static void sub_02022424(struct Mode *p, u32 kind, u32 a, u32 b)
+static void WIPE_SYS_SetDivisionFlags(struct Mode *p, u32 kind, u32 a, u32 b)
 {
     p->kind = kind;
     p->a = a;

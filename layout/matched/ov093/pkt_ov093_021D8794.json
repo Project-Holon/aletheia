@@ -18,8 +18,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "BTL_CALC_ChlorophyllDoubleSpeed",
-    "BTL_CALC_GetChlorophyllHandlers"
+    "HAND_TOKUSEI_ChlorophyllDoubleSpeed",
+    "HAND_TOKUSEI_GetChlorophyllHandlers"
    ],
    "addresses": [
     "0x021D8794",

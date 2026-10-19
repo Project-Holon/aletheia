@@ -23,7 +23,7 @@
  *   GFL_NET_IsNetTypeWifi  0x0203D29C  arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
- *   GF_FONT_ResetTextColor 0x0201DD60 thumb
+ *   GF_FONT_InitTextColor 0x0201DD60 thumb
  *   BG_SYS_SetVramBanks 0x020433E0 arm
  *   BG_SYS_SetGraphicsMode 0x0203FC28 arm
  *   G3D_SYSTEM_Init 0x02046440 arm
@@ -277,19 +277,17 @@ extern int GF_OVERLAY_Load(const void *overlayId);
 
 extern void GF_OVERLAY_Unload(const void *overlayId);
 
-extern int GF_OVERLAY_Load(const void *overlayId);
 
 extern void GX_SetBankForLCDC(unsigned int v);
 
 extern u32 GFL_NET_IsNetTypeWifi(void);
 
-extern void GF_OVERLAY_Unload(const void *overlayId);
 
 extern void BG_SYS_Create(u16);
 
 extern void BMP_WIN_Init(u16);
 
-extern void GF_FONT_ResetTextColor(void);
+extern void GF_FONT_InitTextColor(void);
 
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
@@ -517,7 +515,7 @@ void BTLV_CORE_InitDisplay(u16 heapId)
 {
     BG_SYS_Create(heapId);
     BMP_WIN_Init(heapId);
-    GF_FONT_ResetTextColor();
+    GF_FONT_InitTextColor();
     BG_SYS_SetVramBanks(&gBtlvCoreVramBanks);
     BLDCNT = 0;
     SBLDCNT = 0;
@@ -822,9 +820,7 @@ int BTLV_CORE_StepOpeningDemo(struct BtlvCore *core, int *state, BtlvDemoWork *d
 
 struct BtlExpResult;
 
-extern int GF_OVERLAY_Load(const void *overlayId);
 
-extern void GF_OVERLAY_Unload(const void *overlayId);
 
 extern u8 BTL_MAIN_GetSlotFromViewPos(struct BtlContext *context, u8 viewPos);
 

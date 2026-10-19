@@ -1,5 +1,5 @@
 /*
- * function: func_021C7690
+ * function: isOver
  * address:  0x021C7690
  * packet:   pkt_ov016_021C7690
  * region:   ov016
@@ -28,7 +28,7 @@ typedef unsigned int   u32;
 extern int atoi(u32 a0);
 extern MemSsea *gMemSsea;
 
-int func_021C7690(int val)
+int isOver(int val)
 {
     unsigned char *c;
     unsigned char buf[4];

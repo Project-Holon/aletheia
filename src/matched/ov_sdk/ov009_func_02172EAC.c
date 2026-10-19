@@ -1,5 +1,5 @@
 /*
- * function: func_02172EAC
+ * function: DWCi_CloseShutdownClientSC
  * address:  0x02172EAC
  * packet:   pkt_ov009_02172EAC
  * region:   ov009
@@ -67,7 +67,7 @@ extern int DWCi_CloseConnectionHard(u8 aid);
 extern void DWCi_TempNewNodeInfo_Clear(void);
 extern u8 DWCi_GetAIDFromProfileID(int profileID, int arg);
 
-static int func_02172EAC(u32 bitmap)
+static int DWCi_CloseShutdownClientSC(u32 bitmap)
 {
     u8 aid;
     int senddata[32];

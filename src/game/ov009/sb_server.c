@@ -45,7 +45,6 @@
  *   gCtypeMap  0x020A61DC  data
  *   SBServerGetStringValueA  0x0219E0C0  arm
  *   atof                     0x02095B2C  arm
- *   strcmp                         0x020948E0  arm
  *   g_021A8120                     0x021A8120  data
  *   _ZZ5mytokPccE6thestr            0x021AEAF8  data
  *   mytok  0x0219E2D4  arm  ov009
@@ -54,20 +53,14 @@
  *   g_021A8160  0x021A8160  data
  *   g_021A8164  0x021A8164  data
  *   NTSLengthSB  0x0219F978  arm  ov009
- *   OS_SPrintf  0x02084F40  arm
- *   strlen  0x0209477C  arm
  *   g_021A816C  0x021A816C  data
  *   g_021A8178  0x021A8178  data
  *   g_021A81AC  0x021A81AC  data
  *   strnicmp  0x0209ABEC  arm
- *   gsDebugFormat  0x0217D254  arm  ov009
  *   _u32_div_f     0x0209C2B0  arm
  *   __lower_mapC   0x020A60DC  data
  *   SBReleaseStr  0x0219F920  arm
- *   strcasecmp  0x0209ABF8  arm
  *   gsimalloc  0x0217EAB0  arm  ov009
- *   TableNew2  0x02184638  arm  ov009
- *   gsifree  0x0217EAE0  arm  ov009
  *   KeyValCompareKey  0x0219E8D4  arm  ov009
  *   KeyValFree  0x0219E89C  arm  ov009
  *   KeyValHashKey  0x0219E8C4  arm  ov009
@@ -109,9 +102,8 @@ extern int qr2_internal_is_master_only_key(char *keyname);
 extern int NTSLengthSB(char *buf, int len);
 extern unsigned int _u32_div_f(unsigned int a, unsigned int b);
 extern void SBReleaseStr(SBServerList *slist, char *str);
-extern int strcasecmp(char *a, char *b);
+extern int strcmp_nocase(char *a, char *b);
 extern void *gsimalloc(unsigned long size);
-extern void gsifree(void *ptr);
 extern int KeyValCompareKey(void *a, void *b);
 extern void KeyValFree(void *elem);
 extern int KeyValHashKey(void *elem, int numbuckets);
@@ -668,7 +660,7 @@ static int KeyValCompareKey(void *entry1, void *entry2)
 {
     if (((SBKeyValuePair *)entry1)->key != 0 &&
         ((SBKeyValuePair *)entry2)->key != 0)
-        return strcasecmp(((SBKeyValuePair *)entry1)->key,
+        return strcmp_nocase(((SBKeyValuePair *)entry1)->key,
                           ((SBKeyValuePair *)entry2)->key);
     return 1;
 }

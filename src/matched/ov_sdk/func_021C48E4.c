@@ -1,5 +1,5 @@
 /*
- * function: DWCi_SceneOptMovWait_DetectFoldEnd
+ * function: DWCi_IsFold
  * address:  0x021C48E4
  * packet:   pkt_021C44EC
  * region:   ov016
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   DWCi_SceneOptMovWait_DetectFoldEnd   0x021C48E4  arm
+ *   DWCi_IsFold   0x021C48E4  arm
  *
  * Bit 15 of the halfword at 0x02FFFFA8, as 0/1.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/DWCi_SceneOptMovWait_DetectFoldEnd.c \
- *       --func DWCi_SceneOptMovWait_DetectFoldEnd --addr 0x021C48E4 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_IsFold.c \
+ *       --func DWCi_IsFold --addr 0x021C48E4 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-int DWCi_SceneOptMovWait_DetectFoldEnd(void)
+int DWCi_IsFold(void)
 {
     return ((*(unsigned short *)0x02FFFFA8 & 0x8000) >> 15) != 0;
 }

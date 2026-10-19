@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BC5C4",
+   "name": "Free",
    "address": "0x021BC5C4",
    "kind": "sdk",
    "region": "ov016",
@@ -24,7 +24,7 @@
    }
   },
   {
-   "name": "func_021BC7F0",
+   "name": "DWCi_RakurakuATERMi_ApConfigGetResult",
    "address": "0x021BC7F0",
    "kind": "sdk",
    "region": "ov016",

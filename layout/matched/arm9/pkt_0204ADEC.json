@@ -30,10 +30,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "CLACT_GetPaletteProxy"
+    "CLACT_GetPaletteProxy",
+    "CLACT_GetPaletteVramAddress"
    ],
    "addresses": [
-    "0x0204AEC0"
+    "0x0204AEC0",
+    "0x0204AEF4"
    ]
   },
   {

@@ -145,7 +145,7 @@ extern void DWC_RAP_SetErrorCallback(int,int);
 
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
 
-extern int DWC_RAPCOMMON_HandleNetError(int a0, int a1);
+extern int DWC_RAPCOMMON_HandleNetError(int hasSession, int keepError);
 
 extern void GFL_USE_FadeOutBgm(u32 a);
 

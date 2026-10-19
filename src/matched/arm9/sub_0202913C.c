@@ -1,5 +1,5 @@
 /*
- * function: func_0202913C
+ * function: FIELD_SOUND_SYSTEM_HandleModeState8
  * address:  0x0202913C
  * packet:   pkt_02028FD0
  * region:   arm9
@@ -18,7 +18,7 @@ typedef unsigned int u32;
 
 extern void FIELD_SOUND_SYSTEM_SetState(void *obj, u32 value);
 
-void func_0202913C(void *obj)
+void FIELD_SOUND_SYSTEM_HandleModeState8(void *obj)
 {
     switch (((struct Obj16755 *)obj)->f1C) {
     case 0:

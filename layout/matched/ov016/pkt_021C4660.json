@@ -25,7 +25,7 @@
    }
   },
   {
-   "name": "func_021C4DE4",
+   "name": "taskVBlank",
    "address": "0x021C4DE4",
    "kind": "sdk",
    "region": "ov016",

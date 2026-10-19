@@ -33,7 +33,7 @@
  *   UNION_CHARA_IsWifiFriendBeacon  0x0217F894  thumb  ov019
  *   MET_TRAINERS_Contains  0x0200EDC4  thumb
  *   UNION_EFF_AddIcon  0x0217F948  thumb  ov019
- *   memcmp  0x0203EFC8  arm
+ *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  *   GAMESYSTEM_IsFieldMapActive 0x02012114  thumb
  *   UNION_EFF_AddAnimEffect 0x0217F93C  thumb  ov019
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
@@ -76,7 +76,7 @@ typedef enum { FALSE, TRUE } BOOL;
 
 void MI_CpuFill8(void *dstp, u8 data, u32 size);
 
-int memcmp(const void *a, const void *b, int n);
+int GF_STANDARD_CompareBytes(const void *a, const void *b, int n);
 
 extern u32 GAME_DATA_GetOccupyInfo(const struct GameData *gameData);
 
@@ -334,7 +334,7 @@ void UNION_CHARA_AddBeaconMembers(UnionRoomWork *work, u32 metTrainers, u32 wifi
     OS_GetMacAddress(ownMac);
     for (i = 0; i < UNION_MEMBER_MAX; i++) {
         if (beaconPc->charaSlot[i] == 0 && beaconPc->beacon.group.member[i].valid == 1
-            && memcmp(ownMac, (const u8 *)(&beaconPc->beacon.group.member[i]), 6) != 0
+            && GF_STANDARD_CompareBytes(ownMac, (const u8 *)(&beaconPc->beacon.group.member[i]), 6) != 0
             && UNION_CHARA_CheckMemberUnique(work, beaconPc, (u8 *)(&beaconPc->beacon.group.member[i])) != 0) {
             beaconPc->charaSlot[i] = UNION_CHARA_AddSlot(work, beaconPc, &beaconPc->beacon.group.member[i], i, 0, &mmdl);
             beaconPc->charaSlot[i]->action = 1;
@@ -360,7 +360,7 @@ int UNION_CHARA_CheckMemberUnique(UnionRoomWork *work, UnionBeaconPc *ownerPc, u
             continue;
         }
         for (j = 0; j < UNION_MEMBER_MAX; j++) {
-            if (pc->beacon.group.member[j].valid == 1 && memcmp(mac, pc->beacon.group.member[j].mac, 6) == 0) {
+            if (pc->beacon.group.member[j].valid == 1 && GF_STANDARD_CompareBytes(mac, pc->beacon.group.member[j].mac, 6) == 0) {
                 if (pc->life != 0) {
                     pc->life = 1;
                 }
@@ -383,7 +383,7 @@ int UNION_CHARA_FocusRequestedMember(UnionRoomWork *work, UnionBeaconPc *beaconP
         if (slot == 0 || beaconPc->beacon.group.member[i].valid != 1) {
             continue;
         }
-        if (memcmp(beaconPc->beacon.group.member[i].mac, work->mySituation.focusMac, 6) != 0) {
+        if (GF_STANDARD_CompareBytes(beaconPc->beacon.group.member[i].mac, work->mySituation.focusMac, 6) != 0) {
             continue;
         }
         if (GAMESYSTEM_IsFieldMapActive(work->parent->gameSystem) == 1) {
@@ -420,7 +420,7 @@ void UNION_CHARA_Main(UnionRoomWork *work, struct GameData *gameData, void *fiel
     wifiFriends = GAME_DATA_GetWifiList(gameData);
     markSys = FIELDMAP_GetUnionEff(fieldMap);
     GAME_DATA_GetOccupyInfo(gameData);
-    if (memcmp(zeroMac, work->mySituation.focusMac, 6) != 0) {
+    if (GF_STANDARD_CompareBytes(zeroMac, work->mySituation.focusMac, 6) != 0) {
         focusPending = 1;
     }
     beaconPc = work->beaconPc;
@@ -687,7 +687,7 @@ void UNION_CHARA_OnBeaconUpdate(UnionRoomWork *work, UnionBeaconPc *beaconPc)
     UNION_CHAT_LOG_Add(work, beaconPc, 0, 0);
     if (situation->playCategory == 0 && situation->nextPlayCategory == 0 && beaconPc->beacon.playCategory == 5 && beaconPc->life != 0) {
         OS_GetMacAddress(ownMac);
-        if (memcmp(beaconPc->beacon.mac, ownMac, 6) == 0 && UNION_ONESELF_SetNextPlayCategoryInMainPhase(work, 6) == 1) {
+        if (GF_STANDARD_CompareBytes(beaconPc->beacon.mac, ownMac, 6) == 0 && UNION_ONESELF_SetNextPlayCategoryInMainPhase(work, 6) == 1) {
             UNION_COMM_SetSituationParam(work, 2, (u32)beaconPc);
             UNION_COMM_SetSituationParam(work, 0, (u32)beaconPc);
         }

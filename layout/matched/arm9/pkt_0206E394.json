@@ -18,10 +18,18 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "NNS_G3dMdlSetMdlLightEnableFlag"
+    "NNS_G3dMdlSetMdlLightEnableFlag",
+    "NNS_G3dMdlSetMdlPolygonMode",
+    "NNS_G3dMdlSetMdlCullMode",
+    "NNS_G3dMdlSetMdlPolygonID",
+    "NNS_G3dMdlSetMdlAlpha"
    ],
    "addresses": [
-    "0x0206E394"
+    "0x0206E394",
+    "0x0206E40C",
+    "0x0206E484",
+    "0x0206E4FC",
+    "0x0206E574"
    ]
   },
   {

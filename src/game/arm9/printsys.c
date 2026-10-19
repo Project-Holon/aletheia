@@ -56,8 +56,7 @@
  *   STRBUF_Clear  0x0204581C  arm
  *   STRBUF_AppendChar  0x02045AFC  arm
  *   GF_FONT_GetLineHeight  0x0201DC80  thumb
- *   memcpy         0x02082D44  arm
- *   MI_CpuCopy8  0x02082D44  arm
+ *   MI_CpuCopy8         0x02082D44  arm
  *   STRBUF_GetLength  0x020458F8  arm
  */
 #include "pokeparty_shared_types.h"
@@ -1341,9 +1340,8 @@ extern void STRBUF_AppendChar(struct Strbuf *text, u16 value);
 
 extern u16 STRBUF_GetLength(struct Strbuf *text);
 
-extern void *memcpy(void *dst, const void *src, u32 n);
-
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
+
 
 void PRINTSYS_Apply(struct TextPrinter *printer);
 
@@ -2249,7 +2247,7 @@ u32 PRINTSYS_GetQueueFreeSpace(const struct PrintQueue *queue)
  * stack local, zero-initialises a 4-byte stack local through a third call,
  * and then walks the list hanging off queue->job through PRINTSYS_GetNextRecord until it
  * runs out, rebasing the node pointer on p+0x18 and clamping the resulting
- * offset against p->f4 (u16) before a 4-byte memcpy into the local.  When
+ * offset against p->f4 (u16) before a 4-byte MI_CpuCopy8 into the local.  When
  * queue->job is null it installs the two slots instead.
  *
  * Two details that cost a compile each: STRBUF_GetChars is ARM, not Thumb (the
@@ -2285,7 +2283,7 @@ void PRINTSYS_EnqueuePrint(struct PrintQueue *queue, struct PrintCtx *job, struc
             u16 offset = (u16)((u32)node - (u32)queue->data) + 0x1c;
 
             if (offset >= queue->capacity) offset = 0;
-            memcpy(&newRecord, queue->data + offset, 4);
+            MI_CpuCopy8(&newRecord, queue->data + offset, 4);
         }
         return;
     }

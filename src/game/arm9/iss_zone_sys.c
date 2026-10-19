@@ -126,11 +126,6 @@ extern u16 ARC_TOOL_GetHandleFileCount(void *archive);
 extern void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
 extern void   ARC_TOOL_DeleteHandle(void *archive);
 extern void GFL_USE_SetBgmTrackVolume(u32 trackMask, u32 volume);
-extern float _ffltu(u32 v);
-extern float _fdiv(float a, float b);
-extern float _fmul(float a, float b);
-extern float _fsub(float a, float b);
-extern int   _f2s(float a);
 struct IssZone *ISS_ZONE_SYS_Create(u32 heapId);
 void ISS_ZONE_SYS_Delete(struct IssZone *zone);
 void ISS_ZONE_SYS_Update(struct IssZone *zone);
@@ -356,15 +351,10 @@ void ISS_ZONE_SYS_StepFade(struct IssZone *zone)
     trackMask = zone->fadeInMask;
     zone->fadeStep += 1;
     if (trackMask != 0) {
-        GFL_USE_SetBgmTrackVolume(trackMask, _f2s(_fmul(127.0f,
-                                      _fdiv(_ffltu(zone->fadeStep),
-                                            _ffltu(zone->fadeSteps)))));
+        GFL_USE_SetBgmTrackVolume(trackMask, (int)(127.0f * ((float)(zone->fadeStep) / (float)(zone->fadeSteps))));
     }
     trackMask = zone->fadeOutMask;
     if (trackMask != 0) {
-        GFL_USE_SetBgmTrackVolume(trackMask, _f2s(_fmul(127.0f,
-                                      _fsub(1.0f,
-                                            _fdiv(_ffltu(zone->fadeStep),
-                                                  _ffltu(zone->fadeSteps))))));
+        GFL_USE_SetBgmTrackVolume(trackMask, (int)(127.0f * (1.0f - ((float)(zone->fadeStep) / (float)(zone->fadeSteps)))));
     }
 }

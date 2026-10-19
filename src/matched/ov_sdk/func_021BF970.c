@@ -1,5 +1,5 @@
 /*
- * function: func_021BF970
+ * function: taskMain
  * address:  0x021BF970
  * packet:   pkt_021BF970
  * region:   ov016
@@ -10,14 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BF970   0x021BF970  arm
+ *   taskMain   0x021BF970  arm
  *
  * Call func_021BF988, func_021BFB38, func_021BFCF8, func_021BFF14.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021BF970.c \
- *       --func func_021BF970 --addr 0x021BF970 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/taskMain.c \
+ *       --func taskMain --addr 0x021BF970 --region ov016 --cc dsi/1.1p1 --arm
  */
 
 extern void func_021BF988(void);
@@ -25,7 +25,7 @@ extern void func_021BFB38(void);
 extern void func_021BFCF8(void);
 extern void func_021BFF14(void);
 
-void func_021BF970(void)
+void taskMain(void)
 {
     func_021BF988();
     func_021BFB38();

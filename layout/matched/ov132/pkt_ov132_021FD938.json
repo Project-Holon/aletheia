@@ -18,7 +18,7 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "STA_NET_SetState12",
+    "STA_NET_BeginKind5Phase",
     "STA_NET_SetState18Value",
     "STA_NET_GetPairA",
     "STA_NET_GetPairB"

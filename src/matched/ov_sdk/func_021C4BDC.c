@@ -1,5 +1,5 @@
 /*
- * function: func_021C4BDC
+ * function: input
  * address:  0x021C4BDC
  * packet:   pkt_021C4BDC
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C4BDC   0x021C4BDC  arm
+ *   input   0x021C4BDC  arm
  *   DWCi_BTNlSet  0x021BCB28  arm
  *   DWCi_IPTlCheckTrigger  0x021D6824  arm
  *   DWCi_SceneOptMovWait_DetectFoldEnd  0x021C48E4  arm
@@ -19,15 +19,15 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021C4BDC.c \
- *       --func func_021C4BDC --addr 0x021C4BDC --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/input.c \
+ *       --func input --addr 0x021C4BDC --region ov016 --cc dsi/1.1p1 --arm
  */
 
 extern int DWCi_IPTlCheckTrigger(unsigned int f);
 extern int DWCi_SceneOptMovWait_DetectFoldEnd(void);
 extern void DWCi_BTNlSet(signed char v);
 
-void func_021C4BDC(void)
+void input(void)
 {
     if (DWCi_IPTlCheckTrigger(2))
     {

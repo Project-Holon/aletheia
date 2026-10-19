@@ -1,5 +1,5 @@
 /*
- * function: sub_02023D94
+ * function: WIPE_SUB_WindowVisibleTask
  * address:  0x02023D94
  * packet:   pkt_02023A50
  * region:   arm9
@@ -21,8 +21,8 @@
  * words read in order.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02023D94.c \
- *       --func sub_02023D94 --addr 0x02023D94 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/WIPE_SUB_WindowVisibleTask.c \
+ *       --func WIPE_SUB_WindowVisibleTask --addr 0x02023D94 --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
@@ -35,7 +35,7 @@ struct Args2 {
 extern void sub_02023B48(u32 a, u32 b);
 extern u32  func_02030EAC(void *obj);
 
-u32 sub_02023D94(void *obj, struct Args2 *args)
+u32 WIPE_SUB_WindowVisibleTask(void *obj, struct Args2 *args)
 {
     sub_02023B48(args->f0, args->f4);
     return func_02030EAC(obj);

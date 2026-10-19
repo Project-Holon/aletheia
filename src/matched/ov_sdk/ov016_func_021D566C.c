@@ -1,5 +1,5 @@
 /*
- * function: func_021D566C
+ * function: taskFade
  * address:  0x021D566C
  * packet:   pkt_ov016_021D566C
  * region:   ov016
@@ -47,7 +47,7 @@ extern long FX_DivS32(long a, long b);
 extern void DWCi_WindowG2x_ChangeBlendBrightness_(u32 addr, int brightness);
 extern void DWCi_TSKlDelete(int kind, void *task);
 
-void func_021D566C(void *task, void *work)
+void taskFade(void *task, void *work)
 {
     U4 TABLE = sEffectTable2;
     S4 BRIGHT = sEffectTable1;

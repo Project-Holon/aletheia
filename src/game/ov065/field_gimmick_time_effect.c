@@ -19,7 +19,7 @@
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
- *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
+ *   GIMMICK_WORK_GetWork  0x0200B3A4  thumb
  *   FIELDMAP_GetExpObj  0x02188D2C  thumb  ov021
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   FIELDMAP_AllocCommonWork  0x02189764  thumb  ov021
@@ -53,7 +53,7 @@ struct FieldSave;
 extern void *FIELDMAP_GetGameSystem(void *fieldMap);
 extern void *GAMESYSTEM_GetGameData(void *gameSystem);
 extern struct FieldSave *GAME_DATA_GetFieldSave(void *gameData);
-extern FieldGimmickTimeEffectSave *GIMMICK_WORK_GetSaveArea(struct FieldSave *fieldSave, u32 blockId);
+extern FieldGimmickTimeEffectSave *GIMMICK_WORK_GetWork(struct FieldSave *fieldSave, u32 blockId);
 extern void *FIELDMAP_GetExpObj(void *fieldMap);
 extern u16 FIELDMAP_GetHeapId(u8 *fieldMap);
 extern void *FIELDMAP_AllocCommonWork(unsigned char *fieldMap, int id, int a, int size);
@@ -97,7 +97,7 @@ void FIELD_GIMMICK_TIME_EFFECT_Init(void *fieldMap)
     void *expObj;
 
     gameData = GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap));
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(gameData), FIELD_GIMMICK_TIME_EFFECT_SAVE_BLOCK);
+    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(gameData), FIELD_GIMMICK_TIME_EFFECT_SAVE_BLOCK);
     expObj = FIELDMAP_GetExpObj(fieldMap);
     FIELDMAP_AllocCommonWork(fieldMap, 1, FIELDMAP_GetHeapId(fieldMap), sizeof(FieldGimmickTimeEffectWork));
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
@@ -144,7 +144,7 @@ void FIELD_GIMMICK_TIME_EFFECT_Update(int fieldMap)
         if (FLD_EXP_OBJ_IsAnimeStopped(FLD_EXP_OBJ_GetAnime((void *)expObj, 0, 0, 0)) != 0) {
             FLD_EXP_OBJ_SetModelHidden((void *)expObj, 0, 0, 1);
             work->isPlaying = 0;
-            GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem((void *)fieldMap))), FIELD_GIMMICK_TIME_EFFECT_SAVE_BLOCK)->isEffectPending = 0;
+            GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem((void *)fieldMap))), FIELD_GIMMICK_TIME_EFFECT_SAVE_BLOCK)->isEffectPending = 0;
         }
     }
 }

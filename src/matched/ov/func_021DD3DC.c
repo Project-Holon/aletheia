@@ -1,5 +1,5 @@
 /*
- * function: BOX2_MAIN_GetBoxMon
+ * function: BOX2_MAIN_DepositPartyMon
  * address:  0x021DD3DC
  * packet:   pkt_021DC9A0
  * region:   ov170
@@ -30,7 +30,7 @@ struct Sub020075B0Entry;
 extern int func_020075B0(void *save, u32 box, u32 slot, const struct Sub020075B0Entry *src);
 extern void BOX2_MAIN_ClearSlot(char **p, int a, unsigned b);
 extern void BOX2_UI_DrawSlot(char *, int);
-void BOX2_MAIN_GetBoxMon(char *p, unsigned char *a)
+void BOX2_MAIN_DepositPartyMon(char *p, unsigned char *a)
 {
     int x = (int)POKE_TOOL_GetBoxParam(POKEPARTY_GetMember(*(void **)(*(int *)&((struct Obj00000 *)p)->f0 + 8),
                                         ((struct Obj09221 *)a)->f4 - 0x1e));

@@ -17,7 +17,7 @@
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
- *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
+ *   GIMMICK_WORK_GetWork  0x0200B3A4  thumb
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
  *   FIELDMAP_AllocCommonWork  0x02189764  thumb  ov021
  *   FLD_EXP_OBJ_AddUnitFromArchive  0x021BE760  thumb  ov021
@@ -85,7 +85,7 @@ extern struct FldExpObj *FIELDMAP_GetExpObj(struct FieldMap *fieldMap);
 extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct FieldSave *GAME_DATA_GetFieldSave(struct GameData *gameData);
-extern FieldGimmickRotatingRoomSave *GIMMICK_WORK_GetSaveArea(struct FieldSave *fieldSave, u32 blockId);
+extern FieldGimmickRotatingRoomSave *GIMMICK_WORK_GetWork(struct FieldSave *fieldSave, u32 blockId);
 extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
 extern FieldGimmickRotatingRoomWork *FIELDMAP_AllocCommonWork(struct FieldMap *fieldMap, int workId, int heapId, int size);
 extern void FLD_EXP_OBJ_AddUnitFromArchive(struct FldExpObj *expObj, struct FldExpUnitDesc *desc, int unitIndex);
@@ -167,7 +167,7 @@ void FIELD_GIMMICK_ROTATING_ROOM_Init(struct FieldMap *fieldMap)
     int inside;
 
     expObj = FIELDMAP_GetExpObj(fieldMap);
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
+    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
     work = FIELDMAP_AllocCommonWork(fieldMap, 1, FIELDMAP_GetHeapId(fieldMap), sizeof(FieldGimmickRotatingRoomWork));
     FLD_EXP_OBJ_AddUnitFromArchive(expObj, &sRotatingRoomExpUnitDesc, 0);
     for (unitIdx = 0; unitIdx < FIELD_GIMMICK_ROTATING_ROOM_UNIT_COUNT; unitIdx++) {
@@ -313,7 +313,7 @@ void FIELD_GIMMICK_ROTATING_ROOM_Update(struct FieldMap *fieldMap)
     FieldGimmickRotatingRoomWork *work = FIELDMAP_GetCommonWork(fieldMap, 1);
     int inside = 1;
 
-    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
+    GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
     FLD_EXP_OBJ_UpdateAnimes(expObj);
     FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer(fieldMap), &playerPos);
     if (FIELD_GIMMICK_ROTATING_ROOM_IsPosInside(&playerPos) == 0)
@@ -338,7 +338,7 @@ void FIELD_GIMMICK_ROTATING_ROOM_StartButtonEvent(struct GameSystem *gameSystem,
     FieldGimmickRotatingRoomSave *save;
     FieldGimmickRotatingRoomWork *work;
 
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
+    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
     work->unitIndex = unitIndex;
     work->side = side;
@@ -360,7 +360,7 @@ void FIELD_GIMMICK_ROTATING_ROOM_StartLeverEvent(struct GameSystem *gameSystem, 
     FieldGimmickRotatingRoomSave *save;
     FieldGimmickRotatingRoomWork *work;
 
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
+    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
     work->unitIndex = unitIndex;
     work->side = side;
@@ -382,7 +382,7 @@ void FIELD_GIMMICK_ROTATING_ROOM_StartRotateEvent(struct GameSystem *gameSystem,
     FieldGimmickRotatingRoomSave *save;
     FieldGimmickRotatingRoomWork *work;
 
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
+    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
     work->unitIndex = unitIndex;
     work->unit = &save->units[unitIndex];
@@ -410,7 +410,7 @@ struct GameEvent *FIELD_GIMMICK_ROTATING_ROOM_StartHopEvent(struct GameSystem *g
     struct GameEvent *hopEvent;
     Vec3Fx playerPos;
 
-    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
+    GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
     hopEvent = GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_ROTATING_ROOM_HopEventProc, 0);
     hop = &work->event.hop;
@@ -476,7 +476,7 @@ int FIELD_GIMMICK_ROTATING_ROOM_ButtonEventProc(struct GameEvent *event, int *st
 
     FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
-    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
+    GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
     switch (*state) {
     case 0:
         work->event.anim.modelIndex = (work->side == 0 ? FIELD_GIMMICK_ROTATING_ROOM_MODEL_BUTTON_BASE : FIELD_GIMMICK_ROTATING_ROOM_MODEL_BUTTON_BASE + 1) + work->unitIndex * FIELD_GIMMICK_ROTATING_ROOM_MODELS_PER_UNIT;
@@ -509,7 +509,7 @@ int FIELD_GIMMICK_ROTATING_ROOM_LeverEventProc(struct GameEvent *event, int *sta
     FIELDMAP_GetExpObj(fieldMap);
     newLeverState = 1;
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
-    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
+    GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
     switch (*state) {
     case 0:
         if (work->unit->leverOn[work->side] != 0)
@@ -544,7 +544,7 @@ int FIELD_GIMMICK_ROTATING_ROOM_RotateEventProc(struct GameEvent *event, int *st
 
     FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
-    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
+    GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
     switch (*state) {
     case 0:
         newPose = FIELD_GIMMICK_ROTATING_ROOM_CalcUnitPose(work->unit);
@@ -581,7 +581,7 @@ int FIELD_GIMMICK_ROTATING_ROOM_PlayAnimEventProc(struct GameEvent *event, int *
     fieldMap = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event));
     expObj = FIELDMAP_GetExpObj(fieldMap);
     anim = &FIELDMAP_GetCommonWork(fieldMap, 1)->event.anim;
-    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
+    GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
     switch (*state) {
     case 0:
         modelIdx = anim->modelIndex;
@@ -624,7 +624,7 @@ int FIELD_GIMMICK_ROTATING_ROOM_HopEventProc(struct GameEvent *event, int *state
     fieldMap = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event));
     FIELDMAP_GetExpObj(fieldMap);
     hop = &FIELDMAP_GetCommonWork(fieldMap, 1)->event.hop;
-    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
+    GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
     switch (*state) {
     case 0:
         GFL_USE_PlaySeDefaultVolume(FIELD_GIMMICK_ROTATING_ROOM_SE_HOP_START);

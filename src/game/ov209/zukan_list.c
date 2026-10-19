@@ -99,7 +99,7 @@
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   GXx_SetMasterBrightness_ 0x0207D534 arm
- *   BMP_SetDisplaySwap 0x0204363C arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   GF_OVERLAY_Unload 0x02034A5C arm
  *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
@@ -502,7 +502,7 @@ extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 
 extern int GF_OVERLAY_Load(int);
 
-extern void BMP_SetDisplaySwap(u32);
+extern void BG_SYS_SetLcdSwap(u32);
 
 extern void GFL_NET_RefreshWmIconAtTopRight(u32, u32);
 
@@ -1228,7 +1228,7 @@ int ZUKAN_LIST_StateInit(struct ZukanList *p)
     *(volatile u16 *)0x04001050 = 0;
     GXx_SetMasterBrightness_((volatile u16 *)0x0400006C, -16);
     GXx_SetMasterBrightness_((volatile u16 *)0x0400106C, -16);
-    BMP_SetDisplaySwap(0);
+    BG_SYS_SetLcdSwap(0);
     ZUKAN_LIST_InitPaletteAnim(p);
     ZUKAN_LIST_SetVramBanks();
     ZUKAN_LIST_InitBgSystem();

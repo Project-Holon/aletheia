@@ -1,5 +1,5 @@
 /*
- * function: sub_02021EE4
+ * function: PALANM_SetAutoTransfer
  * address:  0x02021EE4
  * packet:   pkt_02021EE4
  * region:   arm9
@@ -20,8 +20,8 @@
  * 0xFFFF7FFF (the clear mask), neither a relocation.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02021EE4.c \
- *       --func sub_02021EE4 --addr 0x02021EE4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PALANM_SetAutoTransfer.c \
+ *       --func PALANM_SetAutoTransfer --addr 0x02021EE4 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -33,7 +33,7 @@ struct Obj02021EE4 {
     u16 top : 1;
 };
 
-void sub_02021EE4(struct Obj02021EE4 *o, int v)
+void PALANM_SetAutoTransfer(struct Obj02021EE4 *o, int v)
 {
     o->top = (u16)v;
 }

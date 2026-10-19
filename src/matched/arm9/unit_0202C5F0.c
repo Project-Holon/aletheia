@@ -10,7 +10,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0202C5F0, sub_0202C630, sub_0202C634
+ * function: ISS_SWITCH_Update, ISS_SWITCH_UpdateOn, ISS_SWITCH_UpdateOff
  *
  * symbols:
  *   sub_0202C6B8  0x0202C6B8  thumb
@@ -33,9 +33,9 @@
  * offset used r1 where the original uses r0, six bytes across five
  * instructions, and nothing about the switch itself moved it. The
  * function returns **void**. Written with a `u32` return and the arms
- * spelled `return sub_0202C630(p);`, the callee's result is live out of
+ * spelled `return ISS_SWITCH_UpdateOn(p);`, the callee's result is live out of
  * every arm, r0 is therefore not free at the dispatch and the index takes
- * r1; written `sub_0202C630(p); break;` with no return value at all, r0
+ * r1; written `ISS_SWITCH_UpdateOn(p); break;` with no return value at all, r0
  * is dead across the table computation and the allocator puts the index
  * there. The stubs at 0x0202C630 and 0x0202C634 are `void` for the same
  * reason. Renaming the switch variable, hoisting it into a local, adding
@@ -61,17 +61,17 @@ extern u32 sub_0202C6B8(struct Obj0202C6B8 *p);
 extern u32 sub_0202C638(void *p);
 extern u32 sub_0202C654(void *p);
 
-void sub_0202C630(void *p);
-void sub_0202C634(void *p);
+void ISS_SWITCH_UpdateOn(void *p);
+void ISS_SWITCH_UpdateOff(void *p);
 
-void sub_0202C5F0(void *p)
+void ISS_SWITCH_Update(void *p)
 {
     switch (sub_0202C6B8(p)) {
     case 0:
-        sub_0202C630(p);
+        ISS_SWITCH_UpdateOn(p);
         break;
     case 1:
-        sub_0202C634(p);
+        ISS_SWITCH_UpdateOff(p);
         break;
     case 2:
         sub_0202C638(p);
@@ -82,10 +82,10 @@ void sub_0202C5F0(void *p)
     }
 }
 
-void sub_0202C630(void *p)
+void ISS_SWITCH_UpdateOn(void *p)
 {
 }
 
-void sub_0202C634(void *p)
+void ISS_SWITCH_UpdateOff(void *p)
 {
 }

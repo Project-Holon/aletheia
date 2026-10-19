@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0202CB18
+ * function: BGWINFRM_SetFrameDataArcHandle
  * address:  0x0202CB18
  * packet:   pkt_0202C794
  * region:   arm9
@@ -27,8 +27,8 @@
  * resolves through the `label` class.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202CB18.c \
- *       --func sub_0202CB18 --addr 0x0202CB18 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BGWINFRM_SetFrameDataArcHandle.c \
+ *       --func BGWINFRM_SetFrameDataArcHandle --addr 0x0202CB18 --cc 1.1p1 --thumb
  */
 
 typedef unsigned short u16;
@@ -46,7 +46,7 @@ extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *arc, u32 member, u32 alloc
 extern void sub_0202CAC4(struct WinMgr *mgr, u32 idx, const void *src);
 extern void ENV_SetResourceSet(void *p);
 
-void sub_0202CB18(struct WinMgr *mgr, u32 idx, void *arc, u32 member, u32 alloc)
+void BGWINFRM_SetFrameDataArcHandle(struct WinMgr *mgr, u32 idx, void *arc, u32 member, u32 alloc)
 {
     void *buf;
     void *res;

@@ -38,8 +38,8 @@ struct CdemoState {
     int                 blendA1;           /* 6028 */
     int                 blendB0;           /* 602C */
     int                 blendB1;           /* 6030 */
-    int                 field6034;         /* 6034 */
-    int                 field6038;         /* 6038 */
+    int                 blend2Param0;         /* 6034 */
+    int                 blend2Param1;         /* 6038 */
     unsigned short      step;              /* 603C: frame step counter */
     unsigned char       flip;              /* 603E: double-buffer flip */
     unsigned char       state;             /* 603F: scene state */

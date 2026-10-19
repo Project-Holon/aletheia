@@ -1,5 +1,5 @@
 /*
- * function: func_02164830
+ * function: CPSi_big_modinv
  * address:  0x02164830
  * packet:   pkt_ov009_02164830
  * region:   ov009
@@ -28,7 +28,7 @@ extern void CPSi_big_mult(unsigned short *c, unsigned short *a, unsigned short *
 extern void CPSi_big_sub(unsigned short *c, unsigned short *a, unsigned short *b, int digits);
 extern void CPSi_big_add(unsigned short *c, unsigned short *a, unsigned short *b, int digits);
 
-static void func_02164830(unsigned short *c, unsigned short *a, unsigned short *n, int digits,
+static void CPSi_big_modinv(unsigned short *c, unsigned short *a, unsigned short *n, int digits,
                           unsigned short *tmp_var)
 {
     unsigned short *q;

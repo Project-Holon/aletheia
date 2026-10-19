@@ -1,5 +1,5 @@
 /*
- * function: BOX2_SEQ_StateMoveItemE
+ * function: BOX2_SEQ_StateConfirmRelease
  * address: 0x021E8024
  * packet: pkt_ov170_021E8024
  * region: ov170
@@ -55,7 +55,7 @@ extern unsigned POKE_TOOL_GetBoxValue(void *, unsigned, unsigned);
 extern int BOX2_SEQ_OpenYesNo(u8 *, int);
 #define W (*(char **)(p + 0x2c))
 #define S (*(int *)(W + 0xA194))
-int BOX2_SEQ_StateMoveItemE(char *p)
+int BOX2_SEQ_StateConfirmRelease(char *p)
 {
     unsigned slot;
     switch (S) {

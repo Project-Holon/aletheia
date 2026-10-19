@@ -332,7 +332,7 @@ struct MyWk {
 struct WifiBattleMatchSysNameRow { u8 pad[10]; u8 name[6]; };
 
 struct PWk {
-    u32 f0;
+    u32 reserved00;
     u8 *matchParam;
     u8 *battleParam;
     u32 result;

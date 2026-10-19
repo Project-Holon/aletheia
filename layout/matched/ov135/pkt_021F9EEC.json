@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "WORLDTRADE_INPUT_PlayCursorSe",
+   "name": "WORLDTRADE_INPUT_GetPageCount",
    "address": "0x021F9EEC",
    "kind": "game",
    "region": "ov135",

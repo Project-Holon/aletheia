@@ -18,7 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02028748"
+    "FIELD_SKILL_USE_FLAGS_SetSkill",
+    "FIELD_SKILL_USE_FLAGS_IsSkillUsable"
+   ],
+   "addresses": [
+    "0x02028748",
+    "0x02028754"
    ]
   }
  ]

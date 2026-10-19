@@ -1,5 +1,5 @@
 /*
- * function: func_021CD4F4
+ * function: taskAc
  * address:  0x021CD4F4
  * packet:   pkt_ov016_021CD4F4
  * region:   ov016
@@ -12,7 +12,7 @@
  * sdk:      taskAc (libdwcutil.TWL.HYB.a scenesettest.o)
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CD4F4.c \n *       --func func_021CD4F4 --addr 0x021CD4F4 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CD4F4.c \n *       --func taskAc --addr 0x021CD4F4 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  *
  * symbols:
  *   DWC_AC_Process  0x0205BC78  arm
@@ -38,7 +38,7 @@ extern void DWCi_TSKlDelete(int kind, void *task);
 extern unsigned char gSceneSetTestWork;
 extern void func_021CD40C(void);
 
-void func_021CD4F4(void *task)
+void taskAc(void *task)
 {
     int rs = DWC_AC_Process();
     if (rs == 0)

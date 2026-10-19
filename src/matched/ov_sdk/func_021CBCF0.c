@@ -1,5 +1,5 @@
 /*
- * function: DWCi_SceneSetSelectApInitGraphics
+ * function: initGraphics
  * address:  0x021CBCF0
  * packet:   pkt_021CBCF0
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   DWCi_SceneSetSelectApInitGraphics   0x021CBCF0  arm
+ *   initGraphics   0x021CBCF0  arm
  *   DWCi_CMNlLoadResource   0x021BD1D4  arm  ov016
  *   DWCi_Char   0x021BD170  arm  ov016
  *   DWCi_ARClReadEx   0x021D4B68  arm  ov016
@@ -34,8 +34,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/DWCi_SceneSetSelectApInitGraphics.c \
- *       --func DWCi_SceneSetSelectApInitGraphics --addr 0x021CBCF0 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/initGraphics.c \
+ *       --func initGraphics --addr 0x021CBCF0 --region ov016 --cc dsi/1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -63,7 +63,7 @@ extern unsigned char sSceneSetSelectApPathJb2ApScr[];
 extern unsigned char GX_LoadBG2Scr[];
 extern unsigned char dat_021DE60C[];
 
-void DWCi_SceneSetSelectApInitGraphics(void)
+void initGraphics(void)
 {
     T22 buf;
     u16 *p;

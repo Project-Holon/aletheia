@@ -45,7 +45,7 @@
  *   BG_SYS_CreateRun       0x0203FA08  arm
  *   ARC_UTIL_UploadPaletteFromHandleWhole       0x02049B68  arm
  *   ARC_UTIL_UploadBgCharFromHandle       0x02049658  arm
- *   ENV_SetResourceSet  0x02049238  arm
+ *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   BG_SYS_SetTileEntry       0x02041300  arm
  *   GF_STANDARD_GetCachedTime       0x0203F4CC  arm
  *   BG_SYS_FreeTileRun  0x0203FB44  arm
@@ -156,7 +156,7 @@ extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 extern u32   BG_SYS_CreateRun(u32 a, u32 b, u32 c);
 extern void  ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern void  ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
-extern void  ENV_SetResourceSet(void *a);
+extern void  ARC_TOOL_DeleteHandle(void *a);
 extern void  BG_SYS_SetTileEntry(u32 a, u16 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void GF_STANDARD_GetCachedTime(struct RtcTime *time);
 extern void BG_SYS_DrawTileEx(u32 index, u32 dx, u32 dy, u32 cw, u8 ch, u32 src, u8 sx, u8 sy, u8 sw, u8 sh);
@@ -505,7 +505,7 @@ void INFOWIN_LoadGraphics(u32 a, u32 b, u32 c)
     gInfoWin->charBase = BG_SYS_CreateRun(a, 1 << 12, 1);
     ARC_UTIL_UploadPaletteFromHandleWhole(env, 0, sel, b << 5, 0x20, c);
     ARC_UTIL_UploadBgCharFromHandle(env, 1, a, gInfoWin->charBase, 0, 0, c);
-    ENV_SetResourceSet(env);
+    ARC_TOOL_DeleteHandle(env);
     BG_SYS_SetTileEntry(a, (u16)(gInfoWin->charBase + 0xf), 0, 0, 0x20, 1, b);
     BG_SYS_SetTileEntry(a, (u16)(gInfoWin->charBase + 0x1f), 0, 1, 0x20, 1, b);
     BG_SYS_PushTile(a);

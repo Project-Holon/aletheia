@@ -2,7 +2,7 @@
  * A whole translation unit, matched as one byte range.
  *
  * unit:     yes
- * function: sub_02012FF0, sub_02012FFC
+ * function: MSG_SPEED_SetSaveControl, MSG_SPEED_GetWait
  * address:  0x02012FF0
  * packet:   pkt_02012F08
  * region:   arm9
@@ -36,12 +36,12 @@ struct Sub02008700Obj;
 extern struct Sub02008700Obj *SYSTEM_DATA_GetConfig(void *sys);
 extern unsigned int sub_02008374(int a0);
 
-void sub_02012FF0(void *val)
+void MSG_SPEED_SetSaveControl(void *val)
 {
     ptr_020A7298 = val;
 }
 
-signed char sub_02012FFC(void)
+signed char MSG_SPEED_GetWait(void)
 {
     u32 val = sub_02008374((int)SYSTEM_DATA_GetConfig(ptr_020A7298));
     if (val >= 5) {

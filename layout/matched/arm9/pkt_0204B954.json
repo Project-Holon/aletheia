@@ -78,10 +78,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "CLACT_SetActorAnimLoopCount"
+    "CLACT_SetActorAnimLoopCount",
+    "CLACT_ApplyActorAnimCommand",
+    "CLACT_ResetActorAnimCommand"
    ],
    "addresses": [
-    "0x0204B9C4"
+    "0x0204B9C4",
+    "0x0204BA00",
+    "0x0204BA10"
    ]
   },
   {

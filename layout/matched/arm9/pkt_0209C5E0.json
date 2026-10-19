@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "_double_arith_body",
+   "name": "sqrt",
    "address": "0x0209C5E0",
    "kind": "runtime",
    "region": "arm9",
@@ -18,7 +18,7 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "_double_arith_body"
+    "sqrt"
    ],
    "covers": [
     "0x0209C5E0"

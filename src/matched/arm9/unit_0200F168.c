@@ -10,9 +10,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: NET_DEVICE_TABLE_GetZero, NET_DEVICE_TABLE_SetHeader
+ * function: WM_ICON_GetArcId, WM_ICON_InitArcData
  *
- * alias: NET_DEVICE_TABLE_GetZero is a stub returning 0; NET_DEVICE_TABLE_SetHeader stamps a
+ * alias: WM_ICON_GetArcId is a stub returning 0; WM_ICON_InitArcData stamps a
  * three-word header (a type tag, a size, a count) into the caller's struct.
  *
  * Verified with:
@@ -28,12 +28,12 @@ struct Sub0200F16CHdr {
     u32 count;
 };
 
-u32 NET_DEVICE_TABLE_GetZero(void)
+u32 WM_ICON_GetArcId(void)
 {
     return 0;
 }
 
-void NET_DEVICE_TABLE_SetHeader(struct Sub0200F16CHdr *hdr)
+void WM_ICON_InitArcData(struct Sub0200F16CHdr *hdr)
 {
     hdr->tag = 2;
     hdr->size = 4;

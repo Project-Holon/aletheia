@@ -985,7 +985,7 @@ extern void *MISC_GetBlock(void *sys);
 
 extern void BOX_SAVEDATA_GetBoxName(void *save, unsigned box, void *dest);
 
-extern int *NAMEIN_SETUP_CreateArgs(unsigned short a0, int a1, short a2, short a3, int s0, int s1, int s2);
+extern int *NAMEIN_SETUP_CreateArgs(unsigned short heapId, int kind, short species, short traits, int s0, int s1, int s2);
 
 extern void BOX_SAVEDATA_SetBoxName(void *save, u32 box, const void *src);
 

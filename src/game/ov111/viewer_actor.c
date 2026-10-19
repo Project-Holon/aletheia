@@ -109,7 +109,7 @@
  *   _ll_sdiv  0x0209BE5C  arm
  *   GX_LoadOBJPltt  0x0207E51C  arm
  *   G3D_UTIL_GetResource  0x02048A0C  arm
- *   DWCi_LSTlPopFront  0x02047250  arm
+ *   G3D_SYSTEM_GetResourceTex  0x02047250  arm
  *   NNS_GfdRegisterNewVramTransferTask  0x02061CA4  arm
  *   d_021C8874  0x021C8874  data
  */
@@ -286,7 +286,7 @@ extern unsigned long long TRCARD_SIGN_GetLastBadgeTime(const struct Sub020089A8O
 extern u16 TRCARD_SIGN_GetBadgeTimer(const struct Sub020089A8Obj *obj, u32 i);
 extern void GX_LoadOBJPltt(const void *src, int ofs, int size);
 extern u32 G3D_UTIL_GetResource(u8 *util, int i);
-extern ViewerTexInfo *DWCi_LSTlPopFront(void *p);
+extern ViewerTexInfo *G3D_SYSTEM_GetResourceTex(void *p);
 extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 void VIEWER_ACTOR_CreateObjects(ViewerTextWork *p);
 void VIEWER_ACTOR_DeleteObjects(ViewerTextWork *p);
@@ -1174,7 +1174,7 @@ void VIEWER_ACTOR_LoadTexture(ViewerTextWork *p, int idx, int k)
         k = 2;
     }
     dst = p->res170[k]->data;
-    tex = DWCi_LSTlPopFront((void *)G3D_UTIL_GetResource(p->g3dUtil, 0));
+    tex = G3D_SYSTEM_GetResourceTex((void *)G3D_UTIL_GetResource(p->g3dUtil, 0));
     e = TexGetPltt(tex, idx);
     NNS_GfdRegisterNewVramTransferTask((void *)1, (u32)(tex->plttData + *e * 8), (u32)(dst + d_021C8874[idx] * 32), 0x20);
 }

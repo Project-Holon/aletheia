@@ -22,7 +22,7 @@
  *   sciSerializeGUID  0x021E05AC  arm  ov175
  *   gsifree  0x0217EAE0  arm ov009
  *   gsimalloc  0x0217EAB0  arm ov009
- *   memset  0x020923B0  arm
+ *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 #include "sc_types.h"
@@ -55,17 +55,17 @@ int sciCreateReport(unsigned char *theSessionId, unsigned int theHeaderVersion, 
     theNewReport = (SCIReport *)gsimalloc(sizeof(SCIReport));
     if (!theNewReport)
         return SCResult_OUT_OF_MEMORY;
-    memset(theNewReport, 0, sizeof(SCIReport));
+    MSL_C_LIB_MemsetPtr(theNewReport, 0, sizeof(SCIReport));
     theReportData = (unsigned char *)gsimalloc(SCI_REPORT_BUFFER_SIZE);
     if (!theReportData) {
         gsifree(theNewReport);
         return SCResult_OUT_OF_MEMORY;
     }
-    memset(theReportData, 0, SCI_REPORT_BUFFER_SIZE);
+    MSL_C_LIB_MemsetPtr(theReportData, 0, SCI_REPORT_BUFFER_SIZE);
     theNewReport->mBuffer.mStart = 0;
     theNewReport->mBuffer.mCapacity = SCI_REPORT_BUFFER_SIZE;
     theReportHeader = (SCIReportHeader *)theReportData;
-    memset(theReportHeader, 0, sizeof(SCIReportHeader));
+    MSL_C_LIB_MemsetPtr(theReportHeader, 0, sizeof(SCIReportHeader));
     theReportHeader->mProtocolVersion = HTONL(2u);
     theReportHeader->mDeveloperVersion = HTONL(theHeaderVersion);
     theReportHeader->mRosterSectionLength = theRosterSize;

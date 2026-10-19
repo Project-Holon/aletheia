@@ -16,7 +16,6 @@
  *   GFL_HEAP_Alloc     0x02030734  arm
  *   GFL_HEAP_Free     0x020307B0  arm
  *   sFieldStatusFile  0x020A72BC  data
- *   ENV_SetResourceSet  0x020307B0  arm
  *   EVENT_WIFI_PROC_UnloadOv020  0x0215FA44  thumb  ov010
  *   FIELDMAP_RequestClose  0x02188BD8  thumb  ov021
  *   FIELDMAP_IsReady  0x02188BE8  thumb ov021
@@ -31,8 +30,6 @@
  *   ov091_id        0x0000005B  data
  *   ov131_id        0x00000083  data
  *   GAMESYSTEM_CallFieldProc  0x020120C0  thumb
- *   GAME_EVENT_Create  0x020122C0  thumb
- *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   FIELD_SOUND_SYSTEM_IsBusy  0x020289B8  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
@@ -142,7 +139,7 @@ extern int FIELDMAP_IsReady(struct FieldMap *fieldMap);
 
 extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int mode, int wait);
 
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int mode, int wait, int a4, u8 a5, u8 a6);
+extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int mode, int wait, int restoreBg, u8 seasonShown, u8 seasonTarget);
 
 void FIELD_STATUS_Create(u32 heapId);
 

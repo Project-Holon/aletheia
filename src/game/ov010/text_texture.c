@@ -13,7 +13,7 @@
  * Cut from waza_oshie.c, town_map_spot.c by tools/splitfile.py.
  *
  * symbols:
- *   DWCi_LSTlPopFront        0x02047250  arm
+ *   G3D_SYSTEM_GetResourceTex        0x02047250  arm
  *   STD_GetStringLength  0x0208CC78  arm
  *   NNS_G3dGetResDataByName        0x0206E62C  arm
  *   GF_FONT_Create        0x0201D7EC  thumb
@@ -83,7 +83,7 @@ typedef struct TexReq {
     void *font;         /* 0x14 */
 } TexReq;
 
-extern TexResource *DWCi_LSTlPopFront(void *p);
+extern TexResource *G3D_SYSTEM_GetResourceTex(void *p);
 
 extern int STD_GetStringLength(const char *s);
 
@@ -165,7 +165,7 @@ int TEXT_TEXTURE_LoadTexPlttByName(void *file, const char *texName, void *extra,
     key.plttFmt = 6;
     key.texOfs = 0;
     key.plttOfs = 0;
-    res = DWCi_LSTlPopFront(file);
+    res = G3D_SYSTEM_GetResourceTex(file);
     key.texVramKey = res->texVramKey;
     key.plttVramKey = res->plttVramKey;
     ofs = res->texDict;

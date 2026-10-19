@@ -1,5 +1,5 @@
 /*
- * function: func_0207A9C8
+ * function: FSi_OnRomReadDone
  * address:  0x0207A9C8
  * packet:   pkt_0207A9C8
  * region:   arm9
@@ -31,7 +31,7 @@ typedef enum FSResult {
 extern void *CARD_IsPulledOut(void);
 extern void FS_NotifyArchiveAsyncEnd(FSArchive *arc, FSResult ret);
 
-static void func_0207A9C8(void *arg)
+static void FSi_OnRomReadDone(void *arg)
 {
     FS_NotifyArchiveAsyncEnd((FSArchive *)arg, CARD_IsPulledOut() ? FS_RESULT_ERROR : FS_RESULT_SUCCESS);
 }

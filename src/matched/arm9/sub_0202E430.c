@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0202E430
+ * function: PMS_DRAW_GetFrameSurface
  * address:  0x0202E430
  * packet:   pkt_0202DBC4
  * region:   arm9
@@ -18,13 +18,13 @@
  * returning 0.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202E430.c \
- *       --func sub_0202E430 --addr 0x0202E430 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PMS_DRAW_GetFrameSurface.c \
+ *       --func PMS_DRAW_GetFrameSurface --addr 0x0202E430 --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
 
-u32 sub_0202E430(u32 id)
+u32 PMS_DRAW_GetFrameSurface(u32 id)
 {
     if (id >= 4) {
         return 1;

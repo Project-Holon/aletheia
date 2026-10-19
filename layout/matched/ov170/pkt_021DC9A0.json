@@ -223,7 +223,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BOX2_MAIN_GetBoxMon",
+   "name": "BOX2_MAIN_DepositPartyMon",
    "address": "0x021DD3DC",
    "kind": "game",
    "region": "ov170",

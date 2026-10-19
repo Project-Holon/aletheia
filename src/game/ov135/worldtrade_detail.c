@@ -49,13 +49,10 @@
  *   BMP_WIN_Delete 0x020452E8 arm
  *   STRBUF_Create 0x020457B0 arm
  *   WORLDTRADE_ADAPTER_IsStreamBusy  0x02202840  thumb  ov135
- *   MSGDATA_AllocString   0x02045EC0  arm
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   BMP_WIN_GetBmp   0x02045770  arm
  *   BMP_Clear   0x02043B5C  arm
  *   BMP_WIN_TransferChars   0x02045334  arm
- *   unit_02045730  0x02045730  arm
- *   BG_SYS_PushTile   0x020409B4  arm
  *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   WORLDTRADE_ADAPTER_QueuePrintDefaultColor  0x02202858  thumb  ov135
  *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
@@ -177,12 +174,10 @@ extern u32 POKEPARTY_GetCount(void *p);
 
 extern int TOUCHPANEL_GetTrg(void);
 
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
 
-extern u8 unit_02045730(u32 a);
 
 extern void BG_SYS_PushTile(u32 index);
 
@@ -675,7 +670,7 @@ void WORLDTRADE_DETAIL_PrintMessage(u8 *p, u32 msgId, u32 unused1, u32 unused2, 
     h = ((Work *)p)->frame;
     BMP_WIN_TransferChars((struct Descriptor *)h);
     BMP_WIN_MakeScreen((struct Cfg *)h);
-    BG_SYS_PushTile(unit_02045730(h));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)h));
     WORLDTRADE_ADAPTER_QueuePrintDefaultColor((void *)(((Work *)p)->frame), 0, (void *)(((Work *)p)->str), 0, 0, p + 0xfa0);
     STRBUF_Delete((struct U16Vec *)v);
 }

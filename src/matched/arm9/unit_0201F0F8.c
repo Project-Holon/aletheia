@@ -8,10 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: WORDSET_Set, WORDSET_SetSlotPokeData, WORDSET_Callback_F124, WORDSET_SetSlotFromMsgBE,
+ * function: WORDSET_SetSlotFromMsgBF, WORDSET_SetSlotPokeData, WORDSET_SetSlotFromMsg11B, WORDSET_SetSlotFromMsgBE,
  *           WORDSET_SetSlotFromMsgB4, WORDSET_SetSlotFromMsg37, WORDSET_SetSlotFromMsg59, WORDSET_SetSlotBoxName,
  *           WORDSET_SetSlotFromMsgA0, WORDSET_SetSlotFromMsg2B, WORDSET_SetSlotFromMsg00, WORDSET_SetSlotFromMsg38,
- *           WORDSET_DrawF1E0, WORDSET_SetSlotMonth
+ *           WORDSET_SetSlotWeekday, WORDSET_SetSlotMonth
  *
  * The second half of the wordset.c setter run, 0x0201F0F8..0x0201F250.
  * Every one of these is the same shape: clamp or range-check the caller's
@@ -24,7 +24,7 @@
  * WORDSET_SetSlotFromMsgA0 clamps with a signed `blt`, so its value parameter is `s32`
  * while every other clamp in the file is an unsigned `bls`/`bhi`.
  *
- * WORDSET_DrawF1E0 clears the slot unconditionally before the range check and
+ * WORDSET_SetSlotWeekday clears the slot unconditionally before the range check and
  * only overwrites it when the id is in range, so a caller with an
  * out-of-range id leaks the rendered string; that is what the bytes say and
  * it is reproduced here rather than tidied.
@@ -84,19 +84,19 @@ extern void WORDSET_ResetSlot(struct WordSet *p, u32 i);
 extern void WORDSET_SetSlotText(struct WordSet *p, u32 i, const void *src,
                           const struct Tag *tag);
 extern void WORDSET_SetSlotFromMessage(struct WordSet *p, u32 i, u32 id, u32 v);
-extern void WORDSET_Set(struct WordSet *p, u32 i, u32 v);
+extern void WORDSET_SetSlotFromMsgBF(struct WordSet *p, u32 i, u32 v);
 
-void WORDSET_Set(struct WordSet *p, u32 i, u32 v)
+void WORDSET_SetSlotFromMsgBF(struct WordSet *p, u32 i, u32 v)
 {
     WORDSET_SetSlotFromMessage(p, i, 0xBF, v);
 }
 
 void WORDSET_SetSlotPokeData(struct WordSet *p, u32 i, u32 a)
 {
-    WORDSET_Set(p, i, (u8)TPOKE_DATA_GetRecordField((void *)a, 1));
+    WORDSET_SetSlotFromMsgBF(p, i, (u8)TPOKE_DATA_GetRecordField((void *)a, 1));
 }
 
-void WORDSET_Callback_F124(struct WordSet *p, u32 i, u32 v)
+void WORDSET_SetSlotFromMsg11B(struct WordSet *p, u32 i, u32 v)
 {
     WORDSET_SetSlotFromMessage(p, i, 0x11B, v);
 }
@@ -162,7 +162,7 @@ void WORDSET_SetSlotFromMsg38(struct WordSet *p, u32 i, u32 v)
     WORDSET_SetSlotFromMessage(p, i, 0x38, v);
 }
 
-void WORDSET_DrawF1E0(struct WordSet *p, u32 i, u32 v)
+void WORDSET_SetSlotWeekday(struct WordSet *p, u32 i, u32 v)
 {
     void *s = func_02045B38(0, 3, (u16)0x1CD, (u16)p->heap);
 

@@ -1,7 +1,7 @@
 /*
  * file:     cw_runtime.c
  * unit:     yes
- * function: _double_arith_prelude, __dadd_dsub, __dmul, _d2f, _s32_to_double, _u32_to_double, __dcmp_1, __dcmp_2, __dcmp_3, __dcmp_4, __dcmp_5, __dcmp_6, _fgeq, __fcmp_1, __fcmp_2, __fcmp_3, __fcmp_4, _f2d, _s32_to_float, _u32_to_float, _ll_divmod_entry_signed, _ll_divmod_body, _ll_divmod_entry_flag0, _ll_mul, _s32_div_f, _f2s, _f2u, _d2s, _d2u, _double_arith_body, __fmul, __fadd, __fdiv, __ddiv
+ * function: _double_arith_prelude, __dadd_dsub, __dmul, _d2f, _s32_to_double, _u32_to_double, __dcmp_1, __dcmp_2, __dcmp_3, __dcmp_4, __dcmp_5, __dcmp_6, _fgeq, __fcmp_1, __fcmp_2, __fcmp_3, __fcmp_4, _f2d, _s32_to_float, _u32_to_float, _ll_divmod_entry_signed, _ll_divmod_body, _ll_divmod_entry_flag0, _ll_mul, _s32_div_f, _f2s, _f2u, _d2s, _d2u, sqrt, __fmul, __fadd, __fdiv, __ddiv
  * address:  0x0209AC04
  * region:   arm9
  * compiler: dsi/1.2
@@ -1963,13 +1963,13 @@ L_0209C5D0:
     bx lr
     dcd 0x0000043E
 }
-asm void _double_arith_body(void);
+asm void sqrt(void);
 asm void __fmul(void);
 asm void __fadd(void);
 asm void __fdiv(void);
 
 /* hand-written in the original: CodeWarrior runtime.a body, no C compiler emits it */
-asm void _double_arith_body(void)
+asm void sqrt(void)
 {
     stmdb sp!, {r4, r5, r6, lr}
     ldr r2, [pc, #0x184]

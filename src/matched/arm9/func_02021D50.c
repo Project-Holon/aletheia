@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   DWCi_ScreenDC_FlushRange   0x020862F0  arm
+ *   DC_FlushRange   0x020862F0  arm
  *   GX_LoadBGPltt   0x0207E3D0  arm
  *   func_0207E468   0x0207E468  arm
  *   GX_LoadOBJPltt   0x0207E51C  arm
@@ -74,7 +74,7 @@ struct S02021D50 {
 };
 
 extern u8 PALANM_CheckBit(u32 val, int bit);
-extern void DWCi_ScreenDC_FlushRange(void *a, u32 b);
+extern void DC_FlushRange(void *a, u32 b);
 extern void GX_LoadBGPltt(void *a, u32 b, u32 c);
 extern void func_0207E468(void *a, u32 b, u32 c);
 extern void GX_LoadOBJPltt(void *a, u32 b, u32 c);
@@ -113,7 +113,7 @@ void PALANM_TransferPalettes(struct S02021D50 *p)
             }
         }
         c = &p->ch[i];
-        DWCi_ScreenDC_FlushRange(c->f4, c->f8);
+        DC_FlushRange(c->f4, c->f8);
         switch (i) {
         case 0:
             GX_LoadBGPltt(c->f4, 0, c->f8);

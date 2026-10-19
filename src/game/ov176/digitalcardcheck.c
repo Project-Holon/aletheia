@@ -120,9 +120,9 @@ typedef u16 Row[3];
 typedef struct {
     u8 data[0x92]; u16 pad92;
     u32 color0, color1; u8 *user;
-    u16 a0, a2;
-    union { u32 total; struct { u16 a4, a6; } h; } v;
-    u16 a8, aa;
+    u16 count0, count1;
+    union { u32 total; struct { u16 count2, ruleValue22; } h; } v;
+    u16 cardValueDate, cardValueStatus;
 } Rec;
 
 extern void WIFIBATTLEMATCH_UTIL_PrintMessage(int *p, int a, int b, int c);
@@ -725,7 +725,7 @@ void DIGITALCARDCHECK_InitRecord(int *p)
             MI_CpuFill8(&rec, 0, 0xac);
             MI_CpuCopy8(REGULATION_Card_GetCupName(obj), &rec, 0x92);
             table = (u16 (*)[3])LIVEBATTLEMATCH_SAVE_GetStats((int)stats);
-            rec.a0 = BSUBWAY_SAVEDATA_GetStat(table, 10, 0);
+            rec.count0 = BSUBWAY_SAVEDATA_GetStat(table, 10, 0);
             total = BSUBWAY_SAVEDATA_GetStat(table, 10, 1);
             rec.v.total = total + BSUBWAY_SAVEDATA_GetStat(table, 10, 2);
             rec.user = (u8 *)MYSTATUS_GetTrainerView((const struct MyStatus *)win);
@@ -733,7 +733,7 @@ void DIGITALCARDCHECK_InitRecord(int *p)
             rec.color0 = ((u32)c << 24) | (((u32)b << 24) >> 8) | (((u32)a << 24) >> 16);
             a = REGULATION_Card_GetValue(obj, 9); b = REGULATION_Card_GetValue(obj, 8); d = REGULATION_Card_GetValue(obj, 7);
             rec.color1 = ((u32)d << 24) | (((u32)b << 24) >> 8) | (((u32)a << 24) >> 16);
-            rec.aa = REGULATION_Card_GetValue(obj, 11);
+            rec.cardValueStatus = REGULATION_Card_GetValue(obj, 11);
             p[2] = (int)WIFIBATTLEMATCH_VIEW_CreateStatusWindow((char *)(&rec), 0, win, (void *)flag, (void *)p[10], p[7], (void *)p[9], (void *)p[0], (void *)p[1], sub, 1, *(u16 *)((char *)p + 0x34));
         } else {
             Rec rec;
@@ -742,15 +742,15 @@ void DIGITALCARDCHECK_InitRecord(int *p)
             MI_CpuFill8(&rec, 0, 0xac);
             MI_CpuCopy8(REGULATION_Card_GetCupName(obj), &rec, 0x92);
             table = (const u8 *)LIVEBATTLEMATCH_SAVE_GetRecord((int)stats);
-            rec.a0 = LIVEBATTLEMATCH_SAVE_GetCounter(table, 1); rec.a2 = LIVEBATTLEMATCH_SAVE_GetCounter(table, 2);
-            rec.v.h.a4 = LIVEBATTLEMATCH_SAVE_GetCounter(table, 0);
-            rec.v.h.a6 = REGULATION_GetRuleValue(reg, 22);
+            rec.count0 = LIVEBATTLEMATCH_SAVE_GetCounter(table, 1); rec.count1 = LIVEBATTLEMATCH_SAVE_GetCounter(table, 2);
+            rec.v.h.count2 = LIVEBATTLEMATCH_SAVE_GetCounter(table, 0);
+            rec.v.h.ruleValue22 = REGULATION_GetRuleValue(reg, 22);
             rec.user = (u8 *)MYSTATUS_GetTrainerView((const struct MyStatus *)win);
             a = REGULATION_Card_GetValue(obj, 6); b = REGULATION_Card_GetValue(obj, 5); c = REGULATION_Card_GetValue(obj, 4);
             rec.color0 = ((u32)c << 24) | (((u32)b << 24) >> 8) | (((u32)a << 24) >> 16);
             a = REGULATION_Card_GetValue(obj, 9); b = REGULATION_Card_GetValue(obj, 8); d = REGULATION_Card_GetValue(obj, 7);
             rec.color1 = ((u32)d << 24) | (((u32)b << 24) >> 8) | (((u32)a << 24) >> 16);
-            rec.a8 = REGULATION_Card_GetValue(obj, 11);
+            rec.cardValueDate = REGULATION_Card_GetValue(obj, 11);
             p[2] = (int)WIFIBATTLEMATCH_VIEW_CreateDateWindow((char *)(&rec), win, (void *)flag, (void *)p[10], p[7], (void *)p[9], (void *)p[0], (void *)p[1], sub, 1, *(u16 *)((char *)p + 0x34));
         }
         LIVEBATTLEMATCH_IRC_ToggleSe((int)p, 0);

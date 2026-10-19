@@ -1,5 +1,5 @@
 /*
- * function: func_021D4148
+ * function: _DWCi_MOVSearchChannel
  * address:  0x021D4148
  * packet:   pkt_ov016_021D4148
  * region:   ov016
@@ -64,7 +64,7 @@ extern u16 DWCi_MOV_WH_GetMeasureChannel(void);
 extern void DWCi_MOV_WH_Reset(void);
 extern void OS_Terminate(void);
 
-void func_021D4148(void)
+void _DWCi_MOVSearchChannel(void)
 {
     switch (DWCi_MOV_WH_GetSystemState()) {
     case 1:

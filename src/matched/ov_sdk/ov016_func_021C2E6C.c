@@ -1,5 +1,5 @@
 /*
- * function: func_021C2E6C
+ * function: button
  * address:  0x021C2E6C
  * packet:   pkt_ov016_021C2E6C
  * region:   ov016
@@ -46,7 +46,7 @@ extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021C2F14(void);
 extern struct FocusPosT gSceneOptMenuWork;
 
-void func_021C2E6C(void)
+void button(void)
 {
 	WiFiInfoT info;
 

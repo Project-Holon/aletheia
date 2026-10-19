@@ -194,7 +194,7 @@ extern void Wf2dmapFriend_SetActorDrawEnable(u8 *p, u32 a);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern u8 BMP_WIN_GetDispWidth(struct Descriptor *p);
-extern void TOUCHBAR_PrintYesNoCancelLabels(u32 a0, void *a1, u32 a2, u16 a3, u16 a4, u16 a5, u32 a6, u32 a7, u16 heap);
+extern void TOUCHBAR_PrintYesNoCancelLabels(u32 window, void *textCtx, u32 fontId, u16 x, u16 y, u16 color, u32 firstNumber, u32 secondNumber, u16 heap);
 extern void Wf2dmapFriend_SetWordSlot(char **,int);
 extern int Wf2dmapFriend_PrintTrainerStats(u8 *,u8 *,int);
 extern void BMP_WIN_TransferChars(struct Descriptor *);

@@ -1,5 +1,5 @@
 /*
- * function: func_021C86B8
+ * function: calcParam
  * address:  0x021C86B8
  * packet:   pkt_021C86B8
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C86B8 0x021C86B8 arm
+ *   calcParam 0x021C86B8 arm
  *   DWCi_GetParam2_  0x021C0EA0  arm
  *   DWCi_SETTIGNlGet  0x021CF404  arm
  *
@@ -21,7 +21,7 @@
 extern char *DWCi_SETTIGNlGet(void);
 extern void DWCi_GetParam2_(unsigned int *a, unsigned int *b);
 
-void func_021C86B8(void)
+void calcParam(void)
 {
     unsigned char *g = (unsigned char *)0x021DE5EC;
     int z = 0;

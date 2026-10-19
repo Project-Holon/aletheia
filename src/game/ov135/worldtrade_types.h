@@ -128,7 +128,7 @@ typedef struct {
     u32 primaryPlt; /* +0x20 */
     u32 primaryCell; /* +0x24 */
     u32 mainIconChar; /* +0x28 */
-    u32 f2C; /* +0x2C */
+    u32 mainIconPlt; /* +0x2C */
     u32 mainIconCell; /* +0x30 */
 } Res;
 
@@ -152,7 +152,7 @@ typedef struct {
 
 typedef struct {
     void *sys; /* +0x0 */
-    void *a4; /* +0x4 */
+    void *handle04; /* +0x4 */
     void *party; /* +0x8 */
     void *save; /* +0xC */
     u8 pad10[0x14 - 0x10];
@@ -172,7 +172,7 @@ typedef struct {
     u32 mainCell; /* +0xC */
     u8 pad10[0x28 - 0x10];
     u32 mainIconChar; /* +0x28 */
-    u32 f2C; /* +0x2C */
+    u32 mainIconPlt; /* +0x2C */
     u32 mainIconCell; /* +0x30 */
     u32 slotCursorObj; /* +0x34 */
     u32 depositMarkObj; /* +0x38 */
@@ -229,8 +229,8 @@ typedef struct {
 
 /* Two ten-entry u16 selection tables behind two header words. */
 typedef struct {
-    u16 f0; /* +0x0 */
-    u16 f2; /* +0x2 */
+    u16 reserved00; /* +0x0 */
+    u16 reserved02; /* +0x2 */
     u16 a[10]; /* +0x4 */
     u16 b[10]; /* +0x18 */
 } SelTable;
@@ -243,7 +243,7 @@ typedef struct {
     u32 timeout; /* +0xC */
     void *buf; /* +0x10 */
     u32 isTrade; /* +0x14 */
-    u32 f18; /* +0x18 */
+    u32 reserved18; /* +0x18 */
     u32 result; /* +0x1C */
     int (*callback)(void *, Work *); /* +0x20 */
     Work *user; /* +0x24 */
@@ -300,9 +300,9 @@ typedef struct {
     u16 page;
     u16 pad16;
     u32 nationalDexEnabled;
-    u32 f1C;
+    u32 reserved1C;
     u32 result;
-    u32 f24;
+    u32 reserved24;
 } PokeStatusRequest;
 
 struct Work {
@@ -636,7 +636,7 @@ struct Work {
         unsigned int badWordCountU;
         int nameCheckResult;
     };
-    unsigned short f1324;
+    unsigned short reserved1324;
     u8 pad1326[2];
     u32 done; /* +0x1328 */
 };

@@ -17,7 +17,7 @@
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   FADE_Start  0x0204E720  arm
- *   BMP_SetDisplaySwap  0x0204363C  arm
+ *   BG_SYS_SetLcdSwap  0x0204363C  arm
  *   BG_SYS_SetPlaneVisible  0x02040588  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
@@ -499,7 +499,7 @@ extern void GFL_HEAP_CreateChildHeap(unsigned int a, unsigned int heap, unsigned
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void  MI_CpuFill8(void *p, int v, int n);
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
-extern void BMP_SetDisplaySwap(u32 swap);
+extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void BG_SYS_SetPlaneVisible(u32 which, unsigned char enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
@@ -1027,7 +1027,7 @@ void STARTMENU_TitleDemoUpdateTimer(TitleDemoWork *work)
 {
     if (work->frameCount == 0x29A) {
         FADE_Start(12, 16, 0, 3);
-        BMP_SetDisplaySwap(1);
+        BG_SYS_SetLcdSwap(1);
         BG_SYS_SetPlaneVisible(6, 0);
         BG_SYS_SetSubPlaneVisible(16, 0);
         BG_SYS_SetMainPlaneVisible(8, 0);
@@ -1050,7 +1050,7 @@ void STARTMENU_TitleDemoUpdateTimer(TitleDemoWork *work)
 void STARTMENU_TitleDemoCheckInput(TitleDemoWork *work)
 {
     if ((KEY_GetTrg() & 0xB) && work->phase == 1) {
-        BMP_SetDisplaySwap(0);
+        BG_SYS_SetLcdSwap(0);
         BG_SYS_SetPlaneVisible(6, 1);
         BG_SYS_SetPlaneVisible(3, 1);
         BG_SYS_SetSubPlaneVisible(0x10, 1);
@@ -1063,7 +1063,7 @@ void STARTMENU_TitleDemoCheckInput(TitleDemoWork *work)
         work->state = 4;
         work->fanfareHandle = (void *)PM_VOICE_Play(0x283, 0, 0x40, 0, 0, 0, 0, 0);
         STARTMENU_Demo3dSetFrame(&work->demo3d, 0x1389);
-        BMP_SetDisplaySwap(0);
+        BG_SYS_SetLcdSwap(0);
         BG_SYS_SetPlaneVisible(6, 1);
         BG_SYS_SetSubPlaneVisible(0x10, 0);
         FADE_Start(0xC, 0x10, 0, 3);
@@ -1231,7 +1231,7 @@ void STARTMENU_CaptureInit(TitleDemoCapture *capture, int heap)
     GF_FONT_InitTextColor();
     capture->taskList = (int)TCBL_Create(heap, heap, 4, 0x20);
     capture->vblankTask = (int)GFL_USE_AddMainTask((void *)STARTMENU_CaptureVblankTask, capture, 5);
-    BMP_SetDisplaySwap(0);
+    BG_SYS_SetLcdSwap(0);
     BG_SYS_ResetSubDisplay();
     capture->captureEva = 12;
     capture->captureEvb = 4;
@@ -1264,7 +1264,7 @@ void STARTMENU_CaptureRunTasks(TitleDemoCapture *capture, int unused)
 
 void STARTMENU_CaptureDelete(TitleDemoCapture *capture)
 {
-    BMP_SetDisplaySwap(1);
+    BG_SYS_SetLcdSwap(1);
     BG_SYS_ResetSubDisplay();
     TCB_DeleteTask((struct Node *)capture->vblankTask);
     TCBL_Destroy((struct S02031140 *)capture->taskList);
@@ -1776,7 +1776,7 @@ int STARTMENU_StateSetup(StartMenuWork *work)
     BG_SYS_SetSubVisiblePlanes(0);
     *(unsigned short *)0x04000050 = z;
     *(unsigned short *)0x04001050 = z;
-    BMP_SetDisplaySwap(1);
+    BG_SYS_SetLcdSwap(1);
     STARTMENU_ClearGraphics();
     STARTMENU_SetupBackgrounds();
     STARTMENU_LoadGraphics();
@@ -3899,7 +3899,7 @@ int STARTMENU_LogoScreenMain(int proc, int seq, int *variant, LogoScreenWork *wo
         ARC_UTIL_UploadPaletteFromArchiveWhole(0x1a, 0xb, 4, 0, 0, 0x16);
         BG_SYS_SetPlaneVisible(1, 1);
         BG_SYS_SetPlaneVisible(5, 1);
-        BMP_SetDisplaySwap(1);
+        BG_SYS_SetLcdSwap(1);
         BG_SYS_ResetSubDisplay();
         FADE_Start(0xc, 0x10, zero, 2);
         work->state = 2;
@@ -3943,7 +3943,7 @@ int STARTMENU_LogoScreenMain(int proc, int seq, int *variant, LogoScreenWork *wo
         BG_SYS_PushTile(5);
         BG_SYS_SetPlaneVisible(1, 1);
         BG_SYS_SetPlaneVisible(5, 1);
-        BMP_SetDisplaySwap(1);
+        BG_SYS_SetLcdSwap(1);
         BG_SYS_ResetSubDisplay();
         FADE_Start(3, 0x10, 0, 2);
         work->state = 8;

@@ -8,11 +8,11 @@
  * isa: thumb
  * status: EXACT
  * blocker: ARM9 0204363C is in src/matched/arm9/unit_0204361C.c but omitted
- *   from function:. Owner must list BG_SYS_ResetSubDisplay,BMP_SetDisplaySwap,BMP_GetVisiblePlane
+ *   from function:. Owner must list BG_SYS_ResetSubDisplay,BG_SYS_SetLcdSwap,BMP_GetVisiblePlane
  *   and regenerate its shard. Prior verified EXACT 28-byte ARM C copied
  *   from ov170_func_021E1E80.c (wave62 B4 blocker-1.log):
  *   typedef unsigned short u16; typedef unsigned int u32;
- *   void BMP_SetDisplaySwap(u32 swap) {
+ *   void BG_SYS_SetLcdSwap(u32 swap) {
  *     *(volatile u16 *)0x04000304 =
  *       (*(volatile u16 *)0x04000304 & ~0x8000) | (swap << 15);
  *   }
@@ -32,7 +32,7 @@
  *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
- *   BMP_SetDisplaySwap 0x0204363C arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
@@ -58,7 +58,7 @@ extern const char gIntroGraphicSite[];
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void MI_CpuFill8(void *,u8,u32);
 extern void BG_SYS_ClearGraphicsMemory(u32);
-extern void BMP_SetDisplaySwap(u32);
+extern void BG_SYS_SetLcdSwap(u32);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
@@ -81,7 +81,7 @@ void *INTRO_GRAPHIC_CreateDisplay(int swap, int mode, u16 heap)
     *(volatile u32 *)0x04000000 &=0xFFFF1FFF;
     *(volatile u32 *)0x04001000 &=0xFFFF1FFF;
     BG_SYS_ClearGraphicsMemory(0);
-    BMP_SetDisplaySwap(swap);
+    BG_SYS_SetLcdSwap(swap);
     BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();

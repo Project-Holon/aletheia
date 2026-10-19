@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: FLD_VREQ_ApplyBlendBrightnessExt, FLD_VREQ_ApplyBlendAlphaEv
+ * function: FLD_VREQ_ApplyBlendControl, FLD_VREQ_ApplyBlendAlphaEv
  * address:  0x021D331C
  * packet:   pkt_ov021_021D331C
  * region:   ov021
@@ -21,7 +21,7 @@ typedef unsigned short u16;
 
 extern void G2x_SetBlendBrightnessExt_(u32 reg, int a, int b, int c, int d, int e);
 
-void FLD_VREQ_ApplyBlendBrightnessExt(const int *p, int sub)
+void FLD_VREQ_ApplyBlendControl(const int *p, int sub)
 {
     if (sub) {
         G2x_SetBlendBrightnessExt_(0x04000050, p[0], p[1], p[2], p[3], p[4]);

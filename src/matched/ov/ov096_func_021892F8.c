@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: TR_AI_CompareKnowsMoveParam28,TR_AI_CmdNop2,TR_AI_CmdSetNoMoveFlag,TR_AI_CmdNop3,TR_AI_CmdNop4
+ * function: TR_AI_CompareKnowsMoveEffectSequence,TR_AI_CmdNop2,TR_AI_CmdSetNoMoveFlag,TR_AI_CmdNop3,TR_AI_CmdNop4
  * address: 0x021892F8
  * packet: pkt_ov096_021892F8
  * region: ov096
@@ -33,7 +33,7 @@ struct QG;
 extern int TR_AI_Compare(u8 *a, int op, int x, int y, int z);
 extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
 extern u16 BTL_POKEPARAM_GetMoveId(u8 *p, int i);
-int TR_AI_CompareKnowsMoveParam28(struct Cursor *a, Obj *b, int c)
+int TR_AI_CompareKnowsMoveEffectSequence(struct Cursor *a, Obj *b, int c)
 {
     int k, z, y, r, i, t;
     unsigned int value;

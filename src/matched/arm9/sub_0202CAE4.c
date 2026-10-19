@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0202CAE4
+ * function: BGWINFRM_SetFrameDataArc
  * address:  0x0202CAE4
  * packet:   pkt_0202C794
  * region:   arm9
@@ -28,8 +28,8 @@
  * so the `label` class does have an outside witness.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202CAE4.c \
- *       --func sub_0202CAE4 --addr 0x0202CAE4 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BGWINFRM_SetFrameDataArc.c \
+ *       --func BGWINFRM_SetFrameDataArc --addr 0x0202CAE4 --cc 1.1p1 --thumb
  */
 
 typedef unsigned short u16;
@@ -46,7 +46,7 @@ extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 a0, u32 a1, u32 a2, u32 a3,
 extern void sub_0202CAC4(struct WinMgr *mgr, u32 idx, const void *src);
 extern void ENV_SetResourceSet(void *p);
 
-void sub_0202CAE4(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc)
+void BGWINFRM_SetFrameDataArc(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc)
 {
     void *buf;
     void *res;

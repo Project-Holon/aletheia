@@ -10,11 +10,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0202C6B8, sub_0202C6BC
+ * function: ISS_SWITCH_GetState, ISS_SWITCH_SetState
  *
- * Two plain functions, no relocations. sub_0202C6B8 reads the object's
- * first word; sub_0202C6BC sets it and clears the u16 field at offset 4.
- * sub_0202C6BC is the target of ISS_SWITCH_SetOnState/ISS_SWITCH_SetOffState
+ * Two plain functions, no relocations. ISS_SWITCH_GetState reads the object's
+ * first word; ISS_SWITCH_SetState sets it and clears the u16 field at offset 4.
+ * ISS_SWITCH_SetState is the target of ISS_SWITCH_SetOnState/ISS_SWITCH_SetOffState
  * (src/matched/unit_0202C6A0.c) and of eight direct callers elsewhere in
  * the image.
  *
@@ -31,12 +31,12 @@ struct Obj0202C6B8 {
     u16 unk04;
 };
 
-u32 sub_0202C6B8(struct Obj0202C6B8 *p)
+u32 ISS_SWITCH_GetState(struct Obj0202C6B8 *p)
 {
     return p->unk00;
 }
 
-struct Obj0202C6B8 *sub_0202C6BC(struct Obj0202C6B8 *p, u32 v)
+struct Obj0202C6B8 *ISS_SWITCH_SetState(struct Obj0202C6B8 *p, u32 v)
 {
     p->unk00 = v;
     p->unk04 = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_021CFEA0
+ * function: ascii2hex
  * address:  0x021CFEA0
  * packet:   pkt_021CF440
  * region:   ov016
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CFEA0   0x021CFEA0  arm
+ *   ascii2hex   0x021CFEA0  arm
  *
  * Value of one ASCII hex digit.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021CFEA0.c \
- *       --func func_021CFEA0 --addr 0x021CFEA0 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/ascii2hex.c \
+ *       --func ascii2hex --addr 0x021CFEA0 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-int func_021CFEA0(unsigned int c)
+int ascii2hex(unsigned int c)
 {
     if (c <= 0x39)
         return c - 0x30;

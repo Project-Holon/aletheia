@@ -1,5 +1,5 @@
 /*
- * function: func_021C3298
+ * function: endScene
  * address:  0x021C3298
  * packet:   pkt_ov016_021C3298
  * region:   ov016
@@ -21,7 +21,7 @@ extern int DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021C32C0(void);
 
-void func_021C3298(void)
+void endScene(void)
 {
 	DWCi_EFFlFade(3, 0, 0x15, 8);
 	DWCi_ChangeScene((unsigned int)func_021C32C0);

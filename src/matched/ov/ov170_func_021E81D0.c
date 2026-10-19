@@ -1,5 +1,5 @@
 /*
- * function: BOX2_SEQ_StateMoveItemF
+ * function: BOX2_SEQ_StateReleaseMon
  * address:  0x021E81D0
  * packet:   pkt_ov170_021E81D0
  * region:   ov170
@@ -65,7 +65,7 @@ extern void BOX2_UI_ShowWindowB(char *w);
 #define STATE(p) (*(int *)((p) + 0x28))
 #define MODE(p) (*(int *)(*(char **)(p) + 0x24))
 
-int BOX2_SEQ_StateMoveItemF(unsigned char *p)
+int BOX2_SEQ_StateReleaseMon(unsigned char *p)
 {
     switch (STEP(p)) {
     case 0:

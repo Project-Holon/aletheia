@@ -23,7 +23,7 @@
  *   GFL_HEAP_Alloc     0x02030734  arm
  *   GFL_HEAP_Free     0x020307B0  arm
  *   SAVE_CONTROL_ReadRecordFromFlash     0x02007248  thumb
- *   memcmp            0x0203EFC8  arm
+ *   GF_STANDARD_CompareBytes            0x0203EFC8  arm
  *   sFileName_symbol_save    0x020A720C  data
  *   QUESTIONNAIRE_GetAnswerBitOffset  0x02167380  thumb  ov010
  *   QUESTIONNAIRE_GetAnswerBitWidth  0x02167358  thumb  ov010
@@ -82,7 +82,7 @@ extern u32 GFL_HEAP_Free(void *p);
 
 extern u32   SAVE_CONTROL_ReadRecordFromFlash(void *a, u32 b, u32 c, void *d, u32 e);
 
-extern int   memcmp(const void *a, const void *b, u32 n);
+extern int   GF_STANDARD_CompareBytes(const void *a, const void *b, u32 n);
 
 extern u8 QUESTIONNAIRE_GetAnswerBitOffset(u32 id);
 
@@ -440,7 +440,7 @@ u32 SYMBOL_SAVE_FindRecord(void *saveData, u32 *keyWord, void *heapId, u32 match
                     found = 1;
                     break;
                 } else {
-                    if (memcmp(&save->records[recordIndex], keyWord, 4) != 0) continue;
+                    if (GF_STANDARD_CompareBytes(&save->records[recordIndex], keyWord, 4) != 0) continue;
                     found = 1;
                     break;
                 }

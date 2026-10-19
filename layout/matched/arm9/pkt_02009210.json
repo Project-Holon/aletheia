@@ -144,7 +144,7 @@
     "WIFI_HISTORY_SetCountryRegionState",
     "WIFI_HISTORY_GetMode",
     "WIFI_HISTORY_PromoteVisitedStates",
-    "sub_02009584"
+    "WIFI_HISTORY_GetVisitedCountryCount"
    ],
    "addresses": [
     "0x02009470",

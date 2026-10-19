@@ -47,14 +47,6 @@ extern u32 BG_SYS_GetScrollX(u32 layer);
 
 extern u32 BG_SYS_GetScrollY(u32 layer);
 
-extern float _fflt(int);
-
-extern float _fadd(float, float);
-
-extern float _fsub(float, float);
-
-extern int _ffix(float);
-
 extern void BTLV_EFFECT_RegisterTask(void *task, void (*onDelete)(void *), int arg);
 
 extern void BTLV_EFFECT_DeleteTask(void *task);
@@ -157,8 +149,8 @@ unsigned int BTLV_BG_IsScrolling(BtlvBg *bg)
 
 static inline int BTLV_BG_ToFixedRounded(int value)
 {
-    if (value > 0) return _ffix(_fadd(0.5f, _fflt(value << 12)));
-    else return _ffix(_fsub(_fflt(value << 12), 0.5f));
+    if (value > 0) return (int)(0.5f + (float)(value << 12));
+    else return (int)((float)(value << 12) - 0.5f);
 }
 
 /*

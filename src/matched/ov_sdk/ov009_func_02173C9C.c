@@ -1,5 +1,5 @@
 /*
- * function: func_02173C9C
+ * function: DWCi_GetAIDBitmask
  * address:  0x02173C9C
  * packet:   pkt_ov009_02173C9C
  * region:   ov009
@@ -21,7 +21,7 @@ extern int DWCi_NodeInfoList_GetCount(void);
 extern char *DWCi_NodeInfoList_GetNodeInfoForIndex(int index);
 extern int func_02175F3C(void);
 
-unsigned int func_02173C9C(int valid)
+unsigned int DWCi_GetAIDBitmask(int valid)
 {
     unsigned int bitmask = 0;
     int i;

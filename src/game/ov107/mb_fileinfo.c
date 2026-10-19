@@ -17,14 +17,11 @@
  *   FS_ReadFile  0x02078B70  arm
  *   FS_SeekFile  0x02078B44  arm
  *   CARD_GetOwnRomHeader             0x02075DF8  arm
- *   FS_GetFilePosition               0x02078AEC  arm
- *   FS_ReadFile                      0x02078B70  arm
  *   FS_InitFile                      0x020788AC  arm
  *   FS_FindArchive                   0x02077EB8  arm
  *   FS_OpenFileDirect                0x02078964  arm
  *   MI_CpuCopy8                      0x02082D44  arm
- *   CARDi_GetOwnSignature            0x020773D0  arm
- *   FS_SeekFile                      0x02078B44  arm
+ *   CARDi_GetRomCacheBuffer            0x020773D0  arm
  *   MBi_InitCache                    0x021F636C  arm
  *   MBi_AttachCacheBuffer            0x021F6380  arm
  *   FS_GetFileImageTop               0x0207A7BC  arm
@@ -37,7 +34,6 @@
  *   _ZZ14MB_ReadSegmentP6FSFilePvmE18mbi_seg_header_twl  0x021F6D28  data
  *   _start_AutoloadDoneCallback      0x02004EA8  arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   MI_CpuCopy8  0x02082D44  arm
  *   OS_DisableInterrupts     0x02087988  arm
  *   MBi_IsStarted            0x021F6314  arm  ov107
  *   OS_RestoreInterrupts     0x0208799C  arm
@@ -175,7 +171,7 @@ extern void FS_InitFile(FSFile *file);
 extern void *FS_FindArchive(char *name, int name_len);
 extern int FS_OpenFileDirect(FSFile *file, void *arc, u32 image_top, u32 image_bottom, u32 id);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
-extern u8 *CARDi_GetOwnSignature(void);
+extern void *CARDi_GetRomCacheBuffer(void);
 extern void MBi_InitCache(MBiCacheList *pl);
 extern void MBi_AttachCacheBuffer(MBiCacheList *pl, u32 src, u32 len, void *ptr, u32 state);
 extern u32 FS_GetFileImageTop(FSFile *file);
@@ -305,7 +301,7 @@ int MB_ReadSegment(FSFile *file, void *buf, u32 len)
 
         if (rest >= 0x88) {
             if (is_own_binary) {
-                MI_CpuCopy8(CARDi_GetOwnSignature(), dst, 0x88);
+                MI_CpuCopy8(CARDi_GetRomCacheBuffer(), dst, 0x88);
             } else {
                 FS_SeekFile(file, bak_pos + own_size, 0);
                 FS_ReadFile(file, dst, 0x88);

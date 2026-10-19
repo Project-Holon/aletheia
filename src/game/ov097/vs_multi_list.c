@@ -23,7 +23,7 @@
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
- *   BMP_SetDisplaySwap  0x0204363C  arm
+ *   BG_SYS_SetLcdSwap  0x0204363C  arm
  *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   VS_MULTI_LIST_DeleteBgFrames 0x021F75E0 thumb ov097
@@ -264,7 +264,7 @@ extern void PROCSYS_FreeProcWork(struct Proc *proc);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
-extern void BMP_SetDisplaySwap(u32 swap);
+extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern u32 WIPE_SYS_EndCheck(void);
@@ -448,7 +448,7 @@ int VS_MULTI_LIST_StateSetup(struct VsMultiList *work)
     BG_SYS_SetSubVisiblePlanes(0);
     REG_BLDCNT = 0;
     REG_BLDCNT_SUB = 0;
-    BMP_SetDisplaySwap(1);
+    BG_SYS_SetLcdSwap(1);
     VS_MULTI_LIST_InitMons(work);
     VS_MULTI_LIST_SetVramBanks();
     VS_MULTI_LIST_InitBgs();

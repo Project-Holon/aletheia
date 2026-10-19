@@ -1,5 +1,5 @@
 /*
- * function: GAME_BEACON_SEARCH_ExitWait, GAME_BEACON_SEARCH_OnNetExit
+ * function: GAME_BEACON_SEARCH_FreeWork, GAME_BEACON_SEARCH_OnNetExit
  * address: 0x02164C38
  * packet: pkt_ov010_02164C38
  * region: ov010
@@ -21,5 +21,5 @@ typedef unsigned int u32;
 extern u32 func_020307B0(void *p);
 extern u32 func_0200FB24(void);
 extern void func_0200FBA0(void);
-int GAME_BEACON_SEARCH_ExitWait(int a,int b,u8 *p) { if(((struct Obj18983 *)p)->f4==0) { func_020307B0(p); if(func_0200FB24()) func_0200FBA0(); return 1; } return 0; }
+int GAME_BEACON_SEARCH_FreeWork(int a,int b,u8 *p) { if(((struct Obj18983 *)p)->f4==0) { func_020307B0(p); if(func_0200FB24()) func_0200FBA0(); return 1; } return 0; }
 void GAME_BEACON_SEARCH_OnNetExit(u8 *p) { ((struct Obj18984 *)p)->f4=0; }

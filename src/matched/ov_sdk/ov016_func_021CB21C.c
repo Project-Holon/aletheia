@@ -1,5 +1,5 @@
 /*
- * function: func_021CB21C
+ * function: endScene1
  * address:  0x021CB21C
  * packet:   pkt_ov016_021CB21C
  * region:   ov016
@@ -29,7 +29,7 @@ extern void DWCi_SetParam2_(unsigned int a, unsigned int b);
 extern void DWCi_ChangeScene(unsigned int v);
 extern void DWCi_SceneSetTestConfirm(void);
 
-void func_021CB21C(void)
+void endScene1(void)
 {
     if (DWCi_EFFlCheck(1) != 0)
         return;

@@ -1,5 +1,5 @@
 /*
- * function: BOX2_MAIN_CompactParty
+ * function: BOX2_MAIN_MoveMonToListedBox
  * address: 0x021DD464
  * packet: pkt_ov170_021DD464
  * region: ov170
@@ -23,7 +23,7 @@ extern int func_0200752C(void **save, u32 box, const struct Sub02007454Entry *sr
 extern void func_02007664(void *,unsigned,unsigned);
 extern void BOX2_UI_DrawSlot(char *p, int i);
 extern void BOX2_UI_DrawSlotByName(char *p, int a);
-void BOX2_MAIN_CompactParty(unsigned char *p,unsigned a,unsigned b,unsigned c)
+void BOX2_MAIN_MoveMonToListedBox(unsigned char *p,unsigned a,unsigned b,unsigned c)
 {
     void *m;
     unsigned box;

@@ -18,10 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "CLACT_SetActorScaleAxis"
+    "CLACT_SetActorScaleAxis",
+    "CLACT_GetActorScaleAxis"
    ],
    "addresses": [
-    "0x0204B5D4"
+    "0x0204B5D4",
+    "0x0204B5E4"
    ]
   },
   {
@@ -36,10 +38,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "CLACT_SetActorRotation"
+    "CLACT_SetActorRotation",
+    "CLACT_GetActorRotation"
    ],
    "addresses": [
-    "0x0204B5F4"
+    "0x0204B5F4",
+    "0x0204B5FC"
    ]
   },
   {
@@ -66,10 +70,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "CLACT_SetActorObjMode"
+    "CLACT_SetActorObjMode",
+    "CLACT_GetActorObjMode"
    ],
    "addresses": [
-    "0x0204B688"
+    "0x0204B688",
+    "0x0204B6E4"
    ]
   }
  ]

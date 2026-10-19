@@ -23,7 +23,7 @@
  * This unit is the code-side attestation of the item archive's identity.
  * The archive id in this image is the decimal spelling of the a/X/Y/Z
  * path, so:
- *   - FILE_UTIL_Create_0F14 opens archive id 0x18 = 24 = a/0/2/4 as a persistent
+ *   - FILE_UTIL_CreateItemArcHandle opens archive id 0x18 = 24 = a/0/2/4 as a persistent
  *     0x50-byte handle (func_020490F4 takes the archive id in r0), and
  *     FILE_UTIL_LoadArcMember reads member `item` out of that same handle after
  *     clamping the item id to 626, the last of a/0/2/4's 627 members.
@@ -66,7 +66,7 @@ u32 FILE_UTIL_GetBaseIndex(void)
     return 0;
 }
 
-void *FILE_UTIL_Create_0F14(u32 heap)
+void *FILE_UTIL_CreateItemArcHandle(u32 heap)
 {
     return func_020490F4(0x18, heap);
 }

@@ -8,14 +8,14 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0201808C, sub_02018094
+ * function: POKE_TOOL_AddMove, POKE_TOOL_AddBoxMove
  *
- * poke_tool.c: "teach this move if there is room".  sub_02018094 unlocks the
+ * poke_tool.c: "teach this move if there is room".  POKE_TOOL_AddBoxMove unlocks the
  * record, walks the four move slots (ids 0x36 to 0x39 of the getter
  * POKE_TOOL_GetBoxValue), and writes the move into the first empty one through
  * POKE_TOOL_SetBoxMoveSlot (src/matched/unit_020181A0.c), locking again on the way out.
  * It answers with the move it wrote, 0xFFFE if the record already knows it,
- * and 0xFFFF if all four slots are full; sub_0201808C is a bare tail call to
+ * and 0xFFFF if all four slots are full; POKE_TOOL_AddMove is a bare tail call to
  * it under a second name (docs/idioms/tail-call-is-a-pool-word-and-bx.md).
  *
  * 0xFFFE and 0xFFFF are ordinary integer constants and not relocations: both
@@ -51,14 +51,14 @@ extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
 extern u32  POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
 extern void POKE_TOOL_SetBoxMoveSlot(void *p, u32 move, u8 slot);
 
-u32 sub_02018094(void *p, u32 move);
+u32 POKE_TOOL_AddBoxMove(void *p, u32 move);
 
-u32 sub_0201808C(void *p, u32 move)
+u32 POKE_TOOL_AddMove(void *p, u32 move)
 {
-    return sub_02018094(p, move);
+    return POKE_TOOL_AddBoxMove(p, move);
 }
 
-u32 sub_02018094(void *p, u32 move)
+u32 POKE_TOOL_AddBoxMove(void *p, u32 move)
 {
     u32 r = 0xFFFF;
     u32 lock = POKE_TOOL_DecodeBoxParam(p);

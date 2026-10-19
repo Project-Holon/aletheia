@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0202ACC8",
+   "name": "ISS_CITY_SYS_IsEnabled",
    "address": "0x0202ACC8",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0202AD88",
+   "name": "ISS_CITY_SYS_GetCurrentUnitIndex",
    "address": "0x0202AD88",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0202AE04",
+   "name": "ISS_CITY_SYS_GetFadeLevel",
    "address": "0x0202AE04",
    "kind": "game",
    "region": "arm9",
@@ -78,12 +78,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0202AE60",
-    "sub_0202AE64"
+    "ISS_CITY_SYS_SetFadeLevel",
+    "ISS_CITY_SYS_GetVolume"
+   ],
+   "addresses": [
+    "0x0202AE60",
+    "0x0202AE64"
    ]
   },
   {
-   "name": "sub_0202AEB8",
+   "name": "ISS_CITY_SYS_SetVolume",
    "address": "0x0202AEB8",
    "kind": "game",
    "region": "arm9",
@@ -95,7 +99,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0202AF30",
+   "name": "ISS_CITY_UNIT_GetZoneId",
    "address": "0x0202AF30",
    "kind": "game",
    "region": "arm9",

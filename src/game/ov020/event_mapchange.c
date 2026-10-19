@@ -188,7 +188,7 @@
  *   GAME_DATA_SetPlayerDirection  0x02012ACC  thumb
  *   ZONEDATA_GetLocationPosType  0x020141DC  thumb
  *   GAME_DATA_SetPlayerPosition  0x02012A90  thumb
- *   GAME_DATA_SetPlayerRailLocation  0x02012AA4  thumb
+ *   GAME_DATA_SetPlayerRail  0x02012AA4  thumb
  *   GAME_DATA_SetPlayerMoveForm  0x02012ABC  thumb
  *   ISS_SYS_ChangeZone  0x0202B544  thumb
  *   GAME_DATA_SetStartLocation  0x02012854  thumb
@@ -546,7 +546,7 @@ PlayerWork *GAME_DATA_SetPlayerZoneId(PlayerWork *playerWork, u16 zoneId);
 void GAME_DATA_SetPlayerDirection(PlayerWork *playerWork, int dir);
 int ZONEDATA_GetLocationPosType(const Location *location);
 void GAME_DATA_SetPlayerPosition(PlayerWork *playerWork, const VecFx32 *pos);
-void GAME_DATA_SetPlayerRailLocation(PlayerWork *playerWork, const RailLocation *rail);
+void GAME_DATA_SetPlayerRail(PlayerWork *playerWork, const RailLocation *rail);
 void GAME_DATA_SetPlayerMoveForm(PlayerWork *playerWork, u8 isRail);
 void ISS_SYS_ChangeZone(void *issSystem, u16 zoneId);
 void GAME_DATA_SetStartLocation(GameData *gameData, const Location *location);
@@ -2229,7 +2229,7 @@ void EVENT_MAPCHANGE_ApplyLocation(GameSystem *gameSystem, Location *warpLocatio
         GAME_DATA_SetPlayerPosition(playerWork, &location.pos.vec);
         GAME_DATA_SetPlayerMoveForm(playerWork, 0);
     } else {
-        GAME_DATA_SetPlayerRailLocation(playerWork, &location.pos.rail);
+        GAME_DATA_SetPlayerRail(playerWork, &location.pos.rail);
         GAME_DATA_SetPlayerMoveForm(playerWork, 1);
     }
     ISS_SYS_ChangeZone(GAMESYSTEM_GetIssSystem(gameSystem), location.zoneId);

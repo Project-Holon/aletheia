@@ -52,10 +52,10 @@ typedef void *(*DWCAllocEx)(int name, u32 size, int align);
 typedef void (*DWCFreeEx)(int name, void *ptr, u32 size);
 
 typedef struct {
-    int _r0;
+    int reserved00;
     int len;
-    int f2;
-    int f3;
+    int reserved08;
+    int reserved0C;
 } CARDiParam;
 
 extern void OSi_ReferSymbol(const void *symbol);

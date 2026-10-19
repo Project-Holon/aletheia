@@ -21,7 +21,7 @@
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetFieldSave  0x02012EC4  thumb
- *   GIMMICK_WORK_GetSaveArea  0x0200B3A4  thumb
+ *   GIMMICK_WORK_GetWork  0x0200B3A4  thumb
  *   FLD_EXP_OBJ_GetModelStatus  0x021BE480  thumb  ov021
  *   FLD_EXP_OBJ_GetAnime  0x021BE674  thumb  ov021
  *   FLD_EXP_OBJ_SetAnimePaused  0x021BE6B0  thumb  ov021
@@ -66,7 +66,7 @@ void FIELD_GIMMICK_FLAG_ANIME_Init(struct FieldMap *fieldMap)
     FIELDMAP_AllocCommonWork(fieldMap, 1, FIELDMAP_GetHeapId(fieldMap), 4);
     FIELDMAP_GetCommonWork(fieldMap, 1);
     FLD_EXP_OBJ_AddUnit(expObj, &gFlagAnimeUnitSetup, 0);
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 3);
+    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 3);
     pos.x = gFlagAnimeModelPos.x;
     pos.y = 0;
     pos.z = gFlagAnimeModelPos.z;
@@ -100,7 +100,7 @@ void FIELD_GIMMICK_FLAG_ANIME_SetFlag(struct FieldMap *fieldMap)
     FieldGimmickFlagAnimeSave *save;
 
     FIELDMAP_GetCommonWork(fieldMap, 1);
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 3);
+    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 3);
     save->flag = 1;
 }
 
@@ -112,7 +112,7 @@ int FIELD_GIMMICK_FLAG_ANIME_GetFlag(struct FieldMap *fieldMap)
     FieldGimmickFlagAnimeSave *save;
 
     FIELDMAP_GetCommonWork(fieldMap, 1);
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 3);
+    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 3);
     return save->flag;
 }
 
@@ -142,7 +142,7 @@ int FIELD_GIMMICK_FLAG_ANIME_EventPlayAnime(struct GameEvent *event, int *seq, v
     fieldMap = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event));
     expObj = FIELDMAP_GetExpObj(fieldMap);
     gimmickWork = FIELDMAP_GetCommonWork(fieldMap, 1);
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 3);
+    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 3);
     switch (*seq) {
     case 0:
         modelIndex = gimmickWork->modelIndex;

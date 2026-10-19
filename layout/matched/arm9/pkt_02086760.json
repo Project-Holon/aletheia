@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02086760",
+   "name": "OS_SetArenaHi",
    "address": "0x02086760",
    "kind": "sdk_calibration",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_02086774",
+   "name": "OS_SetArenaLo",
    "address": "0x02086774",
    "kind": "sdk_calibration",
    "region": "arm9",

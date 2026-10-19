@@ -139,7 +139,7 @@ extern u32 GFL_USE_GetRandomBelow(u32 v);
 extern int SCRIPT_SYS_CallScriptEvent(void *p, u16 b, int c, int d, u16 e);
 extern void EFFECT_ENCOUNT_Reset(u8 *p);
 extern int BTL_SETUP_Delete(int param);
-extern int EVENT_BATTLE_CreateScriptedBattle(int a0, int a1, int a2, int a3, int a4);
+extern int EVENT_BATTLE_CreateScriptedBattle(int gameSystem, int battleSrc, int btlSetup, int returnImmediately, int effectId);
 extern void GAME_EVENT_ChangeEvent(struct S0201235C *o, u32 *out);
 int FISHING_StepCounter(FishingWork *w, u32 limit);
 int FISHING_WaitBite(FishingWork *w, u32 limit);

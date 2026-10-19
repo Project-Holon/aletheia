@@ -10,7 +10,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: MISC_SAVEDATA_GetSmallEntrySize, MISC_SAVEDATA_ClearSmallEntry
+ * function: SAVE_SYNC_GetSize, SAVE_SYNC_Clear
  *
  * symbols:
  *   MI_CpuFill8   0x02082BCC  arm
@@ -28,12 +28,12 @@ typedef unsigned int u32;
 
 extern void MI_CpuFill8(void *dst, int value, u32 size);
 
-int MISC_SAVEDATA_GetSmallEntrySize(void)
+int SAVE_SYNC_GetSize(void)
 {
     return 0x10;
 }
 
-void MISC_SAVEDATA_ClearSmallEntry(void *dst)
+void SAVE_SYNC_Clear(void *dst)
 {
     MI_CpuFill8(dst, 0, 0x10);
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021B84AC
+ * function: Set_WLLA_LINK_STAT
  * address:  0x021B84AC
  * packet:   pkt_021B8230
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B84AC   0x021B84AC  thumb
+ *   Set_WLLA_LINK_STAT   0x021B84AC  thumb
  *   func_021B83FC   0x021B83FC  thumb  ov016
 
  *
@@ -18,13 +18,13 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021B84AC.c \
- *       --func func_021B84AC --addr 0x021B84AC --region ov016 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/Set_WLLA_LINK_STAT.c \
+ *       --func Set_WLLA_LINK_STAT --addr 0x021B84AC --region ov016 --cc dsi/1.1p1 --thumb
  */
 
 extern void func_021B83FC(int, int *);
 
-void func_021B84AC(int *p, int a, int c)
+void Set_WLLA_LINK_STAT(int *p, int a, int c)
 {
     *p = c;
     func_021B83FC(a, p + 1);

@@ -1,5 +1,5 @@
 /*
- * function: func_021C67CC
+ * function: procInit1
  * address:  0x021C67CC
  * packet:   pkt_021C67CC
  * region:   ov016
@@ -31,7 +31,7 @@ extern void DWCi_ChangeScene(unsigned int v);
 extern u8  *gMemSse;
 extern void func_021C684C(void);
 
-void func_021C67CC(void)
+void procInit1(void)
 {
     u8 *p;
 

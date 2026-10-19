@@ -16,7 +16,7 @@
  *   COMM_TVT_SYS_ClearAndTransferNameWindows 0x021BE1E4 thumb ov172
  *   CTVT_COMM_GetSlotConnected 0x021B8B8C thumb ov172
  *   CTVT_COMM_GetSlotReady 0x021B8BAC thumb ov172
- *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
+ *   DC_FlushRange 0x020862F0 arm
  *   func_0207ECF0 0x0207ECF0 arm
  *   G2_GetBG3ScrPtr 0x0207E100 arm
  *   MIi_CpuClear32 0x02082A7C arm
@@ -76,7 +76,7 @@ extern u8 COMM_TVT_SYS_GetMemberCount(void *p);
 extern void COMM_TVT_SYS_ClearAndTransferNameWindows(u8 *p);
 extern u32 CTVT_COMM_GetSlotConnected(int unused, char *base, int i);
 extern u8 CTVT_COMM_GetSlotReady(void *unused, char *base, int i);
-extern void DWCi_ScreenDC_FlushRange(void *p, u32 n);
+extern void DC_FlushRange(void *p, u32 n);
 extern void func_0207ECF0(const void *src, u32 off, u32 size);
 extern void *G2_GetBG3ScrPtr(void);
 extern void MIi_CpuClear32(u32 fill, void *dst, u32 size);
@@ -102,7 +102,7 @@ void CTVT_CAMVIEW_UploadWindows(void *p, Q *q)
         return;
     if (sub == 0) {
         if (q->f10 != 0) {
-            DWCi_ScreenDC_FlushRange((u16 *)q->f4, 0x18000);
+            DC_FlushRange((u16 *)q->f4, 0x18000);
             func_0207ECF0(q->f4, 0, 0x18000);
             q->f10 = 0;
         }
@@ -196,22 +196,22 @@ void CTVT_CAMVIEW_UploadWindows(void *p, Q *q)
                 }
                 if (CTVT_COMM_GetSlotReady(p, (char *)base, i) == 1 && APP_ENV_HasParentalControlBits() == 0) {
                     dst = (u32)(q->f4 + idx * (w * h * 2));
-                    DWCi_ScreenDC_FlushRange((void *)dst, w * h * 2);
+                    DC_FlushRange((void *)dst, w * h * 2);
                 } else if (wide == 0) {
                     if (sub == 1) {
                         dst = (u32)q->f8;
-                        DWCi_ScreenDC_FlushRange((void *)dst, 0xC000);
+                        DC_FlushRange((void *)dst, 0xC000);
                     } else {
                         dst = (u32)(q->f8 + 0x3000);
-                        DWCi_ScreenDC_FlushRange((void *)dst, 0x6000);
+                        DC_FlushRange((void *)dst, 0x6000);
                     }
                 } else {
                     if (sub == 1) {
                         dst = (u32)q->fC;
-                        DWCi_ScreenDC_FlushRange((void *)dst, 0x3000);
+                        DC_FlushRange((void *)dst, 0x3000);
                     } else {
                         dst = (u32)(q->fC + 0xC00);
-                        DWCi_ScreenDC_FlushRange((void *)dst, 0x1800);
+                        DC_FlushRange((void *)dst, 0x1800);
                     }
                 }
                 for (j = 0; j < q->ent[i].h; j++) {

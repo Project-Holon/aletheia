@@ -1,5 +1,5 @@
 /*
- * function: SPL_EMITTER_EvalKey
+ * function: SPLAnim_Color
  * address:  0x02057C9C
  * packet:   pkt_02052F58
  * region:   arm9
@@ -79,7 +79,7 @@ static inline void ColLerp2(struct Out *out, s32 to, s32 from, u32 on, s32 num, 
     }
     out->col = GX_RGB(fr + num * (tr - fr) / den, fg + num * (tg - fg) / den, fb + num * (tb - fb) / den);
 }
-void SPL_EMITTER_EvalKey(struct Out *out, struct Ctx *ctx, s32 t)
+void SPLAnim_Color(struct Out *out, struct Ctx *ctx, s32 t)
 {
     struct Key *k = ctx->key;
     s32 t0 = k->t0;

@@ -25,7 +25,7 @@
  *   GAME_BEACON_ACCESSOR_FileName 0x021729D4 data a4
  *   GAME_BEACON_ACCESSOR_ActionCheckFuncs     0x02171CA8  data
  *   STRBUF_SetStringN  0x02045994  arm
- *   SYMBOL_SAVE_GetQuestionnaireAnswer  0x0200E3A4  thumb
+ *   SYMBOL_SAVE_ReadBitField  0x0200E3A4  thumb
  *   OSi_GetOwnerInfoExBuffer  0x02087D1C  arm
  *   STRBUF_Clear  0x0204581C  arm
  *   STRBUF_SetString  0x02045924  arm
@@ -260,7 +260,7 @@ typedef struct GameBeaconActionAttr {
 
 extern void STRBUF_SetStringN(struct Strbuf *str, const u16 *src, u32 length);
 
-extern u32 SYMBOL_SAVE_GetQuestionnaireAnswer(const u8 *bits, int id);
+extern u32 SYMBOL_SAVE_ReadBitField(const u8 *bits, int id);
 
 extern const u16 *OSi_GetOwnerInfoExBuffer(void);
 
@@ -444,7 +444,7 @@ u8 GAME_BEACON_ACCESSOR_GetArea(const GameBeaconInfo *info)
 /* Questionnaire answers: 0xFF when the question has no answer. */
 u8 GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerSecond(const GameBeaconInfo *info)
 {
-    u32 answer = SYMBOL_SAVE_GetQuestionnaireAnswer(info->questionnaire, 0x1a);
+    u32 answer = SYMBOL_SAVE_ReadBitField(info->questionnaire, 0x1a);
 
     if (answer == 0)
         return 0xff;
@@ -453,7 +453,7 @@ u8 GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerSecond(const GameBeaconInfo *info)
 
 u8 GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerFirst(const GameBeaconInfo *info)
 {
-    u32 answer = SYMBOL_SAVE_GetQuestionnaireAnswer(info->questionnaire, 0x19);
+    u32 answer = SYMBOL_SAVE_ReadBitField(info->questionnaire, 0x19);
 
     if (answer == 0)
         return 0xff;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "OS_SetThreadUserParameter",
+   "name": "OS_SetThreadDestructor",
    "address": "0x02085B94",
    "kind": "game",
    "region": "arm9",

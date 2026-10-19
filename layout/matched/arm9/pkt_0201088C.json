@@ -18,10 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "GFL_NET_SAVE_Create"
+    "GFL_NET_SAVE_Create",
+    "GFL_NET_SAVE_CreateWithCallback",
+    "GFL_NET_SAVE_CheckFinished",
+    "GFL_NET_SAVE_Delete"
    ],
    "addresses": [
-    "0x0201088C"
+    "0x0201088C",
+    "0x020108C4",
+    "0x02010904",
+    "0x02010934"
    ]
   }
  ]

@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: POKELIST_CheckItemUsable, POKELIST_OpenLearnMoveMenu
+ * function: POKELIST_CloseMessageIfItemInBag, POKELIST_OpenGiveUpMoveMenu
  * address:  0x021B9E44
  * packet:   pkt_ov091_021B9E44
  * region:   ov091
@@ -40,7 +40,7 @@ extern void POKELIST_EndMessageToExit(char *p);
 extern void POKELIST_OpenChoiceMenu(u8 *p, int a1);
 extern void POKELIST_OnLearnMoveChoice(u8 *p, u32 state);
 
-void POKELIST_CheckItemUsable(u8 *p)
+void POKELIST_CloseMessageIfItemInBag(u8 *p)
 {
     if (POKELIST_CheckBagItem(p, *(u16 *)(W(0x280) + 0x44))) {
         PLIST_MESSAGE_CloseWindow(p, (u32 *)W(0x150));
@@ -55,7 +55,7 @@ void POKELIST_CheckItemUsable(u8 *p)
     PLIST_MESSAGE_DestroyWordSet(p, W(0x150));
 }
 
-void POKELIST_OpenLearnMoveMenu(u8 *p)
+void POKELIST_OpenGiveUpMoveMenu(u8 *p)
 {
     POKELIST_OpenChoiceMenu(p, (int)POKELIST_OnLearnMoveChoice);
 }

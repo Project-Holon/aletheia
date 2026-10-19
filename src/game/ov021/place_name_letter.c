@@ -78,7 +78,6 @@ extern Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heapId);
 extern void BMP_Delete(Bmp *bmp);
 extern BmpOam *BMP_OAM_Create(BmpOamSys *sys, const BmpOamParam *param);
 extern void BMP_OAM_Delete(BmpOam *bmpOam);
-extern u32 _ffix(u32 value);
 extern void STRBUF_SetStringN(Strbuf *strbuf, const u16 *chars, u32 count);
 extern void PRINTSYS_PrintColor(Bmp *bmp, s16 x, s16 y, Strbuf *strbuf, GfFont *font, u16 color);
 extern void BMP_OAM_UploadChars(BmpOam *bmpOam);
@@ -304,13 +303,13 @@ u32 PLACE_NAME_LETTER_GetActive(PlaceNameLetter *letter)
 /* Current x position as an integer (letter + 0x10 is the motion x). */
 u32 PLACE_NAME_LETTER_GetIntX(PlaceNameLetter *letter)
 {
-    return _ffix(*(u32 *)&letter->motion.x);
+    return (int)letter->motion.x;
 }
 
 /* Current y position as an integer. */
 u32 PLACE_NAME_LETTER_GetIntY(PlaceNameLetter *letter)
 {
-    return _ffix(*(u32 *)&letter->motion.y);
+    return (int)letter->motion.y;
 }
 
 u8 PLACE_NAME_LETTER_GetWidthRaw(PlaceNameLetter *letter)

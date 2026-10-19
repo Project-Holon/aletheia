@@ -129,7 +129,7 @@
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
- *   BMP_SetDisplaySwap 0x0204363C arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   BG_SYS_ResetSubDisplay 0x0204361C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
@@ -310,7 +310,7 @@ extern int GAME_DATA_SaveMain(u8 *);
 extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, u16 tag);
 extern void BG_SYS_ClearGraphicsMemory(unsigned);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void BMP_SetDisplaySwap(unsigned int swap);
+extern void BG_SYS_SetLcdSwap(unsigned int swap);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
@@ -868,7 +868,7 @@ void *WIFI_BSUBWAY_GRAPHIC_Create(int a,unsigned heap) {
  *(volatile unsigned *)0x04000000 &= 0xffff1fff;
  *(volatile unsigned *)0x04001000 &= 0xffff1fff;
 
- BG_SYS_ClearGraphicsMemory(0); BG_SYS_SetVramBanks((const struct DispVram *)d_021D83C0); BMP_SetDisplaySwap(a);
+ BG_SYS_ClearGraphicsMemory(0); BG_SYS_SetVramBanks((const struct DispVram *)d_021D83C0); BG_SYS_SetLcdSwap(a);
  BG_SYS_ResetSubDisplay(); BG_SYS_ClearMainPlanes(); BG_SYS_ClearSubPlanes(); GF_FONT_InitTextColor();
  WIFI_BSUBWAY_GRAPHIC_SetupBg(p,heap);
  p->redrawCallback=GFL_USE_AddMainTask((void *)WIFI_BSUBWAY_GRAPHIC_OnRedraw,p,0);

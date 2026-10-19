@@ -30,7 +30,7 @@
  *   FLDMMDL_GetObjId  0x0216D588  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
- *   VM_GetU16  0x02011330  thumb
+ *   VM_ReadU16  0x02011330  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   GAME_DATA_GetEventData  0x02012844  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
@@ -142,7 +142,7 @@ extern u16 SCRIPT_WORK_ReadWorkValue(ScriptVm *vm, ScrcmdWork *cmdWork);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(ScriptVm *vm, ScrcmdWork *cmdWork);
 extern void SCRCMD_WORK_AddAnimeTask(ScrcmdWork *cmdWork, AnimeTask *animeTask);
 extern u32 SCRCMD_WORK_CheckAnimeTasks(ScrcmdWork *cmdWork);
-extern u16 VM_GetU16(ScriptVm *vm);
+extern u16 VM_ReadU16(ScriptVm *vm);
 extern u32 VM_GetU32(ScriptVm *vm);
 extern void VM_SetWait(ScriptVm *vm, int (*waitFunc)(ScriptVm *vm, ScrcmdWork *cmdWork));
 extern FieldMap *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
@@ -700,7 +700,7 @@ int SCRCMD_FLDMMDL_StartPlayerFormChangeAndWait(ScriptVm *vm, ScrcmdWork *cmdWor
     FieldPlayer *player;
 
     fieldParam = SCRIPT_WORK_ResetFieldParam(SCRCMD_WORK_GetScriptWork(cmdWork));
-    animeCode = VM_GetU16(vm);
+    animeCode = VM_ReadU16(vm);
     player = FIELDMAP_GetFieldPlayer(fieldParam->fieldSystem);
     FIELD_PLAYER_StartFormChange(player, animeCode);
     if (FIELD_PLAYER_StepFormChange(player) == 1)

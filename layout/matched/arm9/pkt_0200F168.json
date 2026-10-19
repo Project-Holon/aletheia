@@ -42,8 +42,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "NET_DEVICE_TABLE_GetZero",
-    "NET_DEVICE_TABLE_SetHeader"
+    "WM_ICON_GetArcId",
+    "WM_ICON_InitArcData"
    ],
    "addresses": [
     "0x0200F168",

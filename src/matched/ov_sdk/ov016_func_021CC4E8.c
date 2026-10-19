@@ -1,5 +1,5 @@
 /*
- * function: func_021CC4E8
+ * function: moveFocus
  * address:  0x021CC4E8
  * packet:   pkt_ov016_021CC4E8
  * region:   ov016
@@ -35,7 +35,7 @@ extern struct SCENESETSELECTAP_BSS g_021DE60C;
 extern void DWCi_SNDlPlay(unsigned int v);
 extern void DWCi_SceneSetSelectApDispFocus(void);
 
-static void func_021CC4E8(int dir)
+static void moveFocus(int dir)
 {
     int clear;
     int next;

@@ -16,7 +16,7 @@
  * symbols:
  *   C_GEAR_LoadSkin  0x021F1458  thumb  ov029
  *   ARC_UTIL_LoadPaletteBlockFromHandle  0x02049F78  arm
- *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   DC_FlushRange  0x020862F0  arm
  *   func_0207E468  0x0207E468  arm
  *   func_020307B0  0x020307B0  arm
  *   C_GEAR_LoadTargetPalette  0x021F09B4  thumb  ov029
@@ -40,7 +40,7 @@ struct W {
 };
 
 extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, u32 a1, u32 a2, u32 a3);
-extern void DWCi_ScreenDC_FlushRange(void *a, u32 b);
+extern void DC_FlushRange(void *a, u32 b);
 extern void func_0207E468(void *a, u32 b, u32 c);
 extern u32 func_020307B0(void *p);
 extern void C_GEAR_LoadTargetPalette(unsigned char *p, unsigned char *q, int n);
@@ -64,7 +64,7 @@ u32 C_GEAR_LoadSkin(u8 *p, int a, int b, int c)
 
     if (c) {
         r = (int)ARC_UTIL_LoadPaletteBlockFromHandle((void *)(((struct Obj04308 *)p)->f24), d_021F31E0[a], (u32)(&loc), 0x8070);
-        DWCi_ScreenDC_FlushRange(((struct Obj05116 *)loc)->fC, ((struct Obj05116 *)loc)->f8);
+        DC_FlushRange(((struct Obj05116 *)loc)->fC, ((struct Obj05116 *)loc)->f8);
         func_0207E468(((struct Obj05116 *)loc)->fC, 0, ((struct Obj05116 *)loc)->f8);
         src = *(u8 * *)&((struct Obj05116 *)loc)->fC;
         for (n = 0; n < 5; n++) {

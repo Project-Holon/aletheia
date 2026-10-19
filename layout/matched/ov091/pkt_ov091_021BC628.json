@@ -18,9 +18,9 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "PLIST_MENU_SwitchToNextTarget",
-    "PLIST_MENU_OnLevelUpMessageDone",
-    "PLIST_MENU_SkipToMoveLearn"
+    "PLIST_MENU_UseItemOnFoundTarget",
+    "PLIST_MENU_BeginLevelUpMoveWait",
+    "PLIST_MENU_BeginExitWait"
    ],
    "addresses": [
     "0x021BC628",

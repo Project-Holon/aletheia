@@ -296,7 +296,7 @@ extern void ZUKAN_DETAIL_HEADBAR_SetIconSpecies(void *s);
 
 extern u32 ZUKAN_SAVE_GetViewMode(struct Blk37 *p);
 
-extern void *ZUKAN_INFO_Create(u32 heap, u16 a1, u16 a2, u16 a3, u16 a4, u32 a5, u32 a6, u32 a7, u32 a8, u32 a9, u8 a10, u32 a11, u32 a12, void *a13, u32 a14, u32 a15, u32 a16);
+extern void *ZUKAN_INFO_Create(u32 heap, u16 species, u16 form, u16 gender, u16 rare, u32 personalParam, u32 formTableNeeded, u32 showCurrent, u32 mode, u32 femaleFlag, u8 a10, u32 a11, u32 a12, void *a13, u32 a14, u32 a15, u32 a16);
 
 extern void ZUKAN_INFO_Show(void *p);
 
@@ -317,9 +317,9 @@ extern void ZUKAN_DETAIL_COMMON_UpdateBlendFades(struct Ov208Blend *a, struct Ov
 extern void GAME_DATA_SetRecentId(void *p, u32 a, u32 b);
 
 
-extern void ZUKAN_INFO_SetPokemon(char *p, u16 a1, u16 a2, u16 a3, u16 a4, int a5, int a6);
+extern void ZUKAN_INFO_SetPokemon(char *p, u16 species, u16 form, u16 gender, u16 rare, int personalParam, int showCurrent);
 
-extern void ZUKAN_INFO_SetPokemonPage(char *p, u16 a1, u16 a2, u16 a3, u16 a4, int a5, int a6, int a7);
+extern void ZUKAN_INFO_SetPokemonPage(char *p, u16 species, u16 form, u16 gender, u16 rare, int personalParam, int showCurrent, int page);
 
 extern void ZUKAN_INFO_Hide(void *);
 

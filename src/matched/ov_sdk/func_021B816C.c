@@ -1,5 +1,5 @@
 /*
- * function: func_021B816C
+ * function: Alloc
  * address:  0x021B816C
  * packet:   pkt_021B816C
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B816C   0x021B816C  thumb
+ *   Alloc   0x021B816C  thumb
  *   func_021DCE20   0x021DCE20  data
  *
  * FILED EXACT with NO region token on the data symbol.  The `ov016` hint is
@@ -29,13 +29,13 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021B816C.c \
- *       --func func_021B816C --addr 0x021B816C --region ov016 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/Alloc.c \
+ *       --func Alloc --addr 0x021B816C --region ov016 --cc dsi/1.1p1 --thumb
  */
 
 extern int (*func_021DCE20)(int);
 
-int func_021B816C(int a, int b)
+int Alloc(int a, int b)
 {
     if (b > 0)
         return func_021DCE20(b);

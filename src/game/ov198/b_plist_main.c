@@ -1227,7 +1227,7 @@ int B_PLIST_MAIN_ApplyMoveDetailPage(char *p)
     {
         return 0xf;
     }
-    if (((struct B_PlistWork *)p)->owner->field1F == 5)
+    if (((struct B_PlistWork *)p)->owner->listType == 5)
     {
         return 0x1e;
     }

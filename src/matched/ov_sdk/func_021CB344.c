@@ -1,5 +1,5 @@
 /*
- * function: func_021CB344
+ * function: initGraphics
  * address:  0x021CB344
  * packet:   pkt_021CB344
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CB344   0x021CB344  arm
+ *   initGraphics   0x021CB344  arm
  *   DWCi_CMNlLoadResource   0x021BD1D4  arm  ov016
  *   sSceneSetRakuReadyPathJbBgStep3Char    0x021DB680  data
  *   sSceneSetRakuReadyPathYbBgStep3Pltt    0x021DB698  data
@@ -34,7 +34,7 @@ extern unsigned short GX_LoadBG2Char[];
 extern unsigned short GX_LoadBGPltt[];
 extern unsigned short GX_LoadBG2Scr[];
 
-void func_021CB344(void)
+void initGraphics(void)
 {
     u16 *p;
 

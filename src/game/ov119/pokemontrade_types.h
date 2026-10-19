@@ -310,11 +310,11 @@ typedef struct McssSlide {
     void * mcss;
     int frameCount;
     int frame;
-    int fC;
-    int f10;
+    int reserved0C;
+    int reserved10;
     unsigned short wobblePhase;
     unsigned short wobbleEnabled;
-    int f18;
+    int reserved18;
     McssSlideVec start;
     McssSlideVec target;
     McssSlideVec * offsetTable;

@@ -10,7 +10,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0202C470
+ * function: ISS_SWITCH_SET_UpdateSwitches
  *
  * symbols:
  *   sub_0202C510  0x0202C510  thumb
@@ -48,7 +48,7 @@ extern unsigned int sub_0202C510(struct Arr0202C510 *p, unsigned int idx);
 typedef unsigned int   u32;
 extern u32 sub_0202C580(void *p);
 
-void sub_0202C470(void *p)
+void ISS_SWITCH_SET_UpdateSwitches(void *p)
 {
     s32 i;
 

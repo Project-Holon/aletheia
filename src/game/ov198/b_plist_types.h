@@ -38,10 +38,10 @@ struct B_PlistHost {
     u32   font;                /* 0x0C font handle for text measuring and printing */
     u16   heapId;              /* 0x10 heap id, ORed with 0x8000 */
     u16   pad12;               /* 0x12 */
-    int   field14;             /* 0x14 */
+    int   reserved14;             /* 0x14 */
     int   ownerKind;           /* 0x18 compared with 1 by B_PLIST_MAIN_GetOwnerFlag18 */
     u8    pad1C[3];
-    u8    field1F;             /* 0x1F list type, compared with 2, 3 and 5; role not known */
+    u8    listType;             /* 0x1F list type, compared with 2, 3 and 5; role not known */
     u8    orderIndex;          /* 0x20 current order table index */
     u8    pad21;
     u8    partyCount;          /* 0x22 upper bound checked by B_PLIST_MAIN_IsIndexValid */
@@ -49,11 +49,11 @@ struct B_PlistHost {
     u16   itemId;              /* 0x24 item id read through FILE_UTIL_GetItemParam */
     u16   moveId;              /* 0x26 move id shown by the move info page */
     void *fadeContext;         /* 0x28 last argument of PALANM_RequestFade */
-    int   field2C;             /* 0x2C */
+    int   reserved2C;             /* 0x2C */
     u32   cancelRequest;       /* 0x30 1 when the caller asked to cancel */
     int   exitRequest;         /* 0x34 1 when the caller asked to close the screen */
-    int   field38;             /* 0x38 */
-    int   field3C;             /* 0x3C */
+    int   reserved38;             /* 0x38 */
+    int   reserved3C;             /* 0x3C */
     u32   seEnabled;           /* 0x40 1 when sound effects are played */
     void *syncFlagPtr;         /* 0x44 pointer to a flag byte shared with the caller */
     u8    pad48[3];
@@ -158,22 +158,22 @@ struct B_PlistWork {
     u8    pad24A0[4];           /* 0x24A0 */
     int   charHandles;           /* 0x24A4 first of 26 character handles (to 0x250C) */
     u8    pad24A8[0x14];        /* 0x24A8 */
-    int   field24BC;            /* 0x24BC character handle of icon set 1 (role not known) */
-    int   field24C0;            /* 0x24C0 character handle of icon set 3 (role not known) */
+    int   iconSet1Char;            /* 0x24BC character handle of icon set 1 (role of the set not known) */
+    int   iconSet3Char;            /* 0x24C0 character handle of icon set 3 (role of the set not known) */
     u8    pad24C4[0x38];        /* 0x24C4 */
     int   moveKindChar;         /* 0x24FC */
     int   moveKindCharAlt;      /* 0x2500 */
     int   toolChar;             /* 0x2504 */
     int   gearChar;             /* 0x2508 */
     u8    pad250C[4];           /* 0x250C */
-    int   field2510;            /* 0x2510 palette handle of icon set 1 (role not known) */
-    int   field2514;            /* 0x2514 palette handle of icon set 3 (role not known) */
+    int   iconSet1Pal;            /* 0x2510 palette handle of icon set 1 (role of the set not known) */
+    int   iconSet3Pal;            /* 0x2514 palette handle of icon set 3 (role of the set not known) */
     int   typeIconPal;          /* 0x2518 */
     int   toolPal;              /* 0x251C */
     int   gearPal;              /* 0x2520 */
     u8    pad2524[4];           /* 0x2524 */
-    int   field2528;            /* 0x2528 cell anim handle of icon set 1 (role not known) */
-    int   field252C;            /* 0x252C cell anim handle of icon set 3 (role not known) */
+    int   iconSet1Cell;            /* 0x2528 cell anim handle of icon set 1 (role of the set not known) */
+    int   iconSet3Cell;            /* 0x252C cell anim handle of icon set 3 (role of the set not known) */
     int   typeIconCell;         /* 0x2530 */
     int   toolCell;             /* 0x2534 */
     int   gearCell;             /* 0x2538 */

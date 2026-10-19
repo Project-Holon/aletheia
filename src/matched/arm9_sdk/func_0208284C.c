@@ -1,5 +1,5 @@
 /*
- * function: func_0208284C
+ * function: MIi_FIFOCallback
  * address:  0x0208284C
  * packet:   pkt_0208284C
  * region:   arm9
@@ -54,7 +54,7 @@ void MIi_DmaSetParameters(u32 dmaNo, u32 src, u32 dest, u32 ctrl, u32 mode);
 u32 OS_ResetRequestIrqMask(u32 intr);
 void MIi_DMACallback(void *arg);
 
-void func_0208284C(void)
+void MIi_FIFOCallback(void)
 {
     u32 length;
     u32 src;

@@ -42,10 +42,18 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "GAME_BEACON_GetLogFromWork"
+    "GAME_BEACON_GetLogFromWork",
+    "GAME_BEACON_GetLog",
+    "GAME_BEACON_GetLogByReceiveNoFromWork",
+    "GAME_BEACON_GetLogByReceiveNo",
+    "GAME_BEACON_GetReceiveCount"
    ],
    "addresses": [
-    "0x02026BFC"
+    "0x02026BFC",
+    "0x02026C1C",
+    "0x02026C30",
+    "0x02026C78",
+    "0x02026C8C"
    ]
   },
   {

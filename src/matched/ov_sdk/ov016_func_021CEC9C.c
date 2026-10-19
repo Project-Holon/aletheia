@@ -1,5 +1,5 @@
 /*
- * function: func_021CEC9C
+ * function: stepBar
  * address:  0x021CEC9C
  * packet:   pkt_ov016_021CEC9C
  * region:   ov016
@@ -23,7 +23,7 @@ typedef struct {
 
 extern SB *gScrollBar;
 
-void func_021CEC9C(int idx)
+void stepBar(int idx)
 {
 	gScrollBar->a = idx;
 	gScrollBar->b = (idx == 2) ? 4 : 6;

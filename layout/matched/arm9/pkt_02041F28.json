@@ -18,9 +18,9 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "BG_SYS_SetScrollX",
-    "BG_SYS_SetScrollY",
-    "BG_SYS_SetAffine"
+    "BG_SYS_ChangeRotation",
+    "BG_SYS_ChangeScale",
+    "BG_SYS_ChangeCenter"
    ],
    "addresses": [
     "0x02041F28",

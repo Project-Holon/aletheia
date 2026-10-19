@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: BTL_CALC_RollChanceOrFlag, BTL_CALC_GetIntimidateHandlers
+ * function: HAND_TOKUSEI_RollChanceOrFlag, HAND_TOKUSEI_GetIntimidateHandlers
  * address: 0x021D85C0
  * packet: pkt_ov093_021D85C0
  * region: ov093
@@ -24,5 +24,5 @@ typedef unsigned int u32;
 extern u8 gIntimidateHandlers[];
 extern int BTL_CALC_RollPercent(u32);
 extern int BTL_SERVER_FLOW_QueryMainFlag(int,int);
-int BTL_CALC_RollChanceOrFlag(int a,u32 b) { if (BTL_CALC_RollPercent(b)) return 1; a=BTL_SERVER_FLOW_QueryMainFlag(a,1)!=0; return a; }
-u8 *BTL_CALC_GetIntimidateHandlers(u32 *p) { *p=2; return gIntimidateHandlers; }
+int HAND_TOKUSEI_RollChanceOrFlag(int a,u32 b) { if (BTL_CALC_RollPercent(b)) return 1; a=BTL_SERVER_FLOW_QueryMainFlag(a,1)!=0; return a; }
+u8 *HAND_TOKUSEI_GetIntimidateHandlers(u32 *p) { *p=2; return gIntimidateHandlers; }

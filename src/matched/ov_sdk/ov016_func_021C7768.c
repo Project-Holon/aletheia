@@ -1,5 +1,5 @@
 /*
- * function: func_021C7768
+ * function: endScene2
  * address:  0x021C7768
  * packet:   pkt_ov016_021C7768
  * region:   ov016
@@ -33,7 +33,7 @@ extern void func_021C7C74();
 extern void func_021C79B4();
 extern struct MemSsea *gMemSsea;
 
-void func_021C7768(void)
+void endScene2(void)
 {
     int r;
 

@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: STA_ACT_LIGHT_HandleElemAnim, STA_ACT_LIGHT_NoOp2, STA_ACT_LIGHT_NoOp3
+ * function: STA_ACT_LIGHT_HandleElemAnim, STA_ACT_LIGHT_IsElemActive, STA_ACT_LIGHT_AnimNone
  * address: 0x021F79A8
  * packet: pkt_ov112_021F79A8
  * region: ov112
@@ -44,7 +44,7 @@ extern void STA_ACT_LIGHT_AnimB(u8 *,u8 *);
 extern void STA_ACT_LIGHT_AnimD(u8 *p, u8 *q);
 extern void STA_ACT_LIGHT_AnimF(char *,char *);
 extern void STA_ACT_LIGHT_AnimH(char *,char *);
-void STA_ACT_LIGHT_NoOp3(char *,char *);
+void STA_ACT_LIGHT_AnimNone(char *,char *);
 void STA_ACT_LIGHT_HandleElemAnim(char *p,char *q,int index)
 {
     u32 v;
@@ -56,18 +56,18 @@ void STA_ACT_LIGHT_HandleElemAnim(char *p,char *q,int index)
     GFL_USE_PlaySeInSlot(d_021F832C[v],2);
     ((struct Obj13841 *)p)->f43C+=1;
     switch(v) {
-    case 0: STA_ACT_LIGHT_NoOp3(p,q); *(void (**)(char *,char *))(q+260)=STA_ACT_LIGHT_StopSe; break;
+    case 0: STA_ACT_LIGHT_AnimNone(p,q); *(void (**)(char *,char *))(q+260)=STA_ACT_LIGHT_StopSe; break;
     case 1: STA_ACT_LIGHT_AnimA(p,q); *(void (**)(u8 *,u8 *))(q+260)=STA_ACT_LIGHT_AnimB; break;
     case 2: STA_ACT_LIGHT_AnimC(p,q); *(void (**)(char *,char *))(q+260)=(void (*)(char *, char *))STA_ACT_LIGHT_AnimD; break;
     case 3: STA_ACT_LIGHT_AnimE(p,q); *(void (**)(char *,char *))(q+260)=STA_ACT_LIGHT_AnimF; break;
     case 4: STA_ACT_LIGHT_AnimG(p,q); *(void (**)(char *,char *))(q+260)=STA_ACT_LIGHT_AnimH; break;
     }
 }
-int STA_ACT_LIGHT_NoOp2(char *p,char *q)
+int STA_ACT_LIGHT_IsElemActive(char *p,char *q)
 {
     if(((struct Obj22558 *)q)->f104!=0) return 1;
     return 0;
 }
-void STA_ACT_LIGHT_NoOp3(char *p,char *q)
+void STA_ACT_LIGHT_AnimNone(char *p,char *q)
 {
 }

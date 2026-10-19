@@ -670,7 +670,7 @@ extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 
 extern void FADE_Start(u32 a, int b, int c, int d);
 
-extern void *GFL_NET_SAVE_CreateWithCallback(u32 heap, u32 gameData, u32 a2, u32 callbackArg);
+extern void *GFL_NET_SAVE_CreateWithCallback(u32 heap, u32 gameData, u32 callback, u32 callbackArg);
 
 extern u32 GFL_NET_SAVE_CheckFinished(struct Sub0201088CObj *p);
 

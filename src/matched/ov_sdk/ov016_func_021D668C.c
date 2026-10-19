@@ -1,5 +1,5 @@
 /*
- * function: func_021D668C
+ * function: readTouch
  * address:  0x021D668C
  * packet:   pkt_ov016_021D668C
  * region:   ov016
@@ -65,7 +65,7 @@ extern void DWCi_InputCoord(int a, int b, unsigned short *p);
 extern s32 FX_ModS32(s32 a, s32 b);
 extern InputStatics gInputStatics;
 
-void func_021D668C(void)
+void readTouch(void)
 {
     TPData p;
     int idx;

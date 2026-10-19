@@ -30,11 +30,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0202C470"
+    "ISS_SWITCH_SET_UpdateSwitches"
+   ],
+   "addresses": [
+    "0x0202C470"
    ]
   },
   {
-   "name": "sub_0202C48C",
+   "name": "ISS_SWITCH_SET_StartSwitchOn",
    "address": "0x0202C48C",
    "kind": "game",
    "region": "arm9",
@@ -46,7 +49,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0202C498",
+   "name": "ISS_SWITCH_SET_StartSwitchOff",
    "address": "0x0202C498",
    "kind": "game",
    "region": "arm9",
@@ -69,7 +72,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0202C4A4"
+    "ISS_SWITCH_SET_ResetSwitches"
+   ],
+   "addresses": [
+    "0x0202C4A4"
    ]
   }
  ]

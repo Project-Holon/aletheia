@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: MAP_ATTR_IsDeepSand, MAP_ATTR_IsDeepSandB, func_021AB41C, func_021AB428, func_021AB434, func_021AB440, func_021AB44C
+ * function: MAP_ATTR_IsDeepSand, MAP_ATTR_IsDeepSandB, MAP_ATTR_IsSand, MAP_ATTR_IsGrassSingleB, MAP_ATTR_IsGrassDoubleB, MAP_ATTR_IsMirrorFloor, MAP_ATTR_IsNoDash
  * address:  0x021AB404
  * packet:   pkt_021AB404
  * region:   ov021
@@ -23,27 +23,27 @@ int MAP_ATTR_IsDeepSandB(int x)
     return x == 0xBF;
 }
 
-int func_021AB41C(int x)
+int MAP_ATTR_IsSand(int x)
 {
     return x == 0xC;
 }
 
-int func_021AB428(int x)
+int MAP_ATTR_IsGrassSingleB(int x)
 {
     return x == 0x5;
 }
 
-int func_021AB434(int x)
+int MAP_ATTR_IsGrassDoubleB(int x)
 {
     return x == 0x7;
 }
 
-int func_021AB440(int x)
+int MAP_ATTR_IsMirrorFloor(int x)
 {
     return x == 0x1B;
 }
 
-int func_021AB44C(int x)
+int MAP_ATTR_IsNoDash(int x)
 {
     return x == 0x33;
 }

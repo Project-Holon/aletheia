@@ -367,7 +367,7 @@ typedef struct IrcBattleMatchWork {
 } IrcBattleMatchWork;
 
 extern void GFL_NET_IRC_WIRELESS_Exit(void);
-extern int GFL_NET_Exit(int a0);
+extern int GFL_NET_Exit(int exitCallback);
 extern u32 WIPE_SYS_EndCheck(void);
 extern void *PALANM_Create(u32 heap);
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);

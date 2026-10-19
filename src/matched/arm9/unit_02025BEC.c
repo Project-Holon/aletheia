@@ -10,9 +10,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: BMP_OAM_Check5BEC, BMP_OAM_CheckRangeGetId, BMP_OAM_CheckRangeGetMin
+ * function: NATION_AREA_IsValidNationArea, NATION_AREA_SanitizeNation, NATION_AREA_SanitizeArea
  *
- * BMP_OAM_Check5BEC is a three-argument predicate: out of range (`a >= 0xE9`)
+ * NATION_AREA_IsValidNationArea is a three-argument predicate: out of range (`a >= 0xE9`)
  * fails immediately; otherwise it looks `a` up through sub_02025B64
  * (src/pending/sub_02025B64.c, parked at MATCH) and fails if the result
  * is below `b`; otherwise, when `c == 1`, it fails unless `a` is one of
@@ -23,10 +23,10 @@
  * conjunction.md does not apply here: the guards are not adjacent, they
  * are separated by the calls and comparisons that feed the next one).
  *
- * BMP_OAM_CheckRangeGetId and BMP_OAM_CheckRangeGetMin both wrap the predicate with the same
+ * NATION_AREA_SanitizeNation and NATION_AREA_SanitizeArea both wrap the predicate with the same
  * shape, "return the value on success, 0 on failure", differing only in
  * which argument is guarded: the first, or the second. Both forward all
- * three arguments to BMP_OAM_Check5BEC unchanged; the wrapped argument is
+ * three arguments to NATION_AREA_IsValidNationArea unchanged; the wrapped argument is
  * kept in its own register (r4) only for the return, which is why the
  * call still carries the original registers.
  *
@@ -40,7 +40,7 @@ typedef unsigned int u32;
 typedef unsigned char  u8;
 extern u8 sub_02025B64(u32 v);
 
-u32 BMP_OAM_Check5BEC(u32 a, u32 b, u32 c)
+u32 NATION_AREA_IsValidNationArea(u32 a, u32 b, u32 c)
 {
     if (a >= 0xE9) {
         return 0;
@@ -56,21 +56,21 @@ u32 BMP_OAM_Check5BEC(u32 a, u32 b, u32 c)
     return 1;
 }
 
-u32 BMP_OAM_CheckRangeGetId(u32 a, u32 b, u32 c)
+u32 NATION_AREA_SanitizeNation(u32 a, u32 b, u32 c)
 {
     u32 r = a;
 
-    if (!BMP_OAM_Check5BEC(a, b, c)) {
+    if (!NATION_AREA_IsValidNationArea(a, b, c)) {
         r = 0;
     }
     return r;
 }
 
-u32 BMP_OAM_CheckRangeGetMin(u32 a, u32 b, u32 c)
+u32 NATION_AREA_SanitizeArea(u32 a, u32 b, u32 c)
 {
     u32 r = b;
 
-    if (!BMP_OAM_Check5BEC(a, b, c)) {
+    if (!NATION_AREA_IsValidNationArea(a, b, c)) {
         r = 0;
     }
     return r;

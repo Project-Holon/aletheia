@@ -1,5 +1,5 @@
 /*
- * function: func_021C21F0
+ * function: endScene2
  * address:  0x021C21F0
  * packet:   pkt_021C21F0
  * region:   ov016
@@ -39,7 +39,7 @@ extern struct SCENEOPTERASE_BSS gSceneOptEraseWork;
 extern void DWCi_SceneOptMenu(void);
 extern void DWCi_SceneOptErase1(void);
 
-void func_021C21F0(void)
+void endScene2(void)
 {
     if (DWCi_EFFlCheck(0) != 0)
         return;

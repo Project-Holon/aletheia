@@ -270,10 +270,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "CLACT_GetAnimCtrl"
+    "CLACT_GetAnimCtrl",
+    "CLACT_GetCellAnimCtrl",
+    "CLACT_GetMultiCellAnimCtrl",
+    "CLACT_GetVramAnimCtrl"
    ],
    "addresses": [
-    "0x0204D410"
+    "0x0204D410",
+    "0x0204D42C",
+    "0x0204D434",
+    "0x0204D43C"
    ]
   },
   {
@@ -288,10 +294,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "CLACT_GetAnimObject"
+    "CLACT_GetAnimObject",
+    "CLACT_GetCellAnimObject",
+    "CLACT_GetMultiCellAnimObject",
+    "CLACT_GetVramAnimObject"
    ],
    "addresses": [
-    "0x0204D444"
+    "0x0204D444",
+    "0x0204D460",
+    "0x0204D468",
+    "0x0204D470"
    ]
   }
  ]

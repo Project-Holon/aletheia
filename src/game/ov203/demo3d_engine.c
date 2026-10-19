@@ -121,7 +121,7 @@ typedef enum { FOG_BLEND_0,FOG_BLEND_1 } GXFogBlend;
 typedef enum { FOG_SLOPE_0,FOG_SLOPE_10=10 } GXFogSlope;
 
 struct Record {
-    u16 a0,a2,id;
+    u16 reserved00,reserved02,id;
     u16 b0:1,b1:1,blend:1,anti:1,fog:1,edge:1,mode1:1,mode2:1,test:1,ref:5,padbits:2;
     u8 pad08[0x1c];
     int depthoffset;
@@ -153,14 +153,6 @@ extern void DOUBLE3DDISP_Init(u32);
 extern int GFL_USE_SetVBlankHook(int a, int b);
 
 extern void MTX_Identity33_(void *);
-
-extern int _ffltu(u32);
-
-extern int _fadd(int, int);
-
-extern int _fsub(int, int);
-
-extern int _ffix(int);
 
 extern void ICA_ANIME_SetFrame(struct IcaAnime *p, signed int v);
 
@@ -311,7 +303,8 @@ struct Ctx *DEMO3D_ENGINE_Create(void *owner, struct Cfg *cfg, u16 heap)
     int ang, right, d, w, top, t, s, j, near, mid, far, bottom;
     struct Cam *cam;
     int c, q;
-    int i, k, n, r;
+    int i, k, n;
+    float r;
     int left;
     int cnt;
     void *e;
@@ -365,10 +358,10 @@ struct Ctx *DEMO3D_ENGINE_Create(void *owner, struct Cfg *cfg, u16 heap)
     ctx->indices = GFL_HEAP_Alloc(heap, ctx->count * 2, 1, d_021C3CE0, 0xB7);
     ctx->anime = DEMO3D_ENGINE_CreateAnimeStream(ctx->id, heap, 10);
     if (ctx->data.frame)
-        r = _fadd(0x3f000000, _ffltu(ctx->data.frame << 12));
+        r = (0.5f + (float)(ctx->data.frame << 12));
     else
-        r = _fsub(_ffltu(ctx->data.frame << 12), 0x3f000000);
-    ICA_ANIME_SetFrame(ctx->anime, _ffix(r));
+        r = ((float)(ctx->data.frame << 12) - 0.5f);
+    ICA_ANIME_SetFrame(ctx->anime, (int)r);
     n = ctx->count * 6;
     ctx->table = G3D_UTIL_Create((u16)n, (u16)n, heap);
     e = DEMO3D_DATA_Create(heap);
@@ -382,10 +375,10 @@ struct Ctx *DEMO3D_ENGINE_Create(void *owner, struct Cfg *cfg, u16 heap)
         cnt = G3D_SYSTEM_GetObjectAnimeCount((int *)h);
         for (k = 0; k < cnt; k++) {
             if (ctx->data.frame)
-                r = _fadd(0x3f000000, _ffltu(ctx->data.frame << 12));
+                r = (0.5f + (float)(ctx->data.frame << 12));
             else
-                r = _fsub(_ffltu(ctx->data.frame << 12), 0x3f000000);
-            ang = _ffix(r);
+                r = ((float)(ctx->data.frame << 12) - 0.5f);
+            ang = (int)r;
             G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)h, (u16)k);
             G3D_SYSTEM_SetObjectAnimeFrame((struct AnmCtl *)h, k, &ang);
         }

@@ -14,7 +14,7 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   BMP_SetDisplaySwap 0x0204363C arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   GX_DispOn 0x0207D46C arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
@@ -60,7 +60,7 @@ extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
 struct Proc;
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *, int, u32);
-extern void BMP_SetDisplaySwap(u32);
+extern void BG_SYS_SetLcdSwap(u32);
 extern void GX_DispOn(void);
 extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
@@ -106,7 +106,7 @@ int INTRUDE_COMM_VIEW_Create(void *owner, void *unused, char *args)
     ((struct Obj00073 *)p)->fC = 31;
     ((struct Obj00073 *)p)->f350 = ((struct Obj13967 *)args)->f4;
     ((struct Obj00073 *)p)->f354 = ((struct Obj13967 *)args)->f0;
-    BMP_SetDisplaySwap(1);
+    BG_SYS_SetLcdSwap(1);
     *(volatile u32 *)0x04001000 |= 0x10000;
     GX_DispOn();
     BG_SYS_Create(((struct Obj00073 *)p)->fC);

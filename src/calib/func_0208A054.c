@@ -1,5 +1,5 @@
 /*
- * function: func_0208A054
+ * function: SND_GetPlayerStatus
  * address:  0x0208A054
  * packet:   pkt_0208A054
  * region:   arm9
@@ -30,8 +30,8 @@
  *   g_02152FA0     0x02152FA0  data
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_0208A054.c \
- *       --func func_0208A054 --addr 0x0208A054 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/SND_GetPlayerStatus.c \
+ *       --func SND_GetPlayerStatus --addr 0x0208A054 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -44,7 +44,7 @@ struct Obj {
 extern struct Obj *g_02152FA0;
 extern void func_020862B8(void *p, u32 n);
 
-u32 func_0208A054(void)
+u32 SND_GetPlayerStatus(void)
 {
     func_020862B8(&g_02152FA0->f04, 4);
     return g_02152FA0->f04;

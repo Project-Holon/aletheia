@@ -80,3 +80,8 @@ __pycache__/
 *.rom
 *.o
 *.a
+.claude/
+.opencode/
+
+# White ROM extraction (lane WHITE)
+/extract_white/

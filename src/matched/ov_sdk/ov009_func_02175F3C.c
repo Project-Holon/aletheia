@@ -1,5 +1,5 @@
 /*
- * function: func_02175F3C
+ * function: DWCi_GetMatchCnt
  * address:  0x02175F3C
  * packet:   pkt_02155168
  * region:   ov009
@@ -19,7 +19,7 @@
 
 extern struct NNThinkGlobal g_021AAA20;
 
-int func_02175F3C(void)
+int DWCi_GetMatchCnt(void)
 {
     return *(int *)(((char *)&g_021AAA20) + 4);
 }

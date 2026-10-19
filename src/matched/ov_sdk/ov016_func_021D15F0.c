@@ -1,5 +1,5 @@
 /*
- * function: func_021D15F0
+ * function: taskMove
  * address:  0x021D15F0
  * packet:   pkt_ov016_021D15F0
  * region:   ov016
@@ -74,7 +74,7 @@ extern void func_021D16B0(void);
 extern struct MemWinT *gWindowWork;
 extern struct CoordT sWindowTable11[];
 
-void func_021D15F0(void *task)
+void taskMove(void *task)
 {
     int x;
     int y;

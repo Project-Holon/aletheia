@@ -1,5 +1,5 @@
 /*
- * function: func_0215E2E4
+ * function: SOCLi_ExecWriteCommand
  * address:  0x0215E2E4
  * packet:   pkt_ov009_0215E2E4
  * region:   ov009
@@ -70,7 +70,7 @@ extern unsigned short CPS_SocGetEport(void);
 extern int SOCLi_ExecCommandPacketInSendPipe(struct SOCLSocket *socket, struct SOCLiCommandPacket *command);
 extern int func_0215E450(void *arg);
 
-static int func_0215E2E4(struct SOCLSocket *socket, unsigned char *buffer, long buffer_len, long wrtbuf_in,
+static int SOCLi_ExecWriteCommand(struct SOCLSocket *socket, unsigned char *buffer, long buffer_len, long wrtbuf_in,
                          unsigned short remote_port, unsigned long remote_ip, long flag_block)
 {
     struct SOCLiSocketSendCommandPipe *send_pipe = socket->send_pipe;

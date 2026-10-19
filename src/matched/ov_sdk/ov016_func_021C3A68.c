@@ -1,5 +1,5 @@
 /*
- * function: endScene1
+ * function: endFadeOutBoth
  * address:  0x021C3A68
  * packet:   pkt_ov016_021C3A68
  * region:   ov016
@@ -29,7 +29,7 @@
  *   DWCi_WINlInitEx                  0x021D1208  arm
  *   DWCi_WINlIsInit                  0x021D157C  arm
  *   endScene                         0x021C2168  arm
- *   endScene1                        0x021C2188  arm
+ *   endFadeOutBoth                        0x021C2188  arm
  *   endScene2                        0x021C3AD0  arm
  *   initGraphics                     0x021C1F64  arm
  *   procConfirm                      0x021C22AC  arm
@@ -40,17 +40,17 @@
  *   procScene                        0x021C20AC  arm
  *   sceneopterase_bss                0x021DE5B8  data
  *
- * SDK: TwlDWC libdwcutil.TWL.HYB.a(sceneopterase.o), symbol endScene1 (name and prototype from the
+ * SDK: TwlDWC libdwcutil.TWL.HYB.a(sceneopterase.o), symbol endFadeOutBoth (name and prototype from the
  * vendor object DWARF). The object is stamped Metrowerks C/C++ for ARM 4.0.0.1025, which
  * no tools/mwccarm build writes, so it stays on the default dsi/1.1p1.
  * layout/symbols_sdk.txt files this copy under sceneopterase.o; its bytes equal sceneopterase.o's own
- * function and only the pool words differ (the copy's own next scene step and, for endScene1,
+ * function and only the pool words differ (the copy's own next scene step and, for endFadeOutBoth,
  * its own one-byte flag, declared here under the sceneopterase_bss name at the copy's address).
  * The object that owns this copy is not identified; the C is the same either way.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021C3A68.c \
- *       --func endScene1 --addr 0x021C3A68 --region ov016 --cc 1.1p1 --arm --lang c99
+ *       --func endFadeOutBoth --addr 0x021C3A68 --region ov016 --cc 1.1p1 --arm --lang c99
  */
 typedef _Bool bool;
 
@@ -87,10 +87,10 @@ static void procScene(void);
 static void procConfirm(void);
 static void procConfirm1(void);
 static void endScene(void);
-static void endScene1(void);
+static void endFadeOutBoth(void);
 static void endScene2(void);
 
-static void endScene1(void)
+static void endFadeOutBoth(void)
 {
     if (DWCi_EFFlCheck(1))
         return;

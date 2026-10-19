@@ -36,7 +36,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 
 typedef struct IRCParam {
-    int f0;
+    int reserved00;
     unsigned char *send;
     unsigned char *recv;
 } IRCParam;

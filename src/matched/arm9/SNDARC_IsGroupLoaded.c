@@ -1,5 +1,5 @@
 /*
- * function: SNDARC_IsGroupLoaded
+ * function: NNS_SndArcLoadGroup
  * address:  0x02074A54
  * packet:   pkt_02060000
  * region:   arm9
@@ -25,7 +25,7 @@ typedef int BOOL;
 
 extern BOOL NNSi_SndArcLoadGroup(void);
 
-BOOL SNDARC_IsGroupLoaded(void)
+BOOL NNS_SndArcLoadGroup(void)
 {
     return NNSi_SndArcLoadGroup() == 0;
 }

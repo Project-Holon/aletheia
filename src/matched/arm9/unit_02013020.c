@@ -2,7 +2,7 @@
  * A whole translation unit, matched as one byte range.
  *
  * unit:     yes
- * function: sub_02013020, sub_02013050, sub_02013080
+ * function: MSG_SPEED_GetSlowerWait, MSG_SPEED_GetFasterWait, MSG_SPEED_GetWaitForSpeed
  * address:  0x02013020
  * packet:   pkt_02012F08
  * region:   arm9
@@ -18,7 +18,7 @@
  *   SYSTEM_DATA_GetConfig  0x0200873C  thumb
  *   sub_02008374  0x02008374  thumb
  *
- * Mode mapping helpers calling clamped lookup sub_02013080.
+ * Mode mapping helpers calling clamped lookup MSG_SPEED_GetWaitForSpeed.
  *
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_02013020.c \
@@ -36,9 +36,9 @@ struct Sub02008700Obj;
 extern struct Sub02008700Obj *SYSTEM_DATA_GetConfig(void *sys);
 extern unsigned int sub_02008374(int a0);
 
-signed char sub_02013080(u32 idx);
+signed char MSG_SPEED_GetWaitForSpeed(u32 idx);
 
-signed char sub_02013020(void)
+signed char MSG_SPEED_GetSlowerWait(void)
 {
     u32 val = sub_02008374((int)SYSTEM_DATA_GetConfig(ptr_020A7298));
     switch (val) {
@@ -52,10 +52,10 @@ signed char sub_02013020(void)
         val = 3;
         break;
     }
-    return sub_02013080(val);
+    return MSG_SPEED_GetWaitForSpeed(val);
 }
 
-signed char sub_02013050(void)
+signed char MSG_SPEED_GetFasterWait(void)
 {
     u32 val = sub_02008374((int)SYSTEM_DATA_GetConfig(ptr_020A7298));
     switch (val) {
@@ -69,10 +69,10 @@ signed char sub_02013050(void)
         val = 1;
         break;
     }
-    return sub_02013080(val);
+    return MSG_SPEED_GetWaitForSpeed(val);
 }
 
-signed char sub_02013080(u32 idx)
+signed char MSG_SPEED_GetWaitForSpeed(u32 idx)
 {
     if (idx >= 5) {
         idx = 4;

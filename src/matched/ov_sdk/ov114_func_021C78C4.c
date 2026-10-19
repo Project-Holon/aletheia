@@ -1,5 +1,5 @@
 /*
- * function: func_021C78C4
+ * function: DWCi_Ndi_initLockGlobal
  * address:  0x021C78C4
  * packet:   pkt_021B9500
  * region:   ov114
@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void OS_InitMutex(void *);
 
-int func_021C78C4(void)
+int DWCi_Ndi_initLockGlobal(void)
 {
     OS_InitMutex((void *)0x021D3C38);
     return 1;

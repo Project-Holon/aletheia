@@ -106,7 +106,7 @@ extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
 extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
-extern GimmickD06Save *GIMMICK_WORK_GetSaveArea(struct GimmickWork *gimmickWork, u32 gimmickId);
+extern GimmickD06Save *GIMMICK_WORK_GetWork(struct GimmickWork *gimmickWork, u32 gimmickId);
 extern struct FieldEffectSys *FIELDMAP_GetEffect(struct FieldMap *fieldMap);
 extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
 extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);

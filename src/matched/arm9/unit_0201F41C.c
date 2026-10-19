@@ -8,10 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: WORDSET_CopyString, WORDSET_CheckF448
+ * function: WORDSET_CopyString, WORDSET_IsStringEqual
  *
  * Two wide-string helpers.  WORDSET_CopyString is a bounded copy that always
- * terminates the destination; WORDSET_CheckF448 is an equality test.  Both read
+ * terminates the destination; WORDSET_IsStringEqual is an equality test.  Both read
  * the terminator character from STRBUF_GetEosChar rather than from a constant,
  * and both hold it in a named local, which is what puts the call result in
  * the left slot of WORDSET_CopyString's `cmp r0, r1`
@@ -54,7 +54,7 @@ void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n)
     *(dst + n - 1) = eos;
 }
 
-u32 WORDSET_CheckF448(const u16 *a, const u16 *b)
+u32 WORDSET_IsStringEqual(const u16 *a, const u16 *b)
 {
     u16 eos = STRBUF_GetEosChar();
 

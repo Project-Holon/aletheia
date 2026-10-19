@@ -18,10 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "BSUBWAY_SAVEDATA_GetStat"
+    "BSUBWAY_SAVEDATA_GetStat",
+    "BSUBWAY_SAVEDATA_SetStat"
    ],
    "addresses": [
-    "0x0200DFD8"
+    "0x0200DFD8",
+    "0x0200DFE4"
    ]
   }
  ]

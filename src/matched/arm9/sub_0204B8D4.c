@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   CLACT_UpdateAnim   0x0204D4C4  arm
+ *   CLACT_SetAnimSpeed   0x0204D4C4  arm
  *   CLACT_AddAnimFrame   0x0204D3C4  arm
  *
- * Run CLACT_UpdateAnim over the sub-object embedded at +0x68 of the
+ * Run CLACT_SetAnimSpeed over the sub-object embedded at +0x68 of the
  * 0x0204Bxxx object, then CLACT_AddAnimFrame on it with 0x1000.  The address
  * is recomputed with a second `add r0, r4, #0x68` rather than kept in a
  * register across the call
  * (docs/idioms/keeping-a-cursor-in-a-named-local-costs-a-callee-saved-register.md).
  *
- * Was capped at MATCH: CLACT_UpdateAnim is called from this one site and
+ * Was capped at MATCH: CLACT_SetAnimSpeed is called from this one site and
  * nowhere else in the image, so its PC24 had no outside witness, and
  * CLACT_AddAnimFrame resolved fine (label).  0x0204D4C4 is now the lead function
  * of src/matched/unit_0204D4C4.c and this site resolves `matched` against
@@ -42,11 +42,11 @@ struct Obj {
     struct Sub unk_68;
 };
 
-extern void CLACT_UpdateAnim(struct Obj *o, u32 arg);
+extern void CLACT_SetAnimSpeed(struct Obj *o, u32 arg);
 extern void *CLACT_AddAnimFrame(struct Obj *o, u32 arg);
 
 void CLACT_AddActorAnimFrame(struct Obj *p, u32 arg)
 {
-    CLACT_UpdateAnim((struct Obj *)(&p->unk_68), arg);
+    CLACT_SetAnimSpeed((struct Obj *)(&p->unk_68), arg);
     CLACT_AddAnimFrame((struct Obj *)(&p->unk_68), 0x1000);
 }

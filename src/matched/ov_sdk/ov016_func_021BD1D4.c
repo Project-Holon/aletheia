@@ -14,13 +14,13 @@
  * symbols:
  *   DWCi_Char  0x021bd170  arm  ov016
  *   DWCi_ARClReadEx  0x021d4b68  arm  ov016
- *   DWCi_ScreenDC_FlushRange  0x020862f0  arm
+ *   DC_FlushRange  0x020862f0  arm
  *   DWCi_ARClRelease  0x021d4c68  arm  ov016
  */
 
 extern unsigned char *DWCi_Char(unsigned char *name);
 extern void *DWCi_ARClReadEx(char *path, unsigned long *size, int alignment);
-extern void DWCi_ScreenDC_FlushRange(void *startAddr, unsigned long nBytes);
+extern void DC_FlushRange(void *startAddr, unsigned long nBytes);
 extern void DWCi_ARClRelease(void *file);
 
 void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long))
@@ -31,7 +31,7 @@ void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsig
 
     n = (char *)DWCi_Char((unsigned char *)file);
     data = DWCi_ARClReadEx(n, &size, 4);
-    DWCi_ScreenDC_FlushRange(data, size);
+    DC_FlushRange(data, size);
     func(data, 0, size);
     DWCi_ARClRelease(data);
 }

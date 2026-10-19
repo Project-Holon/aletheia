@@ -11,7 +11,7 @@
  *   gManualCommonDataAllocFile 0x021BC004 data a1
  *   func_02030734 0x02030734 arm
  *   ARC_UTIL_LoadHandleMemberWithSize 0x0204A39C arm
- *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
+ *   DC_FlushRange 0x020862F0 arm
  *   GX_LoadBG2Scr 0x0207EB78 arm
  *   func_020307B0 0x020307B0 arm
  */
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 extern const char gManualCommonDataAllocFile[];
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
 extern void *ARC_UTIL_LoadHandleMemberWithSize(void *,int,int,unsigned,unsigned *);
-extern void DWCi_ScreenDC_FlushRange(const void *,unsigned);
+extern void DC_FlushRange(const void *,unsigned);
 extern void GX_LoadBG2Scr(const void *,unsigned,unsigned);
 typedef unsigned int   u32;
 extern u32 func_020307B0(void *p);
@@ -36,6 +36,6 @@ void MANUAL_COMMON_SetScreenId(char *p,unsigned id)
         } else {
             buf=ARC_UTIL_LoadHandleMemberWithSize(((struct Obj04650 *)p)->f28,((struct Obj04650 *)p)->f30,1,((struct Obj04650 *)p)->f4,&size);
         }
-        DWCi_ScreenDC_FlushRange(buf,size);GX_LoadBG2Scr(buf,0,0x18000);func_020307B0(buf);
+        DC_FlushRange(buf,size);GX_LoadBG2Scr(buf,0,0x18000);func_020307B0(buf);
     }
 }

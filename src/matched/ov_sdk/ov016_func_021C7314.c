@@ -1,5 +1,5 @@
 /*
- * function: func_021C7314
+ * function: procInit1
  * address:  0x021C7314
  * packet:   pkt_ov016_021C7314
  * region:   ov016
@@ -39,7 +39,7 @@ extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021C73A0();
 extern struct MemSsea *gMemSsea;
 
-void func_021C7314(void)
+void procInit1(void)
 {
     if (DWCi_EFFlCheck(1))
         return;

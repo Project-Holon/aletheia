@@ -54,8 +54,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02012FF0",
-    "sub_02012FFC"
+    "MSG_SPEED_SetSaveControl",
+    "MSG_SPEED_GetWait"
+   ],
+   "addresses": [
+    "0x02012FF0",
+    "0x02012FFC"
    ]
   },
   {
@@ -70,9 +74,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_02013020",
-    "sub_02013050",
-    "sub_02013080"
+    "MSG_SPEED_GetSlowerWait",
+    "MSG_SPEED_GetFasterWait",
+    "MSG_SPEED_GetWaitForSpeed"
+   ],
+   "addresses": [
+    "0x02013020",
+    "0x02013050",
+    "0x02013080"
    ]
   }
  ]

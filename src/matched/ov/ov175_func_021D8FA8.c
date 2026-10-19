@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: WIFIBATTLEMATCH_NET_CompStepL, WIFIBATTLEMATCH_NET_CompExit
+ * function: WIFIBATTLEMATCH_NET_CompStepCheckPeriodThenSaveQuit, WIFIBATTLEMATCH_NET_CompExit
  * address: 0x021D8FA8
  * packet: pkt_ov175_021D8FA8
  * region: ov175
@@ -34,7 +34,7 @@ extern void WIFIBATTLEMATCH_UTIL_ClearCallback(int a);
 extern void WIFIBATTLEMATCH_NET_CompCleanup(void *obj, int unused, u8 *p);
 extern void WIFIBATTLEMATCH_NET_CompStepCheckPeriod(u32 sys, int *state, char *p);
 extern void WIFIBATTLEMATCH_NET_CompStepSaveAndUploadQuit(u32 sys, int *state, char *p);
-void WIFIBATTLEMATCH_NET_CompStepL(u32 sys, int *state, char *ctx)
+void WIFIBATTLEMATCH_NET_CompStepCheckPeriodThenSaveQuit(u32 sys, int *state, char *ctx)
 {
     int result;
     switch (*state) {

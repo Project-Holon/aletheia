@@ -1,5 +1,5 @@
 /*
- * function: sub_02023DA8
+ * function: WIPE_SUB_WindowInsideTask
  * address:  0x02023DA8
  * packet:   pkt_02023A50
  * region:   arm9
@@ -18,8 +18,8 @@
  * return its result.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02023DA8.c \
- *       --func sub_02023DA8 --addr 0x02023DA8 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/WIPE_SUB_WindowInsideTask.c \
+ *       --func WIPE_SUB_WindowInsideTask --addr 0x02023DA8 --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
@@ -34,7 +34,7 @@ struct Args4 {
 extern void sub_02023B74(u32 a, u32 b, u32 c, u32 d);
 extern u32  func_02030EAC(void *obj);
 
-u32 sub_02023DA8(void *obj, struct Args4 *args)
+u32 WIPE_SUB_WindowInsideTask(void *obj, struct Args4 *args)
 {
     sub_02023B74(args->f0, args->f4, args->f8, args->fC);
     return func_02030EAC(obj);

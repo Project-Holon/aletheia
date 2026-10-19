@@ -1,5 +1,5 @@
 /*
- * function: DWCi_GetHostStatus
+ * function: INTRUDE_COMM_IsJoinRequestValid
  * address:  0x02175FB8
  * packet:   pkt_ov011_02175FB8
  * region:   ov011
@@ -37,7 +37,7 @@ typedef struct {
 extern int INTRUDE_COMM_IsValidObjCode(int value);
 extern int INTRUDE_COMM_IsValidProfileCode(u32 a);
 
-int DWCi_GetHostStatus(void *unused, Rec *p)
+int INTRUDE_COMM_IsJoinRequestValid(void *unused, Rec *p)
 {
     int i;
 

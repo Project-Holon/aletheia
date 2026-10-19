@@ -15,11 +15,10 @@
  * symbols:
  *   gsirealloc  0x0217EAC8 arm ov009
  *   gsifree                 0x0217EAE0  arm
- *   memset                  0x020923B0  arm
+ *   MSL_C_LIB_MemsetPtr                  0x020923B0  arm
  *   strlen           0x0209477c arm
  *   ghiResizeBuffer  0x021bfb90 arm  ov114
  *   memcpy           0x02092344 arm
- *   strlen                    0x0209477c arm
  *   gsDebugFormat                    0x0217d254 arm  ov009
  *   sGhttpGhiencryptdatatobufferEncounteredUnhandledReturnCode                       0x021ce54c data ov114
  *   ghiAppendDataToBuffer  0x021BFCEC arm ov114
@@ -60,7 +59,7 @@ extern char sGhttpIntFormatBuffer[];
 
 
 extern unsigned int strlen(const char *);
-extern void *memset(void *dst, int c, unsigned int n);
+extern void *MSL_C_LIB_MemsetPtr(void *dest, int c, u32 n);
 int ghiResizeBuffer(GHIBuffer *buffer, int sizeIncrement)
 {
     int newSize;
@@ -141,7 +140,7 @@ void ghiFreeBuffer(GHIBuffer *buffer)
         return;
     if (buffer->dontFree == 0)
         gsifree(buffer->data);
-    memset(buffer, 0, sizeof(GHIBuffer));
+    MSL_C_LIB_MemsetPtr(buffer, 0, sizeof(GHIBuffer));
 }
 
 

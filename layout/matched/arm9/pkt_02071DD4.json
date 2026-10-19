@@ -18,10 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "NNSi_G3dTexMtxRot"
+    "NNSi_G3dTexMtxRot",
+    "NNSi_G3dTexMtxScale"
    ],
    "addresses": [
-    "0x02071DD4"
+    "0x02071DD4",
+    "0x02071EAC"
    ]
   },
   {
@@ -96,10 +98,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "NNSi_G3dTexMtxRot_Max"
+    "NNSi_G3dTexMtxRot_Max",
+    "NNSi_G3dTexMtxScale_Max"
    ],
    "addresses": [
-    "0x02072440"
+    "0x02072440",
+    "0x020724E4"
    ]
   },
   {

@@ -20,8 +20,8 @@
  *   OS_Sleep  0x02085A38  arm
  *   gRakuStatus  0x021DE594  data
  *   DWCi_RAKUl_memFree  0x021C1624  arm  ov016
- *   DWCi_RakurakuCbConfig  0x021C15FC  arm  ov016
- *   DWCi_RakurakuMemAlloc  0x021C1614  arm  ov016
+ *   cbConfig  0x021C15FC  arm  ov016
+ *   memAlloc  0x021C1614  arm  ov016
  *   ATERMi_ApConfigEnd 0x021BC724 thumb
  *   DWCi_RakurakuATERMi_ApConfigGetResult  0x021BC7F0  thumb  ov016
  *   DWCi_SETTINGlSetRaku  0x021CF9BC  arm  ov016

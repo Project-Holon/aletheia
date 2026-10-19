@@ -93,7 +93,7 @@ extern u32 GAME_COMM_GetKind(struct GameComm *gameComm);
 
 extern int GFL_NET_GetRunState(void);
 
-extern int GFL_NET_Exit(int a0);
+extern int GFL_NET_Exit(int exitCallback);
 
 extern int GFL_NET_IsSessionNull(void);
 

@@ -2,7 +2,7 @@
  * A whole translation unit, matched as one byte range.
  *
  * unit:     yes
- * function: NNS_SndHandleSetSeqPriority, NNS_SndHandleSetPlayerPriority
+ * function: NNS_SndHandleSetVolume, NNS_SndHandleSetInitialVolume
  * address:  0x02072F34
  * packet:   pkt_02072EA8
  * region:   arm9
@@ -27,12 +27,12 @@ typedef unsigned int   u32;
 struct Sub { u8 pad00[0x40]; u8 b40; u8 b41; };
 struct Obj { struct Sub * volatile p; };
 
-void NNS_SndHandleSetSeqPriority(struct Obj *o, u8 v)
+void NNS_SndHandleSetVolume(struct Obj *o, u8 v)
 {
     if (o->p) o->p->b41 = v;
 }
 
-void NNS_SndHandleSetPlayerPriority(struct Obj *o, u8 v)
+void NNS_SndHandleSetInitialVolume(struct Obj *o, u8 v)
 {
     if (o->p) o->p->b40 = v;
 }

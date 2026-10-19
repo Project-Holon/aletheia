@@ -99,7 +99,7 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   BMP_SetDisplaySwap 0x0204363C arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   GX_DispOn 0x0207D46C arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BMP_WIN_Init 0x02045088 arm
@@ -204,14 +204,14 @@ typedef struct { u8 addr[8]; u16 timer; u16 tag; } IntrudeCommViewPeer;
 typedef struct IntrudeCommViewArgs {
     void *icaAnime;
     void *gameData;
-    u32 field08;
+    u32 reserved08;
     void *owner;
     int active;
     u8 foundMac[6];
     u8 pad1A[2];
-    u32 field1C;
-    u32 field20;
-    u32 field24;
+    u32 reserved1C;
+    u32 reserved20;
+    u32 reserved24;
     int requestState;
 } IntrudeCommViewArgs;
 
@@ -333,7 +333,7 @@ extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(u32);
 extern void *BMP_MENUWORK_LoadFrameGfx(void *layer, u32 palSlot, u32 frameId, u32 heapId);
-extern void *BUTTON_MAN_Create(u8 *rects, int a1, int arg, int heap);
+extern void *BUTTON_MAN_Create(u8 *rects, int cb, int arg, int heap);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern void BG_SYS_FreeTiles(u32 idx, u32 count, u32 tile);
 extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
@@ -375,7 +375,7 @@ extern void CLACT_VBlankSystem(void);
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *, int, u32);
-extern void BMP_SetDisplaySwap(u32);
+extern void BG_SYS_SetLcdSwap(u32);
 extern void GX_DispOn(void);
 extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
@@ -1201,7 +1201,7 @@ int INTRUDE_COMM_VIEW_Create(void *owner, void *unused, char *args)
     ((IntrudeCommView *)p)->heapId = 31;
     ((IntrudeCommView *)p)->gameData = ((IntrudeCommViewArgs *)args)->gameData;
     ((IntrudeCommView *)p)->icaAnime = ((IntrudeCommViewArgs *)args)->icaAnime;
-    BMP_SetDisplaySwap(1);
+    BG_SYS_SetLcdSwap(1);
     *(volatile u32 *)0x04001000 |= 0x10000;
     GX_DispOn();
     BG_SYS_Create(((IntrudeCommView *)p)->heapId);

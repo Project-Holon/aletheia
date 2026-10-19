@@ -18,7 +18,7 @@
  *   gsirealloc  0x0217EAC8  arm  ov009
  *   memcpy    0x02092344  arm
  *   gsimalloc  0x0217EAB0  arm  ov009
- *   memset     0x020923B0  arm
+ *   MSL_C_LIB_MemsetPtr     0x020923B0  arm
  *   gsifree      0x0217EAE0  arm  ov009
  *   ArrayInsertAt  0x0218424C  arm  ov009
  *   memmove    0x02092364  arm
@@ -51,11 +51,10 @@ typedef signed char    s8;
 extern void *gsirealloc(void *ptr, unsigned long size);
 extern void *memcpy(void *dst, const void *src, unsigned long n);
 extern void *gsimalloc(unsigned long size);
-extern void *memset(void *dst, int c, unsigned long n);
+extern void *MSL_C_LIB_MemsetPtr(void *dest, int c, u32 n);
 extern void gsifree(void *ptr);
 extern void *memmove(void *dst, const void *src, unsigned long n);
 extern void qsort(int a, int b, int c, int d);
-extern int _s32_div_f(int a, int b);
 struct DArrayImplementation *ArrayNew(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
 void ArrayFree(struct DArrayImplementation *array);
 int ArrayLength(const int *array);
@@ -116,7 +115,7 @@ struct DArrayImplementation *ArrayNew(int elemSize, int numElemsToAllocate,
     else
     {
         array->list = gsimalloc(numElemsToAllocate * array->elemsize);
-        memset(array->list, 0, array->capacity * array->elemsize);
+        MSL_C_LIB_MemsetPtr(array->list, 0, array->capacity * array->elemsize);
     }
     return array;
 }

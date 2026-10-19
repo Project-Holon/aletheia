@@ -1,5 +1,5 @@
 /*
- * function: func_021D4770
+ * function: Parent_data_receive_progress
  * address:  0x021D4770
  * packet:   pkt_ov016_021D4770
  * region:   ov016
@@ -74,7 +74,7 @@ typedef struct {
     u8 data[0x42];
 } GShareData;
 
-void func_021D4770(void)
+void Parent_data_receive_progress(void)
 {
     long i;
     GShareData *sd;

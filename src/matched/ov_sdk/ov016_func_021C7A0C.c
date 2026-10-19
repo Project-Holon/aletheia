@@ -1,5 +1,5 @@
 /*
- * function: func_021C7A0C
+ * function: DWCi_SceneSetEditAddressProcWin1
  * address:  0x021C7A0C
  * packet:   pkt_ov016_021C7A0C
  * region:   ov016
@@ -43,7 +43,7 @@ extern void func_021C77F4();
 extern struct MemSsea *gMemSsea;
 extern FuncTable sSceneSetEditAddressDefaultGetters;
 
-void func_021C7A0C(void)
+void DWCi_SceneSetEditAddressProcWin1(void)
 {
     FuncTable FUNC = sSceneSetEditAddressDefaultGetters;
     int prm;

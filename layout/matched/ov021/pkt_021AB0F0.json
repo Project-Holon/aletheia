@@ -547,7 +547,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_021AB410",
+   "name": "MAP_ATTR_IsDeepSandB",
    "address": "0x021AB410",
    "kind": "game",
    "region": "ov021",

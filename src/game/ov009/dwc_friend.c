@@ -28,7 +28,7 @@
  *   IsStatsConnected                0x02193D64 arm ov009
  *   PersistThink                    0x02193D80 arm ov009
  *   CloseStatsConnection            0x02193D00 arm ov009
- *   DWC_GetFriendDataType           0x020591CC arm
+ *   DWCi_Acc_GetFlagDataTypeThunk           0x020591CC arm
  *   DWC_Alloc                       0x0205A16C arm
  *   DWCi_GetUserData                0x0216A39C arm ov009
  *   DWC_GetGsProfileId              0x020598EC arm
@@ -54,7 +54,6 @@
  *   gpDeleteBuddy                    0x02186220 arm
  *   DWCi_IsBuddyMsgAlreadySent       0x020591b0 arm
  *   gpGetBuddyIndex                  0x02186108 arm
- *   DWCi_SetSentBuddyReqFlag         0x020592a0 arm
  *   DWC_LoginIdToUserName            0x02059a44 arm
  *   gpProfileSearchA                 0x02185b10 arm
  *   DWCi_GPProfileSearchCallback     0x02169934 arm
@@ -209,7 +208,7 @@ extern int DWCi_IsError(void);
 extern int IsStatsConnected(void);
 extern int PersistThink(void);
 extern void CloseStatsConnection(void);
-extern int DWC_GetFriendDataType(DWCstAccFriendData *frienddata);
+extern int DWCi_Acc_GetFlagDataTypeThunk(DWCstAccFriendData *frienddata);
 extern void *DWC_Alloc(int name, unsigned long size);
 extern DWCstAccUserData *DWCi_GetUserData(void);
 extern int DWC_GetGsProfileId(DWCstAccUserData *userdata, DWCstAccFriendData *frienddata);
@@ -514,7 +513,7 @@ void DWCi_FriendProcess(void)
     j = 0;
     pidcnt = 0;
     for (i = 0; i < stpFriendCnt->friendListLen; i++)
-        if (DWC_GetFriendDataType(&stpFriendCnt->friendList[i]) == 3)
+        if (DWCi_Acc_GetFlagDataTypeThunk(&stpFriendCnt->friendList[i]) == 3)
             pidcnt++;
     if (pidcnt == 0) {
         stpFriendCnt->stage = 0;
@@ -527,7 +526,7 @@ void DWCi_FriendProcess(void)
         return;
     }
     for (i = 0; i < stpFriendCnt->friendListLen; i++) {
-        if (DWC_GetFriendDataType(&stpFriendCnt->friendList[i]) == 3) {
+        if (DWCi_Acc_GetFlagDataTypeThunk(&stpFriendCnt->friendList[i]) == 3) {
             stpFriendCnt->reversePids[j] = DWC_GetGsProfileId(DWCi_GetUserData(), &stpFriendCnt->friendList[i]);
             j++;
         }
@@ -861,7 +860,7 @@ int DWCi_RefreshFriendListForth(DWCstAccFriendData *friendList, int index, int p
 	int i;
 	int pid_i;
 
-	if (DWC_GetFriendDataType(&friendList[index]) == 1)
+	if (DWCi_Acc_GetFlagDataTypeThunk(&friendList[index]) == 1)
 		return 0;
 	for (i = 0; i < index; i++) {
 		pid_i = DWCi_GetProfileIDFromList(i);
@@ -897,7 +896,7 @@ int DWCi_RefreshFriendListAll(DWCstAccFriendData *friendList, int friendListLen,
         for (j = i + 1; j < friendListLen; j++) {
             if (pid_i != DWCi_GetProfileIDFromList(j))
                 continue;
-            if (DWC_GetFriendDataType(&friendList[i]) == 2 && DWC_GetFriendDataType(&friendList[j]) == 3)
+            if (DWCi_Acc_GetFlagDataTypeThunk(&friendList[i]) == 2 && DWCi_Acc_GetFlagDataTypeThunk(&friendList[j]) == 3)
                 DWC_SetGsProfileId(&friendList[i], pid_i);
             if (DWCi_IsBuddyFriendData(&friendList[j])) {
                 DWCi_SetBuddyFriendData(&friendList[i]);
@@ -986,7 +985,7 @@ void DWCi_GPProfileSearchCallback(void **connection, void *argv, void *param)
 
     if (arg->result != 0 || arg->numMatches == 0)
         goto err;
-    if (DWC_GetFriendDataType(&stpFriendCnt->friendList[match_index]) == 0)
+    if (DWCi_Acc_GetFlagDataTypeThunk(&stpFriendCnt->friendList[match_index]) == 0)
         goto err;
     if (stpFriendCnt->state != 1)
         return;
@@ -1031,7 +1030,7 @@ err:
         DWCi_HandleGPError(arg->result);
         return;
     }
-    if (stpFriendCnt->state != 1 && DWC_GetFriendDataType(&stpFriendCnt->friendList[match_index]) != 0)
+    if (stpFriendCnt->state != 1 && DWCi_Acc_GetFlagDataTypeThunk(&stpFriendCnt->friendList[match_index]) != 0)
         return;
     stpFriendCnt->sendIdx++;
     stpFriendCnt->phase = 1;
@@ -1053,7 +1052,7 @@ static void DWCi_GPGetInfoCallback_RecvBuddyRequest(void **connection, void *arg
         return;
 
     for (i = 0; i < stpFriendCnt->friendListLen; i++) {
-        if (DWC_GetFriendDataType(&stpFriendCnt->friendList[i]) == 1) {
+        if (DWCi_Acc_GetFlagDataTypeThunk(&stpFriendCnt->friendList[i]) == 1) {
             DWC_LoginIdToUserName(DWCi_GetUserData(), &stpFriendCnt->friendList[i], userName);
             if (strcmp(userName, arg->userName) != 0)
                 continue;
@@ -1062,7 +1061,7 @@ static void DWCi_GPGetInfoCallback_RecvBuddyRequest(void **connection, void *arg
             gpAuthBuddyRequest(connection, arg->profile);
             DWC_SetGsProfileId(&stpFriendCnt->friendList[i], arg->profile);
             confirm = 1;
-        } else if (DWC_GetFriendDataType(&stpFriendCnt->friendList[i]) == 3 || DWC_GetFriendDataType(&stpFriendCnt->friendList[i]) == 2) {
+        } else if (DWCi_Acc_GetFlagDataTypeThunk(&stpFriendCnt->friendList[i]) == 3 || DWCi_Acc_GetFlagDataTypeThunk(&stpFriendCnt->friendList[i]) == 2) {
             gamecode = DWCi_GetUserData()->gamecode;
             OS_SNPrintf(gamecode_str, 5, gDwcFriendKeyFormat, (gamecode >> 24) & 0xff, (gamecode >> 16) & 0xff, (gamecode >> 8) & 0xff, gamecode & 0xff);
             if (DWC_GetGsProfileId(DWCi_GetUserData(), &stpFriendCnt->friendList[i]) != arg->profile)
@@ -1111,15 +1110,15 @@ void DWCi_GPGetInfoCallback_RecvAuthMessage(void **connection, void *argv, void 
     if (arg->result != 0)
         return;
     for (i = 0; i < stpFriendCnt->friendListLen; i++) {
-        if (DWC_GetFriendDataType(&stpFriendCnt->friendList[i]) == 1) {
+        if (DWCi_Acc_GetFlagDataTypeThunk(&stpFriendCnt->friendList[i]) == 1) {
             DWC_LoginIdToUserName((void *)DWCi_GetUserData(), &stpFriendCnt->friendList[i], userName);
             if (strcmp(userName, arg->lastname) == 0) {
                 DWC_SetGsProfileId(&stpFriendCnt->friendList[i], arg->profile);
                 DWCi_SetBuddyFriendData(&stpFriendCnt->friendList[i]);
                 listChanged = 1;
             }
-        } else if (DWC_GetFriendDataType(&stpFriendCnt->friendList[i]) == 3
-                   || DWC_GetFriendDataType(&stpFriendCnt->friendList[i]) == 2) {
+        } else if (DWCi_Acc_GetFlagDataTypeThunk(&stpFriendCnt->friendList[i]) == 3
+                   || DWCi_Acc_GetFlagDataTypeThunk(&stpFriendCnt->friendList[i]) == 2) {
             if (DWC_GetGsProfileId(DWCi_GetUserData(), &stpFriendCnt->friendList[i]) == arg->profile) {
                 if (DWCi_IsBuddyFriendData(&stpFriendCnt->friendList[i]) == 1)
                     alreadyBuddy = 1;
@@ -1194,7 +1193,7 @@ void DWCi_GetReverseBuddiesCallback(void **connection, void *argv, void *param)
         return;
     }
     for (i = 0; i < stpFriendCnt->friendListLen; i++) {
-        if (DWC_GetFriendDataType(&stpFriendCnt->friendList[i]) == 3) {
+        if (DWCi_Acc_GetFlagDataTypeThunk(&stpFriendCnt->friendList[i]) == 3) {
             for (j = 0; j < arg->numOfUniqueMatchs; j++) {
                 if (arg->matches[j].profile == DWC_GetGsProfileId(DWCi_GetUserData(), &stpFriendCnt->friendList[i])) {
                     if (!DWCi_IsReverseBuddyFriendData(&stpFriendCnt->friendList[i])) {

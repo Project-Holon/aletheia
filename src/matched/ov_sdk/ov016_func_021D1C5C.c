@@ -1,5 +1,5 @@
 /*
- * function: func_021D1C5C
+ * function: taskEnd3
  * address:  0x021D1C5C
  * packet:   pkt_ov016_021D1C5C
  * region:   ov016
@@ -48,7 +48,7 @@ extern struct MemWinT *gWindowWork;
 extern struct MemWinT *gMemWindow;
 extern u8 sWindowTable2[6];
 
-void func_021D1C5C(void *task)
+void taskEnd3(void *task)
 {
     int i;
 

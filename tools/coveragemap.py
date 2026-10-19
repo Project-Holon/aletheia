@@ -1,21 +1,17 @@
 #!/usr/bin/env python3
-"""Render the coverage treemaps as one fused SVG per subject.
+"""Render the coverage treemaps, one SVG per region plus one combined image.
 
-Two subjects, each one image with two panels stacked (group view above, original-source-file
-view below) and a small title on each panel:
+  docs/coverage_map.svg        ARM9 main binary, one block per src/game file
+  docs/coverage_overlays.svg   the overlays, one block per overlay holding its src/game files
+  docs/coverage_twl.svg        DSi (TWL) and the ARM9 autoload blocks
+  docs/coverage_all.svg        every region in one image, each with its own palette
 
-  docs/coverage_overlays.svg   the 237 overlays, one block per overlay, functions inside
-  docs/coverage_map.svg        the ARM9 static image, one block per translation unit
-
-Tile area is code bytes. Colours: matched exact, matched resting on sole-ref, register
-mismatch (counted, to be finished: layout/register_mismatch.txt), open, placeholder (an
-EXACT entry whose source holds no code, tools/placeholders.py: counted as unmatched),
-SDK (excluded), runtime (excluded). Only addresses, sizes and names are drawn; no game bytes.
+Files come from progress/report.json (one unit per src/game file, by function address).
+Tile area is code bytes. Only addresses, sizes and names are drawn; no game bytes.
 
 Usage:
-    python3 tools/coveragemap.py                 both images
-    python3 tools/coveragemap.py --arm9          docs/coverage_map.svg only
-    python3 tools/coveragemap.py --overlays      docs/coverage_overlays.svg only
+    python3 tools/coveragemap.py                 all four images
+    python3 tools/coveragemap.py --arm9 | --overlays | --twl | --all
 """
 import argparse
 import bisect
@@ -358,189 +354,6 @@ def _unit_tiles(fns, ux, uy, uw, uh):
     return squarify(items, x, y, w, h)
 
 
-def panel(o, groups, y0, W, H):
-    """Draw one treemap panel of groups (list of (label, [fn])) into o, between y0 and y0+H."""
-    items = sorted(((sum(f["code_bytes"] for f in fns), i) for i, (_, fns) in enumerate(groups) if fns), reverse=True)
-    for ux, uy, uw, uh, i in squarify(items, 0, y0, W, H):
-        label, fns = groups[i]
-        ug = sum(f["code_bytes"] for f in fns if f["cls"] in ("open", "matched", "regmm", "placeholder"))
-        um = sum(f["code_bytes"] for f in fns if f["cls"] in ("matched", "regmm"))
-        lab = 14 if uw > 70 and uh > 26 else 0
-        tiles = _unit_tiles(fns, ux, uy + lab, uw, uh - lab)
-        for fx, fy, fw, fh, k in tiles:
-            o.append('<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f" fill="%s"/>'
-                     % (fx + 0.3, fy + 0.3, max(fw - 0.6, 0.3), max(fh - 0.6, 0.3), COL[k]))
-        o.append('<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f" fill="none" stroke="%s" stroke-width="2"/>'
-                 % (ux + 1, uy + 1, uw - 2, uh - 2, COL["line"]))
-        if lab:
-            # a unit with no game bytes (all SDK or runtime) has no game percentage
-            text = ("%s %d%%" % (label, round(100 * um / ug))) if ug else ("%s SDK" % label)
-            o.append('<text x="%.1f" y="%.1f" font-size="10" fill="%s">%s</text>'
-                     % (ux + 5, uy + 12, COL["ink"], esc(text[:max(int((uw - 8) / 6.2), 4)])))
-
-
-def esc(s):
-    return s.replace("&", "&amp;").replace("<", "&lt;")
-
-
-def render(out, headline, panel_titles, groups_pair, footnote, W, PH):
-    """One SVG: headline, legend, then two titled panels stacked."""
-    top, tith, gap, foot = 54, 20, 8, 20
-    n = len(panel_titles)
-    H = top + n * tith + n * PH + (n - 1) * gap + foot
-    o = ['<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d" viewBox="0 0 %d %d" font-family="ui-monospace,Menlo,monospace">' % (W, H, W, H),
-         '<rect width="%d" height="%d" fill="%s"/>' % (W, H, COL["bg"]),
-         '<text x="10" y="20" font-size="14" fill="%s">%s</text>' % (COL["ink"], esc(headline))]
-    # legend on the line below the title, right-aligned, showing only categories present in this map
-    present_keys = set()
-    for groups in groups_pair:
-        for _, fns in groups:
-            for f in fns:
-                cls = f.get("cls")
-                if f.get("sole_ref") and cls == "matched":
-                    present_keys.add("sole")
-                elif cls:
-                    present_keys.add(cls)
-
-    all_legend = [("runtime", "runtime"), ("matched runtime", "matched_runtime"),
-                  ("SDK", "sdk"), ("matched SDK", "matched_sdk"), ("SDK placeholder", "placeholder_sdk"),
-                  ("open", "open"), ("placeholder", "placeholder"), ("register mismatch", "regmm"),
-                  ("sole-ref", "sole"), ("matched", "matched")]
-    legend_items = [(label, key) for label, key in all_legend if key in present_keys]
-
-    lx = W - 10
-    for label, key in legend_items:
-        lx -= 8 * len(label) + 26
-        o.append('<rect x="%d" y="31" width="11" height="11" fill="%s"/><text x="%d" y="41" font-size="11" fill="%s">%s</text>'
-                 % (lx, COL[key], lx + 15, COL["muted"], label))
-    for i, (title, groups) in enumerate(zip(panel_titles, groups_pair)):
-        y = top + i * (tith + PH + gap)
-        o.append('<text x="10" y="%d" font-size="11" fill="%s">%s</text>' % (y + 14, COL["title"], esc(title)))
-        panel(o, groups, y + tith, W, PH)
-    o.append('<text x="10" y="%d" font-size="10" fill="%s">%s</text>' % (H - 6, COL["muted"], esc(footnote)))
-    o.append("</svg>")
-    with open(out, "w", encoding="utf-8") as fh:
-        fh.write("\n".join(o))
-    return len(groups_pair)
-
-
-def render_arm9(a, anchors):
-    set_palette("arm9")
-    inv = worklist.build_inventory()
-    thunks = {t["addr"] for t in inv.get("thunks", [])}
-    for fn in inv["funcs"]:
-        if fn.get("cls") == "sdk" and fn.get("matched_name"):
-            fn["cls"] = "matched_sdk"
-        if fn.get("cls") == "runtime" and fn.get("matched_name"):
-            fn["cls"] = "matched_runtime"
-        if fn.get("cls") == "sdk" and fn.get("placeholder"):
-            fn["cls"] = "placeholder_sdk"    # worklist gave it no matched_name
-        # an `open` function stays open: the caption must equal worklist's
-    for e in regmismatch.sizes():       # no arm9 row exists today; supported when one is added
-        if e["region"].startswith("arm9"):
-            for fn in inv["funcs"]:
-                if fn["addr"] == e["addr"] and fn.get("cls") in ("open", "matched"):
-                    fn["cls"] = "regmm"
-    units = json.load(open(os.path.join(ROOT, "layout", "units_arm9.json")))["units"]
-    ub = [u["base"] for u in units]
-    per = [[] for _ in units]
-    for fn in inv["funcs"]:
-        if fn["code_bytes"] <= 0:
-            continue
-        per[bisect.bisect_right(ub, fn["addr"]) - 1].append(fn)
-    game = sum(f["code_bytes"] for f in inv["funcs"] if f["cls"] in ("open", "matched", "regmm", "placeholder"))
-    regmm = sum(f["code_bytes"] for f in inv["funcs"] if f["cls"] == "regmm")
-    matched = sum(f["code_bytes"] for f in inv["funcs"] if f["cls"] in ("matched", "regmm"))
-    held = sum(f["code_bytes"] for f in inv["funcs"] if f["cls"] == "placeholder")
-    held_sdk = sum(f["code_bytes"] for f in inv["funcs"] if f["cls"] == "placeholder_sdk")
-    sole = sum(f["code_bytes"] for f in inv["funcs"] if f.get("sole_ref"))
-    sdk = sum(f["code_bytes"] for f in inv["funcs"] if f["cls"] in ("sdk", "matched_sdk", "placeholder_sdk"))
-    matched_sdk = sum(f["code_bytes"] for f in inv["funcs"] if f["cls"] == "matched_sdk")
-    runtime = sum(f["code_bytes"] for f in inv["funcs"] if f["cls"] in ("runtime", "matched_runtime"))
-    matched_runtime = sum(f["code_bytes"] for f in inv["funcs"] if f["cls"] == "matched_runtime")
-    # Cross-check the arm9 tiles against ovstats' own arm9 figures, the same way
-    # the overlay path checks its tiles against ovstats.overlay_rows: a future
-    # disagreement between this inventory and the worklist summary must be a
-    # loud failure, not a quietly wrong headline.  ovstats reads the same
-    # numbers from layout/worklist.json's summary, so the two must agree.
-    a9 = ovstats.arm9_summary()
-    if a9:
-        ov_game = int(a9.get("code_bytes_game", -1))
-        ov_matched = int(a9.get("code_bytes_matched", -1))
-        ov_funcs = int(a9.get("functions_matched", -1))
-        n_matched = len([f for f in inv["funcs"] if f["cls"] in ("matched", "regmm")])
-        if (game, matched, n_matched) != (ov_game, ov_matched, ov_funcs):
-            sys.exit("coveragemap: arm9 tiles disagree with ovstats (layout/worklist.json): "
-                     "game %d vs %d, matched %d vs %d, matched functions %d vs %d"
-                     % (game, ov_game, matched, ov_matched, n_matched, ov_funcs))
-    ugroups = [(units[i]["file"].split("/")[-1][:-2], per[i]) for i in range(len(units))]
-    fgroups = sorted(families_arm9(inv["funcs"], anchors).items())
-    rt_str = ("; +%s matched runtime of %s" % (format(matched_runtime, ","), format(runtime, ","))) if runtime else ""
-    headline = "ARM9: %.2f%% exact game (%s / %s B; %.2f pts sole-ref)%s; +%s matched SDK of %s%s%s" % (
-        100 * matched / game, format(matched, ","), format(game, ","), 100 * sole / game, regmm_note(regmm),
-        format(matched_sdk, ","), format(sdk, ","), rt_str, placeholder_note(held, held_sdk))
-    render(a.arm9_out, headline, ("translation units", "source files"), [ugroups, fgroups],
-           "tile area is code bytes", a.width, a.height)
-    print("wrote %s: %d units + %d source-file groups, %.2f%% exact"
-          % (os.path.relpath(a.arm9_out, ROOT), len(ugroups), len(fgroups), 100 * matched / game))
-
-
-def render_overlays(a, anchors):
-    set_palette("overlays")
-    # Tiles and totals from one pass over the listings and shards (ovstats.overlay_rows
-    # with funcs_out), so a session writing shards meanwhile cannot make them disagree.
-    funcs = []
-    rows = ovstats.overlay_rows(funcs_out=funcs)
-    drawn = sum(f["code_bytes"] for f in funcs)
-    matched = sum(f["code_bytes"] for f in funcs if f["cls"] == "matched")
-    mfuncs = len([f for f in funcs if f["cls"] == "matched"])
-    regmm = sum(f["code_bytes"] for f in funcs if f["cls"] == "regmm")
-    rfuncs = len([f for f in funcs if f["cls"] == "regmm"])
-    held = sum(f["code_bytes"] for f in funcs if f["cls"] == "placeholder")
-    held_sdk = sum(f["code_bytes"] for f in funcs if f["cls"] == "placeholder_sdk")
-    if (held, held_sdk) != (sum(r["placeholder_bytes"] for r in rows),
-                            sum(r["placeholder_sdk_bytes"] for r in rows)):
-        sys.exit("coveragemap: placeholder tiles disagree with ovstats")
-    # Denominator is game code only: each listing's header code minus the catalogued SDK
-    # symbol bytes (ovstats does the same split).  SDK and matched-SDK blocks are drawn but
-    # never counted as game work.
-    game = sum(r["game_bytes"] for r in rows)
-    matched_game = sum(r["matched_bytes"] for r in rows)
-    matched_sdk = sum(r["matched_sdk_bytes"] for r in rows)
-    sdk = sum(r["sdk_bytes"] for r in rows)
-    tiles_sdk = sum(f["code_bytes"] for f in funcs if f["cls"] == "matched_sdk")
-    if regmm != sum(r["regmm_bytes"] for r in rows):
-        sys.exit("coveragemap: register-mismatch tiles disagree with ovstats")
-    if (matched, tiles_sdk) != (matched_game, matched_sdk):
-        sys.exit("coveragemap: overlay tiles disagree with ovstats: matched game %d vs %d, "
-                 "matched SDK %d vs %d" % (matched, matched_game, tiles_sdk, matched_sdk))
-    regions = {}
-    for f in funcs:
-        regions.setdefault(f["region"], []).append(f)
-    ugroups = sorted(regions.items())
-    fgroups = []
-    for reg, fns in ugroups:
-        tok = "overlay_" + reg[2:]
-        fam = _group_by_anchor(fns, anchors, lambda r, tok=tok: r == tok, "%s (no __FILE__ anchor)" % reg)
-        for name, ff in fam.items():
-            fgroups.append(("%s %s" % (reg, name), ff))
-    fgroups.sort(key=lambda kv: -sum(f["code_bytes"] for f in kv[1]))
-    # Function counts use the same split as the bytes: game functions over game functions,
-    # SDK functions over SDK functions (the old single "%d/%d fns" mixed the two).
-    gfuncs = len([f for f in funcs if f["cls"] in ("open", "matched", "regmm", "placeholder")])
-    sfuncs = len([f for f in funcs if f["cls"] in ("sdk", "matched_sdk", "placeholder_sdk")])
-    msfuncs = len([f for f in funcs if f["cls"] == "matched_sdk"])
-    headline = ("Overlays: %.2f%% exact game (%s / %s B, %d/%d fns)%s; "
-                "+%s matched SDK of %s (%d/%d fns)%s") % (
-        100.0 * (matched_game + regmm) / game if game else 0.0, format(matched_game + regmm, ","), format(game, ","),
-        mfuncs + rfuncs, gfuncs, regmm_note(regmm), format(matched_sdk, ","), format(sdk, ","), msfuncs, sfuncs,
-        placeholder_note(held, held_sdk))
-    render(a.ov_out, headline, ("overlays", "source files"), [ugroups, fgroups],
-           "tile area is code bytes; SDK and matched SDK are not game work; register mismatch counts toward the percentage", a.width, a.height)
-    print("wrote %s: %d overlays, %d functions, %d bytes drawn, %.4f%% exact game of %d game bytes%s (+%d matched SDK of %d SDK)"
-          % (os.path.relpath(a.ov_out, ROOT), len(ugroups), len(funcs), drawn,
-             100.0 * (matched_game + regmm) / game if game else 0.0, game, regmm_note(regmm), matched_sdk, sdk))
-
 
 # The always-resident ARM9 static image and the 237 overlays have their own maps.
 # What is left is the DSi-mode `twl` region and the four ARM9 autoload blocks
@@ -625,49 +438,289 @@ def aux_functions():
     return funcs
 
 
-def render_aux(a):
-    set_palette("twl")
-    funcs = aux_functions()
-    drawn = sum(f["code_bytes"] for f in funcs)
-    regions = {}
+
+def esc(s):
+    return s.replace("&", "&amp;").replace("<", "&lt;")
+
+
+FONT = "system-ui, -apple-system, 'Segoe UI', sans-serif"
+GAME = ("open", "matched", "regmm", "placeholder")
+SDKC = ("sdk", "matched_sdk", "placeholder_sdk")
+
+
+def hundredths(frac):
+    """Percentage text with one decimal, never rounded up to 100.0 while bytes are missing."""
+    p = int(frac * 1000 + 1e-9) / 10.0 if frac < 1 else 100.0
+    return "%.1f%%" % p
+
+
+def unit_index():
+    """{(module, address): file stem} from progress/report.json (one unit per src/game file)."""
+    path = os.path.join(ROOT, "progress", "report.json")
+    idx = {}
+    if not os.path.exists(path):
+        return idx
+    for u in json.load(open(path, encoding="utf-8"))["units"]:
+        mod = u.get("metadata", {}).get("module_name", "")
+        stem = u["name"].split("/", 1)[-1]
+        for f in u.get("functions", []):
+            idx[(mod, int(f["metadata"]["virtual_address"]))] = stem
+    return idx
+
+
+def file_groups(funcs, module_of, idx):
+    """{module: {file label: [fn]}} for a tile list, by the src/game file that holds each function."""
+    out = {}
+    lost = 0
     for f in funcs:
-        regions.setdefault(f["region"], []).append(f)
-    ugroups = sorted(regions.items())
-    game = sum(f["code_bytes"] for f in funcs if f["cls"] in ("open", "matched", "regmm", "placeholder"))
-    regmm = sum(f["code_bytes"] for f in funcs if f["cls"] == "regmm")
+        mod = module_of(f)
+        stem = idx.get((mod, f["addr"]))
+        if stem is None:
+            label = "linker veneers"
+            lost += f["code_bytes"]
+        else:
+            label = stem + ".c"
+        out.setdefault(mod, {}).setdefault(label, []).append(f)
+    if lost:
+        print("coveragemap: %d bytes have no src/game file in progress/report.json" % lost)
+    return out
+
+
+class Canvas:
+    """Collects tiles and outlines as one path per colour, so the SVG stays small."""
+
+    def __init__(self):
+        self.fill = {}
+        self.line = {}
+        self.text = []
+
+    def rect(self, x, y, w, h, colour):
+        self.fill.setdefault(colour, []).append("M%.1f %.1fh%.1fv%.1fh%.1fz" % (x, y, w, h, -w))
+
+    def outline(self, x, y, w, h, colour):
+        self.line.setdefault(colour, []).append("M%.1f %.1fh%.1fv%.1fh%.1fz" % (x, y, w, h, -w))
+
+    def label(self, x, y, size, colour, s, weight=None):
+        wt = ' font-weight="%s"' % weight if weight else ""
+        self.text.append('<text x="%.1f" y="%.1f" font-size="%s" fill="%s"%s>%s</text>'
+                         % (x, y, size, colour, wt, esc(s)))
+
+    def emit(self, o):
+        for c, d in self.fill.items():
+            o.append('<path fill="%s" d="%s"/>' % (c, "".join(d)))
+        for c, d in self.line.items():
+            o.append('<path fill="none" stroke="%s" stroke-width="1.5" d="%s"/>' % (c, "".join(d)))
+        o.extend(self.text)
+
+
+def node_bytes(n):
+    if "kids" in n:
+        return sum(node_bytes(k) for k in n["kids"])
+    return sum(f["code_bytes"] for f in n["fns"])
+
+
+def draw_node(cv, pal, n, x, y, w, h):
+    """Draw one node (a file with tiles, or a group of nodes) into the box x, y, w, h."""
+    if w <= 1 or h <= 1:
+        return
+    if "kids" in n:
+        lab = 13 if w > 56 and h > 26 else 0
+        items = sorted(((node_bytes(k), i) for i, k in enumerate(n["kids"]) if node_bytes(k)), reverse=True)
+        for kx, ky, kw, kh, i in squarify(items, x + 1, y + 1 + lab, w - 2, h - 2 - lab):
+            draw_node(cv, pal, n["kids"][i], kx, ky, kw, kh)
+        cv.outline(x + 1, y + 1, w - 2, h - 2, pal["line"])
+        if lab:
+            cv.label(x + 4, y + 11, 10, pal["ink"], n["label"][:max(int((w - 8) / 5.8), 3)], 600)
+        return
+    lab = 11 if w > 64 and h > 26 else 0
+    for fx, fy, fw, fh, k in _unit_tiles(n["fns"], x, y + lab, w, h - lab):
+        cv.rect(fx + 0.3, fy + 0.3, max(fw - 0.6, 0.3), max(fh - 0.6, 0.3), pal[k])
+    cv.outline(x + 1, y + 1, w - 2, h - 2, pal["line"])
+    if lab:
+        cv.label(x + 4, y + 9, 8, pal["muted"], n["label"][:max(int((w - 8) / 4.9), 3)])
+
+
+LEGEND = [("matched", "matched"), ("matched SDK", "matched_sdk"), ("matched runtime", "matched_runtime"),
+          ("open", "open"), ("SDK", "sdk"), ("runtime", "runtime"), ("mismatch", "regmm"),
+          ("placeholder", "placeholder"), ("SDK placeholder", "placeholder_sdk")]
+
+
+def header(o, W, title, pct, subtitle, pal, legend):
+    """Title, bold percentage and subtitle on the left; compact legend top right."""
+    o.append('<text x="14" y="28" font-size="19" fill="%s"><tspan font-weight="600">%s</tspan>'
+             '<tspan dx="12" font-weight="700" fill="%s">%s</tspan></text>'
+             % (pal["ink"], esc(title), pal["matched"], pct))
+    o.append('<text x="14" y="48" font-size="12" fill="%s">%s</text>' % (pal["muted"], esc(subtitle)))
+    lx = W - 14
+    for label, colours in reversed(legend):
+        if isinstance(colours, str):
+            colours = [colours]
+        lx -= int(5.6 * len(label)) + 13 + 11 * len(colours) + 9
+        for i, colour in enumerate(colours):
+            o.append('<rect x="%d" y="20" width="9" height="9" rx="2" fill="%s"/>' % (lx + 11 * i, colour))
+        o.append('<text x="%d" y="28.5" font-size="11" fill="%s">%s</text>'
+                 % (lx + 11 * len(colours) + 2, pal["muted"], esc(label)))
+
+
+HDR = 62
+
+
+def svg_open(W, H, bg):
+    return ['<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d" viewBox="0 0 %d %d" '
+            'font-family="%s">' % (W, H, W, H, FONT), '<rect width="%d" height="%d" fill="%s"/>' % (W, H, bg)]
+
+
+def write(out, o):
+    o.append("</svg>")
+    with open(out, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write("\n".join(o))
+
+
+def render_map(out, m, W, H):
+    """One image: header and one treemap panel of the map's source files."""
+    pal = PALETTES[m["palette"]]
+    o = svg_open(W, HDR + H + 8, pal["bg"])
+    keys = {f["cls"] for f in m["funcs"]}
+    header(o, W, m["title"], m["pct"], m["subtitle"], pal, [(l, pal[k]) for l, k in LEGEND if k in keys])
+    cv = Canvas()
+    items = sorted(((node_bytes(k), i) for i, k in enumerate(m["nodes"]) if node_bytes(k)), reverse=True)
+    for kx, ky, kw, kh, i in squarify(items, 0, HDR, W, H):
+        draw_node(cv, pal, m["nodes"][i], kx, ky, kw, kh)
+    cv.emit(o)
+    write(out, o)
+
+
+def shared_legend(maps):
+    """One entry per status: a swatch per region that has it (region palette), one label."""
+    names = {"matched": "matched game code", "matched_sdk": "matched SDK", "matched_runtime": "matched runtime",
+             "open": "open", "sdk": "SDK", "runtime": "runtime", "regmm": "mismatch",
+             "placeholder": "placeholder", "placeholder_sdk": "SDK placeholder"}
+    out = []
+    for _, key in LEGEND:
+        cols = [PALETTES[m["palette"]][key] for m in maps if any(f["cls"] == key for f in m["funcs"])]
+        if cols:
+            out.append((names[key], cols))
+    return out
+
+
+def render_all(out, maps, W, H):
+    """One image with every region; each region's box keeps its own palette."""
+    pal0 = PALETTES["overlays"]
+    o = svg_open(W, HDR + H + 8, pal0["bg"])
+    tot_m = sum(m["matched"] for m in maps)
+    tot = sum(m["denom"] for m in maps)
+    nf = sum(m["nfuncs"] for m in maps)
+    header(o, W, "All regions", hundredths(tot_m / tot if tot else 0.0),
+           "%s / %s bytes matched · %s functions · ARM9, overlays, DSi and autoloads"
+           % (format(tot_m, ","), format(tot, ","), format(nf, ",")), pal0,
+           shared_legend(maps))
+    cv = Canvas()
+    items = sorted(((sum(f["code_bytes"] for f in m["funcs"]), i) for i, m in enumerate(maps)), reverse=True)
+    for bx, by, bw, bh, i in squarify(items, 0, HDR, W, H):
+        m = maps[i]
+        pal = PALETTES[m["palette"]]
+        cv.rect(bx, by, bw, bh, pal["bg"])
+        lab = 17
+        cv.label(bx + 6, by + 13, 12, pal["ink"], "%s  %s" % (m["short"], m["pct"]), 700)
+        sub = sorted(((node_bytes(k), j) for j, k in enumerate(m["nodes"]) if node_bytes(k)), reverse=True)
+        for kx, ky, kw, kh, j in squarify(sub, bx, by + lab, bw, bh - lab):
+            draw_node(cv, pal, m["nodes"][j], kx, ky, kw, kh)
+        cv.outline(bx + 0.75, by + 0.75, bw - 1.5, bh - 1.5, pal["muted"])
+    cv.emit(o)
+    write(out, o)
+
+
+def make_map(short, title, palette, funcs, nodes, game, game_matched, game_funcs, sdk, sdk_matched):
+    if game:
+        pct = hundredths(game_matched / game)
+        sub = "%s / %s game bytes · %s functions · SDK %s bytes" % (
+            format(game_matched, ","), format(game, ","), format(game_funcs, ","), format(sdk, ","))
+        denom, matched = game, game_matched
+    else:
+        # no game code in this map: the SDK figure is the headline
+        game_funcs = len([f for f in funcs if f["cls"] in SDKC])
+        pct = hundredths(sdk_matched / sdk if sdk else 0.0)
+        sub = "%s SDK bytes · %s functions" % (format(sdk, ","), format(game_funcs, ","))
+        denom, matched = sdk, sdk_matched
+    return {"short": short, "title": title, "palette": palette, "funcs": funcs, "nodes": nodes,
+            "pct": pct, "subtitle": sub, "denom": denom, "matched": matched, "nfuncs": game_funcs}
+
+
+def build_arm9(idx):
+    inv = worklist.build_inventory()
+    for fn in inv["funcs"]:
+        if fn.get("cls") == "sdk" and fn.get("matched_name"):
+            fn["cls"] = "matched_sdk"
+        if fn.get("cls") == "runtime" and fn.get("matched_name"):
+            fn["cls"] = "matched_runtime"
+        if fn.get("cls") == "sdk" and fn.get("placeholder"):
+            fn["cls"] = "placeholder_sdk"
+    for e in regmismatch.sizes():
+        if e["region"].startswith("arm9"):
+            for fn in inv["funcs"]:
+                if fn["addr"] == e["addr"] and fn.get("cls") in ("open", "matched"):
+                    fn["cls"] = "regmm"
+    funcs = [f for f in inv["funcs"] if f["code_bytes"] > 0]
+    game = sum(f["code_bytes"] for f in funcs if f["cls"] in GAME)
     matched = sum(f["code_bytes"] for f in funcs if f["cls"] in ("matched", "regmm"))
+    n_matched = len([f for f in funcs if f["cls"] in ("matched", "regmm")])
+    sdk = sum(f["code_bytes"] for f in funcs if f["cls"] in SDKC)
+    a9 = ovstats.arm9_summary()
+    if a9:
+        want = (int(a9.get("code_bytes_game", -1)), int(a9.get("code_bytes_matched", -1)),
+                int(a9.get("functions_matched", -1)))
+        if (game, matched, n_matched) != want:
+            sys.exit("coveragemap: arm9 tiles disagree with ovstats (layout/worklist.json): %r vs %r"
+                     % ((game, matched, n_matched), want))
+    groups = file_groups(funcs, lambda f: "arm9", idx).get("arm9", {})
+    nodes = [{"label": k, "fns": v} for k, v in sorted(groups.items())]
+    gfuncs = len([f for f in funcs if f["cls"] in GAME])
+    return make_map("ARM9", "ARM9 main binary", "arm9", funcs, nodes, game, matched, gfuncs, sdk, 0)
+
+
+def build_overlays(idx):
+    funcs = []
+    rows = ovstats.overlay_rows(funcs_out=funcs)
+    matched = sum(f["code_bytes"] for f in funcs if f["cls"] == "matched")
+    regmm = sum(f["code_bytes"] for f in funcs if f["cls"] == "regmm")
+    game = sum(r["game_bytes"] for r in rows)
+    matched_game = sum(r["matched_bytes"] for r in rows)
+    matched_sdk = sum(r["matched_sdk_bytes"] for r in rows)
+    sdk = sum(r["sdk_bytes"] for r in rows)
+    tiles_sdk = sum(f["code_bytes"] for f in funcs if f["cls"] == "matched_sdk")
+    if regmm != sum(r["regmm_bytes"] for r in rows):
+        sys.exit("coveragemap: register-mismatch tiles disagree with ovstats")
+    if (matched, tiles_sdk) != (matched_game, matched_sdk):
+        sys.exit("coveragemap: overlay tiles disagree with ovstats: matched game %d vs %d, "
+                 "matched SDK %d vs %d" % (matched, matched_game, tiles_sdk, matched_sdk))
+    per = file_groups(funcs, lambda f: f["region"], idx)
+    nodes = []
+    for reg in sorted(per):
+        kids = [{"label": k, "fns": v} for k, v in sorted(per[reg].items())]
+        nodes.append({"label": reg, "kids": kids})
+    gfuncs = len([f for f in funcs if f["cls"] in GAME])
+    return make_map("Overlays", "Overlays (%d)" % len(glob.glob(os.path.join(ROOT, "asm", "overlays", "ov*.s"))), "overlays", funcs, nodes,
+                    game, matched_game + regmm, gfuncs, sdk, matched_sdk)
+
+
+def build_aux(idx):
+    funcs = aux_functions()
+    game = sum(f["code_bytes"] for f in funcs if f["cls"] in GAME)
+    matched = sum(f["code_bytes"] for f in funcs if f["cls"] in ("matched", "regmm"))
+    sdk = sum(f["code_bytes"] for f in funcs if f["cls"] in SDKC)
     matched_sdk = sum(f["code_bytes"] for f in funcs if f["cls"] == "matched_sdk")
-    sdk = sum(f["code_bytes"] for f in funcs if f["cls"] in ("sdk", "matched_sdk", "placeholder_sdk"))
-    held = sum(f["code_bytes"] for f in funcs if f["cls"] == "placeholder")
-    held_sdk = sum(f["code_bytes"] for f in funcs if f["cls"] == "placeholder_sdk")
-    # The arm9 and overlay paths cross-check their tiles against ovstats, which
-    # covers the overlays and arm9 only: no second tool measures twl, the ITCM
-    # autoload or the MAIN_TWL/VRAM_LCDC blocks, so there is no ovstats figure
-    # to mirror.  This path instead asserts its own partition, so a class added
-    # without updating the sums above fails loudly rather than skewing the
-    # headline silently.
-    classes = ("open", "matched", "regmm", "placeholder", "sdk", "matched_sdk", "placeholder_sdk", "runtime",
-               "matched_runtime")
-    by_cls = {}
+    classes = set(GAME) | set(SDKC) | {"runtime", "matched_runtime"}
     for f in funcs:
         if f["cls"] not in classes:
             sys.exit("coveragemap: aux tile %s %08X has unknown class %r" % (f["region"], f["addr"], f["cls"]))
-        by_cls[f["cls"]] = by_cls.get(f["cls"], 0) + f["code_bytes"]
-    if sum(by_cls.values()) != drawn:
-        sys.exit("coveragemap: aux classes do not partition the drawn bytes")
-    if (by_cls.get("matched", 0) + by_cls.get("regmm", 0) != matched
-            or by_cls.get("matched_sdk", 0) != matched_sdk
-            or by_cls.get("open", 0) + by_cls.get("matched", 0) + by_cls.get("regmm", 0)
-            + by_cls.get("placeholder", 0) != game):
-        sys.exit("coveragemap: aux headline sums disagree with the tile classes")
-    headline = "TWL / ITCM / autoload: %.2f%% exact game (%s / %s B)%s; +%s matched SDK of %s; %d fns%s" % (
-        100.0 * matched / game if game else 0.0, format(matched, ","), format(game, ","), regmm_note(regmm),
-        format(matched_sdk, ","), format(sdk, ","), len(funcs), placeholder_note(held, held_sdk))
-    render(a.twl_out, headline, ("regions",), [ugroups],
-           "tile area is code bytes; the DSi twl region and the ARM9 autoload blocks", a.width, a.height)
-    print("wrote %s: %d regions, %d functions, %d bytes drawn, %.2f%% exact game of %d (+%d matched SDK of %d)"
-          % (os.path.relpath(a.twl_out, ROOT), len(ugroups), len(funcs), drawn,
-             100.0 * matched / game if game else 0.0, game, matched_sdk, sdk))
+    per = file_groups(funcs, lambda f: f["region"], idx)
+    nodes = []
+    for reg in sorted(per):
+        kids = [{"label": k, "fns": v} for k, v in sorted(per[reg].items())]
+        nodes.append({"label": reg, "kids": kids})
+    gfuncs = len([f for f in funcs if f["cls"] in GAME])
+    return make_map("DSi and autoloads", "DSi and autoloads (TWL, ITCM)", "twl", funcs, nodes,
+                    game, matched, gfuncs, sdk, matched_sdk)
 
 
 def main(argv=None):
@@ -678,20 +731,27 @@ def main(argv=None):
     ap.add_argument("--arm9", action="store_true", help="write the ARM9 image only")
     ap.add_argument("--overlays", action="store_true", help="write the overlay image only")
     ap.add_argument("--twl", action="store_true", help="write the twl/ITCM/autoload image only")
-    ap.add_argument("--ov-out", default=os.path.join(ROOT, "docs", "coverage_overlays.svg"),
-                    help="overlay image path (default docs/coverage_overlays.svg)")
-    ap.add_argument("--twl-out", default=os.path.join(ROOT, "docs", "coverage_twl.svg"),
-                    help="twl/ITCM/autoload image path (default docs/coverage_twl.svg)")
+    ap.add_argument("--all", action="store_true", help="write the combined image only")
+    ap.add_argument("--ov-out", default=os.path.join(ROOT, "docs", "coverage_overlays.svg"))
+    ap.add_argument("--twl-out", default=os.path.join(ROOT, "docs", "coverage_twl.svg"))
+    ap.add_argument("--all-out", default=os.path.join(ROOT, "docs", "coverage_all.svg"))
     a = ap.parse_args(argv)
-    a.arm9_out = a.out
-    anchors = read_anchors()
-    do_all = not (a.arm9 or a.overlays or a.twl)
-    if do_all or a.overlays:
-        render_overlays(a, anchors)
-    if do_all or a.arm9:
-        render_arm9(a, anchors)
-    if do_all or a.twl:
-        render_aux(a)
+    idx = unit_index()
+    do_all = not (a.arm9 or a.overlays or a.twl or a.all)
+    maps = {}
+    todo = [("arm9", a.arm9, build_arm9, a.out, a.height),
+            ("overlays", a.overlays, build_overlays, a.ov_out, a.height + 40),
+            ("twl", a.twl, build_aux, a.twl_out, a.height - 220)]
+    for name, flag, build, out, h in todo:
+        if do_all or flag or a.all:
+            maps[name] = build(idx)
+            if do_all or flag:
+                render_map(out, maps[name], a.width, h)
+                m = maps[name]
+                print("wrote %s: %s %s | %s" % (os.path.relpath(out, ROOT), m["title"], m["pct"], m["subtitle"]))
+    if do_all or a.all:
+        render_all(a.all_out, [maps["arm9"], maps["overlays"], maps["twl"]], a.width, a.height + 300)
+        print("wrote %s" % os.path.relpath(a.all_out, ROOT))
 
 
 if __name__ == "__main__":

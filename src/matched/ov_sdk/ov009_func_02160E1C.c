@@ -1,5 +1,5 @@
 /*
- * function: func_02160E1C
+ * function: client_hello_v2
  * address:  0x02160E1C
  * packet:   pkt_ov009_02160E1C
  * region:   ov009
@@ -43,7 +43,7 @@ extern int select_method(int a0, int a1, int a2);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
 
-static void func_02160E1C(CPSSslConnection *con, unsigned char *s)
+static void client_hello_v2(CPSSslConnection *con, unsigned char *s)
 {
     int pairlist_len;
     int offset;

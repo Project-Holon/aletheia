@@ -18,7 +18,7 @@
  * contiguous and merge into script_work.c at cut time.
  *
  * symbols:
- *   VM_GetU16   0x02011330  thumb
+ *   VM_ReadU16   0x02011330  thumb
  *   VM_PushStack  0x0201137C  thumb
  *   VM_PopStack  0x02011398  thumb
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
@@ -104,7 +104,7 @@ struct ScrcmdWork;
 typedef struct ScrcmdWork ScrcmdWork;
 
 /* Arm9 script VM primitives. */
-extern u16 VM_GetU16(ScriptVm *vm);
+extern u16 VM_ReadU16(ScriptVm *vm);
 extern s32 VM_GetU32(ScriptVm *vm);
 extern void VM_PushStack(ScriptVm *vm, u32 value);
 extern u32 VM_PopStack(ScriptVm *vm);
@@ -229,7 +229,7 @@ int SCRIPT_WORK_CmdCompareWorkConst(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     u16 workValue = *SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
 
-    vm->cmpFlag = SCRIPT_WORK_CompareValues(workValue, VM_GetU16(vm));
+    vm->cmpFlag = SCRIPT_WORK_CompareValues(workValue, VM_ReadU16(vm));
 
     return 0;
 }
@@ -244,7 +244,7 @@ int SCRIPT_WORK_CmdCompareWorks(ScriptVm *vm, ScrcmdWork *cmdWork)
 
 int SCRIPT_WORK_CmdPushConst(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    VM_PushStack(vm, VM_GetU16(vm));
+    VM_PushStack(vm, VM_ReadU16(vm));
     return 0;
 }
 
@@ -327,7 +327,7 @@ int SCRIPT_WORK_CmdCompareStack(ScriptVm *vm)
     u32 top = VM_PopStack(vm);
     u32 below = VM_PopStack(vm);
     int result;
-    switch (VM_GetU16(vm)) {
+    switch (VM_ReadU16(vm)) {
     case 0: result = (below < top) ? 1 : 0; break;
     case 1: result = (below == top) ? 1 : 0; break;
     case 2: result = (below > top) ? 1 : 0; break;
@@ -349,7 +349,7 @@ int SCRIPT_WORK_CmdChangeScript(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     SCRCMD_WORK_GetGameSystem(cmdWork);
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
-    scriptId = VM_GetU16(vm);
+    scriptId = VM_ReadU16(vm);
     SCRIPT_SYS_AddScript(scriptWork, SCRIPT_WORK_GetPlayerZoneId(cmdWork), scriptId);
     return 1;
 }
@@ -368,7 +368,7 @@ int SCRIPT_WORK_CmdCallScript(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
-    int scriptId = VM_GetU16(vm);
+    int scriptId = VM_ReadU16(vm);
     if (SCRCMD_WORK_GetCallMode(cmdWork) == 0) {
         SCRCMD_WORK_SetChildScriptIndex(cmdWork, SCRIPT_SYS_AddScript(scriptWork, SCRIPT_WORK_GetPlayerZoneId(cmdWork), scriptId));
         SCRCMD_WORK_SaveScriptState(cmdWork);
@@ -437,7 +437,7 @@ int SCRIPT_WORK_CmdIfCall(ScriptVm *vm)
  */
 int SCRIPT_WORK_CmdSetProcAction(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    void *action = (void *)VM_GetU16(vm);
+    void *action = (void *)VM_ReadU16(vm);
     FIELD_STATUS_SetProcAction(GAME_DATA_GetMoveModelSys(SCRCMD_WORK_GetGameData(cmdWork)), action);
     return 0;
 }
@@ -550,7 +550,7 @@ int SCRIPT_WORK_CmdOrWork(ScriptVm *vm, ScrcmdWork *cmdWork)
 int SCRIPT_WORK_CmdLoadWorkConst(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     u16 *workPtr = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
-    *workPtr = VM_GetU16(vm);
+    *workPtr = VM_ReadU16(vm);
     return 0;
 }
 
@@ -713,7 +713,7 @@ int SCRIPT_WORK_CmdReportSave(ScriptVm *vm, ScrcmdWork *cmdWork)
 u16 *SCRIPT_WORK_ReadWorkPointer(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     struct GameData *gameData = SCRCMD_WORK_GetGameData(cmdWork);
-    return SCRIPT_WORK_GetWorkPtr(SCRCMD_WORK_GetScriptWork(cmdWork), gameData, VM_GetU16(vm));
+    return SCRIPT_WORK_GetWorkPtr(SCRCMD_WORK_GetScriptWork(cmdWork), gameData, VM_ReadU16(vm));
 }
 
 /*
@@ -723,7 +723,7 @@ u16 *SCRIPT_WORK_ReadWorkPointer(ScriptVm *vm, ScrcmdWork *cmdWork)
 unsigned int SCRIPT_WORK_ReadWorkValue(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     struct GameData *gameData = SCRCMD_WORK_GetGameData(cmdWork);
-    return SCRIPT_WORK_GetWorkValue(SCRCMD_WORK_GetScriptWork(cmdWork), gameData, VM_GetU16(vm));
+    return SCRIPT_WORK_GetWorkValue(SCRCMD_WORK_GetScriptWork(cmdWork), gameData, VM_ReadU16(vm));
 }
 
 int SCRIPT_WORK_GetPlayerZoneId(ScrcmdWork *cmdWork)

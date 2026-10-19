@@ -244,11 +244,9 @@
  *   sDamageAftereffects  0x021F3B23  data  ov093  a4
  *   d_021F3B20b 0x021F3B20  data  ov093  a4
  *   BTL_POKEPARAM_AddHitRecord  0x021D6848  thumb  ov093
- *   WAZA_TOOL_GetCategory   0x0201C1BC  thumb
  *   BTL_POKEPARAM_GetItem  0x021D5B40  thumb  ov093
  *   BTL_POKESET_GetPlainDamage 0x0689CCF8 thumb ov095
  *   BTL_POKESET_GetTotalDamage 0x0689CCB4 thumb ov095
- *   WAZA_TOOL_GetParam   0x0201BD28  thumb
  *   BTL_CALC_MulPercent  0x021D7B3C  thumb  ov093
  *   WAZA_TOOL_GetDamageType 0x0201C1E8 thumb
  *   BTL_CALC_CalcBaseDamage 0x021D7A44 thumb ov093
@@ -334,7 +332,6 @@
  *   BTL_POKEPARAM_SetContFlag 0x021D5FE4 thumb ov093
  *   BTL_POKEPARAM_ClearContFlag 0x021D6008 thumb ov093
  *   WAZA_TOOL_GetType   0x0201C1C8  thumb
- *   WAZA_TOOL_GetDamageType   0x0201C1E8  thumb
  *   WAZA_TOOL_IsAlwaysHit  0x0201C1F4  thumb
  *   WAZA_TOOL_IsAlwaysCritical  0x0201C284  thumb
  *   BTL_POKEPARAM_GetCritStage  0x021D5F14  thumb  ov093
@@ -406,7 +403,6 @@
  *   BTL_EVENT_StartClientPalAnm 0x021D6E24 thumb ov093
  *   GPOWER_ApplyCaptureRate 0x020111BC thumb
  *   FX_Div 0x0207C768 arm
- *   FX_Sqrt 0x0207C7B4 arm
  *   _ll_mul 0x0209C054 arm
  *   BTL_MAIN_GetZukanSeenCount  0x021B873C  thumb  ov093
  *   TIMEZONE_GetTimeZoneOfHour 0x020113F0 thumb
@@ -544,7 +540,6 @@
  *   BTL_FIELD_IsMoveSealedBySlot 0x021EFC1C thumb ov093
  *   BTL_SICKCONT_GetLow 0x021E8AFC thumb ov093
  *   BTL_POKEPARAM_GetSickTurn 0x021D631C thumb ov093
- *   WAZA_TOOL_GetType 0x0201C1C8 thumb
  *   BTL_CALC_GetTypeAffinityVsPair 0x021D799C thumb ov093
  *   BTL_POKEPARAM_GetHitRecord 0x021D6940 thumb ov093
  *   gBtlClientAiHitKindRows 0x021EFFC2 data ov093 a2
@@ -567,7 +562,6 @@
  *   PMSI_PARAM_IsEnabled  0x02024450  thumb
  *   PMSI_PARAM_ToString  0x0202435C  thumb
  *   BTLV_CORE_CopyMessageBuffer  0x021EA5E4  thumb  ov093
- *   STRBUF_Delete   0x02045808  arm
  *   BTLV_CORE_BuildMessageToBuffer  0x021EA5F0  thumb  ov093
  *   MIi_CpuCopy32 0x02082A90 arm
  *   BTLV_CORE_EndWaitMessage 0x021EA824 thumb ov093
@@ -2454,7 +2448,7 @@ extern const u16 gCatchShakeMessages[];
 
 
 
-BtlServerFlow *flow(void *server, void *mainModule, void *pokeCon, void *cmdQueue, int bagMode, u16 heap)
+BtlServerFlow *BTL_SERVER_FLOW_Create(void *server, void *mainModule, void *pokeCon, void *cmdQueue, int bagMode, u16 heap)
 {
     BtlServerFlow *flowB;
     flowB = GFL_HEAP_Alloc(heap, 0x212c, 1, (const char *)gFlowSourceFileName, 0x245);
@@ -19629,8 +19623,6 @@ int BTL_SERVER_FLOW_ProcBagItemUse(BtlServerFlow *flow, u8 *poke, u16 itemId, u8
   u32 allowed;
   u32 i;
   const BagItemEffectEntry *e;
-  u8 *tmp;
-  u8 *tmp1;
   side = BTL_MAIN_PokeIdToClientIdThunk(BTL_POKEPARAM_GetPokeId(poke));
   mon = 0;
   initial = 0;

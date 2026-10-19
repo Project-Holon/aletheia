@@ -1,5 +1,5 @@
 /*
- * function: func_0215D92C
+ * function: SOCLi_CopyCPSBuffer
  * address:  0x0215D92C
  * packet:   pkt_ov009_0215D92C
  * region:   ov009
@@ -19,7 +19,7 @@
  * (modulo assert line constants).  At -O4,p the guard arm is kept as a branch
  * only when `consumed` is also `volatile long` (volatile is invisible in this
  * DWARF); either change alone stays 260/264.  Earlier "front-end wall" notes
- * (lanes U41, W8, A, 07; docs/notes/func_0215D92C.c.txt) are superseded.
+ * (lanes U41, W8, A, 07; docs/notes/SOCLi_CopyCPSBuffer.c.txt) are superseded.
  *
  * symbols:
  *   OS_DisableInterrupts  0x02087988  arm
@@ -56,7 +56,7 @@ static inline int SOCL_SocketIsTCP(struct SOCLSocket *socket)
 	return socket->flag_mode == 0 || socket->flag_mode == 4;
 }
 
-static int func_0215D92C(struct SOCLSocket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
+static int SOCLi_CopyCPSBuffer(struct SOCLSocket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
 			 unsigned long *remote_ip)
 {
 	unsigned long enable;

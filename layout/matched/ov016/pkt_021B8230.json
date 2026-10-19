@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_021B84AC",
+   "name": "Set_WLLA_LINK_STAT",
    "address": "0x021B84AC",
    "kind": "sdk",
    "region": "ov016",

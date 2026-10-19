@@ -10,8 +10,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0202D5F8, sub_0202D61C, sub_0202D640, sub_0202D664,
- *           sub_0202D688, sub_0202D6AC, sub_0202D6D0
+ * function: POKEGRA_GetTrainerCbrArcIndex, POKEGRA_GetTrainerPalArcIndex, POKEGRA_GetTrainerCelArcIndex, POKEGRA_GetTrainerAnmArcIndex,
+ *           POKEGRA_GetTrainerMCelArcIndex, POKEGRA_GetTrainerMAnmArcIndex, POKEGRA_GetTrainerNcecArcIndex
  *
  * symbols:
  *   sub_0202D5D8_Table  0x020A023C  data
@@ -55,7 +55,7 @@ typedef unsigned int  u32;
 
 extern const u8 sub_0202D5D8_Table[];
 
-u32 sub_0202D5F8(u32 id, u32 flags)
+u32 POKEGRA_GetTrainerCbrArcIndex(u32 id, u32 flags)
 {
     u32 v;
 
@@ -69,7 +69,7 @@ u32 sub_0202D5F8(u32 id, u32 flags)
     return v * 8 + 1;
 }
 
-u32 sub_0202D61C(u32 id, u32 flags)
+u32 POKEGRA_GetTrainerPalArcIndex(u32 id, u32 flags)
 {
     u32 v;
 
@@ -83,7 +83,7 @@ u32 sub_0202D61C(u32 id, u32 flags)
     return v * 8 + 7;
 }
 
-u32 sub_0202D640(u32 id, u32 flags)
+u32 POKEGRA_GetTrainerCelArcIndex(u32 id, u32 flags)
 {
     u32 v;
 
@@ -97,7 +97,7 @@ u32 sub_0202D640(u32 id, u32 flags)
     return v * 8 + 2;
 }
 
-u32 sub_0202D664(u32 id, u32 flags)
+u32 POKEGRA_GetTrainerAnmArcIndex(u32 id, u32 flags)
 {
     u32 v;
 
@@ -111,7 +111,7 @@ u32 sub_0202D664(u32 id, u32 flags)
     return v * 8 + 3;
 }
 
-u32 sub_0202D688(u32 id, u32 flags)
+u32 POKEGRA_GetTrainerMCelArcIndex(u32 id, u32 flags)
 {
     u32 v;
 
@@ -125,7 +125,7 @@ u32 sub_0202D688(u32 id, u32 flags)
     return v * 8 + 4;
 }
 
-u32 sub_0202D6AC(u32 id, u32 flags)
+u32 POKEGRA_GetTrainerMAnmArcIndex(u32 id, u32 flags)
 {
     u32 v;
 
@@ -139,7 +139,7 @@ u32 sub_0202D6AC(u32 id, u32 flags)
     return v * 8 + 5;
 }
 
-u32 sub_0202D6D0(u32 id, u32 flags)
+u32 POKEGRA_GetTrainerNcecArcIndex(u32 id, u32 flags)
 {
     u32 v;
 

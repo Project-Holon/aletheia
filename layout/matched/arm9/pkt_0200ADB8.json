@@ -109,8 +109,8 @@
    "status": "EXACT",
    "functions": [
     "GIMMICK_WORK_InitWithId",
-    "GIMMICK_WORK_GetSaveArea",
-    "GIMMICK_WORK_GetProgress",
+    "GIMMICK_WORK_GetWork",
+    "GIMMICK_WORK_GetSubWork",
     "GIMMICK_WORK_GetId",
     "GIMMICK_WORK_Save",
     "GIMMICK_WORK_Load",

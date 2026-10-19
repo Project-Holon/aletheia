@@ -1,5 +1,5 @@
 /*
- * function: func_021B9A2C
+ * function: CheckAccessPoint
  * address:  0x021B9A2C
  * packet:   pkt_ov016_021B9A2C
  * region:   ov016
@@ -45,7 +45,7 @@ typedef struct _BSSID_LIST {
 
 extern char sAtermsetTable1[7];
 
-static int func_021B9A2C(BSSID_LIST *pNewList, BSSID_LIST *pOldList, unsigned long *ApNo)
+static int CheckAccessPoint(BSSID_LIST *pNewList, BSSID_LIST *pOldList, unsigned long *ApNo)
 {
     int flagDetect;
     int Result;

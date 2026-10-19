@@ -1,5 +1,5 @@
 /*
- * function: func_021C3FF4
+ * function: endScene1
  * address:  0x021C3FF4
  * packet:   pkt_ov016_021C3FF4
  * region:   ov016
@@ -27,7 +27,7 @@ extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021C405C();
 extern unsigned char gSceneOptMovFailureWork[];
 
-void func_021C3FF4(void)
+void endScene1(void)
 {
     if (DWCi_EFFlCheck(1))
         return;

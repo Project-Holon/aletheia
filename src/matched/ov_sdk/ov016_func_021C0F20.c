@@ -1,5 +1,5 @@
 /*
- * function: func_021C0F20
+ * function: kDWCi_Language
  * address:  0x021C0F20
  * packet:   pkt_ov016_021C0F20
  * region:   ov016
@@ -19,7 +19,7 @@
 
 extern struct UtilState gDwcutilMainWork;
 
-unsigned char func_021C0F20(void)
+unsigned char kDWCi_Language(void)
 {
     if ((*(unsigned char *)&gDwcutilMainWork) == 6)
         return 0x38;

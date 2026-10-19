@@ -18,10 +18,22 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "FILE_UTIL_Get"
+    "FILE_UTIL_Get",
+    "FILE_UTIL_GetItemCount",
+    "FILE_UTIL_GetBankCount",
+    "FILE_UTIL_GetBaseIndex",
+    "FILE_UTIL_CreateItemArcHandle",
+    "FILE_UTIL_LoadArcMember",
+    "FILE_UTIL_LoadItemRecord"
    ],
    "addresses": [
-    "0x02020E60"
+    "0x02020E60",
+    "0x02020F08",
+    "0x02020F0C",
+    "0x02020F10",
+    "0x02020F14",
+    "0x02020F20",
+    "0x02020F34"
    ],
    "evidence": {
     "sole-ref": [
@@ -44,10 +56,18 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "FILE_UTIL_GetItemCount"
+    "FILE_UTIL_GetItemCount",
+    "FILE_UTIL_GetBankCount",
+    "FILE_UTIL_GetBaseIndex",
+    "FILE_UTIL_CreateItemArcHandle",
+    "FILE_UTIL_LoadArcMember"
    ],
    "addresses": [
-    "0x02020F08"
+    "0x02020F08",
+    "0x02020F0C",
+    "0x02020F10",
+    "0x02020F14",
+    "0x02020F20"
    ]
   },
   {

@@ -18,7 +18,7 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "GAME_BEACON_SEARCH_ExitWait",
+    "GAME_BEACON_SEARCH_FreeWork",
     "GAME_BEACON_SEARCH_OnNetExit"
    ],
    "addresses": [

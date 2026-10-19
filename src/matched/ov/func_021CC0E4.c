@@ -1,5 +1,5 @@
 /*
- * function: DWCi_SceneSetSelectAp_draw
+ * function: draw
  * address:  0x021CC0E4
  * packet:   pkt_021CC0E4
  * region:   ov016
@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   DWCi_SceneSetSelectAp_draw   0x021CC0E4  arm
+ *   draw   0x021CC0E4  arm
  *
  * Empty stub: the routine carries no behaviour (see the call sites for why it exists).
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/DWCi_SceneSetSelectAp_draw.c \
- *       --func DWCi_SceneSetSelectAp_draw --addr 0x021CC0E4 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/draw.c \
+ *       --func draw --addr 0x021CC0E4 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-void DWCi_SceneSetSelectAp_draw(void)
+void draw(void)
 {
 }

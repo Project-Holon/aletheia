@@ -22,7 +22,7 @@
  *   BILLBOARD_ACT_GetBoard  0x02050080  arm
  *   d_021DE028     0x021DE028  data  a1
  *   gFldeffShadowBaseOffset     0x021D908C  data  a4
- *   ENV_SetResourceSet  0x020307B0  arm
+ *   GFL_HEAP_Free  0x020307B0  arm
  *   BILLBOARD_ACT_DeleteSlots  0x02050278  arm
  *   gFldeffShadowObjFuncs  0x021D9098  data
  *   FLDMMDL_GetCheckInfo  0x0216E1A4  thumb  ov010
@@ -100,7 +100,7 @@ extern void FLDMMDL_GetPos(const Mmdl *mmdl, VecFx32 *out);
 extern const MmdlObjCodeParam *FLDMMDL_GetObjCodeParam(const Mmdl *mmdl);
 extern struct BbActSys *FIELDMAP_GetEffectBbdAct(struct FieldMap *fieldmap);
 extern struct BbBoard *BILLBOARD_ACT_GetBoard(struct BbActSys *act);
-extern void ENV_SetResourceSet(void *p);
+extern u32 GFL_HEAP_Free(void *block);
 extern void *G3D_SYSTEM_CreateResourceArcHandle(int arcHandle, u32 id);
 extern u16 BILLBOARD_ACT_CreateSlots(struct BbActSys *act, const struct BbActRec *recs, u32 count);
 extern void BILLBOARD_ACT_DeleteSlots(struct BbActSys *act, u32 first, u32 count);
@@ -164,7 +164,7 @@ FldeffShadow *FLDEFF_SHADOW_Create(FieldEffectSys *sys, int heapId)
 void FLDEFF_SHADOW_Delete(FieldEffectSys *sys, FldeffShadow *shadow)
 {
     FLDEFF_SHADOW_DeleteSlot(shadow);
-    ENV_SetResourceSet(shadow);
+    GFL_HEAP_Free(shadow);
 }
 
 

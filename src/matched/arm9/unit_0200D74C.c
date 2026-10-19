@@ -11,8 +11,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: GDS_PROFILE_GetRecordWord1C, GDS_PROFILE_GetRecordWord30, GDS_PROFILE_ExportRecord, GDS_PROFILE_GetVariant,
- *           GDS_PROFILE_GetCountry, GDS_PROFILE_GetMode
+ * function: GDS_PROFILE_GetValidatedCountry, GDS_PROFILE_GetValidatedRegion, GDS_PROFILE_ExportRecord, GDS_PROFILE_GetBirthMonth,
+ *           GDS_PROFILE_GetTrainerSprite, GDS_PROFILE_GetLanguage
  *
  * 268 bytes, 0x0200D74C..0x0200D858, 6 functions, three of which carry no
  * label in the generated listing.
@@ -65,16 +65,16 @@ struct GdsProfile {
     struct GdsRecord unk20;
 };
 
-u32 GDS_PROFILE_GetMode(struct GdsProfile *p);
+u32 GDS_PROFILE_GetLanguage(struct GdsProfile *p);
 
-u32 GDS_PROFILE_GetRecordWord1C(struct GdsProfile *p)
+u32 GDS_PROFILE_GetValidatedCountry(struct GdsProfile *p)
 {
-    return func_02025C1C(p->unk17, p->unk18, GDS_PROFILE_GetMode(p));
+    return func_02025C1C(p->unk17, p->unk18, GDS_PROFILE_GetLanguage(p));
 }
 
-u32 GDS_PROFILE_GetRecordWord30(struct GdsProfile *p)
+u32 GDS_PROFILE_GetValidatedRegion(struct GdsProfile *p)
 {
-    return func_02025C30(p->unk17, p->unk18, GDS_PROFILE_GetMode(p));
+    return func_02025C30(p->unk17, p->unk18, GDS_PROFILE_GetLanguage(p));
 }
 
 void *GDS_PROFILE_ExportRecord(struct GdsProfile *p, struct GdsRecord *out, u32 tag)
@@ -117,7 +117,7 @@ void *GDS_PROFILE_ExportRecord(struct GdsProfile *p, struct GdsRecord *out, u32 
     }
 }
 
-u32 GDS_PROFILE_GetVariant(struct GdsProfile *p)
+u32 GDS_PROFILE_GetBirthMonth(struct GdsProfile *p)
 {
     u32 v = p->unk15;
 
@@ -127,7 +127,7 @@ u32 GDS_PROFILE_GetVariant(struct GdsProfile *p)
     return v;
 }
 
-u32 GDS_PROFILE_GetCountry(struct GdsProfile *p)
+u32 GDS_PROFILE_GetTrainerSprite(struct GdsProfile *p)
 {
     u32 v = p->unk16;
 
@@ -137,7 +137,7 @@ u32 GDS_PROFILE_GetCountry(struct GdsProfile *p)
     return v;
 }
 
-u32 GDS_PROFILE_GetMode(struct GdsProfile *p)
+u32 GDS_PROFILE_GetLanguage(struct GdsProfile *p)
 {
     u32 v = p->unk1A;
 

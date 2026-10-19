@@ -8,11 +8,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: POKE_TOOL_Dummy, POKE_TOOL_GetBoxParam, POKE_TOOL_GetGenderRatioClass
+ * function: POKE_TOOL_CastToBoxParam, POKE_TOOL_GetBoxParam, POKE_TOOL_GetGenderPersonalityByte
  *
- * POKE_TOOL_Dummy and POKE_TOOL_GetBoxParam are a bare `bx lr` padded to four bytes,
+ * POKE_TOOL_CastToBoxParam and POKE_TOOL_GetBoxParam are a bare `bx lr` padded to four bytes,
  * which is `void f(void) {}`: a hook that was never filled in.  Neither
- * carries a label in the generated listing.  POKE_TOOL_Dummy is reached from
+ * carries a label in the generated listing.  POKE_TOOL_CastToBoxParam is reached from
  * POKE_TOOL_SetDefaultName, which is what attests the pair's addresses.
  *
  * symbols:
@@ -30,7 +30,7 @@ extern void *POKE_TOOL_GetPersonalData(u32 a, u32 b);
 extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern u32  POKE_PERSONAL_IsFixedGender(u32 n);
 
-void POKE_TOOL_Dummy(void)
+void POKE_TOOL_CastToBoxParam(void)
 {
 }
 
@@ -39,7 +39,7 @@ void *POKE_TOOL_GetBoxParam(void *p)
     return p;
 }
 
-u32 POKE_TOOL_GetGenderRatioClass(int a, int b, int c)
+u32 POKE_TOOL_GetGenderPersonalityByte(int a, int b, int c)
 {
     u32 r = 8;
     u8 n = (u8)POKE_PERSONAL_GetParam(POKE_TOOL_GetPersonalData(a, b), 0x14);

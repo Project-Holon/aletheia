@@ -11,7 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: GDS_PROFILE_GetSubwaySaveSize, GDS_PROFILE_ClearSubwaySave
+ * function: BSUBWAY_WIFIDATA_GetSize, BSUBWAY_WIFIDATA_Init
  *
  * 24 bytes, 0x0200DD10..0x0200DD28, the size getter and the constructor of
  * the save block this file belongs to: 0xB90 bytes, of which the first four
@@ -66,12 +66,12 @@ struct BlkB90 {
     u8  unkFE[0xA92];
 };
 
-u32 GDS_PROFILE_GetSubwaySaveSize(void)
+u32 BSUBWAY_WIFIDATA_GetSize(void)
 {
     return sizeof(struct BlkB90);
 }
 
-void GDS_PROFILE_ClearSubwaySave(struct BlkB90 *p)
+void BSUBWAY_WIFIDATA_Init(struct BlkB90 *p)
 {
     MI_CpuFill8(p, 0, sizeof(struct BlkB90));
 }

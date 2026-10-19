@@ -1,5 +1,5 @@
 /*
- * function: func_021C03F0
+ * function: dispFocus
  * address:  0x021C03F0
  * packet:   pkt_021C03F0
  * region:   ov016
@@ -38,7 +38,7 @@ extern struct G *gKeyboard10Work;
 extern u16   sKeyboard10CellPosX[][2];
 extern u16   sKeyboard10CellPosY[][2];
 
-void func_021C03F0(void)
+void dispFocus(void)
 {
     struct G *g;
     int sel = 0x44;

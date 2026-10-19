@@ -1,5 +1,5 @@
 /*
- * function: func_021C78A0
+ * function: DWCi_SceneSetEditAddressDrawAddress
  * address:  0x021C78A0
  * packet:   pkt_ov016_021C78A0
  * region:   ov016
@@ -34,7 +34,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021C78A0.c \
- *       --func func_021C78A0 --addr 0x021C78A0 --region ov016 --cc 1.1p1 --arm --lang c99
+ *       --func DWCi_SceneSetEditAddressDrawAddress --addr 0x021C78A0 --region ov016 --cc 1.1p1 --arm --lang c99
  */
 
 typedef struct COORD {
@@ -60,7 +60,7 @@ extern MemSsea *gMemSsea;
 extern COORD sSceneSetEditAddressOrigin;
 extern unsigned char sSceneSetEditAddressDigitX[];
 
-void func_021C78A0(void)
+void DWCi_SceneSetEditAddressDrawAddress(void)
 {
     AREA a = { sSceneSetEditAddressOrigin.x, sSceneSetEditAddressOrigin.y, 11, 16 };
     int i;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021BAC20",
+   "name": "keywrap_encrypt",
    "address": "0x021BAC20",
    "kind": "sdk",
    "region": "ov016",

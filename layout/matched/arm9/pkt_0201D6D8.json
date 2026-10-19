@@ -121,7 +121,7 @@
    "status": "EXACT",
    "functions": [
     "GF_FONT_GetFixedWidth",
-    "GF_FONT_ResetTextColor",
+    "GF_FONT_InitTextColor",
     "GF_FONT_SetDefaultTextColor"
    ],
    "addresses": [

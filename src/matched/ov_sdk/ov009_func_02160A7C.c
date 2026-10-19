@@ -1,5 +1,5 @@
 /*
- * function: func_02160A7C
+ * function: rcv_certificate
  * address:  0x02160A7C
  * packet:   pkt_ov009_02160A7C
  * region:   ov009
@@ -75,7 +75,7 @@ extern int auth_cert(CPSSslConnection *con);
 extern int compare_fqdn(char *name, char *pat);
 extern int validate_signature(CPSSslConnection *con, SOCLCaInfo *ca);
 
-static void func_02160A7C(CPSSslConnection *con, unsigned char *s)
+static void rcv_certificate(CPSSslConnection *con, unsigned char *s)
 {
     RTCDate date;
     int result0;

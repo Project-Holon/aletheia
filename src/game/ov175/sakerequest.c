@@ -32,7 +32,7 @@
  *   gsiExecuteSoap  0x0217FD7C  arm ov009
  *   gsifree  0x0217EAE0  arm ov009
  *   gsimalloc  0x0217EAB0  arm ov009
- *   memset  0x020923B0  arm
+ *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
  *   strcmp  0x020948E0  arm
  *   sResultSuccess  0x021E3730  data
  *   sResultSecretKeyInvalid  0x021E3738  data
@@ -74,7 +74,7 @@ typedef void (*GSSoapCallback)(int httpResult, void *requestData, void *response
 
 extern void *gsimalloc(unsigned long size);
 extern void gsifree(void *ptr);
-extern void *memset(void *dst, int val, unsigned long n);
+extern void *MSL_C_LIB_MemsetPtr(void *dst, int val, unsigned long n);
 extern int strcmp(const char *a, const char *b);
 extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
 extern int gsXmlMoveToStart(void *stream);
@@ -142,7 +142,7 @@ SAKERequestInternal *sakeiInitRequest(SAKEInternal *sake, int type, void *input,
         sake->mStartRequestResult = SAKEStartRequestResult_OUT_OF_MEMORY;
         return 0;
     }
-    memset(request, 0, sizeof(SAKERequestInternal));
+    MSL_C_LIB_MemsetPtr(request, 0, sizeof(SAKERequestInternal));
     request->mSake = sake;
     request->mType = type;
     request->mInput = input;

@@ -513,7 +513,7 @@ extern void BG_SYS_PushTile(unsigned int);
 
 extern u8 *STA_ACT_LIGHT_AllocElem(unsigned int heap, unsigned int v);
 
-extern u8 MUSICAL_PROGRAM_GetBaseProgramId(char *a0);
+extern u8 MUSICAL_PROGRAM_GetBaseProgramId(char *program);
 
 extern void STA_ACT_LIGHT_CreateModel(void *, int);
 
@@ -637,7 +637,7 @@ extern void STA_SLOT_PushRecord(void *, u32, u32, u32);
 
 extern unsigned char MUSICAL_MCSS_GetElemA(void *p, int i);
 
-extern u16 MUSICAL_PROGRAM_GetCategoryShare(int a0, int a1);
+extern u16 MUSICAL_PROGRAM_GetCategoryShare(int program, int category);
 
 extern void STA_SLOT_SetValueByKey(char *p, u32 key, u8 value);
 

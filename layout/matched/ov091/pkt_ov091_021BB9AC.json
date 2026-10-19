@@ -19,7 +19,7 @@
    "status": "EXACT",
    "functions": [
     "PLIST_MESSAGE_SetWordSetItem",
-    "PLIST_MESSAGE_SetWordSetHeldItem"
+    "PLIST_MESSAGE_SetWordSetItemAlt"
    ],
    "addresses": [
     "0x021BB9AC",

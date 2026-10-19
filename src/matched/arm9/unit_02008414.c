@@ -40,12 +40,12 @@ u8 CONFIG_ApplyTextLanguage(const struct Flags02008414 *p)
     return func_020461D4((u8)p->b8);
 }
 
-u32 sub_02008428(const struct Flags02008414 *p)
+u32 CONFIG_GetButtonMode(const struct Flags02008414 *p)
 {
     return p->b9;
 }
 
-void sub_02008430(struct Flags02008414 *p, int b)
+void CONFIG_SetButtonMode(struct Flags02008414 *p, int b)
 {
     p->b9 = b;
 }

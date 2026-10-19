@@ -81,7 +81,7 @@
  *   EVENT_MAPCHANGE_CreateWarpEventToLocation  0x021854CC  thumb  ov020
  *   FIELDMAP_GetPlaceName  0x02188D20  thumb  ov021
  *   FIELD_PLACE_NAME_Cancel  0x021BC5BC  thumb  ov021
- *   BMP_GetVisiblePlane  0x02043658  arm
+ *   BG_SYS_GetMainVisiblePlanes  0x02043658  arm
  *   FIELDMAP_SetBgMode  0x02188DA0  thumb  ov021
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   FIELDMAP_ResetBgAffineShowMsg  0x02188DB0  thumb  ov021
@@ -288,7 +288,7 @@ extern void *FIELDMAP_GetPlaceName(FieldMap *fieldMap);
 
 extern int FIELD_PLACE_NAME_Cancel(void *msgBg);
 
-extern u32 BMP_GetVisiblePlane(void);
+extern u32 BG_SYS_GetMainVisiblePlanes(void);
 
 extern void FIELDMAP_SetBgMode(void);
 
@@ -598,7 +598,7 @@ int FLD_WIPE_3DOBJ_MapChangeEventMain(GameEvent *event, int *seq, WipeMapChangeW
         if (FIELD_CAMERA_IsMoving(camera) != 0)
             break;
         FLDMMDL_SetStatusBitVanish(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldMap)), 1);
-        visiblePlanes = BMP_GetVisiblePlane();
+        visiblePlanes = BG_SYS_GetMainVisiblePlanes();
         FIELDMAP_SetBgMode();
         BG_SYS_SetMainVisiblePlanes(visiblePlanes);
         FIELDMAP_ResetBgAffineShowMsg(fieldMap);

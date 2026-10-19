@@ -1,5 +1,5 @@
 /*
- * function: func_021CD018
+ * function: moveFocus
  * address:  0x021CD018
  * packet:   pkt_ov016_021CD018
  * region:   ov016
@@ -12,7 +12,7 @@
  * sdk:      moveFocus (libdwcutil.TWL.HYB.a scenesetselectwa)
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CD018.c \n *       --func func_021CD018 --addr 0x021CD018 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CD018.c \n *       --func moveFocus --addr 0x021CD018 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  *
  * symbols:
  *   DWCi_Flag  0x021C0EF0  arm  ov016
@@ -38,7 +38,7 @@ extern int DWCi_Flag(unsigned long flag);
 extern void DWCi_SNDlPlay(unsigned int v);
 extern void DWCi_FOCUSlDisp4(int x0, int x1, int y0, int y1);
 
-void func_021CD018(int dir)
+void moveFocus(int dir)
 {
     signed char prev = gFocusState.cur;
     signed char next = sSceneSetSelectWayFocusNext[DWCi_Flag(1)][prev][dir];

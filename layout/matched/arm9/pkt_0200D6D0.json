@@ -21,8 +21,8 @@
     "GDS_PROFILE_GetEggFlag",
     "GDS_PROFILE_GetSpecies",
     "GDS_PROFILE_GetFormSpecies",
-    "GDS_PROFILE_GetMonFlagBit7",
-    "GDS_PROFILE_GetMonFlagBit0"
+    "GDS_PROFILE_GetNicknameFlag",
+    "GDS_PROFILE_GetBadEggFlag"
    ],
    "addresses": [
     "0x0200D6EC",
@@ -44,16 +44,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "GDS_PROFILE_GetFieldRecSize",
-    "GDS_PROFILE_ClearFieldRec",
-    "GDS_PROFILE_SetFieldRecFlag1",
-    "GDS_PROFILE_GetFieldRecFlag1",
-    "GDS_PROFILE_GetFieldRecField",
-    "GDS_PROFILE_SetFieldRecField",
-    "GDS_PROFILE_AddFieldRecCounters",
-    "GDS_PROFILE_ClearFieldRecCount03",
-    "GDS_PROFILE_IncFieldRecCount03",
-    "GDS_PROFILE_GetFieldRecCount03"
+    "BSUBWAY_PLAYDATA_GetSize",
+    "BSUBWAY_PLAYDATA_Init",
+    "BSUBWAY_PLAYDATA_SetFlag01",
+    "BSUBWAY_PLAYDATA_GetFlag01",
+    "BSUBWAY_PLAYDATA_GetField",
+    "BSUBWAY_PLAYDATA_SetField",
+    "BSUBWAY_PLAYDATA_AddCounters",
+    "BSUBWAY_PLAYDATA_ClearRound",
+    "BSUBWAY_PLAYDATA_IncRound",
+    "BSUBWAY_PLAYDATA_GetRound"
    ],
    "addresses": [
     "0x0200D858",
@@ -80,31 +80,31 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "GDS_PROFILE_GetScoreRecSize",
-    "GDS_PROFILE_ClearScoreRec",
-    "GDS_PROFILE_AddScoreRecTotal",
-    "GDS_PROFILE_SubScoreRecTotal",
-    "GDS_PROFILE_GetScoreRecTotal",
-    "GDS_PROFILE_MapScoreSlot",
-    "GDS_PROFILE_GetScoreRecCountA",
-    "GDS_PROFILE_GetScoreRecCountB",
-    "GDS_PROFILE_MaxScoreRecCountB",
-    "GDS_PROFILE_SetScoreRecCountA",
-    "GDS_PROFILE_ClearScoreRecCountC",
-    "GDS_PROFILE_SetScoreRecCountC",
-    "GDS_PROFILE_GetScoreRecCountC",
-    "GDS_PROFILE_IncScoreRecCountC",
-    "GDS_PROFILE_GetScoreRecCountCDec",
-    "GDS_PROFILE_ScoreRecFlag",
-    "GDS_PROFILE_IncScoreRecLevel",
-    "GDS_PROFILE_DecScoreRecLevel",
-    "GDS_PROFILE_GetScoreRecLevel",
-    "GDS_PROFILE_UpdateScoreRecStreak",
-    "GDS_PROFILE_SetScoreRecBlob",
-    "GDS_PROFILE_GetScoreRecBlob",
-    "GDS_PROFILE_CalcScoreRecScore",
-    "GDS_PROFILE_GetScoreRecScore",
-    "GDS_PROFILE_GetScoreRecScoreHigh"
+    "BSUBWAY_SCOREDATA_GetSize",
+    "BSUBWAY_SCOREDATA_Init",
+    "BSUBWAY_SCOREDATA_AddBattlePoints",
+    "BSUBWAY_SCOREDATA_SubBattlePoints",
+    "BSUBWAY_SCOREDATA_GetBattlePoints",
+    "BSUBWAY_SCOREDATA_MapPlayMode",
+    "BSUBWAY_SCOREDATA_GetWinCount",
+    "BSUBWAY_SCOREDATA_GetMaxWinCount",
+    "BSUBWAY_SCOREDATA_UpdateMaxWinCount",
+    "BSUBWAY_SCOREDATA_SetWinCount",
+    "BSUBWAY_SCOREDATA_ResetClearCount",
+    "BSUBWAY_SCOREDATA_SetFirstClear",
+    "BSUBWAY_SCOREDATA_HasCleared",
+    "BSUBWAY_SCOREDATA_IncClearCount",
+    "BSUBWAY_SCOREDATA_GetRepeatClearCount",
+    "BSUBWAY_SCOREDATA_AccessFlag",
+    "BSUBWAY_SCOREDATA_IncLevel",
+    "BSUBWAY_SCOREDATA_DecLevel",
+    "BSUBWAY_SCOREDATA_GetLevel",
+    "BSUBWAY_SCOREDATA_UpdateStreak",
+    "BSUBWAY_SCOREDATA_SetRecordBlob",
+    "BSUBWAY_SCOREDATA_GetRecordBlob",
+    "BSUBWAY_SCOREDATA_CalcRecordScore",
+    "BSUBWAY_SCOREDATA_GetRecordScore",
+    "BSUBWAY_SCOREDATA_GetRecordScoreTier"
    ],
    "addresses": [
     "0x0200DA64",
@@ -146,8 +146,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "GDS_PROFILE_GetSubwaySaveSize",
-    "GDS_PROFILE_ClearSubwaySave"
+    "BSUBWAY_WIFIDATA_GetSize",
+    "BSUBWAY_WIFIDATA_Init"
    ],
    "addresses": [
     "0x0200DD10",
@@ -166,9 +166,9 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "GDS_PROFILE_ClearSubwaySaveStampAndBitmap",
-    "GDS_PROFILE_IsStampNewer",
-    "GDS_PROFILE_QuerySubwaySaveBit"
+    "BSUBWAY_WIFIDATA_ClearStampAndBitmap",
+    "BSUBWAY_WIFIDATA_IsStampNewer",
+    "BSUBWAY_WIFIDATA_GetTrainerBit"
    ],
    "addresses": [
     "0x0200DD8C",

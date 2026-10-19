@@ -1,5 +1,5 @@
 /*
- * function: func_021CA5F0
+ * function: initGraphics
  * address:  0x021CA5F0
  * packet:   pkt_021CA5F0
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CA5F0   0x021CA5F0  arm
+ *   initGraphics   0x021CA5F0  arm
  *   DWCi_CMNlLoadResource   0x021BD1D4  arm  ov016
  *   sSceneSetListSavePathJbBgStep3Char    0x021DB600  data
  *   GX_LoadBG2Char    0x0207F0B8  data
@@ -34,7 +34,7 @@ extern unsigned short GX_LoadBGPltt[];
 extern unsigned short sSceneSetListSavePathXb4NoneScr[];
 extern unsigned short GX_LoadBG2Scr[];
 
-void func_021CA5F0(void)
+void initGraphics(void)
 {
     u16 *p;
 

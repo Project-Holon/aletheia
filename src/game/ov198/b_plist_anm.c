@@ -250,7 +250,7 @@ void B_PLIST_ANM_UpdateByMode(u8 *p,u32 mode)
    else if(slotState==1) B_PLIST_ANM_UploadTileBuffer(p,(u8)slot,0,0);
    else if(slotState==2) B_PLIST_ANM_UploadTileBuffer(p,(u8)slot,0,1);
   }
-  if((u8)(((struct B_PlistWork *)p)->owner->field1F+255)<=1) B_PLIST_ANM_UpdateSelectedTile(p);
+  if((u8)(((struct B_PlistWork *)p)->owner->listType+255)<=1) B_PLIST_ANM_UpdateSelectedTile(p);
   else B_PLIST_ANM_UploadTileBuffer(p,6,0,0);
   break;
  }

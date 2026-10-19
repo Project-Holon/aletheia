@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0205E17C",
+   "name": "SearchAround2ndLap",
    "address": "0x0205E17C",
    "kind": "sdk",
    "region": "arm9",
@@ -84,7 +84,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0205EC2C",
+   "name": "makeShopWepKey",
    "address": "0x0205EC2C",
    "kind": "sdk",
    "region": "arm9",
@@ -96,7 +96,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0205F298",
+   "name": "ConnectTestCreate",
    "address": "0x0205F298",
    "kind": "sdk",
    "region": "arm9",
@@ -113,7 +113,7 @@
    }
   },
   {
-   "name": "func_0205F35C",
+   "name": "ConnectTestEnd",
    "address": "0x0205F35C",
    "kind": "sdk",
    "region": "arm9",
@@ -131,7 +131,7 @@
    }
   },
   {
-   "name": "func_0205F384",
+   "name": "ConnectTestRetry",
    "address": "0x0205F384",
    "kind": "sdk",
    "region": "arm9",
@@ -143,7 +143,7 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0205F558",
+   "name": "ConvNetMask",
    "address": "0x0205F558",
    "kind": "sdk",
    "region": "arm9",

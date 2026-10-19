@@ -1,5 +1,5 @@
 /*
- * function: func_021C9D54
+ * function: calcIdxColumn
  * address:  0x021C9D54
  * packet:   pkt_021C9D54
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C9D54   0x021C9D54  arm
+ *   calcIdxColumn   0x021C9D54  arm
  *   FX_DivS32   0x0207C958  arm
  *
  * Scale the shared halfword counter by 1/0x1d and bias by the argument.
@@ -28,13 +28,13 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021C9D54.c \
- *       --func func_021C9D54 --addr 0x021C9D54 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/calcIdxColumn.c \
+ *       --func calcIdxColumn --addr 0x021C9D54 --region ov016 --cc dsi/1.1p1 --arm
  */
 
 extern int FX_DivS32(int, int);
 
-int func_021C9D54(int a)
+int calcIdxColumn(int a)
 {
     unsigned char *g = (unsigned char *)0x021DE5EC;
     int v = FX_DivS32(*(unsigned short *)(g + 4), 0x1d);

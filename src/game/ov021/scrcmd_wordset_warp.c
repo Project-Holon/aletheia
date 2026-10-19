@@ -23,7 +23,7 @@
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   SCRIPT_WORK_GetGameSystem  0x02158F54  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
- *   VM_GetU16  0x02011330  thumb
+ *   VM_ReadU16  0x02011330  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
  *   WORDSET_SetSlotFromMsg36  0x0201EF40  thumb
@@ -114,7 +114,7 @@ extern GameSystem *SCRCMD_WORK_GetGameSystem(ScrcmdWork *cmdWork);
 extern GameSystem *SCRIPT_WORK_GetGameSystem(ScriptWork *scriptWork);
 extern GameData *SCRCMD_WORK_GetGameData(ScrcmdWork *cmdWork);
 extern FieldMap *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
-extern u16 VM_GetU16(ScriptVm *vm);
+extern u16 VM_ReadU16(ScriptVm *vm);
 extern WordSet *SCRIPT_WORK_GetWordSet(ScriptWork *scriptWork);
 extern MyStatus *GAME_DATA_GetMyStatus(GameData *gameData);
 extern void WORDSET_SetSlotMyStatus(WordSet *wordSet, u32 slot, MyStatus *myStatus);
@@ -500,10 +500,10 @@ int SCRCMD_WarpToPosition(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     gameSystem = SCRIPT_WORK_GetGameSystem(SCRCMD_WORK_GetScriptWork(cmdWork));
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    zoneId = VM_GetU16(vm);
-    x = VM_GetU16(vm);
-    z = VM_GetU16(vm);
-    dir = VM_GetU16(vm);
+    zoneId = VM_ReadU16(vm);
+    x = VM_ReadU16(vm);
+    z = VM_ReadU16(vm);
+    dir = VM_ReadU16(vm);
     pos.x = x << 16;
     pos.y = 0;
     pos.z = z << 16;
@@ -526,10 +526,10 @@ int SCRCMD_WarpToPositionPlain(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     gameSystem = SCRIPT_WORK_GetGameSystem(SCRCMD_WORK_GetScriptWork(cmdWork));
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    zoneId = VM_GetU16(vm);
-    x = VM_GetU16(vm);
-    z = VM_GetU16(vm);
-    dir = VM_GetU16(vm);
+    zoneId = VM_ReadU16(vm);
+    x = VM_ReadU16(vm);
+    z = VM_ReadU16(vm);
+    dir = VM_ReadU16(vm);
     pos.x = x << 16;
     pos.y = 0;
     pos.z = z << 16;
@@ -562,9 +562,9 @@ int SCRCMD_WarpToPositionEvent(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     gameSystem = SCRIPT_WORK_GetGameSystem(SCRCMD_WORK_GetScriptWork(cmdWork));
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    zoneId = VM_GetU16(vm);
-    x = VM_GetU16(vm);
-    z = VM_GetU16(vm);
+    zoneId = VM_ReadU16(vm);
+    x = VM_ReadU16(vm);
+    z = VM_ReadU16(vm);
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     eventData = GAME_DATA_GetEventData(gameData);
     eventWork = GAME_DATA_GetEventWork(gameData);
@@ -596,10 +596,10 @@ int SCRCMD_WarpToPositionFixedExit(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     gameSystem = SCRIPT_WORK_GetGameSystem(SCRCMD_WORK_GetScriptWork(cmdWork));
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    zoneId = VM_GetU16(vm);
-    x = VM_GetU16(vm);
-    z = VM_GetU16(vm);
-    dir = VM_GetU16(vm);
+    zoneId = VM_ReadU16(vm);
+    x = VM_ReadU16(vm);
+    z = VM_ReadU16(vm);
+    dir = VM_ReadU16(vm);
     pos.x = x << 16;
     pos.y = 0;
     pos.z = z << 16;
@@ -637,11 +637,11 @@ int SCRCMD_WarpToPosition3D(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     gameSystem = SCRIPT_WORK_GetGameSystem(SCRCMD_WORK_GetScriptWork(cmdWork));
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    zoneId = VM_GetU16(vm);
-    x = VM_GetU16(vm);
-    y = VM_GetU16(vm);
-    z = VM_GetU16(vm);
-    dir = VM_GetU16(vm);
+    zoneId = VM_ReadU16(vm);
+    x = VM_ReadU16(vm);
+    y = VM_ReadU16(vm);
+    z = VM_ReadU16(vm);
+    dir = VM_ReadU16(vm);
     FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldMap));
     pos.x = x << 16;
     pos.y = y << 16;
@@ -670,11 +670,11 @@ int SCRCMD_WarpToRailLocation(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     gameSystem = SCRIPT_WORK_GetGameSystem(SCRCMD_WORK_GetScriptWork(cmdWork));
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    zoneId = VM_GetU16(vm);
-    railIndex = VM_GetU16(vm);
-    lineGrid = VM_GetU16(vm);
-    widthGrid = VM_GetU16(vm);
-    dir = VM_GetU16(vm);
+    zoneId = VM_ReadU16(vm);
+    railIndex = VM_ReadU16(vm);
+    lineGrid = VM_ReadU16(vm);
+    widthGrid = VM_ReadU16(vm);
+    dir = VM_ReadU16(vm);
     event = GAMESYSTEM_GetEvent(gameSystem);
     FIELD_NOGRID_MAPPER_CalcZoneRailLocation(FIELDMAP_GetNogridMapper(fieldMap), zoneId, railIndex, lineGrid, widthGrid, &rail, 0x15);
     GAME_EVENT_CallEvent(event, EVENT_MAPCHANGE_CreateRailWarpEvent(gameSystem, fieldMap, zoneId, &rail, dir, 0));
@@ -696,11 +696,11 @@ int SCRCMD_WarpToRailLocationWithTransition(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     gameSystem = SCRIPT_WORK_GetGameSystem(SCRCMD_WORK_GetScriptWork(cmdWork));
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    zoneId = VM_GetU16(vm);
-    railIndex = VM_GetU16(vm);
-    lineGrid = VM_GetU16(vm);
-    widthGrid = VM_GetU16(vm);
-    dir = VM_GetU16(vm);
+    zoneId = VM_ReadU16(vm);
+    railIndex = VM_ReadU16(vm);
+    lineGrid = VM_ReadU16(vm);
+    widthGrid = VM_ReadU16(vm);
+    dir = VM_ReadU16(vm);
     event = GAMESYSTEM_GetEvent(gameSystem);
     FIELD_NOGRID_MAPPER_CalcZoneRailLocation(FIELDMAP_GetNogridMapper(fieldMap), zoneId, railIndex, lineGrid, widthGrid, &rail, 0x15);
     GAME_EVENT_CallEvent(event, EVENT_MAPCHANGE_CreateRailWarpEventWithTransition(gameSystem, fieldMap, zoneId, &rail, dir, 0));

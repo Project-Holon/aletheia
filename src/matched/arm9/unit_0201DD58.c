@@ -8,15 +8,15 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: GF_FONT_GetFixedWidth, GF_FONT_ResetTextColor, GF_FONT_SetDefaultTextColor
+ * function: GF_FONT_GetFixedWidth, GF_FONT_InitTextColor, GF_FONT_SetDefaultTextColor
  *
  * Three unlabelled leaves of gf_font.c: the accessor for the byte at +0x5E and
  * a two-step thunk that resets the text colour to (1, 2, 0).
  *
- * GF_FONT_ResetTextColor and GF_FONT_SetDefaultTextColor are both the pool-word-and-bx shape
+ * GF_FONT_InitTextColor and GF_FONT_SetDefaultTextColor are both the pool-word-and-bx shape
  * docs/idioms/tail-call-is-a-pool-word-and-bx.md describes, and neither carries
  * a label, because a tail call saves nothing and the prologue sweep never fires.
- * The chain is real: GF_FONT_ResetTextColor tail-calls GF_FONT_SetDefaultTextColor, which tail-calls
+ * The chain is real: GF_FONT_InitTextColor tail-calls GF_FONT_SetDefaultTextColor, which tail-calls
  * GF_FONT_SetTextColor with three constants.  Writing it as one function that calls
  * GF_FONT_SetTextColor directly loses eight bytes.
  *
@@ -78,7 +78,7 @@ u32 GF_FONT_GetFixedWidth(struct Font *p)
     return p->unk58[6];
 }
 
-void GF_FONT_ResetTextColor(void)
+void GF_FONT_InitTextColor(void)
 {
     GF_FONT_SetDefaultTextColor();
 }

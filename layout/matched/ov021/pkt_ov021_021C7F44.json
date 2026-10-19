@@ -18,8 +18,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "FIELD_FLASH_CmdShowExpanded",
-    "FIELD_FLASH_CmdHide"
+    "FIELD_FLASH_ShowExpanded",
+    "FIELD_FLASH_HideMask"
    ],
    "addresses": [
     "0x021C7F44",

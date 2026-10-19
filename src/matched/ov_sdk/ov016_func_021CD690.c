@@ -1,5 +1,5 @@
 /*
- * function: func_021CD690
+ * function: endScene
  * address:  0x021CD690
  * packet:   pkt_ov016_021CD690
  * region:   ov016
@@ -12,7 +12,7 @@
  * sdk:      endScene (libdwcutil.TWL.HYB.a scenesettestcomp)
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CD690.c \n *       --func func_021CD690 --addr 0x021CD690 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CD690.c \n *       --func endScene --addr 0x021CD690 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  *
  * symbols:
  *   DWCi_GetParam2_  0x021C0EA0  arm  ov016
@@ -28,7 +28,7 @@ extern int DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern void DWCi_ChangeScene(unsigned int v);
 extern void DWCi_SceneSetTestCompletet_endScene1(void);
 
-void func_021CD690(void)
+void endScene(void)
 {
     int scene;
     DWCi_GetParam2_(0, (unsigned int *)((void **)&scene));

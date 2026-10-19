@@ -1,5 +1,5 @@
 /*
- * function: func_021BCE7C
+ * function: DWCi_ButtonTaskEnd
  * address:  0x021BCE7C
  * packet:   pkt_ov016_021BCE7C
  * region:   ov016
@@ -30,7 +30,7 @@ extern void func_021BCBB4(int y);
 extern void DWCi_TSKlSetParam(char *p, unsigned int v);
 extern void func_021BCEE0(void *task);
 
-void func_021BCE7C(void *task)
+void DWCi_ButtonTaskEnd(void *task)
 {
     int x, y;
 

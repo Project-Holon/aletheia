@@ -1,5 +1,5 @@
 /*
- * function: func_021CE45C
+ * function: cbUsb
  * address:  0x021CE45C
  * packet:   pkt_ov016_021CE45C
  * region:   ov016
@@ -35,7 +35,7 @@ extern void func_021CE2D4(void);
 extern void func_021CE5B0(void);
 extern unsigned char gSceneSetUsbReady1Work;
 
-void func_021CE45C(int state)
+void cbUsb(int state)
 {
     if (gSceneSetUsbReady1Work != 0)
         return;

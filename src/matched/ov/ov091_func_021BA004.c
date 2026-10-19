@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: POKELIST_ShowLearnMoveResult, POKELIST_OpenTakeItemMenu
+ * function: POKELIST_ShowMoveLearned, POKELIST_OpenTakeItemMenu
  * address:  0x021BA004
  * packet:   pkt_ov091_021BA004
  * region:   ov091
@@ -44,7 +44,7 @@ extern void POKELIST_EndMessageToExit(char *p);
 extern void POKELIST_OpenChoiceMenu(u8 *p, int a1);
 extern void POKELIST_OnTakeItemChoice(u8 *p, int action);
 
-void POKELIST_ShowLearnMoveResult(u8 *p)
+void POKELIST_ShowMoveLearned(u8 *p)
 {
     PLIST_MESSAGE_CloseWindow(p, (u32 *)W(0x150));
     PLIST_MESSAGE_CreateWordSet((u16 *)p, W(0x150));

@@ -88,7 +88,7 @@
  *   GF_OVERLAY_Load  0x02034AC4  arm
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
- *   BMP_SetDisplaySwap  0x0204363C  arm
+ *   BG_SYS_SetLcdSwap  0x0204363C  arm
  *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   ov067_id       0x00000043  data
@@ -261,7 +261,7 @@ extern void SAVE_CONTROL_DeleteExtraSave(void *saveControl, u32 id);
 extern int GF_OVERLAY_Load(s32 overlayId);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
-extern void BMP_SetDisplaySwap(u32 swap);
+extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void GF_OVERLAY_Unload(int);
@@ -685,7 +685,7 @@ void DENDOU_VIEW_StateInit(DendouViewWork *work)
     BG_SYS_SetSubVisiblePlanes(0);
     *(volatile u16 *)DENDOU_VIEW_REG_MAIN_BLDCNT = 0;
     *(volatile u16 *)DENDOU_VIEW_REG_SUB_BLDCNT = 0;
-    BMP_SetDisplaySwap(0);
+    BG_SYS_SetLcdSwap(0);
     GXx_SetMasterBrightness_((volatile u16 *)DENDOU_VIEW_REG_MAIN_BRIGHT, -0x10);
     GXx_SetMasterBrightness_((volatile u16 *)DENDOU_VIEW_REG_SUB_BRIGHT, -0x10);
     DENDOU_VIEW_LoadHallOfFame(work);

@@ -1,5 +1,5 @@
 /*
- * function: func_021D1A80
+ * function: pushButton
  * address:  0x021D1A80
  * packet:   pkt_ov016_021D1A80
  * region:   ov016
@@ -52,7 +52,7 @@ extern u8 sWindowTable4[][2];
 extern u16 sWindowTable14[][4];
 extern u16 g_021DAA30[][4];
 
-void func_021D1A80(int idx)
+void pushButton(int idx)
 {
     void *obj;
 

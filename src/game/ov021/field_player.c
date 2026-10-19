@@ -24,7 +24,7 @@
  *   FIELDMAP_GetMoveKind  0x02188CFC  thumb
  *   GAME_DATA_SetPlayerMoveForm  0x02012ABC  thumb
  *   FLDMMDL_RAIL_GetNextLocation  0x0219E2F4  thumb
- *   GAME_DATA_SetPlayerRailLocation  0x02012AA4  thumb
+ *   GAME_DATA_SetPlayerRail  0x02012AA4  thumb
  *   FIELD_PLAYER_GRID_EVENT_TryPushBoulder  0x021C0CA4  thumb  ov021
  *   FIELDMAP_GetNogridMapper  0x02188C5C  thumb
  *   FIELDMAP_GetG3dMapper  0x02188C98  thumb
@@ -145,7 +145,7 @@ extern void GAME_DATA_SetPlayerDirectionType(struct PlayerWork *playerWork, int 
 extern u32 FIELDMAP_GetMoveKind(FieldMap *fieldMap);
 extern void GAME_DATA_SetPlayerMoveForm(struct PlayerWork *playerWork, u8 moveForm);
 extern void FLDMMDL_RAIL_GetNextLocation(const Mmdl *mmdl, void *railLocation);
-extern void GAME_DATA_SetPlayerRailLocation(struct PlayerWork *playerWork, const void *railLocation);
+extern void GAME_DATA_SetPlayerRail(struct PlayerWork *playerWork, const void *railLocation);
 extern int FIELD_PLAYER_GRID_EVENT_TryPushBoulder(FieldPlayerGrid *grid, int a, int b, int c);
 extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(FieldMap *fieldMap);
 extern int MAP_ATTR_GetAt(struct FieldG3dMapper *g3dMapper, FieldPlayerLocationPos *pos);
@@ -281,7 +281,7 @@ void FIELD_PLAYER_SaveToPlayerWork(FieldPlayer *player)
         return;
     }
     FLDMMDL_RAIL_GetNextLocation(mmdl, railLocation);
-    GAME_DATA_SetPlayerRailLocation(playerWork, railLocation);
+    GAME_DATA_SetPlayerRail(playerWork, railLocation);
     GAME_DATA_SetPlayerMoveForm(playerWork, 1);
 }
 

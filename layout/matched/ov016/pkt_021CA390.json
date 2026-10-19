@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CA390",
+   "name": "dispPushButton",
    "address": "0x021CA390",
    "kind": "sdk",
    "region": "ov016",
@@ -24,7 +24,7 @@
    }
   },
   {
-   "name": "func_021CA818",
+   "name": "DWCi_IsFold",
    "address": "0x021CA818",
    "kind": "sdk",
    "region": "ov016",
@@ -36,7 +36,7 @@
    "status": "EXACT"
   },
   {
-   "name": "DWCi_SceneSetRakuButton_DetectFold",
+   "name": "DWCi_IsFold",
    "address": "0x021CAC44",
    "kind": "sdk",
    "region": "ov016",

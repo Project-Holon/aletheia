@@ -2509,9 +2509,9 @@ void B_PLIST_DRAW_RegisterIconSet1(char *p)
 {
     void *owner;
     owner = ARC_TOOL_CreateHandle(83,(u16)((((struct B_PlistWork *)p)->owner->heapId & 0x7fff) | 0x8000));
-    ((struct B_PlistWork *)p)->field24BC = CLACT_RegisterCharacter(owner, 12, 0, 1, ((struct B_PlistWork *)p)->owner->heapId);
-    ((struct B_PlistWork *)p)->field2510 = CLACT_RegisterPalette(owner, 11, 1, 96, ((struct B_PlistWork *)p)->owner->heapId);
-    ((struct B_PlistWork *)p)->field2528 = CLACT_RegisterCellAnim(owner, 13, 16, ((struct B_PlistWork *)p)->owner->heapId);
+    ((struct B_PlistWork *)p)->iconSet1Char = CLACT_RegisterCharacter(owner, 12, 0, 1, ((struct B_PlistWork *)p)->owner->heapId);
+    ((struct B_PlistWork *)p)->iconSet1Pal = CLACT_RegisterPalette(owner, 11, 1, 96, ((struct B_PlistWork *)p)->owner->heapId);
+    ((struct B_PlistWork *)p)->iconSet1Cell = CLACT_RegisterCellAnim(owner, 13, 16, ((struct B_PlistWork *)p)->owner->heapId);
     ARC_TOOL_DeleteHandle(owner);
 }
 
@@ -2555,9 +2555,9 @@ void B_PLIST_DRAW_RegisterIconSet3(char *p)
 {
     void *owner;
     owner = ARC_TOOL_CreateHandle(83,(u16)((((struct B_PlistWork *)p)->owner->heapId & 0x7fff) | 0x8000));
-    ((struct B_PlistWork *)p)->field24C0 = CLACT_RegisterCharacter(owner, 65, 0, 1, ((struct B_PlistWork *)p)->owner->heapId);
-    ((struct B_PlistWork *)p)->field2514 = CLACT_RegisterPalette(owner, 66, 1, 128, ((struct B_PlistWork *)p)->owner->heapId);
-    ((struct B_PlistWork *)p)->field252C = CLACT_RegisterCellAnim(owner, 67, 70, ((struct B_PlistWork *)p)->owner->heapId);
+    ((struct B_PlistWork *)p)->iconSet3Char = CLACT_RegisterCharacter(owner, 65, 0, 1, ((struct B_PlistWork *)p)->owner->heapId);
+    ((struct B_PlistWork *)p)->iconSet3Pal = CLACT_RegisterPalette(owner, 66, 1, 128, ((struct B_PlistWork *)p)->owner->heapId);
+    ((struct B_PlistWork *)p)->iconSet3Cell = CLACT_RegisterCellAnim(owner, 67, 70, ((struct B_PlistWork *)p)->owner->heapId);
     ARC_TOOL_DeleteHandle(owner);
 }
 

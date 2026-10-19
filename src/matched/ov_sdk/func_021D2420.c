@@ -1,5 +1,5 @@
 /*
- * function: func_021D2420
+ * function: MBPi_CheckAllReboot
  * address:  0x021D2420
  * packet:   pkt_021D2420
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D2420 0x021D2420 arm
+ *   MBPi_CheckAllReboot 0x021D2420 arm
  *   DWCi_DwcMoveidMB_EndToIdle  0x021F5F74  arm
  *
  * Guard on the kind and the paired words of the object at 0x021DE65C.
@@ -19,7 +19,7 @@
 
 extern void DWCi_DwcMoveidMB_EndToIdle(void);
 
-void func_021D2420(void)
+void MBPi_CheckAllReboot(void)
 {
     unsigned short *p = *(unsigned short **)0x021DE65C;
 

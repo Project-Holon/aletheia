@@ -1,5 +1,5 @@
 /*
- * function: func_02089378
+ * function: SND_StartPreparedSeq
  * address:  0x02089378
  * packet:   pkt_02089378
  * region:   arm9
@@ -28,15 +28,15 @@
  *   func_02089804  0x02089804  arm
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_02089378.c \
- *       --func func_02089378 --addr 0x02089378 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/SND_StartPreparedSeq.c \
+ *       --func SND_StartPreparedSeq --addr 0x02089378 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
 
 extern int func_02089804(int code, u32 a, u32 b, u32 c, u32 d);
 
-int func_02089378(u32 a)
+int SND_StartPreparedSeq(u32 a)
 {
     u32 z = 0;
 

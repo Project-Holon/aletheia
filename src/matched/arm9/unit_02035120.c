@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: UI_SetResumeHook, sub_0203512C
+ * function: UI_SetResumeHook, UI_SetWakePoweredHook
  * address:  0x02035120
  * packet:   pkt_02035080
  * region:   arm9
@@ -45,7 +45,7 @@ void UI_SetResumeHook(struct Obj02035120 *p, u32 a, u32 b)
     p->unk2C = b;
 }
 
-void sub_0203512C(struct Obj02035120 *p, u32 a, u32 b)
+void UI_SetWakePoweredHook(struct Obj02035120 *p, u32 a, u32 b)
 {
     p->unk20 = a;
     p->unk30 = b;

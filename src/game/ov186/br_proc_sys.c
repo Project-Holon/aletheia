@@ -109,7 +109,7 @@ typedef struct { struct { u16 id; u16 x; } e[6]; int n; } BrProcStack;
 typedef struct { u8 pad[0x24]; BrProcStack *s; } BrProcStackWork;
 
 typedef struct Inner {
-    int f0;
+    int reserved00;
     int saveControl;
 } Inner;
 

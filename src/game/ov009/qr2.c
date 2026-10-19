@@ -33,7 +33,7 @@
  *   SOC_InetNtoA   0x0215FA9C  arm  ov009
  *   OS_SPrintf     0x02084F40  arm
  *   memcpy         0x02092344  arm
- *   memset         0x020923B0  arm
+ *   MSL_C_LIB_MemsetPtr         0x020923B0  arm
  *   rand           0x02094694  arm
  *   srand          0x020946C8  arm
  *   strlen         0x0209477C  arm
@@ -341,7 +341,7 @@ int qr2_init_socketA(qr2_implementation_s **qrec, int s, int boundport, char *ga
         cr->client_message_keys[i] = -1;
     cr->cur_message_key = 0;
 
-    memset(cr->ipverify, 0, sizeof(cr->ipverify));
+    MSL_C_LIB_MemsetPtr(cr->ipverify, 0, sizeof(cr->ipverify));
 
     enum_local_ips();
 
@@ -583,7 +583,7 @@ static void enum_local_ips(void)
  * INDIVIDUAL STATEMENTS through an unsigned char *, not a loop and not a
  * memset: the image keeps them as six `strb`s (offsets 2..7, in that order,
  * with the port-swap `orr` scheduled into the middle) and both a byte loop
- * (which CW leaves rolled) and memset (a call) miss.  byte 0 and the family
+ * (which CW leaves rolled) and MSL_C_LIB_MemsetPtr (a call) miss.  byte 0 and the family
  * byte are written afterwards, in that order.
  */
 static int get_sockaddrin(char *host, int port, SOCSockAddrIn *saddr, SOCHostEnt **savehent)

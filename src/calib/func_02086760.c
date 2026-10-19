@@ -1,5 +1,5 @@
 /*
- * function: func_02086760
+ * function: OS_SetArenaHi
  * address:  0x02086760
  * packet:   pkt_02086760
  * region:   arm9
@@ -12,7 +12,7 @@
 
 typedef unsigned int u32;
 
-void func_02086760(u32 idx, u32 val)
+void OS_SetArenaHi(u32 idx, u32 val)
 {
     *(u32 *)((idx << 2) + 0x02FFFDC4) = val;
 }

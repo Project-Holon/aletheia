@@ -45,7 +45,7 @@
  *   WIFI_HISTORY_SetEntryField  0x02009698  thumb
  *   WIFI_HISTORY_SetRatingLevel  0x020095FC  thumb
  *   WIFI_HISTORY_SetGreetingSet  0x02009618  thumb
- *   VM_GetU16  0x02011330  thumb
+ *   VM_ReadU16  0x02011330  thumb
  */
 #include "enceff_shared_types.h"
 #include "scrcmd_otid_shared_types.h"
@@ -81,7 +81,7 @@ extern u16 *SCRIPT_WORK_ReadWorkPointer(struct ScriptVm *vm, struct ScrcmdWork *
 
 extern u16 SCRIPT_WORK_ReadWorkValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-extern u16 VM_GetU16(struct ScriptVm *vm);
+extern u16 VM_ReadU16(struct ScriptVm *vm);
 
 extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 
@@ -443,7 +443,7 @@ int SCRCMD_GetPartnerGreetingMessageFromScript(struct ScriptVm *vm, struct Scrcm
     candidates = GAME_DATA_GetSaveSyncBlock(GAMESYSTEM_GetGameData(gameSystem));
     wordSet = SCRIPT_WORK_GetWordSet(scriptWork);
     candidateIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    variant = VM_GetU16(vm);
+    variant = VM_ReadU16(vm);
     resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     *resultVar = SCRCMD_GetPartnerGreetingMessage(wordSet, gameSystem, candidates, candidateIndex, variant);
     return 0;

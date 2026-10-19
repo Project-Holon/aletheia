@@ -1,5 +1,5 @@
 /*
- * function: func_021C2D74
+ * function: input
  * address:  0x021C2D74
  * packet:   pkt_ov016_021C2D74
  * region:   ov016
@@ -54,7 +54,7 @@ extern RectT sSceneOptMenuTouchRects[3];
 extern struct RectT sSceneOptMenuFocusX0[3];
 extern struct FocusPosT gSceneOptMenuWork;
 
-void func_021C2D74(void)
+void input(void)
 {
 	unsigned i;
 

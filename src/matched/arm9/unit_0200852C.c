@@ -12,9 +12,9 @@
  * isa:      thumb
  * status:   EXACT
  * function: MYSTATUS_SetId, MYSTATUS_GetId, MYSTATUS_GetIdLow16, MYSTATUS_GetProfileId,
- *           MYSTATUS_SetProfileIdOnce, MYSTATUS_SetOutfitVariant, MYSTATUS_GetOutfitVariant, MYSTATUS_GetOutfit,
- *           MYSTATUS_SetOutfit, MYSTATUS_GetAvatarId, MYSTATUS_SetAvatarId, MYSTATUS_GetGender,
- *           MYSTATUS_SetGender, MYSTATUS_GetLanguage, MYSTATUS_GetVersion, MYSTATUS_SetLanguageAndVersion
+ *           MYSTATUS_SetProfileIdOnce, MYSTATUS_SetSex, MYSTATUS_GetSex, MYSTATUS_GetTrainerView,
+ *           MYSTATUS_SetTrainerView, MYSTATUS_GetRomCode, MYSTATUS_SetRomCode, MYSTATUS_GetLanguage,
+ *           MYSTATUS_SetLanguage, MYSTATUS_GetNation, MYSTATUS_GetArea, MYSTATUS_SetNationAndArea
  *
  * 0x0200852C..0x0200857C is 80 bytes of nothing but accessors on one object,
  * sixteen of them, and the address range is closed on both sides: the
@@ -99,57 +99,57 @@ void MYSTATUS_SetProfileIdOnce(struct Sub0200852CObj *obj, u32 value)
     }
 }
 
-void MYSTATUS_SetOutfitVariant(struct Sub0200852CObj *obj, u8 value)
+void MYSTATUS_SetSex(struct Sub0200852CObj *obj, u8 value)
 {
     obj->unk1D = value;
 }
 
-u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj)
+u8 MYSTATUS_GetSex(const struct Sub0200852CObj *obj)
 {
     return obj->unk1D;
 }
 
-u8 MYSTATUS_GetOutfit(const struct Sub0200852CObj *obj)
+u8 MYSTATUS_GetTrainerView(const struct Sub0200852CObj *obj)
 {
     return obj->unk1C;
 }
 
-void MYSTATUS_SetOutfit(struct Sub0200852CObj *obj, u8 value)
+void MYSTATUS_SetTrainerView(struct Sub0200852CObj *obj, u8 value)
 {
     obj->unk1C = value;
 }
 
-u8 MYSTATUS_GetAvatarId(const struct Sub0200852CObj *obj)
+u8 MYSTATUS_GetRomCode(const struct Sub0200852CObj *obj)
 {
     return obj->unk1B;
 }
 
-void MYSTATUS_SetAvatarId(struct Sub0200852CObj *obj, u8 value)
+void MYSTATUS_SetRomCode(struct Sub0200852CObj *obj, u8 value)
 {
     obj->unk1B = value;
 }
 
-u8 MYSTATUS_GetGender(const struct Sub0200852CObj *obj)
+u8 MYSTATUS_GetLanguage(const struct Sub0200852CObj *obj)
 {
     return obj->unk1A;
 }
 
-void MYSTATUS_SetGender(struct Sub0200852CObj *obj, u8 value)
+void MYSTATUS_SetLanguage(struct Sub0200852CObj *obj, u8 value)
 {
     obj->unk1A = value;
 }
 
-u8 MYSTATUS_GetLanguage(const struct Sub0200852CObj *obj)
+u8 MYSTATUS_GetNation(const struct Sub0200852CObj *obj)
 {
     return obj->unk18;
 }
 
-u8 MYSTATUS_GetVersion(const struct Sub0200852CObj *obj)
+u8 MYSTATUS_GetArea(const struct Sub0200852CObj *obj)
 {
     return obj->unk19;
 }
 
-void MYSTATUS_SetLanguageAndVersion(struct Sub0200852CObj *obj, u8 a, u8 b)
+void MYSTATUS_SetNationAndArea(struct Sub0200852CObj *obj, u8 a, u8 b)
 {
     obj->unk18 = a;
     obj->unk19 = b;

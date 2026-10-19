@@ -1,5 +1,5 @@
 /*
- * function: func_021CF174
+ * function: callback
  * address:  0x021CF174
  * packet:   pkt_ov016_021CF174
  * region:   ov016
@@ -44,7 +44,7 @@ extern int func_021CF04C(void);
 extern void OS_Terminate(void);
 extern MS *gSearchWork;
 
-void func_021CF174(void *arg)
+void callback(void *arg)
 {
 	SCANCB *prm = (SCANCB *)arg;
 

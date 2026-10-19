@@ -1,5 +1,5 @@
 /*
- * function: ov021_func_021A4B98
+ * function: FIELD_PLAYER_GRID_GetWalkResultOnSurf
  * address:  0x021A4B98
  * packet:   pkt_ov021_021A4B98
  * region:   ov021
@@ -28,7 +28,7 @@ extern int FIELD_PLAYER_GRID_GetStepHitFlags(u8 *a, void *b, u32 c, int *d);
 extern u16 MAP_ATTR_GetTerrainId(u32 attr);
 extern u16 MAP_ATTR_GetFlags(u32 attr);
 
-int ov021_func_021A4B98(u8 *a, void *b, u8 *c)
+int FIELD_PLAYER_GRID_GetWalkResultOnSurf(u8 *a, void *b, u8 *c)
 {
     int sp;
     u32 r;

@@ -1,5 +1,5 @@
 /*
- * function: func_0216090C
+ * function: auth_cert
  * address:  0x0216090C
  * packet:   pkt_ov009_0216090C
  * region:   ov009
@@ -48,7 +48,7 @@ extern void func_02163DA8(void *ctx, unsigned char *digest);
 extern SOCLCaInfo *get_rootCA(CPSSslConnection *con, char *dn);
 extern int func_02160764(struct CPSSslConnection *con, struct SOCLCaInfo *ca);
 
-static int func_0216090C(CPSSslConnection *con)
+static int auth_cert(CPSSslConnection *con)
 {
     int result;
     SOCLCaInfo *p;

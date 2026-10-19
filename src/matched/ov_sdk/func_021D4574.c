@@ -1,5 +1,5 @@
 /*
- * function: func_021D4574
+ * function: _DWCi_MOVEnd
  * address:  0x021D4574
  * packet:   pkt_021D4574
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021D4574 0x021D4574 arm
+ *   _DWCi_MOVEnd 0x021D4574 arm
  *   DWCi_MOV_WH_End  0x021D3AC8  arm
  *
  * Enter state 1 once func_021D3250 reports ready.
@@ -20,7 +20,7 @@
 extern unsigned int func_021D3250(void);
 extern int DWCi_MOV_WH_End(void);
 
-int func_021D4574(void)
+int _DWCi_MOVEnd(void)
 {
     if (func_021D3250() != 1)
         return 0;

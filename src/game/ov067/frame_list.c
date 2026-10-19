@@ -21,7 +21,6 @@
  *   KEY_GetTrg  0x020362DC  arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BMP_WIN_GetBmp  0x02045770  arm
- *   ENV_SetResourceSet  0x020307B0  arm
  *   BMP_WIN_Create  0x020450F0  arm
  *   BMP_WIN_Delete  0x020452E8  arm
  *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
@@ -77,7 +76,6 @@ extern void UI_SetInputMode(u8 value);
 extern u32 KEY_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern struct Bitmap *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void ENV_SetResourceSet(void *ptr);
 extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 x, u32 y, u32 width, u8 height, u8 pltt, u8 slot);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *printer, struct Bitmap *bitmap);
@@ -233,20 +231,20 @@ void FRAME_LIST_Delete(FrameList *list)
 {
     u32 index;
 
-    ENV_SetResourceSet(list->hitRects);
+    GFL_HEAP_Free(list->hitRects);
     for (index = 0; index < list->windowCount; index++)
         BMP_WIN_Delete(list->windows[index].window);
-    ENV_SetResourceSet(list->windows);
+    GFL_HEAP_Free(list->windows);
     BGWINFRM_Delete(list->frameMgr);
     if (list->params.mapCount != 0) {
         for (index = 0; index < list->params.mapCount; index++)
-            ENV_SetResourceSet(list->maps[index]);
-        ENV_SetResourceSet(list->maps);
+            GFL_HEAP_Free(list->maps[index]);
+        GFL_HEAP_Free(list->maps);
     }
-    ENV_SetResourceSet(list->items);
+    GFL_HEAP_Free(list->items);
     BLINK_PALANM_Delete(list->cursorAnim);
     PRINTSYS_QUE_Delete(list->printer);
-    ENV_SetResourceSet(list);
+    GFL_HEAP_Free(list);
 }
 
 

@@ -42,10 +42,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "NNS_G2dSetRndCore3DSoftSpriteZvalue"
+    "NNS_G2dSetRndCore3DSoftSpriteZvalue",
+    "NNS_G2dSetRndCoreSurface",
+    "NNSi_G2dIsRndCoreFlipH",
+    "NNSi_G2dIsRndCoreFlipV"
    ],
    "addresses": [
-    "0x02067B40"
+    "0x02067B40",
+    "0x02067B48",
+    "0x02067B50",
+    "0x02067B64"
    ]
   },
   {

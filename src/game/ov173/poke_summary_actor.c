@@ -388,16 +388,16 @@ int POKE_SUMMARY_ACTOR_StartProc(char *work)
     POKE_SUMMARY_MAIN_ExitScreen(work);
     q = *(char * *)&((struct PokeSummaryWork *)work)->mon;
     ((struct PokeSummaryWork *)work)->procArgs.party = (unsigned int)((struct PokeSummaryMon *)q)->party;
-    ((struct PokeSummaryWork *)work)->procArgs.field04 = ((struct PokeSummaryMon *)q)->field08;
+    ((struct PokeSummaryWork *)work)->procArgs.config = ((struct PokeSummaryMon *)q)->config;
     ((struct PokeSummaryWork *)work)->procArgs.gameData = GAMESYSTEM_GetGameData(((struct PokeSummaryMon *)q)->gameSystem);
     zero = 0;
-    ((struct PokeSummaryWork *)work)->procArgs.field0C = zero;
+    ((struct PokeSummaryWork *)work)->procArgs.type = zero;
     ((struct PokeSummaryWork *)work)->procArgs.partyPos = zero;
-    ((struct PokeSummaryWork *)work)->procArgs.field0E = 1;
+    ((struct PokeSummaryWork *)work)->procArgs.slotCount = 1;
     ((struct PokeSummaryWork *)work)->procArgs.record = POKE_SUMMARY_MAIN_GetRecordWord((char **)work);
-    ((struct PokeSummaryWork *)work)->procArgs.field0D = 2;
-    ((struct PokeSummaryWork *)work)->procArgs.field10 = zero;
-    ((struct PokeSummaryWork *)work)->procArgs.field18 = zero;
+    ((struct PokeSummaryWork *)work)->procArgs.enabled = 2;
+    ((struct PokeSummaryWork *)work)->procArgs.mode = zero;
+    ((struct PokeSummaryWork *)work)->procArgs.nationalDexEnabled = zero;
     GAMESYSTEM_CallProc(((struct PokeSummaryMon *)(*(char * *)&((struct PokeSummaryWork *)work)->mon))->gameSystem, (u32)k_83, gPokeStatusProcData, work + 0x180);
     return 12;
 }

@@ -1,5 +1,5 @@
 /*
- * function: func_021CBDF8
+ * function: initObj
  * address:  0x021CBDF8
  * packet:   pkt_ov016_021CBDF8
  * region:   ov016
@@ -48,7 +48,7 @@ extern const struct tagCOORD C_CELL[6];
 extern unsigned char sSceneSetSelectApCellTypes[4];
 extern struct SCENESETSELECTAP_BSS g_021DE60C;
 
-void func_021CBDF8(void)
+void initObj(void)
 {
     int j;
     int type;

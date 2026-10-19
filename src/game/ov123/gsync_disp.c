@@ -41,7 +41,7 @@
  *   DC_FlushRange 0x020862F0 arm
  *   GXS_LoadBGPltt 0x0207E468 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
- *   BMP_SetDisplaySwap 0x0204363C arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   GX_DispOn 0x0207D46C arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   BG_SYS_SetVramBanks 0x020433E0 arm
@@ -167,7 +167,7 @@ extern void GXS_LoadBGPltt(void *, int, int);
 
 extern void CLACT_VBlankSystem(void);
 
-extern void BMP_SetDisplaySwap(u32 swap);
+extern void BG_SYS_SetLcdSwap(u32 swap);
 
 extern void GX_DispOn(void);
 
@@ -372,7 +372,7 @@ u8 *GSYNC_DISP_Init(u32 heap)
     disp=(GsyncDispWork *) GFL_HEAP_Alloc(heap,0x4568,1,gGsyncDispAllocSource,0xfe);
     disp->heapId=heap;
     GF_OVERLAY_Load((int)ov067_id);
-    BG_SYS_SetMainVisiblePlanes(0); BG_SYS_SetSubVisiblePlanes(0); BMP_SetDisplaySwap(1);
+    BG_SYS_SetMainVisiblePlanes(0); BG_SYS_SetSubVisiblePlanes(0); BG_SYS_SetLcdSwap(1);
     *(volatile u32 *)0x04001000|=0x10000;
     GX_DispOn();
     BG_SYS_Create(disp->heapId);

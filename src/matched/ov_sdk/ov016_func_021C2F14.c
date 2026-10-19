@@ -1,5 +1,5 @@
 /*
- * function: func_021C2F14
+ * function: endScene
  * address:  0x021C2F14
  * packet:   pkt_ov016_021C2F14
  * region:   ov016
@@ -23,7 +23,7 @@ extern int DWCi_EFFlWait(int frame);
 extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021C2F34(void);
 
-void func_021C2F14(void)
+void endScene(void)
 {
 	DWCi_BTNlDisable();
 	DWCi_EFFlWait(8);

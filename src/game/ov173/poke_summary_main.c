@@ -47,7 +47,7 @@
  *   BG_SYS_ClearSubPlanes  0x02043588  arm
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   WIPE_SYS_Start  0x0202208C  thumb
- *   BMP_SetDisplaySwap  0x0204363C  arm
+ *   BG_SYS_SetLcdSwap  0x0204363C  arm
  *   GFL_USE_AddMainTask  0x020056A0  thumb
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   POKE_SUMMARY_ACTOR_CreateActors  0x021B7A00  thumb  ov173
@@ -258,7 +258,7 @@ extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
-extern void BMP_SetDisplaySwap(u32 swap);
+extern void BG_SYS_SetLcdSwap(u32 swap);
 extern u32 GFL_USE_AddMainTask(void (*cb)(void), void *p, int n);
 extern void ARC_TOOL_DeleteHandle(u32 a);
 extern void POKE_SUMMARY_ACTOR_CreateActors(char *p, void *arg);
@@ -555,7 +555,7 @@ void POKE_SUMMARY_MAIN_InitScreen(u8 *work)
     POKE_SUMMARY_ACTOR_CreateSound(work);
     POKE_SUMMARY_ACTOR_SetIdleAnim(work);
     WIPE_SYS_Start(0, 1, 1, 0, 6, 1, 0x4f);
-    BMP_SetDisplaySwap(1);
+    BG_SYS_SetLcdSwap(1);
     ((struct PokeSummaryWork *)work)->vblankTask = (void *)GFL_USE_AddMainTask((void (*)(void))POKE_SUMMARY_MAIN_VBlankCallback, work, 0x10);
     ARC_TOOL_DeleteHandle((u32)q);
     POKE_SUMMARY_MAIN_CreateTaskMenu(work);
@@ -1138,8 +1138,8 @@ void POKE_SUMMARY_MAIN_BuildMoveList(char *work)
         }
     }
     MSGDATA_Delete(bank);
-    ((struct PokeSummaryWork *)work)->field1BB = 0;
-    ((struct PokeSummaryWork *)work)->field1BC = ((struct PokeSummaryWork *)work)->mon->selectedIndex;
+    ((struct PokeSummaryWork *)work)->reserved1BB = 0;
+    ((struct PokeSummaryWork *)work)->selectedRow = ((struct PokeSummaryWork *)work)->mon->selectedIndex;
     POKE_SUMMARY_MAIN_RedrawMoveList(work);
 }
 

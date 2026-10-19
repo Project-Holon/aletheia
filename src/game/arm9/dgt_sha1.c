@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   MATHi_SHA1ProcessBlock  0x02081E7C  arm
+ *   MATHi_SHA1Transform  0x02081E7C  arm
  *   MI_CpuFill8                        0x02082BCC  arm
  *   MATHi_SHA1ProcessMessageBlockFunc  0x020A8688  data
  *   MATHi_OverlayTableMode             0x02150E68  data
@@ -52,7 +52,7 @@ typedef struct MATHiHMACFuncs {
     void (*HashGetDigest)(void *context, void *digest);
 } MATHiHMACFuncs;
 
-extern void MATHi_SHA1ProcessBlock(MATHSHA1Context *context);
+extern void MATHi_SHA1Transform(MATHSHA1Context *context);
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
 extern void MATHi_CalcHMAC(void *mac, const void *message, u32 message_length, const void *key, u32 key_length, MATHiHMACFuncs *funcs);
@@ -81,7 +81,7 @@ static void MATHi_SHA1ProcessBlockForOverlay(MATHSHA1Context *context)
 
     block[6] = 0;
     block[14] = 0;
-    MATHi_SHA1ProcessBlock(context);
+    MATHi_SHA1Transform(context);
     block[6] = s0;
     block[14] = s1;
 }
@@ -130,7 +130,6 @@ static void MATHi_SHA1Fill(MATHSHA1Context *context, u8 input, u32 length)
 
 
 
-extern void (*MATHi_SHA1ProcessMessageBlockFunc)(MATHSHA1Context *context);
 
 
 
@@ -146,7 +145,7 @@ int MATHi_SetOverlayTableMode(int flag)
     if (flag) {
         MATHi_SHA1ProcessMessageBlockFunc = MATHi_SHA1ProcessBlockForOverlay;
     } else {
-        MATHi_SHA1ProcessMessageBlockFunc = MATHi_SHA1ProcessBlock;
+        MATHi_SHA1ProcessMessageBlockFunc = MATHi_SHA1Transform;
     }
     return prev;
 }
@@ -173,7 +172,6 @@ void MATH_SHA1Init(MATHSHA1Context *context)
 
 
 
-extern void (*MATHi_SHA1ProcessMessageBlockFunc)(MATHSHA1Context *context);
 
 
 
@@ -205,7 +203,6 @@ void MATH_SHA1Update(MATHSHA1Context *context, const void *input, u32 length)
 
 
 
-extern void (*MATHi_SHA1ProcessMessageBlockFunc)(MATHSHA1Context *context);
 
 
 

@@ -1,5 +1,5 @@
 /*
- * function: ov021_func_021A482C
+ * function: FIELD_PLAYER_GRID_GetHoldResultOnFootHop
  * address:  0x021A482C
  * packet:   pkt_ov021_021A482C
  * region:   ov021
@@ -31,7 +31,7 @@ extern int FIELD_PLAYER_GRID_EndHold(u32 a);
 extern void FIELD_PLAYER_GRID_SetHopFlag(u32 *p, int on);
 extern int FIELD_PLAYER_GRID_GetWalkResultOnFootHop(u8 *, u32, u8 *);
 
-int ov021_func_021A482C(u8 *a, u32 b, u8 *c)
+int FIELD_PLAYER_GRID_GetHoldResultOnFootHop(u8 *a, u32 b, u8 *c)
 {
     if (((struct Obj19788 *)c)->f8 == 9) {
         if (FIELD_PLAYER_GRID_IsHoldFlagSet((u32)a) == 0) {

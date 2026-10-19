@@ -30,7 +30,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0202DE5C"
+    "PMS_DRAW_SetNullColorPalette",
+    "PMS_DRAW_SetPrintColor",
+    "PMS_DRAW_SetFollowBgScroll"
+   ],
+   "addresses": [
+    "0x0202DE5C",
+    "0x0202DE64",
+    "0x0202DE68"
    ]
   }
  ]

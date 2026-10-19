@@ -30,7 +30,7 @@
  *   SYMBOL_SAVE_GetBitBlock  0x0200E394  thumb
  *   MISC_SAVEDATA_GetStatusByte  0x0200E44C  thumb
  *   QUESTIONNAIRE_GetAnswerMax  0x02167394  thumb
- *   SYMBOL_SAVE_GetQuestionnaireAnswer  0x0200E3A4  thumb
+ *   SYMBOL_SAVE_ReadBitField  0x0200E3A4  thumb
  *   MISC_SAVEDATA_IsTallyFull  0x0200E49C  thumb
  *   MISC_SAVEDATA_AddHalfwordClamped  0x0200E460  thumb
  *   MISC_SAVEDATA_AddTallyValue  0x0200E4CC  thumb
@@ -139,7 +139,7 @@ extern int   MISC_SAVEDATA_GetStatusByte(struct QuestionnaireSave *questionnaire
 
 extern u32   QUESTIONNAIRE_GetAnswerMax(u8 questionId);
 
-extern u32   SYMBOL_SAVE_GetQuestionnaireAnswer(const u8 *answers, u8 questionId);
+extern u32   SYMBOL_SAVE_ReadBitField(const u8 *answers, u8 questionId);
 
 extern u32 MISC_SAVEDATA_IsTallyFull(struct QuestionnaireSave *questionnaire, u32 questionId, u32 answer);
 
@@ -421,7 +421,7 @@ static inline u32 GAME_BEACON_GetAnswer(const GameBeaconInfo *info, int question
         if (answer > QUESTIONNAIRE_GetAnswerMax(questionId))
             answer = QUESTIONNAIRE_GetAnswerMax(questionId);
     } else {
-        answer = SYMBOL_SAVE_GetQuestionnaireAnswer(info->questionnaire, questionId);
+        answer = SYMBOL_SAVE_ReadBitField(info->questionnaire, questionId);
     }
     return answer;
 }

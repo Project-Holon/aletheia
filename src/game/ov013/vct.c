@@ -25,7 +25,7 @@
  *   gVctState     0x021B60CC  data ov013
  *   VCT_MIXER_Init  0x021B0508  arm ov013
  *   VCT_SESSION_InitPeerPool  0x021B22B4  arm ov013
- *   VCT_SESSION_ClearPeerLists  0x021B23C8  arm ov013
+ *   VCT_SESSION_ResetPeerPool  0x021B23C8  arm ov013
  *   VCT_POOL_InitFrames  0x021B2ED8  arm ov013
  *   VCT_POOL_Reset  0x021B2F98  arm ov013
  *   VCT_MIXER_ClearMemberCount  0x021B0600  arm ov013
@@ -47,7 +47,7 @@ extern int  VCT_MIXER_Init(void);
 
 extern int VCT_SESSION_InitPeerPool(VctInitParams *params);
 
-extern void VCT_SESSION_ClearPeerLists(void);
+extern void VCT_SESSION_ResetPeerPool(void);
 
 extern int VCT_POOL_InitFrames(VctRxPacket *buffer, u32 size);
 
@@ -112,7 +112,7 @@ int VCT_Init(VctInitParams *params)
         gVctState.initialized = 1;
         return 1;
     }
-    VCT_SESSION_ClearPeerLists();
+    VCT_SESSION_ResetPeerPool();
     VCT_POOL_Reset();
     return 0;
 }
@@ -120,7 +120,7 @@ int VCT_Init(VctInitParams *params)
 void VCT_Exit(void)
 {
     VCT_MIXER_ClearMemberCount();
-    VCT_SESSION_ClearPeerLists();
+    VCT_SESSION_ResetPeerPool();
     VCT_POOL_Reset();
     gVctState.session.mode = 0;
     gVctState.initialized = 0;

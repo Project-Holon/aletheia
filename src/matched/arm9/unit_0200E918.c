@@ -10,12 +10,12 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: MISC_SAVEDATA_GetKeyByte, MISC_SAVEDATA_AddKeyByte
+ * function: LIVEBATTLEMATCH_SAVE_GetCounter, LIVEBATTLEMATCH_SAVE_AddCounter
  *
  * alias: a byte array at offset 6 of some base object, indexed by the second
- * parameter.  MISC_SAVEDATA_GetKeyByte is the plain getter; MISC_SAVEDATA_AddKeyByte adds a signed
+ * parameter.  LIVEBATTLEMATCH_SAVE_GetCounter is the plain getter; LIVEBATTLEMATCH_SAVE_AddCounter adds a signed
  * delta to one element and clamps the result to 0..255 before storing it
- * back.  MISC_SAVEDATA_GetKeyByte has no register-saving prologue (two instructions, no
+ * back.  LIVEBATTLEMATCH_SAVE_GetCounter has no register-saving prologue (two instructions, no
  * push), so disasm.py's sweep never labelled it; it sits in the listing as a
  * .word between two functions.  See
  * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md.
@@ -28,12 +28,12 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-u8 MISC_SAVEDATA_GetKeyByte(const u8 *base, u32 idx)
+u8 LIVEBATTLEMATCH_SAVE_GetCounter(const u8 *base, u32 idx)
 {
     return (base + idx)[6];
 }
 
-void MISC_SAVEDATA_AddKeyByte(u8 *base, u32 idx, int delta)
+void LIVEBATTLEMATCH_SAVE_AddCounter(u8 *base, u32 idx, int delta)
 {
     u8 *p = base + 6;
     int v = p[idx] + delta;

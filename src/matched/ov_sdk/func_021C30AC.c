@@ -1,5 +1,5 @@
 /*
- * function: func_021C30AC
+ * function: moveFocus
  * address:  0x021C30AC
  * packet:   pkt_021C30AC
  * region:   ov016
@@ -36,7 +36,7 @@ extern u16 sSceneOptMenuFocusY0[][4];
 extern u16 sSceneOptMenuFocusX1[][4];
 extern u16 sSceneOptMenuFocusY1[][4];
 
-void func_021C30AC(int a)
+void moveFocus(int a)
 {
     u8 i;
 

@@ -444,7 +444,7 @@ extern int COMM_PLAYER_SearchGridPos(struct CommPlayerWork *commPlayer, int grid
 extern int SYMBOL_MAP_IsHomeCell(int cellKind);
 extern int SYMBOL_MAP_IsPlainCell(int cellKind);
 extern void EVENT_FIELD_PROCLINK_SetReturnLinkId(u8 *returnSlots, u16 linkId);
-extern struct GameEvent *FIELD_INTRUDE_EVENT_CreateSymbolEntryEvent(struct GameSystem *gameSystem, int a1, VecFx32 *pos, int a3, int a4);
+extern struct GameEvent *FIELD_INTRUDE_EVENT_CreateSymbolEntryEvent(struct GameSystem *gameSystem, int playSe, VecFx32 *pos, int edge, int cellId);
 extern Mmdl *FLDMMDL_AddMmdl(MmdlSys *mmdlSys, const MmdlHeader *header, int zoneId);
 extern int FLDMMDL_CheckPossibleAcmd(Mmdl *mmdl);
 extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
@@ -476,12 +476,12 @@ extern int INTRUDE_COMM_HasResultReward(IntrudeCommSys *work, IntrudeSession *se
 extern int INTRUDE_COMM_IsRequestFromSelf(IntrudeCommSys *work);
 extern void INTRUDE_COMM_SetWordSetRequest(IntrudeMemberRecord *record, IntrudeMemberName *name, int wordSet, u16 netId);
 extern IntrudeCommSys *INTRUDE_COMM_GetWorkIfRunning(struct GameComm *gameComm);
-extern int INTRUDE_COMM_IsStepToOwnArea(struct GameComm *gameComm, struct GameData *gameData, int a2);
+extern int INTRUDE_COMM_IsStepToOwnArea(struct GameComm *gameComm, struct GameData *gameData, int stepKind);
 extern int EVENT_COMM_COMMON_CreateOfferEvent(struct GameSystem *gameSystem, IntrudeCommSys *work, IntrudeMemberRecord *offer);
 extern struct GameEvent *EVENT_MAPCHANGE_CreateIntrudeReturnEvent(struct GameSystem *gameSystem);
 /* map matrix and field map */
 extern struct MapMatrix *MAP_MATRIX_Create(int heapId);
-extern int MAP_MATRIX_Load(struct MapMatrix *matrix, int a1, int a2, int a3);
+extern int MAP_MATRIX_Load(struct MapMatrix *matrix, int matrixId, int zoneId, int heapId);
 extern void MAP_MATRIX_Delete(struct MapMatrix *matrix);
 extern void FIELD_G3D_MAPPER_AppendMatrix(struct FieldMap *fieldMap, int mapper, struct MapMatrix *matrix);
 extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
@@ -492,20 +492,20 @@ extern unsigned int FIELDMAP_GetG3dMapper(struct FieldMap *fieldMap);
 extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
 extern int FIELDMAP_GetPlaceName(struct FieldMap *fieldMap);
-extern void FIELD_PLACE_NAME_ForceShowForZone(int a0, int a1);
+extern void FIELD_PLACE_NAME_ForceShowForZone(int placeName, int zoneId);
 /* FIELD_MSGBG */
 extern struct MsgData *FIELD_MSGBG_CreateMsgData(struct FieldMsgBg *msgBg, u32 msgDataId);
 extern struct MsgWin *FIELD_MSGBG_CreateBottomMsgWin(struct FieldMsgBg *msgBg, struct MsgData *msgData);
-extern int FIELD_MSGBG_MsgWinPrintMsg(struct MsgWin *msgWin, u32 a1, u32 a2, u32 msgId);
-extern void FIELD_MSGBG_MsgWinPrintStr(struct MsgWin *msgWin, u32 a1, u32 a2, struct STRBUF *strbuf);
+extern int FIELD_MSGBG_MsgWinPrintMsg(struct MsgWin *msgWin, u32 x, u32 y, u32 msgId);
+extern void FIELD_MSGBG_MsgWinPrintStr(struct MsgWin *msgWin, u32 x, u32 y, struct STRBUF *strbuf);
 extern int FIELD_MSGBG_IsMsgWinTransDone(struct MsgWin *msgWin);
 extern void FIELD_MSGBG_ClearMsgWin(struct MsgWin *msgWin);
 extern int FIELD_MSGBG_DeleteMsgWin(struct MsgWin *msgWin);
 extern struct PromptWin *FIELD_MSGBG_CreateBottomSysWin(struct FieldMsgBg *msgBg, struct MsgData *msgData);
-extern void FIELD_MSGBG_SysWinPrintMsg(struct PromptWin *promptWin, u32 a1, u32 a2, u32 msgId);
+extern void FIELD_MSGBG_SysWinPrintMsg(struct PromptWin *promptWin, u32 x, u32 y, u32 msgId);
 extern int FIELD_MSGBG_SysWinMain(struct PromptWin *promptWin);
 extern void FIELD_MSGBG_DeleteSysWin(struct PromptWin *promptWin);
-extern struct YesNoMenu *FIELD_MSGBG_CreateYesNoMenu(struct FieldMsgBg *msgBg, int a1);
+extern struct YesNoMenu *FIELD_MSGBG_CreateYesNoMenu(struct FieldMsgBg *msgBg, int cursorPos);
 extern int FIELD_MSGBG_YesNoMenuMain(struct YesNoMenu *menu);
 extern void FIELD_MSGBG_DeleteMenuFunc(struct YesNoMenu *menu);
 /* FIELD_PLAYER */

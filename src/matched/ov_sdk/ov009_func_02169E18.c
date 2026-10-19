@@ -25,7 +25,7 @@
  *   DWCi_SetBuddyFriendData  0x02059214  arm
  *   DWCi_RefreshFriendListAll  0x021696B0  arm  ov009
  *   DWCi_SetReverseBuddyFlag  0x02059240  arm
- *   CTRDG_IsBitID  0x0205912C  arm
+ *   DWC_IsBuddyFriendData  0x0205912C  arm
  *   DWCi_SetExpIsBuddyFriendFlag  0x02059270  arm
  *   DWCi_CallBuddyFriendCallback  0x02169174  arm  ov009
  *   g_021AA860  0x021AA860  data
@@ -65,7 +65,7 @@ extern void DWCi_SetBuddyFriendData(DWCFriendData *frienddata);
 typedef unsigned char  u8;
 extern int DWCi_RefreshFriendListAll(u8 *friendList, int friendListLen, int profileID);
 extern void DWCi_SetReverseBuddyFlag(void *frienddata, int setflag);
-extern int CTRDG_IsBitID(DWCFriendData *frienddata);
+extern int DWC_IsBuddyFriendData(DWCFriendData *frienddata);
 extern void DWCi_SetExpIsBuddyFriendFlag(void *frienddata, int setflag);
 extern void DWCi_CallBuddyFriendCallback(int index);
 extern struct FriendGlobal g_021AA860;
@@ -106,7 +106,7 @@ void DWCi_GPGetInfoCallback_RecvAuthMessage(void *connection, GPGetInfoResponseA
     index = DWCi_RefreshFriendListAll((u8 *)((DWCFriendControl *)g_021AA860.ctl)->friendList, ((DWCFriendControl *)g_021AA860.ctl)->friendListLen, arg->profile);
     if (!alreadyBuddy) {
         DWCi_SetReverseBuddyFlag(&((DWCFriendControl *)g_021AA860.ctl)->friendList[index], 1);
-        if (CTRDG_IsBitID(&((DWCFriendControl *)g_021AA860.ctl)->friendList[index]))
+        if (DWC_IsBuddyFriendData(&((DWCFriendControl *)g_021AA860.ctl)->friendList[index]))
             DWCi_SetExpIsBuddyFriendFlag(&((DWCFriendControl *)g_021AA860.ctl)->friendList[index], 1);
         DWCi_CallBuddyFriendCallback(index);
     }

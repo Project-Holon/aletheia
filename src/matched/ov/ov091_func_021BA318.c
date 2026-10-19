@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: POKELIST_UpdateHpTransfer, POKELIST_OpenTakeMailMenu
+ * function: POKELIST_ShowHealResult, POKELIST_OpenTakeMailMenu
  * address:  0x021BA318
  * packet:   pkt_ov091_021BA318
  * region:   ov091
@@ -39,7 +39,7 @@ extern void POKELIST_EndMessageToList(u8 *p);
 extern void POKELIST_OpenChoiceMenu(u8 *p, int a1);
 extern void POKELIST_OnTakeMailChoice(u8 *p, u32 state);
 
-void POKELIST_UpdateHpTransfer(u8 *p)
+void POKELIST_ShowHealResult(u8 *p)
 {
     u16 r;
     u16 t;

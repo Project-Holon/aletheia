@@ -175,7 +175,7 @@ typedef struct {
 typedef struct {
     DWCHttp *http;              /* +0x00 DWChttp */
     DWCNetcheck *nc;            /* +0x04 DWCnetcheck */
-    int f08;
+    int reserved08;
     unsigned long conntestip;   /* +0x0c */
     int allow302;               /* +0x10 */
     int ishotspot;              /* +0x14 */

@@ -18,9 +18,9 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "GF_FONT_GetAlignedSize",
-    "GF_FONT_GetAllocSize",
-    "GF_FONT_GetQueueLength"
+    "PRINTSYS_GetAlignedSize",
+    "PRINTSYS_GetAllocSize",
+    "PRINTSYS_GetQueueFreeSpace"
    ],
    "addresses": [
     "0x0201D69C",

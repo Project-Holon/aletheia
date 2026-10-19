@@ -1,5 +1,5 @@
 /*
- * function: endScene2
+ * function: closeWaitStep
  * address:  0x021C37D0
  * packet:   pkt_ov016_021C37D0
  * region:   ov016
@@ -18,7 +18,7 @@
  *   DWCi_ChangeScene                 0x021C0E40  arm
  *   DWCi_SceneOptMovWait             0x021C450C  arm
  *
- * SDK: TwlDWC libdwcutil.TWL.HYB.a(sceneoptmovconfi.o), symbol endScene2 (name and prototype
+ * SDK: TwlDWC libdwcutil.TWL.HYB.a(sceneoptmovconfi.o), symbol closeWaitStep (name and prototype
  * from the vendor object DWARF). Callee of endScene1. The object is stamped Metrowerks
  * C/C++ for ARM 4.0.0.1025, which no tools/mwccarm build writes, so 1.1p1.
  */
@@ -33,7 +33,7 @@ extern void DWCi_ChangeScene(void (*scene)());
 
 static void DWCi_SceneOptMovWait(void);
 
-static void endScene2(void)
+static void closeWaitStep(void)
 {
     if (DWCi_EFFlCheck(0))
         return;

@@ -41,7 +41,7 @@
  *   EVENT_BATTLE_CreateEncounterTaskWithMon  0x0216EAB0  thumb  ov010
  *   ZONEDATA_IsZoneInTableDFD2  0x02014024  thumb
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
- *   VM_GetU16  0x02011330  thumb
+ *   VM_ReadU16  0x02011330  thumb
  *   FIELD_SOUND_SYSTEM_StartFadeOutAndPlayTask  0x02029984  thumb
  *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  *   FIELD_SOUND_SYSTEM_PauseSlots  0x02028BA0  thumb
@@ -62,7 +62,7 @@
  *   GAME_EVENT_Create  0x020122C0  thumb
  *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   SCRCMD_WORK_GetFadeParam  0x0215A6AC  thumb
- *   PM_VOICE_IsActive  0x02006BD0  thumb
+ *   PM_VOICE_IsSlotActive  0x02006BD0  thumb
  *   GAMESYSTEM_GetIssSystem  0x02012134  thumb
  *   ISS_SYS_GetSwitchSys  0x0202B578  thumb
  *   GFL_USE_IsLoaderBusy  0x02005C64  thumb
@@ -163,7 +163,7 @@ extern TrainerRecord *GAME_DATA_GetTrainerRecord(GameData *gameData);
 extern u16 FIELDMAP_GetZoneId(FieldMap *fieldMap);
 extern int ZONEDATA_IsZoneInTableDFD2(u32 zoneId);
 extern u32 RECORD_AddOne(TrainerRecord *record, int index);
-extern u16 VM_GetU16(ScriptVm *vm);
+extern u16 VM_ReadU16(ScriptVm *vm);
 extern GameEvent *FIELD_SOUND_SYSTEM_StartFadeOutAndPlayTask(GameSystem *gameSystem, u32 bgmNo);
 extern FieldSoundSystem *GAME_DATA_GetBgmInfo(GameData *gameData);
 extern void FIELD_SOUND_SYSTEM_PauseSlots(FieldSoundSystem *soundSystem, u32 slotMask);
@@ -186,7 +186,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 seNo);
 extern u32 FIELD_SOUND_SYSTEM_IsBusy(FieldSoundSystem *soundSystem);
 extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, void *func, unsigned int workSize);
 extern void *GAME_EVENT_GetWork(GameEvent *event);
-extern u32 PM_VOICE_IsActive(u32 handle);
+extern u32 PM_VOICE_IsSlotActive(u32 handle);
 extern u32 SCRCMD_WORK_GetFadeParam(ScrcmdWork *cmdWork);
 extern IssSystem *GAMESYSTEM_GetIssSystem(GameSystem *gameSystem);
 extern IssSwitchSys *ISS_SYS_GetSwitchSys(IssSystem *issSystem);
@@ -559,7 +559,7 @@ int SCRCMD_FadeOutPlayBgm(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
-    SCRIPT_SYS_CallEvent(scriptWork, FIELD_SOUND_SYSTEM_StartFadeOutAndPlayTask(gameSystem, VM_GetU16(vm)));
+    SCRIPT_SYS_CallEvent(scriptWork, FIELD_SOUND_SYSTEM_StartFadeOutAndPlayTask(gameSystem, VM_ReadU16(vm)));
     FIELD_SOUND_SYSTEM_PauseSlots(GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(gameSystem)), 2);
     SCRIPT_WORK_SetCheckFlag(13);
     return 1;
@@ -574,7 +574,7 @@ int SCRCMD_FadeOutPlayBgmWithFade(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
-    event = FIELD_SOUND_SYSTEM_StartFadeOutAndPlayWithFadeTask(gameSystem, VM_GetU16(vm), VM_GetU16(vm));
+    event = FIELD_SOUND_SYSTEM_StartFadeOutAndPlayWithFadeTask(gameSystem, VM_ReadU16(vm), VM_ReadU16(vm));
     SCRIPT_SYS_CallEvent(scriptWork, event);
     FIELD_SOUND_SYSTEM_PauseSlots(GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(gameSystem)), 2);
     SCRIPT_WORK_SetCheckFlag(13);
@@ -590,7 +590,7 @@ int SCRCMD_FadeOutPlayFixedBgm(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
-    event = FIELD_SOUND_SYSTEM_StartFadeOutAndPlayFixedBgmTask(gameSystem, VM_GetU16(vm));
+    event = FIELD_SOUND_SYSTEM_StartFadeOutAndPlayFixedBgmTask(gameSystem, VM_ReadU16(vm));
     SCRIPT_SYS_CallEvent(scriptWork, event);
     FIELD_SOUND_SYSTEM_PauseSlots(GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(gameSystem)), 2);
     SCRIPT_WORK_SetCheckFlag(13);
@@ -600,7 +600,7 @@ int SCRCMD_FadeOutPlayFixedBgm(ScriptVm *vm, ScrcmdWork *cmdWork)
 /* Script command: store whether a BGM is playing. */
 int SCRCMD_IsBgmPlaying(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    VM_GetU16(vm);
+    VM_ReadU16(vm);
     *SCRIPT_WORK_ReadWorkPointer(vm, cmdWork) = GFL_USE_IsBgmPlaying();
     return 0;
 }
@@ -720,7 +720,7 @@ int SCRCMD_ResumeZoneBgmWithFade(ScriptVm *vm, ScrcmdWork *cmdWork)
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     soundSystem = GAME_DATA_GetBgmInfo(gameData);
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
-    fadeOutFrames = VM_GetU16(vm);
+    fadeOutFrames = VM_ReadU16(vm);
     season = GAME_DATA_GetSeason(gameData);
     zoneBgm = FIELD_SOUND_SYSTEM_GetFieldBgmForZoneEx(gameData, FIELDMAP_GetZoneId(fieldMap), season);
     SCRIPT_SYS_CallEvent(scriptWork, FIELD_SOUND_SYSTEM_StartChangeTask(gameSystem, zoneBgm, fadeOutFrames, 0x3c));
@@ -899,7 +899,7 @@ int SCRCMD_PushAndPlayBgm(ScriptVm *vm, ScrcmdWork *cmdWork)
     GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
 
-    SCRIPT_SYS_CallEvent(scriptWork, FIELD_SOUND_SYSTEM_StartPushAndPlayTask(gameSystem, VM_GetU16(vm)));
+    SCRIPT_SYS_CallEvent(scriptWork, FIELD_SOUND_SYSTEM_StartPushAndPlayTask(gameSystem, VM_ReadU16(vm)));
     return 1;
 }
 
@@ -992,7 +992,7 @@ int SCRCMD_WaitPokeVoice(ScriptVm *vm, void *user)
 {
     ScrcmdWork *cmdWork = user;
 
-    if (PM_VOICE_IsActive(SCRCMD_WORK_GetFadeParam(cmdWork)) == 0) {
+    if (PM_VOICE_IsSlotActive(SCRCMD_WORK_GetFadeParam(cmdWork)) == 0) {
         return 1;
     }
     return 0;

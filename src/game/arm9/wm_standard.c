@@ -13,7 +13,6 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   FATFSi_FormatDriveEx  0x0208F234  arm
  *   WMi_CheckStateEx                 0x0208e52c arm
  *   WMi_SetCallbackTable             0x0208e328 arm
  *   WMi_RegisterSleepCallback        0x0208ea4c arm
@@ -26,7 +25,6 @@
  *   WMi_CheckEnableFlag              0x0208eaa0 arm
  *   WmCheckParentParameter           0x0208f578 arm
  *   DC_StoreRange                    0x020862d4 arm
- *   DWCi_IsSendableReliable 0x0208F5C8 arm
  *   MI_CpuCopy8                      0x02082d44 arm
  *   WMi_SendCommandDirect            0x0208e44c arm
  *   MI_CpuFill8                      0x02082bcc arm
@@ -161,12 +159,11 @@ extern BOOL OS_IsRunOnTwl(void);
 extern BOOL WMi_CheckEnableFlag(void);
 extern BOOL WmCheckParentParameter(WMParentParam *param);
 extern void DC_StoreRange(void *startAddr, u32 nBytes);
-extern int DWCi_IsSendableReliable(unsigned char aid, unsigned short type);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
 extern WMErrCode WMi_SendCommandDirect(void *data, u32 length);
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
-int WM_Enable(WMCallbackFunc callback);
+WMErrCode WM_Enable(WMCallbackFunc callback);
 WMErrCode WMi_EnableEx(WMCallbackFunc callback, u32 miscFlags);
 WMErrCode WM_Disable(WMCallbackFunc callback);
 WMErrCode WM_PowerOn(WMCallbackFunc callback);
@@ -177,7 +174,7 @@ WMErrCode WM_Reset(WMCallbackFunc callback);
 WMErrCode WM_End(WMCallbackFunc callback);
 WMErrCode WM_SetParentParameter(WMCallbackFunc callback, WMParentParam *pparaBuf);
 WMErrCode WMi_StartParentEx(WMCallbackFunc callback, BOOL powerSave);
-int WM_StartParent(unsigned char aid);
+WMErrCode WM_StartParent(WMCallbackFunc callback);
 WMErrCode WM_EndParent(WMCallbackFunc callback);
 WMErrCode WM_StartScanEx(WMCallbackFunc callback, const WMScanExParam *param);
 WMErrCode WM_EndScan(WMCallbackFunc callback);
@@ -186,9 +183,9 @@ WMErrCode WM_Disconnect(WMCallbackFunc callback, u16 aid);
 
 
 /*
- * sdk:      FATFS_FormatDrive (libfatfs.TWL.HYB.a fatfs_api.o)
+ * sdk:      WM_Enable (libwm.TWL.HYB.a(wm_standard.o))
  */
-int WM_Enable(WMCallbackFunc callback)
+WMErrCode WM_Enable(WMCallbackFunc callback)
 {
     return WMi_EnableEx(callback, 0);
 }
@@ -509,11 +506,11 @@ WMErrCode WMi_StartParentEx(WMCallbackFunc callback, BOOL powerSave)
 
 
 /*
- * sdk:      DWC_IsSendableReliable (libdwcmatch.TWL.HYB.a dwc_transport.o)
+ * sdk:      WM_StartParent (libwm.TWL.HYB.a(wm_standard.o))
  */
-int WM_StartParent(unsigned char aid)
+WMErrCode WM_StartParent(WMCallbackFunc callback)
 {
-    return DWCi_IsSendableReliable(aid, 1);
+    return WMi_StartParentEx(callback, 1);
 }
 
 

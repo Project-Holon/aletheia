@@ -1,5 +1,5 @@
 /*
- * function: sub_020394DC
+ * function: GFL_NET_SYSTEM_SetNoChildError
  * address:  0x020394DC
  * packet:   pkt_020393A8
  * region:   arm9
@@ -18,7 +18,7 @@
  * (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_020394DC.c \n *       --func sub_020394DC --addr 0x020394DC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_SYSTEM_SetNoChildError.c \n *       --func GFL_NET_SYSTEM_SetNoChildError --addr 0x020394DC --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -35,7 +35,7 @@ struct LinkState {
 
 extern struct LinkState *unk_021469D0;
 
-void sub_020394DC(u8 v)
+void GFL_NET_SYSTEM_SetNoChildError(u8 v)
 {
     unk_021469D0->unk_1e7 = v;
 }

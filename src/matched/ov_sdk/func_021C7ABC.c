@@ -1,5 +1,5 @@
 /*
- * function: func_021C7ABC
+ * function: arrangeAddress
  * address:  0x021C7ABC
  * packet:   pkt_021C7ABC
  * region:   ov016
@@ -28,7 +28,7 @@ extern struct MemSsea *gMemSsea;
 
 void func_021C78A0(void);
 
-void func_021C7ABC(void)
+void arrangeAddress(void)
 {
     int i;
 

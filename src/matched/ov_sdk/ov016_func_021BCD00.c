@@ -1,5 +1,5 @@
 /*
- * function: func_021BCD00
+ * function: taskMain
  * address:  0x021BCD00
  * packet:   pkt_ov016_021BCD00
  * region:   ov016
@@ -51,7 +51,7 @@ extern unsigned char sButtonPositionIndex[7][2];
 extern Coord sButtonSize;
 extern unsigned char sButtonCellIds[7][2];
 
-void func_021BCD00(void)
+void taskMain(void)
 {
     Rect r;
     int btnNum;

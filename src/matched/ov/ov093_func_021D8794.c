@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: BTL_CALC_ChlorophyllDoubleSpeed, BTL_CALC_GetChlorophyllHandlers
+ * function: HAND_TOKUSEI_ChlorophyllDoubleSpeed, HAND_TOKUSEI_GetChlorophyllHandlers
  * address: 0x021D8794
  * packet: pkt_ov093_021D8794
  * region: ov093
@@ -22,5 +22,5 @@ extern u8 gChlorophyllHandlers[];
 extern int BTL_EVENT_GetVar(int);
 extern void BTL_EVENT_MultiplyVar(int,int);
 extern int BTL_SERVER_FLOW_GetEffectiveWeatherThunk(u8 *p);
-void BTL_CALC_ChlorophyllDoubleSpeed(int a,int b,int c) { if (c==BTL_EVENT_GetVar(2)) { if (BTL_SERVER_FLOW_GetEffectiveWeatherThunk((u8 *)b)==1) BTL_EVENT_MultiplyVar(53,8192); } }
-u8 *BTL_CALC_GetChlorophyllHandlers(u32 *p) { *p=1; return gChlorophyllHandlers; }
+void HAND_TOKUSEI_ChlorophyllDoubleSpeed(int a,int b,int c) { if (c==BTL_EVENT_GetVar(2)) { if (BTL_SERVER_FLOW_GetEffectiveWeatherThunk((u8 *)b)==1) BTL_EVENT_MultiplyVar(53,8192); } }
+u8 *HAND_TOKUSEI_GetChlorophyllHandlers(u32 *p) { *p=1; return gChlorophyllHandlers; }

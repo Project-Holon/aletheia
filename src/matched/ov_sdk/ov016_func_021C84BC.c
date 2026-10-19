@@ -1,5 +1,5 @@
 /*
- * function: func_021C84BC
+ * function: initGraphics
  * sdk:      initGraphics (libdwcutil.TWL.HYB.a(scenesetlist.o))
  * address:  0x021C84BC
  * packet:   pkt_ov016_021C8F20
@@ -47,7 +47,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/pending/ov_sdk/ov016_func_021C84BC.c \
- *       --func func_021C84BC --addr 0x021C84BC --region ov016 --lang c99 --arm
+ *       --func initGraphics --addr 0x021C84BC --region ov016 --lang c99 --arm
  */
 
 #include "../include/G_SCENESETLIST_BSS.h"
@@ -166,7 +166,7 @@ static inline void SetBGPriority(volatile unsigned short *reg, int priority)
     *reg = (unsigned short)((v & ~3) | priority);
 }
 
-void func_021C84BC(void)
+void initGraphics(void)
 {
     NAME23 SCR_BACK = scenesetlist_str_20617;
     NAME21 PLLT = scenesetlist_str_20619;

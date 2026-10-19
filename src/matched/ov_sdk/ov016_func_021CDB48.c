@@ -1,5 +1,5 @@
 /*
- * function: func_021CDB48
+ * function: procInit
  * address:  0x021CDB48
  * packet:   pkt_ov016_021CDB48
  * region:   ov016
@@ -12,7 +12,7 @@
  * sdk:      procInit (libdwcutil.TWL.HYB.a scenesetusbcompl)
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CDB48.c \n *       --func func_021CDB48 --addr 0x021CDB48 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
+ *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021CDB48.c \n *       --func procInit --addr 0x021CDB48 --region ov016 --cc 1.1p1 --arm --flags=-O4,p
  *
  * symbols:
  *   DWCi_EFFlFade  0x021D55A4  arm  ov016
@@ -26,7 +26,7 @@ extern void DWCi_GXlVisible(int lcd, int plane);
 extern void DWCi_ChangeScene(unsigned int v);
 extern void DWCi_SceneSetUsbComplete_procInit1(void);
 
-void func_021CDB48(void)
+void procInit(void)
 {
     DWCi_EFFlFade(2, 0, 21, 8);
     DWCi_GXlVisible(0, 21);

@@ -1,5 +1,5 @@
 /*
- * function: func_021D43C8
+ * function: _DWCi_MOV_MovUserID
  * address:  0x021D43C8
  * packet:   pkt_ov016_021D43C8
  * region:   ov016
@@ -79,7 +79,7 @@ extern void func_021D4770(void);
 extern u16 func_021D4854(void);
 extern Wk *gDwcMoveidWork;
 
-void func_021D43C8(void)
+void _DWCi_MOV_MovUserID(void)
 {
     switch (func_021D3250()) {
     case 1:

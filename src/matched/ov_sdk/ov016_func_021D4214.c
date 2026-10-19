@@ -1,5 +1,5 @@
 /*
- * function: func_021D4214
+ * function: _DWCi_MOV_WaitandDownloadandBoot_Child
  * address:  0x021D4214
  * packet:   pkt_ov016_021D4214
  * region:   ov016
@@ -43,7 +43,7 @@ extern void DWCi_MOV_MBP_Cancel(void);
 extern unsigned int func_021D3250(void);
 extern int DWCi_MOV_WH_End(void);
 
-void func_021D4214(void)
+void _DWCi_MOV_WaitandDownloadandBoot_Child(void)
 {
     switch (DWCi_MOV_MBP_GetState()) {
     case 1:

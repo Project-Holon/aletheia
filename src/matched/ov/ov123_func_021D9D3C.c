@@ -22,7 +22,7 @@
  *   MI_CpuCopy8 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  *   PALANM_BlendColors 0x02021F64 thumb
- *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
+ *   DC_FlushRange 0x020862F0 arm
  *   func_020056A0 0x020056A0 thumb
  *   PDWACC_DISP_PaletteTask 0x021D9F40 thumb ov123
  *   func_0207D63C 0x0207D63C arm
@@ -40,7 +40,7 @@ extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
 extern void MI_CpuCopy8(const void *, void *, u32);
 extern u32 func_020307B0(void *p);
 extern void PALANM_BlendColors(u16 *, u16 *, int, u8, u16);
-extern void DWCi_ScreenDC_FlushRange(void *, int);
+extern void DC_FlushRange(void *, int);
 extern void *func_020056A0(void *, void *, int);
 extern void PDWACC_DISP_PaletteTask(void *, char *);
 extern void func_0207D63C(void *, int, int, int, int);
@@ -99,7 +99,7 @@ void PDWACC_DISP_LoadResources(char *p)
             }
         }
     }
-    DWCi_ScreenDC_FlushRange(p + 0x1f0, 0x780);
+    DC_FlushRange(p + 0x1f0, 0x780);
     *(u32 *)(p + 0xc) = 1;
     *(void **)(p + 8) = func_020056A0((void *)PDWACC_DISP_PaletteTask, p + 8, 0x14);
     func_0207D63C((void *)0x04000050, 1, 8, 8, 0x10);

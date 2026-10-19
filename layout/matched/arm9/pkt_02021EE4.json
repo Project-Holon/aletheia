@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_02021EE4",
+   "name": "PALANM_SetAutoTransfer",
    "address": "0x02021EE4",
    "kind": "game",
    "region": "arm9",

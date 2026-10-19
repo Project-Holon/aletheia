@@ -11,13 +11,13 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: GDS_PROFILE_GetScoreRecSize, GDS_PROFILE_ClearScoreRec, GDS_PROFILE_AddScoreRecTotal, GDS_PROFILE_SubScoreRecTotal,
- *           GDS_PROFILE_GetScoreRecTotal, GDS_PROFILE_MapScoreSlot, GDS_PROFILE_GetScoreRecCountA, GDS_PROFILE_GetScoreRecCountB,
- *           GDS_PROFILE_MaxScoreRecCountB, GDS_PROFILE_SetScoreRecCountA, GDS_PROFILE_ClearScoreRecCountC, GDS_PROFILE_SetScoreRecCountC,
- *           GDS_PROFILE_GetScoreRecCountC, GDS_PROFILE_IncScoreRecCountC, GDS_PROFILE_GetScoreRecCountCDec, GDS_PROFILE_ScoreRecFlag,
- *           GDS_PROFILE_IncScoreRecLevel, GDS_PROFILE_DecScoreRecLevel, GDS_PROFILE_GetScoreRecLevel, GDS_PROFILE_UpdateScoreRecStreak,
- *           GDS_PROFILE_SetScoreRecBlob, GDS_PROFILE_GetScoreRecBlob, GDS_PROFILE_CalcScoreRecScore, GDS_PROFILE_GetScoreRecScore,
- *           GDS_PROFILE_GetScoreRecScoreHigh
+ * function: BSUBWAY_SCOREDATA_GetSize, BSUBWAY_SCOREDATA_Init, BSUBWAY_SCOREDATA_AddBattlePoints, BSUBWAY_SCOREDATA_SubBattlePoints,
+ *           BSUBWAY_SCOREDATA_GetBattlePoints, BSUBWAY_SCOREDATA_MapPlayMode, BSUBWAY_SCOREDATA_GetWinCount, BSUBWAY_SCOREDATA_GetMaxWinCount,
+ *           BSUBWAY_SCOREDATA_UpdateMaxWinCount, BSUBWAY_SCOREDATA_SetWinCount, BSUBWAY_SCOREDATA_ResetClearCount, BSUBWAY_SCOREDATA_SetFirstClear,
+ *           BSUBWAY_SCOREDATA_HasCleared, BSUBWAY_SCOREDATA_IncClearCount, BSUBWAY_SCOREDATA_GetRepeatClearCount, BSUBWAY_SCOREDATA_AccessFlag,
+ *           BSUBWAY_SCOREDATA_IncLevel, BSUBWAY_SCOREDATA_DecLevel, BSUBWAY_SCOREDATA_GetLevel, BSUBWAY_SCOREDATA_UpdateStreak,
+ *           BSUBWAY_SCOREDATA_SetRecordBlob, BSUBWAY_SCOREDATA_GetRecordBlob, BSUBWAY_SCOREDATA_CalcRecordScore, BSUBWAY_SCOREDATA_GetRecordScore,
+ *           BSUBWAY_SCOREDATA_GetRecordScoreTier
  *
  * 684 bytes, 0x0200DA64..0x0200DD10, 25 functions, eighteen of which carry no
  * label in the generated listing.
@@ -31,12 +31,12 @@
  *
  * Five things here are worth naming.
  *
- *  - GDS_PROFILE_MapScoreSlot is `bx lr` and nothing else, and it is a function, not
+ *  - BSUBWAY_SCOREDATA_MapPlayMode is `bx lr` and nothing else, and it is a function, not
  *    padding: eight of the accessors `bl` it with the index in r0 and use
  *    the result.  It is `u32 f(u32 i) { return i; }`, an id-to-slot mapping
  *    that was never filled in, and the calls to it are what make the three
  *    arrays indexed rather than direct.
- *  - GDS_PROFILE_ScoreRecFlag takes a **signed** index, which the `blt` on the range
+ *  - BSUBWAY_SCOREDATA_AccessFlag takes a **signed** index, which the `blt` on the range
  *    check says and the `blo` inside the shift loop does not contradict: the
  *    loop counter is unsigned, so the comparison against it is unsigned too.
  *    Its switch bodies are emitted in the order 2, 1, 0, which is the order
@@ -46,11 +46,11 @@
  *    materialises the all-ones word with `movs r1, #0; mvns r1, r1` and then
  *    `eors`, which is two instructions where `mvns r1, r4` would have been
  *    one.
- *  - GDS_PROFILE_UpdateScoreRecStreak's two arms both end in a call to GDS_PROFILE_ScoreRecFlag followed
+ *  - BSUBWAY_SCOREDATA_UpdateStreak's two arms both end in a call to BSUBWAY_SCOREDATA_AccessFlag followed
  *    by a store to +0x02, and the compiler cross-jumps them into one copy
  *    that each arm sets up its arguments for and branches to.  See
  *    docs/idioms/switch-arms-tail-merge.md.
- *  - in GDS_PROFILE_CalcScoreRecScore the two products are each truncated to `u16` and their
+ *  - in BSUBWAY_SCOREDATA_CalcRecordScore the two products are each truncated to `u16` and their
  *    sum is not.  Holding the sum in a `u16` adds a `lsls`/`lsrs` pair the
  *    original does not have, which is the whole of the difference between
  *    that function and EXACT.
@@ -91,21 +91,21 @@ struct Src {
     u16 unk06;
 };
 
-u32 GDS_PROFILE_MapScoreSlot(u32 i);
-u32 GDS_PROFILE_ScoreRecFlag(struct Blk1AC *p, s32 i, u32 op);
+u32 BSUBWAY_SCOREDATA_MapPlayMode(u32 i);
+u32 BSUBWAY_SCOREDATA_AccessFlag(struct Blk1AC *p, s32 i, u32 op);
 
-u32 GDS_PROFILE_GetScoreRecSize(void)
+u32 BSUBWAY_SCOREDATA_GetSize(void)
 {
     return sizeof(struct Blk1AC);
 }
 
-void GDS_PROFILE_ClearScoreRec(struct Blk1AC *p)
+void BSUBWAY_SCOREDATA_Init(struct Blk1AC *p)
 {
     MI_CpuFill8(p, 0, sizeof(struct Blk1AC));
     p->unk03 = 1;
 }
 
-void GDS_PROFILE_AddScoreRecTotal(struct Blk1AC *p, s32 v)
+void BSUBWAY_SCOREDATA_AddBattlePoints(struct Blk1AC *p, s32 v)
 {
     s32 n = p->unk00 + v;
 
@@ -116,7 +116,7 @@ void GDS_PROFILE_AddScoreRecTotal(struct Blk1AC *p, s32 v)
     }
 }
 
-void GDS_PROFILE_SubScoreRecTotal(struct Blk1AC *p, u16 v)
+void BSUBWAY_SCOREDATA_SubBattlePoints(struct Blk1AC *p, u16 v)
 {
     s16 n = (s16)p->unk00 - (s16)v;
 
@@ -127,70 +127,70 @@ void GDS_PROFILE_SubScoreRecTotal(struct Blk1AC *p, u16 v)
     }
 }
 
-u16 GDS_PROFILE_GetScoreRecTotal(struct Blk1AC *p)
+u16 BSUBWAY_SCOREDATA_GetBattlePoints(struct Blk1AC *p)
 {
     return p->unk00;
 }
 
-u32 GDS_PROFILE_MapScoreSlot(u32 i)
+u32 BSUBWAY_SCOREDATA_MapPlayMode(u32 i)
 {
     return i;
 }
 
-u16 GDS_PROFILE_GetScoreRecCountA(struct Blk1AC *p, u32 i)
+u16 BSUBWAY_SCOREDATA_GetWinCount(struct Blk1AC *p, u32 i)
 {
-    return p->unk08[GDS_PROFILE_MapScoreSlot(i)];
+    return p->unk08[BSUBWAY_SCOREDATA_MapPlayMode(i)];
 }
 
-u16 GDS_PROFILE_GetScoreRecCountB(struct Blk1AC *p, u32 i)
+u16 BSUBWAY_SCOREDATA_GetMaxWinCount(struct Blk1AC *p, u32 i)
 {
-    return p->unk1A[GDS_PROFILE_MapScoreSlot(i)];
+    return p->unk1A[BSUBWAY_SCOREDATA_MapPlayMode(i)];
 }
 
-void GDS_PROFILE_MaxScoreRecCountB(struct Blk1AC *p, u32 i, u16 v)
+void BSUBWAY_SCOREDATA_UpdateMaxWinCount(struct Blk1AC *p, u32 i, u16 v)
 {
-    u32 k = GDS_PROFILE_MapScoreSlot(i);
+    u32 k = BSUBWAY_SCOREDATA_MapPlayMode(i);
 
     if (p->unk1A[k] < v) {
         p->unk1A[k] = v;
     }
 }
 
-void GDS_PROFILE_SetScoreRecCountA(struct Blk1AC *p, u32 i, u16 v)
+void BSUBWAY_SCOREDATA_SetWinCount(struct Blk1AC *p, u32 i, u16 v)
 {
-    p->unk08[GDS_PROFILE_MapScoreSlot(i)] = v;
+    p->unk08[BSUBWAY_SCOREDATA_MapPlayMode(i)] = v;
 }
 
-void GDS_PROFILE_ClearScoreRecCountC(struct Blk1AC *p, u32 i)
+void BSUBWAY_SCOREDATA_ResetClearCount(struct Blk1AC *p, u32 i)
 {
-    p->unk2C[GDS_PROFILE_MapScoreSlot(i)] = 0;
+    p->unk2C[BSUBWAY_SCOREDATA_MapPlayMode(i)] = 0;
 }
 
-void GDS_PROFILE_SetScoreRecCountC(struct Blk1AC *p, u32 i)
+void BSUBWAY_SCOREDATA_SetFirstClear(struct Blk1AC *p, u32 i)
 {
-    p->unk2C[GDS_PROFILE_MapScoreSlot(i)] = 1;
+    p->unk2C[BSUBWAY_SCOREDATA_MapPlayMode(i)] = 1;
 }
 
-u32 GDS_PROFILE_GetScoreRecCountC(struct Blk1AC *p, u32 i)
+u32 BSUBWAY_SCOREDATA_HasCleared(struct Blk1AC *p, u32 i)
 {
-    if (p->unk2C[GDS_PROFILE_MapScoreSlot(i)] != 0) {
+    if (p->unk2C[BSUBWAY_SCOREDATA_MapPlayMode(i)] != 0) {
         return 1;
     }
     return 0;
 }
 
-void GDS_PROFILE_IncScoreRecCountC(struct Blk1AC *p, u32 i)
+void BSUBWAY_SCOREDATA_IncClearCount(struct Blk1AC *p, u32 i)
 {
-    u32 k = GDS_PROFILE_MapScoreSlot(i);
+    u32 k = BSUBWAY_SCOREDATA_MapPlayMode(i);
 
     if (p->unk2C[k] < 0xFFFE) {
         p->unk2C[k] = p->unk2C[k] + 1;
     }
 }
 
-u16 GDS_PROFILE_GetScoreRecCountCDec(struct Blk1AC *p, u32 i)
+u16 BSUBWAY_SCOREDATA_GetRepeatClearCount(struct Blk1AC *p, u32 i)
 {
-    u16 n = p->unk2C[GDS_PROFILE_MapScoreSlot(i)] - 1;
+    u16 n = p->unk2C[BSUBWAY_SCOREDATA_MapPlayMode(i)] - 1;
 
     if ((s16)n < 0) {
         n = 0;
@@ -198,7 +198,7 @@ u16 GDS_PROFILE_GetScoreRecCountCDec(struct Blk1AC *p, u32 i)
     return n;
 }
 
-u32 GDS_PROFILE_ScoreRecFlag(struct Blk1AC *p, s32 i, u32 op)
+u32 BSUBWAY_SCOREDATA_AccessFlag(struct Blk1AC *p, s32 i, u32 op)
 {
     u32 j;
     u32 mask = 1;
@@ -222,39 +222,39 @@ u32 GDS_PROFILE_ScoreRecFlag(struct Blk1AC *p, s32 i, u32 op)
     return 0;
 }
 
-void GDS_PROFILE_IncScoreRecLevel(struct Blk1AC *p)
+void BSUBWAY_SCOREDATA_IncLevel(struct Blk1AC *p)
 {
     if (p->unk03 < 10) {
         p->unk03 = p->unk03 + 1;
     }
 }
 
-void GDS_PROFILE_DecScoreRecLevel(struct Blk1AC *p)
+void BSUBWAY_SCOREDATA_DecLevel(struct Blk1AC *p)
 {
     if (p->unk03 > 1) {
         p->unk03 = p->unk03 - 1;
     }
 }
 
-u8 GDS_PROFILE_GetScoreRecLevel(struct Blk1AC *p)
+u8 BSUBWAY_SCOREDATA_GetLevel(struct Blk1AC *p)
 {
     return p->unk03;
 }
 
-u8 GDS_PROFILE_UpdateScoreRecStreak(struct Blk1AC *p, u32 kind)
+u8 BSUBWAY_SCOREDATA_UpdateStreak(struct Blk1AC *p, u32 kind)
 {
     switch (kind) {
     case 2:
-        GDS_PROFILE_ScoreRecFlag(p, 0, 2);
+        BSUBWAY_SCOREDATA_AccessFlag(p, 0, 2);
         p->unk02 = 0;
         break;
     case 3:
-        if (GDS_PROFILE_ScoreRecFlag(p, 0, 0)) {
+        if (BSUBWAY_SCOREDATA_AccessFlag(p, 0, 0)) {
             if (p->unk02 < 0xFF) {
                 p->unk02 = p->unk02 + 1;
             }
         } else {
-            GDS_PROFILE_ScoreRecFlag(p, 0, 1);
+            BSUBWAY_SCOREDATA_AccessFlag(p, 0, 1);
             p->unk02 = 1;
         }
         break;
@@ -262,7 +262,7 @@ u8 GDS_PROFILE_UpdateScoreRecStreak(struct Blk1AC *p, u32 kind)
     return p->unk02;
 }
 
-void GDS_PROFILE_SetScoreRecBlob(struct Blk1AC *p, u32 which, const void *src)
+void BSUBWAY_SCOREDATA_SetRecordBlob(struct Blk1AC *p, u32 which, const void *src)
 {
     if (which == 0) {
         MI_CpuCopy8(src, p->unkF8, sizeof(p->unkF8));
@@ -271,7 +271,7 @@ void GDS_PROFILE_SetScoreRecBlob(struct Blk1AC *p, u32 which, const void *src)
     }
 }
 
-void GDS_PROFILE_GetScoreRecBlob(struct Blk1AC *p, u32 which, void *dest)
+void BSUBWAY_SCOREDATA_GetRecordBlob(struct Blk1AC *p, u32 which, void *dest)
 {
     if (which == 0) {
         MI_CpuCopy8(p->unkF8, dest, sizeof(p->unkF8));
@@ -280,7 +280,7 @@ void GDS_PROFILE_GetScoreRecBlob(struct Blk1AC *p, u32 which, void *dest)
     }
 }
 
-void GDS_PROFILE_CalcScoreRecScore(struct Blk1AC *p, const struct Src *q)
+void BSUBWAY_SCOREDATA_CalcRecordScore(struct Blk1AC *p, const struct Src *q)
 {
     u16 a;
     u16 c;
@@ -302,12 +302,12 @@ void GDS_PROFILE_CalcScoreRecScore(struct Blk1AC *p, const struct Src *q)
     p->unk3E = a + c + d;
 }
 
-u16 GDS_PROFILE_GetScoreRecScore(struct Blk1AC *p)
+u16 BSUBWAY_SCOREDATA_GetRecordScore(struct Blk1AC *p)
 {
     return p->unk3E;
 }
 
-u8 GDS_PROFILE_GetScoreRecScoreHigh(struct Blk1AC *p)
+u8 BSUBWAY_SCOREDATA_GetRecordScoreTier(struct Blk1AC *p)
 {
     return p->unk3E / 1000;
 }

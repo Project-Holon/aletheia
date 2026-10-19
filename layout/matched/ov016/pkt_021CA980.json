@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021CA980",
+   "name": "procScene",
    "address": "0x021CA980",
    "kind": "sdk",
    "region": "ov016",
@@ -26,7 +26,7 @@
    }
   },
   {
-   "name": "func_021CADAC",
+   "name": "procScene",
    "address": "0x021CADAC",
    "kind": "sdk",
    "region": "ov016",
@@ -45,7 +45,7 @@
    }
   },
   {
-   "name": "func_021CB4BC",
+   "name": "procScene",
    "address": "0x021CB4BC",
    "kind": "sdk",
    "region": "ov016",

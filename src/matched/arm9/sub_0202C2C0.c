@@ -1,5 +1,5 @@
 /*
- * function: sub_0202C2C0
+ * function: ISS_SWITCH_SYS_UpdateVolume
  * address:  0x0202C2C0
  * packet:   pkt_0202C244
  * region:   arm9
@@ -28,8 +28,8 @@
  * address (docs/MATCHING.md, "The matched class").
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202C2C0.c \
- *       --func sub_0202C2C0 --addr 0x0202C2C0 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ISS_SWITCH_SYS_UpdateVolume.c \
+ *       --func ISS_SWITCH_SYS_UpdateVolume --addr 0x0202C2C0 --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
@@ -38,7 +38,7 @@ struct Obj0202C244;
 extern u32 sub_0202C24C(struct Obj0202C244 *p);
 extern u32 sub_0202C358(void *p);
 
-void sub_0202C2C0(void *p)
+void ISS_SWITCH_SYS_UpdateVolume(void *p)
 {
     u32 v = sub_0202C24C(p);
 

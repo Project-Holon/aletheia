@@ -73,7 +73,7 @@ extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, c
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 extern void *FLDMMDL_SetMoveBit(void *mmdl, u32 bits);
 extern int ARC_UTIL_LoadMemberWithSize(int archive, int member, int decompress, int heapId, u32 *outSize);
-extern void *SCRIPT_SYS_CreateScriptEventSimple(int a0, int a1, int a2, int a3);
+extern void *SCRIPT_SYS_CreateScriptEventSimple(int fieldSys, int scriptId, int target, int reserved);
 extern void FLDMMDL_SetStatusBitVanish(unsigned int *p, unsigned int v);
 void FIELD_RAIL_LOADER_InitSetting(FieldRailSetting *setting);
 FieldRailLoader *FIELD_RAIL_LOADER_Create(u32 heapId);

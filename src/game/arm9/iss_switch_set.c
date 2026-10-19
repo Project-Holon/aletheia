@@ -29,7 +29,7 @@
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   GFL_HEAP_Free  0x020307B0  arm
  *   IssSwitchSetFileName     0x020A776C  data
- *   FSi_ConvertStringSjisToUnicode  0x02048F74  arm
+ *   ARC_TOOL_ReadMemberRange  0x02048F74  arm
  *   ISS_SWITCH_Create 0x0202C538 thumb arm9
  *   ISS_SWITCH_Delete 0x0202C548 thumb arm9
  *   ISS_SWITCH_Setup 0x0202C550 thumb arm9
@@ -177,7 +177,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern u32 FSi_ConvertStringSjisToUnicode(void *dst, u32 term, void *src,
+extern u32 ARC_TOOL_ReadMemberRange(void *dst, u32 term, void *src,
                                            u32 srcOffset, u32 dstSize);
 
 u32 ISS_SWITCH_SET_GetZoneCount(struct IssSwitchSet *set);
@@ -246,16 +246,16 @@ u32 ISS_SWITCH_SET_LoadData(struct IssSwitchSet *set, void *datId)
 
     i = 0;
     offset = 0;
-    FSi_ConvertStringSjisToUnicode(set, 0x93, datId, offset, 4);
+    ARC_TOOL_ReadMemberRange(set, 0x93, datId, offset, 4);
     offset += 4;
 
     for (; i < 9; i++, offset += 2) {
-        FSi_ConvertStringSjisToUnicode(&trackBits[i], 0x93, datId, offset, 2);
+        ARC_TOOL_ReadMemberRange(&trackBits[i], 0x93, datId, offset, 2);
     }
 
-    FSi_ConvertStringSjisToUnicode(&fadeFrames, 0x93, datId, offset, 2);
-    FSi_ConvertStringSjisToUnicode(&set->zoneCount, 0x93, datId, offset + 2, 1);
-    FSi_ConvertStringSjisToUnicode(set->zones, 0x93, datId, offset + 3, set->zoneCount * 2);
+    ARC_TOOL_ReadMemberRange(&fadeFrames, 0x93, datId, offset, 2);
+    ARC_TOOL_ReadMemberRange(&set->zoneCount, 0x93, datId, offset + 2, 1);
+    ARC_TOOL_ReadMemberRange(set->zones, 0x93, datId, offset + 3, set->zoneCount * 2);
 
     i = 0;
     for (; i < 9; i++) {

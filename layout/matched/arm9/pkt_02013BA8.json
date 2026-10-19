@@ -42,7 +42,7 @@
    "functions": [
     "ZONEDATA_GetWeatherId",
     "ZONEDATA_IsBikeEnabled",
-    "ZONEDATA_IsRingtoneEnabled",
+    "ZONEDATA_IsRideBgmEnabled",
     "ZONEDATA_IsFlyEnabled",
     "ZONEDATA_IsWeatherEnabled",
     "ZONEDATA_IsPalaceEnabled"
@@ -68,12 +68,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "ZONEDATA_IsZone1A6",
+    "ZONEDATA_IsUnionRoom",
     "ZONEDATA_IsZone96Pair",
     "ZONEDATA_IsZone4BPair",
     "ZONEDATA_IsZone34",
     "ZONEDATA_IsNoGameEventZone",
-    "ZONEDATA_IsZone117"
+    "ZONEDATA_IsEntralink"
    ],
    "addresses": [
     "0x02013CC8",

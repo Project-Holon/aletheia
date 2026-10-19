@@ -1,5 +1,5 @@
 /*
- * function: sub_02039560
+ * function: GFL_NET_SYSTEM_ResetError
  * address:  0x02039560
  * packet:   pkt_020393A8
  * region:   arm9
@@ -15,7 +15,7 @@
  * Clear the +0x1e9 flag sub_02039548 sets.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02039560.c \n *       --func sub_02039560 --addr 0x02039560 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_SYSTEM_ResetError.c \n *       --func GFL_NET_SYSTEM_ResetError --addr 0x02039560 --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -32,7 +32,7 @@ struct LinkState {
 
 extern struct LinkState *unk_021469D0;
 
-void sub_02039560(void)
+void GFL_NET_SYSTEM_ResetError(void)
 {
     unk_021469D0->unk_1e9 = 0;
 }

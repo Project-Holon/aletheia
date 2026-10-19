@@ -38,7 +38,7 @@
  *   FIELDMAP_GetGameSystem 0x02188C80 thumb
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetFieldSave 0x02012EC4 thumb
- *   GIMMICK_WORK_GetSaveArea 0x0200B3A4 thumb
+ *   GIMMICK_WORK_GetWork 0x0200B3A4 thumb
  *   GAME_DATA_GetBgmInfo 0x02012A30 thumb
  *   ICA_ANIME_Delete 0x02011558 thumb
  *   ICA_ANIME_CreateWithFullBuffer 0x02011428 thumb
@@ -146,7 +146,7 @@ void FIELD_GIMMICK_CART_LANES_Setup(struct FieldMap *fieldMap)
 
     expObj = FIELDMAP_GetExpObj(fieldMap);
     gameData = GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap));
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(gameData), FIELD_GIMMICK_CART_LANES_SAVE_ID);
+    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(gameData), FIELD_GIMMICK_CART_LANES_SAVE_ID);
     soundSys = GAME_DATA_GetBgmInfo(gameData);
     FIELDMAP_AllocCommonWork(fieldMap, 1, FIELDMAP_GetHeapId(fieldMap), FIELD_GIMMICK_CART_LANES_WORK_SIZE);
     FLD_EXP_OBJ_AddUnitFromArchive(expObj, &sCartSetup, 0);
@@ -242,7 +242,7 @@ void FIELD_GIMMICK_CART_LANES_UpdateTask(struct Tcb *tcb, struct FieldMap *field
     expObj = FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
     gameData = GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap));
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(gameData), FIELD_GIMMICK_CART_LANES_SAVE_ID);
+    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(gameData), FIELD_GIMMICK_CART_LANES_SAVE_ID);
     soundSys = GAME_DATA_GetBgmInfo(gameData);
     for (i = 0; i < FIELD_GIMMICK_CART_LANES_LANE_COUNT; i++) {
         lane = i;
@@ -332,7 +332,7 @@ void FIELD_GIMMICK_CART_LANES_SaveCartFrames(struct FieldMap *fieldMap)
 
     expObj = FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_CART_LANES_SAVE_ID);
+    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_CART_LANES_SAVE_ID);
     FLD_EXP_OBJ_UpdateAnimes(expObj);
     for (i = 0; i < FIELD_GIMMICK_CART_LANES_LANE_COUNT; i++)
         save->laneFrame[i] = FIELD_GIMMICK_CART_LANES_GetAnimeFrame(expObj, (unsigned char)i, (unsigned char)(work->activeCart[i] + 1));
@@ -398,7 +398,7 @@ struct GameEvent *FIELD_GIMMICK_CART_LANES_CreateSwitchEvent(struct GameSystem *
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
-    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_CART_LANES_SAVE_ID);
+    GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_CART_LANES_SAVE_ID);
     if (lane >= FIELD_GIMMICK_CART_LANES_LANE_COUNT) {
         return 0;
     }
@@ -431,7 +431,7 @@ int FIELD_GIMMICK_CART_LANES_SwitchEventMain(struct GameEvent *event, int *seq, 
     fieldMap = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event));
     expObj = FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_CART_LANES_SAVE_ID);
+    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_CART_LANES_SAVE_ID);
     switch (*seq) {
     case 0:
         work->switchState = save->laneState[work->switchLane];
@@ -497,7 +497,7 @@ struct GameEvent *FIELD_GIMMICK_CART_LANES_CheckRideEvent(struct GameSystem *gam
     FldExpObjCnt *expObj;
 
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_CART_LANES_SAVE_ID);
+    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_CART_LANES_SAVE_ID);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
     player = FIELDMAP_GetFieldPlayer(fieldMap);
     if (FIELD_PLAYER_GetDirDisp(player)) {
@@ -526,7 +526,7 @@ struct GameEvent *FIELD_GIMMICK_CART_LANES_CheckRideEvent(struct GameSystem *gam
 /* Script entry: unlocks lane 1 or 2 (value 1 or 2). */
 void FIELD_GIMMICK_CART_LANES_UnlockLaneFromScript(struct GameSystem *gameSystem, u32 lane)
 {
-    FIELD_GIMMICK_CART_LANES_UnlockLane(GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(GAMESYSTEM_GetFieldMap(gameSystem)))),
+    FIELD_GIMMICK_CART_LANES_UnlockLane(GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(GAMESYSTEM_GetFieldMap(gameSystem)))),
                                 FIELD_GIMMICK_CART_LANES_SAVE_ID),
                   lane);
 }
@@ -616,7 +616,7 @@ int FIELD_GIMMICK_CART_LANES_RideEventMain(struct GameEvent *event, int *seq, vo
     lane = (u8)(work->selectedCart >> 1);
     model = lane;
     gateAnime = FLD_EXP_OBJ_GetAnime(expObj, 0, model, 0);
-    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_CART_LANES_SAVE_ID);
+    GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_CART_LANES_SAVE_ID);
     switch (*seq) {
     case 0:
         work->rideAnime = ICA_ANIME_CreateWithFullBuffer(FIELD_GIMMICK_CART_LANES_HEAP_ID, FIELD_GIMMICK_CART_LANES_RIDE_ANIME_ARC,
@@ -805,7 +805,7 @@ int FIELD_GIMMICK_CART_LANES_RideRefusedEventMain(struct GameEvent *event, int *
     lane = (u8)(work->selectedCart >> 1);
     model = lane;
     gateAnime = FLD_EXP_OBJ_GetAnime(expObj, 0, model, 0);
-    GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_CART_LANES_SAVE_ID);
+    GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_CART_LANES_SAVE_ID);
     switch (*seq) {
     case 0:
         SCRIPT_SYS_CallScriptEvent(event, FIELD_GIMMICK_CART_LANES_SCRIPT_LOCKED_A, 0, 0, FIELD_GIMMICK_CART_LANES_HEAP_ID);
@@ -863,7 +863,7 @@ void FIELD_GIMMICK_CART_LANES_ApplySwitch(struct FieldMap *fieldMap, FldExpObjCn
     s8 lane;
 
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
-    save = GIMMICK_WORK_GetSaveArea(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_CART_LANES_SAVE_ID);
+    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_CART_LANES_SAVE_ID);
     lane = work->switchLane;
     if (lane == -1) {
         return;

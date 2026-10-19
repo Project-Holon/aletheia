@@ -1,5 +1,5 @@
 /*
- * function: func_021CED30
+ * function: isTrigger
  * address:  0x021CED30
  * packet:   pkt_ov016_021CED30
  * region:   ov016
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 extern int DWCi_TPlCheckRepeat(u16 *a);
 extern int DWCi_TPlCheckTrigger(u16 *a);
 
-int func_021CED30(void)
+int isTrigger(void)
 {
 	int idx;
 	int r[2];

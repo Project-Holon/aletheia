@@ -1,5 +1,5 @@
 /*
- * function: func_021BBB98
+ * function: MY_MD5Init
  * address:  0x021BBB98
  * packet:   pkt_021BBB98
  * region:   ov016
@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BBB98   0x021BBB98  thumb
+ *   MY_MD5Init   0x021BBB98  thumb
  *
  * MD5 initial state into the first six words of the context.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021BBB98.c \
- *       --func func_021BBB98 --addr 0x021BBB98 --region ov016 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/MY_MD5Init.c \
+ *       --func MY_MD5Init --addr 0x021BBB98 --region ov016 --cc dsi/1.1p1 --thumb
  */
 
-void func_021BBB98(unsigned int *p)
+void MY_MD5Init(unsigned int *p)
 {
     p[5] = 0;
     p[4] = 0;

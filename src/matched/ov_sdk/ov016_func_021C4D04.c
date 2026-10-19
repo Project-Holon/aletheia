@@ -1,5 +1,5 @@
 /*
- * function: func_021C4D04
+ * function: endScene2
  * address:  0x021C4D04
  * packet:   pkt_ov016_021C4D04
  * region:   ov016
@@ -41,7 +41,7 @@ extern void DWCi_SceneSetSelectWay();
 extern void DWCi_SceneSetAossComplete();
 extern struct SCENESETAOSSBUTT_BSS gSceneSetAossButtonWork;
 
-void func_021C4D04(void)
+void endScene2(void)
 {
     if (DWCi_EFFlCheck(0))
         return;

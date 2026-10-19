@@ -1,5 +1,5 @@
 /*
- * function: func_021CDCFC
+ * function: initGraphics
  * address:  0x021CDCFC
  * packet:   pkt_021CDCFC
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CDCFC   0x021CDCFC  arm
+ *   initGraphics   0x021CDCFC  arm
  *   DWCi_CMNlLoadResource   0x021BD1D4  arm  ov016
  *   sSceneSetUsbReadyPathJbBgStep2Char    0x021DB83C  data
  *   sSceneSetUsbReadyPathYbBgStep2Pltt    0x021DB854  data
@@ -34,7 +34,7 @@ extern unsigned short GX_LoadBG2Char[];
 extern unsigned short GX_LoadBGPltt[];
 extern unsigned short GX_LoadBG2Scr[];
 
-void func_021CDCFC(void)
+void initGraphics(void)
 {
     u16 *p;
 

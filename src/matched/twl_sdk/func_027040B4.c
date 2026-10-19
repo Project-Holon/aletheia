@@ -10,17 +10,17 @@
  * status:   EXACT
  *
  * symbols:
- *   DWCi_ScreenDC_FlushRange  0x020862F0  arm twl a2
+ *   DC_FlushRange  0x020862F0  arm twl a2
  *   PXI_SendWordByFifo  0x02088610  arm twl a2
  */
 
 typedef unsigned int u32;
 
-extern void DWCi_ScreenDC_FlushRange(u32, u32);
+extern void DC_FlushRange(u32, u32);
 extern int PXI_SendWordByFifo(u32, u32, u32);
 
 void FATFSi_SendToPXI(u32 a0) {
-    DWCi_ScreenDC_FlushRange(a0, 0x800);
+    DC_FlushRange(a0, 0x800);
     while (PXI_SendWordByFifo(0x14, a0 >> 5, 0) < 0) {
     }
 }

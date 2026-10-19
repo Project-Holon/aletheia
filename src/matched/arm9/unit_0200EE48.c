@@ -10,13 +10,13 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: NET_DEVICE_TABLE_GetSize, NET_DEVICE_TABLE_Clear
+ * function: FLDMMDL_GetSaveTableSize, FLDMMDL_ClearSaveTable
  *
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
  *
- * alias: NET_DEVICE_TABLE_GetSize returns the constant 0x1400 (5 << 10), the size of
- * some fixed buffer; NET_DEVICE_TABLE_Clear zero-fills that many bytes at the given
+ * alias: FLDMMDL_GetSaveTableSize returns the constant 0x1400 (5 << 10), the size of
+ * some fixed buffer; FLDMMDL_ClearSaveTable zero-fills that many bytes at the given
  * pointer.
  *
  * Verified with:
@@ -29,12 +29,12 @@ typedef unsigned int  u32;
 
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 
-u32 NET_DEVICE_TABLE_GetSize(void)
+u32 FLDMMDL_GetSaveTableSize(void)
 {
     return 5 << 10;
 }
 
-void NET_DEVICE_TABLE_Clear(void *dest)
+void FLDMMDL_ClearSaveTable(void *dest)
 {
-    MI_CpuFill8(dest, 0, NET_DEVICE_TABLE_GetSize());
+    MI_CpuFill8(dest, 0, FLDMMDL_GetSaveTableSize());
 }

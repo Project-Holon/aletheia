@@ -119,7 +119,7 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   BMP_SetDisplaySwap 0x0204363C arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   GXx_SetMasterBrightness_ 0x0207D534 arm
  *   GX_DispOn 0x0207D46C arm
  *   BG_SYS_Create 0x0203F8F4 arm
@@ -398,7 +398,7 @@ extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 
 extern void MI_CpuFill8(void *,u8,u32);
 
-extern void BMP_SetDisplaySwap(u32 swap);
+extern void BG_SYS_SetLcdSwap(u32 swap);
 
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 
@@ -1183,7 +1183,7 @@ int GSYNC_MENU_ProcInit(void *proc, int seq, GsyncProcParam *param)
     work->heapId = 31;
     work->gameData = param->gameData;
     work->gameSystem = param->gameSystem;
-    BMP_SetDisplaySwap(1);
+    BG_SYS_SetLcdSwap(1);
     if (param->fadeFromWhite) bright = 16; else bright = -16;
     GXx_SetMasterBrightness_((void *)0x0400006c, bright);
     GXx_SetMasterBrightness_((void *)0x0400106c, bright);

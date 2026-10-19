@@ -314,7 +314,7 @@ typedef struct TrainerNoRange {
 } TrainerNoRange;
 
 
-extern void *SCRCMD_WORK_GetGameSystem(void *a0);
+extern void *SCRCMD_WORK_GetGameSystem(void *work);
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *p);
 extern void *GAMESYSTEM_GetGameData(const struct GameSystem *p);
 extern void *SCRCMD_WORK_GetScriptWork(void *p);
@@ -355,7 +355,7 @@ extern u8 BSUBWAY_SCOREDATA_GetLevel(struct BsubwayScoreData *p);
 extern void BSUBWAY_SCOREDATA_AddBattlePoints(struct BsubwayScoreData *p, s32 v);
 extern void BSUBWAY_SCOREDATA_IncClearCount(struct BsubwayScoreData *p, u32 i);
 extern void BSUBWAY_SAVEDATA_ExportTrainer(u32 h, u8 *list, u8 n, u16 id);
-extern u16 FLD_BTL_INST_TOOL_LookupKeyValue(u16 a0);
+extern u16 FLD_BTL_INST_TOOL_LookupKeyValue(u16 key);
 extern u32 BSUBWAY_SCOREDATA_AccessFlag(struct BsubwayScoreData *p, s32 i, u32 op);
 extern void BSUBWAY_SCOREDATA_IncLevel(struct BsubwayScoreData *p);
 extern u8 BSUBWAY_SCOREDATA_UpdateStreak(struct BsubwayScoreData *p, u32 kind);
@@ -365,7 +365,7 @@ extern void *BATTLE_BOX_CreateParty(int box, int heap);
 extern void *GAME_DATA_GetMyParty(const struct GameData *p);
 extern void BSUBWAY_SCOREDATA_CalcRecordScore(struct BsubwayScoreData *p, const struct BsubwayRecordSrc *q);
 extern void BSUBWAY_SCOREDATA_SetRecordBlob(struct BsubwayScoreData *p, u32 which, const void *src);
-extern int SCRIPT_WORK_ResetFieldParam(int a0);
+extern int SCRIPT_WORK_ResetFieldParam(int work);
 extern void *SCRIPT_WORK_GetGameSystem(void *p);
 extern void *GAME_DATA_GetCurrentEvent(struct GameData *p);
 extern u32 GAME_DATA_GetEventWork(const struct GameData *p);
@@ -389,11 +389,11 @@ extern int FIELD_GIMMICK_BSUBWAY_GetTrainEffect(int a);
 extern void FLDEFF_BTRAIN_SetAnime(void *o, u32 v);
 extern void FLDEFF_BTRAIN_SetHidden(void *o, u32 v);
 extern void FLDMMDL_InitPosition(void *a, int *p, int b);
-extern int FLDMMDL_SetStatusBitHeightGetOff(void *a0, int a1);
+extern int FLDMMDL_SetStatusBitHeightGetOff(void *mmdl, int flag);
 extern int FIELD_PLAYER_GetObjCodeOfFormCode(int i, int v);
 extern u32 BATTLE_BOX_HasMon(void *a);
 extern void FLDMMDL_OnMoveBitMovePause(void *o);
-extern int FLDMMDL_GetParam(char *a0, int a1);
+extern int FLDMMDL_GetParam(char *mmdl, int no);
 extern void *NAMEIN_SETUP_StartNameBalloonFromHistory(u32 x, u32 v, u32 id);
 extern struct BsubwayWifiRecordList *BSUBWAY_SAVEDATA_AllocHistoryCopy(struct BsubwayWifiData *p, u32 heap);
 extern u32 BSUBWAY_SAVEDATA_CountHistoryEntries(struct BsubwayWifiRecordList *b);
@@ -419,7 +419,7 @@ extern void BATTLE_REC_TOOL_PackSetup(void *p);
 extern void BATTLE_REC_UnloadToolOverlay(void);
 extern void VM_SetWait(char *p, int val);
 extern void BATTLE_REC_FreeWork(void);
-extern void *FIELD_STATUS_CreateSubProcCallbackEvent(char *gameSystem, int fieldMap, int overlayId, int procData, int procWork, int a5, int callbackWork);
+extern void *FIELD_STATUS_CreateSubProcCallbackEvent(char *gameSystem, int fieldMap, int overlayId, int procData, int procWork, int callback, int callbackWork);
 extern void FIELD_GIMMICK_BSUBWAY_HaltTrainSway(int a);
 extern u32 POKEPARTY_GetCount(void *party);
 extern void BSUBWAY_PLAYDATA_AddCounters(struct BsubwayPlayData *p, s32 a, s32 b, s32 c);
@@ -427,7 +427,7 @@ extern void BSUBWAY_PLAYDATA_IncRound(struct BsubwayPlayData *p);
 extern void BSUBWAY_SCOREDATA_SetFirstClear(struct BsubwayScoreData *p, u32 i);
 extern void BSUBWAY_COMM_AddCommandTable(u32 a);
 extern void BSUBWAY_COMM_NetInit(void *p);
-extern int BSUBWAY_COMM_StartTimingSync(int a0);
+extern int BSUBWAY_COMM_StartTimingSync(int timingNo);
 extern u32 COMM_ENTRY_MENU_Create(u32 a, void *b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 extern void BSUBWAY_COMM_SetSendData(BsubwayScrWork *work, u32 cmd, u32 arg);
 extern void BSUBWAY_COMM_SetRecvMode(BsubwayScrWork *work, u8 v);
@@ -439,7 +439,7 @@ extern void GAMESYSTEM_SetFieldMapState(struct GameSystem *p, u32 v);
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern u32 BATTLE_REC_IsVersionSupported(u32 v);
 extern int BSUBWAY_COMM_SendData(BsubwayScrWork *work);
-extern int BSUBWAY_COMM_CheckTimingSync(int a0);
+extern int BSUBWAY_COMM_CheckTimingSync(int timingNo);
 extern u32 COMM_ENTRY_MENU_Main(u8 *p);
 extern u32 COMM_ENTRY_MENU_Delete(u32 *p);
 extern int BSUBWAY_COMM_IsRecvEnd(BsubwayScrWork *work, u16 *out);
@@ -447,17 +447,17 @@ extern u32 GFL_NET_IsParentAid(void);
 extern void GFL_NET_SetLoginOption(u8 loginOption);
 extern void BSUBWAY_COMM_DeleteCommandTable(void *p);
 extern int GFL_NET_GetNegotiationNum(void);
-extern int GFL_NET_Exit(int a0);
+extern int GFL_NET_Exit(int exitCallback);
 extern int GFL_NET_IsSessionNull(void);
 extern void SCRCMD_WORK_SetWaitCount(int *p, unsigned short v);
-extern int SCRCMD_WORK_CountDownWait(char *a0);
+extern int SCRCMD_WORK_CountDownWait(char *work);
 extern u32 FIELDMAP_GetMsgBg(u8 *p);
 extern u32 *FIELD_MSGBG_CreateYesNoMenu(u16 *a, u32 b);
 extern int FIELD_MSGBG_YesNoMenuMain(struct ScreenHandle *h);
 extern int FIELD_MSGBG_DeleteMenuFunc(void *a);
 extern u32 BSUBWAY_SAVEDATA_GetHistoryEntryScore(struct WifiRecordEntry *e);
 extern void *FLDMMDL_AddMmdlParam(void *o, int x, int y, u16 d, u32 a, u32 b, u32 c, u32 e);
-extern int FLDMMDL_SetParam(int a0, int a1, int a2);
+extern int FLDMMDL_SetParam(int mmdl, int param, int no);
 extern void FLDMMDL_SetEventId(void *h, u16 v);
 extern u32 BATTLE_REC_BeginSave(void *a, u16 b, u32 c, u32 d, u32 e, u16 *state, u16 *sub);
 extern struct Party *POKEPARTY_Create(u32 heap);
@@ -1436,8 +1436,8 @@ int BSUBWAY_SCR_CmdDeleteWork(u32 script, u32 scriptCtx)
  *   0..113 jump table (any of 9, 10, 46..99, 102; its entry is the break, so
  *   the value is invisible).  BSUBWAY_SCR_CMD_NOP_A is that label (102).  Without it the top group becomes one 359..416
  *   table instead of compares for 358/359 and a 400..416 table.
- * - cmd, arg1, arg2 and resultWorkId are u16 (u16 returns): u32 makes the tree
- *   unsigned, and u32 arg1 truncates before each bitfield insert.
+ * - cmd, operand1, operand2 and resultWorkId are u16 (u16 returns): u32 makes the tree
+ *   unsigned, and u32 operand1 truncates before each bitfield insert.
  * - The counter of BSUBWAY_SCR_CMD_SET_PROGRESS_RECORDS is an enum local: an int counter folds `recordNo + playRound + 1` and
  *   the loop's entry guard.
  * - BSUBWAY_SCR_CMD_GET_TRAINER_NO writes the result in each arm (cross-jumped tail leaves the
@@ -1478,8 +1478,8 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
     u32 scoreData;
     u32 wifiData;
     void *fieldMap;
-    u16 arg1;
-    u16 arg2;
+    u16 operand1;
+    u16 operand2;
     u16 resultWorkId;
     u16 *resultDst;
     u16 cmd;
@@ -1498,8 +1498,8 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
     wifiData = (u32)SAVE_CONTROL_GetBlock((struct SaveControl *)saveControl, 0x3b);
     fieldMap = GAMESYSTEM_GetFieldMap((void *)gameSystem);
     cmd = VM_ReadU16(scriptCtx);
-    arg1 = SCRIPT_WORK_ReadWorkValue(scriptCtx, (void *)script);
-    arg2 = SCRIPT_WORK_ReadWorkValue(scriptCtx, (void *)script);
+    operand1 = SCRIPT_WORK_ReadWorkValue(scriptCtx, (void *)script);
+    operand2 = SCRIPT_WORK_ReadWorkValue(scriptCtx, (void *)script);
     resultWorkId = VM_ReadU16(scriptCtx);
     resultDst = SCRIPT_WORK_GetWorkPtr(scriptWork, (void *)gameData, resultWorkId);
 
@@ -1550,7 +1550,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         ZONEDATA_ResetEventFlag((char *)eventFlags, 0x966);
         break;
     case BSUBWAY_SCR_CMD_GET_RECORD_WIN_COUNT:
-        *resultDst = BSUBWAY_SCOREDATA_GetWinCount((struct BsubwayScoreData *)scoreData, arg1);
+        *resultDst = BSUBWAY_SCOREDATA_GetWinCount((struct BsubwayScoreData *)scoreData, operand1);
         if (*resultDst > 9999)
             *resultDst = 9999;
         break;
@@ -1561,9 +1561,9 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         *resultDst = FIELD_PLAYER_GetFormObjCode(FIELD_PLAYER_GetSex(FIELDMAP_GetFieldPlayer((void *)fieldMap)), 0);
         break;
     case BSUBWAY_SCR_CMD_SET_NPC_DIRECTION: {
-        void *npcObj = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), arg1);
+        void *npcObj = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), operand1);
         if (npcObj != 0)
-            FLDMMDL_SetStatusBitVanish(npcObj, arg2);
+            FLDMMDL_SetStatusBitVanish(npcObj, operand2);
         break;
     }
     case BSUBWAY_SCR_CMD_GET_NEXT_ROUND_FROM_SAVE:
@@ -1574,14 +1574,14 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         *resultDst += 1;
         break;
     case BSUBWAY_SCR_CMD_GET_SCORE_FLAG:
-        if (data_021DAD36[arg1] == 11)
+        if (data_021DAD36[operand1] == 11)
             *resultDst = 1;
         else
-            *resultDst = BSUBWAY_SCOREDATA_AccessFlag((struct BsubwayScoreData *)scoreData, data_021DAD36[arg1], 0);
+            *resultDst = BSUBWAY_SCOREDATA_AccessFlag((struct BsubwayScoreData *)scoreData, data_021DAD36[operand1], 0);
         break;
     case BSUBWAY_SCR_CMD_SET_SCORE_FLAG:
-        if (data_021DAD36[arg1] != 11)
-            BSUBWAY_SCOREDATA_AccessFlag((struct BsubwayScoreData *)scoreData, data_021DAD36[arg1], 1);
+        if (data_021DAD36[operand1] != 11)
+            BSUBWAY_SCOREDATA_AccessFlag((struct BsubwayScoreData *)scoreData, data_021DAD36[operand1], 1);
         break;
     case BSUBWAY_SCR_CMD_GET_SCORE_FLAG_CLEAR:
         *resultDst = BSUBWAY_SCOREDATA_AccessFlag((struct BsubwayScoreData *)scoreData, 10, 0);
@@ -1590,20 +1590,20 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         BSUBWAY_SCOREDATA_AccessFlag((struct BsubwayScoreData *)scoreData, 10, 1);
         break;
     case BSUBWAY_SCR_CMD_SET_TRAIN_SIGN_TABLE:
-        FIELD_GIMMICK_BSUBWAY_StartTrain(fieldMap, data_021DAD88[arg1], (int)(&data_021DAD70[arg2]));
+        FIELD_GIMMICK_BSUBWAY_StartTrain(fieldMap, data_021DAD88[operand1], (int)(&data_021DAD70[operand2]));
         break;
     case BSUBWAY_SCR_CMD_SET_TRAIN_DOOR_STATE:
-        FLDEFF_BTRAIN_SetAnime((void *)FIELD_GIMMICK_BSUBWAY_GetTrainEffect((int)fieldMap), arg1);
+        FLDEFF_BTRAIN_SetAnime((void *)FIELD_GIMMICK_BSUBWAY_GetTrainEffect((int)fieldMap), operand1);
         break;
     case BSUBWAY_SCR_CMD_SET_TRAIN_DOOR_STATE_OTHER:
-        FLDEFF_BTRAIN_SetHidden((void *)FIELD_GIMMICK_BSUBWAY_GetTrainEffect((int)fieldMap), arg1);
+        FLDEFF_BTRAIN_SetHidden((void *)FIELD_GIMMICK_BSUBWAY_GetTrainEffect((int)fieldMap), operand1);
         break;
     case BSUBWAY_SCR_CMD_GET_SAVED_PLAY_MODE:
         *resultDst = BSUBWAY_PLAYDATA_GetField((struct BsubwayPlayData *)playData, 0, 0);
         break;
     case BSUBWAY_SCR_CMD_IS_MULTI_PLAY_MODE:
         *resultDst = 0;
-        switch (arg1) {
+        switch (operand1) {
         case 0:
         case 1:
         case 4:
@@ -1619,8 +1619,8 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         }
         break;
     case BSUBWAY_SCR_CMD_SET_NPC_HEIGHT_AND_LOCK: {
-        u32 height = arg2 << 16;
-        void *npcObj = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), arg1);
+        u32 height = operand2 << 16;
+        void *npcObj = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), operand1);
         if (npcObj != 0) {
             FLDMMDL_GetPos(npcObj, &npcPos);
             npcPos.y = height;
@@ -1630,20 +1630,20 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         break;
     }
     case BSUBWAY_SCR_CMD_UNLOCK_NPC: {
-        void *npcObj = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), arg1);
+        void *npcObj = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), operand1);
         if (npcObj != 0)
             FLDMMDL_SetStatusBitHeightGetOff(npcObj, 0);
         break;
     }
     case BSUBWAY_SCR_CMD_IS_NPC_PRESENT: {
-        void *npcObj = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), arg1);
+        void *npcObj = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), operand1);
         *resultDst = 0;
         if (npcObj != 0)
             *resultDst = 1;
         break;
     }
     case BSUBWAY_SCR_CMD_GET_NPC_TRAIN_STATE: {
-        void *npcObj = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), arg1);
+        void *npcObj = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), operand1);
         *resultDst = 0;
         if (npcObj != 0)
             *resultDst = BSUBWAY_SCR_GetMmdlParam((u32)npcObj);
@@ -1661,7 +1661,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         *resultDst = BSUBWAY_SCR_UpdateStageRank((void *)scoreData, gameSystem, 4);
         break;
     case BSUBWAY_SCR_CMD_GET_SCORE_ROUND_VALUE:
-        *resultDst = BSUBWAY_SCOREDATA_GetRepeatClearCount((struct BsubwayScoreData *)scoreData, arg1);
+        *resultDst = BSUBWAY_SCOREDATA_GetRepeatClearCount((struct BsubwayScoreData *)scoreData, operand1);
         break;
     case BSUBWAY_SCR_CMD_GET_PARTNER_LOOK:
         *resultDst = FIELD_PLAYER_GetObjCodeOfFormCode(MYSTATUS_GetSex((const struct MyStatus *)((u8 *)GAME_DATA_GetMyPlayerWork((struct GameData *)gameData) + 0x20)) == 0 ? 1 : 0, 0);
@@ -1680,41 +1680,41 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         FIELD_GIMMICK_BSUBWAY_StartTrain(fieldMap, 7, (int)data_021DAD70);
         break;
     case BSUBWAY_SCR_CMD_SET_NPC_ANIMATION: {
-        void *npcObj = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), arg1);
+        void *npcObj = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), operand1);
         if (npcObj != 0)
-            FLDMMDL_SetDirDispCheckPause((int)npcObj, arg2);
+            FLDMMDL_SetDirDispCheckPause((int)npcObj, operand2);
         break;
     }
     case BSUBWAY_SCR_CMD_RESET_NPC_ANIMATION: {
-        void *npcObj = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), arg1);
+        void *npcObj = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), operand1);
         if (npcObj != 0)
             FLDMMDL_OnMoveBitMovePause(npcObj);
         break;
     }
     case BSUBWAY_SCR_CMD_START_NPC_TASK:
-        SCRIPT_SYS_CallEvent(scriptWork, NAMEIN_SETUP_StartNameBalloonFromHistory(gameSystem, FLDMMDL_GetParam(FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), arg1), 0), arg1));
+        SCRIPT_SYS_CallEvent(scriptWork, NAMEIN_SETUP_StartNameBalloonFromHistory(gameSystem, FLDMMDL_GetParam(FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), operand1), 0), operand1));
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_GET_MODE_CLEARED:
-        *resultDst = BSUBWAY_SCOREDATA_HasCleared((struct BsubwayScoreData *)scoreData, arg1);
+        *resultDst = BSUBWAY_SCOREDATA_HasCleared((struct BsubwayScoreData *)scoreData, operand1);
         break;
     case BSUBWAY_SCR_CMD_IS_NPC_AVAILABLE: {
-        u32 npcIndex = FLDMMDL_GetParam(FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), arg1), 0);
+        u32 npcIndex = FLDMMDL_GetParam(FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), operand1), 0);
         *resultDst = 0;
         if (BSUBWAY_SCR_IsNpcEntryAvailable(work, npcIndex) == 1)
             *resultDst = 1;
         break;
     }
     case BSUBWAY_SCR_CMD_GET_NPC_INFO_FIRST:
-        BSUBWAY_SCR_GetNpcEntryInfo(work, FLDMMDL_GetParam(FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), arg1), 0), &firstA, &firstB, &firstC);
+        BSUBWAY_SCR_GetNpcEntryInfo(work, FLDMMDL_GetParam(FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), operand1), 0), &firstA, &firstB, &firstC);
         *resultDst = firstA;
         break;
     case BSUBWAY_SCR_CMD_GET_NPC_INFO_SECOND:
-        BSUBWAY_SCR_GetNpcEntryInfo(work, FLDMMDL_GetParam(FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), arg1), 0), &secondA, &secondB, &secondC);
+        BSUBWAY_SCR_GetNpcEntryInfo(work, FLDMMDL_GetParam(FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), operand1), 0), &secondA, &secondB, &secondC);
         *resultDst = secondB;
         break;
     case BSUBWAY_SCR_CMD_GET_NPC_INFO_THIRD:
-        BSUBWAY_SCR_GetNpcEntryInfo(work, FLDMMDL_GetParam(FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), arg1), 0), &thirdA, &thirdB, &thirdC);
+        BSUBWAY_SCR_GetNpcEntryInfo(work, FLDMMDL_GetParam(FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), operand1), 0), &thirdA, &thirdB, &thirdC);
         *resultDst = thirdC;
         break;
     case BSUBWAY_SCR_CMD_GET_WIFI_RECORD_COUNT: {
@@ -1725,7 +1725,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
     }
     case BSUBWAY_SCR_CMD_START_SCREEN_TASK: {
         u32 cancelFlag = 0;
-        if (arg1 == 1)
+        if (operand1 == 1)
             cancelFlag = 1;
         SCRIPT_SYS_CallEvent(scriptWork, BSUBWAY_SCR_CreateYesNoMenuTask((void *)gameSystem, script, (u32)resultDst, cancelFlag));
         startedTask = 1;
@@ -1740,7 +1740,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         break;
     }
     case BSUBWAY_SCR_CMD_SET_SCORE_FLAG_FIRST:
-        if (arg1 == 0)
+        if (operand1 == 0)
             BSUBWAY_SCOREDATA_AccessFlag((struct BsubwayScoreData *)scoreData, 1, 2);
         else
             BSUBWAY_SCOREDATA_AccessFlag((struct BsubwayScoreData *)scoreData, 1, 1);
@@ -1773,7 +1773,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         *resultDst = BSUBWAY_SAVEDATA_GetTrainersPresent((struct BsubwayWifiData *)wifiData);
         break;
     case BSUBWAY_SCR_CMD_SET_PLAY_DATA_BYTE_11:
-        byte11 = arg1;
+        byte11 = operand1;
         BSUBWAY_PLAYDATA_SetField((struct BsubwayPlayData *)playData, 11, &byte11);
         break;
     case BSUBWAY_SCR_CMD_GET_PLAY_DATA_BYTE_11:
@@ -1842,7 +1842,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         BSUBWAY_SCR_CreateRoundTrainers(work);
         break;
     case BSUBWAY_SCR_CMD_GET_TRAINER_OBJ_CODE:
-        *resultDst = BSUBWAY_SCR_GetTrainerObjCode(work, arg1);
+        *resultDst = BSUBWAY_SCR_GetTrainerObjCode(work, operand1);
         break;
     case BSUBWAY_SCR_CMD_START_ENCOUNTER_TASK:
         SCRIPT_SYS_CallEvent(scriptWork, NAMEIN_SETUP_StartEncounterScene(work, gameSystem, fieldMap));
@@ -1852,7 +1852,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         *resultDst = work->playMode;
         break;
     case BSUBWAY_SCR_CMD_SET_FIXED_BP_MODE:
-        work->stateBits.fixedBpMode = arg1;
+        work->stateBits.fixedBpMode = operand1;
         break;
     case BSUBWAY_SCR_CMD_GET_FIXED_BP_MODE:
         *resultDst = work->stateBits.fixedBpMode;
@@ -1861,7 +1861,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         *resultDst = BSUBWAY_SCR_AddBattlePoint(work);
         break;
     case BSUBWAY_SCR_CMD_SET_PARTNER_NO:
-        work->stateBits.partnerNo = arg1;
+        work->stateBits.partnerNo = operand1;
         break;
     case BSUBWAY_SCR_CMD_GET_PARTNER_NO:
         *resultDst = work->stateBits.partnerNo;
@@ -1870,14 +1870,14 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         BSUBWAY_SCR_DrawTrainerNos(work);
         break;
     case BSUBWAY_SCR_CMD_GET_MEMBER_INDEX:
-        *resultDst = work->memberIndex[arg1];
+        *resultDst = work->memberIndex[operand1];
         break;
     case BSUBWAY_SCR_CMD_CLEAR_RECV_BUF:
         work->recvCount = 0;
         MI_CpuFill8(work->recvBuf, 0, 0x46);
         break;
     case BSUBWAY_SCR_CMD_START_PARTNER_TASK_A:
-        SCRIPT_SYS_CallEvent(scriptWork, NAMEIN_SETUP_StartNameBalloonFromRecord(work, (void *)gameSystem, arg1, arg2, 5));
+        SCRIPT_SYS_CallEvent(scriptWork, NAMEIN_SETUP_StartNameBalloonFromRecord(work, (void *)gameSystem, operand1, operand2, 5));
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_SAVE_PLAY_DATA_MEMBERS:
@@ -1887,7 +1887,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         BSUBWAY_SCR_LoadMembers(work, gameSystem);
         break;
     case BSUBWAY_SCR_CMD_SET_PLAY_DATA_BYTE_10:
-        byte10 = arg1;
+        byte10 = operand1;
         BSUBWAY_PLAYDATA_SetField((struct BsubwayPlayData *)playData, 10, &byte10);
         break;
     case BSUBWAY_SCR_CMD_CHANGE_COMM_MULTI_MODE:
@@ -1903,7 +1903,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         BSUBWAY_SCR_CreateMarkerObjects(work, (void *)gameData, FIELDMAP_GetMmdlSys((void *)fieldMap), fieldMap);
         break;
     case BSUBWAY_SCR_CMD_SET_STATE_FLAG8:
-        work->stateBits.flag8 = arg1;
+        work->stateBits.flag8 = operand1;
         break;
     case BSUBWAY_SCR_CMD_GET_STATE_FLAG8:
         *resultDst = work->stateBits.flag8;
@@ -1938,10 +1938,10 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         BSUBWAY_SCR_CreatePartners(work, MYSTATUS_GetSex((const struct MyStatus *)((u8 *)GAME_DATA_GetMyPlayerWork((struct GameData *)gameData) + 0x20)) == 0 ? 1 : 0);
         break;
     case BSUBWAY_SCR_CMD_GET_MEMBER_MONS_NO:
-        *resultDst = work->memberMonsNo[arg1];
+        *resultDst = work->memberMonsNo[operand1];
         break;
     case BSUBWAY_SCR_CMD_SET_COMM_MODE:
-        work->stateBits.commMode = arg1;
+        work->stateBits.commMode = operand1;
         break;
     case BSUBWAY_SCR_CMD_GET_COMM_MODE:
         *resultDst = work->stateBits.commMode;
@@ -1999,7 +1999,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
     case BSUBWAY_SCR_CMD_START_RESULT_MESSAGE:
         work->msgState = 0;
         work->msgSubState = 0;
-        work->msgNumber = arg1;
+        work->msgNumber = operand1;
         VM_SetWait(scriptCtx, (int)BSUBWAY_SCR_WaitBeginSave);
         work->stateBits.btlRecState = 2;
         startedTask = 1;
@@ -2038,7 +2038,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         case 3:
         case 7:
         case 8:
-            *resultDst = work->trainerNo[playRound * 2 + arg1];
+            *resultDst = work->trainerNo[playRound * 2 + operand1];
             break;
         case 0:
         case 1:
@@ -2052,7 +2052,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         break;
     }
     case BSUBWAY_SCR_CMD_START_PARTNER_TASK_B:
-        SCRIPT_SYS_CallEvent(scriptWork, NAMEIN_SETUP_StartNameBalloonFromRecord(work, (void *)gameSystem, arg1, arg2, 6));
+        SCRIPT_SYS_CallEvent(scriptWork, NAMEIN_SETUP_StartNameBalloonFromRecord(work, (void *)gameSystem, operand1, operand2, 6));
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_ADD_BATTLE_TALLY: {
@@ -2080,7 +2080,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         break;
     }
     case BSUBWAY_SCR_CMD_SET_STATE_FLAG12:
-        work->stateBits.flag12 = arg1;
+        work->stateBits.flag12 = operand1;
         break;
     case BSUBWAY_SCR_CMD_GET_STATE_FLAG12:
         *resultDst = work->stateBits.flag12;
@@ -2118,7 +2118,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_START_TIMING_SYNC:
-        work->timingNo = arg1;
+        work->timingNo = operand1;
         work->resultWorkId = resultWorkId;
         BSUBWAY_COMM_StartTimingSync(work->timingNo);
         VM_SetWait(scriptCtx, (int)BSUBWAY_SCR_WaitTimingSync);
@@ -2137,12 +2137,12 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         VM_SetWait(scriptCtx, (int)BSUBWAY_SCR_WaitCommEntryMenuSimple);
         break;
     case BSUBWAY_SCR_CMD_SEND_COMM_COMMAND:
-        BSUBWAY_COMM_SetSendData(work, arg1, arg2);
+        BSUBWAY_COMM_SetSendData(work, operand1, operand2);
         VM_SetWait(scriptCtx, (int)BSUBWAY_SCR_WaitCommSend);
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_START_COMM_RECEIVE:
-        BSUBWAY_COMM_SetRecvMode(work, arg1);
+        BSUBWAY_COMM_SetRecvMode(work, operand1);
         work->resultWorkId = resultWorkId;
         VM_SetWait(scriptCtx, (int)BSUBWAY_SCR_WaitCommRecvEnd);
         startedTask = 1;

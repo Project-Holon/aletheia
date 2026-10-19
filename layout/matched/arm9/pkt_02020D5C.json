@@ -95,8 +95,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "FILE_UTIL_Get_1014",
-    "FILE_UTIL_GetMonProp"
+    "FILE_UTIL_GetItemRecordParam",
+    "FILE_UTIL_GetItemExtParam"
    ],
    "addresses": [
     "0x02021014",

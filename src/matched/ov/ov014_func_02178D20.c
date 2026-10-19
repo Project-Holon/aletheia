@@ -11,7 +11,7 @@
  * symbols:
  *   gWihWork     0x021797A8  data  a4
  *   WIH_StateOutSetMPData  0x02178D74  thumb  ov014
- *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   DC_FlushRange  0x020862F0  arm
  *   WM_SetMPDataToPortEx  0x0208FCB4  arm
  */
 
@@ -23,12 +23,12 @@ typedef unsigned char u8;
 
 extern struct S *gWihWork;
 void WIH_StateOutSetMPData(u8 *m);
-void DWCi_ScreenDC_FlushRange(u32 a, u32 b);
+void DC_FlushRange(u32 a, u32 b);
 int WM_SetMPDataToPortEx(void *cb, u32 c, u32 a, u32 b, u32 d, u32 e, u32 f);
 
 int DWCi_MOV_WH_StateInSetMPData(u32 a, u32 b, u32 c)
 {
-    DWCi_ScreenDC_FlushRange(*(u32 *)(((u8 *)gWihWork) + 0x1E68), *(u32 *)(((u8 *)gWihWork) + 0x1E8C));
+    DC_FlushRange(*(u32 *)(((u8 *)gWihWork) + 0x1E68), *(u32 *)(((u8 *)gWihWork) + 0x1E8C));
     if (WM_SetMPDataToPortEx((void *)WIH_StateOutSetMPData, c, a, b, 0xFFFF, 0xE, 2) == 2)
         return 1;
     return 0;

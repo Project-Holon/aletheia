@@ -18,8 +18,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "MONOLITH_TOOL_ShowRowHighlight",
-    "MONOLITH_TOOL_ClearRowHighlight"
+    "MONOLITH_TOOL_SetRowHighlightSelected",
+    "MONOLITH_TOOL_SetRowHighlightNormal"
    ],
    "addresses": [
     "0x021B9FEC",

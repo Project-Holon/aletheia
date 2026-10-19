@@ -150,10 +150,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "BG_SYS_ClearMainBgPlanes"
+    "BG_SYS_ClearMainBgPlanes",
+    "BG_SYS_ClearMainObjPlane",
+    "BG_SYS_ClearMainPlanes"
    ],
    "addresses": [
-    "0x0204349C"
+    "0x0204349C",
+    "0x020434B4",
+    "0x020434CC"
    ]
   }
  ]

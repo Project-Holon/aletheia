@@ -1,5 +1,5 @@
 /*
- * function: func_0205F35C
+ * function: ConnectTestEnd
  * address:  0x0205F35C
  * packet:   pkt_0205DC74
  * region:   arm9
@@ -24,7 +24,7 @@ typedef struct tagACWORK {
 extern void DWCi_AC_SetApType(unsigned char type);
 extern void DWCi_AC_CopyExSetting(unsigned char type);
 
-static unsigned char func_0205F35C(tagACWORK *wk)
+static unsigned char ConnectTestEnd(tagACWORK *wk)
 {
     DWCi_AC_SetApType(wk->connectApType);
     DWCi_AC_CopyExSetting(wk->connectApType);

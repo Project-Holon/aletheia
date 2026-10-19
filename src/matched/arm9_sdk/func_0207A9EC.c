@@ -1,5 +1,5 @@
 /*
- * function: func_0207A9EC
+ * function: FSi_ReadRomCallback
  * address:  0x0207A9EC
  * packet:   pkt_0207A9EC
  * region:   arm9
@@ -34,7 +34,7 @@ extern void CARDi_ReadRom(unsigned long dma, const void *src, void *dst, unsigne
 extern void func_0207A9C8(void *arg);
 extern unsigned long fsi_default_dma_no;
 
-static FSResult func_0207A9EC(FSArchive *p_arc, void *dst, unsigned long src, unsigned long len)
+static FSResult FSi_ReadRomCallback(FSArchive *p_arc, void *dst, unsigned long src, unsigned long len)
 {
     CARDi_ReadRom(fsi_default_dma_no, (const void *)src, dst, len, func_0207A9C8, p_arc, 1);
     return FS_RESULT_PROC_ASYNC;

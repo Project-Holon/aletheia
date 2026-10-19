@@ -171,7 +171,7 @@ extern struct U16Vec *STRBUF_Create(u32,u32);
 extern void NAMEIN_SETUP_CopyName(int *,int),POKE_TOOL_SetPartyValue(void *,u32,u32),STRBUF_Delete(struct U16Vec *);
 extern void *GAME_DATA_GetTrainerRecord(int *);
 extern u32 RECORD_AddOne(struct Sub02008C20Obj *,int);
-extern int NAMEIN_SETUP_FreeArgs(int a0);
+extern int NAMEIN_SETUP_FreeArgs(int args);
 extern void EGG_DEMO_MENU_FadeInBgm(u32 *,u32 *),EGG_DEMO_MAIN_UpdateBgm(u8 *,u8 *),EGG_DEMO_MENU_Main(void *,char *),EGG_DEMO_MENU_ProcessDialog(void *,char *);
 extern void EGG_DEMO_VIEW_Update(char *);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *);

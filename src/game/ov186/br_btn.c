@@ -38,7 +38,6 @@
  *   BR_UTIL_SetWindowText 0x021FD170 thumb ov186
  *   d_02200358 0x02200358 data a4
  *   STRBUF_Clone 0x02045874 arm
- *   memset 0x02082BCC arm
  *   MSGDATA_AllocString 0x02045EC0 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorObjMode 0x0204B688 arm
@@ -166,7 +165,6 @@ extern void BR_UTIL_SetWindowText(char *p, char *q, void *text);
 
 extern struct U16Vec *STRBUF_Clone(struct U16Vec *src, u32 heapId);
 
-extern void *memset(void *,int,unsigned);
 
 
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
@@ -868,7 +866,7 @@ void BR_BTN_DeleteRecord(Button *p)
     if (p->active != 0) {
         STRBUF_Delete(p->work);
         BR_BTN_DeleteObject(p->result);
-        memset(p, 0, 0x44);
+        MI_CpuFill8(p, 0, 0x44);
     }
 }
 
@@ -938,7 +936,7 @@ void BR_BTN_SetMode(Button *ctx, int mode)
     BR_BTN_DeleteObject(ctx->result);
     ctx->pos = 0;
     shift = mode == 0 ? 512 : -512;
-    memset(&placement, 0, sizeof(placement));
+    MI_CpuFill8(&placement, 0, sizeof(placement));
     placement.x = x;
     placement.y = y + shift;
     placement.animation = BR_BTN_DATA_GetRowField(ctx->object, 4);

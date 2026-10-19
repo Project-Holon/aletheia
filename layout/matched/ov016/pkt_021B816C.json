@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_021B816C",
+   "name": "Alloc",
    "address": "0x021B816C",
    "kind": "sdk",
    "region": "ov016",
@@ -24,7 +24,7 @@
    }
   },
   {
-   "name": "func_021B8184",
+   "name": "Free",
    "address": "0x021B8184",
    "kind": "sdk",
    "region": "ov016",

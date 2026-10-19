@@ -1,5 +1,5 @@
 /*
- * function: func_021BCBB4
+ * function: disp
  * address:  0x021BCBB4
  * packet:   pkt_ov016_021BCBB4
  * region:   ov016
@@ -32,7 +32,7 @@ extern const unsigned char sButtonPositionIndex[][2];
 extern const COORD sButtonPositions[];
 extern void DWCi_CELLlSetPosition(void *cell, int idx, int x, int y);
 
-void func_021BCBB4(int y)
+void disp(int y)
 {
     int btnNum;
     int cy;

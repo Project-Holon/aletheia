@@ -17,7 +17,7 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
- *   BMP_SetDisplaySwap 0x0204363C arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   GXx_SetMasterBrightness_ 0x0207D534 arm
  *   GX_DispOn 0x0207D46C arm
  *   BG_SYS_Create 0x0203F8F4 arm
@@ -64,7 +64,7 @@ extern void MI_CpuFill8(void *,u8,u32);
 struct Bank;
 struct R;
 struct Tcbl;
-extern void BMP_SetDisplaySwap(u32 swap);
+extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern void GX_DispOn(void);
 extern void BG_SYS_Create(u16 heapId);
@@ -105,7 +105,7 @@ int GSYNC_MENU_ProcInit(void *a,int b,u8 *q)
     MI_CpuFill8(p,0,0x2b4);
     ((struct Obj00590 *)p)->fC=31;
     ((struct Obj00590 *)p)->f260=((struct Obj06459 *)q)->f4; ((struct Obj00590 *)p)->f264=((struct Obj06459 *)q)->f0;
-    BMP_SetDisplaySwap(1);
+    BG_SYS_SetLcdSwap(1);
     if(((struct Obj06459 *)q)->f2C8) bright=16; else bright=-16;
     GXx_SetMasterBrightness_((void *)0x0400006c,bright); GXx_SetMasterBrightness_((void *)0x0400106c,bright);
     *(volatile u32 *)0x04001000|=0x10000; GX_DispOn();

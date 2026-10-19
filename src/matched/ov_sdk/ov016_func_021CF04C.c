@@ -1,5 +1,5 @@
 /*
- * function: func_021CF04C
+ * function: startScan
  * address:  0x021CF04C
  * packet:   pkt_ov016_021CF04C
  * region:   ov016
@@ -35,7 +35,7 @@ extern int WM_StartScanEx(void (*callback)(void *), void *param);
 extern void func_021CF174(void *arg);
 extern MS *gSearchWork;
 
-int func_021CF04C(void)
+int startScan(void)
 {
 	return WM_StartScanEx(func_021CF174, gSearchWork->scan) == 2;
 }

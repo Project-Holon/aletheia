@@ -98,7 +98,7 @@ extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
 extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
-extern BsubwayZoneGimmick *GIMMICK_WORK_GetSaveArea(struct GimmickWork *gimmickWork, u32 slotId);
+extern BsubwayZoneGimmick *GIMMICK_WORK_GetWork(struct GimmickWork *gimmickWork, u32 slotId);
 extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
 extern struct FieldEffectSys *FIELDMAP_GetEffect(struct FieldMap *fieldMap);
 extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(struct FieldMap *fieldMap);

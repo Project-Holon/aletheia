@@ -121,7 +121,7 @@
  *   FIELD_MSGBG_ClearSysWin  0x02190F7C  thumb  ov021
  *   FIELD_MSGBG_GetSysWinBmpWin  0x02190F9C  thumb  ov021
  *   GFL_USE_GetMainTaskList   0x020056BC  thumb
- *   PM_VOICE_IsActive   0x02006BD0  thumb
+ *   PM_VOICE_IsSlotActive   0x02006BD0  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
  *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
@@ -580,7 +580,7 @@ extern void PM_VOICE_GetPerapVoiceSave(void **out);
 
 extern u32 PM_VOICE_Play(u32 species, u32 form, u32 pan, u32 dual, u32 volumeBiasB, u32 frequencyOffsetB, u32 reverse, void *perapVoiceSave);
 
-extern u32 PM_VOICE_IsActive(u32 slot);
+extern u32 PM_VOICE_IsSlotActive(u32 slot);
 
 extern u32 WORDSET_Delete(WordSet *words);
 
@@ -1449,7 +1449,7 @@ int EVENT_PERAP_RECORD_Main(GameEvent *event, int *seq, PerapRecordWork *work)
         *seq = 11;
         break;
     case 11:
-        if (PM_VOICE_IsActive(work->voiceHandle) == 0) {
+        if (PM_VOICE_IsSlotActive(work->voiceHandle) == 0) {
             *seq = 13;
         }
         break;

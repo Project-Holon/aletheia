@@ -1,5 +1,5 @@
 /*
- * function: func_021CA390
+ * function: dispPushButton
  * address:  0x021CA390
  * packet:   pkt_021CA390
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CA390   0x021CA390  arm
+ *   dispPushButton   0x021CA390  arm
  *   gSceneSetListPushPaletteTable   0x021DA61C  data
  *   DWCi_SCREENlCopyPalette   0x021CE7B0  arm
  *
@@ -21,7 +21,7 @@
 extern void DWCi_SCREENlCopyPalette(void *src, int sColor, int dColor);
 extern unsigned char gSceneSetListPushPaletteTable[];
 
-void func_021CA390(void)
+void dispPushButton(void)
 {
     unsigned char *g = (unsigned char *)0x021DE5EC;
     int i = *g - 0xb;

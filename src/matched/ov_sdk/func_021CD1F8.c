@@ -1,5 +1,5 @@
 /*
- * function: func_021CD1F8
+ * function: initGraphics
  * address:  0x021CD1F8
  * packet:   pkt_021CD1F8
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CD1F8   0x021CD1F8  arm
+ *   initGraphics   0x021CD1F8  arm
  *   DWCi_CMNlLoadResource   0x021BD1D4  arm  ov016
  *   sSceneSetTestPathJbBgStep3Char    0x021DB7BC  data
  *   sSceneSetTestPathYbBgStep3Pltt    0x021DB7D4  data
@@ -34,7 +34,7 @@ extern unsigned short GX_LoadBG2Char[];
 extern unsigned short GX_LoadBGPltt[];
 extern unsigned short GX_LoadBG2Scr[];
 
-void func_021CD1F8(void)
+void initGraphics(void)
 {
     u16 *p;
 

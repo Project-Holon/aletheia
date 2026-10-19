@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_02162418",
+   "name": "send_client_hello",
    "address": "0x02162418",
    "kind": "sdk",
    "region": "ov009",

@@ -18,10 +18,14 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "POKEGRA_GetCelArcIndex"
+    "POKEGRA_GetCelArcIndex",
+    "POKEGRA_GetAnmArcIndex",
+    "POKEGRA_GetMCelArcIndex"
    ],
    "addresses": [
-    "0x0202D110"
+    "0x0202D110",
+    "0x0202D144",
+    "0x0202D178"
    ]
   }
  ]

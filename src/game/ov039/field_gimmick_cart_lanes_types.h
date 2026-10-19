@@ -157,14 +157,14 @@ extern void FIELDMAP_FreeCommonWork(struct FieldMap *fieldMap, int id);
 extern void *FIELDMAP_GetCommonWork(struct FieldMap *fieldMap, int id);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
-extern FieldGimmickCartLanesSave *GIMMICK_WORK_GetSaveArea(struct GimmickWork *gimmickWork, u32 gimmickId);
+extern FieldGimmickCartLanesSave *GIMMICK_WORK_GetWork(struct GimmickWork *gimmickWork, u32 gimmickId);
 extern struct FieldSoundSystem *GAME_DATA_GetBgmInfo(const struct GameData *gameData);
 extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent,
                                        GameEventFunc func, u32 workSize);
 extern void *SCRIPT_SYS_CallScriptEvent(struct GameEvent *event, u16 scriptId, int targetObj, int param, u16 heapId);
-extern struct ScriptWork *SCRIPT_SYS_ChangeScriptEvent(struct GameEvent *event, int scriptId, int arg1, int heapId);
+extern struct ScriptWork *SCRIPT_SYS_ChangeScriptEvent(struct GameEvent *event, int scriptId, int target, int heapId);
 extern struct Tcb *TCB_AddTask(struct TcbSys *tcbSys, void (*callback)(struct Tcb *, struct FieldMap *),
                                  struct FieldMap *work, u32 priority);
 extern void TCB_DeleteTask(struct Tcb *tcb);

@@ -12,7 +12,7 @@
  * symbols:
  *   BMP_GetPixels 0x020437D4 arm
  *   BMP_GetByteSize 0x020437EC arm
- *   DWCi_ScreenDC_FlushRange 0x020862F0 arm
+ *   DC_FlushRange 0x020862F0 arm
  *   BMP_GetWidth 0x020437DC arm
  *   BMP_GetHeight 0x020437E4 arm
  *   CLACT_GetCharacterVramAddress 0x0204ABBC arm
@@ -26,7 +26,7 @@ typedef unsigned short u16;
 struct Bmp;
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern u32 BMP_GetByteSize(const struct Bmp *bmp);
-extern void DWCi_ScreenDC_FlushRange(void *,int);
+extern void DC_FlushRange(void *,int);
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 extern u16 BMP_GetHeight(const struct Bmp *bmp);
 extern int CLACT_GetCharacterVramAddress(u32 idx, u32 flag);
@@ -43,7 +43,7 @@ void P_STA_OAM_TransferBitmap(u8 *p)
     u8 k;
     void (*fn)(void *,void *,u32);
     dst0=BMP_GetPixels(((struct Obj02191 *)p)->f0);
-    DWCi_ScreenDC_FlushRange(dst0,BMP_GetByteSize(((struct Obj02191 *)p)->f0));
+    DC_FlushRange(dst0,BMP_GetByteSize(((struct Obj02191 *)p)->f0));
     if(((struct Obj02191 *)p)->f10==0) fn=func_0207E780; else fn=func_0207E804;
     wt=(u32)BMP_GetWidth(((struct Obj02191 *)p)->f0)>>3;
     rem=(u32)BMP_GetHeight(((struct Obj02191 *)p)->f0)>>3;

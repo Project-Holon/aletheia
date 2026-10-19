@@ -1,5 +1,5 @@
 /*
- * function: sub_02012E40
+ * function: GAME_DATA_IsSaving
  * address:  0x02012E40
  * packet:   pkt_02012158
  * region:   arm9
@@ -18,8 +18,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02012E40.c \
- *       --func sub_02012E40 --addr 0x02012E40 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/GAME_DATA_IsSaving.c \
+ *       --func GAME_DATA_IsSaving --addr 0x02012E40 --cc 1.1p1 --thumb
  */
 #include "../include/Obj16727.h"
 
@@ -28,7 +28,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 
-u8 sub_02012E40(const u8 *o)
+u8 GAME_DATA_IsSaving(const u8 *o)
 {
     return *(const u8 *)&((struct Obj16727 *)o)->f1CE;
 }

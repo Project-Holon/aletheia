@@ -4,7 +4,7 @@
  * packet:   pkt_0206380C
  * status:   EXACT
  * symbols:
- *   DWCi_ScreenDC_FlushRange  0x020862F0  arm
+ *   DC_FlushRange  0x020862F0  arm
  *   func_0207F47C  0x0207F47C  arm
  *   func_0207F4C4  0x0207F4C4  arm
  *   func_0207F560  0x0207F560  arm
@@ -33,7 +33,7 @@ typedef struct UnkOut02063E54 {
     u32 f4;
 } UnkOut02063E54;
 
-extern void DWCi_ScreenDC_FlushRange(u32 a, u32 b);
+extern void DC_FlushRange(u32 a, u32 b);
 extern void func_0207F47C(u32 a);
 extern void func_0207F4C4(u32 a, u32 b, u32 c);
 extern void func_0207F560(void);
@@ -52,7 +52,7 @@ void NNSi_G2dLoadVramResourceBySel(UnkSelf02063E54 *self, u32 a1, int sel, UnkOu
     u32 a = self->fC;
     u32 b = self->f8;
 
-    DWCi_ScreenDC_FlushRange(a, b);
+    DC_FlushRange(a, b);
 
     switch (sel) {
     case 1:

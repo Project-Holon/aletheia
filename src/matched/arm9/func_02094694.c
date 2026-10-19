@@ -1,5 +1,5 @@
 /*
- * function: func_02094694
+ * function: rand
  * address:  0x02094694
  * packet:   pkt_02094488
  * region:   arm9
@@ -17,7 +17,7 @@ typedef unsigned int u32;
 
 extern u32 MslRandSeed;
 
-u32 func_02094694(void)
+u32 rand(void)
 {
     MslRandSeed = MslRandSeed * 0x41C64E6Du + 0x3039u;
     return (MslRandSeed >> 16) & 0x7FFFu;

@@ -53,7 +53,7 @@
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   GXx_SetMasterBrightness_ 0x0207D534 arm
- *   BMP_SetDisplaySwap 0x0204363C arm
+ *   BG_SYS_SetLcdSwap 0x0204363C arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   WF2DMAP_TOUCH_CreatePalAnims 0x021CA0BC thumb ov128
  *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
@@ -356,7 +356,7 @@ extern int WIFILIST_GetFriendInfoField(const struct Sub020097BCObj *obj, int i, 
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
-extern void BMP_SetDisplaySwap(u32 swap);
+extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 extern void WF2DMAP_TOUCH_CreatePalAnims(void *,int);
 extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
@@ -506,7 +506,7 @@ extern void PROCSYS_Push(void *, u32, void *, void *);
 extern char *WF2DMAP_TOUCH_CreateNameEntry(void *unused, char *q, int mode, int heap);
 extern struct Param *CODEIN_PARAM_Create(u32 heap, u32 mode, u32 initialPage, u32 maxLength, u32 *src);
 extern void CODEIN_PARAM_Delete(struct CodeinParam *p);
-extern int NAMEIN_SETUP_FreeArgs(int a0);
+extern int NAMEIN_SETUP_FreeArgs(int args);
 int Wf2dmapFriend_Create(void *p,int unused,void *q);
 int Wf2dmapFriend_Main(int result,int *stage,int unused,char *p);
 int Wf2dmapFriend_Delete(void *p,int a,int b,char *q);
@@ -869,7 +869,7 @@ void Wf2dmapFriend_InitGfx(char *p,void *q,u16 heap)
     BG_SYS_SetMainVisiblePlanes(0); BG_SYS_SetSubVisiblePlanes(0);
     *(volatile u16 *)0x04000050=0; *(volatile u16 *)0x04001050=0;
     GXx_SetMasterBrightness_((void *)0x0400006c,-16); GXx_SetMasterBrightness_((void *)0x0400106c,-16);
-    BMP_SetDisplaySwap(0);
+    BG_SYS_SetLcdSwap(0);
     ((Wf2dmapTouchGfx *)p)->archive=ARC_TOOL_CreateHandle(63,heap); ((Wf2dmapTouchGfx *)p)->heapId=heap;
     Wf2dmapFriend_SetVramBanks((void *)0x180);
     Wf2dmapFriend_InitBg(p,heap); Wf2dmapFriend_InitActors(p,heap); Wf2dmapFriend_InitFont((u8 *)p,heap);

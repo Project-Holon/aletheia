@@ -1,5 +1,5 @@
 /*
- * function: func_021D7694
+ * function: formTask
  * address:  0x021D7694
  * packet:   pkt_ov016_021D7694
  * region:   ov016
@@ -47,7 +47,7 @@ extern void DWCi_LSTlInsert(void *pos, void *ob);
 extern unsigned long OS_EnableIrqMask(unsigned long intr);
 extern TK *gMemTask;
 
-TCB *func_021D7694(int kind, void (*func)(void *, void *), void *work, unsigned char prio, unsigned char alloc)
+TCB *formTask(int kind, void (*func)(void *, void *), void *work, unsigned char prio, unsigned char alloc)
 {
 	TCB *tcb;
 	TCB *t;

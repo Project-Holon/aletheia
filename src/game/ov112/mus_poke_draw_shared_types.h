@@ -23,10 +23,10 @@ typedef struct McssMon {
     u8 pad_D[3];            /* 0x0D */
     u32 personalRnd;        /* 0x10 param 0 */
     u16 slots[9][3];        /* 0x14 9 records of 6 bytes */
-    u16 field4A;            /* 0x4A */
+    u16 reserved4A;            /* 0x4A */
     u8 pad_4C[8];           /* 0x4C */
     u32 values[9];          /* 0x54 */
-    u16 field78;            /* 0x78 */
+    u16 reserved78;            /* 0x78 */
     u8 pad_7A[2];           /* 0x7A */
 } McssMon;
 

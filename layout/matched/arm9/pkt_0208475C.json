@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "func_0208475C",
+   "name": "OS_InitIrqTable",
    "address": "0x0208475C",
    "kind": "sdk",
    "region": "arm9",

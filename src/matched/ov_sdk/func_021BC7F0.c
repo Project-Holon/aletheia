@@ -1,5 +1,5 @@
 /*
- * function: func_021BC7F0
+ * function: DWCi_RakurakuATERMi_ApConfigGetResult
  * address:  0x021BC7F0
  * packet:   pkt_021BC52C
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BC7F0   0x021BC7F0  thumb
+ *   DWCi_RakurakuATERMi_ApConfigGetResult   0x021BC7F0  thumb
  *   func_021DD13C   0x021DD13C  data
  *
  * FILED EXACT with NO region token on the data symbol.  The `ov016` hint is
@@ -29,14 +29,14 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021BC7F0.c \
- *       --func func_021BC7F0 --addr 0x021BC7F0 --region ov016 --cc dsi/1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/DWCi_RakurakuATERMi_ApConfigGetResult.c \
+ *       --func DWCi_RakurakuATERMi_ApConfigGetResult --addr 0x021BC7F0 --region ov016 --cc dsi/1.1p1 --thumb
  */
 
 extern void *func_02092344(void *dest, const void *src, unsigned int n);
 extern char func_021DD13C[];
 
-int func_021BC7F0(int a)
+int DWCi_RakurakuATERMi_ApConfigGetResult(int a)
 {
     func_02092344((void *)a, func_021DD13C, 0xe8);
     return 1;

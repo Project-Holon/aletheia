@@ -10,7 +10,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: ZONEDATA_GetHeader, ZONEDATA_IsZoneInTable, ZONEDATA_GetAreaId, ZONEDATA_GetMatrixId,
+ * function: ZONEDATA_GetHeader, ZONEDATA_IsChangedZoneInTable, ZONEDATA_GetAreaId, ZONEDATA_GetMatrixId,
  *           ZONEDATA_GetMapType, ZONEDATA_GetScriptArcId, ZONEDATA_GetMsgArcId, ZONEDATA_GetStartPos,
  *           ZONEDATA_GetStartRailPos
  *
@@ -22,7 +22,7 @@
  * alias: the record-cache accessor every function in unit_02013BA8.c,
  * unit_02013C10.c, unit_02013CC8.c, unit_02013D9C.c, unit_02013DF0.c and
  * unit_02013EC0.c is built on, plus the leaf accessors those files' own
- * declarations of ZONEDATA_IsZoneInTable and ZONEDATA_GetMatrixId point at.
+ * declarations of ZONEDATA_IsChangedZoneInTable and ZONEDATA_GetMatrixId point at.
  *
  * ZONEDATA_GetChangedZoneId, the id remapper this file calls, is immediately before it
  * and is a documented near miss (see below); it is only reached here as an
@@ -106,7 +106,7 @@ void *ZONEDATA_GetHeader(u32 id)
     return &g_ZoneDataMgr->record;
 }
 
-u32 ZONEDATA_IsZoneInTable(u32 id, const u16 *table, s32 count)
+u32 ZONEDATA_IsChangedZoneInTable(u32 id, const u16 *table, s32 count)
 {
     u32 rid = ZONEDATA_GetChangedZoneId(id);
     s32 i;

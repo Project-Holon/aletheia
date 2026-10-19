@@ -10,7 +10,7 @@
  * status:   EXACT
  * function: GAME_DATA_GetPlayerDirectionType, GAME_DATA_GetPlayerObjectCode, GAME_DATA_SetPlayerObjectCode, GAME_DATA_SetPlayerPalaceZoneId,
  *           GAME_DATA_GetPlayerPalaceZoneId, GAME_DATA_GetMoveModelSys, GAME_DATA_GetEnterMode, GAME_DATA_SetEnterMode,
- *           GAME_DATA_GetExitMode, GAME_DATA_SetExitMode, GAME_DATA_GetIntrudeCount, GAME_DATA_SetIntrudeCount,
+ *           GAME_DATA_GetOwnNetId, GAME_DATA_SetOwnNetId, GAME_DATA_GetIntrudeCount, GAME_DATA_SetIntrudeCount,
  *           GAME_DATA_GetIntrudeId, GAME_DATA_SetIntrudeId, GAME_DATA_GetSlotFlag, GAME_DATA_SetSlotFlag,
  *           GAME_DATA_IsConfigFlagSet
  *
@@ -152,12 +152,12 @@ void GAME_DATA_SetEnterMode(struct BigObj *p, u8 v)
     p->unk1CA = v;
 }
 
-u8 GAME_DATA_GetExitMode(const struct BigObj *p)
+u8 GAME_DATA_GetOwnNetId(const struct BigObj *p)
 {
     return p->unk1CB;
 }
 
-void GAME_DATA_SetExitMode(struct BigObj *p, u8 v)
+void GAME_DATA_SetOwnNetId(struct BigObj *p, u8 v)
 {
     p->unk1CB = v;
 }

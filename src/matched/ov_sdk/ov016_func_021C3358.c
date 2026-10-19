@@ -1,5 +1,5 @@
 /*
- * function: func_021C3358
+ * function: DWCi_SceneOptMovCommCbMov
  * address:  0x021C3358
  * packet:   pkt_ov016_021C3358
  * region:   ov016
@@ -31,7 +31,7 @@ extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021C3298(void);
 extern unsigned char gSceneOptMovCommWork;
 
-void func_021C3358(int state)
+void DWCi_SceneOptMovCommCbMov(int state)
 {
 	if (state == 2) {
 		DWCi_SETTINGlEraseAll();

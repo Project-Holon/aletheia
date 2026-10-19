@@ -20,8 +20,8 @@
  *   CP_SaveContext      0x020775B8  arm
  *   CPi_RestoreContext  0x020775F8  arm
  */
-extern void CP_SaveContext(void *p1, void *p2);
-extern void CPi_RestoreContext(void *p1, void *p2);
+extern void CP_SaveContext(void *context, void *thread);
+extern void CPi_RestoreContext(void *context, void *thread);
 asm void OS_IrqHandler(void);
 asm void OS_IrqHandler_ThreadSwitch(void);
 extern void *d_02FE0020[32];

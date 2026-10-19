@@ -30,8 +30,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "MISC_SAVEDATA_GetSmallEntrySize",
-    "MISC_SAVEDATA_ClearSmallEntry"
+    "SAVE_SYNC_GetSize",
+    "SAVE_SYNC_Clear"
    ],
    "addresses": [
     "0x0200E874",

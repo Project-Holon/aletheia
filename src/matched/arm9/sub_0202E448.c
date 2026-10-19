@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0202E448
+ * function: ITEM_GetRegisterFlagId
  * address:  0x0202E448
  * packet:   pkt_0202DBC4
  * region:   arm9
@@ -35,8 +35,8 @@
  * out of this file for exactly that reason.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/sub_0202E448.c \
- *       --func sub_0202E448 --addr 0x0202E448 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/ITEM_GetRegisterFlagId.c \
+ *       --func ITEM_GetRegisterFlagId --addr 0x0202E448 --cc 1.1p1 --thumb
  */
 
 typedef unsigned short u16;
@@ -49,7 +49,7 @@ struct Ent0202E448 {
 
 extern const struct Ent0202E448 sub_0202E448_Table[];
 
-u32 sub_0202E448(u32 id)
+u32 ITEM_GetRegisterFlagId(u32 id)
 {
     u32 i;
 

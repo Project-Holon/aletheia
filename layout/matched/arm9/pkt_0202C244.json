@@ -18,12 +18,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0202C244",
-    "sub_0202C24C"
+    "ISS_SWITCH_SYS_GetSet",
+    "ISS_SWITCH_SYS_GetActiveSet"
+   ],
+   "addresses": [
+    "0x0202C244",
+    "0x0202C24C"
    ]
   },
   {
-   "name": "sub_0202C2C0",
+   "name": "ISS_SWITCH_SYS_UpdateVolume",
    "address": "0x0202C2C0",
    "kind": "game",
    "region": "arm9",
@@ -46,12 +50,16 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0202C2D0",
-    "sub_0202C2D8"
+    "ISS_SWITCH_SYS_GetPlayingBgm",
+    "ISS_SWITCH_SYS_IsOn"
+   ],
+   "addresses": [
+    "0x0202C2D0",
+    "0x0202C2D8"
    ]
   },
   {
-   "name": "sub_0202C2DC",
+   "name": "ISS_SWITCH_SYS_ResetActiveSet",
    "address": "0x0202C2DC",
    "kind": "game",
    "region": "arm9",
@@ -74,19 +82,30 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0202C318",
-    "sub_0202C320",
-    "sub_0202C328",
-    "sub_0202C330",
-    "sub_0202C338",
-    "sub_0202C340",
-    "sub_0202C348",
-    "sub_0202C350",
-    "sub_0202C358"
+    "ISS_SWITCH_SET_Load",
+    "ISS_SWITCH_SET_Main",
+    "ISS_SWITCH_SET_SwitchOn",
+    "ISS_SWITCH_SET_SwitchOff",
+    "ISS_SWITCH_SET_ResetSwitch",
+    "ISS_SWITCH_SET_GetBgmNo",
+    "ISS_SWITCH_SET_IsValidZone",
+    "ISS_SWITCH_SET_IsSwitchOn",
+    "ISS_SWITCH_SET_UpdateVolume"
+   ],
+   "addresses": [
+    "0x0202C318",
+    "0x0202C320",
+    "0x0202C328",
+    "0x0202C330",
+    "0x0202C338",
+    "0x0202C340",
+    "0x0202C348",
+    "0x0202C350",
+    "0x0202C358"
    ]
   },
   {
-   "name": "sub_0202C3A0",
+   "name": "ISS_SWITCH_SET_Free",
    "address": "0x0202C3A0",
    "kind": "game",
    "region": "arm9",
@@ -98,7 +117,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0202C3E0",
+   "name": "ISS_SWITCH_SET_LoadData",
    "address": "0x0202C3E0",
    "kind": "game",
    "region": "arm9",
@@ -122,7 +141,7 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_0202C4D8",
+   "name": "ISS_SWITCH_SET_CheckZone",
    "address": "0x0202C4D8",
    "kind": "game",
    "region": "arm9",

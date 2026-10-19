@@ -17,7 +17,7 @@
  *   OSi_vramLockId     0x02151370  data
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   OsCountZeroBits       0x02087EA0  arm
+ *   OSi_CountLeadingZeros       0x02087EA0  arm
  */
 typedef unsigned long u32;
 
@@ -31,7 +31,7 @@ typedef long s32;
 
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
-extern u32 OsCountZeroBits(u32 bitmap);
+extern int OSi_CountLeadingZeros(unsigned int value);
 void OSi_InitVramExclusive(void);
 void OSi_UnlockVram(u16 bank, u16 lockId);
 extern char SDK_AUTOLOAD_DTCM_START[];
@@ -65,7 +65,7 @@ void OSi_UnlockVram(u16 bank, u16 lockId)
     workMap = (u32)(bank & OSi_vramExclusive) & 0x1FF;
 
     while (1) {
-        zeroBits = (s32)(31 - OsCountZeroBits(workMap));
+        zeroBits = (s32)(31 - OSi_CountLeadingZeros(workMap));
         if (zeroBits < 0) {
             break;
         }

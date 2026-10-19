@@ -45,7 +45,7 @@
  *   gSpinAcmdLinear  0x021DAAC0  data  ov021  a2
  *   gSpinAcmdEaseIn  0x021DAAB8  data  ov021  a2
  *   gSpinAcmdEaseOut     0x021DAAC8  data  ov021  a2
- *   _double_arith_body  0x0209C5E0  arm
+ *   sqrt  0x0209C5E0  arm
  *   FLDMMDL_SetAcmd  0x0216D410  thumb  ov010
  *   FLDMMDL_SetDirDispCheckPause  0x0216D5E0  thumb  ov010
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
@@ -342,7 +342,7 @@ extern Mmdl *FIELD_PLAYER_GetMmdl(FieldPlayer *player);
 
 extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
 
-extern double _double_arith_body(double x);
+extern double sqrt(double x);
 
 extern void FLDMMDL_SetAcmd(Mmdl *mmdl, int acmd);
 
@@ -757,7 +757,7 @@ u16 FIELD_TASK_GetSpinAcmdEaseOut(float frame, float frames, float spins)
     SpinAcmdTable table = gSpinAcmdEaseOut;
     float fullTurns = 4.0f * spins;
     float rate = fullTurns * fullTurns / frames;
-    int index = (int)(float)_double_arith_body((double)(rate * frame));
+    int index = (int)(float)sqrt((double)(rate * frame));
     return table.acmd[index % 4];
 }
 

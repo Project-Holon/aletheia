@@ -64,7 +64,7 @@ struct AnimBank {
     AnimSequenceData *pSequences;  /* +0x04 */
     AnimFrameData *pFrames;        /* +0x08 */
     u8 *pPool;                     /* +0x0c */
-    u32 unk10;                     /* +0x10 */
+    u32 reserved10;                    /* +0x10 */
     u8 *pSubBank;                  /* +0x14 */
 };
 
@@ -123,7 +123,7 @@ struct MultiCellBank {
     u16 pad02;
     struct MultiCellData *pArray;
     u32 nodeBase;
-    u32 unk0C;
+    u32 reserved0C;
     u8 *pAnimBank;
 };
 

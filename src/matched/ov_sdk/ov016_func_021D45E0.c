@@ -1,5 +1,5 @@
 /*
- * function: func_021D45E0
+ * function: Parent_InitDataShare
  * address:  0x021D45E0
  * packet:   pkt_ov016_021D45E0
  * region:   ov016
@@ -56,7 +56,7 @@ typedef struct {
 extern Wk *gDwcMoveidWork;
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 
-void func_021D45E0(void)
+void Parent_InitDataShare(void)
 {
     MI_CpuFill8(gDwcMoveidWork->sRecvBuf, 0, 256);
     MI_CpuFill8(gDwcMoveidWork->sSendBuf, 0, 256);

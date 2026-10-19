@@ -1,5 +1,5 @@
 /*
- * function: func_0216F770
+ * function: DWCi_SBUpdateAsync
  * address:  0x0216F770
  * packet:   pkt_ov009_0216F770
  * region:   ov009
@@ -107,7 +107,7 @@ extern char d_021A20AC[];
 extern char d_021A20D4[];
 extern char d_021A20E0[];
 
-static SBError func_0216F770(int profileID)
+static SBError DWCi_SBUpdateAsync(int profileID)
 {
     char filter[511];
     u8 basicFields[204];

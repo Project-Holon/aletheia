@@ -1,5 +1,5 @@
 /*
- * function: func_021758C4
+ * function: DWCi_ProcessRequestMatch
  * address:  0x021758C4
  * packet:   pkt_ov009_021758C4
  * region:   ov009
@@ -74,7 +74,7 @@ extern int DWCi_SendMatchCommand(unsigned char command, int pid, unsigned int ip
 extern int DWCi_HandleMatchCommandError(int error);
 extern int DWCi_NodeInfoList_GetCount(void);
 
-static int func_021758C4(u8 AID, int suspend, int immediate)
+static int DWCi_ProcessRequestMatch(u8 AID, int suspend, int immediate)
 {
     int i;
     u32 sendlen;

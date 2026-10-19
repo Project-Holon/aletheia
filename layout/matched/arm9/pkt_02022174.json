@@ -139,7 +139,7 @@
    "status": "EXACT",
    "functions": [
     "WIPE_SYS_SetDivision",
-    "sub_02022424"
+    "WIPE_SYS_SetDivisionFlags"
    ],
    "addresses": [
     "0x020223C0",

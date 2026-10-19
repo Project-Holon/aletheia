@@ -63,7 +63,7 @@
  *   gsCoreIsShutdown  0x0217CE1C  arm ov009
  *   gsCoreShutdown  0x0217CD94  arm ov009
  *   gsCoreThink  0x0217CCCC  arm ov009
- *   unit_02092344  0x02092344  arm
+ *   memcpy  0x02092344  arm
  *   scShutdown  0x021DFA3C  arm
  *   scGetSessionId  0x021DFA98  arm
  *   scCreateSession  0x021DFAB8  arm
@@ -110,7 +110,7 @@ extern int OS_VSNPrintf(char *s, unsigned long n, const char *format, va_list ar
 extern int DWC_GHTTPSetRootCAList(const char *url);
 extern int DWC_GHTTPCleanupRootCAList(const char *url);
 extern int DWCi_HandleGHTTPError(int result);
-extern void *unit_02092344(void *dst, void *src, unsigned long n);
+extern void *memcpy(void *dst, void *src, unsigned long n);
 extern char *wsGetServiceUrl(void);
 extern int wsLoginRemoteAuth(int partnerCode, int namespaceId, char *authtoken, char *partnerChallenge,
                          WSLoginCallback userCallback, void *userData);
@@ -463,8 +463,8 @@ void DWCi_ScLoginCallback(int httpResult, WSLoginResponse *theResponse, void *th
         DWCi_ScPrintf(0x323, sDwcScLoginResultErrorFormat, theResponse->mLoginResult);
         DWCi_HandleWSLoginError(theResponse->mLoginResult);
     } else {
-        unit_02092344(&gDwcScLoginCertificate, &theResponse->mCertificate, sizeof(GSLoginCertificate));
-        unit_02092344(&gDwcScLoginPrivateData, &theResponse->mPrivateData, sizeof(GSLoginCertificatePrivate));
+        memcpy(&gDwcScLoginCertificate, &theResponse->mCertificate, sizeof(GSLoginCertificate));
+        memcpy(&gDwcScLoginPrivateData, &theResponse->mPrivateData, sizeof(GSLoginCertificatePrivate));
         DWCi_ScPrintf(0x32b, sDwcScLoggedInFormat, theResponse->mCertificate.mUniqueNick);
     }
     gDwcScControl.state = 1;

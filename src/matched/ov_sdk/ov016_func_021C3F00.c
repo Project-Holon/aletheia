@@ -1,5 +1,5 @@
 /*
- * function: func_021C3F00
+ * function: procInit2
  * address:  0x021C3F00
  * packet:   pkt_ov016_021C3F00
  * region:   ov016
@@ -25,7 +25,7 @@ extern void DWCi_BTNlEnable();
 extern void DWCi_ChangeScene(unsigned int v);
 extern void DWCi_SceneOptMovFailure_procScene();
 
-void func_021C3F00(void)
+void procInit2(void)
 {
     if (DWCi_BTNlGet() == -2)
         return;

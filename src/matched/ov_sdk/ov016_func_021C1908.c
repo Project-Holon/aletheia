@@ -1,5 +1,5 @@
 /*
- * function: func_021C1908
+ * function: DWCi_SceneInitProcWait
  * address:  0x021C1908
  * packet:   pkt_ov016_021C1908
  * region:   ov016
@@ -27,7 +27,7 @@ extern void DWCi_ChangeScene(unsigned int v);
 extern void DWCi_SceneMenu(void);
 extern void DWCi_SceneSetSelectAp(void);
 
-void func_021C1908(void)
+void DWCi_SceneInitProcWait(void)
 {
 	if (DWCi_EFFlCheck(1))
 		return;

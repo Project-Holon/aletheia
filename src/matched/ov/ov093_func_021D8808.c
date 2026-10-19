@@ -1,6 +1,6 @@
 /*
  * unit: yes
- * function: BTL_CALC_TangledFeetHalveAccuracy, BTL_CALC_GetTangledFeetHandlers
+ * function: HAND_TOKUSEI_TangledFeetHalveAccuracy, HAND_TOKUSEI_GetTangledFeetHandlers
  * address: 0x021D8808
  * packet: pkt_ov093_021D8808
  * region: ov093
@@ -28,5 +28,5 @@ extern void BTL_EVENT_MultiplyVar(int,int);
 extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 struct Unk021D62A8;
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
-void BTL_CALC_TangledFeetHalveAccuracy(int a,int b,int c) { if (c==BTL_EVENT_GetVar(4)) { if (BTL_POKEPARAM_HasSick(BTL_SERVER_FLOW_GetPokeParam((int *)b,c),6)) BTL_EVENT_MultiplyVar(53,2048); } }
-u8 *BTL_CALC_GetTangledFeetHandlers(u32 *p) { *p=1; return gTangledFeetHandlers; }
+void HAND_TOKUSEI_TangledFeetHalveAccuracy(int a,int b,int c) { if (c==BTL_EVENT_GetVar(4)) { if (BTL_POKEPARAM_HasSick(BTL_SERVER_FLOW_GetPokeParam((int *)b,c),6)) BTL_EVENT_MultiplyVar(53,2048); } }
+u8 *HAND_TOKUSEI_GetTangledFeetHandlers(u32 *p) { *p=1; return gTangledFeetHandlers; }

@@ -2,7 +2,7 @@
  * A whole translation unit, matched as one byte range.
  *
  * unit:     yes
- * function: sub_0202CC58
+ * function: BGWINFRM_ShowFrame
  * address:  0x0202CC58
  * packet:   pkt_0202C794
  * region:   arm9
@@ -23,8 +23,8 @@
  * unrelated reason.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202CC58.c \
- *       --func sub_0202CC58 --addr 0x0202CC58 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/BGWINFRM_ShowFrame.c \
+ *       --func BGWINFRM_ShowFrame --addr 0x0202CC58 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -50,7 +50,7 @@ struct WinMgr {
 
 extern void sub_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 
-void sub_0202CC58(struct WinMgr *mgr, u32 idx)
+void BGWINFRM_ShowFrame(struct WinMgr *mgr, u32 idx)
 {
     sub_0202CB4C(mgr, idx, mgr->wins[idx].x, mgr->wins[idx].y);
 }

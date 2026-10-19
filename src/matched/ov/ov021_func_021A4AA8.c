@@ -1,5 +1,5 @@
 /*
- * function: ov021_func_021A4AA8
+ * function: FIELD_PLAYER_GRID_GetBlockedResultOnCycle
  * address:  0x021A4AA8
  * packet:   pkt_ov021_021A4AA8
  * region:   ov021
@@ -28,7 +28,7 @@ extern int FLDMMDL_CheckPossibleAcmd(int a0);
 extern int FIELD_PLAYER_GRID_GetWalkResultOnCycle(u8 *a, void *b, u8 *c);
 extern int FIELD_PLAYER_GRID_GetStandResultOnCycle(u32, u32, u32);
 
-int ov021_func_021A4AA8(u32 a, u32 b, u8 *c)
+int FIELD_PLAYER_GRID_GetBlockedResultOnCycle(u32 a, u32 b, u8 *c)
 {
     u32 r = FLDMMDL_GetDirDisp((void *)b);
     if (((struct Obj02084 *)c)->f8 != 9 && ((struct Obj02084 *)c)->f8 != r) {

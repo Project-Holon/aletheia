@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: PDC_MSG_StartFadeIn, PDC_MSG_IsFadeIdle
+ * function: PDC_MSG_StartFadeIn, PDC_MSG_UpdateFade
  * address:  0x021B6B5C
  * packet:   pkt_ov098_021B6B5C
  * region:   ov098
@@ -28,7 +28,7 @@ void PDC_MSG_StartFadeIn(char *p)
     PDC_MSG_BlendStartFadeIn(p + 4);
 }
 
-int PDC_MSG_IsFadeIdle(char *p)
+int PDC_MSG_UpdateFade(char *p)
 {
     return PDC_MSG_BlendUpdate((u8 *)(p + 4));
 }

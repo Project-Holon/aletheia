@@ -14,7 +14,7 @@
  *   MIi_CpuClear32    0x02082A7C  arm
  *   ARC_UTIL_LoadMember    0x0204A1BC  arm
  *   NNS_G2dGetUnpackedCharacterDataEx    0x02062A4C  arm
- *   DWCi_ScreenDC_FlushRange    0x020862F0  arm
+ *   DC_FlushRange    0x020862F0  arm
  *   MIi_CpuCopy16    0x02082A60  arm
  *   func_020307B0    0x020307B0  arm
  *   NNS_G2dGetUnpackedScreenData    0x02062B30  arm
@@ -24,7 +24,7 @@
  *
  * Three copies of one block: register a handle with ARC_UTIL_LoadMember(0x16, i, 0, 7),
  * probe it (NNS_G2dGetUnpackedCharacterDataEx / 02062B30 / 02062A98 with a stack out-pointer), and
- * on success clear 0x20 bytes of the record's buffer through DWCi_ScreenDC_FlushRange and
+ * on success clear 0x20 bytes of the record's buffer through DC_FlushRange and
  * fill it back through MIi_CpuCopy16 with the current frame-tick from the
  * getter (G2_GetBG1CharPtr / G2_GetBG1ScrPtr).  The handle is released with
  * func_020307B0 after each block.
@@ -57,7 +57,7 @@ extern void *G2_GetBG1CharPtr(void);
 extern void MIi_CpuClear32(u32 a, u32 b, u32 c);
 extern int ARC_UTIL_LoadMember(int a0, int a1, int a2, int a3);
 extern s32 NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out);
-extern void DWCi_ScreenDC_FlushRange(u32 a, u32 b);
+extern void DC_FlushRange(u32 a, u32 b);
 extern void MIi_CpuCopy16(u32 a, u32 b, u32 c);
 extern u32 func_020307B0(void *p);
 extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
@@ -78,20 +78,20 @@ void APP_POWER_LoadShutdownScreen(void)
     MIi_CpuClear32(0, (u32)G2_GetBG1CharPtr(), 0x4000);
     h = ARC_UTIL_LoadMember(0x16, 1, 0, 7);
     if (NNS_G2dGetUnpackedCharacterDataEx((struct NitroFileHeader *)h, (void **)(&p1)) != 0) {
-        DWCi_ScreenDC_FlushRange(p1[5], p1[4]);
+        DC_FlushRange(p1[5], p1[4]);
         MIi_CpuCopy16(p1[5], (u32)G2_GetBG1CharPtr(), v1 = p1[4]);
     }
     func_020307B0((void *)h);
     h = ARC_UTIL_LoadMember(0x16, 2, 0, 7);
     if (NNS_G2dGetUnpackedScreenData((void *)h, (void **)(&p2)) != 0) {
-        DWCi_ScreenDC_FlushRange((u32)p2 + 0xc, p2[2]);
+        DC_FlushRange((u32)p2 + 0xc, p2[2]);
         MIi_CpuCopy16((u32)p2 + 0xc, (u32)G2_GetBG1ScrPtr(), v2 = p2[2]);
     }
     func_020307B0((void *)h);
     h = ARC_UTIL_LoadMember(0x16, 0, 0, 7);
     NNS_G2dGetUnpackedPaletteCompressInfo((struct NitroFileHeader *)h, (void **)(&p4));
     if (NNS_G2dGetUnpackedPaletteData((struct NitroFileHeader *)h, (void **)(&p3)) != 0) {
-        DWCi_ScreenDC_FlushRange(p3[3], 0x20);
+        DC_FlushRange(p3[3], 0x20);
         MIi_CpuCopy16(p3[3], 0x05000000, 0x20);
     }
     func_020307B0((void *)h);

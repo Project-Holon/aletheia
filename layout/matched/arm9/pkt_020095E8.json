@@ -27,9 +27,9 @@
     "WIFI_HISTORY_GetEntryField",
     "WIFI_HISTORY_SetEntryField",
     "WIFI_HISTORY_GetEntry",
-    "WIFI_HISTORY_Dummy",
+    "WIFI_HISTORY_GetEntries",
     "WIFI_HISTORY_MarkCountryVisited",
-    "sub_02009794"
+    "WIFI_HISTORY_IsCountryVisited"
    ],
    "addresses": [
     "0x020095C8",

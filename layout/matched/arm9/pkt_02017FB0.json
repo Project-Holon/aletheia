@@ -35,8 +35,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "sub_0201808C",
-    "sub_02018094"
+    "POKE_TOOL_AddMove",
+    "POKE_TOOL_AddBoxMove"
+   ],
+   "addresses": [
+    "0x0201808C",
+    "0x02018094"
    ]
   },
   {

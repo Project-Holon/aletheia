@@ -1,5 +1,5 @@
 /*
- * function: func_021BADD8
+ * function: keywrap_decrypt
  * address:  0x021BADD8
  * packet:   pkt_ov016_021BADD8
  * region:   ov016
@@ -40,7 +40,7 @@ extern int func_021BB290(unsigned long *rk, unsigned char *cipherKey, int keyBit
 extern void func_021BB7DC(unsigned long *rk, int Nr, unsigned char *ct, unsigned char *pt);
 extern void func_021BAF90(unsigned char *srcA, unsigned char *srcB, unsigned char *dst);
 
-static int func_021BADD8(char *dest, char *src, unsigned long buflen, char *keyptr, unsigned long keylen)
+static int keywrap_decrypt(char *dest, char *src, unsigned long buflen, char *keyptr, unsigned long keylen)
 {
     unsigned long long xort;
     unsigned char aes_data[16];

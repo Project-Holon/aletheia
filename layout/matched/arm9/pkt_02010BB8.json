@@ -59,7 +59,7 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "VM_GetU16",
+    "VM_ReadU16",
     "VM_GetU32",
     "VM_PushStack",
     "VM_PopStack",
@@ -102,7 +102,7 @@
    "status": "EXACT",
    "functions": [
     "GAMESYSTEM_CallIfSet",
-    "GAMESYSTEM_ReadTimerTwice"
+    "GAMESYSTEM_RandTwice"
    ],
    "addresses": [
     "0x02011D28",

@@ -1,5 +1,5 @@
 /*
- * function: func_021CAB68
+ * function: checkRaku
  * address:  0x021CAB68
  * packet:   pkt_ov016_021CAB68
  * region:   ov016
@@ -31,7 +31,7 @@ extern void func_021CAA08(void);
 extern void func_021CABF8(void);
 extern unsigned char gSceneSetRakuButtonWork;
 
-void func_021CAB68(void)
+void checkRaku(void)
 {
     switch (DWCi_RAKUlGetState()) {
     case 2:

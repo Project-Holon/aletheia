@@ -1,5 +1,5 @@
 /*
- * function: sub_02024508
+ * function: PMSI_PARAM_IsDecoWord
  * address:  0x02024508
  * packet:   pkt_02024344
  * region:   arm9
@@ -13,14 +13,14 @@
  * bit 0, everything else reads back bit 11.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_02024508.c \
- *       --func sub_02024508 --addr 0x02024508 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PMSI_PARAM_IsDecoWord.c \
+ *       --func PMSI_PARAM_IsDecoWord --addr 0x02024508 --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
 typedef int           s32;
 
-u32 sub_02024508(u32 x)
+u32 PMSI_PARAM_IsDecoWord(u32 x)
 {
     if (x == 0xFFFF) {
         return 0;

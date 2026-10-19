@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: BATTLE_REC_SaveSeq, BATTLE_REC_Save
+ * function: BATTLE_REC_SaveSeq, BATTLE_REC_BeginSave
  *
  * 264 bytes, 0x0200B67C..0x0200B784, 2 functions, both labelled.  Every
  * concrete byte reproduces.
@@ -17,7 +17,7 @@
  * caller in the whole image and that caller is here:
  *
  *   0x02007324  reached only from 0x0200B6A6, inside BATTLE_REC_SaveSeq
- *   0x0200B7D8  reached only from 0x0200B71A, inside BATTLE_REC_Save
+ *   0x0200B7D8  reached only from 0x0200B71A, inside BATTLE_REC_BeginSave
  *
  * Shrinking the range to one function keeps the call that needs the witness in
  * it, which is the limit `docs/MATCHING.md` states for the cut remedy, so no
@@ -37,7 +37,7 @@
  *    leaves r1 through r3 holding this function's own second, third and fourth
  *    arguments, which reads like a four-argument call and is not one: declaring
  *    four parameters keeps `b` live from the entry and the whole of
- *    BATTLE_REC_Save's case 0 is then allocated the other way round, with the two
+ *    BATTLE_REC_BeginSave's case 0 is then allocated the other way round, with the two
  *    sub-record pointers sharing registers with `b` instead of with `a`.  Seven
  *    bytes, and none of them in the arithmetic.  src/matched/unit_0200C9EC.c
  *    declares the same extern with one parameter.
@@ -131,7 +131,7 @@ u32 BATTLE_REC_SaveSeq(void *a, struct BattleRec *b, u32 c, u16 *state, u16 e)
     return 0;
 }
 
-u32 BATTLE_REC_Save(void *a, u16 b, u32 c, u32 d, u32 e, u16 *state, u16 *sub)
+u32 BATTLE_REC_BeginSave(void *a, u16 b, u32 c, u32 d, u32 e, u16 *state, u16 *sub)
 {
     void *h;
     struct BattleRec *p;

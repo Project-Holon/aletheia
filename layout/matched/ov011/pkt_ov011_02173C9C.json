@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "DWCi_GetAIDBitmask",
+   "name": "INTRUDE_COMM_RecvRemoteRecord",
    "address": "0x02173C9C",
    "kind": "game",
    "region": "ov011",

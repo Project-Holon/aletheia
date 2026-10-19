@@ -18,8 +18,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "EVENT_POKE_STATUS_AddMs5000",
-    "EVENT_POKE_STATUS_IsMs5000"
+    "EVENT_TRAINER_GetSecondaryScriptId",
+    "EVENT_TRAINER_IsSecondaryScriptId"
    ],
    "addresses": [
     "0x0215A490",

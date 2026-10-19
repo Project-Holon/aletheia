@@ -1,5 +1,5 @@
 /*
- * function: func_021C1DC4
+ * function: endScene2
  * address:  0x021C1DC4
  * packet:   pkt_021C1DC4
  * region:   ov016
@@ -41,7 +41,7 @@ extern struct D gSceneMenuWork;
 extern void DWCi_SceneSetSelectAp(void);
 extern void DWCi_SceneOptMenu(void);
 
-void func_021C1DC4(void)
+void endScene2(void)
 {
     if (DWCi_EFFlCheck(1) != 0)
         return;

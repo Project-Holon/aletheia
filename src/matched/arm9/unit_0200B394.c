@@ -11,7 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: GIMMICK_WORK_InitWithId, GIMMICK_WORK_GetSaveArea, GIMMICK_WORK_GetProgress, GIMMICK_WORK_GetId,
+ * function: GIMMICK_WORK_InitWithId, GIMMICK_WORK_GetWork, GIMMICK_WORK_GetSubWork, GIMMICK_WORK_GetId,
  *           GIMMICK_WORK_Save, GIMMICK_WORK_Load, BATTLE_REC_Create
  *
  * symbols:
@@ -70,12 +70,12 @@ s32 *GIMMICK_WORK_InitWithId(struct Rec94 *p, s32 value)
     return p->unk04;
 }
 
-s32 *GIMMICK_WORK_GetSaveArea(struct Rec94 *p, u32 b)
+s32 *GIMMICK_WORK_GetWork(struct Rec94 *p, u32 b)
 {
     return p->unk04;
 }
 
-u8 *GIMMICK_WORK_GetProgress(struct Rec94 *p, u32 a1)
+u8 *GIMMICK_WORK_GetSubWork(struct Rec94 *p, u32 a1)
 {
     return p->unk84;
 }

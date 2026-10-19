@@ -439,7 +439,11 @@ were left; they are in the lane reports, not guessed.
 `tools/xovcheck.py` flags header rows that may name the wrong overlay's function: overlays share
 the address space, so an address holds different functions in different overlays. A per-file
 verify cannot see this (relocations are wildcarded); only the region link resolves the real
-callee. 13 of 18 flagged rows were wrong and are fixed; the others are documented as correct.
+callee. 13 of 18 flagged rows were wrong and are fixed. In wave 18 the 7 rows still flagged were
+checked against the overlay load calls (explicit `GF_OVERLAY_Load` around the call for ov047,
+ov098 and ov036; `FIELD_SUBPROC_Start(ov56_id)` for ov056; `gFieldGimmickOverlayIds`, which maps
+gimmick 8 to ov044 and gimmick 9 to ov045, for the lift and switch toggle commands). All 7 are
+correct, and `ALLOWED` in the tool holds one reason per row, so it prints 0 rows.
 
 ## Wave 17: second meaning pass and struct fixes
 

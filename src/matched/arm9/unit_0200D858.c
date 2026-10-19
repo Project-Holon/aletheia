@@ -11,15 +11,15 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: GDS_PROFILE_GetFieldRecSize, GDS_PROFILE_ClearFieldRec, GDS_PROFILE_SetFieldRecFlag1, GDS_PROFILE_GetFieldRecFlag1,
- *           GDS_PROFILE_GetFieldRecField, GDS_PROFILE_SetFieldRecField, GDS_PROFILE_AddFieldRecCounters, GDS_PROFILE_ClearFieldRecCount03,
- *           GDS_PROFILE_IncFieldRecCount03, GDS_PROFILE_GetFieldRecCount03
+ * function: BSUBWAY_PLAYDATA_GetSize, BSUBWAY_PLAYDATA_Init, BSUBWAY_PLAYDATA_SetFlag01, BSUBWAY_PLAYDATA_GetFlag01,
+ *           BSUBWAY_PLAYDATA_GetField, BSUBWAY_PLAYDATA_SetField, BSUBWAY_PLAYDATA_AddCounters, BSUBWAY_PLAYDATA_ClearRound,
+ *           BSUBWAY_PLAYDATA_IncRound, BSUBWAY_PLAYDATA_GetRound
  *
  * 524 bytes, 0x0200D858..0x0200DA64, 10 functions, eight of which carry no
  * label in the generated listing.
  *
  * A 0x3C-byte record reached almost entirely through one pair of dispatchers.
- * GDS_PROFILE_GetFieldRecSize returns 0x3C and GDS_PROFILE_ClearFieldRec clears exactly that many bytes
+ * BSUBWAY_PLAYDATA_GetSize returns 0x3C and BSUBWAY_PLAYDATA_Init clears exactly that many bytes
  * as a bare tail call, which is the block-file opening this region keeps
  * producing.
  *
@@ -38,17 +38,17 @@
  * default is reached by the `bhi` in the preamble, so there is one `return 0`
  * after the switch and not a `default:` label.
  *
- * GDS_PROFILE_SetFieldRecFlag1 truncates its value to `u16` before extracting the bit, which
+ * BSUBWAY_PLAYDATA_SetFlag01 truncates its value to `u16` before extracting the bit, which
  * a `u16` parameter does not produce: the parameter is wider and the source
  * casts at the use, the same shape as BATTLE_BOX_SetLockFlags in
  * src/matched/unit_0200BBC8.c.
  *
- * GDS_PROFILE_AddFieldRecCounters adds three deltas into three counters, each guarded against
+ * BSUBWAY_PLAYDATA_AddCounters adds three deltas into three counters, each guarded against
  * its own type's maximum, and each sum is computed once and reused by both
  * the compare and the store; the two halfword guards share one literal pool
  * word holding 0xFFFF.
  *
- * GDS_PROFILE_IncFieldRecCount03 reads the counter at id 1 through the getter, increments it
+ * BSUBWAY_PLAYDATA_IncRound reads the counter at id 1 through the getter, increments it
  * in a stack byte and writes it back through the setter, reloading the byte
  * after storing it because its address escapes into the setter call.
  *
@@ -83,30 +83,30 @@ struct Blk3C {
     u8  unk28[0x14];
 };
 
-u32  GDS_PROFILE_GetFieldRecField(struct Blk3C *p, u32 id, void *out);
-void GDS_PROFILE_SetFieldRecField(struct Blk3C *p, u32 id, const void *src);
+u32  BSUBWAY_PLAYDATA_GetField(struct Blk3C *p, u32 id, void *out);
+void BSUBWAY_PLAYDATA_SetField(struct Blk3C *p, u32 id, const void *src);
 
-u32 GDS_PROFILE_GetFieldRecSize(void)
+u32 BSUBWAY_PLAYDATA_GetSize(void)
 {
     return sizeof(struct Blk3C);
 }
 
-void GDS_PROFILE_ClearFieldRec(struct Blk3C *p)
+void BSUBWAY_PLAYDATA_Init(struct Blk3C *p)
 {
     MI_CpuFill8(p, 0, sizeof(struct Blk3C));
 }
 
-void GDS_PROFILE_SetFieldRecFlag1(struct Blk3C *p, u32 v)
+void BSUBWAY_PLAYDATA_SetFlag01(struct Blk3C *p, u32 v)
 {
     p->f1 = (u16)v;
 }
 
-u32 GDS_PROFILE_GetFieldRecFlag1(struct Blk3C *p)
+u32 BSUBWAY_PLAYDATA_GetFlag01(struct Blk3C *p)
 {
     return p->f1;
 }
 
-u32 GDS_PROFILE_GetFieldRecField(struct Blk3C *p, u32 id, void *out)
+u32 BSUBWAY_PLAYDATA_GetField(struct Blk3C *p, u32 id, void *out)
 {
     switch (id) {
     case 0:
@@ -140,7 +140,7 @@ u32 GDS_PROFILE_GetFieldRecField(struct Blk3C *p, u32 id, void *out)
     return 0;
 }
 
-void GDS_PROFILE_SetFieldRecField(struct Blk3C *p, u32 id, const void *src)
+void BSUBWAY_PLAYDATA_SetField(struct Blk3C *p, u32 id, const void *src)
 {
     switch (id) {
     case 0:
@@ -182,7 +182,7 @@ void GDS_PROFILE_SetFieldRecField(struct Blk3C *p, u32 id, const void *src)
     }
 }
 
-void GDS_PROFILE_AddFieldRecCounters(struct Blk3C *p, s32 a, s32 b, s32 c)
+void BSUBWAY_PLAYDATA_AddCounters(struct Blk3C *p, s32 a, s32 b, s32 c)
 {
     if (p->unk03 + a < 255) {
         p->unk03 = p->unk03 + a;
@@ -195,24 +195,24 @@ void GDS_PROFILE_AddFieldRecCounters(struct Blk3C *p, s32 a, s32 b, s32 c)
     }
 }
 
-void GDS_PROFILE_ClearFieldRecCount03(struct Blk3C *p)
+void BSUBWAY_PLAYDATA_ClearRound(struct Blk3C *p)
 {
     u8 v = 0;
 
-    GDS_PROFILE_SetFieldRecField(p, 1, &v);
+    BSUBWAY_PLAYDATA_SetField(p, 1, &v);
 }
 
-void GDS_PROFILE_IncFieldRecCount03(struct Blk3C *p)
+void BSUBWAY_PLAYDATA_IncRound(struct Blk3C *p)
 {
-    u8 v = GDS_PROFILE_GetFieldRecField(p, 1, 0);
+    u8 v = BSUBWAY_PLAYDATA_GetField(p, 1, 0);
 
     if (v < 255) {
         v++;
     }
-    GDS_PROFILE_SetFieldRecField(p, 1, &v);
+    BSUBWAY_PLAYDATA_SetField(p, 1, &v);
 }
 
-u16 GDS_PROFILE_GetFieldRecCount03(struct Blk3C *p)
+u16 BSUBWAY_PLAYDATA_GetRound(struct Blk3C *p)
 {
-    return GDS_PROFILE_GetFieldRecField(p, 1, 0);
+    return BSUBWAY_PLAYDATA_GetField(p, 1, 0);
 }

@@ -15,7 +15,7 @@
  * symbols:
  *   g_0214BAC0     0x0214BAC0  data
  *   SND_Init       0x02089848  arm
- *   PM_PrependPostSleepCallback  0x0208C808  arm
+ *   PM_PrependPreSleepCallback  0x0208C808  arm
  *   PM_AppendPostSleepCallback   0x0208C828  arm
  *   NNS_SndWaveOutInit  0x02072A28  arm
  *   NNSi_SndMainReset  0x02073D5C  arm
@@ -63,7 +63,7 @@ typedef signed char s8;
 
 extern void SND_Init(void);
 
-extern void PM_PrependPostSleepCallback(struct SleepCb *cb);
+extern void PM_PrependPreSleepCallback(void *info);
 
 extern void PM_AppendPostSleepCallback(struct SleepCb *cb);
 
@@ -173,7 +173,7 @@ void NNS_SndInit(void)
     g_0214BAC0.cb10.arg = 0;
     g_0214BAC0.cb20.fn = NNS_SndAppendPostSleepCallback;
     g_0214BAC0.cb20.arg = 0;
-    PM_PrependPostSleepCallback(&g_0214BAC0.cb10);
+    PM_PrependPreSleepCallback(&g_0214BAC0.cb10);
     PM_AppendPostSleepCallback(&g_0214BAC0.cb20);
     NNS_SndWaveOutInit();
     NNSi_SndMainReset();

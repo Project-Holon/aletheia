@@ -1,5 +1,5 @@
 /*
- * function: func_02160C9C
+ * function: rcv_server_hello
  * address:  0x02160C9C
  * packet:   pkt_ov009_02160C9C
  * region:   ov009
@@ -33,7 +33,7 @@ typedef unsigned char  u8;
 extern int func_020923F0(const u8 *a, const u8 *b, int n);
 extern void func_0215FFD0(CPSSslConnection *con);
 
-static void func_02160C9C(CPSSslConnection *con, unsigned char *s)
+static void rcv_server_hello(CPSSslConnection *con, unsigned char *s)
 {
     int session_id_len;
     unsigned char cached;

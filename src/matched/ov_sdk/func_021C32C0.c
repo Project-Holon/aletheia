@@ -1,5 +1,5 @@
 /*
- * function: func_021C32C0
+ * function: endScene1
  * address:  0x021C32C0
  * packet:   pkt_021C32C0
  * region:   ov016
@@ -39,7 +39,7 @@ extern void DWCi_SceneOptMovFailure(void);
 extern void DWCi_SceneOptMovDisconnect(void);
 extern void DWCi_SceneOptMovComplete(void);
 
-void func_021C32C0(void)
+void endScene1(void)
 {
     if (DWCi_EFFlCheck(0) != 0)
         return;

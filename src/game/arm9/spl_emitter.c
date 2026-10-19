@@ -1,7 +1,7 @@
 /*
  * file:     spl_emitter.c
  * unit:     yes
- * function: SPL_EMITTER_FreeResourceList, SPL_EMITTER_FreeResource, SPL_EMITTER_AllocResourceEx, SPL_EMITTER_AllocResource, SPL_EMITTER_FreeNodeHeap, SPL_EMITTER_FreeTexNode, SPL_EMITTER_AllocPlttVramDefault, SPL_EMITTER_AllocTexVramDefault, SPL_EMITTER_AllocPlttVramList, SPL_EMITTER_AllocTexVramList, SPL_EMITTER_FreeNodeToHeap, SPL_EMITTER_AllocNodeFromHeap, SPL_EMITTER_AllocPlttVram, SPL_EMITTER_AllocTexVram, SPL_EMITTER_UpdateSubC, SPL_EMITTER_UpdateSubX, SPL_EMITTER_UpdateSubB, SPL_EMITTER_UpdateParticles, SPL_EMITTER_SetupResource, SPL_EMITTER_Noop, SPL_EMITTER_SetTextureParam, SPL_EMITTER_UpdateFrameMainEx, SPL_EMITTER_UpdateFrameMain, SPL_EMITTER_UpdateFrameA68Ex, SPL_EMITTER_UpdateFrameA68, SPL_EMITTER_UpdateParticleMotionEx, SPL_EMITTER_UpdateParticleMotion, SPL_EMITTER_UpdateFrameEx, SPL_EMITTER_UpdateFrame, SPL_EMITTER_SetRotMtx, SPL_EMITTER_CalcRotMtx, SPL_EMITTER_DrawQuadEx, SPL_EMITTER_DrawQuad, SPL_EMITTER_EmitParticle, SPL_EMITTER_LoadResource, SPL_EMITTER_ScaleVec, SPL_EMITTER_TransformVec, SPL_EMITTER_ClampU16, SPL_EMITTER_ClampShort, SPL_EMITTER_UpdateList, SPL_EMITTER_UpdateRecord, SPL_EMITTER_EvalKey, SPL_EMITTER_EvalCurve, SPL_EMITTER_LerpVec, SPL_EMITTER_InterpTarget, SPL_EMITTER_BuildFrame, SPL_EMITTER_AddScaledVec, SPL_EMITTER_UpdateNode, SPL_EMITTER_AddVec, SPL_EMITTER_FreeNode, SPL_EMITTER_AllocNode, SPL_EMITTER_ClearNodeList
+ * function: SPL_EMITTER_FreeResourceList, SPL_EMITTER_FreeResource, SPL_EMITTER_AllocResourceEx, SPL_EMITTER_AllocResource, SPL_EMITTER_FreeNodeHeap, SPL_EMITTER_FreeTexNode, SPL_EMITTER_AllocPlttVramDefault, SPL_EMITTER_AllocTexVramDefault, SPL_EMITTER_AllocPlttVramList, SPL_EMITTER_AllocTexVramList, SPL_EMITTER_FreeNodeToHeap, SPL_EMITTER_AllocNodeFromHeap, SPL_EMITTER_AllocPlttVram, SPL_EMITTER_AllocTexVram, SPL_EMITTER_UpdateSubC, SPL_EMITTER_UpdateSubX, SPL_EMITTER_UpdateSubB, SPL_EMITTER_UpdateParticles, SPL_EMITTER_SetupResource, SPL_EMITTER_Noop, SPL_EMITTER_SetTextureParam, SPL_EMITTER_UpdateFrameMainEx, SPL_EMITTER_UpdateFrameMain, SPL_EMITTER_UpdateFrameA68Ex, SPL_EMITTER_UpdateFrameA68, SPL_EMITTER_UpdateParticleMotionEx, SPL_EMITTER_UpdateParticleMotion, SPL_EMITTER_UpdateFrameEx, SPL_EMITTER_UpdateFrame, SPL_EMITTER_SetRotMtx, SPL_EMITTER_CalcRotMtx, SPLUtil_DrawXZPlane, SPLUtil_DrawXYPlane, SPLEmitter_EmitChildren, SPLEmitter_EmitParticles, SPLUtil_TiltCoordinates, SPLEmitter_ComputeOrthogonalAxes, SPLAnim_ChildAlpha, SPLAnim_ChildScale, SPLAnim_Texture, SPLAnim_Alpha, SPLAnim_Color, SPLAnim_Scale, SPL_EMITTER_LerpVec, SPL_EMITTER_InterpTarget, SPL_EMITTER_BuildFrame, SPL_EMITTER_AddScaledVec, SPL_EMITTER_UpdateNode, SPL_EMITTER_AddVec, SPLList_Erase, SPLList_PopFront, SPLList_PushFront
  * address:  0x020524C8
  * region:   arm9
  * compiler: dsi/../1.2/sp2
@@ -18,8 +18,7 @@
  * Stand-ins left: fn = (Fn)SPL_EMITTER_UpdateParticleMotion and (Fn)SPL_EMITTER_UpdateParticleMotionEx (handlers stored
  * in a rig row table); SPL_EMITTER_FreeResourceList, SPL_EMITTER_FreeResource, SPL_EMITTER_AllocResourceEx,
  * SPL_EMITTER_AllocResource, SPL_EMITTER_FreeNodeHeap and SPL_EMITTER_FreeTexNode still use char * offsets and
- * the VramHeapHead/VramFreeList views of the rig object; alias symbol rows
- * SPL* for functions of this file.
+ * the VramHeapHead/VramFreeList views of the rig object.
  *
  * symbols:
  *   GX_BeginLoadTexPltt  0x0207FA0C  arm
@@ -38,19 +37,7 @@
  *   VEC_DotProduct         0x0207CA68  arm
  *   G3_MultMtx43           0x0207D918  arm
  *   MI_Copy36B             0x02082B60  arm
- *   SPLUtil_DrawXYPlane    0x020565C8  arm
- *   SPLUtil_DrawXZPlane    0x0205650C  arm
  *   FX_SinCosTable_        0x020A1B38  data
- *   SPLList_Erase          0x02058300  arm
- *   SPLList_PushFront      0x020583CC  arm
- *   SPLAnim_Scale          0x02057E68  arm
- *   SPLAnim_Color          0x02057C9C  arm
- *   SPLAnim_Alpha          0x02057BC0  arm
- *   SPLAnim_Texture        0x02057B5C  arm
- *   SPLAnim_ChildScale     0x02057B10  arm
- *   SPLAnim_ChildAlpha     0x02057AB8  arm
- *   SPLEmitter_EmitParticles 0x020569A4  arm
- *   SPLEmitter_EmitChildren  0x02056684  arm
  *   _s32_div_f             0x0209C0A4  arm
  *   func_02053E1C_Verts  0x020A1B38  data
  *   func_02053E1C_Hooks  0x020A7FE4  data
@@ -74,11 +61,8 @@
  *   func_02055B80_Verts  0x020A1B38  data
  *   func_02055FD4_Verts  0x020A1B38  data
  *   g_02146A8C     0x02146A8C  data
- *   SPLList_PopFront                 0x02058380  arm
  *   SPLRandom_VecFx32                0x02058478  arm
  *   SPLRandom_VecFx32_XY             0x0205841C  arm
- *   SPLUtil_TiltCoordinates          0x020576D0  arm
- *   SPLEmitter_ComputeOrthogonalAxes 0x02057830  arm
  *   VEC_Fx16CrossProduct             0x0207CB68  arm
  *   _u32_div_f                       0x0209C2B0  arm
  *   VEC_Fx16Normalize   0x0207CDB8  arm
@@ -246,123 +230,9 @@ struct LerpDest {
     fx32 z;
 };
 
-struct CurveKey {
-    short start;
-    short mid;
-    short end;
-    unsigned char riseTime;
-    unsigned char fallTime;
-};
-
-struct CurveKeySource {
-    int reserved0;
-    struct CurveKey *curve;
-};
-
-struct CurveOutput {
-    char _00[0x34];
-    short value;
-};
-
 typedef u16 GXRgb;
 
-struct ColorKeyFlags { u16 b0 : 2; u16 on : 1; u16 rest : 13; };
-
-struct ColorKey {
-    GXRgb c0;
-    GXRgb c1;
-    u8 t0;
-    u8 t1;
-    u8 t2;
-    u8 pad7;
-    struct ColorKeyFlags f;
-};
-
-struct ColorNode { u8 reserved0[0x22]; GXRgb col; };
-
-struct KeyContext { struct ColorNode *node; u8 reserved0[4]; struct ColorKey *key; };
-
-struct KeyColorOutput { u8 reserved0[0x36]; GXRgb col; };
-
-struct ColorRampKey {
-    u16 lo : 5;
-    u16 mid : 5;
-    u16 hi : 5;
-    u16 _unused : 1;
-    u8 range;
-    u8 reserved0;
-    u8 a;
-    u8 b;
-};
-
-struct ColorRampSource {
-    char _00[0xc];
-    struct ColorRampKey *key;
-};
-
-struct ColorRampOutput {
-    char _00[0x2e];
-    u16 color;
-};
-
-struct AnimFrameTable {
-    u8 vals[8];
-    u8 n;
-    u8 step;
-};
-
-struct AnimFrameOutput {
-    char _00[0x2c];
-    u8 frame;
-};
-
-struct AnimFrameSource {
-    char _00[0x10];
-    struct AnimFrameTable *table;
-};
-
-struct AngleKey {
-    int reserved0;
-    short angle;
-};
-
-struct AngleKeySource {
-    char reserved0[0x14];
-    struct AngleKey *angle;
-};
-
-struct ColorClampOutput {
-    u8 reserved0[0x2e];
-    u16 color;
-};
-
-struct Vec16 { s16 x, y, z; };
-
-struct ModeFlags {
-    u32 _unused : 6;
-    u32 mode    : 2;
-    u32 _rest   : 24;
-};
-
-struct ModeRef { struct ModeFlags *mode; };
-
-struct RigBasis {
-    u8           reserved0[0x20];
-    struct ModeRef  *modeRef;
-    u8           reserved1[0x2c];
-    struct Vec16 axis;
-    u8           reserved2[0x2e];
-    s16          r0[3];
-    s16          r1[3];
-};
-
 typedef struct VecFx32 { fx32 x, y, z; } VecFx32;
-
-struct RigMatrix {
-    u8  reserved0[0x84];
-    s16 r0[3];
-    s16 r1[3];
-};
 
 typedef unsigned long long u64;
 
@@ -1364,37 +1234,21 @@ extern void MTX_RotX33_(u8 *buf, int a, int b);
 extern void MTX_RotY33_(u8 *buf, int a, int b);
 extern void MTX_RotZ33_(u8 *buf, int a, int b);
 extern void MTX_MultVec33(const VecFx32 *a, const MtxFx33 *b, VecFx32 *c);
-extern int _s32_div_f(int num, int den);
-extern void VEC_Fx16Normalize(struct Vec16 *v, struct Vec16 *w);
-extern fx32 VEC_Fx16DotProduct(const struct Vec16 *a, const struct Vec16 *b);
+extern void VEC_Fx16Normalize(VecFx16 *v, VecFx16 *w);
+extern fx32 VEC_Fx16DotProduct(const VecFx16 *a, const VecFx16 *b);
 extern void VEC_Fx16CrossProduct(const VecFx16 *a, const VecFx16 *b, VecFx16 *axb);
 extern fx32 VEC_DotProduct(const VecFx32 *a, const VecFx32 *b);
 extern void VEC_Normalize(const VecFx32 *pSrc, VecFx32 *pDst);
-extern SPLNode *SPLList_PopFront(SPLList *list);
-extern void SPLList_PushFront(SPLList *list, SPLNode *node);
 extern void SPLRandom_VecFx32(VecFx32 *vec);
 extern void SPLRandom_VecFx32_XY(VecFx32 *vec);
-extern void SPLEmitter_ComputeOrthogonalAxes(SPLEmitter *emtr);
-extern void SPLUtil_TiltCoordinates(VecFx32 *ptclPos, VecFx32 *pos, SPLEmitter *emtr);
 extern void G3_MultMtx43(const MtxFx43 *m);
 extern void MI_Copy36B(const void *pSrc, void *pDst);
 extern void MTX_MultVec43(const VecFx32 *vec, const MtxFx43 *m, VecFx32 *dst);
 extern void VEC_CrossProduct(const VecFx32 *a, const VecFx32 *b, VecFx32 *axb);
-extern void SPLUtil_DrawXYPlane(fx16 s, fx16 t, fx16 offsetX, fx16 offsetY);
-extern void SPLUtil_DrawXZPlane(fx16 s, fx16 t, fx16 offsetX, fx16 offsetZ);
 extern u32 MTX_Scale43_(void *, s32, s32, s32);
 extern void MTX_Concat43(const void *, const void *, void *);
 extern void G3_LoadMtx43(const void *);
 extern void MTX_Identity43_(void *);
-extern SPLNode *SPLList_Erase(SPLList *list, SPLNode *node);
-extern void SPLAnim_Scale(SPLParticle *ptcl, SPLResource *res, int lifeRate);
-extern void SPLAnim_Color(SPLParticle *ptcl, SPLResource *res, int lifeRate);
-extern void SPLAnim_Alpha(SPLParticle *ptcl, SPLResource *res, int lifeRate);
-extern void SPLAnim_Texture(SPLParticle *ptcl, SPLResource *res, int lifeRate);
-extern void SPLAnim_ChildScale(SPLParticle *ptcl, SPLResource *res, int lifeRate);
-extern void SPLAnim_ChildAlpha(SPLParticle *ptcl, SPLResource *res, int lifeRate);
-extern void SPLEmitter_EmitParticles(SPLEmitter *emtr, SPLParticleList *list);
-extern void SPLEmitter_EmitChildren(SPLParticle *ptcl, SPLEmitter *emtr, SPLParticleList *list);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void GX_BeginLoadTex(void);
 extern void GX_LoadTex(void *dst, u32 a, u32 b);
@@ -1402,27 +1256,27 @@ extern void GX_EndLoadTex(void);
 extern void GX_BeginLoadTexPltt(void);
 extern void GX_LoadTexPltt(void *dst, u32 a, u32 b);
 extern void GX_EndLoadTexPltt(void);
-void SPL_EMITTER_ClearNodeList(SPLList *list, SPLNode *node);
-SPLNode *SPL_EMITTER_AllocNode(SPLList *list);
-SPLNode *SPL_EMITTER_FreeNode(SPLList *list, SPLNode *node);
+void SPLList_PushFront(SPLList *list, SPLNode *node);
+SPLNode *SPLList_PopFront(SPLList *list);
+SPLNode *SPLList_Erase(SPLList *list, SPLNode *node);
 void SPL_EMITTER_AddVec(struct RandomVecRange *o, void *s, int *dst);
 void SPL_EMITTER_UpdateNode(struct RandomVecRange *o, struct RandomVecSource *s, int *dst);
 void SPL_EMITTER_AddScaledVec(struct ScaledVecSource *a, struct RigOffsetPair *b, volatile int *c);
 void SPL_EMITTER_BuildFrame(struct AxisAngleKey *o, u8 *dst);
 void SPL_EMITTER_InterpTarget(struct InterpTargetParam *a, struct InterpTrack *s, int unused, struct InterpState *c);
 void SPL_EMITTER_LerpVec(struct LerpSource *a, struct LerpDest *b);
-void SPL_EMITTER_EvalCurve(struct CurveOutput *o, struct CurveKeySource *s, int t);
-void SPL_EMITTER_EvalKey(struct KeyColorOutput *out, struct KeyContext *ctx, s32 t);
-void SPL_EMITTER_UpdateRecord(struct ColorRampOutput *o, struct ColorRampSource *s, int t);
-void SPL_EMITTER_UpdateList(struct AnimFrameOutput *o, struct AnimFrameSource *s, int t);
-void SPL_EMITTER_ClampShort(struct CurveOutput *o, struct AngleKeySource *s, int t);
-void SPL_EMITTER_ClampU16(struct ColorClampOutput *o, int unused, int t);
-void SPL_EMITTER_TransformVec(struct RigBasis *m);
-void SPL_EMITTER_ScaleVec(fx32 *out, const VecFx32 *src, const struct RigMatrix *m);
-void SPL_EMITTER_LoadResource(SPLEmitter *emtr, SPLParticleList *list);
-void SPL_EMITTER_EmitParticle(struct EmitterParticle *e, struct EmitOwner *o, SPLList *pool);
-void SPL_EMITTER_DrawQuad(s32 s, s32 t, s32 x, s32 y);
-void SPL_EMITTER_DrawQuadEx(s32 s, s32 t, s32 x, s32 z);
+void SPLAnim_Scale(SPLParticle *ptcl, SPLResource *res, int lifeRate);
+void SPLAnim_Color(SPLParticle *ptcl, SPLResource *res, int lifeRate);
+void SPLAnim_Alpha(SPLParticle *ptcl, SPLResource *res, int lifeRate);
+void SPLAnim_Texture(SPLParticle *ptcl, SPLResource *res, int lifeRate);
+void SPLAnim_ChildScale(SPLParticle *ptcl, SPLResource *res, int lifeRate);
+void SPLAnim_ChildAlpha(SPLParticle *ptcl, SPLResource *res, int lifeRate);
+void SPLEmitter_ComputeOrthogonalAxes(SPLEmitter *emtr);
+void SPLUtil_TiltCoordinates(VecFx32 *out, const VecFx32 *src, const SPLEmitter *emtr);
+void SPLEmitter_EmitParticles(SPLEmitter *emtr, SPLParticleList *list);
+void SPLEmitter_EmitChildren(SPLParticle *ptcl, SPLEmitter *emtr, SPLParticleList *list);
+void SPLUtil_DrawXYPlane(s32 s, s32 t, s32 x, s32 y);
+void SPLUtil_DrawXZPlane(s32 s, s32 t, s32 x, s32 z);
 void SPL_EMITTER_CalcRotMtx(s32 sn, s32 cs, struct MtxFx43 *m);
 void SPL_EMITTER_SetRotMtx(s32 sn, s32 cs, struct MtxFx43 *m);
 void SPL_EMITTER_UpdateFrame(struct RigObject *obj, struct RenderNode *s);
@@ -1442,7 +1296,7 @@ void SPL_EMITTER_UpdateSubX(struct RigObject *o);
 void SPL_EMITTER_UpdateSubC(struct RigObject *o);
 int SPL_EMITTER_AllocTexVram(u32 szByte, u32 is4x4comp);
 int SPL_EMITTER_AllocPlttVram(u32 szByte, u32 is4pltt);
-struct VramNodeHeap *SPL_EMITTER_AllocNodeFromHeap(AllocFn alloc, u16 n1, u16 n2, u16 a3, u16 a4, u16 a5);
+struct VramNodeHeap *SPL_EMITTER_AllocNodeFromHeap(AllocFn alloc, u16 n1, u16 n2, u16 limitA, u16 limitB, u16 maxResIndex);
 void SPL_EMITTER_FreeNodeToHeap(struct VramTexHeap *h, struct VramHeapHeader *d);
 int SPL_EMITTER_AllocTexVramList(struct RigObject *o, AllocTex alloc);
 int SPL_EMITTER_AllocPlttVramList(struct RigObject *o, AllocTex alloc);
@@ -1454,7 +1308,7 @@ int SPL_EMITTER_AllocResource(char *p, int b, int c);
 int SPL_EMITTER_AllocResourceEx(char *p, int b, void (*fn)(void *));
 void SPL_EMITTER_FreeResource(char *p, char *q);
 void SPL_EMITTER_FreeResourceList(void *p);
-extern const struct Vec16 g_020A7FEC;
+extern const VecFx16 g_020A7FEC;
 extern const fx16 FX_SinCosTable_[];
 extern u32 g_02146A8C;
 extern const s16 func_02055FD4_Verts[];
@@ -1466,7 +1320,7 @@ extern const s16 func_02053E1C_Verts[];
 
 
 
-void SPL_EMITTER_ClearNodeList(SPLList *list, SPLNode *node)
+void SPLList_PushFront(SPLList *list, SPLNode *node)
 {
     SPLNode *head;
 
@@ -1488,7 +1342,7 @@ void SPL_EMITTER_ClearNodeList(SPLList *list, SPLNode *node)
 
 
 
-SPLNode *SPL_EMITTER_AllocNode(SPLList *list)
+SPLNode *SPLList_PopFront(SPLList *list)
 {
     SPLNode *ret;
     SPLNode *head;
@@ -1513,7 +1367,7 @@ SPLNode *SPL_EMITTER_AllocNode(SPLList *list)
 
 
 
-SPLNode *SPL_EMITTER_FreeNode(SPLList *list, SPLNode *node)
+SPLNode *SPLList_Erase(SPLList *list, SPLNode *node)
 {
     SPLNode *next;
 
@@ -1768,24 +1622,24 @@ void SPL_EMITTER_LerpVec(struct LerpSource *a, struct LerpDest *b)
 
 
 
-void SPL_EMITTER_EvalCurve(struct CurveOutput *o, struct CurveKeySource *s, int t)
+void SPLAnim_Scale(SPLParticle *ptcl, SPLResource *res, int lifeRate)
 {
-    struct CurveKey *cv;
+    SPLScaleAnim *anim;
     int b0;
     int b1;
 
-    cv = s->curve;
-    b0 = cv->riseTime;
-    b1 = cv->fallTime;
-    if (t < b0) {
-        o->value = cv->start + t * (cv->mid - cv->start) / b0;
+    anim = res->scaleAnim;
+    b0 = anim->curve.in;
+    b1 = anim->curve.out;
+    if (lifeRate < b0) {
+        ptcl->animScale = anim->start + lifeRate * (anim->mid - anim->start) / b0;
         return;
     }
-    if (t < b1) {
-        o->value = cv->mid;
+    if (lifeRate < b1) {
+        ptcl->animScale = anim->mid;
         return;
     }
-    o->value = cv->end + (t - 0xFF) * (cv->end - cv->mid) / (0xFF - b1);
+    ptcl->animScale = anim->end + (lifeRate - 0xFF) * (anim->end - anim->mid) / (0xFF - b1);
 }
 
 
@@ -1795,7 +1649,7 @@ void SPL_EMITTER_EvalCurve(struct CurveOutput *o, struct CurveKeySource *s, int 
 
 
 
-static inline void ColLerp(struct KeyColorOutput *out, s32 from, s32 to, u32 on, s32 num, s32 den)
+static inline void ColLerp(SPLParticle *out, s32 from, s32 to, u32 on, s32 num, s32 den)
 {
     s32 tr = to & 0x1f;
     s32 fr = from & 0x1f;
@@ -1804,10 +1658,10 @@ static inline void ColLerp(struct KeyColorOutput *out, s32 from, s32 to, u32 on,
     s32 fb = (from >> 10) & 0x1f;
     s32 tb = (to >> 10) & 0x1f;
     if (!on) {
-        out->col = GX_RGB(tr, tg, tb);
+        out->color = GX_RGB(tr, tg, tb);
         return;
     }
-    out->col = GX_RGB(fr + num * (tr - fr) / den, fg + num * (tg - fg) / den, fb + num * (tb - fb) / den);
+    out->color = GX_RGB(fr + num * (tr - fr) / den, fg + num * (tg - fg) / den, fb + num * (tb - fb) / den);
 }
 
 
@@ -1818,7 +1672,7 @@ static inline void ColLerp(struct KeyColorOutput *out, s32 from, s32 to, u32 on,
 
 /* Segment 2 copy: the key colour is the FIRST parameter (`to`) and the
  * node colour the second (`from`); channels declared from/to per channel. */
-static inline void ColLerp2(struct KeyColorOutput *out, s32 to, s32 from, u32 on, s32 num, s32 den)
+static inline void ColLerp2(SPLParticle *out, s32 to, s32 from, u32 on, s32 num, s32 den)
 {
     s32 fr = from & 0x1f;
     s32 tr = to & 0x1f;
@@ -1827,10 +1681,10 @@ static inline void ColLerp2(struct KeyColorOutput *out, s32 to, s32 from, u32 on
     s32 fb = (from >> 10) & 0x1f;
     s32 tb = (to >> 10) & 0x1f;
     if (!on) {
-        out->col = GX_RGB(tr, tg, tb);
+        out->color = GX_RGB(tr, tg, tb);
         return;
     }
-    out->col = GX_RGB(fr + num * (tr - fr) / den, fg + num * (tg - fg) / den, fb + num * (tb - fb) / den);
+    out->color = GX_RGB(fr + num * (tr - fr) / den, fg + num * (tg - fg) / den, fb + num * (tb - fb) / den);
 }
 
 
@@ -1858,26 +1712,26 @@ static inline void ColLerp2(struct KeyColorOutput *out, s32 to, s32 from, u32 on
  * Found by a joint search of the (to, from) signature over the 720 channel
  * orders; (to, from) with the note's order was 22 out.
  */
-void SPL_EMITTER_EvalKey(struct KeyColorOutput *out, struct KeyContext *ctx, s32 t)
+void SPLAnim_Color(SPLParticle *ptcl, SPLResource *res, int lifeRate)
 {
-    struct ColorKey *k = ctx->key;
-    s32 t0 = k->t0;
-    struct ColorNode *n = ctx->node;
-    s32 t1 = k->t1;
-    s32 t2 = k->t2;
-    if (t < t0) {
-        out->col = k->c0;
+    SPLColorAnim *k = res->colorAnim;
+    s32 t0 = k->curve.in;
+    SPLResourceHeader *n = res->header;
+    s32 t1 = k->curve.peak;
+    s32 t2 = k->curve.out;
+    if (lifeRate < t0) {
+        ptcl->color = k->start;
         return;
     }
-    if (t < t1) {
-        ColLerp(out, k->c0, n->col, k->f.on, t - t0, t1 - t0);
+    if (lifeRate < t1) {
+        ColLerp(ptcl, k->start, n->color, k->flags.interpolate, lifeRate - t0, t1 - t0);
         return;
     }
-    if (t < t2) {
-        ColLerp2(out, k->c1, n->col, k->f.on, t - t1, t2 - t1);
+    if (lifeRate < t2) {
+        ColLerp2(ptcl, k->end, n->color, k->flags.interpolate, lifeRate - t1, t2 - t1);
         return;
     }
-    out->col = k->c1;
+    ptcl->color = k->end;
 }
 
 
@@ -1923,9 +1777,9 @@ u32 g_02146A8C;
  * order, nested-if, `b > t`, in-place member reads, three return types) are all
  * superseded by the base fix above; none of them is needed.
  */
-void SPL_EMITTER_UpdateRecord(struct ColorRampOutput *o, struct ColorRampSource *s, int t)
+void SPLAnim_Alpha(SPLParticle *ptcl, SPLResource *res, int lifeRate)
 {
-    struct ColorRampKey *p;
+    SPLAlphaAnim *p;
     int a;
     int b;
     int v;
@@ -1934,25 +1788,23 @@ void SPL_EMITTER_UpdateRecord(struct ColorRampOutput *o, struct ColorRampSource 
     u16 rangeValue;
     u16 w;
 
-    p = s->key;
-    a = p->a;
-    b = p->b;
-
-    if (t < a) {
-        v = p->lo + t * (p->mid - p->lo) / a;
-    } else if (t < b) {
-        v = p->mid;
+    p = res->alphaAnim;
+    a = p->curve.in;
+    b = p->curve.out;
+    if (lifeRate < a) {
+        v = p->alpha.start + lifeRate * (p->alpha.mid - p->alpha.start) / a;
+    } else if (lifeRate < b) {
+        v = p->alpha.mid;
     } else {
-        v = p->hi + (t - 0xff) * (p->hi - p->mid) / (0xff - b);
+        v = p->alpha.end + (lifeRate - 0xff) * (p->alpha.end - p->alpha.mid) / (0xff - b);
     }
-
     g_02146A8C = g_02146A8C * 0x5EEDF715 + 0x1B0CB173;
     r = g_02146A8C >> 24;
-    rangeValue = p->range;
+    rangeValue = p->flags.randomRange;
     q = rangeValue * r;
     q = q >> 8;
     w = (u16)((v * (0xff - q)) >> 8);
-    o->color = (o->color & ~0x3e0) | ((w & 0x1f) << 5);
+    *(u16 *)&ptcl->visibility = (*(u16 *)&ptcl->visibility & ~0x3e0) | ((w & 0x1f) << 5);
 }
 
 
@@ -1990,30 +1842,30 @@ void SPL_EMITTER_UpdateRecord(struct ColorRampOutput *o, struct ColorRampSource 
  * proc_hints entry) the same source is 41 bytes out at the same 100-byte
  * size; wave r6's measurement of the family's small rows holds for this row.
  */
-void SPL_EMITTER_UpdateList(struct AnimFrameOutput *o, struct AnimFrameSource *s, int t)
+void SPLAnim_Texture(SPLParticle *ptcl, SPLResource *res, int lifeRate)
 {
-    struct AnimFrameTable *p;
+    SPLTexAnim *p;
     int i;
     int end;
     int n;
     int step;
 
-    p = s->table;
+    p = res->texAnim;
     i = 0;
-    n = p->n;
+    n = p->param.frameCount;
     if (n <= 0) {
         return;
     }
-    step = p->step;
+    step = p->param.step;
     end = 0;
     do {
-        if (t < end + step) {
-            o->frame = p->vals[i];
+        if (lifeRate < end + step) {
+            ptcl->texture = p->textures[i];
             return;
         }
         i++;
-        end += p->step;
-    } while (i < p->n);
+        end += p->param.step;
+    } while (i < p->param.frameCount);
 }
 
 
@@ -2026,12 +1878,12 @@ void SPL_EMITTER_UpdateList(struct AnimFrameOutput *o, struct AnimFrameSource *s
 
 
 
-void SPL_EMITTER_ClampShort(struct CurveOutput *o, struct AngleKeySource *s, int t)
+void SPLAnim_ChildScale(SPLParticle *ptcl, SPLResource *res, int lifeRate)
 {
     short cur;
 
-    cur = s->angle->angle;
-    o->value = cur + (cur - 0x1000) * (t - 0xFF) / 255;
+    cur = res->childResource->endScale;
+    ptcl->animScale = cur + (cur - 0x1000) * (lifeRate - 0xFF) / 255;
 }
 
 
@@ -2045,12 +1897,12 @@ void SPL_EMITTER_ClampShort(struct CurveOutput *o, struct AngleKeySource *s, int
 
 
 
-void SPL_EMITTER_ClampU16(struct ColorClampOutput *o, int unused, int t)
+void SPLAnim_ChildAlpha(SPLParticle *ptcl, SPLResource *res, int lifeRate)
 {
     u16 v;
 
-    v = (0xff - t) * 0x1f / 255;
-    o->color = (o->color & ~0x3e0) | ((v & 0x1f) << 5);
+    v = (0xff - lifeRate) * 0x1f / 255;
+    *(u16 *)&ptcl->visibility = (*(u16 *)&ptcl->visibility & ~0x3e0) | ((v & 0x1f) << 5);
 }
 
 
@@ -2086,25 +1938,25 @@ void SPL_EMITTER_ClampU16(struct ColorClampOutput *o, int unused, int t)
  * `m->modeRef->mode->mode` (one of the three unit axes, or VEC_Fx16Normalize of
  * m+0x50 in the default arm), then the two basis rows are the cross product
  * of v with a and of v with the first row, computed inline with the FX_Mul
- * rounding quartet (the same shape as the sibling SPL_EMITTER_ScaleVec), and the
+ * rounding quartet (the same shape as the sibling SPLUtil_TiltCoordinates), and the
  * two rows are normalised in place with the same two-identical-arguments
  * call the sibling records as load-bearing.
  *
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/SPL_EMITTER_TransformVec.c \
- *       --func SPL_EMITTER_TransformVec --addr 0x02057830 --arm --cc ../1.2/sp2
+ *   python tools/match.py one --src src/matched/SPLEmitter_ComputeOrthogonalAxes.c \
+ *       --func SPLEmitter_ComputeOrthogonalAxes --addr 0x02057830 --arm --cc ../1.2/sp2
  */
-void SPL_EMITTER_TransformVec(struct RigBasis *m)
+void SPLEmitter_ComputeOrthogonalAxes(SPLEmitter *emtr)
 {
-    struct Vec16 a;
-    struct Vec16 v;
+    VecFx16 a;
+    VecFx16 v;
     fx32 d;
 
     a = g_020A7FEC;
 
-    switch (m->modeRef->mode->mode) {
+    switch (emtr->resource->header->flags.circleAxis) {
     case 2:
         v.x = 0x1000;
         v.y = 0;
@@ -2121,7 +1973,7 @@ void SPL_EMITTER_TransformVec(struct RigBasis *m)
         v.z = 0x1000;
         break;
     default:
-        VEC_Fx16Normalize(&m->axis, &v);
+        VEC_Fx16Normalize(&emtr->axis, &v);
         break;
     }
 
@@ -2132,15 +1984,15 @@ void SPL_EMITTER_TransformVec(struct RigBasis *m)
         a.z = 0;
     }
 
-    m->r0[0] = FX_Mul(v.y, a.z) - FX_Mul(v.z, a.y);
-    m->r0[1] = FX_Mul(v.z, a.x) - FX_Mul(v.x, a.z);
-    m->r0[2] = FX_Mul(v.x, a.y) - FX_Mul(v.y, a.x);
-    m->r1[0] = FX_Mul(v.y, m->r0[2]) - FX_Mul(v.z, m->r0[1]);
-    m->r1[1] = FX_Mul(v.z, m->r0[0]) - FX_Mul(v.x, m->r0[2]);
-    m->r1[2] = FX_Mul(v.x, m->r0[1]) - FX_Mul(v.y, m->r0[0]);
+    emtr->crossAxis1.x = FX_Mul(v.y, a.z) - FX_Mul(v.z, a.y);
+    emtr->crossAxis1.y = FX_Mul(v.z, a.x) - FX_Mul(v.x, a.z);
+    emtr->crossAxis1.z = FX_Mul(v.x, a.y) - FX_Mul(v.y, a.x);
+    emtr->crossAxis2.x = FX_Mul(v.y, emtr->crossAxis1.z) - FX_Mul(v.z, emtr->crossAxis1.y);
+    emtr->crossAxis2.y = FX_Mul(v.z, emtr->crossAxis1.x) - FX_Mul(v.x, emtr->crossAxis1.z);
+    emtr->crossAxis2.z = FX_Mul(v.x, emtr->crossAxis1.y) - FX_Mul(v.y, emtr->crossAxis1.x);
 
-    VEC_Fx16Normalize((struct Vec16 *)m->r0, (struct Vec16 *)m->r0);
-    VEC_Fx16Normalize((struct Vec16 *)m->r1, (struct Vec16 *)m->r1);
+    VEC_Fx16Normalize(&emtr->crossAxis1, &emtr->crossAxis1);
+    VEC_Fx16Normalize(&emtr->crossAxis2, &emtr->crossAxis2);
 }
 
 
@@ -2183,20 +2035,19 @@ void SPL_EMITTER_TransformVec(struct RigBasis *m)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/SPL_EMITTER_ScaleVec.c \
- *       --func SPL_EMITTER_ScaleVec --addr 0x020576D0 --arm --cc ../1.2/sp2
+ *   python tools/match.py one --src src/matched/SPLUtil_TiltCoordinates.c \
+ *       --func SPLUtil_TiltCoordinates --addr 0x020576D0 --arm --cc ../1.2/sp2
  */
-void SPL_EMITTER_ScaleVec(fx32 *out, const VecFx32 *src, const struct RigMatrix *m)
+void SPLUtil_TiltCoordinates(VecFx32 *out, const VecFx32 *src, const SPLEmitter *emtr)
 {
-    struct Vec16 v;
+    VecFx16 v;
 
-    VEC_Fx16CrossProduct((const VecFx16 *)(m->reserved0 + 0x84),
-                  (const VecFx16 *)(m->reserved0 + 0x8a), (VecFx16 *)&v);
+    VEC_Fx16CrossProduct(&emtr->crossAxis1, &emtr->crossAxis2, &v);
     VEC_Fx16Normalize(&v, &v);
 
-    out[0] = FX_Mul(src->x, m->r0[0]) + FX_Mul(src->y, m->r1[0]) + FX_Mul(src->z, v.x);
-    out[1] = FX_Mul(src->x, m->r0[1]) + FX_Mul(src->y, m->r1[1]) + FX_Mul(src->z, v.y);
-    out[2] = FX_Mul(src->x, m->r0[2]) + FX_Mul(src->y, m->r1[2]) + FX_Mul(src->z, v.z);
+    out->x = FX_Mul(src->x, emtr->crossAxis1.x) + FX_Mul(src->y, emtr->crossAxis2.x) + FX_Mul(src->z, v.x);
+    out->y = FX_Mul(src->x, emtr->crossAxis1.y) + FX_Mul(src->y, emtr->crossAxis2.y) + FX_Mul(src->z, v.y);
+    out->z = FX_Mul(src->x, emtr->crossAxis1.z) + FX_Mul(src->y, emtr->crossAxis2.z) + FX_Mul(src->z, v.z);
 }
 
 
@@ -2370,15 +2221,15 @@ static inline SPLParticle *SPLParticleList_PopFront(SPLParticleList *list)
  * spl_emit.c SPLEmitter_EmitParticles, lib/spl/include/spl_*.h), adapted
  * only by pinning its callees to Black addresses; it compiled EXACT at the
  * cluster pin on the first compile, all 3372 bytes (the listing extent to
- * SPL_EMITTER_ScaleVec, pool included; the worklist's 1544-byte figure was wrong).
+ * SPLUtil_TiltCoordinates, pool included; the worklist's 1544-byte figure was wrong).
  * The struct layouts (SPLEmitter, SPLParticle, SPLResourceHeader,
  * SPLResource) therefore hold for Black unchanged, which settles most of
  * this cluster's field names.  `int i = 0;` before the loop is the
  * upstream's own spelling (commented there as required for matching).  The two statics upstream,
  * SPLEmitter_ComputeOrthogonalAxes and SPLUtil_TiltCoordinates, are the
- * separate functions SPL_EMITTER_TransformVec and SPL_EMITTER_ScaleVec here.
+ * separate functions SPLEmitter_ComputeOrthogonalAxes and SPLUtil_TiltCoordinates here.
  */
-void SPL_EMITTER_LoadResource(SPLEmitter *emtr, SPLParticleList *list)
+void SPLEmitter_EmitParticles(SPLEmitter *emtr, SPLParticleList *list)
 {
     SPLResource *res = emtr->resource;
     SPLResourceHeader *header = res->header;
@@ -2598,8 +2449,8 @@ void SPL_EMITTER_LoadResource(SPLEmitter *emtr, SPLParticleList *list)
 /*
  * Particle spawn for the rig emitter (the SPL-style particle system this
  * cluster renders; docs/families/cluster_02052F58.h).  For each of
- * desc->count particles: pop one from the free list (SPL_EMITTER_AllocNode), push it
- * on the owner's live list at +0x14 (SPL_EMITTER_ClearNodeList), copy the emitter
+ * desc->count particles: pop one from the free list (SPLList_PopFront), push it
+ * on the owner's live list at +0x14 (SPLList_PushFront), copy the emitter
  * position, set velocity = FX_Mul(emitter velocity, FX_Mul(scale << 12, 0x10))
  * plus a random term in [-velocity, velocity) per axis from the LCG at 0x02146A8C
  * (0x5EEDF715 / 0x1B0CB173, the same generator SPL_EMITTER_UpdateNode uses), and
@@ -2624,12 +2475,15 @@ void SPL_EMITTER_LoadResource(SPLEmitter *emtr, SPLParticleList *list)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/SPL_EMITTER_EmitParticle.c \
- *       --func SPL_EMITTER_EmitParticle --addr 0x02056684 --arm --cc ../1.2/sp2
+ *   python tools/match.py one --src src/matched/SPLEmitter_EmitChildren.c \
+ *       --func SPLEmitter_EmitChildren --addr 0x02056684 --arm --cc ../1.2/sp2
  */
-void SPL_EMITTER_EmitParticle(struct EmitterParticle *e, struct EmitOwner *o, SPLList *pool)
+void SPLEmitter_EmitChildren(SPLParticle *ptcl, SPLEmitter *emtr, SPLParticleList *list)
 {
     struct ParticleView *p;
+    struct EmitterParticle *e = (struct EmitterParticle *)ptcl;
+    struct EmitOwner *o = (struct EmitOwner *)emtr;
+    SPLList *pool = (SPLList *)list;
     struct ParticleDesc *d = o->x->desc;
     fx32 scale = FX_Mul(d->scale << 12, 0x10);
     s32 i;
@@ -2724,7 +2578,7 @@ static inline void G3_Vtx10(fx16 x, fx16 y, fx16 z)
 
 /*
  * One of the two textured-quad emitters in the table at 0x020A7FDC
- * (Rig_Hooks2 = { SPL_EMITTER_DrawQuad, SPL_EMITTER_DrawQuadEx }, docs/families/
+ * (Rig_Hooks2 = { SPLUtil_DrawXYPlane, SPLUtil_DrawXZPlane }, docs/families/
  * cluster_02052F58.h).  Emits one GX_BEGIN_QUADS quad of side 0x2000 centred
  * on the two passed coordinates, texcoords (0,0) (s,0) (s,t) (0,t).
  * Plane: the second coordinate goes to the VTX_10 y field (bits 10..19).
@@ -2744,10 +2598,10 @@ static inline void G3_Vtx10(fx16 x, fx16 y, fx16 z)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/SPL_EMITTER_DrawQuad.c \
- *       --func SPL_EMITTER_DrawQuad --addr 0x020565C8 --arm --cc ../1.2/sp2
+ *   python tools/match.py one --src src/matched/SPLUtil_DrawXYPlane.c \
+ *       --func SPLUtil_DrawXYPlane --addr 0x020565C8 --arm --cc ../1.2/sp2
  */
-void SPL_EMITTER_DrawQuad(s32 s, s32 t, s32 x, s32 y)
+void SPLUtil_DrawXYPlane(s32 s, s32 t, s32 x, s32 y)
 {
     G3_Begin(1);
     G3_TexCoord(0, 0);
@@ -2771,7 +2625,7 @@ void SPL_EMITTER_DrawQuad(s32 s, s32 t, s32 x, s32 y)
 
 /*
  * One of the two textured-quad emitters in the table at 0x020A7FDC
- * (Rig_Hooks2 = { SPL_EMITTER_DrawQuad, SPL_EMITTER_DrawQuadEx }, docs/families/
+ * (Rig_Hooks2 = { SPLUtil_DrawXYPlane, SPLUtil_DrawXZPlane }, docs/families/
  * cluster_02052F58.h).  Emits one GX_BEGIN_QUADS quad of side 0x2000 centred
  * on the two passed coordinates, texcoords (0,0) (s,0) (s,t) (0,t).
  * Plane: the second coordinate goes to the VTX_10 z field (bits 20..29).
@@ -2791,10 +2645,10 @@ void SPL_EMITTER_DrawQuad(s32 s, s32 t, s32 x, s32 y)
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/SPL_EMITTER_DrawQuadEx.c \
- *       --func SPL_EMITTER_DrawQuadEx --addr 0x0205650C --arm --cc ../1.2/sp2
+ *   python tools/match.py one --src src/matched/SPLUtil_DrawXZPlane.c \
+ *       --func SPLUtil_DrawXZPlane --addr 0x0205650C --arm --cc ../1.2/sp2
  */
-void SPL_EMITTER_DrawQuadEx(s32 s, s32 t, s32 x, s32 z)
+void SPLUtil_DrawXZPlane(s32 s, s32 t, s32 x, s32 z)
 {
     G3_Begin(1);
     G3_TexCoord(0, 0);
@@ -3015,7 +2869,7 @@ void SPL_EMITTER_UpdateFrame(struct RigObject *obj, struct RenderNode *s)
     *(volatile u32 *)0x04000480 = (u16)v;
 
     p = obj->renderList->subList->desc;
-    SPL_EMITTER_DrawQuad(obj->renderList->texS, obj->renderList->texT, p->texS, p->texT);
+    SPLUtil_DrawXYPlane(obj->renderList->texS, obj->renderList->texT, p->texS, p->texT);
 }
 
 
@@ -3041,7 +2895,7 @@ void SPL_EMITTER_UpdateFrame(struct RigObject *obj, struct RenderNode *s)
  * (MTX_MultVec43), reads sin/cos from the Verts table at
  * s->rotation >> 4, fills a 4x3 matrix ROW-major { cs*x, sn*x, 0 ; -sn*y, cs*y, 0 ;
  * 0, 0, 1 ; t }, loads it (identity + [translate FIFO] + G3_MultMtx43), mixes
- * the colour and calls the quad emitter SPL_EMITTER_DrawQuad DIRECTLY.
+ * the colour and calls the quad emitter SPLUtil_DrawXYPlane DIRECTLY.
  *
  * LOAD-BEARING SHAPES (wave 8):
  *   1. RigDescriptor->scale is read into a local BEFORE the 0x040004A4 store, and
@@ -3166,7 +3020,7 @@ void SPL_EMITTER_UpdateFrameEx(struct RigObject *obj, struct RenderNode *s)
       | ((((c1 & 0x7c00) * (c2 & 0x7c00)) >> 25) << 10);
     *(volatile u32 *)0x04000480 = (u16)v;
 
-    SPL_EMITTER_DrawQuad(obj->renderList->texS2, obj->renderList->texT2, 0, 0);
+    SPLUtil_DrawXYPlane(obj->renderList->texS2, obj->renderList->texT2, 0, 0);
 }
 
 
@@ -3457,7 +3311,7 @@ void SPL_EMITTER_UpdateParticleMotion(SPLManager *mgr, SPLParticle *ptcl)
  * SPLDraw_Child_DirectionalBillboard: draws one child particle as a
  * billboard stretched along its velocity (the "directional billboard" draw
  * type), through SPLDraw_Setup (POLYGON_ATTR), a hand-built 4x3 load matrix
- * and SPLUtil_DrawXYPlane (SPL_EMITTER_DrawQuad) with the child texture tiling.
+ * and SPLUtil_DrawXYPlane (SPLUtil_DrawXYPlane) with the child texture tiling.
  *
  * Wave 9, third lane: this body and every declaration it uses are the public
  * pret/pokeplatinum decompilation of the same NitroSystem particle library
@@ -4437,9 +4291,9 @@ static inline SPLParticle *SPLParticleList_Erase(SPLParticleList *list, SPLParti
 
 /*
  * SPLEmitter_Update: the per-frame emitter step.  Emits new particles on the
- * emission interval (SPL_EMITTER_LoadResource), collects the enabled animation
- * functions (SPL_EMITTER_EvalCurve scale, SPL_EMITTER_EvalKey colour, SPL_EMITTER_UpdateRecord
- * alpha, SPL_EMITTER_UpdateList texture; children SPL_EMITTER_ClampShort / SPL_EMITTER_ClampU16),
+ * emission interval (SPLEmitter_EmitParticles), collects the enabled animation
+ * functions (SPLAnim_Scale scale, SPLAnim_Color colour, SPLAnim_Alpha
+ * alpha, SPLAnim_Texture texture; children SPLAnim_ChildScale / SPLAnim_ChildAlpha),
  * then integrates every particle and child particle (behaviours, air
  * resistance, velocity, polygon ID, age), erasing the dead ones back to the
  * manager free list, with the pre/post update callback around it all.
@@ -4980,7 +4834,7 @@ int SPL_EMITTER_AllocPlttVram(u32 szByte, u32 is4pltt)
  * Closed by indexing: `&p[i]` over a 0x9c-byte element type rather than a
  * hand-advanced `char *` (8 bytes out, a p/i register swap, otherwise).
  */
-struct VramNodeHeap *SPL_EMITTER_AllocNodeFromHeap(AllocFn alloc, u16 n1, u16 n2, u16 a3, u16 a4, u16 a5)
+struct VramNodeHeap *SPL_EMITTER_AllocNodeFromHeap(AllocFn alloc, u16 n1, u16 n2, u16 limitA, u16 limitB, u16 maxResIndex)
 {
     struct VramNodeHeap *h;
     struct VramNodeBlob9C *p;
@@ -4991,10 +4845,10 @@ struct VramNodeHeap *SPL_EMITTER_AllocNodeFromHeap(AllocFn alloc, u16 n1, u16 n2
     MI_CpuFill8(h, 0, sizeof(struct VramNodeHeap));
     h->nodeCount = n1;
     h->rowCount = n2;
-    h->b0 = a4;
-    h->b6 = a5;
+    h->b0 = limitB;
+    h->b6 = maxResIndex;
     h->b12 = h->b0;
-    h->b18 = a3;
+    h->b18 = limitA;
     h->b24 = 0;
     h->b25 = 0;
     h->alloc = alloc;
@@ -5410,7 +5264,7 @@ void SPL_EMITTER_FreeNodeHeap(struct VramHeapHead *h, u32 a)
 /*
  * Promote-first callee of src/pending/PARTICLE_StartEffect.c (parks lane 2).
  * Pops one node off the list at p+0x10, runs the loader for the node and
- * (p->records + (arg1 << 5), arg2), then hands the node to SPL_EMITTER_ClearNodeList; the
+ * (p->records + (arg1 << 5), arg2), then hands the node to SPLList_PushFront; the
  * node is discarded when bit 14 of the word at *(node->allocClass) is set.
  *
  * Built by the 1.2 front end, not dsi/1.1p1: the epilogue is the ARMv4T
@@ -5455,7 +5309,7 @@ int SPL_EMITTER_AllocResource(char *p, int b, int c)
  * Same shape as its neighbour SPL_EMITTER_AllocResource with two extra steps: the
  * loader takes the address of a twelve-byte zeroed scratch block as its
  * third argument, and a non-null third parameter is called back with the
- * popped node before SPL_EMITTER_ClearNodeList runs.
+ * popped node before SPLList_PushFront runs.
  *
  * Built by the 1.2 front end (ARMv4T-style `pop {... lr}; bx lr` epilogue
  * and a `sub sp, sp, #4` alignment word), see
@@ -5498,7 +5352,7 @@ int SPL_EMITTER_AllocResourceEx(char *p, int b, void (*fn)(void *))
 /*
  * Tear down one node q owned by container p.  Two identical drain loops move
  * every child off q's two sublists (q+8 and q+0x14) onto the container's own
- * recycle list at p+0x1c with SPL_EMITTER_ClearNodeList; SPL_EMITTER_AllocNode is the pop, and it
+ * recycle list at p+0x1c with SPLList_PushFront; SPLList_PopFront is the pop, and it
  * is re-called at the bottom of each loop rather than at the top, which is why
  * the original re-materialises `add r5,r7,#0x1c` and `add r4,r6,#k` INSIDE the
  * loop body rather than hoisting them (the two locals are declared in the

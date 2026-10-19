@@ -1,5 +1,5 @@
 /*
- * function: func_021C79B4
+ * function: DWCi_SceneSetEditAddressProcWin
  * address:  0x021C79B4
  * packet:   pkt_ov016_021C79B4
  * region:   ov016
@@ -31,7 +31,7 @@ extern void DWCi_ChangeScene(unsigned int v);
 extern void func_021C7A0C();
 extern struct MemSsea *gMemSsea;
 
-void func_021C79B4(void)
+void DWCi_SceneSetEditAddressProcWin(void)
 {
     gMemSsea->result = DWCi_WINlGet();
     switch (gMemSsea->result) {

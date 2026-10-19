@@ -10,7 +10,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0202ABF8, sub_0202ABFC
+ * function: ISS_CITY_SYS_GetMode, ISS_CITY_SYS_SetMode
  *
  * A getter/setter pair on a word field at offset 8 of the same object, back
  * to back with no gap. Neither function has a relocation.
@@ -24,12 +24,12 @@
 
 typedef unsigned int u32;
 
-u32 sub_0202ABF8(void *obj)
+u32 ISS_CITY_SYS_GetMode(void *obj)
 {
     return ((struct Obj17262 *)obj)->f8;
 }
 
-void sub_0202ABFC(void *obj, u32 value)
+void ISS_CITY_SYS_SetMode(void *obj, u32 value)
 {
     ((struct Obj17263 *)obj)->f8 = value;
 }

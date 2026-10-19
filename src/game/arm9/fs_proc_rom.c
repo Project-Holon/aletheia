@@ -1,7 +1,7 @@
 /*
  * file:     fs_proc_rom.c
  * unit:     yes
- * function: FSi_IsUnreadableRomOffset, FSi_OnRomReadDone, FSi_ReadRomCallback, FSi_RomArchiveProc, FSi_EmptyArchiveProc, FSi_ReadDummyCallback, FSi_WriteDummyCallback, FSi_SeekDummyCallback, FSi_InitRomArchive, FS_SetDefaultDMA, FS_TryLoadTable, FS_CreateFileFromRom
+ * function: FSi_IsUnreadableRomOffset, FSi_OnRomReadDone, FSi_ReadRomCallback, FSi_RomArchiveProc, FSi_EmptyArchiveProc, FSi_ReadDummyCallback, FSi_WriteDummyCallback, FSi_OverrideRomArchive, FSi_InitRomArchive, FS_SetDefaultDMA, FS_TryLoadTable, FS_CreateFileFromRom
  * address:  0x0207A980
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -287,7 +287,6 @@ extern void FS_SetArchiveProc(FSArchive *arc, FS_ARCHIVE_PROC_FUNC proc, u32 fla
 extern BOOL FS_LoadArchive(FSArchive *arc, u32 base, u32 fat, u32 fat_size, u32 fnt, u32 fnt_size,
                            FS_ARCHIVE_READ_FUNC read_func,
                            FS_ARCHIVE_WRITE_FUNC write_func);
-extern BOOL FSi_OverrideRomArchive(FSArchive *arc);
 extern BOOL FS_SetCurrentDirectory(const char *path);
 extern u32 OS_DisableInterrupts(void);
 extern u32 OS_RestoreInterrupts(u32 state);
@@ -300,7 +299,7 @@ FSResult FSi_RomArchiveProc(FSFile *file, FSCommandType cmd);
 FSResult FSi_EmptyArchiveProc(FSFile *file, FSCommandType cmd);
 FSResult FSi_ReadDummyCallback(FSArchive *p_arc, void *dst, u32 src, u32 len);
 FSResult FSi_WriteDummyCallback(FSArchive *p_arc, const void *src, u32 pos, u32 len);
-int FSi_SeekDummyCallback(void);
+BOOL FSi_OverrideRomArchive(FSArchive *arc);
 void FSi_InitRomArchive(u32 default_dma_no);
 u32 FS_SetDefaultDMA(u32 dma_no);
 void FS_TryLoadTable(void *p_mem, void *size);
@@ -397,7 +396,7 @@ FSResult FSi_WriteDummyCallback(FSArchive *p_arc, const void *src, u32 pos, u32 
 }
 
 
-int FSi_SeekDummyCallback(void)
+BOOL FSi_OverrideRomArchive(FSArchive *arc)
 {
     return 0;
 }

@@ -10,14 +10,14 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0202C5CC, sub_0202C5E0
+ * function: ISS_SWITCH_CountUpFade, ISS_SWITCH_IsFadeEnd
  *
  * Two plain functions on the object of src/matched/unit_0202C5B4.c and
  * src/matched/sub_0202C5C4.c, contiguous with no gap and neither calling
- * out. sub_0202C5CC increments a bounded counter at offset 4 and clamps it
+ * out. ISS_SWITCH_CountUpFade increments a bounded counter at offset 4 and clamps it
  * back down to the limit held at offset 6 (a saturating counter, not a
  * wrapping one: the increment always happens, and only the store is
- * undone when it overshoots). sub_0202C5E0 is the complementary test,
+ * undone when it overshoots). ISS_SWITCH_IsFadeEnd is the complementary test,
  * returning 0 while the limit still exceeds the counter and 1 once it has
  * caught up.
  *
@@ -36,7 +36,7 @@ struct Counter0202C5B4 {
     u16 unk08;
 };
 
-void sub_0202C5CC(struct Counter0202C5B4 *p)
+void ISS_SWITCH_CountUpFade(struct Counter0202C5B4 *p)
 {
     p->unk04 = p->unk04 + 1;
     if (p->unk06 < p->unk04) {
@@ -44,7 +44,7 @@ void sub_0202C5CC(struct Counter0202C5B4 *p)
     }
 }
 
-u32 sub_0202C5E0(struct Counter0202C5B4 *p)
+u32 ISS_SWITCH_IsFadeEnd(struct Counter0202C5B4 *p)
 {
     if (p->unk06 > p->unk04) {
         return 0;

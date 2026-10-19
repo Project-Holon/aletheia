@@ -1,5 +1,5 @@
 /*
- * function: func_021D7750
+ * function: deleteTcb
  * address:  0x021D7750
  * packet:   pkt_021D7750
  * region:   ov016
@@ -35,7 +35,7 @@ extern void func_021D6D8C(void *);
 extern void DWCi_QUElPushBack(void *, void *);
 extern void *gMemTask;
 
-void func_021D7750(u32 idx, struct StructR4 *r4)
+void deleteTcb(u32 idx, struct StructR4 *r4)
 {
     if (r4->field11 != 0) {
         DWCi_HEAPlFree_((void **)(&r4->fieldC));

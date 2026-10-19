@@ -23,7 +23,7 @@
 struct PokeSummaryMon {
     void          *party;               /* 0x00  party/mon data pointer */
     unsigned int   myStatus;            /* 0x04  my-status word */
-    unsigned int   field08;             /* 0x08  forwarded to the proc args */
+    unsigned int   config;             /* 0x08  forwarded to the proc args */
     void          *gameSystem;          /* 0x0C  GAMESYSTEM_CallProc and GAMESYSTEM_GetGameData argument */
     unsigned short *moveList;           /* 0x10  u16 move-id array */
     unsigned short selectedIndex;       /* 0x14  highlighted row */
@@ -68,19 +68,19 @@ union PokeSummaryReg {
 /* Proc-argument block at PokeSummaryWork 0x180, passed to GAMESYSTEM_CallProc. */
 struct PokeSummaryProcArgs {
     unsigned int   party;               /* 0x180  mon->party */
-    unsigned int   field04;             /* 0x184  mon->field08 */
+    unsigned int   config;             /* 0x184  mon->config */
     void          *gameData;            /* 0x188  GAMESYSTEM_GetGameData(gameSystem) */
-    unsigned char  field0C;             /* 0x18C */
-    unsigned char  field0D;             /* 0x18D */
-    unsigned char  field0E;             /* 0x18E */
+    unsigned char  type;             /* 0x18C */
+    unsigned char  enabled;             /* 0x18D */
+    unsigned char  slotCount;             /* 0x18E */
     unsigned char  partyPos;            /* 0x18F  selected party slot, written back by the status proc */
-    unsigned char  field10;             /* 0x190 */
+    unsigned char  mode;             /* 0x190 */
     unsigned char  netFlagA;            /* 0x191  net-restart flag */
     unsigned char  netFlagB;            /* 0x192  net-restart flag */
     unsigned char  pad_13[1];           /* 0x193  untouched */
     unsigned short record;              /* 0x194  current move id */
     unsigned char  pad_16[2];           /* 0x196  untouched */
-    unsigned int   field18;             /* 0x198 */
+    unsigned int   nationalDexEnabled;             /* 0x198 */
 };
 
 /* One pending character transfer at PokeSummaryWork 0x140 (stride 8). */
@@ -117,8 +117,8 @@ struct PokeSummaryWork {
     unsigned char  moveCount;           /* 0x1B8  moves in the list */
     unsigned char  pad_1B9[1];          /* 0x1B9  untouched */
     unsigned char  textKind;            /* 0x1BA  current text kind */
-    unsigned char  field1BB;            /* 0x1BB */
-    unsigned char  field1BC;            /* 0x1BC */
+    unsigned char  reserved1BB;            /* 0x1BB */
+    unsigned char  selectedRow;            /* 0x1BC */
     unsigned char  pad_1BD[3];          /* 0x1BD  untouched */
     void          *msgWindow;           /* 0x1C0  message window */
     void          *tmpHandle;           /* 0x1C4  ARC_UTIL_LoadPaletteDataFromHandle out-slot */

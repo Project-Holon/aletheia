@@ -54,10 +54,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "functions": [
-    "NNSi_G3dAnmObjUnlink"
+    "NNSi_G3dAnmObjUnlink",
+    "NNS_G3dRenderObjRemoveAnmObj"
    ],
    "addresses": [
-    "0x02069F08"
+    "0x02069F08",
+    "0x02069F7C"
    ]
   }
  ]

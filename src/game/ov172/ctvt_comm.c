@@ -185,7 +185,7 @@ extern void GFL_NET_HANDLE_SetTimingSyncRange(struct GflNetLink *p, u32 a, u32 b
 
 extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct GflNetLink *p, u32 a, u32 b);
 
-extern int GFL_NET_Exit(int a0);
+extern int GFL_NET_Exit(int exitCallback);
 
 extern int GFL_NET_IsSessionNull(void);
 

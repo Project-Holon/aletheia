@@ -12,15 +12,15 @@ struct CellAnimHdr {
 };
 
 struct CellBank {
-    unsigned int unk00;
-    unsigned int unk04;
+    unsigned int frameCounts;
+    unsigned int animType;
     unsigned int attr;
 };
 
 struct CellAnim {
-    unsigned int        f00;
+    unsigned int        pCurrent;
     struct CellAnimHdr *hdr;
-    unsigned int        f08;
+    unsigned int        bReverse;
     unsigned int        active;
     unsigned char       pad10[0x18 - 0x10];
     unsigned int        attrOverride;
@@ -30,9 +30,9 @@ struct CellAnim {
     unsigned int        callBackFunc;
     unsigned short      callBackFrameIdx;
     unsigned char       pad2e[2];
-    int                 f30;
+    int                 pCurrentCell;
     struct CellDataBank *dataBank;
-    int                 f38;
+    int                 transferStateHandle;
     unsigned char       sub3c[0x1c];
 };
 

@@ -862,7 +862,7 @@ extern u8 *GAME_DATA_GetMyStatus(void *p);
 struct Sub0200852CObj;
 
 extern u32 MYSTATUS_GetId(const struct Sub0200852CObj *obj);
-extern void *POKE_TOOL_Create(u16 species, u16 level, u32 otId, u32 a3, u32 heap);
+extern void *POKE_TOOL_Create(u16 species, u16 level, u32 otId, u32 otIdHigh, u32 heap);
 extern u32 POKE_TOOL_CreatePersonalRnd(u32 otId, int species, int form, int ratioMode, int shinyWanted, int mode);
 extern void POKE_TOOL_SetupPartyParamEx(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
 extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);

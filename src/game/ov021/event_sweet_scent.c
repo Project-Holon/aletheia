@@ -92,7 +92,7 @@ extern int FIELD_PLAYER_StepFormChange(void *player);
 
 extern void *FIELD_PLAYER_GetMmdl(void *player);
 
-extern void FLDMMDL_SetAcmd(void *mmdl, u16 a1);
+extern void FLDMMDL_SetAcmd(void *mmdl, u16 code);
 
 extern int FLDMMDL_EndAcmd(void *mmdl);
 

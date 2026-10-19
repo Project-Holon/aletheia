@@ -316,7 +316,6 @@ extern int gpiValueForKey(const char *command, const char *key, char *value, int
 extern int atoi(const char *s);
 extern int gpiGetProfile(void **connection, int profileid, GPIProfile **pProfile);
 extern double atof(const char *s);
-extern float _d2f(double d);
 extern GPIProfile *gpiProfileListAdd(void **connection, int id);
 extern void gsifree(void *ptr);
 extern char *goastrdup(char *src);
@@ -653,11 +652,11 @@ int gpiProcessGetInfo(void **connection, GPIOperation_s *operation, char *input)
     if (!gpiValueForKey(input, gGpiInfoKeyLon, buffer, sizeof(buffer)))
         infoCache.longitude = 0;
     else
-        infoCache.longitude = _d2f(atof(buffer));
+        infoCache.longitude = (float)atof(buffer);
     if (!gpiValueForKey(input, gGpiInfoKeyLat, buffer, sizeof(buffer)))
         infoCache.latitude = 0;
     else
-        infoCache.latitude = _d2f(atof(buffer));
+        infoCache.latitude = (float)atof(buffer);
     if (!gpiValueForKey(input, gGpiInfoKeyLoc, infoCache.place, 128))
         infoCache.place[0] = '\0';
     if (!gpiValueForKey(input, gGpiInfoKeyBirthday, buffer, sizeof(buffer))) {

@@ -1,5 +1,5 @@
 /*
- * function: func_021C1678
+ * function: endScene
  * address:  0x021C1678
  * packet:   pkt_ov016_021C1678
  * region:   ov016
@@ -37,7 +37,7 @@ extern void DWCi_SETTIGNlEnd(void);
 extern void DWCi_EndUtility(void);
 extern void *gCommentWork;
 
-void func_021C1678(void)
+void endScene(void)
 {
 	if (DWCi_EFFlCheck(1))
 		return;

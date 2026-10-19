@@ -24,7 +24,7 @@
    }
   },
   {
-   "name": "func_02084F68",
+   "name": "OS_VSPrintf",
    "address": "0x02084F68",
    "kind": "sdk_calibration",
    "region": "arm9",

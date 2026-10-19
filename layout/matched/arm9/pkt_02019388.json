@@ -82,7 +82,7 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "POKE_TOOL_GetPersonalGender",
+    "POKE_TOOL_GetPersonalAbilityCount",
     "POKE_TOOL_GetPersonalParam",
     "POKE_TOOL_SetLevelAndRecalc",
     "POKE_TOOL_CopyPartyPokemon"

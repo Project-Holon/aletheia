@@ -1,5 +1,5 @@
 /*
- * function: func_021CEE10
+ * function: calcRect
  * address:  0x021CEE10
  * packet:   pkt_ov016_021CEE10
  * region:   ov016
@@ -42,7 +42,7 @@ typedef struct {
 extern SB *gScrollBar;
 extern unsigned char sScrollBarStep[];
 
-void func_021CEE10(int idx, RECT *r)
+void calcRect(int idx, RECT *r)
 {
 	int x = gScrollBar->x;
 	r->x0 = x;

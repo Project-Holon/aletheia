@@ -19,7 +19,6 @@
  *   ARC_UTIL_LoadHandleMember   0x0204A380  arm
  *   NNS_G2dGetUnpackedCharacterDataEx       0x02062A4C  arm
  *   BG_SYS_LoadTileData       0x02040B1C  arm
- *   ENV_SetResourceSet  0x020307B0  arm
  *   ARC_UTIL_RegisterObjChar       0x0204979C  arm
  *   BG_SYS_CreateTileRun  0x02040B58  arm
  *   ARC_UTIL_UploadScreen  0x0204982C  arm
@@ -93,7 +92,6 @@ extern s32 NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void 
 
 extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 
-extern void ENV_SetResourceSet(void *p);
 
 extern u32 BG_SYS_CreateTileRun(u32 index, const void *src, u32 size);
 
@@ -281,7 +279,7 @@ u32 ARC_UTIL_UploadBgChar(void *buf, u32 bgId, u32 tileOffset, u32 size, u32 unu
         BG_SYS_LoadTileData((u8)bgId, (const void *)res->data, size, tileOffset);
     }
 
-    ENV_SetResourceSet(buf);
+    GFL_HEAP_Free(buf);
     return size;
 }
 
@@ -317,7 +315,7 @@ u32 ARC_UTIL_RegisterObjCharFromArchive(u32 archiveID, u32 memberIdx, u32 bgId, 
     }
 
     res = ARC_UTIL_RegisterObjChar(buf, bgId, size);
-    ENV_SetResourceSet(buf);
+    GFL_HEAP_Free(buf);
     return res;
 }
 
@@ -352,7 +350,7 @@ u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 s
     }
 
     res = ARC_UTIL_RegisterObjChar(buf, bgId, size);
-    ENV_SetResourceSet(buf);
+    GFL_HEAP_Free(buf);
     return res;
 }
 
@@ -475,7 +473,7 @@ u32 ARC_UTIL_UploadScreen(void *buf, u32 kind, u32 dest, u32 size)
         ARC_UTIL_gScreenLoadFns[kind](res->data, dest, size);
     }
 
-    ENV_SetResourceSet(buf);
+    GFL_HEAP_Free(buf);
     return size;
 }
 
@@ -975,7 +973,6 @@ void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int fileId, int decompress, 
 
 extern const char  arc_util_file[];
 
-extern const char arc_util_file[];
 
 /*
  * arc_util.c's "open a member and read it" entry.  The three __LINE__

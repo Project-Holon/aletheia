@@ -19,8 +19,8 @@
    "status": "EXACT",
    "functions": [
     "STA_ACT_LIGHT_HandleElemAnim",
-    "STA_ACT_LIGHT_NoOp2",
-    "STA_ACT_LIGHT_NoOp3"
+    "STA_ACT_LIGHT_IsElemActive",
+    "STA_ACT_LIGHT_AnimNone"
    ],
    "addresses": [
     "0x021F79A8",

@@ -18,8 +18,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "MONOLITH_TOOL_DeleteBackButton",
-    "MONOLITH_TOOL_UpdateBackButton"
+    "MONOLITH_TOOL_LIST_FreeBackButton",
+    "MONOLITH_TOOL_LIST_UpdateBackButton"
    ],
    "addresses": [
     "0x021B9BA0",

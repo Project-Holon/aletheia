@@ -1,5 +1,5 @@
 /*
- * function: func_0205F384
+ * function: ConnectTestRetry
  * address:  0x0205F384
  * packet:   pkt_0205DC74
  * region:   arm9
@@ -19,7 +19,7 @@
 extern int SOCL_CalmDown(void);
 extern int SOC_Cleanup(void);
 
-static unsigned char func_0205F384(void)
+static unsigned char ConnectTestRetry(void)
 {
     int result;
 

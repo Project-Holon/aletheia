@@ -10,14 +10,14 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_0202C2D0, sub_0202C2D8
+ * function: ISS_SWITCH_SYS_GetPlayingBgm, ISS_SWITCH_SYS_IsOn
  *
  * symbols:
  *   GFL_USE_GetBgmNo  0x02005C44  thumb
  *
- * sub_0202C2D0 is a pool-word-and-bx tail call
+ * ISS_SWITCH_SYS_GetPlayingBgm is a pool-word-and-bx tail call
  * (docs/idioms/tail-call-is-a-pool-word-and-bx.md) forwarding into
- * GFL_USE_GetBgmNo, which is open elsewhere in the image. sub_0202C2D8 is a
+ * GFL_USE_GetBgmNo, which is open elsewhere in the image. ISS_SWITCH_SYS_IsOn is a
  * plain read of the object's first word.
  *
  * Verified with:
@@ -30,12 +30,12 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 extern u16 GFL_USE_GetBgmNo(void);
 
-u32 sub_0202C2D0(u32 v)
+u32 ISS_SWITCH_SYS_GetPlayingBgm(u32 v)
 {
     return GFL_USE_GetBgmNo();
 }
 
-u32 sub_0202C2D8(u32 *p)
+u32 ISS_SWITCH_SYS_IsOn(u32 *p)
 {
     return *p;
 }

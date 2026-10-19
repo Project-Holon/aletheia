@@ -20,7 +20,7 @@
    "functions": [
     "PSEL_ShowTaskRes",
     "PSEL_DeleteTaskRes",
-    "PSEL_UpdateB414"
+    "PSEL_UpdateTaskResWin"
    ],
    "addresses": [
     "0x021BB3BC",

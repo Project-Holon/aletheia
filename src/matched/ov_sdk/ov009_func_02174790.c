@@ -1,5 +1,5 @@
 /*
- * function: func_02174790
+ * function: DWCi_EvaluateServers
  * address:  0x02174790
  * packet:   pkt_ov009_02174790
  * region:   ov009
@@ -49,7 +49,7 @@ extern unsigned long DWCi_GetMathRand32(unsigned long max);
 extern void func_0219E084(void *server, char *keyname, int value);
 extern void ServerBrowserSortA(struct ServerBrowser *sb, int ascending, char *sortkey, int comparemode);
 
-static int func_02174790(int sort)
+static int DWCi_EvaluateServers(int sort)
 {
     int eval;
     int deleteFlag = 0;

@@ -1,5 +1,5 @@
 /*
- * function: func_02157290
+ * function: reset_network_vars
  * address:  0x02157290
  * packet:   pkt_ov009_02157290
  * region:   ov009
@@ -71,7 +71,7 @@ extern struct ArpEntry gCpsArpCache;
 extern int gMslRefToken;
 extern struct CPSFragTable gCpsFragTable[8];
 
-void func_02157290(int reason)
+void reset_network_vars(int reason)
 {
 	struct _OSThread *t;
 	unsigned char *soc;

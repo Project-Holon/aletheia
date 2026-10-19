@@ -1,5 +1,5 @@
 /*
- * function: func_021B93AC
+ * function: CopyApList
  * address:  0x021B93AC
  * packet:   pkt_ov016_021B93AC
  * region:   ov016
@@ -19,7 +19,7 @@ extern int WCM_CountApList(void);
 extern void *WCM_PointApList(unsigned short index);
 extern void MIi_CpuCopy32(void *srcp, void *destp, unsigned long size);
 
-int func_021B93AC(char *buf, int max)
+int CopyApList(char *buf, int max)
 {
     int n;
     int i;

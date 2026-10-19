@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: BEACON_VIEW_RequestTransition, BEACON_VIEW_ClearEndRequest
+ * function: BEACON_VIEW_SetEndRequest, BEACON_VIEW_ClearEndRequest
  * address:  0x021F253C
  * packet:   pkt_021F253C
  * region:   ov032
@@ -13,7 +13,7 @@
 #include "../include/Obj20459.h"
 #include "../include/Obj20460.h"
 
-void BEACON_VIEW_RequestTransition(char *p, int v)
+void BEACON_VIEW_SetEndRequest(char *p, int v)
 {
     ((struct Obj20459 *)p)->f70 = v;
 }

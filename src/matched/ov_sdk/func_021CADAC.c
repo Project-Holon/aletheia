@@ -1,5 +1,5 @@
 /*
- * function: func_021CADAC
+ * function: procScene
  * address:  0x021CADAC
  * packet:   pkt_021CA980
  * region:   ov016
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021CADAC   0x021CADAC  arm
+ *   procScene   0x021CADAC  arm
  *   DWCi_SceneSetRakuButton_draw  0x021CAE04  arm
  *   OS_Sleep  0x02085A38  arm  arm9
  *
@@ -18,8 +18,8 @@
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/func_021CADAC.c \
- *       --func func_021CADAC --addr 0x021CADAC --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/procScene.c \
+ *       --func procScene --addr 0x021CADAC --region ov016 --cc dsi/1.1p1 --arm
  */
 
 typedef unsigned int   u32;
@@ -29,7 +29,7 @@ extern void func_021CADCC(void);
 extern void DWCi_SceneSetRakuButton_draw(void);
 extern void func_021CAE08(void);
 
-void func_021CADAC(void)
+void procScene(void)
 {
     OS_Sleep(0xa);
     func_021CAF78();

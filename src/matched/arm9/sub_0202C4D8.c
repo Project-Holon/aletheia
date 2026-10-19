@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0202C4D8
+ * function: ISS_SWITCH_SET_CheckZone
  * address:  0x0202C4D8
  * packet:   pkt_0202C244
  * region:   arm9
@@ -20,8 +20,8 @@
  * indexes, bounded by the count sub_0202C4CC reads off the same object.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202C4D8.c \
- *       --func sub_0202C4D8 --addr 0x0202C4D8 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/ISS_SWITCH_SET_CheckZone.c \
+ *       --func ISS_SWITCH_SET_CheckZone --addr 0x0202C4D8 --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
@@ -31,7 +31,7 @@ struct Obj0202C4CC;
 extern u32 sub_0202C4CC(struct Obj0202C4CC *p);
 extern u32 sub_0202C4D0(struct Arr0202C4D0 *p, u32 idx);
 
-u32 sub_0202C4D8(void *a, u32 b)
+u32 ISS_SWITCH_SET_CheckZone(void *a, u32 b)
 {
     int count = sub_0202C4CC(a);
     int i;

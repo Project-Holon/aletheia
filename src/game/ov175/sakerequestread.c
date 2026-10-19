@@ -34,7 +34,7 @@
  *   gsXmlWriteStringElement  0x02182AC0  arm ov009
  *   gsifree  0x0217EAE0  arm ov009
  *   gsimalloc  0x0217EAB0  arm ov009
- *   memset  0x020923B0  arm
+ *   MSL_C_LIB_MemsetPtr  0x020923B0  arm
  *   strcmp  0x020948E0  arm
  *   sGetSpecificRecordsRequestInfo  0x021E3C78  data
  *   sGetMyRecordsRequestInfo  0x021E3CA0  data
@@ -79,7 +79,7 @@ extern int gsXmlWriteIntElement(void *stream, char *namespaceName, char *tag, un
 extern int gsXmlMoveToChild(void *stream, char *matchtag);
 extern int gsXmlCountChildren(void *stream, char *matchtag);
 extern void *gsimalloc(unsigned long size);
-extern void memset(void *dst, int val, unsigned long n);
+extern void MSL_C_LIB_MemsetPtr(void *dst, int val, unsigned long n);
 extern int gsXmlMoveToNext(void *stream, char *matchtag);
 extern int gsXmlReadChildAsInt(void *stream, char *matchtag, int *valueOut);
 extern int gsXmlReadChildAsInt64(void *stream, char *matchtag, long long *valueOut);
@@ -221,7 +221,7 @@ int sakeiReadOutputRecords(SAKERequestInternal *request, SAKEField ***outputReco
     outputRecords = (SAKEField **)gsimalloc(size);
     if (outputRecords == 0)
         return SAKERequestResult_OUT_OF_MEMORY;
-    memset(outputRecords, 0, size);
+    MSL_C_LIB_MemsetPtr(outputRecords, 0, size);
     *outputRecordsPtr = outputRecords;
     for (recordIndex = 0; recordIndex < *numRecords; recordIndex++) {
         size = numFields * sizeof(SAKEField);
@@ -230,7 +230,7 @@ int sakeiReadOutputRecords(SAKERequestInternal *request, SAKEField ***outputReco
         outputRecord = (SAKEField *)gsimalloc(size);
         if (outputRecord == 0)
             return SAKERequestResult_OUT_OF_MEMORY;
-        memset(outputRecord, 0, size);
+        MSL_C_LIB_MemsetPtr(outputRecord, 0, size);
         outputRecords[recordIndex] = outputRecord;
         if (gsXmlCountChildren(request->mSoapResponse, sReadTagRecordValue) != numFields)
             return SAKERequestResult_MALFORMED_RESPONSE;

@@ -136,11 +136,6 @@ extern void G3D_SYSTEM_DeleteAnime(G3dAnime *anime);
 extern void G3D_SYSTEM_DeleteObject(G3dObject *obj);
 extern void G3D_SYSTEM_DeleteRender(G3dRender *render);
 extern int G3D_SYSTEM_LoopObjectAnimeFrame(G3dObject *obj, int anmIdx, fx32 step);
-extern int _s32_to_float(int a);
-extern int __fadd(int a, int b);
-extern int _fsub(int a, int b);
-extern int _ffix(int a);
-
 FishingRodRes *FLDEFF_FISHING_Create(FieldEffectSys *fieldEffect, u32 heapId);
 void FLDEFF_FISHING_Delete(FieldEffectSys *fieldEffect, FishingRodRes *res);
 void FLDEFF_FISHING_LoadResources(FishingRodRes *res);
@@ -201,17 +196,17 @@ void FLDEFF_FISHING_Start(FieldEffectSys *fieldEffect, const VecFx32 *pos, u32 r
     FishingRodOffsets offsets = sFishingRodOffsets;
     FishingRodStartParam param;
     int offset;
-    int fixed;
+    float fixed;
 
     param.res = FIELD_EFFECT_GetResource(fieldEffect, FLDEFF_ID_FISHING);
     param.pos = *pos;
     offset = offsets.offset[side][rodKind];
     if (offset != 0) {
-        fixed = __fadd(0x3f000000, _s32_to_float(offset << 12));
+        fixed = (0.5f + (float)(offset << 12));
     } else {
-        fixed = _fsub(_s32_to_float(offset << 12), 0x3f000000);
+        fixed = ((float)(offset << 12) - 0.5f);
     }
-    param.pos.z += _ffix(fixed);
+    param.pos.z += (int)fixed;
     FIELD_EFFECT_AddObject(fieldEffect, &sFishingFuncs, 0, 0, &param, 0);
 }
 

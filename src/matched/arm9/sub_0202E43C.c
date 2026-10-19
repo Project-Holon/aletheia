@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: sub_0202E43C
+ * function: PMS_DRAW_ClearWork
  * address:  0x0202E43C
  * packet:   pkt_0202DBC4
  * region:   arm9
@@ -23,15 +23,15 @@
  * src/pending/sub_0202E448.c.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/sub_0202E43C.c \
- *       --func sub_0202E43C --addr 0x0202E43C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PMS_DRAW_ClearWork.c \
+ *       --func PMS_DRAW_ClearWork --addr 0x0202E43C --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
 
 extern void MI_CpuFill8(void *p, u32 a, u32 b);
 
-void sub_0202E43C(void *p)
+void PMS_DRAW_ClearWork(void *p)
 {
     MI_CpuFill8(p, 0, 4);
 }

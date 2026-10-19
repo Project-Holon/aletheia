@@ -1,5 +1,5 @@
 /*
- * function: func_020867F4
+ * function: DLAddFront
  * address:  0x020867F4
  * packet:   pkt_02086788
  * region:   arm9
@@ -15,7 +15,7 @@ struct Node {
     struct Node *next;
 };
 
-struct Node *func_020867F4(struct Node *r0, struct Node *r1)
+struct Node *DLAddFront(struct Node *r0, struct Node *r1)
 {
     r1->next = r0;
     r1->prev = 0;

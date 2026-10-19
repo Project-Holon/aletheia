@@ -32,12 +32,10 @@
  *   sDwcEncSessionHttpGamestatsGsNintendowifiNet  0x021CF85C  data
  *   sDwcEncSessionHttpSdkdevGamespyComGames  0x021CF884  data
  *   sDwcEncSessionHttpIshikawaServebeerComGames  0x021CF8A8  data
- *   CTRDGi_IsTaskAvailable  0x02059F38  arm
+ *   DWCi_IsError  0x02059F38  arm
  *   DWC_GetGHTTPDataEx  0x021BF6C4  arm  ov114
  *   DWC_ProcessGHTTP  0x021BF5B8  arm  ov114
  *   DWC_CancelGHTTPRequest  0x021BF880  arm  ov114
- *   DWC_Free       0x0205A1B0  arm
- *   DWCi_GsFree    0x0205A29C  arm
  *   DWC_ShutdownGHTTP  0x021BF57C  arm  ov114
  *   OS_SNPrintf  0x02084F80  arm
  *   OS_SPrintf  0x02084F40  arm
@@ -86,7 +84,7 @@ extern void DWCi_EncSetError(void);
 extern void DWCi_GsFree(void *ptr);
 extern unsigned long strtoul(const char *str, char **endptr, int base);
 extern int DWC_InitGHTTP();
-extern int CTRDGi_IsTaskAvailable(void);
+extern int DWCi_IsError(void);
 extern void DWCi_SetError(int mode, long value);
 extern int DWC_GetGHTTPDataEx(char *url, int bufferLen, int bufferClear, DWCGHTTPProgressCallback progressCallback, DWCGHTTPCompletedCallback completedCallback, void *param);
 extern int DWC_ProcessGHTTP(void);
@@ -279,7 +277,7 @@ void DWCi_EncSessionInitialize(int server, char *initData)
  */
 void DWCi_EncSetError(void)
 {
-    if (!CTRDGi_IsTaskAvailable())
+    if (!DWCi_IsError())
         DWCi_SetError(6, 0xFFFEA048);
     gDwcEncSession.state = 1;
 }

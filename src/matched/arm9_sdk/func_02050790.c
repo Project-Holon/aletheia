@@ -1,5 +1,5 @@
 /*
- * function: LIST_PopFront
+ * function: BILLBOARD_ACT_Draw
  * address:  0x02050790
  * packet:   pkt_02050790
  * region:   arm9
@@ -22,7 +22,7 @@ typedef struct tagLISTCB {
 
 extern void DWCi_LSTlErase(void *ob);
 
-void LIST_PopFront(LISTCB *list, int b, int c)
+void BILLBOARD_ACT_Draw(LISTCB *list, int b, int c)
 {
     DWCi_LSTlErase(list->tail);
 }

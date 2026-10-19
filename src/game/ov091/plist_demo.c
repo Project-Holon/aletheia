@@ -34,7 +34,7 @@
  *   PARTICLE_DeleteSystem 0x02050DB8 arm
  *   GFL_NET_FreeAligned 0x0203D7FC arm
  *   ZUKAN_SAVE_RegisterCaught 0x0200CDE0 thumb
- *   TIMEZONE_GetZoneLightLevel  0x02011400  thumb
+ *   TIMEZONE_GetLight  0x02011400  thumb
  *   GF_STANDARD_GetCachedTime  0x0203F4CC  arm
  *   WAZA_TOOL_GetMaxPP 0x0201C158 thumb
  *   POKE_TOOL_IsPPRestorable 0x0201B920 thumb
@@ -75,7 +75,7 @@ extern int PARTICLE_StartEffect(void *p, int b, int c);
 extern void PARTICLE_DeleteSystem(void *system);
 extern void GFL_NET_FreeAligned(void *);
 extern void ZUKAN_SAVE_RegisterCaught(void *zukanSave, void *mon);
-extern u8 TIMEZONE_GetZoneLightLevel(int row, int col);
+extern u8 TIMEZONE_GetLight(int row, int col);
 extern void GF_STANDARD_GetCachedTime(struct RtcTime *time);
 extern u8 WAZA_TOOL_GetMaxPP(u16, u32);
 extern u8 POKE_TOOL_IsPPRestorable(void *, u32);
@@ -205,8 +205,8 @@ int PLIST_DEMO_CanUseGracidea(PokelistWork *work, u32 unused)
         return result;
     if (POKE_TOOL_GetStatusCondition((void *)work->selectedMon) & 0x20)
         return result;
-    dayStart = TIMEZONE_GetZoneLightLevel(work->arg->season, result);
-    dayEnd = TIMEZONE_GetZoneLightLevel(work->arg->season, 3);
+    dayStart = TIMEZONE_GetLight(work->arg->season, result);
+    dayEnd = TIMEZONE_GetLight(work->arg->season, 3);
     GF_STANDARD_GetCachedTime((struct RtcTime *)now);
     if (now[0] < dayStart || now[0] >= dayEnd)
         return 0;

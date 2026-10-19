@@ -1,5 +1,5 @@
 /*
- * function: ov208_func_021BD404
+ * function: ZKND_TBAR_FindButtonActor
  * address:  0x021BD404
  * packet:   pkt_ov208_021BD404
  * region:   ov208
@@ -31,7 +31,7 @@ struct Ov208Mgr {
 
 extern int ZKND_TBAR_GetButtonActorBase(char *p);
 
-struct Ov208Rec *ov208_func_021BD404(struct Ov208Mgr *p, int key)
+struct Ov208Rec *ZKND_TBAR_FindButtonActor(struct Ov208Mgr *p, int key)
 {
     u32 i;
 

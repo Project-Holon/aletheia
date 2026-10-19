@@ -1,5 +1,5 @@
 /*
- * function: func_0215E138
+ * function: SOCLi_WriteBuffer
  * address:  0x0215E138
  * packet:   pkt_ov009_0215E138
  * region:   ov009
@@ -69,7 +69,7 @@ extern int SOCLi_AllocWriteBuffer(void *a, int n, int m, int *out, int f5);
 extern int func_0215E2E4(struct SOCLSocket *socket, unsigned char *buffer, long buffer_len, long wrtbuf_in,
                          unsigned short remote_port, unsigned long remote_ip, long flag_block);
 
-static int func_0215E138(struct SOCLSocket *socket, unsigned char *buffer, long buffer_len,
+static int SOCLi_WriteBuffer(struct SOCLSocket *socket, unsigned char *buffer, long buffer_len,
                          unsigned short remote_port, unsigned long remote_ip, long flag_block)
 {
     int result;

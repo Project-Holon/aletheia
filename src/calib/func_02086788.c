@@ -1,5 +1,5 @@
 /*
- * function: func_02086788
+ * function: OS_AllocFromArenaLo
  * address:  0x02086788
  * packet:   pkt_02086788
  * region:   arm9
@@ -16,7 +16,7 @@ extern u32  func_02086580(u32 a0);
 extern u32  func_0208656C(u32 a0);
 extern void func_02086774(u32 a0, u32 a1);
 
-u32 func_02086788(u32 r7, u32 r6, u32 r5)
+u32 OS_AllocFromArenaLo(u32 r7, u32 r6, u32 r5)
 {
     u32 r0 = func_02086580(r7);
     u32 r1, r2, r4;
