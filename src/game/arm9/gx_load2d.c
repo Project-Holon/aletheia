@@ -13,7 +13,7 @@
  * TwlSDK libgx gx_load2d.o (.comment stamp 4.0.0.1024, dsi/1.1p1).
  * Merged by tools/restructure.py and arm9_lane05 from the src/matched files of these functions.
  *
- symbols:
+ * symbols:
  *   GXi_DmaId          0x020A84C0  data
  *   MI_NDmaCopy        0x0272FB78  arm
  *   MIi_CpuCopy16      0x02082A60  arm
