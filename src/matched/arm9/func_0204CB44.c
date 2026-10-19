@@ -18,7 +18,7 @@
  *   NNSi_G2dSetRndCoreImageProxyVeneer  0x02066748   12 bytes  -- veneer, resolves `veneer`
  *   NNS_G2dBeginRendering  0x02065BD0  168 bytes  -- OPEN, docs/notes/NNS_G2dBeginRendering.c.txt
  *   CLACT_SetupActorDraw  0x0204CBB0  188 bytes  -- closed, resolves `matched`
- *   CLACT_SetOamOffsets  0x0204BA7C  112 bytes  -- closed, resolves `matched`
+ *   CLACT_SetPaletteBaseOffsets  0x0204BA7C  112 bytes  -- closed, resolves `matched`
  *   CLACT_ApplyActorTransform  0x0204CC6C  584 bytes  -- OPEN, soft-float, multi-function
  *   NNS_G2dEndRendering  0x02065C78  108 bytes  -- closed, resolves `matched`
  *
@@ -43,7 +43,7 @@
  * is 0x02066998).
  *
  * Per-element teardown.  Guarded by bit 26 of the flag word at +0x60; the
- * two values handed to CLACT_SetOamOffsets are bits 12-15 (narrowed to u8, which
+ * two values handed to CLACT_SetPaletteBaseOffsets are bits 12-15 (narrowed to u8, which
  * is what the otherwise redundant `and r1, r1, #0xff` after the shift pair
  * records) and bit 31 of the same word, read through one load.
  *
@@ -51,7 +51,7 @@
  *   NNSi_G2dSetRndCoreImageProxyVeneer  0x02066748  arm
  *   NNS_G2dBeginRendering  0x02065BD0  arm
  *   CLACT_SetupActorDraw  0x0204CBB0  arm
- *   CLACT_SetOamOffsets  0x0204BA7C  arm
+ *   CLACT_SetPaletteBaseOffsets  0x0204BA7C  arm
  *   CLACT_ApplyActorTransform  0x0204CC6C  arm
  *   NNS_G2dEndRendering  0x02065C78  arm
  *
@@ -80,7 +80,7 @@ struct Rec;
 extern void NNSi_G2dSetRndCoreImageProxyVeneer(int *a0, int a1, int a2);
 extern void NNS_G2dBeginRendering(void *obj);
 extern void CLACT_SetupActorDraw(struct Elem *e, struct Rec *r);
-extern void CLACT_SetOamOffsets(u32 set, u16 bias, u32 v);
+extern void CLACT_SetPaletteBaseOffsets(u32 set, u16 bias, u32 v);
 extern u32  CLACT_ApplyActorTransform(struct Elem *e);
 extern void NNS_G2dEndRendering(u32 a);
 
@@ -92,6 +92,6 @@ void CLACT_DrawActor(struct Elem *e, u32 arg)
     NNSi_G2dSetRndCoreImageProxyVeneer((int *)arg, (int)e->unk1c, (int)e->unk40);
     NNS_G2dBeginRendering((void *)arg);
     CLACT_SetupActorDraw(e, (struct Rec *)arg);
-    CLACT_SetOamOffsets((u32)e->unk40, (u8)e->unk60_c, e->unk60_1f);
+    CLACT_SetPaletteBaseOffsets((u32)e->unk40, (u8)e->unk60_c, e->unk60_1f);
     NNS_G2dEndRendering(CLACT_ApplyActorTransform(e));
 }

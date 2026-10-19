@@ -27,7 +27,7 @@
  *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
- *   BEACON_GetBlock  0x0200C0F0  thumb
+ *   MISC_GetBlock  0x0200C0F0  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   NAMEIN_SETUP_CreateArgs  0x0216BFD4  thumb  ov010
  *   POKE_TOOL_SetPartyValue  0x02017E40  thumb
@@ -97,7 +97,7 @@ extern void *GAME_DATA_GetMyParty(const struct GameData *gameData);
 extern u32 POKEPARTY_GetCount(void *party);
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 extern void *POKEPARTY_GetMember(void *party, u32 index);
-extern void *BEACON_GetBlock(void *saveControl);
+extern void *MISC_GetBlock(void *saveControl);
 extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 paramId, u32 arg);
 extern int *NAMEIN_SETUP_CreateArgs(int kind, int mode, int species, int form, int maxLength, int flags, void *nameSave);
 extern void POKE_TOOL_SetPartyValue(void *mon, u32 paramId, u32 value);
@@ -178,7 +178,7 @@ int SCRCMD_CreateNicknameEvent(void *gameSystem, u16 *result, int partyIndex, in
     work->mode = mode;
     gameData = GAMESYSTEM_GetGameData(work->gameSystem);
     mon = POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), partyIndex);
-    nameSave = BEACON_GetBlock(GAME_DATA_GetSaveControl(gameData));
+    nameSave = MISC_GetBlock(GAME_DATA_GetSaveControl(gameData));
     species = POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_SPECIES, 0);
     traits = POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_FORM, 0) | (POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_GENDER, 0) << 8);
     work->nameIn = (NameInArgs *)NAMEIN_SETUP_CreateArgs(4, 1, species, traits, 0xa, 0, nameSave);

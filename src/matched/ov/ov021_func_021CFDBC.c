@@ -15,7 +15,7 @@
  *   GAME_DATA_GetSaveSyncBlock  0x02012F38  thumb
  *   func_0200973C  0x0200973C  thumb
  *   WORDSET_SetSlotFromMsgE7  0x0201F048  thumb
- *   BMP_OAM_GetRecordValue  0x02025B64  thumb
+ *   NATION_AREA_GetAreaCount  0x02025B64  thumb
  *   func_02008570  0x02008570  thumb
  *   WORDSET_SetSlotFromKeyedMessage  0x0201F094  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
@@ -43,7 +43,7 @@ extern int GAME_DATA_GetSaveSyncBlock(int base);
 extern struct Sub02009470Ent *func_0200973C(struct Sub02009470Obj *obj, int i);
 struct WordSet;
 extern void WORDSET_SetSlotFromMsgE7(struct WordSet *p, u32 i, u32 n);
-extern u8 BMP_OAM_GetRecordValue(u32 v);
+extern u8 NATION_AREA_GetAreaCount(u32 v);
 extern u8 func_02008570(const struct Sub0200852CObj *obj);
 extern void WORDSET_SetSlotFromKeyedMessage(struct WordSet *p, u32 i, u32 a, u32 n);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
@@ -63,7 +63,7 @@ void SCRCMD_SetPartnerWords(void *ws, u32 h, u32 x)
     k = *((u8 *)GAME_DATA_GetSaveSyncBlock(h));
     e = (u32)func_0200973C((struct Sub02009470Obj *)g, x);
     WORDSET_SetSlotFromMsgE7(ws, 0, k);
-    if (BMP_OAM_GetRecordValue(k)) {
+    if (NATION_AREA_GetAreaCount(k)) {
         WORDSET_SetSlotFromKeyedMessage(ws, 1, k, func_02008570((const struct Sub0200852CObj *)e));
     }
     WORDSET_SetSlotMyStatus(ws, 3, GAME_DATA_GetMyStatus((void *)h));

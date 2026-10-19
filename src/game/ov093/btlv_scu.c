@@ -162,8 +162,8 @@
  *   BMP_WIN_GetHeight  0x02045740  arm
  *   gBtlRecFileName  0x021F3ADC  data  a4
  *   MI_CpuCopy8  0x02082D44  arm
- *   BTL_CALC_ActionSetRecordError  0x021D8470  thumb
- *   BTL_CALC_ActionSetRecordReset  0x021D845C  thumb
+ *   BTL_ACTION_SetRecordError  0x021D8470  thumb
+ *   BTL_ACTION_SetRecordReset  0x021D845C  thumb
  *   gBtlAdapterSlots  0x021F6388  data  a4
  *   gBtlAdapterMode  0x021F6384  data  a4
  *   GFL_HEAP_Alloc   0x02030734  arm
@@ -201,12 +201,12 @@
  *   sBtlMsgBuilders  0x021F39D8  data  a4
  *   d_021F39DC  0x021F39DC  data  a4
  *   STRBUF_GetEosChar  0x02045A98  arm
- *   GF_FONT_GetTagChar  0x0201D5C4  thumb
- *   GF_FONT_IsWordSlotTag  0x0201D5CC  thumb
- *   GF_FONT_GetTagParam  0x0201D670  thumb
- *   GF_FONT_GetTagGroup  0x0201D5F4  thumb
- *   GF_FONT_GetTagKind  0x0201D658  thumb
- *   GF_FONT_SkipTag  0x0201D688  thumb
+ *   PRINTSYS_GetTagChar  0x0201D5C4  thumb
+ *   PRINTSYS_IsWordSlotTag  0x0201D5CC  thumb
+ *   PRINTSYS_GetTagParam  0x0201D670  thumb
+ *   PRINTSYS_GetTagGroup  0x0201D5F4  thumb
+ *   PRINTSYS_GetTagKind  0x0201D658  thumb
+ *   PRINTSYS_SkipTag  0x0201D688  thumb
  *   STRBUF_GetChars  0x02045A90  arm
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_SetSlotFromMsgB6 0x0201EF8C thumb
@@ -228,9 +228,9 @@
  *   BTL_MSG_GetUiString  0x021EF694  thumb
  *   BTL_MSG_BuildBallStatusOpen  0x021EF71C  thumb
  *   BTL_MSG_BuildBallStatusRefresh  0x021EF7AC  thumb
- *   GF_FONT_MeasureWidestLine  0x0201D304  thumb  arm9
- *   GF_FONT_CopyLine  0x0201D37C  thumb  arm9
- *   GF_FONT_InitCallerSuppliedArray  0x0201D33C  thumb  arm9
+ *   PRINTSYS_MeasureWidestLine  0x0201D304  thumb  arm9
+ *   PRINTSYS_CopyLine  0x0201D37C  thumb  arm9
+ *   PRINTSYS_InitCallerSuppliedArray  0x0201D33C  thumb  arm9
  */
 #include "btlv_scu_types.h"
 #include "btlv_core_types.h"
@@ -417,9 +417,9 @@ extern int PALANM_RequestFade(void *slots, u16 mode, u16 mask, s16 start, u8 end
 extern u32 PALANM_GetFadeRequestBits(const char *slots);
 extern u32 BMP_GetByteSize(const struct Bmp *bmp);
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
-extern u32 GF_FONT_InitCallerSuppliedArray(struct MsgBuf *buf, void *font, u32 start, u32 *widths, u32 max);
-extern u32 GF_FONT_MeasureWidestLine(struct MsgBuf *buf, void *font, u32 start);
-extern u32 GF_FONT_CopyLine(struct MsgBuf *src, struct MsgBuf *dst, u32 line);
+extern u32 PRINTSYS_InitCallerSuppliedArray(struct MsgBuf *buf, void *font, u32 start, u32 *widths, u32 max);
+extern u32 PRINTSYS_MeasureWidestLine(struct MsgBuf *buf, void *font, u32 start);
+extern u32 PRINTSYS_CopyLine(struct MsgBuf *src, struct MsgBuf *dst, u32 line);
 extern void MI_CpuFill8(void *dst, u8 value, u32 size);
 extern void *BTL_SIDE_GetSlotOfClientThunk(struct BtlMonTable *monTable, int clientIndex);
 extern u8 BTL_SLOT_GetCount(void *party);
@@ -3061,7 +3061,7 @@ void BTLV_SCU_DrawNamePlate(BtlvScuNamePlate *plate)
     MIi_CpuCopy32(plate->scu->nameGfx->pixels + plate->sideIdx * 0x900, pixels, size);
     GF_FONT_SetTextColor(1, 2, 0);
     BTL_MSG_FormatArgs(scu->wordBuf0, 0x67, 2, plate->pokeId, plate->speciesId);
-    if ((u8)GF_FONT_InitCallerSuppliedArray(scu->wordBuf0, scu->fontSub, 0, widths, 2) > 1) {
+    if ((u8)PRINTSYS_InitCallerSuppliedArray(scu->wordBuf0, scu->fontSub, 0, widths, 2) > 1) {
         width = widths[0];
         edge = width + 8;
         right = 0x84 - widths[1];
@@ -3077,12 +3077,12 @@ void BTLV_SCU_DrawNamePlate(BtlvScuNamePlate *plate)
         left = left - width;
         if (left < 0) left = 0;
         if (right < 0) right = 0;
-        GF_FONT_CopyLine(scu->wordBuf0, scu->wordBuf1, 0);
+        PRINTSYS_CopyLine(scu->wordBuf0, scu->wordBuf1, 0);
         PRINTSYS_Print(plate->bmp, left, 7, scu->wordBuf1, scu->fontSub);
-        GF_FONT_CopyLine(scu->wordBuf0, scu->wordBuf1, 1);
+        PRINTSYS_CopyLine(scu->wordBuf0, scu->wordBuf1, 1);
         PRINTSYS_Print(plate->bmp, right, 18, scu->wordBuf1, scu->fontSub);
     } else {
-        center = (0x88 - GF_FONT_MeasureWidestLine(scu->wordBuf0, scu->fontSub, 0)) / 2;
+        center = (0x88 - PRINTSYS_MeasureWidestLine(scu->wordBuf0, scu->fontSub, 0)) / 2;
         if ((int)center < 0) center = 0;
         PRINTSYS_Print(plate->bmp, center, 18, scu->wordBuf0, scu->fontSub);
     }

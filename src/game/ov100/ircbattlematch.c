@@ -54,7 +54,7 @@
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   MATH_CountPopulation 0x02080D24 arm
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
- *   GAME_DATA_GetPlayerStatusById 0x02012950 thumb
+ *   GAME_DATA_GetMyStatusPlayer 0x02012950 thumb
  *   MYSTATUS_Copy 0x02008494 thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   MET_TRAINERS_GetFromSave 0x0200ED48 thumb
@@ -394,7 +394,7 @@ extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 s
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern unsigned char MATH_CountPopulation(unsigned x);
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern struct Rec44 *GAME_DATA_GetPlayerStatusById(struct Sub24 *p, u32 i);
+extern struct Rec44 *GAME_DATA_GetMyStatusPlayer(struct Sub24 *p, u32 i);
 extern void MYSTATUS_Copy(void *src, void *dst);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *MET_TRAINERS_GetFromSave(void *p);
@@ -750,7 +750,7 @@ void IRCBATTLEMATCH_RecvMyStatusHandler(int aid,int size,int data,IrcBattleMatch
  int record;
  int saveData;
  if(handle==(int)GFL_NET_HANDLE_GetCurrentHandle()) {
-  record=(int)GAME_DATA_GetPlayerStatusById((struct Sub24 *)work->param->gameData,aid);
+  record=(int)GAME_DATA_GetMyStatusPlayer((struct Sub24 *)work->param->gameData,aid);
   MYSTATUS_Copy((void *)data,(void *)record);
   saveData=(int)MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)work->param->gameData));
  MET_TRAINERS_Insert((struct L0200ED54 *)saveData,MYSTATUS_GetId((const struct Sub0200852CObj *)record));
@@ -770,7 +770,7 @@ void IRCBATTLEMATCH_RecvTrainerInfoHandler(int aid,int size,int data,IrcBattleMa
  void *records = work->param->gameData;
  if (handle == (int)GFL_NET_HANDLE_GetCurrentHandle()) {
   if (aid != GFL_NET_SYSTEM_GetCurrentAid()) {
-   int record = (int)GAME_DATA_GetPlayerStatusById((struct Sub24 *)records,aid);
+   int record = (int)GAME_DATA_GetMyStatusPlayer((struct Sub24 *)records,aid);
    work->regulationResult = WIFILIST_InsertFriend(records,(void *)record,(void *)data,(void *)(work->heapId));
   }
  }

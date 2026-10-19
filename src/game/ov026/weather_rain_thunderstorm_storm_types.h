@@ -139,10 +139,10 @@ extern void WEATHER_TASK_PlaySeDirect(WeatherTaskSys *task, int seId);
 extern void WEATHER_TASK_PlaySeWithVoice(WeatherTaskSys *task, int seId, int who);
 extern int WEATHER_TASK_IsLightFlashing(WeatherTaskSys *task);
 extern void WEATHER_TASK_SetBillboardVisible(WeatherTaskSys *task, unsigned int value, int layer);
-extern void WEATHER_TASK_SetBillboardParam14(WeatherTaskSys *task, unsigned int value, int layer);
-extern void WEATHER_TASK_SetBillboardParam18(WeatherTaskSys *task, unsigned int value, int layer);
-extern void WEATHER_TASK_SetBillboardParam0C(WeatherTaskSys *task, unsigned int value, int layer);
-extern void WEATHER_TASK_SetBillboardParam10(WeatherTaskSys *task, unsigned int value, int layer);
+extern void WEATHER_TASK_SetBillboardScaleX(WeatherTaskSys *task, unsigned int value, int layer);
+extern void WEATHER_TASK_SetBillboardScaleY(WeatherTaskSys *task, unsigned int value, int layer);
+extern void WEATHER_TASK_SetBillboardTexOffsetX(WeatherTaskSys *task, unsigned int value, int layer);
+extern void WEATHER_TASK_SetBillboardTexOffsetY(WeatherTaskSys *task, unsigned int value, int layer);
 
 /* Arm9 services. */
 extern u16 ZONEDATA_GetLightTableMember(u32 i);

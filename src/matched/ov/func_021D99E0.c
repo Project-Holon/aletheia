@@ -1,5 +1,5 @@
 /*
- * function: HAND_TOKUSEI_StatLossGuard_BlockTargetedB
+ * function: HAND_TOKUSEI_ShieldDust_BlockTargetedB
  * address:  0x021D99E0
  * packet:   pkt_021D8684
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   HAND_TOKUSEI_StatLossGuard_BlockTargetedB   0x021D99E0  thumb
+ *   HAND_TOKUSEI_ShieldDust_BlockTargetedB   0x021D99E0  thumb
  *   BTL_EVENT_OverwriteVar   0x021D76BC  thumb
  *   BTL_EVENT_GetVar   0x021D775C  thumb
  * Leaf with no calls and no pool; 10 instructions, 24 bytes: push {r4, lr}; movs r0, #4; adds r4, r2, #0; bl BTL_EVENT_GetVar; cmp r4, r0; bne loc_021D99F6; movs r0, #0x47; movs r1, #1; bl BTL_EVENT_OverwriteVar; pop {r4, pc}.
@@ -24,7 +24,7 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021D99E0  shape F1: gate on BTL_EVENT_GetVar(4) */
-void HAND_TOKUSEI_StatLossGuard_BlockTargetedB(int a, int b, int c)
+void HAND_TOKUSEI_ShieldDust_BlockTargetedB(int a, int b, int c)
 {
     if (c == BTL_EVENT_GetVar(4))
         BTL_EVENT_OverwriteVar(0x47, 1);

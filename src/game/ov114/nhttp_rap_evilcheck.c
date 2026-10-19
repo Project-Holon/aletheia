@@ -13,7 +13,7 @@
  * Cut from nhttp_rap.c by tools/splitfile.py.
  *
  * symbols:
- *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GF_PANIC_Fail 0x02034714 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   GFL_HEAP_Free 0x020307B0 arm
  *   MI_CpuCopy8 0x02082D44 arm
@@ -26,15 +26,15 @@
  *   GFL_HEAP_Alloc  0x02030734  arm  arm9
  *   MYSTATUS_GetName  0x020084F4  thumb  arm9
  *   MYSTATUS_GetId  0x02008530  thumb  arm9
- *   MYSTATUS_GetLanguage  0x0200856C  thumb  arm9
- *   MYSTATUS_GetVersion  0x02008570  thumb  arm9
+ *   MYSTATUS_GetNation  0x0200856C  thumb  arm9
+ *   MYSTATUS_GetArea  0x02008570  thumb  arm9
  */
 #include "nhttp_types.h"
 #include "nhttp_rap_types.h"
 
 struct MYSTATUS;
 
-extern void SAVEDATA_PanicFail(const char *,u32,const char *);
+extern void GF_PANIC_Fail(const char *,u32,const char *);
 
 extern void MI_CpuFill8(void *,int,unsigned);
 
@@ -44,9 +44,9 @@ extern u32 GFL_HEAP_Free(void *p);
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
-extern u8 MYSTATUS_GetLanguage(const struct MYSTATUS *mystatus_p);
+extern u8 MYSTATUS_GetNation(const struct MYSTATUS *mystatus_p);
 
-extern u8 MYSTATUS_GetVersion(const struct MYSTATUS *mystatus_p);
+extern u8 MYSTATUS_GetArea(const struct MYSTATUS *mystatus_p);
 
 extern u32 MYSTATUS_GetId(const struct MYSTATUS *mystatus_p);
 
@@ -93,10 +93,10 @@ void *NHTTP_RAP_EvilCheckCryptoAlloc(int size)
 {
     void *p;
     if (sNHTTPRapCryptoHeapId == 0xffff)
-        SAVEDATA_PanicFail(sNHTTPRapEvilCheckEmptyString, 0, sNHTTPRapEvilCheckEmptyString);
+        GF_PANIC_Fail(sNHTTPRapEvilCheckEmptyString, 0, sNHTTPRapEvilCheckEmptyString);
     p = GFL_HEAP_Alloc(sNHTTPRapCryptoHeapId, size, 0, sNHTTPRapEvilCheckFileName, 0xe9);
     if (p == 0)
-        SAVEDATA_PanicFail(sNHTTPRapEvilCheckEmptyString, 0, sNHTTPRapEvilCheckEmptyString);
+        GF_PANIC_Fail(sNHTTPRapEvilCheckEmptyString, 0, sNHTTPRapEvilCheckEmptyString);
     return p;
 }
 
@@ -110,8 +110,8 @@ void NHTTP_RAP_InitTrainerInfo(NHTTPRapTrainerInfo *info_p, const struct MYSTATU
     MI_CpuFill8(info_p, 0, 0x64);
     info_p->packetType = 0x15;
     info_p->version = 2;
-    info_p->language = MYSTATUS_GetLanguage(mystatus_p);
-    info_p->romVersion = MYSTATUS_GetVersion(mystatus_p);
+    info_p->language = MYSTATUS_GetNation(mystatus_p);
+    info_p->romVersion = MYSTATUS_GetArea(mystatus_p);
     info_p->trainerId = MYSTATUS_GetId(mystatus_p);
     WORDSET_CopyString(MYSTATUS_GetName(mystatus_p), info_p->name, 8);
     info_p->reserved18 = 0;

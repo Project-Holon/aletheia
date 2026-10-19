@@ -31,7 +31,7 @@
  *   MYSTERY_UTIL_CreateMenuWindow 0x021D9CA4 thumb ov121
  *   MYSTERY_UTIL_DrawMenuWindow 0x021D9FFC thumb ov121
  *   func_0207D63C 0x0207D63C arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   MYSTERY_TaskReceive 0x021D73DC thumb ov121
  *   func_020307B0 0x020307B0 arm
@@ -76,7 +76,7 @@ extern void MYSTERY_CreateClact(char *p, void *owner, u16 heap);
 extern void *MYSTERY_UTIL_CreateMenuWindow(int a, u8 b, void *c, void *d, u16 heap);
 extern void MYSTERY_UTIL_DrawMenuWindow(u8 *p, int a, int b);
 extern void func_0207D63C(void *,int,int,int,int);
-extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
 extern void MYSTERY_TaskReceive(void *task, u32 *state, u8 *p);
 extern u32 func_020307B0(void *p);
@@ -133,7 +133,7 @@ void MYSTERY_TaskNetExit(void *task,u32 *state,u8 *p)
         ((struct Obj00533 *)p)->f284=MYSTERY_UTIL_CreateMenuWindow(1,15,((struct Obj00533 *)p)->f39C,((struct Obj00533 *)p)->f398,29);
         MYSTERY_UTIL_DrawMenuWindow(((struct Obj00533 *)p)->f284,10,14);
         func_0207D63C((void *)0x04000050,4,24,15,3);
-        GFL_NET_RestartWithDefaultTimeout(1,29);
+        GFL_NET_RefreshWmIconAtTopRight(1,29);
         GFL_USE_CancelChangeAndPlayBgm(1154,65535);
         MYSTERY_SetScrollParam((unsigned int *)(p+312),1);
         *state=4; return;

@@ -3,7 +3,7 @@
  * the C.
  *
  * unit:     yes
- * function: BMP_OAM_GetRecordField
+ * function: NATION_AREA_GetAreaMsgBankByIndex
  * address:  0x02025BA0
  * packet:   pkt_02025774
  * region:   arm9
@@ -39,7 +39,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/pending/sub_02025BA0.c \
- *       --func BMP_OAM_GetRecordField --addr 0x02025BA0 --cc 1.1p1 --thumb
+ *       --func NATION_AREA_GetAreaMsgBankByIndex --addr 0x02025BA0 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -48,7 +48,7 @@ typedef unsigned int   u32;
 
 extern const u8 sub_02025BA0_Table[];
 
-u32 BMP_OAM_GetRecordField(u32 idx)
+u32 NATION_AREA_GetAreaMsgBankByIndex(u32 idx)
 {
     if (idx < 0x13) {
         return *(const u16 *)(sub_02025BA0_Table + idx * 0xc);

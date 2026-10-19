@@ -70,9 +70,14 @@ def header_rows(raw):
 ROWDEF = {}   # address -> files defining a function whose header row gives that address
 
 
+# Regions whose files live in another region's folder: ov230d is the decrypted
+# view of overlay 230 (tools/ovcrypt.py), and its functions are in src/game/ov230.
+TREE_DIR = {'ov230d': 'ov230'}
+
+
 def tree_files(tree, region):
     """Paths of the .c files under tree/region (scratch files starting with _ left out)."""
-    for dp, _dn, fn in os.walk(os.path.join(tree, region)):
+    for dp, _dn, fn in os.walk(os.path.join(tree, TREE_DIR.get(region, region))):
         for f in fn:
             if f.endswith('.c') and not f.startswith('_'):
                 yield os.path.join(dp, f)
@@ -169,7 +174,7 @@ def placed_functions(path, region):
 def file_starts(tree, region):
     """Sorted [(header address, path)] of the top-level files of tree/region."""
     out = []
-    base = os.path.join(tree, region)
+    base = os.path.join(tree, TREE_DIR.get(region, region))
     for p in tree_files(tree, region):
         if os.path.normpath(os.path.dirname(p)) != os.path.normpath(base):
             continue
@@ -200,6 +205,8 @@ def main():
     a = ap.parse_args()
     idx = rs.shard_index()
     regions = a.region or sorted(d for d in os.listdir(a.tree) if os.path.isdir(os.path.join(a.tree, d)))
+    if not a.region:
+        regions += sorted(r for r in TREE_DIR if any(k[0] == r for k in idx))
     tot_missing = tot_dup = tot_ok = 0
     for region in regions:
         # Linker veneers are linker output, not source: a src/matched entry

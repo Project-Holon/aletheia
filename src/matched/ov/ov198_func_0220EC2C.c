@@ -1,5 +1,5 @@
 /*
- * function: B_PLIST_DRAW_LayoutMode2
+ * function: B_PLIST_DRAW_LayoutSummaryPage
  * address: 0x0220EC2C
  * packet: pkt_ov198_0220EC2C
  * region: ov198
@@ -35,7 +35,7 @@ struct Vec2;
 extern void B_PLIST_DRAW_SetActorAnim(int mode, u8 *p, const struct Vec2 *q);
 extern void B_PLIST_DRAW_SwapActorPair(char *,u8 *,Pair *);
 extern void B_PLIST_DRAW_SetActorAnimByMode(u32 mode, u8 *p, const struct Vec2 *q);
-void B_PLIST_DRAW_LayoutMode2(u8 *p)
+void B_PLIST_DRAW_LayoutSummaryPage(u8 *p)
 {
     int i;
     u8 *rec;

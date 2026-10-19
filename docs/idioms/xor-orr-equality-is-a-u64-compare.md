@@ -1,5 +1,8 @@
 # eors, eors, orrs, beq equality over two words is a u64 compare
 
+summary: A two-word equality that compiles to `eors, eors, orrs, beq` is a u64 compare. Write
+`*(u64 *)q != id` and the u64 store.
+
 Symptom: a two-word equality test compiles to `eors a,x; eors b,y; orrs; beq` and no source built from
 `(w0 ^ x) | (w1 ^ y)` or `a != x || b != y` reproduces the load and register order.
 

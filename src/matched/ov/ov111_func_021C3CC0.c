@@ -25,7 +25,7 @@
  *   PMS_DRAW_Create  0x0202DB0C  thumb
  *   func_020056A0  0x020056A0  thumb
  *   TCBL_Create  0x0203101C  arm
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   WIPE_SYS_Start  0x0202208C  thumb
  *   VIEWER_MAIN_LoadResources  0x021C41C4  thumb  ov111
  *   VIEWER_MAIN_InitBg  0x021C43E8  thumb  ov111
@@ -135,7 +135,7 @@ extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern struct PmsDraw *PMS_DRAW_Create(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
 extern void *func_020056A0(void (*cb)(void *, Work *), void *ctx, int pri);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern void VIEWER_MAIN_LoadResources(Work *p);
 extern void VIEWER_MAIN_InitBg(void);
@@ -224,7 +224,7 @@ int VIEWER_MAIN_Create(void *man, int *state, Args *args)
     VIEWER_MAIN_Draw(p);
     p->f31F4 = func_020056A0(VIEWER_MAIN_VBlank, p, 1);
     p->f31F8 = TCBL_Create(p->heap, p->heap, 3, 0);
-    GFL_NET_RestartWithDefaultTimeout(1, p->heap);
+    GFL_NET_RefreshWmIconAtTopRight(1, p->heap);
     WIPE_SYS_Start((void *)1, 3, 3, 0, 6, 1, p->heap);
     return 1;
 }

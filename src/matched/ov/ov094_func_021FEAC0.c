@@ -16,19 +16,19 @@
  * is spilled at entry and reloaded, as the image does).
  *
  * Blocker: two unlabelled arm9 Thumb leaves (relocation wildcards, no
- * witness outside the range): MCSS_SetSysParam (0x020163B0) and MCSS_SetSysFlag
+ * witness outside the range): MCSS_SetDepthStep (0x020163B0) and MCSS_SetNearDepthRange
  * (0x020163B4).  Both are the integrator's; verified C (one --thumb, no --region,
  * EXACT each):
- *     void MCSS_SetSysParam(char *p, int v) { *(int *)(p + 0x48) = v; }
+ *     void MCSS_SetDepthStep(char *p, int v) { *(int *)(p + 0x48) = v; }
  *     typedef struct { char pad[0x2c]; unsigned int b0 : 1; unsigned int b1 : 1; } Obj;
- *     void MCSS_SetSysFlag(Obj *p, int v) { p->b1 = v; }
+ *     void MCSS_SetNearDepthRange(Obj *p, int v) { p->b1 = v; }
  * Re-run this file once layout/matched/arm9 shards for both exist.
  *
  * symbols:
  *   func_02030734  0x02030734  arm
  *   MCSS_Init  0x02014B08  thumb
- *   MCSS_SetSysParam  0x020163B0  thumb
- *   MCSS_SetSysFlag  0x020163B4  thumb
+ *   MCSS_SetDepthStep  0x020163B0  thumb
+ *   MCSS_SetNearDepthRange  0x020163B4  thumb
  *   gBtlvMcssSourceFileName     0x0220AE7C  data   ov094
  */
 typedef unsigned short u16;
@@ -62,8 +62,8 @@ typedef struct {
 extern char gBtlvMcssSourceFileName[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *MCSS_Init(u32 id, void *heap);
-extern void MCSS_SetSysParam(char *p, int v);
-extern void MCSS_SetSysFlag(void *o, int v);
+extern void MCSS_SetDepthStep(char *p, int v);
+extern void MCSS_SetNearDepthRange(void *o, int v);
 
 Work *BTLV_MCSS_Create(int mode, int a1, u16 a2)
 {
@@ -76,8 +76,8 @@ Work *BTLV_MCSS_Create(int mode, int a1, u16 a2)
     w->cb = (int *)a1;
     w->heap = a2;
     v += 0xf2;
-    MCSS_SetSysParam(w->obj, v);
-    MCSS_SetSysFlag(w->obj, 1);
+    MCSS_SetDepthStep(w->obj, v);
+    MCSS_SetNearDepthRange(w->obj, 1);
     w->active = 1;
     w->scaleEven = 0x1000;
     w->scaleOdd = 0x1000;

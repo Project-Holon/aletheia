@@ -148,7 +148,7 @@
  *   PALANM_AllocSlotBuffers  0x0202155C  thumb  arm9
  *   PALANM_FreeSlotBuffers  0x020215A0  thumb  arm9
  *   PALANM_CopyHwPaletteToSlot  0x020216D4  thumb  arm9
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm  arm9
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm  arm9
  *   BMP_WIN_Exit  0x020450C8  arm  arm9
  *   CLACT_ReleaseCharacter  0x0204A8D4  arm  arm9
  *   CLACT_ReleasePalette  0x0204ADA4  arm  arm9
@@ -305,7 +305,7 @@ struct Entry021C3260 {
 
 typedef struct { unsigned short x, y; } Pos;
 
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 
@@ -3362,7 +3362,7 @@ void RESEARCH_LIST_UpdateCenterActor(void *list)
 
 void RESEARCH_LIST_RestartNetwork(u32 list)
 {
-    GFL_NET_RestartWithDefaultTimeout(1, ((struct ResearchTop *)list)->heapId);
+    GFL_NET_RefreshWmIconAtTopRight(1, ((struct ResearchTop *)list)->heapId);
 }
 
 void RESEARCH_LIST_RegisterVBlank(char *list)

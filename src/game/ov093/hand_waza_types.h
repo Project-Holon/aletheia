@@ -214,7 +214,7 @@ typedef struct {
 
 extern int BTL_SERVER_FLOW_GetFieldSituationType(struct BtlServerFlow *flow);
 
-extern int BTL_FIELD_GetStaticSlotObject(int fieldEffectId);
+extern int BTL_FIELD_IsStaticSlotInUse(int fieldEffectId);
 
 extern u16 BTL_POKEPARAM_GetTypePair(struct BtlPokeParam *bpp);
 

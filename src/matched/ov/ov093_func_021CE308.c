@@ -13,7 +13,7 @@
  *   BTL_CLIENT_BuildSlotChoices  0x021D0B10  thumb  ov093
  *   BTL_CLIENT_ClearSlotFlags  0x021CF41C  thumb  ov093
  *   BTL_CLIENT_ClearSlotLinkWords  0x021CF360  thumb  ov093
- *   BTL_CALC_ActionSetNone  0x021D8434  thumb  ov093
+ *   BTL_ACTION_SetNone  0x021D8434  thumb  ov093
  *   BTL_SIDE_GetClientPokeParam  0x021B990C  thumb  ov093
  *   BTL_CLIENT_IsActionForced  0x021CF470  thumb  ov093
  *   BTL_CLIENT_SetSubFn  0x021CE150  thumb  ov093
@@ -28,7 +28,7 @@ typedef struct { u8 a : 2; u8 f : 1; } Flags;
 extern void BTL_CLIENT_BuildSlotChoices(u8 *p, u32 a, u32 b, void *q, void *out);
 extern void BTL_CLIENT_ClearSlotFlags(u8 *p);
 extern void BTL_CLIENT_ClearSlotLinkWords(u8 *p);
-extern void BTL_CALC_ActionSetNone(u32 *p);
+extern void BTL_ACTION_SetNone(u32 *p);
 extern void *BTL_SIDE_GetClientPokeParam(char *p, unsigned int i, unsigned int j);
 extern u32 BTL_CLIENT_IsActionForced(u8 *p, void *q, u8 *o);
 extern void BTL_CLIENT_SetSubFn(u8 *p, void *q);
@@ -46,7 +46,7 @@ u32 BTL_CLIENT_InitActionSelection(u8 *p)
     BTL_CLIENT_ClearSlotFlags(p);
     BTL_CLIENT_ClearSlotLinkWords(p);
     for (i = 0; i < 3; i++) {
-        BTL_CALC_ActionSetNone((u32 *)(p + 0x124 + i * 4));
+        BTL_ACTION_SetNone((u32 *)(p + 0x124 + i * 4));
     }
     for (i = 0; i < p[0x11c]; i++) {
         w = (u32)BTL_SIDE_GetClientPokeParam((char *)(((struct Obj03688 *)p)->f4), p[0x1a6], (u8)i);

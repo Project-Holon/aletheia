@@ -26,7 +26,7 @@
  *   GF_FONT_SetDefaultTextColor 0x0201DD68 thumb
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   FIELD_SUBSCREEN_LoadBackdrop 0x021A12D4 thumb ov021
  *   FIELD_SUBSCREEN_ResumeField 0x021A0FB4 thumb ov021
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
@@ -40,7 +40,7 @@
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
- *   MYSTATUS_GetOutfitVariant 0x02008550 thumb
+ *   MYSTATUS_GetSex 0x02008550 thumb
  *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_RegisterObjCharFromHandle 0x02049740 arm
  *   ARC_UTIL_UploadBgPaletteAddFromHandle 0x02049990 arm
@@ -147,7 +147,7 @@ extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int 
 extern void GF_FONT_SetDefaultTextColor(void);
 extern struct MsgBank *MSGDATA_CreateFromArchive(unsigned int resident, unsigned int arcId, unsigned int fileId, unsigned int heapId);
 extern struct PrintQue *PRINTSYS_QUE_Create(unsigned int heapId);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void FIELD_SUBSCREEN_LoadBackdrop(FieldSubscreen *subscreen, u32 heapId);
 extern void FIELD_SUBSCREEN_ResumeField(FieldSubscreen *subscreen, u32 heapId);
 extern void PRINTSYS_QUE_Clear(struct PrintQue *printQue);
@@ -161,7 +161,7 @@ extern void BG_SYS_PushTile(u32 layer);
 extern struct ArcHandle *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 extern struct GameData *GAMESYSTEM_GetGameData(const void *gameSystem);
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
-extern u8 MYSTATUS_GetOutfitVariant(const struct MyStatus *myStatus);
+extern u8 MYSTATUS_GetSex(const struct MyStatus *myStatus);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(struct ArcHandle *arc, u32 fileId, u32 bgId, u32 offset, u32 compressed, u32 heapId);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(struct ArcHandle *arc, u32 fileId, u32 layer, u32 ofs, u32 size, u32 heap);
 extern void ARC_UTIL_UploadBgPaletteAddFromHandle(struct ArcHandle *arc, u32 fileId, u32 layer, u32 ofs, u32 chrOfs, u32 size, u32 heapID,
@@ -276,7 +276,7 @@ void C_GEAR_POWER_ONOFF_InitScreen(CGearPowerOnOffWork *work, u16 heapId)
     C_GEAR_POWER_ONOFF_InitBgs(work, heapId);
     C_GEAR_POWER_ONOFF_CreateTaskMenuRes(work, heapId);
     C_GEAR_POWER_ONOFF_InitWindows(work, heapId);
-    GFL_NET_RestartWithDefaultTimeout(0, heapId);
+    GFL_NET_RefreshWmIconAtTopRight(0, heapId);
     FIELD_SUBSCREEN_LoadBackdrop(work->subscreen, heapId);
 }
 
@@ -309,7 +309,7 @@ void C_GEAR_POWER_ONOFF_InitBgs(CGearPowerOnOffWork *work, u32 heapId)
     BG_SYS_PushTile(4);
     BG_SYS_SetPlaneVisible((u8)4, 1);
     arc = ARC_TOOL_CreateHandle(0x1E, heapId);
-    i = MYSTATUS_GetOutfitVariant(GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(work->gameSystem)));
+    i = MYSTATUS_GetSex(GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(work->gameSystem)));
     ARC_UTIL_UploadPaletteFromHandleWhole(arc, sBgPaletteFileIds[i], 4, 0, 1, heapId);
     charAlloc = ARC_UTIL_RegisterObjCharFromHandle(arc, sBgCharFileIds[i], 6, 0, 0, heapId);
     work->bgCharAlloc = charAlloc;

@@ -51,8 +51,8 @@
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   GFL_HEAP_Free  0x020307B0  arm
  *   GAME_DATA_GetIntrudeIdByte            0x0215841C  thumb  ov010
- *   SAVEDATA_PanicFail            0x02034714  arm
- *   ZONEDATA_IsZone117  0x02013D5C  thumb
+ *   GF_PANIC_Fail            0x02034714  arm
+ *   ZONEDATA_IsEntralink  0x02013D5C  thumb
  *   INTRUDE_COMM_HasResult  0x02175DA8  thumb  ov011
  *   INTRUDE_COMM_IsSessionAccepted  0x02175B8C  thumb  ov011
  *   WORDSET_CreateDefault  0x0201EC64  thumb
@@ -60,10 +60,10 @@
  *   STRBUF_Delete  0x02045808  arm
  *   WORDSET_Delete  0x0201ED04  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   MSGDATA_AllocString  0x02045EC0  arm
  *   GAME_DATA_GetLastBattleRecSlot  0x020127B8  thumb
- *   GAME_DATA_GetPlayerStatusById  0x02012950  thumb
+ *   GAME_DATA_GetMyStatusPlayer  0x02012950  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
@@ -109,7 +109,7 @@
  *   INTRUDE_COMM_ClearNotice  0x02175368  thumb  ov011
  *   INTRUDE_COMM_ClearRequestOpen  0x0217545C  thumb ov011
  *   COMM_PLAYER_CheckActive  0x02167A54  thumb ov010
- *   COMM_PLAYER_GetPlayerModel 0x02167A14 thumb ov010
+ *   COMM_PLAYER_GetMmdl 0x02167A14 thumb ov010
  *   MYSTATUS_Copy 0x02008494 thumb
  *   INTRUDE_COMM_IsSessionActive 0x02175B14 thumb ov011
  *   MI_CpuCopy8 0x02082D44 arm
@@ -201,8 +201,8 @@
  *   INTRUDE_COMM_IsValidProfileCode 0x021756D0 thumb ov011
  *   sItemSaleMsgIds     0x021839E0  data  a2
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   BEACON_GetMoney  0x0200C274  thumb
- *   BEACON_SubMoney  0x0200C29C  thumb
+ *   MISC_GetMoney  0x0200C274  thumb
+ *   MISC_SubMoney  0x0200C29C  thumb
  *   MYITEM_SAVEDATA_CanAddItem  0x02007E3C  thumb
  *   sItemPurchaseMsgIds     0x021839A4  data  a2
  *   INTRUDE_SUBDISP_MainRequestAnswerSeq  0x0217C914  thumb  ov018
@@ -396,8 +396,8 @@ extern void *GAMESYSTEM_GetMyPlayerWork(struct GameSystem *gameSystem);
 extern u16 GAME_DATA_GetPlayerZoneId(void *playerWork);
 extern u32 GFL_HEAP_Free(void *memory);
 extern u8 GAME_DATA_GetIntrudeIdByte(struct GameData *gameData);
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
-extern u32 ZONEDATA_IsZone117(u32 zoneId);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
+extern u32 ZONEDATA_IsEntralink(u32 zoneId);
 extern int INTRUDE_COMM_HasResult(IntrudeSession *session);
 extern int INTRUDE_COMM_IsSessionAccepted(IntrudeSession *session);
 extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
@@ -405,10 +405,10 @@ extern void *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(void *strbuf);
 extern unsigned int WORDSET_Delete(void *wordSet);
 extern void *GAME_DATA_GetMyStatus(struct GameData *gameData);
-extern u8 MYSTATUS_GetOutfitVariant(void *myStatus);
+extern u8 MYSTATUS_GetSex(void *myStatus);
 extern void *MSGDATA_AllocString(void *msgData, u32 msgId);
 extern void *GAME_DATA_GetLastBattleRecSlot(struct GameData *gameData);
-extern void *GAME_DATA_GetPlayerStatusById(struct GameData *gameData, u32 netId);
+extern void *GAME_DATA_GetMyStatusPlayer(struct GameData *gameData, u32 netId);
 extern void WORDSET_SetSlotMyStatus(void *wordSet, u32 index, void *myStatus);
 extern void MSGDATA_ReadString(void *msgData, u32 msgId, void *dest);
 extern void WORDSET_CopyTaggedText(void *wordSet, void *dest, void *src);
@@ -453,7 +453,7 @@ extern void INTRUDE_COMM_InitRequest(IntrudeCommSys *sys, int netId);
 extern void INTRUDE_COMM_ClearNotice(IntrudeCommSys *sys);
 extern void INTRUDE_COMM_ClearRequestOpen(IntrudeCommSys *sys);
 extern int COMM_PLAYER_CheckActive(struct CommPlayerWork *commPlayer, int netId);
-extern struct FldMmdl *COMM_PLAYER_GetPlayerModel(struct CommPlayerWork *commPlayer, int netId);
+extern struct FldMmdl *COMM_PLAYER_GetMmdl(struct CommPlayerWork *commPlayer, int netId);
 extern void MYSTATUS_Copy(void *src, void *dest);
 extern int INTRUDE_COMM_IsSessionActive(IntrudeSession *session);
 extern void MI_CpuCopy8(const void *src, void *dest, int size);
@@ -503,8 +503,8 @@ int INTRUDE_COMM_SendProfile(u32 netId, void *name);
 void WORDSET_SetSlotFromMsg36(void *wordSet, u32 index, u32 itemId);
 extern int INTRUDE_COMM_IsValidProfileCode(u32 itemId);
 extern void *GAME_DATA_GetMiscSave(struct GameData *gameData);
-extern u32 BEACON_GetMoney(void *miscSave);
-extern u32 BEACON_SubMoney(void *miscSave, u32 amount);
+extern u32 MISC_GetMoney(void *miscSave);
+extern u32 MISC_SubMoney(void *miscSave, u32 amount);
 extern u32 MYITEM_SAVEDATA_CanAddItem(void *myItem, u16 itemId, u16 count, u16 heapId);
 extern int INTRUDE_SUBDISP_MainRequestAnswerSeq(IntrudeCommSys *sys, EventCommCommonWork *work, u8 *answerSeq);
 struct GameEvent *INTRUDE_SUBDISP_CreatePalaceWarpEvent(struct GameSystem *gameSystem);
@@ -762,7 +762,7 @@ void EVENT_COMM_COMMON_PrintMsg(EventCommMsgBox *msgBox, u16 msgId)
 void EVENT_COMM_COMMON_ClearPrintWin(EventCommMsgBox *msgBox)
 {
     if (msgBox->printer == 0) {
-        SAVEDATA_PanicFail(sEmptyTextMsgBox, 0, sEmptyTextMsgBox);
+        GF_PANIC_Fail(sEmptyTextMsgBox, 0, sEmptyTextMsgBox);
     }
     FIELD_MSGBG_ClearSysWin(msgBox->printer);
     msgBox->printing = 0;
@@ -838,7 +838,7 @@ void EVENT_COMM_COMMON_DeleteChoice(EventCommMsgBox *msgBox)
 void EVENT_COMM_COMMON_StartChoice(EventCommMsgBox *msgBox, struct GameSystem *gameSystem)
 {
     GAMESYSTEM_GetFieldMap(gameSystem);
-    if (msgBox->choiceHandle != 0 || msgBox->msgData == 0) SAVEDATA_PanicFail(sEmptyTextMsgBox, 0, sEmptyTextMsgBox);
+    if (msgBox->choiceHandle != 0 || msgBox->msgData == 0) GF_PANIC_Fail(sEmptyTextMsgBox, 0, sEmptyTextMsgBox);
     msgBox->choiceHandle = FIELD_MSGBG_CreateYesNoMenu(msgBox->fieldMsgbg, 0);
 }
 
@@ -846,7 +846,7 @@ void EVENT_COMM_COMMON_StartChoice(EventCommMsgBox *msgBox, struct GameSystem *g
 
 int EVENT_COMM_COMMON_PollChoice(EventCommMsgBox *msgBox)
 {
-    if (msgBox->choiceHandle == 0) SAVEDATA_PanicFail(sEmptyTextMsgBox, 0, sEmptyTextMsgBox);
+    if (msgBox->choiceHandle == 0) GF_PANIC_Fail(sEmptyTextMsgBox, 0, sEmptyTextMsgBox);
     return FIELD_MSGBG_YesNoMenuMain(msgBox->choiceHandle);
 }
 
@@ -856,7 +856,7 @@ void EVENT_COMM_COMMON_SetupListWindowB(EventCommMsgBox *msgBox, struct GameSyst
 {
     GAMESYSTEM_GetFieldMap(gameSystem);
     if (msgBox->listWindowB != 0) {
-        SAVEDATA_PanicFail(sEmptyTextMsgBox, 0, sEmptyTextMsgBox);
+        GF_PANIC_Fail(sEmptyTextMsgBox, 0, sEmptyTextMsgBox);
     }
     msgBox->listWindowB = FIELD_MSGBG_CreateMsgWin(msgBox->fieldMsgbg, msgBox->msgData, (u16)x, (u16)y, width, height);
 }
@@ -925,7 +925,7 @@ int EVENT_COMM_COMMON_GetPeerTalkStatus(IntrudeCommSys *sys, u8 netId)
     objCode = peer->objCode;
     switch (objCode) {
     case 0:
-        if (MYSTATUS_GetOutfitVariant(GAME_DATA_GetPlayerStatusById(GAME_COMM_GetGameData(sys->gameComm), netId)) == 0) {
+        if (MYSTATUS_GetSex(GAME_DATA_GetMyStatusPlayer(GAME_COMM_GetGameData(sys->gameComm), netId)) == 0) {
             return 3;
         }
         return 4;
@@ -1220,7 +1220,7 @@ int EVENT_COMM_COMMON_ReturnPalaceEventMain(struct GameEvent *event, int *seq, v
         (*seq)++;
         break;
     case 1:
-        if (ZONEDATA_IsZone117(GAME_DATA_GetPlayerZoneId(GAMESYSTEM_GetMyPlayerWork(gameSystem))) == 1) {
+        if (ZONEDATA_IsEntralink(GAME_DATA_GetPlayerZoneId(GAMESYSTEM_GetMyPlayerWork(gameSystem))) == 1) {
             GAME_EVENT_CallEvent(event, EVENT_COMM_COMMON_CreateMissionInfoEvent(gameSystem));
         }
         (*seq)++;
@@ -1403,7 +1403,7 @@ void EVENT_COMM_COMMON_InitCommonWork(struct GameSystem *gameSystem, IntrudeComm
     work->heapId = heapId;
     work->playerMmdl = playerMmdl;
     partnerNetId = netId;
-    work->partnerMmdl = COMM_PLAYER_GetPlayerModel(sys->commPlayer, partnerNetId);
+    work->partnerMmdl = COMM_PLAYER_GetMmdl(sys->commPlayer, partnerNetId);
     work->fieldMap = fieldMap;
     work->peerSlot = (u8)netId;
     work->msgIndex = EVENT_COMM_COMMON_GetPeerTalkStatus(sys, (u8)netId);
@@ -1584,7 +1584,7 @@ int EVENT_COMM_COMMON_TalkedEventMain(struct GameEvent *event, int *seq, void *w
     case 0:
         INTRUDE_COMM_ClearRequestResult(sys);
         FLDMMDL_SysPauseMove(FIELDMAP_GetMmdlSys(work->common.fieldMap));
-        WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 0, GAME_DATA_GetPlayerStatusById(gameData, sys->requestTarget));
+        WORDSET_SetSlotMyStatus(work->common.msgBox.wordSet, 0, GAME_DATA_GetMyStatusPlayer(gameData, sys->requestTarget));
         EVENT_COMM_COMMON_PrintMsg(&work->common.msgBox, 1);
         (*seq)++;
         break;
@@ -1707,7 +1707,7 @@ void EVENT_COMM_COMMON_ChangeTalkTypeEvent(struct GameEvent *event, EventCommCom
         EVENT_COMM_COMMON_ChangeTalkMsgEvent(event, copy);
     } else if (talkType >= 3) {
         if (sTalkEventTable[talkType - 8] == 0) {
-            SAVEDATA_PanicFail(sEmptyTextTalkTable, 0, sEmptyTextTalkTable);
+            GF_PANIC_Fail(sEmptyTextTalkTable, 0, sEmptyTextTalkTable);
         }
         sTalkEventTable[work->talkType - 8](event, copy);
     } else {
@@ -1737,7 +1737,7 @@ void EVENT_COMM_COMMON_ChangeTalkedTypeEvent(struct GameEvent *event, EventCommC
         EVENT_COMM_COMMON_ChangeTalkedMsgEvent(event, copy);
     } else if (talkType >= 3) {
         if (sTalkedEventTable[talkType - 8] == 0) {
-            SAVEDATA_PanicFail(sEmptyTextTalkTable, 0, sEmptyTextTalkTable);
+            GF_PANIC_Fail(sEmptyTextTalkTable, 0, sEmptyTextTalkTable);
         }
         sTalkedEventTable[work->talkType - 8](event, copy);
     } else {
@@ -1856,7 +1856,7 @@ int EVENT_COMM_COMMON_MissionResultEventMain(struct GameEvent *event, int *seq, 
             result = INTRUDE_COMM_GetSessionResult(&sys->session);
             battleRec = GAME_DATA_GetLastBattleRecSlot(gameData);
             if (result == 0) {
-                SAVEDATA_PanicFail(sEmptyTextResult, 0, sEmptyTextResult);
+                GF_PANIC_Fail(sEmptyTextResult, 0, sEmptyTextResult);
             }
             work->result = *result;
             work->missionKind = result->record.head.kind;
@@ -1982,7 +1982,7 @@ int EVENT_COMM_COMMON_TalkMsgEventMain(struct GameEvent *event, int *seq, void *
     sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(gameSystem));
     switch (*seq) {
     case 0:
-        WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 0, GAME_DATA_GetPlayerStatusById(gameData, work->peerSlot));
+        WORDSET_SetSlotMyStatus(work->msgBox.wordSet, 0, GAME_DATA_GetMyStatusPlayer(gameData, work->peerSlot));
         EVENT_COMM_COMMON_PrintMsg(&work->msgBox, sTalkMsgIds[work->msgIndex]);
         *seq = *seq + 1;
         break;
@@ -3606,7 +3606,7 @@ int EVENT_COMM_COMMON_ItemPurchaseEventMain(struct GameEvent *event, int *seq, v
         switch (answer) {
         case 0:
             EVENT_COMM_COMMON_DeleteChoice(&work->common.msgBox);
-            if (sale->y > BEACON_GetMoney(GAME_DATA_GetMiscSave(gameData))) {
+            if (sale->y > MISC_GetMoney(GAME_DATA_GetMiscSave(gameData))) {
                 refused = 1;
                 *seq = 5;
             } else if (MYITEM_SAVEDATA_CanAddItem(GAME_DATA_GetMyItem(gameData), sale->x, 1, 0x15) == 0) {
@@ -3628,7 +3628,7 @@ int EVENT_COMM_COMMON_ItemPurchaseEventMain(struct GameEvent *event, int *seq, v
         break;
     case 4:
         if (INTRUDE_COMM_SendReply(sys, sys->requestTarget, 7, sys->sentRequestSeq) == 1) {
-            BEACON_SubMoney(GAME_DATA_GetMiscSave(gameData), sale->y);
+            MISC_SubMoney(GAME_DATA_GetMiscSave(gameData), sale->y);
             MYITEM_SAVEDATA_AddItem(GAME_DATA_GetMyItem(gameData), sale->x, 1, 0x15);
             EVENT_COMM_COMMON_PrintMsg(&work->common.msgBox, sItemPurchaseMsgIds[5][work->common.msgIndex]);
             *seq = 8;
@@ -3702,7 +3702,7 @@ void EVENT_COMM_COMMON_StartMsgEvent(struct GameEvent *event, EventCommCommonWor
         work->msgId = msgIds[src->msgIndex];
         WORDSET_SetSlotMyStatus(src->msgBox.wordSet, 0, src->myStatus);
     } else {
-        SAVEDATA_PanicFail(sEmptyTextA, 0, sEmptyTextA);
+        GF_PANIC_Fail(sEmptyTextA, 0, sEmptyTextA);
     }
 }
 
@@ -3819,7 +3819,7 @@ void EVENT_COMM_COMMON_StartMsgScriptEvent(struct GameEvent *event, EventCommCom
         work->msgId = sMsgIds125[src->msgIndex];
         WORDSET_SetSlotMyStatus(src->msgBox.wordSet, 0, src->myStatus);
     } else {
-        SAVEDATA_PanicFail(sEmptyTextB, 0, sEmptyTextB);
+        GF_PANIC_Fail(sEmptyTextB, 0, sEmptyTextB);
         return;
     }
     if (sys->localPeer.package.zoneId == 2)

@@ -49,7 +49,7 @@
  *   PLIST_MESSAGE_Create  0x021BB594  thumb  ov091
  *   PLIST_MENU_Create  0x021BBA8C  thumb  ov091
  *   BG_SYS_MarkTileDirty  0x02041B6C  arm
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   TCB_DeleteTask  0x02030EAC  arm
  *   PLIST_MENU_DeleteTaskMenuWin  0x021BBE44  thumb  ov091
  *   PLIST_MENU_Delete  0x021BBAE0  thumb  ov091
@@ -383,7 +383,7 @@
  *   GAME_BEACON_SetPokeLevelUp 0x02027268 thumb
  *   gPlistStatParamIds 0x021BECE4 data ov091 a2
  *   BMP_WIN_ClearScreen 0x020456F8 arm
- *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
+ *   PRINTSYS_MeasureWidestLine 0x0201D304 thumb
  *   POKE_TOOL_LearnLevelUpMove 0x02018328 thumb
  *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
@@ -554,7 +554,7 @@ extern int GFL_USE_AddMainTask(void (*cb)(void *, PokelistWork *), PokelistWork 
 extern u32 *PLIST_MESSAGE_Create(PokelistWork *work);
 extern u32 *PLIST_MENU_Create(PokelistWork *work);
 extern void BG_SYS_MarkTileDirty(u32 id);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void TCB_DeleteTask(struct Node *n);
 extern void PLIST_MENU_DeleteTaskMenuWin(int x);
 extern void PLIST_MENU_Delete(PokelistWork *work, unsigned char *b);
@@ -1132,7 +1132,7 @@ int POKELIST_InitWork(PokelistWork *work)
     BG_SYS_MarkTileDirty(3);
     BG_SYS_MarkTileDirty(2);
     BG_SYS_MarkTileDirty(7);
-    GFL_NET_RestartWithDefaultTimeout(1, work->heapId);
+    GFL_NET_RefreshWmIconAtTopRight(1, work->heapId);
     return 1;
 }
 

@@ -18,7 +18,7 @@
  *   BR_UTIL_SetTextFromMessage 0x021FC754 thumb ov186
  *   BR_UTIL_CreateTextWin 0x021FD12C thumb ov186
  *   BR_UTIL_SetWindowText 0x021FD170 thumb ov186
- *   GDS_PROFILE_GetScoreRecTotal 0x0200DABC thumb
+ *   BSUBWAY_SCOREDATA_GetBattlePoints 0x0200DABC thumb
  *   BR_RES_GetSprite 0x021FC124 thumb ov186
  *   BR_CODEIN_ListCreateActor 0x021DE084 thumb ov183
  *   d_021E3350 0x021E3350 data a4
@@ -41,7 +41,7 @@ extern void BR_UTIL_SetTextLayout(u8 *p, u32 a, u32 b, u32 c);
 extern void BR_UTIL_SetTextFromMessage(char *p, void *a, void *b, void *font, unsigned short value);
 extern void *BR_UTIL_CreateTextWin(int a, void *owner, u16 heap);
 extern void BR_UTIL_SetWindowText(char *p, char *q, void *text);
-extern u16 GDS_PROFILE_GetScoreRecTotal(struct Blk1AC *p);
+extern u16 BSUBWAY_SCOREDATA_GetBattlePoints(struct Blk1AC *p);
 extern int BR_RES_GetSprite(int, int, struct Triple *);
 extern void BR_CODEIN_ListCreateActor(char *p, void *manager, const char *q, unsigned int value, s16 x, s16 y, u16 heap);
 void BR_CODEIN_ListSetupText(char *p, char *q)
@@ -63,7 +63,7 @@ void BR_CODEIN_ListSetupText(char *p, char *q)
     BR_UTIL_SetTextFromMessage(((struct Obj00631 *)p)->f34, (void *)second, (void *)rec->value, (void *)first, 0x3da0);
     ((struct Obj00631 *)p)->f1C = BR_UTIL_CreateTextWin(*(int *)&((struct Obj00632 *)q)->f8, (void *)(*(int *)&((struct Obj00631 *)p)->f4), ((struct Obj00631 *)p)->f7C);
     BR_UTIL_SetWindowText(((struct Obj00631 *)p)->f1C, (char *)(*(int *)&((struct Obj00632 *)q)->f8), (void *)0x86);
-    v = GDS_PROFILE_GetScoreRecTotal((struct Blk1AC *)(((struct Obj00632 *)q)->f10));
+    v = BSUBWAY_SCOREDATA_GetBattlePoints((struct Blk1AC *)(((struct Obj00632 *)q)->f10));
     BR_RES_GetSprite(*(int *)&((struct Obj00632 *)q)->f8, 13, &triple);
     BR_CODEIN_ListCreateActor((void *)(p + 8), (void *)(*(int *)&((struct Obj00632 *)q)->f4), (const char *)(&triple), v, 0x68, 0x58, ((struct Obj00631 *)p)->f7C);
 }

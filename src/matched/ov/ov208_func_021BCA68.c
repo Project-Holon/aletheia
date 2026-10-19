@@ -25,7 +25,7 @@
  *   ZUKAN_DETAIL_COMMON_CreateContext 0x021BC35C thumb
  *   ZUKAN_DETAIL_MAIN_SwitchScreen 0x021BCC84 thumb
  *   FADE_Start 0x0204E720 arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  * 2026-10-02: only ZUKAN_DETAIL_MAIN_NoOp (unlabelled bx lr stub, filed as ZUKAN_DETAIL_MAIN_NoOp.c) lacks a witness; bytes match.
  * Callee ZUKAN_DETAIL_COMMON_CreateContext is declared void in its matched file but returns the new object (caller stores r0).
  */
@@ -61,7 +61,7 @@ struct Ov208Mode;
 struct Ov208Slot;
 extern void ZUKAN_DETAIL_MAIN_SwitchScreen(struct Ov208Mode *m, struct Ov208Slot *s);
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 int ZUKAN_DETAIL_MAIN_Init(void *owner, int unused, struct Ov208Args *args)
 {
     struct Ov208Main *p;
@@ -85,6 +85,6 @@ int ZUKAN_DETAIL_MAIN_Init(void *owner, int unused, struct Ov208Args *args)
     ZUKAN_DETAIL_MAIN_SwitchScreen((struct Ov208Mode *)args, (struct Ov208Slot *)p);
     p->f28 = 0;
     FADE_Start(3, 0, 0, 0);
-    GFL_NET_RestartWithDefaultTimeout(1, p->heap);
+    GFL_NET_RefreshWmIconAtTopRight(1, p->heap);
     return 1;
 }

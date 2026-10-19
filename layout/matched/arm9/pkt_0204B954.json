@@ -109,7 +109,7 @@
    "status": "EXACT"
   },
   {
-   "name": "CLACT_SetOamOffsets",
+   "name": "CLACT_SetPaletteBaseOffsets",
    "address": "0x0204BA7C",
    "kind": "game",
    "region": "arm9",

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "HAND_TOKUSEI_AddCloudNine",
+   "name": "HAND_TOKUSEI_AddNormalize",
    "address": "0x021DA138",
    "kind": "game",
    "region": "ov093",

@@ -19,7 +19,7 @@
  * bounds: selector starts zero and is set only to 1,2,3,4; both tables have five words.
  * symbols:
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
- *   GFL_NET_NotifyUserEvent 0x0203D1E8 arm
+ *   GFL_NET_SetAcceptConnection 0x0203D1E8 arm
  *   WIFICLUBACTOR_GetPickResult 0x021B97F4 thumb ov099
  *   WIFICLUB_FindPeerActor 0x021BE2A8 thumb ov099
  *   WIFICLUBACTOR_GetActorFacing 0x021B9A60 thumb ov099
@@ -42,7 +42,7 @@ typedef struct { int v[5]; } Messages;
 extern Messages d_021C3804, d_021C3818;
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void GFL_NET_NotifyUserEvent(u32, void *);
+extern void GFL_NET_SetAcceptConnection(u32, void *);
 extern u8 WIFICLUBACTOR_GetPickResult(struct W *);
 extern void *WIFICLUB_FindPeerActor(char *, int);
 extern unsigned char WIFICLUBACTOR_GetActorFacing(char *p);
@@ -62,7 +62,7 @@ int WIFICLUB_StateShowPartnerStatusMessage(char *p, int ret)
     char *st;
     st = p + 0x24c;
     selector = 0;
-    GFL_NET_NotifyUserEvent((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0);
+    GFL_NET_SetAcceptConnection((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0);
     n = WIFICLUBACTOR_GetPickResult((struct W *)(p + 0x274));
     q = WIFICLUB_FindPeerActor(p, n);
     graphic = WIFICLUBACTOR_GetActorFacing(WIFICLUB_FindPeerActor(p, 0));

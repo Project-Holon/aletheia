@@ -11,10 +11,10 @@
  * symbols:
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
- *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
- *   ZONEDATA_IsZone117  0x02013D5C  thumb
+ *   ZONEDATA_IsEntralink  0x02013D5C  thumb
  *   ZONEDATA_IsZoneGroup118To120  0x02013D9C  thumb
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
@@ -123,11 +123,11 @@ u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct BigObj;
 struct VecFx32;
-u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+u8 GAME_DATA_GetOwnNetId(const struct BigObj *p);
 struct BigObj;
 int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
 void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
-u32 ZONEDATA_IsZone117(u32 id);
+u32 ZONEDATA_IsEntralink(u32 id);
 u32 ZONEDATA_IsZoneGroup118To120(u32 id);
 int GFL_NET_GetNegotiationNum(void);
 void *BMP_WIN_GetBmp(struct Descriptor *a0);
@@ -181,7 +181,7 @@ void INTRUDE_SUBDISP_PrintInfoMessage(W *w, u8 *p, u16 q)
     }
     prev = w->f10D;
     w->f10D = 0;
-    cur = GAME_DATA_GetExitMode(h);
+    cur = GAME_DATA_GetOwnNetId(h);
     if (p != 0 && GFL_NET_GetNegotiationNum() <= 1) {
         off = 0x93A;
         n = p[off - 0x15];
@@ -329,7 +329,7 @@ void INTRUDE_SUBDISP_PrintInfoMessage(W *w, u8 *p, u16 q)
             done = 1;
         }
     }
-    if (done == 0 && GAME_DATA_GetIntrudeCount(h) == 1 && ZONEDATA_IsZone117(q) == 0 && ZONEDATA_IsZoneGroup118To120(q) == 0
+    if (done == 0 && GAME_DATA_GetIntrudeCount(h) == 1 && ZONEDATA_IsEntralink(q) == 0 && ZONEDATA_IsZoneGroup118To120(q) == 0
         && FIELD_PALACE_SYS_IsZoneFlagSet(h, q) == 0) {
         MSGDATA_ReadString((struct MsgBank *)w->f2C, 0x30, w->f3C);
         done = 1;

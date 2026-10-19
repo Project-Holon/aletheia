@@ -33,8 +33,8 @@
  *   FIELD_CAMERA_SetMode  0x0218E13C  thumb  ov021
  *   FIELD_CAMERA_ResumeTargetTrace  0x0218EC60  thumb  ov021
  *   FIELD_CAMERA_ReloadSetting  0x0218E160  thumb  ov021
- *   FIELD_PLAYER_SetNogridParam  0x021A3680  thumb  ov021
- *   FIELD_PLAYER_GetNogridState  0x021A36A4  thumb  ov021
+ *   FIELD_PLAYER_AttachNogridMmdl  0x021A3680  thumb  ov021
+ *   FIELD_PLAYER_GetNogridRailWork  0x021A36A4  thumb  ov021
  *   FIELD_NOGRID_MAPPER_BindCameraWork  0x021BB3AC  thumb  ov021
  *   FIELD_CAMERA_RestartDelay  0x0218F05C  thumb  ov021
  *   FLDMMDL_SetDirDispCheckPause  0x0216D5E0  thumb  ov010
@@ -85,8 +85,8 @@ extern void FIELD_NOGRID_MAPPER_UnbindCameraWork(u8 *p);
 extern void FIELD_CAMERA_SetMode(u8 *a, u32 s);
 extern int FIELD_CAMERA_ResumeTargetTrace(u32 a);
 extern int FIELD_CAMERA_ReloadSetting(u32 a);
-extern void FIELD_PLAYER_SetNogridParam(u8 *p, int a1);
-extern u32 FIELD_PLAYER_GetNogridState(u8 *p);
+extern void FIELD_PLAYER_AttachNogridMmdl(u8 *p, int a1);
+extern u32 FIELD_PLAYER_GetNogridRailWork(u8 *p);
 extern void FIELD_NOGRID_MAPPER_BindCameraWork(u8 *p, u32 b);
 extern void FIELD_CAMERA_RestartDelay(unsigned char *a);
 extern void FLDMMDL_SetDirDispCheckPause(int a0, int a1);
@@ -122,8 +122,8 @@ void FIELDMAP_CTRL_HYBRID_SetMode(void *o, Holder *h, int mode, VecFx32 *pos, u1
         FIELD_CAMERA_ResumeTargetTrace((u32)y);
         FIELD_CAMERA_ReloadSetting((u32)y);
     } else {
-        FIELD_PLAYER_SetNogridParam(h->f04, (int)pos);
-        FIELD_NOGRID_MAPPER_BindCameraWork(x, FIELD_PLAYER_GetNogridState(h->f04));
+        FIELD_PLAYER_AttachNogridMmdl(h->f04, (int)pos);
+        FIELD_NOGRID_MAPPER_BindCameraWork(x, FIELD_PLAYER_GetNogridRailWork(h->f04));
         FIELD_CAMERA_RestartDelay(y);
     }
     FLDMMDL_SetDirDispCheckPause((int)m, e);

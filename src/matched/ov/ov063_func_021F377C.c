@@ -50,8 +50,8 @@
  *   FLDMMDL_SetPos 0x0216D89C thumb ov010
  *   GFL_USE_GetSeSlot 0x02006148 thumb
  *   GFL_USE_StopSeSlot 0x020061F8 thumb
- *   FIELD_PLAYER_GetNogridLocation 0x021A36B0 thumb ov021
- *   FIELD_PLAYER_ClearNogridState 0x021A36D4 thumb ov021
+ *   FIELD_PLAYER_SetNogridRailLocation 0x021A36B0 thumb ov021
+ *   FIELD_PLAYER_GetNogridRailPos 0x021A36D4 thumb ov021
  *   FIELD_NOGRID_MAPPER_SetActive 0x021BB260 thumb ov021
  *   FIELD_NOGRID_MAPPER_UpdateCameraForced 0x021BB388 thumb ov021
  *   FLDMMDL_RAIL_SetLocation 0x0219E2C0 thumb ov021
@@ -106,8 +106,8 @@ extern void FIELD_PLAYER_SetPos(u8 *p, void *v);
 extern void FLDMMDL_SetPos(int,Vec *);
 extern int GFL_USE_GetSeSlot(u32);
 extern void GFL_USE_StopSeSlot(int);
-extern void FIELD_PLAYER_GetNogridLocation(u8 *p, void *r);
-extern void FIELD_PLAYER_ClearNogridState(u8 *p, u32 v);
+extern void FIELD_PLAYER_SetNogridRailLocation(u8 *p, void *r);
+extern void FIELD_PLAYER_GetNogridRailPos(u8 *p, u32 v);
 extern void FIELD_NOGRID_MAPPER_SetActive(int,int);
 extern int FIELD_NOGRID_MAPPER_UpdateCameraForced(void **h);
 extern void FLDMMDL_RAIL_SetLocation(void *a, void *r);
@@ -198,7 +198,7 @@ void RAIL_SLIPDOWN_TaskMain(int unused,S *s)
   break;
  case 8:
   GFL_USE_StopSeSlot(GFL_USE_GetSeSlot(0x6ed));
-  if(s->obj!=0) {FIELD_PLAYER_GetNogridLocation(s->obj,&s->cell);FIELD_PLAYER_ClearNogridState(s->obj,(u32)(&finalpos));FIELD_PLAYER_SetPos(s->obj,&finalpos);FIELD_NOGRID_MAPPER_SetActive(s->scene,1);FIELD_NOGRID_MAPPER_UpdateCameraForced((void **)s->scene);}
+  if(s->obj!=0) {FIELD_PLAYER_SetNogridRailLocation(s->obj,&s->cell);FIELD_PLAYER_GetNogridRailPos(s->obj,(u32)(&finalpos));FIELD_PLAYER_SetPos(s->obj,&finalpos);FIELD_NOGRID_MAPPER_SetActive(s->scene,1);FIELD_NOGRID_MAPPER_UpdateCameraForced((void **)s->scene);}
   else FLDMMDL_RAIL_SetLocation((void *)s->model,&s->cell);
   FLDMMDL_ClearMoveBit((char *)s->model,0x8000);FLDMMDL_SetStatusBitHeightGetOff((void *)s->model,0);FLDMMDL_SetStatusBitAttrGetOff((void *)s->model,0);FLDMMDL_SetStatusBitFellowHit((unsigned int *)s->model,1);FLDMMDL_OffMoveBitMovePause((void *)s->model);s->state=9;
   break;

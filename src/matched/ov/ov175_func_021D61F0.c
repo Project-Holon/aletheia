@@ -1,5 +1,5 @@
 /*
- * function: WIFIBATTLEMATCH_NET_TaskStepQ
+ * function: WIFIBATTLEMATCH_NET_TaskStepPostPartyData
  * address: 0x021D61F0
  * packet: pkt_ov175_021D61F0
  * region: ov175
@@ -23,7 +23,7 @@ extern void WIFIBATTLEMATCH_NET_SetupPostData(char *p, void *q, int mode);
 typedef unsigned char  u8;
 extern int WIFIBATTLEMATCH_NET_HttpRapPost(char *p, u8 *out);
 extern void WIFIBATTLEMATCH_UTIL_ClearCallback(int a);
-void WIFIBATTLEMATCH_NET_TaskStepQ(u32 sys,int *state,char *p)
+void WIFIBATTLEMATCH_NET_TaskStepPostPartyData(u32 sys,int *state,char *p)
 {
     char *base=*(char * *)&((struct Obj24227 *)(*(char * *)&((struct Obj03317 *)p)->f40))->f14;
     int result;

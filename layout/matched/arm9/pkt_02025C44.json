@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BMP_OAM_Check5C44",
+   "name": "NATION_AREA_GetAreaTable",
    "address": "0x02025C44",
    "kind": "game",
    "region": "arm9",

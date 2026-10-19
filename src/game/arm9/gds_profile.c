@@ -1,7 +1,7 @@
 /*
  * file:     gds_profile.c
  * unit:     yes
- * function: GDS_PROFILE_Create, GDS_PROFILE_Delete, GDS_PROFILE_Init, GDS_PROFILE_CreateNameStr, GDS_PROFILE_GetEggFlag, GDS_PROFILE_GetSpecies, GDS_PROFILE_GetFormSpecies, GDS_PROFILE_GetNicknameFlag, GDS_PROFILE_GetRecordWord1C, GDS_PROFILE_GetRecordWord30, GDS_PROFILE_ExportRecord, GDS_PROFILE_GetMode, GDS_PROFILE_ClearFieldRec, GDS_PROFILE_SetFieldRecFlag1, GDS_PROFILE_GetFieldRecField, GDS_PROFILE_SetFieldRecField, GDS_PROFILE_ClearFieldRecCount03, GDS_PROFILE_IncFieldRecCount03, GDS_PROFILE_GetFieldRecCount03, GDS_PROFILE_GetScoreRecSize, GDS_PROFILE_ClearScoreRec, GDS_PROFILE_AddScoreRecTotal, GDS_PROFILE_SubScoreRecTotal, GDS_PROFILE_GetSubwaySaveSize, GDS_PROFILE_ClearSubwaySave, GDS_PROFILE_SetSubwaySaveBitAndStamp, GDS_PROFILE_ClearSubwaySaveStampAndBitmap, GDS_PROFILE_IsStampNewer, GDS_PROFILE_QuerySubwaySaveBit
+ * function: GDS_PROFILE_Create, GDS_PROFILE_Delete, GDS_PROFILE_Init, GDS_PROFILE_CreateNameStr, GDS_PROFILE_GetEggFlag, GDS_PROFILE_GetSpecies, GDS_PROFILE_GetFormSpecies, GDS_PROFILE_GetNicknameFlag, GDS_PROFILE_GetValidatedCountry, GDS_PROFILE_GetValidatedRegion, GDS_PROFILE_ExportRecord, GDS_PROFILE_GetLanguage, BSUBWAY_PLAYDATA_Init, BSUBWAY_PLAYDATA_SetFlag01, BSUBWAY_PLAYDATA_GetField, BSUBWAY_PLAYDATA_SetField, BSUBWAY_PLAYDATA_ClearRound, BSUBWAY_PLAYDATA_IncRound, BSUBWAY_PLAYDATA_GetRound, BSUBWAY_SCOREDATA_GetSize, BSUBWAY_SCOREDATA_Init, BSUBWAY_SCOREDATA_AddBattlePoints, BSUBWAY_SCOREDATA_SubBattlePoints, BSUBWAY_WIFIDATA_GetSize, BSUBWAY_WIFIDATA_Init, BSUBWAY_WIFIDATA_SetTrainerBit, BSUBWAY_WIFIDATA_ClearStampAndBitmap, BSUBWAY_WIFIDATA_IsStampNewer, BSUBWAY_WIFIDATA_GetTrainerBit
  * address:  0x0200D59C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -28,26 +28,26 @@
  *   PMSI_PARAM_InitSentence  0x020242A4  thumb
  *   PMS_WORD_MakeWordId  0x02024888  thumb
  *   PMS_WORD_SplitWordId  0x020248D8  thumb
- *   MISC_SAVEDATA_CopyQuadRecord  0x0200E6FC  thumb
- *   BEACON_GetSelect  0x0200C164  thumb
+ *   GREETING_SAVEDATA_GetSentence  0x0200E6FC  thumb
+ *   MISC_GetMonRecord  0x0200C164  thumb
  *   POKE_TOOL_FilterSpecies  0x02019D58  thumb
  *   WORDSET_CopyString  0x0201F41C  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   WIFI_HISTORY_GetBlock  0x02009470  thumb
- *   SAVEDATA_GetExtraBlockThunk  0x0200E6E8  thumb
+ *   GREETING_SAVEDATA_GetFromSaveThunk  0x0200E6E8  thumb
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   MYSTATUS_GetName  0x020084F4  thumb
  *   MYSTATUS_GetId  0x02008530  thumb
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
- *   MYSTATUS_GetOutfit  0x02008554  thumb
- *   MYSTATUS_GetLanguage  0x0200856C  thumb
- *   MYSTATUS_GetVersion  0x02008570  thumb
- *   BMP_OAM_CheckRangeGetId  0x02025C1C  thumb
- *   BMP_OAM_CheckRangeGetMin  0x02025C30  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
+ *   MYSTATUS_GetTrainerView  0x02008554  thumb
+ *   MYSTATUS_GetNation  0x0200856C  thumb
+ *   MYSTATUS_GetArea  0x02008570  thumb
+ *   NATION_AREA_SanitizeNation  0x02025C1C  thumb
+ *   NATION_AREA_SanitizeArea  0x02025C30  thumb
  */
 struct GameSys;
 struct ProgressBlock;
-struct PlayerStatus;
+struct MyStatus;
 struct SaveDataObj;
 struct RecordData;
 struct Strbuf;
@@ -57,10 +57,10 @@ typedef unsigned short u16;
 
 typedef unsigned int   u32;
 
-struct PlayFlags {
-    u8 gameCleared : 1;
-    u8 playMinutes : 6;
-    u8 hasNationalDex : 1;
+struct GdsMonRecord {
+    u8 isEgg : 1;
+    u8 form : 6;
+    u8 gender : 1;
 };
 
 struct GdsProfile {
@@ -73,8 +73,8 @@ struct GdsProfile {
     u8  region;
     u8  gameVersion;
     u8  language;
-    struct PlayFlags play;
-    u16 playHours;
+    struct GdsMonRecord mon;
+    u16 species;
     u8  recordIsRaw;
     u8  pad1F;
     u16 record[0x28];
@@ -112,19 +112,19 @@ struct GdsRecord {
 
 struct GdsProfileRaw {
     u8  reserved00[0x15];
-    u8  variant;
+    u8  birthMonth;
+    u8  trainerSprite;
     u8  country;
-    u8  nameOffset;
-    u8  nameLength;
-    u8  reserved19;
-    u8  mode;
+    u8  region;
+    u8  gameVersion;
+    u8  language;
     u8  reserved1B[3];
     u8  isRaw;
     u8  reserved1F;
     struct GdsRecord record;
 };
 
-struct GdsFieldRec {
+struct BsubwayPlayData {
     u16 flag00  : 1;
     u16 flag01  : 1;
     u16 value02  : 4;
@@ -132,7 +132,7 @@ struct GdsFieldRec {
     u16 flag09  : 1;
     u16 flag10 : 1;
     u16 value11 : 5;
-    u8  byte02;
+    u8  round;
     u8  count03;
     u16 count04;
     u16 count06;
@@ -143,14 +143,14 @@ struct GdsFieldRec {
 
 typedef signed short   s16;
 
-struct GdsScoreRec {
-    u16 total;
+struct BsubwayScoreData {
+    u16 battlePoints;
     u8  streak;
     u8  level;
     u32 flags;
-    u16 countsA[9];
-    u16 countsB[9];
-    u16 countsC[9];
+    u16 winCount[9];
+    u16 maxWinCount[9];
+    u16 clearCount[9];
     u16 score;
     u32 reserved40;
     u8  blob44[0xB4];
@@ -166,7 +166,7 @@ struct GdsScoreSrc {
     u16 hp;
 };
 
-struct GdsSubwaySave {
+struct BsubwayWifiData {
     u32 stamp;
     u8  bitmap[250];
     u8  payload[0xA92];
@@ -189,21 +189,21 @@ extern void *GAME_DATA_GetSaveControl(struct GameSys *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void *GAME_DATA_GetMiscSave(int *p);
 extern struct SaveDataObj *WIFI_HISTORY_GetBlock(void *sys);
-extern void *SAVEDATA_GetExtraBlockThunk(u32 a);
-extern void MISC_SAVEDATA_CopyQuadRecord(struct RecordData *src, int idx, struct RecordData *dst);
+extern void *GREETING_SAVEDATA_GetFromSaveThunk(u32 a);
+extern void GREETING_SAVEDATA_GetSentence(struct RecordData *src, int idx, struct RecordData *dst);
 extern const void *MYSTATUS_GetName(const void *p);
 extern void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
-extern u32 MYSTATUS_GetId(const struct PlayerStatus *obj);
-extern u8 MYSTATUS_GetOutfitVariant(const struct PlayerStatus *obj);
-extern u8 MYSTATUS_GetOutfit(const struct PlayerStatus *obj);
-extern u8 MYSTATUS_GetLanguage(const struct PlayerStatus *obj);
-extern u8 MYSTATUS_GetVersion(const struct PlayerStatus *obj);
-extern void BEACON_GetSelect(const struct ProgressBlock *p, u32 *a, u32 *b, u32 *c, u32 *d);
+extern u32 MYSTATUS_GetId(const struct MyStatus *obj);
+extern u8 MYSTATUS_GetSex(const struct MyStatus *obj);
+extern u8 MYSTATUS_GetTrainerView(const struct MyStatus *obj);
+extern u8 MYSTATUS_GetNation(const struct MyStatus *obj);
+extern u8 MYSTATUS_GetArea(const struct MyStatus *obj);
+extern void MISC_GetMonRecord(const struct ProgressBlock *p, u32 *a, u32 *b, u32 *c, u32 *d);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_SetStringN(struct Strbuf *strbuf, const u16 *src, u32 length);
 extern int POKE_TOOL_FilterSpecies(u16 a, int b);
-extern u32 BMP_OAM_CheckRangeGetId(u32 a, u32 b, u32 c);
-extern u32 BMP_OAM_CheckRangeGetMin(u32 a, u32 b, u32 c);
+extern u32 NATION_AREA_SanitizeNation(u32 a, u32 b, u32 c);
+extern u32 NATION_AREA_SanitizeArea(u32 a, u32 b, u32 c);
 extern int PMS_WORD_SplitWordId(u32 v, u32 *bankIndex, u32 *wordIndex);
 extern void  PMSI_PARAM_InitSentence(void *rec, u32 n);
 extern u16 PMS_WORD_MakeWordId(u32 idx, u16 add);
@@ -216,54 +216,54 @@ u32 GDS_PROFILE_GetEggFlag(struct StoredMon *p);
 u32 GDS_PROFILE_GetSpecies(struct StoredMon *p);
 u32 GDS_PROFILE_GetFormSpecies(struct StoredMon *p);
 u32 GDS_PROFILE_GetNicknameFlag(struct StoredMon *p);
-u32 GDS_PROFILE_GetMonFlagBit0(struct StoredMon *p);
-u32 GDS_PROFILE_GetRecordWord1C(struct GdsProfileRaw *p);
-u32 GDS_PROFILE_GetRecordWord30(struct GdsProfileRaw *p);
+u32 GDS_PROFILE_GetBadEggFlag(struct StoredMon *p);
+u32 GDS_PROFILE_GetValidatedCountry(struct GdsProfileRaw *p);
+u32 GDS_PROFILE_GetValidatedRegion(struct GdsProfileRaw *p);
 void *GDS_PROFILE_ExportRecord(struct GdsProfileRaw *p, struct GdsRecord *out, u32 tag);
-u32 GDS_PROFILE_GetVariant(struct GdsProfileRaw *p);
-u32 GDS_PROFILE_GetCountry(struct GdsProfileRaw *p);
-u32 GDS_PROFILE_GetMode(struct GdsProfileRaw *p);
-u32 GDS_PROFILE_GetFieldRecSize(void);
-void GDS_PROFILE_ClearFieldRec(struct GdsFieldRec *p);
-void GDS_PROFILE_SetFieldRecFlag1(struct GdsFieldRec *p, u32 v);
-u32 GDS_PROFILE_GetFieldRecFlag1(struct GdsFieldRec *p);
-u32 GDS_PROFILE_GetFieldRecField(struct GdsFieldRec *p, u32 id, void *out);
-void GDS_PROFILE_SetFieldRecField(struct GdsFieldRec *p, u32 id, const void *src);
-void GDS_PROFILE_AddFieldRecCounters(struct GdsFieldRec *p, s32 a, s32 b, s32 c);
-void GDS_PROFILE_ClearFieldRecCount03(struct GdsFieldRec *p);
-void GDS_PROFILE_IncFieldRecCount03(struct GdsFieldRec *p);
-u16 GDS_PROFILE_GetFieldRecCount03(struct GdsFieldRec *p);
-u32 GDS_PROFILE_GetScoreRecSize(void);
-void GDS_PROFILE_ClearScoreRec(struct GdsScoreRec *p);
-void GDS_PROFILE_AddScoreRecTotal(struct GdsScoreRec *p, s32 v);
-void GDS_PROFILE_SubScoreRecTotal(struct GdsScoreRec *p, u16 v);
-u16 GDS_PROFILE_GetScoreRecTotal(struct GdsScoreRec *p);
-u32 GDS_PROFILE_MapScoreSlot(u32 i);
-u16 GDS_PROFILE_GetScoreRecCountA(struct GdsScoreRec *p, u32 i);
-u16 GDS_PROFILE_GetScoreRecCountB(struct GdsScoreRec *p, u32 i);
-void GDS_PROFILE_MaxScoreRecCountB(struct GdsScoreRec *p, u32 i, u16 v);
-void GDS_PROFILE_SetScoreRecCountA(struct GdsScoreRec *p, u32 i, u16 v);
-void GDS_PROFILE_ClearScoreRecCountC(struct GdsScoreRec *p, u32 i);
-void GDS_PROFILE_SetScoreRecCountC(struct GdsScoreRec *p, u32 i);
-u32 GDS_PROFILE_GetScoreRecCountC(struct GdsScoreRec *p, u32 i);
-void GDS_PROFILE_IncScoreRecCountC(struct GdsScoreRec *p, u32 i);
-u16 GDS_PROFILE_GetScoreRecCountCDec(struct GdsScoreRec *p, u32 i);
-u32 GDS_PROFILE_ScoreRecFlag(struct GdsScoreRec *p, s32 i, u32 op);
-void GDS_PROFILE_IncScoreRecLevel(struct GdsScoreRec *p);
-void GDS_PROFILE_DecScoreRecLevel(struct GdsScoreRec *p);
-u8 GDS_PROFILE_GetScoreRecLevel(struct GdsScoreRec *p);
-u8 GDS_PROFILE_UpdateScoreRecStreak(struct GdsScoreRec *p, u32 kind);
-void GDS_PROFILE_SetScoreRecBlob(struct GdsScoreRec *p, u32 which, const void *src);
-void GDS_PROFILE_GetScoreRecBlob(struct GdsScoreRec *p, u32 which, void *dest);
-void GDS_PROFILE_CalcScoreRecScore(struct GdsScoreRec *p, const struct GdsScoreSrc *q);
-u16 GDS_PROFILE_GetScoreRecScore(struct GdsScoreRec *p);
-u8 GDS_PROFILE_GetScoreRecScoreHigh(struct GdsScoreRec *p);
-u32 GDS_PROFILE_GetSubwaySaveSize(void);
-void GDS_PROFILE_ClearSubwaySave(struct GdsSubwaySave *p);
-void GDS_PROFILE_SetSubwaySaveBitAndStamp(u8 *p, u8 a, u8 b, u32 *q);
-void GDS_PROFILE_ClearSubwaySaveStampAndBitmap(struct GdsSubwaySave *p);
-u32 GDS_PROFILE_IsStampNewer(const struct Stamp *a, const struct Stamp *b);
-int GDS_PROFILE_QuerySubwaySaveBit(struct GdsSubwaySave *p, u8 a, u8 b, const struct Stamp *q);
+u32 GDS_PROFILE_GetBirthMonth(struct GdsProfileRaw *p);
+u32 GDS_PROFILE_GetTrainerSprite(struct GdsProfileRaw *p);
+u32 GDS_PROFILE_GetLanguage(struct GdsProfileRaw *p);
+u32 BSUBWAY_PLAYDATA_GetSize(void);
+void BSUBWAY_PLAYDATA_Init(struct BsubwayPlayData *p);
+void BSUBWAY_PLAYDATA_SetFlag01(struct BsubwayPlayData *p, u32 v);
+u32 BSUBWAY_PLAYDATA_GetFlag01(struct BsubwayPlayData *p);
+u32 BSUBWAY_PLAYDATA_GetField(struct BsubwayPlayData *p, u32 id, void *out);
+void BSUBWAY_PLAYDATA_SetField(struct BsubwayPlayData *p, u32 id, const void *src);
+void BSUBWAY_PLAYDATA_AddCounters(struct BsubwayPlayData *p, s32 a, s32 b, s32 c);
+void BSUBWAY_PLAYDATA_ClearRound(struct BsubwayPlayData *p);
+void BSUBWAY_PLAYDATA_IncRound(struct BsubwayPlayData *p);
+u16 BSUBWAY_PLAYDATA_GetRound(struct BsubwayPlayData *p);
+u32 BSUBWAY_SCOREDATA_GetSize(void);
+void BSUBWAY_SCOREDATA_Init(struct BsubwayScoreData *p);
+void BSUBWAY_SCOREDATA_AddBattlePoints(struct BsubwayScoreData *p, s32 v);
+void BSUBWAY_SCOREDATA_SubBattlePoints(struct BsubwayScoreData *p, u16 v);
+u16 BSUBWAY_SCOREDATA_GetBattlePoints(struct BsubwayScoreData *p);
+u32 BSUBWAY_SCOREDATA_MapPlayMode(u32 i);
+u16 BSUBWAY_SCOREDATA_GetWinCount(struct BsubwayScoreData *p, u32 i);
+u16 BSUBWAY_SCOREDATA_GetMaxWinCount(struct BsubwayScoreData *p, u32 i);
+void BSUBWAY_SCOREDATA_UpdateMaxWinCount(struct BsubwayScoreData *p, u32 i, u16 v);
+void BSUBWAY_SCOREDATA_SetWinCount(struct BsubwayScoreData *p, u32 i, u16 v);
+void BSUBWAY_SCOREDATA_ResetClearCount(struct BsubwayScoreData *p, u32 i);
+void BSUBWAY_SCOREDATA_SetFirstClear(struct BsubwayScoreData *p, u32 i);
+u32 BSUBWAY_SCOREDATA_HasCleared(struct BsubwayScoreData *p, u32 i);
+void BSUBWAY_SCOREDATA_IncClearCount(struct BsubwayScoreData *p, u32 i);
+u16 BSUBWAY_SCOREDATA_GetRepeatClearCount(struct BsubwayScoreData *p, u32 i);
+u32 BSUBWAY_SCOREDATA_AccessFlag(struct BsubwayScoreData *p, s32 i, u32 op);
+void BSUBWAY_SCOREDATA_IncLevel(struct BsubwayScoreData *p);
+void BSUBWAY_SCOREDATA_DecLevel(struct BsubwayScoreData *p);
+u8 BSUBWAY_SCOREDATA_GetLevel(struct BsubwayScoreData *p);
+u8 BSUBWAY_SCOREDATA_UpdateStreak(struct BsubwayScoreData *p, u32 kind);
+void BSUBWAY_SCOREDATA_SetRecordBlob(struct BsubwayScoreData *p, u32 which, const void *src);
+void BSUBWAY_SCOREDATA_GetRecordBlob(struct BsubwayScoreData *p, u32 which, void *dest);
+void BSUBWAY_SCOREDATA_CalcRecordScore(struct BsubwayScoreData *p, const struct GdsScoreSrc *q);
+u16 BSUBWAY_SCOREDATA_GetRecordScore(struct BsubwayScoreData *p);
+u8 BSUBWAY_SCOREDATA_GetRecordScoreTier(struct BsubwayScoreData *p);
+u32 BSUBWAY_WIFIDATA_GetSize(void);
+void BSUBWAY_WIFIDATA_Init(struct BsubwayWifiData *p);
+void BSUBWAY_WIFIDATA_SetTrainerBit(u8 *p, u8 a, u8 b, u32 *q);
+void BSUBWAY_WIFIDATA_ClearStampAndBitmap(struct BsubwayWifiData *p);
+u32 BSUBWAY_WIFIDATA_IsStampNewer(const struct Stamp *a, const struct Stamp *b);
+int BSUBWAY_WIFIDATA_GetTrainerBit(struct BsubwayWifiData *p, u8 a, u8 b, const struct Stamp *q);
 extern const char func_0200D59C_File[];
 
 
@@ -349,50 +349,50 @@ void GDS_PROFILE_Delete(struct GdsProfile *profile)
  *    front of each mask; without the cast the pair is gone.  The widths come
  *    off the second pair: `lsls #0x1A` / `lsrs #0x19` is bits 1..6, `ands #1`
  *    is bit 0 and `lsls #0x1F` / `lsrs #0x18` is bit 7.
- *  - the four out-parameters of BEACON_GetSelect are declared in the order the
+ *  - the four out-parameters of MISC_GetMonRecord are declared in the order the
  *    call passes them, so the first lands at sp+0x14 and the last at sp+8;
  *    declared the other way round every offset is mirrored and nothing else
  *    moves.  See docs/idioms/local-declaration-order-is-stack-order.md.
  *  - the byte of owner information is read as `add r0, sp, #8` /
  *    `ldrb r0, [r0, #0x12]` rather than off the OSOwnerInfo frame slot,
  *    because `sp + 8` is already a common subexpression: it is the fifth
- *    argument BEACON_GetSelect took a few instructions earlier.
+ *    argument MISC_GetMonRecord took a few instructions earlier.
  */
 void GDS_PROFILE_Init(struct GdsProfile *profile, void *sys)
 {
     struct OwnerInfo info;
-    u32 playHours;
-    u32 playMinutes;
-    u32 cleared;
-    u32 nationalDex;
-    void *progress;
+    u32 species;
+    u32 form;
+    u32 isEgg;
+    u32 monGender;
+    void *miscSave;
     void *saveData = GAME_DATA_GetSaveControl(sys);
     void *trainerRec = GAME_DATA_GetMyStatus(sys);
     void *recordEnv;
     s32 i;
 
     WIFI_HISTORY_GetBlock(saveData);
-    progress = GAME_DATA_GetMiscSave(sys);
-    recordEnv = SAVEDATA_GetExtraBlockThunk((u32)saveData);
+    miscSave = GAME_DATA_GetMiscSave(sys);
+    recordEnv = GREETING_SAVEDATA_GetFromSaveThunk((u32)saveData);
     OS_GetOwnerInfo(&info);
-    BEACON_GetSelect(progress, &playHours, &playMinutes, &cleared, &nationalDex);
+    MISC_GetMonRecord(miscSave, &species, &form, &isEgg, &monGender);
 
     MI_CpuFill8(profile, 0, sizeof(struct GdsProfile));
     WORDSET_CopyString(MYSTATUS_GetName(trainerRec), (u16 *)profile, 8);
     profile->trainerId = MYSTATUS_GetId(trainerRec);
-    profile->gender = MYSTATUS_GetOutfitVariant(trainerRec);
-    profile->playHours = playHours;
-    profile->play.playMinutes = (u8)playMinutes;
-    profile->play.gameCleared = (u8)cleared;
-    profile->play.hasNationalDex = (u8)nationalDex;
-    profile->country = MYSTATUS_GetLanguage(trainerRec);
-    profile->region = MYSTATUS_GetVersion(trainerRec);
+    profile->gender = MYSTATUS_GetSex(trainerRec);
+    profile->species = species;
+    profile->mon.form = (u8)form;
+    profile->mon.isEgg = (u8)isEgg;
+    profile->mon.gender = (u8)monGender;
+    profile->country = MYSTATUS_GetNation(trainerRec);
+    profile->region = MYSTATUS_GetArea(trainerRec);
     for (i = 0; i < 0x28; i++) {
         profile->record[i] = STRBUF_GetEosChar();
     }
-    MISC_SAVEDATA_CopyQuadRecord(recordEnv, 0, (struct RecordData *)profile->record);
+    GREETING_SAVEDATA_GetSentence(recordEnv, 0, (struct RecordData *)profile->record);
     profile->birthMonth = info.birthMonth;
-    profile->trainerSprite = MYSTATUS_GetOutfit(trainerRec);
+    profile->trainerSprite = MYSTATUS_GetTrainerView(trainerRec);
     profile->gameVersion = 0x15;
     profile->language = 2;
     profile->checksum = GF_STANDARD_CalcCrc16((const u8 *)profile, 0x7C);
@@ -432,7 +432,7 @@ void *GDS_PROFILE_CreateNameStr(const void *src, u32 tag)
  * A whole translation unit, matched as one byte range.  Written from the
  * disassembly in asm/arm9/src/003_0200CA1C.s.
  *
- *           GDS_PROFILE_GetMonFlagBit0
+ *           GDS_PROFILE_GetBadEggFlag
  *
  * 96 bytes, 0x0200D6EC..0x0200D74C, 5 functions, none of which carries a
  * label in the generated listing.
@@ -451,7 +451,7 @@ void *GDS_PROFILE_CreateNameStr(const void *src, u32 tag)
  * the compiler still emits both compares, which is the same reading as
  * docs/idioms/a-guard-on-a-struct-member-survives-constant-folding.md.
  *
- * GDS_PROFILE_GetMonFlagBit0 clamps rather than zeroes, and the branch is `bls` over a
+ * GDS_PROFILE_GetBadEggFlag clamps rather than zeroes, and the branch is `bls` over a
  * `movs r0, #1`, so its guard is `if (v > 1) v = 1;` and the fall-through arm
  * is the assignment.
  *
@@ -510,7 +510,7 @@ u32 GDS_PROFILE_GetNicknameFlag(struct StoredMon *p)
 
 
 
-u32 GDS_PROFILE_GetMonFlagBit0(struct StoredMon *p)
+u32 GDS_PROFILE_GetBadEggFlag(struct StoredMon *p)
 {
     u32 v = p->isBadEgg;
 
@@ -529,7 +529,7 @@ u32 GDS_PROFILE_GetMonFlagBit0(struct StoredMon *p)
  * A whole translation unit, matched as one byte range.  Written from the
  * disassembly in asm/arm9/src/003_0200CA1C.s.
  *
- *           GDS_PROFILE_GetCountry, GDS_PROFILE_GetMode
+ *           GDS_PROFILE_GetTrainerSprite, GDS_PROFILE_GetLanguage
  *
  * 268 bytes, 0x0200D74C..0x0200D858, 6 functions, three of which carry no
  * label in the generated listing.
@@ -537,17 +537,17 @@ u32 GDS_PROFILE_GetMonFlagBit0(struct StoredMon *p)
  * alias: the tail of "gds_profile.c"; the constructor at 0x0200D59C names
  * 0x020A71E8, see src/matched/unit_0200D59C.c.
  */
-u32 GDS_PROFILE_GetRecordWord1C(struct GdsProfileRaw *p)
+u32 GDS_PROFILE_GetValidatedCountry(struct GdsProfileRaw *p)
 {
-    return BMP_OAM_CheckRangeGetId(p->nameOffset, p->nameLength, GDS_PROFILE_GetMode(p));
+    return NATION_AREA_SanitizeNation(p->country, p->region, GDS_PROFILE_GetLanguage(p));
 }
 
 
 
 
-u32 GDS_PROFILE_GetRecordWord30(struct GdsProfileRaw *p)
+u32 GDS_PROFILE_GetValidatedRegion(struct GdsProfileRaw *p)
 {
-    return BMP_OAM_CheckRangeGetMin(p->nameOffset, p->nameLength, GDS_PROFILE_GetMode(p));
+    return NATION_AREA_SanitizeArea(p->country, p->region, GDS_PROFILE_GetLanguage(p));
 }
 
 
@@ -596,9 +596,9 @@ void *GDS_PROFILE_ExportRecord(struct GdsProfileRaw *p, struct GdsRecord *out, u
 
 
 
-u32 GDS_PROFILE_GetVariant(struct GdsProfileRaw *p)
+u32 GDS_PROFILE_GetBirthMonth(struct GdsProfileRaw *p)
 {
-    u32 v = p->variant;
+    u32 v = p->birthMonth;
 
     if (v < 1 || v > 0xC) {
         v = 1;
@@ -609,9 +609,9 @@ u32 GDS_PROFILE_GetVariant(struct GdsProfileRaw *p)
 
 
 
-u32 GDS_PROFILE_GetCountry(struct GdsProfileRaw *p)
+u32 GDS_PROFILE_GetTrainerSprite(struct GdsProfileRaw *p)
 {
-    u32 v = p->country;
+    u32 v = p->trainerSprite;
 
     if (v > 0xF) {
         v = 0;
@@ -622,9 +622,9 @@ u32 GDS_PROFILE_GetCountry(struct GdsProfileRaw *p)
 
 
 
-u32 GDS_PROFILE_GetMode(struct GdsProfileRaw *p)
+u32 GDS_PROFILE_GetLanguage(struct GdsProfileRaw *p)
 {
-    u32 v = p->mode;
+    u32 v = p->language;
 
     switch (v) {
     case 1:
@@ -647,14 +647,14 @@ u32 GDS_PROFILE_GetMode(struct GdsProfileRaw *p)
  * A whole translation unit, matched as one byte range.  Written from the
  * disassembly in asm/arm9/src/003_0200CA1C.s.
  *
- *           GDS_PROFILE_GetFieldRecField, GDS_PROFILE_SetFieldRecField, GDS_PROFILE_AddFieldRecCounters, GDS_PROFILE_ClearFieldRecCount03,
- *           GDS_PROFILE_IncFieldRecCount03, GDS_PROFILE_GetFieldRecCount03
+ *           BSUBWAY_PLAYDATA_GetField, BSUBWAY_PLAYDATA_SetField, BSUBWAY_PLAYDATA_AddCounters, BSUBWAY_PLAYDATA_ClearRound,
+ *           BSUBWAY_PLAYDATA_IncRound, BSUBWAY_PLAYDATA_GetRound
  *
  * 524 bytes, 0x0200D858..0x0200DA64, 10 functions, eight of which carry no
  * label in the generated listing.
  *
  * A 0x3C-byte record reached almost entirely through one pair of dispatchers.
- * GDS_PROFILE_GetFieldRecSize returns 0x3C and GDS_PROFILE_ClearFieldRec clears exactly that many bytes
+ * BSUBWAY_PLAYDATA_GetSize returns 0x3C and BSUBWAY_PLAYDATA_Init clears exactly that many bytes
  * as a bare tail call, which is the block-file opening this region keeps
  * producing.
  *
@@ -673,38 +673,38 @@ u32 GDS_PROFILE_GetMode(struct GdsProfileRaw *p)
  * default is reached by the `bhi` in the preamble, so there is one `return 0`
  * after the switch and not a `default:` label.
  *
- * GDS_PROFILE_SetFieldRecFlag1 truncates its value to `u16` before extracting the bit, which
+ * BSUBWAY_PLAYDATA_SetFlag01 truncates its value to `u16` before extracting the bit, which
  * a `u16` parameter does not produce: the parameter is wider and the source
  * casts at the use, the same shape as BATTLE_BOX_SetLockFlags in
  * src/matched/unit_0200BBC8.c.
  *
- * GDS_PROFILE_AddFieldRecCounters adds three deltas into three counters, each guarded against
+ * BSUBWAY_PLAYDATA_AddCounters adds three deltas into three counters, each guarded against
  * its own type's maximum, and each sum is computed once and reused by both
  * the compare and the store; the two halfword guards share one literal pool
  * word holding 0xFFFF.
  *
- * GDS_PROFILE_IncFieldRecCount03 reads the counter at id 1 through the getter, increments it
+ * BSUBWAY_PLAYDATA_IncRound reads the counter at id 1 through the getter, increments it
  * in a stack byte and writes it back through the setter, reloading the byte
  * after storing it because its address escapes into the setter call.
  */
-u32 GDS_PROFILE_GetFieldRecSize(void)
+u32 BSUBWAY_PLAYDATA_GetSize(void)
 {
-    return sizeof(struct GdsFieldRec);
+    return sizeof(struct BsubwayPlayData);
 }
 
 
 
 
 
-void GDS_PROFILE_ClearFieldRec(struct GdsFieldRec *p)
+void BSUBWAY_PLAYDATA_Init(struct BsubwayPlayData *p)
 {
-    MI_CpuFill8(p, 0, sizeof(struct GdsFieldRec));
+    MI_CpuFill8(p, 0, sizeof(struct BsubwayPlayData));
 }
 
 
 
 
-void GDS_PROFILE_SetFieldRecFlag1(struct GdsFieldRec *p, u32 v)
+void BSUBWAY_PLAYDATA_SetFlag01(struct BsubwayPlayData *p, u32 v)
 {
     p->flag01 = (u16)v;
 }
@@ -712,7 +712,7 @@ void GDS_PROFILE_SetFieldRecFlag1(struct GdsFieldRec *p, u32 v)
 
 
 
-u32 GDS_PROFILE_GetFieldRecFlag1(struct GdsFieldRec *p)
+u32 BSUBWAY_PLAYDATA_GetFlag01(struct BsubwayPlayData *p)
 {
     return p->flag01;
 }
@@ -720,13 +720,13 @@ u32 GDS_PROFILE_GetFieldRecFlag1(struct GdsFieldRec *p)
 
 
 
-u32 GDS_PROFILE_GetFieldRecField(struct GdsFieldRec *p, u32 id, void *out)
+u32 BSUBWAY_PLAYDATA_GetField(struct BsubwayPlayData *p, u32 id, void *out)
 {
     switch (id) {
     case 0:
         return p->value02;
     case 1:
-        return p->byte02;
+        return p->round;
     case 2:
         return p->count03;
     case 3:
@@ -757,14 +757,14 @@ u32 GDS_PROFILE_GetFieldRecField(struct GdsFieldRec *p, u32 id, void *out)
 
 
 
-void GDS_PROFILE_SetFieldRecField(struct GdsFieldRec *p, u32 id, const void *src)
+void BSUBWAY_PLAYDATA_SetField(struct BsubwayPlayData *p, u32 id, const void *src)
 {
     switch (id) {
     case 0:
         p->value02 = *(const u8 *)src;
         break;
     case 1:
-        p->byte02 = *(const u8 *)src;
+        p->round = *(const u8 *)src;
         break;
     case 2:
         p->count03 = *(const u8 *)src;
@@ -802,7 +802,7 @@ void GDS_PROFILE_SetFieldRecField(struct GdsFieldRec *p, u32 id, const void *src
 
 
 
-void GDS_PROFILE_AddFieldRecCounters(struct GdsFieldRec *p, s32 a, s32 b, s32 c)
+void BSUBWAY_PLAYDATA_AddCounters(struct BsubwayPlayData *p, s32 a, s32 b, s32 c)
 {
     if (p->count03 + a < 255) {
         p->count03 = p->count03 + a;
@@ -818,32 +818,32 @@ void GDS_PROFILE_AddFieldRecCounters(struct GdsFieldRec *p, s32 a, s32 b, s32 c)
 
 
 
-void GDS_PROFILE_ClearFieldRecCount03(struct GdsFieldRec *p)
+void BSUBWAY_PLAYDATA_ClearRound(struct BsubwayPlayData *p)
 {
     u8 v = 0;
 
-    GDS_PROFILE_SetFieldRecField(p, 1, &v);
+    BSUBWAY_PLAYDATA_SetField(p, 1, &v);
 }
 
 
 
 
-void GDS_PROFILE_IncFieldRecCount03(struct GdsFieldRec *p)
+void BSUBWAY_PLAYDATA_IncRound(struct BsubwayPlayData *p)
 {
-    u8 v = GDS_PROFILE_GetFieldRecField(p, 1, 0);
+    u8 v = BSUBWAY_PLAYDATA_GetField(p, 1, 0);
 
     if (v < 255) {
         v++;
     }
-    GDS_PROFILE_SetFieldRecField(p, 1, &v);
+    BSUBWAY_PLAYDATA_SetField(p, 1, &v);
 }
 
 
 
 
-u16 GDS_PROFILE_GetFieldRecCount03(struct GdsFieldRec *p)
+u16 BSUBWAY_PLAYDATA_GetRound(struct BsubwayPlayData *p)
 {
-    return GDS_PROFILE_GetFieldRecField(p, 1, 0);
+    return BSUBWAY_PLAYDATA_GetField(p, 1, 0);
 }
 
 
@@ -854,12 +854,12 @@ u16 GDS_PROFILE_GetFieldRecCount03(struct GdsFieldRec *p)
  * A whole translation unit, matched as one byte range.  Written from the
  * disassembly in asm/arm9/src/003_0200CA1C.s.
  *
- *           GDS_PROFILE_GetScoreRecTotal, GDS_PROFILE_MapScoreSlot, GDS_PROFILE_GetScoreRecCountA, GDS_PROFILE_GetScoreRecCountB,
- *           GDS_PROFILE_MaxScoreRecCountB, GDS_PROFILE_SetScoreRecCountA, GDS_PROFILE_ClearScoreRecCountC, GDS_PROFILE_SetScoreRecCountC,
- *           GDS_PROFILE_GetScoreRecCountC, GDS_PROFILE_IncScoreRecCountC, GDS_PROFILE_GetScoreRecCountCDec, GDS_PROFILE_ScoreRecFlag,
- *           GDS_PROFILE_IncScoreRecLevel, GDS_PROFILE_DecScoreRecLevel, GDS_PROFILE_GetScoreRecLevel, GDS_PROFILE_UpdateScoreRecStreak,
- *           GDS_PROFILE_SetScoreRecBlob, GDS_PROFILE_GetScoreRecBlob, GDS_PROFILE_CalcScoreRecScore, GDS_PROFILE_GetScoreRecScore,
- *           GDS_PROFILE_GetScoreRecScoreHigh
+ *           BSUBWAY_SCOREDATA_GetBattlePoints, BSUBWAY_SCOREDATA_MapPlayMode, BSUBWAY_SCOREDATA_GetWinCount, BSUBWAY_SCOREDATA_GetMaxWinCount,
+ *           BSUBWAY_SCOREDATA_UpdateMaxWinCount, BSUBWAY_SCOREDATA_SetWinCount, BSUBWAY_SCOREDATA_ResetClearCount, BSUBWAY_SCOREDATA_SetFirstClear,
+ *           BSUBWAY_SCOREDATA_HasCleared, BSUBWAY_SCOREDATA_IncClearCount, BSUBWAY_SCOREDATA_GetRepeatClearCount, BSUBWAY_SCOREDATA_AccessFlag,
+ *           BSUBWAY_SCOREDATA_IncLevel, BSUBWAY_SCOREDATA_DecLevel, BSUBWAY_SCOREDATA_GetLevel, BSUBWAY_SCOREDATA_UpdateStreak,
+ *           BSUBWAY_SCOREDATA_SetRecordBlob, BSUBWAY_SCOREDATA_GetRecordBlob, BSUBWAY_SCOREDATA_CalcRecordScore, BSUBWAY_SCOREDATA_GetRecordScore,
+ *           BSUBWAY_SCOREDATA_GetRecordScoreTier
  *
  * 684 bytes, 0x0200DA64..0x0200DD10, 25 functions, eighteen of which carry no
  * label in the generated listing.
@@ -873,12 +873,12 @@ u16 GDS_PROFILE_GetFieldRecCount03(struct GdsFieldRec *p)
  *
  * Five things here are worth naming.
  *
- *  - GDS_PROFILE_MapScoreSlot is `bx lr` and nothing else, and it is a function, not
+ *  - BSUBWAY_SCOREDATA_MapPlayMode is `bx lr` and nothing else, and it is a function, not
  *    padding: eight of the accessors `bl` it with the index in r0 and use
  *    the result.  It is `u32 f(u32 i) { return i; }`, an id-to-slot mapping
  *    that was never filled in, and the calls to it are what make the three
  *    arrays indexed rather than direct.
- *  - GDS_PROFILE_ScoreRecFlag takes a **signed** index, which the `blt` on the range
+ *  - BSUBWAY_SCOREDATA_AccessFlag takes a **signed** index, which the `blt` on the range
  *    check says and the `blo` inside the shift loop does not contradict: the
  *    loop counter is unsigned, so the comparison against it is unsigned too.
  *    Its switch bodies are emitted in the order 2, 1, 0, which is the order
@@ -888,70 +888,70 @@ u16 GDS_PROFILE_GetFieldRecCount03(struct GdsFieldRec *p)
  *    materialises the all-ones word with `movs r1, #0; mvns r1, r1` and then
  *    `eors`, which is two instructions where `mvns r1, r4` would have been
  *    one.
- *  - GDS_PROFILE_UpdateScoreRecStreak's two arms both end in a call to GDS_PROFILE_ScoreRecFlag followed
+ *  - BSUBWAY_SCOREDATA_UpdateStreak's two arms both end in a call to BSUBWAY_SCOREDATA_AccessFlag followed
  *    by a store to +0x02, and the compiler cross-jumps them into one copy
  *    that each arm sets up its arguments for and branches to.  See
  *    docs/idioms/switch-arms-tail-merge.md.
- *  - in GDS_PROFILE_CalcScoreRecScore the two products are each truncated to `u16` and their
+ *  - in BSUBWAY_SCOREDATA_CalcRecordScore the two products are each truncated to `u16` and their
  *    sum is not.  Holding the sum in a `u16` adds a `lsls`/`lsrs` pair the
  *    original does not have, which is the whole of the difference between
  *    that function and EXACT.
  */
-u32 GDS_PROFILE_GetScoreRecSize(void)
+u32 BSUBWAY_SCOREDATA_GetSize(void)
 {
-    return sizeof(struct GdsScoreRec);
+    return sizeof(struct BsubwayScoreData);
 }
 
 
 
 
 
-void GDS_PROFILE_ClearScoreRec(struct GdsScoreRec *p)
+void BSUBWAY_SCOREDATA_Init(struct BsubwayScoreData *p)
 {
-    MI_CpuFill8(p, 0, sizeof(struct GdsScoreRec));
+    MI_CpuFill8(p, 0, sizeof(struct BsubwayScoreData));
     p->level = 1;
 }
 
 
 
 
-void GDS_PROFILE_AddScoreRecTotal(struct GdsScoreRec *p, s32 v)
+void BSUBWAY_SCOREDATA_AddBattlePoints(struct BsubwayScoreData *p, s32 v)
 {
-    s32 n = p->total + v;
+    s32 n = p->battlePoints + v;
 
     if (n > 9999) {
-        p->total = 9999;
+        p->battlePoints = 9999;
     } else {
-        p->total = n;
+        p->battlePoints = n;
     }
 }
 
 
 
 
-void GDS_PROFILE_SubScoreRecTotal(struct GdsScoreRec *p, u16 v)
+void BSUBWAY_SCOREDATA_SubBattlePoints(struct BsubwayScoreData *p, u16 v)
 {
-    s16 n = (s16)p->total - (s16)v;
+    s16 n = (s16)p->battlePoints - (s16)v;
 
     if (n >= 0) {
-        p->total = p->total - v;
+        p->battlePoints = p->battlePoints - v;
     } else {
-        p->total = 0;
+        p->battlePoints = 0;
     }
 }
 
 
 
 
-u16 GDS_PROFILE_GetScoreRecTotal(struct GdsScoreRec *p)
+u16 BSUBWAY_SCOREDATA_GetBattlePoints(struct BsubwayScoreData *p)
 {
-    return p->total;
+    return p->battlePoints;
 }
 
 
 
 
-u32 GDS_PROFILE_MapScoreSlot(u32 i)
+u32 BSUBWAY_SCOREDATA_MapPlayMode(u32 i)
 {
     return i;
 }
@@ -959,61 +959,61 @@ u32 GDS_PROFILE_MapScoreSlot(u32 i)
 
 
 
-u16 GDS_PROFILE_GetScoreRecCountA(struct GdsScoreRec *p, u32 i)
+u16 BSUBWAY_SCOREDATA_GetWinCount(struct BsubwayScoreData *p, u32 i)
 {
-    return p->countsA[GDS_PROFILE_MapScoreSlot(i)];
+    return p->winCount[BSUBWAY_SCOREDATA_MapPlayMode(i)];
 }
 
 
 
 
-u16 GDS_PROFILE_GetScoreRecCountB(struct GdsScoreRec *p, u32 i)
+u16 BSUBWAY_SCOREDATA_GetMaxWinCount(struct BsubwayScoreData *p, u32 i)
 {
-    return p->countsB[GDS_PROFILE_MapScoreSlot(i)];
+    return p->maxWinCount[BSUBWAY_SCOREDATA_MapPlayMode(i)];
 }
 
 
 
 
-void GDS_PROFILE_MaxScoreRecCountB(struct GdsScoreRec *p, u32 i, u16 v)
+void BSUBWAY_SCOREDATA_UpdateMaxWinCount(struct BsubwayScoreData *p, u32 i, u16 v)
 {
-    u32 k = GDS_PROFILE_MapScoreSlot(i);
+    u32 k = BSUBWAY_SCOREDATA_MapPlayMode(i);
 
-    if (p->countsB[k] < v) {
-        p->countsB[k] = v;
+    if (p->maxWinCount[k] < v) {
+        p->maxWinCount[k] = v;
     }
 }
 
 
 
 
-void GDS_PROFILE_SetScoreRecCountA(struct GdsScoreRec *p, u32 i, u16 v)
+void BSUBWAY_SCOREDATA_SetWinCount(struct BsubwayScoreData *p, u32 i, u16 v)
 {
-    p->countsA[GDS_PROFILE_MapScoreSlot(i)] = v;
+    p->winCount[BSUBWAY_SCOREDATA_MapPlayMode(i)] = v;
 }
 
 
 
 
-void GDS_PROFILE_ClearScoreRecCountC(struct GdsScoreRec *p, u32 i)
+void BSUBWAY_SCOREDATA_ResetClearCount(struct BsubwayScoreData *p, u32 i)
 {
-    p->countsC[GDS_PROFILE_MapScoreSlot(i)] = 0;
+    p->clearCount[BSUBWAY_SCOREDATA_MapPlayMode(i)] = 0;
 }
 
 
 
 
-void GDS_PROFILE_SetScoreRecCountC(struct GdsScoreRec *p, u32 i)
+void BSUBWAY_SCOREDATA_SetFirstClear(struct BsubwayScoreData *p, u32 i)
 {
-    p->countsC[GDS_PROFILE_MapScoreSlot(i)] = 1;
+    p->clearCount[BSUBWAY_SCOREDATA_MapPlayMode(i)] = 1;
 }
 
 
 
 
-u32 GDS_PROFILE_GetScoreRecCountC(struct GdsScoreRec *p, u32 i)
+u32 BSUBWAY_SCOREDATA_HasCleared(struct BsubwayScoreData *p, u32 i)
 {
-    if (p->countsC[GDS_PROFILE_MapScoreSlot(i)] != 0) {
+    if (p->clearCount[BSUBWAY_SCOREDATA_MapPlayMode(i)] != 0) {
         return 1;
     }
     return 0;
@@ -1022,21 +1022,21 @@ u32 GDS_PROFILE_GetScoreRecCountC(struct GdsScoreRec *p, u32 i)
 
 
 
-void GDS_PROFILE_IncScoreRecCountC(struct GdsScoreRec *p, u32 i)
+void BSUBWAY_SCOREDATA_IncClearCount(struct BsubwayScoreData *p, u32 i)
 {
-    u32 k = GDS_PROFILE_MapScoreSlot(i);
+    u32 k = BSUBWAY_SCOREDATA_MapPlayMode(i);
 
-    if (p->countsC[k] < 0xFFFE) {
-        p->countsC[k] = p->countsC[k] + 1;
+    if (p->clearCount[k] < 0xFFFE) {
+        p->clearCount[k] = p->clearCount[k] + 1;
     }
 }
 
 
 
 
-u16 GDS_PROFILE_GetScoreRecCountCDec(struct GdsScoreRec *p, u32 i)
+u16 BSUBWAY_SCOREDATA_GetRepeatClearCount(struct BsubwayScoreData *p, u32 i)
 {
-    u16 n = p->countsC[GDS_PROFILE_MapScoreSlot(i)] - 1;
+    u16 n = p->clearCount[BSUBWAY_SCOREDATA_MapPlayMode(i)] - 1;
 
     if ((s16)n < 0) {
         n = 0;
@@ -1047,7 +1047,7 @@ u16 GDS_PROFILE_GetScoreRecCountCDec(struct GdsScoreRec *p, u32 i)
 
 
 
-u32 GDS_PROFILE_ScoreRecFlag(struct GdsScoreRec *p, s32 i, u32 op)
+u32 BSUBWAY_SCOREDATA_AccessFlag(struct BsubwayScoreData *p, s32 i, u32 op)
 {
     u32 j;
     u32 mask = 1;
@@ -1074,7 +1074,7 @@ u32 GDS_PROFILE_ScoreRecFlag(struct GdsScoreRec *p, s32 i, u32 op)
 
 
 
-void GDS_PROFILE_IncScoreRecLevel(struct GdsScoreRec *p)
+void BSUBWAY_SCOREDATA_IncLevel(struct BsubwayScoreData *p)
 {
     if (p->level < 10) {
         p->level = p->level + 1;
@@ -1084,7 +1084,7 @@ void GDS_PROFILE_IncScoreRecLevel(struct GdsScoreRec *p)
 
 
 
-void GDS_PROFILE_DecScoreRecLevel(struct GdsScoreRec *p)
+void BSUBWAY_SCOREDATA_DecLevel(struct BsubwayScoreData *p)
 {
     if (p->level > 1) {
         p->level = p->level - 1;
@@ -1094,7 +1094,7 @@ void GDS_PROFILE_DecScoreRecLevel(struct GdsScoreRec *p)
 
 
 
-u8 GDS_PROFILE_GetScoreRecLevel(struct GdsScoreRec *p)
+u8 BSUBWAY_SCOREDATA_GetLevel(struct BsubwayScoreData *p)
 {
     return p->level;
 }
@@ -1102,20 +1102,20 @@ u8 GDS_PROFILE_GetScoreRecLevel(struct GdsScoreRec *p)
 
 
 
-u8 GDS_PROFILE_UpdateScoreRecStreak(struct GdsScoreRec *p, u32 kind)
+u8 BSUBWAY_SCOREDATA_UpdateStreak(struct BsubwayScoreData *p, u32 kind)
 {
     switch (kind) {
     case 2:
-        GDS_PROFILE_ScoreRecFlag(p, 0, 2);
+        BSUBWAY_SCOREDATA_AccessFlag(p, 0, 2);
         p->streak = 0;
         break;
     case 3:
-        if (GDS_PROFILE_ScoreRecFlag(p, 0, 0)) {
+        if (BSUBWAY_SCOREDATA_AccessFlag(p, 0, 0)) {
             if (p->streak < 0xFF) {
                 p->streak = p->streak + 1;
             }
         } else {
-            GDS_PROFILE_ScoreRecFlag(p, 0, 1);
+            BSUBWAY_SCOREDATA_AccessFlag(p, 0, 1);
             p->streak = 1;
         }
         break;
@@ -1126,7 +1126,7 @@ u8 GDS_PROFILE_UpdateScoreRecStreak(struct GdsScoreRec *p, u32 kind)
 
 
 
-void GDS_PROFILE_SetScoreRecBlob(struct GdsScoreRec *p, u32 which, const void *src)
+void BSUBWAY_SCOREDATA_SetRecordBlob(struct BsubwayScoreData *p, u32 which, const void *src)
 {
     if (which == 0) {
         MI_CpuCopy8(src, p->blobF8, sizeof(p->blobF8));
@@ -1138,7 +1138,7 @@ void GDS_PROFILE_SetScoreRecBlob(struct GdsScoreRec *p, u32 which, const void *s
 
 
 
-void GDS_PROFILE_GetScoreRecBlob(struct GdsScoreRec *p, u32 which, void *dest)
+void BSUBWAY_SCOREDATA_GetRecordBlob(struct BsubwayScoreData *p, u32 which, void *dest)
 {
     if (which == 0) {
         MI_CpuCopy8(p->blobF8, dest, sizeof(p->blobF8));
@@ -1150,7 +1150,7 @@ void GDS_PROFILE_GetScoreRecBlob(struct GdsScoreRec *p, u32 which, void *dest)
 
 
 
-void GDS_PROFILE_CalcScoreRecScore(struct GdsScoreRec *p, const struct GdsScoreSrc *q)
+void BSUBWAY_SCOREDATA_CalcRecordScore(struct BsubwayScoreData *p, const struct GdsScoreSrc *q)
 {
     u16 a;
     u16 c;
@@ -1175,7 +1175,7 @@ void GDS_PROFILE_CalcScoreRecScore(struct GdsScoreRec *p, const struct GdsScoreS
 
 
 
-u16 GDS_PROFILE_GetScoreRecScore(struct GdsScoreRec *p)
+u16 BSUBWAY_SCOREDATA_GetRecordScore(struct BsubwayScoreData *p)
 {
     return p->score;
 }
@@ -1183,7 +1183,7 @@ u16 GDS_PROFILE_GetScoreRecScore(struct GdsScoreRec *p)
 
 
 
-u8 GDS_PROFILE_GetScoreRecScoreHigh(struct GdsScoreRec *p)
+u8 BSUBWAY_SCOREDATA_GetRecordScoreTier(struct BsubwayScoreData *p)
 {
     return p->score / 1000;
 }
@@ -1200,11 +1200,11 @@ u8 GDS_PROFILE_GetScoreRecScoreHigh(struct GdsScoreRec *p)
  * are a packed stamp and the next 250 are a bitmap of 2000 bits.  Neither
  * function carries a label in the generated listing.
  *
- * Near miss, and the reason this unit stops at 0x0200DD28: GDS_PROFILE_SetSubwaySaveBitAndStamp,
+ * Near miss, and the reason this unit stops at 0x0200DD28: BSUBWAY_WIFIDATA_SetTrainerBit,
  * 104 bytes, which sets one bit of that bitmap and then packs four bytes
  * into the stamp word.  It is
  *
- *     void GDS_PROFILE_SetSubwaySaveBitAndStamp(struct GdsSubwaySave *p, u32 a, u32 b,
+ *     void BSUBWAY_WIFIDATA_SetTrainerBit(struct BsubwayWifiData *p, u32 a, u32 b,
  *                        const struct Stamp *q)
  *     {
  *         u16 idx;
@@ -1236,17 +1236,17 @@ u8 GDS_PROFILE_GetScoreRecScoreHigh(struct GdsScoreRec *p)
  * left is not reachable from the source shape.  Forty bytes differ and every
  * one of them is a register number.
  */
-u32 GDS_PROFILE_GetSubwaySaveSize(void)
+u32 BSUBWAY_WIFIDATA_GetSize(void)
 {
-    return sizeof(struct GdsSubwaySave);
+    return sizeof(struct BsubwayWifiData);
 }
 
 
 
 
-void GDS_PROFILE_ClearSubwaySave(struct GdsSubwaySave *p)
+void BSUBWAY_WIFIDATA_Init(struct BsubwayWifiData *p)
 {
-    MI_CpuFill8(p, 0, sizeof(struct GdsSubwaySave));
+    MI_CpuFill8(p, 0, sizeof(struct BsubwayWifiData));
 }
 
 
@@ -1256,7 +1256,7 @@ void GDS_PROFILE_ClearSubwaySave(struct GdsSubwaySave *p)
  * the 0xB90 save block (unit_0200DD10.c) and packs four bytes into its stamp.
  * The u8 mask initialised to 1 at the top gives the early `movs r3,#1`.
  */
-void GDS_PROFILE_SetSubwaySaveBitAndStamp(u8 *p, u8 a, u8 b, u32 *q) {
+void BSUBWAY_WIFIDATA_SetTrainerBit(u8 *p, u8 a, u8 b, u32 *q) {
     u8 mask = 1;
     u16 idx;
     if (b == 0 || b > 200 || a == 0 || a > 10) {
@@ -1276,23 +1276,23 @@ void GDS_PROFILE_SetSubwaySaveBitAndStamp(u8 *p, u8 a, u8 b, u32 *q) {
  * disassembly in asm/arm9/src/003_0200CA1C.s.
  *
  * 208 bytes, 0x0200DD8C..0x0200DE5C.  This file is the merge the wave 4A
- * report asked for: GDS_PROFILE_ClearSubwaySaveStampAndBitmap and GDS_PROFILE_IsStampNewer are each called from
- * exactly one instruction in the image, both inside GDS_PROFILE_QuerySubwaySaveBit, so as
+ * report asked for: BSUBWAY_WIFIDATA_ClearStampAndBitmap and BSUBWAY_WIFIDATA_IsStampNewer are each called from
+ * exactly one instruction in the image, both inside BSUBWAY_WIFIDATA_GetTrainerBit, so as
  * separate files the caller could never attest them.  In one unit both
  * call sites are local and the whole range is EXACT.  See the header of
  * src/matched/unit_0200DD10.c for why the range starts at 0x0200DD8C.
  *
- * GDS_PROFILE_ClearSubwaySaveStampAndBitmap clears the 250-byte bitmap and then the four-byte stamp, in
+ * BSUBWAY_WIFIDATA_ClearStampAndBitmap clears the 250-byte bitmap and then the four-byte stamp, in
  * that order and as two separate calls: the second one's size is four, not
  * the 254 a single call would have used, so the two fields are cleared
  * independently even though they are adjacent.
  *
- * GDS_PROFILE_IsStampNewer compares the first three words of two stamps and answers
+ * BSUBWAY_WIFIDATA_IsStampNewer compares the first three words of two stamps and answers
  * whether the first is greater, with an early return per word rather than a
  * combined expression.  The fourth word is not compared, which is what makes
  * the stamp's last field a tag rather than part of the ordering.
  *
- * GDS_PROFILE_QuerySubwaySaveBit is the query half of the 0xB90-byte block: it answers
+ * BSUBWAY_WIFIDATA_GetTrainerBit is the query half of the 0xB90-byte block: it answers
  * whether the (a, b) pair has already been recorded and whether the stamp it
  * is asked about is newer than the stored one.  Four things pin the source:
  *  - the result local is initialised to 1 before the guard, and the bit
@@ -1306,7 +1306,7 @@ void GDS_PROFILE_SetSubwaySaveBitAndStamp(u8 *p, u8 a, u8 b, u32 *q) {
  *    truncated to u8 before the shift and the mask cast to u8 at the use
  *    (the MUSICAL_SAVE_AddProp shape), and the byte index is (u8)(idx / 8).
  */
-void GDS_PROFILE_ClearSubwaySaveStampAndBitmap(struct GdsSubwaySave *p)
+void BSUBWAY_WIFIDATA_ClearStampAndBitmap(struct BsubwayWifiData *p)
 {
     MI_CpuFill8(p->bitmap, 0, sizeof(p->bitmap));
     MI_CpuFill8(p, 0, sizeof(p->stamp));
@@ -1314,7 +1314,7 @@ void GDS_PROFILE_ClearSubwaySaveStampAndBitmap(struct GdsSubwaySave *p)
 
 
 
-u32 GDS_PROFILE_IsStampNewer(const struct Stamp *a, const struct Stamp *b)
+u32 BSUBWAY_WIFIDATA_IsStampNewer(const struct Stamp *a, const struct Stamp *b)
 {
     if (a->time0 > b->time0) {
         return 1;
@@ -1330,7 +1330,7 @@ u32 GDS_PROFILE_IsStampNewer(const struct Stamp *a, const struct Stamp *b)
 
 
 
-int GDS_PROFILE_QuerySubwaySaveBit(struct GdsSubwaySave *p, u8 a, u8 b, const struct Stamp *q)
+int BSUBWAY_WIFIDATA_GetTrainerBit(struct BsubwayWifiData *p, u8 a, u8 b, const struct Stamp *q)
 {
     struct Stamp s;
     u16 idx;
@@ -1344,8 +1344,8 @@ int GDS_PROFILE_QuerySubwaySaveBit(struct GdsSubwaySave *p, u8 a, u8 b, const st
     s.time1 = (u8)(p->stamp >> 16);
     s.time2 = (u8)(p->stamp >> 8);
     s.tag = (u8)p->stamp;
-    if (GDS_PROFILE_IsStampNewer(q, &s) != 0) {
-        GDS_PROFILE_ClearSubwaySaveStampAndBitmap(p);
+    if (BSUBWAY_WIFIDATA_IsStampNewer(q, &s) != 0) {
+        BSUBWAY_WIFIDATA_ClearStampAndBitmap(p);
         return 0;
     }
     idx = (a - 1) * 200 + (b - 1);

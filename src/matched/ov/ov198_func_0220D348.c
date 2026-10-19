@@ -1,5 +1,5 @@
 /*
- * function: B_PLIST_DRAW_PrintSlotLabelC
+ * function: B_PLIST_DRAW_PrintMoveDescription
  * address: 0x0220D348
  * packet: pkt_ov198_0220D348
  * region: ov198
@@ -32,7 +32,7 @@ extern void PRINTSYS_PrintQueColor(void *, u32, u32, u32, u32, u32, u16);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-void B_PLIST_DRAW_PrintSlotLabelC(char *p, int i, int id)
+void B_PLIST_DRAW_PrintMoveDescription(char *p, int i, int id)
 {
     void *bank;
     void *t;

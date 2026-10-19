@@ -66,7 +66,7 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "BATTLE_REC_CheckSaved"
+    "BATTLE_REC_VerifyAndCloseSave"
    ],
    "addresses": [
     "0x0200B5CC"

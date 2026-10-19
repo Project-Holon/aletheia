@@ -54,7 +54,7 @@
  *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
  *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   FIELD_STATUS_GetMapMode  0x0201444C  thumb
- *   ZONEDATA_IsZone117  0x02013D5C  thumb
+ *   ZONEDATA_IsEntralink  0x02013D5C  thumb
  *   BG_SYS_InitSlot  0x020414C4  arm
  *   BG_SYS_ClearSlot  0x020414EC  arm
  *   gFieldPlaceNameFileName     0x021DE354  data  a4
@@ -184,7 +184,7 @@ extern u16 STRBUF_GetLength(Strbuf *strbuf);
 extern void *GAME_DATA_GetMoveModelSys(const GameData *gameData);
 extern u8 GAME_DATA_GetOwnNetId(const GameData *gameData);
 extern unsigned int FIELD_STATUS_GetMapMode(void *fieldStatus);
-extern u32 ZONEDATA_IsZone117(u32 zoneId);
+extern u32 ZONEDATA_IsEntralink(u32 zoneId);
 extern void BG_SYS_InitSlot(u32 bgId);
 extern void BG_SYS_ClearSlot(u32 bgId);
 extern void MI_CpuFill8(void *dst, int value, int size);
@@ -846,7 +846,7 @@ int FIELD_PLACE_NAME_UsesIntrudeTemplate(FieldPlaceName *placeName, int zoneId)
         if (FIELD_STATUS_GetMapMode(fieldStatus) == 1) {
             return 1;
         }
-        if (ZONEDATA_IsZone117(zoneId) != 0 && ownNetId != intrudeId) {
+        if (ZONEDATA_IsEntralink(zoneId) != 0 && ownNetId != intrudeId) {
             return 1;
         }
     }

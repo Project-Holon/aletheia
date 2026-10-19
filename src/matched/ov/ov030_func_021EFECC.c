@@ -18,7 +18,7 @@
  *   func_02049740  0x02049740  arm
  *   ARC_UTIL_UploadBgPaletteAddFromHandle  0x02049990  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm
  *   gNoGearPaletteFileIds     0x021F0134  data  ov030  a4
  *   gNoGearCharFileIds     0x021F0140  data  ov030  a4
@@ -38,7 +38,7 @@ extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern void ARC_TOOL_DeleteHandle(void *h);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern const u32 gNoGearPaletteFileIds[];
 extern const u32 gNoGearCharFileIds[];
@@ -63,6 +63,6 @@ void NO_GEAR_LoadGraphics(Obj *p)
     p->w14 = func_02049740(h, gNoGearCharFileIds[i], 6, 0, 0, p->heap);
     ARC_UTIL_UploadBgPaletteAddFromHandle(h, 3, 6, 0, (u16)p->w14, 0, 0, p->heap);
     ARC_TOOL_DeleteHandle(h);
-    GFL_NET_RestartWithDefaultTimeout(0, p->heap);
+    GFL_NET_RefreshWmIconAtTopRight(0, p->heap);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }

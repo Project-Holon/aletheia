@@ -74,7 +74,7 @@
  *   PROCSYS_Create  0x02031324  arm
  *   PRINTSYS_CTRL_Init  0x02028470  thumb
  *   func_020056A0  0x020056A0  thumb
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   MONOLITH_TOOL_LoadSlotRecords  0x021B69AC  thumb  ov071
  *   MONOLITH_TOOL_InitDisplay  0x021B64D0  thumb  ov071
  *   MONOLITH_TOOL_InitBmpWin  0x021B652C  thumb  ov071
@@ -107,7 +107,7 @@ extern void *GPOWER_LoadPowerTable(u32 heap);
 extern void *PROCSYS_Create(int a0);
 extern void PRINTSYS_CTRL_Init(u8 *p, u32 v);
 extern u32 func_020056A0(void (*cb)(void), void *arg, int pri);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void MONOLITH_TOOL_LoadSlotRecords(u8 *a, u8 *b);
 extern void MONOLITH_TOOL_InitDisplay(void);
 extern void MONOLITH_TOOL_InitBmpWin(void);
@@ -153,7 +153,7 @@ int MONOLITH_TOOL_Init(struct Proc *ctx, int unused, u8 *arg)
     *(int *)(o + 0x130) = (int)PROCSYS_Create(0x61);
     PRINTSYS_CTRL_Init(o + 0x38, 6);
     *(u32 *)(o + 0x128) = func_020056A0((void (*)(void))MONOLITH_TOOL_VBlankTask, o, 0xA);
-    GFL_NET_RestartWithDefaultTimeout(0, 0x61);
+    GFL_NET_RefreshWmIconAtTopRight(0, 0x61);
     *(u8 **)(o + 0xF8) = arg;
     *(u8 **)(o + 0xFC) = o;
     *(u8 **)(o + 0x100) = o + 0xF0;

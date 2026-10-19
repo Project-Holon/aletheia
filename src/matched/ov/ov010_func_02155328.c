@@ -23,7 +23,7 @@
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
- *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
+ *   GAME_DATA_GetMyStatusPlayer  0x02012950  thumb
  *   MUSICAL_EVENT_TwoPlayerPositionRemap     0x0216FED8  data  ov010  a1
  *   MUSICAL_EVENT_FourPlayerPositionRemap     0x0216FEDC  data  a1
  */
@@ -65,7 +65,7 @@ extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 struct Rec44;
 struct Sub24;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
-extern struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, u32 i);
+extern struct Rec44 *GAME_DATA_GetMyStatusPlayer(struct Sub24 *p, u32 i);
 
 void MUSICAL_EVENT_BindParticipantSlots(struct Ctx *ctx, void *party)
 {
@@ -77,28 +77,28 @@ void MUSICAL_EVENT_BindParticipantSlots(struct Ctx *ctx, void *party)
         if (ctx->b78[GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle()))] < 2) {
             for (i = 0; i < 4; i++) {
                 ctx->slot[ctx->b78[i]].list = ctx->f3c[i];
-                ctx->slot[ctx->b78[i]].mon = GAME_DATA_GetPlayerStatus(GAMESYSTEM_GetGameData(party), i);
+                ctx->slot[ctx->b78[i]].mon = GAME_DATA_GetMyStatusPlayer(GAMESYSTEM_GetGameData(party), i);
             }
         } else {
             i = 0;
             m4 = MUSICAL_EVENT_FourPlayerPositionRemap;
             for (; i < 4; i++) {
                 ctx->slot[m4.v[ctx->b78[i]]].list = ctx->f3c[i];
-                ctx->slot[m4.v[ctx->b78[i]]].mon = GAME_DATA_GetPlayerStatus(GAMESYSTEM_GetGameData(party), i);
+                ctx->slot[m4.v[ctx->b78[i]]].mon = GAME_DATA_GetMyStatusPlayer(GAMESYSTEM_GetGameData(party), i);
             }
         }
     } else {
         if (GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle())) == 0) {
             for (i = 0; i < 2; i++) {
                 ctx->slot[ctx->b78[i]].list = ctx->f3c[i];
-                ctx->slot[ctx->b78[i]].mon = GAME_DATA_GetPlayerStatus(GAMESYSTEM_GetGameData(party), i);
+                ctx->slot[ctx->b78[i]].mon = GAME_DATA_GetMyStatusPlayer(GAMESYSTEM_GetGameData(party), i);
             }
         } else {
             i = 0;
             m2 = MUSICAL_EVENT_TwoPlayerPositionRemap;
             for (; i < 2; i++) {
                 ctx->slot[m2.v[ctx->b78[i]]].list = ctx->f3c[i];
-                ctx->slot[m2.v[ctx->b78[i]]].mon = GAME_DATA_GetPlayerStatus(GAMESYSTEM_GetGameData(party), i);
+                ctx->slot[m2.v[ctx->b78[i]]].mon = GAME_DATA_GetMyStatusPlayer(GAMESYSTEM_GetGameData(party), i);
             }
         }
     }

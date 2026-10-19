@@ -32,7 +32,7 @@
  *   GFL_NET_ERR_HaltIfActive 0x0200FA84 thumb
  *   GFL_NET_StartSession 0x0203CBAC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   WIH_DWC_Create 0x02010360 thumb
  *   GFL_NET_BeaconScanStart 0x0203D010 arm
  *   d_021DFABC 0x021DFABC data a4
@@ -75,7 +75,7 @@
  *   GFL_USE_GetRandom  0x020056EC  thumb  arm9
  *   MYSTATUS_GetName  0x020084F4  thumb  arm9
  *   MYSTATUS_GetId  0x02008530  thumb  arm9
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb  arm9
+ *   MYSTATUS_GetSex  0x02008550  thumb  arm9
  */
 
 typedef unsigned char  u8;
@@ -127,7 +127,7 @@ extern void GFL_NET_ERR_ShowSimpleScreen(void);
 extern void GFL_NET_ERR_HaltIfActive(void);
 extern void GFL_NET_StartSession(struct Req *req, unsigned int transportArg, unsigned int userArg);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern void GFL_NET_RestartWithDefaultTimeout(unsigned, unsigned);
+extern void GFL_NET_RefreshWmIconAtTopRight(unsigned, unsigned);
 extern u8 *WIH_DWC_Create(int idx, void *heap);
 extern void GFL_NET_BeaconScanStart(void);
 extern int GFL_NET_Exit(int);
@@ -378,7 +378,7 @@ void MYSTERY_NET_StartSession(void *a, int *state, char *p)
         break;
     case 1:
         if (GFL_NET_GetRunState()) {
-            GFL_NET_RestartWithDefaultTimeout(1, ((MysteryNetWork *)p)->heapId);
+            GFL_NET_RefreshWmIconAtTopRight(1, ((MysteryNetWork *)p)->heapId);
             ((MysteryNetWork *)p)->wihHandle = WIH_DWC_Create(4, (void *)(((MysteryNetWork *)p)->heapId));
             GFL_NET_BeaconScanStart();
             *state = 2;
@@ -428,7 +428,7 @@ void MYSTERY_NET_PollWihStatus(int a, int b, char *c)
 
 
 
-void MYSTERY_NET_StartBeacon(void *a,int *state,char *p) {Config cfg;u32 h; switch(*state) {case 0: MI_CpuFill8(&cfg,0,124);cfg.kind=9;cfg.bytes=720;cfg.data=p+1956;cfg.lang=GAME_LANGUAGE_Code;cfg.align=2097152;cfg.last=1;cfg.flag=0;cfg.heap=((MysteryNetWork *)p)->heapId;h=(u32)DELIVERY_BEACON_Create((u8 *)(&cfg));((MysteryNetWork *)p)->beacon=(void *)h;DELIVERY_BEACON_Start((u32 *)h);BG_SYS_SetSubPlaneVisible(16,0);((MysteryNetWork *)p)->recvState=0;*state=1;break;case 1:if(GFL_NET_GetRunState()) {GFL_NET_RestartWithDefaultTimeout(1,((MysteryNetWork *)p)->heapId);BG_SYS_SetSubPlaneVisible(16,1);*state=2;}break;case 2:MYSTERY_NET_SetHandler(a,MYSTERY_NET_RunBeacon);break;} }
+void MYSTERY_NET_StartBeacon(void *a,int *state,char *p) {Config cfg;u32 h; switch(*state) {case 0: MI_CpuFill8(&cfg,0,124);cfg.kind=9;cfg.bytes=720;cfg.data=p+1956;cfg.lang=GAME_LANGUAGE_Code;cfg.align=2097152;cfg.last=1;cfg.flag=0;cfg.heap=((MysteryNetWork *)p)->heapId;h=(u32)DELIVERY_BEACON_Create((u8 *)(&cfg));((MysteryNetWork *)p)->beacon=(void *)h;DELIVERY_BEACON_Start((u32 *)h);BG_SYS_SetSubPlaneVisible(16,0);((MysteryNetWork *)p)->recvState=0;*state=1;break;case 1:if(GFL_NET_GetRunState()) {GFL_NET_RefreshWmIconAtTopRight(1,((MysteryNetWork *)p)->heapId);BG_SYS_SetSubPlaneVisible(16,1);*state=2;}break;case 2:MYSTERY_NET_SetHandler(a,MYSTERY_NET_RunBeacon);break;} }
 
 
 
@@ -475,7 +475,7 @@ void MYSTERY_NET_StartIrc(void *a, int *state, char *p)
         break;
     case 1:
         if (GFL_NET_GetRunState()) {
-            GFL_NET_RestartWithDefaultTimeout(1, ((MysteryNetWork *)p)->heapId);
+            GFL_NET_RefreshWmIconAtTopRight(1, ((MysteryNetWork *)p)->heapId);
             *state = 2;
         }
         break;
@@ -872,7 +872,7 @@ extern u32 POKE_TOOL_AddMove(void *p, u32 move);
 extern void POKE_TOOL_PushMove(void *p, int move);
 extern void POKE_TOOL_SetAbility(void *p, u32 species, u32 arg);
 extern const void *MYSTATUS_GetName(const void *p);
-extern u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetSex(const struct Sub0200852CObj *obj);
 extern void *POKE_TOOL_Dummy(void *p);
 extern void SAVE_EVENT_WriteWithDate(void *save, u32 eventId, u32 year, u32 month, u32 day);
 extern void POKE_TOOL_RecalcParam(void *p);
@@ -1085,7 +1085,7 @@ int MYSTERY_NET_BuildPokemonFromRecord(struct Rec *r, void *gs, u16 heap)
                 if (v <= 2)
                     POKE_TOOL_SetPartyValue(mon, 0x9a, v);
                 else {
-                    v = MYSTATUS_GetOutfitVariant((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(gs));
+                    v = MYSTATUS_GetSex((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(gs));
                     POKE_TOOL_SetPartyValue(mon, 0x9a, v);
                 }
             }

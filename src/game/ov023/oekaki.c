@@ -50,7 +50,7 @@
  *   OEKAKI_CreateWindows  0x02184ECC  thumb  ov023
  *   OEKAKI_EnableDisplays  0x02186564  thumb  ov023
  *   OEKAKI_RegisterMetPlayers  0x021866C4  thumb  ov023
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   OEKAKI_GetJoinedBits  0x02186558  thumb  ov023
  *   OEKAKI_ApplySceneChange  0x0218644C  thumb  ov023
@@ -267,7 +267,7 @@ extern void *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWi
 extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heapId);
 extern void *GFL_USE_AddMainTask(void (*callback)(void), void *context, int priority);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 heapId);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 heapId);
 extern void ARC_TOOL_DeleteHandle(void *archive);
 extern u32 WIPE_SYS_EndCheck(void);
 extern void UNION_APP_SetCallbacks(UnionAppWork *app, UnionAppMemberCallback joinCallback, UnionAppMemberCallback leaveCallback, void *callbackArg);
@@ -863,7 +863,7 @@ int OEKAKI_Init(void *task, int *state, OekakiParam *param)
         OEKAKI_EnableDisplays();
         OEKAKI_RegisterNetCommands(work);
         OEKAKI_RegisterMetPlayers(work);
-        GFL_NET_RestartWithDefaultTimeout(1, OEKAKI_HEAP_ID);
+        GFL_NET_RefreshWmIconAtTopRight(1, OEKAKI_HEAP_ID);
         ARC_TOOL_DeleteHandle(archive);
         (*state)++;
         break;

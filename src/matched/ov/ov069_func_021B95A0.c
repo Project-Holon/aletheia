@@ -29,7 +29,7 @@
  *   BSUBWAY_RECORD_LIST_UpdateArrowVisibility  0x021BA384  thumb  ov069
  *   BSUBWAY_RECORD_LIST_ShowPage  0x021BA438  thumb  ov069
  *   WIPE_SYS_Start  0x0202208C  thumb
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  */
 #include "../include/Obj00432.h"
 
@@ -56,7 +56,7 @@ extern void BSUBWAY_RECORD_LIST_InitCursor(char *p);
 extern void  BSUBWAY_RECORD_LIST_UpdateArrowVisibility(char *o, int i, int n);
 extern void BSUBWAY_RECORD_LIST_ShowPage(char *p, int i);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
-extern void  GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void  GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 
 int BSUBWAY_RECORD_LIST_Init(void *a, u32 b, u32 c)
 {
@@ -79,6 +79,6 @@ int BSUBWAY_RECORD_LIST_Init(void *a, u32 b, u32 c)
     BSUBWAY_RECORD_LIST_UpdateArrowVisibility((char *)p, ((struct Obj00432 *)p)->f160, ((struct Obj00432 *)p)->f162);
     BSUBWAY_RECORD_LIST_ShowPage((char *)p, ((struct Obj00432 *)p)->f160);
     WIPE_SYS_Start(0, 1, 1, 0, 0x10, 1, 0x80);
-    GFL_NET_RestartWithDefaultTimeout(1, 0x80);
+    GFL_NET_RefreshWmIconAtTopRight(1, 0x80);
     return 1;
 }

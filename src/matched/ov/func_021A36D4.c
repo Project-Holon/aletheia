@@ -1,5 +1,5 @@
 /*
- * function: FIELD_PLAYER_ClearNogridState
+ * function: FIELD_PLAYER_GetNogridRailPos
  * address:  0x021A36D4
  * packet:   pkt_021A5A00
  * region:   ov021
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 
 extern void FIELD_PLAYER_NOGRID_GetRailPos(u8 *p);
 
-void FIELD_PLAYER_ClearNogridState(u8 *p, u32 v)
+void FIELD_PLAYER_GetNogridRailPos(u8 *p, u32 v)
 {
     FIELD_PLAYER_NOGRID_GetRailPos((u8 *)(((struct Obj18030 *)p)->fC));
 }

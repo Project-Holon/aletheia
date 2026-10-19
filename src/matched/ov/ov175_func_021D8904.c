@@ -1,5 +1,5 @@
 /*
- * function: WIFIBATTLEMATCH_NET_CompStepG
+ * function: WIFIBATTLEMATCH_NET_CompStepReportAndUploadResult
  * address: 0x021D8904
  * packet: pkt_ov175_021D8904
  * region: ov175
@@ -17,8 +17,8 @@
  *   WIFIBATTLEMATCH_UTIL_ClearCallback 0x021E8AA8 thumb ov177
  *   WIFIBATTLEMATCH_UTIL_SetSaveState 0x021E8AC0 thumb ov177
  *   WIFIBATTLEMATCH_NET_HandleNetError 0x021D9F04 thumb ov175
- *   WIFIBATTLEMATCH_NET_CompStepH 0x021D8BC4 thumb ov175
- *   WIFIBATTLEMATCH_NET_CompStepI 0x021D8CF0 thumb ov175
+ *   WIFIBATTLEMATCH_NET_CompStepSaveAfterBattle 0x021D8BC4 thumb ov175
+ *   WIFIBATTLEMATCH_NET_CompStepAskRetry 0x021D8CF0 thumb ov175
  *   WIFIBATTLEMATCH_NET_CompCleanup 0x021D9064 thumb ov175
  *   WIFIBATTLEMATCH_NET_SetupMatchReport 0x021DA5B0 thumb ov175
  *   WIFIBATTLEMATCH_NET_ScProcess 0x021DA6B8 thumb ov175
@@ -59,8 +59,8 @@ extern void WIFIBATTLEMATCH_UTIL_ClearCallback(int a);
 extern int WIFIBATTLEMATCH_UTIL_GetBusy(const int *p);
 extern void WIFIBATTLEMATCH_UTIL_SetSaveState(int,int);
 extern int WIFIBATTLEMATCH_NET_HandleNetError(char *,void *,void *);
-extern void WIFIBATTLEMATCH_NET_CompStepH(int *a, int *state, char *ctx);
-extern void WIFIBATTLEMATCH_NET_CompStepI(u32 sys, int *state, char *p);
+extern void WIFIBATTLEMATCH_NET_CompStepSaveAfterBattle(int *a, int *state, char *ctx);
+extern void WIFIBATTLEMATCH_NET_CompStepAskRetry(u32 sys, int *state, char *p);
 extern void WIFIBATTLEMATCH_NET_CompCleanup(void *obj, int unused, u8 *p);
 extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 extern void DWC_RAPCOMMON_CreateSubHeap(u32 a, u32 b, u32 c, u32 d);
@@ -79,14 +79,14 @@ extern void MET_TRAINERS_Insert(struct L0200ED54 *,unsigned int);
 extern void MI_CpuFill8(void *,int,unsigned);
 extern void WIFIBATTLEMATCH_NET_SetupGdbUpload(u8 *p, u32 mode, struct Record *src);
 extern int WIFIBATTLEMATCH_NET_GdbUpdateRecord(char *);
-void WIFIBATTLEMATCH_NET_CompStepG(u32 sys,int *state,char *p)
+void WIFIBATTLEMATCH_NET_CompStepReportAndUploadResult(u32 sys,int *state,char *p)
 {
     char *q=*(char * *)&((struct Obj00477 *)p)->f104;
     Rec84 rec;
     void *list;
     int v;
     switch(*state) {
-    case 0:if(((struct Obj02512 *)q)->fC==2 && ((struct Obj00477 *)p)->f100==0) WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys,(int)WIFIBATTLEMATCH_NET_CompStepH);
+    case 0:if(((struct Obj02512 *)q)->fC==2 && ((struct Obj00477 *)p)->f100==0) WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys,(int)WIFIBATTLEMATCH_NET_CompStepSaveAfterBattle);
         else {
             ((struct Obj00477 *)p)->f100=0;
             GFL_HEAP_CreateChildHeap(1,134,0x60000);
@@ -113,7 +113,7 @@ void WIFIBATTLEMATCH_NET_CompStepG(u32 sys,int *state,char *p)
             }
         }break;
     case 4:DWC_RAPCOMMON_DestroySubHeap();
-        if(((struct Obj02512 *)q)->fC==2)WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys,(int)WIFIBATTLEMATCH_NET_CompStepH);
+        if(((struct Obj02512 *)q)->fC==2)WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys,(int)WIFIBATTLEMATCH_NET_CompStepSaveAfterBattle);
         else *state=5;break;
     case 5:list=MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl(**(void ** *)&((struct Obj02512 *)q)->f8));
         MET_TRAINERS_Insert(list,func_02008530(((struct Obj02512 *)q)->f18));
@@ -135,7 +135,7 @@ void WIFIBATTLEMATCH_NET_CompStepG(u32 sys,int *state,char *p)
         }
         if(v!=0) {
             switch(WIFIBATTLEMATCH_NET_HandleNetError(*(char * *)&((struct Obj00477 *)p)->f34,0,0)) {
-            case 1:WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys,(int)WIFIBATTLEMATCH_NET_CompStepI);break;
+            case 1:WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys,(int)WIFIBATTLEMATCH_NET_CompStepAskRetry);break;
             case 2:WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys,(int)WIFIBATTLEMATCH_NET_CompCleanup);break;
             }
         }break;

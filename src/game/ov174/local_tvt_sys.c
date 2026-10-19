@@ -18,7 +18,7 @@
  *   GAME_DATA_GetSeason 0x02012984 thumb
  *   TIMEZONE_GetLight 0x02011400 thumb
  *   GF_STANDARD_GetCachedTime 0x0203F4CC arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   TCB_DeleteTask 0x02030EAC arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   CLACT_ReleasePalette 0x0204ADA4 arm
@@ -70,7 +70,7 @@
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
- *   MYSTATUS_GetOutfitVariant 0x02008550 thumb
+ *   MYSTATUS_GetSex 0x02008550 thumb
  *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
  *   ARC_UTIL_UploadBgCharFromHandle 0x02049658 arm
  *   BG_SYS_FillTileMap 0x020413B0 arm
@@ -201,7 +201,7 @@ extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
 
 extern u8 TIMEZONE_GetLight(int row, int col);
 
-extern void GF_STANDARD_GetCachedTime(struct RtcTime *),GFL_NET_RestartWithDefaultTimeout(unsigned,unsigned);
+extern void GF_STANDARD_GetCachedTime(struct RtcTime *),GFL_NET_RefreshWmIconAtTopRight(unsigned,unsigned);
 
 extern void TCB_DeleteTask(struct Node *n);
 
@@ -275,7 +275,7 @@ extern int CLACT_RegisterCharacter(void *,unsigned int,unsigned int,unsigned int
 
 extern s32 CLACT_RegisterCellAnim(void *owner, unsigned int first, unsigned int second, unsigned int mode);
 
-extern u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetSex(const struct Sub0200852CObj *obj);
 
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,unsigned int,unsigned int,unsigned int,unsigned int,u16);
 
@@ -488,7 +488,7 @@ void LOCAL_TVT_SYS_Create(u8 *p)
  one=1;((struct LocalTvtSys *)p)->highBase=one;((struct LocalTvtSys *)p)->pending=one;
  ((struct LocalTvtSys *)p)->vblankTask=task;((struct LocalTvtSys *)p)->stepIndex=0;
  ((struct LocalTvtSys *)p)->frameTimer=0;((struct LocalTvtSys *)p)->charaCursor=0;((struct LocalTvtSys *)p)->activeChara.asInt=0;((struct LocalTvtSys *)p)->state=0;
- GFL_NET_RestartWithDefaultTimeout(0,((struct LocalTvtSys *)p)->heapId);
+ GFL_NET_RefreshWmIconAtTopRight(0,((struct LocalTvtSys *)p)->heapId);
 }
 
 void LOCAL_TVT_SYS_Delete(u8 *p)
@@ -641,7 +641,7 @@ void LOCAL_TVT_SYS_CreateGraphics(u8 *p)
     ((struct LocalTvtSys *)p)->palette.value=CLACT_RegisterPaletteCompressed(arc,3,0,0,((struct LocalTvtSys *)p)->heapId);
     ((struct LocalTvtSys *)p)->character.value=CLACT_RegisterCharacter(arc,24,0,0,((struct LocalTvtSys *)p)->heapId);
     ((struct LocalTvtSys *)p)->cellAnim.value=CLACT_RegisterCellAnim(arc,20,22,((struct LocalTvtSys *)p)->heapId);
-    if(MYSTATUS_GetOutfitVariant(save)==0) ARC_UTIL_UploadPaletteFromHandleWhole(arc,7,4,0,0x60,((struct LocalTvtSys *)p)->heapId);
+    if(MYSTATUS_GetSex(save)==0) ARC_UTIL_UploadPaletteFromHandleWhole(arc,7,4,0,0x60,((struct LocalTvtSys *)p)->heapId);
     else ARC_UTIL_UploadPaletteFromHandleWhole(arc,6,4,0,0x60,((struct LocalTvtSys *)p)->heapId);
     ARC_UTIL_UploadBgCharFromHandle(arc,11,7,0,0,0,((struct LocalTvtSys *)p)->heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(arc,14,7,0,0,0,((struct LocalTvtSys *)p)->heapId);

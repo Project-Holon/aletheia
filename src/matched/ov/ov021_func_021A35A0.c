@@ -1,5 +1,5 @@
 /*
- * function: FIELD_PLAYER_SetGridMoveState
+ * function: FIELD_PLAYER_SetGridHopLanded
  * address:  0x021A35A0
  * packet:   pkt_ov021_021A35A0
  * region:   ov021
@@ -20,7 +20,7 @@ typedef unsigned char  u8;
 u32 FIELDMAP_GetMoveKind(u8 *p);
 int FIELD_PLAYER_GRID_SetHopLanded(u32 a, u32 b);
 
-void FIELD_PLAYER_SetGridMoveState(u32 *p, int a)
+void FIELD_PLAYER_SetGridHopLanded(u32 *p, int a)
 {
     if (FIELDMAP_GetMoveKind((u8 *)p[0]) == 0)
         FIELD_PLAYER_GRID_SetHopLanded(p[2], a);

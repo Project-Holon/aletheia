@@ -72,7 +72,7 @@
  *   WORLDTRADE_SetStateAndReturn  0x021F4EC0  thumb
  *   WORLDTRADE_SetActorPos  0x021F4FF4  thumb
  *   UI_SetInputMode  0x020355D8  arm
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm  arm9
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm  arm9
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   WORLDTRADE_SetNextState 0x021F4E98 thumb ov135
  *   WORLDTRADE_UpdateTaskMenuYesNo 0x021F4D14 thumb ov135
@@ -177,7 +177,7 @@ extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 
 extern void WORLDTRADE_AdvanceScreenId(Work *p);
 
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 
 extern void BG_SYS_PushTile(u32 layer);
 
@@ -542,7 +542,7 @@ void WORLDTRADE_TITLE_CreateActors(Work *p)
         CLACT_SetActorAnimSeq(p->cursor_p, 0);
         CLACT_SetActorDrawEnable(p->cursor_p, 1);
     }
-    GFL_NET_RestartWithDefaultTimeout(0, 0x48);
+    GFL_NET_RefreshWmIconAtTopRight(0, 0x48);
 }
 
 /*

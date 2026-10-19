@@ -17,13 +17,13 @@
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   MATH_CountPopulation  0x02080D24  arm
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   SYSTEM_DATA_GetConfig  0x0200873C  thumb
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   ARC_TOOL_CreateHandle   0x020490F4  arm
- *   SAVEDATA_PanicFail   0x02034714  arm
+ *   GF_PANIC_Fail   0x02034714  arm
  *   MTX_Identity33_  0x0207ADC4  arm
  *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
  *   FLDMMDL_GetGridNowZ  0x0216D86C  thumb  ov010
@@ -60,12 +60,12 @@ extern int  GFL_NET_GetNegotiationNum(void);
 extern void *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern unsigned int MATH_CountPopulation(int a);
 extern u32 GFL_NET_GetHandleNetID(void *p);
-extern u8 MYSTATUS_GetOutfitVariant(const void *obj);
+extern u8 MYSTATUS_GetSex(const void *obj);
 extern void *FIELDMAP_GetFieldPlayer(void *p);
 extern void *FIELD_PLAYER_GetMmdl(void *p);
 extern void FIELD_PLAYER_GetPos(void *a, void *v);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 extern void MTX_Identity33_(void *m);
 extern int FLDMMDL_GetGridNowX(void *);
 extern int FLDMMDL_GetGridNowZ(void *);
@@ -272,7 +272,7 @@ void COLOSSEUM_UpdateCommPlayers(ColosseumWork *work)
     for (netId = 0; netId < COLOSSEUM_PLAYER_MAX; netId++) {
         if (ownNetId != netId && COLOSSEUM_TakePackage(work, netId, &package) == 1) {
             if (COMM_PLAYER_CheckOccupy(work->commPlayer, netId) == 0) {
-                int outfitVariant = MYSTATUS_GetOutfitVariant((const struct MyStatus *)&work->player[netId]);
+                int outfitVariant = MYSTATUS_GetSex((const struct MyStatus *)&work->player[netId]);
                 int addMode = 1;
 
                 if (outfitVariant)

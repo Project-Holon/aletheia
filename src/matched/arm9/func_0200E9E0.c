@@ -1,5 +1,5 @@
 /*
- * function: MISC_SAVEDATA_InitMacAndStats
+ * function: LIVEBATTLEMATCH_SAVE_Init
  * address:  0x0200E9E0
  * packet:   pkt_0200E9E0
  * region:   arm9
@@ -18,7 +18,7 @@ typedef unsigned char u8;
 extern void func_0200E904(void *p);
 extern void BSUBWAY_SAVEDATA_InitStats(void *p);
 
-void MISC_SAVEDATA_InitMacAndStats(void *a0)
+void LIVEBATTLEMATCH_SAVE_Init(void *a0)
 {
     func_0200E904(a0);
     BSUBWAY_SAVEDATA_InitStats((u8 *)a0 + 0x5a);

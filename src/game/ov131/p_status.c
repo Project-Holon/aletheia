@@ -19,7 +19,7 @@
  *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   MIi_CpuCopy16 0x02082A60 arm
  *   GAME_DATA_ContainsRecentId 0x02012BF8 thumb
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   TCB_DeleteTask 0x02030EAC arm
  *   GAME_DATA_SetRecentId 0x02012BE0 thumb
  *   UI_SetInputMode 0x020355D8 arm
@@ -231,7 +231,7 @@
  *   POKE_TOOL_CastToBoxParam  0x020185F0  thumb  arm9
  *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb  arm9
  *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb  arm9
- *   GF_FONT_MeasureWidestLine  0x0201D304  thumb  arm9
+ *   PRINTSYS_MeasureWidestLine  0x0201D304  thumb  arm9
  */
 
 #include "p_status_types.h"
@@ -314,7 +314,7 @@ extern void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
 extern void *GFL_USE_AddMainTask(u32,u32,u32);
 extern void MIi_CpuCopy16(const void *,void *,u32);
 extern int GAME_DATA_ContainsRecentId(int gd, int id);
-extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 extern void TCB_DeleteTask(struct Tcb *n);
 extern void GAME_DATA_SetRecentId(void *p, u32 a, u32 b);
 extern void UI_SetInputMode(u8);
@@ -441,7 +441,7 @@ extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 
 extern void *BMP_WIN_GetBmp(struct BmpWin *p);
 extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 extern void *PROCSYS_AllocProcWork(struct HeapSys *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,int);
@@ -634,7 +634,7 @@ int P_STATUS_InitWork(PStatusWork *wk)
             P_STA_INFO_Setup(wk,wk->infoWork); break;
         }
     }
-    GFL_NET_RestartWithDefaultTimeout(1,wk->heapId);
+    GFL_NET_RefreshWmIconAtTopRight(1,wk->heapId);
     return 1;
 }
 
@@ -2012,7 +2012,7 @@ void P_STATUS_PrintWordSetMsgRight(PStatusWork *wk,int bmpWin,void *wordSet,int 
  void *fmt=MSGDATA_AllocString(wk->msgData,msgId);
  int width;
  WORDSET_CopyTaggedText(wordSet,str,fmt);
- width=GF_FONT_MeasureWidestLine(str,(int)wk->font,0);
+ width=PRINTSYS_MeasureWidestLine(str,(int)wk->font,0);
  PRINTSYS_PrintQueColor(wk->printQue,bmpWin,(short)(x-width),(short)y,(u32)str,(int)wk->font,color);
  STRBUF_Delete(fmt);
  STRBUF_Delete(str);

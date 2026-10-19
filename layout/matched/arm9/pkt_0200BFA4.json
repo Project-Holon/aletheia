@@ -32,7 +32,7 @@
    }
   },
   {
-   "name": "BEACON_Init",
+   "name": "MISC_Init",
    "address": "0x0200C058",
    "kind": "game",
    "region": "arm9",

@@ -78,7 +78,7 @@
  *   GAME_BEACON_SetPokeLevelUp 0x02027268 thumb
  *   gPlistStatParamIds 0x021BECE4 data ov091 a2
  *   BMP_WIN_ClearScreen 0x020456F8 arm
- *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
+ *   PRINTSYS_MeasureWidestLine 0x0201D304 thumb
  *   POKE_TOOL_LearnLevelUpMove 0x02018328 thumb
  *   ARC_UTIL_UploadPaletteFromHandle 0x02049BDC arm
  *   ARC_UTIL_UploadPaletteFromHandleWhole 0x02049B68 arm
@@ -210,7 +210,7 @@ extern unsigned int POKE_TOOL_GetPlateTypeForwarder(unsigned int item);
 extern u32 POKE_TOOL_ChangeForm(void *mon, u32 form);
 extern u32 POKE_TOOL_GetBoxParamIndex(u32 id);
 extern void GAME_BEACON_SetPokeLevelUp(int);
-extern u32 GF_FONT_MeasureWidestLine(struct Strbuf *s, void *font, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *s, void *font, u32 b);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u16 POKE_TOOL_LearnLevelUpMove(void *p, u32 *idx, u32 heap);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
@@ -805,7 +805,7 @@ void PLIST_MENU_UpdateLevelUp(PokelistWork *work)
             STRBUF_Delete(msg);
             msg = MSGDATA_AllocString(work->msgBank, 0x9c); numStr = STRBUF_Create(0x20, work->heapId); wordSet = WORDSET_CreateDefault(work->heapId);
             WORDSET_SetSlotNumber(wordSet, 0, delta, 3, 0, 1); WORDSET_CopyTaggedText(wordSet, numStr, msg);
-            width = GF_FONT_MeasureWidestLine(numStr, work->fontMain, 0);
+            width = PRINTSYS_MeasureWidestLine(numStr, work->fontMain, 0);
             PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp(DESC), (s16)(104 - width), (s16)y, numStr, work->fontMain, 0x440);
             STRBUF_Delete(msg); STRBUF_Delete(numStr); WORDSET_Delete(wordSet);
         }
@@ -834,7 +834,7 @@ void PLIST_MENU_UpdateLevelUp(PokelistWork *work)
             delta = POKE_TOOL_GetPartyValue((void *)work->selectedMon, gPlistStatParamIds[i], 0);
             msg = MSGDATA_AllocString(work->msgBank, 0x9c); numStr = STRBUF_Create(0x20, work->heapId); wordSet = WORDSET_CreateDefault(work->heapId);
             WORDSET_SetSlotNumber(wordSet, 0, delta, 3, 0, 1); WORDSET_CopyTaggedText(wordSet, numStr, msg);
-            width = GF_FONT_MeasureWidestLine(numStr, work->fontMain, 0);
+            width = PRINTSYS_MeasureWidestLine(numStr, work->fontMain, 0);
             PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp(DESC), (s16)(104 - width), (s16)(i << 4), numStr, work->fontMain, 0x440);
             STRBUF_Delete(msg); STRBUF_Delete(numStr); WORDSET_Delete(wordSet);
         }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "FIELD_EVENT_CHECK_CheckSaveFlagMessage",
+   "name": "FIELD_EVENT_CHECK_CheckMovePokemonCooldown",
    "address": "0x0218AC4C",
    "kind": "game",
    "region": "ov021",

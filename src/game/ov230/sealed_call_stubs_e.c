@@ -4,7 +4,7 @@
  * function: OV230_CallSealedBody14, OV230_CallSealedBody15
  * address:  0x02189340
  * region:   ov230d
- * compiler: dsi/1.1p1
+ * compiler: dsi/../2.0/sp2
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm

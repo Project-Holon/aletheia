@@ -11,14 +11,14 @@
  * status:   EXACT
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
- * The panic-screen functions (GF_OVERLAY_PanicInit/PanicPrint/PanicDie and
- * GF_OVERLAY_RegisterPanicHandlers) were cut to vman.c at 0x02034768 by lane A4;
+ * The panic-screen functions (GF_PANIC_Init/PanicPrint/PanicDie and
+ * GF_PANIC_RegisterDefaultHandlers) were cut to vman.c at 0x02034768 by lane A4;
  * this file's own anchor resumes exactly at 0x0203499C (pool site 0x02034A34).
  *
  * symbols:
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   MIi_CpuClear32   0x02082A7C  arm
- *   SAVEDATA_PanicFail  0x02034714  arm
+ *   GF_PANIC_Fail  0x02034714  arm
  *   FS_UnloadOverlay  0x020792B8  arm
  *   FS_SetDefaultDMA     0x0207AC64  arm
  *   FS_LoadOverlay       0x02079264  arm
@@ -74,11 +74,10 @@ struct OverlayInfo {
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern void  MIi_CpuClear32(u32 data, void *dest, u32 size);
 extern int FS_UnloadOverlay(u32 target, u32 id);
-extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *expr);
+extern void GF_PANIC_Fail(const char *file, u32 line, const char *expr);
 extern int FS_SetDefaultDMA(int dma);
 extern int FS_LoadOverlay(int target, s32 handle);
 extern int FS_LoadOverlayInfo(struct OverlayInfo *info, u32 target, u32 id);
-extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *expr);
 
 void GF_OVERLAY_Init(u32 heapId, int mainCount, int itcmCount, int twlCount);
 void GF_OVERLAY_ReleaseSlot(struct OverlaySlot *slot);
@@ -252,7 +251,7 @@ int GF_OVERLAY_Load(s32 handle)
     }
 
     if (index >= slotCount) {
-        SAVEDATA_PanicFail(_FileName, 267, _AssertExprZero);
+        GF_PANIC_Fail(_FileName, 267, _AssertExprZero);
         return 0;
     }
 
@@ -321,7 +320,7 @@ int GF_OVERLAY_CheckRangeFree(s32 handle)
                 if ((start >= otherStart && start < otherEnd) ||
                     (end > otherStart && end <= otherEnd) ||
                     (start <= otherStart && end >= otherEnd)) {
-                    SAVEDATA_PanicFail(_FileName, 330, _AssertExprZero);
+                    GF_PANIC_Fail(_FileName, 330, _AssertExprZero);
                     return 0;
                 }
             }

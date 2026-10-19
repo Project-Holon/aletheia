@@ -1,5 +1,5 @@
 /*
- * function: BTL_CALC_ActionSetRecordReset
+ * function: BTL_ACTION_SetRecordReset
  * address: 0x021D845C
  * packet: pkt_ov093_021D845C
  * region: ov093
@@ -13,4 +13,4 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
-void BTL_CALC_ActionSetRecordReset(u32 *p) { *p = ((*p & ~15) | 8) & 15; }
+void BTL_ACTION_SetRecordReset(u32 *p) { *p = ((*p & ~15) | 8) & 15; }

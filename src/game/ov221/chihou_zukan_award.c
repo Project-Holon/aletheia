@@ -35,7 +35,7 @@
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   FADE_Start 0x0204E720 arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   tbl_021BA148 0x021BA148 data a4
  *   tbl_021BA2C0 0x021BA2C0 data a4
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
@@ -70,7 +70,7 @@
  *   STRBUF_Create 0x020457B0 arm
  *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
- *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
+ *   PRINTSYS_MeasureWidestLine 0x0201D304 thumb
  *   BMP_GetWidth 0x020437DC arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
@@ -208,7 +208,7 @@ extern void ARC_UTIL_UploadPaletteFromHandleWhole(void*,u32,u32,u32,u32,u16);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void*,u32,u32,u32,u32,u32,u16);
 extern void ARC_TOOL_DeleteHandle(void*);
-extern void FADE_Start(u32,int,int,int),BG_SYS_PushTile(u32),GFL_NET_RestartWithDefaultTimeout(u32,u32),GFL_USE_FadeOutBgm(u32);
+extern void FADE_Start(u32,int,int,int),BG_SYS_PushTile(u32),GFL_NET_RefreshWmIconAtTopRight(u32,u32),GFL_USE_FadeOutBgm(u32);
 extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void TCB_DeleteTask(struct Node *);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *);
@@ -346,7 +346,7 @@ int CHIHOU_ZUKAN_AWARD_Init(void *owner,void *unused,void *input)
  ARC_UTIL_UploadBgCharFromHandle(h,tbl_021BA2C0[selected].b,4,zero,zero,zero,heap);
  ARC_UTIL_UploadBgPaletteFromHandle(h,tbl_021BA2C0[selected].c,4,zero,zero,zero,heap);
  ARC_TOOL_DeleteHandle(h);BG_SYS_PushTile(4);CHIHOU_ZUKAN_AWARD_SetupActorPos((char *)p);
- FADE_Start(3,16,16,0);GFL_NET_RestartWithDefaultTimeout(0,*(u16*)p);
+ FADE_Start(3,16,16,0);GFL_NET_RefreshWmIconAtTopRight(0,*(u16*)p);
  if(*(int*)(*(char**)(p+4)+4)==0) GFL_USE_FadeOutBgm(6);
  return 1;
 }

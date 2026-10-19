@@ -76,7 +76,7 @@
  *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   STRBUF_Create  0x020457B0  arm
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   BEACON_GetMoney  0x0200C274  thumb
+ *   MISC_GetMoney  0x0200C274  thumb
  *   FIELD_MSGBG_DeleteMsgWin  0x02190728  thumb  ov021
  *   FIELD_MSGBG_CreateMsgWin  0x02190708  thumb  ov021
  *   FIELDMAP_SetInfoWindow  0x02188D4C  thumb  ov021
@@ -115,7 +115,7 @@
  *   SCRCMD_WORK_SetWindowKind  0x0215A678  thumb  ov010
  *   FIELD_MSGBG_TalkWinMain  0x02191388  thumb
  *   SCRIPT_WORK_GetTargetObj  0x02158F90  thumb  ov010
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   TPOKE_DATA_ReadRecordString  0x0202A310  thumb
  *   FIELD_MSGBG_PlainWinMain  0x021916E0  thumb  ov021
  *   FIELD_MSGBG_ClearPlainWin  0x021915EC  thumb  ov021
@@ -173,7 +173,7 @@ typedef struct MainTaskList MainTaskList;
 typedef struct GfFont GfFont;
 typedef struct BmpWin BmpWin;
 typedef struct PlayerWork PlayerWork;
-typedef struct PlayerStatus PlayerStatus;
+typedef struct MyStatus MyStatus;
 
 typedef struct MtxFx33 {
     s32 m[9];
@@ -300,7 +300,7 @@ extern FieldMsgWin *FIELDMAP_GetInfoWindow(FieldMap *fieldMap);
 extern MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern MoneyData *GAME_DATA_GetMiscSave(GameData *gameData);
-extern u32 BEACON_GetMoney(MoneyData *moneyData);
+extern u32 MISC_GetMoney(MoneyData *moneyData);
 extern int FIELD_MSGBG_DeleteMsgWin(FieldMsgWin *msgWin);
 extern FieldMsgWin *FIELD_MSGBG_CreateMsgWin(FieldMsgBg *msgBg, MsgData *msgData, u16 x, u16 y, u16 width, u16 height);
 extern void FIELDMAP_SetInfoWindow(FieldMap *fieldMap, FieldMsgWin *msgWin);
@@ -336,7 +336,7 @@ extern void MI_CpuFill8(void *dest, int value, int size);
 extern void SCRCMD_WORK_SetWindowKind(ScrcmdWork *cmdWork, u8 windowKind);
 extern u32 FIELD_MSGBG_TalkWinMain(FieldTalkWin *talkWin);
 extern Mmdl *SCRIPT_WORK_GetTargetObj(ScriptWork *scriptWork);
-extern u8 MYSTATUS_GetOutfitVariant(const PlayerStatus *myStatus);
+extern u8 MYSTATUS_GetSex(const MyStatus *myStatus);
 extern void TPOKE_DATA_ReadRecordString(int key1, int key2, Strbuf *dest, u32 heapId);
 extern u32 FIELD_MSGBG_PlainWinMain(FieldPlainWin *plainWin);
 extern void FIELD_MSGBG_ClearPlainWin(FieldPlainWin *plainWin);
@@ -845,7 +845,7 @@ int SCRCMD_MSGWIN_CmdOpenMoneyWin(ScriptVm *vm, ScrcmdWork *cmdWork)
     heapId = FIELDMAP_GetHeapId(fieldMap);
     msgData = MSGDATA_CreateFromArchive(0, 3, 0x9e, heapId);
     str = STRBUF_Create(0x80, heapId);
-    money = BEACON_GetMoney(GAME_DATA_GetMiscSave(gameData));
+    money = MISC_GetMoney(GAME_DATA_GetMiscSave(gameData));
     if (oldWin != 0)
         FIELD_MSGBG_DeleteMsgWin(oldWin);
     moneyWin = FIELD_MSGBG_CreateMsgWin(msgBg, msgData, (u16)(x - 9), (u16)y, 9, 2);
@@ -884,7 +884,7 @@ int SCRCMD_MSGWIN_CmdUpdateMoneyWin(ScriptVm *vm, ScrcmdWork *cmdWork)
     heapId = FIELDMAP_GetHeapId(fieldMap);
     msgData = MSGDATA_CreateFromArchive(0, 3, 0x9e, heapId);
     str = STRBUF_Create(0x80, heapId);
-    WORDSET_SetSlotNumber(wordSet, 2, BEACON_GetMoney(GAME_DATA_GetMiscSave(gameData)), 7, 1, 1);
+    WORDSET_SetSlotNumber(wordSet, 2, MISC_GetMoney(GAME_DATA_GetMiscSave(gameData)), 7, 1, 1);
     MSGDATA_ReadString(msgData, 1, tempBuffer);
     WORDSET_CopyTaggedText(wordSet, str, tempBuffer);
     FIELD_MSGBG_ClearMsgWin(moneyWin);
@@ -1254,7 +1254,7 @@ int SCRCMD_MSGWIN_CmdBalloonWinMsgGender(ScriptVm *vm, ScrcmdWork *cmdWork)
     objId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     windowKind = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     winType = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    if (MYSTATUS_GetOutfitVariant(&GAME_DATA_GetMyPlayerWork(SCRCMD_WORK_GetGameData(cmdWork))->status)) {
+    if (MYSTATUS_GetSex(&GAME_DATA_GetMyPlayerWork(SCRCMD_WORK_GetGameData(cmdWork))->status)) {
         msgId = outfitMsgId;
     }
     if (SCRCMD_MSGWIN_OpenBalloonWinMsg(cmdWork, objId, msgFileId, msgId, windowKind, winType) == 1) {

@@ -19,7 +19,7 @@
    "status": "EXACT",
    "functions": [
     "BATTLE_EXAMINATION_RefreshMarker",
-    "BATTLE_EXAMINATION_GetGreetingSize"
+    "GREETING_SAVEDATA_GetSize"
    ],
    "addresses": [
     "0x0200E684",

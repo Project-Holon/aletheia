@@ -28,7 +28,7 @@
  * symbols:
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   sReportAllocSite    0x021F0B20 data ov034 a1
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   TCB_DeleteTask 0x02030EAC arm
  *   GFL_HEAP_Free 0x020307B0 arm
@@ -77,7 +77,7 @@
  *   ZONEDATA_GetPlaceNameId 0x02013E4C thumb
  *   WORDSET_SetSlotFromMsg59 0x0201F158 thumb
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
- *   BEACON_CountBadges 0x0200C258 thumb
+ *   MISC_CountBadges 0x0200C258 thumb
  *   GAME_DATA_GetEventWork 0x0201296C thumb
  *   ZONEDATA_CheckEventFlag 0x020142E8 thumb
  *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
@@ -197,7 +197,7 @@ typedef struct {
 } Rect;
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern struct Task *GFL_USE_AddMainTask(void (*proc)(struct Task *, ReportWork *), ReportWork *work, int priority);
 extern void TCB_DeleteTask(struct Task *task);
 extern u32 GFL_HEAP_Free(void *p);
@@ -249,7 +249,7 @@ extern u16 GAME_DATA_GetPlayerZoneId(const u8 *playerState);
 extern u32 ZONEDATA_GetPlaceNameId(u32 zoneId);
 extern void WORDSET_SetSlotFromMsg59(struct WordSet *wordSet, u32 i, u32 msgId);
 extern void *GAME_DATA_GetMiscSave(struct GameData *gameData);
-extern u32 BEACON_CountBadges(void *badgeData);
+extern u32 MISC_CountBadges(void *badgeData);
 extern void *GAME_DATA_GetEventWork(const struct GameData *gameData);
 extern u32 ZONEDATA_CheckEventFlag(void *eventWork, int flagId);
 extern void *ZUKAN_SAVE_GetFromGameData(struct GameData *gameData);
@@ -334,7 +334,7 @@ ReportWork *REPORT_Create(void *gameSystem, int heapId)
     REPORT_LoadBgGraphics(work->heapId);
     REPORT_InitActors(work);
     REPORT_InitWindows(work);
-    GFL_NET_RestartWithDefaultTimeout(0, heapId);
+    GFL_NET_RefreshWmIconAtTopRight(0, heapId);
     work->tcb = GFL_USE_AddMainTask(REPORT_UpdateSaveAnim, work, 0);
     return work;
 }
@@ -598,7 +598,7 @@ void REPORT_InitWindows(ReportWork *work)
     WORDSET_CopyTaggedText(wordSet, buf, msgLocation);
     printRecordLine(work, 3, buf, msgLocation, 0, 0x3DC0, one);
     msgBadges = MSGDATA_AllocString(msgBank, 4);
-    WORDSET_SetSlotNumber(wordSet, 0, BEACON_CountBadges(GAME_DATA_GetMiscSave(gameData)), 2, 0, 1);
+    WORDSET_SetSlotNumber(wordSet, 0, MISC_CountBadges(GAME_DATA_GetMiscSave(gameData)), 2, 0, 1);
     WORDSET_CopyTaggedText(wordSet, buf, msgBadges);
     printRecordLine(work, 4, buf, msgBadges, 0, 0x3DC0, one);
     if (ZONEDATA_CheckEventFlag(GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(work->gameSystem)), 0x962) == 1) {

@@ -17,11 +17,11 @@
  *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
- *   ZONEDATA_IsZone117  0x02013D5C  thumb
+ *   ZONEDATA_IsEntralink  0x02013D5C  thumb
  *   func_0200FB24  0x0200FB24  thumb
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
- *   GAME_DATA_GetExitMode  0x02012B58  thumb
- *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
+ *   GAME_DATA_GetMyStatusPlayer  0x02012950  thumb
  *   INTRUDE_FIELD_UpdateCommState  0x0217B968  thumb  ov018
  *   INTRUDE_FIELD_AddAreaMaps  0x0217BBD8  thumb  ov018
  *   INTRUDE_FIELD_IsListedZone  0x0217C11C  thumb  ov018
@@ -86,11 +86,11 @@ extern u8 GAME_DATA_IsSaving(const u8 *o);
 extern u32 GAME_COMM_GetKind(void *obj);
 extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
-extern u32 ZONEDATA_IsZone117(u32 id);
+extern u32 ZONEDATA_IsEntralink(u32 id);
 extern u32 func_0200FB24(void);
 extern int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
-extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
-extern struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, u32 i);
+extern u8 GAME_DATA_GetOwnNetId(const struct BigObj *p);
+extern struct Rec44 *GAME_DATA_GetMyStatusPlayer(struct Sub24 *p, u32 i);
 extern void INTRUDE_FIELD_UpdateCommState(int a0, void *a1, void *a2, void *a3);
 extern void INTRUDE_FIELD_AddAreaMaps(u8 *a, int b, u8 *c);
 extern int INTRUDE_FIELD_IsListedZone(u32 value);
@@ -122,7 +122,7 @@ void INTRUDE_FIELD_Update(u8 *a0, int a1, int a2)
     if (GAME_COMM_GetKind((void *)h) != 2 || p == 0)
         return;
     h = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(ctx));
-    if (p->f910 == 0 && ZONEDATA_IsZone117(h) == 1)
+    if (p->f910 == 0 && ZONEDATA_IsEntralink(h) == 1)
         p->f910 = 1;
     INTRUDE_FIELD_AddAreaMaps(a0, a1, (u8 *)p);
     if (p->f8fd != 7 || func_0200FB24() != 0)
@@ -137,15 +137,15 @@ void INTRUDE_FIELD_Update(u8 *a0, int a1, int a2)
         if (p->f904.state == 2)
             return;
     }
-    skip = GAME_DATA_GetExitMode(ctx);
+    skip = GAME_DATA_GetOwnNetId(ctx);
     INTRUDE_COMM_UpdatePlayerObjects((u8 *)p);
     COMM_PLAYER_Update((void *)a1, (struct Work *)p->f8);
     for (i = 0; i < 3; i++) {
         if (i == skip || !(p->f8fb & (1 << i)))
             continue;
         if (COMM_PLAYER_CheckOccupy((void *)p->f8, i) == 0) {
-            GAME_DATA_GetPlayerStatus(ctx, i);
-            r = INTRUDE_COMM_GetPlayerObjCode((u8 *)(&p->recs[i]), (u32)GAME_DATA_GetPlayerStatus(ctx, i));
+            GAME_DATA_GetMyStatusPlayer(ctx, i);
+            r = INTRUDE_COMM_GetPlayerObjCode((u8 *)(&p->recs[i]), (u32)GAME_DATA_GetMyStatusPlayer(ctx, i));
             if (p->recs[i].f18 != 0 || GAME_DATA_GetIntrudeCount(ctx) != 0)
                 COMM_PLAYER_Add((struct Work *)p->f8, i, r, (struct Src *)(&p->recs[i]));
         } else {

@@ -53,10 +53,10 @@
  *   STRBUF_Delete  0x02045808  arm
  *   FIELD_MSGBG_ClearMsgWin  0x02190788  thumb
  *   GAME_DATA_GetSaveControlWork  0x02012EC0  thumb
- *   BEACON_GetFromSave  0x0200C0E8  thumb
- *   BEACON_GetMode  0x0200C224  thumb
- *   BEACON_GetThanksCount  0x0200C1DC  thumb
- *   BEACON_GetGreetCount  0x0200C1C4  thumb
+ *   MISC_GetFromSave  0x0200C0E8  thumb
+ *   MISC_GetResearchRank  0x0200C224  thumb
+ *   MISC_GetThanksCount  0x0200C1DC  thumb
+ *   MISC_GetGreetCount  0x0200C1C4  thumb
  */
 #include "symbol_map_shared_types.h"
 
@@ -171,13 +171,13 @@ extern int FIELD_MSGBG_ClearMsgWin();
 
 extern void *GAME_DATA_GetSaveControlWork(struct GameData *gameData);
 
-extern void *BEACON_GetFromSave(void *saveControlWork);
+extern void *MISC_GetFromSave(void *saveControlWork);
 
-extern u8 BEACON_GetMode(struct ReportBlock *block);
+extern u8 MISC_GetResearchRank(struct ReportBlock *block);
 
-extern u32 BEACON_GetThanksCount(struct ReportBlock *block);
+extern u32 MISC_GetThanksCount(struct ReportBlock *block);
 
-extern u32 BEACON_GetGreetCount(struct ReportBlock *block);
+extern u32 MISC_GetGreetCount(struct ReportBlock *block);
 
 int EVENT_RESEARCH_RADAR_TopTaskMain(void *task, int *state, ResearchTopTaskWork *work);
 
@@ -428,8 +428,8 @@ int EVENT_RESEARCH_RADAR_GetReportKind(ResearchReportWork *work)
     int result;
 
     gameDataSave = GAME_DATA_GetSaveControlWork(work->gameData);
-    block = BEACON_GetFromSave(gameDataSave);
-    result = BEACON_GetMode(block);
+    block = MISC_GetFromSave(gameDataSave);
+    result = MISC_GetResearchRank(block);
     return result;
 }
 
@@ -441,8 +441,8 @@ int EVENT_RESEARCH_RADAR_GetReportNumberA(ResearchReportWork *work)
     int result;
 
     gameDataSave = GAME_DATA_GetSaveControlWork(work->gameData);
-    block = BEACON_GetFromSave(gameDataSave);
-    result = BEACON_GetThanksCount(block);
+    block = MISC_GetFromSave(gameDataSave);
+    result = MISC_GetThanksCount(block);
     return result;
 }
 
@@ -454,8 +454,8 @@ int EVENT_RESEARCH_RADAR_GetReportNumberB(ResearchReportWork *work)
     int result;
 
     gameDataSave = GAME_DATA_GetSaveControlWork(work->gameData);
-    block = BEACON_GetFromSave(gameDataSave);
-    result = BEACON_GetGreetCount(block);
+    block = MISC_GetFromSave(gameDataSave);
+    result = MISC_GetGreetCount(block);
     return result;
 }
 

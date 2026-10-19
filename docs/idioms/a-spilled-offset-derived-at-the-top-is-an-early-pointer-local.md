@@ -1,5 +1,8 @@
 # A spilled offset derived at the top is an early pointer local
 
+summary: An offset built and spilled at the top, then used for one store at the end, is a pointer
+local to the far field set early. Integer offset locals fold to a late movs.
+
 Seen in wave D8 lane 03 (2026-10-05): ov223 func_021BB18C (closed EXACT).
 
 ## Symptom

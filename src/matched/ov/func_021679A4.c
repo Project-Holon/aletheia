@@ -1,5 +1,5 @@
 /*
- * function: COMM_PLAYER_ForwardRequest
+ * function: COMM_PLAYER_SearchGridPos
  * address:  0x021679A4
  * packet:   pkt_021679A4
  * region:   ov010
@@ -23,7 +23,7 @@ typedef unsigned int u32;
 
 extern int FIELD_COMM_ACTOR_CTRL_SearchGridPos(int, int, int, int, int, int);
 
-int COMM_PLAYER_ForwardRequest(void *a0, int a1, int a2, int a3, int a4, int a5)
+int COMM_PLAYER_SearchGridPos(void *a0, int a1, int a2, int a3, int a4, int a5)
 {
     int v = ((struct Obj17734 *)a0)->f4;
 

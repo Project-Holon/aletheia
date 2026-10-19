@@ -15,7 +15,7 @@
  *   WORLDTRADE_TITLE_ExitBgPlanes 0x022000E4 thumb ov135
  *   WORLDTRADE_AdvanceScreenId 0x021F4EC8 thumb ov135
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  */
 #include "../include/Obj03069.h"
 typedef unsigned int u32;
@@ -29,7 +29,7 @@ extern void WORLDTRADE_TITLE_ExitBgPlanes(char *p);
 extern void WORLDTRADE_AdvanceScreenId(u8 *p);
 struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 int WORLDTRADE_LIST_Exit(unsigned char *p)
 {
     ((struct Obj03069 *)p)->fEC0 = 0;
@@ -41,6 +41,6 @@ int WORLDTRADE_LIST_Exit(unsigned char *p)
     CLACT_SetActorDrawEnable((struct Obj *)((struct Obj03069 *)p)->fD38, 0);
     WORLDTRADE_AdvanceScreenId(p);
     if (*(int *)&((struct Obj03069 *)p)->f12FC == 0)
-        GFL_NET_RestartWithDefaultTimeout(0, 0x48);
+        GFL_NET_RefreshWmIconAtTopRight(0, 0x48);
     return 0;
 }

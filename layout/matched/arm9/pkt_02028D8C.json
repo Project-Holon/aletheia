@@ -18,7 +18,7 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "FIELD_SOUND_SYSTEM_GetCurrentRequest"
+    "FIELD_SOUND_SYSTEM_GetNewestRequest"
    ],
    "addresses": [
     "0x02028D8C"

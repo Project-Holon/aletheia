@@ -28,7 +28,7 @@
  *   B_BAG_MAIN_SetDisplayMode 0x0220C4EC thumb ov197
  *   B_APP_TOOL_SetActorsVisible 0x0220AFDC thumb
  *   B_BAG_MAIN_CreateCursor 0x0220D8C4 thumb ov197
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
  *   BTLV_EFFECT_GetOwner 0x021F86D4 thumb
  *   PALANM_RequestFade 0x0202173C thumb
@@ -62,7 +62,7 @@ extern void B_BAG_MAIN_CreateItemGraphics(char *);
 extern void B_BAG_MAIN_SetDisplayMode(char *, int);
 extern void B_APP_TOOL_SetActorsVisible(char *, void *);
 extern void B_BAG_MAIN_CreateCursor(u8 *, unsigned, unsigned);
-extern void GFL_NET_RestartWithDefaultTimeout(unsigned, unsigned);
+extern void GFL_NET_RefreshWmIconAtTopRight(unsigned, unsigned);
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern void *BTLV_EFFECT_GetOwner(void);
 extern int PALANM_RequestFade(void *, u16, u16, short, u8, u8, u16, void *);
@@ -88,7 +88,7 @@ int B_BAG_MAIN_StateInitOther(char *p)
     else ((struct Obj01076 *)p)->f598 = 0;
     B_APP_TOOL_SetActorsVisible(*(char * *)&((struct Obj01076 *)p)->f148, ((struct Obj01076 *)p)->f598);
     B_BAG_MAIN_CreateCursor((u8 *)p, ((struct Obj01076 *)p)->f532, 0);
-    GFL_NET_RestartWithDefaultTimeout(0, ((struct Obj25064 *)(*(char * *)&((struct Obj01076 *)p)->f0))->fC);
+    GFL_NET_RefreshWmIconAtTopRight(0, ((struct Obj25064 *)(*(char * *)&((struct Obj01076 *)p)->f0))->fC);
     PALANM_CopyHwPaletteToSlot(((struct Obj01076 *)p)->f8, 3, 0xe0, 0x20);
     PALANM_RequestFade(((struct Obj01076 *)p)->f8, 0xa, 0xffff, 0, 0x10, 0, 0, BTLV_EFFECT_GetOwner());
     ((struct Obj01076 *)p)->f5A0 = 1;

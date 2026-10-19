@@ -11,7 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: BATTLE_REC_CheckSaved
+ * function: BATTLE_REC_VerifyAndCloseSave
  *
  * 176 bytes, 0x0200B5CC..0x0200B67C, one function, which carries a label in
  * the generated listing.
@@ -63,7 +63,7 @@ extern void BATTLE_REC_AllocWork(u32 heap);
 extern void *BATTLE_REC_Create(u32 heap);
 extern struct BattleRec *pBattleRec;
 
-u32 BATTLE_REC_CheckSaved(void *a, u32 heap, u32 *dp, u32 id)
+u32 BATTLE_REC_VerifyAndCloseSave(void *a, u32 heap, u32 *dp, u32 id)
 {
     struct BattleRec *p;
     struct RecC4 *r;

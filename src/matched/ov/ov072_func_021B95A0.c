@@ -46,7 +46,7 @@
  *   TOWNMAP_MapGetScroll  0x021BA69C  thumb  ov072
  *   TOWNMAP_CursorSetHoverTown  0x021BA3F4  thumb  ov072
  *   GFL_NET_GetRunState  0x0203CD98  arm
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   func_020056A0  0x020056A0  thumb
  *   TOWNMAP_GRH_EmptyTask  0x021BB6E4  thumb  ov072
  */
@@ -109,7 +109,7 @@ extern void TOWNMAP_DrawSelection(void *p, int w);
 extern void TOWNMAP_MapGetScroll(char *p, int *o);
 extern void TOWNMAP_CursorSetHoverTown(int *p, int a, int *b);
 extern int GFL_NET_GetRunState(void);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern u32 func_020056A0(void (*cb)(void *, void *), void *arg, int pri);
 extern void TOWNMAP_GRH_EmptyTask(void *a, void *b);
 
@@ -167,7 +167,7 @@ int TOWNMAP_Create(void *a, void *b, Arg *c)
         TOWNMAP_CursorSetHoverTown((int *)(o + 0x38), e, (int *)(&org));
     }
     if (GFL_NET_GetRunState()) {
-        GFL_NET_RestartWithDefaultTimeout(1, 0x44);
+        GFL_NET_RefreshWmIconAtTopRight(1, 0x44);
     }
     ((struct Obj00433 *)o)->f13C = func_020056A0(TOWNMAP_GRH_EmptyTask, o, 0);
     return 1;

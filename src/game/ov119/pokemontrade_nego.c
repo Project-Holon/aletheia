@@ -75,7 +75,7 @@
  *   DWC_RAP_SetVchatTalkLock 0x0215642C thumb ov009
  *   POKETRADE_NEGO_InitOfferMarkers 0x021DF78C thumb ov119
  *   GFL_NET_SendData 0x0203D3F8 arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   WIPE_ResetBrightness 0x02022230 thumb
  *   POKETRADE_SAVE_OpenTaskMenuAt 0x021E131C thumb ov119
  *   GFL_NET_IsNetTypeWifi 0x0203D29C arm
@@ -333,7 +333,7 @@ extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 
 extern void DWC_RAP_SetVchatTalkLock(int);
 
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 
 void POKETRADE_SAVE_OpenTaskMenuAt(char *p,int *ids,int count,int x,int y);
 
@@ -1346,7 +1346,7 @@ void POKETRADE_NEGO_StepRebuildSceneAfterWipe(char *p)
         POKETRADE_SAVE_CreateMessageResources(p); POKETRADE_2D_RegisterIconSpriteResources(p); POKETRADE_2D_CreateBoxIconActors(p);
         POKETRADE_2D_LoadBackgroundGfx(p); POKETRADE_2D_CreateFontResource(p); POKETRADE_2D_LoadMainGfxAndMessageWindow(p);
         POKETRADE_3D_AddUnitAndInit(p,0); BG_SYS_SetMainVisiblePlanes(31); BG_SYS_SetSubVisiblePlanes(30);
-        POKETRADE_3D_CreateTouchbar(p); GFL_NET_RestartWithDefaultTimeout(0,((TradeWork *)p)->heapId);
+        POKETRADE_3D_CreateTouchbar(p); GFL_NET_RefreshWmIconAtTopRight(0,((TradeWork *)p)->heapId);
         *(volatile unsigned *)0x04001000 &= 0xffff1fff;
         POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepResetForNewRound);
     }

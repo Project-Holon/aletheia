@@ -9,15 +9,15 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   BTL_FIELD_GetStaticSlotObject 0x021EF948 thumb ov093
+ *   BTL_FIELD_IsStaticSlotInUse 0x021EF948 thumb ov093
  *   BTL_SERVER_FLOW_QueryPokeGroundedEvent 0x021C6F34 thumb ov093
  */
 typedef unsigned char u8;
-extern int BTL_FIELD_GetStaticSlotObject(int);
+extern int BTL_FIELD_IsStaticSlotInUse(int);
 extern int BTL_SERVER_FLOW_QueryPokeGroundedEvent(u8 *, u8 *, int);
 int BTL_SERVER_FLOW_IsPokeGrounded(u8 *p, u8 *a, int k)
 {
-    if (BTL_FIELD_GetStaticSlotObject(2) == 0 && BTL_SERVER_FLOW_QueryPokeGroundedEvent(p, a, k) != 0)
+    if (BTL_FIELD_IsStaticSlotInUse(2) == 0 && BTL_SERVER_FLOW_QueryPokeGroundedEvent(p, a, k) != 0)
         return 1;
     return 0;
 }

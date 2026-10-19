@@ -24,7 +24,7 @@
  *   CLACT_RegisterPaletteCompressed 0x0204ACEC arm
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
- *   MYSTATUS_GetOutfitVariant 0x02008550 thumb
+ *   MYSTATUS_GetSex 0x02008550 thumb
  *   BG_SYS_FillTileMap 0x020413B0 arm
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
@@ -60,7 +60,7 @@
  *   d_021B7480 0x021B7480 data a1
  *   ARC_UTIL_LoadBgCharDataFromHandle 0x02049DF4 arm
  *   MIi_CpuCopy32  0x02082A90  arm
- *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
+ *   PRINTSYS_MeasureWidestLine 0x0201D304 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  */
 
@@ -144,7 +144,7 @@ extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
 
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
-extern u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetSex(const struct Sub0200852CObj *obj);
 
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
@@ -204,7 +204,7 @@ extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *archive, unsigned id, unsig
 
 extern void MIi_CpuCopy32(int, int, int);
 
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 
 extern void PRINTSYS_PrintQueColor(void *,u32,u32,u32,u32,u32,u16);
 
@@ -257,7 +257,7 @@ char *LOCAL_TVT_CHARA_Create(char *p,int index)
     ((struct LocalTvtChara *)q)->flag=0;
     ((struct LocalTvtChara *)q)->active=0;
     ((struct LocalTvtChara *)q)->animTimer=GFL_USE_GetRandomBelow(0x4b);
-    if(((struct LocalTvtChara *)q)->charId==0 && MYSTATUS_GetOutfitVariant((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(((struct LocalTvtSysMode *)((struct LocalTvtSys *)p)->modeData)->gameData))==1) ((struct LocalTvtChara *)q)->charId=5;
+    if(((struct LocalTvtChara *)q)->charId==0 && MYSTATUS_GetSex((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(((struct LocalTvtSysMode *)((struct LocalTvtSys *)p)->modeData)->gameData))==1) ((struct LocalTvtChara *)q)->charId=5;
     LOCAL_TVT_CHARA_SetupActors((u8 *)p,(u8 *)q);
     LOCAL_TVT_CHARA_SetupPalette(p,(u8 *)q);
     LOCAL_TVT_CHARA_DrawLabel((u8 *)p,(u8 *)q);
@@ -429,7 +429,7 @@ void LOCAL_TVT_CHARA_DrawLabel(u8 *p,u8 *q)
         WORDSET_Delete(ws);
         s=dst;
     }
-    ((struct LocalTvtChara *)q)->labelWidth=GF_FONT_MeasureWidestLine(s,((struct LocalTvtSys *)p)->font.value,0);
+    ((struct LocalTvtChara *)q)->labelWidth=PRINTSYS_MeasureWidestLine(s,((struct LocalTvtSys *)p)->font.value,0);
     PRINTSYS_PrintQueColor(((struct LocalTvtSys *)p)->printQueue.ptr,(u32)BMP_WIN_GetBmp(((struct LocalTvtChara *)q)->window),(short)((96-((struct LocalTvtChara *)q)->labelWidth)/2+1),1,(u32)s,((struct LocalTvtSys *)p)->font.value,0x3c00);
     PRINTSYS_PrintQueColor(((struct LocalTvtSys *)p)->printQueue.ptr,(u32)BMP_WIN_GetBmp(((struct LocalTvtChara *)q)->window),(short)((96-((struct LocalTvtChara *)q)->labelWidth)/2-1),1,(u32)s,((struct LocalTvtSys *)p)->font.value,0x3c00);
     PRINTSYS_PrintQueColor(((struct LocalTvtSys *)p)->printQueue.ptr,(u32)BMP_WIN_GetBmp(((struct LocalTvtChara *)q)->window),(short)((96-((struct LocalTvtChara *)q)->labelWidth)/2),2,(u32)s,((struct LocalTvtSys *)p)->font.value,0x3c00);

@@ -211,7 +211,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "BTLV_MCSS_GetSpritePersonalParam26",
+   "name": "BTLV_MCSS_GetSpriteWeight",
    "address": "0x021FFF0C",
    "kind": "game",
    "region": "ov094",

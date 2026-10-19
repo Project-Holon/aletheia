@@ -1,5 +1,9 @@
 # A pool constant kept live past a join is used in each arm
 
+summary: mwcc shares a pool constant only where the first load dominates without a join. Write the
+using statement in each arm of the if/else so both arms keep the first pool register.
+
+
 Seen in wave D6 lane 16 (2026-10-05): ov198 func_0220ED54 (closed EXACT).
 
 ## Symptom

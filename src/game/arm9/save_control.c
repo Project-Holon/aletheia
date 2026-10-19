@@ -19,7 +19,7 @@
  *   BACKUP_SYSTEM_Create   0x0203192C  arm
  *   BACKUP_SYSTEM_Load   0x02031AE0  arm
  *   BACKUP_SYSTEM_ClearWork   0x020319C0  arm
- *   SAVEDATA_PanicFail   0x02034714  arm
+ *   GF_PANIC_Fail   0x02034714  arm
  *   SAVE_OUTSIDE_Load   0x021DFC20  thumb  ov228
  *   SAVE_OUTSIDE_IsLoaded   0x021DFE90  thumb  ov228
  *   SAVE_OUTSIDE_IsCorrupt   0x021DFE98  thumb  ov228
@@ -134,7 +134,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u
 
 extern u32 GFL_HEAP_Free(void *memory);
 
-extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *message);
+extern void GF_PANIC_Fail(const char *file, u32 line, const char *message);
 
 extern struct BackupSaveData *BACKUP_SYSTEM_Create(const struct SaveAreaDesc *desc, u32 heapId);
 
@@ -321,7 +321,7 @@ struct SaveControl *SAVE_CONTROL_Create(int heapId)
         BACKUP_SYSTEM_ClearWork(saveControl->mainSave);
         break;
     default:
-        SAVEDATA_PanicFail(_EmptyString, 0, _EmptyString);
+        GF_PANIC_Fail(_EmptyString, 0, _EmptyString);
         break;
     }
     return saveControl;
@@ -349,7 +349,7 @@ void SAVE_CONTROL_Delete(void)
 struct SaveControl *SAVE_CONTROL_Get(void)
 {
     if (_pSaveControl == 0) {
-        SAVEDATA_PanicFail(_EmptyString, 0, _EmptyString);
+        GF_PANIC_Fail(_EmptyString, 0, _EmptyString);
     }
     return _pSaveControl;
 }
@@ -626,7 +626,7 @@ u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *saveControl, u32 slot, u8 hea
 void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *saveControl, u32 slot)
 {
     if (saveControl->extraSaves[slot] == 0) {
-        SAVEDATA_PanicFail(_EmptyString, 0, _EmptyString);
+        GF_PANIC_Fail(_EmptyString, 0, _EmptyString);
     }
     BACKUP_SYSTEM_Delete(saveControl->extraSaves[slot]);
     saveControl->extraSaves[slot] = 0;
@@ -657,7 +657,7 @@ void SAVE_CONTROL_CreateExtraSaveWithBuffer(struct SaveControl *saveControl, u32
 void SAVE_CONTROL_DeleteExtraSaveBuffered(struct SaveControl *saveControl, u32 slot)
 {
     if (saveControl->extraSaves[slot] == 0) {
-        SAVEDATA_PanicFail(_EmptyString, 0, _EmptyString);
+        GF_PANIC_Fail(_EmptyString, 0, _EmptyString);
     }
     BACKUP_SYSTEM_Delete(saveControl->extraSaves[slot]);
     saveControl->extraSaves[slot] = 0;
@@ -679,7 +679,7 @@ void SAVE_CONTROL_BeginExtraSaveWrite(struct SaveControl *saveControl, u32 slot)
     struct BackupSaveData **extraSaves = saveControl->extraSaves;
 
     if (extraSaves[slot] == 0) {
-        SAVEDATA_PanicFail(_EmptyString, 0, _EmptyString);
+        GF_PANIC_Fail(_EmptyString, 0, _EmptyString);
     }
     SYSTEM_DATA_SetMark(saveControl, slot);
     BACKUP_SYSTEM_InitLinkedSave(saveControl->mainSave, extraSaves[slot], SYSTEM_DATA_GetWordSlot(saveControl, slot));
@@ -700,7 +700,7 @@ int SAVE_CONTROL_StepExtraSaveWrite(struct SaveControl *saveControl, u32 slot)
     struct BackupSaveData **extraSaves = saveControl->extraSaves;
 
     if (extraSaves[slot] == 0) {
-        SAVEDATA_PanicFail(_EmptyString, 0, _EmptyString);
+        GF_PANIC_Fail(_EmptyString, 0, _EmptyString);
     }
     return BACKUP_SYSTEM_MainLinkedSave(saveControl->mainSave, extraSaves[slot]);
 }
@@ -712,7 +712,7 @@ int SAVE_CONTROL_StepExtraSaveWrite(struct SaveControl *saveControl, u32 slot)
 void *SAVE_CONTROL_GetExtraSaveRecord(struct SaveControl *saveControl, u32 slot, u32 recordId)
 {
     if (saveControl->extraSaves[slot] == 0) {
-        SAVEDATA_PanicFail(_EmptyString, 0, _EmptyString);
+        GF_PANIC_Fail(_EmptyString, 0, _EmptyString);
     }
     return BACKUP_SYSTEM_GetRecordWork(saveControl->extraSaves[slot], recordId);
 }
@@ -732,7 +732,7 @@ void SAVE_CONTROL_EraseExtraSave(struct SaveControl *saveControl, u32 slot, u32 
     struct BackupSaveData **extraSaves = saveControl->extraSaves;
 
     if (extraSaves[slot] == 0) {
-        SAVEDATA_PanicFail(_EmptyString, 0, _EmptyString);
+        GF_PANIC_Fail(_EmptyString, 0, _EmptyString);
     }
     BACKUP_SYSTEM_Erase(extraSaves[slot], heapId);
 }

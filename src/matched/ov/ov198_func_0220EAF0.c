@@ -1,5 +1,5 @@
 /*
- * function: B_PLIST_DRAW_LayoutMode0
+ * function: B_PLIST_DRAW_LayoutPartyListPage
  * address: 0x0220EAF0
  * packet: pkt_ov198_0220EAF0
  * region: ov198
@@ -27,7 +27,7 @@ typedef unsigned int   u32;
 struct Vec2;
 extern void B_PLIST_DRAW_SetActorAnim(int mode, u8 *p, const struct Vec2 *q);
 extern void B_PLIST_DRAW_SetActorAnimByMode(u32 mode, u8 *p, const struct Vec2 *q);
-void B_PLIST_DRAW_LayoutMode0(Record *records) {
+void B_PLIST_DRAW_LayoutPartyListPage(Record *records) {
     u8 *p=(u8 *)records;
     short i;
     int index,offset;

@@ -1,5 +1,8 @@
 # A stack parameter copy in the lowest slot is coalesced
 
+summary: A local that sits in the lowest spill slot despite its declaration is a plain copy that
+coalesces with its source. Give it the callee's type and use it at the second use.
+
 Seen in ov198 func_0220BEB8 (wave D9r, 2026-10-05).
 
 ## Symptom

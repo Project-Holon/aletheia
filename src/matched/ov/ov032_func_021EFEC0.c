@@ -23,7 +23,7 @@
  *   BEACON_VIEW_UpdateActorAnims  0x021F0E24  thumb  ov032
  *   BEACON_VIEW_UpdateCountActorAnims  0x021F0E7C  thumb  ov032
  *   BEACON_VIEW_SetActorAnim  0x021F0DF4  thumb  ov032
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  */
 #include "../include/Obj00007.h"
 
@@ -47,7 +47,7 @@ extern void BEACON_VIEW_SetEntryVisible(char *p, unsigned a);
 extern void BEACON_VIEW_UpdateActorAnims(char *p);
 extern void BEACON_VIEW_UpdateCountActorAnims(char *p);
 extern void BEACON_VIEW_SetActorAnim(void *p, unsigned short v);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 
 void BEACON_VIEW_InitList(u8 *o)
 {
@@ -74,5 +74,5 @@ void BEACON_VIEW_InitList(u8 *o)
     BEACON_VIEW_UpdateCountActorAnims((char *)o);
     if (((struct Obj00007 *)o)->f28 == 0x30)
         BEACON_VIEW_SetActorAnim((void *)(*(int *)&((struct Obj00007 *)o)->f2BC), 3);
-    GFL_NET_RestartWithDefaultTimeout(0, ((struct Obj00007 *)o)->f96);
+    GFL_NET_RefreshWmIconAtTopRight(0, ((struct Obj00007 *)o)->f96);
 }

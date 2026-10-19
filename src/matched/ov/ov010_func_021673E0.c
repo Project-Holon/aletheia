@@ -1,5 +1,5 @@
 /*
- * function: COMM_PLAYER_CopyListRange
+ * function: SYMBOL_MAP_CopyEntryRange
  * address:  0x021673E0
  * packet:   pkt_ov010_021673E0
  * region:   ov010
@@ -34,7 +34,7 @@ extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void SYMBOL_SAVE_FinalizeChecksum(char *p);
 extern void SYMBOL_SAVE_UpdateChecksum(void *p);
 
-u8 COMM_PLAYER_CopyListRange(Entry32 *list, Entry32 *out, u32 cap, u32 start, int count)
+u8 SYMBOL_MAP_CopyEntryRange(Entry32 *list, Entry32 *out, u32 cap, u32 start, int count)
 {
     int i;
 

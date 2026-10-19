@@ -55,7 +55,7 @@
  *   MYSTATUS_GetId  0x02008530  thumb
  *   GFL_USE_GetRandom  0x020056EC  thumb
  *   EVENT_FIELD_PROCLINK_IsReturnEntryAllowed 0x02161E84 thumb ov010
- *   MYSTATUS_GetAvatarId  0x0200855C  thumb
+ *   MYSTATUS_GetRomCode  0x0200855C  thumb
  *   INTRUDE_COMM_NormalizeVersion  0x021584F4  thumb  ov010
  *   EVENT_FIELD_PROCLINK_IsReturnEntryValid 0x02161ECC thumb ov010
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
@@ -235,7 +235,7 @@ extern void EVENT_FIELD_PROCLINK_ClearReturnEntry(WfbcPerson *person);
 extern u32 MYSTATUS_GetId(const struct MyStatus *obj);
 extern u32 GFL_USE_GetRandom(u32 n);
 extern int EVENT_FIELD_PROCLINK_IsReturnEntryAllowed(const WfbcPerson *person);
-u8 MYSTATUS_GetAvatarId(const struct MyStatus *obj);
+u8 MYSTATUS_GetRomCode(const struct MyStatus *obj);
 int INTRUDE_COMM_NormalizeVersion(int a, int b);
 extern int EVENT_FIELD_PROCLINK_IsReturnEntryValid(const WfbcPerson *person);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *p);
@@ -483,7 +483,7 @@ void FIELD_WFBC_DATA_LOCAL_Sanitize(WfbcData *data, const struct MyStatus *mySta
     if (data->isValid == 0 && data->cityType != 2)
         data->cityType = 2;
     if (data->isValid == 1 && data->cityType >= 2) {
-        int version = MYSTATUS_GetAvatarId(myStatus);
+        int version = MYSTATUS_GetRomCode(myStatus);
         if (INTRUDE_COMM_NormalizeVersion((u8)version, MYSTATUS_GetId(myStatus)) == 0x15)
             data->cityType = 0;
         else

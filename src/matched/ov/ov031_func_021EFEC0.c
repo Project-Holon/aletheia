@@ -27,7 +27,7 @@
  *   UNION_MAIN_GetAppealNo  0x02173940  thumb  ov012
  *   UNION_SUBDISP_DrawVisibleChatLines  0x021F09A0  thumb  ov031
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   GFL_NET_WM_ICON_EasyObjWindowOn  0x02037174  arm
  *   sUnionSubdispFileName   0x021F10C0  data  ov031  a1
  *   sUnionSubdispAppealNo     0x021F1038  data  ov031  a1
@@ -59,7 +59,7 @@ extern u32 GAME_COMM_GetWork(void *obj);
 extern u8 UNION_MAIN_GetAppealNo(u8 *p);
 extern void UNION_SUBDISP_DrawVisibleChatLines(void *a, char *b);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void GFL_NET_WM_ICON_EasyObjWindowOn(void);
 
 #define REG_DB_DISPCNT_SUB (*(volatile u32 *)0x04001000)
@@ -100,7 +100,7 @@ u32 *UNION_SUBDISP_Create(void *a)
             }
         }
     }
-    GFL_NET_RestartWithDefaultTimeout(0, 0x15);
+    GFL_NET_RefreshWmIconAtTopRight(0, 0x15);
     GFL_NET_WM_ICON_EasyObjWindowOn();
     REG_WINOUT_SUB = (u16)((REG_WINOUT_SUB & ~0x3F00) | (0x1F << 8));
     tmp = (REG_WINOUT_SUB & ~0x3F) | 0x1F;

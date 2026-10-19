@@ -12,7 +12,7 @@
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
  *   BR_RES_GetSprite 0x021FC124 thumb ov186
- *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GF_PANIC_Fail 0x02034714 arm
  *   _fflt 0x0209BDBC arm
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
@@ -35,7 +35,7 @@ struct Actor;
 struct Obj;
 extern void MI_CpuFill8(void *,u32,u32);
 extern int BR_RES_GetSprite(char *,int,Triple *);
-extern void SAVEDATA_PanicFail(const char *,u32,const char *);
+extern void GF_PANIC_Fail(const char *,u32,const char *);
 extern struct Obj *CLACT_CreateActor(void *owner,u32 i,u32 j,u32 k,const void *position,u16 space,u16 heap);
 extern void CLACT_SetActorAffineMode(struct Actor *,u32);
 extern void CLACT_SetActorScaleAxis(struct Actor *,u32,u32);
@@ -58,7 +58,7 @@ void BR_SIDEBAR_InitSlot(char *p,u32 owner,char *resources,const Config *config,
     *(Config *)(p+0x34)=*config;
     index=4;
     if(config->mode)index=5;
-    if(!BR_RES_GetSprite(resources,index,&triple))SAVEDATA_PanicFail(gBrSidebarAssertString,0,gBrSidebarAssertString);
+    if(!BR_RES_GetSprite(resources,index,&triple))GF_PANIC_Fail(gBrSidebarAssertString,0,gBrSidebarAssertString);
     MI_CpuFill8(&request,0,sizeof(request));
     request.x=config->x;
     request.y=config->y;

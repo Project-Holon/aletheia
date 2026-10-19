@@ -22,7 +22,7 @@
  *   _sAssertEmpty     0x021A1C5C  data  ov009  a1
  *   _sDwcRapFile     0x021A1C60  data  ov009  a1
  *   GFL_NET_AllocAligned  0x0203D7C8  arm
- *   SAVEDATA_PanicFail  0x02034714  arm
+ *   GF_PANIC_Fail  0x02034714  arm
  *   DWC_CheckHasProfile  0x020597C8  arm
  *   DWC_CheckValidConsole  0x02059760  arm
  *   GFL_NET_FreeAligned 0x0203D7FC arm
@@ -109,7 +109,7 @@ u32 GFL_NET_STATE_GetError(void);
 
 void *GFL_NET_AllocAligned(u32 heap, u32 size, const char *file, u16 line);
 
-void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 int DWC_CheckHasProfile(struct DWCstAccUserData *userdata);
 
@@ -424,7 +424,7 @@ int DWC_RAP_CreateWork(int userData, int friendList)
 
     netInit = GFL_NET_GetInitParam();
     if (_pRapWork != 0)
-        SAVEDATA_PanicFail(_sAssertEmpty, 0, _sAssertEmpty);
+        GF_PANIC_Fail(_sAssertEmpty, 0, _sAssertEmpty);
     _pRapWork = GFL_NET_AllocAligned(netInit->heapId, sizeof(DwcRapWork), _sDwcRapFile, 302);
     for (slot = 0; slot < 32; slot++)
         _pRapWork->deletedFriendIndex[slot] = -1;
@@ -579,16 +579,16 @@ int DWC_RAP_StartMatchWithKey(void *matchValue, int maxPlayers, int useFilter, i
     int slot;
 
     if (_pRapWork == 0)
-        SAVEDATA_PanicFail(_sAssertEmpty, 0, _sAssertEmpty);
+        GF_PANIC_Fail(_sAssertEmpty, 0, _sAssertEmpty);
     if (_pRapWork->state != DWC_RAP_STATE_IDLE)
         return 0;
     DWC_RAP_FreeRecvBuffers();
     if (DWC_AddMatchKeyString(0, _sMatchKey, matchValue) == 0)
-        SAVEDATA_PanicFail(_sAssertEmpty, 0, _sAssertEmpty);
+        GF_PANIC_Fail(_sAssertEmpty, 0, _sAssertEmpty);
     MI_CpuFill8(_pRapWork->matchFilter, 0, 0x80);
     sprintf(_pRapWork->matchFilter, (u32)_sMatchFilterFormat, _sMatchKey, matchValue);
     if ((int)GF_STANDARD_GetStringLength((const u8 *)_pRapWork->matchFilter) >= 0x80)
-        SAVEDATA_PanicFail(_sAssertEmpty, 0, _sAssertEmpty);
+        GF_PANIC_Fail(_sAssertEmpty, 0, _sAssertEmpty);
     if (useFilter)
         DWC_AddMatchKeyString(1, _pRapWork->matchFilter, _pRapWork->matchFilter);
     for (slot = 0; slot < maxPlayers; slot++)
@@ -620,7 +620,7 @@ int DWC_RAP_StartMatchWithFilter(int filter, int maxPlayers, int evalFunc, int e
     int slot;
 
     if (_pRapWork == 0)
-        SAVEDATA_PanicFail(_sAssertEmpty, 0, _sAssertEmpty);
+        GF_PANIC_Fail(_sAssertEmpty, 0, _sAssertEmpty);
     if (_pRapWork->state != DWC_RAP_STATE_IDLE)
         return 0;
     DWC_RAP_FreeRecvBuffers();
@@ -853,12 +853,12 @@ void DWC_RAP_SetupRecvTimeouts(void)
         for (peer = 0; peer < _pRapWork->maxPlayers; peer++) {
             if (peer != DWC_GetMyAID() && (DWC_GetAIDBitmap() & (1 << peer)) != 0) {
                 if (DWC_SetRecvTimeoutTime(peer, 10000) == 0)
-                    SAVEDATA_PanicFail(_sAssertEmpty, 0, _sAssertEmpty);
+                    GF_PANIC_Fail(_sAssertEmpty, 0, _sAssertEmpty);
             }
         }
     } else {
         if (DWC_SetRecvTimeoutTime(0, 10000) == 0)
-            SAVEDATA_PanicFail(_sAssertEmpty, 0, _sAssertEmpty);
+            GF_PANIC_Fail(_sAssertEmpty, 0, _sAssertEmpty);
     }
     _pRapWork->peerAlive = 1;
     DWC_RAP_ClearPeerCounters();
@@ -925,7 +925,7 @@ void DWC_RAP_OnReceive(u32 aid, u8 *data, int size)
     u32 header = data[0] | ((data[3] << 24) | (data[2] << 16) | (data[1] << 8));
 
     if (aid >= 2)
-        SAVEDATA_PanicFail(_sAssertEmpty, 0, _sAssertEmpty);
+        GF_PANIC_Fail(_sAssertEmpty, 0, _sAssertEmpty);
     if (aid < 2) {
         _pRapWork->peerAlive = 1;
         if ((u8)header == 1) {
@@ -1337,7 +1337,7 @@ int DWC_RAP_GetErrorMessageClass(int errorCode, int errorType)
     case 6:
         return 11;
     default:
-        SAVEDATA_PanicFail(_sAssertEmpty, 0, _sAssertEmpty);
+        GF_PANIC_Fail(_sAssertEmpty, 0, _sAssertEmpty);
         break;
     case 7:
         return 15;
@@ -1431,7 +1431,7 @@ void DWC_RAP_PollFriendStatus(void)
 int DWC_RAP_SetOwnStatus(char *data, int size)
 {
     if (size > 32)
-        SAVEDATA_PanicFail(_sAssertEmpty, 0, _sAssertEmpty);
+        GF_PANIC_Fail(_sAssertEmpty, 0, _sAssertEmpty);
     return DWC_SetOwnStatusData(data, size);
 }
 

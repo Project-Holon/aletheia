@@ -41,7 +41,7 @@
  *   MYSTATUS_NameToStrbuf  0x02008500  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   BMP_OAM_Get  0x02025B94  thumb
+ *   NATION_AREA_GetAreaMsgBank  0x02025B94  thumb
  *   TPOKE_DATA_GetRecordField  0x0202A230  thumb
  *   WORDSET_ResetSlot  0x0201ED64  thumb
  *   WORDSET_SetSlotText  0x0201ED84  thumb
@@ -62,7 +62,7 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern u16 func_02045F50(const struct Obj *o);
 extern void  MYSTATUS_NameToStrbuf(void *a, void *b);
-extern u32   BMP_OAM_Get(u32 a);
+extern u32   NATION_AREA_GetAreaMsgBank(u32 a);
 extern u32 TPOKE_DATA_GetRecordField(void *a, u32 idx);
 extern void func_0200785C(void *save, u32 box, void *dest);
 

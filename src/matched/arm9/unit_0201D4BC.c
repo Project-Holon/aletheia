@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: GF_FONT_SearchIndex
+ * function: PRINTSYS_SearchIndex
  *
  * Finds the index of the 0xBD06 tag whose first parameter is the caller's
  * value, counting 0xFFFE separators as it goes.  The tag's parameter is read
@@ -31,7 +31,7 @@
  *
  * symbols:
  *   STRBUF_GetChars  0x02045A90  arm
- *   GF_FONT_SkipTag  0x0201D688  thumb
+ *   PRINTSYS_SkipTag  0x0201D688  thumb
  */
 
 typedef unsigned char  u8;
@@ -40,9 +40,9 @@ typedef unsigned int   u32;
 
 struct U16Vec;
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
-extern u16 *GF_FONT_SkipTag(u16 *p);
+extern u16 *PRINTSYS_SkipTag(u16 *p);
 
-u32 GF_FONT_SearchIndex(void *s, u8 v)
+u32 PRINTSYS_SearchIndex(void *s, u8 v)
 {
     u16 *p;
     u16 n = 0;
@@ -65,7 +65,7 @@ u32 GF_FONT_SearchIndex(void *s, u8 v)
                     return (u8)n;
                 }
             }
-            p = GF_FONT_SkipTag(p);
+            p = PRINTSYS_SkipTag(p);
         } else {
             p = p + 1;
         }

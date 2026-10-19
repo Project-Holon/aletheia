@@ -67,8 +67,8 @@ typedef struct FieldCameraSetting {
     unsigned char pad10;        /* 0x10 */
     unsigned char projection;   /* 0x11: 0 or 1, passed to the G3D system */
     unsigned short fov;         /* 0x12: angle */
-    int g3dScale;               /* 0x14: stored in the G3D camera scale */
-    int g3dRoll;                /* 0x18: stored in the G3D camera roll */
+    int g3dNear;                /* 0x14: G3D camera near plane */
+    int g3dFar;                 /* 0x18: G3D camera far plane */
     int hasTarget;              /* 0x1C: 0 means vec is the target, else vec is the shift */
     VecFx32 vec;                /* 0x20 */
 } FieldCameraSetting;

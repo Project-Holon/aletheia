@@ -1,7 +1,7 @@
 /*
  * file:     weather_task.c
  * unit:     yes
- * function: WEATHER_TASK_Create, WEATHER_TASK_Delete, WEATHER_TASK_Update, WEATHER_TASK_Start, WEATHER_TASK_RequestEnd, WEATHER_TASK_ForceEnd, WEATHER_TASK_FadeLight, WEATHER_TASK_SetLight, WEATHER_TASK_ResetLight, WEATHER_TASK_FlashLight, WEATHER_TASK_IsLightFlashing, WEATHER_TASK_GetCameraState, WEATHER_TASK_SetLightColor, WEATHER_TASK_SetBillboardVisible, WEATHER_TASK_SetBillboardParam14, WEATHER_TASK_SetBillboardParam18, WEATHER_TASK_SetBillboardParam0C, WEATHER_TASK_SetBillboardParam10, WEATHER_TASK_GetPhase, WEATHER_TASK_GetWorkBuffer, WEATHER_TASK_GetParticleCount, WEATHER_TASK_AddParticle, WEATHER_TASK_RemoveParticle, WEATHER_TASK_SetupSpawner, WEATHER_TASK_RetargetSpawner, WEATHER_TASK_StepSpawner, WEATHER_TASK_StepSpawnTimer, WEATHER_TASK_PrewarmParticles, WEATHER_TASK_InitFog, WEATHER_TASK_DisableFog, WEATHER_TASK_ChangeFog, WEATHER_TASK_ChangeFogOffset, WEATHER_TASK_IsFogIdle, WEATHER_TASK_IsZoneFogActive, WEATHER_TASK_CheckZoneFogA, WEATHER_TASK_CheckZoneFogB, WEATHER_TASK_GetZoneFogC, WEATHER_TASK_GetZoneFogD, WEATHER_TASK_GetZoneFogE, WEATHER_TASK_SaveCameraPos, WEATHER_TASK_GetCameraScroll, WEATHER_TASK_ShiftParticles, WEATHER_TASK_PlaySe, WEATHER_TASK_StopSe, WEATHER_TASK_PlaySeDirect, WEATHER_TASK_PlaySeWithVoice, WEATHER_TASK_GetParticleWork, WEATHER_TASK_GetParticleActor, WEATHER_TASK_GetParticlePos, WEATHER_TASK_SetParticlePosWrapped, WEATHER_TASK_SetParticlePos, WEATHER_TASK_Reset, WEATHER_TASK_CallStageFunc, WEATHER_TASK_GetStagePhase, WEATHER_TASK_FindFreeParticle, WEATHER_TASK_LinkParticle, WEATHER_TASK_UnlinkParticle, WEATHER_TASK_UpdateParticles, WEATHER_TASK_LoadResources, WEATHER_TASK_UnloadResources, WEATHER_TASK_InitBillboards, WEATHER_TASK_FreeBillboards, WEATHER_TASK_AllocParticles, WEATHER_TASK_FreeParticles, WEATHER_TASK_MarkStarted, WEATHER_TASK_IsStarted, WEATHER_TASK_LoadArchive, WEATHER_TASK_FreeArchive, WEATHER_TASK_LoadSpriteResources, WEATHER_TASK_FreeSpriteResources, WEATHER_TASK_InitBillboard, WEATHER_TASK_FreeBillboard, WEATHER_TASK_InitSpawner, WEATHER_TASK_SetSpawnerTarget, WEATHER_TASK_TickSpawner, WEATHER_TASK_TickSpawnTimer, WEATHER_TASK_ClearParticle, WEATHER_TASK_IsParticleLinked, WEATHER_TASK_CreateParticleActor, WEATHER_TASK_DestroyParticleActor, WEATHER_TASK_GetParticleWorkPtr, WEATHER_TASK_GetParticleActorPtr, WEATHER_TASK_SetSoundUseSoundSys, WEATHER_TASK_PlaySound, WEATHER_TASK_StopSound, WEATHER_TASK_ResumeSound, WEATHER_TASK_QueueFogChange, WEATHER_TASK_ClearFogChange, WEATHER_TASK_HasFogChange, WEATHER_TASK_ApplyFogChange, WEATHER_TASK_GetViewScale
+ * function: WEATHER_TASK_Create, WEATHER_TASK_Delete, WEATHER_TASK_Update, WEATHER_TASK_Start, WEATHER_TASK_RequestEnd, WEATHER_TASK_ForceEnd, WEATHER_TASK_FadeLight, WEATHER_TASK_SetLight, WEATHER_TASK_ResetLight, WEATHER_TASK_FlashLight, WEATHER_TASK_IsLightFlashing, WEATHER_TASK_GetCameraSettingId, WEATHER_TASK_SetLightColor, WEATHER_TASK_SetBillboardVisible, WEATHER_TASK_SetBillboardScaleX, WEATHER_TASK_SetBillboardScaleY, WEATHER_TASK_SetBillboardTexOffsetX, WEATHER_TASK_SetBillboardTexOffsetY, WEATHER_TASK_GetPhase, WEATHER_TASK_GetWorkBuffer, WEATHER_TASK_GetParticleCount, WEATHER_TASK_AddParticle, WEATHER_TASK_RemoveParticle, WEATHER_TASK_SetupSpawner, WEATHER_TASK_RetargetSpawner, WEATHER_TASK_StepSpawner, WEATHER_TASK_StepSpawnTimer, WEATHER_TASK_PrewarmParticles, WEATHER_TASK_InitFog, WEATHER_TASK_DisableFog, WEATHER_TASK_ChangeFog, WEATHER_TASK_ChangeFogOffset, WEATHER_TASK_IsFogIdle, WEATHER_TASK_IsZoneFogActive, WEATHER_TASK_IsZoneFog, WEATHER_TASK_IsZoneFogLight, WEATHER_TASK_GetZoneFogOffset, WEATHER_TASK_GetZoneFogSlope, WEATHER_TASK_GetZoneFogLightId, WEATHER_TASK_SaveCameraPos, WEATHER_TASK_GetCameraScroll, WEATHER_TASK_ShiftParticles, WEATHER_TASK_PlaySe, WEATHER_TASK_StopSe, WEATHER_TASK_PlaySeDirect, WEATHER_TASK_PlaySeWithVoice, WEATHER_TASK_GetParticleWork, WEATHER_TASK_GetParticleActor, WEATHER_TASK_GetParticlePos, WEATHER_TASK_SetParticlePosWrapped, WEATHER_TASK_SetParticlePos, WEATHER_TASK_Reset, WEATHER_TASK_CallStageFunc, WEATHER_TASK_GetStagePhase, WEATHER_TASK_FindFreeParticle, WEATHER_TASK_LinkParticle, WEATHER_TASK_UnlinkParticle, WEATHER_TASK_UpdateParticles, WEATHER_TASK_LoadResources, WEATHER_TASK_UnloadResources, WEATHER_TASK_InitBillboards, WEATHER_TASK_FreeBillboards, WEATHER_TASK_AllocParticles, WEATHER_TASK_FreeParticles, WEATHER_TASK_MarkStarted, WEATHER_TASK_IsStarted, WEATHER_TASK_LoadArchive, WEATHER_TASK_FreeArchive, WEATHER_TASK_LoadSpriteResources, WEATHER_TASK_FreeSpriteResources, WEATHER_TASK_InitBillboard, WEATHER_TASK_FreeBillboard, WEATHER_TASK_InitSpawner, WEATHER_TASK_SetSpawnerTarget, WEATHER_TASK_TickSpawner, WEATHER_TASK_TickSpawnTimer, WEATHER_TASK_ClearParticle, WEATHER_TASK_IsParticleLinked, WEATHER_TASK_CreateParticleActor, WEATHER_TASK_DestroyParticleActor, WEATHER_TASK_GetParticleWorkPtr, WEATHER_TASK_GetParticleActorPtr, WEATHER_TASK_SetSoundUseSoundSys, WEATHER_TASK_PlaySound, WEATHER_TASK_StopSound, WEATHER_TASK_ResumeSound, WEATHER_TASK_QueueFogChange, WEATHER_TASK_ClearFogChange, WEATHER_TASK_HasFogChange, WEATHER_TASK_ApplyFogChange, WEATHER_TASK_GetViewScale
  * address:  0x021A1DB4
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -169,13 +169,13 @@ int WEATHER_TASK_SetLight(WeatherTaskSys *task, int arcId, u32 memberId);
 void WEATHER_TASK_ResetLight(WeatherTaskSys *task, int phase);
 void WEATHER_TASK_FlashLight(WeatherTaskSys *task, u32 color, u32 frames, u32 returnFrames);
 int WEATHER_TASK_IsLightFlashing(WeatherTaskSys *task);
-int WEATHER_TASK_GetCameraState(WeatherTaskSys *task);
+int WEATHER_TASK_GetCameraSettingId(WeatherTaskSys *task);
 void WEATHER_TASK_SetLightColor(WeatherTaskSys *task, u32 color, u32 frames);
 void WEATHER_TASK_SetBillboardVisible(WeatherTaskSys *task, unsigned int value, int layer);
-void WEATHER_TASK_SetBillboardParam14(WeatherTaskSys *task, unsigned int value, int layer);
-void WEATHER_TASK_SetBillboardParam18(WeatherTaskSys *task, unsigned int value, int layer);
-void WEATHER_TASK_SetBillboardParam0C(WeatherTaskSys *task, unsigned int value, int layer);
-void WEATHER_TASK_SetBillboardParam10(WeatherTaskSys *task, unsigned int value, int layer);
+void WEATHER_TASK_SetBillboardScaleX(WeatherTaskSys *task, unsigned int value, int layer);
+void WEATHER_TASK_SetBillboardScaleY(WeatherTaskSys *task, unsigned int value, int layer);
+void WEATHER_TASK_SetBillboardTexOffsetX(WeatherTaskSys *task, unsigned int value, int layer);
+void WEATHER_TASK_SetBillboardTexOffsetY(WeatherTaskSys *task, unsigned int value, int layer);
 int WEATHER_TASK_GetPhase(WeatherTaskSys *task);
 void *WEATHER_TASK_GetWorkBuffer(WeatherTaskSys *task);
 int WEATHER_TASK_GetParticleCount(WeatherTaskSys *task);
@@ -192,11 +192,11 @@ void WEATHER_TASK_ChangeFog(WeatherTaskSys *task, u8 slope, int offset, int fram
 void WEATHER_TASK_ChangeFogOffset(WeatherTaskSys *task, int endOffset, int frames, int mode);
 int WEATHER_TASK_IsFogIdle(WeatherTaskSys *task);
 int WEATHER_TASK_IsZoneFogActive(WeatherTaskSys *task);
-int WEATHER_TASK_CheckZoneFogA(WeatherTaskSys *task);
-int WEATHER_TASK_CheckZoneFogB(WeatherTaskSys *task);
-int WEATHER_TASK_GetZoneFogC(WeatherTaskSys *task);
-int WEATHER_TASK_GetZoneFogD(WeatherTaskSys *task);
-int WEATHER_TASK_GetZoneFogE(WeatherTaskSys *task);
+int WEATHER_TASK_IsZoneFog(WeatherTaskSys *task);
+int WEATHER_TASK_IsZoneFogLight(WeatherTaskSys *task);
+int WEATHER_TASK_GetZoneFogOffset(WeatherTaskSys *task);
+int WEATHER_TASK_GetZoneFogSlope(WeatherTaskSys *task);
+int WEATHER_TASK_GetZoneFogLightId(WeatherTaskSys *task);
 void WEATHER_TASK_SaveCameraPos(WeatherTaskSys *task);
 void WEATHER_TASK_GetCameraScroll(WeatherTaskSys *task, s32 *outX, s32 *outY);
 void WEATHER_TASK_ShiftParticles(WeatherTaskSys *task, int dx, int dy);
@@ -462,7 +462,7 @@ int WEATHER_TASK_IsLightFlashing(WeatherTaskSys *task)
 }
 
 
-int WEATHER_TASK_GetCameraState(WeatherTaskSys *task)
+int WEATHER_TASK_GetCameraSettingId(WeatherTaskSys *task)
 {
     return FIELD_CAMERA_GetSettingId(task->camera);
 }
@@ -480,25 +480,25 @@ void WEATHER_TASK_SetBillboardVisible(WeatherTaskSys *task, unsigned int value, 
 }
 
 
-void WEATHER_TASK_SetBillboardParam14(WeatherTaskSys *task, unsigned int value, int layer)
+void WEATHER_TASK_SetBillboardScaleX(WeatherTaskSys *task, unsigned int value, int layer)
 {
     FIELD_3DBG_SetBillboardScaleX(task->sys->billboards[layer], value);
 }
 
 
-void WEATHER_TASK_SetBillboardParam18(WeatherTaskSys *task, unsigned int value, int layer)
+void WEATHER_TASK_SetBillboardScaleY(WeatherTaskSys *task, unsigned int value, int layer)
 {
     FIELD_3DBG_SetBillboardScaleY(task->sys->billboards[layer], value);
 }
 
 
-void WEATHER_TASK_SetBillboardParam0C(WeatherTaskSys *task, unsigned int value, int layer)
+void WEATHER_TASK_SetBillboardTexOffsetX(WeatherTaskSys *task, unsigned int value, int layer)
 {
     FIELD_3DBG_SetBillboardTexOffsetX(task->sys->billboards[layer], value);
 }
 
 
-void WEATHER_TASK_SetBillboardParam10(WeatherTaskSys *task, unsigned int value, int layer)
+void WEATHER_TASK_SetBillboardTexOffsetY(WeatherTaskSys *task, unsigned int value, int layer)
 {
     FIELD_3DBG_SetBillboardTexOffsetY(task->sys->billboards[layer], value);
 }
@@ -680,31 +680,31 @@ int WEATHER_TASK_IsZoneFogActive(WeatherTaskSys *task)
 }
 
 
-int WEATHER_TASK_CheckZoneFogA(WeatherTaskSys *task)
+int WEATHER_TASK_IsZoneFog(WeatherTaskSys *task)
 {
     return FIELD_ZONEFOG_IsFog(task->zoneFog);
 }
 
 
-int WEATHER_TASK_CheckZoneFogB(WeatherTaskSys *task)
+int WEATHER_TASK_IsZoneFogLight(WeatherTaskSys *task)
 {
     return FIELD_ZONEFOG_IsLight(task->zoneFog);
 }
 
 
-int WEATHER_TASK_GetZoneFogC(WeatherTaskSys *task)
+int WEATHER_TASK_GetZoneFogOffset(WeatherTaskSys *task)
 {
     return FIELD_ZONEFOG_GetFogOffset(task->zoneFog);
 }
 
 
-int WEATHER_TASK_GetZoneFogD(WeatherTaskSys *task)
+int WEATHER_TASK_GetZoneFogSlope(WeatherTaskSys *task)
 {
     return FIELD_ZONEFOG_GetFogSlope(task->zoneFog);
 }
 
 
-int WEATHER_TASK_GetZoneFogE(WeatherTaskSys *task)
+int WEATHER_TASK_GetZoneFogLightId(WeatherTaskSys *task)
 {
     return FIELD_ZONEFOG_GetLightId(task->zoneFog);
 }

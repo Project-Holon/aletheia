@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: FIELD_SOUND_SYSTEM_GetQueueDepth
+ * function: FIELD_SOUND_SYSTEM_GetPendingBgmStackDepth
  * address:  0x020288C4
  * packet:   pkt_0202878C
  * region:   arm9
@@ -20,7 +20,7 @@
  *   FIELD_SOUND_SYSTEM_CountRequestsOfKind  0x02028DCC  thumb
  *
  * Verified with:
- *   python tools/match.py tu --src src/matched/FIELD_SOUND_SYSTEM_GetQueueDepth.c  *       --addr 0x020288C4 --thumb
+ *   python tools/match.py tu --src src/matched/FIELD_SOUND_SYSTEM_GetPendingBgmStackDepth.c  *       --addr 0x020288C4 --thumb
  */
 
 typedef unsigned char  u8;
@@ -38,7 +38,7 @@ struct Sys {
 
 extern u8 FIELD_SOUND_SYSTEM_CountRequestsOfKind(struct Sys *s, u32 target);
 
-s32 FIELD_SOUND_SYSTEM_GetQueueDepth(struct Sys *s)
+s32 FIELD_SOUND_SYSTEM_GetPendingBgmStackDepth(struct Sys *s)
 {
     s32 n = s->unk20;
     u32 mode;

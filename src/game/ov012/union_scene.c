@@ -20,7 +20,7 @@
  *   UNION_SCENE_IsScenePending  0x02174268  thumb  ov012
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   UNION_APP_Delete  0x02183BE0  thumb  ov022
- *   SAVEDATA_PanicFail  0x02034714  arm
+ *   GF_PANIC_Fail  0x02034714  arm
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
@@ -59,7 +59,7 @@
  *   UNION_COMMAND_SendAppLeaveData  0x02174084  thumb  ov012
  *   UNION_APP_AddSelfToJoined  0x021840AC  thumb  ov022
  *   UNION_COMM_SetGameKindByStatus  0x021736E0  thumb  ov012
- *   GFL_NET_NotifyUserEvent  0x0203D1E8  arm
+ *   GFL_NET_SetAcceptConnection  0x0203D1E8  arm
  *   GAME_DATA_GetSeason  0x02012984  thumb
  *   FIELD_SOUND_SYSTEM_GetFieldBgmForZoneEx  0x02029DF4  thumb
  *   GFL_USE_ChangeBgm  0x02005DA4  thumb
@@ -136,7 +136,7 @@ extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSyst
 
 extern void UNION_APP_Delete(struct UnionAppWork *app);
 
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 
@@ -325,7 +325,7 @@ extern void UNION_APP_AddSelfToJoined(struct UnionAppWork *app);
 
 extern void UNION_COMM_SetGameKindByStatus(unsigned int activity);
 
-extern void GFL_NET_NotifyUserEvent(GFLNetHandle *handle, int enable);
+extern void GFL_NET_SetAcceptConnection(GFLNetHandle *handle, int enable);
 
 extern u8 GAME_DATA_GetSeason(const struct GameData *gameData);
 
@@ -443,7 +443,7 @@ extern const int gPmsInputProcData[];
 void UNION_SCENE_RequestScene(UnionRoomWork *unionRoom, int sceneId, int sceneParam)
 {
     if (unionRoom->subEvent.id != 0 || unionRoom->subEvent.active != 0)
-        SAVEDATA_PanicFail(gUnionMainEmptyString, 0, gUnionMainEmptyString);
+        GF_PANIC_Fail(gUnionMainEmptyString, 0, gUnionMainEmptyString);
     unionRoom->subEvent.id = sceneId;
     unionRoom->subEvent.param = sceneParam;
     unionRoom->subEvent.seq = 0;
@@ -629,7 +629,7 @@ int UNION_SCENE_StepGroupActivity(struct GameSystem *gameSystem, UnionRoomWork *
         break;
     case 12:
         if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 10, 0x14) == 1) {
-            GFL_NET_NotifyUserEvent(GFL_NET_HANDLE_GetCurrentHandle(), 1);
+            GFL_NET_SetAcceptConnection(GFL_NET_HANDLE_GetCurrentHandle(), 1);
             *step = 13;
         }
         break;
@@ -830,9 +830,9 @@ int UNION_SCENE_StepColosseumPartyEntry(struct GameSystem *gameSystem, UnionRoom
             break;
         }
         if (listParam->resultKind != 0)
-            SAVEDATA_PanicFail(gUnionMainEmptyString, 0, gUnionMainEmptyString);
+            GF_PANIC_Fail(gUnionMainEmptyString, 0, gUnionMainEmptyString);
         if (listParam->cursor != 6)
-            SAVEDATA_PanicFail(gUnionMainEmptyString, 0, gUnionMainEmptyString);
+            GF_PANIC_Fail(gUnionMainEmptyString, 0, gUnionMainEmptyString);
         party = colosseum->party[myNetId];
         tmpParty = POKEPARTY_Create(0x41);
         POKEPARTY_Copy(party, tmpParty);

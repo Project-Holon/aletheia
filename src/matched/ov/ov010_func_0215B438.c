@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_WORK_CmdCheckFieldModeB
+ * function: SCRCMD_WORK_CmdCheckLastBattleResultB
  * address: 0x0215B438
  * packet: pkt_ov010_0215B438
  * region: ov010
@@ -11,7 +11,7 @@
  * symbols:
  *   SCRIPT_WORK_ReadWorkPointer 0x02159AE8 thumb ov010
  *   SCRCMD_WORK_GetGameData 0x0215A5E4 thumb ov010
- *   GAME_DATA_GetFieldMode 0x02012A44 thumb
+ *   GAME_DATA_GetLastBattleResult 0x02012A44 thumb
  *   EVENT_BATTLE_IsResultSilent 0x0216EFA8 thumb ov010
  */
 typedef unsigned short u16;
@@ -19,12 +19,12 @@ extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern void *SCRCMD_WORK_GetGameData(void *a0);
 typedef unsigned int   u32;
 struct BigObj;
-extern u32 GAME_DATA_GetFieldMode(const struct BigObj *p);
+extern u32 GAME_DATA_GetLastBattleResult(const struct BigObj *p);
 extern int EVENT_BATTLE_IsResultSilent(int,int);
-int SCRCMD_WORK_CmdCheckFieldModeB(int a,int b)
+int SCRCMD_WORK_CmdCheckLastBattleResultB(int a,int b)
 {
     u16 *out = SCRIPT_WORK_ReadWorkPointer((void *)a,(void *)b);
     int z = 0;
-    if (EVENT_BATTLE_IsResultSilent(GAME_DATA_GetFieldMode(SCRCMD_WORK_GetGameData((void *)b)),0) == 1) *out = z; else *out = 1;
+    if (EVENT_BATTLE_IsResultSilent(GAME_DATA_GetLastBattleResult(SCRCMD_WORK_GetGameData((void *)b)),0) == 1) *out = z; else *out = 1;
     return 0;
 }

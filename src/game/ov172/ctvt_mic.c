@@ -18,7 +18,7 @@
  *   GFL_NET_FreeAligned  0x0203D7FC  arm
  *   GFL_HEAP_Free  0x020307B0  arm
  *   MIi_CpuClear32 0x02082A7C arm
- *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GF_PANIC_Fail 0x02034714 arm
  *   CTVT_MIC_Create 0x021B9F9C thumb ov172
  *   CTVT_MIC_Delete 0x021BA01C thumb ov172
  *   CTVT_MIC_Update 0x021BA050 thumb ov172
@@ -264,7 +264,7 @@ extern int CTVT_ADPCM_Decode(int a, int b, int c);
 
 extern int  NNS_SndWaveOutAllocChannel(int size);
 
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 extern void NNSi_SndWaveOutUnlockChannel(struct NnsWaveOutSlot *slot);
 
@@ -318,7 +318,7 @@ void CTVT_MIC_InitChannel(CtvtMic *mic, u32 heap)
 
     mic->channel = v;
     if (v == 0) {
-        SAVEDATA_PanicFail((void *)0x021C7224, 0, (void *)0x021C7224);
+        GF_PANIC_Fail((void *)0x021C7224, 0, (void *)0x021C7224);
     }
     mic->playing = 0;
 }

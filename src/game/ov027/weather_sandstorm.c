@@ -46,8 +46,8 @@
  *   gSandstormGustSpeedY     0x021EEB68  data  a4
  *   WEATHER_TASK_GetCameraScroll  0x021A244C  thumb  ov021
  *   WEATHER_TASK_ShiftParticles  0x021A2564  thumb  ov021
- *   WEATHER_TASK_SetBillboardParam0C  0x021A2190  thumb  ov021
- *   WEATHER_TASK_SetBillboardParam10  0x021A21A0  thumb  ov021
+ *   WEATHER_TASK_SetBillboardTexOffsetX  0x021A2190  thumb  ov021
+ *   WEATHER_TASK_SetBillboardTexOffsetY  0x021A21A0  thumb  ov021
  */
 #include "../ov021/weather_task_types.h"
 #include "weather_sandstorm_types.h"
@@ -98,8 +98,8 @@ extern const int gSandstormGustSpeedX[];
 extern const int gSandstormGustSpeedY[];
 extern void WEATHER_TASK_GetCameraScroll(struct WeatherTaskSys *task, int *outX, int *outY);
 extern void WEATHER_TASK_ShiftParticles(struct WeatherTaskSys *task, int dx, int dy);
-extern void WEATHER_TASK_SetBillboardParam0C(struct WeatherTaskSys *task, unsigned int value, int layer);
-extern void WEATHER_TASK_SetBillboardParam10(struct WeatherTaskSys *task, unsigned int value, int layer);
+extern void WEATHER_TASK_SetBillboardTexOffsetX(struct WeatherTaskSys *task, unsigned int value, int layer);
+extern void WEATHER_TASK_SetBillboardTexOffsetY(struct WeatherTaskSys *task, unsigned int value, int layer);
 /* Begin stage of the kind (staged start): spawner, fog and sound. */
 int WEATHER_SANDSTORM_Begin(WeatherTaskSys *task, int variant)
 {
@@ -283,6 +283,6 @@ void WEATHER_SANDSTORM_ScrollBillboards(struct WeatherTaskSys *task, WeatherSand
     WEATHER_TASK_GetCameraScroll(task, &scrollX, &scrollY);
     WEATHER_TASK_ShiftParticles(task, scrollX, scrollY);
     work->scrollPhase = (work->scrollPhase + GUST_SCROLL_STEP) % GUST_SCROLL_PERIOD;
-    WEATHER_TASK_SetBillboardParam0C(task, -work->scrollPhase * 2 - scrollX, 0);
-    WEATHER_TASK_SetBillboardParam10(task, scrollY + -work->scrollPhase * 2, 0);
+    WEATHER_TASK_SetBillboardTexOffsetX(task, -work->scrollPhase * 2 - scrollX, 0);
+    WEATHER_TASK_SetBillboardTexOffsetY(task, scrollY + -work->scrollPhase * 2, 0);
 }

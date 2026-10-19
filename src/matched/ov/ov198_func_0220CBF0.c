@@ -1,5 +1,5 @@
 /*
- * function: B_PLIST_DRAW_PrintStatRow3
+ * function: B_PLIST_DRAW_PrintSpAttackStat
  * address:  0x0220CBF0
  * packet:   pkt_0220CBF0
  * region:   ov198
@@ -44,7 +44,7 @@ extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 
-void B_PLIST_DRAW_PrintStatRow3(char *p, int i)
+void B_PLIST_DRAW_PrintSpAttackStat(char *p, int i)
 {
     char *elem;
     void *t;

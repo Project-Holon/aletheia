@@ -24,7 +24,7 @@
  *   CTVT_CALL_VBlank 0x021BD5AC thumb ov172
  *   func_020056A0 0x020056A0 thumb
  *   APP_ENV_HasParentalControlBits 0x0202EB14 thumb
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   CTVT_COMM_SetRequestedMode 0x021B80DC thumb ov172
  *   CTVT_COMM_SetConnectMac 0x021B80EC thumb ov172
  *   GAME_DATA_GetBgmInfo 0x02012A30 thumb
@@ -56,7 +56,7 @@ extern u32 DRAW_SYSTEM_CreateCanvas(Params *);
 extern void CTVT_CALL_VBlank(int, char *);
 extern u32 func_020056A0(void (*)(int, char *), char *, int);
 extern int APP_ENV_HasParentalControlBits(void);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void CTVT_COMM_SetRequestedMode(int unused, char *p, u32 v);
 extern void CTVT_COMM_SetConnectMac(int unused, char *p, const u8 *src);
 extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *p);
@@ -107,7 +107,7 @@ void CTVT_CALL_WorkInit(char *self)
     W(0x30) = z;
     W(0x34) = z;
     if (APP_ENV_HasParentalControlBits() == 1) W(0x30) = one;
-    GFL_NET_RestartWithDefaultTimeout(0, H(0));
+    GFL_NET_RefreshWmIconAtTopRight(0, H(0));
     switch (*(u32 *)(W(0x1f8) + 4)) {
     case 0:
         CTVT_COMM_SetRequestedMode((int)self, (char *)W(0x1e4), 3);

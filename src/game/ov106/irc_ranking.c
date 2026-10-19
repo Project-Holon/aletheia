@@ -107,7 +107,7 @@
  *   MSGDATA_ReadString 0x02045CAC arm
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
- *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
+ *   PRINTSYS_MeasureWidestLine 0x0201D304 thumb
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
  *   POKE_TOOL_CalcIconPalette 0x0201BB5C thumb
@@ -143,7 +143,7 @@
  *   VEC_Subtract 0x0207CA00 arm
  *   BMP_WIN_GetWidth 0x02045738 arm
  *   BMP_WIN_GetHeight 0x02045740 arm
- *   GF_FONT_CountLines 0x0201D42C thumb
+ *   PRINTSYS_CountLines 0x0201D42C thumb
  *   BMP_GetWidth 0x020437DC arm
  *   BMP_GetHeight 0x020437E4 arm
  *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
@@ -510,7 +510,7 @@ extern struct Strbuf *STRBUF_Create(int capacity, u16 heapId);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, struct Strbuf *dst, struct Strbuf *src);
-extern u32 GF_FONT_MeasureWidestLine(struct Strbuf *s, struct GfFont *font, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *s, struct GfFont *font, u32 b);
 extern void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *text, struct GfFont *font);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
 extern int POKE_TOOL_GetIconCellArcId(void);
@@ -554,7 +554,7 @@ extern float _fsub(float, float);
 extern float _ffltu(u32);
 extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
 extern u8 BMP_WIN_GetHeight(struct BmpWin *win);
-extern u32 GF_FONT_CountLines(struct Strbuf *, struct GfFont *);
+extern u32 PRINTSYS_CountLines(struct Strbuf *, struct GfFont *);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *, u32, void *);
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 extern u16 BMP_GetHeight(const struct Bmp *bmp);
@@ -1214,14 +1214,14 @@ void IRC_RANKING_RowInit(IrcRankingRow *row, const IrcRankingItem *item, struct 
     WORDSET_SetSlotNumber(wordSet, 2, item->score, 3, 0, 1);
     WORDSET_SetSlotNumber(wordSet, 3, item->meetCount, 3, 0, 1);
     WORDSET_CopyTaggedText(wordSet, text, rankFormat);
-    width = GF_FONT_MeasureWidestLine(text, font, 0) >> 1;
+    width = PRINTSYS_MeasureWidestLine(text, font, 0) >> 1;
     PRINTSYS_Print(row->textBmp, 38 - width, 5, text, font);
     PRINTSYS_Print(row->textBmp, 52, 5, item->name, font);
     WORDSET_CopyTaggedText(wordSet, text, scoreFormat);
-    width = GF_FONT_MeasureWidestLine(text, font, 0) >> 1;
+    width = PRINTSYS_MeasureWidestLine(text, font, 0) >> 1;
     PRINTSYS_Print(row->textBmp, 142 - width, 5, text, font);
     WORDSET_CopyTaggedText(wordSet, text, meetFormat);
-    width = GF_FONT_MeasureWidestLine(text, font, 0) >> 1;
+    width = PRINTSYS_MeasureWidestLine(text, font, 0) >> 1;
     PRINTSYS_Print(row->textBmp, 194 - width, 5, text, font);
     STRBUF_Delete(text); STRBUF_Delete(meetFormat); STRBUF_Delete(scoreFormat); STRBUF_Delete(rankFormat);
     graphicIndex = POKE_TOOL_CalcGraphicIndex(item->species, item->form, item->gender, item->isEgg);
@@ -1543,8 +1543,8 @@ void IRC_RANKING_PrintCentered(struct BmpWin *win, struct Strbuf *text, void *my
     if (!myStatus) {
         x = BMP_WIN_GetWidth(win) * 4;
         y = BMP_WIN_GetHeight(win) * 4;
-        x -= (u16)(GF_FONT_MeasureWidestLine(text, font, 0) >> 1);
-        y -= (u16)(GF_FONT_CountLines(text, font) >> 1);
+        x -= (u16)(PRINTSYS_MeasureWidestLine(text, font, 0) >> 1);
+        y -= (u16)(PRINTSYS_CountLines(text, font) >> 1);
         PRINTSYS_Print(BMP_WIN_GetBmp(win), (s16)x, (s16)y, text, font);
     } else {
         wordSet = WORDSET_CreateDefault(0x8043);
@@ -1553,8 +1553,8 @@ void IRC_RANKING_PrintCentered(struct BmpWin *win, struct Strbuf *text, void *my
         WORDSET_CopyTaggedText(wordSet, expanded, text);
         x = BMP_WIN_GetWidth(win) * 4;
         y = BMP_WIN_GetHeight(win) * 4;
-        x -= (u16)(GF_FONT_MeasureWidestLine(expanded, font, 0) >> 1);
-        y -= (u16)(GF_FONT_CountLines(expanded, font) >> 1);
+        x -= (u16)(PRINTSYS_MeasureWidestLine(expanded, font, 0) >> 1);
+        y -= (u16)(PRINTSYS_CountLines(expanded, font) >> 1);
         PRINTSYS_Print(BMP_WIN_GetBmp(win), (s16)x, (s16)y, expanded, font);
         STRBUF_Delete(expanded);
         WORDSET_Delete(wordSet);
@@ -1642,15 +1642,15 @@ void IRC_RANKING_LabelCalcTextPos(IrcRankingLabel *label, struct GfFont *font, P
     case 1: {
         u32 x = (u32)BMP_GetWidth(label->bmp) >> 1;
         u32 y = (u32)BMP_GetHeight(label->bmp) >> 1;
-        x -= GF_FONT_MeasureWidestLine(label->text, font, 0) >> 1;
-        y -= GF_FONT_CountLines(label->text, font) >> 1;
+        x -= PRINTSYS_MeasureWidestLine(label->text, font, 0) >> 1;
+        y -= PRINTSYS_CountLines(label->text, font) >> 1;
         out->x = x + label->offset.x;
         out->y = y + label->offset.y;
         return;
     }
     case 2: {
         u32 y = (u32)BMP_GetHeight(label->bmp) >> 1;
-        u32 ny = y - (GF_FONT_CountLines(label->text, font) >> 1);
+        u32 ny = y - (PRINTSYS_CountLines(label->text, font) >> 1);
         out->x = label->offset.x;
         out->y = ny + label->offset.y;
         return;

@@ -1,5 +1,5 @@
 /*
- * function: HAND_TOKUSEI_AddCloudNine
+ * function: HAND_TOKUSEI_AddNormalize
  * address: 0x021DA138
  * packet: pkt_ov093_021DA138
  * region: ov093
@@ -15,10 +15,10 @@
  *   gCloudNineHandlers 0x021F0800 data ov093 a4
  */
 
-int *HAND_TOKUSEI_AddCloudNine(int *p);
+int *HAND_TOKUSEI_AddNormalize(int *p);
 extern int gCloudNineHandlers[];
 
-int *HAND_TOKUSEI_AddCloudNine(int *p)
+int *HAND_TOKUSEI_AddNormalize(int *p)
 {
     *p = 1;
     return gCloudNineHandlers;

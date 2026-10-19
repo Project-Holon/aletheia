@@ -1,5 +1,5 @@
 /*
- * function: FIELD_PLAYER_SetGridMoveFlag
+ * function: FIELD_PLAYER_ResetGridHold
  * address:  0x021A3550
  * packet:   pkt_ov021_021A3550
  * region:   ov021
@@ -20,7 +20,7 @@ typedef unsigned char  u8;
 u32 FIELDMAP_GetMoveKind(u8 *p);
 void FIELD_PLAYER_GRID_ResetHold(u32 x, int a);
 
-void FIELD_PLAYER_SetGridMoveFlag(u32 *p, int a)
+void FIELD_PLAYER_ResetGridHold(u32 *p, int a)
 {
     if (FIELDMAP_GetMoveKind((u8 *)p[0]) == 0)
         FIELD_PLAYER_GRID_ResetHold(p[2], a);

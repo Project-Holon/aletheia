@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: GFL_NET_RestartWithDefaultTimeout
+ * function: GFL_NET_RefreshWmIconAtTopRight
  * address:  0x0203D34C
  * packet:   pkt_0203D1B4
  * region:   arm9
@@ -11,9 +11,9 @@
  * status:   EXACT
  *
  * symbols:
- *   GFL_NET_SetTimeout  0x0203D24C  arm
+ *   GFL_NET_SetIconPos  0x0203D24C  arm
  *   GFL_NET_WM_ICON_EasySetScreen  0x02037118  arm
- *   GFL_NET_RestartByNetType  0x0203D2CC  arm
+ *   GFL_NET_RefreshWmIcon  0x0203D2CC  arm
  *
  * TU: net.c.
  *
@@ -23,20 +23,20 @@
  * first call, which is what spends r5/r4.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GFL_NET_RestartWithDefaultTimeout.c \
- *       --func GFL_NET_RestartWithDefaultTimeout --addr 0x0203D34C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_RefreshWmIconAtTopRight.c \
+ *       --func GFL_NET_RefreshWmIconAtTopRight --addr 0x0203D34C --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void GFL_NET_SetTimeout(u16 a, u16 b);
+extern void GFL_NET_SetIconPos(u16 a, u16 b);
 extern void GFL_NET_WM_ICON_EasySetScreen(u32 a, u32 b);
-extern void GFL_NET_RestartByNetType(void);
+extern void GFL_NET_RefreshWmIcon(void);
 
-void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b)
+void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b)
 {
-    GFL_NET_SetTimeout(0xf0, 0);
+    GFL_NET_SetIconPos(0xf0, 0);
     GFL_NET_WM_ICON_EasySetScreen(a, b);
-    GFL_NET_RestartByNetType();
+    GFL_NET_RefreshWmIcon();
 }

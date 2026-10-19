@@ -1,5 +1,8 @@
 # An inline return temp takes the lowest spill slot
 
+summary: The return temp of a static inline helper is created after all declared locals and takes
+the lowest spill slot. Write the helper out by hand with a declared local.
+
 Seen in ov125 func_021D6B40 (wave D9r, 2026-10-05).
 
 ## Symptom

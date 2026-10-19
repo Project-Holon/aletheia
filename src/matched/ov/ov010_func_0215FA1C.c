@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_NETWORK_LoadOv020Task
+ * function: EVENT_WIFI_PROC_LoadOv020Task
  * address:  0x0215FA1C
  * packet:   pkt_ov010_0215FA1C
  * region:   ov010
@@ -24,7 +24,7 @@ extern int GF_OVERLAY_Load(int id);
 extern void *EVENT_MAPCHANGE_CreateSituationWarpArrivalEvent(void *owner);
 extern unsigned char abs_id_14[];
 
-void *SCRCMD_NETWORK_LoadOv020Task(void *owner)
+void *EVENT_WIFI_PROC_LoadOv020Task(void *owner)
 {
     GF_OVERLAY_Load((int)abs_id_14);
     return EVENT_MAPCHANGE_CreateSituationWarpArrivalEvent(owner);

@@ -182,7 +182,7 @@
  *   BAG_PARAM_Create  0x0202E474  thumb
  *   ov070_id       0x00000046  data
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   BEACON_GetBlock 0x0200C0F0 thumb
+ *   MISC_GetBlock 0x0200C0F0 thumb
  *   BOX_SAVEDATA_GetBoxName 0x0200785C thumb
  *   NAMEIN_SETUP_CreateArgs 0x0216BFD4 thumb ov010
  *   gNameInProcData 0x021F5580 data a4 ov194
@@ -981,7 +981,7 @@ extern void *BAG_PARAM_Create(const struct BigObj *gameData, int itemCheck, int 
 
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 
-extern void *BEACON_GetBlock(void *sys);
+extern void *MISC_GetBlock(void *sys);
 
 extern void BOX_SAVEDATA_GetBoxName(void *save, unsigned box, void *dest);
 
@@ -3275,7 +3275,7 @@ int BOX2_MAIN_PushNameScene(BoxTask *task)
 {
     int value;
     NameInRequest *r;
-    value = (int)BEACON_GetBlock(GAME_DATA_GetSaveControl((*(void ***)task)[0]));
+    value = (int)MISC_GetBlock(GAME_DATA_GetSaveControl((*(void ***)task)[0]));
     r = GFL_HEAP_Alloc(0x4B, 8, 1, d_021F1400, 0xF1F);
     r->text = STRBUF_Create(20, 0x4B);
     BOX_SAVEDATA_GetBoxName((*(void ***)task)[1], task->curBox, r->text);

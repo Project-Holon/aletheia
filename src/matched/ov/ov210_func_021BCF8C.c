@@ -17,7 +17,7 @@
  *   BG_SYS_SetLcdSwap  0x0204363C  arm
  *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   ZUKAN_SAVE_GetViewMode  0x0200CA70  thumb
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   ZKNSEARCH_SYS_SetVramBanks  0x021BC3D4  thumb  ov210
  *   ZKNSEARCH_MAIN_InitBackgrounds  0x021BC3F0  thumb  ov210
  *   ZKNSEARCH_MAIN_LoadCommonGraphics  0x021BC5DC  thumb  ov210
@@ -59,7 +59,7 @@ extern void BG_SYS_SetLcdSwap(u32 a);
 struct Blk37;
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern u32 ZUKAN_SAVE_GetViewMode(struct Blk37 *p);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void ZKNSEARCH_SYS_SetVramBanks(void);
 extern void ZKNSEARCH_MAIN_InitBackgrounds(void);
 extern void ZKNSEARCH_MAIN_LoadCommonGraphics(void);
@@ -106,7 +106,7 @@ u32 ZKNSEARCH_MAIN_InitSearchScreen(u8 *p)
     ZKNSEARCH_MAIN_InitBmpWindows(p);
     ZKNSEARCH_MAIN_InitActorSystem((int)p);
     ZKNSEARCH_MAIN_InitBlinkPalette((int)p);
-    GFL_NET_RestartWithDefaultTimeout(1, 0x7b);
+    GFL_NET_RefreshWmIconAtTopRight(1, 0x7b);
     ZKNSEARCH_MAIN_InitScrollWindow((char *)p);
     ZKNSEARCH_MAIN_EnterResultLayout((char *)p);
     ZKNSEARCH_MAIN_InitPaletteAnim((char *)p);

@@ -1,5 +1,5 @@
 /*
- * function: HAND_TOKUSEI_MoldBreakerSetIgnoreAbilities
+ * function: HAND_TOKUSEI_SkillLinkSetMaxHits
  * address:  0x021D91E4
  * packet:   pkt_021D8684
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   HAND_TOKUSEI_MoldBreakerSetIgnoreAbilities   0x021D91E4  thumb
+ *   HAND_TOKUSEI_SkillLinkSetMaxHits   0x021D91E4  thumb
  *   BTL_EVENT_OverwriteVar   0x021D76BC  thumb
  *   BTL_EVENT_GetVar   0x021D775C  thumb
  * Leaf with no calls and no pool; 10 instructions, 24 bytes: push {r4, lr}; movs r0, #3; adds r4, r2, #0; bl BTL_EVENT_GetVar; cmp r4, r0; bne loc_021D91FA; movs r0, #0x51; movs r1, #1; bl BTL_EVENT_OverwriteVar; pop {r4, pc}.
@@ -24,7 +24,7 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021D91E4  shape F1: gate on BTL_EVENT_GetVar(3) */
-void HAND_TOKUSEI_MoldBreakerSetIgnoreAbilities(int a, int b, int c)
+void HAND_TOKUSEI_SkillLinkSetMaxHits(int a, int b, int c)
 {
     if (c == BTL_EVENT_GetVar(3))
         BTL_EVENT_OverwriteVar(0x51, 1);

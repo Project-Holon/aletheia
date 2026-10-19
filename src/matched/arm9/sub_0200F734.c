@@ -1,5 +1,5 @@
 /*
- * function: GFL_NET_ERR_CheckNetError
+ * function: GFL_NET_ERR_DetectNetError
  * address:  0x0200F734
  * packet:   pkt_0200F6D8
  * region:   arm9
@@ -44,8 +44,8 @@
  * unresolved relocations under the honesty rule.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GFL_NET_ERR_CheckNetError.c \
- *       --func GFL_NET_ERR_CheckNetError --addr 0x0200F734 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/GFL_NET_ERR_DetectNetError.c \
+ *       --func GFL_NET_ERR_DetectNetError --addr 0x0200F734 --cc 1.1p1
  *
  * The `matched` class does not reach it: neither GFL_NET_ClearBeaconCallbacks nor
  * DWC_RAP_GetErrorMessageClass is matched, so no EXACT entry covers either address.  Both live
@@ -65,7 +65,7 @@ extern void *GFL_NET_GetInitParam(void);
 extern u32 GFL_NET_STATE_GetError(void);
 extern int DWC_RAP_GetErrorMessageClass(int err, int kind);
 
-void GFL_NET_ERR_CheckNetError(void)
+void GFL_NET_ERR_DetectNetError(void)
 {
     u32 *g = (u32 *)0x0214617C;
 

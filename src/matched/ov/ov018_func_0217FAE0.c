@@ -21,7 +21,7 @@
  *   GAME_DATA_GetIntrudeIdByte  0x0215841C  thumb  ov010
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
- *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  */
 
 typedef unsigned char u8;
@@ -36,7 +36,7 @@ struct Ctx;
 u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 u8 GAME_DATA_GetIntrudeIdByte(void *p);
-u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+u8 GAME_DATA_GetOwnNetId(const struct BigObj *p);
 
 int EVENT_COMM_COMMON_CmdGetIntrudeDistance(void *unused, int a)
 {
@@ -49,10 +49,10 @@ int EVENT_COMM_COMMON_CmdGetIntrudeDistance(void *unused, int a)
     t = SCRCMD_WORK_GetGameSystem((void *)a);
     GAMESYSTEM_GetGameComm(t);
     q = GAMESYSTEM_GetGameData(t);
-    if (GAME_DATA_GetIntrudeIdByte(q) == GAME_DATA_GetExitMode(q)) {
+    if (GAME_DATA_GetIntrudeIdByte(q) == GAME_DATA_GetOwnNetId(q)) {
         *out = 0;
     } else {
-        v = GAME_DATA_GetIntrudeIdByte(q) - GAME_DATA_GetExitMode(q);
+        v = GAME_DATA_GetIntrudeIdByte(q) - GAME_DATA_GetOwnNetId(q);
         if (v < 0) {
             v += 3;
         }

@@ -46,7 +46,7 @@
  *   MI_CpuCopy8 0x02082D44 arm
  *   GFL_NET_SYSTEM_GetCurrentAid 0x02039338 arm
  *   GFL_HEAP_Free 0x020307B0 arm
- *   GAME_DATA_GetPlayerStatusById 0x02012950 thumb
+ *   GAME_DATA_GetMyStatusPlayer 0x02012950 thumb
  *   MYSTATUS_GetSize 0x02008468 thumb
  */
 struct Req;
@@ -93,7 +93,7 @@ extern void GF_STANDARD_GetCachedDate(struct RtcDate *date);
 extern u32 MATH_CountPopulation(u32);
 extern void MI_CpuCopy8(void *,const void *,unsigned);
 extern unsigned short GFL_NET_SYSTEM_GetCurrentAid(void);
-extern struct Rec44 *GAME_DATA_GetPlayerStatusById(struct Sub24 *p, u32 i);
+extern struct Rec44 *GAME_DATA_GetMyStatusPlayer(struct Sub24 *p, u32 i);
 extern int MYSTATUS_GetSize(void);
 void *COMPATIBLE_IRC_SYS_Create(int context,int playerRecords,int heapId,int offline);
 void COMPATIBLE_IRC_SYS_Delete(void *sys);
@@ -486,7 +486,7 @@ void COMPATIBLE_IRC_SYS_RecvProfileHandler(u32 aid, int size, int data, IrcProfi
 {
     void *record;
     if (*(int *)work->sys != 0) {
-        record = GAME_DATA_GetPlayerStatusById((void *)*(int *)work->sys, aid);
+        record = GAME_DATA_GetMyStatusPlayer((void *)*(int *)work->sys, aid);
         MI_CpuCopy8((void *)(data + 12), record, MYSTATUS_GetSize());
     }
     if (handle == (u32)GFL_NET_HANDLE_GetCurrentHandle()) {

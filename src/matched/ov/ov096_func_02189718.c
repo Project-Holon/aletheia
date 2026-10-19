@@ -1,5 +1,5 @@
 /*
- * function: TR_AI_CmdJumpIfContFlag13
+ * function: TR_AI_CmdJumpIfFlashFireActive
  * address:  0x02189718
  * packet:   pkt_ov096_02189718
  * region:   ov096
@@ -34,7 +34,7 @@ extern u8 *TR_AI_GetPoke(u8 *p, u8 i);
 struct UtilWork;
 extern int BTL_POKEPARAM_TestContFlag(struct UtilWork *p, u32 n);
 
-int TR_AI_CmdJumpIfContFlag13(struct Cursor *a, int b) {
+int TR_AI_CmdJumpIfFlashFireActive(struct Cursor *a, int b) {
     int r7;
     int r6;
     u8 *t;

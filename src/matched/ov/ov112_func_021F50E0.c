@@ -1,5 +1,5 @@
 /*
- * function: MUSICAL_MCSS_GetStateB
+ * function: MUSICAL_MCSS_ElemDataKeepsFlippedHeight
  * address:  0x021F50E0
  * packet:   pkt_021F50E0
  * region:   ov112
@@ -11,7 +11,7 @@
  */
 #include "../include/Obj22533.h"
 
-int MUSICAL_MCSS_GetStateB(const unsigned char *p)
+int MUSICAL_MCSS_ElemDataKeepsFlippedHeight(const unsigned char *p)
 {
     if (*(const unsigned short *)&((struct Obj22533 *)p)->f6 & 0x200)
         return 1;

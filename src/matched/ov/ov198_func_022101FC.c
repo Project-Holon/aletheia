@@ -1,5 +1,5 @@
 /*
- * function: B_PLIST_MAIN_ApplyMode4
+ * function: B_PLIST_MAIN_ApplyMoveDetailPage
  * address:  0x022101FC
  * packet:   pkt_022101FC
  * region:   ov198
@@ -18,7 +18,7 @@
 typedef unsigned char  u8;
 extern int B_PLIST_MAIN_ApplyMode(u8 *p, unsigned mode);
 
-int B_PLIST_MAIN_ApplyMode4(char *p)
+int B_PLIST_MAIN_ApplyMoveDetailPage(char *p)
 {
     if (B_PLIST_MAIN_ApplyMode((u8 *)p, 4) == 0)
     {

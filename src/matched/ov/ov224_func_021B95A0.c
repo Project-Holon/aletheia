@@ -38,7 +38,7 @@
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   FADE_Start 0x0204E720 arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   GF_FONT_Create 0x0201D7EC thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   func_020056A0 0x020056A0 thumb
@@ -84,7 +84,7 @@ extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void BG_SYS_PushTile(u32);
 extern void FADE_Start(u32,int,int,int);
-extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 static inline void SetMode(Mode mode) {
  *(volatile u32 *)0x04001000 &= 0xffff1fff;
  *(volatile u32 *)0x04001000 |= mode<<15;
@@ -131,6 +131,6 @@ int SUBWAY_MAP_GRAPHIC_Init(struct Proc *proc,void *unused,void **args)
  ARC_TOOL_DeleteHandle(arc);
  BG_SYS_PushTile(4);
  FADE_Start(3,16,0,0);
- GFL_NET_RestartWithDefaultTimeout(0,p->heap);
+ GFL_NET_RefreshWmIconAtTopRight(0,p->heap);
  return 1;
 }

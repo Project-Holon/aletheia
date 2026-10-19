@@ -1,5 +1,5 @@
 /*
- * function: B_PLIST_DRAW_DrawMode1
+ * function: B_PLIST_DRAW_DrawMonMenuPage
  * address: 0x0220D9B4
  * packet: pkt_ov198_0220D9B4
  * region: ov198
@@ -35,7 +35,7 @@ struct Cfg;
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
 extern void func_02041B6C(unsigned);
-void B_PLIST_DRAW_DrawMode1(char *p)
+void B_PLIST_DRAW_DrawMonMenuPage(char *p)
 {
     int state, id, i;
     void *obj;

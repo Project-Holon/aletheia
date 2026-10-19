@@ -20,11 +20,11 @@
  *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
- *   ZONEDATA_IsZone117  0x02013D5C  thumb
+ *   ZONEDATA_IsEntralink  0x02013D5C  thumb
  *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
  *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
- *   GAME_DATA_GetPlayerStatusById  0x02012950  thumb
+ *   GAME_DATA_GetMyStatusPlayer  0x02012950  thumb
  *   INTRUDE_COMM_UpdatePlayerObjects  0x02175004  thumb  ov011
  *   INTRUDE_COMM_GetPlayerObjCode  0x02175598  thumb  ov011
  *   COMM_PLAYER_Update  0x02167590  thumb  ov010
@@ -34,7 +34,7 @@
  *   COMM_PLAYER_SetEffect  0x021679C4  thumb  ov010
  *   FIELD_PLAYER_GetFormCode  0x021A3098  thumb  ov021
  *   FIELD_PLAYER_GetFrontGridPos  0x021A3460  thumb  ov021
- *   COMM_PLAYER_ForwardRequest  0x021679A4  thumb  ov010
+ *   COMM_PLAYER_SearchGridPos  0x021679A4  thumb  ov010
  *   GAME_EVENT_Create  0x020122C0  thumb
  *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   MI_CpuFill8    0x02082BCC  arm
@@ -121,7 +121,7 @@
  *   MAP_MATRIX_Delete  0x02159BBC  thumb
  *   FIELD_G3D_MAPPER_AppendMatrix  0x0218CD20  thumb  ov021
  *   GAMESYSTEM_IsFieldMapActive  0x02012114  thumb
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   FIELD_PLAYER_SetObjCode  0x021A3220  thumb  ov021
  *   FLDMMDL_SetDrawOffset  0x0216D8C0  thumb  ov010
  *   FIELD_PLAYER_ClearRememberedObjCode  0x021A322C  thumb  ov021
@@ -203,7 +203,7 @@ struct GameComm;
 struct GameData;
 struct GameEvent;
 struct PlayerWork;
-struct PlayerStatus;
+struct MyStatus;
 struct FieldMap;
 struct FieldPlayer;
 struct FieldMsgBg;
@@ -375,14 +375,14 @@ extern u32 GAME_COMM_GetKind(struct GameComm *gameComm);
 extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *playerWork);
 extern u32 GAME_DATA_GetPlayerDirectionType(const struct PlayerWork *playerWork);
-extern u32 ZONEDATA_IsZone117(u32 zoneId);
+extern u32 ZONEDATA_IsEntralink(u32 zoneId);
 extern u32 ZONEDATA_IsZoneGroup118To120(u32 zoneId);
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern int GAME_DATA_GetIntrudeCount(const struct GameData *gameData);
 extern u8 GAME_DATA_GetOwnNetId(const struct GameData *gameData);
 extern u8 GAME_DATA_GetIntrudeId(const struct GameData *gameData);
-extern struct PlayerStatus *GAME_DATA_GetPlayerStatusById(struct GameData *gameData, u32 index);
-extern struct PlayerStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
+extern struct MyStatus *GAME_DATA_GetMyStatusPlayer(struct GameData *gameData, u32 index);
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern struct PlayerWork *GAME_DATA_GetPlayerWork(struct GameData *gameData, int index);
 extern void GAME_DATA_SetPlayerPosition(struct PlayerWork *playerWork, const VecFx32 *pos);
 extern u32 GAMESYSTEM_IsNetOffBySleep(const struct GameSystem *gameSystem);
@@ -412,10 +412,10 @@ extern int GFL_NET_GetNegotiationNum(void);
 extern struct GameEvent *FIELD_SOUND_SYSTEM_StartPushAndPlayTask(struct GameSystem *gameSystem, u32 bgmId);
 extern struct GameEvent *FIELD_SOUND_SYSTEM_StartPopAndWaitTask(struct GameSystem *gameSystem, u32 fadeOutFrames, u32 fadeInFrames);
 /* MyStatus, Pokemon and message helpers */
-extern u8 MYSTATUS_GetId(const struct PlayerStatus *status);
-extern u8 MYSTATUS_GetOutfitVariant(const struct PlayerStatus *status);
+extern u8 MYSTATUS_GetId(const struct MyStatus *status);
+extern u8 MYSTATUS_GetSex(const struct MyStatus *status);
 extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
-extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 index, struct PlayerStatus *status);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 index, struct MyStatus *status);
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct STRBUF *dst, struct STRBUF *src);
 extern u32 WORDSET_Delete(struct WordSet *wordSet);
 extern struct STRBUF *STRBUF_Create(u32 capacity, u32 heapId);
@@ -440,7 +440,7 @@ extern int COMM_PLAYER_CheckOccupy(struct CommPlayerWork *commPlayer, int index)
 extern void COMM_PLAYER_Add(struct CommPlayerWork *commPlayer, int index, int objCode, IntrudePlayerPackage *package);
 extern void COMM_PLAYER_SetPackage(struct CommPlayerWork *commPlayer, int index, IntrudePlayerPackage *package);
 extern int COMM_PLAYER_SetEffect(struct CommPlayerWork *commPlayer, int index);
-extern int COMM_PLAYER_ForwardRequest(struct CommPlayerWork *commPlayer, int gridX, int gridY, int gridZ, int *outIndex, int *outHit);
+extern int COMM_PLAYER_SearchGridPos(struct CommPlayerWork *commPlayer, int gridX, int gridY, int gridZ, int *outIndex, int *outHit);
 extern int SYMBOL_MAP_IsHomeCell(int cellKind);
 extern int SYMBOL_MAP_IsPlainCell(int cellKind);
 extern void EVENT_FIELD_PROCLINK_SetReturnLinkId(u8 *returnSlots, u16 linkId);
@@ -463,8 +463,8 @@ extern int INTRUDE_CMD_SendRecordAccept(IntrudeCommSys *work, IntrudeSession *se
 extern void INTRUDE_COMM_SetState(IntrudeCommSys *work, int state);
 extern void INTRUDE_COMM_UpdatePlayerObjects(IntrudeCommSys *work);
 extern void INTRUDE_COMM_AdjustAllRemotePositions(IntrudeCommSys *work, int posX);
-extern void INTRUDE_COMM_PickDefaultObjCode(struct PlayerStatus *status, u16 *objCode, u8 *kind, u8 *flag);
-extern u16 INTRUDE_COMM_GetPlayerObjCode(const IntrudePeer *peer, struct PlayerStatus *status);
+extern void INTRUDE_COMM_PickDefaultObjCode(struct MyStatus *status, u16 *objCode, u8 *kind, u8 *flag);
+extern u16 INTRUDE_COMM_GetPlayerObjCode(const IntrudePeer *peer, struct MyStatus *status);
 extern void INTRUDE_COMM_SetIntrudeId(IntrudeCommSys *work, u32 intrudeId);
 extern int INTRUDE_COMM_IsSessionTimeLimitSet(IntrudeSession *session);
 extern IntrudeMemberRecord *INTRUDE_COMM_GetActiveSessionRequest(IntrudeSession *session);
@@ -609,7 +609,7 @@ void INTRUDE_FIELD_Update(struct FieldMap *fieldMap, struct GameSystem *gameSyst
     if (GAME_COMM_GetKind(gameComm) != 2 || work == 0)
         return;
     zoneId = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameData));
-    if (work->specialZoneEntered == 0 && ZONEDATA_IsZone117(zoneId) == 1)
+    if (work->specialZoneEntered == 0 && ZONEDATA_IsEntralink(zoneId) == 1)
         work->specialZoneEntered = 1;
     INTRUDE_FIELD_AddAreaMaps(fieldMap, gameSystem, work);
     if (work->step != 7 || GFL_NET_ERR_GetErrorLevel() != 0)
@@ -631,8 +631,8 @@ void INTRUDE_FIELD_Update(struct FieldMap *fieldMap, struct GameSystem *gameSyst
         if (i == ownId || !(work->peerMask & (1 << i)))
             continue;
         if (COMM_PLAYER_CheckOccupy(work->commPlayer, i) == 0) {
-            GAME_DATA_GetPlayerStatusById(gameData, i);
-            objCode = INTRUDE_COMM_GetPlayerObjCode(&work->peers[i], GAME_DATA_GetPlayerStatusById(gameData, i));
+            GAME_DATA_GetMyStatusPlayer(gameData, i);
+            objCode = INTRUDE_COMM_GetPlayerObjCode(&work->peers[i], GAME_DATA_GetMyStatusPlayer(gameData, i));
             if (work->peers[i].objCode != 0 || GAME_DATA_GetIntrudeCount(gameData) != 0)
                 COMM_PLAYER_Add(work->commPlayer, i, objCode, &work->peers[i].package);
         } else {
@@ -663,7 +663,7 @@ int INTRUDE_FIELD_FindRemotePlayerAhead(IntrudeCommSys *work, struct FieldPlayer
         return result;
     FIELD_PLAYER_GetFrontGridPos(player, grid + 2, grid + 1, grid);
     for (;;) {
-        moveState = COMM_PLAYER_ForwardRequest(work->commPlayer, grid[2], grid[1], grid[0], &peerIndex, &hit);
+        moveState = COMM_PLAYER_SearchGridPos(work->commPlayer, grid[2], grid[1], grid[0], &peerIndex, &hit);
         if (moveState != 1)
             break;
         if (work->peers[peerIndex].package.vanish == 0) {
@@ -846,7 +846,7 @@ int INTRUDE_FIELD_TaskAreaChange(struct GameEvent *event, u32 *seq, AreaChangeWo
                 FIELD_MSGBG_MsgWinPrintMsg(work->msgWin, 0, 0, 0x4E);
         } else {
             nameText = STRBUF_Create(0x100, 0x15);
-            WORDSET_SetSlotMyStatus(work->wordSet, 0, GAME_DATA_GetPlayerStatusById(gameData, intrudeWork->localPeer.intrudeId));
+            WORDSET_SetSlotMyStatus(work->wordSet, 0, GAME_DATA_GetMyStatusPlayer(gameData, intrudeWork->localPeer.intrudeId));
             if (work->sessionBusy == 1)
                 template = MSGDATA_AllocString(work->msgData, 0x50);
             else
@@ -892,7 +892,7 @@ int INTRUDE_FIELD_CreateTileEvent(struct FieldMap *fieldMap, struct GameSystem *
 
     zoneId = GAME_DATA_GetPlayerZoneId(GAMESYSTEM_GetMyPlayerWork(gameSystem));
     work = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(gameSystem));
-    if (ZONEDATA_IsZone117(zoneId) == 0)
+    if (ZONEDATA_IsEntralink(zoneId) == 0)
         return 0;
     FIELD_PLAYER_GetPos(player, &playerPos);
     for (i = 0; i < 3; i++) {
@@ -970,7 +970,7 @@ struct GameEvent *INTRUDE_FIELD_CreateExitConfirmEvent(struct GameSystem *gameSy
  *
  *     u8 *GAME_DATA_GetPlayerWork(u8 *p, int i) { return p + 4 + i * 0x44; }
  *
- * It is the player work indexer that belongs beside GAME_DATA_GetPlayerStatusById in
+ * It is the player work indexer that belongs beside GAME_DATA_GetMyStatusPlayer in
  * src/matched/arm9/unit_02012924.c; once it is labelled or matched this file
  * should verify EXACT unchanged.  The 12-byte scratch is a cast u8 buffer
  * (docs/idioms/a-declared-struct-local-folds-to-sp-relative-a-cast-buffer-does-not.md):
@@ -1191,7 +1191,7 @@ void INTRUDE_FIELD_UpdateCommState(struct FieldMap *fieldMap, struct GameSystem 
         return;
     if (GAMESYSTEM_IsEventActive(gameSystem) == 1)
         return;
-    if (ZONEDATA_IsZone117(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(GAMESYSTEM_GetGameData(gameSystem)))) == 0)
+    if (ZONEDATA_IsEntralink(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(GAMESYSTEM_GetGameData(gameSystem)))) == 0)
         return;
     FIELD_PLAYER_GetPos(player, &playerPos);
     switch (GAME_COMM_GetKind(gameComm)) {
@@ -1263,7 +1263,7 @@ void INTRUDE_FIELD_UpdateAreaIndex(struct FieldMap *fieldMap, struct GameSystem 
         return;
     if (work == 0)
         return;
-    if (ZONEDATA_IsZone117(zoneId) == 0)
+    if (ZONEDATA_IsEntralink(zoneId) == 0)
         return;
     if (work->memberCount < 2)
         return;
@@ -1319,7 +1319,7 @@ void INTRUDE_FIELD_AddAreaMaps(struct FieldMap *fieldMap, struct GameSystem *gam
         return;
     if (FIELDMAP_GetG3dMapper(fieldMap) == 0)
         return;
-    if (ZONEDATA_IsZone117(FIELDMAP_GetZoneId(fieldMap)) == 0)
+    if (ZONEDATA_IsEntralink(FIELDMAP_GetZoneId(fieldMap)) == 0)
         return;
     areaLimit = work->memberCount - 1;
     if (areaLimit <= 0)
@@ -1364,14 +1364,14 @@ void INTRUDE_FIELD_ChangePlayerLook(IntrudeCommSys *work, struct GameSystem *gam
     int playerForm;
     struct FieldPlayer *player;
     int gender;
-    struct PlayerStatus *myStatus;
+    struct MyStatus *myStatus;
     struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
     VecFx32 drawOffset = { 0, 0, 0 };
 
     if (GAMESYSTEM_IsFieldMapActive(gameSystem) == 0)
         return;
     myStatus = GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(gameSystem));
-    gender = MYSTATUS_GetOutfitVariant(myStatus);
+    gender = MYSTATUS_GetSex(myStatus);
     if (work != 0) {
         if (objCode == 0xFFFF) {
             if (work->localPeer.intrudeId == GAME_DATA_GetOwnNetId(gameData))
@@ -1453,7 +1453,7 @@ int INTRUDE_FIELD_GetZoneAnchor(int zoneId, VecFx32 *out)
     IntrudeZonePos *entry;
     int x, y, z;
 
-    if (ZONEDATA_IsZone117(zoneId) != 1) {
+    if (ZONEDATA_IsEntralink(zoneId) != 1) {
         entry = INTRUDE_FIELD_FindZonePos(zoneId);
         if (entry == 0)
             return 0;
@@ -1536,7 +1536,7 @@ int INTRUDE_FIELD_IsDisconnectNeeded(struct GameSystem *gameSystem, int zoneId)
         return 0;
     if (GAMESYSTEM_IsNetOffBySleep(gameSystem) == 1)
         return 1;
-    if (ZONEDATA_IsZone117(zoneId) == 1) {
+    if (ZONEDATA_IsEntralink(zoneId) == 1) {
         if (GAME_COMM_GetCounter(gameComm) != 0)
             return 1;
         return 0;
@@ -1567,7 +1567,7 @@ u8 INTRUDE_FIELD_GetHostGender(struct GameComm *gameComm)
 {
     struct GameData *gameData;
     IntrudeCommSys *hostWork;
-    struct PlayerStatus *status;
+    struct MyStatus *status;
 
     gameData = GAME_COMM_GetGameData(gameComm);
     if (GAME_DATA_GetIntrudeCount(gameData) == 0) {
@@ -1580,13 +1580,13 @@ u8 INTRUDE_FIELD_GetHostGender(struct GameComm *gameComm)
             hostWork = GAME_COMM_GetWork(gameComm);
         if (hostWork == 0) {
             status = GAME_DATA_GetMyStatus(gameData);
-        } else if (ZONEDATA_IsZone117(hostWork->localPeer.zoneId) == 1) {
+        } else if (ZONEDATA_IsEntralink(hostWork->localPeer.zoneId) == 1) {
             status = GAME_DATA_GetMyStatus(gameData);
         } else {
-            status = GAME_DATA_GetPlayerStatusById(gameData, GAME_DATA_GetIntrudeId(gameData));
+            status = GAME_DATA_GetMyStatusPlayer(gameData, GAME_DATA_GetIntrudeId(gameData));
         }
     }
-    return MYSTATUS_GetOutfitVariant(status);
+    return MYSTATUS_GetSex(status);
 }
 
 /*
@@ -1629,7 +1629,7 @@ void INTRUDE_FIELD_AddMarkerMmdls(struct FieldMap *fieldMap)
 {
     int i;
 
-    if (ZONEDATA_IsZone117(FIELDMAP_GetZoneId(fieldMap)) != 0) {
+    if (ZONEDATA_IsEntralink(FIELDMAP_GetZoneId(fieldMap)) != 0) {
         for (i = 0; i < 3; ++i)
             INTRUDE_FIELD_AddMarkerMmdl(fieldMap, (((i << 22) + 0x1f8000) >> 12) / 16, 29, 32);
     }

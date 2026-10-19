@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BR_CODEIN_CodeDestroy2",
+   "name": "BR_CODEIN_ProfileScreenDestroy",
    "address": "0x021E05C4",
    "kind": "game",
    "region": "ov183",

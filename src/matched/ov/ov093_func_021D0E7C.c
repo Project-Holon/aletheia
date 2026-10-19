@@ -25,7 +25,7 @@
  *   BTL_CLIENT_StartTimeLimit 0x021CE068 thumb ov093
  *   BTL_CLIENT_TrySetRotateAction 0x021D1058 thumb ov093
  *   BTL_ACTION_SetChangeDepleted 0x021D83C4 thumb ov093
- *   BTL_CALC_ActionSetNone 0x021D8434 thumb ov093
+ *   BTL_ACTION_SetNone 0x021D8434 thumb ov093
  *   BTL_CLIENT_PollTimeLimitReady 0x021CE08C thumb ov093
  *   BTLV_CORE_LockPartyChoice 0x021E9B14 thumb ov093
  *   BTLV_CORE_PollPartyMenu 0x021E9B20 thumb ov093
@@ -53,7 +53,7 @@ extern void BTLV_CORE_StartPartyMenu(char *p, const u8 *q, int x, int y, u8 *r);
 extern void BTL_CLIENT_StartTimeLimit(u8 *);
 extern int BTL_CLIENT_TrySetRotateAction(u8 *, void *);
 extern void BTL_ACTION_SetChangeDepleted(u32 *p);
-extern void BTL_CALC_ActionSetNone(u32 *p);
+extern void BTL_ACTION_SetNone(u32 *p);
 extern int BTL_CLIENT_PollTimeLimitReady(u8 *);
 extern void BTLV_CORE_LockPartyChoice(unsigned int *p);
 extern int BTLV_CORE_PollPartyMenu(u8 *p);
@@ -107,7 +107,7 @@ int BTL_CLIENT_StepChooseReplacement(u8 *p, int *state, u8 param)
                 }
             }
         } else {
-            BTL_CALC_ActionSetNone((u32 *)(p + 0x124));
+            BTL_ACTION_SetNone((u32 *)(p + 0x124));
             *(u8 * *)&((struct Obj00819 *)p)->fD8 = p + 0x124;
             ((struct Obj00819 *)p)->fDC = 4;
             *state = 4;

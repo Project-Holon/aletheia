@@ -14,7 +14,7 @@
  * Split from backup_system.c at 0x02033534 (__FILE__ anchor boundary, certain cut).
  *
  * symbols:
- *   SAVEDATA_PanicFail  0x02034714  arm
+ *   GF_PANIC_Fail  0x02034714  arm
  *   flash_access_File   0x020A78A0  data
  *   flash_access_LockIdAssert   0x020A78B0  data
  *   OS_GetLockID  0x02084EB8  arm
@@ -36,7 +36,7 @@ typedef unsigned int   u32;
 
 typedef void (*FlashErrorFunc)(u32 no_response);
 
-extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *expr);
+extern void GF_PANIC_Fail(const char *file, u32 line, const char *expr);
 extern int  OS_GetLockID(u32 lock_arg);
 extern void CARD_LockBackup(u16 lock_id);
 extern int  CARD_IdentifyBackup(int type);
@@ -79,7 +79,7 @@ int FLASH_ACCESS_Identify(u32 unused_arg)
     u32 type;
 
     if (lock_id == -3) {
-        SAVEDATA_PanicFail((const char *)flash_access_File, 0x38, (const char *)flash_access_LockIdAssert);
+        GF_PANIC_Fail((const char *)flash_access_File, 0x38, (const char *)flash_access_LockIdAssert);
     }
     CARD_LockBackup((u16)lock_id);
     type = 0x00ff1302;
@@ -127,7 +127,7 @@ int FLASH_ACCESS_Read(u32 flash_addr, u32 ram_dst, u32 size, void (*on_error)(vo
     int result;
 
     if (lock_id == -3) {
-        SAVEDATA_PanicFail((const char *)flash_access_File, 0xa4, (const char *)flash_access_LockIdAssert);
+        GF_PANIC_Fail((const char *)flash_access_File, 0xa4, (const char *)flash_access_LockIdAssert);
     }
     CARD_LockBackup((u16)lock_id);
     result = CARDi_RequestStreamCommand(flash_addr, ram_dst, size, 0, 0, 1, 6, 1, 0);
@@ -166,7 +166,7 @@ u16 FLASH_ACCESS_StartWrite(u32 flash_addr, u32 ram_src, u32 size, void *on_erro
     u32 probe;
 
     if (lock_id == -3) {
-        SAVEDATA_PanicFail((const char *)flash_access_File, 0xd4, (const char *)flash_access_LockIdAssert);
+        GF_PANIC_Fail((const char *)flash_access_File, 0xd4, (const char *)flash_access_LockIdAssert);
     }
     CARD_LockBackup((u16)lock_id);
 

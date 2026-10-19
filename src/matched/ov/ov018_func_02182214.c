@@ -20,7 +20,7 @@
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   WORDSET_SetSlotFromMsg36  0x0201EF40  thumb
- *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   EVENT_COMM_COMMON_GetPeerTalkStatus  0x0217F5F0  thumb
  *   EVENT_COMM_COMMON_ExitMsgBox  0x0217F318  thumb
  *   EVENT_COMM_COMMON_PrintMsg  0x0217F3C4  thumb
@@ -81,7 +81,7 @@ int INTRUDE_COMM_SendProfile(u32 a, u32 b);
 u8 *GAME_DATA_GetMyStatus(void *p);
 void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 void WORDSET_SetSlotFromMsg36(struct WordSet *p, u32 i, u32 v);
-u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+u8 GAME_DATA_GetOwnNetId(const struct BigObj *p);
 int EVENT_COMM_COMMON_GetPeerTalkStatus(void *, u8);
 void EVENT_COMM_COMMON_ExitMsgBox(Ov018Obj *p);
 void EVENT_COMM_COMMON_PrintMsg(Ov018Obj *p, u16 a);
@@ -128,7 +128,7 @@ int EVENT_COMM_COMMON_OfferAnswerEventMain(void *a, int *state, Ov018Work *c)
         WORDSET_SetSlotMyStatus(c->obj.f00, 0, GAME_DATA_GetMyStatus(x));
         WORDSET_SetSlotFromMsg36(c->obj.f00, 1, c->f40);
         if (c->f50 == 1) {
-            idx = d_02183998[EVENT_COMM_COMMON_GetPeerTalkStatus(v, (int)GAME_DATA_GetExitMode(x))];
+            idx = d_02183998[EVENT_COMM_COMMON_GetPeerTalkStatus(v, (int)GAME_DATA_GetOwnNetId(x))];
             c->f4C = 1;
         } else {
             idx = 5;

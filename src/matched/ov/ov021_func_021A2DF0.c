@@ -15,7 +15,7 @@
  *   KEY_GetTrg  0x020362DC  arm
  *   KEY_GetCont  0x0203630C  arm
  *   FIELD_PLAYER_CheckMoveRestrictFlag  0x021A35BC  thumb
- *   FIELD_PLAYER_SetupGrid  0x021A35F0  thumb
+ *   FIELD_PLAYER_MoveGrid  0x021A35F0  thumb
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj19760.h"
@@ -30,7 +30,7 @@ extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 extern u32 KEY_GetTrg(void);
 extern unsigned int KEY_GetCont(void);
 extern int FIELD_PLAYER_CheckMoveRestrictFlag(int a);
-extern int FIELD_PLAYER_SetupGrid(u32 a, u32 b, u32 c, u32 d);
+extern int FIELD_PLAYER_MoveGrid(u32 a, u32 b, u32 c, u32 d);
 
 void FIELDMAP_CTRL_GRID_Main(u32 a)
 {
@@ -44,6 +44,6 @@ void FIELDMAP_CTRL_GRID_Main(u32 a)
 
         if (FIELD_PLAYER_CheckMoveRestrictFlag((int)q) == 1)
             f |= 1;
-        FIELD_PLAYER_SetupGrid((u32)q, x, y, f);
+        FIELD_PLAYER_MoveGrid((u32)q, x, y, f);
     }
 }

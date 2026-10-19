@@ -25,7 +25,7 @@
  *   GF_FONT_SetDefaultTextColor  0x0201DD68  thumb
  *   BG_SYS_ChangeScrollImmediate  0x02040618  arm
  *   GFL_NET_GetRunState  0x0203CD98  arm
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   GFL_USE_AddMainTask  0x020056A0  thumb
  *   TCB_DeleteTask  0x02030EAC  arm
  *   MSGDATA_Delete  0x02045C04  arm
@@ -141,7 +141,7 @@
  *   BG_SYS_ChangeCenter  0x02041FB0  arm
  *   BG_SYS_ChangeScale  0x02041F6C  arm
  *   BMP_WIN_GetWidth  0x02045738  arm
- *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
+ *   PRINTSYS_MeasureWidestLine  0x0201D304  thumb
  *   TOWNMAP_MapSetZoom  0x021BA5B0  thumb
  *   TOWNMAP_TownIsRevealed  0x021BA834  thumb
  *   BMP_WIN_Create  0x020450F0  arm
@@ -253,7 +253,7 @@ extern void GF_FONT_SetTextColor(u32 a, u32 b, u32 c);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern void BG_SYS_ChangeScrollImmediate(u32 a, u32 b, u32 c);
 extern int GFL_NET_GetRunState(void);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern u32 GFL_USE_AddMainTask(void (*cb)(void *, void *), void *arg, int pri);
 extern void TCB_DeleteTask(struct Node *n);
 extern u32 MSGDATA_Delete(struct Rec *rec);
@@ -432,7 +432,7 @@ extern void BMP_Clear(struct Bitmap *bitmap, u8 value);
 extern u32 ZONEDATA_GetPlaceNameId(u32 townId);
 extern void MSGDATA_ReadString(struct MsgBank *msg, u32 index, struct StrBuf *dest);
 extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
-extern u32 GF_FONT_MeasureWidestLine(struct StrBuf *text, void *font, u32 spacing);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrBuf *text, void *font, u32 spacing);
 extern void PRINTSYS_Print(struct Bitmap *bitmap, s16 x, s16 y, struct StrBuf *text, void *font);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
@@ -495,7 +495,7 @@ int TOWNMAP_Create(void *taskArg, void *unused, TownMapArgs *args)
         TOWNMAP_CursorSetHoverTown(&work->cursor, town, &org);
     }
     if (GFL_NET_GetRunState()) {
-        GFL_NET_RestartWithDefaultTimeout(1, 0x44);
+        GFL_NET_RefreshWmIconAtTopRight(1, 0x44);
     }
     work->vblankTask = GFL_USE_AddMainTask(TOWNMAP_GRH_EmptyTask, work, 0);
     return 1;
@@ -1695,7 +1695,7 @@ void TOWNMAP_DrawSelection(TownMapSelection *sel, TownMapTown *town)
     if (town != 0) {
         MSGDATA_ReadString(sel->box.msg, ZONEDATA_GetPlaceNameId((u16)TOWNMAP_TownGetField(town, 0)), sel->box.text);
         centerX = ((u32)BMP_WIN_GetWidth(sel->box.win) << 3) / 2;
-        halfWidth = GF_FONT_MeasureWidestLine(sel->box.text, sel->box.font, 0) >> 1;
+        halfWidth = PRINTSYS_MeasureWidestLine(sel->box.text, sel->box.font, 0) >> 1;
         centerX = centerX - halfWidth;
         PRINTSYS_Print(bitmap, centerX, 0x30, sel->box.text, sel->box.font);
         msgId = TOWNMAP_TownGetField(town, 0x11);

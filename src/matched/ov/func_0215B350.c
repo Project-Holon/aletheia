@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_WORK_CmdResetEventFlagOffset
+ * function: SCRCMD_WORK_CmdClearTrainerDefeatedFlag
  * address:  0x0215B350
  * packet:   pkt_0215B350
  * region:   ov010
@@ -26,7 +26,7 @@ extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *, void *);
 extern int EVENT_TRAINER_ClearDefeatedFlag();
 
-int SCRCMD_WORK_CmdResetEventFlagOffset(int a0, int a1)
+int SCRCMD_WORK_CmdClearTrainerDefeatedFlag(int a0, int a1)
 {
     int t4;
     int t5;

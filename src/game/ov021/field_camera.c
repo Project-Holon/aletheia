@@ -1,7 +1,7 @@
 /*
  * file:     field_camera.c
  * unit:     yes
- * function: FIELD_CAMERA_Create, FIELD_CAMERA_Delete, FIELD_CAMERA_Main, FIELD_CAMERA_EnterMode, FIELD_CAMERA_GetMode, FIELD_CAMERA_SetMode, FIELD_CAMERA_ReloadSetting, FIELD_CAMERA_SetSetting, FIELD_CAMERA_GetSettingId, FIELD_CAMERA_LoadSetting, FIELD_CAMERA_ReadSetting, FIELD_CAMERA_PullTargetFromTrace, FIELD_CAMERA_PullEyeFromTrace, FIELD_CAMERA_CalcOffsetPoint, FIELD_CAMERA_SolveTargetMode, FIELD_CAMERA_SolveEyeMode, FIELD_CAMERA_SolveFreeMode, FIELD_CAMERA_ApplyToG3d, FIELD_CAMERA_UpdateMode, FIELD_CAMERA_UpdateTargetMode, FIELD_CAMERA_UpdateEyeMode, FIELD_CAMERA_UpdateFreeMode, FIELD_CAMERA_ClearEyeTrace, FIELD_CAMERA_ClearTargetTrace, FIELD_CAMERA_ClearAngles, FIELD_CAMERA_CalcAngles, FIELD_CAMERA_SetAnglesFromVector, FIELD_CAMERA_PrepareTargetMode, FIELD_CAMERA_PrepareEyeMode, FIELD_CAMERA_SolveTrackMode, FIELD_CAMERA_UpdateViewAngles, FIELD_CAMERA_RefineAngles, FIELD_CAMERA_GetG3dCamera, FIELD_CAMERA_SetTraceTarget, FIELD_CAMERA_StopTargetTrace, FIELD_CAMERA_GetTraceTarget, FIELD_CAMERA_ResumeTargetTrace, FIELD_CAMERA_SetG3dScale, FIELD_CAMERA_SetG3dRoll, FIELD_CAMERA_SetTarget, FIELD_CAMERA_GetTargetRaw, FIELD_CAMERA_GetTargetShift, FIELD_CAMERA_SetTargetShift, FIELD_CAMERA_GetEyeRaw, FIELD_CAMERA_SetEyeRaw, FIELD_CAMERA_SetEyeShift, FIELD_CAMERA_SetG3dUp, FIELD_CAMERA_GetG3dUp, FIELD_CAMERA_GetPitch, FIELD_CAMERA_SetPitch, FIELD_CAMERA_GetViewPitchPtr, FIELD_CAMERA_GetYaw, FIELD_CAMERA_SetYaw, FIELD_CAMERA_GetViewYawPtr, FIELD_CAMERA_GetDistance, FIELD_CAMERA_SetDistance, FIELD_CAMERA_GetVectorAngles, FIELD_CAMERA_SetFov, FIELD_CAMERA_StepDelay, FIELD_CAMERA_CreateDelay, FIELD_CAMERA_DeleteDelay, FIELD_CAMERA_ApplyDelayToG3d, FIELD_CAMERA_StopDelayLog, FIELD_CAMERA_RestartDelay, FIELD_CAMERA_EndDelay, FIELD_CAMERA_StopDelay, FIELD_CAMERA_IsDelayEnabled, FIELD_CAMERA_HasDelay, FIELD_CAMERA_CopyAreas, FIELD_CAMERA_ClearAreas, FIELD_CAMERA_LoadAreas, FIELD_CAMERA_GetTarget, FIELD_CAMERA_GetEye, FIELD_CAMERA_SetAreasEnabled, FIELD_CAMERA_GetAreasEnabled, FIELD_CAMERA_ApplyTargetArea, FIELD_CAMERA_ApplyEyeArea, FIELD_CAMERA_AreaKeepInBox, FIELD_CAMERA_AreaKeepInRing, FIELD_CAMERA_AreaKeepOutBox, FIELD_CAMERA_TakeView, FIELD_CAMERA_TakeViewConstrained, FIELD_CAMERA_PushState, FIELD_CAMERA_PushStateConstrained, FIELD_CAMERA_PopState, FIELD_CAMERA_SetMoveGoal, FIELD_CAMERA_StartMove, FIELD_CAMERA_StartMoveConstrained, FIELD_CAMERA_StartFreeMove, FIELD_CAMERA_StartMoveToSaved, FIELD_CAMERA_StartMoveToSetting, FIELD_CAMERA_UpdateMove, FIELD_CAMERA_UpdateFreeMove, FIELD_CAMERA_LerpVec, FIELD_CAMERA_LerpFx32, FIELD_CAMERA_LerpAngle, FIELD_CAMERA_ClearMoveCallback, FIELD_CAMERA_IsMoving, FIELD_CAMERA_GetMoveGoal
+ * function: FIELD_CAMERA_Create, FIELD_CAMERA_Delete, FIELD_CAMERA_Main, FIELD_CAMERA_EnterMode, FIELD_CAMERA_GetMode, FIELD_CAMERA_SetMode, FIELD_CAMERA_ReloadSetting, FIELD_CAMERA_SetSetting, FIELD_CAMERA_GetSettingId, FIELD_CAMERA_LoadSetting, FIELD_CAMERA_ReadSetting, FIELD_CAMERA_PullTargetFromTrace, FIELD_CAMERA_PullEyeFromTrace, FIELD_CAMERA_CalcOffsetPoint, FIELD_CAMERA_SolveTargetMode, FIELD_CAMERA_SolveEyeMode, FIELD_CAMERA_SolveFreeMode, FIELD_CAMERA_ApplyToG3d, FIELD_CAMERA_UpdateMode, FIELD_CAMERA_UpdateTargetMode, FIELD_CAMERA_UpdateEyeMode, FIELD_CAMERA_UpdateFreeMode, FIELD_CAMERA_ClearEyeTrace, FIELD_CAMERA_ClearTargetTrace, FIELD_CAMERA_ClearAngles, FIELD_CAMERA_CalcAngles, FIELD_CAMERA_SetAnglesFromVector, FIELD_CAMERA_PrepareTargetMode, FIELD_CAMERA_PrepareEyeMode, FIELD_CAMERA_SolveTrackMode, FIELD_CAMERA_UpdateViewAngles, FIELD_CAMERA_RefineAngles, FIELD_CAMERA_GetG3dCamera, FIELD_CAMERA_SetTraceTarget, FIELD_CAMERA_StopTargetTrace, FIELD_CAMERA_GetTraceTarget, FIELD_CAMERA_ResumeTargetTrace, FIELD_CAMERA_SetG3dNear, FIELD_CAMERA_SetG3dFar, FIELD_CAMERA_SetTarget, FIELD_CAMERA_GetTargetRaw, FIELD_CAMERA_GetTargetShift, FIELD_CAMERA_SetTargetShift, FIELD_CAMERA_GetEyeRaw, FIELD_CAMERA_SetEyeRaw, FIELD_CAMERA_SetEyeShift, FIELD_CAMERA_SetG3dUp, FIELD_CAMERA_GetG3dUp, FIELD_CAMERA_GetPitch, FIELD_CAMERA_SetPitch, FIELD_CAMERA_GetViewPitchPtr, FIELD_CAMERA_GetYaw, FIELD_CAMERA_SetYaw, FIELD_CAMERA_GetViewYawPtr, FIELD_CAMERA_GetDistance, FIELD_CAMERA_SetDistance, FIELD_CAMERA_GetVectorAngles, FIELD_CAMERA_SetFov, FIELD_CAMERA_StepDelay, FIELD_CAMERA_CreateDelay, FIELD_CAMERA_DeleteDelay, FIELD_CAMERA_ApplyDelayToG3d, FIELD_CAMERA_StopDelayLog, FIELD_CAMERA_RestartDelay, FIELD_CAMERA_EndDelay, FIELD_CAMERA_StopDelay, FIELD_CAMERA_IsDelayEnabled, FIELD_CAMERA_HasDelay, FIELD_CAMERA_CopyAreas, FIELD_CAMERA_ClearAreas, FIELD_CAMERA_LoadAreas, FIELD_CAMERA_GetTarget, FIELD_CAMERA_GetEye, FIELD_CAMERA_SetAreasEnabled, FIELD_CAMERA_GetAreasEnabled, FIELD_CAMERA_ApplyTargetArea, FIELD_CAMERA_ApplyEyeArea, FIELD_CAMERA_AreaKeepInBox, FIELD_CAMERA_AreaKeepInRing, FIELD_CAMERA_AreaKeepOutBox, FIELD_CAMERA_TakeView, FIELD_CAMERA_TakeViewConstrained, FIELD_CAMERA_PushState, FIELD_CAMERA_PushStateConstrained, FIELD_CAMERA_PopState, FIELD_CAMERA_SetMoveGoal, FIELD_CAMERA_StartMove, FIELD_CAMERA_StartMoveConstrained, FIELD_CAMERA_StartFreeMove, FIELD_CAMERA_StartMoveToSaved, FIELD_CAMERA_StartMoveToSetting, FIELD_CAMERA_UpdateMove, FIELD_CAMERA_UpdateFreeMove, FIELD_CAMERA_LerpVec, FIELD_CAMERA_LerpFx32, FIELD_CAMERA_LerpAngle, FIELD_CAMERA_ClearMoveCallback, FIELD_CAMERA_IsMoving, FIELD_CAMERA_GetMoveGoal
  * address:  0x0218E018
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -147,8 +147,8 @@ void FIELD_CAMERA_SetTraceTarget(FieldCamera *camera, const VecFx32 *target);
 void FIELD_CAMERA_StopTargetTrace(FieldCamera *camera);
 const VecFx32 *FIELD_CAMERA_GetTraceTarget(FieldCamera *camera);
 void FIELD_CAMERA_ResumeTargetTrace(FieldCamera *camera);
-void FIELD_CAMERA_SetG3dScale(FieldCamera *camera, u32 scale, ...);
-void FIELD_CAMERA_SetG3dRoll(FieldCamera *camera, u32 roll, ...);
+void FIELD_CAMERA_SetG3dNear(FieldCamera *camera, u32 scale, ...);
+void FIELD_CAMERA_SetG3dFar(FieldCamera *camera, u32 roll, ...);
 void FIELD_CAMERA_SetTarget(FieldCamera *camera, const VecFx32 *target);
 void FIELD_CAMERA_GetTargetRaw(FieldCamera *camera, VecFx32 *out);
 void FIELD_CAMERA_GetTargetShift(FieldCamera *camera, VecFx32 *out);
@@ -327,8 +327,8 @@ void FIELD_CAMERA_LoadSetting(FieldCamera *camera, const VecFx32 *targetSrc)
     camera->pitch = setting.pitch;
     camera->yaw = setting.yaw;
     camera->fov = setting.fov;
-    FIELD_CAMERA_SetG3dRoll(camera, setting.g3dRoll);
-    FIELD_CAMERA_SetG3dScale(camera, setting.g3dScale);
+    FIELD_CAMERA_SetG3dFar(camera, setting.g3dFar);
+    FIELD_CAMERA_SetG3dNear(camera, setting.g3dNear);
     switch (setting.projection) {
     case 0:
         G3D_SYSTEM_SetSwapBuffersMode(0, 0);
@@ -757,12 +757,12 @@ void FIELD_CAMERA_ResumeTargetTrace(FieldCamera *camera)
     camera->traceTarget = camera->boundTarget;
 }
 
-void FIELD_CAMERA_SetG3dScale(FieldCamera *camera, u32 scale, ...)
+void FIELD_CAMERA_SetG3dNear(FieldCamera *camera, u32 scale, ...)
 {
     G3D_CAMERA_SetNear(camera->g3dCamera, &scale);
 }
 
-void FIELD_CAMERA_SetG3dRoll(FieldCamera *camera, u32 roll, ...)
+void FIELD_CAMERA_SetG3dFar(FieldCamera *camera, u32 roll, ...)
 {
     G3D_CAMERA_SetFar(camera->g3dCamera, &roll);
 }

@@ -1,5 +1,5 @@
 /*
- * function: WEATHER_TASK_GetCameraState
+ * function: WEATHER_TASK_GetCameraSettingId
  * address:  0x021A2148
  * packet:   pkt_ov021_021A2148
  * region:   ov021
@@ -19,7 +19,7 @@
 
 int FIELD_CAMERA_GetSettingId(unsigned char *o);
 
-int WEATHER_TASK_GetCameraState(unsigned char *o)
+int WEATHER_TASK_GetCameraSettingId(unsigned char *o)
 {
     return FIELD_CAMERA_GetSettingId((unsigned char *)(((struct Obj19729 *)o)->f14));
 }

@@ -39,7 +39,7 @@
  *   BOX_SAVEDATA_FindFreeSlot  0x020076D0  thumb
  *   MYSTATUS_NameToStrbuf  0x02008500  thumb
  *   RECORD_AddOne  0x02008DF0  thumb
- *   BEACON_GetBlock  0x0200C0F0  thumb
+ *   MISC_GetBlock  0x0200C0F0  thumb
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb
  *   ZUKAN_SAVE_RegisterCaught  0x0200CDE0  thumb
@@ -160,7 +160,7 @@ extern u32 ZUKAN_SAVE_IsCaught(struct ZukanWork *p, u16 id);
 extern void ZUKAN_SAVE_RegisterSeen(struct ZukanWork *p, void *m);
 extern void ZUKAN_SAVE_RegisterCaught(struct ZukanWork *p, void *m);
 extern void *GAME_DATA_GetSaveControl(struct GameData *p);
-extern void *BEACON_GetBlock(void *sys);
+extern void *MISC_GetBlock(void *sys);
 extern int *NAMEIN_SETUP_CreateCaptureArgs(unsigned short a, int b, int c, int d, int e, int f, int g, int h);
 extern int NAMEIN_SETUP_IsCanceled(int *p);
 extern void NAMEIN_SETUP_CopyName(int *p, int a1);
@@ -273,7 +273,7 @@ u32 EVENT_PDC_RETURN_Step(u32 task, u32 *state, EventPdcReturnArgs *args, EventP
             nameConfirmed = 1;
         }
         if (nameConfirmed) {
-            work->nameArgs = (u32)NAMEIN_SETUP_CreateCaptureArgs((u32)work->heapId, (u32)args->partyMon, (u32)0xa, (u32)0, (u32)work->partyFullMessage, (u32)tmp, (u32)work->boxSlotCandidate, (u32)BEACON_GetBlock(GAME_DATA_GetSaveControl((struct GameData *)args->gameData)));
+            work->nameArgs = (u32)NAMEIN_SETUP_CreateCaptureArgs((u32)work->heapId, (u32)args->partyMon, (u32)0xa, (u32)0, (u32)work->partyFullMessage, (u32)tmp, (u32)work->boxSlotCandidate, (u32)MISC_GetBlock(GAME_DATA_GetSaveControl((struct GameData *)args->gameData)));
             PROCSYS_Push(work->procSys, (u32)ov194_id, 0x021F5580, (void *)work->nameArgs);
             (*state)++;
             break;

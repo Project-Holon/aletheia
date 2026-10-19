@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   GDS_PROFILE_ScoreRecFlag 0x0200DBA0 thumb
+ *   BSUBWAY_SCOREDATA_AccessFlag 0x0200DBA0 thumb
  *   GAME_DATA_GetEventWork 0x0201296C thumb
  *   ZONEDATA_CheckEventFlag 0x020142E8 thumb
  */
@@ -18,8 +18,8 @@ typedef unsigned int u32;
 typedef unsigned long long u64;
 typedef signed int     s32;
 struct Blk1AC;
-extern u32 GDS_PROFILE_ScoreRecFlag(struct Blk1AC *p, s32 i, u32 op);
+extern u32 BSUBWAY_SCOREDATA_AccessFlag(struct Blk1AC *p, s32 i, u32 op);
 struct BigObj;
 extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 extern u32 ZONEDATA_CheckEventFlag(void *,int);
-int BR_CODEIN_ListIsEventA(void *p,char *q) { u32 a,b; a=GDS_PROFILE_ScoreRecFlag(p,4,0); b=ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork((const struct BigObj *)q),0x960); if(a && b) return 1; return 0; }
+int BR_CODEIN_ListIsEventA(void *p,char *q) { u32 a,b; a=BSUBWAY_SCOREDATA_AccessFlag(p,4,0); b=ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork((const struct BigObj *)q),0x960); if(a && b) return 1; return 0; }

@@ -11,7 +11,7 @@
  *
  * symbols:
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
- *   BTL_FIELD_GetStaticSlotObject  0x021EF948  thumb  ov093
+ *   BTL_FIELD_IsStaticSlotInUse  0x021EF948  thumb  ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
  *   BTL_SICKCONT_MakeKind2Index  0x021E8940  thumb  ov093
  *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb  ov093
@@ -19,7 +19,7 @@
  *   BTL_SERVER_FLOW_CommitCmdRecord  0x021C88C8  thumb  ov093
  */
 extern int BTL_EVENT_GetVar(int key);
-extern int BTL_FIELD_GetStaticSlotObject(int k);
+extern int BTL_FIELD_IsStaticSlotInUse(int k);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
 typedef unsigned int   u32;
 extern int BTL_SICKCONT_MakeKind2Index(u32 a);
@@ -33,7 +33,7 @@ void HAND_WAZA_TrickRoomAddFieldEffect(int a, void *b, int c)
     int *p;
 
     if (c == BTL_EVENT_GetVar(3)) {
-        if (BTL_FIELD_GetStaticSlotObject(1) == 0) {
+        if (BTL_FIELD_IsStaticSlotInUse(1) == 0) {
             p = BTL_SERVER_FLOW_AllocCmdRecord(b, 0x1b, c);
             p[1] = 1;
             p[2] = BTL_SICKCONT_MakeKind2Index(5);

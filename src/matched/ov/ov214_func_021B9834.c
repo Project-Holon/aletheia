@@ -23,7 +23,7 @@
  * BMP_MENU_ProcessYesNo 0x0201FEBC thumb
  * BMP_MENU_DeleteYesNo 0x0201FEF4 thumb
  * UI_SetInputMode 0x020355D8 arm
- * BATTLE_REC_CheckSaved 0x0200B5CC thumb
+ * BATTLE_REC_VerifyAndCloseSave 0x0200B5CC thumb
  * BTL_REC_SEL_StartFade 0x021B9EB8 thumb ov214
  * BTL_REC_SEL_ResetTimer 0x021BA6F0 thumb ov214
  * BTL_REC_SEL_StartEntryA 0x021B9ED4 thumb ov214
@@ -85,7 +85,7 @@ extern void BTL_REC_SEL_CreateYesNo(int unused, u8 *p);
 extern u32 BMP_MENU_ProcessYesNo(u8*);
 extern void BMP_MENU_DeleteYesNo(u8 *o);
 extern void UI_SetInputMode(u8);
-extern u32 BATTLE_REC_CheckSaved(void*,u32,u32*,u32);
+extern u32 BATTLE_REC_VerifyAndCloseSave(void*,u32,u32*,u32);
 extern void BTL_REC_SEL_StartFade(char*,int,char*,int,int,int,int,int,int);
 extern void BTL_REC_SEL_ResetTimer(void*,char*);
 extern void BTL_REC_SEL_StartEntryA(u32*,void*,char*,u32,u32,u32);
@@ -149,7 +149,7 @@ int BTL_REC_SEL_Main(void *unused,u32 *state,const char *obj,char *p)
         if(result!=0xffffffff){
             UI_SetInputMode(0);
             if(result==0){
-                if(BATTLE_REC_CheckSaved(owner,*(u16*)p,&status0,0)){
+                if(BATTLE_REC_VerifyAndCloseSave(owner,*(u16*)p,&status0,0)){
                     (*(u32*)(p+0xb4))=1;BTL_REC_SEL_StartFade((char*)state,(int)obj,p,8,1,0,16,-2,1);break;
                 }else{BTL_REC_SEL_ResetTimer((void*)obj,p);*state=10;}
             }else BTL_REC_SEL_StartEntryA(state,(void*)obj,p,6,3,1);

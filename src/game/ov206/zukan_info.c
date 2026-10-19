@@ -57,7 +57,7 @@
  *   BMP_WIN_Delete 0x020452E8 arm
  *   STRBUF_Create 0x020457B0 arm
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
- *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
+ *   PRINTSYS_MeasureWidestLine 0x0201D304 thumb
  *   BMP_GetWidth 0x020437DC arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
@@ -331,7 +331,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -1045,12 +1045,12 @@ void ZUKAN_INFO_DrawText(int heap,int window,void *printer,int font,int input,un
     switch(alignment) {
     case 0: x=right; break;
     case 1: {
-        unsigned short width=GF_FONT_MeasureWidestLine((struct StrObj *)text,font,0);
+        unsigned short width=PRINTSYS_MeasureWidestLine((struct StrObj *)text,font,0);
         x=right-width;
         break;
     }
     case 2: {
-        unsigned short width=GF_FONT_MeasureWidestLine((struct StrObj *)text,font,0);
+        unsigned short width=PRINTSYS_MeasureWidestLine((struct StrObj *)text,font,0);
         x=(BMP_GetWidth((const struct Bmp *)buffer)-width)/2;
         break;
     }

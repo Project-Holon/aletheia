@@ -34,7 +34,7 @@
  *   GFL_USE_PollPowerExit    0x020053EC  thumb
  *   GFL_USE_UpdateSound      0x02005BC0  thumb
  *   PM_VOICE_StopFinished    0x020065FC  thumb
- *   SAVEDATA_PanicFail            0x02034714  arm
+ *   GF_PANIC_Fail            0x02034714  arm
  *   GF_OVERLAY_Load            0x02034AC4  arm
  *   GF_OVERLAY_Unload            0x02034A5C  arm
  *   NCFG_ReadConfig            0x0205FAA8  arm
@@ -108,7 +108,7 @@ struct GFLNetInitializeStruct {
     u8 connectState;
 };
 
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 extern void *GFL_NET_AllocAligned(u32 heapId, u32 size, const char *file, u16 line);
 extern u32  DWC_GetParseWMBssDescWorkSize(void);
 extern int GF_OVERLAY_Load(int id);
@@ -217,10 +217,10 @@ struct WihContext *WIH_DWC_Create(int maxBeacons, void *heap)
     struct WihContext *context;
 
     if (maxBeacons > 4) {
-        SAVEDATA_PanicFail((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg));
+        GF_PANIC_Fail((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg));
     }
     if (gWihDwc.context != 0) {
-        SAVEDATA_PanicFail((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg));
+        GF_PANIC_Fail((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg));
     }
     context = GFL_NET_AllocAligned((u32)heap, 0x328, (const char *)sWihDwcFile, 0x49);
     context->maxBeacons = maxBeacons;
@@ -288,7 +288,7 @@ struct WihContext *WIH_DWC_Create(int maxBeacons, void *heap)
 void WIH_DWC_Delete(struct WihContext *context)
 {
     if (gWihDwc.context == 0) {
-        SAVEDATA_PanicFail((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg));
+        GF_PANIC_Fail((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg));
     }
     WIH_SetBeaconFoundCallback(0);
     GFL_NET_FreeAligned(context->matchWork);
@@ -641,7 +641,7 @@ u32 WIH_DWC_PollStatus(void *searchKey)
 void WIH_DWC_CreateFilterBuffer(u32 heapId)
 {
     if (gWihDwc.filterBuf != 0) {
-        SAVEDATA_PanicFail((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg));
+        GF_PANIC_Fail((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg));
     }
     gWihDwc.filterBuf = GFL_NET_AllocAligned(heapId, 0xA00, (const char *)sWihDwcFile, 0x1C0);
 }
@@ -674,7 +674,7 @@ void WIH_DWC_CreateFilterBuffer(u32 heapId)
 void WIH_DWC_ResetFilterState(void)
 {
     if (gWihDwc.filterBuf == 0) {
-        SAVEDATA_PanicFail((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg));
+        GF_PANIC_Fail((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg));
     }
     NCFG_ReadConfig(gWihDwc.filterBuf->filterState, 0);
 }

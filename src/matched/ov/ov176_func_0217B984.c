@@ -9,9 +9,9 @@
  * isa: thumb
  * status: EXACT
  *
- * Note 2026-10-04 (wD2 lane12): byte-correct. Only unresolved relocation: MISC_SAVEDATA_GetRecordBase (witness). Filed src/matched/arm9/MISC_SAVEDATA_GetRecordBase.c (EXACT) this wave; it needs a manifest/shard so the witness exists, then this file re-verifies as EXACT with no C change.
+ * Note 2026-10-04 (wD2 lane12): byte-correct. Only unresolved relocation: LIVEBATTLEMATCH_SAVE_GetRecord (witness). Filed src/matched/arm9/LIVEBATTLEMATCH_SAVE_GetRecord.c (EXACT) this wave; it needs a manifest/shard so the witness exists, then this file re-verifies as EXACT with no C change.
  * blocker: 0x0200EA08 Thumb EXACT (scratch one, fixed flags); ARM9 belongs to the integrator.
- *   unsigned char *MISC_SAVEDATA_GetRecordBase(unsigned char *p) { return p; }
+ *   unsigned char *LIVEBATTLEMATCH_SAVE_GetRecord(unsigned char *p) { return p; }
  * symbols:
  *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
@@ -29,8 +29,8 @@
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   BATTLE_COMPETITION_GetFromSave 0x0200B358 thumb
  *   REGULATION_GetCard 0x0200B1D4 thumb
- *   MISC_SAVEDATA_GetBlock3C 0x0200E9F4 thumb
- *   MISC_SAVEDATA_GetRecordBase 0x0200EA08 thumb
+ *   LIVEBATTLEMATCH_SAVE_GetFromSave 0x0200E9F4 thumb
+ *   LIVEBATTLEMATCH_SAVE_GetRecord 0x0200EA08 thumb
  *   POKEPARTY_Create 0x0201A920 thumb
  *   UI_SetSoftResetInhibitGlobal 0x0203516C arm
  *   d_0217E600 0x0217E600 data a4
@@ -61,8 +61,8 @@ extern void WIFIBATTLEMATCH_VIEW_SetActorVisible(void **,int);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *BATTLE_COMPETITION_GetFromSave(void *);
 extern struct Rec160 *REGULATION_GetCard(struct Rec160 *arr, u32 index);
-extern void *MISC_SAVEDATA_GetBlock3C(void *);
-extern int MISC_SAVEDATA_GetRecordBase(int p);
+extern void *LIVEBATTLEMATCH_SAVE_GetFromSave(void *);
+extern int LIVEBATTLEMATCH_SAVE_GetRecord(int p);
 extern struct Party *POKEPARTY_Create(u32 heap);
 extern void UI_SetSoftResetInhibitGlobal(int);
 extern const char d_0217E600[];
@@ -86,7 +86,7 @@ u8 *LIVEBATTLEMATCH_FLOW_Create(Init *src,u32 heap)
     *(void ***)(p+0x1c)=WIFIBATTLEMATCH_VIEW_CreateActorArray((void *)WIFIBATTLEMATCH_GRAPHIC_GetCamera(*(int **)(p+0x1b4)),*(void **)(p+0x1b0),heap);
     WIFIBATTLEMATCH_VIEW_SetActorVisible(*(void ***)(p+0x1c),0);
     *(void **)(p+0x38)=REGULATION_GetCard(BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl(*(void **)(p+0x1b8))),1);
-    *(void **)(p+0x34)=(void *)MISC_SAVEDATA_GetRecordBase((int)MISC_SAVEDATA_GetBlock3C(GAME_DATA_GetSaveControl(*(void **)(p+0x1b8))));
+    *(void **)(p+0x34)=(void *)LIVEBATTLEMATCH_SAVE_GetRecord((int)LIVEBATTLEMATCH_SAVE_GetFromSave(GAME_DATA_GetSaveControl(*(void **)(p+0x1b8))));
     *(void **)(p+0x30)=POKEPARTY_Create(heap);
     if(*(int *)(p+0x1a0)==0)UI_SetSoftResetInhibitGlobal(8);
     return p;

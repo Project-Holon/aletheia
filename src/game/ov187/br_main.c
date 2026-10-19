@@ -25,7 +25,7 @@
  *   PROCSYS_Create  0x02031324  arm
  *   PROCSYS_Push 0x02031348 arm
  *   PROCSYS_Main 0x02031330 arm
- *   SAVEDATA_PanicFail  0x02034714  arm
+ *   GF_PANIC_Fail  0x02034714  arm
  *   PROCSYS_Delete  0x0203133C  arm
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   d_0220B2E4 0x0220B2E4 data a1
@@ -128,7 +128,7 @@ extern void PROCSYS_Push(void *, int, const void *, void *);
 
 extern unsigned int PROCSYS_Main(void *p);
 
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 extern void PROCSYS_Delete(void *procSys);
 
@@ -278,7 +278,7 @@ int BR_MAIN_RunSceneStep(BrSceneManager *mgr)
 void BR_MAIN_FreeSceneManager(BrSceneManager *mgr)
 {
     if (mgr->sceneWork != 0)
-        SAVEDATA_PanicFail((void *)0x0220b2e0, 0, (void *)0x0220b2e0);
+        GF_PANIC_Fail((void *)0x0220b2e0, 0, (void *)0x0220b2e0);
     PROCSYS_Delete(mgr->procSys);
     MI_CpuFill8(mgr, 0, sizeof(BrSceneManager));
 }

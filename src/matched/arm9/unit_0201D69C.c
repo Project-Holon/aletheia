@@ -30,7 +30,7 @@
  * (docs/idioms/the-fall-through-arm-is-the-source-order.md); written as the
  * wrapped case first it is ten of the twenty bytes wrong.
  *
- * Left open at 0x0201D6D8: GF_FONT_EnqueuePrint and GF_FONT_Copy reproduce the
+ * Left open at 0x0201D6D8: PRINTSYS_EnqueuePrint and GF_FONT_Copy reproduce the
  * right size and the right instruction multiset but allocate registers the
  * other way round.  The original keeps the ring's write cursor in a
  * callee-saved register across the MI_CpuCopy8 call and spills the loop

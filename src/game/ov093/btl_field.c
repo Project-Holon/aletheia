@@ -1,7 +1,7 @@
 /*
  * file:     btl_field.c
  * unit:     yes
- * function: BTL_FIELD_ResetSlot, BTL_FIELD_ResetStatic, BTL_FIELD_GetCountdownValue, BTL_FIELD_GetCountdownCount, BTL_FIELD_SetCountdown, BTL_FIELD_TickCountdown, BTL_FIELD_RegisterStaticSlot, BTL_FIELD_QueryStaticSlotA, BTL_FIELD_SetStaticSlotValue, BTL_FIELD_QueryStaticSlotB, BTL_FIELD_DrawStaticSlotLine, BTL_FIELD_QueryStaticSlotC, BTL_FIELD_GetStaticSlotObject, BTL_FIELD_Create, BTL_FIELD_Delete, BTL_FIELD_Init, BTL_FIELD_GetCountdownByte, BTL_FIELD_GetCountdownCountIfSet, BTL_FIELD_StoreCountdown, BTL_FIELD_ClearCountdown, BTL_FIELD_StepCountdown, BTL_FIELD_RegisterSlot, BTL_FIELD_RemoveSlot, BTL_FIELD_AddSlotHolder, BTL_FIELD_RemoveHolderFromSlots, BTL_FIELD_IsMoveSealedBySlot, BTL_FIELD_TickSlots, BTL_FIELD_IsSlotInUse
+ * function: BTL_FIELD_ResetSlot, BTL_FIELD_ResetStatic, BTL_FIELD_GetCountdownValue, BTL_FIELD_GetCountdownCount, BTL_FIELD_SetCountdown, BTL_FIELD_TickCountdown, BTL_FIELD_RegisterStaticSlot, BTL_FIELD_RemoveStaticSlot, BTL_FIELD_AddStaticSlotHolder, BTL_FIELD_RemoveHolderFromStaticSlots, BTL_FIELD_IsMoveSealedByStaticSlot, BTL_FIELD_TickStaticSlots, BTL_FIELD_IsStaticSlotInUse, BTL_FIELD_Create, BTL_FIELD_Delete, BTL_FIELD_Init, BTL_FIELD_GetCountdownByte, BTL_FIELD_GetCountdownCountIfSet, BTL_FIELD_StoreCountdown, BTL_FIELD_ClearCountdown, BTL_FIELD_StepCountdown, BTL_FIELD_RegisterSlot, BTL_FIELD_RemoveSlot, BTL_FIELD_AddSlotHolder, BTL_FIELD_RemoveHolderFromSlots, BTL_FIELD_IsMoveSealedBySlot, BTL_FIELD_TickSlots, BTL_FIELD_IsSlotInUse
  * address:  0x021EF83C
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -45,8 +45,8 @@
  *   gBtlRecFileName  0x021F3ADC  data  a4
  *   GFL_HEAP_Free   0x020307B0  arm arm9
  *   MI_CpuCopy8  0x02082D44  arm
- *   BTL_CALC_ActionSetRecordError  0x021D8470  thumb
- *   BTL_CALC_ActionSetRecordReset  0x021D845C  thumb
+ *   BTL_ACTION_SetRecordError  0x021D8470  thumb
+ *   BTL_ACTION_SetRecordReset  0x021D845C  thumb
  *   gBtlAdapterSlots  0x021F6388  data  a4
  *   gBtlAdapterMode  0x021F6384  data  a4
  *   GFL_HEAP_Alloc   0x02030734  arm
@@ -93,12 +93,12 @@
  *   sBtlMsgBuilders  0x021F39D8  data  a4
  *   d_021F39DC  0x021F39DC  data  a4
  *   STRBUF_GetEosChar  0x02045A98  arm
- *   GF_FONT_GetTagChar  0x0201D5C4  thumb
- *   GF_FONT_IsWordSlotTag  0x0201D5CC  thumb
- *   GF_FONT_GetTagParam  0x0201D670  thumb
- *   GF_FONT_GetTagGroup  0x0201D5F4  thumb
- *   GF_FONT_GetTagKind  0x0201D658  thumb
- *   GF_FONT_SkipTag  0x0201D688  thumb
+ *   PRINTSYS_GetTagChar  0x0201D5C4  thumb
+ *   PRINTSYS_IsWordSlotTag  0x0201D5CC  thumb
+ *   PRINTSYS_GetTagParam  0x0201D670  thumb
+ *   PRINTSYS_GetTagGroup  0x0201D5F4  thumb
+ *   PRINTSYS_GetTagKind  0x0201D658  thumb
+ *   PRINTSYS_SkipTag  0x0201D688  thumb
  *   STRBUF_GetChars  0x02045A90  arm
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_SetSlotFromMsgB6 0x0201EF8C thumb
@@ -140,13 +140,13 @@ int BTL_FIELD_GetCountdownCount(void);
 int BTL_FIELD_SetCountdown(int value, int count);
 u32 BTL_FIELD_TickCountdown(void);
 int BTL_FIELD_RegisterStaticSlot(u32 slot, BtlFieldSlotKey key);
-int BTL_FIELD_QueryStaticSlotA(int arg);
-int BTL_FIELD_SetStaticSlotValue(int slot, int value);
+int BTL_FIELD_RemoveStaticSlot(int arg);
+int BTL_FIELD_AddStaticSlotHolder(int slot, int value);
 /* The wrappers below pass their words through unchanged, so they call the slot functions with plain word signatures. */
-int BTL_FIELD_QueryStaticSlotB(int arg);
-void BTL_FIELD_DrawStaticSlotLine(int line, int color, char *text);
-int BTL_FIELD_QueryStaticSlotC(int onExpire, int arg);
-int BTL_FIELD_GetStaticSlotObject(int arg);
+int BTL_FIELD_RemoveHolderFromStaticSlots(int arg);
+void BTL_FIELD_IsMoveSealedByStaticSlot(int line, int color, char *text);
+int BTL_FIELD_TickStaticSlots(int onExpire, int arg);
+int BTL_FIELD_IsStaticSlotInUse(int arg);
 BtlFieldState *BTL_FIELD_Create(u32 heapId);
 void BTL_FIELD_Delete(void *state);
 void BTL_FIELD_Init(BtlFieldState *state, u32 value);
@@ -227,42 +227,42 @@ int BTL_FIELD_RegisterStaticSlot(u32 slot, BtlFieldSlotKey key)
 
 
 
-int BTL_FIELD_QueryStaticSlotA(int arg)
+int BTL_FIELD_RemoveStaticSlot(int arg)
 {
     return BTL_FIELD_RemoveSlot(&gBtlFieldCountdown, arg);
 }
 
 
 
-int BTL_FIELD_SetStaticSlotValue(int slot, int value)
+int BTL_FIELD_AddStaticSlotHolder(int slot, int value)
 {
     return BTL_FIELD_AddSlotHolder(&gBtlFieldCountdown, slot, value);
 }
 
 
 
-int BTL_FIELD_QueryStaticSlotB(int arg)
+int BTL_FIELD_RemoveHolderFromStaticSlots(int arg)
 {
     return ((int (*)(BtlFieldState *, int))BTL_FIELD_RemoveHolderFromSlots)(&gBtlFieldCountdown, arg);
 }
 
 
 
-void BTL_FIELD_DrawStaticSlotLine(int line, int color, char *text)
+void BTL_FIELD_IsMoveSealedByStaticSlot(int line, int color, char *text)
 {
     ((int (*)(BtlFieldState *, int, int, char *))BTL_FIELD_IsMoveSealedBySlot)(&gBtlFieldCountdown, line, color, text);
 }
 
 
 
-int BTL_FIELD_QueryStaticSlotC(int onExpire, int arg)
+int BTL_FIELD_TickStaticSlots(int onExpire, int arg)
 {
     return ((int (*)(BtlFieldState *, int, int))BTL_FIELD_TickSlots)(&gBtlFieldCountdown, onExpire, arg);
 }
 
 
 
-int BTL_FIELD_GetStaticSlotObject(int arg)
+int BTL_FIELD_IsStaticSlotInUse(int arg)
 {
     return (int)BTL_FIELD_IsSlotInUse(&gBtlFieldCountdown, arg);
 }

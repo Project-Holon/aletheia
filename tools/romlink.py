@@ -113,12 +113,14 @@ OV230_C = os.path.join(BUILD, "datac", "ov230")
 
 
 def link_ov230_blobs(lay):
-    """Overlay 230: the second-layer bodies (sealed code the dispatcher opens at call time) and a
-    few data words between the functions of src/game/ov230 are the only bytes of its decrypted
-    view that no source file writes.  A first data-mode link leaves them as gaps; they are written
-    as one `asm` function of DCD words per gap (from the user's own extract, build/datac/ov230,
-    never committed, like the ITCM pads) and the overlay is linked again with no gap.  The link
-    compares the result with the decrypted view, so a wrong word fails it."""
+    """Overlay 230: the bytes of its decrypted view that no src/game file writes.  The view
+    (tools/ovcrypt.py) has the first-layer ranges and the second-layer bodies opened; the link
+    of src/game/ov230 is compared with it and tools/ovcrypt.py encrypt() seals both layers again
+    for the ROM.  Bodies not yet matched in C (and a few data words between the functions) are
+    gaps of the first data-mode link; each gap is written as one `asm` function of DCD words
+    (from the user's own extract, build/datac/ov230, never committed, like the ITCM pads) and the
+    overlay is linked again with no gap.  The link compares the result with the decrypted view,
+    so a wrong word fails it.  When every body is matched there are no gaps."""
     import ovcrypt
     o = next(x for x in lay["overlays"] if x["id"] == 230)
     view = ovcrypt.load(ROOT)
@@ -129,6 +131,8 @@ def link_ov230_blobs(lay):
     extra = "--extra=build/datac/ov230"
     sh([PY, "tools/gamelink.py", "230", "--data", extra])
     j = json.load(open(os.path.join(GLD, "ov230", "ov.json")))
+    with open(os.path.join(GLD, "ov230", "blobs.json"), "w") as fh:
+        json.dump([list(x) for x in j["gaps"]], fh)
     for a, b in j["gaps"]:
         name = "OV230_SealedBlob_%08X" % a
         words = struct.unpack_from("<%dI" % ((b - a) // 4), view.data, a - o["ram_start"])
@@ -472,6 +476,15 @@ def main(argv=None):
         for g0, g1 in inf["gaps"]:
             gap_lines.append(("ov%03d gap %08X" % (oid, g0), g1 - g0))
             gaps_total += g1 - g0
+        if oid == 230:
+            # bytes of the decrypted view that no src/game file writes: link_ov230_blobs() fills
+            # them with generated asm so the link has no gap, but they are not from our source
+            try:
+                for g0, g1 in json.load(open(os.path.join(GLD, "ov230", "blobs.json"))):
+                    gap_lines.append(("ov230 generated blob %08X" % g0, g1 - g0))
+                    gaps_total += g1 - g0
+            except (OSError, ValueError):
+                pass
         for g0, g1 in inf["standin"]:
             gap_lines.append(("ov%03d .bss stand-in %08X" % (oid, g0), g1 - g0))
             gaps_total += g1 - g0

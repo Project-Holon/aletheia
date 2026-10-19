@@ -31,8 +31,8 @@
  * }
  * symbols:
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
- *   BR_CODEIN_RecordHitButtonA 0x021DD27C thumb ov183
- *   BR_CODEIN_RecordHitButtonB 0x021DD2BC thumb ov183
+ *   BR_CODEIN_RecordHitProfileToggle 0x021DD27C thumb ov183
+ *   BR_CODEIN_RecordHitRecordPanel 0x021DD2BC thumb ov183
  *   BR_BTN_HitTestWithSound 0x021FB4B4 thumb ov186
  *   BR_UTIL_StartEffect 0x021FD860 thumb ov186
  *   BR_PROC_SYS_PopEntry 0x021F9BA0 thumb ov186
@@ -41,7 +41,7 @@
  *   BATTLE_REC_GetHeaderParam 0x0200B98C thumb
  *   BR_UTIL_SetTaskStep 0x021FD73C thumb ov186
  *   BR_CODEIN_RecordStepProfileText 0x021DBEB0 thumb ov183
- *   BR_CODEIN_RecordStepFadeInB 0x021DBCF4 thumb ov183
+ *   BR_CODEIN_RecordStepFadeOut 0x021DBCF4 thumb ov183
  *   BR_CODEIN_RecordStepReceive 0x021DC228 thumb ov183
  *   BR_CODEIN_RecordStepConfirm 0x021DC638 thumb ov183
  */
@@ -49,7 +49,7 @@ typedef unsigned int u32;
 typedef unsigned long long u64;
 typedef struct {char pad[0x4c];char saved[0x18];int count;void *ptr;} S;
 extern u32 TOUCHPANEL_GetPointTrg(u32 *,u32 *);
-extern int BR_CODEIN_RecordHitButtonA(char *,int,int),BR_CODEIN_RecordHitButtonB(char *,int,int);
+extern int BR_CODEIN_RecordHitProfileToggle(char *,int,int),BR_CODEIN_RecordHitRecordPanel(char *,int,int);
 extern int BR_BTN_HitTestWithSound(unsigned int *obj, int x, int y);
 extern void BR_UTIL_StartEffect(int,int,int *);
 typedef unsigned char  u8;
@@ -59,14 +59,14 @@ extern void BR_PROC_SYS_SetupWindow(S *);
 extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
 extern int *BR_UTIL_SetTaskStep(int *p, int v);
 extern void BR_CODEIN_RecordStepProfileText(int *task, int *state, char *p);
-extern void BR_CODEIN_RecordStepFadeInB(int *task, int *state, char *p);
+extern void BR_CODEIN_RecordStepFadeOut(int *task, int *state, char *p);
 extern void BR_CODEIN_RecordStepReceive(int *a, int *state, char *p);
 extern void BR_CODEIN_RecordStepConfirm(int *a, int *state, char *p);
 void BR_CODEIN_RecordStepMenu(int *task,int *state,char *p)
 {
     u32 x,y;
     if(TOUCHPANEL_GetPointTrg(&x,&y)) {
-        if(BR_CODEIN_RecordHitButtonA(p,x,y)) {
+        if(BR_CODEIN_RecordHitProfileToggle(p,x,y)) {
             *(int *)(p+0xb0)^=1;
             BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_RecordStepProfileText);
         }
@@ -76,7 +76,7 @@ void BR_CODEIN_RecordStepMenu(int *task,int *state,char *p)
             BR_UTIL_StartEffect(*(int *)(p+0x10),1,args);
             **(int **)(p+0xd0)=0;
             BR_PROC_SYS_PopEntry(*(void **)(*(char **)(p+0xd0)+0x14));
-            BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_RecordStepFadeInB);
+            BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_RecordStepFadeOut);
         }
         if(*(int *)(p+0x20) && BR_BTN_HitTestWithSound((unsigned int *)(*(int *)(p+0x20)),x,y)) {
             int args[2];
@@ -84,15 +84,15 @@ void BR_CODEIN_RecordStepMenu(int *task,int *state,char *p)
             BR_UTIL_StartEffect(*(int *)(p+0x10),1,args);
             BR_PROC_SYS_PushEntry(*(unsigned **)(*(char **)(p+0xd0)+0x14),10);
             *(u64 *)(*(char **)(p+0xd0)+0x1c)=BATTLE_REC_GetHeaderParam(*(void **)(p+0xc4),4,0);
-            BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_RecordStepFadeInB);
+            BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_RecordStepFadeOut);
         }
-        if(BR_CODEIN_RecordHitButtonB(p,x,y)) {
+        if(BR_CODEIN_RecordHitRecordPanel(p,x,y)) {
             if((u32)(*(u32 *)(*(char **)(p+0xd0)+8)-4)<=1)BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_RecordStepReceive);
             else if(*(int *)(p+0xc8)==0)BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_RecordStepConfirm);
             else {
                 **(int **)(p+0xd0)=1;
                 BR_PROC_SYS_SetupWindow(*(S **)(*(char **)(p+0xd0)+0x14));
-                BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_RecordStepFadeInB);
+                BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_RecordStepFadeOut);
             }
         }
     }

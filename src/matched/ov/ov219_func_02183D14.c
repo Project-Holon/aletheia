@@ -44,8 +44,8 @@
  *           a `call:` label on `GFL_USE_PlaySeDefaultVolume(m)`; the case 9 0x551 path does `m = 0x551; goto call;`;
  *           case 17 writes `if (W(0xC350) != 1) break; goto se54c;`. The 0x648/0x649 calls then
  *           merge into case 12's call by themselves. d_02185DE6 hint token dropped (contested).
- *           Remaining: three callees with no witness: arm9 BMP_OAM_Update5BE8 and GAME_BEACON_SetNationArea and ov219
- *           BEACON_DETAIL_Init3DParams. This lane filed all three EXACT (src/matched/arm9/BMP_OAM_Update5BE8.c,
+ *           Remaining: three callees with no witness: arm9 NATION_AREA_GetDefaultNation and GAME_BEACON_SetNationArea and ov219
+ *           BEACON_DETAIL_Init3DParams. This lane filed all three EXACT (src/matched/arm9/NATION_AREA_GetDefaultNation.c,
  *           src/matched/arm9/GAME_BEACON_SetNationArea.c, src/matched/ov/BEACON_DETAIL_Init3DParams.c); after the
  *           manifest picks them up this should verify EXACT.
  *
@@ -71,9 +71,9 @@
  *   BMP_MENULIST_Main 0x020200CC thumb
  *   BMP_MENU_CreateYesNo 0x0201FDA0 thumb
  *   BMP_MENU_ProcessYesNo 0x0201FEBC thumb
- *   BMP_OAM_Update5BE8 0x02025BE8 thumb
- *   BMP_OAM_Check5C44 0x02025C44 thumb
- *   BMP_OAM_Get 0x02025B94 thumb
+ *   NATION_AREA_GetDefaultNation 0x02025BE8 thumb
+ *   NATION_AREA_GetAreaTable 0x02025C44 thumb
+ *   NATION_AREA_GetAreaMsgBank 0x02025B94 thumb
  *   func_0200947C 0x0200947C thumb
  *   GAME_BEACON_SetNationArea 0x02027120 thumb
  *   APP_TASKMENU_WIN_IsFinish 0x02028230 thumb
@@ -145,9 +145,9 @@ extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern s32 BMP_MENULIST_Main(struct Obj *o);
 extern void *BMP_MENU_CreateYesNo(const void *a, int b, int c, int d, u16 heap);
 extern u32 BMP_MENU_ProcessYesNo(u8 *p);
-extern int BMP_OAM_Update5BE8(void);
-extern int BMP_OAM_Check5C44(u32 a0, u32 *a1, u32 *a2);
-extern u32 BMP_OAM_Get(u32 a);
+extern int NATION_AREA_GetDefaultNation(void);
+extern int NATION_AREA_GetAreaTable(u32 a0, u32 *a1, u32 *a2);
+extern u32 NATION_AREA_GetAreaMsgBank(u32 a);
 extern void func_0200947C(u32 a, u32 b, u32 c, u32 d);
 extern void GAME_BEACON_SetNationArea(u8 a, u8 b);
 extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
@@ -292,7 +292,7 @@ int BEACON_DETAIL_Update(u8 *p, int *state)
         switch ((u32)(int)BMP_MENU_ProcessYesNo(*(void **)(p + 0xC054))) {
         case 0:
             if (W(0xC318) == 1) {
-                *(void **)(p + 0xC344) = (void *)BMP_OAM_Update5BE8();
+                *(void **)(p + 0xC344) = (void *)NATION_AREA_GetDefaultNation();
                 *state = 0xA;
             } else {
                 *state = 7;
@@ -342,8 +342,8 @@ int BEACON_DETAIL_Update(u8 *p, int *state)
         break;
     case 10:
         W(0xC348) = 0;
-        BMP_OAM_Check5C44((u32)(*(void **)(p + 0xC344)), (u32 *)(&ids), &count);
-        BEACON_DETAIL_CreateMenuItemsFromIds((char *)p, d_02185DC4, (const struct Src *)d_02185ECC, BMP_OAM_Get((u32)(*(void **)(p + 0xC344))), ids, count);
+        NATION_AREA_GetAreaTable((u32)(*(void **)(p + 0xC344)), (u32 *)(&ids), &count);
+        BEACON_DETAIL_CreateMenuItemsFromIds((char *)p, d_02185DC4, (const struct Src *)d_02185ECC, NATION_AREA_GetAreaMsgBank((u32)(*(void **)(p + 0xC344))), ids, count);
         *state = 0xB;
         break;
     case 11:

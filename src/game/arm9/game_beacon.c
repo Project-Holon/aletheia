@@ -15,8 +15,8 @@
  * symbols:
  *   MI_CpuFill8 0x02082BCC  arm
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
- *   SAVEDATA_PanicFail  0x02034714  arm
+ *   MYSTATUS_GetSex  0x02008550  thumb
+ *   GF_PANIC_Fail  0x02034714  arm
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   GAME_BEACON_Work     0x02146940  data
  *   GAME_BEACON_AssertText     0x020A74BC  data
@@ -29,35 +29,35 @@
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   SYMBOL_SAVE_GetBitBlock  0x0200E394  thumb
  *   MISC_SAVEDATA_GetStatusByte  0x0200E44C  thumb
- *   COMM_PLAYER_GetModelId  0x02167394  thumb
+ *   QUESTIONNAIRE_GetAnswerMax  0x02167394  thumb
  *   SYMBOL_SAVE_GetQuestionnaireAnswer  0x0200E3A4  thumb
  *   MISC_SAVEDATA_IsTallyFull  0x0200E49C  thumb
  *   MISC_SAVEDATA_AddHalfwordClamped  0x0200E460  thumb
  *   MISC_SAVEDATA_AddTallyValue  0x0200E4CC  thumb
- *   BEACON_GetBlock  0x0200C0F0  thumb
- *   BEACON_GetRecentId  0x0200C33C  thumb
- *   BEACON_AddRecentValue  0x0200C364  thumb
- *   SAVEDATA_GetExtraBlockThunk    0x0200E6E8  thumb
+ *   MISC_GetBlock  0x0200C0F0  thumb
+ *   MISC_GetRecentId  0x0200C33C  thumb
+ *   MISC_AddRecentValue  0x0200C364  thumb
+ *   GREETING_SAVEDATA_GetFromSaveThunk    0x0200E6E8  thumb
  *   OS_GetOwnerInfo  0x02087C88  arm
  *   GAME_DATA_GetMyPlayerWork    0x020127A4  thumb
  *   GAME_DATA_GetPlayerZoneId    0x02012AC8  thumb
- *   ZONEDATA_IsZone1A6    0x02013CC8  thumb
+ *   ZONEDATA_IsUnionRoom    0x02013CC8  thumb
  *   ZONEDATA_IsZone96Pair    0x02013CE0  thumb
  *   GAME_DATA_GetSpecialLocation    0x02012894  thumb
  *   SYMBOL_MAP_ResolveZoneId    0x02166C7C  thumb
  *   MYSTATUS_GetIdLow16    0x02008534  thumb
- *   MYSTATUS_GetOutfit    0x02008554  thumb
- *   MYSTATUS_GetLanguage    0x0200856C  thumb
- *   MYSTATUS_GetVersion    0x02008570  thumb
- *   BEACON_GetMode    0x0200C224  thumb
- *   BEACON_GetGreetCount    0x0200C1C4  thumb
- *   BEACON_GetThanksCount    0x0200C1DC  thumb
+ *   MYSTATUS_GetTrainerView    0x02008554  thumb
+ *   MYSTATUS_GetNation    0x0200856C  thumb
+ *   MYSTATUS_GetArea    0x02008570  thumb
+ *   MISC_GetResearchRank    0x0200C224  thumb
+ *   MISC_GetGreetCount    0x0200C1C4  thumb
+ *   MISC_GetThanksCount    0x0200C1DC  thumb
  *   PLAYTIME_GetMinutes    0x02008650  thumb
  *   SYMBOL_SAVE_GetQuestionnaireBits    0x0200E3A0  thumb
- *   MISC_SAVEDATA_CopyQuadRecord    0x0200E6FC  thumb
+ *   GREETING_SAVEDATA_GetSentence    0x0200E6FC  thumb
  *   STRBUF_GetEosChar    0x02045A98  arm
  *   MYSTATUS_GetName    0x020084F4  thumb
- *   BEACON_GetGreetMessage    0x0200C1F4  thumb
+ *   MISC_GetGreetMessage    0x0200C1F4  thumb
  *   GAME_BEACON_ActionTable    0x0209FC20  data
  *   GAME_BEACON_SpecialPokemonTable  0x0209FC04  data
  *   STRBUF_ToChars       0x02045A38  arm
@@ -115,9 +115,9 @@ extern void OS_GetOwnerInfo(OSOwnerInfo *info);
 
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 
-extern u32 MYSTATUS_GetOutfitVariant(const struct MyStatus *status);
+extern u32 MYSTATUS_GetSex(const struct MyStatus *status);
 
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 
@@ -137,7 +137,7 @@ extern struct QuestionnaireSave *SYMBOL_SAVE_GetBitBlock(struct SaveControl *sav
 
 extern int   MISC_SAVEDATA_GetStatusByte(struct QuestionnaireSave *questionnaire, int slot);
 
-extern u32   COMM_PLAYER_GetModelId(u8 questionId);
+extern u32   QUESTIONNAIRE_GetAnswerMax(u8 questionId);
 
 extern u32   SYMBOL_SAVE_GetQuestionnaireAnswer(const u8 *answers, u8 questionId);
 
@@ -149,29 +149,29 @@ extern void MISC_SAVEDATA_AddTallyValue(struct QuestionnaireSave *questionnaire,
 
 extern const u8 *SYMBOL_SAVE_GetQuestionnaireBits(struct QuestionnaireSave *questionnaire);
 
-extern struct MiscSave *BEACON_GetBlock(struct SaveControl *save);
+extern struct MiscSave *MISC_GetBlock(struct SaveControl *save);
 
-extern int BEACON_GetRecentId(struct MiscSave *misc, u8 slot);
+extern int MISC_GetRecentId(struct MiscSave *misc, u8 slot);
 
-extern void BEACON_AddRecentValue(struct MiscSave *misc, u8 slot, int value);
+extern void MISC_AddRecentValue(struct MiscSave *misc, u8 slot, int value);
 
-extern u8 BEACON_GetMode(struct MiscSave *misc);
+extern u8 MISC_GetResearchRank(struct MiscSave *misc);
 
-extern u32 BEACON_GetGreetCount(struct MiscSave *misc);
+extern u32 MISC_GetGreetCount(struct MiscSave *misc);
 
-extern u32 BEACON_GetThanksCount(struct MiscSave *misc);
+extern u32 MISC_GetThanksCount(struct MiscSave *misc);
 
-extern u16 *BEACON_GetGreetMessage(struct MiscSave *misc);
+extern u16 *MISC_GetGreetMessage(struct MiscSave *misc);
 
-extern struct PmsSave *SAVEDATA_GetExtraBlockThunk(struct SaveControl *save);
+extern struct PmsSave *GREETING_SAVEDATA_GetFromSaveThunk(struct SaveControl *save);
 
-extern void MISC_SAVEDATA_CopyQuadRecord(struct PmsSave *pmsSave, int index, GameBeaconPms *dst);
+extern void GREETING_SAVEDATA_GetSentence(struct PmsSave *pmsSave, int index, GameBeaconPms *dst);
 
 extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
 
 extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *player);
 
-extern u32 ZONEDATA_IsZone1A6(u16 zoneId);
+extern u32 ZONEDATA_IsUnionRoom(u16 zoneId);
 
 extern u32 ZONEDATA_IsZone96Pair(u16 zoneId);
 
@@ -181,11 +181,11 @@ extern u32 SYMBOL_MAP_ResolveZoneId();
 
 extern u16 MYSTATUS_GetIdLow16(const struct MyStatus *status);
 
-extern u8 MYSTATUS_GetOutfit(const struct MyStatus *status);
+extern u8 MYSTATUS_GetTrainerView(const struct MyStatus *status);
 
-extern u8 MYSTATUS_GetLanguage(const struct MyStatus *status);
+extern u8 MYSTATUS_GetNation(const struct MyStatus *status);
 
-extern u8 MYSTATUS_GetVersion(const struct MyStatus *status);
+extern u8 MYSTATUS_GetArea(const struct MyStatus *status);
 
 extern u16 *MYSTATUS_GetName(const struct MyStatus *status);
 
@@ -331,7 +331,7 @@ void GAME_BEACON_Create(u32 heapId)
     u32 one = 1;
 
     if (GAME_BEACON_Work != 0) {
-        SAVEDATA_PanicFail(GAME_BEACON_AssertText, 0, GAME_BEACON_AssertText);
+        GF_PANIC_Fail(GAME_BEACON_AssertText, 0, GAME_BEACON_AssertText);
     }
     GAME_BEACON_Work = GFL_HEAP_Alloc(heapId, sizeof(GameBeaconWork), one, GAME_BEACON_FileName, 0x5a);
     GAME_BEACON_Work->newestIndex = (u8)(one - 2);
@@ -418,8 +418,8 @@ static inline u32 GAME_BEACON_GetAnswer(const GameBeaconInfo *info, int question
 
     if (questionId == 0x1d) {
         answer = info->playHours / 10 + 1;
-        if (answer > COMM_PLAYER_GetModelId(questionId))
-            answer = COMM_PLAYER_GetModelId(questionId);
+        if (answer > QUESTIONNAIRE_GetAnswerMax(questionId))
+            answer = QUESTIONNAIRE_GetAnswerMax(questionId);
     } else {
         answer = SYMBOL_SAVE_GetQuestionnaireAnswer(info->questionnaire, questionId);
     }
@@ -479,14 +479,14 @@ void GAME_BEACON_AddLog(GameBeaconWork *work, const GameBeaconInfo *info)
     }
     save = GAME_DATA_GetSaveControl(work->gameData);
     researchQuestionnaire = SYMBOL_SAVE_GetBitBlock(save);
-    misc = BEACON_GetBlock(save);
+    misc = MISC_GetBlock(save);
     for (i = 0; i < 3; i++) {
-        questionId = BEACON_GetRecentId(misc, i);
+        questionId = MISC_GetRecentId(misc, i);
         if (questionId != 0xff) {
             for (j = 0; j < 3; j++) {
                 if (questionId == MISC_SAVEDATA_GetStatusByte(researchQuestionnaire, j)) {
                     if (GAME_BEACON_GetAnswer(info, questionId) != 0)
-                        BEACON_AddRecentValue(misc, i, 1);
+                        MISC_AddRecentValue(misc, i, 1);
                 }
             }
         }
@@ -703,7 +703,7 @@ u16 GAME_BEACON_GetReceivedFramesByTrainerId(u16 trainerId)
  * trainer and top fields); +0x12 is seven halfwords filled like +0x20;
  * +0x50 takes ten bytes via MI_CpuCopy8; the scratch at sp+0x14 is the
  * 0x54-byte OSOwnerInfo.  Levers that mattered: stack order (save, tbl,
- * bag declared in that order) and MYSTATUS_GetOutfitVariant answering a word that is
+ * bag declared in that order) and MYSTATUS_GetSex answering a word that is
  * narrowed with an explicit (u8) before the 1-bit store.
  */
 void GAME_BEACON_BuildMyInfo(GameBeaconInfo *info, struct GameData *gameData)
@@ -721,36 +721,36 @@ void GAME_BEACON_BuildMyInfo(GameBeaconInfo *info, struct GameData *gameData)
 
     myStatus = GAME_DATA_GetMyStatus(gameData);
     save = GAME_DATA_GetSaveControl(gameData);
-    misc = BEACON_GetBlock(save);
-    pmsSave = SAVEDATA_GetExtraBlockThunk(save);
+    misc = MISC_GetBlock(save);
+    pmsSave = GREETING_SAVEDATA_GetFromSaveThunk(save);
     OS_GetOwnerInfo(&ownerInfo);
     info->versionBit = 0xff;
     info->zoneId = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameData));
-    if (ZONEDATA_IsZone1A6(info->zoneId) == 1 || ZONEDATA_IsZone96Pair(info->zoneId) == 1) {
+    if (ZONEDATA_IsUnionRoom(info->zoneId) == 1 || ZONEDATA_IsZone96Pair(info->zoneId) == 1) {
         info->zoneId = GAME_DATA_GetSpecialLocation(gameData)->zoneId;
     }
     info->townmapRootZoneId = SYMBOL_MAP_ResolveZoneId(gameData, (u16)info->zoneId);
     info->infoVersion = 0x30;
     info->trainerId = MYSTATUS_GetIdLow16(myStatus);
     info->favoriteColor = ownerInfo.favoriteColor;
-    info->sex = (u8)MYSTATUS_GetOutfitVariant(myStatus);
+    info->sex = (u8)MYSTATUS_GetSex(myStatus);
     if (info->sex == 0) {
-        info->trainerView = MYSTATUS_GetOutfit(myStatus);
+        info->trainerView = MYSTATUS_GetTrainerView(myStatus);
     } else {
-        info->trainerView = MYSTATUS_GetOutfit(myStatus) - 8;
+        info->trainerView = MYSTATUS_GetTrainerView(myStatus) - 8;
     }
     info->pmVersion = 0x15;
     info->language = 2;
-    info->nation = MYSTATUS_GetLanguage(myStatus);
-    info->area = MYSTATUS_GetVersion(myStatus);
-    info->researchTeamRank = BEACON_GetMode(misc);
-    info->passCount = BEACON_GetGreetCount(misc);
-    info->thanksCount = BEACON_GetThanksCount(misc);
+    info->nation = MYSTATUS_GetNation(myStatus);
+    info->area = MYSTATUS_GetArea(myStatus);
+    info->researchTeamRank = MISC_GetResearchRank(misc);
+    info->passCount = MISC_GetGreetCount(misc);
+    info->thanksCount = MISC_GetThanksCount(misc);
     playTime = GAME_DATA_GetPlayTime(gameData);
     info->playHours = PLAYTIME_GetHours(playTime);
     info->playMinutes = PLAYTIME_GetMinutes(playTime);
     MI_CpuCopy8(SYMBOL_SAVE_GetQuestionnaireBits(SYMBOL_SAVE_GetBitBlock(save)), info->questionnaire, sizeof(info->questionnaire));
-    MISC_SAVEDATA_CopyQuadRecord(pmsSave, 0, &pms);
+    GREETING_SAVEDATA_GetSentence(pmsSave, 0, &pms);
     GAME_BEACON_SetMyPms(&pms);
     eomCode = STRBUF_GetEosChar();
     codes = MYSTATUS_GetName(myStatus);
@@ -759,7 +759,7 @@ void GAME_BEACON_BuildMyInfo(GameBeaconInfo *info, struct GameData *gameData)
         if (eomCode == codes[i])
             break;
     }
-    codes = BEACON_GetGreetMessage(misc);
+    codes = MISC_GetGreetMessage(misc);
     for (i = 0; i < 8; i++) {
         info->greeting[i] = codes[i];
         if (eomCode == codes[i])
@@ -777,11 +777,11 @@ void GAME_BEACON_RequestSend(GameBeaconRecord *record)
 
     save = GAME_DATA_GetSaveControl(GAME_BEACON_Work->gameData);
     playTime = GAME_DATA_GetPlayTime(GAME_BEACON_Work->gameData);
-    misc = BEACON_GetBlock(save);
+    misc = MISC_GetBlock(save);
     record->info.playHours = PLAYTIME_GetHours(playTime);
     record->info.playMinutes = PLAYTIME_GetMinutes(playTime);
-    record->info.passCount = BEACON_GetGreetCount(misc);
-    record->info.thanksCount = BEACON_GetThanksCount(misc);
+    record->info.passCount = MISC_GetGreetCount(misc);
+    record->info.thanksCount = MISC_GetThanksCount(misc);
     record->info.serialNo = record->info.serialNo + 1;
     record->elapsed.actionFrames = 0;
     record->sendRequest = 1;
@@ -931,9 +931,9 @@ void GAME_BEACON_UpdateGreeting(void)
     int i;
 
     own = &work->own;
-    misc = BEACON_GetBlock(GAME_DATA_GetSaveControl(work->gameData));
+    misc = MISC_GetBlock(GAME_DATA_GetSaveControl(work->gameData));
     eomCode = STRBUF_GetEosChar();
-    codes = BEACON_GetGreetMessage(misc);
+    codes = MISC_GetGreetMessage(misc);
     for (i = 0; i < 8; i++) {
         own->info.greeting[i] = codes[i];
         if (codes[i] == eomCode) {

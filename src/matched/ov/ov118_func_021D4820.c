@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   POKETRADE_PROC_IsHostSide  0x021D8AA8  thumb  ov119
  *   POKETRADE_PROC_GetSideMon  0x021D8FA4  thumb  ov119
@@ -30,7 +30,7 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 
 struct WordSet;
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 struct MsgBank;
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern int POKETRADE_PROC_IsHostSide(void *);
@@ -44,7 +44,7 @@ extern void POKETRADE_2D_ScheduleSubPlaneVisible(void *p, int a);
 
 void POKETRADE_DEMO_UP_PrintMessage(u8 *p)
 {
-    GFL_NET_RestartWithDefaultTimeout(0, ((struct Obj00983 *)p)->f5F4);
+    GFL_NET_RefreshWmIconAtTopRight(0, ((struct Obj00983 *)p)->f5F4);
     if (((struct Obj00983 *)p)->f118C == 6) {
         MSGDATA_ReadString((struct MsgBank *)(((struct Obj00983 *)p)->f720), 0x98, (void *)(((struct Obj00983 *)p)->f73C));
     } else if (((struct Obj00983 *)p)->f118C == 8) {

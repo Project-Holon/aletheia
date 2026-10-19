@@ -23,8 +23,8 @@
  *   GAME_DATA_GetEventWork 0x0201296C thumb
  *   ZONEDATA_CheckEventFlag 0x020142E8 thumb
  *   MET_TRAINERS_GetFromSave  0x0200ED48  thumb
- *   MISC_SAVEDATA_TestBitmapBit  0x0200EDEC  thumb
- *   MISC_SAVEDATA_SetBitmapBit 0x0200EE14 thumb
+ *   MET_TRAINERS_TestBit  0x0200EDEC  thumb
+ *   MET_TRAINERS_SetBit 0x0200EE14 thumb
  */
 #include "manual_data_shared_types.h"
 
@@ -64,9 +64,9 @@ extern unsigned ZONEDATA_CheckEventFlag(void *,int);
 
 extern void *MET_TRAINERS_GetFromSave(void *p);
 
-extern int MISC_SAVEDATA_TestBitmapBit(char *obj, int i);
+extern int MET_TRAINERS_TestBit(char *obj, int i);
 
-extern void MISC_SAVEDATA_SetBitmapBit(char *obj, int i);
+extern void MET_TRAINERS_SetBit(char *obj, int i);
 
 void *MANUAL_COMMON_CreateMenuTable(void *narc, u32 heap);
 
@@ -178,10 +178,10 @@ int MANUAL_COMMON_CheckUnlocked(void *unused,int kind,void *save)
 
 int MANUAL_COMMON_GetSaveValue(void *unused, int id, int save)
 {
-    return MISC_SAVEDATA_TestBitmapBit(MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)save)), id);
+    return MET_TRAINERS_TestBit(MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)save)), id);
 }
 
-void MANUAL_COMMON_SetSaveValue(void *unused,int value,struct Big *save) {MISC_SAVEDATA_SetBitmapBit(MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl(save)),value);}
+void MANUAL_COMMON_SetSaveValue(void *unused,int value,struct Big *save) {MET_TRAINERS_SetBit(MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl(save)),value);}
 
 int MANUAL_COMMON_IsValidKey(unsigned unused,unsigned key) {if(key!=65535)return 1;return 0;}
 

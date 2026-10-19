@@ -16,7 +16,7 @@
  *   WORLDTRADE_SetNextState  0x021F4E98  thumb
  *   WORLDTRADE_CreateTimeIcon  0x021F4FA4  thumb
  *   str_02203F58  0x02203F58  data  a1
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm  arm9
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm  arm9
  */
 
 typedef signed char s8;
@@ -45,7 +45,7 @@ typedef struct {
 
 extern void WORLDTRADE_INPUT_PrintStringPlain(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern void WORLDTRADE_SetNextState(u8 *p, u32 a, u32 b);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void WORLDTRADE_CreateTimeIcon(u8 *p);
 extern const char str_02203F58[];
@@ -82,7 +82,7 @@ int WORLDTRADE_SERVER_StartRequest(Work *p)
         WORLDTRADE_INPUT_PrintStringPlain((u32)p, (u32)p->msg, 0x9A, 1, 0xF0F);
         p->state = 0x21;
         p->x14 = 1;
-        GFL_NET_RestartWithDefaultTimeout(1, 0x48);
+        GFL_NET_RefreshWmIconAtTopRight(1, 0x48);
         break;
     default:
         func_02034714(str_02203F58, 0, str_02203F58);

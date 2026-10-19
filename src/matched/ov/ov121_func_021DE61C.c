@@ -11,7 +11,7 @@
  *   GFL_NET_StartSession 0x0203CBAC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   GFL_NET_GetRunState 0x0203CD98 arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   func_02010360 0x02010360 thumb
  *   GFL_NET_BeaconScanStart 0x0203D010 arm
  *   MYSTERY_NET_SetHandler 0x021DEEA4 thumb ov121
@@ -24,7 +24,7 @@ extern void GFL_NET_StartSession(struct Req *req, unsigned int a2, unsigned int 
 typedef unsigned int   u32;
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern int GFL_NET_GetRunState(void);
-extern void GFL_NET_RestartWithDefaultTimeout(unsigned, unsigned);
+extern void GFL_NET_RefreshWmIconAtTopRight(unsigned, unsigned);
 typedef unsigned char  u8;
 extern u8 *func_02010360(int idx, void *heap);
 extern void GFL_NET_BeaconScanStart(void);
@@ -41,7 +41,7 @@ void MYSTERY_NET_StartSession(void *a, int *state, char *p)
         break;
     case 1:
         if (GFL_NET_GetRunState()) {
-            GFL_NET_RestartWithDefaultTimeout(1, ((struct Obj10424 *)p)->f58);
+            GFL_NET_RefreshWmIconAtTopRight(1, ((struct Obj10424 *)p)->f58);
             ((struct Obj10424 *)p)->f10 = func_02010360(4, (void *)(((struct Obj10424 *)p)->f58));
             GFL_NET_BeaconScanStart();
             *state = 2;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BTL_FIELD_QueryStaticSlotB",
+   "name": "BTL_FIELD_RemoveHolderFromStaticSlots",
    "address": "0x021EF90C",
    "kind": "game",
    "region": "ov093",

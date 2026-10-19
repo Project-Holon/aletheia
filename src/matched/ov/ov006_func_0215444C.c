@@ -14,7 +14,7 @@
  * The lead is 110 bytes, followed by two padding bytes and the 24-byte
  * EVENT_WIFICLUB_SetBattleParty thunk. function_starts: 0x021544BC.
  * func_020084F4 is the bx-lr identity: the original retains the pointer
- * returned by GAME_DATA_GetPlayerStatus in r0 across two loads, passes it to the
+ * returned by GAME_DATA_GetMyStatusPlayer in r0 across two loads, passes it to the
  * identity, and stores the unchanged result. Its prior (void) extern
  * dropped the live input and caused an 18-byte scheduling residue.
  * GFL_NET_GetHandleNetID explicitly returns only eight bits; the caller consumes
@@ -23,7 +23,7 @@
  * symbols:
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
- *   GAME_DATA_GetPlayerStatus 0x02012950 thumb
+ *   GAME_DATA_GetMyStatusPlayer 0x02012950 thumb
  *   func_020084F4 0x020084F4 thumb
  *   func_02008550 0x02008550 thumb
  *   POKEPARTY_Init 0x0201A948 thumb
@@ -61,7 +61,7 @@ struct Sub24;
 struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 u32 GFL_NET_GetHandleNetID(struct Link *p);
-struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, u32 i);
+struct Rec44 *GAME_DATA_GetMyStatusPlayer(struct Sub24 *p, u32 i);
 const void *func_020084F4(const void *p);
 u8 func_02008550(const struct Sub0200852CObj *obj);
 void POKEPARTY_Init(struct Party *p);
@@ -75,7 +75,7 @@ void EVENT_WIFICLUB_BuildBattleEntry(O *a, void *b)
 
     x = GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle());
     y = 1 - x;
-    t = GAME_DATA_GetPlayerStatus(b, y);
+    t = GAME_DATA_GetMyStatusPlayer(b, y);
     a->s.f0 = a->r->f1c;
     q = &a->s;
     q->f4 = *(int *)((unsigned int)a->r + 0x14 + 4 * (unsigned int)x);

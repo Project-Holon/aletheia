@@ -1,5 +1,5 @@
 /*
- * function: COMM_PLAYER_GetState849
+ * function: SYMBOL_MAP_GetSymbolIndex
  * address:  0x021673C4
  * packet:   pkt_ov010_021673C4
  * region:   ov010
@@ -22,7 +22,7 @@ typedef unsigned char u8;
 extern void SYMBOL_SAVE_FinalizeChecksum(char *p);
 extern void SYMBOL_SAVE_UpdateChecksum(void *p);
 
-u8 COMM_PLAYER_GetState849(u8 *p)
+u8 SYMBOL_MAP_GetSymbolIndex(u8 *p)
 {
     u8 v;
 

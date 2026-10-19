@@ -1,5 +1,5 @@
 /*
- * function: B_PLIST_DRAW_DrawMode6
+ * function: B_PLIST_DRAW_DrawMoveListWithNewMovePage
  * address: 0x0220DE4C
  * packet: pkt_ov198_0220DE4C
  * region: ov198
@@ -27,7 +27,7 @@ extern int B_PLIST_MAIN_GetOrderIndex(u8 *,int);
 extern void B_PLIST_DRAW_PrintNumberAt(char *,int,int,int,u16,short,unsigned);
 extern void B_PLIST_DRAW_PrintMoveRowValues(char *p, u8 *record, int slot);
 extern unsigned WAZA_TOOL_GetParam(u16,unsigned);
-void B_PLIST_DRAW_DrawMode6(char *p) {
+void B_PLIST_DRAW_DrawMoveListWithNewMovePage(char *p) {
     long i;
     int offset;
     char *base,*rec;

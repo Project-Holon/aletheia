@@ -13,7 +13,7 @@
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   func_020070A4  0x020070A4  thumb
  *   func_0200873C  0x0200873C  thumb
- *   BEACON_GetBlock  0x0200C0F0  thumb
+ *   MISC_GetBlock  0x0200C0F0  thumb
  */
 
 typedef unsigned int u32;
@@ -24,7 +24,7 @@ struct Sub02007084Ctrl;
 extern struct Sub02007084Ctrl *func_020070A4(void);
 struct Sub02008700Obj;
 extern struct Sub02008700Obj *func_0200873C(void *sys);
-extern void *BEACON_GetBlock(void *sys);
+extern void *MISC_GetBlock(void *sys);
 
 int STARTMENU_BattleFlagProcInit(struct Proc *a0)
 {
@@ -32,7 +32,7 @@ int STARTMENU_BattleFlagProcInit(struct Proc *a0)
 
     q[0] = 1;
     q[1] = (u32)func_0200873C(func_020070A4());
-    q[3] = (u32)BEACON_GetBlock(func_020070A4());
+    q[3] = (u32)MISC_GetBlock(func_020070A4());
     q[2] = 0;
     return 1;
 }

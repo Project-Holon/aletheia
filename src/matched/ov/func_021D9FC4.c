@@ -1,5 +1,5 @@
 /*
- * function: HAND_TOKUSEI_ForecastOnWeatherChange
+ * function: HAND_TOKUSEI_ColorChangeOnDamage
  * address:  0x021D9FC4
  * packet:   pkt_021B75A8
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   HAND_TOKUSEI_ForecastOnWeatherChange   0x021D9FC4  thumb ov093
+ *   HAND_TOKUSEI_ColorChangeOnDamage   0x021D9FC4  thumb ov093
  *   HAND_COMMON_IsMoveTarget   0x021E85F8  thumb ov093
  *   BTL_SERVER_FLOW_CheckShowdownThunk   0x021C83D4  thumb ov093
  *   BTL_SERVER_FLOW_GetPokeParam   0x021C7CF4  thumb ov093
@@ -47,7 +47,7 @@ void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
 void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 int BTL_TYPEPAIR_MakeSingle(int k);
 
-void HAND_TOKUSEI_ForecastOnWeatherChange(void *a, int b, int c)
+void HAND_TOKUSEI_ColorChangeOnDamage(void *a, int b, int c)
 {
     void *r, *p;
     u8 k;

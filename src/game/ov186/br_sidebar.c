@@ -37,7 +37,7 @@
  *   BR_SIDEBAR_SetSlotMode 0x021FF038 thumb ov186
  *   BR_SIDEBAR_ResetSlot 0x021FF074 thumb ov186
  *   BR_SIDEBAR_SetSlotVisible 0x021FF02C thumb ov186
- *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GF_PANIC_Fail 0x02034714 arm
  *   CLACT_SetActorAffineMode 0x0204B570 arm
  *   CLACT_SetActorScaleAxis 0x0204B5D4 arm
  *   gBrSidebarAssertString 0x02200D88 data a4
@@ -62,7 +62,7 @@ extern int BR_RES_GetSprite(struct BrRes *res, unsigned spriteIndex, struct BrRe
 
 extern void BR_RES_ReleaseSprite(struct BrRes *res, unsigned spriteIndex);
 
-extern void SAVEDATA_PanicFail(const char *,u32,const char *);
+extern void GF_PANIC_Fail(const char *,u32,const char *);
 
 extern struct Actor *CLACT_CreateActor(struct Bank *unit, u32 charId, u32 paletteId, u32 cellAnimId, const struct BrActorPos *pos, u16 space, u16 heapId);
 
@@ -227,7 +227,7 @@ void BR_SIDEBAR_InitSlot(struct BrSidebarSlot *slot, struct Bank *unit, struct B
     slot->config=*config;
     spriteIndex=4;
     if(config->space)spriteIndex=5;
-    if(!BR_RES_GetSprite(res,spriteIndex,&sprite))SAVEDATA_PanicFail(gBrSidebarAssertString,0,gBrSidebarAssertString);
+    if(!BR_RES_GetSprite(res,spriteIndex,&sprite))GF_PANIC_Fail(gBrSidebarAssertString,0,gBrSidebarAssertString);
     MI_CpuFill8(&pos,0,sizeof(pos));
     pos.x=config->x;
     pos.y=config->y;

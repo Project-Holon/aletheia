@@ -17,7 +17,7 @@
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   gDeliveryBeaconAllocSite  0x021727F4  data
- *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GF_PANIC_Fail 0x02034714 arm
  *   gDeliveryBeaconAssertText 0x021727F0 data a4
  *   NET_WHPIPE_GetEntryBeaconData  0x02177B2C  thumb  ov014
  *   NET_WHPIPE_ReleaseEntrySlot  0x02177BAC  thumb  ov014
@@ -85,7 +85,7 @@ typedef struct DeliveryBeacon {
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuCopy8(void *src, void *dst, u32 size);
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 extern DeliveryBeaconSlot *NET_WHPIPE_GetEntryBeaconData(int index);
 extern void NET_WHPIPE_ReleaseEntrySlot(u32 index);
 extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
@@ -183,7 +183,7 @@ DeliveryBeacon *DELIVERY_BEACON_Create(DeliveryBeaconParam *param)
 void DELIVERY_BEACON_CheckDestSize(DeliveryBeacon *work)
 {
     if (work->param.destSize != 0 && work->param.destSize >= DELIVERY_BEACON_SLOTS_PER_PAGE * DELIVERY_BEACON_PIECE_SIZE)
-        SAVEDATA_PanicFail(gDeliveryBeaconAssertText, 0, gDeliveryBeaconAssertText);
+        GF_PANIC_Fail(gDeliveryBeaconAssertText, 0, gDeliveryBeaconAssertText);
 }
 
 

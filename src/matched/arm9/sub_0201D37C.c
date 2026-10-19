@@ -1,5 +1,5 @@
 /*
- * function: GF_FONT_CopyLine
+ * function: PRINTSYS_CopyLine
  * address:  0x0201D37C
  * packet:   pkt_0201CEE0
  * region:   arm9
@@ -21,8 +21,8 @@
  * and copied verbatim in phase two.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GF_FONT_CopyLine.c
- *       --func GF_FONT_CopyLine --addr 0x0201D37C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PRINTSYS_CopyLine.c
+ *       --func PRINTSYS_CopyLine --addr 0x0201D37C --cc 1.1p1 --thumb
  */
 
 typedef unsigned short u16;
@@ -40,7 +40,7 @@ extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern void STRBUF_Clear(struct U16Vec *vec);
 extern void STRBUF_AppendChar(struct U16Vec *vec, u16 value);
 
-u32 GF_FONT_CopyLine(struct StrObj *src, struct StrObj *dst, u32 n)
+u32 PRINTSYS_CopyLine(struct StrObj *src, struct StrObj *dst, u32 n)
 {
     u16 *end;
     u16 *p;

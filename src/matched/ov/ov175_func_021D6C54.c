@@ -1,5 +1,5 @@
 /*
- * function: WIFIBATTLEMATCH_NET_CompStepB
+ * function: WIFIBATTLEMATCH_NET_CompStepFetchRapPair
  * address: 0x021D6C54
  * packet: pkt_ov175_021D6C54
  * region: ov175
@@ -24,7 +24,7 @@
  *   WIFIBATTLEMATCH_UTIL_GetBusy 0x021E8844 thumb ov177
  *   WIFIBATTLEMATCH_NET_ClearErrorFlags 0x021DA044 thumb ov175
  *   WIFIBATTLEMATCH_NET_StepGdbEnsureRecord 0x021DA054 thumb ov175
- *   WIFIBATTLEMATCH_NET_CompStepC 0x021D6DB8 thumb ov175
+ *   WIFIBATTLEMATCH_NET_CompStepReconcileEntryState 0x021D6DB8 thumb ov175
  */
 typedef unsigned int u32;
 typedef unsigned char  u8;
@@ -42,12 +42,12 @@ extern void WIFIBATTLEMATCH_NET_GetRapPair(char *,void *);
 extern void WIFIBATTLEMATCH_UTIL_SetCallback(int *p, int v);
 extern void WIFIBATTLEMATCH_NET_CompCleanup(void *obj, int unused, u8 *p);
 extern void WIFIBATTLEMATCH_NET_CompExit(u32 sys);
-extern void WIFIBATTLEMATCH_NET_CompStepC(int *sys, int *state, char *p);
+extern void WIFIBATTLEMATCH_NET_CompStepReconcileEntryState(int *sys, int *state, char *p);
 extern int WIFIBATTLEMATCH_NET_HandleNetError(char *,void *,void *);
 extern int WIFIBATTLEMATCH_UTIL_GetBusy(const int *p);
 extern void WIFIBATTLEMATCH_NET_ClearErrorFlags(u8 *p);
 extern int WIFIBATTLEMATCH_NET_StepGdbEnsureRecord(char *);
-void WIFIBATTLEMATCH_NET_CompStepB(u32 sys,int *state,u32 *p)
+void WIFIBATTLEMATCH_NET_CompStepFetchRapPair(u32 sys,int *state,u32 *p)
 {
     u32 *ctx=(u32 *)p[0x104/4];
     int r;
@@ -79,6 +79,6 @@ void WIFIBATTLEMATCH_NET_CompStepB(u32 sys,int *state,u32 *p)
             switch(r) {case 1: case 2: WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys,(int)WIFIBATTLEMATCH_NET_CompCleanup); break;}
         }
         break;
-    case 9: WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys,(int)WIFIBATTLEMATCH_NET_CompStepC); break;
+    case 9: WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys,(int)WIFIBATTLEMATCH_NET_CompStepReconcileEntryState); break;
     }
 }

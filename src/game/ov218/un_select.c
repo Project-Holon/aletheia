@@ -80,7 +80,7 @@
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   TOUCHBAR_PrintAligned 0x021B6AE4 thumb ov067
- *   GF_FONT_CountLine 0x0201D2C8 thumb
+ *   PRINTSYS_CountLine 0x0201D2C8 thumb
  *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   PRINTSYS_PrintStream 0x0201CCE4 thumb
  *   BMP_MENUWORK_DrawWindow 0x0201F73C thumb
@@ -118,7 +118,7 @@
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   GFL_USE_AddHBlankTask 0x02005624 thumb
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   FRAME_LIST_Update 0x021B7AB0 thumb ov067
  *   FRAME_LIST_SetRowPalette 0x021B9280 thumb ov067
  *   UI_SCENE_SetNextScene 0x021B61F8 thumb ov067
@@ -344,7 +344,7 @@ extern void TCBL_Main(struct Tcbl *p);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
-extern u32 GF_FONT_CountLine(struct StrObj *s);
+extern u32 PRINTSYS_CountLine(struct StrObj *s);
 extern signed char MSG_SPEED_GetWait(void);
 extern u32 PRINTSYS_PrintStream(u32, u32, u32, u32, u32, u32, u32, u32, u16, u16);
 extern void BMP_MENUWORK_DrawWindow(void *, int, int, int);
@@ -380,7 +380,7 @@ extern u32 UN_SELECT_GRAPHIC_GetActor(char *p);
 extern struct TaskMenuState *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, u32 font, u32 printQue, u16 heap);
 extern void G2x_SetBlendAlpha_(u32 *,u32,u32,u32,u32);
 extern void *GFL_USE_AddHBlankTask(u32 a, u32 b, u32 c);
-extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 extern int FRAME_LIST_Update(struct FrameList *p);
 extern void FRAME_LIST_SetRowPalette(u8 *p, int a, u32 b);
 extern void UI_SCENE_SetNextScene(unsigned char *,int);
@@ -792,7 +792,7 @@ void UN_SELECT_DrawFrameListRow(p, a, b, cd)
     WORDSET_CopyTaggedText(*(void **)(p + 0x14), *(void **)(p + 0x1C), *(void **)(p + 0x18));
     TOUCHBAR_PrintAligned(a, b, 0, 12, *(u32 *)(p + 0x1C), c, 0x39E0, 0);
     p += 0x2C;
-    if (GF_FONT_CountLine((struct StrObj *)(*(u32 *)(p + d * 4))) > 1) r = 4;
+    if (PRINTSYS_CountLine((struct StrObj *)(*(u32 *)(p + d * 4))) > 1) r = 4;
     TOUCHBAR_PrintAligned(a, b, 0x1E, r, *(u32 *)(p + d * 4), c, 0x39E0, 0);
 }
 
@@ -1012,7 +1012,7 @@ char *UN_SELECT_CreateSceneWork(void *owner,char *input)
     UN_SELECT_InitActorPositions(p);
     G2x_SetBlendAlpha_((u32 *)0x04001050,4,8,6,10);
     ((struct UnSelectWork *)p)->taskProc=GFL_USE_AddHBlankTask((u32)UN_SELECT_Callback,(u32)p,0);
-    GFL_NET_RestartWithDefaultTimeout(1,((struct UnSelectWork *)p)->heapId);
+    GFL_NET_RefreshWmIconAtTopRight(1,((struct UnSelectWork *)p)->heapId);
     return p;
 }
 

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "WEATHER_TASK_CheckZoneFogB",
+   "name": "WEATHER_TASK_IsZoneFogLight",
    "address": "0x021A23F4",
    "kind": "game",
    "region": "ov021",

@@ -1,5 +1,8 @@
 # A goto into a shared multiply block is the multiply written in each arm
 
+summary: Two arms that load different constants and share one multiply block are source with the
+multiply written in each arm, literal first. mwcc cross-jumps the identical tails.
+
 Shape: two arms load a different constant into one register (`movs r4,#0x55` and
 `movs r4,#0xa; b L`) and branch to one shared multiply block. Drafts model this as
 `m = 0x55; L: d = m * v;` with `m = 0xa; goto L;` in the other arm. That compiles to the

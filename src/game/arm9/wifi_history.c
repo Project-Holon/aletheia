@@ -13,11 +13,11 @@
  * Cut from wifilist.c by tools/splitfile.py.
  *
  * symbols:
- *   MYSTATUS_SetLanguageAndVersion  0x02008574  thumb
+ *   MYSTATUS_SetNationAndArea  0x02008574  thumb
  *   SAVE_CONTROL_GetBlock    0x020071CC  thumb
  *   WIFI_HISTORY_GetVisitedCountryCount  0x02009584  thumb
  *   WIFI_HISTORY_IsCountryVisited  0x02009794  thumb
- *   MYSTATUS_GetLanguage  0x0200856C  thumb
+ *   MYSTATUS_GetNation  0x0200856C  thumb
  */
 #include "game_sync_shared_types.h"
 #include "wifi_history_shared_types.h"
@@ -64,11 +64,11 @@ struct WifiHistory {
 
 extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
 
-extern void MYSTATUS_SetLanguageAndVersion(struct MyStatus *status, u8 country, u8 region);
+extern void MYSTATUS_SetNationAndArea(struct MyStatus *status, u8 country, u8 region);
 
 extern u8 WIFI_HISTORY_GetVisitedCountryCount(const struct WifiHistory *history);
 
-extern u8 MYSTATUS_GetLanguage(const struct MyStatus *status);
+extern u8 MYSTATUS_GetNation(const struct MyStatus *status);
 
 extern u32 WIFI_HISTORY_IsCountryVisited(const struct WifiHistory *history, u32 country);
 
@@ -146,7 +146,7 @@ extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
  *       u8 v = WIFI_HISTORY_GetVisitedCountryCount(history);
  *
  *       if (flag == 0) {
- *           u8 t = MYSTATUS_GetLanguage(status);
+ *           u8 t = MYSTATUS_GetNation(status);
  *
  *           if (t == 0) {
  *               v = 0;
@@ -186,7 +186,7 @@ struct WifiHistory *WIFI_HISTORY_GetBlock(struct SaveControl *saveControl)
 void WIFI_HISTORY_InitLanguageRegion(struct WifiHistory *history, struct MyStatus *status,
                   u8 country, u8 region)
 {
-    MYSTATUS_SetLanguageAndVersion(status, country, region);
+    MYSTATUS_SetNationAndArea(status, country, region);
     WIFI_HISTORY_SetCountryRegionState(history, country, region, 3);
 }
 
@@ -252,7 +252,7 @@ u8 WIFI_HISTORY_GetDisplayCount(struct WifiHistory *history, struct MyStatus *st
     u8 count = WIFI_HISTORY_GetVisitedCountryCount(history);
 
     if (flag == 0) {
-        int country = MYSTATUS_GetLanguage(status);
+        int country = MYSTATUS_GetNation(status);
         if (country == 0) {
             count = 0;
         } else if (WIFI_HISTORY_IsCountryVisited(history, country) && count != 0) {

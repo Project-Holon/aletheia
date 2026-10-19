@@ -31,7 +31,7 @@
  *   FLDMMDL_GetObjId  0x0216D588  thumb  ov010
  *   UNION_CHARA_IsUnionObjId  0x0217AF38  thumb  ov019
  *   FIELD_PLAYER_ResetMoveWork  0x021A2F6C  thumb  ov021
- *   FIELD_RAIL_LOADER_CreateScriptEvent  0x0219F01C  thumb  ov021
+ *   FLDMMDL_CreateTalkScriptEvent  0x0219F01C  thumb  ov021
  *   GAMESYSTEM_GetFieldMapState  0x0201212C  thumb
  *   EVENT_FIELD_MENU_CreateForZone  0x0215FCE0  thumb  ov010
  * Addresses are Black-image addresses.
@@ -101,7 +101,7 @@ extern void *FIELD_PLAYER_GetMmdl(u8 *p);
 extern u16 FLDMMDL_GetObjId(void *p);
 extern int UNION_CHARA_IsUnionObjId(u16 a);
 extern void FIELD_PLAYER_ResetMoveWork(u32 *p);
-extern int FIELD_RAIL_LOADER_CreateScriptEvent(u32 a, u32 b, u32 c, u32 e0, u32 e1, u16 id);
+extern int FLDMMDL_CreateTalkScriptEvent(u32 a, u32 b, u32 c, u32 e0, u32 e1, u16 id);
 extern u8 GAMESYSTEM_GetFieldMapState(const struct Ctx *p);
 extern int EVENT_FIELD_MENU_CreateForZone(int a, int b, unsigned short c);
 
@@ -145,7 +145,7 @@ int FIELD_EVENT_CHECK_CheckCommEvents(void *sys, struct Obj00020 *pos)
                 m = FIELD_PLAYER_GetMmdl((u8 *)in.f18);
                 if (UNION_CHARA_IsUnionObjId(FLDMMDL_GetObjId((void *)obj)) == 0) {
                     FIELD_PLAYER_ResetMoveWork((u32 *)in.f18);
-                    return FIELD_RAIL_LOADER_CreateScriptEvent((u32)sys, (u32)pos, k, (u32)m, obj, in.f0);
+                    return FLDMMDL_CreateTalkScriptEvent((u32)sys, (u32)pos, k, (u32)m, obj, in.f0);
                 }
             }
         }

@@ -35,7 +35,7 @@
  *   PLIST_MENU_Create  0x021BBA8C  thumb  ov091
  *   POKELIST_StartMode  0x021B7698  thumb  ov091
  *   func_02041B6C  0x02041B6C  arm
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  */
 #include "../include/Obj04352.h"
 
@@ -64,7 +64,7 @@ extern u32 *PLIST_MESSAGE_Create(u16 *h);
 extern u32 *PLIST_MENU_Create(u16 *h);
 extern void POKELIST_StartMode(u8 *p);
 extern void func_02041B6C(u32 id);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 
 #define W(o) (*(int *)(p + (o)))
 #define H(o) (*(u16 *)(p + (o)))
@@ -147,6 +147,6 @@ int POKELIST_InitWork(u8 *p)
     func_02041B6C(3);
     func_02041B6C(2);
     func_02041B6C(7);
-    GFL_NET_RestartWithDefaultTimeout(1, H(0));
+    GFL_NET_RefreshWmIconAtTopRight(1, H(0));
     return 1;
 }

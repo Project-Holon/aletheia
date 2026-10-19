@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GAME_COMM_GetGameData  0x02026478  thumb
- *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  */
 
 typedef unsigned char u8;
@@ -26,7 +26,7 @@ typedef struct {
 
 extern u32 GAME_COMM_GetGameData(void *obj);
 struct BigObj;
-extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+extern u8 GAME_DATA_GetOwnNetId(const struct BigObj *p);
 
 int INTRUDE_COMM_GetResultCount(void *p, u8 *a1)
 {
@@ -40,7 +40,7 @@ int INTRUDE_COMM_GetResultCount(void *p, u8 *a1)
         return 0;
     }
     for (i = 0; i < 3; i++) {
-        if (b->f34[i] == GAME_DATA_GetExitMode((const struct BigObj *)sv)) {
+        if (b->f34[i] == GAME_DATA_GetOwnNetId((const struct BigObj *)sv)) {
             u32 v = (b->w0 << 10) >> 25;
             if (v > 0x14) {
                 return 1;

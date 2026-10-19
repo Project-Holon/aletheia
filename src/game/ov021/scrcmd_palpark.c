@@ -1,7 +1,7 @@
 /*
  * file:     scrcmd_palpark.c
  * unit:     yes
- * function: SCRCMD_PALPARK_CallFallEvent, SCRCMD_PALPARK_CallPalParkProc, SCRCMD_PALPARK_GetSaveValue, SCRCMD_PALPARK_SetBeacon, SCRCMD_PALPARK_CheckGPowerExpire, SCRCMD_PALPARK_CallGPowerFlashEvent
+ * function: SCRCMD_PALPARK_CallFallEvent, SCRCMD_PALPARK_CallPalParkProc, SCRCMD_PALPARK_GetSaveValue, SCRCMD_PALPARK_SetBeacon, SCRCMD_PALPARK_ClearExpiredGPower, SCRCMD_PALPARK_CallGPowerFlashEvent
  * address:  0x021CC544
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -28,9 +28,9 @@
  *   d_021F6D78     0x021F6D78  data  ov107
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   BEACON_GetBlock  0x0200C0F0  thumb
- *   BEACON_GetRank  0x0200C1A4  thumb
- *   BEACON_GetBestScore  0x0200C184  thumb
+ *   MISC_GetBlock  0x0200C0F0  thumb
+ *   MISC_GetRank  0x0200C1A4  thumb
+ *   MISC_GetBestScore  0x0200C184  thumb
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   GAME_BEACON_SEARCH_SetItemFound  0x0216530C  thumb  ov010
  *   GAME_BEACON_SEARCH_SetCountValue  0x02165534  thumb  ov010
@@ -78,9 +78,9 @@ extern void *SCRCMD_WORK_GetGameData(void *a0);
 extern void *FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(char *gameSystem, int fieldMap, int overlayId, int procData, int procWork, int a5, int callbackWork);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *BEACON_GetBlock(void *p);
-extern u8 BEACON_GetRank(struct Blk34 *p);
-extern u32 BEACON_GetBestScore(struct Blk34 *p);
+extern void *MISC_GetBlock(void *p);
+extern u8 MISC_GetRank(struct Blk34 *p);
+extern u32 MISC_GetBestScore(struct Blk34 *p);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
 extern void GAME_BEACON_SEARCH_SetItemFound(void *a0);
 extern void GAME_BEACON_SEARCH_SetCountValue(void *a0);
@@ -101,7 +101,7 @@ int SCRCMD_PALPARK_CallFallEvent(void *core, void *work);
 int SCRCMD_PALPARK_CallPalParkProc(u32 core, u32 work);
 int SCRCMD_PALPARK_GetSaveValue(ScriptVM *core, void *work);
 int SCRCMD_PALPARK_SetBeacon(u32 core, u32 work);
-int SCRCMD_PALPARK_CheckGPowerExpire(void *core, void *work);
+int SCRCMD_PALPARK_ClearExpiredGPower(void *core, void *work);
 int SCRCMD_PALPARK_CallGPowerFlashEvent(u32 unused, u32 work, u32 unused2, u32 unused3);
 
 extern const char d_021DE5A8[];
@@ -147,13 +147,13 @@ int SCRCMD_PALPARK_GetSaveValue(ScriptVM *core, void *work)
     mode = *core->pc;
     core->pc++;
     result = SCRIPT_WORK_ReadWorkPointer(core, work);
-    saveBlock = BEACON_GetBlock(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(work)));
+    saveBlock = MISC_GetBlock(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(work)));
     switch (mode) {
     case 0:
-        *result = BEACON_GetRank(saveBlock);
+        *result = MISC_GetRank(saveBlock);
         break;
     case 1:
-        *result = BEACON_GetBestScore(saveBlock);
+        *result = MISC_GetBestScore(saveBlock);
         break;
     }
     return 0;
@@ -212,7 +212,7 @@ int SCRCMD_PALPARK_SetBeacon(u32 core, u32 work)
  * Script command: stores the expiring G power id (0x30 = none) and whether a
  * power is still active after that one is cleared.
  */
-int SCRCMD_PALPARK_CheckGPowerExpire(void *core, void *work)
+int SCRCMD_PALPARK_ClearExpiredGPower(void *core, void *work)
 {
     u16 *powerId = SCRIPT_WORK_ReadWorkPointer(core, work);
     u16 *stillActive = SCRIPT_WORK_ReadWorkPointer(core, work);

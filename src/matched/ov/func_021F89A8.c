@@ -1,5 +1,5 @@
 /*
- * function: WORLDTRADE_ENTER_SetListRangeEntry
+ * function: WORLDTRADE_DEPOSIT_SetListRangeEntry
  * address:  0x021F89A8
  * packet:   pkt_021F89A8
  * region:   ov135
@@ -21,7 +21,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
-void WORLDTRADE_ENTER_SetListRangeEntry(u8 *p, int i, u16 a, u16 b)
+void WORLDTRADE_DEPOSIT_SetListRangeEntry(u8 *p, int i, u16 a, u16 b)
 {
     u8 *q = p + i * 2;
 

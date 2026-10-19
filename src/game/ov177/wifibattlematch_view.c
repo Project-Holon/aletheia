@@ -39,7 +39,7 @@
  *   MSGDATA_AllocString 0x02045EC0 arm
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
- *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
+ *   PRINTSYS_MeasureWidestLine 0x0201D304 thumb
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_PrintQue 0x0201C6FC thumb
  *   STRBUF_Delete 0x02045808 arm
@@ -117,9 +117,9 @@
  *   ARC_UTIL_UploadBgPaletteFromArchive  0x0204989C  arm  arm9
  *   ARC_UTIL_UploadBgPaletteFromHandle  0x020498F4  arm  arm9
  *   MYSTATUS_GetName  0x020084F4  thumb  arm9
- *   MYSTATUS_GetOutfit  0x02008554  thumb  arm9
- *   MYSTATUS_GetLanguage  0x0200856C  thumb  arm9
- *   MYSTATUS_GetVersion  0x02008570  thumb  arm9
+ *   MYSTATUS_GetTrainerView  0x02008554  thumb  arm9
+ *   MYSTATUS_GetNation  0x0200856C  thumb  arm9
+ *   MYSTATUS_GetArea  0x02008570  thumb  arm9
  */
 #include "wifibattlematch_graphic_shared_types.h"
 #include "wifibattlematch_view_shared_types.h"
@@ -140,7 +140,7 @@ struct Rec1E;
 
 struct PmsDraw;
 
-struct PlayerStatus;
+struct MyStatus;
 
 typedef signed short s16;
 
@@ -151,7 +151,7 @@ typedef struct { char pad[0x18]; unsigned short out[16], original[16], target[16
 typedef struct {
     u32 kind;            /* 0x00, REC[1] box kind */
     u16 count, pad6;     /* 0x04, BSUBWAY stat count */
-    u32 name;            /* 0x08, avatar id (MYSTATUS_GetOutfit), poke-actor index */
+    u32 name;            /* 0x08, avatar id (MYSTATUS_GetTrainerView), poke-actor index */
     void *total;         /* 0x0C, score (a + b), first GetEntryValue argument */
     u16 a, b;            /* 0x10 win count, 0x12 loss count */
 } WifiBattleMatchViewMainInfo;
@@ -316,7 +316,7 @@ extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c,
 
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 
@@ -411,7 +411,7 @@ extern void PMS_DRAW_SetFollowBgScroll(struct PmsDraw *p, u32 v);
 
 extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
 
-extern u8 MYSTATUS_GetOutfit(const struct PlayerStatus *obj);
+extern u8 MYSTATUS_GetTrainerView(const struct MyStatus *obj);
 
 extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 archiveID, u32 memberIdx, u32 channel, u32 offset, u32 size, u32 heapID, u16 flags);
 
@@ -423,9 +423,9 @@ extern void PMS_DRAW_Delete(struct Obj *p);
 
 extern const void *MYSTATUS_GetName(const void *p);
 
-extern u8 MYSTATUS_GetLanguage(const struct PlayerStatus *obj);
+extern u8 MYSTATUS_GetNation(const struct MyStatus *obj);
 
-extern u8 MYSTATUS_GetVersion(const struct PlayerStatus *obj);
+extern u8 MYSTATUS_GetArea(const struct MyStatus *obj);
 
 extern void WORDSET_SetSlotFromMsgE7(struct WordSet *p, u32 i, u32 n);
 
@@ -764,14 +764,14 @@ void WIFIBATTLEMATCH_VIEW_DrawTaggedText(u32 *p, struct PrintSys *win, u32 str, 
     e = MSGDATA_AllocString(msg, 2);
     WORDSET_SetSlotNumber(ws, 0, c1, 8, 0, 1);
     WORDSET_CopyTaggedText(ws, buf, e);
-    w = GF_FONT_MeasureWidestLine((struct StrObj *)buf, str, 0);
+    w = PRINTSYS_MeasureWidestLine((struct StrObj *)buf, str, 0);
     x1 = x - w;
     PRINTSYS_PrintQue(win, (u32)BMP_WIN_GetBmp((struct Descriptor *)p[0]), (s16)x1, 0, buf, str);
     ((u8 *)p)[4] = 1;
     STRBUF_Delete((struct U16Vec *)e);
 
     e = MSGDATA_AllocString(msg, 0);
-    w = GF_FONT_MeasureWidestLine(e, str, 0);
+    w = PRINTSYS_MeasureWidestLine(e, str, 0);
     x2 = x1 - w;
     PRINTSYS_PrintQue(win, (u32)BMP_WIN_GetBmp((struct Descriptor *)p[0]), (s16)x2, 0, e, str);
     ((u8 *)p)[4] = 1;
@@ -780,7 +780,7 @@ void WIFIBATTLEMATCH_VIEW_DrawTaggedText(u32 *p, struct PrintSys *win, u32 str, 
     e = MSGDATA_AllocString(msg, 1);
     WORDSET_SetSlotNumber(ws, 0, c2, 8, 0, 1);
     WORDSET_CopyTaggedText(ws, buf, e);
-    w = GF_FONT_MeasureWidestLine((struct StrObj *)buf, str, 0);
+    w = PRINTSYS_MeasureWidestLine((struct StrObj *)buf, str, 0);
     PRINTSYS_PrintQue(win, (u32)BMP_WIN_GetBmp((struct Descriptor *)p[0]), (s16)(x2 - w), 0, buf, str);
     ((u8 *)p)[4] = 1;
     STRBUF_Delete((struct U16Vec *)e);
@@ -1682,7 +1682,7 @@ WifiBattleMatchViewRecordWork *WIFIBATTLEMATCH_VIEW_CreateRecordWindow(const Wif
     if (mode - 2 <= 1)
         alt = kind == 5;
     WIFIBATTLEMATCH_VIEW_SetupRecordWindow(w, rec, (unsigned)font, printQue, msgData, wordSet, alt, heap);
-    WIFIBATTLEMATCH_VIEW_CreateRecordActor((char *)w, MYSTATUS_GetOutfit((const struct PlayerStatus *)rec), clunit, heap);
+    WIFIBATTLEMATCH_VIEW_CreateRecordActor((char *)w, MYSTATUS_GetTrainerView((const struct MyStatus *)rec), clunit, heap);
     ARC_UTIL_UploadBgPaletteFromArchive(0x85, 9, 2, 0, 0, 0, (heap & 0x7fff) | 0x8000);
     switch (mode) {
     case 2:
@@ -1848,12 +1848,12 @@ void WIFIBATTLEMATCH_VIEW_SetupRecordWindow(WifiBattleMatchViewRecordWork *p, co
             break;
         case 4:
             MSGDATA_ReadString(msg, 22, buf);
-            WORDSET_SetSlotFromMsgE7(fmt, 0, MYSTATUS_GetLanguage((const struct PlayerStatus *)data));
+            WORDSET_SetSlotFromMsgE7(fmt, 0, MYSTATUS_GetNation((const struct MyStatus *)data));
             WORDSET_CopyTaggedText(fmt, str, buf);
             break;
         case 5:
             MSGDATA_ReadString(msg, 23, buf);
-            WORDSET_SetSlotFromKeyedMessage(fmt, 0, MYSTATUS_GetLanguage((const struct PlayerStatus *)data), MYSTATUS_GetVersion((const struct PlayerStatus *)data));
+            WORDSET_SetSlotFromKeyedMessage(fmt, 0, MYSTATUS_GetNation((const struct MyStatus *)data), MYSTATUS_GetArea((const struct MyStatus *)data));
             WORDSET_CopyTaggedText(fmt, str, buf);
             break;
         case 6:
@@ -2130,7 +2130,7 @@ WifiBattleMatchViewPartyWork *WIFIBATTLEMATCH_VIEW_CreatePartyWindow(void *src, 
             level = POKE_TOOL_GetPartyValue(mon, 0x9E, 0);
             WORDSET_SetSlotNumber(fmt, 0, level, 3, 1, 1);
             WORDSET_CopyTaggedText(fmt, buf, sLevel);
-            x = 20 - GF_FONT_MeasureWidestLine(buf, font, 0) / 2;
+            x = 20 - PRINTSYS_MeasureWidestLine(buf, font, 0) / 2;
             PRINTSYS_PrintQueColor(print, BMP_WIN_GetBmp(work->ent[i].win), x, 0x24, buf, font, 0x440);
             work->ent[i].shown = 1;
         }

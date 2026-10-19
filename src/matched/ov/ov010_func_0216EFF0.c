@@ -12,10 +12,10 @@
  * ISS_SWITCH_GetSubscreenMode; original supplies no new r2/r3. Legacy trailing
  * arguments are omitted. GAME_DATA_GetPlayerZoneId consumes the preceding result.
  * symbols:
- *   GAME_DATA_SetFieldMode 0x02012A4C thumb
+ *   GAME_DATA_SetLastBattleResult 0x02012A4C thumb
  *   MOVE_POKEMON_HandleBattleResult 0x0215E5B0 thumb ov010
  *   EVENT_BATTLE_NotifyBattleEnd 0x0216EE7C thumb ov010
- *   EVENT_BATTLE_SetResultSound 0x0216EF84 thumb ov010
+ *   EVENT_BATTLE_AddBattleRecord 0x0216EF84 thumb ov010
  *   GAME_DATA_GetMyPlayerWork 0x020127A4 thumb
  *   GAME_DATA_GetPlayerZoneId 0x02012AC8 thumb
  *   WEATHER_StoreZoneWeatherId 0x0202C83C thumb
@@ -27,19 +27,19 @@ typedef unsigned int   u32;
 struct BigObj;
 struct Rec44;
 struct SaveBlock;
-extern void GAME_DATA_SetFieldMode(struct BigObj *p, u32 v);
+extern void GAME_DATA_SetLastBattleResult(struct BigObj *p, u32 v);
 struct BattleEndCtx;
 struct Work;
 extern void MOVE_POKEMON_HandleBattleResult(void *a0, struct Work *w);
 extern void EVENT_BATTLE_NotifyBattleEnd(struct BattleEndCtx *c);
-extern int EVENT_BATTLE_SetResultSound(int a0);
+extern int EVENT_BATTLE_AddBattleRecord(int a0);
 extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
 extern int WEATHER_StoreZoneWeatherId(int,int);
 void EVENT_BATTLE_FinishBattleTask(int *p,void *a) {
-    GAME_DATA_SetFieldMode(a,((struct Obj19144 *)(*(char * *)&((struct Obj00020 *)p)->f8))->f8C);
+    GAME_DATA_SetLastBattleResult(a,((struct Obj19144 *)(*(char * *)&((struct Obj00020 *)p)->f8))->f8C);
     MOVE_POKEMON_HandleBattleResult(a,(void *)p[2]);
     EVENT_BATTLE_NotifyBattleEnd((struct BattleEndCtx *)p);
-    EVENT_BATTLE_SetResultSound((int)p);
+    EVENT_BATTLE_AddBattleRecord((int)p);
     WEATHER_StoreZoneWeatherId(p[0],GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(a)));
 }

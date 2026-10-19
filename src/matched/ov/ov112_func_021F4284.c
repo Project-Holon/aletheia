@@ -12,7 +12,7 @@
  *   MUSICAL_SHOT_INFO_InitGraphics 0x021F44F8 thumb ov112
  *   MUSICAL_SHOT_INFO_InitWindows 0x021F46A8 thumb ov112
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   d_021F8394 0x021F8394 data a1
  */
@@ -25,7 +25,7 @@ struct R;
 extern void MUSICAL_SHOT_INFO_InitGraphics(u8 *p);
 extern void MUSICAL_SHOT_INFO_InitWindows(u8 *p);
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 typedef struct { u16 v; u16 pad; } H16;
 void *MUSICAL_SHOT_INFO_Create(u32 a, u32 b, u32 c, u32 d, H16 heap)
@@ -42,7 +42,7 @@ void *MUSICAL_SHOT_INFO_Create(u32 a, u32 b, u32 c, u32 d, H16 heap)
     MUSICAL_SHOT_INFO_InitGraphics(p);
     MUSICAL_SHOT_INFO_InitWindows(p);
     *(u32 *)(p + 0x40) = (u32)APP_TASKMENU_RES_Create(4, 12, *(u32 *)(p + 0x20), *(u32 *)(p + 0x38), *(u16 *)p);
-    GFL_NET_RestartWithDefaultTimeout(0, *(u16 *)&heap);
+    GFL_NET_RefreshWmIconAtTopRight(0, *(u16 *)&heap);
     BG_SYS_SetSubPlaneVisible(16, 1);
     return p;
 }

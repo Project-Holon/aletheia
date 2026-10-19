@@ -13,9 +13,9 @@
  *   MB_UTIL_MSG_PrintQueued 0x021F17E0 thumb ov107
  *   MB_UTIL_MSG_SetTimeIconPending 0x021F1B38 thumb ov107
  *   MB_COMM_SYS_RegisterReceivedMons 0x021EFD98 thumb ov107
- *   BEACON_GetBestScore 0x0200C184 thumb
+ *   MISC_GetBestScore 0x0200C184 thumb
  *   MB_COMM_SYS_GetMaxSeen 0x021F11E0 thumb ov107
- *   BEACON_SetBestScore 0x0200C18C thumb
+ *   MISC_SetBestScore 0x0200C18C thumb
  *   MB_COMM_SYS_UpdateSaveState 0x021EFC1C thumb ov107
  */
 #include "../include/Obj02457.h"
@@ -27,17 +27,17 @@ extern u8 MB_COMM_SYS_GetMonCount(u8 *p);
 extern void MB_UTIL_MSG_PrintQueued(void *,int);
 extern void MB_UTIL_MSG_SetTimeIconPending(u8 *p, u32 v);
 extern void MB_COMM_SYS_RegisterReceivedMons(void *);
-extern u32 BEACON_GetBestScore(struct Blk34 *p);
+extern u32 MISC_GetBestScore(struct Blk34 *p);
 extern int MB_COMM_SYS_GetMaxSeen(unsigned char *a);
-extern void BEACON_SetBestScore(struct Blk34 *p, u32 v);
+extern void MISC_SetBestScore(struct Blk34 *p, u32 v);
 extern void MB_COMM_SYS_UpdateSaveState(u8 *p, int mode);
 void MB_COMM_SYS_FinishReceive(u8 *p) {
  unsigned v=MB_COMM_SYS_GetMonCount(((struct Obj02457 *)p)->fC);
  unsigned old,cur;
  MB_UTIL_MSG_PrintQueued(((struct Obj02457 *)p)->f68,6);MB_UTIL_MSG_SetTimeIconPending(((struct Obj02457 *)p)->f68,1);MB_COMM_SYS_RegisterReceivedMons(p);
  if(p[40]==0) {
- old=(u16)BEACON_GetBestScore(((struct Obj02457 *)p)->f4C);cur=MB_COMM_SYS_GetMaxSeen(((struct Obj02457 *)p)->fC);
- if(old<cur) {BEACON_SetBestScore(((struct Obj02457 *)p)->f4C,cur);MB_COMM_SYS_UpdateSaveState(p,1);}
+ old=(u16)MISC_GetBestScore(((struct Obj02457 *)p)->f4C);cur=MB_COMM_SYS_GetMaxSeen(((struct Obj02457 *)p)->fC);
+ if(old<cur) {MISC_SetBestScore(((struct Obj02457 *)p)->f4C,cur);MB_COMM_SYS_UpdateSaveState(p,1);}
  else if(v==0) MB_COMM_SYS_UpdateSaveState(p,2);else MB_COMM_SYS_UpdateSaveState(p,0);
  if(((struct Obj02457 *)p)->f38<cur) ((struct Obj02457 *)p)->f38=cur;
  ((struct Obj02457 *)p)->f3C=((struct Obj02457 *)p)->f3C+v;

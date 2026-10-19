@@ -14,7 +14,7 @@
  *   GAMESYSTEM_GetMyPlayerWork  0x020120F8  thumb
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
- *   ZONEDATA_IsZone117  0x02013D5C  thumb
+ *   ZONEDATA_IsEntralink  0x02013D5C  thumb
  *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_COMM_GetCounter  0x0202648C  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
@@ -55,7 +55,7 @@ u8 *GAMESYSTEM_GetMyPlayerWork(const struct Ctx *p);
 struct Rec44;
 unsigned short GAME_DATA_GetPlayerZoneId(const struct Rec44 *);
 int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
-u32 ZONEDATA_IsZone117(u32 id);
+u32 ZONEDATA_IsEntralink(u32 id);
 u32 GAME_COMM_GetKind(void *obj);
 u32 GAME_COMM_GetCounter(void *obj);
 int INTRUDE_COMM_GetWorkIfRunning(int a0);
@@ -92,7 +92,7 @@ void INTRUDE_SUBDISP_Draw(Ov018Menu *w)
     if (p != 0 && INTRUDE_COMM_HasResult(p + 0x1AC) == 0) {
         flag = 1;
     } else if (p == 0 && GAME_DATA_GetIntrudeCount(s2) == 1 && GAME_COMM_GetKind(s1) != 2
-               && GAME_COMM_GetCounter(s1) == 0 && ZONEDATA_IsZone117(q) == 1) {
+               && GAME_COMM_GetCounter(s1) == 0 && ZONEDATA_IsEntralink(q) == 1) {
         flag = 1;
     }
     if (p != 0 && ((FlagsF8 *)(p + 0x8F8))->b == 1) {

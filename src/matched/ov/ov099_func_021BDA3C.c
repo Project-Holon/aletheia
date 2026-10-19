@@ -9,7 +9,7 @@
  * status: EXACT
  * symbols:
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
- *   GFL_NET_NotifyUserEvent 0x0203D1E8 arm
+ *   GFL_NET_SetAcceptConnection 0x0203D1E8 arm
  *   GFL_NET_IsParentAid 0x0203D378 arm
  *   WIFICLUB_SetPartnerNameWord 0x021BA874 thumb ov099
  *   WIFICLUB_ShowStreamedMessage 0x021BAAB8 thumb ov099
@@ -20,7 +20,7 @@
 typedef unsigned short u16;
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern int GFL_NET_NotifyUserEvent(int, int);
+extern int GFL_NET_SetAcceptConnection(int, int);
 extern int GFL_NET_IsParentAid(int);
 extern void WIFICLUB_SetPartnerNameWord(void *, int);
 extern void WIFICLUB_ShowStreamedMessage(char *, int, int);
@@ -31,7 +31,7 @@ int WIFICLUB_StateBranchOnSeatAfterNotify(char *p, int v)
 {
     int zero;
     zero = 0;
-    if (GFL_NET_IsParentAid(GFL_NET_NotifyUserEvent((int)GFL_NET_HANDLE_GetCurrentHandle(), 0)) == 0) {
+    if (GFL_NET_IsParentAid(GFL_NET_SetAcceptConnection((int)GFL_NET_HANDLE_GetCurrentHandle(), 0)) == 0) {
         WIFICLUB_SetPartnerNameWord(p, ((struct Obj07952 *)p)->f242 - 1);
         WIFICLUB_ShowStreamedMessage(p, 0x77, zero);
         ((struct Obj07952 *)p)->f1CC = 0xaa;

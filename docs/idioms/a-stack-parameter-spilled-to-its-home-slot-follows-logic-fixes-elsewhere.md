@@ -1,5 +1,8 @@
 # A stack parameter spilled to its home slot follows logic fixes elsewhere
 
+summary: A stack parameter that is stored back to its home slot depends on register weights, which
+logic errors elsewhere change. Fix the other listing-backed differences first.
+
 Seen in wave D9r lane 66 (2026-10-05): ov208 func_021C4298 (closed EXACT, 1288 bytes,
 after six waves at DIFF with "ev in r7").
 

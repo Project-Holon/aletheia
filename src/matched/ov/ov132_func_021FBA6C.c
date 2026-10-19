@@ -76,7 +76,7 @@
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   MUSICAL_MCSS_GetElemPtr 0x021F4F54 thumb ov112
- *   MUSICAL_MCSS_NoOp6 0x021F4F70 thumb ov112
+ *   MUSICAL_MCSS_GetElemSizeFlags 0x021F4F70 thumb ov112
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   ARC_UTIL_LoadMember 0x0204A1BC arm
@@ -519,7 +519,7 @@ extern u32 CLACT_GetActorDrawEnable(struct Obj_021F9E40 *p);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern u32 STA_ACTING_GetActorCount(u8 *p);
 extern u8 *MUSICAL_MCSS_GetElemPtr(u8 *,int);
-extern int MUSICAL_MCSS_NoOp6(int *);
+extern int MUSICAL_MCSS_GetElemSizeFlags(int *);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void *func_020490F4(u32 id, u32 heap);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);

@@ -1,5 +1,8 @@
 # A stack reload kept after an unrelated store is a `short` parameter
 
+summary: A spilled parameter whose reload stays after an unrelated outgoing-argument store is a
+`short` parameter. u32 hoists the reload and u16 removes the truncation.
+
 Shape: a parameter spilled at entry (`str r1,[sp,#0x14]`) and reloaded for each call. At one call the
 image keeps the reload after an unrelated outgoing-argument store (`str r6,[sp]; ldr r0,[sp,#0x14]`),
 and ours hoists the reload above that store. Probes show that a real memory load gives the image

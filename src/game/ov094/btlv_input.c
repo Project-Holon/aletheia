@@ -56,7 +56,7 @@
  *   BG_SYS_PushTile 0x020409B4 arm
  *   INFOWIN_Init 0x02024A20 thumb
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
  *   d_0220A3D4 0x0220A3D4 data ov094 a4
  *   CLACT_ReleaseCharacter 0x0204A8D4 arm
@@ -157,7 +157,7 @@
  *   CLACT_IsActorAnimActive  0x0204B98C  arm  arm9
  *   FADE_Start  0x0204E720  arm  arm9
  *   FADE_IsActive  0x0204E804  arm  arm9
- *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
+ *   PRINTSYS_MeasureWidestLine 0x0201D304 thumb
  *   BTLV_EFFECT_GetPalanm 0x021F86E0 thumb ov094
  *   BTLV_EFFECT_GetOwner 0x021F86D4 thumb ov094
  *   BTLV_EFFECT_StartEffect 0x021F7998 thumb ov094
@@ -612,7 +612,7 @@ extern void INFOWIN_Init(u8, u8, void *, u16);
 
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32, u32);
 
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 
@@ -688,7 +688,7 @@ extern int FADE_IsActive(void);
 
 extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 
 extern int FX_ModS32(int n, int d);
 
@@ -1166,7 +1166,7 @@ void BTLV_INPUT_LoadScreenResources(BtlvInput *input)
     INFOWIN_Init(6, 15, input->infoWinParam, input->heap);
     BG_SYS_SetPlaneVisible(6, 1);
     BG_SYS_SetSubPlaneVisible(16, 1);
-    GFL_NET_RestartWithDefaultTimeout(0, input->heap);
+    GFL_NET_RefreshWmIconAtTopRight(0, input->heap);
     PALANM_CopyHwPaletteToSlot(input->palAnm, 3, 0xe0, 0x20);
     input->flags.redraw = 1;
     if (input->infoWinEnabled == 1)
@@ -2689,7 +2689,7 @@ void BTLV_INPUT_WindowCloseTaskMain(void *task, void *arg)
 
 void BTLV_INPUT_GetTextBlockSize(struct StrObj *str, int font, int *outCount, int *outCapacity)
 {
-    int n = GF_FONT_MeasureWidestLine(str, font, 0);
+    int n = PRINTSYS_MeasureWidestLine(str, font, 0);
     int q = n / 8;
     if (FX_ModS32(n, 8) != 0)
         q++;

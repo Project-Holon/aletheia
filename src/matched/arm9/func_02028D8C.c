@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: FIELD_SOUND_SYSTEM_GetCurrentRequest
+ * function: FIELD_SOUND_SYSTEM_GetNewestRequest
  * address:  0x02028D8C
  * packet:   pkt_02028D8C
  * region:   arm9
@@ -25,7 +25,7 @@
  *   _s32_div_f     0x0209C0A4  arm
  *
  * Verified with:
- *   python tools/match.py tu --src src/matched/FIELD_SOUND_SYSTEM_GetCurrentRequest.c \
+ *   python tools/match.py tu --src src/matched/FIELD_SOUND_SYSTEM_GetNewestRequest.c \
  *       --addr 0x02028D8C --thumb
  */
 
@@ -50,7 +50,7 @@ struct Sys {
 
 extern int FIELD_SOUND_SYSTEM_HasPendingRequest(void *obj);
 
-struct Cmd *FIELD_SOUND_SYSTEM_GetCurrentRequest(struct Sys *s)
+struct Cmd *FIELD_SOUND_SYSTEM_GetNewestRequest(struct Sys *s)
 {
     s32 i;
 

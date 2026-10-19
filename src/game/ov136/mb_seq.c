@@ -104,7 +104,7 @@
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   CLACT_ExitSystem 0x0204A5AC arm
  *   MB_SEQ_Update 0x021C68A0 thumb
  *   d_021C78E0 0x021C78E0 data a1
@@ -252,7 +252,7 @@
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb  arm9
  *   WORDSET_SetSlotTag  0x0201EE0C  thumb  arm9
  *   APP_ICON_GetArchiveId  0x020275E4  thumb  arm9
- *   GF_FONT_MeasureWidestLine  0x0201D304  thumb  arm9
+ *   PRINTSYS_MeasureWidestLine  0x0201D304  thumb  arm9
  *   MYITEM_SAVEDATA_AddItem  0x02007E50  thumb  arm9
  *   MYITEM_SAVEDATA_RemoveItem  0x02007F1C  thumb  arm9
  */
@@ -502,7 +502,7 @@ extern void CLACT_InitSystem(const struct Cfg *cfg, const struct DispVram *vram,
 
 extern void CLACT_SetUnitDefaultRenderer(struct ClactUnit *bank);
 
-extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32, u32);
 
 extern void CLACT_ExitSystem(void);
 
@@ -862,7 +862,7 @@ extern void CLACT_SetActorPaletteOffset(struct ClactActor *actor, u32 v, u32 fla
 
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
-extern u32 GF_FONT_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, u32 spacing);
+extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, u32 spacing);
 
 extern struct Bmp *BMP_CreateFromBuffer(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
 
@@ -1184,9 +1184,9 @@ void MB_SEQ_DeleteWindows(struct MailBoxProc *p)
 void MB_SEQ_PrintTextToSlot(struct BmpWin *unused, struct Strbuf *text, struct MailWinSlot *slot, struct PrintQue *printQue, int x, int y, struct GfFont *font, u16 color, int align)
 {
     if (align == 1)
-        x -= GF_FONT_MeasureWidestLine(text, font, 0);
+        x -= PRINTSYS_MeasureWidestLine(text, font, 0);
     else if (align == 2)
-        x -= GF_FONT_MeasureWidestLine(text, font, 0) >> 1;
+        x -= PRINTSYS_MeasureWidestLine(text, font, 0) >> 1;
     PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(slot->win), x, y, text, font, color);
     slot->flag = 1;
 }
@@ -1829,7 +1829,7 @@ int MB_SEQ_StateInit(struct MailBoxProc *p)
     MB_SEQ_DrawPage(p);
     MB_SEQ_CreateMenuEntries(p);
     p->vblankTask = GFL_USE_AddMainTask(MB_SEQ_VBlankTask, p, 1);
-    GFL_NET_RestartWithDefaultTimeout(0, 0x66);
+    GFL_NET_RefreshWmIconAtTopRight(0, 0x66);
     return p->nextState;
 }
 

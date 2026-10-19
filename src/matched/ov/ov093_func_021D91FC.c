@@ -1,5 +1,5 @@
 /*
- * function: HAND_TOKUSEI_GetMoldBreakerFlagHandlers
+ * function: HAND_TOKUSEI_GetSkillLinkHandlers
  * address: 0x021D91FC
  * packet: pkt_ov093_021D91FC
  * region: ov093
@@ -15,12 +15,12 @@
  *   gMoldBreakerFlagHandlers 0x021F0618 data ov093 a4
  */
 
-int *HAND_TOKUSEI_GetMoldBreakerFlagHandlers(int *p);
+int *HAND_TOKUSEI_GetSkillLinkHandlers(int *p);
 
 /* 021D9214  shifted 4-arg wrapper -> HAND_TOKUSEI_BlockIndirectDamage(..., 0x1) */
 extern int gMoldBreakerFlagHandlers[];
 
-int *HAND_TOKUSEI_GetMoldBreakerFlagHandlers(int *p)
+int *HAND_TOKUSEI_GetSkillLinkHandlers(int *p)
 {
     *p = 1;
     return gMoldBreakerFlagHandlers;

@@ -27,7 +27,7 @@
  *   FIELD_EFFECT_DeleteObject  0x021AC154  thumb  ov021
  *   FIELDMAP_TCB_CAMERA_ZOOM_Create  0x021C6B18  thumb  ov021
  *   FIELD_PLAYER_GRID_EVENT_SetJumpDrawOffset  0x021C12E4  thumb  ov021
- *   FIELD_PLAYER_SetGridMoveState  0x021A35A0  thumb  ov021
+ *   FIELD_PLAYER_SetGridHopLanded  0x021A35A0  thumb  ov021
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  * Addresses are Black-image addresses.
  */
@@ -59,7 +59,7 @@ extern u32 FLDEFF_NAMIPOKE_SPLASH_StartOnEffect(u32 a, u32 b, void *c);
 extern void FIELD_EFFECT_DeleteObject(u32 a);
 extern void FIELDMAP_TCB_CAMERA_ZOOM_Create(u32 a, u16 b, u32 c);
 extern void FIELD_PLAYER_GRID_EVENT_SetJumpDrawOffset(void *a, u8 *b);
-extern void FIELD_PLAYER_SetGridMoveState(u32 *p, int a);
+extern void FIELD_PLAYER_SetGridHopLanded(u32 *p, int a);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 
 void FIELD_PLAYER_GRID_EVENT_UpdateJumpDown(u8 *p)
@@ -156,7 +156,7 @@ void FIELD_PLAYER_GRID_EVENT_UpdateJumpDown(u8 *p)
             FLDMMDL_InitPosition(o, (int *)(p + 0x24), ((struct Obj00129 *)p)->f4);
             FIELD_EFFECT_DeleteObject(((struct Obj00129 *)p)->f48);
             FIELD_EFFECT_FreeResource(t, 9);
-            FIELD_PLAYER_SetGridMoveState((u32 *)(*(u32 *)&((struct Obj00129 *)p)->f3C), 1);
+            FIELD_PLAYER_SetGridHopLanded((u32 *)(*(u32 *)&((struct Obj00129 *)p)->f3C), 1);
             ((struct Obj00129 *)p)->f48 = 0;
             ((struct Obj00129 *)p)->f6 = 1;
             GFL_USE_PlaySeDefaultVolume(0x6e2);

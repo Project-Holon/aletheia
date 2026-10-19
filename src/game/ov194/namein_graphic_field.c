@@ -41,7 +41,7 @@
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   STRBUF_SetStringN 0x02045994 arm
- *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
+ *   PRINTSYS_MeasureWidestLine 0x0201D304 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   PRINTSYS_PrintQue 0x0201C6FC thumb
  *   CLACT_SetActorAnimFrame 0x0204B8C4 arm
@@ -57,7 +57,7 @@
  *   d_021F555C 0x021F555C data a4
  *   NAMEIN_GRAPHIC_GetGridCell 0x021F4DA4 thumb ov194
  *   NAMEIN_GRAPHIC_IsPointInRect 0x021F4450 thumb ov194
- *   GF_FONT_CountLines 0x0201D42C thumb
+ *   PRINTSYS_CountLines 0x0201D42C thumb
  *   NAMEIN_GRAPHIC_GetGridHeight 0x021F4DA0 thumb ov194
  *   NAMEIN_GRAPHIC_GetGridWidth 0x021F4D9C thumb ov194
  *   d_021F5544 0x021F5544 data a4
@@ -165,7 +165,7 @@ extern void WORDSET_CopyString(const u16 *,u16 *,u32);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
@@ -179,7 +179,7 @@ extern u32 NAMEIN_GRAPHIC_GetWord(const unsigned char *p, u32 i);
 extern int NAMEIN_GRAPHIC_SymbolGetValue(Pair *,Pair *);
 extern unsigned NAMEIN_GRAPHIC_GetGridCell(unsigned char *,unsigned short,unsigned short);
 extern int NAMEIN_GRAPHIC_IsPointInRect(int *,int *);
-extern u32 GF_FONT_CountLines(struct StrObj *s, void *font);
+extern u32 PRINTSYS_CountLines(struct StrObj *s, void *font);
 extern u16 NAMEIN_GRAPHIC_GetGridHeight(const u16 *p);
 extern u16 NAMEIN_GRAPHIC_GetGridWidth(const u16 *p);
 int NAMEIN_GRAPHIC_FadeCellColor(u16 *out, u16 *phase, u32 step, u32 row, u8 idx, u16 a, u16 b);
@@ -341,7 +341,7 @@ int NAMEIN_GRAPHIC_RefreshInputField(u8 *p)
     STRBUF_SetStringN(((NameinGraphicInputField *)p)->strbuf,pair,2);
     x=64-(((NameinGraphicInputField *)p)->maxLength*14)/2;if(x<0)x=0;
     x+=i*14+7;
-    x-=GF_FONT_MeasureWidestLine(((NameinGraphicInputField *)p)->strbuf,((NameinGraphicInputField *)p)->textColor,0)/2;
+    x-=PRINTSYS_MeasureWidestLine(((NameinGraphicInputField *)p)->strbuf,((NameinGraphicInputField *)p)->textColor,0)/2;
     if(i>=((NameinGraphicInputField *)p)->primaryLength){window=((NameinGraphicInputField *)p)->printSys;PRINTSYS_PrintQueColor(window,(u32)BMP_WIN_GetBmp(((NameinGraphicInputField *)p)->win),(short)x,0,(u32)(((NameinGraphicInputField *)p)->strbuf),((NameinGraphicInputField *)p)->textColor,0xc80);}
     else {window=((NameinGraphicInputField *)p)->printSys;PRINTSYS_PrintQue(window,(u32)BMP_WIN_GetBmp(((NameinGraphicInputField *)p)->win),(short)x,0,((NameinGraphicInputField *)p)->strbuf,((NameinGraphicInputField *)p)->textColor);}
     p[0x30]=1;
@@ -680,8 +680,8 @@ void NAMEIN_GRAPHIC_DrawCellTips(char *p,char *target,void *window,void *font,u1
      box.x*=8;box.y*=8;box.z*=8;box.w*=8;
      x=box.x+(box.z-box.x)/2-24;
      y=box.y+(box.w-box.y)/2-40;
-     x-=(u16)(GF_FONT_MeasureWidestLine(text,(u32)font,0)/2);
-     y-=(u16)(GF_FONT_CountLines(text,font)/2);
+     x-=(u16)(PRINTSYS_MeasureWidestLine(text,(u32)font,0)/2);
+     y-=(u16)(PRINTSYS_CountLines(text,font)/2);
      PRINTSYS_PrintQue(window,(u32)BMP_WIN_GetBmp(((NameinGraphicTipTarget *)target)->bmp),(short)(x-1),(short)y,text,(u32)font);
      target[4]=1;
     }

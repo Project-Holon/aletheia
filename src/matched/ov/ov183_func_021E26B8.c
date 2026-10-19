@@ -12,7 +12,7 @@
  * note: 2026-10-05 recoup P25L4: the older DIFF draft (21 bytes) became 4 bytes when const was dropped from p, and EXACT with i=1 written before arg.
  * symbols:
  *   BR_CODEIN_SOCL_InitDefault 0x021E2F98 thumb ov183
- *   BR_CODEIN_CallStoredFnA 0x021E2E30 thumb ov183
+ *   BR_CODEIN_CallAndClearStepFn 0x021E2E30 thumb ov183
  *   BR_FADE_Start 0x021FE784 thumb ov186
  *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
  *   MI_CpuFill8 0x02082BCC arm
@@ -29,7 +29,7 @@
  *   TOUCHPANEL_GetTrg 0x02035C60 arm
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
- *   BR_CODEIN_CallStoredFnB 0x021E2E48 thumb ov183
+ *   BR_CODEIN_CallAndClearDestroyFn 0x021E2E48 thumb ov183
  *   BR_UTIL_SetTaskStep 0x021FD73C thumb ov186
  *   BR_CODEIN_MenuStep 0x021E2910 thumb ov183
  *   BR_UTIL_ClearTaskStep 0x021FD744 thumb ov186
@@ -45,7 +45,7 @@ typedef unsigned char  u8;
 struct Big;
 struct SOCLResource;
 extern void BR_CODEIN_SOCL_InitDefault(struct SOCLResource *resource);
-extern void BR_CODEIN_CallStoredFnA(char *,int,int);
+extern void BR_CODEIN_CallAndClearStepFn(char *,int,int);
 extern void BR_FADE_Start(int,int,int,int);extern int BR_FADE_GetResult(int *);
 extern void MI_CpuFill8(void *,int,u32);
 extern void BR_NET_StartRequest(char *p, int kind, const int *values);
@@ -61,7 +61,7 @@ extern void BR_UTIL_StartEffect(int,int,Pair *);
 extern int TOUCHPANEL_GetTrg(void);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *,u32 *);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void BR_CODEIN_CallStoredFnB(char *p, int a, int b);
+extern void BR_CODEIN_CallAndClearDestroyFn(char *p, int a, int b);
 extern int *BR_UTIL_SetTaskStep(int *p, int v);
 extern void BR_CODEIN_MenuStep(int *task, int *state, char *p);
 extern int BR_UTIL_ClearTaskStep(int *a);
@@ -75,7 +75,7 @@ void BR_CODEIN_SoclStep(int *task,State *state,char *p) {
     switch(*state) {
     case 0:
         BR_CODEIN_SOCL_InitDefault((struct SOCLResource *)(&cb));arg=*(char **)(p+0x3c);*(Pair *)(p+0x4c)=cb;
-        BR_CODEIN_CallStoredFnA((char *)p+0x4c,(int)p,(int)arg);*state=1;break;
+        BR_CODEIN_CallAndClearStepFn((char *)p+0x4c,(int)p,(int)arg);*state=1;break;
     case 1:BR_FADE_Start(**(int **)(p+0x3c),2,3,0);*state=2;break;
     case 2:if(BR_FADE_GetResult((int *)**(int **)(p+0x3c)))*state=3;break;
     case 3:
@@ -109,9 +109,9 @@ void BR_CODEIN_SoclStep(int *task,State *state,char *p) {
         }break;
     case 6:BR_FADE_Start(**(int **)(p+0x3c),2,3,1);*state=7;break;
     case 7:if(BR_FADE_GetResult((int *)**(int **)(p+0x3c)))*state=8;break;
-    case 8:BR_CODEIN_CallStoredFnB((char *)p+0x4c,(int)((char *)p),(int)(*(char **)(p+0x3c)));BR_UTIL_SetTaskStep((int *)task,(int)BR_CODEIN_MenuStep);break;
+    case 8:BR_CODEIN_CallAndClearDestroyFn((char *)p+0x4c,(int)((char *)p),(int)(*(char **)(p+0x3c)));BR_UTIL_SetTaskStep((int *)task,(int)BR_CODEIN_MenuStep);break;
     case 10:BR_FADE_Start(**(int **)(p+0x3c),2,3,1);*state=11;break;
     case 11:if(BR_FADE_GetResult((int *)**(int **)(p+0x3c)))*state=12;break;
-    case 12:BR_CODEIN_CallStoredFnB((char *)p+0x4c,(int)((char *)p),(int)(*(char **)(p+0x3c)));BR_UTIL_ClearTaskStep(task);break;
+    case 12:BR_CODEIN_CallAndClearDestroyFn((char *)p+0x4c,(int)((char *)p),(int)(*(char **)(p+0x3c)));BR_UTIL_ClearTaskStep(task);break;
     }
 }

@@ -16,7 +16,7 @@
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   BEACON_GetTeam  0x0200C2D0  thumb
+ *   MISC_GetTeam  0x0200C2D0  thumb
  *   WORDSET_SetSlotSpeciesName  0x0201EE60  thumb
  * Addresses are Black-image addresses.
  */
@@ -34,7 +34,7 @@ extern void *SCRIPT_WORK_GetWordSet(void *p);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern void *GAME_DATA_GetMiscSave(int *p);
-extern void BEACON_GetTeam(struct Blk34 *p, u32 i, u16 *dest);
+extern void MISC_GetTeam(struct Blk34 *p, u32 i, u16 *dest);
 extern void WORDSET_SetSlotSpeciesName(struct WordSet *p, u32 i, u16 v);
 
 int SCRCMD_POKEMON_FLD_RegisterRecordSpecies(void *a, void *b)
@@ -51,7 +51,7 @@ int SCRCMD_POKEMON_FLD_RegisterRecordSpecies(void *a, void *b)
     w = SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork(b));
     k = SCRIPT_WORK_ReadWorkValue(a, b);
     out = SCRIPT_WORK_ReadWorkPointer(a, b);
-    BEACON_GetTeam(GAME_DATA_GetMiscSave(t), k, arr);
+    MISC_GetTeam(GAME_DATA_GetMiscSave(t), k, arr);
     for (i = 0, n = 0; i < 6; i++) {
         if (arr[i] != 0) {
             WORDSET_SetSlotSpeciesName(w, n, arr[i]);

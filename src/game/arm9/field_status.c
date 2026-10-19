@@ -17,10 +17,10 @@
  *   GFL_HEAP_Free     0x020307B0  arm
  *   sFieldStatusFile  0x020A72BC  data
  *   ENV_SetResourceSet  0x020307B0  arm
- *   SCRCMD_NETWORK_UnloadOv020  0x0215FA44  thumb  ov010
+ *   EVENT_WIFI_PROC_UnloadOv020  0x0215FA44  thumb  ov010
  *   FIELDMAP_RequestClose  0x02188BD8  thumb  ov021
  *   FIELDMAP_IsReady  0x02188BE8  thumb ov021
- *   SCRCMD_NETWORK_LoadOv020  0x0215FA34  thumb  ov010
+ *   EVENT_WIFI_PROC_LoadOv020  0x0215FA34  thumb  ov010
  *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb  ov021
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
  *   GAME_EVENT_CallEvent  0x02012374  thumb
@@ -132,9 +132,9 @@ extern void GAME_EVENT_CallEvent(struct GameEvent *event, struct GameEvent *chil
 
 extern u32 FIELD_SOUND_SYSTEM_IsBusy(struct FieldSoundSystem *fieldSound);
 
-extern void SCRCMD_NETWORK_LoadOv020(void);
+extern void EVENT_WIFI_PROC_LoadOv020(void);
 
-extern void SCRCMD_NETWORK_UnloadOv020(void);
+extern void EVENT_WIFI_PROC_UnloadOv020(void);
 
 extern void FIELDMAP_RequestClose(struct FieldMap *fieldMap);
 
@@ -381,7 +381,7 @@ int FIELD_STATUS_FieldCloseEvent(struct GameEvent *event, u32 *seq, void *work)
             break;
         }
         if (wk->notifyClose != 0) {
-            SCRCMD_NETWORK_UnloadOv020();
+            EVENT_WIFI_PROC_UnloadOv020();
         }
         return 1;
     }
@@ -445,7 +445,7 @@ int FIELD_STATUS_FieldCloseNoSoundWaitEvent(struct GameEvent *event, u32 *seq, v
     case 1:
         if (GAMESYSTEM_GetProcStatus(gameSystem) == 0) {
             if (wk->notifyClose != 0) {
-                SCRCMD_NETWORK_UnloadOv020();
+                EVENT_WIFI_PROC_UnloadOv020();
             }
             return 1;
         }
@@ -537,7 +537,7 @@ struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSyste
     wk->gameSystem = gameSystem;
     wk->unused04 = 0;
     wk->gameData = GAMESYSTEM_GetGameData(gameSystem);
-    SCRCMD_NETWORK_LoadOv020();
+    EVENT_WIFI_PROC_LoadOv020();
     return event;
 }
 

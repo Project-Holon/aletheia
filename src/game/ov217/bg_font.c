@@ -39,7 +39,7 @@
  *   BMP_WIN_GetDispWidth 0x02045748 arm
  *   BMP_WIN_GetDispHeight 0x02045750 arm
  *   BMP_WIN_GetWidth  0x02045738  arm
- *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
+ *   PRINTSYS_MeasureWidestLine  0x0201D304  thumb
  *   BMP_WIN_Delete  0x020452E8  arm  arm9
  */
 #include "research_shared_types.h"
@@ -94,7 +94,7 @@ extern u8 BMP_WIN_GetDispWidth(struct BmpWin *win);
 extern u8 BMP_WIN_GetDispHeight(struct BmpWin *win);
 extern void BG_SYS_FillTileMap(u32 bgLayer, u8 x, u8 y, u8 width, u8 height, u8 palette);
 extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *text, u32 font, u32 spacing);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *text, u32 font, u32 spacing);
 
 struct BgTextLabel *BgTextLabel_Create(const struct BgTextLabelConfig *config, u32 font, u32 msgBank, u32 heapId);
 void BgTextLabel_Destroy(struct BgTextLabel *label);
@@ -202,7 +202,7 @@ int BgTextLabel_GetCenterOffset(struct BgTextLabel *label, void *text)
     int offset;
     int space;
     space = BMP_WIN_GetWidth(label->window) * 8;
-    space = space - GF_FONT_MeasureWidestLine((struct StrObj *)text, label->font, 0);
+    space = space - PRINTSYS_MeasureWidestLine((struct StrObj *)text, label->font, 0);
     offset = (int)(0.5f * (float)space);
     if (offset < 0) {
         offset = 0;

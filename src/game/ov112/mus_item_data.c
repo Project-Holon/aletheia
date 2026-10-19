@@ -1,7 +1,7 @@
 /*
  * file:     mus_item_data.c
  * unit:     yes
- * function: MUSICAL_MCSS_LoadActorData, MUSICAL_MCSS_FreeActorData, MUSICAL_MCSS_GetElemPtr, MUSICAL_MCSS_GetOffset, MUSICAL_MCSS_NoOp6, MUSICAL_MCSS_IsModeSupportedA, MUSICAL_MCSS_IsModeSupportedB, MUSICAL_MCSS_IsModeSupportedC, MUSICAL_MCSS_GetStateA, MUSICAL_MCSS_GetStateB, MUSICAL_MCSS_GetIndex, MUSICAL_MCSS_GetElemA, MUSICAL_MCSS_GetElemB, MUSICAL_MCSS_GetElemC
+ * function: MUSICAL_MCSS_LoadActorData, MUSICAL_MCSS_FreeActorData, MUSICAL_MCSS_GetElemPtr, MUSICAL_MCSS_GetOffset, MUSICAL_MCSS_GetElemSizeFlags, MUSICAL_MCSS_IsModeSupportedA, MUSICAL_MCSS_IsModeSupportedB, MUSICAL_MCSS_IsModeSupportedC, MUSICAL_MCSS_ElemDataHasAltDepth, MUSICAL_MCSS_ElemDataKeepsFlippedHeight, MUSICAL_MCSS_GetIndex, MUSICAL_MCSS_GetElemA, MUSICAL_MCSS_GetElemB, MUSICAL_MCSS_GetElemC
  * address:  0x021F4F14
  * region:   ov112
  * compiler: dsi/1.1p1
@@ -28,10 +28,10 @@ typedef signed char s8;
 
 /* A 12-byte element data record (MUSICAL_MCSS_GetElemPtr stride 0x0C). */
 typedef struct McssElemData {
-    u32 field0;             /* 0x00 */
+    u32 sizeFlags;          /* 0x00 MUSICAL_MCSS_GetElemSizeFlags */
     s8 offsetX;             /* 0x04 MUSICAL_MCSS_GetOffset x */
     s8 offsetY;             /* 0x05 MUSICAL_MCSS_GetOffset y */
-    u16 flags;              /* 0x06 MUSICAL_MCSS_GetStateA/B bits */
+    u16 flags;              /* 0x06 MUSICAL_MCSS_ElemDataHasAltDepth/B bits */
     u8 textGroup;   /* 0x08 MUSICAL_MCSS_GetElemC */
     u8 category;    /* 0x09 MUSICAL_MCSS_GetElemA */
     u8 animKind;    /* 0x0A MUSICAL_MCSS_GetElemB */
@@ -57,7 +57,7 @@ u8 *MUSICAL_MCSS_GetElemPtr(u8 *p, int i);
 
 void MUSICAL_MCSS_GetOffset(u8 *p, McssOffset *out);
 
-int MUSICAL_MCSS_NoOp6(int *p);
+int MUSICAL_MCSS_GetElemSizeFlags(int *p);
 
 int MUSICAL_MCSS_IsModeSupportedA(u16 *p, int mode);
 
@@ -65,9 +65,9 @@ int MUSICAL_MCSS_IsModeSupportedB(u16 *p, int mode);
 
 int MUSICAL_MCSS_IsModeSupportedC(u8 *p, int mode);
 
-int MUSICAL_MCSS_GetStateA(const unsigned char *p);
+int MUSICAL_MCSS_ElemDataHasAltDepth(const unsigned char *p);
 
-int MUSICAL_MCSS_GetStateB(const unsigned char *p);
+int MUSICAL_MCSS_ElemDataKeepsFlippedHeight(const unsigned char *p);
 
 int MUSICAL_MCSS_GetIndex(unsigned index);
 
@@ -101,7 +101,7 @@ void MUSICAL_MCSS_GetOffset(u8 *elemData, McssOffset *out)
 /*
  * follower: MUSICAL_MCSS_IsModeSupportedA filed separately.
  */
-int MUSICAL_MCSS_NoOp6(int *p) { return *p; }
+int MUSICAL_MCSS_GetElemSizeFlags(int *p) { return *p; }
 
 int MUSICAL_MCSS_IsModeSupportedA(u16 *p, int mode)
 {
@@ -146,14 +146,14 @@ int MUSICAL_MCSS_IsModeSupportedC(u8 *p, int mode)
     return 0;
 }
 
-int MUSICAL_MCSS_GetStateA(const unsigned char *elemData)
+int MUSICAL_MCSS_ElemDataHasAltDepth(const unsigned char *elemData)
 {
     if (*(const unsigned short *)&((McssElemData *)elemData)->flags & 0x80)
         return 1;
     return 0;
 }
 
-int MUSICAL_MCSS_GetStateB(const unsigned char *elemData)
+int MUSICAL_MCSS_ElemDataKeepsFlippedHeight(const unsigned char *elemData)
 {
     if (*(const unsigned short *)&((McssElemData *)elemData)->flags & 0x200)
         return 1;

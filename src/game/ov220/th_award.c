@@ -35,7 +35,7 @@
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   FADE_Start 0x0204E720 arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   bgtable 0x021BA370 data a4
  *   resources 0x021BA4E0 data a4
@@ -96,7 +96,7 @@
  *   STRBUF_Create 0x020457B0 arm
  *   STRBUF_SetStringN 0x02045994 arm
  *   MSGDATA_AllocString 0x02045EC0 arm
- *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
+ *   PRINTSYS_MeasureWidestLine 0x0201D304 thumb
  *   BMP_GetWidth 0x020437DC arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
@@ -211,7 +211,7 @@ extern void BG_SYS_ClearSubPlanes(void),BG_SYS_ClearSubBgPlanes(void),GXS_SetGra
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u8);
 extern void BG_SYS_SetPlaneVisible(u8,u8);
-extern void BG_SYS_SetSubPlaneVisible(u32,u32),BG_SYS_PushTile(u32),GFL_NET_RestartWithDefaultTimeout(u32,u32),GFL_USE_FadeOutBgm(u32);
+extern void BG_SYS_SetSubPlaneVisible(u32,u32),BG_SYS_PushTile(u32),GFL_NET_RefreshWmIconAtTopRight(u32,u32),GFL_USE_FadeOutBgm(u32);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void*,u32,u32,u32,u32,u16);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -263,7 +263,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -350,7 +350,7 @@ int TH_AWARD_Init(void *host,void *unused,void *args)
     ARC_UTIL_UploadPaletteFromHandleWhole(owner,resources[variant].a,4,0,0,heap);
     ARC_UTIL_UploadBgCharFromHandle(owner,resources[variant].b,4,0,0,0,heap);
     ARC_UTIL_UploadBgPaletteFromHandle(owner,resources[variant].c,4,0,0,0,heap);
-    ARC_TOOL_DeleteHandle(owner);BG_SYS_PushTile(4);FADE_Start(3,16,16,0);GFL_NET_RestartWithDefaultTimeout(0,p->heap);
+    ARC_TOOL_DeleteHandle(owner);BG_SYS_PushTile(4);FADE_Start(3,16,16,0);GFL_NET_RefreshWmIconAtTopRight(0,p->heap);
     if (p->args->flag0C && p->bgmIndex!=7) GFL_USE_FadeOutBgm(6);
     return 1;
 }
@@ -649,8 +649,8 @@ void TH_AWARD_SetupWindows(struct ThAwardWork *p)
     }
     y = MSGDATA_AllocString(p->msgBank, 0x28);
     off = 0;
-    w1 = (u16)GF_FONT_MeasureWidestLine(x, (u32)p->font, 0);
-    h = (u16)GF_FONT_MeasureWidestLine(y, (u32)p->font, 0);
+    w1 = (u16)PRINTSYS_MeasureWidestLine(x, (u32)p->font, 0);
+    h = (u16)PRINTSYS_MeasureWidestLine(y, (u32)p->font, 0);
     n = w1 + 8 + h;
     h = (u32)BMP_GetWidth(BMP_WIN_GetBmp(p->windows[1]));
     if (h >= n) off = ((int)(h - n)) / 2;
@@ -668,8 +668,8 @@ void TH_AWARD_SetupWindows(struct ThAwardWork *p)
     WORDSET_SetSlotNumber(g, 0, (u16)m, 4, 0, 1);
     WORDSET_CopyTaggedText(g, z, t);
     q = MSGDATA_AllocString(p->msgBank, 0x29);
-    w1 = (u16)GF_FONT_MeasureWidestLine(z, (u32)p->font, 0);
-    h = (u16)GF_FONT_MeasureWidestLine(q, (u32)p->font, 0);
+    w1 = (u16)PRINTSYS_MeasureWidestLine(z, (u32)p->font, 0);
+    h = (u16)PRINTSYS_MeasureWidestLine(q, (u32)p->font, 0);
     n = w1 + 8 + h;
     h = (u32)BMP_GetWidth(BMP_WIN_GetBmp(p->windows[2]));
     if (h >= n) off = ((int)(h - n)) / 2;
@@ -681,7 +681,7 @@ void TH_AWARD_SetupWindows(struct ThAwardWork *p)
     STRBUF_Delete(t);
     WORDSET_Delete(g);
     y = MSGDATA_AllocString(p->msgBank, d_021BA3A8[TH_AWARD_GetLevelIndex(*(u16 *)(b + 2))].msg);
-    w1 = (u16)GF_FONT_MeasureWidestLine(y, (u32)p->font, 0);
+    w1 = (u16)PRINTSYS_MeasureWidestLine(y, (u32)p->font, 0);
     h = (u32)BMP_GetWidth(BMP_WIN_GetBmp(p->windows[3]));
     off = ((int)(h - w1)) / 2;
     PRINTSYS_PrintQueColor(p->printQue, (u32)BMP_WIN_GetBmp(p->windows[3]), (s16)off, d_021BA314[3], (u32)y, (u32)p->font, 0x440);

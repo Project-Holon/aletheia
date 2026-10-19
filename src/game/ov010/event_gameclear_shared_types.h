@@ -1,0 +1,6 @@
+#ifndef EVENT_GAMECLEAR_SHARED_TYPES_H
+#define EVENT_GAMECLEAR_SHARED_TYPES_H
+
+struct SaveControl;
+
+#endif

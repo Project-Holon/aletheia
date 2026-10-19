@@ -1,5 +1,8 @@
 # A const table load moves above the outgoing stack store; non-const loads stay below
 
+summary: mwcc moves a load from a const object above the outgoing stack-argument store, but not a
+load from non-const memory. Declare only the table that feeds the early load const.
+
 Seen in ov170 func_021EE544 (wave D7, closed).
 
 Shape: a call with a stack argument. The original loads one register argument (`ldrb r3,[r3]`)

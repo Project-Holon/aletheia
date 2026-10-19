@@ -1,7 +1,7 @@
 /*
  * file:     fieldmap.c
  * unit:     yes
- * function: FIELDMAP_ProcInit, FIELDMAP_ProcMain, FIELDMAP_ProcExit, FIELDMAP_Create, FIELDMAP_Delete, FIELDMAP_SeqInitSystem, FIELDMAP_SeqCreateSubsystems, FIELDMAP_SeqStart, FIELDMAP_SeqUpdate, FIELDMAP_UpdateCameraAndDraw, FIELDMAP_SeqUpdateTop, FIELDMAP_SeqDeleteSubsystems, FIELDMAP_SeqExitSystem, FIELDMAP_Main, FIELDMAP_RequestClose, FIELDMAP_IsReady, FIELDMAP_ApplyPlayerFormRequest, FIELDMAP_GetMsgBg, FIELDMAP_GetCamera, FIELDMAP_GetNogridMapper, FIELDMAP_GetLight, FIELDMAP_GetFog, FIELDMAP_GetZoneFog, FIELDMAP_GetWeather, FIELDMAP_QueryIssSwitch, FIELDMAP_GetMmdlSys, FIELDMAP_GetGameSystem, FIELDMAP_GetHeapId, FIELDMAP_GetEffectBbdAct, FIELDMAP_GetGroundBbdAct, FIELDMAP_GetG3dMapper, FIELDMAP_GetZoneId, FIELDMAP_GetCtrlWork, FIELDMAP_SetCtrlWork, FIELDMAP_GetFieldPlayer, FIELDMAP_IsFieldPlayerCreated, FIELDMAP_GetSubscreen, FIELDMAP_GetEffect, FIELDMAP_GetG3dObjCtrl, FIELDMAP_GetUnionEff, FIELDMAP_GetEncount, FIELDMAP_GetCtrlType, FIELDMAP_GetMoveKind, FIELDMAP_GetPlaceName, FIELDMAP_GetMapFunc, FIELDMAP_GetExpObj, FIELDMAP_GetTcblSys, FIELDMAP_GetTaskManager, FIELDMAP_SetTargetPos, FIELDMAP_GetInfoWindow, FIELDMAP_SetInfoWindow, FIELDMAP_GetSodateya, FIELDMAP_GetAreaData, FIELDMAP_InitBgSystem, FIELDMAP_SetBgMode, FIELDMAP_ResetBgAffineShowMsg, FIELDMAP_ResetBgAffineHideMsg, FIELDMAP_GetVReq, FIELDMAP_ExitBgSystem, FIELDMAP_SetupG3d, FIELDMAP_CreateG3dResources, FIELDMAP_UpdateG3d, FIELDMAP_DrawStart, FIELDMAP_DrawEnd, FIELDMAP_DeleteG3dResources, FIELDMAP_VBlankTask, FIELDMAP_BbdActTransCallback, FIELDMAP_SetupEdgeMarking, FIELDMAP_SetupBbdColor, FIELDMAP_SetupMmdlSys, FIELDMAP_DeleteMmdlSys, FIELDMAP_UpdateZoneChange, FIELDMAP_CheckPlayerMoved, FIELDMAP_CheckZoneBoundary, FIELDMAP_ChangeZone, FIELDMAP_AddZoneNpcs, FIELDMAP_ChangeZoneSound, FIELDMAP_ChangeZoneWeather, FIELDMAP_ChangeZoneFog, FIELDMAP_SetPlayerZoneId, FIELDMAP_ChangeZoneCamera, FIELDMAP_ClearCtrlWork, FIELDMAP_SetupCameraArea, FIELDMAP_SetupWfbc, FIELDMAP_SetupSceneArea, FIELDMAP_GetCommKind, FIELDMAP_CheckCommExit, FIELDMAP_InitCommonWork, FIELDMAP_AllocCommonWork, FIELDMAP_FreeCommonWork, FIELDMAP_GetCommonWork, FIELDMAP_ReflectFog, FIELDMAP_Draw3dNormal, FIELDMAP_Draw3dParticle, FIELDMAP_Draw3dEncEff, FIELDMAP_GetDrawMode, FIELDMAP_SetDrawMode, FIELDMAP_GetFld3dCi, FIELDMAP_GetEncEff, FIELDMAP_GetMapEff, FIELDMAP_GetSceneArea, FIELDMAP_SetScriptEffectBusy, FIELDMAP_GetScriptEffectBusy, FIELDMAP_IsEventActive, FIELDMAP_GetTimeZone, FIELDMAP_GetSubscreenBusy, FIELDMAP_SetSubscreenBusy, FIELDMAP_SetUpdateStopped, FIELDMAP_GetFaceUpWorkPtr, FIELDMAP_SetZoneEffectWork, FIELDMAP_GetZoneEffectWork, FIELDMAP_GetCameraPitchScale, FIELDMAP_CalcCameraPitchScale, FIELDMAP_GetProjDepthOffset, FIELDMAP_IsMmdlDrawEnabled, FIELDMAP_IsLoaderWaitZone, FIELDMAP_GetMapType, FIELDMAP_SetupMapperParam, FIELDMAP_GetCtrlFuncs
+ * function: FIELDMAP_ProcInit, FIELDMAP_ProcMain, FIELDMAP_ProcExit, FIELDMAP_Create, FIELDMAP_Delete, FIELDMAP_SeqInitSystem, FIELDMAP_SeqCreateSubsystems, FIELDMAP_SeqStart, FIELDMAP_SeqUpdate, FIELDMAP_UpdateCameraAndDraw, FIELDMAP_SeqUpdateTop, FIELDMAP_SeqDeleteSubsystems, FIELDMAP_SeqExitSystem, FIELDMAP_Main, FIELDMAP_RequestClose, FIELDMAP_IsReady, FIELDMAP_ApplyPlayerFormRequest, FIELDMAP_GetMsgBg, FIELDMAP_GetCamera, FIELDMAP_GetNogridMapper, FIELDMAP_GetLight, FIELDMAP_GetFog, FIELDMAP_GetZoneFog, FIELDMAP_GetWeather, FIELDMAP_GetZoneWeatherId, FIELDMAP_GetMmdlSys, FIELDMAP_GetGameSystem, FIELDMAP_GetHeapId, FIELDMAP_GetEffectBbdAct, FIELDMAP_GetGroundBbdAct, FIELDMAP_GetG3dMapper, FIELDMAP_GetZoneId, FIELDMAP_GetCtrlWork, FIELDMAP_SetCtrlWork, FIELDMAP_GetFieldPlayer, FIELDMAP_IsFieldPlayerCreated, FIELDMAP_GetSubscreen, FIELDMAP_GetEffect, FIELDMAP_GetG3dObjCtrl, FIELDMAP_GetUnionEff, FIELDMAP_GetEncount, FIELDMAP_GetCtrlType, FIELDMAP_GetMoveKind, FIELDMAP_GetPlaceName, FIELDMAP_GetMapFunc, FIELDMAP_GetExpObj, FIELDMAP_GetTcblSys, FIELDMAP_GetTaskManager, FIELDMAP_SetTargetPos, FIELDMAP_GetInfoWindow, FIELDMAP_SetInfoWindow, FIELDMAP_GetSodateya, FIELDMAP_GetAreaData, FIELDMAP_InitBgSystem, FIELDMAP_SetBgMode, FIELDMAP_ResetBgAffineShowMsg, FIELDMAP_ResetBgAffineHideMsg, FIELDMAP_GetVReq, FIELDMAP_ExitBgSystem, FIELDMAP_SetupG3d, FIELDMAP_CreateG3dResources, FIELDMAP_UpdateG3d, FIELDMAP_DrawStart, FIELDMAP_DrawEnd, FIELDMAP_DeleteG3dResources, FIELDMAP_VBlankTask, FIELDMAP_BbdActTransCallback, FIELDMAP_SetupEdgeMarking, FIELDMAP_SetupBbdColor, FIELDMAP_SetupMmdlSys, FIELDMAP_DeleteMmdlSys, FIELDMAP_UpdateZoneChange, FIELDMAP_CheckPlayerMoved, FIELDMAP_CheckZoneBoundary, FIELDMAP_ChangeZone, FIELDMAP_AddZoneNpcs, FIELDMAP_ChangeZoneSound, FIELDMAP_ChangeZoneWeather, FIELDMAP_ChangeZoneFog, FIELDMAP_SetPlayerZoneId, FIELDMAP_ChangeZoneCamera, FIELDMAP_ClearCtrlWork, FIELDMAP_SetupCameraArea, FIELDMAP_SetupWfbc, FIELDMAP_SetupSceneArea, FIELDMAP_GetCommKind, FIELDMAP_CheckCommExit, FIELDMAP_InitCommonWork, FIELDMAP_AllocCommonWork, FIELDMAP_FreeCommonWork, FIELDMAP_GetCommonWork, FIELDMAP_ReflectFog, FIELDMAP_Draw3dNormal, FIELDMAP_Draw3dParticle, FIELDMAP_Draw3dEncEff, FIELDMAP_GetDrawMode, FIELDMAP_SetDrawMode, FIELDMAP_GetFld3dCi, FIELDMAP_GetEncEff, FIELDMAP_GetMapEff, FIELDMAP_GetSceneArea, FIELDMAP_SetScriptEffectBusy, FIELDMAP_GetScriptEffectBusy, FIELDMAP_IsEventActive, FIELDMAP_GetTimeZone, FIELDMAP_GetSubscreenBusy, FIELDMAP_SetSubscreenBusy, FIELDMAP_SetUpdateStopped, FIELDMAP_GetFaceUpWorkPtr, FIELDMAP_SetZoneEffectWork, FIELDMAP_GetZoneEffectWork, FIELDMAP_GetCameraPitchScale, FIELDMAP_CalcCameraPitchScale, FIELDMAP_GetProjDepthOffset, FIELDMAP_IsMmdlDrawEnabled, FIELDMAP_IsLoaderWaitZone, FIELDMAP_GetMapType, FIELDMAP_SetupMapperParam, FIELDMAP_GetCtrlFuncs
  * address:  0x02187F00
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -55,7 +55,7 @@
  *   TCB_Init  0x02030CBC  arm
  *   FIELD_TASK_MANAGER_Create  0x021C6D10  thumb
  *   FLD_VREQ_Create  0x021D317C  thumb
- *   ZONEDATA_IsZone1A6  0x02013CC8  thumb
+ *   ZONEDATA_IsUnionRoom  0x02013CC8  thumb
  *   ZONEDATA_IsZone96Pair  0x02013CE0  thumb
  *   GF_OVERLAY_Load  0x02034AC4  arm
  *   UI_ChangeFrameRate  0x02035660  arm
@@ -92,7 +92,7 @@
  *   ZONEDATA_IsBikeEnabled  0x02013C20  thumb
  *   GAME_DATA_SetPlayerObjectCode  0x02012B2C  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   FIELD_PLAYER_Create  0x021A2E50  thumb  ov021
  *   FIELD_G3D_MAPPER_SetFocusPos  0x0218D158  thumb  ov021
  *   FLD_EXP_OBJ_Create  0x021BE2A8  thumb  ov021
@@ -473,7 +473,7 @@ extern u32 TCB_GetTaskOffset(u32 idx);
 extern struct TcblSys *TCB_Init(u32 capacity, void *work);
 extern struct FieldTaskManager *FIELD_TASK_MANAGER_Create(int n, int heapId);
 extern void *FLD_VREQ_Create(u32 heap);
-extern u32 ZONEDATA_IsZone1A6(u32 id);
+extern u32 ZONEDATA_IsUnionRoom(u32 id);
 extern u32 ZONEDATA_IsZone96Pair(u32 id);
 extern int GF_OVERLAY_Load(int id);
 extern void UI_ChangeFrameRate(u32 a);
@@ -508,7 +508,7 @@ extern u32 GAME_DATA_GetPlayerObjectCode(const struct PlayerWork *p);
 extern u32 ZONEDATA_IsBikeEnabled(u32 id);
 extern void GAME_DATA_SetPlayerObjectCode(struct PlayerWork *p, u32 v);
 extern void *GAME_DATA_GetMyStatus(struct GameData *gameData);
-extern u8 MYSTATUS_GetOutfitVariant(const void *myStatus);
+extern u8 MYSTATUS_GetSex(const void *myStatus);
 extern struct FieldPlayer *FIELD_PLAYER_Create(struct PlayerWork *playerWork, FieldMap *fieldMap, const VecFx32 *pos, int sex, u16 heapId);
 extern void FIELD_G3D_MAPPER_SetFocusPos(struct FieldG3dMapper *g3dMapper, const VecFx32 *pos);
 extern struct FldExpObjCnt *FLD_EXP_OBJ_Create(int a, int b, u16 heapId);
@@ -807,7 +807,7 @@ struct FieldLight *FIELDMAP_GetLight(FieldMap *fieldMap);
 struct FieldFog *FIELDMAP_GetFog(FieldMap *fieldMap);
 struct FieldZoneFog *FIELDMAP_GetZoneFog(FieldMap *fieldMap);
 struct WeatherSys *FIELDMAP_GetWeather(FieldMap *fieldMap);
-int FIELDMAP_QueryIssSwitch(FieldMap *fieldMap, int switchId);
+int FIELDMAP_GetZoneWeatherId(FieldMap *fieldMap, int switchId);
 struct MmdlSys *FIELDMAP_GetMmdlSys(FieldMap *fieldMap);
 struct GameSystem *FIELDMAP_GetGameSystem(FieldMap *fieldMap);
 u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
@@ -1040,7 +1040,7 @@ int FIELDMAP_SeqInitSystem(struct GameSystem *gameSystem, FieldMap *fieldMap)
     fieldMap->tcblSys = TCB_Init(0x20, fieldMap->tcblWork);
     fieldMap->taskManager = FIELD_TASK_MANAGER_Create(0xA, fieldMap->heapId);
     fieldMap->vreq = FLD_VREQ_Create(fieldMap->heapId);
-    GF_OVERLAY_Load((ZONEDATA_IsZone1A6(fieldMap->zoneId) == 1 || ZONEDATA_IsZone96Pair(fieldMap->zoneId) == 1) ? (int)abs_id_19 : (int)abs_id_18);
+    GF_OVERLAY_Load((ZONEDATA_IsUnionRoom(fieldMap->zoneId) == 1 || ZONEDATA_IsZone96Pair(fieldMap->zoneId) == 1) ? (int)abs_id_19 : (int)abs_id_18);
     UI_ChangeFrameRate(0x1E);
     return 1;
 }
@@ -1096,7 +1096,7 @@ int FIELDMAP_SeqCreateSubsystems(struct GameSystem *gameSystem, FieldMap *fieldM
         FIELD_EFFECT_InitObjectSystem(fieldMap->effect, 0x5e);
         FIELD_EFFECT_SetPaletteTable(fieldMap->effect, FIELD_PALACE_SYS_GetPalTable(fieldMap->palaceSys));
         FIELD_EFFECT_LoadResources(fieldMap->effect, sFieldEffectTaskTable, sFieldEffectTaskCount);
-        if (ZONEDATA_IsZone1A6(fieldMap->zoneId) == 1 || ZONEDATA_IsZone96Pair(fieldMap->zoneId) == 1) {
+        if (ZONEDATA_IsUnionRoom(fieldMap->zoneId) == 1 || ZONEDATA_IsZone96Pair(fieldMap->zoneId) == 1) {
             fieldMap->unionEff = UNION_EFF_Create(fieldMap->heapId);
         }
         break;
@@ -1112,7 +1112,7 @@ int FIELDMAP_SeqCreateSubsystems(struct GameSystem *gameSystem, FieldMap *fieldM
         if (GAME_DATA_GetPlayerObjectCode(playerWork) == 1 && ZONEDATA_IsBikeEnabled(fieldMap->zoneId) == 0) {
             GAME_DATA_SetPlayerObjectCode(playerWork, 0);
         }
-        fieldMap->player = FIELD_PLAYER_Create(playerWork, fieldMap, playerPos, MYSTATUS_GetOutfitVariant(GAME_DATA_GetMyStatus(gameData)), fieldMap->heapId);
+        fieldMap->player = FIELD_PLAYER_Create(playerWork, fieldMap, playerPos, MYSTATUS_GetSex(GAME_DATA_GetMyStatus(gameData)), fieldMap->heapId);
         fieldMap->nowPos = *playerPos;
         fieldMap->ctrlFuncs->create(fieldMap, &fieldMap->nowPos, dirType);
         FIELD_G3D_MAPPER_SetFocusPos(fieldMap->g3dMapper, &fieldMap->nowPos);
@@ -1187,7 +1187,7 @@ int FIELDMAP_SeqStart(struct GameSystem *gameSystem, FieldMap *fieldMap)
         }
         FIELD_STATUS_SetContinueFlag(GAME_DATA_GetMoveModelSys(fieldMap->gameData), 0);
         FIELD_G3D_MAPPER_UpdateBlocking(fieldMap->g3dMapper);
-        if (ZONEDATA_IsZone1A6(fieldMap->zoneId) == 1 || ZONEDATA_IsZone96Pair(fieldMap->zoneId) == 1)
+        if (ZONEDATA_IsUnionRoom(fieldMap->zoneId) == 1 || ZONEDATA_IsZone96Pair(fieldMap->zoneId) == 1)
             GAMESYSTEM_SetEventCreator(gameSystem, FIELD_EVENT_CHECK_CheckCommEvents, fieldMap);
         else if (FIELDMAP_GetCtrlType(fieldMap) == 1)
             GAMESYSTEM_SetEventCreator(gameSystem, FIELD_EVENT_CHECK_RunRail, fieldMap);
@@ -1223,7 +1223,7 @@ int FIELDMAP_SeqUpdate(struct GameSystem *gameSystem, FieldMap *fieldMap)
         FIELD_PLACE_NAME_Main(fieldMap->placeName);
     FIELDSKILL_MAPEFF_Update(fieldMap->mapEff);
     FIELD_PLAYER_SaveToPlayerWork(fieldMap->player);
-    if (ZONEDATA_IsZone1A6(fieldMap->zoneId) == 1 || ZONEDATA_IsZone96Pair(fieldMap->zoneId) == 1)
+    if (ZONEDATA_IsUnionRoom(fieldMap->zoneId) == 1 || ZONEDATA_IsZone96Pair(fieldMap->zoneId) == 1)
         UNION_MAIN_UpdateField(GAMESYSTEM_GetGameComm(gameSystem), fieldMap);
     else
         INTRUDE_FIELD_Update(fieldMap, fieldMap->gameSystem, fieldMap->player);
@@ -1343,7 +1343,7 @@ int FIELDMAP_SeqExitSystem(struct GameSystem *gameSystem, FieldMap *fieldMap)
     CLACT_ExitSystem();
     BMP_WIN_Exit();
     FIELDMAP_ExitBgSystem(fieldMap);
-    if (ZONEDATA_IsZone1A6(fieldMap->zoneId) == 1 || ZONEDATA_IsZone96Pair(fieldMap->zoneId) == 1)
+    if (ZONEDATA_IsUnionRoom(fieldMap->zoneId) == 1 || ZONEDATA_IsZone96Pair(fieldMap->zoneId) == 1)
         GF_OVERLAY_Unload((s32)abs_id_13);
     else
         GF_OVERLAY_Unload((s32)abs_id_12);
@@ -1444,7 +1444,7 @@ struct WeatherSys *FIELDMAP_GetWeather(FieldMap *fieldMap)
     return fieldMap->weather;
 }
 
-int FIELDMAP_QueryIssSwitch(FieldMap *fieldMap, int switchId)
+int FIELDMAP_GetZoneWeatherId(FieldMap *fieldMap, int switchId)
 {
     return WEATHER_GetZoneWeatherId(fieldMap->gameSystem, switchId);
 }
@@ -1796,10 +1796,10 @@ void FIELDMAP_SetupMmdlSys(FieldMap *fieldMap)
     FLDMMDL_BLACT_Init(fieldMap->mmdlSys, fieldMap->mmdlBbdAct, 0x20);
     FLDMMDL_BLACT_AddCachedRes(fieldMap->mmdlSys);
     zoneId = fieldMap->location.zoneId;
-    if (ZONEDATA_IsZone1A6(zoneId) == 0 && ZONEDATA_IsZone96Pair(zoneId) == 0) {
+    if (ZONEDATA_IsUnionRoom(zoneId) == 0 && ZONEDATA_IsZone96Pair(zoneId) == 0) {
         sex = INTRUDE_FIELD_GetHostGender(GAMESYSTEM_GetGameComm(fieldMap->gameSystem));
     } else {
-        sex = MYSTATUS_GetOutfitVariant(GAME_DATA_GetMyStatus(gameData));
+        sex = MYSTATUS_GetSex(GAME_DATA_GetMyStatus(gameData));
     }
     FLDMMDL_BLACT_AddResByCode(mmdlSys, FIELD_PLAYER_GetObjCodeOfFormCode(sex, 0));
     FLDMMDL_G3DOBJ_Create(fieldMap->mmdlSys, fieldMap->g3dObjCtrl);

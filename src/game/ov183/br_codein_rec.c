@@ -1,7 +1,7 @@
 /*
  * file:     br_codein_rec.c
  * unit:     yes
- * function: BR_CODEIN_ShowMenuText, BR_CODEIN_HideMenuText, BR_CODEIN_GetMenuCallbacks, BR_CODEIN_CreateMenuButtons, BR_CODEIN_DeleteMenuButtons, BR_CODEIN_HitTestOptionA, BR_CODEIN_HitTestOptionB
+ * function: BR_CODEIN_ShowMenuText, BR_CODEIN_HideMenuText, BR_CODEIN_GetMenuCallbacks, BR_CODEIN_CreateMenuButtons, BR_CODEIN_DeleteMenuButtons, BR_CODEIN_HitTestOptionLeft, BR_CODEIN_HitTestOptionRight
  * address:  0x021E2FA8
  * region:   ov183
  * compiler: dsi/1.1p1
@@ -90,8 +90,8 @@ void BR_CODEIN_HideMenuText(struct CodeinMenuState *menu);
 void BR_CODEIN_GetMenuCallbacks(Pair *out);
 void BR_CODEIN_CreateMenuButtons(struct CodeinMenuState *menu,struct CodeinMenuArg *arg);
 void BR_CODEIN_DeleteMenuButtons(struct CodeinMenuState *menu,struct CodeinMenuArg *arg);
-int BR_CODEIN_HitTestOptionA(struct CodeinMenuState *menu, int x, int y);
-int BR_CODEIN_HitTestOptionB(struct CodeinMenuState *menu, int x, int y);
+int BR_CODEIN_HitTestOptionLeft(struct CodeinMenuState *menu, int x, int y);
+int BR_CODEIN_HitTestOptionRight(struct CodeinMenuState *menu, int x, int y);
 extern const Table d_021E3910;
 
 
@@ -169,7 +169,7 @@ void BR_CODEIN_DeleteMenuButtons(struct CodeinMenuState *menu,struct CodeinMenuA
 
 
 
-int BR_CODEIN_HitTestOptionA(struct CodeinMenuState *menu, int x, int y)
+int BR_CODEIN_HitTestOptionLeft(struct CodeinMenuState *menu, int x, int y)
 {
     int ok = ((unsigned int)(x - 0x20) <= 0x48) &
              ((unsigned int)(y - 0x30) <= 0x10);
@@ -186,7 +186,7 @@ int BR_CODEIN_HitTestOptionA(struct CodeinMenuState *menu, int x, int y)
 
 
 
-int BR_CODEIN_HitTestOptionB(struct CodeinMenuState *menu, int x, int y)
+int BR_CODEIN_HitTestOptionRight(struct CodeinMenuState *menu, int x, int y)
 {
     int ok = ((unsigned int)(x - 0x90) <= 0x48) &
              ((unsigned int)(y - 0x30) <= 0x10);

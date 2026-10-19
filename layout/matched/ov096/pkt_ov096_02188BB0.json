@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "TR_AI_CmdIfHasMoveWithParam3",
+   "name": "TR_AI_CmdIfHasMoveWithPower",
    "address": "0x02188BB0",
    "kind": "game",
    "region": "ov096",

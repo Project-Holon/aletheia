@@ -22,7 +22,7 @@
  *   STRBUF_Create   0x020457B0  arm
  *   gSpeciesNameBank   0x020A7370  data
  *   PMSI_PARAM_ValidateDecoValue  0x0202473C  thumb
- *   BMP_OAM_Get  0x02025B94  thumb
+ *   NATION_AREA_GetAreaMsgBank  0x02025B94  thumb
  *   gDigitGlyphsFullWidth     0x0209E784  data
  *   gDigitGlyphsHalfWidth     0x0209E758  data
  *   gPowersOfTen     0x0209E838  data
@@ -37,11 +37,11 @@
  *   STRBUF_GetEosChar  0x02045A98  arm
  *   MSGDATA_Delete  0x02045C04  arm
  *   TPOKE_DATA_GetRecordField  0x0202A230  thumb
- *   GF_FONT_GetTagChar 0x0201D5C4 thumb arm9
- *   GF_FONT_IsWordSlotTag 0x0201D5CC thumb arm9
- *   GF_FONT_AppendTag 0x0201D60C thumb arm9
- *   GF_FONT_GetTagParam 0x0201D670 thumb arm9
- *   GF_FONT_SkipTag 0x0201D688 thumb arm9
+ *   PRINTSYS_GetTagChar 0x0201D5C4 thumb arm9
+ *   PRINTSYS_IsWordSlotTag 0x0201D5CC thumb arm9
+ *   PRINTSYS_AppendTag 0x0201D60C thumb arm9
+ *   PRINTSYS_GetTagParam 0x0201D670 thumb arm9
+ *   PRINTSYS_SkipTag 0x0201D688 thumb arm9
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  *   MSGDATA_CreateFromArchive  0x02045B38  arm
@@ -99,7 +99,7 @@ extern u16 MSGDATA_GetMessageCount(const struct MsgBank *bank);
 
 extern void MYSTATUS_NameToStrbuf(void *source, struct Strbuf *dest);
 
-extern u32 BMP_OAM_Get(u32 value);
+extern u32 NATION_AREA_GetAreaMsgBank(u32 value);
 
 extern u32 TPOKE_DATA_GetRecordField(void *source, u32 index);
 
@@ -110,15 +110,15 @@ extern u16  STRBUF_GetEosChar(void);
 
 extern void STRBUF_Append(struct Strbuf *dst, struct Strbuf *src);
 
-u32 GF_FONT_GetTagChar(void);
+u32 PRINTSYS_GetTagChar(void);
 
-u32 GF_FONT_IsWordSlotTag(const u16 *tag);
+u32 PRINTSYS_IsWordSlotTag(const u16 *tag);
 
-void GF_FONT_AppendTag(struct Strbuf *text, u32 group, u32 kind, u16 paramCount, const u16 *params);
+void PRINTSYS_AppendTag(struct Strbuf *text, u32 group, u32 kind, u16 paramCount, const u16 *params);
 
-u32 GF_FONT_GetTagParam(const u16 *tag, u32 paramIndex);
+u32 PRINTSYS_GetTagParam(const u16 *tag, u32 paramIndex);
 
-u16 *GF_FONT_SkipTag(u16 *tag);
+u16 *PRINTSYS_SkipTag(u16 *tag);
 
 struct WordSet *WORDSET_Create(u32 slotCount, u32 textCapacity, u16 heapId);
 
@@ -619,14 +619,14 @@ void WORDSET_SetSlotFromMsgE7(struct WordSet *words, u32 slot, u32 entryIndex)
 /*
  * Promoted from src/pending/WORDSET_SetSlotFromKeyedMessage.c: every concrete byte was
  * already reproduced, and the one relocation, the call to
- * BMP_OAM_Get, was capped at MATCH because the only branch to that
+ * NATION_AREA_GetAreaMsgBank, was capped at MATCH because the only branch to that
  * address anywhere in the image is the one inside this function. Now
- * that src/matched/BMP_OAM_Get.c is an EXACT entry, the `matched` class
+ * that src/matched/NATION_AREA_GetAreaMsgBank.c is an EXACT entry, the `matched` class
  * attests the call without needing a second caller, and this file closes
  * to EXACT.
  *
  * A wordset.c setter that maps a caller value to a message id through
- * BMP_OAM_Get and renders it. That is why the wordset.c setter run is
+ * NATION_AREA_GetAreaMsgBank and renders it. That is why the wordset.c setter run is
  * committed as src/matched/unit_0201F020.c and
  * src/matched/unit_0201F0F8.c with this function left out between them;
  * it can now be folded back in on a future pass.
@@ -637,7 +637,7 @@ void WORDSET_SetSlotFromMsgE7(struct WordSet *words, u32 slot, u32 entryIndex)
  */
 void WORDSET_SetSlotFromKeyedMessage(struct WordSet *words, u32 slot, u32 key, u32 entryIndex)
 {
-    u32 messageId = BMP_OAM_Get(key);
+    u32 messageId = NATION_AREA_GetAreaMsgBank(key);
     struct MsgBank *bank;
 
     if (messageId != 0 && entryIndex != 0) {
@@ -790,9 +790,9 @@ void WORDSET_SetSlotMonth(struct WordSet *words, u32 slot, u32 month)
  * replaced by the stored word itself.
  *
  * The tag primitives it calls are the seven of src/matched/unit_0201D5C4.c:
- * GF_FONT_GetTagChar is the 0xF000 marker, GF_FONT_IsWordSlotTag says whether the tag is a
- * word reference, GF_FONT_GetTagParam reads parameter 0 (the word index),
- * GF_FONT_AppendTag writes a new tag, and GF_FONT_SkipTag steps the cursor past a
+ * PRINTSYS_GetTagChar is the 0xF000 marker, PRINTSYS_IsWordSlotTag says whether the tag is a
+ * word reference, PRINTSYS_GetTagParam reads parameter 0 (the word index),
+ * PRINTSYS_AppendTag writes a new tag, and PRINTSYS_SkipTag steps the cursor past a
  * tag.  The word table hangs off the object at +8 and its entries are 0xC
  * bytes: a flag at +4 and the word's own message at +8.  When the flag is set
  * the expansion is bracketed by two freshly built 0xBD tags, kinds 6 and 4,
@@ -806,7 +806,7 @@ void WORDSET_SetSlotMonth(struct WordSet *words, u32 slot, u32 month)
  *     flag test and the first write, and the buffer has its address taken, so
  *     re-reading `words->slots` after them costs a reload the original does not
  *     have.  Binding it for the *second* write as well is four bytes too long
- *     the other way: the local would then be live across GF_FONT_AppendTag and the
+ *     the other way: the local would then be live across PRINTSYS_AppendTag and the
  *     index has to be spilled.  The original recomputes the address from the
  *     two callee-saved registers it already holds, which is what writing the
  *     expression out gives.
@@ -840,23 +840,23 @@ void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct St
     cursor = STRBUF_GetChars(src);
     STRBUF_Clear(dst);
     terminator = STRBUF_GetEosChar();
-    tagMarker = GF_FONT_GetTagChar();
+    tagMarker = PRINTSYS_GetTagChar();
     while (cursor[0] != terminator) {
         if (cursor[0] == tagMarker) {
-            if (GF_FONT_IsWordSlotTag(cursor) != 0) {
-                slot = GF_FONT_GetTagParam(cursor, 0);
+            if (PRINTSYS_IsWordSlotTag(cursor) != 0) {
+                slot = PRINTSYS_GetTagParam(cursor, 0);
                 entry = &words->slots[slot];
                 if (entry->tag.addsMarker != 0) {
                     tagParams[1] = (u16)slot;
                     tagParams[0] = 0x54;
-                    GF_FONT_AppendTag(entry->text, 0xBD, 6, 1, &tagParams[1]);
-                    GF_FONT_AppendTag(words->slots[slot].text, 0xBD, 4, 1, &tagParams[0]);
+                    PRINTSYS_AppendTag(entry->text, 0xBD, 6, 1, &tagParams[1]);
+                    PRINTSYS_AppendTag(words->slots[slot].text, 0xBD, 4, 1, &tagParams[0]);
                 }
                 WORDSET_AppendUnpackedString(dst, words->slots[slot].text);
-                cursor = GF_FONT_SkipTag(cursor);
+                cursor = PRINTSYS_SkipTag(cursor);
             } else {
                 copyCursor = cursor;
-                cursor = GF_FONT_SkipTag(cursor);
+                cursor = PRINTSYS_SkipTag(cursor);
                 while (copyCursor < cursor) {
                     STRBUF_AppendChar(dst, *copyCursor++);
                 }

@@ -23,7 +23,7 @@
  *   FADE_Start 0x0204E720 arm
  *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   PROCSYS_Create 0x02031324 arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   d_02208F40 0x02208F40 data a4
  *   PROCSYS_Delete 0x0203133C arm
  *   TCB_DeleteTask 0x02030EAC arm
@@ -329,7 +329,7 @@ extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 extern void FADE_Start(u32,int,int,int);
 extern void *GFL_USE_AddMainTask(u32,u32,u32);
 extern void *PROCSYS_Create(int heapId);
-extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 extern void PROCSYS_Delete(void *);
 extern void TCB_DeleteTask(struct Node *);
 extern u32 GFL_HEAP_Free(void *p);
@@ -590,7 +590,7 @@ int SHINKA_DEMO_Create(void *owner,int unused,u8 *app)
     ((struct Scene *)p)->flag118=0;
     ((struct Scene *)p)->proc=(unsigned int)PROCSYS_Create(((struct Scene *)p)->mainHeap);
     SHINKA_DEMO_SetupScene((App *)((struct App *)app), (Scene *)((struct Scene *)p));
-    GFL_NET_RestartWithDefaultTimeout(0,((struct Scene *)p)->mainHeap);
+    GFL_NET_RefreshWmIconAtTopRight(0,((struct Scene *)p)->mainHeap);
     return 1;
 }
 
@@ -682,7 +682,7 @@ int SHINKA_DEMO_Main(int unused0,int unused1,char *a,char *s)
         ((u8 *)P(0x100))[0xd]=2;((u8 *)P(0x100))[0x10]=1;*(u32 *)((char *)P(0x100)+0x20)=0;
         GF_OVERLAY_Load((int)ov131_id);PROCSYS_Push(P(0x11c),-1,gPokeStatusProcData,P(0x100));break;
     case 24:if(tick!=1)W(0x28)=25;else return 0;break;
-    case 25:GF_OVERLAY_Unload((int)ov131_id);W(0x28)=26;SHINKA_DEMO_SetupScene((App *)((struct App *)a), (Scene *)((struct Scene *)s));GFL_NET_RestartWithDefaultTimeout(0,H(0));FADE_Start(3,16,0,0);break;
+    case 25:GF_OVERLAY_Unload((int)ov131_id);W(0x28)=26;SHINKA_DEMO_SetupScene((App *)((struct App *)a), (Scene *)((struct Scene *)s));GFL_NET_RefreshWmIconAtTopRight(0,H(0));FADE_Start(3,16,0,0);break;
     case 26:
         if(!FADE_IsActive()){q=P(0x100);switch(q[0x12]){case 0:result=q[0x11];B(0x1a)=result;H(0x18)=POKE_TOOL_GetPartyValue(P(0x10),result+0x36,0);W(0x28)=31;break;case 1:case 2:default:W(0x28)=36;break;}}break;
     case 27:
@@ -697,7 +697,7 @@ int SHINKA_DEMO_Main(int unused0,int unused1,char *a,char *s)
     case 29:
         if(FADE_IsActive())break;
         W(0x28)=30;GF_OVERLAY_Unload((int)ov196_id);GF_OVERLAY_Unload((int)ov198_id);PALANM_FreeSlotBuffers(P(0xa8),1);PALANM_FreeSlotBuffers(P(0xa8),3);PALANM_Delete(P(0xa8));TCB_Noop(P(0xa0));GFL_HEAP_Free(P(0xa4));W(0xa0)=0;W(0xa4)=0;W(0xa8)=0;
-        SHINKA_DEMO_GRAPHIC_SetupSubBg(P(4));P(0x9c)=YESNO_MENU_Create(H(0),5,0,1,0,SHINKA_DEMO_GRAPHIC_GetCamera(P(4)),W(8),W(0xc),0);GFL_NET_RestartWithDefaultTimeout(0,H(0));FADE_Start(2,16,0,0);break;
+        SHINKA_DEMO_GRAPHIC_SetupSubBg(P(4));P(0x9c)=YESNO_MENU_Create(H(0),5,0,1,0,SHINKA_DEMO_GRAPHIC_GetCamera(P(4)),W(8),W(0xc),0);GFL_NET_RefreshWmIconAtTopRight(0,H(0));FADE_Start(2,16,0,0);break;
     case 30:
         if(FADE_IsActive())break;
         B(0x1a)=B(0xfb);if(B(0x1a)==4)W(0x28)=36;else{H(0x18)=POKE_TOOL_GetPartyValue(P(0x10),B(0x1a)+0x36,0);W(0x28)=31;}

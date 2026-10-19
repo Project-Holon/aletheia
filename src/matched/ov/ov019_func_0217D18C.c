@@ -20,7 +20,7 @@
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   MET_TRAINERS_GetFromSave  0x0200ED48  thumb
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
- *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
+ *   GAME_DATA_GetMyStatusPlayer  0x02012950  thumb
  *   func_02008530  0x02008530  thumb
  *   MET_TRAINERS_Insert  0x0200ED54  thumb
  *   func_02030734  0x02030734  arm
@@ -77,7 +77,7 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *MET_TRAINERS_GetFromSave(void *p);
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
-extern struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, u32 i);
+extern struct Rec44 *GAME_DATA_GetMyStatusPlayer(struct Sub24 *p, u32 i);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void MET_TRAINERS_Insert(struct L0200ED54 *l, u32 val);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, u16 line);
@@ -111,7 +111,7 @@ int UNION_ONESELF_TradeMain(u8 *a, int b, u8 *c, u8 *d)
         if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 6, 0x14) == 1) {
             x = (int)GAMESYSTEM_GetGameData((const struct Ctx *)((*(int **)a)[3]));
             y = (int)MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)x));
-            MET_TRAINERS_Insert((struct L0200ED54 *)y, func_02008530((const struct Sub0200852CObj *)GAME_DATA_GetPlayerStatus((struct Sub24 *)x, GFL_NET_GetHandleNetID((struct Link *)((int)GFL_NET_HANDLE_GetCurrentHandle())) ^ 1)));
+            MET_TRAINERS_Insert((struct L0200ED54 *)y, func_02008530((const struct Sub0200852CObj *)GAME_DATA_GetMyStatusPlayer((struct Sub24 *)x, GFL_NET_GetHandleNetID((struct Link *)((int)GFL_NET_HANDLE_GetCurrentHandle())) ^ 1)));
             (*d)++;
         }
         break;

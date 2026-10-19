@@ -1,5 +1,5 @@
 /*
- * function: WORLDTRADE_ENTER_ClearListRange
+ * function: WORLDTRADE_DEPOSIT_ClearListRange
  * address:  0x021F8990
  * packet:   pkt_021F8990
  * region:   ov135
@@ -21,7 +21,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
-void WORLDTRADE_ENTER_ClearListRange(u8 *p)
+void WORLDTRADE_DEPOSIT_ClearListRange(u8 *p)
 {
     int i;
     u16 z = 0;

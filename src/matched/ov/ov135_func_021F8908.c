@@ -1,5 +1,5 @@
 /*
- * function: WORLDTRADE_ENTER_CreateListMenu
+ * function: WORLDTRADE_DEPOSIT_CreateListMenu
  * address: 0x021F8908
  * packet: pkt_ov135_021F8908
  * region: ov135
@@ -20,23 +20,23 @@
  * symbols:
  *   BMP_MENUWORK_Create 0x0201F81C thumb
  *   BMP_MENUWORK_AddMsgItem 0x0201F878 thumb
- *   WORLDTRADE_ENTER_GetListRange 0x021F88D8 thumb ov135
+ *   WORLDTRADE_DEPOSIT_GetListRange 0x021F88D8 thumb ov135
  *   tbl_022030E8 0x022030E8 data a2
  */
 #pragma opt_common_subs off
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int WORLDTRADE_ENTER_GetListRange(u32 id, u32 *start);
+extern int WORLDTRADE_DEPOSIT_GetListRange(u32 id, u32 *start);
 extern void *BMP_MENUWORK_Create(u32 n, u32 heap);
 struct Slot;
 extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
 extern u16 tbl_022030E8[];
-int WORLDTRADE_ENTER_CreateListMenu(void **menu, void *msg, int id)
+int WORLDTRADE_DEPOSIT_CreateListMenu(void **menu, void *msg, int id)
 {
     int i;
     int count;
     u32 start;
-    count = WORLDTRADE_ENTER_GetListRange(id, &start);
+    count = WORLDTRADE_DEPOSIT_GetListRange(id, &start);
     *menu = BMP_MENUWORK_Create(count, 0x48);
     for (i = 0; (i < count) ? 1 : 0; i++) {
         BMP_MENUWORK_AddMsgItem(*menu, (u32)msg, tbl_022030E8[start + i], start + i + 1, 0x48);

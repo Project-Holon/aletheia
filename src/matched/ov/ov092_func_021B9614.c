@@ -28,8 +28,8 @@
  *   EVENT_BATTLE_RETURN_ApplyBurmyForms 0x021B9C34 thumb ov092
  *   EVENT_BATTLE_RETURN_RegisterShayminForms 0x021B9CA4 thumb ov092
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
- *   BEACON_AddMoney 0x0200C278 thumb
- *   BEACON_SubMoney 0x0200C29C thumb
+ *   MISC_AddMoney 0x0200C278 thumb
+ *   MISC_SubMoney 0x0200C29C thumb
  *   EVENT_BATTLE_RETURN_ApplyNaturalCure 0x021B9BD8 thumb ov092
  *   POKEPARTY_GetMember 0x0201AB28 thumb
  *   func_02008500 0x02008500 thumb
@@ -54,7 +54,7 @@
  *   ZUKAN_SAVE_RegisterCaught 0x0200CDE0 thumb
  *   PROCSYS_Push 0x02031348 arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   BEACON_GetBlock 0x0200C0F0 thumb
+ *   MISC_GetBlock 0x0200C0F0 thumb
  *   NAMEIN_SETUP_CreateCaptureArgs 0x0216C0A4 thumb ov010
  *   NAMEIN_SETUP_IsCanceled 0x0216C0E4 thumb ov010
  *   NAMEIN_SETUP_CopyName 0x0216C0D4 thumb ov010
@@ -116,8 +116,8 @@ extern u32 EVENT_BATTLE_RETURN_GetBurmyForm(u32, u32);
 extern void EVENT_BATTLE_RETURN_ApplyBurmyForms(struct S *s, void *party, int c);
 extern void EVENT_BATTLE_RETURN_RegisterShayminForms(struct S *s, void *party);
 extern void *GAME_DATA_GetMiscSave(int *p);
-extern u32 BEACON_AddMoney(struct Blk34 *p, u32 v);
-extern u32 BEACON_SubMoney(struct Blk34 *p, u32 v);
+extern u32 MISC_AddMoney(struct Blk34 *p, u32 v);
+extern u32 MISC_SubMoney(struct Blk34 *p, u32 v);
 extern void EVENT_BATTLE_RETURN_ApplyNaturalCure(void *);
 extern void *POKEPARTY_GetMember(void *, u32);
 extern void func_02008500(void *, void *);
@@ -142,7 +142,7 @@ extern void ZUKAN_SAVE_RegisterSeen(struct Blk37 *p, void *m);
 extern void ZUKAN_SAVE_RegisterCaught(struct Blk37 *p, void *m);
 extern void PROCSYS_Push(void *, u32, const u8 *, void *);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *BEACON_GetBlock(void *);
+extern void *MISC_GetBlock(void *);
 extern int *NAMEIN_SETUP_CreateCaptureArgs(unsigned short a, int b, int c, int d, int e, int f, int g, int h);
 extern int NAMEIN_SETUP_IsCanceled(int *p);
 extern void NAMEIN_SETUP_CopyName(int *p, int a1);
@@ -194,8 +194,8 @@ int EVENT_BATTLE_RETURN_Main(void *unused, u32 *step, u8 *s, u8 *r)
             EVENT_BATTLE_RETURN_ApplyBurmyForms((struct S *)s, party, EVENT_BATTLE_RETURN_GetBurmyForm((u32)(*(void **)((u8 *)(s)+( 4))) + 8, (*(u16 *)((u8 *)(r)+( 60)))));
             EVENT_BATTLE_RETURN_RegisterShayminForms((struct S *)s, party);
             amount = (*(u32 *)((u8 *)((*(void **)((u8 *)(s)+( 4))))+( 136)));
-            if (amount > 0) BEACON_AddMoney(GAME_DATA_GetMiscSave((*(void **)((u8 *)(s)+( 0)))), amount);
-            else if (amount < 0) BEACON_SubMoney(GAME_DATA_GetMiscSave((*(void **)((u8 *)(s)+( 0)))), -amount);
+            if (amount > 0) MISC_AddMoney(GAME_DATA_GetMiscSave((*(void **)((u8 *)(s)+( 0)))), amount);
+            else if (amount < 0) MISC_SubMoney(GAME_DATA_GetMiscSave((*(void **)((u8 *)(s)+( 0)))), -amount);
         }
         EVENT_BATTLE_RETURN_ApplyNaturalCure(party);
         if ((*(u32 *)((u8 *)((*(void **)((u8 *)(s)+( 4))))+( 140))) == 5) {
@@ -235,7 +235,7 @@ int EVENT_BATTLE_RETURN_Main(void *unused, u32 *step, u8 *s, u8 *r)
         flag = 0;
         if ((*(u32 *)((u8 *)(r)+( 40))) == 1) flag = 1;
         if (flag) {
-            bank = BEACON_GetBlock(GAME_DATA_GetSaveControl((*(void **)((u8 *)(s)+( 0)))));
+            bank = MISC_GetBlock(GAME_DATA_GetSaveControl((*(void **)((u8 *)(s)+( 0)))));
             (*(void **)((u8 *)(r)+( 0))) = NAMEIN_SETUP_CreateCaptureArgs((*(u16 *)((u8 *)(r)+( 60))), (int)(*(void **)((u8 *)(r)+( 8))), 10, 0, (int)(*(void **)((u8 *)(r)+( 44))), (int)save, (*(u32 *)((u8 *)(r)+( 48))), (int)bank);
             PROCSYS_Push((*(void **)((u8 *)(r)+( 64))), (u32)ov194_id, data_021F5580, (*(void **)((u8 *)(r)+( 0))));
             ++*step;

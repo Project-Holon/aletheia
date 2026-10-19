@@ -32,14 +32,14 @@
  *   SYMBOL_SAVE_GetBitBlock  0x0200E394  thumb
  *   MISC_SAVEDATA_GetStatusByte  0x0200E44C  thumb
  *   _u32_div_f     0x0209C2B0  arm
- *   COMM_PLAYER_GetModelId  0x02167394  thumb
+ *   QUESTIONNAIRE_GetAnswerMax  0x02167394  thumb
  *   SYMBOL_SAVE_GetQuestionnaireAnswer  0x0200E3A4  thumb
  *   MISC_SAVEDATA_IsTallyFull  0x0200E49C  thumb
  *   MISC_SAVEDATA_AddHalfwordClamped  0x0200E460  thumb
  *   MISC_SAVEDATA_AddTallyValue  0x0200E4CC  thumb
- *   BEACON_GetBlock  0x0200C0F0  thumb
- *   BEACON_GetRecentId  0x0200C33C  thumb
- *   BEACON_AddRecentValue  0x0200C364  thumb
+ *   MISC_GetBlock  0x0200C0F0  thumb
+ *   MISC_GetRecentId  0x0200C33C  thumb
+ *   MISC_AddRecentValue  0x0200C364  thumb
  *   MI_CpuFill8    0x02082BCC  arm
  */
 #include "../include/Obj00747.h"
@@ -64,15 +64,15 @@ struct Big;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *SYMBOL_SAVE_GetBitBlock(void *p);
 extern int   MISC_SAVEDATA_GetStatusByte(void *p, int i);
-extern u32   COMM_PLAYER_GetModelId(u8 id);
+extern u32   QUESTIONNAIRE_GetAnswerMax(u8 id);
 extern u32   SYMBOL_SAVE_GetQuestionnaireAnswer(void *p, u8 id);
 extern u32 MISC_SAVEDATA_IsTallyFull(u8 *p, u32 a, u32 count);
 extern void MISC_SAVEDATA_AddHalfwordClamped(char *p, int idx, int v);
 extern void MISC_SAVEDATA_AddTallyValue(u8 *a0, u32 a1, u32 a2, int a3);
-extern void *BEACON_GetBlock(void *p);
+extern void *MISC_GetBlock(void *p);
 struct Blk34;
-extern int BEACON_GetRecentId(struct Blk34 *p, u32 i);
-extern void BEACON_AddRecentValue(struct Blk34 *p, u8 i, int v);
+extern int MISC_GetRecentId(struct Blk34 *p, u32 i);
+extern void MISC_AddRecentValue(struct Blk34 *p, u8 i, int v);
 extern void  MI_CpuFill8(void *d, int v, u32 n);
 
 static inline u32 calc(struct Req *r, int id)
@@ -80,8 +80,8 @@ static inline u32 calc(struct Req *r, int id)
     u32 v;
     if (id == 0x1d) {
         v = r->trainer / 10 + 1;
-        if (v > COMM_PLAYER_GetModelId(id))
-            v = COMM_PLAYER_GetModelId(id);
+        if (v > QUESTIONNAIRE_GetAnswerMax(id))
+            v = QUESTIONNAIRE_GetAnswerMax(id);
     } else {
         v = SYMBOL_SAVE_GetQuestionnaireAnswer(r->f50, id);
     }
@@ -126,14 +126,14 @@ void GAME_BEACON_AddLog(u8 *base, struct Req *r)
 
     sys = GAME_DATA_GetSaveControl(((struct Obj00747 *)base)->f0);
     bag2 = SYMBOL_SAVE_GetBitBlock(sys);
-    tbl = BEACON_GetBlock(sys);
+    tbl = MISC_GetBlock(sys);
     for (i = 0; i < 3; i++) {
-        id = BEACON_GetRecentId(tbl, (u8)i);
+        id = MISC_GetRecentId(tbl, (u8)i);
         if (id != 0xff) {
             for (j = 0; j < 3; j++) {
                 if (id == MISC_SAVEDATA_GetStatusByte(bag2, j)) {
                     if (calc(r, id) != 0)
-                        BEACON_AddRecentValue(tbl, i, 1);
+                        MISC_AddRecentValue(tbl, i, 1);
                 }
             }
         }

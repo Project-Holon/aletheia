@@ -48,12 +48,12 @@
  *   GF_OVERLAY_Unload 0x02034A5C arm
  *   DPW_BT_GetRoomNumAsync 0x021C941C arm ov114
  *   DPW_BT_DownloadPlayerAsync 0x021C94A0 arm ov114
- *   BMP_OAM_CheckRangeGetId 0x02025C1C thumb
- *   BMP_OAM_CheckRangeGetMin 0x02025C30 thumb
+ *   NATION_AREA_SanitizeNation 0x02025C1C thumb
+ *   NATION_AREA_SanitizeArea 0x02025C30 thumb
  *   CURSOR_MOVE_FindTableGroupIndex 0x02025CB0 thumb
  *   CURSOR_MOVE_GetTableGroup 0x02025C88 thumb
  *   DWC_GetDateTime 0x02167ED8 arm ov009
- *   GDS_PROFILE_SetSubwaySaveBitAndStamp 0x0200DD28 thumb
+ *   BSUBWAY_WIFIDATA_SetTrainerBit 0x0200DD28 thumb
  *   BSUBWAY_SAVEDATA_SetHistory 0x0200DF10 thumb
  *   MYSTATUS_Create 0x0200846C thumb
  *   GFL_HEAP_Free 0x020307B0 arm
@@ -74,19 +74,19 @@
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   WIFI_HISTORY_GetBlock 0x02009470 thumb
  *   GAME_DATA_GetWifiList 0x0201283C thumb
- *   SAVEDATA_GetExtraBlock 0x0200E6F0 thumb
+ *   GREETING_SAVEDATA_GetFromSave 0x0200E6F0 thumb
  *   MYSTATUS_GetName 0x020084F4 thumb
  *   MI_CpuCopy8 0x02082D44 arm
  *   MYSTATUS_GetId 0x02008530 thumb
  *   GAME_VERSION_Code 0x0209DF08 data a1
  *   GAME_LANGUAGE_Code 0x0209DF0C data a1
- *   MYSTATUS_GetLanguage 0x0200856C thumb
- *   MYSTATUS_GetVersion 0x02008570 thumb
- *   MYSTATUS_GetOutfitVariant 0x02008550 thumb
- *   MYSTATUS_GetOutfit 0x02008554 thumb
- *   MISC_SAVEDATA_CopyQuadRecord 0x0200E6FC thumb
- *   GDS_PROFILE_GetScoreRecScore 0x0200DCF8 thumb
- *   GDS_PROFILE_GetScoreRecBlob 0x0200DC74 thumb
+ *   MYSTATUS_GetNation 0x0200856C thumb
+ *   MYSTATUS_GetArea 0x02008570 thumb
+ *   MYSTATUS_GetSex 0x02008550 thumb
+ *   MYSTATUS_GetTrainerView 0x02008554 thumb
+ *   GREETING_SAVEDATA_GetSentence 0x0200E6FC thumb
+ *   BSUBWAY_SCOREDATA_GetRecordScore 0x0200DCF8 thumb
+ *   BSUBWAY_SCOREDATA_GetRecordBlob 0x0200DC74 thumb
  *   NHTTP_RAP_DeleteConnection 0x021B9774 thumb ov114
  *   NHTTP_RAP_Create 0x021B9800 thumb ov114
  *   DWC_RAP_SetErrorCallback 0x02156DC4 thumb ov009
@@ -127,7 +127,7 @@
  *   GFL_USE_PopBgm  0x02005E9C  thumb  arm9
  *   BSUBWAY_SAVEDATA_SetTrainers  0x0200DE6C  thumb  arm9
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb  arm9
- *   GDS_PROFILE_GetScoreRecScoreHigh  0x0200DCFC  thumb  arm9
+ *   BSUBWAY_SCOREDATA_GetRecordScoreTier  0x0200DCFC  thumb  arm9
  *   GFL_NET_ERR_GetErrorLevel  0x0200FB24  thumb  arm9
  *   MYSTATUS_NameFromStrbuf  0x020084E4  thumb  arm9
  *   MYSTATUS_GetProfileId  0x0200853C  thumb  arm9
@@ -217,13 +217,13 @@ extern int GFL_USE_PopBgm(void);
 extern int FADE_IsActive(void);
 extern void DPW_BT_GetRoomNumAsync(unsigned x);
 extern void DPW_BT_DownloadPlayerAsync(unsigned x, unsigned y, unsigned z);
-extern u32 BMP_OAM_CheckRangeGetId(u32,u32,u32);
-extern u32 BMP_OAM_CheckRangeGetMin(u32,u32,u32);
+extern u32 NATION_AREA_SanitizeNation(u32,u32,u32);
+extern u32 NATION_AREA_SanitizeArea(u32,u32,u32);
 extern u32 CURSOR_MOVE_FindTableGroupIndex(u32);
 extern u32 CURSOR_MOVE_GetTableGroup(u32);
 extern int DWC_GetDateTime(void *, void *);
 extern void BSUBWAY_SAVEDATA_SetTrainers(struct RecSlot *p, const void *src, u8 a, u8 b);
-extern void GDS_PROFILE_SetSubwaySaveBitAndStamp(u8 *p, u8 a, u8 b, u32 *q);
+extern void BSUBWAY_WIFIDATA_SetTrainerBit(u8 *p, u8 a, u8 b, u32 *q);
 extern void BSUBWAY_SAVEDATA_SetHistory(struct RecSlot *p, const void *src, u8 a, u8 b);
 extern void *MYSTATUS_Create(int);
 extern u32 GFL_HEAP_Free(void *p);
@@ -242,17 +242,17 @@ extern void MYSTATUS_NameFromStrbuf(u16 *out, struct U16Vec *vec);
 extern void NHTTP_RAP_InitTrainerInfo(u8 *,int);
 extern void DPW_BT_SetProfileAsync(unsigned char *p, unsigned x);
 extern struct Sub02009470Obj *WIFI_HISTORY_GetBlock(void *sys);
-extern void *SAVEDATA_GetExtraBlock(u32);
+extern void *GREETING_SAVEDATA_GetFromSave(u32);
 extern const void *MYSTATUS_GetName(const void *p);
 extern void MI_CpuCopy8(const void *, void *, u32);
 extern u32 MYSTATUS_GetId(const struct Sub0200852CObj *obj);
-extern u8 MYSTATUS_GetLanguage(const struct Sub0200852CObj *obj);
-extern u8 MYSTATUS_GetVersion(const struct Sub0200852CObj *obj);
-extern u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
-extern u8 MYSTATUS_GetOutfit(const struct Sub0200852CObj *obj);
-extern void MISC_SAVEDATA_CopyQuadRecord(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
-extern u16 GDS_PROFILE_GetScoreRecScore(struct Blk1AC *p);
-extern void GDS_PROFILE_GetScoreRecBlob(struct Blk1AC *p, u32 which, void *dest);
+extern u8 MYSTATUS_GetNation(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetArea(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetSex(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetTrainerView(const struct Sub0200852CObj *obj);
+extern void GREETING_SAVEDATA_GetSentence(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
+extern u16 BSUBWAY_SCOREDATA_GetRecordScore(struct Blk1AC *p);
+extern void BSUBWAY_SCOREDATA_GetRecordBlob(struct Blk1AC *p, u32 which, void *dest);
 extern void NHTTP_RAP_DeleteConnection(unsigned char *);
 extern u32 MYSTATUS_GetProfileId(const struct Sub0200852CObj *obj);
 extern u8 *NHTTP_RAP_Create(int,int,int);
@@ -272,7 +272,7 @@ extern u32 NHTTP_RAP_RecordList_GetValue(u32 p, u32 i);
 extern void MSGDATA_ReadUnits(struct MsgData *,unsigned int,unsigned short *,unsigned int);
 extern u8 BSUBWAY_SAVEDATA_GetTrainersTagA(struct RecSlot *p);
 extern u8 BSUBWAY_SAVEDATA_GetTrainersTagB(struct RecSlot *p);
-extern u8 GDS_PROFILE_GetScoreRecScoreHigh(struct Blk1AC *p);
+extern u8 BSUBWAY_SCOREDATA_GetRecordScoreTier(struct Blk1AC *p);
 extern void DPW_BT_UploadPlayerAsync(u32 a, u32 b, u32 c, const void *p, const void *q, u32 v);
 extern int DPW_BT_IsAsyncEnd(void);
 extern int DPW_BT_GetAsyncResult(void);
@@ -443,14 +443,14 @@ void WIFI_BSUBWAY_NormalizeTrainers(u8 *trainers) {
     history=trainers+0x69e;
     for(i=0;i<7;i++) {
         j=i*240;
-        records[j+0xc6]=BMP_OAM_CheckRangeGetId(records[j+0xc6],records[j+0xc7],records[j+0xc5]);
-        records[j+0xc7]=BMP_OAM_CheckRangeGetMin(records[j+0xc6],records[j+0xc7],records[j+0xc5]);
+        records[j+0xc6]=NATION_AREA_SanitizeNation(records[j+0xc6],records[j+0xc7],records[j+0xc5]);
+        records[j+0xc7]=NATION_AREA_SanitizeArea(records[j+0xc6],records[j+0xc7],records[j+0xc5]);
         records[j+0xd5]=CURSOR_MOVE_GetTableGroup(CURSOR_MOVE_FindTableGroupIndex(records[j+0xd5]));
     }
     for(i=0;i<30;i++) {
         records=history+i*34;
-        records[18]=BMP_OAM_CheckRangeGetId(records[18],records[19],records[17]);
-        records[19]=BMP_OAM_CheckRangeGetMin(records[18],records[19],records[17]);
+        records[18]=NATION_AREA_SanitizeNation(records[18],records[19],records[17]);
+        records[19]=NATION_AREA_SanitizeArea(records[18],records[19],records[17]);
     }
 }
 
@@ -459,7 +459,7 @@ void WIFI_BSUBWAY_SaveTrainers(u8 *trainers, void *save) {
     u32 date[4];
     DWC_GetDateTime(date, time);
     BSUBWAY_SAVEDATA_SetTrainers(save, trainers + 14, *(u16 *)(trainers + 8), *(u16 *)(trainers + 10));
-    GDS_PROFILE_SetSubwaySaveBitAndStamp(save, *(u16 *)(trainers + 8), *(u16 *)(trainers + 10), date);
+    BSUBWAY_WIFIDATA_SetTrainerBit(save, *(u16 *)(trainers + 8), *(u16 *)(trainers + 10), date);
 }
 
 void WIFI_BSUBWAY_SaveHistory(unsigned char *trainers,void *save) { BSUBWAY_SAVEDATA_SetHistory(save,trainers+0x69e,((struct WifiBsubwayTrainers *)trainers)->roomNumber,((struct WifiBsubwayTrainers *)trainers)->playerIndex); }
@@ -556,21 +556,21 @@ void WIFI_BSUBWAY_BuildProfile(u8 *profileRecord, void *saveControl, void *train
     WIFI_HISTORY_GetBlock(profile);
     GAME_DATA_GetWifiList(saveControl);
     saveBlockA = GAME_DATA_GetSaveBlock3A(saveControl);
-    saveData = SAVEDATA_GetExtraBlock((u32)profile);
+    saveData = GREETING_SAVEDATA_GetFromSave((u32)profile);
     MI_CpuFill8(profileRecord, 0, 240);
     MI_CpuCopy8(MYSTATUS_GetName(trainer), profileRecord + 0xb4, 16);
     *(u32 *)(profileRecord + 0xc8) = MYSTATUS_GetId(trainer);
     profileRecord[0xc4] = GAME_VERSION_Code;
     profileRecord[0xc5] = GAME_LANGUAGE_Code;
-    profileRecord[0xc6] = MYSTATUS_GetLanguage(trainer);
-    profileRecord[0xc7] = MYSTATUS_GetVersion(trainer);
-    ((Bits *)(profileRecord + 0xd4))->b = (u8)(u32)MYSTATUS_GetOutfitVariant(trainer);
-    profileRecord[0xd5] = MYSTATUS_GetOutfit(trainer);
+    profileRecord[0xc6] = MYSTATUS_GetNation(trainer);
+    profileRecord[0xc7] = MYSTATUS_GetArea(trainer);
+    ((Bits *)(profileRecord + 0xd4))->b = (u8)(u32)MYSTATUS_GetSex(trainer);
+    profileRecord[0xd5] = MYSTATUS_GetTrainerView(trainer);
     profileRecord[0xd5] = CURSOR_MOVE_GetTableGroup(profileRecord[0xd5]);
-    for (i = 0; i < 3; i++) MISC_SAVEDATA_CopyQuadRecord(saveData, i + 1, (struct Rec0200E6FC *)(profileRecord + 0xd6 + i * 8));
-    MISC_SAVEDATA_CopyQuadRecord(saveData, 4, (struct Rec0200E6FC *)(profileRecord + 0xcc));
-    *(u16 *)(profileRecord + 0xee) = GDS_PROFILE_GetScoreRecScore(saveBlockA);
-    GDS_PROFILE_GetScoreRecBlob(saveBlockA, 1, profileRecord);
+    for (i = 0; i < 3; i++) GREETING_SAVEDATA_GetSentence(saveData, i + 1, (struct Rec0200E6FC *)(profileRecord + 0xd6 + i * 8));
+    GREETING_SAVEDATA_GetSentence(saveData, 4, (struct Rec0200E6FC *)(profileRecord + 0xcc));
+    *(u16 *)(profileRecord + 0xee) = BSUBWAY_SCOREDATA_GetRecordScore(saveBlockA);
+    BSUBWAY_SCOREDATA_GetRecordBlob(saveBlockA, 1, profileRecord);
 }
 
 void WIFI_BSUBWAY_OnHttpError(unsigned char *status) { if(((struct WifiBsubwayStatus *)status)->http) NHTTP_RAP_DeleteConnection(((struct WifiBsubwayStatus *)status)->http); }
@@ -655,7 +655,7 @@ void WIFI_BSUBWAY_StartUploadPlayer(u8 *status, u8 *async) {
     int tagA, tagB, tagC;
     tagA = BSUBWAY_SAVEDATA_GetTrainersTagA(((struct WifiBsubwayStatus *)status)->saveBlockB);
     tagB = BSUBWAY_SAVEDATA_GetTrainersTagB(((struct WifiBsubwayStatus *)status)->saveBlockB);
-    tagC = GDS_PROFILE_GetScoreRecScoreHigh(((struct WifiBsubwayStatus *)status)->saveBlockA);
+    tagC = BSUBWAY_SCOREDATA_GetRecordScoreTier(((struct WifiBsubwayStatus *)status)->saveBlockA);
     DPW_BT_UploadPlayerAsync((u8)tagA,(u8)tagB,(u8)tagC,status+0x70,status+0x16e,(int)0x80);
     WIFI_BSUBWAY_AsyncReset(async);
 }

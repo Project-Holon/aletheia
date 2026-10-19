@@ -14,7 +14,7 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAMESYSTEM_TryStartAutoComm  0x020121CC  thumb
  *   GAME_DATA_GetWifiList  0x0201283C  thumb
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm  arm9
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm  arm9
  *
  * Flushes the +4 handle through three sub-calls, then raises event 1 with
  * the record's leading halfword when the fourth sub-call reports busy.
@@ -37,11 +37,11 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct IcaAnime;
 extern u32 GAMESYSTEM_TryStartAutoComm(struct IcaAnime *p);
 extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 void RESEARCH_TOP_UpdateNetwork(u32 a0)
 {
     WIH_DWC_PollStatus((void *)GAME_DATA_GetWifiList(GAMESYSTEM_GetGameData(((struct Obj10953 *)(((u8*)a0)))->f4)));
     if (GAMESYSTEM_TryStartAutoComm((struct IcaAnime *)(*(u32 *)&((struct Obj10953 *)(((u8*)a0)))->f4)) != 0) {
-    GFL_NET_RestartWithDefaultTimeout(1, ((struct Obj10953 *)((u8*)a0))->f0);
+    GFL_NET_RefreshWmIconAtTopRight(1, ((struct Obj10953 *)((u8*)a0))->f0);
     }
 }

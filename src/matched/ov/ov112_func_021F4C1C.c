@@ -11,7 +11,7 @@
  *   MUSICAL_MCSS_FindFreeActorIndex 0x021F4B54 thumb ov112
  *   MUSICAL_MCSS_GetArcFileCount 0x021F4AA8 thumb ov112
  *   MUSICAL_MCSS_GetElemPtr 0x021F4F54 thumb ov112
- *   MUSICAL_MCSS_NoOp6 0x021F4F70 thumb ov112
+ *   MUSICAL_MCSS_GetElemSizeFlags 0x021F4F70 thumb ov112
  *   MUSICAL_MCSS_SetupObject 0x021F4AC8 thumb ov112
  *   MUSICAL_MCSS_AddElem 0x021F4C94 thumb ov112
  */
@@ -25,7 +25,7 @@ typedef struct { u8 x,y; } Pair;
 extern u16 MUSICAL_MCSS_FindFreeActorIndex(u32 p);
 extern u16 MUSICAL_MCSS_GetArcFileCount(int);
 extern u8 *MUSICAL_MCSS_GetElemPtr(u8 *,int);
-extern int MUSICAL_MCSS_NoOp6(int *);
+extern int MUSICAL_MCSS_GetElemSizeFlags(int *);
 extern void MUSICAL_MCSS_SetupObject(u8 *p, u8 *a, u8 *b);
 extern Entry *MUSICAL_MCSS_AddElem(Object *,u16,int *,s16,s16);
 Entry *MUSICAL_MCSS_AddImageNoVram(Object *p, int type, u32 id, int *v)
@@ -35,7 +35,7 @@ Entry *MUSICAL_MCSS_AddImageNoVram(Object *p, int type, u32 id, int *v)
     index=MUSICAL_MCSS_FindFreeActorIndex((u32)p);
     p->entries[index].type=MUSICAL_MCSS_GetArcFileCount(type);
     p->entries[index].data=MUSICAL_MCSS_GetElemPtr(p->table,type);
-    MUSICAL_MCSS_NoOp6((int *)p->entries[index].data);
+    MUSICAL_MCSS_GetElemSizeFlags((int *)p->entries[index].data);
     MUSICAL_MCSS_SetupObject((u8 *)(&p->entries[index]),&pair.y,&pair.x);
     p->entries[index].id=id;
     p->entries[index].flags=p->entries[index].flags & ~16;

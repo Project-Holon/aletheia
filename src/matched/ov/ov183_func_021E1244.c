@@ -1,5 +1,5 @@
 /*
- * function: BR_CODEIN_ProfileUpdateActor
+ * function: BR_CODEIN_ProfileInitRecordLayout
  * address: 0x021E1244
  * packet: pkt_ov183_021E1244
  * region: ov183
@@ -35,7 +35,7 @@ typedef struct
 } State;
 extern const Table d_021E3868;
 extern void BR_CODEIN_ProfileSetActorAnim(char *, int);
-void BR_CODEIN_ProfileUpdateActor(State *p)
+void BR_CODEIN_ProfileInitRecordLayout(State *p)
 {
   int i;
   int sum;

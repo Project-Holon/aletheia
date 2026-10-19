@@ -14,14 +14,14 @@
  *
  * symbols:
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   GFL_NET_ERR_GetErrorLevel 0x0200FB24 thumb
  *   GFL_NET_STATE_SetWifiError 0x0203CA04 arm
  *   GFL_NET_ERR_ResetState 0x0200FBA0 thumb
  *   GFL_NET_STATE_ClearErrorMode 0x0203C968 arm
  *   WIPE_SYS_Start 0x0202208C thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
- *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GF_PANIC_Fail 0x02034714 arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
@@ -151,7 +151,7 @@ typedef enum { FALSE, TRUE } BOOL;
 
 extern u32 WIPE_SYS_EndCheck(void);
 
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
 
@@ -165,7 +165,7 @@ extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, 
 
 extern void GFL_USE_FadeOutBgm(u32 a);
 
-extern void SAVEDATA_PanicFail(const char *,u32,const char *);
+extern void GF_PANIC_Fail(const char *,u32,const char *);
 
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 
@@ -553,9 +553,9 @@ void WIFILOGIN_MSG_CloseTask(u8 *p) { switch(((struct WifiloginMsgTask *)p)->kin
 
 void WIFILOGIN_MSG_UpdateTask(u8 *p) { switch(((struct WifiloginMsgTask *)p)->kind) { case 0: APP_TASKMENU_UpdateMenu(*(struct Obj * *)&((struct WifiloginMsgTask *)p)->taskMenu); break; case 1: ((struct WifiloginMsgTask *)p)->answer=BMP_MENU_ProcessYesNo(*(u8 * *)&((struct WifiloginMsgTask *)p)->yesNo); break; } }
 
-int WIFILOGIN_MSG_IsTaskFinish(u8 *p) { switch(((struct WifiloginMsgTask *)p)->kind) { case 0: return APP_TASKMENU_IsFinish(((struct WifiloginMsgTask *)p)->taskMenu); case 1: if(((struct WifiloginMsgTask *)p)->answer!=-1) return 1; else return 0; default: SAVEDATA_PanicFail(d_021D663C,0,d_021D663C); return 0; } }
+int WIFILOGIN_MSG_IsTaskFinish(u8 *p) { switch(((struct WifiloginMsgTask *)p)->kind) { case 0: return APP_TASKMENU_IsFinish(((struct WifiloginMsgTask *)p)->taskMenu); case 1: if(((struct WifiloginMsgTask *)p)->answer!=-1) return 1; else return 0; default: GF_PANIC_Fail(d_021D663C,0,d_021D663C); return 0; } }
 
-u8 WIFILOGIN_MSG_GetTaskCursor(u8 *p) { switch(((struct WifiloginMsgTask *)p)->kind) { case 0: return APP_TASKMENU_GetCursorPos(*(const u8 * *)&((struct WifiloginMsgTask *)p)->taskMenu); case 1: return (u8)((struct WifiloginMsgTask *)p)->answer; default: SAVEDATA_PanicFail(d_021D663C,0,d_021D663C); return 0; } }
+u8 WIFILOGIN_MSG_GetTaskCursor(u8 *p) { switch(((struct WifiloginMsgTask *)p)->kind) { case 0: return APP_TASKMENU_GetCursorPos(*(const u8 * *)&((struct WifiloginMsgTask *)p)->taskMenu); case 1: return (u8)((struct WifiloginMsgTask *)p)->answer; default: GF_PANIC_Fail(d_021D663C,0,d_021D663C); return 0; } }
 
 void WIFILOGIN_MSG_PrintMessage(u8 *p,u32 n) {
     void *w;
@@ -577,9 +577,9 @@ void WIFILOGIN_MSG_PrintMessage(u8 *p,u32 n) {
 
 void WIFILOGIN_MSG_RedrawBorder(u8 *p) { if(((struct WifiloginMsg *)p)->window2){BMP_MENUWORK_DrawWindowBorder(((struct WifiloginMsg *)p)->window2,2);BMP_WIN_ClearScreen(((struct WifiloginMsg *)p)->window2);BG_SYS_MarkTileDirty(WIFILOGIN_MSG_GetFrameIdB(((struct WifiloginMsg *)p)->mode));} }
 
-u32 WIFILOGIN_MSG_GetFrameIdA(u32 a) { switch(a){case 1:return 1;case 0:return 5;default:SAVEDATA_PanicFail(d_021D663C,0,d_021D663C);return 0;} }
+u32 WIFILOGIN_MSG_GetFrameIdA(u32 a) { switch(a){case 1:return 1;case 0:return 5;default:GF_PANIC_Fail(d_021D663C,0,d_021D663C);return 0;} }
 
-u32 WIFILOGIN_MSG_GetFrameIdB(u32 a) { switch(a){case 1:return 2;case 0:return 5;default:SAVEDATA_PanicFail(d_021D663C,0,d_021D663C);return 0;} }
+u32 WIFILOGIN_MSG_GetFrameIdB(u32 a) { switch(a){case 1:return 2;case 0:return 5;default:GF_PANIC_Fail(d_021D663C,0,d_021D663C);return 0;} }
 
 void *WIFILOGIN_MSG_CreateYesNo(u8 *p, int mode, int n) {
     Record r = d_021D6544;
@@ -608,7 +608,7 @@ int WIFILOGIN_MSG_CreateWork(void *ctx,int unused,u8 *q) {
         if(((struct WifiloginState *)q)->dialogId==0) GFL_USE_CancelChangeAndPlayBgm(1153,65535);
     }
     if(*(u32 *)&((struct WifiloginState *)q)->reconnect==0) flag=FALSE; else flag=TRUE;
-    GFL_NET_RestartWithDefaultTimeout(flag,((struct WifiloginMsgWork *)p)->heapId);
+    GFL_NET_RefreshWmIconAtTopRight(flag,((struct WifiloginMsgWork *)p)->heapId);
     return 1;
 }
 

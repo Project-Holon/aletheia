@@ -57,7 +57,7 @@
  *   POKE_TOOL_GetIconCellArcId 0x0201BC40 thumb
  *   POKE_TOOL_GetIconCellEntryId 0x0201BCB4 thumb
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
- *   BR_CODEIN_RecordIsType1 0x021DD228 thumb ov183
+ *   BR_CODEIN_RecordIsMultiBattle 0x021DD228 thumb ov183
  *   BATTLE_REC_GetHeaderParam 0x0200B98C thumb
  *   POKE_TOOL_CalcGraphicIndex 0x0201BABC thumb
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
@@ -82,7 +82,7 @@ extern void *func_020490F4(u32 id, u32 heap);
 extern int POKE_TOOL_GetIconPaletteArcId(void),POKE_TOOL_GetIconCellArcId(void),POKE_TOOL_GetIconCellEntryId(void);
 extern int CLACT_RegisterPaletteCompressed(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-extern int BR_CODEIN_RecordIsType1(void *);
+extern int BR_CODEIN_RecordIsMultiBattle(void *);
 extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32,u32,u32,u32),POKE_TOOL_CalcIconPalette(u32,u32,u32,u32);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 a3, u16 flags);
@@ -114,7 +114,7 @@ void BR_CODEIN_RecordSetupActors(char *p,void *manager,void *party,u16 heap)
     *(void **)(p+0x4c)=(void *)CLACT_RegisterCellAnim(archive,mapping,POKE_TOOL_GetIconCellEntryId(),heap);
     n=0;
     step=6;start=0;end=6;mode=0;
-    if(BR_CODEIN_RecordIsType1(party)==1) {step=3;end=3;mode=1;}
+    if(BR_CODEIN_RecordIsMultiBattle(party)==1) {step=3;end=3;mode=1;}
     do {
         for(i=start;i<end;i++) {
             species[n]=255;

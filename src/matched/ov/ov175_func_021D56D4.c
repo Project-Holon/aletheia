@@ -1,5 +1,5 @@
 /*
- * function: WIFIBATTLEMATCH_NET_TaskStepJ
+ * function: WIFIBATTLEMATCH_NET_TaskStepRatingSaveAndUploadQuit
  * address: 0x021D56D4
  * packet: pkt_ov175_021D56D4
  * region: ov175
@@ -39,7 +39,7 @@ extern void WIFIBATTLEMATCH_UTIL_SetCallback(int *, int);
 extern void WIFIBATTLEMATCH_NET_TaskCleanupB(void *, unsigned **, char *);
 extern int WIFIBATTLEMATCH_UTIL_GetBusy(const int *);
 extern void WIFIBATTLEMATCH_UTIL_CommitRequest(unsigned);
-void WIFIBATTLEMATCH_NET_TaskStepJ(unsigned sys, int *state, int *p)
+void WIFIBATTLEMATCH_NET_TaskStepRatingSaveAndUploadQuit(unsigned sys, int *state, int *p)
 {
     char *q = (char *)p[16];
     switch (*state) {

@@ -18,7 +18,7 @@
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   DC_FlushRange  0x020862F0  arm
- *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GF_PANIC_Fail 0x02034714 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   MSGDATA_AllocString 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
@@ -163,7 +163,7 @@ extern u32 WIPE_SYS_EndCheck(void);
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
@@ -1189,7 +1189,7 @@ int WORLDTRADE_BOX_StateOpenCancelConfirm(Work *p)
 int WORLDTRADE_BOX_StateCancelConfirmInput(Work *p)
 {
     unsigned result = WORLDTRADE_UpdateTaskMenuYesNo(p);
-    SAVEDATA_PanicFail(d_02203B68, 0, d_02203B68);
+    GF_PANIC_Fail(d_02203B68, 0, d_02203B68);
     if (result == 1) {
         WORLDTRADE_CloseTaskMenu(p);
         p->state = 2;
@@ -1456,7 +1456,7 @@ void WORLDTRADE_BOX_SetupIconActor(void *mon, u32 icon, u32 item_spr, u16 *speci
  * storage (+0xC of the context) or, for box 0xFF, from the party (+8),
  * blanking the slots past the party size. Icon records (0x3D68 bytes,
  * +0xEB8) are uploaded later by WORLDTRADE_BOX_TransferIconPalette, installed at +0xEBC.
- * Any other box reports through SAVEDATA_PanicFail (raw 0x02203B68). Kind 6
+ * Any other box reports through GF_PANIC_Fail (raw 0x02203B68). Kind 6
  * then runs WORLDTRADE_BOX_ScoreMatchingRecords against the current entry's key.
  */
 void WORLDTRADE_BOX_LoadBoxIcons(Work *p, int box)
@@ -1503,7 +1503,7 @@ void WORLDTRADE_BOX_LoadBoxIcons(Work *p, int box)
         }
         MSGDATA_ReadString(p->bank, 0x62, p->boxNameStr);
     } else {
-        SAVEDATA_PanicFail((void *)0x02203B68, 0, (void *)0x02203B68);
+        GF_PANIC_Fail((void *)0x02203B68, 0, (void *)0x02203B68);
     }
     ARC_TOOL_DeleteHandle(arc);
     BMP_Clear(BMP_WIN_GetBmp(p->boxNameWin), 0);

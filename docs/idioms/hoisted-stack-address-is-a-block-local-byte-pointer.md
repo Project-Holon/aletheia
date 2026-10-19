@@ -1,5 +1,8 @@
 # A hoisted stack address in a register is a block-local byte pointer
 
+summary: A stack-local address held in a callee-saved register from the loop preheader is a `u8 *`
+declared inside the loop block, so that loop-invariant code motion hoists it.
+
 Shape in the original (ARM, ov125 func_021D824C):
 
 ```

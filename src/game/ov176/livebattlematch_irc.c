@@ -50,7 +50,7 @@
  *   GFL_NET_SendData 0x0203D3F8 arm
  *   MI_CpuCopy8 0x02082D44 arm
  *   GAME_LANGUAGE_Code 0x0209DF0C data a1
- *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GF_PANIC_Fail 0x02034714 arm
  *   d_0217E64C 0x0217E64C data a1
  *   DELIVERY_IRC_Create 0x02157DD8 thumb ov010
  *   DELIVERY_IRC_Main 0x02157E78 thumb ov010
@@ -111,7 +111,7 @@ extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 extern int POKE_REGULATION_GetDataSize(void);
 extern u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 extern void MI_CpuCopy8(void *,const void *,u32);
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 extern void *DELIVERY_IRC_Create(u8 *p);
 extern void DELIVERY_IRC_Main(u8 *p);
 extern int DELIVERY_IRC_Start(void *p);
@@ -412,7 +412,7 @@ void LIVEBATTLEMATCH_IRC_CreateDelivery(char *p, unsigned value)
     config.entries[0].mask = 0x200000;
     config.entryCount = 1;
     if (((struct LiveBattleMatchIrcWork *)p)->delivery)
-        SAVEDATA_PanicFail(d_0217E64C, 0, d_0217E64C);
+        GF_PANIC_Fail(d_0217E64C, 0, d_0217E64C);
     ((struct LiveBattleMatchIrcWork *)p)->delivery = DELIVERY_IRC_Create((u8 *)(&config));
     ((struct LiveBattleMatchIrcWork *)p)->state = 0;
 }
@@ -519,7 +519,7 @@ void LIVEBATTLEMATCH_IRC_RecvHandler3(u32 a, void *b, void *c, u8 *p, struct Ent
 int LIVEBATTLEMATCH_IRC_RecvHandler4(int a, int b)
 {
     if (a == GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())) {
-        SAVEDATA_PanicFail(d_0217E64C, 0, d_0217E64C);
+        GF_PANIC_Fail(d_0217E64C, 0, d_0217E64C);
         return 0;
     }
     return b + 6;

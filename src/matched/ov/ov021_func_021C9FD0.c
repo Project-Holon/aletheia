@@ -12,7 +12,7 @@
  * Latches bit 0 of +0xc once the +0x70 object's count reaches 7.
  *
  * symbols:
- *   GDS_PROFILE_GetFieldRecCount03  0x0200DA54  thumb
+ *   BSUBWAY_PLAYDATA_GetRound  0x0200DA54  thumb
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj20232.h"
@@ -28,12 +28,12 @@ typedef struct {
 } Latch;
 
 struct Blk3C;
-extern u16 GDS_PROFILE_GetFieldRecCount03(struct Blk3C *p);
+extern u16 BSUBWAY_PLAYDATA_GetRound(struct Blk3C *p);
 
 int BSUBWAY_SCR_IsWinMax(u8 *p)
 {
     if (((Latch *)p)->done == 0) {
-        if (GDS_PROFILE_GetFieldRecCount03((struct Blk3C *)(((struct Obj20232 *)p)->f70)) < 7)
+        if (BSUBWAY_PLAYDATA_GetRound((struct Blk3C *)(((struct Obj20232 *)p)->f70)) < 7)
             return 0;
         ((Latch *)p)->done = 1;
     }

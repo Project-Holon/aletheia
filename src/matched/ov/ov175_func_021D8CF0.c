@@ -1,5 +1,5 @@
 /*
- * function: WIFIBATTLEMATCH_NET_CompStepI
+ * function: WIFIBATTLEMATCH_NET_CompStepAskRetry
  * address: 0x021D8CF0
  * packet: pkt_ov175_021D8CF0
  * region: ov175
@@ -19,16 +19,16 @@
  *   WIFIBATTLEMATCH_NET_SetCompWaitCallback 0x021D9A1C thumb ov175
  *   WIFIBATTLEMATCH_NET_GetCompWaitResult 0x021D9A30 thumb ov175
  *   WIFIBATTLEMATCH_NET_CompCleanup 0x021D9064 thumb ov175
- *   WIFIBATTLEMATCH_NET_CompStepF 0x021D7E18 thumb ov175
- *   WIFIBATTLEMATCH_NET_CompStepJ 0x021D8E30 thumb ov175
- *   WIFIBATTLEMATCH_NET_CompStepN 0x021D9344 thumb ov175
- *   WIFIBATTLEMATCH_NET_CompStepK 0x021D8EC8 thumb ov175
+ *   WIFIBATTLEMATCH_NET_CompStepMatchmake 0x021D7E18 thumb ov175
+ *   WIFIBATTLEMATCH_NET_CompStepConfirmQuit 0x021D8E30 thumb ov175
+ *   WIFIBATTLEMATCH_NET_CompStepWithdrawEntry 0x021D9344 thumb ov175
+ *   WIFIBATTLEMATCH_NET_CompStepSaveAndUploadQuit 0x021D8EC8 thumb ov175
  *   WIFIBATTLEMATCH_NET_SetupCompChoiceMenu 0x021D98E4 thumb ov175
  *   WIFIBATTLEMATCH_NET_PollCompChoiceMenu 0x021D9A08 thumb ov175
  *   WIFIBATTLEMATCH_NET_DeleteCompChoiceMenu 0x021D99F4 thumb ov175
  *   func_02040588 0x02040588 arm
  *   GAME_DATA_SaveStart  0x02012DAC  thumb  arm9
- *   WIFIBATTLEMATCH_NET_CompStepM  0x021D9090  thumb
+ *   WIFIBATTLEMATCH_NET_CompStepCheckPeriod  0x021D9090  thumb
  *   WIFIBATTLEMATCH_NET_GetSetCompStat  0x021D9D50  thumb
  */
 #include "../include/Obj00013.h"
@@ -45,17 +45,17 @@ extern int WIFIBATTLEMATCH_NET_GetSetCompStat(char *,u32 *);
 extern int WIFIBATTLEMATCH_NET_HandleNetError(char *,void *,void *);
 extern void WIFIBATTLEMATCH_NET_SetCompWaitCallback(char *,void *);
 extern u32 WIFIBATTLEMATCH_NET_GetCompWaitResult(char *);
-extern void WIFIBATTLEMATCH_NET_CompStepK(u32 sys, int *state, char *p);
+extern void WIFIBATTLEMATCH_NET_CompStepSaveAndUploadQuit(u32 sys, int *state, char *p);
 extern void WIFIBATTLEMATCH_NET_CompCleanup(void *obj, int unused, u8 *p);
-extern void WIFIBATTLEMATCH_NET_CompStepM(u32 sys, int *state, char *p);
+extern void WIFIBATTLEMATCH_NET_CompStepCheckPeriod(u32 sys, int *state, char *p);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void WIFIBATTLEMATCH_NET_SetupCompChoiceMenu(u32 *p, int mode);
 extern void WIFIBATTLEMATCH_NET_DeleteCompChoiceMenu(char *);
 extern int WIFIBATTLEMATCH_NET_PollCompChoiceMenu(char *);
-extern void WIFIBATTLEMATCH_NET_CompStepF(u32 sys, int *state, struct Obj *obj);
-extern void WIFIBATTLEMATCH_NET_CompStepJ(u32 sys, int *state, char *ctx);
-extern void WIFIBATTLEMATCH_NET_CompStepN(u32 sys, int *state, char *p);
-void WIFIBATTLEMATCH_NET_CompStepI(u32 sys,int *state,char *p)
+extern void WIFIBATTLEMATCH_NET_CompStepMatchmake(u32 sys, int *state, struct Obj *obj);
+extern void WIFIBATTLEMATCH_NET_CompStepConfirmQuit(u32 sys, int *state, char *ctx);
+extern void WIFIBATTLEMATCH_NET_CompStepWithdrawEntry(u32 sys, int *state, char *p);
+void WIFIBATTLEMATCH_NET_CompStepAskRetry(u32 sys,int *state,char *p)
 {
     int v;
     switch(*state) {
@@ -72,12 +72,12 @@ void WIFIBATTLEMATCH_NET_CompStepI(u32 sys,int *state,char *p)
         if(v!=-1) {
             WIFIBATTLEMATCH_NET_DeleteCompChoiceMenu(p);
             switch(v) {
-            case 0:WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys,(int)WIFIBATTLEMATCH_NET_CompStepF);break;
+            case 0:WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys,(int)WIFIBATTLEMATCH_NET_CompStepMatchmake);break;
             case 1:*state=4;break;
-            case 2:WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys,(int)WIFIBATTLEMATCH_NET_CompStepJ);break;
+            case 2:WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys,(int)WIFIBATTLEMATCH_NET_CompStepConfirmQuit);break;
             }
         }break;
-    case 4:WIFIBATTLEMATCH_NET_SetCompWaitCallback(p,WIFIBATTLEMATCH_NET_CompStepN);*state=5;break;
+    case 4:WIFIBATTLEMATCH_NET_SetCompWaitCallback(p,WIFIBATTLEMATCH_NET_CompStepWithdrawEntry);*state=5;break;
     case 5:v=WIFIBATTLEMATCH_NET_GetCompWaitResult(p);
         if(v==1 || v==2) *state=1;
         else if(v==0) *state=6;
@@ -86,7 +86,7 @@ void WIFIBATTLEMATCH_NET_CompStepI(u32 sys,int *state,char *p)
         case 1:case 2:WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys,(int)WIFIBATTLEMATCH_NET_CompCleanup);break;
         }
         break;
-    case 6:WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys,(int)WIFIBATTLEMATCH_NET_CompStepK);break;
+    case 6:WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys,(int)WIFIBATTLEMATCH_NET_CompStepSaveAndUploadQuit);break;
     case 7:if(WIFIBATTLEMATCH_UTIL_GetBusy((const int *)(((struct Obj00013 *)p)->f2C)))WIFIBATTLEMATCH_UTIL_CommitRequest(sys);break;
     }
 }

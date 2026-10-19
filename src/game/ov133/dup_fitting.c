@@ -19,7 +19,7 @@
  *   MUSICAL_SAVE_GetFittingSetting 0x0200A828 thumb
  *   MUSICAL_SAVE_SetFittingSetting 0x0200A834 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   d_021BA600 0x021BA600 data a4
  *   UI_SetInputMode 0x020355D8 arm
  *   MUSICAL_SAVE_ClearNewProps 0x0200A6F8 thumb
@@ -73,7 +73,7 @@
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   MUSICAL_MCSS_GetActorPoolResource 0x021F4F10 thumb ov112
  *   MUSICAL_MCSS_GetElemPtr 0x021F4F54 thumb ov112
- *   MUSICAL_MCSS_NoOp6 0x021F4F70 thumb ov112
+ *   MUSICAL_MCSS_GetElemSizeFlags 0x021F4F70 thumb ov112
  *   MUSICAL_MCSS_FreeElemImage 0x021F4D74 thumb ov112
  *   MUSICAL_MCSS_NoOp3 0x021F4AA4 thumb ov112
  *   BILLBOARD_GetImagePlttKey 0x0204F32C arm
@@ -178,7 +178,7 @@
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   GF_STANDARD_CalcAngle 0x0203F768 arm
  *   MUSICAL_MCSS_GetRenderElem 0x021F5450 thumb ov112
- *   MUSICAL_MCSS_GetFlagA 0x021F4B24 thumb ov112
+ *   MUSICAL_MCSS_ElemHasAltDepth 0x021F4B24 thumb ov112
  *   MUSICAL_MCSS_SetElemRot 0x021F4EC4 thumb ov112
  *   d_021BA5A0 0x021BA5A0 data a4
  *   d_021BA5B8 0x021BA5B8 data a4
@@ -378,7 +378,7 @@ extern void MUSICAL_SAVE_SetFittingSetting(struct Big *p, u8 value);
 
 extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
 
-extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 
 extern void UI_SetInputMode(u8);
 
@@ -472,7 +472,7 @@ extern u32 MUSICAL_MCSS_GetActorPoolResource(u8 *);
 
 extern u8 *MUSICAL_MCSS_GetElemPtr(u8 *, int);
 
-extern int MUSICAL_MCSS_NoOp6(int *);
+extern int MUSICAL_MCSS_GetElemSizeFlags(int *);
 
 extern void MUSICAL_MCSS_FreeElemImage(u8 *, u8 *, int, u16);
 
@@ -636,7 +636,7 @@ extern int GF_STANDARD_CalcAngle(int,int,int,int,int,int,int);
 
 extern u8 *MUSICAL_MCSS_GetRenderElem(u8 *,int);
 
-extern int MUSICAL_MCSS_GetFlagA(u8 *);
+extern int MUSICAL_MCSS_ElemHasAltDepth(u8 *);
 
 extern void MUSICAL_MCSS_SetElemRot(u32 unused, u32 p, short *a, short *b);
 
@@ -1000,7 +1000,7 @@ u8 *DUP_FITTING_Create(u8 *parent, int heap)
         *(u32 *)(work + 0x1840) = 0;
     }
     GFL_USE_CancelChangeAndPlayBgm(0x454, 0xffff);
-    GFL_NET_RestartWithDefaultTimeout(0, *(u16 *)work);
+    GFL_NET_RefreshWmIconAtTopRight(0, *(u16 *)work);
     return work;
 }
 
@@ -1175,7 +1175,7 @@ void DUP_FITTING_VBlank(void *unused, u8 *work)
             BILLBOARD_GetImagePlttKey((int)(*(void **)(work + 0x188c)), *(int *)(work + 0x54), (int)(&height));
             BILLBOARD_GetImageTexKey(*(u8 **)(work + 0x188c), *(int *)(q + 4), &width);
             BILLBOARD_SetImageTexAddr(*(void **)(work + 0x188c), *(int *)(work + 0x54), width);
-            flags = MUSICAL_MCSS_NoOp6((int *)MUSICAL_MCSS_GetElemPtr(table, *(u16 *)(work + 0x50)));
+            flags = MUSICAL_MCSS_GetElemSizeFlags((int *)MUSICAL_MCSS_GetElemPtr(table, *(u16 *)(work + 0x50)));
             BILLBOARD_GetImageSizeFromFlags(flags, &sizes[1], &sizes[0]);
             index = BILLBOARD_AddImageFromVramKeys(*(void **)(work + 0x188c), width, height, 0, flags, sizes[1], sizes[0]);
             MUSICAL_MCSS_FreeElemImage(*(u8 **)(work + 0x1884), *(u8 **)(work + 0x4c), *(u16 *)(work + 0x50), index);
@@ -1376,7 +1376,7 @@ void DUP_FITTING_InitFrames(u8 *work)
         hgt = G3D_SYSTEM_GetPlttVramKey(h);
         sz = ((hgt & 0xFFFF0000) >> 16) << 3;
         vram = d_020A8148(sz, 0, 0);
-        flags = MUSICAL_MCSS_NoOp6((int *)MUSICAL_MCSS_GetElemPtr(table, *(u16 *)(work + i * 0x14 + 0xac)));
+        flags = MUSICAL_MCSS_GetElemSizeFlags((int *)MUSICAL_MCSS_GetElemPtr(table, *(u16 *)(work + i * 0x14 + 0xac)));
         BILLBOARD_GetImageSizeFromFlags(flags, &sizes[1], &sizes[0]);
         *(u32 *)(work + i * 0x14 + 0xb0) = BILLBOARD_AddImageFromVramKeys(*(void **)(work + 0x188c), w, hgt, 0, flags, sizes[1], sizes[0]);
         pal = (u16 *)G3D_SYSTEM_GetPlttDataAddr((int)h);
@@ -1413,7 +1413,7 @@ void DUP_FITTING_InitFrames(u8 *work)
     {
     Vec imageOffset = {0, 0, 0};
     *(u16 *)(work + 0x50) = 0;
-    flags = MUSICAL_MCSS_NoOp6((int *)MUSICAL_MCSS_GetElemPtr(table, *(u16 *)(work + 0x50)));
+    flags = MUSICAL_MCSS_GetElemSizeFlags((int *)MUSICAL_MCSS_GetElemPtr(table, *(u16 *)(work + 0x50)));
     BILLBOARD_GetImageSizeFromFlags(flags, &dims[1], &dims[0]);
     h = MUSICAL_MCSS_CreateResourceArc(*(u16 *)(work + 0x50));
     G3D_SYSTEM_TransVramTexture(h);
@@ -2030,7 +2030,7 @@ void DUP_FITTING_AttachElem(u8 *work,int sound)
         pos.x=(int)((float)(((struct DupFittingRenderElem *)q)->x+((struct DupFittingRenderElem *)q)->offsetX)/4096.f)+128;
         pos.y=(int)((float)(((struct DupFittingRenderElem *)q)->y+((struct DupFittingRenderElem *)q)->offsetY)/4096.f)+96;
         rotation=((struct DupFittingRenderElem *)q)->baseRotation;MUSICAL_MCSS_SetElemFlag(*(int *)&((struct DupFittingWork *)work)->elemSet, (Flags *)((int)sprite), 1);
-        if(MUSICAL_MCSS_GetFlagA(sprite)==1)v.z=0x1a000;
+        if(MUSICAL_MCSS_ElemHasAltDepth(sprite)==1)v.z=0x1a000;
         if(DUP_FITTING_IsFrameOwned(work,((struct DupFittingWork *)work)->frameIndex)==0){((struct DupFittingWork *)work)->holdKind=3;((struct DupFittingWork *)work)->holdDx=pos.x;((struct DupFittingWork *)work)->holdDy=pos.y;}
         DUP_FITTING_ITEM_ElemSetFrameIndex((char *)(*(u8 * *)&((struct DupFittingWork *)work)->heldElem),((struct DupFittingWork *)work)->frameIndex);
         if(old!=((struct DupFittingWork *)work)->frameIndex && sound==1)GFL_USE_PlaySeDefaultVolume(0x627);
@@ -2147,7 +2147,7 @@ void DUP_FITTING_ReturnElem(u8 *work, int unused)
 }
 
 /*
- * ABI: MUSICAL_MCSS_GetFlagA declared int here: its forwarded MUSICAL_MCSS_GetStateA returns 0/1; original compares the returned r0 despite legacy void declarations.
+ * ABI: MUSICAL_MCSS_ElemHasAltDepth declared int here: its forwarded MUSICAL_MCSS_GetStateA returns 0/1; original compares the returned r0 despite legacy void declarations.
  */
 void DUP_FITTING_MoveElem(u8 *work)
 {
@@ -2205,7 +2205,7 @@ void DUP_FITTING_MoveElem(u8 *work)
     while(entry) {
         s=(u8 *)DUP_FITTING_ITEM_ElemGetRenderElem(entry);
         MUSICAL_MCSS_SetElemScale(*(int *)(work+0x1884),(int)s,(u32)(&second));
-        if(MUSICAL_MCSS_GetFlagA(s)==1) second.z=depth+(102<<10);
+        if(MUSICAL_MCSS_ElemHasAltDepth(s)==1) second.z=depth+(102<<10);
         else if(DUP_FITTING_ITEM_ElemGetFrameIndex((char *)entry)==7 || DUP_FITTING_ITEM_ElemGetFrameIndex((char *)entry)==8) second.z=depth+(222<<10);
         else second.z=depth+(202<<10);
         MUSICAL_MCSS_SetElemPos(*(int *)(work+0x1884), (int)s, (Vec *)&second);
@@ -2216,7 +2216,7 @@ void DUP_FITTING_MoveElem(u8 *work)
 
 /*
  * lever: Unsigned word state local restores the state/sprite register pair; int and long left DIFF7.
- * ABI: MUSICAL_MCSS_GetFlagA declared int here: its forwarded MUSICAL_MCSS_GetStateA returns 0/1; original compares the returned r0 despite legacy void declarations.
+ * ABI: MUSICAL_MCSS_ElemHasAltDepth declared int here: its forwarded MUSICAL_MCSS_GetStateA returns 0/1; original compares the returned r0 despite legacy void declarations.
  */
 void DUP_FITTING_UpdateHeldElem(u8 *work)
 {
@@ -2250,7 +2250,7 @@ void DUP_FITTING_UpdateHeldElem(u8 *work)
         else b.x=(int)((float)(posB.x<<12)-0.5f);
         if(posB.y>0) b.y=(int)(0.5f+(float)(posB.y<<12));
         else b.y=(int)((float)(posB.y<<12)-0.5f);
-        if(MUSICAL_MCSS_GetFlagA(spriteB)==1) b.z=102<<10;
+        if(MUSICAL_MCSS_ElemHasAltDepth(spriteB)==1) b.z=102<<10;
         else if(DUP_FITTING_ITEM_ElemGetFrameIndex((char *)(*(u8 * *)&((struct DupFittingWork *)work)->heldElem))==7 || DUP_FITTING_ITEM_ElemGetFrameIndex((char *)(*(u8 * *)&((struct DupFittingWork *)work)->heldElem))==8) b.z=222<<10;
         else b.z=202<<10;
         flag=((struct DupFittingRenderElem *)record)->baseRotation;

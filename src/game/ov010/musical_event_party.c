@@ -28,7 +28,7 @@
  *   POKEPARTY_RemoveMember  0x0201A9C8  thumb
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
- *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
+ *   GAME_DATA_GetMyStatusPlayer  0x02012950  thumb
  *   GAME_DATA_GetWifiList  0x0201283C  thumb
  *   WIFILIST_FindFriendByStatus  0x02009D1C  thumb
  *   WIFILIST_AddFriendBattleRecord  0x02009BB8  thumb
@@ -41,7 +41,7 @@ struct GameData;
 struct Party;
 struct Pokemon;
 struct NetHandle;
-struct PlayerStatus;
+struct MyStatus;
 struct WifiList;
 typedef unsigned char u8;
 
@@ -60,7 +60,7 @@ struct MusicalEntryInfo {
 /* One participant slot: the party list and the player status bound to it. */
 struct MusicalParticipantSlot {
     void *partyList;
-    struct PlayerStatus *playerStatus;
+    struct MyStatus *playerStatus;
     u8 pad08[8];
 };
 
@@ -98,9 +98,9 @@ extern void POKE_TOOL_HealParty(void *party);
 extern u32 POKEPARTY_RemoveMember(struct Party *party, s32 index);
 extern struct NetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_GetHandleNetID(struct NetHandle *handle);
-extern struct PlayerStatus *GAME_DATA_GetPlayerStatus(struct GameData *gameData, u32 playerIndex);
+extern struct MyStatus *GAME_DATA_GetMyStatusPlayer(struct GameData *gameData, u32 playerIndex);
 extern struct WifiList *GAME_DATA_GetWifiList(const struct GameData *gameData);
-extern int WIFILIST_FindFriendByStatus(struct WifiList *wifiList, struct PlayerStatus *playerStatus, u32 *outFriendSlot);
+extern int WIFILIST_FindFriendByStatus(struct WifiList *wifiList, struct MyStatus *playerStatus, u32 *outFriendSlot);
 extern void WIFILIST_AddFriendBattleRecord(struct WifiList *wifiList, int friendSlot, int wins, int losses, int trades);
 extern void WIFILIST_SetFriendLastSeen(struct WifiList *wifiList, int friendSlot);
 void MUSICAL_EVENT_SetPartyLevel50(void *party);
@@ -198,7 +198,7 @@ void MUSICAL_EVENT_UpdateFriendRecords(struct MusicalEventWork *work, struct Gam
     int i;
     int targetPosition;
     u32 localPosition;
-    struct PlayerStatus *playerStatus;
+    struct MyStatus *playerStatus;
 
     partnerSlot = 0;
     if (work->entryInfo->isFourPlayer == 0) {
@@ -223,7 +223,7 @@ void MUSICAL_EVENT_UpdateFriendRecords(struct MusicalEventWork *work, struct Gam
     }
 
     for (i = 0; i < participantCount; i++) {
-        playerStatus = GAME_DATA_GetPlayerStatus(gameData, i);
+        playerStatus = GAME_DATA_GetMyStatusPlayer(gameData, i);
         if (i != GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle()) && playerStatus != 0
             && WIFILIST_FindFriendByStatus(GAME_DATA_GetWifiList(gameData), playerStatus, (u32 *)(&friendSlot)) != 0) {
             if (i == partnerSlot) {
@@ -261,28 +261,28 @@ void MUSICAL_EVENT_BindParticipantSlots(struct MusicalEventWork *work, struct Ga
         if (work->participantPosition[GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle())] < 2) {
             for (i = 0; i < 4; i++) {
                 work->slot[work->participantPosition[i]].partyList = work->participantParties[i];
-                work->slot[work->participantPosition[i]].playerStatus = GAME_DATA_GetPlayerStatus(GAMESYSTEM_GetGameData(gameSystem), i);
+                work->slot[work->participantPosition[i]].playerStatus = GAME_DATA_GetMyStatusPlayer(GAMESYSTEM_GetGameData(gameSystem), i);
             }
         } else {
             i = 0;
             remap4 = MUSICAL_EVENT_FourPlayerPositionRemap;
             for (; i < 4; i++) {
                 work->slot[remap4.v[work->participantPosition[i]]].partyList = work->participantParties[i];
-                work->slot[remap4.v[work->participantPosition[i]]].playerStatus = GAME_DATA_GetPlayerStatus(GAMESYSTEM_GetGameData(gameSystem), i);
+                work->slot[remap4.v[work->participantPosition[i]]].playerStatus = GAME_DATA_GetMyStatusPlayer(GAMESYSTEM_GetGameData(gameSystem), i);
             }
         }
     } else {
         if (GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle()) == 0) {
             for (i = 0; i < 2; i++) {
                 work->slot[work->participantPosition[i]].partyList = work->participantParties[i];
-                work->slot[work->participantPosition[i]].playerStatus = GAME_DATA_GetPlayerStatus(GAMESYSTEM_GetGameData(gameSystem), i);
+                work->slot[work->participantPosition[i]].playerStatus = GAME_DATA_GetMyStatusPlayer(GAMESYSTEM_GetGameData(gameSystem), i);
             }
         } else {
             i = 0;
             remap2 = MUSICAL_EVENT_TwoPlayerPositionRemap;
             for (; i < 2; i++) {
                 work->slot[remap2.v[work->participantPosition[i]]].partyList = work->participantParties[i];
-                work->slot[remap2.v[work->participantPosition[i]]].playerStatus = GAME_DATA_GetPlayerStatus(GAMESYSTEM_GetGameData(gameSystem), i);
+                work->slot[remap2.v[work->participantPosition[i]]].playerStatus = GAME_DATA_GetMyStatusPlayer(GAMESYSTEM_GetGameData(gameSystem), i);
             }
         }
     }

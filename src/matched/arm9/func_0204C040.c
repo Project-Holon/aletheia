@@ -1,5 +1,5 @@
 /*
- * function: CLACT_SetOamManagerSubParam
+ * function: CLACT_EntryAffineSub
  * address:  0x0204C040
  * packet:   pkt_0204BE84
  * region:   arm9
@@ -29,7 +29,7 @@ typedef unsigned int  u32;
 extern struct Mgr *g_ClactSystem;
 extern void NNS_G2dEntryOamManagerAffine(void *block, u32 arg);
 
-void CLACT_SetOamManagerSubParam(u32 arg)
+void CLACT_EntryAffineSub(u32 arg)
 {
     NNS_G2dEntryOamManagerAffine((u8 *)g_ClactSystem + 0x20, arg);
 }

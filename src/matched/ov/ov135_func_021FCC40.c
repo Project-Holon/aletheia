@@ -26,7 +26,7 @@
  *   WORLDTRADE_LIST_DrawSelectedRecord  0x021FD5F0  thumb
  *   WORLDTRADE_SUBLCD_MoveArrowToSlot  0x021FFD1C  thumb
  *   WORLDTRADE_LIST_VBlank  0x021FD8BC  thumb
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   WIPE_SYS_Start  0x0202208C  thumb
  */
 
@@ -94,7 +94,7 @@ extern void WORLDTRADE_LIST_PrintHeader(void *bank, void *pane, u32 index, void 
 extern void WORLDTRADE_LIST_DrawSelectedRecord(Work *p);
 extern void WORLDTRADE_SUBLCD_MoveArrowToSlot(Work *p, int i, int dy);
 extern void WORLDTRADE_LIST_VBlank(void *p);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 
 int WORLDTRADE_LIST_Init(Work *p)
@@ -122,7 +122,7 @@ int WORLDTRADE_LIST_Init(Work *p)
     WORLDTRADE_SUBLCD_MoveArrowToSlot(p, p->cur, -p->scroll);
     p->vblank = WORLDTRADE_LIST_VBlank;
     *(vu16 *)0x04000304 |= 0x8000;
-    GFL_NET_RestartWithDefaultTimeout(1, 0x48);
+    GFL_NET_RefreshWmIconAtTopRight(1, 0x48);
     if (p->kind == 0x11) {
         if (GXx_GetMasterBrightness_((vu16 *)0x0400006C) == -16 && GXx_GetMasterBrightness_((vu16 *)0x0400106C) != -16) {
             WIPE_SYS_Start((void *)3, 1, 1, 0, 6, 1, 0x48);

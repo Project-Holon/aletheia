@@ -1,5 +1,5 @@
 /*
- * function: B_PLIST_DRAW_PrintStatRow2
+ * function: B_PLIST_DRAW_PrintSpeedStat
  * address:  0x0220CAF0
  * packet:   pkt_0220CAF0
  * region:   ov198
@@ -44,7 +44,7 @@ extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 
-void B_PLIST_DRAW_PrintStatRow2(char *p, int i)
+void B_PLIST_DRAW_PrintSpeedStat(char *p, int i)
 {
     char *elem;
     void *t;

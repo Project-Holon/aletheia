@@ -47,9 +47,9 @@
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   SAVE_CONTROL_LoadExtraSave 0x0200725C thumb
  *   SAVE_CONTROL_GetExtraSaveRecord 0x020073D8 thumb
- *   MISC_SAVEDATA_GetFlags6200 0x0200E8D8 thumb
- *   MISC_SAVEDATA_EmptyHook 0x0200E8CC thumb
- *   MISC_SAVEDATA_GetScratchBase 0x0200E8D0 thumb
+ *   ZUKAN_SKIN_SAVE_GetValidFlag 0x0200E8D8 thumb
+ *   ZUKAN_SKIN_SAVE_GetTiles 0x0200E8CC thumb
+ *   ZUKAN_SKIN_SAVE_GetPalette 0x0200E8D0 thumb
  *   BG_SYS_LoadTileData 0x02040B1C arm
  *   BG_SYS_LoadPltt 0x02040E78 arm
  *   DC_FlushRange 0x020862F0 arm
@@ -63,7 +63,7 @@
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   BG_SYS_SetLcdSwap 0x0204363C arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   ZUKAN_StartWipeIn 0x021C93A8 thumb ov212
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   TOUCHPANEL_GetCont   0x02035C38  arm
@@ -128,8 +128,8 @@ extern void close(void *);
 extern void *GAME_DATA_GetSaveControl(struct Big *);
 extern u32 SAVE_CONTROL_LoadExtraSave(struct Ctrl *,u32,u32);
 extern void *SAVE_CONTROL_GetExtraSaveRecord(struct Sub020073D8Ctrl *,u32,u32);
-extern u32 MISC_SAVEDATA_GetFlags6200(const void *obj);
-extern void *MISC_SAVEDATA_EmptyHook(void *),*MISC_SAVEDATA_GetScratchBase(void *);
+extern u32 ZUKAN_SKIN_SAVE_GetValidFlag(const void *obj);
+extern void *ZUKAN_SKIN_SAVE_GetTiles(void *),*ZUKAN_SKIN_SAVE_GetPalette(void *);
 extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 extern void BG_SYS_LoadPltt(u32,void *,u32,u32);
 extern void DC_FlushRange(void *,unsigned long);
@@ -266,9 +266,9 @@ void ZUKAN_SEARCH_SCREEN_LoadSaveGraphics(struct ZukanSearchWork *p)
     save=GAME_DATA_GetSaveControl(p->owner->gameData);
     if(SAVE_CONTROL_LoadExtraSave(save,7,0x807e)==1){
         block=SAVE_CONTROL_GetExtraSaveRecord(save,7,0);
-        if(block!=0&&MISC_SAVEDATA_GetFlags6200(block)==1){
-            tiles=MISC_SAVEDATA_EmptyHook(block);
-            palette=MISC_SAVEDATA_GetScratchBase(block);
+        if(block!=0&&ZUKAN_SKIN_SAVE_GetValidFlag(block)==1){
+            tiles=ZUKAN_SKIN_SAVE_GetTiles(block);
+            palette=ZUKAN_SKIN_SAVE_GetPalette(block);
             BG_SYS_LoadTileData(1,tiles,0x6000,0);
             BG_SYS_LoadPltt(1,palette,0x200,0);
             BG_SYS_LoadPltt(5,palette,0x200,0);
@@ -299,7 +299,7 @@ int ZUKAN_SEARCH_SCREEN_Init(struct ZukanSearchWork *p)
     *(volatile unsigned short *)0x04001050=0;
     BG_SYS_SetLcdSwap(0);ZUKAN_SEARCH_SCREEN_SetupVram();ZUKAN_SEARCH_SCREEN_InitBg();
     ZUKAN_SEARCH_SCREEN_LoadGraphics(p);ZUKAN_SEARCH_SCREEN_LoadSaveGraphics(p);
-    GFL_NET_RestartWithDefaultTimeout(1,126);BG_SYS_SetSubPlaneVisible(16,1);
+    GFL_NET_RefreshWmIconAtTopRight(1,126);BG_SYS_SetSubPlaneVisible(16,1);
     ZUKAN_SEARCH_SCREEN_RegisterVBlank(p);ZUKAN_StartWipeIn(126);
     return 2;
 }

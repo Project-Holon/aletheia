@@ -27,7 +27,7 @@
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   INTRUDE_GetFromSave 0x0200BE48 thumb
  *   INTRUDE_SetMonolithLevel 0x0200BF08 thumb
- *   GAME_DATA_GetExitMode 0x02012B58 thumb
+ *   GAME_DATA_GetOwnNetId 0x02012B58 thumb
  *   GAME_COMM_PushPairMessage 0x020266AC thumb
  *   INTRUDE_COMM_GetWorkIfRunning 0x02158344 thumb ov010
  *   INTRUDE_COMM_SendPairMessage 0x02174660 thumb ov011
@@ -129,7 +129,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern u16 *INTRUDE_GetFromSave(void *sys);
 struct Rec1B0;
 extern void INTRUDE_SetMonolithLevel(struct Rec1B0 *p, u32 v);
-extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+extern u8 GAME_DATA_GetOwnNetId(const struct BigObj *p);
 extern void GAME_COMM_PushPairMessage(u32,u32,u32);
 extern int MONOLITH_TOOL_IsBlinking(void *);
 extern void MONOLITH_TOOL_UpdateScrollArrows(u8 *);
@@ -234,7 +234,7 @@ write10:
             INTRUDE_SetMonolithLevel((struct Rec1B0 *)INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData((const struct Ctx *)(*(u32 *)CP(0))))),*(u32 *)(o+(W(0x300)<<2)+0xec));
             save=GAMESYSTEM_GetGameComm((const struct Ctx *)*(u32 *)CP(0));
             handle=C(0);
-            GAME_COMM_PushPairMessage(save,GAME_DATA_GetExitMode(GAMESYSTEM_GetGameData((const struct Ctx *)(((struct Obj13181 *)handle)->f0))),((struct Obj13181 *)handle)->f3C);
+            GAME_COMM_PushPairMessage(save,GAME_DATA_GetOwnNetId(GAMESYSTEM_GetGameData((const struct Ctx *)(((struct Obj13181 *)handle)->f0))),((struct Obj13181 *)handle)->f3C);
             W(0x300)=0xffff; MONOLITH_TOOL_SetButtonPulse((int *)c,1,1); MONOLITH_TOOL_HighlightButtonPulse(c,(int *)(o+8),1,0xff,3);
             if (TOUCHPANEL_GetTrg()!=0) *state=16;
             else *state=17;

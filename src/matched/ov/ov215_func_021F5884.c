@@ -44,7 +44,7 @@
  *   EGG_DEMO_MAIN_StopBgm 0x021F602C thumb ov215
  *   UI_SetInputMode 0x020355D8 arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   BEACON_GetBlock 0x0200C0F0 thumb
+ *   MISC_GetBlock 0x0200C0F0 thumb
  *   EGG_DEMO_MAIN_DeleteResources 0x021F5CFC thumb ov215
  *   NAMEIN_SETUP_CreateMonArgs 0x0216C028 thumb ov010
  *   PROCSYS_Push 0x02031348 arm
@@ -104,7 +104,7 @@ extern void EGG_DEMO_VIEW_ResetAnimState(char *),EGG_DEMO_MENU_Draw(void *,char 
 extern void EGG_DEMO_MENU_SetText(char *,char *,u32);
 extern int EGG_DEMO_MENU_WaitText(void *,char *),EGG_DEMO_MAIN_IsBgm2Loading(void *,char *),EGG_DEMO_MENU_CreateDialog(int,char *),EGG_DEMO_MENU_GetDialogResult(int,char *);
 extern void EGG_DEMO_MAIN_StopBgm(void *,char *),UI_SetInputMode(u8);
-extern void *GAME_DATA_GetSaveControl(struct Big *),*BEACON_GetBlock(void *);
+extern void *GAME_DATA_GetSaveControl(struct Big *),*MISC_GetBlock(void *);
 extern void EGG_DEMO_MAIN_DeleteResources(u32,char *);
 extern int *NAMEIN_SETUP_CreateMonArgs(u16,int,int,int,int);
 extern void PROCSYS_Push(void *,u32,u32,u32);
@@ -160,7 +160,7 @@ int EGG_DEMO_MAIN_Update(u32 unused0,u32 unused1,u32 *a,u32 *p)
         else if(active==1){p[4]=14;FADE_Start(3,0,16,0);UI_SetInputMode(0);}break;
     case 14:
         if(!FADE_IsActive()){
-            block=BEACON_GetBlock(GAME_DATA_GetSaveControl((struct Big *)a[0]));
+            block=MISC_GetBlock(GAME_DATA_GetSaveControl((struct Big *)a[0]));
             EGG_DEMO_MAIN_DeleteResources((u32)a,(char *)p);p[4]=15;
             child=NAMEIN_SETUP_CreateMonArgs(((struct Obj00186 *)p)->f0,(int)a[1],10,0,(int)block);p[33]=(u32)child;
             PROCSYS_Push((void *)p[34],(u32)&abs_id_C2,(u32)&gNameInProcData,(u32)child);

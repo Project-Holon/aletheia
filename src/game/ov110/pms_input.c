@@ -23,7 +23,7 @@
  *   PMS_INPUT_VIEW_StartTask 0x021B9BEC thumb ov110
  *   PMS_INPUT_VIEW_IsIdle 0x021B9C74 thumb ov110
  *   PMS_INPUT_VIEW_GetEditValue 0x021BABE8 thumb ov110
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   TCB_Main 0x02030D28 arm
  *   KEY_GetTrg 0x020362DC arm
  *   KEY_GetCont 0x0203630C arm
@@ -167,7 +167,7 @@ extern void GF_OVERLAY_Unload(int overlayId);
 
 extern void GFL_HEAP_CreateChildHeap(unsigned int parent, unsigned int heapId, unsigned int size);
 
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 
 extern void GFL_HEAP_DeleteChecked(u32 heapId);
 
@@ -376,7 +376,7 @@ int PMS_INPUT_ProcInit(struct Proc *proc, int *seq, struct PmsiParam *param, voi
         input = work;
         if (PMS_INPUT_VIEW_IsIdle(input->view)) {
             PMS_INPUT_SetHandler(input, PMS_INPUT_HandleMenu);
-            GFL_NET_RestartWithDefaultTimeout(1, 42);
+            GFL_NET_RefreshWmIconAtTopRight(1, 42);
             return 1;
         }
         break;

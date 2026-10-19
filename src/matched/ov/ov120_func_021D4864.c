@@ -17,7 +17,7 @@
  *   GTSNEGO_DISP_SetStateCallback 0x021D4244 thumb ov120
  *   GTSNEGO_DISP_SendHandshake 0x021D4808 thumb ov120
  *   GAME_DATA_GetTradeHistory  0x02012F14  thumb  arm9
- *   MISC_SAVEDATA_CopyQuadRecord  0x0200E6FC  thumb  arm9
+ *   GREETING_SAVEDATA_GetSentence  0x0200E6FC  thumb  arm9
  */
 #include "../include/Obj02831.h"
 #include "../include/Obj13929.h"
@@ -33,7 +33,7 @@ extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 struct Link;
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *p, unsigned int lo, unsigned int hi);
 extern void *func_0200E6E8(u32 a);
-extern void MISC_SAVEDATA_CopyQuadRecord(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
+extern void GREETING_SAVEDATA_GetSentence(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
 extern void *GAME_DATA_GetTradeHistory(void **h);
 extern u32 func_02009EA8(const struct Sub02009D9CObj *obj);
 extern void GTSNEGO_DISP_SetStateCallback(int *p, int v, int a2);
@@ -56,7 +56,7 @@ void GTSNEGO_DISP_WaitNegotiation(u8 *p)
             value = (int)func_0200E6E8(((struct Obj02831 *)p)->f30);
             ((struct Obj13929 *)q)->f4 = ((struct Obj02831 *)p)->f144;
             ((struct Obj13929 *)q)->f8 = ((struct Obj02831 *)p)->f13C;
-            MISC_SAVEDATA_CopyQuadRecord((struct Rec0200E6FC *)value, 0, (struct Rec0200E6FC *)(p + 0x168));
+            GREETING_SAVEDATA_GetSentence((struct Rec0200E6FC *)value, 0, (struct Rec0200E6FC *)(p + 0x168));
             ((struct Obj02831 *)p)->f170 = func_02009EA8(GAME_DATA_GetTradeHistory((void **)(((struct Obj02831 *)p)->f2C)));
             GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 2, 0x22);
             GTSNEGO_DISP_SetStateCallback((int *)p, (int)GTSNEGO_DISP_SendHandshake, 0x314);

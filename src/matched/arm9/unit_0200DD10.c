@@ -18,11 +18,11 @@
  * are a packed stamp and the next 250 are a bitmap of 2000 bits.  Neither
  * function carries a label in the generated listing.
  *
- * Near miss, and the reason this unit stops at 0x0200DD28: GDS_PROFILE_SetSubwaySaveBitAndStamp,
+ * Near miss, and the reason this unit stops at 0x0200DD28: BSUBWAY_WIFIDATA_SetTrainerBit,
  * 104 bytes, which sets one bit of that bitmap and then packs four bytes
  * into the stamp word.  It is
  *
- *     void GDS_PROFILE_SetSubwaySaveBitAndStamp(struct BlkB90 *p, u32 a, u32 b,
+ *     void BSUBWAY_WIFIDATA_SetTrainerBit(struct BlkB90 *p, u32 a, u32 b,
  *                        const struct Stamp *q)
  *     {
  *         u16 idx;

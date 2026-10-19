@@ -31,7 +31,7 @@
  *     relocations keep both pool words, which is the original's shape.
  *
  * symbols:
- *   SAVEDATA_SetFailHook   0x02034704  arm
+ *   GF_PANIC_SetFailHook   0x02034704  arm
  *   func_0200FB6C   0x0200FB6C  thumb
  *   PM_VOICE_GetCryIndex   0x02006C00  thumb
  *   PM_VOICE_PrepareCry   0x02006C2C  thumb
@@ -76,7 +76,7 @@ extern u8 CONFIG_ApplyTextLanguage(const struct Flags02008414 *p);
 extern void MSG_SPEED_SetSaveControl(void *val);
 extern void func_0200F6B8(void);
 extern void func_0200F6D8(u32 kind);
-extern void SAVEDATA_SetFailHook(u32 a0);
+extern void GF_PANIC_SetFailHook(u32 a0);
 extern void WORDSET_LoadSpeciesNameBank(u16 heap);
 extern void POKE_TOOL_InitSystem(u32 heap);
 extern void GFL_USE_InitSound(void);
@@ -108,7 +108,7 @@ void GFL_USE_InitGameSystems(void)
     MSG_SPEED_SetSaveControl(func_020070A4());
     func_0200F6B8();
     func_0200F6D8(8);
-    SAVEDATA_SetFailHook((u32)&func_0200FB6C);
+    GF_PANIC_SetFailHook((u32)&func_0200FB6C);
     WORDSET_LoadSpeciesNameBank(0);
     POKE_TOOL_InitSystem(0);
     GFL_USE_InitSound();

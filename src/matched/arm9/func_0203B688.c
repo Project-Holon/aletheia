@@ -12,7 +12,7 @@
  *
  * symbols:
  *   GFL_NET_STATE_ChangeStateDebug  0x0203AD80  arm
- *   GFL_NET_STATE_GetParentWaitTime  0x0203B344  arm
+ *   GFL_NET_STATE_RollParentWaitTime  0x0203B344  arm
  */
 
-int GFL_NET_STATE_ChangeoverParentRestart(int a0, int a1, int a2, int a3){ int t0 = GFL_NET_STATE_GetParentWaitTime((int)a0); int t1 = GFL_NET_STATE_ChangeStateDebug((int)*(int *)((char *)(0x21469DC)), (int)0x203B5D4, (int)t0, (int)0x2e0); return t1; }
+int GFL_NET_STATE_ChangeoverParentRestart(int a0, int a1, int a2, int a3){ int t0 = GFL_NET_STATE_RollParentWaitTime((int)a0); int t1 = GFL_NET_STATE_ChangeStateDebug((int)*(int *)((char *)(0x21469DC)), (int)0x203B5D4, (int)t0, (int)0x2e0); return t1; }

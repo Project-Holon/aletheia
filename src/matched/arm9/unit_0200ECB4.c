@@ -24,7 +24,7 @@
  * between the functions are each function's own.
  *
  * MISC_SAVEDATA_GetRingRecordIndex is a tail call through a pool word to
- * src/matched/MISC_SAVEDATA_FindFreeRecordSlot.c, and the pool word is the only reference to
+ * src/matched/DENDOU_SAVEDATA_GetMemberCount.c, and the pool word is the only reference to
  * 0x0200EC14 anywhere in the image, so that entry is what makes this file
  * verifiable at all (the `matched` class).
  */

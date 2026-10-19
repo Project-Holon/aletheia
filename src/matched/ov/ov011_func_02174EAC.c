@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GAME_COMM_GetGameData  0x02026478  thumb
- *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
+ *   GAME_DATA_GetMyStatusPlayer  0x02012950  thumb
  *   func_02008530  0x02008530  thumb
  *   MYSTATUS_Copy  0x02008494  thumb
  *   GAME_DATA_GetBattleRecSlot  0x020127AC  thumb
@@ -40,7 +40,7 @@ struct SaveBlock;
 struct Sub0200852CObj;
 struct Sub24;
 unsigned int GAME_COMM_GetGameData(void *obj);
-struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, unsigned int i);
+struct Rec44 *GAME_DATA_GetMyStatusPlayer(struct Sub24 *p, unsigned int i);
 unsigned int func_02008530(const struct Sub0200852CObj *obj);
 void MYSTATUS_Copy(void *src, void *dst);
 void *GAME_DATA_GetBattleRecSlot(struct SaveBlock *p, unsigned int idx);
@@ -63,7 +63,7 @@ void INTRUDE_COMM_ApplyPlayerBeacon(u8 *p, int idx, u8 *q)
 
     ctx = GAME_COMM_GetGameData((void *)(((struct Obj00269 *)p)->f4));
     flag = 0;
-    a = (int)GAME_DATA_GetPlayerStatus((struct Sub24 *)ctx, idx);
+    a = (int)GAME_DATA_GetMyStatusPlayer((struct Sub24 *)ctx, idx);
     if (p[0x8FB] & (1 << idx)) {
         x = func_02008530((const struct Sub0200852CObj *)a);
         if (x == func_02008530((const struct Sub0200852CObj *)q)) {

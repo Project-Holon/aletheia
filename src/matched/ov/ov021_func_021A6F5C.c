@@ -24,7 +24,7 @@
  *   FIELDMAP_CTRL_HYBRID_FindRailLocation  0x021A71E4  thumb  ov021
  *   FIELDMAP_CTRL_HYBRID_SwitchToNogrid  0x021A70D0  thumb  ov021
  *   FIELD_PLAYER_CheckMoveRestrictFlag  0x021A35BC  thumb  ov021
- *   FIELD_PLAYER_SetupGrid  0x021A35F0  thumb  ov021
+ *   FIELD_PLAYER_MoveGrid  0x021A35F0  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -47,7 +47,7 @@ extern int MAP_ATTR_IsBlocked(u32 attr);
 extern int FIELDMAP_CTRL_HYBRID_FindRailLocation(u32 a, u32 *b, u16 *c, u32 d);
 extern void FIELDMAP_CTRL_HYBRID_SwitchToNogrid(u32 a, u32 *b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern int FIELD_PLAYER_CheckMoveRestrictFlag(int a);
-extern int FIELD_PLAYER_SetupGrid(u32 a, u32 b, u32 c, u32 d);
+extern int FIELD_PLAYER_MoveGrid(u32 a, u32 b, u32 c, u32 d);
 
 void FIELDMAP_CTRL_HYBRID_UpdateGrid(u32 a, u32 *b)
 {
@@ -80,5 +80,5 @@ void FIELDMAP_CTRL_HYBRID_UpdateGrid(u32 a, u32 *b)
     }
     if (FIELD_PLAYER_CheckMoveRestrictFlag(b[1]) == 1)
         fl |= 1;
-    FIELD_PLAYER_SetupGrid(b[1], v10, r7, fl);
+    FIELD_PLAYER_MoveGrid(b[1], v10, r7, fl);
 }

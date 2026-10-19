@@ -1,5 +1,5 @@
 /*
- * function: WIFIBATTLEMATCH_NET_TaskStepP
+ * function: WIFIBATTLEMATCH_NET_TaskStepFreeConfirmQuit
  * address: 0x021D60E0
  * packet: pkt_ov175_021D60E0
  * region: ov175
@@ -16,7 +16,7 @@
  *   WIFIBATTLEMATCH_NET_SetupChoiceMenu 0x021D6550 thumb ov175
  *   WIFIBATTLEMATCH_NET_PollChoiceMenu 0x021D65DC thumb ov175
  *   WIFIBATTLEMATCH_NET_DeleteChoiceMenu 0x021D65C8 thumb ov175
- *   WIFIBATTLEMATCH_NET_TaskStepO 0x021D6048 thumb ov175
+ *   WIFIBATTLEMATCH_NET_TaskStepFreeAskRetry 0x021D6048 thumb ov175
  *   WIFIBATTLEMATCH_NET_TaskCleanupB 0x021D61CC thumb ov175
  */
 typedef unsigned int u32;
@@ -28,9 +28,9 @@ extern void WIFIBATTLEMATCH_UTIL_CommitRequest(u32);
 extern void WIFIBATTLEMATCH_NET_SetupChoiceMenu(u32 *,int);
 extern int WIFIBATTLEMATCH_NET_PollChoiceMenu(char *);
 extern void WIFIBATTLEMATCH_NET_DeleteChoiceMenu(char *obj);
-extern void WIFIBATTLEMATCH_NET_TaskStepO(unsigned sys, int *state, int *p);
+extern void WIFIBATTLEMATCH_NET_TaskStepFreeAskRetry(unsigned sys, int *state, int *p);
 extern void WIFIBATTLEMATCH_NET_TaskCleanupB(void *a, u32 **pp, char *p);
-void WIFIBATTLEMATCH_NET_TaskStepP(u32 sys,int *state,u32 *p)
+void WIFIBATTLEMATCH_NET_TaskStepFreeConfirmQuit(u32 sys,int *state,u32 *p)
 {
     u32 *ctx=(u32 *)p[16];
     int result;
@@ -44,7 +44,7 @@ void WIFIBATTLEMATCH_NET_TaskStepP(u32 sys,int *state,u32 *p)
             WIFIBATTLEMATCH_NET_DeleteChoiceMenu((char *)p);
             switch(result) {
             case 0: ctx[1]=0; *state=3; break;
-            case 1: WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys,(int)WIFIBATTLEMATCH_NET_TaskStepO); break;
+            case 1: WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys,(int)WIFIBATTLEMATCH_NET_TaskStepFreeAskRetry); break;
             }
         }
         break;

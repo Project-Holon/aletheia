@@ -1,5 +1,8 @@
 # A store then reload of a spilled local is a later compound assignment
 
+summary: A call result that is spilled and reloaded at once comes from a local that a later
+compound assignment redefines. The redefinition splits the live range.
+
 ## Shape
 
 A call result is spilled and reloaded at once, before its first use:

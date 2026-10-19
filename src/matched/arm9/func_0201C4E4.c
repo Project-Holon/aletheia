@@ -21,13 +21,13 @@
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
  *   func_020870D0  0x020870D0  arm
  *   PRINTSYS_PrintStep  0x0201C974  thumb
- *   GF_FONT_GetNextRecord  0x0201D7C4  thumb
+ *   PRINTSYS_GetNextRecord  0x0201D7C4  thumb
  *
  * printsys.c: the per-frame print pump.  Bumps the frame counter at +6,
  * saves the current text colour, applies the head request's colour when its
  * 4-bit kind is 0 or 2, then runs glyphs through PRINTSYS_PrintStep until the
  * string ends or the tick budget at +8 (func_020870D0 is OS_GetTick) runs
- * out.  On string end it pops the request (GF_FONT_GetNextRecord) and moves the
+ * out.  On string end it pops the request (PRINTSYS_GetNextRecord) and moves the
  * glyph cursor to the next record's text in the byte ring at +0x18,
  * wrapping twice at the ring size.  Restores the colour and reports idle.
  *
@@ -76,7 +76,7 @@ extern void  GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 extern u64   func_020870D0(void);
 struct PrintCtx;
 extern u16 *PRINTSYS_PrintStep(struct PrintCtx *c, u16 *p, u32 f);
-extern void *GF_FONT_GetNextRecord(struct PrintSys *p, void *q);
+extern void *PRINTSYS_GetNextRecord(struct PrintSys *p, void *q);
 
 static inline u16 Wrap(struct PrintSys *ps, u16 o)
 {
@@ -147,7 +147,7 @@ u32 PRINTSYS_QUE_Main(struct PrintSys *ps)
             }
             if (ps->unk14[0] == 0xFFFF) {
                 off = (u16)((u8 *)ps->unk10 - base);
-                ps->unk10 = GF_FONT_GetNextRecord(ps, ps->unk10);
+                ps->unk10 = PRINTSYS_GetNextRecord(ps, ps->unk10);
                 if (ps->unk10 != 0) {
                     o = Wrap(ps, off + 0x1C);
                     o = Wrap(ps, o + 4);

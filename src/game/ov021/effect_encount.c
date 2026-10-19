@@ -35,11 +35,11 @@
  *   MAP_MATRIX_IsInRangeByPos  0x02159C48  thumb  ov010
  *   MAP_MATRIX_GetZoneIdByPos  0x02159BD4  thumb  ov010
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   BEACON_GetBadge  0x0200C234  thumb
+ *   MISC_GetBadge  0x0200C234  thumb
  *   FIELDMAP_GetMoveKind  0x02188CFC  thumb  ov021
  *   FLDMMDL_GetGridNowPos  0x0216D828  thumb  ov010
- *   FIELD_PLAYER_CheckGridMoving  0x021A3624  thumb  ov021
- *   FIELD_PLAYER_FinishGridMove  0x021A3644  thumb  ov021
+ *   FIELD_PLAYER_IsGridHopping  0x021A3624  thumb  ov021
+ *   FIELD_PLAYER_FinishGridHop  0x021A3644  thumb  ov021
  *   FLDEFF_ENCOUNT_SetPaused  0x021ADB4C  thumb
  *   FLDEFF_ENCOUNT_SetDrawHidden  0x021ADB5C  thumb
  *   sSearchAreaOffsets     0x021D8E76  data  a1
@@ -71,7 +71,7 @@ struct FieldPlayer;
 struct FieldG3dMapper;
 struct GameData;
 struct GameSystem;
-struct BeaconSave;
+struct MiscSave;
 
 /* Tile position of a model (three tile coordinates). */
 typedef struct GridPos {
@@ -133,12 +133,12 @@ extern void *GAME_DATA_GetFieldWork(const struct GameData *gameData);
 extern void FLDMMDL_GetPos(const struct Mmdl *mmdl, VecFx32 *out);
 extern int MAP_MATRIX_IsInRangeByPos(int a0, int a1, int a2);
 extern int MAP_MATRIX_GetZoneIdByPos(int a0, int a1, int a2);
-extern struct BeaconSave *GAME_DATA_GetMiscSave(struct GameData *gameData);
-extern u32 BEACON_GetBadge(struct BeaconSave *beacon, u32 bit);
+extern struct MiscSave *GAME_DATA_GetMiscSave(struct GameData *gameData);
+extern u32 MISC_GetBadge(struct MiscSave *beacon, u32 bit);
 extern u32 FIELDMAP_GetMoveKind(struct FieldMap *fieldMap);
 extern void FLDMMDL_GetGridNowPos(struct Mmdl *mmdl, GridPos *out);
-extern int FIELD_PLAYER_CheckGridMoving(struct FieldPlayer *player);
-extern void FIELD_PLAYER_FinishGridMove(struct FieldPlayer *player);
+extern int FIELD_PLAYER_IsGridHopping(struct FieldPlayer *player);
+extern void FIELD_PLAYER_FinishGridHop(struct FieldPlayer *player);
 extern int FIELD_G3D_MAPPER_GetFocusSlot(struct FieldG3dMapper *mapper);
 extern int FIELD_G3D_MAPPER_CheckSlotReady(struct FieldG3dMapper *mapper, int blockIndex);
 extern int _s32_to_float(int a);
@@ -250,7 +250,7 @@ void EFFECT_ENCOUNT_OnPlayerStep(FieldEncount *encount)
     mapZoneId = MAP_MATRIX_GetZoneIdByPos((int)fieldWork, pos.x, pos.z);
     if (playerZoneId == 0xFFFF || mapZoneId == 0xFFFF || playerZoneId != mapZoneId)
         return;
-    if (BEACON_GetBadge(GAME_DATA_GetMiscSave(encount->gameData), 0) == 0)
+    if (MISC_GetBadge(GAME_DATA_GetMiscSave(encount->gameData), 0) == 0)
         return;
     if (FIELDMAP_GetMoveKind(encount->fieldMap) != 0)
         return;
@@ -348,8 +348,8 @@ int EFFECT_ENCOUNT_TriggerSpot(FieldEncount *encount)
             EFFECT_ENCOUNT_SetEffectFlag(encount, 1);
         spot->consumed = 1;
         player = FIELDMAP_GetFieldPlayer(encount->fieldMap);
-        if (FIELD_PLAYER_CheckGridMoving(player))
-            FIELD_PLAYER_FinishGridMove(player);
+        if (FIELD_PLAYER_IsGridHopping(player))
+            FIELD_PLAYER_FinishGridHop(player);
     }
     return started;
 }

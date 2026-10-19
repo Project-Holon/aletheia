@@ -1,5 +1,5 @@
 /*
- * function: MISC_SAVEDATA_SnapshotParty
+ * function: DENDOU_SAVEDATA_SetRecord
  * address:  0x0200EA3C
  * packet:   pkt_0200EA3C
  * region:   arm9
@@ -80,7 +80,7 @@ extern u16   STRBUF_GetEosChar(void);
 extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
 
-void MISC_SAVEDATA_SnapshotParty(struct Rec *rec, void *party, struct Date *date, u32 heap)
+void DENDOU_SAVEDATA_SetRecord(struct Rec *rec, void *party, struct Date *date, u32 heap)
 {
     int count = POKEPARTY_GetCount(party);
     void *buf = STRBUF_Create(11, heap);

@@ -1,7 +1,7 @@
 /*
  * file:     field_subscreen.c
  * unit:     yes
- * function: FIELD_SUBSCREEN_Create, FIELD_SUBSCREEN_Delete, FIELD_SUBSCREEN_Main, FIELD_SUBSCREEN_MainNoTransition, FIELD_SUBSCREEN_CheckModeRequest, FIELD_SUBSCREEN_IsIdle, FIELD_SUBSCREEN_ResolveMode, FIELD_SUBSCREEN_RequestMode, FIELD_SUBSCREEN_ChangeModeNow, FIELD_SUBSCREEN_RequestModeWithCallback, FIELD_SUBSCREEN_GetMode, FIELD_SUBSCREEN_GetPanelResult, FIELD_SUBSCREEN_SetPanelResult, FIELD_SUBSCREEN_ClearPanelResult, FIELD_SUBSCREEN_ResumeField, FIELD_SUBSCREEN_InitCGear, FIELD_SUBSCREEN_InitCGearWithCallback, FIELD_SUBSCREEN_ExitCGear, FIELD_3DBG_ExitCGear, FIELD_3DBG_UpdateCGear, FIELD_3DBG_HandleCGearInput, FIELD_SUBSCREEN_InitNoGear, FIELD_SUBSCREEN_ExitNoGear, FIELD_SUBSCREEN_NoGearHook, FIELD_SUBSCREEN_UpdateNoGear, FIELD_SUBSCREEN_InitMenu, FIELD_SUBSCREEN_ExitMenu, FIELD_SUBSCREEN_UpdateMenu, FIELD_SUBSCREEN_UpdateMenuNoTransition, FIELD_SUBSCREEN_GetMenuSelectedButton, FIELD_SUBSCREEN_SetMenuSelectedButton, FIELD_SUBSCREEN_LoadBackdrop, FIELD_SUBSCREEN_GetCGear, FIELD_SUBSCREEN_InitUnion, FIELD_SUBSCREEN_ExitUnion, FIELD_SUBSCREEN_UpdateUnion, FIELD_SUBSCREEN_UpdateUnionNoTransition, FIELD_SUBSCREEN_InitIntrude, FIELD_SUBSCREEN_ExitIntrude, FIELD_SUBSCREEN_UpdateIntrude, FIELD_SUBSCREEN_DrawIntrude, FIELD_SUBSCREEN_CheckIntrudeRequest, FIELD_SUBSCREEN_InitBeaconView, FIELD_SUBSCREEN_ExitBeaconView, FIELD_SUBSCREEN_UpdateBeaconView, FIELD_SUBSCREEN_UpdateBeaconViewNoTransition, FIELD_SUBSCREEN_CheckBeaconViewRequest, FIELD_SUBSCREEN_InitDowsing, FIELD_SUBSCREEN_ExitDowsing, FIELD_SUBSCREEN_UpdateDowsing, FIELD_SUBSCREEN_UpdateDowsingNoTransition, FIELD_SUBSCREEN_InitReport, FIELD_SUBSCREEN_ExitReport, FIELD_SUBSCREEN_UpdateReport, FIELD_SUBSCREEN_UpdateReportNoTransition, FIELD_SUBSCREEN_IsReportReady, FIELD_SUBSCREEN_PrepareReportSave, FIELD_SUBSCREEN_StartReportSaveAnim, FIELD_SUBSCREEN_IsReportSaveAnimDone, FIELD_SUBSCREEN_StopReportSaveAnim, FIELD_SUBSCREEN_CheckReportSaveCounter, FIELD_SUBSCREEN_InitPowerOnoff, FIELD_SUBSCREEN_UpdatePowerOnoff, FIELD_SUBSCREEN_ExitPowerOnoff
+ * function: FIELD_SUBSCREEN_Create, FIELD_SUBSCREEN_Delete, FIELD_SUBSCREEN_Main, FIELD_SUBSCREEN_MainNoTransition, FIELD_SUBSCREEN_CheckModeRequest, FIELD_SUBSCREEN_IsIdle, FIELD_SUBSCREEN_ResolveMode, FIELD_SUBSCREEN_RequestMode, FIELD_SUBSCREEN_ChangeModeNow, FIELD_SUBSCREEN_RequestModeWithCallback, FIELD_SUBSCREEN_GetMode, FIELD_SUBSCREEN_GetPanelResult, FIELD_SUBSCREEN_SetPanelResult, FIELD_SUBSCREEN_ClearPanelResult, FIELD_SUBSCREEN_ResumeField, FIELD_SUBSCREEN_InitCGear, FIELD_SUBSCREEN_InitCGearWithCallback, FIELD_SUBSCREEN_ExitCGear, FIELD_3DBG_ExitCGear, FIELD_SUBSCREEN_UpdateCGear, FIELD_SUBSCREEN_HandleCGearInput, FIELD_SUBSCREEN_InitNoGear, FIELD_SUBSCREEN_ExitNoGear, FIELD_SUBSCREEN_NoGearHook, FIELD_SUBSCREEN_UpdateNoGear, FIELD_SUBSCREEN_InitMenu, FIELD_SUBSCREEN_ExitMenu, FIELD_SUBSCREEN_UpdateMenu, FIELD_SUBSCREEN_UpdateMenuNoTransition, FIELD_SUBSCREEN_GetMenuSelectedButton, FIELD_SUBSCREEN_SetMenuSelectedButton, FIELD_SUBSCREEN_LoadBackdrop, FIELD_SUBSCREEN_GetCGear, FIELD_SUBSCREEN_InitUnion, FIELD_SUBSCREEN_ExitUnion, FIELD_SUBSCREEN_UpdateUnion, FIELD_SUBSCREEN_UpdateUnionNoTransition, FIELD_SUBSCREEN_InitIntrude, FIELD_SUBSCREEN_ExitIntrude, FIELD_SUBSCREEN_UpdateIntrude, FIELD_SUBSCREEN_DrawIntrude, FIELD_SUBSCREEN_CheckIntrudeRequest, FIELD_SUBSCREEN_InitBeaconView, FIELD_SUBSCREEN_ExitBeaconView, FIELD_SUBSCREEN_UpdateBeaconView, FIELD_SUBSCREEN_UpdateBeaconViewNoTransition, FIELD_SUBSCREEN_CheckBeaconViewRequest, FIELD_SUBSCREEN_InitDowsing, FIELD_SUBSCREEN_ExitDowsing, FIELD_SUBSCREEN_UpdateDowsing, FIELD_SUBSCREEN_UpdateDowsingNoTransition, FIELD_SUBSCREEN_InitReport, FIELD_SUBSCREEN_ExitReport, FIELD_SUBSCREEN_UpdateReport, FIELD_SUBSCREEN_UpdateReportNoTransition, FIELD_SUBSCREEN_IsReportReady, FIELD_SUBSCREEN_PrepareReportSave, FIELD_SUBSCREEN_StartReportSaveAnim, FIELD_SUBSCREEN_IsReportSaveAnimDone, FIELD_SUBSCREEN_StopReportSaveAnim, FIELD_SUBSCREEN_CheckReportSaveCounter, FIELD_SUBSCREEN_InitPowerOnoff, FIELD_SUBSCREEN_UpdatePowerOnoff, FIELD_SUBSCREEN_ExitPowerOnoff
  * address:  0x021A0CF4
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -168,7 +168,7 @@ u32 C_GEAR_Nop(u32 a);
 u32 FIELD_3DBG_ExitCGear(FieldSubscreen *work);
 extern int C_GEAR_Restart(int *cgear);
 extern u32 C_GEAR_Update(u32, u32);
-u32 FIELD_3DBG_UpdateCGear(FieldSubscreen *work, u32 active);
+u32 FIELD_SUBSCREEN_UpdateCGear(FieldSubscreen *work, u32 active);
 /* Unprototyped on purpose: the caller passes the work pointer as a third argument; a two-parameter prototype changes the bytes. */
 int C_GEAR_HandleCommand();
 extern void *GAMESYSTEM_GetMyPlayerWork(void *gameSystem);
@@ -540,7 +540,7 @@ void FIELD_SUBSCREEN_ExitCGear(FieldSubscreen *work)
 
 u32 FIELD_3DBG_ExitCGear(FieldSubscreen *work) { return C_GEAR_Nop((u32)work->cgear); }
 
-u32 FIELD_3DBG_UpdateCGear(FieldSubscreen *work, u32 active)
+u32 FIELD_SUBSCREEN_UpdateCGear(FieldSubscreen *work, u32 active)
 {
     u32 gameSystem, savedValue;
     if (active != 0) {
@@ -558,7 +558,7 @@ u32 FIELD_3DBG_UpdateCGear(FieldSubscreen *work, u32 active)
     return C_GEAR_Update((u32)work->cgear, active);
 }
 
-int FIELD_3DBG_HandleCGearInput(FieldSubscreen *work, int button)
+int FIELD_SUBSCREEN_HandleCGearInput(FieldSubscreen *work, int button)
 {
     return C_GEAR_HandleCommand(work->cgear, button, work);
 }

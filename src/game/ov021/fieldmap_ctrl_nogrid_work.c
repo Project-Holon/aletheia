@@ -36,10 +36,10 @@
  *   FIELD_PLAYER_SetDirDisp  0x021A305C  thumb  ov021
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   FIELD_PLAYER_CreateNogrid  0x021A3664  thumb  ov021
- *   FIELD_PLAYER_SetupNogrid  0x021A3674  thumb  ov021
- *   FIELD_PLAYER_GetNogridState  0x021A36A4  thumb  ov021
- *   FIELD_PLAYER_GetNogridLocation  0x021A36B0  thumb  ov021
- *   FIELD_PLAYER_ClearNogridState  0x021A36D4  thumb  ov021
+ *   FIELD_PLAYER_UpdateNogrid  0x021A3674  thumb  ov021
+ *   FIELD_PLAYER_GetNogridRailWork  0x021A36A4  thumb  ov021
+ *   FIELD_PLAYER_SetNogridRailLocation  0x021A36B0  thumb  ov021
+ *   FIELD_PLAYER_GetNogridRailPos  0x021A36D4  thumb  ov021
  */
 #include "fieldmap_types.h"
 #include "fldmmdl_rail_types.h"
@@ -77,10 +77,10 @@ extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
 extern void FIELD_PLAYER_SetPos(struct FieldPlayer *player, VecFx32 *pos);
 extern void FIELD_PLAYER_SetDirDisp(struct FieldPlayer *player, u32 dir);
 extern void FIELD_PLAYER_CreateNogrid(struct FieldPlayer *player, u32 heapId);
-extern void FIELD_PLAYER_SetupNogrid(struct FieldPlayer *player, u32 keyTrg, u32 keyCont);
-extern u32 FIELD_PLAYER_GetNogridState(struct FieldPlayer *player);
-extern void FIELD_PLAYER_GetNogridLocation(struct FieldPlayer *player, RailLocation *location);
-extern void FIELD_PLAYER_ClearNogridState(struct FieldPlayer *player, VecFx32 *pos);
+extern void FIELD_PLAYER_UpdateNogrid(struct FieldPlayer *player, u32 keyTrg, u32 keyCont);
+extern u32 FIELD_PLAYER_GetNogridRailWork(struct FieldPlayer *player);
+extern void FIELD_PLAYER_SetNogridRailLocation(struct FieldPlayer *player, RailLocation *location);
+extern void FIELD_PLAYER_GetNogridRailPos(struct FieldPlayer *player, VecFx32 *pos);
 extern const char gFieldMapCtrlNogridWorkFileName[];
 
 void FIELDMAP_CTRL_NOGRID_WORK_Create(FieldMap *fieldMap, VecFx32 *pos, u32 dir);
@@ -104,8 +104,8 @@ void FIELDMAP_CTRL_NOGRID_WORK_Create(FieldMap *fieldMap, VecFx32 *pos, u32 dir)
     player = FIELDMAP_GetFieldPlayer(fieldMap);
     FIELDMAP_SetCtrlWork(fieldMap, FIELDMAP_CTRL_NOGRID_WORK_CreateWork(fieldMap, FIELDMAP_GetHeapId(fieldMap)));
     FIELDMAP_SetTargetPos(fieldMap, FLDMMDL_GetPosPtr(FIELD_PLAYER_GetMmdl(player)));
-    FIELD_PLAYER_GetNogridLocation(player, GAME_DATA_GetPlayerRailLocation(GAME_DATA_GetMyPlayerWork(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)))));
-    FIELD_PLAYER_ClearNogridState(player, pos);
+    FIELD_PLAYER_SetNogridRailLocation(player, GAME_DATA_GetPlayerRailLocation(GAME_DATA_GetMyPlayerWork(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)))));
+    FIELD_PLAYER_GetNogridRailPos(player, pos);
     FIELD_PLAYER_SetPos(player, pos);
     FIELD_PLAYER_SetDirDisp(player, dir);
 }
@@ -137,7 +137,7 @@ FieldMapCtrlNogridWork *FIELDMAP_CTRL_NOGRID_WORK_CreateWork(FieldMap *fieldMap,
 
     work->player = player;
     FIELD_PLAYER_CreateNogrid(player, heapId);
-    FIELD_NOGRID_MAPPER_BindCameraWork(nogridMapper, FIELD_PLAYER_GetNogridState(player));
+    FIELD_NOGRID_MAPPER_BindCameraWork(nogridMapper, FIELD_PLAYER_GetNogridRailWork(player));
     return work;
 }
 
@@ -153,5 +153,5 @@ void FIELDMAP_CTRL_NOGRID_WORK_MovePlayer(FieldMapCtrlNogridWork *work)
     u32 keyTrg = KEY_GetTrg();
     u32 keyCont = KEY_GetCont();
 
-    FIELD_PLAYER_SetupNogrid(work->player, keyTrg, keyCont);
+    FIELD_PLAYER_UpdateNogrid(work->player, keyTrg, keyCont);
 }

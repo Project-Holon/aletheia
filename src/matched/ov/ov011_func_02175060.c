@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
- *   ZONEDATA_IsZone117  0x02013D5C  thumb
+ *   ZONEDATA_IsEntralink  0x02013D5C  thumb
  *   ZONEDATA_IsZoneGroup118To120  0x02013D9C  thumb
  *   ZONEDATA_IsSameMatrixGroup  0x02013E90  thumb
  *   COMM_PLAYER_CheckOccupy  0x021677E4  thumb  ov010
@@ -45,7 +45,7 @@ typedef struct Entry {
 } Entry;
 
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
-extern u32 ZONEDATA_IsZone117(u32 id);
+extern u32 ZONEDATA_IsEntralink(u32 id);
 extern u32 ZONEDATA_IsZoneGroup118To120(u32 id);
 extern u32 ZONEDATA_IsSameMatrixGroup(u32 a, u32 b);
 struct Work;
@@ -66,7 +66,7 @@ static inline int func_02175060_check(Entry *e, Entry *me)
     if (e->f12 != 0 && e->f12 != 1) {
         return 1;
     }
-    if (ZONEDATA_IsZone117(e->f14) == 1 && ZONEDATA_IsZone117(me->f14) == 1) {
+    if (ZONEDATA_IsEntralink(e->f14) == 1 && ZONEDATA_IsEntralink(me->f14) == 1) {
         return 0;
     }
     if (e->a == me->a) {

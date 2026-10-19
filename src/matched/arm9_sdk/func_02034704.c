@@ -1,5 +1,5 @@
 /*
- * function: SAVEDATA_SetFailHook
+ * function: GF_PANIC_SetFailHook
  * address:  0x02034704
  * packet:   pkt_02034704
  * region:   arm9
@@ -17,7 +17,7 @@ typedef unsigned int u32;
 
 extern u32 d_0214699C[];
 
-void SAVEDATA_SetFailHook(u32 v)
+void GF_PANIC_SetFailHook(u32 v)
 {
     d_0214699C[3] = v;
 }

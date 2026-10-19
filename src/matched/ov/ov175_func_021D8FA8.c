@@ -17,8 +17,8 @@
  *   WIFIBATTLEMATCH_UTIL_GetBusy 0x021E8844 thumb ov177
  *   WIFIBATTLEMATCH_UTIL_CommitRequest 0x021E8AB8 thumb ov177
  *   WIFIBATTLEMATCH_NET_CompCleanup 0x021D9064 thumb ov175
- *   WIFIBATTLEMATCH_NET_CompStepM 0x021D9090 thumb ov175
- *   WIFIBATTLEMATCH_NET_CompStepK 0x021D8EC8 thumb ov175
+ *   WIFIBATTLEMATCH_NET_CompStepCheckPeriod 0x021D9090 thumb ov175
+ *   WIFIBATTLEMATCH_NET_CompStepSaveAndUploadQuit 0x021D8EC8 thumb ov175
  *   WIFIBATTLEMATCH_UTIL_ClearCallback 0x021E8AA8 thumb ov177
  */
 #include "../include/Obj00013.h"
@@ -32,8 +32,8 @@ extern int WIFIBATTLEMATCH_UTIL_GetBusy(const int *p);
 extern void WIFIBATTLEMATCH_UTIL_CommitRequest(u32);
 extern void WIFIBATTLEMATCH_UTIL_ClearCallback(int a);
 extern void WIFIBATTLEMATCH_NET_CompCleanup(void *obj, int unused, u8 *p);
-extern void WIFIBATTLEMATCH_NET_CompStepM(u32 sys, int *state, char *p);
-extern void WIFIBATTLEMATCH_NET_CompStepK(u32 sys, int *state, char *p);
+extern void WIFIBATTLEMATCH_NET_CompStepCheckPeriod(u32 sys, int *state, char *p);
+extern void WIFIBATTLEMATCH_NET_CompStepSaveAndUploadQuit(u32 sys, int *state, char *p);
 void WIFIBATTLEMATCH_NET_CompStepL(u32 sys, int *state, char *ctx)
 {
     int result;
@@ -45,7 +45,7 @@ void WIFIBATTLEMATCH_NET_CompStepL(u32 sys, int *state, char *ctx)
             WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_CompCleanup);
             break;
         case 0:
-            WIFIBATTLEMATCH_NET_SetCompWaitCallback(ctx, WIFIBATTLEMATCH_NET_CompStepM);
+            WIFIBATTLEMATCH_NET_SetCompWaitCallback(ctx, WIFIBATTLEMATCH_NET_CompStepCheckPeriod);
             *state = 1;
             break;
         }
@@ -59,7 +59,7 @@ void WIFIBATTLEMATCH_NET_CompStepL(u32 sys, int *state, char *ctx)
         case 1: case 2: WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_CompCleanup); break;
         }
         break;
-    case 2: WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_CompStepK); break;
+    case 2: WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_CompStepSaveAndUploadQuit); break;
     case 3:
         if (WIFIBATTLEMATCH_UTIL_GetBusy((const int *)(((struct Obj00013 *)ctx)->f2C))) WIFIBATTLEMATCH_UTIL_CommitRequest(sys);
         break;

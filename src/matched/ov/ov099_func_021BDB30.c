@@ -19,7 +19,7 @@
  *   WIFICLUB_ShowStreamedMessage 0x021BAAB8 thumb ov099
  *   GFL_NET_GetInitParam 0x0203D798 arm
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
- *   GFL_NET_NotifyUserEvent 0x0203D1E8 arm
+ *   GFL_NET_SetAcceptConnection 0x0203D1E8 arm
  *   GFL_NET_IsParentAid 0x0203D378 arm
  *   GFL_NET_HANDLE_SetTimingSyncRange 0x02039C68 arm
  */
@@ -38,7 +38,7 @@ extern void WIFICLUB_ShowStreamedMessage(char *, int, int);
 extern void *GFL_NET_GetInitParam(void);
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void GFL_NET_NotifyUserEvent(u32, void *);
+extern void GFL_NET_SetAcceptConnection(u32, void *);
 extern u32 GFL_NET_IsParentAid(void);
 struct Link;
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *p, u32 lo, u32 hi);
@@ -64,7 +64,7 @@ int WIFICLUB_StateHandlePeerPhase(char *p, int v)
         ((struct Obj02155 *)p)->f1D0 = state;
         return 2;
     default:
-        GFL_NET_NotifyUserEvent((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0);
+        GFL_NET_SetAcceptConnection((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0);
         if (GFL_NET_IsParentAid()) {
             if (WIFICLUB_CheckPartyAgainstRules((void *)(((struct Obj02155 *)p)->f1348), (const struct BigObj *)(((struct Obj02155 *)p)->fC4), (u32 *)(&out)) &&
                 WIFICLUB_CheckSavedRegulation(((struct Obj02155 *)p)->f1348, ((struct Obj02155 *)p)->fCC, &out)) {

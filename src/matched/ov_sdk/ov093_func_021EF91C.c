@@ -1,5 +1,5 @@
 /*
- * function: BTL_FIELD_DrawStaticSlotLine
+ * function: BTL_FIELD_IsMoveSealedByStaticSlot
  * address:  0x021EF91C
  * packet:   pkt_ov093_021EF91C
  * region:   ov093
@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * BTL_FIELD_DrawStaticSlotLine (libdwcgscommon/screen.o): forwards the global
+ * BTL_FIELD_IsMoveSealedByStaticSlot (libdwcgscommon/screen.o): forwards the global
  * bottom-screen descriptor and all three parameters to SetScreenLineCentered;
  * the fourth argument rides in r3 across the BL.
  *
@@ -21,7 +21,7 @@
 extern char gBottomScreen;
 extern void BTL_FIELD_IsMoveSealedBySlot(void *screen, int line, int color, char *text);
 
-void BTL_FIELD_DrawStaticSlotLine(int line, int color, char *text)
+void BTL_FIELD_IsMoveSealedByStaticSlot(int line, int color, char *text)
 {
     BTL_FIELD_IsMoveSealedBySlot(&gBottomScreen, line, color, text);
 }

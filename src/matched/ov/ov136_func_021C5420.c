@@ -13,7 +13,7 @@
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   gClActorInitParam 0x020A1448 data a4
  *   d_021C77C4 0x021C77C4 data a4
  */
@@ -30,7 +30,7 @@ struct Bank;
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 void MAILVIEW_InitActorSystem(u8 *p)
 {
     CLACT_InitSystem((const struct Cfg *)gClActorInitParam,(unsigned int)d_021C77C4,(u16)(((struct Obj06526 *)p)->f0));
@@ -38,5 +38,5 @@ void MAILVIEW_InitActorSystem(u8 *p)
     CLACT_SetUnitDefaultRenderer(((struct Obj06526 *)p)->fA0);
     BG_SYS_SetMainPlaneVisible(16,1);
     BG_SYS_SetSubPlaneVisible(16,1);
-    GFL_NET_RestartWithDefaultTimeout((int)0,(u16)(((struct Obj06526 *)p)->f0));
+    GFL_NET_RefreshWmIconAtTopRight((int)0,(u16)(((struct Obj06526 *)p)->f0));
 }

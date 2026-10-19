@@ -13,7 +13,7 @@
  *   GIMMICK_OBJ_ELBOARD_ClearHighlights  0x021F44B8  thumb  ov048
  *   GIMMICK_OBJ_ELBOARD_CollectTableHighlights  0x021F4590  thumb  ov048
  *   GIMMICK_OBJ_ELBOARD_CollectGPowerHighlight  0x021F45F0  thumb  ov048
- *   FIELDMAP_QueryIssSwitch  0x02188C70  thumb  ov021
+ *   FIELDMAP_GetZoneWeatherId  0x02188C70  thumb  ov021
  */
 
 typedef unsigned char  u8;
@@ -27,7 +27,7 @@ typedef struct {
 extern void GIMMICK_OBJ_ELBOARD_ClearHighlights(u8 *p);
 extern void GIMMICK_OBJ_ELBOARD_CollectTableHighlights(int *p, u8 *out);
 extern void GIMMICK_OBJ_ELBOARD_CollectGPowerHighlight(int *a, void *b);
-extern int FIELDMAP_QueryIssSwitch(int *p, int b);
+extern int FIELDMAP_GetZoneWeatherId(int *p, int b);
 
 void GIMMICK_OBJ_ELBOARD_CollectHighlights(int *p, Slots *q)
 {
@@ -70,5 +70,5 @@ void GIMMICK_OBJ_ELBOARD_CollectHighlights(int *p, Slots *q)
         q->h[3] = r[0x70 / 4];
     }
     for (k = 0; k < 4; k++)
-        q->b[k] = FIELDMAP_QueryIssSwitch((int *)p[1], q->h[k]);
+        q->b[k] = FIELDMAP_GetZoneWeatherId((int *)p[1], q->h[k]);
 }

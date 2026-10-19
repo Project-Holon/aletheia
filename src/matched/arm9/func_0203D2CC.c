@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: GFL_NET_RestartByNetType
+ * function: GFL_NET_RefreshWmIcon
  * address:  0x0203D2CC
  * packet:   pkt_0203D1B4
  * region:   arm9
@@ -31,8 +31,8 @@
  * are in the source, not an artefact.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GFL_NET_RestartByNetType.c \
- *       --func GFL_NET_RestartByNetType --addr 0x0203D2CC --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_RefreshWmIcon.c \
+ *       --func GFL_NET_RefreshWmIcon --addr 0x0203D2CC --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -59,7 +59,7 @@ extern void func_02034714(const char *file, u32 line, const char *msg);
 extern void GFL_NET_WM_ICON_EasyStart(u32 a, u32 b, u32 c, u32 d);
 extern void GFL_NET_WM_ICON_EasyEnd(void);
 
-void GFL_NET_RestartByNetType(void)
+void GFL_NET_RefreshWmIcon(void)
 {
     struct NetState *a = GFL_NET_GetInitParam();
     struct NetState *b = GFL_NET_GetSession();

@@ -29,7 +29,7 @@
  *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
  *   FIELD_STATUS_GetProcAction  0x02014478  thumb
  *   FIELD_PLAYER_GetNowAttribute  0x021A30C8  thumb
- *   FIELD_PLAYER_GetGridMoveState  0x021A3584  thumb
+ *   FIELD_PLAYER_GetGridHopLanded  0x021A3584  thumb
  *   KEY_GetTrg  0x020362DC  arm  arm9
  *   KEY_GetCont  0x0203630C  arm  arm9
  *   MI_CpuFill8  0x02082BCC  arm  arm9
@@ -94,7 +94,7 @@ extern void *FLDMMDL_GetPosPtr(void *p);
 extern void *GAME_DATA_GetMoveModelSys(const struct BigObj *p);
 extern u16 FIELD_STATUS_GetProcAction(struct Sub02014444Obj *o);
 extern u32 FIELD_PLAYER_GetNowAttribute(void **ctx);
-extern int FIELD_PLAYER_GetGridMoveState(void *v);
+extern int FIELD_PLAYER_GetGridHopLanded(void *v);
 
 void FIELD_EVENT_CHECK_InitInput(struct FieldInput *p, void *sys, struct Obj00020 *pos)
 {
@@ -146,7 +146,7 @@ void FIELD_EVENT_CHECK_InitInput(struct FieldInput *p, void *sys, struct Obj0002
     p->b9 = 0;
     if (p->f20 == 1)
         p->b2 = (p->f1C == 3) ? 1 : 0;
-    if (FIELD_PLAYER_GetGridMoveState(p->f18))
+    if (FIELD_PLAYER_GetGridHopLanded(p->f18))
         p->b9 = 1;
     p->b3 = (p->f1C == 3) ? 1 : 0;
     p->b4 = 0;

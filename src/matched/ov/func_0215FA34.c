@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_NETWORK_LoadOv020
+ * function: EVENT_WIFI_PROC_LoadOv020
  * address:  0x0215FA34
  * packet:   pkt_0215FA34
  * region:   ov010
@@ -28,7 +28,7 @@
 extern unsigned char abs_id_14[];
 extern int GF_OVERLAY_Load(int id);
 
-void SCRCMD_NETWORK_LoadOv020(void)
+void EVENT_WIFI_PROC_LoadOv020(void)
 {
     GF_OVERLAY_Load((int)abs_id_14);
 }

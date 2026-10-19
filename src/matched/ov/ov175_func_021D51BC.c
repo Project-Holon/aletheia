@@ -1,5 +1,5 @@
 /*
- * function: WIFIBATTLEMATCH_NET_TaskStepF
+ * function: WIFIBATTLEMATCH_NET_TaskStepRatingReportAndSave
  * address: 0x021D51BC
  * packet: pkt_ov175_021D51BC
  * region: ov175
@@ -11,7 +11,7 @@
  * DA36C receives the live context in r0 here despite its no-argument body.
  * symbols:
  *   WIFIBATTLEMATCH_UTIL_SetCallback 0x021E8AA0 thumb ov177
- *   WIFIBATTLEMATCH_NET_TaskStepG 0x021D54E8 thumb ov175
+ *   WIFIBATTLEMATCH_NET_TaskStepRatingCheckNetError 0x021D54E8 thumb ov175
  *   WIFIBATTLEMATCH_NET_TaskCleanupA 0x021D61A4 thumb ov175
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   DWC_RAPCOMMON_CreateSubHeap 0x02156E30 thumb
@@ -48,7 +48,7 @@ struct Big;
 struct L0200ED54;
 extern void WIFIBATTLEMATCH_UTIL_SetCallback(int *, int);
 struct Sub0200852CObj;
-extern void WIFIBATTLEMATCH_NET_TaskStepG(unsigned sys, int *state, int *p);
+extern void WIFIBATTLEMATCH_NET_TaskStepRatingCheckNetError(unsigned sys, int *state, int *p);
 extern void WIFIBATTLEMATCH_NET_TaskCleanupA(void *obj, int unused, u8 *p);
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
 extern void DWC_RAPCOMMON_CreateSubHeap(int, int, int, int);
@@ -79,7 +79,7 @@ extern int GAME_DATA_SaveStart(int);
 extern int GAME_DATA_SaveMain(u8 *);
 #define P(k) (*(int *)(p + (k)))
 #define Q(k) (*(int *)(q + (k)))
-void WIFIBATTLEMATCH_NET_TaskStepF(unsigned sys, int *state, char *p)
+void WIFIBATTLEMATCH_NET_TaskStepRatingReportAndSave(unsigned sys, int *state, char *p)
 {
     char *q = (char *)P(0x40);
     Rec84 rec;
@@ -88,7 +88,7 @@ void WIFIBATTLEMATCH_NET_TaskStepF(unsigned sys, int *state, char *p)
     switch (*state) {
     case 0:
         if (Q(12) == 2 && P(0xf8) == 0) {
-            WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepG);
+            WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepRatingCheckNetError);
             return;
         }
         P(0xf8) = 0;
@@ -130,7 +130,7 @@ void WIFIBATTLEMATCH_NET_TaskStepF(unsigned sys, int *state, char *p)
         break;
     case 4:
         DWC_RAPCOMMON_DestroySubHeap();
-        if (Q(12) == 2) WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepG);
+        if (Q(12) == 2) WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepRatingCheckNetError);
         else *state = 5;
         break;
     case 5:

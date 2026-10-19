@@ -28,7 +28,7 @@
  *   WIFIBATTLEMATCH_NET_CreateNetContext 0x021D9DC8 thumb ov175
  *   WIFIBATTLEMATCH_UTIL_Create 0x021E8568 thumb ov177
  *   WIFIBATTLEMATCH_UTIL_CreateCallback 0x021E8A3C thumb ov177
- *   WIFIBATTLEMATCH_NET_TaskStepA 0x021D458C thumb ov175
+ *   WIFIBATTLEMATCH_NET_TaskStepRouteByEntryState 0x021D458C thumb ov175
  *   WIFIBATTLEMATCH_VIEW_CreateActorArray 0x021E7D20 thumb ov177
  *   WIFIBATTLEMATCH_VIEW_SetActorVisible 0x021E7E0C thumb ov177
  *   WIFIBATTLEMATCH_NET_IncBsubwayStat 0x021D6524 thumb ov175
@@ -58,7 +58,7 @@ typedef unsigned short u16;
 extern char *WIFIBATTLEMATCH_NET_CreateNetContext(u32 a, void *save, u32 b, u16 heap);
 extern void *WIFIBATTLEMATCH_UTIL_Create(unsigned, unsigned, unsigned, unsigned, void *, void *, unsigned);
 extern int *WIFIBATTLEMATCH_UTIL_CreateCallback(int, int, int);
-extern void WIFIBATTLEMATCH_NET_TaskStepA(unsigned sys, int *state, int *p);
+extern void WIFIBATTLEMATCH_NET_TaskStepRouteByEntryState(unsigned sys, int *state, int *p);
 extern void **WIFIBATTLEMATCH_VIEW_CreateActorArray(void *, void *, unsigned);
 extern void WIFIBATTLEMATCH_VIEW_SetActorVisible(void **, int);
 extern void WIFIBATTLEMATCH_NET_IncBsubwayStat(int, int, u32);
@@ -82,7 +82,7 @@ int WIFIBATTLEMATCH_NET_TaskCreate(void *sys, int *state, u32 *ctx)
     p[5] = (u32)WORDSET_Create(8, 64, 87);
     p[12] = (u32)WIFIBATTLEMATCH_NET_CreateNetContext(((u32 *)p[16])[15], (void *)(((u32 *)ctx[2])[0]), ctx[7], 87);
     p[9] = (u32)WIFIBATTLEMATCH_UTIL_Create(0, 15, 14, 10, (void *)p[3], (void *)p[2], 87);
-    p[13] = (u32)WIFIBATTLEMATCH_UTIL_CreateCallback((int)p, (int)WIFIBATTLEMATCH_NET_TaskStepA, 87);
+    p[13] = (u32)WIFIBATTLEMATCH_UTIL_CreateCallback((int)p, (int)WIFIBATTLEMATCH_NET_TaskStepRouteByEntryState, 87);
     p[14] = (u32)WIFIBATTLEMATCH_UTIL_CreateCallback((int)p, 0, 87);
     p[8] = (u32)WIFIBATTLEMATCH_VIEW_CreateActorArray((void *)WIFIBATTLEMATCH_GRAPHIC_GetCamera((int *)p[0]), (void *)p[1], 87);
     WIFIBATTLEMATCH_VIEW_SetActorVisible((void **)p[8], 0);

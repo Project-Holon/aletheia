@@ -55,7 +55,7 @@
  *   MYSTATUS_GetId  0x02008530  thumb
  *   GFL_USE_GetRandom  0x020056EC  thumb
  *   EVENT_FIELD_PROCLINK_IsReturnEntryAllowed 0x02161E84 thumb ov010
- *   MYSTATUS_GetAvatarId  0x0200855C  thumb
+ *   MYSTATUS_GetRomCode  0x0200855C  thumb
  *   INTRUDE_COMM_NormalizeVersion  0x021584F4  thumb  ov010
  *   EVENT_FIELD_PROCLINK_IsReturnEntryValid 0x02161ECC thumb ov010
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb

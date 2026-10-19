@@ -1,5 +1,5 @@
 /*
- * function: HAND_TOKUSEI_AddForecast
+ * function: HAND_TOKUSEI_AddColorChange
  * address: 0x021DA040
  * packet: pkt_ov093_021DA040
  * region: ov093
@@ -15,10 +15,10 @@
  *   gForecastHandlerEntries 0x021F0818 data ov093 a4
  */
 
-int *HAND_TOKUSEI_AddForecast(int *p);
+int *HAND_TOKUSEI_AddColorChange(int *p);
 extern int gForecastHandlerEntries[];
 
-int *HAND_TOKUSEI_AddForecast(int *p)
+int *HAND_TOKUSEI_AddColorChange(int *p)
 {
     *p = 1;
     return gForecastHandlerEntries;

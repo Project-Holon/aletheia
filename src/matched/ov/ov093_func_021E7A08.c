@@ -15,7 +15,7 @@
  *
  * symbols:
  *   BTL_EVENT_GetVar  0x021D775C  thumb  ov093
- *   BTL_FIELD_GetStaticSlotObject  0x021EF948  thumb  ov093
+ *   BTL_FIELD_IsStaticSlotInUse  0x021EF948  thumb  ov093
  *   BTL_SERVER_FLOW_AllocCmdRecord  0x021C88A4  thumb  ov093
  *   BTL_SICKCONT_MakeKind2Index  0x021E8940  thumb  ov093
  *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb  ov093
@@ -29,7 +29,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 typedef struct Word { u32 v; } Word;
 
 extern int BTL_EVENT_GetVar(int key);
-extern int BTL_FIELD_GetStaticSlotObject(int k);
+extern int BTL_FIELD_IsStaticSlotInUse(int k);
 extern void *BTL_SERVER_FLOW_AllocCmdRecord(char *p, int a, int b);
 extern Word BTL_SICKCONT_MakeKind2Index(int k);
 extern void BTL_SERVER_FLOW_InitMsgRecord(void *p, int a, int b);
@@ -43,7 +43,7 @@ void HAND_WAZA_MagicRoomToggle(int a, int b, int c)
 
     if (c == BTL_EVENT_GetVar(3)) {
         k = 7;
-        if (BTL_FIELD_GetStaticSlotObject(k) == 0) {
+        if (BTL_FIELD_IsStaticSlotInUse(k) == 0) {
             p = BTL_SERVER_FLOW_AllocCmdRecord((char *)b, 0x1b, c);
             ((struct Obj13546 *)p)->f4 = k;
             *(Word *)(p + 8) = BTL_SICKCONT_MakeKind2Index(5);

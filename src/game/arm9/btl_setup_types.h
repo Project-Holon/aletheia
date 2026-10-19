@@ -43,20 +43,25 @@ union RailLocation {
 };
 
 /*
- * Status block of a player (0x20 bytes). GAME_DATA returns its address as
- * the player's status (GAME_DATA_GetMyStatus, GAME_DATA_GetPlayerStatus); the player work
- * constructor clears id, gender and romCode.
+ * The 0x20-byte player record (MyStatus). GAME_DATA returns the address of
+ * PlayerWork.status as the player's status (GAME_DATA_GetMyStatus,
+ * GAME_DATA_GetMyStatusPlayer); the player work constructor clears id,
+ * language and sex.
  */
-struct PlayerStatus {
+#ifndef MYSTATUS_STRUCT_DEFINED
+#define MYSTATUS_STRUCT_DEFINED
+struct MyStatus {
     unsigned short name[8];
     unsigned int   id;
-    unsigned char  profile[6];
-    unsigned char  gender;
-    unsigned char  regionCode;
-    unsigned char  trainerView;
-    unsigned char  romCode;
-    unsigned char  language[2];
+    unsigned int   profile_id;
+    unsigned char  nation;
+    unsigned char  area;
+    unsigned char  language;
+    unsigned char  rom_code;
+    unsigned char  trainer_view;
+    unsigned char  sex;
 };
+#endif
 
 /* One player's position record (0x44 bytes, five in GameData). */
 struct PlayerWork {
@@ -69,7 +74,7 @@ struct PlayerWork {
     unsigned char        moveForm;
     unsigned short       palaceZoneId;
     unsigned char        pad1E[2];
-    struct PlayerStatus  status;
+    struct MyStatus      status;
     unsigned int         objectCode;
 };
 
@@ -100,7 +105,7 @@ struct GameData {
     unsigned int     fieldWork;
     unsigned int     bgmInfo;
     void            *moveModelSys;
-    unsigned int     fieldMode;
+    unsigned int     lastBattleResult;
     unsigned int     saveStatus;
     unsigned char    season;
     unsigned char    weatherId;

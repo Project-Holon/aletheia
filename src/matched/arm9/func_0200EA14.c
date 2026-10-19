@@ -1,5 +1,5 @@
 /*
- * function: MISC_SAVEDATA_GetRecordSize
+ * function: DENDOU_SAVEDATA_GetRecordSize
  * address:  0x0200EA14
  * packet:   pkt_0200EA14
  * region:   arm9
@@ -15,7 +15,7 @@
 
 typedef unsigned int u32;
 
-u32 MISC_SAVEDATA_GetRecordSize(void)
+u32 DENDOU_SAVEDATA_GetRecordSize(void)
 {
     return 0x16C;
 }

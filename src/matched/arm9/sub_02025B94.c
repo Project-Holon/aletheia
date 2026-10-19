@@ -1,5 +1,5 @@
 /*
- * function: BMP_OAM_Get
+ * function: NATION_AREA_GetAreaMsgBank
  * address:  0x02025B94
  * packet:   pkt_02025774
  * region:   arm9
@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   BMP_OAM_GetRecordIndex  0x02025B3C  thumb
- *   BMP_OAM_GetRecordField  0x02025BA0  thumb
+ *   NATION_AREA_FindRecordIndex  0x02025B3C  thumb
+ *   NATION_AREA_GetAreaMsgBankByIndex  0x02025BA0  thumb
  *
  * A two-stage lookup: map a caller value to a record index with
- * BMP_OAM_GetRecordIndex (src/matched/sub_02025B3C.c), then map that index to a
- * message/asset id with BMP_OAM_GetRecordField (src/matched/sub_02025BA0.c). The
+ * NATION_AREA_FindRecordIndex (src/matched/sub_02025B3C.c), then map that index to a
+ * message/asset id with NATION_AREA_GetAreaMsgBankByIndex (src/matched/sub_02025BA0.c). The
  * first call's result is left in its return register and flows straight
  * into the second call's argument.
  *
@@ -24,15 +24,15 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_02025B94.c \
- *       --func BMP_OAM_Get --addr 0x02025B94 --cc 1.1p1 --thumb
+ *       --func NATION_AREA_GetAreaMsgBank --addr 0x02025B94 --cc 1.1p1 --thumb
  */
 
 typedef unsigned int u32;
 
-extern u32 BMP_OAM_GetRecordIndex(u32 key);
-extern u32 BMP_OAM_GetRecordField(u32 idx);
+extern u32 NATION_AREA_FindRecordIndex(u32 key);
+extern u32 NATION_AREA_GetAreaMsgBankByIndex(u32 idx);
 
-u32 BMP_OAM_Get(u32 a)
+u32 NATION_AREA_GetAreaMsgBank(u32 a)
 {
-    return BMP_OAM_GetRecordField(BMP_OAM_GetRecordIndex(a));
+    return NATION_AREA_GetAreaMsgBankByIndex(NATION_AREA_FindRecordIndex(a));
 }

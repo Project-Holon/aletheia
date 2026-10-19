@@ -1,5 +1,5 @@
 /*
- * function: B_PLIST_DRAW_LayoutMode6
+ * function: B_PLIST_DRAW_LayoutMoveListWithNewMovePage
  * address: 0x0220EE44
  * packet: pkt_ov198_0220EE44
  * region: ov198
@@ -37,7 +37,7 @@ extern void B_PLIST_DRAW_SetActorAnim(int mode, u8 *p, const struct Vec2 *q);
 extern void B_PLIST_DRAW_SwapActorPair(char *,u8 *,Pair *);
 extern void B_PLIST_DRAW_SetActorAnimByMode(u32 mode, u8 *p, const struct Vec2 *q);
 extern void B_PLIST_MAIN_SyncMoveActors(u8 *);
-void B_PLIST_DRAW_LayoutMode6(u8 *p)
+void B_PLIST_DRAW_LayoutMoveListWithNewMovePage(u8 *p)
 {
     int i;
     u8 *rec;

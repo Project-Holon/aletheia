@@ -11,7 +11,7 @@
  * status:   EXACT
  *
  * symbols:
- *   SAVEDATA_PanicFail  0x02034714  arm
+ *   GF_PANIC_Fail  0x02034714  arm
  *   s_FileName    0x020A7F74  data
  *
  * The slot allocator for the 0xe4-byte display object: walk the owner's
@@ -65,7 +65,7 @@ struct AssertStrings {
 
 extern const struct AssertStrings s_FileName;
 
-extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *expr);
+extern void GF_PANIC_Fail(const char *file, u32 line, const char *expr);
 
 struct Obj *CLACT_GetFreeActor(struct Owner *ow)
 {
@@ -77,6 +77,6 @@ struct Obj *CLACT_GetFreeActor(struct Owner *ow)
         }
     }
 
-    SAVEDATA_PanicFail(s_FileName.file, 5204, s_FileName.expr0);
+    GF_PANIC_Fail(s_FileName.file, 5204, s_FileName.expr0);
     return 0;
 }

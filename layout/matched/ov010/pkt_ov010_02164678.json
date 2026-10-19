@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "FIELD_LINK_EVENT_AddObject",
+   "name": "FIELD_LINK_EVENT_CreateIntrudeWarpEvent",
    "address": "0x02164678",
    "kind": "game",
    "region": "ov010",

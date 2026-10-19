@@ -20,7 +20,7 @@
  *   func_02008530  0x02008530  thumb
  *   OS_GetMacAddress  0x02087C6C  arm
  *   CTVT_COMM_FindPeerName  0x021B85D0  thumb  ov172
- *   ZONEDATA_IsZone117  0x02013D5C  thumb
+ *   ZONEDATA_IsEntralink  0x02013D5C  thumb
  *   ZONEDATA_IsZoneGroup118To120  0x02013D9C  thumb
  *   CTVT_CALL_CheckJoinRequest  0x021BD0A4  thumb  ov172
  *   MI_CpuCopy8  0x02082D44  arm
@@ -85,7 +85,7 @@ extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void OS_GetMacAddress(void *p);
 extern int CTVT_COMM_FindPeerName(unsigned char *p, unsigned char *q);
-extern u32 ZONEDATA_IsZone117(u32 id);
+extern u32 ZONEDATA_IsEntralink(u32 id);
 extern u32 ZONEDATA_IsZoneGroup118To120(u32 id);
 extern int CTVT_CALL_CheckJoinRequest(void *ctx, u32 unused, u32 a, u32 b, u32 c);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
@@ -165,7 +165,7 @@ void CTVT_CALL_RefreshPeers(void *ctx, u8 *list)
                 OS_GetMacAddress(buf);
                 if (p->f21_1 == 0 || CTVT_COMM_FindPeerName((u8 *)p, buf) == 1)
                     ok = CTVT_CALL_CheckJoinRequest(ctx, (u32)list, a, c, b);
-            } else if (ZONEDATA_IsZone117((u16)p->fC_17) == 0 && ZONEDATA_IsZoneGroup118To120((u16)p->fC_17) == 0) {
+            } else if (ZONEDATA_IsEntralink((u16)p->fC_17) == 0 && ZONEDATA_IsZoneGroup118To120((u16)p->fC_17) == 0) {
                 ok = CTVT_CALL_CheckJoinRequest(ctx, (u32)list, (u32)((u8 *)p + 0x1a), p->f4, p->bB_7);
             }
             if (ok == 0)

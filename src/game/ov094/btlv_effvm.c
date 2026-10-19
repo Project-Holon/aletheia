@@ -202,7 +202,7 @@
  *   BTLV_MCSS_IsSpriteBusy 0x021FFCB0 thumb ov094
  *   BTLV_MCSS_IsSpriteLoaded 0x021FFD9C thumb ov094
  *   BTLV_MCSS_SetPaletteFade 0x021FFDB4 thumb ov094
- *   BTLV_MCSS_GetSpritePersonalParam26 0x021FFF0C thumb ov094
+ *   BTLV_MCSS_GetSpriteWeight 0x021FFF0C thumb ov094
  *   BTLV_MCSS_GetSpriteAttrFlags 0x021FFF38 thumb ov094
  *   BTLV_MCSS_HasPersonalParam10 0x021FFF68 thumb ov094
  *   BTLV_MCSS_GetStopCellFlags 0x021FFFAC thumb ov094
@@ -878,7 +878,7 @@ int BTLV_MCSS_IsSpriteLoaded(BtlvMcssWork *mcss, int key);
 
 void BTLV_MCSS_SetPaletteFade(BtlvMcssWork *mcss, int key, u8 cur, u8 target, u8 step, u32 e);
 
-int BTLV_MCSS_GetSpritePersonalParam26(BtlvMcssWork *mcss, int key);
+int BTLV_MCSS_GetSpriteWeight(BtlvMcssWork *mcss, int key);
 
 int BTLV_MCSS_GetSpriteAttrFlags(BtlvMcssWork *mcss, int key);
 
@@ -4264,8 +4264,8 @@ int BTLV_EFFVM_EvalCondition(BtlvEffVmWork *work, unsigned int key)
 {
     switch (key) {
     case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:
-        return BTLV_MCSS_GetSpritePersonalParam26(BTLV_EFFECT_GetMcss(), key);
-    case 8: return BTLV_MCSS_GetSpritePersonalParam26(BTLV_EFFECT_GetMcss(), work->attackerPos);
+        return BTLV_MCSS_GetSpriteWeight(BTLV_EFFECT_GetMcss(), key);
+    case 8: return BTLV_MCSS_GetSpriteWeight(BTLV_EFFECT_GetMcss(), work->attackerPos);
     case 9: return work->params.kind;
     case 10: return work->params.variant;
     case 11: return work->params.option;

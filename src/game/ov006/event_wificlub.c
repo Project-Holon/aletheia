@@ -50,9 +50,9 @@
  *   POKE_REGULATION_AdjustPartyLevels  0x0201A2A8  thumb
  *   GAME_DATA_GetTrainerRecord  0x02012F2C  thumb
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
- *   GAME_DATA_GetPlayerStatus 0x02012950 thumb
+ *   GAME_DATA_GetMyStatusPlayer 0x02012950 thumb
  *   MYSTATUS_GetName 0x020084F4 thumb
- *   MYSTATUS_GetOutfitVariant 0x02008550 thumb
+ *   MYSTATUS_GetSex 0x02008550 thumb
  *   POKEPARTY_Init 0x0201A948 thumb
  *   BTL_SETUP_SetParty 0x02013128 thumb
  *   GFL_USE_SetPlayerVolumes 0x02005CBC thumb
@@ -68,7 +68,7 @@
  *   BTL_SETUP_Delete 0x020130B4 thumb
  *   BTL_SETUP_Create 0x02013090 thumb
  *   GAME_EVENT_CallProc 0x02012444 thumb
- *   GAME_DATA_GetPlayerStatusById 0x02012950 thumb
+ *   GAME_DATA_GetMyStatusPlayer 0x02012950 thumb
  *   GFL_NET_IsSessionNull 0x0203CDBC arm
  *   MI_CpuFill8 0x02082BCC arm
  *   PROCSYS_Create 0x02031324 arm
@@ -166,9 +166,9 @@ extern void BTL_SETUP_ApplyRegulation(void *battleSetup, void *regulation, u32 a
 extern void POKE_REGULATION_AdjustPartyLevels(void *dst, void *src);
 extern void *GAME_DATA_GetTrainerRecord(struct GameData *gameData);
 extern u32 GFL_NET_GetHandleNetID(struct Link *handle);
-void *GAME_DATA_GetPlayerStatus(void *gameData, u32 index);
+void *GAME_DATA_GetMyStatusPlayer(void *gameData, u32 index);
 const void *MYSTATUS_GetName(const void *p);
-u8 MYSTATUS_GetOutfitVariant(const void *playerRecord);
+u8 MYSTATUS_GetSex(const void *playerRecord);
 void POKEPARTY_Init(void *party);
 void BTL_SETUP_SetParty(void *battleSetup, void *party, int a);
 extern void GFL_USE_SetPlayerVolumes(u32 value, u32 mask);
@@ -208,7 +208,7 @@ extern int GFL_NET_GetRunState(void);
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern u32 GFL_NET_ERR_WaitLinkClosed(void);
 extern void GFL_NET_ERR_ShowSimpleScreen(void);
-extern void *GAME_DATA_GetPlayerStatusById(void *gameData, u32 index);
+extern void *GAME_DATA_GetMyStatusPlayer(void *gameData, u32 index);
 extern void WIFILIST_AddFriendBattleRecord(void *battleRecord, int ruleIndex, int win, int lose, int draw);
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
@@ -331,7 +331,7 @@ void EVENT_WIFICLUB_SetupBattle(WifiClubEventWork *work, int menuIndex)
  * The lead is 110 bytes, followed by two padding bytes and the 24-byte
  * EVENT_WIFICLUB_SetBattleParty thunk. function_starts: 0x021544BC.
  * MYSTATUS_GetName is the bx-lr identity: the original retains the pointer
- * returned by GAME_DATA_GetPlayerStatus in r0 across two loads, passes it to the
+ * returned by GAME_DATA_GetMyStatusPlayer in r0 across two loads, passes it to the
  * identity, and stores the unchanged result. Its prior (void) extern
  * dropped the live input and caused an 18-byte scheduling residue.
  * GFL_NET_GetHandleNetID explicitly returns only eight bits; the caller consumes
@@ -347,12 +347,12 @@ void EVENT_WIFICLUB_BuildBattleEntry(WifiClubEventWork *work, void *gameData, in
 
     selfSide = GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle());
     partnerSide = 1 - selfSide;
-    partnerRecord = GAME_DATA_GetPlayerStatus(gameData, partnerSide);
+    partnerRecord = GAME_DATA_GetMyStatusPlayer(gameData, partnerSide);
     work->battleEntry.regulation = work->session->regulation;
     entry = &work->battleEntry;
     entry->ownParty = *(void **)((unsigned int)work->session + 0x14 + 4 * (unsigned int)selfSide);
     entry->partnerInfo = (void *)MYSTATUS_GetName(partnerRecord);
-    entry->partnerGender = MYSTATUS_GetOutfitVariant(partnerRecord);
+    entry->partnerGender = MYSTATUS_GetSex(partnerRecord);
     entry->partnerParty = *(void **)((unsigned int)work->session + 0x14 + 4 * (unsigned int)partnerSide);
     entry->gameData = gameData;
     entry->reserved18 = 0;
@@ -551,14 +551,14 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
         if (!GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle())) {
             for (i = 0; i < 2; i++) {
                 offset = i << 4;
-                ((WifiClubEventWork *)((u32)work + offset))->sides[0].playerStatus = GAME_DATA_GetPlayerStatusById(GAMESYSTEM_GetGameData(gameSystem), i);
+                ((WifiClubEventWork *)((u32)work + offset))->sides[0].playerStatus = GAME_DATA_GetMyStatusPlayer(GAMESYSTEM_GetGameData(gameSystem), i);
                 ((WifiClubEventWork *)((u32)work + offset))->sides[0].party = work->session->party[i];
             }
         } else {
             order = d_02154C2C;
             for (i = 0; i < 2; i++) {
                 offset = ((u8 *)&order)[i] << 4;
-                ((WifiClubEventWork *)((u32)work + offset))->sides[0].playerStatus = GAME_DATA_GetPlayerStatusById(GAMESYSTEM_GetGameData(gameSystem), i);
+                ((WifiClubEventWork *)((u32)work + offset))->sides[0].playerStatus = GAME_DATA_GetMyStatusPlayer(GAMESYSTEM_GetGameData(gameSystem), i);
                 ((WifiClubEventWork *)((u32)work + offset))->sides[0].party = work->session->party[i];
             }
         }

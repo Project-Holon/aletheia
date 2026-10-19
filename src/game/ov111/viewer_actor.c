@@ -98,7 +98,7 @@
  *   GAME_DATA_SetRecentId  0x02012BE0  thumb
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   BEACON_GetBadge  0x0200C234  thumb
+ *   MISC_GetBadge  0x0200C234  thumb
  *   GF_STANDARD_CopyCachedRtc  0x0203F49C  arm
  *   TRCARD_SIGN_SetLastBadgeTime  0x02008A34  thumb
  *   TRCARD_SIGN_SetBadgeTimer  0x02008ADC  thumb
@@ -276,7 +276,7 @@ extern int GAME_DATA_ContainsRecentId(int gd, int id);
 extern void GAME_DATA_SetRecentId(void *p, u32 a, u32 b);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void *GAME_DATA_GetMiscSave(int *p);
-extern u32 BEACON_GetBadge(struct Blk34 *p, u32 bit);
+extern u32 MISC_GetBadge(struct Blk34 *p, u32 bit);
 extern void GF_STANDARD_CopyCachedRtc(struct RtcDate *date, struct RtcTime *time);
 extern s64 RTC_ConvertDateTimeToSecond(const RTCDate *date, const RTCTime *time);
 extern void TRCARD_SIGN_SetLastBadgeTime(struct Sub020089A8Obj *obj, u32 lo, u32 hi);
@@ -1018,7 +1018,7 @@ void VIEWER_ACTOR_UpdateRowVisibility(ViewerTextWork *p, int a, int b)
 
     obj = GAME_DATA_GetMiscSave(p->parent->gameData);
     for (i = 0; i < 8; i++) {
-        if (BEACON_GetBadge(obj, i)) {
+        if (MISC_GetBadge(obj, i)) {
             CLACT_SetActorDrawEnable(p->actors.named.rowActor[i], 1);
             VIEWER_ACTOR_SetRowDrawEnable((ViewerTextWork *)p, i, 1);
             p->rowEnabled[i] = 1;

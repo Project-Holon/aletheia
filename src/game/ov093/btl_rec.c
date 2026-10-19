@@ -45,8 +45,8 @@
  *   gBtlRecFileName  0x021F3ADC  data  a4
  *   GFL_HEAP_Free   0x020307B0  arm arm9
  *   MI_CpuCopy8  0x02082D44  arm
- *   BTL_CALC_ActionSetRecordError  0x021D8470  thumb
- *   BTL_CALC_ActionSetRecordReset  0x021D845C  thumb
+ *   BTL_ACTION_SetRecordError  0x021D8470  thumb
+ *   BTL_ACTION_SetRecordReset  0x021D845C  thumb
  *   gBtlAdapterSlots  0x021F6388  data  a4
  *   gBtlAdapterMode  0x021F6384  data  a4
  *   GFL_HEAP_Alloc   0x02030734  arm
@@ -93,12 +93,12 @@
  *   sBtlMsgBuilders  0x021F39D8  data  a4
  *   d_021F39DC  0x021F39DC  data  a4
  *   STRBUF_GetEosChar  0x02045A98  arm
- *   GF_FONT_GetTagChar  0x0201D5C4  thumb
- *   GF_FONT_IsWordSlotTag  0x0201D5CC  thumb
- *   GF_FONT_GetTagParam  0x0201D670  thumb
- *   GF_FONT_GetTagGroup  0x0201D5F4  thumb
- *   GF_FONT_GetTagKind  0x0201D658  thumb
- *   GF_FONT_SkipTag  0x0201D688  thumb
+ *   PRINTSYS_GetTagChar  0x0201D5C4  thumb
+ *   PRINTSYS_IsWordSlotTag  0x0201D5CC  thumb
+ *   PRINTSYS_GetTagParam  0x0201D670  thumb
+ *   PRINTSYS_GetTagGroup  0x0201D5F4  thumb
+ *   PRINTSYS_GetTagKind  0x0201D658  thumb
+ *   PRINTSYS_SkipTag  0x0201D688  thumb
  *   STRBUF_GetChars  0x02045A90  arm
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_SetSlotFromMsgB6 0x0201EF8C thumb
@@ -160,8 +160,8 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 extern u32 GFL_HEAP_Free(void *p);
 extern void MI_CpuFill8(void *dst, u8 value, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-void BTL_CALC_ActionSetRecordError(u32 *record);
-void BTL_CALC_ActionSetRecordReset(u32 *record);
+void BTL_ACTION_SetRecordError(u32 *record);
+void BTL_ACTION_SetRecordReset(u32 *record);
 extern char gBtlRecFileName[];
 
 void *BTL_REC_CreateBuffer(u32 heapId)
@@ -269,7 +269,7 @@ u32 *BTL_REC_ReadRecord(BtlRecReader *reader, u32 channel, u8 *outSize, u8 *outF
     u32 *readPos;
     u32 start;
     if (reader->failed) {
-        BTL_CALC_ActionSetRecordError(reader->lastRecord[channel]);
+        BTL_ACTION_SetRecordError(reader->lastRecord[channel]);
         *outSize = 1;
         *outFlag = 0;
         return reader->lastRecord[channel];
@@ -309,7 +309,7 @@ u32 *BTL_REC_ReadRecord(BtlRecReader *reader, u32 channel, u8 *outSize, u8 *outF
                 return found;
         } else if (type == 3) {
             u32 *record = reader->lastRecord[channel];
-            BTL_CALC_ActionSetRecordReset(record);
+            BTL_ACTION_SetRecordReset(record);
             *outSize = 1;
             *outFlag = 0;
             return record;
@@ -324,7 +324,7 @@ u32 *BTL_REC_ReadRecord(BtlRecReader *reader, u32 channel, u8 *outSize, u8 *outF
         }
     }
     reader->failed = 1;
-    BTL_CALC_ActionSetRecordError(reader->lastRecord[channel]);
+    BTL_ACTION_SetRecordError(reader->lastRecord[channel]);
     *outSize = 1;
     *outFlag = 0;
     return reader->lastRecord[channel];

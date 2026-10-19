@@ -17,7 +17,7 @@
  *   d_0220DA68 0x0220DA68 data a4
  *   BMP_WIN_Delete 0x020452E8 arm
  *   MSGDATA_AllocString 0x02045EC0 arm
- *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
+ *   PRINTSYS_MeasureWidestLine 0x0201D304 thumb
  *   BMP_WIN_GetWidth 0x02045738 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
@@ -118,7 +118,7 @@
  *   GXx_SetMasterBrightness_ 0x0207D534 arm
  *   TCBL_Create 0x0203101C arm
  *   B_APP_TOOL_Create 0x0220AF40 thumb ov196
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
  *   PALANM_RequestFade 0x0202173C thumb
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
@@ -229,7 +229,7 @@ struct Pair {
 /* the bag menu data handed to B_BAG_MAIN_Create; the work struct keeps a pointer to it */
 struct BagMenu {
     void *savedata;            /* 0x00 savedata block */
-    unsigned int printWidth;   /* 0x04 width/limit passed to the printer and GF_FONT_MeasureWidestLine */
+    unsigned int printWidth;   /* 0x04 width/limit passed to the printer and PRINTSYS_MeasureWidestLine */
     int mode;                  /* 0x08 menu mode 1/2/3 */
     unsigned short heapId;     /* 0x0C heap id used for every allocation */
     void *pocketMask;          /* 0x10 pocket membership bit table */
@@ -316,7 +316,7 @@ struct BgTemplate {u32 a,b,size,c;u8 d,e,f,g;u32 h;u8 i,j,k,l;u32 m;};
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 extern u32 BMP_WIN_Delete(struct Descriptor *d);
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *owner, unsigned int a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, u16 f);
@@ -400,7 +400,7 @@ extern void BGWINFRM_UpdateMoves(struct WinMgr *mgr);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u8 *B_APP_TOOL_Create(u16 v);
-extern void GFL_NET_RestartWithDefaultTimeout(unsigned,unsigned);
+extern void GFL_NET_RefreshWmIconAtTopRight(unsigned,unsigned);
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern int PALANM_RequestFade(void *,u16,u16,short,u8,u8,u16,void *);
 extern unsigned PRINTSYS_QUE_IsFinished(const struct PrintSys *);
@@ -620,7 +620,7 @@ void B_BAG_MAIN_PrintLabel(char *p,int i,int id,int y,u16 colour)
 {
     int handle=*(int *)(p+0x28+i*8);
     int text=(int)MSGDATA_AllocString((struct MsgBank *)(((struct BagWork *)p)->msgBank),id);
-    int width=GF_FONT_MeasureWidestLine((struct StrObj *)text,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth,0);
+    int width=PRINTSYS_MeasureWidestLine((struct StrObj *)text,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth,0);
     int x=(BMP_WIN_GetWidth((struct Descriptor *)handle)*8-width)>>1;
     int font=(int)((struct BagWork *)p)->printSys;
     int surface=(int)BMP_WIN_GetBmp((struct Descriptor *)*(int *)(p+0x28+i*8));
@@ -681,7 +681,7 @@ void B_BAG_MAIN_DrawItemName(char *p,u32 i,int id,int w,int unused,int unused2)
         page=(u32)p+((u8 *)p)[0x533]*0x90;
         WORDSET_SetSlotFromMsg36(((struct BagWork *)p)->wordSet,0,*(u16 *)(page+i*4+0x150));
         WORDSET_CopyTaggedText(((struct BagWork *)p)->wordSet,((struct BagWork *)p)->strBuf,text);
-        width=GF_FONT_MeasureWidestLine(((struct BagWork *)p)->strBuf,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth,0);
+        width=PRINTSYS_MeasureWidestLine(((struct BagWork *)p)->strBuf,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth,0);
         width=BMP_WIN_GetWidth(handle)*8-width;
         font=((struct BagWork *)p)->printSys;
         surface=BMP_WIN_GetBmp(*(void **)(windows+w*8));
@@ -784,7 +784,7 @@ void B_BAG_MAIN_DrawHeader(char *p)
     void *lastSurface;
     BMP_Clear(surface,0);
     text=MSGDATA_AllocString(((struct BagWork *)p)->msgBank,28);
-    width=GF_FONT_MeasureWidestLine(text,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth,0);
+    width=PRINTSYS_MeasureWidestLine(text,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth,0);
     x=(BMP_WIN_GetWidth(handle)*8-width)/2;
     PRINTSYS_PrintQueColor(((struct BagWork *)p)->printSys,(u32)surface,(s16)x,(s16)4,(u32)text,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth,0x3C40);
     STRBUF_Delete(text);
@@ -796,7 +796,7 @@ void B_BAG_MAIN_DrawHeader(char *p)
     text=MSGDATA_AllocString(((struct BagWork *)p)->msgBank,30);
     WORDSET_SetSlotNumber(((struct BagWork *)p)->wordSet,0,*(s16 *)(*(char * *)&((struct BagWork *)p)->itemData+((u8 *)p)[0x533]*2+0x38)+1,2,0,1);
     WORDSET_CopyTaggedText(((struct BagWork *)p)->wordSet,((struct BagWork *)p)->strBuf,text);
-    width=GF_FONT_MeasureWidestLine(((struct BagWork *)p)->strBuf,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth,0);
+    width=PRINTSYS_MeasureWidestLine(((struct BagWork *)p)->strBuf,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth,0);
     font=((struct BagWork *)p)->printSys;
     lastSurface=BMP_WIN_GetBmp(((struct BagWork *)p)->win[30].handle);
     PRINTSYS_PrintQueColor(font,(u32)lastSurface,(s16)(x-width),(s16)4,(u32)(((struct BagWork *)p)->strBuf),((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth,0x3C40);
@@ -1700,7 +1700,7 @@ int B_BAG_MAIN_StateInit(char *p)
     B_APP_TOOL_SetActorsVisible(*(char * *)&((struct BagWork *)p)->toolActors,*(void * *)(p + 0x598));
     if(*(unsigned char *)(p + 0x532)==0) B_BAG_MAIN_CreateCursor((u8 *)p,*(unsigned char *)(p + 0x532),*(unsigned char *)(p + 0x542));
     else B_BAG_MAIN_CreateCursor((u8 *)p,*(unsigned char *)(p + 0x532),0);
-    GFL_NET_RestartWithDefaultTimeout(0,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
+    GFL_NET_RefreshWmIconAtTopRight(0,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
     PALANM_CopyHwPaletteToSlot(((struct BagWork *)p)->palAnm,3,224,32);
     PALANM_RequestFade(((struct BagWork *)p)->palAnm,10,65535,0,16,0,0,BTLV_EFFECT_GetOwner());
     if(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode==3) B_BAG_MAIN_ResetBgSlot(p,*(unsigned char *)(p + 0x532));
@@ -1736,7 +1736,7 @@ int B_BAG_MAIN_StateInitOther(char *p)
     else *(void * *)(p + 0x598) = 0;
     B_APP_TOOL_SetActorsVisible(*(char * *)&((struct BagWork *)p)->toolActors, *(void * *)(p + 0x598));
     B_BAG_MAIN_CreateCursor((u8 *)p, *(unsigned char *)(p + 0x532), 0);
-    GFL_NET_RestartWithDefaultTimeout(0, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
+    GFL_NET_RefreshWmIconAtTopRight(0, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
     PALANM_CopyHwPaletteToSlot(((struct BagWork *)p)->palAnm, 3, 0xe0, 0x20);
     PALANM_RequestFade(((struct BagWork *)p)->palAnm, 0xa, 0xffff, 0, 0x10, 0, 0, BTLV_EFFECT_GetOwner());
     *(int *)(p + 0x5A0) = 1;

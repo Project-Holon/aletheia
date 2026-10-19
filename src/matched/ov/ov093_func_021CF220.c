@@ -12,7 +12,7 @@
  *   BTLV_CORE_IsMenuClosed 0x021E9974 thumb ov093
  *   BTL_SIDE_GetClientPokeParam 0x021B990C thumb ov093
  *   BTL_CLIENT_IsActionForced 0x021CF470 thumb ov093
- *   BTL_CALC_ActionSetNone 0x021D8434 thumb ov093
+ *   BTL_ACTION_SetNone 0x021D8434 thumb ov093
  *   BTL_CLIENT_SetSubFn 0x021CE150 thumb ov093
  *   BTL_CLIENT_StepSelectAction 0x021CE4D0 thumb ov093
  *   BTL_CLIENT_StepSendActions 0x021CF2F0 thumb ov093
@@ -24,7 +24,7 @@ extern void BTLV_CORE_CloseMenuToReselect(u32);
 extern int BTLV_CORE_IsMenuClosed(u32);
 extern void *BTL_SIDE_GetClientPokeParam(char *p, unsigned int i, unsigned int j);
 extern u32 BTL_CLIENT_IsActionForced(u8 *, void *, u8 *);
-extern void BTL_CALC_ActionSetNone(u32 *p);
+extern void BTL_ACTION_SetNone(u32 *p);
 extern void BTL_CLIENT_SetSubFn(u8 *p, void *q);
 extern int BTL_CLIENT_StepSelectAction(u8 *p, u32 *st);
 typedef signed int     s32;
@@ -49,7 +49,7 @@ u32 BTL_CLIENT_StepAdvanceSlot(u8 *p, int *st)
                 while (p[0x11d] < p[0x11c]) {
                     q = BTL_SIDE_GetClientPokeParam((char *)(((struct Obj00888 *)p)->f4), p[0x1a6], p[0x11d]);
                     if (!BTL_CLIENT_IsActionForced(p, q, p + 0x124 + p[0x11d] * 4))
-                        BTL_CALC_ActionSetNone((u32 *)(p + 0x124 + p[0x11d] * 4));
+                        BTL_ACTION_SetNone((u32 *)(p + 0x124 + p[0x11d] * 4));
                     ++p[0x11d];
                 }
             }

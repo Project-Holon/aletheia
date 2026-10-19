@@ -35,7 +35,7 @@
  *   ARC_UTIL_UploadBgPaletteFromHandle 0x020498F4 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   FADE_Start 0x0204E720 arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   tbl_021BA1F4 0x021BA1F4 data a4
  *   tbl_021BA360 0x021BA360 data a4
  *   BG_SYS_FreeLayerBuf 0x020403F4 arm
@@ -70,7 +70,7 @@
  *   STRBUF_Create 0x020457B0 arm
  *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
- *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
+ *   PRINTSYS_MeasureWidestLine 0x0201D304 thumb
  *   BMP_GetWidth 0x020437DC arm
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   STRBUF_Delete 0x02045808 arm
@@ -212,7 +212,7 @@ extern void ARC_UTIL_UploadPaletteFromHandleWhole(void*,u32,u32,u32,u32,u16);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void*,u32,u32,u32,u32,u32,u16);
 extern void ARC_TOOL_DeleteHandle(void*);
-extern void FADE_Start(u32,int,int,int),BG_SYS_PushTile(u32),GFL_NET_RestartWithDefaultTimeout(u32,u32),GFL_USE_FadeOutBgm(u32);
+extern void FADE_Start(u32,int,int,int),BG_SYS_PushTile(u32),GFL_NET_RefreshWmIconAtTopRight(u32,u32),GFL_USE_FadeOutBgm(u32);
 extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void TCB_DeleteTask(struct Node *n);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
@@ -252,7 +252,7 @@ extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -355,7 +355,7 @@ int ZENKOKU_ZUKAN_AWARD_Init(void *owner,void *unused,void *input)
  ARC_UTIL_UploadBgCharFromHandle(h,tbl_021BA360[selected].b,4,zero,zero,zero,heap);
  ARC_UTIL_UploadBgPaletteFromHandle(h,tbl_021BA360[selected].c,4,zero,zero,zero,heap);
  ARC_TOOL_DeleteHandle(h);BG_SYS_PushTile(4);ZENKOKU_ZUKAN_AWARD_SetupActorPos((char *)p);
- FADE_Start(3,16,16,0);GFL_NET_RestartWithDefaultTimeout(0,*(u16*)p);
+ FADE_Start(3,16,16,0);GFL_NET_RefreshWmIconAtTopRight(0,*(u16*)p);
  if(*(int*)(*(char**)(p+4)+4)==0) GFL_USE_FadeOutBgm(6);
  return 1;
 }
@@ -471,20 +471,20 @@ void ZENKOKU_ZUKAN_AWARD_SetupWindows(struct ZenkokuZukanAwardWork *p)
     off = 0;
     WORDSET_SetSlotMyStatus((struct WordSet *)ws, 0, msg);
     WORDSET_CopyTaggedText((struct WordSet *)ws, (void *)x, (void *)t);
-    GF_FONT_MeasureWidestLine((struct StrObj *)x, (u32)p->font, 0);
+    PRINTSYS_MeasureWidestLine((struct StrObj *)x, (u32)p->font, 0);
     BMP_GetWidth(BMP_WIN_GetBmp(p->windows[2]));
     PRINTSYS_PrintQueColor(p->printQue, (u32)BMP_WIN_GetBmp(p->windows[2]), 0, 0, x, (u32)p->font, 0x440);
     STRBUF_Delete((struct U16Vec *)x);
     STRBUF_Delete((struct U16Vec *)t);
     WORDSET_Delete((struct WordSet *)ws);
     t = (u32)MSGDATA_AllocString(p->msgBank, 6);
-    x = (u16)GF_FONT_MeasureWidestLine((struct StrObj *)t, (u32)p->font, 0);
+    x = (u16)PRINTSYS_MeasureWidestLine((struct StrObj *)t, (u32)p->font, 0);
     h = BMP_GetWidth(BMP_WIN_GetBmp(p->windows[3]));
     if (h >= x && flag == 1) off = ((int)(h - x)) / 2;
     PRINTSYS_PrintQueColor(p->printQue, (u32)BMP_WIN_GetBmp(p->windows[3]), off, 0, t, (u32)p->font, 0x440);
     STRBUF_Delete((struct U16Vec *)t);
     t = (u32)MSGDATA_AllocString(p->msgBank, 5);
-    GF_FONT_MeasureWidestLine((struct StrObj *)t, (u32)p->font, 0);
+    PRINTSYS_MeasureWidestLine((struct StrObj *)t, (u32)p->font, 0);
     BMP_GetWidth(BMP_WIN_GetBmp(p->windows[4]));
     PRINTSYS_PrintQueColor(p->printQue, (u32)BMP_WIN_GetBmp(p->windows[4]), 0, 0, t, (u32)p->font, 0x440);
     STRBUF_Delete((struct U16Vec *)t);

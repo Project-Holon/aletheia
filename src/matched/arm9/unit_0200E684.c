@@ -10,7 +10,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: BATTLE_EXAMINATION_RefreshMarker, BATTLE_EXAMINATION_GetGreetingSize
+ * function: BATTLE_EXAMINATION_RefreshMarker, GREETING_SAVEDATA_GetSize
  *
  * GF_STANDARD_CalcCrc16: not otherwise called in arm9_main
  * symbols:
@@ -20,7 +20,7 @@
  * addressed by the constant id 0x5c6: it looks the field up through
  * GF_STANDARD_CalcCrc16, and if the stored halfword at +0x5c6 already equals the
  * looked-up value, rewrites the paired halfword at +0x5c2 with the constant
- * 0x7da and refreshes +0x5c6 with a second lookup.  BATTLE_EXAMINATION_GetGreetingSize is an
+ * 0x7da and refreshes +0x5c6 with a second lookup.  GREETING_SAVEDATA_GetSize is an
  * unlabelled getter returning the constant 0x28, sitting in what disasm.py
  * printed as trailing data after BATTLE_EXAMINATION_RefreshMarker because it carries no
  * register-saving prologue; see
@@ -46,7 +46,7 @@ void BATTLE_EXAMINATION_RefreshMarker(void *obj)
     }
 }
 
-u32 BATTLE_EXAMINATION_GetGreetingSize(void)
+u32 GREETING_SAVEDATA_GetSize(void)
 {
     return 0x28;
 }

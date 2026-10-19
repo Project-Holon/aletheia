@@ -12,7 +12,7 @@
  *   DELIVERY_IRC_Create 0x02157DD8 thumb ov010
  *   DELIVERY_IRC_Start 0x02157E34 thumb ov010
  *   GFL_NET_GetRunState 0x0203CD98 arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   MYSTERY_NET_SetHandler 0x021DEEA4 thumb ov121
  *   MYSTERY_NET_RunIrc 0x021DE910 thumb ov121
  *   GAME_LANGUAGE_Code 0x0209DF0C data a1
@@ -34,7 +34,7 @@ extern void MI_CpuFill8(void *, int, int);
 extern void *DELIVERY_IRC_Create(u8 *p);
 extern int DELIVERY_IRC_Start(void *);
 extern int GFL_NET_GetRunState(void);
-extern void GFL_NET_RestartWithDefaultTimeout(unsigned, unsigned);
+extern void GFL_NET_RefreshWmIconAtTopRight(unsigned, unsigned);
 typedef unsigned int   u32;
 extern void MYSTERY_NET_SetHandler(u32 *p, void *f);
 extern void MYSTERY_NET_RunIrc(void *, int *, char *);
@@ -60,7 +60,7 @@ void MYSTERY_NET_StartIrc(void *a, int *state, char *p)
         break;
     case 1:
         if (GFL_NET_GetRunState()) {
-            GFL_NET_RestartWithDefaultTimeout(1, ((struct Obj06455 *)p)->f58);
+            GFL_NET_RefreshWmIconAtTopRight(1, ((struct Obj06455 *)p)->f58);
             *state = 2;
         }
         break;

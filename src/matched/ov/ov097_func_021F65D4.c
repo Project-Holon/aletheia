@@ -13,7 +13,7 @@
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   BG_SYS_SetLcdSwap  0x0204363C  arm
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   VS_MULTI_LIST_InitMons  0x021F6A28  thumb  ov097
  *   VS_MULTI_LIST_SetVramBanks  0x021F682C  thumb  ov097
@@ -34,7 +34,7 @@ typedef unsigned int   u32;
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void BG_SYS_SetLcdSwap(u32 swap);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 typedef unsigned char  u8;
 struct P;
@@ -65,7 +65,7 @@ void VS_MULTI_LIST_StateSetup(int a)
     VS_MULTI_LIST_CreateWindows(a);
     VS_MULTI_LIST_InitIcons((struct P *)a);
     VS_MULTI_LIST_CreateBgFrames((struct P *)a);
-    GFL_NET_RestartWithDefaultTimeout(1, 0x71);
+    GFL_NET_RefreshWmIconAtTopRight(1, 0x71);
     BG_SYS_SetMainPlaneVisible(0x17, 1);
     VS_MULTI_LIST_AddVBlankTask((u8 *)a);
     VS_MULTI_LIST_StartWipeIn((u8 *)a, VS_MULTI_LIST_EnterWaitState((u8 *)a, 0x80, 4));

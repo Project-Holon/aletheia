@@ -225,7 +225,7 @@
  *   PALANM_AllocSlotBuffers  0x0202155C  thumb  arm9
  *   PALANM_FreeSlotBuffers  0x020215A0  thumb  arm9
  *   PALANM_CopyHwPaletteToSlot  0x020216D4  thumb  arm9
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm  arm9
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm  arm9
  *   BMP_WIN_Exit  0x020450C8  arm  arm9
  *   CLACT_ReleaseCharacter  0x0204A8D4  arm  arm9
  *   CLACT_ReleasePalette  0x0204ADA4  arm  arm9
@@ -353,7 +353,7 @@ struct PercentageCreateArgs { u32 charIndex; u32 paletteIndex; u32 cellAnimIndex
 
 extern u32 GAMESYSTEM_TryStartAutoComm(struct IcaAnime *p);
 
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 
 extern void *ARC_TOOL_CreateHandle(unsigned int id, u32 heap);
 
@@ -3969,7 +3969,7 @@ void RESEARCH_GRAPH_RestorePaletteAnime(int *graph)
  */
 void RESEARCH_GRAPH_RestartNetwork(u32 graph)
 {
-    GFL_NET_RestartWithDefaultTimeout(1, ((struct ResearchObjB *)(((u8*)graph + 0)))->heapId);
+    GFL_NET_RefreshWmIconAtTopRight(1, ((struct ResearchObjB *)(((u8*)graph + 0)))->heapId);
 }
 
 void RESEARCH_GRAPH_RegisterVBlank(char *graph)

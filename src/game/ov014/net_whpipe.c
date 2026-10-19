@@ -49,7 +49,7 @@
  *   GFL_NET_GetRunState  0x0203CD98  arm
  *   OS_Terminate  0x02088234  arm
  *   sEmptyString   0x02179790  data   a4
- *   SAVEDATA_PanicFail  0x02034714  arm
+ *   GF_PANIC_Fail  0x02034714  arm
  *   WIH_GetOwnAid  0x021795A4  thumb  ov014
  *   WIH_End  0x02179570  thumb  ov014
  *   GFL_NET_CallErrorStateFunc  0x0203D720  arm
@@ -118,7 +118,7 @@ extern int GFL_NET_GetRunState(void);
 
 extern void OS_Terminate(void);
 
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 unsigned short WIH_GetOwnAid(void);
 
@@ -608,7 +608,7 @@ void NET_WHPIPE_RefreshBeacon(void)
     if (getSize != 0) {
         size = getSize(work->userData);
         if (size > WHPIPE_BEACON_DATA_SIZE)
-            SAVEDATA_PanicFail((const char *)sEmptyString, 0, (const char *)sEmptyString);
+            GF_PANIC_Fail((const char *)sEmptyString, 0, (const char *)sEmptyString);
         MI_CpuCopy8((void *)init->getBeaconData(work->userData), beacon->data, size);
     }
     if (beacon->connectedNum != NET_WHPIPE_GetConnectedNum()) {

@@ -1,7 +1,7 @@
 /*
  * file:     field_player.c
  * unit:     yes
- * function: FIELD_PLAYER_Create, FIELD_PLAYER_Delete, FIELD_PLAYER_SaveToPlayerWork, FIELD_PLAYER_TryPushBoulder, FIELD_PLAYER_StartFormChange, FIELD_PLAYER_StepFormChange, FIELD_PLAYER_FinishFormChange, FIELD_PLAYER_ResetMoveWork, FIELD_PLAYER_SetRideEffect, FIELD_PLAYER_GetRideEffect, FIELD_PLAYER_ChooseMoveDirFromKeys, FIELD_PLAYER_CheckMoveBusy, FIELD_PLAYER_ChangeToNormalForm, FIELD_PLAYER_UpdateStepPhase, FIELD_PLAYER_GetPos, FIELD_PLAYER_SetPos, FIELD_PLAYER_GetDirDisp, FIELD_PLAYER_SetDirDisp, FIELD_PLAYER_GetFieldMap, FIELD_PLAYER_GetMmdl, FIELD_PLAYER_GetStepKind, FIELD_PLAYER_GetStepPhase, FIELD_PLAYER_GetFormCode, FIELD_PLAYER_SetFormCode, FIELD_PLAYER_GetSex, FIELD_PLAYER_GetGameSystem, FIELD_PLAYER_GetNowAttribute, FIELD_PLAYER_GetFrontAttribute, FIELD_PLAYER_GetFormObjCode, FIELD_PLAYER_GetObjCodeOfFormCode, FIELD_PLAYER_GetFormSlotOfObjCode, FIELD_PLAYER_CheckNotWaterForm, FIELD_PLAYER_SetObjCode, FIELD_PLAYER_ClearRememberedObjCode, FIELD_PLAYER_CheckFormModel, FIELD_PLAYER_CheckAnimePaused, FIELD_PLAYER_SearchFrontMmdl, FIELD_PLAYER_SearchFrontMmdlHeight, FIELD_PLAYER_GetGridPosInDir, FIELD_PLAYER_GetPosInDir, FIELD_PLAYER_GetFrontGridPos, FIELD_PLAYER_GetMoveOffsetInDir, FIELD_PLAYER_GetFormSlot, FIELD_PLAYER_WaitModelReady, FIELD_PLAYER_CheckEncountAttr, FIELD_PLAYER_CheckSurfEntryAttr, FIELD_PLAYER_SetGridMoveFlag, FIELD_PLAYER_ResetGridMove, FIELD_PLAYER_GetGridMoveState, FIELD_PLAYER_SetGridMoveState, FIELD_PLAYER_CheckMoveRestrictFlag, FIELD_PLAYER_CreateGrid, FIELD_PLAYER_SetupGrid, FIELD_PLAYER_GetNowGridPos, FIELD_PLAYER_CheckGridMoving, FIELD_PLAYER_FinishGridMove, FIELD_PLAYER_CreateNogrid, FIELD_PLAYER_SetupNogrid, FIELD_PLAYER_SetNogridParam, FIELD_PLAYER_ResetNogrid, FIELD_PLAYER_CheckNogridMoveReady, FIELD_PLAYER_GetNogridState, FIELD_PLAYER_GetNogridLocation, FIELD_PLAYER_SetNogridLocation, FIELD_PLAYER_GetNogridLocationByDir, FIELD_PLAYER_ClearNogridState, FIELD_PLAYER_GetGrid
+ * function: FIELD_PLAYER_Create, FIELD_PLAYER_Delete, FIELD_PLAYER_SaveToPlayerWork, FIELD_PLAYER_TryPushBoulder, FIELD_PLAYER_StartFormChange, FIELD_PLAYER_StepFormChange, FIELD_PLAYER_FinishFormChange, FIELD_PLAYER_ResetMoveWork, FIELD_PLAYER_SetRideEffect, FIELD_PLAYER_GetRideEffect, FIELD_PLAYER_ChooseMoveDirFromKeys, FIELD_PLAYER_CheckMoveBusy, FIELD_PLAYER_ChangeToNormalForm, FIELD_PLAYER_UpdateStepPhase, FIELD_PLAYER_GetPos, FIELD_PLAYER_SetPos, FIELD_PLAYER_GetDirDisp, FIELD_PLAYER_SetDirDisp, FIELD_PLAYER_GetFieldMap, FIELD_PLAYER_GetMmdl, FIELD_PLAYER_GetStepKind, FIELD_PLAYER_GetStepPhase, FIELD_PLAYER_GetFormCode, FIELD_PLAYER_SetFormCode, FIELD_PLAYER_GetSex, FIELD_PLAYER_GetGameSystem, FIELD_PLAYER_GetNowAttribute, FIELD_PLAYER_GetFrontAttribute, FIELD_PLAYER_GetFormObjCode, FIELD_PLAYER_GetObjCodeOfFormCode, FIELD_PLAYER_GetFormSlotOfObjCode, FIELD_PLAYER_CheckNotWaterForm, FIELD_PLAYER_SetObjCode, FIELD_PLAYER_ClearRememberedObjCode, FIELD_PLAYER_CheckFormModel, FIELD_PLAYER_CheckAnimePaused, FIELD_PLAYER_SearchFrontMmdl, FIELD_PLAYER_SearchFrontMmdlHeight, FIELD_PLAYER_GetGridPosInDir, FIELD_PLAYER_GetPosInDir, FIELD_PLAYER_GetFrontGridPos, FIELD_PLAYER_GetMoveOffsetInDir, FIELD_PLAYER_GetFormSlot, FIELD_PLAYER_WaitModelReady, FIELD_PLAYER_CheckSurfStartAttr, FIELD_PLAYER_CheckWaterfallClimbAttr, FIELD_PLAYER_ResetGridHold, FIELD_PLAYER_StopGridForcedMove, FIELD_PLAYER_GetGridHopLanded, FIELD_PLAYER_SetGridHopLanded, FIELD_PLAYER_CheckMoveRestrictFlag, FIELD_PLAYER_CreateGrid, FIELD_PLAYER_MoveGrid, FIELD_PLAYER_GetNowGridPos, FIELD_PLAYER_IsGridHopping, FIELD_PLAYER_FinishGridHop, FIELD_PLAYER_CreateNogrid, FIELD_PLAYER_UpdateNogrid, FIELD_PLAYER_AttachNogridMmdl, FIELD_PLAYER_ResetNogrid, FIELD_PLAYER_IsNogridForcedMove, FIELD_PLAYER_GetNogridRailWork, FIELD_PLAYER_SetNogridRailLocation, FIELD_PLAYER_GetNogridNextRailLocation, FIELD_PLAYER_GetNogridLocationByDir, FIELD_PLAYER_GetNogridRailPos, FIELD_PLAYER_GetGrid
  * address:  0x021A2E50
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -656,7 +656,7 @@ int FIELD_PLAYER_WaitModelReady(FieldPlayer *player)
     return FIELD_PLAYER_CORE_WaitModelReady(player->core);
 }
 
-int FIELD_PLAYER_CheckEncountAttr(FieldPlayer *player, int a, int b)
+int FIELD_PLAYER_CheckSurfStartAttr(FieldPlayer *player, int a, int b)
 {
     int formCode = FIELD_PLAYER_GetFormCode(player);
 
@@ -665,7 +665,7 @@ int FIELD_PLAYER_CheckEncountAttr(FieldPlayer *player, int a, int b)
     return MAP_ATTR_IsHopTransition(a, b);
 }
 
-int FIELD_PLAYER_CheckSurfEntryAttr(FieldPlayer *player, int attrA, int attrB)
+int FIELD_PLAYER_CheckWaterfallClimbAttr(FieldPlayer *player, int attrA, int attrB)
 {
     int formCode = FIELD_PLAYER_GetFormCode(player);
 
@@ -674,19 +674,19 @@ int FIELD_PLAYER_CheckSurfEntryAttr(FieldPlayer *player, int attrA, int attrB)
     return MAP_ATTR_IsWaterfall(MAP_ATTR_GetTerrainId(attrB));
 }
 
-void FIELD_PLAYER_SetGridMoveFlag(FieldPlayer *player, int a)
+void FIELD_PLAYER_ResetGridHold(FieldPlayer *player, int a)
 {
     if (FIELDMAP_GetMoveKind(player->fieldMap) == 0)
         FIELD_PLAYER_GRID_ResetHold(player->grid, a);
 }
 
-void FIELD_PLAYER_ResetGridMove(FieldPlayer *player)
+void FIELD_PLAYER_StopGridForcedMove(FieldPlayer *player)
 {
     if (FIELDMAP_GetMoveKind(player->fieldMap) == 0)
         FIELD_PLAYER_GRID_StopForcedMove(player->grid);
 }
 
-int FIELD_PLAYER_GetGridMoveState(FieldPlayer *player)
+int FIELD_PLAYER_GetGridHopLanded(FieldPlayer *player)
 {
     if (FIELDMAP_GetMoveKind(player->fieldMap) == 0) {
         return FIELD_PLAYER_GRID_GetHopLanded(player->grid);
@@ -694,7 +694,7 @@ int FIELD_PLAYER_GetGridMoveState(FieldPlayer *player)
     return 0;
 }
 
-void FIELD_PLAYER_SetGridMoveState(FieldPlayer *player, int a)
+void FIELD_PLAYER_SetGridHopLanded(FieldPlayer *player, int a)
 {
     if (FIELDMAP_GetMoveKind(player->fieldMap) == 0)
         FIELD_PLAYER_GRID_SetHopLanded(player->grid, a);
@@ -712,7 +712,7 @@ void FIELD_PLAYER_CreateGrid(FieldPlayer *player, u32 heapId)
     player->grid = FIELD_PLAYER_GRID_Create(player->core, heapId);
 }
 
-void FIELD_PLAYER_SetupGrid(FieldPlayer *player, u32 a, u32 b, u32 c)
+void FIELD_PLAYER_MoveGrid(FieldPlayer *player, u32 a, u32 b, u32 c)
 {
     FIELD_PLAYER_GRID_Move(player->grid, a, b, c);
 }
@@ -726,7 +726,7 @@ void FIELD_PLAYER_GetNowGridPos(FieldPlayer *player, u16 *gridX, u16 *gridY, u16
     *gridZ = FLDMMDL_GetGridNowZ(mmdl);
 }
 
-int FIELD_PLAYER_CheckGridMoving(FieldPlayer *player)
+int FIELD_PLAYER_IsGridHopping(FieldPlayer *player)
 {
     if (FIELDMAP_GetMoveKind(player->fieldMap) == 0) {
         if (FIELD_PLAYER_GRID_IsHopping(player->grid) == 1) {
@@ -736,7 +736,7 @@ int FIELD_PLAYER_CheckGridMoving(FieldPlayer *player)
     return 0;
 }
 
-void FIELD_PLAYER_FinishGridMove(FieldPlayer *player)
+void FIELD_PLAYER_FinishGridHop(FieldPlayer *player)
 {
     if (FIELDMAP_GetMoveKind(player->fieldMap) == 0 && FIELD_PLAYER_GRID_IsHopping(player->grid) == 1)
         FIELD_PLAYER_GRID_FinishHop(player->grid);
@@ -747,12 +747,12 @@ void FIELD_PLAYER_CreateNogrid(FieldPlayer *player, u32 heapId)
     player->nogrid = FIELD_PLAYER_NOGRID_Create(player->core, heapId);
 }
 
-void FIELD_PLAYER_SetupNogrid(FieldPlayer *player, u32 a, u32 b)
+void FIELD_PLAYER_UpdateNogrid(FieldPlayer *player, u32 a, u32 b)
 {
     FIELD_PLAYER_NOGRID_Update(player->nogrid, a, b);
 }
 
-void FIELD_PLAYER_SetNogridParam(FieldPlayer *player, int a)
+void FIELD_PLAYER_AttachNogridMmdl(FieldPlayer *player, int a)
 {
     FIELD_PLAYER_NOGRID_AttachMmdl(player->nogrid, a);
 }
@@ -762,22 +762,22 @@ void FIELD_PLAYER_ResetNogrid(FieldPlayer *player)
     FIELD_PLAYER_NOGRID_ClearRailWork(player->nogrid);
 }
 
-u32 FIELD_PLAYER_CheckNogridMoveReady(FieldPlayer *player)
+u32 FIELD_PLAYER_IsNogridForcedMove(FieldPlayer *player)
 {
     return FIELD_PLAYER_NOGRID_IsForcedMove(player->nogrid);
 }
 
-u32 FIELD_PLAYER_GetNogridState(FieldPlayer *player)
+u32 FIELD_PLAYER_GetNogridRailWork(FieldPlayer *player)
 {
     return FIELD_PLAYER_NOGRID_GetRailWork(player->nogrid);
 }
 
-void FIELD_PLAYER_GetNogridLocation(FieldPlayer *player, void *a)
+void FIELD_PLAYER_SetNogridRailLocation(FieldPlayer *player, void *a)
 {
     FIELD_PLAYER_NOGRID_SetRailLocation(player->nogrid, a);
 }
 
-void FIELD_PLAYER_SetNogridLocation(FieldPlayer *player, void *a)
+void FIELD_PLAYER_GetNogridNextRailLocation(FieldPlayer *player, void *a)
 {
     FIELD_PLAYER_NOGRID_GetNextRailLocation(player->nogrid, a);
 }
@@ -787,7 +787,7 @@ int FIELD_PLAYER_GetNogridLocationByDir(FieldPlayer *player, u32 a, void *b)
     return FIELD_PLAYER_NOGRID_GetRailLocationByDir(player->nogrid, a, b);
 }
 
-void FIELD_PLAYER_ClearNogridState(FieldPlayer *player, u32 unused)
+void FIELD_PLAYER_GetNogridRailPos(FieldPlayer *player, u32 unused)
 {
     FIELD_PLAYER_NOGRID_GetRailPos(player->nogrid);
 }

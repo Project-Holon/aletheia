@@ -127,7 +127,7 @@
  *   sGaugeLayout3Positions  0x0220AB2C  data  ov094  a2
  *   CLACT_GetActorAnimSeq  0x0204B898  arm
  *   BTLV_GAUGE_UpdateHpBarPixels  0x0220793C  thumb  ov094
- *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
+ *   PRINTSYS_MeasureWidestLine 0x0201D304 thumb
  *   WORDSET_FormatNumber 0x0201F35C thumb
  *   sGaugeStatusAnimTable     0x0220AAF0  data   ov094  a4
  *   sGaugeHomeOffset     0x0220AAB8  data  ov094  a2
@@ -762,7 +762,7 @@ extern void GF_FONT_GetTextColor(u8 *fg, u8 *shadow, u8 *bg);
 
 extern void GF_FONT_SetTextColor(u32 fg, u32 shadow, u32 bg);
 
-extern int GF_FONT_MeasureWidestLine(struct Strbuf *str, void *font, u32 arg);
+extern int PRINTSYS_MeasureWidestLine(struct Strbuf *str, void *font, u32 arg);
 
 extern void PRINTSYS_Print(struct BmpData *bmp, s16 x, s16 y, struct Strbuf *str, void *font);
 
@@ -1304,7 +1304,7 @@ void BTLV_GAUGE_DrawNickname(BtlvGaugeWork *work, BtlvGaugeSlot *slot, void *pok
     POKE_TOOL_GetPartyValue(pokeParam, BTLV_PARTY_VALUE_NICKNAME, name);
     GF_FONT_GetTextColor(&textColor[2], &textColor[1], &textColor[0]);
     GF_FONT_SetTextColor(1, 4, 0);
-    if (GF_FONT_MeasureWidestLine(name, work->font, 0) > 48)
+    if (PRINTSYS_MeasureWidestLine(name, work->font, 0) > 48)
         PRINTSYS_Print(bmp, 2, 5, name, work->font);
     else
         PRINTSYS_Print(bmp, 8, 5, name, work->font);

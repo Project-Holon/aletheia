@@ -17,7 +17,7 @@
  *   ZUKAN_SEARCH_SCREEN_InitBg 0x021BC318 thumb ov211
  *   ZUKAN_SEARCH_SCREEN_LoadGraphics 0x021BC474 thumb ov211
  *   ZUKAN_SEARCH_SCREEN_LoadSaveGraphics 0x021BC5B0 thumb ov211
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   ZUKAN_SEARCH_SCREEN_RegisterVBlank 0x021BC2F4 thumb ov211
  *   ZUKAN_StartWipeIn 0x021C93A8 thumb ov212
@@ -28,7 +28,7 @@ extern void ZUKAN_SEARCH_SCREEN_SetupVram(void);
 extern void ZUKAN_SEARCH_SCREEN_InitBg(void);
 extern void ZUKAN_SEARCH_SCREEN_LoadGraphics(struct Object *p);
 extern void ZUKAN_SEARCH_SCREEN_LoadSaveGraphics(char *);
-extern void GFL_NET_RestartWithDefaultTimeout(unsigned,unsigned),BG_SYS_SetSubPlaneVisible(unsigned,unsigned);
+extern void GFL_NET_RefreshWmIconAtTopRight(unsigned,unsigned),BG_SYS_SetSubPlaneVisible(unsigned,unsigned);
 extern void ZUKAN_SEARCH_SCREEN_RegisterVBlank(unsigned char *p);
 extern void ZUKAN_StartWipeIn(unsigned);
 int ZUKAN_SEARCH_SCREEN_Init(char *p)
@@ -38,7 +38,7 @@ int ZUKAN_SEARCH_SCREEN_Init(char *p)
     *(volatile unsigned short *)0x04001050=0;
     BG_SYS_SetLcdSwap(0);ZUKAN_SEARCH_SCREEN_SetupVram();ZUKAN_SEARCH_SCREEN_InitBg();
     ZUKAN_SEARCH_SCREEN_LoadGraphics((struct Object *)p);ZUKAN_SEARCH_SCREEN_LoadSaveGraphics(p);
-    GFL_NET_RestartWithDefaultTimeout(1,126);BG_SYS_SetSubPlaneVisible(16,1);
+    GFL_NET_RefreshWmIconAtTopRight(1,126);BG_SYS_SetSubPlaneVisible(16,1);
     ZUKAN_SEARCH_SCREEN_RegisterVBlank((unsigned char *)p);ZUKAN_StartWipeIn(126);
     return 2;
 }

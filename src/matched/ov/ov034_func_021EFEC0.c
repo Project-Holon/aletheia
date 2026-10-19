@@ -17,7 +17,7 @@
  *   REPORT_LoadBgGraphics 0x021F0228 thumb ov034
  *   REPORT_InitActors 0x021F0724 thumb ov034
  *   REPORT_InitWindows 0x021F0284 thumb ov034
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   func_020056A0 0x020056A0 thumb
  *   REPORT_UpdateSaveAnim 0x021F09BC thumb ov034
  */
@@ -32,7 +32,7 @@ extern void REPORT_LoadBgGraphics(int);
 typedef unsigned char  u8;
 extern void REPORT_InitActors(int *p);
 extern void REPORT_InitWindows(u8 *p);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern int func_020056A0(void *, void *, int);
 extern void REPORT_UpdateSaveAnim(void *task, char *p);
 
@@ -47,7 +47,7 @@ void *REPORT_Create(int a0, int a1)
     REPORT_LoadBgGraphics(((struct Obj00166 *)p)->f12C);
     REPORT_InitActors((int *)p);
     REPORT_InitWindows((u8 *)p);
-    GFL_NET_RestartWithDefaultTimeout(0, a1);
+    GFL_NET_RefreshWmIconAtTopRight(0, a1);
     ((struct Obj00166 *)p)->f10C = func_020056A0(REPORT_UpdateSaveAnim, p, 0);
     return p;
 }

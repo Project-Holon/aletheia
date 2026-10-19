@@ -30,7 +30,7 @@
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
  *   GFL_NET_GetRunState  0x0203CD98  arm
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   gClActorInitParam     0x020A1448  data  a4
  *   gOptionMenuChoices     0x021BB704  data  ov068  a4
  */
@@ -79,7 +79,7 @@ struct Obj;
 extern void CLACT_SetActorAutoAnim(struct Obj *, u32);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
 extern int GFL_NET_GetRunState(void);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 
 void OPTION_MENU_InitSprites(int *p, void *res, u32 heap)
 {
@@ -117,5 +117,5 @@ void OPTION_MENU_InitSprites(int *p, void *res, u32 heap)
     p[7] = CLACT_CreateActor(p[0], p[4], p[1], p[5], &s, 0, heap);
     CLACT_SetActorPaletteOffset((struct Obj *)p[7], 6, 1);
     if (GFL_NET_GetRunState())
-        GFL_NET_RestartWithDefaultTimeout(1, heap);
+        GFL_NET_RefreshWmIconAtTopRight(1, heap);
 }

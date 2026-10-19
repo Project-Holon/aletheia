@@ -1,5 +1,5 @@
 /*
- * function: GF_OVERLAY_RegisterPanicHandlers
+ * function: GF_PANIC_RegisterDefaultHandlers
  * address:  0x02034978
  * packet:   pkt_02034714
  * region:   arm9
@@ -11,11 +11,11 @@
  *
  * symbols:
  *   func_02034768  0x02034768  arm
- *   GF_OVERLAY_PanicPrint  0x020348A4  arm
+ *   GF_PANIC_Print  0x020348A4  arm
  *   func_02034900  0x02034900  arm
- *   SAVEDATA_SetPanicHandlers  0x020346EC  arm
+ *   GF_PANIC_SetHandlers  0x020346EC  arm
  *
- * The default-handler registration trampoline: tail-calls SAVEDATA_SetPanicHandlers
+ * The default-handler registration trampoline: tail-calls GF_PANIC_SetHandlers
  * (pkt_020345F8, the "register" half of the assert/panic hook: see
  * src/matched/unit_020346EC.c) with the addresses of this packet's own
  * three biggest functions, none of which is matched yet.
@@ -26,18 +26,18 @@
  * they stay unresolved under the honesty rule.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/GF_OVERLAY_RegisterPanicHandlers.c \
- *       --func GF_OVERLAY_RegisterPanicHandlers --addr 0x02034978 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/GF_PANIC_RegisterDefaultHandlers.c \
+ *       --func GF_PANIC_RegisterDefaultHandlers --addr 0x02034978 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
 
 extern void func_02034768(void);
-extern void GF_OVERLAY_PanicPrint(char *s);
+extern void GF_PANIC_Print(char *s);
 extern void func_02034900(void);
-extern void SAVEDATA_SetPanicHandlers(u32 a, u32 b, u32 c);
+extern void GF_PANIC_SetHandlers(u32 a, u32 b, u32 c);
 
-void GF_OVERLAY_RegisterPanicHandlers(void)
+void GF_PANIC_RegisterDefaultHandlers(void)
 {
-    SAVEDATA_SetPanicHandlers((u32)func_02034768, (u32)GF_OVERLAY_PanicPrint, (u32)func_02034900);
+    GF_PANIC_SetHandlers((u32)func_02034768, (u32)GF_PANIC_Print, (u32)func_02034900);
 }

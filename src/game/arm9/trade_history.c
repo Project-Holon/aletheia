@@ -18,9 +18,9 @@
  *   MI_CpuMove   0x02083194  arm
  *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
  *   MYSTATUS_GetId  0x02008530  thumb
- *   MYSTATUS_GetOutfit  0x02008554  thumb
- *   MYSTATUS_SetOutfit  0x02008558  thumb
- *   MYSTATUS_GetAvatarId  0x0200855C  thumb
+ *   MYSTATUS_GetTrainerView  0x02008554  thumb
+ *   MYSTATUS_SetTrainerView  0x02008558  thumb
+ *   MYSTATUS_GetRomCode  0x0200855C  thumb
  *   MYSTATUS_GetSize  0x02008468  thumb
  */
 #include "wifilist_tail_shared_types.h"
@@ -47,11 +47,11 @@ extern u32  MYSTATUS_GetId(const struct MyStatus *status);
 
 extern int  MYSTATUS_GetSize(void);
 
-extern u8   MYSTATUS_GetOutfit(const struct MyStatus *status);
+extern u8   MYSTATUS_GetTrainerView(const struct MyStatus *status);
 
-extern void MYSTATUS_SetOutfit(struct MyStatus *status, u8 value);
+extern void MYSTATUS_SetTrainerView(struct MyStatus *status, u8 value);
 
-extern u8   MYSTATUS_GetAvatarId(const struct MyStatus *status);
+extern u8   MYSTATUS_GetRomCode(const struct MyStatus *status);
 
 u32 TRADE_HISTORY_GetSize(void);
 
@@ -134,7 +134,7 @@ int TRADE_HISTORY_FindPartner(struct TradeHistory *history, u32 id)
     int i;
 
     for (i = 0; i < 100; i++) {
-        if (MYSTATUS_GetAvatarId(&history->partners[i]) != 0
+        if (MYSTATUS_GetRomCode(&history->partners[i]) != 0
             && id == MYSTATUS_GetId(&history->partners[i])) {
             return i;
         }
@@ -153,7 +153,7 @@ void TRADE_HISTORY_AddPartner(struct TradeHistory *history, struct MyStatus *sta
     }
     slot = TRADE_HISTORY_FindPartner(history, id);
     if (slot != -1) {
-        MYSTATUS_SetOutfit(&history->partners[slot], MYSTATUS_GetOutfit(status));
+        MYSTATUS_SetTrainerView(&history->partners[slot], MYSTATUS_GetTrainerView(status));
         return;
     }
     MI_CpuMove(history->partners, &history->partners[1], size * 99);
@@ -192,7 +192,7 @@ int TRADE_HISTORY_GetPartnerCount(struct TradeHistory *history)
     int i;
 
     for (i = 0; i < 100; i++) {
-        if (MYSTATUS_GetAvatarId(&history->partners[i]) == 0) {
+        if (MYSTATUS_GetRomCode(&history->partners[i]) == 0) {
             break;
         }
     }

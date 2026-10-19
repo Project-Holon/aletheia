@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * lever: Unsigned word state local restores the state/sprite register pair; int and long left DIFF7.
- * ABI: MUSICAL_MCSS_GetFlagA declared int here: its forwarded MUSICAL_MCSS_GetStateA returns 0/1; original compares the returned r0 despite legacy void declarations.
+ * ABI: MUSICAL_MCSS_ElemHasAltDepth declared int here: its forwarded MUSICAL_MCSS_GetStateA returns 0/1; original compares the returned r0 despite legacy void declarations.
  * symbols:
  *   d_021BA57C 0x021BA57C data a4
  *   d_021BA5AC 0x021BA5AC data a4
@@ -21,7 +21,7 @@
  *   DUP_FITTING_ReleaseElem 0x021B8254 thumb ov133
  *   DUP_FITTING_ITEM_ElemGetFrameIndex 0x021BA258 thumb ov133
  *   MUSICAL_MCSS_GetRenderElem 0x021F5450 thumb ov112
- *   MUSICAL_MCSS_GetFlagA 0x021F4B24 thumb ov112
+ *   MUSICAL_MCSS_ElemHasAltDepth 0x021F4B24 thumb ov112
  *   MUSICAL_MCSS_SetElemFlag 0x021F4EE8 thumb ov112
  *   MUSICAL_MCSS_SetElemField 0x021F4ED4 thumb ov112
  *   DUP_FITTING_MoveElem 0x021B8444 thumb ov133
@@ -49,7 +49,7 @@ extern void DUP_FITTING_ITEM_ElemSetAnimFrames(char *p, unsigned int v);
 extern void DUP_FITTING_ReleaseElem(u8 *);
 extern unsigned int DUP_FITTING_ITEM_ElemGetFrameIndex(char *p);
 extern u8 *MUSICAL_MCSS_GetRenderElem(u8 *,int);
-extern int MUSICAL_MCSS_GetFlagA(u8 *);
+extern int MUSICAL_MCSS_ElemHasAltDepth(u8 *);
 extern void MUSICAL_MCSS_SetElemFlag(int,Flags *,int);
 typedef unsigned int   u32;
 extern void MUSICAL_MCSS_SetElemField(u32 unused, u32 p, u16 v);
@@ -88,7 +88,7 @@ void DUP_FITTING_UpdateHeldElem(u8 *p)
         else b.x=(int)((float)(posB.x<<12)-0.5f);
         if(posB.y>0) b.y=(int)(0.5f+(float)(posB.y<<12));
         else b.y=(int)((float)(posB.y<<12)-0.5f);
-        if(MUSICAL_MCSS_GetFlagA(spriteB)==1) b.z=102<<10;
+        if(MUSICAL_MCSS_ElemHasAltDepth(spriteB)==1) b.z=102<<10;
         else if(DUP_FITTING_ITEM_ElemGetFrameIndex((char *)(*(u8 * *)&((struct Obj00004 *)p)->f38))==7 || DUP_FITTING_ITEM_ElemGetFrameIndex((char *)(*(u8 * *)&((struct Obj00004 *)p)->f38))==8) b.z=222<<10;
         else b.z=202<<10;
         flag=((struct Obj06498 *)record)->f36;

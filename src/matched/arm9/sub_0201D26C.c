@@ -1,5 +1,5 @@
 /*
- * function: GF_FONT_MeasureTextWidth
+ * function: PRINTSYS_MeasureTextWidth
  * address:  0x0201D26C
  * packet:   pkt_0201CEE0
  * region:   arm9
@@ -27,8 +27,8 @@
  * while folding away the second compare.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GF_FONT_MeasureTextWidth.c
- *       --func GF_FONT_MeasureTextWidth --addr 0x0201D26C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PRINTSYS_MeasureTextWidth.c
+ *       --func PRINTSYS_MeasureTextWidth --addr 0x0201D26C --cc 1.1p1 --thumb
  */
 
 typedef unsigned short u16;
@@ -37,7 +37,7 @@ typedef unsigned int   u32;
 struct Font;
 extern u32 GF_FONT_GetCharWidth(struct Font *p, u16 ch);
 
-u32 GF_FONT_MeasureTextWidth(u16 *p, void *font, u32 spacing, u16 **next)
+u32 PRINTSYS_MeasureTextWidth(u16 *p, void *font, u32 spacing, u16 **next)
 {
     u32 sum;
     u16 c;

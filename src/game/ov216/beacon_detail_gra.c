@@ -137,7 +137,7 @@
  *   MI_CpuFill8   0x02082BCC arm
  *   CLACT_DrawSystem 0x0204A600 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   GAMESYSTEM_IsNetOffBySleep 0x02012204 thumb
  *   TOUCHBAR_GetPressedButtonIdIfPressing 0x021B6470 thumb ov067
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
@@ -550,7 +550,7 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void CLACT_DrawSystem(void);
 extern void CLACT_VBlankSystem(void);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern int TOUCHBAR_GetPressedButtonIdIfPressing(unsigned char *);
 extern u32 KEY_GetTrg(void);
 extern unsigned GAMESYSTEM_IsNetOffBySleep(const struct Ctx *);
@@ -1373,7 +1373,7 @@ void BEACON_DETAIL_GRA_SetupBeaconList(unsigned char *p)
     BEACON_DETAIL_GRA_SetSlotVisible((char *)p,p[0x2e],1);
     BEACON_DETAIL_GRA_SetSlotVisible((char *)p,p[0x2e]^1,0);
     BEACON_DETAIL_GRA_UpdateSlotInfo((char *)p); BEACON_DETAIL_GRA_UpdateButtons(p);
-    GFL_NET_RestartWithDefaultTimeout(0,((struct BeaconDetailGraWork *)p)->gfxHeapId);
+    GFL_NET_RefreshWmIconAtTopRight(0,((struct BeaconDetailGraWork *)p)->gfxHeapId);
 }
 
 

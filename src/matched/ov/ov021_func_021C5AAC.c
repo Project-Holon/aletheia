@@ -18,7 +18,7 @@
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   BEACON_GetBlock  0x0200C0F0  thumb
+ *   MISC_GetBlock  0x0200C0F0  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   NAMEIN_SETUP_CreateArgs  0x0216BFD4  thumb  ov010
  *   SCRCMD_NicknameEventMain  0x021C5B58  thumb  ov021
@@ -48,7 +48,7 @@ extern void *func_020124E8(struct Obj *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *BEACON_GetBlock(void *a);
+extern void *MISC_GetBlock(void *a);
 extern u32 POKE_TOOL_GetPartyValue(void *a, u32 b, u32 c);
 extern int *NAMEIN_SETUP_CreateArgs(int a, int b, int c, int d, int e, int f, void *g);
 extern int SCRCMD_NicknameEventMain(int a, int *b, int *c);
@@ -73,7 +73,7 @@ int SCRCMD_CreateNicknameEvent(void *a, int b, int c, int d)
     p->f14 = d;
     r6 = GAMESYSTEM_GetGameData(p->a);
     e = (int)POKEPARTY_GetMember(GAME_DATA_GetMyParty(r6), c);
-    r6 = BEACON_GetBlock(GAME_DATA_GetSaveControl(r6));
+    r6 = MISC_GetBlock(GAME_DATA_GetSaveControl(r6));
     x = POKE_TOOL_GetPartyValue((void *)e, 5, 0);
     y = POKE_TOOL_GetPartyValue((void *)e, 0x6f, 0) | (POKE_TOOL_GetPartyValue((void *)e, 0x6e, 0) << 8);
     p->f08 = NAMEIN_SETUP_CreateArgs(4, 1, x, y, 0xa, 0, r6);

@@ -32,7 +32,7 @@
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   GAME_DATA_GetPmsWork  0x02012F20  thumb
  *   COMM_PLAYER_SUPPORT_Init  0x0202E79C  thumb
- *   GAME_DATA_GetFieldMode  0x02012A44  thumb
+ *   GAME_DATA_GetLastBattleResult  0x02012A44  thumb
  *   EVENT_BATTLE_IsResultSilent  0x0216EFA8  thumb  ov010
  *   SCRCMD_NETWORK_CreateCommProcEvent  0x0215F6E8  thumb  ov010
  *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
@@ -92,7 +92,7 @@ extern void ENCEFF_SelectEffectAndBgm(u32 species, u32 a, u32 b, void *c, u32 *d
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern int GAME_DATA_GetPmsWork(int p0);
 extern void COMM_PLAYER_SUPPORT_Init(u8 *p);
-extern u32 GAME_DATA_GetFieldMode(const struct BigObj *p);
+extern u32 GAME_DATA_GetLastBattleResult(const struct BigObj *p);
 extern int EVENT_BATTLE_IsResultSilent(int a, int b);
 extern void *SCRCMD_NETWORK_CreateCommProcEvent(void *sys);
 extern void GAME_EVENT_ChangeEvent(struct S0201235C *o, u32 *out);
@@ -133,7 +133,7 @@ int EVENT_BATTLE_ProcScriptedBattle(void *evt, u32 *state, Work *w)
             COMM_PLAYER_SUPPORT_Init((void *)GAME_DATA_GetPmsWork((int)ctx));
             return 1;
         }
-        if (EVENT_BATTLE_IsResultSilent(GAME_DATA_GetFieldMode(ctx), 0) == 1) {
+        if (EVENT_BATTLE_IsResultSilent(GAME_DATA_GetLastBattleResult(ctx), 0) == 1) {
             COMM_PLAYER_SUPPORT_Init((void *)GAME_DATA_GetPmsWork((int)ctx));
             GAME_EVENT_ChangeEvent(evt, SCRCMD_NETWORK_CreateCommProcEvent(sys));
         } else {

@@ -1,5 +1,5 @@
 /*
- * function: HAND_TOKUSEI_GetIndirectGuardCause1Handlers
+ * function: HAND_TOKUSEI_GetHyperCutterHandlers
  * address: 0x021D9208
  * packet: pkt_ov093_021D9208
  * region: ov093
@@ -15,10 +15,10 @@
  *   gIndirectGuardCause1Handlers 0x021F0880 data ov093 a4
  */
 
-int *HAND_TOKUSEI_GetIndirectGuardCause1Handlers(int *p);
+int *HAND_TOKUSEI_GetHyperCutterHandlers(int *p);
 extern int gIndirectGuardCause1Handlers[];
 
-int *HAND_TOKUSEI_GetIndirectGuardCause1Handlers(int *p)
+int *HAND_TOKUSEI_GetHyperCutterHandlers(int *p)
 {
     *p = 2;
     return gIndirectGuardCause1Handlers;

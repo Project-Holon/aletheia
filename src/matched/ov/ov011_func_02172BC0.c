@@ -24,10 +24,10 @@
  *   INTRUDE_COMM_InitBeacon  0x02173590  thumb  ov011
  *   EVENT_FIELD_PROCLINK_InitReturnSlotsWithAid  0x02161F54  thumb  ov010
  *   STRBUF_Create  0x020457B0  arm
- *   GAME_DATA_SetExitMode  0x02012B64  thumb
+ *   GAME_DATA_SetOwnNetId  0x02012B64  thumb
  *   GAME_DATA_SetIntrudeId  0x02012B8C  thumb
  *   GAME_DATA_SetEnterMode  0x02012B4C  thumb
- *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
+ *   GAME_DATA_GetMyStatusPlayer  0x02012950  thumb
  *   MYSTATUS_Copy  0x02008494  thumb
  *
  * evidence: 0x02008494 is an unlabelled ARM9 thunk ("ldr r3, =MI_CpuCopy8; movs r2, #0x20; bx r3") that the
@@ -76,10 +76,10 @@ extern void INTRUDE_COMM_InitSession(u8 *p);
 extern void  INTRUDE_COMM_InitBeacon(void *a, void *b, u32 c);
 extern int EVENT_FIELD_PROCLINK_InitReturnSlotsWithAid(int a0);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void GAME_DATA_SetExitMode(struct BigObj *p, u8 v);
+extern void GAME_DATA_SetOwnNetId(struct BigObj *p, u8 v);
 extern void GAME_DATA_SetIntrudeId(struct BigObj *p, u32 v);
 extern void GAME_DATA_SetEnterMode(struct BigObj *p, u8 v);
-extern struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, u32 i);
+extern struct Rec44 *GAME_DATA_GetMyStatusPlayer(struct Sub24 *p, u32 i);
 extern void  MYSTATUS_Copy(void *a, void *b);
 
 Work *INTRUDE_COMM_Create(void *unused, Param *p)
@@ -111,11 +111,11 @@ Work *INTRUDE_COMM_Create(void *unused, Param *p)
     for (i = 0; i < 2; i++) {
         w->field928[i] = STRBUF_Create(8, 5);
     }
-    GAME_DATA_SetExitMode(sv, 0);
+    GAME_DATA_SetOwnNetId(sv, 0);
     GAME_DATA_SetIntrudeId(sv, 0);
     GAME_DATA_SetEnterMode(sv, 1);
     for (j = 0; j < 3; j++) {
-        MYSTATUS_Copy(bag, GAME_DATA_GetPlayerStatus(sv, j));
+        MYSTATUS_Copy(bag, GAME_DATA_GetMyStatusPlayer(sv, j));
     }
     return w;
 }

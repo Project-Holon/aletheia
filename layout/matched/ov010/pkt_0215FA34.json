@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "SCRCMD_NETWORK_LoadOv020",
+   "name": "EVENT_WIFI_PROC_LoadOv020",
    "address": "0x0215FA34",
    "kind": "game",
    "region": "ov010",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "SCRCMD_NETWORK_UnloadOv020",
+   "name": "EVENT_WIFI_PROC_UnloadOv020",
    "address": "0x0215FA44",
    "kind": "game",
    "region": "ov010",

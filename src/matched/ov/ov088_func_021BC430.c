@@ -12,7 +12,7 @@
  * symbols:
  *   func_020070A4  0x020070A4  thumb
  *   CONFIG_GetBattleFlag  0x02008448  thumb
- *   BEACON_GetSlotStates  0x0200C31C  thumb
+ *   MISC_GetSlotStates  0x0200C31C  thumb
  *   SAVE_CONTROL_Reload  0x020070C8  thumb
  *   func_0200873C  0x0200873C  thumb
  *   CONFIG_ApplyTextLanguage  0x02008414  thumb
@@ -20,7 +20,7 @@
  *   GAMESYSTEM_SetupInitWork  0x02011EEC  thumb
  *   PROCSYS_ReplaceGlobal  0x020312F8  arm
  *   CONFIG_SetBattleFlag  0x02008450  thumb
- *   BEACON_SetSlotStates  0x0200C324  thumb
+ *   MISC_SetSlotStates  0x0200C324  thumb
  *   func_020315D4  0x020315D4  arm
  *   d_0209DF9C     0x0209DF9C  data  a4
  */
@@ -50,7 +50,7 @@ struct Sub02007084Ctrl;
 struct Sub02008700Obj;
 extern struct Sub02007084Ctrl *func_020070A4(void);
 extern unsigned int CONFIG_GetBattleFlag(int a0);
-extern u8 BEACON_GetSlotStates(struct Blk34 *p);
+extern u8 MISC_GetSlotStates(struct Blk34 *p);
 extern int SAVE_CONTROL_Reload(char *self);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern u8 CONFIG_ApplyTextLanguage(const struct Flags02008414 *p);
@@ -59,7 +59,7 @@ extern void func_0200890C(void *sys, struct Sub02008828Rec *dest);
 extern void *GAMESYSTEM_SetupInitWork(u32, u16, Rec12 *, int);
 extern void PROCSYS_ReplaceGlobal(u32 a1, u32 a2, u32 a3);
 extern void CONFIG_SetBattleFlag(struct Flags02008450 *p, int on);
-extern void BEACON_SetSlotStates(struct Blk34 *p, u8 v);
+extern void MISC_SetSlotStates(struct Blk34 *p, u8 v);
 struct Proc;
 extern void func_020315D4(struct Proc *);
 extern char d_0209DF9C[];
@@ -73,13 +73,13 @@ int STARTMENU_BattleFlagProcEnd(int a, int b, int c, u32 *q)
 
     r = func_020070A4();
     t = CONFIG_GetBattleFlag((int)((void *)q[1]));
-    h = BEACON_GetSlotStates((void *)q[3]);
+    h = MISC_GetSlotStates((void *)q[3]);
     SAVE_CONTROL_Reload(r);
     CONFIG_ApplyTextLanguage((const struct Flags02008414 *)func_0200873C(r));
     func_0200890C(r, (struct Sub02008828Rec *)(&s));
     PROCSYS_ReplaceGlobal(-1, (u32)d_0209DF9C, (u32)GAMESYSTEM_SetupInitWork(1, s.f0, &s.rec, s.f18));
     CONFIG_SetBattleFlag((void *)q[1], t);
-    BEACON_SetSlotStates((void *)q[3], h);
+    MISC_SetSlotStates((void *)q[3], h);
     func_020315D4((struct Proc *)a);
     return 1;
 }

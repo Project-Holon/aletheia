@@ -52,7 +52,7 @@
  *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   PMS_INPUT_VIEW_GetFont 0x021BAC44 thumb ov110
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
- *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
+ *   PRINTSYS_MeasureWidestLine 0x0201D304 thumb
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   PMS_INPUT_VIEW_GetUiRes 0x021BAC64 thumb ov110
  *   PMS_INPUT_VIEW_CreateActor 0x021BAC78 thumb ov110
@@ -91,8 +91,8 @@
  *   PMS_INPUT_GetWord 0x021BF6F0 thumb ov110
  *   PMS_INPUT_GetSentenceString 0x021BF708 thumb ov110
  *   STRBUF_GetChars 0x02045A90 arm
- *   GF_FONT_GetTagParam 0x0201D670 thumb
- *   GF_FONT_SkipTag 0x0201D688 thumb
+ *   PRINTSYS_GetTagParam 0x0201D670 thumb
+ *   PRINTSYS_SkipTag 0x0201D688 thumb
  *   BMP_FillRect 0x02043AF4 arm
  *   PMSI_PARAM_IsDecoWord 0x02024508 thumb
  *   PMSI_PARAM_GetDecoId 0x02024520 thumb
@@ -228,7 +228,7 @@ extern u32 PMS_INPUT_VIEW_GetFont(struct PmsInputView *view);
 
 extern struct Descriptor *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 
 extern void BMP_WIN_MakeScreen(struct Descriptor *window);
 
@@ -302,9 +302,9 @@ extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 
 extern void STRBUF_SetStringN(struct U16Vec *, const u16 *, u32);
 
-extern u32 GF_FONT_GetTagParam(const u16 *, u32);
+extern u32 PRINTSYS_GetTagParam(const u16 *, u32);
 
-extern u16 *GF_FONT_SkipTag(u16 *);
+extern u16 *PRINTSYS_SkipTag(u16 *);
 
 extern void BMP_FillRect(struct Bmp *b, u32 x, u32 y, u32 w, u32 h, u32 value);
 
@@ -645,7 +645,7 @@ int PMSIV_EDIT_DrawFreeText(struct PmsivEdit *p, struct Descriptor *window, u8 s
         case PMSIV_EDIT_TOKEN_TEXT:
             GF_FONT_SetTextColor(1, 2, 15);
             PRINTSYS_Print(BMP_WIN_GetBmp(window), x, y, run, (void *)font);
-            x += GF_FONT_MeasureWidestLine((struct StrObj *)run, font, 0);
+            x += PRINTSYS_MeasureWidestLine((struct StrObj *)run, font, 0);
             break;
         case PMSIV_EDIT_TOKEN_SLOT: {
             wordId = p->parser.slotWordId;
@@ -701,8 +701,8 @@ int PMSIV_EDIT_ParserNext(struct PmsivTextParser *parser, struct U16Vec *out)
         STRBUF_SetStringN(out, start, (parser->cursor - start) + 1);
         return PMSIV_EDIT_TOKEN_TEXT;
     case 1:
-        parser->slotWordId = GF_FONT_GetTagParam(start, 0);
-        parser->cursor = GF_FONT_SkipTag(parser->cursor);
+        parser->slotWordId = PRINTSYS_GetTagParam(start, 0);
+        parser->cursor = PRINTSYS_SkipTag(parser->cursor);
         token = PMSIV_EDIT_TOKEN_SLOT;
         break;
     case 2:

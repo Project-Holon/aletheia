@@ -21,11 +21,11 @@
  *   BTL_SERVER_FLOW_GetPokeParam 0x021C7CF4 thumb ov093
  *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
  *   BTL_POKEPARAM_TestTurnFlag 0x021D5BB0 thumb ov093
- *   BTL_FIELD_GetStaticSlotObject 0x021EF948 thumb ov093
+ *   BTL_FIELD_IsStaticSlotInUse 0x021EF948 thumb ov093
  *   HAND_WAZA_IsKeptOnSuspend  0x021E03E8  thumb  ov093
  *   gBtlEventVarStack 0x021F3ECC data a4
  *   gBtlEventEmptyString  0x021F3AB4  data
- *   SAVEDATA_PanicFail  0x02034714  arm
+ *   GF_PANIC_Fail  0x02034714  arm
  */
 #include "btl_event_types.h"
 
@@ -35,9 +35,9 @@ extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void *BTL_SERVER_FLOW_GetPokeParam(void *context, int pokeId);
 extern int BTL_POKEPARAM_HasSick(void *poke, int condition);
 extern int BTL_POKEPARAM_TestTurnFlag(void *poke, u32 condition);
-extern int BTL_FIELD_GetStaticSlotObject(int);
+extern int BTL_FIELD_IsStaticSlotInUse(int);
 extern int HAND_WAZA_IsKeptOnSuspend(void *factor, u32 *work);
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 void BTL_EVENT_InitFactorList(void);
 void BTL_EVENT_ClearSuspendedFlags(void);
 void BTL_EVENT_DebugPrintFactorList(void);
@@ -325,7 +325,7 @@ int BTL_EVENT_IsEventBlocked(void *context, struct BtlEventFactor *target, int e
     if (target->pokeId != BTL_EVENT_NO_POKE) poke = BTL_SERVER_FLOW_GetPokeParam(context, target->pokeId);
     if (target->factorType == 4 && poke != 0 && BTL_POKEPARAM_HasSick(poke, 0x10)) return 1;
     if (target->factorType == 5) {
-        if (BTL_FIELD_GetStaticSlotObject(7)) return 1;
+        if (BTL_FIELD_IsStaticSlotInUse(7)) return 1;
         if (poke != 0 && BTL_POKEPARAM_HasSick(poke, 0x13)) return 1;
         if (poke != 0 && BTL_POKEPARAM_TestTurnFlag(poke, 9)) return 1;
     }
@@ -441,7 +441,7 @@ void BTL_EVENT_PushVarFrame(int line)
     if (stack->frameTop < BTL_EVENT_VAR_MAX - 1) {
         stack->keys[stack->frameTop++] = 1;
     } else {
-        SAVEDATA_PanicFail(gBtlEventEmptyString, 0, gBtlEventEmptyString);
+        GF_PANIC_Fail(gBtlEventEmptyString, 0, gBtlEventEmptyString);
     }
 }
 

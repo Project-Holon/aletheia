@@ -74,8 +74,8 @@ typedef struct GFLNetInitializeStruct {
     u16   heapId;
     u16   wifiHeapId;
     u16   beaconHeapId;
-    u16   timeoutFrames;
-    u16   timeoutExtra;
+    u16   iconX;
+    u16   iconY;
     u8    maxConnectNum;
     u8    childSendSize;
     u8    friendListNum;

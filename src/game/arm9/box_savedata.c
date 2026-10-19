@@ -14,7 +14,7 @@
  *
  * symbols:
  *   GFL_HEAP_Alloc   0x02030734  arm
- *   SAVEDATA_PanicFail   0x02034714  arm
+ *   GF_PANIC_Fail   0x02034714  arm
  *   GFL_HEAP_Free       0x020307B0  arm
  *   _BoxEmptyString  0x020A7068  data
  *   SAVE_CONTROL_GetBlock       0x020071CC  thumb
@@ -76,7 +76,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u
 
 extern u32 GFL_HEAP_Free(void *memory);
 
-extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *message);
+extern void GF_PANIC_Fail(const char *file, u32 line, const char *message);
 
 extern u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *mon, u32 field, u32 arg);
 
@@ -231,7 +231,7 @@ int BOX_SAVEDATA_AddPokemonToBox(struct GameData *gameData, u32 box, const struc
     if (box == BOX_CURRENT) {
         box = header->currentBox;
     } else if (box >= header->usableBoxCount) {
-        SAVEDATA_PanicFail(_BoxEmptyString, 0, _BoxEmptyString);
+        GF_PANIC_Fail(_BoxEmptyString, 0, _BoxEmptyString);
     }
     for (slot = 0; slot < BOX_CAPACITY; slot++) {
         struct BoxPokemon *boxMons = BOX_SAVEDATA_GetBoxPokemon(gameData, box);
@@ -253,7 +253,7 @@ int BOX_SAVEDATA_AddPokemonToBox(struct GameData *gameData, u32 box, const struc
  * BOX_SAVEDATA_SetPokemon bounds the box index against the header byte at 0x3DD rather
  * than against the constant 0x18 the rest of the file uses, and that byte is
  * past every Thumb immediate, so it arrives as a pool word and a register
- * offset ldrb.  The failure arm passes 0x020A7068 twice to SAVEDATA_PanicFail,
+ * offset ldrb.  The failure arm passes 0x020A7068 twice to GF_PANIC_Fail,
  * the same empty string and the same three argument assert shape as
  * BOX_SAVEDATA_CountFreeSlotsInBox.
  *
@@ -275,7 +275,7 @@ int BOX_SAVEDATA_SetPokemon(struct GameData *gameData, u32 box, u32 slot, const 
         POKE_TOOL_RecoverBoxAllPP(&boxMons[slot]);
         return 1;
     }
-    SAVEDATA_PanicFail(_BoxEmptyString, 0, _BoxEmptyString);
+    GF_PANIC_Fail(_BoxEmptyString, 0, _BoxEmptyString);
     return 0;
 }
 
@@ -406,7 +406,7 @@ int BOX_SAVEDATA_FindFreeSlot(struct GameData *gameData, int *pBox, int *pSlot)
  * pointer is on the stack too.  The spill is register pressure.
  *
  * The failure path of BOX_SAVEDATA_CountFreeSlotsInBox passes the same pointer as the first and
- * the third argument of SAVEDATA_PanicFail, which is the shape of an assertion
+ * the third argument of GF_PANIC_Fail, which is the shape of an assertion
  * helper taking a file name twice; see
  * docs/idioms/file-string-is-an-abs32-into-the-string-area.md.
  */
@@ -439,7 +439,7 @@ int BOX_SAVEDATA_CountFreeSlotsInBox(struct GameData *gameData, u32 box)
         box = header->currentBox;
     }
     if (box >= MAX_BOXES) {
-        SAVEDATA_PanicFail(_BoxEmptyString, 0, _BoxEmptyString);
+        GF_PANIC_Fail(_BoxEmptyString, 0, _BoxEmptyString);
     }
     freeCount = 0;
     boxMons = BOX_SAVEDATA_GetBoxPokemon(gameData, box);
@@ -518,7 +518,7 @@ void BOX_SAVEDATA_GetBoxName(struct GameData *gameData, u32 box, struct Strbuf *
         STRBUF_SetString(dest, header->names[box].chars);
         return;
     }
-    SAVEDATA_PanicFail(_BoxEmptyString, 0, _BoxEmptyString);
+    GF_PANIC_Fail(_BoxEmptyString, 0, _BoxEmptyString);
 }
 
 void BOX_SAVEDATA_SetBoxName(struct GameData *gameData, u32 box, const struct Strbuf *name)
@@ -554,7 +554,7 @@ int BOX_SAVEDATA_CountPokemonInBox(struct GameData *gameData, u32 box)
         }
         return count;
     }
-    SAVEDATA_PanicFail(_BoxEmptyString, 0, _BoxEmptyString);
+    GF_PANIC_Fail(_BoxEmptyString, 0, _BoxEmptyString);
     return 0;
 }
 
@@ -580,7 +580,7 @@ int BOX_SAVEDATA_CountNonEggPokemonInBox(struct GameData *gameData, u32 box)
         }
         return count;
     }
-    SAVEDATA_PanicFail(_BoxEmptyString, 0, _BoxEmptyString);
+    GF_PANIC_Fail(_BoxEmptyString, 0, _BoxEmptyString);
     return 0;
 }
 
@@ -630,10 +630,10 @@ int BOX_SAVEDATA_GetPokemonValue(struct GameData *gameData, u32 box, u32 slot, i
     struct BoxSaveHeader *header = BOX_SAVEDATA_GetHeader(gameData);
 
     if (box >= MAX_BOXES && box != BOX_CURRENT) {
-        SAVEDATA_PanicFail(_BoxEmptyString, 0, _BoxEmptyString);
+        GF_PANIC_Fail(_BoxEmptyString, 0, _BoxEmptyString);
     }
     if (slot >= BOX_CAPACITY) {
-        SAVEDATA_PanicFail(_BoxEmptyString, 0, _BoxEmptyString);
+        GF_PANIC_Fail(_BoxEmptyString, 0, _BoxEmptyString);
     }
     if (box == BOX_CURRENT) {
         box = header->currentBox;
@@ -646,10 +646,10 @@ struct BoxPokemon *BOX_SAVEDATA_GetPokemon(struct GameData *gameData, u32 box, u
     struct BoxSaveHeader *header = BOX_SAVEDATA_GetHeader(gameData);
 
     if (box >= MAX_BOXES && box != BOX_CURRENT) {
-        SAVEDATA_PanicFail(_BoxEmptyString, 0, _BoxEmptyString);
+        GF_PANIC_Fail(_BoxEmptyString, 0, _BoxEmptyString);
     }
     if (slot >= BOX_CAPACITY) {
-        SAVEDATA_PanicFail(_BoxEmptyString, 0, _BoxEmptyString);
+        GF_PANIC_Fail(_BoxEmptyString, 0, _BoxEmptyString);
     }
     if (box == BOX_CURRENT) {
         box = header->currentBox;

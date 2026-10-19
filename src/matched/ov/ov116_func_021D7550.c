@@ -38,8 +38,8 @@
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
  *   DWC_GetDateTime 0x02167ED8 arm ov009
- *   GDS_PROFILE_GetScoreRecLevel  0x0200DC08  thumb  arm9
- *   GDS_PROFILE_QuerySubwaySaveBit  0x0200DDD0  thumb  arm9
+ *   BSUBWAY_SCOREDATA_GetLevel  0x0200DC08  thumb  arm9
+ *   BSUBWAY_WIFIDATA_GetTrainerBit  0x0200DDD0  thumb  arm9
  */
 #include "../include/Obj00494.h"
 typedef unsigned char u8;
@@ -47,7 +47,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int     s32;
 struct Blk1AC;
-extern u8 GDS_PROFILE_GetScoreRecLevel(struct Blk1AC *p);
+extern u8 BSUBWAY_SCOREDATA_GetLevel(struct Blk1AC *p);
 extern void WIFI_BSUBWAY_StartRoomRequest(u8 *,u8 *,u16),WIFI_BSUBWAY_StartPlayerDownload(u8 *,u8 *,u16);
 extern int WIFI_BSUBWAY_FinishRoomRequest(u8 *,u8 *),WIFI_BSUBWAY_FinishPlayerDownload(u8 *,u8 *);
 extern u16 WIFI_BSUBWAY_GetRoomNumber(u8 *),WIFI_BSUBWAY_GetPlayerIndex(u8 *),WIFI_BSUBWAY_GetDownloadResult(u8 *);
@@ -70,7 +70,7 @@ extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern int DWC_GetDateTime(void *date, void *time);
 struct BlkB90;
 struct Stamp;
-extern int GDS_PROFILE_QuerySubwaySaveBit(struct BlkB90 *p, u8 a, u8 b, const struct Stamp *q);
+extern int BSUBWAY_WIFIDATA_GetTrainerBit(struct BlkB90 *p, u8 a, u8 b, const struct Stamp *q);
 int WIFI_BSUBWAY_GRAPHIC_StepWithInput(u8 *p,int heap)
 {
     int v,box;
@@ -78,7 +78,7 @@ int WIFI_BSUBWAY_GRAPHIC_StepWithInput(u8 *p,int heap)
     u8 extra[12];
     u8 record[16];
     switch(((struct Obj00494 *)p)->fB6C) {
-    case 0: WIFI_BSUBWAY_StartRoomRequest(p+0xb74,p+0x182c,(u32)GDS_PROFILE_GetScoreRecLevel(((struct Obj00494 *)p)->f1858)); ++((struct Obj00494 *)p)->fB6C; break;
+    case 0: WIFI_BSUBWAY_StartRoomRequest(p+0xb74,p+0x182c,(u32)BSUBWAY_SCOREDATA_GetLevel(((struct Obj00494 *)p)->f1858)); ++((struct Obj00494 *)p)->fB6C; break;
     case 1: if(WIFI_BSUBWAY_FinishRoomRequest(p+0xb74,p+0x182c)!=0) ++((struct Obj00494 *)p)->fB6C; break;
     case 2:
         WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon(p+4); v=WIFI_BSUBWAY_GetDownloadResult(p+0xb74);
@@ -93,7 +93,7 @@ int WIFI_BSUBWAY_GRAPHIC_StepWithInput(u8 *p,int heap)
             box=WIFI_BSUBWAY_GetRoomNumber(p+0xb74); n=((struct Obj00494 *)p)->fB70; v=WIFI_BSUBWAY_GetDownloadResult(p+0xb74);
             DWC_GetDateTime(record,extra);
             if(n<1 || n>(u32)v) { ((struct Obj00494 *)p)->fB6C=16; break; }
-            if(GDS_PROFILE_QuerySubwaySaveBit(((struct Obj00494 *)p)->f1854,box,n,(const struct Stamp *)record)!=0) { ((struct Obj00494 *)p)->fB6C=14; break; }
+            if(BSUBWAY_WIFIDATA_GetTrainerBit(((struct Obj00494 *)p)->f1854,box,n,(const struct Stamp *)record)!=0) { ((struct Obj00494 *)p)->fB6C=14; break; }
             WIFI_BSUBWAY_StartPlayerDownload(p+0xb74,p+0x182c,((struct Obj00494 *)p)->fB70);
             v=WIFI_BSUBWAY_GetPlayerIndex(p+0xb74); WIFI_BSUBWAY_GRAPHIC_SetWord(p+4,0,v,(u32)WIFI_BSUBWAY_GetTransferState(p+0xb74));
             WIFI_BSUBWAY_GRAPHIC_SetWord(p+4,1,WIFI_BSUBWAY_GetRoomNumber(p+0xb74),(u32)((void *)2)); WIFI_BSUBWAY_GRAPHIC_PrintMessage(p+4,1); WIFI_BSUBWAY_GRAPHIC_CreateTimeIcon(p+4); ++((struct Obj00494 *)p)->fB6C;

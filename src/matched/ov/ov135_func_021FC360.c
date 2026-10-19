@@ -14,7 +14,7 @@
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   CLACT_SetActorBgPriority 0x0204B84C arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  */
 #include "../include/Obj03298.h"
 typedef unsigned char u8;
@@ -29,7 +29,7 @@ extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_SetActorBgPriority(void *, int);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 void WORLDTRADE_DETAIL_CreateActors(char *p)
 {
     ObjPos pos;
@@ -41,5 +41,5 @@ void WORLDTRADE_DETAIL_CreateActors(char *p)
     CLACT_SetActorAnimSeq(((struct Obj03298 *)p)->fD08, 0x24);
     CLACT_SetActorBgPriority(((struct Obj03298 *)p)->fD08, 1);
     CLACT_SetActorDrawEnable(((struct Obj03298 *)p)->fD08, 1);
-    GFL_NET_RestartWithDefaultTimeout(0, 0x48);
+    GFL_NET_RefreshWmIconAtTopRight(0, 0x48);
 }

@@ -13,10 +13,10 @@
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
- *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   BMP_Clear  0x02043B5C  arm
  *   BMP_WIN_TransferChars  0x02045334  arm
- *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
+ *   GAME_DATA_GetMyStatusPlayer  0x02012950  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
@@ -59,10 +59,10 @@ struct Descriptor;
 void *BMP_WIN_GetBmp(struct Descriptor *a0);
 u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
-u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+u8 GAME_DATA_GetOwnNetId(const struct BigObj *p);
 void BMP_Clear(struct CharBuf *buf, u8 value);
 void BMP_WIN_TransferChars(struct Descriptor *a0);
-struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, u32 i);
+struct Rec44 *GAME_DATA_GetMyStatusPlayer(struct Sub24 *p, u32 i);
 void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
@@ -82,7 +82,7 @@ void INTRUDE_SUBDISP_PrintTitle(Obj *p)
     }
     if (GAME_DATA_GetIntrudeCount((const struct BigObj *)h) == 1) {
         v = p->fD8;
-        if (v == GAME_DATA_GetExitMode((const struct BigObj *)h)) {
+        if (v == GAME_DATA_GetOwnNetId((const struct BigObj *)h)) {
             mode = 2;
             anim = 0x43;
         } else {
@@ -102,7 +102,7 @@ void INTRUDE_SUBDISP_PrintTitle(Obj *p)
         return;
     }
     if (mode >= 3 && mode <= 6) {
-        WORDSET_SetSlotMyStatus((struct WordSet *)p->f24, 0, GAME_DATA_GetPlayerStatus((struct Sub24 *)h, p->fD8));
+        WORDSET_SetSlotMyStatus((struct WordSet *)p->f24, 0, GAME_DATA_GetMyStatusPlayer((struct Sub24 *)h, p->fD8));
     }
     MSGDATA_ReadString((struct MsgBank *)p->f2C, anim, (void *)p->f38);
     WORDSET_CopyTaggedText((struct WordSet *)p->f24, (void *)p->f40, (void *)p->f38);

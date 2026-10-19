@@ -1,5 +1,5 @@
 /*
- * function: B_PLIST_DRAW_LayoutMode7
+ * function: B_PLIST_DRAW_LayoutMoveDetailWithNewMovePage
  * address: 0x0220EECC
  * packet: pkt_ov198_0220EECC
  * region: ov198
@@ -44,7 +44,7 @@ extern void B_PLIST_DRAW_SwapActorPair(char *,u8 *,Pair *);
 extern void B_PLIST_DRAW_SetActorAnimByMode(u32 mode, u8 *p, const struct Vec2 *q);
 extern void B_PLIST_DRAW_TransferCharacterToggle(char *,int,int,int);
 extern u32 WAZA_TOOL_GetParam(u16 id, u32 field);
-void B_PLIST_DRAW_LayoutMode7(u8 *p)
+void B_PLIST_DRAW_LayoutMoveDetailWithNewMovePage(u8 *p)
 {
     int i;
     u8 *rec;

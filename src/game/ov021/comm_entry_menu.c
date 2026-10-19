@@ -54,7 +54,7 @@
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_HANDLE_IsNegotiationDone  0x020399B8  arm
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
- *   GFL_NET_NotifyUserEvent  0x0203D1E8  arm
+ *   GFL_NET_SetAcceptConnection  0x0203D1E8  arm
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
  *   GFL_NET_IsConnectMember  0x0203D1C0  arm
  *   MATH_CountPopulation  0x02080D24  arm
@@ -490,7 +490,7 @@ extern u32 KEY_GetTrg(void);
 extern GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_HANDLE_IsNegotiationDone(GFLNetHandle *handle);
 extern int GFL_NET_GetNegotiationNum(void);
-extern void GFL_NET_NotifyUserEvent(GFLNetHandle *handle, void *arg);
+extern void GFL_NET_SetAcceptConnection(GFLNetHandle *handle, void *arg);
 extern u32 GFL_NET_GetHandleNetID(GFLNetHandle *handle);
 extern u32 GFL_NET_IsConnectMember(u32 netId);
 extern u32 MATH_CountPopulation(int bits);
@@ -822,7 +822,7 @@ int COMM_ENTRY_MENU_MainRecruit(CommEntryMenu *menu)
     case RECRUIT_CONFIRM_START:
         count = COMM_ENTRY_MENU_ProcessCancel(menu);
         if (count == 1) {
-            GFL_NET_NotifyUserEvent(GFL_NET_HANDLE_GetCurrentHandle(), 0);
+            GFL_NET_SetAcceptConnection(GFL_NET_HANDLE_GetCurrentHandle(), 0);
             menu->state = RECRUIT_SEND_READY_REQUEST;
         } else if (count == 2) {
             if (COMM_ENTRY_MENU_CountAcceptedMembers(menu) >= menu->maxMembers) {
@@ -840,7 +840,7 @@ int COMM_ENTRY_MENU_MainRecruit(CommEntryMenu *menu)
     case RECRUIT_CONFIRM_QUIT:
         count = COMM_ENTRY_MENU_ProcessStartConfirm(menu);
         if (count == 1) {
-            GFL_NET_NotifyUserEvent(GFL_NET_HANDLE_GetCurrentHandle(), 0);
+            GFL_NET_SetAcceptConnection(GFL_NET_HANDLE_GetCurrentHandle(), 0);
             menu->state = RECRUIT_SEND_QUIT;
         } else if (count == 2) {
             menu->state = RECRUIT_COLLECT;

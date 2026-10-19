@@ -39,9 +39,9 @@
  *   func_02008550 0x02008550 thumb
  *   func_02008554 0x02008554 thumb
  *   CURSOR_MOVE_GetTableGroup 0x02025C88 thumb
- *   MISC_SAVEDATA_CopyQuadRecord 0x0200E6FC thumb
- *   GDS_PROFILE_GetScoreRecScore 0x0200DCF8 thumb
- *   GDS_PROFILE_GetScoreRecBlob 0x0200DC74 thumb
+ *   GREETING_SAVEDATA_GetSentence 0x0200E6FC thumb
+ *   BSUBWAY_SCOREDATA_GetRecordScore 0x0200DCF8 thumb
+ *   BSUBWAY_SCOREDATA_GetRecordBlob 0x0200DC74 thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -68,9 +68,9 @@ extern u8 func_02008570(const struct Sub0200852CObj *obj);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern u32 CURSOR_MOVE_GetTableGroup(u32);
-extern void MISC_SAVEDATA_CopyQuadRecord(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
-extern u16 GDS_PROFILE_GetScoreRecScore(struct Blk1AC *p);
-extern void GDS_PROFILE_GetScoreRecBlob(struct Blk1AC *p, u32 which, void *dest);
+extern void GREETING_SAVEDATA_GetSentence(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
+extern u16 BSUBWAY_SCOREDATA_GetRecordScore(struct Blk1AC *p);
+extern void BSUBWAY_SCOREDATA_GetRecordBlob(struct Blk1AC *p, u32 which, void *dest);
 void WIFI_BSUBWAY_BuildProfile(u8 *p, void *save, void *idx)
 {
     void *profile, *n, *object;
@@ -90,8 +90,8 @@ void WIFI_BSUBWAY_BuildProfile(u8 *p, void *save, void *idx)
     ((Bits *)(p + 0xd4))->b = (u8)(u32)func_02008550(idx);
     p[0xd5] = func_02008554(idx);
     p[0xd5] = CURSOR_MOVE_GetTableGroup(p[0xd5]);
-    for (i = 0; i < 3; i++) MISC_SAVEDATA_CopyQuadRecord(object, i + 1, (struct Rec0200E6FC *)(p + 0xd6 + i * 8));
-    MISC_SAVEDATA_CopyQuadRecord(object, 4, (struct Rec0200E6FC *)(p + 0xcc));
-    *(u16 *)(p + 0xee) = GDS_PROFILE_GetScoreRecScore(n);
-    GDS_PROFILE_GetScoreRecBlob(n, 1, p);
+    for (i = 0; i < 3; i++) GREETING_SAVEDATA_GetSentence(object, i + 1, (struct Rec0200E6FC *)(p + 0xd6 + i * 8));
+    GREETING_SAVEDATA_GetSentence(object, 4, (struct Rec0200E6FC *)(p + 0xcc));
+    *(u16 *)(p + 0xee) = BSUBWAY_SCOREDATA_GetRecordScore(n);
+    BSUBWAY_SCOREDATA_GetRecordBlob(n, 1, p);
 }

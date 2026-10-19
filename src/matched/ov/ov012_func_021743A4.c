@@ -37,7 +37,7 @@
  *   UNION_COMMAND_SendAppLeaveData  0x02174084  thumb  ov012
  *   UNION_APP_AddSelfToJoined  0x021840AC  thumb  ov022
  *   UNION_COMM_SetGameKindByStatus  0x021736E0  thumb  ov012
- *   GFL_NET_NotifyUserEvent  0x0203D1E8  arm
+ *   GFL_NET_SetAcceptConnection  0x0203D1E8  arm
  *   GFL_NET_SetLoginOption  0x0203D7BC  arm
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
@@ -132,7 +132,7 @@ extern int UNION_APP_IsAllEntriesReceived(u8 *p);
 extern int   UNION_COMMAND_SendAppLeaveData(u8 a, u32 b);
 extern void UNION_APP_AddSelfToJoined(u8 *s);
 extern void UNION_COMM_SetGameKindByStatus(unsigned int x);
-extern void GFL_NET_NotifyUserEvent(u32 unused, void *arg);
+extern void GFL_NET_SetAcceptConnection(u32 unused, void *arg);
 extern void GFL_NET_SetLoginOption(u8 a0);
 extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
 extern u32 GAMESYSTEM_GetProcStatus(const struct Ctx *p);
@@ -226,7 +226,7 @@ int UNION_SCENE_StepGroupActivity(u32 a0, Self *self, u32 a2, u32 a3, void *obj,
         break;
     case 12:
         if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 10, 0x14) == 1) {
-            GFL_NET_NotifyUserEvent((u32)GFL_NET_HANDLE_GetCurrentHandle(), (void *)1);
+            GFL_NET_SetAcceptConnection((u32)GFL_NET_HANDLE_GetCurrentHandle(), (void *)1);
             *state = 13;
         }
         break;

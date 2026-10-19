@@ -1,5 +1,5 @@
 /*
- * function: FIELD_CAMERA_SetG3dRoll
+ * function: FIELD_CAMERA_SetG3dFar
  * address:  0x0218EC7C
  * packet:   pkt_ov021_0218EC7C
  * region:   ov021
@@ -24,7 +24,7 @@ typedef signed int     s32;
 struct Light;
 extern void G3D_CAMERA_SetFar(struct Light *l, const u32 *in);
 
-void FIELD_CAMERA_SetG3dRoll(u8 *a, u32 first, ...)
+void FIELD_CAMERA_SetG3dFar(u8 *a, u32 first, ...)
 {
     G3D_CAMERA_SetFar((struct Light *)(((struct Obj19563 *)a)->fC), &first);
 }

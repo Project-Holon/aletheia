@@ -23,7 +23,7 @@
  *   UNION_MAIN_GetAppealNo  0x02173940  thumb  ov012
  *   UNION_SUBDISP_DrawVisibleChatLines  0x021F09A0  thumb  ov031
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   GFL_NET_WM_ICON_EasyObjWindowOn  0x02037174  arm
  *   sUnionSubdispFileName   0x021F10C0  data  ov031  a1
  *   sUnionSubdispAppealNo     0x021F1038  data  ov031  a1
@@ -89,7 +89,7 @@
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   PMS_DRAW_IsPrintEnd  0x0202DC98  thumb
  *   UNION_CHAT_LOG_GetLine  0x021BBC2C  thumb  ov021
- *   SAVEDATA_PanicFail  0x02034714  arm
+ *   GF_PANIC_Fail  0x02034714  arm
  *   sUnionSubdispEmptyStr     0x021F10D0  data  a4
  *   BG_SYS_FillTileMap  0x020413B0  arm
  *   BG_SYS_MarkTileDirty  0x02041B6C  arm
@@ -141,7 +141,7 @@ extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *pmsDraw, u8 v);
 extern UnionRoomWork *GAME_COMM_GetWork(struct GameComm *gameComm);
 extern u8 UNION_MAIN_GetAppealNo(UnionRoomWork *work);
 extern void CLACT_SetActorPaletteOffset(struct ClactActor *actor, u32 v, u32 flag);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void GFL_NET_WM_ICON_EasyObjWindowOn(void);
 extern void PMS_DRAW_Delete(struct PmsDraw *pmsDraw);
 extern u32 GFL_HEAP_Free(void *p);
@@ -276,7 +276,7 @@ enum {
 
 extern u32 PMS_DRAW_IsPrintEnd(struct PmsDraw *pmsDraw);
 extern UnionChatEntry *UNION_CHAT_LOG_GetLine(UnionChatLog *log, u32 index);
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void BG_SYS_MarkTileDirty(u32 bit);
 extern u32 PMS_DRAW_IsActive(const struct PmsDraw *pmsDraw, u32 id);
@@ -318,7 +318,7 @@ extern const char sUnionSubdispEmptyStr[];
 extern const UnionSubdispTextOffset sUnionSubdispChatTextOffset;
 
 /* Both arguments of the assertion failure call are the empty string of the build. */
-#define UNION_SUBDISP_ASSERT_FAIL() SAVEDATA_PanicFail(sUnionSubdispEmptyStr, 0, sUnionSubdispEmptyStr)
+#define UNION_SUBDISP_ASSERT_FAIL() GF_PANIC_Fail(sUnionSubdispEmptyStr, 0, sUnionSubdispEmptyStr)
 
 /*
  * The 0/1 flag the loop tests (movs r0,#1 / movs r0,#0 / cmp r0,#0) is a
@@ -384,7 +384,7 @@ UnionSubdispWork *UNION_SUBDISP_Create(struct GameSystem *gameSystem)
             }
         }
     }
-    GFL_NET_RestartWithDefaultTimeout(0, UNION_SUBDISP_HEAP_ID);
+    GFL_NET_RefreshWmIconAtTopRight(0, UNION_SUBDISP_HEAP_ID);
     GFL_NET_WM_ICON_EasyObjWindowOn();
     REG_WINOUT_SUB = (u16)((REG_WINOUT_SUB & ~0x3F00) | (0x1F << 8));
     winOut = (REG_WINOUT_SUB & ~0x3F) | 0x1F;

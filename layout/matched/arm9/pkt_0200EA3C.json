@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "MISC_SAVEDATA_SnapshotParty",
+   "name": "DENDOU_SAVEDATA_SetRecord",
    "address": "0x0200EA3C",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "MISC_SAVEDATA_AppendPartyRecord",
+   "name": "DENDOU_SAVEDATA_AppendRecord",
    "address": "0x0200EBD0",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "MISC_SAVEDATA_FindFreeRecordSlot",
+   "name": "DENDOU_SAVEDATA_GetMemberCount",
    "address": "0x0200EC14",
    "kind": "game",
    "region": "arm9",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "MISC_SAVEDATA_ExportRecord",
+   "name": "DENDOU_SAVEDATA_ExportMember",
    "address": "0x0200EC2C",
    "kind": "game",
    "region": "arm9",

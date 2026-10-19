@@ -1,5 +1,5 @@
 /*
- * function: BMP_OAM_GetNumRecords
+ * function: NATION_AREA_GetNationRecordCount
  * address: 0x02025B38
  * packet: pkt_02025B38
  * region: arm9
@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  */
-int BMP_OAM_GetNumRecords(void)
+int NATION_AREA_GetNationRecordCount(void)
 {
     return 19;
 }

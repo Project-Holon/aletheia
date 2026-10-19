@@ -59,9 +59,9 @@ Data mode for the ARM9 static module (tools/arm9data.py writes the companions):
 .rodata and .data (0x0209D870..SDK_STATIC_BSS_START) follow each other in one
 segment (datalink.json "nosinit"), .bss is the third segment.  Only the sections
 listed in "own" and those of the companions go to the tail; crt0's own .rodata and
-the dead statics are placed as in the plain link.  A "fixed" companion (crt0.zfix:
-_start_BuildParams and the .version strings; sha1.zfix: the SHA-1 constants) links
-at its address between the code files.  The zero padding after a Thumb file is made
+the dead statics are placed as in the plain link.  _start_BuildParams (with the
+.version strings, crt0.c) and the SHA-1 constants (sha1.c) are source and are placed
+by their header symbols like crt0's other .rodata; "fixed" in datalink.json is empty.  The zero padding after a Thumb file is made
 by the linker (ALIGN(4)).  An own section lying inside a bigger one is parked.
 Left to the image: the secure area gaps (0x02004000..0x02004800).
 
@@ -790,8 +790,8 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
         t["tail_secs"] = []
         if data_tail and ovid == "arm9_main":
             # arm9_main data mode: the sections listed in datalink.json "own" and every
-            # section of a companion go to the tail; a "fixed" companion (crt0.zfix,
-            # sha1.zfix) links at its address; the other sections of a code file (crt0's
+            # section of a companion go to the tail; a "fixed" companion (none
+            # now) links at its address; the other sections of a code file (crt0's
             # own .rodata inside the code range, dead statics) are placed as in the plain link
             if t["stem"] in data_fixed:
                 pass

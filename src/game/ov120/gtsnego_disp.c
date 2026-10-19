@@ -154,7 +154,7 @@
  *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
  *   d_021D88EC 0x021D88EC data a4
  *   GFL_NET_ERR_SetKeepDark 0x0200F7E8 thumb
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   GFL_NET_ERR_GetErrorLevel 0x0200FB24 thumb
  *   APP_TASKMENU_WIN_Update 0x02028178 thumb
  *   APP_TASKMENU_UpdateMenu 0x02027974 thumb
@@ -256,13 +256,13 @@
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
  *   MYSTATUS_Copy  0x02008494  thumb  arm9
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
- *   MISC_SAVEDATA_CopyQuadRecord  0x0200E6FC  thumb  arm9
+ *   GREETING_SAVEDATA_GetSentence  0x0200E6FC  thumb  arm9
  *   MET_TRAINERS_Insert  0x0200ED54  thumb  arm9
  *   GAME_DATA_GetWifiList  0x0201283C  thumb  arm9
- *   GAME_DATA_GetPlayerStatusById  0x02012950  thumb  arm9
- *   SAVEDATA_GetExtraBlockThunk  0x0200E6E8  thumb  arm9
+ *   GAME_DATA_GetMyStatusPlayer  0x02012950  thumb  arm9
+ *   GREETING_SAVEDATA_GetFromSaveThunk  0x0200E6E8  thumb  arm9
  *   MYSTATUS_NameFromStrbuf  0x020084E4  thumb  arm9
- *   MYSTATUS_GetOutfit  0x02008554  thumb  arm9
+ *   MYSTATUS_GetTrainerView  0x02008554  thumb  arm9
  */
 #include "ov120_types.h"
 struct GtsnegoDispCtx;
@@ -446,7 +446,7 @@ extern void GTSNEGO_MSG_PrintTooltip(char *p, u16 n);
 extern void GTSNEGO_MSG_DeleteEntryWindow(char *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u32 MYSTATUS_GetId(const struct Sub0200852CObj *obj);
-extern u8 MYSTATUS_GetOutfit(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetTrainerView(const struct Sub0200852CObj *obj);
 extern void GTSNEGO_MSG_PrintSummary(char *p, void *q, u32 n);
 extern void GTSNEGO_MSG_SetIdleAnim(u8 *p, int n);
 extern int DWC_CheckProfanityProcess(void);
@@ -456,7 +456,7 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void MYSTATUS_NameFromStrbuf(u16 *out, struct U16Vec *vec);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
-extern struct Rec44 *GAME_DATA_GetPlayerStatusById(struct Sub24 *p, u32 i);
+extern struct Rec44 *GAME_DATA_GetMyStatusPlayer(struct Sub24 *p, u32 i);
 extern void MYSTATUS_Copy(void *src, void *dst);
 extern void *MET_TRAINERS_GetFromSave(void *p);
 extern void MET_TRAINERS_Insert(struct L0200ED54 *l, u32 val);
@@ -471,8 +471,8 @@ extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *,u32,u32);
 extern int GFL_NET_SendToHandle(void *,u16,u16,u32);
 extern int GTSNEGO_MSG_UpdatePrintStream(char *p);
 extern int GFL_NET_HANDLE_GetNegotiationNum(void);
-extern void *SAVEDATA_GetExtraBlockThunk(u32 a);
-extern void MISC_SAVEDATA_CopyQuadRecord(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
+extern void *GREETING_SAVEDATA_GetFromSaveThunk(u32 a);
+extern void GREETING_SAVEDATA_GetSentence(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
 extern void *GAME_DATA_GetTradeHistory(void **h);
 extern u32 TRADE_HISTORY_GetTradeCount(const struct Sub02009D9CObj *obj);
 extern int GFL_NET_HANDLE_CheckNegotiation(void);
@@ -569,7 +569,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 extern void GFL_NET_COMMAND_AddCommandTable(u32, u32, u32, u32);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32, u32);
-extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32, u32);
 extern void GFL_NET_ERR_SetKeepDark(u32 value);
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern void APP_TASKMENU_WIN_Update(u8 *p);
@@ -928,7 +928,7 @@ void GTSNEGO_DISP_ShowTradeConfirm(struct GtsnegoDispCtx *dispCtx)
             ((struct GtsnegoParentCtx *)parentCtx)->recentIdCount = 0;
     }
     GTSNEGO_MSG_PrintSummary((char *)(*(int *)&dispCtx->msgCtx), (void *)value, tradeCount);
-    GTSNEGO_MSG_SetIdleAnim((u8 *)(*(int *)&dispCtx->actorSys), MYSTATUS_GetOutfit((const struct Sub0200852CObj *)value));
+    GTSNEGO_MSG_SetIdleAnim((u8 *)(*(int *)&dispCtx->actorSys), MYSTATUS_GetTrainerView((const struct Sub0200852CObj *)value));
     dispCtx->waitFrames = 0xb4;
     GTSNEGO_DISP_SetStateCallback(((int *)dispCtx), GTSNEGO_DISP_WaitTradeStart, 0x265);
 }
@@ -955,7 +955,7 @@ void GTSNEGO_DISP_ConfirmStatus(struct GtsnegoDispCtx *dispCtx)
             MYSTATUS_NameFromStrbuf((u16 *)value, text);
             STRBUF_Delete(text);
         }
-        MYSTATUS_Copy((void *)value, GAME_DATA_GetPlayerStatusById((struct Sub24 *)(*(int *)&dispCtx->gameData), 1 - GFL_NET_SYSTEM_GetCurrentAid()));
+        MYSTATUS_Copy((void *)value, GAME_DATA_GetMyStatusPlayer((struct Sub24 *)(*(int *)&dispCtx->gameData), 1 - GFL_NET_SYSTEM_GetCurrentAid()));
         result = MYSTATUS_GetId((const struct Sub0200852CObj *)value);
         MET_TRAINERS_Insert(MET_TRAINERS_GetFromSave((void *)(*(int *)&dispCtx->saveControl)), result);
         GTSNEGO_DISP_SetStateCallback(((int *)dispCtx), GTSNEGO_DISP_ShowTradeConfirm, 0x283);
@@ -1055,10 +1055,10 @@ void GTSNEGO_DISP_WaitNegotiation(u8 *dispCtx)
         }
         if (GFL_NET_HANDLE_GetNegotiationNum() == 2) {
             parentCtx = *(u8 * *)&((struct GtsnegoDispCtx *)dispCtx)->parentCtx;
-            value = (int)SAVEDATA_GetExtraBlockThunk(*(int *)&((struct GtsnegoDispCtx *)dispCtx)->saveControl);
+            value = (int)GREETING_SAVEDATA_GetFromSaveThunk(*(int *)&((struct GtsnegoDispCtx *)dispCtx)->saveControl);
             *(int *)&((struct GtsnegoParentCtx *)parentCtx)->rowAIndex = ((struct GtsnegoDispCtx *)dispCtx)->rowAIndex;
             *(int *)&((struct GtsnegoParentCtx *)parentCtx)->rowBIndex = ((struct GtsnegoDispCtx *)dispCtx)->rowBIndex;
-            MISC_SAVEDATA_CopyQuadRecord((struct Rec0200E6FC *)value, 0, (struct Rec0200E6FC *)(dispCtx + 0x168));
+            GREETING_SAVEDATA_GetSentence((struct Rec0200E6FC *)value, 0, (struct Rec0200E6FC *)(dispCtx + 0x168));
             ((struct GtsnegoDispCtx *)dispCtx)->myTradeCount = TRADE_HISTORY_GetTradeCount(GAME_DATA_GetTradeHistory((void **)(*(int *)&((struct GtsnegoDispCtx *)dispCtx)->gameData)));
             GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 2, 0x22);
             GTSNEGO_DISP_SetStateCallback(((int *)dispCtx), GTSNEGO_DISP_SendHandshake, 0x314);
@@ -2127,7 +2127,7 @@ int GTSNEGO_DISP_Create(void *owner, int unused, u8 *parentCtx)
         GFL_NET_COMMAND_AddCommandTable(0x2200, (u32)d_021D88EC, 3, (u32)dispCtx);
     WIPE_SYS_Start(0, 1, 1, 0, 6, 1, ((struct GtsnegoDispCtx *)dispCtx)->heapId);
     GFL_USE_CancelChangeAndPlayBgm(0x486, 0xffff);
-    GFL_NET_RestartWithDefaultTimeout(1, ((struct GtsnegoDispCtx *)dispCtx)->heapId);
+    GFL_NET_RefreshWmIconAtTopRight(1, ((struct GtsnegoDispCtx *)dispCtx)->heapId);
     GFL_NET_ERR_SetKeepDark(1);
     GTSNEGO_DISP_SetStateCallback(dispCtx, GTSNEGO_DISP_ShowPartySelect, 0x96a);
     return 1;

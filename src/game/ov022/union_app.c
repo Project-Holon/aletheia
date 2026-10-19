@@ -32,10 +32,10 @@
  *   UNION_COMMAND_SendAppData 0x02174010 thumb ov012
  *   UNION_COMM_RemoveMember  0x02173614  thumb  ov012
  *   MI_CpuCopy8  0x02082D44  arm
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
- *   MYSTATUS_GetOutfit  0x02008554  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
+ *   MYSTATUS_GetTrainerView  0x02008554  thumb
  *   UNION_COMM_AddMember  0x0217357C  thumb  ov012
- *   GFL_NET_NotifyUserEvent  0x0203D1E8  arm
+ *   GFL_NET_SetAcceptConnection  0x0203D1E8  arm
  *   GFL_NET_GetRunState 0x0203CD98 arm
  */
 typedef unsigned char u8;
@@ -69,10 +69,10 @@ extern u32 UNION_COMMAND_SendAppQuitAccept(u32 a);
 extern u32 UNION_COMMAND_SendAppData(u32 a, void *p);
 extern void UNION_COMM_RemoveMember(UnionConnectInfo *connect, const u8 *mac);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 len);
-extern u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
-extern u8 MYSTATUS_GetOutfit(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetSex(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetTrainerView(const struct Sub0200852CObj *obj);
 extern int UNION_COMM_AddMember(UnionConnectInfo *connect, const u8 *mac, u32 a2, u32 a3);
-extern void GFL_NET_NotifyUserEvent(u32 unused, void *arg);
+extern void GFL_NET_SetAcceptConnection(u32 unused, void *arg);
 extern int GFL_NET_GetRunState(void);
 UnionAppWork *UNION_APP_Create(UnionRoomWork *work, int heapId, int maxMembers, UnionAppStatusCopy *myStatus);
 void UNION_APP_Delete(UnionAppWork *app);
@@ -424,8 +424,8 @@ void UNION_APP_SetMemberEntry(UnionAppWork *app, UnionRoomWork *work, u32 netId,
     app->entry[netId] = *src;
     app->entryReceivedBits |= (u8)(1 << netId);
     if (netId != GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())) {
-        u32 trainerView = MYSTATUS_GetOutfit((const struct Sub0200852CObj *)src);
-        u32 sex = MYSTATUS_GetOutfitVariant((const struct Sub0200852CObj *)src);
+        u32 trainerView = MYSTATUS_GetTrainerView((const struct Sub0200852CObj *)src);
+        u32 sex = MYSTATUS_GetSex((const struct Sub0200852CObj *)src);
         UNION_COMM_AddMember(&situation->connect, src->mac, trainerView, (u8)sex);
     }
 }
@@ -523,7 +523,7 @@ void UNION_APP_SetCallbacks(UnionAppWork *app, UnionAppMemberCallback joinCallba
 int UNION_APP_Close(UnionAppWork *app)
 {
     if (app->pendingBits == 0) {
-        GFL_NET_NotifyUserEvent((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0);
+        GFL_NET_SetAcceptConnection((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0);
         app->phase = UNION_APP_PHASE_CLOSED;
         return 1;
     }
@@ -537,7 +537,7 @@ int UNION_APP_Close(UnionAppWork *app)
  */
 void UNION_APP_Open(UnionAppWork *app)
 {
-    GFL_NET_NotifyUserEvent((u32)GFL_NET_HANDLE_GetCurrentHandle(), (void *)1);
+    GFL_NET_SetAcceptConnection((u32)GFL_NET_HANDLE_GetCurrentHandle(), (void *)1);
     app->phase = UNION_APP_PHASE_OPEN;
 }
 
@@ -545,7 +545,7 @@ void UNION_APP_Open(UnionAppWork *app)
 void UNION_APP_OpenLimited(UnionAppWork *app, int maxCount)
 {
     if (GFL_NET_GetRunState()) {
-        GFL_NET_NotifyUserEvent((int)GFL_NET_HANDLE_GetCurrentHandle(), (void *)1);
+        GFL_NET_SetAcceptConnection((int)GFL_NET_HANDLE_GetCurrentHandle(), (void *)1);
         app->phase = UNION_APP_PHASE_LIMITED;
         app->limitedMax = maxCount;
         app->limitedCount = 0;

@@ -19,7 +19,7 @@
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   SYSTEM_DATA_GetConfig  0x0200873C  thumb
  *   MI_CpuCopy8  0x02082D44  arm
- *   BEACON_CountBadges  0x0200C258  thumb
+ *   MISC_CountBadges  0x0200C258  thumb
  *   GAME_DATA_GetMyPlayerWork         0x020127A4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   sBtlSetupFileName  0x020A729C  data
@@ -33,7 +33,7 @@
  *   TR_TOOL_LoadTrainerInfo   0x0202A440  thumb
  *   TR_TOOL_BuildParty   0x0202A4B4  thumb
  *   FORMCHANGE_UpdateSeasonForms   0x0216AAE4  thumb
- *   BEACON_GetFromSave   0x0200C0E8  thumb
+ *   MISC_GetFromSave   0x0200C0E8  thumb
  *   ZUKAN_SAVE_GetFromGameData   0x0200CA1C  thumb
  *   ZONEDATA_CheckEventFlag   0x020142E8  thumb
  *   BOX_SAVEDATA_FindFreeSlot   0x020076D0  thumb
@@ -104,9 +104,9 @@ extern void FORMCHANGE_UpdateSeasonForms(struct GameData *gd, struct Party *part
 
 extern u8 TPOKE_DATA_GetTrainerKind(u32 trainerType);
 
-extern struct MiscSave *BEACON_GetFromSave(struct SaveControl *save);
+extern struct MiscSave *MISC_GetFromSave(struct SaveControl *save);
 
-extern u32 BEACON_CountBadges(struct MiscSave *misc);
+extern u32 MISC_CountBadges(struct MiscSave *misc);
 
 extern void *ZUKAN_SAVE_GetFromGameData(struct GameData *gd);
 
@@ -138,7 +138,7 @@ void *GAME_DATA_GetMyParty(const struct GameData *gd);
 
 u32 GAME_DATA_GetBoxManager(const struct GameData *gd);
 
-struct PlayerStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
+struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 
 void *GAME_DATA_GetEventWork(const struct GameData *gd);
 
@@ -589,9 +589,9 @@ void BTL_SETUP_InitCommon(struct BattleSetupParam *param, struct GameData *gd, c
     param->pmsWork = GAME_DATA_GetPmsWork(gd);
     param->trainerRecord = GAME_DATA_GetTrainerRecord(gd);
     save = GAME_DATA_GetSaveControl(gd);
-    misc = BEACON_GetFromSave(save);
+    misc = MISC_GetFromSave(save);
     param->config = SYSTEM_DATA_GetConfig(save);
-    param->badgeCount = (u8)BEACON_CountBadges(misc);
+    param->badgeCount = (u8)MISC_CountBadges(misc);
     MI_CpuCopy8(sit, &param->fieldSituation, 0x10);
     param->bgmBattle = 0x468;
     param->bgmWin = 0x468 + 0x14;

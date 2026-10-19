@@ -1,5 +1,5 @@
 /*
- * function: BR_CODEIN_CodeMain2
+ * function: BR_CODEIN_ProfileScreenMain
  * address: 0x021E0618
  * packet: pkt_ov183_021E0618
  * region: ov183
@@ -34,7 +34,7 @@ extern void BR_PROC_SYS_PushEntry(unsigned *ctx, unsigned index);
 extern void BR_UTIL_FlushWindow(void *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
 extern void BR_UTIL_RunHandles(char *p);
-int BR_CODEIN_CodeMain2(int unused, int *state, int *q, int *p)
+int BR_CODEIN_ProfileScreenMain(int unused, int *state, int *q, int *p)
 {
     switch (*state) {
     case 0:

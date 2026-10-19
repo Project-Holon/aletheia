@@ -1,7 +1,7 @@
 /*
  * file:     field_sound_system.c
  * unit:     yes
- * function: FIELD_SOUND_SYSTEM_Create, FIELD_SOUND_SYSTEM_Delete, FIELD_SOUND_SYSTEM_GetQueueDepth, FIELD_SOUND_SYSTEM_GetFinalValue, FIELD_SOUND_SYSTEM_IsStateActive, FIELD_SOUND_SYSTEM_IsBusy, FIELD_SOUND_SYSTEM_CanAcceptRequest, FIELD_SOUND_SYSTEM_PostRequest, FIELD_SOUND_SYSTEM_Update, FIELD_SOUND_SYSTEM_Reset, FIELD_SOUND_SYSTEM_FadeVolume, FIELD_SOUND_SYSTEM_StartRingtone, FIELD_SOUND_SYSTEM_StopRingtone, FIELD_SOUND_SYSTEM_ClaimSlot, FIELD_SOUND_SYSTEM_ClaimSlotWithOwner, FIELD_SOUND_SYSTEM_TransferSlot, FIELD_SOUND_SYSTEM_ReleaseSlot, FIELD_SOUND_SYSTEM_PauseSlots, FIELD_SOUND_SYSTEM_ResumeSlots, FIELD_SOUND_SYSTEM_IsKnownSoundId, FIELD_SOUND_SYSTEM_IsSoundRecordChainValid, FIELD_SOUND_SYSTEM_IsSoundIdPlayable, FIELD_SOUND_SYSTEM_Init, FIELD_SOUND_SYSTEM_DrainAndInit, FIELD_SOUND_SYSTEM_ProcessNextRequest, FIELD_SOUND_SYSTEM_GetReadSlot, FIELD_SOUND_SYSTEM_GetCurrentRequest, FIELD_SOUND_SYSTEM_HasPendingRequest, FIELD_SOUND_SYSTEM_CountRequestsOfKind, FIELD_SOUND_SYSTEM_EnqueueRequest, FIELD_SOUND_SYSTEM_IsRequestKindAccepted, FIELD_SOUND_SYSTEM_DequeueRequest, FIELD_SOUND_SYSTEM_ExecuteRequest, FIELD_SOUND_SYSTEM_SetMode1, FIELD_SOUND_SYSTEM_SetMode2, FIELD_SOUND_SYSTEM_SetMode3, FIELD_SOUND_SYSTEM_SetMode4, FIELD_SOUND_SYSTEM_SetMode5, FIELD_SOUND_SYSTEM_SetMode6, FIELD_SOUND_SYSTEM_SetMode7, FIELD_SOUND_SYSTEM_IsKindAllowedInState, FIELD_SOUND_SYSTEM_HandleModeState0, FIELD_SOUND_SYSTEM_HandleModeState1, FIELD_SOUND_SYSTEM_HandleModeState2, FIELD_SOUND_SYSTEM_HandleModeState3, FIELD_SOUND_SYSTEM_HandleModeState4, FIELD_SOUND_SYSTEM_HandleModeState5, FIELD_SOUND_SYSTEM_HandleModeState6, FIELD_SOUND_SYSTEM_HandleModeState7, FIELD_SOUND_SYSTEM_HandleModeState8, FIELD_SOUND_SYSTEM_HandleModeState9, FIELD_SOUND_SYSTEM_HandleModeState10, FIELD_SOUND_SYSTEM_HandleModeState11, FIELD_SOUND_SYSTEM_HandleModeState12, FIELD_SOUND_SYSTEM_HandleModeState13, FIELD_SOUND_SYSTEM_HandleModeState14, FIELD_SOUND_SYSTEM_HandleModeState15, FIELD_SOUND_SYSTEM_HandleModeState16, FIELD_SOUND_SYSTEM_HandleModeState17, FIELD_SOUND_SYSTEM_UpdateFadingOutToMute, FIELD_SOUND_SYSTEM_UpdateFadingIn, FIELD_SOUND_SYSTEM_UpdateFadingOutToPush, FIELD_SOUND_SYSTEM_UpdateFadingOutToPop, FIELD_SOUND_SYSTEM_UpdateFadingInAfterPop, FIELD_SOUND_SYSTEM_UpdateFadingOutToLoad, FIELD_SOUND_SYSTEM_UpdateLoading, FIELD_SOUND_SYSTEM_UpdateFadingInLoaded, FIELD_SOUND_SYSTEM_UpdateFadingOutToLoadAndPush, FIELD_SOUND_SYSTEM_UpdateLoadingAndPush, FIELD_SOUND_SYSTEM_UpdateFadingOutToReplace, FIELD_SOUND_SYSTEM_UpdateReplacing, FIELD_SOUND_SYSTEM_SetState, FIELD_SOUND_SYSTEM_ClearRequest, FIELD_SOUND_SYSTEM_DiscardRequest, FIELD_SOUND_SYSTEM_FinishRequest, FIELD_SOUND_SYSTEM_FadeInCurrentBgm, FIELD_SOUND_SYSTEM_FadeOutCurrentBgm, FIELD_SOUND_SYSTEM_PushCurrentBgm, FIELD_SOUND_SYSTEM_PopBgm, FIELD_SOUND_SYSTEM_StartLoadingRequestedBgm, FIELD_SOUND_SYSTEM_StepBgmLoading, FIELD_SOUND_SYSTEM_PlayRequestedBgmNow, FIELD_SOUND_SYSTEM_IsSaving, FIELD_SOUND_SYSTEM_FadeInTask, FIELD_SOUND_SYSTEM_StartFadeInTask, FIELD_SOUND_SYSTEM_FadeOutTask, FIELD_SOUND_SYSTEM_StartFadeOutTask, FIELD_SOUND_SYSTEM_PushTask, FIELD_SOUND_SYSTEM_StartPushTask, FIELD_SOUND_SYSTEM_PopAndWaitTask, FIELD_SOUND_SYSTEM_StartPopAndWaitTask, FIELD_SOUND_SYSTEM_PopTask, FIELD_SOUND_SYSTEM_StartPopTask, FIELD_SOUND_SYSTEM_PopAllTask, FIELD_SOUND_SYSTEM_StartPopAllTask, FIELD_SOUND_SYSTEM_PushAndChangeTask, FIELD_SOUND_SYSTEM_StartPushAndChangeTask, FIELD_SOUND_SYSTEM_PushAndPlayTask, FIELD_SOUND_SYSTEM_StartPushAndPlayTask, FIELD_SOUND_SYSTEM_ChangeTask, FIELD_SOUND_SYSTEM_StartChangeTask, FIELD_SOUND_SYSTEM_FadeOutAndResetTask, FIELD_SOUND_SYSTEM_FadeOutAndPlayTask, FIELD_SOUND_SYSTEM_StartFadeOutAndPlayTask, FIELD_SOUND_SYSTEM_FadeOutAndPlayWithFadeTask, FIELD_SOUND_SYSTEM_StartFadeOutAndPlayWithFadeTask, FIELD_SOUND_SYSTEM_FadeOutAndPlayFixedBgmTask, FIELD_SOUND_SYSTEM_StartFadeOutAndPlayFixedBgmTask, FIELD_SOUND_SYSTEM_PushAndPlayWaitTask, FIELD_SOUND_SYSTEM_StartPushAndPlayWaitTask, FIELD_SOUND_SYSTEM_StartFadeOutAndResetTask, FIELD_SOUND_SYSTEM_PushOrFadeOutAndPlayTask, FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask, FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask, FIELD_SOUND_SYSTEM_WaitSettledTask, FIELD_SOUND_SYSTEM_StartWaitSettledTask, FIELD_SOUND_SYSTEM_WaitAcceptRequestTask, FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask, FIELD_SOUND_SYSTEM_PostZoneBgmChange, FIELD_SOUND_SYSTEM_PostZoneBgmReplace, FIELD_SOUND_SYSTEM_PostFadeIn, FIELD_SOUND_SYSTEM_PostZoneBgmChangeShortFade, FIELD_SOUND_SYSTEM_LowerVolume, FIELD_SOUND_SYSTEM_RestoreVolume, FIELD_SOUND_SYSTEM_GetFieldBgmForZoneEx, FIELD_SOUND_SYSTEM_GetFinalBgm, FIELD_SOUND_SYSTEM_HasZoneBgmOverride, FIELD_SOUND_SYSTEM_GetTrainerClassBgm, FIELD_SOUND_SYSTEM_GetPlayerObjectCode, FIELD_SOUND_SYSTEM_GetZoneBgm, FIELD_SOUND_SYSTEM_FindZoneBgmOverride, FIELD_SOUND_SYSTEM_GetFieldBgmForZone
+ * function: FIELD_SOUND_SYSTEM_Create, FIELD_SOUND_SYSTEM_Delete, FIELD_SOUND_SYSTEM_GetPendingBgmStackDepth, FIELD_SOUND_SYSTEM_GetFinalValue, FIELD_SOUND_SYSTEM_IsStateActive, FIELD_SOUND_SYSTEM_IsBusy, FIELD_SOUND_SYSTEM_CanAcceptRequest, FIELD_SOUND_SYSTEM_PostRequest, FIELD_SOUND_SYSTEM_Update, FIELD_SOUND_SYSTEM_Reset, FIELD_SOUND_SYSTEM_FadeVolume, FIELD_SOUND_SYSTEM_StartRingtone, FIELD_SOUND_SYSTEM_StopRingtone, FIELD_SOUND_SYSTEM_ClaimSlot, FIELD_SOUND_SYSTEM_ClaimSlotWithOwner, FIELD_SOUND_SYSTEM_TransferSlot, FIELD_SOUND_SYSTEM_ReleaseSlot, FIELD_SOUND_SYSTEM_PauseSlots, FIELD_SOUND_SYSTEM_ResumeSlots, FIELD_SOUND_SYSTEM_IsKnownSoundId, FIELD_SOUND_SYSTEM_IsSoundRecordChainValid, FIELD_SOUND_SYSTEM_IsSoundIdPlayable, FIELD_SOUND_SYSTEM_Init, FIELD_SOUND_SYSTEM_DrainAndInit, FIELD_SOUND_SYSTEM_ProcessNextRequest, FIELD_SOUND_SYSTEM_GetReadSlot, FIELD_SOUND_SYSTEM_GetNewestRequest, FIELD_SOUND_SYSTEM_HasPendingRequest, FIELD_SOUND_SYSTEM_CountRequestsOfKind, FIELD_SOUND_SYSTEM_EnqueueRequest, FIELD_SOUND_SYSTEM_IsRequestKindAccepted, FIELD_SOUND_SYSTEM_DequeueRequest, FIELD_SOUND_SYSTEM_ExecuteRequest, FIELD_SOUND_SYSTEM_SetMode1, FIELD_SOUND_SYSTEM_SetMode2, FIELD_SOUND_SYSTEM_SetMode3, FIELD_SOUND_SYSTEM_SetMode4, FIELD_SOUND_SYSTEM_SetMode5, FIELD_SOUND_SYSTEM_SetMode6, FIELD_SOUND_SYSTEM_SetMode7, FIELD_SOUND_SYSTEM_IsKindAllowedInState, FIELD_SOUND_SYSTEM_HandleModeState0, FIELD_SOUND_SYSTEM_HandleModeState1, FIELD_SOUND_SYSTEM_HandleModeState2, FIELD_SOUND_SYSTEM_HandleModeState3, FIELD_SOUND_SYSTEM_HandleModeState4, FIELD_SOUND_SYSTEM_HandleModeState5, FIELD_SOUND_SYSTEM_HandleModeState6, FIELD_SOUND_SYSTEM_HandleModeState7, FIELD_SOUND_SYSTEM_HandleModeState8, FIELD_SOUND_SYSTEM_HandleModeState9, FIELD_SOUND_SYSTEM_HandleModeState10, FIELD_SOUND_SYSTEM_HandleModeState11, FIELD_SOUND_SYSTEM_HandleModeState12, FIELD_SOUND_SYSTEM_HandleModeState13, FIELD_SOUND_SYSTEM_HandleModeState14, FIELD_SOUND_SYSTEM_HandleModeState15, FIELD_SOUND_SYSTEM_HandleModeState16, FIELD_SOUND_SYSTEM_HandleModeState17, FIELD_SOUND_SYSTEM_UpdateFadingOutToMute, FIELD_SOUND_SYSTEM_UpdateFadingIn, FIELD_SOUND_SYSTEM_UpdateFadingOutToPush, FIELD_SOUND_SYSTEM_UpdateFadingOutToPop, FIELD_SOUND_SYSTEM_UpdateFadingInAfterPop, FIELD_SOUND_SYSTEM_UpdateFadingOutToLoad, FIELD_SOUND_SYSTEM_UpdateLoading, FIELD_SOUND_SYSTEM_UpdateFadingInLoaded, FIELD_SOUND_SYSTEM_UpdateFadingOutToLoadAndPush, FIELD_SOUND_SYSTEM_UpdateLoadingAndPush, FIELD_SOUND_SYSTEM_UpdateFadingOutToReplace, FIELD_SOUND_SYSTEM_UpdateReplacing, FIELD_SOUND_SYSTEM_SetState, FIELD_SOUND_SYSTEM_ClearRequest, FIELD_SOUND_SYSTEM_DiscardRequest, FIELD_SOUND_SYSTEM_FinishRequest, FIELD_SOUND_SYSTEM_FadeInCurrentBgm, FIELD_SOUND_SYSTEM_FadeOutCurrentBgm, FIELD_SOUND_SYSTEM_PushCurrentBgm, FIELD_SOUND_SYSTEM_PopBgm, FIELD_SOUND_SYSTEM_StartLoadingRequestedBgm, FIELD_SOUND_SYSTEM_StepBgmLoading, FIELD_SOUND_SYSTEM_PlayRequestedBgmNow, FIELD_SOUND_SYSTEM_IsSaving, FIELD_SOUND_SYSTEM_FadeInTask, FIELD_SOUND_SYSTEM_StartFadeInTask, FIELD_SOUND_SYSTEM_FadeOutTask, FIELD_SOUND_SYSTEM_StartFadeOutTask, FIELD_SOUND_SYSTEM_PushTask, FIELD_SOUND_SYSTEM_StartPushTask, FIELD_SOUND_SYSTEM_PopAndWaitTask, FIELD_SOUND_SYSTEM_StartPopAndWaitTask, FIELD_SOUND_SYSTEM_PopTask, FIELD_SOUND_SYSTEM_StartPopTask, FIELD_SOUND_SYSTEM_PopAllTask, FIELD_SOUND_SYSTEM_StartPopAllTask, FIELD_SOUND_SYSTEM_PushAndChangeTask, FIELD_SOUND_SYSTEM_StartPushAndChangeTask, FIELD_SOUND_SYSTEM_PushAndPlayTask, FIELD_SOUND_SYSTEM_StartPushAndPlayTask, FIELD_SOUND_SYSTEM_ChangeTask, FIELD_SOUND_SYSTEM_StartChangeTask, FIELD_SOUND_SYSTEM_FadeOutAndResetTask, FIELD_SOUND_SYSTEM_FadeOutAndPlayTask, FIELD_SOUND_SYSTEM_StartFadeOutAndPlayTask, FIELD_SOUND_SYSTEM_FadeOutAndPlayWithFadeTask, FIELD_SOUND_SYSTEM_StartFadeOutAndPlayWithFadeTask, FIELD_SOUND_SYSTEM_FadeOutAndPlayFixedBgmTask, FIELD_SOUND_SYSTEM_StartFadeOutAndPlayFixedBgmTask, FIELD_SOUND_SYSTEM_PushAndPlayWaitTask, FIELD_SOUND_SYSTEM_StartPushAndPlayWaitTask, FIELD_SOUND_SYSTEM_StartFadeOutAndResetTask, FIELD_SOUND_SYSTEM_PushOrFadeOutAndPlayTask, FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask, FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask, FIELD_SOUND_SYSTEM_WaitSettledTask, FIELD_SOUND_SYSTEM_StartWaitSettledTask, FIELD_SOUND_SYSTEM_WaitAcceptRequestTask, FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask, FIELD_SOUND_SYSTEM_PostZoneBgmChange, FIELD_SOUND_SYSTEM_PostZoneBgmReplace, FIELD_SOUND_SYSTEM_PostFadeIn, FIELD_SOUND_SYSTEM_PostZoneBgmChangeShortFade, FIELD_SOUND_SYSTEM_LowerVolume, FIELD_SOUND_SYSTEM_RestoreVolume, FIELD_SOUND_SYSTEM_GetFieldBgmForZoneEx, FIELD_SOUND_SYSTEM_GetFinalBgm, FIELD_SOUND_SYSTEM_HasZoneBgmOverride, FIELD_SOUND_SYSTEM_GetTrainerClassBgm, FIELD_SOUND_SYSTEM_GetPlayerObjectCode, FIELD_SOUND_SYSTEM_GetZoneBgm, FIELD_SOUND_SYSTEM_FindZoneBgmOverride, FIELD_SOUND_SYSTEM_GetFieldBgmForZone
  * address:  0x02028844
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -61,7 +61,7 @@
  *   sTrainerClassBgmTable  0x020A75A8  data
  *   ZONEDATA_GetBgmId  0x02013BDC  thumb
  *   sZoneBgmOverrides  0x0209FE94  data
- *   ZONEDATA_IsRingtoneEnabled  0x02013C30  thumb
+ *   ZONEDATA_IsRideBgmEnabled  0x02013C30  thumb
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
  *   GFL_USE_SetBgmPaused  0x02005DE4  thumb
  *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb
@@ -70,7 +70,7 @@
  *   GFL_USE_PushBgm  0x02005E64  thumb
  *   GFL_USE_PopBgm  0x02005E9C  thumb
  *   GFL_USE_StepBgmLoad  0x020063B4  thumb
- *   FIELD_SOUND_SYSTEM_GetQueueDepth  0x020288C4  thumb
+ *   FIELD_SOUND_SYSTEM_GetPendingBgmStackDepth  0x020288C4  thumb
  *   FIELD_SOUND_SYSTEM_GetFinalValue  0x02028900  thumb
  *   FIELD_SOUND_SYSTEM_IsStateActive  0x02028988  thumb
  *   FIELD_SOUND_SYSTEM_CanAcceptRequest  0x020289D4  thumb
@@ -206,7 +206,7 @@ FieldSoundSystem *FIELD_SOUND_SYSTEM_Create(struct GameData *gameData, u32 heap)
 
 void FIELD_SOUND_SYSTEM_Delete(FieldSoundSystem *s);
 
-extern s32 FIELD_SOUND_SYSTEM_GetQueueDepth(FieldSoundSystem *fieldSound);
+extern s32 FIELD_SOUND_SYSTEM_GetPendingBgmStackDepth(FieldSoundSystem *fieldSound);
 
 extern void *FIELD_SOUND_SYSTEM_GetFinalValue(FieldSoundSystem *fieldSound);
 
@@ -254,7 +254,7 @@ void FIELD_SOUND_SYSTEM_ProcessNextRequest(FieldSoundSystem *s);
 
 FieldSoundRequest *FIELD_SOUND_SYSTEM_GetReadSlot(FieldSoundSystem *s);
 
-FieldSoundRequest *FIELD_SOUND_SYSTEM_GetCurrentRequest(FieldSoundSystem *s);
+FieldSoundRequest *FIELD_SOUND_SYSTEM_GetNewestRequest(FieldSoundSystem *s);
 
 int FIELD_SOUND_SYSTEM_HasPendingRequest(FieldSoundSystem *s);
 
@@ -355,7 +355,7 @@ void FIELD_SOUND_SYSTEM_Delete(FieldSoundSystem *s)
 }
 
 /* Queue depth callers poll: stack depth plus pending pushes (kind 3) less pops (kind 4), with two mode corrections. */
-int FIELD_SOUND_SYSTEM_GetQueueDepth(FieldSoundSystem *s)
+int FIELD_SOUND_SYSTEM_GetPendingBgmStackDepth(FieldSoundSystem *s)
 {
     int depth = s->stackDepth;
     u32 mode;
@@ -740,7 +740,7 @@ FieldSoundRequest *FIELD_SOUND_SYSTEM_GetReadSlot(FieldSoundSystem *s)
  * writeIndex - 1, because the subtraction has to wrap; the modulo is a call to
  * the signed divide helper.
  */
-FieldSoundRequest *FIELD_SOUND_SYSTEM_GetCurrentRequest(FieldSoundSystem *s)
+FieldSoundRequest *FIELD_SOUND_SYSTEM_GetNewestRequest(FieldSoundSystem *s)
 {
     int index;
 
@@ -802,7 +802,7 @@ void FIELD_SOUND_SYSTEM_EnqueueRequest(FieldSoundSystem *s, FieldSoundRequest *r
 
 /*
  * Decides whether a request of class kind is accepted. The class of the
- * request at the ring (FIELD_SOUND_SYSTEM_GetCurrentRequest) is consulted first, then the latched
+ * request at the ring (FIELD_SOUND_SYSTEM_GetNewestRequest) is consulted first, then the latched
  * mode; the first non zero one indexes the 8-wide table at 0x0209FD90 by
  * (row, kind). With neither set, FIELD_SOUND_SYSTEM_IsKindAllowedInState decides. The table base is
  * loaded in each arm (siblings, not a dominator).
@@ -811,7 +811,7 @@ u32 FIELD_SOUND_SYSTEM_IsRequestKindAccepted(FieldSoundSystem *s, u32 kind)
 {
     u32 row;
 
-    row = FIELD_SOUND_SYSTEM_GetCurrentRequest(s)->kind;
+    row = FIELD_SOUND_SYSTEM_GetNewestRequest(s)->kind;
     if (row != 0) {
         return g_0209FD90[row][kind];
     }
@@ -1206,7 +1206,7 @@ extern void *GAME_DATA_GetEventWork(const struct GameData *gameData);
 
 extern u32 ZONEDATA_CheckEventFlag(void *eventFlags, s32 flagId);
 
-extern u32 ZONEDATA_IsRingtoneEnabled(u32 zoneId);
+extern u32 ZONEDATA_IsRideBgmEnabled(u32 zoneId);
 
 extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
 
@@ -1791,7 +1791,7 @@ int FIELD_SOUND_SYSTEM_PopAllTask(struct GameEvent *event, u32 *seq, FieldSoundT
 
     switch (*seq) {
     case 0:
-        depth = FIELD_SOUND_SYSTEM_GetQueueDepth(fieldSound);
+        depth = FIELD_SOUND_SYSTEM_GetPendingBgmStackDepth(fieldSound);
         if (depth > 0) {
             lastIndex = depth - 1;
             for (i = 0; i < lastIndex; i++) {
@@ -2082,7 +2082,7 @@ int FIELD_SOUND_SYSTEM_PushOrFadeOutAndPlayTask(struct GameEvent *event, u32 *se
 
     switch (*seq) {
     case 0:
-        if (FIELD_SOUND_SYSTEM_GetQueueDepth(fieldSound) == 0) {
+        if (FIELD_SOUND_SYSTEM_GetPendingBgmStackDepth(fieldSound) == 0) {
             FIELD_SOUND_SYSTEM_PostRequest(fieldSound, FIELD_SOUND_REQUEST_PUSH, 0, 6, 0);
         } else {
             FIELD_SOUND_SYSTEM_PostRequest(fieldSound, FIELD_SOUND_REQUEST_FADE_OUT, 0, 6, 0);
@@ -2336,12 +2336,12 @@ u32 FIELD_SOUND_SYSTEM_GetFieldBgmForZone(struct GameData *gameData, u32 zoneId,
     bgmNo = FIELD_SOUND_SYSTEM_FindZoneBgmOverride(gameData, zoneId);
     if (bgmNo == (u32)-1) {
         if (playerObjectCode == 2) {
-            if (ZONEDATA_IsRingtoneEnabled((u16)zoneId)) {
+            if (ZONEDATA_IsRideBgmEnabled((u16)zoneId)) {
                 return 0x3f5;
             }
         }
         if (playerObjectCode == 1) {
-            if (ZONEDATA_IsRingtoneEnabled((u16)zoneId)) {
+            if (ZONEDATA_IsRideBgmEnabled((u16)zoneId)) {
                 return 0x3f4;
             }
         }

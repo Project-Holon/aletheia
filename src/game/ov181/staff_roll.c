@@ -122,7 +122,7 @@
  *   KEY_GetCont 0x0203630C arm
  *   BMP_GetPixels 0x020437D4 arm
  *   MSGDATA_ReadString 0x02045CAC arm
- *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
+ *   PRINTSYS_MeasureWidestLine 0x0201D304 thumb
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   d_021BAB40 0x021BAB40 data a2
  *   G2x_SetBlendAlpha_ 0x0207D63C arm
@@ -345,7 +345,7 @@ extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 extern u32 KEY_GetCont(void);
 extern void *BMP_GetPixels(const struct Bmp *);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern void PRINTSYS_PrintColor(void *, short, short, void *, void *, unsigned short);
 extern void G2x_SetBlendAlpha_(unsigned, int, int, int, int);
 extern void BMP_Clear(struct CharBuf *, u8);
@@ -1084,10 +1084,10 @@ void STAFF_ROLL_PrintText(char *p, unsigned char *q, void *s, int y)
     if (((StaffRollEntry *)q)->align == 0) {
         x = ((StaffRollEntry *)q)->x + ((StaffRollEntry *)q)->xOfs;
     } else if (((StaffRollEntry *)q)->align == 1) {
-        w = GF_FONT_MeasureWidestLine(((StaffRoll *)p)->textBuf, (u32)(*(void **)(p + q[9] * 4 + 0xa8)), 0);
+        w = PRINTSYS_MeasureWidestLine(((StaffRoll *)p)->textBuf, (u32)(*(void **)(p + q[9] * 4 + 0xa8)), 0);
         x = ((StaffRollEntry *)q)->x + ((StaffRollEntry *)q)->xOfs - w;
     } else if (((StaffRollEntry *)q)->align == 2) {
-        w = GF_FONT_MeasureWidestLine(((StaffRoll *)p)->textBuf, (u32)(*(void **)(p + q[9] * 4 + 0xa8)), 0);
+        w = PRINTSYS_MeasureWidestLine(((StaffRoll *)p)->textBuf, (u32)(*(void **)(p + q[9] * 4 + 0xa8)), 0);
         x = ((StaffRollEntry *)q)->x + ((StaffRollEntry *)q)->xOfs - w / 2;
     }
     PRINTSYS_PrintColor(s, x, y, ((StaffRoll *)p)->textBuf, *(void **)(p + q[9] * 4 + 0xa8), d_021BAB40[q[8]]);

@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_NETWORK_CreateOv020Event
+ * function: EVENT_WIFI_PROC_CreateOv020Event
  * address: 0x0215FA00
  * packet: pkt_ov010_0215FA00
  * region: ov010
@@ -18,4 +18,4 @@ extern unsigned char ov020_id[];
 typedef signed int     s32;
 extern int func_02034AC4(s32 handle);
 extern void EVENT_MAPCHANGE_CreateByMode(int a, int *p);
-void SCRCMD_NETWORK_CreateOv020Event(void *p, void *q) { func_02034AC4((u32)ov020_id); EVENT_MAPCHANGE_CreateByMode((int)p,q); }
+void EVENT_WIFI_PROC_CreateOv020Event(void *p, void *q) { func_02034AC4((u32)ov020_id); EVENT_MAPCHANGE_CreateByMode((int)p,q); }

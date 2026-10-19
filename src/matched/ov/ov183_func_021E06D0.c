@@ -14,7 +14,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   BR_RES_GetFont 0x021FC20C thumb ov186
  *   func_020490F4 0x020490F4 arm
- *   BR_CODEIN_ProfileUpdateActor 0x021E1244 thumb ov183
+ *   BR_CODEIN_ProfileInitRecordLayout 0x021E1244 thumb ov183
  *   BR_CODEIN_ProfileCreateButtons 0x021E1910 thumb ov183
  *   func_020056A0 0x020056A0 thumb
  *   BR_CODEIN_ProfileNoop 0x021E083C thumb ov183
@@ -33,7 +33,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void MI_CpuFill8(void *, int, u32);
 extern unsigned BR_RES_GetFont(char *p);
 extern void *func_020490F4(u32 id, u32 heap);
-extern void BR_CODEIN_ProfileUpdateActor(char *);
+extern void BR_CODEIN_ProfileInitRecordLayout(char *);
 extern void BR_CODEIN_ProfileCreateButtons(char *);
 extern void *func_020056A0(void (*)(void), void *, int);
 extern void BR_CODEIN_ProfileNoop(void);
@@ -49,7 +49,7 @@ char *BR_CODEIN_ProfileCreate(const struct Source *src, u16 heap)
     ((struct Obj03331 *)p)->f25C = src->words[7];
     ((struct Obj03331 *)p)->f310 = BR_RES_GetFont((char *)src->words[8]);
     ((struct Obj03331 *)p)->f258 = func_020490F4(59, ((struct Obj03331 *)p)->f34C);
-    BR_CODEIN_ProfileUpdateActor(p);
+    BR_CODEIN_ProfileInitRecordLayout(p);
     BR_CODEIN_ProfileCreateButtons(p);
     ((struct Obj03331 *)p)->f314 = func_020056A0(BR_CODEIN_ProfileNoop, p, 16);
     return p;

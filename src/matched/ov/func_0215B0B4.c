@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_WORK_CmdGetPlayerSaveValue
+ * function: SCRCMD_WORK_CmdGetTrainerViewGroupAndMarkSeen
  * address:  0x0215B0B4
  * packet:   pkt_0215B0B4
  * region:   ov010
@@ -42,7 +42,7 @@ extern u32 CURSOR_MOVE_GetTableGroup(u32 x);
 extern u8 func_020089F4(const struct Sub020089A8Obj *obj);
 extern struct Sub020089A8Obj *func_02008A00(struct Sub020089A8Obj *obj);
 
-int SCRCMD_WORK_CmdGetPlayerSaveValue(int a0, int a1)
+int SCRCMD_WORK_CmdGetTrainerViewGroupAndMarkSeen(int a0, int a1)
 {
     int t4;
     int t6;

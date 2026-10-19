@@ -16,7 +16,7 @@
  * symbols:
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
- *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
+ *   GAME_DATA_GetMyStatusPlayer  0x02012950  thumb
  *   GAME_DATA_GetWifiList  0x0201283C  thumb
  *   func_02009D1C  0x02009D1C  thumb
  *   func_02009BB8  0x02009BB8  thumb
@@ -49,7 +49,7 @@ extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 struct Rec44;
 struct Sub020097BCObj;
 struct Sub24;
-extern struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, u32 i);
+extern struct Rec44 *GAME_DATA_GetMyStatusPlayer(struct Sub24 *p, u32 i);
 extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 struct Sub0200852CObj;
 extern int func_02009D1C(struct Sub020097BCObj *obj, struct Sub0200852CObj *p, u32 *out);
@@ -89,7 +89,7 @@ void MUSICAL_EVENT_UpdateFriendRecords(struct Ctx *ctx, void *party)
     }
 
     for (i = 0; i < count; i++) {
-        mon = GAME_DATA_GetPlayerStatus(party, i);
+        mon = GAME_DATA_GetMyStatusPlayer(party, i);
         if (i != GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle())) && mon != 0
             && func_02009D1C((void *)GAME_DATA_GetWifiList(party), mon, (u32 *)(&out)) != 0) {
             if (i == sel) {

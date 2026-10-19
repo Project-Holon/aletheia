@@ -22,7 +22,7 @@
  *   BTL_SERVER_FLOW_NextFieldPokeIter 0x021BD34C thumb ov093
  *   BTL_POKEPARAM_CureSickBySource 0x021D6264 thumb ov093
  *   BTL_SERVER_CMD_Push 0x021CD4B0 thumb ov093
- *   BTL_FIELD_QueryStaticSlotB 0x021EF90C thumb ov093
+ *   BTL_FIELD_RemoveHolderFromStaticSlots 0x021EF90C thumb ov093
  *   BTL_SERVER_FLOW_CheckShowdown 0x021BC2B0 thumb ov093
  *   BTL_POKEPARAM_GetValue 0x021D59B4 thumb ov093
  *   BTL_SERVER_FLOW_RecheckOpponentAbilityEffects 0x021C3FDC thumb ov093
@@ -45,7 +45,7 @@ extern int BTL_SERVER_FLOW_NextFieldPokeIter(u8 *, u8 **, u8 **);
 struct UtilSlots;
 extern void BTL_POKEPARAM_CureSickBySource(struct UtilSlots *p, int v);
 extern void BTL_SERVER_CMD_Push(void *w, volatile u32 id, ...);
-extern int BTL_FIELD_QueryStaticSlotB(int a);
+extern int BTL_FIELD_RemoveHolderFromStaticSlots(int a);
 extern int BTL_SERVER_FLOW_CheckShowdown(u8 *);
 extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 extern void BTL_SERVER_FLOW_RecheckOpponentAbilityEffects(u8 *, u8 *);
@@ -70,7 +70,7 @@ void BTL_SERVER_FLOW_ProcPokeLeaveField(u8 *p, u8 *a, int b)
         BTL_POKEPARAM_CureSickBySource((struct UtilSlots *)cur, k);
         BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 0x2c, BTL_POKEPARAM_GetPokeId(cur), k);
     }
-    BTL_FIELD_QueryStaticSlotB(k);
+    BTL_FIELD_RemoveHolderFromStaticSlots(k);
     BTL_SERVER_CMD_Push(((struct Obj00003 *)p)->fC, 0x23, k);
     if (!BTL_SERVER_FLOW_CheckShowdown(p) && (u16)BTL_POKEPARAM_GetValue(a, 0x11) == 0x7f)
         BTL_SERVER_FLOW_RecheckOpponentAbilityEffects(p, a);

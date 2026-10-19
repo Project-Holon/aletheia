@@ -1,5 +1,5 @@
 /*
- * function: WIFIBATTLEMATCH_NET_TaskStepM
+ * function: WIFIBATTLEMATCH_NET_TaskStepFreeFinishAndSave
  * address: 0x021D5E24
  * packet: pkt_ov175_021D5E24
  * region: ov175
@@ -13,7 +13,7 @@
  * DC2C0's return r0 is tested here despite its legacy void declaration.
  * symbols:
  *   WIFIBATTLEMATCH_UTIL_SetCallback 0x021E8AA0 thumb ov177
- *   WIFIBATTLEMATCH_NET_TaskStepN 0x021D6000 thumb ov175
+ *   WIFIBATTLEMATCH_NET_TaskStepFreeToRetryPrompt 0x021D6000 thumb ov175
  *   WIFIBATTLEMATCH_NET_TaskCleanupA 0x021D61A4 thumb ov175
  *   WIFIBATTLEMATCH_UTIL_PrintMessage 0x021E8738 thumb ov177
  *   WIFIBATTLEMATCH_UTIL_SetRequest 0x021E8AB4 thumb ov177
@@ -41,7 +41,7 @@ struct Big;
 struct L0200ED54;
 extern void WIFIBATTLEMATCH_UTIL_SetCallback(int *, int);
 struct Sub0200852CObj;
-extern void WIFIBATTLEMATCH_NET_TaskStepN(unsigned sys, int *state, int *p);
+extern void WIFIBATTLEMATCH_NET_TaskStepFreeToRetryPrompt(unsigned sys, int *state, int *p);
 extern void WIFIBATTLEMATCH_NET_TaskCleanupA(void *obj, int unused, u8 *p);
 extern void WIFIBATTLEMATCH_UTIL_PrintMessage(int *, int, int, int);
 extern void WIFIBATTLEMATCH_UTIL_SetRequest(unsigned, unsigned);
@@ -62,13 +62,13 @@ extern int GAME_DATA_SaveMain(u8 *);
 extern void WIFIBATTLEMATCH_UTIL_ClearCallback(int);
 #define P(k) (*(int *)(p + (k)))
 #define TIMER (*(u32 *)(p + 0xe0))
-void WIFIBATTLEMATCH_NET_TaskStepM(unsigned sys, int *state, char *p)
+void WIFIBATTLEMATCH_NET_TaskStepFreeFinishAndSave(unsigned sys, int *state, char *p)
 {
     char *q = (char *)P(0x40);
     void *list;
     switch (*state) {
     case 0:
-        if (((struct Obj02885 *)q)->fC == 2) WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepN);
+        if (((struct Obj02885 *)q)->fC == 2) WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepFreeToRetryPrompt);
         else *state = 3;
         break;
     case 3:

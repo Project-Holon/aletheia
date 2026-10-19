@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PROC_CheckMonParamMismatch
+ * function: SCRCMD_PROC_CheckMonHpNotFullOrEgg
  * address:  0x0215B660
  * packet:   pkt_0215B660
  * region:   ov010
@@ -26,7 +26,7 @@ extern unsigned int SCRIPT_WORK_ReadWorkValue(void *, void *);
 extern int SCRCMD_PROC_GetPartyMember(void *a0, u32 a1, void **a2);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 
-int SCRCMD_PROC_CheckMonParamMismatch(int a0, int a1, int a2)
+int SCRCMD_PROC_CheckMonHpNotFullOrEgg(int a0, int a1, int a2)
 {
     unsigned char fr[4];
     int t5;

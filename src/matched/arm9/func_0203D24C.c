@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: GFL_NET_SetTimeout
+ * function: GFL_NET_SetIconPos
  * address:  0x0203D24C
  * packet:   pkt_0203D1B4
  * region:   arm9
@@ -20,8 +20,8 @@
  * the two parameters have to survive the accessor call in r5/r4.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GFL_NET_SetTimeout.c \
- *       --func GFL_NET_SetTimeout --addr 0x0203D24C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_SetIconPos.c \
+ *       --func GFL_NET_SetIconPos --addr 0x0203D24C --cc 1.1p1 --arm
  */
 
 typedef unsigned char  u8;
@@ -35,7 +35,7 @@ struct NetState {
 
 extern void *GFL_NET_GetInitParam(void);
 
-void GFL_NET_SetTimeout(u16 a, u16 b)
+void GFL_NET_SetIconPos(u16 a, u16 b)
 {
     struct NetState *s = GFL_NET_GetInitParam();
 

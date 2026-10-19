@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "WIFIBATTLEMATCH_NET_TaskStepI",
+   "name": "WIFIBATTLEMATCH_NET_TaskStepRatingConfirmQuit",
    "address": "0x021D5634",
    "kind": "game",
    "region": "ov175",

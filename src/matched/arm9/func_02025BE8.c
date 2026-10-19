@@ -1,5 +1,5 @@
 /*
- * function: BMP_OAM_Update5BE8
+ * function: NATION_AREA_GetDefaultNation
  * address:  0x02025BE8
  * packet:   pkt_02025BE8
  * region:   arm9
@@ -13,7 +13,7 @@
  * that ov219 BEACON_DETAIL_Update calls.
  */
 
-int BMP_OAM_Update5BE8(void)
+int NATION_AREA_GetDefaultNation(void)
 {
     return 0x69;
 }

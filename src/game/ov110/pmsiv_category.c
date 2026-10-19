@@ -72,7 +72,7 @@
  *   PMS_INPUT_VIEW_GetFont 0x021BAC44 thumb ov110
  *   PMS_INPUT_DATA_GetCategoryWordCount 0x021B999C thumb ov110
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
- *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
+ *   PRINTSYS_MeasureWidestLine 0x0201D304 thumb
  *   PRINTSYS_Print 0x0201C7A4 thumb
  *   PMSI_SEARCH_GetKeyCount 0x021BB1F4 thumb ov110
  *   PMSI_SEARCH_GetKeyLabel 0x021BB1F8 thumb ov110
@@ -168,7 +168,7 @@ extern u32 PMS_INPUT_VIEW_GetFont(struct PmsInputView *view);
 extern u32 PMS_INPUT_DATA_GetCategoryWordCount(struct PmsInputData *wordData, int category);
 extern void GF_FONT_SetTextColor(u32, u32, u32);
 extern struct Descriptor *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern void PRINTSYS_Print(void *, short, short, void *, void *);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
@@ -327,7 +327,7 @@ u8 *PMSIV_CATEGORY_MakeCategoryButtons(struct PmsivCategory *p, u8 *q)
         }
         window = BMP_WIN_Create(1, (u8)x, (u8)y, 9, 2, 12, 1);
         BMP_Clear(BMP_WIN_GetBmp(window), 15);
-        width = 72 - GF_FONT_MeasureWidestLine(label, font, 0);
+        width = 72 - PRINTSYS_MeasureWidestLine(label, font, 0);
         PRINTSYS_Print(BMP_WIN_GetBmp(window), width >> 1, 0, label, (void *)font);
         BMP_WIN_MakeScreen((struct Cfg *)window);
         BMP_WIN_TransferChars(window);

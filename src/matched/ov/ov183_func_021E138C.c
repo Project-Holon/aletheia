@@ -12,10 +12,10 @@
  * symbols:
  *   BR_CODEIN_ProfileSetupSprite 0x021E0840 thumb ov183
  *   BR_CODEIN_ProfileUpdateActorVisible 0x021E0E4C thumb ov183
- *   BR_CODEIN_ProfileCreateActors 0x021E0954 thumb ov183
+ *   BR_CODEIN_ProfileCreateRecordActors 0x021E0954 thumb ov183
  *   BR_CODEIN_ProfileSetActorAnimFrame 0x021E0E90 thumb ov183
- *   BR_CODEIN_ProfileCreateActors2 0x021E0A88 thumb ov183
- *   BR_CODEIN_ProfileCreateActors3 0x021E0C04 thumb ov183
+ *   BR_CODEIN_ProfileCreateMarkerActors 0x021E0A88 thumb ov183
+ *   BR_CODEIN_ProfileCreateArrowActors 0x021E0C04 thumb ov183
  *   BR_CODEIN_ProfileUpdateActorPos 0x021E1008 thumb ov183
  *   BR_CODEIN_ProfileCreateOam 0x021E10A0 thumb ov183
  *   BR_CODEIN_ProfileCreateOamObjects 0x021E10F4 thumb ov183
@@ -23,10 +23,10 @@
  */
 extern void BR_CODEIN_ProfileSetupSprite(char *);
 extern void BR_CODEIN_ProfileUpdateActorVisible(char *);
-extern void BR_CODEIN_ProfileCreateActors(char *);
+extern void BR_CODEIN_ProfileCreateRecordActors(char *);
 extern void BR_CODEIN_ProfileSetActorAnimFrame(char *,int);
-extern void BR_CODEIN_ProfileCreateActors2(char *);
-extern void BR_CODEIN_ProfileCreateActors3(char *);
+extern void BR_CODEIN_ProfileCreateMarkerActors(char *);
+extern void BR_CODEIN_ProfileCreateArrowActors(char *);
 extern void BR_CODEIN_ProfileUpdateActorPos(char *);
 extern void BR_CODEIN_ProfileCreateOam(char *);
 extern void BR_CODEIN_ProfileCreateOamObjects(char *);
@@ -35,10 +35,10 @@ int BR_CODEIN_ProfileCreateActors4(char *p)
 {
     BR_CODEIN_ProfileSetupSprite(p);
     BR_CODEIN_ProfileUpdateActorVisible(p);
-    BR_CODEIN_ProfileCreateActors(p);
+    BR_CODEIN_ProfileCreateRecordActors(p);
     BR_CODEIN_ProfileSetActorAnimFrame(p,0);
-    BR_CODEIN_ProfileCreateActors2(p);
-    BR_CODEIN_ProfileCreateActors3(p);
+    BR_CODEIN_ProfileCreateMarkerActors(p);
+    BR_CODEIN_ProfileCreateArrowActors(p);
     BR_CODEIN_ProfileUpdateActorPos(p);
     BR_CODEIN_ProfileCreateOam(p);
     BR_CODEIN_ProfileCreateOamObjects(p);

@@ -17,7 +17,7 @@
  *   BSUBWAY_SCR_GetParty  0x021CA210  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   BSUBWAY_SCR_PackBattleMon  0x021CA3B4  thumb
- *   GDS_PROFILE_SetScoreRecBlob  0x0200DC50  thumb
+ *   BSUBWAY_SCOREDATA_SetRecordBlob  0x0200DC50  thumb
  *   func_020307B0  0x020307B0  arm
  *   d_021DE58C  0x021DE58C  data ov021
  * Addresses are Black-image addresses.
@@ -38,7 +38,7 @@ extern void *BSUBWAY_SCR_GetParty(u8 *p);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern void BSUBWAY_SCR_PackBattleMon(Slot *s, u32 m);
 struct Blk1AC;
-extern void GDS_PROFILE_SetScoreRecBlob(struct Blk1AC *p, u32 which, const void *src);
+extern void BSUBWAY_SCOREDATA_SetRecordBlob(struct Blk1AC *p, u32 which, const void *src);
 extern u32 func_020307B0(void *p);
 extern const char d_021DE58C[];
 
@@ -54,7 +54,7 @@ void BSUBWAY_SCR_SaveMemberParty(u8 *p, u32 unused, int flag)
     h = BSUBWAY_SCR_GetParty(p);
     for (; i < 3; i++)
         BSUBWAY_SCR_PackBattleMon(&buf[i], (u32)POKEPARTY_GetMember(h, p[0x1e + i]));
-    GDS_PROFILE_SetScoreRecBlob((struct Blk1AC *)(((struct Obj00116 *)p)->f74), flag, buf);
+    BSUBWAY_SCOREDATA_SetRecordBlob((struct Blk1AC *)(((struct Obj00116 *)p)->f74), flag, buf);
     MI_CpuFill8(buf, 0, 0xb4);
     func_020307B0(buf);
 }

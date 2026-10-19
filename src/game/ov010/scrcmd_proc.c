@@ -1,7 +1,7 @@
 /*
  * file:     scrcmd_proc.c
  * unit:     yes
- * function: SCRCMD_PROC_LookupTableValue, SCRCMD_PROC_GetPartyMember, SCRCMD_PROC_GetPartyMemberParam, SCRCMD_PROC_CheckMonKnowsMove, SCRCMD_PROC_GetMonPairedParams, SCRCMD_PROC_HealParty, SCRCMD_PROC_GetMonEvTotal, SCRCMD_PROC_CheckMonParamMismatch, SCRCMD_PROC_CheckMonIsEgg, SCRCMD_PROC_GetMonFriendship, SCRCMD_PROC_ChangeMonFriendship, SCRCMD_PROC_GetMonSpeciesOrEgg, SCRCMD_PROC_GetMonForm, SCRCMD_PROC_FindFirstPartyIndex, SCRCMD_PROC_GetPartyCount, SCRCMD_PROC_CountPartyMonsOfSpecies, SCRCMD_PROC_GetBoxMonCount, SCRCMD_PROC_FindPartyMonBySpecies, SCRCMD_PROC_CheckPartyMonKnowsMove, SCRCMD_PROC_FindPartyMonWithMove, SCRCMD_PROC_AddMonToPartySimple, SCRCMD_PROC_AddMonToPartyDetailed, SCRCMD_PROC_CountMonMoves, SCRCMD_PROC_GetMonMove, SCRCMD_PROC_SetMonMove, SCRCMD_PROC_CheckMonIsPlayerOwned, SCRCMD_PROC_ChangeMonForm, SCRCMD_PROC_SetRotomFormMove, SCRCMD_PROC_GetRelearnableMoveCount, SCRCMD_PROC_CheckMonParamMatchesTable, SCRCMD_PROC_GetMonTripleParams, SCRCMD_PROC_SetMonParamChecked, SCRCMD_PROC_GetMonParamIfListed, SCRCMD_PROC_AddMonToBoxSimple, SCRCMD_PROC_AddMonToBoxDetailed, SCRCMD_PROC_AddEggToParty, SCRCMD_PROC_CreateMonFromSpec, SCRCMD_PROC_AddMonToBox, SCRCMD_PROC_AddMonToParty, SCRCMD_PROC_AddMiscPoints, SCRCMD_PROC_SubMiscPoints, SCRCMD_PROC_CheckMiscValueReached, SCRCMD_PROC_CallFieldOpenEvent, SCRCMD_PROC_CallFieldCloseEvent, SCRCMD_PROC_StartOverlayProc, SCRCMD_PROC_WaitOverlayProc, SCRCMD_PROC_FreeScriptUserWork, SCRCMD_PROC_OnBagClosed, SCRCMD_PROC_CallBagScreen, SCRCMD_PROC_OnGtsNegotiationDone, SCRCMD_PROC_CallGtsNegotiation, SCRCMD_PROC_OnMoveRelearnDone, SCRCMD_PROC_CallMoveRelearn, SCRCMD_PROC_CallPlayerProfile, SCRCMD_PROC_CallSubEvent, SCRCMD_PROC_CallValueScreen, SCRCMD_PROC_CallModeScreen, SCRCMD_PROC_CallWordScreen, SCRCMD_PROC_WaitNothing, SCRCMD_PROC_CallWifiBattleMatch, SCRCMD_PROC_CallMenuProc, SCRCMD_PROC_Ov037InitFromVars, SCRCMD_PROC_Ov037SetValueA, SCRCMD_PROC_Ov037SetValueB, SCRCMD_PROC_Ov037ReadEightVars, SCRCMD_PROC_Ov037Finish, SCRCMD_PROC_CheckDaycareHasEgg, SCRCMD_PROC_ReceiveDaycareEgg, SCRCMD_PROC_DeclineDaycareEgg, SCRCMD_PROC_CallDaycarePartyMenu, SCRCMD_PROC_DepositDaycareMon, SCRCMD_PROC_WithdrawDaycareMon, SCRCMD_PROC_GetDaycareMonCount, SCRCMD_PROC_GetDaycareCompatibility, SCRCMD_PROC_GetDaycareMonSpecies, SCRCMD_PROC_GetDaycareMonForm, SCRCMD_PROC_GetDaycareMonGender, SCRCMD_PROC_GetDaycareSlotLevel, SCRCMD_PROC_GetDaycareSlotLevelsGrown, SCRCMD_PROC_GetDaycareSlotPrice, SCRCMD_PROC_GetDaycareMonGenderKindIfFirst, SCRCMD_PROC_GetDaycareGenderKind
+ * function: SCRCMD_PROC_LookupTableValue, SCRCMD_PROC_GetPartyMember, SCRCMD_PROC_GetPartyMemberParam, SCRCMD_PROC_CheckMonKnowsMove, SCRCMD_PROC_GetMonPairedParams, SCRCMD_PROC_HealParty, SCRCMD_PROC_GetMonEvTotal, SCRCMD_PROC_CheckMonHpNotFullOrEgg, SCRCMD_PROC_CheckMonIsEgg, SCRCMD_PROC_GetMonFriendship, SCRCMD_PROC_ChangeMonFriendship, SCRCMD_PROC_GetMonSpeciesOrEgg, SCRCMD_PROC_GetMonForm, SCRCMD_PROC_FindFirstPartyIndex, SCRCMD_PROC_GetPartyCount, SCRCMD_PROC_CountPartyMonsOfSpecies, SCRCMD_PROC_GetBoxMonCount, SCRCMD_PROC_FindPartyMonBySpecies, SCRCMD_PROC_CheckPartyMonKnowsMove, SCRCMD_PROC_FindPartyMonWithMove, SCRCMD_PROC_AddMonToPartySimple, SCRCMD_PROC_AddMonToPartyDetailed, SCRCMD_PROC_CountMonMoves, SCRCMD_PROC_GetMonMove, SCRCMD_PROC_SetMonMove, SCRCMD_PROC_CheckMonIsPlayerOwned, SCRCMD_PROC_ChangeMonForm, SCRCMD_PROC_SetRotomFormMove, SCRCMD_PROC_GetRelearnableMoveCount, SCRCMD_PROC_CheckMonParamMatchesTable, SCRCMD_PROC_GetMonTripleParams, SCRCMD_PROC_SetMonParamChecked, SCRCMD_PROC_GetMonParamIfListed, SCRCMD_PROC_AddMonToBoxSimple, SCRCMD_PROC_AddMonToBoxDetailed, SCRCMD_PROC_AddEggToParty, SCRCMD_PROC_CreateMonFromSpec, SCRCMD_PROC_AddMonToBox, SCRCMD_PROC_AddMonToParty, SCRCMD_PROC_AddMoney, SCRCMD_PROC_SubMoney, SCRCMD_PROC_CheckMoneyAtLeast, SCRCMD_PROC_CallFieldOpenEvent, SCRCMD_PROC_CallFieldCloseEvent, SCRCMD_PROC_StartOverlayProc, SCRCMD_PROC_WaitOverlayProc, SCRCMD_PROC_FreeScriptUserWork, SCRCMD_PROC_OnBagClosed, SCRCMD_PROC_CallBagScreen, SCRCMD_PROC_OnGtsNegotiationDone, SCRCMD_PROC_CallGtsNegotiation, SCRCMD_PROC_OnMoveRelearnDone, SCRCMD_PROC_CallMoveRelearn, SCRCMD_PROC_CallPlayerProfile, SCRCMD_PROC_CallSubEvent, SCRCMD_PROC_CallValueScreen, SCRCMD_PROC_CallModeScreen, SCRCMD_PROC_CallWordScreen, SCRCMD_PROC_WaitNothing, SCRCMD_PROC_CallWifiBattleMatch, SCRCMD_PROC_CallMenuProc, SCRCMD_PROC_Ov037InitFromVars, SCRCMD_PROC_Ov037SetValueA, SCRCMD_PROC_Ov037SetValueB, SCRCMD_PROC_Ov037ReadEightVars, SCRCMD_PROC_Ov037Finish, SCRCMD_PROC_CheckDaycareHasEgg, SCRCMD_PROC_ReceiveDaycareEgg, SCRCMD_PROC_DeclineDaycareEgg, SCRCMD_PROC_CallDaycarePartyMenu, SCRCMD_PROC_DepositDaycareMon, SCRCMD_PROC_WithdrawDaycareMon, SCRCMD_PROC_GetDaycareMonCount, SCRCMD_PROC_GetDaycareCompatibility, SCRCMD_PROC_GetDaycareMonSpecies, SCRCMD_PROC_GetDaycareMonForm, SCRCMD_PROC_GetDaycareMonGender, SCRCMD_PROC_GetDaycareSlotLevel, SCRCMD_PROC_GetDaycareSlotLevelsGrown, SCRCMD_PROC_GetDaycareSlotPrice, SCRCMD_PROC_GetDaycareMonGenderKindIfFirst, SCRCMD_PROC_GetDaycareGenderKind
  * address:  0x0215B488
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -46,7 +46,7 @@
  *   MYSTATUS_NameToStrbuf  0x02008500  thumb
  *   STRBUF_IsEqual  0x0204589C  arm
  *   STRBUF_Delete  0x02045808  arm
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   g0209DF08      0x0209DF08  data  a1
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
@@ -81,9 +81,9 @@
  *   BOX_SAVEDATA_AddPokemon  0x020074D8  thumb
  *   ZUKAN_SAVE_RegisterCaught  0x0200CDE0  thumb
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
- *   BEACON_AddMoney 0x0200C278 thumb
- *   BEACON_SubMoney 0x0200C29C thumb
- *   BEACON_GetMoney 0x0200C274 thumb
+ *   MISC_AddMoney 0x0200C278 thumb
+ *   MISC_SubMoney 0x0200C29C thumb
+ *   MISC_GetMoney 0x0200C274 thumb
  *   FIELD_STATUS_CreateFieldOpenEvent   0x020145CC  thumb
  *   SCRIPT_SYS_CallEvent   0x0215897C  thumb  ov010
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
@@ -109,7 +109,7 @@
  *   gMoveRelearnProcData 0x021B81D0 data ov173 a4
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
- *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   GAME_DATA_GetIntrudeIdByte  0x0215841C  thumb  ov010
  *   INTRUDE_COMM_GetMemberNameNetId  0x02175FB4  thumb  ov011
  *   INTRUDE_COMM_GetMemberEntry  0x0215840C  thumb  ov010
@@ -355,7 +355,7 @@ extern int STRBUF_IsEqual(struct Strbuf *, struct Strbuf *);
 
 extern void STRBUF_Delete(struct Strbuf *vec);
 
-extern u8 MYSTATUS_GetOutfitVariant(const struct MyStatus *obj);
+extern u8 MYSTATUS_GetSex(const struct MyStatus *obj);
 
 extern void *SCRCMD_WORK_GetScriptWork(void *);
 
@@ -415,11 +415,11 @@ extern void ZUKAN_SAVE_RegisterCaught(struct ZukanSave *, void *);
 
 extern void *GAME_DATA_GetMiscSave(int *);
 
-extern u32 BEACON_AddMoney(struct MiscSave *, u32);
+extern u32 MISC_AddMoney(struct MiscSave *, u32);
 
-extern u32 BEACON_SubMoney(struct MiscSave *, u32);
+extern u32 MISC_SubMoney(struct MiscSave *, u32);
 
-extern u32 BEACON_GetMoney(struct MiscSave *);
+extern u32 MISC_GetMoney(struct MiscSave *);
 
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *);
 
@@ -457,7 +457,7 @@ extern u32 GAMESYSTEM_GetGameComm(const struct GameSystem *);
 
 extern int INTRUDE_COMM_GetWorkIfRunning(int);
 
-extern u8 GAME_DATA_GetExitMode(const struct GameData *);
+extern u8 GAME_DATA_GetOwnNetId(const struct GameData *);
 
 extern u8 GAME_DATA_GetIntrudeIdByte(void *);
 
@@ -537,7 +537,7 @@ int SCRCMD_PROC_HealParty(int, int);
 
 int SCRCMD_PROC_GetMonEvTotal(void *, void *);
 
-int SCRCMD_PROC_CheckMonParamMismatch(int, int, int);
+int SCRCMD_PROC_CheckMonHpNotFullOrEgg(int, int, int);
 
 int SCRCMD_PROC_CheckMonIsEgg(int, int, int);
 
@@ -601,11 +601,11 @@ int SCRCMD_PROC_AddMonToBox(void *, void *);
 
 int SCRCMD_PROC_AddMonToParty(void *, void *);
 
-int SCRCMD_PROC_AddMiscPoints(int, int);
+int SCRCMD_PROC_AddMoney(int, int);
 
-int SCRCMD_PROC_SubMiscPoints(int, int);
+int SCRCMD_PROC_SubMoney(int, int);
 
-int SCRCMD_PROC_CheckMiscValueReached(void *, void *);
+int SCRCMD_PROC_CheckMoneyAtLeast(void *, void *);
 
 int SCRCMD_PROC_CallFieldOpenEvent(void *, void *);
 
@@ -900,7 +900,7 @@ int SCRCMD_PROC_GetMonEvTotal(void *vm, void *cmdWork)
 
 #pragma opt_propagation reset
 
-int SCRCMD_PROC_CheckMonParamMismatch(int callArg0, int callArg1, int callArg2)
+int SCRCMD_PROC_CheckMonHpNotFullOrEgg(int callArg0, int callArg1, int callArg2)
 {
     unsigned char monSlot[4];
     int workOrValue;
@@ -1552,7 +1552,7 @@ int SCRCMD_PROC_CheckMonIsPlayerOwned(void *vm, void *cmdWork)
     }
     STRBUF_Delete(monOtName);
     STRBUF_Delete(playerName);
-    if (POKE_TOOL_GetPartyValue(mon, 0x9A, 0) != MYSTATUS_GetOutfitVariant(myStatus)) {
+    if (POKE_TOOL_GetPartyValue(mon, 0x9A, 0) != MYSTATUS_GetSex(myStatus)) {
         *resultVar = 0;
         return 0;
     }
@@ -1911,33 +1911,33 @@ int SCRCMD_PROC_AddMonToParty(void *gameData, void *spec)
 /*
  * interfaces: Lookup results used despite legacy void forwarders; observed inputs retained.
  */
-int SCRCMD_PROC_AddMiscPoints(int vm,int cmdWork)
+int SCRCMD_PROC_AddMoney(int vm,int cmdWork)
 {
     void *gameData = SCRCMD_WORK_GetGameData((void *)cmdWork);
     int value;
     GAME_DATA_GetMyPlayerWork(gameData);
     value = SCRIPT_WORK_ReadWorkValue((void *)vm,(void *)cmdWork);
-    BEACON_AddMoney(GAME_DATA_GetMiscSave(gameData),value);
+    MISC_AddMoney(GAME_DATA_GetMiscSave(gameData),value);
     return 0;
 }
 
-int SCRCMD_PROC_SubMiscPoints(int vm,int cmdWork)
+int SCRCMD_PROC_SubMoney(int vm,int cmdWork)
 {
     void *gameData = SCRCMD_WORK_GetGameData((void *)cmdWork);
     int value;
     GAME_DATA_GetMyPlayerWork(gameData);
     value = SCRIPT_WORK_ReadWorkValue((void *)vm,(void *)cmdWork);
-    BEACON_SubMoney(GAME_DATA_GetMiscSave(gameData),value);
+    MISC_SubMoney(GAME_DATA_GetMiscSave(gameData),value);
     return 0;
 }
 
-int SCRCMD_PROC_CheckMiscValueReached(void *vm, void *cmdWork)
+int SCRCMD_PROC_CheckMoneyAtLeast(void *vm, void *cmdWork)
 {
     u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     unsigned int value = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     void *gameData = SCRCMD_WORK_GetGameData(cmdWork);
     GAME_DATA_GetMyPlayerWork(gameData);
-    *resultVar = value <= BEACON_GetMoney(GAME_DATA_GetMiscSave(gameData)) ? 1 : 0;
+    *resultVar = value <= MISC_GetMoney(GAME_DATA_GetMiscSave(gameData)) ? 1 : 0;
     return 0;
 }
 
@@ -2246,7 +2246,7 @@ int SCRCMD_PROC_CallPlayerProfile(void *vm, void *cmdWork)
     SCRCMD_WORK_GetScriptWork(cmdWork);
     commState = (CommState *)INTRUDE_COMM_GetWorkIfRunning((int)gameComm);
     work = GFL_HEAP_Alloc(4, sizeof(ProfileProcWork), 1, sAllocSiteScrcmdProc, 0x1BC);
-    if (commState != 0 && commState->localPlayerId != GAME_DATA_GetExitMode(gameData)
+    if (commState != 0 && commState->localPlayerId != GAME_DATA_GetOwnNetId(gameData)
         && INTRUDE_COMM_GetMemberNameNetId((u8 *)(&commState->records[GAME_DATA_GetIntrudeIdByte(gameData)])) == 1
         && ((u8 *)commState)[0x922] == 1) {
         playerIndex = GAME_DATA_GetIntrudeIdByte(gameData);

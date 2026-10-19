@@ -35,7 +35,7 @@
  *   func_0207D63C 0x0207D63C arm
  *   UN_SELECT_Callback 0x021BA238 thumb ov218
  *   func_02005624 0x02005624 thumb
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  */
 #include "../include/Obj00243.h"
 typedef unsigned int u32;
@@ -65,7 +65,7 @@ extern void UN_SELECT_LoadActors(char *),UN_SELECT_CreateFrameList(char *),UN_SE
 extern void func_0207D63C(u32 *,u32,u32,u32,u32);
 extern void UN_SELECT_Callback(void);
 extern void *func_02005624(u32 a, u32 b, u32 c);
-extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 char *UN_SELECT_CreateSceneWork(void *owner,char *input)
 {
     char *p;
@@ -103,6 +103,6 @@ char *UN_SELECT_CreateSceneWork(void *owner,char *input)
     UN_SELECT_InitActorPositions(p);
     func_0207D63C((u32 *)0x04001050,4,8,6,10);
     ((struct Obj00243 *)p)->f23C=func_02005624((u32)UN_SELECT_Callback,(u32)p,0);
-    GFL_NET_RestartWithDefaultTimeout(1,((struct Obj00243 *)p)->f0);
+    GFL_NET_RefreshWmIconAtTopRight(1,((struct Obj00243 *)p)->f0);
     return p;
 }

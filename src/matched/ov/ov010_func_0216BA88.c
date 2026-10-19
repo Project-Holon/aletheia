@@ -11,8 +11,8 @@
  *
  * symbols:
  *   SYMBOL_SAVE_GetBitBlock  0x0200E394  thumb
- *   BEACON_GetFromSave  0x0200C0E8  thumb
- *   BEACON_GetEntryCount  0x0200C32C  thumb
+ *   MISC_GetFromSave  0x0200C0E8  thumb
+ *   MISC_GetResearchMissionIndex  0x0200C32C  thumb
  *   SCRCMD_RESEARCH_GetMissionTargetIds  0x0216BB90  thumb  ov010
  *   SCRCMD_RESEARCH_GetMissionTargetCount  0x0216BB80  thumb  ov010
  *   SCRCMD_RESEARCH_GetMissionGoal  0x0216BBB4  thumb  ov010
@@ -24,9 +24,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void *SYMBOL_SAVE_GetBitBlock(void *a0);
-extern void *BEACON_GetFromSave(void *sys);
+extern void *MISC_GetFromSave(void *sys);
 struct Blk34;
-extern u8 BEACON_GetEntryCount(struct Blk34 *p);
+extern u8 MISC_GetResearchMissionIndex(struct Blk34 *p);
 extern void SCRCMD_RESEARCH_GetMissionTargetIds(int index, u8 *out);
 extern int SCRCMD_RESEARCH_GetMissionTargetCount(int index);
 extern int SCRCMD_RESEARCH_GetMissionGoal(int index);
@@ -43,7 +43,7 @@ u16 SCRCMD_RESEARCH_GetMissionShortfall(int c)
     int r4;
 
     r7 = SYMBOL_SAVE_GetBitBlock((void *)c);
-    r4 = BEACON_GetEntryCount(BEACON_GetFromSave((void *)c));
+    r4 = MISC_GetResearchMissionIndex(MISC_GetFromSave((void *)c));
     lim = SCRCMD_RESEARCH_GetMissionGoal(r4);
     n = (u8)SCRCMD_RESEARCH_GetMissionTargetCount(r4);
     SCRCMD_RESEARCH_GetMissionTargetIds(r4, buf);

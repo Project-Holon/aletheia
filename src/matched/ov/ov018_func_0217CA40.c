@@ -12,7 +12,7 @@
  * symbols:
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
- *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   GAME_DATA_SetIntrudeId  0x02012B8C  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   INTRUDE_COMM_SetIntrudeId  0x02175710  thumb  ov011
@@ -25,7 +25,7 @@ extern unsigned int GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 typedef unsigned char  u8;
 struct BigObj;
-extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+extern u8 GAME_DATA_GetOwnNetId(const struct BigObj *p);
 extern void GAME_DATA_SetIntrudeId(struct BigObj *p, unsigned int v);
 extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
 typedef unsigned int   u32;
@@ -42,9 +42,9 @@ void *INTRUDE_SUBDISP_CreateReturnPalaceEvent(int a0)
     c = GAMESYSTEM_GetGameData((const struct Ctx *)a0);
     p = INTRUDE_COMM_GetWorkIfRunning(h);
     if (p != 0) {
-        INTRUDE_COMM_SetIntrudeId((u8 *)p, GAME_DATA_GetExitMode(c));
+        INTRUDE_COMM_SetIntrudeId((u8 *)p, GAME_DATA_GetOwnNetId(c));
     } else {
-        GAME_DATA_SetIntrudeId(c, GAME_DATA_GetExitMode(c));
+        GAME_DATA_SetIntrudeId(c, GAME_DATA_GetOwnNetId(c));
     }
     return INTRUDE_SUBDISP_CreatePalaceWarpEvent((void *)a0);
 }

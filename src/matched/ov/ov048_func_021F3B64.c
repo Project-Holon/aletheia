@@ -11,8 +11,8 @@
  *
  * symbols:
  *   GAME_DATA_GetSaveBlock42  0x02012F68  thumb
- *   MISC_SAVEDATA_FindFreeRecordSlot  0x0200EC14  thumb
- *   MISC_SAVEDATA_ExportRecord  0x0200EC2C  thumb
+ *   DENDOU_SAVEDATA_GetMemberCount  0x0200EC14  thumb
+ *   DENDOU_SAVEDATA_ExportMember  0x0200EC2C  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_Delete  0x02045808  arm
  */
@@ -32,10 +32,10 @@ typedef struct St {
 
 extern void *GAME_DATA_GetSaveBlock42(void **h);
 struct U16Vec;
-extern int MISC_SAVEDATA_FindFreeRecordSlot(char *p);
+extern int DENDOU_SAVEDATA_GetMemberCount(char *p);
 struct Src0200EC2C;
 struct Dst0200EC2C;
-extern void MISC_SAVEDATA_ExportRecord(const struct Src0200EC2C *base, int idx, struct Dst0200EC2C *dst);
+extern void DENDOU_SAVEDATA_ExportMember(const struct Src0200EC2C *base, int idx, struct Dst0200EC2C *dst);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct U16Vec *vec);
 
@@ -46,11 +46,11 @@ void FIELD_GIMMICK_GATE_ReadSaveBlockValues(u16 *p, u32 *out, int *cnt)
     St st;
 
     s = GAME_DATA_GetSaveBlock42((void **)(((int *)p)[2]));
-    *cnt = MISC_SAVEDATA_FindFreeRecordSlot(s);
+    *cnt = DENDOU_SAVEDATA_GetMemberCount(s);
     for (i = 0; i < *cnt; i++) {
         st.p0 = STRBUF_Create(0x40, p[0]);
         st.p1 = STRBUF_Create(0x40, p[0]);
-        MISC_SAVEDATA_ExportRecord(s, i, (struct Dst0200EC2C *)&st);
+        DENDOU_SAVEDATA_ExportMember(s, i, (struct Dst0200EC2C *)&st);
         out[i] = st.c;
         STRBUF_Delete(st.p0);
         STRBUF_Delete(st.p1);

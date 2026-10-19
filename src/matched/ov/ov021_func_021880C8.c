@@ -34,7 +34,7 @@
  *   func_02030CBC  0x02030CBC  arm
  *   FIELD_TASK_MANAGER_Create  0x021C6D10  thumb
  *   FLD_VREQ_Create  0x021D317C  thumb
- *   ZONEDATA_IsZone1A6  0x02013CC8  thumb
+ *   ZONEDATA_IsUnionRoom  0x02013CC8  thumb
  *   ZONEDATA_IsZone96Pair  0x02013CE0  thumb
  *   func_02034AC4  0x02034AC4  arm
  *   func_02035660  0x02035660  arm
@@ -75,7 +75,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 extern u8 *FIELD_TASK_MANAGER_Create(int n, int heap);
 extern void *FLD_VREQ_Create(u32 heap);
-extern u32 ZONEDATA_IsZone1A6(u32 id);
+extern u32 ZONEDATA_IsUnionRoom(u32 id);
 extern u32 ZONEDATA_IsZone96Pair(u32 id);
 extern int func_02034AC4(int id);
 extern void func_02035660(u32 a);
@@ -99,7 +99,7 @@ int FIELDMAP_SeqInitSystem(int unused, u8 *p)
     ((struct Obj01489 *)p)->f110 = func_02030CBC(0x20, ((struct Obj01489 *)p)->f114);
     *(u8 * *)&((struct Obj01489 *)p)->f134 = FIELD_TASK_MANAGER_Create(0xA, ((struct Obj01489 *)p)->f0);
     ((struct Obj01489 *)p)->f14C = FLD_VREQ_Create(((struct Obj01489 *)p)->f0);
-    func_02034AC4((ZONEDATA_IsZone1A6(((struct Obj01489 *)p)->fD0) == 1 || ZONEDATA_IsZone96Pair(((struct Obj01489 *)p)->fD0) == 1) ? (int)abs_id_19 : (int)abs_id_18);
+    func_02034AC4((ZONEDATA_IsUnionRoom(((struct Obj01489 *)p)->fD0) == 1 || ZONEDATA_IsZone96Pair(((struct Obj01489 *)p)->fD0) == 1) ? (int)abs_id_19 : (int)abs_id_18);
     func_02035660(0x1E);
     return 1;
 }

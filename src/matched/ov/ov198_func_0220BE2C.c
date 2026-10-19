@@ -12,26 +12,26 @@
  * symbols:
  *   B_PLIST_DRAW_PrintHeader  0x0220C60C  thumb  ov198
  *   B_PLIST_DRAW_DrawRows  0x0220D884  thumb  ov198
- *   B_PLIST_DRAW_DrawMode1  0x0220D9B4  thumb  ov198
- *   B_PLIST_DRAW_DrawMode2  0x0220DCA8  thumb  ov198
- *   B_PLIST_DRAW_DrawMode3  0x0220DC04  thumb  ov198
- *   B_PLIST_DRAW_DrawMode4  0x0220DD78  thumb  ov198
- *   B_PLIST_DRAW_DrawMode6  0x0220DE4C  thumb  ov198
- *   B_PLIST_DRAW_DrawMode7  0x0220DF20  thumb  ov198
- *   B_PLIST_DRAW_DrawMode5  0x0220E088  thumb  ov198
+ *   B_PLIST_DRAW_DrawMonMenuPage  0x0220D9B4  thumb  ov198
+ *   B_PLIST_DRAW_DrawSummaryPage  0x0220DCA8  thumb  ov198
+ *   B_PLIST_DRAW_DrawMoveListPage  0x0220DC04  thumb  ov198
+ *   B_PLIST_DRAW_DrawMoveDetailPage  0x0220DD78  thumb  ov198
+ *   B_PLIST_DRAW_DrawMoveListWithNewMovePage  0x0220DE4C  thumb  ov198
+ *   B_PLIST_DRAW_DrawMoveDetailWithNewMovePage  0x0220DF20  thumb  ov198
+ *   B_PLIST_DRAW_DrawMoveListForItemPage  0x0220E088  thumb  ov198
  */
 #include "../include/Obj00507.h"
 
 extern int B_PLIST_DRAW_PrintHeader(char *, int);
 typedef unsigned char  u8;
 extern void B_PLIST_DRAW_DrawRows(u8 *p);
-extern int B_PLIST_DRAW_DrawMode1(char *);
-extern int B_PLIST_DRAW_DrawMode2(char *);
-extern int B_PLIST_DRAW_DrawMode3(char *);
-extern int B_PLIST_DRAW_DrawMode4(char *);
-extern int B_PLIST_DRAW_DrawMode6(char *);
-extern int B_PLIST_DRAW_DrawMode7(char *);
-extern int B_PLIST_DRAW_DrawMode5(char *);
+extern int B_PLIST_DRAW_DrawMonMenuPage(char *);
+extern int B_PLIST_DRAW_DrawSummaryPage(char *);
+extern int B_PLIST_DRAW_DrawMoveListPage(char *);
+extern int B_PLIST_DRAW_DrawMoveDetailPage(char *);
+extern int B_PLIST_DRAW_DrawMoveListWithNewMovePage(char *);
+extern int B_PLIST_DRAW_DrawMoveDetailWithNewMovePage(char *);
+extern int B_PLIST_DRAW_DrawMoveListForItemPage(char *);
 
 int B_PLIST_DRAW_DrawModePage(char *a, int idx)
 {
@@ -50,18 +50,18 @@ int B_PLIST_DRAW_DrawModePage(char *a, int idx)
         B_PLIST_DRAW_DrawRows((u8 *)a);
         return B_PLIST_DRAW_PrintHeader(a, 0xa);
     case 1:
-        return B_PLIST_DRAW_DrawMode1(a);
+        return B_PLIST_DRAW_DrawMonMenuPage(a);
     case 2:
-        return B_PLIST_DRAW_DrawMode2(a);
+        return B_PLIST_DRAW_DrawSummaryPage(a);
     case 3:
-        return B_PLIST_DRAW_DrawMode3(a);
+        return B_PLIST_DRAW_DrawMoveListPage(a);
     case 4:
-        return B_PLIST_DRAW_DrawMode4(a);
+        return B_PLIST_DRAW_DrawMoveDetailPage(a);
     case 5:
-        return B_PLIST_DRAW_DrawMode5(a);
+        return B_PLIST_DRAW_DrawMoveListForItemPage(a);
     case 6:
-        return B_PLIST_DRAW_DrawMode6(a);
+        return B_PLIST_DRAW_DrawMoveListWithNewMovePage(a);
     case 7:
-        return B_PLIST_DRAW_DrawMode7(a);
+        return B_PLIST_DRAW_DrawMoveDetailWithNewMovePage(a);
     }
 }

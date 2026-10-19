@@ -1,5 +1,5 @@
 /*
- * function: WIFIBATTLEMATCH_NET_TaskStepD
+ * function: WIFIBATTLEMATCH_NET_TaskStepRatingFetchGdbRecord
  * address: 0x021D495C
  * packet: pkt_ov175_021D495C
  * region: ov175
@@ -18,7 +18,7 @@
  *   WIFIBATTLEMATCH_NET_HandleNetError 0x021D9F04 thumb ov175
  *   WIFIBATTLEMATCH_NET_DeleteBoxAndWait 0x021D63DC thumb ov175
  *   WIFIBATTLEMATCH_UTIL_SetCallback 0x021E8AA0 thumb ov177
- *   WIFIBATTLEMATCH_NET_TaskStepB 0x021D4608 thumb ov175
+ *   WIFIBATTLEMATCH_NET_TaskStepMainMenu 0x021D4608 thumb ov175
  *   WIFIBATTLEMATCH_NET_TaskCleanupA 0x021D61A4 thumb ov175
  *   WIFIBATTLEMATCH_NET_GetNetId 0x021DC194 thumb ov175
  *   WIFIBATTLEMATCH_NET_GdbClearRecord 0x021DBFA4 thumb ov175
@@ -27,7 +27,7 @@
  *   WIFIBATTLEMATCH_NET_DeleteBoxRecord 0x021D639C thumb ov175
  *   WIFIBATTLEMATCH_NET_SetupBoxRecord 0x021D62A4 thumb ov175
  *   WIFIBATTLEMATCH_NET_IsBoxReady 0x021D63B0 thumb ov175
- *   WIFIBATTLEMATCH_NET_TaskStepE 0x021D4B3C thumb ov175
+ *   WIFIBATTLEMATCH_NET_TaskStepRatingMatchmake 0x021D4B3C thumb ov175
  *   WIFIBATTLEMATCH_UTIL_GetBusy 0x021E8844 thumb ov177
  *   WIFIBATTLEMATCH_UTIL_CommitRequest 0x021E8AB8 thumb ov177
  */
@@ -42,7 +42,7 @@ extern int WIFIBATTLEMATCH_NET_HandleNetError(char *, void *, void *);
 extern void WIFIBATTLEMATCH_NET_DeleteBoxAndWait(char *);
 extern void WIFIBATTLEMATCH_UTIL_SetCallback(int *, int);
 typedef unsigned char  u8;
-extern void WIFIBATTLEMATCH_NET_TaskStepB(u32 sys, int *state, u32 *p);
+extern void WIFIBATTLEMATCH_NET_TaskStepMainMenu(u32 sys, int *state, u32 *p);
 extern void WIFIBATTLEMATCH_NET_TaskCleanupA(void *obj, int unused, u8 *p);
 extern u32 WIFIBATTLEMATCH_NET_GetNetId(char *);
 extern void WIFIBATTLEMATCH_NET_GdbClearRecord(char *);
@@ -51,10 +51,10 @@ extern u32 WIFIBATTLEMATCH_NET_IsBoxAnimDone(char *);
 extern void WIFIBATTLEMATCH_NET_DeleteBoxRecord(char *);
 extern void WIFIBATTLEMATCH_NET_SetupBoxRecord(u32 *p, u32 mode);
 extern u32 WIFIBATTLEMATCH_NET_IsBoxReady(char *);
-extern void WIFIBATTLEMATCH_NET_TaskStepE(unsigned sys, int *state, char *p);
+extern void WIFIBATTLEMATCH_NET_TaskStepRatingMatchmake(unsigned sys, int *state, char *p);
 extern int WIFIBATTLEMATCH_UTIL_GetBusy(const int *);
 extern void WIFIBATTLEMATCH_UTIL_CommitRequest(u32);
-void WIFIBATTLEMATCH_NET_TaskStepD(u32 sys, int *state, u32 *p)
+void WIFIBATTLEMATCH_NET_TaskStepRatingFetchGdbRecord(u32 sys, int *state, u32 *p)
 {
     u32 *ctx = (u32 *)p[16];
     int result;
@@ -81,7 +81,7 @@ void WIFIBATTLEMATCH_NET_TaskStepD(u32 sys, int *state, u32 *p)
             switch (WIFIBATTLEMATCH_NET_HandleNetError((char *)p[12], 0, 0)) {
             case 1:
                 WIFIBATTLEMATCH_NET_DeleteBoxAndWait((char *)p);
-                WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepB);
+                WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepMainMenu);
                 *(u32 *)((u32 *)p[16])[8] = 1800;
                 break;
             case 2:
@@ -103,7 +103,7 @@ void WIFIBATTLEMATCH_NET_TaskStepD(u32 sys, int *state, u32 *p)
             switch (WIFIBATTLEMATCH_NET_HandleNetError((char *)p[12], 0, 0)) {
             case 1:
                 WIFIBATTLEMATCH_NET_DeleteBoxAndWait((char *)p);
-                WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepB);
+                WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepMainMenu);
                 *(u32 *)((u32 *)p[16])[8] = 1800;
                 break;
             case 2:
@@ -127,7 +127,7 @@ void WIFIBATTLEMATCH_NET_TaskStepD(u32 sys, int *state, u32 *p)
         break;
     case 8: WIFIBATTLEMATCH_NET_SetupBoxRecord((u32 *)p, 0); *state = 9; break;
     case 9: if (WIFIBATTLEMATCH_NET_IsBoxReady((char *)p)) *state = 10; break;
-    case 10: WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepE); break;
+    case 10: WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepRatingMatchmake); break;
     case 11: if (WIFIBATTLEMATCH_UTIL_GetBusy((int *)p[9])) WIFIBATTLEMATCH_UTIL_CommitRequest(sys); break;
     }
 }

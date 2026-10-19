@@ -1,7 +1,7 @@
 /*
  * file:     net_state.c
  * unit:     yes
- * function: GFL_NET_STATE_ChangeState, GFL_NET_STATE_ChangeStateDebug, GFL_NET_STATE_InitWork, GFL_NET_STATE_InitRandom, GFL_NET_STATE_FreeWork, GFL_NET_STATE_DeviceInitialized, GFL_NET_STATE_DeviceInitialize, GFL_NET_STATE_ConnectMacDone, GFL_NET_STATE_ExtendConnectTimer, GFL_NET_STATE_ConnectMac, GFL_NET_STATE_StartConnectMac, GFL_NET_STATE_ConnectMacAddress, GFL_NET_STATE_BeaconScanIdle, GFL_NET_STATE_StartBeaconScan, GFL_NET_STATE_BeaconScan, GFL_NET_STATE_Main, GFL_NET_STATE_ParentConnected, GFL_NET_STATE_ParentWait, GFL_NET_STATE_ParentConnectCallback, GFL_NET_STATE_StartParent, GFL_NET_STATE_ChangeParentWait, GFL_NET_STATE_InitParent, GFL_NET_STATE_GetChildWaitTime, GFL_NET_STATE_GetParentWaitTime, GFL_NET_STATE_ChangeoverConnect, GFL_NET_STATE_ChangeoverWaitDevice, GFL_NET_STATE_ChangeoverStopParent, GFL_NET_STATE_ChangeoverStopParentRetry, GFL_NET_STATE_ChangeoverParentConnectWait, GFL_NET_STATE_ChangeoverParentMain, GFL_NET_STATE_ChangeoverParentRestart, GFL_NET_STATE_ChangeoverParentCallback, GFL_NET_STATE_ChangeoverStartParent, GFL_NET_STATE_ChangeoverChildNegotiation, GFL_NET_STATE_ChildNegotiationWait, GFL_NET_STATE_ParentNegotiationWait, GFL_NET_STATE_ChangeoverChildConnected, GFL_NET_STATE_ChangeoverStopChild, GFL_NET_STATE_ChangeoverChildMain, GFL_NET_STATE_ChangeoverChildScan, GFL_NET_STATE_StartChangeover, GFL_NET_STATE_ChangeoverRestart, GFL_NET_STATE_ChangeChangeoverMode, GFL_NET_STATE_ChangeoverStopChildDevice, GFL_NET_STATE_SetChangeoverMode, GFL_NET_STATE_WaitDisconnect, GFL_NET_STATE_RecvExitCommand, GFL_NET_STATE_ExitIfChild, GFL_NET_STATE_ExitWait, GFL_NET_STATE_ExitStopDevice, GFL_NET_STATE_Exit, GFL_NET_STATE_ClearExitFlag, GFL_NET_STATE_Idle, GFL_NET_STATE_EndDevice, GFL_NET_STATE_SetMPMode, GFL_NET_STATE_WifiError, GFL_NET_STATE_WifiLoggedOut, GFL_NET_STATE_WifiFatal, GFL_NET_STATE_WifiErrorWait, GFL_NET_STATE_WifiStopError, GFL_NET_STATE_SetWifiErrorCode, GFL_NET_STATE_WifiLoginMain, GFL_NET_STATE_WifiLoginStart, GFL_NET_STATE_WifiEnterLogin, GFL_NET_STATE_WifiEnterRandomMatch, GFL_NET_STATE_WifiEnterFriendMatch, GFL_NET_STATE_WifiEnterLoginDefault, GFL_NET_STATE_GetWifiState, GFL_NET_STATE_WifiConnected, GFL_NET_STATE_WifiMatchDisconnect, GFL_NET_STATE_WifiDisconnect, GFL_NET_STATE_WifiDisconnectFinal, GFL_NET_STATE_IsWifiDisconnectFinal, GFL_NET_STATE_IsWifiLoginState, GFL_NET_STATE_IsWifiLoginOrConnected, GFL_NET_STATE_WifiLogoutWait, GFL_NET_STATE_WifiLogoutStop, GFL_NET_STATE_WifiLogout, GFL_NET_STATE_WifiMatchWait, GFL_NET_STATE_WifiMatchStart, GFL_NET_STATE_WifiStartMatch, GFL_NET_STATE_SetAutoExit, GFL_NET_STATE_SetLoginOption, GFL_NET_STATE_NoProc, GFL_NET_STATE_SetErrorMode, GFL_NET_STATE_ClearErrorMode, GFL_NET_STATE_GetErrorMode, GFL_NET_STATE_SetError, GFL_NET_STATE_SetWifiError, GFL_NET_STATE_GetError, GFL_NET_STATE_FatalError, GFL_NET_STATE_IsFatalError
+ * function: GFL_NET_STATE_ChangeState, GFL_NET_STATE_ChangeStateDebug, GFL_NET_STATE_InitWork, GFL_NET_STATE_InitRandom, GFL_NET_STATE_FreeWork, GFL_NET_STATE_DeviceInitialized, GFL_NET_STATE_DeviceInitialize, GFL_NET_STATE_ConnectMacDone, GFL_NET_STATE_ExtendConnectTimer, GFL_NET_STATE_ConnectMac, GFL_NET_STATE_StartConnectMac, GFL_NET_STATE_ConnectMacAddress, GFL_NET_STATE_BeaconScanIdle, GFL_NET_STATE_StartBeaconScan, GFL_NET_STATE_BeaconScan, GFL_NET_STATE_Main, GFL_NET_STATE_ParentConnected, GFL_NET_STATE_ParentWait, GFL_NET_STATE_ParentConnectCallback, GFL_NET_STATE_StartParent, GFL_NET_STATE_ChangeParentWait, GFL_NET_STATE_InitParent, GFL_NET_STATE_RollChildWaitTime, GFL_NET_STATE_RollParentWaitTime, GFL_NET_STATE_ChangeoverConnect, GFL_NET_STATE_ChangeoverWaitDevice, GFL_NET_STATE_ChangeoverStopParent, GFL_NET_STATE_ChangeoverStopParentRetry, GFL_NET_STATE_ChangeoverParentConnectWait, GFL_NET_STATE_ChangeoverParentMain, GFL_NET_STATE_ChangeoverParentRestart, GFL_NET_STATE_ChangeoverParentCallback, GFL_NET_STATE_ChangeoverStartParent, GFL_NET_STATE_ChangeoverChildNegotiation, GFL_NET_STATE_ChildNegotiationWait, GFL_NET_STATE_ParentNegotiationWait, GFL_NET_STATE_ChangeoverChildConnected, GFL_NET_STATE_ChangeoverStopChild, GFL_NET_STATE_ChangeoverChildMain, GFL_NET_STATE_ChangeoverChildScan, GFL_NET_STATE_StartChangeover, GFL_NET_STATE_ChangeoverRestart, GFL_NET_STATE_ChangeChangeoverMode, GFL_NET_STATE_ChangeoverStopChildDevice, GFL_NET_STATE_SetChangeoverMode, GFL_NET_STATE_WaitDisconnect, GFL_NET_STATE_RecvExitCommand, GFL_NET_STATE_ExitIfChild, GFL_NET_STATE_ExitWait, GFL_NET_STATE_ExitStopDevice, GFL_NET_STATE_Exit, GFL_NET_STATE_ClearExitFlag, GFL_NET_STATE_Idle, GFL_NET_STATE_EndDevice, GFL_NET_STATE_SetMPMode, GFL_NET_STATE_WifiError, GFL_NET_STATE_WifiLoggedOut, GFL_NET_STATE_WifiFatal, GFL_NET_STATE_WifiErrorWait, GFL_NET_STATE_WifiStopError, GFL_NET_STATE_SetWifiErrorCode, GFL_NET_STATE_WifiLoginMain, GFL_NET_STATE_WifiLoginStart, GFL_NET_STATE_WifiEnterLogin, GFL_NET_STATE_WifiEnterRandomMatch, GFL_NET_STATE_WifiEnterFriendMatch, GFL_NET_STATE_WifiEnterLoginDefault, GFL_NET_STATE_GetWifiState, GFL_NET_STATE_WifiConnected, GFL_NET_STATE_WifiMatchDisconnect, GFL_NET_STATE_WifiDisconnect, GFL_NET_STATE_WifiDisconnectFinal, GFL_NET_STATE_IsWifiDisconnectFinal, GFL_NET_STATE_IsWifiLoginState, GFL_NET_STATE_IsWifiLoginOrConnected, GFL_NET_STATE_WifiLogoutWait, GFL_NET_STATE_WifiLogoutStop, GFL_NET_STATE_WifiLogout, GFL_NET_STATE_WifiMatchWait, GFL_NET_STATE_WifiMatchStart, GFL_NET_STATE_WifiStartMatch, GFL_NET_STATE_SetAutoExit, GFL_NET_STATE_SetLoginOption, GFL_NET_STATE_NoProc, GFL_NET_STATE_SetErrorMode, GFL_NET_STATE_ClearErrorMode, GFL_NET_STATE_GetErrorMode, GFL_NET_STATE_SetError, GFL_NET_STATE_SetWifiError, GFL_NET_STATE_GetError, GFL_NET_STATE_FatalError, GFL_NET_STATE_IsFatalError
  * address:  0x0203AD74
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -17,7 +17,7 @@
  *   GFL_HEAP_Alloc            0x02030734  arm
  *   MI_CpuFill8              0x02082BCC  arm
  *   GFL_NET_SYSTEM_SetError            0x02039548  arm
- *   SAVEDATA_PanicFail            0x02034714  arm
+ *   GF_PANIC_Fail            0x02034714  arm
  *   MI_CpuCopy8              0x02082D44  arm
  *   GFL_HEAP_Free            0x020307B0  arm
  *   GFL_NET_SYSTEM_GetCurrentAid            0x02039338  arm
@@ -131,7 +131,7 @@ extern void  MI_CpuFill8(void *dst, u8 val, u32 size);
 
 extern void GFL_NET_SYSTEM_SetError(void);
 
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
@@ -266,9 +266,9 @@ void GFL_NET_STATE_ChangeParentWait(int heapId);
 
 void GFL_NET_STATE_InitParent(u32 unused);
 
-u32 GFL_NET_STATE_GetChildWaitTime(struct NetStateWork *work);
+u32 GFL_NET_STATE_RollChildWaitTime(struct NetStateWork *work);
 
-u32 GFL_NET_STATE_GetParentWaitTime(struct NetStateWork *work);
+u32 GFL_NET_STATE_RollParentWaitTime(struct NetStateWork *work);
 
 void GFL_NET_STATE_ChangeoverConnect(struct NetStateWork *work);
 
@@ -513,7 +513,7 @@ void GFL_NET_STATE_ChangeStateDebug(struct NetStateWork *work, void *state, u32 
 
 /*
  * One-shot constructor: the singleton must still be NULL (otherwise
- * SAVEDATA_PanicFail(__FILE__, 0xb8, __FILE__)), 0x64 bytes are allocated with
+ * GF_PANIC_Fail(__FILE__, 0xb8, __FILE__)), 0x64 bytes are allocated with
  * the debug allocator, a halfword 0x32 and a byte 1 are set at +0x46 and
  * +0x4c, the embedded object at +0xc is initialised, and the 5-argument
  * delegate GFL_NET_COMMAND_Init is called with four zeros.
@@ -539,7 +539,7 @@ void GFL_NET_STATE_ChangeStateDebug(struct NetStateWork *work, void *state, u32 
 void GFL_NET_STATE_InitWork(u32 heapId)
 {
     if (_pNetState != 0) {
-        SAVEDATA_PanicFail(_FileName, 0xb8, _AssertNetStateNull);
+        GF_PANIC_Fail(_FileName, 0xb8, _AssertNetStateNull);
     }
     _pNetState = GFL_HEAP_Alloc(heapId, 0x64, 1, _FileName, 0xb9);
     _pNetState->timer = 0x32;
@@ -1044,7 +1044,7 @@ void GFL_NET_STATE_StartConnectMac(void)
 void GFL_NET_STATE_ConnectMacAddress(int mac, int anyParent)
 {
     if ((int)_pNetState->aMacAddress & 1) {
-        SAVEDATA_PanicFail(_FileName, 395, _AssertMacAlign);
+        GF_PANIC_Fail(_FileName, 395, _AssertMacAlign);
     }
     if (mac != 0) {
         MI_CpuCopy8((void *)mac, _pNetState->aMacAddress, 6);
@@ -1447,7 +1447,7 @@ void GFL_NET_STATE_InitParent(u32 unused)
 
 
 
-u32 GFL_NET_STATE_GetChildWaitTime(struct NetStateWork *work)
+u32 GFL_NET_STATE_RollChildWaitTime(struct NetStateWork *work)
 {
     u32 randHigh;
     u64 randNext = work->random.mul * work->random.x + work->random.add;
@@ -1482,7 +1482,7 @@ u32 GFL_NET_STATE_GetChildWaitTime(struct NetStateWork *work)
 
 
 
-u32 GFL_NET_STATE_GetParentWaitTime(struct NetStateWork *work)
+u32 GFL_NET_STATE_RollParentWaitTime(struct NetStateWork *work)
 {
     u32 randHigh;
     u64 randNext = work->random.mul * work->random.x + work->random.add;
@@ -1546,13 +1546,13 @@ void GFL_NET_STATE_ChangeoverConnect(struct NetStateWork *work)
 
     if (GFL_NET_SYSTEM_ConnectToParent(1, (u32)work->changeoverMac, scanParam, (u32)GFL_NET_STATE_ExtendConnectTimer) == 0)
         return;
-    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverChildMain, GFL_NET_STATE_GetChildWaitTime(work), scanParam + 0x45);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverChildMain, GFL_NET_STATE_RollChildWaitTime(work), scanParam + 0x45);
     return;
 
 alt:
     if (GFL_NET_SYSTEM_StartBeaconScan(1, scanParam) == 0)
         return;
-    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverChildMain, GFL_NET_STATE_GetParentWaitTime(work), scanParam + 0x4a);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverChildMain, GFL_NET_STATE_RollParentWaitTime(work), scanParam + 0x4a);
 }
 
 
@@ -1817,7 +1817,7 @@ void GFL_NET_STATE_ChangeoverParentMain(struct NetStateWork *work)
 
 void GFL_NET_STATE_ChangeoverParentRestart(struct NetStateWork *work)
 {
-    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverParentMain, GFL_NET_STATE_GetParentWaitTime(work), 0x2e0);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverParentMain, GFL_NET_STATE_RollParentWaitTime(work), 0x2e0);
 }
 
 
@@ -1845,7 +1845,7 @@ void GFL_NET_STATE_ChangeoverParentRestart(struct NetStateWork *work)
 
 int GFL_NET_STATE_ChangeoverParentCallback(void)
 {
-    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverParentMain, GFL_NET_STATE_GetParentWaitTime(_pNetState), 0x2E6);
+    GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverParentMain, GFL_NET_STATE_RollParentWaitTime(_pNetState), 0x2E6);
     return 1;
 }
 
@@ -4338,7 +4338,7 @@ void GFL_NET_STATE_SetWifiError(void)
     }
 
     if (isWifiType == 0)
-        SAVEDATA_PanicFail(_FileName, 0x8B7, _AssertNetTypeWifi);
+        GF_PANIC_Fail(_FileName, 0x8B7, _AssertNetTypeWifi);
 
     _pNetState->errorInfo.errorCode = 0;
     _pNetState->errorInfo.errorType = 0;
@@ -4368,7 +4368,7 @@ void GFL_NET_STATE_SetWifiError(void)
 
 
 /*
- * Returns the object's work area at +0x30, reporting through SAVEDATA_PanicFail
+ * Returns the object's work area at +0x30, reporting through GF_PANIC_Fail
  * with the source file at 0x020A7BA8 and line 0x8CA (2250) when the object has
  * not been created - the report is not fatal, the address of the null object's
  * field is still what comes back.
@@ -4382,7 +4382,7 @@ void GFL_NET_STATE_SetWifiError(void)
 u32 GFL_NET_STATE_GetError(void)
 {
     if (_pNetState == 0)
-        SAVEDATA_PanicFail(_FileName, 0x8CA, _AssertNetState);
+        GF_PANIC_Fail(_FileName, 0x8CA, _AssertNetState);
     return (u32)&_pNetState->errorInfo;
 }
 
@@ -4408,11 +4408,11 @@ u32 GFL_NET_STATE_GetError(void)
 
 
 /*
- * Unlabelled ARM assert thunk: tail call SAVEDATA_PanicFail(_FileName, 0x8D8, _AssertWifiBattleError), the fall-through failure path after GFL_NET_STATE_GetError.
+ * Unlabelled ARM assert thunk: tail call GF_PANIC_Fail(_FileName, 0x8D8, _AssertWifiBattleError), the fall-through failure path after GFL_NET_STATE_GetError.
  */
 void GFL_NET_STATE_FatalError(void)
 {
-    SAVEDATA_PanicFail(_FileName, 0x8D8, _AssertWifiBattleError);
+    GF_PANIC_Fail(_FileName, 0x8D8, _AssertWifiBattleError);
 }
 
 

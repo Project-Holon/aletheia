@@ -11,7 +11,7 @@
  * domain: selector values 0..57; out-of-range result is unspecified.
  * symbols:
  *   BTLV_EFFECT_GetMcss 0x021F8694 thumb ov094
- *   BTLV_MCSS_GetSpritePersonalParam26 0x021FFF0C thumb ov094
+ *   BTLV_MCSS_GetSpriteWeight 0x021FFF0C thumb ov094
  *   BTLV_MCSS_GetSpriteAttrFlags 0x021FFF38 thumb ov094
  *   BTLV_MCSS_HasPersonalParam10 0x021FFF68 thumb ov094
  *   BTLV_MCSS_GetStopCellFlags 0x021FFFAC thumb ov094
@@ -41,7 +41,7 @@ typedef struct {
     int f2a0;
 } State;
 extern int BTLV_EFFECT_GetMcss(void);
-extern int BTLV_MCSS_GetSpritePersonalParam26(char *p, int key);
+extern int BTLV_MCSS_GetSpriteWeight(char *p, int key);
 extern int BTLV_MCSS_GetSpriteAttrFlags(char *p, int key);
 extern int BTLV_MCSS_HasPersonalParam10(void *, int);
 extern int BTLV_MCSS_GetStopCellFlags(void *, int);
@@ -53,8 +53,8 @@ int BTLV_EFFVM_EvalCondition(State *s, unsigned int key)
 {
     switch (key) {
     case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:
-        return BTLV_MCSS_GetSpritePersonalParam26((char *)BTLV_EFFECT_GetMcss(), key);
-    case 8: return BTLV_MCSS_GetSpritePersonalParam26((char *)BTLV_EFFECT_GetMcss(), s->dc);
+        return BTLV_MCSS_GetSpriteWeight((char *)BTLV_EFFECT_GetMcss(), key);
+    case 8: return BTLV_MCSS_GetSpriteWeight((char *)BTLV_EFFECT_GetMcss(), s->dc);
     case 9: return s->b248;
     case 10: return s->b249;
     case 11: return s->b24a;

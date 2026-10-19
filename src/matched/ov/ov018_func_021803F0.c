@@ -11,7 +11,7 @@
  * symbols:
  *   FIELDMAP_GetGameSystem  0x02188C80  thumb  ov021
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
- *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   INTRUDE_COMM_GetRequestKind  0x02175DCC  thumb  ov011
  *   INTRUDE_COMM_GetSessionResult  0x02175BCC  thumb  ov011
  *   INTRUDE_COMM_IsSessionActive  0x02175B14  thumb  ov011
@@ -29,7 +29,7 @@ struct Ctx;
 extern void *FIELDMAP_GetGameSystem(void *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct BigObj;
-extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+extern u8 GAME_DATA_GetOwnNetId(const struct BigObj *p);
 extern int INTRUDE_COMM_GetRequestKind(void *p);
 extern u8 *INTRUDE_COMM_GetSessionResult(u8 *p);
 extern int INTRUDE_COMM_IsSessionActive(u8 *);
@@ -66,7 +66,7 @@ int EVENT_COMM_COMMON_GetTalkType(u8 *a, u8 *b)
     int kind;
     int r;
 
-    cur = (int)GAME_DATA_GetExitMode((const struct BigObj *)((int)GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(((struct Obj19375 *)a)->fC))));
+    cur = (int)GAME_DATA_GetOwnNetId((const struct BigObj *)((int)GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(((struct Obj19375 *)a)->fC))));
     kind = INTRUDE_COMM_GetRequestKind(b + 0x1AC);
     r = state(a, b, cur);
     if (r >= 3) {

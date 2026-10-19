@@ -1,5 +1,5 @@
 /*
- * function: BR_CODEIN_CallStoredFnB
+ * function: BR_CODEIN_CallAndClearDestroyFn
  * address: 0x021E2E48
  * packet: pkt_ov183_021E2E48
  * region: ov183
@@ -17,4 +17,4 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Pair;struct PrintSys;
 
-void BR_CODEIN_CallStoredFnB(char *p,int a,int b) { void (*f)(int,int);f=*(void (**)(int,int))(p+4);if(f){f(a,b);*(int *)&((struct Obj14444 *)p)->f4=0;} }
+void BR_CODEIN_CallAndClearDestroyFn(char *p,int a,int b) { void (*f)(int,int);f=*(void (**)(int,int))(p+4);if(f){f(a,b);*(int *)&((struct Obj14444 *)p)->f4=0;} }

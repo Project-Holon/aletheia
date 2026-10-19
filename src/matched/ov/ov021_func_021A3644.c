@@ -1,5 +1,5 @@
 /*
- * function: FIELD_PLAYER_FinishGridMove
+ * function: FIELD_PLAYER_FinishGridHop
  * address:  0x021A3644
  * packet:   pkt_ov021_021A3644
  * region:   ov021
@@ -28,7 +28,7 @@ extern u32 FIELDMAP_GetMoveKind(u8 *p);
 extern int FIELD_PLAYER_GRID_IsHopping(u32 a);
 extern void FIELD_PLAYER_GRID_FinishHop(u8 *p);
 
-void FIELD_PLAYER_FinishGridMove(void **p)
+void FIELD_PLAYER_FinishGridHop(void **p)
 {
     if (FIELDMAP_GetMoveKind(p[0]) == 0 && FIELD_PLAYER_GRID_IsHopping((u32)p[2]) == 1)
         FIELD_PLAYER_GRID_FinishHop(p[2]);

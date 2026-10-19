@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "SCRCMD_WORK_CmdGetPlayerSaveValue",
+   "name": "SCRCMD_WORK_CmdGetTrainerViewGroupAndMarkSeen",
    "address": "0x0215B0B4",
    "kind": "game",
    "region": "ov010",

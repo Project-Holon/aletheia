@@ -59,7 +59,7 @@
  *   GFL_HEAP_Free  0x020307B0  arm
  *   STRBUF_Delete  0x02045808  arm
  *   BTLV_INPUT_Delete  0x022021F4  thumb
- *   BTL_CALC_ActionSetNone  0x021D8434  thumb
+ *   BTL_ACTION_SetNone  0x021D8434  thumb
  *   BTLV_SCD_WaitActionTouchStep  0x0689A76C  thumb  ov095
  *   BTLV_SCD_WaitBackTouchStep  0x0689A84C  thumb  ov095
  *   BTLV_SCD_WaitMoveTouchStep  0x0689A988  thumb  ov095
@@ -180,7 +180,7 @@ extern void BTL_ACTION_SetFightSlotFlag(union BtlAction *action);
 extern void BTL_ACTION_SetRotate(union BtlAction *action, u32 direction);
 extern void BTL_ACTION_SetEscape(union BtlAction *action);
 extern void BTL_ACTION_SetSkip(union BtlAction *action);
-extern void BTL_CALC_ActionSetNone(union BtlAction *action);
+extern void BTL_ACTION_SetNone(union BtlAction *action);
 extern int BTL_CALC_GetCurseTargetKind(struct BtlPokeParam *bpp);
 extern u32 WAZA_TOOL_GetFlag(u16 moveId, u32 flagBit);
 extern u32 WAZA_TOOL_GetParam(u16 moveId, u32 paramId);
@@ -493,9 +493,9 @@ void BTLV_SCD_StartRotateMenu(BtlvAuxView *view, BtlvRotateSet *rotateSet, union
     view->rotateSet = rotateSet;
     view->action = action;
     view->reselectFn = BTLV_SCD_WaitRotateTouchStep;
-    BTL_CALC_ActionSetNone(action);
-    BTL_CALC_ActionSetNone(&rotateSet->rotateAction);
-    BTL_CALC_ActionSetNone(&rotateSet->fightAction);
+    BTL_ACTION_SetNone(action);
+    BTL_ACTION_SetNone(&rotateSet->rotateAction);
+    BTL_ACTION_SetNone(&rotateSet->fightAction);
     BTLV_SCD_PushTask(view, BTLV_SCD_OpenRotateMenuStep, BTLV_SCD_WaitRotateTouchStep);
 }
 
@@ -745,7 +745,7 @@ int BTLV_SCD_WaitMoveTouchStep(int *state, BtlvAuxView *view)
         else slotFlag = 0;
         choice &= ~0x8000;
         if (choice == 4) {
-            BTL_CALC_ActionSetNone(view->action);
+            BTL_ACTION_SetNone(view->action);
             return 1;
         }
         if (choice < BTL_POKEPARAM_GetMoveCount(view->pokeParam)) {
@@ -805,7 +805,7 @@ int BTLV_SCD_WaitRotateTouchStep(int *state, BtlvAuxView *view)
             if (slotFlag)
                 BTL_ACTION_SetFightSlotFlag(view->action);
         } else if (value == 4) {
-            BTL_CALC_ActionSetNone(view->action);
+            BTL_ACTION_SetNone(view->action);
         }
         return 1;
     }

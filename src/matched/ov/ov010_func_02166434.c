@@ -19,8 +19,8 @@
  *   SYMBOL_SAVE_GetBlock  0x0200E0B0  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetPartnerSlot  0x021767A0  thumb  ov011
- *   COMM_PLAYER_GetState849  0x021673C4  thumb  ov010
- *   COMM_PLAYER_GetState848  0x021673A8  thumb  ov010
+ *   SYMBOL_MAP_GetSymbolIndex  0x021673C4  thumb  ov010
+ *   SYMBOL_MAP_GetGroup  0x021673A8  thumb  ov010
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   INTRUDE_COMM_GetPartnerSymbolPage  0x02176880  thumb  ov011
  */
@@ -36,8 +36,8 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *SYMBOL_SAVE_GetBlock(void *p);
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern u8 INTRUDE_COMM_GetPartnerSlot(void *a, void *b);
-extern u8 COMM_PLAYER_GetState849(u8 *p);
-extern u8 COMM_PLAYER_GetState848(u8 *p);
+extern u8 SYMBOL_MAP_GetSymbolIndex(u8 *p);
+extern u8 SYMBOL_MAP_GetGroup(u8 *p);
 extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
 struct Rec {
     u8 pad[0x50];
@@ -59,8 +59,8 @@ int SYMBOL_MAP_GetSelection(void *a, u32 *out0, u32 *out1)
     sav = SYMBOL_SAVE_GetBlock(GAME_DATA_GetSaveControl(t));
     r = (void *)GAMESYSTEM_GetGameComm(a);
     if (INTRUDE_COMM_GetPartnerSlot(r, t) == 4) {
-        *out0 = COMM_PLAYER_GetState849(sav);
-        *out1 = COMM_PLAYER_GetState848(sav);
+        *out0 = SYMBOL_MAP_GetSymbolIndex(sav);
+        *out1 = SYMBOL_MAP_GetGroup(sav);
         return 1;
     }
     r = (void *)INTRUDE_COMM_GetWorkIfRunning((int)r);

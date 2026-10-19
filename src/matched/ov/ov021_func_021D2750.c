@@ -33,7 +33,7 @@
  *   FLDMMDL_LoadObjCodeParam  0x0216E2E8  thumb  ov010
  *   FIELD_PLAYER_GetNowGridPos  0x021A35FC  thumb  ov021
  *   FIELDMAP_GetMoveKind  0x02188CFC  thumb  ov021
- *   FIELD_PLAYER_SetNogridLocation  0x021A36BC  thumb  ov021
+ *   FIELD_PLAYER_GetNogridNextRailLocation  0x021A36BC  thumb  ov021
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
@@ -111,7 +111,7 @@ extern void FLDMMDL_LoadObjCodeParam(const char *ctx, u32 id, struct Record *out
 extern void FIELD_PLAYER_GetNowGridPos(unsigned char **p, u16 *a, u16 *b, u16 *c);
 extern u32 FIELDMAP_GetMoveKind(u8 *p);
 struct Obj18028;
-extern void FIELD_PLAYER_SetNogridLocation(struct Obj18028 *p, void *a1);
+extern void FIELD_PLAYER_GetNogridNextRailLocation(struct Obj18028 *p, void *a1);
 extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
 extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 struct Actor;
@@ -177,7 +177,7 @@ int FIELD_CheckPlayerPositionFree(u32 a)
         } else if (e->kind == 1) {
             q = &e->sub;
             if (FIELDMAP_GetMoveKind(y) == 1) {
-                FIELD_PLAYER_SetNogridLocation(o, &loc);
+                FIELD_PLAYER_GetNogridNextRailLocation(o, &loc);
                 if (q->a == loc.a && q->b == loc.b && q->c == loc.c) {
                     return 0;
                 }

@@ -19,7 +19,7 @@
  *   MSGDATA_Delete 0x02045C04 arm
  *   GFL_HEAP_Free 0x020307B0 arm
  *   WORLDTRADE_ADAPTER_ExitPrinter 0x02202744 thumb ov135
- *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GF_PANIC_Fail 0x02034714 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   MSGDATA_AllocString 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
@@ -110,7 +110,7 @@
  *   PRINTSYS_PrintStreamReleasePause  0x0201CE38  thumb  arm9
  *   PRINTSYS_PrintStreamShortWait  0x0201CE5C  thumb  arm9
  *   WORDSET_Delete  0x0201ED04  thumb  arm9
- *   GF_FONT_MeasureWidestLine  0x0201D304  thumb  arm9
+ *   PRINTSYS_MeasureWidestLine  0x0201D304  thumb  arm9
  */
 #include "worldtrade_types.h"
 
@@ -122,7 +122,7 @@ extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fi
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
@@ -265,7 +265,7 @@ extern void MAIL_SetWriterName(struct Sub02008F80Obj *obj, const void *src);
 
 extern void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
 
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 
@@ -402,7 +402,7 @@ void WORLDTRADE_ADAPTER_RegisterReceivedMon(Work *p, void *mon, u32 box, int hat
     u32 slot;
 
     POKE_TOOL_GetPartyValue(mon, 6, 0);
-    ZUKAN_SAVE_RegisterCaught(p->ctx->dex, mon);
+    ZUKAN_SAVE_RegisterCaught(p->ctx->zukanSave, mon);
     box = 0xFF;
     if (POKEPARTY_GetCount(p->ctx->party) == 6) {
         box = 0;
@@ -436,7 +436,7 @@ void WORLDTRADE_ADAPTER_RegisterReceivedMon(Work *p, void *mon, u32 box, int hat
 void WORLDTRADE_ADAPTER_RegisterReceivedMonB(Work *p,void *mon,void *unused2,void *unused3,u32 index)
 {
     u32 species, form, pos;
-    ZUKAN_SAVE_RegisterCaught(p->ctx->dex,mon);
+    ZUKAN_SAVE_RegisterCaught(p->ctx->zukanSave,mon);
     index=0xFF;
     if(POKEPARTY_GetCount(p->ctx->party)==6) index=0;
     POKE_TOOL_SetPartyValue(mon,9,0x46);
@@ -474,7 +474,7 @@ void WORLDTRADE_ADAPTER_StoreDateAsLastId(void *p, int which)
     }
 }
 
-void WORLDTRADE_ADAPTER_RegisterLanguageVersion(void *obj,Entry *p) { int b=p->ver,a=p->lang; if(WIFI_HISTORY_GetCountryRegionState(obj,a,b)==0) WIFI_HISTORY_SetCountryRegionState(obj,a,b,1); }
+void WORLDTRADE_ADAPTER_RegisterLanguageVersion(void *obj,Entry *p) { int b=p->area,a=p->nation; if(WIFI_HISTORY_GetCountryRegionState(obj,a,b)==0) WIFI_HISTORY_SetCountryRegionState(obj,a,b,1); }
 
 int WORLDTRADE_ADAPTER_CheckPartyHasOther(Work *p, void *mon)
 {
@@ -612,7 +612,7 @@ u32 WORLDTRADE_ADAPTER_GetBoxParam(void *mon)
  */
 int WORLDTRADE_ADAPTER_StrObjThunk(u32 *p, u32 unused1, u32 str, u32 margin)
 {
-    return GF_FONT_MeasureWidestLine((struct StrObj *)str, *p, (u16)margin);
+    return PRINTSYS_MeasureWidestLine((struct StrObj *)str, *p, (u16)margin);
 }
 
 void WORLDTRADE_ADAPTER_InitPrinter(Printer *ctx, u32 arg)
@@ -734,7 +734,7 @@ u32 WORLDTRADE_ADAPTER_PrintQueColor(void *win, u8 unused1, u32 str, u32 x, u32 
         }
     }
     if (found == 0) {
-        SAVEDATA_PanicFail((void *)0x02203F74, 0, (void *)0x02203F74);
+        GF_PANIC_Fail((void *)0x02203F74, 0, (void *)0x02203F74);
     }
     found->win = win;
     found->busy = 0;
@@ -832,7 +832,7 @@ void WORLDTRADE_ADAPTER_PrintNumber(MsgSys *ctx, u32 num, u32 digits, u32 mode, 
             return;
         }
     }
-    SAVEDATA_PanicFail((void *)0x02203F74, 0, (void *)0x02203F74);
+    GF_PANIC_Fail((void *)0x02203F74, 0, (void *)0x02203F74);
 }
 
 #pragma thumb on
@@ -858,5 +858,5 @@ void WORLDTRADE_ADAPTER_QueueMessagePrint(MsgSys *p, int unusedArg, void *win, i
             return;
         }
     }
-    SAVEDATA_PanicFail((void *)0x02203F74, 0, (void *)0x02203F74);
+    GF_PANIC_Fail((void *)0x02203F74, 0, (void *)0x02203F74);
 }

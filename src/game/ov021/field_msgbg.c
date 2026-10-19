@@ -59,7 +59,7 @@
  *   BMP_MENUWORK_AddMsgItem  0x0201F878  thumb  arm9
  *   BMP_MENUWORK_AddStrItem  0x0201F898  thumb
  *   BMP_MENUWORK_ReleaseItems  0x0201F8F4  thumb
- *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
+ *   PRINTSYS_MeasureWidestLine  0x0201D304  thumb
  *   BMP_MENUWORK_CountItems  0x0201F91C  thumb
  *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb
  *   sYesNoMenuHeader     0x021D3F38  data   ov021  a4
@@ -89,7 +89,7 @@
  *   TALKMSGWIN_DeleteFrameWindow  0x02194A48  thumb  ov021
  *   TALKMSGWIN_ClearWindowFrame  0x02194A34  thumb  ov021
  *   TALKMSGWIN_SetupPlainWindow  0x021947E8  thumb  ov021
- *   GF_FONT_CountLines  0x0201D42C  thumb  arm9
+ *   PRINTSYS_CountLines  0x0201D42C  thumb  arm9
  *   STRBUF_GetLength  0x020458F8  arm
  *   STRBUF_Copy  0x02045838  arm
  *   BMP_WIN_Create  0x020450F0  arm
@@ -106,7 +106,7 @@
  *   BMP_CopyPixels  0x02043814  arm
  *   ARC_UTIL_UploadBgCharFromArchive  0x02049624  arm
  *   ARC_UTIL_UploadPaletteFromArchive  0x02049B90  arm
- *   GF_FONT_CopyLine  0x0201D37C  thumb
+ *   PRINTSYS_CopyLine  0x0201D37C  thumb
  *   PRINTSYS_Print  0x0201C7A4  thumb  arm9
  *   BMP_GetWidth  0x020437DC  arm  arm9
  *   BMP_GetHeight  0x020437E4  arm  arm9
@@ -264,7 +264,7 @@ extern struct BmpMenuWork *BMP_MENUWORK_Create(int count, u16 heapId);
 extern void BMP_MENUWORK_AddMsgItem(struct BmpMenuWork *items, struct MsgData *msgData, u32 msgId, u32 param, u32 heapId);
 extern u32 BMP_MENUWORK_AddStrItem(struct BmpMenuWork *items, struct Strbuf *str, u32 param, u32 heapId);
 extern void BMP_MENUWORK_ReleaseItems(struct BmpMenuWork *items);
-extern u32 GF_FONT_MeasureWidestLine(struct Strbuf *str, struct GfFont *font, u32 margin);
+extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *str, struct GfFont *font, u32 margin);
 extern u32 BMP_MENUWORK_CountItems(struct BmpMenuWork *items);
 extern u32 BMP_MENUWORK_DrawWindow(struct BmpWin *bmpWin, u32 trans, u32 charStart, u32 palette);
 extern struct PrintStream *PRINTSYS_PrintStreamCallBack(struct BmpWin *bmpWin, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait,
@@ -299,7 +299,7 @@ extern u32 TALKMSGWIN_DeleteFrameWindow(struct TalkMsgWinSys *talkSys, struct Bm
 extern int TALKMSGWIN_ClearWindowFrame(struct TalkMsgWinSys *talkSys, struct BmpWin *bmpWin);
 extern void TALKMSGWIN_SetupPlainWindow(struct TalkMsgWinSys *talkSys, int index, struct Strbuf *str, u8 x, u8 y, u8 width, u8 height,
                           u32 color, u32 bgColor, u32 wait, u8 frameType, u8 tailDir);
-extern u32 GF_FONT_CountLines(struct Strbuf *str, struct GfFont *font);
+extern u32 PRINTSYS_CountLines(struct Strbuf *str, struct GfFont *font);
 extern int FIELD_MSGBG_StoreSubMsgWin(FieldMsgBg *msgBg, FieldSubMsgWin *subMsgWin);
 extern u16 STRBUF_GetLength(struct Strbuf *str);
 extern void STRBUF_Copy(struct Strbuf *dst, struct Strbuf *src);
@@ -318,7 +318,7 @@ extern void BMP_Delete(struct Bmp *bmp);
 extern void BMP_CopyPixels(struct Bmp *dst, const struct Bmp *src);
 extern void ARC_UTIL_UploadBgCharFromArchive(u32 arcId, u32 fileId, u32 frame, u32 offset, u32 size, u32 compressed, u32 heapId);
 extern void ARC_UTIL_UploadPaletteFromArchive(u32 arcId, u32 fileId, u32 type, u32 offset, u32 size, u32 transSize, u32 heapId);
-extern u32 GF_FONT_CopyLine(struct Strbuf *src, struct Strbuf *dst, u32 line);
+extern u32 PRINTSYS_CopyLine(struct Strbuf *src, struct Strbuf *dst, u32 line);
 extern void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font);
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 extern u16 BMP_GetHeight(const struct Bmp *bmp);
@@ -1033,7 +1033,7 @@ u32 FIELD_MSGBG_GetMenuItemsMaxWidth(FieldMsgBg *msgBg, BmpMenuWork *items, u32 
             if (items->str == 0) {
                 break;
             }
-            width = GF_FONT_MeasureWidestLine(items->str, msgBg->font, marginU16);
+            width = PRINTSYS_MeasureWidestLine(items->str, msgBg->font, marginU16);
             if (width > bestWidth) {
                 bestWidth = width;
                 bestIndex = i;
@@ -1691,8 +1691,8 @@ void FIELD_MSGBG_SetupSubMsgWin(FieldMsgBg *msgBg, FieldSubMsgWin *subMsgWin, st
 void FIELD_MSGBG_GetStrSizeChars(FieldMsgBg *msgBg, struct Strbuf *str, u8 *width, u8 *height)
 {
     u32 marginX = 2, marginY = 0;
-    u32 widthChars = GF_FONT_MeasureWidestLine(str, msgBg->font, 0) + marginX;
-    u32 heightChars = GF_FONT_CountLines(str, msgBg->font) + marginY;
+    u32 widthChars = PRINTSYS_MeasureWidestLine(str, msgBg->font, 0) + marginX;
+    u32 heightChars = PRINTSYS_CountLines(str, msgBg->font) + marginY;
     u32 pixels = widthChars;
     widthChars >>= 3;
     if (pixels & 7) widthChars++;
@@ -1974,7 +1974,7 @@ void FIELD_MSGBG_ClearBgWinFrame(u8 frame, u8 x, u8 y, u8 width, u8 height, u16 
 
 int FIELD_MSGBG_IsLineMissing(struct Strbuf *str, struct Strbuf *lineStr, u32 line)
 {
-    if (GF_FONT_CopyLine(str, lineStr, line) == 0) {
+    if (PRINTSYS_CopyLine(str, lineStr, line) == 0) {
         return 1;
     }
     return 0;
@@ -1985,12 +1985,12 @@ int FIELD_MSGBG_PrintTwoLines(struct Bmp *bmp, struct GfFont *font, struct Strbu
     int y;
 
     BMP_Clear(bmp, color);
-    if (GF_FONT_CopyLine(str, lineStr, *line) == 0)
+    if (PRINTSYS_CopyLine(str, lineStr, *line) == 0)
         return 1;
     PRINTSYS_Print(bmp, 1, 1, lineStr, font);
     y = 1;
-    y += GF_FONT_CountLines(lineStr, font) + 1;
-    if (GF_FONT_CopyLine(str, lineStr, ++*line) == 0)
+    y += PRINTSYS_CountLines(lineStr, font) + 1;
+    if (PRINTSYS_CopyLine(str, lineStr, ++*line) == 0)
         return 1;
     PRINTSYS_Print(bmp, 1, y, lineStr, font);
     ++*line;
@@ -2101,7 +2101,7 @@ void FIELD_MSGBG_PrintLines(u16 x, u16 y, struct Bmp *bmp, struct GfFont *font, 
 
     lineHeight = GF_FONT_GetLineHeight(font) + 2;
     lineStr = STRBUF_Create(STRBUF_GetLength(str) + 1, heapId);
-    for (line = 0; GF_FONT_CopyLine(str, lineStr, line) == 1; line++) {
+    for (line = 0; PRINTSYS_CopyLine(str, lineStr, line) == 1; line++) {
         PRINTSYS_Print(bmp, (s16)x, (s16)y, lineStr, font);
         y += (u16)lineHeight;
     }
@@ -2173,7 +2173,7 @@ u32 FIELD_MSGBG_GetStrWidthChars(FieldMsgBg *msgBg, struct Strbuf *str, int marg
     u32 width;
     u32 chars;
 
-    width = margin * 2 + GF_FONT_MeasureWidestLine(str, msgBg->font, 0);
+    width = margin * 2 + PRINTSYS_MeasureWidestLine(str, msgBg->font, 0);
     chars = width >> 3;
     if (width & 7)
         chars++;
@@ -2186,11 +2186,11 @@ u32 FIELD_MSGBG_GetStrHeightChars(FieldMsgBg *msgBg, struct Strbuf *str, u32 mar
     struct Strbuf *lineStr;
     u32 lines;
 
-    height = margin * 2 + GF_FONT_CountLines(str, msgBg->font);
+    height = margin * 2 + PRINTSYS_CountLines(str, msgBg->font);
     lineStr = STRBUF_Clone(str, msgBg->heapId);
     lines = 0;
-    if (GF_FONT_CopyLine(str, lineStr, 0) == 1) {
-        while (++lines < 0x18 && GF_FONT_CopyLine(str, lineStr, lines) == 1)
+    if (PRINTSYS_CopyLine(str, lineStr, 0) == 1) {
+        while (++lines < 0x18 && PRINTSYS_CopyLine(str, lineStr, lines) == 1)
             ;
     }
     STRBUF_Delete(lineStr);

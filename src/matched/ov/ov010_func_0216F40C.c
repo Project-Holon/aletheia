@@ -40,22 +40,22 @@
  *   func_020084F4  0x020084F4  thumb
  *   func_02008550  0x02008550  thumb
  *   func_02008530  0x02008530  thumb
- *   BEACON_GetMoney  0x0200C274  thumb
- *   BEACON_GetBadge  0x0200C234  thumb
+ *   MISC_GetMoney  0x0200C274  thumb
+ *   MISC_GetBadge  0x0200C234  thumb
  *   GAME_DATA_GetPlayTime  0x02012FCC  thumb
  *   func_02008554  0x02008554  thumb
  *   func_0200864C  0x0200864C  thumb
  *   func_02008650  0x02008650  thumb
  *   func_02008A0C  0x02008A0C  thumb
  *   func_02008A28  0x02008A28  thumb
- *   MISC_SAVEDATA_CopyQuadRecord  0x0200E6FC  thumb
- *   BEACON_GetThanksCount  0x0200C1DC  thumb
+ *   GREETING_SAVEDATA_GetSentence  0x0200E6FC  thumb
+ *   MISC_GetThanksCount  0x0200C1DC  thumb
  *   INTRUDE_GetFromSave  0x0200BE48  thumb
  *   GPOWER_LoadPowerTable  0x02010F7C  thumb
  *   INTRUDE_GetObtainedFlags  0x0200BF54  thumb
  *   GAME_DATA_GetLastBattleRecSlot  0x020127B8  thumb
  *   GPOWER_FreePowerTable  0x02010F8C  thumb
- *   BEACON_GetBestScore  0x0200C184  thumb
+ *   MISC_GetBestScore  0x0200C184  thumb
  *   func_02008EA0  0x02008EA0  thumb
  *   func_02008E78  0x02008E78  thumb
  *   func_0200921C  0x0200921C  thumb
@@ -181,22 +181,22 @@ extern int func_020084BC(const u16 *values);
 extern const void *func_020084F4(const void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
-extern u32 BEACON_GetMoney(struct Blk34 *p);
-extern u32 BEACON_GetBadge(struct Blk34 *p, u32 bit);
+extern u32 MISC_GetMoney(struct Blk34 *p);
+extern u32 MISC_GetBadge(struct Blk34 *p, u32 bit);
 extern int GAME_DATA_GetPlayTime(int p0);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern u16 func_0200864C(const struct PlayTime *p);
 extern u8 func_02008650(const struct PlayTime *p);
 extern u16 func_02008A0C(const struct Sub020089A8Obj *obj);
 extern u8 func_02008A28(const struct Sub020089A8Obj *obj);
-extern void MISC_SAVEDATA_CopyQuadRecord(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
-extern u32 BEACON_GetThanksCount(struct Blk34 *p);
+extern void GREETING_SAVEDATA_GetSentence(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
+extern u32 MISC_GetThanksCount(struct Blk34 *p);
 extern u16 *INTRUDE_GetFromSave(void *sys);
 extern void *GPOWER_LoadPowerTable(u32 heap);
 extern void INTRUDE_GetObtainedFlags(struct Rec1B0 *p, u8 *dest, u32 n);
 extern void *GAME_DATA_GetLastBattleRecSlot(void *save);
 extern void GPOWER_FreePowerTable(void *p);
-extern u32 BEACON_GetBestScore(struct Blk34 *p);
+extern u32 MISC_GetBestScore(struct Blk34 *p);
 extern u32 func_02008EA0(struct Sub02008C20Obj *obj);
 extern u8 func_02008E78(struct Sub02008C20Obj *obj);
 extern struct Sub02009210Obj *func_0200921C(void *p);
@@ -258,11 +258,11 @@ void TRCARD_SYS_BuildProfile(Profile *out, void *save, int mode, int flag, volat
     out->f03 = (u32)TRCARD_SYS_CountStars(save);
     out->b1 = (u32)func_02008550(player);
     out->f28 = func_02008530(player);
-    out->f20 = BEACON_GetMoney(x1c);
+    out->f20 = MISC_GetMoney(x1c);
     out->f08 = 0;
     out->kind = 0x15;
     for (i = 0, bit = 1; i < 8; i++) {
-        if (BEACON_GetBadge(x1c, i) == 1)
+        if (MISC_GetBadge(x1c, i) == 1)
             out->f08 |= bit;
         bit <<= 1;
     }
@@ -281,7 +281,7 @@ void TRCARD_SYS_BuildProfile(Profile *out, void *save, int mode, int flag, volat
     }
     out->f48 = (u32)func_02008A0C(x24);
     out->b4 = (u32)func_02008A28(x24);
-    MISC_SAVEDATA_CopyQuadRecord(x10, (u32)0, (struct Rec0200E6FC *)out->f6c);
+    GREETING_SAVEDATA_GetSentence(x10, (u32)0, (struct Rec0200E6FC *)out->f6c);
 
     RTC_ConvertSecondToDateTime(&date, &time, clock->sec1);
     out->year1 = date.year;
@@ -309,7 +309,7 @@ void TRCARD_SYS_BuildProfile(Profile *out, void *save, int mode, int flag, volat
     out->f4c = TRCARD_SYS_SumCappedRecords(x14, 4, 999999999);
     out->f50 = TRCARD_SYS_SumCappedRecords(x14, 5, 999999999);
     out->f54 = TRCARD_SYS_SumCappedRecords(x14, 6, 999999999);
-    out->f58 = BEACON_GetThanksCount(x1c);
+    out->f58 = MISC_GetThanksCount(x1c);
     out->f5c = TRCARD_SYS_SumCappedRecords(x14, 7, 9999);
 
     q = INTRUDE_GetFromSave(x28);
@@ -319,7 +319,7 @@ void TRCARD_SYS_BuildProfile(Profile *out, void *save, int mode, int flag, volat
     GPOWER_FreePowerTable(p);
 
     out->f60 = TRCARD_SYS_SumCappedRecords(x14, 8, 9999);
-    out->f62 = BEACON_GetBestScore(x1c);
+    out->f62 = MISC_GetBestScore(x1c);
     out->f64 = func_02008EA0(x14);
     out->f66 = (u32)func_02008E78(x14);
     out->fl0 = (u32)func_020090E0((const struct Sub020090B0Obj *)func_0200921C(save));

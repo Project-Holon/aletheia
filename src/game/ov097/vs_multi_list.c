@@ -24,7 +24,7 @@
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   BMP_SetDisplaySwap  0x0204363C  arm
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   BG_SYS_SetMainPlaneVisible  0x020434DC  arm
  *   VS_MULTI_LIST_DeleteBgFrames 0x021F75E0 thumb ov097
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
@@ -84,7 +84,7 @@
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   POKE_TOOL_GetPartyValue 0x02017E1C thumb
  *   POKE_TOOL_GetGender 0x02017F00 thumb
- *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
+ *   PRINTSYS_MeasureWidestLine 0x0201D304 thumb
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   BMP_FillRect 0x02043AF4 arm
  *   CLACT_InitSystem 0x0204A48C arm
@@ -265,7 +265,7 @@ extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void BMP_SetDisplaySwap(u32 swap);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern u32 WIPE_SYS_EndCheck(void);
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
@@ -319,7 +319,7 @@ extern void WORDSET_CopyTaggedText(struct WordSet *ws, struct Strbuf *dst, struc
 extern void PRINTSYS_PrintQueColor(struct PrintSys *que, struct Bmp *bmp, u32 x, u32 y, struct Strbuf *str, struct GfFont *font, u16 color);
 extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *mon, u32 param, u32 unused);
 extern u8 POKE_TOOL_GetGender(struct PokemonParam *mon);
-extern u32 GF_FONT_MeasureWidestLine(struct Strbuf *str, struct GfFont *font, u32 margin);
+extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *str, struct GfFont *font, u32 margin);
 extern void WORDSET_SetSlotNumber(struct WordSet *, u32, u32, u32, u32, u32);
 extern void BMP_FillRect(struct Bmp *, unsigned, unsigned, unsigned, unsigned, unsigned);
 extern void CLACT_InitSystem(const struct ClactInit *, unsigned, unsigned);
@@ -457,7 +457,7 @@ int VS_MULTI_LIST_StateSetup(struct VsMultiList *work)
     VS_MULTI_LIST_CreateWindows(work);
     VS_MULTI_LIST_InitIcons(work);
     VS_MULTI_LIST_CreateBgFrames(work);
-    GFL_NET_RestartWithDefaultTimeout(1, 0x71);
+    GFL_NET_RefreshWmIconAtTopRight(1, 0x71);
     BG_SYS_SetMainPlaneVisible(0x17, 1);
     VS_MULTI_LIST_AddVBlankTask(work);
     return VS_MULTI_LIST_StartWipeIn(work, VS_MULTI_LIST_EnterWaitState(work, 0x80, VS_MULTI_LIST_STATE_SLIDE));
@@ -729,7 +729,7 @@ static inline void PrintRight(struct VsMultiList *work, int slot, struct BmpWin 
     struct Strbuf *str = MSGDATA_AllocString(work->msgBank, msgId);
     struct GfFont *font = work->font;
     u32 width = BMP_WIN_GetWidth(window);
-    short x = (short)(width * 8 - GF_FONT_MeasureWidestLine(str, work->font, 0));
+    short x = (short)(width * 8 - PRINTSYS_MeasureWidestLine(str, work->font, 0));
     struct PrintSys *printQue = work->printQue;
     PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(work->windows[slot].bmpWin), x, 7, str, font, color);
     work->windows[slot].dirty = 1;
@@ -834,7 +834,7 @@ void VS_MULTI_LIST_PrintHp(struct VsMultiList *work, int slot)
 
     buf = STRBUF_Create(0x20, 0x8071);
     hpLabel = MSGDATA_AllocString(work->msgBank, 0xc);
-    labelWidth = GF_FONT_MeasureWidestLine(hpLabel, work->fontSmall, 0);
+    labelWidth = PRINTSYS_MeasureWidestLine(hpLabel, work->fontSmall, 0);
     labelX = CenterX(labelWidth);
     {
         u32 bmp;
@@ -851,7 +851,7 @@ void VS_MULTI_LIST_PrintHp(struct VsMultiList *work, int slot)
     {
         u32 bmp;
         font = (u32)work->fontSmall;
-        x = labelX - GF_FONT_MeasureWidestLine(buf, (struct GfFont *)font, 0);
+        x = labelX - PRINTSYS_MeasureWidestLine(buf, (struct GfFont *)font, 0);
         printQue2 = (u32)work->printQue;
         bmp = (u32)BMP_WIN_GetBmp(work->windows[slot].bmpWin);
         PRINTSYS_PrintQueColor((struct PrintSys *)printQue2, (struct Bmp *)bmp, x, 0x20, buf, (struct GfFont *)font, 0x3dc0);

@@ -21,7 +21,7 @@
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   MUSICAL_MCSS_GetElemPtr 0x021F4F54 thumb ov112
- *   MUSICAL_MCSS_NoOp6 0x021F4F70 thumb ov112
+ *   MUSICAL_MCSS_GetElemSizeFlags 0x021F4F70 thumb ov112
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   STA_ACT_BUTTON_LoadCharacter 0x021FA99C thumb ov132
@@ -36,7 +36,7 @@ typedef struct {s16 x,y,index;u8 a,b;} Params;
 struct Bank;
 extern u32 STA_ACTING_GetActorCount(u8 *p);
 extern u8 *MUSICAL_MCSS_GetElemPtr(u8 *,int);
-extern int MUSICAL_MCSS_NoOp6(int *);
+extern int MUSICAL_MCSS_GetElemSizeFlags(int *);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void *func_020490F4(u32 id, u32 heap);
 struct Obj;
@@ -72,7 +72,7 @@ void STA_ACT_BUTTON_CreateActors(char *p)
     ARC_TOOL_DeleteHandle(narc);
     for(i=0;i<2;i++) {
         if(*(u16 *)(p+i*2+0x48)!=255) {
-            format=MUSICAL_MCSS_NoOp6((int *)MUSICAL_MCSS_GetElemPtr(table,*(u16 *)(p+i*2+0x48)));
+            format=MUSICAL_MCSS_GetElemSizeFlags((int *)MUSICAL_MCSS_GetElemPtr(table,*(u16 *)(p+i*2+0x48)));
             if(i==0) configs[1].x=32;
             else configs[1].x=224;
             configs[1].y=160;

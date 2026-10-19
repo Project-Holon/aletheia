@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_NETWORK_CreateWifiProcEvent
+ * function: EVENT_WIFI_PROC_Create
  * address:  0x0215FBF4
  * packet:   pkt_ov010_0215FBF4
  * region:   ov010
@@ -16,7 +16,7 @@
  *   func_020124E8  0x020124E8  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   SCRCMD_NETWORK_WifiProcEventMain  0x0215FA54  thumb  ov010
+ *   EVENT_WIFI_PROC_EventMain  0x0215FA54  thumb  ov010
  */
 
 typedef unsigned char  u8;
@@ -35,7 +35,7 @@ extern void *func_020124E8(struct Obj *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 struct Work;
-extern int SCRCMD_NETWORK_WifiProcEventMain(void *evt, u32 *state, struct Work *w);
+extern int EVENT_WIFI_PROC_EventMain(void *evt, u32 *state, struct Work *w);
 
 /* record behind the descriptor: owner, its context, the context's head */
 struct Rec {
@@ -44,16 +44,16 @@ struct Rec {
     void *head;
 };
 
-struct Desc *SCRCMD_NETWORK_CreateWifiProcEvent(int a0, int a1, struct Desc *a2, int a3)
+struct Desc *EVENT_WIFI_PROC_Create(int a0, int a1, struct Desc *a2, int a3)
 {
     struct Rec *p;
     void *ctx;
 
     FIELDMAP_GetSubscreen((u8 *)a1);
     if (a3 != 0) {
-        a2 = func_020122C0((void *)a0, 0, (void *)SCRCMD_NETWORK_WifiProcEventMain, 0x34);
+        a2 = func_020122C0((void *)a0, 0, (void *)EVENT_WIFI_PROC_EventMain, 0x34);
     } else {
-        GAME_EVENT_Change((char *)a2, (int)SCRCMD_NETWORK_WifiProcEventMain, 0x34);
+        GAME_EVENT_Change((char *)a2, (int)EVENT_WIFI_PROC_EventMain, 0x34);
     }
     p = (struct Rec *)func_020124E8((struct Obj *)a2);
     ctx = GAMESYSTEM_GetGameData((const struct Ctx *)a0);

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "TR_AI_CompareTargetSick11",
+   "name": "TR_AI_CompareTargetTaunted",
    "address": "0x02189640",
    "kind": "game",
    "region": "ov096",

@@ -12,7 +12,7 @@
  * symbols:
  *   KEY_GetTrg  0x020362DC  arm
  *   KEY_GetCont  0x0203630C  arm
- *   FIELD_PLAYER_SetupNogrid  0x021A3674  thumb
+ *   FIELD_PLAYER_UpdateNogrid  0x021A3674  thumb
  */
 
 typedef unsigned int u32;
@@ -20,11 +20,11 @@ typedef unsigned int u32;
 extern u32 KEY_GetTrg(void);
 extern unsigned int KEY_GetCont(void);
 typedef unsigned char  u8;
-extern void FIELD_PLAYER_SetupNogrid(u8 *p, u32 b, u32 c);
+extern void FIELD_PLAYER_UpdateNogrid(u8 *p, u32 b, u32 c);
 
 void FIELDMAP_CTRL_NOGRID_WORK_MovePlayer(u32 *a)
 {
     u32 x = KEY_GetTrg();
     u32 y = KEY_GetCont();
-    FIELD_PLAYER_SetupNogrid((u8 *)(*a), x, y);
+    FIELD_PLAYER_UpdateNogrid((u8 *)(*a), x, y);
 }

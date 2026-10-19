@@ -11,7 +11,7 @@
  *   BTLV_CORE_StartAutoSelectNotice 0x021EAE44 thumb ov093
  *   BTLV_CORE_PollAutoSelectNotice 0x021EAE54 thumb ov093
  *   BTL_SIDE_GetClientPokeParam 0x021B990C thumb ov093
- *   BTL_CALC_ActionSetNone 0x021D8434 thumb ov093
+ *   BTL_ACTION_SetNone 0x021D8434 thumb ov093
  *   BTL_CLIENT_IsActionForced 0x021CF470 thumb ov093
  *   BTL_CLIENT_BuildUsableMoveMask 0x021CF81C thumb ov093
  *   BTL_POKEPARAM_GetMoveId 0x021D54C0 thumb ov093
@@ -30,7 +30,7 @@ extern int BTLV_CORE_PollAutoSelectNotice(void *);
 typedef signed int     s32;
 extern void *BTL_SIDE_GetClientPokeParam(char *p, unsigned int i, unsigned int j);
 struct Unk021D82D0;
-extern void BTL_CALC_ActionSetNone(u32 *p);
+extern void BTL_ACTION_SetNone(u32 *p);
 extern u32 BTL_CLIENT_IsActionForced(u8 *,void *,u8 *);
 extern u32 BTL_CLIENT_BuildUsableMoveMask(u8 *,void *,u8 *);
 extern u16 BTL_POKEPARAM_GetMoveId(u8 *p, int i);
@@ -54,7 +54,7 @@ int BTL_CLIENT_StepAutoSelectActions(u8 *p,int *state)
             for (; p[0x11d] < p[0x11c]; p[0x11d]++) {
                 ((struct Obj00662 *)p)->f8 = BTL_SIDE_GetClientPokeParam(((struct Obj00662 *)p)->f4,p[0x1a6],p[0x11d]);
                 *(u8 * *)&((struct Obj00662 *)p)->fC = p+0x124+p[0x11d]*4;
-                BTL_CALC_ActionSetNone((u32 *)(*(u8 * *)&((struct Obj00662 *)p)->fC));
+                BTL_ACTION_SetNone((u32 *)(*(u8 * *)&((struct Obj00662 *)p)->fC));
                 if (!BTL_CLIENT_IsActionForced(p,((struct Obj00662 *)p)->f8,*(u8 * *)&((struct Obj00662 *)p)->fC)) {
                     i = BTL_CLIENT_BuildUsableMoveMask(p,((struct Obj00662 *)p)->f8,out);
                     if (i < 4) {

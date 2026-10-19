@@ -1,5 +1,5 @@
 /*
- * function: SAVEDATA_PanicFailPrintf
+ * function: GF_PANIC_FailPrintf
  * address:  0x02034734
  * packet:   pkt_02034734
  * region:   arm9
@@ -33,8 +33,8 @@
  * would add `mov`s the original does not have.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/SAVEDATA_PanicFailPrintf.c \
- *       --func SAVEDATA_PanicFailPrintf --addr 0x02034734 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_PANIC_FailPrintf.c \
+ *       --func GF_PANIC_FailPrintf --addr 0x02034734 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -50,7 +50,7 @@ struct Sink {
 
 extern struct Sink g_Sink;
 
-void SAVEDATA_PanicFailPrintf(const char *expr, u32 line, const char *file, ...)
+void GF_PANIC_FailPrintf(const char *expr, u32 line, const char *file, ...)
 {
     AssertHandler h = g_Sink.handler;
 

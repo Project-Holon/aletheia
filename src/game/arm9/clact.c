@@ -1,7 +1,7 @@
 /*
  * file:     clact.c
  * unit:     yes
- * function: CLACT_InitSystem, CLACT_ExitSystem, CLACT_DrawSystem, CLACT_VBlankSystem, CLACT_FlushOamIfPending, CLACT_RegisterCharacter, CLACT_RegisterEmptyCharacter, CLACT_ReleaseCharacter, CLACT_TransferCharacter, CLACT_TransferCharacterPart, CLACT_GetCharacterProxy, CLACT_GetCharacterVramAddress, CLACT_RegisterPalette, CLACT_RegisterPaletteEx, CLACT_RegisterPaletteCompressed, CLACT_ReleasePalette, CLACT_TransferPalette, CLACT_GetPaletteProxy, CLACT_RegisterCellAnim, CLACT_ReleaseCellAnim, CLACT_CreateRenderer, CLACT_DeleteRenderer, CLACT_SetSurfacePos, CLACT_GetSurfacePos, CLACT_SetRendererCulling, CLACT_CreateUnit, CLACT_DeleteUnit, CLACT_SetUnitDrawEnable, CLACT_GetUnitDrawEnable, CLACT_SetUnitRenderer, CLACT_SetUnitDefaultRenderer, CLACT_CreateActor, CLACT_CreateAffineActor, CLACT_DeleteActor, CLACT_SetActorDrawEnable, CLACT_GetActorDrawEnable, CLACT_AddActorSurfacePos, CLACT_GetActorSurfacePos, CLACT_SetActorSurfacePosAxis, CLACT_GetActorSurfacePosAxis, CLACT_SetActorPos, CLACT_GetActorPos, CLACT_SetActorPosAxis, CLACT_GetActorPosAxis, CLACT_SetActorAffineMode, CLACT_SetActorAffineOriginAxis, CLACT_SetActorScale, CLACT_GetActorScale, CLACT_SetActorScaleAxis, CLACT_GetActorScaleAxis, CLACT_SetActorRotation, CLACT_GetActorRotation, CLACT_SetActorFlip, CLACT_GetActorFlip, CLACT_SetActorObjMode, CLACT_GetActorObjMode, CLACT_SetActorPaletteOffset, CLACT_GetActorPaletteOffset, CLACT_SetActorPaletteProxy, CLACT_GetActorPaletteProxy, CLACT_SetActorImageProxy, CLACT_GetActorImageProxy, CLACT_GetActorCharacterIndex, CLACT_GetActorPaletteIndex, CLACT_SetActorDrawPriority, CLACT_GetActorDrawPriority, CLACT_SetActorBgPriority, CLACT_GetActorBgPriority, CLACT_SetActorAnimSeq, CLACT_GetActorAnimSeq, CLACT_ChangeActorAnimSeq, CLACT_SetActorAnimFrame, CLACT_AddActorAnimFrame, CLACT_GetActorAnimFrame, CLACT_SetActorAnimIndex, CLACT_GetActorAnimSeqCount, CLACT_SetActorAutoAnim, CLACT_GetActorAutoAnim, CLACT_SetActorAutoAnimSpeed, CLACT_StartActorAnim, CLACT_StopActorAnim, CLACT_IsActorAnimActive, CLACT_RestartActorAnim, CLACT_SetActorAnimLoopCount, CLACT_ApplyActorAnimCommand, CLACT_ResetActorAnimCommand, CLACT_SetActorVisible, CLACT_InitDefaultRenderer, CLACT_SetOamOffsets, CLACT_SetSystemActive, CLACT_IsSystemActive, CLACT_SetOamPending, CLACT_IsOamPending, CLACT_ResetOamIfPending, CLACT_DrawAllUnits, CLACT_LinkUnit, CLACT_UnlinkUnit, CLACT_InitOamManagers, CLACT_ExitOamManagers, CLACT_ApplyOamManagers, CLACT_ResetOamManagers, CLACT_InitOamManager, CLACT_ApplyOamManager, CLACT_ResetOamManager, CLACT_InitRenderer, CLACT_ExitRenderer, CLACT_SetSurfaceCulling, CLACT_InitSurface, CLACT_SetSurfaceType, CLACT_EntryOam, CLACT_EntryOamMain, CLACT_EntryOamSub, CLACT_SetOamManagerMainParam, CLACT_SetOamManagerSubParam, CLACT_IsAffineCellInView, CLACT_IsCellInView, CLACT_CullOam, CLACT_IsRectInView, CLACT_InitTransferPool, CLACT_ExitTransferPool, CLACT_AllocTransferEntries, CLACT_FreeTransferEntries, CLACT_ExecuteTransfers, CLACT_GetFreeTransferEntry, CLACT_RequestTransfer, CLACT_SetTransferEntry, CLACT_ExecuteTransfer, CLACT_GetFreeActor, CLACT_DrawUnit, CLACT_LinkActor, CLACT_UnlinkActor, CLACT_FindActorBefore, CLACT_FindActorAfter, CLACT_ClearActor, CLACT_DrawActor, CLACT_SetupActorDraw, CLACT_ApplyActorTransform, CLACT_UpdateActorAutoAnim, CLACT_ApplyActorInit, CLACT_ApplyActorResources, CLACT_GetSurfaceOrigin, CLACT_InitActorRequest, CLACT_CreateActorCore, CLACT_CreateActorFull, CLACT_InitAnimCtl, CLACT_ExitAnimCtl, CLACT_GetAnimCtlKind, CLACT_InitCellAnimCtl, CLACT_InitMultiCellAnimCtl, CLACT_InitVramAnimCtl, CLACT_ExitCellAnimCtl, CLACT_ExitMultiCellAnimCtl, CLACT_ExitVramAnimCtl, CLACT_SetAnimSeq, CLACT_SetCellAnimSeq, CLACT_SetMultiCellAnimSeq, CLACT_SetVramAnimSeq, CLACT_SetAnimFrame, CLACT_AddAnimFrame, CLACT_GetAnimCtrl, CLACT_GetAnimObject, CLACT_SetAnimIndex, CLACT_SetVramAnimIndex, CLACT_UpdateAnim, CLACT_UpdateVramAnim, CLACT_SetCellAnimIndex, CLACT_SetMultiCellAnimIndex, CLACT_ResetAnim, CLACT_ResetCellAnim, CLACT_ResetMultiCellAnim, CLACT_ResetVramAnim, CLACT_GetCellUserAttr, CLACT_GetMultiCellUserAttr, CLACT_GetVramCellUserAttr, CLACT_GetCellUserAttrTable, CLACT_GetMultiCellUserAttrTable, CLACT_GetVramCellUserAttrTable, CLACT_GetCellBankCount, CLACT_GetMultiCellBankCount, CLACT_GetVramCellBankCount, CLACT_ApplyAnimCommand, CLACT_ResetAnimCommand, CLACT_InitResources, CLACT_ExitResources, CLACT_IsVramTypeCompatible, CLACT_LoadArchiveData, CLACT_AllocCharacterTable, CLACT_SetupCharacterVram, CLACT_FreeCharacterTable, CLACT_UpdateObjMapping, CLACT_AllocPaletteTable, CLACT_TransferPaletteData, CLACT_TransferPaletteDataEx, CLACT_FreePaletteTable, CLACT_AllocCellAnimTable, CLACT_LoadCellAnimBanks, CLACT_FreeCellAnimTable, CLACT_SetupCharacter
+ * function: CLACT_InitSystem, CLACT_ExitSystem, CLACT_DrawSystem, CLACT_VBlankSystem, CLACT_FlushOamIfPending, CLACT_RegisterCharacter, CLACT_RegisterEmptyCharacter, CLACT_ReleaseCharacter, CLACT_TransferCharacter, CLACT_TransferCharacterPart, CLACT_GetCharacterProxy, CLACT_GetCharacterVramAddress, CLACT_RegisterPalette, CLACT_RegisterPaletteEx, CLACT_RegisterPaletteCompressed, CLACT_ReleasePalette, CLACT_TransferPalette, CLACT_GetPaletteProxy, CLACT_RegisterCellAnim, CLACT_ReleaseCellAnim, CLACT_CreateRenderer, CLACT_DeleteRenderer, CLACT_SetSurfacePos, CLACT_GetSurfacePos, CLACT_SetRendererCulling, CLACT_CreateUnit, CLACT_DeleteUnit, CLACT_SetUnitDrawEnable, CLACT_GetUnitDrawEnable, CLACT_SetUnitRenderer, CLACT_SetUnitDefaultRenderer, CLACT_CreateActor, CLACT_CreateAffineActor, CLACT_DeleteActor, CLACT_SetActorDrawEnable, CLACT_GetActorDrawEnable, CLACT_AddActorSurfacePos, CLACT_GetActorSurfacePos, CLACT_SetActorSurfacePosAxis, CLACT_GetActorSurfacePosAxis, CLACT_SetActorPos, CLACT_GetActorPos, CLACT_SetActorPosAxis, CLACT_GetActorPosAxis, CLACT_SetActorAffineMode, CLACT_SetActorAffineOriginAxis, CLACT_SetActorScale, CLACT_GetActorScale, CLACT_SetActorScaleAxis, CLACT_GetActorScaleAxis, CLACT_SetActorRotation, CLACT_GetActorRotation, CLACT_SetActorFlip, CLACT_GetActorFlip, CLACT_SetActorObjMode, CLACT_GetActorObjMode, CLACT_SetActorPaletteOffset, CLACT_GetActorPaletteOffset, CLACT_SetActorPaletteProxy, CLACT_GetActorPaletteProxy, CLACT_SetActorImageProxy, CLACT_GetActorImageProxy, CLACT_GetActorCharacterIndex, CLACT_GetActorPaletteIndex, CLACT_SetActorDrawPriority, CLACT_GetActorDrawPriority, CLACT_SetActorBgPriority, CLACT_GetActorBgPriority, CLACT_SetActorAnimSeq, CLACT_GetActorAnimSeq, CLACT_ChangeActorAnimSeq, CLACT_SetActorAnimFrame, CLACT_AddActorAnimFrame, CLACT_GetActorAnimFrame, CLACT_SetActorAnimIndex, CLACT_GetActorAnimSeqCount, CLACT_SetActorAutoAnim, CLACT_GetActorAutoAnim, CLACT_SetActorAutoAnimSpeed, CLACT_StartActorAnim, CLACT_StopActorAnim, CLACT_IsActorAnimActive, CLACT_RestartActorAnim, CLACT_SetActorAnimLoopCount, CLACT_ApplyActorAnimCommand, CLACT_ResetActorAnimCommand, CLACT_SetActorVisible, CLACT_InitDefaultRenderer, CLACT_SetPaletteBaseOffsets, CLACT_SetSystemActive, CLACT_IsSystemActive, CLACT_SetOamPending, CLACT_IsOamPending, CLACT_ResetOamIfPending, CLACT_DrawAllUnits, CLACT_LinkUnit, CLACT_UnlinkUnit, CLACT_InitOamManagers, CLACT_ExitOamManagers, CLACT_ApplyOamManagers, CLACT_ResetOamManagers, CLACT_InitOamManager, CLACT_ApplyOamManager, CLACT_ResetOamManager, CLACT_InitRenderer, CLACT_ExitRenderer, CLACT_SetSurfaceCulling, CLACT_InitSurface, CLACT_SetSurfaceType, CLACT_EntryOam, CLACT_EntryOamMain, CLACT_EntryOamSub, CLACT_EntryAffineMain, CLACT_EntryAffineSub, CLACT_IsAffineCellInView, CLACT_IsCellInView, CLACT_CullOam, CLACT_IsRectInView, CLACT_InitTransferPool, CLACT_ExitTransferPool, CLACT_AllocTransferEntries, CLACT_FreeTransferEntries, CLACT_ExecuteTransfers, CLACT_GetFreeTransferEntry, CLACT_RequestTransfer, CLACT_SetTransferEntry, CLACT_ExecuteTransfer, CLACT_GetFreeActor, CLACT_DrawUnit, CLACT_LinkActor, CLACT_UnlinkActor, CLACT_FindActorBefore, CLACT_FindActorAfter, CLACT_ClearActor, CLACT_DrawActor, CLACT_SetupActorDraw, CLACT_ApplyActorTransform, CLACT_UpdateActorAutoAnim, CLACT_ApplyActorInit, CLACT_ApplyActorResources, CLACT_GetSurfaceOrigin, CLACT_InitActorRequest, CLACT_CreateActorCore, CLACT_CreateActorFull, CLACT_InitAnimCtl, CLACT_ExitAnimCtl, CLACT_GetAnimCtlKind, CLACT_InitCellAnimCtl, CLACT_InitMultiCellAnimCtl, CLACT_InitVramAnimCtl, CLACT_ExitCellAnimCtl, CLACT_ExitMultiCellAnimCtl, CLACT_ExitVramAnimCtl, CLACT_SetAnimSeq, CLACT_SetCellAnimSeq, CLACT_SetMultiCellAnimSeq, CLACT_SetVramAnimSeq, CLACT_SetAnimFrame, CLACT_AddAnimFrame, CLACT_GetAnimCtrl, CLACT_GetAnimObject, CLACT_SetAnimIndex, CLACT_SetVramAnimIndex, CLACT_UpdateAnim, CLACT_UpdateVramAnim, CLACT_SetCellAnimIndex, CLACT_SetMultiCellAnimIndex, CLACT_ResetAnim, CLACT_ResetCellAnim, CLACT_ResetMultiCellAnim, CLACT_ResetVramAnim, CLACT_GetCellUserAttr, CLACT_GetMultiCellUserAttr, CLACT_GetVramCellUserAttr, CLACT_GetCellUserAttrTable, CLACT_GetMultiCellUserAttrTable, CLACT_GetVramCellUserAttrTable, CLACT_GetCellBankCount, CLACT_GetMultiCellBankCount, CLACT_GetVramCellBankCount, CLACT_ApplyAnimCommand, CLACT_ResetAnimCommand, CLACT_InitResources, CLACT_ExitResources, CLACT_IsVramTypeCompatible, CLACT_LoadArchiveData, CLACT_AllocCharacterTable, CLACT_SetupCharacterVram, CLACT_FreeCharacterTable, CLACT_UpdateObjMapping, CLACT_AllocPaletteTable, CLACT_TransferPaletteData, CLACT_TransferPaletteDataEx, CLACT_FreePaletteTable, CLACT_AllocCellAnimTable, CLACT_LoadCellAnimBanks, CLACT_FreeCellAnimTable, CLACT_SetupCharacter
  * address:  0x0204A48C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -50,7 +50,7 @@
  *   MI_CpuFill8    0x02082BCC  arm
  *   g_ClactTransferFuncs     0x020A138C  data
  *   DC_FlushRange  0x020862F0  arm
- *   SAVEDATA_PanicFail  0x02034714  arm
+ *   GF_PANIC_Fail  0x02034714  arm
  *   s_clact_assert_expr 0x020A7F7C data
  *   NNS_G2dSetRndCoreAffineOverwriteMode  0x02067AB8  arm
  *   NNS_G2dSetRndCoreFlipMode  0x02067B78  arm
@@ -586,7 +586,7 @@ extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u32  NNSi_G2dEntryOamManagerOam(struct OamManager *win, struct OamEntry *entry, u32 mode);
 extern void NNS_G2dEntryOamManagerAffine(struct OamManager *pMan, u32 mtx);
 extern void  NNS_G2dInitCellTransferStateManager(struct VramTransferTask *recs, u32 n, void *cb);
-extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *expr);
+extern void GF_PANIC_Fail(const char *file, u32 line, const char *expr);
 extern void NNSi_G2dInitVramHandle(u32 *p);
 extern void NNSi_G2dInitVramHandleEx(u32 *p);
 extern void NNSi_G2dSetRndCoreImageProxyVeneer(int *pRnd, int pImgProxy, int pPltProxy);
@@ -732,7 +732,7 @@ void CLACT_ApplyActorAnimCommand(struct Actor *actor, const struct Cmd *cmd);
 void CLACT_ResetActorAnimCommand(struct Actor *actor);
 void CLACT_SetActorVisible(struct Actor *actor, u32 visible);
 void CLACT_InitDefaultRenderer(struct Renderer *renderer, const s16 *src, u32 heap_id);
-void CLACT_SetOamOffsets(u32 pltt_proxy, u16 base_offset, u32 pltt_op);
+void CLACT_SetPaletteBaseOffsets(u32 pltt_proxy, u16 base_offset, u32 pltt_op);
 void CLACT_SetSystemActive(u32 active);
 u32 CLACT_IsSystemActive(void);
 void CLACT_SetOamPending(u32 pending);
@@ -756,8 +756,8 @@ void CLACT_SetSurfaceType(struct Surface *surface, u32 idx);
 void CLACT_EntryOam(struct OamManager *oam_manager, struct OamEntry *src_entry, u32 mode, u32 pltt_offset, u32 pltt_op);
 void CLACT_EntryOamMain(struct OamEntry *entry, u32 mode);
 void CLACT_EntryOamSub(struct OamEntry *entry, u32 mode);
-void CLACT_SetOamManagerMainParam(u32 value);
-void CLACT_SetOamManagerSubParam(u32 value);
+void CLACT_EntryAffineMain(u32 value);
+void CLACT_EntryAffineSub(u32 value);
 int CLACT_IsAffineCellInView(struct CellData *cell, struct Affine2D *affine, struct ViewRect *view);
 int CLACT_IsCellInView(struct CellData *cell, struct Affine2D *affine, struct ViewRect *view);
 void CLACT_CullOam(struct Surface *surface, struct ViewRect *view, s32 unused_arg2, s32 unused_arg3, struct Affine2D *affine);
@@ -3047,10 +3047,10 @@ void CLACT_InitDefaultRenderer(struct Renderer *renderer, const s16 *src, u32 he
  * it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/CLACT_SetOamOffsets.c \
- *       --func CLACT_SetOamOffsets --addr 0x0204BA7C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_SetPaletteBaseOffsets.c \
+ *       --func CLACT_SetPaletteBaseOffsets --addr 0x0204BA7C --cc 1.1p1 --arm
  */
-void CLACT_SetOamOffsets(u32 pltt_proxy, u16 base_offset, u32 pltt_op)
+void CLACT_SetPaletteBaseOffsets(u32 pltt_proxy, u16 base_offset, u32 pltt_op)
 {
     g_ClactSystem->pltt_base[0] = (u32)NNSi_G2dGetVramHandleEx((char *)pltt_proxy, (u32)1) >> 5;
     g_ClactSystem->pltt_base[1] = (u32)NNSi_G2dGetVramHandleEx((char *)pltt_proxy, (u32)2) >> 5;
@@ -3721,7 +3721,7 @@ void CLACT_EntryOamSub(struct OamEntry *entry, u32 mode)
  * loaded, its value passed as the first argument, and the callee reached with
  * the compiler's usual `ldr ip, [pc, #4]` / `bx ip` plus a second pool word.
  */
-void CLACT_SetOamManagerMainParam(u32 value)
+void CLACT_EntryAffineMain(u32 value)
 {
     NNS_G2dEntryOamManagerAffine(&g_ClactSystem->oam_mgrs.mgr[0], value);
 }
@@ -3734,14 +3734,14 @@ void CLACT_SetOamManagerMainParam(u32 value)
 
 
 /*
- * Same forward as CLACT_SetOamManagerMainParam but aimed at the sub-block at +0x20.
+ * Same forward as CLACT_EntryAffineMain but aimed at the sub-block at +0x20.
  *
  * Unlabelled in the current listings: the prologue saves nothing, so
  * disasm.py never auto-labelled it (see
  * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  The
  * function starts at the computed address and its body ends at 0x0204C060.
  */
-void CLACT_SetOamManagerSubParam(u32 value)
+void CLACT_EntryAffineSub(u32 value)
 {
     NNS_G2dEntryOamManagerAffine(&g_ClactSystem->oam_mgrs.mgr[1], value);
 }
@@ -4402,7 +4402,7 @@ struct Actor *CLACT_GetFreeActor(struct Unit *unit)
         }
     }
 
-    SAVEDATA_PanicFail(s_clact_c, 5204, s_clact_assert_expr);
+    GF_PANIC_Fail(s_clact_c, 5204, s_clact_assert_expr);
     return 0;
 }
 
@@ -4644,7 +4644,7 @@ void CLACT_ClearActor(struct Actor *actor)
  *   NNSi_G2dSetRndCoreImageProxyVeneer  0x02066748   12 bytes  -- veneer, resolves `veneer`
  *   NNS_G2dBeginRendering  0x02065BD0  168 bytes  -- OPEN, docs/notes/NNS_G2dBeginRendering.c.txt
  *   CLACT_SetupActorDraw  0x0204CBB0  188 bytes  -- closed, resolves `matched`
- *   CLACT_SetOamOffsets  0x0204BA7C  112 bytes  -- closed, resolves `matched`
+ *   CLACT_SetPaletteBaseOffsets  0x0204BA7C  112 bytes  -- closed, resolves `matched`
  *   CLACT_ApplyActorTransform  0x0204CC6C  584 bytes  -- OPEN, soft-float, multi-function
  *   NNS_G2dEndRendering  0x02065C78  108 bytes  -- closed, resolves `matched`
  *
@@ -4669,7 +4669,7 @@ void CLACT_ClearActor(struct Actor *actor)
  * is 0x02066998).
  *
  * Per-element teardown.  Guarded by bit 26 of the flag word at +0x60; the
- * two values handed to CLACT_SetOamOffsets are bits 12-15 (narrowed to u8, which
+ * two values handed to CLACT_SetPaletteBaseOffsets are bits 12-15 (narrowed to u8, which
  * is what the otherwise redundant `and r1, r1, #0xff` after the shift pair
  * records) and bit 31 of the same word, read through one load.
  *
@@ -4685,7 +4685,7 @@ void CLACT_DrawActor(struct Actor *actor, struct Renderer *renderer)
     NNSi_G2dSetRndCoreImageProxyVeneer((int *)renderer, (int)&actor->image, (int)&actor->palette);
     NNS_G2dBeginRendering(renderer);
     CLACT_SetupActorDraw(actor, renderer);
-    CLACT_SetOamOffsets((u32)&actor->palette, (u8)actor->pltt_offset, actor->pltt_op);
+    CLACT_SetPaletteBaseOffsets((u32)&actor->palette, (u8)actor->pltt_offset, actor->pltt_op);
     CLACT_ApplyActorTransform(actor);
     NNS_G2dEndRendering();
 }

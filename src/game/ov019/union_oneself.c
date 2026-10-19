@@ -13,7 +13,7 @@
  * Cut from unit_0217AE20.c, union_oneself.c by tools/splitfile.py.
  *
  * symbols:
- *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GF_PANIC_Fail 0x02034714 arm
  *   memcmp  0x0203EFC8  arm
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   MET_TRAINERS_GetFromSave  0x0200ED48  thumb
@@ -69,7 +69,7 @@
  *   UNION_COMMAND_SendPartnerMode  0x02173AFC  thumb  ov012
  *   GFL_NET_SetChangeoverModeWrapper  0x0203D14C  arm
  *   GFL_NET_IsConnectMember  0x0203D1C0  arm
- *   GFL_NET_NotifyUserEvent  0x0203D1E8  arm
+ *   GFL_NET_SetAcceptConnection  0x0203D1E8  arm
  *   GFL_NET_SetLoginOption  0x0203D7BC  arm
  *   GFL_NET_SYSTEM_GetConnectNum  0x020392B8  arm
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
@@ -100,7 +100,7 @@
  *   TRCARD_SYS_CreateEditWork  0x0216F7F4  thumb  ov010
  *   GFL_NET_IsParentAid  0x0203D378  arm
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
- *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
+ *   GAME_DATA_GetMyStatusPlayer  0x02012950  thumb
  *   MYSTATUS_GetId  0x02008530  thumb
  *   MET_TRAINERS_Insert  0x0200ED54  thumb
  *   POKEPARTY_Create  0x0201A920  thumb
@@ -118,8 +118,8 @@
  *   COMM_ENTRY_MENU_Delete  0x021CD5A4  thumb  ov021
  *   COMM_ENTRY_MENU_SetCallbacks  0x021CD60C  thumb  ov021
  *   COMM_ENTRY_MENU_Main  0x021CD688  thumb  ov021
- *   MYSTATUS_GetOutfit  0x02008554  thumb
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetTrainerView  0x02008554  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   UNION_COMM_AddMember  0x0217357C  thumb  ov012
  *   UNION_COMM_RemoveMember  0x02173614  thumb  ov012
  *   COLOSSEUM_AddCommandTable  0x02174B40  thumb  ov012
@@ -127,7 +127,7 @@
  *   COLOSSEUM_SendTrainerCard  0x02174C34  thumb  ov012
  *   COLOSSEUM_SetStartFlag  0x02175094  thumb  ov012
  *   COLOSSEUM_SetMyChoice  0x021750B0  thumb  ov012
- *   COMM_PLAYER_ForwardRequest  0x021679A4  thumb  ov010
+ *   COMM_PLAYER_SearchGridPos  0x021679A4  thumb  ov010
  *   COLOSSEUM_SendChoiceRequest  0x02174CE4  thumb  ov012
  *   COLOSSEUM_GetMyChoiceReply  0x021750D0  thumb  ov012
  *   UNION_ONESELF_CheckMyParty  0x0217BA48  thumb  ov019
@@ -155,7 +155,7 @@
  *   COLOSSEUM_Delete  0x0217505C  thumb  ov012
  *   GAMESYSTEM_SetFieldMapState  0x02012124  thumb
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
- *   MYSTATUS_GetAvatarId  0x0200855C  thumb
+ *   MYSTATUS_GetRomCode  0x0200855C  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   UNION_MSG_GetNoReplyMsg  0x0217EC04  thumb  ov019
  *   UNION_MSG_GetTalkParentGreetingMsg  0x0217EC1C  thumb  ov019
@@ -235,7 +235,7 @@ typedef enum { FALSE, TRUE } BOOL;
 #include "../ov012/union_comm_types.h"
 #include "union_chara_types.h"
 
-void SAVEDATA_PanicFail(const void *expr, u32 line, const void *file);
+void GF_PANIC_Fail(const void *expr, u32 line, const void *file);
 
 extern void *GAME_DATA_GetSaveControl(void *gameData);
 
@@ -489,7 +489,7 @@ void *UNION_ONESELF_CreateBattleTeamParty(UnionRoomWork *work)
 
 void UNION_ONESELF_DeleteParty(void *party)
 {
-    if (!party) SAVEDATA_PanicFail(gUnionEmptyString1, 0, gUnionEmptyString1);
+    if (!party) GF_PANIC_Fail(gUnionEmptyString1, 0, gUnionEmptyString1);
     GFL_HEAP_Free(party);
 }
 
@@ -790,7 +790,7 @@ extern void GFL_NET_SetChangeoverModeWrapper(int mode, int flag, void *mac);
 
 extern u32 GFL_NET_IsConnectMember(u32 index);
 
-extern void GFL_NET_NotifyUserEvent(u32 unused, void *value);
+extern void GFL_NET_SetAcceptConnection(u32 unused, void *value);
 
 extern void GFL_NET_SetLoginOption(u8 enable);
 
@@ -843,7 +843,7 @@ extern void *MET_TRAINERS_GetFromSave(void *saveData);
 
 extern u32 GFL_NET_GetHandleNetID(void *link);
 
-extern void *GAME_DATA_GetPlayerStatus(void *gameData, u32 playerIndex);
+extern void *GAME_DATA_GetMyStatusPlayer(void *gameData, u32 playerIndex);
 
 extern u32 MYSTATUS_GetId(const void *obj);
 
@@ -877,9 +877,9 @@ extern void COMM_ENTRY_MENU_SetCallbacks(void *entryMenu, void *work, void *onAd
 
 extern u32 COMM_ENTRY_MENU_Main(void *entryMenu);
 
-extern u8 MYSTATUS_GetOutfit(const void *myStatus);
+extern u8 MYSTATUS_GetTrainerView(const void *myStatus);
 
-extern int MYSTATUS_GetOutfitVariant(const void *myStatus);
+extern int MYSTATUS_GetSex(const void *myStatus);
 
 extern void UNION_COMM_AddMember(void *self, const u8 *mac, int gender, int trainerView);
 
@@ -895,7 +895,7 @@ extern void COLOSSEUM_SetStartFlag(void *colosseum, int value);
 
 extern void COLOSSEUM_SetMyChoice(ColosseumWork *colosseum, int value);
 
-extern int COMM_PLAYER_ForwardRequest(void *commPlayer, int z, int y, int x, int outPlayer, int outFound);
+extern int COMM_PLAYER_SearchGridPos(void *commPlayer, int z, int y, int x, int outPlayer, int outFound);
 
 extern void *FIELD_PLAYER_GetMmdl(void *fieldView);
 
@@ -952,7 +952,7 @@ void COLOSSEUM_Delete(ColosseumWork *colosseum, struct GameSystem *gameSystem);
 
 u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 
-u8 MYSTATUS_GetAvatarId(const void *obj);
+u8 MYSTATUS_GetRomCode(const void *obj);
 
 void WORDSET_SetSlotMyStatus(void *wordSet, u32 slot, void *player);
 
@@ -1240,7 +1240,7 @@ int UNION_ONESELF_ConnectParentMain(UnionRoomWork *unisys, UnionMySituation *sit
                 *seq = 4;
             } else {
                 GFL_NET_SetLoginOption(1);
-                GFL_NET_NotifyUserEvent((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0);
+                GFL_NET_SetAcceptConnection((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0);
                 *seq = 2;
             }
         } else {
@@ -1332,7 +1332,7 @@ int UNION_ONESELF_ConnectChildMain(UnionRoomWork *unisys, UnionMySituation *situ
     switch (*seq) {
     case 0:
         if (situation->connect.connectParam == 0)
-            SAVEDATA_PanicFail(gUnionEmptyString1, 0, gUnionEmptyString1);
+            GF_PANIC_Fail(gUnionEmptyString1, 0, gUnionEmptyString1);
         GFL_NET_SetChangeoverModeWrapper(2, 1, situation->connect.connectParam->mac);
         situation->waitTimer = 0;
         *seq = 1;
@@ -1988,7 +1988,7 @@ int UNION_ONESELF_TrainerCardMain(UnionRoomWork *unisys, UnionMySituation *situa
     switch (*seq) {
     case 0:
         if (unisys->myTrainerCard != 0 || unisys->recvTrainerCard != 0)
-            SAVEDATA_PanicFail((const char *)gUnionEmptyString1, 0, (const char *)gUnionEmptyString1);
+            GF_PANIC_Fail((const char *)gUnionEmptyString1, 0, (const char *)gUnionEmptyString1);
         unisys->myTrainerCard = GFL_HEAP_Alloc(0x41, 0x678, 1, (const char *)d_021807E8, 0x9B3);
         unisys->recvTrainerCard = GFL_HEAP_Alloc(0x41, 0x678, 1, (const char *)d_021807E8, 0x9B5);
         TRCARD_SYS_BuildProfile(unisys->myTrainerCard, unisys->parent->gameData, 1, 0, 0x41);
@@ -2075,7 +2075,7 @@ int UNION_ONESELF_TradeMain(UnionRoomWork *unisys, UnionMySituation *situation, 
         if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 6, 0x14) == 1) {
             gameData = GAMESYSTEM_GetGameData(unisys->parent->gameSystem);
             commState = MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl(gameData));
-            MET_TRAINERS_Insert(commState, MYSTATUS_GetId(GAME_DATA_GetPlayerStatus(gameData, GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle()) ^ 1)));
+            MET_TRAINERS_Insert(commState, MYSTATUS_GetId(GAME_DATA_GetMyStatusPlayer(gameData, GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle()) ^ 1)));
             (*seq)++;
         }
         break;
@@ -2171,7 +2171,7 @@ int UNION_ONESELF_JoinMain(UnionRoomWork *unisys, UnionMySituation *situation, v
                     UNION_ONESELF_SetNextPlayCategory(unisys, (int)0x24);
                     break;
                 default:
-                    SAVEDATA_PanicFail((const char *)gUnionEmptyString1, (int)0, (const char *)gUnionEmptyString1);
+                    GF_PANIC_Fail((const char *)gUnionEmptyString1, (int)0, (const char *)gUnionEmptyString1);
                     break;
                 }
                 *seq = 3;
@@ -2354,7 +2354,7 @@ int UNION_ONESELF_ColosseumEnterParentMain(UnionRoomWork *unisys, UnionMySituati
     switch (*seq) {
     case 0:
         if (unisys->colosseum != 0)
-            SAVEDATA_PanicFail((const char *)gUnionEmptyString1, 0, (const char *)gUnionEmptyString1);
+            GF_PANIC_Fail((const char *)gUnionEmptyString1, 0, (const char *)gUnionEmptyString1);
         parent = unisys->parent;
         unisys->colosseum = COLOSSEUM_Create(parent->gameData, parent->gameSystem, parent->myStatus, situation->connect.serviceFlag);
         UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_GetColosseumStartMsg(situation->connect.talkParam->sex));
@@ -2424,7 +2424,7 @@ int UNION_ONESELF_ColosseumEnterChildMain(UnionRoomWork *unisys, UnionMySituatio
     case 5:
         if (UNION_SCENE_IsScenePending(unisys) == 0) {
             if (unisys->colosseum != 0)
-                SAVEDATA_PanicFail((const char *)gUnionEmptyString1, 0, (const char *)gUnionEmptyString1);
+                GF_PANIC_Fail((const char *)gUnionEmptyString1, 0, (const char *)gUnionEmptyString1);
             parent = unisys->parent;
             unisys->colosseum = COLOSSEUM_Create(parent->gameData, parent->gameSystem, parent->myStatus, situation->connect.serviceFlag);
             UNION_ONESELF_SetFieldBusy(unisys, fieldMap, 1);
@@ -2443,7 +2443,7 @@ int UNION_ONESELF_ColosseumEntryMain(UnionRoomWork *unisys, UnionMySituation *si
 
     GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle());
     if (colosseum == 0)
-        SAVEDATA_PanicFail((const char *)gUnionEmptyString1, 0, (const char *)gUnionEmptyString1);
+        GF_PANIC_Fail((const char *)gUnionEmptyString1, 0, (const char *)gUnionEmptyString1);
 
     if (UNION_ONESELF_HandleNetErrorExit(unisys) == 1) {
         if (colosseum->entryMenu != 0)
@@ -2488,7 +2488,7 @@ int UNION_ONESELF_ColosseumEntryMain(UnionRoomWork *unisys, UnionMySituation *si
     case 1:
         if (situation->connect.serviceFlag == 0) {
             if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0xc, 0x14) == 1) {
-                GFL_NET_NotifyUserEvent((int)GFL_NET_HANDLE_GetCurrentHandle(), (void *)1);
+                GFL_NET_SetAcceptConnection((int)GFL_NET_HANDLE_GetCurrentHandle(), (void *)1);
                 (*seq)++;
             }
         } else {
@@ -2518,7 +2518,7 @@ int UNION_ONESELF_ColosseumEntryMain(UnionRoomWork *unisys, UnionMySituation *si
                 *seq = 200;
                 break;
             default:
-                SAVEDATA_PanicFail((const char *)gUnionEmptyString1, 0, (const char *)gUnionEmptyString1);
+                GF_PANIC_Fail((const char *)gUnionEmptyString1, 0, (const char *)gUnionEmptyString1);
                 break;
             }
         }
@@ -2552,8 +2552,8 @@ int UNION_ONESELF_ColosseumEntryMain(UnionRoomWork *unisys, UnionMySituation *si
 
 void UNION_ONESELF_EntryMenuAddMember(UnionRoomWork *unisys, const void *myStatus, const u8 *mac)
 {
-    int gender = MYSTATUS_GetOutfit(myStatus);
-    int trainerView = MYSTATUS_GetOutfitVariant(myStatus);
+    int gender = MYSTATUS_GetTrainerView(myStatus);
+    int trainerView = MYSTATUS_GetSex(myStatus);
     UNION_COMM_AddMember(&unisys->mySituation.connect, mac, gender, (u8)trainerView);
 }
 
@@ -2573,7 +2573,7 @@ int UNION_ONESELF_ColosseumSetupMain(UnionRoomWork *unisys, UnionMySituation *si
 
     myIndex = GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle());
     if (colosseum == 0)
-        SAVEDATA_PanicFail((const char *)gUnionEmptyString1, (int)0, (const char *)gUnionEmptyString1);
+        GF_PANIC_Fail((const char *)gUnionEmptyString1, (int)0, (const char *)gUnionEmptyString1);
 
     if (UNION_ONESELF_HandleNetErrorExit(unisys) == 1) {
         UNION_MSG_CloseAllWindows(unisys);
@@ -2607,9 +2607,9 @@ int UNION_ONESELF_ColosseumSetupMain(UnionRoomWork *unisys, UnionMySituation *si
             playerCount = GFL_NET_GetNegotiationNum();
             for (playerIndex = 0; playerIndex < playerCount; playerIndex++) {
                 if (colosseum->player[playerIndex].isEntered == 1) {
-                    gender = MYSTATUS_GetOutfit(&colosseum->player[playerIndex]);
+                    gender = MYSTATUS_GetTrainerView(&colosseum->player[playerIndex]);
                     UNION_COMM_AddMember(&situation->connect, colosseum->player[playerIndex].statusExtra, gender,
-                                  (u8)MYSTATUS_GetOutfitVariant(&colosseum->player[playerIndex]));
+                                  (u8)MYSTATUS_GetSex(&colosseum->player[playerIndex]));
                 }
             }
             (*seq)++;
@@ -2687,7 +2687,7 @@ int UNION_ONESELF_ColosseumFreeMoveMain(UnionRoomWork *unisys, UnionMySituation 
         if (KEY_GetTrg() & 1) {
             found = 0;
             FIELD_PLAYER_GetFrontGridPos((u32)fieldCtrl, (u32)(&position[2]), (u32)(&position[1]), (u32)(&position[0]));
-            if (COMM_PLAYER_ForwardRequest((void *)(colosseum->commPlayer), position[2], position[1], position[0], (int)(&talkPlayer), (int)(&found)) == 1) {
+            if (COMM_PLAYER_SearchGridPos((void *)(colosseum->commPlayer), position[2], position[1], position[0], (int)(&talkPlayer), (int)(&found)) == 1) {
                 colosseum->talkPlayer = talkPlayer;
                 UNION_ONESELF_SetNextPlayCategory(unisys, 0x33);
                 UNION_ONESELF_SetFieldBusy(unisys, fieldMap, 1);
@@ -3090,7 +3090,7 @@ int UNION_ONESELF_ColosseumBattleMain(UnionRoomWork *unisys, UnionMySituation *s
                 opponentSlot = ++opponentCount;
             battle->opponent[opponentSlot].party = colosseum->party[playerIndex];
             battle->opponent[opponentSlot].myStatus = MYSTATUS_GetName(&colosseum->player[playerIndex]);
-            battle->opponent[opponentSlot].trainerView = MYSTATUS_GetOutfitVariant(&colosseum->player[playerIndex]);
+            battle->opponent[opponentSlot].trainerView = MYSTATUS_GetSex(&colosseum->player[playerIndex]);
         }
         switch (situation->connect.partnerSelectA) {
         case 20:
@@ -3287,7 +3287,7 @@ int UNION_ONESELF_ColosseumTrainerCardMain(UnionRoomWork *unisys, UnionMySituati
     switch (*seq) {
     case 0:
         UNION_ONESELF_SetFieldBusy(unisys, fieldMap, 1);
-        partnerStatus = MYSTATUS_GetAvatarId((&colosseum->player[colosseum->talkPlayer]));
+        partnerStatus = MYSTATUS_GetRomCode((&colosseum->player[colosseum->talkPlayer]));
         if (partnerStatus == 0x14 || partnerStatus == 0x15) {
             cardRank = ((u8 *)colosseum->trainerCard[colosseum->talkPlayer])[3];
             if (cardRank < 5) {

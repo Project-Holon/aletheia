@@ -32,7 +32,7 @@
  *   FIELD_STATUS_SetFieldInitFlag  0x02014454  thumb
  *   SCRIPT_SYS_RunFieldRecoverScript  0x02158AD4  thumb  ov010
  *   FIELD_STATUS_SetContinueFlag  0x0201445C  thumb
- *   ZONEDATA_IsZone1A6  0x02013CC8  thumb
+ *   ZONEDATA_IsUnionRoom  0x02013CC8  thumb
  *   ZONEDATA_IsZone96Pair  0x02013CE0  thumb
  *   FIELDMAP_GetCtrlType  0x02188CF0  thumb  ov021
  *   func_0201209C  0x0201209C  thumb
@@ -76,7 +76,7 @@ extern void SCRIPT_SYS_RunFieldInitScript(int a, int b);
 extern void FIELD_STATUS_SetFieldInitFlag(struct Sub02014444Obj *o, u8 v);
 extern void SCRIPT_SYS_RunFieldRecoverScript(int a, int b);
 extern void FIELD_STATUS_SetContinueFlag(struct Sub02014444Obj *o, u8 v);
-extern u32 ZONEDATA_IsZone1A6(u32 id);
+extern u32 ZONEDATA_IsUnionRoom(u32 id);
 extern u32 ZONEDATA_IsZone96Pair(u32 id);
 extern int FIELDMAP_GetCtrlType(u32 a);
 extern void func_0201209C(void *o, u32 v1, u32 v2);
@@ -123,7 +123,7 @@ int FIELDMAP_SeqStart(void *a, u8 *p)
         }
         FIELD_STATUS_SetContinueFlag(GAME_DATA_GetMoveModelSys((const struct BigObj *)(((struct Obj00611 *)p)->f8)), 0);
         FIELD_G3D_MAPPER_UpdateBlocking((char *)(((struct Obj00611 *)p)->f48));
-        if (ZONEDATA_IsZone1A6(((struct Obj00611 *)p)->fD0) == 1 || ZONEDATA_IsZone96Pair(((struct Obj00611 *)p)->fD0) == 1)
+        if (ZONEDATA_IsUnionRoom(((struct Obj00611 *)p)->fD0) == 1 || ZONEDATA_IsZone96Pair(((struct Obj00611 *)p)->fD0) == 1)
             func_0201209C(a, (u32)FIELD_EVENT_CHECK_CheckCommEvents, (u32)p);
         else if (FIELDMAP_GetCtrlType((u32)p) == 1)
             func_0201209C(a, (u32)FIELD_EVENT_CHECK_RunRail, (u32)p);

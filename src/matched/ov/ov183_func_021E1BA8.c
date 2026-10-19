@@ -1,5 +1,5 @@
 /*
- * function: BR_CODEIN_ProfileUpdateActor3
+ * function: BR_CODEIN_ProfileApplyPendingStep
  * address: 0x021E1BA8
  * packet: pkt_ov183_021E1BA8
  * region: ov183
@@ -23,7 +23,7 @@ extern void BR_CODEIN_ProfileSetActorAnimFrame(char *,int);
 extern void BR_CODEIN_ProfileSetAnimSeq(char *,int);
 extern void BR_CODEIN_ProfileSetActorPos(char *,int);
 extern void BR_CODEIN_ProfileClear(char *);
-void BR_CODEIN_ProfileUpdateActor3(char *p)
+void BR_CODEIN_ProfileApplyPendingStep(char *p)
 {
     switch (((struct Obj00478 *)p)->f318) {
     case 0: break;

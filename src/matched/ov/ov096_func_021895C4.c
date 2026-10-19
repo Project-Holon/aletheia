@@ -1,5 +1,5 @@
 /*
- * function: TR_AI_CmdCompareStat15
+ * function: TR_AI_CmdCompareLevel
  * address:  0x021895C4
  * packet:   pkt_ov096_021895C4
  * region:   ov096
@@ -31,7 +31,7 @@ extern u32 VM_GetU32(struct Cursor *p);
 extern int TR_AI_Compare(u8 *a, int op, int x, int y, int z);
 extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 
-int TR_AI_CmdCompareStat15(struct Cursor *a, int b) {
+int TR_AI_CmdCompareLevel(struct Cursor *a, int b) {
     int r6;
     int r7;
     int x;

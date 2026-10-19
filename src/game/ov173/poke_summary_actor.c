@@ -66,7 +66,7 @@
  *   GAMESYSTEM_CallProc 0x020120B4 thumb
  *   gPokeStatusProcData 0x021DC800 data a4 ov131
  *   POKE_SUMMARY_MAIN_InitScreen  0x021B63AC  thumb  ov173
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   CURSOR_MOVE_Create 0x02025CD0 thumb
  *   CURSOR_MOVE_ClearSkipBit 0x02026124 thumb
  *   d_021B83A8 0x021B83A8 data a4
@@ -161,7 +161,7 @@ extern u16 POKE_SUMMARY_MAIN_GetRecordWord(char **);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
 extern void POKE_SUMMARY_MAIN_InitScreen(u8 *p);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern struct CursorMove *CURSOR_MOVE_Create(u32,u32,u32,u32,u8,u16);
 extern void CURSOR_MOVE_ClearSkipBit(struct Sound *,u32);
 extern u32 CURSOR_MOVE_Delete(void *cursor);
@@ -412,7 +412,7 @@ int POKE_SUMMARY_ACTOR_StartNetRestart(void *work)
 
     POKE_SUMMARY_MAIN_InitScreen(work);
     POKE_SUMMARY_ACTOR_PositionMonActor(work, (unsigned char)(*(unsigned short *)((char *)((struct PokeSummaryWork *)work)->mon + 0x14)), 3);
-    GFL_NET_RestartWithDefaultTimeout(1, 0x4f);
+    GFL_NET_RefreshWmIconAtTopRight(1, 0x4f);
     v = ((struct PokeSummaryWork *)work)->procArgs.netFlagB;
     if (v == 0) {
         v = ((struct PokeSummaryWork *)work)->procArgs.netFlagA;

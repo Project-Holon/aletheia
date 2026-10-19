@@ -1,5 +1,5 @@
 /*
- * function: FIELD_PLAYER_SetupNogrid
+ * function: FIELD_PLAYER_UpdateNogrid
  * address:  0x021A3674
  * packet:   pkt_021A3674
  * region:   ov021
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 
 extern void FIELD_PLAYER_NOGRID_Update(u8 *p, u32 b, u32 c);
 
-void FIELD_PLAYER_SetupNogrid(u8 *p, u32 b, u32 c)
+void FIELD_PLAYER_UpdateNogrid(u8 *p, u32 b, u32 c)
 {
     FIELD_PLAYER_NOGRID_Update((u8 *)(((struct Obj18023 *)p)->fC), b, c);
 }

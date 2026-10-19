@@ -102,7 +102,7 @@ typedef struct DendouViewRow {
     u32 year;           /* +0xA8 */
     u32 month;          /* +0xAC */
     u32 day;            /* +0xB0 */
-    u32 dateReserved;   /* +0xB4 the arm9 date loader (MISC_SAVEDATA_GetRecordDate/ED14) writes 0; no reader in ov171 */
+    u32 dateReserved;   /* +0xB4 the arm9 date loader (DENDOU_SAVEDATA_GetRecordDate/ED14) writes 0; no reader in ov171 */
     u16 memberCount;    /* +0xB8 */
     u16 hallNumber;     /* +0xBA ordinal printed in the title */
 } DendouViewRow;

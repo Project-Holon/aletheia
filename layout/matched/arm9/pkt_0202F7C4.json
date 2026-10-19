@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "APP_POWER_ResetDisplay",
+   "name": "APP_POWER_ShowShutdownScreen",
    "address": "0x0202F7C4",
    "kind": "game",
    "region": "arm9",

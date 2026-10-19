@@ -15,7 +15,7 @@
  *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  *   GAMESYSTEM_GetIssSystem  0x02012134  thumb
  *   FIELD_SOUND_SYSTEM_LowerVolume  0x02029DBC  thumb
- *   ZONEDATA_IsZone1A6  0x02013CC8  thumb
+ *   ZONEDATA_IsUnionRoom  0x02013CC8  thumb
  *   ZONEDATA_IsZone96Pair  0x02013CE0  thumb
  *   TRCARD_SYS_CreateViewWork  0x0216F7BC  thumb  ov010
  */
@@ -32,7 +32,7 @@ struct BigObj;
 extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *p);
 extern u32 GAMESYSTEM_GetIssSystem(u32 *p);
 extern void FIELD_SOUND_SYSTEM_LowerVolume(u8 *a, u32 b);
-extern u32 ZONEDATA_IsZone1A6(u32 id);
+extern u32 ZONEDATA_IsUnionRoom(u32 id);
 extern u32 ZONEDATA_IsZone96Pair(u32 id);
 extern int *TRCARD_SYS_CreateViewWork();
 
@@ -46,7 +46,7 @@ void EVENT_FIELD_PROCLINK_CreateTrainerCardView(int *a0, int a1)
 
     s = GAME_DATA_GetBgmInfo(h);
     FIELD_SOUND_SYSTEM_LowerVolume((u8 *)s, GAMESYSTEM_GetIssSystem((u32 *)(*(int *)a0[6])));
-    if (ZONEDATA_IsZone1A6(v) != 0 || (int)ZONEDATA_IsZone96Pair((u16)v) != 0) {
+    if (ZONEDATA_IsUnionRoom(v) != 0 || (int)ZONEDATA_IsZone96Pair((u16)v) != 0) {
         f = 0;
     }
     r = TRCARD_SYS_CreateViewWork(h, 4, f);

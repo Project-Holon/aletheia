@@ -142,7 +142,7 @@
  *   NAMEIN_GRAPHIC_AppendString 0x021F23B8 thumb ov194
  *   NAMEIN_GRAPHIC_RefreshInputField 0x021F1FB4 thumb ov194
  *   STRBUF_GetChars 0x02045A90 arm
- *   BEACON_SetInputFlag 0x0200C0FC thumb
+ *   MISC_SetInputFlag 0x0200C0FC thumb
  *   SAVE_CONTROL_INTR_Pause 0x021BD368 thumb ov088
  *   SAVE_CONTROL_INTR_IsPausedOrFinished 0x021BD380 thumb ov088
  *   GFL_HEAP_Alloc 0x02030734 arm
@@ -651,7 +651,7 @@ extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 
 extern int NAMEIN_GRAPHIC_RefreshInputField(u8 *p);
 
-extern void BEACON_SetInputFlag(struct Blk34 *p, u32 i, u8 v);
+extern void MISC_SetInputFlag(struct Blk34 *p, u32 i, u8 v);
 
 extern void SAVE_CONTROL_INTR_Pause(unsigned char *);
 
@@ -1782,7 +1782,7 @@ void NAMEIN_GRAPHIC_CallbackFinish(unsigned char *a, int unused, char *p)
     unsigned n;
     if (*(void **)(OBJ(p) + 0x28) != 0) {
         n = (unsigned int)NAMEIN_GRAPHIC_GetGridMode((const unsigned char *)(p + 0xFC));
-        BEACON_SetInputFlag(*(void **)(OBJ(p) + 0x28), (u32)(*(void **)OBJ(p)), n);
+        MISC_SetInputFlag(*(void **)(OBJ(p) + 0x28), (u32)(*(void **)OBJ(p)), n);
     }
     if (*(void **)(OBJ(p) + 0x24) != 0) NAMEIN_GRAPHIC_SetCallback(a, (unsigned)NAMEIN_GRAPHIC_CallbackPauseSave);
     else NAMEIN_GRAPHIC_FinishCallback(a);

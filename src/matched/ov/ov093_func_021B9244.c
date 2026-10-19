@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   BEACON_GetMoney  0x0200C274  thumb
+ *   MISC_GetMoney  0x0200C274  thumb
  *   BTL_SIDE_GetSlotOfClientThunk  0x021B9AF8  thumb  ov093
  *   BTL_CALC_CalcDefeatMoneyLoss  0x021D7FF8  thumb  ov093
  */
@@ -24,7 +24,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 struct Blk34;
 extern void *GAME_DATA_GetMiscSave(int *p);
-extern u32 BEACON_GetMoney(struct Blk34 *p);
+extern u32 MISC_GetMoney(struct Blk34 *p);
 extern char *BTL_SIDE_GetSlotOfClientThunk(char *p, int i);
 extern u32 BTL_CALC_CalcDefeatMoneyLoss(u32 a, void *b);
 
@@ -37,7 +37,7 @@ u32 BTL_MAIN_CalcPenaltyMoney(char *p)
     r = 0;
     if (((u32)((struct Obj04354 *)p)->f473 << 27 >> 31) == 0) {
         if (**(u32 * *)&((struct Obj04354 *)p)->f0 <= 1) {
-            m = BEACON_GetMoney(GAME_DATA_GetMiscSave(((struct Obj20982 *)(*(char * *)&((struct Obj04354 *)p)->f0))->f58));
+            m = MISC_GetMoney(GAME_DATA_GetMiscSave(((struct Obj20982 *)(*(char * *)&((struct Obj04354 *)p)->f0))->f58));
             c = BTL_CALC_CalcDefeatMoneyLoss(((struct Obj20983 *)(*(char * *)&((struct Obj04354 *)p)->f0))->f80, BTL_SIDE_GetSlotOfClientThunk(p + 0x1b0, ((struct Obj04354 *)p)->f46C));
             if (c > m)
                 c = m;

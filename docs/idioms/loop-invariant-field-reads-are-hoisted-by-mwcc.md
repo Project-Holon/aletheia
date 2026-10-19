@@ -1,5 +1,8 @@
 # Loop-invariant field reads are hoisted by mwcc
 
+summary: Read loop-invariant fields inside the loop, not into locals before it. mwcc hoists the
+loads itself in the image's order, spill set and colouring.
+
 Seen in wave D6 lane 20 (2026-10-05): ov103 func_021B8F00 (closed EXACT*).
 
 ## Symptom

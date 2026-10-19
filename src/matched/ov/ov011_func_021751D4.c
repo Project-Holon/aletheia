@@ -12,7 +12,7 @@
  * symbols:
  *   INTRUDE_COMM_LookupZonePair  0x02175144  thumb ov011
  *   INTRUDE_COMM_CompareZonePair  0x02175184  thumb ov011
- *   ZONEDATA_IsZone117  0x02013D5C  thumb
+ *   ZONEDATA_IsEntralink  0x02013D5C  thumb
  *   INTRUDE_COMM_GetRelativeSlot  0x021751A8  thumb ov011
  */
 
@@ -31,7 +31,7 @@ typedef struct Ent {
 int INTRUDE_COMM_LookupZonePair(u16 v, u8 *out);
 int INTRUDE_COMM_CompareZonePair(u8 *a, u8 *b);
 typedef unsigned int   u32;
-u32 ZONEDATA_IsZone117(u32 id);
+u32 ZONEDATA_IsEntralink(u32 id);
 int INTRUDE_COMM_GetRelativeSlot(u8 *p, int a);
 
 void INTRUDE_COMM_AdjustRemotePosition(u8 *p, u16 a, int b, Ent *c)
@@ -52,7 +52,7 @@ void INTRUDE_COMM_AdjustRemotePosition(u8 *p, u16 a, int b, Ent *c)
     case 2:
         break;
     case 0:
-        if (ZONEDATA_IsZone117(a) != 0) {
+        if (ZONEDATA_IsEntralink(a) != 0) {
             w = c->f4 % 0x400000;
             k = INTRUDE_COMM_GetRelativeSlot(p, c->a);
             n = p[0x902];

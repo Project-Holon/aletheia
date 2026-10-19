@@ -33,7 +33,7 @@
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
- *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
+ *   PRINTSYS_MeasureWidestLine  0x0201D304  thumb
  *   d_021B9564     0x021B9564  data  a1
  *   BG_SYS_FreeSlot  0x020414AC  arm
  *   ARC_TOOL_GetHandleMemberSize  0x020493D4  arm
@@ -120,7 +120,7 @@ extern struct CharBuf *BMP_WIN_GetBmp(struct TextWindow *window);
 extern void PRINTSYS_PrintQueColor(struct PrintSys *printer, struct CharBuf *chars, s16 x, s16 y, struct StrBuf *text, u32 fontId, u16 color);
 extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
 extern void CLACT_SetActorBgPriority(struct Actor *actor, unsigned int priority);
-extern u32 GF_FONT_MeasureWidestLine(struct StrBuf *text, u32 fontId, u32 spacing);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrBuf *text, u32 fontId, u32 spacing);
 extern void BG_SYS_FreeSlot(u32 layer);
 extern u32 ARC_TOOL_GetHandleMemberSize(void *arc, u32 member);
 extern void ARC_TOOL_ReadHandleMember(void *arc, u32 member, void *dest);
@@ -291,9 +291,9 @@ void YESNO_MENU_Start(YesNoMenu *menu, struct StrBuf *upperText, struct StrBuf *
     BG_SYS_SetPlaneVisible(menu->buttonBgLayer, 1);
     BMP_Clear(BMP_WIN_GetBmp(menu->windowUpper), 0);
     BMP_Clear(BMP_WIN_GetBmp(menu->windowLower), 0);
-    textWidth = GF_FONT_MeasureWidestLine(upperText, menu->fontId, 0);
+    textWidth = PRINTSYS_MeasureWidestLine(upperText, menu->fontId, 0);
     PRINTSYS_PrintQueColor(menu->printer, BMP_WIN_GetBmp(menu->windowUpper), (u16)((0x100 - textWidth) / 2), 0x10, upperText, menu->fontId, 0x3c40);
-    textWidth = GF_FONT_MeasureWidestLine(lowerText, menu->fontId, 0);
+    textWidth = PRINTSYS_MeasureWidestLine(lowerText, menu->fontId, 0);
     PRINTSYS_PrintQueColor(menu->printer, BMP_WIN_GetBmp(menu->windowLower), (u16)((0x100 - textWidth) / 2), 0x10, lowerText, menu->fontId, 0x3c40);
     menu->upperDone = 0;
     menu->lowerDone = 0;

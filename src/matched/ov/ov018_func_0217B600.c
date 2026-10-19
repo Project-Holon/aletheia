@@ -17,7 +17,7 @@
  *
  *     u8 *GAME_DATA_GetPlayerWork(u8 *p, int i) { return p + 4 + i * 0x44; }
  *
- * It is the Rec44 indexer that belongs beside GAME_DATA_GetPlayerStatus in
+ * It is the Rec44 indexer that belongs beside GAME_DATA_GetMyStatusPlayer in
  * src/matched/arm9/unit_02012924.c; once it is labelled or matched this file
  * should verify EXACT unchanged.  The 12-byte scratch is a cast u8 buffer
  * (docs/idioms/a-declared-struct-local-folds-to-sp-relative-a-cast-buffer-does-not.md):

@@ -50,7 +50,7 @@
  *   VM_GetUserData  0x02011324  thumb
  *   SCRCMD_WORK_Delete  0x0215A5A4  thumb  ov010
  *   VM_Delete  0x02011264  thumb
- *   SAVEDATA_PanicFail  0x02034714  arm
+ *   GF_PANIC_Fail  0x02034714  arm
  *   ZONEDATA_GetScriptArcId  0x02013B5C  thumb
  *   ZONEDATA_GetMsgArcId  0x02013B68  thumb
  *   d_021701A8     0x021701A8  data  a4
@@ -146,7 +146,7 @@ extern u32 VM_GetU32(ScriptVm *vm);
 extern void *VM_GetUserData(ScriptVm *vm);
 extern int SCRCMD_WORK_Delete(void *vmCtx);
 extern int VM_Delete();
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 extern u32 ZONEDATA_GetScriptArcId(u32 id);
 extern u16 ZONEDATA_GetMsgArcId(u16);
 extern void *ARC_UTIL_LoadMember(int archive, int fileId, int a, int heapId);
@@ -637,7 +637,7 @@ u16 SCRIPT_SYS_GetScriptFileId(unsigned zoneId, unsigned scriptId, u16 *outFileI
         if (scriptId < table[i].firstId)
             continue;
         if (scriptId > table[i].lastId)
-            SAVEDATA_PanicFail(d_02172898, (int)0, d_02172898);
+            GF_PANIC_Fail(d_02172898, (int)0, d_02172898);
         range = &table[i];
         *outFileId = range->fileId;
         *outTextBank = range->textBank;

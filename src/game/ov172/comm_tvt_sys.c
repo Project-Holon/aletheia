@@ -75,7 +75,7 @@
  *   TIME_ICON_Delete  0x0202F038  thumb
  *   CTVT_COMM_GetSlotParam 0x021B8B94 thumb ov172
  *   MYSTATUS_CreateNameStrbuf 0x02008510 thumb
- *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
+ *   PRINTSYS_MeasureWidestLine 0x0201D304 thumb
  *   CTVT_TALK_GetMic  0x021B9F98  thumb
  *   CTVT_COMM_SendSlotHit 0x021B8720 thumb ov172
  *   APP_ENV_IsRunOnTwl  0x0202EB0C  thumb
@@ -150,7 +150,7 @@ extern void CLACT_RestartActorAnim(struct ClActor *actor);
 extern void CLACT_AddActorSurfacePos(struct ClActor *actor, const void *delta, u32 space);
 extern u32 MYSTATUS_GetId(const struct PeerObj *obj);
 extern struct StrBuf *MYSTATUS_CreateNameStrbuf(struct StrBuf *src, int heapId);
-extern u32 GF_FONT_MeasureWidestLine(struct StrBuf *str, u32 font, u32 flags);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrBuf *str, u32 font, u32 flags);
 extern void TIME_ICON_Delete(struct TimeIcon *icon);
 extern struct TimeIcon *TIME_ICON_CreateNode(void *src, void *arg, u8 x, u8 y, u16 heapId);
 extern u32 APP_ENV_IsRunOnTwl(void);
@@ -472,7 +472,7 @@ void COMM_TVT_SYS_PlaceSlotMarker(CtvtWork *work, u8 idx)
     place.xTable = d_021C704C;
     place.yTable = d_021C7048;
     name = MYSTATUS_CreateNameStrbuf(CTVT_COMM_GetSlotParam(work, work->comm, idx), work->heapId);
-    nameWidth = (u8)GF_FONT_MeasureWidestLine(name, work->font, 0);
+    nameWidth = (u8)PRINTSYS_MeasureWidestLine(name, work->font, 0);
     STRBUF_Delete(name);
     { u32 baseX = place.xTable.b[markerIndex]; place.x = baseX + (nameWidth >> 1); }
     place.y = place.yTable.b[markerIndex];

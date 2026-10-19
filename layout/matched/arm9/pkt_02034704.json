@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "SAVEDATA_SetFailHook",
+   "name": "GF_PANIC_SetFailHook",
    "address": "0x02034704",
    "kind": "sdk",
    "region": "arm9",

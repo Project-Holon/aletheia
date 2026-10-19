@@ -26,8 +26,8 @@
  *   C_GEAR_DeleteFadeFx  0x021F2E5C  thumb  ov029
  *   UI_SetSleepHookGlobal  0x02035010  arm
  *   UI_SetWakeHookGlobal  0x02035040  arm
- *   GFL_NET_RestartNoTimeout  0x0203D8AC  arm
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtOrigin  0x0203D8AC  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   PALANM_FreeSlotBuffers  0x020215A0  thumb
  *   PALANM_Delete  0x02021540  thumb
  *   TCB_Noop  0x02030DA4  arm
@@ -53,8 +53,8 @@ extern void INTRUDE_COMM_SetCompleted(int a);
 extern void C_GEAR_DeleteFadeFx(char *a);
 extern void UI_SetSleepHookGlobal(u32 a, u32 b);
 extern void UI_SetWakeHookGlobal(u32 a, u32 b);
-extern void GFL_NET_RestartNoTimeout(void);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtOrigin(void);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 extern u32 PALANM_Delete(void *a0);
 extern void TCB_Noop(int a);
@@ -78,8 +78,8 @@ void C_GEAR_Cleanup(char *p)
     C_GEAR_DeleteFadeFx(p + 0x21c);
     UI_SetSleepHookGlobal(0, 0);
     UI_SetWakeHookGlobal(0, 0);
-    GFL_NET_RestartNoTimeout();
-    GFL_NET_RestartWithDefaultTimeout(0, *(unsigned short *)(p + 0xc));
+    GFL_NET_RefreshWmIconAtOrigin();
+    GFL_NET_RefreshWmIconAtTopRight(0, *(unsigned short *)(p + 0xc));
     PALANM_FreeSlotBuffers((struct PalAnmSlot *)(*(int *)(p + 0x210)), 3);
     PALANM_FreeSlotBuffers((struct PalAnmSlot *)(*(int *)(p + 0x210)), 1);
     PALANM_Delete((void *)(*(int *)(p + 0x210)));

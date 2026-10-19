@@ -1,5 +1,8 @@
 # A second spelling of an item address in the if body makes the base a late temp
 
+summary: Spelling an item address a second time (`base + 8 + i * 0x18`) in the if body, next to a
+list local in the tests, makes the base a late temp and fixes the r4/r5 colours.
+
 Seen in ov020 0x02186470 (wave D9r, lane 166). Fifteen lanes left it at 12 to 15 bytes.
 
 ## Symptom

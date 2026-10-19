@@ -1,5 +1,8 @@
 # An unfolded hi minus lo range width comes from inline parameters
 
+summary: A `hi - lo` width that the image computes at run time comes from a static inline range
+test with the bounds as parameters. Written directly, mwcc folds it.
+
 Found in wave D9 (2026-10-05): `src/matched/ov/ov186_func_021FB4CC.c` (EXACT*).
 
 ## Symptom

@@ -28,7 +28,7 @@
  *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_COMM_ClearCounter  0x02026484  thumb
  *   GAME_DATA_SetIntrudeCount  0x02012B78  thumb
- *   GAME_DATA_SetExitMode  0x02012B64  thumb
+ *   GAME_DATA_SetOwnNetId  0x02012B64  thumb
  *   GAME_DATA_SetIntrudeId  0x02012B8C  thumb
  *   GAME_DATA_SetEnterMode  0x02012B4C  thumb
  *   EVENT_MAPCHANGE_CreateIntrudeArriveEvent  0x02185C4C  thumb  ov020
@@ -60,7 +60,7 @@ u32 GAME_COMM_GetCounter(void *p);
 u32 GAME_COMM_GetKind(void *obj);
 void GAME_COMM_ClearCounter(void *p);
 struct BigObj *GAME_DATA_SetIntrudeCount(struct BigObj *p, u8 v);
-void GAME_DATA_SetExitMode(struct BigObj *p, u8 v);
+void GAME_DATA_SetOwnNetId(struct BigObj *p, u8 v);
 void GAME_DATA_SetIntrudeId(struct BigObj *p, u32 v);
 void GAME_DATA_SetEnterMode(struct BigObj *p, u8 v);
 void *EVENT_MAPCHANGE_CreateIntrudeArriveEvent(void *p, void *a1, Rec *r);
@@ -87,7 +87,7 @@ static inline void *finish(void *a, void *r4, void *r6, void *ret)
         INTRUDE_FIELD_ChangePlayerLook(0, a, 0, 0, 0);
     GAME_DATA_SetIntrudeCount(r4, 0);
     if (INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(a)) == 0) {
-        GAME_DATA_SetExitMode(r4, 0);
+        GAME_DATA_SetOwnNetId(r4, 0);
         GAME_DATA_SetIntrudeId(r4, 0);
         GAME_DATA_SetEnterMode(r4, 1);
     }

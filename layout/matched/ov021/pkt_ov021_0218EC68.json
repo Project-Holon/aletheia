@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "FIELD_CAMERA_SetG3dScale",
+   "name": "FIELD_CAMERA_SetG3dNear",
    "address": "0x0218EC68",
    "kind": "game",
    "region": "ov021",

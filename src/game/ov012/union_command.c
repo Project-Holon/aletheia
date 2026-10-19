@@ -18,13 +18,13 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   OS_GetMacAddress  0x02087C6C  arm
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
- *   SAVEDATA_PanicFail  0x02034714  arm
+ *   GF_PANIC_Fail  0x02034714  arm
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   sUnionCmdAssertText 0x02175624 data a1
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_SendToHandle 0x0203D3A8 arm
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
- *   GAME_DATA_GetPlayerStatusById 0x02012950 thumb
+ *   GAME_DATA_GetMyStatusPlayer 0x02012950 thumb
  *   MYSTATUS_Copy 0x02008494 thumb
  *   MYSTATUS_GetSize 0x02008468 thumb
  *   GFL_NET_SendData  0x0203D3F8  arm
@@ -67,7 +67,7 @@ extern void OS_GetMacAddress(void *mac);
 
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 
@@ -77,7 +77,7 @@ extern int GFL_NET_SendToHandle(GFLNetHandle *handle, u32 command, u32 size, con
 
 extern u32 GFL_NET_GetHandleNetID(GFLNetHandle *handle);
 
-extern struct MyStatus *GAME_DATA_GetPlayerStatusById(struct GameData *gameData, u32 index);
+extern struct MyStatus *GAME_DATA_GetMyStatusPlayer(struct GameData *gameData, u32 index);
 
 extern void MYSTATUS_Copy(const void *src, struct MyStatus *dst);
 
@@ -198,7 +198,7 @@ extern const char sUnionCmdAssertText[];
 /* ---- union command table (net commands 0x1400 to 0x1414) ---- */
 u8 *UNION_COMMAND_GetRecvBuffer(int netId, UnionRoomWork *work, int size)
 {
-    if (size > UNION_RECV_BUFFER_SIZE) SAVEDATA_PanicFail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+    if (size > UNION_RECV_BUFFER_SIZE) GF_PANIC_Fail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
     return work->recvBuffer[netId];
 }
 
@@ -263,7 +263,7 @@ int UNION_COMMAND_SendPartnerMode(int mode)
 
 void UNION_COMMAND_RecvMyStatus(u32 netId, int size, const void *data, UnionRoomWork *work)
 {
-    MYSTATUS_Copy(data, GAME_DATA_GetPlayerStatusById(work->parent->gameData, netId));
+    MYSTATUS_Copy(data, GAME_DATA_GetMyStatusPlayer(work->parent->gameData, netId));
     work->mySituation.connect.myStatusRecvBits |= (u8)(1 << netId);
 }
 
@@ -292,7 +292,7 @@ void UNION_COMMAND_RecvTrainerCard(u32 netId, u32 size, const void *data, UnionR
 u32 UNION_COMMAND_SendTrainerCard(UnionRoomWork *work)
 {
     if (work->myTrainerCard == 0) {
-        SAVEDATA_PanicFail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+        GF_PANIC_Fail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
     }
     return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), 0xff, 0x1406, 0x678, work->myTrainerCard, 1, 0, 1);
 }
@@ -305,7 +305,7 @@ void UNION_COMMAND_RecvColosseumEntry(int netId, int size, const ColosseumPlayer
     colosseum = work->colosseum;
     gameData = GAMESYSTEM_GetGameData(work->parent->gameSystem);
     if (colosseum == 0 || colosseum->commPlayer == 0 || colosseum->entryMenu == 0) {
-        SAVEDATA_PanicFail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+        GF_PANIC_Fail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
         return;
     }
     OS_GetMacAddress(macBuffer);
@@ -317,7 +317,7 @@ void UNION_COMMAND_RecvColosseumSetting(int netId, int size, const u32 *value, U
     ColosseumWork *colosseum;
     colosseum = work->colosseum;
     if (colosseum == 0) {
-        SAVEDATA_PanicFail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+        GF_PANIC_Fail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
         return;
     }
     colosseum->parentSetting = *value;
@@ -328,7 +328,7 @@ void UNION_COMMAND_RecvColosseumCancel(int netId, int size, const void *data, Un
     ColosseumWork *colosseum;
     colosseum = work->colosseum;
     if (colosseum == 0) {
-        SAVEDATA_PanicFail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+        GF_PANIC_Fail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
         return;
     }
     colosseum->entryCancelled = 1;
@@ -342,7 +342,7 @@ int UNION_COMMAND_SendColosseumCancel(void)
 void UNION_COMMAND_RecvAppEntry(int netId, int size, const void *data, UnionRoomWork *work)
 {
     if (work->app == 0) {
-        SAVEDATA_PanicFail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+        GF_PANIC_Fail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
         work->entryRefuseBits |= (u8)(1 << netId);
         return;
     }
@@ -385,7 +385,7 @@ void UNION_COMMAND_RecvAppQuitRequest(int netId, int size, const void *data, Uni
         app = work->app;
         if (app == 0) {
             if (app == 0) {
-                SAVEDATA_PanicFail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+                GF_PANIC_Fail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
                 return;
             }
         } else {
@@ -405,7 +405,7 @@ void UNION_COMMAND_RecvAppQuitAccept(int netId, int size, const void *data, Unio
     app = work->app;
     if (app == 0) {
         if (app == 0) {
-            SAVEDATA_PanicFail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+            GF_PANIC_Fail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
             return;
         }
     } else {
@@ -425,7 +425,7 @@ void UNION_COMMAND_RecvAppSettingRequest(int netId, int size, const void *data, 
         app = work->app;
         if (app == 0) {
             if (app == 0) {
-                SAVEDATA_PanicFail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+                GF_PANIC_Fail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
                 return;
             }
         } else {
@@ -445,7 +445,7 @@ void UNION_COMMAND_RecvAppSetting(int netId, int size, const void *value, UnionR
     if (GFL_NET_IsParentAid() != 1) {
         app = work->app;
         if (app == 0) {
-            SAVEDATA_PanicFail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+            GF_PANIC_Fail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
             return;
         }
         UNION_APP_SetSetting(app, value);
@@ -464,7 +464,7 @@ u32 UNION_COMMAND_SendAppSetting(const void *data, u32 sendMask)
 void UNION_COMMAND_RecvAppJoinData(int netId, int size, const void *data, UnionRoomWork *work)
 {
     if (work->app == 0) {
-        SAVEDATA_PanicFail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+        GF_PANIC_Fail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
         return;
     }
     UNION_APP_SetMemberEntry(work->app, work, netId, data);
@@ -483,7 +483,7 @@ int UNION_COMMAND_SendAppJoinData(u8 sendMask, const UnionAppData *src)
 void UNION_COMMAND_RecvAppData(int netId, int size, const void *data, UnionRoomWork *work)
 {
     if (work->app == 0) {
-        SAVEDATA_PanicFail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+        GF_PANIC_Fail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
         return;
     }
     UNION_APP_SetMemberEntry(work->app, work, netId, data);
@@ -498,7 +498,7 @@ void UNION_COMMAND_RecvAppLeaveData(int netId, int size, const void *data, Union
 {
     if (netId != GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle())) {
         if (work->app == 0) {
-            SAVEDATA_PanicFail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+            GF_PANIC_Fail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
             return;
         }
         UNION_APP_SetMemberEntry(work->app, work, (u8)netId, data);
@@ -519,7 +519,7 @@ void UNION_COMMAND_RecvAppNotice(int netId, int size, const u8 *data, UnionRoomW
 {
     if (netId != GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle())) {
         if (work->app == 0) {
-            SAVEDATA_PanicFail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
+            GF_PANIC_Fail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
             return;
         }
         UNION_APP_OnMemberDropped(work->app, *data);

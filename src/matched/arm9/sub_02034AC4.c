@@ -14,7 +14,7 @@
  *   func_02034D60        0x02034D60  arm
  *   func_02034CBC        0x02034CBC  arm
  *   func_02034D08        0x02034D08  arm
- *   SAVEDATA_PanicFail         0x02034714  arm
+ *   GF_PANIC_Fail         0x02034714  arm
  *   FS_SetDefaultDMA     0x0207AC64  arm
  *   FS_LoadOverlay       0x02079264  arm
  *   s_FileName           0x020A7970  data
@@ -37,7 +37,7 @@ typedef unsigned char  u8;
 extern int func_02034D60(u32 id);
 extern void *func_02034CBC(int i);
 extern u8 func_02034D08(int i);
-extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *expr);
+extern void GF_PANIC_Fail(const char *file, u32 line, const char *expr);
 extern int FS_SetDefaultDMA(int dma);
 extern int FS_LoadOverlay(int target, s32 handle);
 
@@ -73,7 +73,7 @@ int GF_OVERLAY_Load(s32 handle)
     }
 
     if (i >= count) {
-        SAVEDATA_PanicFail(s_FileName, 267, s_Expr0);
+        GF_PANIC_Fail(s_FileName, 267, s_Expr0);
         return 0;
     }
 

@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "HAND_TOKUSEI_MoldBreakerSetIgnoreAbilities",
+   "name": "HAND_TOKUSEI_SkillLinkSetMaxHits",
    "address": "0x021D91E4",
    "kind": "game",
    "region": "ov093",
@@ -127,7 +127,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "HAND_TOKUSEI_StatLossGuard_BlockTargetedA",
+   "name": "HAND_TOKUSEI_ShieldDust_BlockTargetedA",
    "address": "0x021D99C8",
    "kind": "game",
    "region": "ov093",
@@ -139,7 +139,7 @@
    "status": "EXACT"
   },
   {
-   "name": "HAND_TOKUSEI_StatLossGuard_BlockTargetedB",
+   "name": "HAND_TOKUSEI_ShieldDust_BlockTargetedB",
    "address": "0x021D99E0",
    "kind": "game",
    "region": "ov093",
@@ -151,7 +151,7 @@
    "status": "EXACT"
   },
   {
-   "name": "HAND_TOKUSEI_Simple_SetOwnerFlag",
+   "name": "HAND_TOKUSEI_SereneGrace_SetOwnerFlag",
    "address": "0x021D9A44",
    "kind": "game",
    "region": "ov093",
@@ -175,7 +175,7 @@
    "status": "EXACT"
   },
   {
-   "name": "HAND_TOKUSEI_MoldBreakerOnAbilityCheck",
+   "name": "HAND_TOKUSEI_RockHeadPreventRecoil",
    "address": "0x021DA0FC",
    "kind": "game",
    "region": "ov093",
@@ -187,7 +187,7 @@
    "status": "EXACT"
   },
   {
-   "name": "HAND_TOKUSEI_CloudNineOnWeatherCheck",
+   "name": "HAND_TOKUSEI_NormalizeOnMoveType",
    "address": "0x021DA120",
    "kind": "game",
    "region": "ov093",

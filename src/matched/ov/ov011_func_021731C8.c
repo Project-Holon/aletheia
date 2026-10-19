@@ -51,7 +51,7 @@
  *   func_0200FBA0  0x0200FBA0  thumb
  *   GAME_DATA_GetField114  0x020127A4  thumb
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
- *   ZONEDATA_IsZone117  0x02013D5C  thumb
+ *   ZONEDATA_IsEntralink  0x02013D5C  thumb
  *   ICA_ANIME_Check2114  0x02012114  thumb
  *   ICA_ANIME_GetField20  0x0201210C  thumb
  *   FIELDMAP_IsReady  0x02188BE8  thumb  ov021
@@ -97,7 +97,7 @@ extern int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
 extern void func_0200FBA0(void);
 extern void *GAME_DATA_GetField114(struct SaveBlock *p);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
-extern u32 ZONEDATA_IsZone117(u32 id);
+extern u32 ZONEDATA_IsEntralink(u32 id);
 extern u32 ICA_ANIME_Check2114(const struct Ctx *p);
 extern void *ICA_ANIME_GetField20(const struct Ctx *p);
 extern int FIELDMAP_IsReady(void *a);
@@ -137,7 +137,7 @@ int INTRUDE_COMM_Destroy(int a0, void **o, u8 *s)
         if (GAME_DATA_GetIntrudeCount((struct BigObj *)h) == 0) {
             func_0200FBA0();
             ok = 1;
-        } else if (ZONEDATA_IsZone117(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetField114((struct SaveBlock *)h))) == 1
+        } else if (ZONEDATA_IsEntralink(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetField114((struct SaveBlock *)h))) == 1
                    && ICA_ANIME_Check2114(o[0]) == 1
                    && FIELDMAP_IsReady(ICA_ANIME_GetField20(o[0])) == 1) {
             ok = 1;

@@ -16,7 +16,7 @@
  *   WIFILOGIN_MSG_RunStep 0x021D6134 thumb ov115
  *   WIFILOGIN_MSG_StepWipe 0x021D6150 thumb ov115
  *   WIFILOGIN_MSG_ShowMessage 0x021D5CCC thumb ov115
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
  */
 #include "../include/Obj03766.h"
@@ -35,7 +35,7 @@ extern void WIFILOGIN_MSG_RunStep(void *a0, int a1, int a2);
 extern void WIFILOGIN_MSG_StepWipe(u8 *p);
 extern void WIFILOGIN_MSG_ShowMessage(u8 *p, u32 n);
 extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 int WIFILOGIN_MSG_CreateWork(void *ctx,int unused,u8 *q) {
     u8 *p;
     BOOL flag;
@@ -53,6 +53,6 @@ int WIFILOGIN_MSG_CreateWork(void *ctx,int unused,u8 *q) {
         if(((struct Obj03767 *)q)->fC==0) GFL_USE_CancelChangeAndPlayBgm(1153,65535);
     }
     if(*(u32 *)&((struct Obj03767 *)q)->f8==0) flag=FALSE; else flag=TRUE;
-    GFL_NET_RestartWithDefaultTimeout(flag,((struct Obj03766 *)p)->f14);
+    GFL_NET_RefreshWmIconAtTopRight(flag,((struct Obj03766 *)p)->f14);
     return 1;
 }

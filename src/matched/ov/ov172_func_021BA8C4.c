@@ -14,7 +14,7 @@
  * symbols:
  *   COMM_TVT_SYS_GetHeapId  0x021BE00C  thumb  ov172
  *   COMM_TVT_SYS_ClearNameWindows  0x021BE1A4  thumb  ov172
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   BMP_WIN_ClearScreen  0x020456F8  arm  arm9
  *   CLACT_DeleteActor  0x0204B3B4  arm  arm9
  *   BMP_WIN_GetBgLayer  0x02045730  arm  arm9
@@ -36,7 +36,7 @@ typedef signed int     s32;
 
 extern u16  COMM_TVT_SYS_GetHeapId(u16 *p);
 extern void COMM_TVT_SYS_ClearNameWindows(char *p);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 struct Descriptor;
 struct Obj;
 extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
@@ -62,7 +62,7 @@ void CTVT_DRAW_Exit(u16 *a0, char *p)
         ((struct Obj01265 *)p)->f28 = (((struct Obj01265 *)p)->f24 == 0) ? 0 : 3;
     }
     r = 0;
-    GFL_NET_RestartWithDefaultTimeout(0, v);
+    GFL_NET_RefreshWmIconAtTopRight(0, v);
     BMP_MENUWORK_DrawWindowBorder((void *)(((struct Obj01265 *)p)->f48), 0);
     r = ((struct Obj01265 *)p)->f48;
     BMP_WIN_ClearScreen((struct Descriptor *)r);

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "MISC_SAVEDATA_GetShortBlockSize",
+   "name": "MET_TRAINERS_GetSize",
    "address": "0x0200ED38",
    "kind": "game",
    "region": "arm9",

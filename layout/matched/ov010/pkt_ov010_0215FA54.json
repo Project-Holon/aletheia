@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "SCRCMD_NETWORK_WifiProcEventMain",
+   "name": "EVENT_WIFI_PROC_EventMain",
    "address": "0x0215FA54",
    "kind": "game",
    "region": "ov010",

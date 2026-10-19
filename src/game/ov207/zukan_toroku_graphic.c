@@ -23,7 +23,7 @@
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
  *   ZUKAN_INFO_CreateFromMon 0x021B9DE0 thumb ov206
  *   ZUKAN_NICKNAME_Create 0x0220B55C thumb ov207
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   FADE_Start 0x0204E720 arm
  *   TCB_DeleteTask 0x02030EAC arm
@@ -159,7 +159,7 @@ extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int 
 extern u32 PRINTSYS_QUE_Create(void *);
 extern void *ZUKAN_INFO_CreateFromMon(u16,void *,u32,u32,u32,u32,u8,u32,u32,u32,u32,u32,u32);
 extern char *ZUKAN_NICKNAME_Create(u16 heap, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
-extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 extern void *GFL_USE_AddMainTask(u32,u32,u32);
 extern void FADE_Start(u32,int,int,int);
 extern void TCB_DeleteTask(struct Node *n);
@@ -275,7 +275,7 @@ int ZUKAN_TOROKU_GRAPHIC_Init(void *owner,int unused,u32 *args)
     if(args[0]!=0) mode=1;
     work->menu=ZUKAN_INFO_CreateFromMon(work->heapId,(void *)args[1],args[2],1,mode,0,0,ZUKAN_TOROKU_GRAPHIC_GetDisplay(work->display),(u32)work->font,work->printQueue,0,0,0);
     work->nickname=ZUKAN_NICKNAME_Create(work->heapId,args[1],args[3],args[4],args[5],ZUKAN_TOROKU_GRAPHIC_GetDisplay(work->display),(u32)work->font,work->printQueue,args[6]);
-    GFL_NET_RestartWithDefaultTimeout(0,work->heapId);
+    GFL_NET_RefreshWmIconAtTopRight(0,work->heapId);
     if(work->state==1) ZUKAN_TOROKU_GRAPHIC_CreateBg(work);
     work->task=GFL_USE_AddMainTask((u32)ZUKAN_TOROKU_GRAPHIC_ClearTask,(u32)work,1);
     FADE_Start(3,16,0,2);

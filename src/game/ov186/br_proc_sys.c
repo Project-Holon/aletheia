@@ -18,7 +18,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   BR_GRAPHIC_Create 0x021FC3BC thumb ov186
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
- *   BEACON_GetRecorderFlag 0x0200C3E0 thumb
+ *   MISC_GetRecorderFlag 0x0200C3E0 thumb
  *   BR_RES_Create 0x021FB884 thumb ov186
  *   BR_RES_LoadBgGraphics 0x021FB964 thumb ov186
  *   BR_FADE_Create 0x021FE6C0 thumb ov186
@@ -31,7 +31,7 @@
  *   BR_NET_Create 0x021FF408 thumb ov186
  *   GF_OVERLAY_Load 0x02034AC4 arm
  *   GFL_NET_GetRunState 0x0203CD98 arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   GAME_DATA_GetBgmInfo 0x02012A30 thumb
  *   FIELD_SOUND_SYSTEM_FadeVolume 0x02028A58 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
@@ -46,7 +46,7 @@
  *   BR_SIDEBAR_Destroy 0x021FEDC4 thumb ov186
  *   BR_FADE_Delete 0x021FE734 thumb ov186
  *   BR_RES_GetPalSet 0x021FC238 thumb ov186
- *   BEACON_SetRecorderFlag 0x0200C3EC thumb
+ *   MISC_SetRecorderFlag 0x0200C3EC thumb
  *   BR_RES_ApplyBgSet 0x021FBDA4 thumb ov186
  *   BR_RES_Delete 0x021FB92C thumb ov186
  *   BR_GRAPHIC_Destroy 0x021FC474 thumb ov186
@@ -58,15 +58,15 @@
  *   BR_SIDEBAR_Update 0x021FEE00 thumb ov186
  *   BR_GRAPHIC_Draw 0x021FC4C8 thumb ov186
  *   BR_NET_Main 0x021FF52C thumb ov186
- *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GF_PANIC_Fail 0x02034714 arm
  *   d_02200D00 0x02200D00 data
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   BATTLE_REC_Load 0x0200B570 thumb
  *   BATTLE_REC_GetWork 0x0200B910 thumb
  *   GDS_PROFILE_Init 0x0200D5D0 thumb
  *   SAVE_CONTROL_GetBlock   0x020071CC  thumb
- *   MISC_SAVEDATA_GetBlock3C   0x0200E9F4  thumb
- *   MISC_SAVEDATA_GetStatsBase2   0x0200EA04  thumb
+ *   LIVEBATTLEMATCH_SAVE_GetFromSave   0x0200E9F4  thumb
+ *   LIVEBATTLEMATCH_SAVE_GetStats2   0x0200EA04  thumb
  *   STRBUF_Delete 0x02045808 arm
  *   GDS_PROFILE_CreateNameStr 0x0200D6D0 thumb
  *   GDS_PROFILE_GetEggFlag 0x0200D6EC thumb
@@ -265,7 +265,7 @@ extern void *GAME_DATA_GetMiscSave(int *);
 
 extern void *BR_RES_Create(unsigned,unsigned,unsigned);
 
-extern u8 BEACON_GetRecorderFlag(struct Blk34 *p);
+extern u8 MISC_GetRecorderFlag(struct Blk34 *p);
 
 extern void BR_RES_LoadBgGraphics(void *ctx, unsigned kind, unsigned short heap);
 
@@ -283,7 +283,7 @@ extern char *BR_NET_Create(void *owner, void *arg, u32 heap);
 
 extern int GF_OVERLAY_Load(int),GFL_NET_GetRunState(void);
 
-extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 
 extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *p);
 
@@ -309,7 +309,7 @@ extern void BR_FADE_Delete(char *p);
 
 extern int BR_RES_GetPalSet(char *p);
 
-extern void BEACON_SetRecorderFlag(struct Blk34 *p, u32 v);
+extern void MISC_SetRecorderFlag(struct Blk34 *p, u32 v);
 
 extern void BR_RES_ApplyBgSet(int,unsigned);
 
@@ -333,7 +333,7 @@ extern void BR_GRAPHIC_Draw(char *);
 
 extern void BR_NET_Main(char *p);
 
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 
@@ -345,9 +345,9 @@ extern void GDS_PROFILE_Init(struct GdsProfile *p, void *sys);
 
 extern void *SAVE_CONTROL_GetBlock(struct Sub020071CCCtrl *, unsigned int);
 
-extern void *MISC_SAVEDATA_GetBlock3C(void *p);
+extern void *LIVEBATTLEMATCH_SAVE_GetFromSave(void *p);
 
-extern int MISC_SAVEDATA_GetStatsBase2(int);
+extern int LIVEBATTLEMATCH_SAVE_GetStats2(int);
 
 extern u8 *BATTLE_REC_GetHeader(void);
 
@@ -489,7 +489,7 @@ int BR_PROC_SYS_Init(void *obj,int unused,char *q)
     if(**(int * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared!=2) flag=zero;
     enabled=1;
     ((struct BrProcSys *)p)->graphic=BR_GRAPHIC_Create(flag,1,0x5a);
-    mode=BEACON_GetRecorderFlag(GAME_DATA_GetMiscSave(*(int * *)&((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->saveControl));
+    mode=MISC_GetRecorderFlag(GAME_DATA_GetMiscSave(*(int * *)&((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->saveControl));
     if(**(int * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared) enabled=0;
     ((struct BrProcSys *)p)->resources=BR_RES_Create(mode,enabled,0x5a);
     BR_RES_LoadBgGraphics((void *)(*(int *)&((struct BrProcSys *)p)->resources),0,0x5a);
@@ -504,7 +504,7 @@ int BR_PROC_SYS_Init(void *obj,int unused,char *q)
     if(**(int * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared) {
         ((struct BrProcSys *)p)->net=BR_NET_Create((void *)(((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->saveControl),(void *)(((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->netArg),0x5a);
     } else GF_OVERLAY_Load((int)ov125_id);
-    if(GFL_NET_GetRunState()) GFL_NET_RestartWithDefaultTimeout(0,0x5a);
+    if(GFL_NET_GetRunState()) GFL_NET_RefreshWmIconAtTopRight(0,0x5a);
     if(!**(int * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared) {
         if(((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->flag!=1) FIELD_SOUND_SYSTEM_FadeVolume((void *)GAME_DATA_GetBgmInfo((const struct BigObj *)(((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->saveControl)),0x40,0);
     } else GFL_USE_CancelChangeAndPlayBgm(0x484,0xffff);
@@ -530,7 +530,7 @@ int BR_PROC_SYS_Exit(int sys,int unused,int unused2,int *p)
     if(nested[0]==0) {
         int a=(int)GAME_DATA_GetMiscSave((int *)nested[1]);
         int b=BR_RES_GetPalSet((char *)p[1]);
-        BEACON_SetRecorderFlag((struct Blk34 *)a,(unsigned char)b);
+        MISC_SetRecorderFlag((struct Blk34 *)a,(unsigned char)b);
     }
     BR_RES_ApplyBgSet(p[1],0);
     BR_RES_ApplyBgSet(p[1],1);
@@ -602,8 +602,8 @@ void BR_PROC_SYS_BuildChoiceRecord(int *out,int *source,int *ctx,int type)
             switch(ctx[2]) {
             case 0: out[0]=1; break;
             case 1: case 2: case 3: out[0]=2; break;
-            case 4: SAVEDATA_PanicFail(d_02200D00,0,d_02200D00); out[0]=7; break;
-            case 5: SAVEDATA_PanicFail(d_02200D00,0,d_02200D00); out[0]=7; break;
+            case 4: GF_PANIC_Fail(d_02200D00,0,d_02200D00); out[0]=7; break;
+            case 5: GF_PANIC_Fail(d_02200D00,0,d_02200D00); out[0]=7; break;
             }
             break;
         case 5: out[0]=7; break;
@@ -662,7 +662,7 @@ void BR_PROC_SYS_BuildBattleRecord(int *out,int *source,const char *ctx,int type
         sys=*(void **)(*(char **)((char *)source[6]+12)+4);
         BATTLE_REC_Load(GAME_DATA_GetSaveControl(sys),0x59,&result,out[2]);
         if(result==1) {if(!out[2]) GDS_PROFILE_Init((struct GdsProfile *)BATTLE_REC_GetWork(),sys);}
-        else SAVEDATA_PanicFail(d_02200D00,0,d_02200D00);
+        else GF_PANIC_Fail(d_02200D00,0,d_02200D00);
         return;
     case 5:
         out[2]=4;out[12]=*(int *)((char *)source[6]+8);
@@ -720,7 +720,7 @@ void BR_PROC_SYS_BuildProfileRecord2(char *r5, int *r4)
     ((struct BrProcOutRecord *)r5)->value2 = r4[2];
     ((struct BrProcOutRecord *)r5)->kind = BR_GRAPHIC_GetActorUnit((u8 *)r4[0]);
     ((struct BrProcOutRecord *)r5)->value3 = *(int *)(*(int *)(((struct BrProcSrcRecord *)r4)->handle + 0xC) + 4);
-    ((struct BrProcOutRecord *)r5)->owner = MISC_SAVEDATA_GetStatsBase2((int)MISC_SAVEDATA_GetBlock3C((void *)x));
+    ((struct BrProcOutRecord *)r5)->owner = LIVEBATTLEMATCH_SAVE_GetStats2((int)LIVEBATTLEMATCH_SAVE_GetFromSave((void *)x));
 }
 
 void BR_PROC_SYS_NoopC(void) {}
@@ -801,7 +801,7 @@ void BR_PROC_SYS_BuildRecord(int *out,int *source,int *ctx,int type)
         out[5]=(*(int **)((char *)source[6]+0xc))[1];
         out[6]=*(int *)((char *)source[6]+8)+0x1748;
     } else {
-        SAVEDATA_PanicFail(d_02200D00,0,d_02200D00);
+        GF_PANIC_Fail(d_02200D00,0,d_02200D00);
     }
 }
 
@@ -815,7 +815,7 @@ void BR_PROC_SYS_BuildRecord2(int *out,int *source,const char *ctx,int type)
 {
     unsigned a;
     int b,result;
-    if(type!=2) SAVEDATA_PanicFail(d_02200D00,0,d_02200D00);
+    if(type!=2) GF_PANIC_Fail(d_02200D00,0,d_02200D00);
     out[2]=source[1];
     out[0]=source[3];
     out[3]=source[5];
@@ -940,8 +940,8 @@ void BR_PROC_SYS_RunSlot(char *p)
  case 0:*old=*current;*current=*next;((struct Context *)p)->state=1;break;
  case 1:{
   int mode;
-  if(!current->active)SAVEDATA_PanicFail(d_02200D14,0,d_02200D14);
-  if(!current->ops->init)SAVEDATA_PanicFail(d_02200D14,0,d_02200D14);
+  if(!current->active)GF_PANIC_Fail(d_02200D14,0,d_02200D14);
+  if(!current->ops->init)GF_PANIC_Fail(d_02200D14,0,d_02200D14);
   current->work=GFL_HEAP_Alloc(((struct Context *)p)->heap,current->ops->size,0,d_02200D04,0xd2);
   MI_CpuFill8(current->work,0,current->ops->size);
   mode=-2;if(!((struct Context *)p)->loaded)mode=old->arg;
@@ -953,7 +953,7 @@ void BR_PROC_SYS_RunSlot(char *p)
  }
  case 2:if(!PROCSYS_Main((void *)((struct Context *)p)->object))((struct Context *)p)->state=3;break;
  case 3:
-  if(!current->active)SAVEDATA_PanicFail(d_02200D14,0,d_02200D14);
+  if(!current->active)GF_PANIC_Fail(d_02200D14,0,d_02200D14);
   if(current->ops->update)current->ops->update(current->work,((struct Context *)p)->arg);
   if(((struct Context *)p)->pendingCount)((struct Context *)p)->state=0;
   else{if(current->work)GFL_HEAP_Free(current->work);((struct Context *)p)->state=4;}
@@ -1001,10 +1001,10 @@ void BR_PROC_SYS_PushEntry(unsigned *ctx, unsigned index)
     char *base = (char *)ctx[1];
     char *entry = base + index * 20;
     if (index >= ((struct Context *)ctx)->count)
-        SAVEDATA_PanicFail(d_02200D14, 0, d_02200D14);
+        GF_PANIC_Fail(d_02200D14, 0, d_02200D14);
     BR_PROC_SYS_InitEntry((char *)(&info), index, (int)entry);
     if (ctx[25] >= 6)
-        SAVEDATA_PanicFail(d_02200D14, 0, d_02200D14);
+        GF_PANIC_Fail(d_02200D14, 0, d_02200D14);
     ((unsigned (*)[6])((char *)ctx + 0x4c))[0][ctx[25]] = index;
     ctx[25]++;
     *(BrProcEntry *)((char *)ctx + 0x3c) = info;

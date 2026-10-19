@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "GFL_NET_RestartWithTimeout",
+   "name": "GFL_NET_RefreshWmIconAt",
    "address": "0x0203D88C",
    "kind": "game",
    "region": "arm9",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "GFL_NET_RestartNoTimeout",
+   "name": "GFL_NET_RefreshWmIconAtOrigin",
    "address": "0x0203D8AC",
    "kind": "game",
    "region": "arm9",

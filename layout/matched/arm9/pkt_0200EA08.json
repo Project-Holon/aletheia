@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "MISC_SAVEDATA_GetRecordBase",
+   "name": "LIVEBATTLEMATCH_SAVE_GetRecord",
    "address": "0x0200EA08",
    "kind": "game",
    "region": "arm9",

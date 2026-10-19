@@ -163,12 +163,12 @@
  *   GDS_PROFILE_GetSpecies 0x0200D6FC thumb
  *   GDS_PROFILE_GetFormSpecies 0x0200D70C thumb
  *   GDS_PROFILE_GetNicknameFlag 0x0200D72C thumb
- *   GDS_PROFILE_GetMonFlagBit0 0x0200D73C thumb
- *   GDS_PROFILE_GetRecordWord1C 0x0200D74C thumb
- *   GDS_PROFILE_GetRecordWord30 0x0200D760 thumb
+ *   GDS_PROFILE_GetBadEggFlag 0x0200D73C thumb
+ *   GDS_PROFILE_GetValidatedCountry 0x0200D74C thumb
+ *   GDS_PROFILE_GetValidatedRegion 0x0200D760 thumb
  *   GDS_PROFILE_ExportRecord 0x0200D774 thumb
- *   GDS_PROFILE_GetVariant 0x0200D810 thumb
- *   GDS_PROFILE_GetCountry 0x0200D820 thumb
+ *   GDS_PROFILE_GetBirthMonth 0x0200D810 thumb
+ *   GDS_PROFILE_GetTrainerSprite 0x0200D820 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
@@ -237,12 +237,12 @@ extern u32 GDS_PROFILE_GetEggFlag(struct RecGet *p);
 extern u32 GDS_PROFILE_GetSpecies(struct RecGet *p);
 extern u32 GDS_PROFILE_GetFormSpecies(struct RecGet *p);
 extern u32 GDS_PROFILE_GetNicknameFlag(struct RecGet *p);
-extern u32 GDS_PROFILE_GetMonFlagBit0(struct RecGet *p);
+extern u32 GDS_PROFILE_GetBadEggFlag(struct RecGet *p);
 struct GdsProfile;
-extern u32 GDS_PROFILE_GetRecordWord1C(struct GdsProfile *p);
-extern u32 GDS_PROFILE_GetRecordWord30(struct GdsProfile *p);
-extern u32 GDS_PROFILE_GetVariant(struct GdsProfile *p);
-extern u32 GDS_PROFILE_GetCountry(struct GdsProfile *p);
+extern u32 GDS_PROFILE_GetValidatedCountry(struct GdsProfile *p);
+extern u32 GDS_PROFILE_GetValidatedRegion(struct GdsProfile *p);
+extern u32 GDS_PROFILE_GetBirthMonth(struct GdsProfile *p);
+extern u32 GDS_PROFILE_GetTrainerSprite(struct GdsProfile *p);
 extern void *GDS_PROFILE_ExportRecord(struct GdsProfile *p, struct GdsRecord *out, u32 tag);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
@@ -308,7 +308,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
             {
             u32 v;
             void *msg;
-            v=GDS_PROFILE_GetVariant(prof);
+            v=GDS_PROFILE_GetBirthMonth(prof);
             text=STRBUF_Create(0x80,(u16)heap);
             msg=func_02045EC0(bank,d_02200B34[i].msg);
             WORDSET_SetSlotMonth(words,0,v);
@@ -320,7 +320,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
             {
             u32 v;
             void *msg;
-            v=GDS_PROFILE_GetRecordWord1C(prof);
+            v=GDS_PROFILE_GetValidatedCountry(prof);
             text=STRBUF_Create(0x80,(u16)heap);
             msg=func_02045EC0(bank,d_02200B34[i].msg);
             WORDSET_SetSlotFromMsgE7(words,0,v);
@@ -333,8 +333,8 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
             {
             u32 v,w;
             void *msg;
-            v=GDS_PROFILE_GetRecordWord1C(prof);
-            w=GDS_PROFILE_GetRecordWord30(prof);
+            v=GDS_PROFILE_GetValidatedCountry(prof);
+            w=GDS_PROFILE_GetValidatedRegion(prof);
             text=STRBUF_Create(0x80,(u16)heap);
             msg=func_02045EC0(bank,d_02200B34[i].msg);
             WORDSET_SetSlotFromKeyedMessage(words,0,v,w);
@@ -371,7 +371,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
         }
     }
     }
-    A=GDS_PROFILE_GetMonFlagBit0(prof);
+    A=GDS_PROFILE_GetBadEggFlag(prof);
     B=GDS_PROFILE_GetSpecies(prof);
     C=GDS_PROFILE_GetFormSpecies(prof);
     D=GDS_PROFILE_GetNicknameFlag(prof);
@@ -411,7 +411,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *a2,void *a3,int mode,
         {
         u32 k;
         void *h;
-        k=GDS_PROFILE_GetCountry(prof);
+        k=GDS_PROFILE_GetTrainerSprite(prof);
         h=func_020490F4(0x20,(heap&0x7fff)|0x8000);
         *(int *)(p+0x38)=CLACT_RegisterPaletteEx(h,0,0,0x1a0,d_02200AFC[k],1,heap);
         *(int *)(p+0x40)=CLACT_RegisterCellAnim(h,0x41,0x42,(u16)heap);

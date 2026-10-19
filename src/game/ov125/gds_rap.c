@@ -21,7 +21,7 @@
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   STRBUF_Create 0x020457B0 arm
  *   GDS_SOCKET_Begin 0x021D8598 arm ov125
- *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GF_PANIC_Fail 0x02034714 arm
  *   ov114_id 0x00000072 data
  *   sGdsRapFileName 0x021D8D00 data a4
  *   sGdsServerHost 0x021D8D0C data a4
@@ -125,7 +125,7 @@ struct SaveControl;
 
 extern int GF_OVERLAY_Load(s32 overlayId);
 extern void GF_OVERLAY_Unload(s32 overlayId);
-extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *message);
+extern void GF_PANIC_Fail(const char *file, u32 line, const char *message);
 extern void MI_CpuFill8(void *dst, int value, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -261,7 +261,7 @@ int GDS_RAP_Init(GdsRapWork *work, GdsRapInitParams *params)
     work->client.packetType = 0x15;
     work->client.protocolVersion = 2;
     if (GDS_SOCKET_Begin(&work->client, sGdsServerHost, 0x3071) != 1)
-        SAVEDATA_PanicFail(sGdsEmptyString, 0, sGdsEmptyString);
+        GF_PANIC_Fail(sGdsEmptyString, 0, sGdsEmptyString);
     work->active = 1;
     work->initialized = 1;
     return 1;
@@ -326,7 +326,7 @@ int GDS_RAP_RequestUploadVideo(GdsRapWork *work, void *profile)
 int GDS_RAP_RequestSearchVideos(GdsRapWork *work, int keyId, unsigned int categoryIndex, int mode, u8 flag)
 {
     if (!GDS_RAP_IsIdle(work)) return 0;
-    if (categoryIndex >= 20) SAVEDATA_PanicFail(sGdsEmptyString, 0, sGdsEmptyString);
+    if (categoryIndex >= 20) GF_PANIC_Fail(sGdsEmptyString, 0, sGdsEmptyString);
     MI_CpuFill8(&work->args.search, 0, 16);
     work->args.search.keyId = keyId;
     work->args.search.category = sGdsSearchCategories[categoryIndex].category;
@@ -435,7 +435,7 @@ int GDS_RAP_RunRequest(GdsRapWork *work, int *done)
         case 0:
             video = GDS_RAP_GetVideoWork();
             if (work->session != 0)
-                SAVEDATA_PanicFail(sGdsEmptyString, ret, sGdsEmptyString);
+                GF_PANIC_Fail(sGdsEmptyString, ret, sGdsEmptyString);
             work->session = NHTTP_RAP_Create((u16)work->heapId, MYSTATUS_GetProfileId(GAME_DATA_GetMyStatus(work->gameData)), work->profileSource);
             NHTTP_RAP_AllocPostData(work->session, (u16)work->heapId, 0x540, 3);
             BATTLE_REC_GetModeLayout(video->head.mode, &sides, &members);
@@ -445,9 +445,9 @@ int GDS_RAP_RunRequest(GdsRapWork *work, int *done)
                 work->memberCount += (u8)video->body.party[i].count;
             }
             if (!NHTTP_RAP_CreatePostRequest(work->session))
-                SAVEDATA_PanicFail(sGdsEmptyString, 0, sGdsEmptyString);
+                GF_PANIC_Fail(sGdsEmptyString, 0, sGdsEmptyString);
             if (!(NHTTP_RAP_StartConnection(work->session) == 0 ? 1 : 0))
-                SAVEDATA_PanicFail(sGdsEmptyString, 0, sGdsEmptyString);
+                GF_PANIC_Fail(sGdsEmptyString, 0, sGdsEmptyString);
             work->step++;
             break;
         case 1:
@@ -551,7 +551,7 @@ int GDS_RAP_RunRequest(GdsRapWork *work, int *done)
         ret = GDS_SOCKET_SendMarkVideo(work->arg2.dataNumber.lo, work->arg2.dataNumber.hi, work->replyBuffer);
         break;
     default:
-        SAVEDATA_PanicFail(sGdsEmptyString, 0, sGdsEmptyString);
+        GF_PANIC_Fail(sGdsEmptyString, 0, sGdsEmptyString);
         break;
     }
     if (ret == 1)
@@ -679,7 +679,7 @@ int GDS_RAP_ReadReply(GdsRapWork *work)
     int result = 1;
     reply = (const GdsReply *)GDS_SOCKET_GetReply();
     GDS_SOCKET_GetReplySize();
-    if (work->finishedRequestId != reply->requestId) SAVEDATA_PanicFail(sGdsEmptyString, 0, sGdsEmptyString);
+    if (work->finishedRequestId != reply->requestId) GF_PANIC_Fail(sGdsEmptyString, 0, sGdsEmptyString);
     work->pending.callback = 0;
     switch (reply->requestId) {
     case 0: break;
@@ -791,7 +791,7 @@ int GDS_RAP_GetSearchResults(GdsRapWork *work, char *dst, int max)
     count = list->count;
     if (count > max) {
         count = max;
-        SAVEDATA_PanicFail(sGdsEmptyString2, 0, sGdsEmptyString2);
+        GF_PANIC_Fail(sGdsEmptyString2, 0, sGdsEmptyString2);
     }
     MI_CpuFill8(dst, 0, max * sizeof(GdsVideoListing));
     i = 0;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "FIELD_PLAYER_SetupGrid",
+   "name": "FIELD_PLAYER_MoveGrid",
    "address": "0x021A35F0",
    "kind": "game",
    "region": "ov021",

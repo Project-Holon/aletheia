@@ -29,7 +29,7 @@
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   FIELD_PLAYER_CheckMoveRestrictFlag  0x021A35BC  thumb  ov021
  *   FIELD_PLAYER_CreateGrid  0x021A35E0  thumb  ov021
- *   FIELD_PLAYER_SetupGrid  0x021A35F0  thumb  ov021
+ *   FIELD_PLAYER_MoveGrid  0x021A35F0  thumb  ov021
  */
 #include "fieldmap_types.h"
 
@@ -62,7 +62,7 @@ extern VecFx32 *FLDMMDL_GetPosPtr(struct Mmdl *mmdl);
 extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
 extern int FIELD_PLAYER_CheckMoveRestrictFlag(struct FieldPlayer *player);
 extern void FIELD_PLAYER_CreateGrid(struct FieldPlayer *player, u32 heapId);
-extern void FIELD_PLAYER_SetupGrid(struct FieldPlayer *player, u32 keyTrg, u32 keyCont, u32 flags);
+extern void FIELD_PLAYER_MoveGrid(struct FieldPlayer *player, u32 keyTrg, u32 keyCont, u32 flags);
 extern int gFieldMapCtrlGridFileName;
 
 void FIELDMAP_CTRL_GRID_Create(FieldMap *fieldMap, VecFx32 *pos, int dir);
@@ -110,7 +110,7 @@ void FIELDMAP_CTRL_GRID_Main(FieldMap *fieldMap, VecFx32 *pos)
 
         if (FIELD_PLAYER_CheckMoveRestrictFlag(player) == 1)
             flags |= 1;
-        FIELD_PLAYER_SetupGrid(player, keyTrg, keyCont, flags);
+        FIELD_PLAYER_MoveGrid(player, keyTrg, keyCont, flags);
     }
 }
 

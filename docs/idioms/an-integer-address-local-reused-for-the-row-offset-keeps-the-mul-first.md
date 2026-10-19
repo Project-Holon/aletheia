@@ -1,5 +1,8 @@
 # An integer address local reused for the row offset keeps the mul first
 
+summary: Define an integer local with the row offset, then redefine it as the index term plus the
+pointer sum. This keeps the multiply first and gives the original add operand order.
+
 Shape (Thumb, ov197 0x0220BA2C):
 
     muls r4, r0, r4        ; c * 0x90

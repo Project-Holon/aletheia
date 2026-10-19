@@ -1,5 +1,5 @@
 /*
- * function: FIELD_CAMERA_SetG3dScale
+ * function: FIELD_CAMERA_SetG3dNear
  * address:  0x0218EC68
  * packet:   pkt_ov021_0218EC68
  * region:   ov021
@@ -24,7 +24,7 @@ typedef signed int     s32;
 struct Light;
 extern void G3D_CAMERA_SetNear(struct Light *l, const u32 *in);
 
-void FIELD_CAMERA_SetG3dScale(u8 *a, u32 first, ...)
+void FIELD_CAMERA_SetG3dNear(u8 *a, u32 first, ...)
 {
     G3D_CAMERA_SetNear((struct Light *)(((struct Obj19562 *)a)->fC), &first);
 }

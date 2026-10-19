@@ -25,7 +25,7 @@
  *   ZONEDATA_IsRawZoneGroup4CTo69   0x02014034  thumb
  *   POKE_TOOL_IsBoxShiny  0x02017EB4  thumb
  *   MYSTATUS_CreateNameStrbuf  0x02008510  thumb
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  */
 #include "comm_player_support_shared_types.h"
 #include "save_event_shared_types.h"
@@ -52,7 +52,7 @@ extern u32 ZONEDATA_IsRawZoneGroup4CTo69(u32 id);
 
 extern struct Strbuf *MYSTATUS_CreateNameStrbuf(const struct PlayerRecord *record, u32 index);
 
-extern u32 MYSTATUS_GetOutfitVariant(const struct PlayerRecord *record);
+extern u32 MYSTATUS_GetSex(const struct PlayerRecord *record);
 
 extern u32 POKE_TOOL_IsBoxShiny(struct SaveData *save);
 
@@ -228,7 +228,7 @@ void SAVE_EVENT_StoreRecord(struct SaveData *save, const struct PlayerRecord *re
 {
     struct Strbuf *name = (struct Strbuf *)MYSTATUS_CreateNameStrbuf(record, index);
     u32 kind = MYSTATUS_GetId(record);
-    u32 key = MYSTATUS_GetOutfitVariant(record);
+    u32 key = MYSTATUS_GetSex(record);
 
     POKE_TOOL_SetBoxValue(save, 0x8d, (u32)name);
     POKE_TOOL_SetBoxValue(save, 0x9a, key);

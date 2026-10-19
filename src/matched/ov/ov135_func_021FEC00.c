@@ -14,7 +14,7 @@
  * symbols:
  *   WORLDTRADE_INPUT_MenuUpdate  0x021F99F0  thumb
  *   WORLDTRADE_SEARCH_SetBlendEffect  0x021FF570  thumb
- *   WORLDTRADE_ENTER_SetListRangeEntry  0x021F89A8  thumb
+ *   WORLDTRADE_DEPOSIT_SetListRangeEntry  0x021F89A8  thumb
  *   WORLDTRADE_DEPOSIT_PrintName  0x021F7F9C  thumb
  *   WORLDTRADE_DEPOSIT_SetGenderFromEvent  0x021F7B9C  thumb
  *   WORLDTRADE_DEPOSIT_PrintModeLabelAligned  0x021F8098  thumb
@@ -68,7 +68,7 @@ extern int WORLDTRADE_INPUT_MenuUpdate(void *obj);
 extern void WORLDTRADE_SEARCH_SetBlendEffect(u32 v);
 struct CharBuf;
 struct Descriptor;
-extern void WORLDTRADE_ENTER_SetListRangeEntry(u8 *p, int i, u16 a, u16 b);
+extern void WORLDTRADE_DEPOSIT_SetListRangeEntry(u8 *p, int i, u16 a, u16 b);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void WORLDTRADE_DEPOSIT_PrintName(void *win, void *bank, u32 index, u32 y, u32 x, u16 color, void *g);
@@ -89,7 +89,7 @@ int WORLDTRADE_SEARCH_StateNameMenuInput(Work *p)
     case -2:
         WORLDTRADE_SEARCH_SetBlendEffect(0);
         p->state = 0;
-        WORLDTRADE_ENTER_SetListRangeEntry(p->area, p->target->x6 + p->target->x4, p->target->xA, p->target->x8);
+        WORLDTRADE_DEPOSIT_SetListRangeEntry(p->area, p->target->x6 + p->target->x4, p->target->xA, p->target->x8);
         break;
     case -1:
         break;
@@ -103,7 +103,7 @@ int WORLDTRADE_SEARCH_StateNameMenuInput(Work *p)
         v = POKE_PERSONAL_GetParam((const struct Personal *)h, 0x14);
         POKE_PERSONAL_Delete((void *)h);
         p->target->x20 = v;
-        WORLDTRADE_ENTER_SetListRangeEntry(p->area, p->target->x6 + p->target->x4, p->target->xA, p->target->x8);
+        WORLDTRADE_DEPOSIT_SetListRangeEntry(p->area, p->target->x6 + p->target->x4, p->target->xA, p->target->x8);
         if (WORLDTRADE_DEPOSIT_SetGenderFromEvent((u8 *)(&p->sel), p->target->x20) != 0) {
             BMP_Clear(BMP_WIN_GetBmp(p->winB), 0);
             WORLDTRADE_DEPOSIT_PrintModeLabelAligned(p->winB, p->bankA, p->mode, 1, 0, 0, 0x3C40, p->g);

@@ -625,7 +625,7 @@ void GF_FONT_DecodeGlyph(const struct GfFont *font, const u8 *glyph, u32 lastGro
  * GF_FONT_GetCharWidth returns whatever the function pointer at +0x6C returns, and the
  * tail call shape (`ldr r2, [r4, #0x6c]`, `blx r2`, `pop {r4, pc}`) is the same
  * bytes whether the C declares a return value or not, so the return type is
- * fixed by the caller instead: GF_FONT_MeasureText adds the result to a running width.
+ * fixed by the caller instead: PRINTSYS_MeasureText adds the result to a running width.
  *
  * GF_FONT_GetLineHeight has no label in the listing; it is three halfwords between two
  * literal pools.

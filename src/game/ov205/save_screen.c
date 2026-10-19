@@ -83,7 +83,7 @@
  *   RTC_GetDate 0x02088864 arm
  *   GAME_DATA_GetMyParty 0x02012934 thumb
  *   GAME_DATA_GetSaveBlock42 0x02012F68 thumb
- *   MISC_SAVEDATA_SnapshotParty 0x0200EA3C thumb
+ *   DENDOU_SAVEDATA_SetRecord 0x0200EA3C thumb
  *   GAME_DATA_GetTrainerRecord 0x02012F2C thumb
  *   GAME_DATA_GetPlayTime 0x02012FCC thumb
  *   PLAYTIME_GetHours 0x0200864C thumb
@@ -95,11 +95,11 @@
  *   FIELD_CLOCK_SaveTimestamp 0x02169120 thumb ov010
  *   SAVE_CONTROL_LoadExtraSave 0x0200725C thumb
  *   SAVE_CONTROL_GetExtraSaveRecord 0x020073D8 thumb
- *   MISC_SAVEDATA_AppendPartyRecord 0x0200EBD0 thumb
+ *   DENDOU_SAVEDATA_AppendRecord 0x0200EBD0 thumb
  *   GAME_DATA_PartSaveStart 0x02012E4C thumb
  *   GAME_DATA_PartSaveMain 0x02012E7C thumb
  *   SAVE_CONTROL_DeleteExtraSave 0x020072A4 thumb
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   d_021B9EFC 0x021B9EFC data a4
  *   d_021B9ECC 0x021B9ECC data a4
@@ -256,7 +256,7 @@ extern void BMP_MENUWORK_DrawWindow(void *,int,int,int);
 extern void RTC_GetDate(void *);
 extern void *GAME_DATA_GetMyParty(const struct BigObj *);
 extern void *GAME_DATA_GetSaveBlock42(void **);
-extern void MISC_SAVEDATA_SnapshotParty(struct Rec *,void *,struct Date *,u32);
+extern void DENDOU_SAVEDATA_SetRecord(struct Rec *,void *,struct Date *,u32);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern int GAME_DATA_GetPlayTime(int gd);
 extern u16 PLAYTIME_GetHours(const struct PlayTime *p);
@@ -268,11 +268,11 @@ extern u32 RECORD_GetCounterClamped(struct Sub02008C20Obj *,int);
 extern void FIELD_CLOCK_SaveTimestamp(void *);
 extern u32 SAVE_CONTROL_LoadExtraSave(struct Ctrl *ctrl, u32 id, u8 heap);
 extern void *SAVE_CONTROL_GetExtraSaveRecord(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
-extern void MISC_SAVEDATA_AppendPartyRecord(struct Obj *obj, void *party, void *date, u32 heap);
+extern void DENDOU_SAVEDATA_AppendRecord(struct Obj *obj, void *party, void *date, u32 heap);
 extern void GAME_DATA_PartSaveStart(u8 *p, u32 a);
 extern int GAME_DATA_PartSaveMain(char *,int);
 extern void SAVE_CONTROL_DeleteExtraSave(struct Sub020072A4Ctrl *,u32);
-extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void MSGDATA_ReadString(struct MsgBank *,u32,void *);
 extern void GF_FONT_SetTextColor(u32,u32,u32);
@@ -465,7 +465,7 @@ void SAVE_SCREEN_PrintEntry(SaveScreenWork *p,unsigned entry,unsigned index,u16 
 }
 
 
-void SAVE_SCREEN_SnapshotParty(SaveScreenWork *p) { u32 date[4];void *party,*rec;RTC_GetDate(date);party=GAME_DATA_GetMyParty(*(struct BigObj * *)&p->ctx);rec=GAME_DATA_GetSaveBlock42(*(void ** *)&p->ctx);MISC_SAVEDATA_SnapshotParty(rec,party,(struct Date *)date,4); }
+void SAVE_SCREEN_SnapshotParty(SaveScreenWork *p) { u32 date[4];void *party,*rec;RTC_GetDate(date);party=GAME_DATA_GetMyParty(*(struct BigObj * *)&p->ctx);rec=GAME_DATA_GetSaveBlock42(*(void ** *)&p->ctx);DENDOU_SAVEDATA_SetRecord(rec,party,(struct Date *)date,4); }
 
 
 void SAVE_SCREEN_SetTrainerDate(SaveScreenWork *p)
@@ -497,7 +497,7 @@ void SAVE_SCREEN_AppendPartyRecord(SaveScreenWork *p)
     SAVE_CONTROL_LoadExtraSave(save,8,4);
     record=SAVE_CONTROL_GetExtraSaveRecord(save,8,0);
     if(SAVE_CONTROL_WouldOverwriteSave(save)==0) {
-        MISC_SAVEDATA_AppendPartyRecord(record,object,date,4);
+        DENDOU_SAVEDATA_AppendRecord(record,object,date,4);
         GAME_DATA_PartSaveStart(p->ctx,8);
         p->partSaveFlag=1;
     }
@@ -527,7 +527,7 @@ int SAVE_SCREEN_NoticeMain(void *input,u32 *state,u32 unused,SaveScreenNoticeWor
         else SAVE_SCREEN_PrintText(p,2,6,0);
         obj=p->bmpWin;
         BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);BG_SYS_PushTile(BMP_WIN_GetBgLayer(obj));
-        GFL_NET_RestartWithDefaultTimeout(1,p->heapId);BG_SYS_SetMainPlaneVisible(16,1);
+        GFL_NET_RefreshWmIconAtTopRight(1,p->heapId);BG_SYS_SetMainPlaneVisible(16,1);
         (*state)++;break;
     case 1:
         FADE_Start(3,16,0,0);*(u16 *)0x04000050=0;

@@ -47,7 +47,7 @@
  *   d_021D82C0     0x021D82C0  data
  *   d_021D8470     0x021D8470  data
  *   d_021D8880     0x021D8880  data
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   WORDSET_SetSlotMonNickname  0x0201EEF4  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
@@ -138,7 +138,7 @@ extern void POKETRADE_3D_AddPokemonMcssPlain(void *p, int a, int b, void *mon, i
 extern void MCSS_SetAnmStopFlag(void *p);
 extern void MCSS_SetVanishFlag(void *p);
 extern void POKETRADE_PROC_SetStep(void *p, int next);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern void WORDSET_SetSlotMonNickname(struct WordSet *p, u32 i, void *mon);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
@@ -275,7 +275,7 @@ void POKETRADE_DEMO_MIDDLE_StepStartPlayback(u8 *work)
  */
 void POKETRADE_DEMO_MIDDLE_PrintMessage(u8 *work)
 {
-    GFL_NET_RestartWithDefaultTimeout(0, ((PokeTradeDemoWork *)work)->heapId);
+    GFL_NET_RefreshWmIconAtTopRight(0, ((PokeTradeDemoWork *)work)->heapId);
     if (((PokeTradeDemoWork *)work)->sceneMode == 6) {
         MSGDATA_ReadString((struct MsgBank *)(((PokeTradeDemoWork *)work)->msgBank), 0x98, (void *)(((PokeTradeDemoWork *)work)->stringSrc));
     } else if (((PokeTradeDemoWork *)work)->sceneMode == 8) {

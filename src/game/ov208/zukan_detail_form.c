@@ -113,7 +113,7 @@
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   WORDSET_Delete  0x0201ED04  thumb
  *   CLACT_SetActorAnimFrame  0x0204B8C4  arm
- *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
+ *   PRINTSYS_MeasureWidestLine  0x0201D304  thumb
  *   BMP_GetWidth  0x020437DC  arm
  *   G2x_SetBlendAlpha_ 0x0207D63C  arm
  *   ZUKAN_DETAIL_COMMON_InitBrightnessTarget  0x021BC518  thumb  ov208
@@ -404,7 +404,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *);
 
 extern void *MSGDATA_AllocString(struct MsgBank *bank,u32 index);
 
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s,u32 a,u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s,u32 a,u32 b);
 
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 
@@ -1215,7 +1215,7 @@ void ZUKAN_DETAIL_FORM_DrawSpeciesLabels(u16 *heap, struct Ov208Form *p, struct 
     species = ZUKAN_DETAIL_COMMON_GetCurrentEntry(key);
     bmp = BMP_WIN_GetBmp((struct Descriptor *)p->win[0]);
     text = MSGDATA_AllocString(gSpeciesNameBank, species);
-    width = GF_FONT_MeasureWidestLine(text, p->font, 0);
+    width = PRINTSYS_MeasureWidestLine(text, p->font, 0);
     PRINTSYS_PrintQueColor((void *)p->print[0], (u32)bmp, (s16)((u16)((BMP_GetWidth(bmp) - width) / 2)), (s16)1, (u32)text, p->font, 0x3c40);
     p->active[0] = 1;
     STRBUF_Delete((struct U16Vec *)text);
@@ -1261,10 +1261,10 @@ void ZUKAN_DETAIL_FORM_DrawFormLabel(u16 *heap, struct Ov208Form *p, struct Ov20
     y2 = 0x11;
     if (strB == 0)
         y = 9;
-    w = GF_FONT_MeasureWidestLine((struct StrObj *)strA, p->font, 0);
+    w = PRINTSYS_MeasureWidestLine((struct StrObj *)strA, p->font, 0);
     PRINTSYS_PrintQueColor((void *)print, bmp, (s16)((u16)((width - w) / 2)), (s16)y, strA, p->font, 0x3c40);
     if (strB != 0) {
-        w = GF_FONT_MeasureWidestLine((struct StrObj *)strB, p->font, 0);
+        w = PRINTSYS_MeasureWidestLine((struct StrObj *)strB, p->font, 0);
         PRINTSYS_PrintQueColor((void *)print, bmp, (s16)((u16)((width - w) / 2)), (s16)y2, strB, p->font, 0x3c40);
     }
     if (strA != 0 && freeA != 0)

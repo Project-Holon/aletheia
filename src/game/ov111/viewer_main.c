@@ -28,7 +28,7 @@
  *   PMS_DRAW_Create  0x0202DB0C  thumb
  *   GFL_USE_AddMainTask  0x020056A0  thumb
  *   TCBL_Create  0x0203101C  arm
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   WIPE_SYS_Start  0x0202208C  thumb
  *   VIEWER_TEXT_InitActors  0x021C6D9C  thumb  ov111
  *   VIEWER_TEXT_BuildRowList  0x021C6804  thumb  ov111
@@ -47,7 +47,7 @@
  *   TRCARD_SIGN_GetBitmap  0x020089CC  thumb
  *   MI_CpuCopy8  0x02082D44  arm
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   MYSTATUS_SetOutfit  0x02008558  thumb
+ *   MYSTATUS_SetTrainerView  0x02008558  thumb
  *   TRCARD_SIGN_SetColor  0x02008A14  thumb
  *   TRCARD_SIGN_SetStyle  0x02008A1C  thumb
  *   PMS_DRAW_Delete  0x0202DC08  thumb
@@ -379,7 +379,7 @@ extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern struct PmsDraw *PMS_DRAW_Create(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
 extern void *GFL_USE_AddMainTask(void (*cb)(void *, ViewerWork *), void *ctx, int pri);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
 extern void VIEWER_TEXT_InitActors(ViewerAnim *a, const void *cfg);
 extern void VIEWER_TEXT_BuildRowList(ViewerWork *p, ViewerInfo *info);
@@ -397,7 +397,7 @@ extern void *GAME_DATA_GetTrainerCardSign(void **h);
 extern void *TRCARD_SIGN_GetBitmap(void *p);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern void MYSTATUS_SetOutfit(struct Sub0200852CObj *obj, u8 value);
+extern void MYSTATUS_SetTrainerView(struct Sub0200852CObj *obj, u8 value);
 extern void TRCARD_SIGN_SetColor(void *p, u32 v);
 extern void TRCARD_SIGN_SetStyle(struct Sub020089A8Obj *obj, u8 value);
 extern void PMS_DRAW_Delete(struct Obj *p);
@@ -631,7 +631,7 @@ int VIEWER_MAIN_Create(void *man, int *state, ViewerArgs *args)
     VIEWER_MAIN_Draw((ViewerWork *)p);
     p->vblankTask = GFL_USE_AddMainTask(VIEWER_MAIN_VBlank, p, 1);
     p->tcbl = TCBL_Create(p->heap, p->heap, 3, 0);
-    GFL_NET_RestartWithDefaultTimeout(1, p->heap);
+    GFL_NET_RefreshWmIconAtTopRight(1, p->heap);
     WIPE_SYS_Start((void *)1, 3, 3, 0, 6, 1, p->heap);
     return 1;
 }
@@ -782,7 +782,7 @@ int VIEWER_MAIN_Delete(void *man, int *state, ViewerArgs *args, ViewerWork *p)
     if (args->editMode != 0) {
         a = GAME_DATA_GetMyStatus(p->args->gameData);
         b = GAME_DATA_GetTrainerCardSign(p->args->gameData);
-        MYSTATUS_SetOutfit(a, p->info->rowIndex);
+        MYSTATUS_SetTrainerView(a, p->info->rowIndex);
         TRCARD_SIGN_SetColor(b, p->info->listIndex);
         TRCARD_SIGN_SetStyle(b, p->info->f4_4);
     }

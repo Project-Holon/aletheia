@@ -14,7 +14,7 @@
  *
  * symbols:
  *   MI_CpuFill8 0x02082BCC arm
- *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GF_PANIC_Fail 0x02034714 arm
  *   STRBUF_Delete 0x02045808 arm
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   GFL_HEAP_Free  0x020307B0  arm
@@ -37,7 +37,7 @@ struct U16Vec;
 
 extern void STRBUF_Delete(struct U16Vec *vec);
 
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
@@ -116,7 +116,7 @@ void BR_BTN_DATA_Fill(struct BrBtnTable *table)
             case 1: row->enabled = config[0]; break;
             case 2: case 3: case 4:
                 index = row->kind - 2;
-                if (index >= 4) SAVEDATA_PanicFail(d_02200D38, 0, d_02200D38);
+                if (index >= 4) GF_PANIC_Fail(d_02200D38, 0, d_02200D38);
                 row->enabled = config[index + 1];
                 if (row->enabled) row->msgId = 26;
                 break;
@@ -132,18 +132,18 @@ void *BR_BTN_DATA_GetRow(struct BrBtnTable *table, int section, unsigned item)
 {
     int i;
     int total;
-    if (section >= 12) SAVEDATA_PanicFail(d_02200D38, 0, d_02200D38);
-    if (item >= d_022007F0[section].count) SAVEDATA_PanicFail(d_02200D38, 0, d_02200D38);
+    if (section >= 12) GF_PANIC_Fail(d_02200D38, 0, d_02200D38);
+    if (item >= d_022007F0[section].count) GF_PANIC_Fail(d_02200D38, 0, d_02200D38);
     total = 0;
     for (i = 0; i < section; i++) total += d_022007F0[i].count;
     return &table->records[total + item];
 }
 
-unsigned short BR_BTN_DATA_GetSectionCount(void *table, int section) { if(section>=12)SAVEDATA_PanicFail(d_02200D38,0,d_02200D38);return d_022007F0[section].count; }
+unsigned short BR_BTN_DATA_GetSectionCount(void *table, int section) { if(section>=12)GF_PANIC_Fail(d_02200D38,0,d_02200D38);return d_022007F0[section].count; }
 
 unsigned BR_BTN_DATA_GetMaxSectionCount(void *table) { unsigned best=0;int section;for(section=0;section<12;section++){if(best<BR_BTN_DATA_GetSectionCount(table,section)) best=BR_BTN_DATA_GetSectionCount(table,section);}return best; }
 
-int BR_BTN_DATA_GetRowField(void *record,int fieldIndex) { if(fieldIndex>=12)SAVEDATA_PanicFail(d_02200D38,0,d_02200D38);return ((u16 *)record)[fieldIndex]; }
+int BR_BTN_DATA_GetRowField(void *record,int fieldIndex) { if(fieldIndex>=12)GF_PANIC_Fail(d_02200D38,0,d_02200D38);return ((u16 *)record)[fieldIndex]; }
 
 void *BR_BTN_DATA_CreateLabel(unsigned *const *wordSetSrc,void *record,struct MsgBank *archive,unsigned short heapId)
 {

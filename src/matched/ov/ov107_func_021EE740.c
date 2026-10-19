@@ -14,8 +14,8 @@
  *   MB_COMM_SYS_CreateNetState 0x021F0DE8 thumb ov107
  *   MB_COMM_SYS_DrawTitle 0x021EF444 thumb ov107
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   BEACON_GetBlock 0x0200C0F0 thumb
- *   BEACON_SetRank 0x0200C1B0 thumb
+ *   MISC_GetBlock 0x0200C0F0 thumb
+ *   MISC_SetRank 0x0200C1B0 thumb
  *   func_020056A0 0x020056A0 thumb
  *   func_02005654 0x02005654 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
@@ -41,8 +41,8 @@ extern struct Work *MB_UTIL_MSG_Create(u16 heap, u32 a, u32 b, u32 c, u32 d, u32
 extern struct Object *MB_COMM_SYS_CreateNetState(u16);
 extern void MB_COMM_SYS_DrawTitle(u8 *);
 extern void *GAME_DATA_GetSaveControl(struct Big *);
-extern void *BEACON_GetBlock(void *);
-extern void BEACON_SetRank(struct Blk34 *,u32);
+extern void *MISC_GetBlock(void *);
+extern void MISC_SetRank(struct Blk34 *,u32);
 extern void *func_020056A0(u32,u32,u32);
 extern int func_02005654(int,int);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32,u16);
@@ -64,8 +64,8 @@ void MB_COMM_SYS_Init(u8 *p) {
  ((struct Obj00057 *)p)->f60=0;
  MB_COMM_SYS_DrawTitle(p);
  if(!p[0x28]) {
-  ((struct Obj00057 *)p)->f4C=BEACON_GetBlock(GAME_DATA_GetSaveControl(*(struct Big * *)&((struct Obj22273 *)(*(u8 * *)&((struct Obj00057 *)p)->f8))->f4));
-  BEACON_SetRank(*(struct Blk34 * *)&((struct Obj00057 *)p)->f4C,4);
+  ((struct Obj00057 *)p)->f4C=MISC_GetBlock(GAME_DATA_GetSaveControl(*(struct Big * *)&((struct Obj22273 *)(*(u8 * *)&((struct Obj00057 *)p)->f8))->f4));
+  MISC_SetRank(*(struct Blk34 * *)&((struct Obj00057 *)p)->f4C,4);
  } else {
   *(u32 *)&((struct Obj00057 *)p)->f4C=0;
   *(u16 *)(((u8 *)&gMbParentUi)+2)=0;

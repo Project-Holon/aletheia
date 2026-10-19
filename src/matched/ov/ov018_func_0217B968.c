@@ -19,7 +19,7 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   GAME_DATA_GetPlayerZoneId  0x02012AC8  thumb
- *   ZONEDATA_IsZone117  0x02013D5C  thumb
+ *   ZONEDATA_IsEntralink  0x02013D5C  thumb
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   GAME_COMM_GetKind  0x02026454  thumb
  *   INTRUDE_FIELD_IsAtAreaEdge  0x0217B930  thumb  ov018
@@ -50,7 +50,7 @@ struct SaveBlock;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
 extern unsigned short GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
-extern u32 ZONEDATA_IsZone117(u32 id);
+extern u32 ZONEDATA_IsEntralink(u32 id);
 struct VecFx32;
 extern void FIELD_PLAYER_GetPos(unsigned char *, struct VecFx32 *);
 extern u32 GAME_COMM_GetKind(void *obj);
@@ -78,7 +78,7 @@ void INTRUDE_FIELD_UpdateCommState(int a0, void *a1, void *a2, void *a3)
         return;
     if (GAMESYSTEM_IsEventActive(a1) == 1)
         return;
-    if (ZONEDATA_IsZone117(GAME_DATA_GetPlayerZoneId((const struct Rec44 *)GAME_DATA_GetMyPlayerWork(GAMESYSTEM_GetGameData(a1)))) == 0)
+    if (ZONEDATA_IsEntralink(GAME_DATA_GetPlayerZoneId((const struct Rec44 *)GAME_DATA_GetMyPlayerWork(GAMESYSTEM_GetGameData(a1)))) == 0)
         return;
     FIELD_PLAYER_GetPos(a3, (struct VecFx32 *)&v);
     switch (GAME_COMM_GetKind(a2)) {

@@ -7792,12 +7792,13 @@ TWL_POOL = 0x027300EC
 # earlier probe targets 0x021882A0, 0x02188354 and 0x02188390 now have
 # callers in the overlays sharing that window and are carried by `label`),
 # its own extent, a plain ov230 function outside every decrypted range, and
-# a second-layer encrypted body at ov230's base
+# filler words in ov230's tail (outside every range; the second-layer bodies are
+# ranges of the view since tools/ovcrypt.py opens them)
 OV230D_SLOTS = (0x021888FC, 0x02188938, 0x02188974)
 OV230D_CALLER_LO = 0x02011D9C
 OV230D_CALLER_HI = 0x02011D9C + 272
 OV230D_PLAIN = 0x02188A0C
-OV230D_BODY = 0x02187F00
+OV230D_BODY = 0x02189958
 OVERLAY_FUNC_REGION = "ov093"
 # A candidate overlay of OVERLAY_FUNC's address window that does NOT label
 # it, for exercising a region_hint that resolves to nothing.
@@ -8251,7 +8252,7 @@ def _selftest_overlay_id():
         # as loaded; 0xAA resolves as overlay_id and counts as before.
         p0 = os.path.join(ROOT, "src", "matched", "ov",
                           "ov000_func_021542C0.c")
-        r = run_one(p0, "func_021542C0", 0x021542C0, "1.1p1", ["-O4,p"],
+        r = run_one(p0, "EVENT_GSYNC_Main", 0x021542C0, "1.1p1", ["-O4,p"],
                     True, "c99", region="ov000")
         _sites = r.func.sites
         _by = dict((st.name, st) for st in _sites)
@@ -8300,7 +8301,7 @@ def _selftest_overlay_id():
         acc = os.path.join(os.path.dirname(p10), "_selfhint_acc.c")
         with open(acc, "w", newline="\n") as fh:
             fh.write(text)
-        r = run_one(acc, "func_02010AC4", 0x02010AC4, "1.1p1", ["-O4,p"],
+        r = run_one(acc, "GFL_NET_SAVE_Main", 0x02010AC4, "1.1p1", ["-O4,p"],
                     True, "c99")
         _check(out, "sole-ref/self hint: func_02010AC4 (ov115 hint, "
                     "contested by ov021, loads ov115) is EXACT end to end",
@@ -8308,16 +8309,16 @@ def _selftest_overlay_id():
         _check(out, "sole-ref/self hint: and the contested 0x021D6338 site "
                     "resolves as sole-ref, on the ov115 load alone",
                [st.cls for st in getattr(r.func, "sites", None) or ()
-                if st.name == "d_021D6338"], ["sole-ref"])
+                if st.name == "gNetSaveMainProc"], ["sole-ref"])
         ref = os.path.join(os.path.dirname(p10), "_selfhint_ref.c")
         bad = re.sub(r"(ov115_id\s+)0x00000073", r"\g<1>0x0000007B", text)
         with open(ref, "w", newline="\n") as fh:
             fh.write(bad)
-        r = run_one(ref, "func_02010AC4", 0x02010AC4, "1.1p1", ["-O4,p"],
+        r = run_one(ref, "GFL_NET_SAVE_Main", 0x02010AC4, "1.1p1", ["-O4,p"],
                     True, "c99")
         _check(out, "sole-ref/self hint: with no ov115 load the contested "
                     "0x021D6338 site is refused",
-               any(st.name == "d_021D6338" and not st.resolved
+               any(st.name == "gNetSaveMainProc" and not st.resolved
                    and "hint is contested" in st.reason
                    for st in getattr(r.func, "sites", None) or ()),
                True)
@@ -9143,11 +9144,11 @@ def cmd_selftest(args):
                (scan_listing(OV230D_REGION).get(OV230D_PLAIN),
                 cls(attest(OV230D_PLAIN, "arm", lo, hi,
                            region_hint="ov230d"))), (False, None))
-        # a label planted on the second-layer ciphertext at ov230's base
+        # a label planted on filler words of ov230's tail, outside every range
         _FUNC_STARTS[OV230D_REGION] = dict(scan_listing(OV230D_REGION))
         _FUNC_STARTS[OV230D_REGION][OV230D_BODY] = False
-        _check(res, "ov230d: a label on still-encrypted bytes outside the "
-                    "decrypted ranges is refused",
+        _check(res, "ov230d: a label on bytes outside the decrypted ranges "
+                    "is refused",
                cls(attest(OV230D_BODY, "arm", lo, hi,
                           region_hint="ov230d")), None)
         # a label on ciphertext in ov230's ROM listing (what a

@@ -50,10 +50,10 @@
  *   ARC_UTIL_LoadPaletteBlockFromArchive  0x02049F34  arm
  *   DC_FlushRange  0x020862F0  arm
  *   GX_LoadOBJPltt 0x0207E51C  arm
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   CLACT_RegisterPaletteEx  0x0204AC18  arm
  *   d_02202BE0     0x02202BE0  data
- *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GF_PANIC_Fail 0x02034714 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   APP_TASKMENU_OpenMenu 0x02027778 thumb
@@ -140,7 +140,7 @@
  */
 #include "worldtrade_types.h"
 
-#define ASSERT(x) if (!(x)) SAVEDATA_PanicFail(str_02203B08, 0, str_02203B08)
+#define ASSERT(x) if (!(x)) GF_PANIC_Fail(str_02203B08, 0, str_02203B08)
 
 struct ProcSystem;
 
@@ -261,7 +261,7 @@ extern void CLACT_VBlankSystem(void);
 
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
@@ -283,7 +283,7 @@ extern void DC_FlushRange(void *p, u32 size);
 
 extern void GX_LoadOBJPltt(const void *src, u32 offset, u32 size);
 
-extern u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetSex(const struct Sub0200852CObj *obj);
 
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
@@ -586,10 +586,10 @@ void WORLDTRADE_CallStateHandler(Work *p, Args *args)
     ASSERT(args->party);
     ASSERT(args->save);
     ASSERT(args->wifiList);
-    ASSERT(args->status);
+    ASSERT(args->wifiHistory);
     ASSERT(args->myStatus);
     ASSERT(args->statusConfig);
-    ASSERT(args->trainerRecord);
+    ASSERT(args->record);
     p->args = args;
     p->screenId = 0;
     WORLDTRADE_SetStateAndReturn(p, 0, 0x13);
@@ -650,7 +650,7 @@ void WORLDTRADE_SetupWindowPlanes(void)
  * palette and animation sets into the resource block at +0xBC0, the
  * OBJ palette from archive 7 at 0xA0 and a half-brightness copy of it
  * at 0x100, and from archive 0x1F the version-dependent set (files
- * 0x11/6/0xF/0x10 when MYSTATUS_GetOutfitVariant reports 1, else 0xE/4/0xC/0xD).
+ * 0x11/6/0xF/0x10 when MYSTATUS_GetSex reports 1, else 0xE/4/0xC/0xD).
  */
 void WORLDTRADE_InitClactSystem(Work *p, u32 mode)
 {
@@ -689,7 +689,7 @@ void WORLDTRADE_InitClactSystem(Work *p, u32 mode)
     GX_LoadOBJPltt(pd->data, 0x100, 0x60);
     GFL_HEAP_Free(buf);
 
-    if ((u8)(u32)MYSTATUS_GetOutfitVariant(p->ctx->myStatus) == 1) {
+    if ((u8)(u32)MYSTATUS_GetSex(p->ctx->myStatus) == 1) {
         chr = 0x11;
         anm = 0x10;
         cell = 0xF;
@@ -729,8 +729,8 @@ void WORLDTRADE_OpenTaskMenuYesNo(Work *p,int y,int unused,int plttIdx,int bgLay
     BoxItems2 items;
     struct TaskMenuTmpl menu;
     int on;
-    if (p->taskMenuRes) SAVEDATA_PanicFail(str_02203B08,0,str_02203B08);
-    if (p->taskMenu) SAVEDATA_PanicFail(str_02203B08,0,str_02203B08);
+    if (p->taskMenuRes) GF_PANIC_Fail(str_02203B08,0,str_02203B08);
+    if (p->taskMenu) GF_PANIC_Fail(str_02203B08,0,str_02203B08);
     p->taskMenuRes=APP_TASKMENU_RES_Create((u8)bgLayer,(u8)plttIdx,p->uiResA,p->uiResB,0x48);
     items=data_02202BC8;
     on=0;
@@ -763,12 +763,12 @@ void WORLDTRADE_OpenTaskMenuList(Work *p, u16 bgLayer, int count, int y)
     BoxItems3 items;
     struct TaskMenuTmpl menu;
     int i;
-    if (p->taskMenuRes) SAVEDATA_PanicFail(str_02203B08,0,str_02203B08);
-    if (p->taskMenu) SAVEDATA_PanicFail(str_02203B08,0,str_02203B08);
+    if (p->taskMenuRes) GF_PANIC_Fail(str_02203B08,0,str_02203B08);
+    if (p->taskMenu) GF_PANIC_Fail(str_02203B08,0,str_02203B08);
     p->taskMenuRes=APP_TASKMENU_RES_Create(bgLayer,10,p->uiResA,p->uiResB,0x48);
     items=data_02202C2C;
     MI_CpuFill8(&menu,0,20);
-    if ((u32)count>3) SAVEDATA_PanicFail(str_02203B08,0,str_02203B08);
+    if ((u32)count>3) GF_PANIC_Fail(str_02203B08,0,str_02203B08);
     for(i=0;i<count;i++) items.item[i].a=*(u32 *)((u32)p->de8+i*8);
     menu.heapId=0x48;
     menu.count=count;

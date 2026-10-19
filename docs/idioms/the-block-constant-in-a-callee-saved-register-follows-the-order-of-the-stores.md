@@ -1,5 +1,8 @@
 # The block constant in a callee-saved register follows the order of the stores
 
+summary: Which constant of a block gets the callee-saved register depends on the order of the
+stores that use it. A store that needs an address temp weighs more. Reorder the literal stores.
+
 Seen in wave D8 lane 06 (2026-10-05): ov168 func_02184398 and ov172 func_021B8CC8, both closed EXACT.
 
 ## Symptom

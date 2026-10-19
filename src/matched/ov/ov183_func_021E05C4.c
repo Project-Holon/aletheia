@@ -1,5 +1,5 @@
 /*
- * function: BR_CODEIN_CodeDestroy2
+ * function: BR_CODEIN_ProfileScreenDestroy
  * address: 0x021E05C4
  * packet: pkt_ov183_021E05C4
  * region: ov183
@@ -28,7 +28,7 @@ extern void BR_UTIL_DeleteHandles(char *r5);
 extern void BR_RES_ApplyBgSet(int a, unsigned mode);
 extern void BR_RES_ReleaseSprite(char *p, unsigned i);
 extern void func_020315D4(struct Proc *p);
-int BR_CODEIN_CodeDestroy2(void *a, int unused, int *q, void **p)
+int BR_CODEIN_ProfileScreenDestroy(void *a, int unused, int *q, void **p)
 {
     BR_UTIL_DeleteTextWin((void *)((int)p[2]), q[2]);
     BR_CODEIN_ProfileDestroy(p[1]);

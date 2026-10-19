@@ -54,8 +54,8 @@
  *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
- *   GF_FONT_CountLines  0x0201D42C  thumb
+ *   PRINTSYS_MeasureWidestLine  0x0201D304  thumb
+ *   PRINTSYS_CountLines  0x0201D42C  thumb
  *   PRINTSYS_Print  0x0201C7A4  thumb
  *   BUTTON_MAN_Delete  0x02051C6C  arm
  *   STRBUF_Create  0x020457B0  arm
@@ -174,7 +174,7 @@
  *   APP_TASKMENU_RES_Create  0x02027F60  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   G2x_SetBlendAlpha_  0x0207D63C  arm
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   GAME_DATA_GetWifiList  0x0201283C  thumb
  *   WIH_DWC_PollStatus  0x0201058C  thumb
  *   APP_TASKMENU_UpdateMenu  0x02027974  thumb
@@ -376,7 +376,7 @@ extern void WIPE_SYS_Start(u32 pattern0, u32 pattern1, u32 pattern2, u32 color, 
 extern struct GameSystem *IRC_BATTLE_ENTRY_GetGameSys(IrcBattleEntryWork *entry);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSys);
 extern void G2x_SetBlendAlpha_(u32 reg, u32 plane1, u32 plane2, u32 ev1, u32 ev2);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 type, u32 heapId);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 type, u32 heapId);
 extern struct WifiList *GAME_DATA_GetWifiList(const struct GameData *gameData);
 extern u32 WIH_DWC_PollStatus(struct WifiList *wifiList);
 extern void APP_TASKMENU_UpdateMenu(struct TaskMenuWork *menu);
@@ -478,8 +478,8 @@ extern u32 PALANM_Delete(struct PlttFade *fade);
 extern void GXS_LoadOBJPltt(void *dst, u32 value, u32 size);
 extern void GXS_LoadBGPltt(void *dst, u32 value, u32 size);
 extern struct TimeIcon *TIME_ICON_CreateNode(struct Tcbl *tcbl, struct BmpWin *win, u8 a, u8 b, u16 heapId);
-extern u32 GF_FONT_MeasureWidestLine(struct StrBuf *str, struct GfFont *font, u32 a);
-extern u32 GF_FONT_CountLines(struct StrBuf *str, struct GfFont *font);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrBuf *str, struct GfFont *font, u32 a);
+extern u32 PRINTSYS_CountLines(struct StrBuf *str, struct GfFont *font);
 extern void BUTTON_MAN_Delete(struct TouchSwitch *touchSw);
 extern struct GfFont *GF_FONT_Create(int a, int b, int c, int d, u32 heapId);
 extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -751,12 +751,12 @@ void IRCBATTLEMENU_CreateButtonWindows(int count, u32 *msgIds, IrcBattleMenuWork
         BMP_Clear(BMP_WIN_GetBmp(work->menuWins[i]), 0);
         MSGDATA_ReadString(work->msgData, msgIds[i], work->message);
         if (centerX != 0) {
-            x = centerX[i] - (GF_FONT_MeasureWidestLine(work->message, work->font, 0) >> 1);
+            x = centerX[i] - (PRINTSYS_MeasureWidestLine(work->message, work->font, 0) >> 1);
         } else {
             x = 0;
         }
         if (centerY != 0) {
-            y = centerY[i] - (GF_FONT_CountLines(work->message, work->font) >> 1);
+            y = centerY[i] - (PRINTSYS_CountLines(work->message, work->font) >> 1);
         } else {
             y = 0;
         }
@@ -1710,7 +1710,7 @@ int IRCBATTLEMENU_Init(struct ProcWork *proc, u32 seq, IrcBattleEntryWork *param
     work->param = (struct IrcBattleEntryWork *)param;
     work->gameData = GAMESYSTEM_GetGameData(IRC_BATTLE_ENTRY_GetGameSys((IrcBattleEntryWork *)work->param));
     G2x_SetBlendAlpha_(0x04001050, 4, 1, 0xf, 4);
-    GFL_NET_RestartWithDefaultTimeout(0, work->heapId);
+    GFL_NET_RefreshWmIconAtTopRight(0, work->heapId);
     BG_SYS_SetMainVisiblePlanes(0x13);
     BG_SYS_SetSubVisiblePlanes(0x17);
     G2x_SetBlendAlpha_(0x04000050, 0x10, 3, 9, 0xe);

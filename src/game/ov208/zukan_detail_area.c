@@ -193,10 +193,10 @@
  *   ZUKAN_DETAIL_AREA_FlushPrintWindow  0x021C0740  thumb  ov208
  *   ZONEDATA_GetPlaceNameId  0x02013E4C  thumb
  *   CLACT_SetActorAnimFrame  0x0204B8C4  arm
- *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
+ *   PRINTSYS_MeasureWidestLine  0x0201D304  thumb
  *   BMP_GetWidth  0x020437DC  arm
  *   ZUKAN_DETAIL_AREA_SetPlayerMarkerVisible 0x021C0C8C thumb ov208
- *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
+ *   PRINTSYS_MeasureWidestLine  0x0201D304  thumb
  *   data_021C8E14  0x021C8E14  data
  *   data_021C8E1A  0x021C8E1A  data
  *   G2x_SetBlendAlpha_ 0x0207D63C  arm
@@ -689,7 +689,7 @@ extern u16 BMP_GetWidth(const struct Bmp *bmp);
 
 extern void ZUKAN_DETAIL_AREA_SetPlayerMarkerVisible(u16 *, u8 *, struct Ov208Ctx *, int);
 
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, struct GfFont *a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, struct GfFont *a, u32 b);
 
 
 extern void G2x_SetBlendAlpha_(volatile void *, int, int, int, int);
@@ -2419,7 +2419,7 @@ void ZUKAN_DETAIL_AREA_DrawAreaSetTitle(u16 *heap, u8 *p, struct Ov208Ctx *key)
     u32 w;
 
     str = MSGDATA_AllocString((struct MsgBank *)W(0xc), p[0x78] + 0xbe);
-    tw = GF_FONT_MeasureWidestLine(str, ((struct Ov208AreaWork *)p)->font, 0);
+    tw = PRINTSYS_MeasureWidestLine(str, ((struct Ov208AreaWork *)p)->font, 0);
     w = BMP_GetWidth(BMP_WIN_GetBmp((struct Descriptor *)W(0x1c)));
     PRINTSYS_PrintQueColor((void *)W(0x3c), (u32)BMP_WIN_GetBmp((struct Descriptor *)W(0x1c)), (s16)((u16)((int)(w - tw) / 2)), (s16)1, (u32)str, ((struct Ov208AreaWork *)p)->font, 0x3c40);
     STRBUF_Delete(str);
@@ -2491,7 +2491,7 @@ void ZUKAN_DETAIL_AREA_DrawNoDataMessage(void *heap, u8 *st, struct Ov208Ctx *ke
             u32 t;
 
             msg = MSGDATA_AllocString(((struct Ov208AreaWork *)st)->msgBank, 0x80);
-            w = (u16)GF_FONT_MeasureWidestLine(msg, ((struct Ov208AreaWork *)st)->font, 0);
+            w = (u16)PRINTSYS_MeasureWidestLine(msg, ((struct Ov208AreaWork *)st)->font, 0);
             h = BMP_GetWidth((const struct Bmp *)((u32)BMP_WIN_GetBmp(((struct Ov208AreaWork *)st)->noDataWin)));
             t = (u32)BMP_WIN_GetBmp(((struct Ov208AreaWork *)st)->noDataWin);
             d = h - w;

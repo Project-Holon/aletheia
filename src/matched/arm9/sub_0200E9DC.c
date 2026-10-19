@@ -1,5 +1,5 @@
 /*
- * function: MISC_SAVEDATA_GetMacStructSize
+ * function: LIVEBATTLEMATCH_SAVE_GetSize
  * address:  0x0200E9DC
  * packet:   pkt_0200E994
  * region:   arm9
@@ -15,11 +15,11 @@
  * follower, sub_0200E9E0, already carries a label.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/MISC_SAVEDATA_GetMacStructSize.c \
- *       --func MISC_SAVEDATA_GetMacStructSize --addr 0x0200E9DC --cc 1.1p1
+ *   python tools/match.py one --src src/matched/LIVEBATTLEMATCH_SAVE_GetSize.c \
+ *       --func LIVEBATTLEMATCH_SAVE_GetSize --addr 0x0200E9DC --cc 1.1p1
  */
 
-unsigned int MISC_SAVEDATA_GetMacStructSize(void)
+unsigned int LIVEBATTLEMATCH_SAVE_GetSize(void)
 {
     return 0x9c;
 }

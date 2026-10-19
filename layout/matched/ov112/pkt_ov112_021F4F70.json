@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "MUSICAL_MCSS_NoOp6",
+   "name": "MUSICAL_MCSS_GetElemSizeFlags",
    "address": "0x021F4F70",
    "kind": "game",
    "region": "ov112",

@@ -1,5 +1,5 @@
 /*
- * function: COMM_PLAYER_GetListPage0Second
+ * function: SYMBOL_MAP_GetEntryPage0Second
  * address:  0x02167444
  * packet:   pkt_02167444
  * region:   ov010
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   COMM_PLAYER_CopyListRange  0x021673E0  thumb  ov010
+ *   SYMBOL_MAP_CopyEntryRange  0x021673E0  thumb  ov010
  */
 #include "../include/Obj17733.h"
 
@@ -19,9 +19,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct Entry32;
-extern u8 COMM_PLAYER_CopyListRange(struct Entry32 *list, struct Entry32 *out, u32 cap, u32 start, int count);
+extern u8 SYMBOL_MAP_CopyEntryRange(struct Entry32 *list, struct Entry32 *out, u32 cap, u32 start, int count);
 
-int COMM_PLAYER_GetListPage0Second(int a0, int a1, int a2, int a3)
+int SYMBOL_MAP_GetEntryPage0Second(int a0, int a1, int a2, int a3)
 {
     unsigned char fr[4];
     int t4;
@@ -30,7 +30,7 @@ t4 = a3 + 0;
 a3 = 0xa;
     o4 = a3;
 a3 = 0xa;
-    a0 = COMM_PLAYER_CopyListRange((struct Entry32 *)a0, (struct Entry32 *)a1, a2, a3, o4);
+    a0 = SYMBOL_MAP_CopyEntryRange((struct Entry32 *)a0, (struct Entry32 *)a1, a2, a3, o4);
 loc_02167454:
 ((struct Obj17733 *)((char *)t4))->f0 = a0;
 a0 = 0xa;

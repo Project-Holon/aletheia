@@ -12,9 +12,9 @@
  * symbols:
  *   GAME_BEACON_Work  0x02146940  data
  *   GAME_DATA_GetSaveControl    0x02012EBC  thumb
- *   BEACON_GetBlock    0x0200C0F0  thumb
+ *   MISC_GetBlock    0x0200C0F0  thumb
  *   STRBUF_GetEosChar    0x02045A98  arm
- *   BEACON_GetGreetMessage    0x0200C1F4  thumb
+ *   MISC_GetGreetMessage    0x0200C1F4  thumb
  */
 
 typedef unsigned char  u8;
@@ -37,10 +37,10 @@ extern struct Outer *GAME_BEACON_Work;
 
 struct Big;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *BEACON_GetBlock(void *sv);
+extern void *MISC_GetBlock(void *sv);
 extern u16 STRBUF_GetEosChar(void);
 struct Blk34;
-extern u16 *BEACON_GetGreetMessage(struct Blk34 *p);
+extern u16 *MISC_GetGreetMessage(struct Blk34 *p);
 
 void GAME_BEACON_UpdateGreeting(void)
 {
@@ -52,9 +52,9 @@ void GAME_BEACON_UpdateGreeting(void)
     int i;
 
     in = &g->in;
-    t = (u32)BEACON_GetBlock(GAME_DATA_GetSaveControl((void *)g->f00));
+    t = (u32)MISC_GetBlock(GAME_DATA_GetSaveControl((void *)g->f00));
     v = STRBUF_GetEosChar();
-    q = BEACON_GetGreetMessage((struct Blk34 *)t);
+    q = MISC_GetGreetMessage((struct Blk34 *)t);
     for (i = 0; i < 8; i++) {
         in->arr[i] = q[i];
         if (q[i] == v) {

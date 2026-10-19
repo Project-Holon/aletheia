@@ -18,7 +18,7 @@
  *   MI_CpuFill8    0x02082BCC  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   GFL_NET_SYSTEM_SetError  0x02039548  arm
- *   SAVEDATA_PanicFail  0x02034714  arm
+ *   GF_PANIC_Fail  0x02034714  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   d_020A7A20   0x020A7A20  data  a1
  *   str_020A7A24   0x020A7A24  data
@@ -134,7 +134,7 @@ extern void *MI_CpuFill8(void *dst, int val, u32 size);
 
 extern void GFL_NET_SYSTEM_SetError(void);
 
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
@@ -527,7 +527,7 @@ struct NetCommandTable *GFL_NET_COMMAND_GetCommandTable(u32 command)
 
     if (group == 0) {
         if (g_020A7AE8.listNum <= index)
-            SAVEDATA_PanicFail(g_020A7AF8, 0x10D, g_020A7B08);
+            GF_PANIC_Fail(g_020A7AF8, 0x10D, g_020A7B08);
         return &g_020A7AE8_arr;
     }
     for (tableIdx = 0; tableIdx < 4; tableIdx++) {
@@ -1001,7 +1001,7 @@ void GFL_NET_COMMAND_RecvHugeBuffer(int netId, int unusedArg, const u8 *header, 
     if (GFL_NET_COMMAND_GetHugeBuffer(*((u16 *)(header + 6)), netId, *((u32 *)header)) == 0)
         return;
     if (_pCommandWork->aNetHugeRecv[slotIdx].used != 0)
-        SAVEDATA_PanicFail(g_020A7AF8, 0x1ff, g_020A7B20);
+        GF_PANIC_Fail(g_020A7AF8, 0x1ff, g_020A7B20);
     _pCommandWork->aNetHugeRecv[slotIdx].used = 1;
     {
         u32 size = *((u32 *)header);
@@ -1009,7 +1009,7 @@ void GFL_NET_COMMAND_RecvHugeBuffer(int netId, int unusedArg, const u8 *header, 
         _pCommandWork->aNetHugeRecv[slotIdx].data = GFL_NET_COMMAND_GetHugeBuffer(*((u16 *)(header + 6)), netId, size);
     }
     if (_pCommandWork->aNetHugeRecv[slotIdx].data == 0)
-        SAVEDATA_PanicFail(g_020A7AF8, 0x203, g_020A7B50);
+        GF_PANIC_Fail(g_020A7AF8, 0x203, g_020A7B50);
     command = *((u16 *)(header + 6));
     chunkSize = *((u16 *)(header + 8));
     destMask = *((u16 *)(header + 0xa));
@@ -1092,7 +1092,7 @@ u32 GFL_NET_COMMAND_SetSendSlot(u32 handle, u32 destMask, u32 command, u32 total
     slot->totalSize = totalSize;
     chunkLimit = session->init.childSendSize - 0xc;
     if (chunkLimit <= 0)
-        SAVEDATA_PanicFail(g_020A7AF8, 0x22b, g_020A7B78);
+        GF_PANIC_Fail(g_020A7AF8, 0x22b, g_020A7B78);
     slot->chunkSize = session->init.childSendSize - 0xc;
     slot->chunkCount = totalSize / slot->chunkSize;
     slot->lastChunkSize = totalSize % slot->chunkSize;

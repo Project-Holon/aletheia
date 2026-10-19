@@ -1,5 +1,5 @@
 /*
- * function: B_PLIST_DRAW_LayoutMode4
+ * function: B_PLIST_DRAW_LayoutMoveDetailPage
  * address: 0x0220ED54
  * packet: pkt_ov198_0220ED54
  * region: ov198
@@ -42,7 +42,7 @@ extern void B_PLIST_DRAW_SetActorAnim(int mode, u8 *p, const struct Vec2 *q);
 extern void B_PLIST_DRAW_SwapActorPair(char *,u8 *,const Pair *);
 extern void B_PLIST_DRAW_SetActorAnimByMode(u32 mode, u8 *p, const struct Vec2 *q);
 extern void B_PLIST_DRAW_TransferCharacterToggle(char *,int,int,int);
-void B_PLIST_DRAW_LayoutMode4(u8 *p)
+void B_PLIST_DRAW_LayoutMoveDetailPage(u8 *p)
 {
     int i;
     u8 *rec;

@@ -1,5 +1,5 @@
 /*
- * function: BR_CODEIN_HitTestOptionB
+ * function: BR_CODEIN_HitTestOptionRight
  * address:  0x021E3228
  * packet:   pkt_021E3228
  * region:   ov183
@@ -18,7 +18,7 @@ extern void BR_UTIL_StartEffect(int obj, int one, int *args);
 typedef unsigned int   u32;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
-int BR_CODEIN_HitTestOptionB(char *p, int a, int b)
+int BR_CODEIN_HitTestOptionRight(char *p, int a, int b)
 {
     int ok = ((unsigned int)(a - 0x90) <= 0x48) &
              ((unsigned int)(b - 0x30) <= 0x10);

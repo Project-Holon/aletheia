@@ -1,7 +1,7 @@
 /*
  * file:     game_data.c
  * unit:     yes
- * function: GAME_DATA_Create, GAME_DATA_Delete, GAME_DATA_GetPlayerWork, GAME_DATA_GetMyPlayerWork, GAME_DATA_GetBattleRecSlot, GAME_DATA_GetLastBattleRecSlot, GAME_DATA_GetSecondUnionInfo, GAME_DATA_GetUnionInfo, GAME_DATA_GetMusicalShotTitle, GAME_DATA_GetMusicalShotExtraData, GAME_DATA_TakeUnionInfo, GAME_DATA_ClearUnionInfo, GAME_DATA_GetWifiList, GAME_DATA_GetEventData, GAME_DATA_GetStartLocation, GAME_DATA_SetStartLocation, GAME_DATA_GetEntranceLocation, GAME_DATA_SetEntranceLocation, GAME_DATA_GetSpecialLocation, GAME_DATA_SetSpecialLocation, GAME_DATA_GetEscapeLocation, GAME_DATA_SetEscapeLocation, GAME_DATA_GetWarpLocation, GAME_DATA_SetWarpLocation, GAME_DATA_SetWarpId, GAME_DATA_GetSituationWarpId, GAME_DATA_GetMapMatrix, GAME_DATA_GetMyItem, GAME_DATA_GetMyParty, GAME_DATA_GetBoxManager, GAME_DATA_GetMyStatus, GAME_DATA_GetPlayerStatusById, GAME_DATA_GetBagCursor, GAME_DATA_GetOccupyInfo, GAME_DATA_GetEventWork, GAME_DATA_GetFieldWork, GAME_DATA_GetMusicalWork, GAME_DATA_GetSeason, GAME_DATA_SetSeason, GAME_DATA_GetWeatherId, GAME_DATA_SetWeatherId, GAME_DATA_GetSubscreenType, GAME_DATA_SetSubscreenType, GAME_DATA_GetFieldMenuCursor, GAME_DATA_SetFieldMenuCursor, GAME_DATA_SetWalkCountEnabled, GAME_DATA_ResetWalkCount, GAME_DATA_IncWalkCount, GAME_DATA_IsWalkCountEnabled, GAME_DATA_GetBgmInfo, GAME_DATA_GetFieldGimmick, GAME_DATA_GetFieldMode, GAME_DATA_SetFieldMode, GAME_DATA_GetItemUseWork, GAME_DATA_InitPlayerWork, GAME_DATA_SetPlayerPosition, GAME_DATA_GetPlayerPosition, GAME_DATA_SetPlayerRail, GAME_DATA_GetPlayerRail, GAME_DATA_SetPlayerMoveForm, GAME_DATA_GetPlayerMoveForm, GAME_DATA_SetPlayerZoneId, GAME_DATA_GetPlayerZoneId, GAME_DATA_SetPlayerDirection, GAME_DATA_GetPlayerDirection, GAME_DATA_SetPlayerDirectionType, GAME_DATA_GetPlayerDirectionType, GAME_DATA_GetPlayerObjectCode, GAME_DATA_SetPlayerObjectCode, GAME_DATA_SetPlayerPalaceZoneId, GAME_DATA_GetPlayerPalaceZoneId, GAME_DATA_GetMoveModelSys, GAME_DATA_GetEnterMode, GAME_DATA_SetEnterMode, GAME_DATA_GetOwnNetId, GAME_DATA_SetOwnNetId, GAME_DATA_GetIntrudeCount, GAME_DATA_SetIntrudeCount, GAME_DATA_GetIntrudeId, GAME_DATA_SetIntrudeId, GAME_DATA_GetSlotFlag, GAME_DATA_SetSlotFlag, GAME_DATA_IsConfigFlagSet, GAME_DATA_SetConfigFlag, GAME_DATA_SetRecentId, GAME_DATA_ContainsRecentId, GAME_DATA_GetRtcWork, GAME_DATA_LoadFromSave, GAME_DATA_WriteToSave, GAME_DATA_SaveStart, GAME_DATA_SaveMain, GAME_DATA_SaveCancel, GAME_DATA_IsSaving, GAME_DATA_PartSaveStart, GAME_DATA_PartSaveMain, GAME_DATA_GetSaveControl, GAME_DATA_GetSaveControlWork, GAME_DATA_GetFieldSave, GAME_DATA_GetEventState, GAME_DATA_GetCurrentEvent, GAME_DATA_SetCurrentEvent, GAME_DATA_GetSaveBlock3A, GAME_DATA_GetSaveBlock3B, GAME_DATA_GetMiscSave, GAME_DATA_GetTradeHistory, GAME_DATA_GetPmsWork, GAME_DATA_GetTrainerRecord, GAME_DATA_GetSaveSyncBlock, GAME_DATA_GetSaveBlock2A, GAME_DATA_GetListCursor, GAME_DATA_GetTrainerCardSign, GAME_DATA_GetSaveBlock42, GAME_DATA_SetExternalWork, GAME_DATA_GetExternalWork, GAME_DATA_GetGameSync, GAME_DATA_GetPerapVoiceSave, GAME_DATA_SetSymbolMapFlag, GAME_DATA_GetSymbolMapFlag, GAME_DATA_AddPlayTime, GAME_DATA_GetPlayTime, GAME_DATA_GetSaveBlock43, GAME_DATA_GetEventWorkFromSave
+ * function: GAME_DATA_Create, GAME_DATA_Delete, GAME_DATA_GetPlayerWork, GAME_DATA_GetMyPlayerWork, GAME_DATA_GetBattleRecSlot, GAME_DATA_GetLastBattleRecSlot, GAME_DATA_GetSecondUnionInfo, GAME_DATA_GetUnionInfo, GAME_DATA_GetMusicalShotTitle, GAME_DATA_GetMusicalShotExtraData, GAME_DATA_TakeUnionInfo, GAME_DATA_ClearUnionInfo, GAME_DATA_GetWifiList, GAME_DATA_GetEventData, GAME_DATA_GetStartLocation, GAME_DATA_SetStartLocation, GAME_DATA_GetEntranceLocation, GAME_DATA_SetEntranceLocation, GAME_DATA_GetSpecialLocation, GAME_DATA_SetSpecialLocation, GAME_DATA_GetEscapeLocation, GAME_DATA_SetEscapeLocation, GAME_DATA_GetWarpLocation, GAME_DATA_SetWarpLocation, GAME_DATA_SetWarpId, GAME_DATA_GetSituationWarpId, GAME_DATA_GetMapMatrix, GAME_DATA_GetMyItem, GAME_DATA_GetMyParty, GAME_DATA_GetBoxManager, GAME_DATA_GetMyStatus, GAME_DATA_GetMyStatusPlayer, GAME_DATA_GetBagCursor, GAME_DATA_GetOccupyInfo, GAME_DATA_GetEventWork, GAME_DATA_GetFieldWork, GAME_DATA_GetMusicalWork, GAME_DATA_GetSeason, GAME_DATA_SetSeason, GAME_DATA_GetWeatherId, GAME_DATA_SetWeatherId, GAME_DATA_GetSubscreenType, GAME_DATA_SetSubscreenType, GAME_DATA_GetFieldMenuCursor, GAME_DATA_SetFieldMenuCursor, GAME_DATA_SetWalkCountEnabled, GAME_DATA_ResetWalkCount, GAME_DATA_IncWalkCount, GAME_DATA_IsWalkCountEnabled, GAME_DATA_GetBgmInfo, GAME_DATA_GetFieldGimmick, GAME_DATA_GetLastBattleResult, GAME_DATA_SetLastBattleResult, GAME_DATA_GetItemUseWork, GAME_DATA_InitPlayerWork, GAME_DATA_SetPlayerPosition, GAME_DATA_GetPlayerPosition, GAME_DATA_SetPlayerRail, GAME_DATA_GetPlayerRail, GAME_DATA_SetPlayerMoveForm, GAME_DATA_GetPlayerMoveForm, GAME_DATA_SetPlayerZoneId, GAME_DATA_GetPlayerZoneId, GAME_DATA_SetPlayerDirection, GAME_DATA_GetPlayerDirection, GAME_DATA_SetPlayerDirectionType, GAME_DATA_GetPlayerDirectionType, GAME_DATA_GetPlayerObjectCode, GAME_DATA_SetPlayerObjectCode, GAME_DATA_SetPlayerPalaceZoneId, GAME_DATA_GetPlayerPalaceZoneId, GAME_DATA_GetMoveModelSys, GAME_DATA_GetEnterMode, GAME_DATA_SetEnterMode, GAME_DATA_GetOwnNetId, GAME_DATA_SetOwnNetId, GAME_DATA_GetIntrudeCount, GAME_DATA_SetIntrudeCount, GAME_DATA_GetIntrudeId, GAME_DATA_SetIntrudeId, GAME_DATA_GetSlotFlag, GAME_DATA_SetSlotFlag, GAME_DATA_IsConfigFlagSet, GAME_DATA_SetConfigFlag, GAME_DATA_SetRecentId, GAME_DATA_ContainsRecentId, GAME_DATA_GetRtcWork, GAME_DATA_LoadFromSave, GAME_DATA_WriteToSave, GAME_DATA_SaveStart, GAME_DATA_SaveMain, GAME_DATA_SaveCancel, GAME_DATA_IsSaving, GAME_DATA_PartSaveStart, GAME_DATA_PartSaveMain, GAME_DATA_GetSaveControl, GAME_DATA_GetSaveControlWork, GAME_DATA_GetFieldSave, GAME_DATA_GetEventState, GAME_DATA_GetCurrentEvent, GAME_DATA_SetCurrentEvent, GAME_DATA_GetSaveBlock3A, GAME_DATA_GetSaveBlock3B, GAME_DATA_GetMiscSave, GAME_DATA_GetTradeHistory, GAME_DATA_GetPmsWork, GAME_DATA_GetTrainerRecord, GAME_DATA_GetSaveSyncBlock, GAME_DATA_GetSaveBlock2A, GAME_DATA_GetListCursor, GAME_DATA_GetTrainerCardSign, GAME_DATA_GetSaveBlock42, GAME_DATA_SetExternalWork, GAME_DATA_GetExternalWork, GAME_DATA_GetGameSync, GAME_DATA_GetPerapVoiceSave, GAME_DATA_SetSymbolMapFlag, GAME_DATA_GetSymbolMapFlag, GAME_DATA_AddPlayTime, GAME_DATA_GetPlayTime, GAME_DATA_GetSaveBlock43, GAME_DATA_GetEventWorkFromSave
  * address:  0x020124F4
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -95,7 +95,7 @@
  *   WIFILIST_GetFromSave  0x02009D08  thumb
  *   WIFILIST_Copy  0x020097F0  thumb
  *   PLAYER_LOCATION_GetWeatherId  0x02008964  thumb
- *   MISC_SAVEDATA_LoadScratch16  0x0200E89C  thumb
+ *   SAVE_SYNC_Load  0x0200E89C  thumb
  *   SYSTEM_DATA_GetPlayTime  0x02008748  thumb
  *   PLAYTIME_Copy  0x0200863C  thumb
  *   SYSTEM_DATA_SetMyStatus  0x020087E8  thumb
@@ -107,7 +107,7 @@
  *   PLAYER_LOCATION_ReadFlashActiveFrom  0x0200892C  thumb
  *   PLAYER_LOCATION_SetSeason  0x0200894C  thumb
  *   PLAYER_LOCATION_SetWeatherId  0x0200895C  thumb
- *   MISC_SAVEDATA_SaveScratch16  0x0200E884  thumb
+ *   SAVE_SYNC_Store  0x0200E884  thumb
  *   PLAYTIME_SetStampNow  0x02008658  thumb
  *   TRADE_HISTORY_GetFromSave  0x02009EC8  thumb
  *   TRCARD_SIGN_GetFromSave  0x020089C0  thumb
@@ -124,7 +124,7 @@
  *   GFL_USE_IsLoaderBusy  0x02005C64  thumb
  *   RECENT_ID_LIST_SAVEDATA_GetBlockFromSys  0x0200C404  thumb
  *   RECENT_ID_LIST_SAVEDATA_ContainsId  0x0200C44C  thumb
- *   BEACON_GetBlock  0x0200C0F0  thumb
+ *   MISC_GetBlock  0x0200C0F0  thumb
  *   GAME_DATA_GetWifiList  0x0201283C  thumb
  *   UI_SetKeepAwakeFlagsGlobal  0x02034F84  arm
  *   UI_ClearKeepAwakeFlagsGlobal  0x02034FB8  arm
@@ -166,9 +166,9 @@ void GAME_DATA_InitPlayerWork(struct PlayerWork *player);
 
 extern int MYSTATUS_GetSize(void);
 
-struct PlayerStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
+struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 
-extern struct PlayerStatus *SYSTEM_DATA_GetMyStatus(struct SaveControl *saveControl);
+extern struct MyStatus *SYSTEM_DATA_GetMyStatus(struct SaveControl *saveControl);
 
 extern void *memcpy(void *dst, const void *src, u32 size);
 
@@ -360,7 +360,7 @@ struct GameData *GAME_DATA_Create(u16 heapId)
     struct GameData *gameData;
     int i;
     u32 statusSize;
-    struct PlayerStatus *status;
+    struct MyStatus *status;
     void *eventData;
 
     gameData = GFL_HEAP_Alloc(heapId, sizeof(struct GameData), 1, _GameDataFileName, 0xAD);
@@ -717,7 +717,7 @@ extern void WIFILIST_Copy(const struct FieldState *src, struct FieldState *dest)
 
 extern void PLAYER_LOCATION_GetWeatherId(const struct Situation *situation, u8 *out);
 
-extern void MISC_SAVEDATA_LoadScratch16(struct SaveControl *save, void *dest);
+extern void SAVE_SYNC_Load(struct SaveControl *save, void *dest);
 
 extern struct PlayTime *SYSTEM_DATA_GetPlayTime(struct SaveControl *save);
 
@@ -741,7 +741,7 @@ extern void PLAYER_LOCATION_SetSeason(struct Situation *situation, u8 value);
 
 extern void PLAYER_LOCATION_SetWeatherId(struct Situation *situation, u8 value);
 
-extern void MISC_SAVEDATA_SaveScratch16(void *src, struct SaveControl *save);
+extern void SAVE_SYNC_Store(void *src, struct SaveControl *save);
 
 extern void PLAYTIME_SetStampNow(struct PlayTime *playTime);
 
@@ -771,7 +771,7 @@ extern void SAVE_CONTROL_BeginExtraSaveWrite(struct SaveControl *save, u32 block
 
 extern int SAVE_CONTROL_StepExtraSaveWrite(struct SaveControl *save, u32 blockId);
 
-extern void *BEACON_GetBlock(struct SaveControl *save);
+extern void *MISC_GetBlock(struct SaveControl *save);
 
 extern void *TRADE_HISTORY_GetFromSave(struct SaveControl *save);
 
@@ -795,7 +795,7 @@ void *GAME_DATA_GetMyParty(const struct GameData *gd);
 
 u32 GAME_DATA_GetBoxManager(const struct GameData *gd);
 
-struct PlayerStatus *GAME_DATA_GetPlayerStatusById(struct GameData *gd, u32 playerId);
+struct MyStatus *GAME_DATA_GetMyStatusPlayer(struct GameData *gd, u32 playerId);
 
 u32 GAME_DATA_GetBagCursor(const struct GameData *gd);
 
@@ -835,9 +835,9 @@ u32 GAME_DATA_GetBgmInfo(const struct GameData *gd);
 
 u32 GAME_DATA_GetFieldGimmick(const struct GameData *gd);
 
-u32 GAME_DATA_GetFieldMode(const struct GameData *gd);
+u32 GAME_DATA_GetLastBattleResult(const struct GameData *gd);
 
-void GAME_DATA_SetFieldMode(struct GameData *gd, u32 value);
+void GAME_DATA_SetLastBattleResult(struct GameData *gd, u32 value);
 
 u32 GAME_DATA_GetItemUseWork(const struct GameData *gd);
 
@@ -989,12 +989,12 @@ u16 GAME_DATA_GetSituationWarpId(const struct GameData *gd)
 }
 
 /*
- *           GAME_DATA_GetMyStatus, GAME_DATA_GetPlayerStatusById, GAME_DATA_GetBagCursor, GAME_DATA_GetOccupyInfo,
+ *           GAME_DATA_GetMyStatus, GAME_DATA_GetMyStatusPlayer, GAME_DATA_GetBagCursor, GAME_DATA_GetOccupyInfo,
  *           GAME_DATA_GetEventWork, GAME_DATA_GetFieldWork, GAME_DATA_GetMusicalWork, GAME_DATA_GetSeason,
  *           GAME_DATA_SetSeason, GAME_DATA_GetWeatherId, GAME_DATA_SetWeatherId, GAME_DATA_GetSubscreenType,
  *           GAME_DATA_SetSubscreenType, GAME_DATA_GetFieldMenuCursor, GAME_DATA_SetFieldMenuCursor, GAME_DATA_SetWalkCountEnabled,
  *           GAME_DATA_ResetWalkCount, GAME_DATA_IncWalkCount, GAME_DATA_IsWalkCountEnabled, GAME_DATA_GetBgmInfo,
- *           GAME_DATA_GetFieldGimmick, GAME_DATA_GetFieldMode, GAME_DATA_SetFieldMode, GAME_DATA_GetItemUseWork,
+ *           GAME_DATA_GetFieldGimmick, GAME_DATA_GetLastBattleResult, GAME_DATA_SetLastBattleResult, GAME_DATA_GetItemUseWork,
  *           GAME_DATA_InitPlayerWork, GAME_DATA_SetPlayerPosition, GAME_DATA_GetPlayerPosition, GAME_DATA_SetPlayerRail,
  *           GAME_DATA_GetPlayerRail, GAME_DATA_SetPlayerMoveForm, GAME_DATA_GetPlayerMoveForm, GAME_DATA_SetPlayerZoneId,
  *           GAME_DATA_GetPlayerZoneId, GAME_DATA_SetPlayerDirection, GAME_DATA_GetPlayerDirection
@@ -1054,12 +1054,12 @@ u32 GAME_DATA_GetBoxManager(const struct GameData *gd)
     return gd->boxManager;
 }
 
-struct PlayerStatus *GAME_DATA_GetMyStatus(struct GameData *gd)
+struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd)
 {
     return &GAME_DATA_GetMyPlayerWork(gd)->status;
 }
 
-struct PlayerStatus *GAME_DATA_GetPlayerStatusById(struct GameData *gd, u32 playerId)
+struct MyStatus *GAME_DATA_GetMyStatusPlayer(struct GameData *gd, u32 playerId)
 {
     return &gd->playerWork[playerId].status;
 }
@@ -1165,14 +1165,14 @@ u32 GAME_DATA_GetFieldGimmick(const struct GameData *gd)
     return gd->fieldGimmick;
 }
 
-u32 GAME_DATA_GetFieldMode(const struct GameData *gd)
+u32 GAME_DATA_GetLastBattleResult(const struct GameData *gd)
 {
-    return gd->fieldMode;
+    return gd->lastBattleResult;
 }
 
-void GAME_DATA_SetFieldMode(struct GameData *gd, u32 value)
+void GAME_DATA_SetLastBattleResult(struct GameData *gd, u32 value)
 {
-    gd->fieldMode = value;
+    gd->lastBattleResult = value;
 }
 
 u32 GAME_DATA_GetItemUseWork(const struct GameData *gd)
@@ -1182,8 +1182,8 @@ u32 GAME_DATA_GetItemUseWork(const struct GameData *gd)
 
 void GAME_DATA_InitPlayerWork(struct PlayerWork *player)
 {
-    player->status.romCode = 0;
-    player->status.gender = 0;
+    player->status.sex = 0;
+    player->status.language = 0;
     player->zoneId = 0;
     player->position.x = 0;
     player->position.y = 0;
@@ -1521,7 +1521,7 @@ void GAME_DATA_LoadFromSave(struct GameData *gd)
     fieldState = GAME_DATA_GetWifiList(gd);
     WIFILIST_Copy(WIFILIST_GetFromSave(gd->saveControl), fieldState);
     PLAYER_LOCATION_GetWeatherId((const struct Situation *)gd->situation, &gd->weatherId);
-    MISC_SAVEDATA_LoadScratch16(gd->saveControl, gd->saveSyncBlock);
+    SAVE_SYNC_Load(gd->saveControl, gd->saveSyncBlock);
     savedTime = SYSTEM_DATA_GetPlayTime(gd->saveControl);
     PLAYTIME_Copy(gd->playTime, savedTime);
 }
@@ -1564,7 +1564,7 @@ void GAME_DATA_WriteToSave(struct GameData *gd)
     fieldState = GAME_DATA_GetWifiList(gd);
     WIFILIST_Copy(fieldState, WIFILIST_GetFromSave(gd->saveControl));
     PLAYER_LOCATION_SetWeatherId((struct Situation *)gd->situation, gd->weatherId);
-    MISC_SAVEDATA_SaveScratch16(gd->saveSyncBlock, gd->saveControl);
+    SAVE_SYNC_Store(gd->saveSyncBlock, gd->saveControl);
     savedTime = SYSTEM_DATA_GetPlayTime(gd->saveControl);
     PLAYTIME_SetStampNow(gd->playTime);
     PLAYTIME_Copy(savedTime, gd->playTime);
@@ -1727,7 +1727,7 @@ void *GAME_DATA_GetSaveBlock3B(struct GameData *gd)
 
 void *GAME_DATA_GetMiscSave(struct GameData *gd)
 {
-    return BEACON_GetBlock(gd->saveControl);
+    return MISC_GetBlock(gd->saveControl);
 }
 
 /*

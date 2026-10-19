@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_WORK_CmdEndFieldCommandB
+ * function: SCRCMD_WORK_CmdEndScriptStartCommProcB
  * address:  0x0215B408
  * packet:   pkt_0215B408
  * region:   ov010
@@ -27,7 +27,7 @@ extern void *SCRCMD_NETWORK_CreateCommProcEvent(void *p);
 extern int SCRIPT_SYS_SetNextEventFromWork();
 extern int func_02011290();
 
-int SCRCMD_WORK_CmdEndFieldCommandB(int a0, int a1)
+int SCRCMD_WORK_CmdEndScriptStartCommProcB(int a0, int a1)
 {    int t5;
     int t6;
     void *p;

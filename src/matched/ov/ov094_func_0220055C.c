@@ -13,18 +13,18 @@
  * src/matched/arm9, which closes the former MATCH.
  *
  * symbols:
- *   MCSS_SetWorkFlag  0x02016394  thumb
+ *   MCSS_SetMepachiDrawLast  0x02016394  thumb
  *   BTLV_EFFECT_GetMode  0x021F8710  thumb  ov094
  *   BTLV_MCSS_FindSpriteIndex  0x022019F4  thumb  ov094
  *
- * blocker: unlabelled arm9 Thumb leaf MCSS_SetWorkFlag (the integrator's; no witness outside
+ * blocker: unlabelled arm9 Thumb leaf MCSS_SetMepachiDrawLast (the integrator's; no witness outside
  *   0220055C..022005C2). Every concrete byte matches (MATCH*, the extent's 2 extra bytes
  *   are the pad); only the final bl relocation stays wildcarded.
  *   Verified C (match.py one, --thumb, no --region, dsi/1.1p1 -O4,p), EXACT, 28 bytes:
  *
  *     typedef struct { char pad[0x140]; unsigned int lo : 30; unsigned int f : 1;
  *                      unsigned int hi : 1; } S;
- *     void MCSS_SetWorkFlag(S *s, int f)        // 0x02016394
+ *     void MCSS_SetMepachiDrawLast(S *s, int f)        // 0x02016394
  *     {
  *         s->f = f;
  *     }
@@ -49,7 +49,7 @@ typedef struct {
 
 extern int BTLV_MCSS_FindSpriteIndex(char *p, int key);
 extern int BTLV_EFFECT_GetMode(void);
-extern void MCSS_SetWorkFlag(void *h, int flag);
+extern void MCSS_SetMepachiDrawLast(void *h, int flag);
 
 void BTLV_MCSS_SetSpriteWorkFlagForRule(Work *w, int key, int mode)
 {
@@ -85,5 +85,5 @@ void BTLV_MCSS_SetSpriteWorkFlagForRule(Work *w, int key, int mode)
             break;
         }
     }
-    MCSS_SetWorkFlag(w->e[i].h, f);
+    MCSS_SetMepachiDrawLast(w->e[i].h, f);
 }

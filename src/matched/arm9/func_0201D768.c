@@ -1,5 +1,5 @@
 /*
- * function: GF_FONT_Copy
+ * function: PRINTSYS_Copy
  * address:  0x0201D768
  * packet:   pkt_0201D6D8
  * region:   arm9
@@ -32,8 +32,8 @@
  * static inline accessor RingData(ring), so the plain form is kept.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GF_FONT_Copy.c \
- *       --func GF_FONT_Copy --addr 0x0201D768 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PRINTSYS_Copy.c \
+ *       --func PRINTSYS_Copy --addr 0x0201D768 --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -48,7 +48,7 @@ struct Ring {
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
-void *GF_FONT_Copy(struct Ring *ring, const u8 *src, u16 len, u16 unit)
+void *PRINTSYS_Copy(struct Ring *ring, const u8 *src, u16 len, u16 unit)
 {
     u16 start;
     u8 *buf;

@@ -47,7 +47,7 @@
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb
  *   GFL_USE_GetMainTaskList  0x020056BC  thumb
  *   TIME_ICON_Create  0x0202EE30  thumb
- *   SAVEDATA_PanicFail  0x02034714  arm
+ *   GF_PANIC_Fail  0x02034714  arm
  *   PRINTSYS_CTRL_Init  0x02028470  thumb
  *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb
  *   MSG_SPEED_GetWait  0x02012FFC  thumb
@@ -236,7 +236,7 @@ extern u32 GFL_USE_GetMainTaskList(void);
 
 extern u8 *TIME_ICON_Create(void *owner, void *refWin, u8 fillColor, u8 waitInterval, volatile u16 heap);
 
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 extern void PRINTSYS_CTRL_Init(u8 *p, u32 v);
 
@@ -484,7 +484,7 @@ void WIFIBATTLEMATCH_UTIL_SetMode(WifibattlematchUtilWork *p, int mode)
         break;
     case 1:
         if (p->keyCursor != 0) {
-            SAVEDATA_PanicFail((const char *)d_021E8DEC, 0, (const char *)d_021E8DEC);
+            GF_PANIC_Fail((const char *)d_021E8DEC, 0, (const char *)d_021E8DEC);
         }
         PRINTSYS_CTRL_Init((u8 *)&p->ctrlKeyReleased, 2);
         p->keyCursor = APP_KEYCURSOR_CreateDefault(p->bgSlot, 1, 0, p->heapId);

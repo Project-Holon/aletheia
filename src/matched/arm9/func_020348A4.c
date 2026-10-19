@@ -1,5 +1,5 @@
 /*
- * function: GF_OVERLAY_PanicPrint
+ * function: GF_PANIC_Print
  * address:  0x020348A4
  * packet:   pkt_020348A4
  * region:   arm9
@@ -28,7 +28,7 @@ extern struct Console g_021469AC;
 extern const char str_020A796C[];
 extern void TEXTPRINT_PrintText(const char *s, const char *d);
 
-void GF_OVERLAY_PanicPrint(char *s)
+void GF_PANIC_Print(char *s)
 {
     int f;
 

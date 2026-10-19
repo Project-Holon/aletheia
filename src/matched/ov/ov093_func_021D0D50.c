@@ -25,7 +25,7 @@
  *   BTL_ACTION_SetChange 0x021D8394 thumb ov093
  *   BTL_CLIENT_IsDoubleBattleLeadAlive 0x021D102C thumb ov093
  *   BTL_ACTION_SetChangeDepleted 0x021D83C4 thumb ov093
- *   BTL_CALC_ActionSetNone 0x021D8434 thumb ov093
+ *   BTL_ACTION_SetNone 0x021D8434 thumb ov093
  */
 #include "../include/Obj01236.h"
 typedef unsigned char u8;
@@ -41,7 +41,7 @@ extern void BTL_MAIN_GetSlotClientAndNth(u8 *,u8,u8 *,u8 *);
 extern void BTL_ACTION_SetChange(void *,u8,u8);
 extern int BTL_CLIENT_IsDoubleBattleLeadAlive(char *p);
 extern void BTL_ACTION_SetChangeDepleted(u32 *p);
-extern void BTL_CALC_ActionSetNone(u32 *p);
+extern void BTL_ACTION_SetNone(u32 *p);
 int BTL_CLIENT_ChooseReplacementsAuto(u8 *p)
 {
     u8 order[6];
@@ -89,7 +89,7 @@ int BTL_CLIENT_ChooseReplacementsAuto(u8 *p)
             ((struct Obj01236 *)p)->fDC = 4;
         }
     } else {
-        BTL_CALC_ActionSetNone((u32 *)(p+0x124));
+        BTL_ACTION_SetNone((u32 *)(p+0x124));
         ((struct Obj01236 *)p)->fD8 = p+0x124;
         ((struct Obj01236 *)p)->fDC = 4;
     }

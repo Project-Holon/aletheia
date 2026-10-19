@@ -32,12 +32,12 @@
  *   POKETRADE_2D_CreateOfferIconActor 0x021E6334 thumb ov119
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   WIFI_HISTORY_GetBlock  0x02009470  thumb
- *   MYSTATUS_GetLanguage  0x0200856C  thumb
- *   MYSTATUS_GetVersion  0x02008570  thumb
- *   MYSTATUS_GetGender  0x02008564  thumb
- *   MYSTATUS_SetLanguageAndVersion  0x02008574  thumb
- *   BMP_OAM_CheckRangeGetId  0x02025C1C  thumb
- *   BMP_OAM_CheckRangeGetMin  0x02025C30  thumb
+ *   MYSTATUS_GetNation  0x0200856C  thumb
+ *   MYSTATUS_GetArea  0x02008570  thumb
+ *   MYSTATUS_GetLanguage  0x02008564  thumb
+ *   MYSTATUS_SetNationAndArea  0x02008574  thumb
+ *   NATION_AREA_SanitizeNation  0x02025C1C  thumb
+ *   NATION_AREA_SanitizeArea  0x02025C30  thumb
  *   WIPE_SYS_EndCheck 0x020221A4 thumb
  *   WIPE_SYS_Start  0x0202208C  thumb
  *   POKETRADE_3D_DeleteMcssSlot  0x021E36D8  thumb  ov119
@@ -74,7 +74,7 @@
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   APP_TASKMENU_CloseMenu 0x02027858 thumb
  *   POKETRADE_2D_CreateBoxWindows 0x021E4420 thumb ov119
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   POKETRADE_SAVE_OpenTaskMenuAt 0x021E131C thumb ov119
  *   POKETRADE_SAVE_OpenMessageWindow 0x021E0EF4 thumb ov119
  *   POKETRADE_2D_SetupSubBgs 0x021E5680 thumb ov119
@@ -320,13 +320,13 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 
 extern struct Sub02009470Obj *WIFI_HISTORY_GetBlock(void *sys);
 
+extern u8 MYSTATUS_GetNation(const struct Sub0200852CObj *obj);
+
+extern u8 MYSTATUS_GetArea(const struct Sub0200852CObj *obj);
+
 extern u8 MYSTATUS_GetLanguage(const struct Sub0200852CObj *obj);
 
-extern u8 MYSTATUS_GetVersion(const struct Sub0200852CObj *obj);
-
-extern u8 MYSTATUS_GetGender(const struct Sub0200852CObj *obj);
-
-extern void MYSTATUS_SetLanguageAndVersion(struct Sub0200852CObj *obj, u8 a, u8 b);
+extern void MYSTATUS_SetNationAndArea(struct Sub0200852CObj *obj, u8 a, u8 b);
 
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
@@ -623,9 +623,9 @@ extern void MAIL_SetSlot(struct Sub02008F80Obj *arr, u32 unused, int i, const st
 
 extern void MAIL_Init(struct Sub02008EACObj *obj);
 
-extern u32 BMP_OAM_CheckRangeGetId(u32 a, u32 b, u32 c);
+extern u32 NATION_AREA_SanitizeNation(u32 a, u32 b, u32 c);
 
-extern u32 BMP_OAM_CheckRangeGetMin(u32 a, u32 b, u32 c);
+extern u32 NATION_AREA_SanitizeArea(u32 a, u32 b, u32 c);
 
 extern void TRADE_HISTORY_AddPartner(struct Sub02009D9CObj *obj, struct Sub0200852CObj *p);
 
@@ -666,7 +666,7 @@ extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
 
 extern u32 SHINKA_CHECK_CheckEvolution(void *party, void *mon, u32 context, u32 param, u8 timezone, u32 *methodOut, u16 heap);
 
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 
 extern void FADE_Start(u32 a, int b, int c, int d);
 
@@ -1512,12 +1512,12 @@ void POKETRADE_SAVE_ApplyTradeResult(char *p)
     }
 
     {
-        u8 a = MYSTATUS_GetLanguage(I(p, 0x834));
-        u8 b = MYSTATUS_GetVersion(I(p, 0x834));
-        u32 ra = BMP_OAM_CheckRangeGetId(a, b, MYSTATUS_GetGender(I(p, 0x834)));
-        u32 rb = BMP_OAM_CheckRangeGetMin(a, b, MYSTATUS_GetGender(I(p, 0x834)));
+        u8 a = MYSTATUS_GetNation(I(p, 0x834));
+        u8 b = MYSTATUS_GetArea(I(p, 0x834));
+        u32 ra = NATION_AREA_SanitizeNation(a, b, MYSTATUS_GetLanguage(I(p, 0x834)));
+        u32 rb = NATION_AREA_SanitizeArea(a, b, MYSTATUS_GetLanguage(I(p, 0x834)));
         if (a != ra || b != rb)
-            MYSTATUS_SetLanguageAndVersion(I(p, 0x834), 0, 0);
+            MYSTATUS_SetNationAndArea(I(p, 0x834), 0, 0);
     }
 
     TRADE_HISTORY_AddPartner(GAME_DATA_GetTradeHistory(I(p, 0x82C)), I(p, 0x834));
@@ -1527,9 +1527,9 @@ void POKETRADE_SAVE_ApplyTradeResult(char *p)
     for (i = 0; i < 2; i++) {
         void *q = list[i];
         if (q) {
-            u8 row = MYSTATUS_GetLanguage(q);
-            u8 col = MYSTATUS_GetVersion(q);
-            MYSTATUS_GetGender(q);
+            u8 row = MYSTATUS_GetNation(q);
+            u8 col = MYSTATUS_GetArea(q);
+            MYSTATUS_GetLanguage(q);
             if (!WIFI_HISTORY_GetCountryRegionState(obj, row, col))
                 WIFI_HISTORY_SetCountryRegionState(obj, row, col, 1);
         }
@@ -1676,7 +1676,7 @@ exit:
     POKETRADE_SAVE_PopBgmFadeIn60(p);
 }
 
-void POKETRADE_SAVE_StepSaveCancelNotice(char *p) {POKETRADE_SAVE_CreateMessageResources(p);MSGDATA_ReadString((struct MsgBank *)(((TradeWork *)p)->messageBank),50,(void *)(((TradeWork *)p)->messageText));*(int *)&((TradeWork *)p)->fontBgHandle=(int)BMP_MENUWORK_LoadFrameGfx((void *)6,15,0,((TradeWork *)p)->heapId);POKETRADE_SAVE_OpenMessageWindowTop(p);POKETRADE_SAVE_ShowTimeIcon(p);POKETRADE_SAVE_SetWaitCounter((u8 *)p,0);BG_SYS_SetPlaneVisible(6,1);GFL_NET_RestartWithDefaultTimeout(1,((TradeWork *)p)->heapId);FADE_Start(3,16,0,2);POKETRADE_PROC_SetStep(p,(int)POKETRADE_SAVE_StepBeginSyncRange24);}
+void POKETRADE_SAVE_StepSaveCancelNotice(char *p) {POKETRADE_SAVE_CreateMessageResources(p);MSGDATA_ReadString((struct MsgBank *)(((TradeWork *)p)->messageBank),50,(void *)(((TradeWork *)p)->messageText));*(int *)&((TradeWork *)p)->fontBgHandle=(int)BMP_MENUWORK_LoadFrameGfx((void *)6,15,0,((TradeWork *)p)->heapId);POKETRADE_SAVE_OpenMessageWindowTop(p);POKETRADE_SAVE_ShowTimeIcon(p);POKETRADE_SAVE_SetWaitCounter((u8 *)p,0);BG_SYS_SetPlaneVisible(6,1);GFL_NET_RefreshWmIconAtTopRight(1,((TradeWork *)p)->heapId);FADE_Start(3,16,0,2);POKETRADE_PROC_SetStep(p,(int)POKETRADE_SAVE_StepBeginSyncRange24);}
 
 void POKETRADE_SAVE_StepBeginSyncRange24(void *p)
 {
@@ -1722,7 +1722,7 @@ void POKETRADE_SAVE_StepRebuildSceneAfterWipe(char *p)
         POKETRADE_2D_CreateBoxIconActors(p);POKETRADE_2D_CreateBoxWindows(p);POKETRADE_2D_LoadBackgroundGfx(p);
         POKETRADE_2D_CreateFontResource(p);POKETRADE_2D_LoadMainGfxAndMessageWindow(p);POKETRADE_3D_AddUnitAndInit(p,0);
         BG_SYS_SetMainVisiblePlanes((int)31);BG_SYS_SetSubVisiblePlanes((int)30);POKETRADE_3D_CreateTouchbar(p);
-        GFL_NET_RestartWithDefaultTimeout(1,((TradeWork *)p)->heapId);
+        GFL_NET_RefreshWmIconAtTopRight(1,((TradeWork *)p)->heapId);
         ((TradeWork *)p)->netExitCount=0;
         POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepResetForNewRound);
     }

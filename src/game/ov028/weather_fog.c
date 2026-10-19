@@ -25,7 +25,7 @@
  *   WEATHER_TASK_GetParticleCount  0x021A21BC  thumb  ov021
  *   WEATHER_TASK_DisableFog 0x021A231C thumb ov021
  *   WEATHER_TASK_ResetLight 0x021A2120 thumb ov021
- *   WEATHER_TASK_GetCameraState  0x021A2148  thumb  ov021
+ *   WEATHER_TASK_GetCameraSettingId  0x021A2148  thumb  ov021
  *   gFogSlopeByCameraState     0x021EEA80  data  ov028  a1
  *   gFogOffsetByCameraState     0x021EEAA4  data  ov028  a4
  */
@@ -43,7 +43,7 @@ void WEATHER_TASK_ChangeFogOffset(WeatherTaskSys *task, int endOffset, int frame
 int WEATHER_TASK_GetParticleCount(WeatherTaskSys *task);
 void WEATHER_TASK_DisableFog(WeatherTaskSys *task, int phase);
 void WEATHER_TASK_ResetLight(WeatherTaskSys *task, int phase);
-int WEATHER_TASK_GetCameraState(WeatherTaskSys *task);
+int WEATHER_TASK_GetCameraSettingId(WeatherTaskSys *task);
 u16 ZONEDATA_GetLightTableMember(u32 weatherId);
 
 /* Weather id 9 (fixed fog). */
@@ -166,7 +166,7 @@ void WEATHER_FOG_UpdateParticleFixed(void)
 /* Begin stage of weather id 10: fog from the camera state. */
 int WEATHER_FOG_BeginKind10(WeatherTaskSys *task, int variant)
 {
-    int cameraState = WEATHER_TASK_GetCameraState(task);
+    int cameraState = WEATHER_TASK_GetCameraSettingId(task);
     FogCameraWork *work = WEATHER_TASK_GetWorkBuffer(task);
 
     work->fogChangeStarted = 0;
@@ -180,7 +180,7 @@ int WEATHER_FOG_BeginKind10(WeatherTaskSys *task, int variant)
 /* Begin stage of weather id 11. */
 int WEATHER_FOG_BeginKind11(WeatherTaskSys *task, int variant)
 {
-    int cameraState = WEATHER_TASK_GetCameraState(task);
+    int cameraState = WEATHER_TASK_GetCameraSettingId(task);
     FogCameraWork *work = WEATHER_TASK_GetWorkBuffer(task);
 
     work->fogChangeStarted = 0;
@@ -194,7 +194,7 @@ int WEATHER_FOG_BeginKind11(WeatherTaskSys *task, int variant)
 /* Begin stage of weather id 13. */
 int WEATHER_FOG_BeginKind13(WeatherTaskSys *task, int variant)
 {
-    int cameraState = WEATHER_TASK_GetCameraState(task);
+    int cameraState = WEATHER_TASK_GetCameraSettingId(task);
     FogCameraWork *work = WEATHER_TASK_GetWorkBuffer(task);
 
     work->fogChangeStarted = 0;
@@ -208,7 +208,7 @@ int WEATHER_FOG_BeginKind13(WeatherTaskSys *task, int variant)
 /* Begin stage of weather id 14. */
 int WEATHER_FOG_BeginKind14(WeatherTaskSys *task, int variant)
 {
-    int cameraState = WEATHER_TASK_GetCameraState(task);
+    int cameraState = WEATHER_TASK_GetCameraSettingId(task);
     FogCameraWork *work = WEATHER_TASK_GetWorkBuffer(task);
 
     work->fogChangeStarted = 0;

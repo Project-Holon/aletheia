@@ -1,5 +1,5 @@
 /*
- * function: BR_CODEIN_ProfileCreateActors2
+ * function: BR_CODEIN_ProfileCreateMarkerActors
  * address: 0x021E0A88
  * packet: pkt_ov183_021E0A88
  * region: ov183
@@ -33,7 +33,7 @@ extern void BR_CODEIN_ProfileSetActorPos(char *,int);
 struct Coordinates;
 extern void BR_CODEIN_ProfileAddActorSurfacePos(struct Coordinates *p, int index);
 extern void BR_CODEIN_ProfileSetActorVisible(char *,int,int);
-void BR_CODEIN_ProfileCreateActors2(char *p)
+void BR_CODEIN_ProfileCreateMarkerActors(char *p)
 {
     int base,zero;
     u32 owner;

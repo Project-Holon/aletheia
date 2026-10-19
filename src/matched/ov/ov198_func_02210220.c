@@ -1,5 +1,5 @@
 /*
- * function: B_PLIST_MAIN_ApplyMode6
+ * function: B_PLIST_MAIN_ApplyMoveListWithNewMovePage
  * address:  0x02210220
  * packet:   pkt_02210220
  * region:   ov198
@@ -21,7 +21,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern int B_PLIST_MAIN_ApplyMode(u8 *p, unsigned mode);
 
-u32 B_PLIST_MAIN_ApplyMode6(u32 a)
+u32 B_PLIST_MAIN_ApplyMoveListWithNewMovePage(u32 a)
 {
     if (B_PLIST_MAIN_ApplyMode((u8 *)a, 6) == 0) {
         return 0x10;

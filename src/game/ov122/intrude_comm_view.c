@@ -33,8 +33,8 @@
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
  *   MSGDATA_ReadString 0x02045CAC arm
- *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
- *   GF_FONT_CountLines 0x0201D42C thumb
+ *   PRINTSYS_MeasureWidestLine 0x0201D304 thumb
+ *   PRINTSYS_CountLines 0x0201D42C thumb
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
@@ -111,7 +111,7 @@
  *   CLACT_CreateUnit 0x0204B100 arm
  *   TCBL_Create 0x0203101C arm
  *   G2x_SetBlendAlpha_ 0x0207D63C arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   UI_SetInputMode 0x020355D8 arm
  *   data_021D58B0 0x021D58B0 data a4
@@ -307,8 +307,8 @@ extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slo
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
-extern u32 GF_FONT_CountLines(struct StrObj *s, void *font);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+extern u32 PRINTSYS_CountLines(struct StrObj *s, void *font);
 extern void PRINTSYS_PrintColor(void *, s16, s16, void *, void *, u16);
 extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
@@ -392,7 +392,7 @@ extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, u32 font, u32 printQue, u16 heap);
 extern void G2x_SetBlendAlpha_(void *, u32, u32, u32, u32);
-extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32, u32);
 extern int GFL_NET_GetRunState(void);
 extern void UI_SetInputMode(u8);
 extern void APP_TASKMENU_UpdateMenu(void *);
@@ -541,9 +541,9 @@ void INTRUDE_COMM_VIEW_BuildRowList(int count, int *values, IntrudeCommView *p, 
         p->rows[i] = (void *)BMP_WIN_Create(7, (u8)rows[i].x, (u8)rows[i].y, (u8)rows[i].w, rows[i].h, 13, 0);
         BMP_Clear(BMP_WIN_GetBmp(p->rows[i]), 0);
         MSGDATA_ReadString(p->msgBank, (int)values[i], p->textBuf);
-        if (xs) x = xs[i] - (GF_FONT_MeasureWidestLine(p->textBuf, (u32)p->font, 0) >> 1);
+        if (xs) x = xs[i] - (PRINTSYS_MeasureWidestLine(p->textBuf, (u32)p->font, 0) >> 1);
         else x = 0;
-        if (ys) y = ys[i] - (GF_FONT_CountLines(p->textBuf, p->font) >> 1);
+        if (ys) y = ys[i] - (PRINTSYS_CountLines(p->textBuf, p->font) >> 1);
         else y = 0;
         PRINTSYS_PrintColor(BMP_WIN_GetBmp(p->rows[i]), x, y, p->textBuf, p->font, 0x39e3);
         BMP_WIN_TransferChars(p->rows[i]);
@@ -575,8 +575,8 @@ void INTRUDE_COMM_VIEW_RebuildRow(int i, IntrudeCommView *p, Row *row, const int
     p->rows[i] = (void *)BMP_WIN_Create(7, (u8)row->x, (u8)row->y, (u8)row->w, row->h, 13, 0);
     x = 0;
     BMP_Clear(BMP_WIN_GetBmp(p->rows[i]), 0);
-    if (xs) x = xs[i] - (GF_FONT_MeasureWidestLine(((IntrudeCommView *)p)->textBuf, *(u32 *)&((IntrudeCommView *)p)->font, 0) >> 1);
-    if (ys) y = ys[i] - (GF_FONT_CountLines(((IntrudeCommView *)p)->textBuf, ((IntrudeCommView *)p)->font) >> 1);
+    if (xs) x = xs[i] - (PRINTSYS_MeasureWidestLine(((IntrudeCommView *)p)->textBuf, *(u32 *)&((IntrudeCommView *)p)->font, 0) >> 1);
+    if (ys) y = ys[i] - (PRINTSYS_CountLines(((IntrudeCommView *)p)->textBuf, ((IntrudeCommView *)p)->font) >> 1);
     else y = 0;
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(p->rows[i]), x, y, ((IntrudeCommView *)p)->textBuf, ((IntrudeCommView *)p)->font, 0x39e3);
     BMP_WIN_TransferChars(p->rows[i]);
@@ -1229,7 +1229,7 @@ int INTRUDE_COMM_VIEW_Create(void *owner, void *unused, char *args)
     GFL_NET_GetInitParam();
     ((IntrudeCommView *)p)->args->active = 1;
     ((IntrudeCommView *)p)->args->owner = ((IntrudeCommView *)p)->gameData;
-    GFL_NET_RestartWithDefaultTimeout(0, ((IntrudeCommView *)p)->heapId);
+    GFL_NET_RefreshWmIconAtTopRight(0, ((IntrudeCommView *)p)->heapId);
     if (GFL_NET_GetRunState()) NET_WHPIPE_SetNotifyCallback((u32)INTRUDE_COMM_VIEW_StorePeerRecord, (u32)p);
     UI_SetInputMode(1);
     return 1;

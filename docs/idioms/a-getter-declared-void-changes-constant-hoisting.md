@@ -1,5 +1,8 @@
 # A getter declared void changes constant hoisting
 
+summary: A callee that returns a value but is declared void makes mwcc hoist a repeated constant
+into a free callee-saved register. Declare the real return type from a matched sibling.
+
 Symptom: a whole function matches except that one repeated small constant (for example `movs r0,#5`
 used twice in the last block) is hoisted into a free callee-saved register in ours, while the
 original rematerialises it at each use.

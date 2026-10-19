@@ -15,7 +15,7 @@
  *   DUP_FITTING_IsFrameOwned 0x021B8B78 thumb ov133
  *   MUSICAL_MCSS_GetRenderElem 0x021F5450 thumb ov112
  *   MUSICAL_MCSS_SetElemFlag 0x021F4EE8 thumb ov112
- *   MUSICAL_MCSS_GetFlagA 0x021F4B24 thumb ov112
+ *   MUSICAL_MCSS_ElemHasAltDepth 0x021F4B24 thumb ov112
  *   MUSICAL_MCSS_SetElemPos 0x021F4E8C thumb ov112
  *   MUSICAL_MCSS_SetElemField 0x021F4ED4 thumb ov112
  *   MUSICAL_MCSS_SetElemRot 0x021F4EC4 thumb ov112
@@ -42,7 +42,7 @@ extern u32 DUP_FITTING_ITEM_ElemGetRenderElem(u8 *p);
 extern u8 *MUSICAL_MCSS_GetRenderElem(u8 *,int);
 extern int DUP_FITTING_FindNearestFrame(u8 *,void *,const int *,u16 *);
 extern int DUP_FITTING_IsFrameOwned(unsigned char *p, unsigned int id);
-extern int MUSICAL_MCSS_GetFlagA(u8 *);
+extern int MUSICAL_MCSS_ElemHasAltDepth(u8 *);
 extern void DUP_FITTING_ITEM_ElemSetPos(u8 *p, const u8 *src);
 extern void DUP_FITTING_ITEM_ElemSetFrameIndex(char *p, int v);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
@@ -68,7 +68,7 @@ void DUP_FITTING_AttachElem(u8 *p,int sound)
         pos.x=(int)((float)(((struct Obj06497 *)q)->f4+((struct Obj06497 *)q)->f10)/4096.f)+128;
         pos.y=(int)((float)(((struct Obj06497 *)q)->f8+((struct Obj06497 *)q)->f14)/4096.f)+96;
         rotation=((struct Obj06497 *)q)->f36;MUSICAL_MCSS_SetElemFlag(*(int *)&((struct Obj00004 *)p)->f1884,(int)sprite,1);
-        if(MUSICAL_MCSS_GetFlagA(sprite)==1)v.z=0x1a000;
+        if(MUSICAL_MCSS_ElemHasAltDepth(sprite)==1)v.z=0x1a000;
         if(DUP_FITTING_IsFrameOwned(p,((struct Obj00004 *)p)->f34)==0){((struct Obj00004 *)p)->f40=3;((struct Obj00004 *)p)->f44=pos.x;((struct Obj00004 *)p)->f48=pos.y;}
         DUP_FITTING_ITEM_ElemSetFrameIndex((char *)(*(u8 * *)&((struct Obj00004 *)p)->f38),((struct Obj00004 *)p)->f34);
         if(old!=((struct Obj00004 *)p)->f34 && sound==1)GFL_USE_PlaySeDefaultVolume(0x627);

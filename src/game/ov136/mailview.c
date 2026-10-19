@@ -103,7 +103,7 @@
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   CLACT_InitSystem 0x0204A48C arm
  *   CLACT_SetUnitDefaultRenderer 0x0204B270 arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   gClActorInitParam 0x020A1448 data a4
  *   CLACT_ExitSystem 0x0204A5AC arm
  *   APP_TASKMENU_WIN_Create  0x02027FEC  thumb  arm9
@@ -407,7 +407,7 @@ extern void CLACT_InitSystem(const struct Cfg *cfg, const struct DispVram *vram,
 
 extern void CLACT_SetUnitDefaultRenderer(struct ClactUnit *bank);
 
-extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32, u32);
 
 extern void CLACT_ExitSystem(void);
 
@@ -624,7 +624,7 @@ void MAILVIEW_InitActorSystem(struct MailEditProc *proc)
     CLACT_SetUnitDefaultRenderer(proc->clactUnit);
     BG_SYS_SetMainPlaneVisible(16, 1);
     BG_SYS_SetSubPlaneVisible(16, 1);
-    GFL_NET_RestartWithDefaultTimeout((int)0, (u16)(proc->heapId));
+    GFL_NET_RefreshWmIconAtTopRight((int)0, (u16)(proc->heapId));
 }
 
 void MAILVIEW_ExitActorSystem(struct MailEditProc *proc)

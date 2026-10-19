@@ -20,7 +20,7 @@
  * note: 2026-10-05 (wD4 lane20): constant-in-a-local lever applied: int off = 0x242 assigned in each arm, join is off -= 0x76; p[off] = r. Down from 50 to 14 differing bytes, same size, r4-r7 push set now matches, offset kept live to the join. Residue: p/off colour swap only (image p r4, off r5; ours p r5, off r4). Tried declaration orders of z/r/off, off initialised at the top (loses the r7 zero), off -= inside the index expression.
  * symbols:
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   GFL_NET_NotifyUserEvent  0x0203D1E8  arm
+ *   GFL_NET_SetAcceptConnection  0x0203D1E8  arm
  *   GFL_NET_IsParentAid  0x0203D378  arm
  *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
  *   WIFICLUB_SetPartnerNameWord  0x021BA874  thumb  ov099
@@ -33,7 +33,7 @@ typedef unsigned int u32;
 struct Link;
 struct Entry;
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void GFL_NET_NotifyUserEvent(u32 unused, void *arg);
+extern void GFL_NET_SetAcceptConnection(u32 unused, void *arg);
 extern u32 GFL_NET_IsParentAid(void);
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *p, u32 lo, u32 hi);
 extern void WIFICLUB_SetPartnerNameWord(char *p, int id);
@@ -44,7 +44,7 @@ int WIFICLUB_StateStartInvite(char *p, int v)
 {
     int z;
     int off;
-    GFL_NET_NotifyUserEvent((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0);
+    GFL_NET_SetAcceptConnection((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0);
     z = 0;
     if (GFL_NET_IsParentAid() == 0) {
         *(int *)(p + 0x135C) = 3;

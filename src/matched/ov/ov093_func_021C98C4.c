@@ -9,16 +9,16 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   BTL_FIELD_QueryStaticSlotA 0x021EF8E8 thumb ov093
+ *   BTL_FIELD_RemoveStaticSlot 0x021EF8E8 thumb ov093
  *   BTL_SERVER_FLOW_PushFieldEffectExpireMessage 0x021C4C50 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int BTL_FIELD_QueryStaticSlotA(int);
+extern int BTL_FIELD_RemoveStaticSlot(int);
 extern void BTL_SERVER_FLOW_PushFieldEffectExpireMessage(u8 *, int);
 int BTL_SERVER_FLOW_ExecCmdExpireFieldEffect(u8 *p, u8 *q)
 {
-    if (BTL_FIELD_QueryStaticSlotA(*(int *)(q + 4))) {
+    if (BTL_FIELD_RemoveStaticSlot(*(int *)(q + 4))) {
         BTL_SERVER_FLOW_PushFieldEffectExpireMessage(p, *(int *)(q + 4));
         return 1;
     }

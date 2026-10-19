@@ -1,5 +1,5 @@
 /*
- * function: MISC_SAVEDATA_GetStatsBase
+ * function: LIVEBATTLEMATCH_SAVE_GetStats
  * address:  0x0200EA00
  * packet:   pkt_0200EA00
  * region:   arm9
@@ -13,10 +13,10 @@
  * witness.  Addresses are Black-image addresses.
  *
  * symbols:
- *   MISC_SAVEDATA_GetStatsBase  0x0200EA00  thumb
+ *   LIVEBATTLEMATCH_SAVE_GetStats  0x0200EA00  thumb
  */
 
-int MISC_SAVEDATA_GetStatsBase(int p)
+int LIVEBATTLEMATCH_SAVE_GetStats(int p)
 {
     return p + 0x5a;
 }

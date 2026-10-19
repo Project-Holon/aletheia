@@ -30,7 +30,7 @@
  *   BG_SYS_Create 0x0203F8F4 arm
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   TCBL_Create 0x0203101C arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
@@ -104,7 +104,7 @@
  *   BMP_WIN_Create 0x020450F0 arm
  *   BMP_WIN_GetBmp 0x02045770 arm
  *   BMP_Clear 0x02043B5C arm
- *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
+ *   PRINTSYS_MeasureWidestLine 0x0201D304 thumb
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
@@ -141,8 +141,8 @@
  *   KEY_GetTrg 0x020362DC arm
  *   PRINTSYS_PrintStreamReleasePause 0x0201CE38 thumb
  *   BMP_MENUWORK_DrawWindowBorder  0x0201F7A8  thumb
- *   MYSTATUS_GetOutfitVariant 0x02008550 thumb
- *   MYSTATUS_GetOutfit 0x02008554 thumb
+ *   MYSTATUS_GetSex 0x02008550 thumb
+ *   MYSTATUS_GetTrainerView 0x02008554 thumb
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   ARC_UTIL_LoadPaletteBlockFromArchive 0x02049F34 arm
@@ -232,7 +232,7 @@ extern u32 PRINTSYS_QUE_Create(void *);
 
 void GURU2_RECEIPT_InitStrings(u8 *p,void *q);
 
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
@@ -360,7 +360,7 @@ extern const u32 gGuru2LobbyVramBanks[];
  * BG_SYS_Create 0x0203F8F4 arm
  * MSGDATA_CreateFromArchive 0x02045B38 arm
  * TCBL_Create 0x0203101C arm
- * GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ * GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  * ARC_TOOL_DeleteHandle 0x02049238 arm
  * WORDSET_CreateDefault 0x0201EC64 thumb
  * GF_FONT_Create 0x0201D7EC thumb
@@ -404,7 +404,7 @@ int GURU2_RECEIPT_ProcInit(void *proc,u32 *state,u8 *ctx)
         *(u32 *)(p+236)=PRINTSYS_QUE_Create((void *)114);
         GURU2_RECEIPT_InitStrings(p,arc); GURU2_RECEIPT_InitActors(p,arc); GURU2_RECEIPT_CreatePlayerActors(p); GURU2_RECEIPT_CreateWindows(p);
         GURU2_COMM_RegisterCommands((u32)(*(void **)(ctx+24)));
-        GFL_NET_RestartWithDefaultTimeout(1,114); ARC_TOOL_DeleteHandle(arc);
+        GFL_NET_RefreshWmIconAtTopRight(1,114); ARC_TOOL_DeleteHandle(arc);
         (*state)++;
         break;
     case 1:
@@ -614,7 +614,7 @@ extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
 extern u8 *GAME_DATA_GetMyStatus(void *);
 
-extern u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetSex(const struct Sub0200852CObj *obj);
 
 extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
 
@@ -656,7 +656,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 
 extern void PRINTSYS_PrintColor(void *, s16, s16, void *, void *, u16);
 
@@ -727,7 +727,7 @@ extern void PRINTSYS_PrintStreamReleasePause(void *);
 
 extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
 
-extern u8 MYSTATUS_GetOutfit(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetTrainerView(const struct Sub0200852CObj *obj);
 
 extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, u32 unpackedOut, u32 flags);
 
@@ -942,7 +942,7 @@ void GURU2_RECEIPT_LoadGraphics(void *p,void *arc)
  *   plain u8 (the enum local is not needed). Callees: 02008550 returns u8-range
  *   index, 0204B100 returns a pointer, others as in matched callers.
  * GAME_DATA_GetMyStatus 0x02012944 thumb
- * MYSTATUS_GetOutfitVariant 0x02008550 thumb
+ * MYSTATUS_GetSex 0x02008550 thumb
  * ARC_TOOL_CreateHandle 0x020490F4 arm
  * CLACT_InitSystem 0x0204A48C arm
  * CLACT_CreateUnit 0x0204B100 arm
@@ -963,7 +963,7 @@ void GURU2_RECEIPT_InitActors(const u8 *p)
     u32 a,b;
     const u32 *table;
     void *arc;
-    v=MYSTATUS_GetOutfitVariant((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(*(void **)(*(u8 **)(*(u8 **)(p+12)+20)+4)));
+    v=MYSTATUS_GetSex((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(*(void **)(*(u8 **)(*(u8 **)(p+12)+20)+4)));
     arc=ARC_TOOL_CreateHandle(31,114);
     CLACT_InitSystem(&gClActorInitParam,(u32)gGuru2LobbyVramBanks,114);
     *(void **)(p+104)=CLACT_CreateUnit(30,1,114);
@@ -1025,7 +1025,7 @@ void GURU2_RECEIPT_CreateWindows(struct Guru2Lobby *p) {
 
 void GURU2_RECEIPT_PrintTitle(void *p, void *text, void *font) {
     int width;
-    width = GF_FONT_MeasureWidestLine(text, (u32)font, 0);
+    width = PRINTSYS_MeasureWidestLine(text, (u32)font, 0);
     BMP_Clear(BMP_WIN_GetBmp(p), 0);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(p), (208-width)/2, 1, text, font, 0x480);
     BMP_WIN_TransferChars(p);
@@ -1539,8 +1539,8 @@ void GURU2_RECEIPT_UpdatePlayerActors(u8 *p)
         switch(*(u32 *)(p+i*4+0x160)) {
         case 0: break;
         case 1:
-            a=MYSTATUS_GetOutfitVariant(*(void **)(p+i*8+0x138));
-            b=MYSTATUS_GetOutfit(*(void **)(p+i*8+0x138));
+            a=MYSTATUS_GetSex(*(void **)(p+i*8+0x138));
+            b=MYSTATUS_GetTrainerView(*(void **)(p+i*8+0x138));
             if (i==GFL_NET_SYSTEM_GetCurrentAid()) {
                 CLACT_SetActorAnimSeq((struct FrameObj *)(*(void **)(p+i*4+0x9c)), 4);
             } else {
@@ -1554,7 +1554,7 @@ void GURU2_RECEIPT_UpdatePlayerActors(u8 *p)
         case 2: break;
         case 3:
             if(i==GFL_NET_SYSTEM_GetCurrentAid()) {
-                MYSTATUS_GetOutfitVariant(*(void **)(p+i*8+0x138));
+                MYSTATUS_GetSex(*(void **)(p+i*8+0x138));
                 CLACT_SetActorAnimSeq((struct FrameObj *)(*(void **)(p+i*4+0x9c)), 5);
             } else {
                 CLACT_SetActorAnimSeq((struct FrameObj *)(*(void **)(p+i*4+0x9c)), 5);

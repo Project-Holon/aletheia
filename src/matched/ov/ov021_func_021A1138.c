@@ -1,5 +1,5 @@
 /*
- * function: FIELD_3DBG_HandleCGearInput
+ * function: FIELD_SUBSCREEN_HandleCGearInput
  * address: 0x021A1138
  * packet: pkt_ov021_021A1138
  * region: ov021
@@ -22,7 +22,7 @@ typedef struct HidObj_021A1138 {
     char * f20;
 } HidObj_021A1138;
 
-int FIELD_3DBG_HandleCGearInput(HidObj_021A1138 *w, int b)
+int FIELD_SUBSCREEN_HandleCGearInput(HidObj_021A1138 *w, int b)
 {
     return C_GEAR_HandleCommand(w->f20, b, w);
 }

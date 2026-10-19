@@ -11,7 +11,7 @@
  *
  * symbols:
  *   SYMBOL_SAVE_GetBitBlock  0x0200E394  thumb
- *   BEACON_GetFromSave  0x0200C0E8  thumb
+ *   MISC_GetFromSave  0x0200C0E8  thumb
  *   SCRCMD_RESEARCH_GetMissionKind  0x0216BB70  thumb  ov010
  *   SCRCMD_RESEARCH_AreMissionTargetsAtGoal  0x0216B994  thumb  ov010
  *   SCRCMD_RESEARCH_AreMissionTargetsAtCap  0x0216BA40  thumb  ov010
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void *SYMBOL_SAVE_GetBitBlock(void *a0);
-extern void *BEACON_GetFromSave(void *sys);
+extern void *MISC_GetFromSave(void *sys);
 extern int SCRCMD_RESEARCH_GetMissionKind(int index);
 extern int SCRCMD_RESEARCH_AreMissionTargetsAtGoal(int c, int vm);
 extern int SCRCMD_RESEARCH_AreMissionTargetsAtCap(int c, int vm);
@@ -40,7 +40,7 @@ t4 = a2 + 0;
     t6 = SYMBOL_SAVE_GetBitBlock((void *)a0);
 loc_0216B928:
 a0 = t7 + 0;
-    BEACON_GetFromSave((void *)a0);
+    MISC_GetFromSave((void *)a0);
 loc_0216B930:
 a0 = t5 + 0;
     a0 = SCRCMD_RESEARCH_GetMissionKind(a0);

@@ -13,7 +13,7 @@
  *   FIELDMAP_GetG3dMapper  0x02188C98  thumb  ov021
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
- *   ZONEDATA_IsZone117  0x02013D5C  thumb
+ *   ZONEDATA_IsEntralink  0x02013D5C  thumb
  *   FIELD_PLAYER_GetPos  0x021A3038  thumb  ov021
  *   INTRUDE_FIELD_IsInEdgeMargin  0x0217B94C  thumb  ov018
  *   MAP_MATRIX_Create  0x02159B48  thumb  ov010
@@ -31,7 +31,7 @@ extern u16 FIELDMAP_GetZoneId(u8 *p);
 struct Obj00020;
 extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
 typedef unsigned int   u32;
-extern u32 ZONEDATA_IsZone117(u32 id);
+extern u32 ZONEDATA_IsEntralink(u32 id);
 struct VecFx32;
 extern void FIELD_PLAYER_GetPos(unsigned char *, struct VecFx32 *);
 extern int INTRUDE_FIELD_IsInEdgeMargin(int *p);
@@ -51,7 +51,7 @@ void INTRUDE_FIELD_AddAreaMaps(u8 *a, int b, u8 *c)
         return;
     if (FIELDMAP_GetG3dMapper(a) == 0)
         return;
-    if (ZONEDATA_IsZone117(FIELDMAP_GetZoneId((u8 *)a)) == 0)
+    if (ZONEDATA_IsEntralink(FIELDMAP_GetZoneId((u8 *)a)) == 0)
         return;
     n = c[0x902] - 1;
     if (n <= 0)

@@ -1,5 +1,5 @@
 /*
- * function: MISC_SAVEDATA_GetRecordBase
+ * function: LIVEBATTLEMATCH_SAVE_GetRecord
  * address:  0x0200EA08
  * packet:   pkt_0200EA08
  * region:   arm9
@@ -13,10 +13,10 @@
  * witness.  Addresses are Black-image addresses.
  *
  * symbols:
- *   MISC_SAVEDATA_GetRecordBase  0x0200EA08  thumb
+ *   LIVEBATTLEMATCH_SAVE_GetRecord  0x0200EA08  thumb
  */
 
-int MISC_SAVEDATA_GetRecordBase(int p)
+int LIVEBATTLEMATCH_SAVE_GetRecord(int p)
 {
     return p;
 }

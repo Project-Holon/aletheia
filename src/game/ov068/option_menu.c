@@ -74,7 +74,7 @@
  *   BMP_WIN_Exit  0x020450C8  arm
  *   BG_SYS_Delete  0x0203F9B4  arm
  *   MSGDATA_AllocString  0x02045EC0  arm
- *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
+ *   PRINTSYS_MeasureWidestLine  0x0201D304  thumb
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   PRINTSYS_Print  0x0201C7A4  thumb
@@ -103,7 +103,7 @@
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
  *   GFL_NET_GetRunState  0x0203CD98  arm
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   gClActorInitParam     0x020A1448  data  a4
  *   gOptionMenuChoices     0x021BB704  data  ov068  a4
  *   CLACT_DeleteActor  0x0204B3B4  arm
@@ -285,7 +285,7 @@ extern void BG_SYS_FreeLayerBuf(u32 a);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern struct StringBuf *MSGDATA_AllocString(struct MsgBank *msgBank, u32 index);
-extern u32 GF_FONT_MeasureWidestLine(struct StringBuf *str, struct GfFont *font, u32 a);
+extern u32 PRINTSYS_MeasureWidestLine(struct StringBuf *str, struct GfFont *font, u32 a);
 extern struct Bitmap *BMP_WIN_GetBmp(struct BmpWindow *window);
 extern void BMP_Clear(struct Bitmap *bitmap, u8 value);
 extern void PRINTSYS_Print(struct Bitmap *bitmap, s16 x, s16 y, struct StringBuf *str, struct GfFont *font);
@@ -311,7 +311,7 @@ extern struct ClActor *CLACT_CreateActor(struct Unit *unit, struct ClRes *charRe
 extern void CLACT_SetActorAutoAnim(struct ClActor *actor, u32 v);
 extern void CLACT_SetActorPaletteOffset(struct ClActor *actor, u32 v, u32 flag);
 extern int GFL_NET_GetRunState(void);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void CLACT_DeleteActor(struct ClActor *actor);
 extern void CLACT_ReleasePalette(struct ClRes *res);
 extern void CLACT_ReleaseCharacter(struct ClRes *res);
@@ -719,7 +719,7 @@ struct BmpWindow *OPTION_MENU_GetGfxWindow(OptionMenuGfx *gfx, int index)
 /*
  * The rounded width goes through a u8 local that is both stored to the
  * table row and passed on (the call reloading the field is 4 bytes longer).
- * GF_FONT_MeasureWidestLine takes the string first and the font second.
+ * PRINTSYS_MeasureWidestLine takes the string first and the font second.
  */
 void OPTION_MENU_CreateLabelWindows(OptionMenuGfx *gfx)
 {
@@ -750,7 +750,7 @@ void OPTION_MENU_CreateLabelWindows(OptionMenuGfx *gfx)
         }
         label = &gOptionMenuLabels[i];
         str = MSGDATA_AllocString(msgBank, gOptionMenuLabels[i].messageId);
-        width = (x + GF_FONT_MeasureWidestLine(str, font, 0) + 7) >> 3;
+        width = (x + PRINTSYS_MeasureWidestLine(str, font, 0) + 7) >> 3;
         label->width = width;
         gfx->windows[i] = BMP_WIN_Create(1, label->x, label->y, width, label->height, 0, 1);
         BMP_Clear(BMP_WIN_GetBmp(gfx->windows[i]), 0);
@@ -765,7 +765,7 @@ void OPTION_MENU_CreateLabelWindows(OptionMenuGfx *gfx)
     MIi_CpuCopy32((u32)charData, (u32)BMP_GetPixels(BMP_WIN_GetBmp(gfx->windows[OPTION_WINDOW_TITLE])), 0x600);
     str = MSGDATA_AllocString(msgBank, 0);
     x = BMP_WIN_GetWidth(gfx->windows[OPTION_WINDOW_TITLE]) * 4;
-    x -= GF_FONT_MeasureWidestLine(str, font, 0) >> 1;
+    x -= PRINTSYS_MeasureWidestLine(str, font, 0) >> 1;
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(gfx->windows[OPTION_WINDOW_TITLE]), x, 4, str, font, 0x3dc1);
     window = gfx->windows[OPTION_WINDOW_TITLE];
     BMP_WIN_TransferChars(window);
@@ -861,7 +861,7 @@ void OPTION_MENU_InitSprites(OptionMenuSprites *sprites, const void *res, u32 he
     sprites->actors[OPTION_ACTOR_CURSOR] = CLACT_CreateActor(sprites->unit, sprites->subCharRes, sprites->plttRes, sprites->subCellRes, &param, 0, heapId);
     CLACT_SetActorPaletteOffset(sprites->actors[OPTION_ACTOR_CURSOR], 6, 1);
     if (GFL_NET_GetRunState())
-        GFL_NET_RestartWithDefaultTimeout(1, heapId);
+        GFL_NET_RefreshWmIconAtTopRight(1, heapId);
 }
 
 void OPTION_MENU_ExitSprites(OptionMenuSprites *sprites)

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "FIELD_3DBG_HandleCGearInput",
+   "name": "FIELD_SUBSCREEN_HandleCGearInput",
    "address": "0x021A1138",
    "kind": "game",
    "region": "ov021",

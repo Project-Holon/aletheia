@@ -18,16 +18,19 @@ struct RTCDate {
 };
 
 /* Trainer status record, 0x20 bytes (layout of config.c). */
+#ifndef MYSTATUS_STRUCT_DEFINED
+#define MYSTATUS_STRUCT_DEFINED
 struct MyStatus {
     u16 name[8];
     u32 id;
     u32 profile_id;
+    u8  nation;
+    u8  area;
     u8  language;
-    u8  version;
-    u8  gender;
-    u8  avatar_id;
-    u8  outfit;
-    u8  outfit_variant;
+    u8  rom_code;
+    u8  trainer_view;
+    u8  sex;
 };
+#endif
 
 #endif

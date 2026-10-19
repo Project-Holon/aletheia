@@ -34,7 +34,7 @@
  *   POKE_TOOL_GetBoxValue 0x02017E88 thumb
  *   WORDSET_SetSlotMonNicknameAlt 0x0201EF14 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
- *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
+ *   PRINTSYS_MeasureWidestLine 0x0201D304 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   BMP_OAM_SetEnabled 0x02025774 thumb
  *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
@@ -60,7 +60,7 @@
  *   CLACT_CreateRenderer 0x0204B034 arm
  *   CLACT_SetRendererCulling 0x0204B0F4 arm
  *   CLACT_SetUnitRenderer 0x0204B258 arm
- *   MYSTATUS_GetOutfitVariant 0x02008550 thumb
+ *   MYSTATUS_GetSex 0x02008550 thumb
  *   POKEGRA_OpenTrainerHandle 0x0202DA04 thumb
  *   POKEGRA_RegisterTrainerCgr 0x0202DA48 thumb
  *   POKEGRA_RegisterTrainerPalette 0x0202DA18 thumb
@@ -123,7 +123,7 @@ extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *,u32);
 extern u32 POKE_TOOL_GetBoxValue(void *,u32,u32);
 extern void WORDSET_SetSlotMonNicknameAlt(struct WordSet *,u32,void *);
 extern void WORDSET_CopyTaggedText(struct WordSet *,void *,void *);
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *,u32,u32);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *,u32,u32);
 extern void WORDSET_SetSlotNumber(struct WordSet *,u32,u32,u32,u32,u32);
 extern void BMP_OAM_SetEnabled(u8 *,u32);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *,u32,void *);
@@ -141,7 +141,7 @@ extern u32 GFL_USE_GetRandom(u32);
 extern struct Obj *CLACT_CreateRenderer(u8 *inits, u32 count, u32 heap);
 extern void CLACT_SetRendererCulling(struct Actor *renderer, int enable);
 extern void CLACT_SetUnitRenderer(struct Bank *,void *);
-extern u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetSex(const struct Sub0200852CObj *obj);
 extern int POKEGRA_OpenTrainerHandle(int);
 extern u32 POKEGRA_RegisterTrainerCgr(u32,u32,u32,u32);
 extern s32 POKEGRA_RegisterTrainerPalette(u32 a, u32 b, u32 c, u32 d, u16 e);
@@ -238,7 +238,7 @@ void HALL_OF_FAME_PrintMonInfo(HallOfFameWork *work)
     HALL_OF_FAME_PrintToPlate(work, 1, work->fontMain, work->strBuf, 8, 0);
     STRBUF_Delete((struct U16Vec *)str);
     str = MSGDATA_AllocString(work->msgData, 2);
-    width = GF_FONT_MeasureWidestLine(str, (u32)work->fontMain, 0);
+    width = PRINTSYS_MeasureWidestLine(str, (u32)work->fontMain, 0);
     HALL_OF_FAME_PrintToPlate(work, 1, work->fontMain, str, 112, 0);
     STRBUF_Delete((struct U16Vec *)str);
     str = MSGDATA_AllocString(work->msgData, 3);
@@ -270,7 +270,7 @@ void HALL_OF_FAME_CreateTrainerPlates(HallOfFameWork *work)
     BMP_OAM_SetEnabled(work->plates[2].oam, 0);
     BMP_Clear(work->plates[2].bmp, 0);
     str = MSGDATA_AllocString(work->msgData, 4);
-    width = GF_FONT_MeasureWidestLine(str, (u32)work->fontMain, 0);
+    width = PRINTSYS_MeasureWidestLine(str, (u32)work->fontMain, 0);
     HALL_OF_FAME_PrintToPlate(work, 2, work->fontMain, str, (256 - width) / 2, 0);
     STRBUF_Delete((struct U16Vec *)str);
     plate = &work->plates[3];
@@ -397,7 +397,7 @@ void HALL_OF_FAME_CreateTrainerSceneObjects(HallOfFameWork *work)
     work->cellAnimIds[5] = CLACT_RegisterCellAnim(handle, 27, 33, HOF_HEAP_ID);
     ARC_TOOL_DeleteHandle(handle);
     trainerGender = 1;
-    if (!MYSTATUS_GetOutfitVariant(work->args->myStatus))
+    if (!MYSTATUS_GetSex(work->args->myStatus))
         trainerGender = 0;
     handle = (u8 *)POKEGRA_OpenTrainerHandle(0x808d);
     work->charIds[3] = POKEGRA_RegisterTrainerCgr((u32)handle, trainerGender, 0, HOF_HEAP_ID);

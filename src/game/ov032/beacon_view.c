@@ -17,7 +17,7 @@
  *   PALANM_SetAutoTransfer  0x02021EE4  thumb
  *   GAME_BEACON_ACCESSOR_TableRingGet  0x02165AC4  thumb  ov010
  *   GAME_BEACON_ACCESSOR_TableGetRingIndex  0x021659F0  thumb  ov010
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
  *   GAME_BEACON_ACCESSOR_IsDistributionAction  0x02165C10  thumb  ov010
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
@@ -31,7 +31,7 @@
  *   GAME_BEACON_ACCESSOR_TablePop  0x021658D4  thumb  ov010
  *   GAME_BEACON_ACCESSOR_IsInfoInvalid  0x02165B5C  thumb  ov010
  *   GAME_BEACON_ACCESSOR_TableRingAdd  0x02165A10  thumb  ov010
- *   BEACON_IncrementThanksCount  0x0200C1E0  thumb
+ *   MISC_IncrementThanksCount  0x0200C1E0  thumb
  *   PALANM_BlendChannel  0x02021FD8  thumb
  *   FLD_VREQ_SetSubBlendAlpha  0x021D3294  thumb  ov021
  *   PRINTSYS_QUE_SetLimitTick 0x0201C4DC thumb
@@ -97,7 +97,7 @@
  *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   GAME_BEACON_ACCESSOR_RegisterRecordWords 0x02165FCC thumb ov010
  *   GAME_BEACON_SEARCH_SetPresetEvent 0x02165374 thumb ov010
- *   BEACON_IncrementGreetCount 0x0200C1C8 thumb
+ *   MISC_IncrementGreetCount 0x0200C1C8 thumb
  *   STRBUF_Copy 0x02045838 arm
  *   GAME_BEACON_ACCESSOR_GetDistributionSerial 0x02165EBC thumb ov010
  *   GAME_BEACON_ACCESSOR_GetInfoVersion 0x02165D20 thumb ov010
@@ -151,12 +151,12 @@
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAME_DATA_GetWifiList  0x0201283C  thumb
  *   GAME_DATA_GetMyItem  0x0201292C  thumb
- *   BEACON_GetFromSave  0x0200C0E8  thumb
- *   BEACON_GetThanksCount  0x0200C1DC  thumb
+ *   MISC_GetFromSave  0x0200C0E8  thumb
+ *   MISC_GetThanksCount  0x0200C1DC  thumb
  *   SYSTEM_DATA_GetMyStatus  0x02008730  thumb
  *   MYSTATUS_GetId  0x02008530  thumb
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
- *   MYSTATUS_GetOutfit  0x02008554  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
+ *   MYSTATUS_GetTrainerView  0x02008554  thumb
  *   GAME_BEACON_ACCESSOR_AllocTable  0x02165B2C  thumb  ov010
  *   GAME_BEACON_ACCESSOR_AllocInfo  0x02165B10  thumb  ov010
  *   GPOWER_LoadPowerTable  0x02010F7C  thumb
@@ -359,7 +359,7 @@ struct Param {
 extern void PALANM_SetAutoTransfer(struct PalAnmSlot *o, int v);
 extern int GAME_BEACON_ACCESSOR_TableRingGet(struct Queue *q, struct BeaconRecord *out, u16 *tag, int delta);
 extern int GAME_BEACON_ACCESSOR_TableGetRingIndex(u8 *q, int delta);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern int GAME_BEACON_ACCESSOR_IsDistributionAction(u8 *p);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
@@ -373,7 +373,7 @@ extern u8 GPOWER_GetActiveIdOfSameType(int,u8 *);
 extern int GAME_BEACON_ACCESSOR_TablePop(struct Queue *q, struct BeaconRecord *out, u16 *tag);
 extern int GAME_BEACON_ACCESSOR_IsInfoInvalid(struct BeaconRecord *r);
 extern int GAME_BEACON_ACCESSOR_TableRingAdd(struct Queue *q, struct BeaconRecord *rec, u16 tag, int *flag);
-extern u32 BEACON_IncrementThanksCount(struct Blk34 *p);
+extern u32 MISC_IncrementThanksCount(struct Blk34 *p);
 extern void PALANM_BlendChannel(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 extern void FLD_VREQ_SetSubBlendAlpha(u32 p, u32 a, u32 b, u32 c, u32 d);
 extern void PRINTSYS_QUE_SetLimitTick(struct PrintSys *p, u32 lo, u32 hi);
@@ -430,7 +430,7 @@ extern u32 FX_Div(u32 a, u32 b);
 extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 extern void GAME_BEACON_ACCESSOR_RegisterRecordWords(int a, int b, u16 c);
 extern void GAME_BEACON_SEARCH_SetPresetEvent(unsigned a0);
-extern u32 BEACON_IncrementGreetCount(struct Blk34 *p);
+extern u32 MISC_IncrementGreetCount(struct Blk34 *p);
 extern void STRBUF_Copy(struct U16Vec *dst, struct U16Vec *src);
 extern u16 GAME_BEACON_ACCESSOR_GetDistributionSerial(struct BeaconRecord *r);
 extern u8 GAME_BEACON_ACCESSOR_GetInfoVersion(struct BeaconRecord *r);
@@ -482,12 +482,12 @@ extern u8 INTRUDE_GetMonolithLevel(struct Rec1B0 *p);
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
-extern void *BEACON_GetFromSave(void *sys);
-extern u32 BEACON_GetThanksCount(struct Blk34 *p);
+extern void *MISC_GetFromSave(void *sys);
+extern u32 MISC_GetThanksCount(struct Blk34 *p);
 extern struct Sub0200852CObj *SYSTEM_DATA_GetMyStatus(void *sys);
 extern u32 MYSTATUS_GetId(const struct Sub0200852CObj *obj);
-extern u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
-extern u8 MYSTATUS_GetOutfit(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetSex(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetTrainerView(const struct Sub0200852CObj *obj);
 extern u8 *GAME_BEACON_ACCESSOR_AllocTable(u32 heap);
 extern u8 *GAME_BEACON_ACCESSOR_AllocInfo(u32 heap);
 extern void *GPOWER_LoadPowerTable(u32 heap);
@@ -748,7 +748,7 @@ void BEACON_VIEW_InitList(BeaconViewWork *work)
     BEACON_VIEW_UpdateCountActorAnims(work);
     if (work->powerId == 0x30)
         BEACON_VIEW_SetActorAnim((void *)(*(int *)&work->actors[0]), 3);
-    GFL_NET_RestartWithDefaultTimeout(0, work->uiHeapId);
+    GFL_NET_RefreshWmIconAtTopRight(0, work->uiHeapId);
 }
 
 
@@ -923,7 +923,7 @@ int BEACON_VIEW_LoadNextRecord(BeaconViewWork *work)
         work->currentEntry = BEACON_VIEW_GetEntry(work, work->currentId);
     } else {
         work->currentEntry = 0;
-        work->playTime = BEACON_IncrementThanksCount((struct Blk34 *)(work->playerBlock));
+        work->playTime = MISC_IncrementThanksCount((struct Blk34 *)(work->playerBlock));
     }
     if (work->currentEntry != 0 && work->currentEntry->busy != 0)
         work->step = 0;
@@ -2572,7 +2572,7 @@ int BEACON_VIEW_HandleRecordAction(BeaconViewWork *work, int x, int flag)
     case 0x32:
         return BEACON_VIEW_HandlePowerRecord(work, (void *)x, 1);
     case 0x18:
-        GAME_BEACON_SEARCH_SetPresetEvent(BEACON_IncrementGreetCount((struct Blk34 *)(work->playerBlock)));
+        GAME_BEACON_SEARCH_SetPresetEvent(MISC_IncrementGreetCount((struct Blk34 *)(work->playerBlock)));
         break;
     }
     BEACON_VIEW_ShowRecordMessage(work, (BeaconRecord *)x);
@@ -3727,12 +3727,12 @@ void BEACON_VIEW_InitWorkFromSave(BeaconViewWork *work)
     *(u32 *)&work->playerProfile = GAMESYSTEM_GetGameComm((const struct Ctx *)(*(u32 *)&work->fieldSystem));
     *(u32 *)&work->optionData = GAME_DATA_GetWifiList((const struct BigObj *)(work->saveInfo));
     work->messageArchive = (u32)GAME_DATA_GetMyItem((const struct BigObj *)(work->saveInfo));
-    *(u32 *)&work->playerBlock = (u32)BEACON_GetFromSave((void *)sv);
-    work->playTime = BEACON_GetThanksCount((struct Blk34 *)(*(u32 *)&work->playerBlock));
+    *(u32 *)&work->playerBlock = (u32)MISC_GetFromSave((void *)sv);
+    work->playTime = MISC_GetThanksCount((struct Blk34 *)(*(u32 *)&work->playerBlock));
     s2 = (u32)SYSTEM_DATA_GetMyStatus((void *)sv);
     work->profileId = (u16)MYSTATUS_GetId((const struct Sub0200852CObj *)s2);
-    work->gender = MYSTATUS_GetOutfitVariant((const struct Sub0200852CObj *)s2);
-    work->languageId = MYSTATUS_GetOutfit((const struct Sub0200852CObj *)s2);
+    work->gender = MYSTATUS_GetSex((const struct Sub0200852CObj *)s2);
+    work->languageId = MYSTATUS_GetTrainerView((const struct Sub0200852CObj *)s2);
     work->styleId = 0x15;
     *(u32 *)&work->receiveQueue = (u32)GAME_BEACON_ACCESSOR_AllocTable(work->mainHeapId);
     *(u32 *)&work->recordBuffer = (u32)GAME_BEACON_ACCESSOR_AllocInfo(work->mainHeapId);

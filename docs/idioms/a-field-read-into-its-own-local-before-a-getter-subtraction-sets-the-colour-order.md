@@ -1,5 +1,8 @@
 # A field read into its own local before a getter subtraction sets the colour order
 
+summary: Reading the field into its own block local before `lo - getter()` swaps the two callee-
+saved colours. The one-expression form calls the getter first and is worse.
+
 ## Shape
 
 Everything matches except two long-lived values in each other's callee-saved registers. One of them

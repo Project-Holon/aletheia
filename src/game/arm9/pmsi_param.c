@@ -39,7 +39,7 @@
  *   data_0209F734  0x0209F734  data
  *   PMS_WORD_SplitWordId  0x020248D8  thumb
  *   PMS_WORD_GetSaveData  0x02024988  thumb
- *   GF_FONT_CountControlTag  0x0201D478  thumb
+ *   PRINTSYS_CountControlTag  0x0201D478  thumb
  */
 #include "pms_types.h"
 
@@ -104,7 +104,7 @@ extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MSGDATA_Delete(struct Rec *rec);
 extern struct MsgBank *MSGDATA_CreateFromArchive(int resident, int arcId, u32 fileId, u16 heapId);
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern u32 GF_FONT_CountControlTag(void *s);
+extern u32 PRINTSYS_CountControlTag(void *s);
 struct PmsiParam *PMSI_PARAM_Create(u32 inputMode, u32 unused, void *initialSentence, u32 optionFlag, void *saveControl, u32 heapId);
 void PMSI_PARAM_Delete(void *obj);
 void PMSI_PARAM_SetWord(struct PmsiParam *obj, u16 word);
@@ -621,7 +621,7 @@ u32 PMSI_PARAM_GetWordCount(u32 sentenceType, u32 sentenceId, u16 heapId)
     u32 length;
 
     MSGDATA_Delete((struct Rec *)bank);
-    length = GF_FONT_CountControlTag(message);
+    length = PRINTSYS_CountControlTag(message);
     STRBUF_Delete((struct U16Vec *)message);
 
     return length;

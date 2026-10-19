@@ -1,5 +1,5 @@
 /*
- * function: CLACT_SetOamOffsets
+ * function: CLACT_SetPaletteBaseOffsets
  * address:  0x0204BA7C
  * packet:   pkt_0204B954
  * region:   arm9
@@ -29,8 +29,8 @@
  * it.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/CLACT_SetOamOffsets.c \
- *       --func CLACT_SetOamOffsets --addr 0x0204BA7C --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/CLACT_SetPaletteBaseOffsets.c \
+ *       --func CLACT_SetPaletteBaseOffsets --addr 0x0204BA7C --cc 1.1p1 --arm
  */
 
 #include "../include/G_Mgr.h"
@@ -43,7 +43,7 @@ extern struct Mgr *g_ClactSystem;
 
 extern int NNSi_G2dGetVramHandleEx(char *p, int i);
 
-void CLACT_SetOamOffsets(u32 set, u16 bias, u32 v)
+void CLACT_SetPaletteBaseOffsets(u32 set, u16 bias, u32 v)
 {
     g_ClactSystem->unk_f0 = (u32)NNSi_G2dGetVramHandleEx((char *)set, (u32)1) >> 5;
     g_ClactSystem->unk_f2 = (u32)NNSi_G2dGetVramHandleEx((char *)set, (u32)2) >> 5;

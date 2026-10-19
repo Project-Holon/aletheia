@@ -28,7 +28,7 @@
  *   MYITEM_SAVEDATA_AddItem 0x02007E50 thumb
  *   GPOWER_ApplyPrizeMoney  0x0201119C  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   BEACON_GetMoney  0x0200C274  thumb
+ *   MISC_GetMoney  0x0200C274  thumb
  *   BTL_CALC_CalcDefeatMoneyLoss  0x021D7FF8  thumb  ov093
  *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
  *   BTL_MAIN_GetFieldSituation  0x021B8714  thumb  ov093
@@ -63,7 +63,7 @@
  *   GFL_HEAP_Free  0x020307B0  arm
  *   MYSTATUS_Create  0x0200846C  thumb
  *   MYSTATUS_Copy  0x02008494  thumb
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   MYSTATUS_CreateNameStrbuf  0x02008510  thumb
  *   PMSI_PARAM_ClearSentence  0x0202428C  thumb
  *   STRBUF_Clone  0x02045874  arm
@@ -139,7 +139,7 @@
  *   BTL_DEADREC_GetCount 0x0689D174 thumb ov095
  *   BTL_MAIN_GetClientSide  0x021B8BC4  thumb  ov093
  *   BTL_POSPOKE_GetEmptyPosList 0x0689D558 thumb ov095
- *   BTL_FIELD_GetStaticSlotObject  0x021EF948  thumb  ov093
+ *   BTL_FIELD_IsStaticSlotInUse  0x021EF948  thumb  ov093
  *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
  *   HAND_TOKUSEI_EnableAbilityHandlers  0x021D8548  thumb  ov093
  *   HAND_ITEM_EnablePokeFactors  0x021DCFB4  thumb  ov093
@@ -225,7 +225,7 @@
  *   BTL_POKEPARAM_GetMovePPChecked 0x021D5584 thumb ov093
  *   BTL_POKEPARAM_GetLastSelectedMoveId 0x021D67B8 thumb ov093
  *   BTL_POKEPARAM_GetLastUsedMoveId 0x021D67A8 thumb ov093
- *   BTL_FIELD_DrawStaticSlotLine 0x021EF91C thumb ov093
+ *   BTL_FIELD_IsMoveSealedByStaticSlot 0x021EF91C thumb ov093
  *   BTL_CALC_RollPercent 0x021D7AF0 thumb ov093
  *   BTL_POKEPARAM_TickConfusionTurn  0x021D61A8  thumb  ov093
  *   BTL_POKEPARAM_TickSleepTurn  0x021D6130  thumb  ov093
@@ -280,7 +280,7 @@
  *   BTL_FIELD_SetCountdown 0x021EF8A4 thumb ov093
  *   BTL_FIELD_RegisterStaticSlot  0x021EF8C8  thumb  ov093
  *   BTL_SICKCONT_GetPosition  0x021E8A98  thumb  ov093
- *   BTL_FIELD_SetStaticSlotValue  0x021EF8F8  thumb  ov093
+ *   BTL_FIELD_AddStaticSlotHolder  0x021EF8F8  thumb  ov093
  *   BTL_ID_IsAbilitySkillSwapBlocked 0x0689C954 thumb ov095
  *   BTL_POKEPARAM_SetAbility 0x021D66D0 thumb ov093
  *   HAND_TOKUSEI_SwapAbilityHandlers 0x021D8564 thumb ov093
@@ -302,7 +302,7 @@
  *   BTL_CALC_PackPokeIds 0x021D806C thumb ov093
  *   BTL_SICK_BuildDamageMessage 0x0689B8CC thumb ov095
  *   HAND_SIDE_TickTurns 0x06898D54 thumb ov095
- *   BTL_FIELD_QueryStaticSlotC 0x021EF934 thumb ov093
+ *   BTL_FIELD_TickStaticSlots 0x021EF934 thumb ov093
  *   BTL_SERVER_FLOW_OnFieldEffectExpired 0x021C4C40 thumb ov093
  *   BTL_FIELD_TickCountdown 0x021EF8B8 thumb ov093
  *   BTL_CALC_GetWeatherDamage 0x021D7BD4 thumb ov093
@@ -314,7 +314,7 @@
  *   HAND_ITEM_DisablePokeFactors 0x021DCFA4 thumb ov093
  *   HAND_WAZA_RemoveAllMoveHandlers 0x021E0434 thumb ov093
  *   BTL_POKEPARAM_CureSickBySource 0x021D6264 thumb ov093
- *   BTL_FIELD_QueryStaticSlotB 0x021EF90C thumb ov093
+ *   BTL_FIELD_RemoveHolderFromStaticSlots 0x021EF90C thumb ov093
  *   BTL_MAIN_CheckEventOverlayAllowed 0x021B85EC thumb ov093
  *   BTL_DEADREC_IsReported 0x0689D1A0 thumb ov095
  *   BTL_DEADREC_GetPokeId 0x0689D184 thumb ov095
@@ -371,7 +371,7 @@
  *   BTL_POKEPARAM_ClearTurnFlag 0x021D6440 thumb ov093
  *   HAND_SIDE_AddFactor 0x06898C10 thumb ov095
  *   HAND_SIDE_Remove 0x06898D10 thumb ov095
- *   BTL_FIELD_QueryStaticSlotA 0x021EF8E8 thumb ov093
+ *   BTL_FIELD_RemoveStaticSlot 0x021EF8E8 thumb ov093
  *   HAND_POS_AddFactor 0x068981F0 thumb ov095
  *   BTL_ID_IsMultitypeAbility 0x0689C974 thumb ov095
  *   BTL_POKEPARAM_ClearConsumedItem 0x021D6738 thumb ov093
@@ -389,7 +389,7 @@
  *   BTL_CALC_CalcDefeatExp 0x021D7EB4 thumb ov093
  *   BTL_POKEPARAM_GetFoughtCount 0x021D6E04 thumb ov093
  *   BTL_POKEPARAM_GetFoughtPokeId 0x021D6E0C thumb ov093
- *   MYSTATUS_GetGender 0x02008564 thumb arm9
+ *   MYSTATUS_GetLanguage 0x02008564 thumb arm9
  *   GPOWER_ApplyExpRate 0x02011168 thumb arm9
  *   _ffltu         0x0209BE04  arm
  *   _fadd          0x0209C95C  arm
@@ -423,7 +423,7 @@
  *   BTL_DEADREC_GetLastPokeId 0x0689D1D4 thumb ov095
  *   gHandExRecordSizeTable     0x021EFE9C  data  a4
  *   gBtlEmptyString 0x021F3A84 data
- *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GF_PANIC_Fail 0x02034714 arm
  *   gBtlServerCmdLayouts  0x021EFF14  data  ov093
  *   gBtlServerCmdArgBuffer  0x021F3B44  data  ov093
  *   gBtlClientFileName 0x021F3A88 data a4
@@ -479,7 +479,7 @@
  *   BTL_CLIENT_DisableCounter 0x021D3FD0 thumb ov093
  *   BTLV_CORE_BuildAndPrintMessage 0x021EA614 thumb ov093
  *   BTLV_CORE_WaitMessage 0x021EA710 thumb ov093
- *   BTL_CALC_ActionSetNone 0x021D8434 thumb ov093
+ *   BTL_ACTION_SetNone 0x021D8434 thumb ov093
  *   BTLV_CORE_StartAutoSelectNotice 0x021EAE44 thumb ov093
  *   BTLV_CORE_PollAutoSelectNotice 0x021EAE54 thumb ov093
  *   BTL_POKEPARAM_GetMoveId 0x021D54C0 thumb ov093
@@ -537,7 +537,7 @@
  *   BTL_ACTION_SetEscape 0x021D8414 thumb ov093
  *   BTLV_CORE_StartWaitMessage  0x021EA7FC  thumb  ov093
  *   BTLV_CORE_UpdateWaitMessage  0x021EA814  thumb  ov093
- *   BTL_CALC_ActionSetForcedSkip  0x021D8444  thumb  ov093
+ *   BTL_ACTION_SetForcedSkip  0x021D8444  thumb  ov093
  *   BTL_POKEPARAM_GetLastMoveSlot  0x021D67C4  thumb  ov093
  *   BTL_POKEPARAM_HasMove 0x021D5750 thumb ov093
  *   BTL_FIELD_IsSlotInUse 0x021EFCE4 thumb ov093
@@ -736,7 +736,7 @@ struct Party;
 struct PartyMon;
 struct Rec534;
 struct PerapVoice;
-struct PlayerStatus;
+struct MyStatus;
 struct U16Vec;
 struct Rec8;
 struct Buf;
@@ -1493,7 +1493,7 @@ extern int BTL_POKEPARAM_TestContFlag(struct UtilWork *p, u32 n);
 extern int BTL_DEADREC_GetCount(BtlDeadRec *, int);
 extern unsigned char BTL_MAIN_GetClientSide(int unused, unsigned int b);
 extern u8 BTL_POSPOKE_GetEmptyPosList(BtlPosPoke *, u8, u8 *);
-extern int BTL_FIELD_GetStaticSlotObject(int k);
+extern int BTL_FIELD_IsStaticSlotInUse(int k);
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern void HAND_TOKUSEI_EnableAbilityHandlers(void *p);
 extern void HAND_ITEM_EnablePokeFactors(void *p);
@@ -1577,7 +1577,7 @@ extern u32 BTL_POKEPARAM_GetMovePPChecked(struct UtilWork *p, u32 i);
 extern u16 BTL_POKEPARAM_GetLastSelectedMoveId(u8 *);
 extern u16 BTL_POKEPARAM_GetLastUsedMoveId(struct QL *p);
 extern u32 WAZA_TOOL_IsDamaging(void *p);
-extern int BTL_FIELD_DrawStaticSlotLine(void *, u8 *, u16);
+extern int BTL_FIELD_IsMoveSealedByStaticSlot(void *, u8 *, u16);
 extern int BTL_CALC_RollPercent(u32);
 extern int BTL_POKEPARAM_TickConfusionTurn(struct UtilSlots *p);
 extern int BTL_POKEPARAM_TickSleepTurn(struct UtilSlots *p);
@@ -1624,7 +1624,7 @@ extern int BTL_FIELD_GetCountdownCount(void);
 extern void BTL_FIELD_SetCountdown(u32, u32);
 extern int BTL_FIELD_RegisterStaticSlot(int a, union Slot c);
 extern int BTL_SICKCONT_GetPosition(union Slot c);
-extern void BTL_FIELD_SetStaticSlotValue(int a, int r);
+extern void BTL_FIELD_AddStaticSlotHolder(int a, int r);
 extern int BTL_ID_IsAbilitySkillSwapBlocked(u16);
 extern void BTL_POKEPARAM_SetAbility(struct QJ *p, u32 v);
 extern void HAND_TOKUSEI_SwapAbilityHandlers(int a, int b);
@@ -1645,7 +1645,7 @@ extern int BTL_POKEPARAM_TickSickCont(u8 *p, u32 k, union Slot *out, int *change
 extern u32 BTL_CALC_PackPokeIds(const u8 *p);
 extern void BTL_SICK_BuildDamageMessage(u8 *, u8 *, u32);
 extern void HAND_SIDE_TickTurns(void (*cb)(u8, u32, u32), u32 arg);
-extern int BTL_FIELD_QueryStaticSlotC(int, int);
+extern int BTL_FIELD_TickStaticSlots(int, int);
 extern void BTL_SERVER_FLOW_OnFieldEffectExpired(int, void *);
 extern u32 BTL_FIELD_TickCountdown(void);
 extern int BTL_CALC_GetWeatherDamage(void *, int);
@@ -1657,7 +1657,7 @@ extern void HAND_TOKUSEI_DisableAbilityHandlers(void *p);
 extern void HAND_ITEM_DisablePokeFactors(void *p);
 extern void HAND_WAZA_RemoveAllMoveHandlers(u8 *);
 extern void BTL_POKEPARAM_CureSickBySource(struct UtilSlots *p, int v);
-extern int BTL_FIELD_QueryStaticSlotB(int a);
+extern int BTL_FIELD_RemoveHolderFromStaticSlots(int a);
 extern int BTL_MAIN_CheckEventOverlayAllowed(u32 **p);
 extern int BTL_DEADREC_IsReported(BtlDeadRec *, int, u8);
 extern int BTL_DEADREC_GetPokeId(BtlDeadRec *, int, u8);
@@ -1713,7 +1713,7 @@ extern void BTL_POKEPARAM_SetTypes(u8 *p, int n);
 extern void BTL_POKEPARAM_ClearTurnFlag(u8 *p, u32 n);
 extern void *HAND_SIDE_AddFactor(u8, int, BtlSlotKindWord);
 extern int HAND_SIDE_Remove(u32, u32);
-extern int BTL_FIELD_QueryStaticSlotA(int);
+extern int BTL_FIELD_RemoveStaticSlot(int);
 extern int HAND_POS_AddFactor(u32, u8, u8, const void *, u8);
 extern int BTL_ID_IsMultitypeAbility(u16);
 extern void BTL_POKEPARAM_ClearConsumedItem(u8 *);
@@ -1731,7 +1731,7 @@ extern u8 BTL_MAIN_GetEnemyLanePosFromWork(char **p, u32 v, int k);
 extern u32 BTL_CALC_CalcDefeatExp(void *a);
 extern unsigned char BTL_POKEPARAM_GetFoughtCount(unsigned char *p);
 extern u8 BTL_POKEPARAM_GetFoughtPokeId(u8 *p, u32 i);
-extern u8 MYSTATUS_GetGender(const struct PlayerStatus *obj);
+extern u8 MYSTATUS_GetLanguage(const struct MyStatus *obj);
 extern u32 GPOWER_ApplyExpRate(u32);
 extern int FX_Sqrt(int x);
 extern u32 BTL_POKEPARAM_GetMaxLevelExp(u8 *p);
@@ -3123,7 +3123,7 @@ void BTL_SERVER_FLOW_ProcRotation(BtlServerFlow *flow, int clientId, u8 memberIn
     if (BTL_POKEPARAM_IsFainted(outPoke) == 0)
         BTL_SERVER_FLOW_ProcPokeLeaveField(flow, outPoke, 1);
     if (BTL_POKEPARAM_IsFainted(inPoke) == 0) {
-        if (BTL_FIELD_GetStaticSlotObject(2) != 0) {
+        if (BTL_FIELD_IsStaticSlotInUse(2) != 0) {
             k = 0x20;
             if (BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)inPoke, k) != 0)
                 BTL_SERVER_FLOW_CureSick(flow, inPoke, k, 0);
@@ -5225,7 +5225,7 @@ int BTL_SERVER_FLOW_CheckMoveRestricted(BtlServerFlow *flow, u8 *pokeParam, u16 
     int k = 0;
     if (BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)pokeParam, 0xF) && (u32)WAZA_TOOL_GetFlag((void *)t, (int)0xC)) {
         k = 0xD;
-    } else if (BTL_FIELD_GetStaticSlotObject(2) && (u32)WAZA_TOOL_GetFlag((void *)t, (int)9)) {
+    } else if (BTL_FIELD_IsStaticSlotInUse(2) && (u32)WAZA_TOOL_GetFlag((void *)t, (int)9)) {
         k = 0x14;
     }
     if (k) {
@@ -7109,7 +7109,7 @@ int BTL_SERVER_FLOW_CheckMoveExecuteFail(BtlServerFlow *flow, u8 *attacker, u16 
         if (moveId == BTL_SICKCONT_GetValue(move)) { reason = 9; goto done; }
     }
     if (BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)attacker, 15) && (u32)WAZA_TOOL_GetFlag((void *)moveId, (int)12)) { reason = 13; goto done; }
-    if (BTL_FIELD_GetStaticSlotObject(2) && (u32)WAZA_TOOL_GetFlag((void *)moveId, (int)9)) { reason = 20; goto done; }
+    if (BTL_FIELD_IsStaticSlotInUse(2) && (u32)WAZA_TOOL_GetFlag((void *)moveId, (int)9)) { reason = 20; goto done; }
     if (moveId != 165) {
         if (BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)attacker, 23)) {
             u16 id = BTL_POKEPARAM_GetLastSelectedMoveId(attacker);
@@ -7117,7 +7117,7 @@ int BTL_SERVER_FLOW_CheckMoveExecuteFail(BtlServerFlow *flow, u8 *attacker, u16 
         }
         if (BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)attacker, 25) && moveId != BTL_POKEPARAM_GetLastUsedMoveId((struct QL *)attacker)) { reason = 17; goto done; }
         if (BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)attacker, 11) && WAZA_TOOL_IsDamaging((void *)moveId) == 0) { reason = 10; goto done; }
-        if (BTL_FIELD_GetStaticSlotObject(3) && BTL_FIELD_DrawStaticSlotLine(flow->pokeCon, attacker, moveId)) { reason = 12; goto done; }
+        if (BTL_FIELD_IsStaticSlotInUse(3) && BTL_FIELD_IsMoveSealedByStaticSlot(flow->pokeCon, attacker, moveId)) { reason = 12; goto done; }
     }
     if (BTL_SERVER_FLOW_CheckConfusionFail(flow, attacker)) { reason = 5; goto done; }
     if (mode == 1 && BTL_CALC_RollPercent(25)) { reason = 3; goto done; }
@@ -10880,7 +10880,7 @@ int BTL_SERVER_FLOW_TryRegisterFieldSlot(BtlServerFlow *flow, int slotKind, unio
     if (allowReplace) {
         r = BTL_SICKCONT_GetPosition(slot);
         if (r != 0x1f) {
-            BTL_FIELD_SetStaticSlotValue(slotKind, r);
+            BTL_FIELD_AddStaticSlotHolder(slotKind, r);
             BTL_SERVER_CMD_Push(flow->cmdQueue, 0x22, (u8)slotKind, r);
             return 1;
         }
@@ -11810,7 +11810,7 @@ void BTL_SERVER_FLOW_PushSideEffectExpireMessage(BtlServerFlow *flow, int kind, 
  */
 void BTL_SERVER_FLOW_ProcFieldEffectsExpire(BtlServerFlow *flow)
 {
-    BTL_FIELD_QueryStaticSlotC((int)BTL_SERVER_FLOW_OnFieldEffectExpired, (int)flow);
+    BTL_FIELD_TickStaticSlots((int)BTL_SERVER_FLOW_OnFieldEffectExpired, (int)flow);
     BTL_SERVER_CMD_Push(flow->cmdQueue, 47, 0);
 }
 
@@ -12108,7 +12108,7 @@ void BTL_SERVER_FLOW_ProcPokeLeaveField(BtlServerFlow *flow, u8 *poke, int disab
         BTL_POKEPARAM_CureSickBySource((struct UtilSlots *)cur, k);
         BTL_SERVER_CMD_Push(flow->cmdQueue, 0x2c, BTL_POKEPARAM_GetPokeId(cur), k);
     }
-    BTL_FIELD_QueryStaticSlotB(k);
+    BTL_FIELD_RemoveHolderFromStaticSlots(k);
     BTL_SERVER_CMD_Push(flow->cmdQueue, 0x23, k);
     if (!BTL_SERVER_FLOW_CheckShowdown(flow) && (u16)BTL_POKEPARAM_GetValue(poke, 0x11) == 0x7f)
         BTL_SERVER_FLOW_RecheckOpponentAbilityEffects(flow, poke);
@@ -14278,7 +14278,7 @@ int BTL_SERVER_FLOW_CalcTypeEffectiveness(BtlServerFlow *flow, u8 *attacker, u8 
 
 int BTL_SERVER_FLOW_IsPokeGrounded(BtlServerFlow *flow, u8 *poke, int checkFlying)
 {
-    if (BTL_FIELD_GetStaticSlotObject(2) == 0 && BTL_SERVER_FLOW_QueryPokeGroundedEvent(flow, poke, checkFlying) != 0)
+    if (BTL_FIELD_IsStaticSlotInUse(2) == 0 && BTL_SERVER_FLOW_QueryPokeGroundedEvent(flow, poke, checkFlying) != 0)
         return 1;
     return 0;
 }
@@ -16046,7 +16046,7 @@ int BTL_SERVER_FLOW_IsPokeGroundedById(BtlServerFlow *flow, int pokeId) { return
 
 
 
-int BTL_SERVER_FLOW_CanUseHeldItem(BtlServerFlow *flow, int pokeId) { void *m; m=BTL_SIDE_GetPokeByIdThunk((char *)flow->pokeCon,pokeId); if(BTL_POKEPARAM_GetValue(m,17)==103) return 0; if(BTL_POKEPARAM_HasSick(m,19)) return 0; if(BTL_FIELD_GetStaticSlotObject(7)==0) return 1; return 0; }
+int BTL_SERVER_FLOW_CanUseHeldItem(BtlServerFlow *flow, int pokeId) { void *m; m=BTL_SIDE_GetPokeByIdThunk((char *)flow->pokeCon,pokeId); if(BTL_POKEPARAM_GetValue(m,17)==103) return 0; if(BTL_POKEPARAM_HasSick(m,19)) return 0; if(BTL_FIELD_IsStaticSlotInUse(7)==0) return 1; return 0; }
 
 
 
@@ -17950,7 +17950,7 @@ u8 BTL_SERVER_FLOW_ExecCmdRegisterFieldSlot(BtlServerFlow *flow, u8 *cmd)
 
 u8 BTL_SERVER_FLOW_ExecCmdExpireFieldEffect(BtlServerFlow *flow, u8 *cmd)
 {
-    if (BTL_FIELD_QueryStaticSlotA(*(int *)(cmd + 4))) {
+    if (BTL_FIELD_RemoveStaticSlot(*(int *)(cmd + 4))) {
         BTL_SERVER_FLOW_PushFieldEffectExpireMessage(flow, *(int *)(cmd + 4));
         return 1;
     }
@@ -19454,7 +19454,7 @@ void BTL_SERVER_FLOW_CalcPartyExpShares(BtlServerFlow *flow, u8 *party, u32 defe
       if (POKE_TOOL_IsOwnedByPlayer(mon, (u32)playerStatus) == 0)
       {
         save = (void *) POKE_TOOL_GetPartyValue(mon, 12, 0);
-        if ((u32) save != MYSTATUS_GetGender((const struct PlayerStatus *)playerStatus))
+        if ((u32) save != MYSTATUS_GetLanguage((const struct MyStatus *)playerStatus))
           k = 0x1b33;
         else
           k = 0x1800;

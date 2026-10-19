@@ -21,7 +21,7 @@
  *   STA_ACT_AUDIENCE_Create 0x021F9FEC thumb ov132
  *   STA_ACT_BUTTON_Create 0x021FA5B0 thumb ov132
  *   STA_ACT_SCRIPT_Create 0x021FAAF4 thumb ov132
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   d_021FDCA0 0x021FDCA0 data a1
  *   g_02FFFC3C 0x02FFFC3C data a4
  *   GFL_USE_CancelChangeAndStopBgm 0x02005D28 thumb
@@ -339,7 +339,7 @@ extern char *STA_ACT_BUTTON_Create(unsigned int,void *,char *);
 
 extern void *STA_ACT_SCRIPT_Create(unsigned int,void *);
 
-extern void GFL_NET_RestartWithDefaultTimeout(unsigned int,unsigned int);
+extern void GFL_NET_RefreshWmIconAtTopRight(unsigned int,unsigned int);
 
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 
@@ -877,7 +877,7 @@ u8 *STA_ACTING_Create(u8 *input, int heap)
     *(void **)(p+0xa4)=STA_ACT_BUTTON_Create(*(u16 *)p,p,*(char **)(*(u8 **)(p+0x30)+p[0xa]*4+4));
     *(void **)(p+0xb0)=STA_ACT_SCRIPT_Create(*(u16 *)p,p);
     STA_ACTING_CreateAnimHandle((char *)p);
-    GFL_NET_RestartWithDefaultTimeout(0,*(u16 *)p);
+    GFL_NET_RefreshWmIconAtTopRight(0,*(u16 *)p);
     STA_ACTING_SetBaseProgram(p,0);
     *(unsigned int *)(p+0x1dc)=*(unsigned int *)((*(u8 ***)(p+0x30))[6]+0x14);
     *(unsigned int *)(p+0x1e0)=*(unsigned int *)((*(u8 ***)(p+0x30))[6]+0x18);

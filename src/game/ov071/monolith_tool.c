@@ -26,7 +26,7 @@
  *   PROCSYS_Create  0x02031324  arm
  *   PRINTSYS_CTRL_Init  0x02028470  thumb
  *   GFL_USE_AddMainTask  0x020056A0  thumb
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   WIPE_SYS_Start  0x0202208C  thumb
@@ -131,7 +131,7 @@
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   BMP_OAM_UploadChars 0x020257D0 thumb
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
- *   SAVEDATA_PanicFail  0x02034714  arm
+ *   GF_PANIC_Fail  0x02034714  arm
  *   PALANM_GetColor  0x02021F3C  thumb
  *   PALANM_BlendChannel  0x02021FD8  thumb
  *   d_021BABE0     0x021BABE0  data  a1
@@ -192,7 +192,7 @@
  *   UI_GetInputMode  0x020355C4  arm
  *   MYSTATUS_GetName  0x020084F4  thumb
  *   STRBUF_SetStringN  0x02045994  arm
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  *   d_021BA928 0x021BA928 data a4
  *   d_021BA948     0x021BA948  data  a4
@@ -408,7 +408,7 @@ extern void *GPOWER_LoadPowerTable(u32 heap);
 extern void *PROCSYS_Create(int heapId);
 extern void PRINTSYS_CTRL_Init(u8 *p, u32 v);
 extern u32 GFL_USE_AddMainTask(void (*cb)(void), void *arg, int pri);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
 extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
@@ -482,7 +482,7 @@ extern void CLACT_SetActorDrawEnable(struct Actor *, u32);
 extern void BMP_OAM_SetEnabled(u8 *, u32);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *, void *);
 extern void BMP_OAM_UploadChars(struct BmpOamGrid *);
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 extern u16 PALANM_GetColor(int base, int idx, int which, u16 pos);
 extern void PALANM_BlendChannel(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
@@ -551,7 +551,7 @@ extern void CLACT_AddActorSurfacePos(struct Actor *p, const struct Vec2 *delta, 
 extern u8 UI_GetInputMode(void);
 extern const void *MYSTATUS_GetName(const void *p);
 extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
-extern u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetSex(const struct Sub0200852CObj *obj);
 extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
 extern unsigned int KEY_GetRepeat(void);
 extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
@@ -852,7 +852,7 @@ int MONOLITH_TOOL_Init(struct Proc *ctx, int unused, MonolithToolSetup *setup)
     work->subProcSys = (int)PROCSYS_Create(0x61);
     PRINTSYS_CTRL_Init(work->scratchList, 6);
     work->vblankTask = GFL_USE_AddMainTask((void (*)(void))MONOLITH_TOOL_VBlankTask, work, 0xA);
-    GFL_NET_RestartWithDefaultTimeout(0, 0x61);
+    GFL_NET_RefreshWmIconAtTopRight(0, 0x61);
     work->procArgs.setup = setup;
     work->procArgs.work = work;
     work->procArgs.param = &work->selection;
@@ -1491,7 +1491,7 @@ void MONOLITH_TOOL_UpdateHighlight(MonolithToolProcArgs *args, int slot)
     int level;
     highlight = &args->highlight[slot];
     if (slot >= 4) {
-        SAVEDATA_PanicFail(d_021BABE0, (int)0, d_021BABE0);
+        GF_PANIC_Fail(d_021BABE0, (int)0, d_021BABE0);
     }
     firstColor = MONOLITH_TOOL_GetHighlightColorA((int)slot);
     srcColor = MONOLITH_TOOL_GetHighlightColorB((int)slot);
@@ -2212,7 +2212,7 @@ void MONOLITH_TOOL_SLOT_SELECT_FreeMsgWindow(MonolithToolSlotSelect *screen)
 void MONOLITH_TOOL_SLOT_SELECT_ShowMessage(MonolithToolSlotSelect *screen, MonolithToolWork *work, int msgId)
 {
     if (screen->msgPrinter != 0)
-        SAVEDATA_PanicFail(d_021BABF4, 0, d_021BABF4);
+        GF_PANIC_Fail(d_021BABF4, 0, d_021BABF4);
     GF_FONT_SetTextColor(1, 2, 15);
     screen->msgString = MSGDATA_AllocString((void *)work->msgBank[3], msgId);
     screen->msgPrinter = PRINTSYS_PrintStream(screen->msgWindow, 0, 0, screen->msgString, (int)work->font, MSG_SPEED_GetWait(), (void *)work->taskList, 10, 0x61, 15);
@@ -2235,7 +2235,7 @@ void MONOLITH_TOOL_SLOT_SELECT_HideMessage(MonolithToolSlotSelect *screen)
     void *window;
     window = BMP_WIN_GetBmp(screen->msgWindow);
     if (screen->msgPrinter == 0)
-        SAVEDATA_PanicFail(d_021BABF4, 0, d_021BABF4);
+        GF_PANIC_Fail(d_021BABF4, 0, d_021BABF4);
     PRINTSYS_PrintStreamDelete(screen->msgPrinter);
     screen->msgPrinter = 0;
     STRBUF_Delete(screen->msgString);
@@ -2432,7 +2432,7 @@ int MONOLITH_TOOL_TITLE_Init(void *ctx, int *state, MonolithToolProcArgs *args)
         species = (int)MONOLITH_TOOL_GetTitleSpecies(args);
         name = STRBUF_Create(8, 0x61);
         STRBUF_SetStringN(name, MYSTATUS_GetName((const void *)species), 8);
-        WORDSET_SetSlotTag((struct WordSet *)args->work->wordSet, 0, name, MYSTATUS_GetOutfitVariant((const struct Sub0200852CObj *)species), 1, 2);
+        WORDSET_SetSlotTag((struct WordSet *)args->work->wordSet, 0, name, MYSTATUS_GetSex((const struct Sub0200852CObj *)species), 1, 2);
         STRBUF_Delete(name);
         MONOLITH_TOOL_CreateLabel(args->work, &screen->nameLabel, 0, 0x80, 0xc, 0x1e, 2, 0, (void *)args->work->wordSet);
         MONOLITH_TOOL_TITLE_CreateSlotIcons(screen, args);
@@ -2854,7 +2854,7 @@ void MONOLITH_TOOL_MENU_FreeWindow(MonolithToolMenu *screen)
 void MONOLITH_TOOL_MENU_ShowMessage(MonolithToolMenu *screen, MonolithToolWork *work, unsigned msgId)
 {
     if (screen->messageBox != 0) {
-        SAVEDATA_PanicFail(d_021BABF8, 0, d_021BABF8);
+        GF_PANIC_Fail(d_021BABF8, 0, d_021BABF8);
     }
     GF_FONT_SetTextColor(1, 2, 0xf);
     screen->messageText = MSGDATA_AllocString(work->msgBank[3], msgId);
@@ -2885,7 +2885,7 @@ void MONOLITH_TOOL_MENU_HideMessage(MonolithToolMenu *screen)
     unsigned r = (unsigned)BMP_WIN_GetBmp(screen->window);
 
     if (screen->messageBox == 0) {
-        SAVEDATA_PanicFail(d_021BABF8, 0, d_021BABF8);
+        GF_PANIC_Fail(d_021BABF8, 0, d_021BABF8);
     }
     PRINTSYS_PrintStreamDelete(screen->messageBox);
     screen->messageBox = 0;
@@ -3604,7 +3604,7 @@ selected:
         break;
     case 6:
         if (MONOLITH_TOOL_LIST_IsMessageDone(args->work, work) == 1) {
-            if (work->yesNoMenu != 0) SAVEDATA_PanicFail((const char *)d_021BABFC, 0, (const char *)d_021BABFC);
+            if (work->yesNoMenu != 0) GF_PANIC_Fail((const char *)d_021BABFC, 0, (const char *)d_021BABFC);
             work->yesNoMenu = MONOLITH_TOOL_OpenTaskMenu((int *)args->work, work->taskMenuUnit, 0x61);
             ++*state;
         }
@@ -3830,7 +3830,7 @@ void MONOLITH_TOOL_LIST_DrawTitle(MonolithToolProcArgs *args, MonolithListWork *
 void MONOLITH_TOOL_LIST_ShowMessage(MonolithListWork *work, MonolithToolWork *toolWork, u32 msgId)
 {
     if (work->messagePrinter != 0)
-        SAVEDATA_PanicFail(d_021BABFC, 0, d_021BABFC);
+        GF_PANIC_Fail(d_021BABFC, 0, d_021BABFC);
     GF_FONT_SetTextColor(1, 2, 0xf);
     work->messageText = MSGDATA_AllocString(toolWork->msgBank[3], msgId);
     work->messagePrinter = PRINTSYS_PrintStream(work->messageWindow, 0, 0, work->messageText, (u32)toolWork->font, MSG_SPEED_GetWait(), toolWork->taskList, 0xa, 0x61, 0xf);
@@ -3847,7 +3847,7 @@ void MONOLITH_TOOL_LIST_ShowFormattedMessage(MonolithListWork *work, MonolithToo
     struct Strbuf *format;
 
     if (work->messagePrinter != 0)
-        SAVEDATA_PanicFail(d_021BABFC, 0, d_021BABFC);
+        GF_PANIC_Fail(d_021BABFC, 0, d_021BABFC);
     GF_FONT_SetTextColor(1, 2, 0xf);
     format = MSGDATA_AllocString(toolWork->msgBank[3], msgId);
     work->messageText = STRBUF_Create(0x100, 0x61);
@@ -3879,7 +3879,7 @@ void MONOLITH_TOOL_LIST_HideMessage(MonolithListWork *work)
 
     bitmap = BMP_WIN_GetBmp(work->messageWindow);
     if (work->messagePrinter == 0)
-        SAVEDATA_PanicFail(d_021BABFC, 0, d_021BABFC);
+        GF_PANIC_Fail(d_021BABFC, 0, d_021BABFC);
     PRINTSYS_PrintStreamDelete(work->messagePrinter);
     work->messagePrinter = 0;
     STRBUF_Delete(work->messageText);

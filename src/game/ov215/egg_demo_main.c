@@ -18,7 +18,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   FADE_Start 0x0204E720 arm
  *   PROCSYS_Create 0x02031324 arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   PROCSYS_Delete 0x0203133C arm
  *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
@@ -46,7 +46,7 @@
  *   EGG_DEMO_MENU_GetDialogResult 0x021F6324 thumb ov215
  *   UI_SetInputMode 0x020355D8 arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   BEACON_GetBlock 0x0200C0F0 thumb
+ *   MISC_GetBlock 0x0200C0F0 thumb
  *   NAMEIN_SETUP_CreateMonArgs 0x0216C028 thumb ov010
  *   PROCSYS_Push 0x02031348 arm
  *   gNameInProcData 0x021F5580 data ov194 a4
@@ -145,7 +145,7 @@ extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,u32,u32);
 extern void FADE_Start(u32,int,int,int);
 extern void *PROCSYS_Create(int heapId);
-extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 extern void PROCSYS_Delete(struct S020314B8 *),PROCSYS_FreeProcWork(struct Proc *),GFL_HEAP_DeleteChecked(u32);
 extern u32 KEY_GetTrg(void),PROCSYS_Main(void *);
 extern int FADE_IsActive(void);
@@ -163,7 +163,7 @@ extern int EGG_DEMO_VIEW_IsFadeDone(char *),EGG_DEMO_VIEW_IsFinished(char *);
 extern void EGG_DEMO_MENU_SetText(char *,char *,u32);
 extern int EGG_DEMO_MENU_WaitText(void *,char *),EGG_DEMO_MAIN_IsBgm2Loading(void *,char *),EGG_DEMO_MENU_CreateDialog(int,char *),EGG_DEMO_MENU_GetDialogResult(int,char *);
 extern void EGG_DEMO_MAIN_StopBgm(void *,char *),UI_SetInputMode(u8);
-extern void *GAME_DATA_GetSaveControl(struct Big *),*BEACON_GetBlock(void *);
+extern void *GAME_DATA_GetSaveControl(struct Big *),*MISC_GetBlock(void *);
 extern int *NAMEIN_SETUP_CreateMonArgs(u16,int,int,int,int);
 extern void PROCSYS_Push(void *,u32,u32,u32);
 extern int NAMEIN_SETUP_IsCanceled(int *);
@@ -272,7 +272,7 @@ int EGG_DEMO_MAIN_Create(void *owner,int unused,u32 args)
     EGG_DEMO_MAIN_StartFadeOutBgm(args,work);
     FADE_Start(3,16,16,0);
     ((struct EggDemoWork *)work)->proc=(unsigned int)PROCSYS_Create(((struct EggDemoWork *)work)->heapId);
-    GFL_NET_RestartWithDefaultTimeout(0,((struct EggDemoWork *)work)->heapId);
+    GFL_NET_RefreshWmIconAtTopRight(0,((struct EggDemoWork *)work)->heapId);
     return 1;
 }
 
@@ -328,7 +328,7 @@ int EGG_DEMO_MAIN_Update(u32 unused0,u32 unused1,u32 *args,u32 *work)
         else if(active==1){((struct EggDemoWork *)work)->state=14;FADE_Start(3,0,16,0);UI_SetInputMode(0);}break;
     case 14:
         if(!FADE_IsActive()){
-            block=BEACON_GetBlock(GAME_DATA_GetSaveControl((struct Big *)args[0]));
+            block=MISC_GetBlock(GAME_DATA_GetSaveControl((struct Big *)args[0]));
             EGG_DEMO_MAIN_DeleteResources((u32)args,(char *)work);((struct EggDemoWork *)work)->state=15;
             child=NAMEIN_SETUP_CreateMonArgs(((struct EggDemoWork *)work)->heapId,(int)args[1],10,0,(int)block);((struct EggDemoWork *)work)->nameChild=child;
             PROCSYS_Push((void *)((struct EggDemoWork *)work)->proc,(u32)&abs_id_C2,(u32)&gNameInProcData,(u32)child);

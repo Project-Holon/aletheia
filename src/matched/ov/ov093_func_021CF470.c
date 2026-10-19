@@ -11,9 +11,9 @@
  *
  * symbols:
  *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
- *   BTL_CALC_ActionSetNone  0x021D8434  thumb  ov093
+ *   BTL_ACTION_SetNone  0x021D8434  thumb  ov093
  *   BTL_POKEPARAM_TestContFlag  0x021D5BDC  thumb  ov093
- *   BTL_CALC_ActionSetForcedSkip  0x021D8444  thumb  ov093
+ *   BTL_ACTION_SetForcedSkip  0x021D8444  thumb  ov093
  *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
  *   BTL_POKEPARAM_GetSickContRaw  0x021D6314  thumb  ov093
  *   BTL_SICKCONT_GetValue  0x021E8B80  thumb  ov093
@@ -27,12 +27,12 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int BTL_POKEPARAM_IsFainted(void *q);
 struct Unk021D82D0;
-extern void BTL_CALC_ActionSetNone(u32 *p);
+extern void BTL_ACTION_SetNone(u32 *p);
 struct QL;
 struct Unk021D62A8;
 struct UtilWork;
 extern int BTL_POKEPARAM_TestContFlag(struct UtilWork *p, u32 n);
-extern void BTL_CALC_ActionSetForcedSkip(u32 *p);
+extern void BTL_ACTION_SetForcedSkip(u32 *p);
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 typedef struct { u32 v; } Word;
 extern Word BTL_POKEPARAM_GetSickContRaw(void *q, int i);
@@ -50,13 +50,13 @@ u32 BTL_CLIENT_IsActionForced(u8 *p, void *q, u8 *o)
     Word t;
     if (BTL_POKEPARAM_IsFainted(q) != 0) {
         if (o != 0) {
-            BTL_CALC_ActionSetNone((u32 *)o);
+            BTL_ACTION_SetNone((u32 *)o);
         }
         return 1;
     }
     if (BTL_POKEPARAM_TestContFlag(q, 0xc) != 0) {
         if (o != 0) {
-            BTL_CALC_ActionSetForcedSkip((u32 *)o);
+            BTL_ACTION_SetForcedSkip((u32 *)o);
         }
         return 1;
     }

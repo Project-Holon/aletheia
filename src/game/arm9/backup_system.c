@@ -20,7 +20,7 @@
  *   str_020A7848   0x020A7848  data
  *   svsys     0x02146994  data
  *   SAVEDATA_GetTotalSize  0x02033BF8  arm
- *   SAVEDATA_PanicFail  0x02034714  arm
+ *   GF_PANIC_Fail  0x02034714  arm
  *   str_020A7858   0x020A7858  data
  *   str_020A7868   0x020A7868  data
  *   UI_SetKeepAwakeFlagsGlobal  0x02034F84  arm
@@ -138,7 +138,7 @@ extern void *GFL_HEAP_Alloc(u16 heap_id, u32 size, int align, const char *file,
                          u16 line);
 extern void MIi_CpuClear32(u32 value, void *dst, u32 size);
 extern void MATHi_CRC16InitTable(struct MATHCRC16Table *table, u16 poly);
-extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *expr);
+extern void GF_PANIC_Fail(const char *file, u32 line, const char *expr);
 extern u32 GFL_HEAP_Free(void *mem);
 extern void  UI_SetKeepAwakeFlagsGlobal(u32 flag);
 extern void UI_ClearKeepAwakeFlagsGlobal(u32 flag);
@@ -285,7 +285,7 @@ BackupSaveData *BACKUP_SYSTEM_CreateCore(const SaveDataParam *param, u32 heap_id
     SaveDataTable *table;
 
     if (svsys == 0)
-        SAVEDATA_PanicFail(str_020A7848, 0x10c, (const char *)str_020A7858);
+        GF_PANIC_Fail(str_020A7848, 0x10c, (const char *)str_020A7858);
 
     sv = GFL_HEAP_Alloc(heap_id, 0x154, 1, str_020A7848, 0x10e);
     sv->area_addr[0] = param->main_addr;
@@ -294,7 +294,7 @@ BackupSaveData *BACKUP_SYSTEM_CreateCore(const SaveDataParam *param, u32 heap_id
     sv->magic_id = param->magic_id;
 
     if (svwk != 0 && svwk_size < sv->savearea_size)
-        SAVEDATA_PanicFail(str_020A7848, 0x154 - 0x3e, (const char *)str_020A7868);
+        GF_PANIC_Fail(str_020A7848, 0x154 - 0x3e, (const char *)str_020A7868);
 
     sv->crc_table_size = param->table_num << 1;
     if ((param->table_num & 1) != 0)
@@ -1554,7 +1554,7 @@ int BACKUP_SYSTEM_SaveSeqMain(BackupSaveData *sv, u32 *pass_done)
                     BACKUP_SYSTEM_SetBlockArea(sv, sv->write_block, 1);
                 } else if (result == 0) {
                     if (yield != 1)
-                        SAVEDATA_PanicFail(str_020A7848, 0x72A, str_020A7888);
+                        GF_PANIC_Fail(str_020A7848, 0x72A, str_020A7888);
                     return 0;
                 } else {
                     goto next;

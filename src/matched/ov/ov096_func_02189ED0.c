@@ -1,5 +1,5 @@
 /*
- * function: TR_AI_CmdLoadPokeValue17
+ * function: TR_AI_CmdLoadCurrentAbility
  * address: 0x02189ED0
  * packet: pkt_ov096_02189ED0
  * region: ov096
@@ -23,7 +23,7 @@ extern u32 VM_GetU32(struct Cursor *p);
 extern u8 TR_AI_GetPosition(u8 *p, int k);
 extern u8 *TR_AI_GetPoke(u8 *p, u8 i);
 extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
-int TR_AI_CmdLoadPokeValue17(struct Cursor *a, u8 *b)
+int TR_AI_CmdLoadCurrentAbility(struct Cursor *a, u8 *b)
 {
     int t; u8 s; t = VM_GetU32(a); s = TR_AI_GetPosition(b,t); ((struct Obj13667 *)b)->f38 = BTL_POKEPARAM_GetValue(TR_AI_GetPoke(b,s),17); return ((struct Obj13667 *)b)->fC4;
 }

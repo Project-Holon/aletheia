@@ -103,7 +103,7 @@
  *   WAZA_TOOL_GetMaxPP 0x0201C158 thumb
  *   POKE_TOOL_GetGender  0x02017F00  thumb
  *   BTL_TYPEPAIR_Make  0x021E8CE0  thumb  ov093
- *   BTL_FIELD_GetStaticSlotObject 0x021EF948 thumb ov093
+ *   BTL_FIELD_IsStaticSlotInUse 0x021EF948 thumb ov093
  *   BTL_CALC_ApplyStatStage  0x021D78E4  thumb  ov093
  *   gSemiInvulnerableContFlags  0x021F040C  data  ov093
  *   _dflt   0x0209B750  arm
@@ -162,7 +162,7 @@
  *   HAND_WAZA_IsKeptOnSuspend  0x021E03E8  thumb  ov093
  *   gBtlEventVarStack 0x021F3ECC data a4
  *   gBtlEventEmptyString  0x021F3AB4  data
- *   SAVEDATA_PanicFail  0x02034714  arm
+ *   GF_PANIC_Fail  0x02034714  arm
  *   _ll_mul        0x0209C054  arm
  *   d_021F6360 0x021F6360 data a4
  *   gBtlCalcFileName 0x021F3AB8 data a1
@@ -194,7 +194,7 @@ extern void POKE_TOOL_SetPartyValue(PokemonParam *mon, u32 paramId, u32 value);
 extern u32 WAZA_TOOL_GetMaxPP(u32 moveId, u32 ppUps);
 extern u8 POKE_TOOL_GetGender(PokemonParam *mon);
 extern u16 BTL_TYPEPAIR_Make(u32 type1, u32 type2);
-extern int BTL_FIELD_GetStaticSlotObject(int);
+extern int BTL_FIELD_IsStaticSlotInUse(int);
 extern unsigned short BTL_CALC_ApplyStatStage(unsigned short stat, int stage);
 extern const char gBtlPokeparamFileName[];
 extern const u32 gSemiInvulnerableContFlags[4];
@@ -891,8 +891,8 @@ PokemonParam *BTL_POKEPARAM_GetDisplayMon(BtlPokeParam *pp) { if (pp->illusionMo
 int BTL_POKEPARAM_RemapStatId(BtlPokeParam *pp, int valueId)
 {
     switch(valueId) {
-    case 9: if (BTL_FIELD_GetStaticSlotObject(6)) valueId = 11; break;
-    case 11: if (BTL_FIELD_GetStaticSlotObject(6)) valueId = 9; break;
+    case 9: if (BTL_FIELD_IsStaticSlotInUse(6)) valueId = 11; break;
+    case 11: if (BTL_FIELD_IsStaticSlotInUse(6)) valueId = 9; break;
     }
     return valueId;
 }

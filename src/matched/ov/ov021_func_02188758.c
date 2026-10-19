@@ -23,7 +23,7 @@
  *   FIELD_PLACE_NAME_Main  0x021BC484  thumb  ov021
  *   FIELDSKILL_MAPEFF_Update  0x021C7FAC  thumb  ov021
  *   FIELD_PLAYER_SaveToPlayerWork  0x021A2EB8  thumb  ov021
- *   ZONEDATA_IsZone1A6  0x02013CC8  thumb
+ *   ZONEDATA_IsUnionRoom  0x02013CC8  thumb
  *   ZONEDATA_IsZone96Pair  0x02013CE0  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   UNION_MAIN_UpdateField  0x021737A4  thumb  ov012
@@ -72,7 +72,7 @@ extern void FIELD_CLOCK_Update(int a);
 extern void FIELD_PLACE_NAME_Main(u32 a);
 extern void FIELDSKILL_MAPEFF_Update(u32 a);
 extern void FIELD_PLAYER_SaveToPlayerWork(u32 *a);
-extern u32 ZONEDATA_IsZone1A6(u32 id);
+extern u32 ZONEDATA_IsUnionRoom(u32 id);
 extern u32 ZONEDATA_IsZone96Pair(u32 id);
 struct Ctx;
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *a);
@@ -113,7 +113,7 @@ int FIELDMAP_SeqUpdate(void *a, u8 *p)
         FIELD_PLACE_NAME_Main(((struct Obj00518 *)p)->f30);
     FIELDSKILL_MAPEFF_Update(((struct Obj00518 *)p)->fA0);
     FIELD_PLAYER_SaveToPlayerWork((u32 *)(((struct Obj00518 *)p)->f8C));
-    if (ZONEDATA_IsZone1A6(((struct Obj00518 *)p)->fD0) == 1 || ZONEDATA_IsZone96Pair(((struct Obj00518 *)p)->fD0) == 1)
+    if (ZONEDATA_IsUnionRoom(((struct Obj00518 *)p)->fD0) == 1 || ZONEDATA_IsZone96Pair(((struct Obj00518 *)p)->fD0) == 1)
         UNION_MAIN_UpdateField((void *)((void *)GAMESYSTEM_GetGameComm(a)), (int)p);
     else
         INTRUDE_FIELD_Update((u8 *)p, ((struct Obj00518 *)p)->f4, ((struct Obj00518 *)p)->f8C);

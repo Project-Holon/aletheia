@@ -44,7 +44,7 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   SCRCMD_FLDMMDL_UnpauseAllMmdls  0x021B1BE8  thumb
  *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
- *   FIELD_SOUND_SYSTEM_GetQueueDepth  0x020288C4  thumb
+ *   FIELD_SOUND_SYSTEM_GetPendingBgmStackDepth  0x020288C4  thumb
  *   FIELD_SOUND_SYSTEM_StartPopAllTask  0x0202972C  thumb
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  *   SCRIPT_WORK_CreateCheckTask 0x02159204 thumb ov010
@@ -123,7 +123,7 @@ extern void FIELD_STATUS_SetProcAction(struct MoveModelSys *sys, void *action);
 extern u8 FIELD_STATUS_GetContinueFlag(struct MoveModelSys *sys);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct FieldSoundSystem *GAME_DATA_GetBgmInfo(const struct GameData *gameData);
-extern s32 FIELD_SOUND_SYSTEM_GetQueueDepth(struct FieldSoundSystem *soundSystem);
+extern s32 FIELD_SOUND_SYSTEM_GetPendingBgmStackDepth(struct FieldSoundSystem *soundSystem);
 extern struct ScriptTask *FIELD_SOUND_SYSTEM_StartPopAllTask(struct GameSystem *gameSystem, u16 mode);
 extern u32 KEY_GetTrg(void);
 extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
@@ -595,7 +595,7 @@ int SCRIPT_WORK_CmdPopAllBgm(ScriptVm *vm, ScrcmdWork *cmdWork)
     struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
     int popped = 0;
     SCRCMD_FLDMMDL_UnpauseAllMmdls(cmdWork);
-    if (FIELD_SOUND_SYSTEM_GetQueueDepth(GAME_DATA_GetBgmInfo(gameData))) {
+    if (FIELD_SOUND_SYSTEM_GetPendingBgmStackDepth(GAME_DATA_GetBgmInfo(gameData))) {
         SCRIPT_SYS_CallEvent(scriptWork, FIELD_SOUND_SYSTEM_StartPopAllTask(gameSystem, popped));
         popped = 1;
     }

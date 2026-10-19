@@ -14,7 +14,7 @@
  *   SAVE_CONTROL_LoadExtraSave 0x0200725C thumb
  *   func_020073D8 0x020073D8 thumb
  *   func_020071F0 0x020071F0 thumb
- *   MISC_SAVEDATA_AppendPartyRecord 0x0200EBD0 thumb
+ *   DENDOU_SAVEDATA_AppendRecord 0x0200EBD0 thumb
  *   GAME_DATA_PartSaveStart 0x02012E4C thumb
  */
 #include "../include/Obj08386.h"
@@ -33,7 +33,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern u32 SAVE_CONTROL_LoadExtraSave(struct Ctrl *ctrl, u32 id, u8 heap);
 extern void *func_020073D8(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
 extern int func_020071F0(struct Sub020071E4Ctrl *ctrl);
-extern void MISC_SAVEDATA_AppendPartyRecord(struct Obj *obj, void *a1, void *date, u32 heap);
+extern void DENDOU_SAVEDATA_AppendRecord(struct Obj *obj, void *a1, void *date, u32 heap);
 extern void GAME_DATA_PartSaveStart(u8 *p, u32 a);
 void SAVE_SCREEN_AppendPartyRecord(char *p)
 {
@@ -45,7 +45,7 @@ void SAVE_SCREEN_AppendPartyRecord(char *p)
     SAVE_CONTROL_LoadExtraSave(save,8,4);
     record=func_020073D8(save,8,0);
     if(func_020071F0(save)==0) {
-        MISC_SAVEDATA_AppendPartyRecord(record,object,date,4);
+        DENDOU_SAVEDATA_AppendRecord(record,object,date,4);
         GAME_DATA_PartSaveStart(((struct Obj08386 *)p)->f4,8);
         ((struct Obj08386 *)p)->f38=1;
     }

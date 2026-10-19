@@ -10,8 +10,8 @@
  * status:   EXACT
  * symbols:
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
- *   GAME_DATA_GetExitMode  0x02012B58  thumb
- *   ZONEDATA_IsZone117  0x02013D5C  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
+ *   ZONEDATA_IsEntralink  0x02013D5C  thumb
  *   INTRUDE_FIELD_FindZonePos  0x0217BEA8  thumb  ov018
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
@@ -52,9 +52,9 @@ typedef struct {
 struct BigObj;
 struct Ctx;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
-extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+extern u8 GAME_DATA_GetOwnNetId(const struct BigObj *p);
 typedef unsigned int   u32;
-extern u32 ZONEDATA_IsZone117(u32 id);
+extern u32 ZONEDATA_IsEntralink(u32 id);
 extern Mon *INTRUDE_FIELD_FindZonePos(int a0);
 struct Obj;
 struct Vec2;
@@ -75,9 +75,9 @@ void INTRUDE_SUBDISP_UpdateMyPlayerActor(Obj *p, int a1, u16 id)
     int v;
     int h;
 
-    idx = GAME_DATA_GetExitMode(GAMESYSTEM_GetGameData((const struct Ctx *)p->f00));
+    idx = GAME_DATA_GetOwnNetId(GAMESYSTEM_GetGameData((const struct Ctx *)p->f00));
     sel = 0xFF;
-    if (ZONEDATA_IsZone117(id) == 1) {
+    if (ZONEDATA_IsEntralink(id) == 1) {
         pos[0] = d_021836A4[idx][0] + 0x80;
         pos[1] = d_021836A4[idx][1] + 0x4C;
         sel = 8;

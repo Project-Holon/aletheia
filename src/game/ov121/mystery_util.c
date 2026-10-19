@@ -83,8 +83,8 @@
  *   MYSTERY_UTIL_BlendPaletteRange 0x021DAB50 thumb ov121
  *   MYSTERY_UTIL_CopyBmpList 0x021DA4A8 thumb ov121
  *   MYSTERY_UTIL_TransferWindowList 0x021DA318 thumb ov121
- *   GF_FONT_MeasureWidestLine  0x0201D304  thumb  arm9
- *   GF_FONT_CountLines  0x0201D42C  thumb  arm9
+ *   PRINTSYS_MeasureWidestLine  0x0201D304  thumb  arm9
+ *   PRINTSYS_CountLines  0x0201D42C  thumb  arm9
  *   BMP_MENULIST_ResetCursorTile  0x02020CF8  thumb  arm9
  *   GFL_USE_GetMainTaskList  0x020056BC  thumb  arm9
  *   BMP_MENULIST_GetAttr  0x02020350  thumb  arm9
@@ -386,9 +386,9 @@ extern u16 BMP_GetWidth(const void *bmp);
 
 extern u16 BMP_GetHeight(const void *bmp);
 
-extern u32 GF_FONT_MeasureWidestLine(void *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(void *s, u32 a, u32 b);
 
-extern u32 GF_FONT_CountLines(void *s, void *font);
+extern u32 PRINTSYS_CountLines(void *s, void *font);
 
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 
@@ -730,20 +730,20 @@ void MYSTERY_UTIL_AlignText(u32 mode, const MysteryUtilTextPos *in, const void *
     case 1:
         x = (u32)BMP_GetWidth(bitmap) / 2;
         y = (u32)BMP_GetHeight(bitmap) / 2;
-        x -= GF_FONT_MeasureWidestLine(obj, a, 0) / 2;
-        y -= GF_FONT_CountLines(obj, (void *)a) / 2;
+        x -= PRINTSYS_MeasureWidestLine(obj, a, 0) / 2;
+        y -= PRINTSYS_CountLines(obj, (void *)a) / 2;
         out->x = x + in->x;
         out->y = y + in->y;
         return;
     case 2:
         y = (u32)BMP_GetHeight(bitmap) / 2;
-        y -= GF_FONT_CountLines(obj, (void *)a) / 2;
+        y -= PRINTSYS_CountLines(obj, (void *)a) / 2;
         out->x = in->x;
         out->y = y + in->y;
         return;
     case 3:
         x = BMP_GetWidth(bitmap);
-        x -= GF_FONT_MeasureWidestLine(obj, a, 0);
+        x -= PRINTSYS_MeasureWidestLine(obj, a, 0);
         if (x < 0) x = 0;
         out->x = x + in->x;
         out->y = in->y;
@@ -1286,14 +1286,14 @@ void MYSTERY_UTIL_BuildPaletteRow(char *p,int a,int *out)
     case 1:
         x=BMP_GetWidth((const struct Bmp *)((MysteryUtilActorPair *)p)->bmp)/2;
         y=BMP_GetHeight((const struct Bmp *)((MysteryUtilActorPair *)p)->bmp)/2;
-        x-=GF_FONT_MeasureWidestLine(((MysteryUtilActorPair *)p)->textBuf,a,0)/2;
-        y-=GF_FONT_CountLines(((MysteryUtilActorPair *)p)->textBuf,(void *)a)/2;
+        x-=PRINTSYS_MeasureWidestLine(((MysteryUtilActorPair *)p)->textBuf,a,0)/2;
+        y-=PRINTSYS_CountLines(((MysteryUtilActorPair *)p)->textBuf,(void *)a)/2;
         out[0]=x+((MysteryUtilActorPair *)p)->posX;
         out[1]=y+((MysteryUtilActorPair *)p)->posY;
         break;
     case 2:
         x=BMP_GetHeight((const struct Bmp *)((MysteryUtilActorPair *)p)->bmp)/2;
-        x-=GF_FONT_CountLines(((MysteryUtilActorPair *)p)->textBuf,(void *)a)/2;
+        x-=PRINTSYS_CountLines(((MysteryUtilActorPair *)p)->textBuf,(void *)a)/2;
         out[0]=((MysteryUtilActorPair *)p)->posX;
         out[1]=x+((MysteryUtilActorPair *)p)->posY;
         break;

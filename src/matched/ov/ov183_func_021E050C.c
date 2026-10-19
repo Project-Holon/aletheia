@@ -1,5 +1,5 @@
 /*
- * function: BR_CODEIN_CodeCreate2
+ * function: BR_CODEIN_ProfileScreenCreate
  * address: 0x021E050C
  * packet: pkt_ov183_021E050C
  * region: ov183
@@ -44,7 +44,7 @@ extern char *BR_CODEIN_ProfileCreate(const struct Source *src, u16 heap);
 extern u32 PRINTSYS_QUE_Create(void *p);
 extern void *BR_UTIL_CreateTextWin(int, void *, u16);
 extern void BR_UTIL_SetWindowText(char *p, char *q, void *text);
-int BR_CODEIN_CodeCreate2(void *task, int unused, char *q)
+int BR_CODEIN_ProfileScreenCreate(void *task, int unused, char *q)
 {
     struct Data *p;
     int entries[3];

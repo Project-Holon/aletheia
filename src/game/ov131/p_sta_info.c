@@ -67,7 +67,7 @@
  *   P_STATUS_PrintWordSetMsgToWin 0x021D6214 thumb ov131
  *   POKE_TOOL_IsBoxOwnedByPlayer  0x02018488  thumb  arm9
  *   WORDSET_Create  0x0201EC74  thumb  arm9
- *   GF_FONT_CountLine  0x0201D2C8  thumb  arm9
+ *   PRINTSYS_CountLine  0x0201D2C8  thumb  arm9
  *   SAVE_EVENT_CheckStage  0x0202F498  thumb  arm9
  *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
  */
@@ -171,7 +171,7 @@ extern int SAVE_EVENT_CheckStage(void *mon, int index);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u32 POKE_TOOL_IsBoxOwnedByPlayer(void *mon, void *trainer);
 extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
-extern u32 GF_FONT_CountLine(struct Strbuf *s);
+extern u32 PRINTSYS_CountLine(struct Strbuf *s);
 extern unsigned int PLACE_NAME_GetBank(unsigned int);
 extern unsigned int PLACE_NAME_GetIndex(unsigned int);
 void *P_STATUS_GetPokePara(PStatusWork *wk);
@@ -584,7 +584,7 @@ void P_STA_INFO_DrawMemo(PStatusWork *wk, PStaInfoWork *work, void *mon)
     WORDSET_CopyTaggedText(wordSet, infoStr, msgStr);
     PRINTSYS_PrintQueColor(wk->printQue, BMP_WIN_GetBmp(work->win[STA_INFO_WIN_MEMO]), (s16)1, (s16)(textY + 1), infoStr, wk->font, 0x440);
     WORDSET_Delete(wordSet);
-    textY += GF_FONT_CountLine(infoStr) << 4;
+    textY += PRINTSYS_CountLine(infoStr) << 4;
     STRBUF_Delete(eggPlaceStr);
     STRBUF_Delete(metPlaceStr);
     STRBUF_Delete(msgStr);

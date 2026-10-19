@@ -27,7 +27,7 @@
  *   GSYNC_STATE_DestroyHttpConnection 0x021D8F3C thumb ov123
  *   NHTTP_RAP_Create 0x021B9800 thumb ov114
  *   DWC_RAP_SetErrorCallback 0x02156DC4 thumb ov009
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   gGsyncStateAssertTag 0x021DABA4 data a1
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb  arm9
  *   WIPE_SYS_Start  0x0202208C  thumb  arm9
@@ -68,7 +68,7 @@ extern u8 *GSYNC_DISP_Init(u32);
 extern u8 *GSYNC_MESSAGE_InitSystem(u32,u32);
 extern void GSYNC_STATE_DestroyHttpConnection(char *);
 extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
-extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 int GSYNC_STATE_ProcInit(void *a,int b,char *q)
 {
     char *p;
@@ -119,6 +119,6 @@ int GSYNC_STATE_ProcInit(void *a,int b,char *q)
     ((struct Obj01059 *)p)->f14=GSYNC_DISP_Init(((struct Obj01059 *)p)->f0);
     ((struct Obj01059 *)p)->f18=GSYNC_MESSAGE_InitSystem(((struct Obj01059 *)p)->f0,39);
     WIPE_SYS_Start(0,1,1,0,6,1,((struct Obj01059 *)p)->f0);
-    GFL_NET_RestartWithDefaultTimeout(0,((struct Obj01059 *)p)->f0);
+    GFL_NET_RefreshWmIconAtTopRight(0,((struct Obj01059 *)p)->f0);
     return 1;
 }

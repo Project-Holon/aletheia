@@ -1,5 +1,5 @@
 /*
- * function: BTL_FIELD_QueryStaticSlotB
+ * function: BTL_FIELD_RemoveHolderFromStaticSlots
  * address:  0x021EF90C
  * packet:   pkt_ov093_021EF90C
  * region:   ov093
@@ -19,7 +19,7 @@
 extern struct Countdown gBtlFieldCountdown;
 extern int BTL_FIELD_RemoveHolderFromSlots(void *mem, int a);
 
-int BTL_FIELD_QueryStaticSlotB(int a)
+int BTL_FIELD_RemoveHolderFromStaticSlots(int a)
 {
     return BTL_FIELD_RemoveHolderFromSlots(&(*(char *)&gBtlFieldCountdown), a);
 }

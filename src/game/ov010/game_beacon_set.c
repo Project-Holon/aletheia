@@ -26,8 +26,8 @@
  *   GAME_BEACON_SetDetailsBattleBigFour   0x02027430  thumb
  *   GAME_BEACON_SEARCH_PresetEventTable      0x02171CA0  data  ov010  a1
  *   GAME_BEACON_CopyStrbufCodes  0x020270AC  thumb
- *   BEACON_GetBlock 0x0200C0F0 thumb
- *   BEACON_GetThanksMessage 0x0200C20C thumb
+ *   MISC_GetBlock 0x0200C0F0 thumb
+ *   MISC_GetThanksMessage 0x0200C20C thumb
  *   WORDSET_CopyString 0x0201F41C thumb
  *   STRBUF_ToChars  0x02045A38  arm
  */
@@ -59,9 +59,9 @@ extern void GAME_BEACON_SetDetailsBattleBigFour(GameBeaconInfo *info, u32 traine
 
 extern void GAME_BEACON_CopyStrbufCodes(const struct Strbuf *str, u16 *dest);
 
-extern struct MyStatus *BEACON_GetBlock(struct SaveControl *saveControl);
+extern struct MyStatus *MISC_GetBlock(struct SaveControl *saveControl);
 
-extern const u16 *BEACON_GetThanksMessage(const struct MyStatus *myStatus);
+extern const u16 *MISC_GetThanksMessage(const struct MyStatus *myStatus);
 
 extern void WORDSET_CopyString(const u16 *src, u16 *dest, u32 length);
 
@@ -743,7 +743,7 @@ void GAME_BEACON_SEARCH_SetThanks(struct GameData *gameData, u16 trainerId)
 
 void GAME_BEACON_SEARCH_SetInfoThanks(GameBeaconInfo *info, struct GameData *gameData, u16 trainerId)
 {
-    WORDSET_CopyString(BEACON_GetThanksMessage(BEACON_GetBlock(GAME_DATA_GetSaveControl(gameData))), info->actionData.text, 9);
+    WORDSET_CopyString(MISC_GetThanksMessage(MISC_GetBlock(GAME_DATA_GetSaveControl(gameData))), info->actionData.text, 9);
     info->action = 0x18;
     info->actionData.special.targetTrainerId = trainerId;
     GAME_BEACON_ResetDetails(info);

@@ -32,7 +32,7 @@
  *   FLD_EXP_OBJ_SetModelHidden  0x021BE4B4  thumb  ov021
  *   _s32_div_f  0x0209C0A4  arm
  *   GAME_DATA_GetIntrudeId  0x02012B80  thumb
- *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   GAME_DATA_GetEnterMode  0x02012B40  thumb
  *   GAME_DATA_GetLastBattleRecSlot  0x020127B8  thumb
  *   GAME_DATA_GetBattleRecSlot  0x020127AC  thumb
@@ -72,7 +72,7 @@ extern VecFx32 *FLD_EXP_OBJ_GetModelStatus(void *expObj, int unit, u16 model);
 extern void FLD_EXP_OBJ_SetModelCullDraw(void *expObj, int unit, int model, int visible);
 extern void FLD_EXP_OBJ_SetModelHidden(void *expObj, int unit, u16 model, int hidden);
 extern u8 GAME_DATA_GetIntrudeId(const struct GameData *gameData);
-extern u8 GAME_DATA_GetExitMode(const struct GameData *gameData);
+extern u8 GAME_DATA_GetOwnNetId(const struct GameData *gameData);
 extern u8 GAME_DATA_GetEnterMode(const struct GameData *gameData);
 extern void *GAME_DATA_GetLastBattleRecSlot(struct GameData *gameData);
 extern void *GAME_DATA_GetBattleRecSlot(struct GameData *gameData, u32 slot);
@@ -222,11 +222,11 @@ u8 FIELD_GIMMICK_GAUGE_EFFECT_ShowGauges(struct GameData *gameData, void *expObj
     VecFx32 *pos;
 
     intrudeId = GAME_DATA_GetIntrudeId(gameData);
-    column = intrudeId - GAME_DATA_GetExitMode(gameData);
+    column = intrudeId - GAME_DATA_GetOwnNetId(gameData);
     if (column < 0) {
         column += GAME_DATA_GetEnterMode(gameData);
     }
-    if (intrudeId == GAME_DATA_GetExitMode(gameData)) {
+    if (intrudeId == GAME_DATA_GetOwnNetId(gameData)) {
         record = GAME_DATA_GetLastBattleRecSlot(gameData);
     } else {
         record = GAME_DATA_GetBattleRecSlot(gameData, intrudeId);

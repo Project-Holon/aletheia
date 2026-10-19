@@ -17,7 +17,7 @@
  *   CLACT_SetActorBgPriority  0x0204B84C  arm
  *   func_020355C4  0x020355C4  arm
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   tbl_02203D38   0x02203D38  data  a1
  */
 
@@ -76,7 +76,7 @@ extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_SetActorBgPriority(void *o, int v);
 extern u8 func_020355C4(void);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 
 void WORLDTRADE_SEARCH_CreateActors(Obj *p)
 {
@@ -108,5 +108,5 @@ void WORLDTRADE_SEARCH_CreateActors(Obj *p)
     p->btn[1] = CLACT_CreateActor(p->res, (u32)p->set[0], (u32)p->set[1], (u32)p->set[2], &pos, 0, 0x48);
     CLACT_SetActorAnimSeq(p->btn[1], 0x27);
     CLACT_SetActorDrawEnable(p->btn[1], 0);
-    GFL_NET_RestartWithDefaultTimeout(0, 0x48);
+    GFL_NET_RefreshWmIconAtTopRight(0, 0x48);
 }

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "FIELD_PLAYER_CheckEncountAttr",
+   "name": "FIELD_PLAYER_CheckSurfStartAttr",
    "address": "0x021A3504",
    "kind": "game",
    "region": "ov021",

@@ -80,8 +80,8 @@ u32 SAVEDATA_GetBlockOffset(struct SaveDataTable *svdt, u32 gmdataid);
 u32 SAVEDATA_GetBlockSize(struct SaveDataTable *svdt, u32 gmdataid);
 u32 SAVEDATA_GetTableMax(struct SaveDataTable *svdt);
 u32 SAVEDATA_GetTotalSize(struct SaveDataTable *svdt);
-void SAVEDATA_PanicFail(const char *file, u32 line, const char *expr);
-void SAVEDATA_PanicFailPrintf(const char *file, u32 line, const char *fmt, ...);
+void GF_PANIC_Fail(const char *file, u32 line, const char *expr);
+void GF_PANIC_FailPrintf(const char *file, u32 line, const char *fmt, ...);
 
 extern const char savedata_File[];
 extern const u8 savedata_AssertIdInRange[];
@@ -145,7 +145,7 @@ u32 SAVEDATA_QueryBlockSize(struct SaveDataTable *svdt, u32 id)
     struct SaveBlockDef *table = svdt->table;
 
     if (id >= svdt->table_max) {
-        SAVEDATA_PanicFail(savedata_File, 0x85, (const char *)savedata_AssertIdInRange);
+        GF_PANIC_Fail(savedata_File, 0x85, (const char *)savedata_AssertIdInRange);
     }
     size_func = table[id].size_func;
     return (size_func() + 3) & ~3;
@@ -156,7 +156,7 @@ u32 SAVEDATA_QueryBlockSize(struct SaveDataTable *svdt, u32 id)
  * SAVEDATA_BuildLayout: lay out the save blocks (id check, per-block size
  * from SAVEDATA_QueryBlockSize, each block start rounded up to 0x100) and
  * assert the total fits the size limit.  Closed by two declaration facts:
- * SAVEDATA_PanicFailPrintf takes FIVE arguments (the total in r3 and the limit on the
+ * GF_PANIC_FailPrintf takes FIVE arguments (the total in r3 and the limit on the
  * stack, which is what the image's `sub sp, sp, #8` and `str r4, [sp]` are),
  * and the locals are declared table, i, table_max, layout, total (i before
  * table_max puts i in r5 and table_max in r6).  The `mov r1, r5` before the
@@ -180,7 +180,7 @@ void SAVEDATA_BuildLayout(struct SaveDataTable *svdt, u32 block_overhead)
 
     for (i = 0; i < table_max; i++) {
         if (i != table[i].gmdataID) {
-            SAVEDATA_PanicFail(savedata_File, 0x9e, (const char *)savedata_AssertTableId);
+            GF_PANIC_Fail(savedata_File, 0x9e, (const char *)savedata_AssertTableId);
         }
         layout[i].gmdataID = table[i].gmdataID;
         size = SAVEDATA_QueryBlockSize(svdt, i);
@@ -196,7 +196,7 @@ void SAVEDATA_BuildLayout(struct SaveDataTable *svdt, u32 block_overhead)
     }
     svdt->total_size = svdt->header_size + (total + svdt->footer_size);
     if (svdt->total_size > svdt->size_limit) {
-        SAVEDATA_PanicFailPrintf(savedata_File, 0xb3, (const char *)savedata_AssertTotalSize,
+        GF_PANIC_FailPrintf(savedata_File, 0xb3, (const char *)savedata_AssertTotalSize,
                       svdt->total_size, svdt->size_limit);
     }
 }
@@ -208,7 +208,7 @@ void SAVEDATA_BuildLayout(struct SaveDataTable *svdt, u32 block_overhead)
 u32 SAVEDATA_GetBlockOffset(struct SaveDataTable *svdt, u32 gmdataid)
 {
     if (gmdataid >= svdt->table_max) {
-        SAVEDATA_PanicFail(savedata_File, 0xc7, (const char *)savedata_AssertGmdataidInRange);
+        GF_PANIC_Fail(savedata_File, 0xc7, (const char *)savedata_AssertGmdataidInRange);
     }
     return svdt->layout[gmdataid].offset;
 }
@@ -220,7 +220,7 @@ u32 SAVEDATA_GetBlockOffset(struct SaveDataTable *svdt, u32 gmdataid)
 u32 SAVEDATA_GetBlockSize(struct SaveDataTable *svdt, u32 gmdataid)
 {
     if (gmdataid >= svdt->table_max) {
-        SAVEDATA_PanicFail(savedata_File, 0xd6, (const char *)savedata_AssertGmdataidInRange);
+        GF_PANIC_Fail(savedata_File, 0xd6, (const char *)savedata_AssertGmdataidInRange);
     }
     return svdt->layout[gmdataid].size;
 }

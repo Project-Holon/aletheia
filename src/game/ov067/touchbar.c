@@ -63,7 +63,7 @@
  *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   MSGDATA_AllocString  0x02045EC0  arm
- *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
+ *   PRINTSYS_MeasureWidestLine  0x0201D304  thumb
  *   STRBUF_Delete  0x02045808  arm
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
@@ -142,7 +142,7 @@ extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fi
 extern void *WORDSET_CreateDefault(u16 heapId);
 extern void *STRBUF_Create(u32 size, u16 heapId);
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *str, u32 fontId, u32 spacing);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *str, u32 fontId, u32 spacing);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 slot, u32 value, u32 digits, u32 padMode, u32 flags);
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, void *dst, void *src);
@@ -745,7 +745,7 @@ void TOUCHBAR_PrintYesNoCancelLabels(TouchBarWindow *window, void *textCtx, u32 
     wordSet = WORDSET_CreateDefault(heapId);
     buf = STRBUF_Create(0xa, heapId);
     str = MSGDATA_AllocString(msgBank, 0);
-    strWidth = GF_FONT_MeasureWidestLine(str, fontId, 0);
+    strWidth = PRINTSYS_MeasureWidestLine(str, fontId, 0);
     TOUCHBAR_PrintAligned(window, textCtx, x, y, (u32)str, fontId, color, 2);
     x = x - TOUCHBAR_GetStringAlignOffset(str, fontId, 2);
     STRBUF_Delete(str);
@@ -767,7 +767,7 @@ void TOUCHBAR_PrintYesNoCancelLabels(TouchBarWindow *window, void *textCtx, u32 
 
 u16 TOUCHBAR_GetStringAlignOffset(struct StrObj *str, u32 fontId, u32 alignMode)
 {
-    if (alignMode == 1) return GF_FONT_MeasureWidestLine(str, fontId, 0);
-    if (alignMode == 2) return GF_FONT_MeasureWidestLine(str, fontId, 0) >> 1;
+    if (alignMode == 1) return PRINTSYS_MeasureWidestLine(str, fontId, 0);
+    if (alignMode == 2) return PRINTSYS_MeasureWidestLine(str, fontId, 0) >> 1;
     return 0;
 }

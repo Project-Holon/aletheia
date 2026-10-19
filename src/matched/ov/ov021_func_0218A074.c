@@ -18,8 +18,8 @@
  *   FIELDMAP_GetPlaceName  0x02188D20  thumb  ov021
  *   FIELD_PLACE_NAME_Cancel  0x021BC5BC  thumb  ov021
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
- *   FIELD_PLAYER_SetGridMoveFlag  0x021A3550  thumb  ov021
- *   FIELD_PLAYER_ResetGridMove  0x021A356C  thumb  ov021
+ *   FIELD_PLAYER_ResetGridHold  0x021A3550  thumb  ov021
+ *   FIELD_PLAYER_StopGridForcedMove  0x021A356C  thumb  ov021
  *   FIELDMAP_GetZoneEffectWork  0x02189A70  thumb  ov021
  *   FIELD_GIMMICK_SOUND_OBJS_RaiseBgmVolume  0x021F3B10  thumb  ov053
  *   FIELD_EVENT_CHECK_StopSoundAfterEvent  0x0218A6E8  thumb  ov021
@@ -38,8 +38,8 @@ extern u32 FIELDMAP_GetPlaceName(u8 *p);
 extern int FIELD_PLACE_NAME_Cancel(u8 *a);
 struct Obj00020;
 extern void *FIELDMAP_GetFieldPlayer(struct Obj00020 *p);
-extern void FIELD_PLAYER_SetGridMoveFlag(u32 *p, int a);
-extern void FIELD_PLAYER_ResetGridMove(void **p);
+extern void FIELD_PLAYER_ResetGridHold(u32 *p, int a);
+extern void FIELD_PLAYER_StopGridForcedMove(void **p);
 extern u32 FIELDMAP_GetZoneEffectWork(u8 *p);
 extern void FIELD_GIMMICK_SOUND_OBJS_RaiseBgmVolume(void);
 extern void FIELD_EVENT_CHECK_StopSoundAfterEvent(void *a, void *b);
@@ -60,8 +60,8 @@ int FIELD_EVENT_CHECK_RunGrid(void *a, int b)
         if (u != 0)
             EFFECT_ENCOUNT_Reset(q);
         FIELD_PLACE_NAME_Cancel((u8 *)((void *)FIELDMAP_GetPlaceName(p)));
-        FIELD_PLAYER_SetGridMoveFlag(FIELDMAP_GetFieldPlayer(p), v);
-        FIELD_PLAYER_ResetGridMove(FIELDMAP_GetFieldPlayer(p));
+        FIELD_PLAYER_ResetGridHold(FIELDMAP_GetFieldPlayer(p), v);
+        FIELD_PLAYER_StopGridForcedMove(FIELDMAP_GetFieldPlayer(p));
         if (FIELDMAP_GetZoneEffectWork(p) != 0)
             FIELD_GIMMICK_SOUND_OBJS_RaiseBgmVolume();
         FIELD_EVENT_CHECK_StopSoundAfterEvent(a, p);

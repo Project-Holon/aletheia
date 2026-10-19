@@ -76,7 +76,7 @@
  *   BR_RES_GetSprite 0x021FC124 thumb ov186
  *   BR_BTN_CreateFromMessage 0x021FB378 thumb ov186
  *   BR_UTIL_Create 0x021FC6A4 thumb ov186
- *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GF_PANIC_Fail 0x02034714 arm
  *   BR_BTN_DeleteObject 0x021FB494 thumb ov186
  *   BR_UTIL_Delete 0x021FC734 thumb ov186
  *   BR_UTIL_CreateProfileScreen 0x021FD1C4 thumb ov186
@@ -168,7 +168,7 @@ extern void BR_GRAPHIC_End3d(void *,unsigned);
 extern void BR_RES_LoadUiPalette(char *,unsigned,unsigned);
 extern void BR_RES_LoadBgGraphics(void *,unsigned,u16);
 extern int BR_RES_GetSprite(void *,unsigned,void *);
-extern void SAVEDATA_PanicFail(const char *,unsigned,const char *);
+extern void GF_PANIC_Fail(const char *,unsigned,const char *);
 extern void *BR_BTN_CreateFromMessage(void *,int,int,int,int,int,int,int,void *,u16);
 extern void *BR_UTIL_Create(u16,unsigned,u16,u16,unsigned char,unsigned char,void *,u16);
 extern void BR_BTN_DeleteObject(char *p);
@@ -646,7 +646,7 @@ void BR_POKESEARCH_CreateDetail(char *work,char *owner)
         MI_CpuFill8(&pos,0,8);
         pos.x=0x50;pos.y=0xa8;pos.z=0;pos.a=1;
         graphic=(void *)BR_GRAPHIC_GetActorUnit(((struct BrDownloadOwner *)owner)->graphic.graphic);
-        if (!BR_RES_GetSprite(((struct BrDownloadOwner *)owner)->res.res,6,&sprite)) SAVEDATA_PanicFail("",0,"");
+        if (!BR_RES_GetSprite(((struct BrDownloadOwner *)owner)->res.res,6,&sprite)) GF_PANIC_Fail("",0,"");
         ((struct BrPokeSearchWork *)work)->backButton.backButton=BR_BTN_CreateFromMessage(&pos,4,0x60,1,(int)graphic,((struct BrPokeSearchWork *)work)->oamData.oamHandle,font,msgData,&sprite,((struct BrPokeSearchWork *)work)->heapId);
         ((struct BrPokeSearchWork *)work)->detailWin=BR_UTIL_Create(4,8,3,0x10,2,0xe,((struct BrPokeSearchWork *)work)->printQue.printQuePtr,((struct BrPokeSearchWork *)work)->heapId);
         BR_UTIL_SetTextFromMessage(*(char * *)&((struct BrPokeSearchWork *)work)->detailWin,(void *)msgData,(void *)0x71,(void *)font,0x3da0);

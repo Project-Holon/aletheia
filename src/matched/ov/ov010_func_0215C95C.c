@@ -31,7 +31,7 @@
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   func_02030734  0x02030734  arm
- *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   GAME_DATA_GetIntrudeIdByte  0x0215841C  thumb  ov010
  *   INTRUDE_COMM_GetMemberNameNetId  0x02175FB4  thumb  ov011
  *   INTRUDE_COMM_GetMemberEntry  0x0215840C  thumb  ov010
@@ -87,7 +87,7 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *SCRCMD_WORK_GetScriptWork(void *vm);
 extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+extern u8 GAME_DATA_GetOwnNetId(const struct BigObj *p);
 extern u8 GAME_DATA_GetIntrudeIdByte(void *p);
 extern int INTRUDE_COMM_GetMemberNameNetId(u8 *p);
 extern Name20 *INTRUDE_COMM_GetMemberEntry(LinkState *s, int idx);
@@ -114,7 +114,7 @@ int SCRCMD_PROC_CallPlayerProfile(void *c, void *vm)
     SCRCMD_WORK_GetScriptWork(vm);
     st = (LinkState *)INTRUDE_COMM_GetWorkIfRunning((int)p);
     w = func_02030734(4, sizeof(ProfileWork), 1, sAllocSiteScrcmdProc, 0x1BC);
-    if (st != 0 && st->self != GAME_DATA_GetExitMode(q)
+    if (st != 0 && st->self != GAME_DATA_GetOwnNetId(q)
         && INTRUDE_COMM_GetMemberNameNetId((u8 *)(&st->recs[GAME_DATA_GetIntrudeIdByte(q)])) == 1
         && ((u8 *)st)[0x922] == 1) {
         idx = GAME_DATA_GetIntrudeIdByte(q);

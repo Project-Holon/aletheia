@@ -54,12 +54,12 @@
  *   PMSI_PARAM_Copy  0x02024570  thumb
  *   PMSI_PARAM_Validate  0x0202465C  thumb
  *   PMSI_PARAM_GetSourceString  0x0202441C  thumb
- *   GF_FONT_CountControlTag  0x0201D478  thumb
+ *   PRINTSYS_CountControlTag  0x0201D478  thumb
  *   PMSI_PARAM_IsDecoWordAt  0x020244F8  thumb
  *   PMSI_PARAM_GetWordId  0x020244D4  thumb
  *   PMSI_PARAM_ToStringWords  0x02024368  thumb
- *   GF_FONT_MeasureText  0x0201D528  thumb
- *   GF_FONT_SearchIndex  0x0201D4BC  thumb
+ *   PRINTSYS_MeasureText  0x0201D528  thumb
+ *   PRINTSYS_SearchIndex  0x0201D4BC  thumb
  *   BMP_Clear  0x02043B5C  arm
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   BMP_FillRect  0x02043AF4  arm
@@ -256,7 +256,7 @@ extern u32 PMSI_PARAM_Validate(struct PmsData *p, u32 allowEmpty, u32 heapId);
 
 extern void *PMSI_PARAM_GetSourceString(const struct PmsData *obj, u32 heapId);
 
-extern u32   GF_FONT_CountControlTag(void *str);
+extern u32   PRINTSYS_CountControlTag(void *str);
 
 extern u32 PMSI_PARAM_IsDecoWordAt(struct Container *p, u32 idx);
 
@@ -264,9 +264,9 @@ extern u16 PMSI_PARAM_GetWordId(void *obj, u32 idx);
 
 extern void *PMSI_PARAM_ToStringWords(u16 *slots, u32 heap, int count);
 
-extern u32 GF_FONT_MeasureText(void *s, u8 b, void *c, u32 d);
+extern u32 PRINTSYS_MeasureText(void *s, u8 b, void *c, u32 d);
 
-extern u32   GF_FONT_SearchIndex(void *s, u8 idx);
+extern u32   PRINTSYS_SearchIndex(void *s, u8 idx);
 
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
@@ -874,7 +874,7 @@ void PMS_DRAW_PrintElem(struct PmsElem *elem, void *printQue, u32 font, struct D
     elem->printing = 0;
     heapID = *(u16 *)&heapId;
     str = PMSI_PARAM_GetSourceString((const struct PmsData *)param, heapID);
-    wordCount = (u8)GF_FONT_CountControlTag(str);
+    wordCount = (u8)PRINTSYS_CountControlTag(str);
     for (i = 0; i < wordCount; i++) {
         if (PMSI_PARAM_IsDecoWordAt((struct Container *)param, i)) {
             elem->isDeco[i] = 1;
@@ -888,12 +888,12 @@ void PMS_DRAW_PrintElem(struct PmsElem *elem, void *printQue, u32 font, struct D
     elem->printing = 1;
     for (i = 0; i < wordCount; i++) {
         if (elem->isDeco[i] == 1) {
-            u32 x = GF_FONT_MeasureText(word, i, (void *)font, 0);
-            u32 y = GF_FONT_SearchIndex(word, i);
+            u32 x = PRINTSYS_MeasureText(word, i, (void *)font, 0);
+            u32 y = PRINTSYS_SearchIndex(word, i);
             PMS_DRAW_PlaceDecoActor(elem->decoActor[i], bmpWin, x, y, PMSI_PARAM_GetWordId((void *)param, i), (const struct PmsPos *)offset);
         } else if (isBlank[i] == 1) {
-            u32 x = GF_FONT_MeasureText(word, i, (void *)font, 0);
-            u32 y = GF_FONT_SearchIndex(word, i);
+            u32 x = PRINTSYS_MeasureText(word, i, (void *)font, 0);
+            u32 y = PRINTSYS_SearchIndex(word, i);
             BMP_FillRect((u32)BMP_WIN_GetBmp((struct Descriptor *)bmpWin), x, y << 4, 0x54, 0x10, nullColorPalette);
         }
     }

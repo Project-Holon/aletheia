@@ -14,7 +14,7 @@
  *
  * symbols:
  *   GFL_HEAP_Alloc  0x02030734  arm
- *   SAVEDATA_PanicFail  0x02034714  arm
+ *   GF_PANIC_Fail  0x02034714  arm
  *   GFL_HEAP_Free   0x020307B0  arm
  *   GFL_NET_SYSTEM_GetCurrentAid   0x02039338  arm
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
@@ -53,7 +53,7 @@
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 extern u32 GFL_HEAP_Free(void *block);
 
@@ -289,7 +289,7 @@ void GFL_NET_IRC_WIRELESS_CopyMacAddress(void *dst, u32 slot)
     if (link != 0) {
         MI_CpuCopy8(link->macs.mac[slot].addr, dst, 6);
     } else {
-        SAVEDATA_PanicFail(sNetIrcWirelessFileName, 0x109, (const char *)str_020A7D48);
+        GF_PANIC_Fail(sNetIrcWirelessFileName, 0x109, (const char *)str_020A7D48);
     }
 }
 
@@ -580,7 +580,7 @@ void GFL_NET_IRC_WIRELESS_AddMacList(u32 unusedA, u32 unusedB, struct NetMacList
     int macCount;
 
     if (macList->count >= 4) {
-        SAVEDATA_PanicFail(sNetIrcWirelessFileName, 0x2a5, (const char *)str_020A7D4C);
+        GF_PANIC_Fail(sNetIrcWirelessFileName, 0x2a5, (const char *)str_020A7D4C);
     }
     macCount = macList->count;
     if (macCount > 4) {
@@ -613,7 +613,7 @@ u32 GFL_NET_IRC_WIRELESS_RetryStep(void)
 void GFL_NET_IRC_WIRELESS_RequestRetry(int netId)
 {
     if (gNetIrcWirelessLink == 0)
-        SAVEDATA_PanicFail(sNetIrcWirelessFileName, 0x2e4, s_020A7D68);
+        GF_PANIC_Fail(sNetIrcWirelessFileName, 0x2e4, s_020A7D68);
     if (gNetIrcWirelessLink != 0) {
         gNetIrcWirelessLink->requestedNetIDPlus1 = (u8)(netId + 1);
         gNetIrcWirelessLink->retryEnabled = 1;
@@ -633,7 +633,7 @@ int GFL_NET_IRC_WIRELESS_GetRetryCountValue(void)
 void GFL_NET_IRC_WIRELESS_SetGameKindOverride(int gameKind)
 {
     if (gNetIrcWirelessLink == 0)
-        SAVEDATA_PanicFail(sNetIrcWirelessFileName, 0x31a, s_020A7D68);
+        GF_PANIC_Fail(sNetIrcWirelessFileName, 0x31a, s_020A7D68);
     if (gNetIrcWirelessLink != 0)
         gNetIrcWirelessLink->gameKindOverride = (u8)gameKind;
 }

@@ -133,8 +133,8 @@
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   MSGDATA_AllocString 0x02045EC0 arm
- *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
- *   GF_FONT_CountLines 0x0201D42C thumb
+ *   PRINTSYS_MeasureWidestLine 0x0201D304 thumb
+ *   PRINTSYS_CountLines 0x0201D42C thumb
  *   BMP_GetWidth 0x020437DC arm
  *   BMP_GetHeight 0x020437E4 arm
  *   MSG_SPEED_GetWait 0x02012FFC thumb
@@ -340,8 +340,8 @@ extern unsigned PRINTSYS_QUE_IsExistTarget(struct PrintSys *, void *);
 extern void BMP_WIN_MakeScreen(struct Cfg *);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
 extern void *MSGDATA_AllocString(struct MsgBank *, unsigned);
-extern unsigned GF_FONT_MeasureWidestLine(struct StrObj *, unsigned, unsigned);
-extern unsigned GF_FONT_CountLines(struct StrObj *, void *);
+extern unsigned PRINTSYS_MeasureWidestLine(struct StrObj *, unsigned, unsigned);
+extern unsigned PRINTSYS_CountLines(struct StrObj *, void *);
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 extern u16 BMP_GetHeight(const struct Bmp *bmp);
 extern signed char MSG_SPEED_GetWait(void);
@@ -1519,8 +1519,8 @@ void PSEL_SetMode(char *p, int idx)
     if (*(u32 *)(p + 0x258) != 0)
         STRBUF_Delete(*(struct U16Vec **)(p + 0x258));
     *(void **)(p + 0x258) = MSGDATA_AllocString(*(struct MsgBank **)(p + 0x234), idx);
-    w = (u16)GF_FONT_MeasureWidestLine(*(struct StrObj **)(p + 0x258), *(unsigned *)(p + 0x18), 0);
-    h = (u16)GF_FONT_CountLines(*(struct StrObj **)(p + 0x258), *(void **)(p + 0x18));
+    w = (u16)PRINTSYS_MeasureWidestLine(*(struct StrObj **)(p + 0x258), *(unsigned *)(p + 0x18), 0);
+    h = (u16)PRINTSYS_CountLines(*(struct StrObj **)(p + 0x258), *(void **)(p + 0x18));
     W = BMP_GetWidth(BMP_WIN_GetBmp(desc));
     H = BMP_GetHeight(BMP_WIN_GetBmp(desc));
     if (W > w)
@@ -1614,8 +1614,8 @@ void PSEL_PrintSubWindow(char *p, int idx)
     STRBUF_Delete((struct U16Vec *)text);
     WORDSET_Delete(words);
     BMP_Clear((struct CharBuf *)BMP_WIN_GetBmp(desc), 0);
-    GF_FONT_MeasureWidestLine(buf, *(unsigned *)(p + 0x18), 0);
-    height = GF_FONT_CountLines(buf, *(void **)(p + 0x18));
+    PRINTSYS_MeasureWidestLine(buf, *(unsigned *)(p + 0x18), 0);
+    height = PRINTSYS_CountLines(buf, *(void **)(p + 0x18));
     BMP_GetWidth(BMP_WIN_GetBmp(desc));
     h = BMP_GetHeight(BMP_WIN_GetBmp(desc));
     if (h > height)
@@ -1641,9 +1641,9 @@ void PSEL_ClearWin(char *p) {struct Descriptor *d;u32 off;off=0x240;BMP_Clear(BM
 void PSEL_ClearWin2(char *p)
 {
     struct StrObj *text = MSGDATA_AllocString(*(struct MsgBank * *)&((struct PselWork *)p)->msgBank, 12);
-    u16 width = GF_FONT_MeasureWidestLine(text, *(unsigned *)&((struct PselWork *)p)->font, 0);
+    u16 width = PRINTSYS_MeasureWidestLine(text, *(unsigned *)&((struct PselWork *)p)->font, 0);
     u16 x = 0;
-    u16 height = GF_FONT_CountLines(text, ((struct PselWork *)p)->font);
+    u16 height = PRINTSYS_CountLines(text, ((struct PselWork *)p)->font);
     unsigned w = BMP_GetWidth(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct PselWork *)p)->winMain));
     unsigned h = BMP_GetHeight(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct PselWork *)p)->winMain));
     u16 y = 0;

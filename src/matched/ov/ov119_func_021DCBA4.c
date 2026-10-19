@@ -13,7 +13,7 @@
  *   POKETRADE_3D_AddPokemonMcssPlain 0x021E36C8 thumb ov119
  *   POKETRADE_PROC_IsHostSide 0x021D8AA8 thumb ov119
  *   MCSS_SetVanishFlag 0x02015EA0 thumb
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   FADE_Start 0x0204E720 arm
  */
 #include "../include/Obj01728.h"
@@ -25,7 +25,7 @@ extern void MI_CpuCopy8(void *,const void *,int);
 extern void POKETRADE_3D_AddPokemonMcssPlain(void *,int,int,void *,int);
 extern int POKETRADE_PROC_IsHostSide(void *);
 extern void MCSS_SetVanishFlag(void *p);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 void POKETRADE_PROC_SetupMcssPokemon(char *a, char *p)
 {
@@ -36,6 +36,6 @@ void POKETRADE_PROC_SetupMcssPokemon(char *a, char *p)
     MCSS_SetVanishFlag((void *)(*(unsigned *)(p+(POKETRADE_PROC_IsHostSide(p) == 0 ? 0x848 : 0x844))));
     ((struct Obj03256 *)p)->f830=((struct Obj01728 *)a)->f3C;
     ((struct Obj03256 *)p)->f834=((struct Obj01728 *)a)->f40;
-    GFL_NET_RestartWithDefaultTimeout(0,((struct Obj03256 *)p)->f5F4);
+    GFL_NET_RefreshWmIconAtTopRight(0,((struct Obj03256 *)p)->f5F4);
     FADE_Start(3,16,0,2);
 }

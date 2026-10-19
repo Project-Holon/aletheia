@@ -14,9 +14,9 @@
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   BEACON_GetBlock  0x0200C0F0  thumb
- *   BEACON_GetMode  0x0200C224  thumb
- *   BEACON_SetMode  0x0200C22C  thumb
+ *   MISC_GetBlock  0x0200C0F0  thumb
+ *   MISC_GetResearchRank  0x0200C224  thumb
+ *   MISC_SetResearchRank  0x0200C22C  thumb
  *   GAME_BEACON_SetResearchTeamRank  0x02027138  thumb
  */
 
@@ -29,10 +29,10 @@ struct Big;
 extern void *SCRCMD_WORK_GetScriptWork(void *p);
 extern void *SCRCMD_WORK_GetGameData(void *a0);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *BEACON_GetBlock(void *sys);
+extern void *MISC_GetBlock(void *sys);
 struct Blk34;
-extern u8 BEACON_GetMode(struct Blk34 *p);
-extern int BEACON_SetMode();
+extern u8 MISC_GetResearchRank(struct Blk34 *p);
+extern int MISC_SetResearchRank();
 extern int GAME_BEACON_SetResearchTeamRank();
 
 int SCRCMD_RESEARCH_CmdRaiseResearchRank(int a0, int a1)
@@ -52,9 +52,9 @@ a0 = t4 + 0;
 loc_0216B548:
     p = GAME_DATA_GetSaveControl((struct Big *)v1);
 loc_0216B54C:
-    t5 = BEACON_GetBlock(p);
+    t5 = MISC_GetBlock(p);
 loc_0216B550:
-    a0 = BEACON_GetMode(t5);
+    a0 = MISC_GetResearchRank(t5);
 loc_0216B556:
 t4 = a0 + 0;
     if (t4 < 5) goto loc_0216B560;
@@ -63,7 +63,7 @@ a0 = 0;
     return a0;
 loc_0216B560:
 a1 = t4 + 1;
-    a0 = BEACON_SetMode(t5, a1);
+    a0 = MISC_SetResearchRank(t5, a1);
 loc_0216B568:
 a0 = t4 + 1;
 a0 = a0 << 0x18;

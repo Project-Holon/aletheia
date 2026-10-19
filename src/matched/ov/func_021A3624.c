@@ -1,5 +1,5 @@
 /*
- * function: FIELD_PLAYER_CheckGridMoving
+ * function: FIELD_PLAYER_IsGridHopping
  * address:  0x021A3624
  * packet:   pkt_021A3624
  * region:   ov021
@@ -26,7 +26,7 @@ typedef signed char    s8;
 extern u32 FIELDMAP_GetMoveKind(u8 *p);
 extern int FIELD_PLAYER_GRID_IsHopping(u32 a);
 
-int FIELD_PLAYER_CheckGridMoving(void *a)
+int FIELD_PLAYER_IsGridHopping(void *a)
 {
 if (FIELDMAP_GetMoveKind((u8 *)(*(u32 *)&((struct Obj06010 *)((u8 *)(a)))->f0)) == 0) {
     if (FIELD_PLAYER_GRID_IsHopping(*(u32 *)&((struct Obj06010 *)((u8 *)(a)))->f8) == 1) {

@@ -52,7 +52,7 @@
  *   BOX2_UI_CreateCursor 0x021EE2C4 thumb ov170
  *   BOX2_MAIN_CreateTaskMenu 0x021DCEC0 thumb ov170
  *   BOX2_MAIN_SetDisplayControl 0x021DCDF0 thumb ov170
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   BOX2_MAIN_CreateVBlankTask 0x021DC94C thumb ov170
  *   str_021F140C 0x021F140C data a1
  *   ov067_id 0x00000043 data a1
@@ -89,7 +89,7 @@ extern void BOX2_UI_DrawAllSlots(int p);
 extern void BOX2_UI_CreateCursor(char **);
 extern void BOX2_MAIN_CreateTaskMenu(char *);
 extern void BOX2_MAIN_SetDisplayControl(int);
-extern void GFL_NET_RestartWithDefaultTimeout(unsigned,unsigned);
+extern void GFL_NET_RefreshWmIconAtTopRight(unsigned,unsigned);
 extern void BOX2_MAIN_CreateVBlankTask(char *p);
 extern const char str_021F140C[];
 extern const char ov067_id[];
@@ -125,7 +125,7 @@ int BOX2_SEQ_CreateBox2Main(u8 *p)
     BOX2_UI_CreateCursor((char **)p);
     BOX2_MAIN_CreateTaskMenu((char *)p);
     BOX2_MAIN_SetDisplayControl(1);
-    GFL_NET_RestartWithDefaultTimeout(1,0x4C);
+    GFL_NET_RefreshWmIconAtTopRight(1,0x4C);
     BOX2_MAIN_CreateVBlankTask((char *)p);
     return *(int *)(p+0x28);
 }

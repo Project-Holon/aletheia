@@ -1,5 +1,5 @@
 /*
- * function: WIFIBATTLEMATCH_NET_CompStepO
+ * function: WIFIBATTLEMATCH_NET_CompStepPostPartyData
  * address: 0x021D95B0
  * packet: pkt_ov175_021D95B0
  * region: ov175
@@ -23,7 +23,7 @@ typedef unsigned char  u8;
 extern int WIFIBATTLEMATCH_NET_HttpRapPost(char *p, u8 *out);
 extern void WIFIBATTLEMATCH_NET_CopyCompResponse(char *save, char *response);
 extern void WIFIBATTLEMATCH_UTIL_ClearCallback(int a);
-void WIFIBATTLEMATCH_NET_CompStepO(u32 sys, int *state, char *ctx)
+void WIFIBATTLEMATCH_NET_CompStepPostPartyData(u32 sys, int *state, char *ctx)
 {
     char *save;
     int result;

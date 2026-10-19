@@ -1,5 +1,5 @@
 /*
- * function: B_PLIST_MAIN_ApplyMode7
+ * function: B_PLIST_MAIN_ApplyMoveDetailWithNewMovePage
  * address:  0x02210234
  * packet:   pkt_02210234
  * region:   ov198
@@ -21,7 +21,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern int B_PLIST_MAIN_ApplyMode(u8 *p, unsigned mode);
 
-u32 B_PLIST_MAIN_ApplyMode7(u32 a)
+u32 B_PLIST_MAIN_ApplyMoveDetailWithNewMovePage(u32 a)
 {
     if (B_PLIST_MAIN_ApplyMode((u8 *)a, 7) == 0) {
         return 0x11;

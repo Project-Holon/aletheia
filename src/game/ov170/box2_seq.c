@@ -154,7 +154,7 @@
  *   BOX2_UI_CreateCursor 0x021EE2C4 thumb ov170
  *   BOX2_MAIN_CreateTaskMenu 0x021DCEC0 thumb ov170
  *   BOX2_MAIN_SetDisplayControl 0x021DCDF0 thumb ov170
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   BOX2_MAIN_CreateVBlankTask 0x021DC94C thumb ov170
  *   str_021F140C 0x021F140C data a1
  *   ov067_id 0x00000043 data a1
@@ -298,7 +298,7 @@
  *   BMP_Clear 0x02043B5C arm
  *   WORDSET_SetSlotMonNameAlt 0x0201EEA4 thumb
  *   WORDSET_SetSlotMonNicknameAlt 0x0201EF14 thumb
- *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
+ *   PRINTSYS_MeasureWidestLine 0x0201D304 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_SetSlotFromMsg18 0x0201EF98 thumb
  *   WORDSET_SetSlotFromMsgB6 0x0201EF8C thumb
@@ -804,7 +804,7 @@ extern void BOX2_MAIN_CreateTaskMenu(char *);
 
 extern void BOX2_MAIN_SetDisplayControl(int);
 
-extern void GFL_NET_RestartWithDefaultTimeout(unsigned,unsigned);
+extern void GFL_NET_RefreshWmIconAtTopRight(unsigned,unsigned);
 
 extern void BOX2_MAIN_CreateVBlankTask(BoxTask *p);
 
@@ -1064,7 +1064,7 @@ extern void WORDSET_SetSlotMonNameAlt(struct WordSet *p, u32 i, void *mon);
 
 extern void WORDSET_SetSlotMonNicknameAlt(struct WordSet *p, u32 i, void *mon);
 
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 
@@ -2573,7 +2573,7 @@ int BOX2_SEQ_CreateBox2Main(u8 *task)
     BOX2_UI_CreateCursor((char **)task);
     BOX2_MAIN_CreateTaskMenu((char *)task);
     BOX2_MAIN_SetDisplayControl(1);
-    GFL_NET_RestartWithDefaultTimeout(1,0x4C);
+    GFL_NET_RefreshWmIconAtTopRight(1,0x4C);
     BOX2_MAIN_CreateVBlankTask((BoxTask *)task);
     return *(int *)(task+0x28);
 }
@@ -8855,7 +8855,7 @@ void BOX2_SEQ_DrawCellEntry(char *work, BoxSeqEntry *e, unsigned i)
     BMP_Clear(BMP_WIN_GetBmp(*(void **)(work + 0x94 + i * 8)), 0);
     if (!e->flag) {
         BOX2_SEQ_PrintTextWinEx(work, i, ((BoxWork *)work)->msgBank, 107, 0, 0, ((BoxWork *)work)->font, 0x440);
-        n = GF_FONT_MeasureWidestLine(((BoxWork *)work)->strbuf, ((BoxWork *)work)->font, 0);
+        n = PRINTSYS_MeasureWidestLine(((BoxWork *)work)->strbuf, ((BoxWork *)work)->font, 0);
         WORDSET_SetSlotNumber(((BoxWork *)work)->wordSet, 0, e->low, 3, 0, 1);
         BOX2_SEQ_PrintTextWinEx(work, i, ((BoxWork *)work)->msgBank, 103, n, 0, ((BoxWork *)work)->font, 0x440);
     } else {
@@ -8896,7 +8896,7 @@ void BOX2_SEQ_DrawTileEntry(char *task,const BoxSeqEntry *e,u32 i)
             n = *(u16 *)(*(char **)(((char *)((BoxTask *)(task))->work)+384)+((BoxTextEntry *)(e))->idx*2);
         if (n != 999) {
             BOX2_SEQ_PrintTextWinEx(((char *)((BoxTask *)(task))->work),i,*(void **)(((char *)((BoxTask *)(task))->work)+128),108,0,0,*(u32 *)(((char *)((BoxTask *)(task))->work)+120),1088);
-            text=GF_FONT_MeasureWidestLine(*(void **)(((char *)((BoxTask *)(task))->work)+136),*(u32 *)(((char *)((BoxTask *)(task))->work)+120),0);
+            text=PRINTSYS_MeasureWidestLine(*(void **)(((char *)((BoxTask *)(task))->work)+136),*(u32 *)(((char *)((BoxTask *)(task))->work)+120),0);
             WORDSET_SetSlotNumber(*(void **)(((char *)((BoxTask *)(task))->work)+132),0,n,3,2,1);
             BOX2_SEQ_PrintTextWinEx(((char *)((BoxTask *)(task))->work),i,*(void **)(((char *)((BoxTask *)(task))->work)+128),104,text,0,*(u32 *)(((char *)((BoxTask *)(task))->work)+120),1088);
         } else { BOX2_SEQ_SetDirtyBit((unsigned char *)((char *)((BoxTask *)(task))->work),i); return; }
@@ -9138,7 +9138,7 @@ void BOX2_SEQ_DrawBoxName(char **work, unsigned box, int i)
     unsigned n;
     BOX_SAVEDATA_GetBoxName(((void **)work[0])[1], box, s);
     BMP_Clear(*(void **)(work[11] + i * 8 + 8), 0);
-    n = GF_FONT_MeasureWidestLine(s, ((BoxWork *)work[11])->font, 0);
+    n = PRINTSYS_MeasureWidestLine(s, ((BoxWork *)work[11])->font, 0);
     n = (0x60 - n) / 2;
     PRINTSYS_PrintColor(*(void **)(work[11] + i * 8 + 8), n, 0, s, (void *)((BoxWork *)work[11])->font, 0x440);
     STRBUF_Delete(s);

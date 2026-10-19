@@ -1,7 +1,7 @@
 /*
  * file:     mystatus.c
  * unit:     yes
- * function: MYSTATUS_Create, MYSTATUS_Copy, MYSTATUS_Init, MYSTATUS_IsNameEmpty, MYSTATUS_CopyName, MYSTATUS_NameFromStrbuf, MYSTATUS_GetName, MYSTATUS_CopyNameChars, MYSTATUS_NameToStrbuf, MYSTATUS_CreateNameStrbuf, MYSTATUS_SetId, MYSTATUS_GetId, MYSTATUS_GetIdLow16, MYSTATUS_GetProfileId, MYSTATUS_SetProfileIdOnce, MYSTATUS_SetOutfitVariant, MYSTATUS_GetOutfitVariant, MYSTATUS_GetOutfit, MYSTATUS_SetOutfit, MYSTATUS_GetAvatarId, MYSTATUS_SetAvatarId, MYSTATUS_GetGender, MYSTATUS_SetGender, MYSTATUS_GetLanguage, MYSTATUS_GetVersion, MYSTATUS_SetLanguageAndVersion
+ * function: MYSTATUS_Create, MYSTATUS_Copy, MYSTATUS_Init, MYSTATUS_IsNameEmpty, MYSTATUS_CopyName, MYSTATUS_NameFromStrbuf, MYSTATUS_GetName, MYSTATUS_CopyNameChars, MYSTATUS_NameToStrbuf, MYSTATUS_CreateNameStrbuf, MYSTATUS_SetId, MYSTATUS_GetId, MYSTATUS_GetIdLow16, MYSTATUS_GetProfileId, MYSTATUS_SetProfileIdOnce, MYSTATUS_SetSex, MYSTATUS_GetSex, MYSTATUS_GetTrainerView, MYSTATUS_SetTrainerView, MYSTATUS_GetRomCode, MYSTATUS_SetRomCode, MYSTATUS_GetLanguage, MYSTATUS_SetLanguage, MYSTATUS_GetNation, MYSTATUS_GetArea, MYSTATUS_SetNationAndArea
  * address:  0x0200846C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -45,7 +45,7 @@ extern char mystatus_file_name[];
 
 void MYSTATUS_Init(struct MyStatus *mystatus);
 
-void MYSTATUS_SetAvatarId(struct MyStatus *mystatus, u8 avatar_id);
+void MYSTATUS_SetRomCode(struct MyStatus *mystatus, u8 rom_code);
 
 void MYSTATUS_NameToStrbuf(const u16 *name, struct Strbuf *buf);
 
@@ -64,8 +64,8 @@ void MYSTATUS_Copy(const struct MyStatus *src, struct MyStatus *dest)
 void MYSTATUS_Init(struct MyStatus *mystatus)
 {
     MI_CpuFill8(mystatus, 0, sizeof(struct MyStatus));
-    mystatus->gender = 2;
-    MYSTATUS_SetAvatarId(mystatus, 0x15);
+    mystatus->language = 2;
+    MYSTATUS_SetRomCode(mystatus, 0x15);
 }
 
 /* Non-zero when all eight name characters are zero. */
@@ -80,7 +80,7 @@ int MYSTATUS_IsNameEmpty(const struct MyStatus *mystatus)
     return 1;
 }
 
-/* The argument swap below is what -interworking produces for language tail call
+/* The argument swap below is what -interworking produces for a tail call
  * to an extern whose instruction set the compiler cannot see: 0x0201F41C is
  * Thumb (odd pool word), 0x02045A38 is ARM (even), and the same code covers
  * both. */
@@ -149,44 +149,34 @@ void MYSTATUS_SetProfileIdOnce(struct MyStatus *mystatus, u32 profile_id)
     }
 }
 
-void MYSTATUS_SetOutfitVariant(struct MyStatus *mystatus, u8 outfit_variant)
+void MYSTATUS_SetSex(struct MyStatus *mystatus, u8 sex)
 {
-    mystatus->outfit_variant = outfit_variant;
+    mystatus->sex = sex;
 }
 
-u8 MYSTATUS_GetOutfitVariant(const struct MyStatus *mystatus)
+u8 MYSTATUS_GetSex(const struct MyStatus *mystatus)
 {
-    return mystatus->outfit_variant;
+    return mystatus->sex;
 }
 
-u8 MYSTATUS_GetOutfit(const struct MyStatus *mystatus)
+u8 MYSTATUS_GetTrainerView(const struct MyStatus *mystatus)
 {
-    return mystatus->outfit;
+    return mystatus->trainer_view;
 }
 
-void MYSTATUS_SetOutfit(struct MyStatus *mystatus, u8 outfit)
+void MYSTATUS_SetTrainerView(struct MyStatus *mystatus, u8 trainer_view)
 {
-    mystatus->outfit = outfit;
+    mystatus->trainer_view = trainer_view;
 }
 
-u8 MYSTATUS_GetAvatarId(const struct MyStatus *mystatus)
+u8 MYSTATUS_GetRomCode(const struct MyStatus *mystatus)
 {
-    return mystatus->avatar_id;
+    return mystatus->rom_code;
 }
 
-void MYSTATUS_SetAvatarId(struct MyStatus *mystatus, u8 avatar_id)
+void MYSTATUS_SetRomCode(struct MyStatus *mystatus, u8 rom_code)
 {
-    mystatus->avatar_id = avatar_id;
-}
-
-u8 MYSTATUS_GetGender(const struct MyStatus *mystatus)
-{
-    return mystatus->gender;
-}
-
-void MYSTATUS_SetGender(struct MyStatus *mystatus, u8 gender)
-{
-    mystatus->gender = gender;
+    mystatus->rom_code = rom_code;
 }
 
 u8 MYSTATUS_GetLanguage(const struct MyStatus *mystatus)
@@ -194,13 +184,23 @@ u8 MYSTATUS_GetLanguage(const struct MyStatus *mystatus)
     return mystatus->language;
 }
 
-u8 MYSTATUS_GetVersion(const struct MyStatus *mystatus)
-{
-    return mystatus->version;
-}
-
-void MYSTATUS_SetLanguageAndVersion(struct MyStatus *mystatus, u8 language, u8 version)
+void MYSTATUS_SetLanguage(struct MyStatus *mystatus, u8 language)
 {
     mystatus->language = language;
-    mystatus->version = version;
+}
+
+u8 MYSTATUS_GetNation(const struct MyStatus *mystatus)
+{
+    return mystatus->nation;
+}
+
+u8 MYSTATUS_GetArea(const struct MyStatus *mystatus)
+{
+    return mystatus->area;
+}
+
+void MYSTATUS_SetNationAndArea(struct MyStatus *mystatus, u8 nation, u8 area)
+{
+    mystatus->nation = nation;
+    mystatus->area = area;
 }

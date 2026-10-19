@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "B_PLIST_DRAW_LayoutMode4",
+   "name": "B_PLIST_DRAW_LayoutMoveDetailPage",
    "address": "0x0220ED54",
    "kind": "game",
    "region": "ov198",

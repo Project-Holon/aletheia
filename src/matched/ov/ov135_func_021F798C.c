@@ -13,7 +13,7 @@
  *   MIi_CpuClearFast 0x02082AC0 arm
  *   WORLDTRADE_DEPOSIT_LoadSpeciesList 0x021F8498 thumb ov135
  *   WORLDTRADE_DEPOSIT_CreateSpeciesFlagTable 0x021F84EC thumb ov135
- *   WORLDTRADE_ENTER_ClearListRange 0x021F8990 thumb ov135
+ *   WORLDTRADE_DEPOSIT_ClearListRange 0x021F8990 thumb ov135
  *   g_02203C00 0x02203C00 data a4
  */
 #include "../include/Obj05412.h"
@@ -29,7 +29,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void MIi_CpuClearFast(u32 value, void *dst, u32 size);
 extern u16 *WORLDTRADE_DEPOSIT_LoadSpeciesList(u32 heap, u32 unused, u32 *count);
 extern u8 *WORLDTRADE_DEPOSIT_CreateSpeciesFlagTable(u32 id);
-extern void WORLDTRADE_ENTER_ClearListRange(u8 *p);
+extern void WORLDTRADE_DEPOSIT_ClearListRange(u8 *p);
 void WORLDTRADE_DEPOSIT_CreateStrings(u8 *p)
 {
     ((struct Obj05412 *)p)->fB88 = STRBUF_Create(0xB4, 0x48);
@@ -37,5 +37,5 @@ void WORLDTRADE_DEPOSIT_CreateStrings(u8 *p)
     MIi_CpuClearFast(0, ((struct Obj05412 *)p)->fE00, 0x30);
     *(u16 * *)&((struct Obj23382 *)(*(u8 * *)&((struct Obj05412 *)p)->fE00))->f18 = WORLDTRADE_DEPOSIT_LoadSpeciesList(0x48, 0, (u32 *)(*(u8 * *)&((struct Obj05412 *)p)->fE00 + 0x1C));
     *(u8 * *)&((struct Obj23383 *)(*(u8 * *)&((struct Obj05412 *)p)->fE00))->f14 = WORLDTRADE_DEPOSIT_CreateSpeciesFlagTable(0x48);
-    WORLDTRADE_ENTER_ClearListRange(p + 0xEEC);
+    WORLDTRADE_DEPOSIT_ClearListRange(p + 0xEEC);
 }

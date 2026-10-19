@@ -1,5 +1,5 @@
 /*
- * function: WIFIBATTLEMATCH_NET_CompStepK
+ * function: WIFIBATTLEMATCH_NET_CompStepSaveAndUploadQuit
  * address: 0x021D8EC8
  * packet: pkt_ov175_021D8EC8
  * region: ov175
@@ -38,7 +38,7 @@ extern void WIFIBATTLEMATCH_UTIL_SetCallback(int *p, int v);
 extern void WIFIBATTLEMATCH_UTIL_CommitRequest(u32);
 extern void WIFIBATTLEMATCH_NET_CompExit(u32 sys);
 extern int WIFIBATTLEMATCH_UTIL_GetBusy(const int *p);
-void WIFIBATTLEMATCH_NET_CompStepK(u32 sys,int *state,char *p)
+void WIFIBATTLEMATCH_NET_CompStepSaveAndUploadQuit(u32 sys,int *state,char *p)
 {
     char *q=*(char * *)&((struct Obj02886 *)p)->f104;
     switch(*state) {

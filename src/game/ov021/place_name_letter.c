@@ -28,8 +28,8 @@
  *   PRINTSYS_PrintColor  0x0201C7D0  thumb
  *   BMP_OAM_UploadChars  0x020257D0  thumb
  *   BMP_OAM_SetEnabled  0x02025774  thumb
- *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
- *   GF_FONT_CountLines  0x0201D42C  thumb
+ *   PRINTSYS_MeasureWidestLine  0x0201D304  thumb
+ *   PRINTSYS_CountLines  0x0201D42C  thumb
  *   BMP_OAM_Create  0x020255A0  thumb  arm9
  *   BMP_OAM_Delete  0x0202570C  thumb  arm9
  *   BMP_OAM_SetPos  0x0202590C  thumb  arm9
@@ -84,8 +84,8 @@ extern void PRINTSYS_PrintColor(Bmp *bmp, s16 x, s16 y, Strbuf *strbuf, GfFont *
 extern void BMP_OAM_UploadChars(BmpOam *bmpOam);
 extern void BMP_OAM_SetPos(BmpOam *bmpOam, int x, int y);
 extern void BMP_OAM_SetEnabled(BmpOam *bmpOam, unsigned int visible);
-extern u32 GF_FONT_MeasureWidestLine(Strbuf *strbuf, GfFont *font, u32 spacing);
-extern u32 GF_FONT_CountLines(Strbuf *strbuf, GfFont *font);
+extern u32 PRINTSYS_MeasureWidestLine(Strbuf *strbuf, GfFont *font, u32 spacing);
+extern u32 PRINTSYS_CountLines(Strbuf *strbuf, GfFont *font);
 PlaceNameLetter *PLACE_NAME_LETTER_Create(u32 heapId, BmpOamSys *bmpOamSys, u16 space, int paletteId);
 void PLACE_NAME_LETTER_Delete(PlaceNameLetter *letter);
 void PLACE_NAME_LETTER_Setup(PlaceNameLetter *letter, const PlaceNameLetterParam *param);
@@ -521,7 +521,7 @@ void PLACE_NAME_LETTER_MeasureChar(GfFont *font, u16 ch, u32 heapId, u8 *width, 
     chars[1] = STRBUF_GetEosChar();
     strbuf = STRBUF_Create(2, heapId);
     STRBUF_SetStringN(strbuf, chars, 2);
-    *width = GF_FONT_MeasureWidestLine(strbuf, font, 0);
-    *height = GF_FONT_CountLines(strbuf, font);
+    *width = PRINTSYS_MeasureWidestLine(strbuf, font, 0);
+    *height = PRINTSYS_CountLines(strbuf, font);
     STRBUF_Delete(strbuf);
 }

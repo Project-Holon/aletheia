@@ -1,7 +1,7 @@
 /*
  * file:     bmp_oam.c
  * unit:     yes
- * function: BMP_OAM_CreateSys, BMP_OAM_DeleteSys, BMP_OAM_Create, BMP_OAM_Delete, BMP_OAM_SetEnabled, BMP_OAM_GetEnabled, BMP_OAM_UploadChars, BMP_OAM_GetPos, BMP_OAM_SetPos, BMP_OAM_SetObjMode, BMP_OAM_SetDrawPriority, BMP_OAM_SetBgPriority, BMP_OAM_SetPalette, BMP_OAM_AcquireModeSlot, BMP_OAM_ReleaseModeSlots, BMP_OAM_GetNumRecords, BMP_OAM_GetRecordIndex, BMP_OAM_GetRecordValue, BMP_OAM_Get, BMP_OAM_GetRecordField, BMP_OAM_GetRecordKey, BMP_OAM_GetRecordParam, BMP_OAM_Update5BE8, BMP_OAM_Check5BEC, BMP_OAM_CheckRangeGetId, BMP_OAM_CheckRangeGetMin, BMP_OAM_Check5C44
+ * function: BMP_OAM_CreateSys, BMP_OAM_DeleteSys, BMP_OAM_Create, BMP_OAM_Delete, BMP_OAM_SetEnabled, BMP_OAM_GetEnabled, BMP_OAM_UploadChars, BMP_OAM_GetPos, BMP_OAM_SetPos, BMP_OAM_SetObjMode, BMP_OAM_SetDrawPriority, BMP_OAM_SetBgPriority, BMP_OAM_SetPalette, BMP_OAM_AcquireModeSlot, BMP_OAM_ReleaseModeSlots, NATION_AREA_GetNationRecordCount, NATION_AREA_FindRecordIndex, NATION_AREA_GetAreaCount, NATION_AREA_GetAreaMsgBank, NATION_AREA_GetAreaMsgBankByIndex, NATION_AREA_GetNationIdByIndex, NATION_AREA_GetAreaListArcMember, NATION_AREA_GetDefaultNation, NATION_AREA_IsValidNationArea, NATION_AREA_SanitizeNation, NATION_AREA_SanitizeArea, NATION_AREA_GetAreaTable
  * address:  0x02025538
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -195,29 +195,29 @@ u32 BMP_OAM_AcquireModeSlot(struct BmpOamSys *sys, u32 engine, void *arcTool);
 
 void BMP_OAM_ReleaseModeSlots(struct BmpOamSys *sys);
 
-int BMP_OAM_GetNumRecords(void);
+int NATION_AREA_GetNationRecordCount(void);
 
-u32 BMP_OAM_GetRecordIndex(u32 key);
+u32 NATION_AREA_FindRecordIndex(u32 key);
 
-u8 BMP_OAM_GetRecordValue(u32 key);
+u8 NATION_AREA_GetAreaCount(u32 key);
 
-u32 BMP_OAM_Get(u32 key);
+u32 NATION_AREA_GetAreaMsgBank(u32 key);
 
-u32 BMP_OAM_GetRecordField(u32 recIdx);
+u32 NATION_AREA_GetAreaMsgBankByIndex(u32 recIdx);
 
-u32 BMP_OAM_GetRecordKey(u32 recIdx);
+u32 NATION_AREA_GetNationIdByIndex(u32 recIdx);
 
-u32 BMP_OAM_GetRecordParam(u32 recIdx);
+u32 NATION_AREA_GetAreaListArcMember(u32 recIdx);
 
-int BMP_OAM_Update5BE8(void);
+int NATION_AREA_GetDefaultNation(void);
 
-u32 BMP_OAM_Check5BEC(u32 id, u32 minValue, u32 flag);
+u32 NATION_AREA_IsValidNationArea(u32 id, u32 minValue, u32 flag);
 
-u32 BMP_OAM_CheckRangeGetId(u32 id, u32 minValue, u32 flag);
+u32 NATION_AREA_SanitizeNation(u32 id, u32 minValue, u32 flag);
 
-u32 BMP_OAM_CheckRangeGetMin(u32 id, u32 minValue, u32 flag);
+u32 NATION_AREA_SanitizeArea(u32 id, u32 minValue, u32 flag);
 
-int BMP_OAM_Check5C44(u32 key, u32 *outWord, u32 *outByte);
+int NATION_AREA_GetAreaTable(u32 key, u32 *outWord, u32 *outByte);
 
 extern u32   g_020A7494[];
 
@@ -586,7 +586,7 @@ void BMP_OAM_ReleaseModeSlots(struct BmpOamSys *sys)
     }
 }
 
-int BMP_OAM_GetNumRecords(void)
+int NATION_AREA_GetNationRecordCount(void)
 {
     return 19;
 }
@@ -596,7 +596,7 @@ int BMP_OAM_GetNumRecords(void)
  * byte of each; returns the matching index, or 0 (not -1) when nothing
  * matches, so a caller cannot tell "matched record 0" from "no match".
  */
-u32 BMP_OAM_GetRecordIndex(u32 key)
+u32 NATION_AREA_FindRecordIndex(u32 key)
 {
     u32 recIdx;
 
@@ -608,7 +608,7 @@ u32 BMP_OAM_GetRecordIndex(u32 key)
     return 0;
 }
 
-u8 BMP_OAM_GetRecordValue(u32 key)
+u8 NATION_AREA_GetAreaCount(u32 key)
 {
     u32 recIdx;
 
@@ -622,11 +622,11 @@ u8 BMP_OAM_GetRecordValue(u32 key)
 
 /*
  * Two-stage lookup: map a caller value to a record index with
- * BMP_OAM_GetRecordIndex, then map that index to an id with BMP_OAM_GetRecordField.
+ * NATION_AREA_FindRecordIndex, then map that index to an id with NATION_AREA_GetAreaMsgBankByIndex.
  */
-u32 BMP_OAM_Get(u32 key)
+u32 NATION_AREA_GetAreaMsgBank(u32 key)
 {
-    return BMP_OAM_GetRecordField(BMP_OAM_GetRecordIndex(key));
+    return NATION_AREA_GetAreaMsgBankByIndex(NATION_AREA_FindRecordIndex(key));
 }
 
 /*
@@ -634,11 +634,11 @@ u32 BMP_OAM_Get(u32 key)
  * returns the sentinel 0xE7.
  *
  * The table address (0x0209FA36) is two bytes into the record array that
- * BMP_OAM_GetRecordIndex searches.  Declaring it as an offset from g_0209FA34
+ * NATION_AREA_FindRecordIndex searches.  Declaring it as an offset from g_0209FA34
  * changes the code the compiler emits for the pointer arithmetic, so it
  * keeps its own symbol.
  */
-u32 BMP_OAM_GetRecordField(u32 recIdx)
+u32 NATION_AREA_GetAreaMsgBankByIndex(u32 recIdx)
 {
     if (recIdx < 0x13) {
         return *(const u16 *)(g_0209FA36 + recIdx * 0xc);
@@ -646,42 +646,42 @@ u32 BMP_OAM_GetRecordField(u32 recIdx)
     return 0xE7;
 }
 
-u32 BMP_OAM_GetRecordKey(u32 recIdx)
+u32 NATION_AREA_GetNationIdByIndex(u32 recIdx)
 {
     if (recIdx < 19)
         return g_0209FA34[recIdx * 12];
     return 0;
 }
 
-u32 BMP_OAM_GetRecordParam(u32 recIdx)
+u32 NATION_AREA_GetAreaListArcMember(u32 recIdx)
 {
     if (recIdx < 19)
         return g_0209FA35[recIdx * 12];
     return 18;
 }
 
-int BMP_OAM_Update5BE8(void)
+int NATION_AREA_GetDefaultNation(void)
 {
     return 0x69;
 }
 
 /*
  * Three-argument predicate: out of range (`a >= 0xE9`) fails immediately;
- * otherwise it looks `a` up through BMP_OAM_GetRecordValue and fails if the result
+ * otherwise it looks `a` up through NATION_AREA_GetAreaCount and fails if the result
  * is below `b`; otherwise, when `c == 1`, it fails unless `a` is one of two
  * special-cased values (0x69 or 0).  Every early exit is a direct `return`,
  * not a shared tail.
  *
- * BMP_OAM_CheckRangeGetId and BMP_OAM_CheckRangeGetMin both wrap the predicate with the same
+ * NATION_AREA_SanitizeNation and NATION_AREA_SanitizeArea both wrap the predicate with the same
  * shape, "return the value on success, 0 on failure", differing only in
  * which argument is guarded: the first, or the second.
  */
-u32 BMP_OAM_Check5BEC(u32 id, u32 minValue, u32 flag)
+u32 NATION_AREA_IsValidNationArea(u32 id, u32 minValue, u32 flag)
 {
     if (id >= 0xE9) {
         return 0;
     }
-    if (BMP_OAM_GetRecordValue(id) < minValue) {
+    if (NATION_AREA_GetAreaCount(id) < minValue) {
         return 0;
     }
     if (flag == 1) {
@@ -692,29 +692,29 @@ u32 BMP_OAM_Check5BEC(u32 id, u32 minValue, u32 flag)
     return 1;
 }
 
-u32 BMP_OAM_CheckRangeGetId(u32 id, u32 minValue, u32 flag)
+u32 NATION_AREA_SanitizeNation(u32 id, u32 minValue, u32 flag)
 {
     u32 result = id;
 
-    if (!BMP_OAM_Check5BEC(id, minValue, flag)) {
+    if (!NATION_AREA_IsValidNationArea(id, minValue, flag)) {
         result = 0;
     }
     return result;
 }
 
-u32 BMP_OAM_CheckRangeGetMin(u32 id, u32 minValue, u32 flag)
+u32 NATION_AREA_SanitizeArea(u32 id, u32 minValue, u32 flag)
 {
     u32 result = minValue;
 
-    if (!BMP_OAM_Check5BEC(id, minValue, flag)) {
+    if (!NATION_AREA_IsValidNationArea(id, minValue, flag)) {
         result = 0;
     }
     return result;
 }
 
-int BMP_OAM_Check5C44(u32 key, u32 *outWord, u32 *outByte)
+int NATION_AREA_GetAreaTable(u32 key, u32 *outWord, u32 *outByte)
 {
-    u32 recIdx = BMP_OAM_GetRecordIndex(key);
+    u32 recIdx = NATION_AREA_FindRecordIndex(key);
     u32 recOff;
 
     if (recIdx == 0) {

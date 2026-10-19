@@ -100,7 +100,7 @@
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   GXx_SetMasterBrightness_ 0x0207D534 arm
  *   BMP_SetDisplaySwap 0x0204363C arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   GF_OVERLAY_Unload 0x02034A5C arm
  *   PALANM_GetFadeRequestBits 0x02021ED8 thumb
  *   FRAME_LIST_UpdateInit 0x021B7A64 thumb ov067
@@ -504,7 +504,7 @@ extern int GF_OVERLAY_Load(int);
 
 extern void BMP_SetDisplaySwap(u32);
 
-extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32, u32);
 
 extern u32 PALANM_GetFadeRequestBits(const char *);
 
@@ -1240,7 +1240,7 @@ int ZUKAN_LIST_StateInit(struct ZukanList *p)
     ZUKAN_LIST_CreateFrameList(p);
     if (p->args->mode == 0) ZUKAN_LIST_DrawHeaderCounts(p);
     else ZUKAN_LIST_DrawHeaderNational(p);
-    GFL_NET_RestartWithDefaultTimeout(1, 0x6B);
+    GFL_NET_RefreshWmIconAtTopRight(1, 0x6B);
     ZUKAN_LIST_SetSubScreenBlendAlpha();
     ZUKAN_LIST_EnableSubWindows();
     ZUKAN_LIST_MoveScrollBarActorsIn(p);

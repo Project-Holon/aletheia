@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * ABI: MUSICAL_MCSS_GetFlagA declared int here: its forwarded MUSICAL_MCSS_GetStateA returns 0/1; original compares the returned r0 despite legacy void declarations.
+ * ABI: MUSICAL_MCSS_ElemHasAltDepth declared int here: its forwarded MUSICAL_MCSS_GetStateA returns 0/1; original compares the returned r0 despite legacy void declarations.
  * symbols:
  *   DUP_FITTING_ITEM_ElemGetRenderElem 0x021BA218 thumb ov133
  *   DUP_FITTING_IsFrameOwned 0x021B8B78 thumb ov133
@@ -30,7 +30,7 @@
  *   MUSICAL_MCSS_SetElemScale 0x021F4EA4 thumb ov112
  *   MUSICAL_MCSS_SetElemRotZ 0x021F4EB4 thumb ov112
  *   DUP_FITTING_ITEM_ElemSetFrameIndex 0x021BA254 thumb ov133
- *   MUSICAL_MCSS_GetFlagA 0x021F4B24 thumb ov112
+ *   MUSICAL_MCSS_ElemHasAltDepth 0x021F4B24 thumb ov112
  *   _fflt 0x0209BDBC arm
  *   _fadd 0x0209C95C arm
  *   _fsub 0x0209CB8C arm
@@ -63,7 +63,7 @@ extern void DUP_FITTING_ITEM_ElemSetAnimFrames(char *p, u32 v);
 extern void MUSICAL_MCSS_SetElemScale(u32 unused, u32 p, u32 q);
 extern void MUSICAL_MCSS_SetElemRotZ(u32 unused, u32 p, s16 a, s16 b);
 extern void DUP_FITTING_ITEM_ElemSetFrameIndex(char *p, int v);
-extern int MUSICAL_MCSS_GetFlagA(u8 *);
+extern int MUSICAL_MCSS_ElemHasAltDepth(u8 *);
 void DUP_FITTING_MoveElem(u8 *p)
 {
     Vec v, first, second;
@@ -120,7 +120,7 @@ void DUP_FITTING_MoveElem(u8 *p)
     while(entry) {
         s=(u8 *)DUP_FITTING_ITEM_ElemGetRenderElem(entry);
         MUSICAL_MCSS_SetElemScale(*(int *)(p+0x1884),(int)s,(u32)(&second));
-        if(MUSICAL_MCSS_GetFlagA(s)==1) second.z=depth+(102<<10);
+        if(MUSICAL_MCSS_ElemHasAltDepth(s)==1) second.z=depth+(102<<10);
         else if(DUP_FITTING_ITEM_ElemGetFrameIndex((char *)entry)==7 || DUP_FITTING_ITEM_ElemGetFrameIndex((char *)entry)==8) second.z=depth+(222<<10);
         else second.z=depth+(202<<10);
         MUSICAL_MCSS_SetElemPos(*(int *)(p+0x1884),(int)s,&second);

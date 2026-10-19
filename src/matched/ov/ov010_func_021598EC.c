@@ -15,7 +15,7 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   SCRCMD_FLDMMDL_UnpauseAllMmdls  0x021B1BE8  thumb
  *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
- *   FIELD_SOUND_SYSTEM_GetQueueDepth  0x020288C4  thumb
+ *   FIELD_SOUND_SYSTEM_GetPendingBgmStackDepth  0x020288C4  thumb
  *   FIELD_SOUND_SYSTEM_StartPopAllTask  0x0202972C  thumb
  *   SCRIPT_SYS_CallEvent  0x0215897C  thumb  ov010
  */
@@ -30,7 +30,7 @@ extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void SCRCMD_FLDMMDL_UnpauseAllMmdls(int);
 struct BigObj;
 extern unsigned int GAME_DATA_GetBgmInfo(const struct BigObj *p);
-extern s32 FIELD_SOUND_SYSTEM_GetQueueDepth(struct Sys *s);
+extern s32 FIELD_SOUND_SYSTEM_GetPendingBgmStackDepth(struct Sys *s);
 extern void *FIELD_SOUND_SYSTEM_StartPopAllTask(void *a, u16 b);
 extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
 
@@ -41,7 +41,7 @@ int SCRIPT_WORK_CmdPopAllBgm(int a, int b)
     int h = (int)GAMESYSTEM_GetGameData(y);
     int r = 0;
     SCRCMD_FLDMMDL_UnpauseAllMmdls(b);
-    if (FIELD_SOUND_SYSTEM_GetQueueDepth((struct Sys *)((int)GAME_DATA_GetBgmInfo((const struct BigObj *)h)))) {
+    if (FIELD_SOUND_SYSTEM_GetPendingBgmStackDepth((struct Sys *)((int)GAME_DATA_GetBgmInfo((const struct BigObj *)h)))) {
         SCRIPT_SYS_CallEvent(x, FIELD_SOUND_SYSTEM_StartPopAllTask(y, r));
         r = 1;
     }

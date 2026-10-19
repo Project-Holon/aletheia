@@ -1,7 +1,7 @@
 /*
  * file:     zonedata.c
  * unit:     yes
- * function: ZONEDATA_Init, ZONEDATA_Exit, ZONEDATA_SetChangeZoneEnable, ZONEDATA_GetChangedZoneId, ZONEDATA_GetHeader, ZONEDATA_IsChangedZoneInTable, ZONEDATA_GetAreaId, ZONEDATA_GetMatrixId, ZONEDATA_GetMapType, ZONEDATA_GetScriptArcId, ZONEDATA_GetMsgArcId, ZONEDATA_GetStartPos, ZONEDATA_GetStartRailPos, ZONEDATA_GetMapChangeType, ZONEDATA_GetCameraId, ZONEDATA_GetCameraAreaId, ZONEDATA_GetBgmId, ZONEDATA_GetWeatherId, ZONEDATA_IsBikeEnabled, ZONEDATA_IsRingtoneEnabled, ZONEDATA_IsFlyEnabled, ZONEDATA_IsWeatherEnabled, ZONEDATA_IsPalaceEnabled, ZONEDATA_IsRailMap, ZONEDATA_HasSpecialKind, ZONEDATA_GetSpecialKind, ZONEDATA_IsZone1A6, ZONEDATA_IsZone96Pair, ZONEDATA_IsZone4BPair, ZONEDATA_IsZone34, ZONEDATA_IsNoGameEventZone, ZONEDATA_IsZone117, ZONEDATA_IsZoneGroup118To13C, ZONEDATA_IsZoneGroup118To120, ZONEDATA_IsRawZoneGroup121To13C, ZONEDATA_IsZoneInTableDFC0, ZONEDATA_IsZoneInTableDFEC, ZONEDATA_IsZone4E, ZONEDATA_IsNormalFieldZone, ZONEDATA_GetParentZoneId, ZONEDATA_GetPlaceNameId, ZONEDATA_GetPlaceNameWindow, ZONEDATA_IsFieldMatrix, ZONEDATA_IsSameMatrixGroup, ZONEDATA_GetEncountId, ZONEDATA_GetEventDataId, ZONEDATA_GetFieldEffectSetId, ZONEDATA_GetFogId, ZONEDATA_GetLightId, ZONEDATA_GetFieldSkillMapEffect, ZONEDATA_GetSecondSpecialKind, ZONEDATA_GetExpObjSetId, ZONEDATA_IsZoneInTableDFDC, ZONEDATA_IsZoneInTableDFB8, ZONEDATA_IsRawZoneF6, ZONEDATA_IsRawZoneF7, ZONEDATA_IsZoneInTableDFD2, ZONEDATA_IsRawZoneGroup4CTo69, ZONEDATA_IsRawZone176Or17A, ZONEDATA_GetMapSubType, ZONEDATA_IsParentZoneD6, ZONEDATA_CreateAreaData, ZONEDATA_DeleteAreaData, ZONEDATA_GetAreaTexSetId, ZONEDATA_GetAreaItaAnimeId, ZONEDATA_GetAreaItpAnimeId, ZONEDATA_GetAreaInnerOuter, ZONEDATA_GetAreaLightType, ZONEDATA_GetAreaEdgeMarkType, ZONEDATA_GetAreaBillboardColor, ZONEDATA_IsSeasonArea, ZONEDATA_InitLocation, ZONEDATA_SetExitLocation, ZONEDATA_SetExitRailLocation, ZONEDATA_SetExitLocationIdOnly, ZONEDATA_SetDirectLocation, ZONEDATA_SetDirectRailLocation, ZONEDATA_GetLocationPosType, ZONEDATA_GetLocationVec, ZONEDATA_SetLocationVec, ZONEDATA_SetZoneStartLocation, ZONEDATA_SetGameStartLocation, ZONEDATA_ExitDirToDir, ZONEDATA_DirToExitDir, ZONEDATA_GetEventWorkSize, ZONEDATA_InitEventWork, ZONEDATA_CheckEventFlag, ZONEDATA_SetEventFlag, ZONEDATA_ResetEventFlag, ZONEDATA_ResetEventFlagRange, ZONEDATA_GetEventFlagAddress, ZONEDATA_GetEventWorkAddress, ZONEDATA_ClearEventWorkRange, ZONEDATA_ClearTimeFlags, ZONEDATA_PopTimeFlagsCleared, ZONEDATA_DirToRailKey
+ * function: ZONEDATA_Init, ZONEDATA_Exit, ZONEDATA_SetChangeZoneEnable, ZONEDATA_GetChangedZoneId, ZONEDATA_GetHeader, ZONEDATA_IsChangedZoneInTable, ZONEDATA_GetAreaId, ZONEDATA_GetMatrixId, ZONEDATA_GetMapType, ZONEDATA_GetScriptArcId, ZONEDATA_GetMsgArcId, ZONEDATA_GetStartPos, ZONEDATA_GetStartRailPos, ZONEDATA_GetMapChangeType, ZONEDATA_GetCameraId, ZONEDATA_GetCameraAreaId, ZONEDATA_GetBgmId, ZONEDATA_GetWeatherId, ZONEDATA_IsBikeEnabled, ZONEDATA_IsRideBgmEnabled, ZONEDATA_IsFlyEnabled, ZONEDATA_IsWeatherEnabled, ZONEDATA_IsPalaceEnabled, ZONEDATA_IsRailMap, ZONEDATA_HasSpecialKind, ZONEDATA_GetSpecialKind, ZONEDATA_IsUnionRoom, ZONEDATA_IsZone96Pair, ZONEDATA_IsZone4BPair, ZONEDATA_IsZone34, ZONEDATA_IsNoGameEventZone, ZONEDATA_IsEntralink, ZONEDATA_IsZoneGroup118To13C, ZONEDATA_IsZoneGroup118To120, ZONEDATA_IsRawZoneGroup121To13C, ZONEDATA_IsZoneInTableDFC0, ZONEDATA_IsZoneInTableDFEC, ZONEDATA_IsZone4E, ZONEDATA_IsNormalFieldZone, ZONEDATA_GetParentZoneId, ZONEDATA_GetPlaceNameId, ZONEDATA_GetPlaceNameWindow, ZONEDATA_IsFieldMatrix, ZONEDATA_IsSameMatrixGroup, ZONEDATA_GetEncountId, ZONEDATA_GetEventDataId, ZONEDATA_GetFieldEffectSetId, ZONEDATA_GetFogId, ZONEDATA_GetLightId, ZONEDATA_GetFieldSkillMapEffect, ZONEDATA_GetSecondSpecialKind, ZONEDATA_GetExpObjSetId, ZONEDATA_IsZoneInTableDFDC, ZONEDATA_IsZoneInTableDFB8, ZONEDATA_IsRawZoneF6, ZONEDATA_IsRawZoneF7, ZONEDATA_IsZoneInTableDFD2, ZONEDATA_IsRawZoneGroup4CTo69, ZONEDATA_IsRawZone176Or17A, ZONEDATA_GetMapSubType, ZONEDATA_IsParentZoneD6, ZONEDATA_CreateAreaData, ZONEDATA_DeleteAreaData, ZONEDATA_GetAreaTexSetId, ZONEDATA_GetAreaItaAnimeId, ZONEDATA_GetAreaItpAnimeId, ZONEDATA_GetAreaInnerOuter, ZONEDATA_GetAreaLightType, ZONEDATA_GetAreaEdgeMarkType, ZONEDATA_GetAreaBillboardColor, ZONEDATA_IsSeasonArea, ZONEDATA_InitLocation, ZONEDATA_SetExitLocation, ZONEDATA_SetExitRailLocation, ZONEDATA_SetExitLocationIdOnly, ZONEDATA_SetDirectLocation, ZONEDATA_SetDirectRailLocation, ZONEDATA_GetLocationPosType, ZONEDATA_GetLocationVec, ZONEDATA_SetLocationVec, ZONEDATA_SetZoneStartLocation, ZONEDATA_SetGameStartLocation, ZONEDATA_ExitDirToDir, ZONEDATA_DirToExitDir, ZONEDATA_GetEventWorkSize, ZONEDATA_InitEventWork, ZONEDATA_CheckEventFlag, ZONEDATA_SetEventFlag, ZONEDATA_ResetEventFlag, ZONEDATA_ResetEventFlagRange, ZONEDATA_GetEventFlagAddress, ZONEDATA_GetEventWorkAddress, ZONEDATA_ClearEventWorkRange, ZONEDATA_ClearTimeFlags, ZONEDATA_PopTimeFlagsCleared, ZONEDATA_DirToRailKey
  * address:  0x020139B0
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -83,7 +83,7 @@ struct ZoneHeader {
     u16 dashEnabled : 1;
     u16 weatherEnabled : 1;
     u16 flyEnabled : 1;
-    u16 ringtoneEnabled : 1;
+    u16 rideBgmEnabled : 1;
     u16 palaceEnabled : 1;
     u16 cameraAreaId;               /* 0x20 */
     u16 pad22;
@@ -223,7 +223,7 @@ u32 ZONEDATA_GetWeatherId(u32 id);
 
 u32 ZONEDATA_IsBikeEnabled(u32 id);
 
-u32 ZONEDATA_IsRingtoneEnabled(u32 id);
+u32 ZONEDATA_IsRideBgmEnabled(u32 id);
 
 u32 ZONEDATA_IsFlyEnabled(u32 id);
 
@@ -237,7 +237,7 @@ int ZONEDATA_HasSpecialKind(int zoneId);
 
 int ZONEDATA_GetSpecialKind(u16 key);
 
-u32 ZONEDATA_IsZone1A6(u32 id);
+u32 ZONEDATA_IsUnionRoom(u32 id);
 
 u32 ZONEDATA_IsZone96Pair(u32 id);
 
@@ -247,7 +247,7 @@ u32 ZONEDATA_IsZone34(u32 id);
 
 u32 ZONEDATA_IsNoGameEventZone(u32 id);
 
-u32 ZONEDATA_IsZone117(u32 id);
+u32 ZONEDATA_IsEntralink(u32 id);
 
 int ZONEDATA_IsZoneGroup118To13C(u32 key);
 
@@ -787,10 +787,10 @@ u32 ZONEDATA_IsBikeEnabled(u32 id)
     return r->bikeEnabled;
 }
 
-u32 ZONEDATA_IsRingtoneEnabled(u32 id)
+u32 ZONEDATA_IsRideBgmEnabled(u32 id)
 {
     const struct ZoneHeader *r = ZONEDATA_GetHeader(id);
-    return r->ringtoneEnabled;
+    return r->rideBgmEnabled;
 }
 
 u32 ZONEDATA_IsFlyEnabled(u32 id)
@@ -849,7 +849,7 @@ int ZONEDATA_GetSpecialKind(u16 key)
 /*
  * A whole translation unit, matched as one byte range.
  *
- *           ZONEDATA_IsNoGameEventZone, ZONEDATA_IsZone117
+ *           ZONEDATA_IsNoGameEventZone, ZONEDATA_IsEntralink
  *
  * alias: a run of id-classification predicates on the remapped id
  * ZONEDATA_GetChangedZoneId() returns, plus ZONEDATA_IsNoGameEventZone, which is a plain disjunction
@@ -864,7 +864,7 @@ int ZONEDATA_GetSpecialKind(u16 key)
  * back down to a subs regardless of how the literal is written in C, so the
  * pool word is what has to be reproduced, not a stylistic choice.
  *
- * ZONEDATA_IsNoGameEventZone is a genuine `||` of ZONEDATA_IsZone1A6, ZONEDATA_IsZone96Pair and
+ * ZONEDATA_IsNoGameEventZone is a genuine `||` of ZONEDATA_IsUnionRoom, ZONEDATA_IsZone96Pair and
  * ZONEDATA_IsZone34 (single conjunction/disjunction sharing one exit block),
  * confirmed by trying it first as three separate `if (x) return 1;`
  * statements: that phrasing gives each early return its own copy of the
@@ -878,7 +878,7 @@ int ZONEDATA_GetSpecialKind(u16 key)
  *   python tools/match.py tu --src src/matched/unit_02013CC8.c \
  *       --addr 0x02013CC8 --thumb
  */
-u32 ZONEDATA_IsZone1A6(u32 id)
+u32 ZONEDATA_IsUnionRoom(u32 id)
 {
     return ZONEDATA_GetChangedZoneId(id) == 0x1a6;
 }
@@ -900,10 +900,10 @@ u32 ZONEDATA_IsZone34(u32 id)
 
 u32 ZONEDATA_IsNoGameEventZone(u32 id)
 {
-    return ZONEDATA_IsZone1A6(id) || ZONEDATA_IsZone96Pair(id) || ZONEDATA_IsZone34(id);
+    return ZONEDATA_IsUnionRoom(id) || ZONEDATA_IsZone96Pair(id) || ZONEDATA_IsZone34(id);
 }
 
-u32 ZONEDATA_IsZone117(u32 id)
+u32 ZONEDATA_IsEntralink(u32 id)
 {
     return ZONEDATA_GetChangedZoneId(id) == 0x117;
 }
@@ -992,7 +992,7 @@ int ZONEDATA_IsZoneInTableDFEC(u16 zoneId)
  * be attested, only the call to it.
  *
  * ZONEDATA_IsNormalFieldZone returns true only when NONE of five predicates
- * (ZONEDATA_IsZone1A6, ZONEDATA_IsZone96Pair, ZONEDATA_IsZone4BPair, ZONEDATA_IsZone117, ZONEDATA_IsZoneGroup118To13C)
+ * (ZONEDATA_IsUnionRoom, ZONEDATA_IsZone96Pair, ZONEDATA_IsZone4BPair, ZONEDATA_IsEntralink, ZONEDATA_IsZoneGroup118To13C)
  * match, written as the direct disjunction `if (a || b || c || d || e)
  * return 0; return 1;`.  Splitting the disjunction into two `if`s, or
  * writing the same thing as `if (x) return 0;` five times, both changed
@@ -1031,8 +1031,8 @@ u32 ZONEDATA_IsZone4E(u32 id)
 
 u32 ZONEDATA_IsNormalFieldZone(u32 id)
 {
-    if (ZONEDATA_IsZone1A6(id) || ZONEDATA_IsZone96Pair(id) || ZONEDATA_IsZone4BPair(id) ||
-        ZONEDATA_IsZone117(id) || ZONEDATA_IsZoneGroup118To13C(id))
+    if (ZONEDATA_IsUnionRoom(id) || ZONEDATA_IsZone96Pair(id) || ZONEDATA_IsZone4BPair(id) ||
+        ZONEDATA_IsEntralink(id) || ZONEDATA_IsZoneGroup118To13C(id))
         return 0;
     return 1;
 }

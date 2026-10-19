@@ -1,5 +1,5 @@
 /*
- * function: WIFIBATTLEMATCH_NET_TaskStepH
+ * function: WIFIBATTLEMATCH_NET_TaskStepRatingAskRetry
  * address: 0x021D5560
  * packet: pkt_ov175_021D5560
  * region: ov175
@@ -19,8 +19,8 @@
  *   WIFIBATTLEMATCH_NET_PollChoiceMenu 0x021D65DC thumb ov175
  *   WIFIBATTLEMATCH_NET_DeleteChoiceMenu 0x021D65C8 thumb ov175
  *   WIFIBATTLEMATCH_NET_TaskCleanupA 0x021D61A4 thumb ov175
- *   WIFIBATTLEMATCH_NET_TaskStepD 0x021D495C thumb ov175
- *   WIFIBATTLEMATCH_NET_TaskStepI 0x021D5634 thumb ov175
+ *   WIFIBATTLEMATCH_NET_TaskStepRatingFetchGdbRecord 0x021D495C thumb ov175
+ *   WIFIBATTLEMATCH_NET_TaskStepRatingConfirmQuit 0x021D5634 thumb ov175
  */
 typedef unsigned int u32;
 extern int WIFIBATTLEMATCH_NET_HandleNetError(char *, void *, void *);
@@ -34,9 +34,9 @@ extern int WIFIBATTLEMATCH_NET_PollChoiceMenu(char *);
 extern void WIFIBATTLEMATCH_NET_DeleteChoiceMenu(char *);
 typedef unsigned char  u8;
 extern void WIFIBATTLEMATCH_NET_TaskCleanupA(void *obj, int unused, u8 *p);
-extern void WIFIBATTLEMATCH_NET_TaskStepD(u32 sys, int *state, u32 *p);
-extern void WIFIBATTLEMATCH_NET_TaskStepI(unsigned, int *, int *);
-void WIFIBATTLEMATCH_NET_TaskStepH(unsigned sys, int *state, int *p)
+extern void WIFIBATTLEMATCH_NET_TaskStepRatingFetchGdbRecord(u32 sys, int *state, u32 *p);
+extern void WIFIBATTLEMATCH_NET_TaskStepRatingConfirmQuit(unsigned, int *, int *);
+void WIFIBATTLEMATCH_NET_TaskStepRatingAskRetry(unsigned sys, int *state, int *p)
 {
     int result;
     switch (*state) {
@@ -61,8 +61,8 @@ void WIFIBATTLEMATCH_NET_TaskStepH(unsigned sys, int *state, int *p)
         if (result != -1) {
             WIFIBATTLEMATCH_NET_DeleteChoiceMenu((char *)p);
             switch (result) {
-            case 0: WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepD); break;
-            case 1: WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepI); break;
+            case 0: WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepRatingFetchGdbRecord); break;
+            case 1: WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepRatingConfirmQuit); break;
             }
         }
         break;

@@ -15,9 +15,9 @@
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   BEACON_GetBlock  0x0200C0F0  thumb
- *   BEACON_GetRank  0x0200C1A4  thumb
- *   BEACON_GetBestScore  0x0200C184  thumb
+ *   MISC_GetBlock  0x0200C0F0  thumb
+ *   MISC_GetRank  0x0200C1A4  thumb
+ *   MISC_GetBestScore  0x0200C184  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -35,9 +35,9 @@ struct Blk34;
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern void *SCRCMD_WORK_GetGameData(void *ctx);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *BEACON_GetBlock(void *p);
-extern u8 BEACON_GetRank(struct Blk34 *p);
-extern u32 BEACON_GetBestScore(struct Blk34 *p);
+extern void *MISC_GetBlock(void *p);
+extern u8 MISC_GetRank(struct Blk34 *p);
+extern u32 MISC_GetBestScore(struct Blk34 *p);
 
 int SCRCMD_PALPARK_GetSaveValue(ScriptVM *vm, void *ctx)
 {
@@ -48,14 +48,14 @@ int SCRCMD_PALPARK_GetSaveValue(ScriptVM *vm, void *ctx)
     mode = *vm->pc;
     vm->pc++;
     dst = SCRIPT_WORK_ReadWorkPointer(vm, ctx);
-    p = BEACON_GetBlock(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(ctx)));
+    p = MISC_GetBlock(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(ctx)));
 
     switch (mode) {
     case 0:
-        *dst = BEACON_GetRank(p);
+        *dst = MISC_GetRank(p);
         break;
     case 1:
-        *dst = BEACON_GetBestScore(p);
+        *dst = MISC_GetBestScore(p);
         break;
     }
     return 0;

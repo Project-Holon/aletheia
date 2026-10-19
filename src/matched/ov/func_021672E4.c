@@ -11,8 +11,8 @@
  *
  * symbols:
  *   GAME_DATA_GetSaveControlWork  0x02012EC0  thumb
- *   BEACON_GetFromSave  0x0200C0E8  thumb
- *   BEACON_GetThanksCount  0x0200C1DC  thumb
+ *   MISC_GetFromSave  0x0200C0E8  thumb
+ *   MISC_GetThanksCount  0x0200C1DC  thumb
  */
 #include "../include/Obj17730.h"
 
@@ -23,9 +23,9 @@ typedef unsigned int u32;
 struct Big;
 
 extern void *GAME_DATA_GetSaveControlWork(struct Big *p);
-extern void *BEACON_GetFromSave(void *sys);
+extern void *MISC_GetFromSave(void *sys);
 struct Blk34;
-extern u32 BEACON_GetThanksCount(struct Blk34 *p);
+extern u32 MISC_GetThanksCount(struct Blk34 *p);
 
 int EVENT_RESEARCH_RADAR_GetReportNumberA(int a0)
 {
@@ -36,8 +36,8 @@ int EVENT_RESEARCH_RADAR_GetReportNumberA(int a0)
 a0 = ((struct Obj17730 *)a0)->f8;
     big = GAME_DATA_GetSaveControlWork((struct Big *)a0);
 loc_021672EC:
-    sys = BEACON_GetFromSave(big);
+    sys = MISC_GetFromSave(big);
 loc_021672F0:
-    a0 = BEACON_GetThanksCount(sys);
+    a0 = MISC_GetThanksCount(sys);
 loc_021672F4:
     return a0;}

@@ -18,7 +18,7 @@
  *   BTL_CLIENT_ClearSlotOrder 0x021CFBA4 thumb ov093
  *   BTL_SLOT_GetPokeParam 0x021B9C00 thumb ov093
  *   BTL_POKEPARAM_IsFainted 0x021D5B68 thumb ov093
- *   BTL_CALC_ActionSetNone 0x021D8434 thumb ov093
+ *   BTL_ACTION_SetNone 0x021D8434 thumb ov093
  *   BTL_CLIENT_IsActionForced 0x021CF470 thumb ov093
  *   BTL_CLIENT_TakeTrainerItemToUse 0x021D3DC4 thumb ov093
  *   BTL_ACTION_SetItem 0x021D8358 thumb ov093
@@ -61,7 +61,7 @@ extern u8 *BTL_SLOT_GetPokeParam(struct S2 *p, u32 i);
 extern int BTL_POKEPARAM_IsFainted(void *);
 struct G;
 struct Unk021D82D0;
-extern void BTL_CALC_ActionSetNone(u32 *p);
+extern void BTL_ACTION_SetNone(u32 *p);
 extern u32 BTL_CLIENT_IsActionForced(u8 *, void *, u8 *);
 extern u32 BTL_CLIENT_TakeTrainerItemToUse(u8 *, void *, void *);
 struct Unk021D82D0;
@@ -113,7 +113,7 @@ int BTL_CLIENT_StepAutoChooseActions(u8 *p, u32 *state)
         M = BTL_SLOT_GetPokeParam(((struct Obj00464 *)p)->f118, p[0x11d]);
         R = p+0x124+p[0x11d]*4;
         if (BTL_POKEPARAM_IsFainted(M)) {
-            BTL_CALC_ActionSetNone((u32 *)R);
+            BTL_ACTION_SetNone((u32 *)R);
             goto complete;
         }
         if (BTL_CLIENT_IsActionForced(p,M,R)) goto complete;

@@ -1,5 +1,5 @@
 /*
- * function: EVENT_BATTLE_SetResultSound
+ * function: EVENT_BATTLE_AddBattleRecord
  * address:  0x0216EF84
  * packet:   pkt_0216EF84
  * region:   ov010
@@ -28,7 +28,7 @@ struct Sub02008C20Obj;
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 
-int EVENT_BATTLE_SetResultSound(int a0)
+int EVENT_BATTLE_AddBattleRecord(int a0)
 {
     int a1;
     int t4;

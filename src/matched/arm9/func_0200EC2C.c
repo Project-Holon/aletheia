@@ -1,5 +1,5 @@
 /*
- * function: MISC_SAVEDATA_ExportRecord
+ * function: DENDOU_SAVEDATA_ExportMember
  * address:  0x0200EC2C
  * packet:   pkt_0200EA3C
  * region:   arm9
@@ -36,8 +36,8 @@
  * unlabelled follower and wants seeding into layout/function_starts.txt.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/MISC_SAVEDATA_ExportRecord.c \
- *       --func MISC_SAVEDATA_ExportRecord --addr 0x0200EC2C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/DENDOU_SAVEDATA_ExportMember.c \
+ *       --func DENDOU_SAVEDATA_ExportMember --addr 0x0200EC2C --cc 1.1p1 --thumb
  */
 
 typedef unsigned char  u8;
@@ -76,7 +76,7 @@ struct Dst0200EC2C {
 struct Strbuf;
 extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
 
-void MISC_SAVEDATA_ExportRecord(const struct Src0200EC2C *base, int idx, struct Dst0200EC2C *dst)
+void DENDOU_SAVEDATA_ExportMember(const struct Src0200EC2C *base, int idx, struct Dst0200EC2C *dst)
 {
     const struct Src0200EC2C *s = base + idx;
     int i;

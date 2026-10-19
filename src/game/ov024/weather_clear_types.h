@@ -21,11 +21,11 @@ extern void WEATHER_TASK_ChangeFog(WeatherTaskSys *task, int slope, int offset, 
 extern void WEATHER_TASK_ChangeFogOffset(WeatherTaskSys *task, int endOffset, int frames, int mode);
 extern int WEATHER_TASK_IsFogIdle(WeatherTaskSys *task);
 extern int WEATHER_TASK_IsZoneFogActive(WeatherTaskSys *task);
-extern int WEATHER_TASK_CheckZoneFogA(WeatherTaskSys *task);
-extern int WEATHER_TASK_CheckZoneFogB(WeatherTaskSys *task);
-extern int WEATHER_TASK_GetZoneFogC(WeatherTaskSys *task);
-extern int WEATHER_TASK_GetZoneFogD(WeatherTaskSys *task);
-extern int WEATHER_TASK_GetZoneFogE(WeatherTaskSys *task);
+extern int WEATHER_TASK_IsZoneFog(WeatherTaskSys *task);
+extern int WEATHER_TASK_IsZoneFogLight(WeatherTaskSys *task);
+extern int WEATHER_TASK_GetZoneFogOffset(WeatherTaskSys *task);
+extern int WEATHER_TASK_GetZoneFogSlope(WeatherTaskSys *task);
+extern int WEATHER_TASK_GetZoneFogLightId(WeatherTaskSys *task);
 
 /* Stages of the clear weather kind (WeatherKindDef callbacks: task, variant, heap id). */
 int WEATHER_CLEAR_Begin(WeatherTaskSys *task, int variant, int heapId);

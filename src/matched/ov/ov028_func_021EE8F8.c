@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   WEATHER_TASK_GetCameraState  0x021A2148  thumb  ov021
+ *   WEATHER_TASK_GetCameraSettingId  0x021A2148  thumb  ov021
  *   WEATHER_TASK_GetWorkBuffer  0x021A21B8  thumb  ov021
  *   WEATHER_TASK_InitFog  0x021A22E0  thumb  ov021
  *   gFogSlopeByCameraState     0x021EEA80  data  ov028  a1
@@ -18,7 +18,7 @@
  */
 
 typedef unsigned int   u32;
-int WEATHER_TASK_GetCameraState(unsigned char *o);
+int WEATHER_TASK_GetCameraSettingId(unsigned char *o);
 int *WEATHER_TASK_GetWorkBuffer(int *p);
 void WEATHER_TASK_InitFog(u32 *p, int a, int b, int c);
 extern unsigned char gFogSlopeByCameraState[];
@@ -26,7 +26,7 @@ extern int gFogOffsetByCameraState[];
 
 int WEATHER_FOG_BeginKind13(int a, int b)
 {
-    int i = WEATHER_TASK_GetCameraState((unsigned char *)a);
+    int i = WEATHER_TASK_GetCameraSettingId((unsigned char *)a);
     int *p = WEATHER_TASK_GetWorkBuffer((int *)a);
 
     p[1] = 0;

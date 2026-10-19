@@ -44,7 +44,7 @@
  *   FIELD_EFFECT_LoadResources  0x021ABE30  thumb  ov021
  *   sFieldEffectTaskCount     0x021D8F00  data
  *   sFieldEffectTaskTable     0x021D8F10  data
- *   ZONEDATA_IsZone1A6  0x02013CC8  thumb
+ *   ZONEDATA_IsUnionRoom  0x02013CC8  thumb
  *   ZONEDATA_IsZone96Pair  0x02013CE0  thumb
  *   UNION_EFF_Create  0x0217F8C0  thumb  ov019
  *   GAMESYSTEM_GetMyPlayerWork  0x020120F8  thumb
@@ -151,7 +151,7 @@ extern char *FIELD_EFFECT_Create(int a, int b, u16 c);
 extern void FIELD_EFFECT_InitObjectSystem(int t, int n);
 extern void FIELD_EFFECT_SetPaletteTable(u32 *p, u32 v);
 extern void FIELD_EFFECT_LoadResources(int t, int *arr, int n);
-extern u32 ZONEDATA_IsZone1A6(u32 id);
+extern u32 ZONEDATA_IsUnionRoom(u32 id);
 extern u32 ZONEDATA_IsZone96Pair(u32 id);
 extern void *UNION_EFF_Create(u16 id);
 extern u8 *GAMESYSTEM_GetMyPlayerWork(const struct Ctx *a);
@@ -250,7 +250,7 @@ int FIELDMAP_SeqCreateSubsystems(int a, char *p)
         FIELD_EFFECT_InitObjectSystem(F32(0x94), 0x5e);
         FIELD_EFFECT_SetPaletteTable((u32 *)F32(0x94), (u32)FIELD_PALACE_SYS_GetPalTable((u32 *)F32(0x9c)));
         FIELD_EFFECT_LoadResources(F32(0x94), sFieldEffectTaskTable, sFieldEffectTaskCount);
-        if (ZONEDATA_IsZone1A6(F16(0xd0)) == 1 || ZONEDATA_IsZone96Pair(F16(0xd0)) == 1) {
+        if (ZONEDATA_IsUnionRoom(F16(0xd0)) == 1 || ZONEDATA_IsZone96Pair(F16(0xd0)) == 1) {
             F32(0x98) = (int)UNION_EFF_Create(F16(0));
         }
         break;

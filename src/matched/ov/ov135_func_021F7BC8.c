@@ -14,7 +14,7 @@
  *   WORLDTRADE_SetStateAndReturn 0x021F4EC0 thumb ov135
  *   WORLDTRADE_DEPOSIT_SetGenderFromEvent 0x021F7B9C thumb ov135
  *   WORLDTRADE_DEPOSIT_DrawRequestWindow 0x021F81C8 thumb ov135
- *   WORLDTRADE_ENTER_SetListRangeEntry 0x021F89A8 thumb ov135
+ *   WORLDTRADE_DEPOSIT_SetListRangeEntry 0x021F89A8 thumb ov135
  *   POKE_PERSONAL_Create 0x0201ADE4 thumb
  *   POKE_PERSONAL_GetParam 0x0201AE1C thumb
  *   POKE_PERSONAL_Delete 0x0201AE14 thumb
@@ -36,7 +36,7 @@ extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 extern void POKE_PERSONAL_Delete(void *p);
 extern int WORLDTRADE_DEPOSIT_SetGenderFromEvent(u8 *p, int event);
 extern void WORLDTRADE_DEPOSIT_DrawRequestWindow(void *bank, void *names, int unused, u8 *win, u32 index, int mode, int place, void *g);
-extern void WORLDTRADE_ENTER_SetListRangeEntry(u8 *p, int i, u16 a, u16 b);
+extern void WORLDTRADE_DEPOSIT_SetListRangeEntry(u8 *p, int i, u16 a, u16 b);
 int WORLDTRADE_DEPOSIT_StateSpeciesMenuInput(u8 *p)
 {
     int result=WORLDTRADE_INPUT_MenuUpdate(((struct Obj01553 *)p)->fDE4);
@@ -49,7 +49,7 @@ int WORLDTRADE_DEPOSIT_StateSpeciesMenuInput(u8 *p)
         WORLDTRADE_SetStateAndReturn(p,5,5);
         ((struct Obj01553 *)p)->f28=2;
         target=*(u8 * *)&((struct Obj01553 *)p)->fE00;
-        WORLDTRADE_ENTER_SetListRangeEntry(p+0xEEC,((struct Obj03830 *)target)->f6+((struct Obj03830 *)target)->f4,((struct Obj03830 *)target)->fA,((struct Obj03830 *)target)->f8);
+        WORLDTRADE_DEPOSIT_SetListRangeEntry(p+0xEEC,((struct Obj03830 *)target)->f6+((struct Obj03830 *)target)->f4,((struct Obj03830 *)target)->fA,((struct Obj03830 *)target)->f8);
         break;
     case (u32)-1:
         break;
@@ -68,7 +68,7 @@ int WORLDTRADE_DEPOSIT_StateSpeciesMenuInput(u8 *p)
         }
         WORLDTRADE_DEPOSIT_DrawRequestWindow(((struct Obj01553 *)p)->fB6C,((struct Obj01553 *)p)->fB70,(int)(((struct Obj01553 *)p)->fB68),p+0xD90,((struct Obj01553 *)p)->fB50,mode,-1,p+0xFA0);
         target=*(u8 * *)&((struct Obj01553 *)p)->fE00;
-        WORLDTRADE_ENTER_SetListRangeEntry(p+0xEEC,((struct Obj03830 *)target)->f6+((struct Obj03830 *)target)->f4,((struct Obj03830 *)target)->fA,((struct Obj03830 *)target)->f8);
+        WORLDTRADE_DEPOSIT_SetListRangeEntry(p+0xEEC,((struct Obj03830 *)target)->f6+((struct Obj03830 *)target)->f4,((struct Obj03830 *)target)->fA,((struct Obj03830 *)target)->f8);
         break;
     }
     return 2;

@@ -1,5 +1,5 @@
 /*
- * function: GF_OVERLAY_PanicDie
+ * function: GF_PANIC_Die
  * address:  0x02034900
  * packet:   pkt_02034734
  * region:   arm9
@@ -30,8 +30,8 @@
  * pointer.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GF_OVERLAY_PanicDie.c \
- *       --func GF_OVERLAY_PanicDie --addr 0x02034900 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_PANIC_Die.c \
+ *       --func GF_PANIC_Die --addr 0x02034900 --cc 1.1p1 --arm
  */
 
 typedef unsigned short u16;
@@ -46,7 +46,7 @@ extern void DC_FlushRange(void *addr, u32 size);
 extern void GXS_LoadBG0Char(const void *src, u32 offset, u32 size);
 extern void OS_Terminate(void);
 
-void GF_OVERLAY_PanicDie(void)
+void GF_PANIC_Die(void)
 {
     u16 *p;
     int j;

@@ -330,9 +330,13 @@ user's own extract, and the data-mode link places them as three segments. Result
 PASS, 570 files, byte-identical, with 1,980 gap bytes (the secure area) and no other image
 bytes.
 
-- `crt0.zfix.c` holds `_start_BuildParams` (8 words) and the `.version` strings at
-  0x02005030; `sha1.zfix.c` holds the four SHA-1 round constants at 0x02081E6C. Both should
-  move into `src/game/arm9/crt0.c` and the SHA-1 file as source.
+- `_start_BuildParams` (8 words) with the `.version` strings (0x02005030) lives in
+  `src/game/arm9/crt0.c` and the four SHA-1 round constants (0x02081E6C) in
+  `src/game/arm9/sha1.c`; the values come from the user's ROM through
+  `build/gen/words_*.inc` and `bytes_*.inc` (`tools/gendata.py`). Both sections are placed
+  by their header symbols, in plain and data mode; `arm9data.py` writes no `.zfix`
+  companions. mwccarm merges the const objects of crt0.c into one `.rodata` sorted by
+  size, so BuildParams and the strings are one object there.
 - The 2-byte zero pads after Thumb files come from the linker (`ALIGN(4)`).
 - mwccarm gives every initialised object its own section and orders them by size and type,
   not by definition order. `arm9data.py` compiles each companion, reads the order back, and
@@ -364,8 +368,7 @@ and the overlay table and `.lcf` for the whole ROM instead of one region at a ti
 
 ### 3. Prebuilt pieces
 
-Kept as binaries taken from the user's own dump (never committed): the ARM7 binary
-and its overlays, the SDK and library objects that are not restructured (the ARM9
+Kept as binaries taken from the user's own dump (never committed): the SDK and library objects that are not restructured (the ARM9
 ranges without a src/game file), the autoload info table and the DTCM/TWL blocks
 that have no TU yet. They are listed from `layout/layout.json` and bound into the
 final image by `ndsrom.py build --override`, as `build.py --pack` already does.
@@ -416,12 +419,10 @@ What `tools/romlink.py` does:
 | --- | --- | --- |
 | game data files (`data/`, 247 files, the NARC archives) | 198,008,820 | assets, the asset lane's area |
 | `digest_sector.bin`, `digest_block.bin` (DSi digests) | 3,936,000 + 123,000 | hashes of the other content |
-| `arm7i.bin`, `arm7.bin` | 291,064 + 167,812 | ARM7 and its DSi twin, no source |
 | `arm9i.bin` (the DSi `twl` block) | 77,604 | modcrypt, never in the denominator |
 | `header.bin`, `header_ext.bin`, `residue/0000.bin` | 4,096 + 12,288 + 12,288 | cartridge header and its extension |
 | `banner.bin`, `y9.bin` (overlay table), `fat.bin`, `fnt.bin` | 9,152 + 7,584 + 3,872 + 1,040 | banner, overlay table, file system |
 | ARM9 secure area, 18 ranges between the SVC thunks (0x02004000..0x02004800) | 1,980 | opaque bytes, binary from the dump |
-| ov230 code with no C yet: 0x02187F00 (2,736), 0x021889BC (40), 0x02188B48 (3,600) | 6,376 | loader code and its pointer table |
 
 Generated at build time from the user's own extract, then compiled as C (not committed, not in
 src/game): the data tails of the 180 code overlays and of the ARM9 static module (369,354 bytes in
@@ -430,6 +431,7 @@ zero bytes of step 5. These are C, but their values come from the dump, not from
 Everything else in the ARM9 static module, ITCM and the 180 code overlays is linked from src/game
 files (621 ARM9 files at the last run, the ITCM files, the overlay files).
 
-Left: the 1,980 secure-area bytes and the 6,376 ov230 bytes as C or source; the prebuilt files
+Overlay 230 is now linked entirely from src/game (wave 17: the decrypted view and the second-layer
+sealed bodies are C; `tools/ovcrypt.py encrypt` seals them again). Left: the 1,980 secure-area bytes; the prebuilt files
 above (the overlay table `y9.bin` and the header could be generated from `layout.json`); the data
 tails still come from companions made from the dump, not from hand-written data in src/game.

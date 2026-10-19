@@ -1,5 +1,5 @@
 /*
- * function: HAND_TOKUSEI_Simple_DoubleStatChange
+ * function: HAND_TOKUSEI_SereneGrace_DoubleEffectChance
  * address: 0x021D9A24
  * packet: pkt_ov093_021D9A24
  * region: ov093
@@ -14,4 +14,4 @@
  */
 extern int BTL_EVENT_GetVar(int);
 extern int BTL_EVENT_OverwriteVar(int, unsigned int);
-void HAND_TOKUSEI_Simple_DoubleStatChange(int a,int b,int c) { unsigned short v; if(c==BTL_EVENT_GetVar(3)) { v=BTL_EVENT_GetVar(0x26)*2; BTL_EVENT_OverwriteVar(0x26,v); } }
+void HAND_TOKUSEI_SereneGrace_DoubleEffectChance(int a,int b,int c) { unsigned short v; if(c==BTL_EVENT_GetVar(3)) { v=BTL_EVENT_GetVar(0x26)*2; BTL_EVENT_OverwriteVar(0x26,v); } }

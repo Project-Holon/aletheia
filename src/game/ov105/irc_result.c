@@ -129,8 +129,8 @@
  *   WORDSET_CreateDefault  0x0201EC64  thumb  arm9
  *   GF_FONT_InitTextColor  0x0201DD60  thumb  arm9
  *   BG_SYS_Update  0x020419E4  arm  arm9
- *   GF_FONT_MeasureWidestLine  0x0201D304  thumb  arm9
- *   GF_FONT_CountLines  0x0201D42C  thumb  arm9
+ *   PRINTSYS_MeasureWidestLine  0x0201D304  thumb  arm9
+ *   PRINTSYS_CountLines  0x0201D42C  thumb  arm9
  *   MSGDATA_CreateFromArchive  0x02045B38  arm  arm9
  *   IRC_RANKING_IsEntryNew  0x0200A9A4  thumb  arm9
  *   IRC_RANKING_AddEntry  0x0200AA68  thumb  arm9
@@ -138,7 +138,7 @@
  *   MYITEM_SAVEDATA_GetItemQuantity  0x02007FB8  thumb  arm9
  *   MYSTATUS_GetName  0x020084F4  thumb  arm9
  *   MYSTATUS_GetId  0x02008530  thumb  arm9
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb  arm9
+ *   MYSTATUS_GetSex  0x02008550  thumb  arm9
  *   RECORD_AddOne  0x02008DF0  thumb  arm9
  */
 #include "irc_result_types.h"
@@ -296,8 +296,8 @@ extern void MSGDATA_ReadString(void *messages, u32 index, void *dest);
 extern void PRINTSYS_PrintQue(void *queue, void *bitmap, u32 x, u32 y, void *string, void *font);
 extern u8 BMP_WIN_GetWidth(void *window);
 extern u8 BMP_WIN_GetHeight(void *window);
-extern u32 GF_FONT_MeasureWidestLine(void *string, void *font, u32 b);
-extern unsigned GF_FONT_CountLines(void *string,void *font);
+extern u32 PRINTSYS_MeasureWidestLine(void *string, void *font, u32 b);
+extern unsigned PRINTSYS_CountLines(void *string,void *font);
 extern void PRINTSYS_PrintQueColor(void *queue, void *bitmap, u32 x, u32 y, void *string, void *font, u16 color);
 extern void *MSGDATA_AllocString(void *messages, u32 index);
 extern void WORDSET_CopyTaggedText(void *wordSet, void *dst, void *src);
@@ -323,7 +323,7 @@ extern struct ItemBag *GAME_DATA_GetMyItem(void *gameData);
 extern u32 MYITEM_SAVEDATA_GetItemQuantity(struct ItemBag *,u16,u16);
 extern u32 MYITEM_SAVEDATA_AddItem(struct ItemBag *,u16,u16,u16);
 extern void *MYSTATUS_GetName(const u8 *key);
-extern u8 MYSTATUS_GetOutfitVariant(const u8 *key);
+extern u8 MYSTATUS_GetSex(const u8 *key);
 extern u8 IRC_RANKING_AddEntry(void *,const void *,u16,u32,u8,u8,u32,u16,u8,u8,u8);
 extern struct TrainerRecord *GAME_DATA_GetTrainerRecord(void *gameData);
 extern u32 RECORD_AddOne(struct TrainerRecord *record, int i);
@@ -677,8 +677,8 @@ void IRC_RESULT_PrintCenteredMessage(IrcTextWindow *win,IrcTextSystem *text,int 
  BMP_Clear(BMP_WIN_GetBmp(win->window),win->clearColor);
  MSGDATA_ReadString(messages,msgId,win->buffer);
  x=BMP_WIN_GetWidth(win->window)*4; y=BMP_WIN_GetHeight(win->window)*4;
- x-= (u16)(GF_FONT_MeasureWidestLine(win->buffer,font,0)/2);
- y-= (u16)(GF_FONT_CountLines(win->buffer,font)/2);
+ x-= (u16)(PRINTSYS_MeasureWidestLine(win->buffer,font,0)/2);
+ y-= (u16)(PRINTSYS_CountLines(win->buffer,font)/2);
  PRINTSYS_PrintQueColor(printQueue,BMP_WIN_GetBmp(win->printTarget),(s16)x,(s16)y,win->buffer,font,15812);
  win->isPrinting=1;
 }
@@ -996,7 +996,7 @@ int IRC_RESULT_GiveReward(IrcResult *work)
     }
     if(work->context->partner) {
         src=MYSTATUS_GetName(key);
-        flag=MYSTATUS_GetOutfitVariant(key)?0:1;
+        flag=MYSTATUS_GetSex(key)?0:1;
         IRC_RANKING_AddEntry(record,src,work->context->score,(u8)flag,partner->birthMonth,partner->birthDay,MYSTATUS_GetId(key),partner->leadSpecies,partner->leadType2,partner->leadType1,partner->leadNature);
     }
     if(work->context->gameSystem) RECORD_AddOne(GAME_DATA_GetTrainerRecord(GAMESYSTEM_GetGameData(work->context->gameSystem)),IRC_RESULT_TRAINER_RECORD);

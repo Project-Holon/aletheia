@@ -89,7 +89,7 @@
  *   BMP_WIN_Create 0x020450F0 arm
  *   STRBUF_Create 0x020457B0 arm
  *   MYSTATUS_NameToStrbuf 0x02008500 thumb
- *   MYSTATUS_GetOutfitVariant 0x02008550 thumb
+ *   MYSTATUS_GetSex 0x02008550 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   BMP_WIN_Delete 0x020452E8 arm
  *   BMP_WIN_GetBmp  0x02045770  arm
@@ -370,7 +370,7 @@ extern void CLACT_ChangeActorAnimSeq(struct Actor *p, u16 v);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void MYSTATUS_NameToStrbuf(void *,void *);
-extern u8 MYSTATUS_GetOutfitVariant(const struct TextSys *obj);
+extern u8 MYSTATUS_GetSex(const struct TextSys *obj);
 extern void STRBUF_Delete(struct StrBuf *vec);
 extern u32 BMP_WIN_Delete(struct BmpWin *d);
 extern void *BMP_WIN_GetBmp(struct BmpWin *p);
@@ -1126,7 +1126,7 @@ void COMM_BTL_DEMO_MAIN_InitRowContext(struct CommBtlDemoRow *p,unsigned char ki
     COMM_BTL_DEMO_MAIN_InitActorRow(&p->actor,((struct CommBtlDemoSide *)owner)->party,kind,index,a,b,(const unsigned char *)(owner+10));
     p->textBuf=STRBUF_Create(16,116);
     MYSTATUS_NameToStrbuf(((struct CommBtlDemoSide *)(p->owner))->textSys,p->textBuf);
-    p->paletteKind=MYSTATUS_GetOutfitVariant(((struct CommBtlDemoSide *)(p->owner))->textSys);
+    p->paletteKind=MYSTATUS_GetSex(((struct CommBtlDemoSide *)(p->owner))->textSys);
     p->window=COMM_BTL_DEMO_MAIN_CreateRowWindow(kind,index);
     if(COMM_BTL_DEMO_MAIN_HasVisibleActors(p->kind)==0) COMM_BTL_DEMO_MAIN_DrawRowText(p,p->textArg);
 }

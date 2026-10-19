@@ -48,7 +48,7 @@
  *   gElboardLayoutPaletteName     0x021F5108  data  a4
  *   FIELD_GIMMICK_GATE_FindListNewsEntry 0x021F3CB0 thumb ov048
  *   gElboardNoticeLanes 0x021F4E84 data a4
- *   FIELDMAP_QueryIssSwitch  0x02188C70  thumb  ov021
+ *   FIELDMAP_GetZoneWeatherId  0x02188C70  thumb  ov021
  *   gElboardPlaceTable     0x021F4E5C  data  a2
  *   gElboardPlaceKinds     0x021F4E5E  data  a1
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
@@ -71,7 +71,7 @@
  *   G3D_SYSTEM_SetObjectAnimeFrame  0x0204784C  arm
  *   G3D_SYSTEM_EnableObjectAnime  0x020477A4  arm
  *   G3D_SYSTEM_DisableObjectAnime  0x020477D4  arm
- *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
+ *   PRINTSYS_MeasureWidestLine  0x0201D304  thumb
  *   G3D_SYSTEM_GetObjectRender  0x02047788  arm
  *   G3D_SYSTEM_GetRenderTexRes  0x02047554  arm
  *   EL_SCOREBOARD_CreateLamp  0x021875F4  thumb  ov020
@@ -266,7 +266,7 @@ extern void *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 index, void *myStatus);
 extern GateNewsEntry *FIELD_GIMMICK_GATE_FindNewsEntry(GateWork *work);
 extern GateNewsEntry *FIELD_GIMMICK_GATE_FindListNewsEntry(GateWork *work);
-extern int FIELDMAP_QueryIssSwitch(struct FieldMap *fieldMap, int placeId);
+extern int FIELDMAP_GetZoneWeatherId(struct FieldMap *fieldMap, int placeId);
 extern void *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern struct EncounterState *MOVE_POKEMON_SAVE_GetBlock(void *saveControl);
 extern int MOVE_POKEMON_HasActiveEntry(struct EncounterState *state);
@@ -286,7 +286,7 @@ extern int _s32_div_f(int a, int b);
 extern u32 G3D_SYSTEM_SetObjectAnimeFrame(G3dObject *obj, u16 animIndex, s32 *frame);
 extern u32 G3D_SYSTEM_EnableObjectAnime(G3dObject *obj, u32 animIndex);
 extern int G3D_SYSTEM_DisableObjectAnime(G3dObject *obj, u32 animIndex);
-extern u32 GF_FONT_MeasureWidestLine(struct Strbuf *str, struct GfFont *font, u32 spacing);
+extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *str, struct GfFont *font, u32 spacing);
 extern G3dRender *G3D_SYSTEM_GetObjectRender(G3dObject *obj);
 extern G3dResource *G3D_SYSTEM_GetRenderTexRes(G3dRender *render);
 extern struct ElboardText *EL_SCOREBOARD_CreateLamp(G3dResource *texRes, const char *textureName, const char *paletteName, struct Strbuf *str, u16 width, u16 flag, u16 heapId);
@@ -853,7 +853,7 @@ void GIMMICK_OBJ_ELBOARD_CollectHighlights(GateWork *work, ElboardHighlights *ou
         out->placeId[3] = ELBOARD_RECORD_PARAMS(record)->defaultPlaceId[3];
     }
     for (k = 0; k < 4; k++)
-        out->kind[k] = FIELDMAP_QueryIssSwitch(work->fieldMap, out->placeId[k]);
+        out->kind[k] = FIELDMAP_GetZoneWeatherId(work->fieldMap, out->placeId[k]);
 }
 
 
@@ -861,7 +861,7 @@ void GIMMICK_OBJ_ELBOARD_CollectHighlights(GateWork *work, ElboardHighlights *ou
  * The one-trip outer loop survives only because its int counter is compared
  * against an unsigned (sizeof) bound: `i < 1` or an unsigned counter is
  * folded away as a single pass. Tables: gElboardPlaceTable = {0x0071} (u16),
- * gElboardPlaceKinds = {6,7,8} (u8). FIELDMAP_QueryIssSwitch returns int (its own file); the
+ * gElboardPlaceKinds = {6,7,8} (u8). FIELDMAP_GetZoneWeatherId returns int (its own file); the
  * u8 local is what emits the lsls/lsrs #24.
  */
 void GIMMICK_OBJ_ELBOARD_CollectTableHighlights(GateWork *work, ElboardHighlights *out)
@@ -872,7 +872,7 @@ void GIMMICK_OBJ_ELBOARD_CollectTableHighlights(GateWork *work, ElboardHighlight
     count = 0;
     for (i = 0; i < sizeof(gElboardPlaceTable) / sizeof(gElboardPlaceTable[0]); i++) {
         u16 placeId = gElboardPlaceTable[i];
-        u8 kind = FIELDMAP_QueryIssSwitch(work->fieldMap, placeId);
+        u8 kind = FIELDMAP_GetZoneWeatherId(work->fieldMap, placeId);
 
         for (j = 0; j < sizeof(gElboardPlaceKinds); j++) {
             if (kind == gElboardPlaceKinds[j]) {
@@ -1115,7 +1115,7 @@ ElboardLine *GIMMICK_OBJ_ELBOARD_CreateLine(GimmickObjElboard *board, const Elbo
     } else {
         str = MSGDATA_AllocString(msgData, msg->msgId);
     }
-    width = GF_FONT_MeasureWidestLine(str, board->font, 1);
+    width = PRINTSYS_MeasureWidestLine(str, board->font, 1);
     line->text = EL_SCOREBOARD_CreateLamp(G3D_SYSTEM_GetRenderTexRes(G3D_SYSTEM_GetObjectRender(board->render)), msg->textureName, msg->paletteName, str, board->leadChars * 14, 1, board->heapId);
     GFL_HEAP_Free(str);
     MSGDATA_Delete(msgData);

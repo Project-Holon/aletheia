@@ -1,7 +1,7 @@
 /*
  * file:     tr_ai.c
  * unit:     yes
- * function: TR_AI_Create, TR_AI_Think, TR_AI_Delete, TR_AI_Start, TR_AI_GetChosenMove, TR_AI_GetChosenTarget, TR_AI_ThinkSingle, TR_AI_ThinkMulti, TR_AI_RunScripts, TR_AI_CmdIfRandomLess, TR_AI_CmdIfRandomGreater, TR_AI_CmdIfRandomEqual, TR_AI_CmdIfRandomNotEqual, TR_AI_CompareRandom, TR_AI_CmdAddScore, TR_AI_CmdIfHpLess, TR_AI_CmdIfHpGreater, TR_AI_CmdIfHpEqual, TR_AI_CmdIfHpNotEqual, TR_AI_CompareHpRatio, TR_AI_CmdIfHasMajorStatus, TR_AI_CmdIfNoMajorStatus, TR_AI_CompareMajorStatus, TR_AI_CmdIfSick, TR_AI_CmdIfNotSick, TR_AI_CompareSick, TR_AI_CmdIfSickContKind, TR_AI_CmdIfNotSickContKind, TR_AI_CompareSickContKind, TR_AI_CmdIfContFlag, TR_AI_CmdIfNotContFlag, TR_AI_CompareContFlag, TR_AI_CmdIfSideEffect, TR_AI_CmdIfNotSideEffect, TR_AI_CompareSideEffect, TR_AI_CmdIfValueLess, TR_AI_CmdIfValueGreater, TR_AI_CmdIfValueEqual, TR_AI_CmdIfValueNotEqual, TR_AI_CmdIfValueAllBits, TR_AI_CmdIfValueNoBits, TR_AI_CompareValue, TR_AI_CmdIfMoveEqual, TR_AI_CmdIfMoveNotEqual, TR_AI_CompareMove, TR_AI_CmdIfValueInList, TR_AI_CmdIfValueNotInList, TR_AI_CmdIfHasMoveWithParam3, TR_AI_CmdIfNoMoveWithParam3, TR_AI_CmdLoadTurnCount, TR_AI_CmdLoadType, TR_AI_CmdLoadMovePower, TR_AI_CmdLoadMoveDamageRank, TR_AI_CmdLoadLastUsedMove, TR_AI_CmdCompareSpeed, TR_AI_CmdLoadAbleBackupCount, TR_AI_CmdLoadMoveParam28, TR_AI_CmdLoadAbility, TR_AI_CmdCompareMoveEffectiveness, TR_AI_CmdIfAnyPartyMajorStatus, TR_AI_CmdIfNoPartyMajorStatus, TR_AI_ComparePartyMajorStatus, TR_AI_CmdLoadFieldCountdown, TR_AI_CmdIfMoveParam28Equal, TR_AI_CmdIfMoveParam28NotEqual, TR_AI_CompareMoveParam28, TR_AI_CmdIfPokeValueLess, TR_AI_CmdIfPokeValueGreater, TR_AI_CmdIfPokeValueEqual, TR_AI_CmdIfPokeValueNotEqual, TR_AI_ComparePokeValue, TR_AI_CmdIfDamageAbove, TR_AI_CmdIfDamageBelow, TR_AI_CompareDamage, TR_AI_CmdIfKnowsMove, TR_AI_CmdIfNotKnowsMove, TR_AI_CompareKnowsMove, TR_AI_CmdIfKnowsMoveParam28, TR_AI_CmdIfNotKnowsMoveParam28, TR_AI_CompareKnowsMoveParam28,TR_AI_CmdNop2,TR_AI_CmdSetNoMoveFlag,TR_AI_CmdNop3,TR_AI_CmdNop4, TR_AI_CmdLoadItem, TR_AI_CmdLoadItemEffect, TR_AI_CmdLoadPokeValue12, TR_AI_CmdLoadNoSubstitute, TR_AI_CmdLoadPokeValueByte, TR_AI_CmdLoadConsumedItem, TR_AI_CmdNop5, TR_AI_CmdMapMoveParam3, TR_AI_CmdMapMoveParam28, TR_AI_CmdLoadMoveStreak, TR_AI_CmdJump, TR_AI_CmdEnd, TR_AI_CmdCompareStat15, TR_AI_CmdIfTargetSick11, TR_AI_CmdIfTargetNotSick11, TR_AI_CompareTargetSick11, TR_AI_CmdIfSameSide, TR_AI_CmdLoadHasType, TR_AI_CmdLoadAbilityEquals, TR_AI_CmdJumpIfContFlag13, TR_AI_CmdJumpIfItemEquals, TR_AI_CmdCompareStaticSlot, TR_AI_CmdLoadSideEffect, TR_AI_CmdIfAnyPartyHpRatio, TR_AI_CmdIfAnyPartyMovePpLost, TR_AI_CmdLoadItemFieldNoSick19, TR_AI_CmdLoadMovePp, TR_AI_CmdJumpIfAllMovesUsed, TR_AI_CmdLoadMoveParam2, TR_AI_CmdLoadLastMoveParam2, TR_AI_CmdLoadFasterCount, TR_AI_CmdLoadTurnCountOfPoke, TR_AI_CmdJumpIfPartyDamage, TR_AI_CmdJumpIfSuperEffective, TR_AI_CmdJumpIfPredictedDamage, TR_AI_CmdLoadStatBoostTotal, TR_AI_CmdLoadPokeValueDiffFromSelf, TR_AI_CmdLoadBestDamagePoke, TR_AI_CmdIfFainted, TR_AI_CmdIfNotFainted, TR_AI_CompareFainted, TR_AI_CmdLoadPokeValue17, TR_AI_CmdJumpIfSubstitute, TR_AI_CmdLoadSpecies, TR_AI_CmdIfLess, TR_AI_CmdIfGreater, TR_AI_CmdIfEqual, TR_AI_CmdIfNotEqual, TR_AI_CompareGeneric, TR_AI_CmdJumpIfMoveParam28, TR_AI_CmdJumpIfFieldEffect, TR_AI_CmdCompareStat0, TR_AI_CmdCompareStat1, TR_AI_CmdCompareStat2, TR_AI_CompareStat, TR_AI_Compare, TR_AI_GetPosition, TR_AI_GetAbility, TR_AI_GetPoke, TR_AI_GetSlotPoke, TR_AI_ResetScores, TR_AI_RememberLastMove, TR_AI_GetMoveParam, TR_AI_GetMoveFlag, TR_AI_GetBestDamage, TR_AI_GetItemField, TR_AI_InitScriptCache, TR_AI_FreeScriptCache, TR_AI_LoadScript, TR_AI_ReleaseScript
+ * function: TR_AI_Create, TR_AI_Think, TR_AI_Delete, TR_AI_Start, TR_AI_GetChosenMove, TR_AI_GetChosenTarget, TR_AI_ThinkSingle, TR_AI_ThinkMulti, TR_AI_RunScripts, TR_AI_CmdIfRandomLess, TR_AI_CmdIfRandomGreater, TR_AI_CmdIfRandomEqual, TR_AI_CmdIfRandomNotEqual, TR_AI_CompareRandom, TR_AI_CmdAddScore, TR_AI_CmdIfHpLess, TR_AI_CmdIfHpGreater, TR_AI_CmdIfHpEqual, TR_AI_CmdIfHpNotEqual, TR_AI_CompareHpRatio, TR_AI_CmdIfHasMajorStatus, TR_AI_CmdIfNoMajorStatus, TR_AI_CompareMajorStatus, TR_AI_CmdIfSick, TR_AI_CmdIfNotSick, TR_AI_CompareSick, TR_AI_CmdIfSickContKind, TR_AI_CmdIfNotSickContKind, TR_AI_CompareSickContKind, TR_AI_CmdIfContFlag, TR_AI_CmdIfNotContFlag, TR_AI_CompareContFlag, TR_AI_CmdIfSideEffect, TR_AI_CmdIfNotSideEffect, TR_AI_CompareSideEffect, TR_AI_CmdIfValueLess, TR_AI_CmdIfValueGreater, TR_AI_CmdIfValueEqual, TR_AI_CmdIfValueNotEqual, TR_AI_CmdIfValueAllBits, TR_AI_CmdIfValueNoBits, TR_AI_CompareValue, TR_AI_CmdIfMoveEqual, TR_AI_CmdIfMoveNotEqual, TR_AI_CompareMove, TR_AI_CmdIfValueInList, TR_AI_CmdIfValueNotInList, TR_AI_CmdIfHasMoveWithPower, TR_AI_CmdIfNoMoveWithPower, TR_AI_CmdLoadTurnCount, TR_AI_CmdLoadType, TR_AI_CmdLoadMovePower, TR_AI_CmdLoadMoveDamageRank, TR_AI_CmdLoadLastUsedMove, TR_AI_CmdCompareSpeed, TR_AI_CmdLoadAbleBackupCount, TR_AI_CmdLoadMoveEffectSequence, TR_AI_CmdLoadAbility, TR_AI_CmdCompareMoveEffectiveness, TR_AI_CmdIfAnyPartyMajorStatus, TR_AI_CmdIfNoPartyMajorStatus, TR_AI_ComparePartyMajorStatus, TR_AI_CmdLoadFieldCountdown, TR_AI_CmdIfMoveEffectSequenceEqual, TR_AI_CmdIfMoveEffectSequenceNotEqual, TR_AI_CompareMoveEffectSequence, TR_AI_CmdIfPokeValueLess, TR_AI_CmdIfPokeValueGreater, TR_AI_CmdIfPokeValueEqual, TR_AI_CmdIfPokeValueNotEqual, TR_AI_ComparePokeValue, TR_AI_CmdIfDamageAbove, TR_AI_CmdIfDamageBelow, TR_AI_CompareDamage, TR_AI_CmdIfKnowsMove, TR_AI_CmdIfNotKnowsMove, TR_AI_CompareKnowsMove, TR_AI_CmdIfKnowsMoveEffectSequence, TR_AI_CmdIfNotKnowsMoveEffectSequence, TR_AI_CompareKnowsMoveEffectSequence,TR_AI_CmdNop2,TR_AI_CmdSetNoMoveFlag,TR_AI_CmdNop3,TR_AI_CmdNop4, TR_AI_CmdLoadItem, TR_AI_CmdLoadItemEffect, TR_AI_CmdLoadSpeed, TR_AI_CmdLoadNoSubstitute, TR_AI_CmdLoadPokeValueByte, TR_AI_CmdLoadConsumedItem, TR_AI_CmdNop5, TR_AI_CmdMapMoveToPower, TR_AI_CmdMapMoveToEffectSequence, TR_AI_CmdLoadMoveStreak, TR_AI_CmdJump, TR_AI_CmdEnd, TR_AI_CmdCompareLevel, TR_AI_CmdIfTargetTaunted, TR_AI_CmdIfTargetNotTaunted, TR_AI_CompareTargetTaunted, TR_AI_CmdIfSameSide, TR_AI_CmdLoadHasType, TR_AI_CmdLoadAbilityEquals, TR_AI_CmdJumpIfFlashFireActive, TR_AI_CmdJumpIfItemEquals, TR_AI_CmdIfFieldSlotInUse, TR_AI_CmdLoadSideEffect, TR_AI_CmdIfAnyPartyHpRatio, TR_AI_CmdIfAnyPartyMovePpLost, TR_AI_CmdLoadItemFieldNoSick19, TR_AI_CmdLoadMovePp, TR_AI_CmdJumpIfAllMovesUsed, TR_AI_CmdLoadMoveDamageType, TR_AI_CmdLoadLastMoveDamageType, TR_AI_CmdLoadFasterCount, TR_AI_CmdLoadTurnCountOfPoke, TR_AI_CmdJumpIfPartyDamage, TR_AI_CmdJumpIfSuperEffective, TR_AI_CmdJumpIfPredictedDamage, TR_AI_CmdLoadStatBoostTotal, TR_AI_CmdLoadPokeValueDiffFromSelf, TR_AI_CmdLoadBestDamagePoke, TR_AI_CmdIfFainted, TR_AI_CmdIfNotFainted, TR_AI_CompareFainted, TR_AI_CmdLoadCurrentAbility, TR_AI_CmdJumpIfSubstitute, TR_AI_CmdLoadSpecies, TR_AI_CmdIfLess, TR_AI_CmdIfGreater, TR_AI_CmdIfEqual, TR_AI_CmdIfNotEqual, TR_AI_CompareGeneric, TR_AI_CmdSwitchOnMoveEffectSequence, TR_AI_CmdJumpIfFieldEffect, TR_AI_CmdCompareStat0, TR_AI_CmdCompareStat1, TR_AI_CmdCompareStat2, TR_AI_CompareStat, TR_AI_Compare, TR_AI_GetPosition, TR_AI_GetAbility, TR_AI_GetPoke, TR_AI_GetSlotPoke, TR_AI_ResetScores, TR_AI_RememberLastMove, TR_AI_GetMoveParam, TR_AI_GetMoveFlag, TR_AI_GetBestDamage, TR_AI_GetItemField, TR_AI_InitScriptCache, TR_AI_FreeScriptCache, TR_AI_LoadScript, TR_AI_ReleaseScript
  * address:  0x02187F00
  * region:   ov096
  * compiler: dsi/1.1p1
@@ -72,7 +72,7 @@
  *   BTL_POKEPARAM_GetCounter  0x021D69AC  thumb  ov093
  *   BTL_POKEPARAM_GetConsumedItem  0x021D6740  thumb  ov093
  *   BTL_POKEPARAM_GetMoveStreak 0x021D679C thumb ov093
- *   BTL_FIELD_GetStaticSlotObject  0x021EF948  thumb  ov093
+ *   BTL_FIELD_IsStaticSlotInUse  0x021EF948  thumb  ov093
  *   BTL_POKEPARAM_GetMovePPLost 0x021D554C thumb ov093
  *   BTL_POKEPARAM_CountUsedMoves  0x021D5478  thumb  ov093
  *   BTL_SERVER_FLOW_CountFasterPokes  0x021C81D0  thumb  ov093
@@ -156,7 +156,7 @@ extern u16 BTL_POKEPARAM_GetItem(struct BtlPokeParam *p);
 extern unsigned char BTL_POKEPARAM_GetCounter(struct BtlPokeParam *base, int idx);
 extern u16 BTL_POKEPARAM_GetConsumedItem(struct BtlPokeParam *p);
 extern u16 BTL_POKEPARAM_GetMoveStreak(struct BtlPokeParam *p);
-extern int BTL_FIELD_GetStaticSlotObject(int);
+extern int BTL_FIELD_IsStaticSlotInUse(int);
 extern u8 BTL_POKEPARAM_GetMovePPLost(struct BtlPokeParam *p, u8 i);
 extern u8 BTL_POKEPARAM_CountUsedMoves(struct BtlPokeParam *p);
 extern u16 BTL_SERVER_FLOW_CountFasterPokes(void *p, struct BtlPokeParam *a, u32 y);
@@ -222,8 +222,8 @@ int TR_AI_CmdIfMoveNotEqual(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CompareMove(ScriptVm *vm, TrAiWork *ai, int op);
 int TR_AI_CmdIfValueInList(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdIfValueNotInList(ScriptVm *vm, TrAiWork *ai);
-int TR_AI_CmdIfHasMoveWithParam3(ScriptVm *vm, TrAiWork *ai);
-int TR_AI_CmdIfNoMoveWithParam3(ScriptVm *vm, TrAiWork *ai);
+int TR_AI_CmdIfHasMoveWithPower(ScriptVm *vm, TrAiWork *ai);
+int TR_AI_CmdIfNoMoveWithPower(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdLoadTurnCount(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdLoadType(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdLoadMovePower(ScriptVm *vm, TrAiWork *ai);
@@ -232,7 +232,7 @@ int TR_AI_CmdLoadLastUsedMove(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdCompareSpeed(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdLoadAbleBackupCount(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdLoadCurrentMove(ScriptVm *vm, TrAiWork *ai);
-int TR_AI_CmdLoadMoveParam28(ScriptVm *vm, TrAiWork *ai);
+int TR_AI_CmdLoadMoveEffectSequence(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdLoadAbility(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdNop(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdCompareMoveEffectiveness(ScriptVm *vm, TrAiWork *ai);
@@ -240,9 +240,9 @@ int TR_AI_CmdIfAnyPartyMajorStatus(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdIfNoPartyMajorStatus(ScriptVm *vm, TrAiWork *ai);
 void TR_AI_ComparePartyMajorStatus(ScriptVm *vm, TrAiWork *ai, int op);
 int TR_AI_CmdLoadFieldCountdown(ScriptVm *vm, TrAiWork *ai);
-int TR_AI_CmdIfMoveParam28Equal(ScriptVm *vm, TrAiWork *ai);
-int TR_AI_CmdIfMoveParam28NotEqual(ScriptVm *vm, TrAiWork *ai);
-void TR_AI_CompareMoveParam28(ScriptVm *vm, TrAiWork *ai, int op);
+int TR_AI_CmdIfMoveEffectSequenceEqual(ScriptVm *vm, TrAiWork *ai);
+int TR_AI_CmdIfMoveEffectSequenceNotEqual(ScriptVm *vm, TrAiWork *ai);
+void TR_AI_CompareMoveEffectSequence(ScriptVm *vm, TrAiWork *ai, int op);
 int TR_AI_CmdIfPokeValueLess(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdIfPokeValueGreater(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdIfPokeValueEqual(ScriptVm *vm, TrAiWork *ai);
@@ -254,45 +254,45 @@ int TR_AI_CompareDamage(ScriptVm *vm, TrAiWork *ai, int op);
 int TR_AI_CmdIfKnowsMove(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdIfNotKnowsMove(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CompareKnowsMove(ScriptVm *vm, TrAiWork *ai, int op);
-int TR_AI_CmdIfKnowsMoveParam28(ScriptVm *vm, TrAiWork *ai);
-int TR_AI_CmdIfNotKnowsMoveParam28(ScriptVm *vm, TrAiWork *ai);
-int TR_AI_CompareKnowsMoveParam28(ScriptVm *vm, TrAiWork *ai, int op);
+int TR_AI_CmdIfKnowsMoveEffectSequence(ScriptVm *vm, TrAiWork *ai);
+int TR_AI_CmdIfNotKnowsMoveEffectSequence(ScriptVm *vm, TrAiWork *ai);
+int TR_AI_CompareKnowsMoveEffectSequence(ScriptVm *vm, TrAiWork *ai, int op);
 int TR_AI_CmdNop2(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdSetNoMoveFlag(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdNop3(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdNop4(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdLoadItem(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdLoadItemEffect(ScriptVm *vm, TrAiWork *ai);
-int TR_AI_CmdLoadPokeValue12(ScriptVm *vm, TrAiWork *ai);
+int TR_AI_CmdLoadSpeed(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdLoadNoSubstitute(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdLoadPokeValueByte(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdLoadRule(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdLoadCompetitor(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdLoadConsumedItem(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdNop5(ScriptVm *vm, TrAiWork *ai);
-int TR_AI_CmdMapMoveParam3(ScriptVm *vm, TrAiWork *ai);
-int TR_AI_CmdMapMoveParam28(ScriptVm *vm, TrAiWork *ai);
+int TR_AI_CmdMapMoveToPower(ScriptVm *vm, TrAiWork *ai);
+int TR_AI_CmdMapMoveToEffectSequence(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdLoadMoveStreak(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdJump(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdEnd(ScriptVm *vm, TrAiWork *ai);
-int TR_AI_CmdCompareStat15(ScriptVm *vm, TrAiWork *ai);
-int TR_AI_CmdIfTargetSick11(ScriptVm *vm, TrAiWork *ai);
-int TR_AI_CmdIfTargetNotSick11(ScriptVm *vm, TrAiWork *ai);
-int TR_AI_CompareTargetSick11(ScriptVm *vm, TrAiWork *ai, int op);
+int TR_AI_CmdCompareLevel(ScriptVm *vm, TrAiWork *ai);
+int TR_AI_CmdIfTargetTaunted(ScriptVm *vm, TrAiWork *ai);
+int TR_AI_CmdIfTargetNotTaunted(ScriptVm *vm, TrAiWork *ai);
+int TR_AI_CompareTargetTaunted(ScriptVm *vm, TrAiWork *ai, int op);
 int TR_AI_CmdIfSameSide(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdLoadHasType(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdLoadAbilityEquals(ScriptVm *vm, TrAiWork *ai);
-int TR_AI_CmdJumpIfContFlag13(ScriptVm *vm, TrAiWork *ai);
+int TR_AI_CmdJumpIfFlashFireActive(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdJumpIfItemEquals(ScriptVm *vm, TrAiWork *ai);
-int TR_AI_CmdCompareStaticSlot(ScriptVm *vm, TrAiWork *ai);
+int TR_AI_CmdIfFieldSlotInUse(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdLoadSideEffect(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdIfAnyPartyHpRatio(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdIfAnyPartyMovePpLost(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdLoadItemFieldNoSick19(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdLoadMovePp(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdJumpIfAllMovesUsed(ScriptVm *vm, TrAiWork *ai);
-int TR_AI_CmdLoadMoveParam2(ScriptVm *vm, TrAiWork *ai);
-int TR_AI_CmdLoadLastMoveParam2(ScriptVm *vm, TrAiWork *ai);
+int TR_AI_CmdLoadMoveDamageType(ScriptVm *vm, TrAiWork *ai);
+int TR_AI_CmdLoadLastMoveDamageType(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdLoadFasterCount(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdLoadTurnCountOfPoke(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdJumpIfPartyDamage(ScriptVm *vm, TrAiWork *ai);
@@ -307,7 +307,7 @@ int TR_AI_CmdLoadBestDamagePoke(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdIfFainted(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdIfNotFainted(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CompareFainted(ScriptVm *vm, TrAiWork *ai, int op);
-int TR_AI_CmdLoadPokeValue17(ScriptVm *vm, TrAiWork *ai);
+int TR_AI_CmdLoadCurrentAbility(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdJumpIfSubstitute(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdLoadSpecies(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdIfLess(ScriptVm *vm, TrAiWork *ai);
@@ -315,7 +315,7 @@ int TR_AI_CmdIfGreater(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdIfEqual(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdIfNotEqual(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CompareGeneric(ScriptVm *vm, TrAiWork *ai, int op);
-int TR_AI_CmdJumpIfMoveParam28(ScriptVm *vm, TrAiWork *ai);
+int TR_AI_CmdSwitchOnMoveEffectSequence(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdJumpIfFieldEffect(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdCompareStat0(ScriptVm *vm, TrAiWork *ai);
 int TR_AI_CmdCompareStat1(ScriptVm *vm, TrAiWork *ai);
@@ -993,7 +993,7 @@ int TR_AI_CmdIfValueNotInList(ScriptVm *vm, TrAiWork *ai) {
  *   address is not CSE'd across the calls (the original re-adds it each time);
  *   TR_AI_GetMoveParam's second parameter is int (no truncation before the bl).
  */
-int TR_AI_CmdIfHasMoveWithParam3(ScriptVm *vm, TrAiWork *ai) {
+int TR_AI_CmdIfHasMoveWithPower(ScriptVm *vm, TrAiWork *ai) {
     int jumpOffset;
     int moveSlot;
 
@@ -1008,12 +1008,12 @@ int TR_AI_CmdIfHasMoveWithParam3(ScriptVm *vm, TrAiWork *ai) {
 }
 
 /*
- * Lever: as TR_AI_CmdIfHasMoveWithParam3 (Conn struct pointer, (Conn *)(int second parameter)).
+ * Lever: as TR_AI_CmdIfHasMoveWithPower (Conn struct pointer, (Conn *)(int second parameter)).
  */
 /*
- * Lever: as TR_AI_CmdIfHasMoveWithParam3 (Conn struct pointer, int second parameter).
+ * Lever: as TR_AI_CmdIfHasMoveWithPower (Conn struct pointer, int second parameter).
  */
-int TR_AI_CmdIfNoMoveWithParam3(ScriptVm *vm, TrAiWork *ai) {
+int TR_AI_CmdIfNoMoveWithPower(ScriptVm *vm, TrAiWork *ai) {
     int jumpOffset;
     int moveSlot;
 
@@ -1165,7 +1165,7 @@ int TR_AI_CmdLoadCurrentMove(ScriptVm *vm, TrAiWork *ai) {
     return ai->cmdReturn;
 }
 
-int TR_AI_CmdLoadMoveParam28(ScriptVm *vm, TrAiWork *ai) { ai->workValue=TR_AI_GetMoveParam((void *)(ai),ai->moveId,28); return ai->cmdReturn; }
+int TR_AI_CmdLoadMoveEffectSequence(ScriptVm *vm, TrAiWork *ai) { ai->workValue=TR_AI_GetMoveParam((void *)(ai),ai->moveId,28); return ai->cmdReturn; }
 
 int TR_AI_CmdLoadAbility(ScriptVm *vm, TrAiWork *ai) { int selector; selector=VM_GetU32(vm); ai->workValue=TR_AI_GetAbility(ai,selector,TR_AI_GetPosition(ai,selector)); return ai->cmdReturn; }
 
@@ -1215,17 +1215,17 @@ void TR_AI_ComparePartyMajorStatus(ScriptVm *vm, TrAiWork *ai, int op) {
 
 int TR_AI_CmdLoadFieldCountdown(ScriptVm *vm, TrAiWork *ai) { ai->workValue=BTL_FIELD_GetCountdownValue(); return ai->cmdReturn; }
 
-int TR_AI_CmdIfMoveParam28Equal(ScriptVm *vm, TrAiWork *ai) { TR_AI_CompareMoveParam28(vm,ai,2); return ai->cmdReturn; }
+int TR_AI_CmdIfMoveEffectSequenceEqual(ScriptVm *vm, TrAiWork *ai) { TR_AI_CompareMoveEffectSequence(vm,ai,2); return ai->cmdReturn; }
 
-int TR_AI_CmdIfMoveParam28NotEqual(ScriptVm *vm, TrAiWork *ai) {
-    TR_AI_CompareMoveParam28(vm, ai, 3);
+int TR_AI_CmdIfMoveEffectSequenceNotEqual(ScriptVm *vm, TrAiWork *ai) {
+    TR_AI_CompareMoveEffectSequence(vm, ai, 3);
     return ai->cmdReturn;
 }
 
 /*
  * return: TR_AI_GetMoveParam's r0 is consumed by original caller, overriding its void forwarder declaration.
  */
-void TR_AI_CompareMoveParam28(ScriptVm *vm, TrAiWork *ai, int op) {
+void TR_AI_CompareMoveEffectSequence(ScriptVm *vm, TrAiWork *ai, int op) {
     int compareValue, jumpOffset;
     compareValue = VM_GetU32(vm);
     jumpOffset = VM_GetU32(vm);
@@ -1351,13 +1351,13 @@ int TR_AI_CompareKnowsMove(ScriptVm *vm, TrAiWork *ai, int op) {
     return TR_AI_Compare(vm, op, found, 1, jumpOffset);
 }
 
-int TR_AI_CmdIfKnowsMoveParam28(ScriptVm *vm, TrAiWork *ai) {
-    TR_AI_CompareKnowsMoveParam28(vm, ai, 2);
+int TR_AI_CmdIfKnowsMoveEffectSequence(ScriptVm *vm, TrAiWork *ai) {
+    TR_AI_CompareKnowsMoveEffectSequence(vm, ai, 2);
     return ai->cmdReturn;
 }
 
-int TR_AI_CmdIfNotKnowsMoveParam28(ScriptVm *vm, TrAiWork *ai) {
-    TR_AI_CompareKnowsMoveParam28(vm, ai, 3);
+int TR_AI_CmdIfNotKnowsMoveEffectSequence(ScriptVm *vm, TrAiWork *ai) {
+    TR_AI_CompareKnowsMoveEffectSequence(vm, ai, 3);
     return ai->cmdReturn;
 }
 
@@ -1367,7 +1367,7 @@ int TR_AI_CmdIfNotKnowsMoveParam28(ScriptVm *vm, TrAiWork *ai) {
  * Lever: bind each comparison's call result before comparing, per existing cmp idiom.
  * Caller-visible return overrides the tail-forwarder's void declaration.
  */
-int TR_AI_CompareKnowsMoveParam28(ScriptVm *vm, TrAiWork *ai, int op) {
+int TR_AI_CompareKnowsMoveEffectSequence(ScriptVm *vm, TrAiWork *ai, int op) {
     int side, jumpOffset, pos, found, moveSlot, moveParam;
     unsigned int value;
     side = VM_GetU32(vm);
@@ -1432,7 +1432,7 @@ int TR_AI_CmdLoadItemEffect(ScriptVm *vm, TrAiWork *ai) {
     return ai->cmdReturn;
 }
 
-int TR_AI_CmdLoadPokeValue12(ScriptVm *vm, TrAiWork *ai) {
+int TR_AI_CmdLoadSpeed(ScriptVm *vm, TrAiWork *ai) {
     int selector;
     u8 pos;
     selector = VM_GetU32(vm);
@@ -1491,7 +1491,7 @@ int TR_AI_CmdNop5(ScriptVm *vm, TrAiWork *ai) {
     return ai->cmdReturn;
 }
 
-int TR_AI_CmdMapMoveParam3(ScriptVm *vm, TrAiWork *ai) {
+int TR_AI_CmdMapMoveToPower(ScriptVm *vm, TrAiWork *ai) {
     int param;
     if (ai->workValue != 0) {
         param = TR_AI_GetMoveParam(ai, (u16)ai->workValue, 3);
@@ -1502,7 +1502,7 @@ int TR_AI_CmdMapMoveParam3(ScriptVm *vm, TrAiWork *ai) {
     return ai->cmdReturn;
 }
 
-int TR_AI_CmdMapMoveParam28(ScriptVm *vm, TrAiWork *ai) {
+int TR_AI_CmdMapMoveToEffectSequence(ScriptVm *vm, TrAiWork *ai) {
     int param;
     if (ai->workValue != 0) {
         param = TR_AI_GetMoveParam(ai, (u16)ai->workValue, 0x1c);
@@ -1538,7 +1538,7 @@ int TR_AI_CmdEnd(ScriptVm *vm, TrAiWork *ai) {
     ai->flags |= 1; VM_End(vm); return 1;
 }
 
-int TR_AI_CmdCompareStat15(ScriptVm *vm, TrAiWork *ai) {
+int TR_AI_CmdCompareLevel(ScriptVm *vm, TrAiWork *ai) {
     int compareKind;
     int jumpOffset;
     int selfValue;
@@ -1554,15 +1554,15 @@ int TR_AI_CmdCompareStat15(ScriptVm *vm, TrAiWork *ai) {
     return ai->cmdReturn;
 }
 
-int TR_AI_CmdIfTargetSick11(ScriptVm *vm, TrAiWork *ai) {
-    TR_AI_CompareTargetSick11(vm, ai, 2); return ai->cmdReturn;
+int TR_AI_CmdIfTargetTaunted(ScriptVm *vm, TrAiWork *ai) {
+    TR_AI_CompareTargetTaunted(vm, ai, 2); return ai->cmdReturn;
 }
 
-int TR_AI_CmdIfTargetNotSick11(ScriptVm *vm, TrAiWork *ai) {
-    TR_AI_CompareTargetSick11(vm, ai, 3); return ai->cmdReturn;
+int TR_AI_CmdIfTargetNotTaunted(ScriptVm *vm, TrAiWork *ai) {
+    TR_AI_CompareTargetTaunted(vm, ai, 3); return ai->cmdReturn;
 }
 
-int TR_AI_CompareTargetSick11(ScriptVm *vm, TrAiWork *ai, int op) {
+int TR_AI_CompareTargetTaunted(ScriptVm *vm, TrAiWork *ai, int op) {
     int jumpOffset;
     int hasSick;
     jumpOffset = VM_GetU32(vm);
@@ -1614,7 +1614,7 @@ int TR_AI_CmdLoadAbilityEquals(ScriptVm *vm, TrAiWork *ai) {
     return ai->cmdReturn;
 }
 
-int TR_AI_CmdJumpIfContFlag13(ScriptVm *vm, TrAiWork *ai) {
+int TR_AI_CmdJumpIfFlashFireActive(ScriptVm *vm, TrAiWork *ai) {
     int side;
     int jumpOffset;
     struct BtlPokeParam *poke;
@@ -1646,13 +1646,13 @@ int TR_AI_CmdJumpIfItemEquals(ScriptVm *vm, TrAiWork *ai) {
     return ai->cmdReturn;
 }
 
-int TR_AI_CmdCompareStaticSlot(ScriptVm *vm, TrAiWork *ai) {
+int TR_AI_CmdIfFieldSlotInUse(ScriptVm *vm, TrAiWork *ai) {
     int slotIndex;
     int jumpOffset;
     int slotObject;
     slotIndex = VM_GetU32(vm);
     jumpOffset = VM_GetU32(vm);
-    slotObject = BTL_FIELD_GetStaticSlotObject(slotIndex);
+    slotObject = BTL_FIELD_IsStaticSlotInUse(slotIndex);
     TR_AI_Compare(vm, 2, slotObject, 1, jumpOffset);
     return ai->cmdReturn;
 }
@@ -1753,11 +1753,11 @@ int TR_AI_CmdJumpIfAllMovesUsed(ScriptVm *vm, TrAiWork *ai) {
     return ai->cmdReturn;
 }
 
-int TR_AI_CmdLoadMoveParam2(ScriptVm *vm, TrAiWork *ai) {
+int TR_AI_CmdLoadMoveDamageType(ScriptVm *vm, TrAiWork *ai) {
     ai->workValue = TR_AI_GetMoveParam(ai, ai->moveId, 2); return ai->cmdReturn;
 }
 
-int TR_AI_CmdLoadLastMoveParam2(ScriptVm *vm, TrAiWork *ai) {
+int TR_AI_CmdLoadLastMoveDamageType(ScriptVm *vm, TrAiWork *ai) {
     int moveId;
     moveId = BTL_POKEPARAM_GetLastUsedMoveId((ai->targetPoke));
     if (moveId != 0) {
@@ -1989,7 +1989,7 @@ int TR_AI_CompareFainted(ScriptVm *vm, TrAiWork *ai, int op) {
     return TR_AI_Compare(vm, op, BTL_POKEPARAM_IsFainted(TR_AI_GetPoke(ai, TR_AI_GetPosition(ai, side))), 1, jumpOffset);
 }
 
-int TR_AI_CmdLoadPokeValue17(ScriptVm *vm, TrAiWork *ai) {
+int TR_AI_CmdLoadCurrentAbility(ScriptVm *vm, TrAiWork *ai) {
     int selector; u8 pos; selector = VM_GetU32(vm); pos = TR_AI_GetPosition(ai,selector); ai->workValue = BTL_POKEPARAM_GetValue(TR_AI_GetPoke(ai,pos),17); return ai->cmdReturn;
 }
 
@@ -2016,7 +2016,7 @@ int TR_AI_CmdIfNotEqual(ScriptVm *vm, TrAiWork *ai) { TR_AI_CompareGeneric(vm,ai
  */
 int TR_AI_CompareGeneric(ScriptVm *vm, TrAiWork *ai, int op) { int compareValue,jumpOffset; compareValue=VM_GetU32(vm); jumpOffset=VM_GetU32(vm); return TR_AI_Compare(vm,op,ai->randomByte,compareValue,jumpOffset); }
 
-int TR_AI_CmdJumpIfMoveParam28(ScriptVm *vm, TrAiWork *ai) {
+int TR_AI_CmdSwitchOnMoveEffectSequence(ScriptVm *vm, TrAiWork *ai) {
     int mode;
     int threshold;
     int tableOffset;

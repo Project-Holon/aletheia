@@ -1,7 +1,7 @@
 /*
  * file:     battle_examination.c
  * unit:     yes
- * function: BATTLE_EXAMINATION_GetBlockSize, BATTLE_EXAMINATION_ClearBlock, BATTLE_EXAMINATION_IsDeliveryValid, BATTLE_EXAMINATION_IsDeliveryUnused, BATTLE_EXAMINATION_GetDeliveryId, BATTLE_EXAMINATION_GetTrainerSlot, BATTLE_EXAMINATION_LoadDelivery, BATTLE_EXAMINATION_RefreshMarker, BATTLE_EXAMINATION_GetGreetingSize, BATTLE_EXAMINATION_InitGreetings
+ * function: BATTLE_EXAMINATION_GetBlockSize, BATTLE_EXAMINATION_ClearBlock, BATTLE_EXAMINATION_IsDeliveryValid, BATTLE_EXAMINATION_IsDeliveryUnused, BATTLE_EXAMINATION_GetDeliveryId, BATTLE_EXAMINATION_GetTrainerSlot, BATTLE_EXAMINATION_LoadDelivery, BATTLE_EXAMINATION_RefreshMarker
  * address:  0x0200E588
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Cut from misc_savedata.c by tools/splitfile.py.
+ * Cut from battle_examination.c, greeting_savedata.c by tools/splitfile.py.
  *
  * symbols:
  *   MI_CpuFill8  0x02082BCC  arm
@@ -24,8 +24,6 @@
  *   OS_WaitIrq     0x0208459C  arm
  *   SAVE_CONTROL_DeleteExtraSaveBuffered  0x0200734C  thumb
  *   GFL_HEAP_Free  0x020307B0  arm
- *   PMSI_PARAM_SetDefaultGreeting  0x02024344  thumb
- *   PMSI_PARAM_SetDefaultSentence  0x020242D8  thumb
  */
 #include "misc_savedata_shared_types.h"
 
@@ -66,10 +64,6 @@ extern void SAVE_CONTROL_DeleteExtraSaveBuffered(struct Sub02007324Ctrl *ctrl, u
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern void PMSI_PARAM_SetDefaultGreeting(void *obj);
-
-extern void PMSI_PARAM_SetDefaultSentence(void *slot, u32 idx);
-
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
 u32 BATTLE_EXAMINATION_GetBlockSize(void);
@@ -87,10 +81,6 @@ char *BATTLE_EXAMINATION_GetTrainerSlot(char *p, u32 idx);
 void BATTLE_EXAMINATION_LoadDelivery(void *sys, void *dst, u32 heap);
 
 void BATTLE_EXAMINATION_RefreshMarker(void *obj);
-
-u32 BATTLE_EXAMINATION_GetGreetingSize(void);
-
-void BATTLE_EXAMINATION_InitGreetings(void *obj);
 
 extern const char data_020A721C[];
 
@@ -193,7 +183,7 @@ void BATTLE_EXAMINATION_LoadDelivery(void *gameData, void *dst, u32 heap)
  * addressed by the constant id 0x5c6: it looks the field up through
  * GF_STANDARD_SetupCalc, and if the stored halfword at +0x5c6 already equals the
  * looked-up value, rewrites the paired halfword at +0x5c2 with the constant
- * 0x7da and refreshes +0x5c6 with a second lookup.  BATTLE_EXAMINATION_GetGreetingSize is an
+ * 0x7da and refreshes +0x5c6 with a second lookup.  GREETING_SAVEDATA_GetSize is an
  * unlabelled getter returning the constant 0x28, sitting in what disasm.py
  * printed as trailing data after BATTLE_EXAMINATION_RefreshMarker because it carries no
  * register-saving prologue; see
@@ -210,37 +200,4 @@ void BATTLE_EXAMINATION_RefreshMarker(void *delivery)
         *(u16 *)((u8 *)delivery + (fieldId - 4)) = 0x7da;
         *(u16 *)((u8 *)delivery + fieldId) = GF_STANDARD_SetupCalc(delivery, fieldId);
     }
-}
-
-u32 BATTLE_EXAMINATION_GetGreetingSize(void)
-{
-    return 0x28;
-}
-
-/*
- * Promoted from src/pending/BATTLE_EXAMINATION_InitGreetings.c: every concrete byte was
- * already reproduced, and both callees were unresolved relocations
- * because each is called from exactly this one place in the whole ROM,
- * the case the honesty rule's cut remedy cannot reach (docs/MATCHING.md,
- * "the limit of the remedy"). Both are now EXACT entries in their own
- * right (src/matched/PMSI_PARAM_InitSentence.c's PMSI_PARAM_SetDefaultGreeting, and
- * src/matched/unit_020242D8.c's PMSI_PARAM_SetDefaultSentence), so the `matched` class
- * attests both calls without a second caller, and this file closes to
- * EXACT.
- *
- * Initialises obj, then calls a per-slot setup helper on four 8-byte
- * slots starting at obj+8, tagging each with its index 0..3.
- *
- * Verified with:
- *   python tools/match.py one --src src/matched/BATTLE_EXAMINATION_InitGreetings.c \
- *       --func BATTLE_EXAMINATION_InitGreetings --addr 0x0200E6B4 --cc 1.1p1 --thumb
- */
-void BATTLE_EXAMINATION_InitGreetings(void *greetings)
-{
-    PMSI_PARAM_SetDefaultGreeting(greetings);
-    PMSI_PARAM_SetDefaultSentence((u8 *)greetings + 8, 0);
-    PMSI_PARAM_SetDefaultSentence((u8 *)greetings + 0x10, 1);
-    PMSI_PARAM_SetDefaultSentence((u8 *)greetings + 0x18, 2);
-    greetings = (u8 *)greetings + 0x20;
-    PMSI_PARAM_SetDefaultSentence(greetings, 3);
 }

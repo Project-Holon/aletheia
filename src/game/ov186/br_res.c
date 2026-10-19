@@ -20,7 +20,7 @@
  *   BR_RES_GetPalSet 0x021FC238 thumb ov186
  *   BR_RES_ApplyBgSet 0x021FBDA4 thumb ov186
  *   BR_RES_Delete 0x021FB92C thumb ov186
- *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GF_PANIC_Fail 0x02034714 arm
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   GFL_HEAP_Free  0x020307B0  arm
  *   WORDSET_Delete 0x0201ED04 thumb
@@ -60,7 +60,7 @@
 
 struct MsgDataRec {void *a,*b;unsigned char pad[12];void *handle;};
 
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 extern void *GFL_HEAP_Alloc(u32 heap, u32 size, int clear, const char *site, u16 tag);
 
@@ -340,7 +340,7 @@ void BR_RES_LoadSprite(struct BrRes *res, u32 spriteIndex, u32 heapId)
     sprite = &res->sprite[spriteIndex];
 
     if (res->spriteLoaded[spriteIndex] != 0) {
-        SAVEDATA_PanicFail(d_02200D48, 0, d_02200D48);
+        GF_PANIC_Fail(d_02200D48, 0, d_02200D48);
     }
 
     switch (spriteIndex) {
@@ -548,10 +548,10 @@ void BR_RES_LoadFadePalettes(struct BrRes *res,void *fade,unsigned short heapId)
     ARC_TOOL_DeleteHandle(h);
 }
 
-unsigned short BR_RES_GetPaletteFileId(unsigned palSet) { if(palSet>=8)SAVEDATA_PanicFail(d_02200D48,0,d_02200D48);return d_022008C0[palSet]; }
+unsigned short BR_RES_GetPaletteFileId(unsigned palSet) { if(palSet>=8)GF_PANIC_Fail(d_02200D48,0,d_02200D48);return d_022008C0[palSet]; }
 
-unsigned short BR_RES_GetCharFileId(unsigned palSet) { if(palSet>=8)SAVEDATA_PanicFail(d_02200D48,0,d_02200D48);return d_022008A0[palSet]; }
+unsigned short BR_RES_GetCharFileId(unsigned palSet) { if(palSet>=8)GF_PANIC_Fail(d_02200D48,0,d_02200D48);return d_022008A0[palSet]; }
 
-unsigned short BR_RES_GetScreenFileId(unsigned palSet) { if(palSet>=8)SAVEDATA_PanicFail(d_02200D48,0,d_02200D48);return d_02200880[palSet]; }
+unsigned short BR_RES_GetScreenFileId(unsigned palSet) { if(palSet>=8)GF_PANIC_Fail(d_02200D48,0,d_02200D48);return d_02200880[palSet]; }
 
-u16 BR_RES_GetSetParam(u32 palSet){if(palSet>=8)SAVEDATA_PanicFail(d_02200D48,0,d_02200D48);return *(const u32*)((u32)d_022008E0+palSet*4);}
+u16 BR_RES_GetSetParam(u32 palSet){if(palSet>=8)GF_PANIC_Fail(d_02200D48,0,d_02200D48);return *(const u32*)((u32)d_022008E0+palSet*4);}

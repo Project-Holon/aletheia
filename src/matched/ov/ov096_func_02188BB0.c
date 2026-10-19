@@ -1,5 +1,5 @@
 /*
- * function: TR_AI_CmdIfHasMoveWithParam3
+ * function: TR_AI_CmdIfHasMoveWithPower
  * address:  0x02188BB0
  * packet:   pkt_ov096_02188BB0
  * region:   ov096
@@ -41,7 +41,7 @@ extern int TR_AI_GetMoveParam(Conn *, int, int);
 extern u8 BTL_POKEPARAM_GetMoveCount(struct QG *p);
 extern u16 BTL_POKEPARAM_GetMoveId(u8 *p, int i);
 
-int TR_AI_CmdIfHasMoveWithParam3(struct Cursor *a, Conn *b)
+int TR_AI_CmdIfHasMoveWithPower(struct Cursor *a, Conn *b)
 {
     int m;
     int i;

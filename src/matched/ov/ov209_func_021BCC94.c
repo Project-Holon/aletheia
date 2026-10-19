@@ -16,7 +16,7 @@
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   GXx_SetMasterBrightness_ 0x0207D534 arm
  *   BG_SYS_SetLcdSwap 0x0204363C arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   ZUKAN_LIST_InitPaletteAnim 0x021BC6C4 thumb ov209
  *   ZUKAN_LIST_SetVramBanks 0x021BC370 thumb ov209
  *   ZUKAN_LIST_InitBgSystem 0x021BC388 thumb ov209
@@ -44,7 +44,7 @@ extern void BG_SYS_SetSubVisiblePlanes(u32);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern int func_02034AC4(int);
 extern void BG_SYS_SetLcdSwap(u32);
-extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32, u32);
 extern void ZUKAN_LIST_SetVramBanks(void);
 extern void ZUKAN_LIST_InitBgSystem(void);
 extern void ZUKAN_LIST_LoadBgGraphics(void);
@@ -83,7 +83,7 @@ int ZUKAN_LIST_StateInit(char *p)
     ZUKAN_LIST_CreateFrameList((struct Context *)p);
     if (((struct Obj25546 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f8 == 0) ZUKAN_LIST_DrawHeaderCounts(p);
     else ZUKAN_LIST_DrawHeaderNational(p);
-    GFL_NET_RestartWithDefaultTimeout(1, 0x6B);
+    GFL_NET_RefreshWmIconAtTopRight(1, 0x6B);
     ZUKAN_LIST_SetSubScreenBlendAlpha();
     ZUKAN_LIST_EnableSubWindows();
     ZUKAN_LIST_MoveScrollBarActorsIn(p);

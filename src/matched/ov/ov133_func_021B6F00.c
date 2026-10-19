@@ -18,7 +18,7 @@
  *   MUSICAL_MCSS_CreateResourceArc 0x021F4B3C thumb ov112
  *   MUSICAL_MCSS_FreeResourceArc 0x021F4B4C thumb ov112
  *   MUSICAL_MCSS_GetElemPtr 0x021F4F54 thumb ov112
- *   MUSICAL_MCSS_NoOp6 0x021F4F70 thumb ov112
+ *   MUSICAL_MCSS_GetElemSizeFlags 0x021F4F70 thumb ov112
  *   MUSICAL_MCSS_SetElemFlag 0x021F4EE8 thumb ov112
  *   MUSICAL_MCSS_AddImageNoVram 0x021F4C1C thumb ov112
  *   MUSICAL_MCSS_SetElemVisible 0x021F4E6C thumb ov112
@@ -70,7 +70,7 @@ extern u32 MUSICAL_MCSS_GetActorPoolResource(u8 *p);
 extern void *MUSICAL_MCSS_CreateResourceArc(int type);
 extern void MUSICAL_MCSS_FreeResourceArc(struct Tagged *a0);
 extern u8 *MUSICAL_MCSS_GetElemPtr(u8 *, int);
-extern int MUSICAL_MCSS_NoOp6(int *);
+extern int MUSICAL_MCSS_GetElemSizeFlags(int *);
 extern void MUSICAL_MCSS_SetElemFlag(u8 *, u8 *, int);
 extern u8 *MUSICAL_MCSS_AddImageNoVram(u8 *, int, u32, Vec *);
 extern void MUSICAL_MCSS_SetElemVisible(u8 *, u8 *, u32);
@@ -152,7 +152,7 @@ void DUP_FITTING_InitFrames(u8 *p)
         hgt = G3D_SYSTEM_GetPlttVramKey(h);
         sz = ((hgt & 0xFFFF0000) >> 16) << 3;
         vram = d_020A8148(sz, 0, 0);
-        flags = MUSICAL_MCSS_NoOp6((int *)MUSICAL_MCSS_GetElemPtr(table, *(u16 *)(p + i * 0x14 + 0xac)));
+        flags = MUSICAL_MCSS_GetElemSizeFlags((int *)MUSICAL_MCSS_GetElemPtr(table, *(u16 *)(p + i * 0x14 + 0xac)));
         BILLBOARD_GetImageSizeFromFlags(flags, &sizes[1], &sizes[0]);
         *(u32 *)(p + i * 0x14 + 0xb0) = BILLBOARD_AddImageFromVramKeys(*(void **)(p + 0x188c), w, hgt, 0, flags, sizes[1], sizes[0]);
         pal = (u16 *)G3D_SYSTEM_GetPlttDataAddr((int)h);
@@ -189,7 +189,7 @@ void DUP_FITTING_InitFrames(u8 *p)
     {
     Vec v2 = {0, 0, 0};
     *(u16 *)(p + 0x50) = 0;
-    flags = MUSICAL_MCSS_NoOp6((int *)MUSICAL_MCSS_GetElemPtr(table, *(u16 *)(p + 0x50)));
+    flags = MUSICAL_MCSS_GetElemSizeFlags((int *)MUSICAL_MCSS_GetElemPtr(table, *(u16 *)(p + 0x50)));
     BILLBOARD_GetImageSizeFromFlags(flags, &dims[1], &dims[0]);
     h = MUSICAL_MCSS_CreateResourceArc(*(u16 *)(p + 0x50));
     G3D_SYSTEM_TransVramTexture(h);

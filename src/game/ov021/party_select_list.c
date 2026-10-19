@@ -19,7 +19,7 @@
  *   GFL_HEAP_Free  0x020307B0  arm
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
- *   SAVEDATA_PanicFail  0x02034714  arm
+ *   GF_PANIC_Fail  0x02034714  arm
  *   CLACT_CreateUnit  0x0204B100  arm
  *   GF_FONT_Create  0x0201D7EC  thumb
  *   d_021DE5BC  0x021DE5BC  data  a1
@@ -152,7 +152,7 @@ extern void STRBUF_Delete(struct Strbuf *str);
 extern u32 GFL_HEAP_Free(void *p);
 extern u32 POKE_TOOL_GetPartyValue(void *obj, u32 key, u32 off);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern u32 GF_FONT_Delete(void *ptr);
@@ -254,7 +254,7 @@ PartySelectList *PARTY_SELECT_LIST_Create(void *owner, void *firstParty, void *s
     PartySelectList *list;
 
     if (firstParty == 0 || secondParty == 0)
-        SAVEDATA_PanicFail(d_021DE5BC, 0, d_021DE5BC);
+        GF_PANIC_Fail(d_021DE5BC, 0, d_021DE5BC);
     list = GFL_HEAP_Alloc(heapId, 0xc4, 1, d_021DE5C0, 0xd3);
     list->owner = owner;
     list->party[0] = firstParty;
@@ -279,7 +279,7 @@ u32 PARTY_SELECT_LIST_Delete(PartySelectList *list, u32 *outFlag)
 
     result = PARTY_SELECT_LIST_GetResult(list, outFlag);
     if (list->finished != 1)
-        SAVEDATA_PanicFail(d_021DE5BC, 0, d_021DE5BC);
+        GF_PANIC_Fail(d_021DE5BC, 0, d_021DE5BC);
     PARTY_SELECT_LIST_DeleteStatusIcons(list);
     PARTY_SELECT_LIST_FreeStatusIconResources(list);
     PARTY_SELECT_LIST_DeleteMonIcons(list);

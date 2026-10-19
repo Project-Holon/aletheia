@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BR_CODEIN_RecordHitButtonA",
+   "name": "BR_CODEIN_RecordHitProfileToggle",
    "address": "0x021DD27C",
    "kind": "game",
    "region": "ov183",

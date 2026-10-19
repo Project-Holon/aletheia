@@ -12,8 +12,8 @@
  * Pushes the kind, the +0x1e and +0x32 blocks and, for kind 2/7, the selected +0x628 entry to the +0x70 object.
  *
  * symbols:
- *   GDS_PROFILE_SetFieldRecField  0x0200D914  thumb
- *   GDS_PROFILE_SetFieldRecFlag1  0x0200D868  thumb
+ *   BSUBWAY_PLAYDATA_SetField  0x0200D914  thumb
+ *   BSUBWAY_PLAYDATA_SetFlag01  0x0200D868  thumb
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj02732.h"
@@ -30,21 +30,21 @@ typedef struct {
 } Sel;
 
 struct Blk3C;
-extern void GDS_PROFILE_SetFieldRecField(struct Blk3C *p, u32 id, const void *src);
-extern void GDS_PROFILE_SetFieldRecFlag1(struct Blk3C *p, u32 v);
+extern void BSUBWAY_PLAYDATA_SetField(struct Blk3C *p, u32 id, const void *src);
+extern void BSUBWAY_PLAYDATA_SetFlag01(struct Blk3C *p, u32 v);
 
 void BSUBWAY_SCR_SaveRestPlayData(u8 *p)
 {
     u8 v = p[9];
 
-    GDS_PROFILE_SetFieldRecField((struct Blk3C *)(((struct Obj02732 *)p)->f70), 0, &v);
-    GDS_PROFILE_SetFieldRecField((struct Blk3C *)(((struct Obj02732 *)p)->f70), 5, p + 0x1e);
-    GDS_PROFILE_SetFieldRecField((struct Blk3C *)(((struct Obj02732 *)p)->f70), 8, p + 0x32);
-    GDS_PROFILE_SetFieldRecFlag1((struct Blk3C *)(((struct Obj02732 *)p)->f70), 1);
+    BSUBWAY_PLAYDATA_SetField((struct Blk3C *)(((struct Obj02732 *)p)->f70), 0, &v);
+    BSUBWAY_PLAYDATA_SetField((struct Blk3C *)(((struct Obj02732 *)p)->f70), 5, p + 0x1e);
+    BSUBWAY_PLAYDATA_SetField((struct Blk3C *)(((struct Obj02732 *)p)->f70), 8, p + 0x32);
+    BSUBWAY_PLAYDATA_SetFlag01((struct Blk3C *)(((struct Obj02732 *)p)->f70), 1);
     if (p[9] == 2 || p[9] == 7) {
         v = ((Sel *)p)->sel;
-        GDS_PROFILE_SetFieldRecField((struct Blk3C *)(((struct Obj02732 *)p)->f70), 9, &v);
-        GDS_PROFILE_SetFieldRecField((struct Blk3C *)(((struct Obj02732 *)p)->f70), 6, p + 0x628 + ((Sel *)p)->sel * 0x14);
-        GDS_PROFILE_SetFieldRecField((struct Blk3C *)(((struct Obj02732 *)p)->f70), 7, p + 0x664 + ((Sel *)p)->sel);
+        BSUBWAY_PLAYDATA_SetField((struct Blk3C *)(((struct Obj02732 *)p)->f70), 9, &v);
+        BSUBWAY_PLAYDATA_SetField((struct Blk3C *)(((struct Obj02732 *)p)->f70), 6, p + 0x628 + ((Sel *)p)->sel * 0x14);
+        BSUBWAY_PLAYDATA_SetField((struct Blk3C *)(((struct Obj02732 *)p)->f70), 7, p + 0x664 + ((Sel *)p)->sel);
     }
 }

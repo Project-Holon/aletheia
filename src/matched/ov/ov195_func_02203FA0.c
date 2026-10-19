@@ -24,7 +24,7 @@
  *   SHINKA_DEMO_MainTask 0x022051A8 thumb ov195
  *   PROCSYS_Create 0x02031324 arm
  *   SHINKA_DEMO_SetupScene 0x02204C24 thumb ov195
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   d_02208F40 0x02208F40 data a4
  */
 #include "../include/Obj00734.h"
@@ -49,7 +49,7 @@ extern void *GFL_USE_AddMainTask(u32,u32,u32);
 extern void SHINKA_DEMO_MainTask(int task, char *p);
 extern void *PROCSYS_Create(int a0);
 extern void SHINKA_DEMO_SetupScene(struct App *,struct Scene *);
-extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 extern const char d_02208F40[];
 int SHINKA_DEMO_Create(struct Proc *owner,int unused,u8 *app)
 {
@@ -79,6 +79,6 @@ int SHINKA_DEMO_Create(struct Proc *owner,int unused,u8 *app)
     ((struct Obj00734 *)p)->f118=0;
     ((struct Obj00734 *)p)->f11C=(unsigned int)PROCSYS_Create(((struct Obj00734 *)p)->f0);
     SHINKA_DEMO_SetupScene((struct App *)app,(struct Scene *)p);
-    GFL_NET_RestartWithDefaultTimeout(0,((struct Obj00734 *)p)->f0);
+    GFL_NET_RefreshWmIconAtTopRight(0,((struct Obj00734 *)p)->f0);
     return 1;
 }

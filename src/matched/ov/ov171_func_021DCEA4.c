@@ -15,7 +15,7 @@
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   BG_SYS_SetLcdSwap  0x0204363C  arm
  *   GXx_SetMasterBrightness_  0x0207D534  arm
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   DENDOU_VIEW_LoadHallOfFame  0x021DCCC8  thumb  ov171
  *   DENDOU_VIEW_InitVram  0x021DC910  thumb  ov171
  *   DENDOU_VIEW_InitBgs  0x021DC92C  thumb  ov171
@@ -40,7 +40,7 @@ extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 struct P;
 extern void DENDOU_VIEW_LoadHallOfFame(struct P *p);
 extern void DENDOU_VIEW_InitVram(void);
@@ -76,7 +76,7 @@ void DENDOU_VIEW_StateInit(u8 *p)
     DENDOU_VIEW_InitActors(p);
     DENDOU_VIEW_StateChangeRow(p);
     DENDOU_VIEW_InitBlend();
-    GFL_NET_RestartWithDefaultTimeout(1, 0x8c);
+    GFL_NET_RefreshWmIconAtTopRight(1, 0x8c);
     DENDOU_VIEW_StartVBlankTask((int *)p);
     DENDOU_VIEW_StartWipeIn(p, 4);
 }

@@ -42,7 +42,7 @@
  *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   BG_SYS_PushTile 0x020409B4 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
- *   MYSTATUS_GetOutfit 0x02008554 thumb
+ *   MYSTATUS_GetTrainerView 0x02008554 thumb
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   _fflt 0x0209BDBC arm
  *   _fdiv 0x0209CE10 arm
@@ -129,13 +129,13 @@
  *   WORDSET_SetSlotFromMsgE7  0x0201F048  thumb  arm9
  *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
  *   BMP_MENUWORK_LoadFrameGfx  0x0201F5DC  thumb  arm9
- *   GF_FONT_MeasureWidestLine  0x0201D304  thumb  arm9
+ *   PRINTSYS_MeasureWidestLine  0x0201D304  thumb  arm9
  *   MYSTATUS_GetIdLow16  0x02008534  thumb  arm9
- *   MYSTATUS_GetGender  0x02008564  thumb  arm9
- *   MYSTATUS_GetLanguage  0x0200856C  thumb  arm9
- *   MYSTATUS_GetVersion  0x02008570  thumb  arm9
- *   BMP_OAM_CheckRangeGetId  0x02025C1C  thumb  arm9
- *   BMP_OAM_CheckRangeGetMin  0x02025C30  thumb  arm9
+ *   MYSTATUS_GetLanguage  0x02008564  thumb  arm9
+ *   MYSTATUS_GetNation  0x0200856C  thumb  arm9
+ *   MYSTATUS_GetArea  0x02008570  thumb  arm9
+ *   NATION_AREA_SanitizeNation  0x02025C1C  thumb  arm9
+ *   NATION_AREA_SanitizeArea  0x02025C30  thumb  arm9
  */
 #include "ov120_types.h"
 
@@ -252,7 +252,7 @@ extern void CLACT_RestartActorAnim(struct Actor *a);
 extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 extern void BG_SYS_PushTile(u32);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern u8 MYSTATUS_GetOutfit(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetTrainerView(const struct Sub0200852CObj *obj);
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern void CLACT_ApplyActorAnimCommand(struct Actor *a, const struct Cmd *cmd);
 extern void BG_SYS_SetMainVisiblePlanes(u32);
@@ -307,13 +307,13 @@ extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *r
 extern s32 BUTTON_MAN_UpdateSlots(struct Ctx *c);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void *BUTTON_MAN_Create(u8 *rects, int a1, int arg, int heap);
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern u32 *APP_TASKMENU_WIN_CreateEx(u32 res, u32 item, u32 charPosX, u32 charPosY, u8 width, u8 height, u32 anmSpeed, u32 isCenter, u16 heapId);
+extern u8 MYSTATUS_GetNation(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetArea(const struct Sub0200852CObj *obj);
 extern u8 MYSTATUS_GetLanguage(const struct Sub0200852CObj *obj);
-extern u8 MYSTATUS_GetVersion(const struct Sub0200852CObj *obj);
-extern u8 MYSTATUS_GetGender(const struct Sub0200852CObj *obj);
-extern u32 BMP_OAM_CheckRangeGetId(u32,u32,u32);
-extern u32 BMP_OAM_CheckRangeGetMin(u32,u32,u32);
+extern u32 NATION_AREA_SanitizeNation(u32,u32,u32);
+extern u32 NATION_AREA_SanitizeArea(u32,u32,u32);
 extern void WORDSET_SetSlotFromMsgE7(struct WordSet *p, u32 i, u32 n);
 extern void WORDSET_SetSlotFromKeyedMessage(struct WordSet *p, u32 i, u32 a, u32 n);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
@@ -722,7 +722,7 @@ void GTSNEGO_MSG_SetListActorPos(u8 *actorSys, int index, int x, int y)
 void GTSNEGO_MSG_SetListEntry(u8 *actorSys, void *entry, int index)
 {
     if (entry != 0) {
-        GTSNEGO_MSG_CreateListActor(actorSys, index, MYSTATUS_GetOutfit((const struct Sub0200852CObj *)((int)entry)));
+        GTSNEGO_MSG_CreateListActor(actorSys, index, MYSTATUS_GetTrainerView((const struct Sub0200852CObj *)((int)entry)));
         GTSNEGO_MSG_SetListActorPos(actorSys, index, 16, -48 * (1 - index));
     }
 }
@@ -1162,7 +1162,7 @@ void *GTSNEGO_MSG_CreateTooltip(char *msgCtx,u16 msgId)
     MSGDATA_ReadString(((struct GtsnegoMsgCtx *)msgCtx)->msgData,msgId,text);
     ((struct GtsnegoMsgCtx *)msgCtx)->menuEntryColor0=0x39e3;
     ((struct GtsnegoMsgCtx *)msgCtx)->menuEntryType0=0;
-    width=((int)GF_FONT_MeasureWidestLine(((struct GtsnegoMsgCtx *)msgCtx)->menuEntryText0,(int)(*(int *)&((struct GtsnegoMsgCtx *)msgCtx)->font),(int)0)+32)/16;
+    width=((int)PRINTSYS_MeasureWidestLine(((struct GtsnegoMsgCtx *)msgCtx)->menuEntryText0,(int)(*(int *)&((struct GtsnegoMsgCtx *)msgCtx)->font),(int)0)+32)/16;
     result=APP_TASKMENU_WIN_CreateEx((u32)(((struct GtsnegoMsgCtx *)msgCtx)->taskMenuRes),(u32)(msgCtx+0xa8),(u8)(16-width),(u8)21,width*2,3,(int)0,(int)1,((struct GtsnegoMsgCtx *)msgCtx)->heapId);
     STRBUF_Delete(((struct GtsnegoMsgCtx *)msgCtx)->menuEntryText0);
     return result;
@@ -1188,14 +1188,14 @@ void GTSNEGO_MSG_PrintEntry(char *msgCtx,void *status)
 {
     u32 language,version,checkedLanguage,checkedVersion;
     void *window;
-    language=MYSTATUS_GetLanguage(status);
-    version=MYSTATUS_GetVersion(status);
-    checkedLanguage=BMP_OAM_CheckRangeGetId(language,version,MYSTATUS_GetGender(status));
-    checkedVersion=BMP_OAM_CheckRangeGetMin(language,version,MYSTATUS_GetGender(status));
+    language=MYSTATUS_GetNation(status);
+    version=MYSTATUS_GetArea(status);
+    checkedLanguage=NATION_AREA_SanitizeNation(language,version,MYSTATUS_GetLanguage(status));
+    checkedVersion=NATION_AREA_SanitizeArea(language,version,MYSTATUS_GetLanguage(status));
     if(language==checkedLanguage && version==checkedVersion) {
-        WORDSET_SetSlotFromMsgE7(((struct GtsnegoMsgCtx *)msgCtx)->wordSet,0,MYSTATUS_GetLanguage(status));
-        language=MYSTATUS_GetLanguage(status);
-        WORDSET_SetSlotFromKeyedMessage(((struct GtsnegoMsgCtx *)msgCtx)->wordSet,1,language,MYSTATUS_GetVersion(status));
+        WORDSET_SetSlotFromMsgE7(((struct GtsnegoMsgCtx *)msgCtx)->wordSet,0,MYSTATUS_GetNation(status));
+        language=MYSTATUS_GetNation(status);
+        WORDSET_SetSlotFromKeyedMessage(((struct GtsnegoMsgCtx *)msgCtx)->wordSet,1,language,MYSTATUS_GetArea(status));
     } else {
         WORDSET_SetSlotFromMsgE7(((struct GtsnegoMsgCtx *)msgCtx)->wordSet,0,0);
         WORDSET_SetSlotFromKeyedMessage(((struct GtsnegoMsgCtx *)msgCtx)->wordSet,1,0,0);
@@ -1238,7 +1238,7 @@ int GTSNEGO_MSG_PrintListEntry(char *msgCtx, void *status, int row)
     STRBUF_Clear(*(void **)(msgCtx+0x18));
     WORDSET_SetSlotMyStatus(*(void **)(msgCtx+0x10),0,status);
     WORDSET_SetSlotNumber(*(void **)(msgCtx+0x10),1,MYSTATUS_GetIdLow16(status),5,2,1);
-    WORDSET_SetSlotFromMsgE7(*(void **)(msgCtx+0x10),2,MYSTATUS_GetLanguage(status));
+    WORDSET_SetSlotFromMsgE7(*(void **)(msgCtx+0x10),2,MYSTATUS_GetNation(status));
     MSGDATA_ReadString(*(void **)(msgCtx+0xc),28,*(void **)(msgCtx+0x20));
     WORDSET_CopyTaggedText(*(void **)(msgCtx+0x10),*(void **)(msgCtx+0x18),*(void **)(msgCtx+0x20));
     GF_FONT_SetTextColor(15,2,0);

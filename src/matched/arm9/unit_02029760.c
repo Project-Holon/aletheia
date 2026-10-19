@@ -25,7 +25,7 @@
  *   func_020124E8  0x020124E8  thumb
  *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  *   FIELD_SOUND_SYSTEM_PostRequest  0x020289F8  thumb
- *   FIELD_SOUND_SYSTEM_GetQueueDepth  0x020288C4  thumb
+ *   FIELD_SOUND_SYSTEM_GetPendingBgmStackDepth  0x020288C4  thumb
  *   FIELD_SOUND_SYSTEM_IsBusy  0x020289B8  thumb
  *
  * Verified with:
@@ -51,7 +51,7 @@ struct Desc;
 struct Obj;
 struct Sys;
 extern void FIELD_SOUND_SYSTEM_PostRequest(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
-extern s32 FIELD_SOUND_SYSTEM_GetQueueDepth(struct Sys *s);
+extern s32 FIELD_SOUND_SYSTEM_GetPendingBgmStackDepth(struct Sys *s);
 extern u32 FIELD_SOUND_SYSTEM_IsBusy(struct Sys *s);
 
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);

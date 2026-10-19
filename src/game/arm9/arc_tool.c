@@ -23,7 +23,7 @@
  *   FS_OpenFile     0x02078C18  arm
  *   FS_CreateFileFromMemory 0x0207A940  arm
  *   FS_SeekFile             0x02078B44  arm
- *   SAVEDATA_PanicFailPrintf           0x02034734  arm
+ *   GF_PANIC_FailPrintf           0x02034734  arm
  *   arc_tool_msg_member_range       0x020A7EEC  data
  *   arc_tool_msg_member_bounds  0x020A7F18  data
  *   G3D_SYSTEM_CreateResourcePath 0x02046E90 arm
@@ -88,7 +88,7 @@ extern void FS_CreateFileFromMemory(void *file, void *src, u32 size);
 
 extern int FS_SeekFile(struct ArcHandle *arc, u32 pos, u32 origin);
 
-extern void SAVEDATA_PanicFailPrintf(const char *file, u32 line, const char *msg, ...);
+extern void GF_PANIC_FailPrintf(const char *file, u32 line, const char *msg, ...);
 
 void ARC_TOOL_ReadMemberRangeImpl(void *dst, u32 archive_id, u32 member, u32 offset, u32 size);
 
@@ -241,7 +241,7 @@ void *ARC_TOOL_LoadMemberRangeImpl(u32 archiveID, u32 memberIdx, u16 heapID, u32
  * between the two functions and the two pool words at 0x02048F44/0x02048F48
  * are inside the compared range: 2 sections, 368 bytes, no padding, 16 of 16
  * relocation sites resolved (attestation classes: label for the five SDK
- * entry points and SAVEDATA_PanicFailPrintf, literal for ARC_TOOL_gArchiveTable and the arc_tool.c
+ * entry points and GF_PANIC_FailPrintf, literal for ARC_TOOL_gArchiveTable and the arc_tool.c
  * string, string for the assertion text).
  *
  * ---------------------------------------------------------------------------
@@ -347,7 +347,7 @@ u32 ARC_TOOL_SeekMember(struct ArcHandle *arc, u32 memberIdx, u32 skip, u32 size
     FS_SeekFile(arc, fatOffset + 4, 0);
     FS_ReadFile(arc, &info, 6);
     if (info.count <= memberIdx) {
-        SAVEDATA_PanicFailPrintf(arc_tool_file, 0xfb, arc_tool_msg_member_range, info.count,
+        GF_PANIC_FailPrintf(arc_tool_file, 0xfb, arc_tool_msg_member_range, info.count,
                       memberIdx);
     }
 
@@ -631,7 +631,7 @@ void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, u32 memberIdx, u16 heapID
     void *buf;
 
     if (arc->count <= memberIdx) {
-        SAVEDATA_PanicFailPrintf(arc_tool_file, 613, arc_tool_msg_member_bounds,
+        GF_PANIC_FailPrintf(arc_tool_file, 613, arc_tool_msg_member_bounds,
                       arc->count, memberIdx);
     }
 
@@ -663,7 +663,7 @@ void ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, u32 memberIdx, void *dst)
     u32 range[2];
 
     if (arc->count <= memberIdx) {
-        SAVEDATA_PanicFailPrintf(arc_tool_file, 642, arc_tool_msg_member_bounds,
+        GF_PANIC_FailPrintf(arc_tool_file, 642, arc_tool_msg_member_bounds,
                       arc->count, memberIdx);
     }
 
@@ -690,7 +690,7 @@ u32 ARC_TOOL_GetHandleMemberSize(struct ArcHandle *arc, u32 memberIdx)
     u32 range[2];
 
     if (arc->count <= memberIdx) {
-        SAVEDATA_PanicFailPrintf(arc_tool_file, 665, arc_tool_msg_member_bounds,
+        GF_PANIC_FailPrintf(arc_tool_file, 665, arc_tool_msg_member_bounds,
                       arc->count, memberIdx);
     }
 
@@ -723,7 +723,7 @@ void ARC_TOOL_ReadHandleMemberRange(struct ArcHandle *arc, u32 memberIdx, u32 of
     u32 start;
 
     if (arc->count <= memberIdx) {
-        SAVEDATA_PanicFailPrintf(arc_tool_file, 689, arc_tool_msg_member_bounds,
+        GF_PANIC_FailPrintf(arc_tool_file, 689, arc_tool_msg_member_bounds,
                       arc->count, memberIdx);
     }
 
@@ -751,7 +751,7 @@ void ARC_TOOL_GetHandleMemberOffsetOut(struct ArcHandle *arc, u32 memberIdx, u32
     u32 start;
 
     if (arc->count <= memberIdx) {
-        SAVEDATA_PanicFailPrintf(arc_tool_file, 713, arc_tool_msg_member_bounds,
+        GF_PANIC_FailPrintf(arc_tool_file, 713, arc_tool_msg_member_bounds,
                       arc->count, memberIdx);
     }
 
@@ -777,7 +777,7 @@ u32 ARC_TOOL_GetHandleMemberOffset(struct ArcHandle *arc, u32 memberIdx)
     u32 start;
 
     if (arc->count <= memberIdx) {
-        SAVEDATA_PanicFailPrintf(arc_tool_file, 725, arc_tool_msg_member_bounds,
+        GF_PANIC_FailPrintf(arc_tool_file, 725, arc_tool_msg_member_bounds,
                       arc->count, memberIdx);
     }
 

@@ -18,7 +18,7 @@
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   MYSTATUS_GetId  0x02008530  thumb
  *   MYSTATUS_GetName  0x020084F4  thumb
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   POKE_TOOL_Create  0x020173F0  thumb
  *   POKE_TOOL_CreatePersonalRnd  0x020186C8  thumb
  *   POKE_TOOL_SetupPartyParamEx  0x02017588  thumb
@@ -132,7 +132,7 @@ extern void *MSGDATA_AllocString(struct StrBank *bank, u32 index);
 
 extern int STRBUF_Delete();
 
-extern u8 MYSTATUS_GetOutfitVariant(const struct MyStatus *status);
+extern u8 MYSTATUS_GetSex(const struct MyStatus *status);
 
 struct PokemonParam *MYSTERY_GIFT_CreateMon(const GiftMon *gift, int heapId, struct GameData *gameData);
 
@@ -324,7 +324,7 @@ struct PokemonParam *MYSTERY_GIFT_CreateMon(const GiftMon *gift, int heapId, str
     if (gift->otGender <= 2)
         POKE_TOOL_SetPartyValue(mon, 0x9A, gift->otGender);
     else
-        POKE_TOOL_SetPartyValue(mon, 0x9A, MYSTATUS_GetOutfitVariant(GAME_DATA_GetMyStatus(gameData)));
+        POKE_TOOL_SetPartyValue(mon, 0x9A, MYSTATUS_GetSex(GAME_DATA_GetMyStatus(gameData)));
     if (gift->isEgg) {
         POKE_TOOL_SetPartyValue(mon, 0x4C, 1);
         eggName = MSGDATA_AllocString(gSpeciesNameBank, 0x28A);

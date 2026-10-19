@@ -32,7 +32,7 @@
  * lever: counter declared before context locals restores stack homes; named selector fixes call-result addition operand order (existing idioms).
  * abi: EE0C retains caller's sixth outgoing word (2), beyond callee's five used arguments.
  * symbols:
- *   BR_CODEIN_RecordIsType1 0x021DD228 thumb ov183
+ *   BR_CODEIN_RecordIsMultiBattle 0x021DD228 thumb ov183
  *   BR_CODEIN_RecordIsType2 0x021DD25C thumb ov183
  *   BR_RES_LoadBgGraphics 0x021FB964 thumb ov186
  *   BR_RES_GetFont 0x021FC20C thumb ov186
@@ -68,7 +68,7 @@ typedef struct GdsProfile GdsProfile;
 typedef struct GdsRecord GdsRecord;
 typedef struct RecGet RecGet;
 extern const Descriptor d_021E32C8[];
-extern int BR_CODEIN_RecordIsType1(void *),BR_CODEIN_RecordIsType2(void *);
+extern int BR_CODEIN_RecordIsMultiBattle(void *),BR_CODEIN_RecordIsType2(void *);
 extern void BR_RES_LoadBgGraphics(void *ctx, unsigned kind, unsigned short heap);
 extern unsigned BR_RES_GetFont(char *p);
 extern int BR_RES_GetMsgData(char *);
@@ -100,7 +100,7 @@ void BR_CODEIN_RecordSetupProfile(char *p,char *q)
     U16Vec *text;
     if(!*(int *)(p+0xd4)) {
         *(int *)(p+0xd4)=1;
-        if(BR_CODEIN_RecordIsType1(*(void **)(p+0xc4))) BR_RES_LoadBgGraphics((void *)(*(int *)(q+0x10)),7,*(u16 *)(p+0xb4));
+        if(BR_CODEIN_RecordIsMultiBattle(*(void **)(p+0xc4))) BR_RES_LoadBgGraphics((void *)(*(int *)(q+0x10)),7,*(u16 *)(p+0xb4));
         else BR_RES_LoadBgGraphics((void *)(*(int *)(q+0x10)),6,*(u16 *)(p+0xb4));
         font=(void *)BR_RES_GetFont(*(char **)(q+0x10));
         bank=(MsgBank *)BR_RES_GetMsgData(*(char **)(q+0x10));

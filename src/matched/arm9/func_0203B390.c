@@ -29,8 +29,8 @@
  *   GFL_NET_GetSession  0x0203D788  arm
  *   GFL_NET_SYSTEM_ConnectToParent  0x02037A6C  arm
  *   GFL_NET_SYSTEM_StartBeaconScan  0x02037928  arm
- *   GFL_NET_STATE_GetChildWaitTime  0x0203B2FC  arm
- *   GFL_NET_STATE_GetParentWaitTime  0x0203B344  arm
+ *   GFL_NET_STATE_RollChildWaitTime  0x0203B2FC  arm
+ *   GFL_NET_STATE_RollParentWaitTime  0x0203B344  arm
  *   GFL_NET_STATE_ChangeStateDebug  0x0203AD80  arm
  *   GFL_NET_STATE_ExtendConnectTimer  0x0203B01C  arm
  *   _pNetState     0x021469DC  data
@@ -50,8 +50,8 @@ extern void *GFL_NET_GetSession(void);
 extern u32   GFL_NET_SYSTEM_ConnectToParent(u32 a, u32 b, u32 c, u32 d);
 typedef unsigned short u16;
 extern u32 GFL_NET_SYSTEM_StartBeaconScan(u32 a0, u16 a1);
-extern u32 GFL_NET_STATE_GetChildWaitTime(char *p);
-extern u32 GFL_NET_STATE_GetParentWaitTime(char *p);
+extern u32 GFL_NET_STATE_RollChildWaitTime(char *p);
+extern u32 GFL_NET_STATE_RollParentWaitTime(char *p);
 extern void  GFL_NET_STATE_ChangeStateDebug(u32 ctx, void *tag, u32 val, u32 line);
 
 struct Vt {
@@ -84,11 +84,11 @@ void GFL_NET_STATE_ChangeoverConnect(struct Slot *p)
 
     if (GFL_NET_SYSTEM_ConnectToParent(1, (u32)&p->f57, n, (u32)GFL_NET_STATE_ExtendConnectTimer) == 0)
         return;
-    GFL_NET_STATE_ChangeStateDebug((*(u32 *)&_pNetState), str_0203B950, GFL_NET_STATE_GetChildWaitTime((char *)p), n + 0x45);
+    GFL_NET_STATE_ChangeStateDebug((*(u32 *)&_pNetState), str_0203B950, GFL_NET_STATE_RollChildWaitTime((char *)p), n + 0x45);
     return;
 
 alt:
     if (GFL_NET_SYSTEM_StartBeaconScan(1, n) == 0)
         return;
-    GFL_NET_STATE_ChangeStateDebug((*(u32 *)&_pNetState), str_0203B950, GFL_NET_STATE_GetParentWaitTime((char *)p), n + 0x4a);
+    GFL_NET_STATE_ChangeStateDebug((*(u32 *)&_pNetState), str_0203B950, GFL_NET_STATE_RollParentWaitTime((char *)p), n + 0x4a);
 }

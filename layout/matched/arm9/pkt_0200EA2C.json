@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "MISC_SAVEDATA_InitRecord",
+   "name": "DENDOU_SAVEDATA_InitRecord",
    "address": "0x0200EA2C",
    "kind": "game",
    "region": "arm9",

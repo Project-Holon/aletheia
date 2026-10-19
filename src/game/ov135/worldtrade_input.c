@@ -14,7 +14,7 @@
  *
  * symbols:
  *   GFL_HEAP_Free 0x020307B0 arm
- *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GF_PANIC_Fail 0x02034714 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   MSGDATA_AllocString 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
@@ -58,9 +58,9 @@
  *   data_0220322A  0x0220322A  data
  *   data_02203242  0x02203242  data
  *   data_022032AE  0x022032AE  data
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm  arm9
- *   WORLDTRADE_ENTER_CreateListMenu 0x021F8908 thumb ov135
- *   WORLDTRADE_ENTER_GetListRange  0x021F88D8  thumb  ov135
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm  arm9
+ *   WORLDTRADE_DEPOSIT_CreateListMenu 0x021F8908 thumb ov135
+ *   WORLDTRADE_DEPOSIT_GetListRange  0x021F88D8  thumb  ov135
  *   WORLDTRADE_INPUT_PrintStringAlignedWrapped  0x021F91DC  thumb
  *   WORLDTRADE_INPUT_PrintCentered  0x021F9218  thumb
  *   WORLDTRADE_INPUT_PrintStringPlain  0x021F90A0  thumb
@@ -129,7 +129,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
@@ -179,7 +179,7 @@ extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 
 extern u32 WORLDTRADE_ADAPTER_PrintQueColor(u8 *p, u32 z, u32 b, u32 r, u32 d, u32 z2, u16 f, u32 g);
 
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 
 extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 
@@ -291,11 +291,11 @@ void WORLDTRADE_INPUT_PrintCentered(void *win, void *bank, int idx, void *printe
 }
 
 /*
- * Tail call into GFL_NET_RestartWithDefaultTimeout with the fixed 0/0x48 pair.
+ * Tail call into GFL_NET_RefreshWmIconAtTopRight with the fixed 0/0x48 pair.
  */
 void WORLDTRADE_ENTER_RestartNetTimeout(u8 *p)
 {
-    GFL_NET_RestartWithDefaultTimeout(0, 0x48);
+    GFL_NET_RefreshWmIconAtTopRight(0, 0x48);
 }
 
 void WORLDTRADE_INPUT_CreateModeWindows(Menu *p, u32 mode)
@@ -499,11 +499,11 @@ extern u16 *WORLDTRADE_DEPOSIT_LoadSpeciesList(u32 heap, u32 unused, u32 *count)
 
 extern void WORLDTRADE_DEPOSIT_GetSpeciesRange(u32 i, int *start, int *end);
 
-extern int WORLDTRADE_ENTER_CreateListMenu(void **menu, void *msg, int id);
+extern int WORLDTRADE_DEPOSIT_CreateListMenu(void **menu, void *msg, int id);
 
 extern void WORLDTRADE_ADAPTER_QueueMessagePrint(struct Obj *p, int unusedArg, void *win, int x, int y);
 
-extern int WORLDTRADE_ENTER_GetListRange(u32 id, u32 *start);
+extern int WORLDTRADE_DEPOSIT_GetListRange(u32 id, u32 *start);
 
 void WORLDTRADE_ADAPTER_PrintNumber(MsgSys *ctx, u32 num, u32 digits, u32 mode, void *win, int x, int y);
 
@@ -920,7 +920,7 @@ int WORLDTRADE_INPUT_CheckTouch(Menu *p, int mode)
  * Cursor input for the ten-entry mode-4 menu: the mode-6 grid of nine
  * entries with one button (9). Returns the entry, -2 for cancel (B or
  * the button), -1 for nothing or an entry `enable` marks off. A grid
- * position past 9 under A reports through SAVEDATA_PanicFail (raw address
+ * position past 9 under A reports through GF_PANIC_Fail (raw address
  * 0x02203CEC, a plain constant as in WORLDTRADE_ADAPTER_QueueMessagePrint).
  */
 int WORLDTRADE_INPUT_UpdateCategoryGrid(Menu *p, u8 *enable)
@@ -998,7 +998,7 @@ int WORLDTRADE_INPUT_UpdateCategoryGrid(Menu *p, u8 *enable)
             return -2;
         }
         if (p->pos >= 9) {
-            SAVEDATA_PanicFail((void *)0x02203CEC, 0, (void *)0x02203CEC);
+            GF_PANIC_Fail((void *)0x02203CEC, 0, (void *)0x02203CEC);
         }
         if (enable == 0 || enable[p->pos] != 0) {
             GFL_USE_PlaySeDefaultVolume(0x54C);
@@ -2354,7 +2354,7 @@ int WORLDTRADE_INPUT_DrawConditionListScreen(Menu *p)
     u8 pages;
     BGWINFRM_SetFrameDataArc(p->mgr,0,0x60,0x18,1);
     WORLDTRADE_INPUT_CreateModeWindows((Menu *)p, 3);
-    p->total=WORLDTRADE_ENTER_CreateListMenu((void **)&p->items,p->listMsg,p->start+(int)tbl_02203324[p->layout]);
+    p->total=WORLDTRADE_DEPOSIT_CreateListMenu((void **)&p->items,p->listMsg,p->start+(int)tbl_02203324[p->layout]);
     WORLDTRADE_INPUT_PrintPageNumberB(p,0,p->total);
     p->page=0;
     pages=WORLDTRADE_INPUT_GetPageCount(p->total,5);
@@ -2582,13 +2582,13 @@ int WORLDTRADE_INPUT_CategoryHasSpecies(void *p, int idx)
 }
 
 /*
- * Hand the second argument to WORLDTRADE_ENTER_GetListRange with a scratch word.
+ * Hand the second argument to WORLDTRADE_DEPOSIT_GetListRange with a scratch word.
  */
 int WORLDTRADE_INPUT_GetListRangeCount(void *p, u32 id)
 {
     u32 tmp;
 
-    return WORLDTRADE_ENTER_GetListRange(id, &tmp);
+    return WORLDTRADE_DEPOSIT_GetListRange(id, &tmp);
 }
 
 int WORLDTRADE_INPUT_CategoryHasListEntries(void *p, int idx)

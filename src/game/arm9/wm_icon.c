@@ -15,7 +15,7 @@
  * symbols:
  *   GFL_HEAP_Alloc                    0x02030734  arm
  *   GFL_HEAP_Free                    0x020307B0  arm
- *   SAVEDATA_PanicFail                    0x02034714  arm
+ *   GF_PANIC_Fail                    0x02034714  arm
  *   GX_GetBankForOBJ                 0x02080C24  arm
  *   GX_GetBankForSubOBJ              0x02080C64  arm
  *   GX_LoadOAM                       0x0207E684  arm
@@ -87,7 +87,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *expr);
+extern void GF_PANIC_Fail(const char *file, u32 line, const char *expr);
 
 extern u32  GX_GetBankForOBJ(void);
 
@@ -267,7 +267,7 @@ u32 GFL_NET_WM_ICON_GetCharName(u32 engine, u32 charNo)
         return charNo;
     case 0x00300010:
     default:
-        SAVEDATA_PanicFail(wm_icon_File, 0xfb, wm_icon_AssertObjMapping);
+        GF_PANIC_Fail(wm_icon_File, 0xfb, wm_icon_AssertObjMapping);
         return charNo;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * function: MISC_SAVEDATA_InitRecord
+ * function: DENDOU_SAVEDATA_InitRecord
  * address:  0x0200EA2C
  * packet:   pkt_0200EA2C
  * region:   arm9
@@ -22,7 +22,7 @@ typedef unsigned int  u32;
 
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 
-void MISC_SAVEDATA_InitRecord(void *block)
+void DENDOU_SAVEDATA_InitRecord(void *block)
 {
     MI_CpuFill8(block, 0, 0x16C);
 }

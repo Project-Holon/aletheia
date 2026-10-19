@@ -21,8 +21,8 @@
  *   FIELD_ENCOUNT_CheckWildEncount  0x021A9F40  thumb  ov021
  *   EFFECT_ENCOUNT_ClearSpot  0x021AAFA0  thumb  ov021
  *   EFFECT_ENCOUNT_SetEffectFlag  0x021AAB1C  thumb  ov021
- *   FIELD_PLAYER_CheckGridMoving  0x021A3624  thumb  ov021
- *   FIELD_PLAYER_FinishGridMove  0x021A3644  thumb  ov021
+ *   FIELD_PLAYER_IsGridHopping  0x021A3624  thumb  ov021
+ *   FIELD_PLAYER_FinishGridHop  0x021A3644  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -71,8 +71,8 @@ struct Ctx;
 extern int FIELD_ENCOUNT_CheckWildEncount(struct Ctx *ctx, int mode);
 extern void EFFECT_ENCOUNT_ClearSpot(Self *self, void *p);
 extern void EFFECT_ENCOUNT_SetEffectFlag(Self *self, int v);
-extern int FIELD_PLAYER_CheckGridMoving(void *p);
-extern void FIELD_PLAYER_FinishGridMove(void **p);
+extern int FIELD_PLAYER_IsGridHopping(void *p);
+extern void FIELD_PLAYER_FinishGridHop(void **p);
 
 static inline int same_pos(Ent *e, Vec3s *v)
 {
@@ -126,8 +126,8 @@ int EFFECT_ENCOUNT_TriggerSpot(Self *self)
             EFFECT_ENCOUNT_SetEffectFlag(self, 1);
         e->top = 1;
         o = FIELDMAP_GetFieldPlayer(self->ctx);
-        if (FIELD_PLAYER_CheckGridMoving(o))
-            FIELD_PLAYER_FinishGridMove(o);
+        if (FIELD_PLAYER_IsGridHopping(o))
+            FIELD_PLAYER_FinishGridHop(o);
     }
     return x;
 }

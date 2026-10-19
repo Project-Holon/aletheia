@@ -73,16 +73,16 @@
  *   GF_FONT_Delete 0x0201D83C thumb
  *   MSGDATA_Delete 0x02045C04 arm
  *   GAME_DATA_GetSaveBlock42 0x02012F68 thumb
- *   MISC_SAVEDATA_FindFreeRecordSlot 0x0200EC14 thumb
- *   MISC_SAVEDATA_GetRecordDate 0x0200EC98 thumb
- *   MISC_SAVEDATA_ExportRecord 0x0200EC2C thumb
+ *   DENDOU_SAVEDATA_GetMemberCount 0x0200EC14 thumb
+ *   DENDOU_SAVEDATA_GetRecordDate 0x0200EC98 thumb
+ *   DENDOU_SAVEDATA_ExportMember 0x0200EC2C thumb
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   SAVE_CONTROL_LoadExtraSave 0x0200725C thumb
  *   SAVE_CONTROL_GetExtraSaveRecord 0x020073D8 thumb
- *   MISC_SAVEDATA_GetRingRecordIndex 0x0200ECD0 thumb
- *   MISC_SAVEDATA_GetRingRemaining 0x0200ECC4 thumb
- *   MISC_SAVEDATA_GetRingRecordDate 0x0200ED14 thumb
- *   MISC_SAVEDATA_ExportRingRecord 0x0200ECF0 thumb
+ *   DENDOU_SAVEDATA_GetRingMemberCount 0x0200ECD0 thumb
+ *   DENDOU_SAVEDATA_GetHallNumber 0x0200ECC4 thumb
+ *   DENDOU_SAVEDATA_GetRingRecordDate 0x0200ED14 thumb
+ *   DENDOU_SAVEDATA_ExportRingMember 0x0200ECF0 thumb
  *   SAVE_CONTROL_DeleteExtraSave 0x020072A4 thumb
  *   sStateHandlers 0x021DEB5C data a4
  *   GF_OVERLAY_Load  0x02034AC4  arm
@@ -90,7 +90,7 @@
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  *   BMP_SetDisplaySwap  0x0204363C  arm
  *   GXx_SetMasterBrightness_  0x0207D534  arm
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   ov067_id       0x00000043  data
  *   GF_OVERLAY_Unload 0x02034A5C arm
  *   PRINTSYS_QUE_IsFinished 0x0201C6B4 thumb
@@ -116,7 +116,7 @@
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   BMP_WIN_GetDispWidth 0x02045748 arm
  *   TOUCHBAR_PrintAligned 0x021B6AE4 thumb ov067
- *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
+ *   PRINTSYS_MeasureWidestLine 0x0201D304 thumb
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   BMP_OAM_UploadChars 0x020257D0 thumb
  *   WORDSET_SetSlotSpeciesName 0x0201EE60 thumb
@@ -247,23 +247,23 @@ extern unsigned int WORDSET_Delete(struct WordSet *wordSet);
 extern u32 GF_FONT_Delete(struct GfFont *font);
 extern u32 MSGDATA_Delete(struct MsgData *msgData);
 extern void *GAME_DATA_GetSaveBlock42(void *gameData);
-extern int MISC_SAVEDATA_FindFreeRecordSlot(const void *saveBlock);
-extern void MISC_SAVEDATA_GetRecordDate(const void *saveBlock, u32 *date);
-extern void MISC_SAVEDATA_ExportRecord(const void *saveBlock, int index, DendouViewMember *dst);
+extern int DENDOU_SAVEDATA_GetMemberCount(const void *saveBlock);
+extern void DENDOU_SAVEDATA_GetRecordDate(const void *saveBlock, u32 *date);
+extern void DENDOU_SAVEDATA_ExportMember(const void *saveBlock, int index, DendouViewMember *dst);
 extern void *GAME_DATA_GetSaveControl(void *gameData);
 extern u32 SAVE_CONTROL_LoadExtraSave(void *saveControl, u32 id, u8 heap);
 extern void *SAVE_CONTROL_GetExtraSaveRecord(void *saveControl, u32 id, u32 v);
-extern int MISC_SAVEDATA_GetRingRecordIndex(void *extraData, int row);
-extern u32 MISC_SAVEDATA_GetRingRemaining(void *extraData, u32 row);
-extern void MISC_SAVEDATA_GetRingRecordDate(void *extraData, int row, u32 *date);
-extern void MISC_SAVEDATA_ExportRingRecord(void *extraData, u32 row, u32 member, DendouViewMember *dst);
+extern int DENDOU_SAVEDATA_GetRingMemberCount(void *extraData, int row);
+extern u32 DENDOU_SAVEDATA_GetHallNumber(void *extraData, u32 row);
+extern void DENDOU_SAVEDATA_GetRingRecordDate(void *extraData, int row, u32 *date);
+extern void DENDOU_SAVEDATA_ExportRingMember(void *extraData, u32 row, u32 member, DendouViewMember *dst);
 extern void SAVE_CONTROL_DeleteExtraSave(void *saveControl, u32 id);
 extern int GF_OVERLAY_Load(s32 overlayId);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void BMP_SetDisplaySwap(u32 swap);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void GF_OVERLAY_Unload(int);
 extern u32 PRINTSYS_QUE_IsFinished(const struct PrintQue *que);
 extern u32 WIPE_SYS_EndCheck(void);
@@ -286,7 +286,7 @@ extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 i, u32 a, u32 b, 
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
 extern u8 BMP_WIN_GetDispWidth(struct BmpWin *win);
 extern void TOUCHBAR_PrintAligned(DendouViewWindow *window, struct PrintQue *que, u16 x, u16 y, struct Strbuf *str, struct GfFont *font, u16 color, u32 align);
-extern u32 GF_FONT_MeasureWidestLine(struct Strbuf *str, struct GfFont *font, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *str, struct GfFont *font, u32 b);
 extern void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
 extern void BMP_OAM_UploadChars(struct BmpOam *oam);
 extern void WORDSET_SetSlotSpeciesName(struct WordSet *wordSet, u32 i, u16 v);
@@ -629,10 +629,10 @@ void DENDOU_VIEW_LoadHallOfFame(DendouViewWork *work)
     params = work->params;
     if (params->source == 0) {
         void *saveBlock = GAME_DATA_GetSaveBlock42(params->gameData);
-        work->rows[0].memberCount = MISC_SAVEDATA_FindFreeRecordSlot(saveBlock);
-        MISC_SAVEDATA_GetRecordDate(saveBlock, &work->rows[0].year);
+        work->rows[0].memberCount = DENDOU_SAVEDATA_GetMemberCount(saveBlock);
+        DENDOU_SAVEDATA_GetRecordDate(saveBlock, &work->rows[0].year);
         for (member = 0; member < work->rows[0].memberCount; member++)
-            MISC_SAVEDATA_ExportRecord(saveBlock, member, &work->rows[0].members[member]);
+            DENDOU_SAVEDATA_ExportMember(saveBlock, member, &work->rows[0].members[member]);
         work->rowCount = 1;
     } else {
         u32 extraSaveId;
@@ -642,12 +642,12 @@ void DENDOU_VIEW_LoadHallOfFame(DendouViewWork *work)
             extraData = SAVE_CONTROL_GetExtraSaveRecord(saveControl, extraSaveId, 0);
             if (extraData) {
                 for (loadRow = 0; loadRow < DENDOU_VIEW_ROW_MAX; loadRow++) {
-                    work->rows[loadRow].memberCount = MISC_SAVEDATA_GetRingRecordIndex(extraData, loadRow);
-                    work->rows[loadRow].hallNumber = MISC_SAVEDATA_GetRingRemaining(extraData, loadRow);
-                    MISC_SAVEDATA_GetRingRecordDate(extraData, loadRow, &work->rows[loadRow].year);
+                    work->rows[loadRow].memberCount = DENDOU_SAVEDATA_GetRingMemberCount(extraData, loadRow);
+                    work->rows[loadRow].hallNumber = DENDOU_SAVEDATA_GetHallNumber(extraData, loadRow);
+                    DENDOU_SAVEDATA_GetRingRecordDate(extraData, loadRow, &work->rows[loadRow].year);
                     if (work->rows[loadRow].memberCount != 0) {
                         for (member = 0; member < work->rows[loadRow].memberCount; member++)
-                            MISC_SAVEDATA_ExportRingRecord(extraData, loadRow, member, &work->rows[loadRow].members[member]);
+                            DENDOU_SAVEDATA_ExportRingMember(extraData, loadRow, member, &work->rows[loadRow].members[member]);
                         work->rowCount++;
                     }
                 }
@@ -698,7 +698,7 @@ void DENDOU_VIEW_StateInit(DendouViewWork *work)
     DENDOU_VIEW_InitActors(work);
     DENDOU_VIEW_StateChangeRow(work);
     DENDOU_VIEW_InitBlend();
-    GFL_NET_RestartWithDefaultTimeout(1, DENDOU_VIEW_HEAP);
+    GFL_NET_RefreshWmIconAtTopRight(1, DENDOU_VIEW_HEAP);
     DENDOU_VIEW_StartVBlankTask(work);
     DENDOU_VIEW_StartWipeIn(work, DENDOU_VIEW_STATE_OVERVIEW);
 }
@@ -1192,7 +1192,7 @@ void DENDOU_VIEW_DrawPageCounter(DendouViewWork *work)
         return;
     BMP_Clear(work->pageBmp, 0);
     labelText = MSGDATA_AllocString(work->msgData, 3);
-    labelWidth = GF_FONT_MeasureWidestLine(labelText, work->fontBody, 0);
+    labelWidth = PRINTSYS_MeasureWidestLine(labelText, work->fontBody, 0);
     x = (40 - labelWidth) / 2;
     PRINTSYS_PrintColor(work->pageBmp, x, 4, labelText, work->fontBody, 0x1900);
     STRBUF_Delete(labelText);
@@ -1201,7 +1201,7 @@ void DENDOU_VIEW_DrawPageCounter(DendouViewWork *work)
     WORDSET_CopyTaggedText(work->wordSet, work->textBuf, numbersText);
     font = work->fontBody;
     text = work->textBuf;
-    numberWidth = GF_FONT_MeasureWidestLine(text, font, 0);
+    numberWidth = PRINTSYS_MeasureWidestLine(text, font, 0);
     PRINTSYS_PrintColor(work->pageBmp, x - numberWidth, 4, text, font, 0x1900);
     WORDSET_SetSlotNumber(work->wordSet, 0, work->rowCount, 2, 0, 1);
     WORDSET_CopyTaggedText(work->wordSet, work->textBuf, numbersText);
@@ -1240,7 +1240,7 @@ void DENDOU_VIEW_DrawMemberInfo(DendouViewWork *work)
         }
     }
     levelLabelText = MSGDATA_AllocString(work->msgData, 11);
-    levelLabelWidth = GF_FONT_MeasureWidestLine(levelLabelText, work->fontLevelLabel, 0);
+    levelLabelWidth = PRINTSYS_MeasureWidestLine(levelLabelText, work->fontLevelLabel, 0);
     TOUCHBAR_PrintAligned(&work->windows[1], work->printQueue, 80, 4, levelLabelText, work->fontLevelLabel, 0x440, 0);
     STRBUF_Delete(levelLabelText);
     levelText = MSGDATA_AllocString(work->msgData, 8);

@@ -54,7 +54,7 @@
  *   FIELD_BUILDMODEL_PlayNodeCurrentSlot  0x0218C89C  thumb  ov021
  *   gScrcmdScreeneffectsNodeHandle     0x021EE720  data  a2
  *   FIELD_BUILDMODEL_TryOpenNodeCurrentSlot  0x0218C8D8  thumb  ov021
- *   FIELD_BUILDMODEL_CheckNodeKindFlag  0x0218C9A4  thumb  ov021
+ *   FIELD_BUILDMODEL_IsNodeSeBusy  0x0218C9A4  thumb  ov021
  *   FIELDMAP_GetTcblSys  0x02188D30  thumb  ov021
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   TCB_AddTask  0x02030DA8  arm
@@ -136,7 +136,7 @@ extern void FIELD_BUILDMODEL_PlayNodeSlot(struct BuildModelNode *node, int slot,
 extern int FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(struct BuildModelNode *node, u16 *seOut);
 extern void FIELD_BUILDMODEL_PlayNodeCurrentSlot(struct BuildModelNode *node, int mode);
 extern int FIELD_BUILDMODEL_TryOpenNodeCurrentSlot(struct BuildModelNode *node);
-extern int FIELD_BUILDMODEL_CheckNodeKindFlag(struct BuildModelNode *node);
+extern int FIELD_BUILDMODEL_IsNodeSeBusy(struct BuildModelNode *node);
 extern u32 FIELDMAP_GetTcblSys(struct FieldMap *fieldMap);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int align, const char *file, u16 line);
 extern void TCB_AddTask(u32 tcbSys, void (*func)(), void *work, u32 priority);
@@ -588,7 +588,7 @@ int SCRCMD_SCREENEFFECTS_CheckBuildModelNodeAnimDone(struct ScriptVm *vm, struct
     if (FIELD_BUILDMODEL_TryOpenNodeCurrentSlot(node) == 0) {
         return 0;
     }
-    if (FIELD_BUILDMODEL_CheckNodeKindFlag(node) == 0) {
+    if (FIELD_BUILDMODEL_IsNodeSeBusy(node) == 0) {
         return 1;
     }
     return 0;

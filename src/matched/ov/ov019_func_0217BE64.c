@@ -21,7 +21,7 @@
  *   GFL_NET_SetChangeoverModeWrapper  0x0203D14C  arm
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
  *   GFL_NET_IsConnectMember  0x0203D1C0  arm
- *   GFL_NET_NotifyUserEvent  0x0203D1E8  arm
+ *   GFL_NET_SetAcceptConnection  0x0203D1E8  arm
  *   GFL_NET_SetLoginOption  0x0203D7BC  arm
  *   GFL_NET_SYSTEM_GetConnectNum  0x020392B8  arm
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
@@ -59,7 +59,7 @@ extern int  UNION_COMMAND_SendPartnerMode(int v);
 extern void GFL_NET_SetChangeoverModeWrapper(int a, int b, void *c);
 extern int  GFL_NET_GetNegotiationNum(void);
 extern u32 GFL_NET_IsConnectMember(u32 index);
-extern void GFL_NET_NotifyUserEvent(u32 unused, void *arg);
+extern void GFL_NET_SetAcceptConnection(u32 unused, void *arg);
 extern void GFL_NET_SetLoginOption(u8 a0);
 extern int  GFL_NET_SYSTEM_GetConnectNum(void);
 struct Entry;
@@ -98,7 +98,7 @@ int UNION_ONESELF_ConnectParentMain(void *w, Obj *obj, u8 *a2, u8 *state)
                 *state = 4;
             } else {
                 GFL_NET_SetLoginOption(1);
-                GFL_NET_NotifyUserEvent((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0);
+                GFL_NET_SetAcceptConnection((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0);
                 *state = 2;
             }
         } else {

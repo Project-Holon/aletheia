@@ -47,7 +47,7 @@
  *   WIFIBATTLEMATCH_UTIL_ClearCallback 0x021E8AA8 thumb ov177
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
- *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GF_PANIC_Fail 0x02034714 arm
  *   d_0217E5E0 0x0217E5E0 data a1
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
  *   GFL_HEAP_Alloc 0x02030734 arm
@@ -205,7 +205,7 @@ extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 
 extern int FADE_IsActive(void);
 
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 extern void GFL_USE_FadeOutBgm(u32 a);
 
@@ -446,7 +446,7 @@ void BATTLE_CHAMPIONSHIP_FLOW_FadeIn(void *proc,int *state,char *work)
     case 0: FADE_Start(3,16,0,0); *state=1; break;
     case 1: if(!FADE_IsActive()) *state=2; break;
     case 2: WIFIBATTLEMATCH_UTIL_SetCallback(proc,(int)BATTLE_CHAMPIONSHIP_FLOW_SelectFlow); break;
-    default: SAVEDATA_PanicFail(d_0217E5E0,0,d_0217E5E0); break;
+    default: GF_PANIC_Fail(d_0217E5E0,0,d_0217E5E0); break;
     }
 }
 
@@ -461,7 +461,7 @@ void BATTLE_CHAMPIONSHIP_FLOW_FadeOut(void *proc,int *state,char *work)
         break;
     case 1: if(!FADE_IsActive()) *state=2; break;
     case 2: WIFIBATTLEMATCH_UTIL_SetCallback(proc,(int)BATTLE_CHAMPIONSHIP_FLOW_End); break;
-    default: SAVEDATA_PanicFail(d_0217E5E0,0,d_0217E5E0); break;
+    default: GF_PANIC_Fail(d_0217E5E0,0,d_0217E5E0); break;
     }
 }
 

@@ -41,9 +41,9 @@
  *   WORDSET_SetSlotFromMsgBF  0x0201F0F8  thumb
  *   WORDSET_SetSlotFromMsg11B  0x0201F124  thumb
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   BEACON_GetBlock  0x0200C0F0  thumb
- *   BEACON_GetThanksCount  0x0200C1DC  thumb
- *   BEACON_GetGreetCount  0x0200C1C4  thumb
+ *   MISC_GetBlock  0x0200C0F0  thumb
+ *   MISC_GetThanksCount  0x0200C1DC  thumb
+ *   MISC_GetGreetCount  0x0200C1C4  thumb
  *   GAMESYSTEM_GetEvent  0x02012104  thumb
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   EVENT_MAPCHANGE_CreateWarpEvent  0x02184D38  thumb  ov020
@@ -91,8 +91,8 @@ typedef struct GameEvent GameEvent;
 typedef struct ScrcmdWork ScrcmdWork;
 typedef struct WordSet WordSet;
 typedef struct SaveControl SaveControl;
-typedef struct BeaconSave BeaconSave;
-typedef struct PlayerStatus PlayerStatus;
+typedef struct MiscSave MiscSave;
+typedef struct MyStatus MyStatus;
 typedef struct Party Party;
 typedef struct PokemonParam PokemonParam;
 typedef struct Sodateya Sodateya;
@@ -116,8 +116,8 @@ extern GameData *SCRCMD_WORK_GetGameData(ScrcmdWork *cmdWork);
 extern FieldMap *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
 extern u16 VM_GetU16(ScriptVm *vm);
 extern WordSet *SCRIPT_WORK_GetWordSet(ScriptWork *scriptWork);
-extern PlayerStatus *GAME_DATA_GetMyStatus(GameData *gameData);
-extern void WORDSET_SetSlotMyStatus(WordSet *wordSet, u32 slot, PlayerStatus *myStatus);
+extern MyStatus *GAME_DATA_GetMyStatus(GameData *gameData);
+extern void WORDSET_SetSlotMyStatus(WordSet *wordSet, u32 slot, MyStatus *myStatus);
 extern void WORDSET_SetSlotFromMsg36(WordSet *wordSet, u32 slot, u32 entryIndex);
 extern void WORDSET_SetSlotFromMsg117(WordSet *wordSet, u32 slot, u32 entryIndex);
 extern void WORDSET_SetSlotFromMsg118(WordSet *wordSet, u32 slot, u32 entryIndex);
@@ -144,9 +144,9 @@ extern void WORDSET_SetSlotFromMsgA0(WordSet *wordSet, u32 slot, s32 entryIndex)
 extern void WORDSET_SetSlotFromMsgBF(WordSet *wordSet, u32 slot, u32 entryIndex);
 extern void WORDSET_SetSlotFromMsg11B(WordSet *wordSet, u32 slot, u32 entryIndex);
 extern SaveControl *GAME_DATA_GetSaveControl(GameData *gameData);
-extern BeaconSave *BEACON_GetBlock(SaveControl *saveControl);
-extern u32 BEACON_GetThanksCount(BeaconSave *beacon);
-extern u32 BEACON_GetGreetCount(BeaconSave *beacon);
+extern MiscSave *MISC_GetBlock(SaveControl *saveControl);
+extern u32 MISC_GetThanksCount(MiscSave *beacon);
+extern u32 MISC_GetGreetCount(MiscSave *beacon);
 extern GameEvent *GAMESYSTEM_GetEvent(GameSystem *gameSystem);
 extern void GAME_EVENT_CallEvent(GameEvent *parentEvent, GameEvent *childEvent);
 extern GameEvent *EVENT_MAPCHANGE_CreateWarpEvent(GameSystem *gameSystem, FieldMap *fieldMap, int zoneId, const VecFx32 *pos, u16 dir, int seasonFadeAllowed);
@@ -216,7 +216,7 @@ static inline u8 ScriptVm_ReadU8(ScriptVm *vm)
 int SCRCMD_BufferPlayerName(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
-    PlayerStatus *myStatus;
+    MyStatus *myStatus;
     WordSet *wordSet;
 
     SCRIPT_WORK_ResetFieldParam(scriptWork);
@@ -457,14 +457,14 @@ int SCRCMD_BufferMapEntryNameB(ScriptVm *vm, ScrcmdWork *cmdWork) { return SCRCM
 int SCRCMD_BufferBeaconThanksCount(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
-    BeaconSave *beacon;
+    MiscSave *beacon;
     WordSet *wordSet;
     int slot;
 
-    beacon = BEACON_GetBlock(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(cmdWork)));
+    beacon = MISC_GetBlock(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(cmdWork)));
     wordSet = SCRIPT_WORK_GetWordSet(scriptWork);
     slot = ScriptVm_ReadU8(vm);
-    WORDSET_SetSlotNumber(wordSet, slot, BEACON_GetThanksCount(beacon), 9, 1, 1);
+    WORDSET_SetSlotNumber(wordSet, slot, MISC_GetThanksCount(beacon), 9, 1, 1);
     return 0;
 }
 
@@ -472,14 +472,14 @@ int SCRCMD_BufferBeaconThanksCount(ScriptVm *vm, ScrcmdWork *cmdWork)
 int SCRCMD_BufferBeaconGreetCount(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
-    BeaconSave *beacon;
+    MiscSave *beacon;
     WordSet *wordSet;
     int slot;
 
-    beacon = BEACON_GetBlock(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(cmdWork)));
+    beacon = MISC_GetBlock(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(cmdWork)));
     wordSet = SCRIPT_WORK_GetWordSet(scriptWork);
     slot = ScriptVm_ReadU8(vm);
-    WORDSET_SetSlotNumber(wordSet, slot, BEACON_GetGreetCount(beacon), 9, 1, 1);
+    WORDSET_SetSlotNumber(wordSet, slot, MISC_GetGreetCount(beacon), 9, 1, 1);
     return 0;
 }
 

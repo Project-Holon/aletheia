@@ -58,8 +58,8 @@
  *   FIELD_PLAYER_GetDirDisp  0x021A3050  thumb  ov021
  *   FIELD_PLAYER_GetNowAttribute  0x021A30C8  thumb  ov021
  *   FIELD_PLAYER_GetFrontAttribute  0x021A3128  thumb  ov021
- *   FIELD_PLAYER_CheckEncountAttr  0x021A3504  thumb  ov021
- *   FIELD_PLAYER_CheckSurfEntryAttr  0x021A3524  thumb  ov021
+ *   FIELD_PLAYER_CheckSurfStartAttr  0x021A3504  thumb  ov021
+ *   FIELD_PLAYER_CheckWaterfallClimbAttr  0x021A3524  thumb  ov021
  *   FIELD_PLAYER_GetNowGridPos  0x021A35FC  thumb  ov021
  *   FLDMMDL_GetObjCode  0x0216D598  thumb  ov010
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
@@ -254,9 +254,9 @@ extern u32 FIELD_PLAYER_GetNowAttribute(struct FieldPlayer *player);
 
 extern u32 FIELD_PLAYER_GetFrontAttribute(struct FieldPlayer *player, u32 index);
 
-extern int FIELD_PLAYER_CheckEncountAttr(struct FieldPlayer *player, int a, int b);
+extern int FIELD_PLAYER_CheckSurfStartAttr(struct FieldPlayer *player, int a, int b);
 
-extern int FIELD_PLAYER_CheckSurfEntryAttr(struct FieldPlayer *player, int a, int b);
+extern int FIELD_PLAYER_CheckWaterfallClimbAttr(struct FieldPlayer *player, int a, int b);
 
 extern void FIELD_PLAYER_GetNowGridPos(struct FieldPlayer *player, u16 *x, u16 *y, u16 *z);
 
@@ -727,9 +727,9 @@ void MOVE_POKEMON_InitSkillInfo(struct FieldMap *fieldMap, FieldSkillInfo *out)
     playerA = FIELD_PLAYER_GetDirDisp(player);
     playerB = FIELD_PLAYER_GetNowAttribute(player);
     playerC = FIELD_PLAYER_GetFrontAttribute(player, playerA);
-    if (FIELD_PLAYER_CheckEncountAttr(player, playerB, playerC) == 1)
+    if (FIELD_PLAYER_CheckSurfStartAttr(player, playerB, playerC) == 1)
         out->usableMask |= 2;
-    if (FIELD_PLAYER_CheckSurfEntryAttr(player, playerB, playerC) == 1)
+    if (FIELD_PLAYER_CheckWaterfallClimbAttr(player, playerB, playerC) == 1)
         out->usableMask |= 4;
     if (ZONEDATA_IsFlyEnabled(out->zoneId) == 1) {
         out->usableMask |= 0x10;

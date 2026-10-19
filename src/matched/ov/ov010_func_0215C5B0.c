@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PROC_CheckMiscValueReached
+ * function: SCRCMD_PROC_CheckMoneyAtLeast
  * address: 0x0215C5B0
  * packet: pkt_ov010_0215C5B0
  * region: ov010
@@ -13,7 +13,7 @@
  *   SCRCMD_WORK_GetGameData 0x0215A5E4 thumb ov010
  *   GAME_DATA_GetMyPlayerWork 0x020127A4 thumb
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
- *   BEACON_GetMoney 0x0200C274 thumb
+ *   MISC_GetMoney 0x0200C274 thumb
  */
 typedef unsigned short u16;
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
@@ -24,14 +24,14 @@ extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
 extern void *SCRCMD_WORK_GetGameData(void *a0);
 extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
 extern void *GAME_DATA_GetMiscSave(int *p);
-extern u32 BEACON_GetMoney(struct Blk34 *p);
+extern u32 MISC_GetMoney(struct Blk34 *p);
 
-int SCRCMD_PROC_CheckMiscValueReached(void *a, void *b)
+int SCRCMD_PROC_CheckMoneyAtLeast(void *a, void *b)
 {
     u16 *p = SCRIPT_WORK_ReadWorkPointer(a, b);
     unsigned int v = SCRIPT_WORK_ReadWorkValue(a, b);
     void *q = SCRCMD_WORK_GetGameData(b);
     GAME_DATA_GetMyPlayerWork(q);
-    *p = v <= BEACON_GetMoney(GAME_DATA_GetMiscSave(q)) ? 1 : 0;
+    *p = v <= MISC_GetMoney(GAME_DATA_GetMiscSave(q)) ? 1 : 0;
     return 0;
 }

@@ -75,7 +75,7 @@
  *   COMM_TVT_SYS_GetEndRequested  0x021BE0D0  thumb  ov172
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   CTVT_CAMVIEW_RequestShutterSound1  0x021B7B80  thumb  ov172
  *   CTVT_CAMVIEW_SetCameraEffect  0x021B7B3C  thumb  ov172
  *   CTVT_COMM_StopSession  0x021B8084  thumb  ov172
@@ -141,7 +141,7 @@ extern void BG_SYS_ChangeScroll(u32 a, u32 b, u32 c);
 extern void BG_SYS_MarkTileDirty(u32 layer);
 extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, int tileBase, int palette);
 extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *win, u32 kind);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 heapId);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 heapId);
 
 /* Cell actors. */
 extern struct ClActor *CLACT_CreateActor(struct ClActUnit *unit, u32 charRes, u32 palRes, u32 cellRes, const void *position, u16 space, u16 heapId);
@@ -377,7 +377,7 @@ void CTVT_DRAW_Init(CtvtWork *work, CtvtDrawScene *scene)
     scene->cameraHidden = 0;
     REG_BG_PLTT_COLOR13 = scene->penColor & 0x7fff;
     CTVT_DRAW_ShowHelp(work, scene, 0);
-    GFL_NET_RestartWithDefaultTimeout(1, heapId);
+    GFL_NET_RefreshWmIconAtTopRight(1, heapId);
     COMM_TVT_SYS_HideSlotMarker(work);
 }
 
@@ -392,7 +392,7 @@ void CTVT_DRAW_Exit(CtvtWork *work, CtvtDrawScene *scene)
         scene->toolMode = (scene->drawTool == 0) ? 0 : 3;
     }
     win = 0;
-    GFL_NET_RestartWithDefaultTimeout(0, heapId);
+    GFL_NET_RefreshWmIconAtTopRight(0, heapId);
     BMP_MENUWORK_DrawWindowBorder(scene->helpWin, 0);
     win = scene->helpWin;
     BMP_WIN_ClearScreen(win);

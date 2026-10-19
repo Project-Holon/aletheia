@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "COMM_PLAYER_GetState848",
+   "name": "SYMBOL_MAP_GetGroup",
    "address": "0x021673A8",
    "kind": "game",
    "region": "ov010",

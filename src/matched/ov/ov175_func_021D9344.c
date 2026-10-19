@@ -1,5 +1,5 @@
 /*
- * function: WIFIBATTLEMATCH_NET_CompStepN
+ * function: WIFIBATTLEMATCH_NET_CompStepWithdrawEntry
  * address: 0x021D9344
  * packet: pkt_ov175_021D9344
  * region: ov175
@@ -55,7 +55,7 @@ extern void BATTLE_BOX_ClearLockFlags(struct Obj *p, int v);
 extern void REGULATION_Card_SetValue(struct Reg2 *p, u32 id, s32 value);
 extern int GAME_DATA_SaveStart(int),GAME_DATA_SaveMain(u8 *);
 extern void MI_CpuFill8(void *,int,u32);
-void WIFIBATTLEMATCH_NET_CompStepN(u32 sys,int *state,char *p) {
+void WIFIBATTLEMATCH_NET_CompStepWithdrawEntry(u32 sys,int *state,char *p) {
     char *ctx=*(char * *)&((struct Obj00781 *)p)->f104;
     int r;
     Request request;

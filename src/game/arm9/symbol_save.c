@@ -25,7 +25,7 @@
  *   SAVE_CONTROL_ReadRecordFromFlash     0x02007248  thumb
  *   memcmp            0x0203EFC8  arm
  *   sFileName_symbol_save    0x020A720C  data
- *   COMM_PLAYER_GetRecordField3  0x02167380  thumb  ov010
+ *   QUESTIONNAIRE_GetAnswerBitOffset  0x02167380  thumb  ov010
  *   QUESTIONNAIRE_GetAnswerBitWidth  0x02167358  thumb  ov010
  *   GF_STANDARD_XorCryptEx  0x0203F37C  arm
  */
@@ -84,7 +84,7 @@ extern u32   SAVE_CONTROL_ReadRecordFromFlash(void *a, u32 b, u32 c, void *d, u3
 
 extern int   memcmp(const void *a, const void *b, u32 n);
 
-extern u8 COMM_PLAYER_GetRecordField3(u32 id);
+extern u8 QUESTIONNAIRE_GetAnswerBitOffset(u32 id);
 
 extern u8 QUESTIONNAIRE_GetAnswerBitWidth(u32 id);
 
@@ -491,12 +491,12 @@ u8 *SYMBOL_SAVE_GetQuestionnaireBits(struct SymbolBitSave *save)
 
 /*
  * note:     wave 16: promoted.  0x02167380 and 0x02167358 are unlabelled ov010
- *           leaves matched in src/matched/COMM_PLAYER_GetRecordField3.c and QUESTIONNAIRE_GetAnswerBitWidth.c
+ *           leaves matched in src/matched/QUESTIONNAIRE_GetAnswerBitOffset.c and QUESTIONNAIRE_GetAnswerBitWidth.c
  *           (ov010/pkt_02167358); both attest as `matched, overlay`.
  */
 u32 SYMBOL_SAVE_ReadBitField(const u8 *bits, int fieldId)
 {
-    u32 bitPos  = COMM_PLAYER_GetRecordField3(fieldId);
+    u32 bitPos  = QUESTIONNAIRE_GetAnswerBitOffset(fieldId);
     u32 width    = QUESTIONNAIRE_GetAnswerBitWidth(fieldId);
     u32 byteIndex = bitPos >> 3;
     u32 bitInByte    = bitPos & 7;
@@ -517,7 +517,7 @@ u32 SYMBOL_SAVE_ReadBitField(const u8 *bits, int fieldId)
 
 /*
  * note:     wave 16: promoted.  0x02167380 and 0x02167358 are unlabelled ov010
- *           leaves matched in src/matched/COMM_PLAYER_GetRecordField3.c and QUESTIONNAIRE_GetAnswerBitWidth.c
+ *           leaves matched in src/matched/QUESTIONNAIRE_GetAnswerBitOffset.c and QUESTIONNAIRE_GetAnswerBitWidth.c
  *           (ov010/pkt_02167358); both attest as `matched, overlay`.
  *
  * near miss resolved (wave 4, permuter): the note's 88-byte version was a
@@ -532,7 +532,7 @@ u32 SYMBOL_SAVE_ReadBitField(const u8 *bits, int fieldId)
  */
 void SYMBOL_SAVE_WriteBitField(u8 *bits, int fieldId, u32 value)
 {
-    u32 bitPos = COMM_PLAYER_GetRecordField3(fieldId);
+    u32 bitPos = QUESTIONNAIRE_GetAnswerBitOffset(fieldId);
     u32 width   = QUESTIONNAIRE_GetAnswerBitWidth(fieldId);
     u32 byteIndex = bitPos >> 3;
     u32 bitInByte    = bitPos & 7;

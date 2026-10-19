@@ -53,7 +53,7 @@
  *   COMM_TVT_SYS_GetMessageActive 0x021BE0AC thumb ov172
  *   COMM_TVT_SYS_GetViewSwapped 0x021BE0B4 thumb ov172
  *   MIi_CpuCopy32 0x02082A90 arm
- *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GF_PANIC_Fail 0x02034714 arm
  *   COMM_TVT_SYS_GetCameraBusy 0x021BE0F8 thumb ov172
  *   COMM_TVT_SYS_SetCameraBusy 0x021BE0FC thumb ov172
  *   d_021C71F0 0x021C71F0 data a4
@@ -121,7 +121,7 @@ extern u32 COMM_TVT_SYS_GetSelfSlot(void *p);
 extern u32 COMM_TVT_SYS_GetMessageActive(void *p);
 extern u32 COMM_TVT_SYS_GetViewSwapped(void *p);
 extern void MIi_CpuCopy32(const void *srcp, void *destp, unsigned long size);
-extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *msg);
+extern void GF_PANIC_Fail(const char *file, u32 line, const char *msg);
 extern u32 COMM_TVT_SYS_GetCameraBusy(void *p);
 extern void COMM_TVT_SYS_SetCameraBusy(void *p, u32 v);
 extern unsigned int CTVT_COMM_IsSlotActive(int, char *, int);
@@ -461,7 +461,7 @@ void CTVT_CAMVIEW_OnCameraFrame(char *frame, void *work)
             MIi_CpuCopy32(frame + i * 0x200 + 0x80, (char *)view->cropBuf + i * 0x100, 0x100);
     }
     if (screenSplit == 0) {
-        SAVEDATA_PanicFail(d_021C71F0, 0, d_021C71F0);
+        GF_PANIC_Fail(d_021C71F0, 0, d_021C71F0);
         return;
     }
     slot = selfSlot;

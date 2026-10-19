@@ -17,7 +17,7 @@
  *   GFL_HEAP_Free  0x020307B0  arm
  *   GFL_NET_STATE_SetError  0x0203C9AC  arm
  *   GFL_NET_STATE_GetError  0x0203CA98  arm
- *   SAVEDATA_PanicFail  0x02034714  arm
+ *   GF_PANIC_Fail  0x02034714  arm
  *   DWC_ClearError 0x02059F18 arm
  *   DWC_ClearDirtyFlag  0x02059870  arm
  *   abs_id_11  0x00000011  data
@@ -68,7 +68,7 @@ void GFL_NET_STATE_SetError(int errorCode, u32 errorType, u32 dwcError, u32 game
 
 u32 GFL_NET_STATE_GetError(void);
 
-void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 extern void DWC_ClearError(void);
 
@@ -200,13 +200,13 @@ void DWC_RAPCOMMON_CreateSubHeapUnlimited(int ownerId, int size, int heapId)
 void DWC_RAPCOMMON_CreateSubHeap(u32 ownerId, u32 size, u32 minRequestSize, u32 heapId)
 {
     if (_pRapHeap == 0) {
-        SAVEDATA_PanicFail(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
+        GF_PANIC_Fail(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
     }
     if (_pRapHeap->subMem != 0) {
-        SAVEDATA_PanicFail(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
+        GF_PANIC_Fail(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
     }
     if (_pRapHeap->subHeap != 0) {
-        SAVEDATA_PanicFail(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
+        GF_PANIC_Fail(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
     }
     _pRapHeap->subMem = (u32)GFL_HEAP_Alloc(heapId, size - 0x80, 0, _sDwcRapCommonFile, 0x62);
     _pRapHeap->subHeap = (u32)NNS_FndCreateExpHeapEx((void *)((_pRapHeap->subMem + 0x1f) & ~0x1f), size - 0xc0, 0);
@@ -219,7 +219,7 @@ void DWC_RAPCOMMON_CreateSubHeap(u32 ownerId, u32 size, u32 minRequestSize, u32 
 void DWC_RAPCOMMON_DestroySubHeap(void)
 {
     if (_pRapHeap == 0) {
-        SAVEDATA_PanicFail(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
+        GF_PANIC_Fail(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
     }
     if (_pRapHeap->subLiveBlocks != 0) {
         GFL_NET_STATE_SetError(0, 0, 0, DWC_RAP_RESULT_FATAL);
@@ -306,7 +306,7 @@ void DWC_RAPCOMMON_Free(u32 ownerId, void *block, int unused)
 void DWC_RAPCOMMON_CreateHeap(u32 heapId, u32 size)
 {
     if (_pRapHeap != 0) {
-        SAVEDATA_PanicFail(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
+        GF_PANIC_Fail(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
     }
     _pRapHeap = (DwcRapHeap *)GFL_HEAP_Alloc(0, 0x24, 1, _sDwcRapCommonFile, 0x14C);
     _pRapHeap->mainMem = (u32)GFL_HEAP_Alloc(heapId, size - 0x80, 0, _sDwcRapCommonFile, 0x14D);
@@ -317,7 +317,7 @@ void DWC_RAPCOMMON_CreateHeap(u32 heapId, u32 size)
 void DWC_RAPCOMMON_DestroyHeap(void)
 {
     if (_pRapHeap == 0) {
-        SAVEDATA_PanicFail(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
+        GF_PANIC_Fail(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
     }
     if (_pRapHeap->allocFailed == 1 || _pRapHeap->subMem != 0) {
         DWC_RAPCOMMON_ReleaseSubHeap();

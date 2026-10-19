@@ -1,5 +1,5 @@
 /*
- * function: FIELD_PLAYER_CheckNogridMoveReady
+ * function: FIELD_PLAYER_IsNogridForcedMove
  * address:  0x021A3698
  * packet:   pkt_021A3674
  * region:   ov021
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 
 extern u32 FIELD_PLAYER_NOGRID_IsForcedMove(u32 p);
 
-u32 FIELD_PLAYER_CheckNogridMoveReady(u8 *p)
+u32 FIELD_PLAYER_IsNogridForcedMove(u8 *p)
 {
     return FIELD_PLAYER_NOGRID_IsForcedMove(((struct Obj18026 *)p)->fC);
 }

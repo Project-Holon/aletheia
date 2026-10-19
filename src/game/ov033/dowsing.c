@@ -28,7 +28,7 @@
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   INTRUDE_GetFromSave 0x0200BE48 thumb
  *   G2x_SetBlendAlpha_ 0x0207D63C arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   TCB_DeleteTask 0x02030EAC arm
  *   INFOWIN_Update 0x02024ABC thumb
  *   MAP_MATRIX_IsInRangeByPos 0x02159C48 thumb ov010
@@ -151,7 +151,7 @@ extern void *GAME_DATA_GetEventWork(const struct GameData *gameData);
 extern void *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern void *INTRUDE_GetFromSave(void *sys);
 extern void G2x_SetBlendAlpha_(u32 reg, int plane1, int plane2, int ev1, int ev2);
-extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32, u32);
 extern void TCB_DeleteTask(struct Task *task);
 extern void INFOWIN_Update(void);
 extern struct PlayerAvatar *GAMESYSTEM_GetMyPlayerWork(const struct FieldSystem *fieldSystem);
@@ -390,7 +390,7 @@ DowsingWork *DOWSING_Create(u32 heapId, u32 ownerHeapId, FieldSubscreen *subscre
     eventFlags = GAME_DATA_GetEventWork(gameData);
     work->search = DOWSING_CreateSearch(work->heapId, eventFlags, INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(gameData)));
     G2x_SetBlendAlpha_((u32)&reg_GXS_DB_BLDCNT, 0x10, 0x18, 1, 7);
-    GFL_NET_RestartWithDefaultTimeout(0, work->heapId);
+    GFL_NET_RefreshWmIconAtTopRight(0, work->heapId);
     return work;
 }
 

@@ -15,7 +15,7 @@
  *   GAME_EVENT_CallProc  0x02012444  thumb
  *   d_021B9EC0     0x021B9EC0  data  a4
  *   ov_id_00CD     0x000000CD  data  a1
- *   SCRCMD_NETWORK_LoadOv020Task  0x0215FA1C  thumb  ov010
+ *   EVENT_WIFI_PROC_LoadOv020Task  0x0215FA1C  thumb  ov010
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   SCRIPT_SYS_CallScriptEvent  0x02158780  thumb  ov010
  
@@ -32,7 +32,7 @@ extern void BRIGHTNESS_Set(u32 a0, u32 a1, u32 mask);
 extern void GAME_EVENT_CallProc(struct Obj *obj, u32 a1, u32 a2, u32 a3);
 extern u8 d_021B9EC0[];
 extern u8 ov_id_00CD[];
-extern int SCRCMD_NETWORK_LoadOv020Task();
+extern int EVENT_WIFI_PROC_LoadOv020Task();
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 extern int SCRIPT_SYS_CallScriptEvent(void *p, u16 b, int c, int d, u16 e);
 
@@ -47,7 +47,7 @@ int SCRCMD_NETWORK_CommProcEventMain(int a0, int *st, int *a2)
         break;
     case 1:
         BRIGHTNESS_Set(0, 0x3f, 3);
-        GAME_EVENT_CallEvent((struct Evt *)a0, (struct Evt **)SCRCMD_NETWORK_LoadOv020Task(a2[0]));
+        GAME_EVENT_CallEvent((struct Evt *)a0, (struct Evt **)EVENT_WIFI_PROC_LoadOv020Task(a2[0]));
         (*st)++;
         break;
     case 2:

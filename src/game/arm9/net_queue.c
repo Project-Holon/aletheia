@@ -15,7 +15,7 @@
  * symbols:
  *   GFL_HEAP_Alloc                    0x02030734  arm
  *   GFL_HEAP_Free                    0x020307B0  arm
- *   SAVEDATA_PanicFail                    0x02034714  arm
+ *   GF_PANIC_Fail                    0x02034714  arm
  *   MI_CpuFill8                      0x02082BCC  arm
  *   MI_CpuCopy8                      0x02082D44  arm
  *   _pTouchPanelWork                 0x021469C4  data
@@ -36,7 +36,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *expr);
+extern void GF_PANIC_Fail(const char *file, u32 line, const char *expr);
 
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 
@@ -214,15 +214,15 @@ int GFL_NET_QUEUE_Put(NetQueue *queue, u32 command, const u8 *pDataArea, u32 siz
     NetQueueNode *node = GFL_NET_QUEUE_GetFreeNode(queue);
 
     if (node == 0) {
-        SAVEDATA_PanicFail(net_queue_File, 0xdb, net_queue_AssertZero);
+        GF_PANIC_Fail(net_queue_File, 0xdb, net_queue_AssertZero);
         return 0;
     }
     if (!((u16)size < 0xffff / 2)) {
-        SAVEDATA_PanicFail(net_queue_File, 0xdf, net_queue_AssertSize);
+        GF_PANIC_Fail(net_queue_File, 0xdf, net_queue_AssertSize);
     }
     if (copyToRing != 0) {
         if (!((int)(size + 5) < (int)GFL_NET_RING_BUFF_GetFreeSize(queue->ring))) {
-            SAVEDATA_PanicFail(net_queue_File, 0xe3, net_queue_AssertZero);
+            GF_PANIC_Fail(net_queue_File, 0xe3, net_queue_AssertZero);
             return 0;
         }
         GFL_NET_RING_BUFF_Write(queue->ring, pDataArea, size);
@@ -271,7 +271,7 @@ void GFL_NET_QUEUE_RemoveNext(NetQueue *queue)
     if (GFL_NET_QUEUE_PopList(&queue->slow) != 0) {
         return;
     }
-    SAVEDATA_PanicFail(net_queue_File, 0x12f, net_queue_AssertRet);
+    GF_PANIC_Fail(net_queue_File, 0x12f, net_queue_AssertRet);
 }
 
 /*

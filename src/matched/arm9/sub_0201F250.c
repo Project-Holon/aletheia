@@ -16,9 +16,9 @@
  * replaced by the stored word itself.
  *
  * The tag primitives it calls are the seven of src/matched/unit_0201D5C4.c:
- * GF_FONT_GetTagChar is the 0xF000 marker, GF_FONT_IsWordSlotTag says whether the tag is a
- * word reference, GF_FONT_GetTagParam reads parameter 0 (the word index),
- * GF_FONT_AppendTag writes a new tag, and GF_FONT_SkipTag steps the cursor past a
+ * PRINTSYS_GetTagChar is the 0xF000 marker, PRINTSYS_IsWordSlotTag says whether the tag is a
+ * word reference, PRINTSYS_GetTagParam reads parameter 0 (the word index),
+ * PRINTSYS_AppendTag writes a new tag, and PRINTSYS_SkipTag steps the cursor past a
  * tag.  The word table hangs off the object at +8 and its entries are 0xC
  * bytes: a flag at +4 and the word's own message at +8.  When the flag is set
  * the expansion is bracketed by two freshly built 0xBD tags, kinds 6 and 4,
@@ -32,7 +32,7 @@
  *     flag test and the first write, and the buffer has its address taken, so
  *     re-reading `ws->unk08` after them costs a reload the original does not
  *     have.  Binding it for the *second* write as well is four bytes too long
- *     the other way: the local would then be live across GF_FONT_AppendTag and the
+ *     the other way: the local would then be live across PRINTSYS_AppendTag and the
  *     index has to be spilled.  The original recomputes the address from the
  *     two callee-saved registers it already holds, which is what writing the
  *     expression out gives.
@@ -58,11 +58,11 @@
  *   STRBUF_GetChars  0x02045A90  arm
  *   STRBUF_AppendChar  0x02045AFC  arm
  *   STRBUF_GetEosChar  0x02045A98  arm
- *   GF_FONT_IsWordSlotTag  0x0201D5CC  thumb
- *   GF_FONT_GetTagChar  0x0201D5C4  thumb
- *   GF_FONT_AppendTag  0x0201D60C  thumb
- *   GF_FONT_GetTagParam  0x0201D670  thumb
- *   GF_FONT_SkipTag  0x0201D688  thumb
+ *   PRINTSYS_IsWordSlotTag  0x0201D5CC  thumb
+ *   PRINTSYS_GetTagChar  0x0201D5C4  thumb
+ *   PRINTSYS_AppendTag  0x0201D60C  thumb
+ *   PRINTSYS_GetTagParam  0x0201D670  thumb
+ *   PRINTSYS_SkipTag  0x0201D688  thumb
  *   WORDSET_AppendUnpackedString  0x0201F4A0  thumb
  */
 
@@ -88,11 +88,11 @@ extern void STRBUF_Clear(struct U16Vec *vec);
 extern u16  STRBUF_GetEosChar(void);
 extern void STRBUF_AppendChar(struct U16Vec *vec, u16 value);
 
-extern u32   GF_FONT_GetTagChar(void);
-extern u32   GF_FONT_IsWordSlotTag(const u16 *p);
-extern void  GF_FONT_AppendTag(void *s, u32 b, u32 c, u16 n, const u16 *arr);
-extern u32   GF_FONT_GetTagParam(const u16 *p, u32 i);
-extern u16  *GF_FONT_SkipTag(u16 *p);
+extern u32   PRINTSYS_GetTagChar(void);
+extern u32   PRINTSYS_IsWordSlotTag(const u16 *p);
+extern void  PRINTSYS_AppendTag(void *s, u32 b, u32 c, u16 n, const u16 *arr);
+extern u32   PRINTSYS_GetTagParam(const u16 *p, u32 i);
+extern u16  *PRINTSYS_SkipTag(u16 *p);
 extern void  WORDSET_AppendUnpackedString(void *dst, void *src);
 
 void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src)
@@ -108,23 +108,23 @@ void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src)
     p = STRBUF_GetChars(src);
     STRBUF_Clear(dst);
     term = STRBUF_GetEosChar();
-    marker = GF_FONT_GetTagChar();
+    marker = PRINTSYS_GetTagChar();
     while (p[0] != term) {
         if (p[0] == marker) {
-            if (GF_FONT_IsWordSlotTag(p) != 0) {
-                i = GF_FONT_GetTagParam(p, 0);
+            if (PRINTSYS_IsWordSlotTag(p) != 0) {
+                i = PRINTSYS_GetTagParam(p, 0);
                 e = &ws->unk08[i];
                 if (e->unk04 != 0) {
                     buf[1] = (u16)i;
                     buf[0] = 0x54;
-                    GF_FONT_AppendTag(e->unk08, 0xBD, 6, 1, &buf[1]);
-                    GF_FONT_AppendTag(ws->unk08[i].unk08, 0xBD, 4, 1, &buf[0]);
+                    PRINTSYS_AppendTag(e->unk08, 0xBD, 6, 1, &buf[1]);
+                    PRINTSYS_AppendTag(ws->unk08[i].unk08, 0xBD, 4, 1, &buf[0]);
                 }
                 WORDSET_AppendUnpackedString(dst, ws->unk08[i].unk08);
-                p = GF_FONT_SkipTag(p);
+                p = PRINTSYS_SkipTag(p);
             } else {
                 q = p;
-                p = GF_FONT_SkipTag(p);
+                p = PRINTSYS_SkipTag(p);
                 while (q < p) {
                     STRBUF_AppendChar(dst, *q++);
                 }

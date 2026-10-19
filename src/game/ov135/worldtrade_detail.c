@@ -76,7 +76,7 @@
  *   KEY_GetTrg  0x020362DC  arm  arm9
  *   WORLDTRADE_AdvanceScreenId  0x021F4EC8  thumb  ov135
  *   WORLDTRADE_SetStateAndReturn  0x021F4EC0  thumb
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm  arm9
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm  arm9
  *   POKE_TOOL_CastToBoxParam 0x020185F0 thumb
  *   MYSTATUS_GetName 0x020084F4 thumb
  *   WORLDTRADE_DEPOSIT_FindLevelBracketIndex 0x021F886C thumb ov135
@@ -196,7 +196,7 @@ extern void *BMP_MENUWORK_Create(u32 n, u32 heap);
 
 extern void WORLDTRADE_AdvanceScreenId(Work *p);
 
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 
 
 typedef struct {u32 x,y,w,h;} WinDef;
@@ -474,7 +474,7 @@ void WORLDTRADE_DETAIL_CreateActors(Work *p)
     CLACT_SetActorAnimSeq(p->obj, 0x24);
     CLACT_SetActorBgPriority(p->obj, 1);
     CLACT_SetActorDrawEnable(p->obj, 1);
-    GFL_NET_RestartWithDefaultTimeout(0, 0x48);
+    GFL_NET_RefreshWmIconAtTopRight(0, 0x48);
 }
 
 /*

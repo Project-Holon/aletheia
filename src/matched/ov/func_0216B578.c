@@ -14,9 +14,9 @@
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
- *   BEACON_GetBlock  0x0200C0F0  thumb
+ *   MISC_GetBlock  0x0200C0F0  thumb
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
- *   BEACON_GetEntryCount  0x0200C32C  thumb
+ *   MISC_GetResearchMissionIndex  0x0200C32C  thumb
  */
 
 typedef unsigned char u8;
@@ -28,10 +28,10 @@ struct Big;
 extern void *SCRCMD_WORK_GetScriptWork(void *p);
 extern void *SCRCMD_WORK_GetGameData(void *a0);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *BEACON_GetBlock(void *sys);
+extern void *MISC_GetBlock(void *sys);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 struct Blk34;
-extern u8 BEACON_GetEntryCount(struct Blk34 *p);
+extern u8 MISC_GetResearchMissionIndex(struct Blk34 *p);
 
 int SCRCMD_RESEARCH_CmdGetMissionIndex(int a0, int a1)
 {
@@ -53,13 +53,13 @@ a0 = t4 + 0;
 loc_0216B58A:
     p = GAME_DATA_GetSaveControl((struct Big *)v1);
 loc_0216B58E:
-    t6 = BEACON_GetBlock(p);
+    t6 = MISC_GetBlock(p);
 loc_0216B592:
 a0 = t5 + 0;
 a1 = t4 + 0;
     q = SCRIPT_WORK_ReadWorkPointer((void *)a0, (void *)a1);
 loc_0216B59C:
-    a0 = BEACON_GetEntryCount(t6);
+    a0 = MISC_GetResearchMissionIndex(t6);
 loc_0216B5A4:
 *q = a0;
 a0 = 0;

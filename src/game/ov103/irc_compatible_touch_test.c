@@ -140,8 +140,8 @@
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   BMP_WIN_GetWidth 0x02045738 arm
  *   BMP_WIN_GetHeight 0x02045740 arm
- *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
- *   GF_FONT_CountLines 0x0201D42C thumb
+ *   PRINTSYS_MeasureWidestLine 0x0201D304 thumb
+ *   PRINTSYS_CountLines 0x0201D42C thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
  *   MSGDATA_AllocString 0x02045EC0 arm
@@ -456,8 +456,8 @@ extern void BMP_WIN_Delete(void *bmpWin);
 extern int PRINTSYS_QUE_IsExistTarget(void *printQueue, void *bmp);
 extern u8 BMP_WIN_GetWidth(void *bmpWin);
 extern int BMP_WIN_GetHeight(void *bmpWin);
-extern int GF_FONT_MeasureWidestLine(void *strBuf, void *font, int margin);
-extern int GF_FONT_CountLines(void *strBuf, void *font);
+extern int PRINTSYS_MeasureWidestLine(void *strBuf, void *font, int margin);
+extern int PRINTSYS_CountLines(void *strBuf, void *font);
 extern void PRINTSYS_PrintQueColor(void *printQueue, void *bmp, s16 x, s16 y, void *strBuf, void *font, int color);
 extern void WORDSET_SetSlotMyStatus(void *wordSet, u32 index, const u8 *myStatus);
 extern void *MSGDATA_AllocString(void *msgData, u32 msgId);
@@ -1100,8 +1100,8 @@ void IRC_COMPATIBLE_TOUCH_TEST_PrintMessageCentered(IrcWindow *win, IrcTextSyste
     MSGDATA_ReadString(msgData, msgId, win->strBuf);
     x = BMP_WIN_GetWidth(win->bmpWin) * 4;
     y = BMP_WIN_GetHeight(win->bmpWin) * 4;
-    x -= (u16)(GF_FONT_MeasureWidestLine(win->strBuf, font, 0) >> 1);
-    y -= (u16)(GF_FONT_CountLines(win->strBuf, font) >> 1);
+    x -= (u16)(PRINTSYS_MeasureWidestLine(win->strBuf, font, 0) >> 1);
+    y -= (u16)(PRINTSYS_CountLines(win->strBuf, font) >> 1);
     PRINTSYS_QUE_Clear(printQueue);
     PRINTSYS_PrintQueColor(printQueue, BMP_WIN_GetBmp(win->printWin), x, y, win->strBuf, font, 0x3dc4);
     win->printPending = 1;

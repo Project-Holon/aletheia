@@ -4,7 +4,7 @@
  * function: OV230_CallSealedBody16, OV230_CallSealedBody17, LOADER_ENTRY_DecryptCallStubs2
  * address:  0x021893D0
  * region:   ov230d
- * compiler: dsi/1.1p1
+ * compiler: dsi/../2.0/sp2
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm

@@ -76,7 +76,7 @@
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
  *   MTX_Identity33_  0x0207ADC4  arm
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   G3D_SYSTEM_CreateResourceArcHandle  0x02046E24  arm
  *   G3D_SYSTEM_AllocVramTexture  0x02047180  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
@@ -493,7 +493,7 @@ void FIELD_FK_DEMO_InitModel(FkDemoModel *model, struct FieldPlayer *player, str
     model->status.scale.y = 0x1000;
     model->status.scale.z = 0x1000;
     MTX_Identity33_(&model->status.rotate);
-    if (MYSTATUS_GetOutfitVariant(myStatus) == 0) {
+    if (MYSTATUS_GetSex(myStatus) == 0) {
         fileBase = variant * FK_DEMO_MODEL_FILE_STEP;
         model->modelRes = G3D_SYSTEM_CreateResourceArcHandle(arc, fileBase + 3);
         model->genderAnimeRes = G3D_SYSTEM_CreateResourceArcHandle(arc, fileBase + 4);

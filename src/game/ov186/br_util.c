@@ -16,7 +16,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   BR_RES_LoadBgGraphics 0x021FB964 thumb ov186
  *   BR_RES_ApplyBgSet 0x021FBDA4 thumb ov186
- *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GF_PANIC_Fail 0x02034714 arm
  *   STRBUF_Delete 0x02045808 arm
  *   GDS_PROFILE_CreateNameStr 0x0200D6D0 thumb
  *   GDS_PROFILE_GetEggFlag 0x0200D6EC thumb
@@ -71,8 +71,8 @@
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   BMP_GetWidth 0x020437DC arm
  *   BMP_GetHeight 0x020437E4 arm
- *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
- *   GF_FONT_CountLines 0x0201D42C thumb
+ *   PRINTSYS_MeasureWidestLine 0x0201D304 thumb
+ *   PRINTSYS_CountLines 0x0201D42C thumb
  *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
@@ -99,12 +99,12 @@
  *   GDS_PROFILE_GetSpecies 0x0200D6FC thumb
  *   GDS_PROFILE_GetFormSpecies 0x0200D70C thumb
  *   GDS_PROFILE_GetNicknameFlag 0x0200D72C thumb
- *   GDS_PROFILE_GetMonFlagBit0 0x0200D73C thumb
- *   GDS_PROFILE_GetRecordWord1C 0x0200D74C thumb
- *   GDS_PROFILE_GetRecordWord30 0x0200D760 thumb
+ *   GDS_PROFILE_GetBadEggFlag 0x0200D73C thumb
+ *   GDS_PROFILE_GetValidatedCountry 0x0200D74C thumb
+ *   GDS_PROFILE_GetValidatedRegion 0x0200D760 thumb
  *   GDS_PROFILE_ExportRecord 0x0200D774 thumb
- *   GDS_PROFILE_GetVariant 0x0200D810 thumb
- *   GDS_PROFILE_GetCountry 0x0200D820 thumb
+ *   GDS_PROFILE_GetBirthMonth 0x0200D810 thumb
+ *   GDS_PROFILE_GetTrainerSprite 0x0200D820 thumb
  *   WORDSET_SetSlotMonth 0x0201F230 thumb
  *   WORDSET_SetSlotFromMsgE7 0x0201F048 thumb
  *   WORDSET_SetSlotFromKeyedMessage 0x0201F094 thumb
@@ -318,11 +318,11 @@ extern u16 BMP_GetWidth(const struct Bmp *bmp);
 
 extern u16 BMP_GetHeight(const struct Bmp *bmp);
 
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 
-extern u32 GF_FONT_CountLines(struct StrObj *s, void *font);
+extern u32 PRINTSYS_CountLines(struct StrObj *s, void *font);
 
-extern void SAVEDATA_PanicFail(const char *,u32,const char *);
+extern void GF_PANIC_Fail(const char *,u32,const char *);
 
 extern void BG_SYS_MarkTileDirty(u32);
 
@@ -380,15 +380,15 @@ extern u32 GDS_PROFILE_GetFormSpecies(struct RecGet *p);
 
 extern u32 GDS_PROFILE_GetNicknameFlag(struct RecGet *p);
 
-extern u32 GDS_PROFILE_GetMonFlagBit0(struct RecGet *p);
+extern u32 GDS_PROFILE_GetBadEggFlag(struct RecGet *p);
 
-extern u32 GDS_PROFILE_GetRecordWord1C(struct GdsProfile *p);
+extern u32 GDS_PROFILE_GetValidatedCountry(struct GdsProfile *p);
 
-extern u32 GDS_PROFILE_GetRecordWord30(struct GdsProfile *p);
+extern u32 GDS_PROFILE_GetValidatedRegion(struct GdsProfile *p);
 
-extern u32 GDS_PROFILE_GetVariant(struct GdsProfile *p);
+extern u32 GDS_PROFILE_GetBirthMonth(struct GdsProfile *p);
 
-extern u32 GDS_PROFILE_GetCountry(struct GdsProfile *p);
+extern u32 GDS_PROFILE_GetTrainerSprite(struct GdsProfile *p);
 
 extern void *GDS_PROFILE_ExportRecord(struct GdsProfile *p, struct GdsRecord *out, u32 tag);
 
@@ -642,8 +642,8 @@ void BR_UTIL_AlignText(int mode,Pair *base,const void *bmp,void *text,void *font
     case 0:*out=*base;break;
     case 1:
         x=(unsigned)BMP_GetWidth(bmp)>>1;y=(unsigned)BMP_GetHeight(bmp)>>1;
-        x-=GF_FONT_MeasureWidestLine(text,(unsigned)font,0)>>1;
-        y-=GF_FONT_CountLines(text,font)>>1;
+        x-=PRINTSYS_MeasureWidestLine(text,(unsigned)font,0)>>1;
+        y-=PRINTSYS_CountLines(text,font)>>1;
         out->x=x+base->x;out->y=y+base->y;break;
     }
 }
@@ -674,13 +674,13 @@ BrUtilListMenu *BR_UTIL_CreateListMenu(const Config *cfg,u16 heap)
     if(cfg->selection) {p->start=cfg->selection[0];p->index=cfg->selection[1];}
     if(p->cfg.mode==0) {
         for(i=0;i<p->visible;i++) {
-            if(i>=10) SAVEDATA_PanicFail(d_02200D68,0,d_02200D68);
+            if(i>=10) GF_PANIC_Fail(d_02200D68,0,d_02200D68);
             p->areas[i].left=p->cfg.x*8;
             p->areas[i].top=(p->cfg.y+i*p->cfg.spacing)*8;
             p->areas[i].right=(p->cfg.x+p->cfg.width)*8;
             p->areas[i].bottom=(p->cfg.y+(i+1)*p->cfg.spacing)*8;
         }
-        if(i>=10) SAVEDATA_PanicFail(d_02200D68,0,d_02200D68);
+        if(i>=10) GF_PANIC_Fail(d_02200D68,0,d_02200D68);
         p->areas[i].left=255;p->areas[i].top=255;p->areas[i].right=255;p->areas[i].bottom=255;
         p->methods[0]=(void (*)(void))BR_UTIL_ScrollRows;p->methods[1]=(void (*)(void))BR_UTIL_NeedsScroll;p->methods[2]=(void (*)(void))BR_UTIL_HandleRowTouch;
     } else if(p->cfg.mode==1) {
@@ -694,11 +694,11 @@ BrUtilListMenu *BR_UTIL_CreateListMenu(const Config *cfg,u16 heap)
     MI_CpuFill8(&arrow,0,8);
     if(cfg->bg<4) {
         BR_RES_LoadSprite(p->cfg.resources,7,heap);
-        if(!BR_RES_GetSprite(p->cfg.resources,7,&arrows)) SAVEDATA_PanicFail(d_02200D68,0,d_02200D68);
+        if(!BR_RES_GetSprite(p->cfg.resources,7,&arrows)) GF_PANIC_Fail(d_02200D68,0,d_02200D68);
         mode=0;
     } else {
         BR_RES_LoadSprite(p->cfg.resources,8,heap);
-        if(!BR_RES_GetSprite(p->cfg.resources,8,&arrows)) SAVEDATA_PanicFail(d_02200D68,0,d_02200D68);
+        if(!BR_RES_GetSprite(p->cfg.resources,8,&arrows)) GF_PANIC_Fail(d_02200D68,0,d_02200D68);
         mode=1;
     }
     arrow.x=128;arrow.flag=0;
@@ -715,7 +715,7 @@ BrUtilListMenu *BR_UTIL_CreateListMenu(const Config *cfg,u16 heap)
     CLACT_SetActorDrawEnable((struct Actor *)p->handles[0],0);
     MI_CpuFill8(&mark,0,8);
     mark.y=72;mark.id=5;mark.flag=0;
-    if(!BR_RES_GetSprite(p->cfg.resources,6,&marks)) SAVEDATA_PanicFail(d_02200D68,0,d_02200D68);
+    if(!BR_RES_GetSprite(p->cfg.resources,6,&marks)) GF_PANIC_Fail(d_02200D68,0,d_02200D68);
     for(i=2;i<4;i++) {
         mark.x=i==2?24:232;
         p->handles[i]=(u32)CLACT_CreateActor((void *)p->cfg.manager,marks.y,marks.z,marks.x,&mark,1,heap);
@@ -797,14 +797,14 @@ int BR_UTIL_GetListMenuHitId(char *p)
 
 void BR_UTIL_SetListItemBitmap(u8 *p, u16 i, u32 v)
 {
-    if(i>=*(u32 *)(p+4))SAVEDATA_PanicFail(d_02200D68,0,d_02200D68);
-    if(*(u32 *)(*(u32 *)p+i*8)!=0)SAVEDATA_PanicFail(d_02200D68,0,d_02200D68);
+    if(i>=*(u32 *)(p+4))GF_PANIC_Fail(d_02200D68,0,d_02200D68);
+    if(*(u32 *)(*(u32 *)p+i*8)!=0)GF_PANIC_Fail(d_02200D68,0,d_02200D68);
     *(u32 *)((u32)p+i*4+0x8c)=v;
 }
 
 u32 BR_UTIL_GetListItemBitmap(u8 *p, u16 i)
 {
-    if(i>=((BrUtilListMenu *)p)->cfg.count)SAVEDATA_PanicFail(d_02200D68,0,d_02200D68);
+    if(i>=((BrUtilListMenu *)p)->cfg.count)GF_PANIC_Fail(d_02200D68,0,d_02200D68);
     return *(u32 *)((u32)p+i*4+0x8c);
 }
 
@@ -818,7 +818,7 @@ int BR_UTIL_GetListMenuField(char *p,unsigned field)
     case 1:return ((BrUtilListMenu *)p)->start;
     case 2:return ((BrUtilListMenu *)p)->dragDir;
     case 3:return ((BrUtilListMenu *)p)->cfg.count;
-    default:SAVEDATA_PanicFail(d_02200D68,0,d_02200D68);return 0;
+    default:GF_PANIC_Fail(d_02200D68,0,d_02200D68);return 0;
     }
 }
 
@@ -1297,7 +1297,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *unit,void *printQue,i
             {
             u32 v;
             void *msg;
-            v=GDS_PROFILE_GetVariant(prof);
+            v=GDS_PROFILE_GetBirthMonth(prof);
             text=STRBUF_Create(0x80,(u16)heap);
             msg=MSGDATA_AllocString(bank,d_02200B34[i].msg);
             WORDSET_SetSlotMonth(words,0,v);
@@ -1309,7 +1309,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *unit,void *printQue,i
             {
             u32 v;
             void *msg;
-            v=GDS_PROFILE_GetRecordWord1C(prof);
+            v=GDS_PROFILE_GetValidatedCountry(prof);
             text=STRBUF_Create(0x80,(u16)heap);
             msg=MSGDATA_AllocString(bank,d_02200B34[i].msg);
             WORDSET_SetSlotFromMsgE7(words,0,v);
@@ -1322,8 +1322,8 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *unit,void *printQue,i
             {
             u32 v,w;
             void *msg;
-            v=GDS_PROFILE_GetRecordWord1C(prof);
-            w=GDS_PROFILE_GetRecordWord30(prof);
+            v=GDS_PROFILE_GetValidatedCountry(prof);
+            w=GDS_PROFILE_GetValidatedRegion(prof);
             text=STRBUF_Create(0x80,(u16)heap);
             msg=MSGDATA_AllocString(bank,d_02200B34[i].msg);
             WORDSET_SetSlotFromKeyedMessage(words,0,v,w);
@@ -1360,7 +1360,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *unit,void *printQue,i
         }
     }
     }
-    A=GDS_PROFILE_GetMonFlagBit0(prof);
+    A=GDS_PROFILE_GetBadEggFlag(prof);
     B=GDS_PROFILE_GetSpecies(prof);
     C=GDS_PROFILE_GetFormSpecies(prof);
     D=GDS_PROFILE_GetNicknameFlag(prof);
@@ -1400,7 +1400,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *unit,void *printQue,i
         {
         u32 k;
         void *h;
-        k=GDS_PROFILE_GetCountry(prof);
+        k=GDS_PROFILE_GetTrainerSprite(prof);
         h=ARC_TOOL_CreateHandle(0x20,(heap&0x7fff)|0x8000);
         *(int *)(p+0x38)=CLACT_RegisterPaletteEx(h,0,0,0x1a0,d_02200AFC[k],1,heap);
         *(int *)(p+0x40)=CLACT_RegisterCellAnim(h,0x41,0x42,(u16)heap);
@@ -1497,7 +1497,7 @@ char *BR_UTIL_CreateHandles(unsigned owner,char *resources,int index,int heap)
     ((BrUtilEffect *)p)->task=BR_UTIL_CreateTask((int)p,(int)BR_UTIL_EffectIdle,heap);
     BR_RES_LoadSprite(((BrUtilEffect *)p)->resources,index+9,heap);
     MI_CpuFill8(&pair,0,8);
-    if(!BR_RES_GetSprite(((BrUtilEffect *)p)->resources,index+9,&triple)) SAVEDATA_PanicFail(d_02200D68,0,d_02200D68);
+    if(!BR_RES_GetSprite(((BrUtilEffect *)p)->resources,index+9,&triple)) GF_PANIC_Fail(d_02200D68,0,d_02200D68);
     i=0;
     res=index;
     for(;i<12;i++) {

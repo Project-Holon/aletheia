@@ -1,5 +1,5 @@
 /*
- * function: B_PLIST_DRAW_DrawMode3
+ * function: B_PLIST_DRAW_DrawMoveListPage
  * address: 0x0220DC04
  * packet: pkt_ov198_0220DC04
  * region: ov198
@@ -28,7 +28,7 @@ extern int B_PLIST_MAIN_GetOrderIndex(u8 *,int);
 extern void B_PLIST_DRAW_PrintNumberAt(char *,int,int,int,u16,short,unsigned);
 extern void B_PLIST_DRAW_PrintMoveRowValues(char *p, u8 *record, int slot);
 extern void B_PLIST_DRAW_PrintCenteredText(char *,int,int);
-void B_PLIST_DRAW_DrawMode3(char *p)
+void B_PLIST_DRAW_DrawMoveListPage(char *p)
 {
     long i;
     int index, offset;

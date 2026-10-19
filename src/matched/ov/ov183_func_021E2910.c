@@ -11,13 +11,13 @@
  * lever: function-scope pair locals preserve stack-slot order across switch cases.
  * symbols:
  *   BR_CODEIN_GetMenuCallbacks 0x021E300C thumb ov183
- *   BR_CODEIN_CallStoredFnA 0x021E2E30 thumb ov183
+ *   BR_CODEIN_CallAndClearStepFn 0x021E2E30 thumb ov183
  *   BR_FADE_Start 0x021FE784 thumb ov186
  *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   BR_BTN_HitTestWithSound 0x021FB4B4 thumb ov186
  *   BR_UTIL_StartEffect 0x021FD860 thumb ov186
- *   BR_CODEIN_CallStoredFnB 0x021E2E48 thumb ov183
+ *   BR_CODEIN_CallAndClearDestroyFn 0x021E2E48 thumb ov183
  *   BR_UTIL_SetTaskStep 0x021FD73C thumb ov186
  *   BR_UTIL_ClearTaskStep 0x021FD744 thumb ov186
  *   BR_CODEIN_MenuStepSave 0x021E2C2C thumb ov183
@@ -28,13 +28,13 @@
 typedef unsigned int u32;
 typedef struct { u32 a,b; } Pair;
 extern void BR_CODEIN_GetMenuCallbacks(Pair *);
-extern void BR_CODEIN_CallStoredFnA(char *,int,int);
+extern void BR_CODEIN_CallAndClearStepFn(char *,int,int);
 extern void BR_FADE_Start(int,int,int,int);
 extern int BR_FADE_GetResult(int *);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *,u32 *);
 extern int BR_BTN_HitTestWithSound(unsigned int *obj, int x, int y);
 extern void BR_UTIL_StartEffect(int,int,Pair *);
-extern void BR_CODEIN_CallStoredFnB(char *p, int a, int b);
+extern void BR_CODEIN_CallAndClearDestroyFn(char *p, int a, int b);
 extern int *BR_UTIL_SetTaskStep(int *p, int v);
 extern int BR_UTIL_ClearTaskStep(int *a);
 extern void BR_CODEIN_MenuStepSave(int *task, unsigned *state, char *p);
@@ -47,7 +47,7 @@ void BR_CODEIN_MenuStep(int *task,int *state,char *p) {
     case 0: {
         BR_CODEIN_GetMenuCallbacks(&cb);
         *(Pair *)(p+0x4c)=cb;
-        BR_CODEIN_CallStoredFnA(p+0x4c,(int)p,*(int *)&((struct Obj01074 *)p)->f3C);
+        BR_CODEIN_CallAndClearStepFn(p+0x4c,(int)p,*(int *)&((struct Obj01074 *)p)->f3C);
         *state=1; break;
     }
     case 1: BR_FADE_Start(**(int * *)&((struct Obj01074 *)p)->f3C,2,3,0); *state=2; break;
@@ -72,12 +72,12 @@ void BR_CODEIN_MenuStep(int *task,int *state,char *p) {
     }
     case 4: BR_FADE_Start(**(int * *)&((struct Obj01074 *)p)->f3C,2,3,1); *state=5; break;
     case 5: if(BR_FADE_GetResult((int *)**(int * *)&((struct Obj01074 *)p)->f3C)) *state=6; break;
-    case 6: BR_CODEIN_CallStoredFnB(p+0x4c,(int)p,(int)(*(char * *)&((struct Obj01074 *)p)->f3C)); BR_UTIL_SetTaskStep(*(int * *)&((struct Obj01074 *)p)->fC,(int)BR_CODEIN_MenuStepSave); break;
+    case 6: BR_CODEIN_CallAndClearDestroyFn(p+0x4c,(int)p,(int)(*(char * *)&((struct Obj01074 *)p)->f3C)); BR_UTIL_SetTaskStep(*(int * *)&((struct Obj01074 *)p)->fC,(int)BR_CODEIN_MenuStepSave); break;
     case 7: BR_FADE_Start(**(int * *)&((struct Obj01074 *)p)->f3C,2,3,1); ++*state; break;
     case 8: if(BR_FADE_GetResult((int *)**(int * *)&((struct Obj01074 *)p)->f3C)) ++*state; break;
-    case 9: BR_CODEIN_CallStoredFnB(p+0x4c,(int)p,(int)(*(char * *)&((struct Obj01074 *)p)->f3C)); BR_UTIL_SetTaskStep(*(int * *)&((struct Obj01074 *)p)->fC,(int)BR_CODEIN_MenuStepInput); break;
+    case 9: BR_CODEIN_CallAndClearDestroyFn(p+0x4c,(int)p,(int)(*(char * *)&((struct Obj01074 *)p)->f3C)); BR_UTIL_SetTaskStep(*(int * *)&((struct Obj01074 *)p)->fC,(int)BR_CODEIN_MenuStepInput); break;
     case 10: BR_FADE_Start(**(int * *)&((struct Obj01074 *)p)->f3C,2,3,1); *state=11; break;
     case 11: if(BR_FADE_GetResult((int *)**(int * *)&((struct Obj01074 *)p)->f3C)) *state=12; break;
-    case 12: BR_CODEIN_CallStoredFnB(p+0x4c,(int)p,(int)(*(char * *)&((struct Obj01074 *)p)->f3C)); BR_UTIL_ClearTaskStep(task); break;
+    case 12: BR_CODEIN_CallAndClearDestroyFn(p+0x4c,(int)p,(int)(*(char * *)&((struct Obj01074 *)p)->f3C)); BR_UTIL_ClearTaskStep(task); break;
     }
 }

@@ -25,7 +25,7 @@
  *   BG_SYS_SetMainVisiblePlanes 0x02043534 arm
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   POKETRADE_3D_CreateTouchbar 0x021E3C20 thumb ov119
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   POKETRADE_PROC_SetStep 0x021D8E84 thumb ov119
  *   POKETRADE_PROC_StepResetForNewRound 0x021DACE4 thumb ov119
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
@@ -56,7 +56,7 @@ extern void POKETRADE_3D_AddUnitAndInit(void *,int);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void POKETRADE_3D_CreateTouchbar(char *p);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void POKETRADE_PROC_SetStep(void *,int);
 extern void POKETRADE_PROC_StepResetForNewRound(char *p);
 void POKETRADE_NEGO_StepRebuildSceneAfterWipe(char *p)
@@ -67,7 +67,7 @@ void POKETRADE_NEGO_StepRebuildSceneAfterWipe(char *p)
         POKETRADE_SAVE_CreateMessageResources(p); POKETRADE_2D_RegisterIconSpriteResources((int)p); POKETRADE_2D_CreateBoxIconActors(p);
         POKETRADE_2D_LoadBackgroundGfx(p); POKETRADE_2D_CreateFontResource(p); POKETRADE_2D_LoadMainGfxAndMessageWindow(p);
         POKETRADE_3D_AddUnitAndInit(p,0); BG_SYS_SetMainVisiblePlanes(31); BG_SYS_SetSubVisiblePlanes(30);
-        POKETRADE_3D_CreateTouchbar(p); GFL_NET_RestartWithDefaultTimeout(0,((struct Obj00252 *)p)->f5F4);
+        POKETRADE_3D_CreateTouchbar(p); GFL_NET_RefreshWmIconAtTopRight(0,((struct Obj00252 *)p)->f5F4);
         *(volatile unsigned *)0x04001000 &= 0xffff1fff;
         POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepResetForNewRound);
     }

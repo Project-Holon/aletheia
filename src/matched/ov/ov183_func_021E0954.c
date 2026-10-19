@@ -1,5 +1,5 @@
 /*
- * function: BR_CODEIN_ProfileCreateActors
+ * function: BR_CODEIN_ProfileCreateRecordActors
  * address: 0x021E0954
  * packet: pkt_ov183_021E0954
  * region: ov183
@@ -33,7 +33,7 @@ extern struct Obj *CLACT_CreateActor(void *,u32,u32,u32,const void *,u16,u16);
 struct Actor;
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 extern int BR_CODEIN_ProfileGetActorIndex(int,int);
-void BR_CODEIN_ProfileCreateActors(char *p)
+void BR_CODEIN_ProfileCreateRecordActors(char *p)
 {
     int i,special,normal,base;
     u32 owner;

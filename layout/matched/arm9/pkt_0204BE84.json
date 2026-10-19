@@ -60,7 +60,7 @@
    "status": "EXACT*"
   },
   {
-   "name": "CLACT_SetOamManagerMainParam",
+   "name": "CLACT_EntryAffineMain",
    "address": "0x0204C024",
    "kind": "sdk",
    "region": "arm9",
@@ -72,7 +72,7 @@
    "status": "EXACT"
   },
   {
-   "name": "CLACT_SetOamManagerSubParam",
+   "name": "CLACT_EntryAffineSub",
    "address": "0x0204C040",
    "kind": "game",
    "region": "arm9",

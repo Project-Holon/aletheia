@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BR_CODEIN_SaveHitButtonA",
+   "name": "BR_CODEIN_SaveHitOptionLeft",
    "address": "0x021E24F8",
    "kind": "game",
    "region": "ov183",

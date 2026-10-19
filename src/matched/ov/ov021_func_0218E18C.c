@@ -11,8 +11,8 @@
  *
  * symbols:
  *   FIELD_CAMERA_ReadSetting  0x0218E260  thumb ov021
- *   FIELD_CAMERA_SetG3dRoll  0x0218EC7C  thumb ov021
- *   FIELD_CAMERA_SetG3dScale  0x0218EC68  thumb ov021
+ *   FIELD_CAMERA_SetG3dFar  0x0218EC7C  thumb ov021
+ *   FIELD_CAMERA_SetG3dNear  0x0218EC68  thumb ov021
  *   G3D_SYSTEM_SetSwapBuffersMode  0x02046BE0  arm
  *   G3D_CAMERA_GetMode  0x02048B78  arm
  *   G3D_CAMERA_SetFovySin  0x02048B80  arm
@@ -46,8 +46,8 @@ typedef struct {
 } Info;
 
 extern void FIELD_CAMERA_ReadSetting(void *p, void *dst);
-extern void FIELD_CAMERA_SetG3dRoll(u8 *a, unsigned int first, ...);
-extern void FIELD_CAMERA_SetG3dScale(u8 *a, unsigned int first, ...);
+extern void FIELD_CAMERA_SetG3dFar(u8 *a, unsigned int first, ...);
+extern void FIELD_CAMERA_SetG3dNear(u8 *a, unsigned int first, ...);
 typedef unsigned int   u32;
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 struct Light;
@@ -65,8 +65,8 @@ void FIELD_CAMERA_LoadSetting(char *p, Vec *src)
     ((struct Obj01347 *)p)->f78 = info.b;
     ((struct Obj01347 *)p)->f7A = info.c;
     ((struct Obj01347 *)p)->f80 = info.ang;
-    FIELD_CAMERA_SetG3dRoll((u8 *)p, info.g);
-    FIELD_CAMERA_SetG3dScale((u8 *)p, info.f);
+    FIELD_CAMERA_SetG3dFar((u8 *)p, info.g);
+    FIELD_CAMERA_SetG3dNear((u8 *)p, info.f);
     switch (info.mode) {
     case 0:
         G3D_SYSTEM_SetSwapBuffersMode(0, 0);

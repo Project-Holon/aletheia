@@ -58,7 +58,7 @@
  *   GAME_EVENT_GetWork  0x020124E8  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   ZONEDATA_SetZoneStartLocation  0x02014204  thumb
  *   FIELDMAP_GetNogridMapper  0x02188C5C  thumb  ov021
  *   FIELD_CAMERA_SetAreasEnabled  0x0218F1AC  thumb  ov021
@@ -242,7 +242,7 @@ extern void *GAMESYSTEM_GetGameData(GameSystem *gameSystem);
 
 extern MyStatus *GAME_DATA_GetMyStatus(void *gameData);
 
-extern u8 MYSTATUS_GetOutfitVariant(const MyStatus *myStatus);
+extern u8 MYSTATUS_GetSex(const MyStatus *myStatus);
 
 extern void ZONEDATA_SetZoneStartLocation(ZoneStartLocation *location, int zoneId);
 
@@ -482,7 +482,7 @@ GameEvent *FLD_WIPE_3DOBJ_CreateMapChangeEvent(GameSystem *gameSystem, int unuse
     MI_CpuFill8(work, 0, 0x30);
     work->gameSystem = gameSystem;
     work->zoneId = zoneId;
-    if (MYSTATUS_GetOutfitVariant(GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(gameSystem))) == 0) {
+    if (MYSTATUS_GetSex(GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(gameSystem))) == 0) {
         work->cutInIdBefore = 11;
         cutInIdAfter = 12;
     } else {

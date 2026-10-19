@@ -41,7 +41,7 @@
  *   BTL_SETUP_Delete 0x020130B4 thumb
  *   BTL_SETUP_Create 0x02013090 thumb
  *   GAME_EVENT_CallProc 0x02012444 thumb
- *   GAME_DATA_GetPlayerStatusById 0x02012950 thumb
+ *   GAME_DATA_GetMyStatusPlayer 0x02012950 thumb
  *   GAME_DATA_GetTrainerRecord 0x02012F2C thumb
  *   ov008_id 0x8 data a1
  *   ov067_id 0x43 data a1
@@ -165,7 +165,7 @@ extern u32 func_0200FB24(void);
 extern u32 func_0200FBB0(void);
 extern void GFL_NET_ERR_ShowSimpleScreen(void);
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
-extern struct Rec44 *GAME_DATA_GetPlayerStatusById(struct Sub24 *p, u32 i);
+extern struct Rec44 *GAME_DATA_GetMyStatusPlayer(struct Sub24 *p, u32 i);
 extern void *GAME_DATA_GetTrainerRecord(int *);
 extern void func_02009BB8(struct Sub020097BCObj *obj, int i, int a, int b, int c);
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32);
@@ -325,14 +325,14 @@ int EVENT_WIFICLUB_Main(void *evt,u32 *state,char *obj)
         if (!GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())) {
             for (i=0;i<2;i++) {
                 off=i<<4;
-                W((u32)obj+off,0xe4)=(u32)GAME_DATA_GetPlayerStatusById((void *)ICA_ANIME_GetField1C(p),i);
+                W((u32)obj+off,0xe4)=(u32)GAME_DATA_GetMyStatusPlayer((void *)ICA_ANIME_GetField1C(p),i);
                 W((u32)obj+off,0xe0)=((Sub *)W(obj,0x5c))->values[i];
             }
         } else {
             pair=d_02154C2C;
             for (i=0;i<2;i++) {
                 off=((u8 *)&pair)[i]<<4;
-                W((u32)obj+off,0xe4)=(u32)GAME_DATA_GetPlayerStatusById((void *)ICA_ANIME_GetField1C(p),i);
+                W((u32)obj+off,0xe4)=(u32)GAME_DATA_GetMyStatusPlayer((void *)ICA_ANIME_GetField1C(p),i);
                 W((u32)obj+off,0xe0)=((Sub *)W(obj,0x5c))->values[i];
             }
         }

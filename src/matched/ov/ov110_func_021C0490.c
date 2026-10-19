@@ -22,7 +22,7 @@
  *   PMS_SELECT_GRAPHIC_CreateTouchBar 0x021C0A54 thumb ov110
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   PMS_SELECT_GRAPHIC_CreateRows 0x021C0B54 thumb ov110
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  */
 #include "../include/Obj00435.h"
 typedef unsigned char u8;
@@ -44,7 +44,7 @@ extern void PMS_SELECT_GRAPHIC_ResetBgBlink(u8 *);
 extern void *PMS_SELECT_GRAPHIC_CreateTouchBar(int,void *,int);
 extern struct R *APP_TASKMENU_RES_Create(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern void PMS_SELECT_GRAPHIC_CreateRows(char *);
-extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 void PMS_SELECT_GRAPHIC_Setup(u8 *p)
 {
     int enabled;
@@ -78,5 +78,5 @@ void PMS_SELECT_GRAPHIC_Setup(u8 *p)
     ((struct Obj00435 *)p)->f54=PMS_SELECT_GRAPHIC_CreateTouchBar((int)p,(void *)PMS_SELECT_GRAPHIC_GetSceneActorUnit(*(u8 * *)&((struct Obj00435 *)p)->f50),((struct Obj00435 *)p)->f4);
     ((struct Obj00435 *)p)->f64=APP_TASKMENU_RES_Create(0,12,*(u32 *)&((struct Obj00435 *)p)->f58,*(u32 *)&((struct Obj00435 *)p)->f5C,((struct Obj00435 *)p)->f4);
     PMS_SELECT_GRAPHIC_CreateRows((char *)p);
-    GFL_NET_RestartWithDefaultTimeout(1,((struct Obj00435 *)p)->f4);
+    GFL_NET_RefreshWmIconAtTopRight(1,((struct Obj00435 *)p)->f4);
 }

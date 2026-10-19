@@ -1,5 +1,5 @@
 /*
- * function: FIELD_BUILDMODEL_CheckNodeKindFlag
+ * function: FIELD_BUILDMODEL_IsNodeSeBusy
  * address:  0x0218C9A4
  * packet:   pkt_ov021_0218C9A4
  * region:   ov021
@@ -20,7 +20,7 @@ typedef unsigned int   u32;
 int GFL_USE_GetSeSlot(u32 a0);
 int GFL_USE_IsSeSlotBusy(u32 a0);
 
-int FIELD_BUILDMODEL_CheckNodeKindFlag(void *p)
+int FIELD_BUILDMODEL_IsNodeSeBusy(void *p)
 {
     unsigned short v;
     if (FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(p, (int)(&v)) == 0)

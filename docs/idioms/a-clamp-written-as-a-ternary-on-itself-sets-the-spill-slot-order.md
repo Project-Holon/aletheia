@@ -1,5 +1,8 @@
 # A clamp written as a ternary on itself sets the spill slot order
 
+summary: `n = (n > 9999) ? 9999 : n;` reads n a different number of times than the if form, and
+the read count orders the spill slots; use the ternary when spilled locals sit in rotated slots.
+
 Residue: three spilled int locals (a selector and two clamped numbers) sit in rotated
 stack slots; no declaration order or scope change moves them.
 

@@ -1,5 +1,5 @@
 /*
- * function: SAVEDATA_PanicFail
+ * function: GF_PANIC_Fail
  * address:  0x02034714
  * packet:   pkt_02034714
  * region:   arm9
@@ -28,7 +28,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/unit_02034714.c \
- *       --func SAVEDATA_PanicFail --addr 0x02034714 --cc 1.1p1 --arm
+ *       --func GF_PANIC_Fail --addr 0x02034714 --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -44,7 +44,7 @@ struct Sink {
 
 extern struct Sink g_Sink;
 
-void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file)
+void GF_PANIC_Fail(const char *expr, u32 line, const char *file)
 {
     AssertHandler h = g_Sink.handler;
 

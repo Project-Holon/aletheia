@@ -1,5 +1,5 @@
 /*
- * function: MISC_SAVEDATA_ClearRingBlock
+ * function: DENDOU_SAVEDATA_Clear
  * address: 0x0200EA1C
  * packet: pkt_arm9_0200EA1C
  * region: arm9
@@ -16,9 +16,9 @@
  */
 
 extern void MI_CpuFill8(void *dst, unsigned char val, unsigned long size);
-void MISC_SAVEDATA_ClearRingBlock(void *p);
+void DENDOU_SAVEDATA_Clear(void *p);
 
-void MISC_SAVEDATA_ClearRingBlock(void *p)
+void DENDOU_SAVEDATA_Clear(void *p)
 {
     MI_CpuFill8(p, 0, 0x155C);
 }

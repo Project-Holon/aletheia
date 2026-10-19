@@ -106,7 +106,7 @@
  *   CLACT_ReleasePalette  0x0204ADA4  arm
  *   CLACT_ReleaseCellAnim  0x0204AFD8  arm
  *   CLACT_DeleteActor  0x0204B3B4  arm
- *   BEACON_GetBlock  0x0200C0F0  thumb  arm9
+ *   MISC_GetBlock  0x0200C0F0  thumb  arm9
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb  arm9
  *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
  */
@@ -148,7 +148,7 @@ typedef signed int     s32;
 
 
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *BEACON_GetBlock(void *);
+extern void *MISC_GetBlock(void *);
 extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 extern u32 WIFILIST_GetFriendInfoField(const struct Sub020097BCObj *obj, u32 i, u32 field);
 extern char *NAMEIN_SETUP_CreateArgs(int,int,u32,u32,int,int,void *);
@@ -312,7 +312,7 @@ extern const u8 gWf2dmapTileWindowParams[10][4];
 
 char *WF2DMAP_TOUCH_CreateNameEntry(void *unused,char *q,int mode,int heap) {
  void *v;void *base;int idx;char *ret;unsigned kind;
- v=BEACON_GetBlock(GAME_DATA_GetSaveControl(((Wf2dmapTouchFriendData *)q)->saveData));
+ v=MISC_GetBlock(GAME_DATA_GetSaveControl(((Wf2dmapTouchFriendData *)q)->saveData));
  base=(void *)GAME_DATA_GetWifiList(((Wf2dmapTouchFriendData *)q)->saveData);idx=*(u8 *)(q+24+*(signed char *)&((Wf2dmapTouchFriendData *)q)->index);
  kind=WIFILIST_GetFriendInfoField(base,idx,9);
  if(mode==1 || kind==2) ret=NAMEIN_SETUP_CreateArgs(heap,4,65535,0,7,0,v);

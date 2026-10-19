@@ -1,5 +1,9 @@
 # Two long-lived values in each other's callee-saved registers
 
+summary: Two values live across calls that sit in each other's callee-saved registers are a
+colouring-order difference. Missing call arguments, per-arm consumers and declaration order change
+it.
+
 Seen in wave D5 lane 01 (2026-10-05): ov217 func_021B96C8, ov096 func_02189548,
 ov099 func_021BC14C, ov210 func_021BCF0C (all closed EXACT); ov055 func_021F3DD4 (still open).
 

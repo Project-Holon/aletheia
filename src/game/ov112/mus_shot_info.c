@@ -42,7 +42,7 @@
  *   BMP_WIN_TransferChars 0x02045334 arm
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   d_021F8394 0x021F8394 data a1
  *   CLACT_ReleasePalette 0x0204ADA4 arm
@@ -224,7 +224,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 
 extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, u32 font, u32 printQue, u16 heap);
 
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
@@ -394,7 +394,7 @@ void *MUSICAL_SHOT_INFO_Create(u32 a, u32 b, u32 c, u32 d, H16 heap)
     MUSICAL_SHOT_INFO_InitGraphics(p);
     MUSICAL_SHOT_INFO_InitWindows(p);
     *(u32 *)(p + 0x40) = (u32)APP_TASKMENU_RES_Create(4, 12, *(u32 *)(p + 0x20), *(u32 *)(p + 0x38), *(u16 *)p);
-    GFL_NET_RestartWithDefaultTimeout(0, *(u16 *)&heap);
+    GFL_NET_RefreshWmIconAtTopRight(0, *(u16 *)&heap);
     BG_SYS_SetSubPlaneVisible(16, 1);
     return p;
 }

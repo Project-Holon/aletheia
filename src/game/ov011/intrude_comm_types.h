@@ -200,7 +200,7 @@ typedef struct IntrudeTally {
 
 /* Symbol map page (0x54 bytes, commands 0x228 and 0x229): 20 entries, then the page header. */
 typedef struct IntrudeSymbolPage {
-    u32 entries[20];                /* 0x00: filled by COMM_PLAYER_GetListPage */
+    u32 entries[20];                /* 0x00: filled by SYMBOL_MAP_GetEntryPage */
     u32 count : 6;                  /* 0x50 */
     u32 levelSmall : 4;
     u32 levelLarge : 4;
@@ -305,7 +305,7 @@ typedef struct IntrudeCommSys {
     u8 unionInfoReceived;                       /* 0x90C */
     u8 entryReceived;                           /* 0x90D */
     s16 waitFrames;                             /* 0x90E */
-    u8 specialZoneEntered;                      /* 0x910: set once the player enters a zone of ZONEDATA_IsZone117 */
+    u8 specialZoneEntered;                      /* 0x910: set once the player enters a zone of ZONEDATA_IsEntralink */
     u8 ownNetId;                                /* 0x911: own net ID, the value INTRUDE_COMM_GetPlayerNetId answers while the work exists */
     u8 pad912[2];
     IntrudeRemoteRecord remoteRecord;           /* 0x914 */

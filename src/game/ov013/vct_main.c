@@ -49,7 +49,7 @@
  *   NNS_SndStrmSetVolume  0x02073AD0  arm
  *   NNS_SndStrmSetup  0x020738C0  arm
  *   VCT_MAIN_StreamCallback  0x021AEB7C  thumb ov013
- *   SAVEDATA_PanicFail  0x02034714  arm
+ *   GF_PANIC_Fail  0x02034714  arm
  *   VCT_MAIN_OnEventGroup  0x021AED08  thumb ov013
  *   VCT_MAIN_OnEventPair  0x021AED30  thumb ov013
  *   VCT_Init  0x021B370C  arm ov013
@@ -114,7 +114,7 @@ extern void MI_CpuFill8(void *dst, int value, u32 size);
 
 extern u64 OS_GetTick(void);
 
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 /* Wi-Fi glue (ov009). */
 extern void DWC_RAP_CleanupVchat(void);
@@ -492,7 +492,7 @@ void VCT_MAIN_Start(void *heap, int codecMode, int peerCount)
     if (NNS_SndStrmSetup(gVctWork->audioStream, 1, gVctWork->playbackBuffers, VCT_BUFFER_BYTES,
                       APP_ENV_IsRunOnTwl() ? 0x40 : 0x41, 2, VCT_MAIN_StreamCallback,
                       gVctWork) == 0) {
-        SAVEDATA_PanicFail(VCT_ERROR_TEXT, 0, VCT_ERROR_TEXT);
+        GF_PANIC_Fail(VCT_ERROR_TEXT, 0, VCT_ERROR_TEXT);
     }
     gVctWork->linkState = 0;
     gVctWork->pendingPeer = 0;
@@ -501,7 +501,7 @@ void VCT_MAIN_Start(void *heap, int codecMode, int peerCount)
     param.peerCount = peerCount;
     param.localId = DWC_GetMyAID();
     if (param.localId == -1) {
-        SAVEDATA_PanicFail(VCT_ERROR_TEXT, 0, VCT_ERROR_TEXT);
+        GF_PANIC_Fail(VCT_ERROR_TEXT, 0, VCT_ERROR_TEXT);
     }
     if (gVctWork->mode == 3) {
         param.eventCallback = VCT_MAIN_OnEventGroup;

@@ -1,5 +1,5 @@
 /*
- * function: FIELD_RAIL_LOADER_VanishMmdl
+ * function: FLDMMDL_MOVE_VanishProc
  * address:  0x0219F030
  * packet:   pkt_0219F030
  * region:   ov021
@@ -25,7 +25,7 @@ typedef signed char    s8;
 extern void *FLDMMDL_SetMoveBit(void *p, u32 v);
 extern void FLDMMDL_SetStatusBitVanish(unsigned int *p, unsigned int v);
 
-int FIELD_RAIL_LOADER_VanishMmdl(void *a, u32 b, u32 c, u32 d)
+int FLDMMDL_MOVE_VanishProc(void *a, u32 b, u32 c, u32 d)
 {
 FLDMMDL_SetStatusBitVanish((unsigned int *)a, 1);
 return (int)FLDMMDL_SetMoveBit(a, (1 << 15));

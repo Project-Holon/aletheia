@@ -123,7 +123,7 @@
  *   POKE_TOOL_SetAbility 0x02018A00 thumb
  *   STRBUF_GetEosChar 0x02045A98 arm
  *   MYSTATUS_GetName 0x020084F4 thumb
- *   MYSTATUS_GetOutfitVariant 0x02008550 thumb
+ *   MYSTATUS_GetSex 0x02008550 thumb
  *   POKE_TOOL_CastToBoxParam 0x020185F0 thumb
  *   SAVE_EVENT_WriteWithDate 0x0202F2AC thumb
  *   POKE_TOOL_RecalcParam 0x020185C4 thumb
@@ -203,8 +203,8 @@
  *   MYSTERY_UTIL_IsTaskDone 0x021DA8AC thumb ov121
  *   MYSTERY_UTIL_SetTaskHandler 0x021DA8B0 thumb ov121
  *   MYSTERY_UTIL_MarkTaskDone 0x021DA8B8 thumb ov121
- *   GF_FONT_MeasureWidestLine  0x0201D304  thumb  arm9
- *   GF_FONT_CountLines  0x0201D42C  thumb  arm9
+ *   PRINTSYS_MeasureWidestLine  0x0201D304  thumb  arm9
+ *   PRINTSYS_CountLines  0x0201D42C  thumb  arm9
  */
 #include "mystery_net_types.h"
 #include "mystery_album_types.h"
@@ -467,9 +467,9 @@ extern void STRBUF_Delete(void *vec);
 
 extern void BG_SYS_MarkTileDirty(unsigned);
 
-extern u32 GF_FONT_MeasureWidestLine(void *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(void *s, u32 a, u32 b);
 
-extern u32 GF_FONT_CountLines(void *s, void *font);
+extern u32 PRINTSYS_CountLines(void *s, void *font);
 
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 
@@ -647,7 +647,7 @@ extern u16 STRBUF_GetEosChar(void);
 
 extern const void *MYSTATUS_GetName(const void *p);
 
-extern u8 MYSTATUS_GetOutfitVariant(const void *obj);
+extern u8 MYSTATUS_GetSex(const void *obj);
 
 extern void *POKE_TOOL_CastToBoxParam(void *p);
 
@@ -1513,8 +1513,8 @@ void MYSTERY_ALBUM_SetupEntry(char *out,const MysteryAlbumCard *src,char *p,u16 
         WORDSET_SetSlotNumber((void *)((MysteryAlbumWork *)p)->wordSet,2,(u8)flags,2,0,1);
         WORDSET_CopyTaggedText((void *)((MysteryAlbumWork *)p)->wordSet,text,other);
         x=40;
-        x-=(s16)(GF_FONT_MeasureWidestLine(text,*(u32 *)&((MysteryAlbumWork *)p)->font,0)/2);
-        y=8-(s16)(GF_FONT_CountLines(text,((MysteryAlbumWork *)p)->font)/2);
+        x-=(s16)(PRINTSYS_MeasureWidestLine(text,*(u32 *)&((MysteryAlbumWork *)p)->font,0)/2);
+        y=8-(s16)(PRINTSYS_CountLines(text,((MysteryAlbumWork *)p)->font)/2);
         PRINTSYS_Print(((MysteryAlbumEntry *)out)->bmp,x,y,text,((MysteryAlbumWork *)p)->font);
         STRBUF_Delete(text);
         STRBUF_Delete(other);
@@ -2374,7 +2374,7 @@ struct MysteryAlbumView *MYSTERY_ALBUM_CreateAlbumView(MysteryAlbumCard *card, s
                 if (v <= 2)
                     POKE_TOOL_SetPartyValue(mon, 0x9a, v);
                 else {
-                    v = MYSTATUS_GetOutfitVariant((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(gs));
+                    v = MYSTATUS_GetSex((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(gs));
                     POKE_TOOL_SetPartyValue(mon, 0x9a, v);
                 }
             }

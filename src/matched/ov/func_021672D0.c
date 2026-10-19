@@ -11,8 +11,8 @@
  *
  * symbols:
  *   GAME_DATA_GetSaveControlWork  0x02012EC0  thumb
- *   BEACON_GetFromSave  0x0200C0E8  thumb
- *   BEACON_GetMode  0x0200C224  thumb
+ *   MISC_GetFromSave  0x0200C0E8  thumb
+ *   MISC_GetResearchRank  0x0200C224  thumb
  */
 #include "../include/Obj17729.h"
 
@@ -23,9 +23,9 @@ typedef unsigned int u32;
 struct Big;
 
 extern void *GAME_DATA_GetSaveControlWork(struct Big *p);
-extern void *BEACON_GetFromSave(void *sys);
+extern void *MISC_GetFromSave(void *sys);
 struct Blk34;
-extern u8 BEACON_GetMode(struct Blk34 *p);
+extern u8 MISC_GetResearchRank(struct Blk34 *p);
 
 int EVENT_RESEARCH_RADAR_GetReportKind(int a0)
 {
@@ -36,8 +36,8 @@ int EVENT_RESEARCH_RADAR_GetReportKind(int a0)
 a0 = ((struct Obj17729 *)a0)->f8;
     big = GAME_DATA_GetSaveControlWork((struct Big *)a0);
 loc_021672D8:
-    sys = BEACON_GetFromSave(big);
+    sys = MISC_GetFromSave(big);
 loc_021672DC:
-    a0 = BEACON_GetMode(sys);
+    a0 = MISC_GetResearchRank(sys);
 loc_021672E0:
     return a0;}

@@ -24,7 +24,7 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   MYSTATUS_GetId  0x02008530  thumb
  *   MYSTATUS_GetName  0x020084F4  thumb
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   SAVE_CONTROL_GetBlock    0x020071CC  thumb
  *   STRBUF_SetStringN         0x02045994  arm
  *   STRBUF_ToChars         0x02045A38  arm
@@ -155,7 +155,7 @@ extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
 
 extern u32  MYSTATUS_GetId(const struct MyStatus *status);
 
-extern u8   MYSTATUS_GetOutfitVariant(const struct MyStatus *status);
+extern u8   MYSTATUS_GetSex(const struct MyStatus *status);
 
 extern const void *MYSTATUS_GetName(const void *status);
 
@@ -673,7 +673,7 @@ int WIFILIST_FindFriendByStatus(struct WifiList *list, struct MyStatus *status,
                  u32 *outSlot)
 {
     u32 id = MYSTATUS_GetId(status);
-    u8 outfitVariant = MYSTATUS_GetOutfitVariant(status);
+    u8 outfitVariant = MYSTATUS_GetSex(status);
 
     return WIFILIST_FindFriendByStatusAndOutfit(list, MYSTATUS_GetName(status), id, outfitVariant, outSlot);
 }

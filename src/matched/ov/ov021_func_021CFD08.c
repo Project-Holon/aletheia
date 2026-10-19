@@ -19,7 +19,7 @@
  *   func_02009634  0x02009634  thumb
  *   func_02008530  0x02008530  thumb
  *   GAME_DATA_GetSaveSyncBlock  0x02012F38  thumb
- *   BMP_OAM_GetRecordValue  0x02025B64  thumb
+ *   NATION_AREA_GetAreaCount  0x02025B64  thumb
  *   SCRCMD_CalcPartnerGreetingIndex  0x021CFD88  thumb  ov021
  * Addresses are Black-image addresses.
  */
@@ -42,7 +42,7 @@ extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u32 func_02009634(const struct Sub02009470Obj *obj, u32 i, u32 field);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern int GAME_DATA_GetSaveSyncBlock(int base);
-extern u8 BMP_OAM_GetRecordValue(u32 v);
+extern u8 NATION_AREA_GetAreaCount(u32 v);
 extern int SCRCMD_CalcPartnerGreetingIndex(int a, u32 b, u32 c, int d, int e);
 
 int SCRCMD_GetPartnerGreetingMessage(u32 a, u32 b, u8 *c, int d, u32 e)
@@ -62,7 +62,7 @@ int SCRCMD_GetPartnerGreetingMessage(u32 a, u32 b, u8 *c, int d, u32 e)
     s = func_02008550((const struct Sub0200852CObj *)v);
     w = func_02009634((const struct Sub02009470Obj *)g, x, 4);
     t = func_02008530((const struct Sub0200852CObj *)v);
-    if (BMP_OAM_GetRecordValue(*((u8 *)GAME_DATA_GetSaveSyncBlock(h)))) {
+    if (NATION_AREA_GetAreaCount(*((u8 *)GAME_DATA_GetSaveSyncBlock(h)))) {
         flag = 1;
     }
     return SCRCMD_CalcPartnerGreetingIndex(s, t, w, e, flag);

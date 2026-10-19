@@ -17,7 +17,7 @@
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   BEACON_SetTeam  0x0200C2B0  thumb
+ *   MISC_SetTeam  0x0200C2B0  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -35,7 +35,7 @@ extern u32 POKEPARTY_GetCount(void *a0);
 extern void *POKEPARTY_GetMember(void *p, u32 idx);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
 extern void *GAME_DATA_GetMiscSave(int *p);
-extern void BEACON_SetTeam(struct Blk34 *p, u32 i, const u16 *src);
+extern void MISC_SetTeam(struct Blk34 *p, u32 i, const u16 *src);
 
 int SCRCMD_POKEMON_FLD_StorePartySpeciesRecord(void *a, void *b)
 {
@@ -58,6 +58,6 @@ int SCRCMD_POKEMON_FLD_StorePartySpeciesRecord(void *a, void *b)
         if (POKE_TOOL_GetPartyValue(mon, 0x4C, 0) == 0)
             buf[n++] = POKE_TOOL_GetPartyValue(mon, 5, 0);
     }
-    BEACON_SetTeam(GAME_DATA_GetMiscSave(sav), r, buf);
+    MISC_SetTeam(GAME_DATA_GetMiscSave(sav), r, buf);
     return 0;
 }

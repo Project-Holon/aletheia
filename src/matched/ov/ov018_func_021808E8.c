@@ -14,7 +14,7 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb ov010
- *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
+ *   GAME_DATA_GetMyStatusPlayer  0x02012950  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   EVENT_COMM_COMMON_PrintMsg  0x0217F3C4  thumb ov018
  *   EVENT_COMM_COMMON_IsPrintFinished  0x0217F40C  thumb ov018
@@ -40,7 +40,7 @@ void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 struct Ctx;
 unsigned int GAMESYSTEM_GetGameComm(const struct Ctx *p);
 int INTRUDE_COMM_GetWorkIfRunning(int a0);
-struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, u32 i);
+struct Rec44 *GAME_DATA_GetMyStatusPlayer(struct Sub24 *p, u32 i);
 void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 void EVENT_COMM_COMMON_PrintMsg(u8 *p, int a);
 int EVENT_COMM_COMMON_IsPrintFinished(u8 *p);
@@ -56,7 +56,7 @@ int EVENT_COMM_COMMON_TalkMsgEventMain(int x, int *st, u8 *obj)
     m = (void *)INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm((const struct Ctx *)v));
     switch (*st) {
     case 0:
-        WORDSET_SetSlotMyStatus((struct WordSet *)(((struct Obj09400 *)obj)->f10), 0, GAME_DATA_GetPlayerStatus((struct Sub24 *)w, obj[0x40]));
+        WORDSET_SetSlotMyStatus((struct WordSet *)(((struct Obj09400 *)obj)->f10), 0, GAME_DATA_GetMyStatusPlayer((struct Sub24 *)w, obj[0x40]));
         EVENT_COMM_COMMON_PrintMsg(obj + 0x10, d_0218383C[obj[0x42]]);
         *st = *st + 1;
         break;

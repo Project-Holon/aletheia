@@ -16,7 +16,7 @@
  *   GAME_BEACON_ACCESSOR_TableRingAdd  0x02165A10  thumb  ov010
  *   GAME_BEACON_ACCESSOR_TableGetRingIndex  0x021659F0  thumb  ov010
  *   BEACON_VIEW_GetEntry  0x021F0F44  thumb  ov032
- *   BEACON_IncrementThanksCount  0x0200C1E0  thumb
+ *   MISC_IncrementThanksCount  0x0200C1E0  thumb
  */
 #include "../include/Obj00188.h"
 #include "../include/Obj20414.h"
@@ -34,7 +34,7 @@ extern int GAME_BEACON_ACCESSOR_IsInfoInvalid(struct Rec *r);
 extern int GAME_BEACON_ACCESSOR_TableRingAdd(struct Queue *q, struct Rec *rec, u16 tag, int *flag);
 extern int GAME_BEACON_ACCESSOR_TableGetRingIndex(u8 *q, int delta);
 extern u8 *BEACON_VIEW_GetEntry(u8 *p, int a);
-extern u32 BEACON_IncrementThanksCount(struct Blk34 *p);
+extern u32 MISC_IncrementThanksCount(struct Blk34 *p);
 
 int BEACON_VIEW_LoadNextRecord(u8 *p)
 {
@@ -52,7 +52,7 @@ int BEACON_VIEW_LoadNextRecord(u8 *p)
         *(u8 * *)&((struct Obj00188 *)p)->f50 = BEACON_VIEW_GetEntry(p, p[0x55]);
     } else {
         *(u8 * *)&((struct Obj00188 *)p)->f50 = 0;
-        ((struct Obj00188 *)p)->f2D4 = BEACON_IncrementThanksCount((struct Blk34 *)(((struct Obj00188 *)p)->f14));
+        ((struct Obj00188 *)p)->f2D4 = MISC_IncrementThanksCount((struct Blk34 *)(((struct Obj00188 *)p)->f14));
     }
     if (*(u8 * *)&((struct Obj00188 *)p)->f50 != 0 && ((struct Obj20414 *)(*(u8 * *)&((struct Obj00188 *)p)->f50))->f2C != 0)
         ((struct Obj00188 *)p)->f6C = 0;

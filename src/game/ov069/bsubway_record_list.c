@@ -24,7 +24,7 @@
  *   BSUBWAY_RECORD_LIST_UpdateArrowVisibility  0x021BA384  thumb  ov069
  *   BSUBWAY_RECORD_LIST_ShowPage  0x021BA438  thumb  ov069
  *   WIPE_SYS_Start  0x0202208C  thumb
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   BSUBWAY_RECORD_LIST_RunInputState 0x021B9E44 thumb ov069
  *   BSUBWAY_RECORD_LIST_UpdateText 0x021B9DFC thumb ov069
  *   BGWINFRM_UpdateMoves 0x0202CD94 thumb
@@ -192,7 +192,7 @@ extern void BSUBWAY_RECORD_LIST_InitCursor(BsubwayRecordListWork *work);
 extern void  BSUBWAY_RECORD_LIST_UpdateArrowVisibility(BsubwayRecordListWork *work, int page, int pageCount);
 extern void BSUBWAY_RECORD_LIST_ShowPage(BsubwayRecordListWork *work, int page);
 extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
-extern void  GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void  GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern int BSUBWAY_RECORD_LIST_RunInputState(BsubwayRecordListWork *work);
 extern void BSUBWAY_RECORD_LIST_UpdateText(BsubwayRecordListWork *work);
 extern void BGWINFRM_UpdateMoves(struct WinMgr *mgr);
@@ -427,7 +427,7 @@ int BSUBWAY_RECORD_LIST_Init(void *proc, u32 unusedSeq, BsubwayRecordListArgs *a
     BSUBWAY_RECORD_LIST_UpdateArrowVisibility(work, work->page, work->pageCount);
     BSUBWAY_RECORD_LIST_ShowPage(work, work->page);
     WIPE_SYS_Start(0, 1, 1, 0, 0x10, 1, 0x80);
-    GFL_NET_RestartWithDefaultTimeout(1, 0x80);
+    GFL_NET_RefreshWmIconAtTopRight(1, 0x80);
     return 1;
 }
 

@@ -38,7 +38,7 @@
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
  *   GFL_NET_HANDLE_IsNegotiationDone  0x020399B8  arm
  *   GFL_NET_GetNegotiationNum  0x0203D1B4  arm
- *   GFL_NET_NotifyUserEvent  0x0203D1E8  arm
+ *   GFL_NET_SetAcceptConnection  0x0203D1E8  arm
  *   GFL_NET_GetHandleNetID  0x0203D1A4  arm
  *   GFL_NET_SetLoginOption  0x0203D7BC  arm
  *   GFL_NET_IsConnectMember  0x0203D1C0  arm
@@ -126,7 +126,7 @@ extern int COMM_ENTRY_MENU_CountAcceptedMembers(Work *p);
 extern void COMM_ENTRY_MENU_SnapshotStates(Work *p);
 extern int GFL_NET_GetNegotiationNum(void);
 extern int COMM_ENTRY_MENU_ProcessCancel(u32 *p);
-extern void GFL_NET_NotifyUserEvent(u32 unused, void *arg);
+extern void GFL_NET_SetAcceptConnection(u32 unused, void *arg);
 extern u32 COMM_ENTRY_MENU_ProcessStartConfirm(u32 *p);
 extern int COMM_ENTRY_SendSessionLock(int a);
 extern u32 GFL_NET_GetHandleNetID(struct Link *p);
@@ -216,7 +216,7 @@ int COMM_ENTRY_MENU_MainRecruit(Work *p)
     case 6:
         n = COMM_ENTRY_MENU_ProcessCancel((u32 *)p);
         if (n == 1) {
-            GFL_NET_NotifyUserEvent((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0);
+            GFL_NET_SetAcceptConnection((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0);
             p->state = 9;
         } else if (n == 2) {
             if (COMM_ENTRY_MENU_CountAcceptedMembers(p) >= p->x51D) {
@@ -234,7 +234,7 @@ int COMM_ENTRY_MENU_MainRecruit(Work *p)
     case 7:
         n = COMM_ENTRY_MENU_ProcessStartConfirm((u32 *)p);
         if (n == 1) {
-            GFL_NET_NotifyUserEvent((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0);
+            GFL_NET_SetAcceptConnection((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0);
             p->state = 0xD;
         } else if (n == 2) {
             p->state = 5;

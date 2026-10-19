@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "HAND_TOKUSEI_IndirectGuardCause1Block",
+   "name": "HAND_TOKUSEI_HyperCutterBlockStatDrop",
    "address": "0x021D9214",
    "kind": "game",
    "region": "ov093",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "HAND_TOKUSEI_IndirectGuardCause1ShowMessage",
+   "name": "HAND_TOKUSEI_HyperCutterShowMessage",
    "address": "0x021D9224",
    "kind": "game",
    "region": "ov093",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "HAND_TOKUSEI_IndirectGuardCause6Block",
+   "name": "HAND_TOKUSEI_KeenEyeBlockStatDrop",
    "address": "0x021D9240",
    "kind": "game",
    "region": "ov093",
@@ -67,7 +67,7 @@
    "status": "EXACT"
   },
   {
-   "name": "HAND_TOKUSEI_IndirectGuardCause6ShowMessage",
+   "name": "HAND_TOKUSEI_KeenEyeShowMessage",
    "address": "0x021D9250",
    "kind": "game",
    "region": "ov093",
@@ -79,7 +79,7 @@
    "status": "EXACT"
   },
   {
-   "name": "HAND_TOKUSEI_IndirectGuardCause8Block",
+   "name": "HAND_TOKUSEI_ClearBodyBlockStatDrop",
    "address": "0x021D926C",
    "kind": "game",
    "region": "ov093",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "HAND_TOKUSEI_IndirectGuardCause8ShowMessage",
+   "name": "HAND_TOKUSEI_ClearBodyShowMessage",
    "address": "0x021D927C",
    "kind": "game",
    "region": "ov093",

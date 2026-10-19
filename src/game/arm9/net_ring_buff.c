@@ -13,7 +13,7 @@
  * Cut from touchpanel.c by tools/splitfile.py.
  *
  * symbols:
- *   SAVEDATA_PanicFail                    0x02034714  arm
+ *   GF_PANIC_Fail                    0x02034714  arm
  *   GFL_NET_SYSTEM_SetError                    0x02039548  arm
  *   _pTouchPanelWork                 0x021469C4  data
  *   net_ring_buff_File               0x020A79A4  data
@@ -23,7 +23,7 @@
 #include "touchpanel_shared_types.h"
 #include "net_types.h"
 
-extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *expr);
+extern void GF_PANIC_Fail(const char *file, u32 line, const char *expr);
 
 extern void GFL_NET_SYSTEM_SetError(void);
 
@@ -80,7 +80,7 @@ void GFL_NET_RING_BUFF_Write(NetRingBuff *ring, const u8 *pDataArea, int size)
     k = 0;
     for (i = ring->writePos; i < ring->writePos + size; i++) {
         if (pDataArea == 0) {
-            SAVEDATA_PanicFail(net_ring_buff_File, 0x44, net_ring_buff_AssertDataArea);
+            GF_PANIC_Fail(net_ring_buff_File, 0x44, net_ring_buff_AssertDataArea);
         }
         ring->buf[GFL_NET_RING_BUFF_WrapPos(ring, i)] = pDataArea[k];
         k++;
@@ -103,7 +103,7 @@ u32 GFL_NET_RING_BUFF_ReadByte(NetRingBuff *ring)
 
     if (GFL_NET_RING_BUFF_Read(ring, &byte, 1, 1) == 1)
         return byte;
-    SAVEDATA_PanicFail(net_ring_buff_File, 0x6C, net_ring_buff_AssertZero);
+    GF_PANIC_Fail(net_ring_buff_File, 0x6C, net_ring_buff_AssertZero);
     return 0;
 }
 

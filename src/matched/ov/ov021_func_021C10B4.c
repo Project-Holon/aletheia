@@ -32,7 +32,7 @@
  *   FLDEFF_NAMIPOKE_SetFollowMode  0x021ACBB8  thumb  ov021
  *   FIELD_PLAYER_StartFormChange  0x021A2F48  thumb  ov021
  *   FIELD_PLAYER_StepFormChange  0x021A2F54  thumb  ov021
- *   FIELD_PLAYER_SetGridMoveState  0x021A35A0  thumb  ov021
+ *   FIELD_PLAYER_SetGridHopLanded  0x021A35A0  thumb  ov021
  * Addresses are Black-image addresses.
  */
 
@@ -80,7 +80,7 @@ extern u32 FIELD_PLAYER_GetRideEffect(u8 *a);
 extern void FLDEFF_NAMIPOKE_SetFollowMode(u32 a, u8 v);
 extern void FIELD_PLAYER_StartFormChange(u8 *p, u32 a1);
 extern int FIELD_PLAYER_StepFormChange(u8 *a);
-extern void FIELD_PLAYER_SetGridMoveState(u32 *p, int a);
+extern void FIELD_PLAYER_SetGridHopLanded(u32 *p, int a);
 
 void FIELD_PLAYER_GRID_EVENT_HopTask(u32 task, Work *w)
 {
@@ -141,7 +141,7 @@ void FIELD_PLAYER_GRID_EVENT_HopTask(u32 task, Work *w)
         w->state++;
     case 4:
         if (FIELD_PLAYER_StepFormChange(w->f10) == 1) {
-            FIELD_PLAYER_SetGridMoveState((u32 *)w->f10, 1);
+            FIELD_PLAYER_SetGridHopLanded((u32 *)w->f10, 1);
             w->f4 = 1;
             w->state++;
         }

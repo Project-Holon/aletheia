@@ -1,5 +1,5 @@
 /*
- * function: HAND_TOKUSEI_ShowIndirectGuardMessage
+ * function: HAND_TOKUSEI_ShowStatDropGuardMessage
  * address:  0x021D92CC
  * packet:   pkt_ov093_021D92CC
  * region:   ov093
@@ -29,7 +29,7 @@ struct S;
 extern void BTL_SERVER_FLOW_AppendMsgRecordArg(struct S *p, u32 v);
 extern void BTL_SERVER_FLOW_CommitCmdRecord(void *a, void *b);
 
-void HAND_TOKUSEI_ShowIndirectGuardMessage(void *a, int b, int *c, int d)
+void HAND_TOKUSEI_ShowStatDropGuardMessage(void *a, int b, int *c, int d)
 {
     int t;
     u8 *p;

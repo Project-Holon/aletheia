@@ -42,7 +42,7 @@
  *   func_0207D63C 0x0207D63C arm
  *   WF2DMAP_SCENE_VBlank 0x021D893C thumb ov129
  *   func_020056A0 0x020056A0 thumb
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   d_021DA800 0x021DA800 data a4
  */
 typedef unsigned u32;
@@ -73,7 +73,7 @@ extern void WF2DMAP_SCENE_CreateButtons(char *p);
 extern void func_0207D63C(void *,int,int,int,int);
 extern void WF2DMAP_SCENE_VBlank(int,char *);
 extern void *func_020056A0(u32,u32,u32);
-extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 extern const u32 d_021DA800[];
 static inline void GX_SetVisiblePlane(int plane) { *(volatile u32 *)0x04000000=(*(volatile u32 *)0x04000000 & ~0x1F00u)|((u32)plane<<8); }
 static inline void GXS_SetVisiblePlane(int plane) { *(volatile u32 *)0x04001000=(*(volatile u32 *)0x04001000 & ~0x1F00u)|((u32)plane<<8); }
@@ -104,6 +104,6 @@ int WF2DMAP_SCENE_Create(void *obj,void *unused,const Param *cfg)
     func_0207D63C((void *)0x04000050,0,6,15,7);
     func_0207D63C((void *)0x04001050,0,14,7,8);
     *(void **)(p+0x318)=func_020056A0((u32)WF2DMAP_SCENE_VBlank,(u32)p,16);
-    GFL_NET_RestartWithDefaultTimeout(1,50);
+    GFL_NET_RefreshWmIconAtTopRight(1,50);
     return 1;
 }

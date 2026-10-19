@@ -21,7 +21,7 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   POKEPARTY_GetMember  0x0201AB28  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
@@ -390,7 +390,7 @@ extern MyStatus *GAME_DATA_GetMyStatus(GameData *gameData);
 
 extern NetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 
-extern u8 MYSTATUS_GetOutfitVariant(const MyStatus *myStatus);
+extern u8 MYSTATUS_GetSex(const MyStatus *myStatus);
 
 extern PokemonParam *POKEPARTY_GetMember(Party *party, u32 pos);
 
@@ -1518,7 +1518,7 @@ GameEvent *FLD_BTL_INST_TOOL_CreateTrialHouseAwardEvent(GameSystem *gameSystem, 
     TrialHouseAwardEventWork *work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    work->param.playerSex = MYSTATUS_GetOutfitVariant(GAME_DATA_GetMyStatus(gameData));
+    work->param.playerSex = MYSTATUS_GetSex(GAME_DATA_GetMyStatus(gameData));
     work->param.trialHouse = TRIAL_HOUSE_SAVE_GetFromSave(GAME_DATA_GetSaveControl(gameData));
     work->param.hasSecondEntry = hasSecondEntry;
     work->param.fadeOutBgm = fadeOutBgm;

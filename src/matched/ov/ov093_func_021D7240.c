@@ -11,7 +11,7 @@
  *   BTL_SERVER_FLOW_GetPokeParam 0x021C7CF4 thumb ov093
  *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
  *   BTL_POKEPARAM_TestTurnFlag 0x021D5BB0 thumb ov093
- *   BTL_FIELD_GetStaticSlotObject 0x021EF948 thumb ov093
+ *   BTL_FIELD_IsStaticSlotInUse 0x021EF948 thumb ov093
  *   gBtlEventFactorList 0x021F3CB0 data a4
  */
 typedef unsigned char u8;
@@ -36,7 +36,7 @@ struct UtilWork;
 extern void *BTL_SERVER_FLOW_GetPokeParam(int *p, int i);
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern int BTL_POKEPARAM_TestTurnFlag(struct UtilWork *p, u32 n);
-extern int BTL_FIELD_GetStaticSlotObject(int);
+extern int BTL_FIELD_IsStaticSlotInUse(int);
 int BTL_EVENT_IsEventBlocked(void *a, Node *b, int c)
 {
     void *q = 0;
@@ -44,7 +44,7 @@ int BTL_EVENT_IsEventBlocked(void *a, Node *b, int c)
     if (b->b3b != 0x1f) q = BTL_SERVER_FLOW_GetPokeParam(a, b->b3b);
     if (b->kind == 4 && q != 0 && BTL_POKEPARAM_HasSick(q, 0x10)) return 1;
     if (b->kind == 5) {
-        if (BTL_FIELD_GetStaticSlotObject(7)) return 1;
+        if (BTL_FIELD_IsStaticSlotInUse(7)) return 1;
         if (q != 0 && BTL_POKEPARAM_HasSick(q, 0x13)) return 1;
         if (q != 0 && BTL_POKEPARAM_TestTurnFlag(q, 9)) return 1;
     }

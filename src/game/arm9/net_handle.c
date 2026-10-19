@@ -17,7 +17,7 @@
  *   GFL_HEAP_Alloc            0x02030734  arm
  *   MI_CpuFill8            0x02082BCC  arm
  *   GFL_NET_SYSTEM_SetError            0x02039548  arm
- *   SAVEDATA_PanicFail            0x02034714  arm
+ *   GF_PANIC_Fail            0x02034714  arm
  *   MI_CpuCopy8              0x02082D44  arm
  *   GFL_HEAP_Free            0x020307B0  arm
  *   GFL_NET_SYSTEM_GetCurrentAid            0x02039338  arm
@@ -97,7 +97,7 @@ extern void *MI_CpuFill8(void *dst, int val, u32 size);
 
 extern void GFL_NET_SYSTEM_SetError(void);
 
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
@@ -268,7 +268,7 @@ int GFL_NET_HANDLE_GetNetHandleID(GFLNetHandle *handle)
             return netID;
         }
     }
-    SAVEDATA_PanicFail(_FileName, 0x6e, _AssertZero);
+    GF_PANIC_Fail(_FileName, 0x6e, _AssertZero);
     return -1;
 }
 
@@ -577,7 +577,7 @@ void GFL_NET_HANDLE_InitWork(GFLNetSession *unused)
     }
     GFL_NET_HANDLE_CreateHandle(0xff);
     if (_pBaseWork != 0) {
-        SAVEDATA_PanicFail(_FileName, 0xe3, _AssertNotBaseWork);
+        GF_PANIC_Fail(_FileName, 0xe3, _AssertNotBaseWork);
     }
     _pBaseWork = GFL_HEAP_Alloc(session->init.heapId, 0x20, 1, _FileName, 0xe5);
 }
@@ -648,7 +648,7 @@ void GFL_NET_HANDLE_ExitWork(GFLNetSession *unused)
     ownID = 0xff;
     GFL_NET_HANDLE_ResetHandle((GFLNetHandle *)(GFL_NET_HANDLE_GetNetHandle(ownID)), ownID);
     if (_pBaseWork == 0) {
-        SAVEDATA_PanicFail(_FileName, 0x100, _AssertBaseWork);
+        GF_PANIC_Fail(_FileName, 0x100, _AssertBaseWork);
     }
     GFL_HEAP_Free(_pBaseWork);
     _pBaseWork = 0;
@@ -1530,7 +1530,7 @@ void GFL_NET_HANDLE_Main(void)
                               &_pBaseWork->timingNo[i], 0, 0, 0) == 0)
                 continue;
             if (_pBaseWork->timingSend[i] == 0)
-                SAVEDATA_PanicFail(_FileName, 0x29a, _AssertTimingSend);
+                GF_PANIC_Fail(_FileName, 0x29a, _AssertTimingSend);
             _pBaseWork->timingSendReady[i] = 0;
         }
     }
@@ -1907,7 +1907,7 @@ void GFL_NET_HANDLE_RecvRemoveHandle(u32 netID, u32 size, u8 *data, u32 work, u3
 u16 GFL_NET_HANDLE_SetBitMask(u16 bitMask, u32 netID, u32 enable)
 {
     if (netID == 0xFF)
-        SAVEDATA_PanicFail(_FileName, 0x391, _AssertNetIDNotServer);
+        GF_PANIC_Fail(_FileName, 0x391, _AssertNetIDNotServer);
     if (enable != 0)
         bitMask |= (u16)(1 << netID);
     else
@@ -1962,7 +1962,7 @@ u16 GFL_NET_HANDLE_SetBitMask(u16 bitMask, u32 netID, u32 enable)
 u32 GFL_NET_HANDLE_IsBitSet(u32 bitMask, u32 netID)
 {
     if (netID == 0xFF)
-        SAVEDATA_PanicFail(_FileName, 0x3AB, _AssertNetIDNotServer);
+        GF_PANIC_Fail(_FileName, 0x3AB, _AssertNetIDNotServer);
     return (bitMask & (u8)(1 << netID)) != 0;
 }
 
@@ -2020,7 +2020,7 @@ u32 GFL_NET_HANDLE_IsBitSet(u32 bitMask, u32 netID)
 void GFL_NET_HANDLE_RemoveHandle(u32 netID)
 {
     if (netID == 0xFF)
-        SAVEDATA_PanicFail(_FileName, 0x3BE, _AssertNetIDNotServer);
+        GF_PANIC_Fail(_FileName, 0x3BE, _AssertNetIDNotServer);
     GFL_NET_HANDLE_ResetHandle((GFLNetHandle *)GFL_NET_HANDLE_GetNetHandle(netID), netID);
     GFL_NET_HANDLE_ClearTimingMask((GFLNetHandle *)GFL_NET_HANDLE_GetNetHandle(0xFF), netID);
 }
@@ -2098,7 +2098,7 @@ void GFL_NET_HANDLE_RecvInfoData(int netID, u32 size, const void *data, u32 work
     if (GFL_NET_HANDLE_GetNetHandleID(handle) == 0xff)
         return;
     if (netID >= 9)
-        SAVEDATA_PanicFail(_FileName, 0x3D1, _AssertNetIDInRange);
+        GF_PANIC_Fail(_FileName, 0x3D1, _AssertNetIDInRange);
     target = GFL_NET_HANDLE_GetNetHandle(netID);
     if (target->workBuf != 0)
         GFL_HEAP_Free(target->workBuf);

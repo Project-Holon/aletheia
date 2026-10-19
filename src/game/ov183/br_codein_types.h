@@ -128,7 +128,7 @@ struct CodeinSidebarArg {
     void * procQuery;
 };
 
-/* Two call-back slots stored in the work at +0x4C (BR_CODEIN_CallStoredFnA/B). */
+/* Two call-back slots stored in the work at +0x4C (BR_CODEIN_CallAndClearStepFn/B). */
 struct CodeinStoredFns {
     void * stepFn;
     void * destroyFn;

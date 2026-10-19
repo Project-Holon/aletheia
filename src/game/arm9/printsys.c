@@ -1,7 +1,7 @@
 /*
  * file:     printsys.c
  * unit:     yes
- * function: PRINTSYS_Init, PRINTSYS_QUE_Create, PRINTSYS_QUE_CreateEx, PRINTSYS_QUE_Delete, PRINTSYS_QUE_SetForceQueue, PRINTSYS_QUE_SetLimitTick, PRINTSYS_QUE_Main, PRINTSYS_QUE_IsFinished, PRINTSYS_QUE_IsExistTarget, PRINTSYS_QUE_Clear, PRINTSYS_PrintQue, PRINTSYS_PrintQueColor, PRINTSYS_SubmitJob, PRINTSYS_Print, PRINTSYS_PrintColor, PRINTSYS_SetupJob, PRINTSYS_SetJobColor, PRINTSYS_RunJob, PRINTSYS_PrintStep, PRINTSYS_PutGlyph4bpp, PRINTSYS_PutGlyph8bpp, PRINTSYS_ProcGeneralTag, PRINTSYS_ProcColorTag, PRINTSYS_PrintStream, PRINTSYS_PrintStreamCallBack, PRINTSYS_SplitWait, PRINTSYS_PrintStreamStop, PRINTSYS_PrintStreamRun, PRINTSYS_PrintStreamGetState, PRINTSYS_PrintStreamGetWaitKind, PRINTSYS_PrintStreamReleasePause, PRINTSYS_PrintStreamDelete, PRINTSYS_PrintStreamShortWait, PRINTSYS_PrintStreamSetSpeed, PRINTSYS_PrintStreamResetSpeed, PRINTSYS_PrintStreamIsOverrideSpeed, GF_FONT_Task, GF_FONT_Apply, GF_FONT_MeasureTextWidth, GF_FONT_CountLine, GF_FONT_MeasureWidestLine, GF_FONT_InitCallerSuppliedArray, GF_FONT_CopyLine, GF_FONT_CountLines, GF_FONT_CountControlTag, GF_FONT_SearchIndex, GF_FONT_MeasureText, GF_FONT_GetTagChar, GF_FONT_IsWordSlotTag, GF_FONT_GetTagGroup, GF_FONT_AppendTag, GF_FONT_GetTagKind, GF_FONT_GetTagParam, GF_FONT_SkipTag, GF_FONT_GetAlignedSize, GF_FONT_GetAllocSize, GF_FONT_GetQueueFreeSpace, GF_FONT_EnqueuePrint, GF_FONT_Copy, GF_FONT_GetNextRecord
+ * function: PRINTSYS_Init, PRINTSYS_QUE_Create, PRINTSYS_QUE_CreateEx, PRINTSYS_QUE_Delete, PRINTSYS_QUE_SetForceQueue, PRINTSYS_QUE_SetLimitTick, PRINTSYS_QUE_Main, PRINTSYS_QUE_IsFinished, PRINTSYS_QUE_IsExistTarget, PRINTSYS_QUE_Clear, PRINTSYS_PrintQue, PRINTSYS_PrintQueColor, PRINTSYS_SubmitJob, PRINTSYS_Print, PRINTSYS_PrintColor, PRINTSYS_SetupJob, PRINTSYS_SetJobColor, PRINTSYS_RunJob, PRINTSYS_PrintStep, PRINTSYS_PutGlyph4bpp, PRINTSYS_PutGlyph8bpp, PRINTSYS_ProcGeneralTag, PRINTSYS_ProcColorTag, PRINTSYS_PrintStream, PRINTSYS_PrintStreamCallBack, PRINTSYS_SplitWait, PRINTSYS_PrintStreamStop, PRINTSYS_PrintStreamRun, PRINTSYS_PrintStreamGetState, PRINTSYS_PrintStreamGetWaitKind, PRINTSYS_PrintStreamReleasePause, PRINTSYS_PrintStreamDelete, PRINTSYS_PrintStreamShortWait, PRINTSYS_PrintStreamSetSpeed, PRINTSYS_PrintStreamResetSpeed, PRINTSYS_PrintStreamIsOverrideSpeed, PRINTSYS_Task, PRINTSYS_Apply, PRINTSYS_MeasureTextWidth, PRINTSYS_CountLine, PRINTSYS_MeasureWidestLine, PRINTSYS_InitCallerSuppliedArray, PRINTSYS_CopyLine, PRINTSYS_CountLines, PRINTSYS_CountControlTag, PRINTSYS_SearchIndex, PRINTSYS_MeasureText, PRINTSYS_GetTagChar, PRINTSYS_IsWordSlotTag, PRINTSYS_GetTagGroup, PRINTSYS_AppendTag, PRINTSYS_GetTagKind, PRINTSYS_GetTagParam, PRINTSYS_SkipTag, PRINTSYS_GetAlignedSize, PRINTSYS_GetAllocSize, PRINTSYS_GetQueueFreeSpace, PRINTSYS_EnqueuePrint, PRINTSYS_Copy, PRINTSYS_GetNextRecord
  * address:  0x0201C41C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -21,15 +21,15 @@
  *   GF_FONT_IsTextColorDifferent  0x0201DE18  thumb
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
  *   OS_GetTick  0x020870D0  arm
- *   GF_FONT_GetNextRecord  0x0201D7C4  thumb
+ *   PRINTSYS_GetNextRecord  0x0201D7C4  thumb
  *   _PrintJobWork   0x0214655C  data
  *   STRBUF_GetChars  0x02045A90  arm
- *   GF_FONT_MeasureTextWidth  0x0201D26C  thumb
+ *   PRINTSYS_MeasureTextWidth  0x0201D26C  thumb
  *   BMP_GetWidth  0x020437DC  arm
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   TCBL_AddTask  0x020311B8  arm
  *   TCBL_GetWork  0x02031290  arm
- *   GF_FONT_Task  0x0201CEE0  thumb
+ *   PRINTSYS_Task  0x0201CEE0  thumb
  *   GF_FONT_ReadGlyph  0x0201DB04  thumb
  *   TCBL_DeleteTask  0x02031194  arm
  *   BMP_GetTileBytes  0x02043994  arm
@@ -40,9 +40,9 @@
  *   BMP_GetPixels  0x020437D4  arm
  *   BMP_Blit  0x020439A0  arm
  *   MSG_SPEED_GetWaitForSpeed  0x02013080  thumb
- *   GF_FONT_EnqueuePrint  0x0201D6D8  thumb
- *   GF_FONT_GetAllocSize  0x0201D6B8  thumb
- *   GF_FONT_GetQueueFreeSpace  0x0201D6C4  thumb
+ *   PRINTSYS_EnqueuePrint  0x0201D6D8  thumb
+ *   PRINTSYS_GetAllocSize  0x0201D6B8  thumb
+ *   PRINTSYS_GetQueueFreeSpace  0x0201D6C4  thumb
  *   BMP_GetHeight  0x020437E4  arm
  *   BMP_FillRect  0x02043AF4  arm
  *   BMP_Clear  0x02043B5C  arm
@@ -191,15 +191,15 @@ extern void  GF_FONT_SetTextColor(u32 letter, u32 shadow, u32 background);
 
 extern u64   OS_GetTick(void);
 
-struct PrintCtx *GF_FONT_GetNextRecord(struct PrintQueue *queue, struct PrintCtx *job);
+struct PrintCtx *PRINTSYS_GetNextRecord(struct PrintQueue *queue, struct PrintCtx *job);
 
 extern int   GFL_NET_GetNegotiationNum(void);
 
-u32 GF_FONT_GetAllocSize(struct Strbuf *text);
+u32 PRINTSYS_GetAllocSize(struct Strbuf *text);
 
-u32 GF_FONT_GetQueueFreeSpace(const struct PrintQueue *queue);
+u32 PRINTSYS_GetQueueFreeSpace(const struct PrintQueue *queue);
 
-void GF_FONT_EnqueuePrint(struct PrintQueue *queue, struct PrintCtx *job, struct Strbuf *str);
+void PRINTSYS_EnqueuePrint(struct PrintQueue *queue, struct PrintCtx *job, struct Strbuf *str);
 
 extern u16  *STRBUF_GetChars(struct Strbuf *str);
 
@@ -213,7 +213,7 @@ extern void  GF_FONT_ReadGlyph(struct GfFont *font, u16 code, void *dst, void *m
 
 extern void  BMP_BlitPaletteOffset(struct Bmp *src, u32 dst, u32 srcX, u32 srcY, u32 dstX, u32 dstY, u32 width, u32 height, u16 colorKey, u16 shift);
 
-u32 GF_FONT_MeasureTextWidth(u16 *cursor, struct GfFont *font, u32 spacing, u16 **next);
+u32 PRINTSYS_MeasureTextWidth(u16 *cursor, struct GfFont *font, u32 spacing, u16 **next);
 
 extern u16   BMP_GetWidth(const struct Bmp *bmp);
 
@@ -223,7 +223,7 @@ extern struct TcblNode *TCBL_AddTask(struct Tcbl *tcbl, void *func, u32 workSize
 
 extern void *TCBL_GetWork(struct TcblNode *task);
 
-void GF_FONT_Task(void *task, struct TextPrinter *printer);
+void PRINTSYS_Task(void *task, struct TextPrinter *printer);
 
 extern void  TCBL_DeleteTask(struct TcblNode *task);
 
@@ -420,7 +420,7 @@ static inline u16 PrintQueue_WrapOffset(struct PrintQueue *queue, u16 offset)
  * saves the current text colour, applies the head request's colour when its
  * 4-bit kind is 0 or 2, then runs glyphs through PRINTSYS_PrintStep until the
  * string ends or the tick budget at +8 (OS_GetTick is OS_GetTick) runs
- * out.  On string end it pops the request (GF_FONT_GetNextRecord) and moves the
+ * out.  On string end it pops the request (PRINTSYS_GetNextRecord) and moves the
  * glyph cursor to the next record's text in the byte ring at +0x18,
  * wrapping twice at the ring size.  Restores the colour and reports idle.
  *
@@ -493,7 +493,7 @@ u32 PRINTSYS_QUE_Main(struct PrintQueue *queue)
             }
             if (queue->cursor[0] == 0xFFFF) {
                 jobOffset = (u16)((u8 *)queue->job - ring);
-                queue->job = GF_FONT_GetNextRecord(queue, queue->job);
+                queue->job = PRINTSYS_GetNextRecord(queue, queue->job);
                 if (queue->job != 0) {
                     offset = PrintQueue_WrapOffset(queue, jobOffset + 0x1C);
                     offset = PrintQueue_WrapOffset(queue, offset + 4);
@@ -531,7 +531,7 @@ u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp)
             if (job->bmp == bmp) {
                 return 1;
             }
-            job = GF_FONT_GetNextRecord(queue, job);
+            job = PRINTSYS_GetNextRecord(queue, job);
         }
     }
     return 0;
@@ -554,22 +554,22 @@ void PRINTSYS_QUE_Clear(struct PrintQueue *queue)
  * PRINTSYS_SubmitJob decides between drawing straight away and queueing the request
  * into the ring: when the module is not busy and the flags nibble in the byte
  * at +7 is clear it calls PRINTSYS_RunJob directly, otherwise it queues with
- * GF_FONT_EnqueuePrint provided the request fits in the free space GF_FONT_GetQueueFreeSpace
+ * PRINTSYS_EnqueuePrint provided the request fits in the free space PRINTSYS_GetQueueFreeSpace
  * reports.
  *
- * Why it is capped: the `bl` at 0x0201C79C is the only branch to GF_FONT_EnqueuePrint
+ * Why it is capped: the `bl` at 0x0201C79C is the only branch to PRINTSYS_EnqueuePrint
  * anywhere in the image, and no pool word holds the address either, so the
  * `label` class has no witness once the compared range holds that call.  No
  * cut helps, because the range cannot be made smaller than PRINTSYS_SubmitJob and
  * the call is inside it.  The `matched` class would carry it, but
- * GF_FONT_EnqueuePrint is not matched: it is EXACT only in a range that also holds
- * GF_FONT_Copy, and GF_FONT_Copy is four bytes short (the original spills
+ * PRINTSYS_EnqueuePrint is not matched: it is EXACT only in a range that also holds
+ * PRINTSYS_Copy, and PRINTSYS_Copy is four bytes short (the original spills
  * the byte counter and keeps the ring cursor in a callee-saved register; every
  * source shape tried makes the opposite choice).  See the header of
  * src/matched/unit_0201D7C4.c.
  *
- * It closes the day GF_FONT_Copy's register allocation is reproduced, which
- * makes GF_FONT_EnqueuePrint an EXACT entry and the `matched` class applies.
+ * It closes the day PRINTSYS_Copy's register allocation is reproduced, which
+ * makes PRINTSYS_EnqueuePrint an EXACT entry and the `matched` class applies.
  *
  * PRINTSYS_SubmitJob's busy test is normalised to 0 or 1 before it is used, which is
  * what a `!= 0` assigned to a local gives; the flags nibble is read as a four
@@ -605,9 +605,9 @@ void PRINTSYS_SubmitJob(struct PrintQueue *queue, struct PrintCtx *job, struct S
         PRINTSYS_RunJob(job, str);
         return;
     }
-    size = GF_FONT_GetAllocSize(str);
-    if (size <= GF_FONT_GetQueueFreeSpace(queue)) {
-        GF_FONT_EnqueuePrint(queue, job, str);
+    size = PRINTSYS_GetAllocSize(str);
+    if (size <= PRINTSYS_GetQueueFreeSpace(queue)) {
+        PRINTSYS_EnqueuePrint(queue, job, str);
     }
 }
 
@@ -1027,7 +1027,7 @@ u16 *PRINTSYS_ProcGeneralTag(struct PrintCtx *job, u16 *cursor)
         s32 room = (s32)(width - job->pos.bits.originX);
         u32 strWidth;
         u32 unusedMargin = 0;
-        strWidth = (u32)GF_FONT_MeasureTextWidth(cursor, job->font, 0, 0);
+        strWidth = (u32)PRINTSYS_MeasureTextWidth(cursor, job->font, 0, 0);
         {
             u32 margin = 0;
             if (*cursor == 0xF000) {
@@ -1040,7 +1040,7 @@ u16 *PRINTSYS_ProcGeneralTag(struct PrintCtx *job, u16 *cursor)
     case 2: {
         s32 width = BMP_GetWidth(job->bmp);
         s32 room = (s32)(width - job->pos.bits.originX);
-        s32 strWidth = GF_FONT_MeasureTextWidth(cursor, job->font, 0, 0);
+        s32 strWidth = PRINTSYS_MeasureTextWidth(cursor, job->font, 0, 0);
         if (strWidth < room) {
             job->penX = (s16)(job->pos.bits.originX + (room - strWidth) / 2);
         } else {
@@ -1115,11 +1115,11 @@ void PRINTSYS_PrintStream(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, 
 }
 
 /*
- * The printsys text-record constructor: registers GF_FONT_Task as a
+ * The printsys text-record constructor: registers PRINTSYS_Task as a
  * task with a 0x50-byte work area, builds the PrintCtx at +0x34 through
  * PRINTSYS_SetupJob, splits the signed speed argument into the sign/magnitude
  * pairs at +0x18..+0x1D, and initialises every other field of struct Rec
- * (the same layout src/matched/GF_FONT_Task.c consumes).  Returns the
+ * (the same layout src/matched/PRINTSYS_Task.c consumes).  Returns the
  * record.
  *
  * The two-load swap the notes carried at +0x28/+0x30 (a4 read before a1)
@@ -1143,7 +1143,7 @@ struct TextPrinter *PRINTSYS_PrintStreamCallBack(struct BmpWin *win, s16 x, s16 
     u8 speed[2];
 
     bmp = BMP_WIN_GetBmp(win);
-    task = TCBL_AddTask(tcbl, (void *)GF_FONT_Task, 0x50, priority);
+    task = TCBL_AddTask(tcbl, (void *)PRINTSYS_Task, 0x50, priority);
     printer = TCBL_GetWork(task);
 
     printer->task = task;
@@ -1345,41 +1345,41 @@ extern void *memcpy(void *dst, const void *src, u32 n);
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
-void GF_FONT_Apply(struct TextPrinter *printer);
+void PRINTSYS_Apply(struct TextPrinter *printer);
 
-u32 GF_FONT_CountLine(struct Strbuf *text);
+u32 PRINTSYS_CountLine(struct Strbuf *text);
 
-u32 GF_FONT_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, u32 spacing);
+u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, u32 spacing);
 
-u32 GF_FONT_InitCallerSuppliedArray(struct Strbuf *text, struct GfFont *font, u32 spacing, u32 *widths, u32 maxLines);
+u32 PRINTSYS_InitCallerSuppliedArray(struct Strbuf *text, struct GfFont *font, u32 spacing, u32 *widths, u32 maxLines);
 
-u32 GF_FONT_CopyLine(struct Strbuf *src, struct Strbuf *dst, u32 lineNumber);
+u32 PRINTSYS_CopyLine(struct Strbuf *src, struct Strbuf *dst, u32 lineNumber);
 
-u32 GF_FONT_CountLines(struct Strbuf *text, struct GfFont *font);
+u32 PRINTSYS_CountLines(struct Strbuf *text, struct GfFont *font);
 
-u32 GF_FONT_CountControlTag(struct Strbuf *text);
+u32 PRINTSYS_CountControlTag(struct Strbuf *text);
 
-u32 GF_FONT_SearchIndex(struct Strbuf *text, u8 markerId);
+u32 PRINTSYS_SearchIndex(struct Strbuf *text, u8 markerId);
 
-u32 GF_FONT_MeasureText(struct Strbuf *text, u8 markerId, struct GfFont *font, u32 spacing);
+u32 PRINTSYS_MeasureText(struct Strbuf *text, u8 markerId, struct GfFont *font, u32 spacing);
 
-u32 GF_FONT_GetTagChar(void);
+u32 PRINTSYS_GetTagChar(void);
 
-u32 GF_FONT_IsWordSlotTag(const u16 *tag);
+u32 PRINTSYS_IsWordSlotTag(const u16 *tag);
 
-u32 GF_FONT_GetTagGroup(const u16 *tag);
+u32 PRINTSYS_GetTagGroup(const u16 *tag);
 
-void GF_FONT_AppendTag(struct Strbuf *text, u32 group, u32 kind, u16 paramCount, const u16 *params);
+void PRINTSYS_AppendTag(struct Strbuf *text, u32 group, u32 kind, u16 paramCount, const u16 *params);
 
-u32 GF_FONT_GetTagKind(const u16 *tag);
+u32 PRINTSYS_GetTagKind(const u16 *tag);
 
-u32 GF_FONT_GetTagParam(const u16 *tag, u32 paramIndex);
+u32 PRINTSYS_GetTagParam(const u16 *tag, u32 paramIndex);
 
-u16 *GF_FONT_SkipTag(u16 *tag);
+u16 *PRINTSYS_SkipTag(u16 *tag);
 
-u32 GF_FONT_GetAlignedSize(struct Strbuf *text);
+u32 PRINTSYS_GetAlignedSize(struct Strbuf *text);
 
-void *GF_FONT_Copy(struct PrintQueue *queue, const u8 *src, u16 length, u16 unit);
+void *PRINTSYS_Copy(struct PrintQueue *queue, const u8 *src, u16 length, u16 unit);
 
 u32 GF_FONT_GetCharWidth(struct GfFont *font, u16 ch);
 
@@ -1398,7 +1398,7 @@ static inline u32 TagGroupOrNone(u16 code, const u16 *tag)
  * either scrolls the window up by at most four lines (flag bit 1) or, once
  * the wait counter at +0x1e is spent, prints up to glyphsPerTick/overrideGlyphs glyphs through
  * PRINTSYS_PrintStep, handling 0xFFFF (end: state 2), 0xFFFE (line break) and
- * the 0xF000/0xBE control block (GF_FONT_Apply).  State 1 waits on flag
+ * the 0xF000/0xBE control block (PRINTSYS_Apply).  State 1 waits on flag
  * bit 2 and then clears or scrolls the window.
  *
  * Shape facts, each measured against the bytes:
@@ -1424,7 +1424,7 @@ static inline u32 TagGroupOrNone(u16 code, const u16 *tag)
  * `ctx = (struct PrintCtx *)p; ctx = &p->ctx;`. The single
  * `ctx = &p->ctx;` is EXACT in --lang c99 and --lang c.
  */
-void GF_FONT_Task(void *task, struct TextPrinter *printer)
+void PRINTSYS_Task(void *task, struct TextPrinter *printer)
 {
     s32 glyphsThisTick;
     s32 glyphIndex;
@@ -1483,7 +1483,7 @@ void GF_FONT_Task(void *task, struct TextPrinter *printer)
                         break;
                     case 0xF000:
                         if (TagGroupOrNone(code, printer->cursor) == 0xBE) {
-                            GF_FONT_Apply(printer);
+                            PRINTSYS_Apply(printer);
                             if (printer->callback != 0) {
                                 printer->callbackResult = printer->callback(printer->callbackArg);
                                 if (printer->callbackResult != 0)
@@ -1585,7 +1585,7 @@ static inline void SetWaitState(struct TextPrinter *printer, u32 waitKind)
 
 /*
  * Applies the 0xF000 control block the text record's cursor is parked on
- * and steps the cursor past it (struct TextPrinter as in GF_FONT_Task).  The
+ * and steps the cursor past it (struct TextPrinter as in PRINTSYS_Task).  The
  * block's kind (low byte of its second halfword) is a dense 0..9 switch:
  * 0/1 pause for a key (mode 0 or 1) and home the pen, 2 sets the wait,
  * 3/4/9 set the per-glyph delay pair at +0x1a/+0x1b (9 through the
@@ -1605,7 +1605,7 @@ static inline void SetWaitState(struct TextPrinter *printer, u32 waitKind)
  *    those two stores and cases 0/1 stop cross-jumping (20 bytes).
  *  - In the shared tail the pen x copy precedes the pen y clear.
  */
-void GF_FONT_Apply(struct TextPrinter *printer)
+void PRINTSYS_Apply(struct TextPrinter *printer)
 {
     u32 skipLineBreak;
     u8 speed[2];
@@ -1696,10 +1696,10 @@ void GF_FONT_Apply(struct TextPrinter *printer)
  * while folding away the second compare.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GF_FONT_MeasureTextWidth.c
- *       --func GF_FONT_MeasureTextWidth --addr 0x0201D26C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PRINTSYS_MeasureTextWidth.c
+ *       --func PRINTSYS_MeasureTextWidth --addr 0x0201D26C --cc 1.1p1 --thumb
  */
-u32 GF_FONT_MeasureTextWidth(u16 *cursor, struct GfFont *font, u32 spacing, u16 **next)
+u32 PRINTSYS_MeasureTextWidth(u16 *cursor, struct GfFont *font, u32 spacing, u16 **next)
 {
     u32 width;
     u16 code;
@@ -1731,10 +1731,10 @@ u32 GF_FONT_MeasureTextWidth(u16 *cursor, struct GfFont *font, u32 spacing, u16 
  * three header halfwords plus that many payload halfwords.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GF_FONT_CountLine.c
- *       --func GF_FONT_CountLine --addr 0x0201D2C8 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PRINTSYS_CountLine.c
+ *       --func PRINTSYS_CountLine --addr 0x0201D2C8 --cc 1.1p1 --thumb
  */
-u32 GF_FONT_CountLine(struct Strbuf *text)
+u32 PRINTSYS_CountLine(struct Strbuf *text)
 {
     u16 *cursor;
     u32 lineCount;
@@ -1761,7 +1761,7 @@ u32 GF_FONT_CountLine(struct Strbuf *text)
 
 /*
  * printsys.c: the width of the widest line of a multi-line string.  It walks
- * the string object's halfword payload one line at a time with GF_FONT_MeasureTextWidth,
+ * the string object's halfword payload one line at a time with PRINTSYS_MeasureTextWidth,
  * which measures one line and writes the cursor for the next one back through
  * its fourth argument, and keeps the running maximum.  0xFFFF is the string
  * terminator (the same sentinel PRINTSYS_RunJob stops on).
@@ -1770,10 +1770,10 @@ u32 GF_FONT_CountLine(struct Strbuf *text)
  * the loop test reloads it every iteration.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GF_FONT_MeasureWidestLine.c
- *       --func GF_FONT_MeasureWidestLine --addr 0x0201D304 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PRINTSYS_MeasureWidestLine.c
+ *       --func PRINTSYS_MeasureWidestLine --addr 0x0201D304 --cc 1.1p1 --thumb
  */
-u32 GF_FONT_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, u32 spacing)
+u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, u32 spacing)
 {
     u16 *cursor;
     u32 widest;
@@ -1782,7 +1782,7 @@ u32 GF_FONT_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, u32 spac
     widest = 0;
     cursor = STRBUF_GetChars(text);
     while (*cursor != 0xFFFF) {
-        lineWidth = GF_FONT_MeasureTextWidth(cursor, font, spacing, &cursor);
+        lineWidth = PRINTSYS_MeasureTextWidth(cursor, font, spacing, &cursor);
         if (lineWidth > widest) {
             widest = lineWidth;
         }
@@ -1793,15 +1793,15 @@ u32 GF_FONT_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, u32 spac
 /*
  * printsys.c: fills a caller-supplied array with the pixel width of each line
  * of a string object, at most `max` of them, and returns how many were
- * written.  GF_FONT_MeasureTextWidth measures one line and hands back the cursor for the
+ * written.  PRINTSYS_MeasureTextWidth measures one line and hands back the cursor for the
  * next through its fourth argument; the cursor is a stack local because its
  * address is taken.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GF_FONT_InitCallerSuppliedArray.c
- *       --func GF_FONT_InitCallerSuppliedArray --addr 0x0201D33C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PRINTSYS_InitCallerSuppliedArray.c
+ *       --func PRINTSYS_InitCallerSuppliedArray --addr 0x0201D33C --cc 1.1p1 --thumb
  */
-u32 GF_FONT_InitCallerSuppliedArray(struct Strbuf *text, struct GfFont *font, u32 spacing, u32 *widths, u32 maxLines)
+u32 PRINTSYS_InitCallerSuppliedArray(struct Strbuf *text, struct GfFont *font, u32 spacing, u32 *widths, u32 maxLines)
 {
     u16 *cursor;
     u32 lineIndex;
@@ -1812,7 +1812,7 @@ u32 GF_FONT_InitCallerSuppliedArray(struct Strbuf *text, struct GfFont *font, u3
         if (*cursor == 0xFFFF) {
             break;
         }
-        widths[lineIndex] = GF_FONT_MeasureTextWidth(cursor, font, spacing, &cursor);
+        widths[lineIndex] = PRINTSYS_MeasureTextWidth(cursor, font, spacing, &cursor);
         lineIndex++;
     }
     return lineIndex;
@@ -1826,10 +1826,10 @@ u32 GF_FONT_InitCallerSuppliedArray(struct Strbuf *text, struct GfFont *font, u3
  * and copied verbatim in phase two.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GF_FONT_CopyLine.c
- *       --func GF_FONT_CopyLine --addr 0x0201D37C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PRINTSYS_CopyLine.c
+ *       --func PRINTSYS_CopyLine --addr 0x0201D37C --cc 1.1p1 --thumb
  */
-u32 GF_FONT_CopyLine(struct Strbuf *src, struct Strbuf *dst, u32 lineNumber)
+u32 PRINTSYS_CopyLine(struct Strbuf *src, struct Strbuf *dst, u32 lineNumber)
 {
     u16 *tagEnd;
     u16 *cursor;
@@ -1881,10 +1881,10 @@ u32 GF_FONT_CopyLine(struct Strbuf *src, struct Strbuf *dst, u32 lineNumber)
  * increment carries the halfword truncation pair.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GF_FONT_CountLines.c
- *       --func GF_FONT_CountLines --addr 0x0201D42C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PRINTSYS_CountLines.c
+ *       --func PRINTSYS_CountLines --addr 0x0201D42C --cc 1.1p1 --thumb
  */
-u32 GF_FONT_CountLines(struct Strbuf *text, struct GfFont *font)
+u32 PRINTSYS_CountLines(struct Strbuf *text, struct GfFont *font)
 {
     u16 *cursor;
     u16 code;
@@ -1910,9 +1910,9 @@ u32 GF_FONT_CountLines(struct Strbuf *text, struct GfFont *font)
 }
 
 /*
- * Counts the control tags of a message string for which GF_FONT_IsWordSlotTag returns
+ * Counts the control tags of a message string for which PRINTSYS_IsWordSlotTag returns
  * true.  The walk is the one every routine in this neighbourhood uses: 0xF000
- * opens a tag and GF_FONT_SkipTag steps over it, anything else is one halfword,
+ * opens a tag and PRINTSYS_SkipTag steps over it, anything else is one halfword,
  * and 0xFFFF ends the string.
  *
  * The counter and the cursor are interchanged unless the cursor is declared
@@ -1927,7 +1927,7 @@ u32 GF_FONT_CountLines(struct Strbuf *text, struct GfFont *font)
  *   python tools/match.py tu --src src/matched/unit_0201D478.c \
  *       --addr 0x0201D478 --thumb
  */
-u32 GF_FONT_CountControlTag(struct Strbuf *text)
+u32 PRINTSYS_CountControlTag(struct Strbuf *text)
 {
     u16 *cursor;
     u16 count = 0;
@@ -1936,10 +1936,10 @@ u32 GF_FONT_CountControlTag(struct Strbuf *text)
 
     while (cursor[0] != 0xFFFF) {
         if (cursor[0] == 0xF000) {
-            if (GF_FONT_IsWordSlotTag(cursor) != 0) {
+            if (PRINTSYS_IsWordSlotTag(cursor) != 0) {
                 count = (u16)(count + 1);
             }
-            cursor = GF_FONT_SkipTag(cursor);
+            cursor = PRINTSYS_SkipTag(cursor);
         } else {
             cursor = cursor + 1;
         }
@@ -1950,7 +1950,7 @@ u32 GF_FONT_CountControlTag(struct Strbuf *text)
 /*
  * Finds the index of the 0xBD06 tag whose first parameter is the caller's
  * value, counting 0xFFFE separators as it goes.  The tag's parameter is read
- * with GF_FONT_GetTagParam's body written out inline (`p[0] == 0xF000 ? p[3] : 0`),
+ * with PRINTSYS_GetTagParam's body written out inline (`p[0] == 0xF000 ? p[3] : 0`),
  * including the redundant re-test of p[0] that the caller has already made: that
  * guard is in the bytes and removing it costs four instructions.
  *
@@ -1967,7 +1967,7 @@ u32 GF_FONT_CountControlTag(struct Strbuf *text)
  *   python tools/match.py tu --src src/matched/unit_0201D4BC.c \
  *       --addr 0x0201D4BC --thumb
  */
-u32 GF_FONT_SearchIndex(struct Strbuf *text, u8 markerId)
+u32 PRINTSYS_SearchIndex(struct Strbuf *text, u8 markerId)
 {
     u16 *cursor;
     u16 lineBreaks = 0;
@@ -1990,7 +1990,7 @@ u32 GF_FONT_SearchIndex(struct Strbuf *text, u8 markerId)
                     return (u8)lineBreaks;
                 }
             }
-            cursor = GF_FONT_SkipTag(cursor);
+            cursor = PRINTSYS_SkipTag(cursor);
         } else {
             cursor = cursor + 1;
         }
@@ -2017,7 +2017,7 @@ u32 GF_FONT_SearchIndex(struct Strbuf *text, u8 markerId)
  *   python tools/match.py tu --src src/matched/unit_0201D528.c \
  *       --addr 0x0201D528 --thumb
  */
-u32 GF_FONT_MeasureText(struct Strbuf *text, u8 markerId, struct GfFont *font, u32 spacing)
+u32 PRINTSYS_MeasureText(struct Strbuf *text, u8 markerId, struct GfFont *font, u32 spacing)
 {
     u32 width = 0;
     u16 *cursor;
@@ -2061,18 +2061,18 @@ u32 GF_FONT_MeasureText(struct Strbuf *text, u8 markerId, struct GfFont *font, u
 }
 
 /*
- *           GF_FONT_GetTagKind, GF_FONT_GetTagParam, GF_FONT_SkipTag
+ *           PRINTSYS_GetTagKind, PRINTSYS_GetTagParam, PRINTSYS_SkipTag
  *
  * The message-tag primitives of the text stack, seven functions and 216 bytes.
  * A tag is a run of halfwords opening with 0xF000: the halfword at +2 packs a
  * group in its high byte and a kind in its low byte, +4 is the parameter count,
- * and the parameters follow at +6.  GF_FONT_SkipTag steps a cursor over one tag
+ * and the parameters follow at +6.  PRINTSYS_SkipTag steps a cursor over one tag
  * and is what every walker in this region loops on.
  *
  * Three of the seven carry no label in the generated listing, because a
  * two-instruction leaf saves nothing and disasm.py's prologue sweep never fires
  * on it (docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md);
- * GF_FONT_GetTagGroup, GF_FONT_GetTagKind and GF_FONT_GetTagParam were read out of the `.word`
+ * PRINTSYS_GetTagGroup, PRINTSYS_GetTagKind and PRINTSYS_GetTagParam were read out of the `.word`
  * run the listing prints.
  *
  * Three details cost time and each is in an existing idiom:
@@ -2083,12 +2083,12 @@ u32 GF_FONT_MeasureText(struct Strbuf *text, u8 markerId, struct GfFont *font, u
  *   - the group byte is `(u8)(p[1] >> 8)` and the shift is an `asrs`, because
  *     the u16 promotes to a signed int before the shift; writing the field as
  *     u32 gives `lsrs` and one wrong byte.
- *   - GF_FONT_GetTagParam indexes with `*(p + i + 3)`, not `p[3 + i]`.  The subscript
+ *   - PRINTSYS_GetTagParam indexes with `*(p + i + 3)`, not `p[3 + i]`.  The subscript
  *     form folds the addition into the index and scales once, the pointer form
  *     scales `i` and leaves the +3 as the load's immediate, which is
  *     docs/idioms/pointer-minus-one-scales-before-the-subtraction.md.
  *
- * GF_FONT_AppendTag's parameter count is `u16`, not `u32`: it is passed straight to
+ * PRINTSYS_AppendTag's parameter count is `u16`, not `u32`: it is passed straight to
  * STRBUF_AppendChar with no truncation, and a `u32` parameter costs the `lsls` /
  * `lsrs` pair there.
  *
@@ -2098,12 +2098,12 @@ u32 GF_FONT_MeasureText(struct Strbuf *text, u8 markerId, struct GfFont *font, u
  *   python tools/match.py tu --src src/matched/unit_0201D5C4.c \
  *       --addr 0x0201D5C4 --thumb
  */
-u32 GF_FONT_GetTagChar(void)
+u32 PRINTSYS_GetTagChar(void)
 {
     return 0xF000;
 }
 
-u32 GF_FONT_IsWordSlotTag(const u16 *tag)
+u32 PRINTSYS_IsWordSlotTag(const u16 *tag)
 {
     u32 group;
 
@@ -2120,7 +2120,7 @@ u32 GF_FONT_IsWordSlotTag(const u16 *tag)
     return 0;
 }
 
-u32 GF_FONT_GetTagGroup(const u16 *tag)
+u32 PRINTSYS_GetTagGroup(const u16 *tag)
 {
     if (tag[0] == 0xF000) {
         return (u8)(tag[1] >> 8);
@@ -2128,7 +2128,7 @@ u32 GF_FONT_GetTagGroup(const u16 *tag)
     return 0xFF;
 }
 
-void GF_FONT_AppendTag(struct Strbuf *text, u32 group, u32 kind, u16 paramCount, const u16 *params)
+void PRINTSYS_AppendTag(struct Strbuf *text, u32 group, u32 kind, u16 paramCount, const u16 *params)
 {
     u32 index;
 
@@ -2140,7 +2140,7 @@ void GF_FONT_AppendTag(struct Strbuf *text, u32 group, u32 kind, u16 paramCount,
     }
 }
 
-u32 GF_FONT_GetTagKind(const u16 *tag)
+u32 PRINTSYS_GetTagKind(const u16 *tag)
 {
     if (tag[0] == 0xF000) {
         return (u8)tag[1];
@@ -2148,7 +2148,7 @@ u32 GF_FONT_GetTagKind(const u16 *tag)
     return 0xFF;
 }
 
-u32 GF_FONT_GetTagParam(const u16 *tag, u32 paramIndex)
+u32 PRINTSYS_GetTagParam(const u16 *tag, u32 paramIndex)
 {
     if (tag[0] == 0xF000) {
         return *(tag + paramIndex + 3);
@@ -2156,7 +2156,7 @@ u32 GF_FONT_GetTagParam(const u16 *tag, u32 paramIndex)
     return 0;
 }
 
-u16 *GF_FONT_SkipTag(u16 *tag)
+u16 *PRINTSYS_SkipTag(u16 *tag)
 {
     if (tag[0] == 0xF000) {
         return tag + 3 + tag[2];
@@ -2172,20 +2172,20 @@ u16 *GF_FONT_SkipTag(u16 *tag)
  * functions after it are an unsolved register allocation, not a missing
  * declaration; see the note at the end of this comment.
  *
- * GF_FONT_GetAlignedSize sizes a string's storage: two bytes per character plus the
+ * PRINTSYS_GetAlignedSize sizes a string's storage: two bytes per character plus the
  * terminator, rounded up to a multiple of four.  The rounding is a `while`
  * loop over `n & 3`, not an `& ~3` or a `+ 3 & ~3`: this front end has no
  * immediate `bic`, so either of those would materialise the mask and the
  * function would be four bytes shorter with no loop at all.  The loop really
  * is in the original.
  *
- * GF_FONT_GetQueueFreeSpace is the used-byte count of a wrap-around byte ring.  The
+ * PRINTSYS_GetQueueFreeSpace is the used-byte count of a wrap-around byte ring.  The
  * fall-through arm of `cmp r1, r2` / `bhs` is the non-wrapped case, so the
  * source wrote `if (head < tail)` first
  * (docs/idioms/the-fall-through-arm-is-the-source-order.md); written as the
  * wrapped case first it is ten of the twenty bytes wrong.
  *
- * Left open at 0x0201D6D8: GF_FONT_EnqueuePrint and GF_FONT_Copy reproduce the
+ * Left open at 0x0201D6D8: PRINTSYS_EnqueuePrint and PRINTSYS_Copy reproduce the
  * right size and the right instruction multiset but allocate registers the
  * other way round.  The original keeps the ring's write cursor in a
  * callee-saved register across the MI_CpuCopy8 call and spills the loop
@@ -2204,7 +2204,7 @@ u16 *GF_FONT_SkipTag(u16 *tag)
  *   python tools/match.py tu --src src/matched/unit_0201D69C.c \
  *       --addr 0x0201D69C --thumb
  */
-u32 GF_FONT_GetAlignedSize(struct Strbuf *text)
+u32 PRINTSYS_GetAlignedSize(struct Strbuf *text)
 {
     u32 bytes = (STRBUF_GetLength(text) + 1) * 2;
 
@@ -2214,12 +2214,12 @@ u32 GF_FONT_GetAlignedSize(struct Strbuf *text)
     return bytes;
 }
 
-u32 GF_FONT_GetAllocSize(struct Strbuf *text)
+u32 PRINTSYS_GetAllocSize(struct Strbuf *text)
 {
-    return GF_FONT_GetAlignedSize(text) + 0x20;
+    return PRINTSYS_GetAlignedSize(text) + 0x20;
 }
 
-u32 GF_FONT_GetQueueFreeSpace(const struct PrintQueue *queue)
+u32 PRINTSYS_GetQueueFreeSpace(const struct PrintQueue *queue)
 {
     if (queue->head < queue->tail) {
         return queue->tail - queue->head;
@@ -2235,7 +2235,7 @@ u32 GF_FONT_GetQueueFreeSpace(const struct PrintQueue *queue)
  * three wildcarded call fields.
  *
  * Blocked on the `label` class, and it is a one-address wall: all three
- * unresolved sites at +0x24, +0x32 and +0x44 call GF_FONT_Copy, which is the
+ * unresolved sites at +0x24, +0x32 and +0x44 call PRINTSYS_Copy, which is the
  * function *immediately after this one* and whose only callers in the whole
  * image are these three.  The compared range ends where 0x0201D768 begins, so
  * shrinking the range is not possible (the callee cannot go in), and the
@@ -2244,10 +2244,10 @@ u32 GF_FONT_GetQueueFreeSpace(const struct PrintQueue *queue)
  * changes.
  *
  * What it is: the cache-side of a record reader.  It asks
- * GF_FONT_Copy(p, STRBUF_GetChars(c), (u16)GF_FONT_GetAlignedSize(c), 2) for a slot
+ * PRINTSYS_Copy(p, STRBUF_GetChars(c), (u16)PRINTSYS_GetAlignedSize(c), 2) for a slot
  * keyed by the record at `c`, stores a second slot for `b` (0x1c/0x1c) in a
  * stack local, zero-initialises a 4-byte stack local through a third call,
- * and then walks the list hanging off queue->job through GF_FONT_GetNextRecord until it
+ * and then walks the list hanging off queue->job through PRINTSYS_GetNextRecord until it
  * runs out, rebasing the node pointer on p+0x18 and clamping the resulting
  * offset against p->f4 (u16) before a 4-byte memcpy into the local.  When
  * queue->job is null it installs the two slots instead.
@@ -2258,10 +2258,10 @@ u32 GF_FONT_GetQueueFreeSpace(const struct PrintQueue *queue)
  * local, not a single cast.
  *
  * Verified with
- *   python tools/match.py one --src src/pending/GF_FONT_EnqueuePrint.c \
- *       --func GF_FONT_EnqueuePrint --addr 0x0201D6D8 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/PRINTSYS_EnqueuePrint.c \
+ *       --func PRINTSYS_EnqueuePrint --addr 0x0201D6D8 --cc 1.1p1 --thumb
  */
-void GF_FONT_EnqueuePrint(struct PrintQueue *queue, struct PrintCtx *job, struct Strbuf *text)
+void PRINTSYS_EnqueuePrint(struct PrintQueue *queue, struct PrintCtx *job, struct Strbuf *text)
 {
     void *newRecord;
     struct PrintCtx *node;
@@ -2269,15 +2269,15 @@ void GF_FONT_EnqueuePrint(struct PrintQueue *queue, struct PrintCtx *job, struct
     void *textCopy;
     u32 zero;
 
-    textCopy = GF_FONT_Copy(queue, (const u8 *)STRBUF_GetChars(text),
-                           (u16)GF_FONT_GetAlignedSize(text), 2);
-    newRecord = GF_FONT_Copy(queue, (const u8 *)job, 0x1c, 0x1c);
+    textCopy = PRINTSYS_Copy(queue, (const u8 *)STRBUF_GetChars(text),
+                           (u16)PRINTSYS_GetAlignedSize(text), 2);
+    newRecord = PRINTSYS_Copy(queue, (const u8 *)job, 0x1c, 0x1c);
     zero = 0;
-    GF_FONT_Copy(queue, (const u8 *)(&zero), 4, 4);
+    PRINTSYS_Copy(queue, (const u8 *)(&zero), 4, 4);
     node = queue->job;
     if (node != 0) {
         for (;;) {
-            next = GF_FONT_GetNextRecord(queue, node);
+            next = PRINTSYS_GetNextRecord(queue, node);
             if (next == 0) break;
             node = next;
         }
@@ -2296,7 +2296,7 @@ void GF_FONT_EnqueuePrint(struct PrintQueue *queue, struct PrintCtx *job, struct
 /*
  * printsys.c: append `len` bytes to the byte ring at +0x18 in `unit`-sized
  * copies, wrapping the head back to 0 at ring->size, and return the address
- * the first copy landed at.  The three callers are GF_FONT_EnqueuePrint's.
+ * the first copy landed at.  The three callers are PRINTSYS_EnqueuePrint's.
  *
  * Rewritten from the start in wave 20 (lane printsys_fresh; 63 bytes out for
  * the inherited source).  What closed it: the head advance is the compound
@@ -2314,10 +2314,10 @@ void GF_FONT_EnqueuePrint(struct PrintQueue *queue, struct PrintCtx *job, struct
  * static inline accessor RingData(ring), so the plain form is kept.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GF_FONT_Copy.c \
- *       --func GF_FONT_Copy --addr 0x0201D768 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/matched/PRINTSYS_Copy.c \
+ *       --func PRINTSYS_Copy --addr 0x0201D768 --cc 1.1p1 --thumb
  */
-void *GF_FONT_Copy(struct PrintQueue *queue, const u8 *src, u16 length, u16 unit)
+void *PRINTSYS_Copy(struct PrintQueue *queue, const u8 *src, u16 length, u16 unit)
 {
     u16 startOffset;
     u8 *data;
@@ -2354,13 +2354,13 @@ void *GF_FONT_Copy(struct PrintQueue *queue, const u8 *src, u16 length, u16 unit
  * of the four points; a `u16` local folds the redundant casts away and the
  * function is ten bytes short.
  *
- * GF_FONT_EnqueuePrint and GF_FONT_Copy, the two functions in front of this one, are
+ * PRINTSYS_EnqueuePrint and PRINTSYS_Copy, the two functions in front of this one, are
  * still open; see the note in src/matched/unit_0201D69C.c, which this work
- * narrows.  GF_FONT_EnqueuePrint is EXACT when it is compiled in a range with
- * GF_FONT_Copy, and GF_FONT_Copy is four bytes short: the original spills the
+ * narrows.  PRINTSYS_EnqueuePrint is EXACT when it is compiled in a range with
+ * PRINTSYS_Copy, and PRINTSYS_Copy is four bytes short: the original spills the
  * byte counter and keeps the ring cursor in r4, and every source shape tried
- * makes the opposite choice.  Since GF_FONT_Copy's only callers are the three
- * inside GF_FONT_EnqueuePrint the two cannot be cut apart, so neither lands.
+ * makes the opposite choice.  Since PRINTSYS_Copy's only callers are the three
+ * inside PRINTSYS_EnqueuePrint the two cannot be cut apart, so neither lands.
  *
  * Addresses are Black-image addresses.
  *
@@ -2368,7 +2368,7 @@ void *GF_FONT_Copy(struct PrintQueue *queue, const u8 *src, u16 length, u16 unit
  *   python tools/match.py tu --src src/matched/unit_0201D7C4.c \
  *       --addr 0x0201D7C4 --thumb
  */
-struct PrintCtx *GF_FONT_GetNextRecord(struct PrintQueue *queue, struct PrintCtx *job)
+struct PrintCtx *PRINTSYS_GetNextRecord(struct PrintQueue *queue, struct PrintCtx *job)
 {
     u32 offset = (u16)((u8 *)job - &queue->data[0]);
 

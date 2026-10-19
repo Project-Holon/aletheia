@@ -1,5 +1,5 @@
 /*
- * function: WIFIBATTLEMATCH_NET_CompStepM
+ * function: WIFIBATTLEMATCH_NET_CompStepCheckPeriod
  * address: 0x021D9090
  * packet: pkt_ov175_021D9090
  * region: ov175
@@ -72,7 +72,7 @@ extern void BATTLE_BOX_ClearLockFlags(struct Obj *p, int v);
 extern void REGULATION_Card_SetValue(struct Reg2 *,unsigned int,int);
 extern int GAME_DATA_SaveStart(int),GAME_DATA_SaveMain(u8 *);
 extern void MI_CpuFill8(void *,int,unsigned);
-void WIFIBATTLEMATCH_NET_CompStepM(u32 sys,int *state,char *p)
+void WIFIBATTLEMATCH_NET_CompStepCheckPeriod(u32 sys,int *state,char *p)
 {
     char *q=*(char * *)&((struct Obj00728 *)p)->f104;
     struct RTCDate startDate;

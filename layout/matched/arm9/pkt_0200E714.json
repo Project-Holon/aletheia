@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "MISC_SAVEDATA_StoreQuadRecord",
+   "name": "GREETING_SAVEDATA_SetSentence",
    "address": "0x0200E714",
    "kind": "game",
    "region": "arm9",

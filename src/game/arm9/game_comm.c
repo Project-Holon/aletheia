@@ -25,9 +25,9 @@
  *   gGameCommHandlers  0x0209FB70  data
  *   MI_CpuFill8 0x02082BCC  arm
  *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
- *   GAME_DATA_GetPlayerStatusById  0x02012950  thumb
+ *   GAME_DATA_GetMyStatusPlayer  0x02012950  thumb
  *   MYSTATUS_IsNameEmpty  0x020084BC  thumb
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  */
 #include "cursor_move_shared_types.h"
 #include "game_beacon_types.h"
@@ -319,11 +319,11 @@ extern void MI_CpuFill8(void *dst, u8 value, u32 size);
 
 extern u8 GAME_DATA_GetOwnNetId(const struct GameData *gameData);
 
-extern struct MyStatus *GAME_DATA_GetPlayerStatusById(struct GameData *gameData, u32 netId);
+extern struct MyStatus *GAME_DATA_GetMyStatusPlayer(struct GameData *gameData, u32 netId);
 
 extern int MYSTATUS_IsNameEmpty(const struct MyStatus *status);
 
-extern u32 MYSTATUS_GetOutfitVariant(const struct MyStatus *status);
+extern u32 MYSTATUS_GetSex(const struct MyStatus *status);
 
 void GAME_COMM_CallKindNotify(GameComm *comm, u32 arg);
 
@@ -585,7 +585,7 @@ void GAME_COMM_ClearPlayerStatus(GameComm *comm)
  * +0x85, read index at +0x84, which is pushed along when the writer
  * overruns it).  Each net id is resolved to a player status: the console's
  * own (GAME_DATA_GetMyStatus) when it equals the console's net id, otherwise the
- * by-id lookup (GAME_DATA_GetPlayerStatusById).  If either status is unusable
+ * by-id lookup (GAME_DATA_GetMyStatusPlayer).  If either status is unusable
  * (MYSTATUS_IsNameEmpty == 1) nothing is written.
  */
 void GAME_COMM_PushInfoMessage(GameComm *comm, u32 netId0, u32 netId1, u32 messageId)
@@ -599,12 +599,12 @@ void GAME_COMM_PushInfoMessage(GameComm *comm, u32 netId0, u32 netId1, u32 messa
     if (netId0 == GAME_DATA_GetOwnNetId(comm->gameData)) {
         status0 = GAME_DATA_GetMyStatus(comm->gameData);
     } else {
-        status0 = GAME_DATA_GetPlayerStatusById(comm->gameData, netId0);
+        status0 = GAME_DATA_GetMyStatusPlayer(comm->gameData, netId0);
     }
     if (netId1 == GAME_DATA_GetOwnNetId(comm->gameData)) {
         status1 = GAME_DATA_GetMyStatus(comm->gameData);
     } else {
-        status1 = GAME_DATA_GetPlayerStatusById(comm->gameData, netId1);
+        status1 = GAME_DATA_GetMyStatusPlayer(comm->gameData, netId1);
     }
     if (MYSTATUS_IsNameEmpty(status0) == 1) {
         return;
@@ -620,9 +620,9 @@ void GAME_COMM_PushInfoMessage(GameComm *comm, u32 netId0, u32 netId1, u32 messa
     entry->messageId = (u16)messageId;
     entry->used = 1;
     MYSTATUS_NameToStrbuf(status0, entry->name[0]);
-    entry->firstSex = (u8)MYSTATUS_GetOutfitVariant(status0);
+    entry->firstSex = (u8)MYSTATUS_GetSex(status0);
     MYSTATUS_NameToStrbuf(status1, entry->name[1]);
-    entry->secondSex = (u8)MYSTATUS_GetOutfitVariant(status1);
+    entry->secondSex = (u8)MYSTATUS_GetSex(status1);
     queue->writeIndex = (u8)(queue->writeIndex + 1);
     if (queue->writeIndex >= 6) {
         queue->writeIndex = 0;

@@ -19,7 +19,7 @@
  *   COLOSSEUM_Delete  0x0217505C  thumb  ov012
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAME_COMM_GetKind  0x02026454  thumb
- *   SAVEDATA_PanicFail  0x02034714  arm
+ *   GF_PANIC_Fail  0x02034714  arm
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   GAME_COMM_Start  0x020263D8  thumb
  *   GAME_BEACON_SEARCH_SetFieldEvent  0x021653C4  thumb  ov010
@@ -37,7 +37,7 @@
  *   FIELDMAP_IsReady 0x02188BE8 thumb ov021
  *   FIELDMAP_CTRL_GRID_SetBusy  0x021A2E44  thumb  ov021
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
- *   ZONEDATA_IsZone1A6  0x02013CC8  thumb
+ *   ZONEDATA_IsUnionRoom  0x02013CC8  thumb
  *   UNION_CHARA_RefreshParentMarks  0x0217B440  thumb  ov019
  *   COMM_PLAYER_Resume  0x021676E4  thumb  ov010
  *   COMM_PLAYER_Suspend  0x02167688  thumb  ov010
@@ -58,7 +58,7 @@ extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
 
 extern unsigned int GAME_COMM_GetKind(struct GameComm *gameComm);
 
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 
@@ -90,7 +90,7 @@ extern void FIELDMAP_CTRL_GRID_SetBusy(void *fieldMap, unsigned int enable);
 
 extern u16 FIELDMAP_GetZoneId(void *fieldMap);
 
-extern u32 ZONEDATA_IsZone1A6(u32 zoneId);
+extern u32 ZONEDATA_IsUnionRoom(u32 zoneId);
 
 extern void UNION_CHARA_RefreshParentMarks(UnionRoomWork *work, struct GameData *gameData, void *fieldMap);
 
@@ -132,7 +132,7 @@ void UNION_MAIN_StartComm(struct GameSystem *gameSystem)
     gameComm = GAMESYSTEM_GetGameComm(gameSystem);
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     if (GAME_COMM_GetKind(gameComm) != 0) {
-        SAVEDATA_PanicFail(sUnionMainAssertText, 0, sUnionMainAssertText);
+        GF_PANIC_Fail(sUnionMainAssertText, 0, sUnionMainAssertText);
     }
     parent = GFL_HEAP_Alloc(5, sizeof(UnionParentWork), 1, sUnionMainFile, 0x37);
     parent->myStatus = GAME_DATA_GetMyStatus(gameData);
@@ -153,7 +153,7 @@ void UNION_MAIN_UpdateField(struct GameComm *gameComm, void *fieldMap)
     }
     work = GAME_COMM_GetWork(gameComm);
     if (work == 0) {
-        SAVEDATA_PanicFail(sUnionMainAssertText, 0, sUnionMainAssertText);
+        GF_PANIC_Fail(sUnionMainAssertText, 0, sUnionMainAssertText);
     }
     if (GAMESYSTEM_GetFieldMapState(FIELDMAP_GetGameSystem(fieldMap)) == 1) {
         return;
@@ -200,7 +200,7 @@ void UNION_MAIN_FieldCreateCallback(void *gameSystem, UnionRoomWork *work, void 
     if (work->fieldBusy == 1) {
         FIELDMAP_CTRL_GRID_SetBusy(fieldMap, 1);
     }
-    if (ZONEDATA_IsZone1A6(FIELDMAP_GetZoneId(fieldMap)) == 1) {
+    if (ZONEDATA_IsUnionRoom(FIELDMAP_GetZoneId(fieldMap)) == 1) {
         UNION_CHARA_RefreshParentMarks(work, GAMESYSTEM_GetGameData(work->parent->gameSystem), fieldMap);
     }
     if (colosseum != 0 && colosseum->startFlag == 1) {

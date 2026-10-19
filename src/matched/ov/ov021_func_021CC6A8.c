@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PALPARK_CheckGPowerExpire
+ * function: SCRCMD_PALPARK_ClearExpiredGPower
  * address:  0x021CC6A8
  * packet:   pkt_ov021_021CC6A8
  * region:   ov021
@@ -30,7 +30,7 @@ extern void *GPOWER_LoadPowerTable(u32 heap);
 extern void GPOWER_ClearByPowerId(u16 v, void *p);
 extern void GPOWER_FreePowerTable(void *p);
 
-int SCRCMD_PALPARK_CheckGPowerExpire(void *vm, void *ctx)
+int SCRCMD_PALPARK_ClearExpiredGPower(void *vm, void *ctx)
 {
     u16 *a = SCRIPT_WORK_ReadWorkPointer(vm, ctx);
     u16 *b = SCRIPT_WORK_ReadWorkPointer(vm, ctx);

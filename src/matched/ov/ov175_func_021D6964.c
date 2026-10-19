@@ -29,7 +29,7 @@
  *   WIFIBATTLEMATCH_NET_CreateNetContext 0x021D9DC8 thumb ov175
  *   WIFIBATTLEMATCH_UTIL_Create 0x021E8568 thumb ov177
  *   WIFIBATTLEMATCH_UTIL_CreateCallback 0x021E8A3C thumb ov177
- *   WIFIBATTLEMATCH_NET_CompStepA 0x021D6BF4 thumb ov175
+ *   WIFIBATTLEMATCH_NET_CompStepRouteByEntryState 0x021D6BF4 thumb ov175
  *   WIFIBATTLEMATCH_VIEW_CreateActorArray 0x021E7D20 thumb ov177
  *   WIFIBATTLEMATCH_VIEW_SetActorVisible 0x021E7E0C thumb ov177
  *   POKEPARTY_Create 0x0201A920 thumb
@@ -64,7 +64,7 @@ typedef unsigned short u16;
 extern char *WIFIBATTLEMATCH_NET_CreateNetContext(u32 a, void *save, u32 b, u16 heap);
 extern u32 WIFIBATTLEMATCH_UTIL_Create(int,int,int,int,u32,u32,int);
 extern int *WIFIBATTLEMATCH_UTIL_CreateCallback(int,int,int);
-extern void WIFIBATTLEMATCH_NET_CompStepA(u32,void *,char *);
+extern void WIFIBATTLEMATCH_NET_CompStepRouteByEntryState(u32,void *,char *);
 extern void **WIFIBATTLEMATCH_VIEW_CreateActorArray(void *,void *,unsigned);
 extern void WIFIBATTLEMATCH_VIEW_SetActorVisible(void **p, int on);
 extern struct Party *POKEPARTY_Create(u32 heap);
@@ -85,7 +85,7 @@ int WIFIBATTLEMATCH_NET_CompCreate(void *sys,int unused,u32 *ctx)
     p[6]=(u32)WORDSET_Create(8,0x40,87);
     p[0x34/4]=(u32)WIFIBATTLEMATCH_NET_CreateNetContext(((u32 *)p[0x104/4])[0xf],(void *)(*(u32 *)ctx[2]),ctx[7],87);
     p[0x2c/4]=WIFIBATTLEMATCH_UTIL_Create(0,15,14,10,p[4],p[2],87);
-    p[0x38/4]=(u32)WIFIBATTLEMATCH_UTIL_CreateCallback((int)p,(int)WIFIBATTLEMATCH_NET_CompStepA,87);
+    p[0x38/4]=(u32)WIFIBATTLEMATCH_UTIL_CreateCallback((int)p,(int)WIFIBATTLEMATCH_NET_CompStepRouteByEntryState,87);
     p[0x3c/4]=(u32)WIFIBATTLEMATCH_UTIL_CreateCallback((int)p,0,87);
     p[0x28/4]=(u32)WIFIBATTLEMATCH_VIEW_CreateActorArray((void *)WIFIBATTLEMATCH_GRAPHIC_GetCamera((int *)p[0]),(void *)p[1],87);
     WIFIBATTLEMATCH_VIEW_SetActorVisible((void **)p[0x28/4],0);

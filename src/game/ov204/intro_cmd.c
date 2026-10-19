@@ -41,7 +41,7 @@
  *   SAVE_CONTROL_INTR_NoOp 0x021BD39C thumb ov088
  *   SAVE_CONTROL_INTR_IsFinished 0x021BD3A0 thumb ov088
  *   CONFIG_SetTextLanguage 0x020083EC thumb
- *   MYSTATUS_SetOutfitVariant 0x0200854C thumb
+ *   MYSTATUS_SetSex 0x0200854C thumb
  *   GFL_USE_IsAnySeBusy  0x02006238  thumb
  *   PM_VOICE_Start  0x02006A64  thumb
  *   PM_VOICE_IsSlotActive  0x02006BD0  thumb
@@ -60,7 +60,7 @@
  *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   BG_SYS_SetTileEntry 0x02041300 arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
- *   MYSTATUS_GetOutfitVariant 0x02008550 thumb
+ *   MYSTATUS_GetSex 0x02008550 thumb
  *   CLACT_RegisterCharacter 0x0204A6C8 arm
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
@@ -169,7 +169,7 @@ extern int SAVE_CONTROL_INTR_IsFinished(unsigned char *p);
 
 extern void CONFIG_SetTextLanguage(u16*,u32);
 
-extern void MYSTATUS_SetOutfitVariant(struct IntroGameState*,u32);
+extern void MYSTATUS_SetSex(struct IntroGameState*,u32);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 
@@ -207,7 +207,7 @@ extern void BG_SYS_SetTileEntry(u32,int,int,int,u8,u8,u8);
 
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
-extern u8 MYSTATUS_GetOutfitVariant(const struct IntroGameState *obj);
+extern u8 MYSTATUS_GetSex(const struct IntroGameState *obj);
 
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 
@@ -593,7 +593,7 @@ int INTRO_CMD_CmdSetAppliedFlag(u8*p,u32 unused,u32*q){IntroCmdWork *work=(Intro
 /*
  * prototype: 0200854C widened to u32: original has no byte truncation; its u8 prototype added a shift pair.
  */
-int INTRO_CMD_CmdSetConfig(u8*p,u32 unused,u32*q){IntroCmdWork *work=(IntroCmdWork *)p;struct IntroGameState*obj=((IntroArgs *)work->args)->gameState;Bool flag;if(*q==0)flag=B_FALSE;else flag=B_TRUE;MYSTATUS_SetOutfitVariant(obj,flag);return 1;}
+int INTRO_CMD_CmdSetConfig(u8*p,u32 unused,u32*q){IntroCmdWork *work=(IntroCmdWork *)p;struct IntroGameState*obj=((IntroArgs *)work->args)->gameState;Bool flag;if(*q==0)flag=B_FALSE;else flag=B_TRUE;MYSTATUS_SetSex(obj,flag);return 1;}
 
 int INTRO_CMD_CmdMoveVoice(u8 *p, u32 *q)
 {
@@ -684,10 +684,10 @@ int INTRO_CMD_CmdAnimMode(char *p,u32 *q)
     case 2:
         obj=((IntroArgs *)work->args)->gameState;
         if (q[1]==0) {
-            MYSTATUS_SetOutfitVariant(obj,0);
+            MYSTATUS_SetSex(obj,0);
             INTRO_G3D_SetAnimMode(work->g3d,3);
         } else {
-            MYSTATUS_SetOutfitVariant(obj,1);
+            MYSTATUS_SetSex(obj,1);
             INTRO_G3D_SetAnimMode(work->g3d,4);
         }
         (*q)++;
@@ -792,7 +792,7 @@ int INTRO_CMD_CreateActors(char *p)
     u32 i;
     char *row;
     arc=ARC_TOOL_CreateHandle(170,work->heapId);
-    if(MYSTATUS_GetOutfitVariant(((IntroArgs *)work->args)->gameState)==0){
+    if(MYSTATUS_GetSex(((IntroArgs *)work->args)->gameState)==0){
         work->charHandle[0].ptr=(void *)CLACT_RegisterCharacter(arc,6,0,0,work->heapId);
         work->palHandle[0].ptr=(void *)CLACT_RegisterPalette(arc,7,0,0,work->heapId);
         work->cellAnimHandle[0].ptr=(void *)CLACT_RegisterCellAnim(arc,5,4,work->heapId);
@@ -890,7 +890,7 @@ int INTRO_CMD_CmdActorFadeOut(char *p, unsigned *state, unsigned *q)
     return 0;
 }
 
-int INTRO_CMD_CmdCheckConfig(u8*p){IntroCmdWork *work=(IntroCmdWork *)p;if(!MYSTATUS_GetOutfitVariant(((IntroArgs *)work->args)->gameState))return 1;return 0;}
+int INTRO_CMD_CmdCheckConfig(u8*p){IntroCmdWork *work=(IntroCmdWork *)p;if(!MYSTATUS_GetSex(((IntroArgs *)work->args)->gameState))return 1;return 0;}
 
 void INTRO_CMD_CmdSetWordSet(u8*p,u32 a){IntroCmdWork *work=(IntroCmdWork *)p;struct WordSet*q=(struct WordSet *)INTRO_MSG_GetWordSet(work->msg);WORDSET_SetSlotMyStatus(q,a,((IntroArgs *)work->args)->gameState);}
 

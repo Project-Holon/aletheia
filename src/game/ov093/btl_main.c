@@ -176,7 +176,7 @@
  *   MYITEM_SAVEDATA_AddItem 0x02007E50 thumb
  *   GPOWER_ApplyPrizeMoney  0x0201119C  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   BEACON_GetMoney  0x0200C274  thumb
+ *   MISC_GetMoney  0x0200C274  thumb
  *   BTL_CALC_CalcDefeatMoneyLoss  0x021D7FF8  thumb  ov093
  *   BTL_MAIN_GetFieldSituation  0x021B8714  thumb  ov093
  *   NATSUKI_Calc  0x0201B7A0  thumb
@@ -207,7 +207,7 @@
  *   BTL_POKEPARAM_ClearFakeMon  0x021D5854  thumb  ov093
  *   MYSTATUS_Create  0x0200846C  thumb
  *   MYSTATUS_Copy  0x02008494  thumb
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   MYSTATUS_CreateNameStrbuf  0x02008510  thumb
  *   PMSI_PARAM_ClearSentence  0x0202428C  thumb
  *   STRBUF_Clone  0x02045874  arm
@@ -441,7 +441,7 @@ extern int MYITEM_SAVEDATA_RemoveItem(void *,u32,int,u16);
 extern int MYITEM_SAVEDATA_AddItem(void *,u32,int,u16);
 extern u32 GPOWER_ApplyPrizeMoney(u32 v);
 extern void *GAME_DATA_GetMiscSave(struct GameData *gameData);
-extern u32 BEACON_GetMoney(struct Blk34 *p);
+extern u32 MISC_GetMoney(struct Blk34 *p);
 extern u32 BTL_CALC_CalcDefeatMoneyLoss(u32 a, void *b);
 extern struct FieldSituation *BTL_MAIN_GetFieldSituation(struct BtlMain *main);
 extern void NATSUKI_Calc(void *pp, int type, int zoneId, int heap);
@@ -470,7 +470,7 @@ extern unsigned int BTL_MAIN_CountClientTrainers(struct BtlMain *main, int clien
 extern void BTL_POKEPARAM_ClearFakeMon(struct BtlPokeParam *poke);
 extern void *MYSTATUS_Create(int a);
 extern void MYSTATUS_Copy(void *src, void *dst);
-extern u8 MYSTATUS_GetOutfitVariant(const void *myStatus);
+extern u8 MYSTATUS_GetSex(const void *myStatus);
 extern void *MYSTATUS_CreateNameStrbuf(void *a, int tag);
 extern void PMSI_PARAM_ClearSentence(void *a);
 extern void *STRBUF_Clone(void *src, u32 heapId);
@@ -3423,7 +3423,7 @@ u32 BTL_MAIN_CalcPenaltyMoney(struct BtlMain *main)
     penalty = 0;
     if (main->flags.penaltyDone == 0) {
         if (main->setup->competitor <= 1) {
-            maxLoss = BEACON_GetMoney(GAME_DATA_GetMiscSave(main->setup->gameData));
+            maxLoss = MISC_GetMoney(GAME_DATA_GetMiscSave(main->setup->gameData));
             loss = BTL_CALC_CalcDefeatMoneyLoss(main->setup->badgeCount, BTL_SIDE_GetSlotOfClientThunk(&main->sides[1], main->ownClientId));
             if (loss > maxLoss)
                 loss = maxLoss;
@@ -4848,7 +4848,7 @@ void BTL_TRAINER_SLOT_InitPlayer(struct BtlTrainerSlot *slot, int heapId, void *
     MYSTATUS_Copy(playerStatus, handle);
     flag = 0;
     slot->trainerId = 0;
-    if (MYSTATUS_GetOutfitVariant(slot->handle))
+    if (MYSTATUS_GetSex(slot->handle))
         flag = 1;
     slot->trainerType = flag;
     slot->name = MYSTATUS_CreateNameStrbuf(slot->handle, 0x12);

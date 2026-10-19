@@ -1,5 +1,5 @@
 /*
- * function: FIELD_PLAYER_CheckSurfEntryAttr
+ * function: FIELD_PLAYER_CheckWaterfallClimbAttr
  * address:  0x021A3524
  * packet:   pkt_ov021_021A3524
  * region:   ov021
@@ -24,7 +24,7 @@ int MAP_ATTR_IsBlocked(u32 attr);
 u16 MAP_ATTR_GetTerrainId(u32 attr);
 int MAP_ATTR_IsWaterfall(u16 id);
 
-int FIELD_PLAYER_CheckSurfEntryAttr(u8 *a, int b, int c)
+int FIELD_PLAYER_CheckWaterfallClimbAttr(u8 *a, int b, int c)
 {
     int r = FIELD_PLAYER_GetFormCode(a);
 

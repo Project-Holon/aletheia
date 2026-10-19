@@ -13,7 +13,7 @@
  * symbols:
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb
  *   GAME_COMM_GetGameData  0x02026478  thumb
- *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  */
 
 typedef unsigned char u8;
@@ -24,13 +24,13 @@ struct BigObj;
 extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
 typedef unsigned int   u32;
 extern u32 GAME_COMM_GetGameData(void *obj);
-extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+extern u8 GAME_DATA_GetOwnNetId(const struct BigObj *p);
 
 int INTRUDE_COMM_GetPlayerNetId(void *p)
 {
     u8 *q = (u8 *)INTRUDE_COMM_GetWorkIfRunning((int)p);
     if (q == 0) {
-        return GAME_DATA_GetExitMode((const struct BigObj *)GAME_COMM_GetGameData(p));
+        return GAME_DATA_GetOwnNetId((const struct BigObj *)GAME_COMM_GetGameData(p));
     }
     return q[0x911];
 }

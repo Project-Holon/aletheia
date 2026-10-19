@@ -119,7 +119,7 @@
  *   MYSTERY_DATA_HasCardSpace 0x0200A0C8 thumb
  *   MYSTERY_DATA_IsMainSave 0x0200A350 thumb
  *   PROCSYS_PushGlobal 0x020312CC arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   gNetSaveMainProc 0x021D6338 data ov115 a4
  *   ov115_id 0x00000073 data a1
  *   MYSTERY_ALBUM_Delete 0x021DD980 thumb ov121
@@ -155,7 +155,7 @@
  *   POKE_TOOL_SetAbility 0x02018A00 thumb
  *   STRBUF_GetEosChar 0x02045A98 arm
  *   MYSTATUS_GetName 0x020084F4 thumb
- *   MYSTATUS_GetOutfitVariant 0x02008550 thumb
+ *   MYSTATUS_GetSex 0x02008550 thumb
  *   MSGDATA_AllocString 0x02045EC0 arm
  *   POKE_TOOL_CastToBoxParam 0x020185F0 thumb
  *   SAVE_EVENT_WriteWithDate 0x0202F2AC thumb
@@ -533,7 +533,7 @@ extern int MYSTERY_ALBUM_GetWindowState(char *p);
 extern void MYSTERY_ALBUM_DeleteWork(struct Obj *obj);
 extern void MYSTERY_ALBUM_UpdateWindows(char *p);
 extern void PROCSYS_PushGlobal(u32,u32,u32);
-extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 extern void MYSTERY_ALBUM_Delete(char *);
 extern void MYSTERY_ALBUM_DeleteSlotWork(void **);
 extern void MYSTERY_UTIL_MarkTaskDone(u32 *p);
@@ -566,7 +566,7 @@ extern void POKE_TOOL_PushMove(void *p, int move);
 extern void POKE_TOOL_SetAbility(void *,u32,u32);
 extern u16 STRBUF_GetEosChar(void);
 extern const void *MYSTATUS_GetName(const void *p);
-extern u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetSex(const struct Sub0200852CObj *obj);
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void *POKE_TOOL_CastToBoxParam(void *);
 extern void SAVE_EVENT_WriteWithDate(void *,u32,u32,u32,u32);
@@ -1630,7 +1630,7 @@ void MYSTERY_TaskNetExit(void *task,u32 *state,u8 *p)
         ((MysteryWork *)p)->textBox=MYSTERY_UTIL_CreateMenuWindow(1,15,((MysteryWork *)p)->printQueue.ptr,((MysteryWork *)p)->font.ptr,29);
         MYSTERY_UTIL_DrawMenuWindow(((MysteryWork *)p)->textBox,10,14);
         G2x_SetBlendAlpha_((void *)0x04000050,4,24,15,3);
-        GFL_NET_RestartWithDefaultTimeout(1,29);
+        GFL_NET_RefreshWmIconAtTopRight(1,29);
         GFL_USE_CancelChangeAndPlayBgm(1154,65535);
         MYSTERY_SetScrollParam((unsigned int *)(p+312),1);
         *state=4; return;
@@ -1992,7 +1992,7 @@ void MYSTERY_CreateReceivedMon(u8 *out,void *owner,const u8 *desc,void *save,voi
         else POKE_TOOL_SetPartyValue(allocated,142,(u32)(desc+74));
         value=desc[90];
         if(value<=2) POKE_TOOL_SetPartyValue(allocated,154,value);
-        else {value=MYSTATUS_GetOutfitVariant((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(save));POKE_TOOL_SetPartyValue(allocated,154,value);}
+        else {value=MYSTATUS_GetSex((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(save));POKE_TOOL_SetPartyValue(allocated,154,value);}
         if(desc[92]) {
             POKE_TOOL_SetPartyValue(allocated,76,1);
             str=MSGDATA_AllocString(gSpeciesNameBank,650);

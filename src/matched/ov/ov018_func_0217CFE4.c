@@ -21,7 +21,7 @@
  *   INTRUDE_SUBDISP_ClactResourceLoad  0x0217D918  thumb  ov018
  *   INTRUDE_SUBDISP_ClactActorCreate  0x0217DA54  thumb  ov018
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   GFL_NET_WM_ICON_EasyObjWindowOn  0x02037174  arm
  *   func_020056A0  0x020056A0  thumb
  *   INTRUDE_SUBDISP_VBlankTask  0x0217D5AC  thumb  ov018
@@ -62,7 +62,7 @@ void INTRUDE_SUBDISP_BmpWinSetup(u8 *w);
 void INTRUDE_SUBDISP_ClactResourceLoad(u8 *w, void *bg);
 void INTRUDE_SUBDISP_ClactActorCreate(void *p, void *bg);
 void ARC_TOOL_DeleteHandle(void *bg);
-void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 void GFL_NET_WM_ICON_EasyObjWindowOn(void);
 void *func_020056A0(void (*cb)(void), void *arg, int pri);
 void INTRUDE_SUBDISP_VBlankTask(int a0, u8 *p);
@@ -120,7 +120,7 @@ u8 *INTRUDE_SUBDISP_Init(void *a)
     INTRUDE_SUBDISP_ClactResourceLoad(w, bg);
     INTRUDE_SUBDISP_ClactActorCreate(w, bg);
     ARC_TOOL_DeleteHandle(bg);
-    GFL_NET_RestartWithDefaultTimeout(0, 0x15);
+    GFL_NET_RefreshWmIconAtTopRight(0, 0x15);
     GFL_NET_WM_ICON_EasyObjWindowOn();
     REG_WINOUT_SUB = (u16)((REG_WINOUT_SUB & ~0x3F00) | (0x1F << 8));
     tmp = (REG_WINOUT_SUB & ~0x3F) | 0x1F;

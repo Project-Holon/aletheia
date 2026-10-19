@@ -36,7 +36,7 @@
  *
  * This range stops at 0x0200B5CC and src/matched/unit_0200B5CC.c starts
  * there, because BATTLE_REC_IsMagicBroken and BATTLE_REC_IsValid are each called exactly
- * twice in the image, once from BATTLE_REC_LoadToWork and once from BATTLE_REC_CheckSaved;
+ * twice in the image, once from BATTLE_REC_LoadToWork and once from BATTLE_REC_VerifyAndCloseSave;
  * one range holding both pairs has no witness left for either and caps at
  * MATCH with every byte right.  Cut between them, each file is the other's
  * witness.  See

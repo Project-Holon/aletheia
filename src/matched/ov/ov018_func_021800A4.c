@@ -21,7 +21,7 @@
  *   INTRUDE_COMM_ClearRequestResult  0x0217553C  thumb  ov011
  *   FIELDMAP_GetMmdlSys  0x02188C7C  thumb  ov021
  *   FLDMMDL_SysPauseMove  0x0216D9A0  thumb  ov010
- *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
+ *   GAME_DATA_GetMyStatusPlayer  0x02012950  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   EVENT_COMM_COMMON_PrintMsg  0x0217F3C4  thumb
  *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010
@@ -84,7 +84,7 @@ int INTRUDE_COMM_GetWorkIfRunning(int a0);
 void INTRUDE_COMM_ClearRequestResult(u8 *);
 void *FIELDMAP_GetMmdlSys(u8 *p);
 void FLDMMDL_SysPauseMove(void *);
-struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, u32 i);
+struct Rec44 *GAME_DATA_GetMyStatusPlayer(struct Sub24 *p, u32 i);
 void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 void EVENT_COMM_COMMON_PrintMsg(Ov018Obj *p, int a);
 int FLDMMDL_CheckPossibleAcmd(int a0);
@@ -131,7 +131,7 @@ int EVENT_COMM_COMMON_TalkedEventMain(void *a, int *state, Outer *c)
     case 0:
         INTRUDE_COMM_ClearRequestResult(v);
         FLDMMDL_SysPauseMove(FIELDMAP_GetMmdlSys(c->f0C));
-        WORDSET_SetSlotMyStatus(c->obj.f00, 0, GAME_DATA_GetPlayerStatus(w, v[0x154]));
+        WORDSET_SetSlotMyStatus(c->obj.f00, 0, GAME_DATA_GetMyStatusPlayer(w, v[0x154]));
         EVENT_COMM_COMMON_PrintMsg(&c->obj, 1);
         (*state)++;
         break;

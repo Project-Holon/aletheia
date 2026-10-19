@@ -11,20 +11,20 @@
  *
  * Promoted from src/pending/sub_0201F094.c: every concrete byte was
  * already reproduced, and the one relocation, the call to
- * BMP_OAM_Get, was capped at MATCH because the only branch to that
+ * NATION_AREA_GetAreaMsgBank, was capped at MATCH because the only branch to that
  * address anywhere in the image is the one inside this function. Now
  * that src/matched/sub_02025B94.c is an EXACT entry, the `matched` class
  * attests the call without needing a second caller, and this file closes
  * to EXACT.
  *
  * A wordset.c setter that maps a caller value to a message id through
- * BMP_OAM_Get and renders it. That is why the wordset.c setter run is
+ * NATION_AREA_GetAreaMsgBank and renders it. That is why the wordset.c setter run is
  * committed as src/matched/unit_0201F020.c and
  * src/matched/unit_0201F0F8.c with this function left out between them;
  * it can now be folded back in on a future pass.
  *
  * symbols:
- *   BMP_OAM_Get  0x02025B94  thumb
+ *   NATION_AREA_GetAreaMsgBank  0x02025B94  thumb
  *   MYSTATUS_NameToStrbuf  0x02008500  thumb
  *   MSGDATA_Delete  0x02045C04  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
@@ -53,7 +53,7 @@ extern u32 MSGDATA_Delete(struct Rec *rec);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 extern u16 func_02045F50(const struct Obj *o);
 extern void  MYSTATUS_NameToStrbuf(void *a, void *b);
-extern u32   BMP_OAM_Get(u32 a);
+extern u32   NATION_AREA_GetAreaMsgBank(u32 a);
 extern u32 TPOKE_DATA_GetRecordField(void *a, u32 idx);
 extern void func_0200785C(void *save, u32 box, void *dest);
 
@@ -79,7 +79,7 @@ extern void WORDSET_SetSlotFromMsgBF(struct WordSet *p, u32 i, u32 v);
 
 void WORDSET_SetSlotFromKeyedMessage(struct WordSet *p, u32 i, u32 a, u32 n)
 {
-    u32 id = BMP_OAM_Get(a);
+    u32 id = NATION_AREA_GetAreaMsgBank(a);
     void *s;
 
     if (id != 0 && n != 0) {

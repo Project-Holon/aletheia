@@ -33,7 +33,7 @@
  *   OEKAKI_EnableDisplays  0x02186564  thumb  ov023
  *   OEKAKI_RegisterNetCommands  0x021841E0  thumb  ov023
  *   OEKAKI_RegisterMetPlayers  0x021866C4  thumb  ov023
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  * Addresses are Black-image addresses.
  */
@@ -79,7 +79,7 @@ extern void OEKAKI_CreateWindows(W *p, void *task);
 extern void OEKAKI_EnableDisplays(void);
 extern void OEKAKI_RegisterNetCommands(u32 a);
 extern void OEKAKI_RegisterMetPlayers(u32 *p);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void ARC_TOOL_DeleteHandle(void *h);
 
 int OEKAKI_Init(void *task, int *state, u32 arg)
@@ -112,7 +112,7 @@ int OEKAKI_Init(void *task, int *state, u32 arg)
         OEKAKI_EnableDisplays();
         OEKAKI_RegisterNetCommands((u32)w);
         OEKAKI_RegisterMetPlayers((u32 *)w);
-        GFL_NET_RestartWithDefaultTimeout(1, 0x28);
+        GFL_NET_RefreshWmIconAtTopRight(1, 0x28);
         ARC_TOOL_DeleteHandle(h);
         (*state)++;
         break;

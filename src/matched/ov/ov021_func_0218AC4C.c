@@ -1,5 +1,5 @@
 /*
- * function: FIELD_EVENT_CHECK_CheckSaveFlagMessage
+ * function: FIELD_EVENT_CHECK_CheckMovePokemonCooldown
  * address:  0x0218AC4C
  * packet:   pkt_ov021_0218AC4C
  * region:   ov021
@@ -35,7 +35,7 @@ extern u16 FIELDMAP_GetHeapId(u8 *p);
 struct Desc;
 extern struct Desc *SCRIPT_SYS_CreateScriptEventSimple(int a0, int a1, int a2, int a3);
 
-int FIELD_EVENT_CHECK_CheckSaveFlagMessage(u8 *pos, void *msg, void *sys)
+int FIELD_EVENT_CHECK_CheckMovePokemonCooldown(u8 *pos, void *msg, void *sys)
 {
     if ((u8)MOVE_POKEMON_SAVE_TickCooldown(MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(sys))))
         return (int)SCRIPT_SYS_CreateScriptEventSimple((int)msg, 0x2792, 0, FIELDMAP_GetHeapId(pos));

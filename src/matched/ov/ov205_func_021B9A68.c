@@ -13,11 +13,11 @@
  *   RTC_GetDate 0x02088864 arm
  *   GAME_DATA_GetMyParty 0x02012934 thumb
  *   GAME_DATA_GetSaveBlock42 0x02012F68 thumb
- *   MISC_SAVEDATA_SnapshotParty 0x0200EA3C thumb
+ *   DENDOU_SAVEDATA_SetRecord 0x0200EA3C thumb
  */
 #include "../include/Obj14630.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-struct Rec; struct BigObj; struct Date; extern void RTC_GetDate(void *); extern void *GAME_DATA_GetMyParty(const struct BigObj *);extern void *GAME_DATA_GetSaveBlock42(void **);extern void MISC_SAVEDATA_SnapshotParty(struct Rec *,void *,struct Date *,u32);
-void SAVE_SCREEN_SnapshotParty(char *p) { u32 date[4];void *party,*rec;RTC_GetDate(date);party=GAME_DATA_GetMyParty(*(struct BigObj * *)&((struct Obj14630 *)p)->f4);rec=GAME_DATA_GetSaveBlock42(*(void ** *)&((struct Obj14630 *)p)->f4);MISC_SAVEDATA_SnapshotParty(rec,party,(struct Date *)date,4); }
+struct Rec; struct BigObj; struct Date; extern void RTC_GetDate(void *); extern void *GAME_DATA_GetMyParty(const struct BigObj *);extern void *GAME_DATA_GetSaveBlock42(void **);extern void DENDOU_SAVEDATA_SetRecord(struct Rec *,void *,struct Date *,u32);
+void SAVE_SCREEN_SnapshotParty(char *p) { u32 date[4];void *party,*rec;RTC_GetDate(date);party=GAME_DATA_GetMyParty(*(struct BigObj * *)&((struct Obj14630 *)p)->f4);rec=GAME_DATA_GetSaveBlock42(*(void ** *)&((struct Obj14630 *)p)->f4);DENDOU_SAVEDATA_SetRecord(rec,party,(struct Date *)date,4); }

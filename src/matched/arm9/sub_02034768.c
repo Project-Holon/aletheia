@@ -1,5 +1,5 @@
 /*
- * function: GF_OVERLAY_PanicInit
+ * function: GF_PANIC_Init
  * address:  0x02034768
  * packet:   pkt_02034734
  * region:   arm9
@@ -59,8 +59,8 @@
  * merged `(x & ~0xFF) | 0x21`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GF_OVERLAY_PanicInit.c \
- *       --func GF_OVERLAY_PanicInit --addr 0x02034768 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_PANIC_Init.c \
+ *       --func GF_PANIC_Init --addr 0x02034768 --cc 1.1p1 --arm
  */
 
 typedef unsigned char      u8;
@@ -103,7 +103,7 @@ extern void  TEXTPRINT_Init(u32 a);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
-void GF_OVERLAY_PanicInit(void)
+void GF_PANIC_Init(void)
 {
     u16 ime;
     void *chars;

@@ -16,7 +16,7 @@
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   CLACT_SetActorAutoAnim 0x0204B92C arm
  *   func_021F9260 0x021F9260 thumb ov135
- *   WORLDTRADE_ENTER_CreateListMenu 0x021F8908 thumb ov135
+ *   WORLDTRADE_DEPOSIT_CreateListMenu 0x021F8908 thumb ov135
  *   WORLDTRADE_INPUT_PrintPageNumberB 0x021FB364 thumb ov135
  *   WORLDTRADE_INPUT_PlayCursorSe 0x021F9EEC thumb ov135
  *   WORLDTRADE_INPUT_PrintPageLabel 0x021FBF04 thumb ov135
@@ -46,7 +46,7 @@ struct Obj;
 extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int);
 extern void CLACT_SetActorAutoAnim(struct Obj *,u32);
 extern void func_021F9260(void *,u32);
-extern int WORLDTRADE_ENTER_CreateListMenu(void **menu, void *msg, int id);
+extern int WORLDTRADE_DEPOSIT_CreateListMenu(void **menu, void *msg, int id);
 extern void WORLDTRADE_INPUT_PrintPageNumberB(void *,int,int);
 extern u32 WORLDTRADE_INPUT_PlayCursorSe(u8 *p, u32 n);
 extern void WORLDTRADE_INPUT_PrintPageLabel(void *,void *,void *,int,u32);
@@ -57,7 +57,7 @@ int WORLDTRADE_INPUT_DrawConditionListScreen(u8 *p)
     u8 pages;
     BGWINFRM_SetFrameDataArc(((struct Obj00437 *)p)->f18,0,0x60,0x18,1);
     func_021F9260(p,3);
-    ((struct Obj00437 *)p)->f58=WORLDTRADE_ENTER_CreateListMenu((void **)(p+0x30),((struct Obj00437 *)p)->f28,((struct Obj00437 *)p)->f3A+tbl_02203324[((struct Obj00437 *)p)->f38]);
+    ((struct Obj00437 *)p)->f58=WORLDTRADE_DEPOSIT_CreateListMenu((void **)(p+0x30),((struct Obj00437 *)p)->f28,((struct Obj00437 *)p)->f3A+tbl_02203324[((struct Obj00437 *)p)->f38]);
     WORLDTRADE_INPUT_PrintPageNumberB(p,0,((struct Obj00437 *)p)->f58);
     ((struct Obj00437 *)p)->f56=0;
     pages=WORLDTRADE_INPUT_PlayCursorSe((u8 *)(((struct Obj00437 *)p)->f58),5);

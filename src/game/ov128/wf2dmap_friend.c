@@ -56,7 +56,7 @@
  *   BMP_SetDisplaySwap 0x0204363C arm
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   WF2DMAP_TOUCH_CreatePalAnims 0x021CA0BC thumb ov128
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
@@ -163,7 +163,7 @@
  *   CLACT_IsActorAnimActive 0x0204B98C arm
  *   gWf2dmapFriendKeyErrorMsgIds 0x021CA4F9 data a1
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
- *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
+ *   PRINTSYS_MeasureWidestLine 0x0201D304 thumb
  *   MSGDATA_AllocString 0x02045EC0 arm
  *   APP_TASKMENU_RES_Create 0x02027F60 thumb
  *   WF2DMAP_TOUCH_ClearSlotArray 0x021CA444 thumb ov128
@@ -359,7 +359,7 @@ extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern void BMP_SetDisplaySwap(u32 swap);
 extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 extern void WF2DMAP_TOUCH_CreatePalAnims(void *,int);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
@@ -454,7 +454,7 @@ extern u32 WIPE_SYS_EndCheck(void);
 extern s32 BLINK_PALANM_Update(struct Row *p);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, u32 font, u32 printQue, u16 heap);
 extern void WF2DMAP_TOUCH_ClearSlotArray(char *);
@@ -874,7 +874,7 @@ void Wf2dmapFriend_InitGfx(char *p,void *q,u16 heap)
     Wf2dmapFriend_SetVramBanks((void *)0x180);
     Wf2dmapFriend_InitBg(p,heap); Wf2dmapFriend_InitActors(p,heap); Wf2dmapFriend_InitFont((u8 *)p,heap);
     Wf2dmapFriend_InitWindows((u8 *)p,q,heap); Wf2dmapFriend_CreateListActors(p,heap); Wf2dmapFriend_LoadBmps((u8 *)p,heap); WF2DMAP_TOUCH_CreatePalAnims(p,heap);
-    GFL_NET_RestartWithDefaultTimeout(1,52); BG_SYS_SetMainPlaneVisible(16,1); BG_SYS_SetSubPlaneVisible(16,1);
+    GFL_NET_RefreshWmIconAtTopRight(1,52); BG_SYS_SetMainPlaneVisible(16,1); BG_SYS_SetSubPlaneVisible(16,1);
 }
 
 
@@ -1494,7 +1494,7 @@ void Wf2dmapFriend_InitListScreen(Wf2dmapFriendListScreen *p, u8 *a, u8 *ctx, u1
     for(i=0;i<3;i++) {
         MSGDATA_ReadString(((Wf2dmapTouchGfx *)ctx)->msgBank,i+1,text);
         WORDSET_CopyTaggedText(((Wf2dmapTouchGfx *)ctx)->wordSet,buf,text);
-        width=GF_FONT_MeasureWidestLine((struct StrObj *)((u32)buf),((Wf2dmapTouchGfx *)ctx)->palWinU32,0);
+        width=PRINTSYS_MeasureWidestLine((struct StrObj *)((u32)buf),((Wf2dmapTouchGfx *)ctx)->palWinU32,0);
         TOUCHBAR_PrintAligned((u8 *)p+12,(void *)(((Wf2dmapTouchGfx *)ctx)->printWin),(192-width)/2,i*40+8,(u32)buf,((Wf2dmapTouchGfx *)ctx)->palWinU32,0x440,0);
     }
     WF2DMAP_TOUCH_TransferScreen(((Wf2dmapFriendListScreen *)p)->windowA);

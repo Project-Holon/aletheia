@@ -117,7 +117,7 @@
  *   NNS_G3dGetTex  0x0206E964  arm
  *   ARC_UTIL_LoadBgCharDataFromArchive  0x02049DB4  arm
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   G3D_SYSTEM_SetSwapBuffersMode  0x02046BE0  arm
  *   d_021DE3E4     0x021DE3E4  data  ov021  a4
  *   d_021DE3F4     0x021DE3F4  data  ov021  a4
@@ -137,7 +137,7 @@
  *   WORDSET_Delete  0x0201ED04  thumb
  *   WORDSET_AppendUnpackedString  0x0201F4A0  thumb
  *   GF_FONT_Create  0x0201D7EC  thumb
- *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
+ *   PRINTSYS_MeasureWidestLine  0x0201D304  thumb
  *   GF_FONT_Delete  0x0201D83C  thumb
  *   TEXT_TEXTURE_LoadTexPlttByName  0x0216FAB4  thumb  ov010
  *   MSGDATA_Delete  0x02045C04  arm
@@ -370,7 +370,7 @@ extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 archiveID, u32 memberIdx, u3
 
 extern void *GAME_DATA_GetMyStatus(void *gameData);
 
-extern u8 MYSTATUS_GetOutfitVariant(const void *playerStatus);
+extern u8 MYSTATUS_GetSex(const void *playerStatus);
 
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 
@@ -398,7 +398,7 @@ extern void WORDSET_AppendUnpackedString(void *dst, void *src);
 
 extern void *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
-extern u32 GF_FONT_MeasureWidestLine(void *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(void *s, u32 a, u32 b);
 
 extern u32 GF_FONT_Delete(void *ptr);
 
@@ -1513,7 +1513,7 @@ int FLD3D_CI_NameExtraTask(void *event, int *state)
             break;
         }
         ci->canvas = BMP_Create(16, 16, 32, ci->heapId);
-        if (MYSTATUS_GetOutfitVariant(playerStatus) == 0) {
+        if (MYSTATUS_GetSex(playerStatus) == 0) {
             chrFile = 0;
             plttFile = 0x16;
         } else {
@@ -1633,7 +1633,7 @@ void FLD3D_CI_DrawMessageTexture(void *playerStatus, Fld3dCi *ci, const char *te
     xOffset = 0;
     if (centered != 0) {
         font = GF_FONT_Create(0x17, 0, 0, 0, heapId);
-        xOffset = GF_FONT_MeasureWidestLine(text, (u32)font, 0);
+        xOffset = PRINTSYS_MeasureWidestLine(text, (u32)font, 0);
         GF_FONT_Delete(font);
         xOffset = 0x3c - xOffset;
         if (xOffset < 0)

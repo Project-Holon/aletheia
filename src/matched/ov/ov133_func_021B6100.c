@@ -25,7 +25,7 @@
  *   MUSICAL_SAVE_GetFittingSetting 0x0200A828 thumb
  *   MUSICAL_SAVE_SetFittingSetting 0x0200A834 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   d_021BA600 0x021BA600 data a4
  */
 typedef unsigned char u8;
@@ -48,7 +48,7 @@ struct Big;
 extern u32 MUSICAL_SAVE_GetFittingSetting(struct Big *p);
 extern void MUSICAL_SAVE_SetFittingSetting(struct Big *p, u8 value);
 extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
-extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 u8 *DUP_FITTING_Create(u8 *parent, int heap)
 {
     u8 *p = func_02030734(heap, 0x18f0, 1, d_021BA600, 0x1de);
@@ -109,6 +109,6 @@ u8 *DUP_FITTING_Create(u8 *parent, int heap)
         *(u32 *)(p + 0x1840) = 0;
     }
     GFL_USE_CancelChangeAndPlayBgm(0x454, 0xffff);
-    GFL_NET_RestartWithDefaultTimeout(0, *(u16 *)p);
+    GFL_NET_RefreshWmIconAtTopRight(0, *(u16 *)p);
     return p;
 }

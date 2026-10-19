@@ -16,10 +16,10 @@
  * symbols:
  *   ZONEDATA_GetHeader  0x02013AD0  thumb
  *   ZONEDATA_GetChangedZoneId  0x02013A94  thumb
- *   ZONEDATA_IsZone1A6  0x02013CC8  thumb
+ *   ZONEDATA_IsUnionRoom  0x02013CC8  thumb
  *   ZONEDATA_IsZone96Pair  0x02013CE0  thumb
  *   ZONEDATA_IsZone4BPair  0x02013D00  thumb
- *   ZONEDATA_IsZone117  0x02013D5C  thumb
+ *   ZONEDATA_IsEntralink  0x02013D5C  thumb
  *   ZONEDATA_IsZoneGroup118To13C  0x02013D74  thumb
  *
  * alias: the last id predicate, ZONEDATA_IsNormalFieldZone, and three more leaf accessors
@@ -29,7 +29,7 @@
  * be attested, only the call to it.
  *
  * ZONEDATA_IsNormalFieldZone returns true only when NONE of five predicates
- * (ZONEDATA_IsZone1A6, ZONEDATA_IsZone96Pair, ZONEDATA_IsZone4BPair, ZONEDATA_IsZone117, ZONEDATA_IsZoneGroup118To13C)
+ * (ZONEDATA_IsUnionRoom, ZONEDATA_IsZone96Pair, ZONEDATA_IsZone4BPair, ZONEDATA_IsEntralink, ZONEDATA_IsZoneGroup118To13C)
  * match, written as the direct disjunction `if (a || b || c || d || e)
  * return 0; return 1;`.  Splitting the disjunction into two `if`s, or
  * writing the same thing as `if (x) return 0;` five times, both changed
@@ -68,10 +68,10 @@ typedef unsigned int   u32;
 
 extern void *ZONEDATA_GetHeader(u32 id);
 extern u16 ZONEDATA_GetChangedZoneId(u32 key);
-extern u32   ZONEDATA_IsZone1A6(u32 id);
+extern u32   ZONEDATA_IsUnionRoom(u32 id);
 extern u32   ZONEDATA_IsZone96Pair(u32 id);
 extern u32   ZONEDATA_IsZone4BPair(u32 id);
-extern u32   ZONEDATA_IsZone117(u32 id);
+extern u32   ZONEDATA_IsEntralink(u32 id);
 extern int ZONEDATA_IsZoneGroup118To13C(u32 key);
 
 struct Sub02013AD0Rec {
@@ -94,8 +94,8 @@ u32 ZONEDATA_IsZone4E(u32 id)
 
 u32 ZONEDATA_IsNormalFieldZone(u32 id)
 {
-    if (ZONEDATA_IsZone1A6(id) || ZONEDATA_IsZone96Pair(id) || ZONEDATA_IsZone4BPair(id) ||
-        ZONEDATA_IsZone117(id) || ZONEDATA_IsZoneGroup118To13C(id))
+    if (ZONEDATA_IsUnionRoom(id) || ZONEDATA_IsZone96Pair(id) || ZONEDATA_IsZone4BPair(id) ||
+        ZONEDATA_IsEntralink(id) || ZONEDATA_IsZoneGroup118To13C(id))
         return 0;
     return 1;
 }

@@ -1,5 +1,8 @@
 # Grid coordinates scaled at each use stay in registers
 
+summary: Name only the unscaled grid coordinates and write the scaling and the `p + i * 4` pointer
+at each use. Named scaled locals make mwcc spill them instead of the pointer.
+
 ## Shape
 
 A loop computes a column and a row from the index, scales them, and passes the scaled values

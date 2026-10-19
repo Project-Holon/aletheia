@@ -81,8 +81,8 @@
  *   CLACT_RegisterPalette  0x0204ABF0  arm
  *   CLACT_RegisterCharacter  0x0204A6C8  arm
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
- *   GFL_NET_RestartWithTimeout  0x0203D88C  arm
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAt  0x0203D88C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   d_021F31C8     0x021F31C8  data  a4
  *   d_021F33CC     0x021F33CC  data  a4
  *   BG_SYS_SetPlaneVisible  0x02040588  arm
@@ -113,7 +113,7 @@
  *   GAME_BEACON_GetLogByReceiveNo  0x02026C78  thumb
  *   GAME_BEACON_ACCESSOR_GetFavoriteColorIndex  0x02165CD8  thumb  ov010
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   CGEAR_SAVE_GetPowerSetting  0x020090F0  thumb
  *   CLACT_CreateUnit  0x0204B100  arm
  *   CLACT_CreateRenderer  0x0204B034  arm
@@ -164,7 +164,7 @@
  *   GAMESYSTEM_IsEventActive  0x020120D8  thumb
  *   INTRUDE_COMM_GetVisitProgress  0x021585E0  thumb  ov010
  *   INTRUDE_COMM_SetCompleted  0x02158614  thumb  ov010
- *   GFL_NET_RestartNoTimeout  0x0203D8AC  arm
+ *   GFL_NET_RefreshWmIconAtOrigin  0x0203D8AC  arm
  *   PALANM_FreeSlotBuffers  0x020215A0  thumb
  *   PALANM_Delete  0x02021540  thumb
  *   TCB_Noop  0x02030DA4  arm
@@ -186,7 +186,7 @@
  *   EVENT_GSYNC_Entry  0x02154668  thumb  ov000
  *   abs_id_0       0x00000000  data
  *   IRC_BATTLE_ENTRY_Create  0x021559E4  thumb  ov010
- *   SCRCMD_NETWORK_CreateWifiProcEvent  0x0215FBF4  thumb  ov010
+ *   EVENT_WIFI_PROC_Create  0x0215FBF4  thumb  ov010
  *   EVENT_RESEARCH_RADAR_CreateTopTask  0x02167044  thumb  ov010
  *   FIELD_COMM_ACTOR_CreateSubscreenChangeEvent  0x021945A4  thumb  ov021
  *   FIELD_STATUS_CreateSubProcCallbackEvent  0x02014808  thumb
@@ -286,8 +286,8 @@ extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *arc, u32 memberIdx, u32 c
 extern s32 CLACT_RegisterPalette(void *a, unsigned int b, unsigned int c, unsigned int d, u16 g);
 extern s32 CLACT_RegisterCharacter(void *a, unsigned int b, unsigned int c, unsigned int vram_mode, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, unsigned int first, unsigned int second, unsigned int mode);
-extern void GFL_NET_RestartWithTimeout(u32 a, u32 b);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAt(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_SetPriority(int idx, unsigned short val);
@@ -310,7 +310,7 @@ extern int GAME_BEACON_GetNextNewLogIndex(int *p);
 extern void *GAME_BEACON_GetLogByReceiveNo(int n);
 extern u8 GAME_BEACON_ACCESSOR_GetFavoriteColorIndex(struct BeaconLog *p);
 extern struct PlayerSettings *GAME_DATA_GetMyStatus(void *gameData);
-extern unsigned char MYSTATUS_GetOutfitVariant(const struct PlayerSettings *obj);
+extern unsigned char MYSTATUS_GetSex(const struct PlayerSettings *obj);
 extern unsigned char CGEAR_SAVE_GetPowerSetting(const struct HexMap *obj);
 extern struct ActorSystem *CLACT_CreateUnit(int count, unsigned char flag, u32 heapId);
 extern struct ActorResources *CLACT_CreateRenderer(const char *name, u32 flag, u32 heapId);
@@ -362,7 +362,7 @@ extern void C_GEAR_ApplyIndicators(CGearWork *work);
 extern int INTRUDE_COMM_GetVisitProgress(void *eventWork);
 extern void INTRUDE_COMM_SetCompleted(void *p);
 extern void C_GEAR_DeleteFadeFx(CGearFadeFx *fx);
-extern void GFL_NET_RestartNoTimeout(void);
+extern void GFL_NET_RefreshWmIconAtOrigin(void);
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 extern u32 PALANM_Delete(struct PalAnmSlot *palAnm);
 extern void TCB_Noop(struct FadeCtx *ctx);
@@ -536,7 +536,7 @@ extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 extern struct GameEvent *GAME_EVENT_CreateOverlayEvent(struct GameSystem *gameSystem, u32 overlayId, GameEventCreatorFn creator, void *arg);
 extern struct GameEvent *EVENT_GSYNC_Entry(struct GameSystem *gameSystem, void *arg);
 extern struct GameEvent *IRC_BATTLE_ENTRY_Create(struct GameSystem *gameSystem, void *fieldMap, int a, int b);
-extern struct GameEvent *SCRCMD_NETWORK_CreateWifiProcEvent(struct GameSystem *gameSystem, void *fieldMap, int a, int b);
+extern struct GameEvent *EVENT_WIFI_PROC_Create(struct GameSystem *gameSystem, void *fieldMap, int a, int b);
 extern struct GameEvent *EVENT_RESEARCH_RADAR_CreateTopTask(struct GameSystem *gameSystem, void *fieldMap);
 extern struct GameEvent *FIELD_COMM_ACTOR_CreateSubscreenChangeEvent(struct GameSystem *gameSystem, void *fieldMap, u32 a);
 extern struct GameEvent *FIELD_STATUS_CreateSubProcCallbackEvent(struct GameSystem *gameSystem, void *fieldMap, u32 overlayId, const void *procData, void *procWork, void (*callback)(void *), void *callbackWork);
@@ -2106,8 +2106,8 @@ void C_GEAR_LoadSpriteResources(CGearWork *work, int theme)
         work->beaconColors[i] = base[d_021F33CC[i]];
     }
     GFL_HEAP_Free(handle);
-    GFL_NET_RestartWithTimeout(0xda, 0xe);
-    GFL_NET_RestartWithDefaultTimeout(0, work->heapId);
+    GFL_NET_RefreshWmIconAt(0xda, 0xe);
+    GFL_NET_RefreshWmIconAtTopRight(0, work->heapId);
 }
 
 
@@ -2614,7 +2614,7 @@ void C_GEAR_LoadGraphics(CGearWork *work, int introMode)
 {
     int z;
 
-    work->colorTheme = MYSTATUS_GetOutfitVariant(GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(work->gameSystem)));
+    work->colorTheme = MYSTATUS_GetSex(GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(work->gameSystem)));
     work->skinIndex = CGEAR_SAVE_GetPowerSetting(work->hexMap);
     z = 0;
     work->spriteSystem = CLACT_CreateUnit(0x44, 0, work->heapId);
@@ -3181,8 +3181,8 @@ void C_GEAR_Cleanup(CGearWork *work)
     C_GEAR_DeleteFadeFx(&work->fadeFx);
     UI_SetSleepHookGlobal(0, 0);
     UI_SetWakeHookGlobal(0, 0);
-    GFL_NET_RestartNoTimeout();
-    GFL_NET_RestartWithDefaultTimeout(0, work->heapId);
+    GFL_NET_RefreshWmIconAtOrigin();
+    GFL_NET_RefreshWmIconAtTopRight(0, work->heapId);
     PALANM_FreeSlotBuffers(work->palAnm, 3);
     PALANM_FreeSlotBuffers(work->palAnm, 1);
     PALANM_Delete(work->palAnm);
@@ -3741,7 +3741,7 @@ int C_GEAR_PanelEventMain(struct GameEvent *event, int *seq, CGearEventWork *req
         next = IRC_BATTLE_ENTRY_Create(work->gameSystem, fieldMap, 0, 1);
         break;
     case 5:
-        next = SCRCMD_NETWORK_CreateWifiProcEvent(work->gameSystem, fieldMap, 0, 1);
+        next = EVENT_WIFI_PROC_Create(work->gameSystem, fieldMap, 0, 1);
         break;
     case 11:
         next = EVENT_RESEARCH_RADAR_CreateTopTask(work->gameSystem, fieldMap);

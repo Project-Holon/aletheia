@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GAME_COMM_GetGameData  0x02026478  thumb
- *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   INTRUDE_COMM_AdjustRemotePosition  0x021751D4  thumb ov011
  */
 #include "../include/Obj12425.h"
@@ -28,7 +28,7 @@ typedef unsigned int   u32;
 struct BigObj;
 struct Ent;
 u32 GAME_COMM_GetGameData(void *obj);
-u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+u8 GAME_DATA_GetOwnNetId(const struct BigObj *p);
 void INTRUDE_COMM_AdjustRemotePosition(u8 *p, u16 a, int b, struct Ent *c);
 
 void INTRUDE_COMM_AdjustAllRemotePositions(u8 *p, int arg)
@@ -39,7 +39,7 @@ void INTRUDE_COMM_AdjustAllRemotePositions(u8 *p, int arg)
     int i;
     u8 *e;
 
-    n = GAME_DATA_GetExitMode((const struct BigObj *)GAME_COMM_GetGameData((void *)(((struct Obj12425 *)p)->f4)));
+    n = GAME_DATA_GetOwnNetId((const struct BigObj *)GAME_COMM_GetGameData((void *)(((struct Obj12425 *)p)->f4)));
     h = p + 0x70;
     i = 0;
     arr = p + 0x8C;

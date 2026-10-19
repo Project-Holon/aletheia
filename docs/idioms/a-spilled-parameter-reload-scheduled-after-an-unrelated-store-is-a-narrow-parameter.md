@@ -1,5 +1,8 @@
 # A spilled parameter reload scheduled after an unrelated store is a narrow parameter
 
+summary: A spilled parameter that is reloaded after an unrelated constant store is narrower than
+the field it fills (u16 into a u32 field). A u32 parameter hoists the reload.
+
 ## Shape
 
 A parameter is spilled at entry and reloaded after a loop to fill a u32 field. The original issues an

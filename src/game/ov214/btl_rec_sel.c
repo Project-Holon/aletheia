@@ -28,7 +28,7 @@
  *   BG_SYS_SetPriority 0x0204047C arm
  *   BG_SYS_LoadPlttEntry 0x02040EBC arm
  *   FADE_Start 0x0204E720 arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   ov67_id 0x00000043 data a1
  *   MSGDATA_Delete 0x02045C04 arm
  *   TCB_DeleteTask 0x02030EAC arm
@@ -46,7 +46,7 @@
  *   BMP_MENU_ProcessYesNo 0x0201FEBC thumb
  *   BMP_MENU_DeleteYesNo 0x0201FEF4 thumb
  *   UI_SetInputMode 0x020355D8 arm
- *   BATTLE_REC_CheckSaved 0x0200B5CC thumb
+ *   BATTLE_REC_VerifyAndCloseSave 0x0200B5CC thumb
  *   BATTLE_REC_LoadAlloc 0x0200B5A4 thumb
  *   BATTLE_REC_GetHeaderOf 0x0200B934 thumb
  *   BATTLE_REC_GetHeaderParam 0x0200B98C thumb
@@ -134,7 +134,7 @@
  *   BG_SYS_ChangeScrollImmediate 0x02040618 arm
  *   BG_SYS_ClearLayerEx 0x02041570 arm
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
- *   MYSTATUS_GetOutfitVariant 0x02008550 thumb
+ *   MYSTATUS_GetSex 0x02008550 thumb
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
  *   GXS_SetGraphicsMode 0x0207D518 arm
  *   BG_SYS_ClearSubBgPlanes 0x02043558 arm
@@ -309,7 +309,7 @@ extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
 extern u32 MYITEM_SAVEDATA_HasItem(u8 *base, u16 id, u16 qty, u16 d);
 extern u32 GFL_USE_AddMainTask(void(*)(void*),void*,u32);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
 extern void TCB_DeleteTask(struct Node *n);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
@@ -325,7 +325,7 @@ extern int FADE_IsActive(void);
 extern u32 BMP_MENU_ProcessYesNo(u8*);
 extern void BMP_MENU_DeleteYesNo(u8 *o);
 extern void UI_SetInputMode(u8);
-extern u32 BATTLE_REC_CheckSaved(void*,u32,u32*,u32);
+extern u32 BATTLE_REC_VerifyAndCloseSave(void*,u32,u32*,u32);
 extern struct BattleRec *BATTLE_REC_LoadAlloc(void *a, u32 heap, u32 *dp, u32 id);
 extern u8 *BATTLE_REC_GetHeaderOf(struct ObjC4 *p);
 extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
@@ -405,7 +405,7 @@ extern void BG_SYS_ChangeScroll(u32,u32,u32);
 extern void BG_SYS_ChangeScrollImmediate(u32,u32,u32);
 extern void BG_SYS_ClearLayerEx(int channel, u16 val);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetSex(const struct Sub0200852CObj *obj);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void GXS_SetGraphicsMode(u32);
 extern void BG_SYS_ClearSubBgPlanes(void);
@@ -541,7 +541,7 @@ int BTL_REC_SEL_Create(void *manager,char *state,char * const mgr)
     }else if(((struct BtlRecSelMgr *)mgr)->isWifi){BTL_REC_SEL_StartFade(state,(int)mgr,work,15,k,16,0,2,0);}
     else ((struct BtlRecSel *)work)->exitRequest=1;
     BTL_REC_SEL_CreateUiActor((int)mgr,(u8 *)work);BTL_REC_SEL_InitPalanm((int)mgr,work);BTL_REC_SEL_DeleteUiActor((int)mgr,(u8 *)work);
-    GFL_NET_RestartWithDefaultTimeout(1,((struct BtlRecSel *)work)->heap);
+    GFL_NET_RefreshWmIconAtTopRight(1,((struct BtlRecSel *)work)->heap);
     return 1;
 }
 
@@ -599,7 +599,7 @@ int BTL_REC_SEL_Delete(void *mgr,int unused,int state,char *work)
  * BMP_MENU_ProcessYesNo 0x0201FEBC thumb
  * BMP_MENU_DeleteYesNo 0x0201FEF4 thumb
  * UI_SetInputMode 0x020355D8 arm
- * BATTLE_REC_CheckSaved 0x0200B5CC thumb
+ * BATTLE_REC_VerifyAndCloseSave 0x0200B5CC thumb
  * BTL_REC_SEL_StartFade 0x021B9EB8 thumb ov214
  * BTL_REC_SEL_ResetTimer 0x021BA6F0 thumb ov214
  * BTL_REC_SEL_StartEntryA 0x021B9ED4 thumb ov214
@@ -673,7 +673,7 @@ int BTL_REC_SEL_Main(void *unused,u32 *state,const char *mgr,char *work)
         if(result!=0xffffffff){
             UI_SetInputMode(0);
             if(result==0){
-                if(BATTLE_REC_CheckSaved(owner,((struct BtlRecSel *)work)->heap,&status0,0)){
+                if(BATTLE_REC_VerifyAndCloseSave(owner,((struct BtlRecSel *)work)->heap,&status0,0)){
                     (((struct BtlRecSel *)work)->busy)=1;BTL_REC_SEL_StartFade((char*)state,(int)mgr,work,8,1,0,16,-2,1);break;
                 }else{BTL_REC_SEL_ResetTimer((void*)mgr,work);*state=10;}
             }else BTL_REC_SEL_StartEntryA(state,(void*)mgr,work,6,3,1);
@@ -1485,7 +1485,7 @@ void BTL_REC_SEL_InitSubBg(void **mgrRef,char *work)
     u32 layer;
     u16 heap;
     void *arc;
-    gender=(u8)(u32)MYSTATUS_GetOutfitVariant((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(*mgrRef));
+    gender=(u8)(u32)MYSTATUS_GetSex((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(*mgrRef));
     *(volatile u16 *)0x04001050=0;
     *(volatile u32 *)0x04001000 &=0xFFFF1FFF;
     *(volatile u32 *)0x04001000 |=0x10000;

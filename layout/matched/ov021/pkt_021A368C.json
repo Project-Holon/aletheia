@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "FIELD_PLAYER_GetNogridState",
+   "name": "FIELD_PLAYER_GetNogridRailWork",
    "address": "0x021A36A4",
    "kind": "game",
    "region": "ov021",

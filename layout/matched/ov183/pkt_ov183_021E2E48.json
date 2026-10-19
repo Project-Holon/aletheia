@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BR_CODEIN_CallStoredFnB",
+   "name": "BR_CODEIN_CallAndClearDestroyFn",
    "address": "0x021E2E48",
    "kind": "game",
    "region": "ov183",

@@ -1,7 +1,7 @@
 /*
  * file:     mcss.c
  * unit:     yes
- * function: MCSS_Init, MCSS_Exit, MCSS_Main, MCSS_OpenHandle, MCSS_CloseHandle, MCSS_SetTaskSystem, MCSS_SetLoadHook, MCSS_ReloadResource, MCSS_Draw, MCSS_DrawShadow, MCSS_Add, MCSS_Del, MCSS_SetOrthoMode, MCSS_ResetOrthoMode, MCSS_SetOrthoBillboardFlag, MCSS_ResetOrthoBillboardFlag, MCSS_GetPosition, MCSS_SetPosition, MCSS_GetOfsPosition, MCSS_SetOfsPosition, MCSS_GetScale, MCSS_SetScale, MCSS_GetShadowScale, MCSS_SetShadowScale, MCSS_GetRotate, MCSS_SetRotate, MCSS_SetOfsScale, MCSS_GetDrawScale, MCSS_SetDrawScale, MCSS_SetShadowRotateX, MCSS_SetShadowRotateZ, MCSS_SetShadowOffset, MCSS_SetMepachiFlag, MCSS_ResetMepachiFlag, MCSS_FlipMepachiFlag, MCSS_GetAnmStopFlag, MCSS_SetAnmStopFlag, MCSS_SetAnmStopFlagAlways, MCSS_ResetAnmStopFlag, MCSS_ResetAnmStopFlagAlways, MCSS_GetVanishFlag, MCSS_SetVanishFlag, MCSS_ResetVanishFlag, MCSS_FlipVanishFlag, MCSS_GetAnimCtrl, MCSS_GetAnimSeqNum, MCSS_GetStopCellNum, MCSS_GetStopCellIndex, MCSS_GetSizeX, MCSS_GetSizeY, MCSS_GetOfsX, MCSS_GetOfsY, MCSS_GetStopCellFlags, MCSS_SetAnimCallback, MCSS_SetCellCallback, MCSS_SetPaletteFade, MCSS_GetAlpha, MCSS_SetAlpha, MCSS_SetShadowAlpha, MCSS_SetShadowVanishFlag, MCSS_CheckPaletteFade, MCSS_SetTextureTransAdrs, MCSS_SetPaletteTransAdrs, MCSS_SetAnimeIndex, MCSS_GetMosaic, MCSS_SetMosaic, MCSS_SetGlobalScale, MCSS_SetAnimeSpeed, MCSS_GetAnimSeqNumEx, MCSS_CreatePaletteTransTask, MCSS_CreatePaletteCopyTask, MCSS_RestartAnime, MCSS_RequestAnimeStopAtStart, MCSS_SetWorkFlag, MCSS_SetSysParam, MCSS_SetSysFlag, MCSS_LoadResource, MCSS_LoadResourceShared, MCSS_TransTextureTask, MCSS_TransPaletteTask, MCSS_InitAnimCtrl, MCSS_InitEdgeColor, MCSS_UpdatePaletteFade, MCSS_FreeResource, MCSS_DeleteTextureTask, MCSS_DeletePaletteTask, MCSS_ApplyMosaic, MCSS_MulVecMtx44, MCSS_TOOL_MakeAddWorkFromPP, MCSS_TOOL_MakeAddWorkFromPPP, MCSS_TOOL_MakeAddWorkFromParam, MCSS_TOOL_MakeAddWorkFromTrainer, MCSS_TOOL_AddPokeMcss, MCSS_TOOL_SetSpindaSpotHook, MCSS_TOOL_SpindaSpotHook, MCSS_TOOL_DrawSpindaSpots, MCSS_TOOL_SetAnimeStopCallback, MCSS_TOOL_AnimeStopCallback
+ * function: MCSS_Init, MCSS_Exit, MCSS_Main, MCSS_OpenHandle, MCSS_CloseHandle, MCSS_SetTaskSystem, MCSS_SetLoadHook, MCSS_ReloadResource, MCSS_Draw, MCSS_DrawShadow, MCSS_Add, MCSS_Del, MCSS_SetOrthoMode, MCSS_ResetOrthoMode, MCSS_SetOrthoBillboardFlag, MCSS_ResetOrthoBillboardFlag, MCSS_GetPosition, MCSS_SetPosition, MCSS_GetOfsPosition, MCSS_SetOfsPosition, MCSS_GetScale, MCSS_SetScale, MCSS_GetShadowScale, MCSS_SetShadowScale, MCSS_GetRotate, MCSS_SetRotate, MCSS_SetOfsScale, MCSS_GetDrawScale, MCSS_SetDrawScale, MCSS_SetShadowRotateX, MCSS_SetShadowRotateZ, MCSS_SetShadowOffset, MCSS_SetMepachiFlag, MCSS_ResetMepachiFlag, MCSS_FlipMepachiFlag, MCSS_GetAnmStopFlag, MCSS_SetAnmStopFlag, MCSS_SetAnmStopFlagAlways, MCSS_ResetAnmStopFlag, MCSS_ResetAnmStopFlagAlways, MCSS_GetVanishFlag, MCSS_SetVanishFlag, MCSS_ResetVanishFlag, MCSS_FlipVanishFlag, MCSS_GetAnimCtrl, MCSS_GetAnimSeqNum, MCSS_GetStopCellNum, MCSS_GetStopCellIndex, MCSS_GetSizeX, MCSS_GetSizeY, MCSS_GetOfsX, MCSS_GetOfsY, MCSS_GetStopCellFlags, MCSS_SetAnimCallback, MCSS_SetCellCallback, MCSS_SetPaletteFade, MCSS_GetAlpha, MCSS_SetAlpha, MCSS_SetShadowAlpha, MCSS_SetShadowVanishFlag, MCSS_CheckPaletteFade, MCSS_SetTextureTransAdrs, MCSS_SetPaletteTransAdrs, MCSS_SetAnimeIndex, MCSS_GetMosaic, MCSS_SetMosaic, MCSS_SetGlobalScale, MCSS_SetAnimeSpeed, MCSS_GetAnimSeqNumEx, MCSS_CreatePaletteTransTask, MCSS_CreatePaletteCopyTask, MCSS_RestartAnime, MCSS_RequestAnimeStopAtStart, MCSS_SetMepachiDrawLast, MCSS_SetDepthStep, MCSS_SetNearDepthRange, MCSS_LoadResource, MCSS_LoadResourceShared, MCSS_TransTextureTask, MCSS_TransPaletteTask, MCSS_InitAnimCtrl, MCSS_InitEdgeColor, MCSS_UpdatePaletteFade, MCSS_FreeResource, MCSS_DeleteTextureTask, MCSS_DeletePaletteTask, MCSS_ApplyMosaic, MCSS_MulVecMtx44, MCSS_TOOL_MakeAddWorkFromPP, MCSS_TOOL_MakeAddWorkFromPPP, MCSS_TOOL_MakeAddWorkFromParam, MCSS_TOOL_MakeAddWorkFromTrainer, MCSS_TOOL_AddPokeMcss, MCSS_TOOL_SetSpindaSpotHook, MCSS_TOOL_SpindaSpotHook, MCSS_TOOL_DrawSpindaSpots, MCSS_TOOL_SetAnimeStopCallback, MCSS_TOOL_AnimeStopCallback
  * address:  0x02014B08
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -731,11 +731,11 @@ void MCSS_CreatePaletteCopyTask(McssSys *sys, McssWork *work);
 
 void MCSS_RequestAnimeStopAtStart(McssWork *work);
 
-void MCSS_SetWorkFlag(McssWork *work, int flag);
+void MCSS_SetMepachiDrawLast(McssWork *work, int flag);
 
-void MCSS_SetSysParam(McssSys *sys, int depthStep);
+void MCSS_SetDepthStep(McssSys *sys, int depthStep);
 
-void MCSS_SetSysFlag(McssSys *sys, int flag);
+void MCSS_SetNearDepthRange(McssSys *sys, int flag);
 
 void MCSS_LoadResource(McssSys *sys, u32 index, const McssAddWork *addWork);
 
@@ -2445,7 +2445,7 @@ void MCSS_RequestAnimeStopAtStart(McssWork *work)
  *
  * Addresses are Black-image addresses.
  */
-void MCSS_SetWorkFlag(McssWork *work, int flag)
+void MCSS_SetMepachiDrawLast(McssWork *work, int flag)
 {
     work->flags.bits.mepachiDrawLast = flag;
 }
@@ -2456,7 +2456,7 @@ void MCSS_SetWorkFlag(McssWork *work, int flag)
  *
  * Addresses are Black-image addresses.
  */
-void MCSS_SetSysParam(McssSys *sys, int depthStep)
+void MCSS_SetDepthStep(McssSys *sys, int depthStep)
 {
     sys->depthStep = depthStep;
 }
@@ -2467,7 +2467,7 @@ void MCSS_SetSysParam(McssSys *sys, int depthStep)
  *
  * Addresses are Black-image addresses.
  */
-void MCSS_SetSysFlag(McssSys *sys, int flag)
+void MCSS_SetNearDepthRange(McssSys *sys, int flag)
 {
     sys->flags.bits.nearDepthRange = flag;
 }

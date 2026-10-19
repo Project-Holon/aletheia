@@ -24,7 +24,7 @@
  *   VIEWER_ACTOR_InitBgWindow  0x021C78C4  thumb
  *   VIEWER_ACTOR_CreateFont  0x021C7934  thumb
  *   VIEWER_ACTOR_SetSelection  0x021C81A4  thumb
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   WIPE_SYS_Start  0x0202208C  thumb
  *
  * Addresses are Black-image addresses.
@@ -119,7 +119,7 @@ extern void VIEWER_ACTOR_CreateModel(Work *p);
 extern void VIEWER_ACTOR_InitBgWindow(Work *p);
 extern void VIEWER_ACTOR_CreateFont(Work *p);
 extern void VIEWER_ACTOR_SetSelection(Work *p, u16 v);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 
 int VIEWER_TEXT_Create(void *proc, int *seq, void *parent)
@@ -140,7 +140,7 @@ int VIEWER_TEXT_Create(void *proc, int *seq, void *parent)
     VIEWER_ACTOR_InitBgWindow(p);
     VIEWER_ACTOR_CreateFont(p);
     VIEWER_ACTOR_SetSelection(p, p->f114);
-    GFL_NET_RestartWithDefaultTimeout(1, 0x27);
+    GFL_NET_RefreshWmIconAtTopRight(1, 0x27);
     WIPE_SYS_Start(0, 1, 1, 0, 6, 1, 0x27);
     return 1;
 }

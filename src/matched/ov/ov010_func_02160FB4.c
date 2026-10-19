@@ -10,7 +10,7 @@
  * symbols:
  *   GAMESYSTEM_GetMyPlayerWork 0x020120F8 thumb
  *   GAME_DATA_GetPlayerZoneId 0x02012AC8 thumb
- *   ZONEDATA_IsZone1A6 0x02013CC8 thumb
+ *   ZONEDATA_IsUnionRoom 0x02013CC8 thumb
  *   ZONEDATA_IsZone96Pair 0x02013CE0 thumb
  */
 
@@ -21,6 +21,6 @@ extern u8 *GAMESYSTEM_GetMyPlayerWork(const struct Ctx *p);
 typedef unsigned short u16;
 struct Rec44;
 extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
-extern u32 ZONEDATA_IsZone1A6(u32);
+extern u32 ZONEDATA_IsUnionRoom(u32);
 extern u32 ZONEDATA_IsZone96Pair(u32);
-int EVENT_FIELD_PROCLINK_IsSpecialZone(void *p) { unsigned short id=GAME_DATA_GetPlayerZoneId((const struct Rec44 *)GAMESYSTEM_GetMyPlayerWork(p)); if(ZONEDATA_IsZone1A6(id)==1) return 1; if(ZONEDATA_IsZone96Pair(id)==1) return 3; return 0; }
+int EVENT_FIELD_PROCLINK_IsSpecialZone(void *p) { unsigned short id=GAME_DATA_GetPlayerZoneId((const struct Rec44 *)GAMESYSTEM_GetMyPlayerWork(p)); if(ZONEDATA_IsUnionRoom(id)==1) return 1; if(ZONEDATA_IsZone96Pair(id)==1) return 3; return 0; }

@@ -78,7 +78,7 @@
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
  *   TOUCHPANEL_GetPointCont 0x02035CB8 arm
  *   MI_CpuFill8  0x02082BCC  arm
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   CTVT_CAMVIEW_RequestShutterSound1  0x021B7B80  thumb  ov172
  *   CTVT_COMM_StopSession  0x021B8084  thumb  ov172
  *   FX_SinCosTable_     0x020A1B38  data a2
@@ -101,11 +101,11 @@
  *   GFL_NET_GetScanResultMac  0x0203CF3C  arm
  *   NET_WHPIPE_GetEntryBeaconKind  0x02177B80  thumb
  *   MYSTATUS_GetName  0x020084F4  thumb
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   MYSTATUS_GetId  0x02008530  thumb
  *   OS_GetMacAddress  0x02087C6C  arm
  *   CTVT_COMM_FindPeerName  0x021B85D0  thumb  ov172
- *   ZONEDATA_IsZone117  0x02013D5C  thumb
+ *   ZONEDATA_IsEntralink  0x02013D5C  thumb
  *   ZONEDATA_IsZoneGroup118To120  0x02013D9C  thumb
  *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   STRBUF_Create  0x020457B0  arm
@@ -209,7 +209,7 @@
  *   CTVT_COMM_GetSlotParam 0x021B8B94 thumb ov172
  *   CTVT_COMM_GetMarkerSlot 0x021B8B68 thumb ov172
  *   MYSTATUS_CreateNameStrbuf 0x02008510 thumb
- *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
+ *   PRINTSYS_MeasureWidestLine 0x0201D304 thumb
  *   GFL_USE_StopAllSe  0x02006210  thumb  arm9
  *   APP_TASKMENU_WIN_IsFinish  0x02028230  thumb  arm9
  *   NNS_GfdRegisterNewVramTransferTask  0x02061CA4  arm  arm9
@@ -415,7 +415,7 @@ extern void *MSGDATA_AllocString(struct MsgBank *bank, unsigned long index);
 
 extern void PRINTSYS_PrintQueColor(void *owner, void *b, short x, u32 y, void *text, u32 font, u32 flags);
 
-extern void GFL_NET_RestartWithDefaultTimeout(unsigned int a, unsigned int b);
+extern void GFL_NET_RefreshWmIconAtTopRight(unsigned int a, unsigned int b);
 
 extern void BMP_MENUWORK_DrawWindowBorder(void *desc, unsigned int kind);
 
@@ -493,7 +493,7 @@ extern u8 NET_WHPIPE_GetEntryBeaconKind(int i);
 
 extern const void *MYSTATUS_GetName(const void *p);
 
-extern u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetSex(const struct Sub0200852CObj *obj);
 
 extern unsigned long MYSTATUS_GetId(const struct Sub0200852CObj *obj);
 
@@ -501,7 +501,7 @@ extern void OS_GetMacAddress(void *p);
 
 extern int CTVT_COMM_FindPeerName(unsigned char *p, unsigned char *q);
 
-extern unsigned long ZONEDATA_IsZone117(unsigned long id);
+extern unsigned long ZONEDATA_IsEntralink(unsigned long id);
 
 extern unsigned long ZONEDATA_IsZoneGroup118To120(unsigned long id);
 
@@ -701,7 +701,7 @@ extern u8 CTVT_COMM_GetMarkerSlot(int unused, char *p);
 
 extern void *MYSTATUS_CreateNameStrbuf(void *a, int tag);
 
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 
 char *CTVT_DRAW_Create(void *a, u16 b);
 
@@ -1454,12 +1454,12 @@ void CTVT_CALL_RefreshPeers(void *ctx, u8 *list)
             ok = 0;
             if (kind == 0x20) {
                 a = (unsigned long)MYSTATUS_GetName(p);
-                b = MYSTATUS_GetOutfitVariant((const struct Sub0200852CObj *)p);
+                b = MYSTATUS_GetSex((const struct Sub0200852CObj *)p);
                 c = MYSTATUS_GetId((const struct Sub0200852CObj *)p);
                 OS_GetMacAddress(buf);
                 if (p->f21_1 == 0 || CTVT_COMM_FindPeerName((u8 *)p, buf) == 1)
                     ok = CTVT_CALL_CheckJoinRequest(ctx, (unsigned long)list, a, c, b);
-            } else if (ZONEDATA_IsZone117((u16)p->fC_17) == 0 && ZONEDATA_IsZoneGroup118To120((u16)p->fC_17) == 0) {
+            } else if (ZONEDATA_IsEntralink((u16)p->fC_17) == 0 && ZONEDATA_IsZoneGroup118To120((u16)p->fC_17) == 0) {
                 ok = CTVT_CALL_CheckJoinRequest(ctx, (unsigned long)list, (unsigned long)((u8 *)p + 0x1a), p->trainerId, p->bB_7);
             }
             if (ok == 0)
@@ -1926,7 +1926,7 @@ void CTVT_CALL_WorkInit(char *self)
     W(0x30) = z;
     W(0x34) = z;
     if (APP_ENV_HasParentalControlBits() == 1) W(0x30) = one;
-    GFL_NET_RestartWithDefaultTimeout(0, H(0));
+    GFL_NET_RefreshWmIconAtTopRight(0, H(0));
     switch (((CtvtLaunchParams *)W(0x1f8))->mode) {
     case 0:
         CTVT_COMM_SetRequestedMode((int)self, (char *)W(0x1e4), 3);
@@ -2178,7 +2178,7 @@ void CTVT_CALL_InitGraphics(u8 *p)
     struct PltData *pal;
     t = (struct Sub0200852CObj *)GAME_DATA_GetMyStatus(*(void **)W(0x1f8));
     BG = ARC_TOOL_CreateHandle(0xac, HEAP);
-    if (MYSTATUS_GetOutfitVariant(t) == 0) {
+    if (MYSTATUS_GetSex(t) == 0) {
         ARC_UTIL_UploadPaletteFromHandleWhole(BG, 7, 4, 0, 0xc0, HEAP);
     } else {
         ARC_UTIL_UploadPaletteFromHandleWhole(BG, 6, 4, 0, 0xc0, HEAP);
@@ -2223,7 +2223,7 @@ void CTVT_CALL_InitGraphics(u8 *p)
     W(0x1b0) = (u32)CLACT_CreateActor((void *)o, i0, i1, i2, &cfg, z, HEAP);
     CLACT_SetActorDrawEnable((void *)W(0x1b0), z);
     CLACT_SetActorAutoAnim((void *)W(0x1b0), 1);
-    if (MYSTATUS_GetOutfitVariant(t) == 0) {
+    if (MYSTATUS_GetSex(t) == 0) {
         dev = ARC_UTIL_LoadPaletteBlockFromHandle(BG, 7, (u32)(&pal), HEAP);
     } else {
         dev = ARC_UTIL_LoadPaletteBlockFromHandle(BG, 6, (u32)(&pal), HEAP);
@@ -2357,7 +2357,7 @@ void CTVT_CALL_DrawMemberName(u8 *p, char *a, u32 b)
     void *s;
     int x;
     s = MYSTATUS_CreateNameStrbuf(a, ((CtvtWork *)p)->heapId);
-    x = (0x60 - (u8)GF_FONT_MeasureWidestLine(s, ((CtvtWork *)p)->font, 0)) / 2;
+    x = (0x60 - (u8)PRINTSYS_MeasureWidestLine(s, ((CtvtWork *)p)->font, 0)) / 2;
     PRINTSYS_PrintQueColor((void *)((CtvtWork *)p)->printQue, BMP_WIN_GetBmp((struct Descriptor *)b), x + 1, 1, s, ((CtvtWork *)p)->font, 0x400);
     PRINTSYS_PrintQueColor((void *)((CtvtWork *)p)->printQue, BMP_WIN_GetBmp((struct Descriptor *)b), x - 1, 1, s, ((CtvtWork *)p)->font, 0x400);
     PRINTSYS_PrintQueColor((void *)((CtvtWork *)p)->printQue, BMP_WIN_GetBmp((struct Descriptor *)b), x, 2, s, ((CtvtWork *)p)->font, 0x400);

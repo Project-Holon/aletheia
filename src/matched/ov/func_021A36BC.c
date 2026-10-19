@@ -1,5 +1,5 @@
 /*
- * function: FIELD_PLAYER_SetNogridLocation
+ * function: FIELD_PLAYER_GetNogridNextRailLocation
  * address:  0x021A36BC
  * packet:   pkt_021A5A00
  * region:   ov021
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 
 extern void FIELD_PLAYER_NOGRID_GetNextRailLocation(u8 *p, void *a1);
 
-void FIELD_PLAYER_SetNogridLocation(struct Obj18028 *p, void *a1)
+void FIELD_PLAYER_GetNogridNextRailLocation(struct Obj18028 *p, void *a1)
 {
     FIELD_PLAYER_NOGRID_GetNextRailLocation((u8 *)(p->fC), a1);
 }

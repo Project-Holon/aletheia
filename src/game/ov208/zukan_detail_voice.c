@@ -92,7 +92,7 @@
  *   BMP_WIN_GetBgLayer  0x02045730  arm
  *   ARC_UTIL_UploadPaletteFromArchive  0x02049B90  arm
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
- *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
+ *   PRINTSYS_MeasureWidestLine  0x0201D304  thumb
  *   BMP_GetWidth  0x020437DC  arm
  *   G2x_SetBlendAlpha_ 0x0207D63C  arm
  *   ZUKAN_DETAIL_GRAPHIC_Reset3dState  0x021BCF4C  thumb  ov208
@@ -384,7 +384,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *);
 
 extern void *MSGDATA_AllocString(struct MsgBank *bank,u32 index);
 
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s,struct GfFont *a,u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s,struct GfFont *a,u32 b);
 
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 
@@ -970,7 +970,7 @@ void ZUKAN_DETAIL_VOICE_DrawSpeciesName(u16 *heapIdPtr, struct ZukanDetailVoice 
     u16 textWidth;
     u16 winWidth;
     name = MSGDATA_AllocString(gSpeciesNameBank, ZUKAN_DETAIL_COMMON_GetCurrentEntry(ctx));
-    textWidth = GF_FONT_MeasureWidestLine(name, voice->font, 0);
+    textWidth = PRINTSYS_MeasureWidestLine(name, voice->font, 0);
     winWidth = BMP_GetWidth(BMP_WIN_GetBmp(voice->nameWin));
     PRINTSYS_PrintQueColor(voice->printQue, (u32)BMP_WIN_GetBmp(voice->nameWin), (s16)((u16)((winWidth - textWidth) / 2)), (s16)1, (u32)name, voice->font, 0x3c40);
     STRBUF_Delete((struct U16Vec *)name);

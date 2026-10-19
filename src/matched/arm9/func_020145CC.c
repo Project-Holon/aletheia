@@ -16,9 +16,9 @@
  *           blocker 0x0215FA34 is the same overlay-export class as the
  *           two in FIELD_STATUS_FieldCloseEvent.c: ov009 and ov010 both cover it and
  *           neither labels a function there, so no region hint helps.
- * blocker:  +0024 THM_CALL SCRCMD_NETWORK_LoadOv020       : 0215FA34 (arm, from name) has no witness outside 020145CC..020145FC; 2 overlays overlap this address (ov009, ov010), none resolvable without a region hint on the symbols: line
+ * blocker:  +0024 THM_CALL EVENT_WIFI_PROC_LoadOv020       : 0215FA34 (arm, from name) has no witness outside 020145CC..020145FC; 2 overlays overlap this address (ov009, ov010), none resolvable without a region hint on the symbols: line
  * symbols:
- *   SCRCMD_NETWORK_LoadOv020  0x0215FA34  thumb  ov010
+ *   EVENT_WIFI_PROC_LoadOv020  0x0215FA34  thumb  ov010
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  * wave15:   overlay callees are unlabelled Thumb starts: 0x0215FA34 and
  *           0x0215FA44 in ov010 (.word 0x4B024801, ldr r0/ldr r3 thunks),
@@ -33,7 +33,7 @@ struct Ctx;
 struct Obj;
 extern void *func_020124E8(struct Obj *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
-extern void SCRCMD_NETWORK_LoadOv020(void);
+extern void EVENT_WIFI_PROC_LoadOv020(void);
 
 void *FIELD_STATUS_CreateFieldOpenEvent(void *a0)
 {
@@ -43,6 +43,6 @@ void *FIELD_STATUS_CreateFieldOpenEvent(void *a0)
     r4[0] = (u32)a0;
     r4[1] = 0;
     r4[2] = (u32)GAMESYSTEM_GetGameData(a0);
-    SCRCMD_NETWORK_LoadOv020();
+    EVENT_WIFI_PROC_LoadOv020();
     return r6;
 }

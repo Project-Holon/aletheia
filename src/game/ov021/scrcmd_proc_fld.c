@@ -1,7 +1,7 @@
 /*
  * file:     scrcmd_proc_fld.c
  * unit:     yes
- * function: SCRCMD_PROC_FLD_StepShopTask, SCRCMD_PROC_FLD_InitShop, SCRCMD_PROC_FLD_LoadShopMessages, SCRCMD_PROC_FLD_GetShopCurrency, SCRCMD_PROC_FLD_PickQuantityOutcome, SCRCMD_PROC_FLD_PollItemList, SCRCMD_PROC_FLD_PollMessageEnd, SCRCMD_PROC_FLD_PayPrice, SCRCMD_PROC_FLD_StepShop, SCRCMD_PROC_FLD_LoadItemRows, SCRCMD_PROC_FLD_SetItemSlot, SCRCMD_PROC_FLD_BuildItemListByBadges, SCRCMD_PROC_FLD_BuildItemListFixed, SCRCMD_PROC_FLD_BuildItemListFromRange, SCRCMD_PROC_FLD_FreeItemSlots, SCRCMD_PROC_FLD_AllocShopResources, SCRCMD_PROC_FLD_FreeShopResources, SCRCMD_PROC_FLD_InitShopGraphics, SCRCMD_PROC_FLD_ExitShopGraphics, SCRCMD_PROC_FLD_LoadCursorResources, SCRCMD_PROC_FLD_LoadIconResources, SCRCMD_PROC_FLD_UpdateItemIcon, SCRCMD_PROC_FLD_CreateShopActors, SCRCMD_PROC_FLD_InitShopCells, SCRCMD_PROC_FLD_FreeShopCells, SCRCMD_PROC_FLD_InitShopWindows, SCRCMD_PROC_FLD_FreeShopWindows, SCRCMD_PROC_FLD_PrintMoneyWindow, SCRCMD_PROC_FLD_PrintOwnedWindow, SCRCMD_PROC_FLD_PrintItemDescription, SCRCMD_PROC_FLD_PrintQuantityWindow, SCRCMD_PROC_FLD_CreateItemListMenu, SCRCMD_PROC_FLD_PrintListText, SCRCMD_PROC_FLD_PrintPriceEntry, SCRCMD_PROC_FLD_PrintUniqueItemEntry, SCRCMD_PROC_FLD_OnListCursorMove, SCRCMD_PROC_FLD_FreeItemListMenu, SCRCMD_PROC_FLD_ReturnZero, SCRCMD_PROC_FLD_ShowItemMessage, SCRCMD_PROC_FLD_ShowConfirmMessage, SCRCMD_PROC_FLD_PrepareMessageWindow, SCRCMD_PROC_FLD_ShowMessage, SCRCMD_PROC_FLD_ShowBuyConfirm, SCRCMD_PROC_FLD_ShowTmBuyConfirm, SCRCMD_PROC_FLD_AdjustQuantity, SCRCMD_PROC_FLD_StepQuantitySelect, SCRCMD_PROC_FLD_SetQuantityMask, SCRCMD_PROC_FLD_StoreCommKind, SCRCMD_PROC_FLD_StoreWifiProfileValid, SCRCMD_PROC_FLD_StoreWifiFriendCount, SCRCMD_PROC_FLD_CallWifiClubEvent, SCRCMD_PROC_FLD_CallWorldTradeEvent, SCRCMD_PROC_FLD_CallGtsNegoEvent, SCRCMD_PROC_FLD_FinishOv170Event, SCRCMD_PROC_FLD_CallOv170Event, SCRCMD_PROC_FLD_StartNameInMode5, SCRCMD_PROC_FLD_StartNameInMode6, SCRCMD_PROC_FLD_SetGameClearEventAndEnd, SCRCMD_PROC_FLD_ObtainCGearAndCallCommResetEvent, SCRCMD_PROC_FLD_CallOv219Event, SCRCMD_PROC_FLD_CallShortcutEvent, SCRCMD_PROC_FLD_CallGameManual, SCRCMD_PROC_FLD_StartScriptedWildBattle, SCRCMD_PROC_FLD_StartFieldMapFadeIn, SCRCMD_PROC_FLD_StoreBattleKindFlag, SCRCMD_PROC_FLD_CallCatchTutorial, SCRCMD_PROC_FLD_StoreEffectEncountItemId, SCRCMD_PROC_FLD_SpawnMovePokemonIfInactive, SCRCMD_PROC_FLD_AddUniqueU16
+ * function: SCRCMD_PROC_FLD_StepShopTask, SCRCMD_PROC_FLD_InitShop, SCRCMD_PROC_FLD_LoadShopMessages, SCRCMD_PROC_FLD_GetShopCurrency, SCRCMD_PROC_FLD_PickQuantityOutcome, SCRCMD_PROC_FLD_PollItemList, SCRCMD_PROC_FLD_PollMessageEnd, SCRCMD_PROC_FLD_PayPrice, SCRCMD_PROC_FLD_StepShop, SCRCMD_PROC_FLD_LoadItemRows, SCRCMD_PROC_FLD_SetItemSlot, SCRCMD_PROC_FLD_BuildItemListByBadges, SCRCMD_PROC_FLD_BuildItemListFixed, SCRCMD_PROC_FLD_BuildItemListFromRange, SCRCMD_PROC_FLD_FreeItemSlots, SCRCMD_PROC_FLD_AllocShopResources, SCRCMD_PROC_FLD_FreeShopResources, SCRCMD_PROC_FLD_InitShopGraphics, SCRCMD_PROC_FLD_ExitShopGraphics, SCRCMD_PROC_FLD_LoadCursorResources, SCRCMD_PROC_FLD_LoadIconResources, SCRCMD_PROC_FLD_UpdateItemIcon, SCRCMD_PROC_FLD_CreateShopActors, SCRCMD_PROC_FLD_InitShopCells, SCRCMD_PROC_FLD_FreeShopCells, SCRCMD_PROC_FLD_InitShopWindows, SCRCMD_PROC_FLD_FreeShopWindows, SCRCMD_PROC_FLD_PrintMoneyWindow, SCRCMD_PROC_FLD_PrintOwnedWindow, SCRCMD_PROC_FLD_PrintItemDescription, SCRCMD_PROC_FLD_PrintQuantityWindow, SCRCMD_PROC_FLD_CreateItemListMenu, SCRCMD_PROC_FLD_PrintListText, SCRCMD_PROC_FLD_PrintPriceEntry, SCRCMD_PROC_FLD_PrintUniqueItemEntry, SCRCMD_PROC_FLD_OnListCursorMove, SCRCMD_PROC_FLD_FreeItemListMenu, SCRCMD_PROC_FLD_ReturnZero, SCRCMD_PROC_FLD_ShowItemMessage, SCRCMD_PROC_FLD_ShowConfirmMessage, SCRCMD_PROC_FLD_PrepareMessageWindow, SCRCMD_PROC_FLD_ShowMessage, SCRCMD_PROC_FLD_ShowBuyConfirm, SCRCMD_PROC_FLD_ShowTmBuyConfirm, SCRCMD_PROC_FLD_AdjustQuantity, SCRCMD_PROC_FLD_StepQuantitySelect, SCRCMD_PROC_FLD_SetQuantityMask, SCRCMD_PROC_FLD_StoreCommKind, SCRCMD_PROC_FLD_StoreWifiProfileValid, SCRCMD_PROC_FLD_StoreWifiFriendCount, SCRCMD_PROC_FLD_CallWifiClubEvent, SCRCMD_PROC_FLD_CallWorldTradeEvent, SCRCMD_PROC_FLD_CallGtsNegoEvent, SCRCMD_PROC_FLD_FinishOv170Event, SCRCMD_PROC_FLD_CallOv170Event, SCRCMD_PROC_FLD_StartNameInMode5, SCRCMD_PROC_FLD_StartNameInMode6, SCRCMD_PROC_FLD_SetGameClearEventAndEnd, SCRCMD_PROC_FLD_ObtainCGearAndCallCommResetEvent, SCRCMD_PROC_FLD_CallOv219Event, SCRCMD_PROC_FLD_CallShortcutEvent, SCRCMD_PROC_FLD_CallGameManual, SCRCMD_PROC_FLD_StartScriptedWildBattle, SCRCMD_PROC_FLD_StartFieldMapFadeIn, SCRCMD_PROC_FLD_StoreBattleResult, SCRCMD_PROC_FLD_CallCatchTutorial, SCRCMD_PROC_FLD_StoreEffectEncountItemId, SCRCMD_PROC_FLD_SpawnMovePokemonIfInactive, SCRCMD_PROC_FLD_AddUniqueU16
  * address:  0x021B3158
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -33,10 +33,10 @@
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
- *   BEACON_CountBadges 0x0200C258 thumb
+ *   MISC_CountBadges 0x0200C258 thumb
  *   MSGDATA_AllocString  0x02045EC0  arm
- *   BEACON_GetMoney  0x0200C274  thumb
- *   GDS_PROFILE_GetScoreRecTotal  0x0200DABC  thumb
+ *   MISC_GetMoney  0x0200C274  thumb
+ *   BSUBWAY_SCOREDATA_GetBattlePoints  0x0200DABC  thumb
  *   MYITEM_SAVEDATA_GetItemQuantity  0x02007FB8  thumb
  *   MYITEM_SAVEDATA_CanAddItem  0x02007E3C  thumb
  *   MYITEM_SAVEDATA_GetMaxStack  0x0200823C  thumb
@@ -55,8 +55,8 @@
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   RECORD_AddCounter  0x02008DAC  thumb
  *   RECORD_AddOne  0x02008DF0  thumb
- *   BEACON_SubMoney  0x0200C29C  thumb
- *   GDS_PROFILE_SubScoreRecTotal  0x0200DA98  thumb
+ *   MISC_SubMoney  0x0200C29C  thumb
+ *   BSUBWAY_SCOREDATA_SubBattlePoints  0x0200DA98  thumb
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  *   BMP_MENULIST_Redraw  0x02020234  thumb
@@ -137,7 +137,7 @@
  *   BMP_MENULIST_Create 0x0201FF30 thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   BMP_MENULIST_GetUserData 0x02020D0C thumb
- *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
+ *   PRINTSYS_MeasureWidestLine 0x0201D304 thumb
  *   BMP_GetWidth 0x020437DC arm
  *   MYITEM_SAVEDATA_HasItem 0x02007F68 thumb
  *   BMP_MENULIST_GetPos 0x020202FC thumb
@@ -199,8 +199,8 @@
  *   FIELDMAP_GetEncount  0x02188CE8  thumb  ov021
  *   FIELD_ENCOUNT_StartScriptedWild  0x021AA0A0  thumb  ov021
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
- *   GAME_DATA_GetFieldMode  0x02012A44  thumb
- *   EVENT_BATTLE_GetKindFlag  0x0216EFCC  thumb  ov010
+ *   GAME_DATA_GetLastBattleResult  0x02012A44  thumb
+ *   EVENT_BATTLE_GetResultFlag  0x0216EFCC  thumb  ov010
  *   EVENT_BATTLE_CreateCatchTutorial  0x0216E95C  thumb  ov010
  *   EFFECT_ENCOUNT_GetItemId  0x021AAB48  thumb  ov021
  *   MOVE_POKEMON_SAVE_GetBlock  0x0200D418  thumb
@@ -336,13 +336,13 @@ extern u8 *GAME_DATA_GetMyStatus(void *p);
 
 extern void *GAME_DATA_GetMiscSave(int *p);
 
-extern int BEACON_CountBadges(void);
+extern int MISC_CountBadges(void);
 
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
-extern u32 BEACON_GetMoney(struct Blk34 *p);
+extern u32 MISC_GetMoney(struct Blk34 *p);
 
-extern u16 GDS_PROFILE_GetScoreRecTotal(struct Blk1AC *p);
+extern u16 BSUBWAY_SCOREDATA_GetBattlePoints(struct Blk1AC *p);
 
 extern u32 MYITEM_SAVEDATA_GetItemQuantity(u8 *base, u16 id, u16 d);
 
@@ -376,9 +376,9 @@ extern void PRINTSYS_PrintStreamReleasePause(void *);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
-extern u32 BEACON_SubMoney(struct Blk34 *p, u32 v);
+extern u32 MISC_SubMoney(struct Blk34 *p, u32 v);
 
-extern void GDS_PROFILE_SubScoreRecTotal(struct Blk1AC *p, u16 v);
+extern void BSUBWAY_SCOREDATA_SubBattlePoints(struct Blk1AC *p, u16 v);
 
 extern u32 RECORD_AddCounter(struct Sub02008C20Obj *obj, int i, u32 delta);
 
@@ -516,7 +516,7 @@ extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 
 
 extern u32 BMP_MENULIST_GetUserData(u8 *p);
 
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 
@@ -622,9 +622,9 @@ extern u32 FIELD_ENCOUNT_StartScriptedWild(u32 a, u32 b, u32 c, u32 d);
 
 extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 
-extern u32 GAME_DATA_GetFieldMode(const struct BigObj *p);
+extern u32 GAME_DATA_GetLastBattleResult(const struct BigObj *p);
 
-extern u8 EVENT_BATTLE_GetKindFlag(int i);
+extern u8 EVENT_BATTLE_GetResultFlag(int i);
 
 extern void *EVENT_BATTLE_CreateCatchTutorial(void *sys, u32 arg, u32 heap);
 
@@ -764,7 +764,7 @@ int SCRCMD_PROC_FLD_StartScriptedWildBattle(struct ScriptVm *vm, struct ScrcmdWo
 
 int SCRCMD_PROC_FLD_StartFieldMapFadeIn(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-int SCRCMD_PROC_FLD_StoreBattleKindFlag(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+int SCRCMD_PROC_FLD_StoreBattleResult(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
 int SCRCMD_PROC_FLD_CallCatchTutorial(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
@@ -903,7 +903,7 @@ void SCRCMD_PROC_FLD_InitShop(int gameSystem, ShopWork *shop, int shopKind, int 
     switch (tableKind) {
     case 255:
         GAME_DATA_GetMiscSave(gameData);
-        SCRCMD_PROC_FLD_BuildItemListByBadges(shop, tableKind, shopVariant, BEACON_CountBadges());
+        SCRCMD_PROC_FLD_BuildItemListByBadges(shop, tableKind, shopVariant, MISC_CountBadges());
         break;
     case 254:
         SCRCMD_PROC_FLD_BuildItemListFixed(shop, 0);
@@ -946,9 +946,9 @@ void SCRCMD_PROC_FLD_LoadShopMessages(ShopWork *shop, int usesBattlePoints)
 u32 SCRCMD_PROC_FLD_GetShopCurrency(ShopWork *shop)
 {
     if (shop->usesBattlePoints == 0) {
-        return BEACON_GetMoney((struct Blk34 *)(shop->moneyData));
+        return MISC_GetMoney((struct Blk34 *)(shop->moneyData));
     } else {
-        return GDS_PROFILE_GetScoreRecTotal((struct Blk1AC *)(shop->battlePointData));
+        return BSUBWAY_SCOREDATA_GetBattlePoints((struct Blk1AC *)(shop->battlePointData));
     }
 }
 
@@ -1053,10 +1053,10 @@ u8 SCRCMD_PROC_FLD_PollMessageEnd(ShopWork *shop)
 void SCRCMD_PROC_FLD_PayPrice(ShopWork *shop, u32 cost)
 {
     if (shop->usesBattlePoints == 0) {
-        BEACON_SubMoney((struct Blk34 *)(shop->moneyData), cost);
+        MISC_SubMoney((struct Blk34 *)(shop->moneyData), cost);
         RECORD_AddCounter((struct Sub02008C20Obj *)(shop->recordData), 0x16, cost);
     } else {
-        GDS_PROFILE_SubScoreRecTotal((struct Blk1AC *)(shop->battlePointData), cost);
+        BSUBWAY_SCOREDATA_SubBattlePoints((struct Blk1AC *)(shop->battlePointData), cost);
         RECORD_AddCounter((struct Sub02008C20Obj *)(shop->recordData), 0x22, cost);
     }
     RECORD_AddOne((struct Sub02008C20Obj *)(shop->recordData), 0x15);
@@ -1465,11 +1465,11 @@ void SCRCMD_PROC_FLD_PrintMoneyWindow(ShopWork *shop)
     if (shop->usesBattlePoints == 1) {
         formatText = (u32)MSGDATA_AllocString((struct MsgBank *)(shop->shopMsgBank), 0x16);
         expandedText = (u32)STRBUF_Create(10, shop->heapId);
-        WORDSET_SetSlotNumber((struct WordSet *)(shop->wordSet), 0, GDS_PROFILE_GetScoreRecTotal((struct Blk1AC *)(shop->battlePointData)), 4, 1, 1);
+        WORDSET_SetSlotNumber((struct WordSet *)(shop->wordSet), 0, BSUBWAY_SCOREDATA_GetBattlePoints((struct Blk1AC *)(shop->battlePointData)), 4, 1, 1);
     } else {
         formatText = (u32)MSGDATA_AllocString((struct MsgBank *)(shop->shopMsgBank), 0x15);
         expandedText = (u32)STRBUF_Create(10, shop->heapId);
-        WORDSET_SetSlotNumber((struct WordSet *)(shop->wordSet), 0, BEACON_GetMoney((struct Blk34 *)(shop->moneyData)), 7, 1, 1);
+        WORDSET_SetSlotNumber((struct WordSet *)(shop->wordSet), 0, MISC_GetMoney((struct Blk34 *)(shop->moneyData)), 7, 1, 1);
     }
     WORDSET_CopyTaggedText((struct WordSet *)(shop->wordSet), (void *)expandedText, (void *)formatText);
     bitmap = (u32)BMP_WIN_GetBmp((struct Descriptor *)shop->windows[SHOP_WIN_MONEY]);
@@ -1625,7 +1625,7 @@ void SCRCMD_PROC_FLD_PrintPriceEntry(u8 *listMenu, int row, u8 y)
     if (row != -2) {
         WORDSET_SetSlotNumber((struct WordSet *)(shop->wordSet), 1, shop->items[row].price, 5, 0, 1);
         WORDSET_CopyTaggedText((struct WordSet *)(shop->wordSet), (void *)(shop->textBuffer), (void *)(shop->priceFormat));
-        textWidth = GF_FONT_MeasureWidestLine((struct StrObj *)(shop->textBuffer), shop->fontInfo, 0);
+        textWidth = PRINTSYS_MeasureWidestLine((struct StrObj *)(shop->textBuffer), shop->fontInfo, 0);
         windowWidth = BMP_GetWidth((const struct Bmp *)((u32)BMP_WIN_GetBmp((struct Descriptor *)shop->windows[SHOP_WIN_LIST])));
         SCRCMD_PROC_FLD_PrintListText((void *)(shop->printSys), (u32)BMP_WIN_GetBmp((struct Descriptor *)shop->windows[SHOP_WIN_LIST]), windowWidth - textWidth, y,
                       (u32)shop->textBuffer, shop->fontInfo, 0x31A0);
@@ -1646,14 +1646,14 @@ void SCRCMD_PROC_FLD_PrintUniqueItemEntry(u32 listMenu, int row, u8 y)
     shop = (ShopWork *)BMP_MENULIST_GetUserData((void *)listMenu);
     if (row != -2) {
         if (MYITEM_SAVEDATA_HasItem((u8 *)(shop->bagData), shop->items[row].itemId, 1, shop->heapId) != 0) {
-            textWidth = GF_FONT_MeasureWidestLine((struct StrObj *)(shop->soldOutText), shop->fontInfo, 0);
+            textWidth = PRINTSYS_MeasureWidestLine((struct StrObj *)(shop->soldOutText), shop->fontInfo, 0);
             windowWidth = BMP_GetWidth((const struct Bmp *)((u32)BMP_WIN_GetBmp((struct Descriptor *)shop->windows[SHOP_WIN_LIST])));
             SCRCMD_PROC_FLD_PrintListText((void *)(shop->printSys), (u32)BMP_WIN_GetBmp((struct Descriptor *)shop->windows[SHOP_WIN_LIST]), windowWidth - textWidth, y,
                           (u32)shop->soldOutText, shop->fontInfo, 0x31A0);
         } else {
             WORDSET_SetSlotNumber((struct WordSet *)(shop->wordSet), 1, shop->items[row].price, 5, 1, 1);
             WORDSET_CopyTaggedText((struct WordSet *)(shop->wordSet), (void *)(shop->textBuffer), (void *)(shop->priceFormat));
-            textWidth = GF_FONT_MeasureWidestLine((struct StrObj *)(shop->textBuffer), shop->fontInfo, 0);
+            textWidth = PRINTSYS_MeasureWidestLine((struct StrObj *)(shop->textBuffer), shop->fontInfo, 0);
             windowWidth = BMP_GetWidth((const struct Bmp *)((u32)BMP_WIN_GetBmp((struct Descriptor *)shop->windows[SHOP_WIN_LIST])));
             SCRCMD_PROC_FLD_PrintListText((void *)(shop->printSys), (u32)BMP_WIN_GetBmp((struct Descriptor *)shop->windows[SHOP_WIN_LIST]), windowWidth - textWidth, y,
                           (u32)shop->textBuffer, shop->fontInfo, 0x31A0);
@@ -2162,12 +2162,12 @@ int SCRCMD_PROC_FLD_StartFieldMapFadeIn(struct ScriptVm *vm, struct ScrcmdWork *
 /*
  * Formerly MATCH on unwitnessed callees; their matched entries now witness them.
  */
-int SCRCMD_PROC_FLD_StoreBattleKindFlag(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
+int SCRCMD_PROC_FLD_StoreBattleResult(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    u32 flagValue = GAME_DATA_GetFieldMode(SCRCMD_WORK_GetGameData(cmdWork));
+    u32 flagValue = GAME_DATA_GetLastBattleResult(SCRCMD_WORK_GetGameData(cmdWork));
     u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
 
-    *resultVar = EVENT_BATTLE_GetKindFlag(flagValue);
+    *resultVar = EVENT_BATTLE_GetResultFlag(flagValue);
     return 0;
 }
 

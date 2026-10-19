@@ -22,15 +22,15 @@
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
  *   WIFI_HISTORY_GetBlock 0x02009470 thumb
  *   GAME_LANGUAGE_Code 0x0209DF0C data a1
- *   MYSTATUS_GetLanguage 0x0200856C thumb
- *   MYSTATUS_GetVersion 0x02008570 thumb
+ *   MYSTATUS_GetNation 0x0200856C thumb
+ *   MYSTATUS_GetArea 0x02008570 thumb
  *   WIFI_HISTORY_GetMode 0x02009524 thumb
  *   WORDSET_Create 0x0201EC74 thumb
  *   BMP_SetDisplaySwap 0x0204363C arm
  *   TCBL_Create 0x0203101C arm
  *   APP_KEYCURSOR_CreateDefault 0x02028590 thumb
  *   PRINTSYS_QUE_Create 0x0201C440 thumb
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  *   TCBL_Main 0x020310C4 arm
  *   PRINTSYS_QUE_Main 0x0201C4E4 thumb
@@ -58,9 +58,9 @@
  *   BMP_MENULIST_Main 0x020200CC thumb
  *   BMP_MENU_CreateYesNo 0x0201FDA0 thumb
  *   BMP_MENU_ProcessYesNo 0x0201FEBC thumb
- *   BMP_OAM_Update5BE8 0x02025BE8 thumb
- *   BMP_OAM_Check5C44 0x02025C44 thumb
- *   BMP_OAM_Get 0x02025B94 thumb
+ *   NATION_AREA_GetDefaultNation 0x02025BE8 thumb
+ *   NATION_AREA_GetAreaTable 0x02025C44 thumb
+ *   NATION_AREA_GetAreaMsgBank 0x02025B94 thumb
  *   WIFI_HISTORY_InitLanguageRegion 0x0200947C thumb
  *   GAME_BEACON_SetNationArea 0x02027120 thumb
  *   APP_TASKMENU_WIN_IsFinish 0x02028230 thumb
@@ -97,12 +97,12 @@
  *   ARC_UTIL_LoadHandleMemberWithSize 0x0204A39C arm
  *   _u32_div_f 0x0209C2B0 arm
  *   GFL_HEAP_Free 0x020307B0 arm
- *   BMP_OAM_GetNumRecords 0x02025B38 thumb
- *   BMP_OAM_GetRecordParam 0x02025BD0 thumb
- *   BMP_OAM_GetRecordKey 0x02025BB8 thumb
+ *   NATION_AREA_GetNationRecordCount 0x02025B38 thumb
+ *   NATION_AREA_GetAreaListArcMember 0x02025BD0 thumb
+ *   NATION_AREA_GetNationIdByIndex 0x02025BB8 thumb
  *   d_02185F28 0x02185F28 data a4
  *   WIFI_HISTORY_GetCountryRegionState 0x0200949C thumb
- *   BMP_OAM_GetRecordIndex 0x02025B3C thumb
+ *   NATION_AREA_FindRecordIndex 0x02025B3C thumb
  *   d_02185E00 0x02185E00 data a4
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   BMP_WIN_Create 0x020450F0 arm
@@ -202,7 +202,7 @@
  *   G3D_SYSTEM_ApplyLookAt  0x020479D8  arm
  *   MTX_Identity33_  0x0207ADC4  arm
  *   G3D_SYSTEM_DrawObject  0x02047A60  arm
- *   BMP_OAM_GetRecordField 0x02025BA0 thumb
+ *   NATION_AREA_GetAreaMsgBankByIndex 0x02025BA0 thumb
  *   FX_Sqrt  0x0207C7B4  arm  arm9
  *   GF_STANDARD_DegToAngle  0x0203F734  arm  arm9
  */
@@ -406,15 +406,15 @@ extern void MI_CpuFill8(void *,u32,u32);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern struct Sub02009470Obj *WIFI_HISTORY_GetBlock(void *sys);
-extern u8 MYSTATUS_GetLanguage(const struct Sub0200852CObj *obj);
-extern u8 MYSTATUS_GetVersion(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetNation(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetArea(const struct Sub0200852CObj *obj);
 extern u8 WIFI_HISTORY_GetMode(const struct Sub02009470Obj *obj);
 extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
 extern void BMP_SetDisplaySwap(u32);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u32 APP_KEYCURSOR_CreateDefault(u32,u32,u32,u16);
 extern u32 PRINTSYS_QUE_Create(void *);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 extern void TCBL_Main(struct Tcbl *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
@@ -442,9 +442,9 @@ extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
 extern s32 BMP_MENULIST_Main(struct Obj *o);
 extern void *BMP_MENU_CreateYesNo(const void *a, int b, int c, int d, u16 heap);
 extern u32 BMP_MENU_ProcessYesNo(u8 *p);
-extern int BMP_OAM_Update5BE8(void);
-extern int BMP_OAM_Check5C44(u32 key, u32 *outWord, u32 *outByte);
-extern u32 BMP_OAM_Get(u32 a);
+extern int NATION_AREA_GetDefaultNation(void);
+extern int NATION_AREA_GetAreaTable(u32 key, u32 *outWord, u32 *outByte);
+extern u32 NATION_AREA_GetAreaMsgBank(u32 a);
 extern void WIFI_HISTORY_InitLanguageRegion(u32 a, u32 b, u32 c, u32 d);
 extern void GAME_BEACON_SetNationArea(u8 a, u8 b);
 extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
@@ -464,10 +464,10 @@ extern int G3D_SYSTEM_Exit(int);
 extern int BG_SYS_Delete(int);
 extern void *ARC_UTIL_LoadHandleMemberWithSize(void *,int,int,u32,u32 *);
 extern u32 GFL_HEAP_Free(void *p);
-extern int BMP_OAM_GetNumRecords(void);
-extern u32 BMP_OAM_GetRecordParam(u32),BMP_OAM_GetRecordKey(u32);
+extern int NATION_AREA_GetNationRecordCount(void);
+extern u32 NATION_AREA_GetAreaListArcMember(u32),NATION_AREA_GetNationIdByIndex(u32);
 extern u32 WIFI_HISTORY_GetCountryRegionState(const struct Sub02009470Obj *obj, int row, int col);
-extern u32 BMP_OAM_GetRecordIndex(u32);
+extern u32 NATION_AREA_FindRecordIndex(u32);
 extern int TOUCHPANEL_HitTrg(const void *);
 extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 extern void BMP_WIN_MakeScreen(struct BeaconLightCfg*);
@@ -540,7 +540,7 @@ extern void G3D_SYSTEM_DrawEnd(void);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void MTX_Identity33_(M33 *);
 extern void G3D_SYSTEM_DrawObject(void *obj, struct Arg *status);
-extern unsigned BEACON_DETAIL_GetRecordIndex(unsigned),BMP_OAM_GetRecordField(unsigned);
+extern unsigned BEACON_DETAIL_GetRecordIndex(unsigned),NATION_AREA_GetAreaMsgBankByIndex(unsigned);
 extern u16 GF_STANDARD_DegToAngle(int x);
 extern int FX_Sqrt(int x);
 int BEACON_DETAIL_Init(void *obj,void *unused,void *ctx);
@@ -643,8 +643,8 @@ int BEACON_DETAIL_Init(void *obj,void *unused,void *ctx)
     ((BeaconDetailWork *)p)->sub09470=WIFI_HISTORY_GetBlock(((BeaconDetailWork *)p)->saveCtl);
     if(GAME_LANGUAGE_Code==1)((BeaconDetailWork *)p)->japaneseFlag=1;
     else ((BeaconDetailWork *)p)->japaneseFlag=0;
-    ((BeaconDetailWork *)p)->nation=MYSTATUS_GetLanguage(((BeaconDetailWork *)p)->sub0852C);
-    ((BeaconDetailWork *)p)->area=MYSTATUS_GetVersion(((BeaconDetailWork *)p)->sub0852C);
+    ((BeaconDetailWork *)p)->nation=MYSTATUS_GetNation(((BeaconDetailWork *)p)->sub0852C);
+    ((BeaconDetailWork *)p)->area=MYSTATUS_GetArea(((BeaconDetailWork *)p)->sub0852C);
     ((BeaconDetailWork *)p)->sub09470State=WIFI_HISTORY_GetMode(((BeaconDetailWork *)p)->sub09470);
     ((BeaconDetailWork *)p)->win[0]=0;
     ((BeaconDetailWork *)p)->win[1]=0;
@@ -656,7 +656,7 @@ int BEACON_DETAIL_Init(void *obj,void *unused,void *ctx)
     ((BeaconDetailWork *)p)->tcbl=TCBL_Create((u16)(((BeaconDetailWork *)p)->heapId),((BeaconDetailWork *)p)->heapId,0x20,0x20);
     ((BeaconDetailWork *)p)->keyCursor.id=APP_KEYCURSOR_CreateDefault(0xf,1,0,((BeaconDetailWork *)p)->heapId);
     ((BeaconDetailWork *)p)->printQue.id=PRINTSYS_QUE_Create((void *)(u16)((BeaconDetailWork *)p)->heapId);
-    GFL_NET_RestartWithDefaultTimeout(1,(u16)(((BeaconDetailWork *)p)->heapId));
+    GFL_NET_RefreshWmIconAtTopRight(1,(u16)(((BeaconDetailWork *)p)->heapId));
     BG_SYS_SetSubPlaneVisible(0x10,1);
     BEACON_DETAIL_LoadRecords(p);
     return 1;
@@ -786,8 +786,8 @@ static inline void close_win(u8 *p, BeaconMessage *msg)
  *           a `call:` label on `GFL_USE_PlaySeDefaultVolume(m)`; the case 9 0x551 path does `m = 0x551; goto call;`;
  *           case 17 writes `if (((BeaconDetailWork *)p)->detailOpen != 1) break; goto se54c;`. The 0x648/0x649 calls then
  *           merge into case 12's call by themselves. d_02185DE6 hint token dropped (contested).
- *           Remaining: three callees with no witness: arm9 BMP_OAM_Update5BE8 and GAME_BEACON_SetNationArea and ov219
- *           BEACON_DETAIL_Init3DParams. This lane filed all three EXACT (src/matched/arm9/BMP_OAM_Update5BE8.c,
+ *           Remaining: three callees with no witness: arm9 NATION_AREA_GetDefaultNation and GAME_BEACON_SetNationArea and ov219
+ *           BEACON_DETAIL_Init3DParams. This lane filed all three EXACT (src/matched/arm9/NATION_AREA_GetDefaultNation.c,
  *           src/matched/arm9/GAME_BEACON_SetNationArea.c, src/matched/ov/BEACON_DETAIL_Init3DParams.c); after the
  *           manifest picks them up this should verify EXACT.
  */
@@ -885,7 +885,7 @@ int BEACON_DETAIL_Update(u8 *p, int *state)
         switch ((u32)(int)BMP_MENU_ProcessYesNo(((BeaconDetailWork *)p)->yesNo)) {
         case 0:
             if (((BeaconDetailWork *)p)->japaneseFlag == 1) {
-                ((BeaconDetailWork *)p)->selNation = (u32)BMP_OAM_Update5BE8();
+                ((BeaconDetailWork *)p)->selNation = (u32)NATION_AREA_GetDefaultNation();
                 *state = 0xA;
             } else {
                 *state = 7;
@@ -935,8 +935,8 @@ int BEACON_DETAIL_Update(u8 *p, int *state)
         break;
     case 10:
         ((BeaconDetailWork *)p)->selArea = 0;
-        BMP_OAM_Check5C44((u32)((u32)((BeaconDetailWork *)p)->selNation), (u32 *)(&ids), &count);
-        BEACON_DETAIL_CreateMenuItemsFromIds((char *)p, d_02185DC4, (const struct BeaconMenuConfig *)((const struct BeaconMenuConfig *)d_02185ECC), BMP_OAM_Get((u32)((u32)((BeaconDetailWork *)p)->selNation)), ids, count);
+        NATION_AREA_GetAreaTable((u32)((u32)((BeaconDetailWork *)p)->selNation), (u32 *)(&ids), &count);
+        BEACON_DETAIL_CreateMenuItemsFromIds((char *)p, d_02185DC4, (const struct BeaconMenuConfig *)((const struct BeaconMenuConfig *)d_02185ECC), NATION_AREA_GetAreaMsgBank((u32)((u32)((BeaconDetailWork *)p)->selNation)), ids, count);
         *state = 0xB;
         break;
     case 11:
@@ -1215,7 +1215,7 @@ void BEACON_DETAIL_ExitGraphics(int a)
 
 /*
  * lever: permuter split-assign(count2) moves the otherwise swapped outer/inner count spill slots; fixed-flag one validates MATCH*258B; trailing2B alignment excluded.
- * blocker C: int BMP_OAM_GetNumRecords(void){return 19;} typedef unsigned int u32; extern const unsigned char d_0209FA34[],d_0209FA35[]; u32 BMP_OAM_GetRecordKey(u32 i){if(i<19)return d_0209FA34[i*12];return 0;} u32 BMP_OAM_GetRecordParam(u32 i){if(i<19)return d_0209FA35[i*12];return 18;}
+ * blocker C: int NATION_AREA_GetNationRecordCount(void){return 19;} typedef unsigned int u32; extern const unsigned char d_0209FA34[],d_0209FA35[]; u32 NATION_AREA_GetNationIdByIndex(u32 i){if(i<19)return d_0209FA34[i*12];return 0;} u32 NATION_AREA_GetAreaListArcMember(u32 i){if(i<19)return d_0209FA35[i*12];return 18;}
  * note 2026-10-04 (D2): still MATCH*; the three arm9 leaves 02025B38, 02025BB8, 02025BD0 are now filed EXACT in
  *   src/matched/arm9/func_<ADDR>.c (D2 lane 11). Rerun after the integrator regenerates shards: expected EXACT*.
  */
@@ -1240,14 +1240,14 @@ void BEACON_DETAIL_LoadRecords(char *p)
     }
     GFL_HEAP_Free(data);
     j=1;
-    count=BMP_OAM_GetNumRecords();
+    count=NATION_AREA_GetNationRecordCount();
     for(;j<count;j++){
-        data2=ARC_UTIL_LoadHandleMemberWithSize(arc,BMP_OAM_GetRecordParam(j),0,((BeaconDetailWork *)p)->heapId,&size2);
+        data2=ARC_UTIL_LoadHandleMemberWithSize(arc,NATION_AREA_GetAreaListArcMember(j),0,((BeaconDetailWork *)p)->heapId,&size2);
         count2=size2;
         count2=count2/4u;
         cursor=(short *)((char *)data2+4);
         for(i=1;i<count2;i++,cursor+=2){
-            BEACON_DETAIL_SetRecord((BeaconDetailWork *)p, ((BeaconDetailWork *)p)->recordCount, cursor[0], cursor[1], BMP_OAM_GetRecordKey(j), i);
+            BEACON_DETAIL_SetRecord((BeaconDetailWork *)p, ((BeaconDetailWork *)p)->recordCount, cursor[0], cursor[1], NATION_AREA_GetNationIdByIndex(j), i);
             (((BeaconDetailWork *)p)->recordCount)++;
         }
         GFL_HEAP_Free(data2);
@@ -1313,7 +1313,7 @@ void BEACON_DETAIL_MarkCurrentRecord(BeaconDetailWork *p)
 
 
 
-u32 BEACON_DETAIL_GetRecordIndex(u32 key){return BMP_OAM_GetRecordIndex(key);}
+u32 BEACON_DETAIL_GetRecordIndex(u32 key){return NATION_AREA_FindRecordIndex(key);}
 
 
 
@@ -2473,7 +2473,7 @@ int BEACON_DETAIL_GetEntryText(unsigned key,unsigned optional,void *first,void *
     MSGDATA_Delete(bank);
     if(index==0) {index=1;optional=0;}
     else found=1;
-    bank=MSGDATA_CreateFromArchive(0,2,BMP_OAM_GetRecordField(index),heap);
+    bank=MSGDATA_CreateFromArchive(0,2,NATION_AREA_GetAreaMsgBankByIndex(index),heap);
     MSGDATA_ReadString(bank,optional,second);
     MSGDATA_Delete(bank);
     return found;

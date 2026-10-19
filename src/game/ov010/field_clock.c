@@ -35,8 +35,8 @@
  *   IRC_RANKING_ClearNewFlags  0x0200AB04  thumb
  *   POKEPARTY_GetSaveData 0x0201AD0C thumb
  *   GAME_DATA_GetSeason 0x02012984 thumb
- *   BEACON_GetBlock 0x0200C0F0 thumb
- *   BEACON_SubGatePoints 0x0200C3C0 thumb
+ *   MISC_GetBlock 0x0200C0F0 thumb
+ *   MISC_SubGatePoints 0x0200C3C0 thumb
  *   TIMEZONE_GetTimeZoneOfHour  0x020113F0  thumb
  *   GF_STANDARD_GetRtcTimestamp 0x0203F524 arm
  *   DAILY_CLOCK_HasAllowance  0x02008BD0  thumb
@@ -116,9 +116,9 @@ extern PartySave *POKEPARTY_GetSaveData(SaveControl *saveControl);
 
 extern u8 GAME_DATA_GetSeason(GameData *gameData);
 
-extern void *BEACON_GetBlock(SaveControl *saveControl);
+extern void *MISC_GetBlock(SaveControl *saveControl);
 
-extern void BEACON_SubGatePoints(void *obj, u16 v);
+extern void MISC_SubGatePoints(void *obj, u16 v);
 
 extern int TIMEZONE_GetTimeZoneOfHour(int season, int hour);
 
@@ -248,7 +248,7 @@ void FIELD_CLOCK_UpdateDays(GameData *gameData, int days)
  * extent: trailing two-byte alignment padding.
  * interface: final u16 argument follows the original lsls/lsrs #16 pair.
  */
-void FIELD_CLOCK_UpdateMinutes(GameData *gameData, int minutes, RTCTime *time) { PartySave *partySave=POKEPARTY_GetSaveData(GAME_DATA_GetSaveControl(gameData)); FORMCHANGE_RevertShayminIfTimeOfDayChanged(gameData,partySave,minutes,time,GAME_DATA_GetSeason(gameData)); BEACON_SubGatePoints(BEACON_GetBlock(GAME_DATA_GetSaveControl(gameData)),minutes); }
+void FIELD_CLOCK_UpdateMinutes(GameData *gameData, int minutes, RTCTime *time) { PartySave *partySave=POKEPARTY_GetSaveData(GAME_DATA_GetSaveControl(gameData)); FORMCHANGE_RevertShayminIfTimeOfDayChanged(gameData,partySave,minutes,time,GAME_DATA_GetSeason(gameData)); MISC_SubGatePoints(MISC_GetBlock(GAME_DATA_GetSaveControl(gameData)),minutes); }
 
 /*
  * Date of the clock checkpoint.

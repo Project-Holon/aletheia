@@ -1,5 +1,5 @@
 /*
- * function: BTL_CALC_ActionSetForcedSkip
+ * function: BTL_ACTION_SetForcedSkip
  * address: 0x021D8444
  * packet: pkt_ov093_021D8444
  * region: ov093
@@ -13,4 +13,4 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
-void BTL_CALC_ActionSetForcedSkip(u32 *p) { *p = (*p & ~15) | 7; }
+void BTL_ACTION_SetForcedSkip(u32 *p) { *p = (*p & ~15) | 7; }

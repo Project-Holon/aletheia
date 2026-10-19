@@ -1,5 +1,5 @@
 /*
- * function: FIELD_PLAYER_CheckEncountAttr
+ * function: FIELD_PLAYER_CheckSurfStartAttr
  * address:  0x021A3504
  * packet:   pkt_ov021_021A3504
  * region:   ov021
@@ -19,7 +19,7 @@ typedef unsigned char  u8;
 u32 FIELD_PLAYER_GetFormCode(u8 *p);
 int MAP_ATTR_IsHopTransition(unsigned long a, unsigned long b);
 
-int FIELD_PLAYER_CheckEncountAttr(u8 *a, int b, int c)
+int FIELD_PLAYER_CheckSurfStartAttr(u8 *a, int b, int c)
 {
     int r = FIELD_PLAYER_GetFormCode(a);
 

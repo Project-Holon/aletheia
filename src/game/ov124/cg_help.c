@@ -14,7 +14,7 @@
  *
  *   GFL_NET_ERR_GetErrorLevel 0x0200FB24 thumb
  * symbols:
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   TCB_DeleteTask 0x02030EAC arm
  *   KEY_GetTrg 0x020362DC arm
  *   BG_SYS_MarkTileDirty 0x02041B6C arm
@@ -96,7 +96,7 @@
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   KEY_GetCont 0x0203630C arm
- *   MYSTATUS_SetOutfitVariant 0x0200854C thumb
+ *   MYSTATUS_SetSex 0x0200854C thumb
  *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
  *   WIPE_ResetWndMask  0x02022224  thumb  arm9
@@ -126,7 +126,7 @@
  *   BMP_MENUWORK_LoadCharAndPltt  0x0201F5BC  thumb  arm9
  *   BMP_MENUWORK_DrawWindow  0x0201F73C  thumb  arm9
  *   GFL_USE_AddMainTask  0x020056A0  thumb  arm9
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb  arm9
+ *   MYSTATUS_GetSex  0x02008550  thumb  arm9
  */
 
 struct Node;
@@ -219,7 +219,7 @@ typedef struct CgHelpWork {
 } CgHelpWork;
 
 extern void *GFL_USE_AddMainTask(void *,void *,int);
-extern void GFL_NET_RestartWithDefaultTimeout(unsigned,unsigned);
+extern void GFL_NET_RefreshWmIconAtTopRight(unsigned,unsigned);
 extern void TCB_DeleteTask(struct Node *);
 extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
 extern u32 WIPE_SYS_EndCheck(void);
@@ -261,7 +261,7 @@ extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, 
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetSex(const struct Sub0200852CObj *obj);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
@@ -312,7 +312,7 @@ extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void *MYSTATUS_Create(int heap_id);
 extern unsigned int KEY_GetCont(void);
-extern void MYSTATUS_SetOutfitVariant(struct Sub0200852CObj *obj, u8 value);
+extern void MYSTATUS_SetSex(struct Sub0200852CObj *obj, u8 value);
 extern void PROCSYS_FreeProcWork(struct Proc *);
 extern void GFL_HEAP_DeleteChecked(u32);
 void CG_HELP_Setup(CgHelpWork *work);
@@ -350,7 +350,7 @@ void CG_HELP_Setup(CgHelpWork *work)
     work->pageIndex = 0;
     work->firstDrawPending = 1;
     CG_HELP_DrawPageText(work,work->pageIndex);
-    GFL_NET_RestartWithDefaultTimeout(0,work->heapId);
+    GFL_NET_RefreshWmIconAtTopRight(0,work->heapId);
 }
 
 
@@ -521,7 +521,7 @@ void CG_HELP_LoadActorResources(CgHelpWork *work)
     ARC_UTIL_UploadBgPaletteFromHandle(archive, 9, 7, 0, 0, 0, work->heapId);
     ARC_TOOL_DeleteHandle(archive);
     archive = ARC_TOOL_CreateHandle(0x1e, work->heapId);
-    if (MYSTATUS_GetOutfitVariant(work->args->myStatus) == 0)
+    if (MYSTATUS_GetSex(work->args->myStatus) == 0)
         work->paletteId = CLACT_RegisterPaletteEx(archive, 19, 1, 0, 0, 15, work->heapId);
     else
         work->paletteId = CLACT_RegisterPaletteEx(archive, 12, 1, 0, 0, 15, work->heapId);
@@ -714,8 +714,8 @@ int CG_HELP_ProcInit(void *a,int b,CgHelpArgs *c)
     if (!q) {
         q = GFL_HEAP_Alloc(0x8a,8,1,gCgHelpFileName,0x2f3);
         q->myStatus = MYSTATUS_Create(0x8a);
-        if (KEY_GetCont() & 0x100) MYSTATUS_SetOutfitVariant(q->myStatus,1);
-        else MYSTATUS_SetOutfitVariant(q->myStatus,0);
+        if (KEY_GetCont() & 0x100) MYSTATUS_SetSex(q->myStatus,1);
+        else MYSTATUS_SetSex(q->myStatus,0);
     }
     work->args = q;
     work->heapId = 0x8a;

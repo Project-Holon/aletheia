@@ -1,5 +1,5 @@
 /*
- * function: MISC_SAVEDATA_GetRingBlockSize
+ * function: DENDOU_SAVEDATA_GetSize
  * address: 0x0200EA0C
  * packet: pkt_arm9_0200EA0C
  * region: arm9
@@ -13,9 +13,9 @@
  */
 
 typedef unsigned int u32;
-u32 MISC_SAVEDATA_GetRingBlockSize(void);
+u32 DENDOU_SAVEDATA_GetSize(void);
 
-u32 MISC_SAVEDATA_GetRingBlockSize(void)
+u32 DENDOU_SAVEDATA_GetSize(void)
 {
     return 0x155C;
 }

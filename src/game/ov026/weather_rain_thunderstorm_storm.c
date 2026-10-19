@@ -51,15 +51,15 @@
  *   WEATHER_TASK_IsLightFlashing  0x021A213C  thumb  ov021
  *   WEATHER_TASK_SetBillboardVisible  0x021A2160  thumb  ov021
  *   gWeatherThunderstormSpeedScale     0x021EFD08  data  ov026  a4
- *   WEATHER_TASK_SetBillboardParam0C 0x021A2190 thumb ov021
- *   WEATHER_TASK_SetBillboardParam10 0x021A21A0 thumb ov021
+ *   WEATHER_TASK_SetBillboardTexOffsetX 0x021A2190 thumb ov021
+ *   WEATHER_TASK_SetBillboardTexOffsetY 0x021A21A0 thumb ov021
  *   gWeatherStormDropUpdate 0x021EFDCC data ov026 a4
  *   gWeatherStormDropInit     0x021EFDC0  data  a4
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_SetActorAutoAnimSpeed  0x0204B954  arm
- *   WEATHER_TASK_SetBillboardParam14  0x021A2170  thumb  ov021
- *   WEATHER_TASK_SetBillboardParam18  0x021A2180  thumb  ov021
+ *   WEATHER_TASK_SetBillboardScaleX  0x021A2170  thumb  ov021
+ *   WEATHER_TASK_SetBillboardScaleY  0x021A2180  thumb  ov021
  *   gWeatherStormGustWindX     0x021EFD74  data  ov026  a4
  *   gWeatherStormGustWindY     0x021EFD78  data  ov026  a4
  *   gWeatherStormGustLayerScale     0x021EFD3C  data  ov026  a4
@@ -562,8 +562,8 @@ void WEATHER_THUNDERSTORM_ScrollLayers(WeatherTaskSys *task, WeatherThunderstorm
     WEATHER_TASK_GetCameraScroll(task, &scrollX, &scrollY);
     WEATHER_TASK_ShiftParticles(task, scrollX, scrollY);
     work->scrollPhase = (work->scrollPhase + 9) % 256;
-    WEATHER_TASK_SetBillboardParam0C(task, -(work->scrollPhase + scrollX), 0);
-    WEATHER_TASK_SetBillboardParam10(task, scrollY - work->scrollPhase, 0);
+    WEATHER_TASK_SetBillboardTexOffsetX(task, -(work->scrollPhase + scrollX), 0);
+    WEATHER_TASK_SetBillboardTexOffsetY(task, scrollY - work->scrollPhase, 0);
 }
 
 /* Storm: begin stage. */
@@ -957,8 +957,8 @@ void WEATHER_STORM_UpdateGust(WeatherTaskSys *task, WeatherStormWork *work, int 
             work->gustTimer = 0;
             if (silent == 0) {
                 WEATHER_TASK_SetBillboardVisible(task, 0, 1);
-                WEATHER_TASK_SetBillboardParam14(task, 0x1000, 0);
-                WEATHER_TASK_SetBillboardParam18(task, 0x1000, 0);
+                WEATHER_TASK_SetBillboardScaleX(task, 0x1000, 0);
+                WEATHER_TASK_SetBillboardScaleY(task, 0x1000, 0);
             }
         }
         break;
@@ -971,8 +971,8 @@ void WEATHER_STORM_UpdateGust(WeatherTaskSys *task, WeatherStormWork *work, int 
             work->gustTimer = 0;
             if (silent == 0) {
                 WEATHER_TASK_SetBillboardVisible(task, 1, 1);
-                WEATHER_TASK_SetBillboardParam14(task, 0x800, 0);
-                WEATHER_TASK_SetBillboardParam18(task, 0x1800, 0);
+                WEATHER_TASK_SetBillboardScaleX(task, 0x800, 0);
+                WEATHER_TASK_SetBillboardScaleY(task, 0x1800, 0);
             }
         }
         break;
@@ -1027,12 +1027,12 @@ void WEATHER_STORM_ScrollLayers(WeatherTaskSys *task, WeatherStormWork *work)
         work->scrollX0 = (work->scrollX0 + 3) % 256;
         work->scrollY0 = (work->scrollY0 + 8) % 256;
     }
-    WEATHER_TASK_SetBillboardParam0C(task, -(work->scrollX0 + scrollX), 0);
-    WEATHER_TASK_SetBillboardParam10(task, scrollY - work->scrollY0, 0);
-    WEATHER_TASK_SetBillboardParam0C(task, -(work->scrollX1 + scrollX), 1);
-    WEATHER_TASK_SetBillboardParam10(task, scrollY - work->scrollY1, 1);
-    WEATHER_TASK_SetBillboardParam14(task, work->layerScale, 1);
-    WEATHER_TASK_SetBillboardParam18(task, work->layerScale, 1);
+    WEATHER_TASK_SetBillboardTexOffsetX(task, -(work->scrollX0 + scrollX), 0);
+    WEATHER_TASK_SetBillboardTexOffsetY(task, scrollY - work->scrollY0, 0);
+    WEATHER_TASK_SetBillboardTexOffsetX(task, -(work->scrollX1 + scrollX), 1);
+    WEATHER_TASK_SetBillboardTexOffsetY(task, scrollY - work->scrollY1, 1);
+    WEATHER_TASK_SetBillboardScaleX(task, work->layerScale, 1);
+    WEATHER_TASK_SetBillboardScaleY(task, work->layerScale, 1);
 }
 
 /* Storm: plays the warning sound 24 frames before the calm phase ends. */

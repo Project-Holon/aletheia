@@ -1,5 +1,5 @@
 /*
- * function: TR_AI_CompareMoveParam28
+ * function: TR_AI_CompareMoveEffectSequence
  * address: 0x0218908C
  * packet: pkt_ov096_0218908C
  * region: ov096
@@ -21,7 +21,7 @@ struct Cursor;
 extern u32 VM_GetU32(struct Cursor *);
 extern int TR_AI_GetMoveParam(int, int, int);
 extern int TR_AI_Compare(u8 *, int, int, int, int);
-void TR_AI_CompareMoveParam28(u8 *a, int b, int c)
+void TR_AI_CompareMoveEffectSequence(u8 *a, int b, int c)
 {
     int t0, t1;
     t0 = VM_GetU32((struct Cursor *)a);

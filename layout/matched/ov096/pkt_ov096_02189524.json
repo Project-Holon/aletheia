@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "TR_AI_CmdMapMoveParam28",
+   "name": "TR_AI_CmdMapMoveToEffectSequence",
    "address": "0x02189524",
    "kind": "game",
    "region": "ov096",

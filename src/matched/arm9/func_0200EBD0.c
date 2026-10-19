@@ -1,5 +1,5 @@
 /*
- * function: MISC_SAVEDATA_AppendPartyRecord
+ * function: DENDOU_SAVEDATA_AppendRecord
  * address:  0x0200EBD0
  * packet:   pkt_0200EA3C
  * region:   arm9
@@ -9,14 +9,14 @@
  * status:   EXACT
  *
  * symbols:
- *   MISC_SAVEDATA_SnapshotParty  0x0200EA3C  thumb
+ *   DENDOU_SAVEDATA_SetRecord  0x0200EA3C  thumb
  *
  * Ring-buffer record dispatcher: while the saturating counter at +0x1558 is
- * below 9999, hand the 0x16c-byte record at slot +0x1554 to MISC_SAVEDATA_SnapshotParty,
+ * below 9999, hand the 0x16c-byte record at slot +0x1554 to DENDOU_SAVEDATA_SetRecord,
  * then advance the slot (wrapping at 15) and the counter.
  *
  * The residue that stood for four passes (r6 vs r1, push one register
- * narrower) was the parameter list: MISC_SAVEDATA_SnapshotParty takes FOUR arguments
+ * narrower) was the parameter list: DENDOU_SAVEDATA_SetRecord takes FOUR arguments
  * (its prologue homes r0..r3), and this function forwards its own r1..r3 to
  * it untouched.  With a1..a3 live in r1..r3 across the prologue the index
  * temporary cannot take r1 and lands in r6.  The only caller
@@ -38,13 +38,13 @@ struct Obj {
 
 struct Rec;
 struct Date;
-extern void MISC_SAVEDATA_SnapshotParty(struct Rec *rec, void *a1, struct Date *date, u32 heap);
+extern void DENDOU_SAVEDATA_SetRecord(struct Rec *rec, void *a1, struct Date *date, u32 heap);
 
-void MISC_SAVEDATA_AppendPartyRecord(struct Obj *obj, void *a1, void *date, u32 heap)
+void DENDOU_SAVEDATA_AppendRecord(struct Obj *obj, void *a1, void *date, u32 heap)
 {
     if (obj->unk1558 < 9999) {
         u32 idx;
-        MISC_SAVEDATA_SnapshotParty((struct Rec *)((u8 *)obj + obj->unk1554 * 0x16c), a1, date, heap);
+        DENDOU_SAVEDATA_SetRecord((struct Rec *)((u8 *)obj + obj->unk1554 * 0x16c), a1, date, heap);
         idx = obj->unk1554 + 1;
         obj->unk1554 = idx;
         if (idx >= 15) {

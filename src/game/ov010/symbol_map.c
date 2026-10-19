@@ -18,14 +18,14 @@
  *   SYMBOL_SAVE_GetBlock  0x0200E0B0  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_COMM_GetPartnerSlot  0x021767A0  thumb  ov011
- *   COMM_PLAYER_GetState849  0x021673C4  thumb  ov010
- *   COMM_PLAYER_GetState848  0x021673A8  thumb  ov010
+ *   SYMBOL_MAP_GetSymbolIndex  0x021673C4  thumb  ov010
+ *   SYMBOL_MAP_GetGroup  0x021673A8  thumb  ov010
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   INTRUDE_COMM_GetPartnerSymbolPage  0x02176880  thumb  ov011
  *   g_SymbolMapGridTable 0x02171EF4 data a4
  *   GAME_DATA_GetSymbolMapFlag  0x02012FB0  thumb
  *   GFL_HEAP_Alloc  0x02030734  arm
- *   COMM_PLAYER_GetListPage  0x0216749C  thumb  ov010
+ *   SYMBOL_MAP_GetEntryPage  0x0216749C  thumb  ov010
  *   MI_CpuCopy8    0x02082D44  arm
  *   g_SymbolMapFileName     0x021729EC  data  a1
  *   EVENT_FIELD_PROCLINK_StartCommProc 0x02161CDC thumb ov010
@@ -50,7 +50,7 @@
  *   WIFI_HISTORY_IsCountryVisited  0x02009794  thumb
  *   WIFI_HISTORY_GetFirstFreeEntry  0x020095C8  thumb
  *   WIFI_HISTORY_GetEntry  0x0200973C  thumb
- *   MYSTATUS_GetLanguage  0x0200856C  thumb
+ *   MYSTATUS_GetNation  0x0200856C  thumb
  *   ov218_id  0x000000DA  data
  *   gUnSelectProcData  0x021BAB5C  data  a4 ov218
  *   GAME_DATA_GetSaveSyncBlock  0x02012F38  thumb
@@ -82,15 +82,15 @@
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   MI_CpuFill8    0x02082BCC  arm
  *   PMSI_PARAM_Create  0x02024044  thumb
- *   SAVEDATA_GetExtraBlock  0x0200E6F0  thumb
- *   MISC_SAVEDATA_CopyQuadRecord  0x0200E6FC  thumb
+ *   GREETING_SAVEDATA_GetFromSave  0x0200E6F0  thumb
+ *   GREETING_SAVEDATA_GetSentence  0x0200E6FC  thumb
  *   PMSI_PARAM_SetSentence  0x02024108  thumb
  *   PMSI_PARAM_CheckCanceled  0x0202411C  thumb
  *   PMSI_PARAM_GetWords  0x02024128  thumb
  *   PMSI_PARAM_GetWord  0x02024124  thumb
  *   PMSI_PARAM_GetSentence  0x02024134  thumb
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
- *   MISC_SAVEDATA_StoreQuadRecord  0x0200E714  thumb
+ *   GREETING_SAVEDATA_SetSentence  0x0200E714  thumb
  *   PMSI_PARAM_Delete  0x020240FC  thumb
  *   ov110_id       0x0000006E  data   a1
  *   gPmsSelectProcData     0x021C39B8  data   ov110  a4
@@ -242,9 +242,9 @@ extern u32 GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
 
 extern u8 INTRUDE_COMM_GetPartnerSlot(void *comm, void *gameData);
 
-extern u8 COMM_PLAYER_GetState849(u8 *saveData);
+extern u8 SYMBOL_MAP_GetSymbolIndex(u8 *saveData);
 
-extern u8 COMM_PLAYER_GetState848(u8 *saveData);
+extern u8 SYMBOL_MAP_GetGroup(u8 *saveData);
 
 extern int INTRUDE_COMM_GetWorkIfRunning(int comm);
 
@@ -254,7 +254,7 @@ extern int GAME_DATA_GetSymbolMapFlag(u8 *gameData);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
 
-extern u16 COMM_PLAYER_GetListPage(SymbolMapEntry *entries, SymbolMapEntry *out, u32 capacity, int page, u8 *count);
+extern u16 SYMBOL_MAP_GetEntryPage(SymbolMapEntry *entries, SymbolMapEntry *out, u32 capacity, int page, u8 *count);
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
@@ -298,7 +298,7 @@ extern u8 WIFI_HISTORY_GetFirstFreeEntry(const struct SymbolMapSave *save);
 
 extern struct SymbolMapSaveEntry *WIFI_HISTORY_GetEntry(struct SymbolMapSave *save, int index);
 
-extern u8 MYSTATUS_GetLanguage(const struct SymbolMapSaveEntry *entry);
+extern u8 MYSTATUS_GetNation(const struct SymbolMapSaveEntry *entry);
 
 extern SaveSyncBlock *GAME_DATA_GetSaveSyncBlock(struct GameData *gameData);
 
@@ -350,9 +350,9 @@ extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 
 extern void *PMSI_PARAM_Create(u32 mode, u32 unused, void *src, u32 flag, void *saveControl, u32 hh);
 
-extern void *SAVEDATA_GetExtraBlock(u32 saveControl);
+extern void *GREETING_SAVEDATA_GetFromSave(u32 saveControl);
 
-extern void MISC_SAVEDATA_CopyQuadRecord(void *table, int index, void *dst);
+extern void GREETING_SAVEDATA_GetSentence(void *table, int index, void *dst);
 
 extern void PMSI_PARAM_SetSentence(u16 *pmsParam, const u16 *sentence);
 
@@ -366,7 +366,7 @@ extern void PMSI_PARAM_GetSentence(char *pmsParam, void *out);
 
 extern void *GAME_EVENT_GetGameSystem(struct GameTask *task);
 
-extern void MISC_SAVEDATA_StoreQuadRecord(void *table, int index, void *src);
+extern void GREETING_SAVEDATA_SetSentence(void *table, int index, void *src);
 
 extern void  PMSI_PARAM_Delete(void *pmsParam);
 
@@ -604,8 +604,8 @@ int SYMBOL_MAP_GetSelection(void *gameSystem, u32 *outSymbolIndex, u32 *outSymbo
     saveData = SYMBOL_SAVE_GetBlock(GAME_DATA_GetSaveControl(gameData));
     comm = (void *)GAMESYSTEM_GetGameComm(gameSystem);
     if (INTRUDE_COMM_GetPartnerSlot(comm, gameData) == 4) {
-        *outSymbolIndex = COMM_PLAYER_GetState849(saveData);
-        *outSymbolGroup = COMM_PLAYER_GetState848(saveData);
+        *outSymbolIndex = SYMBOL_MAP_GetSymbolIndex(saveData);
+        *outSymbolGroup = SYMBOL_MAP_GetGroup(saveData);
         return 1;
     }
     comm = (void *)INTRUDE_COMM_GetWorkIfRunning((int)comm);
@@ -646,10 +646,10 @@ u8 *SYMBOL_MAP_GetSelectionGrid(void *gameSystem) {
  * heap id is u16 in this function and in the allocator prototype (both sides, as in the
  * ov010 and SDK callers that declare u16 heap). Plain literals 0x1DC and 530 already
  * derive 530 from the held 0x1DC; a constant local did not change the schedule.
- * Twin search: grep -rl -E "COMM_PLAYER_GetListPage|COMM_PLAYER_GetState849|COMM_PLAYER_GetState848" src/matched src/pending
+ * Twin search: grep -rl -E "SYMBOL_MAP_GetEntryPage|SYMBOL_MAP_GetSymbolIndex|SYMBOL_MAP_GetGroup" src/matched src/pending
  * (hits ov010 02166434, 021673C4, 021673A8, 0216749C, ov011 02174D5C); ov010 02166434 has
  * the same front half and was the shape source. Callees return real types: INTRUDE_COMM_GetPartnerSlot u8,
- * GAME_DATA_GetSymbolMapFlag int, COMM_PLAYER_GetListPage u16, COMM_PLAYER_GetState849/A8 u8, GFL_HEAP_Alloc void *.
+ * GAME_DATA_GetSymbolMapFlag int, SYMBOL_MAP_GetEntryPage u16, SYMBOL_MAP_GetSymbolIndex/A8 u8, GFL_HEAP_Alloc void *.
  */
 SymbolMapLinkRecord *SYMBOL_MAP_CreateLinkRecord(u16 heapId, void *gameSystem, u32 *outStart)
 {
@@ -667,10 +667,10 @@ SymbolMapLinkRecord *SYMBOL_MAP_CreateLinkRecord(u16 heapId, void *gameSystem, u
     if (INTRUDE_COMM_GetPartnerSlot(comm, gameData) == 4) {
         page = GAME_DATA_GetSymbolMapFlag(gameData);
         record = GFL_HEAP_Alloc(heapId, sizeof(SymbolMapLinkRecord), 1, g_SymbolMapFileName, 0x1C9);
-        *outStart = COMM_PLAYER_GetListPage(saveData, record->entries, 20, page, &count);
+        *outStart = SYMBOL_MAP_GetEntryPage(saveData, record->entries, 20, page, &count);
         record->entryCount = count;
-        record->symbolIndex = COMM_PLAYER_GetState849(saveData);
-        record->symbolGroup = COMM_PLAYER_GetState848(saveData);
+        record->symbolIndex = SYMBOL_MAP_GetSymbolIndex(saveData);
+        record->symbolGroup = SYMBOL_MAP_GetGroup(saveData);
         record->state = 4;
         record->page = page;
         return record;
@@ -947,7 +947,7 @@ void *SYMBOL_MAP_CreatePickerTask(void *gameSystem, int mode, u32 outKind, u32 o
     if (count > 20)
         count = 20;
     for (i = 0; i < count; i++)
-        work->candidateIds[i] = MYSTATUS_GetLanguage(WIFI_HISTORY_GetEntry(save, i));
+        work->candidateIds[i] = MYSTATUS_GetNation(WIFI_HISTORY_GetEntry(save, i));
     for (; i < 20; i++)
         work->candidateIds[i] = 0;
     return task;
@@ -1280,7 +1280,7 @@ int SYMBOL_MAP_ScrCmdStartPmsInput(void *vm, void *work)
     }
     inputWork->pmsParam = PMSI_PARAM_Create(mode, 0, 0, 0, GAME_DATA_GetSaveControl(gameData), 1);
     if (inputWork->hasSentence) {
-        MISC_SAVEDATA_CopyQuadRecord(SAVEDATA_GetExtraBlock((u32)GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))), inputWork->sentenceId, sentenceBuf);
+        GREETING_SAVEDATA_GetSentence(GREETING_SAVEDATA_GetFromSave((u32)GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))), inputWork->sentenceId, sentenceBuf);
         PMSI_PARAM_SetSentence(inputWork->pmsParam, (const u16 *)sentenceBuf);
     }
     SCRIPT_SYS_CallEvent(scriptSystem, task);
@@ -1339,7 +1339,7 @@ u32 SYMBOL_MAP_PmsInputTaskMain(void *task, u32 *state)
             } else {
                 PMSI_PARAM_GetSentence(pmsParam, &sentence);
                 if (work->hasSentence != 0) {
-                    MISC_SAVEDATA_StoreQuadRecord(SAVEDATA_GetExtraBlock((u32)GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(GAME_EVENT_GetGameSystem(task)))), work->sentenceId, (&sentence));
+                    GREETING_SAVEDATA_SetSentence(GREETING_SAVEDATA_GetFromSave((u32)GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(GAME_EVENT_GetGameSystem(task)))), work->sentenceId, (&sentence));
                 }
                 *work->outWord0 = sentence.first;
                 second = sentence.second;

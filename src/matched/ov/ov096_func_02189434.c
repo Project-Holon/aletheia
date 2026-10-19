@@ -1,5 +1,5 @@
 /*
- * function: TR_AI_CmdLoadPokeValue12
+ * function: TR_AI_CmdLoadSpeed
  * address:  0x02189434
  * packet:   pkt_ov096_02189434
  * region:   ov096
@@ -29,7 +29,7 @@ extern u8 TR_AI_GetPosition(u8 *p, int k);
 extern u8 *TR_AI_GetPoke(u8 *p, u8 i);
 extern int BTL_POKEPARAM_GetValue(u8 *p, int k);
 
-int TR_AI_CmdLoadPokeValue12(struct Cursor *a, int b) {
+int TR_AI_CmdLoadSpeed(struct Cursor *a, int b) {
     int t;
     u8 s;
     t = VM_GetU32(a);

@@ -124,8 +124,8 @@ extern int WEATHER_TASK_SetParticlePos(WeatherParticle *particle, const WeatherS
 extern void WEATHER_TASK_RemoveParticle(WeatherParticle *particle);
 extern WeatherParticle *WEATHER_TASK_AddParticle(WeatherTaskSys *task, int reserved);
 extern void WEATHER_TASK_SetBillboardVisible(WeatherTaskSys *task, unsigned int value, int layer);
-extern void WEATHER_TASK_SetBillboardParam0C(WeatherTaskSys *task, unsigned int value, int layer);
-extern void WEATHER_TASK_SetBillboardParam10(WeatherTaskSys *task, unsigned int value, int layer);
+extern void WEATHER_TASK_SetBillboardTexOffsetX(WeatherTaskSys *task, unsigned int value, int layer);
+extern void WEATHER_TASK_SetBillboardTexOffsetY(WeatherTaskSys *task, unsigned int value, int layer);
 
 /* Arm9 services. */
 extern u16 ZONEDATA_GetLightTableMember(u32 i);

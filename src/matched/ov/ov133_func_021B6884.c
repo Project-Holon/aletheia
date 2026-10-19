@@ -29,7 +29,7 @@
  *   DUP_FITTING_FreeHeldElem 0x021B7A18 thumb ov133
  *   MUSICAL_MCSS_GetActorPoolResource 0x021F4F10 thumb ov112
  *   MUSICAL_MCSS_GetElemPtr 0x021F4F54 thumb ov112
- *   MUSICAL_MCSS_NoOp6 0x021F4F70 thumb ov112
+ *   MUSICAL_MCSS_GetElemSizeFlags 0x021F4F70 thumb ov112
  *   MUSICAL_MCSS_FreeElemImage 0x021F4D74 thumb ov112
  *   MUSICAL_MCSS_NoOp3 0x021F4AA4 thumb ov112
  *   BILLBOARD_GetImagePlttKey 0x0204F32C arm
@@ -54,7 +54,7 @@ extern u32 DUP_FITTING_ITEM_ElemGetNext(u8 *p);
 extern void DUP_FITTING_FreeHeldElem(u8 *);
 extern u32 MUSICAL_MCSS_GetActorPoolResource(u8 *);
 extern u8 *MUSICAL_MCSS_GetElemPtr(u8 *, int);
-extern int MUSICAL_MCSS_NoOp6(int *);
+extern int MUSICAL_MCSS_GetElemSizeFlags(int *);
 extern void MUSICAL_MCSS_FreeElemImage(u8 *, u8 *, int, u16);
 extern void MUSICAL_MCSS_NoOp3(void *);
 extern void BILLBOARD_GetImagePlttKey(int p0, int p1, int p2);
@@ -94,7 +94,7 @@ void DUP_FITTING_VBlank(void *unused, u8 *p)
             BILLBOARD_GetImagePlttKey((int)(*(void **)(p + 0x188c)), *(int *)(p + 0x54), (int)(&height));
             BILLBOARD_GetImageTexKey(*(u8 **)(p + 0x188c), *(int *)(q + 4), &width);
             BILLBOARD_SetImageTexAddr(*(void **)(p + 0x188c), *(int *)(p + 0x54), width);
-            flags = MUSICAL_MCSS_NoOp6((int *)MUSICAL_MCSS_GetElemPtr(table, *(u16 *)(p + 0x50)));
+            flags = MUSICAL_MCSS_GetElemSizeFlags((int *)MUSICAL_MCSS_GetElemPtr(table, *(u16 *)(p + 0x50)));
             BILLBOARD_GetImageSizeFromFlags(flags, &sizes[1], &sizes[0]);
             index = BILLBOARD_AddImageFromVramKeys(*(void **)(p + 0x188c), width, height, 0, flags, sizes[1], sizes[0]);
             MUSICAL_MCSS_FreeElemImage(*(u8 **)(p + 0x1884), *(u8 **)(p + 0x4c), *(u16 *)(p + 0x50), index);

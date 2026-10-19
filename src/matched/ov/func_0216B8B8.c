@@ -11,8 +11,8 @@
  *
  * symbols:
  *   SYMBOL_SAVE_GetBitBlock  0x0200E394  thumb
- *   BEACON_GetFromSave  0x0200C0E8  thumb
- *   BEACON_GetEntryCount  0x0200C32C  thumb
+ *   MISC_GetFromSave  0x0200C0E8  thumb
+ *   MISC_GetResearchMissionIndex  0x0200C32C  thumb
  *   SCRCMD_RESEARCH_GetMissionKind  0x0216BB70  thumb  ov010
  *   SCRCMD_RESEARCH_AreMissionTargetsAtGoal  0x0216B994  thumb  ov010
  *   SCRCMD_RESEARCH_IsMissionTimeUp  0x0216B9D8  thumb  ov010
@@ -24,9 +24,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void *SYMBOL_SAVE_GetBitBlock(void *a0);
-extern void *BEACON_GetFromSave(void *sys);
+extern void *MISC_GetFromSave(void *sys);
 struct Blk34;
-extern u8 BEACON_GetEntryCount(struct Blk34 *p);
+extern u8 MISC_GetResearchMissionIndex(struct Blk34 *p);
 extern int SCRCMD_RESEARCH_GetMissionKind(int index);
 extern int SCRCMD_RESEARCH_AreMissionTargetsAtGoal(int c, int vm);
 extern int SCRCMD_RESEARCH_IsMissionTimeUp(int a0);
@@ -45,9 +45,9 @@ t4 = a1 + 0;
     t6 = SYMBOL_SAVE_GetBitBlock((void *)a0);
 loc_0216B8C2:
 a0 = t5 + 0;
-    p = BEACON_GetFromSave((void *)a0);
+    p = MISC_GetFromSave((void *)a0);
 loc_0216B8CA:
-    a0 = BEACON_GetEntryCount(p);
+    a0 = MISC_GetResearchMissionIndex(p);
 loc_0216B8CE:
 t7 = a0 + 0;
     a0 = SCRCMD_RESEARCH_GetMissionKind(a0);

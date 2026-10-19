@@ -90,12 +90,37 @@ hold 0x24-byte ARM thunk slots (the table at 0x02188414 names the six
 slots 0x021882A0 + n * 0x3C; each ends in `ldm sp!, {pc}` into the
 dispatcher at 0x02188C60, and the six words after each slot are its plain
 parameter block); table 2 holds the dispatcher and the two helpers it
-calls; table 4 holds seven more functions.  The dispatcher decrypts, calls
-and re-encrypts a second-layer body at call time; that layer is NOT
-replayed here: the view is exactly the memory state after the static
-initialisers returned (less the zeroed thunk and table words, which the
-view keeps so the listing still shows the table that produced it; none of
-them is inside a range, check 3).
+calls; table 4 holds seven more functions.
+
+The second layer
+----------------
+The dispatcher decrypts, calls and re-encrypts a body at call time.  The
+parameter block behind a call stub is six words:
+
+    +0x00  caller lr slot (written at call time)
+    +0x04  seed word             (plus the cipher bias, see below)
+    +0x08  body address + 0x1600
+    +0x0C  END word: body size + BSS_START + 0x1600
+    +0x10  spare (the caller's r10 is kept here during a call)
+    +0x14  dispatcher address + 0x1600 (the stub loads it, subtracts 0x1600, returns into it)
+
+OV230_OpenSealedBody (0x02188B48) turns the block into a 16-byte key:
+seed' = seed - BIAS, size = END - BIAS (BIAS = BSS_START + 0x1600), and the key
+words are seed' ^ size and size ^ rol(seed', 8 * k) for k = 1..3.  It then runs
+OV230_OpenBuffer, the stream cipher of 0x0218949C..0x02189908: a 256-byte
+permutation (key schedule over the 16 key bytes, 0xAA start state), one
+keystream byte per call, and a per-word step that mirrors the first layer
+(branch words keep their shape, B and BL swap, the offset moves by 0x582
+words; the other words XOR the keystream, the running key word takes the
+ciphertext bytes, and byte 2 is replaced by its complement).  The sealing
+step (OV230_SealBody, which also advances the seed by the body's address
+>> 20) is the exact inverse.  View.bodies lists the 18 bodies the stubs name;
+decrypt() opens each in the view (they become ranges, checked as clean ARM
+functions with main memory as the bl/blx window, since the bodies call the
+ARM9 image), and encrypt() seals them again from the linked plaintext, using
+the blocks of the plain image.  The cipher and the dispatcher are pinned by
+SHA-1 (CIPHER_SHA1, DISPATCH_SHA1).  The literal pool after a body is plain
+data and stays in the view as it is.
 
 Use
 ---
@@ -141,6 +166,22 @@ SUB_BIAS_ADDR = 0x02188A78  # sub r8, r1, #BIAS
 
 MAX_TABLE = 64              # pairs per table; a runaway read is refused
 M32 = 0xFFFFFFFF
+MAIN_MEMORY = (0x02000000, 0x02400000)
+
+# Second layer: the sealed bodies the call stubs name.  The cipher (StreamInit, StreamNextByte,
+# FillReverseTable, SealStream, OpenStream, SealBuffer, OpenBuffer) and the dispatcher
+# (OpenSealedBody, SealBody, CallDispatcher) are read from these spans of the first-layer view;
+# their digests pin the reading made here.
+CIPHER_SPAN = (0x0218949C, 0x02189908)
+CIPHER_SHA1 = "9312544f5ff88e7e895c1f7e20e401d2c07eb039"
+DISPATCH_SPAN = (0x02188B48, 0x02188CB0)
+DISPATCH_SHA1 = "573e3ab8fd66ac981a4cdeea1409fb17e0e35278"
+DISPATCHER = 0x02188C60     # OV230_CallDispatcher
+BSS_START = 0x021899A0      # gLoaderDecryptBssStart
+BODY_BIAS = 0x1600          # address bias of the parameter blocks
+STUB_SIZE = 0x24            # a call stub; its 6-word parameter block follows
+STUB_WORDS = (0xE18FC00F, 0xE01CC00C, 0x03A0C000, 0x128CC01C, 0xE59CC014, 0xE24CCC16,
+              0xE92D1000, 0xE18FC00F, 0xE8BD8000)
 
 
 class CryptError(Exception):
@@ -300,6 +341,135 @@ def _encrypt_range(mem, base, addr, size, key, delta):
         key = nkey
 
 
+# ---------------------------------------------------------------------------
+# the second layer: sealed bodies
+# ---------------------------------------------------------------------------
+
+def _rol(x, n):
+    return ((x << n) | (x >> (32 - n))) & M32
+
+
+class _Stream(object):
+    """OV230_StreamInit / OV230_StreamNextByte: a 256-byte permutation and a running key word."""
+
+    def __init__(self, key):
+        self.key, self.x, self.y = 0xAA, 0, 0
+        box = list(range(256))
+        j = k = 0
+        for i in range(255, -1, -1):
+            a = box[i]
+            j = (j + key[k] + a) & 0xFF
+            k += 1
+            b = box[j]
+            if k >= len(key):
+                k = 0
+            box[j] = a
+            box[i] = b
+        self.box = box
+
+    def next_byte(self):
+        box = self.box
+        x = (self.x + 1 + self.key) & 0xFF
+        a = box[x]
+        y = (self.key + a + self.y) & 0xFF
+        b = box[y]
+        self.x, self.y = x, y
+        box[y] = a
+        box[x] = b
+        return box[(a + b) & 0xFF]
+
+
+def open_stream(data, key):
+    """OV230_OpenStream on `data` (a whole number of words), in place semantics."""
+    st = _Stream(key)
+    d = bytearray(data)
+    for o in range(0, len(d), 4):
+        w = struct.unpack_from("<I", d, o)[0]
+        c = _classify(w)
+        if c in (1, 3):
+            st.key = (st.key + (w >> 24)) & M32
+            n = ((w & 0xFF000000) ^ 0x01000000) | (((w & 0xFFFFFF) + 0xFFFFFA7E) & 0xFFFFFF)
+        else:
+            i0, i1, i2, i3 = d[o:o + 4]
+            b0 = i0 ^ st.next_byte()
+            st.key = i0
+            b1 = i1 ^ st.next_byte()
+            st.key = i1
+            st.key = (st.key * i2 - i3) & M32
+            n = b0 | (b1 << 8) | ((255 - i2) << 16) | (i3 << 24)
+            if c == 2:
+                n ^= 0x01000000
+        struct.pack_into("<I", d, o, n)
+    return bytes(d)
+
+
+def seal_stream(data, key):
+    """OV230_SealStream, the inverse of open_stream."""
+    st = _Stream(key)
+    d = bytearray(data)
+    for o in range(0, len(d), 4):
+        w = struct.unpack_from("<I", d, o)[0]
+        c = _classify(w)
+        if c in (1, 2):
+            top = (w & 0xFF000000) ^ 0x01000000
+            st.key = (st.key + (top >> 24)) & M32
+            n = top | (((w & 0xFFFFFF) + 0x582) & 0xFFFFFF)
+        else:
+            if c == 3:
+                w ^= 0x01000000
+            i0, i1, i2, i3 = struct.pack("<I", w)
+            b0 = i0 ^ st.next_byte()
+            st.key = b0
+            b1 = i1 ^ st.next_byte()
+            st.key = b1
+            st.key = (st.key * (255 - i2) - i3) & M32
+            n = b0 | (b1 << 8) | ((255 - i2) << 16) | (i3 << 24)
+        struct.pack_into("<I", d, o, n)
+    return bytes(d)
+
+
+def _body_key(seed, size):
+    """OV230_OpenSealedBody's 16-byte key from a parameter block's seed and size words."""
+    bias = BSS_START + BODY_BIAS
+    seed = (seed - bias) & M32
+    size = (size - bias) & M32
+    words = [seed ^ size] + [size ^ _rol(seed, n) for n in (8, 16, 24)]
+    return struct.pack("<4I", *words)
+
+
+def check_second_layer(mem, base):
+    """The cipher and the dispatcher are the code this reading was made from."""
+    for (lo, hi), want, what in ((CIPHER_SPAN, CIPHER_SHA1, "cipher"),
+                                 (DISPATCH_SPAN, DISPATCH_SHA1, "dispatcher")):
+        got = hashlib.sha1(bytes(mem[lo - base:hi - base])).hexdigest()
+        if got != want:
+            raise CryptError("the %s at 0x%08X..0x%08X hashes to %s, not the code the second "
+                             "layer was read from (%s); refusing to guess" % (what, lo, hi, got, want))
+
+
+def find_bodies(mem, base, spans):
+    """[(stub, body, size, key bytes)] for every call stub among the layer-1 spans [(addr, size)].
+
+    A stub is a 0x24-byte span of the stub words; its parameter block (6 words: caller lr slot,
+    seed, body + 0x1600, size + bias, spare, dispatcher + 0x1600) follows it."""
+    out = []
+    lo, hi = base, base + len(mem)
+    for addr, size in spans:
+        if size != STUB_SIZE or struct.unpack_from("<9I", mem, addr - base) != STUB_WORDS:
+            continue
+        w = struct.unpack_from("<6I", mem, addr + STUB_SIZE - base)
+        if (w[5] - BODY_BIAS) & M32 != DISPATCHER:
+            raise CryptError("stub 0x%08X: block names dispatcher 0x%08X, not 0x%08X"
+                             % (addr, (w[5] - BODY_BIAS) & M32, DISPATCHER))
+        body = (w[2] - BODY_BIAS) & M32
+        n = (w[3] - BSS_START - BODY_BIAS) & M32
+        if body % 4 or n == 0 or n % 4 or not (lo <= body and body + n <= hi):
+            raise CryptError("stub 0x%08X: body 0x%08X+0x%X is not whole words inside ov230"
+                             % (addr, body, n))
+        out.append((addr, body, n, _body_key(w[1], w[3])))
+    return out
+
+
 def encrypt(plain, base, sinit):
     """The ROM bytes of ov230 from its linked (decrypted) image: every range
     the initialisers name is encrypted, everything else is kept.  The ranges
@@ -323,11 +493,20 @@ def encrypt(plain, base, sinit):
             spans.append((sw, ew))
             if _u32(mem, base, t) == 0:
                 break
+    ranges = []
     for sw, ew in spans:
         size = (ew - end - bias) & M32
         addr = (sw - bias) & M32
         if addr % 4 or size == 0 or size % 4 or not (lo <= addr and addr + size <= hi):
             raise CryptError("pair (0x%08X, 0x%08X) is not a range inside ov230" % (sw, ew))
+        ranges.append((addr, size))
+    # second layer first (it reads the plain stubs): seal each body from the linked plain bytes
+    bodies = find_bodies(mem, base, ranges)
+    if bodies:
+        check_second_layer(mem, base)
+    for _stub, body, n, bkey in bodies:
+        mem[body - base:body + n - base] = seal_stream(bytes(mem[body - base:body + n - base]), bkey)
+    for addr, size in ranges:
         _encrypt_range(mem, base, addr, size, key, delta)
     back = decrypt(bytes(mem), base, sinit)
     if back.data != bytes(plain):
@@ -428,15 +607,18 @@ class View(object):
 
     data     bytes of the decrypted image (same length and base as ov230)
     base     RAM address of data[0]
-    ranges   [(start, size, table)] in the order the game decrypts them
+    ranges   [(start, size, table)] in the order the game decrypts them; then the second-layer
+             bodies [(body, size, stub)]
+    bodies   [(stub, body, size)] the sealed bodies opened (second layer)
     tables   [(entry thunk, table start, table end incl. terminator)]
     """
 
-    def __init__(self, data, base, ranges, tables):
+    def __init__(self, data, base, ranges, tables, bodies=()):
         self.data = bytes(data)
         self.base = base
         self.ranges = ranges
         self.tables = tables
+        self.bodies = list(bodies)
         self.sha1 = hashlib.sha1(self.data).hexdigest()
 
     def entry_points(self):
@@ -517,7 +699,32 @@ def decrypt(image, base, sinit):
         if why is not None:
             raise CryptError("decrypted range 0x%08X+0x%X (table 0x%08X) is "
                              "not a clean ARM function: %s" % (s, n, t, why))
-    return View(mem, base, ranges, tables)
+    # second layer: open the sealed body of every call stub (the state the game is in while the
+    # body runs), check it as code; it may call outside ov230 (the ARM9 image), so the window
+    # for bl/blx is main memory
+    bodies = find_bodies(mem, base, [(s, n) for s, n, _t in ranges])
+    if bodies:
+        check_second_layer(mem, base)
+    layer1 = list(ranges)
+    taken = [(s, s + n) for s, n, _t in layer1] + [(p0, p1) for p0, p1 in protected]
+    taken += [(st, st + STUB_SIZE + 24) for st, _b, _n, _k in bodies]
+    opened = []
+    for stub, body, n, key in bodies:
+        for p0, p1 in taken + opened:
+            if body < p1 and p0 < body + n:
+                raise CryptError("sealed body 0x%08X+0x%X (stub 0x%08X) overlaps another range, "
+                                 "a stub, a thunk or a table" % (body, n, stub))
+        before = bytes(mem[body - base:body + n - base])
+        mem[body - base:body + n - base] = open_stream(before, key)
+        if bytes(mem[body - base:body + n - base]) == before:
+            raise CryptError("sealed body 0x%08X+0x%X is unchanged by the cipher" % (body, n))
+        opened.append((body, body + n))
+        why = clean_arm_function(mem, base, body, n, MAIN_MEMORY[0], MAIN_MEMORY[1])
+        if why is not None:
+            raise CryptError("opened body 0x%08X+0x%X (stub 0x%08X) is not a clean ARM function: %s"
+                             % (body, n, stub, why))
+        ranges.append((body, n, stub))
+    return View(mem, base, ranges, tables, [(st, b, n) for st, b, n, _k in bodies])
 
 
 def overlay_record(layout):
@@ -621,6 +828,12 @@ def selftest(root=None):
         if view.range_at(base + i) is None),
         "bytes outside the decrypted ranges are unchanged"))
 
+    res.append((len(view.bodies) == 18 and all(
+        view.range_at(b) == (b, n) for _st, b, n in view.bodies),
+        "the second layer opens 18 sealed bodies, each a decrypted range"))
+    res.append((encrypt(view.data, base, sinit) == image,
+                "encrypt() of the decrypted view (both layers) gives the ROM bytes back"))
+
     def flip(addr, mask):
         m = bytearray(image)
         off = addr - base
@@ -688,9 +901,14 @@ def main(argv=None):
             n = sum(1 for _s, _n, t in view.ranges if t == table)
             print("[*] initialiser 0x%08X: table 0x%08X..0x%08X, %d range(s)"
                   % (entry, table, tend, n))
+        body_of = {b: st for st, b, _n in view.bodies}
         for s, n, t in view.ranges:
-            print("    0x%08X +0x%03X  (table 0x%08X)  clean ARM function"
-                  % (s, n, t))
+            if s in body_of:
+                print("    0x%08X +0x%03X  (sealed body of stub 0x%08X)  clean ARM function"
+                      % (s, n, body_of[s]))
+            else:
+                print("    0x%08X +0x%03X  (table 0x%08X)  clean ARM function"
+                      % (s, n, t))
         print("[*] view sha1 %s" % view.sha1)
         if args.cmd == "write":
             ext = args.extract or os.path.join(ROOT, "extract")

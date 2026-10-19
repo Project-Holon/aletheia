@@ -1,5 +1,5 @@
 /*
- * function: BR_CODEIN_RecordStepFadeInA
+ * function: BR_CODEIN_RecordStepFadeIn
  * address: 0x021DBCA8
  * packet: pkt_ov183_021DBCA8
  * region: ov183
@@ -20,7 +20,7 @@ extern void BR_FADE_Start(int,int,int,int);
 extern int BR_FADE_GetResult(int *);
 extern int *BR_UTIL_SetTaskStep(int *p, int v);
 extern void BR_CODEIN_RecordStepMenu(int *task, int *state, char *p);
-void BR_CODEIN_RecordStepFadeInA(int *task, int *state, char *p)
+void BR_CODEIN_RecordStepFadeIn(int *task, int *state, char *p)
 {
     switch(*state) {
     case 0:

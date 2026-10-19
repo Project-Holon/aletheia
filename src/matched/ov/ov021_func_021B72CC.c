@@ -22,7 +22,7 @@
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   BEACON_AddMoney  0x0200C278  thumb
+ *   MISC_AddMoney  0x0200C278  thumb
  *   ARC_UTIL_LoadMemberWithSize  0x0204A298  arm
  *   func_020307B0  0x020307B0  arm
  *   sScrcmdTableFileIds     0x021D99D0  data   ov021  a1
@@ -43,7 +43,7 @@ extern u32 SCRIPT_WORK_ReadWorkValue(void *a, void *b);
 struct SaveBlock;
 extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
 extern void *GAME_DATA_GetMiscSave(int *p);
-extern u32 BEACON_AddMoney(struct Blk34 *p, u32 v);
+extern u32 MISC_AddMoney(struct Blk34 *p, u32 v);
 extern int ARC_UTIL_LoadMemberWithSize(int a0, int a1, int a2, int a3, u32 *out);
 extern u32 func_020307B0(void *p);
 extern const u8 sScrcmdTableFileIds[];
@@ -67,7 +67,7 @@ int SCRCMD_POKEMON_FLD_AddTableValueToPoints(u32 a, u32 b)
     cnt >>= 3;
     for (i = 0; i < cnt; i++) {
         if (k == arr[i].k) {
-            BEACON_AddMoney(GAME_DATA_GetMiscSave(h), arr[i].v);
+            MISC_AddMoney(GAME_DATA_GetMiscSave(h), arr[i].v);
             break;
         }
     }

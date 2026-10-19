@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT*
  * symbols:
- *   MUSICAL_MCSS_NoOp6 0x021F4F70 thumb ov112
+ *   MUSICAL_MCSS_GetElemSizeFlags 0x021F4F70 thumb ov112
  *   BILLBOARD_GetImageSizeFromFlags 0x0204EDD0 arm
  */
 #include "../include/Obj22515.h"
@@ -17,6 +17,6 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern int MUSICAL_MCSS_NoOp6(int *);
+extern int MUSICAL_MCSS_GetElemSizeFlags(int *);
 extern void BILLBOARD_GetImageSizeFromFlags(int,u16 *,u16 *);
-void MUSICAL_MCSS_SetupObject(u8 *p,u8 *a,u8 *b) { u16 x,y; BILLBOARD_GetImageSizeFromFlags(MUSICAL_MCSS_NoOp6(*(int * *)&((struct Obj22515 *)p)->f20),&x,&y); *a=(u32)x>>5; *b=(u32)y>>5; }
+void MUSICAL_MCSS_SetupObject(u8 *p,u8 *a,u8 *b) { u16 x,y; BILLBOARD_GetImageSizeFromFlags(MUSICAL_MCSS_GetElemSizeFlags(*(int * *)&((struct Obj22515 *)p)->f20),&x,&y); *a=(u32)x>>5; *b=(u32)y>>5; }

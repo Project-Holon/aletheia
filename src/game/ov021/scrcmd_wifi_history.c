@@ -24,17 +24,17 @@
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
  *   WIFI_HISTORY_GetBlock  0x02009470  thumb
- *   MISC_SAVEDATA_ClearSmallEntry  0x0200E878  thumb
+ *   SAVE_SYNC_Clear  0x0200E878  thumb
  *   GAME_DATA_GetSaveSyncBlock  0x02012F38  thumb
  *   WIFI_HISTORY_GetEntryField  0x02009634  thumb
  *   WIFI_HISTORY_GetEntry  0x0200973C  thumb
- *   MYSTATUS_GetLanguage  0x0200856C  thumb
- *   MYSTATUS_GetOutfit  0x02008554  thumb
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetNation  0x0200856C  thumb
+ *   MYSTATUS_GetTrainerView  0x02008554  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   CURSOR_MOVE_GetTableValue  0x02025C74  thumb
- *   BMP_OAM_GetRecordValue  0x02025B64  thumb
+ *   NATION_AREA_GetAreaCount  0x02025B64  thumb
  *   WORDSET_SetSlotFromMsgE7  0x0201F048  thumb
- *   MYSTATUS_GetVersion  0x02008570  thumb
+ *   MYSTATUS_GetArea  0x02008570  thumb
  *   WORDSET_SetSlotFromKeyedMessage  0x0201F094  thumb
  *   WORDSET_SetSlotSpeciesName  0x0201EE60  thumb
  *   WIFI_HISTORY_GetGreetingSet  0x02009628  thumb
@@ -93,13 +93,13 @@ extern PartnerCandidates *GAME_DATA_GetSaveSyncBlock(struct GameData *gameData);
 
 extern u32 MYSTATUS_GetId(const void *myStatus);
 
-extern u8 MYSTATUS_GetLanguage(const void *myStatus);
+extern u8 MYSTATUS_GetNation(const void *myStatus);
 
-extern u8 MYSTATUS_GetOutfit(const void *myStatus);
+extern u8 MYSTATUS_GetTrainerView(const void *myStatus);
 
-extern u8 MYSTATUS_GetOutfitVariant(const void *myStatus);
+extern u8 MYSTATUS_GetSex(const void *myStatus);
 
-extern u8 MYSTATUS_GetVersion(const void *myStatus);
+extern u8 MYSTATUS_GetArea(const void *myStatus);
 
 extern struct WordSet *SCRIPT_WORK_GetWordSet(struct ScriptWork *scriptWork);
 
@@ -121,11 +121,11 @@ extern void WIFI_HISTORY_SetRatingLevel(struct WifiHistory *history, int value);
 
 extern void WIFI_HISTORY_SetGreetingSet(struct WifiHistory *history, int value);
 
-extern int MISC_SAVEDATA_ClearSmallEntry(PartnerCandidates *candidates);
+extern int SAVE_SYNC_Clear(PartnerCandidates *candidates);
 
 extern u32 CURSOR_MOVE_GetTableValue(u32 outfit);
 
-extern u8 BMP_OAM_GetRecordValue(u32 language);
+extern u8 NATION_AREA_GetAreaCount(u32 language);
 
 extern void WORDSET_SetSlotFromMsgE7(struct WordSet *wordSet, u32 index, u32 number);
 
@@ -184,7 +184,7 @@ void SCRCMD_FillPartnerCandidates(struct GameSystem *gameSystem, int language, u
         SCRCMD_CollectPartnersByLanguage(WIFI_HISTORY_GetBlock(GAME_DATA_GetSaveControl(gameData)), candidates, language, mode);
         return;
     }
-    MISC_SAVEDATA_ClearSmallEntry(candidates);
+    SAVE_SYNC_Clear(candidates);
 }
 
 /* Collects up to five Wi-Fi history partners of one language into out. */
@@ -199,10 +199,10 @@ void SCRCMD_CollectPartnersByLanguage(struct WifiHistory *history, PartnerCandid
         if ((u8)WIFI_HISTORY_GetEntryField(history, i, WIFI_HISTORY_FIELD_INFO) != 0) {
             struct HistoryEntry *entry = WIFI_HISTORY_GetEntry(history, i);
             u32 entryLanguage;
-            if (entry != 0 && (entryLanguage = MYSTATUS_GetLanguage(entry), entryLanguage == language)) {
-                u32 outfit = MYSTATUS_GetOutfit(entry);
+            if (entry != 0 && (entryLanguage = MYSTATUS_GetNation(entry), entryLanguage == language)) {
+                u32 outfit = MYSTATUS_GetTrainerView(entry);
                 if (outfit > 0xf) {
-                    outfit = (MYSTATUS_GetOutfitVariant(entry) != 0) ? 0xf : 0xb;
+                    outfit = (MYSTATUS_GetSex(entry) != 0) ? 0xf : 0xb;
                 }
                 out->historyIndex[out->count] = i;
                 out->viewId[out->count] = CURSOR_MOVE_GetTableValue(outfit);
@@ -247,10 +247,10 @@ int SCRCMD_GetPartnerGreetingMessage(struct WordSet *wordSet, struct GameSystem 
     historyIndex = candidates->historyIndex[index];
     SCRCMD_SetPartnerWords(wordSet, gameData, historyIndex);
     entry = WIFI_HISTORY_GetEntry(history, historyIndex);
-    outfitVariant = MYSTATUS_GetOutfitVariant(entry);
+    outfitVariant = MYSTATUS_GetSex(entry);
     tier = WIFI_HISTORY_GetEntryField(history, historyIndex, 4);
     trainerId = MYSTATUS_GetId(entry);
-    if (BMP_OAM_GetRecordValue(GAME_DATA_GetSaveSyncBlock(gameData)->language)) {
+    if (NATION_AREA_GetAreaCount(GAME_DATA_GetSaveSyncBlock(gameData)->language)) {
         isSpecialLanguage = 1;
     }
     return SCRCMD_CalcPartnerGreetingIndex(outfitVariant, trainerId, tier, variant, isSpecialLanguage);
@@ -290,8 +290,8 @@ void SCRCMD_SetPartnerWords(struct WordSet *wordSet, struct GameData *gameData, 
     language = GAME_DATA_GetSaveSyncBlock(gameData)->language;
     entry = WIFI_HISTORY_GetEntry(history, historyIndex);
     WORDSET_SetSlotFromMsgE7(wordSet, 0, language);
-    if (BMP_OAM_GetRecordValue(language)) {
-        WORDSET_SetSlotFromKeyedMessage(wordSet, 1, language, MYSTATUS_GetVersion(entry));
+    if (NATION_AREA_GetAreaCount(language)) {
+        WORDSET_SetSlotFromKeyedMessage(wordSet, 1, language, MYSTATUS_GetArea(entry));
     }
     WORDSET_SetSlotMyStatus(wordSet, 3, GAME_DATA_GetMyStatus(gameData));
     WORDSET_SetSlotSpeciesName(wordSet, 5, WIFI_HISTORY_GetEntryField(history, historyIndex, 0));
@@ -454,6 +454,6 @@ int SCRCMD_HasPlayerLanguage(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
 
-    *resultVar = MYSTATUS_GetLanguage(GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(SCRCMD_WORK_GetGameSystem(cmdWork)))) != 0 ? 1 : 0;
+    *resultVar = MYSTATUS_GetNation(GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(SCRCMD_WORK_GetGameSystem(cmdWork)))) != 0 ? 1 : 0;
     return 0;
 }

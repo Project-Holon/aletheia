@@ -52,8 +52,8 @@
  *   CLACT_GetActorSurfacePos 0x0204B454 arm
  *   CLACT_AddActorSurfacePos 0x0204B404 arm
  *   gBlizzardWindSpeedY     0x021EF780  data   a4
- *   WEATHER_TASK_SetBillboardParam0C 0x021A2190 thumb ov021
- *   WEATHER_TASK_SetBillboardParam10 0x021A21A0 thumb ov021
+ *   WEATHER_TASK_SetBillboardTexOffsetX 0x021A2190 thumb ov021
+ *   WEATHER_TASK_SetBillboardTexOffsetY 0x021A21A0 thumb ov021
  *   gBlizzardFogScrollStepX    0x021EF765 data a1
  *   gBlizzardFogScrollStepY    0x021EF75C data ov025 a1
  *   WEATHER_TASK_SetParticlePos  0x021A26C4  thumb  ov021
@@ -507,8 +507,8 @@ void WEATHER_BLIZZARD_ScrollFogLayer(WeatherTaskSys *task, WeatherBlizzardWork *
     }
     work->scrollX = work->scrollX % 256;
     work->scrollY = work->scrollY % 256;
-    WEATHER_TASK_SetBillboardParam0C(task, -work->scrollX, 0);
-    WEATHER_TASK_SetBillboardParam10(task, -work->scrollY, 0);
+    WEATHER_TASK_SetBillboardTexOffsetX(task, -work->scrollX, 0);
+    WEATHER_TASK_SetBillboardTexOffsetY(task, -work->scrollY, 0);
 }
 
 /* ---- Downpour ---- */

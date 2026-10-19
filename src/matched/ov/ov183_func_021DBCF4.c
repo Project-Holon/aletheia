@@ -1,5 +1,5 @@
 /*
- * function: BR_CODEIN_RecordStepFadeInB
+ * function: BR_CODEIN_RecordStepFadeOut
  * address: 0x021DBCF4
  * packet: pkt_ov183_021DBCF4
  * region: ov183
@@ -20,7 +20,7 @@ extern void BR_FADE_Start(int,int,int,int);
 extern int BR_FADE_GetResult(int *);
 extern int *BR_UTIL_SetTaskStep(int *p, int v);
 extern void BR_CODEIN_RecordStepDeleteProfile(int *task, int b, char *p);
-void BR_CODEIN_RecordStepFadeInB(int *task, int *state, char *p)
+void BR_CODEIN_RecordStepFadeOut(int *task, int *state, char *p)
 {
     switch(*state) {
     case 0:

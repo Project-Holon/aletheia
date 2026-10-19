@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   WORLDTRADE_ENTER_UpdateListMenu 0x021F8950 thumb ov135
+ *   WORLDTRADE_DEPOSIT_UpdateListMenu 0x021F8950 thumb ov135
  *   WORLDTRADE_ADAPTER_ClearWindowScreen 0x02202644 thumb ov135
  *   WORLDTRADE_SetStateAndReturn 0x021F4EC0 thumb ov135
  *   BMP_WIN_Delete 0x020452E8 arm
@@ -20,7 +20,7 @@
 #include "../include/Obj01552.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int WORLDTRADE_ENTER_UpdateListMenu(void *p, u16 *old);
+extern int WORLDTRADE_DEPOSIT_UpdateListMenu(void *p, u16 *old);
 typedef unsigned int   u32;
 struct Descriptor;
 struct Obj;
@@ -33,7 +33,7 @@ extern void WORLDTRADE_SetStateAndReturn(u8 *p, u32 a, u32 b);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned se);
 int WORLDTRADE_DEPOSIT_StateCategoryMenuInput(u8 *p)
 {
-    switch ((unsigned)WORLDTRADE_ENTER_UpdateListMenu(((struct Obj01552 *)p)->fDF4, (u16 *)(p + 0xBC))) {
+    switch ((unsigned)WORLDTRADE_DEPOSIT_UpdateListMenu(((struct Obj01552 *)p)->fDF4, (u16 *)(p + 0xBC))) {
     case 1: case 2: case 3: case 4: case 5: case 6: case 7: case 8: case 9: case 10:
         BMP_MENULIST_Delete(((struct Obj01552 *)p)->fDF4, (u16 *)(*(u8 * *)&((struct Obj01552 *)p)->fE00 + 6), (u16 *)(*(u8 * *)&((struct Obj01552 *)p)->fE00 + 4));
         BMP_MENUWORK_Delete(((struct Obj01552 *)p)->fDE8);

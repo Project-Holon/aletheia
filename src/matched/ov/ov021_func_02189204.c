@@ -15,7 +15,7 @@
  *   FLDMMDL_SetupSysProc  0x0216CCDC  thumb  ov010
  *   FLDMMDL_BLACT_Init  0x0219C554  thumb
  *   FLDMMDL_BLACT_AddCachedRes  0x0219C680  thumb
- *   ZONEDATA_IsZone1A6  0x02013CC8  thumb
+ *   ZONEDATA_IsUnionRoom  0x02013CC8  thumb
  *   ZONEDATA_IsZone96Pair  0x02013CE0  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   INTRUDE_FIELD_GetHostGender  0x0217C0A8  thumb  ov018
@@ -48,7 +48,7 @@ extern u32 GAME_DATA_GetOccupyInfo(const struct BigObj *p);
 extern void FLDMMDL_SetupSysProc(char *a, int b, int c, int d, int e, int f);
 extern void FLDMMDL_BLACT_Init(u32 a, u32 b, u32 c);
 extern void FLDMMDL_BLACT_AddCachedRes(u32 a);
-extern u32 ZONEDATA_IsZone1A6(u32 a);
+extern u32 ZONEDATA_IsUnionRoom(u32 a);
 extern u32 ZONEDATA_IsZone96Pair(u32 a);
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern u8 INTRUDE_FIELD_GetHostGender(void *a0);
@@ -77,7 +77,7 @@ void FIELDMAP_SetupMmdlSys(u8 *a)
     FLDMMDL_BLACT_Init(((struct Obj00571 *)a)->f38, ((struct Obj00571 *)a)->fB0, 0x20);
     FLDMMDL_BLACT_AddCachedRes(((struct Obj00571 *)a)->f38);
     x = ((struct Obj00571 *)a)->fD8;
-    if (ZONEDATA_IsZone1A6(x) == 0 && ZONEDATA_IsZone96Pair(x) == 0) {
+    if (ZONEDATA_IsUnionRoom(x) == 0 && ZONEDATA_IsZone96Pair(x) == 0) {
         t = INTRUDE_FIELD_GetHostGender((void *)((void *)GAMESYSTEM_GetGameComm((const struct Ctx *)((struct Obj00571 *)a)->f4)));
     } else {
         t = func_02008550((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus((void *)h));

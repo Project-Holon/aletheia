@@ -1,5 +1,5 @@
 /*
- * function: FIELD_PLAYER_ResetGridMove
+ * function: FIELD_PLAYER_StopGridForcedMove
  * address:  0x021A356C
  * packet:   pkt_ov021_021A356C
  * region:   ov021
@@ -20,7 +20,7 @@ typedef unsigned char  u8;
 u32 FIELDMAP_GetMoveKind(u8 *p);
 void FIELD_PLAYER_GRID_StopForcedMove(u32 *x);
 
-void FIELD_PLAYER_ResetGridMove(void **p)
+void FIELD_PLAYER_StopGridForcedMove(void **p)
 {
     if (FIELDMAP_GetMoveKind(p[0]) == 0)
         FIELD_PLAYER_GRID_StopForcedMove(p[2]);

@@ -29,7 +29,7 @@
  *   PALANM_AllocSlotBuffers 0x0202155C thumb
  *   G2x_SetBlendAlpha_ 0x0207D63C arm
  *   GFL_USE_AddMainTask 0x020056A0 thumb
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   d_021DA800 0x021DA800 data a4
  *   CLACT_DrawSystem  0x0204A600  arm
  *   TCB_DeleteTask 0x02030EAC arm
@@ -113,7 +113,7 @@
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   MSGDATA_AllocString 0x02045EC0 arm
  *   BMP_Create 0x02043678 arm
- *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
+ *   PRINTSYS_MeasureWidestLine 0x0201D304 thumb
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   BMP_OAM_Create 0x020255A0 thumb
  *   BMP_OAM_UploadChars 0x020257D0 thumb
@@ -388,7 +388,7 @@ extern void PALANM_SetAutoTransfer(struct PalAnmSlot *o, int v);
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, unsigned idx, unsigned size, unsigned heap);
 extern void G2x_SetBlendAlpha_(void *,int,int,int,int);
 extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
-extern void GFL_NET_RestartWithDefaultTimeout(unsigned,unsigned);
+extern void GFL_NET_RefreshWmIconAtTopRight(unsigned,unsigned);
 extern void CLACT_DrawSystem(void *);
 extern void TCB_DeleteTask(struct Node *n);
 extern unsigned GF_FONT_Delete(void *ptr);
@@ -461,7 +461,7 @@ extern int CLACT_RegisterPaletteCompressed(void *,u32,u32,u32,u16);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern void PRINTSYS_PrintColor(void *,short,short,void *,void *,u16);
 extern struct Grid *BMP_OAM_Create(struct Sys *sys, const struct Param *param);
 extern void BMP_OAM_UploadChars(struct Obj *o);
@@ -586,7 +586,7 @@ int WF2DMAP_SCENE_Create(void *obj,void *unused,const Param *cfg)
     G2x_SetBlendAlpha_((void *)0x04000050,0,6,15,7);
     G2x_SetBlendAlpha_((void *)0x04001050,0,14,7,8);
     ((Wf2dmapScene *)scene)->vblankTask=GFL_USE_AddMainTask((unsigned)WF2DMAP_SCENE_VBlank,(unsigned)scene,16);
-    GFL_NET_RestartWithDefaultTimeout(1,50);
+    GFL_NET_RefreshWmIconAtTopRight(1,50);
     return 1;
 }
 
@@ -1761,7 +1761,7 @@ void WF2DMAP_SCENE_CreateTextOam(u8 *scene, int index, int argX, int argY, int u
     bank=MSGDATA_CreateFromArchive(0,2,25,50);
     msg=MSGDATA_AllocString(bank,index+3);
     bmp=BMP_Create(10,2,32,50);
-    PRINTSYS_PrintColor(bmp,(80-(int)GF_FONT_MeasureWidestLine(msg,*(u32 *)&((Wf2dmapScene *)scene)->font.handle,0))/2,0,msg,((Wf2dmapScene *)scene)->font.handle,0x3dc0);
+    PRINTSYS_PrintColor(bmp,(80-(int)PRINTSYS_MeasureWidestLine(msg,*(u32 *)&((Wf2dmapScene *)scene)->font.handle,0))/2,0,msg,((Wf2dmapScene *)scene)->font.handle,0x3dc0);
     xPos=(scene+(index+22)*4)[0x29a]+20;
     yPos=((scene+(index+22)*4)[0x298]+(scene+(index+22)*4)[0x299])/2;
     param.bmp=bmp;

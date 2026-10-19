@@ -32,7 +32,7 @@
  *   ARC_TOOL_CreateHandle 0x020490F4 arm
  *   BG_SYS_Create 0x0203F8F4 arm
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
  *   WORDSET_CreateDefault 0x0201EC64 thumb
  *   GF_FONT_Create 0x0201D7EC thumb
@@ -271,7 +271,7 @@ extern void *GFL_USE_AddMainTask(void (*)(int,void *),void *,u32);
 
 extern u32 PRINTSYS_QUE_Create(void *);
 
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
@@ -1962,7 +1962,7 @@ void GURU2_MAIN_LoadActorResources(struct Guru2Game *p)
     p->clactPal = CLACT_RegisterPalette(arc,0,0,0,114);
     p->clactCell = CLACT_RegisterCellAnim(arc,10,14,114);
     ARC_TOOL_DeleteHandle(arc);
-    GFL_NET_RestartWithDefaultTimeout(1,114);
+    GFL_NET_RefreshWmIconAtTopRight(1,114);
 }
 
 void GURU2_MAIN_FreeActorResources(struct Guru2Game *p){CLACT_ReleaseCharacter(p->clactChar);CLACT_ReleasePalette(p->clactPal);CLACT_ReleaseCellAnim(p->clactCell);CLACT_DeleteUnit(p->clactUnit);CLACT_ExitSystem();}

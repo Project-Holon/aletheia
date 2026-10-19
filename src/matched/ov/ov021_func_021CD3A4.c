@@ -12,9 +12,9 @@
  * Callee witnesses filed in wave A1 (witness lane).
  *
  * symbols:
- *   BEACON_SetGreetMessage  0x0200C1F8  thumb
+ *   MISC_SetGreetMessage  0x0200C1F8  thumb
  *   GAME_BEACON_UpdateGreeting  0x02027198  thumb
- *   BEACON_SetThanksMessage  0x0200C210  thumb
+ *   MISC_SetThanksMessage  0x0200C210  thumb
  *   BEACON_STATUS_GetMessage  0x020275C4  thumb
  *   STRBUF_Copy  0x02045838  arm
  *   GAME_BEACON_SEARCH_SetFreeText  0x02165844  thumb  ov010
@@ -27,9 +27,9 @@ typedef unsigned short u16;
 
 struct Blk34;
 struct U16Vec;
-extern void BEACON_SetGreetMessage(struct Blk34 *p, const u16 *src);
+extern void MISC_SetGreetMessage(struct Blk34 *p, const u16 *src);
 extern void GAME_BEACON_UpdateGreeting(void);
-extern void BEACON_SetThanksMessage(struct Blk34 *p, const u16 *src);
+extern void MISC_SetThanksMessage(struct Blk34 *p, const u16 *src);
 extern int BEACON_STATUS_GetMessage(void *p);
 extern void STRBUF_Copy(struct U16Vec *dst, struct U16Vec *src);
 extern void GAME_BEACON_SEARCH_SetFreeText(void *v);
@@ -48,11 +48,11 @@ void EVENT_NAMEIN_StoreResult(u8 *a, u8 *b)
         return;
     switch (((struct Obj03150 *)a)->f4C) {
     case 5:
-        BEACON_SetGreetMessage((struct Blk34 *)(((struct Obj03150 *)a)->f8), (const u16 *)(((struct Obj06099 *)b)->f20));
+        MISC_SetGreetMessage((struct Blk34 *)(((struct Obj03150 *)a)->f8), (const u16 *)(((struct Obj06099 *)b)->f20));
         GAME_BEACON_UpdateGreeting();
         return;
     case 6:
-        BEACON_SetThanksMessage((struct Blk34 *)(((struct Obj03150 *)a)->f8), (const u16 *)(((struct Obj06099 *)b)->f20));
+        MISC_SetThanksMessage((struct Blk34 *)(((struct Obj03150 *)a)->f8), (const u16 *)(((struct Obj06099 *)b)->f20));
         return;
     case 7:
         STRBUF_Copy((struct U16Vec *)BEACON_STATUS_GetMessage((void *)(((struct Obj03150 *)a)->f14)), (struct U16Vec *)(((struct Obj03150 *)a)->f3C));

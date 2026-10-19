@@ -1,5 +1,5 @@
 /*
- * function: BMP_OAM_GetRecordIndex
+ * function: NATION_AREA_FindRecordIndex
  * address:  0x02025B3C
  * packet:   pkt_02025774
  * region:   arm9
@@ -23,7 +23,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_02025B3C.c \
- *       --func BMP_OAM_GetRecordIndex --addr 0x02025B3C --cc 1.1p1 --thumb
+ *       --func NATION_AREA_FindRecordIndex --addr 0x02025B3C --cc 1.1p1 --thumb
  */
 
 typedef unsigned char u8;
@@ -31,7 +31,7 @@ typedef unsigned int  u32;
 
 extern const u8 sub_02025B3C_Table[];
 
-u32 BMP_OAM_GetRecordIndex(u32 key)
+u32 NATION_AREA_FindRecordIndex(u32 key)
 {
     u32 i;
 

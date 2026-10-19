@@ -11,7 +11,7 @@
  *
  * symbols:
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
- *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   sLinkMarkerPosTemplate     0x02176FD8  data  ov011  a4
  */
 
@@ -35,7 +35,7 @@ typedef struct {
 extern Cs   sLinkMarkerPosTemplate;
 extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
 struct BigObj;
-extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+extern u8 GAME_DATA_GetOwnNetId(const struct BigObj *p);
 
 void INTRUDE_COMM_GetMarkerPosForPartner(void *a, void *b, Cs *c)
 {
@@ -43,10 +43,10 @@ void INTRUDE_COMM_GetMarkerPosForPartner(void *a, void *b, Cs *c)
     int d;
 
     r = (Rec *)INTRUDE_COMM_GetWorkIfRunning((int)a);
-    if (r == 0 || r->v == GAME_DATA_GetExitMode(b)) {
+    if (r == 0 || r->v == GAME_DATA_GetOwnNetId(b)) {
         d = 0;
     } else {
-        d = r->v - GAME_DATA_GetExitMode(b);
+        d = r->v - GAME_DATA_GetOwnNetId(b);
         if (d < 0) {
             d += r->f902;
         }

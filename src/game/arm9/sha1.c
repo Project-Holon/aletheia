@@ -15,8 +15,13 @@
  * notes:    void (context): the five-word hash state is at +0x0, the 64-byte message block at +0x14. The round constants are read pc-relative from the $d block that precedes the entry (0x02081E6C).
  *
  * symbols:
- *   (none)
+ *   SHA1_ROUND_CONSTANTS  0x02081E6C  data
  */
+
+/* the four round constants (5A827999 6ED9EBA1 8F1BBCDC CA62C1D6): values from the user's ROM (tools/gendata.py) */
+const unsigned long SHA1_ROUND_CONSTANTS[4] = {
+#include "../../../build/gen/words_sha1_02081E6C.inc"
+};
 
 /* hand-written in the original: MATHi_SHA1ProcessBlock, asm-only SDK object (sha1.s, no DWARF, no .comment; pc-relative round constants in a $d block) */
 asm void MATHi_SHA1Transform(void)

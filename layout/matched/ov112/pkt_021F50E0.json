@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "MUSICAL_MCSS_GetStateB",
+   "name": "MUSICAL_MCSS_ElemDataKeepsFlippedHeight",
    "address": "0x021F50E0",
    "kind": "game",
    "region": "ov112",

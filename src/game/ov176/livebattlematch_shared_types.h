@@ -22,7 +22,7 @@ struct LiveBattleMatchWork {
     int   partyFont;              /* 28 int argument for WIFIBATTLEMATCH_VIEW_CreatePartyWindow */
     int   arg2C;              /* 2C int argument for WIFIBATTLEMATCH_VIEW_CreateDateWindow */
     void *party;              /* 30 pokemon party created by POKEPARTY_Create */
-    void *saveBlock;          /* 34 save record base (MISC_SAVEDATA_GetRecordBase) */
+    void *saveBlock;          /* 34 save record base (LIVEBATTLEMATCH_SAVE_GetRecord) */
     void *card;               /* 38 regulation card (REGULATION_GetCard) */
     unsigned char card_3C[0x160]; /* 3C local regulation card */
     int   flowResult;         /* 19C flow result read by LIVEBATTLEMATCH_FLOW_GetResult */

@@ -1,7 +1,7 @@
 /*
  * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
  *
- * function: GF_FONT_EnqueuePrint
+ * function: PRINTSYS_EnqueuePrint
  * address:  0x0201D6D8
  * packet:   pkt_0201D6D8
  * region:   arm9
@@ -16,7 +16,7 @@
  * three wildcarded call fields.
  *
  * Blocked on the `label` class, and it is a one-address wall: all three
- * unresolved sites at +0x24, +0x32 and +0x44 call GF_FONT_Copy, which is the
+ * unresolved sites at +0x24, +0x32 and +0x44 call PRINTSYS_Copy, which is the
  * function *immediately after this one* and whose only callers in the whole
  * image are these three.  The compared range ends where 0x0201D768 begins, so
  * shrinking the range is not possible (the callee cannot go in), and the
@@ -25,10 +25,10 @@
  * changes.
  *
  * What it is: the cache-side of a record reader.  It asks
- * GF_FONT_Copy(p, STRBUF_GetChars(c), (u16)GF_FONT_GetAlignedSize(c), 2) for a slot
+ * PRINTSYS_Copy(p, STRBUF_GetChars(c), (u16)PRINTSYS_GetAlignedSize(c), 2) for a slot
  * keyed by the record at `c`, stores a second slot for `b` (0x1c/0x1c) in a
  * stack local, zero-initialises a 4-byte stack local through a third call,
- * and then walks the list hanging off p->f10 through GF_FONT_GetNextRecord until it
+ * and then walks the list hanging off p->f10 through PRINTSYS_GetNextRecord until it
  * runs out, rebasing the node pointer on p+0x18 and clamping the resulting
  * offset against p->f4 (u16) before a 4-byte memcpy into the local.  When
  * p->f10 is null it installs the two slots instead.
@@ -40,13 +40,13 @@
  * local, not a single cast.
  *
  * Verified with
- *   python tools/match.py one --src src/pending/GF_FONT_EnqueuePrint.c \
- *       --func GF_FONT_EnqueuePrint --addr 0x0201D6D8 --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/PRINTSYS_EnqueuePrint.c \
+ *       --func PRINTSYS_EnqueuePrint --addr 0x0201D6D8 --cc 1.1p1 --thumb
  *
  * symbols:
- *   GF_FONT_GetAlignedSize  0x0201D69C  thumb
- *   GF_FONT_Copy  0x0201D768  thumb
- *   GF_FONT_GetNextRecord  0x0201D7C4  thumb
+ *   PRINTSYS_GetAlignedSize  0x0201D69C  thumb
+ *   PRINTSYS_Copy  0x0201D768  thumb
+ *   PRINTSYS_GetNextRecord  0x0201D7C4  thumb
  *   STRBUF_GetChars  0x02045A90  arm
  *   memcpy         0x02082D44  arm
  */
@@ -64,16 +64,16 @@ typedef struct {
     u32   f14;
 } Blk;
 
-extern u32  GF_FONT_GetAlignedSize(void *c);
+extern u32  PRINTSYS_GetAlignedSize(void *c);
 struct PrintSys;
 struct Ring;
-extern void *GF_FONT_Copy(struct Ring *ring, const u8 *src, u16 len, u16 unit);
-extern void *GF_FONT_GetNextRecord(struct PrintSys *p, void *q);
+extern void *PRINTSYS_Copy(struct Ring *ring, const u8 *src, u16 len, u16 unit);
+extern void *PRINTSYS_GetNextRecord(struct PrintSys *p, void *q);
 struct U16Vec;
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern void *memcpy(void *dst, const void *src, u32 n);
 
-void GF_FONT_EnqueuePrint(Blk *p, void *b, void *c)
+void PRINTSYS_EnqueuePrint(Blk *p, void *b, void *c)
 {
     void *e;
     void *q;
@@ -81,15 +81,15 @@ void GF_FONT_EnqueuePrint(Blk *p, void *b, void *c)
     u32 v;
     u32 x;
 
-    x = (u32)GF_FONT_Copy((struct Ring *)p, (void *)STRBUF_GetChars(c),
-                           (u16)GF_FONT_GetAlignedSize(c), 2);
-    e = GF_FONT_Copy((struct Ring *)p, b, 0x1c, 0x1c);
+    x = (u32)PRINTSYS_Copy((struct Ring *)p, (void *)STRBUF_GetChars(c),
+                           (u16)PRINTSYS_GetAlignedSize(c), 2);
+    e = PRINTSYS_Copy((struct Ring *)p, b, 0x1c, 0x1c);
     v = 0;
-    GF_FONT_Copy((struct Ring *)p, (const u8 *)(&v), 4, 4);
+    PRINTSYS_Copy((struct Ring *)p, (const u8 *)(&v), 4, 4);
     q = p->f10;
     if (q != 0) {
         for (;;) {
-            t = GF_FONT_GetNextRecord((struct PrintSys *)p, q);
+            t = PRINTSYS_GetNextRecord((struct PrintSys *)p, q);
             if (t == 0) break;
             q = t;
         }

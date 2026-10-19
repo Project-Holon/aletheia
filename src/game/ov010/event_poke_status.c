@@ -1,7 +1,7 @@
 /*
  * file:     event_poke_status.c
  * unit:     yes
- * function: EVENT_POKE_STATUS_CreatePokeSelectEvent, EVENT_POKE_STATUS_CreatePokeSelectMoveEvent, EVENT_POKE_STATUS_CreatePokeSelectStatusEvent, EVENT_POKE_STATUS_PokeSelectEvent, EVENT_POKE_STATUS_CreateMoveSelectEvent, EVENT_POKE_STATUS_MoveSelectEvent, EVENT_TRAINER_SetScriptTrainerEntry, EVENT_TRAINER_GetTrainerIdFromScriptId, EVENT_TRAINER_GetPrimaryScriptId, EVENT_TRAINER_GetSecondaryScriptId, EVENT_TRAINER_IsSecondaryScriptId, EVENT_TRAINER_IsDoubleBattle, EVENT_TRAINER_GetBattleType, EVENT_TRAINER_CheckDefeatedFlag, EVENT_TRAINER_SetDefeatedFlag, EVENT_TRAINER_ClearDefeatedFlag
+ * function: EVENT_POKE_STATUS_CreatePokeSelectEvent, EVENT_POKE_STATUS_CreatePokeSelectMoveEvent, EVENT_POKE_STATUS_CreatePokeSelectStatusEvent, EVENT_POKE_STATUS_PokeSelectEvent, EVENT_POKE_STATUS_CreateMoveSelectEvent, EVENT_POKE_STATUS_MoveSelectEvent
  * address:  0x0215A07C
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -10,15 +10,9 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Merged by tools/restructure.py from the src/matched files of these functions.
- *
- * Range 0x0215A438..0x0215A500 is from an unknown original file; it stays here
- * until its home is known.
+ * Cut from event_poke_status.c by tools/splitfile.py.
  *
  * symbols:
- *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
- *   ZONEDATA_SetEventFlag  0x02014314  thumb
- *   ZONEDATA_ResetEventFlag  0x0201433C  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   GFL_HEAP_Alloc  0x02030734  arm
@@ -39,27 +33,24 @@
  *   ov131_id       0x00000083  data
  *   gPokeStatusProcData     0x021DC800  data  ov131
  *   GAMESYSTEM_CallProc  0x020120B4  thumb
- *   SCRIPT_SYS_GetEventScriptWork  0x021589D0  thumb  ov010
- *   SCRIPT_WORK_GetTrainerEntry  0x02159124  thumb  ov010
- *   TPOKE_DATA_GetRecordField  0x0202A230  thumb
  */
 #include "../ov131/p_status_types.h"
-struct BigObj;
-struct Ctx;
-struct Obj;
-struct Desc;
-struct Blk37;
-struct Evt;
-struct IcaAnime;
-typedef unsigned char u8;
-
-typedef unsigned int u32;
-
-typedef unsigned short u16;
-
-typedef signed int     s32;
-
 #include "field_event_types.h"
+#include "event_poke_status_shared_types.h"
+
+struct BigObj;
+
+struct Ctx;
+
+struct Obj;
+
+struct Desc;
+
+struct Blk37;
+
+struct Evt;
+
+struct IcaAnime;
 
 /* Work of the Pokemon pick event (0x18 bytes). */
 typedef struct PokeListEventWork {
@@ -80,40 +71,52 @@ typedef struct MoveSelectEventWork {
     u16 *retMovePos;
 } MoveSelectEventWork;
 
-typedef struct RecordHead24 {
-    int word[6];
-} RecordHead24;
-extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
-extern void ZONEDATA_SetEventFlag(char *, int);
-extern void ZONEDATA_ResetEventFlag(char *ev, int flagId);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+
 extern u32 GFL_HEAP_Free(void *p);
+
 extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
+
 extern struct Desc *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
+
 extern void *GAME_EVENT_GetWork(struct Obj *p);
+
 extern void *ZUKAN_SAVE_GetFromGameData(void *a);
+
 extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
+
 extern u32 POKEPARTY_GetCount(void *p);
+
 extern void *EVENT_FIELDMAP_CONTROL_StartFadeOut(void *, void *, int, int);
+
 extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(void *, void *, int, int, int, int, int);
+
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
+
 extern int FIELD_STATUS_CreateFieldCloseEvent(int gameSystem, int fieldMap);
+
 extern void *FIELD_STATUS_CreateSubProcListEvent(char *anime, int slot, int config, int target);
+
 extern void *FIELD_STATUS_CreateFieldOpenEvent(void *);
+
 extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
-extern int SCRIPT_SYS_GetEventScriptWork(int);
-extern char *SCRIPT_WORK_GetTrainerEntry(char *p, int i);
-extern u32 TPOKE_DATA_GetRecordField(void *a, u32 idx);
+
 int EVENT_POKE_STATUS_PokeSelectEvent(void *event, u32 *seq, PokeListEventWork *work);
+
 /*
  * Case 2 loads 0x00000083 from the pool: an absolute symbol (overlay id),
  * see docs/idioms/a-pooled-small-constant-argument-is-a-linker-symbol.md.
  */
 int EVENT_POKE_STATUS_MoveSelectEvent(void *event, u32 *seq, MoveSelectEventWork *work);
+
 extern const char d_021728CC[];
+
 extern u8 ov131_id[];
+
 extern u8 gPokeStatusProcData[];
 
 void *EVENT_POKE_STATUS_CreatePokeSelectEvent(int gameSystem, u16 *retDecided, u16 *retSlot)
@@ -305,53 +308,3 @@ int EVENT_POKE_STATUS_MoveSelectEvent(void *event, u32 *seq, MoveSelectEventWork
     }
     return 0;
 }
-
-void EVENT_TRAINER_SetScriptTrainerEntry(int scrcmdWork, int index, RecordHead24 *src)
-{
-    int *entry = (int *)SCRIPT_WORK_GetTrainerEntry((char *)SCRIPT_SYS_GetEventScriptWork(scrcmdWork), index);
-
-    *(RecordHead24 *)entry = *src;
-    entry[6] = 0;
-}
-
-/*
- * Map a tick count onto a 3000/5000 ms window, truncated to 16 bits.
- *
- * Addresses are Black-image addresses.
- */
-u32 EVENT_TRAINER_GetTrainerIdFromScriptId(u32 ticks)
-{
-    if (ticks < 5000)
-        return (u16)(ticks - 3000);
-    return (u16)(ticks - 5000);
-}
-
-u16 EVENT_TRAINER_GetPrimaryScriptId(unsigned id) { return id + 3000; }
-
-/*
- * extent: includes unlabelled range-test EVENT_TRAINER_IsSecondaryScriptId; function-start seed.
- */
-u16 EVENT_TRAINER_GetSecondaryScriptId(unsigned id) { return id + 5000; }
-
-int EVENT_TRAINER_IsSecondaryScriptId(unsigned id) { if (id >= 5000) return 1; return 0; }
-
-int EVENT_TRAINER_IsDoubleBattle(int saveData)
-{
-    if (TPOKE_DATA_GetRecordField((void *)saveData, 2) == 1)
-        return 1;
-    return 0;
-}
-
-int EVENT_TRAINER_GetBattleType(int saveData)
-{
-    return (u8)TPOKE_DATA_GetRecordField((void *)saveData, 2);
-}
-
-/*
- * interface: original narrows r1 by shift pairs; u16 extern preserves this.
- */
-unsigned EVENT_TRAINER_CheckDefeatedFlag(void *flagSet, unsigned flagOffset) { return ZONEDATA_CheckEventFlag(flagSet, (u16)(flagOffset + 1420)); }
-
-void EVENT_TRAINER_SetDefeatedFlag(char *flagSet, unsigned flagOffset) { ZONEDATA_SetEventFlag(flagSet, (u16)(flagOffset + 1420)); }
-
-void EVENT_TRAINER_ClearDefeatedFlag(char *flagSet, unsigned flagOffset) { ZONEDATA_ResetEventFlag(flagSet, (u16)(flagOffset + 1420)); }

@@ -15,7 +15,7 @@
  *   func_020073D8  0x020073D8  thumb
  *   func_0200ECB4  0x0200ECB4  thumb
  *   func_0200ECD0  0x0200ECD0  thumb
- *   MISC_SAVEDATA_ExportRingRecord  0x0200ECF0  thumb
+ *   DENDOU_SAVEDATA_ExportRingMember  0x0200ECF0  thumb
  *   func_020072A4  0x020072A4  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_Delete  0x02045808  arm
@@ -43,7 +43,7 @@ struct U16Vec;
 extern void *func_020073D8(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
 extern u32 func_0200ECB4(char *o);
 extern int func_0200ECD0(char *o, int idx);
-extern void MISC_SAVEDATA_ExportRingRecord(void *a0, u32 a1, void *a2, void *a3);
+extern void DENDOU_SAVEDATA_ExportRingMember(void *a0, u32 a1, void *a2, void *a3);
 extern void func_020072A4(struct Sub020072A4Ctrl *ctrl, u32 id);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct U16Vec *vec);
@@ -65,7 +65,7 @@ void FIELD_GIMMICK_GATE_ReadExtraSaveValues(const u16 *p, u32 *out, int *cnt)
             for (; i < *cnt; i++) {
                 st.p0 = STRBUF_Create(0x40, p[0]);
                 st.p1 = STRBUF_Create(0x40, p[0]);
-                MISC_SAVEDATA_ExportRingRecord(t, 0, (void *)i, &st);
+                DENDOU_SAVEDATA_ExportRingMember(t, 0, (void *)i, &st);
                 out[i] = st.c;
                 STRBUF_Delete(st.p0);
                 STRBUF_Delete(st.p1);

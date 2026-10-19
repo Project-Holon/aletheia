@@ -15,7 +15,7 @@
  *   func_02034714  0x02034714  arm
  *   GFL_NET_IsParentAid  0x0203D378  arm
  *   GFL_NET_SetLoginOption  0x0203D7BC  arm
- *   GFL_NET_NotifyUserEvent  0x0203D1E8  arm
+ *   GFL_NET_SetAcceptConnection  0x0203D1E8  arm
  *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
  *   GFL_NET_HANDLE_IsTimingSyncRange  0x02039CB4  arm
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
@@ -75,7 +75,7 @@ extern void func_02034714(const char *expr, unsigned int line, const char *file)
 typedef unsigned int   u32;
 extern u32 GFL_NET_IsParentAid(void);
 extern void GFL_NET_SetLoginOption(u8 a0);
-extern void GFL_NET_NotifyUserEvent(u32 unused, void *arg);
+extern void GFL_NET_SetAcceptConnection(u32 unused, void *arg);
 struct Link;
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *a, unsigned int b, unsigned int c);
 extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *a, unsigned int b, unsigned int c);
@@ -149,7 +149,7 @@ int UNION_ONESELF_ColosseumEntryMain(Ctx *ctx, Obj *obj, u8 *a2, u8 *state)
     case 1:
         if (obj->b1 == 0) {
             if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xc, 0x14) == 1) {
-                GFL_NET_NotifyUserEvent((int)GFL_NET_HANDLE_GetCurrentHandle(), (void *)1);
+                GFL_NET_SetAcceptConnection((int)GFL_NET_HANDLE_GetCurrentHandle(), (void *)1);
                 (*state)++;
             }
         } else {

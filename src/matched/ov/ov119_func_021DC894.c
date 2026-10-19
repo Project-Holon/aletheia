@@ -39,7 +39,7 @@
  *   POKETRADE_2D_CreateFontResource 0x021E3FE4 thumb ov119
  *   POKETRADE_PROC_LoadSceneResources 0x021DC494 thumb ov119
  *   POKETRADE_3D_CreateTouchbar 0x021E3C20 thumb ov119
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   POKETRADE_3D_AddUnitAndInit 0x021E3208 thumb ov119
  *   BG_SYS_SetSubVisiblePlanes 0x020435F4 arm
  *   POKETRADE_PROC_StepRestartNetSession 0x021DAC60 thumb ov119
@@ -57,7 +57,7 @@ extern void GFL_NET_SetAutoExit(u8 a0);
 extern void GFL_NET_SetLoginOption(u8 a0);
 extern void BG_SYS_SetMainVisiblePlanes(unsigned int planes);
 extern void BG_SYS_SetSubVisiblePlanes(unsigned int planes);
-extern void GFL_NET_RestartWithDefaultTimeout(unsigned int a, unsigned int b);
+extern void GFL_NET_RefreshWmIconAtTopRight(unsigned int a, unsigned int b);
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
 extern const char gGameDataAllocTag[];
 extern char gNetCommandTable[];
@@ -111,7 +111,7 @@ int POKETRADE_PROC_InitTradeWork(int a,int b,char *q,char *p,int n)
         BG_SYS_SetMainVisiblePlanes(16);POKETRADE_PROC_SetStep(p,(int)POKETRADE_SAVE_StepSaveCancelNotice);((struct Obj04478 *)q)->f8=0;return 1;
     }
     POKETRADE_SAVE_CreateMessageResources(p);POKETRADE_2D_CreateFontResource(p);
-    if(I(0x118c)<4) {POKETRADE_PROC_LoadSceneResources(p);POKETRADE_3D_CreateTouchbar(p);GFL_NET_RestartWithDefaultTimeout(1,H(0x5f4));}
+    if(I(0x118c)<4) {POKETRADE_PROC_LoadSceneResources(p);POKETRADE_3D_CreateTouchbar(p);GFL_NET_RefreshWmIconAtTopRight(1,H(0x5f4));}
     POKETRADE_3D_AddUnitAndInit(p,0);BG_SYS_SetMainVisiblePlanes(0);BG_SYS_SetSubVisiblePlanes(0);POKETRADE_PROC_SetStep(p,(int)POKETRADE_PROC_StepRestartNetSession);
     return 1;
 }

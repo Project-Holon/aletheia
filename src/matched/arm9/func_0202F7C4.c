@@ -1,5 +1,5 @@
 /*
- * function: APP_POWER_ResetDisplay
+ * function: APP_POWER_ShowShutdownScreen
  * address:  0x0202F7C4
  * packet:   pkt_0202F7C4
  * region:   arm9
@@ -58,7 +58,7 @@ extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
 extern void APP_POWER_LoadShutdownScreen(void);
 extern void APP_POWER_DrawShutdownScreen(u32 a);
 
-void APP_POWER_ResetDisplay(u32 a0)
+void APP_POWER_ShowShutdownScreen(u32 a0)
 {
     GXx_SetMasterBrightness_((volatile u16 *)0x0400006C, 0xFFFFFFF0);
     GXx_SetMasterBrightness_((volatile u16 *)0x0400106C, 0xFFFFFFF0);

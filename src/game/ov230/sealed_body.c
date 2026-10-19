@@ -4,7 +4,7 @@
  * function: OV230_OpenSealedBody, OV230_SealBody, OV230_CallDispatcher, LOADER_ENTRY_DecryptCallDispatch
  * address:  0x02188B48
  * region:   ov230d
- * compiler: dsi/1.1p1
+ * compiler: dsi/../2.0/sp2
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm

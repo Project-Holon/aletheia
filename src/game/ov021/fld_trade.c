@@ -21,7 +21,7 @@
  *   STRBUF_ToChars  0x02045A38  arm
  *   STRBUF_Delete  0x02045808  arm
  *   MYSTATUS_CopyName  0x020084D4  thumb
- *   MYSTATUS_SetOutfitVariant  0x0200854C  thumb
+ *   MYSTATUS_SetSex  0x0200854C  thumb
  *   d_021DE59C  0x021DE59C  data  ov021
  *   GFL_HEAP_Free  0x020307B0  arm
  *   MSGDATA_CreateFromArchive  0x02045B38  arm
@@ -144,7 +144,7 @@ extern void MYSTATUS_Init(struct Sub0200852CObj *);
 extern void STRBUF_ToChars(struct U16Vec *, u16 *, u32);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern u32 MYSTATUS_CopyName(u32 value, void *dst);
-extern void MYSTATUS_SetOutfitVariant(int, u32);
+extern void MYSTATUS_SetSex(int, u32);
 extern u32 GFL_HEAP_Free(void *p);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
@@ -212,7 +212,7 @@ FldTradeHolder *FLD_TRADE_Create(u32 heapId, u32 tradeId)
     STRBUF_ToChars((struct U16Vec *)otName, (u16 *)nameBuf, 0x80);
     STRBUF_Delete((struct U16Vec *)otName);
     MYSTATUS_CopyName((int)holder->traderStatus, nameBuf);
-    MYSTATUS_SetOutfitVariant((int)holder->traderStatus, holder->data->otGender);
+    MYSTATUS_SetSex((int)holder->traderStatus, holder->data->otGender);
     return holder;
 }
 

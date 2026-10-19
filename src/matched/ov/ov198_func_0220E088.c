@@ -1,5 +1,5 @@
 /*
- * function: B_PLIST_DRAW_DrawMode5
+ * function: B_PLIST_DRAW_DrawMoveListForItemPage
  * address: 0x0220E088
  * packet: pkt_ov198_0220E088
  * region: ov198
@@ -33,7 +33,7 @@ extern void B_PLIST_DRAW_PrintMoveRowValues(char *p, u8 *record, int slot);
 typedef unsigned int   u32;
 extern u32 FILE_UTIL_GetItemParam(void *a, u32 sel, u32 id);
 extern void B_PLIST_DRAW_PrintHeader(char *p, int id);
-void B_PLIST_DRAW_DrawMode5(char *p)
+void B_PLIST_DRAW_DrawMoveListForItemPage(char *p)
 {
     long i;
     int index, offset;

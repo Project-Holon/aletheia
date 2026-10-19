@@ -1,5 +1,5 @@
 /*
- * function: WEATHER_TASK_SetBillboardParam14
+ * function: WEATHER_TASK_SetBillboardScaleX
  * address:  0x021A2170
  * packet:   pkt_ov021_021A2170
  * region:   ov021
@@ -12,13 +12,13 @@
  * Unlabelled tail-call stub, filed for the ov026 lane.
  *
  * symbols:
- *   WEATHER_TASK_SetBillboardParam14 0x021A2170 thumb ov021
+ *   WEATHER_TASK_SetBillboardScaleX 0x021A2170 thumb ov021
  *   FIELD_3DBG_SetBillboardScaleX 0x021A16E4 thumb ov021
  */
 
 extern void FIELD_3DBG_SetBillboardScaleX(unsigned char *p, unsigned int v);
 
-void WEATHER_TASK_SetBillboardParam14(unsigned char *o, unsigned int v, int i)
+void WEATHER_TASK_SetBillboardScaleX(unsigned char *o, unsigned int v, int i)
 {
     FIELD_3DBG_SetBillboardScaleX((*(unsigned char ***)(o + 0x18))[i], v);
 }

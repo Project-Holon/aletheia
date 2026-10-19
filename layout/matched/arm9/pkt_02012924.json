@@ -23,7 +23,7 @@
     "GAME_DATA_GetMyParty",
     "GAME_DATA_GetBoxManager",
     "GAME_DATA_GetMyStatus",
-    "GAME_DATA_GetPlayerStatus",
+    "GAME_DATA_GetMyStatusPlayer",
     "GAME_DATA_GetBagCursor",
     "GAME_DATA_GetOccupyInfo",
     "GAME_DATA_GetEventWork",

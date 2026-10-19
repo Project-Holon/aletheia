@@ -16,7 +16,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   BR_RES_LoadBgGraphics 0x021FB964 thumb ov186
  *   BR_RES_ApplyBgSet 0x021FBDA4 thumb ov186
- *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GF_PANIC_Fail 0x02034714 arm
  *   STRBUF_Delete 0x02045808 arm
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   GFL_HEAP_Free  0x020307B0  arm
@@ -94,7 +94,7 @@ extern void *GFL_HEAP_Alloc(unsigned int,unsigned int,int,const char *,u16);
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 extern struct PrintSys *PRINTSYS_QUE_Create(u32 heapId);
 
@@ -279,7 +279,7 @@ int BR_POKESEARCH_Main(struct BrPokeSearch *ps)
         case BR_POKESEARCH_PHASE_SWITCH:
             if (ps->nextState==3) {
                 BR_POKESEARCH_DestroyGroupWindows(ps);
-                if (ps->seenList) SAVEDATA_PanicFail(gBrPokeSearchAssertString,0,gBrPokeSearchAssertString);
+                if (ps->seenList) GF_PANIC_Fail(gBrPokeSearchAssertString,0,gBrPokeSearchAssertString);
                 ps->seenList=BR_POKESEARCH_BuildSeenList(ps->zukan,ps->touchedGroup,ps->groupTable,&ps->seenCount,ps->heapId);
                 BR_POKESEARCH_CreateSpeciesList(ps);
             } else {
@@ -355,7 +355,7 @@ void BR_POKESEARCH_CreateBackButton(struct BrPokeSearch *ps)
     MI_CpuFill8(&pos, 0, 8);
     pos.x = 0x50; pos.y = 0xa8; pos.animSeq = 0; pos.drawPriority = 1;
     if (!BR_RES_GetSprite(ps->res, 6, &sprite))
-        SAVEDATA_PanicFail(gBrPokeSearchAssertString, 0, gBrPokeSearchAssertString);
+        GF_PANIC_Fail(gBrPokeSearchAssertString, 0, gBrPokeSearchAssertString);
     ps->backButton = BR_BTN_CreateFromMessage(&pos, 4, 0x60, 1, ps->uiParamA, ps->uiParamB, font, msgData, &sprite, ps->heapId);
 }
 
@@ -432,8 +432,8 @@ void BR_POKESEARCH_CreateSpeciesList(struct BrPokeSearch *ps)
     u32 i;
     ps->listShown=1;
     BR_RES_LoadBgGraphics(ps->res,21,ps->heapId);
-    if (ps->menuItems) SAVEDATA_PanicFail(gBrPokeSearchAssertString,0,gBrPokeSearchAssertString);
-    if (ps->listMenu) SAVEDATA_PanicFail(gBrPokeSearchAssertString,0,gBrPokeSearchAssertString);
+    if (ps->menuItems) GF_PANIC_Fail(gBrPokeSearchAssertString,0,gBrPokeSearchAssertString);
+    if (ps->listMenu) GF_PANIC_Fail(gBrPokeSearchAssertString,0,gBrPokeSearchAssertString);
     ps->menuItems=BMP_MENUWORK_Create(ps->seenCount,ps->heapId);
     str=STRBUF_Create(11,ps->heapId);
     for(i=0;i<ps->seenCount;i++) {

@@ -1,6 +1,6 @@
 /*
  * unit:     no
- * function: GFL_NET_NotifyUserEvent
+ * function: GFL_NET_SetAcceptConnection
  * address:  0x0203D1E8
  * packet:   pkt_0203D1B4
  * region:   arm9
@@ -21,8 +21,8 @@
  * is what spends r4 on a two-argument function that only uses the second.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GFL_NET_NotifyUserEvent.c \
- *       --func GFL_NET_NotifyUserEvent --addr 0x0203D1E8 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GFL_NET_SetAcceptConnection.c \
+ *       --func GFL_NET_SetAcceptConnection --addr 0x0203D1E8 --cc 1.1p1 --arm
  */
 
 typedef unsigned char u32_pad;
@@ -40,7 +40,7 @@ struct NetSys {
 
 extern struct NetSys *GFL_NET_GetSession(void);
 
-void GFL_NET_NotifyUserEvent(u32 unused, void *arg)
+void GFL_NET_SetAcceptConnection(u32 unused, void *arg)
 {
     void (*fn)(void *) = GFL_NET_GetSession()->vtbl->unk_b8;
 

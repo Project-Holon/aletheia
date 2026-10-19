@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "FIELD_PLAYER_GetNogridLocation",
+   "name": "FIELD_PLAYER_SetNogridRailLocation",
    "address": "0x021A36B0",
    "kind": "game",
    "region": "ov021",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "FIELD_PLAYER_SetNogridLocation",
+   "name": "FIELD_PLAYER_GetNogridNextRailLocation",
    "address": "0x021A36BC",
    "kind": "game",
    "region": "ov021",
@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "FIELD_PLAYER_ClearNogridState",
+   "name": "FIELD_PLAYER_GetNogridRailPos",
    "address": "0x021A36D4",
    "kind": "game",
    "region": "ov021",

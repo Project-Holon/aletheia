@@ -18,7 +18,7 @@
  *   C_GEAR_POWER_ONOFF_InitBgs 0x021F000C thumb ov035
  *   C_GEAR_POWER_ONOFF_CreateTaskMenuRes 0x021F0140 thumb ov035
  *   C_GEAR_POWER_ONOFF_InitWindows 0x021F0168 thumb ov035
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   FIELD_SUBSCREEN_LoadBackdrop 0x021A12D4 thumb ov021
  */
 #include "../include/Obj04315.h"
@@ -33,7 +33,7 @@ typedef unsigned int   u32;
 extern void C_GEAR_POWER_ONOFF_InitBgs(char *p, u32 heap);
 extern void C_GEAR_POWER_ONOFF_CreateTaskMenuRes(void *, int);
 extern void C_GEAR_POWER_ONOFF_InitWindows(int *p, int a1);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void FIELD_SUBSCREEN_LoadBackdrop(u32 *p, u32 x);
 
 void C_GEAR_POWER_ONOFF_InitScreen(char *p, void *a1)
@@ -45,6 +45,6 @@ void C_GEAR_POWER_ONOFF_InitScreen(char *p, void *a1)
     C_GEAR_POWER_ONOFF_InitBgs(p, (u32)a1);
     C_GEAR_POWER_ONOFF_CreateTaskMenuRes(p, (int)a1);
     C_GEAR_POWER_ONOFF_InitWindows((int *)p, (int)a1);
-    GFL_NET_RestartWithDefaultTimeout(0, (u32)a1);
+    GFL_NET_RefreshWmIconAtTopRight(0, (u32)a1);
     FIELD_SUBSCREEN_LoadBackdrop((u32 *)(((struct Obj04315 *)p)->fC), (int)a1);
 }

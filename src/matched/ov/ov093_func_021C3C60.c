@@ -17,7 +17,7 @@
  *   BTL_FIELD_RegisterStaticSlot  0x021EF8C8  thumb  ov093
  *   BTL_SERVER_CMD_Push  0x021CD4B0  thumb  ov093
  *   BTL_SICKCONT_GetPosition  0x021E8A98  thumb  ov093
- *   BTL_FIELD_SetStaticSlotValue  0x021EF8F8  thumb  ov093
+ *   BTL_FIELD_AddStaticSlotHolder  0x021EF8F8  thumb  ov093
  */
 #include "../include/Obj13331.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
@@ -27,7 +27,7 @@ typedef struct { int x; } S;
 extern int BTL_FIELD_RegisterStaticSlot(int a, S c);
 extern void BTL_SERVER_CMD_Push(void *w, volatile u32 id, ...);
 extern int BTL_SICKCONT_GetPosition(S c);
-extern void BTL_FIELD_SetStaticSlotValue(int a, int r);
+extern void BTL_FIELD_AddStaticSlotHolder(int a, int r);
 
 int BTL_SERVER_FLOW_TryRegisterFieldSlot(u8 *p, int a, S c, int d)
 {
@@ -39,7 +39,7 @@ int BTL_SERVER_FLOW_TryRegisterFieldSlot(u8 *p, int a, S c, int d)
     if (d) {
         r = BTL_SICKCONT_GetPosition(c);
         if (r != 0x1f) {
-            BTL_FIELD_SetStaticSlotValue(a, r);
+            BTL_FIELD_AddStaticSlotHolder(a, r);
             BTL_SERVER_CMD_Push(((struct Obj13331 *)p)->fC, 0x22, (u8)a, r);
             return 1;
         }

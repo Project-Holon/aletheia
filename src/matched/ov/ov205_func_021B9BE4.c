@@ -23,7 +23,7 @@
  *   BMP_WIN_MakeScreen 0x02045374 arm
  *   BMP_WIN_GetBgLayer 0x02045730 arm
  *   BG_SYS_PushTile 0x020409B4 arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
@@ -64,7 +64,7 @@ extern void BMP_WIN_TransferChars(struct Descriptor *d);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void BG_SYS_PushTile(u32 index);
-extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern int FADE_IsActive(void);
@@ -94,7 +94,7 @@ int SAVE_SCREEN_NoticeMain(void *input,u32 *state,u32 unused,char *p)
         else SAVE_SCREEN_PrintText(p,2,6,0);
         obj=((struct Obj01293 *)p)->f14;
         BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);BG_SYS_PushTile(BMP_WIN_GetBgLayer(obj));
-        GFL_NET_RestartWithDefaultTimeout(1,((struct Obj01293 *)p)->f0);BG_SYS_SetMainPlaneVisible(16,1);
+        GFL_NET_RefreshWmIconAtTopRight(1,((struct Obj01293 *)p)->f0);BG_SYS_SetMainPlaneVisible(16,1);
         (*state)++;break;
     case 1:
         FADE_Start(3,16,0,0);*(u16 *)0x04000050=0;

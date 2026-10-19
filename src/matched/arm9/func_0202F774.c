@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   APP_POWER_Main  0x0202F788  thumb
+ *   APP_POWER_HaltWithMessage  0x0202F788  thumb
  *
  * time_icon.c.  The second unlabelled tail-call leaf of the callback pair
  * GFL_USE_InitSystem hands to BACKUP_SYSTEM_Init: a flag mapped to mode 2 (clear) or
- * 1 (set) for APP_POWER_Main.  Filed apart from APP_POWER_ClearCallback so each pool
+ * 1 (set) for APP_POWER_HaltWithMessage.  Filed apart from APP_POWER_ClearCallback so each pool
  * word witnesses the other (see that file).  Seed 0x0202F774.
  *
  * Verified with:
@@ -24,7 +24,7 @@
 
 typedef unsigned int u32;
 
-extern void APP_POWER_Main(u32 mode);
+extern void APP_POWER_HaltWithMessage(u32 mode);
 
 void APP_POWER_SetCallback(u32 on)
 {
@@ -35,5 +35,5 @@ void APP_POWER_SetCallback(u32 on)
     } else {
         mode = 1;
     }
-    APP_POWER_Main(mode);
+    APP_POWER_HaltWithMessage(mode);
 }

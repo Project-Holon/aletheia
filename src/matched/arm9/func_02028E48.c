@@ -13,7 +13,7 @@
  * status:   EXACT
  *
  * Blocked at MATCH on one data address: all 56 concrete bytes are right and
- * FIELD_SOUND_SYSTEM_GetCurrentRequest and FIELD_SOUND_SYSTEM_IsKindAllowedInState both resolve, but the permission table at
+ * FIELD_SOUND_SYSTEM_GetNewestRequest and FIELD_SOUND_SYSTEM_IsKindAllowedInState both resolve, but the permission table at
  * 0x0209FD90 appears in exactly one literal pool image-wide, this function's
  * own at 0x02028E7C, so the `literal` class has no outside site.  The word at
  * 0x0209FD90 is zero, so nothing distinguishes the table's start from the run
@@ -22,7 +22,7 @@
  *
  * field_sound_system.c: decide whether a new command of class `kind` may be
  * accepted.  Two states are consulted in order, the class of the command the
- * ring is currently pointing at (FIELD_SOUND_SYSTEM_GetCurrentRequest) and the class latched at
+ * ring is currently pointing at (FIELD_SOUND_SYSTEM_GetNewestRequest) and the class latched at
  * +0x1C; the first non-zero one indexes the 8-wide permission table at
  * 0x0209FD90 by (state, kind).  With neither set the decision falls through
  * to FIELD_SOUND_SYSTEM_IsKindAllowedInState.
@@ -32,7 +32,7 @@
  * share an address constant across them.
  *
  * symbols:
- *   FIELD_SOUND_SYSTEM_GetCurrentRequest  0x02028D8C  thumb
+ *   FIELD_SOUND_SYSTEM_GetNewestRequest  0x02028D8C  thumb
  *   FIELD_SOUND_SYSTEM_IsKindAllowedInState  0x02028FD0  thumb
  *   g_0209FD90     0x0209FD90  data
  *
@@ -74,7 +74,7 @@ struct Sys {
 
 extern u8 g_0209FD90[][8];
 
-extern struct Cmd *FIELD_SOUND_SYSTEM_GetCurrentRequest(struct Sys *s);
+extern struct Cmd *FIELD_SOUND_SYSTEM_GetNewestRequest(struct Sys *s);
 struct SoundParam;
 extern u32 FIELD_SOUND_SYSTEM_IsKindAllowedInState(struct SoundParam *obj, u32 kind);
 
@@ -82,7 +82,7 @@ u32 FIELD_SOUND_SYSTEM_IsRequestKindAccepted(struct Sys *s, u32 kind)
 {
     u32 state;
 
-    state = FIELD_SOUND_SYSTEM_GetCurrentRequest(s)->unk00;
+    state = FIELD_SOUND_SYSTEM_GetNewestRequest(s)->unk00;
     if (state != 0) {
         return g_0209FD90[state][kind];
     }

@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: GF_FONT_MeasureText
+ * function: PRINTSYS_MeasureText
  *
  * Measures a message string up to the 0xBD06 tag whose parameter is the
  * caller's value, in the font c, adding d of spacing per character.  0xFFFE
@@ -42,7 +42,7 @@ struct U16Vec;
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
 extern u32 GF_FONT_GetCharWidth(struct Font *p, u16 ch);
 
-u32 GF_FONT_MeasureText(void *s, u8 b, void *c, u32 d)
+u32 PRINTSYS_MeasureText(void *s, u8 b, void *c, u32 d)
 {
     u32 acc = 0;
     u16 *p;

@@ -23,7 +23,7 @@
  *   INFOWIN_Init 0x02024A20 thumb
  *   func_02040588 0x02040588 arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   PALANM_CopyHwPaletteToSlot 0x020216D4 thumb
  *   BTLV_EFFECT_GetOwner 0x021F86D4 thumb ov094
  *   func_02030DA8 0x02030DA8 arm
@@ -58,7 +58,7 @@ extern void BG_SYS_PushTile(u32 index);
 extern void INFOWIN_Init(u8, u8, void *, u16);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32, u32);
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern void *BTLV_EFFECT_GetOwner(void);
 extern void *func_02030DA8(void *, void (*)(void *, void *), void *, u32);
@@ -91,7 +91,7 @@ void BTLV_INPUT_LoadScreenResources(char *p)
     INFOWIN_Init(6, 15, ((struct Obj00083 *)p)->f4C, ((struct Obj00083 *)p)->f240);
     func_02040588(6, 1);
     BG_SYS_SetSubPlaneVisible(16, 1);
-    GFL_NET_RestartWithDefaultTimeout(0, ((struct Obj00083 *)p)->f240);
+    GFL_NET_RefreshWmIconAtTopRight(0, ((struct Obj00083 *)p)->f240);
     PALANM_CopyHwPaletteToSlot(((struct Obj00083 *)p)->f64, 3, 0xe0, 0x20);
     ((struct Obj00083 *)p)->f68 |= 0x2000;
     if (((struct Obj00083 *)p)->f23C == 1)

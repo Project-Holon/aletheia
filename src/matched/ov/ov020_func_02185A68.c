@@ -14,10 +14,10 @@
  *   GAME_DATA_GetEventData  0x02012844  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
- *   ZONEDATA_IsZone117  0x02013D5C  thumb
+ *   ZONEDATA_IsEntralink  0x02013D5C  thumb
  *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
  *   FIELD_STATUS_SetMapMode  0x02014450  thumb
- *   ZONEDATA_IsZone1A6  0x02013CC8  thumb
+ *   ZONEDATA_IsUnionRoom  0x02013CC8  thumb
  *   ZONEDATA_IsZone96Pair  0x02013CE0  thumb
  *   ZONEDATA_IsZone4E  0x02013DF0  thumb
  *   ZONEDATA_IsZone34  0x02013D20  thumb
@@ -41,10 +41,10 @@ void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 u32 GAME_DATA_GetEventData(const struct BigObj *p);
 void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
-u32 ZONEDATA_IsZone117(u32 id);
+u32 ZONEDATA_IsEntralink(u32 id);
 void *GAME_DATA_GetMoveModelSys(const struct BigObj *p);
 void FIELD_STATUS_SetMapMode(struct Sub02014444Obj *o, u32 v);
-u32 ZONEDATA_IsZone1A6(u32 id);
+u32 ZONEDATA_IsUnionRoom(u32 id);
 u32 ZONEDATA_IsZone96Pair(u32 id);
 u32 ZONEDATA_IsZone4E(u32 id);
 u32 ZONEDATA_IsZone34(u32 id);
@@ -67,12 +67,12 @@ void EVENT_MAPCHANGE_UpdateFieldStateForZone(void *a, int b)
     r4 = GAMESYSTEM_GetGameData(a);
     r7 = (void *)GAME_DATA_GetEventData(r4);
     GAMESYSTEM_GetFieldMap(a);
-    if (GAME_DATA_GetIntrudeCount(r4) == 1 && ZONEDATA_IsZone117(b) == 0)
+    if (GAME_DATA_GetIntrudeCount(r4) == 1 && ZONEDATA_IsEntralink(b) == 0)
         FIELD_STATUS_SetMapMode(GAME_DATA_GetMoveModelSys(r4), 1);
     else
         FIELD_STATUS_SetMapMode(GAME_DATA_GetMoveModelSys(r4), 0);
 
-    if (ZONEDATA_IsZone1A6(b) != 0) {
+    if (ZONEDATA_IsUnionRoom(b) != 0) {
         GAME_DATA_SetSubscreenType(r4, 2);
     } else if (ZONEDATA_IsZone96Pair(b) != 0 || ZONEDATA_IsZone4E(b) != 0 || ZONEDATA_IsZone34(b) != 0) {
         GAME_DATA_SetSubscreenType(r4, 5);

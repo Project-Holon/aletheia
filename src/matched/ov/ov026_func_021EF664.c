@@ -24,8 +24,8 @@
  *   WEATHER_TASK_ChangeFog  0x021A232C  thumb  ov021
  *   WEATHER_TASK_PlaySe  0x021A25BC  thumb  ov021
  *   WEATHER_TASK_SetBillboardVisible  0x021A2160  thumb  ov021
- *   WEATHER_TASK_SetBillboardParam14  0x021A2170  thumb  ov021
- *   WEATHER_TASK_SetBillboardParam18  0x021A2180  thumb  ov021
+ *   WEATHER_TASK_SetBillboardScaleX  0x021A2170  thumb  ov021
+ *   WEATHER_TASK_SetBillboardScaleY  0x021A2180  thumb  ov021
  *   gWeatherStormGustWindX     0x021EFD74  data  ov026  a4
  *   gWeatherStormGustWindY     0x021EFD78  data  ov026  a4
  *   gWeatherStormGustLayerScale     0x021EFD3C  data  ov026  a4
@@ -41,8 +41,8 @@ typedef unsigned char  u8;
 extern void WEATHER_TASK_ChangeFog(u8 *p, int a, int b, int c, int d);
 extern void WEATHER_TASK_PlaySe(unsigned char *o, int arg);
 extern void WEATHER_TASK_SetBillboardVisible(unsigned char *o, unsigned int v, int i);
-extern void WEATHER_TASK_SetBillboardParam14(unsigned char *o, unsigned int v, int i);
-extern void WEATHER_TASK_SetBillboardParam18(unsigned char *o, unsigned int v, int i);
+extern void WEATHER_TASK_SetBillboardScaleX(unsigned char *o, unsigned int v, int i);
+extern void WEATHER_TASK_SetBillboardScaleY(unsigned char *o, unsigned int v, int i);
 extern void WEATHER_STORM_PlayGustWarning(u8 *a, s16 *p, int b, int c);
 extern void WEATHER_STORM_UpdateThunder(int, s16 *, int);
 extern void WEATHER_STORM_StartCalm(int, u16 *, int, int);
@@ -87,8 +87,8 @@ void WEATHER_STORM_UpdateGust(int a, s16 *p, int b, int d)
             p[6] = 0;
             if (d == 0) {
                 WEATHER_TASK_SetBillboardVisible((unsigned char *)a, 0, 1);
-                WEATHER_TASK_SetBillboardParam14((unsigned char *)a, 0x1000, 0);
-                WEATHER_TASK_SetBillboardParam18((unsigned char *)a, 0x1000, 0);
+                WEATHER_TASK_SetBillboardScaleX((unsigned char *)a, 0x1000, 0);
+                WEATHER_TASK_SetBillboardScaleY((unsigned char *)a, 0x1000, 0);
             }
         }
         break;
@@ -101,8 +101,8 @@ void WEATHER_STORM_UpdateGust(int a, s16 *p, int b, int d)
             p[6] = 0;
             if (d == 0) {
                 WEATHER_TASK_SetBillboardVisible((unsigned char *)a, 1, 1);
-                WEATHER_TASK_SetBillboardParam14((unsigned char *)a, 0x800, 0);
-                WEATHER_TASK_SetBillboardParam18((unsigned char *)a, 0x1800, 0);
+                WEATHER_TASK_SetBillboardScaleX((unsigned char *)a, 0x800, 0);
+                WEATHER_TASK_SetBillboardScaleY((unsigned char *)a, 0x1800, 0);
             }
         }
         break;

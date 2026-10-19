@@ -77,7 +77,7 @@
  *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   STRBUF_Create  0x020457B0  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
- *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
+ *   PRINTSYS_MeasureWidestLine  0x0201D304  thumb
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb
  *   d_021BD470     0x021BD470  data  ov088  a4
  *   d_021BD490     0x021BD490  data  ov088  a4
@@ -143,7 +143,7 @@
  *   CLACT_ExitSystem  0x0204A5AC  arm
  *   SAVE_CONTROL_Get  0x020070A4  thumb
  *   SYSTEM_DATA_GetMyStatus  0x02008730  thumb
- *   BEACON_GetBlock  0x0200C0F0  thumb
+ *   MISC_GetBlock  0x0200C0F0  thumb
  *   BLOCK20_SAVEDATA_GetBlock  0x02009210  thumb
  *   GAME_DATA_GetEventWorkFromSave  0x02012FE4  thumb
  *   gStartMenuStateTable     0x021BD63C  data  ov088  a4
@@ -162,7 +162,7 @@
  *   ov107_id       0x0000006B  data
  *   GAME_SYNC_GetBlock  0x02009448  thumb
  *   BLOCK20_SAVEDATA_GetPending  0x020092EC  thumb
- *   BEACON_SetSlotState  0x0200C2F0  thumb
+ *   MISC_SetSlotState  0x0200C2F0  thumb
  *   GFL_NET_IsIdle  0x0203D210  arm
  *   WIPE_SYS_EndCheck  0x020221A4  thumb
  *   PRINTSYS_QUE_Main  0x0201C4E4  thumb
@@ -207,7 +207,7 @@
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   WORDSET_SetSlotFromMsg59  0x0201F158  thumb
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   ZONEDATA_Init  0x020139B0  thumb
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   PLAYER_LOCATION_GetData  0x02008854  thumb
@@ -220,7 +220,7 @@
  *   PLAYTIME_GetMinutes  0x02008650  thumb
  *   ZUKAN_SAVE_GetBlock  0x0200CA10  thumb
  *   ZUKAN_SAVE_CountSeen  0x0200D0AC  thumb
- *   BEACON_CountBadges  0x0200C258  thumb
+ *   MISC_CountBadges  0x0200C258  thumb
  *   gStartMenuWindowTemplates     0x021BD7C4  data  a1
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   d_021BD688     0x021BD688  data  a4
@@ -235,7 +235,7 @@
  *   BGWINFRM_Delete  0x0202CA0C  thumb
  *   G2x_SetBlendAlpha_  0x0207D63C  arm
  *   SAVE_CONTROL_HasFlashSave  0x020071EC  thumb
- *   BEACON_GetSlotState  0x0200C308  thumb
+ *   MISC_GetSlotState  0x0200C308  thumb
  *   ARC_UTIL_LoadPaletteDataFromHandle  0x02049EF4  arm
  *   MIi_CpuCopy16  0x02082A60  arm
  *   GFL_HEAP_Free  0x020307B0  arm
@@ -301,16 +301,16 @@
  *   CONFIG_SetBattleFlag  0x02008450  thumb
  *   d_021BD830     0x021BD830  data  a4
  *   CONFIG_GetBattleFlag  0x02008448  thumb
- *   BEACON_GetSlotStates  0x0200C31C  thumb
+ *   MISC_GetSlotStates  0x0200C31C  thumb
  *   SAVE_CONTROL_Reload  0x020070C8  thumb
  *   CONFIG_ApplyTextLanguage  0x02008414  thumb
- *   BEACON_SetSlotStates  0x0200C324  thumb
+ *   MISC_SetSlotStates  0x0200C324  thumb
  *   MYSTATUS_NameFromStrbuf  0x020084E4  thumb
- *   MYSTATUS_SetOutfitVariant  0x0200854C  thumb
+ *   MYSTATUS_SetSex  0x0200854C  thumb
  *   GFL_USE_GetRandomBelow  0x02005728  thumb
  *   MYSTATUS_SetId  0x0200852C  thumb
  *   GF_STANDARD_Rand  0x0203F0A8  arm
- *   MYSTATUS_SetOutfit  0x02008558  thumb
+ *   MYSTATUS_SetTrainerView  0x02008558  thumb
  *   CONFIG_SetTextLanguage  0x020083EC  thumb
  *   d_021BD8B8     0x021BD8B8  data  ov088  a4
  *   d_021BD848     0x021BD848  data  a4
@@ -552,7 +552,7 @@ extern u32 PRINTSYS_QUE_Create(void *p);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
 extern u32 GPOWER_GetSpecialPowerId(void);
@@ -606,7 +606,7 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern struct SaveControl *SAVE_CONTROL_Get(void);
 extern struct MyStatus *SYSTEM_DATA_GetMyStatus(void *sys);
-extern void *BEACON_GetBlock(void *sys);
+extern void *MISC_GetBlock(void *sys);
 extern struct Sub02009210Obj *BLOCK20_SAVEDATA_GetBlock(void *sys);
 extern void *GAME_DATA_GetEventWorkFromSave(struct Sub020071CCCtrl *save);
 extern void GAME_BEACON_RegisterClearCallback(void);
@@ -615,7 +615,7 @@ extern void STARTMENU_ReplaceWithBattleFlagProcWithSave(void);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct Sub02009448Obj *GAME_SYNC_GetBlock(void *sys);
 extern u8 BLOCK20_SAVEDATA_GetPending(const struct Sub02009210Obj *obj);
-extern void BEACON_SetSlotState(struct Blk34 *p, u32 i, u8 v);
+extern void MISC_SetSlotState(struct Blk34 *p, u32 i, u8 v);
 extern u32 GFL_NET_IsIdle(void);
 extern u32 WIPE_SYS_EndCheck(void);
 extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
@@ -649,7 +649,7 @@ extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void WORDSET_SetSlotFromMsg59(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern u8 MYSTATUS_GetOutfitVariant(const struct MyStatus *obj);
+extern u8 MYSTATUS_GetSex(const struct MyStatus *obj);
 extern void ZONEDATA_Init(u32 heap);
 extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
 extern struct Sub02008828Obj *PLAYER_LOCATION_GetData(void *sys);
@@ -662,7 +662,7 @@ extern u16 PLAYTIME_GetHours(const struct PlayTime *p);
 extern u8 PLAYTIME_GetMinutes(const struct PlayTime *p);
 extern void *ZUKAN_SAVE_GetBlock(void *);
 extern u32 ZUKAN_SAVE_CountSeen(struct Blk37 *p, u32 heap);
-extern u32 BEACON_CountBadges(struct Blk34 *p);
+extern u32 MISC_CountBadges(struct Blk34 *p);
 extern void CLACT_SetActorDrawEnable(struct ClactActor *p, u32 v);
 extern void CLACT_DeleteActor(struct ClactActor *p);
 extern struct WinMgr *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heap);
@@ -671,7 +671,7 @@ extern void BGWINFRM_PutBmpWin(struct WinMgr *mgr, u32 idx, void *a);
 extern void BGWINFRM_Delete(struct WinMgr *mgr);
 extern void G2x_SetBlendAlpha_(void *reg, int a, int b, int c, int d);
 extern u8 SAVE_CONTROL_HasFlashSave(const struct Sub020071E4Ctrl *ctrl);
-extern u8 BEACON_GetSlotState(struct Blk34 *p, u32 i);
+extern u8 MISC_GetSlotState(struct Blk34 *p, u32 i);
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *o, u32 a, u32 b, void **out, u16 e);
 extern void MIi_CpuCopy16(void *srcp, void *destp, unsigned long size);
 extern u32 GFL_HEAP_Free(void *p);
@@ -872,16 +872,16 @@ extern int NAMEIN_SETUP_FreeArgs(int);
 extern void PROCSYS_PushGlobal(u32 overlayId, u32 data, u32 procWork);
 extern void CONFIG_SetBattleFlag(struct Config *config, int on);
 extern unsigned int CONFIG_GetBattleFlag(const struct Config *config);
-extern u8 BEACON_GetSlotStates(struct Blk34 *p);
+extern u8 MISC_GetSlotStates(struct Blk34 *p);
 extern int SAVE_CONTROL_Reload(char *self);
 extern u8 CONFIG_ApplyTextLanguage(const struct Config *config);
-extern void BEACON_SetSlotStates(struct Blk34 *p, u8 v);
+extern void MISC_SetSlotStates(struct Blk34 *p, u8 v);
 extern void MYSTATUS_NameFromStrbuf(u16 *out, struct U16Vec *vec);
-extern void MYSTATUS_SetOutfitVariant(int, int);
+extern void MYSTATUS_SetSex(int, int);
 extern u32 GFL_USE_GetRandomBelow(u32 range);
 extern void MYSTATUS_SetId(struct MyStatus *obj, u32 value);
 extern u32 GF_STANDARD_Rand(void);
-extern void MYSTATUS_SetOutfit(struct MyStatus *obj, u8 value);
+extern void MYSTATUS_SetTrainerView(struct MyStatus *obj, u8 value);
 extern void CONFIG_SetTextLanguage(struct Config *config, unsigned int on);
 extern void BG_SYS_FreeSlot(int a);
 extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
@@ -1333,7 +1333,7 @@ void STARTMENU_LogoInit(TitleDemoLogo *logo, u32 heap)
     logo->msgBank = (u32)MSGDATA_CreateFromArchive(0, 2, 0xB5, heap);
     logo->titleText = (u32)STRBUF_Create(0x40, heap);
     MSGDATA_ReadString((struct MsgBank *)logo->msgBank, 1, (void *)logo->titleText);
-    textWidth = GF_FONT_MeasureWidestLine((struct StrObj *)logo->titleText, logo->font, 0);
+    textWidth = PRINTSYS_MeasureWidestLine((struct StrObj *)logo->titleText, logo->font, 0);
     PRINTSYS_PrintQueColor((void *)logo->printer, logo->textBitmap, (s16)(0x80 - textWidth / 2), (s16)0, logo->titleText, logo->font, 0x440);
     logo->ready = 1;
 }
@@ -1673,7 +1673,7 @@ int STARTMENU_MenuInit(struct Proc *allocator)
     MI_CpuFill8(work, 0, 0x150);
     work->saveData = (void *)SAVE_CONTROL_Get();
     work->playerData = (void *)SYSTEM_DATA_GetMyStatus(work->saveData);
-    work->unlockData = (void *)BEACON_GetBlock(work->saveData);
+    work->unlockData = (void *)MISC_GetBlock(work->saveData);
     work->connectData = (void *)BLOCK20_SAVEDATA_GetBlock(work->saveData);
     work->eventWork = (void *)GAME_DATA_GetEventWorkFromSave((struct Sub020071CCCtrl *)work->saveData);
     return 1;
@@ -1770,7 +1770,7 @@ int STARTMENU_StateSetup(StartMenuWork *work)
 {
     unsigned short z;
     if (BLOCK20_SAVEDATA_GetPending((const struct Sub02009210Obj *)GAME_SYNC_GetBlock((void *)work->saveData)) == 1)
-        BEACON_SetSlotState((struct Blk34 *)work->unlockData, 2, 2);
+        MISC_SetSlotState((struct Blk34 *)work->unlockData, 2, 2);
     z = 0;
     BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
@@ -1938,15 +1938,15 @@ int STARTMENU_StateSelectRow(StartMenuWork *work)
             work->selectedRow = work->rowIds[work->cursorIndex];
             return STARTMENU_BeginSelectAnim(work, 11);
         case 3:
-            BEACON_SetSlotState((struct Blk34 *)(work->unlockData), 1, 2);
+            MISC_SetSlotState((struct Blk34 *)(work->unlockData), 1, 2);
             work->selectedRow = work->rowIds[work->cursorIndex];
             return STARTMENU_BeginSelectAnim(work, 11);
         case 4:
-            BEACON_SetSlotState((struct Blk34 *)(work->unlockData), 2, 2);
+            MISC_SetSlotState((struct Blk34 *)(work->unlockData), 2, 2);
             work->selectedRow = work->rowIds[work->cursorIndex];
             return STARTMENU_BeginSelectAnim(work, 11);
         case 7:
-            BEACON_SetSlotState((struct Blk34 *)(work->unlockData), 3, 2);
+            MISC_SetSlotState((struct Blk34 *)(work->unlockData), 3, 2);
             work->selectedRow = work->rowIds[work->cursorIndex];
             return STARTMENU_BeginSelectAnim(work, 11);
         case 5:
@@ -2524,7 +2524,7 @@ void STARTMENU_CreateRowWindows(StartMenuWork *work)
     msgStr = MSGDATA_AllocString(work->msgBank, 12);
     WORDSET_SetSlotMyStatus(work->wordSet, 0, work->playerData);
     WORDSET_CopyTaggedText(work->wordSet, work->stringBuf, msgStr);
-    if (MYSTATUS_GetOutfitVariant(work->playerData) == 0) {
+    if (MYSTATUS_GetSex(work->playerData) == 0) {
         printSys = work->printSys;
         PRINTSYS_PrintQueColor(printSys, (u32)BMP_WIN_GetBmp(work->windows[1].window), 0, 0, (u32)work->stringBuf, (u32)work->font, 0xC80);
         work->windows[1].textPending = 1;
@@ -2572,7 +2572,7 @@ void STARTMENU_CreateRowWindows(StartMenuWork *work)
     }
 
     msgStr = MSGDATA_AllocString(work->msgBank, 11);
-    WORDSET_SetSlotNumber(work->wordSet, 0, BEACON_CountBadges(BEACON_GetBlock(work->saveData)), 2, 0, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 0, MISC_CountBadges(MISC_GetBlock(work->saveData)), 2, 0, 1);
     WORDSET_CopyTaggedText(work->wordSet, work->stringBuf, msgStr);
     printSys = work->printSys;
     PRINTSYS_PrintQueColor(printSys, (u32)BMP_WIN_GetBmp(work->windows[5].window), 0, 0, (u32)work->stringBuf, (u32)work->font, 0x440);
@@ -2670,7 +2670,7 @@ void STARTMENU_CreateActors(StartMenuWork *work)
     resConfig = d_021BD688;
     CLACT_InitSystem((const struct Cfg *)(&resConfig), (u32)d_021BD60C, 0xb);
     archive = ARC_TOOL_CreateHandle(0x1f, 0x800b);
-    if (MYSTATUS_GetOutfitVariant((const struct MyStatus *)work->playerData) == 0) {
+    if (MYSTATUS_GetSex((const struct MyStatus *)work->playerData) == 0) {
         work->actorCharRes[0] = CLACT_RegisterCharacter(archive, 5, 0, 0, 0xb);
         work->actorPaletteRes[0] = CLACT_RegisterPalette(archive, 4, 0, 0, 0xb);
         work->actorCellRes[0] = CLACT_RegisterCellAnim(archive, 0, 1, 0xb);
@@ -2795,18 +2795,18 @@ void STARTMENU_BuildRowList(StartMenuWork *work)
     work->rowIds[i] = 1;
     (&work->rowIds[1])[i] = 2;
     i += 2;
-    if (BEACON_GetSlotState(work->unlockData, 1)) {
+    if (MISC_GetSlotState(work->unlockData, 1)) {
         work->rowIds[i] = 3;
         i++;
     }
-    if (BEACON_GetSlotState(work->unlockData, 2)) {
+    if (MISC_GetSlotState(work->unlockData, 2)) {
         work->rowIds[i] = 4;
         i++;
     }
     work->rowIds[i] = 5;
     (&work->rowIds[1])[i] = 6;
     i += 2;
-    if (BEACON_GetSlotState(work->unlockData, 3)) {
+    if (MISC_GetSlotState(work->unlockData, 3)) {
         work->rowIds[i] = 7;
         i++;
     }
@@ -2897,17 +2897,17 @@ void STARTMENU_LayoutRows(StartMenuWork *work)
             STARTMENU_SetRowActorY(work, 5, tileY * 8 + gStartMenuRowInfo[rowId].height * 8 / 2);
             rowActor = work->rowActors[5];
         } else if (rowId == 3) {
-            if (BEACON_GetSlotState(work->unlockData, 1) != 1)
+            if (MISC_GetSlotState(work->unlockData, 1) != 1)
                 goto next;
             STARTMENU_SetRowActorY(work, 2, tileY * 8 + gStartMenuRowInfo[(u8)work->rowIds[i]].height * 8 / 2);
             rowActor = work->rowActors[2];
         } else if (rowId == 4) {
-            if (BEACON_GetSlotState(work->unlockData, 2) != 1)
+            if (MISC_GetSlotState(work->unlockData, 2) != 1)
                 goto next;
             STARTMENU_SetRowActorY(work, 3, tileY * 8 + gStartMenuRowInfo[(u8)work->rowIds[i]].height * 8 / 2);
             rowActor = work->rowActors[3];
         } else if (rowId == 7) {
-            if (BEACON_GetSlotState(work->unlockData, 3) != 1)
+            if (MISC_GetSlotState(work->unlockData, 3) != 1)
                 goto next;
             STARTMENU_SetRowActorY(work, 4, tileY * 8 + gStartMenuRowInfo[(u8)work->rowIds[i]].height * 8 / 2);
             rowActor = work->rowActors[4];
@@ -3062,13 +3062,13 @@ void STARTMENU_ShowRowActors(StartMenuWork *work, int flag)
         if (rowId == 8)
             return;
         if (rowId == 3) {
-            if (BEACON_GetSlotState(work->unlockData, 1) == 1)
+            if (MISC_GetSlotState(work->unlockData, 1) == 1)
                 CLACT_SetActorDrawEnable(work->rowActors[2], 1);
         } else if (rowId == 4) {
-            if (BEACON_GetSlotState(work->unlockData, 2) == 1)
+            if (MISC_GetSlotState(work->unlockData, 2) == 1)
                 CLACT_SetActorDrawEnable(work->rowActors[3], 1);
         } else if (rowId == 7) {
-            if (BEACON_GetSlotState(work->unlockData, 3) == 1)
+            if (MISC_GetSlotState(work->unlockData, 3) == 1)
                 CLACT_SetActorDrawEnable(work->rowActors[4], 1);
         } else if (rowId == 5) {
             CLACT_SetActorDrawEnable(work->rowActors[5], 1);
@@ -3430,7 +3430,7 @@ int STARTMENU_NewGameIntroMain(void *proc, int *seq, void *procWork, NewGameIntr
             *seq = 2;
         break;
     case 2:
-        work->nameInArgs->species = MYSTATUS_GetOutfitVariant(work->startArg.myStatus);
+        work->nameInArgs->species = MYSTATUS_GetSex(work->startArg.myStatus);
         work->nameInArgs->saveIntr = work->saveIntr;
         PROCSYS_Push(work->procSys, (u32)ov194_id, &gNameInProcData, work->nameInArgs);
         *seq = 3;
@@ -3440,7 +3440,7 @@ int STARTMENU_NewGameIntroMain(void *proc, int *seq, void *procWork, NewGameIntr
             *seq = 4;
         break;
     case 4:
-        STARTMENU_SetNewPlayerNameAndGender(work->myStatus, work->nameInArgs->name, MYSTATUS_GetOutfitVariant(work->myStatus));
+        STARTMENU_SetNewPlayerNameAndGender(work->myStatus, work->nameInArgs->name, MYSTATUS_GetSex(work->myStatus));
         work->introParam.phase = 7;
         PROCSYS_Push(work->procSys, (u32)ov204_id, &gIntroProcData, &work->introParam);
         *seq = 6;
@@ -3511,7 +3511,7 @@ int STARTMENU_BattleFlagProcInit(struct Proc *proc)
 
     work->startArg.startMode = 1;
     work->startArg.config = (struct Config *)SYSTEM_DATA_GetConfig(SAVE_CONTROL_Get());
-    work->saveOptions = BEACON_GetBlock(SAVE_CONTROL_Get());
+    work->saveOptions = MISC_GetBlock(SAVE_CONTROL_Get());
     work->startArg.myStatus = 0;
     return 1;
 }
@@ -3558,13 +3558,13 @@ int STARTMENU_BattleFlagProcEnd(struct Proc *proc, int seq, int mode, NewGameInt
 
     saveControl = SAVE_CONTROL_Get();
     battleFlag = CONFIG_GetBattleFlag(work->startArg.config);
-    savedOption = BEACON_GetSlotStates(work->saveOptions);
+    savedOption = MISC_GetSlotStates(work->saveOptions);
     SAVE_CONTROL_Reload(saveControl);
     CONFIG_ApplyTextLanguage((const struct Config *)SYSTEM_DATA_GetConfig(saveControl));
     PLAYER_LOCATION_CopyRecord(saveControl, (struct Sub02008828Rec *)(&location));
     PROCSYS_ReplaceGlobal(-1, (u32)d_0209DF9C, (u32)GAMESYSTEM_SetupInitWork(1, location.mapId, &location.position, location.facing));
     CONFIG_SetBattleFlag(work->startArg.config, battleFlag);
-    BEACON_SetSlotStates(work->saveOptions, savedOption);
+    MISC_SetSlotStates(work->saveOptions, savedOption);
     PROCSYS_FreeProcWork(proc);
     return 1;
 }
@@ -3581,11 +3581,11 @@ void STARTMENU_SetNewPlayerNameAndGender(struct MyStatus *myStatus, struct Strbu
     u64 tick;
     u32 currentValue;
     MYSTATUS_NameFromStrbuf((u16 *)myStatus, (struct U16Vec *)name);
-    MYSTATUS_SetOutfitVariant((int)myStatus, gender);
+    MYSTATUS_SetSex((int)myStatus, gender);
     MYSTATUS_SetId(myStatus, GFL_USE_GetRandomBelow(-1));
     tick = GF_STANDARD_Rand();
-    currentValue = MYSTATUS_GetOutfitVariant(myStatus);
-    MYSTATUS_SetOutfit(myStatus, (u8)((u32)((tick * 8) >> 32) + currentValue * 8));
+    currentValue = MYSTATUS_GetSex(myStatus);
+    MYSTATUS_SetTrainerView(myStatus, (u8)((u32)((tick * 8) >> 32) + currentValue * 8));
 }
 
 
@@ -3655,9 +3655,9 @@ int STARTMENU_ConfigPromptMain(int proc, int seq, NewGameStartArg *startArg, Con
         choice = STARTMENU_ConfigPromptReadInput(work);
         if (choice != 0) {
             if (choice == 1)
-                MYSTATUS_SetOutfitVariant((int)startArg->myStatus, 0);
+                MYSTATUS_SetSex((int)startArg->myStatus, 0);
             else
-                MYSTATUS_SetOutfitVariant((int)startArg->myStatus, 1);
+                MYSTATUS_SetSex((int)startArg->myStatus, 1);
             STARTMENU_ConfigPromptDeleteWindows(work);
             work->question = 2;
             STARTMENU_ConfigPromptDrawQuestion(work);

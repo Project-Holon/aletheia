@@ -29,7 +29,7 @@
  * BG_SYS_Create 0x0203F8F4 arm
  * func_02045B38 0x02045B38 arm
  * TCBL_Create 0x0203101C arm
- * GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ * GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  * ARC_TOOL_DeleteHandle 0x02049238 arm
  * WORDSET_CreateDefault 0x0201EC64 thumb
  * GF_FONT_Create 0x0201D7EC thumb
@@ -72,7 +72,7 @@ extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern u32 PRINTSYS_QUE_Create(void *);
 extern void GURU2_RECEIPT_InitStrings(u8 *,void *),GURU2_RECEIPT_InitActors(u8 *,void *),GURU2_RECEIPT_CreatePlayerActors(u8 *),GURU2_RECEIPT_CreateWindows(u8 *);
 extern void GURU2_COMM_RegisterCommands(u32 a);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void ARC_TOOL_DeleteHandle(void *);
 int GURU2_RECEIPT_ProcInit(void *a,u32 *state,u8 *ctx)
 {
@@ -101,7 +101,7 @@ int GURU2_RECEIPT_ProcInit(void *a,u32 *state,u8 *ctx)
         *(u32 *)(p+236)=PRINTSYS_QUE_Create((void *)114);
         GURU2_RECEIPT_InitStrings(p,arc); GURU2_RECEIPT_InitActors(p,arc); GURU2_RECEIPT_CreatePlayerActors(p); GURU2_RECEIPT_CreateWindows(p);
         GURU2_COMM_RegisterCommands((u32)(*(void **)(ctx+24)));
-        GFL_NET_RestartWithDefaultTimeout(1,114); ARC_TOOL_DeleteHandle(arc);
+        GFL_NET_RefreshWmIconAtTopRight(1,114); ARC_TOOL_DeleteHandle(arc);
         (*state)++;
         break;
     case 1:

@@ -16,7 +16,7 @@
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   func_0200FB24  0x0200FB24  thumb
  *   GAME_DATA_GetIntrudeId  0x02012B80  thumb
- *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   INTRUDE_COMM_ClearSessionEntries  0x021757A8  thumb  ov011
  *   INTRUDE_FIELD_InitStartParam  0x0217BF1C  thumb  ov018
  *   FIELDMAP_GetMsgBg  0x02188C54  thumb  ov021
@@ -72,7 +72,7 @@ struct WordSet;
 int INTRUDE_COMM_GetWorkIfRunning(int a0);
 u32 func_0200FB24(void);
 u8 GAME_DATA_GetIntrudeId(const struct BigObj *p);
-u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+u8 GAME_DATA_GetOwnNetId(const struct BigObj *p);
 void INTRUDE_COMM_ClearSessionEntries(u8 *p);
 void INTRUDE_FIELD_InitStartParam(void *p);
 u32 FIELDMAP_GetMsgBg(u8 *p);
@@ -124,7 +124,7 @@ int EVENT_COMM_COMMON_ExitSyncEventMain(void *a0, int *state, Ctx *c)
         int a;
         int b;
 
-        if (func_0200FB24() != 0 || (w == 0 && GAME_DATA_GetIntrudeId(s) != GAME_DATA_GetExitMode(s))) {
+        if (func_0200FB24() != 0 || (w == 0 && GAME_DATA_GetIntrudeId(s) != GAME_DATA_GetOwnNetId(s))) {
             *state = 7;
             break;
         }
@@ -137,7 +137,7 @@ int EVENT_COMM_COMMON_ExitSyncEventMain(void *a0, int *state, Ctx *c)
         c->f4 = FIELD_MSGBG_CreateBottomMsgWin(g, c->f0);
         c->f8 = (int)WORDSET_CreateDefault(4);
         GFL_USE_PlaySeDefaultVolume(0x547);
-        if (w == 0 || GAME_DATA_GetIntrudeIdByte(s) == GAME_DATA_GetExitMode(s)) {
+        if (w == 0 || GAME_DATA_GetIntrudeIdByte(s) == GAME_DATA_GetOwnNetId(s)) {
             FIELD_MSGBG_MsgWinPrintMsg(c->f4, 0, 0, 0x49);
             flag = 1;
         } else {

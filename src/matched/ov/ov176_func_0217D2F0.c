@@ -24,7 +24,7 @@
  *   OS_GetMacAddress  0x02087C6C  arm
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   func_0200E6E8  0x0200E6E8  thumb
- *   MISC_SAVEDATA_CopyQuadRecord  0x0200E6FC  thumb
+ *   GREETING_SAVEDATA_GetSentence  0x0200E6FC  thumb
  *   BATTLE_BOX_GetFromSave  0x0200BAC8  thumb
  *   func_0200BAF4  0x0200BAF4  thumb
  *   POKE_REGULATION_GetDataSize  0x0201A918  thumb
@@ -48,7 +48,7 @@ extern void MI_CpuCopy8(u32 a, void *p, u32 b);
 extern void OS_GetMacAddress(void *p);
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern void *func_0200E6E8(u32 a);
-extern void MISC_SAVEDATA_CopyQuadRecord(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
+extern void GREETING_SAVEDATA_GetSentence(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
 extern void *BATTLE_BOX_GetFromSave(void *p);
 extern void *func_0200BAF4(int a0, int a1);
 extern int POKE_REGULATION_GetDataSize(void);
@@ -66,7 +66,7 @@ void DIGITALCARDCHECK_BuildBattleRecord(u8 *p, u8 *q)
     x = (u32)GAME_DATA_GetMyStatus(r);
     MI_CpuCopy8(x, p, MYSTATUS_GetSize());
     OS_GetMacAddress(p + 0x20);
-    MISC_SAVEDATA_CopyQuadRecord(func_0200E6E8((u32)GAME_DATA_GetSaveControl((struct Big *)r)), 0, (struct Rec0200E6FC *)(p + 0x38));
+    GREETING_SAVEDATA_GetSentence(func_0200E6E8((u32)GAME_DATA_GetSaveControl((struct Big *)r)), 0, (struct Rec0200E6FC *)(p + 0x38));
     a = (u32)func_0200BAF4((int)BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)r)), 0x8056);
     MI_CpuCopy8(a, p + 0xd4, POKE_REGULATION_GetDataSize());
     func_020307B0((void *)a);

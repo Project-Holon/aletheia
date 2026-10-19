@@ -18,7 +18,7 @@
  *   BMP_Clear 0x02043B5C arm
  *   MSGDATA_ReadString 0x02045CAC arm
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
- *   BEACON_GetMoney 0x0200C274 thumb
+ *   MISC_GetMoney 0x0200C274 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
  *   ITEMMENU_PrintToWindow 0x021BB6E0 thumb ov070
@@ -96,7 +96,7 @@ extern void *BMP_WIN_GetBmp(struct Descriptor *);
 extern void BMP_Clear(struct CharBuf *,u8);
 extern void MSGDATA_ReadString(struct MsgBank *,u32,void *);
 extern void *GAME_DATA_GetMiscSave(int *);
-extern u32 BEACON_GetMoney(struct Blk34 *);
+extern u32 MISC_GetMoney(struct Blk34 *);
 extern void WORDSET_SetSlotNumber(struct WordSet *,u32,u32,u32,u32,u32);
 extern void WORDSET_CopyTaggedText(struct WordSet *,void *,void *);
 extern void ITEMMENU_PrintToWindow(int,u32 *,u32,u16,s16,u16);
@@ -112,7 +112,7 @@ void ITEMMENU_PrintMoney(u8 *p)
  ITEMMENU_PrintToWindow((int)p,(u32 *)((u32)p+(win-8)),W(0x524),0,4,0x3C40);
  ITEMMENU_FlushWindowAt((void **)((unsigned long)p+(win-8)));
  MSGDATA_ReadString(P(0x51C),0x52,P(0x524));
- WORDSET_SetSlotNumber(P(0x520),0,BEACON_GetMoney(GAME_DATA_GetMiscSave(P(0))),7,1,1);
+ WORDSET_SetSlotNumber(P(0x520),0,MISC_GetMoney(GAME_DATA_GetMiscSave(P(0))),7,1,1);
  WORDSET_CopyTaggedText(P(0x520),P(0x528),P(0x524));
  ITEMMENU_PrintToWindow((int)p,(u32 *)((u32)p+win),W(0x528),0,4,0x3C40);
  ITEMMENU_FlushWindowAt((void **)((u32)p+win));

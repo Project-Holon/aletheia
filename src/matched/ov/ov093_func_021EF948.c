@@ -1,5 +1,5 @@
 /*
- * function: BTL_FIELD_GetStaticSlotObject
+ * function: BTL_FIELD_IsStaticSlotInUse
  * address:  0x021EF948
  * packet:   pkt_ov093_021EF948
  * region:   ov093
@@ -19,7 +19,7 @@
 extern struct Countdown gBtlFieldCountdown;
 extern void *BTL_FIELD_IsSlotInUse(char *arg0, int arg1);
 
-int BTL_FIELD_GetStaticSlotObject(int a)
+int BTL_FIELD_IsStaticSlotInUse(int a)
 {
     return (int)BTL_FIELD_IsSlotInUse(&(*(char *)&gBtlFieldCountdown), a);
 }

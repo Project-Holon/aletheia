@@ -68,7 +68,7 @@
  *   PRINTSYS_QUE_Clear  0x0201C6EC  thumb  arm9
  *   WORDSET_CreateDefault  0x0201EC64  thumb  arm9
  *   WORDSET_Delete  0x0201ED04  thumb  arm9
- *   GF_FONT_AppendTag  0x0201D60C  thumb  arm9
+ *   PRINTSYS_AppendTag  0x0201D60C  thumb  arm9
  *   GF_FONT_InitTextColor  0x0201DD60  thumb  arm9
  */
 #include "pdwacc_message_types.h"
@@ -184,7 +184,7 @@ extern void STRBUF_Clear(struct U16Vec *vec);
 
 extern void STRBUF_AppendChar(struct U16Vec *vec, u16 value);
 
-extern void GF_FONT_AppendTag(void *s, u32 b, u32 c, u16 n, const u16 *arr);
+extern void PRINTSYS_AppendTag(void *s, u32 b, u32 c, u16 n, const u16 *arr);
 
 extern const char d_021DABA8[];
 
@@ -409,7 +409,7 @@ void PDWACC_MESSAGE_FormatNumber(int value, void *buf)
         index = (u16)(bits & 31);
         bits >>= 5;
         STRBUF_AppendChar(buf, table.chars[index]);
-        GF_FONT_AppendTag(buf, 189, 4, 1, &arg);
+        PRINTSYS_AppendTag(buf, 189, 4, 1, &arg);
     }
 }
 

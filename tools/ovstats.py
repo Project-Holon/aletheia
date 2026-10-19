@@ -236,7 +236,9 @@ def _load_shards():
         by_region = {}
         for name, path, _mt, _sz in files:
             if path in docs and name.startswith("pkt_"):
-                by_region.setdefault(os.path.basename(os.path.dirname(path)), []).append(docs[path])
+                reg = os.path.basename(os.path.dirname(path))
+                # the decrypted view of overlay 230 (region ov230d) counts with ov230
+                by_region.setdefault("ov230" if reg == "ov230d" else reg, []).append(docs[path])
         _SHARDS["docs"] = docs
         _SHARDS["by_region"] = by_region
         # units whose member names carry no address: compile their layouts in

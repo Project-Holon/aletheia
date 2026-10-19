@@ -21,7 +21,7 @@
  *   BR_NET_Destroy 0x021FF4E4 thumb ov186
  *   GF_OVERLAY_Unload 0x02034A5C arm
  *   BR_NET_Main 0x021FF52C thumb ov186
- *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GF_PANIC_Fail 0x02034714 arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   GDS_PROFILE_Init 0x0200D5D0 thumb
  *   GFL_HEAP_Alloc 0x02030734 arm
@@ -89,7 +89,7 @@ typedef int (*BrNetErrorHook)(struct BrNet *net, int unused, int errorKind, int 
 
 extern void DWC_RAP_SetErrorHookCallback(BrNetErrorHook hook, struct BrNet *net);
 
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 extern void GFL_USE_StopAllSe(void);
 
@@ -291,7 +291,7 @@ void BR_NET_Main(struct BrNet *net)
  */
 void BR_NET_StartRequest(struct BrNet *net, int kind, const union BrNetRequest *request)
 {
-    if(kind>=BR_NET_REQUEST_COUNT)SAVEDATA_PanicFail(gBrNetAssertString,0,gBrNetAssertString);
+    if(kind>=BR_NET_REQUEST_COUNT)GF_PANIC_Fail(gBrNetAssertString,0,gBrNetAssertString);
     if(request){
         net->request=*request;
     }
@@ -306,7 +306,7 @@ void BR_NET_StartRequest(struct BrNet *net, int kind, const union BrNetRequest *
     case BR_NET_REQUEST_SEARCH_KIND3:BR_NET_SetStep(net->task,BR_NET_StepSearchKind3);break;
     case BR_NET_REQUEST_SEARCH_KIND2:BR_NET_SetStep(net->task,BR_NET_StepSearchKind2);break;
     case BR_NET_REQUEST_MARK_VIDEO:BR_NET_SetStep(net->task,BR_NET_StepMarkVideo);break;
-    default:SAVEDATA_PanicFail(gBrNetAssertString,0,gBrNetAssertString);break;
+    default:GF_PANIC_Fail(gBrNetAssertString,0,gBrNetAssertString);break;
     }
 }
 
@@ -482,63 +482,63 @@ void BR_NET_StepWaitRequest(struct BrNetTask *task, u32 *counter, struct BrNet *
 void BR_NET_StepUploadEntry(struct BrNetTask *task, u32 *counter, struct BrNet *net)
 {
     if(!GDS_RAP_RequestUploadEntry(&net->rap,(const GdsProfileBlock *)net->profile,net->request.payload))
-        SAVEDATA_PanicFail(gBrNetAssertString,0,gBrNetAssertString);
+        GF_PANIC_Fail(gBrNetAssertString,0,gBrNetAssertString);
     BR_NET_SetStep(task,BR_NET_StepWaitRequest);
 }
 
 void BR_NET_StepDownloadEntries(struct BrNetTask *task, u32 *counter, struct BrNet *net)
 {
     if(!GDS_RAP_RequestDownloadEntries(&net->rap,net->request.downloadKey))
-        SAVEDATA_PanicFail(gBrNetAssertString,0,gBrNetAssertString);
+        GF_PANIC_Fail(gBrNetAssertString,0,gBrNetAssertString);
     BR_NET_SetStep(task,BR_NET_StepWaitRequest);
 }
 
 void BR_NET_StepUploadVideo(struct BrNetTask *task, u32 *counter, struct BrNet *net)
 {
     if(!GDS_RAP_RequestUploadVideo(&net->rap,net->profile))
-        SAVEDATA_PanicFail(gBrNetAssertString,0,gBrNetAssertString);
+        GF_PANIC_Fail(gBrNetAssertString,0,gBrNetAssertString);
     BR_NET_SetStep(task,BR_NET_StepWaitRequest);
 }
 
 void BR_NET_StepGetVideo(struct BrNetTask *task, u32 *counter, struct BrNet *net)
 {
     if(!GDS_RAP_RequestGetVideo(&net->rap,net->request.dataNumber.lo,net->request.dataNumber.hi))
-        SAVEDATA_PanicFail(gBrNetAssertString,0,gBrNetAssertString);
+        GF_PANIC_Fail(gBrNetAssertString,0,gBrNetAssertString);
     BR_NET_SetStep(task,BR_NET_StepWaitRequest);
 }
 
 void BR_NET_StepSearchVideos(struct BrNetTask *task, u32 *counter, struct BrNet *net)
 {
     if (!GDS_RAP_RequestSearchVideos(&net->rap, net->request.search.keyId, net->request.search.category, net->request.search.mode, net->request.search.flag))
-        SAVEDATA_PanicFail(gBrNetAssertString, 0, gBrNetAssertString);
+        GF_PANIC_Fail(gBrNetAssertString, 0, gBrNetAssertString);
     BR_NET_SetStep(task, BR_NET_StepWaitRequest);
 }
 
 void BR_NET_StepSearchKind1(struct BrNetTask *task, u32 *counter, struct BrNet *net)
 {
     if(!GDS_RAP_RequestSearchKind1(&net->rap))
-        SAVEDATA_PanicFail(gBrNetAssertString,0,gBrNetAssertString);
+        GF_PANIC_Fail(gBrNetAssertString,0,gBrNetAssertString);
     BR_NET_SetStep(task,BR_NET_StepWaitRequest);
 }
 
 void BR_NET_StepSearchKind3(struct BrNetTask *task, u32 *counter, struct BrNet *net)
 {
     if(!GDS_RAP_RequestSearchKind3(&net->rap))
-        SAVEDATA_PanicFail(gBrNetAssertString,0,gBrNetAssertString);
+        GF_PANIC_Fail(gBrNetAssertString,0,gBrNetAssertString);
     BR_NET_SetStep(task,BR_NET_StepWaitRequest);
 }
 
 void BR_NET_StepSearchKind2(struct BrNetTask *task, u32 *counter, struct BrNet *net)
 {
     if(!GDS_RAP_RequestSearchKind2(&net->rap))
-        SAVEDATA_PanicFail(gBrNetAssertString,0,gBrNetAssertString);
+        GF_PANIC_Fail(gBrNetAssertString,0,gBrNetAssertString);
     BR_NET_SetStep(task,BR_NET_StepWaitRequest);
 }
 
 void BR_NET_StepMarkVideo(struct BrNetTask *task, u32 *counter, struct BrNet *net)
 {
     if (!GDS_RAP_RequestMarkVideo(&net->rap, net->request.dataNumber.lo, net->request.dataNumber.hi))
-        SAVEDATA_PanicFail(gBrNetAssertString, 0, gBrNetAssertString);
+        GF_PANIC_Fail(gBrNetAssertString, 0, gBrNetAssertString);
     BR_NET_SetStep(task, BR_NET_StepWaitRequest);
 }
 

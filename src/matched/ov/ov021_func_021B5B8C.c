@@ -15,7 +15,7 @@
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  *   POKE_TOOL_GetPartyValue  0x02017E1C  thumb
- *   BEACON_SetSelect  0x0200C11C  thumb
+ *   MISC_SetMonRecord  0x0200C11C  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -30,7 +30,7 @@ extern int SCRCMD_PROC_GetPartyMember(void *a0, unsigned int a1, void **out);
 extern void *SCRCMD_WORK_GetGameData(void *a0);
 extern void *GAME_DATA_GetMiscSave(int *p);
 extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
-extern void BEACON_SetSelect(struct Blk34 *p, u16 a, u32 b, u32 c, u32 d);
+extern void MISC_SetMonRecord(struct Blk34 *p, u16 a, u32 b, u32 c, u32 d);
 
 int SCRCMD_POKEMON_FLD_StoreMonRecord(void *a, void *b)
 {
@@ -44,7 +44,7 @@ int SCRCMD_POKEMON_FLD_StoreMonRecord(void *a, void *b)
         v6f = POKE_TOOL_GetPartyValue(rec, 0x6f, 0);
         v4c = POKE_TOOL_GetPartyValue(rec, 0x4c, 0);
         v6e = POKE_TOOL_GetPartyValue(rec, 0x6e, 0);
-        BEACON_SetSelect(x, v5, v6f, v4c, v6e);
+        MISC_SetMonRecord(x, v5, v6f, v4c, v6e);
     }
     return 0;
 }

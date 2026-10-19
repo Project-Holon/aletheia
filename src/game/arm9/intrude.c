@@ -364,7 +364,7 @@ u64 INTRUDE_GetPlaySeconds(struct IntrudeSave *intrude)
 
 /*
  * battle_rec.c, 0x0200BFA4..0x0200C058: the play-clock accumulator and the
- * unlabelled 4-byte follower BEACON_GetSize (`return 0xEC;`, a size getter).
+ * unlabelled 4-byte follower MISC_GetSize (`return 0xEC;`, a size getter).
  *
  * INTRUDE_UpdatePlaySeconds converts the h:m:s clock at q to seconds and, by mode,
  * latches it (0), adds the elapsed delta into the u64 at +0x1A8 (1), or

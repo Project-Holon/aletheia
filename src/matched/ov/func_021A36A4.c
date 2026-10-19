@@ -1,5 +1,5 @@
 /*
- * function: FIELD_PLAYER_GetNogridState
+ * function: FIELD_PLAYER_GetNogridRailWork
  * address:  0x021A36A4
  * packet:   pkt_021A368C
  * region:   ov021
@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 
 extern u32 FIELD_PLAYER_NOGRID_GetRailWork(u32 *p);
 
-u32 FIELD_PLAYER_GetNogridState(u8 *p)
+u32 FIELD_PLAYER_GetNogridRailWork(u8 *p)
 {
     return FIELD_PLAYER_NOGRID_GetRailWork((u32 *)(((struct Obj18027 *)p)->fC));
 }

@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * function: GAME_DATA_GetMapMatrix, GAME_DATA_GetMyItem, GAME_DATA_GetMyParty, GAME_DATA_GetBoxManager,
- *           GAME_DATA_GetMyStatus, GAME_DATA_GetPlayerStatus, GAME_DATA_GetBagCursor, GAME_DATA_GetOccupyInfo,
+ *           GAME_DATA_GetMyStatus, GAME_DATA_GetMyStatusPlayer, GAME_DATA_GetBagCursor, GAME_DATA_GetOccupyInfo,
  *           GAME_DATA_GetEventWork, GAME_DATA_GetFieldWork, GAME_DATA_GetMusicalWork, GAME_DATA_GetSeason,
  *           GAME_DATA_SetSeason, GAME_DATA_GetSubscreenMode, GAME_DATA_SetSubscreenMode, GAME_DATA_GetSubscreenType,
  *           GAME_DATA_SetSubscreenType, GAME_DATA_GetFrameRate, GAME_DATA_SetFrameRate, GAME_DATA_SetWalkCountEnable,
@@ -34,7 +34,7 @@
  *    with movs/lsls (0x63 << 2 is +0x18C) or, where the constant is not of
  *    that shape, out of the function's own literal pool (+0x1C5 .. +0x1CD).
  *    Those pool words are plain constants and carry no relocation.
- *  - Rec44 is the 0x44-byte record GAME_DATA_GetPlayerStatus indexes, and GAME_DATA_InitPlayerWork
+ *  - Rec44 is the 0x44-byte record GAME_DATA_GetMyStatusPlayer indexes, and GAME_DATA_InitPlayerWork
  *    onwards are its constructor and accessors.  GAME_DATA_InitPlayerWork is the
  *    constructor: its store order is the source's statement order, and the
  *    two strb at +0x12 and +0x13 next to the strh at +0x10, +0x14 and +0x16
@@ -171,7 +171,7 @@ u8 *GAME_DATA_GetMyStatus(void *p)
     return GAME_DATA_GetMyPlayerWork(p) + 0x20;
 }
 
-struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, u32 i)
+struct Rec44 *GAME_DATA_GetMyStatusPlayer(struct Sub24 *p, u32 i)
 {
     return &p->unk24[i];
 }

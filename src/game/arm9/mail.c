@@ -25,7 +25,7 @@
  *   PMSI_PARAM_Copy  0x02024570  thumb
  *   MYSTATUS_GetName  0x020084F4  thumb
  *   MYSTATUS_GetId  0x02008530  thumb
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   GFL_HEAP_Alloc  0x02030734  arm
  */
@@ -89,7 +89,7 @@ extern const u16 *MYSTATUS_GetName(const struct MyStatus *status);
 
 extern u32 MYSTATUS_GetId(const struct MyStatus *status);
 
-extern u8  MYSTATUS_GetOutfitVariant(const struct MyStatus *status);
+extern u8  MYSTATUS_GetSex(const struct MyStatus *status);
 
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 
@@ -169,7 +169,7 @@ void MAIL_InitForPlayer(struct Mail *mail, u8 design, u32 unused,
     mail->design = design;
     status = GAME_DATA_GetMyStatus(gameData);
     MI_CpuCopy8(MYSTATUS_GetName(status), mail->writerName, sizeof(mail->writerName));
-    mail->gender = MYSTATUS_GetOutfitVariant(status);
+    mail->gender = MYSTATUS_GetSex(status);
     mail->writerId = MYSTATUS_GetId(status);
 }
 

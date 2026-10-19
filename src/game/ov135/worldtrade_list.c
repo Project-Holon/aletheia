@@ -68,7 +68,7 @@
  *   WORLDTRADE_AdvanceScreenId  0x021F4EC8  thumb  ov135
  *   WORLDTRADE_SetStateAndReturn  0x021F4EC0  thumb
  *   WORLDTRADE_SetActorPos  0x021F4FF4  thumb
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm  arm9
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm  arm9
  *   WORLDTRADE_DEPOSIT_FindLevelBracketIndex 0x021F886C thumb ov135
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
  *   WORLDTRADE_SetNextState 0x021F4E98 thumb ov135
@@ -168,7 +168,7 @@ extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 archiveID, u32 memberIdx, u3
 
 extern void WORLDTRADE_AdvanceScreenId(Work *p);
 
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 
 
 extern void WORLDTRADE_SetActorPos(u32 a, u32 b, u32 c);
@@ -380,7 +380,7 @@ int WORLDTRADE_LIST_Init(Work *p)
     WORLDTRADE_SUBLCD_MoveArrowToSlot(p, p->cur, -p->scroll);
     p->vblank = WORLDTRADE_LIST_VBlank;
     *(vu16 *)0x04000304 |= 0x8000;
-    GFL_NET_RestartWithDefaultTimeout(1, 0x48);
+    GFL_NET_RefreshWmIconAtTopRight(1, 0x48);
     if (p->kind == 0x11) {
         if (GXx_GetMasterBrightness_((vu16 *)0x0400006C) == -16 && GXx_GetMasterBrightness_((vu16 *)0x0400106C) != -16) {
             WIPE_SYS_Start((void *)3, 1, 1, 0, 6, 1, 0x48);
@@ -422,7 +422,7 @@ int WORLDTRADE_LIST_Exit(Work *p)
     CLACT_SetActorDrawEnable((struct Obj *)p->scrollBarObj, 0);
     WORLDTRADE_AdvanceScreenId(p);
     if (*(int *)&p->flag == 0)
-        GFL_NET_RestartWithDefaultTimeout(0, 0x48);
+        GFL_NET_RefreshWmIconAtTopRight(0, 0x48);
     return 0;
 }
 
@@ -498,7 +498,7 @@ void WORLDTRADE_LIST_CreateActors(Work *p)
     CLACT_SetActorAutoAnim(p->obj, 1);
     CLACT_SetActorAnimSeq(p->obj, 0x24);
     CLACT_SetActorDrawEnable(p->obj, 1);
-    GFL_NET_RestartWithDefaultTimeout(0, 0x48);
+    GFL_NET_RefreshWmIconAtTopRight(0, 0x48);
 }
 
 /*
@@ -570,11 +570,11 @@ void WORLDTRADE_LIST_CreateStrings(Work *p)
 
     p->str = STRBUF_Create(0xB4, 0x48);
     WORDSET_ClearAllSlots(p->words);
-    if (e->lang != 0) {
-        WORDSET_SetSlotFromMsgE7(p->words, 8, e->lang);
+    if (e->nation != 0) {
+        WORDSET_SetSlotFromMsgE7(p->words, 8, e->nation);
     }
-    if (e->ver != 0) {
-        WORDSET_SetSlotFromKeyedMessage(p->words, 9, e->lang, e->ver);
+    if (e->area != 0) {
+        WORDSET_SetSlotFromKeyedMessage(p->words, 9, e->nation, e->area);
     }
     p->name0 = (void *)WORLDTRADE_ADAPTER_CreateString((u32)p->words, (u32)p->bank, 0x58, 0x48);
     p->name1 = (void *)WORLDTRADE_ADAPTER_CreateString((u32)p->words, (u32)p->bank, 0x59, 0x48);

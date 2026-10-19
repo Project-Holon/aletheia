@@ -31,7 +31,7 @@
  *   PMS_DRAW_SetNullColorPalette  0x0202DE5C  thumb
  *   PMS_DRAW_Print  0x0202DC48  thumb
  *   PMS_DRAW_SetVisible  0x0202DCB0  thumb
- *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
+ *   PRINTSYS_MeasureWidestLine  0x0201D304  thumb
  *   MSGDATA_AllocString  0x02045EC0  arm
  *   STRBUF_Delete  0x02045808  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
@@ -87,7 +87,7 @@
  *   VIEWER_ACTOR_InitBgWindow  0x021C78C4  thumb
  *   VIEWER_ACTOR_CreateFont  0x021C7934  thumb
  *   VIEWER_ACTOR_SetSelection  0x021C81A4  thumb
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   WIPE_SYS_Start  0x0202208C  thumb
  *   VIEWER_ACTOR_DispatchState  0x021C79A0  thumb
  *   VIEWER_ACTOR_DrawModel  0x021C7830  thumb
@@ -212,7 +212,7 @@ extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
 extern void PMS_DRAW_Print(u32 a, u32 b, u32 c, u32 d);
 extern void PMS_DRAW_SetVisible(struct PmsDraw *o, int i, u32 visible);
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
@@ -264,7 +264,7 @@ extern void VIEWER_ACTOR_CreateModel(ViewerTextWork *p);
 extern void VIEWER_ACTOR_InitBgWindow(ViewerTextWork *p);
 extern void VIEWER_ACTOR_CreateFont(ViewerTextWork *p);
 extern void VIEWER_ACTOR_SetSelection(ViewerTextWork *p, u16 v);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
 extern int VIEWER_ACTOR_DispatchState(ViewerTextWork *p);
 extern void VIEWER_ACTOR_DrawModel(ViewerTextWork *p);
@@ -455,7 +455,7 @@ void VIEWER_TEXT_DrawTable(ViewerWork *p, int k, int flush)
     } else {
         str = MSGDATA_AllocString(bank, 0);
     }
-    w = GF_FONT_MeasureWidestLine(str, (u32)p->font, 0);
+    w = PRINTSYS_MeasureWidestLine(str, (u32)p->font, 0);
     BMP_Clear(BMP_WIN_GetBmp(p->bg[1]), 0);
     PRINTSYS_Print(BMP_WIN_GetBmp(p->bg[1]), 0x80 - w, 0, str, p->font);
     STRBUF_Delete(str);
@@ -482,7 +482,7 @@ void VIEWER_TEXT_DrawList(ViewerWork *p, int k, int flush)
     u32 w;
 
     str = MSGDATA_AllocString(p->msgBank, k + 0x1F);
-    w = GF_FONT_MeasureWidestLine(str, (u32)p->font, 0);
+    w = PRINTSYS_MeasureWidestLine(str, (u32)p->font, 0);
     BMP_Clear(BMP_WIN_GetBmp(p->bg[2]), 0);
     PRINTSYS_Print(BMP_WIN_GetBmp(p->bg[2]), 0, 0, p->msgText[2], p->font);
     PRINTSYS_Print(BMP_WIN_GetBmp(p->bg[2]), 0x80 - w, 0, str, p->font);
@@ -578,7 +578,7 @@ void VIEWER_TEXT_DrawRow(ViewerWork *p, void *a, u32 sel, int y, int idx)
         if (info->month2 != 0) {
             VIEWER_TEXT_PrintStringClipped((ViewerWork *)p, a, 0xD8, 0, y, s, 0, idx);
         } else {
-            w = GF_FONT_MeasureWidestLine(p->msgText[24], (u32)p->font, 0);
+            w = PRINTSYS_MeasureWidestLine(p->msgText[24], (u32)p->font, 0);
             VIEWER_TEXT_PrintColorAt(a, (ViewerWork *)p, 0xD8 - w, y, p->msgText[24], idx);
         }
         break;
@@ -710,7 +710,7 @@ void VIEWER_TEXT_PrintNumber(ViewerWork *p, void *a, int x, int dx, int y, void 
     u32 w;
 
     WORDSET_FormatNumber(s, n, kind, mode, 1);
-    w = GF_FONT_MeasureWidestLine(s, (u32)p->font, 0);
+    w = PRINTSYS_MeasureWidestLine(s, (u32)p->font, 0);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(a), x - (w + dx), y, s, p->font, d_021C8768[idx]);
 }
 
@@ -724,7 +724,7 @@ void VIEWER_TEXT_PrintDigits(ViewerWork *p, void *a, int x, int dx, int y, void 
 
     WORDSET_SetSlotNumber(p->wordSet, 0, n, digits, mode, 1);
     WORDSET_CopyTaggedText(p->wordSet, (void *)((u32)s), p->taggedText[k]);
-    w = GF_FONT_MeasureWidestLine(s, (u32)p->font, 0);
+    w = PRINTSYS_MeasureWidestLine(s, (u32)p->font, 0);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(a), x - (w + dx), y, s, p->font, d_021C8768[idx]);
 }
 
@@ -740,7 +740,7 @@ void VIEWER_TEXT_PrintString(ViewerWork *p, void *a, int x, int dx, int y, void 
     WORDSET_SetSlotNumber(p->wordSet, 1, p->info->month1, 2, mode, 1);
     WORDSET_SetSlotNumber(p->wordSet, 2, p->info->day1, 2, mode, 1);
     WORDSET_CopyTaggedText(p->wordSet, (void *)((u32)s), p->taggedText[2]);
-    w = GF_FONT_MeasureWidestLine(s, (u32)p->font, 0);
+    w = PRINTSYS_MeasureWidestLine(s, (u32)p->font, 0);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(a), x - (w + dx), y, s, p->font, d_021C8768[idx]);
 }
 
@@ -759,7 +759,7 @@ void VIEWER_TEXT_PrintStringClipped(ViewerWork *p, void *win, int x, int ofs, in
     WORDSET_SetSlotNumber(p->wordSet, 3, p->info->row2Value, 2, 2, 1);
     WORDSET_SetSlotNumber(p->wordSet, 4, p->info->row5Value, 2, 2, 1);
     WORDSET_CopyTaggedText(p->wordSet, str, p->taggedText[3]);
-    w = GF_FONT_MeasureWidestLine(str, (u32)p->font, 0);
+    w = PRINTSYS_MeasureWidestLine(str, (u32)p->font, 0);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(win), x - (w + ofs), y, str, p->font, d_021C8768[col]);
 }
 
@@ -774,7 +774,7 @@ void VIEWER_TEXT_PrintStringPad(ViewerWork *p, void *a, int x, int dx, int y, vo
 
     WORDSET_SetSlotNumber(p->wordSet, 0, n, 3, mode, 1);
     WORDSET_CopyTaggedText(p->wordSet, (void *)((u32)s), p->taggedText[4]);
-    w = GF_FONT_MeasureWidestLine(s, (u32)p->font, 0);
+    w = PRINTSYS_MeasureWidestLine(s, (u32)p->font, 0);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(a), x - (w + dx), y, s, p->font, d_021C8768[idx]);
 }
 
@@ -788,7 +788,7 @@ void VIEWER_TEXT_PrintWrapped(ViewerWork *p, void *a, int x, int dx, int y, void
     u32 w;
 
     WORDSET_FormatNumber(s, n, kind, mode, 1);
-    w = GF_FONT_MeasureWidestLine(s, (u32)p->font, 0);
+    w = PRINTSYS_MeasureWidestLine(s, (u32)p->font, 0);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(a), x - (w + dx), y, s, p->font, d_021C8768[idx]);
 }
 
@@ -801,7 +801,7 @@ void VIEWER_TEXT_Print(ViewerWork *p, void *a, int x, int dx, int y, void *s)
 {
     u32 w;
 
-    w = GF_FONT_MeasureWidestLine(s, (u32)p->font, 0);
+    w = PRINTSYS_MeasureWidestLine(s, (u32)p->font, 0);
     PRINTSYS_Print(BMP_WIN_GetBmp(a), x - (w + dx), y, s, p->font);
 }
 
@@ -942,7 +942,7 @@ int VIEWER_TEXT_Create(void *proc, int *seq, void *parent)
     VIEWER_ACTOR_InitBgWindow(p);
     VIEWER_ACTOR_CreateFont(p);
     VIEWER_ACTOR_SetSelection(p, p->page);
-    GFL_NET_RestartWithDefaultTimeout(1, 0x27);
+    GFL_NET_RefreshWmIconAtTopRight(1, 0x27);
     WIPE_SYS_Start(0, 1, 1, 0, 6, 1, 0x27);
     return 1;
 }

@@ -1,7 +1,7 @@
 /*
  * file:     comm_player.c
  * unit:     yes
- * function: COMM_PLAYER_GetRecordField3, COMM_PLAYER_GetModelId, COMM_PLAYER_GetState848, COMM_PLAYER_GetState849, COMM_PLAYER_CopyListRange, COMM_PLAYER_GetListPage0First, COMM_PLAYER_GetListPage0Second, COMM_PLAYER_GetListPage10, COMM_PLAYER_GetListPage20, COMM_PLAYER_GetListPage, COMM_PLAYER_Create, COMM_PLAYER_Delete, COMM_PLAYER_Update, COMM_PLAYER_Add, COMM_PLAYER_Del, COMM_PLAYER_Suspend, COMM_PLAYER_Resume, COMM_PLAYER_ClearPending, COMM_PLAYER_CheckOccupy, COMM_PLAYER_GetObjCode, COMM_PLAYER_SetPackage, COMM_PLAYER_UpdateMyPackage, COMM_PLAYER_ForwardRequest, COMM_PLAYER_SetEffect, COMM_PLAYER_GetPlayerModel, COMM_PLAYER_CheckActive, COMM_PLAYER_CreateSys
+ * function: QUESTIONNAIRE_GetAnswerBitOffset, QUESTIONNAIRE_GetAnswerMax, SYMBOL_MAP_GetGroup, SYMBOL_MAP_GetSymbolIndex, SYMBOL_MAP_CopyEntryRange, SYMBOL_MAP_GetEntryPage0First, SYMBOL_MAP_GetEntryPage0Second, SYMBOL_MAP_GetEntryPage10, SYMBOL_MAP_GetEntryPage20, SYMBOL_MAP_GetEntryPage, COMM_PLAYER_Create, COMM_PLAYER_Delete, COMM_PLAYER_Update, COMM_PLAYER_Add, COMM_PLAYER_Del, COMM_PLAYER_Suspend, COMM_PLAYER_Resume, COMM_PLAYER_ClearPending, COMM_PLAYER_CheckOccupy, COMM_PLAYER_GetObjCode, COMM_PLAYER_SetPackage, COMM_PLAYER_UpdateMyPackage, COMM_PLAYER_SearchGridPos, COMM_PLAYER_SetEffect, COMM_PLAYER_GetMmdl, COMM_PLAYER_CheckActive, COMM_PLAYER_CreateSys
  * address:  0x02167380
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -23,7 +23,7 @@
  *   d_02172A18 0x02172A18 data a1
  *   GAMESYSTEM_IsFieldMapActive  0x02012114  thumb
  *   FIELD_COMM_ACTOR_CTRL_Delete  0x021942C8  thumb  ov021
- *   SAVEDATA_PanicFail  0x02034714  arm
+ *   GF_PANIC_Fail  0x02034714  arm
  *   GFL_HEAP_Free  0x020307B0  arm
  *   d_02172A28  0x02172A28  data  ov010  a4
  *   FLDEFF_GYOE_IsFinished  0x021BB5C8  thumb
@@ -150,7 +150,7 @@ extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 extern unsigned int GAMESYSTEM_IsFieldMapActive(const struct Ctx *a);
 extern void FIELD_COMM_ACTOR_CTRL_Delete(void *obj);
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 extern u32 GFL_HEAP_Free(void *p);
 extern int FLDEFF_GYOE_IsFinished(u32 v);
 extern void FIELD_COMM_ACTOR_CTRL_AddActor(u16 *a, int b, int c, u16 *d, int e, int f);
@@ -177,16 +177,16 @@ extern int FIELD_COMM_ACTOR_CTRL_SearchGridPos(void *playerSys, int, int, int, i
 extern u32 FIELDMAP_GetEffect(u8 *p);
 extern u32 FIELD_COMM_ACTOR_CTRL_GetMmdl(struct Tbl *t, u32 key);
 extern u32 FLDEFF_GYOE_StartHeld(void *a, void *b, int c, int d);
-u8 COMM_PLAYER_GetRecordField3(u32 id);
-u8 COMM_PLAYER_GetModelId(u32 i);
-u8 COMM_PLAYER_GetState848(u8 *p);
-u8 COMM_PLAYER_GetState849(u8 *p);
-u8 COMM_PLAYER_CopyListRange(Entry32 *list, Entry32 *out, u32 cap, u32 start, int count);
-u16 COMM_PLAYER_GetListPage0First(Entry32 *list, Entry32 *out, u32 cap, u8 *count);
-int COMM_PLAYER_GetListPage0Second(Entry32 *list, Entry32 *out, u32 cap, u8 *count);
-u16 COMM_PLAYER_GetListPage10(Entry32 *list, Entry32 *out, u32 cap, u32 page, u8 *n);
-u16 COMM_PLAYER_GetListPage20(Entry32 *list, Entry32 *out, u32 cap, u32 page, u8 *n);
-u16 COMM_PLAYER_GetListPage(Entry32 *list, Entry32 *out, u32 cap, int page, u8 *n);
+u8 QUESTIONNAIRE_GetAnswerBitOffset(u32 id);
+u8 QUESTIONNAIRE_GetAnswerMax(u32 i);
+u8 SYMBOL_MAP_GetGroup(u8 *p);
+u8 SYMBOL_MAP_GetSymbolIndex(u8 *p);
+u8 SYMBOL_MAP_CopyEntryRange(Entry32 *list, Entry32 *out, u32 cap, u32 start, int count);
+u16 SYMBOL_MAP_GetEntryPage0First(Entry32 *list, Entry32 *out, u32 cap, u8 *count);
+int SYMBOL_MAP_GetEntryPage0Second(Entry32 *list, Entry32 *out, u32 cap, u8 *count);
+u16 SYMBOL_MAP_GetEntryPage10(Entry32 *list, Entry32 *out, u32 cap, u32 page, u8 *n);
+u16 SYMBOL_MAP_GetEntryPage20(Entry32 *list, Entry32 *out, u32 cap, u32 page, u8 *n);
+u16 SYMBOL_MAP_GetEntryPage(Entry32 *list, Entry32 *out, u32 cap, int page, u8 *n);
 void *COMM_PLAYER_Create(int playerMax, void *gameSystem, u16 heapId, int sysOption);
 void COMM_PLAYER_Delete(void *gameSystem, CommPlayerWork *work);
 void COMM_PLAYER_Update(void *gameSystem, CommPlayerWork *work);
@@ -199,9 +199,9 @@ int COMM_PLAYER_CheckOccupy(CommPlayerWork *work, int index);
 u16 COMM_PLAYER_GetObjCode(CommPlayerWork *work, int index);
 void COMM_PLAYER_SetPackage(CommPlayerWork *work, int index, CommPlayerPackage *package);
 int COMM_PLAYER_UpdateMyPackage(CommPlayerWork *work, CommPlayerPackage *out);
-int COMM_PLAYER_ForwardRequest(CommPlayerWork *work, int index, int gridY, int gridZ, int outId, int searchIndex);
+int COMM_PLAYER_SearchGridPos(CommPlayerWork *work, int index, int gridY, int gridZ, int outId, int searchIndex);
 int COMM_PLAYER_SetEffect(CommPlayerWork *work, int index);
-u32 COMM_PLAYER_GetPlayerModel(CommPlayerWork *work, int index);
+u32 COMM_PLAYER_GetMmdl(CommPlayerWork *work, int index);
 int COMM_PLAYER_CheckActive(CommPlayerWork *work, int index);
 void COMM_PLAYER_CreateSys(void *gameSystem, CommPlayerWork *work);
 extern u8 d_02171F5F[];
@@ -219,7 +219,7 @@ extern const char d_02172A28[];
  * table starts at 0x02171F5C; the pool word names the field address itself.
  * Unlabelled in the listing (no lr-saving prologue, callers all in arm9).
  */
-u8 COMM_PLAYER_GetRecordField3(u32 id)
+u8 QUESTIONNAIRE_GetAnswerBitOffset(u32 id)
 {
     if (id > 0x1d)
         return 0;
@@ -230,7 +230,7 @@ u8 COMM_PLAYER_GetRecordField3(u32 id)
 
 
 
-u8 COMM_PLAYER_GetModelId(u32 i) { if (i > 29) return 0; return d_02171F3C[i]; }
+u8 QUESTIONNAIRE_GetAnswerMax(u32 i) { if (i > 29) return 0; return d_02171F3C[i]; }
 
 
 
@@ -241,7 +241,7 @@ u8 COMM_PLAYER_GetModelId(u32 i) { if (i > 29) return 0; return d_02171F3C[i]; }
  * Reads the byte at +0x848 of the shared state under its lock
  * (SYMBOL_SAVE_FinalizeChecksum / SYMBOL_SAVE_UpdateChecksum).
  */
-u8 COMM_PLAYER_GetState848(u8 *p)
+u8 SYMBOL_MAP_GetGroup(u8 *p)
 {
     u8 v;
 
@@ -260,7 +260,7 @@ u8 COMM_PLAYER_GetState848(u8 *p)
  * Reads the byte at +0x849 of the shared state under its lock
  * (SYMBOL_SAVE_FinalizeChecksum / SYMBOL_SAVE_UpdateChecksum).
  */
-u8 COMM_PLAYER_GetState849(u8 *p)
+u8 SYMBOL_MAP_GetSymbolIndex(u8 *p)
 {
     u8 v;
 
@@ -280,7 +280,7 @@ u8 COMM_PLAYER_GetState849(u8 *p)
  * shared list under its lock into a cleared buffer of `cap` entries, and
  * answers how many leading entries are in use (non-zero 11-bit id).
  */
-u8 COMM_PLAYER_CopyListRange(Entry32 *list, Entry32 *out, u32 cap, u32 start, int count)
+u8 SYMBOL_MAP_CopyEntryRange(Entry32 *list, Entry32 *out, u32 cap, u32 start, int count)
 {
     int i;
 
@@ -302,9 +302,9 @@ u8 COMM_PLAYER_CopyListRange(Entry32 *list, Entry32 *out, u32 cap, u32 start, in
 
 
 /* The first ten entries of page 0. */
-u16 COMM_PLAYER_GetListPage0First(Entry32 *list, Entry32 *out, u32 cap, u8 *count)
+u16 SYMBOL_MAP_GetEntryPage0First(Entry32 *list, Entry32 *out, u32 cap, u8 *count)
 {
-    *count = COMM_PLAYER_CopyListRange(list, out, cap, 0, 10);
+    *count = SYMBOL_MAP_CopyEntryRange(list, out, cap, 0, 10);
     return 0;
 }
 
@@ -314,9 +314,9 @@ u16 COMM_PLAYER_GetListPage0First(Entry32 *list, Entry32 *out, u32 cap, u8 *coun
 
 
 /* The second ten entries of page 0. */
-int COMM_PLAYER_GetListPage0Second(Entry32 *list, Entry32 *out, u32 cap, u8 *count)
+int SYMBOL_MAP_GetEntryPage0Second(Entry32 *list, Entry32 *out, u32 cap, u8 *count)
 {
-    *count = COMM_PLAYER_CopyListRange(list, out, cap, 10, 10);
+    *count = SYMBOL_MAP_CopyEntryRange(list, out, cap, 10, 10);
     return 10;
 }
 
@@ -328,12 +328,12 @@ int COMM_PLAYER_GetListPage0Second(Entry32 *list, Entry32 *out, u32 cap, u8 *cou
 /*
  * One of the three 10-entry pages from index 20.
  */
-u16 COMM_PLAYER_GetListPage10(Entry32 *list, Entry32 *out, u32 cap, u32 page, u8 *n)
+u16 SYMBOL_MAP_GetEntryPage10(Entry32 *list, Entry32 *out, u32 cap, u32 page, u8 *n)
 {
     u16 start;
 
     start = page * 10 + 20;
-    *n = COMM_PLAYER_CopyListRange(list, out, cap, start, 10);
+    *n = SYMBOL_MAP_CopyEntryRange(list, out, cap, start, 10);
     return start;
 }
 
@@ -345,12 +345,12 @@ u16 COMM_PLAYER_GetListPage10(Entry32 *list, Entry32 *out, u32 cap, u32 page, u8
 /*
  * One of the 20-entry pages from index 50.
  */
-u16 COMM_PLAYER_GetListPage20(Entry32 *list, Entry32 *out, u32 cap, u32 page, u8 *n)
+u16 SYMBOL_MAP_GetEntryPage20(Entry32 *list, Entry32 *out, u32 cap, u32 page, u8 *n)
 {
     u16 start;
 
     start = page * 20 + 50;
-    *n = COMM_PLAYER_CopyListRange(list, out, cap, start, 20);
+    *n = SYMBOL_MAP_CopyEntryRange(list, out, cap, start, 20);
     return start;
 }
 
@@ -364,7 +364,7 @@ u16 COMM_PLAYER_GetListPage20(Entry32 *list, Entry32 *out, u32 cap, u32 page, u8
  * pages, 4 and up: twenty-entry pages); answers its start index and the
  * number of used entries in *n.
  */
-u16 COMM_PLAYER_GetListPage(Entry32 *list, Entry32 *out, u32 cap, int page, u8 *n)
+u16 SYMBOL_MAP_GetEntryPage(Entry32 *list, Entry32 *out, u32 cap, int page, u8 *n)
 {
     u8 more;
     u16 start;
@@ -372,15 +372,15 @@ u16 COMM_PLAYER_GetListPage(Entry32 *list, Entry32 *out, u32 cap, int page, u8 *
     more = 0;
     MI_CpuFill8(out, 0, cap * 4);
     if (page == 0) {
-        start = COMM_PLAYER_GetListPage0First(list, out, cap, n);
+        start = SYMBOL_MAP_GetEntryPage0First(list, out, cap, n);
         out += 10;
         cap -= 10;
-        COMM_PLAYER_GetListPage0Second(list, out, cap, &more);
+        SYMBOL_MAP_GetEntryPage0Second(list, out, cap, &more);
         *n += more;
     } else if (page >= 1 && page < 4) {
-        start = COMM_PLAYER_GetListPage10(list, out, cap, page - 1, n);
+        start = SYMBOL_MAP_GetEntryPage10(list, out, cap, page - 1, n);
     } else {
-        start = COMM_PLAYER_GetListPage20(list, out, cap, page - 4, n);
+        start = SYMBOL_MAP_GetEntryPage20(list, out, cap, page - 4, n);
     }
     return start;
 }
@@ -408,7 +408,7 @@ void COMM_PLAYER_Delete(void *gameSystem, CommPlayerWork *work)
         if (GAMESYSTEM_IsFieldMapActive(gameSystem) == 1)
             FIELD_COMM_ACTOR_CTRL_Delete(work->playerSys);
         else
-            SAVEDATA_PanicFail(d_02172A28, 0, d_02172A28);
+            GF_PANIC_Fail(d_02172A28, 0, d_02172A28);
     }
     GFL_HEAP_Free(work);
 }
@@ -467,7 +467,7 @@ void COMM_PLAYER_Suspend(CommPlayerWork *work)
     CommPlayerFlagView *flags;
     int i;
     if (GAMESYSTEM_IsFieldMapActive(work->gameSystem) != 1)
-        SAVEDATA_PanicFail((const char *)d_02172A28, 0, (const char *)d_02172A28);
+        GF_PANIC_Fail((const char *)d_02172A28, 0, (const char *)d_02172A28);
     if (work->playerSys != 0) {
         i = 0;
         flags = (CommPlayerFlagView *)((char *)work + 0x1C);
@@ -488,9 +488,9 @@ void COMM_PLAYER_Resume(CommPlayerWork *work)
     CommPlayerFlagView *flags;
     int i;
     if (GAMESYSTEM_IsFieldMapActive(work->gameSystem) != 1)
-        SAVEDATA_PanicFail((const char *)d_02172A28, 0, (const char *)d_02172A28);
+        GF_PANIC_Fail((const char *)d_02172A28, 0, (const char *)d_02172A28);
     if (work->playerSys != 0)
-        SAVEDATA_PanicFail((const char *)d_02172A28, 0, (const char *)d_02172A28);
+        GF_PANIC_Fail((const char *)d_02172A28, 0, (const char *)d_02172A28);
     work->playerSys = FIELD_COMM_ACTOR_CTRL_Create(work->playerMax, FIELDMAP_GetMmdlSys(GAMESYSTEM_GetFieldMap(work->gameSystem)), work->heapId, work->sysOption);
     MI_CpuFill8(&package, 0, 0x14);
     flags = (CommPlayerFlagView *)work;
@@ -511,9 +511,9 @@ void COMM_PLAYER_ClearPending(CommPlayerWork *work)
     CommPlayerFlagView *flags;
     int i;
     if (GAMESYSTEM_IsFieldMapActive(work->gameSystem) != 1)
-        SAVEDATA_PanicFail((const char *)d_02172A28, 0, (const char *)d_02172A28);
+        GF_PANIC_Fail((const char *)d_02172A28, 0, (const char *)d_02172A28);
     if (work->playerSys != 0)
-        SAVEDATA_PanicFail((const char *)d_02172A28, 0, (const char *)d_02172A28);
+        GF_PANIC_Fail((const char *)d_02172A28, 0, (const char *)d_02172A28);
     i = 0;
     flags = (CommPlayerFlagView *)((char *)work + 0x1C);
     for (; i < 4; i++) {
@@ -527,14 +527,14 @@ void COMM_PLAYER_ClearPending(CommPlayerWork *work)
  * address lever: CommPlayerRowView supplies the +28 load offset after unsigned scaling; combining +28 with the scaled index folds index+1 and changes the instructions.
  */
 int COMM_PLAYER_CheckOccupy(CommPlayerWork *work, int index) {
-    if (work == 0 || index >= 4) SAVEDATA_PanicFail(d_02172A28, 0, d_02172A28);
+    if (work == 0 || index >= 4) GF_PANIC_Fail(d_02172A28, 0, d_02172A28);
     return ((CommPlayerRowView *)((u32)work + (u32)index * 28u))->flags.used;
 }
 
 u16 COMM_PLAYER_GetObjCode(CommPlayerWork *work, int index)
 {
     if (work == 0 || index >= 4 || work->entries[index].used != 1)
-        SAVEDATA_PanicFail((const char *)d_02172A28, 0, (const char *)d_02172A28);
+        GF_PANIC_Fail((const char *)d_02172A28, 0, (const char *)d_02172A28);
     return work->entries[index].objCode;
 }
 
@@ -625,7 +625,7 @@ int COMM_PLAYER_UpdateMyPackage(CommPlayerWork *work, CommPlayerPackage *out)
  * Forwards a five-argument request for one player to the ov021 player
  * system, with a zero bail when that system is not created.
  */
-int COMM_PLAYER_ForwardRequest(CommPlayerWork *work, int gridX, int gridY, int gridZ, int outId, int searchIndex)
+int COMM_PLAYER_SearchGridPos(CommPlayerWork *work, int gridX, int gridY, int gridZ, int outId, int searchIndex)
 {
     void *playerSys = work->playerSys;
     if (playerSys == 0)
@@ -645,12 +645,12 @@ int COMM_PLAYER_SetEffect(CommPlayerWork *work, int index)
     return 1;
 }
 
-u32 COMM_PLAYER_GetPlayerModel(CommPlayerWork *work, int index)
+u32 COMM_PLAYER_GetMmdl(CommPlayerWork *work, int index)
 {
     if (work->playerSys == 0)
-        SAVEDATA_PanicFail((const char *)d_02172A28, 0, (const char *)d_02172A28);
+        GF_PANIC_Fail((const char *)d_02172A28, 0, (const char *)d_02172A28);
     if (work->entries[index].used != 1)
-        SAVEDATA_PanicFail((const char *)d_02172A28, 0, (const char *)d_02172A28);
+        GF_PANIC_Fail((const char *)d_02172A28, 0, (const char *)d_02172A28);
     return FIELD_COMM_ACTOR_CTRL_GetMmdl(work->playerSys, index);
 }
 

@@ -40,7 +40,7 @@
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   SCRIPT_SYS_CallScriptEvent  0x02158780  thumb  ov010
- *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   GAMESYSTEM_IsNetOffBySleep  0x02012204  thumb
  *   GAMESYSTEM_GetFieldMapState  0x0201212C  thumb
  *   EVENT_COMM_ERROR_Create  0x021C06CC  thumb  ov021
@@ -103,7 +103,7 @@ int INTRUDE_FIELD_StepPlayerSpin(void *, int);
 u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
 int SCRIPT_SYS_CallScriptEvent(void *p, u16 b, int c, int d, u16 e);
-u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+u8 GAME_DATA_GetOwnNetId(const struct BigObj *p);
 u32 GAMESYSTEM_IsNetOffBySleep(const struct Ctx *p);
 u8 GAMESYSTEM_GetFieldMapState(const struct Ctx *p);
 int EVENT_COMM_ERROR_Create(void *, void *);
@@ -266,7 +266,7 @@ int INTRUDE_SUBDISP_DisconnectEventMain(void *a, int *seq, Ov018Work *work)
         *seq = 10;
         break;
     case 10:
-        if ((GAME_DATA_GetExitMode(s2) != 0 || (int)GAMESYSTEM_IsNetOffBySleep(x) == 1) && GAMESYSTEM_GetFieldMapState(x) == 1) {
+        if ((GAME_DATA_GetOwnNetId(s2) != 0 || (int)GAMESYSTEM_IsNetOffBySleep(x) == 1) && GAMESYSTEM_GetFieldMapState(x) == 1) {
             GAME_EVENT_CallEvent(a, (struct Evt **)EVENT_COMM_ERROR_Create(x, GAMESYSTEM_GetFieldMap(x)));
         }
         (*seq)++;
@@ -274,7 +274,7 @@ int INTRUDE_SUBDISP_DisconnectEventMain(void *a, int *seq, Ov018Work *work)
     case 11:
         GAME_COMM_ClearCounter(s1);
         GAME_COMM_ClearPlayerStatus(s1);
-        if (GAME_DATA_GetExitMode(s2) != 0 || (int)GAMESYSTEM_IsNetOffBySleep(x) == 1) {
+        if (GAME_DATA_GetOwnNetId(s2) != 0 || (int)GAMESYSTEM_IsNetOffBySleep(x) == 1) {
             GAME_EVENT_CallEvent(a, EVENT_MAPCHANGE_CreateIntrudeReturnEvent(x));
         }
         (*seq)++;

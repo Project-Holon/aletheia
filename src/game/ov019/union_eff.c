@@ -15,12 +15,12 @@
  * symbols:
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   GFL_HEAP_Free  0x020307B0  arm
- *   SAVEDATA_PanicFail  0x02034714  arm
+ *   GF_PANIC_Fail  0x02034714  arm
  *   d_02180808     0x02180808  data   ov019 a4
  *   ARC_TOOL_CreateHandle   0x020490F4  arm
  *   G3D_SYSTEM_CreateResourceArcHandle  0x02046E24  arm
  *   G3D_SYSTEM_TransVramTexture  0x02046FF8  arm
- *   SAVEDATA_PanicFail   0x02034714  arm
+ *   GF_PANIC_Fail   0x02034714  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   d_02180814     0x02180814  data  ov019 a4
  *   G3D_SYSTEM_FreeVramTexture 0x020470D0 arm
@@ -108,7 +108,7 @@ extern u32 GFL_HEAP_Free(void *p);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern void *G3D_SYSTEM_CreateResourceArcHandle(void *arc, u32 fileId);
 extern int G3D_SYSTEM_TransVramTexture(void *self);
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern int G3D_SYSTEM_FreeVramTexture(void *p);
 extern void G3D_SYSTEM_DeleteResource(void *p);
@@ -240,7 +240,7 @@ void UNION_EFF_InitAnimGroup(UnionEffAnimGroup *anim, u32 heapId)
     anim->resModel = G3D_SYSTEM_CreateResourceArcHandle(arc, 0x14);
     anim->resAnime = G3D_SYSTEM_CreateResourceArcHandle(arc, 0x15);
     if (G3D_SYSTEM_TransVramTexture(anim->resModel) == 0) {
-        SAVEDATA_PanicFail(d_02180814, 0, d_02180814);
+        GF_PANIC_Fail(d_02180814, 0, d_02180814);
     }
     ARC_TOOL_DeleteHandle(arc);
 }
@@ -257,7 +257,7 @@ void UNION_EFF_ExitAnimGroup(UnionEffAnimGroup *anim)
 void UNION_EFF_AddAnimObj(UnionEffAnimGroup *anim, void *mmdl)
 {
     UnionEffObj *obj;
-    if (anim->resModel == NULL) SAVEDATA_PanicFail(d_02180814, 0, d_02180814);
+    if (anim->resModel == NULL) GF_PANIC_Fail(d_02180814, 0, d_02180814);
     obj = UNION_EFF_GetFreeAnimObj(anim->obj);
     UNION_EFF_CreateAnimObj(anim, obj, mmdl, anim->serial);
     (anim->serial)++;
@@ -342,10 +342,10 @@ void UNION_EFF_InitIconGroup(UnionEffIconGroup *icon, u32 heapId)
     icon->resModel[0] = G3D_SYSTEM_CreateResourceArcHandle(arc, 0x16);
     icon->resModel[1] = G3D_SYSTEM_CreateResourceArcHandle(arc, 0x17);
     if (G3D_SYSTEM_TransVramTexture(icon->resModel[0]) == 0) {
-        SAVEDATA_PanicFail(d_02180814, 0, d_02180814);
+        GF_PANIC_Fail(d_02180814, 0, d_02180814);
     }
     if (G3D_SYSTEM_TransVramTexture(icon->resModel[1]) == 0) {
-        SAVEDATA_PanicFail(d_02180814, 0, d_02180814);
+        GF_PANIC_Fail(d_02180814, 0, d_02180814);
     }
     ARC_TOOL_DeleteHandle(arc);
 }
@@ -363,10 +363,10 @@ void UNION_EFF_ExitIconGroup(UnionEffIconGroup *icon)
 void UNION_EFF_AddIconObj(UnionEffIconGroup *icon, void *mmdl, u32 iconKind)
 {
     if (icon->resModel[0] == NULL) {
-        SAVEDATA_PanicFail(d_02180814, 0, d_02180814);
+        GF_PANIC_Fail(d_02180814, 0, d_02180814);
     }
     if (icon->resModel[1] == NULL) {
-        SAVEDATA_PanicFail(d_02180814, 0, d_02180814);
+        GF_PANIC_Fail(d_02180814, 0, d_02180814);
     }
     UNION_EFF_CreateIconObj(icon, UNION_EFF_GetFreeIconObj(icon->obj), mmdl, icon->serial, iconKind);
     icon->serial = icon->serial + 1;

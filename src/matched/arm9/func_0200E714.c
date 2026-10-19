@@ -1,5 +1,5 @@
 /*
- * function: MISC_SAVEDATA_StoreQuadRecord
+ * function: GREETING_SAVEDATA_SetSentence
  * address:  0x0200E714
  * packet:   pkt_0200E714
  * region:   arm9
@@ -24,7 +24,7 @@ struct Rec0200E714 {
     u16 d;
 };
 
-void MISC_SAVEDATA_StoreQuadRecord(struct Rec0200E714 *dst, int idx, struct Rec0200E714 *src)
+void GREETING_SAVEDATA_SetSentence(struct Rec0200E714 *dst, int idx, struct Rec0200E714 *src)
 {
     dst[idx] = *src;
 }

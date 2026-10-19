@@ -1,5 +1,8 @@
 # A zero hoisted into a callee-saved register: write the calls in each arm
 
+summary: A constant hoisted into a callee-saved register across a run of calls means the calls
+follow an if/else join. Write the calls in each arm so the constant is built fresh at the store.
+
 Seen in ov194 func_021F33C0 (wave D4, 2026-10-05).
 
 ## Symptom

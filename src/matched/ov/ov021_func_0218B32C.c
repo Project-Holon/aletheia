@@ -25,7 +25,7 @@
  *   FLDMMDL_CheckEndAcmd  0x0216D454  thumb  ov010
  *   FIELD_PLAYER_ChangeToNormalForm  0x021A2FD0  thumb
  *   FLDMMDL_SysResumeMove  0x0216D9E4  thumb  ov010
- *   FIELD_PLAYER_SetGridMoveState  0x021A35A0  thumb
+ *   FIELD_PLAYER_SetGridHopLanded  0x021A35A0  thumb
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj05974.h"
@@ -50,7 +50,7 @@ extern void FLDMMDL_SetAcmd(void *o, int a);
 extern int FLDMMDL_CheckEndAcmd(void *o);
 extern int FIELD_PLAYER_ChangeToNormalForm(void *a);
 extern u32 *FLDMMDL_SysResumeMove(void *c);
-extern void FIELD_PLAYER_SetGridMoveState(u32 *p, int a);
+extern void FIELD_PLAYER_SetGridHopLanded(u32 *p, int a);
 
 int FIELD_EVENT_CHECK_LedgeJumpTaskMain(void *unused, int *st, char *ctx)
 {
@@ -84,7 +84,7 @@ int FIELD_EVENT_CHECK_LedgeJumpTaskMain(void *unused, int *st, char *ctx)
         break;
     case 3:
         FLDMMDL_SysResumeMove(FLDMMDL_GetMmdlSys(o));
-        FIELD_PLAYER_SetGridMoveState(a, 1);
+        FIELD_PLAYER_SetGridHopLanded(a, 1);
         return 1;
     }
     return 0;

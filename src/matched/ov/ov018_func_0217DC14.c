@@ -13,7 +13,7 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_02008550  0x02008550  thumb
- *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   CLACT_CreateActor  0x0204B294  arm
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
@@ -34,7 +34,7 @@ struct Sub0200852CObj;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
-extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+extern u8 GAME_DATA_GetOwnNetId(const struct BigObj *p);
 struct Obj;
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
 extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
@@ -53,7 +53,7 @@ void INTRUDE_SUBDISP_CreateMyPlayerActor(int *p, void *a1)
         r.c = 3;
     }
     p[0x98 / 4] = (int)CLACT_CreateActor((void *)p[0x54 / 4], p[1], p[2], p[4], &r, 0, 0x70);
-    CLACT_SetActorPaletteOffset((struct Obj *)p[0x98 / 4], (u8)(GAME_DATA_GetExitMode((const struct BigObj *)h) + 1), 1);
+    CLACT_SetActorPaletteOffset((struct Obj *)p[0x98 / 4], (u8)(GAME_DATA_GetOwnNetId((const struct BigObj *)h) + 1), 1);
     CLACT_SetActorDrawEnable((struct Obj *)p[0x98 / 4], 0);
     CLACT_SetActorAutoAnim((struct Obj *)p[0x98 / 4], 1);
 }

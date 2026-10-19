@@ -1,5 +1,5 @@
 /*
- * function: B_PLIST_DRAW_PrintSlotValueA
+ * function: B_PLIST_DRAW_PrintAccuracyValue
  * address:  0x0220D090
  * packet:   pkt_0220D090
  * region:   ov198
@@ -43,7 +43,7 @@ extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 
-void B_PLIST_DRAW_PrintSlotValueA(char *p, int a1, int a2)
+void B_PLIST_DRAW_PrintAccuracyValue(char *p, int a1, int a2)
 {
     u32 handle;
     void *t;

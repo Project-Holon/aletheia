@@ -1,5 +1,5 @@
 /*
- * function: B_PLIST_DRAW_LayoutMode1
+ * function: B_PLIST_DRAW_LayoutMonMenuPage
  * address: 0x0220EBCC
  * packet: pkt_ov198_0220EBCC
  * region: ov198
@@ -25,7 +25,7 @@ extern void B_PLIST_DRAW_PlaceActor(u8 *,unsigned);
 typedef unsigned int   u32;
 struct Vec2;
 extern void B_PLIST_DRAW_SetActorAnimByMode(u32 mode, u8 *p, const struct Vec2 *q);
-void B_PLIST_DRAW_LayoutMode1(Record *records)
+void B_PLIST_DRAW_LayoutMonMenuPage(Record *records)
 {
     u8 *p=(u8 *)records;
     int i;

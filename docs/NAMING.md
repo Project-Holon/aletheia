@@ -440,3 +440,18 @@ were left; they are in the lane reports, not guessed.
 the address space, so an address holds different functions in different overlays. A per-file
 verify cannot see this (relocations are wildcarded); only the region link resolves the real
 callee. 13 of 18 flagged rows were wrong and are fixed; the others are documented as correct.
+
+## Wave 17: second meaning pass and struct fixes
+
+A second read-only pass over the names (six lanes, MB0 to MB5) found 376 more function names that
+the bodies contradict; they were applied tree-wide with `tools/sdkrename.py`, with the chains
+(GetGender to GetLanguage while GetLanguage became GetNation) applied in one simultaneous pass.
+Struct fields followed per struct, checked at each use: `MyStatus` (nation, area, language,
+rom_code, trainer_view, sex), the misc save's Pokémon record (species, form, isEgg, gender, read
+back into the GDS profile), the battle subway save blocks (`BsubwayPlayData`,
+`BsubwayScoreData`, `BsubwayWifiData`), `GameData.lastBattleResult`, the world trade parameters,
+the field camera near and far planes. The second layout of the player status block
+(`struct PlayerStatus`, with field names at the wrong offsets) was removed: `PlayerWork.status` is
+a `MyStatus`. The function at 0x02012950 had two names; it is `GAME_DATA_GetMyStatusPlayer`. The
+ov093 battle network code defined its own `MyStatus` that is really the battle trainer slot; it is
+`BtlNetTrainerData` now.

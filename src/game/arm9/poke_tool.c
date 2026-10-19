@@ -56,7 +56,7 @@
  *   WORDSET_CopyString  0x0201F41C  thumb
  *   MYSTATUS_CopyNameChars  0x020084F8  thumb
  *   MYSTATUS_GetId  0x02008530  thumb
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   func_02019B04_Table  0x0209E324  data
  *   ARC_TOOL_ReadMember  0x02048F4C  arm
@@ -352,7 +352,7 @@ extern u8 WAZA_TOOL_GetMaxPP(u16 move, u32 ppUps);
 
 extern u32 MYSTATUS_GetId(const struct MyStatus *status);
 
-extern u8 MYSTATUS_GetOutfitVariant(const struct MyStatus *status);
+extern u8 MYSTATUS_GetSex(const struct MyStatus *status);
 
 extern u32 MYSTATUS_CopyNameChars(struct MyStatus *status, u32 dest, u32 maxLen);
 
@@ -2021,7 +2021,7 @@ int POKE_TOOL_IsOwnedByPlayer(struct PokemonParam *pp, struct MyStatus *myStatus
  * mail", the comparison that unlocks the record with POKE_TOOL_DecodeBoxParam
  * (src/matched/unit_02017D30.c), reads the trainer id (field 0x07) and the
  * second name field (0x9A) out of it, reads the same two out of the mail
- * object through MYSTATUS_GetId and MYSTATUS_GetOutfitVariant, copies both names into the
+ * object through MYSTATUS_GetId and MYSTATUS_GetSex, copies both names into the
  * two 0x20 byte scratch buffers at 0x021462F0 and 0x021462B0, and compares
  * the strings with WORDSET_IsStringEqual.
  *
@@ -2052,7 +2052,7 @@ u32 POKE_TOOL_IsBoxOwnedByPlayer(struct BoxPokemon *box, struct MyStatus *myStat
 
     playerOtId = MYSTATUS_GetId(myStatus);
     monOtId = POKE_TOOL_GetBoxValue(box, POKE_TOOL_PARAM_OT_ID, 0);
-    playerGender = MYSTATUS_GetOutfitVariant(myStatus);
+    playerGender = MYSTATUS_GetSex(myStatus);
     monOtGender = POKE_TOOL_GetBoxValue(box, POKE_TOOL_PARAM_OT_GENDER, 0);
     MYSTATUS_CopyNameChars(myStatus, (u32)gNameBuf, 0x20);
     POKE_TOOL_GetBoxValue(box, POKE_TOOL_PARAM_OT_NAME, (u32)gNameCompareBuf);

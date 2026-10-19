@@ -103,7 +103,7 @@
  *   SCRIPT_SYS_CreateScriptEventSimple   0x02158768  thumb  ov010
  *   SCRIPT_SYS_GetEventScriptWork   0x021589D0  thumb  ov010
  *   MSGDATA_CreateFromMemory  0x02045C44  arm
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   WORDSET_SetSlotTag  0x0201EE0C  thumb
  *   MUS_COMM_FUNC_GetSlotValueB  0x021FCE44  thumb  ov132
@@ -420,7 +420,7 @@ extern int SCRIPT_SYS_GetEventScriptWork(void *event);
 
 extern void *MSGDATA_CreateFromMemory(const void *file, u32 heapId);
 
-extern u8 MYSTATUS_GetOutfitVariant(const void *myStatus);
+extern u8 MYSTATUS_GetSex(const void *myStatus);
 
 extern void WORDSET_SetSlotMyStatus(void *wordSet, u32 slot, void *myStatus);
 
@@ -1471,7 +1471,7 @@ u8 MUSICAL_EVENT_GetPortraitClass(MusicalEventWork *work, u8 slot)
     if (work->linkMode == 1) {
         peerStatus = MUS_COMM_FUNC_GetSlotValueA(work->session, player);
         if (peerStatus != 0) {
-            if (MYSTATUS_GetOutfitVariant(peerStatus) == 0)
+            if (MYSTATUS_GetSex(peerStatus) == 0)
                 return 1;
             return 4;
         }

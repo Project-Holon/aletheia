@@ -40,7 +40,7 @@
  *   GAME_DATA_GetFieldMenuCursor  0x020129C4  thumb
  *   FIELD_MENU_SelectButton  0x021A8E20  thumb  ov021
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   FIELD_SUBSCREEN_ResumeField  0x021A0FB4  thumb
  *   FIELD_MENU_DeleteItem  0x021A926C  thumb  ov021
  *   TCB_DeleteTask  0x02030EAC  arm
@@ -97,7 +97,7 @@
  *   CLACT_SetActorAutoAnimSpeed  0x0204B954  arm
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_SetActorBgPriority  0x0204B84C  arm
- *   ZONEDATA_IsZone1A6  0x02013CC8  thumb
+ *   ZONEDATA_IsUnionRoom  0x02013CC8  thumb
  *   ZONEDATA_IsZone96Pair  0x02013CE0  thumb
  *   ZONEDATA_IsZone34  0x02013D20  thumb
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
@@ -112,7 +112,7 @@
  *   gFieldMenuMsgIds     0x021D8B34  data  a2
  *   MSGDATA_AllocString  0x02045EC0  arm
  *   gFieldMenuIconRes     0x021D8CAC  data  ov021  a4
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   gFieldMenuWindowPos     0x021D8B18  data  ov021  a1
  *   STRBUF_Delete  0x02045808  arm
  *   MSGDATA_Delete  0x02045C04  arm
@@ -362,7 +362,7 @@ extern void ARC_TOOL_DeleteHandle(void *arcHandle);
 extern u32 BG_SYS_SetPlaneVisible(u8 layer, u8 visible);
 extern u8 GAME_DATA_GetFieldMenuCursor(void *gameData);
 extern void CLACT_SetActorDrawEnable(void *actor, u32 drawEnable);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void FIELD_SUBSCREEN_ResumeField(void *parent, u32 heapId);
 extern void TCB_DeleteTask(void *tcb);
 extern void CLACT_DeleteActor(void *actor);
@@ -408,7 +408,7 @@ extern void *CLACT_CreateActor(void *unit, void *charRes, void *palRes, void *ce
 extern void CLACT_SetActorAutoAnimSpeed(void *actor, u32 scale);
 extern void CLACT_SetActorAutoAnim(void *actor, u32 value);
 extern void CLACT_SetActorBgPriority(void *actor, int value);
-extern u32 ZONEDATA_IsZone1A6(u32 zoneId);
+extern u32 ZONEDATA_IsUnionRoom(u32 zoneId);
 extern u32 ZONEDATA_IsZone96Pair(u16 zoneId);
 extern u32 ZONEDATA_IsZone34(u16 zoneId);
 extern int GAME_DATA_GetIntrudeCount(void *gameData);
@@ -419,7 +419,7 @@ extern int MYSTATUS_IsNameEmpty(const void *myStatus);
 extern const void *MYSTATUS_GetName(const void *myStatus);
 extern void STRBUF_SetString(void *strbuf, const void *src);
 extern void *MSGDATA_AllocString(void *msgBank, u32 index);
-extern u8 MYSTATUS_GetOutfitVariant(const void *myStatus);
+extern u8 MYSTATUS_GetSex(const void *myStatus);
 extern void STRBUF_Delete(void *strbuf);
 extern u32 MSGDATA_Delete(void *msgBank);
 extern short GF_STANDARD_SinFromDegreesWrapped(unsigned short x);
@@ -542,7 +542,7 @@ FieldMenu *FIELD_MENU_Create(u16 heapId, u16 subHeapId, void *parent, void *fiel
             CLACT_SetActorDrawEnable(menu->cursorActor, 0);
         }
     }
-    GFL_NET_RestartWithDefaultTimeout(0, menu->subHeapId);
+    GFL_NET_RefreshWmIconAtTopRight(0, menu->subHeapId);
     return menu;
 }
 
@@ -817,7 +817,7 @@ u32 FIELD_MENU_GetLayoutType(void *gameData, void *eventWork, u32 zoneId)
 {
     u32 layoutType = 0;
 
-    if (ZONEDATA_IsZone1A6((u16)zoneId) || ZONEDATA_IsZone96Pair(zoneId)) {
+    if (ZONEDATA_IsUnionRoom((u16)zoneId) || ZONEDATA_IsZone96Pair(zoneId)) {
         layoutType = 1;
     } else if (ZONEDATA_IsZone34(zoneId)) {
         layoutType = 4;
@@ -889,12 +889,12 @@ void FIELD_MENU_CreateItems(FieldMenu *menu, void *arcHandle, int layoutType)
             init.charId = gFieldMenuIconRes[buttonId].charId;
             init.cellId = gFieldMenuIconRes[buttonId].cellId;
             init.animId = gFieldMenuIconRes[buttonId].animId;
-            if (buttonId == 3 && MYSTATUS_GetOutfitVariant(menu->myStatus) == 1) {
+            if (buttonId == 3 && MYSTATUS_GetSex(menu->myStatus) == 1) {
                 init.charId = 7;
                 init.cellId = 0x16;
                 init.animId = 0x20;
             }
-            if (buttonId == 2 && MYSTATUS_GetOutfitVariant(menu->myStatus) == 1) {
+            if (buttonId == 2 && MYSTATUS_GetSex(menu->myStatus) == 1) {
                 init.charId = 0xC;
                 init.cellId = 0x1B;
                 init.animId = 0x25;

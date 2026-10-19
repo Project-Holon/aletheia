@@ -72,13 +72,13 @@
  *   FIELD_PLAYER_GetFrontAttribute  0x021A3128  thumb  ov021
  *   FIELD_PLAYER_CheckMoveRestrictFlag  0x021A35BC  thumb  ov021
  *   FIELD_PLAYER_CreateGrid  0x021A35E0  thumb  ov021
- *   FIELD_PLAYER_SetupGrid  0x021A35F0  thumb  ov021
+ *   FIELD_PLAYER_MoveGrid  0x021A35F0  thumb  ov021
  *   FIELD_PLAYER_CreateNogrid  0x021A3664  thumb  ov021
- *   FIELD_PLAYER_SetupNogrid  0x021A3674  thumb  ov021
- *   FIELD_PLAYER_SetNogridParam  0x021A3680  thumb  ov021
+ *   FIELD_PLAYER_UpdateNogrid  0x021A3674  thumb  ov021
+ *   FIELD_PLAYER_AttachNogridMmdl  0x021A3680  thumb  ov021
  *   FIELD_PLAYER_ResetNogrid  0x021A368C  thumb  ov021
- *   FIELD_PLAYER_CheckNogridMoveReady  0x021A3698  thumb  ov021
- *   FIELD_PLAYER_GetNogridState  0x021A36A4  thumb  ov021
+ *   FIELD_PLAYER_IsNogridForcedMove  0x021A3698  thumb  ov021
+ *   FIELD_PLAYER_GetNogridRailWork  0x021A36A4  thumb  ov021
  */
 #include "fieldmap_types.h"
 #include "fldmmdl_rail_types.h"
@@ -178,13 +178,13 @@ extern u32 FIELD_PLAYER_GetNowAttribute(struct FieldPlayer *player);
 extern u32 FIELD_PLAYER_GetFrontAttribute(struct FieldPlayer *player, u32 dir);
 extern int FIELD_PLAYER_CheckMoveRestrictFlag(struct FieldPlayer *player);
 extern void FIELD_PLAYER_CreateGrid(struct FieldPlayer *player, u32 heapId);
-extern void FIELD_PLAYER_SetupGrid(struct FieldPlayer *player, u32 keyTrg, u32 keyCont, u32 flags);
+extern void FIELD_PLAYER_MoveGrid(struct FieldPlayer *player, u32 keyTrg, u32 keyCont, u32 flags);
 extern void FIELD_PLAYER_CreateNogrid(struct FieldPlayer *player, u32 heapId);
-extern void FIELD_PLAYER_SetupNogrid(struct FieldPlayer *player, u32 keyTrg, u32 keyCont);
-extern void FIELD_PLAYER_SetNogridParam(struct FieldPlayer *player, const void *place);
+extern void FIELD_PLAYER_UpdateNogrid(struct FieldPlayer *player, u32 keyTrg, u32 keyCont);
+extern void FIELD_PLAYER_AttachNogridMmdl(struct FieldPlayer *player, const void *place);
 extern void FIELD_PLAYER_ResetNogrid(struct FieldPlayer *player);
-extern u32 FIELD_PLAYER_CheckNogridMoveReady(struct FieldPlayer *player);
-extern u32 FIELD_PLAYER_GetNogridState(struct FieldPlayer *player);
+extern u32 FIELD_PLAYER_IsNogridForcedMove(struct FieldPlayer *player);
+extern u32 FIELD_PLAYER_GetNogridRailWork(struct FieldPlayer *player);
 extern char gFieldMapCtrlHybridFileName;
 extern FieldMapCtrlHybridModeTable gFieldMapCtrlHybridModeTable;
 
@@ -327,7 +327,7 @@ void FIELDMAP_CTRL_HYBRID_UpdateGrid(FieldMap *fieldMap, FieldMapCtrlHybridWork 
     }
     if (FIELD_PLAYER_CheckMoveRestrictFlag(work->player) == 1)
         flags |= 1;
-    FIELD_PLAYER_SetupGrid(work->player, keyTrg, keyCont, flags);
+    FIELD_PLAYER_MoveGrid(work->player, keyTrg, keyCont, flags);
 }
 
 /*
@@ -370,8 +370,8 @@ void FIELDMAP_CTRL_HYBRID_UpdateNogrid(FieldMap *fieldMap, FieldMapCtrlHybridWor
             }
         }
     }
-    work->stepActive = FIELD_PLAYER_CheckNogridMoveReady(work->player);
-    FIELD_PLAYER_SetupNogrid(work->player, keyTrg, keyCont);
+    work->stepActive = FIELD_PLAYER_IsNogridForcedMove(work->player);
+    FIELD_PLAYER_UpdateNogrid(work->player, keyTrg, keyCont);
 }
 
 /* Switches from grid to rail mode at railLocation, then starts a rail step with the keys. */
@@ -382,11 +382,11 @@ void FIELDMAP_CTRL_HYBRID_SwitchToNogrid(FieldMap *fieldMap, FieldMapCtrlHybridW
 
     mmdl = FIELD_PLAYER_GetMmdl(work->player);
     FLDMMDL_DRAW_GetBlactAnime(mmdl, &blactAnime[0], &blactAnime[1]);
-    FIELD_PLAYER_SetupGrid(work->player, 0, 0, 0);
+    FIELD_PLAYER_MoveGrid(work->player, 0, 0, 0);
     if (useDir == 0)
         dir = FLDMMDL_GetDirDisp(mmdl);
     FIELDMAP_CTRL_HYBRID_SetMode(fieldMap, work, 1, railLocation, dir, blactAnime[0], blactAnime[1]);
-    FIELD_PLAYER_SetupNogrid(work->player, keyTrg, keyCont);
+    FIELD_PLAYER_UpdateNogrid(work->player, keyTrg, keyCont);
 }
 
 /* Switches from rail to grid mode at gridPos, then starts a grid step with the keys. */
@@ -399,13 +399,13 @@ void FIELDMAP_CTRL_HYBRID_SwitchToGrid(FieldMap *fieldMap, FieldMapCtrlHybridWor
     flags = 0;
     mmdl = FIELD_PLAYER_GetMmdl(work->player);
     FLDMMDL_DRAW_GetBlactAnime(mmdl, &blactAnime[0], &blactAnime[1]);
-    FIELD_PLAYER_SetupNogrid(work->player, 0, 0);
+    FIELD_PLAYER_UpdateNogrid(work->player, 0, 0);
     if (useDir == 0)
         dir = FLDMMDL_GetDirDisp(mmdl);
     FIELDMAP_CTRL_HYBRID_SetMode(fieldMap, work, 0, gridPos, dir, blactAnime[0], blactAnime[1]);
     if (FIELD_PLAYER_CheckMoveRestrictFlag(work->player) == 1)
         flags |= 1;
-    FIELD_PLAYER_SetupGrid(work->player, keyTrg, keyCont, flags);
+    FIELD_PLAYER_MoveGrid(work->player, keyTrg, keyCont, flags);
 }
 
 /*
@@ -493,8 +493,8 @@ void FIELDMAP_CTRL_HYBRID_SetMode(FieldMap *fieldMap, FieldMapCtrlHybridWork *wo
         FIELD_CAMERA_ResumeTargetTrace(camera);
         FIELD_CAMERA_ReloadSetting(camera);
     } else {
-        FIELD_PLAYER_SetNogridParam(work->player, place);
-        FIELD_NOGRID_MAPPER_BindCameraWork(nogridMapper, FIELD_PLAYER_GetNogridState(work->player));
+        FIELD_PLAYER_AttachNogridMmdl(work->player, place);
+        FIELD_NOGRID_MAPPER_BindCameraWork(nogridMapper, FIELD_PLAYER_GetNogridRailWork(work->player));
         FIELD_CAMERA_RestartDelay(camera);
     }
     FLDMMDL_SetDirDispCheckPause(mmdl, dir);

@@ -18,7 +18,7 @@
  *   MI_CpuFill8    0x02082BCC  arm
  *   MI_CpuFill8  0x02082BCC  arm
  *   GFL_NET_SYSTEM_SetError  0x02039548  arm
- *   SAVEDATA_PanicFail  0x02034714  arm
+ *   GF_PANIC_Fail  0x02034714  arm
  *   MI_CpuCopy8    0x02082D44  arm
  *   _NetPhase   0x020A7A20  data  a1
  *   _FileName   0x020A7A24  data
@@ -147,7 +147,7 @@ extern void  MI_CpuFill8(void *dst, u8 val, u32 size);
 
 extern void GFL_NET_SYSTEM_SetError(void);
 
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 extern u32 GFL_HEAP_Free(void *p);
 
@@ -673,7 +673,7 @@ void GFL_NET_SYSTEM_ResetBuffers(void)
 void GFL_NET_SYSTEM_ResetRecvBuffer(int netId)
 {
     if (netId >= GFL_NET_MACHINE_MAX) {
-        SAVEDATA_PanicFail(_FileName, 0x155, _AssertNetIdRange);
+        GF_PANIC_Fail(_FileName, 0x155, _AssertNetIdRange);
     }
     _pNetSys->recvPending[netId] = 0;
     GFL_NET_RING_BUFF_Init(&_pNetSys->recvRing[netId], (u32)(_pNetSys->recvRingData + netId * _pNetSys->packetBufSize), _pNetSys->packetBufSize);
@@ -2199,7 +2199,7 @@ void GFL_NET_SYSTEM_RecvParentCallback(u32 buffer, u32 size)
 
     if (session->ops->getChannel() == 0 ||
         session->ops->getTgid() == 0) {
-        SAVEDATA_PanicFail(_FileName, 0x400, _AssertAlways);
+        GF_PANIC_Fail(_FileName, 0x400, _AssertAlways);
         return;
     }
 
@@ -2592,7 +2592,7 @@ void GFL_NET_SYSTEM_ClearChildRecv(void)
  * falls through to GFL_NET_SYSTEM_SendMPParent in both of the middle bands.
  * GFL_NET_SYSTEM_SetDebugByte takes the caller's __LINE__ as its second argument; the four
  * line numbers are 0x4d5, 0x4da, 0x4e1 and 0x4f4.  The assert at +0x50 is
- * the usual SAVEDATA_PanicFail(file, line, expr) triple.
+ * the usual GF_PANIC_Fail(file, line, expr) triple.
  */
 void GFL_NET_SYSTEM_UpdateMPParent(void)
 {
@@ -2604,7 +2604,7 @@ void GFL_NET_SYSTEM_UpdateMPParent(void)
         if (GFL_NET_SYSTEM_IsConnectMember(0) == 0)
             return;
         if (initParam->init.bMPMode != 0)
-            SAVEDATA_PanicFail(_FileName, 0x4d5, _AssertNotMpMode);
+            GF_PANIC_Fail(_FileName, 0x4d5, _AssertNotMpMode);
         if (_NetPhase[0] == 4 && _pNetSys->mpWaitMode != 0
             && GFL_NET_SYSTEM_CheckAllChildRecv() != 0)
             GFL_NET_SYSTEM_SetDebugByte(1, 0x4da);
@@ -2859,7 +2859,7 @@ int GFL_NET_SYSTEM_RecvParentData(u32 netId, NetPacketHeader *packet, s32 length
  * Idempotent bring-up: when the argument is non-zero and the mode byte at
  * 0x020A7A21 still reads 2, it is flipped to 4 and the call is skipped; in
  * every other case the 0x5C0-byte block at 0x020A7A24 is handed to
- * SAVEDATA_PanicFail with 0x020A7A50 as the third argument.  Either way the
+ * GF_PANIC_Fail with 0x020A7A50 as the third argument.  Either way the
  * function answers 1 through the single shared epilogue (`mov r0, #1;
  * pop {r3, pc}`), which is why the taken arm ends in `beq` to that epilogue
  * and not in a predicated return.
@@ -2882,7 +2882,7 @@ int GFL_NET_SYSTEM_SendCallback(int success)
     if (success != 0 && _NetPhase[1] == 2) {
         _NetPhase[1] = 4;
     } else {
-        SAVEDATA_PanicFail(_FileName, 0x5C0, _AssertAlways);
+        GF_PANIC_Fail(_FileName, 0x5C0, _AssertAlways);
     }
     return 1;
 }
@@ -2931,7 +2931,7 @@ int GFL_NET_SYSTEM_SendEndCallback(u32 success)
     if (success != 0) {
         GFL_NET_SYSTEM_SetDebugByte(4, 0x5d4);
     } else {
-        SAVEDATA_PanicFail(_FileName, 0x5d8, _AssertAlways);
+        GF_PANIC_Fail(_FileName, 0x5d8, _AssertAlways);
     }
     return 1;
 }
@@ -3350,7 +3350,7 @@ void GFL_NET_SYSTEM_ProcessRecvRing(NetRingBuff *ring, s32 senderID, u8 *buf, st
         if (command == 0) {
             command = GFL_NET_RING_BUFF_ReadU16(ring);
             if (command == 0) {
-                SAVEDATA_PanicFail(_FileName, 0x6E3, _AssertAlways);
+                GF_PANIC_Fail(_FileName, 0x6E3, _AssertAlways);
                 continue;
             }
         }

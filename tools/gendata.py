@@ -34,14 +34,23 @@ SPECS = {
     "microcode_02004F94": (0x02004F94, 28, "arm9"),
     "microcode_02004FD4": (0x02004FD4, 40, "arm9"),
     "microcode_02004FFC": (0x02004FFC, 52, "arm9"),
+    # crt0.c: _start_BuildParams (8 words) and the middleware .version strings that
+    # follow it (212 bytes, six NUL padded strings)
+    "words_buildparams_02005030": (0x02005030, 32, "arm9"),
+    "bytes_version_02005050": (0x02005050, 212, "arm9"),
+    # sha1.c: the four SHA-1 round constants in front of the code
+    "words_sha1_02081E6C": (0x02081E6C, 16, "arm9"),
     # ov119 pokemontrade_3d.c: the fx16 vertex table d_021E8190 (24 halfwords)
     "h16_ov119_021E8190": (0x021E8190, 48, "ov119"),
 }
 
 
-def render(data, words=False, halves=False):
+def render(data, words=False, halves=False, raw=False):
     """dcd lines for an asm body, (words=True) C initialiser words, or
     (halves=True) C initialiser halfwords."""
+    if raw:
+        return "".join("    %s,\n" % ", ".join("0x%02X" % c for c in data[i:i + 12])
+                       for i in range(0, len(data), 12))
     if halves:
         if len(data) % 2:
             raise SystemExit("size must be a multiple of 2")
@@ -62,7 +71,8 @@ def generate(name, addr, size, region, out=None):
     path = out or os.path.join(OUT_DIR, name + ".inc")
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", newline="\n") as fh:
-        fh.write(render(data, words=name.startswith("microcode_"), halves=name.startswith("h16_")))
+        fh.write(render(data, words=name.startswith(("microcode_", "words_")),
+                        halves=name.startswith("h16_"), raw=name.startswith("bytes_")))
     return path
 
 

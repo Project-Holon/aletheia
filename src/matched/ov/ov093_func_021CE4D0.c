@@ -22,7 +22,7 @@
  * Not tried again from the older note: unsigned-long state pointer, full-word countdown.
  * symbols:
  *   BTL_SIDE_GetClientPokeParam 0x021B990C thumb ov093
- *   BTL_CALC_ActionSetNone 0x021D8434 thumb ov093
+ *   BTL_ACTION_SetNone 0x021D8434 thumb ov093
  *   BTL_CLIENT_IsActionForced 0x021CF470 thumb ov093
  *   BTL_CLIENT_SetSubFn 0x021CE150 thumb ov093
  *   BTL_CLIENT_FindSupportItem 0x021CE8F0 thumb ov093
@@ -63,7 +63,7 @@ struct H;
 struct L;
 struct Unk021D62A8;
 extern void *BTL_SIDE_GetClientPokeParam(char *p, unsigned int i, unsigned int j);
-extern void BTL_CALC_ActionSetNone(u32 *p);
+extern void BTL_ACTION_SetNone(u32 *p);
 extern u32 BTL_CLIENT_IsActionForced(u8 *, void *, u8 *);
 extern void BTL_CLIENT_SetSubFn(u8 *p, void *q);
 typedef unsigned short u16;
@@ -109,7 +109,7 @@ int BTL_CLIENT_StepSelectAction(u8 *p, u32 *st)
         P(8) = BTL_SIDE_GetClientPokeParam(P(4), p[0x1A6], p[0x11D]);
         P(12) = p + 0x124 + p[0x11D] * 4;
         p[0x1AF] = 0;
-        BTL_CALC_ActionSetNone(P(12));
+        BTL_ACTION_SetNone(P(12));
         if (BTL_CLIENT_IsActionForced(p, P(8), P(12))) {
             BTL_CLIENT_SetSubFn(p, (void *)((u32)BTL_CLIENT_StepAdvanceSlot));
             break;

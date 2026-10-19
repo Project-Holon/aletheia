@@ -1,7 +1,7 @@
 /*
  * file:     worldtrade_deposit.c
  * unit:     yes
- * function: WORLDTRADE_DEPOSIT_Init, WORLDTRADE_DEPOSIT_Main, WORLDTRADE_DEPOSIT_Exit, WORLDTRADE_DEPOSIT_PrintMessage, WORLDTRADE_DEPOSIT_SetupBgPlanes, WORLDTRADE_DEPOSIT_ExitBgPlanes, WORLDTRADE_DEPOSIT_LoadBgGraphics, WORLDTRADE_DEPOSIT_CreateWindows, WORLDTRADE_DEPOSIT_DeleteWindows, WORLDTRADE_DEPOSIT_CreateActors, WORLDTRADE_DEPOSIT_DeleteActors, WORLDTRADE_DEPOSIT_CreateStrings, WORLDTRADE_DEPOSIT_DeleteStrings, WORLDTRADE_DEPOSIT_WaitWipeIn, WORLDTRADE_DEPOSIT_StateWaitCancel, WORLDTRADE_DEPOSIT_StateOpenCategoryMenu, WORLDTRADE_DEPOSIT_StateCategoryMenuInput, WORLDTRADE_DEPOSIT_StateCreateSpeciesMenu, WORLDTRADE_DEPOSIT_SetGenderFromEvent, WORLDTRADE_DEPOSIT_StateSpeciesMenuInput, WORLDTRADE_DEPOSIT_StatePrintGenderPrompt, WORLDTRADE_DEPOSIT_StateOpenGenderMenu, WORLDTRADE_DEPOSIT_StateGenderMenuInput, WORLDTRADE_DEPOSIT_StatePrintLevelPrompt, WORLDTRADE_DEPOSIT_StateOpenLevelMenu, WORLDTRADE_DEPOSIT_StateLevelMenuInput, WORLDTRADE_DEPOSIT_StatePrintConfirmPrompt, WORLDTRADE_DEPOSIT_StateOpenConfirmYesNo, WORLDTRADE_DEPOSIT_StateConfirmYesNoInput, WORLDTRADE_DEPOSIT_StateStartWipeOut, WORLDTRADE_DEPOSIT_StateWaitMessage, WORLDTRADE_DEPOSIT_GetModeColor, WORLDTRADE_DEPOSIT_PrintName, WORLDTRADE_DEPOSIT_PrintBankString, WORLDTRADE_DEPOSIT_PrintMessageLine, WORLDTRADE_DEPOSIT_GetModeFontColor, WORLDTRADE_DEPOSIT_PrintModeLabelAligned, WORLDTRADE_DEPOSIT_PrintModeLabel, WORLDTRADE_DEPOSIT_PrintLevelRange, WORLDTRADE_DEPOSIT_PrintConditionLabel, WORLDTRADE_DEPOSIT_DrawRequestWindow, WORLDTRADE_DEPOSIT_DrawRequestWindowAlt, WORLDTRADE_DEPOSIT_PrintMonSummary, WORLDTRADE_DEPOSIT_LoadSpeciesList, WORLDTRADE_DEPOSIT_GetSpeciesRange, WORLDTRADE_DEPOSIT_CreateSpeciesFlagTable, WORLDTRADE_DEPOSIT_BuildOffer, WORLDTRADE_DEPOSIT_StoreOfferInWork, WORLDTRADE_DEPOSIT_CreateSpeciesMenu, WORLDTRADE_DEPOSIT_CreateSpeciesMenuList, WORLDTRADE_DEPOSIT_CreateGenderMenu, WORLDTRADE_DEPOSIT_GetLevelBracket, WORLDTRADE_DEPOSIT_FindLevelBracketIndex, WORLDTRADE_ENTER_SetCountryFilter, WORLDTRADE_ENTER_GetListRange, WORLDTRADE_ENTER_CreateListMenu, WORLDTRADE_ENTER_UpdateListMenu, WORLDTRADE_ENTER_ClearListRange, WORLDTRADE_ENTER_SetListRangeEntry
+ * function: WORLDTRADE_DEPOSIT_Init, WORLDTRADE_DEPOSIT_Main, WORLDTRADE_DEPOSIT_Exit, WORLDTRADE_DEPOSIT_PrintMessage, WORLDTRADE_DEPOSIT_SetupBgPlanes, WORLDTRADE_DEPOSIT_ExitBgPlanes, WORLDTRADE_DEPOSIT_LoadBgGraphics, WORLDTRADE_DEPOSIT_CreateWindows, WORLDTRADE_DEPOSIT_DeleteWindows, WORLDTRADE_DEPOSIT_CreateActors, WORLDTRADE_DEPOSIT_DeleteActors, WORLDTRADE_DEPOSIT_CreateStrings, WORLDTRADE_DEPOSIT_DeleteStrings, WORLDTRADE_DEPOSIT_WaitWipeIn, WORLDTRADE_DEPOSIT_StateWaitCancel, WORLDTRADE_DEPOSIT_StateOpenCategoryMenu, WORLDTRADE_DEPOSIT_StateCategoryMenuInput, WORLDTRADE_DEPOSIT_StateCreateSpeciesMenu, WORLDTRADE_DEPOSIT_SetGenderFromEvent, WORLDTRADE_DEPOSIT_StateSpeciesMenuInput, WORLDTRADE_DEPOSIT_StatePrintGenderPrompt, WORLDTRADE_DEPOSIT_StateOpenGenderMenu, WORLDTRADE_DEPOSIT_StateGenderMenuInput, WORLDTRADE_DEPOSIT_StatePrintLevelPrompt, WORLDTRADE_DEPOSIT_StateOpenLevelMenu, WORLDTRADE_DEPOSIT_StateLevelMenuInput, WORLDTRADE_DEPOSIT_StatePrintConfirmPrompt, WORLDTRADE_DEPOSIT_StateOpenConfirmYesNo, WORLDTRADE_DEPOSIT_StateConfirmYesNoInput, WORLDTRADE_DEPOSIT_StateStartWipeOut, WORLDTRADE_DEPOSIT_StateWaitMessage, WORLDTRADE_DEPOSIT_GetModeColor, WORLDTRADE_DEPOSIT_PrintName, WORLDTRADE_DEPOSIT_PrintBankString, WORLDTRADE_DEPOSIT_PrintMessageLine, WORLDTRADE_DEPOSIT_GetModeFontColor, WORLDTRADE_DEPOSIT_PrintModeLabelAligned, WORLDTRADE_DEPOSIT_PrintModeLabel, WORLDTRADE_DEPOSIT_PrintLevelRange, WORLDTRADE_DEPOSIT_PrintConditionLabel, WORLDTRADE_DEPOSIT_DrawRequestWindow, WORLDTRADE_DEPOSIT_DrawRequestWindowAlt, WORLDTRADE_DEPOSIT_PrintMonSummary, WORLDTRADE_DEPOSIT_LoadSpeciesList, WORLDTRADE_DEPOSIT_GetSpeciesRange, WORLDTRADE_DEPOSIT_CreateSpeciesFlagTable, WORLDTRADE_DEPOSIT_BuildOffer, WORLDTRADE_DEPOSIT_StoreOfferInWork, WORLDTRADE_DEPOSIT_CreateSpeciesMenu, WORLDTRADE_DEPOSIT_CreateSpeciesMenuList, WORLDTRADE_DEPOSIT_CreateGenderMenu, WORLDTRADE_DEPOSIT_GetLevelBracket, WORLDTRADE_DEPOSIT_FindLevelBracketIndex, WORLDTRADE_DEPOSIT_SetCountryFilter, WORLDTRADE_DEPOSIT_GetListRange, WORLDTRADE_DEPOSIT_CreateListMenu, WORLDTRADE_DEPOSIT_UpdateListMenu, WORLDTRADE_DEPOSIT_ClearListRange, WORLDTRADE_DEPOSIT_SetListRangeEntry
  * address:  0x021F73DC
  * region:   ov135
  * compiler: dsi/1.1p1
@@ -17,8 +17,8 @@
  *   GFL_HEAP_Free 0x020307B0 arm
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
- *   SAVEDATA_PanicFail 0x02034714 arm
+ *   MYSTATUS_GetSex  0x02008550  thumb
+ *   GF_PANIC_Fail 0x02034714 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   MSGDATA_AllocString 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
@@ -73,13 +73,13 @@
  *   BMP_WIN_Create 0x020450F0 arm
  *   tbl_02202EC0 0x02202EC0 data a2
  *   MIi_CpuClearFast 0x02082AC0 arm
- *   WORLDTRADE_ENTER_ClearListRange 0x021F8990 thumb ov135
+ *   WORLDTRADE_DEPOSIT_ClearListRange 0x021F8990 thumb ov135
  *   g_02203C00 0x02203C00 data a4
  *   WORLDTRADE_INPUT_MenuSetMode  0x021F9968  thumb  ov135
- *   WORLDTRADE_ENTER_UpdateListMenu 0x021F8950 thumb ov135
+ *   WORLDTRADE_DEPOSIT_UpdateListMenu 0x021F8950 thumb ov135
  *   WORLDTRADE_ADAPTER_ClearWindowScreen 0x02202644 thumb ov135
  *   WORLDTRADE_INPUT_MenuUpdate 0x021F99F0 thumb ov135
- *   WORLDTRADE_ENTER_SetListRangeEntry 0x021F89A8 thumb ov135
+ *   WORLDTRADE_DEPOSIT_SetListRangeEntry 0x021F89A8 thumb ov135
  *   POKE_PERSONAL_Create 0x0201ADE4 thumb
  *   POKE_PERSONAL_GetParam 0x0201AE1C thumb
  *   POKE_PERSONAL_Delete 0x0201AE14 thumb
@@ -135,18 +135,18 @@
  *   WIFI_HISTORY_GetVisitedCountryCount  0x02009584  thumb  arm9
  *   WORDSET_CopyString  0x0201F41C  thumb  arm9
  *   MYSTATUS_GetId  0x02008530  thumb  arm9
- *   MYSTATUS_GetOutfit  0x02008554  thumb  arm9
- *   MYSTATUS_GetLanguage  0x0200856C  thumb  arm9
- *   MYSTATUS_GetVersion  0x02008570  thumb  arm9
+ *   MYSTATUS_GetTrainerView  0x02008554  thumb  arm9
+ *   MYSTATUS_GetNation  0x0200856C  thumb  arm9
+ *   MYSTATUS_GetArea  0x02008570  thumb  arm9
  *   WIFI_HISTORY_GetRatingLevel  0x0200960C  thumb  arm9
  *   WIFI_HISTORY_GetGreetingSet  0x02009628  thumb  arm9
  *   d_022030E8 0x022030E8 data a2
  *   tbl_02202F0C  0x02202F0C  data
  *   tbl_022030E8 0x022030E8 data a2
  *   BMP_MENULIST_Main  0x020200CC  thumb  arm9
- *   WORLDTRADE_ENTER_CreateListMenu 0x021F8908 thumb ov135
- *   WORLDTRADE_ENTER_GetListRange  0x021F88D8  thumb  ov135
- *   WORLDTRADE_ENTER_SetCountryFilter 0x021F88B0 thumb ov135
+ *   WORLDTRADE_DEPOSIT_CreateListMenu 0x021F8908 thumb ov135
+ *   WORLDTRADE_DEPOSIT_GetListRange  0x021F88D8  thumb  ov135
+ *   WORLDTRADE_DEPOSIT_SetCountryFilter 0x021F88B0 thumb ov135
  *   BMP_MENULIST_GetListIndex  0x020202EC  thumb  arm9
  */
 #include "worldtrade_types.h"
@@ -174,13 +174,13 @@ extern u32 WIPE_SYS_EndCheck(void);
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
 extern void ARC_TOOL_DeleteHandle(void *h);
 
-extern u8 MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetSex(const struct Sub0200852CObj *obj);
 
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
@@ -294,11 +294,11 @@ extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 archiveID, u32 memberIdx, u3
 
 extern void MIi_CpuClearFast(u32 value, void *dst, u32 size);
 
-void WORLDTRADE_ENTER_ClearListRange(SelTable *p);
+void WORLDTRADE_DEPOSIT_ClearListRange(SelTable *p);
 
 extern void WORLDTRADE_INPUT_MenuSetMode(u8 *p, int mode);
 
-int WORLDTRADE_ENTER_UpdateListMenu(void *p, u16 *old);
+int WORLDTRADE_DEPOSIT_UpdateListMenu(void *p, u16 *old);
 
 extern void BMP_MENULIST_Delete(struct Obj *o, u16 *a, u16 *b);
 
@@ -312,7 +312,7 @@ extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 
 extern void POKE_PERSONAL_Delete(void *p);
 
-void WORLDTRADE_ENTER_SetListRangeEntry(SelTable *p, int i, u16 a, u16 b);
+void WORLDTRADE_DEPOSIT_SetListRangeEntry(SelTable *p, int i, u16 a, u16 b);
 
 extern u32 WORLDTRADE_ADAPTER_PrintQueColor(void *win, u32 z, void *str, u32 x, u32 y, u32 z2, u16 color, void *g);
 
@@ -334,11 +334,11 @@ extern void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
 
 extern u32 MYSTATUS_GetId(const struct Sub0200852CObj *obj);
 
-extern u8 MYSTATUS_GetLanguage(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetNation(const struct Sub0200852CObj *obj);
 
-extern u8 MYSTATUS_GetVersion(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetArea(const struct Sub0200852CObj *obj);
 
-extern u8 MYSTATUS_GetOutfit(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetTrainerView(const struct Sub0200852CObj *obj);
 
 extern u8 WIFI_HISTORY_GetGreetingSet(const struct Sub02009470Obj *obj);
 
@@ -520,7 +520,7 @@ int WORLDTRADE_DEPOSIT_Init(Work *p)
     init.g=p->bank;
     init.h=p->names;
     init.i=p->msg_p;
-    init.j=(u32)p->ctx->dex;
+    init.j=(u32)p->ctx->zukanSave;
     init.k=(u32)((DepositState *)p->st)->speciesFlags;
     init.l=(u32)p->ctx->statusConfig;
     p->menu=WORLDTRADE_INPUT_MenuCreate(&init,2,0);
@@ -696,7 +696,7 @@ void WORLDTRADE_DEPOSIT_CreateStrings(Work *p)
     MIi_CpuClearFast(0, (void *)p->st, 0x30);
     ((DepositState *)p->st)->speciesList = WORLDTRADE_DEPOSIT_LoadSpeciesList(0x48, 0, &((DepositState *)p->st)->speciesCount);
     ((DepositState *)p->st)->speciesFlags = WORLDTRADE_DEPOSIT_CreateSpeciesFlagTable(0x48);
-    WORLDTRADE_ENTER_ClearListRange((SelTable *)((u8 *)p + 0xEEC));
+    WORLDTRADE_DEPOSIT_ClearListRange((SelTable *)((u8 *)p + 0xEEC));
 }
 
 void WORLDTRADE_DEPOSIT_DeleteStrings(Work *p) { GFL_HEAP_Free(((DepositState *)p->st)->speciesFlags); GFL_HEAP_Free(((DepositState *)p->st)->speciesList); GFL_HEAP_Free((void *)p->st); STRBUF_Delete(p->str); }
@@ -730,7 +730,7 @@ int WORLDTRADE_DEPOSIT_StateOpenCategoryMenu(Work *p)
 
 int WORLDTRADE_DEPOSIT_StateCategoryMenuInput(Work *p)
 {
-    switch ((unsigned)WORLDTRADE_ENTER_UpdateListMenu(p->speciesMenuList, (u16 *)((u8 *)p + 0xBC))) {
+    switch ((unsigned)WORLDTRADE_DEPOSIT_UpdateListMenu(p->speciesMenuList, (u16 *)((u8 *)p + 0xBC))) {
     case 1: case 2: case 3: case 4: case 5: case 6: case 7: case 8: case 9: case 10:
         BMP_MENULIST_Delete(p->speciesMenuList, &((DepositState *)p->st)->menuScroll, &((DepositState *)p->st)->menuRow);
         BMP_MENUWORK_Delete(p->de8);
@@ -756,7 +756,7 @@ int WORLDTRADE_DEPOSIT_StateCategoryMenuInput(Work *p)
 
 int WORLDTRADE_DEPOSIT_StateCreateSpeciesMenu(Work *p)
 {
-    p->speciesMenuList = WORLDTRADE_DEPOSIT_CreateSpeciesMenuList((Work *)p, (void **)((u8 *)p + 0xDE8), p->win3, p->bank, p->names, (DepositState *)((void *)p->st), p->ctx->dex);
+    p->speciesMenuList = WORLDTRADE_DEPOSIT_CreateSpeciesMenuList((Work *)p, (void **)((u8 *)p + 0xDE8), p->win3, p->bank, p->names, (DepositState *)((void *)p->st), p->ctx->zukanSave);
     p->menuChoice = 0xFFFF;
     p->state = 6;
     return 2;
@@ -796,7 +796,7 @@ int WORLDTRADE_DEPOSIT_StateSpeciesMenuInput(Work *p)
         WORLDTRADE_SetStateAndReturn(p,5,5);
         p->state=2;
         target=(DepositState *)p->st;
-        WORLDTRADE_ENTER_SetListRangeEntry((SelTable *)((u8 *)p+0xEEC),target->menuScroll+target->menuRow,target->restoreScroll,target->restoreRow);
+        WORLDTRADE_DEPOSIT_SetListRangeEntry((SelTable *)((u8 *)p+0xEEC),target->menuScroll+target->menuRow,target->restoreScroll,target->restoreRow);
         break;
     case (u32)-1:
         break;
@@ -815,7 +815,7 @@ int WORLDTRADE_DEPOSIT_StateSpeciesMenuInput(Work *p)
         }
         WORLDTRADE_DEPOSIT_DrawRequestWindow(p->bank,p->names,(int)(p->words),(void **)((u8 *)p+0xD90),p->wantSpecies,mode,-1,(u8 *)p+0xFA0);
         target=(DepositState *)p->st;
-        WORLDTRADE_ENTER_SetListRangeEntry((SelTable *)((u8 *)p+0xEEC),target->menuScroll+target->menuRow,target->restoreScroll,target->restoreRow);
+        WORLDTRADE_DEPOSIT_SetListRangeEntry((SelTable *)((u8 *)p+0xEEC),target->menuScroll+target->menuRow,target->restoreScroll,target->restoreRow);
         break;
     }
     return 2;
@@ -1167,7 +1167,7 @@ u16 *WORLDTRADE_DEPOSIT_LoadSpeciesList(u32 heap, u32 unused, u32 *count)
 void WORLDTRADE_DEPOSIT_GetSpeciesRange(u32 kind, int *start, int *end)
 {
     if (kind >= 0x1B) {
-        SAVEDATA_PanicFail((void *)0x02203C18, 0, (void *)0x02203C18);
+        GF_PANIC_Fail((void *)0x02203C18, 0, (void *)0x02203C18);
     }
     *start = tbl_0220307C[kind];
     *end = tbl_0220307C[kind + 1];
@@ -1213,15 +1213,15 @@ void WORLDTRADE_DEPOSIT_BuildOffer(Entry *dst, Work *p)
     }
     WORDSET_CopyString(MYSTATUS_GetName(p->ctx->myStatus), (u16 *)dst->name, 8);
     dst->trainerId = MYSTATUS_GetId(p->ctx->myStatus);
-    dst->lang = MYSTATUS_GetLanguage(p->ctx->myStatus);
-    dst->ver = MYSTATUS_GetVersion(p->ctx->myStatus);
-    dst->country = MYSTATUS_GetOutfit(p->ctx->myStatus);
-    dst->gender = MYSTATUS_GetOutfitVariant(p->ctx->myStatus);
-    dst->region = 0x15;
-    dst->city = 2;
-    dst->profileFlagB = WIFI_HISTORY_GetGreetingSet(p->ctx->status);
-    dst->profileFlagC = WIFI_HISTORY_GetVisitedCountryCount(p->ctx->status);
-    dst->profileFlagA = WIFI_HISTORY_GetRatingLevel(p->ctx->status);
+    dst->nation = MYSTATUS_GetNation(p->ctx->myStatus);
+    dst->area = MYSTATUS_GetArea(p->ctx->myStatus);
+    dst->trainerView = MYSTATUS_GetTrainerView(p->ctx->myStatus);
+    dst->sex = MYSTATUS_GetSex(p->ctx->myStatus);
+    dst->romCode = 0x15;
+    dst->language = 2;
+    dst->greetingSet = WIFI_HISTORY_GetGreetingSet(p->ctx->wifiHistory);
+    dst->visitedCountryCount = WIFI_HISTORY_GetVisitedCountryCount(p->ctx->wifiHistory);
+    dst->ratingLevel = WIFI_HISTORY_GetRatingLevel(p->ctx->wifiHistory);
 }
 
 void WORLDTRADE_DEPOSIT_StoreOfferInWork(Deposit *dst, Work *p)
@@ -1294,10 +1294,10 @@ void WORLDTRADE_DEPOSIT_GetLevelBracket(u8 *dst, int index, int kind)
     const TableRow *table;
     if (kind == 0) {
         table = tbl_0220301C;
-        if (index >= 12) SAVEDATA_PanicFail(str_02203C18, 0, str_02203C18);
+        if (index >= 12) GF_PANIC_Fail(str_02203C18, 0, str_02203C18);
     } else {
         table = tbl_02202FC4;
-        if (index >= 11) SAVEDATA_PanicFail(str_02203C18, 0, str_02203C18);
+        if (index >= 11) GF_PANIC_Fail(str_02203C18, 0, str_02203C18);
     }
     dst[3] = table[index].x;
     dst[4] = table[index].y;
@@ -1336,11 +1336,11 @@ extern s32 BMP_MENULIST_Main(struct Obj *o);
 
 extern void BMP_MENULIST_GetListIndex(struct Obj *obj, u16 *out);
 
-void WORLDTRADE_ENTER_SetCountryFilter(Work *p,u32 n);
+void WORLDTRADE_DEPOSIT_SetCountryFilter(Work *p,u32 n);
 
-int WORLDTRADE_ENTER_GetListRange(u32 id, u32 *start);
+int WORLDTRADE_DEPOSIT_GetListRange(u32 id, u32 *start);
 
-int WORLDTRADE_ENTER_CreateListMenu(void **menu, void *msg, int id);
+int WORLDTRADE_DEPOSIT_CreateListMenu(void **menu, void *msg, int id);
 
 extern const u16 d_022030E8[];
 
@@ -1348,9 +1348,9 @@ extern const IdRange tbl_02202F0C[];
 
 extern u16 tbl_022030E8[];
 
-void WORLDTRADE_ENTER_SetCountryFilter(Work *p,u32 index) { if(index==0){p->countryFilter=0;return;}index--;if(index<130)p->countryFilter=d_022030E8[index]; }
+void WORLDTRADE_DEPOSIT_SetCountryFilter(Work *p,u32 index) { if(index==0){p->countryFilter=0;return;}index--;if(index<130)p->countryFilter=d_022030E8[index]; }
 
-int WORLDTRADE_ENTER_GetListRange(u32 id, u32 *start)
+int WORLDTRADE_DEPOSIT_GetListRange(u32 id, u32 *start)
 {
     int i;
 
@@ -1374,12 +1374,12 @@ int WORLDTRADE_ENTER_GetListRange(u32 id, u32 *start)
  * between the table index and the tag. 2026-10-05 (P21): plain form 16 bytes
  * off, only that pragma closes it. Table extern is not const (const gave 18).
  */
-int WORLDTRADE_ENTER_CreateListMenu(void **menu, void *msg, int id)
+int WORLDTRADE_DEPOSIT_CreateListMenu(void **menu, void *msg, int id)
 {
     int i;
     int count;
     u32 start;
-    count = WORLDTRADE_ENTER_GetListRange(id, &start);
+    count = WORLDTRADE_DEPOSIT_GetListRange(id, &start);
     *menu = BMP_MENUWORK_Create(count, 0x48);
     for (i = 0; (i < count) ? 1 : 0; i++) {
         BMP_MENUWORK_AddMsgItem(*menu, (u32)msg, tbl_022030E8[start + i], start + i + 1, 0x48);
@@ -1389,7 +1389,7 @@ int WORLDTRADE_ENTER_CreateListMenu(void **menu, void *msg, int id)
 
 #pragma opt_common_subs reset
 
-int WORLDTRADE_ENTER_UpdateListMenu(void *p, u16 *old)
+int WORLDTRADE_DEPOSIT_UpdateListMenu(void *p, u16 *old)
 {
     u16 current;
     int result;
@@ -1405,7 +1405,7 @@ int WORLDTRADE_ENTER_UpdateListMenu(void *p, u16 *old)
 /*
  * Clear the two ten-entry u16 tables at +4 and +0x18 and the two header words.
  */
-void WORLDTRADE_ENTER_ClearListRange(SelTable *p)
+void WORLDTRADE_DEPOSIT_ClearListRange(SelTable *p)
 {
     int i;
     u16 zero = 0;
@@ -1421,7 +1421,7 @@ void WORLDTRADE_ENTER_ClearListRange(SelTable *p)
 /*
  * Store a pair of u16 values at +4 and +0x18 of record i.
  */
-void WORLDTRADE_ENTER_SetListRangeEntry(SelTable *p, int index, u16 restoreScroll, u16 restoreRow)
+void WORLDTRADE_DEPOSIT_SetListRangeEntry(SelTable *p, int index, u16 restoreScroll, u16 restoreRow)
 {
     p->a[index] = restoreScroll;
     p->b[index] = restoreRow;

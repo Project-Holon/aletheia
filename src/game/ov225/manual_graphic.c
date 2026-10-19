@@ -18,7 +18,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   BG_SYS_SetPriority 0x0204047C arm
  *   FADE_Start 0x0204E720 arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   MANUAL_COMMON_CreateData 0x021B9D18 thumb ov225
  *   MANUAL_COMMON_CreateDialog 0x021BB2B4 thumb ov225
@@ -143,7 +143,7 @@ extern void *MANUAL_COMMON_CreateData(void *,u16);
 extern void BG_SYS_SetPriority(int,u16);
 extern void *GFL_USE_AddMainTask(void (*)(void *,char *),void *,u32);
 extern void FADE_Start(u32,int,int,int);
-extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 extern char *MANUAL_COMMON_CreateDialog(char *,char *);
 extern void MANUAL_COMMON_DeleteDialog(char *p);
 extern void MANUAL_CATEGORY_DeleteList(char *p);
@@ -237,7 +237,7 @@ int MANUAL_GRAPHIC_Init(void *proc, void *unused, struct Args *args)
     BG_SYS_SetPriority(7,0);
     work->task = GFL_USE_AddMainTask(MANUAL_GRAPHIC_TaskNoop,work,1);
     FADE_Start(3,16,0,0);
-    GFL_NET_RestartWithDefaultTimeout(0,work->heap);
+    GFL_NET_RefreshWmIconAtTopRight(0,work->heap);
     work->listBuf[0] = 0;
     work->listOriginX = 0;
     work->listOriginY = 0;

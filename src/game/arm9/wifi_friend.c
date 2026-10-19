@@ -29,8 +29,8 @@
  *   MYSTATUS_CreateNameStrbuf   0x02008510  thumb
  *   MYSTATUS_GetId   0x02008530  thumb
  *   MYSTATUS_GetProfileId   0x0200853C  thumb
- *   MYSTATUS_GetOutfitVariant   0x02008550  thumb
- *   MYSTATUS_GetOutfit   0x02008554  thumb
+ *   MYSTATUS_GetSex   0x02008550  thumb
+ *   MYSTATUS_GetTrainerView   0x02008554  thumb
  *   WIFILIST_SetFriendInfoField   0x02009918  thumb
  *   WIFILIST_StoreFriendNameFromStrbuf   0x02009A00  thumb
  *   STRBUF_Delete  0x02045808  arm
@@ -87,9 +87,9 @@ extern u32 MYSTATUS_GetId(const struct PlayerProfileSrc *profile);
 
 extern u32 MYSTATUS_GetProfileId(const struct PlayerProfileSrc *profile);
 
-extern u8 MYSTATUS_GetOutfitVariant(const struct PlayerProfileSrc *profile);
+extern u8 MYSTATUS_GetSex(const struct PlayerProfileSrc *profile);
 
-extern u8 MYSTATUS_GetOutfit(const struct PlayerProfileSrc *profile);
+extern u8 MYSTATUS_GetTrainerView(const struct PlayerProfileSrc *profile);
 
 extern void WIFILIST_SetFriendInfoField(struct WifiFriendSave *save, u32 slot, u32 fieldId, u32 value);
 
@@ -299,10 +299,10 @@ void WIFILIST_StoreFriendProfile(void *saveBlock, void *profile, int slot, int h
         WIFILIST_StoreFriendNameFromStrbuf(saveBlock, slot, name);
         STRBUF_Delete(name);
     }
-    WIFILIST_SetFriendInfoField(saveBlock, slot, 9, MYSTATUS_GetOutfitVariant(profile));
+    WIFILIST_SetFriendInfoField(saveBlock, slot, 9, MYSTATUS_GetSex(profile));
     WIFILIST_SetFriendInfoField(saveBlock, slot, 0, MYSTATUS_GetId(profile));
     WIFILIST_SetFriendInfoField(saveBlock, slot, 1, MYSTATUS_GetProfileId(profile));
-    WIFILIST_SetFriendInfoField(saveBlock, slot, 8, MYSTATUS_GetOutfit(profile));
+    WIFILIST_SetFriendInfoField(saveBlock, slot, 8, MYSTATUS_GetTrainerView(profile));
 }
 
 /*
@@ -323,7 +323,7 @@ void WIFILIST_StoreFriendRecord(void *saveData, void *profile, void *friendData,
     } else if (mode == 1) {
         WIFILIST_StoreFriendProfile(saveBlock, profile, slot, (int)heapId, 0);
     }
-    WIFILIST_SetFriendInfoField(saveBlock, slot, 8, MYSTATUS_GetOutfit(profile));
+    WIFILIST_SetFriendInfoField(saveBlock, slot, 8, MYSTATUS_GetTrainerView(profile));
 }
 
 /*

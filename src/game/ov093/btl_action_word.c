@@ -1,7 +1,7 @@
 /*
  * file:     btl_action_word.c
  * unit:     yes
- * function: BTL_ACTION_SetFight, BTL_ACTION_SetFightTarget, BTL_ACTION_SetFightSlotFlag, BTL_ACTION_GetFightSlotFlag, BTL_ACTION_GetFightMove, BTL_ACTION_SetItem, BTL_ACTION_SetChange, BTL_ACTION_SetChangeDepleted, BTL_ACTION_IsChangeDepleted, BTL_ACTION_SetRotate, BTL_ACTION_SetEscape, BTL_ACTION_SetSkip, BTL_CALC_ActionSetNone, BTL_CALC_ActionSetForcedSkip, BTL_ACTION_GetKind, BTL_CALC_ActionSetRecordReset, BTL_CALC_ActionSetRecordError
+ * function: BTL_ACTION_SetFight, BTL_ACTION_SetFightTarget, BTL_ACTION_SetFightSlotFlag, BTL_ACTION_GetFightSlotFlag, BTL_ACTION_GetFightMove, BTL_ACTION_SetItem, BTL_ACTION_SetChange, BTL_ACTION_SetChangeDepleted, BTL_ACTION_IsChangeDepleted, BTL_ACTION_SetRotate, BTL_ACTION_SetEscape, BTL_ACTION_SetSkip, BTL_ACTION_SetNone, BTL_ACTION_SetForcedSkip, BTL_ACTION_GetKind, BTL_ACTION_SetRecordReset, BTL_ACTION_SetRecordError
  * address:  0x021D82D0
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -149,15 +149,15 @@ void BTL_ACTION_SetSkip(union BtlAction *action)
 
 typedef enum { MASK=15 } Mask;
 
-void BTL_CALC_ActionSetNone(u32 *action);
+void BTL_ACTION_SetNone(u32 *action);
 
-void BTL_CALC_ActionSetForcedSkip(u32 *action);
+void BTL_ACTION_SetForcedSkip(u32 *action);
 
 unsigned int BTL_ACTION_GetKind(union BtlAction *action);
 
-void BTL_CALC_ActionSetRecordReset(u32 *action);
+void BTL_ACTION_SetRecordReset(u32 *action);
 
-void BTL_CALC_ActionSetRecordError(u32 *action);
+void BTL_ACTION_SetRecordError(u32 *action);
 
 /*
  * The setters below write only the kind nibble of an action word.
@@ -165,15 +165,15 @@ void BTL_CALC_ActionSetRecordError(u32 *action);
  * constant (a clear and a mask that contradict each other); the mask-first
  * order in the last AND selects the original register.
  */
-void BTL_CALC_ActionSetNone(u32 *action) { Mask mask=MASK; *action=mask & (*action & ~15); }
+void BTL_ACTION_SetNone(u32 *action) { Mask mask=MASK; *action=mask & (*action & ~15); }
 
-void BTL_CALC_ActionSetForcedSkip(u32 *action) { *action = (*action & ~15) | BTL_ACTION_KIND_FORCED_SKIP; }
+void BTL_ACTION_SetForcedSkip(u32 *action) { *action = (*action & ~15) | BTL_ACTION_KIND_FORCED_SKIP; }
 
 unsigned int BTL_ACTION_GetKind(union BtlAction *action)
 {
     return action->head.kind;
 }
 
-void BTL_CALC_ActionSetRecordReset(u32 *action) { *action = ((*action & ~15) | BTL_ACTION_KIND_RECORD_RESET) & 15; }
+void BTL_ACTION_SetRecordReset(u32 *action) { *action = ((*action & ~15) | BTL_ACTION_KIND_RECORD_RESET) & 15; }
 
-void BTL_CALC_ActionSetRecordError(u32 *action) { *action = ((*action & ~15) | BTL_ACTION_KIND_RECORD_ERROR) & 15; }
+void BTL_ACTION_SetRecordError(u32 *action) { *action = ((*action & ~15) | BTL_ACTION_KIND_RECORD_ERROR) & 15; }

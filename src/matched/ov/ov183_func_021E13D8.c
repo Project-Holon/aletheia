@@ -1,5 +1,5 @@
 /*
- * function: BR_CODEIN_ProfileUpdate2
+ * function: BR_CODEIN_ProfileUpdatePendingAndButtons
  * address: 0x021E13D8
  * packet: pkt_ov183_021E13D8
  * region: ov183
@@ -8,19 +8,19 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   BR_CODEIN_ProfileUpdateActor3 0x021E1BA8 thumb ov183
+ *   BR_CODEIN_ProfileApplyPendingStep 0x021E1BA8 thumb ov183
  *   BUTTON_MAN_UpdateSlots 0x02051C88 arm
  */
 typedef int s32;
-extern void BR_CODEIN_ProfileUpdateActor3(char *);
+extern void BR_CODEIN_ProfileApplyPendingStep(char *);
 struct Ctx;
 extern s32 BUTTON_MAN_UpdateSlots(struct Ctx *c);
-s32 BR_CODEIN_ProfileUpdate2(char *p)
+s32 BR_CODEIN_ProfileUpdatePendingAndButtons(char *p)
 {
     if (*(s32 *)(p + 0x234) == 0) {
         (*(s32 *)(p + 0x234))++;
     } else {
-        BR_CODEIN_ProfileUpdateActor3(p);
+        BR_CODEIN_ProfileApplyPendingStep(p);
         BUTTON_MAN_UpdateSlots(*(void **)(p + 0x294));
     }
     return 0;

@@ -1,5 +1,5 @@
 /*
- * function: MISC_SAVEDATA_FindFreeRecordSlot
+ * function: DENDOU_SAVEDATA_GetMemberCount
  * address:  0x0200EC14
  * packet:   pkt_0200EA3C
  * region:   arm9
@@ -26,7 +26,7 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-int MISC_SAVEDATA_FindFreeRecordSlot(char *p)
+int DENDOU_SAVEDATA_GetMemberCount(char *p)
 {
     int i;
 

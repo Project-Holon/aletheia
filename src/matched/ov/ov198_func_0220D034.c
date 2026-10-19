@@ -1,5 +1,5 @@
 /*
- * function: B_PLIST_DRAW_PrintSlotLabelA
+ * function: B_PLIST_DRAW_PrintAccuracyLabel
  * address: 0x0220D034
  * packet: pkt_ov198_0220D034
  * region: ov198
@@ -25,7 +25,7 @@ struct Descriptor;
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void PRINTSYS_PrintQueColor(void *, u32, u32, u32, u32, u32, u16);
 extern void STRBUF_Delete(struct U16Vec *vec);
-void B_PLIST_DRAW_PrintSlotLabelA(char *p, int i)
+void B_PLIST_DRAW_PrintAccuracyLabel(char *p, int i)
 {
     void *t;
     void *f;

@@ -12,7 +12,7 @@
  * blocking: unresolved: 0200F520 (thumb, from header) has no witness outside 0200F594..0200F
  *
  * symbols:
- *   MYSTATUS_GetOutfit   0x02008554  thumb
+ *   MYSTATUS_GetTrainerView   0x02008554  thumb
  *   WIFILIST_SetFriendInfoField   0x02009918  thumb
  *   WIFILIST_GetDwcFriendData   0x020099C8  thumb
  *   WIFILIST_StoreFriendProfile   0x0200F520  thumb
@@ -25,7 +25,7 @@ typedef unsigned char  u8;
 struct Sub0200852CObj;
 struct Sub020097BCFriend;
 struct Sub020097BCObj;
-extern u8 MYSTATUS_GetOutfit(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetTrainerView(const struct Sub0200852CObj *obj);
 extern void WIFILIST_SetFriendInfoField(struct Sub020097BCObj *obj, u32 i, u32 field, u32 value);
 extern struct Sub020097BCFriend *WIFILIST_GetDwcFriendData(struct Sub020097BCObj *obj, int i);
 struct BigObj;
@@ -46,5 +46,5 @@ void WIFILIST_StoreFriendRecord(void *a0, void *a1, void *a2, int a3, void *a4, 
     } else if (mode == 1) {
         WIFILIST_StoreFriendProfile(obj, a1, a3, (int)a4, 0);
     }
-    WIFILIST_SetFriendInfoField(obj, a3, 8, MYSTATUS_GetOutfit(a1));
+    WIFILIST_SetFriendInfoField(obj, a3, 8, MYSTATUS_GetTrainerView(a1));
 }

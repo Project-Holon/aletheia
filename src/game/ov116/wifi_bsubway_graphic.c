@@ -75,7 +75,7 @@
  *   TCBL_Create 0x0203101C arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   PRINTSYS_PrintStreamDelete 0x0201CE48 thumb
  *   WORDSET_Delete 0x0201ED04 thumb
  *   GF_FONT_Delete 0x0201D83C thumb
@@ -152,9 +152,9 @@
  *   ov129_id 0x81 data
  *   ov115_id 0x73 data
  *   BG_SYS_Update  0x020419E4  arm  arm9
- *   GDS_PROFILE_ScoreRecFlag  0x0200DBA0  thumb  arm9
- *   GDS_PROFILE_GetScoreRecLevel  0x0200DC08  thumb  arm9
- *   GDS_PROFILE_QuerySubwaySaveBit  0x0200DDD0  thumb  arm9
+ *   BSUBWAY_SCOREDATA_AccessFlag  0x0200DBA0  thumb  arm9
+ *   BSUBWAY_SCOREDATA_GetLevel  0x0200DC08  thumb  arm9
+ *   BSUBWAY_WIFIDATA_GetTrainerBit  0x0200DDD0  thumb  arm9
  */
 #include "ov116_types.h"
 
@@ -207,8 +207,8 @@ extern int WIFI_BSUBWAY_PollHttpRequest(u8 *,u8 *,int);
 extern void WIFI_BSUBWAY_StartHttpRequest(u8 *,u8 *,int,int);
 extern void WIFI_BSUBWAY_StartUploadPlayer(u8 *,u8 *);
 extern int WIFI_BSUBWAY_IsUploadDone(void *unused, u8 *p);
-extern u32 GDS_PROFILE_ScoreRecFlag(struct Blk1AC *p, int i, u32 op);
-extern u8 GDS_PROFILE_GetScoreRecLevel(struct Blk1AC *p);
+extern u32 BSUBWAY_SCOREDATA_AccessFlag(struct Blk1AC *p, int i, u32 op);
+extern u8 BSUBWAY_SCOREDATA_GetLevel(struct Blk1AC *p);
 extern void WIFI_BSUBWAY_StartRoomRequest(u8 *,u8 *,u16);
 extern void WIFI_BSUBWAY_StartPlayerDownload(u8 *,u8 *,u16);
 extern int WIFI_BSUBWAY_FinishRoomRequest(u8 *,u8 *);
@@ -224,7 +224,7 @@ extern void WIFI_BSUBWAY_OpenCodeIn(u8 *,int);
 extern int FADE_IsActive(void);
 extern void FADE_Start(u32 a, int b, int c, int d);
 extern int DWC_GetDateTime(void *date, void *time);
-extern int GDS_PROFILE_QuerySubwaySaveBit(struct BlkB90 *p, u8 a, u8 b, const struct Stamp *q);
+extern int BSUBWAY_WIFIDATA_GetTrainerBit(struct BlkB90 *p, u8 a, u8 b, const struct Stamp *q);
 extern void WIFI_BSUBWAY_ClearTrainers(void *a);
 extern struct Sub020097BCObj *WIFILIST_GetWork(struct Sub020097BCObj *obj);
 extern int WIFILIST_GetGsProfileId(void *list);
@@ -258,7 +258,7 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *TCBL_Create(u32, u32, u32, u32);
 extern void BG_SYS_SetMainPlaneVisible(u32, u32);
 extern void BG_SYS_SetSubPlaneVisible(u32, u32);
-extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32, u32);
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 extern void TCBL_Destroy(struct S02031140 *p);
 extern unsigned int MSGDATA_Delete(struct Rec *rec);
@@ -476,7 +476,7 @@ int WIFI_BSUBWAY_GRAPHIC_Step(struct WifiBsubwayWork *p,int b)
     case 6:
         if(WIFI_BSUBWAY_IsUploadDone((u8 *)&p->status,(u8 *)&p->async)!=0 && WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(&p->graphic)!=0) ++p->state;
         break;
-    case 7: GDS_PROFILE_ScoreRecFlag(p->saveBlock3A,1,2); WIFI_BSUBWAY_GRAPHIC_StartSave(p); ++p->state; break;
+    case 7: BSUBWAY_SCOREDATA_AccessFlag(p->saveBlock3A,1,2); WIFI_BSUBWAY_GRAPHIC_StartSave(p); ++p->state; break;
     case 8:
         if(WIFI_BSUBWAY_GRAPHIC_UpdateSave(p)!=0) { WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon(&p->graphic); WIFI_BSUBWAY_GRAPHIC_PrintMessage(&p->graphic,8); ++p->state; }
         break;
@@ -494,7 +494,7 @@ int WIFI_BSUBWAY_GRAPHIC_StepWithInput(struct WifiBsubwayWork *p,short heap)
     u8 extra[12];
     u8 record[16];
     switch(p->state) {
-    case 0: WIFI_BSUBWAY_StartRoomRequest((u8 *)&p->trainers,(u8 *)&p->async,(u32)GDS_PROFILE_GetScoreRecLevel(p->saveBlock3A)); ++p->state; break;
+    case 0: WIFI_BSUBWAY_StartRoomRequest((u8 *)&p->trainers,(u8 *)&p->async,(u32)BSUBWAY_SCOREDATA_GetLevel(p->saveBlock3A)); ++p->state; break;
     case 1: if(WIFI_BSUBWAY_FinishRoomRequest((u8 *)&p->trainers,(u8 *)&p->async)!=0) ++p->state; break;
     case 2:
         WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon(&p->graphic); v=WIFI_BSUBWAY_GetDownloadResult((u8 *)&p->trainers);
@@ -509,7 +509,7 @@ int WIFI_BSUBWAY_GRAPHIC_StepWithInput(struct WifiBsubwayWork *p,short heap)
             box=WIFI_BSUBWAY_GetRoomNumber((u8 *)&p->trainers); n=p->codeInValue; v=WIFI_BSUBWAY_GetDownloadResult((u8 *)&p->trainers);
             DWC_GetDateTime(record,extra);
             if(n<1 || n>(u32)v) { p->state=16; break; }
-            if(GDS_PROFILE_QuerySubwaySaveBit(p->saveBlock3B,box,n,(const struct Stamp *)record)!=0) { p->state=14; break; }
+            if(BSUBWAY_WIFIDATA_GetTrainerBit(p->saveBlock3B,box,n,(const struct Stamp *)record)!=0) { p->state=14; break; }
             WIFI_BSUBWAY_StartPlayerDownload((u8 *)&p->trainers,(u8 *)&p->async,p->codeInValue);
             v=WIFI_BSUBWAY_GetPlayerIndex((u8 *)&p->trainers); WIFI_BSUBWAY_GRAPHIC_SetWord(&p->graphic,0,v,(u32)WIFI_BSUBWAY_GetTransferState((u8 *)&p->trainers));
             WIFI_BSUBWAY_GRAPHIC_SetWord(&p->graphic,1,WIFI_BSUBWAY_GetRoomNumber((u8 *)&p->trainers),(u32)((void *)2)); WIFI_BSUBWAY_GRAPHIC_PrintMessage(&p->graphic,1); WIFI_BSUBWAY_GRAPHIC_CreateTimeIcon(&p->graphic); ++p->state;
@@ -675,7 +675,7 @@ void WIFI_BSUBWAY_GRAPHIC_CreateWindow(struct WifiBsubwayGraphic *p, short heap)
     p->active = 1;
     BG_SYS_SetMainPlaneVisible(16, 1);
     BG_SYS_SetSubPlaneVisible(16, 1);
-    GFL_NET_RestartWithDefaultTimeout(1, heap);
+    GFL_NET_RefreshWmIconAtTopRight(1, heap);
 }
 
 

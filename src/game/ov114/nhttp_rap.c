@@ -23,7 +23,7 @@
  *   NHTTP_SetRootCA 0x021BE9C8 arm ov114
  *   NHTTP_AddHeaderField 0x021BE6BC arm ov114
  *   NHTTP_SetBasicAuthorization 0x021BE8E8 arm ov114
- *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GF_PANIC_Fail 0x02034714 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   STD_TSNPrintf 0x0208D80C arm
  *   NHTTP_StartConnection  0x021BF308  arm  ov114
@@ -66,7 +66,7 @@ extern int NHTTP_AddHeaderField(NHTTPConnection *connection_p, const char *label
 
 extern int NHTTP_SetBasicAuthorization(NHTTPConnection *connection_p, char *username_p, char *password_p);
 
-extern void SAVEDATA_PanicFail(const char *,u32,const char *);
+extern void GF_PANIC_Fail(const char *,u32,const char *);
 
 extern void MI_CpuFill8(void *,int,unsigned);
 
@@ -186,7 +186,7 @@ int NHTTP_RAP_CreateRequest(int index, NHTTPRapSession *session_p)
 {
     NHTTPConnection *connection_p;
     if(NHTTP_Startup(NHTTP_RAP_Alloc,NHTTP_RAP_Free,12)!=0) {
-        SAVEDATA_PanicFail(sNHTTPRapStrings,0,sNHTTPRapStrings);
+        GF_PANIC_Fail(sNHTTPRapStrings,0,sNHTTPRapStrings);
         return 0;
     }
     if(session_p==0) return 0;
@@ -194,23 +194,23 @@ int NHTTP_RAP_CreateRequest(int index, NHTTPRapSession *session_p)
     if(index==4) STD_TSNPrintf(session_p->url,400,sNHTTPRapRequestTable[index].urlFormat,session_p->source_p+69);
     else STD_TSNPrintf(session_p->url,400,sNHTTPRapRequestTable[index].urlFormat,session_p->gameCode,21,2,1,session_p->source_p+69);
     connection_p=NHTTP_CreateConnection(session_p->url,sNHTTPRapRequestTable[index].method,session_p->recvBuf,1024,NHTTP_RAP_ConnectionCallback,session_p);
-    if(connection_p==0) SAVEDATA_PanicFail(sNHTTPRapStrings,0,sNHTTPRapStrings);
+    if(connection_p==0) GF_PANIC_Fail(sNHTTPRapStrings,0,sNHTTPRapStrings);
     if(connection_p==0) return 0;
     session_p->connection_p=connection_p;
     if(NHTTP_SetRootCA(connection_p,sNHTTPRapRootCA,1)<0) {
-        SAVEDATA_PanicFail(sNHTTPRapStrings,0,sNHTTPRapStrings);
+        GF_PANIC_Fail(sNHTTPRapStrings,0,sNHTTPRapStrings);
         return 0;
     }
     if(NHTTP_AddHeaderField(connection_p,sNHTTPRapStrings+4,sNHTTPRapStrings+12)!=0) {
-        SAVEDATA_PanicFail(sNHTTPRapStrings,0,sNHTTPRapStrings);
+        GF_PANIC_Fail(sNHTTPRapStrings,0,sNHTTPRapStrings);
         return 0;
     }
     if(NHTTP_AddHeaderField(connection_p,sNHTTPRapStrings+16,sNHTTPRapStrings+28)!=0) {
-        SAVEDATA_PanicFail(sNHTTPRapStrings,0,sNHTTPRapStrings);
+        GF_PANIC_Fail(sNHTTPRapStrings,0,sNHTTPRapStrings);
         return 0;
     }
     if(NHTTP_SetBasicAuthorization(connection_p,sNHTTPRapStrings+40,sNHTTPRapStrings+48)!=0) {
-        SAVEDATA_PanicFail(sNHTTPRapStrings,0,sNHTTPRapStrings);
+        GF_PANIC_Fail(sNHTTPRapStrings,0,sNHTTPRapStrings);
         return 0;
     }
     return 1;
@@ -344,7 +344,7 @@ int NHTTP_RAP_CreatePostRequest(NHTTPRapSession *session_p)
     NHTTPConnection *connection_p;
     if (session_p == 0) return 0;
     if (NHTTP_Startup(NHTTP_RAP_Alloc, NHTTP_RAP_Free, 12) != 0) {
-        SAVEDATA_PanicFail(sNHTTPRapStrings, 0, sNHTTPRapStrings);
+        GF_PANIC_Fail(sNHTTPRapStrings, 0, sNHTTPRapStrings);
         return 0;
     }
     MI_CpuFill8(session_p->url, 0, 4);
@@ -352,12 +352,12 @@ int NHTTP_RAP_CreatePostRequest(NHTTPRapSession *session_p)
     connection_p = NHTTP_CreateConnection((char *)sNHTTPRapRequestTable[7].urlFormat, sNHTTPRapRequestTable[7].method, session_p->recvBuf, 0x400, NHTTP_RAP_ConnectionCallback, 0);
     if (connection_p == 0) {
         NHTTP_GetError();
-        if (connection_p == 0) SAVEDATA_PanicFail(sNHTTPRapStrings, 0, sNHTTPRapStrings);
+        if (connection_p == 0) GF_PANIC_Fail(sNHTTPRapStrings, 0, sNHTTPRapStrings);
         return 0;
     }
     session_p->connection_p = connection_p;
     if (NHTTP_SetRootCA(connection_p, sNHTTPRapRootCA, 1) < 0) {
-        SAVEDATA_PanicFail(sNHTTPRapStrings, 0, sNHTTPRapStrings);
+        GF_PANIC_Fail(sNHTTPRapStrings, 0, sNHTTPRapStrings);
         return 0;
     }
     NHTTP_AddPostDataRaw(connection_p, session_p->postBuf_p, session_p->postLen);

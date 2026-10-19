@@ -46,7 +46,7 @@
  *   gHandWazaCamouflageHandlers     0x021F2414  data   ov093  a4
  *   BTL_SERVER_FLOW_GetFieldSituationType  0x021C8174  thumb  ov093
  *   BTL_POKEPARAM_GetTypePair  0x021D57FC  thumb  ov093
- *   BTL_FIELD_GetStaticSlotObject  0x021EF948  thumb  ov093
+ *   BTL_FIELD_IsStaticSlotInUse  0x021EF948  thumb  ov093
  *   BTL_SICKCONT_MakeKind2Index  0x021E8940  thumb  ov093
  *   BTL_SERVER_FLOW_InitMsgRecord  0x021C8838  thumb  ov093
  *   BTL_SERVER_FLOW_AppendMsgRecordArg  0x021C8860  thumb  ov093
@@ -562,7 +562,7 @@ extern int BTL_POKEPARAM_HasSick(struct BtlPokeParam *bpp, int sickId);
 extern int BTL_POKEPARAM_TestContFlag(struct BtlPokeParam *bpp, u32 flagId);
 u16 BTL_POKEPARAM_GetTypePair(struct BtlPokeParam *bpp);
 extern u16 BTL_POKEPARAM_GetWeight(struct BtlPokeParam *bpp);
-extern int BTL_FIELD_GetStaticSlotObject(int fieldEffectId);
+extern int BTL_FIELD_IsStaticSlotInUse(int fieldEffectId);
 extern int BTL_SERVER_FLOW_GetPokeIdAtPos(struct BtlServerFlow *flow, int pokeId);
 extern u8 BTL_SERVER_FLOW_CollectAlivePokeIds(struct BtlServerFlow *flow, int posMask, u8 *pokeIds);
 extern int BTL_CALC_DivideMaxHpMin1(struct BtlPokeParam *bpp, u32 divisor);
@@ -1643,7 +1643,7 @@ void HAND_WAZA_TrickRoomAddFieldEffect(struct BtlEventFactor *factor, struct Btl
     BtlFieldEffectRemoveCmd *removeCmd;
 
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
-        if (BTL_FIELD_GetStaticSlotObject(BTL_FIELD_EFFECT_TRICK_ROOM) == 0) {
+        if (BTL_FIELD_IsStaticSlotInUse(BTL_FIELD_EFFECT_TRICK_ROOM) == 0) {
             addCmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, BTL_CMD_KIND_ADD_FIELD_EFFECT, pokeId);
             addCmd->effectId = BTL_FIELD_EFFECT_TRICK_ROOM;
             addCmd->duration = BTL_SICKCONT_MakeKind2Index(5);
@@ -1678,7 +1678,7 @@ void HAND_WAZA_GravityAddFieldEffect(struct BtlEventFactor *factor, struct BtlSe
     BtlFieldEffectAddCmd *cmd;
 
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
-        if (BTL_FIELD_GetStaticSlotObject(BTL_FIELD_EFFECT_GRAVITY) == 0) {
+        if (BTL_FIELD_IsStaticSlotInUse(BTL_FIELD_EFFECT_GRAVITY) == 0) {
             cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, BTL_CMD_KIND_ADD_FIELD_EFFECT, pokeId);
             cmd->effectId = BTL_FIELD_EFFECT_GRAVITY;
             cmd->duration = BTL_SICKCONT_MakeKind2Index(5);
@@ -10113,7 +10113,7 @@ void HAND_WAZA_WonderRoomToggle(struct BtlEventFactor *factor, struct BtlServerF
 
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
         fieldEffectId = HAND_WAZA_FIELD_WONDER_ROOM;
-        if (BTL_FIELD_GetStaticSlotObject(fieldEffectId) == 0) {
+        if (BTL_FIELD_IsStaticSlotInUse(fieldEffectId) == 0) {
             addCmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HAND_WAZA_KIND_ADD_FIELD_EFFECT, pokeId);
             addCmd->effectId = fieldEffectId;
             addCmd->duration = BTL_SICKCONT_MakeKind2Index(HAND_WAZA_ROOM_TURNS);
@@ -10145,7 +10145,7 @@ void HAND_WAZA_MagicRoomToggle(struct BtlEventFactor *factor, struct BtlServerFl
 
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
         fieldEffectId = HAND_WAZA_FIELD_MAGIC_ROOM;
-        if (BTL_FIELD_GetStaticSlotObject(fieldEffectId) == 0) {
+        if (BTL_FIELD_IsStaticSlotInUse(fieldEffectId) == 0) {
             addCmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HAND_WAZA_KIND_ADD_FIELD_EFFECT, pokeId);
             addCmd->effectId = fieldEffectId;
             addCmd->duration = BTL_SICKCONT_MakeKind2Index(HAND_WAZA_ROOM_TURNS);

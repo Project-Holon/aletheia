@@ -17,7 +17,7 @@
  * symbols:
  *   ZONEDATA_CheckEventFlag  0x020142E8  thumb
  *   MYSTATUS_GetName  0x020084F4  thumb
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   GFL_HEAP_Free  0x020307B0  arm
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   GAME_DATA_GetMyParty  0x02012934  thumb
@@ -216,7 +216,7 @@ struct RtcTime { u32 hour; u32 minute; u32 second; };
 
 extern u32 ZONEDATA_CheckEventFlag(struct EventWork *eventWork, s32 flagId);
 extern const u16 *MYSTATUS_GetName(const struct MyStatus *myStatus);
-extern u8 MYSTATUS_GetOutfitVariant(const struct MyStatus *myStatus);
+extern u8 MYSTATUS_GetSex(const struct MyStatus *myStatus);
 extern u32 GFL_HEAP_Free(void *memory);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern struct Party *GAME_DATA_GetMyParty(const struct GameData *gameData);
@@ -539,7 +539,7 @@ void FIELD_ENCOUNT_InitWildPokemon(struct PokemonParam *pp, const FieldEncountPa
         else
             FIELD_ENCOUNT_RollHeldItem(pp, personal, param->compoundEyes, param->encountType == 1);
     }
-    POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_OT_GENDER, MYSTATUS_GetOutfitVariant(param->myStatus));
+    POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_OT_GENDER, MYSTATUS_GetSex(param->myStatus));
     POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_OT_NAME, (u32)MYSTATUS_GetName(param->myStatus));
     if (param->syncNature)
         POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_NATURE, param->leadNature);

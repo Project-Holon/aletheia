@@ -12,7 +12,7 @@
  * symbols:
  *   FIELD_PLAYER_GetFormCode  0x021A3098  thumb  ov021
  *   FIELD_PLAYER_GetFrontGridPos  0x021A3460  thumb  ov021
- *   COMM_PLAYER_ForwardRequest  0x021679A4  thumb  ov010
+ *   COMM_PLAYER_SearchGridPos  0x021679A4  thumb  ov010
  */
 
 typedef short s16;
@@ -21,7 +21,7 @@ typedef unsigned char  u8;
 extern unsigned int FIELD_PLAYER_GetFormCode(u8 *p);
 typedef unsigned int   u32;
 extern int FIELD_PLAYER_GetFrontGridPos(u32 a, u32 b, u32 c, u32 d);
-extern int COMM_PLAYER_ForwardRequest(int, int, int, int, int *, int *);
+extern int COMM_PLAYER_SearchGridPos(int, int, int, int, int *, int *);
 
 int INTRUDE_FIELD_FindRemotePlayerAhead(int *a, u8 *b, int *out)
 {
@@ -40,7 +40,7 @@ int INTRUDE_FIELD_FindRemotePlayerAhead(int *a, u8 *b, int *out)
         return ret;
     FIELD_PLAYER_GetFrontGridPos((u32)b, (u32)(v + 2), (u32)(v + 1), (u32)v);
     for (;;) {
-        r = COMM_PLAYER_ForwardRequest(a[2], v[2], v[1], v[0], &idx, &hit);
+        r = COMM_PLAYER_SearchGridPos(a[2], v[2], v[1], v[0], &idx, &hit);
         if (r != 1)
             break;
         if (*(int *)((char *)a + idx * 28 + 0x8c) == 0) {

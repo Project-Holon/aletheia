@@ -57,7 +57,7 @@
  *   ZUKAN_SAVE_IsNationalDexEnabled  0x0200CA38  thumb
  *   GAMESYSTEM_GetMyPlayerWork 0x020120F8 thumb
  *   GAME_DATA_GetPlayerZoneId 0x02012AC8 thumb
- *   ZONEDATA_IsZone1A6 0x02013CC8 thumb
+ *   ZONEDATA_IsUnionRoom 0x02013CC8 thumb
  *   BAG_PARAM_Create  0x0202E474  thumb
  *   MYITEM_SAVEDATA_SetLastFieldPocket  0x02008298  thumb
  *   FILE_UTIL_IsMailItem  0x0202136C  thumb
@@ -102,7 +102,7 @@
  *   GAMESYSTEM_IsCommBlocked  0x02012144  thumb
  *   gDemo3dProcData     0x021BFB3C  data  ov203
  *   ov203_id       0x000000CB  data
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   GF_STANDARD_GetCachedTime 0x0203F4CC arm
  *   COMM_PLAYER_SUPPORT_GetSeasonFromClock 0x0202E888 thumb
  *   FIELD_CLOCK_GetHour 0x02169100 thumb ov010
@@ -376,7 +376,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 extern u32 ZUKAN_SAVE_IsNationalDexEnabled(void *zukanSave);
 extern u8 *GAMESYSTEM_GetMyPlayerWork(const GameSystem *gameSystem);
 extern u16 GAME_DATA_GetPlayerZoneId(const void *playerWork);
-extern u32 ZONEDATA_IsZone1A6(u32);
+extern u32 ZONEDATA_IsUnionRoom(u32);
 extern BagParam *BAG_PARAM_Create(const GameData *gameData, u8 *itemCheck, int mode, int heapId);
 extern void MYITEM_SAVEDATA_SetLastFieldPocket(void *myItem, u16 pocket);
 extern u32 FILE_UTIL_IsMailItem(u16 v);
@@ -414,7 +414,7 @@ extern void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
 extern void *FLDMMDL_FreeAcmd(void *object);
 extern void GAME_BEACON_SEARCH_SetSimpleEventB(void);
 extern u8 GAMESYSTEM_IsCommBlocked(const GameSystem *gameSystem);
-extern u8 MYSTATUS_GetOutfitVariant(const u8 *myStatus);
+extern u8 MYSTATUS_GetSex(const u8 *myStatus);
 extern void GF_STANDARD_GetCachedTime(RtcTime *time);
 extern u8 COMM_PLAYER_SUPPORT_GetSeasonFromClock(void);
 extern int FIELD_CLOCK_GetHour(GameData *gameData);
@@ -819,7 +819,7 @@ int EVENT_FIELD_PROCLINK_IsSpecialZone(GameSystem *gameSystem)
 {
     unsigned short zoneId = GAME_DATA_GetPlayerZoneId(GAMESYSTEM_GetMyPlayerWork(gameSystem));
 
-    if (ZONEDATA_IsZone1A6(zoneId) == 1)
+    if (ZONEDATA_IsUnionRoom(zoneId) == 1)
         return 1;
     if (ZONEDATA_IsZone96Pair(zoneId) == 1)
         return 3;
@@ -953,7 +953,7 @@ void EVENT_FIELD_PROCLINK_CreateTrainerCardView(ProcLinkWork *work, int startPag
 
     bgmInfo = GAME_DATA_GetBgmInfo(gameData);
     FIELD_SOUND_SYSTEM_LowerVolume((u8 *)bgmInfo, GAMESYSTEM_GetIssSystem(work->context->gameSystem));
-    if (ZONEDATA_IsZone1A6(zoneId) != 0 || (int)ZONEDATA_IsZone96Pair((u16)zoneId) != 0) {
+    if (ZONEDATA_IsUnionRoom(zoneId) != 0 || (int)ZONEDATA_IsZone96Pair((u16)zoneId) != 0) {
         canFly = 0;
     }
     viewWork = TRCARD_SYS_CreateViewWork(gameData, 4, canFly);
@@ -1703,7 +1703,7 @@ void EVENT_FIELD_PROCLINK_SetCommProcParam(CommProcParam *param, GameSystem *gam
     param->hour = hour;
     param->minute = minute;
     param->season = season;
-    param->flag = (u8)(int)MYSTATUS_GetOutfitVariant(GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(gameSystem)));
+    param->flag = (u8)(int)MYSTATUS_GetSex(GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(gameSystem)));
 }
 
 

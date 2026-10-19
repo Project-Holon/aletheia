@@ -19,7 +19,7 @@
  *   MAP_MATRIX_IsInRangeByPos  0x02159C48  thumb  ov010
  *   MAP_MATRIX_GetZoneIdByPos  0x02159BD4  thumb  ov010
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   BEACON_GetBadge  0x0200C234  thumb
+ *   MISC_GetBadge  0x0200C234  thumb
  *   FIELDMAP_GetMoveKind  0x02188CFC  thumb  ov021
  *   EFFECT_ENCOUNT_CountStep  0x021AABC4  thumb  ov021
  *   func_02005728  0x02005728  thumb
@@ -76,7 +76,7 @@ extern void FLDMMDL_GetPos(const struct Actor *a, struct VecFx32 *out);
 extern int MAP_MATRIX_IsInRangeByPos(int a0, int a1, int a2);
 extern int MAP_MATRIX_GetZoneIdByPos(int a0, int a1, int a2);
 extern void *GAME_DATA_GetMiscSave(int *p);
-extern u32 BEACON_GetBadge(struct Blk34 *p, u32 bit);
+extern u32 MISC_GetBadge(struct Blk34 *p, u32 bit);
 extern u32 FIELDMAP_GetMoveKind(u8 *p);
 extern int EFFECT_ENCOUNT_CountStep(struct Entry *p, struct Enc *e);
 extern u32 func_02005728(u32 v);
@@ -105,7 +105,7 @@ void EFFECT_ENCOUNT_OnPlayerStep(struct Ctx *ctx)
     r = MAP_MATRIX_GetZoneIdByPos((int)m, pos[0], pos[2]);
     if (id == 0xFFFF || r == 0xFFFF || id != r)
         return;
-    if (BEACON_GetBadge(GAME_DATA_GetMiscSave(ctx->f08), 0) == 0)
+    if (MISC_GetBadge(GAME_DATA_GetMiscSave(ctx->f08), 0) == 0)
         return;
     if (FIELDMAP_GetMoveKind(ctx->f00) != 0)
         return;

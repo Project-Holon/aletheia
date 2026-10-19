@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_NETWORK_WifiProcEventMain
+ * function: EVENT_WIFI_PROC_EventMain
  * address:  0x0215FA54
  * packet:   pkt_ov010_0215FA54
  * region:   ov010
@@ -97,7 +97,7 @@ extern u8 ov172_id[];
 extern u8 d_021D5764[];
 extern u8 d_021C7240[];
 
-int SCRCMD_NETWORK_WifiProcEventMain(void *evt, u32 *state, Work *w)
+int EVENT_WIFI_PROC_EventMain(void *evt, u32 *state, Work *w)
 {
     void *sys = w->sys;
     void *save = (void *)GAMESYSTEM_GetGameComm(sys);

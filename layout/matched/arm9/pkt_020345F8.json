@@ -57,7 +57,7 @@
    "status": "EXACT"
   },
   {
-   "name": "SAVEDATA_SetPanicHandlers",
+   "name": "GF_PANIC_SetHandlers",
    "address": "0x020346EC",
    "kind": "game",
    "region": "arm9",

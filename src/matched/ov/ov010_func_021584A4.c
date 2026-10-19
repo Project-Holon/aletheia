@@ -11,7 +11,7 @@
  *
  * symbols:
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb
- *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  */
 
 typedef unsigned char u8;
@@ -21,7 +21,7 @@ typedef struct { u16 f : 3; u16 g : 13; } Fh;
 
 struct BigObj;
 extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
-extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+extern u8 GAME_DATA_GetOwnNetId(const struct BigObj *p);
 
 int INTRUDE_COMM_IsStepToOwnArea(int unused, int a, int mode)
 {
@@ -40,7 +40,7 @@ int INTRUDE_COMM_IsStepToOwnArea(int unused, int a, int mode)
         if (n >= q[0x901] + 1)
             n = 0;
     }
-    if (n == GAME_DATA_GetExitMode((const struct BigObj *)a))
+    if (n == GAME_DATA_GetOwnNetId((const struct BigObj *)a))
         return 1;
     return 0;
 }

@@ -1,7 +1,7 @@
 /*
  * file:     event_battle.c
  * unit:     yes
- * function: EVENT_BATTLE_CallAndInvert, EVENT_BATTLE_ProcScriptedBattle, EVENT_BATTLE_CreateScriptedBattle, EVENT_BATTLE_CreateEncounterTask, EVENT_BATTLE_CreateResultOnlyTask, EVENT_BATTLE_CreateForcedWinTask, EVENT_BATTLE_CreateCatchTutorial, EVENT_BATTLE_CreateEncounterTaskWithMon, EVENT_BATTLE_ProcBattleTask, EVENT_BATTLE_GetBattleKindClass, EVENT_BATTLE_DispatchBattleKindNotify, EVENT_BATTLE_NotifyLeadSpecies, EVENT_BATTLE_NotifyBattleEnd, EVENT_BATTLE_SetResultSound, EVENT_BATTLE_IsResultSilent, EVENT_BATTLE_GetKindFlag, EVENT_BATTLE_IsTaskResultSilent, EVENT_BATTLE_FinishBattleTask, EVENT_BATTLE_InitTaskWork, EVENT_BATTLE_FreeBtlSetup, EVENT_BATTLE_IntegrityProbeA, EVENT_BATTLE_IntegrityProbeB, EVENT_BATTLE_IntegrityProbeC
+ * function: EVENT_BATTLE_CallAndInvert, EVENT_BATTLE_ProcScriptedBattle, EVENT_BATTLE_CreateScriptedBattle, EVENT_BATTLE_CreateEncounterTask, EVENT_BATTLE_CreateResultOnlyTask, EVENT_BATTLE_CreateForcedWinTask, EVENT_BATTLE_CreateCatchTutorial, EVENT_BATTLE_CreateEncounterTaskWithMon, EVENT_BATTLE_ProcBattleTask, EVENT_BATTLE_GetBattleKindClass, EVENT_BATTLE_DispatchBattleKindNotify, EVENT_BATTLE_NotifyLeadSpecies, EVENT_BATTLE_NotifyBattleEnd, EVENT_BATTLE_AddBattleRecord, EVENT_BATTLE_IsResultSilent, EVENT_BATTLE_GetResultFlag, EVENT_BATTLE_IsTaskResultSilent, EVENT_BATTLE_FinishBattleTask, EVENT_BATTLE_InitTaskWork, EVENT_BATTLE_FreeBtlSetup, EVENT_BATTLE_IntegrityProbeA, EVENT_BATTLE_IntegrityProbeB, EVENT_BATTLE_IntegrityProbeC
  * address:  0x0216E680
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -25,7 +25,7 @@
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  *   GAME_DATA_GetPmsWork  0x02012F20  thumb
  *   COMM_PLAYER_SUPPORT_Init  0x0202E79C  thumb
- *   GAME_DATA_GetFieldMode  0x02012A44  thumb
+ *   GAME_DATA_GetLastBattleResult  0x02012A44  thumb
  *   SCRCMD_NETWORK_CreateCommProcEvent  0x0215F6E8  thumb  ov010
  *   GAME_EVENT_ChangeEvent  0x0201235C  thumb
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb
@@ -50,16 +50,16 @@
  *   GFL_HEAP_Free  0x020307B0  arm
  *   d_02172B54     0x02172B54  data
  *   GAME_DATA_GetSaveBlock43  0x02012FD8  thumb
- *   MISC_SAVEDATA_GetMonEntryFlag   0x0200E740  thumb
+ *   MON_SNAPSHOT_IsFilled   0x0200E740  thumb
  *   GAME_EVENT_GetWork   0x020124E8  thumb
- *   MISC_SAVEDATA_GetMonEntryCost   0x0200E788  thumb
- *   MISC_SAVEDATA_GetMonEntryLevel   0x0200E74C  thumb
- *   MISC_SAVEDATA_GetMonEntryExperience   0x0200E7B4  thumb
- *   MISC_SAVEDATA_GetMonEntryPid   0x0200E7A4  thumb
+ *   MON_SNAPSHOT_GetSpeciesForSlot   0x0200E788  thumb
+ *   MON_SNAPSHOT_GetLevel   0x0200E74C  thumb
+ *   MON_SNAPSHOT_GetOtId   0x0200E7B4  thumb
+ *   MON_SNAPSHOT_GetPersonalRnd   0x0200E7A4  thumb
  *   POKE_TOOL_SetupPartyParamEx  0x02017588  thumb
- *   MISC_SAVEDATA_IsMonEntrySet   0x0200E76C  thumb
- *   MISC_SAVEDATA_GetMonEntryTag   0x0200E780  thumb
- *   MISC_SAVEDATA_GetMonEntryName   0x0200E7AC  thumb
+ *   MON_SNAPSHOT_HasAbility   0x0200E76C  thumb
+ *   MON_SNAPSHOT_GetAbility   0x0200E780  thumb
+ *   MON_SNAPSHOT_GetNickname   0x0200E7AC  thumb
  *   POKE_TOOL_ChangeSpecies  0x020178D8  thumb
  *   POKE_TOOL_SetDefaultMoves  0x02017FA8  thumb
  *   GAME_EVENT_CallProc  0x02012444  thumb
@@ -105,7 +105,7 @@
  *   STRBUF_Delete  0x02045808  arm
  *   d_021725D8  0x021725D8  data  ov010  a1
  *   d_021725B8     0x021725B8  data
- *   GAME_DATA_SetFieldMode 0x02012A4C thumb
+ *   GAME_DATA_SetLastBattleResult 0x02012A4C thumb
  *   MOVE_POKEMON_HandleBattleResult 0x0215E5B0 thumb ov010
  *   GAME_DATA_GetMyPlayerWork 0x020127A4 thumb
  *   GAME_DATA_GetPlayerZoneId 0x02012AC8 thumb
@@ -202,7 +202,7 @@ extern void ENCEFF_SelectEffectAndBgm(u32 species, u32 a, u32 b, void *c, u32 *d
 extern void GAME_EVENT_CallEvent(struct GameEvent *evt, struct GameEvent **out);
 extern int GAME_DATA_GetPmsWork(int gd);
 extern void COMM_PLAYER_SUPPORT_Init(u8 *p);
-extern u32 GAME_DATA_GetFieldMode(const struct BtlSetup *p);
+extern u32 GAME_DATA_GetLastBattleResult(const struct BtlSetup *p);
 extern void *SCRCMD_NETWORK_CreateCommProcEvent(void *sys);
 extern void GAME_EVENT_ChangeEvent(struct GameEvent *o, u32 *out);
 extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(void *sys, void *proc, u32 a, u32 b, u32 c, u32 d, u32 e);
@@ -226,16 +226,16 @@ extern void FIELD_ENCOUNT_SetFieldSituation(struct BtlSetup *out, void *a1, void
 extern void BTL_SETUP_SetupDemo(void *bs, void *ctx, void *enemyParty, void *partnerParty, BattleLocation *loc, u32 heap);
 extern u32 GFL_HEAP_Free(void *p);
 extern void *GAME_DATA_GetSaveBlock43(void **p);
-extern u32   MISC_SAVEDATA_GetMonEntryFlag(const void *obj, u32 idx);
+extern u32   MON_SNAPSHOT_IsFilled(const void *obj, u32 idx);
 extern void *GAME_EVENT_GetWork(struct GameEvent *p);
-extern u32   MISC_SAVEDATA_GetMonEntryCost(const void *obj, u32 a, u32 b);
-extern u32   MISC_SAVEDATA_GetMonEntryLevel(const void *obj, u32 idx);
-extern u32   MISC_SAVEDATA_GetMonEntryExperience(const void *obj, u32 idx);
-extern u32   MISC_SAVEDATA_GetMonEntryPid(const void *obj, u32 idx);
+extern u32   MON_SNAPSHOT_GetSpeciesForSlot(const void *obj, u32 a, u32 b);
+extern u32   MON_SNAPSHOT_GetLevel(const void *obj, u32 idx);
+extern u32   MON_SNAPSHOT_GetOtId(const void *obj, u32 idx);
+extern u32   MON_SNAPSHOT_GetPersonalRnd(const void *obj, u32 idx);
 extern void  POKE_TOOL_SetupPartyParamEx(void *p, u16 species, u32 level, u64 id, u32 pow, u64 rnd);
-extern u32   MISC_SAVEDATA_IsMonEntrySet(const void *obj, u32 idx);
-extern u8    MISC_SAVEDATA_GetMonEntryTag(const void *obj, u32 idx);
-extern void *MISC_SAVEDATA_GetMonEntryName(void *obj, u32 idx);
+extern u32   MON_SNAPSHOT_HasAbility(const void *obj, u32 idx);
+extern u8    MON_SNAPSHOT_GetAbility(const void *obj, u32 idx);
+extern void *MON_SNAPSHOT_GetNickname(void *obj, u32 idx);
 extern void POKE_TOOL_ChangeSpecies(void *p, u32 a);
 extern u32   POKE_TOOL_SetDefaultMoves(void *p);
 extern void GAME_EVENT_CallProc(struct GameEvent *obj, u32 overlayId, u32 procData, u32 param);
@@ -272,7 +272,7 @@ extern void GAME_BEACON_SEARCH_SetEventBattleNameA(void *name);
 extern void GAME_BEACON_SEARCH_SetEventBattleNameB(void *name);
 extern void GAME_BEACON_SEARCH_SetEventBattleNameD(void *name);
 extern void STRBUF_Delete(struct Strbuf *vec);
-extern void GAME_DATA_SetFieldMode(struct BtlSetup *p, u32 v);
+extern void GAME_DATA_SetLastBattleResult(struct BtlSetup *p, u32 v);
 extern void MOVE_POKEMON_HandleBattleResult(void *gameData, struct BtlSetup *w);
 extern void *GAME_DATA_GetMyPlayerWork(struct SaveData *p);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *p);
@@ -293,9 +293,9 @@ int EVENT_BATTLE_GetBattleKindClass(void *battleKind);
 void EVENT_BATTLE_DispatchBattleKindNotify(u16 id, int col);
 void EVENT_BATTLE_NotifyLeadSpecies(void *btlSetup, int which);
 void EVENT_BATTLE_NotifyBattleEnd(BattleEndCtx *ctx);
-int EVENT_BATTLE_SetResultSound(BattleTask *task);
+int EVENT_BATTLE_AddBattleRecord(BattleTask *task);
 int EVENT_BATTLE_IsResultSilent(int outcome, int mode);
-u8 EVENT_BATTLE_GetKindFlag(int kindId);
+u8 EVENT_BATTLE_GetResultFlag(int kindId);
 int EVENT_BATTLE_IsTaskResultSilent(BattleTask *task);
 void EVENT_BATTLE_FinishBattleTask(BattleTask *task, void *gameSystem);
 void EVENT_BATTLE_InitTaskWork(BattleTask *task, void *gameSystem, void *btlSetup);
@@ -368,7 +368,7 @@ int EVENT_BATTLE_ProcScriptedBattle(void *event, u32 *state, ScriptedBattleArgs 
             COMM_PLAYER_SUPPORT_Init((void *)GAME_DATA_GetPmsWork((int)gameData));
             return 1;
         }
-        if (EVENT_BATTLE_IsResultSilent(GAME_DATA_GetFieldMode(gameData), 0) == 1) {
+        if (EVENT_BATTLE_IsResultSilent(GAME_DATA_GetLastBattleResult(gameData), 0) == 1) {
             COMM_PLAYER_SUPPORT_Init((void *)GAME_DATA_GetPmsWork((int)gameData));
             GAME_EVENT_ChangeEvent(event, SCRCMD_NETWORK_CreateCommProcEvent(gameSystem));
         } else {
@@ -562,18 +562,18 @@ void *EVENT_BATTLE_CreateEncounterTaskWithMon(void *gameSystem, u32 battleSrc, u
 
     giftData = GAME_DATA_GetSaveBlock43(GAMESYSTEM_GetGameData(gameSystem));
     task = (void *)EVENT_BATTLE_CreateEncounterTask((int)gameSystem, battleSrc, battleMode, battleFlags, battleKind, fieldEffect, options);
-    if (MISC_SAVEDATA_GetMonEntryFlag(giftData, entryIndex) != 0) {
+    if (MON_SNAPSHOT_IsFilled(giftData, entryIndex) != 0) {
         mon = POKEPARTY_GetMember(*(void **)(*(u8 **)((u8 *)GAME_EVENT_GetWork(task) + 8) + 0x28), 0);
         oldSpecies = POKE_TOOL_GetPartyValue(mon, 5, 0);
-        species = MISC_SAVEDATA_GetMonEntryCost(giftData, entryIndex, 0x15);
-        level = MISC_SAVEDATA_GetMonEntryLevel(giftData, entryIndex);
-        id = MISC_SAVEDATA_GetMonEntryExperience(giftData, entryIndex);
-        rnd = MISC_SAVEDATA_GetMonEntryPid(giftData, entryIndex);
+        species = MON_SNAPSHOT_GetSpeciesForSlot(giftData, entryIndex, 0x15);
+        level = MON_SNAPSHOT_GetLevel(giftData, entryIndex);
+        id = MON_SNAPSHOT_GetOtId(giftData, entryIndex);
+        rnd = MON_SNAPSHOT_GetPersonalRnd(giftData, entryIndex);
         POKE_TOOL_SetupPartyParamEx(mon, species, level, id, -1, rnd);
-        if (MISC_SAVEDATA_IsMonEntrySet(giftData, entryIndex) != 0) {
-            POKE_TOOL_SetPartyValue(mon, 10, MISC_SAVEDATA_GetMonEntryTag(giftData, entryIndex));
+        if (MON_SNAPSHOT_HasAbility(giftData, entryIndex) != 0) {
+            POKE_TOOL_SetPartyValue(mon, 10, MON_SNAPSHOT_GetAbility(giftData, entryIndex));
         }
-        POKE_TOOL_SetPartyValue(mon, 0x74, (u32)MISC_SAVEDATA_GetMonEntryName(giftData, entryIndex));
+        POKE_TOOL_SetPartyValue(mon, 0x74, (u32)MON_SNAPSHOT_GetNickname(giftData, entryIndex));
         POKE_TOOL_ChangeSpecies(mon, (u16)oldSpecies);
         POKE_TOOL_SetDefaultMoves(mon);
     }
@@ -850,7 +850,7 @@ void EVENT_BATTLE_NotifyBattleEnd(BattleEndCtx *ctx)
 
 
 
-int EVENT_BATTLE_SetResultSound(BattleTask *task)
+int EVENT_BATTLE_AddBattleRecord(BattleTask *task)
 {
     BtlSetup *btlSetup = task->btlSetup;
     void *gameData = GAMESYSTEM_GetGameData(task->gameSystem);
@@ -884,7 +884,7 @@ int EVENT_BATTLE_IsResultSilent(int outcome, int mode)
  *
  * Addresses are Black-image addresses.
  */
-u8 EVENT_BATTLE_GetKindFlag(int kindId)
+u8 EVENT_BATTLE_GetResultFlag(int kindId)
 {
     u8 flag = d_021725B8[kindId];
 
@@ -917,10 +917,10 @@ int EVENT_BATTLE_IsTaskResultSilent(BattleTask *task)
  */
 void EVENT_BATTLE_FinishBattleTask(BattleTask *task, void *gameSystem)
 {
-    GAME_DATA_SetFieldMode(gameSystem, task->btlSetup->outcome);
+    GAME_DATA_SetLastBattleResult(gameSystem, task->btlSetup->outcome);
     MOVE_POKEMON_HandleBattleResult(gameSystem, task->btlSetup);
     EVENT_BATTLE_NotifyBattleEnd((struct BattleEndCtx *)task);
-    EVENT_BATTLE_SetResultSound(task);
+    EVENT_BATTLE_AddBattleRecord(task);
     WEATHER_StoreZoneWeatherId((int)task->gameSystem, GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameSystem)));
 }
 

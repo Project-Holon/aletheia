@@ -23,7 +23,7 @@
  *   BTL_POKEPARAM_HasSick 0x021D62C4 thumb ov093
  *   BTL_POKEPARAM_GetSickContRaw 0x021D6314 thumb ov093
  *   BTL_SICKCONT_GetValue 0x021E8B80 thumb ov093
- *   BTL_FIELD_GetStaticSlotObject 0x021EF948 thumb ov093
+ *   BTL_FIELD_IsStaticSlotInUse 0x021EF948 thumb ov093
  *   BTL_POKEPARAM_GetLastSelectedMoveId 0x021D67B8 thumb ov093
  *   BTL_POKEPARAM_GetLastUsedMoveId 0x021D67A8 thumb ov093
  *   func_021EF91C 0x021EF91C thumb ov093
@@ -61,7 +61,7 @@ extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern union Slot BTL_POKEPARAM_GetSickContRaw(void *, int);
 extern u16 BTL_SICKCONT_GetValue(union Slot);
 extern u32 WAZA_TOOL_GetFlag(u16, u32);
-extern int BTL_FIELD_GetStaticSlotObject(int);
+extern int BTL_FIELD_IsStaticSlotInUse(int);
 extern u16 BTL_POKEPARAM_GetLastSelectedMoveId(u8 *);
 extern u16 BTL_POKEPARAM_GetLastUsedMoveId(struct QL *p);
 extern u32 WAZA_TOOL_IsDamaging(void *p);
@@ -105,7 +105,7 @@ int BTL_SERVER_FLOW_CheckMoveExecuteFail(u8 *p, u8 *a, u16 c, u16 d)
         if (c == BTL_SICKCONT_GetValue(move)) { reason = 9; goto done; }
     }
     if (BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)a, 15) && WAZA_TOOL_GetFlag(c, 12)) { reason = 13; goto done; }
-    if (BTL_FIELD_GetStaticSlotObject(2) && WAZA_TOOL_GetFlag(c, 9)) { reason = 20; goto done; }
+    if (BTL_FIELD_IsStaticSlotInUse(2) && WAZA_TOOL_GetFlag(c, 9)) { reason = 20; goto done; }
     if (c != 165) {
         if (BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)a, 23)) {
             u16 id = BTL_POKEPARAM_GetLastSelectedMoveId(a);
@@ -113,7 +113,7 @@ int BTL_SERVER_FLOW_CheckMoveExecuteFail(u8 *p, u8 *a, u16 c, u16 d)
         }
         if (BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)a, 25) && c != BTL_POKEPARAM_GetLastUsedMoveId((struct QL *)a)) { reason = 17; goto done; }
         if (BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)a, 11) && WAZA_TOOL_IsDamaging((void *)c) == 0) { reason = 10; goto done; }
-        if (BTL_FIELD_GetStaticSlotObject(3) && func_021EF91C(((struct Obj04359 *)p)->f8, a, c)) { reason = 12; goto done; }
+        if (BTL_FIELD_IsStaticSlotInUse(3) && func_021EF91C(((struct Obj04359 *)p)->f8, a, c)) { reason = 12; goto done; }
     }
     if (BTL_SERVER_FLOW_CheckConfusionFail(p, a)) { reason = 5; goto done; }
     if (mode == 1 && BTL_CALC_RollPercent(25)) { reason = 3; goto done; }

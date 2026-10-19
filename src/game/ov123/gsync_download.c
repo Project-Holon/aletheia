@@ -16,7 +16,7 @@
  *   GFL_HEAP_Free 0x020307B0 arm
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   GFL_NET_ERR_Halt 0x0200F7DC thumb
- *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GF_PANIC_Fail 0x02034714 arm
  *   sGsyncDownloadFileName 0x021DAA40 data ov123 a1
  *   sGsyncDownloadAssertText 0x021DAA54 data ov123 a1
  *   gGsyncDownloadWork 0x021DAC20 data ov123 a4
@@ -43,7 +43,7 @@ extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 
 extern void GFL_NET_ERR_Halt(void);
 
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 extern void DWC_RAP_SetErrorHookCallback(int a, int b);
 
@@ -146,7 +146,7 @@ GsyncDownloadWork *GSYNC_DOWNLOAD_AllocWork(int heap, int fileBufferSize)
     GsyncDownloadWork *work;
     work = (GsyncDownloadWork *)GFL_HEAP_Alloc(heap, sizeof(GsyncDownloadWork), 1, sGsyncDownloadFileName, 0x88);
     if (gGsyncDownloadWork)
-        SAVEDATA_PanicFail(sGsyncDownloadAssertText, 0, sGsyncDownloadAssertText);
+        GF_PANIC_Fail(sGsyncDownloadAssertText, 0, sGsyncDownloadAssertText);
     gGsyncDownloadWork = work;
     work->fileBuffer = GFL_HEAP_Alloc(heap, fileBufferSize + 0x40, 0, sGsyncDownloadFileName, 0x8c);
     work->fileBufferSize = fileBufferSize;

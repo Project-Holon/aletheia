@@ -16,7 +16,7 @@
  *   BR_UTIL_SetTextFromBuffer 0x021FC7C4 thumb ov186
  *   func_02045EC0 0x02045EC0 arm
  *   STRBUF_Create 0x020457B0 arm
- *   BMP_OAM_GetRecordValue 0x02025B64 thumb
+ *   NATION_AREA_GetAreaCount 0x02025B64 thumb
  *   WORDSET_SetSlotFromMsgE7 0x0201F048 thumb
  *   WORDSET_SetSlotFromKeyedMessage 0x0201F094 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
@@ -39,7 +39,7 @@ extern void BR_UTIL_SetTextFromMessage(char *,void *,void *,void *,u16);
 extern void BR_UTIL_SetTextFromBuffer(char *,void *,void *,u16);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern u8 BMP_OAM_GetRecordValue(u32);
+extern u8 NATION_AREA_GetAreaCount(u32);
 extern void WORDSET_SetSlotFromMsgE7(struct WordSet *p, u32 i, u32 n);
 extern void WORDSET_SetSlotFromKeyedMessage(struct WordSet *p, u32 i, u32 a, u32 n);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
@@ -67,7 +67,7 @@ void BR_CODEIN_CodeSetMenuText(char *p,char *q,int mode)
         ws=BR_RES_GetWordSet(*(char * *)&((struct Obj00351 *)q)->f8);
         data=func_02045EC0((void *)second,24);
         text=STRBUF_Create(128,((struct Obj00277 *)p)->f54);
-        if(!BMP_OAM_GetRecordValue(((struct Obj00351 *)q)->f16))WORDSET_SetSlotFromMsgE7((void *)ws,0,((struct Obj00351 *)q)->f16);
+        if(!NATION_AREA_GetAreaCount(((struct Obj00351 *)q)->f16))WORDSET_SetSlotFromMsgE7((void *)ws,0,((struct Obj00351 *)q)->f16);
         else WORDSET_SetSlotFromKeyedMessage((void *)ws,0,((struct Obj00351 *)q)->f16,((struct Obj00351 *)q)->f17);
         WORDSET_CopyTaggedText((void *)ws,text,data);
         BR_UTIL_SetTextFromBuffer(*(char * *)&((struct Obj00277 *)p)->f34,text,(void *)first,0x3da0);

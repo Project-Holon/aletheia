@@ -45,12 +45,12 @@
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
  *   sBtlMsgBuilders  0x021F39D8  data  a4
  *   STRBUF_GetEosChar  0x02045A98  arm
- *   GF_FONT_GetTagChar  0x0201D5C4  thumb
- *   GF_FONT_IsWordSlotTag  0x0201D5CC  thumb
- *   GF_FONT_GetTagParam  0x0201D670  thumb
- *   GF_FONT_GetTagGroup  0x0201D5F4  thumb
- *   GF_FONT_GetTagKind  0x0201D658  thumb
- *   GF_FONT_SkipTag  0x0201D688  thumb
+ *   PRINTSYS_GetTagChar  0x0201D5C4  thumb
+ *   PRINTSYS_IsWordSlotTag  0x0201D5CC  thumb
+ *   PRINTSYS_GetTagParam  0x0201D670  thumb
+ *   PRINTSYS_GetTagGroup  0x0201D5F4  thumb
+ *   PRINTSYS_GetTagKind  0x0201D658  thumb
+ *   PRINTSYS_SkipTag  0x0201D688  thumb
  *   STRBUF_GetChars  0x02045A90  arm
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_SetSlotFromMsgB6 0x0201EF8C thumb
@@ -176,17 +176,17 @@ extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dest,
 
 extern u16 STRBUF_GetEosChar(void);
 
-extern u32 GF_FONT_GetTagChar(void);
+extern u32 PRINTSYS_GetTagChar(void);
 
-extern u32 GF_FONT_IsWordSlotTag(const u16 *tag);
+extern u32 PRINTSYS_IsWordSlotTag(const u16 *tag);
 
-extern u32 GF_FONT_GetTagParam(const u16 *tag, u32 index);
+extern u32 PRINTSYS_GetTagParam(const u16 *tag, u32 index);
 
-extern u32 GF_FONT_GetTagGroup(const u16 *tag);
+extern u32 PRINTSYS_GetTagGroup(const u16 *tag);
 
-extern u32 GF_FONT_GetTagKind(const u16 *tag);
+extern u32 PRINTSYS_GetTagKind(const u16 *tag);
 
-extern u16 *GF_FONT_SkipTag(u16 *tag);
+extern u16 *PRINTSYS_SkipTag(u16 *tag);
 
 extern u16 *STRBUF_GetChars(struct Strbuf *buf);
 
@@ -400,7 +400,7 @@ void BTL_MSG_DispatchTagged(struct Strbuf *dest, u16 msgId, u32 *args)
 }
 
 /*
- * Walks a message string for the first 0xF000 tag that GF_FONT_IsWordSlotTag calls a
+ * Walks a message string for the first 0xF000 tag that PRINTSYS_IsWordSlotTag calls a
  * word reference; the guard on text wraps the whole walk (two `return 0` tails).
  */
 u16 *BTL_MSG_FindWordTag(u16 *text, u32 *outGroup, u16 *outKind, u8 *outSlot)
@@ -410,16 +410,16 @@ u16 *BTL_MSG_FindWordTag(u16 *text, u32 *outGroup, u16 *outKind, u8 *outSlot)
 
     if (text != 0) {
         endMark = STRBUF_GetEosChar();
-        tagMark = GF_FONT_GetTagChar();
+        tagMark = PRINTSYS_GetTagChar();
         while (*text != endMark) {
             if (*text == tagMark) {
-                if (GF_FONT_IsWordSlotTag(text) != 0) {
-                    *outSlot = GF_FONT_GetTagParam(text, 0);
-                    *outGroup = GF_FONT_GetTagGroup(text);
-                    *outKind = GF_FONT_GetTagKind(text);
-                    return GF_FONT_SkipTag(text);
+                if (PRINTSYS_IsWordSlotTag(text) != 0) {
+                    *outSlot = PRINTSYS_GetTagParam(text, 0);
+                    *outGroup = PRINTSYS_GetTagGroup(text);
+                    *outKind = PRINTSYS_GetTagKind(text);
+                    return PRINTSYS_SkipTag(text);
                 }
-                text = GF_FONT_SkipTag(text);
+                text = PRINTSYS_SkipTag(text);
             } else {
                 text = text + 1;
             }
@@ -468,37 +468,37 @@ void BTL_MSG_ExpandTags(struct Strbuf *text, const u32 *values, struct WordSet *
     u8 group;
     u8 kind;
     endMark = STRBUF_GetEosChar();
-    tagMark = GF_FONT_GetTagChar();
+    tagMark = PRINTSYS_GetTagChar();
     for (i = 0; i < 8; i++)
         removedBefore[i] = 0;
     cursor = STRBUF_GetChars(text);
     while (*cursor != endMark) {
         if (*cursor == tagMark) {
-            if (GF_FONT_IsWordSlotTag(cursor)) {
-                slot = GF_FONT_GetTagParam(cursor, 0);
-                if ((u8)GF_FONT_GetTagGroup(cursor) == 1 && GF_FONT_GetTagKind(cursor) == 14) {
+            if (PRINTSYS_IsWordSlotTag(cursor)) {
+                slot = PRINTSYS_GetTagParam(cursor, 0);
+                if ((u8)PRINTSYS_GetTagGroup(cursor) == 1 && PRINTSYS_GetTagKind(cursor) == 14) {
                     for (i = slot + 1; i < 8; i++)
                         removedBefore[i]++;
                 }
             }
-            cursor = GF_FONT_SkipTag(cursor);
+            cursor = PRINTSYS_SkipTag(cursor);
         } else
             cursor++;
     }
     cursor = STRBUF_GetChars(text);
     while (*cursor != endMark) {
         if (*cursor == tagMark) {
-            if (GF_FONT_IsWordSlotTag(cursor)) {
-                slot = GF_FONT_GetTagParam(cursor, 0);
+            if (PRINTSYS_IsWordSlotTag(cursor)) {
+                slot = PRINTSYS_GetTagParam(cursor, 0);
                 valueIndex = slot;
-                group = GF_FONT_GetTagGroup(cursor);
+                group = PRINTSYS_GetTagGroup(cursor);
                 if (slot >= removedBefore[slot])
                     valueIndex = slot - removedBefore[slot];
                 if (group == 2) {
-                    kind = GF_FONT_GetTagKind(cursor) + 1;
+                    kind = PRINTSYS_GetTagKind(cursor) + 1;
                     WORDSET_SetSlotNumber(wordSet, slot, values[valueIndex], kind, 0, 1);
                 } else {
-                    switch (GF_FONT_GetTagKind(cursor)) {
+                    switch (PRINTSYS_GetTagKind(cursor)) {
                     case 14:
                         BTL_MSG_SetClientValue(wordSet, slot, values[valueIndex]);
                         break;
@@ -535,7 +535,7 @@ void BTL_MSG_ExpandTags(struct Strbuf *text, const u32 *values, struct WordSet *
                     }
                 }
             }
-            cursor = GF_FONT_SkipTag(cursor);
+            cursor = PRINTSYS_SkipTag(cursor);
         } else
             cursor++;
     }

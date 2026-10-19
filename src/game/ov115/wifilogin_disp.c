@@ -32,7 +32,7 @@
  *   OS_IsRunOnTwl 0x02085D3C arm
  *   GFL_NET_StartSession 0x0203CBAC arm
  *   GFL_NET_STATE_WifiStartMatch 0x0203C8A8 arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   d_021D6560 0x021D6560 data a4
  *   d_021D65C0 0x021D65C0 data a4
  *   gWifiloginDialogId 0x021D6640 data a4
@@ -62,7 +62,7 @@
  *   DWC_SVLGetTokenAsync 0x02167FA8 arm ov009
  *   d_021D65D0 0x021D65D0 data a4
  *   DWC_SVLProcess 0x02168040 arm ov009
- *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GF_PANIC_Fail 0x02034714 arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
@@ -236,7 +236,7 @@ extern void GFL_NET_StartSession(struct Req *req, u32 transportArg, u32 userArg)
 
 extern void GFL_NET_STATE_WifiStartMatch(void);
 
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
 
@@ -288,7 +288,7 @@ extern int DWC_SVLGetTokenAsync(char *svl, void *result);
 
 extern int DWC_SVLProcess(void);
 
-extern void SAVEDATA_PanicFail(const char *,u32,const char *);
+extern void GF_PANIC_Fail(const char *,u32,const char *);
 
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 
@@ -608,7 +608,7 @@ void WIFILOGIN_DISP_StepCheckSave(u8 *p) {
 }
 
 void WIFILOGIN_DISP_StartSession(u8 *p) {
- int z; if(OS_IsRunOnTwl()) *(u32 *)(d_021D6560+0x48)=0x79000; else *(u32 *)(d_021D6560+0x48)=0x5e400; if(((struct WifiloginWork *)p)->state->dialogId==44) *(u32 *)(d_021D6560+0x48)=0x50000; else if(((struct WifiloginWork *)p)->state->dialogId==36) *(u32 *)(d_021D6560+0x48)=0x6e000; if(((struct WifiloginWork *)p)->state->dialogId!=10) *(u32 *)(d_021D6560+0x40)=0; z=0; d_021D65C0[7]=((struct WifiloginWork *)p)->state->dialogId; *(u32 *)gWifiloginDialogId=((struct WifiloginWork *)p)->state->dialogId; GFL_NET_StartSession((struct Req *)d_021D6560,z,(u32)p); GFL_NET_STATE_WifiStartMatch(); if(!((struct WifiloginWork *)p)->state->reconnect) GFL_NET_RestartWithDefaultTimeout(z,((struct WifiloginWork *)p)->heapId); else GFL_NET_RestartWithDefaultTimeout(1,((struct WifiloginWork *)p)->heapId); WIFILOGIN_MSG_SetMessage((void *)((struct WifiloginWork *)p)->message,23); WIFILOGIN_DISP_SetPaletteFlag(((struct WifiloginWork *)p)->disp); WIFILOGIN_COMMON_SetStateHandler(p,(u32)WIFILOGIN_DISP_StepCheckSave);
+ int z; if(OS_IsRunOnTwl()) *(u32 *)(d_021D6560+0x48)=0x79000; else *(u32 *)(d_021D6560+0x48)=0x5e400; if(((struct WifiloginWork *)p)->state->dialogId==44) *(u32 *)(d_021D6560+0x48)=0x50000; else if(((struct WifiloginWork *)p)->state->dialogId==36) *(u32 *)(d_021D6560+0x48)=0x6e000; if(((struct WifiloginWork *)p)->state->dialogId!=10) *(u32 *)(d_021D6560+0x40)=0; z=0; d_021D65C0[7]=((struct WifiloginWork *)p)->state->dialogId; *(u32 *)gWifiloginDialogId=((struct WifiloginWork *)p)->state->dialogId; GFL_NET_StartSession((struct Req *)d_021D6560,z,(u32)p); GFL_NET_STATE_WifiStartMatch(); if(!((struct WifiloginWork *)p)->state->reconnect) GFL_NET_RefreshWmIconAtTopRight(z,((struct WifiloginWork *)p)->heapId); else GFL_NET_RefreshWmIconAtTopRight(1,((struct WifiloginWork *)p)->heapId); WIFILOGIN_MSG_SetMessage((void *)((struct WifiloginWork *)p)->message,23); WIFILOGIN_DISP_SetPaletteFlag(((struct WifiloginWork *)p)->disp); WIFILOGIN_COMMON_SetStateHandler(p,(u32)WIFILOGIN_DISP_StepCheckSave);
 }
 
 void WIFILOGIN_DISP_StepConfirmProfileResult(u8 *p) {
@@ -759,7 +759,7 @@ void WIFILOGIN_DISP_StepPollToken(u8 *p) { int x; if(!WIFILOGIN_DISP_HandleNetEr
 int WIFILOGIN_DISP_Create(void *ctx,int unused,u8 *q)
 {
     u8 *p;
-    if(((struct WifiloginState *)q)->dialogId==0) SAVEDATA_PanicFail(d_021D65D0,0,d_021D65D0);
+    if(((struct WifiloginState *)q)->dialogId==0) GF_PANIC_Fail(d_021D65D0,0,d_021D65D0);
     GFL_HEAP_CreateChildHeap(1,120,0x18000);
     p=PROCSYS_AllocProcWork(ctx,72,120);
     MI_CpuFill8(p,0,72);

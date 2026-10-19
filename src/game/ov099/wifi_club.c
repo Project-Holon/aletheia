@@ -58,7 +58,7 @@
  *   WIFICLUBACTOR_GetPickResult 0x021B97F4 thumb ov099
  *   SYSTEM_DATA_GetMyStatus 0x02008730 thumb
  *   MYSTATUS_CreateNameStrbuf 0x02008510 thumb
- *   MYSTATUS_GetOutfitVariant 0x02008550 thumb
+ *   MYSTATUS_GetSex 0x02008550 thumb
  *   GF_FONT_SetTextColor 0x0201DD78 thumb
  *   STRBUF_Delete 0x02045808 arm
  *   DWC_RAP_GetTargetFriendIndex 0x02156A3C thumb ov009
@@ -133,7 +133,7 @@
  *   DWC_RAP_EnableLocalVchat  0x02156330  thumb  ov009
  *   DWC_RAP_StartVchatDefaultHeap  0x021563C0  thumb  ov009
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
- *   GFL_NET_NotifyUserEvent  0x0203D1E8  arm
+ *   GFL_NET_SetAcceptConnection  0x0203D1E8  arm
  *   GFL_NET_IsParentAid  0x0203D378  arm
  *   GFL_NET_HANDLE_SetTimingSyncRange  0x02039C68  arm
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
@@ -240,9 +240,9 @@
  *   BG_SYS_SetPriority  0x0204047C  arm
  *   DWC_RAP_SetOwnStatus  0x0215683C  thumb  ov009
  *   GAME_DATA_GetMyStatus 0x02012944 thumb
- *   MYSTATUS_GetOutfit 0x02008554 thumb
- *   MYSTATUS_GetLanguage 0x0200856C thumb
- *   MYSTATUS_GetVersion 0x02008570 thumb
+ *   MYSTATUS_GetTrainerView 0x02008554 thumb
+ *   MYSTATUS_GetNation 0x0200856C thumb
+ *   MYSTATUS_GetArea 0x02008570 thumb
  *   MYSTATUS_GetId 0x02008530 thumb
  *   MYSTATUS_GetProfileId 0x0200853C thumb
  *   WIFICLUBACTOR_SetActorMode 0x021B9B00 thumb ov099
@@ -327,7 +327,7 @@
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   GFL_NET_SetUserArg 0x0203D668 arm
  *   SYSTEM_DATA_GetConfig 0x0200873C thumb
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   DWC_RAPCOMMON_HandleNetError 0x02157170 thumb ov009
  *   WIPE_SetBrightnessFadeOut 0x0202223C thumb
  *   GFL_NET_ERR_GetErrorLevel 0x0200FB24 thumb
@@ -344,7 +344,7 @@
  *   MYSTATUS_Copy  0x02008494  thumb  arm9
  *   MET_TRAINERS_Insert  0x0200ED54  thumb  arm9
  *   WIFILIST_UpdateFriendRecord  0x0200F4E4  thumb  arm9
- *   GAME_DATA_GetPlayerStatusById  0x02012950  thumb  arm9
+ *   GAME_DATA_GetMyStatusPlayer  0x02012950  thumb  arm9
  *   WIFILIST_CompactFriendList  0x02009B3C  thumb  arm9
  */
 #include "wifi_club_work.h"
@@ -436,7 +436,7 @@ extern u32 PRINTSYS_QUE_Main(PrintQue *);
 extern void BMP_MENULIST_ResetCursorTile(void *menuList, int heapId);
 extern void *SYSTEM_DATA_GetMyStatus(void *saveData);
 extern StrBuf *MYSTATUS_CreateNameStrbuf(void *myStatus, int heapId);
-extern u8 MYSTATUS_GetOutfitVariant(const struct PlayerProfile *obj);
+extern u8 MYSTATUS_GetSex(const struct PlayerProfile *obj);
 extern void GF_FONT_SetTextColor(u32, u32, u32);
 extern void STRBUF_Delete(StrBuf *);
 extern int DWC_RAP_GetTargetFriendIndex(void);
@@ -499,7 +499,7 @@ extern void DWC_RAP_SetVchatEnabled(int);
 extern int DWC_RAP_EnableLocalVchat(void);
 extern void DWC_RAP_StartVchatDefaultHeap(int a);
 extern struct NetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern int GFL_NET_NotifyUserEvent(unsigned int unused, void *arg);
+extern int GFL_NET_SetAcceptConnection(unsigned int unused, void *arg);
 extern int GFL_NET_IsParentAid();
 extern void GFL_NET_HANDLE_SetTimingSyncRange(struct NetHandle *handle, unsigned int syncId, unsigned int range);
 extern u32 PRINTSYS_QUE_IsExistTarget(PrintQue *queue, void *bmp);
@@ -581,9 +581,9 @@ extern u32 GFL_USE_GetTargetBgmNo(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(int, int);
 extern int DWC_RAP_SetOwnStatus(WifiClubPlayerStatus *status, int size);
 extern u8 *GAME_DATA_GetMyStatus(void *);
-extern u8 MYSTATUS_GetOutfit(const struct PlayerProfile *obj);
-extern u8 MYSTATUS_GetLanguage(const struct PlayerProfile *obj);
-extern u8 MYSTATUS_GetVersion(const struct PlayerProfile *obj);
+extern u8 MYSTATUS_GetTrainerView(const struct PlayerProfile *obj);
+extern u8 MYSTATUS_GetNation(const struct PlayerProfile *obj);
+extern u8 MYSTATUS_GetArea(const struct PlayerProfile *obj);
 extern u32 MYSTATUS_GetId(const struct PlayerProfile *obj);
 extern u32 MYSTATUS_GetProfileId(const struct PlayerProfile *obj);
 extern void WIFILIST_SetFriendInfoField(struct FriendRoster *obj, u32 i, u32 field, u32 value);
@@ -624,7 +624,7 @@ extern unsigned DWC_RAP_GetResult(void);
 extern u32 GFL_NET_HANDLE_IsNegotiationDone(u8 *p);
 extern u32 GFL_NET_GetHandleNetID(struct NetHandle *p);
 extern int GFL_NET_HANDLE_CheckNegotiation(void);
-extern void *GAME_DATA_GetPlayerStatusById(void *gameData, u32 index);
+extern void *GAME_DATA_GetMyStatusPlayer(void *gameData, u32 index);
 extern void MYSTATUS_Copy(void *, void *);
 extern void *MET_TRAINERS_GetFromSave(void *);
 extern void MET_TRAINERS_Insert(void *l, u32 val);
@@ -651,7 +651,7 @@ extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
 extern void *PROCSYS_AllocProcWork(void *obj, u32 size, u32 heap);
 extern void GFL_NET_SetUserArg(u32 arg);
 extern void *SYSTEM_DATA_GetConfig(void *sys);
-extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32, u32);
 extern int DWC_RAPCOMMON_HandleNetError(int,int);
 extern unsigned int GFL_NET_ERR_GetErrorLevel(void);
 extern void WIPE_SetBrightnessFadeOut(unsigned int,unsigned int);
@@ -1321,7 +1321,7 @@ void WIFICLUB_DrawPlayerInfoWindow(WifiClubWork *work)
     GF_FONT_SetDefaultTextColor();
     name = MYSTATUS_CreateNameStrbuf(myStatus, 33);
     BMP_Clear(BMP_WIN_GetBmp(work->playerInfoWin), 255);
-    if (MYSTATUS_GetOutfitVariant(myStatus) == 0)
+    if (MYSTATUS_GetSex(myStatus) == 0)
         GF_FONT_SetTextColor(5, 6, 0);
     else
         GF_FONT_SetTextColor(3, 4, 0);
@@ -1937,7 +1937,7 @@ void WIFICLUB_StartVoiceChat(WifiClubWork *work)
 int WIFICLUB_StateStartInvite(WifiClubWork *work, int result)
 {
     int zero;
-    GFL_NET_NotifyUserEvent((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0);
+    GFL_NET_SetAcceptConnection((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0);
     zero = 0;
     if (GFL_NET_IsParentAid() == 0) {
         work->connectionMode = 3;
@@ -1989,7 +1989,7 @@ int WIFICLUB_StateInviteYesNo(WifiClubWork *work, int result)
 
 int WIFICLUB_StateRestartInvite(WifiClubWork *work, int result)
 {
-    GFL_NET_NotifyUserEvent((int)GFL_NET_HANDLE_GetCurrentHandle(), (void *)0);
+    GFL_NET_SetAcceptConnection((int)GFL_NET_HANDLE_GetCurrentHandle(), (void *)0);
     if (GFL_NET_IsParentAid() != 0) {
         work->connectionMode = 3;
         WIFICLUB_SetPartnerNameWord(work, work->selectedPlusOne - 1);
@@ -3453,7 +3453,7 @@ int WIFICLUB_StateBranchOnSeatAfterNotify(WifiClubWork *work, int state)
 {
     int noFlag;
     noFlag = 0;
-    if (GFL_NET_IsParentAid(GFL_NET_NotifyUserEvent((unsigned int)GFL_NET_HANDLE_GetCurrentHandle(), 0)) == 0) {
+    if (GFL_NET_IsParentAid(GFL_NET_SetAcceptConnection((unsigned int)GFL_NET_HANDLE_GetCurrentHandle(), 0)) == 0) {
         WIFICLUB_SetPartnerNameWord(work, work->selectedPlusOne - 1);
         WIFICLUB_ShowStreamedMessage(work, 0x77, noFlag);
         work->state = WIFICLUB_STATE_OPEN_LEAVE_PROMPT;
@@ -3534,7 +3534,7 @@ int WIFICLUB_StateHandlePeerPhase(WifiClubWork *work, int state)
         work->sceneKind = peerPhase;
         return 2;
     default:
-        GFL_NET_NotifyUserEvent((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0);
+        GFL_NET_SetAcceptConnection((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0);
         if (GFL_NET_IsParentAid()) {
             if (WIFICLUB_CheckPartyAgainstRules(work->regulationData, work->gameData, (u32 *)(&violationMask)) &&
                 WIFICLUB_CheckSavedRegulation(work->regulationData, work->savedRegulation, &violationMask)) {
@@ -3728,7 +3728,7 @@ void WIFICLUB_ChangeNetMode(WifiClubWork *work, int kind, int value)
     switch (kind) {
     case 2:
     case 5:
-        GFL_NET_NotifyUserEvent((int)GFL_NET_HANDLE_GetCurrentHandle(), (void *)1);
+        GFL_NET_SetAcceptConnection((int)GFL_NET_HANDLE_GetCurrentHandle(), (void *)1);
         return;
     case 0:
     case 1:
@@ -3736,7 +3736,7 @@ void WIFICLUB_ChangeNetMode(WifiClubWork *work, int kind, int value)
     case 4:
     case 6:
     default:
-        GFL_NET_NotifyUserEvent((int)GFL_NET_HANDLE_GetCurrentHandle(), (void *)1);
+        GFL_NET_SetAcceptConnection((int)GFL_NET_HANDLE_GetCurrentHandle(), (void *)1);
         break;
     }
 }
@@ -4120,12 +4120,12 @@ void WIFICLUB_BuildOwnStatus(WifiClubWork *work, int kind, int value)
     profile = GAME_DATA_GetMyStatus(work->gameData);
     work->localStatus->iconKind = 0x15;
     work->localStatus->visitorKind = 2;
-    genderValue = (int)MYSTATUS_GetOutfitVariant(profile);
+    genderValue = (int)MYSTATUS_GetSex(profile);
     work->localStatus->gender = genderValue;
-    work->localStatus->avatarStyle = MYSTATUS_GetOutfit(profile);
+    work->localStatus->avatarStyle = MYSTATUS_GetTrainerView(profile);
     WIFICLUB_SetOwnStatusKindPhase(work, kind, value);
-    work->localStatus->colorA = MYSTATUS_GetLanguage(profile);
-    work->localStatus->colorB = MYSTATUS_GetVersion(profile);
+    work->localStatus->colorA = MYSTATUS_GetNation(profile);
+    work->localStatus->colorB = MYSTATUS_GetArea(profile);
     WIFICLUB_SetStatusSeatFlag(work->localStatus, work->session->ownSeat);
     WIFICLUB_SetStatusModeFlag(work->localStatus, work->session->ownSeat);
     work->localStatus->idB = MYSTATUS_GetId(profile);
@@ -4495,7 +4495,7 @@ void WIFICLUB_ResetClubScreen(WifiClubWork *work)
         work->subMenuWork = 0;
     }
     if (!WIFICLUBACTOR_IsReady((&work->actorSys))) {
-        gender = MYSTATUS_GetOutfitVariant((const struct PlayerProfile *)GAME_DATA_GetMyStatus(work->gameData));
+        gender = MYSTATUS_GetSex((const struct PlayerProfile *)GAME_DATA_GetMyStatus(work->gameData));
         kind = 16;
         if (gender) kind = 17;
         work->mapIndexPlusOne = WIFILIST_GetFriendListEnd(work->friendList);
@@ -5745,7 +5745,7 @@ int WIFICLUB_StateShowPartnerStatusMessage(WifiClubWork *work, int procState)
     WifiClubPlayerStatus *ownStatus;
     ownStatus = &work->ownStatus;
     selector = 0;
-    GFL_NET_NotifyUserEvent((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0);
+    GFL_NET_SetAcceptConnection((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0);
     pickedIndex = WIFICLUBACTOR_GetPickResult(&work->actorSys);
     actor = WIFICLUB_FindPeerActor(work, pickedIndex);
     facing = WIFICLUBACTOR_GetActorFacing(WIFICLUB_FindPeerActor(work, 0));
@@ -6355,7 +6355,7 @@ void WIFICLUB_RecvFriendTrainerCard(int friendIndex, int unused, void *receivedS
     void *friendStatus;
     void *friendRecords;
     if (handle == (int)GFL_NET_HANDLE_GetCurrentHandle()) {
-        friendStatus = GAME_DATA_GetPlayerStatusById(work->gameData, friendIndex);
+        friendStatus = GAME_DATA_GetMyStatusPlayer(work->gameData, friendIndex);
         MYSTATUS_Copy(receivedStatus, friendStatus);
         friendRecords = MET_TRAINERS_GetFromSave(work->saveData);
         MET_TRAINERS_Insert(friendRecords, MYSTATUS_GetId(friendStatus));
@@ -7666,7 +7666,7 @@ int WIFICLUB_ProcInit(void *procObj, int unused, WifiClubSession *session)
     if (session->isFriendMatch == 0) WIFICLUB_BuildOwnStatus(work, 1, 2);
     if (GFL_NET_GetRunState() != 0) {
         WIFICLUBACTOR_AddNetCommands(work);
-        GFL_NET_RestartWithDefaultTimeout(1, 0x21);
+        GFL_NET_RefreshWmIconAtTopRight(1, 0x21);
     }
     return 1;
 }

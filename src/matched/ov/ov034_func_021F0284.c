@@ -26,7 +26,7 @@
  *   ZONEDATA_GetPlaceNameId 0x02013E4C thumb
  *   WORDSET_SetSlotFromMsg59 0x0201F158 thumb
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
- *   BEACON_CountBadges 0x0200C258 thumb
+ *   MISC_CountBadges 0x0200C258 thumb
  *   GAME_DATA_GetEventWork 0x0201296C thumb
  *   ZONEDATA_CheckEventFlag 0x020142E8 thumb
  *   ZUKAN_SAVE_GetFromGameData 0x0200CA1C thumb
@@ -102,7 +102,7 @@ extern u16 GAME_DATA_GetPlayerZoneId(const struct Rec44 *p);
 extern u32 ZONEDATA_GetPlaceNameId(u32);
 extern void WORDSET_SetSlotFromMsg59(struct WordSet *p, u32 i, u32 v);
 extern void *GAME_DATA_GetMiscSave(int *p);
-extern u32 BEACON_CountBadges(struct Blk34 *p);
+extern u32 MISC_CountBadges(struct Blk34 *p);
 extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 extern u32 ZONEDATA_CheckEventFlag(void *,int);
 extern void *ZUKAN_SAVE_GetFromGameData(void *);
@@ -171,7 +171,7 @@ void REPORT_InitWindows(u8 *p)
     WORDSET_CopyTaggedText(ws,dst,s3);
     print_record(p,3,dst,s3,0,0x3DC0,one);
     s4=func_02045EC0(bank,4);
-    WORDSET_SetSlotNumber(ws,0,BEACON_CountBadges(GAME_DATA_GetMiscSave(ctx)),2,0,1);
+    WORDSET_SetSlotNumber(ws,0,MISC_CountBadges(GAME_DATA_GetMiscSave(ctx)),2,0,1);
     WORDSET_CopyTaggedText(ws,dst,s4);
     print_record(p,4,dst,s4,0,0x3DC0,one);
     if(ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(((struct Obj00166 *)p)->f0)),0x962)==1) {

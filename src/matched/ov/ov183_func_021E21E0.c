@@ -11,8 +11,8 @@
  * lever: separate function-scope coordinate pairs retain the switch cases' stack slots.
  * symbols:
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
- *   BR_CODEIN_SaveHitButtonA 0x021E24F8 thumb ov183
- *   BR_CODEIN_SaveHitButtonB 0x021E2538 thumb ov183
+ *   BR_CODEIN_SaveHitOptionLeft 0x021E24F8 thumb ov183
+ *   BR_CODEIN_SaveHitOptionRight 0x021E2538 thumb ov183
  *   BR_UTIL_SetWindowText 0x021FD170 thumb ov186
  *   BR_FADE_Start 0x021FE784 thumb ov186
  *   BR_FADE_GetResult 0x021FE7B0 thumb ov186
@@ -41,7 +41,7 @@ typedef unsigned short u16;
 typedef struct {u32 a,b;} Pair;
 extern u32 TOUCHPANEL_GetPointTrg(u32 *,u32 *);
 extern int TOUCHPANEL_GetTrg(void);
-extern int BR_CODEIN_SaveHitButtonA(char *,int,int),BR_CODEIN_SaveHitButtonB(char *,int,int);
+extern int BR_CODEIN_SaveHitOptionLeft(char *,int,int),BR_CODEIN_SaveHitOptionRight(char *,int,int);
 extern void BR_UTIL_SetWindowText(char *p, char *q, void *text);
 extern void BR_FADE_Start(int,int,int,int);
 extern int BR_FADE_GetResult(int *);
@@ -57,13 +57,13 @@ void BR_CODEIN_SaveStepVideo(int task,int *state,char *p) {
     switch(*state) {
     case 0:
         if(TOUCHPANEL_GetPointTrg(&x0,&y0)) {
-            if(BR_CODEIN_SaveHitButtonA(p,x0,y0)) {BR_UTIL_SetWindowText((char *)(((struct Obj00683 *)p)->f4),(char *)(((struct Obj24654 *)(*(char * *)&((struct Obj00683 *)p)->f20))->fC),(void *)322);*state=1;}
-            else if(BR_CODEIN_SaveHitButtonB(p,x0,y0))*state=10;
+            if(BR_CODEIN_SaveHitOptionLeft(p,x0,y0)) {BR_UTIL_SetWindowText((char *)(((struct Obj00683 *)p)->f4),(char *)(((struct Obj24654 *)(*(char * *)&((struct Obj00683 *)p)->f20))->fC),(void *)322);*state=1;}
+            else if(BR_CODEIN_SaveHitOptionRight(p,x0,y0))*state=10;
         } break;
     case 1:
         if(TOUCHPANEL_GetPointTrg(&x1,&y1)) {
-            if(BR_CODEIN_SaveHitButtonA(p,x1,y1))*state=2;
-            else if(BR_CODEIN_SaveHitButtonB(p,x1,y1))*state=10;
+            if(BR_CODEIN_SaveHitOptionLeft(p,x1,y1))*state=2;
+            else if(BR_CODEIN_SaveHitOptionRight(p,x1,y1))*state=10;
         } break;
     case 2:BR_FADE_Start(((struct Obj24655 *)(*(char * *)&((struct Obj00683 *)p)->f20))->f4,2,2,1);++*state;break;
     case 3:

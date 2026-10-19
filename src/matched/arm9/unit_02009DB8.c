@@ -18,9 +18,9 @@
  *   MI_CpuCopy8  0x02082D44  arm
  *   MI_CpuMove   0x02083194  arm
  *   MYSTATUS_GetId  0x02008530  thumb
- *   MYSTATUS_GetOutfit  0x02008554  thumb
- *   MYSTATUS_SetOutfit  0x02008558  thumb
- *   MYSTATUS_GetAvatarId  0x0200855C  thumb
+ *   MYSTATUS_GetTrainerView  0x02008554  thumb
+ *   MYSTATUS_SetTrainerView  0x02008558  thumb
+ *   MYSTATUS_GetRomCode  0x0200855C  thumb
  *
  * alias: the body of the 0xD54-byte record whose head is
  * src/matched/unit_02009D9C.c.  It is a hundred-slot most-recently-used list
@@ -59,9 +59,9 @@ struct Sub0200852CObj {
 
 extern int sub_02008468(void);
 extern u32 MYSTATUS_GetId(const struct Sub0200852CObj *obj);
-extern u8  MYSTATUS_GetOutfit(const struct Sub0200852CObj *obj);
-extern void MYSTATUS_SetOutfit(struct Sub0200852CObj *obj, u8 value);
-extern u8  MYSTATUS_GetAvatarId(const struct Sub0200852CObj *obj);
+extern u8  MYSTATUS_GetTrainerView(const struct Sub0200852CObj *obj);
+extern void MYSTATUS_SetTrainerView(struct Sub0200852CObj *obj, u8 value);
+extern u8  MYSTATUS_GetRomCode(const struct Sub0200852CObj *obj);
 
 struct Sub02009D9CObj {
     struct Sub0200852CObj unk000[100];
@@ -77,7 +77,7 @@ int TRADE_HISTORY_FindPartner(struct Sub02009D9CObj *obj, u32 id)
     int i;
 
     for (i = 0; i < 100; i++) {
-        if (MYSTATUS_GetAvatarId(&obj->unk000[i]) != 0
+        if (MYSTATUS_GetRomCode(&obj->unk000[i]) != 0
             && id == MYSTATUS_GetId(&obj->unk000[i])) {
             return i;
         }
@@ -96,7 +96,7 @@ void TRADE_HISTORY_AddPartner(struct Sub02009D9CObj *obj, struct Sub0200852CObj 
     }
     i = TRADE_HISTORY_FindPartner(obj, id);
     if (i != -1) {
-        MYSTATUS_SetOutfit(&obj->unk000[i], MYSTATUS_GetOutfit(p));
+        MYSTATUS_SetTrainerView(&obj->unk000[i], MYSTATUS_GetTrainerView(p));
         return;
     }
     MI_CpuMove(obj->unk000, &obj->unk000[1], size * 99);
@@ -135,7 +135,7 @@ int TRADE_HISTORY_GetPartnerCount(struct Sub02009D9CObj *obj)
     int i;
 
     for (i = 0; i < 100; i++) {
-        if (MYSTATUS_GetAvatarId(&obj->unk000[i]) == 0) {
+        if (MYSTATUS_GetRomCode(&obj->unk000[i]) == 0) {
             break;
         }
     }

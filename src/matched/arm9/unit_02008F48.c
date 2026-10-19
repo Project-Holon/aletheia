@@ -17,7 +17,7 @@
  *   MI_CpuCopy8  0x02082D44  arm
  *   MYSTATUS_GetName  0x020084F4  thumb
  *   MYSTATUS_GetId  0x02008530  thumb
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   MAIL_Init  0x02008EAC  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *
@@ -75,7 +75,7 @@ extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern const void *MYSTATUS_GetName(const void *p);
 extern u32 MYSTATUS_GetId(const struct Sub0200852CObj *obj);
-extern u8  MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
+extern u8  MYSTATUS_GetSex(const struct Sub0200852CObj *obj);
 
 struct Sub02008EACObjLayout {
     u32 unk00;
@@ -95,6 +95,6 @@ void MAIL_InitForPlayer(struct Sub02008EACObjLayout *obj, u8 kind, u32 unused,
     obj->unk07 = kind;
     src = (struct Sub0200852CObj *)GAME_DATA_GetMyStatus(p);
     MI_CpuCopy8(MYSTATUS_GetName(src), obj->unk08, sizeof(obj->unk08));
-    obj->unk04 = MYSTATUS_GetOutfitVariant(src);
+    obj->unk04 = MYSTATUS_GetSex(src);
     obj->unk00 = MYSTATUS_GetId(src);
 }

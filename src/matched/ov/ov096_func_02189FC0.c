@@ -1,5 +1,5 @@
 /*
- * function: TR_AI_CmdJumpIfMoveParam28
+ * function: TR_AI_CmdSwitchOnMoveEffectSequence
  * address:  0x02189FC0
  * packet:   pkt_ov096_02189FC0
  * region:   ov096
@@ -32,7 +32,7 @@ extern void VM_Jump(struct Cur *c, u32 v);
 extern int TR_AI_CmdEnd(u8 *, u8 *);
 extern int TR_AI_GetMoveParam(u8 *, int, int);
 
-int TR_AI_CmdJumpIfMoveParam28(struct Cursor *a, u8 *b)
+int TR_AI_CmdSwitchOnMoveEffectSequence(struct Cursor *a, u8 *b)
 {
     int t;
     int u;

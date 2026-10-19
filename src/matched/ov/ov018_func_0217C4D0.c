@@ -25,7 +25,7 @@
  *   FIELD_SOUND_SYSTEM_StartPopAndWaitTask  0x02029620  thumb
  *   EVENT_COMM_COMMON_DeleteListWindowB  0x0217F58C  thumb  ov018
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
- *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   INTRUDE_FIELD_InitPlayerSpin  0x0217C658  thumb  ov018
  *   INTRUDE_FIELD_StepPlayerSpin  0x0217C688  thumb  ov018
  *   INTRUDE_CMD_SendRecordAccept  0x02173FC0  thumb  ov011
@@ -101,7 +101,7 @@ extern int GFL_USE_IsBgmPlaying(void);
 extern void *FIELD_SOUND_SYSTEM_StartPopAndWaitTask(void *a, u32 b, u32 c);
 extern void EVENT_COMM_COMMON_DeleteListWindowB(void *);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
-extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+extern u8 GAME_DATA_GetOwnNetId(const struct BigObj *p);
 extern void INTRUDE_FIELD_InitPlayerSpin(Rec *, void *, int, u16, u8, u8);
 extern int INTRUDE_FIELD_StepPlayerSpin(Rec *, void *);
 extern int INTRUDE_CMD_SendRecordAccept(int a, u8 *b);
@@ -149,7 +149,7 @@ int INTRUDE_FIELD_EventOfferInfo(void *task, int *state, Work *w)
         (*state)++;
         break;
     case 4:
-        t = (int)GAME_DATA_GetExitMode(GAMESYSTEM_GetGameData(sys));
+        t = (int)GAME_DATA_GetOwnNetId(GAMESYSTEM_GetGameData(sys));
         INTRUDE_FIELD_InitPlayerSpin(&w->f6C, sys, w->f04, w->f38.f0A[t], w->f38.f10[t],
                       w->f38.f08.mask & (1 << t));
         (*state)++;

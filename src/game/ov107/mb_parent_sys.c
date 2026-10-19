@@ -15,8 +15,8 @@
  * symbols:
  *   MB_UTIL_MSG_Create 0x021F1404 thumb ov107
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   BEACON_GetBlock 0x0200C0F0 thumb
- *   BEACON_SetRank 0x0200C1B0 thumb
+ *   MISC_GetBlock 0x0200C0F0 thumb
+ *   MISC_SetRank 0x0200C1B0 thumb
  *   GFL_USE_AddMainTask 0x020056A0 thumb
  *   GFL_USE_SetVBlankHook 0x02005654 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
@@ -41,7 +41,7 @@
  *   MB_UTIL_MSG_ClearWindow 0x021F1898 thumb ov107
  *   MB_UTIL_MSG_ClearYesNoMenu 0x021F1A24 thumb ov107
  *   MB_UTIL_MSG_Main 0x021F15B0 thumb ov107
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   MSGDATA_GetLanguage 0x020461E4 arm
  *   FS_InitFile 0x020788AC arm
  *   FS_OpenFile 0x02078C18 arm
@@ -49,7 +49,7 @@
  *   FS_GetLength 0x02078C28 arm
  *   FS_ReadFile 0x02078B70 arm
  *   FS_CloseFile 0x02078A80 arm
- *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GF_PANIC_Fail 0x02034714 arm
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   CLACT_DrawSystem 0x0204A600 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
@@ -60,7 +60,7 @@
  *   APP_ENV_IsWirelessAvailable 0x0202EB44 thumb
  *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
- *   BEACON_GetBestScore 0x0200C184 thumb
+ *   MISC_GetBestScore 0x0200C184 thumb
  *   GFL_USE_GetArcPath 0x0200575C thumb
  *   GAME_DATA_GetTrainerRecord 0x02012F2C thumb
  *   RECORD_AddOne 0x02008DF0 thumb
@@ -181,9 +181,9 @@
  *   MB_UTIL_MSG_GetTaskMenuResult 0x021F19C8 thumb ov107
  *   MB_UTIL_MSG_CloseTaskMenu 0x021F19B8 thumb ov107
  *   d_021F6AF8 0x021F6AF8 data a4
- *   BEACON_GetRank 0x0200C1A4 thumb
+ *   MISC_GetRank 0x0200C1A4 thumb
  *   OS_WaitIrq 0x0208459C arm
- *   BEACON_SetBestScore 0x0200C18C thumb
+ *   MISC_SetBestScore 0x0200C18C thumb
  *   ZUKAN_SAVE_GetFromGameData  0x0200CA1C  thumb
  *   RECORD_AddCounter  0x02008DAC  thumb
  *   SAVE_EVENT_StoreTodayDate  0x0202F27C  thumb
@@ -374,8 +374,8 @@ typedef struct MbChildEvent {
 
 extern void *MB_UTIL_MSG_Create(u16 heap, u32 a, u32 b, u32 c, u32 d, u32 e);
 extern void *GAME_DATA_GetSaveControl(void *);
-extern void *BEACON_GetBlock(void *);
-extern void BEACON_SetRank(void *,u32);
+extern void *MISC_GetBlock(void *);
+extern void MISC_SetRank(void *,u32);
 extern void *GFL_USE_AddMainTask(u32,u32,u32);
 extern int GFL_USE_SetVBlankHook(int,int);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32,u16);
@@ -396,7 +396,7 @@ extern u32 WIPE_SYS_EndCheck(void);
 extern int APP_ENV_IsWirelessAvailable(void);
 extern signed char MSG_SPEED_GetWait(void);
 extern void GFL_USE_FadeOutBgm(u32);
-extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 extern void MB_UTIL_MSG_SetWindowLayout(void *,int);
 extern void MB_UTIL_MSG_PrintStream(void *,int,int);
 extern void MB_UTIL_MSG_PrintStreamSystemMsg(struct MbMsgWork *p, int a);
@@ -407,7 +407,7 @@ extern void MB_UTIL_MSG_OpenYesNoMenu(void *,int);
 extern void MB_UTIL_MSG_ClearWindow(void *);
 extern void MB_UTIL_MSG_ClearYesNoMenu(struct MbMsgWork *p);
 extern u8 MSGDATA_GetLanguage(void);
-extern u32 BEACON_GetBestScore(void *p);
+extern u32 MISC_GetBestScore(void *p);
 extern void *GFL_USE_GetArcPath(u32);
 extern void FS_InitFile(File *);
 extern int FS_OpenFile(File *,const char *);
@@ -415,7 +415,7 @@ extern int FS_CloseFile(File *);
 extern int FS_SeekFile(void *file, long offset, int origin);
 extern s32 FS_ReadFile(void *file, void *buffer, s32 length);
 extern u32 FS_GetLength(void *file);
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern u32 GAME_DATA_GetBoxManager(const void *p);
@@ -520,9 +520,9 @@ extern void CLACT_SetActorAutoAnim(void *,u32);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void MB_UTIL_MSG_OpenYesNoTaskMenu(struct MbMsgWork *p, int kind);
 extern void MB_UTIL_MSG_CloseTaskMenu(struct MbMsgWork *a);
-extern u8 BEACON_GetRank(void *p);
+extern u8 MISC_GetRank(void *p);
 extern void OS_WaitIrq(int clear, u32 irqFlags);
-extern void BEACON_SetBestScore(void *p, u32 v);
+extern void MISC_SetBestScore(void *p, u32 v);
 void *ZUKAN_SAVE_GetFromGameData(void *);
 u32 RECORD_AddCounter(void *obj, int i, u32 delta);
 void SAVE_EVENT_StoreTodayDate(void *);
@@ -718,8 +718,8 @@ void MB_COMM_SYS_Init(MbCommSysWork *p)
     p->payload = 0;
     MB_COMM_SYS_DrawTitle(p);
     if (!p->standalone) {
-        p->saveState = BEACON_GetBlock(GAME_DATA_GetSaveControl(p->arg->gameData));
-        BEACON_SetRank(p->saveState, 4);
+        p->saveState = MISC_GetBlock(GAME_DATA_GetSaveControl(p->arg->gameData));
+        MISC_SetRank(p->saveState, 4);
     } else {
         p->saveState = 0;
         gMbParentUi.vblankCounter = 0;
@@ -776,13 +776,13 @@ static inline void MbCommSys_LoadPayload(MbCommSysWork *p)
     name = GFL_USE_GetArcPath(142);
     FS_InitFile(&file);
     if (!FS_OpenFile(&file, name))
-        SAVEDATA_PanicFail(d_021F6E08, 0, d_021F6E08);
+        GF_PANIC_Fail(d_021F6E08, 0, d_021F6E08);
     FS_SeekFile(&file, 0, 0);
     p->payloadSize = FS_GetLength(&file);
     p->payload = GFL_HEAP_Alloc(p->heapId, p->payloadSize, 1, d_021F6E0C, 660);
     FS_ReadFile(&file, p->payload, p->payloadSize);
     if (!FS_CloseFile(&file))
-        SAVEDATA_PanicFail(d_021F6E08, 0, d_021F6E08);
+        GF_PANIC_Fail(d_021F6E08, 0, d_021F6E08);
     p->phase = 13;
 }
 
@@ -868,9 +868,9 @@ int MB_COMM_SYS_Main(MbCommSysWork *p)
             p->timeoutFrames = 0;
             MB_COMM_SYS_StartNetSession(p->net);
             if (p->standalone == 0)
-                GFL_NET_RestartWithDefaultTimeout(0, p->heapId);
+                GFL_NET_RefreshWmIconAtTopRight(0, p->heapId);
             else
-                GFL_NET_RestartWithDefaultTimeout(1, p->heapId);
+                GFL_NET_RefreshWmIconAtTopRight(1, p->heapId);
         } else {
             p->phase = 2;
         }
@@ -890,7 +890,7 @@ int MB_COMM_SYS_Main(MbCommSysWork *p)
             p->header.msgSpeed = MSG_SPEED_GetWait();
             p->header.configCode = MSGDATA_GetLanguage();
             if (p->standalone == 0)
-                p->header.savedCount = BEACON_GetBestScore(p->saveState);
+                p->header.savedCount = MISC_GetBestScore(p->saveState);
             if (MB_COMM_SYS_SendHeader(p->net, &p->header) == 1) {
                 if (p->standalone == 0)
                     p->phase = 12;
@@ -1557,7 +1557,7 @@ void MB_COMM_SYS_MainRecruit(MbCommSysWork *p)
             answer = MB_UTIL_MSG_ProcessYesNoMenu(p->msg);
         if (answer == 1) {
             if (MB_PARENT_SYS_GetState() != 2)
-                SAVEDATA_PanicFail(d_021F6E08, 0, d_021F6E08);
+                GF_PANIC_Fail(d_021F6E08, 0, d_021F6E08);
             MB_COMM_SYS_UpdateSaveState(p, 4);
             MB_PARENT_SYS_Cancel();
             p->recruitPhase = 4;
@@ -1600,7 +1600,7 @@ void MB_COMM_SYS_UpdateSaveState(MbCommSysWork *p, int mode)
     int change;
 
     if (p->standalone == 0) {
-        cur = BEACON_GetRank(p->saveState);
+        cur = MISC_GetRank(p->saveState);
         change = 0;
         switch (mode) {
         case 0:
@@ -1626,7 +1626,7 @@ void MB_COMM_SYS_UpdateSaveState(MbCommSysWork *p, int mode)
             break;
         }
         if (change == 1)
-            BEACON_SetRank(p->saveState, mode);
+            MISC_SetRank(p->saveState, mode);
     }
 }
 
@@ -1666,10 +1666,10 @@ void MB_COMM_SYS_FinishReceive(MbCommSysWork *p)
     MB_UTIL_MSG_SetTimeIconPending(p->msg, 1);
     MB_COMM_SYS_RegisterReceivedMons(p);
     if (p->standalone == 0) {
-        oldCount = (u16)BEACON_GetBestScore(p->saveState);
+        oldCount = (u16)MISC_GetBestScore(p->saveState);
         newCount = MB_COMM_SYS_GetMaxSeen(p->net);
         if (oldCount < newCount) {
-            BEACON_SetBestScore(p->saveState, newCount);
+            MISC_SetBestScore(p->saveState, newCount);
             MB_COMM_SYS_UpdateSaveState(p, 1);
         } else if (received == 0) {
             MB_COMM_SYS_UpdateSaveState(p, 2);
@@ -1709,7 +1709,7 @@ void MB_COMM_SYS_RegisterReceivedMons(MbCommSysWork *p)
         ZUKAN_SAVE_RegisterCaught(dex, mon);
         GFL_HEAP_Free(mon);
         if (added != 1)
-            SAVEDATA_PanicFail(d_021F6E08, 0, d_021F6E08);
+            GF_PANIC_Fail(d_021F6E08, 0, d_021F6E08);
     }
 }
 

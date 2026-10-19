@@ -13,7 +13,7 @@
  * ahead of the shift while retaining separate constant-one registers.
  * symbols:
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
- *   GAME_DATA_GetExitMode 0x02012B58 thumb
+ *   GAME_DATA_GetOwnNetId 0x02012B58 thumb
  *   INTRUDE_SUBDISP_UpdateTownState 0x0217F008 thumb ov018
  */
 #include "../include/Obj00399.h"
@@ -22,7 +22,7 @@ typedef struct { u8 a, b, c, d; int e, f; } State;
 struct BigObj;
 struct Ctx;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
-extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+extern u8 GAME_DATA_GetOwnNetId(const struct BigObj *p);
 extern void INTRUDE_SUBDISP_UpdateTownState(char *, char *);
 void INTRUDE_SUBDISP_InitTownState(char *p, char *q)
 {
@@ -31,7 +31,7 @@ void INTRUDE_SUBDISP_InitTownState(char *p, char *q)
     s = (State *)(p + 0xd8);
     h = GAMESYSTEM_GetGameData(((struct Obj00399 *)p)->f0);
     if (q == 0) {
-        s->a = GAME_DATA_GetExitMode(h);
+        s->a = GAME_DATA_GetOwnNetId(h);
         s->b = 1 << s->a;
         s->c = 1;
         s->d = 0;

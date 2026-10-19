@@ -1,5 +1,5 @@
 /*
- * function: TR_AI_CompareTargetSick11
+ * function: TR_AI_CompareTargetTaunted
  * address:  0x02189640
  * packet:   pkt_ov096_02189640
  * region:   ov096
@@ -28,7 +28,7 @@ struct Unk021D62A8;
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern int TR_AI_Compare(u8 *a, int op, int x, int y, int z);
 
-int TR_AI_CompareTargetSick11(struct Cursor *a, int b, int c) {
+int TR_AI_CompareTargetTaunted(struct Cursor *a, int b, int c) {
     int r;
     int t;
     r = VM_GetU32(a);

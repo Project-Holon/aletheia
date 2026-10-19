@@ -105,8 +105,8 @@
  *   PRINTSYS_PrintQue 0x0201C6FC thumb
  *   BMP_WIN_GetWidth 0x02045738 arm
  *   BMP_WIN_GetHeight 0x02045740 arm
- *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
- *   GF_FONT_CountLines 0x0201D42C thumb
+ *   PRINTSYS_MeasureWidestLine 0x0201D304 thumb
+ *   PRINTSYS_CountLines 0x0201D42C thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   WORDSET_SetSlotMyStatus 0x0201F02C thumb
  *   MSGDATA_AllocString 0x02045EC0 arm
@@ -318,8 +318,8 @@ extern void MSGDATA_ReadString(void *messages, u32 index, void *dest);
 extern void PRINTSYS_PrintQue(void *queue, void *bitmap, u32 x, u32 y, void *string, void *font);
 extern u8 BMP_WIN_GetWidth(void *window);
 extern u8 BMP_WIN_GetHeight(void *window);
-extern u32 GF_FONT_MeasureWidestLine(void *string, void *font, u32 b);
-extern u32 GF_FONT_CountLines(void *string, void *font);
+extern u32 PRINTSYS_MeasureWidestLine(void *string, void *font, u32 b);
+extern u32 PRINTSYS_CountLines(void *string, void *font);
 extern void PRINTSYS_PrintQueColor(void *queue, void *bitmap, u32 x, u32 y, void *string, void *font, u16 color);
 extern void WORDSET_SetSlotMyStatus(void *wordSet, u32 i, void *a);
 extern void *MSGDATA_AllocString(void *messages, u32 index);
@@ -700,7 +700,7 @@ void IRC_RHYTHM_PrintMessage(IrcTextWindow *win,IrcTextSystem *text,int msgId,in
 
 void IRC_RHYTHM_PrintCenteredMessage(IrcTextWindow *win,IrcTextSystem *text,int msgId) { IRC_RHYTHM_PrintCenteredMessageColor(win,text,msgId,0x3dc4); }
 
-void IRC_RHYTHM_PrintCenteredMessageColor(IrcTextWindow *win,IrcTextSystem *text,int msgId,u16 color) { void *messages; void *printQueue; void *font; u16 x; u16 y; messages=IRC_RHYTHM_GetMessages(text); printQueue=IRC_RHYTHM_GetPrintQueue(text); font=IRC_RHYTHM_GetFont(text); BMP_Clear(BMP_WIN_GetBmp(win->window),win->clearColor); MSGDATA_ReadString(messages,msgId,win->buffer); x=BMP_WIN_GetWidth(win->window)*4; y=BMP_WIN_GetHeight(win->window)*4; x-=(u16)(GF_FONT_MeasureWidestLine(win->buffer,font,0)/2); y-=(u16)(GF_FONT_CountLines(win->buffer,font)/2); PRINTSYS_PrintQueColor(printQueue,BMP_WIN_GetBmp(win->printTarget),(s16)x,(s16)y,win->buffer,font,color); win->isPrinting=1; }
+void IRC_RHYTHM_PrintCenteredMessageColor(IrcTextWindow *win,IrcTextSystem *text,int msgId,u16 color) { void *messages; void *printQueue; void *font; u16 x; u16 y; messages=IRC_RHYTHM_GetMessages(text); printQueue=IRC_RHYTHM_GetPrintQueue(text); font=IRC_RHYTHM_GetFont(text); BMP_Clear(BMP_WIN_GetBmp(win->window),win->clearColor); MSGDATA_ReadString(messages,msgId,win->buffer); x=BMP_WIN_GetWidth(win->window)*4; y=BMP_WIN_GetHeight(win->window)*4; x-=(u16)(PRINTSYS_MeasureWidestLine(win->buffer,font,0)/2); y-=(u16)(PRINTSYS_CountLines(win->buffer,font)/2); PRINTSYS_PrintQueColor(printQueue,BMP_WIN_GetBmp(win->printTarget),(s16)x,(s16)y,win->buffer,font,color); win->isPrinting=1; }
 
 void IRC_RHYTHM_PrintMessageWithName(IrcTextWindow *win, IrcTextSystem *text, int msgId, IrcCompatibleProfile *profile, s16 x, s16 y, u16 unused) { void *wordSet; void *messages; void *string; void *printQueue; void *font; BMP_Clear(BMP_WIN_GetBmp(win->window),win->clearColor); wordSet=IRC_RHYTHM_GetWordSet(text); messages=IRC_RHYTHM_GetMessages(text); WORDSET_SetSlotMyStatus(wordSet,0,profile->myStatus); string=MSGDATA_AllocString(messages,msgId); WORDSET_CopyTaggedText(wordSet,win->buffer,string); STRBUF_Delete(string); printQueue=IRC_RHYTHM_GetPrintQueue(text); font=IRC_RHYTHM_GetFont(text); PRINTSYS_PrintQue(printQueue,BMP_WIN_GetBmp(win->printTarget),x,y,win->buffer,font); win->isPrinting=1; }
 

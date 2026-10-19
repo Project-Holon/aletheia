@@ -22,7 +22,7 @@
  *   FIELD_EVENT_CHECK_UpdateWalkFriendship  0x0218AB9C  thumb
  *   FIELD_EVENT_CHECK_CheckZoneStepMessage  0x0218AC08  thumb
  *   FIELD_EVENT_CHECK_CheckEggHatch  0x0218AB50  thumb
- *   FIELD_EVENT_CHECK_CheckSaveFlagMessage  0x0218AC4C  thumb
+ *   FIELD_EVENT_CHECK_CheckMovePokemonCooldown  0x0218AC4C  thumb
  * Addresses are Black-image addresses.
  */
 
@@ -57,7 +57,7 @@ extern int FIELD_EVENT_CHECK_CheckStepEncount(u8 *pos, void *msg, void *sys);
 extern void FIELD_EVENT_CHECK_UpdateWalkFriendship(void *sys, u8 *pos);
 extern int FIELD_EVENT_CHECK_CheckZoneStepMessage(void *msg, u8 *pos, u16 id);
 extern int FIELD_EVENT_CHECK_CheckEggHatch(void *p, u8 *pos, void *msg, void *sys);
-extern int FIELD_EVENT_CHECK_CheckSaveFlagMessage(u8 *pos, void *msg, void *sys);
+extern int FIELD_EVENT_CHECK_CheckMovePokemonCooldown(u8 *pos, void *msg, void *sys);
 
 int FIELD_EVENT_CHECK_CheckStepEvents(struct Ctx9B0 *p, u8 *pos)
 {
@@ -82,7 +82,7 @@ int FIELD_EVENT_CHECK_CheckStepEvents(struct Ctx9B0 *p, u8 *pos)
     r = FIELD_EVENT_CHECK_CheckEggHatch(p, pos, msg, sys);
     if (r != 0)
         return r;
-    r = FIELD_EVENT_CHECK_CheckSaveFlagMessage(pos, msg, sys);
+    r = FIELD_EVENT_CHECK_CheckMovePokemonCooldown(pos, msg, sys);
     if (r == 0)
         return 0;
     return r;

@@ -1,7 +1,7 @@
 /*
  * file:     battle_rec.c
  * unit:     yes
- * function: BATTLE_REC_Create, BATTLE_REC_AllocWork, BATTLE_REC_FreeWork, BATTLE_REC_Delete, BATTLE_REC_GetWorkSize, BATTLE_REC_Clear, BATTLE_REC_IsDataExist, BATTLE_REC_ClearWork, BATTLE_REC_DecodeWork, BATTLE_REC_EncodeWork, BATTLE_REC_LoadToWork, BATTLE_REC_Load, BATTLE_REC_LoadAlloc, BATTLE_REC_CheckSaved, BATTLE_REC_SaveSeq, BATTLE_REC_BeginSave, BATTLE_REC_GetModeLayout, BATTLE_REC_MakeHeader, BATTLE_REC_IsMagicBroken, BATTLE_REC_IsValid, BATTLE_REC_Decode, BATTLE_REC_Encode, BATTLE_REC_GetWork, BATTLE_REC_GetBody, BATTLE_REC_GetHeader, BATTLE_REC_GetHeaderOf, BATTLE_REC_SetData, BATTLE_REC_GetHeaderParam, BATTLE_REC_IsVersionSupported, BATTLE_REC_SetBodyCrc, BATTLE_REC_LoadToolOverlay, BATTLE_REC_UnloadToolOverlay
+ * function: BATTLE_REC_Create, BATTLE_REC_AllocWork, BATTLE_REC_FreeWork, BATTLE_REC_Delete, BATTLE_REC_GetWorkSize, BATTLE_REC_Clear, BATTLE_REC_IsDataExist, BATTLE_REC_ClearWork, BATTLE_REC_DecodeWork, BATTLE_REC_EncodeWork, BATTLE_REC_LoadToWork, BATTLE_REC_Load, BATTLE_REC_LoadAlloc, BATTLE_REC_VerifyAndCloseSave, BATTLE_REC_SaveSeq, BATTLE_REC_BeginSave, BATTLE_REC_GetModeLayout, BATTLE_REC_MakeHeader, BATTLE_REC_IsMagicBroken, BATTLE_REC_IsValid, BATTLE_REC_Decode, BATTLE_REC_Encode, BATTLE_REC_GetWork, BATTLE_REC_GetBody, BATTLE_REC_GetHeader, BATTLE_REC_GetHeaderOf, BATTLE_REC_SetData, BATTLE_REC_GetHeaderParam, BATTLE_REC_IsVersionSupported, BATTLE_REC_SetBodyCrc, BATTLE_REC_LoadToolOverlay, BATTLE_REC_UnloadToolOverlay
  * address:  0x0200B3DC
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -116,7 +116,7 @@ u32 BATTLE_REC_Load(struct SaveControl *save, u16 heap, u32 *result, u32 id);
 
 struct BattleRecSave *BATTLE_REC_LoadAlloc(struct SaveControl *save, u32 heap, u32 *result, u32 id);
 
-u32 BATTLE_REC_CheckSaved(struct SaveControl *save, u32 heap, u32 *result, u32 id);
+u32 BATTLE_REC_VerifyAndCloseSave(struct SaveControl *save, u32 heap, u32 *result, u32 id);
 
 u32 BATTLE_REC_SaveSeq(struct GameData *gameData, struct BattleRecSave *rec, u32 id, u16 *seq, u16 heap);
 
@@ -314,7 +314,7 @@ void BATTLE_REC_EncodeWork(void)
  *
  * This range stops at 0x0200B5CC and src/matched/unit_0200B5CC.c starts
  * there, because BATTLE_REC_IsMagicBroken and BATTLE_REC_IsValid are each called exactly
- * twice in the image, once from BATTLE_REC_LoadToWork and once from BATTLE_REC_CheckSaved;
+ * twice in the image, once from BATTLE_REC_LoadToWork and once from BATTLE_REC_VerifyAndCloseSave;
  * one range holding both pairs has no witness left for either and caps at
  * MATCH with every byte right.  Cut between them, each file is the other's
  * witness.  See
@@ -380,7 +380,7 @@ struct BattleRecSave *BATTLE_REC_LoadAlloc(struct SaveControl *save, u32 heap, u
  * with a `SAVE_CONTROL_DeleteExtraSave` release on every path instead of only on entry.  See
  * src/matched/unit_0200B4E0.c for why the two are separate files. *
  */
-u32 BATTLE_REC_CheckSaved(struct SaveControl *save, u32 heap, u32 *result, u32 id)
+u32 BATTLE_REC_VerifyAndCloseSave(struct SaveControl *save, u32 heap, u32 *result, u32 id)
 {
     struct BattleRecSave *rec;
     struct BattleRecBody *body;
@@ -436,7 +436,7 @@ u32 BATTLE_REC_CheckSaved(struct SaveControl *save, u32 heap, u32 *result, u32 i
  * wrong anyway: the two belong to different original files.
  *
  * alias: inside "battle_rec.c"; the two steps of the record-save state machine
- * that BATTLE_REC_LoadToWork and BATTLE_REC_CheckSaved read back.
+ * that BATTLE_REC_LoadToWork and BATTLE_REC_VerifyAndCloseSave read back.
  *
  * Three things cost time here.
  *

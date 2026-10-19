@@ -1,5 +1,5 @@
 /*
- * function: MCSS_SetWorkFlag
+ * function: MCSS_SetMepachiDrawLast
  * address:  0x02016394
  * packet:   pkt_02016394
  * region:   arm9
@@ -22,7 +22,7 @@ typedef struct {
     unsigned int hi : 1;
 } S;
 
-void MCSS_SetWorkFlag(S *s, int f)
+void MCSS_SetMepachiDrawLast(S *s, int f)
 {
     s->f = f;
 }

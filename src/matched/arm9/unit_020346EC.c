@@ -1,5 +1,5 @@
 /*
- * function: SAVEDATA_SetPanicHandlers
+ * function: GF_PANIC_SetHandlers
  * address:  0x020346EC
  * packet:   pkt_020345F8
  * region:   arm9
@@ -21,7 +21,7 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/unit_020346EC.c \
- *       --func SAVEDATA_SetPanicHandlers --addr 0x020346EC --cc 1.1p1 --arm
+ *       --func GF_PANIC_SetHandlers --addr 0x020346EC --cc 1.1p1 --arm
  */
 
 typedef unsigned int u32;
@@ -34,7 +34,7 @@ struct Sink {
 
 extern struct Sink g_Sink;
 
-void SAVEDATA_SetPanicHandlers(u32 a, u32 b, u32 c)
+void GF_PANIC_SetHandlers(u32 a, u32 b, u32 c)
 {
     g_Sink.unk8 = a;
     g_Sink.unk4 = b;

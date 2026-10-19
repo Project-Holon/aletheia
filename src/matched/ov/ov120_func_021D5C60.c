@@ -20,7 +20,7 @@
  *   GFL_NET_COMMAND_AddCommandTable 0x0203A574 arm
  *   d_021D88EC 0x021D88EC data a4
  *   func_0200F7E8 0x0200F7E8 thumb
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   GTSNEGO_DISP_SetStateCallback 0x021D4244 thumb ov120
  *   GTSNEGO_DISP_ShowPartySelect 0x021D588C thumb ov120
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb  arm9
@@ -55,7 +55,7 @@ extern void GFL_NET_COMMAND_AddCommandTable(u32, u32, u32, u32);
 extern const u32 d_021D88EC[];
 extern void WIPE_SYS_Start(void *, u32, u32, u32, u32, u32, u32);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32, u32);
-extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32, u32);
 extern void func_0200F7E8(u32 value);
 extern void GTSNEGO_DISP_SetStateCallback(int *p, int v, int a2);
 extern void GTSNEGO_DISP_ShowPartySelect(u8 *);
@@ -86,7 +86,7 @@ int GTSNEGO_DISP_Create(void *a, int unused, u8 *q)
         GFL_NET_COMMAND_AddCommandTable(0x2200, (u32)d_021D88EC, 3, (u32)p);
     WIPE_SYS_Start(0, 1, 1, 0, 6, 1, ((struct Obj01401 *)p)->fC);
     GFL_USE_CancelChangeAndPlayBgm(0x486, 0xffff);
-    GFL_NET_RestartWithDefaultTimeout(1, ((struct Obj01401 *)p)->fC);
+    GFL_NET_RefreshWmIconAtTopRight(1, ((struct Obj01401 *)p)->fC);
     func_0200F7E8(1);
     GTSNEGO_DISP_SetStateCallback((int *)p, (int)GTSNEGO_DISP_ShowPartySelect, 0x96a);
     return 1;

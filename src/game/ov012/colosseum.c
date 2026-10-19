@@ -26,7 +26,7 @@
  *   OS_GetMacAddress  0x02087C6C  arm
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   COLOSSEUM_Delete  0x0217505C  thumb  ov012
- *   SAVEDATA_PanicFail  0x02034714  arm
+ *   GF_PANIC_Fail  0x02034714  arm
  *   GFL_NET_HANDLE_GetCurrentHandle 0x020399A8 arm
  *   GFL_NET_SendToHandle 0x0203D3A8 arm
  *   GFL_NET_GetHandleNetID 0x0203D1A4 arm
@@ -145,7 +145,7 @@ typedef struct ColosseumBattleInfo {
     void *trainerRecord;                                /* 0x54 */
 } ColosseumBattleInfo;
 
-extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *msg);
+extern void GF_PANIC_Fail(const char *file, u32 line, const char *msg);
 
 extern void MI_CpuCopy8(void *src, void *dst, u32 size);
 
@@ -267,7 +267,7 @@ extern char gColosseumAllocFile[];
 
 u8 *COLOSSEUM_GetRecvBuffer(int netId, u8 *buffer, int size)
 {
-    if (size > COLOSSEUM_RECV_BUFFER_SIZE) SAVEDATA_PanicFail(gColosseumAssertText1, 0, gColosseumAssertText1);
+    if (size > COLOSSEUM_RECV_BUFFER_SIZE) GF_PANIC_Fail(gColosseumAssertText1, 0, gColosseumAssertText1);
     return buffer + 4 + (netId << 11);
 }
 
@@ -666,7 +666,7 @@ void COLOSSEUM_SetupBattleInfo(ColosseumWork *work, struct GameSystem *gameSyste
         count++;
     }
     if (count != 2 && count != 4) {
-        SAVEDATA_PanicFail(gColosseumAssertText2, 0, gColosseumAssertText2);
+        GF_PANIC_Fail(gColosseumAssertText2, 0, gColosseumAssertText2);
     }
     selfPosition = work->battlePosition[GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle())];
     for (i = 0; i < count; i++) {
@@ -680,7 +680,7 @@ void COLOSSEUM_SetupBattleInfo(ColosseumWork *work, struct GameSystem *gameSyste
         }
         slot = base + (position >> 1);
         if (slot >= count) {
-            SAVEDATA_PanicFail(gColosseumAssertText2, 0, gColosseumAssertText2);
+            GF_PANIC_Fail(gColosseumAssertText2, 0, gColosseumAssertText2);
         }
         COLOSSEUM_SetupBattleMember(work, &out->member[slot], (u8)i, heapId);
     }

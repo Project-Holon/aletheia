@@ -1,5 +1,5 @@
 /*
- * function: WIFIBATTLEMATCH_NET_CompStepJ
+ * function: WIFIBATTLEMATCH_NET_CompStepConfirmQuit
  * address: 0x021D8E30
  * packet: pkt_ov175_021D8E30
  * region: ov175
@@ -16,8 +16,8 @@
  *   WIFIBATTLEMATCH_NET_SetupCompChoiceMenu 0x021D98E4 thumb ov175
  *   WIFIBATTLEMATCH_NET_PollCompChoiceMenu 0x021D9A08 thumb ov175
  *   WIFIBATTLEMATCH_NET_DeleteCompChoiceMenu 0x021D99F4 thumb ov175
- *   WIFIBATTLEMATCH_NET_CompStepL 0x021D8FA8 thumb ov175
- *   WIFIBATTLEMATCH_NET_CompStepI 0x021D8CF0 thumb ov175
+ *   WIFIBATTLEMATCH_NET_CompStepCheckPeriodThenSaveQuit 0x021D8FA8 thumb ov175
+ *   WIFIBATTLEMATCH_NET_CompStepAskRetry 0x021D8CF0 thumb ov175
  */
 #include "../include/Obj00013.h"
 typedef unsigned long u32;
@@ -29,9 +29,9 @@ extern void WIFIBATTLEMATCH_UTIL_CommitRequest(u32);
 extern void WIFIBATTLEMATCH_NET_SetupCompChoiceMenu(u32 *p, int mode);
 extern int WIFIBATTLEMATCH_NET_PollCompChoiceMenu(char *);
 extern void WIFIBATTLEMATCH_NET_DeleteCompChoiceMenu(char *);
-extern void WIFIBATTLEMATCH_NET_CompStepL(u32 sys, int *state, char *ctx);
-extern void WIFIBATTLEMATCH_NET_CompStepI(u32 sys, int *state, char *p);
-void WIFIBATTLEMATCH_NET_CompStepJ(u32 sys, int *state, char *ctx)
+extern void WIFIBATTLEMATCH_NET_CompStepCheckPeriodThenSaveQuit(u32 sys, int *state, char *ctx);
+extern void WIFIBATTLEMATCH_NET_CompStepAskRetry(u32 sys, int *state, char *p);
+void WIFIBATTLEMATCH_NET_CompStepConfirmQuit(u32 sys, int *state, char *ctx)
 {
     int result;
     switch (*state) {
@@ -49,8 +49,8 @@ void WIFIBATTLEMATCH_NET_CompStepJ(u32 sys, int *state, char *ctx)
         if (result != -1) {
             WIFIBATTLEMATCH_NET_DeleteCompChoiceMenu(ctx);
             switch (result) {
-            case 0: WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_CompStepL); break;
-            case 1: WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_CompStepI); break;
+            case 0: WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_CompStepCheckPeriodThenSaveQuit); break;
+            case 1: WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_CompStepAskRetry); break;
             }
         }
         break;

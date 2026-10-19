@@ -15,7 +15,7 @@
  *   CLACT_SetActorAutoAnim  0x0204B92C  arm
  *   CLACT_SetActorAnimSeq  0x0204B878  arm
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  */
 
 typedef signed char s8;
@@ -46,7 +46,7 @@ extern struct Obj *CLACT_CreateActor(void *res, unsigned int a, unsigned int b, 
 extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 
 void WORLDTRADE_LIST_CreateActors(Obj *p)
 {
@@ -59,5 +59,5 @@ void WORLDTRADE_LIST_CreateActors(Obj *p)
     CLACT_SetActorAutoAnim(p->obj, 1);
     CLACT_SetActorAnimSeq(p->obj, 0x24);
     CLACT_SetActorDrawEnable(p->obj, 1);
-    GFL_NET_RestartWithDefaultTimeout(0, 0x48);
+    GFL_NET_RefreshWmIconAtTopRight(0, 0x48);
 }

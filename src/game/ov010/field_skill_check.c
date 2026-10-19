@@ -1,7 +1,7 @@
 /*
  * file:     field_skill_check.c
  * unit:     yes
- * function: FIELD_SKILL_CHECK_FillUseFlags, FIELD_SKILL_CHECK_CallHandler, FIELD_LINK_EVENT_Create, FIELD_SKILL_CHECK_Bicycle, FIELD_SKILL_CHECK_WeatherZone, FIELD_SKILL_CHECK_NormalFieldZone, FIELD_SKILL_CHECK_FrontTile, FIELD_SKILL_CHECK_NormalFieldZoneNotZone34, FIELD_LINK_EVENT_EnterEventMain, FIELD_LINK_EVENT_CreateEnterEvent, FIELD_LINK_EVENT_AddObject, FIELD_LINK_EVENT_ToggleSubscreenEventMain, FIELD_LINK_EVENT_CreateToggleSubscreenEvent
+ * function: FIELD_SKILL_CHECK_FillUseFlags, FIELD_SKILL_CHECK_CallHandler, FIELD_LINK_EVENT_Create, FIELD_SKILL_CHECK_Bicycle, FIELD_SKILL_CHECK_WeatherZone, FIELD_SKILL_CHECK_NormalFieldZone, FIELD_SKILL_CHECK_FrontTile, FIELD_SKILL_CHECK_NormalFieldZoneNotZone34, FIELD_LINK_EVENT_EnterEventMain, FIELD_LINK_EVENT_CreateEnterEvent, FIELD_LINK_EVENT_CreateIntrudeWarpEvent, FIELD_LINK_EVENT_ToggleSubscreenEventMain, FIELD_LINK_EVENT_CreateToggleSubscreenEvent
  * address:  0x02164480
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -187,7 +187,7 @@ int FIELD_LINK_EVENT_EnterEventMain(struct GameEvent *event, int *seq, LinkEnter
 
 struct GameEvent *FIELD_LINK_EVENT_CreateEnterEvent(struct FieldMap *fieldMap, struct GameSystem *gameSystem);
 
-void FIELD_LINK_EVENT_AddObject(struct FieldMap *fieldMap, struct GameSystem *gameSystem);
+void FIELD_LINK_EVENT_CreateIntrudeWarpEvent(struct FieldMap *fieldMap, struct GameSystem *gameSystem);
 
 int FIELD_LINK_EVENT_ToggleSubscreenEventMain(struct GameEvent *event, u32 *seq, SubscreenToggleWork *work);
 
@@ -329,7 +329,7 @@ struct GameEvent *FIELD_LINK_EVENT_CreateEnterEvent(struct FieldMap *fieldMap, s
  * Field link entry 1: adds the object 279 of overlay 20 at a fixed
  * position (2-byte zero padding follows at 0x0216469E).
  */
-void FIELD_LINK_EVENT_AddObject(struct FieldMap *fieldMap, struct GameSystem *gameSystem)
+void FIELD_LINK_EVENT_CreateIntrudeWarpEvent(struct FieldMap *fieldMap, struct GameSystem *gameSystem)
 {
     struct {
         int x;

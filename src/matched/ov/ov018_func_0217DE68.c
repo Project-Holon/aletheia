@@ -11,7 +11,7 @@
  * symbols:
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   INTRUDE_SUBDISP_IsAlone  0x0217F284  thumb  ov018
- *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_SetActorPaletteOffset  0x0204B6F4  arm
@@ -52,7 +52,7 @@ struct Ctx;
 struct Obj;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern int INTRUDE_SUBDISP_IsAlone(u8 *p);
-extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+extern u8 GAME_DATA_GetOwnNetId(const struct BigObj *p);
 extern int GAME_DATA_GetIntrudeCount(const struct BigObj *p);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
@@ -73,7 +73,7 @@ void INTRUDE_SUBDISP_UpdateTownActors(Work *p)
             CLACT_SetActorDrawEnable(p->f5c[i], 0);
         }
         CLACT_SetActorDrawEnable(p->f7c, 0);
-    } else if (p->fd8 == GAME_DATA_GetExitMode(sys) || GAME_DATA_GetIntrudeCount(sys) == 0) {
+    } else if (p->fd8 == GAME_DATA_GetOwnNetId(sys) || GAME_DATA_GetIntrudeCount(sys) == 0) {
         for (i = 0; i <= 7; i++) {
             CLACT_SetActorDrawEnable(p->f5c[i], 0);
         }

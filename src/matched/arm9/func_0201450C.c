@@ -24,7 +24,7 @@
  *
  * symbols:
  *   FIELDMAP_RequestClose  0x02188BD8  thumb  ov021
- *   SCRCMD_NETWORK_UnloadOv020  0x0215FA44  thumb  ov010
+ *   EVENT_WIFI_PROC_UnloadOv020  0x0215FA44  thumb  ov010
  *   GAMESYSTEM_GetProcStatus  0x020120F0  thumb
  *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
  *
@@ -52,7 +52,7 @@ typedef unsigned char  u8;
 struct Ctx;
 extern void FIELDMAP_RequestClose(u8 *obj);
 extern u32 GAMESYSTEM_GetProcStatus(const struct Ctx *p);
-extern void SCRCMD_NETWORK_UnloadOv020(void);
+extern void EVENT_WIFI_PROC_UnloadOv020(void);
 
 int FIELD_STATUS_FieldCloseNoSoundWaitEvent(int a0, int *a1, int *a2)
 {
@@ -68,7 +68,7 @@ int FIELD_STATUS_FieldCloseNoSoundWaitEvent(int a0, int *a1, int *a2)
     case 1:
         if (GAMESYSTEM_GetProcStatus((const struct Ctx *)v7) == 0) {
             if (a2[3] != 0) {
-                SCRCMD_NETWORK_UnloadOv020();
+                EVENT_WIFI_PROC_UnloadOv020();
             }
             return 1;
         }

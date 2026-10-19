@@ -63,8 +63,8 @@
  *   FLDMMDL_SetPos 0x0216D89C thumb ov010
  *   GFL_USE_GetSeSlot 0x02006148 thumb
  *   GFL_USE_StopSeSlot 0x020061F8 thumb
- *   FIELD_PLAYER_GetNogridLocation 0x021A36B0 thumb ov021
- *   FIELD_PLAYER_ClearNogridState 0x021A36D4 thumb ov021
+ *   FIELD_PLAYER_SetNogridRailLocation 0x021A36B0 thumb ov021
+ *   FIELD_PLAYER_GetNogridRailPos 0x021A36D4 thumb ov021
  *   FIELD_NOGRID_MAPPER_SetActive 0x021BB260 thumb ov021
  *   FIELD_NOGRID_MAPPER_UpdateCameraForced 0x021BB388 thumb ov021
  *   FLDMMDL_RAIL_SetLocation 0x0219E2C0 thumb ov021
@@ -132,8 +132,8 @@ extern void FIELD_PLAYER_SetPos(struct FieldPlayer *player, VecFx32 *pos);
 extern void FLDMMDL_SetPos(struct Mmdl *mmdl, VecFx32 *pos);
 extern int GFL_USE_GetSeSlot(u32 seId);
 extern void GFL_USE_StopSeSlot(int seSlot);
-extern void FIELD_PLAYER_GetNogridLocation(struct FieldPlayer *player, RailLocation *outLocation);
-extern void FIELD_PLAYER_ClearNogridState(struct FieldPlayer *player, VecFx32 *outPos);
+extern void FIELD_PLAYER_SetNogridRailLocation(struct FieldPlayer *player, RailLocation *outLocation);
+extern void FIELD_PLAYER_GetNogridRailPos(struct FieldPlayer *player, VecFx32 *outPos);
 extern void FIELD_NOGRID_MAPPER_SetActive(struct FieldNogridMapper *mapper, int active);
 extern int FIELD_NOGRID_MAPPER_UpdateCameraForced(struct FieldNogridMapper *mapper);
 extern void FLDMMDL_RAIL_SetLocation(struct Mmdl *mmdl, RailLocation *location);
@@ -315,8 +315,8 @@ void RAIL_SLIPDOWN_TaskMain(void *tcb, RailSlipdown *slipdown)
     case SLIPDOWN_STATE_FINISH:
         GFL_USE_StopSeSlot(GFL_USE_GetSeSlot(0x6ed));
         if (slipdown->player != 0) {
-            FIELD_PLAYER_GetNogridLocation(slipdown->player, &slipdown->landing);
-            FIELD_PLAYER_ClearNogridState(slipdown->player, &finalPos);
+            FIELD_PLAYER_SetNogridRailLocation(slipdown->player, &slipdown->landing);
+            FIELD_PLAYER_GetNogridRailPos(slipdown->player, &finalPos);
             FIELD_PLAYER_SetPos(slipdown->player, &finalPos);
             FIELD_NOGRID_MAPPER_SetActive(slipdown->nogridMapper, 1);
             FIELD_NOGRID_MAPPER_UpdateCameraForced(slipdown->nogridMapper);

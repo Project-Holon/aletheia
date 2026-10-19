@@ -1,5 +1,8 @@
 # Write the consumer in each arm: more join shapes
 
+summary: When a value merges at a join and a register pair swaps, remove the merge and write its
+consumer (call or store) in each arm. Tail merging rebuilds the shared block.
+
 Seen in wave D6 lane 08 (2026-10-05), ov099. Six drafts that earlier lanes left as
 "allocator walls" closed EXACT with one change each: the value that merges at a join
 was removed, and its consumer (the call or the store) was written in each arm.

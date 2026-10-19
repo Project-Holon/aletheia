@@ -1,5 +1,5 @@
 /*
- * function: WIFIBATTLEMATCH_NET_TaskStepC
+ * function: WIFIBATTLEMATCH_NET_TaskStepRatingCheckPartyOnServer
  * address: 0x021D4730
  * packet: pkt_ov175_021D4730
  * region: ov175
@@ -22,14 +22,14 @@
  *   WIFIBATTLEMATCH_NET_HttpRapProcess 0x021DC77C thumb ov175
  *   WIFIBATTLEMATCH_NET_GetRapPair 0x021DC8A0 thumb ov175
  *   WIFIBATTLEMATCH_NET_TaskCleanupA 0x021D61A4 thumb ov175
- *   WIFIBATTLEMATCH_NET_TaskStepB 0x021D4608 thumb ov175
+ *   WIFIBATTLEMATCH_NET_TaskStepMainMenu 0x021D4608 thumb ov175
  *   WIFIBATTLEMATCH_NET_HandleNetError 0x021D9F04 thumb ov175
  *   WIFIBATTLEMATCH_NET_DeleteBoxAndWait 0x021D63DC thumb ov175
  *   WIFIBATTLEMATCH_NET_SetWaitCallback 0x021D6788 thumb ov175
- *   WIFIBATTLEMATCH_NET_TaskStepQ 0x021D61F0 thumb ov175
+ *   WIFIBATTLEMATCH_NET_TaskStepPostPartyData 0x021D61F0 thumb ov175
  *   WIFIBATTLEMATCH_NET_PollWaitResult 0x021D679C thumb ov175
  *   WIFIBATTLEMATCH_NET_TaskCleanupB 0x021D61CC thumb ov175
- *   WIFIBATTLEMATCH_NET_TaskStepD 0x021D495C thumb ov175
+ *   WIFIBATTLEMATCH_NET_TaskStepRatingFetchGdbRecord 0x021D495C thumb ov175
  */
 typedef unsigned int u32;
 typedef unsigned char u8;
@@ -49,15 +49,15 @@ extern void WIFIBATTLEMATCH_NET_CreateHttpRap(char *, unsigned);
 extern int WIFIBATTLEMATCH_NET_HttpRapProcess(u8 *p);
 extern void WIFIBATTLEMATCH_NET_GetRapPair(char *, void *);
 extern void WIFIBATTLEMATCH_NET_TaskCleanupA(void *obj, int unused, u8 *p);
-extern void WIFIBATTLEMATCH_NET_TaskStepB(u32 sys, int *state, u32 *p);
+extern void WIFIBATTLEMATCH_NET_TaskStepMainMenu(u32 sys, int *state, u32 *p);
 extern int WIFIBATTLEMATCH_NET_HandleNetError(char *, void *, void *);
 extern void WIFIBATTLEMATCH_NET_DeleteBoxAndWait(char *);
 extern void WIFIBATTLEMATCH_NET_SetWaitCallback(char *, void *);
-extern void WIFIBATTLEMATCH_NET_TaskStepQ(u32 sys, int *state, char *p);
+extern void WIFIBATTLEMATCH_NET_TaskStepPostPartyData(u32 sys, int *state, char *p);
 extern u32 WIFIBATTLEMATCH_NET_PollWaitResult(char *);
 extern void WIFIBATTLEMATCH_NET_TaskCleanupB(void *a, u32 **pp, char *p);
-extern void WIFIBATTLEMATCH_NET_TaskStepD(u32 sys, int *state, u32 *p);
-void WIFIBATTLEMATCH_NET_TaskStepC(u32 sys, int *state, u32 *p)
+extern void WIFIBATTLEMATCH_NET_TaskStepRatingFetchGdbRecord(u32 sys, int *state, u32 *p);
+void WIFIBATTLEMATCH_NET_TaskStepRatingCheckPartyOnServer(u32 sys, int *state, u32 *p)
 {
     u32 *ctx = (u32 *)p[16];
     u32 result;
@@ -77,7 +77,7 @@ void WIFIBATTLEMATCH_NET_TaskStepC(u32 sys, int *state, u32 *p)
         case 2:
             switch (WIFIBATTLEMATCH_NET_HandleNetError((char *)p[12], 0, 0)) {
             case 2: WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskCleanupA); break;
-            case 1: WIFIBATTLEMATCH_NET_DeleteBoxAndWait((char *)p); WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepB); break;
+            case 1: WIFIBATTLEMATCH_NET_DeleteBoxAndWait((char *)p); WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepMainMenu); break;
             }
             break;
         }
@@ -85,9 +85,9 @@ void WIFIBATTLEMATCH_NET_TaskStepC(u32 sys, int *state, u32 *p)
     case 5: if (((u8 *)ctx[12])[6]) *state = 9; else *state = 6; break;
     case 6: WIFIBATTLEMATCH_UTIL_PrintMessage((int *)p[9], p[4], 55, 1); *state = 14; WIFIBATTLEMATCH_UTIL_SetRequest(sys, 12); break;
     case 9:
-        WIFIBATTLEMATCH_NET_SetWaitCallback((char *)p, WIFIBATTLEMATCH_NET_TaskStepQ); *state = 10;
+        WIFIBATTLEMATCH_NET_SetWaitCallback((char *)p, WIFIBATTLEMATCH_NET_TaskStepPostPartyData); *state = 10;
         switch (WIFIBATTLEMATCH_NET_HandleNetError((char *)p[12], 0, 0)) {
-        case 1: WIFIBATTLEMATCH_NET_DeleteBoxAndWait((char *)p); WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepB); break;
+        case 1: WIFIBATTLEMATCH_NET_DeleteBoxAndWait((char *)p); WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepMainMenu); break;
         case 2: WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskCleanupA); break;
         }
         break;
@@ -98,14 +98,14 @@ void WIFIBATTLEMATCH_NET_TaskStepC(u32 sys, int *state, u32 *p)
         else if (result == 3) WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskCleanupA);
         if (result != 0xffff) {
             switch (WIFIBATTLEMATCH_NET_HandleNetError((char *)p[12], 0, 0)) {
-            case 1: WIFIBATTLEMATCH_NET_DeleteBoxAndWait((char *)p); WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepB); break;
+            case 1: WIFIBATTLEMATCH_NET_DeleteBoxAndWait((char *)p); WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepMainMenu); break;
             case 2: WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskCleanupA); break;
             }
         }
         break;
     case 11: WIFIBATTLEMATCH_UTIL_PrintMessage((int *)p[9], p[4], 120, 1); *state = 14; WIFIBATTLEMATCH_UTIL_SetRequest(sys, 12); break;
     case 12: WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskCleanupB); break;
-    case 13: WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepD); break;
+    case 13: WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepRatingFetchGdbRecord); break;
     case 14: if (WIFIBATTLEMATCH_UTIL_GetBusy((int *)p[9])) WIFIBATTLEMATCH_UTIL_CommitRequest(sys); break;
     }
 }

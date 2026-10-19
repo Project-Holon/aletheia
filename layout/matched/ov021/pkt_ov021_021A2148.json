@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "WEATHER_TASK_GetCameraState",
+   "name": "WEATHER_TASK_GetCameraSettingId",
    "address": "0x021A2148",
    "kind": "game",
    "region": "ov021",

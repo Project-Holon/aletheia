@@ -18,7 +18,7 @@
  *   GFL_HEAP_Free 0x020307B0 arm
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GF_PANIC_Fail 0x02034714 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   MSGDATA_AllocString 0x02045EC0 arm
  *   STRBUF_Delete 0x02045808 arm
@@ -66,10 +66,10 @@
  *   WORLDTRADE_INPUT_MenuDelete 0x021F99D0 thumb ov135
  *   BMP_WIN_Create 0x020450F0 arm
  *   MIi_CpuClearFast 0x02082AC0 arm
- *   WORLDTRADE_ENTER_ClearListRange 0x021F8990 thumb ov135
+ *   WORLDTRADE_DEPOSIT_ClearListRange 0x021F8990 thumb ov135
  *   WORLDTRADE_INPUT_MenuSetMode  0x021F9968  thumb  ov135
  *   WORLDTRADE_INPUT_MenuUpdate 0x021F99F0 thumb ov135
- *   WORLDTRADE_ENTER_SetListRangeEntry 0x021F89A8 thumb ov135
+ *   WORLDTRADE_DEPOSIT_SetListRangeEntry 0x021F89A8 thumb ov135
  *   POKE_PERSONAL_Create 0x0201ADE4 thumb
  *   POKE_PERSONAL_GetParam 0x0201AE1C thumb
  *   POKE_PERSONAL_Delete 0x0201AE14 thumb
@@ -90,7 +90,7 @@
  *   BG_SYS_FreeTiles  0x02040DA8  arm
  *   WORLDTRADE_SetActorPos  0x021F4FF4  thumb
  *   UI_SetInputMode  0x020355D8  arm
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm  arm9
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm  arm9
  *   WORLDTRADE_ADAPTER_QueueMessagePrint  0x02202B20  thumb
  *   WORLDTRADE_DEPOSIT_FindLevelBracketIndex 0x021F886C thumb ov135
  *   BMP_MENUWORK_LoadCharAndPltt 0x0201F5BC thumb
@@ -128,7 +128,7 @@
  *   GFL_NET_STATE_SetWifiError  0x0203CA04  arm
  *   GFL_NET_STATE_ClearErrorMode  0x0203C968  arm
  *   WORLDTRADE_DEPOSIT_GetLevelBracket 0x021F882C thumb ov135
- *   WORLDTRADE_ENTER_SetCountryFilter 0x021F88B0 thumb ov135
+ *   WORLDTRADE_DEPOSIT_SetCountryFilter 0x021F88B0 thumb ov135
  *   d_02202EAC 0x02202EAC data a4
  *   WORLDTRADE_OpenTaskMenuYesNoDefault  0x021F4BE0  thumb  ov135
  *   d_02203D4A 0x02203D4A data a2
@@ -145,7 +145,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
@@ -218,7 +218,7 @@ extern void WORLDTRADE_INPUT_MenuDelete(u8 *p);
 
 extern void MIi_CpuClearFast(u32 value, void *dst, u32 size);
 
-extern void WORLDTRADE_ENTER_ClearListRange(u8 *p);
+extern void WORLDTRADE_DEPOSIT_ClearListRange(u8 *p);
 
 extern void WORLDTRADE_INPUT_MenuSetMode(u8 *p, int mode);
 
@@ -228,7 +228,7 @@ extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
 
 extern void POKE_PERSONAL_Delete(void *p);
 
-extern void WORLDTRADE_ENTER_SetListRangeEntry(u8 *p, int i, u16 a, u16 b);
+extern void WORLDTRADE_DEPOSIT_SetListRangeEntry(u8 *p, int i, u16 a, u16 b);
 
 extern void WORLDTRADE_AdvanceScreenId(Work *p);
 
@@ -238,7 +238,7 @@ extern void WORLDTRADE_CancelSave(Work *p);
 
 extern void WORLDTRADE_DeleteTimeIcon(Work *p);
 
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 
 extern void BG_SYS_PushTile(u32 layer);
 
@@ -381,7 +381,7 @@ extern int WORLDTRADE_INPUT_MenuUpdate(void *obj);
 
 extern void WORLDTRADE_DEPOSIT_GetLevelBracket(u8 *dst, int i, int kind);
 
-extern void WORLDTRADE_ENTER_SetCountryFilter(Work *p, u32 n);
+extern void WORLDTRADE_DEPOSIT_SetCountryFilter(Work *p, u32 n);
 
 extern void WORLDTRADE_OpenTaskMenuYesNoDefault(u32 a, u32 b, u32 c, u32 d, u8 e);
 
@@ -581,7 +581,7 @@ int WORLDTRADE_SEARCH_Init(Work *p)
     init.bank = p->bank;
     init.names = p->names;
     init.w20 = p->msg_p;
-    init.w24 = p->ctx->dex_u;
+    init.w24 = p->ctx->zukanSave_u;
     init.w28 = p->aux->speciesFlags;
     p->menu = WORLDTRADE_INPUT_MenuCreate(&init, 2, 1);
     WORLDTRADE_SEARCH_DrawFormLabels(p->win_p4, p->win2, p->bank, p->printerBlock);
@@ -732,7 +732,7 @@ void WORLDTRADE_SEARCH_CreateActors(Work *p)
     p->btn[1] = CLACT_CreateActor(p->res, (u32)p->set[0], (u32)p->set[1], (u32)p->set[2], &pos, 0, 0x48);
     CLACT_SetActorAnimSeq(p->btn[1], 0x27);
     CLACT_SetActorDrawEnable(p->btn[1], 0);
-    GFL_NET_RestartWithDefaultTimeout(0, 0x48);
+    GFL_NET_RefreshWmIconAtTopRight(0, 0x48);
 }
 
 void WORLDTRADE_SEARCH_DeleteActors(Work *p) {CLACT_DeleteActor((struct Obj *)(*(struct Obj * *)&p->cursor_p));CLACT_DeleteActor((struct Obj *)(*(struct Obj * *)&p->mark));CLACT_DeleteActor((struct Obj *)(*(struct Obj * *)&p->btn[0]));CLACT_DeleteActor((struct Obj *)(*(struct Obj * *)&p->btn[1]));}
@@ -795,7 +795,7 @@ void WORLDTRADE_SEARCH_CreateStrings(Work *p)
     (*(void **)&p->st) = GFL_HEAP_Alloc(0x48, 0x30, 0, (const char *)g_02203E18, 0x351);
     MIi_CpuClearFast(0, (void *)p->st, 0x30);
     *(u8 * *)&((DepositState *)(*(u8 * *)(void **)&p->st))->speciesFlags = WORLDTRADE_DEPOSIT_CreateSpeciesFlagTable(0x48);
-    WORLDTRADE_ENTER_ClearListRange((u8 *)p + 0xeec);
+    WORLDTRADE_DEPOSIT_ClearListRange((u8 *)p + 0xeec);
 }
 
 void WORLDTRADE_SEARCH_DeleteStrings(Work *p) {GFL_HEAP_Free(((DepositState *)(*(char * *)(void **)&p->st))->speciesFlags);GFL_HEAP_Free((void *)p->st);STRBUF_Delete(*(struct U16Vec * *)&p->str);STRBUF_Delete(*(struct U16Vec * *)&p->titleStr);}
@@ -1168,7 +1168,7 @@ int WORLDTRADE_SEARCH_StatePrintMessage172(Work *p) {WORLDTRADE_SEARCH_PrintMess
 /*
  * Return the current cursor slot of the state block at +0xE00: the +0x28
  * word while the +0x24 flag is clear, else the +0x2C word plus four.
- * A slot of seven or more reports through SAVEDATA_PanicFail (the raw-address
+ * A slot of seven or more reports through GF_PANIC_Fail (the raw-address
  * assert shape; 0x02203E2C is a plain constant, as in WORLDTRADE_ADAPTER_QueueMessagePrint).
  */
 int WORLDTRADE_SEARCH_GetSelectedButton(Work *p)
@@ -1182,7 +1182,7 @@ int WORLDTRADE_SEARCH_GetSelectedButton(Work *p)
         r = s->rightRow + 4;
     }
     if (r >= 7) {
-        SAVEDATA_PanicFail((void *)0x02203E2C, 0, (void *)0x02203E2C);
+        GF_PANIC_Fail((void *)0x02203E2C, 0, (void *)0x02203E2C);
     }
     return r;
 }
@@ -1337,7 +1337,7 @@ int WORLDTRADE_SEARCH_StateNameMenuInput(Work *p)
     case -2:
         WORLDTRADE_SEARCH_SetBlendEffect(0);
         p->state = 0;
-        WORLDTRADE_ENTER_SetListRangeEntry(p->area, p->target->menuScroll + p->target->menuRow, p->target->restoreScroll, p->target->restoreRow);
+        WORLDTRADE_DEPOSIT_SetListRangeEntry(p->area, p->target->menuScroll + p->target->menuRow, p->target->restoreScroll, p->target->restoreRow);
         break;
     case -1:
         break;
@@ -1351,7 +1351,7 @@ int WORLDTRADE_SEARCH_StateNameMenuInput(Work *p)
         v = POKE_PERSONAL_GetParam((const struct Personal *)h, 0x14);
         POKE_PERSONAL_Delete((void *)h);
         p->target->genderEvent = v;
-        WORLDTRADE_ENTER_SetListRangeEntry(p->area, p->target->menuScroll + p->target->menuRow, p->target->restoreScroll, p->target->restoreRow);
+        WORLDTRADE_DEPOSIT_SetListRangeEntry(p->area, p->target->menuScroll + p->target->menuRow, p->target->restoreScroll, p->target->restoreRow);
         if (WORLDTRADE_DEPOSIT_SetGenderFromEvent((u8 *)(&p->sel_h), p->target->genderEvent) != 0) {
             BMP_Clear(BMP_WIN_GetBmp(p->winB), 0);
             WORLDTRADE_DEPOSIT_PrintModeLabelAligned(p->winB, p->bank, p->mode_sb, 1, 0, 0, 0x3C40, p->printerBlock);
@@ -1491,7 +1491,7 @@ int WORLDTRADE_SEARCH_StateConditionMenuInput(Work *p)
         p->state_i = 0;
     } else {
         WORLDTRADE_SEARCH_SetBlendEffect(0);
-        WORLDTRADE_ENTER_SetCountryFilter(p, r);
+        WORLDTRADE_DEPOSIT_SetCountryFilter(p, r);
         p->state_i = 0;
         BMP_Clear(BMP_WIN_GetBmp(p->win2[1]), 0);
         WORLDTRADE_DEPOSIT_PrintMessageLine(p->win2[1], p->msg_p, p->bank, p->countryFilter, 0, 0, 0x3c40, (char *)p + 0xfa0);

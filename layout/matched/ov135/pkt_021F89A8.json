@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "WORLDTRADE_ENTER_SetListRangeEntry",
+   "name": "WORLDTRADE_DEPOSIT_SetListRangeEntry",
    "address": "0x021F89A8",
    "kind": "game",
    "region": "ov135",

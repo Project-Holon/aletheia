@@ -1,5 +1,5 @@
 /*
- * function: WIFIBATTLEMATCH_NET_TaskStepI
+ * function: WIFIBATTLEMATCH_NET_TaskStepRatingConfirmQuit
  * address: 0x021D5634
  * packet: pkt_ov175_021D5634
  * region: ov175
@@ -17,8 +17,8 @@
  *   WIFIBATTLEMATCH_NET_PollChoiceMenu 0x021D65DC thumb ov175
  *   WIFIBATTLEMATCH_NET_DeleteChoiceMenu 0x021D65C8 thumb ov175
  *   WIFIBATTLEMATCH_NET_DisconnectWifi 0x021DA36C thumb ov175
- *   WIFIBATTLEMATCH_NET_TaskStepJ 0x021D56D4 thumb ov175
- *   WIFIBATTLEMATCH_NET_TaskStepH 0x021D5560 thumb ov175
+ *   WIFIBATTLEMATCH_NET_TaskStepRatingSaveAndUploadQuit 0x021D56D4 thumb ov175
+ *   WIFIBATTLEMATCH_NET_TaskStepRatingAskRetry 0x021D5560 thumb ov175
  */
 extern void WIFIBATTLEMATCH_UTIL_SetCallback(int *p, int v);
 extern int WIFIBATTLEMATCH_UTIL_GetBusy(const int *p);
@@ -30,9 +30,9 @@ extern void WIFIBATTLEMATCH_NET_SetupChoiceMenu(u32 *p, int mode);
 extern int WIFIBATTLEMATCH_NET_PollChoiceMenu(char *);
 extern void WIFIBATTLEMATCH_NET_DeleteChoiceMenu(char *);
 extern void WIFIBATTLEMATCH_NET_DisconnectWifi(void *);
-extern void WIFIBATTLEMATCH_NET_TaskStepJ(unsigned sys, int *state, int *p);
-extern void WIFIBATTLEMATCH_NET_TaskStepH(unsigned sys, int *state, int *p);
-void WIFIBATTLEMATCH_NET_TaskStepI(unsigned sys,int *state,int *p)
+extern void WIFIBATTLEMATCH_NET_TaskStepRatingSaveAndUploadQuit(unsigned sys, int *state, int *p);
+extern void WIFIBATTLEMATCH_NET_TaskStepRatingAskRetry(unsigned sys, int *state, int *p);
+void WIFIBATTLEMATCH_NET_TaskStepRatingConfirmQuit(unsigned sys,int *state,int *p)
 {
     int result;
     switch(state[0]) {
@@ -47,8 +47,8 @@ void WIFIBATTLEMATCH_NET_TaskStepI(unsigned sys,int *state,int *p)
         if(result!=-1) {
             WIFIBATTLEMATCH_NET_DeleteChoiceMenu((char *)p);
             switch(result) {
-            case 0: WIFIBATTLEMATCH_NET_DisconnectWifi((void *)p[12]); WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys,(int)WIFIBATTLEMATCH_NET_TaskStepJ); break;
-            case 1: WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys,(int)WIFIBATTLEMATCH_NET_TaskStepH); break;
+            case 0: WIFIBATTLEMATCH_NET_DisconnectWifi((void *)p[12]); WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys,(int)WIFIBATTLEMATCH_NET_TaskStepRatingSaveAndUploadQuit); break;
+            case 1: WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys,(int)WIFIBATTLEMATCH_NET_TaskStepRatingAskRetry); break;
             }
         }
         break;

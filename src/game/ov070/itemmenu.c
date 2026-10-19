@@ -81,7 +81,7 @@
  *   FILE_UTIL_GetMachineIndex  0x02021350  thumb
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   BEACON_AddMoney  0x0200C278  thumb
+ *   MISC_AddMoney  0x0200C278  thumb
  *   MYITEM_SAVEDATA_RemoveItem  0x02007F1C  thumb
  *   MYITEM_SAVEDATA_GetItemQuantity  0x02007FB8  thumb
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
@@ -153,7 +153,7 @@
  *   sBgLayer4Template     0x021BBAC0  data  a4
  *   sBgLayer5Template     0x021BBAE0  data  a4
  *   sBgLayer6Template     0x021BBB00  data  a4
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   ARC_UTIL_UploadPaletteFromHandleWhole  0x02049B68  arm
  *   ARC_UTIL_RegisterObjCharFromHandle  0x02049740  arm
  *   ARC_UTIL_UploadBgPaletteAddFromHandle  0x02049990  arm
@@ -223,8 +223,8 @@
  *   KEY_GetCont  0x0203630C  arm
  *   PRINTSYS_PrintStreamShortWait  0x0201CE5C  thumb
  *   WORDSET_SetSlotFromMsg37  0x0201F14C  thumb
- *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
- *   BEACON_GetMoney 0x0200C274 thumb
+ *   PRINTSYS_MeasureWidestLine  0x0201D304  thumb
+ *   MISC_GetMoney 0x0200C274 thumb
  *   ARC_UTIL_LoadHandleMember  0x0204A380  arm
  *   NNS_G2dGetUnpackedScreenData  0x02062B30  arm
  *   BG_SYS_DrawTile  0x02041090  arm
@@ -242,7 +242,7 @@
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm  arm9
  *   TCBL_Create  0x0203101C  arm  arm9
  *   PROCSYS_AllocProcWork  0x0203159C  arm  arm9
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm  arm9
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm  arm9
  *   BG_SYS_SetVramBanks  0x020433E0  arm  arm9
  *   BG_SYS_SetSubPlaneVisible  0x02043598  arm  arm9
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm  arm9
@@ -485,7 +485,7 @@ extern void WORDSET_SetSlotFromMsgCB(struct WordSet *p, u32 i, u32 v);
 extern u8 FILE_UTIL_GetMachineIndex(u16 id);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern struct MiscSave *GAME_DATA_GetMiscSave(struct GameData *gameData);
-extern u32 BEACON_AddMoney(struct MiscSave *p, u32 v);
+extern u32 MISC_AddMoney(struct MiscSave *p, u32 v);
 extern u32 MYITEM_SAVEDATA_RemoveItem(u8 *base, u16 id, u16 qty, u16 d);
 extern u32 MYITEM_SAVEDATA_GetItemQuantity(u8 *base, u16 id, u16 d);
 extern void CLACT_SetActorDrawEnable(struct Actor *p, u32 v);
@@ -547,7 +547,7 @@ extern void BG_SYS_FreeSlot(int bg);
 extern void BG_SYS_PushTile(u32 layer);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
-extern u8 MYSTATUS_GetOutfitVariant(const struct MyStatus *obj);
+extern u8 MYSTATUS_GetSex(const struct MyStatus *obj);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
 extern void ARC_UTIL_UploadBgPaletteAddFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
@@ -631,8 +631,8 @@ extern void PRINTSYS_PrintStreamReleasePause(struct TextStream *stream);
 extern unsigned int KEY_GetCont(void);
 extern void PRINTSYS_PrintStreamShortWait(struct TextStream *p, s32 v);
 extern void WORDSET_SetSlotFromMsg37(struct WordSet *p, u32 i, u32 v);
-extern u32 GF_FONT_MeasureWidestLine(struct Strbuf *s, u32 a, u32 b);
-extern u32 BEACON_GetMoney(struct MiscSave *);
+extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *s, u32 a, u32 b);
+extern u32 MISC_GetMoney(struct MiscSave *);
 extern void *ARC_UTIL_LoadHandleMember(void *narc, unsigned int fileID, unsigned int decompress, unsigned int heapID);
 extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
 extern void BG_SYS_DrawTile(unsigned int index, unsigned int src, unsigned int dx, unsigned int dy, u8 cw, u8 ch);
@@ -657,7 +657,7 @@ extern struct ButtonTask *BUTTON_MAN_Create();
 extern struct TcblTask *GFL_USE_AddMainTask();
 extern struct Tcbl *TCBL_Create();
 extern struct TaskMenuRes *APP_TASKMENU_RES_Create();
-extern void GFL_NET_RestartWithDefaultTimeout();
+extern void GFL_NET_RefreshWmIconAtTopRight();
 void ITEMMENU_HandleActionMenuChoice(ItemMenuWork *work);
 void ITEMMENU_TaskSelectItem(ItemMenuWork *work);
 void ITEMMENU_TaskBagMain(ItemMenuWork *work);
@@ -2100,7 +2100,7 @@ void ITEMMENU_TaskSellConfirmInput(ItemMenuWork *work)
     case 0:
         sellTotal = ITEMMENU_GetSellTotal(work->selectedItemId, work->listCount, work->heapId);
         ITEMMENU_RemoveSelectedItems(work, work->listCount);
-        BEACON_AddMoney(GAME_DATA_GetMiscSave(work->saveData), sellTotal);
+        MISC_AddMoney(GAME_DATA_GetMiscSave(work->saveData), sellTotal);
         GFL_USE_PlaySeDefaultVolume(0x655);
         ITEMMENU_PrintMoney(work);
         MSGDATA_ReadString(work->msgBank, 0x50, work->tempString);
@@ -2730,7 +2730,7 @@ int ITEMMENU_Init(void *proc, int subState, ItemMenuArgs *args)
     work->touchTask = TCBL_Create(work->heapId, work->heapId, 1, 0);
     ITEMMENU_PrintPocketName(work);
     work->taskMenuState = APP_TASKMENU_RES_Create(3, 9, work->menuTaskArg, work->printSys, work->heapId);
-    GFL_NET_RestartWithDefaultTimeout(1, work->heapId);
+    GFL_NET_RefreshWmIconAtTopRight(1, work->heapId);
     ITEMMENU_SetCursorActive(work, UI_GetInputMode() ? 0 : 1);
     ITEMMENU_ResetDisplayLayers();
     ITEMMENU_SetTask(work, ITEMMENU_TaskStartFadeIn);
@@ -3264,7 +3264,7 @@ void ITEMMENU_ResetDisplayLayers(void)
 void ITEMMENU_LoadBagGraphics(ItemMenuWork *work, int archive)
 {
     int paletteFileId, charFileId, screenFileId, charBase;
-    int gender = MYSTATUS_GetOutfitVariant(work->myStatus);
+    int gender = MYSTATUS_GetSex(work->myStatus);
     if (gender == 0) {
         paletteFileId = 4;
         charFileId = 3;
@@ -3291,7 +3291,7 @@ void ITEMMENU_LoadBagGraphics(ItemMenuWork *work, int archive)
 void ITEMMENU_LoadTabGraphics(ItemMenuWork *work, void *archive)
 {
     int paletteFileId, charFileId, cellFileId, animFileId;
-    int gender = MYSTATUS_GetOutfitVariant(work->myStatus);
+    int gender = MYSTATUS_GetSex(work->myStatus);
     if (gender == 0) {
         paletteFileId = 0x10;
         charFileId = 0xf;
@@ -3366,7 +3366,7 @@ void ITEMMENU_SetupGraphics(ItemMenuWork *work)
     work->keyRepeatPacked = (u32)BMP_MENUWORK_LoadFrameGfx((void *)3, 13, 0, work->heapId);
     archive = ARC_TOOL_CreateHandle(0x58, work->heapId);
     ARC_UTIL_UploadPaletteFromHandleWhole(archive, 8, 4, 0, 0, work->heapId);
-    if (MYSTATUS_GetOutfitVariant(work->myStatus) == 0)
+    if (MYSTATUS_GetSex(work->myStatus) == 0)
         ARC_UTIL_UploadPaletteFromHandle(archive, 8, 4, 0x20, 0, 0x20, work->heapId);
     charBase = ARC_UTIL_RegisterObjCharFromHandle(archive, 6, 4, 0, 0, work->heapId);
     work->bgPaletteA = charBase;
@@ -3745,7 +3745,7 @@ void ITEMMENU_LoadPocketGraphics(ItemMenuWork *work)
         *(int *)(workBytes + i * 4 + 0x614) = (int)BMP_Create(0xc, 2, 0x20, work->heapId);
         *(int *)(workBytes + i * 4 + 0x5F4) =CLACT_RegisterCharacter(archive, 0x14, 0, 0, work->heapId);
     }
-    MYSTATUS_GetOutfitVariant(work->myStatus);
+    MYSTATUS_GetSex(work->myStatus);
     work->barCharRes = CLACT_RegisterPaletteEx(archive, 0x15, 0, 0, 0, 3, work->heapId);
     work->bagAnimRes = CLACT_RegisterCellAnim(archive, 0x13, 0x12, work->heapId);
     ARC_TOOL_DeleteHandle(archive);
@@ -4373,7 +4373,7 @@ void ITEMMENU_PrintPocketCount(ItemMenuWork *work, int itemCount)
     MSGDATA_ReadString(work->msgBank, 0x8B, work->tempString);
     WORDSET_SetSlotFromMsg37(work->wordSet, 0, itemCount);
     WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
-    freeWidth = 0x60 - GF_FONT_MeasureWidestLine(work->messageString, work->menuTaskArg, 0);
+    freeWidth = 0x60 - PRINTSYS_MeasureWidestLine(work->messageString, work->menuTaskArg, 0);
     ITEMMENU_PrintToWindow(work, &work->messageWindows[1], work->messageString, (unsigned short)(freeWidth >> 1), 4, 0x3C40);
     ITEMMENU_FlushWindowAt(&work->messageWindows[1]);
 }
@@ -4390,7 +4390,7 @@ void ITEMMENU_PrintMoney(ItemMenuWork *work)
     ITEMMENU_PrintToWindow(work, &work->listWindows[ITEMMENU_WINDOW_MENU_1], work->tempString, 0, 4, 0x3C40);
     ITEMMENU_FlushWindowAt(&work->listWindows[ITEMMENU_WINDOW_MENU_1]);
     MSGDATA_ReadString(work->msgBank, 0x52, work->tempString);
-    WORDSET_SetSlotNumber(work->wordSet, 0, BEACON_GetMoney(GAME_DATA_GetMiscSave(work->saveData)), 7, 1, 1);
+    WORDSET_SetSlotNumber(work->wordSet, 0, MISC_GetMoney(GAME_DATA_GetMiscSave(work->saveData)), 7, 1, 1);
     WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
     ITEMMENU_PrintToWindow(work, &work->listWindows[ITEMMENU_WINDOW_MENU_2], work->messageString, 0, 4, 0x3C40);
     ITEMMENU_FlushWindowAt(&work->listWindows[ITEMMENU_WINDOW_MENU_2]);

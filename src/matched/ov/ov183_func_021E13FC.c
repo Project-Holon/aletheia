@@ -1,5 +1,5 @@
 /*
- * function: BR_CODEIN_ProfileUpdateActor2
+ * function: BR_CODEIN_ProfileUpdateScrollAnim
  * address: 0x021E13FC
  * packet: pkt_ov183_021E13FC
  * region: ov183
@@ -51,7 +51,7 @@ extern int BR_CODEIN_ProfileFindRecord(const char *p, int a);
 extern void BR_CODEIN_ProfileSetActorPos(char *,int);
 extern void BR_CODEIN_ProfileClear(char *);
 extern void BR_CODEIN_ProfileSetAnimSeq(char *,int);
-int BR_CODEIN_ProfileUpdateActor2(char *p) {
+int BR_CODEIN_ProfileUpdateScrollAnim(char *p) {
     int i,factor,selected;
     char *record;
     Pair scale;

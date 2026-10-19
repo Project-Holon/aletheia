@@ -27,7 +27,7 @@
  *   TCBL_Create 0x0203101C arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  */
 #include "../include/Obj10342.h"
 typedef unsigned char u8;
@@ -56,7 +56,7 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *TCBL_Create(u32, u32, u32, u32);
 extern void BG_SYS_SetMainPlaneVisible(u32, u32);
 extern void BG_SYS_SetSubPlaneVisible(u32, u32);
-extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32, u32);
 #define P(k) (*(void **)(p + (k)))
 void WIFI_BSUBWAY_GRAPHIC_CreateWindow(u8 *p, u32 heap)
 {
@@ -78,5 +78,5 @@ void WIFI_BSUBWAY_GRAPHIC_CreateWindow(u8 *p, u32 heap)
     ((struct Obj10342 *)p)->f0 = 1;
     BG_SYS_SetMainPlaneVisible(16, 1);
     BG_SYS_SetSubPlaneVisible(16, 1);
-    GFL_NET_RestartWithDefaultTimeout(1, heap);
+    GFL_NET_RefreshWmIconAtTopRight(1, heap);
 }

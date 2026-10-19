@@ -14,8 +14,8 @@
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
- *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   GAME_DATA_GetMyStatusPlayer  0x02012950  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   WORDSET_CreateDefault  0x0201EC64  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
@@ -88,8 +88,8 @@ struct BigObj;
 extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, u32 i);
-extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+extern struct Rec44 *GAME_DATA_GetMyStatusPlayer(struct Sub24 *p, u32 i);
+extern u8 GAME_DATA_GetOwnNetId(const struct BigObj *p);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
@@ -172,14 +172,14 @@ int INTRUDE_FIELD_TaskAreaChange(int a0, int *state, Obj *o)
         o->f8 = FIELD_MSGBG_CreateMsgData(t, 0x2D);
         o->fc = FIELD_MSGBG_CreateBottomMsgWin(t, o->f8);
         o->f10 = WORDSET_CreateDefault(4);
-        if (p->slot == GAME_DATA_GetExitMode(ctx)) {
+        if (p->slot == GAME_DATA_GetOwnNetId(ctx)) {
             if (o->f16 == 1)
                 FIELD_MSGBG_MsgWinPrintMsg(o->fc, 0, 0, 0x4F);
             else
                 FIELD_MSGBG_MsgWinPrintMsg(o->fc, 0, 0, 0x4E);
         } else {
             a = STRBUF_Create(0x100, 0x15);
-            WORDSET_SetSlotMyStatus(o->f10, 0, GAME_DATA_GetPlayerStatus(ctx, p->slot));
+            WORDSET_SetSlotMyStatus(o->f10, 0, GAME_DATA_GetMyStatusPlayer(ctx, p->slot));
             if (o->f16 == 1)
                 b = func_02045EC0((struct MsgBank *)o->f8, 0x50);
             else

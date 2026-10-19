@@ -13,7 +13,7 @@
  *   GAMESYSTEM_IsFieldMapExist  0x02012114  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   func_02008550  0x02008550  thumb
- *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   INTRUDE_COMM_GetPlayerObjCode  0x02175598  thumb  ov011
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
@@ -40,7 +40,7 @@ struct Ctx;
 extern u32 GAMESYSTEM_IsFieldMapExist(const struct Ctx *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
-extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+extern u8 GAME_DATA_GetOwnNetId(const struct BigObj *p);
 extern u16 INTRUDE_COMM_GetPlayerObjCode(u8 *o, u32 id);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
 struct Obj00020;
@@ -65,7 +65,7 @@ void INTRUDE_FIELD_ChangePlayerLook(u8 *p, void *a1, int id, u8 kind, u8 flag)
     has = func_02008550((const struct Sub0200852CObj *)x);
     if (p != 0) {
         if (id == 0xFFFF) {
-            if (((Fh *)(p + 0x86))->f == GAME_DATA_GetExitMode((const struct BigObj *)y))
+            if (((Fh *)(p + 0x86))->f == GAME_DATA_GetOwnNetId((const struct BigObj *)y))
                 id = 0;
         }
         if (id == 0) {

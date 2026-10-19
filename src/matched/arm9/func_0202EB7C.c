@@ -1,7 +1,7 @@
 /*
  * Byte-correct, MATCH-capped.  NOT in the manifest; see src/pending/README.md.
  *
- * function: COMM_HISTORY_InsertIfLanguageSet
+ * function: COMM_HISTORY_InsertIfNationSet
  * address:  0x0202EB7C
  * packet:   pkt_0202EB7C
  * region:   arm9
@@ -24,8 +24,8 @@
  * that saves lr, and this one's first instruction is not visible from here).
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/COMM_HISTORY_InsertIfLanguageSet.c \
- *       --func COMM_HISTORY_InsertIfLanguageSet --addr 0x0202EB7C --cc 1.1p1 --thumb
+ *   python tools/match.py one --src src/pending/COMM_HISTORY_InsertIfNationSet.c \
+ *       --func COMM_HISTORY_InsertIfNationSet --addr 0x0202EB7C --cc 1.1p1 --thumb
  *
  * symbols:
  *   COMM_HISTORY_InsertOrReplace  0x0202EB9C  thumb
@@ -38,7 +38,7 @@ struct Sub0200852CObj;
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u32 COMM_HISTORY_InsertOrReplace(u32 a, void *b);
 
-u32 COMM_HISTORY_InsertIfLanguageSet(u32 a0, u32 a1)
+u32 COMM_HISTORY_InsertIfNationSet(u32 a0, u32 a1)
 {
     if (func_0200856C((const struct Sub0200852CObj *)a1) == 0) {
         return 0;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "SCRCMD_WORK_CmdEndFieldCommandA",
+   "name": "SCRCMD_WORK_CmdEndScriptStartCommProcA",
    "address": "0x0215B3AC",
    "kind": "game",
    "region": "ov010",

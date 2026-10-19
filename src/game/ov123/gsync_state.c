@@ -25,10 +25,10 @@
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
  *   GFL_HEAP_Alloc 0x02030734 arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   PROCSYS_FreeProcWork 0x020315D4 arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
- *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GF_PANIC_Fail 0x02034714 arm
  *   DWC_RAP_SetErrorHookCallback 0x02156DE0 thumb ov009
  *   GF_OVERLAY_Load 0x02034AC4 arm
  *   GF_OVERLAY_Unload 0x02034A5C arm
@@ -61,7 +61,7 @@
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
  *   GAME_DATA_PartSaveMain 0x02012E7C thumb
  *   SAVE_CONTROL_DeleteExtraSaveBuffered 0x0200734C thumb
- *   MISC_SAVEDATA_SetFlags6200 0x0200E8E0 thumb
+ *   ZUKAN_SKIN_SAVE_SetValidFlag 0x0200E8E0 thumb
  *   MUSICAL_DIST_SAVE_ProcessApply 0x0200C5F8 thumb
  *   gGsyncExtraSaveName 0x021DAB88 data a1
  *   gGsyncMusicalSaveName 0x021DAB90 data a1
@@ -179,7 +179,7 @@
  *   BLOCK20_SAVEDATA_GetBlockSize  0x02009228  thumb  arm9
  *   BLOCK20_SAVEDATA_CountEntries  0x02009370  thumb  arm9
  *   BLOCK20_SAVEDATA_SetDateStamp  0x020093CC  thumb  arm9
- *   MISC_SAVEDATA_GetBigBlockSize  0x0200E8B0  thumb  arm9
+ *   ZUKAN_SKIN_SAVE_GetSize  0x0200E8B0  thumb  arm9
  */
 #include "gsync_message_types.h"
 #include "gsync_download_types.h"
@@ -244,7 +244,7 @@ extern void MI_CpuFill8(void *,u8,u32);
 
 extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 
-extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 
 extern void APP_TASKMENU_UpdateMenu(void *);
 
@@ -254,7 +254,7 @@ extern void PROCSYS_FreeProcWork(struct Proc *p);
 
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 extern void DWC_RAP_SetErrorHookCallback(int a, int b);
 
@@ -334,7 +334,7 @@ extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
 
 extern int SAVE_CONTROL_LoadExtraSaveWithBuffer(int,int,u16,int,int);
 
-extern void MISC_SAVEDATA_SetFlags6200(void *obj, u32 value);
+extern void ZUKAN_SKIN_SAVE_SetValidFlag(void *obj, u32 value);
 
 extern void GAME_DATA_PartSaveStart(u8 *,u32);
 
@@ -346,7 +346,7 @@ extern struct MusicalDist *MUSICAL_DIST_SAVE_CreateFromData(void *sys, const voi
 
 extern u32 MUSICAL_DIST_SAVE_GetBlockSize(void);
 
-extern u32 MISC_SAVEDATA_GetBigBlockSize(void);
+extern u32 ZUKAN_SKIN_SAVE_GetSize(void);
 
 extern struct Sub02009210Ent *BLOCK20_SAVEDATA_GetRecord(struct Sub02009210Obj *obj, int i);
 
@@ -1068,7 +1068,7 @@ void GSYNC_STATE_StateExtraSaveLoadStartSecond(int state)
     *(int *)&((GsyncStateWork *)state)->extraSaveBuffer=buffer;
     SAVE_CONTROL_LoadExtraSaveWithBuffer(saveControl,7,((GsyncStateWork *)state)->heapId,*(int *)&((GsyncStateWork *)state)->extraSaveBuffer,0x6800);
     MI_CpuCopy8(downloadData,((GsyncStateWork *)state)->extraSaveBuffer,0x6200);
-    MISC_SAVEDATA_SetFlags6200((void *)(*(int *)&((GsyncStateWork *)state)->extraSaveBuffer),1);
+    ZUKAN_SKIN_SAVE_SetValidFlag((void *)(*(int *)&((GsyncStateWork *)state)->extraSaveBuffer),1);
     GAME_DATA_PartSaveStart((u8 *)((GsyncStateWork *)state)->saveData,7);
     GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateExtraSaveMainSecond,0x383);
 }
@@ -1217,7 +1217,7 @@ void GSYNC_STATE_StateInitDownload(char *state)
     switch (((GsyncStateWork *)state)->downloadKind) {
     case 0: (*(void * *)&((GsyncStateWork *)state)->downloadWork) = GSYNC_DOWNLOAD_AllocWork(((GsyncStateWork *)state)->heapId, MUSICAL_DIST_SAVE_GetBlockSize() + 4); break;
     case 1: (*(void * *)&((GsyncStateWork *)state)->downloadWork) = GSYNC_DOWNLOAD_AllocWork(((GsyncStateWork *)state)->heapId, 0x20000); break;
-    case 2: (*(void * *)&((GsyncStateWork *)state)->downloadWork) = GSYNC_DOWNLOAD_AllocWork(((GsyncStateWork *)state)->heapId, MISC_SAVEDATA_GetBigBlockSize() + 4); break;
+    case 2: (*(void * *)&((GsyncStateWork *)state)->downloadWork) = GSYNC_DOWNLOAD_AllocWork(((GsyncStateWork *)state)->heapId, ZUKAN_SKIN_SAVE_GetSize() + 4); break;
     }
     if (GSYNC_DOWNLOAD_InitAsync((GsyncDownloadWork *)((*(void * *)&((GsyncStateWork *)state)->downloadWork)))) {
         GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateSetFileAttribute, 0x458);
@@ -2009,7 +2009,7 @@ int GSYNC_STATE_ProcInit(void *procSys,int unused,GsyncConn *connection)
     state=(GsyncStateWork *) PROCSYS_AllocProcWork(procSys,0xb0,98);
     MI_CpuFill8(state,0,0xb0);
     state->heapId=98;
-    if (!connection) SAVEDATA_PanicFail(gGsyncStateAssertTag,0,gGsyncStateAssertTag);
+    if (!connection) GF_PANIC_Fail(gGsyncStateAssertTag,0,gGsyncStateAssertTag);
     if (connection) {
         state->connection=(char *)connection;
         (*(void * *)&state->saveData)=connection->saveData;
@@ -2023,19 +2023,19 @@ int GSYNC_STATE_ProcInit(void *procSys,int unused,GsyncConn *connection)
         GAME_SYNC_GetBlock(state->saveControl);
         switch (connection->state) {
         case 0:
-            if (!profileValue) SAVEDATA_PanicFail(gGsyncStateAssertTag,0,gGsyncStateAssertTag);
+            if (!profileValue) GF_PANIC_Fail(gGsyncStateAssertTag,0,gGsyncStateAssertTag);
             GSYNC_STATE_ChangeState(state,(int)GSYNC_STATE_StateSendParsedRequest,0xa89);
             break;
         case 1:
-            if (!profileValue) SAVEDATA_PanicFail(gGsyncStateAssertTag,0,gGsyncStateAssertTag);
+            if (!profileValue) GF_PANIC_Fail(gGsyncStateAssertTag,0,gGsyncStateAssertTag);
             GSYNC_STATE_ChangeState(state,(int)GSYNC_STATE_StateStoreReceivedMon,0xa8d);
             break;
         case 2:
-            if (!profileValue) SAVEDATA_PanicFail(gGsyncStateAssertTag,0,gGsyncStateAssertTag);
+            if (!profileValue) GF_PANIC_Fail(gGsyncStateAssertTag,0,gGsyncStateAssertTag);
             GSYNC_STATE_ChangeState(state,(int)GSYNC_STATE_StateStoreReceivedMon,0xa91);
             break;
         case 3:
-            if (!profileValue) SAVEDATA_PanicFail(gGsyncStateAssertTag,0,gGsyncStateAssertTag);
+            if (!profileValue) GF_PANIC_Fail(gGsyncStateAssertTag,0,gGsyncStateAssertTag);
             GSYNC_STATE_ChangeState(state,(int)GSYNC_STATE_StateSendParsedRequest,0xa95);
             break;
         case 4:
@@ -2050,7 +2050,7 @@ int GSYNC_STATE_ProcInit(void *procSys,int unused,GsyncConn *connection)
     state->displayWork=GSYNC_DISP_Init(state->heapId);
     state->messageWork=GSYNC_MESSAGE_InitSystem(state->heapId,39);
     WIPE_SYS_Start(0,1,1,0,6,1,state->heapId);
-    GFL_NET_RestartWithDefaultTimeout(0,state->heapId);
+    GFL_NET_RefreshWmIconAtTopRight(0,state->heapId);
     return 1;
 }
 

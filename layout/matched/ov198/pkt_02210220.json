@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "B_PLIST_MAIN_ApplyMode6",
+   "name": "B_PLIST_MAIN_ApplyMoveListWithNewMovePage",
    "address": "0x02210220",
    "kind": "game",
    "region": "ov198",

@@ -28,12 +28,12 @@
  *   GFL_NET_SYSTEM_GetChildRingDataSize   0x02038D30  arm
  *   GFL_NET_HANDLE_GetCurrentHandle   0x020399A8  arm
  *   GFL_NET_GetHandleNetID   0x0203D1A4  arm
- *   SAVEDATA_PanicFailPrintf   0x02034734  arm
+ *   GF_PANIC_FailPrintf   0x02034734  arm
  *   GFL_NET_HANDLE_GetNetHandle  0x0203996C  arm
  *   GFL_NET_SendDataMask  0x0203D4D0  arm
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   GFL_HEAP_Free  0x020307B0  arm
- *   SAVEDATA_PanicFail  0x02034714  arm
+ *   GF_PANIC_Fail  0x02034714  arm
  */
 struct GFLNetHandle;
 typedef unsigned char  u8;
@@ -89,8 +89,8 @@ struct NetLdataCommand {
     u32 size : 30;
 };
 
-extern void SAVEDATA_PanicFail(const char *file, u32 line, const char *expr);
-extern void SAVEDATA_PanicFailPrintf(const char *file, u32 line, const char *fmt, ...);
+extern void GF_PANIC_Fail(const char *file, u32 line, const char *expr);
+extern void GF_PANIC_FailPrintf(const char *file, u32 line, const char *fmt, ...);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clearFlag, const char *file, u16 line);
 extern u32 GFL_HEAP_Free(void *block);
 extern int  GFL_NET_GetRunState(void);
@@ -131,7 +131,7 @@ void GFL_NET_LOWER_DATA_Init(int heapId, int ackMode)
 {
     u8 i;
     if (_pNetLdataWork != 0)
-        SAVEDATA_PanicFail(sSrcFileName, 0x65, sAssertWorkIsNull);
+        GF_PANIC_Fail(sSrcFileName, 0x65, sAssertWorkIsNull);
     _pNetLdataWork = (struct NetLdataWork *)GFL_HEAP_Alloc(heapId, NET_LDATA_WORK_SIZE, 1, sSrcFileName, 0x67);
     _pNetLdataWork->sendData = 0;
     _pNetLdataWork->sendSize = 0;
@@ -151,7 +151,7 @@ void GFL_NET_LOWER_DATA_Exit(void)
 {
     u8 i;
     if (_pNetLdataWork == 0)
-        SAVEDATA_PanicFail(sSrcFileName, 0x81, sAssertWorkNotNull);
+        GF_PANIC_Fail(sSrcFileName, 0x81, sAssertWorkNotNull);
     for (i = 0; i < NET_LDATA_MAX_POST_WORK; i++) {
         struct NetLdataPostWork *postWork = _pNetLdataWork->postWork[i];
         if (postWork == 0)
@@ -169,9 +169,9 @@ void GFL_NET_LOWER_DATA_Exit(void)
 void GFL_NET_LOWER_DATA_SetSendData(int sendData, int sendSize, int sendTarget, int isParent)
 {
     if (_pNetLdataWork == 0)
-        SAVEDATA_PanicFail(sSrcFileName, 0x9f, sAssertWorkNotNull);
+        GF_PANIC_Fail(sSrcFileName, 0x9f, sAssertWorkNotNull);
     if (_pNetLdataWork->sendData != 0)
-        SAVEDATA_PanicFail(sSrcFileName, 0xa0, sAssertSendDataIsNull);
+        GF_PANIC_Fail(sSrcFileName, 0xa0, sAssertSendDataIsNull);
     _pNetLdataWork->sendData = sendData;
     _pNetLdataWork->sendSize = sendSize;
     _pNetLdataWork->sendTarget = (u8)sendTarget;
@@ -186,9 +186,9 @@ void GFL_NET_LOWER_DATA_SetSendData(int sendData, int sendSize, int sendTarget, 
 void GFL_NET_LOWER_DATA_CreatePostWork(u32 bufSize, int netId, u32 heapId, u32 buf)
 {
     if (_pNetLdataWork == 0)
-        SAVEDATA_PanicFail(sSrcFileName, 0xcf, sAssertWorkNotNull);
+        GF_PANIC_Fail(sSrcFileName, 0xcf, sAssertWorkNotNull);
     if (_pNetLdataWork->postWork[netId] != 0)
-        SAVEDATA_PanicFail(sSrcFileName, 0xd0, sAssertPostWorkIsNull);
+        GF_PANIC_Fail(sSrcFileName, 0xd0, sAssertPostWorkIsNull);
     _pNetLdataWork->postWork[netId] = (struct NetLdataPostWork *)GFL_HEAP_Alloc(heapId, NET_LDATA_POST_WORK_SIZE, 1, sSrcFileName, 0xd2);
     _pNetLdataWork->postWork[netId]->buf = buf;
     _pNetLdataWork->postWork[netId]->bufSize = bufSize;
@@ -200,9 +200,9 @@ void GFL_NET_LOWER_DATA_DeletePostWork(int netId)
 {
     struct NetLdataPostWork *postWork;
     if (_pNetLdataWork == 0)
-        SAVEDATA_PanicFail(sSrcFileName, 0xe2, sAssertWorkNotNull);
+        GF_PANIC_Fail(sSrcFileName, 0xe2, sAssertWorkNotNull);
     if (_pNetLdataWork->postWork[netId] == 0)
-        SAVEDATA_PanicFail(sSrcFileName, 0xe3, sAssertPostWorkNotNull);
+        GF_PANIC_Fail(sSrcFileName, 0xe3, sAssertPostWorkNotNull);
     postWork = _pNetLdataWork->postWork[netId];
     if (postWork->ownsBuf == 1)
         GFL_HEAP_Free((void *)postWork->buf);
@@ -215,9 +215,9 @@ void GFL_NET_LOWER_DATA_DeletePostWork(int netId)
 int GFL_NET_LOWER_DATA_GetPostBuffer(unsigned int netId)
 {
     if (_pNetLdataWork == 0)
-        SAVEDATA_PanicFail(sSrcFileName, 0xf6, sAssertWorkNotNull);
+        GF_PANIC_Fail(sSrcFileName, 0xf6, sAssertWorkNotNull);
     if (_pNetLdataWork->postWork[netId] == 0)
-        SAVEDATA_PanicFail(sSrcFileName, 0xf7, sAssertPostWorkNotNull);
+        GF_PANIC_Fail(sSrcFileName, 0xf7, sAssertPostWorkNotNull);
     return _pNetLdataWork->postWork[netId]->buf;
 }
 
@@ -225,9 +225,9 @@ int GFL_NET_LOWER_DATA_GetPostBuffer(unsigned int netId)
 int GFL_NET_LOWER_DATA_GetPostRecvSize(unsigned int netId)
 {
     if (_pNetLdataWork == 0)
-        SAVEDATA_PanicFail(sSrcFileName, 0x105, sAssertWorkNotNull);
+        GF_PANIC_Fail(sSrcFileName, 0x105, sAssertWorkNotNull);
     if (_pNetLdataWork->postWork[netId] == 0)
-        SAVEDATA_PanicFail(sSrcFileName, 0x106, sAssertPostWorkNotNull);
+        GF_PANIC_Fail(sSrcFileName, 0x106, sAssertPostWorkNotNull);
     return _pNetLdataWork->postWork[netId]->recvSize;
 }
 
@@ -431,7 +431,7 @@ void GFL_NET_LOWER_DATA_RecvControl(u32 netId, u32 size, struct NetLdataCommand 
     switch (pData->kind) {
     case NET_LDATA_CTRL_START:
         if (_pNetLdataWork->postWork[netId]->bufSize < pData->size) {
-            SAVEDATA_PanicFailPrintf(sSrcFileName, 543, sMsgPostBufferTooSmall, _pNetLdataWork->postWork[netId]->bufSize, pData->size);
+            GF_PANIC_FailPrintf(sSrcFileName, 543, sMsgPostBufferTooSmall, _pNetLdataWork->postWork[netId]->bufSize, pData->size);
         }
         _pNetLdataWork->postWork[netId]->totalSize = pData->size;
         _pNetLdataWork->postWork[netId]->recvSize = 0;

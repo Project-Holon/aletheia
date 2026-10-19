@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_PROC_AddMiscPoints
+ * function: SCRCMD_PROC_AddMoney
  * address: 0x0215C558
  * packet: pkt_ov010_0215C558
  * region: ov010
@@ -13,7 +13,7 @@
  *   GAME_DATA_GetMyPlayerWork 0x020127A4 thumb
  *   SCRIPT_WORK_ReadWorkValue 0x02159B10 thumb ov010
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
- *   BEACON_AddMoney 0x0200C278 thumb
+ *   MISC_AddMoney 0x0200C278 thumb
  */
 typedef unsigned short u16;
 extern void *SCRCMD_WORK_GetGameData(void *a0);
@@ -23,13 +23,13 @@ struct SaveBlock;
 extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
 extern void *GAME_DATA_GetMiscSave(int *p);
-extern u32 BEACON_AddMoney(struct Blk34 *p, u32 v);
-int SCRCMD_PROC_AddMiscPoints(int a,int b)
+extern u32 MISC_AddMoney(struct Blk34 *p, u32 v);
+int SCRCMD_PROC_AddMoney(int a,int b)
 {
     void *p = SCRCMD_WORK_GetGameData((void *)b);
     int k;
     GAME_DATA_GetMyPlayerWork(p);
     k = SCRIPT_WORK_ReadWorkValue((void *)a,(void *)b);
-    BEACON_AddMoney(GAME_DATA_GetMiscSave(p),k);
+    MISC_AddMoney(GAME_DATA_GetMiscSave(p),k);
     return 0;
 }

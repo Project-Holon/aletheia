@@ -15,7 +15,7 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
  *   FIELD_SUBSCREEN_GetPanelResult  0x021A0F94  thumb  ov021
- *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   CLACT_GetActorDrawEnable  0x0204B3F4  arm
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
  *   INTRUDE_FIELD_FindZonePos  0x0217BEA8  thumb  ov018
@@ -24,7 +24,7 @@
  *   INTRUDE_SUBDISP_IsInTouchRect  0x0217EC5C  thumb  ov018
  *   ZONEDATA_IsZoneInTableDFC0  0x02013DD0  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
- *   ZONEDATA_IsZone117  0x02013D5C  thumb
+ *   ZONEDATA_IsEntralink  0x02013D5C  thumb
  *   BMP_OAM_GetEnabled  0x020257C4  thumb
  *   d_02176AA0     0x02176AA0  data  a4
  *
@@ -98,7 +98,7 @@ extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern int FIELD_SUBSCREEN_GetPanelResult(u32 a);
-extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+extern u8 GAME_DATA_GetOwnNetId(const struct BigObj *p);
 extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern Mon *INTRUDE_FIELD_FindZonePos(int a0);
@@ -107,7 +107,7 @@ extern void INTRUDE_SUBDISP_SetTouchRect(int x, int y, int w, int h, Rect *r);
 extern int INTRUDE_SUBDISP_IsInTouchRect(u32 x, u32 y, Rect *r);
 extern int ZONEDATA_IsZoneInTableDFC0(int a0);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern u32 ZONEDATA_IsZone117(u32 id);
+extern u32 ZONEDATA_IsEntralink(u32 id);
 extern int BMP_OAM_GetEnabled(const int *p);
 extern const Ent d_02176AA0[];
 
@@ -132,7 +132,7 @@ void INTRUDE_SUBDISP_UpdateTouch(Q *q, Obj *p, int id)
     if (p->f112 != 0 || p->f106 == 1 || !TOUCHPANEL_GetPointTrg(&tx, &ty) || FIELD_SUBSCREEN_GetPanelResult(x) != 0) {
         return;
     }
-    sel = GAME_DATA_GetExitMode((const struct BigObj *)h);
+    sel = GAME_DATA_GetOwnNetId((const struct BigObj *)h);
     for (i = 0; i < 3; i++) {
         if (i == sel) {
             continue;
@@ -163,7 +163,7 @@ void INTRUDE_SUBDISP_UpdateTouch(Q *q, Obj *p, int id)
     if (INTRUDE_SUBDISP_IsAlone((u8 *)p) == 1) {
         return;
     }
-    if (p->fD8 != GAME_DATA_GetExitMode((const struct BigObj *)h)) {
+    if (p->fD8 != GAME_DATA_GetOwnNetId((const struct BigObj *)h)) {
         for (i = 0; i < 8; i++) {
             e = &d_02176AA0[i];
             INTRUDE_SUBDISP_SetTouchRect(e->x, e->y, 0x10, 0x10, &rect);
@@ -190,10 +190,10 @@ void INTRUDE_SUBDISP_UpdateTouch(Q *q, Obj *p, int id)
             return;
         }
     }
-    if (p->fD8 != GAME_DATA_GetExitMode((const struct BigObj *)h)) {
+    if (p->fD8 != GAME_DATA_GetOwnNetId((const struct BigObj *)h)) {
         INTRUDE_SUBDISP_SetTouchRect(0x80, 0x5C, 0x10, 0x10, &rect);
         if (INTRUDE_SUBDISP_IsInTouchRect(tx, ty, &rect) == 1) {
-            if (ZONEDATA_IsZone117(id) == 1) {
+            if (ZONEDATA_IsEntralink(id) == 1) {
                 GFL_USE_PlaySeDefaultVolume(0x557);
                 return;
             }

@@ -70,7 +70,7 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "FIELD_SOUND_SYSTEM_GetQueueDepth"
+    "FIELD_SOUND_SYSTEM_GetPendingBgmStackDepth"
    ],
    "addresses": [
     "0x020288C4"

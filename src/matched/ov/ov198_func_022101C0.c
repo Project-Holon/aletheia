@@ -1,5 +1,5 @@
 /*
- * function: B_PLIST_MAIN_ApplyMode1
+ * function: B_PLIST_MAIN_ApplyMonMenuPage
  * address:  0x022101C0
  * packet:   pkt_022101C0
  * region:   ov198
@@ -21,7 +21,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern int B_PLIST_MAIN_ApplyMode(u8 *p, unsigned mode);
 
-u32 B_PLIST_MAIN_ApplyMode1(u32 a)
+u32 B_PLIST_MAIN_ApplyMonMenuPage(u32 a)
 {
     if (B_PLIST_MAIN_ApplyMode((u8 *)a, 1) == 0) {
         return 0xc;

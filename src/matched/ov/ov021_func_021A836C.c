@@ -34,7 +34,7 @@
  *   GAME_DATA_GetFrameRate  0x020129C4  thumb
  *   FIELD_MENU_SelectButton  0x021A8E20  thumb  ov021
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *
  * 0x021DDF94 is the "field_menu.c" file-name string; 0x134 is its line.
  */
@@ -115,7 +115,7 @@ extern void FIELD_MENU_SetScrolledOut(Obj *p);
 extern u8 GAME_DATA_GetFrameRate(const struct BigObj *p);
 extern void FIELD_MENU_SelectButton(struct W *w, u32 v);
 extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 
 Obj *FIELD_MENU_Create(u16 heap, u16 a1, int a2, void *a3, int a4)
 {
@@ -167,6 +167,6 @@ Obj *FIELD_MENU_Create(u16 heap, u16 a1, int a2, void *a3, int a4)
             CLACT_SetActorDrawEnable((struct Obj *)p->f124, 0);
         }
     }
-    GFL_NET_RestartWithDefaultTimeout(0, p->f02);
+    GFL_NET_RefreshWmIconAtTopRight(0, p->f02);
     return p;
 }

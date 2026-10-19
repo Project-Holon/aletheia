@@ -29,7 +29,7 @@
  *   MYITEM_SAVEDATA_AddItem 0x02007E50 thumb
  *   GPOWER_ApplyPrizeMoney  0x0201119C  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   BEACON_GetMoney  0x0200C274  thumb
+ *   MISC_GetMoney  0x0200C274  thumb
  *   BTL_CALC_CalcDefeatMoneyLoss  0x021D7FF8  thumb  ov093
  *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
  *   BTL_MAIN_GetFieldSituation  0x021B8714  thumb  ov093
@@ -64,7 +64,7 @@
  *   GFL_HEAP_Free  0x020307B0  arm
  *   MYSTATUS_Create  0x0200846C  thumb
  *   MYSTATUS_Copy  0x02008494  thumb
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   MYSTATUS_CreateNameStrbuf  0x02008510  thumb
  *   PMSI_PARAM_ClearSentence  0x0202428C  thumb
  *   STRBUF_Clone  0x02045874  arm
@@ -140,7 +140,7 @@
  *   BTL_DEADREC_GetCount 0x0689D174 thumb ov095
  *   BTL_MAIN_GetClientSide  0x021B8BC4  thumb  ov093
  *   BTL_POSPOKE_GetEmptyPosList 0x0689D558 thumb ov095
- *   BTL_FIELD_GetStaticSlotObject  0x021EF948  thumb  ov093
+ *   BTL_FIELD_IsStaticSlotInUse  0x021EF948  thumb  ov093
  *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
  *   HAND_TOKUSEI_EnableAbilityHandlers  0x021D8548  thumb  ov093
  *   HAND_ITEM_EnablePokeFactors  0x021DCFB4  thumb  ov093
@@ -226,7 +226,7 @@
  *   BTL_POKEPARAM_GetMovePPChecked 0x021D5584 thumb ov093
  *   BTL_POKEPARAM_GetLastSelectedMoveId 0x021D67B8 thumb ov093
  *   BTL_POKEPARAM_GetLastUsedMoveId 0x021D67A8 thumb ov093
- *   BTL_FIELD_DrawStaticSlotLine 0x021EF91C thumb ov093
+ *   BTL_FIELD_IsMoveSealedByStaticSlot 0x021EF91C thumb ov093
  *   BTL_CALC_RollPercent 0x021D7AF0 thumb ov093
  *   BTL_POKEPARAM_TickConfusionTurn  0x021D61A8  thumb  ov093
  *   BTL_POKEPARAM_TickSleepTurn  0x021D6130  thumb  ov093
@@ -279,7 +279,7 @@
  *   BTL_FIELD_SetCountdown 0x021EF8A4 thumb ov093
  *   BTL_FIELD_RegisterStaticSlot  0x021EF8C8  thumb  ov093
  *   BTL_SICKCONT_GetPosition  0x021E8A98  thumb  ov093
- *   BTL_FIELD_SetStaticSlotValue  0x021EF8F8  thumb  ov093
+ *   BTL_FIELD_AddStaticSlotHolder  0x021EF8F8  thumb  ov093
  *   BTL_ID_IsAbilitySkillSwapBlocked 0x0689C954 thumb ov095
  *   BTL_POKEPARAM_SetAbility 0x021D66D0 thumb ov093
  *   HAND_TOKUSEI_SwapAbilityHandlers 0x021D8564 thumb ov093
@@ -301,7 +301,7 @@
  *   BTL_CALC_PackPokeIds 0x021D806C thumb ov093
  *   BTL_SICK_BuildDamageMessage 0x0689B8CC thumb ov095
  *   HAND_SIDE_TickTurns 0x06898D54 thumb ov095
- *   BTL_FIELD_QueryStaticSlotC 0x021EF934 thumb ov093
+ *   BTL_FIELD_TickStaticSlots 0x021EF934 thumb ov093
  *   BTL_SERVER_FLOW_OnFieldEffectExpired 0x021C4C40 thumb ov093
  *   BTL_FIELD_TickCountdown 0x021EF8B8 thumb ov093
  *   BTL_CALC_GetWeatherDamage 0x021D7BD4 thumb ov093
@@ -313,7 +313,7 @@
  *   HAND_ITEM_DisablePokeFactors 0x021DCFA4 thumb ov093
  *   HAND_WAZA_RemoveAllMoveHandlers 0x021E0434 thumb ov093
  *   BTL_POKEPARAM_CureSickBySource 0x021D6264 thumb ov093
- *   BTL_FIELD_QueryStaticSlotB 0x021EF90C thumb ov093
+ *   BTL_FIELD_RemoveHolderFromStaticSlots 0x021EF90C thumb ov093
  *   BTL_MAIN_CheckEventOverlayAllowed 0x021B85EC thumb ov093
  *   BTL_DEADREC_IsReported 0x0689D1A0 thumb ov095
  *   BTL_DEADREC_GetPokeId 0x0689D184 thumb ov095
@@ -369,7 +369,7 @@
  *   BTL_POKEPARAM_ClearTurnFlag 0x021D6440 thumb ov093
  *   HAND_SIDE_AddFactor 0x06898C10 thumb ov095
  *   HAND_SIDE_Remove 0x06898D10 thumb ov095
- *   BTL_FIELD_QueryStaticSlotA 0x021EF8E8 thumb ov093
+ *   BTL_FIELD_RemoveStaticSlot 0x021EF8E8 thumb ov093
  *   HAND_POS_AddFactor 0x068981F0 thumb ov095
  *   BTL_ID_IsMultitypeAbility 0x0689C974 thumb ov095
  *   BTL_POKEPARAM_ClearConsumedItem 0x021D6738 thumb ov093
@@ -387,7 +387,7 @@
  *   BTL_CALC_CalcDefeatExp 0x021D7EB4 thumb ov093
  *   BTL_POKEPARAM_GetFoughtCount 0x021D6E04 thumb ov093
  *   BTL_POKEPARAM_GetFoughtPokeId 0x021D6E0C thumb ov093
- *   MYSTATUS_GetGender 0x02008564 thumb arm9
+ *   MYSTATUS_GetLanguage 0x02008564 thumb arm9
  *   GPOWER_ApplyExpRate 0x02011168 thumb arm9
  *   _ffltu         0x0209BE04  arm
  *   _fadd          0x0209C95C  arm
@@ -421,7 +421,7 @@
  *   BTL_DEADREC_GetLastPokeId 0x0689D1D4 thumb ov095
  *   gHandExRecordSizeTable     0x021EFE9C  data  a4
  *   gBtlEmptyString 0x021F3A84 data
- *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GF_PANIC_Fail 0x02034714 arm
  *   gBtlServerCmdLayouts  0x021EFF14  data  ov093
  *   gBtlServerCmdArgBuffer  0x021F3B44  data  ov093
  *   gBtlClientFileName 0x021F3A88 data a4
@@ -463,7 +463,7 @@
  *   BTL_REC_ReadRecord 0x021EE6B8 thumb ov093
  *   BTLV_CORE_BuildAndPrintMessage 0x021EA614 thumb ov093
  *   BTLV_CORE_WaitMessage 0x021EA710 thumb ov093
- *   BTL_CALC_ActionSetNone 0x021D8434 thumb ov093
+ *   BTL_ACTION_SetNone 0x021D8434 thumb ov093
  *   BTLV_CORE_StartAutoSelectNotice 0x021EAE44 thumb ov093
  *   BTLV_CORE_PollAutoSelectNotice 0x021EAE54 thumb ov093
  *   BTL_POKEPARAM_GetMoveId 0x021D54C0 thumb ov093
@@ -521,7 +521,7 @@
  *   BTL_ACTION_SetEscape 0x021D8414 thumb ov093
  *   BTLV_CORE_StartWaitMessage  0x021EA7FC  thumb  ov093
  *   BTLV_CORE_UpdateWaitMessage  0x021EA814  thumb  ov093
- *   BTL_CALC_ActionSetForcedSkip  0x021D8444  thumb  ov093
+ *   BTL_ACTION_SetForcedSkip  0x021D8444  thumb  ov093
  *   BTL_POKEPARAM_GetLastMoveSlot  0x021D67C4  thumb  ov093
  *   BTL_POKEPARAM_HasMove 0x021D5750 thumb ov093
  *   BTL_FIELD_IsSlotInUse 0x021EFCE4 thumb ov093
@@ -1081,7 +1081,7 @@ extern void BTLV_SCU_SetMessageParam(u8 *o, u8 v);
 extern u32 *BTL_REC_ReadRecord(void *,u8,u8 *,u8 *);
 extern void BTLV_CORE_BuildAndPrintMessage(char *p, void *h);
 extern int BTLV_CORE_WaitMessage(u32 *p);
-extern void BTL_CALC_ActionSetNone(u32 *p);
+extern void BTL_ACTION_SetNone(u32 *p);
 extern void BTLV_CORE_StartAutoSelectNotice(void *);
 extern int BTLV_CORE_PollAutoSelectNotice(void *);
 extern u16 BTL_POKEPARAM_GetMoveId(u8 *p, int i);
@@ -1138,7 +1138,7 @@ extern int BTLV_CORE_PollYesNoMenu(void *, int *);
 extern void BTL_ACTION_SetEscape(u32 *p);
 extern void BTLV_CORE_StartWaitMessage(char *p);
 extern int BTLV_CORE_UpdateWaitMessage(u32 *p);
-extern void BTL_CALC_ActionSetForcedSkip(u32 *p);
+extern void BTL_ACTION_SetForcedSkip(u32 *p);
 extern u8 BTL_POKEPARAM_GetLastMoveSlot(u8 *p);
 extern int BTL_POKEPARAM_HasMove(void *, u32);
 extern void *BTL_FIELD_IsSlotInUse(char *state, int slot);
@@ -2208,7 +2208,7 @@ int BTL_CLIENT_StepPlaybackRecordedAction(BtlClient *client, int *state)
     return 0;
 }
 
-void BTL_CLIENT_ResetActionCursor(BtlClient *client) { client->actionCursor=(u8 *)client->actions; BTL_CALC_ActionSetNone(client->actions); client->sendData=client->actionCursor; client->sendSize=4; }
+void BTL_CLIENT_ResetActionCursor(BtlClient *client) { client->actionCursor=(u8 *)client->actions; BTL_ACTION_SetNone(client->actions); client->sendData=client->actionCursor; client->sendSize=4; }
 
 u32 BTL_CLIENT_InitActionSelection(BtlClient *client)
 {
@@ -2222,7 +2222,7 @@ u32 BTL_CLIENT_InitActionSelection(BtlClient *client)
     BTL_CLIENT_ClearSlotFlags(client);
     BTL_CLIENT_ClearSlotLinkWords(client);
     for (slot = 0; slot < 3; slot++) {
-        BTL_CALC_ActionSetNone((u32 *)((u8 *)client->actions + slot * 4));
+        BTL_ACTION_SetNone((u32 *)((u8 *)client->actions + slot * 4));
     }
     for (slot = 0; slot < client->slotCount; slot++) {
         mon = (u32)BTL_SIDE_GetClientPokeParam((char *)(client->side), client->clientId, (u8)slot);
@@ -2252,7 +2252,7 @@ int BTL_CLIENT_StepAutoSelectActions(BtlClient *client, int *state)
             for (; client->slotIndex < client->slotCount; client->slotIndex++) {
                 client->activeMon = BTL_SIDE_GetClientPokeParam(client->side,client->clientId,client->slotIndex);
                 client->actionCursor = (u8 *)client->actions+client->slotIndex*4;
-                BTL_CALC_ActionSetNone((u32 *)(client->actionCursor));
+                BTL_ACTION_SetNone((u32 *)(client->actionCursor));
                 if (!BTL_CLIENT_IsActionForced((u8 *)client,client->activeMon,client->actionCursor)) {
                     moveIndex = BTL_CLIENT_BuildUsableMoveMask(client,client->activeMon,usableMask);
                     if (moveIndex < 4) {
@@ -2296,7 +2296,7 @@ int BTL_CLIENT_StepSelectAction(BtlClient *client, u32 *state)
         (client->activeMon) = BTL_SIDE_GetClientPokeParam((client->side), client->clientId, client->slotIndex);
         (client->actionCursor) = (u8 *)client->actions + client->slotIndex * 4;
         client->extraActionCount = 0;
-        BTL_CALC_ActionSetNone(((void *)client->actionCursor));
+        BTL_ACTION_SetNone(((void *)client->actionCursor));
         if (BTL_CLIENT_IsActionForced((u8 *)client, (client->activeMon), (client->actionCursor))) {
             BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_StepAdvanceSlot));
             break;
@@ -2913,7 +2913,7 @@ u32 BTL_CLIENT_StepAdvanceSlot(BtlClient *client, int *st)
                 while (client->slotIndex < client->slotCount) {
                     mon = BTL_SIDE_GetClientPokeParam((char *)(client->side), client->clientId, client->slotIndex);
                     if (!BTL_CLIENT_IsActionForced((u8 *)client, mon, (u8 *)client->actions + client->slotIndex * 4))
-                        BTL_CALC_ActionSetNone((u32 *)((u8 *)client->actions + client->slotIndex * 4));
+                        BTL_ACTION_SetNone((u32 *)((u8 *)client->actions + client->slotIndex * 4));
                     ++client->slotIndex;
                 }
             }
@@ -3020,13 +3020,13 @@ u32 BTL_CLIENT_IsActionForced(u8 *client, void *mon, u8 *outAction)
     union Slot sickCont;
     if (BTL_POKEPARAM_IsFainted(mon) != 0) {
         if (outAction != 0) {
-            BTL_CALC_ActionSetNone((u32 *)outAction);
+            BTL_ACTION_SetNone((u32 *)outAction);
         }
         return 1;
     }
     if (BTL_POKEPARAM_TestContFlag(mon, 0xc) != 0) {
         if (outAction != 0) {
-            BTL_CALC_ActionSetForcedSkip((u32 *)outAction);
+            BTL_ACTION_SetForcedSkip((u32 *)outAction);
         }
         return 1;
     }
@@ -3721,7 +3721,7 @@ int BTL_CLIENT_StepAutoChooseActions(BtlClient *client, u32 *state)
         (client->activeMon) = BTL_SLOT_GetPokeParam(client->sideData, client->slotIndex);
         (client->actionCursor) = (u8 *)client->actions+client->slotIndex*4;
         if (BTL_POKEPARAM_IsFainted((client->activeMon))) {
-            BTL_CALC_ActionSetNone((u32 *)(client->actionCursor));
+            BTL_ACTION_SetNone((u32 *)(client->actionCursor));
             goto complete;
         }
         if (BTL_CLIENT_IsActionForced((u8 *)client,(client->activeMon),(client->actionCursor))) goto complete;
@@ -4027,7 +4027,7 @@ int BTL_CLIENT_ChooseReplacementsAuto(BtlClient *client)
             client->sendSize = 4;
         }
     } else {
-        BTL_CALC_ActionSetNone(client->actions);
+        BTL_ACTION_SetNone(client->actions);
         *(void * *)&client->sendData = client->actions;
         client->sendSize = 4;
     }
@@ -4089,7 +4089,7 @@ int BTL_CLIENT_StepChooseReplacement(BtlClient *client, int *state, u8 choiceMod
                 }
             }
         } else {
-            BTL_CALC_ActionSetNone(client->actions);
+            BTL_ACTION_SetNone(client->actions);
             client->sendData = (u8 *)client->actions;
             client->sendSize = 4;
             *state = 4;
@@ -4212,7 +4212,7 @@ invalid:
         }
         break;
     case 4:
-        BTL_CALC_ActionSetNone(client->actions);
+        BTL_ACTION_SetNone(client->actions);
         *state = 5;
     case 5:
         client->sendData = (u8 *)client->actions;

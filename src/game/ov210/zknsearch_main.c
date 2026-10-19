@@ -91,7 +91,7 @@
  *   BMP_SetDisplaySwap  0x0204363C  arm
  *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   ZUKAN_SAVE_GetViewMode  0x0200CA70  thumb
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   ZKNSEARCH_SYS_SetVramBanks  0x021BC3D4  thumb  ov210
  *   ZKNSEARCH_SYS_RegisterVBlank  0x021BC294  thumb  ov210
  *   ZKNSEARCH_SYS_RegisterHBlank  0x021BC318  thumb  ov210
@@ -131,7 +131,7 @@
  *   MSGDATA_AllocString 0x02045EC0 arm
  *   TOUCHBAR_PrintAligned 0x021B6AE4 thumb ov067
  *   BMP_Clear 0x02043B5C arm
- *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
+ *   PRINTSYS_MeasureWidestLine 0x0201D304 thumb
  *   FRAME_LIST_GetPrinter 0x021B9394 thumb ov067
  *   BMP_WIN_GetWidth 0x02045738 arm
  *   CLACT_ExitSystem 0x0204A5AC arm
@@ -345,7 +345,7 @@ extern void BG_SYS_SetSubVisiblePlanes(u32 a);
 extern void BMP_SetDisplaySwap(u32 a);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern u32 ZUKAN_SAVE_GetViewMode(struct Blk37 *p);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void ZKNSEARCH_SYS_SetVramBanks(void);
 extern void ZKNSEARCH_SYS_RegisterVBlank(u8 *p);
 extern void ZKNSEARCH_SYS_RegisterHBlank(u8 *p);
@@ -386,7 +386,7 @@ extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, 
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern u32 FRAME_LIST_GetPrinter(char *p);
 extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 extern void CLACT_ExitSystem(void);
@@ -1335,7 +1335,7 @@ u32 ZKNSEARCH_MAIN_InitSearchScreen(u8 *work)
     ZKNSEARCH_MAIN_InitBmpWindows(work);
     ZKNSEARCH_MAIN_InitActorSystem((int)work);
     ZKNSEARCH_MAIN_InitBlinkPalette((int)work);
-    GFL_NET_RestartWithDefaultTimeout(1, 0x7b);
+    GFL_NET_RefreshWmIconAtTopRight(1, 0x7b);
     ZKNSEARCH_MAIN_InitScrollWindow((char *)work);
     ZKNSEARCH_MAIN_EnterResultLayout((char *)work);
     ZKNSEARCH_MAIN_InitPaletteAnim((char *)work);
@@ -2709,7 +2709,7 @@ void ZKNSEARCH_MAIN_UpdateResultTexts(u8 *work)
     } else {
         s1 = (u32)MSGDATA_AllocString((struct MsgBank *)(*(u32 *)&((ZknSearchWork *)work)->msgBank), 0x31);
         TOUCHBAR_PrintAligned(work + 0x194, (void *)(((ZknSearchWork *)work)->printSys), 0x42, 4, s1, ((ZknSearchWork *)work)->font, 0x3C40, 2);
-        w = GF_FONT_MeasureWidestLine((struct StrObj *)s1, ((ZknSearchWork *)work)->font, 0);
+        w = PRINTSYS_MeasureWidestLine((struct StrObj *)s1, ((ZknSearchWork *)work)->font, 0);
         STRBUF_Delete((struct U16Vec *)s1);
         x = 0x40 - (u8)(w / 2);
         s2 = (u32)MSGDATA_AllocString((struct MsgBank *)(*(u32 *)&((ZknSearchWork *)work)->msgBank), ZKNSEARCH_MAIN_LookupSavedEntryId((int)work, Bytes021BE564(work)[3]));

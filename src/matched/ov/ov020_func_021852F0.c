@@ -26,7 +26,7 @@
  *   FIELDMAP_GetMoveKind  0x02188CFC  thumb  ov021
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
- *   FIELD_PLAYER_SetNogridLocation  0x021A36BC  thumb  ov021
+ *   FIELD_PLAYER_GetNogridNextRailLocation  0x021A36BC  thumb  ov021
  *   FLDMMDL_GetPosPtr  0x0216D888  thumb  ov010
  */
 
@@ -43,7 +43,7 @@ u32 FIELDMAP_GetMoveKind(u8 *p);
 u16 FIELDMAP_GetZoneId(u8 *p);
 void *FIELD_PLAYER_GetMmdl(u8 *p);
 struct Obj18028;
-void FIELD_PLAYER_SetNogridLocation(struct Obj18028 *p, void *a1);
+void FIELD_PLAYER_GetNogridNextRailLocation(struct Obj18028 *p, void *a1);
 void *FLDMMDL_GetPosPtr(void *p);
 void ZONEDATA_SetDirectLocation(void *d, int a, s16 b, int c, int e, int f);
 struct t;
@@ -61,6 +61,6 @@ void EVENT_MAPCHANGE_GetCurrentLocation(void *dst, int x)
         ZONEDATA_SetDirectLocation(dst, FIELDMAP_GetZoneId((u8 *)x), 1, v[0], v[1], v[2]);
         return;
     }
-    FIELD_PLAYER_SetNogridLocation((struct Obj18028 *)r5, &h);
+    FIELD_PLAYER_GetNogridNextRailLocation((struct Obj18028 *)r5, &h);
     ZONEDATA_SetDirectRailLocation(dst, FIELDMAP_GetZoneId((u8 *)x), 2, h.a, h.d, h.c);
 }

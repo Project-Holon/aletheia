@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   ZONEDATA_IsZone117  0x02013D5C  thumb
+ *   ZONEDATA_IsEntralink  0x02013D5C  thumb
  *   INTRUDE_FIELD_FindZonePos  0x0217BEA8  thumb  ov018
  *   INTRUDE_FIELD_gHomeAnchorPos     0x02182B60  data   a4
  */
@@ -18,7 +18,7 @@
 typedef struct { int x, y, z; } V12;
 
 typedef unsigned int   u32;
-extern u32 ZONEDATA_IsZone117(u32 id);
+extern u32 ZONEDATA_IsEntralink(u32 id);
 extern short *INTRUDE_FIELD_FindZonePos(int);
 extern const V12 INTRUDE_FIELD_gHomeAnchorPos;
 
@@ -27,7 +27,7 @@ int INTRUDE_FIELD_GetZoneAnchor(int a, V12 *out)
     short *p;
     int x, y, z;
 
-    if (ZONEDATA_IsZone117(a) != 1) {
+    if (ZONEDATA_IsEntralink(a) != 1) {
         p = INTRUDE_FIELD_FindZonePos(a);
         if (p == 0)
             return 0;

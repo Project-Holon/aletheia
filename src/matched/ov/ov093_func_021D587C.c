@@ -9,14 +9,14 @@
  * isa: thumb
  * status: EXACT
  * symbols:
- *   BTL_FIELD_GetStaticSlotObject 0x021EF948 thumb ov093
+ *   BTL_FIELD_IsStaticSlotInUse 0x021EF948 thumb ov093
  */
-extern int BTL_FIELD_GetStaticSlotObject(int);
+extern int BTL_FIELD_IsStaticSlotInUse(int);
 int BTL_POKEPARAM_RemapStatId(void *p, int k)
 {
     switch(k) {
-    case 9: if (BTL_FIELD_GetStaticSlotObject(6)) k = 11; break;
-    case 11: if (BTL_FIELD_GetStaticSlotObject(6)) k = 9; break;
+    case 9: if (BTL_FIELD_IsStaticSlotInUse(6)) k = 11; break;
+    case 11: if (BTL_FIELD_IsStaticSlotInUse(6)) k = 9; break;
     }
     return k;
 }

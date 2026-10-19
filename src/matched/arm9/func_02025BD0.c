@@ -1,5 +1,5 @@
 /*
- * function: BMP_OAM_GetRecordParam
+ * function: NATION_AREA_GetAreaListArcMember
  * address: 0x02025BD0
  * packet: pkt_02025BD0
  * region: arm9
@@ -12,7 +12,7 @@
  */
 typedef unsigned int u32;
 extern const unsigned char d_0209FA35[];
-u32 BMP_OAM_GetRecordParam(u32 i)
+u32 NATION_AREA_GetAreaListArcMember(u32 i)
 {
     if (i < 19)
         return d_0209FA35[i * 12];

@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: GF_FONT_GetNextRecord
+ * function: PRINTSYS_GetNextRecord
  *
  * Steps the printsys.c record ring one slot on and returns the word stored
  * there, which is the next record or NULL.  The ring lives at +0x18 of the
@@ -54,7 +54,7 @@ struct PrintSys {
     u8  buf[4];
 };
 
-void *GF_FONT_GetNextRecord(struct PrintSys *p, void *q)
+void *PRINTSYS_GetNextRecord(struct PrintSys *p, void *q)
 {
     u32 off = (u16)((u8 *)q - &p->buf[0]);
 

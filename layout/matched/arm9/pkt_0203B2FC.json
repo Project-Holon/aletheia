@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "GFL_NET_STATE_GetChildWaitTime",
+   "name": "GFL_NET_STATE_RollChildWaitTime",
    "address": "0x0203B2FC",
    "kind": "game",
    "region": "arm9",
@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "GFL_NET_STATE_GetParentWaitTime",
+   "name": "GFL_NET_STATE_RollParentWaitTime",
    "address": "0x0203B344",
    "kind": "game",
    "region": "arm9",

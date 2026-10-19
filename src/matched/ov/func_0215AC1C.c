@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_WORK_CmdGetPlayerRomCode
+ * function: SCRCMD_WORK_CmdGetPlayerSex
  * address:  0x0215AC1C
  * packet:   pkt_0215AC1C
  * region:   ov010
@@ -29,7 +29,7 @@ extern int GAME_DATA_GetMyPlayerWork(void *);
 struct Sub0200852CObj;
 extern u8 func_02008550(const struct Sub0200852CObj *obj);
 
-int SCRCMD_WORK_CmdGetPlayerRomCode(void *a0, void *a1)
+int SCRCMD_WORK_CmdGetPlayerSex(void *a0, void *a1)
 {
     u16 *p = SCRIPT_WORK_ReadWorkPointer(a0, a1);
 

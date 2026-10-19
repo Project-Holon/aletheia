@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "COMM_PLAYER_ForwardRequest",
+   "name": "COMM_PLAYER_SearchGridPos",
    "address": "0x021679A4",
    "kind": "game",
    "region": "ov010",

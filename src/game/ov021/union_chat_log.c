@@ -13,9 +13,9 @@
  * Boundary audit (wave 16): cut from fieldmap_func.c at 021BBA70: the UNION_CHAT_LOG_ ring (union room chat log, data gUnionChatEmptyMac 0x021D9AE0 between the fldeff_gyoe.c data and the fldeff_footmark.c data). It shares no statics with the sub process manager before it and has no allocation; the cut rests on module prefix.
  *
  * symbols:
- *   SAVEDATA_PanicFail  0x02034714  arm
+ *   GF_PANIC_Fail  0x02034714  arm
  *   MYSTATUS_CopyNameChars  0x020084F8  thumb
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   WORDSET_CopyString  0x0201F41C  thumb
  *   OS_GetMacAddress  0x02087C6C  arm
  *   MI_CpuCopy8  0x02082D44  arm
@@ -62,11 +62,11 @@ typedef struct UnionChatRing {
     int oldestIndex;           /* 0x440 absolute index of the oldest kept line */
 } UnionChatRing;
 
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 u32 MYSTATUS_CopyNameChars(void *myStatus, u16 *dst, u32 size);
 
-u8 MYSTATUS_GetOutfitVariant(void *myStatus);
+u8 MYSTATUS_GetSex(void *myStatus);
 
 void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
 
@@ -112,7 +112,7 @@ void UNION_CHAT_LOG_Add(UnionRoomWork *work, UnionBeaconPc *beaconPc, u16 *chatP
     int relation;
 
     if (beaconPc == 0 && chatPms == 0) {
-        SAVEDATA_PanicFail((const char *)0x021DE308, 0, (const char *)0x021DE308);
+        GF_PANIC_Fail((const char *)0x021DE308, 0, (const char *)0x021DE308);
     }
     if (beaconPc != 0 && UNION_CHAT_LOG_IsNew(ring, beaconPc->mac, beaconPc->beacon.chatCount) == 0) {
         return;
@@ -124,7 +124,7 @@ void UNION_CHAT_LOG_Add(UnionRoomWork *work, UnionBeaconPc *beaconPc, u16 *chatP
         /* the re-test of chatPms inside the chatPms == 0 arm is the dead second bne */
         if (chatPms == 0) {
             if (chatPms != 0 || chatType == 0) {
-                SAVEDATA_PanicFail((const char *)0x021DE308, 0, (const char *)0x021DE308);
+                GF_PANIC_Fail((const char *)0x021DE308, 0, (const char *)0x021DE308);
             }
         }
         line->chatPms[0] = chatPms[0];
@@ -134,7 +134,7 @@ void UNION_CHAT_LOG_Add(UnionRoomWork *work, UnionBeaconPc *beaconPc, u16 *chatP
         line->chatType = chatType;
         line->chatCount = 0;
         OS_GetMacAddress(line->senderMac);
-        line->sex = MYSTATUS_GetOutfitVariant(myStatus);
+        line->sex = MYSTATUS_GetSex(myStatus);
         line->relation = 0;
     } else {
         WORDSET_CopyString(beaconPc->beacon.name, line->name, 8);

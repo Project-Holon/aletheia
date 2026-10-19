@@ -26,7 +26,7 @@
  *   python tools/match.py tu --src src/matched/unit_02029B5C.c  *       --addr 0x02029B5C --thumb
  *
  * symbols:
- *   FIELD_SOUND_SYSTEM_GetQueueDepth  0x020288C4  thumb
+ *   FIELD_SOUND_SYSTEM_GetPendingBgmStackDepth  0x020288C4  thumb
  *   FIELD_SOUND_SYSTEM_PostRequest  0x020289F8  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetBgmInfo  0x02012A30  thumb
@@ -53,7 +53,7 @@ struct Obj;
 struct Sys;
 extern void FIELD_SOUND_SYSTEM_PostRequest(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
 extern u32 FIELD_SOUND_SYSTEM_IsBusy(struct Sys *s);
-extern s32 FIELD_SOUND_SYSTEM_GetQueueDepth(struct Sys *s);
+extern s32 FIELD_SOUND_SYSTEM_GetPendingBgmStackDepth(struct Sys *s);
 
 u32 FIELD_SOUND_SYSTEM_PushOrFadeOutAndPlayTask(void *task, u32 *state, struct Work *work)
 {
@@ -61,7 +61,7 @@ u32 FIELD_SOUND_SYSTEM_PushOrFadeOutAndPlayTask(void *task, u32 *state, struct W
 
     switch (*state) {
     case 0:
-        if (FIELD_SOUND_SYSTEM_GetQueueDepth(sys) == 0) {
+        if (FIELD_SOUND_SYSTEM_GetPendingBgmStackDepth(sys) == 0) {
             FIELD_SOUND_SYSTEM_PostRequest(sys, 3, 0, 6, 0);
         } else {
             FIELD_SOUND_SYSTEM_PostRequest(sys, 2, 0, 6, 0);

@@ -14,7 +14,7 @@
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   MYSTATUS_Copy  0x02008494  thumb
  *   func_0200E6E8  0x0200E6E8  thumb
- *   MISC_SAVEDATA_CopyQuadRecord  0x0200E6FC  thumb
+ *   GREETING_SAVEDATA_GetSentence  0x0200E6FC  thumb
  *   WIFIBATTLEMATCH_NET_GetNetId  0x021DC194  thumb  ov175
  *   GAME_DATA_GetWifiList  0x0201283C  thumb
  *   WIFILIST_GetGsProfileId  0x02009CC0  thumb
@@ -50,7 +50,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void MYSTATUS_Copy(void *src, void *dst);
 extern void *func_0200E6E8(u32 a);
-extern void MISC_SAVEDATA_CopyQuadRecord(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
+extern void GREETING_SAVEDATA_GetSentence(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
 extern u32 WIFIBATTLEMATCH_NET_GetNetId(char *obj);
 extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 extern int WIFILIST_GetGsProfileId(void *a0);
@@ -63,7 +63,7 @@ void WIFIBATTLEMATCH_NET_CopyCompSave(char *dst, char *obj)
     u32 h;
 
     MYSTATUS_Copy(GAME_DATA_GetMyStatus((void *)(*(*(struct Save * *)&((struct Obj00013 *)obj)->f104)->sav)), dst);
-    MISC_SAVEDATA_CopyQuadRecord(func_0200E6E8(st), 0, (struct Rec0200E6FC *)(dst + 0x38));
+    GREETING_SAVEDATA_GetSentence(func_0200E6E8(st), 0, (struct Rec0200E6FC *)(dst + 0x38));
     {
         const struct Save *s = *(struct Save * *)&((struct Obj00013 *)obj)->f104;
         ((struct Obj01067 *)dst)->f28 = s->blk[2];

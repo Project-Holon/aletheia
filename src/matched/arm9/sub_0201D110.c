@@ -1,5 +1,5 @@
 /*
- * function: GF_FONT_Apply
+ * function: PRINTSYS_Apply
  * address:  0x0201D110
  * packet:   pkt_0201CEE0
  * region:   arm9
@@ -135,7 +135,7 @@ static inline void SetMode(struct Rec *r, u32 m)
     r->mode = m;
 }
 
-void GF_FONT_Apply(struct Rec *p)
+void PRINTSYS_Apply(struct Rec *p)
 {
     u32 skip;
     u8 buf[2];

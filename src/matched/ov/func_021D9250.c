@@ -1,5 +1,5 @@
 /*
- * function: HAND_TOKUSEI_IndirectGuardCause6ShowMessage
+ * function: HAND_TOKUSEI_KeenEyeShowMessage
  * address:  0x021D9250
  * packet:   pkt_021D8A8C
  * region:   ov093
@@ -10,9 +10,9 @@
  * status:   EXACT*
  *
  * symbols:
- *   HAND_TOKUSEI_IndirectGuardCause6ShowMessage   0x021D9250  thumb
- *   HAND_TOKUSEI_ShowIndirectGuardMessage   0x021D92CC  thumb
- * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, lr}; adds r0, r1, #0; adds r1, r2, #0; adds r2, r3, #0; movs r3, #0xcf; bl HAND_TOKUSEI_ShowIndirectGuardMessage; pop {r3, pc}.
+ *   HAND_TOKUSEI_KeenEyeShowMessage   0x021D9250  thumb
+ *   HAND_TOKUSEI_ShowStatDropGuardMessage   0x021D92CC  thumb
+ * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, lr}; adds r0, r1, #0; adds r1, r2, #0; adds r2, r3, #0; movs r3, #0xcf; bl HAND_TOKUSEI_ShowStatDropGuardMessage; pop {r3, pc}.
  */
 
 typedef unsigned char u8;
@@ -22,9 +22,9 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-/* 021D9250  shifted 4-arg wrapper -> HAND_TOKUSEI_ShowIndirectGuardMessage(..., 0xcf) */
-void HAND_TOKUSEI_IndirectGuardCause6ShowMessage(int a, int b, int c, int d)
+/* 021D9250  shifted 4-arg wrapper -> HAND_TOKUSEI_ShowStatDropGuardMessage(..., 0xcf) */
+void HAND_TOKUSEI_KeenEyeShowMessage(int a, int b, int c, int d)
 {
-    HAND_TOKUSEI_ShowIndirectGuardMessage(b, c, d, 0xcf);
+    HAND_TOKUSEI_ShowStatDropGuardMessage(b, c, d, 0xcf);
 }
 

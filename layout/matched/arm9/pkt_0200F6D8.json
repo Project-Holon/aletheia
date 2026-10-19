@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "GFL_NET_ERR_CheckNetError",
+   "name": "GFL_NET_ERR_DetectNetError",
    "address": "0x0200F734",
    "kind": "game",
    "region": "arm9",

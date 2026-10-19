@@ -14,7 +14,7 @@
  *   GFL_HEAP_CreateChildHeap   0x0203064C  arm
  *   func_02030734        0x02030734  arm
  *   func_02030EAC   0x02030EAC  arm
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
  *   BG_SYS_SetSubVisiblePlanes             0x020435F4  arm
  *   BG_SYS_SetLcdSwap  0x0204363C  arm
@@ -66,7 +66,7 @@ extern void MB_SEQ_DrawPage(u8 *);
 extern void MB_SEQ_CreateMenuEntries(u8 *);
 extern void MB_SEQ_VBlankTask(void);
 extern void *func_020056A0(void (*)(void *), void *, u32);
-extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32, u32);
 int MB_SEQ_StateInit(u8 *p)
 {
     if (((struct Obj03836 *)p)->f2C != 0) {
@@ -96,6 +96,6 @@ int MB_SEQ_StateInit(u8 *p)
     MB_SEQ_DrawPage(p);
     MB_SEQ_CreateMenuEntries(p);
     ((struct Obj03836 *)p)->f2C = func_020056A0((void (*)(void *))MB_SEQ_VBlankTask, p, 1);
-    GFL_NET_RestartWithDefaultTimeout(0, 0x66);
+    GFL_NET_RefreshWmIconAtTopRight(0, 0x66);
     return ((struct Obj03836 *)p)->f28;
 }

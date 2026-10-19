@@ -1,5 +1,5 @@
 /*
- * function: MISC_SAVEDATA_FindKey
+ * function: LIVEBATTLEMATCH_SAVE_HasOpponentMac
  * address:  0x0200E994
  * packet:   pkt_0200E994
  * region:   arm9
@@ -27,8 +27,8 @@
  * docs/MATCHING.md); it is matched separately.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/MISC_SAVEDATA_FindKey.c \
- *       --func MISC_SAVEDATA_FindKey --addr 0x0200E994 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/LIVEBATTLEMATCH_SAVE_HasOpponentMac.c \
+ *       --func LIVEBATTLEMATCH_SAVE_HasOpponentMac --addr 0x0200E994 --cc 1.1p1
  */
 
 typedef unsigned char u8;
@@ -39,7 +39,7 @@ extern u8 func_0200E918(const u8 *base, u32 idx);
 extern void func_0200E938(u8 *obj, u32 id, void *dest);
 extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 
-u32 MISC_SAVEDATA_FindKey(void *base, void *key)
+u32 LIVEBATTLEMATCH_SAVE_HasOpponentMac(void *base, void *key)
 {
     int i;
     int count = func_0200E918(base, 0);

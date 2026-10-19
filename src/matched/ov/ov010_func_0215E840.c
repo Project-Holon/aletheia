@@ -24,8 +24,8 @@
  *   FIELD_PLAYER_GetDirDisp  0x021A3050  thumb  ov021
  *   FIELD_PLAYER_GetNowAttribute  0x021A30C8  thumb  ov021
  *   FIELD_PLAYER_GetFrontAttribute  0x021A3128  thumb  ov021
- *   FIELD_PLAYER_CheckEncountAttr  0x021A3504  thumb  ov021
- *   FIELD_PLAYER_CheckSurfEntryAttr  0x021A3524  thumb  ov021
+ *   FIELD_PLAYER_CheckSurfStartAttr  0x021A3504  thumb  ov021
+ *   FIELD_PLAYER_CheckWaterfallClimbAttr  0x021A3524  thumb  ov021
  *   FIELD_PLAYER_GetNowGridPos  0x021A35FC  thumb  ov021
  *   FLDMMDL_GetObjCode  0x0216D598  thumb  ov010
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
@@ -90,8 +90,8 @@ extern void *FIELD_PLAYER_SearchFrontMmdl(void *q);
 extern u16 FIELD_PLAYER_GetDirDisp(u8 *p);
 extern u32 FIELD_PLAYER_GetNowAttribute(void **ctx);
 extern u32 FIELD_PLAYER_GetFrontAttribute(u32 *a, u32 b);
-extern int FIELD_PLAYER_CheckEncountAttr(u8 *a, int b, int c);
-extern int FIELD_PLAYER_CheckSurfEntryAttr(u8 *a, int b, int c);
+extern int FIELD_PLAYER_CheckSurfStartAttr(u8 *a, int b, int c);
+extern int FIELD_PLAYER_CheckWaterfallClimbAttr(u8 *a, int b, int c);
 extern void FIELD_PLAYER_GetNowGridPos(unsigned char **p, u16 *a, u16 *b, u16 *c);
 extern u16 FLDMMDL_GetObjCode(void *obj);
 extern void FLDMMDL_GetPos(const struct Actor *a, struct VecFx32 *out);
@@ -148,9 +148,9 @@ void MOVE_POKEMON_InitSkillInfo(void *field, Info *out)
     a = FIELD_PLAYER_GetDirDisp(q);
     b = FIELD_PLAYER_GetNowAttribute(q);
     c = FIELD_PLAYER_GetFrontAttribute(q, a);
-    if (FIELD_PLAYER_CheckEncountAttr((u8 *)q, b, c) == 1)
+    if (FIELD_PLAYER_CheckSurfStartAttr((u8 *)q, b, c) == 1)
         out->flags |= 2;
-    if (FIELD_PLAYER_CheckSurfEntryAttr((u8 *)q, b, c) == 1)
+    if (FIELD_PLAYER_CheckWaterfallClimbAttr((u8 *)q, b, c) == 1)
         out->flags |= 4;
     if (ZONEDATA_IsFlyEnabled(out->id) == 1) {
         out->flags |= 0x10;

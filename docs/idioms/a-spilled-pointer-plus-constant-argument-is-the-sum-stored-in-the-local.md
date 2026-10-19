@@ -1,5 +1,8 @@
 # A spilled pointer plus a constant argument: store the sum in the local
 
+summary: When a spilled pointer is passed as `ptr + const`, store the sum in the local where the
+call result arrives. This gives the original r2/r3 choice.
+
 Shape in the listing (ov172 func_021B9044, wave D3):
 
 ```

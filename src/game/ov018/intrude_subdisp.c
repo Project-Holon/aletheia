@@ -103,7 +103,7 @@
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   GFL_NET_WM_ICON_EasyObjWindowOn  0x02037174  arm
  *   GFL_USE_AddMainTask  0x020056A0  thumb
  *   GAMESYSTEM_GetMyPlayerWork  0x020120F8  thumb
@@ -127,9 +127,9 @@
  *   INTRUDE_COMM_SendUnionInfoRequest            0x021746AC  thumb  ov011
  *   INTRUDE_COMM_GetUnionInfoReceived            0x02158428  thumb  ov010
  *   FIELDMAP_GetSubscreen            0x02188CCC  thumb  ov021
- *   SAVEDATA_PanicFail            0x02034714  arm
+ *   GF_PANIC_Fail            0x02034714  arm
  *   str_02183B28             0x02183B28  data  a1
- *   ZONEDATA_IsZone117  0x02013D5C  thumb
+ *   ZONEDATA_IsEntralink  0x02013D5C  thumb
  *   INTRUDE_COMM_HasResult  0x02175DA8  thumb  ov011
  *   INTRUDE_COMM_IsSessionAccepted  0x02175B8C  thumb  ov011
  *   INTRUDE_COMM_GetPlayerNetId  0x02158378  thumb  ov010
@@ -193,7 +193,7 @@
  *   d_021836E4  0x021836E4  data  a4
  *   d_021836DC  0x021836DC  data  a4
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   d_021836D4  0x021836D4  data  a4
  *   d_021836EC  0x021836EC  data  a4
  *   d_021836C4  0x021836C4  data  a4
@@ -216,7 +216,7 @@
  *   GAME_DATA_GetLastBattleRecSlot  0x020127B8  thumb
  *   MIi_CpuCopy32  0x02082A90  arm
  *   BMP_Clear  0x02043B5C  arm
- *   GAME_DATA_GetPlayerStatusById  0x02012950  thumb
+ *   GAME_DATA_GetMyStatusPlayer  0x02012950  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   WORDSET_CopyTaggedText  0x0201F250  thumb
@@ -394,7 +394,7 @@ extern void INTRUDE_FIELD_AddMarkerMmdls();
 void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const void *site, u16 tag);
 void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 void ARC_TOOL_DeleteHandle(void *bg);
-void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 void GFL_NET_WM_ICON_EasyObjWindowOn(void);
 struct TcbTask *GFL_USE_AddMainTask(void (*cb)(void *, void *), void *arg, int pri);
 u8 *GAMESYSTEM_GetMyPlayerWork(const void *p);
@@ -417,8 +417,8 @@ u32 GFL_NET_IsConnectMember(u32 index);
 int INTRUDE_COMM_SendUnionInfoRequest(void *a, int b);
 u8 INTRUDE_COMM_GetUnionInfoReceived(void *p);
 u32 FIELDMAP_GetSubscreen(void *p);
-void SAVEDATA_PanicFail(const void *expr, u32 line, const void *file);
-u32 ZONEDATA_IsZone117(u32 id);
+void GF_PANIC_Fail(const void *expr, u32 line, const void *file);
+u32 ZONEDATA_IsEntralink(u32 id);
 int INTRUDE_COMM_HasResult(void *p);
 int INTRUDE_COMM_IsSessionAccepted(void *p);
 int INTRUDE_COMM_GetPlayerNetId(void *);
@@ -474,7 +474,7 @@ extern void CLACT_SetActorDrawEnable(void *, unsigned int);
 extern void CLACT_SetActorAutoAnim(void *p, unsigned int v);
 extern void CLACT_SetActorPaletteOffset(void *o, unsigned int v, unsigned int flag);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern u8 MYSTATUS_GetOutfitVariant(const void *obj);
+extern u8 MYSTATUS_GetSex(const void *obj);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern struct BmpOam *BMP_OAM_Create(struct BmpOamSys *sys, const void *param);
 extern void BMP_OAM_SetEnabled(void *g, u32 a);
@@ -491,7 +491,7 @@ extern unsigned int CLACT_GetActorDrawEnable(void *p);
 extern void *GAME_DATA_GetLastBattleRecSlot(void *p);
 extern void MIi_CpuCopy32(const void *src, void *dst, int size);
 void BMP_Clear(void *buf, u8 value);
-void *GAME_DATA_GetPlayerStatusById(void *gameData, u32 slot);
+void *GAME_DATA_GetMyStatusPlayer(void *gameData, u32 slot);
 void WORDSET_SetSlotMyStatus(void *p, u32 i, void *a);
 void MSGDATA_ReadString(void *bank, u32 index, void *dest);
 void WORDSET_CopyTaggedText(void *ws, void *dst, void *src);
@@ -1169,7 +1169,7 @@ IntrudeSubdispWork *INTRUDE_SUBDISP_Init(void *gameSystem)
     INTRUDE_SUBDISP_ClactResourceLoad(work, bg);
     INTRUDE_SUBDISP_ClactActorCreate(work, bg);
     ARC_TOOL_DeleteHandle(bg);
-    GFL_NET_RestartWithDefaultTimeout(0, 0x15);
+    GFL_NET_RefreshWmIconAtTopRight(0, 0x15);
     GFL_NET_WM_ICON_EasyObjWindowOn();
     REG_WINOUT_SUB = (u16)((REG_WINOUT_SUB & ~0x3F00) | (0x1F << 8));
     tmp = (REG_WINOUT_SUB & ~0x3F) | 0x1F;
@@ -1287,7 +1287,7 @@ void INTRUDE_SUBDISP_Update(IntrudeSubdispWork *work, int mode)
             }
             break;
         default:
-            SAVEDATA_PanicFail(str_02183B28, 0, str_02183B28);
+            GF_PANIC_Fail(str_02183B28, 0, str_02183B28);
             break;
         }
     }
@@ -1312,7 +1312,7 @@ void INTRUDE_SUBDISP_Draw(IntrudeSubdispWork *work)
     if (sys != 0 && INTRUDE_COMM_HasResult(&sys->session) == 0) {
         flag = 1;
     } else if (sys == 0 && GAME_DATA_GetIntrudeCount(gameData) == 1 && GAME_COMM_GetKind(gameComm) != 2
-               && GAME_COMM_GetCounter(gameComm) == 0 && ZONEDATA_IsZone117(zoneId) == 1) {
+               && GAME_COMM_GetCounter(gameComm) == 0 && ZONEDATA_IsEntralink(zoneId) == 1) {
         flag = 1;
     }
     if (sys != 0 && sys->flagBit7 == 1) {
@@ -1627,7 +1627,7 @@ void INTRUDE_SUBDISP_CreateMyPlayerActor(IntrudeSubdispWork *work, void *bg)
 
     param = d_021836D4;
     gameData = GAMESYSTEM_GetGameData(work->gameSystem);
-    if (MYSTATUS_GetOutfitVariant(GAME_DATA_GetMyStatus(gameData)) == 1) {
+    if (MYSTATUS_GetSex(GAME_DATA_GetMyStatus(gameData)) == 1) {
         param.anim = 3;
     }
     work->actors[15] = CLACT_CreateActor(work->clactUnit, work->charRes, work->palRes, work->cellRes, &param, 0, 0x70);
@@ -1896,7 +1896,7 @@ void INTRUDE_SUBDISP_UpdatePlayerTownActors(IntrudeSubdispWork *work, IntrudeCom
             CLACT_SetActorAutoAnimSpeed(mark, 0x1000);
         }
         if (peer->intrudeId == cur) {
-            if (ZONEDATA_IsZone117(peer->zoneId) == 1) {
+            if (ZONEDATA_IsEntralink(peer->zoneId) == 1) {
                 pair.pos.x = d_021836A4[i][0] + 0x80;
                 pair.pos.y = d_021836A4[i][1] + 0x4c;
                 CLACT_SetActorDrawEnable(icon, 0);
@@ -1996,7 +1996,7 @@ void INTRUDE_SUBDISP_UpdateMyPlayerActor(IntrudeSubdispWork *work, void *target,
 
     idx = GAME_DATA_GetOwnNetId(GAMESYSTEM_GetGameData(work->gameSystem));
     sel = 0xFF;
-    if (ZONEDATA_IsZone117(zoneId) == 1) {
+    if (ZONEDATA_IsEntralink(zoneId) == 1) {
         pos.x = d_021836A4[idx][0] + 0x80;
         pos.y = d_021836A4[idx][1] + 0x4C;
         sel = 8;
@@ -2128,7 +2128,7 @@ void INTRUDE_SUBDISP_PrintTitle(IntrudeSubdispWork *work, int zoneId)
         return;
     }
     if (mode >= 3 && mode <= 6) {
-        WORDSET_SetSlotMyStatus(work->wordSet, 0, GAME_DATA_GetPlayerStatusById(gameData, work->town.homeSlot));
+        WORDSET_SetSlotMyStatus(work->wordSet, 0, GAME_DATA_GetMyStatusPlayer(gameData, work->town.homeSlot));
     }
     MSGDATA_ReadString(work->msgData, anim, work->strbufMsg);
     WORDSET_CopyTaggedText(work->wordSet, work->strbufTitle, work->strbufMsg);
@@ -2320,7 +2320,7 @@ void INTRUDE_SUBDISP_PrintInfoMessage(IntrudeSubdispWork *work, IntrudeCommSys *
             done = 1;
         }
     }
-    if (done == 0 && GAME_DATA_GetIntrudeCount(gameData) == 1 && ZONEDATA_IsZone117(zoneId) == 0 && ZONEDATA_IsZoneGroup118To120(zoneId) == 0
+    if (done == 0 && GAME_DATA_GetIntrudeCount(gameData) == 1 && ZONEDATA_IsEntralink(zoneId) == 0 && ZONEDATA_IsZoneGroup118To120(zoneId) == 0
         && FIELD_PALACE_SYS_IsZoneFlagSet(gameData, zoneId) == 0) {
         MSGDATA_ReadString(work->msgData, 0x30, work->strbufText);
         done = 1;
@@ -2480,7 +2480,7 @@ void INTRUDE_SUBDISP_UpdateTouch(IntrudeCommSys *sys, IntrudeSubdispWork *work, 
     if (work->town.homeSlot != GAME_DATA_GetOwnNetId(gameData)) {
         INTRUDE_SUBDISP_SetTouchRect(0x80, 0x5C, 0x10, 0x10, &rect);
         if (INTRUDE_SUBDISP_IsInTouchRect(touchX, touchY, &rect) == 1) {
-            if (ZONEDATA_IsZone117(zoneId) == 1) {
+            if (ZONEDATA_IsEntralink(zoneId) == 1) {
                 GFL_USE_PlaySeDefaultVolume(0x557);
                 return;
             }

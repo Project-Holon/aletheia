@@ -1,5 +1,8 @@
 # Pointer locals per loop group give hoisted bases and early derived offsets
 
+summary: Pointer locals assigned together before a loop, one set per group, give a hoisted `p + K`
+base and early derived offsets for the stores after the loop.
+
 Seen in wave D7 lane 20 (2026-10-05): ov209 func_021BD9B4 (closed EXACT from 307 bytes).
 
 ## Symptom

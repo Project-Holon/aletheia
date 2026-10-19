@@ -28,7 +28,7 @@
  *   GAME_DATA_GetPlayTime  0x02012FCC  thumb
  *   INTRUDE_UpdatePlaySeconds  0x0200BFA4  thumb
  *   GAMESYSTEM_GetGameComm  0x02012138  thumb
- *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   ZONEDATA_DirToExitDir  0x020142A4  thumb
  *   ZONEDATA_SetDirectLocation  0x02014184  thumb
  *   EVENT_MAPCHANGE_GetCurrentLocation  0x021852F0  thumb  ov020
@@ -59,7 +59,7 @@ u16 *INTRUDE_GetFromSave(void *sys);
 int GAME_DATA_GetPlayTime(int p0);
 unsigned long long INTRUDE_UpdatePlaySeconds(u8 *p, void *q, u32 mode);
 u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
-u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+u8 GAME_DATA_GetOwnNetId(const struct BigObj *p);
 u32 ZONEDATA_DirToExitDir(u32 idx);
 void ZONEDATA_SetDirectLocation(S7 *out, int b, s16 c, int d, int e, int f);
 void EVENT_MAPCHANGE_GetCurrentLocation(void *dst, int x);
@@ -95,7 +95,7 @@ void *EVENT_MAPCHANGE_CreateIntrudeWarpEvent(void *a, int b, S3 *c, int d)
         r2 = 0;
     } else {
         r5 = INTRUDE_COMM_GetRequesterNetId(r7, r7 + 0x1AC);
-        r2 = r5 - GAME_DATA_GetExitMode(r4);
+        r2 = r5 - GAME_DATA_GetOwnNetId(r4);
         if (r2 < 0)
             r2 += r7[0x902];
         r6 = 0x10000;

@@ -1,5 +1,5 @@
 /*
- * function: WIFIBATTLEMATCH_NET_TaskStepB
+ * function: WIFIBATTLEMATCH_NET_TaskStepMainMenu
  * address: 0x021D4608
  * packet: pkt_ov175_021D4608
  * region: ov175
@@ -16,8 +16,8 @@
  *   WIFIBATTLEMATCH_NET_PollChoiceMenu 0x021D65DC thumb ov175
  *   WIFIBATTLEMATCH_NET_DeleteChoiceMenu 0x021D65C8 thumb ov175
  *   WIFIBATTLEMATCH_UTIL_SetCallback 0x021E8AA0 thumb ov177
- *   WIFIBATTLEMATCH_NET_TaskStepK 0x021D57BC thumb ov175
- *   WIFIBATTLEMATCH_NET_TaskStepC 0x021D4730 thumb ov175
+ *   WIFIBATTLEMATCH_NET_TaskStepFreeCheckPartyOnServer 0x021D57BC thumb ov175
+ *   WIFIBATTLEMATCH_NET_TaskStepRatingCheckPartyOnServer 0x021D4730 thumb ov175
  *   WIFIBATTLEMATCH_NET_TaskCleanupB 0x021D61CC thumb ov175
  *   WIFIBATTLEMATCH_UTIL_GetBusy 0x021E8844 thumb ov177
  *   WIFIBATTLEMATCH_UTIL_CommitRequest 0x021E8AB8 thumb ov177
@@ -30,12 +30,12 @@ extern void WIFIBATTLEMATCH_NET_SetupChoiceMenu(u32 *, int);
 extern int WIFIBATTLEMATCH_NET_PollChoiceMenu(char *);
 extern void WIFIBATTLEMATCH_NET_DeleteChoiceMenu(char *);
 extern void WIFIBATTLEMATCH_UTIL_SetCallback(int *, int);
-extern void WIFIBATTLEMATCH_NET_TaskStepK(unsigned sys, int *state, int *p);
-extern void WIFIBATTLEMATCH_NET_TaskStepC(u32 sys, int *state, u32 *p);
+extern void WIFIBATTLEMATCH_NET_TaskStepFreeCheckPartyOnServer(unsigned sys, int *state, int *p);
+extern void WIFIBATTLEMATCH_NET_TaskStepRatingCheckPartyOnServer(u32 sys, int *state, u32 *p);
 extern void WIFIBATTLEMATCH_NET_TaskCleanupB(void *a, u32 **pp, char *p);
 extern int WIFIBATTLEMATCH_UTIL_GetBusy(const int *);
 extern void WIFIBATTLEMATCH_UTIL_CommitRequest(u32);
-void WIFIBATTLEMATCH_NET_TaskStepB(u32 sys, int *state, u32 *p)
+void WIFIBATTLEMATCH_NET_TaskStepMainMenu(u32 sys, int *state, u32 *p)
 {
     u32 *ctx = (u32 *)p[16];
     int result;
@@ -50,8 +50,8 @@ void WIFIBATTLEMATCH_NET_TaskStepB(u32 sys, int *state, u32 *p)
         if (result != -1) {
             WIFIBATTLEMATCH_NET_DeleteChoiceMenu((char *)p);
             switch (result) {
-            case 0: ctx[0] = 1; WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepK); break;
-            case 1: ctx[0] = 0; WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepC); break;
+            case 0: ctx[0] = 1; WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepFreeCheckPartyOnServer); break;
+            case 1: ctx[0] = 0; WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepRatingCheckPartyOnServer); break;
             case 2: ctx[0] = 3; *state = 4; break;
             }
         }

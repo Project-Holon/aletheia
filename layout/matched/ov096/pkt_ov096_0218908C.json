@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "TR_AI_CompareMoveParam28",
+   "name": "TR_AI_CompareMoveEffectSequence",
    "address": "0x0218908C",
    "kind": "game",
    "region": "ov096",

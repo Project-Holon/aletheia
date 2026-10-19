@@ -245,7 +245,7 @@
  *   BTL_SERVER_FLOW_IsPokeEvolvable  0x021C818C  thumb  ov093
  *   gBtlHandlerItemEvioliteHandlers     0x021F14FC  data   ov093  a4
  *   gBtlHandlerItemRockyHelmetHandlers     0x021F140C  data   ov093  a4
- *   BTL_FIELD_GetStaticSlotObject  0x021EF948  thumb  ov093
+ *   BTL_FIELD_IsStaticSlotInUse  0x021EF948  thumb  ov093
  *   gBtlHandlerItemAirBalloonHandlers     0x021F1934  data   ov093  a4
  *   BTL_SERVER_FLOW_CheckClientHasBackupPoke  0x021C7F24  thumb  ov093
  *   gBtlHandlerItemRedCardHandlers     0x021F14CC  data   ov093  a4
@@ -4518,7 +4518,7 @@ void HAND_ITEM_AirBalloonEnterField(struct BtlEventFactor *factor, struct BtlSer
 
     if (pokeId != BTL_EVENT_GetVar(BTL_EVAR_POKE_ID))
         return;
-    if (BTL_FIELD_GetStaticSlotObject(BTL_FIELD_EFFECT_GRAVITY_QUERY) != 0)
+    if (BTL_FIELD_IsStaticSlotInUse(BTL_FIELD_EFFECT_GRAVITY_QUERY) != 0)
         return;
     cmd = (BtlMessageCmd *)BTL_SERVER_FLOW_AllocCmdRecord(flow, BTL_CMD_KIND_MESSAGE, pokeId);
     BTL_SERVER_FLOW_InitMsgRecord(&cmd->strParam, BTL_STR_TYPE_STANDARD, 0x198);

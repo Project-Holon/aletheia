@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "FIELD_RAIL_LOADER_VanishMmdl",
+   "name": "FLDMMDL_MOVE_VanishProc",
    "address": "0x0219F030",
    "kind": "game",
    "region": "ov021",

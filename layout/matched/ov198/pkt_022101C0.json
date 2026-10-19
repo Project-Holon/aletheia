@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "B_PLIST_MAIN_ApplyMode1",
+   "name": "B_PLIST_MAIN_ApplyMonMenuPage",
    "address": "0x022101C0",
    "kind": "game",
    "region": "ov198",

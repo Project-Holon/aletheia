@@ -73,23 +73,23 @@ typedef struct {
         };
         struct {
             u8 pad0__[0x120 - 0x0];
-            u8 lang; /* +0x120 */
-            u8 ver; /* +0x121 */
+            u8 nation; /* +0x120 */
+            u8 area; /* +0x121 */
         };
         struct {
             u8 padF6_[0xF6];
-            u8 gender; /* +0xF6 */
-            u8 profileFlagA; /* +0xF7 */
+            u8 sex; /* +0xF6 */
+            u8 ratingLevel; /* +0xF7 */
             u8 padF8_[0x108 - 0xF8];
             u32 profileId; /* +0x108 */
             u32 trainerId; /* +0x10C */
             u8 padName_[0x122 - 0x110];
-            u8 country; /* +0x122 */
+            u8 trainerView; /* +0x122 */
             u8 pad123_;
-            u8 region; /* +0x124 */
-            u8 city; /* +0x125 */
-            u8 profileFlagB; /* +0x126 */
-            u8 profileFlagC; /* +0x127 */
+            u8 romCode; /* +0x124 */
+            u8 language; /* +0x125 */
+            u8 greetingSet; /* +0x126 */
+            u8 visitedCountryCount; /* +0x127 */
         };
     };
 } Entry;
@@ -157,10 +157,10 @@ typedef struct {
     void *save; /* +0xC */
     u8 pad10[0x14 - 0x10];
     void *wifiList; /* +0x14 */
-    void *status; /* +0x18 */
+    void *wifiHistory; /* +0x18 */
     void *myStatus; /* +0x1C */
     void *statusConfig; /* +0x20 */
-    void *trainerRecord; /* +0x24 */
+    void *record; /* +0x24 */
     u8 pad28[0x3C - 0x28];
     void *saveData; /* +0x3C */
 } Args;
@@ -268,19 +268,19 @@ typedef struct {
         void *save;
     };
     union { /* +0x10 */
-        u32 dex_u;
-        void *dex;
+        u32 zukanSave_u;
+        void *zukanSave;
     };
     void *wifiList; /* +0x14 */
-    void *status; /* +0x18 */
+    void *wifiHistory; /* +0x18 */
     union { /* +0x1C */
         u32 myStatus_u;
         void *myStatus;
     };
     void *statusConfig; /* +0x20 */
-    void *trainerRecord; /* +0x24 */
+    void *record; /* +0x24 */
     u8 pad28[0x2C - 0x28];
-    void *statusRules; /* +0x2C */
+    u32 nationalDexEnabled; /* +0x2C */
     u8 pad30[0x3C - 0x30];
     void *saveData; /* +0x3C */
     void *gameData; /* +0x40 */
@@ -299,7 +299,7 @@ typedef struct {
     u8 pad11[3];
     u16 page;
     u16 pad16;
-    void *rules;
+    u32 nationalDexEnabled;
     u32 f1C;
     u32 result;
     u32 f24;

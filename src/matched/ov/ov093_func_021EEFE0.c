@@ -13,12 +13,12 @@
  * symbols:
  *   STRBUF_GetEosChar 0x02045A98 arm
  *   STRBUF_GetChars 0x02045A90 arm
- *   GF_FONT_GetTagChar 0x0201D5C4 thumb
- *   GF_FONT_IsWordSlotTag 0x0201D5CC thumb
- *   GF_FONT_GetTagParam 0x0201D670 thumb
- *   GF_FONT_GetTagGroup 0x0201D5F4 thumb
- *   GF_FONT_GetTagKind 0x0201D658 thumb
- *   GF_FONT_SkipTag 0x0201D688 thumb
+ *   PRINTSYS_GetTagChar 0x0201D5C4 thumb
+ *   PRINTSYS_IsWordSlotTag 0x0201D5CC thumb
+ *   PRINTSYS_GetTagParam 0x0201D670 thumb
+ *   PRINTSYS_GetTagGroup 0x0201D5F4 thumb
+ *   PRINTSYS_GetTagKind 0x0201D658 thumb
+ *   PRINTSYS_SkipTag 0x0201D688 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
  *   WORDSET_SetSlotFromMsgB6 0x0201EF8C thumb
  *   WORDSET_SetSlotFromMsgCB 0x0201EF34 thumb
@@ -42,12 +42,12 @@ extern u16 STRBUF_GetEosChar(void);
 struct U16Vec;
 struct WordSet;
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
-extern u32 GF_FONT_GetTagChar(void);
-extern u32 GF_FONT_IsWordSlotTag(const u16 *p);
-extern u32 GF_FONT_GetTagParam(const u16 *p, u32 i);
-extern u32 GF_FONT_GetTagGroup(const u16 *p);
-extern u32 GF_FONT_GetTagKind(const u16 *p);
-extern u16 *GF_FONT_SkipTag(u16 *p);
+extern u32 PRINTSYS_GetTagChar(void);
+extern u32 PRINTSYS_IsWordSlotTag(const u16 *p);
+extern u32 PRINTSYS_GetTagParam(const u16 *p, u32 i);
+extern u32 PRINTSYS_GetTagGroup(const u16 *p);
+extern u32 PRINTSYS_GetTagKind(const u16 *p);
+extern u16 *PRINTSYS_SkipTag(u16 *p);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_SetSlotFromMsgB6(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_SetSlotFromMsgCB(struct WordSet *p, u32 i, u32 v);
@@ -71,37 +71,37 @@ void BTL_MSG_ExpandTags(void *s, const u32 *values, void *w)
     u8 group;
     u8 kind;
     end = STRBUF_GetEosChar();
-    tag = GF_FONT_GetTagChar();
+    tag = PRINTSYS_GetTagChar();
     for (i = 0; i < 8; i++)
         removed[i] = 0;
     p = STRBUF_GetChars(s);
     while (*p != end) {
         if (*p == tag) {
-            if (GF_FONT_IsWordSlotTag(p)) {
-                slot = GF_FONT_GetTagParam(p, 0);
-                if ((u8)GF_FONT_GetTagGroup(p) == 1 && GF_FONT_GetTagKind(p) == 14) {
+            if (PRINTSYS_IsWordSlotTag(p)) {
+                slot = PRINTSYS_GetTagParam(p, 0);
+                if ((u8)PRINTSYS_GetTagGroup(p) == 1 && PRINTSYS_GetTagKind(p) == 14) {
                     for (i = slot + 1; i < 8; i++)
                         removed[i]++;
                 }
             }
-            p = GF_FONT_SkipTag(p);
+            p = PRINTSYS_SkipTag(p);
         } else
             p++;
     }
     p = STRBUF_GetChars(s);
     while (*p != end) {
         if (*p == tag) {
-            if (GF_FONT_IsWordSlotTag(p)) {
-                slot = GF_FONT_GetTagParam(p, 0);
+            if (PRINTSYS_IsWordSlotTag(p)) {
+                slot = PRINTSYS_GetTagParam(p, 0);
                 index = slot;
-                group = GF_FONT_GetTagGroup(p);
+                group = PRINTSYS_GetTagGroup(p);
                 if (slot >= removed[slot])
                     index = slot - removed[slot];
                 if (group == 2) {
-                    kind = GF_FONT_GetTagKind(p) + 1;
+                    kind = PRINTSYS_GetTagKind(p) + 1;
                     WORDSET_SetSlotNumber(w, slot, values[index], kind, 0, 1);
                 } else {
-                    switch (GF_FONT_GetTagKind(p)) {
+                    switch (PRINTSYS_GetTagKind(p)) {
                     case 14:
                         BTL_MSG_SetClientValue(w, slot, values[index]);
                         break;
@@ -138,7 +138,7 @@ void BTL_MSG_ExpandTags(void *s, const u32 *values, void *w)
                     }
                 }
             }
-            p = GF_FONT_SkipTag(p);
+            p = PRINTSYS_SkipTag(p);
         } else
             p++;
     }

@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GF_PANIC_Fail 0x02034714 arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
  *   PROCSYS_AllocProcWork 0x0203159C arm
  *   MI_CpuFill8 0x02082BCC arm
@@ -40,8 +40,8 @@
  *   GFL_USE_GetBgmNo 0x02005C44 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   d_02213D04 0x02213D04 data a1 ov199
- *   MISC_SAVEDATA_GetBlock3C 0x0200E9F4 thumb
- *   MISC_SAVEDATA_GetStatsBase2 0x0200EA04 thumb
+ *   LIVEBATTLEMATCH_SAVE_GetFromSave 0x0200E9F4 thumb
+ *   LIVEBATTLEMATCH_SAVE_GetStats2 0x0200EA04 thumb
  *   POKEPARTY_Init 0x0201A948 thumb
  *   POKE_REGULATION_Load 0x0201A354 thumb
  *   REGULATION_NoOp 0x0200AE14 thumb
@@ -50,7 +50,7 @@
  *   POKEPARTY_Copy 0x0201AC2C thumb
  *   POKE_REGULATION_AdjustPartyLevels 0x0201A2A8 thumb
  *   MYSTATUS_GetName 0x020084F4 thumb
- *   MYSTATUS_GetOutfitVariant 0x02008550 thumb
+ *   MYSTATUS_GetSex 0x02008550 thumb
  *   ov093_id 0x0000005D data
  *   BATTLE_REC_ClearWork 0x0200B480 thumb
  *   GAME_DATA_GetTrainerRecord 0x02012F2C thumb
@@ -110,7 +110,7 @@ struct Proc;
 struct WifiBattleMatchSysProc;
 struct Rec160;
 struct Rec534;
-struct PlayerStatus;
+struct MyStatus;
 struct Entry;
 struct Reg;
 struct Reg2;
@@ -134,7 +134,7 @@ struct Sub { u32 a0; u32 a4; u8 pad[1]; };
 /*
  * Per-side party buffer allocated by WIFIBATTLEMATCH_SYS_AllocPartyBuffers
  * (POKE_REGULATION_GetDataSize() + 0xd4 bytes).  Its head is a trainer
- * status record read by the 02008xxx accessors (PlayerStatus), it carries a
+ * status record read by the 02008xxx accessors (MyStatus), it carries a
  * battle-record version at 0x44 and a saved value at 0x48, and the party
  * data copied by MI_CpuCopy8 starts at 0xd4.
  */
@@ -338,7 +338,7 @@ struct PWk {
     u32 result;
 };
 
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 extern void GFL_HEAP_CreateChildHeap(unsigned, unsigned, unsigned);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *, int, unsigned);
@@ -362,8 +362,8 @@ extern u32 GFL_NET_ERR_ShowScreen(u32 isFatal);
 extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, unsigned short);
 extern u16 GFL_USE_GetBgmNo(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(unsigned, unsigned);
-extern void *MISC_SAVEDATA_GetBlock3C(void *p);
-extern int MISC_SAVEDATA_GetStatsBase2(int);
+extern void *LIVEBATTLEMATCH_SAVE_GetFromSave(void *p);
+extern int LIVEBATTLEMATCH_SAVE_GetStats2(int);
 extern void POKEPARTY_Init(struct Party *p);
 extern void *POKE_REGULATION_Load(int, int);
 extern void *REGULATION_NoOp(void *);
@@ -372,7 +372,7 @@ extern void *BATTLE_COMPETITION_GetFromSave(void *);
 extern void POKEPARTY_Copy(const struct Rec534 *src, struct Rec534 *dst);
 extern void POKE_REGULATION_AdjustPartyLevels(void *, void *);
 extern void *MYSTATUS_GetName(void *);
-extern u8 MYSTATUS_GetOutfitVariant(const struct PlayerStatus *obj);
+extern u8 MYSTATUS_GetSex(const struct MyStatus *obj);
 extern void BATTLE_REC_ClearWork(void);
 extern void *GAME_DATA_GetTrainerRecord(int *p);
 extern int GF_OVERLAY_Load(s32 handle);
@@ -396,7 +396,7 @@ extern void BTL_SETUP_Clear(u8 *p);
 extern void BTL_SETUP_InitWithSlots(char *, void *, int);
 extern void BATTLE_REC_TOOL_UnpackSetup(void *p, u32 c);
 extern void BTL_SETUP_ClearWithSlots(struct Obj *p);
-extern u32 MYSTATUS_GetProfileId(const struct PlayerStatus *obj);
+extern u32 MYSTATUS_GetProfileId(const struct MyStatus *obj);
 extern unsigned POKEPARTY_GetCount(void *);
 extern void *POKEPARTY_GetMember(void *,unsigned);
 extern unsigned POKE_TOOL_GetPartyValue(void *,unsigned,unsigned);
@@ -475,7 +475,7 @@ int WIFIBATTLEMATCH_SYS_CreateWork(void *a, int unused, u8 *arg)
     switch (((struct WifiBattleMatchSysCommand *)arg)->kind) {
     case 1: kind = 1; break;
     case 0: kind = 1; break;
-    default: SAVEDATA_PanicFail(d_02213D00, 0, d_02213D00); break;
+    default: GF_PANIC_Fail(d_02213D00, 0, d_02213D00); break;
     }
     GFL_HEAP_CreateChildHeap(kind, 0x56, 0x8000);
     p = PROCSYS_AllocProcWork(a, 0x8b0, 0x56);
@@ -502,7 +502,7 @@ int WIFIBATTLEMATCH_SYS_CreateWork(void *a, int unused, u8 *arg)
         ((struct WifiBattleMatchSysWork *)p)->ruleKind = 2;
         WIFIBATTLEMATCH_SYS_SetStep(((struct WifiBattleMatchSysWork *)p)->procWork, 4);
         break;
-    default: SAVEDATA_PanicFail(d_02213D00, 0, d_02213D00); break;
+    default: GF_PANIC_Fail(d_02213D00, 0, d_02213D00); break;
     }
     dst = *(u8 * *)&((struct WifiBattleMatchSysWork *)p)->partyBuffer0;
     switch (((struct WifiBattleMatchSysWork *)p)->matchKind) {
@@ -580,7 +580,7 @@ int *WIFIBATTLEMATCH_SYS_BuildRuleCommand(void *obj, unsigned heap, char *ctx)
     case 1: case 2: case 5:
     default:
         if (((struct WifiBattleMatchSysWork *)ctx)->partyReady) p[1] = 6;
-        else SAVEDATA_PanicFail(d_02213D00, 0, d_02213D00);
+        else GF_PANIC_Fail(d_02213D00, 0, d_02213D00);
         break;
     }
     if (GFL_USE_GetBgmNo() != 0x487) GFL_USE_CancelChangeAndPlayBgm(0x487, 0xffff);
@@ -596,7 +596,7 @@ int WIFIBATTLEMATCH_SYS_HandleRuleCommand(void *obj, int *command, int *ctx)
     case 2: ctx[7] = 1; WIFIBATTLEMATCH_SYS_SetStep(obj, 2); break;
     case 3: ctx[7] = 1; WIFIBATTLEMATCH_SYS_SetStep(obj, 6); break;
     case 4: ctx[7] = 1; WIFIBATTLEMATCH_SYS_SetStep(obj, 8); break;
-    default: SAVEDATA_PanicFail(d_02213D00, 0, d_02213D00); break;
+    default: GF_PANIC_Fail(d_02213D00, 0, d_02213D00); break;
     }
     GFL_HEAP_Free(command);
     return 1;
@@ -630,7 +630,7 @@ int *WIFIBATTLEMATCH_SYS_BuildMatchCommand(int unused, unsigned heap, char *ctx)
     p[16] = (int)(ctx + 0x8ac);
     {
         void *q = GAME_DATA_GetSaveControl(((struct WifiBattleMatchSysWork *)ctx)->gameData);
-        p[4] = MISC_SAVEDATA_GetStatsBase2((int)MISC_SAVEDATA_GetBlock3C(q));
+        p[4] = LIVEBATTLEMATCH_SAVE_GetStats2((int)LIVEBATTLEMATCH_SAVE_GetFromSave(q));
     }
     if (GFL_USE_GetBgmNo() != 0x487) GFL_USE_CancelChangeAndPlayBgm(0x487, 0xffff);
     return p;
@@ -654,7 +654,7 @@ int WIFIBATTLEMATCH_SYS_HandleMatchCommand(void *obj, int *command, int *ctx)
     case 3: ctx[0x220 / 4] = 1; WIFIBATTLEMATCH_SYS_SetStep(obj, 4); break;
     case 4: ctx[9] = 1;
     case 0: WIFIBATTLEMATCH_SYS_SetStep(obj, 7); break;
-    default: SAVEDATA_PanicFail(d_02213D00, 0, d_02213D00); break;
+    default: GF_PANIC_Fail(d_02213D00, 0, d_02213D00); break;
     }
     GFL_HEAP_Free(command);
     return 1;
@@ -681,7 +681,7 @@ u8 *WIFIBATTLEMATCH_SYS_BuildRegulationRecord(int unused, unsigned heap, u8 *p)
         case 2: id = 17; break;
         case 3: id = 18; break;
         case 4: id = 19; break;
-        default: SAVEDATA_PanicFail(d_02213D00, 0, d_02213D00); break;
+        default: GF_PANIC_Fail(d_02213D00, 0, d_02213D00); break;
         }
         ((struct WifiBattleMatchSysRegRecord *)out)->card = POKE_REGULATION_Load(id, heap);
     } else if (((struct WifiBattleMatchSysWork *)p)->ruleKind == 0) {
@@ -689,7 +689,7 @@ u8 *WIFIBATTLEMATCH_SYS_BuildRegulationRecord(int unused, unsigned heap, u8 *p)
     } else if (((struct WifiBattleMatchSysWork *)p)->ruleKind == 1) {
         ((struct WifiBattleMatchSysRegRecord *)out)->card = REGULATION_NoOp(REGULATION_GetCard(BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl(((struct WifiBattleMatchSysWork *)p)->gameData)), 1));
     } else {
-        SAVEDATA_PanicFail(d_02213D00, 0, d_02213D00);
+        GF_PANIC_Fail(d_02213D00, 0, d_02213D00);
     }
     ((struct WifiBattleMatchSysRegRecord *)out)->partyA = ((struct WifiBattleMatchSysWork *)p)->partyA;
     ((struct WifiBattleMatchSysRegRecord *)out)->gameData = ((struct WifiBattleMatchSysWork *)p)->gameData;
@@ -701,7 +701,7 @@ u8 *WIFIBATTLEMATCH_SYS_BuildRegulationRecord(int unused, unsigned heap, u8 *p)
     POKE_REGULATION_AdjustPartyLevels(((struct WifiBattleMatchSysRegRecord *)out)->card, ((struct WifiBattleMatchSysWork *)p)->partyD);
     ((struct WifiBattleMatchSysRegRecord *)out)->row = MYSTATUS_GetName(row);
     ((struct WifiBattleMatchSysRegRecord *)out)->partyD = ((struct WifiBattleMatchSysWork *)p)->partyD;
-    out[0xc] = MYSTATUS_GetOutfitVariant((const struct PlayerStatus *)row);
+    out[0xc] = MYSTATUS_GetSex((const struct MyStatus *)row);
     return out;
 }
 
@@ -797,7 +797,7 @@ struct Out *WIFIBATTLEMATCH_SYS_BuildSetupRecord(int unused, u32 heap, struct Wi
         default: BTL_SETUP_SetupCommSingle(out->setupParam, p->gameData, (int)GFL_NET_HANDLE_GetCurrentHandle(), 2, heap); break;
         }
     } else {
-        SAVEDATA_PanicFail(d_02213D00, flag, d_02213D00);
+        GF_PANIC_Fail(d_02213D00, flag, d_02213D00);
     }
     if (p->ruleKind == 3) a = p->battleType + 0x17;
     else if (p->ruleKind == 2) a = p->battleType + 0x1c;
@@ -985,7 +985,7 @@ unsigned *WIFIBATTLEMATCH_SYS_BuildVersionCommand(int unused, unsigned heap, u8 
     } else {
         if (((struct WifiBattleMatchSysWork *)p)->ruleKind == 0) index = zero;
         else if (((struct WifiBattleMatchSysWork *)p)->ruleKind == 1) index = 1;
-        else SAVEDATA_PanicFail(d_02213D00, zero, d_02213D00);
+        else GF_PANIC_Fail(d_02213D00, zero, d_02213D00);
         reg = REGULATION_NoOp(REGULATION_GetCard(BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl(((struct WifiBattleMatchSysWork *)p)->gameData)), index));
         a = REGULATION_GetRuleValue(reg, 0xd);
         b = REGULATION_GetRuleValue(reg, 0x15);
@@ -1049,7 +1049,7 @@ int WIFIBATTLEMATCH_SYS_HandleRule2Command(char *a, void *work, char *p)
             WIFIBATTLEMATCH_SYS_SetStep(a, 0);
         break;
     case 1:
-        SAVEDATA_PanicFail(d_02213D00, 0, d_02213D00);
+        GF_PANIC_Fail(d_02213D00, 0, d_02213D00);
         break;
     case 2:
     case 3:
@@ -1134,7 +1134,7 @@ void WIFIBATTLEMATCH_SYS_FillSetupRecord(u8 *p,void *party1,void *party2,u8 *sav
     Triple time;
     PartyCountPair bytes;
     MI_CpuFill8(p,0,0x50);
-    ((struct WifiBattleMatchSysSetupOut *)p)->card=MYSTATUS_GetProfileId((const struct PlayerStatus *)save);
+    ((struct WifiBattleMatchSysSetupOut *)p)->card=MYSTATUS_GetProfileId((const struct MyStatus *)save);
     ((struct WifiBattleMatchSysSetupOut *)p)->savedValue=((struct WifiBattleMatchSysPartyBuffer *)save)->savedValue;
     for(i=0;i<(int)POKEPARTY_GetCount(party2);i++) {
         mon=POKEPARTY_GetMember(party2,i);
@@ -1154,7 +1154,7 @@ void WIFIBATTLEMATCH_SYS_FillSetupRecord(u8 *p,void *party1,void *party2,u8 *sav
             *(u8 *)((unsigned)p+i+0x3e)=POKE_TOOL_GetPartyValue(mon,0x6e,zero);
         }
     }
-    if(DWC_GetDateTime(&date,&time)==0) SAVEDATA_PanicFail(d_02213D00,0,d_02213D00);
+    if(DWC_GetDateTime(&date,&time)==0) GF_PANIC_Fail(d_02213D00,0,d_02213D00);
     ((Flags *)(p + 0x44))->year=date.a;
     ((Flags *)(p + 0x44))->month=date.b;
     ((Flags *)(p + 0x44))->day=date.c;
@@ -1246,7 +1246,7 @@ void *WIFIBATTLEMATCH_SYS_CreateProcWork(void *a, void *b, void *c, int heap)
 
 void WIFIBATTLEMATCH_SYS_DeleteProcWork(char *p)
 {
-    if (((struct WifiBattleMatchSysProc *)p)->result) SAVEDATA_PanicFail(d_02213D00, 0, d_02213D00);
+    if (((struct WifiBattleMatchSysProc *)p)->result) GF_PANIC_Fail(d_02213D00, 0, d_02213D00);
     PROCSYS_Delete(((struct WifiBattleMatchSysProc *)p)->proc);
     GFL_HEAP_Free(p);
 }

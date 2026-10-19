@@ -16,7 +16,7 @@
  *
  * symbols:
  *   SAVE_CONTROL_GetBlock  0x020071CC  thumb
- *   MYSTATUS_SetLanguageAndVersion  0x02008574  thumb
+ *   MYSTATUS_SetNationAndArea  0x02008574  thumb
  *
  * alias: the save block with id 0x1D.  Its bulk is a 0xFF0-byte array of
  * two-bit fields at +0x348, sixteen bytes (sixty-four fields) per row, and
@@ -88,7 +88,7 @@ struct Sub0200852CObj;
 
 struct Sub020071CCCtrl;
 extern void *SAVE_CONTROL_GetBlock(struct Sub020071CCCtrl *ctrl, u32 id);
-extern void MYSTATUS_SetLanguageAndVersion(struct Sub0200852CObj *obj, u8 a, u8 b);
+extern void MYSTATUS_SetNationAndArea(struct Sub0200852CObj *obj, u8 a, u8 b);
 
 struct Sub02009470Obj {
     u8 unk000[0x344];
@@ -109,7 +109,7 @@ struct Sub02009470Obj *WIFI_HISTORY_GetBlock(void *sys)
 void WIFI_HISTORY_InitLanguageRegion(struct Sub02009470Obj *obj, struct Sub0200852CObj *p,
                   u8 row, u8 col)
 {
-    MYSTATUS_SetLanguageAndVersion(p, row, col);
+    MYSTATUS_SetNationAndArea(p, row, col);
     WIFI_HISTORY_SetCountryRegionState(obj, row, col, 3);
 }
 

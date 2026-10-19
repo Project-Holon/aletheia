@@ -13,7 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
  * symbols:
- *   BEACON_GetInputFlag  0x0200C104  thumb
+ *   MISC_GetInputFlag  0x0200C104  thumb
  *   GFL_HEAP_CreateChildHeap  0x0203064C  arm
  *   PROCSYS_AllocProcWork  0x0203159C  arm
  *   MI_CpuFill8  0x02082BCC  arm
@@ -43,7 +43,7 @@
  *   NAMEIN_GRAPHIC_PrintMonMsg  0x021F3E18  thumb  ov194
  *   NAMEIN_GRAPHIC_PrintMsg  0x021F3D70  thumb  ov194
  *   GFL_NET_GetRunState  0x0203CD98  arm
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   SAVE_CONTROL_INTR_Resume  0x021BD374  thumb  ov088
  *   PROF_WORD_Delete 0x021F5354 thumb ov194
  *   NAMEIN_GRAPHIC_DeleteTcbl 0x021F3ED0 thumb ov194
@@ -194,7 +194,7 @@ typedef struct NameinGraphicWork {
     void *nameStrbuf;             /* 0x2D0 */
 } NameinGraphicWork;
 
-extern u8 BEACON_GetInputFlag(struct Blk34 *p, u32 i);
+extern u8 MISC_GetInputFlag(struct Blk34 *p, u32 i);
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,unsigned,unsigned);
@@ -224,7 +224,7 @@ extern void NAMEIN_GRAPHIC_PrintPokeMsg(char *, int, u32, u32, u16);
 extern void NAMEIN_GRAPHIC_PrintMonMsg(char *, int, void *);
 extern void NAMEIN_GRAPHIC_PrintMsg(char *, int);
 extern int GFL_NET_GetRunState(void);
-extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32, u32);
 extern void SAVE_CONTROL_INTR_Resume(unsigned char *p);
 extern void PROF_WORD_Delete(u8 *);
 extern void NAMEIN_GRAPHIC_DeleteTcbl(u8 *);
@@ -303,7 +303,7 @@ u32 NAMEIN_GRAPHIC_Create(struct Proc *a, u32 b, u8 *args)
 
     mode = 0;
     if (*(u32 *)(args + 0x28) != 0) {
-        mode = BEACON_GetInputFlag((struct Blk34 *)(*(u32 *)(args + 0x28)), *(u32 *)args);
+        mode = MISC_GetInputFlag((struct Blk34 *)(*(u32 *)(args + 0x28)), *(u32 *)args);
         if (mode >= 5) {
             mode = 0;
         }
@@ -349,7 +349,7 @@ u32 NAMEIN_GRAPHIC_Create(struct Proc *a, u32 b, u8 *args)
         NAMEIN_GRAPHIC_PrintMsg((char *)(w + 0x230), *(u32 *)args);
     }
     if (GFL_NET_GetRunState()) {
-        GFL_NET_RestartWithDefaultTimeout(1, 0x1e);
+        GFL_NET_RefreshWmIconAtTopRight(1, 0x1e);
     }
     if (*(u32 *)(*(u8 **)(w + 0x2c4) + 0x24) != 0) {
         SAVE_CONTROL_INTR_Resume((unsigned char *)(*(u32 *)(*(u8 **)(w + 0x2c4) + 0x24)));

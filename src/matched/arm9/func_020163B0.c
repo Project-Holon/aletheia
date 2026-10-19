@@ -1,5 +1,5 @@
 /*
- * function: MCSS_SetSysParam
+ * function: MCSS_SetDepthStep
  * address:  0x020163B0
  * packet:   pkt_020163B0
  * region:   arm9
@@ -16,7 +16,7 @@
  */
 #include "../include/Obj15687.h"
 
-void MCSS_SetSysParam(char *p, int v)
+void MCSS_SetDepthStep(char *p, int v)
 {
     ((struct Obj15687 *)p)->f48 = v;
 }

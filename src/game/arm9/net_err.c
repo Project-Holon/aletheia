@@ -1,7 +1,7 @@
 /*
  * file:     net_err.c
  * unit:     yes
- * function: GFL_NET_SetBgmTrackVolumeUnlessVoiceChat, GFL_NET_ERR_CreateHeap, GFL_NET_ERR_Init, GFL_NET_ERR_CheckNetError, GFL_NET_ERR_ShowScreen, GFL_NET_ERR_HaltWithMessage, GFL_NET_ERR_Halt, GFL_NET_ERR_SetKeepDark, GFL_NET_ERR_ClearKeepDark, GFL_NET_ERR_RestoreBrightness, GFL_NET_ERR_UpdateNetwork, GFL_NET_ERR_ShowSimpleScreen, GFL_NET_ERR_HaltIfActive, GFL_NET_ERR_DrawAndHang, GFL_NET_ERR_RecordError, GFL_NET_ERR_GetErrorLevel, GFL_NET_ERR_RequestScreen, GFL_NET_ERR_RaiseFatal, GFL_NET_ERR_ExitAndHalt, GFL_NET_ERR_ResetState, GFL_NET_ERR_WaitLinkClosed, GFL_NET_ERR_ProcScreen, GFL_NET_ERR_SaveDisplayAndDraw, GFL_NET_ERR_RestoreDisplay, GFL_NET_ERR_IsActive, GFL_NET_ERR_LoadScreenGraphics, GFL_NET_ERR_GetMessageId, GFL_NET_ERR_DrawWindow
+ * function: GFL_NET_SetBgmTrackVolumeUnlessVoiceChat, GFL_NET_ERR_CreateHeap, GFL_NET_ERR_Init, GFL_NET_ERR_DetectNetError, GFL_NET_ERR_ShowScreen, GFL_NET_ERR_HaltWithMessage, GFL_NET_ERR_Halt, GFL_NET_ERR_SetKeepDark, GFL_NET_ERR_ClearKeepDark, GFL_NET_ERR_RestoreBrightness, GFL_NET_ERR_UpdateNetwork, GFL_NET_ERR_ShowSimpleScreen, GFL_NET_ERR_HaltIfActive, GFL_NET_ERR_DrawAndHang, GFL_NET_ERR_RecordError, GFL_NET_ERR_GetErrorLevel, GFL_NET_ERR_RequestScreen, GFL_NET_ERR_RaiseFatal, GFL_NET_ERR_ExitAndHalt, GFL_NET_ERR_ResetState, GFL_NET_ERR_WaitLinkClosed, GFL_NET_ERR_ProcScreen, GFL_NET_ERR_SaveDisplayAndDraw, GFL_NET_ERR_RestoreDisplay, GFL_NET_ERR_IsActive, GFL_NET_ERR_LoadScreenGraphics, GFL_NET_ERR_GetMessageId, GFL_NET_ERR_DrawWindow
  * address:  0x0200F698
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -406,7 +406,7 @@ void GFL_NET_ERR_CreateHeap(void);
 
 void GFL_NET_ERR_Init(u32 heapId);
 
-void GFL_NET_ERR_CheckNetError(void);
+void GFL_NET_ERR_DetectNetError(void);
 
 u32 GFL_NET_ERR_ShowScreen(u32 isFatal);
 
@@ -543,7 +543,7 @@ void GFL_NET_ERR_Init(u32 heapId)
  * message id: fixed ids 0x28 and 0xe for two reason code windows, otherwise
  * the mapping DWC_RAP_GetErrorMessageClass(errorCode, errorType).
  */
-void GFL_NET_ERR_CheckNetError(void)
+void GFL_NET_ERR_DetectNetError(void)
 {
     /* stand-in: with &gNetErrWork the compiler materialises the pool word differently */
     NetErrWork *work = (NetErrWork *)0x0214617C;

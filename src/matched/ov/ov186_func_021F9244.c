@@ -19,7 +19,7 @@
  *   BR_PROC_SYS_Delete 0x021F9A6C thumb ov186
  *   GAME_DATA_GetMiscSave 0x02012F08 thumb
  *   BR_RES_GetPalSet 0x021FC238 thumb ov186
- *   BEACON_SetRecorderFlag 0x0200C3EC thumb
+ *   MISC_SetRecorderFlag 0x0200C3EC thumb
  *   BR_RES_ApplyBgSet 0x021FBDA4 thumb ov186
  *   BR_RES_Delete 0x021FB92C thumb ov186
  *   BR_GRAPHIC_Destroy 0x021FC474 thumb ov186
@@ -43,7 +43,7 @@ extern void *GAME_DATA_GetMiscSave(int *p);
 extern int BR_RES_GetPalSet(char *p);
 typedef unsigned int   u32;
 struct Blk34;
-extern void BEACON_SetRecorderFlag(struct Blk34 *p, u32 v);
+extern void MISC_SetRecorderFlag(struct Blk34 *p, u32 v);
 extern void BR_RES_ApplyBgSet(int,unsigned);
 extern void BR_RES_Delete(char *p);
 extern void BR_GRAPHIC_Destroy(char *);
@@ -65,7 +65,7 @@ int BR_PROC_SYS_Exit(int sys,int unused,int unused2,int *p)
     if(nested[0]==0) {
         int a=(int)GAME_DATA_GetMiscSave((int *)nested[1]);
         int b=BR_RES_GetPalSet((char *)p[1]);
-        BEACON_SetRecorderFlag((struct Blk34 *)a,(unsigned char)b);
+        MISC_SetRecorderFlag((struct Blk34 *)a,(unsigned char)b);
     }
     BR_RES_ApplyBgSet(p[1],0);
     BR_RES_ApplyBgSet(p[1],1);

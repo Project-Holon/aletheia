@@ -144,16 +144,20 @@ typedef union {
     } h;
 } BtlNetPacketHeader;
 
-/* Trainer record: 0x28 bytes, the second part holds the name buffer. */
-struct MyStatus {
-    u8 head[0x14];
+/* Trainer slot of the battle setup (0x28 bytes, BattleTrainerData in btl_setup_types.h). */
+struct BtlNetTrainerData {
+    u32 trainerId;
+    u32 trainerType;
+    u32 aiFlags;
+    u16 itemIds[4];
     struct StrBuf *name;
-    u8 tail[0x28 - 0x18];
+    u8 winWord[8];
+    u8 loseWord[8];
 };
 
-/* A MyStatus with its name copied in, so it can be sent. */
-struct BtlNetMyStatusPacket {
-    struct MyStatus status;
+/* A trainer slot with its name copied in, so it can be sent (BtlTrainerPacket). */
+struct BtlNetTrainerPacket {
+    struct BtlNetTrainerData trainer;
     u16 nameChars[0x20];
     u32 nameLength;
 };
@@ -216,14 +220,14 @@ void *BTL_NET_AllocPlayerInfoBuf(int netId, int unused, u32 size);
 void BTL_NET_RecvPlayerInfoDone(int netId, void *buf);
 int BTL_NET_IsPlayerInfoReceived(void);
 void *BTL_NET_GetPlayerInfo(u8 clientId);
-u32 BTL_NET_SendRelayedPlayerInfo(void *myStatus);
+u32 BTL_NET_SendRelayedPlayerInfo(void *trainerData);
 u32 BTL_NET_AllocRelayedPlayerInfoBuf(void *unused0, int unused1, int size);
 void BTL_NET_RecvRelayedPlayerInfoDone(int unused, void *buf);
 int BTL_NET_IsRelayedPlayerInfoReceived(void);
 void *BTL_NET_GetRelayedPlayerInfo(void);
 void BTL_NET_FreeRelayedPlayerInfo(void);
 void BTL_NET_FreeAfterPlayerInfoUse(void);
-struct BtlNetMyStatusPacket *BTL_NET_BuildPlayerInfoPacket(struct MyStatus *myStatus, u32 heapId);
+struct BtlNetTrainerPacket *BTL_NET_BuildPlayerInfoPacket(struct BtlNetTrainerData *trainerData, u32 heapId);
 void BTL_NET_FreePlayerInfoPacket(void *packet);
 void BTL_NET_FreeRecvBuffers(void);
 void BTL_NET_BeginSync(int stage);
@@ -659,13 +663,13 @@ void *BTL_NET_GetPlayerInfo(u8 clientId)
 }
 
 /* Forward a trainer record to everyone (RELAY_PLAYER_INFO) and free the packet. */
-u32 BTL_NET_SendRelayedPlayerInfo(void *myStatus)
+u32 BTL_NET_SendRelayedPlayerInfo(void *trainerData)
 {
     void *packet;
     u32 result;
 
-    packet = (void *)BTL_NET_BuildPlayerInfoPacket((struct MyStatus *)myStatus, BTL_NET_TAIL_HEAP(gBtlNet->heapId));
-    result = GFL_NET_SendData((u32)gBtlNet->netHandle, BTL_NET_SEND_ALL, BTL_NET_CMD_RELAY_PLAYER_INFO, sizeof(struct BtlNetMyStatusPacket), (u32)packet, 0, 1, 0);
+    packet = (void *)BTL_NET_BuildPlayerInfoPacket((struct BtlNetTrainerData *)trainerData, BTL_NET_TAIL_HEAP(gBtlNet->heapId));
+    result = GFL_NET_SendData((u32)gBtlNet->netHandle, BTL_NET_SEND_ALL, BTL_NET_CMD_RELAY_PLAYER_INFO, sizeof(struct BtlNetTrainerPacket), (u32)packet, 0, 1, 0);
     BTL_NET_FreePlayerInfoPacket(packet);
     return result;
 }
@@ -719,15 +723,15 @@ void BTL_NET_FreeAfterPlayerInfoUse(void)
 }
 
 /* Copy a trainer record and its name into a new packet for sending. */
-struct BtlNetMyStatusPacket *BTL_NET_BuildPlayerInfoPacket(struct MyStatus *myStatus, u32 heapId)
+struct BtlNetTrainerPacket *BTL_NET_BuildPlayerInfoPacket(struct BtlNetTrainerData *trainerData, u32 heapId)
 {
-    struct BtlNetMyStatusPacket *packet = GFL_HEAP_Alloc(heapId, sizeof(struct BtlNetMyStatusPacket), 1, gBtlNetSourceName, 0x349);
+    struct BtlNetTrainerPacket *packet = GFL_HEAP_Alloc(heapId, sizeof(struct BtlNetTrainerPacket), 1, gBtlNetSourceName, 0x349);
 
-    MI_CpuCopy8(myStatus, packet, sizeof(struct MyStatus));
+    MI_CpuCopy8(trainerData, packet, sizeof(struct BtlNetTrainerData));
     MIi_CpuClear16(STRBUF_GetEosChar(), packet->nameChars, sizeof(packet->nameChars));
-    if (myStatus->name != 0) {
-        packet->nameLength = STRBUF_GetLength(myStatus->name);
-        WORDSET_CopyString(STRBUF_GetChars(myStatus->name), packet->nameChars, 0x20);
+    if (trainerData->name != 0) {
+        packet->nameLength = STRBUF_GetLength(trainerData->name);
+        WORDSET_CopyString(STRBUF_GetChars(trainerData->name), packet->nameChars, 0x20);
     }
     return packet;
 }

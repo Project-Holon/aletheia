@@ -14,8 +14,8 @@
  *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
  *   FIELD_STATUS_GetMapMode  0x0201444C  thumb
  *   GAME_DATA_GetIntrudeIdByte  0x0215841C  thumb  ov010
- *   GAME_DATA_GetExitMode  0x02012B58  thumb
- *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
+ *   GAME_DATA_GetMyStatusPlayer  0x02012950  thumb
  *   func_0200855C  0x0200855C  thumb
  *   func_02008530  0x02008530  thumb
  *   INTRUDE_COMM_NormalizeVersion  0x021584F4  thumb  ov010
@@ -34,8 +34,8 @@ extern void *GAME_DATA_GetMoveModelSys(const struct BigObj *p);
 extern u32 FIELD_STATUS_GetMapMode(struct Sub02014444Obj *o);
 struct Sub0200852CObj;
 extern u8 GAME_DATA_GetIntrudeIdByte(void *p);
-extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
-extern struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, u32 i);
+extern u8 GAME_DATA_GetOwnNetId(const struct BigObj *p);
+extern struct Rec44 *GAME_DATA_GetMyStatusPlayer(struct Sub24 *p, u32 i);
 extern u8 func_0200855C(const struct Sub0200852CObj *obj);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern int INTRUDE_COMM_NormalizeVersion(int a0, int a1);
@@ -65,7 +65,7 @@ a0 = t5 + 0;
 loc_0215852C:
 t4 = a0 + 0;
 a0 = t5 + 0;
-    a0 = GAME_DATA_GetExitMode((const struct BigObj *)a0);
+    a0 = GAME_DATA_GetOwnNetId((const struct BigObj *)a0);
 loc_02158534:
     if (t4 != a0) goto loc_0215853C;
 loc_02158538:
@@ -74,7 +74,7 @@ a0 = 0;
 loc_0215853C:
 a0 = t5 + 0;
 a1 = t4 + 0;
-    rec = GAME_DATA_GetPlayerStatus((struct Sub24 *)a0, a1);
+    rec = GAME_DATA_GetMyStatusPlayer((struct Sub24 *)a0, a1);
 loc_02158544:
     a0 = func_0200855C((const struct Sub0200852CObj *)rec);
 loc_0215854A:

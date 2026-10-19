@@ -35,7 +35,7 @@
  *   BTL_SETUP_FreeSlots  0x020130DC  thumb
  *   FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask  0x02029C00  thumb
  *   BTL_SETUP_ApplyRegulation  0x02013160  thumb
- *   SAVEDATA_PanicFail  0x02034714  arm
+ *   GF_PANIC_Fail  0x02034714  arm
  *   d_0217277C     0x0217277C  data
  */
 #include "../arm9/btl_setup_types.h"
@@ -108,7 +108,7 @@ extern void *FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask(void *gameSys);
 
 extern void BTL_SETUP_ApplyRegulation(struct BattleSetupParam *setup, void *regulation, u32 heapId);
 
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 /* Overlay ids (absolute linker symbols) and data of other overlays. */
 extern u8 ov008_id[];
@@ -257,7 +257,7 @@ struct GameEvent *IRC_BATTLE_TASK_Create(void *gameSys, void *gameData, u32 kind
         BTL_SETUP_SetupCommMulti(setup, sysData, GFL_NET_HANDLE_GetCurrentHandle(), 1, request->multiTeam, 4);
         break;
     default:
-        SAVEDATA_PanicFail((const char *)d_0217277C, 0, (const char *)d_0217277C);
+        GF_PANIC_Fail((const char *)d_0217277C, 0, (const char *)d_0217277C);
         return 0;
     }
     BTL_SETUP_SetParty(setup, request->party, 0);

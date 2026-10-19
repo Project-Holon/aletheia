@@ -53,7 +53,7 @@
  *   GFL_USE_IsAnySeBusy  0x02006238  thumb
  *   APP_TASKMENU_WIN_SetDecide  0x0202822C  thumb
  *   POKEPARTY_GetCount  0x0201AA18  thumb
- *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
+ *   PRINTSYS_MeasureWidestLine 0x0201D304 thumb
  *   STRBUF_SetString 0x02045924 arm
  *   d_021BED48 0x021BED48 data ov091 a1
  *   NNS_GfdRegisterNewVramTransferTask 0x02061CA4 arm
@@ -148,7 +148,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern int GFL_USE_IsAnySeBusy(void);
 void APP_TASKMENU_WIN_SetDecide(char *p, int v);
 extern u32 POKEPARTY_GetCount(void *);
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 extern int NNS_GfdRegisterNewVramTransferTask(void *,u32,u32,int);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
@@ -432,7 +432,7 @@ void PLIST_BATTLE_UpdateTimer(PokelistWork *work)
         }
         BMP_Clear(BMP_WIN_GetBmp(work->timerValueWindow), 0);
         WORDSET_CopyTaggedText(words, buf, text);
-        width = GF_FONT_MeasureWidestLine((struct StrObj *)buf, (u32)work->fontMain, 0);
+        width = PRINTSYS_MeasureWidestLine((struct StrObj *)buf, (u32)work->fontMain, 0);
         PRINTSYS_PrintQueColor(work->printSys, (u32)BMP_WIN_GetBmp(work->timerValueWindow), (s16)(36 - width), 4, (u32)buf, (u32)work->fontMain, 0x3c40);
         WORDSET_Delete(words);
         STRBUF_Delete(buf);

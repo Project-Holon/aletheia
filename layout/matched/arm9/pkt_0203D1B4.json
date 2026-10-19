@@ -31,7 +31,7 @@
    "status": "EXACT"
   },
   {
-   "name": "GFL_NET_NotifyUserEvent",
+   "name": "GFL_NET_SetAcceptConnection",
    "address": "0x0203D1E8",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "GFL_NET_SetTimeout",
+   "name": "GFL_NET_SetIconPos",
    "address": "0x0203D24C",
    "kind": "game",
    "region": "arm9",
@@ -91,7 +91,7 @@
    "status": "EXACT"
   },
   {
-   "name": "GFL_NET_RestartByNetType",
+   "name": "GFL_NET_RefreshWmIcon",
    "address": "0x0203D2CC",
    "kind": "game",
    "region": "arm9",
@@ -103,7 +103,7 @@
    "status": "EXACT"
   },
   {
-   "name": "GFL_NET_RestartWithDefaultTimeout",
+   "name": "GFL_NET_RefreshWmIconAtTopRight",
    "address": "0x0203D34C",
    "kind": "game",
    "region": "arm9",

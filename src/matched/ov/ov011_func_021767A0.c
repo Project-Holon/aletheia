@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   INTRUDE_COMM_GetWorkIfRunning  0x02158344  thumb  ov010
  *   func_0200FB24  0x0200FB24  thumb
  *   GAME_DATA_GetIntrudeId  0x02012B80  thumb
@@ -25,7 +25,7 @@ typedef struct {
 } Rec;
 
 struct BigObj;
-extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+extern u8 GAME_DATA_GetOwnNetId(const struct BigObj *p);
 extern int INTRUDE_COMM_GetWorkIfRunning(int a0);
 typedef unsigned int   u32;
 extern u32 func_0200FB24(void);
@@ -37,7 +37,7 @@ u8 INTRUDE_COMM_GetPartnerSlot(void *a, void *b)
     u8 y;
     Rec *r;
 
-    x = (int)GAME_DATA_GetExitMode(b);
+    x = (int)GAME_DATA_GetOwnNetId(b);
     r = (Rec *)INTRUDE_COMM_GetWorkIfRunning((int)a);
     if (func_0200FB24()) {
         y = (int)GAME_DATA_GetIntrudeId(b);

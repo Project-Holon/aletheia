@@ -35,7 +35,7 @@
  *   P_STA_SKILL_InitStatsPage 0x021D9C3C thumb ov131
  *   P_STA_RIBBON_Init 0x021D8F50 thumb ov131
  *   P_STA_INFO_Setup 0x021D7C38 thumb ov131
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  */
 #include "../include/Obj00238.h"
 #include "../include/Obj23119.h"
@@ -66,7 +66,7 @@ extern int GAME_DATA_ContainsRecentId(int a0, int a1);
 extern void P_STA_SKILL_InitStatsPage(void *,u8 *);
 extern void P_STA_RIBBON_Init(void *,u8 *);
 extern void P_STA_INFO_Setup(void *,u8 *);
-extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 int P_STATUS_InitWork(char *p)
 {
     u8 i;
@@ -128,6 +128,6 @@ int P_STATUS_InitWork(char *p)
             P_STA_INFO_Setup(p,*(u8 * *)&((struct Obj00238 *)p)->f8C); break;
         }
     }
-    GFL_NET_RestartWithDefaultTimeout(1,((struct Obj00238 *)p)->f0);
+    GFL_NET_RefreshWmIconAtTopRight(1,((struct Obj00238 *)p)->f0);
     return 1;
 }

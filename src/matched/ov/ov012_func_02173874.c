@@ -16,7 +16,7 @@
  * symbols:
  *   FIELDMAP_CTRL_GRID_SetBusy  0x021A2E44  thumb  ov021
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
- *   ZONEDATA_IsZone1A6  0x02013CC8  thumb
+ *   ZONEDATA_IsUnionRoom  0x02013CC8  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   UNION_CHARA_RefreshParentMarks  0x0217B440  thumb  ov019
  *   COMM_PLAYER_Resume  0x021676E4  thumb  ov010
@@ -34,7 +34,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Work;
 extern u16 FIELDMAP_GetZoneId(u8 *p);
-extern u32 ZONEDATA_IsZone1A6(u32 id);
+extern u32 ZONEDATA_IsUnionRoom(u32 id);
 struct Ctx;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void UNION_CHARA_RefreshParentMarks(char *base, int x, void *y);
@@ -49,7 +49,7 @@ void UNION_MAIN_FieldCreateCallback(int a, u8 *p, void *q)
     if (p[0x3563] == 1) {
         FIELDMAP_CTRL_GRID_SetBusy((int)q, 1);
     }
-    if (ZONEDATA_IsZone1A6(FIELDMAP_GetZoneId(q)) == 1) {
+    if (ZONEDATA_IsUnionRoom(FIELDMAP_GetZoneId(q)) == 1) {
         UNION_CHARA_RefreshParentMarks((char *)p, (int)GAMESYSTEM_GetGameData((const struct Ctx *)(((struct Obj19238 *)(*(u8 * *)&((struct Obj07338 *)p)->f0))->fC)), q);
     }
     if (r4 != 0 && r4->f == 1) {

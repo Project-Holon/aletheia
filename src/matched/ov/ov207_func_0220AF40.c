@@ -23,7 +23,7 @@
  *   ZUKAN_TOROKU_GRAPHIC_GetDisplay 0x0220B428 thumb ov207
  *   ZUKAN_INFO_CreateFromMon 0x021B9DE0 thumb ov206
  *   ZUKAN_NICKNAME_Create 0x0220B55C thumb ov207
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   ZUKAN_TOROKU_GRAPHIC_CreateBg 0x0220B260 thumb ov207
  *   ZUKAN_TOROKU_GRAPHIC_ClearTask 0x0220B2F8 thumb ov207
  *   func_020056A0 0x020056A0 thumb
@@ -46,7 +46,7 @@ extern u32 PRINTSYS_QUE_Create(void *);
 extern u32 ZUKAN_TOROKU_GRAPHIC_GetDisplay(u8 *p);
 extern void *ZUKAN_INFO_CreateFromMon(u16,void *,u32,u32,u32,u32,u8,u32,u32,u32,u32,u32,u32);
 extern char *ZUKAN_NICKNAME_Create(u16 heap, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
-extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 extern void ZUKAN_TOROKU_GRAPHIC_CreateBg(u32 *);
 extern void ZUKAN_TOROKU_GRAPHIC_ClearTask(int,char *);
 extern void *func_020056A0(u32,u32,u32);
@@ -69,7 +69,7 @@ int ZUKAN_TOROKU_GRAPHIC_Init(void *owner,int unused,u32 *args)
     if(args[0]!=0) flag=1;
     p->mon=ZUKAN_INFO_CreateFromMon(p->heap,(void *)args[1],args[2],1,flag,0,0,ZUKAN_TOROKU_GRAPHIC_GetDisplay(p->display),(u32)p->font,p->gfx,0,0,0);
     p->other=ZUKAN_NICKNAME_Create(p->heap,args[1],args[3],args[4],args[5],ZUKAN_TOROKU_GRAPHIC_GetDisplay(p->display),(u32)p->font,p->gfx,args[6]);
-    GFL_NET_RestartWithDefaultTimeout(0,p->heap);
+    GFL_NET_RefreshWmIconAtTopRight(0,p->heap);
     if(p->enabled==1) ZUKAN_TOROKU_GRAPHIC_CreateBg((u32 *)p);
     p->task=func_020056A0((u32)ZUKAN_TOROKU_GRAPHIC_ClearTask,(u32)p,1);
     FADE_Start(3,16,0,2);

@@ -16,10 +16,10 @@
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   GFL_HEAP_Free  0x020307B0  arm
- *   SAVEDATA_PanicFail  0x02034714  arm
+ *   GF_PANIC_Fail  0x02034714  arm
  *   MI_CpuCopy8  0x02082D44  arm
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   MYSTATUS_GetName  0x020084F4  thumb
  *   WORDSET_SetSlotMyStatus  0x0201F02C  thumb
@@ -61,8 +61,8 @@
  *   d_02180334  0x02180334  data a2
  *   d_0218030C  0x0218030C  data a2
  *   d_021802FC  0x021802FC  data a2
- *   MYSTATUS_GetLanguage  0x0200856C  thumb
- *   MYSTATUS_GetVersion  0x02008570  thumb
+ *   MYSTATUS_GetNation  0x0200856C  thumb
+ *   MYSTATUS_GetArea  0x02008570  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_SetString  0x02045924  arm
  *   WORDSET_SetSlotTag  0x0201EE0C  thumb
@@ -118,7 +118,7 @@
  *   d_02180718     0x02180718  data   ov019 a4
  *   WIFILIST_FindFriendByStatusAndOutfit 0x02009D50 thumb
  *   ARC_TOOL_CreateHandle   0x020490F4  arm
- *   SAVEDATA_PanicFail   0x02034714  arm
+ *   GF_PANIC_Fail   0x02034714  arm
  *   MTX_Identity33_  0x0207ADC4  arm
  *   UNION_ONESELF_TalkParentMain  0x0217C2AC  thumb  ov019
  *   UNION_ONESELF_TalkChildMain  0x0217C5A8  thumb  ov019
@@ -163,16 +163,16 @@ typedef struct UnionTilePos {
 extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const void *site, unsigned short tag);
 extern void *GAME_DATA_GetSaveControl(void *p);
 extern u32 GFL_HEAP_Free(void *p);
-void SAVEDATA_PanicFail(const void *expr, u32 line, const void *file);
+void GF_PANIC_Fail(const void *expr, u32 line, const void *file);
 extern void MI_CpuCopy8(const void *a, void *b, int c);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern u8 MYSTATUS_GetOutfitVariant(const void *obj);
+extern u8 MYSTATUS_GetSex(const void *obj);
 extern void *FIELDMAP_GetFieldPlayer(void *p);
 const void *MYSTATUS_GetName(const void *p);
 void WORDSET_SetSlotMyStatus(void *p, u32 i, void *a);
 extern u32 GFL_USE_GetRandom(u32 v);
-extern u8 MYSTATUS_GetLanguage(const void *obj);
-extern u8 MYSTATUS_GetVersion(const void *obj);
+extern u8 MYSTATUS_GetNation(const void *obj);
+extern u8 MYSTATUS_GetArea(const void *obj);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_SetString(void *o, const void *src);
 extern void WORDSET_SetSlotTag(void *p, u32 i, const void *src, u32 n, u32 f, u32 c);
@@ -337,7 +337,7 @@ extern const UnionTilePos d_02180718[];
 
 u16 UNION_MSG_GetNoReplyMsg(void ***ctx)
 {
-    return d_0218031C[MYSTATUS_GetOutfitVariant(**ctx)];
+    return d_0218031C[MYSTATUS_GetSex(**ctx)];
 }
 
 
@@ -425,13 +425,13 @@ u16 UNION_MSG_GetNoEggInPartyMsg(int i)
 
 u16 UNION_MSG_GetBadEggInPartyMsg(void ***ctx)
 {
-    return d_02180328[MYSTATUS_GetOutfitVariant(**ctx)];
+    return d_02180328[MYSTATUS_GetSex(**ctx)];
 }
 
 
 u16 UNION_MSG_GetBadEggNoticeMsg(void ***ctx)
 {
-    return d_02180324[MYSTATUS_GetOutfitVariant(**ctx)];
+    return d_02180324[MYSTATUS_GetSex(**ctx)];
 }
 
 
@@ -595,8 +595,8 @@ u16 UNION_MSG_GetMultiBattleBusyMsg(int i)
 int UNION_MSG_CheckLanguageVersion(UnionRoomWork *unisys, int language, int version)
 {
     int myStatus = (int)GAME_DATA_GetMyStatus((void *)unisys->parent->gameData);
-    int myLanguage = MYSTATUS_GetLanguage((const void *)myStatus);
-    int myVersion = MYSTATUS_GetVersion((const void *)myStatus);
+    int myLanguage = MYSTATUS_GetNation((const void *)myStatus);
+    int myVersion = MYSTATUS_GetArea((const void *)myStatus);
 
     if (language == 0)
         return 15;
@@ -625,9 +625,9 @@ void UNION_MSG_RegisterPartnerWords(UnionRoomWork *unisys)
 
     myStatus = (u32)unisys->parent->myStatus;
     if (unisys->msgWork.msgData == 0)
-        SAVEDATA_PanicFail(d_021807F8, 0, d_021807F8);
+        GF_PANIC_Fail(d_021807F8, 0, d_021807F8);
     if (unisys->msgWork.wordSet == 0)
-        SAVEDATA_PanicFail(d_021807F8, 0, d_021807F8);
+        GF_PANIC_Fail(d_021807F8, 0, d_021807F8);
 
     partner = situation->connect.talkParam;
     if (partner != 0) {
@@ -637,7 +637,7 @@ void UNION_MSG_RegisterPartnerWords(UnionRoomWork *unisys)
     } else {
         nameChars = (u16 *)MYSTATUS_GetName((const void *)myStatus);
         language = 2;
-        sex = (int)MYSTATUS_GetOutfitVariant((const void *)myStatus);
+        sex = (int)MYSTATUS_GetSex((const void *)myStatus);
     }
     nameStr = STRBUF_Create(0x20, UNION_HEAP_ID);
     STRBUF_SetString(nameStr, nameChars);
@@ -728,7 +728,7 @@ void UNION_MSG_SetupTalkWindow(UnionRoomWork *unisys, u8 *fieldmap)
 
     if (unisys->msgWork.talkWin == 0) {
         if (unisys->msgWork.msgData != 0)
-            SAVEDATA_PanicFail((const char *)d_021807F8, 0, (const char *)d_021807F8);
+            GF_PANIC_Fail((const char *)d_021807F8, 0, (const char *)d_021807F8);
         fieldMsgBg = FIELDMAP_GetMsgBg(fieldmap);
         unisys->msgWork.msgData = (struct MsgBank *)FIELD_MSGBG_CreateMsgData(fieldMsgBg, 200);
         unisys->msgWork.strTemp = (struct Strbuf *)STRBUF_Create(0x100, UNION_HEAP_ID);
@@ -764,7 +764,7 @@ void UNION_MSG_DeleteTalkWindow(UnionRoomWork *unisys)
 void UNION_MSG_PrintTalkMsg(UnionRoomWork *unisys, u32 msgId)
 {
     if (unisys->msgWork.talkWin == 0) {
-        SAVEDATA_PanicFail((const char *)d_021807F8, 0, (const char *)d_021807F8);
+        GF_PANIC_Fail((const char *)d_021807F8, 0, (const char *)d_021807F8);
     }
     MSGDATA_ReadString(unisys->msgWork.msgData, msgId, unisys->msgWork.strTemp);
     WORDSET_CopyTaggedText(unisys->msgWork.wordSet, unisys->msgWork.strExpand, unisys->msgWork.strTemp);
@@ -811,7 +811,7 @@ int UNION_MSG_SelectYesNo(UnionRoomWork *unisys, u32 *isYes)
     int result;
 
     if (unisys->msgWork.yesNo == 0) {
-        SAVEDATA_PanicFail((const char *)d_021807F8, 0, (const char *)d_021807F8);
+        GF_PANIC_Fail((const char *)d_021807F8, 0, (const char *)d_021807F8);
     }
     result = FIELD_MSGBG_YesNoMenuMain(unisys->msgWork.yesNo);
     if (result == 2) {
@@ -847,13 +847,13 @@ int UNION_MSG_SelectMenu(UnionRoomWork *unisys, u32 fieldmap)
     u32 fieldMsgBg = FIELDMAP_GetMsgBg((u8 *)fieldmap);
 
     if (fieldMsgBg == 0) {
-        SAVEDATA_PanicFail((const char *)d_021807F8, 0, (const char *)d_021807F8);
+        GF_PANIC_Fail((const char *)d_021807F8, 0, (const char *)d_021807F8);
     }
     if (fieldMsgBg != 0 && FIELD_MSGBG_IsPrintQueFinished((u8 *)fieldMsgBg) == 0) {
         return -1;
     }
     if (unisys->msgWork.menu == 0) {
-        SAVEDATA_PanicFail((const char *)d_021807F8, 0, (const char *)d_021807F8);
+        GF_PANIC_Fail((const char *)d_021807F8, 0, (const char *)d_021807F8);
     }
     return FIELD_MSGBG_MenuFuncMain(unisys->msgWork.menu);
 }
@@ -1017,7 +1017,7 @@ int UNION_MSG_SelectSubMenu(UnionRoomWork *unisys, int *hit, u8 *st, int *flag, 
             break;
         }
     }
-    SAVEDATA_PanicFail((const char *)d_021807F8, 0, (const char *)d_021807F8);
+    GF_PANIC_Fail((const char *)d_021807F8, 0, (const char *)d_021807F8);
     return 0;
 }
 
@@ -1063,11 +1063,11 @@ void UNION_MSG_SetupRegulationWindow(UnionRoomWork *unisys, u32 fieldmap, u32 fa
     int flag;
 
     if (unisys->msgWork.wordSet == 0)
-        SAVEDATA_PanicFail((const char *)d_021807F8, 0, (const char *)d_021807F8);
+        GF_PANIC_Fail((const char *)d_021807F8, 0, (const char *)d_021807F8);
     if (unisys->msgWork.infoWin != 0)
-        SAVEDATA_PanicFail((const char *)d_021807F8, 0, (const char *)d_021807F8);
+        GF_PANIC_Fail((const char *)d_021807F8, 0, (const char *)d_021807F8);
     if (unisys->regulationText != 0)
-        SAVEDATA_PanicFail((const char *)d_021807F8, 0, (const char *)d_021807F8);
+        GF_PANIC_Fail((const char *)d_021807F8, 0, (const char *)d_021807F8);
 
     flag = 1;
     if (mode != 1)

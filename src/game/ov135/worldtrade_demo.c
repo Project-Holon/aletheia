@@ -17,7 +17,7 @@
  *   ov067_id  0x00000043  data
  *   GFL_HEAP_Free 0x020307B0 arm
  *   GF_OVERLAY_Unload 0x02034A5C arm
- *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GF_PANIC_Fail 0x02034714 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   POKEPARTY_GetMember  0x0201AB28  thumb
@@ -43,11 +43,11 @@
  *   MYSTATUS_Create  0x0200846C  thumb
  *   MYSTATUS_Init  0x020084A0  thumb
  *   MYSTATUS_CopyName  0x020084D4  thumb
- *   MYSTATUS_SetAvatarId  0x02008560  thumb
- *   MYSTATUS_SetGender  0x02008568  thumb
- *   MYSTATUS_SetOutfitVariant  0x0200854C  thumb
- *   MYSTATUS_SetOutfit  0x02008558  thumb
- *   MYSTATUS_SetLanguageAndVersion  0x02008574  thumb
+ *   MYSTATUS_SetRomCode  0x02008560  thumb
+ *   MYSTATUS_SetLanguage  0x02008568  thumb
+ *   MYSTATUS_SetSex  0x0200854C  thumb
+ *   MYSTATUS_SetTrainerView  0x02008558  thumb
+ *   MYSTATUS_SetNationAndArea  0x02008574  thumb
  *   WORLDTRADE_ADAPTER_CopyMon  0x0220262C  thumb
  *   BOX_SAVEDATA_ClearPokemon  0x02007664  thumb
  *   BOX_SAVEDATA_FindFreeSlot  0x020076D0  thumb
@@ -79,7 +79,7 @@ extern u32 GFL_HEAP_Free(void *p);
 
 extern void GF_OVERLAY_Unload(s32 handle);
 
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 struct Ctx;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
@@ -112,15 +112,15 @@ extern void MYSTATUS_Init(struct Sub0200852CObj *p);
 
 extern u32 MYSTATUS_CopyName(u32 value, void *dst);
 
-extern void MYSTATUS_SetAvatarId(struct Sub0200852CObj *obj, u8 value);
+extern void MYSTATUS_SetRomCode(struct Sub0200852CObj *obj, u8 value);
 
-extern void MYSTATUS_SetGender(struct Sub0200852CObj *obj, u8 value);
+extern void MYSTATUS_SetLanguage(struct Sub0200852CObj *obj, u8 value);
 
-extern void MYSTATUS_SetOutfitVariant(struct Sub0200852CObj *obj, u8 value);
+extern void MYSTATUS_SetSex(struct Sub0200852CObj *obj, u8 value);
 
-extern void MYSTATUS_SetOutfit(struct Sub0200852CObj *obj, u8 value);
+extern void MYSTATUS_SetTrainerView(struct Sub0200852CObj *obj, u8 value);
 
-extern void MYSTATUS_SetLanguageAndVersion(struct Sub0200852CObj *obj, u8 a, u8 b);
+extern void MYSTATUS_SetNationAndArea(struct Sub0200852CObj *obj, u8 a, u8 b);
 
 extern void WORLDTRADE_ADAPTER_CopyMon(u32 a, u32 b);
 
@@ -213,7 +213,7 @@ int WORLDTRADE_DEMO_Init(Work *p)
         tmpl = d_021E75CC;
         break;
     default:
-        SAVEDATA_PanicFail((void *)0x02203B80, 0, (void *)0x02203B80);
+        GF_PANIC_Fail((void *)0x02203B80, 0, (void *)0x02203B80);
         break;
     }
     PROCSYS_Push(p->procSys, (u32)ov119_id, tmpl, p->req);
@@ -376,11 +376,11 @@ TradePartnerInfo *WORLDTRADE_DEMO_CreateMyStatusFromEntry(Entry *ent)
     info = MYSTATUS_Create(0x48);
     MYSTATUS_Init((struct Sub0200852CObj *)info);
     MYSTATUS_CopyName((u32)info, ent->name);
-    MYSTATUS_SetAvatarId((struct Sub0200852CObj *)info, ent->region);
-    MYSTATUS_SetGender((struct Sub0200852CObj *)info, ent->city);
-    MYSTATUS_SetOutfitVariant((struct Sub0200852CObj *)info, ent->gender);
-    MYSTATUS_SetOutfit((struct Sub0200852CObj *)info, ent->country);
-    MYSTATUS_SetLanguageAndVersion((struct Sub0200852CObj *)info, ent->lang, ent->ver);
+    MYSTATUS_SetRomCode((struct Sub0200852CObj *)info, ent->romCode);
+    MYSTATUS_SetLanguage((struct Sub0200852CObj *)info, ent->language);
+    MYSTATUS_SetSex((struct Sub0200852CObj *)info, ent->sex);
+    MYSTATUS_SetTrainerView((struct Sub0200852CObj *)info, ent->trainerView);
+    MYSTATUS_SetNationAndArea((struct Sub0200852CObj *)info, ent->nation, ent->area);
     info->trainerId = ent->trainerId;
     info->profileId = ent->profileId;
     return info;
@@ -389,7 +389,7 @@ TradePartnerInfo *WORLDTRADE_DEMO_CreateMyStatusFromEntry(Entry *ent)
 /*
  * Return the slot record for a kind: kind 9 is the current 0x128-byte
  * entry of the +0x20C array (index at +0xD4), kinds 10 and 8 share the
- * record at +0xE4. Any other kind reports through SAVEDATA_PanicFail (raw
+ * record at +0xE4. Any other kind reports through GF_PANIC_Fail (raw
  * address 0x02203B80, a plain constant as in WORLDTRADE_ADAPTER_QueueMessagePrint) and yields 0.
  */
 Entry *WORLDTRADE_DEMO_GetSlotRecord(Work *p, int kind)
@@ -401,7 +401,7 @@ Entry *WORLDTRADE_DEMO_GetSlotRecord(Work *p, int kind)
     } else if (kind == 8) {
         return &p->single;
     }
-    SAVEDATA_PanicFail((void *)0x02203B80, 0, (void *)0x02203B80);
+    GF_PANIC_Fail((void *)0x02203B80, 0, (void *)0x02203B80);
     return 0;
 }
 

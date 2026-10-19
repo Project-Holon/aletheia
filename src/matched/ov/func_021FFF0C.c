@@ -1,5 +1,5 @@
 /*
- * function: BTLV_MCSS_GetSpritePersonalParam26
+ * function: BTLV_MCSS_GetSpriteWeight
  * address:  0x021FFF0C
  * packet:   pkt_021F6560
  * region:   ov094
@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   BTLV_MCSS_GetSpritePersonalParam26   0x021FFF0C  thumb
+ *   BTLV_MCSS_GetSpriteWeight   0x021FFF0C  thumb
  *   BTLV_MCSS_FindSpriteIndex 0x022019F4 thumb ov094
 
  *
@@ -20,7 +20,7 @@
 
 extern int BTLV_MCSS_FindSpriteIndex(char *p, int key);
 
-int BTLV_MCSS_GetSpritePersonalParam26(char *p, int key)
+int BTLV_MCSS_GetSpriteWeight(char *p, int key)
 {
     int i = BTLV_MCSS_FindSpriteIndex(p, key);
     char *e;

@@ -1,5 +1,5 @@
 /*
- * function: FIELD_3DBG_UpdateCGear
+ * function: FIELD_SUBSCREEN_UpdateCGear
  * address:  0x021A10E0
  * packet:   pkt_ov021_021A10E0
  * region:   ov021
@@ -41,7 +41,7 @@ extern void GAMESYSTEM_ClearNetOffBySleep(struct Ctx *p);
 extern int C_GEAR_Restart(int *p);
 extern u32 C_GEAR_Update(u32, u32);
 
-u32 FIELD_3DBG_UpdateCGear(u32 *p, u32 x)
+u32 FIELD_SUBSCREEN_UpdateCGear(u32 *p, u32 x)
 {
     u32 a, b;
     if (x != 0) {

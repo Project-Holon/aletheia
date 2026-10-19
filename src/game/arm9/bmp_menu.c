@@ -48,7 +48,7 @@
  *   BMP_MENUWORK_Create 0x0201F81C thumb arm9
  *   BMP_MENUWORK_Delete 0x0201F868 thumb arm9
  *   BMP_MENUWORK_AddMsgItem 0x0201F878 thumb arm9
- *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
+ *   PRINTSYS_MeasureWidestLine  0x0201D304  thumb
  */
 #include "bmp_menuwork_shared_types.h"
 
@@ -129,7 +129,7 @@ extern void *BMP_WIN_GetBmp(struct BmpWin *p);
 
 extern void BMP_FillRect(void *bitmap, u32 x, u32 y, u32 w, u32 h, u32 value);
 
-extern u32 GF_FONT_MeasureWidestLine(const void *str, struct GfFont *font, u32 flags);
+extern u32 PRINTSYS_MeasureWidestLine(const void *str, struct GfFont *font, u32 flags);
 
 extern void BMP_Clear(void *bitmap, u8 value);
 
@@ -459,7 +459,7 @@ u32 BMP_MENU_GetMaxItemWidth(BmpMenu *menu)
     u8 idx;
 
     for (idx = 0; idx < menu->header.numColumns * menu->header.itemsPerColumn; idx++) {
-        u32 width = (u8)GF_FONT_MeasureWidestLine(menu->header.items[idx].u.text, menu->header.fontH, 0);
+        u32 width = (u8)PRINTSYS_MeasureWidestLine(menu->header.items[idx].u.text, menu->header.fontH, 0);
 
         if (maxWidth < width) {
             maxWidth = width;

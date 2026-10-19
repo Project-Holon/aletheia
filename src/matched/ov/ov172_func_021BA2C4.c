@@ -25,7 +25,7 @@
  *   CTVT_DRAW_UpdateToolButtons  0x021BB54C  thumb  ov172
  *   CTVT_DRAW_ShowHelp  0x021BB65C  thumb  ov172
  *   PRINTSYS_PrintQueColor  0x0201C724  thumb  arm9
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm  arm9
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm  arm9
  *   BMP_Clear  0x02043B5C  arm  arm9
  *   BMP_WIN_Create  0x020450F0  arm  arm9
  *   STRBUF_Delete  0x02045808  arm  arm9
@@ -96,7 +96,7 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 
 void CTVT_DRAW_Init(void *a0, u8 *p)
 {
@@ -217,6 +217,6 @@ void CTVT_DRAW_Init(void *a0, u8 *p)
     ((struct Obj00276 *)p)->f20 = 0;
     *(volatile u16 *)0x0500021A = ((struct Obj00276 *)p)->f34 & 0x7fff;
     CTVT_DRAW_ShowHelp(a0, p, 0);
-    GFL_NET_RestartWithDefaultTimeout(1, v);
+    GFL_NET_RefreshWmIconAtTopRight(1, v);
     COMM_TVT_SYS_HideSlotMarker(a0);
 }

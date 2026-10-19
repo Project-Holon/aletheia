@@ -1,7 +1,7 @@
 /*
  * file:     comm_history.c
  * unit:     yes
- * function: COMM_HISTORY_InsertIfLanguageSet, COMM_HISTORY_InsertOrReplace, COMM_HISTORY_CountLeadingOccupied, COMM_HISTORY_CountByKey, COMM_HISTORY_FindByKey, COMM_HISTORY_FindByKeys, COMM_HISTORY_RemoveAt, COMM_HISTORY_StoreAndNotify, COMM_HISTORY_StoreAt, SCROLLBAR_GetValueFromPos, SCROLLBAR_GetPosFromValue
+ * function: COMM_HISTORY_InsertIfNationSet, COMM_HISTORY_InsertOrReplace, COMM_HISTORY_CountLeadingOccupied, COMM_HISTORY_CountByKey, COMM_HISTORY_FindByKey, COMM_HISTORY_FindByKeys, COMM_HISTORY_RemoveAt, COMM_HISTORY_StoreAndNotify, COMM_HISTORY_StoreAt, SCROLLBAR_GetValueFromPos, SCROLLBAR_GetPosFromValue
  * address:  0x0202EB7C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -14,7 +14,7 @@
  *
  * symbols:
  *   WIFI_HISTORY_GetEntries  0x0200974C  thumb
- *   MYSTATUS_GetLanguage  0x0200856C  thumb
+ *   MYSTATUS_GetNation  0x0200856C  thumb
  *   COMM_HISTORY_CountLeadingOccupied  0x0202EC24  thumb
  *   MYSTATUS_GetId   0x02008530  thumb
  *   WIFI_HISTORY_MarkCountryVisited   0x02009750  thumb
@@ -36,7 +36,7 @@ struct HistoryEntry {
     u8 reserved27;                  /* 0x27 */
 };
 
-extern u8 MYSTATUS_GetLanguage(const struct PlayerRecord *record);
+extern u8 MYSTATUS_GetNation(const struct PlayerRecord *record);
 
 extern struct HistoryEntry *WIFI_HISTORY_GetEntries(struct HistoryOwner *owner);
 
@@ -48,7 +48,7 @@ extern void WIFI_HISTORY_IncrementVisitedCountryCount(struct HistoryOwner *owner
 
 extern u32 _u32_div_f(u32 dividend, u32 divisor);
 
-u32 COMM_HISTORY_InsertIfLanguageSet(struct HistoryOwner *owner, struct HistoryEntry *entry);
+u32 COMM_HISTORY_InsertIfNationSet(struct HistoryOwner *owner, struct HistoryEntry *entry);
 
 u32 COMM_HISTORY_InsertOrReplace(struct HistoryOwner *owner, struct HistoryEntry *entry);
 
@@ -84,9 +84,9 @@ u32 SCROLLBAR_GetPosFromValue(u32 total, u32 rate, u32 start, u32 end, u32 margi
  * extent runs 32 bytes against 30 compiled because the follower carries no
  * `func_` label in the generated listing.
  */
-u32 COMM_HISTORY_InsertIfLanguageSet(struct HistoryOwner *owner, struct HistoryEntry *entry)
+u32 COMM_HISTORY_InsertIfNationSet(struct HistoryOwner *owner, struct HistoryEntry *entry)
 {
-    if (MYSTATUS_GetLanguage(&entry->record) == 0) {
+    if (MYSTATUS_GetNation(&entry->record) == 0) {
         return 0;
     }
     return COMM_HISTORY_InsertOrReplace(owner, entry);
@@ -123,7 +123,7 @@ u32 COMM_HISTORY_InsertOrReplace(struct HistoryOwner *owner, struct HistoryEntry
         return 1;
     }
 
-    value = MYSTATUS_GetLanguage(&entry->record);
+    value = MYSTATUS_GetNation(&entry->record);
     if (COMM_HISTORY_CountByKey(table, value) < 5) {
         if (COMM_HISTORY_CountLeadingOccupied(table) >= 0x14)
             COMM_HISTORY_RemoveAt(table, 0);
@@ -182,7 +182,7 @@ u32 COMM_HISTORY_CountByKey(struct HistoryEntry *table, u32 key)
         u32 entryKey;
         if (!table[i].isOccupied)
             break;
-        entryKey = MYSTATUS_GetLanguage(&table[i].record);
+        entryKey = MYSTATUS_GetNation(&table[i].record);
         if (entryKey == key)
             count++;
     }
@@ -200,7 +200,7 @@ s32 COMM_HISTORY_FindByKey(struct HistoryEntry *table, u32 key)
     for (i = 0; i < 0x14; i++) {
         u32 entryKey;
         if (!table[i].isOccupied) break;
-        entryKey = MYSTATUS_GetLanguage(&table[i].record);
+        entryKey = MYSTATUS_GetNation(&table[i].record);
         if (entryKey == key) return i;
     }
     return 0x14;
@@ -213,7 +213,7 @@ s32 COMM_HISTORY_FindByKey(struct HistoryEntry *table, u32 key)
 s32 COMM_HISTORY_FindByKeys(struct HistoryEntry *table, struct HistoryEntry *entry)
 {
     u32 keyA = MYSTATUS_GetId(&entry->record);
-    u32 keyB = MYSTATUS_GetLanguage(&entry->record);
+    u32 keyB = MYSTATUS_GetNation(&entry->record);
     u32 i;
 
     for (i = 0; i < 0x14; i++) {
@@ -222,7 +222,7 @@ s32 COMM_HISTORY_FindByKeys(struct HistoryEntry *table, struct HistoryEntry *ent
             break;
         candidateA = MYSTATUS_GetId(&table[i].record);
         if (candidateA == keyA) {
-            candidateB = MYSTATUS_GetLanguage(&table[i].record);
+            candidateB = MYSTATUS_GetNation(&table[i].record);
             if (candidateB == keyB)
                 return i;
         }
@@ -285,7 +285,7 @@ void COMM_HISTORY_StoreAndNotify(struct HistoryOwner *owner, struct HistoryEntry
 
     COMM_HISTORY_StoreAt(table, entry, mark);
 
-    key = MYSTATUS_GetLanguage(&entry->record);
+    key = MYSTATUS_GetNation(&entry->record);
     if (WIFI_HISTORY_MarkCountryVisited(owner, key) != 0)
         WIFI_HISTORY_IncrementVisitedCountryCount(owner);
 }

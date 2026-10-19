@@ -43,7 +43,7 @@
  *   IRC_BATTLE_ENTRY_GetGameSys  0x02155A90  thumb  ov010
  *   ICA_ANIME_GetField1C  0x020120F4  thumb
  *   func_0207D63C  0x0207D63C  arm
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  * Addresses are Black-image addresses.
  */
 #include "../include/Obj00150.h"
@@ -95,7 +95,7 @@ struct Ctx;
 extern u32 IRC_BATTLE_ENTRY_GetGameSys(u8 *);
 extern void *ICA_ANIME_GetField1C(const struct Ctx *);
 extern void func_0207D63C(u32, u32, u32, u32, u32);
-extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32, u32);
 
 int IRCBATTLEMENU_Init(struct Proc *a, u32 b, u32 c)
 {
@@ -134,7 +134,7 @@ int IRCBATTLEMENU_Init(struct Proc *a, u32 b, u32 c)
     ((struct Obj00150 *)w)->f2E4 = c;
     ((struct Obj00150 *)w)->f30 = (u32)ICA_ANIME_GetField1C((const struct Ctx *)IRC_BATTLE_ENTRY_GetGameSys((u8 *)((struct Obj00150 *)w)->f2E4));
     func_0207D63C(0x04001050, 4, 1, 0xf, 4);
-    GFL_NET_RestartWithDefaultTimeout(0, ((struct Obj00150 *)w)->f10);
+    GFL_NET_RefreshWmIconAtTopRight(0, ((struct Obj00150 *)w)->f10);
     BG_SYS_SetMainVisiblePlanes(0x13);
     BG_SYS_SetSubVisiblePlanes(0x17);
     func_0207D63C(0x04000050, 0x10, 3, 9, 0xe);

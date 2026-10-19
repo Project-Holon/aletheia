@@ -11,7 +11,7 @@
  * lever: enum local keeps the distinct full-word spill of f; its narrowed
  * byte value remains live in r1 and is forwarded to EVENT_COMM_COMMON_GetPeerTalkStatus.
  * symbols:
- *   COMM_PLAYER_GetPlayerModel 0x02167A14 thumb ov010
+ *   COMM_PLAYER_GetMmdl 0x02167A14 thumb ov010
  *   EVENT_COMM_COMMON_GetPeerTalkStatus 0x0217F5F0 thumb ov018
  *   GAMESYSTEM_GetGameData 0x020120F4 thumb
  *   GAME_DATA_GetMyStatusByNetId 0x021583EC thumb ov010
@@ -30,7 +30,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Ctx;
 struct Work;
-u32 COMM_PLAYER_GetPlayerModel(struct Work *w, int i);
+u32 COMM_PLAYER_GetMmdl(struct Work *w, int i);
 int EVENT_COMM_COMMON_GetPeerTalkStatus(u8 *a, int b);
 void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 int GAME_DATA_GetMyStatusByNetId(void *a0, int a1);
@@ -49,7 +49,7 @@ void EVENT_COMM_COMMON_InitCommonWork(int a, u8 *b, u8 *c, int d, int e, int f, 
     ((struct Obj03562 *)c)->f0 = g;
     ((struct Obj03562 *)c)->f4 = e;
     loc = f;
-    ((struct Obj03562 *)c)->f8 = COMM_PLAYER_GetPlayerModel((struct Work *)(((struct Obj00566 *)b)->f8), loc);
+    ((struct Obj03562 *)c)->f8 = COMM_PLAYER_GetMmdl((struct Work *)(((struct Obj00566 *)b)->f8), loc);
     ((struct Obj03562 *)c)->fC = d;
     c[0x40] = (u8)f;
     c[0x42] = EVENT_COMM_COMMON_GetPeerTalkStatus(b, (u8)f);

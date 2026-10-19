@@ -15,7 +15,7 @@
  * symbols:
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   ARC_TOOL_DeleteHandle  0x02049238  arm
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
@@ -193,7 +193,7 @@
  *   FLDMMDL_LoadObjCodeParam  0x0216E2E8  thumb  ov010
  *   FIELD_PLAYER_GetNowGridPos  0x021A35FC  thumb  ov021
  *   FIELDMAP_GetMoveKind  0x02188CFC  thumb  ov021
- *   FIELD_PLAYER_SetNogridLocation  0x021A36BC  thumb  ov021
+ *   FIELD_PLAYER_GetNogridNextRailLocation  0x021A36BC  thumb  ov021
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   EVENTDATA_SYSTEM_SearchAutoPosEvent  0x02162890  thumb  ov010
  *   FIELD_WFBC_DATA_LOCAL_OpenNpcData  0x021867C4  thumb  ov020
@@ -224,8 +224,8 @@
  *   gGreetingCounterTable     0x021DD774  data  ov021
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb
  *   gGreetingMiscMessageIds     0x021DD718  data  a4
- *   BEACON_GetBlock  0x0200C0F0  thumb
- *   BEACON_GetBadge  0x0200C234  thumb
+ *   MISC_GetBlock  0x0200C0F0  thumb
+ *   MISC_GetBadge  0x0200C234  thumb
  *   gGreetingRandomMessageIds     0x021DD738  data  ov021  a4
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   FIELD_CAMERA_EndDelay  0x0218F0A8  thumb  ov021
@@ -282,7 +282,7 @@ typedef struct ScrcmdWork ScrcmdWork;
 
 typedef struct SaveControl SaveControl;
 
-typedef struct PlayerStatus PlayerStatus;
+typedef struct MyStatus MyStatus;
 
 typedef struct BoxPokemon BoxPokemon;
 
@@ -314,7 +314,7 @@ typedef struct OccupyInfo OccupyInfo;
 
 typedef struct WifiListSave WifiListSave;
 
-typedef struct BeaconSave BeaconSave;
+typedef struct MiscSave MiscSave;
 
 typedef struct PlayerBirthday PlayerBirthday;
 
@@ -378,9 +378,9 @@ typedef struct CameraShakeWork {
 
 extern GameData *GAMESYSTEM_GetGameData(const GameSystem *gameSystem);
 
-extern PlayerStatus *GAME_DATA_GetMyStatus(GameData *gameData);
+extern MyStatus *GAME_DATA_GetMyStatus(GameData *gameData);
 
-extern u8 MYSTATUS_GetOutfitVariant(const PlayerStatus *status);
+extern u8 MYSTATUS_GetSex(const MyStatus *status);
 
 extern void ARC_TOOL_DeleteHandle(void *handle);
 
@@ -700,7 +700,7 @@ extern u32 KEY_GetTrg(void);
 
 extern void *GAME_DATA_GetMiscSave(GameData *gameData);
 
-extern int FIELD_G3D_MAP_CheckBeaconTrainerKey(void *miscSave, int slot, PlayerStatus *status);
+extern int FIELD_G3D_MAP_CheckBeaconTrainerKey(void *miscSave, int slot, MyStatus *status);
 
 extern EventDataSystem *GAME_DATA_GetEventData(const GameData *gameData);
 
@@ -720,7 +720,7 @@ extern void FIELD_PLAYER_GetNowGridPos(struct FieldPlayer *player, u16 *gridX, u
 
 extern u32 FIELDMAP_GetMoveKind(FieldMap *fieldMap);
 
-extern void FIELD_PLAYER_SetNogridLocation(struct FieldPlayer *player, RailLocation *out);
+extern void FIELD_PLAYER_GetNogridNextRailLocation(struct FieldPlayer *player, RailLocation *out);
 
 extern void *GAME_DATA_GetEventWork(const GameData *gameData);
 
@@ -764,7 +764,7 @@ extern u32 RECORD_AddCounter(TrainerRecord *record, int index, u32 delta);
 
 extern u32 RECORD_GetCounterClamped(TrainerRecord *record, int index);
 
-extern void WORDSET_SetSlotMyStatus(WordSet *words, u32 slot, PlayerStatus *status);
+extern void WORDSET_SetSlotMyStatus(WordSet *words, u32 slot, MyStatus *status);
 
 extern u32 POKEPARTY_GetCount(Party *party);
 
@@ -778,9 +778,9 @@ extern TrainerRecord *GAME_DATA_GetTrainerRecord(GameData *gameData);
 
 extern void WORDSET_SetSlotNumber(WordSet *words, u32 slot, u32 number, u32 topDigitIndex, u32 padMode, u32 isHalfWidth);
 
-extern BeaconSave *BEACON_GetBlock(SaveControl *save);
+extern MiscSave *MISC_GetBlock(SaveControl *save);
 
-extern int BEACON_GetBadge(BeaconSave *beacon);
+extern int MISC_GetBadge(MiscSave *beacon);
 
 extern GameSystem *GAME_EVENT_GetGameSystem(GameEvent *event);
 
@@ -1960,7 +1960,7 @@ int FIELD_CheckPlayerPositionFree(GameSystem *gameSystem)
         } else if (header->posType == 1) {
             pos = (MmdlHeaderPos *)header->pos;
             if (FIELDMAP_GetMoveKind(fieldMap) == 1) {
-                FIELD_PLAYER_SetNogridLocation(player, &rail);
+                FIELD_PLAYER_GetNogridNextRailLocation(player, &rail);
                 if (pos->rail.railIndex == rail.railIndex && pos->rail.lineGrid == rail.lineGrid && pos->rail.widthGrid == rail.widthGrid) {
                     return 0;
                 }
@@ -2090,7 +2090,7 @@ int SCRCMD_GetTrainerRecordValue(ScriptVm *vm, ScrcmdWork *cmdWork)
 int SCRCMD_GetNpcGreetingMessage(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     GameData *gameData;
-    PlayerStatus *status;
+    MyStatus *status;
     WordSet *wordSet;
     u32 fixedMessage;
     struct ScriptWork *scriptWork;
@@ -2148,7 +2148,7 @@ int SCRCMD_GetNpcGreetingMessage(ScriptVm *vm, ScrcmdWork *cmdWork)
             }
         }
         if (msgIndex < 11) {
-            if ((u8)(int)MYSTATUS_GetOutfitVariant(status) == 1) {
+            if ((u8)(int)MYSTATUS_GetSex(status) == 1) {
                 msgIndex += 11;
             }
         } else {
@@ -2175,11 +2175,11 @@ int SCRCMD_GetNpcGreetingMessage(ScriptVm *vm, ScrcmdWork *cmdWork)
 u32 SCRCMD_GREETING_AdjustMessageIdByMisc(GameData *gameData, int messageId)
 {
     u32 v = messageId;
-    BeaconSave *beacon = BEACON_GetBlock(GAME_DATA_GetSaveControl(gameData));
+    MiscSave *beacon = MISC_GetBlock(GAME_DATA_GetSaveControl(gameData));
 
     for (messageId = 0; messageId < 8; messageId++) {
         if (v == gGreetingMiscMessageIds[messageId]) {
-            if (BEACON_GetBadge(beacon)) {
+            if (MISC_GetBadge(beacon)) {
                 return v;
             } else {
                 u32 rolled = GFL_USE_GetRandom(0xc);

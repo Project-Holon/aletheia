@@ -4,7 +4,7 @@
  * function: OV230_CallSealedBody0, OV230_CallSealedBody1, OV230_CallSealedBody2, OV230_CallSealedBody3, OV230_CallSealedBody4, OV230_CallSealedBody5, LOADER_ENTRY_DecryptCallStubs0
  * address:  0x021882A0
  * region:   ov230d
- * compiler: dsi/1.1p1
+ * compiler: dsi/../2.0/sp2
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
@@ -147,7 +147,7 @@ asm u32 OV230_CallSealedBody5(void (*caller)(void), void (*target)(void), u32 ar
     DCD     0x0218A260
 }
 
-/* hand-written in the original: initialiser entry: r0 = pc + 4 names the range table that follows (six call stubs), always nonzero so the bne reaches the decoder */
+/* hand-written in the original: initialiser entry: r0 = pc + 4 names the range table that follows (six call stubs), always nonzero so the bne reaches the decoder ; one filler word follows the terminator, never read */
 asm void LOADER_ENTRY_DecryptCallStubs0(void)
 {
     orr     r0, pc, #0
@@ -167,5 +167,6 @@ asm void LOADER_ENTRY_DecryptCallStubs0(void)
     DCD     0x0218AFC4
     DCD     0x00000000
     DCD     0x00000000
+    DCD     0x0218AF54
 }
 

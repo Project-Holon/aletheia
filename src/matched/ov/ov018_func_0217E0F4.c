@@ -11,10 +11,10 @@
  * symbols:
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   INTRUDE_SUBDISP_UpdateTownMarkPalette  0x0217E2E0  thumb  ov018
- *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   CLACT_SetActorDrawEnable  0x0204B3DC  arm
  *   CLACT_SetActorAutoAnimSpeed  0x0204B954  arm
- *   ZONEDATA_IsZone117  0x02013D5C  thumb
+ *   ZONEDATA_IsEntralink  0x02013D5C  thumb
  *   INTRUDE_FIELD_FindZonePos  0x0217BEA8  thumb  ov018
  *   CLACT_AddActorSurfacePos  0x0204B404  arm
  *   CLACT_GetActorPaletteOffset  0x0204B714  arm
@@ -77,10 +77,10 @@ struct Ctx;
 struct Obj;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void INTRUDE_SUBDISP_UpdateTownMarkPalette(Work *);
-extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+extern u8 GAME_DATA_GetOwnNetId(const struct BigObj *p);
 extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
 extern void CLACT_SetActorAutoAnimSpeed(struct Actor *a, u32 v);
-extern u32 ZONEDATA_IsZone117(u32 id);
+extern u32 ZONEDATA_IsEntralink(u32 id);
 extern u8 *INTRUDE_FIELD_FindZonePos(u16);
 struct Vec2;
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
@@ -110,13 +110,13 @@ void INTRUDE_SUBDISP_UpdatePlayerTownActors(Work *p, Mon *m)
         obj = 0;
         prev = p->fec[i].ptr;
         previd = p->fec[i].id;
-        if (i != GAME_DATA_GetExitMode(sys)) {
+        if (i != GAME_DATA_GetOwnNetId(sys)) {
             p->fec[i].ptr = 0;
             p->fec[i].id = 0x1ab;
         }
         a = p->f8c[i];
         b = p->fa0[i];
-        if (i == GAME_DATA_GetExitMode(sys)) {
+        if (i == GAME_DATA_GetOwnNetId(sys)) {
             CLACT_SetActorDrawEnable(a, 0);
             CLACT_SetActorDrawEnable(b, 0);
             continue;
@@ -139,7 +139,7 @@ void INTRUDE_SUBDISP_UpdatePlayerTownActors(Work *p, Mon *m)
             CLACT_SetActorAutoAnimSpeed(a, 0x1000);
         }
         if (e->lo == cur) {
-            if (ZONEDATA_IsZone117(e->f14) == 1) {
+            if (ZONEDATA_IsEntralink(e->f14) == 1) {
                 l.p.x = d_021836A4[i][0] + 0x80;
                 l.p.y = d_021836A4[i][1] + 0x4c;
                 CLACT_SetActorDrawEnable(b, 0);

@@ -27,7 +27,7 @@
  *   func_021D121C 0x021D121C thumb ov093
  *   func_021D122C 0x021D122C thumb ov093
  *   BTL_ACTION_SetChange 0x021D8394 thumb ov093
- *   BTL_CALC_ActionSetNone 0x021D8434 thumb ov093
+ *   BTL_ACTION_SetNone 0x021D8434 thumb ov093
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -49,7 +49,7 @@ extern int BTLV_CORE_PollPartyMenu(u8 *p);
 extern int func_021D121C(void *);
 extern u32 func_021D122C(void *);
 extern void BTL_ACTION_SetChange(void *, u8, u32);
-extern void BTL_CALC_ActionSetNone(u32 *p);
+extern void BTL_ACTION_SetNone(u32 *p);
 int BTL_CLIENT_StepAskSwitchBeforeSendOut(u8 *p, int *state)
 {
     u8 *args;
@@ -102,7 +102,7 @@ invalid:
         }
         break;
     case 4:
-        BTL_CALC_ActionSetNone((u32 *)(p + 0x124));
+        BTL_ACTION_SetNone((u32 *)(p + 0x124));
         *state = 5;
     case 5:
         *(u8 **)(p + 0xD8) = p + 0x124;

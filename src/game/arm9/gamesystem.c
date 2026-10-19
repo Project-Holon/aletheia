@@ -24,7 +24,7 @@
  *   OV230_CallSealedBody0  0x021882A0  arm  ov230d
  *   OV230_CallSealedBody3  0x02188354  arm  ov230d
  *   OV230_CallSealedBody4  0x02188390  arm  ov230d
- *   SCRCMD_NETWORK_CreateOv020Event  0x0215FA00  thumb  ov010
+ *   EVENT_WIFI_PROC_CreateOv020Event  0x0215FA00  thumb  ov010
  *   GAMESYSTEM_Delete     0x02012088  thumb
  *   PROCSYS_FreeProcWork     0x020315D4  arm
  *   OS_ResetSystem     0x02087BCC  arm
@@ -71,7 +71,7 @@
  *   GFL_NET_IRC_WIRELESS_IsActive  0x0203DA4C  arm
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
  *   PROCSYS_AllocProcWork  0x0203159C  arm
- *   BEACON_CountBadges  0x0200C258  thumb
+ *   MISC_CountBadges  0x0200C258  thumb
  *   GAME_DATA_GetMyPlayerWork         0x020127A4  thumb
  *   GAME_EVENT_Control 0x02012380 thumb arm9
  *   GAME_EVENT_IsRunning 0x020123C4 thumb arm9
@@ -130,11 +130,11 @@ extern void  GF_OVERLAY_Unload(s32 overlayId);
 
 extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
 
-extern struct GameEvent *SCRCMD_NETWORK_CreateOv020Event(struct GameSystem *gameSystem, u32 initParam);
+extern struct GameEvent *EVENT_WIFI_PROC_CreateOv020Event(struct GameSystem *gameSystem, u32 initParam);
 
 extern struct MiscSave *GAME_DATA_GetMiscSave(struct GameData *gameData);
 
-extern u32 BEACON_CountBadges(struct MiscSave *miscSave);
+extern u32 MISC_CountBadges(struct MiscSave *miscSave);
 
 extern void GAMESYSTEM_Delete(struct GameSystem *gameSystem);
 
@@ -423,7 +423,7 @@ void GAMESYSTEM_ApplyTamperPenaltyRepeat(void)
  * GAMESYSTEM_ProbeHeapCreate, GAMESYSTEM_ApplyTamperPenaltyRepeat; each result compared with the complement of
  * the end address), creates three heaps through GFL_HEAP_CreateChildHeap, allocates
  * the work block and publishes it to _GameSystemGlobal, then, when the probe
- * results do not add up to a multiple of 0x12AF, runs a BEACON_CountBadges-counted
+ * results do not add up to a multiple of 0x12AF, runs a MISC_CountBadges-counted
  * loop of GAMESYSTEM_ApplyTamperPenalty.
  *
  * Byte-correct: 272 of 272 bytes, 0 concrete bytes out (match.py one,
@@ -445,7 +445,7 @@ void GAMESYSTEM_ApplyTamperPenaltyRepeat(void)
  * decryptor (every range checked to be a clean ARM function ending in a
  * return) and asm/ov230d/ov230d.s lists the result.  With the `ov230d`
  * token on the three symbols: lines they resolve as sole-ref/code against
- * that listing: 25 of 25 sites (ov230_id as overlay_id, SCRCMD_NETWORK_CreateOv020Event
+ * that listing: 25 of 25 sites (ov230_id as overlay_id, EVENT_WIFI_PROC_CreateOv020Event
  * sole-ref/code with the ov010 hint).
  */
 u32 GAMESYSTEM_ProcInit(struct Proc *proc, u32 *seq, u32 initParam)
@@ -482,9 +482,9 @@ u32 GAMESYSTEM_ProcInit(struct Proc *proc, u32 *seq, u32 initParam)
     MI_CpuFill8(gameSystem, 0, workSize);
     _GameSystemGlobal.gameSystem = gameSystem;
     GAMESYSTEM_Setup(gameSystem, 3, initParam);
-    GAMESYSTEM_SetEvent(gameSystem, SCRCMD_NETWORK_CreateOv020Event(gameSystem, initParam));
+    GAMESYSTEM_SetEvent(gameSystem, EVENT_WIFI_PROC_CreateOv020Event(gameSystem, initParam));
     if ((checkSum + checkPenalty) % 0x12af != 0) {
-        penaltyCount = BEACON_CountBadges(GAME_DATA_GetMiscSave(GAMESYSTEM_GetGameData(gameSystem)));
+        penaltyCount = MISC_CountBadges(GAME_DATA_GetMiscSave(GAMESYSTEM_GetGameData(gameSystem)));
         for (i = 0; i < penaltyCount; i++)
             GAMESYSTEM_ApplyTamperPenalty();
     }

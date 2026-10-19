@@ -1,5 +1,5 @@
 /*
- * function: WIFIBATTLEMATCH_NET_TaskStepL
+ * function: WIFIBATTLEMATCH_NET_TaskStepFreeMatchmake
  * address: 0x021D5908
  * packet: pkt_ov175_021D5908
  * region: ov175
@@ -12,11 +12,11 @@
  * symbols:
  *   WIFIBATTLEMATCH_NET_HandleCancel 0x021D6854 thumb ov175
  *   WIFIBATTLEMATCH_UTIL_SetCallback 0x021E8AA0 thumb ov177
- *   WIFIBATTLEMATCH_NET_TaskStepP 0x021D60E0 thumb ov175
- *   WIFIBATTLEMATCH_NET_TaskStepB 0x021D4608 thumb ov175
+ *   WIFIBATTLEMATCH_NET_TaskStepFreeConfirmQuit 0x021D60E0 thumb ov175
+ *   WIFIBATTLEMATCH_NET_TaskStepMainMenu 0x021D4608 thumb ov175
  *   WIFIBATTLEMATCH_NET_TaskCleanupA 0x021D61A4 thumb ov175
- *   WIFIBATTLEMATCH_NET_TaskStepL 0x021D5908 thumb ov175
- *   WIFIBATTLEMATCH_NET_TaskStepO 0x021D6048 thumb ov175
+ *   WIFIBATTLEMATCH_NET_TaskStepFreeMatchmake 0x021D5908 thumb ov175
+ *   WIFIBATTLEMATCH_NET_TaskStepFreeAskRetry 0x021D6048 thumb ov175
  *   WIFIBATTLEMATCH_NET_CopyBsubwayStat 0x021D6724 thumb ov175
  *   WIFIBATTLEMATCH_VIEW_SetActorVisible 0x021E7E0C thumb ov177
  *   WIFIBATTLEMATCH_UTIL_PrintMessage 0x021E8738 thumb ov177
@@ -37,7 +37,7 @@
  *   STRBUF_ToChars 0x02045A38 arm
  *   STRBUF_Delete 0x02045808 arm
  *   MSGDATA_Delete 0x02045C04 arm
- *   BMP_OAM_Check5BEC 0x02025BEC thumb
+ *   NATION_AREA_IsValidNationArea 0x02025BEC thumb
  *   PMSI_PARAM_IsValid 0x020245D4 thumb
  *   PMSI_PARAM_InitSentence 0x020242A4 thumb
  *   WIFIBATTLEMATCH_NET_VerifyPartySignature 0x021D67BC thumb ov175
@@ -62,10 +62,10 @@ typedef unsigned char u8;
 struct MsgBank; struct U16Vec; struct MsgRec; struct T;
 extern int WIFIBATTLEMATCH_NET_HandleCancel(char *, int, int);
 extern void WIFIBATTLEMATCH_UTIL_SetCallback(int *, int);
-extern void WIFIBATTLEMATCH_NET_TaskStepP(u32 sys, int *state, u32 *p);
-extern void WIFIBATTLEMATCH_NET_TaskStepB(u32 sys, int *state, u32 *p);
+extern void WIFIBATTLEMATCH_NET_TaskStepFreeConfirmQuit(u32 sys, int *state, u32 *p);
+extern void WIFIBATTLEMATCH_NET_TaskStepMainMenu(u32 sys, int *state, u32 *p);
 extern void WIFIBATTLEMATCH_NET_TaskCleanupA(void *obj, int unused, u8 *p);
-extern void WIFIBATTLEMATCH_NET_TaskStepO(unsigned sys, int *state, int *p);
+extern void WIFIBATTLEMATCH_NET_TaskStepFreeAskRetry(unsigned sys, int *state, int *p);
 extern void WIFIBATTLEMATCH_NET_CopyBsubwayStat(u32 *, u32 *);
 extern void WIFIBATTLEMATCH_VIEW_SetActorVisible(void **, int);
 extern void WIFIBATTLEMATCH_UTIL_PrintMessage(int *, int, int, int);
@@ -87,7 +87,7 @@ extern void *func_02045EC0(struct MsgBank *, u32);
 extern void STRBUF_ToChars(struct U16Vec *, u16 *, unsigned int);
 extern void STRBUF_Delete(struct U16Vec *);
 extern u32 MSGDATA_Delete(struct Rec *rec);
-extern unsigned int BMP_OAM_Check5BEC(unsigned int, unsigned int, unsigned int);
+extern unsigned int NATION_AREA_IsValidNationArea(unsigned int, unsigned int, unsigned int);
 extern unsigned int PMSI_PARAM_IsValid(struct T *, unsigned int);
 extern void PMSI_PARAM_InitSentence(void *, unsigned int);
 extern int WIFIBATTLEMATCH_NET_VerifyPartySignature(char *, u16);
@@ -109,7 +109,7 @@ extern void WIFIBATTLEMATCH_UTIL_CommitRequest(unsigned);
 #define Q(k) (*(int *)(q + (k)))
 #define TIMER (*(u32 *)(p + 0xe0))
 #define TIMEOUT (*(u32 *)(p + 0xe8))
-void WIFIBATTLEMATCH_NET_TaskStepL(unsigned sys, int *state, char *p)
+void WIFIBATTLEMATCH_NET_TaskStepFreeMatchmake(unsigned sys, int *state, char *p)
 {
     char *q = (char *)P(0x40);
     int timed = 0;
@@ -124,7 +124,7 @@ void WIFIBATTLEMATCH_NET_TaskStepL(unsigned sys, int *state, char *p)
     if (*state < 11 || *state > 12) allow = 1; else allow = 0;
     result = WIFIBATTLEMATCH_NET_HandleCancel(p, enable, allow);
     if (result == 3) {
-        WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepP);
+        WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepFreeConfirmQuit);
         return;
     }
     switch (*state) {
@@ -139,7 +139,7 @@ void WIFIBATTLEMATCH_NET_TaskStepL(unsigned sys, int *state, char *p)
         switch (WIFIBATTLEMATCH_NET_HandleNetError((char *)P(0x30), 0, 0)) {
         case 1:
             WIFIBATTLEMATCH_VIEW_SetActorVisible((void **)P(0x20), 0);
-            WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepB); return;
+            WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepMainMenu); return;
         case 2:
             WIFIBATTLEMATCH_VIEW_SetActorVisible((void **)P(0x20), 0);
             WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskCleanupA); return;
@@ -151,7 +151,7 @@ void WIFIBATTLEMATCH_NET_TaskStepL(unsigned sys, int *state, char *p)
         switch (WIFIBATTLEMATCH_NET_HandleNetError((char *)P(0x30), 0, 0)) {
         case 1:
             WIFIBATTLEMATCH_VIEW_SetActorVisible((void **)P(0x20), 0);
-            WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepB);
+            WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepMainMenu);
             WIFIBATTLEMATCH_NET_ClearError(p); return;
         case 2:
             WIFIBATTLEMATCH_VIEW_SetActorVisible((void **)P(0x20), 0);
@@ -191,7 +191,7 @@ void WIFIBATTLEMATCH_NET_TaskStepL(unsigned sys, int *state, char *p)
             if ((u8)data[0x1c] >= 16) {
                 if ((u8)data[0x1d] == 0) data[0x1c] = 0; else data[0x1c] = 8;
             }
-            if (!BMP_OAM_Check5BEC((u8)data[0x18], (u8)data[0x19], (u8)data[0x1a])) {
+            if (!NATION_AREA_IsValidNationArea((u8)data[0x18], (u8)data[0x19], (u8)data[0x1a])) {
                 data[0x18] = 0; data[0x19] = 0;
             }
             if (!PMSI_PARAM_IsValid((struct T *)(data + 0x38), 0x8057)) PMSI_PARAM_InitSentence(data + 0x38, 1);
@@ -203,7 +203,7 @@ void WIFIBATTLEMATCH_NET_TaskStepL(unsigned sys, int *state, char *p)
         else {
             WIFIBATTLEMATCH_NET_DisconnectWifi(P(0x30));
             WIFIBATTLEMATCH_VIEW_SetActorVisible((void **)P(0x20), 0);
-            WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepL);
+            WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepFreeMatchmake);
         }
         break;
     case 11:
@@ -215,7 +215,7 @@ void WIFIBATTLEMATCH_NET_TaskStepL(unsigned sys, int *state, char *p)
         switch (WIFIBATTLEMATCH_NET_HandleNetError((char *)P(0x30), 0, (void *)1)) {
         case 1: case 4:
             WIFIBATTLEMATCH_VIEW_SetActorVisible((void **)P(0x20), 0);
-            WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepO);
+            WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepFreeAskRetry);
             WIFIBATTLEMATCH_NET_ClearError(p); break;
         case 2:
             WIFIBATTLEMATCH_VIEW_SetActorVisible((void **)P(0x20), 0);
@@ -266,7 +266,7 @@ void WIFIBATTLEMATCH_NET_TaskStepL(unsigned sys, int *state, char *p)
         switch (WIFIBATTLEMATCH_NET_HandleNetError((char *)P(0x30), 0, (void *)1)) {
         case 1: case 4:
             WIFIBATTLEMATCH_VIEW_SetActorVisible((void **)P(0x20), 0);
-            WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepO);
+            WIFIBATTLEMATCH_UTIL_SetCallback((int *)sys, (int)WIFIBATTLEMATCH_NET_TaskStepFreeAskRetry);
             WIFIBATTLEMATCH_NET_ClearError(p); return;
         case 2:
             WIFIBATTLEMATCH_VIEW_SetActorVisible((void **)P(0x20), 0);

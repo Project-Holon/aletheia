@@ -45,8 +45,8 @@
  *   func_02008650  0x02008650  thumb
  *   ZUKAN_SAVE_GetBlock  0x0200CA10  thumb
  *   ZUKAN_SAVE_CountSeen  0x0200D0AC  thumb
- *   BEACON_GetBlock  0x0200C0F0  thumb
- *   BEACON_CountBadges  0x0200C258  thumb
+ *   MISC_GetBlock  0x0200C0F0  thumb
+ *   MISC_CountBadges  0x0200C258  thumb
  *   gStartMenuWindowTemplates     0x021BD7C4  data  a1
  */
 typedef unsigned char u8;
@@ -113,8 +113,8 @@ extern u16 func_0200864C(const struct PlayTime *p);
 extern u8 func_02008650(const struct PlayTime *p);
 extern void *ZUKAN_SAVE_GetBlock(void *);
 extern u32 ZUKAN_SAVE_CountSeen(struct Blk37 *p, u32 heap);
-extern void *BEACON_GetBlock(void *);
-extern u32 BEACON_CountBadges(struct Blk34 *p);
+extern void *MISC_GetBlock(void *);
+extern u32 MISC_CountBadges(struct Blk34 *p);
 
 void STARTMENU_CreateRowWindows(struct Menu *p)
 {
@@ -188,7 +188,7 @@ void STARTMENU_CreateRowWindows(struct Menu *p)
     }
 
     a = func_02045EC0(p->f5c, 11);
-    WORDSET_SetSlotNumber(p->f60, 0, BEACON_CountBadges(BEACON_GetBlock(p->f00)), 2, 0, 1);
+    WORDSET_SetSlotNumber(p->f60, 0, MISC_CountBadges(MISC_GetBlock(p->f00)), 2, 0, 1);
     WORDSET_CopyTaggedText(p->f60, p->f64, a);
     bg = p->f68;
     PRINTSYS_PrintQueColor(bg, (u32)BMP_WIN_GetBmp(p->slot[5].obj), 0, 0, (u32)p->f64, (u32)p->f58, 0x440);

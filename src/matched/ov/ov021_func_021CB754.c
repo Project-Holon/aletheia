@@ -18,7 +18,7 @@
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   GAME_DATA_GetCurrentEvent  0x02012ED8  thumb
  *   func_020071CC  0x020071CC  thumb
- *   GDS_PROFILE_GetFieldRecField  0x0200D884  thumb
+ *   BSUBWAY_PLAYDATA_GetField  0x0200D884  thumb
  *   COMM_ENTRY_MENU_Main  0x021CD688  thumb  ov021
  *   COMM_ENTRY_MENU_Delete  0x021CD5A4  thumb  ov021
  */
@@ -41,7 +41,7 @@ extern void *GAME_DATA_GetSaveControl(struct Big *p);
 extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
 extern void *GAME_DATA_GetCurrentEvent(struct Big *p);
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
-extern u32 GDS_PROFILE_GetFieldRecField(struct Blk3C *p, u32 id, void *out);
+extern u32 BSUBWAY_PLAYDATA_GetField(struct Blk3C *p, u32 id, void *out);
 extern u32 COMM_ENTRY_MENU_Main(u8 *p);
 extern u32 COMM_ENTRY_MENU_Delete(u32 *p);
 
@@ -60,7 +60,7 @@ int BSUBWAY_SCR_WaitCommEntryMenu(u32 unused, u32 a)
     GAME_DATA_GetEventWork(s);
     p = GAME_DATA_GetCurrentEvent(s);
     z = 0;
-    GDS_PROFILE_GetFieldRecField(func_020071CC(h, 0x39), 0, 0);
+    BSUBWAY_PLAYDATA_GetField(func_020071CC(h, 0x39), 0, 0);
     func_020071CC(h, 0x3A);
     r = COMM_ENTRY_MENU_Main((u8 *)(((struct Obj05095 *)p)->f71C));
     if (r != 0) {

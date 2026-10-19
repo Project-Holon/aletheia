@@ -33,7 +33,7 @@
  *   GFL_NET_IsNetTypeBeacon  0x0203D26C  arm
  *   GFL_NET_IsNetTypeWifi  0x0203D29C  arm
  *   SDK_AUTOLOAD_MAIN_TWL_START  0x02FE0000  data
- *   SAVEDATA_SetFailHook   0x02034704  arm
+ *   GF_PANIC_SetFailHook   0x02034704  arm
  *   GFL_NET_ERR_ExitAndHalt   0x0200FB6C  thumb
  *   PM_VOICE_GetCryIndex   0x02006C00  thumb
  *   PM_VOICE_PrepareCry   0x02006C2C  thumb
@@ -41,7 +41,7 @@
  *   ov011_id        0x0000000B  data
  *   BRIGHTNESS_ChangeMain  0x02023FD8  thumb
  *   WIPE_SYS_Main  0x02022174  thumb
- *   GFL_NET_ERR_CheckNetError  0x0200F734  thumb
+ *   GFL_NET_ERR_DetectNetError  0x0200F734  thumb
  *   GFL_USE_UpdateSound  0x02005BC0  thumb
  *   PM_VOICE_StopFinished  0x020065FC  thumb
  *   GAME_BEACON_Update  0x02026728  thumb
@@ -157,8 +157,8 @@
  *   GF_OVERLAY_Load  0x02034AC4  arm
  *   GFL_NET_ERR_CreateHeap  0x0200F6B8  thumb
  *   GFL_NET_ERR_Init  0x0200F6D8  thumb
- *   SAVEDATA_SetPanicHandlers  0x020346EC  arm
- *   GF_OVERLAY_RegisterPanicHandlers  0x02034978  arm
+ *   GF_PANIC_SetHandlers  0x020346EC  arm
+ *   GF_PANIC_RegisterDefaultHandlers  0x02034978  arm
  *   GF_OVERLAY_Init  0x0203499C  arm
  *   UI_Create  0x02034E24  arm
  *   SNDARC_IsGroupLoaded  0x02074A54  arm
@@ -338,7 +338,7 @@ extern u8 CONFIG_ApplyTextLanguage(const struct Config *config);
 extern void MSG_SPEED_SetSaveControl(struct SaveData *save);
 extern void GFL_NET_ERR_CreateHeap(void);
 extern void GFL_NET_ERR_Init(u32 kind);
-extern void SAVEDATA_SetFailHook(u32 handler);
+extern void GF_PANIC_SetFailHook(u32 handler);
 extern void WORDSET_LoadSpeciesNameBank(u16 heapId);
 extern void POKE_TOOL_InitSystem(u32 heapId);
 extern void PM_VOICE_Init(u16 heapId, u32 loadVoiceFn, u32 getVoiceFn);
@@ -350,7 +350,7 @@ extern void PM_VOICE_GetCryIndex(u32 species, u32 form, u32 *out);
 extern u32 PM_VOICE_PrepareCry(u32 species, u32 form, void **rec, void **owner, u32 *rate1, u32 *rate2, u32 *addr, u8 *cryPitch);
 extern void BRIGHTNESS_ChangeMain(void);
 extern void WIPE_SYS_Main(void);
-extern void GFL_NET_ERR_CheckNetError(void);
+extern void GFL_NET_ERR_DetectNetError(void);
 extern void GFL_USE_UpdateSound(void);
 extern void PM_VOICE_StopFinished(void);
 extern void GAME_BEACON_Update(void);
@@ -394,8 +394,8 @@ extern void  GFL_HEAP_RegisterBlockHeap(void *block, u32 size, u32 heapId);
 extern void  GF_STANDARD_Init(u32 mode);
 extern void ARC_TOOL_SetTable(u32 table, u32 count);
 extern void UI_Create(u32 heapId, u8 mode);
-extern void  GF_OVERLAY_RegisterPanicHandlers(void);
-extern void SAVEDATA_SetPanicHandlers(u32 mode, u32 flags, u32 waitCallback);
+extern void  GF_PANIC_RegisterDefaultHandlers(void);
+extern void GF_PANIC_SetHandlers(u32 mode, u32 flags, u32 waitCallback);
 extern void GF_OVERLAY_Init(u32 heapId, int n0, int n1, int n2);
 extern void  PROCSYS_CreateGlobal(u32 heapId);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, unsigned short line);
@@ -701,7 +701,7 @@ void GFL_USE_InitGameSystems(void)
     MSG_SPEED_SetSaveControl(SAVE_CONTROL_Get());
     GFL_NET_ERR_CreateHeap();
     GFL_NET_ERR_Init(8);
-    SAVEDATA_SetFailHook((u32)&GFL_NET_ERR_ExitAndHalt);
+    GF_PANIC_SetFailHook((u32)&GFL_NET_ERR_ExitAndHalt);
     WORDSET_LoadSpeciesNameBank(0);
     POKE_TOOL_InitSystem(0);
     GFL_USE_InitSound();
@@ -727,7 +727,7 @@ void GFL_USE_UpdateFrameSubsystems(void)
 {
     BRIGHTNESS_ChangeMain();
     WIPE_SYS_Main();
-    GFL_NET_ERR_CheckNetError();
+    GFL_NET_ERR_DetectNetError();
     GFL_USE_UpdateSound();
     PM_VOICE_StopFinished();
     GAME_BEACON_Update();
@@ -910,7 +910,7 @@ void GFL_USE_OnPreExit(void)
  * Closed in wave 14.  The pool was misread by one word in the older note
  * (docs/notes/GFL_USE_InitSystem.c.txt): 0x020A6C58 is ARC_TOOL_SetTable's argument
  * and 0x02005769 (GFL_USE_WaitInputReady, src/matched/unit_0200575C.c) is
- * SAVEDATA_SetPanicHandlers's third, and the two words 0x0202F769 / 0x0202F775 are
+ * GF_PANIC_SetHandlers's third, and the two words 0x0202F769 / 0x0202F775 are
  * Thumb pointers to two unlabelled callback leaves of time_icon.c, filed
  * EXACT this wave as src/matched/APP_POWER_ClearCallback.c and APP_POWER_SetCallback.c, which
  * is what attests them (`matched`).  _ArenaTableTwl / _ArenaTableDs now resolve on
@@ -949,9 +949,9 @@ void GFL_USE_InitSystem(void)
     UI_Create(0, 0);
 
     if (OS_GetConsoleType() & 0x81000000) {
-        GF_OVERLAY_RegisterPanicHandlers();
+        GF_PANIC_RegisterDefaultHandlers();
     } else {
-        SAVEDATA_SetPanicHandlers(0, 0, (u32)GFL_USE_WaitInputReady);
+        GF_PANIC_SetHandlers(0, 0, (u32)GFL_USE_WaitInputReady);
     }
 
     GF_OVERLAY_Init(0, 0x10, 4, 4);

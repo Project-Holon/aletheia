@@ -1,5 +1,5 @@
 /*
- * function: EVENT_BATTLE_GetKindFlag
+ * function: EVENT_BATTLE_GetResultFlag
  * address:  0x0216EFCC
  * packet:   pkt_ov010_0216EFCC
  * region:   ov010
@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 
 extern u8 d_021725B8[];
 
-u8 EVENT_BATTLE_GetKindFlag(int i)
+u8 EVENT_BATTLE_GetResultFlag(int i)
 {
     u8 v = d_021725B8[i];
 

@@ -14,7 +14,7 @@
  * retry: Wave59 R3: 4 fixed-flag runs plus permuter300; single retry completed.
  * extent: 021EEEAC already matched separately by pkt_ov107_021EEEAC; file only main, no duplicate unit/stub. Unowned EEEB4 begins after handed1568 bytes.
  * note 2026-10-05 (P18L6): extent is 1560 B (not 98 B); the lane size was a label gap. Re-read: the 913 B residue is mostly branch-range fixup shape. Original default `bhi` shares the `beq L; b tail` stub after case 3; compiled emits `bls; b` at the dispatch (+4 B) and `bne island` in case 3. Case blocks from case 19 on are also ordered differently (cases 20..33 tail region). Tried: case 3 written `if(r!=1) break; return 1;` (913, unchanged); explicit `default: break;` (913, unchanged). Callee check: matched ov107 MB_COMM_SYS_GetCommStage returns a pointer (p->f0C) while this draft compares its result with ints and ov029 declares it int, a conflict not resolved; MB_UTIL_MSG_Main is matched void but its result feeds CLACT_DrawSystem (already noted). Not repeated: permuter, size-first. Status stays DIFF.
- * note recoup 2026-10-05 P30R10: DIFF -> MATCH, 1560/1560 bytes, all code bytes equal; only relocation witnesses missing (callees 021F1008 and 021F1010 are Thumb veneers, 021F1040, 021F1050, 021F1064 and 021EFE3C are small ov107 leaves with no matched file). The old 913-byte residue was branch-island layout caused by real source differences, found by comparing mnemonic streams: (1) cases 25 and 26 sit after case 29 in the original block order (24, 27, 28, 29, 25, 26, 30); (2) case 27 jumps into the failure block tail: `if(f11F0(O,18,0)!=1)break;goto fail_tail;` with `fail_tail:` before `MB_COMM_SYS_SetSyncRange(O);W(32)=28;` (the `==1 goto` form leaves a dead `b`); (3) case 17 second arm had an extra MB_UTIL_MSG_PrintStream(M,7,..) call in the draft, removed (cross-jumping hid it); (4) the three constant ternaries `W(32)=p[40]==0?a:b` (cases 1, 11, 29) are if/else with a store in each arm; (5) case 9 calls GFL_NET_RestartWithDefaultTimeout(0,H(0)) and GFL_NET_RestartWithDefaultTimeout(1,H(0)) in each arm; (6) case 23 keeps the func_02007774 result in a `u16 cnt` local (a (u16) cast at the call gave an extra adds). Tried without effect: explicit default after case 3 (913), all six per-function pragmas (913 each), `p[40]!=0` argument, u16 third parameter on MB_COMM_SYS_SendMessage, u16 return type on func_02007774 (drops the truncation). Also MATCH with --lang c. Next: file ov107 witnesses for 021F1040 (p->f04==5), 021F1050 (p->f04<6), 021EFE3C (empty void), 021F1064 (flag clear) and veneers 021F1008/021F1010 via integrator label seeding.
+ * note recoup 2026-10-05 P30R10: DIFF -> MATCH, 1560/1560 bytes, all code bytes equal; only relocation witnesses missing (callees 021F1008 and 021F1010 are Thumb veneers, 021F1040, 021F1050, 021F1064 and 021EFE3C are small ov107 leaves with no matched file). The old 913-byte residue was branch-island layout caused by real source differences, found by comparing mnemonic streams: (1) cases 25 and 26 sit after case 29 in the original block order (24, 27, 28, 29, 25, 26, 30); (2) case 27 jumps into the failure block tail: `if(f11F0(O,18,0)!=1)break;goto fail_tail;` with `fail_tail:` before `MB_COMM_SYS_SetSyncRange(O);W(32)=28;` (the `==1 goto` form leaves a dead `b`); (3) case 17 second arm had an extra MB_UTIL_MSG_PrintStream(M,7,..) call in the draft, removed (cross-jumping hid it); (4) the three constant ternaries `W(32)=p[40]==0?a:b` (cases 1, 11, 29) are if/else with a store in each arm; (5) case 9 calls GFL_NET_RefreshWmIconAtTopRight(0,H(0)) and GFL_NET_RefreshWmIconAtTopRight(1,H(0)) in each arm; (6) case 23 keeps the func_02007774 result in a `u16 cnt` local (a (u16) cast at the call gave an extra adds). Tried without effect: explicit default after case 3 (913), all six per-function pragmas (913 each), `p[40]!=0` argument, u16 third parameter on MB_COMM_SYS_SendMessage, u16 return type on func_02007774 (drops the truncation). Also MATCH with --lang c. Next: file ov107 witnesses for 021F1040 (p->f04==5), 021F1050 (p->f04<6), 021EFE3C (empty void), 021F1064 (flag clear) and veneers 021F1008/021F1010 via integrator label seeding.
  * symbols:
  *   MB_COMM_SYS_UpdateNetState 0x021F0E6C thumb ov107
  *   MB_COMM_SYS_UpdateSaveState 0x021EFC1C thumb ov107
@@ -51,7 +51,7 @@
  *   MB_COMM_SYS_MainSave 0x021EFE40 thumb ov107
  *   MB_COMM_SYS_NoOp 0x021EFE3C thumb ov107
  *   MB_COMM_SYS_MainChildFlow 0x021EFFB0 thumb ov107
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   func_020461E4 0x020461E4 arm
  *   FS_InitFile 0x020788AC arm
  *   FS_OpenFile 0x02078C18 arm
@@ -70,7 +70,7 @@
  *   APP_ENV_IsWirelessAvailable 0x0202EB44 thumb
  *   MSG_SPEED_GetWait 0x02012FFC thumb
  *   GFL_USE_FadeOutBgm 0x02005E30 thumb
- *   BEACON_GetBestScore 0x0200C184 thumb
+ *   MISC_GetBestScore 0x0200C184 thumb
  *   func_0200575C 0x0200575C thumb
  *   GAME_DATA_GetTrainerRecord 0x02012F2C thumb
  *   func_02008DF0 0x02008DF0 thumb
@@ -101,7 +101,7 @@ extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32
 extern u32 WIPE_SYS_EndCheck(void);
 extern int APP_ENV_IsWirelessAvailable(void);
 extern signed char MSG_SPEED_GetWait(void);
-extern void GFL_USE_FadeOutBgm(u32),GFL_NET_RestartWithDefaultTimeout(u32,u32);
+extern void GFL_USE_FadeOutBgm(u32),GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 extern void MB_UTIL_MSG_SetWindowLayout(void *,int);
 extern void MB_UTIL_MSG_PrintStream(void *,int,int);
 extern void MB_UTIL_MSG_PrintStreamSystemMsg(char *p, int a);
@@ -116,7 +116,7 @@ extern int MB_COMM_SYS_GetNetRunState(void *);
 extern int MB_COMM_SYS_IsLoginDone(int *p);
 extern void MB_COMM_SYS_StartNet(u8 *p);
 extern u32 func_020461E4(int);
-extern u32 BEACON_GetBestScore(struct Blk34 *p);
+extern u32 MISC_GetBestScore(struct Blk34 *p);
 extern int MB_COMM_SYS_SendHeader(void *,void *),MB_COMM_SYS_GetCommStage(void *);
 extern void *func_0200575C(u32);
 extern void FS_InitFile(File *);
@@ -194,7 +194,7 @@ int MB_COMM_SYS_Main(u8 *p) {
  case 8:if(MB_COMM_SYS_MainWireless(p)==1)W(32)=9;break;
  case 9:
   MB_COMM_SYS_FreeGameStrings(p);
-  if(W(48)==1){W(32)=10;H(42)=0;MB_COMM_SYS_StartNetSession(O);if(p[40]==0)GFL_NET_RestartWithDefaultTimeout(0,H(0));else GFL_NET_RestartWithDefaultTimeout(1,H(0));}
+  if(W(48)==1){W(32)=10;H(42)=0;MB_COMM_SYS_StartNetSession(O);if(p[40]==0)GFL_NET_RefreshWmIconAtTopRight(0,H(0));else GFL_NET_RefreshWmIconAtTopRight(1,H(0));}
   else W(32)=2;break;
  case 10:if(MB_COMM_SYS_GetNetRunState(O)==1){W(32)=11;MB_COMM_SYS_StartNet(O);}break;
  case 11:
@@ -202,7 +202,7 @@ int MB_COMM_SYS_Main(u8 *p) {
   if(H(42)>=1800){MB_COMM_SYS_UpdateSaveState(p,3);W(32)=30;}
   else if(MB_COMM_SYS_IsLoginDone(O)==1){
    W(88)=MSG_SPEED_GetWait();p[94]=func_020461E4(W(88));
-   if(p[40]==0)H(92)=BEACON_GetBestScore(P(76));
+   if(p[40]==0)H(92)=MISC_GetBestScore(P(76));
    if(MB_COMM_SYS_SendHeader(O,p+88)==1){if(p[40]==0)W(32)=12;else W(32)=32;}
   }break;
  case 12:load_payload(p);break;

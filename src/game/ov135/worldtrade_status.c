@@ -82,7 +82,7 @@ void WORLDTRADE_STATUS_Open(Work *p)
     r->enabled=1;
     r->page=0;
     r->mode=0;
-    r->rules=p->ctx->statusRules;
+    r->nationalDexEnabled=p->ctx->nationalDexEnabled;
     r->result=0;
     if(WORLDTRADE_BOX_IsPartyBox(p->box)) {
         r->mon=p->ctx->party;

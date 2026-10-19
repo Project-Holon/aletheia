@@ -24,12 +24,12 @@
  *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_COMM_IsTransition  0x02026460  thumb
  *   GAME_COMM_GetGameData  0x02026478  thumb
- *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   GAME_DATA_GetLastBattleRecSlot   0x020127B8  thumb
  *   GAME_DATA_GetBattleRecSlot   0x020127AC  thumb
- *   GAME_DATA_GetPlayerStatus   0x02012950  thumb
+ *   GAME_DATA_GetMyStatusPlayer   0x02012950  thumb
  *   GAME_DATA_GetIntrudeId   0x02012B80  thumb
- *   MYSTATUS_GetAvatarId 0x0200855C thumb
+ *   MYSTATUS_GetRomCode 0x0200855C thumb
  *   GAME_DATA_GetSeason  0x02012984  thumb
  *   GAME_DATA_GetSlotFlag  0x02012B98  thumb
  *   GAME_DATA_GetMoveModelSys  0x02012B38  thumb
@@ -85,17 +85,17 @@ extern u32 GAME_COMM_IsTransition(GameComm *comm);
 
 extern struct GameData *GAME_COMM_GetGameData(GameComm *comm);
 
-extern u8 GAME_DATA_GetExitMode(const struct GameData *gameData);
+extern u8 GAME_DATA_GetOwnNetId(const struct GameData *gameData);
 
 extern struct BattleRecSlot *GAME_DATA_GetLastBattleRecSlot(struct GameData *gameData);
 
 extern struct BattleRecSlot *GAME_DATA_GetBattleRecSlot(struct GameData *gameData, u32 netId);
 
-extern struct MyStatus *GAME_DATA_GetPlayerStatus(struct GameData *gameData, u32 netId);
+extern struct MyStatus *GAME_DATA_GetMyStatusPlayer(struct GameData *gameData, u32 netId);
 
 extern u8 GAME_DATA_GetIntrudeId(const struct GameData *gameData);
 
-extern u8 MYSTATUS_GetAvatarId(const struct MyStatus *status);
+extern u8 MYSTATUS_GetRomCode(const struct MyStatus *status);
 
 extern u8 GAME_DATA_GetSeason(const struct GameData *gameData);
 
@@ -205,7 +205,7 @@ int INTRUDE_COMM_GetPlayerNetId(GameComm *comm)
     IntrudeCommSys *work = INTRUDE_COMM_GetWorkIfRunning(comm);
 
     if (work == 0) {
-        return GAME_DATA_GetExitMode(GAME_COMM_GetGameData(comm));
+        return GAME_DATA_GetOwnNetId(GAME_COMM_GetGameData(comm));
     }
     return work->ownNetId;
 }
@@ -231,7 +231,7 @@ int INTRUDE_COMM_TogglePeerFlags(IntrudeCommSys *work, int mask, int unused)
  */
 struct BattleRecSlot *GAME_DATA_GetBattleRecSlotByNetId(struct GameData *gameData, u32 netId)
 {
-    if (GAME_DATA_GetExitMode(gameData) == netId)
+    if (GAME_DATA_GetOwnNetId(gameData) == netId)
         return GAME_DATA_GetLastBattleRecSlot(gameData);
 
     return GAME_DATA_GetBattleRecSlot(gameData, netId);
@@ -243,10 +243,10 @@ struct BattleRecSlot *GAME_DATA_GetBattleRecSlotByNetId(struct GameData *gameDat
  */
 struct MyStatus *GAME_DATA_GetMyStatusByNetId(struct GameData *gameData, u32 netId)
 {
-    if (GAME_DATA_GetExitMode(gameData) == netId)
+    if (GAME_DATA_GetOwnNetId(gameData) == netId)
         return GAME_DATA_GetMyStatus(gameData);
 
-    return GAME_DATA_GetPlayerStatus(gameData, netId);
+    return GAME_DATA_GetMyStatusPlayer(gameData, netId);
 }
 
 /*
@@ -299,7 +299,7 @@ int INTRUDE_COMM_GetAreaOwnerVersion(GameComm *comm)
     if (GAME_DATA_GetIntrudeCount(gameData) == 0)
         return 21;
     areaOwnerId = (int)GAME_DATA_GetIntrudeId(gameData);
-    return MYSTATUS_GetAvatarId(GAME_DATA_GetMyStatusByNetId(gameData, areaOwnerId));
+    return MYSTATUS_GetRomCode(GAME_DATA_GetMyStatusByNetId(gameData, areaOwnerId));
 }
 
 /*
@@ -315,7 +315,7 @@ int INTRUDE_COMM_GetAreaSlotFlag(GameComm *comm)
         return GAME_DATA_GetSeason(gameData);
     }
     areaOwnerId = GAME_DATA_GetIntrudeIdByte(gameData);
-    if (areaOwnerId == GAME_DATA_GetExitMode(gameData)) {
+    if (areaOwnerId == GAME_DATA_GetOwnNetId(gameData)) {
         return GAME_DATA_GetSeason(gameData);
     }
     return GAME_DATA_GetSlotFlag(gameData, areaOwnerId);
@@ -344,7 +344,7 @@ int INTRUDE_COMM_IsStepToOwnArea(GameComm *comm, struct GameData *gameData, int 
         if (next >= work->lastAreaIndex + 1)
             next = 0;
     }
-    if (next == GAME_DATA_GetExitMode(gameData))
+    if (next == GAME_DATA_GetOwnNetId(gameData))
         return 1;
     return 0;
 }
@@ -379,10 +379,10 @@ int INTRUDE_COMM_GetAreaOwnerVersionClass(GameComm *comm, struct GameData *gameD
     if (FIELD_STATUS_GetMapMode(GAME_DATA_GetMoveModelSys(gameData)) != 1)
         return 0;
     areaOwnerId = GAME_DATA_GetIntrudeIdByte(gameData);
-    if (areaOwnerId == GAME_DATA_GetExitMode(gameData))
+    if (areaOwnerId == GAME_DATA_GetOwnNetId(gameData))
         return 0;
-    status = GAME_DATA_GetPlayerStatus(gameData, areaOwnerId);
-    version = INTRUDE_COMM_NormalizeVersion(MYSTATUS_GetAvatarId(status), MYSTATUS_GetId(status));
+    status = GAME_DATA_GetMyStatusPlayer(gameData, areaOwnerId);
+    version = INTRUDE_COMM_NormalizeVersion(MYSTATUS_GetRomCode(status), MYSTATUS_GetId(status));
     switch (version) {
     case 20:
         return 1;
@@ -522,7 +522,7 @@ int INTRUDE_COMM_GetRequesterStatus(GameComm *comm, struct MyStatus *out)
 
     if (work == 0 || INTRUDE_COMM_IsSessionActive(&work->session) == 0)
         return 0;
-    MYSTATUS_NameToStrbuf(GAME_DATA_GetPlayerStatus(gameData, INTRUDE_COMM_GetRequesterNetId(work, &work->session)), out);
+    MYSTATUS_NameToStrbuf(GAME_DATA_GetMyStatusPlayer(gameData, INTRUDE_COMM_GetRequesterNetId(work, &work->session)), out);
     return 1;
 }
 

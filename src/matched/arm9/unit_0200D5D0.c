@@ -37,14 +37,14 @@
  *    front of each mask; without the cast the pair is gone.  The widths come
  *    off the second pair: `lsls #0x1A` / `lsrs #0x19` is bits 1..6, `ands #1`
  *    is bit 0 and `lsls #0x1F` / `lsrs #0x18` is bit 7.
- *  - the four out-parameters of BEACON_GetSelect are declared in the order the
+ *  - the four out-parameters of MISC_GetMonRecord are declared in the order the
  *    call passes them, so the first lands at sp+0x14 and the last at sp+8;
  *    declared the other way round every offset is mirrored and nothing else
  *    moves.  See docs/idioms/local-declaration-order-is-stack-order.md.
  *  - the byte of owner information is read as `add r0, sp, #8` /
  *    `ldrb r0, [r0, #0x12]` rather than off the OSOwnerInfo frame slot,
  *    because `sp + 8` is already a common subexpression: it is the fifth
- *    argument BEACON_GetSelect took a few instructions earlier.
+ *    argument MISC_GetMonRecord took a few instructions earlier.
  *
  * symbols:
  *   MI_CpuFill8      0x02082BCC  arm
@@ -53,8 +53,8 @@
  *   GF_STANDARD_CalcCrc16    0x0203F1FC  arm
  *   GAME_DATA_GetSaveControl  0x02012EBC  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   MISC_SAVEDATA_CopyQuadRecord  0x0200E6FC  thumb
- *   BEACON_GetSelect  0x0200C164  thumb
+ *   GREETING_SAVEDATA_GetSentence  0x0200E6FC  thumb
+ *   MISC_GetMonRecord  0x0200C164  thumb
  *   WORDSET_CopyString  0x0201F41C  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  */
@@ -80,7 +80,7 @@ extern void *GAME_DATA_GetMiscSave(int *p);
 extern struct Sub02009470Obj *func_02009470(void *sys);
 extern void *func_0200E6E8(u32 a);
 struct Rec0200E6FC;
-extern void MISC_SAVEDATA_CopyQuadRecord(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
+extern void GREETING_SAVEDATA_GetSentence(struct Rec0200E6FC *src, int idx, struct Rec0200E6FC *dst);
 extern const void *func_020084F4(const void *p);
 extern void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
@@ -88,7 +88,7 @@ extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u8 func_02008570(const struct Sub0200852CObj *obj);
-extern void BEACON_GetSelect(const struct Blk34 *p, u32 *a, u32 *b, u32 *c, u32 *d);
+extern void MISC_GetMonRecord(const struct Blk34 *p, u32 *a, u32 *b, u32 *c, u32 *d);
 
 struct OwnerInfo {
     u8 unk00;
@@ -140,7 +140,7 @@ void GDS_PROFILE_Init(struct GdsProfile *p, void *sys)
     blk = GAME_DATA_GetMiscSave(sys);
     env = func_0200E6E8((u32)save);
     OS_GetOwnerInfo(&info);
-    BEACON_GetSelect(blk, &a, &b, &c, &d);
+    MISC_GetMonRecord(blk, &a, &b, &c, &d);
 
     MI_CpuFill8(p, 0, sizeof(struct GdsProfile));
     WORDSET_CopyString(func_020084F4(rec), (u16 *)p, 8);
@@ -155,7 +155,7 @@ void GDS_PROFILE_Init(struct GdsProfile *p, void *sys)
     for (i = 0; i < 0x28; i++) {
         p->unk20[i] = STRBUF_GetEosChar();
     }
-    MISC_SAVEDATA_CopyQuadRecord(env, 0, (struct Rec0200E6FC *)p->unk20);
+    GREETING_SAVEDATA_GetSentence(env, 0, (struct Rec0200E6FC *)p->unk20);
     p->unk15 = info.unk02;
     p->unk16 = func_02008554(rec);
     p->unk19 = 0x15;

@@ -118,7 +118,7 @@
  *   CLACT_SetActorAnimFrame  0x0204B8C4  arm  arm9
  *   GF_FONT_Create  0x0201D7EC  thumb  arm9
  *   PROCSYS_AllocProcWork  0x0203159C  arm  arm9
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm  arm9
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm  arm9
  *   BG_SYS_SetVramBanks  0x020433E0  arm  arm9
  *   BMP_WIN_Exit  0x020450C8  arm  arm9
  *   CLACT_ReleaseCharacter  0x0204A8D4  arm  arm9
@@ -234,7 +234,7 @@ extern u32 GAMESYSTEM_TryStartAutoComm(struct IcaAnime *p);
 
 extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
 
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 
 extern void RESEARCH_COMMON_SetScreen(void *p, u32 v);
 
@@ -774,7 +774,7 @@ void RESEARCH_TOP_UpdateNetwork(u32 proc)
 {
     WIH_DWC_PollStatus((void *)GAME_DATA_GetWifiList(GAMESYSTEM_GetGameData(((struct ResearchProc *)proc)->appResource)));
     if (GAMESYSTEM_TryStartAutoComm((struct IcaAnime *)(*(u32 *)&((struct ResearchProc *)proc)->appResource)) != 0) {
-    GFL_NET_RestartWithDefaultTimeout(1, ((struct ResearchProc *)proc)->heapId);
+    GFL_NET_RefreshWmIconAtTopRight(1, ((struct ResearchProc *)proc)->heapId);
     }
 }
 
@@ -1924,5 +1924,5 @@ void RESEARCH_TOP_UnregisterVBlank(void)
 
 void RESEARCH_TOP_RestartNetwork(u32 obj)
 {
-    GFL_NET_RestartWithDefaultTimeout(1, ((struct ResearchObjC *)obj)->heapId);
+    GFL_NET_RefreshWmIconAtTopRight(1, ((struct ResearchObjC *)obj)->heapId);
 }

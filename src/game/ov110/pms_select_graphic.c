@@ -17,7 +17,7 @@
  *   GFL_HEAP_Free 0x020307B0 arm
  *   GF_OVERLAY_Load 0x02034AC4 arm
  *   GFL_HEAP_CreateChildHeap 0x0203064C arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   KEY_GetTrg 0x020362DC arm
  *   KEY_GetRepeat 0x0203633C arm
  *   GFL_HEAP_DeleteChecked 0x020306F0 arm
@@ -205,7 +205,7 @@ extern void GF_OVERLAY_Unload(int handle);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
-extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32, u32);
 extern void *PROCSYS_Create(int heapId);
 extern u32 PROCSYS_Main(void *procList);
 extern void PROCSYS_Delete(void *procList);
@@ -586,7 +586,7 @@ void PMS_SELECT_GRAPHIC_Setup(struct PmsSelectGraphic *p)
     p->touchBar = PMS_SELECT_GRAPHIC_CreateTouchBar((int)p, PMS_SELECT_GRAPHIC_GetSceneActorUnit(p->scene), p->heapId);
     p->taskMenuRes = APP_TASKMENU_RES_Create(0, 12, (u32)p->font, (u32)p->printQueue, p->heapId);
     PMS_SELECT_GRAPHIC_CreateRows(p);
-    GFL_NET_RestartWithDefaultTimeout(1, p->heapId);
+    GFL_NET_RefreshWmIconAtTopRight(1, p->heapId);
 }
 
 static inline u8 ClearRowPending(struct PmsSelectGraphic *p, u8 i)

@@ -76,7 +76,7 @@
  *   FLDEFF_NAMIPOKE_SetFollowMode  0x021ACBB8  thumb  ov021
  *   FIELD_PLAYER_StartFormChange  0x021A2F48  thumb  ov021
  *   FIELD_PLAYER_StepFormChange  0x021A2F54  thumb  ov021
- *   FIELD_PLAYER_SetGridMoveState  0x021A35A0  thumb  ov021
+ *   FIELD_PLAYER_SetGridHopLanded  0x021A35A0  thumb  ov021
  *   FIELD_PLAYER_GRID_EVENT_RunStateTable  0x021C1988  thumb  ov021
  *   FIELD_EFFECT_LoadResources  0x021ABE30  thumb  ov021
  *   FLDEFF_NAMIPOKE_SPLASH_StartOnEffect  0x021AD564  thumb  ov021
@@ -256,7 +256,7 @@ extern FieldMap *FIELD_PLAYER_GetFieldMap(FieldPlayer *player);
 
 extern Mmdl *FIELD_PLAYER_GetMmdl(FieldPlayer *player);
 
-extern void FIELD_PLAYER_SetGridMoveState(FieldPlayer *player, int value);
+extern void FIELD_PLAYER_SetGridHopLanded(FieldPlayer *player, int value);
 
 extern GameSystem *FIELD_PLAYER_GetGrid(FieldPlayer *player);
 
@@ -641,7 +641,7 @@ void FIELD_PLAYER_GRID_EVENT_HopTask(TcblTask *task, HopWork *work)
         work->state++;
     case 4:
         if (FIELD_PLAYER_StepFormChange(work->player) == 1) {
-            FIELD_PLAYER_SetGridMoveState(work->player, 1);
+            FIELD_PLAYER_SetGridHopLanded(work->player, 1);
             work->done = 1;
             work->state++;
         }
@@ -857,7 +857,7 @@ int FIELD_PLAYER_GRID_EVENT_JumpUpWaitEffect(JumpWork *work)
         effects = FIELDMAP_GetEffect(work->fieldMap);
         FIELD_EFFECT_DeleteObject(work->effectHandle);
         FIELD_EFFECT_FreeResource(effects, 9);
-        FIELD_PLAYER_SetGridMoveState(work->player, 1);
+        FIELD_PLAYER_SetGridHopLanded(work->player, 1);
         work->effectHandle = 0;
         work->done = 1;
     }
@@ -959,7 +959,7 @@ void FIELD_PLAYER_GRID_EVENT_UpdateJumpDown(JumpWork *work)
             FLDMMDL_InitPosition(mmdl, &work->target, work->dir);
             FIELD_EFFECT_DeleteObject(work->effectHandle);
             FIELD_EFFECT_FreeResource(effects, 9);
-            FIELD_PLAYER_SetGridMoveState(work->player, 1);
+            FIELD_PLAYER_SetGridHopLanded(work->player, 1);
             work->effectHandle = 0;
             work->done = 1;
             GFL_USE_PlaySeDefaultVolume(0x6e2);

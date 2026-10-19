@@ -13,7 +13,7 @@
  *   CLACT_RegisterPalette 0x0204ABF0 arm
  *   CLACT_RegisterCellAnim 0x0204AF28 arm
  *   ARC_TOOL_DeleteHandle 0x02049238 arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  */
 #include "../include/Obj00835.h"
 typedef unsigned char u8;
@@ -24,7 +24,7 @@ extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
 extern int CLACT_RegisterPalette(void *,u32,u32,u32,u16);
 extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 void GURU2_MAIN_LoadActorResources(u8 *p)
 {
     void *arc;
@@ -33,5 +33,5 @@ void GURU2_MAIN_LoadActorResources(u8 *p)
     ((struct Obj00835 *)p)->fD70 = CLACT_RegisterPalette(arc,0,0,0,114);
     ((struct Obj00835 *)p)->fD74 = CLACT_RegisterCellAnim(arc,10,14,114);
     ARC_TOOL_DeleteHandle(arc);
-    GFL_NET_RestartWithDefaultTimeout(1,114);
+    GFL_NET_RefreshWmIconAtTopRight(1,114);
 }

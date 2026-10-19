@@ -19,7 +19,7 @@
  *   GF_FONT_Create 0x0201D7EC thumb
  *   TCBL_Create 0x0203101C arm
  *   POKE_SUMMARY_ACTOR_PositionMonActor 0x021B7ADC thumb ov173
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   POKE_SUMMARY_ACTOR_StartWipe 0x021B7B60 thumb ov173
  *   POKE_SUMMARY_ACTOR_StartProc 0x021B7B8C thumb ov173
  *   POKE_SUMMARY_ACTOR_StartNetRestart 0x021B7C00 thumb ov173
@@ -122,7 +122,7 @@
  *   POKE_TOOL_SetPartyValue 0x02017E40 thumb
  *   WAZA_TOOL_GetMaxPP 0x0201C158 thumb
  *   POKE_SUMMARY_ACTOR_LayoutMoveActors 0x021B7968 thumb ov173
- *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
+ *   PRINTSYS_MeasureWidestLine 0x0201D304 thumb
  *   BMP_WIN_GetWidth 0x02045738 arm
  *   PRINTSYS_PrintColor 0x0201C7D0 thumb
  *   WORDSET_SetSlotNumber 0x0201EFA4 thumb
@@ -232,7 +232,7 @@ extern void MI_CpuFill8(void *,int,u32);
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void POKE_SUMMARY_ACTOR_PositionMonActor(unsigned char *p, u32 idx, int unused);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern int POKE_SUMMARY_ACTOR_StartWipe(u8 *p);
 extern int POKE_SUMMARY_ACTOR_StartProc(char *p);
 extern int POKE_SUMMARY_ACTOR_StartNetRestart(void *);
@@ -330,7 +330,7 @@ extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 extern void POKE_TOOL_SetPartyValue(void *, u32, u32);
 extern u8 WAZA_TOOL_GetMaxPP(u16 move, u32 ppUp);
 extern void POKE_SUMMARY_ACTOR_LayoutMoveActors(char *);
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
 extern u32 PRINTSYS_PrintColor(void *, s16, s16, void *, void *, u16);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
@@ -435,7 +435,7 @@ int POKE_SUMMARY_MAIN_Create(struct ProcOwner *obj, int unused, u8 *input)
     POKE_SUMMARY_MAIN_InitScreen(p);
     POKE_SUMMARY_ACTOR_PositionMonActor(p,(u8)(((struct PokeSummaryWork *)p)->mon->selectedIndex),3);
     ((struct PokeSummaryWork *)p)->state=1;
-    GFL_NET_RestartWithDefaultTimeout(1,79);
+    GFL_NET_RefreshWmIconAtTopRight(1,79);
     return 1;
 }
 
@@ -890,11 +890,11 @@ u32 POKE_SUMMARY_MAIN_PrintAligned(char *work, int index, u32 font, u16 color, i
     switch (align) {
     case 0: x = 0; break;
     case 1:
-        width = (u8)GF_FONT_MeasureWidestLine(((struct PokeSummaryWork *)work)->strBufA, font, 0);
+        width = (u8)PRINTSYS_MeasureWidestLine(((struct PokeSummaryWork *)work)->strBufA, font, 0);
         x = (u8)((u8)(BMP_WIN_GetWidth(((struct PokeSummaryWork *)work)->bmpWindows[index]) * 8) - width);
         break;
     case 2:
-        width = (u8)GF_FONT_MeasureWidestLine(((struct PokeSummaryWork *)work)->strBufA, font, 0);
+        width = (u8)PRINTSYS_MeasureWidestLine(((struct PokeSummaryWork *)work)->strBufA, font, 0);
         x = (u8)(((int)(u8)(BMP_WIN_GetWidth(((struct PokeSummaryWork *)work)->bmpWindows[index]) * 8) - width) / 2);
         break;
     }

@@ -1,7 +1,7 @@
 /*
  * file:     net.c
  * unit:     yes
- * function: GFL_NET_SetupHeaps, GFL_NET_StartSession, GFL_NET_GetRunState, GFL_NET_IsSessionNull, GFL_NET_EndSession, GFL_NET_Exit, GFL_NET_ClearExitFlag, GFL_NET_GetScanResult, GFL_NET_GetScanResultMac, GFL_NET_Main, GFL_NET_RequestDisconnect, GFL_NET_ConnectMacAddressParent, GFL_NET_ConnectMacAddressChild, GFL_NET_BeaconScanStart, GFL_NET_StartByNetType, GFL_NET_StartChangeoverEx, GFL_NET_SetGameKindOverride, GFL_NET_IRC_WIRELESS_GetMacAddress, GFL_NET_IRC_WIRELESS_SetSessionParam, GFL_NET_IRC_WIRELESS_Exit, GFL_NET_StartChangeoverChild, GFL_NET_EndDeviceWrapper, GFL_NET_StartChangeoverParent, GFL_NET_SetDeviceModeIfRunning, GFL_NET_SetChangeoverModeWrapper, GFL_NET_IRC_WIRELESS_Step, GFL_NET_IRC_WIRELESS_SetRetryRequest, GFL_NET_IRC_WIRELESS_GetRetryCount, GFL_NET_SetLinkTimeout, GFL_NET_GetHandleNetID, GFL_NET_GetNegotiationNum, GFL_NET_IsConnectMember, GFL_NET_NotifyUserEvent, GFL_NET_IsIdle, GFL_NET_SetTimeout, GFL_NET_IsNetTypeBeacon, GFL_NET_IsNetTypeWifi, GFL_NET_RestartByNetType, GFL_NET_RestartWithDefaultTimeout, GFL_NET_IsParentAid, GFL_NET_IsHandleReady, GFL_NET_SendToHandle, GFL_NET_SendData, GFL_NET_SendDataMask, GFL_NET_ResetSendQueue, GFL_NET_IsSendQueueEntryOfHandle, GFL_NET_StartTimingSync, GFL_NET_CheckTimingSync, GFL_NET_SetGameKind, GFL_NET_GetGameKind, GFL_NET_GetWifiUserData, GFL_NET_GetFriendList, GFL_NET_GetFriendListNum, GFL_NET_SetWaitMode, GFL_NET_GetUserArg, GFL_NET_SetUserArg, GFL_NET_GetMaxConnectNum, GFL_NET_GetChildSendSize, GFL_NET_GetParentSendSize, GFL_NET_CallDeviceReadyFunc, GFL_NET_CallErrorStateFunc, GFL_NET_CallStateChangeFunc, GFL_NET_GetSession, GFL_NET_GetInitParam, GFL_NET_SetAutoExit, GFL_NET_SetLoginOption, GFL_NET_AllocAligned, GFL_NET_FreeAligned, GFL_NET_SetIrcParams, GFL_NET_GetIrcParams, GFL_NET_CopyInitParam, GFL_NET_ClearBeaconCallbacks, GFL_NET_CheckError, GFL_NET_RestartWithTimeout, GFL_NET_RestartNoTimeout, GFL_NET_SetErrorCheckEnabled
+ * function: GFL_NET_SetupHeaps, GFL_NET_StartSession, GFL_NET_GetRunState, GFL_NET_IsSessionNull, GFL_NET_EndSession, GFL_NET_Exit, GFL_NET_ClearExitFlag, GFL_NET_GetScanResult, GFL_NET_GetScanResultMac, GFL_NET_Main, GFL_NET_RequestDisconnect, GFL_NET_ConnectMacAddressParent, GFL_NET_ConnectMacAddressChild, GFL_NET_BeaconScanStart, GFL_NET_StartByNetType, GFL_NET_StartChangeoverEx, GFL_NET_SetGameKindOverride, GFL_NET_IRC_WIRELESS_GetMacAddress, GFL_NET_IRC_WIRELESS_SetSessionParam, GFL_NET_IRC_WIRELESS_Exit, GFL_NET_StartChangeoverChild, GFL_NET_EndDeviceWrapper, GFL_NET_StartChangeoverParent, GFL_NET_SetDeviceModeIfRunning, GFL_NET_SetChangeoverModeWrapper, GFL_NET_IRC_WIRELESS_Step, GFL_NET_IRC_WIRELESS_SetRetryRequest, GFL_NET_IRC_WIRELESS_GetRetryCount, GFL_NET_SetLinkTimeout, GFL_NET_GetHandleNetID, GFL_NET_GetNegotiationNum, GFL_NET_IsConnectMember, GFL_NET_SetAcceptConnection, GFL_NET_IsIdle, GFL_NET_SetIconPos, GFL_NET_IsNetTypeBeacon, GFL_NET_IsNetTypeWifi, GFL_NET_RefreshWmIcon, GFL_NET_RefreshWmIconAtTopRight, GFL_NET_IsParentAid, GFL_NET_IsHandleReady, GFL_NET_SendToHandle, GFL_NET_SendData, GFL_NET_SendDataMask, GFL_NET_ResetSendQueue, GFL_NET_IsSendQueueEntryOfHandle, GFL_NET_StartTimingSync, GFL_NET_CheckTimingSync, GFL_NET_SetGameKind, GFL_NET_GetGameKind, GFL_NET_GetWifiUserData, GFL_NET_GetFriendList, GFL_NET_GetFriendListNum, GFL_NET_SetWaitMode, GFL_NET_GetUserArg, GFL_NET_SetUserArg, GFL_NET_GetMaxConnectNum, GFL_NET_GetChildSendSize, GFL_NET_GetParentSendSize, GFL_NET_CallDeviceReadyFunc, GFL_NET_CallErrorStateFunc, GFL_NET_CallStateChangeFunc, GFL_NET_GetSession, GFL_NET_GetInitParam, GFL_NET_SetAutoExit, GFL_NET_SetLoginOption, GFL_NET_AllocAligned, GFL_NET_FreeAligned, GFL_NET_SetIrcParams, GFL_NET_GetIrcParams, GFL_NET_CopyInitParam, GFL_NET_ClearBeaconCallbacks, GFL_NET_CheckError, GFL_NET_RefreshWmIconAt, GFL_NET_RefreshWmIconAtOrigin, GFL_NET_SetErrorCheckEnabled
  * address:  0x0203CB34
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -14,7 +14,7 @@
  *
  * symbols:
  *   GFL_HEAP_Alloc  0x02030734  arm
- *   SAVEDATA_PanicFail  0x02034714  arm
+ *   GF_PANIC_Fail  0x02034714  arm
  *   GFL_HEAP_Free   0x020307B0  arm
  *   GFL_NET_SYSTEM_GetCurrentAid   0x02039338  arm
  *   GFL_NET_HANDLE_GetCurrentHandle  0x020399A8  arm
@@ -90,7 +90,7 @@
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 extern u32 GFL_HEAP_Free(void *block);
 
@@ -120,7 +120,7 @@ extern u32  FLASH_ACCESS_GetBusyFlag(void);
 
 extern void GFL_NET_HANDLE_IsTimingSync(void);
 
-void GFL_NET_WM_ICON_EasyStart(u32 timeoutFrames, u32 timeoutExtra, u32 isWifi, u32 heapId);
+void GFL_NET_WM_ICON_EasyStart(u32 iconX, u32 iconY, u32 isWifi, u32 heapId);
 
 void GFL_NET_WM_ICON_EasyEnd(void);
 
@@ -128,7 +128,7 @@ void GFL_NET_WM_ICON_EasySetScreen(u32 restartParamA, u32 restartParamB);
 
 void GFL_NET_WM_ICON_EasyMain(void);
 
-void GFL_NET_WM_ICON_SetDefaultPos(unsigned short timeoutFrames, unsigned short timeoutExtra);
+void GFL_NET_WM_ICON_SetDefaultPos(unsigned short iconX, unsigned short iconY);
 
 void GFL_NET_SYSTEM_SetDeviceMode(int mode);
 
@@ -254,19 +254,19 @@ int GFL_NET_GetNegotiationNum(void);
 
 u32 GFL_NET_IsConnectMember(u32 index);
 
-void GFL_NET_NotifyUserEvent(u32 unusedArg, void *eventArg);
+void GFL_NET_SetAcceptConnection(u32 unusedArg, void *eventArg);
 
 u32 GFL_NET_IsIdle(void);
 
-void GFL_NET_SetTimeout(u16 timeoutFrames, u16 timeoutExtra);
+void GFL_NET_SetIconPos(u16 iconX, u16 iconY);
 
 u32 GFL_NET_IsNetTypeBeacon(void);
 
 u32 GFL_NET_IsNetTypeWifi(void);
 
-void GFL_NET_RestartByNetType(void);
+void GFL_NET_RefreshWmIcon(void);
 
-void GFL_NET_RestartWithDefaultTimeout(u32 restartParamA, u32 restartParamB);
+void GFL_NET_RefreshWmIconAtTopRight(u32 restartParamA, u32 restartParamB);
 
 u32 GFL_NET_IsParentAid(void);
 
@@ -336,9 +336,9 @@ void GFL_NET_ClearBeaconCallbacks(void);
 
 u32 GFL_NET_CheckError(void);
 
-void GFL_NET_RestartWithTimeout(u32 timeoutFrames, u32 timeoutExtra);
+void GFL_NET_RefreshWmIconAt(u32 iconX, u32 iconY);
 
-void GFL_NET_RestartNoTimeout(void);
+void GFL_NET_RefreshWmIconAtOrigin(void);
 
 void GFL_NET_SetErrorCheckEnabled(u32 enable);
 
@@ -428,7 +428,7 @@ void GFL_NET_StartSession(GFLNetInitializeStruct *req, u32 transportArg, u32 use
     session->errorCheckEnabled = 1;
     session->ops = NET_DEVICE_TABLE_Select(req->bNetType);
     if (session->ops == 0)
-        SAVEDATA_PanicFail(sNetFileName, 0x6f, str_020A7CA8);
+        GF_PANIC_Fail(sNetFileName, 0x6f, str_020A7CA8);
     if (req->bNetType == 4)
         req = (GFLNetInitializeStruct *)GFL_NET_IRC_WIRELESS_Create((const GFLNetInitializeStruct *)req, userArg);
     MI_CpuCopy8(req, session, 0x70);
@@ -442,7 +442,7 @@ void GFL_NET_StartSession(GFLNetInitializeStruct *req, u32 transportArg, u32 use
     case 3:
     case 4:
         if (req->childSendSize > 0x80)
-            SAVEDATA_PanicFail(sNetFileName, 0x84, str_020A7CB8);
+            GF_PANIC_Fail(sNetFileName, 0x84, str_020A7CB8);
         if (gGFLNetMain.baseHeapId != 0)
             GFL_HEAP_CreateChildHeap(gGFLNetMain.baseHeapId, req->beaconHeapId, 0x1b00);
         else
@@ -452,7 +452,7 @@ void GFL_NET_StartSession(GFLNetInitializeStruct *req, u32 transportArg, u32 use
     case 5:
         break;
     default:
-        SAVEDATA_PanicFail(sNetFileName, 0x8e, str_020A7CE8);
+        GF_PANIC_Fail(sNetFileName, 0x8e, str_020A7CE8);
         return;
     }
     session->userArg = userArg;
@@ -468,7 +468,7 @@ void GFL_NET_StartSession(GFLNetInitializeStruct *req, u32 transportArg, u32 use
     isWifi = 0;
     if ((u8)(netType + 0xff) <= 1)
         isWifi = 1;
-    GFL_NET_WM_ICON_EasyStart(req->timeoutFrames, req->timeoutExtra, isWifi, req->heapId);
+    GFL_NET_WM_ICON_EasyStart(req->iconX, req->iconY, isWifi, req->heapId);
 }
 
 /*
@@ -546,7 +546,7 @@ void GFL_NET_EndSession(void)
     case 5:
         break;
     default:
-        SAVEDATA_PanicFail(sNetFileName, 0xEE, str_020A7CE8);
+        GF_PANIC_Fail(sNetFileName, 0xEE, str_020A7CE8);
         return;
     }
 
@@ -834,7 +834,7 @@ u32 GFL_NET_IsConnectMember(u32 index)
     return GFL_NET_HANDLE_IsNegotiationDone((u8 *)GFL_NET_HANDLE_GetNetHandle(index));
 }
 
-void GFL_NET_NotifyUserEvent(u32 unusedArg, void *eventArg)
+void GFL_NET_SetAcceptConnection(u32 unusedArg, void *eventArg)
 {
     void (*setAcceptConnection)(void *) = GFL_NET_GetSession()->ops->setAcceptConnection;
 
@@ -864,13 +864,13 @@ u32 GFL_NET_IsIdle(void)
  * exists.  Both stores are predicated off the one null test, which is why
  * the two parameters have to survive the accessor call in r5/r4.
  */
-void GFL_NET_SetTimeout(u16 timeoutFrames, u16 timeoutExtra)
+void GFL_NET_SetIconPos(u16 iconX, u16 iconY)
 {
     GFLNetSession *initSession = GFL_NET_GetInitParam();
 
     if (initSession != 0) {
-        initSession->init.timeoutFrames = timeoutFrames;
-        initSession->init.timeoutExtra = timeoutExtra;
+        initSession->init.iconX = iconX;
+        initSession->init.iconY = iconY;
     }
 }
 
@@ -920,13 +920,13 @@ u32 GFL_NET_IsNetTypeWifi(void)
  * (GFL_NET_GetInitParam null-checks, GFL_NET_GetSession does not); both results
  * stay live and the first is used only for the net type test.
  */
-void GFL_NET_RestartByNetType(void)
+void GFL_NET_RefreshWmIcon(void)
 {
     GFLNetSession *initSession = GFL_NET_GetInitParam();
     GFLNetSession *session = GFL_NET_GetSession();
 
     if (FLASH_ACCESS_GetBusyFlag() == 1) {
-        SAVEDATA_PanicFail(sNetFileName, 868, str_020A7CE8);
+        GF_PANIC_Fail(sNetFileName, 868, str_020A7CE8);
         return;
     }
     if (session != 0 && initSession->init.bNetType != 3) {
@@ -935,7 +935,7 @@ void GFL_NET_RestartByNetType(void)
         if ((u8)(session->init.bNetType + 0xff) <= 1) {
             isWifi = 1;
         }
-        GFL_NET_WM_ICON_EasyStart(session->init.timeoutFrames, session->init.timeoutExtra, isWifi, session->init.heapId);
+        GFL_NET_WM_ICON_EasyStart(session->init.iconX, session->init.iconY, isWifi, session->init.heapId);
     } else {
         GFL_NET_WM_ICON_EasyEnd();
     }
@@ -947,11 +947,11 @@ void GFL_NET_RestartByNetType(void)
  * kick the state machine at 0x0203D2CC.  Both arguments have to outlive the
  * first call, which is what spends r5/r4.
  */
-void GFL_NET_RestartWithDefaultTimeout(u32 restartParamA, u32 restartParamB)
+void GFL_NET_RefreshWmIconAtTopRight(u32 restartParamA, u32 restartParamB)
 {
-    GFL_NET_SetTimeout(0xf0, 0);
+    GFL_NET_SetIconPos(0xf0, 0);
     GFL_NET_WM_ICON_EasySetScreen(restartParamA, restartParamB);
-    GFL_NET_RestartByNetType();
+    GFL_NET_RefreshWmIcon();
 }
 
 /*
@@ -1011,7 +1011,7 @@ u32 GFL_NET_SendData(GFLNetHandle *handle, u32 sendId, u32 command, u32 size, co
     }
     if (sendId != 0xff) {
         if (sendId >= 7) {
-            SAVEDATA_PanicFail(sNetFileName, 1019, g_020A7CEC);
+            GF_PANIC_Fail(sNetFileName, 1019, g_020A7CEC);
         }
         targetMask = 1 << sendId;
     }
@@ -1167,7 +1167,7 @@ u32 GFL_NET_GetMaxConnectNum(void)
     GFLNetSession *session = GFL_NET_GetSession();
 
     if (session->init.maxConnectNum > 8)
-        SAVEDATA_PanicFail(sNetFileName, 0x593, file_020A7CF8);
+        GF_PANIC_Fail(sNetFileName, 0x593, file_020A7CF8);
     return session->init.maxConnectNum;
 }
 
@@ -1192,7 +1192,7 @@ u32 GFL_NET_GetParentSendSize(void)
     GFLNetSession *session = GFL_NET_GetSession();
 
     if (session == 0)
-        SAVEDATA_PanicFail(sNetFileName, 0x5B1, file_020A7D2C);
+        GF_PANIC_Fail(sNetFileName, 0x5B1, file_020A7D2C);
     return session->init.parentSendSize;
 }
 
@@ -1345,21 +1345,21 @@ u32 GFL_NET_CheckError(void)
 
 /*
  * Truncates both arguments to 16 bits, then runs the pair through
- * the timeout setter and GFL_NET_RestartByNetType.
+ * the timeout setter and GFL_NET_RefreshWmIcon.
  */
-void GFL_NET_RestartWithTimeout(u32 timeoutFrames, u32 timeoutExtra)
+void GFL_NET_RefreshWmIconAt(u32 iconX, u32 iconY)
 {
-    GFL_NET_WM_ICON_SetDefaultPos((u16)timeoutFrames, (u16)timeoutExtra);
-    GFL_NET_RestartByNetType();
+    GFL_NET_WM_ICON_SetDefaultPos((u16)iconX, (u16)iconY);
+    GFL_NET_RefreshWmIcon();
 }
 
 /*
- * Runs the timeout setter(0, 0) and GFL_NET_RestartByNetType.
+ * Runs the timeout setter(0, 0) and GFL_NET_RefreshWmIcon.
  */
-void GFL_NET_RestartNoTimeout(void)
+void GFL_NET_RefreshWmIconAtOrigin(void)
 {
     GFL_NET_WM_ICON_SetDefaultPos(0, 0);
-    GFL_NET_RestartByNetType();
+    GFL_NET_RefreshWmIcon();
 }
 
 /*

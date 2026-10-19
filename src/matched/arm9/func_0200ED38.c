@@ -1,5 +1,5 @@
 /*
- * function: MISC_SAVEDATA_GetShortBlockSize
+ * function: MET_TRAINERS_GetSize
  * address:  0x0200ED38
  * packet:   pkt_0200ED38
  * region:   arm9
@@ -15,7 +15,7 @@
 
 typedef unsigned int u32;
 
-u32 MISC_SAVEDATA_GetShortBlockSize(void)
+u32 MET_TRAINERS_GetSize(void)
 {
     return 0xFC;
 }

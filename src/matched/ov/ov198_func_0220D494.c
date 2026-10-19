@@ -1,5 +1,5 @@
 /*
- * function: B_PLIST_DRAW_PrintCenterPair
+ * function: B_PLIST_DRAW_PrintPpPair
  * address: 0x0220D494
  * packet: pkt_ov198_0220D494
  * region: ov198
@@ -55,7 +55,7 @@ extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
-void B_PLIST_DRAW_PrintCenterPair(u8 *p, int slot, int a2, int a3)
+void B_PLIST_DRAW_PrintPpPair(u8 *p, int slot, int a2, int a3)
 {
     u8 *tab;
     void *handle;

@@ -1,5 +1,8 @@
 # A stack parameter load sunk to the end of the entry block is a narrow parameter
 
+summary: An entry-block stack-parameter load that the original keeps early, and an int parameter
+sinks, is an s16 parameter passed to an s16 callee parameter. Narrow both.
+
 ## Shape
 
 The original loads a stack parameter into its callee-saved register among the entry copies of the

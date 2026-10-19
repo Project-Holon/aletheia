@@ -8,14 +8,14 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * note 2026-10-05 (wD7 lane15): closed. The else arm of MUSICAL_MCSS_GetFlagA writes the whole v3.z store in
+ * note 2026-10-05 (wD7 lane15): closed. The else arm of MUSICAL_MCSS_ElemHasAltDepth writes the whole v3.z store in
  *   each arm of the k - 7 test (q+0x20 plus 0xA000 or 0x5000, minus EA[4] << 11). The zz local that
  *   merged at the join was what swapped off (r4) and t (r6); tail merging rebuilds the shared add.
  * symbols:
  *   MUSICAL_MCSS_GetRenderElem 0x021F5450 thumb ov112
  *   MUSICAL_MCSS_GetRenderFlags 0x021F545C thumb ov112
- *   MUSICAL_MCSS_GetFlagB 0x021F4B30 thumb ov112
- *   MUSICAL_MCSS_GetFlagA 0x021F4B24 thumb ov112
+ *   MUSICAL_MCSS_ElemKeepsFlippedHeight 0x021F4B30 thumb ov112
+ *   MUSICAL_MCSS_ElemHasAltDepth 0x021F4B24 thumb ov112
  *   MUSICAL_MCSS_SetElemPos 0x021F4E8C thumb ov112
  *   MUSICAL_MCSS_SetElemField 0x021F4ED4 thumb ov112
  *   MUSICAL_MCSS_SetElemRotZ 0x021F4EB4 thumb ov112
@@ -39,8 +39,8 @@ typedef struct { int m[9]; } Mtx;
 extern s16 table[];
 extern u8 *MUSICAL_MCSS_GetRenderElem(u8 *, int);
 extern u8 *MUSICAL_MCSS_GetRenderFlags(u8 *);
-extern int MUSICAL_MCSS_GetFlagB(u8 *);
-extern int MUSICAL_MCSS_GetFlagA(u8 *);
+extern int MUSICAL_MCSS_ElemKeepsFlippedHeight(u8 *);
+extern int MUSICAL_MCSS_ElemHasAltDepth(u8 *);
 extern void MUSICAL_MCSS_SetElemPos(u32, u8 *, const Vec *);
 struct Trip;
 extern void MUSICAL_MCSS_SetElemField(u32 unused, u32 p, u16 v);
@@ -99,7 +99,7 @@ void STA_ACT_LIGHT_SetSpritePos(u8 *self, u8 *q)
                     if (neg == 1) {
                         ang2 = (u16)(0x10000 - ang2);
                     }
-                    if (MUSICAL_MCSS_GetFlagB(E) == 0 && neg == 1) {
+                    if (MUSICAL_MCSS_ElemKeepsFlippedHeight(E) == 0 && neg == 1) {
                         z = -z;
                     }
                     MTX_MultVec33((Vec *)(t + 0x28), &mtx, &v2);
@@ -107,7 +107,7 @@ void STA_ACT_LIGHT_SetSpritePos(u8 *self, u8 *q)
                     h = *(u16 *)(self + 0x434);
                     v3.x = *(int *)(t + 4) + v1.x + 0x80000 + FXR(h);
                     v3.y = *(int *)(t + 8) + v1.y + 0x60000;
-                    if (MUSICAL_MCSS_GetFlagA(E) == 1) {
+                    if (MUSICAL_MCSS_ElemHasAltDepth(E) == 1) {
                         v3.z = *(int *)(q + 0x20) - 0x14000;
                     } else {
                         if (k - 7 <= 1u) {

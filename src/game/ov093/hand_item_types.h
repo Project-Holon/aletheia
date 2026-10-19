@@ -426,7 +426,7 @@ extern int BTL_CALC_DivideMaxHpMin1(struct BtlPokeParam *pokeParam, u32 divisor)
 
 extern int BTL_SERVER_FLOW_IsPokeEvolvable(struct BtlServerFlow *flow, int pokeId);    /* guess: the Pokemon can still evolve */
 
-extern int BTL_FIELD_GetStaticSlotObject(int query);
+extern int BTL_FIELD_IsStaticSlotInUse(int query);
 
 extern int HAND_COMMON_IsMoveTarget(int pokeId);
 

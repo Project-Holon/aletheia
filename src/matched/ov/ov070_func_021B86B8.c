@@ -18,7 +18,7 @@
  *   STRBUF_Create  0x020457B0  arm
  *   BUTTON_MAN_Create  0x02051B84  arm
  *   TCBL_Create  0x0203101C  arm
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   func_020355C4  0x020355C4  arm
  *   func_0200816C  0x0200816C  thumb
  *   func_02008284  0x02008284  thumb
@@ -88,7 +88,7 @@ extern void GFL_HEAP_CreateChildHeap(); extern void *PROCSYS_AllocProcWork(); ex
 extern void func_0200816C(); extern int func_02008284(struct MyItemSave *p); extern void func_02008270(struct MyItemSave *p, int i, s16 *a, s16 *b); extern int func_02007FA0(); extern void func_02008288(struct MyItemSave *p, int i, s16 a, s16 b);
 extern int func_02045B38(); extern int STRBUF_Create(); extern int WORDSET_CreateDefault(); extern int PRINTSYS_QUE_CreateEx();
 extern int APP_KEYCURSOR_CreateDefault(); extern int GF_FONT_Create(); extern int BUTTON_MAN_Create(); extern int func_020056A0(); extern int TCBL_Create();
-extern int APP_TASKMENU_RES_Create(); extern void GFL_NET_RestartWithDefaultTimeout(); extern int func_020355C4();
+extern int APP_TASKMENU_RES_Create(); extern void GFL_NET_RefreshWmIconAtTopRight(); extern int func_020355C4();
 extern void ITEMMENU_SetupGraphics(), ITEMMENU_InitWindows(), ITEMMENU_LoadPocketGraphics(), ITEMMENU_CreateTabActors(), ITEMMENU_ForceRedrawList(), ITEMMENU_CreateCursorActors(), ITEMMENU_CreateBlinkPalAnm(), ITEMMENU_AllocPalAnmSlots(), ITEMMENU_PrintPocketName(), ITEMMENU_SetCursorActive(), ITEMMENU_ResetDisplayLayers(), ITEMMENU_SetTask();
 extern void ITEMMENU_HandleTouchTarget(), ITEMMENU_VBlankCallback(), ITEMMENU_TaskStartFadeIn(); extern char d_021BBA04[];
 int ITEMMENU_Init(void *proc, int st, Args *a)
@@ -134,7 +134,7 @@ int ITEMMENU_Init(void *proc, int st, Args *a)
     o->f730 = TCBL_Create(o->f544, o->f544, 1, 0);
     ITEMMENU_PrintPocketName(o);
     o->f7E0 = APP_TASKMENU_RES_Create(3, 9, o->f530, o->f50C, o->f544);
-    GFL_NET_RestartWithDefaultTimeout(1, o->f544);
+    GFL_NET_RefreshWmIconAtTopRight(1, o->f544);
     ITEMMENU_SetCursorActive(o, func_020355C4() ? 0 : 1);
     ITEMMENU_ResetDisplayLayers();
     ITEMMENU_SetTask(o, ITEMMENU_TaskStartFadeIn);

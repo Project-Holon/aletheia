@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "SCRCMD_PALPARK_CheckGPowerExpire",
+   "name": "SCRCMD_PALPARK_ClearExpiredGPower",
    "address": "0x021CC6A8",
    "kind": "game",
    "region": "ov021",

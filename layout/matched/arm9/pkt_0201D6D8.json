@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "GF_FONT_EnqueuePrint",
+   "name": "PRINTSYS_EnqueuePrint",
    "address": "0x0201D6D8",
    "kind": "game",
    "region": "arm9",
@@ -19,7 +19,7 @@
    "status": "EXACT"
   },
   {
-   "name": "GF_FONT_Copy",
+   "name": "PRINTSYS_Copy",
    "address": "0x0201D768",
    "kind": "game",
    "region": "arm9",
@@ -42,7 +42,7 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "GF_FONT_GetNextRecord"
+    "PRINTSYS_GetNextRecord"
    ],
    "addresses": [
     "0x0201D7C4"

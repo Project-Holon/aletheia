@@ -23,8 +23,8 @@
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   GAME_DATA_GetPlayerRailLocation  0x02012AB8  thumb
- *   FIELD_PLAYER_GetNogridLocation  0x021A36B0  thumb  ov021
- *   FIELD_PLAYER_ClearNogridState  0x021A36D4  thumb  ov021
+ *   FIELD_PLAYER_SetNogridRailLocation  0x021A36B0  thumb  ov021
+ *   FIELD_PLAYER_GetNogridRailPos  0x021A36D4  thumb  ov021
  *   FIELD_PLAYER_SetPos  0x021A3044  thumb  ov021
  *   FIELD_PLAYER_SetDirDisp  0x021A305C  thumb  ov021
  * Addresses are Black-image addresses.
@@ -52,8 +52,8 @@ struct SaveBlock;
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
 extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
 extern struct H4 *GAME_DATA_GetPlayerRailLocation(struct Rec44 *p);
-extern void FIELD_PLAYER_GetNogridLocation(u8 *p, void *v);
-extern void FIELD_PLAYER_ClearNogridState(u8 *p, u32 v);
+extern void FIELD_PLAYER_SetNogridRailLocation(u8 *p, void *v);
+extern void FIELD_PLAYER_GetNogridRailPos(u8 *p, u32 v);
 extern void FIELD_PLAYER_SetPos(u8 *p, void *v);
 extern void FIELD_PLAYER_SetDirDisp(char *p, u32 b);
 
@@ -66,8 +66,8 @@ void FIELDMAP_CTRL_NOGRID_WORK_Create(struct Obj00020 *a, u32 b, u32 c)
     r4 = FIELDMAP_GetFieldPlayer(a);
     FIELDMAP_SetCtrlWork((u8 *)a, (u32)FIELDMAP_CTRL_NOGRID_WORK_CreateWork(a, FIELDMAP_GetHeapId((u8 *)a)));
     FIELDMAP_SetTargetPos((u8 *)a, (u32)FLDMMDL_GetPosPtr(FIELD_PLAYER_GetMmdl(r4)));
-    FIELD_PLAYER_GetNogridLocation(r4, GAME_DATA_GetPlayerRailLocation(GAME_DATA_GetMyPlayerWork(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(a)))));
-    FIELD_PLAYER_ClearNogridState(r4, b);
+    FIELD_PLAYER_SetNogridRailLocation(r4, GAME_DATA_GetPlayerRailLocation(GAME_DATA_GetMyPlayerWork(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(a)))));
+    FIELD_PLAYER_GetNogridRailPos(r4, b);
     FIELD_PLAYER_SetPos(r4, (void *)b);
     FIELD_PLAYER_SetDirDisp((char *)r4, c);
 }

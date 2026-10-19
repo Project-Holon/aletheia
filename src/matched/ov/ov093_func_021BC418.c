@@ -15,7 +15,7 @@
  *   BTL_SLOT_Rotate  0x021B9C50  thumb  ov093
  *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
  *   BTL_SERVER_FLOW_ProcPokeLeaveField  0x021C5108  thumb  ov093
- *   BTL_FIELD_GetStaticSlotObject  0x021EF948  thumb  ov093
+ *   BTL_FIELD_IsStaticSlotInUse  0x021EF948  thumb  ov093
  *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
  *   BTL_SERVER_FLOW_CureSick  0x021C5620  thumb  ov093
  *   HAND_TOKUSEI_EnableAbilityHandlers  0x021D8548  thumb  ov093
@@ -37,7 +37,7 @@ extern void BTL_SERVER_CMD_Push(void *w, volatile u32 id, ...);
 extern void BTL_SLOT_Rotate(u8 **p, int k, u8 **o1, u8 **o2);
 extern int BTL_POKEPARAM_IsFainted(void *p);
 extern void BTL_SERVER_FLOW_ProcPokeLeaveField(u8 *p, u8 *a, int b);
-extern int BTL_FIELD_GetStaticSlotObject(int k);
+extern int BTL_FIELD_IsStaticSlotInUse(int k);
 struct Unk021D62A8;
 extern int BTL_POKEPARAM_HasSick(struct Unk021D62A8 *p, int i);
 extern void BTL_SERVER_FLOW_CureSick(u8 *p, u8 *a, int k, struct Slot *out);
@@ -62,7 +62,7 @@ void BTL_SERVER_FLOW_ProcRotation(u8 *p, int a, int b)
     if (BTL_POKEPARAM_IsFainted(v1) == 0)
         BTL_SERVER_FLOW_ProcPokeLeaveField(p, v1, 1);
     if (BTL_POKEPARAM_IsFainted(v2) == 0) {
-        if (BTL_FIELD_GetStaticSlotObject(2) != 0) {
+        if (BTL_FIELD_IsStaticSlotInUse(2) != 0) {
             k = 0x20;
             if (BTL_POKEPARAM_HasSick((struct Unk021D62A8 *)v2, k) != 0)
                 BTL_SERVER_FLOW_CureSick(p, v2, k, 0);

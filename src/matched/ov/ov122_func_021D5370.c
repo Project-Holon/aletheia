@@ -32,7 +32,7 @@
  *   INTRUDE_COMM_VIEW_InitMenu 0x021D4A64 thumb ov122
  *   INTRUDE_COMM_VIEW_SetCallback 0x021D4244 thumb ov122
  *   GFL_NET_GetInitParam 0x0203D798 arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   INTRUDE_COMM_VIEW_StorePeerRecord 0x021D5278 thumb ov122
  *   NET_WHPIPE_SetNotifyCallback 0x02178118 thumb ov014
@@ -91,7 +91,7 @@ extern void WIPE_SYS_Start(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32
 extern void INTRUDE_COMM_VIEW_InitMenu(char *);
 extern void INTRUDE_COMM_VIEW_SetCallback(void *p, u32 a, int a2);
 extern void *GFL_NET_GetInitParam(void);
-extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32, u32);
 extern int GFL_NET_GetRunState(void);
 extern void INTRUDE_COMM_VIEW_StorePeerRecord(void *, const char *, int, int);
 extern void NET_WHPIPE_SetNotifyCallback(u32, u32);
@@ -134,7 +134,7 @@ int INTRUDE_COMM_VIEW_Create(void *owner, void *unused, char *args)
     GFL_NET_GetInitParam();
     ((struct Obj22934 *)(*(char * *)&((struct Obj00073 *)p)->f344))->f10 = 1;
     ((struct Obj22935 *)(*(char * *)&((struct Obj00073 *)p)->f344))->fC = ((struct Obj00073 *)p)->f350;
-    GFL_NET_RestartWithDefaultTimeout(0, ((struct Obj00073 *)p)->fC);
+    GFL_NET_RefreshWmIconAtTopRight(0, ((struct Obj00073 *)p)->fC);
     if (GFL_NET_GetRunState()) NET_WHPIPE_SetNotifyCallback((u32)INTRUDE_COMM_VIEW_StorePeerRecord, (u32)p);
     UI_SetInputMode(1);
     return 1;

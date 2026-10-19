@@ -42,7 +42,7 @@
  * BTL_REC_SEL_CreateUiActor 0x021BAE4C thumb ov214
  * BTL_REC_SEL_InitPalanm 0x021BAE9C thumb ov214
  * BTL_REC_SEL_DeleteUiActor 0x021BAE88 thumb ov214
- * GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ * GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  * ov67_id 0x00000043 data a1
  */
 #include "../include/Obj00182.h"
@@ -86,7 +86,7 @@ extern void BTL_REC_SEL_InitBgGfx1(int unused, u8 *p);
 extern void BTL_REC_SEL_CreateUiActor(int unused, u8 *p);
 extern void BTL_REC_SEL_InitPalanm(int,char*);
 extern void BTL_REC_SEL_DeleteUiActor(int unused, u8 *p);
-extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 int BTL_REC_SEL_Create(void *manager,char *state,char * const obj)
 {
     char *p;
@@ -125,6 +125,6 @@ int BTL_REC_SEL_Create(void *manager,char *state,char * const obj)
     }else if(((struct Obj06705 *)obj)->f8){BTL_REC_SEL_StartFade(state,(int)obj,p,15,k,16,0,2,0);}
     else ((struct Obj00182 *)p)->f54=1;
     BTL_REC_SEL_CreateUiActor((int)obj,(u8 *)p);BTL_REC_SEL_InitPalanm((int)obj,p);BTL_REC_SEL_DeleteUiActor((int)obj,(u8 *)p);
-    GFL_NET_RestartWithDefaultTimeout(1,((struct Obj00182 *)p)->f0);
+    GFL_NET_RefreshWmIconAtTopRight(1,((struct Obj00182 *)p)->f0);
     return 1;
 }

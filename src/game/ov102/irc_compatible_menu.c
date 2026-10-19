@@ -62,8 +62,8 @@
  *   PRINTSYS_PrintQue 0x0201C6FC thumb
  *   BMP_WIN_GetWidth 0x02045738 arm
  *   BMP_WIN_GetHeight 0x02045740 arm
- *   GF_FONT_MeasureWidestLine 0x0201D304 thumb
- *   GF_FONT_CountLines 0x0201D42C thumb
+ *   PRINTSYS_MeasureWidestLine 0x0201D304 thumb
+ *   PRINTSYS_CountLines 0x0201D42C thumb
  *   PRINTSYS_QUE_Clear 0x0201C6EC thumb
  *   PRINTSYS_PrintQueColor 0x0201C724 thumb
  *   IRC_APPBAR_GetResult 0x021B7250 thumb ov101
@@ -374,8 +374,8 @@ extern void MSGDATA_ReadString(void *msgData, u32 msgId, void *dest);
 extern void PRINTSYS_PrintQue(void *printQueue, void *bmp, u32 x, u32 y, void *strBuf, void *font);
 extern u8 BMP_WIN_GetWidth(void *bmpWin);
 extern u8 BMP_WIN_GetHeight(void *bmpWin);
-extern u32 GF_FONT_MeasureWidestLine(void *strBuf, void *font, u32 margin);
-extern u32 GF_FONT_CountLines(void *strBuf, void *font);
+extern u32 PRINTSYS_MeasureWidestLine(void *strBuf, void *font, u32 margin);
+extern u32 PRINTSYS_CountLines(void *strBuf, void *font);
 extern void PRINTSYS_QUE_Clear(void *printQueue);
 extern void PRINTSYS_PrintQueColor(void *printQueue, void *bmp, u32 x, u32 y, void *strBuf, void *font, u16 color);
 extern void COMPATIBLE_IRC_SYS_ResetStep(IrcSys *sys);
@@ -848,8 +848,8 @@ void IRC_COMPATIBLE_MENU_PrintMessageCentered(IrcWindow *win, IrcTextSystem *tex
     MSGDATA_ReadString(msgData, msgId, win->strBuf);
     x = BMP_WIN_GetWidth(win->bmpWin) * 4;
     y = BMP_WIN_GetHeight(win->bmpWin) * 4;
-    x -= (u16)(GF_FONT_MeasureWidestLine(win->strBuf, font, 0) >> 1);
-    y -= (u16)(GF_FONT_CountLines(win->strBuf, font) >> 1);
+    x -= (u16)(PRINTSYS_MeasureWidestLine(win->strBuf, font, 0) >> 1);
+    y -= (u16)(PRINTSYS_CountLines(win->strBuf, font) >> 1);
     PRINTSYS_QUE_Clear(printQueue);
     PRINTSYS_PrintQueColor(printQueue, BMP_WIN_GetBmp(win->printWin), (s16)x, (s16)y, win->strBuf, font, 0x3dc1);
     win->printPending = 1;
@@ -1064,8 +1064,8 @@ void IRC_COMPATIBLE_MENU_InitButtons(IrcButtons *buttons, int bgLayer, const Irc
         BG_SYS_PushTile(BMP_WIN_GetBgLayer(bmpWin));
         label = MSGDATA_AllocString(IRC_COMPATIBLE_MENU_TextGetMsgData(text), rows[i].msgId);
         GF_FONT_SetTextColor(15, 14, 4);
-        width = GF_FONT_MeasureWidestLine(label, IRC_COMPATIBLE_MENU_TextGetFont(text), 0);
-        height = GF_FONT_CountLines(label, IRC_COMPATIBLE_MENU_TextGetFont(text));
+        width = PRINTSYS_MeasureWidestLine(label, IRC_COMPATIBLE_MENU_TextGetFont(text), 0);
+        height = PRINTSYS_CountLines(label, IRC_COMPATIBLE_MENU_TextGetFont(text));
         bmp = BMP_WIN_GetBmp(buttons->windows[i]);
         PRINTSYS_Print(bmp, (row->width - 8) * 4 - (width >> 1), (row->height - 2) * 4 - (height >> 1), label, IRC_COMPATIBLE_MENU_TextGetFont(text));
         STRBUF_Delete(label);

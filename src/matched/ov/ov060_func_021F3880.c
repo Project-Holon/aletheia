@@ -11,7 +11,7 @@
  *
  * symbols:
  *   GAME_DATA_GetIntrudeId  0x02012B80  thumb
- *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   GAME_DATA_GetEnterMode  0x02012B40  thumb
  *   GAME_DATA_GetLastBattleRecSlot  0x020127B8  thumb
  *   GAME_DATA_GetBattleRecSlot  0x020127AC  thumb
@@ -33,7 +33,7 @@ typedef struct {
 
 struct BigObj;
 extern u8 GAME_DATA_GetIntrudeId(const struct BigObj *p);
-extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+extern u8 GAME_DATA_GetOwnNetId(const struct BigObj *p);
 extern u8 GAME_DATA_GetEnterMode(const struct BigObj *p);
 extern void *GAME_DATA_GetLastBattleRecSlot(void *p);
 typedef unsigned int   u32;
@@ -56,11 +56,11 @@ u8 FIELD_GIMMICK_GAUGE_EFFECT_ShowGauges(void *a, void *b, void *unused)
     V *p;
 
     r6 = GAME_DATA_GetIntrudeId(a);
-    r4 = r6 - GAME_DATA_GetExitMode(a);
+    r4 = r6 - GAME_DATA_GetOwnNetId(a);
     if (r4 < 0) {
         r4 += GAME_DATA_GetEnterMode(a);
     }
-    if (r6 == GAME_DATA_GetExitMode(a)) {
+    if (r6 == GAME_DATA_GetOwnNetId(a)) {
         e = (int)GAME_DATA_GetLastBattleRecSlot(a);
     } else {
         e = (int)GAME_DATA_GetBattleRecSlot(a, r6);

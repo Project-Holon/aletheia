@@ -25,7 +25,7 @@
  *   WIFICLUB_BuildOwnStatus 0x021BE6F0 thumb ov099
  *   GFL_NET_GetRunState 0x0203CD98 arm
  *   WIFICLUBACTOR_AddNetCommands 0x021BA7D8 thumb ov099
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  */
 #include "../include/Obj01386.h"
 #include "../include/Obj02804.h"
@@ -50,7 +50,7 @@ extern void WIFICLUB_InitScreen(char *);
 extern void WIFICLUB_BuildOwnStatus(char *, int, int);
 extern int GFL_NET_GetRunState(void);
 extern void WIFICLUBACTOR_AddNetCommands(void *p);
-extern void GFL_NET_RestartWithDefaultTimeout(u32, u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32, u32);
 int WIFICLUB_ProcInit(void *obj, int unused, char *args)
 {
     char *p;
@@ -86,7 +86,7 @@ int WIFICLUB_ProcInit(void *obj, int unused, char *args)
     if (((struct Obj02804 *)args)->fC == 0) WIFICLUB_BuildOwnStatus(p, 1, 2);
     if (GFL_NET_GetRunState() != 0) {
         WIFICLUBACTOR_AddNetCommands(p);
-        GFL_NET_RestartWithDefaultTimeout(1, 0x21);
+        GFL_NET_RefreshWmIconAtTopRight(1, 0x21);
     }
     return 1;
 }

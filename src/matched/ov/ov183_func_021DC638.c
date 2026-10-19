@@ -17,8 +17,8 @@
  *   BR_CODEIN_RecordDeleteButtons 0x021DD054 thumb ov183
  *   BR_CODEIN_RecordSetupTextWin 0x021DD128 thumb ov183
  *   TOUCHPANEL_GetPointTrg 0x02035D20 arm
- *   BR_CODEIN_RecordHitButtonC 0x021DD2FC thumb ov183
- *   BR_CODEIN_RecordHitButtonD 0x021DD33C thumb ov183
+ *   BR_CODEIN_RecordHitOptionLeft 0x021DD2FC thumb ov183
+ *   BR_CODEIN_RecordHitOptionRight 0x021DD33C thumb ov183
  *   BR_CODEIN_RecordTeardownTextWin 0x021DD1D4 thumb ov183
  *   BR_CODEIN_RecordCreateTextWin 0x021DD0AC thumb ov183
  *   BR_CODEIN_RecordDeleteTextWin 0x021DD0F4 thumb ov183
@@ -57,7 +57,7 @@ extern int BR_FADE_GetResult(int *);
 extern void BR_CODEIN_RecordDeleteProfileScreen(char *,char *),BR_CODEIN_RecordDeleteActors(char *,char *),BR_CODEIN_RecordDeleteButtons(char *,char *),BR_CODEIN_RecordSetupTextWin(char *,char *),BR_CODEIN_RecordTeardownTextWin(char *,char *);
 extern void BR_CODEIN_RecordCreateTextWin(char *,char *),BR_CODEIN_RecordDeleteTextWin(char *,char *);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
-extern int BR_CODEIN_RecordHitButtonC(char *,int,int),BR_CODEIN_RecordHitButtonD(char *,int,int);
+extern int BR_CODEIN_RecordHitOptionLeft(char *,int,int),BR_CODEIN_RecordHitOptionRight(char *,int,int);
 extern void BR_UTIL_SetWindowText(char *p, char *q, void *text);
 extern int GAME_DATA_SaveStart(int),GAME_DATA_SaveMain(u8 *);
 extern void BR_UTIL_StartEffect(int,int,int *);
@@ -81,8 +81,8 @@ void BR_CODEIN_RecordStepConfirm(int *a,int *state,char *p)
     case 5: ++*state;break;
     case 6:
         if(TOUCHPANEL_GetPointTrg(&x,&y)) {
-            if(BR_CODEIN_RecordHitButtonC(p,x,y)) *state=7;
-            else if(BR_CODEIN_RecordHitButtonD(p,x,y)) *state=10;
+            if(BR_CODEIN_RecordHitOptionLeft(p,x,y)) *state=7;
+            else if(BR_CODEIN_RecordHitOptionRight(p,x,y)) *state=10;
         }
         break;
     case 7: BR_FADE_Start((int)(*(int * *)&((struct Obj24559 *)(*(char * *)&((struct Obj00050 *)p)->fD0))->fC),2,3,1);++*state;break;

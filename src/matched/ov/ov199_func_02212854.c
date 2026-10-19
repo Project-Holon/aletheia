@@ -13,8 +13,8 @@
  *   func_02030734 0x02030734 arm
  *   MI_CpuFill8 0x02082BCC arm
  *   GAME_DATA_GetSaveControl 0x02012EBC thumb
- *   MISC_SAVEDATA_GetBlock3C 0x0200E9F4 thumb
- *   MISC_SAVEDATA_GetStatsBase2 0x0200EA04 thumb
+ *   LIVEBATTLEMATCH_SAVE_GetFromSave 0x0200E9F4 thumb
+ *   LIVEBATTLEMATCH_SAVE_GetStats2 0x0200EA04 thumb
  *   GFL_USE_GetBgmNo 0x02005C44 thumb
  *   GFL_USE_CancelChangeAndPlayBgm 0x02005D90 thumb
  *   d_02213D04 0x02213D04 data a1 ov199
@@ -25,8 +25,8 @@ extern void MI_CpuFill8(void *, int, int);
 typedef unsigned short u16;
 struct Big;
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *MISC_SAVEDATA_GetBlock3C(void *p);
-extern int MISC_SAVEDATA_GetStatsBase2(int);
+extern void *LIVEBATTLEMATCH_SAVE_GetFromSave(void *p);
+extern int LIVEBATTLEMATCH_SAVE_GetStats2(int);
 extern u16 GFL_USE_GetBgmNo(void);
 extern void GFL_USE_CancelChangeAndPlayBgm(unsigned, unsigned);
 extern const char d_02213D04[];
@@ -54,7 +54,7 @@ int *WIFIBATTLEMATCH_SYS_BuildMatchCommand(int unused, unsigned heap, char *ctx)
     p[16] = (int)(ctx + 0x8ac);
     {
         void *q = GAME_DATA_GetSaveControl(((struct Obj06657 *)ctx)->f4);
-        p[4] = MISC_SAVEDATA_GetStatsBase2((int)MISC_SAVEDATA_GetBlock3C(q));
+        p[4] = LIVEBATTLEMATCH_SAVE_GetStats2((int)LIVEBATTLEMATCH_SAVE_GetFromSave(q));
     }
     if (GFL_USE_GetBgmNo() != 0x487) GFL_USE_CancelChangeAndPlayBgm(0x487, 0xffff);
     return p;

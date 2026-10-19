@@ -1,5 +1,5 @@
 /*
- * function: COMM_PLAYER_GetListPage
+ * function: SYMBOL_MAP_GetEntryPage
  * address:  0x0216749C
  * packet:   pkt_ov010_0216749C
  * region:   ov010
@@ -15,10 +15,10 @@
  *
  * symbols:
  *   MI_CpuFill8    0x02082BCC  arm
- *   COMM_PLAYER_GetListPage0First  0x0216742C  thumb  ov010
- *   COMM_PLAYER_GetListPage0Second  0x02167444  thumb  ov010
- *   COMM_PLAYER_GetListPage10  0x0216745C  thumb  ov010
- *   COMM_PLAYER_GetListPage20  0x0216747C  thumb  ov010
+ *   SYMBOL_MAP_GetEntryPage0First  0x0216742C  thumb  ov010
+ *   SYMBOL_MAP_GetEntryPage0Second  0x02167444  thumb  ov010
+ *   SYMBOL_MAP_GetEntryPage10  0x0216745C  thumb  ov010
+ *   SYMBOL_MAP_GetEntryPage20  0x0216747C  thumb  ov010
  */
 
 typedef unsigned char u8;
@@ -31,12 +31,12 @@ typedef struct Entry32 {
 } Entry32;
 
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
-extern u16 COMM_PLAYER_GetListPage0First(int a0, int a1, int a2, int a3);
-extern int COMM_PLAYER_GetListPage0Second(int a0, int a1, int a2, int a3);
-extern u16 COMM_PLAYER_GetListPage10(Entry32 *list, Entry32 *out, u32 cap, u32 page, u8 *n);
-extern u16 COMM_PLAYER_GetListPage20(Entry32 *list, Entry32 *out, u32 cap, u32 page, u8 *n);
+extern u16 SYMBOL_MAP_GetEntryPage0First(int a0, int a1, int a2, int a3);
+extern int SYMBOL_MAP_GetEntryPage0Second(int a0, int a1, int a2, int a3);
+extern u16 SYMBOL_MAP_GetEntryPage10(Entry32 *list, Entry32 *out, u32 cap, u32 page, u8 *n);
+extern u16 SYMBOL_MAP_GetEntryPage20(Entry32 *list, Entry32 *out, u32 cap, u32 page, u8 *n);
 
-u16 COMM_PLAYER_GetListPage(Entry32 *list, Entry32 *out, u32 cap, int page, u8 *n)
+u16 SYMBOL_MAP_GetEntryPage(Entry32 *list, Entry32 *out, u32 cap, int page, u8 *n)
 {
     u8 more;
     u16 start;
@@ -44,15 +44,15 @@ u16 COMM_PLAYER_GetListPage(Entry32 *list, Entry32 *out, u32 cap, int page, u8 *
     more = 0;
     MI_CpuFill8(out, 0, cap * 4);
     if (page == 0) {
-        start = COMM_PLAYER_GetListPage0First((int)list, (int)out, cap, (int)n);
+        start = SYMBOL_MAP_GetEntryPage0First((int)list, (int)out, cap, (int)n);
         out += 10;
         cap -= 10;
-        COMM_PLAYER_GetListPage0Second((int)list, (int)out, cap, (int)(&more));
+        SYMBOL_MAP_GetEntryPage0Second((int)list, (int)out, cap, (int)(&more));
         *n += more;
     } else if (page >= 1 && page < 4) {
-        start = COMM_PLAYER_GetListPage10(list, out, cap, page - 1, n);
+        start = SYMBOL_MAP_GetEntryPage10(list, out, cap, page - 1, n);
     } else {
-        start = COMM_PLAYER_GetListPage20(list, out, cap, page - 4, n);
+        start = SYMBOL_MAP_GetEntryPage20(list, out, cap, page - 4, n);
     }
     return start;
 }

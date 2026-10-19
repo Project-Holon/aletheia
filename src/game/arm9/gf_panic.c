@@ -1,7 +1,7 @@
 /*
  * file:     gf_panic.c
  * unit:     yes
- * function: SAVEDATA_SetPanicHandlers, SAVEDATA_SetFailHook, SAVEDATA_PanicFail, SAVEDATA_PanicFailPrintf, GF_OVERLAY_PanicInit, GF_OVERLAY_PanicPrint, GF_OVERLAY_PanicDie, GF_OVERLAY_RegisterPanicHandlers
+ * function: GF_PANIC_SetHandlers, GF_PANIC_SetFailHook, GF_PANIC_Fail, GF_PANIC_FailPrintf, GF_PANIC_Init, GF_PANIC_Print, GF_PANIC_Die, GF_PANIC_RegisterDefaultHandlers
  * address:  0x020346EC
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -105,21 +105,21 @@ extern void GX_LoadBG0Char(const void *src, u32 offset, u32 size);
 
 extern void OS_Terminate(void);
 
-void SAVEDATA_SetPanicHandlers(u32 initFunc, u32 printFunc, u32 dieFunc);
+void GF_PANIC_SetHandlers(u32 initFunc, u32 printFunc, u32 dieFunc);
 
-void SAVEDATA_SetFailHook(u32 failHook);
+void GF_PANIC_SetFailHook(u32 failHook);
 
-void SAVEDATA_PanicFail(const char *file, u32 line, const char *expr);
+void GF_PANIC_Fail(const char *file, u32 line, const char *expr);
 
-void SAVEDATA_PanicFailPrintf(const char *file, u32 line, const char *fmt, ...);
+void GF_PANIC_FailPrintf(const char *file, u32 line, const char *fmt, ...);
 
-void GF_OVERLAY_PanicInit(void);
+void GF_PANIC_Init(void);
 
-void GF_OVERLAY_PanicPrint(char *text);
+void GF_PANIC_Print(char *text);
 
-void GF_OVERLAY_PanicDie(void);
+void GF_PANIC_Die(void);
 
-void GF_OVERLAY_RegisterPanicHandlers(void);
+void GF_PANIC_RegisterDefaultHandlers(void);
 
 extern struct PanicHandlers _PanicHandlers;
 
@@ -131,7 +131,7 @@ extern const char _NewlineStr[];
  * Registers the three panic handlers in _PanicHandlers.  Only offsets 0, 4
  * and 8 are written; the fail hook at +0xc is set by the next function.
  */
-void SAVEDATA_SetPanicHandlers(u32 initFunc, u32 printFunc, u32 dieFunc)
+void GF_PANIC_SetHandlers(u32 initFunc, u32 printFunc, u32 dieFunc)
 {
     _PanicHandlers.init_func = initFunc;
     _PanicHandlers.print_func = printFunc;
@@ -141,7 +141,7 @@ void SAVEDATA_SetPanicHandlers(u32 initFunc, u32 printFunc, u32 dieFunc)
 /*
  * Sets the fail hook that the assert functions below call.
  */
-void SAVEDATA_SetFailHook(u32 failHook)
+void GF_PANIC_SetFailHook(u32 failHook)
 {
     _PanicHandlers.fail_hook = (PanicHookFunc)failHook;
 }
@@ -157,7 +157,7 @@ void SAVEDATA_SetFailHook(u32 failHook)
  * parameters are declared to keep the prototype honest for callers and are
  * otherwise dead in the body.
  */
-void SAVEDATA_PanicFail(const char *file, u32 line, const char *expr)
+void GF_PANIC_Fail(const char *file, u32 line, const char *expr)
 {
     PanicHookFunc failHook = _PanicHandlers.fail_hook;
 
@@ -178,7 +178,7 @@ void SAVEDATA_PanicFail(const char *file, u32 line, const char *expr)
  * the registered hook does.  As above, calling the hook with arguments would
  * add `mov`s the original does not have.
  */
-void SAVEDATA_PanicFailPrintf(const char *file, u32 line, const char *fmt, ...)
+void GF_PANIC_FailPrintf(const char *file, u32 line, const char *fmt, ...)
 {
     PanicHookFunc failHook = _PanicHandlers.fail_hook;
 
@@ -188,7 +188,7 @@ void SAVEDATA_PanicFailPrintf(const char *file, u32 line, const char *fmt, ...)
 }
 
 /*
- * Bring up the panic screen.  The assert path (SAVEDATA_PanicFailPrintf forwards here)
+ * Bring up the panic screen.  The assert path (GF_PANIC_FailPrintf forwards here)
  * has to draw text after the game has already lost whatever video state it
  * was running, so this tears the display down to a known configuration and
  * rebuilds exactly one text layer on it:
@@ -228,10 +228,10 @@ void SAVEDATA_PanicFailPrintf(const char *file, u32 line, const char *fmt, ...)
  * merged `(x & ~0xFF) | 0x21`.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GF_OVERLAY_PanicInit.c \
- *       --func GF_OVERLAY_PanicInit --addr 0x02034768 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_PANIC_Init.c \
+ *       --func GF_PANIC_Init --addr 0x02034768 --cc 1.1p1 --arm
  */
-void GF_OVERLAY_PanicInit(void)
+void GF_PANIC_Init(void)
 {
     u16 savedIme;
     void *charBuf;
@@ -283,7 +283,7 @@ void GF_OVERLAY_PanicInit(void)
  *           TEXTPRINT_PrintText are inside this function. Every concrete byte of the
  *           body reproduces.
  */
-void GF_OVERLAY_PanicPrint(char *text)
+void GF_PANIC_Print(char *text)
 {
     int hasNewline;
 
@@ -301,7 +301,7 @@ void GF_OVERLAY_PanicPrint(char *text)
 }
 
 /*
- * The third of the three default assert handlers GF_OVERLAY_RegisterPanicHandlers registers:
+ * The third of the three default assert handlers GF_PANIC_RegisterDefaultHandlers registers:
  * the die handler.  It fills the main BG0 screen map with the identity
  * mapping (256 tiles laid out 32 per row over 8 rows, the counter running
  * straight through both loops rather than restarting per row), uploads the
@@ -314,10 +314,10 @@ void GF_OVERLAY_PanicPrint(char *text)
  * pointer.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/GF_OVERLAY_PanicDie.c \
- *       --func GF_OVERLAY_PanicDie --addr 0x02034900 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/matched/GF_PANIC_Die.c \
+ *       --func GF_PANIC_Die --addr 0x02034900 --cc 1.1p1 --arm
  */
-void GF_OVERLAY_PanicDie(void)
+void GF_PANIC_Die(void)
 {
     u16 *screenMap;
     int col;
@@ -343,7 +343,7 @@ void GF_OVERLAY_PanicDie(void)
 }
 
 /*
- * The default-handler registration trampoline: tail-calls SAVEDATA_SetPanicHandlers
+ * The default-handler registration trampoline: tail-calls GF_PANIC_SetHandlers
  * (pkt_020345F8, the "register" half of the assert/panic hook: see
  * src/matched/unit_020346EC.c) with the addresses of this packet's own
  * three biggest functions, none of which is matched yet.
@@ -354,10 +354,10 @@ void GF_OVERLAY_PanicDie(void)
  * they stay unresolved under the honesty rule.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/GF_OVERLAY_RegisterPanicHandlers.c \
- *       --func GF_OVERLAY_RegisterPanicHandlers --addr 0x02034978 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/GF_PANIC_RegisterDefaultHandlers.c \
+ *       --func GF_PANIC_RegisterDefaultHandlers --addr 0x02034978 --cc 1.1p1 --arm
  */
-void GF_OVERLAY_RegisterPanicHandlers(void)
+void GF_PANIC_RegisterDefaultHandlers(void)
 {
-    SAVEDATA_SetPanicHandlers((u32)GF_OVERLAY_PanicInit, (u32)GF_OVERLAY_PanicPrint, (u32)GF_OVERLAY_PanicDie);
+    GF_PANIC_SetHandlers((u32)GF_PANIC_Init, (u32)GF_PANIC_Print, (u32)GF_PANIC_Die);
 }

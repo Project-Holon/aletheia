@@ -24,8 +24,8 @@
  *   MAP_ATTR_IsBlocked  0x021AB11C  thumb  ov021
  *   FIELDMAP_CTRL_HYBRID_FindGridPos  0x021A7198  thumb  ov021
  *   FIELDMAP_CTRL_HYBRID_SwitchToGrid  0x021A712C  thumb  ov021
- *   FIELD_PLAYER_CheckNogridMoveReady  0x021A3698  thumb  ov021
- *   FIELD_PLAYER_SetupNogrid  0x021A3674  thumb  ov021
+ *   FIELD_PLAYER_IsNogridForcedMove  0x021A3698  thumb  ov021
+ *   FIELD_PLAYER_UpdateNogrid  0x021A3674  thumb  ov021
  *
  * Addresses are Black-image addresses.
  */
@@ -49,8 +49,8 @@ extern int MAP_ATTR_IsBlocked(u32 attr);
 struct V;
 extern int FIELDMAP_CTRL_HYBRID_FindGridPos(u32 a, u32 *b, struct V *c, u32 d);
 extern void FIELDMAP_CTRL_HYBRID_SwitchToGrid(u32 a, u32 *b, u32 c, u32 d, u32 e, u32 f, u32 g);
-extern u32 FIELD_PLAYER_CheckNogridMoveReady(u8 *p);
-extern void FIELD_PLAYER_SetupNogrid(u8 *p, u32 b, u32 c);
+extern u32 FIELD_PLAYER_IsNogridForcedMove(u8 *p);
+extern void FIELD_PLAYER_UpdateNogrid(u8 *p, u32 b, u32 c);
 
 void FIELDMAP_CTRL_HYBRID_UpdateNogrid(u32 a, u32 *b)
 {
@@ -87,6 +87,6 @@ void FIELDMAP_CTRL_HYBRID_UpdateNogrid(u32 a, u32 *b)
             }
         }
     }
-    b[2] = FIELD_PLAYER_CheckNogridMoveReady((u8 *)b[1]);
-    FIELD_PLAYER_SetupNogrid((u8 *)b[1], v14, r6);
+    b[2] = FIELD_PLAYER_IsNogridForcedMove((u8 *)b[1]);
+    FIELD_PLAYER_UpdateNogrid((u8 *)b[1], v14, r6);
 }

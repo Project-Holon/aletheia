@@ -10,10 +10,10 @@
  * status:   EXACT
  *
  * symbols:
- *   APP_POWER_Main  0x0202F788  thumb
+ *   APP_POWER_HaltWithMessage  0x0202F788  thumb
  *
  * time_icon.c.  An unlabelled tail-call leaf (it saves nothing, so
- * disasm.py prints it as .word data): APP_POWER_Main(0).  With
+ * disasm.py prints it as .word data): APP_POWER_HaltWithMessage(0).  With
  * APP_POWER_SetCallback it is the callback pair GFL_USE_InitSystem (gfl_use.c boot)
  * hands to BACKUP_SYSTEM_Init(7, ...).  Filed apart from APP_POWER_SetCallback on
  * purpose: the only pool words naming 0x0202F789 that are outside a
@@ -28,9 +28,9 @@
 
 typedef unsigned int u32;
 
-extern void APP_POWER_Main(u32 mode);
+extern void APP_POWER_HaltWithMessage(u32 mode);
 
 void APP_POWER_ClearCallback(void)
 {
-    APP_POWER_Main(0);
+    APP_POWER_HaltWithMessage(0);
 }

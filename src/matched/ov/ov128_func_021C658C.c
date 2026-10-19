@@ -24,7 +24,7 @@
  *   Wf2dmapFriend_CreateListActors 0x021C6CB0 thumb ov128
  *   Wf2dmapFriend_LoadBmps 0x021C6A84 thumb ov128
  *   WF2DMAP_TOUCH_CreatePalAnims 0x021CA0BC thumb ov128
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   BG_SYS_SetMainPlaneVisible 0x020434DC arm
  *   BG_SYS_SetSubPlaneVisible 0x02043598 arm
  */
@@ -46,7 +46,7 @@ extern void Wf2dmapFriend_InitWindows(void *,void *,int);
 extern void Wf2dmapFriend_CreateListActors(char *p, int heap);
 extern void Wf2dmapFriend_LoadBmps(void *,int);
 extern void WF2DMAP_TOUCH_CreatePalAnims(void *,int);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 void Wf2dmapFriend_InitGfx(char *p,void *q,int heap)
@@ -59,5 +59,5 @@ void Wf2dmapFriend_InitGfx(char *p,void *q,int heap)
     Wf2dmapFriend_SetVramBanks((void *)0x180);
     Wf2dmapFriend_InitBg(p,heap); Wf2dmapFriend_InitActors(p,heap); Wf2dmapFriend_InitFont((u8 *)p,heap);
     Wf2dmapFriend_InitWindows(p,q,heap); Wf2dmapFriend_CreateListActors(p,heap); Wf2dmapFriend_LoadBmps(p,heap); WF2DMAP_TOUCH_CreatePalAnims(p,heap);
-    GFL_NET_RestartWithDefaultTimeout(1,52); BG_SYS_SetMainPlaneVisible(16,1); BG_SYS_SetSubPlaneVisible(16,1);
+    GFL_NET_RefreshWmIconAtTopRight(1,52); BG_SYS_SetMainPlaneVisible(16,1); BG_SYS_SetSubPlaneVisible(16,1);
 }

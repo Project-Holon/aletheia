@@ -23,8 +23,8 @@
  *   GFL_NET_SetLoginOption  0x0203D7BC  arm
  *   GFL_NET_HANDLE_CheckNegotiation  0x02039ACC  arm
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
- *   GAME_DATA_SetExitMode  0x02012B64  thumb
- *   GAME_DATA_GetPlayerStatus  0x02012950  thumb
+ *   GAME_DATA_SetOwnNetId  0x02012B64  thumb
+ *   GAME_DATA_GetMyStatusPlayer  0x02012950  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   MYSTATUS_Copy  0x02008494  thumb
  *   INTRUDE_COMM_SetIntrudeId  0x02175710  thumb  ov011
@@ -111,8 +111,8 @@ extern int   GFL_NET_SYSTEM_GetConnectNum(void);
 extern void GFL_NET_SetLoginOption(u8 a0);
 extern int GFL_NET_HANDLE_CheckNegotiation(void);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
-extern void  GAME_DATA_SetExitMode(void *sv, u32 a);
-extern struct Rec44 *GAME_DATA_GetPlayerStatus(struct Sub24 *p, u32 i);
+extern void  GAME_DATA_SetOwnNetId(void *sv, u32 a);
+extern struct Rec44 *GAME_DATA_GetMyStatusPlayer(struct Sub24 *p, u32 i);
 extern u8 *GAME_DATA_GetMyStatus(void *p);
 extern void  MYSTATUS_Copy(void *a, void *b);
 extern void INTRUDE_COMM_SetIntrudeId(u8 *o, u32 v);
@@ -175,8 +175,8 @@ void INTRUDE_COMM_MainStep(int *state, Param *p, Work *w)
         }
         if (w->step == 5) {
             if (GFL_NET_HANDLE_CheckNegotiation() == 1) {
-                GAME_DATA_SetExitMode(sv, GFL_NET_SYSTEM_GetCurrentAid());
-                mon = GAME_DATA_GetPlayerStatus(sv, GFL_NET_SYSTEM_GetCurrentAid());
+                GAME_DATA_SetOwnNetId(sv, GFL_NET_SYSTEM_GetCurrentAid());
+                mon = GAME_DATA_GetMyStatusPlayer(sv, GFL_NET_SYSTEM_GetCurrentAid());
                 MYSTATUS_Copy(GAME_DATA_GetMyStatus(sv), mon);
                 INTRUDE_COMM_SetIntrudeId((u8 *)w, GFL_NET_SYSTEM_GetCurrentAid());
                 w->kind = 0x15;

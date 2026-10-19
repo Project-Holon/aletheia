@@ -14,15 +14,15 @@
  *   TCBL_AddTask  0x020311B8  arm
  *   TCBL_GetWork  0x02031290  arm
  *   STRBUF_GetChars  0x02045A90  arm
- *   GF_FONT_Task  0x0201CEE0  thumb
+ *   PRINTSYS_Task  0x0201CEE0  thumb
  *   PRINTSYS_SetupJob  0x0201C808  thumb
  *   PRINTSYS_SplitWait   0x0201CDF4  thumb
  *
- * The printsys text-record constructor: registers GF_FONT_Task as a
+ * The printsys text-record constructor: registers PRINTSYS_Task as a
  * task with a 0x50-byte work area, builds the PrintCtx at +0x34 through
  * PRINTSYS_SetupJob, splits the signed speed argument into the sign/magnitude
  * pairs at +0x18..+0x1D, and initialises every other field of struct Rec
- * (the same layout src/matched/GF_FONT_Task.c consumes).  Returns the
+ * (the same layout src/matched/PRINTSYS_Task.c consumes).  Returns the
  * record.
  *
  * The two-load swap the notes carried at +0x28/+0x30 (a4 read before a1)
@@ -96,7 +96,7 @@ struct S02030FB4;
 extern void *TCBL_GetWork(struct S02030FB4 *p);
 struct U16Vec;
 extern u16 *STRBUF_GetChars(struct U16Vec *vec);
-extern void  GF_FONT_Task(void *task, struct Rec *p);
+extern void  PRINTSYS_Task(void *task, struct Rec *p);
 extern void PRINTSYS_SetupJob(struct PrintCtx *p, void *w, void *x, u32 y, s16 z);
 extern void  PRINTSYS_SplitWait(s32 v, u8 *out);
 
@@ -110,7 +110,7 @@ struct Rec *PRINTSYS_PrintStreamCallBack(u32 a0, s16 a1, s16 a2, u32 a3,
     u8 pair[2];
 
     h = (u32)BMP_WIN_GetBmp((struct Descriptor *)a0);
-    r = TCBL_AddTask(a6, (void *)GF_FONT_Task, 0x50, a7);
+    r = TCBL_AddTask(a6, (void *)PRINTSYS_Task, 0x50, a7);
     o = TCBL_GetWork(r);
 
     o->task = r;

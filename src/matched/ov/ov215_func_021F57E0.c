@@ -16,7 +16,7 @@
  *   EGG_DEMO_MAIN_StartFadeOutBgm 0x021F5EB8 thumb ov215
  *   FADE_Start 0x0204E720 arm
  *   PROCSYS_Create 0x02031324 arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  * Legacy void allocator/31324 returns consumed; preserve visible heap input.
  */
 #include "../include/Obj03371.h"
@@ -30,7 +30,7 @@ extern void EGG_DEMO_MAIN_Init(int a, char *p);
 extern int EGG_DEMO_MAIN_StartFadeOutBgm(int,char *);
 extern void FADE_Start(u32,int,int,int);
 extern void *PROCSYS_Create(int a0);
-extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 int EGG_DEMO_MAIN_Create(void *a,int unused,u32 c)
 {
     char *p;
@@ -47,6 +47,6 @@ int EGG_DEMO_MAIN_Create(void *a,int unused,u32 c)
     EGG_DEMO_MAIN_StartFadeOutBgm(c,p);
     FADE_Start(3,16,16,0);
     ((struct Obj03371 *)p)->f88=(unsigned int)PROCSYS_Create(((struct Obj03371 *)p)->f0);
-    GFL_NET_RestartWithDefaultTimeout(0,((struct Obj03371 *)p)->f0);
+    GFL_NET_RefreshWmIconAtTopRight(0,((struct Obj03371 *)p)->f0);
     return 1;
 }

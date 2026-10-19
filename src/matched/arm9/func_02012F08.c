@@ -10,11 +10,11 @@
  * status:   EXACT
  *
  * symbols:
- *   BEACON_GetBlock  0x0200C0F0  thumb
+ *   MISC_GetBlock  0x0200C0F0  thumb
  */
 
-extern void *BEACON_GetBlock(void *sys);
+extern void *MISC_GetBlock(void *sys);
 void *GAME_DATA_GetMiscSave(int *p)
 {
-    return BEACON_GetBlock((void *)(*p));
+    return MISC_GetBlock((void *)(*p));
 }

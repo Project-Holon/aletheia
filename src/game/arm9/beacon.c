@@ -1,7 +1,7 @@
 /*
  * file:     beacon.c
  * unit:     yes
- * function: BEACON_GetSize, BEACON_Init, BEACON_GetFromSave, BEACON_GetBlock, BEACON_SetInputFlag, BEACON_GetInputFlag, BEACON_ClearInputFlags, BEACON_SetSelect, BEACON_GetSelect, BEACON_GetBestScore, BEACON_SetBestScore, BEACON_GetRank, BEACON_SetRank, BEACON_GetGreetCount, BEACON_IncrementGreetCount, BEACON_GetThanksCount, BEACON_IncrementThanksCount, BEACON_GetGreetMessage, BEACON_SetGreetMessage, BEACON_GetThanksMessage, BEACON_SetThanksMessage, BEACON_GetMode, BEACON_SetMode, BEACON_GetBadge, BEACON_SetBadge, BEACON_CountBadges, BEACON_GetMoney, BEACON_AddMoney, BEACON_SubMoney, BEACON_SetTeam, BEACON_GetTeam, BEACON_SetSlotState, BEACON_GetSlotState, BEACON_GetSlotStates, BEACON_SetSlotStates, BEACON_GetEntryCount, BEACON_SetEntryCount, BEACON_GetRecentId, BEACON_SetRecentId, BEACON_GetRecentValue, BEACON_SetRecentValue, BEACON_AddRecentValue, BEACON_GetLastTime, BEACON_SetLastTime, BEACON_SetHashedId, BEACON_GetHashedId, BEACON_GetGatePoints, BEACON_SetGatePoints, BEACON_SubGatePoints, BEACON_GetRecorderFlag, BEACON_SetRecorderFlag
+ * function: MISC_GetSize, MISC_Init, MISC_GetFromSave, MISC_GetBlock, MISC_SetInputFlag, MISC_GetInputFlag, MISC_ClearInputFlags, MISC_SetMonRecord, MISC_GetMonRecord, MISC_GetBestScore, MISC_SetBestScore, MISC_GetRank, MISC_SetRank, MISC_GetGreetCount, MISC_IncrementGreetCount, MISC_GetThanksCount, MISC_IncrementThanksCount, MISC_GetGreetMessage, MISC_SetGreetMessage, MISC_GetThanksMessage, MISC_SetThanksMessage, MISC_GetResearchRank, MISC_SetResearchRank, MISC_GetBadge, MISC_SetBadge, MISC_CountBadges, MISC_GetMoney, MISC_AddMoney, MISC_SubMoney, MISC_SetTeam, MISC_GetTeam, MISC_SetSlotState, MISC_GetSlotState, MISC_GetSlotStates, MISC_SetSlotStates, MISC_GetResearchMissionIndex, MISC_SetResearchMissionIndex, MISC_GetRecentId, MISC_SetRecentId, MISC_GetRecentValue, MISC_SetRecentValue, MISC_AddRecentValue, MISC_GetLastTime, MISC_SetLastTime, MISC_SetHashedId, MISC_GetHashedId, MISC_GetGatePoints, MISC_SetGatePoints, MISC_SubGatePoints, MISC_GetRecorderFlag, MISC_SetRecorderFlag
  * address:  0x0200C054
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -42,10 +42,10 @@ struct StrBuf;
 
 /* Save block 0x34: the C-Gear beacon record (greeting and thanks messages and
  * their counters, survey points, recent partners). */
-struct BeaconSelect {
-    u8 kind : 6;
-    u8 enabled : 1;
-    u8 isSingle : 1;
+struct MonRecord {
+    u8 form : 6;
+    u8 isEgg : 1;
+    u8 gender : 1;
 };
 
 union BeaconTime {
@@ -60,11 +60,11 @@ struct BeaconTeam {
     u16 species[6];
 };
 
-struct BeaconSave {
+struct MiscSave {
     u32 money;
     u32 badges;
-    u16 selectId;
-    struct BeaconSelect select;
+    u16 species;
+    struct MonRecord monRecord;
     u8  padding;
     u8  inputFlags[8];
     u32 bestScore : 28;
@@ -83,7 +83,7 @@ struct BeaconSave {
     u32 hashedIds[8];
     u32 unusedWord;
     u32 recorderFlag;
-    /* stand-in: volatile keeps the two reads of BEACON_SubGatePoints (compare, then
+    /* stand-in: volatile keeps the two reads of MISC_SubGatePoints (compare, then
      * subtract); every ordinary spelling folds them into one load, and a
      * 16-bit bitfield changes the getter and setter. */
     volatile u16 gatePoints;
@@ -105,121 +105,121 @@ extern void STRBUF_ToChars(struct StrBuf *str, u16 *out, u32 maxLen);
 
 extern void STRBUF_Delete(struct StrBuf *str);
 
-u32 BEACON_GetSize(void);
+u32 MISC_GetSize(void);
 
-void BEACON_Init(struct BeaconSave *beacon);
+void MISC_Init(struct MiscSave *beacon);
 
-struct BeaconSave *BEACON_GetFromSave(struct SaveControl *save);
+struct MiscSave *MISC_GetFromSave(struct SaveControl *save);
 
-struct BeaconSave *BEACON_GetBlock(struct SaveControl *save);
+struct MiscSave *MISC_GetBlock(struct SaveControl *save);
 
-void BEACON_SetInputFlag(struct BeaconSave *beacon, u32 index, u8 value);
+void MISC_SetInputFlag(struct MiscSave *beacon, u32 index, u8 value);
 
-u8 BEACON_GetInputFlag(struct BeaconSave *beacon, u32 index);
+u8 MISC_GetInputFlag(struct MiscSave *beacon, u32 index);
 
-void BEACON_ClearInputFlags(struct BeaconSave *beacon);
+void MISC_ClearInputFlags(struct MiscSave *beacon);
 
-void BEACON_SetSelect(struct BeaconSave *beacon, u16 id, u32 kind, u32 enabled, u32 single);
+void MISC_SetMonRecord(struct MiscSave *misc, u16 species, u32 form, u32 isEgg, u32 gender);
 
-void BEACON_GetSelect(const struct BeaconSave *beacon, u32 *id, u32 *kind, u32 *enabled, u32 *single);
+void MISC_GetMonRecord(const struct MiscSave *misc, u32 *species, u32 *form, u32 *isEgg, u32 *gender);
 
-u32 BEACON_GetBestScore(struct BeaconSave *beacon);
+u32 MISC_GetBestScore(struct MiscSave *beacon);
 
-void BEACON_SetBestScore(struct BeaconSave *beacon, u32 score);
+void MISC_SetBestScore(struct MiscSave *beacon, u32 score);
 
-u8 BEACON_GetRank(struct BeaconSave *beacon);
+u8 MISC_GetRank(struct MiscSave *beacon);
 
-void BEACON_SetRank(struct BeaconSave *beacon, u32 rank);
+void MISC_SetRank(struct MiscSave *beacon, u32 rank);
 
-u32 BEACON_GetGreetCount(struct BeaconSave *beacon);
+u32 MISC_GetGreetCount(struct MiscSave *beacon);
 
-u32 BEACON_IncrementGreetCount(struct BeaconSave *beacon);
+u32 MISC_IncrementGreetCount(struct MiscSave *beacon);
 
-u32 BEACON_GetThanksCount(struct BeaconSave *beacon);
+u32 MISC_GetThanksCount(struct MiscSave *beacon);
 
-u32 BEACON_IncrementThanksCount(struct BeaconSave *beacon);
+u32 MISC_IncrementThanksCount(struct MiscSave *beacon);
 
-u16 *BEACON_GetGreetMessage(struct BeaconSave *beacon);
+u16 *MISC_GetGreetMessage(struct MiscSave *beacon);
 
-void BEACON_SetGreetMessage(struct BeaconSave *beacon, struct StrBuf *message);
+void MISC_SetGreetMessage(struct MiscSave *beacon, struct StrBuf *message);
 
-u16 *BEACON_GetThanksMessage(struct BeaconSave *beacon);
+u16 *MISC_GetThanksMessage(struct MiscSave *beacon);
 
-void BEACON_SetThanksMessage(struct BeaconSave *beacon, struct StrBuf *message);
+void MISC_SetThanksMessage(struct MiscSave *beacon, struct StrBuf *message);
 
-u8 BEACON_GetMode(struct BeaconSave *beacon);
+u8 MISC_GetResearchRank(struct MiscSave *beacon);
 
-void BEACON_SetMode(struct BeaconSave *beacon, u8 mode);
+void MISC_SetResearchRank(struct MiscSave *beacon, u8 mode);
 
-u32 BEACON_GetBadge(struct BeaconSave *beacon, u32 bit);
+u32 MISC_GetBadge(struct MiscSave *beacon, u32 bit);
 
-void BEACON_SetBadge(struct BeaconSave *beacon, u32 bit);
+void MISC_SetBadge(struct MiscSave *beacon, u32 bit);
 
-u32 BEACON_CountBadges(struct BeaconSave *beacon);
+u32 MISC_CountBadges(struct MiscSave *beacon);
 
-u32 BEACON_GetMoney(struct BeaconSave *beacon);
+u32 MISC_GetMoney(struct MiscSave *beacon);
 
-u32 BEACON_AddMoney(struct BeaconSave *beacon, u32 add);
+u32 MISC_AddMoney(struct MiscSave *beacon, u32 add);
 
-u32 BEACON_SubMoney(struct BeaconSave *beacon, u32 sub);
+u32 MISC_SubMoney(struct MiscSave *beacon, u32 sub);
 
-void BEACON_SetTeam(struct BeaconSave *beacon, u32 index, const u16 *species);
+void MISC_SetTeam(struct MiscSave *beacon, u32 index, const u16 *species);
 
-void BEACON_GetTeam(struct BeaconSave *beacon, u32 index, u16 *species);
+void MISC_GetTeam(struct MiscSave *beacon, u32 index, u16 *species);
 
-void BEACON_SetSlotState(struct BeaconSave *beacon, u32 slot, u8 state);
+void MISC_SetSlotState(struct MiscSave *beacon, u32 slot, u8 state);
 
-u8 BEACON_GetSlotState(struct BeaconSave *beacon, u32 slot);
+u8 MISC_GetSlotState(struct MiscSave *beacon, u32 slot);
 
-u8 BEACON_GetSlotStates(struct BeaconSave *beacon);
+u8 MISC_GetSlotStates(struct MiscSave *beacon);
 
-void BEACON_SetSlotStates(struct BeaconSave *beacon, u8 states);
+void MISC_SetSlotStates(struct MiscSave *beacon, u8 states);
 
-u8 BEACON_GetEntryCount(struct BeaconSave *beacon);
+u8 MISC_GetResearchMissionIndex(struct MiscSave *beacon);
 
-void BEACON_SetEntryCount(struct BeaconSave *beacon, u8 count);
+void MISC_SetResearchMissionIndex(struct MiscSave *beacon, u8 count);
 
-int BEACON_GetRecentId(struct BeaconSave *beacon, u32 index);
+int MISC_GetRecentId(struct MiscSave *beacon, u32 index);
 
-void BEACON_SetRecentId(struct BeaconSave *beacon, u8 index, u8 id);
+void MISC_SetRecentId(struct MiscSave *beacon, u8 index, u8 id);
 
-u16 BEACON_GetRecentValue(struct BeaconSave *beacon, u32 index);
+u16 MISC_GetRecentValue(struct MiscSave *beacon, u32 index);
 
-void BEACON_SetRecentValue(struct BeaconSave *beacon, u32 index, int value);
+void MISC_SetRecentValue(struct MiscSave *beacon, u32 index, int value);
 
-void BEACON_AddRecentValue(struct BeaconSave *beacon, u8 index, int add);
+void MISC_AddRecentValue(struct MiscSave *beacon, u8 index, int add);
 
-u64 BEACON_GetLastTime(struct BeaconSave *beacon);
+u64 MISC_GetLastTime(struct MiscSave *beacon);
 
-void BEACON_SetLastTime(struct BeaconSave *beacon, u32 lo, u32 hi);
+void MISC_SetLastTime(struct MiscSave *beacon, u32 lo, u32 hi);
 
-void BEACON_SetHashedId(struct BeaconSave *beacon, s32 index, u32 value);
+void MISC_SetHashedId(struct MiscSave *beacon, s32 index, u32 value);
 
-u32 BEACON_GetHashedId(struct BeaconSave *beacon, s32 index);
+u32 MISC_GetHashedId(struct MiscSave *beacon, s32 index);
 
-u16 BEACON_GetGatePoints(struct BeaconSave *beacon);
+u16 MISC_GetGatePoints(struct MiscSave *beacon);
 
-void BEACON_SetGatePoints(struct BeaconSave *beacon, u16 points);
+void MISC_SetGatePoints(struct MiscSave *beacon, u16 points);
 
-void BEACON_SubGatePoints(struct BeaconSave *beacon, u16 sub);
+void MISC_SubGatePoints(struct MiscSave *beacon, u16 sub);
 
-u8 BEACON_GetRecorderFlag(struct BeaconSave *beacon);
+u8 MISC_GetRecorderFlag(struct MiscSave *beacon);
 
-void BEACON_SetRecorderFlag(struct BeaconSave *beacon, u32 flag);
+void MISC_SetRecorderFlag(struct MiscSave *beacon, u32 flag);
 
-u32 BEACON_GetSize(void)
+u32 MISC_GetSize(void)
 {
-    return sizeof(struct BeaconSave);
+    return sizeof(struct MiscSave);
 }
 
-void BEACON_Init(struct BeaconSave *beacon)
+void MISC_Init(struct MiscSave *beacon)
 {
     struct MsgData *msg;
     struct StrBuf *greet;
     struct StrBuf *thanks;
 
-    MI_CpuFill8(beacon, 0, sizeof(struct BeaconSave));
-    BEACON_ClearInputFlags(beacon);
+    MI_CpuFill8(beacon, 0, sizeof(struct MiscSave));
+    MISC_ClearInputFlags(beacon);
     beacon->bestScore = 0;
     msg = MSGDATA_CreateFromArchive(0, 3, 0x2f, 0x8007);
     greet = MSGDATA_AllocString(msg, 0x151);
@@ -240,25 +240,25 @@ void BEACON_Init(struct BeaconSave *beacon)
  * A whole translation unit, matched as one byte range.  Written from the
  * disassembly in asm/arm9/src/003_0200CA1C.s.
  *
- *           BEACON_ClearInputFlags, BEACON_SetSelect, BEACON_GetSelect, BEACON_GetBestScore,
- *           BEACON_SetBestScore, BEACON_GetRank, BEACON_SetRank, BEACON_GetGreetCount,
- *           BEACON_IncrementGreetCount, BEACON_GetThanksCount, BEACON_IncrementThanksCount, BEACON_GetGreetMessage,
- *           BEACON_SetGreetMessage, BEACON_GetThanksMessage, BEACON_SetThanksMessage, BEACON_GetMode,
- *           BEACON_SetMode, BEACON_GetBadge, BEACON_SetBadge, BEACON_CountBadges,
- *           BEACON_GetMoney, BEACON_AddMoney, BEACON_SubMoney, BEACON_SetTeam,
- *           BEACON_GetTeam, BEACON_SetSlotState, BEACON_GetSlotState, BEACON_GetSlotStates,
- *           BEACON_SetSlotStates, BEACON_GetEntryCount, BEACON_SetEntryCount, BEACON_GetRecentId,
- *           BEACON_SetRecentId, BEACON_GetRecentValue, BEACON_SetRecentValue, BEACON_AddRecentValue,
- *           BEACON_GetLastTime, BEACON_SetLastTime, BEACON_SetHashedId, BEACON_GetHashedId,
- *           BEACON_GetGatePoints, BEACON_SetGatePoints, BEACON_SubGatePoints, BEACON_GetRecorderFlag,
- *           BEACON_SetRecorderFlag
+ *           MISC_ClearInputFlags, MISC_SetMonRecord, MISC_GetMonRecord, MISC_GetBestScore,
+ *           MISC_SetBestScore, MISC_GetRank, MISC_SetRank, MISC_GetGreetCount,
+ *           MISC_IncrementGreetCount, MISC_GetThanksCount, MISC_IncrementThanksCount, MISC_GetGreetMessage,
+ *           MISC_SetGreetMessage, MISC_GetThanksMessage, MISC_SetThanksMessage, MISC_GetResearchRank,
+ *           MISC_SetResearchRank, MISC_GetBadge, MISC_SetBadge, MISC_CountBadges,
+ *           MISC_GetMoney, MISC_AddMoney, MISC_SubMoney, MISC_SetTeam,
+ *           MISC_GetTeam, MISC_SetSlotState, MISC_GetSlotState, MISC_GetSlotStates,
+ *           MISC_SetSlotStates, MISC_GetResearchMissionIndex, MISC_SetResearchMissionIndex, MISC_GetRecentId,
+ *           MISC_SetRecentId, MISC_GetRecentValue, MISC_SetRecentValue, MISC_AddRecentValue,
+ *           MISC_GetLastTime, MISC_SetLastTime, MISC_SetHashedId, MISC_GetHashedId,
+ *           MISC_GetGatePoints, MISC_SetGatePoints, MISC_SubGatePoints, MISC_GetRecorderFlag,
+ *           MISC_SetRecorderFlag
  *
  * 780 bytes, 0x0200C0E8..0x0200C3F4, 49 functions, forty-four of which carry
  * no label in the generated listing: the file is almost entirely accessors
  * and none of them saves lr.
  *
- * The object is the save block with id 0x34: BEACON_GetBlock is the whole of
- * its lookup, `SAVE_CONTROL_GetBlock(sys, 0x34)`, and BEACON_GetFromSave is a wrapper
+ * The object is the save block with id 0x34: MISC_GetBlock is the whole of
+ * its lookup, `SAVE_CONTROL_GetBlock(sys, 0x34)`, and MISC_GetFromSave is a wrapper
  * that forwards to it.  The layout below is read off the accessors and is
  * self-consistent to the byte from +0x00 to +0xE2; nothing here returns
  * sizeof, because the size getter of this block belongs to whatever file
@@ -266,13 +266,13 @@ void BEACON_Init(struct BeaconSave *beacon)
  *
  * Three things in it cost real time.
  *
- *  - BEACON_GetSelect takes a **const** pointer, and that is the whole
+ *  - MISC_GetMonRecord takes a **const** pointer, and that is the whole
  *    difference between it and the twelve-byte-longer version.  Its three
  *    bitfield reads come out of one `ldrb` in the original, and through a
  *    non-const pointer this compiler reloads the byte before each of the two
  *    later ones, because the intervening `str` through a `u32 *` may alias
  *    it.  See docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md.
- *  - BEACON_SubGatePoints goes the other way and reads +0xE0 twice, once for the
+ *  - MISC_SubGatePoints goes the other way and reads +0xE0 twice, once for the
  *    compare and once for the subtraction, with the address recomputed each
  *    time.  Nothing that leaves the field ordinary reproduces that: the
  *    compiler folds the two reads into one under every spelling of the
@@ -280,77 +280,77 @@ void BEACON_Init(struct BeaconSave *beacon)
  *    `volatile` is what keeps both reads, and it costs nothing in the getter
  *    and setter on either side of it, which touch it once each.
  *  - the pair at +0x50 is one `u64` read back as two words, the union of
- *    docs/idioms/long-long-aligns-to-four.md: BEACON_GetLastTime returns the
- *    64-bit value and BEACON_SetLastTime stores the two halves from two register
+ *    docs/idioms/long-long-aligns-to-four.md: MISC_GetLastTime returns the
+ *    64-bit value and MISC_SetLastTime stores the two halves from two register
  *    arguments.
  */
-struct BeaconSave *BEACON_GetFromSave(struct SaveControl *save)
+struct MiscSave *MISC_GetFromSave(struct SaveControl *save)
 {
-    return BEACON_GetBlock(save);
+    return MISC_GetBlock(save);
 }
 
-struct BeaconSave *BEACON_GetBlock(struct SaveControl *save)
+struct MiscSave *MISC_GetBlock(struct SaveControl *save)
 {
     return SAVE_CONTROL_GetBlock(save, 0x34);
 }
 
-void BEACON_SetInputFlag(struct BeaconSave *beacon, u32 index, u8 value)
+void MISC_SetInputFlag(struct MiscSave *beacon, u32 index, u8 value)
 {
     beacon->inputFlags[index] = value;
 }
 
-u8 BEACON_GetInputFlag(struct BeaconSave *beacon, u32 index)
+u8 MISC_GetInputFlag(struct MiscSave *beacon, u32 index)
 {
     return beacon->inputFlags[index];
 }
 
-void BEACON_ClearInputFlags(struct BeaconSave *beacon)
+void MISC_ClearInputFlags(struct MiscSave *beacon)
 {
     MI_CpuFill8(beacon->inputFlags, 0, sizeof(beacon->inputFlags));
 }
 
-void BEACON_SetSelect(struct BeaconSave *beacon, u16 id, u32 kind, u32 enabled, u32 single)
+void MISC_SetMonRecord(struct MiscSave *misc, u16 species, u32 form, u32 isEgg, u32 gender)
 {
-    beacon->selectId = id;
-    beacon->select.kind = kind;
-    beacon->select.enabled = enabled;
-    beacon->select.isSingle = (single == 1);
+    misc->species = species;
+    misc->monRecord.form = form;
+    misc->monRecord.isEgg = isEgg;
+    misc->monRecord.gender = (gender == 1);
 }
 
-void BEACON_GetSelect(const struct BeaconSave *beacon, u32 *id, u32 *kind, u32 *enabled, u32 *single)
+void MISC_GetMonRecord(const struct MiscSave *misc, u32 *species, u32 *form, u32 *isEgg, u32 *gender)
 {
-    *id = beacon->selectId;
-    *kind = beacon->select.kind;
-    *enabled = beacon->select.enabled;
-    *single = beacon->select.isSingle;
+    *species = misc->species;
+    *form = misc->monRecord.form;
+    *isEgg = misc->monRecord.isEgg;
+    *gender = misc->monRecord.gender;
 }
 
-u32 BEACON_GetBestScore(struct BeaconSave *beacon)
+u32 MISC_GetBestScore(struct MiscSave *beacon)
 {
     return beacon->bestScore;
 }
 
-void BEACON_SetBestScore(struct BeaconSave *beacon, u32 score)
+void MISC_SetBestScore(struct MiscSave *beacon, u32 score)
 {
     beacon->bestScore = score;
 }
 
-u8 BEACON_GetRank(struct BeaconSave *beacon)
+u8 MISC_GetRank(struct MiscSave *beacon)
 {
     return beacon->rank;
 }
 
-void BEACON_SetRank(struct BeaconSave *beacon, u32 rank)
+void MISC_SetRank(struct MiscSave *beacon, u32 rank)
 {
     beacon->rank = rank;
 }
 
-u32 BEACON_GetGreetCount(struct BeaconSave *beacon)
+u32 MISC_GetGreetCount(struct MiscSave *beacon)
 {
     return beacon->greetCount;
 }
 
-u32 BEACON_IncrementGreetCount(struct BeaconSave *beacon)
+u32 MISC_IncrementGreetCount(struct MiscSave *beacon)
 {
     if (beacon->greetCount < 99999) {
         beacon->greetCount++;
@@ -358,12 +358,12 @@ u32 BEACON_IncrementGreetCount(struct BeaconSave *beacon)
     return beacon->greetCount;
 }
 
-u32 BEACON_GetThanksCount(struct BeaconSave *beacon)
+u32 MISC_GetThanksCount(struct MiscSave *beacon)
 {
     return beacon->thanksCount;
 }
 
-u32 BEACON_IncrementThanksCount(struct BeaconSave *beacon)
+u32 MISC_IncrementThanksCount(struct MiscSave *beacon)
 {
     if (beacon->thanksCount < 99999) {
         beacon->thanksCount++;
@@ -371,47 +371,47 @@ u32 BEACON_IncrementThanksCount(struct BeaconSave *beacon)
     return beacon->thanksCount;
 }
 
-u16 *BEACON_GetGreetMessage(struct BeaconSave *beacon)
+u16 *MISC_GetGreetMessage(struct MiscSave *beacon)
 {
     return beacon->greetMessage;
 }
 
-void BEACON_SetGreetMessage(struct BeaconSave *beacon, struct StrBuf *message)
+void MISC_SetGreetMessage(struct MiscSave *beacon, struct StrBuf *message)
 {
     STRBUF_ToChars(message, beacon->greetMessage, 9);
 }
 
-u16 *BEACON_GetThanksMessage(struct BeaconSave *beacon)
+u16 *MISC_GetThanksMessage(struct MiscSave *beacon)
 {
     return beacon->thanksMessage;
 }
 
-void BEACON_SetThanksMessage(struct BeaconSave *beacon, struct StrBuf *message)
+void MISC_SetThanksMessage(struct MiscSave *beacon, struct StrBuf *message)
 {
     STRBUF_ToChars(message, beacon->thanksMessage, 9);
 }
 
-u8 BEACON_GetMode(struct BeaconSave *beacon)
+u8 MISC_GetResearchRank(struct MiscSave *beacon)
 {
     return beacon->mode;
 }
 
-void BEACON_SetMode(struct BeaconSave *beacon, u8 mode)
+void MISC_SetResearchRank(struct MiscSave *beacon, u8 mode)
 {
     beacon->mode = mode;
 }
 
-u32 BEACON_GetBadge(struct BeaconSave *beacon, u32 bit)
+u32 MISC_GetBadge(struct MiscSave *beacon, u32 bit)
 {
     return (beacon->badges & (1 << bit)) != 0;
 }
 
-void BEACON_SetBadge(struct BeaconSave *beacon, u32 bit)
+void MISC_SetBadge(struct MiscSave *beacon, u32 bit)
 {
     beacon->badges |= 1 << bit;
 }
 
-u32 BEACON_CountBadges(struct BeaconSave *beacon)
+u32 MISC_CountBadges(struct MiscSave *beacon)
 {
     u32 count = 0;
     u32 bits;
@@ -424,12 +424,12 @@ u32 BEACON_CountBadges(struct BeaconSave *beacon)
     return count;
 }
 
-u32 BEACON_GetMoney(struct BeaconSave *beacon)
+u32 MISC_GetMoney(struct MiscSave *beacon)
 {
     return beacon->money;
 }
 
-u32 BEACON_AddMoney(struct BeaconSave *beacon, u32 add)
+u32 MISC_AddMoney(struct MiscSave *beacon, u32 add)
 {
     if (add > 9999999) {
         beacon->money = 9999999;
@@ -442,7 +442,7 @@ u32 BEACON_AddMoney(struct BeaconSave *beacon, u32 add)
     return beacon->money;
 }
 
-u32 BEACON_SubMoney(struct BeaconSave *beacon, u32 sub)
+u32 MISC_SubMoney(struct MiscSave *beacon, u32 sub)
 {
     if (beacon->money < sub) {
         beacon->money = 0;
@@ -452,7 +452,7 @@ u32 BEACON_SubMoney(struct BeaconSave *beacon, u32 sub)
     return beacon->money;
 }
 
-void BEACON_SetTeam(struct BeaconSave *beacon, u32 index, const u16 *species)
+void MISC_SetTeam(struct MiscSave *beacon, u32 index, const u16 *species)
 {
     s32 i;
 
@@ -461,7 +461,7 @@ void BEACON_SetTeam(struct BeaconSave *beacon, u32 index, const u16 *species)
     }
 }
 
-void BEACON_GetTeam(struct BeaconSave *beacon, u32 index, u16 *species)
+void MISC_GetTeam(struct MiscSave *beacon, u32 index, u16 *species)
 {
     s32 i;
 
@@ -470,57 +470,57 @@ void BEACON_GetTeam(struct BeaconSave *beacon, u32 index, u16 *species)
     }
 }
 
-void BEACON_SetSlotState(struct BeaconSave *beacon, u32 slot, u8 state)
+void MISC_SetSlotState(struct MiscSave *beacon, u32 slot, u8 state)
 {
     beacon->slotStates |= (u8)(state << (slot * 2));
 }
 
-u8 BEACON_GetSlotState(struct BeaconSave *beacon, u32 slot)
+u8 MISC_GetSlotState(struct MiscSave *beacon, u32 slot)
 {
     return (u8)((beacon->slotStates >> (slot * 2)) & 3);
 }
 
-u8 BEACON_GetSlotStates(struct BeaconSave *beacon)
+u8 MISC_GetSlotStates(struct MiscSave *beacon)
 {
     return beacon->slotStates;
 }
 
-void BEACON_SetSlotStates(struct BeaconSave *beacon, u8 states)
+void MISC_SetSlotStates(struct MiscSave *beacon, u8 states)
 {
     beacon->slotStates = states;
 }
 
-u8 BEACON_GetEntryCount(struct BeaconSave *beacon)
+u8 MISC_GetResearchMissionIndex(struct MiscSave *beacon)
 {
     return beacon->entryCount;
 }
 
-void BEACON_SetEntryCount(struct BeaconSave *beacon, u8 count)
+void MISC_SetResearchMissionIndex(struct MiscSave *beacon, u8 count)
 {
     beacon->entryCount = count;
 }
 
-int BEACON_GetRecentId(struct BeaconSave *beacon, u32 index)
+int MISC_GetRecentId(struct MiscSave *beacon, u32 index)
 {
     return beacon->recentIds[index];
 }
 
-void BEACON_SetRecentId(struct BeaconSave *beacon, u8 index, u8 id)
+void MISC_SetRecentId(struct MiscSave *beacon, u8 index, u8 id)
 {
     beacon->recentIds[index] = id;
 }
 
-u16 BEACON_GetRecentValue(struct BeaconSave *beacon, u32 index)
+u16 MISC_GetRecentValue(struct MiscSave *beacon, u32 index)
 {
     return beacon->recentValues[index];
 }
 
-void BEACON_SetRecentValue(struct BeaconSave *beacon, u32 index, int value)
+void MISC_SetRecentValue(struct MiscSave *beacon, u32 index, int value)
 {
     beacon->recentValues[index] = value;
 }
 
-void BEACON_AddRecentValue(struct BeaconSave *beacon, u8 index, int add)
+void MISC_AddRecentValue(struct MiscSave *beacon, u8 index, int add)
 {
     u32 value = beacon->recentValues[index];
 
@@ -531,25 +531,25 @@ void BEACON_AddRecentValue(struct BeaconSave *beacon, u8 index, int add)
     beacon->recentValues[index] = value;
 }
 
-u64 BEACON_GetLastTime(struct BeaconSave *beacon)
+u64 MISC_GetLastTime(struct MiscSave *beacon)
 {
     return beacon->lastTime.value;
 }
 
-void BEACON_SetLastTime(struct BeaconSave *beacon, u32 lo, u32 hi)
+void MISC_SetLastTime(struct MiscSave *beacon, u32 lo, u32 hi)
 {
     beacon->lastTime.half.lo = lo;
     beacon->lastTime.half.hi = hi;
 }
 
-void BEACON_SetHashedId(struct BeaconSave *beacon, s32 index, u32 value)
+void MISC_SetHashedId(struct MiscSave *beacon, s32 index, u32 value)
 {
     if (index < 8) {
         beacon->hashedIds[index] = value;
     }
 }
 
-u32 BEACON_GetHashedId(struct BeaconSave *beacon, s32 index)
+u32 MISC_GetHashedId(struct MiscSave *beacon, s32 index)
 {
     if (index >= 8) {
         return 0;
@@ -557,17 +557,17 @@ u32 BEACON_GetHashedId(struct BeaconSave *beacon, s32 index)
     return beacon->hashedIds[index];
 }
 
-u16 BEACON_GetGatePoints(struct BeaconSave *beacon)
+u16 MISC_GetGatePoints(struct MiscSave *beacon)
 {
     return beacon->gatePoints;
 }
 
-void BEACON_SetGatePoints(struct BeaconSave *beacon, u16 points)
+void MISC_SetGatePoints(struct MiscSave *beacon, u16 points)
 {
     beacon->gatePoints = points;
 }
 
-void BEACON_SubGatePoints(struct BeaconSave *beacon, u16 sub)
+void MISC_SubGatePoints(struct MiscSave *beacon, u16 sub)
 {
     if (sub <= beacon->gatePoints) {
         beacon->gatePoints = beacon->gatePoints - sub;
@@ -576,12 +576,12 @@ void BEACON_SubGatePoints(struct BeaconSave *beacon, u16 sub)
     }
 }
 
-u8 BEACON_GetRecorderFlag(struct BeaconSave *beacon)
+u8 MISC_GetRecorderFlag(struct MiscSave *beacon)
 {
     return beacon->recorderFlag;
 }
 
-void BEACON_SetRecorderFlag(struct BeaconSave *beacon, u32 flag)
+void MISC_SetRecorderFlag(struct MiscSave *beacon, u32 flag)
 {
     beacon->recorderFlag = flag;
 }

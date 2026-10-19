@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_WORK_CmdCheckEventFlagOffset
+ * function: SCRCMD_WORK_CmdCheckTrainerDefeatedFlag
  * address:  0x0215B378
  * packet:   pkt_0215B378
  * region:   ov010
@@ -28,7 +28,7 @@ extern unsigned int SCRIPT_WORK_ReadWorkValue(void *, void *);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
 extern unsigned EVENT_TRAINER_CheckDefeatedFlag(void *a, unsigned b);
 
-int SCRCMD_WORK_CmdCheckEventFlagOffset(int a0, int a1)
+int SCRCMD_WORK_CmdCheckTrainerDefeatedFlag(int a0, int a1)
 {
     int t4;
     int t5;

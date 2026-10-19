@@ -26,7 +26,7 @@
  *   INTRUDE_COMM_AcceptSession  0x02175B4C  thumb  ov011
  *   GAME_DATA_SetIntrudeCount  0x02012B78  thumb
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
- *   GAME_DATA_SetExitMode  0x02012B64  thumb
+ *   GAME_DATA_SetOwnNetId  0x02012B64  thumb
  *   EVENT_MAPCHANGE_CreateIntrudeArriveEvent  0x02185C4C  thumb  ov020
  *   GAME_EVENT_CallEvent  0x02012374  thumb
  */
@@ -64,7 +64,7 @@ extern void INTRUDE_COMM_AcceptSession(u8 *o, u8 *p);
 struct BigObj;
 extern struct BigObj *GAME_DATA_SetIntrudeCount(struct BigObj *p, u8 v);
 extern int GFL_NET_SYSTEM_GetCurrentAid(int a);
-extern void GAME_DATA_SetExitMode(int a, int b);
+extern void GAME_DATA_SetOwnNetId(int a, int b);
 extern int EVENT_MAPCHANGE_CreateIntrudeArriveEvent(int a, int b, Ctx *c);
 extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
 
@@ -117,7 +117,7 @@ int EVENT_MAPCHANGE_RunIntrudeSessionEvent(int a0, int *state, Ctx *c)
             if (c->f28 == 1)
                 INTRUDE_COMM_AcceptSession(obj, obj + 0x1AC);
         }
-        GAME_DATA_SetExitMode(c->f20, GFL_NET_SYSTEM_GetCurrentAid((int)GAME_DATA_SetIntrudeCount((struct BigObj *)c->f20, 1)));
+        GAME_DATA_SetOwnNetId(c->f20, GFL_NET_SYSTEM_GetCurrentAid((int)GAME_DATA_SetIntrudeCount((struct BigObj *)c->f20, 1)));
         GAME_EVENT_CallEvent((struct Evt *)a0, (struct Evt **)EVENT_MAPCHANGE_CreateIntrudeArriveEvent(c->f1c, c->f24, c));
         *state = 2;
         break;

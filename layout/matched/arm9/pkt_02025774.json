@@ -43,7 +43,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BMP_OAM_GetRecordIndex",
+   "name": "NATION_AREA_FindRecordIndex",
    "address": "0x02025B3C",
    "kind": "game",
    "region": "arm9",
@@ -55,7 +55,7 @@
    "status": "EXACT"
   },
   {
-   "name": "BMP_OAM_Get",
+   "name": "NATION_AREA_GetAreaMsgBank",
    "address": "0x02025B94",
    "kind": "game",
    "region": "arm9",
@@ -78,7 +78,7 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "BMP_OAM_GetRecordField"
+    "NATION_AREA_GetAreaMsgBankByIndex"
    ],
    "addresses": [
     "0x02025BA0"

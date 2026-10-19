@@ -20,7 +20,7 @@
  *   DWC_GetGsProfileId     0x020598EC  arm
  *   MYSTATUS_GetName  0x020084F4  thumb
  *   MYSTATUS_GetId  0x02008530  thumb
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   WIFILIST_GetWork  0x02009860  thumb
  *   WIFILIST_GetFriendInfoField  0x02009864  thumb
  *   WIFILIST_GetFriendInfo  0x020099D4  thumb
@@ -125,7 +125,7 @@ extern int   WIFILIST_IsFriendDataValid(struct Sub020097BCObj *obj, u32 i);
 extern struct Sub020097BCEnt *WIFILIST_GetFriendInfo(struct Sub020097BCObj *obj, int i);
 
 extern u32 MYSTATUS_GetId(const struct Sub0200852CObj *obj);
-extern u8  MYSTATUS_GetOutfitVariant(const struct Sub0200852CObj *obj);
+extern u8  MYSTATUS_GetSex(const struct Sub0200852CObj *obj);
 extern const void *MYSTATUS_GetName(const void *p);
 
 int WIFILIST_FindFriendByStatusAndOutfit(struct Sub020097BCObj *obj, const void *unused, u32 id,
@@ -155,7 +155,7 @@ int WIFILIST_FindFriendByStatus(struct Sub020097BCObj *obj, struct Sub0200852COb
                  u32 *out)
 {
     u32 id = MYSTATUS_GetId(p);
-    u8 kind = MYSTATUS_GetOutfitVariant(p);
+    u8 kind = MYSTATUS_GetSex(p);
 
     return WIFILIST_FindFriendByStatusAndOutfit(obj, MYSTATUS_GetName(p), id, kind, out);
 }

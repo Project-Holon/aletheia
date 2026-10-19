@@ -45,7 +45,7 @@
  *   func_020355C4 0x020355C4 arm
  *   UI_SetInputMode 0x020355D8 arm
  *   KEY_GetTrg 0x020362DC arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   FADE_Start 0x0204E720 arm
  *   FADE_IsActive 0x0204E804 arm
  *   MI_CpuFill8 0x02082BCC arm
@@ -166,7 +166,7 @@ extern void func_02034A5C(int);
 extern u8 func_020355C4(void);
 extern void UI_SetInputMode(u32);
 extern u32 KEY_GetTrg(void);
-extern void GFL_NET_RestartWithDefaultTimeout(u32,u32),FADE_Start(u32,int,int,int);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32),FADE_Start(u32,int,int,int);
 extern int FADE_IsActive(void);
 extern void MI_CpuFill8(void *,u32,u32);
 extern void *YESNO_MENU_Create(u16,u32,u32,u32,u8,u32,u32,u32,u32);
@@ -299,7 +299,7 @@ int SHINKA_DEMO_Main(int unused0,int unused1,char *a,char *s)
         ((u8 *)P(0x100))[0xd]=2;((u8 *)P(0x100))[0x10]=1;*(u32 *)((char *)P(0x100)+0x20)=0;
         func_02034AC4((int)ov131_id);PROCSYS_Push(P(0x11c),-1,gPokeStatusProcData,P(0x100));break;
     case 24:if(tick!=1)W(0x28)=25;else return 0;break;
-    case 25:func_02034A5C((int)ov131_id);W(0x28)=26;SHINKA_DEMO_SetupScene((struct App *)a,(struct Scene *)s);GFL_NET_RestartWithDefaultTimeout(0,H(0));FADE_Start(3,16,0,0);break;
+    case 25:func_02034A5C((int)ov131_id);W(0x28)=26;SHINKA_DEMO_SetupScene((struct App *)a,(struct Scene *)s);GFL_NET_RefreshWmIconAtTopRight(0,H(0));FADE_Start(3,16,0,0);break;
     case 26:
         if(!FADE_IsActive()){q=P(0x100);switch(q[0x12]){case 0:result=q[0x11];B(0x1a)=result;H(0x18)=POKE_TOOL_GetPartyValue(P(0x10),result+0x36,0);W(0x28)=31;break;case 1:case 2:default:W(0x28)=36;break;}}break;
     case 27:
@@ -314,7 +314,7 @@ int SHINKA_DEMO_Main(int unused0,int unused1,char *a,char *s)
     case 29:
         if(FADE_IsActive())break;
         W(0x28)=30;func_02034A5C((int)ov196_id);func_02034A5C((int)ov198_id);PALANM_FreeSlotBuffers(P(0xa8),1);PALANM_FreeSlotBuffers(P(0xa8),3);PALANM_Delete(P(0xa8));TCB_Noop(P(0xa0));func_020307B0(P(0xa4));W(0xa0)=0;W(0xa4)=0;W(0xa8)=0;
-        SHINKA_DEMO_GRAPHIC_SetupSubBg(P(4));P(0x9c)=YESNO_MENU_Create(H(0),5,0,1,0,SHINKA_DEMO_GRAPHIC_GetCamera(P(4)),W(8),W(0xc),0);GFL_NET_RestartWithDefaultTimeout(0,H(0));FADE_Start(2,16,0,0);break;
+        SHINKA_DEMO_GRAPHIC_SetupSubBg(P(4));P(0x9c)=YESNO_MENU_Create(H(0),5,0,1,0,SHINKA_DEMO_GRAPHIC_GetCamera(P(4)),W(8),W(0xc),0);GFL_NET_RefreshWmIconAtTopRight(0,H(0));FADE_Start(2,16,0,0);break;
     case 30:
         if(FADE_IsActive())break;
         B(0x1a)=B(0xfb);if(B(0x1a)==4)W(0x28)=36;else{H(0x18)=POKE_TOOL_GetPartyValue(P(0x10),B(0x1a)+0x36,0);W(0x28)=31;}

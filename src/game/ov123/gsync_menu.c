@@ -42,8 +42,8 @@
  *   BMP_WIN_GetBmp  0x02045770  arm
  *   BMP_Clear  0x02043B5C  arm
  *   GF_FONT_SetTextColor  0x0201DD78  thumb
- *   GF_FONT_MeasureWidestLine  0x0201D304  thumb
- *   GF_FONT_CountLines  0x0201D42C  thumb
+ *   PRINTSYS_MeasureWidestLine  0x0201D304  thumb
+ *   PRINTSYS_CountLines  0x0201D42C  thumb
  *   PRINTSYS_Print  0x0201C7A4  thumb
  *   BMP_WIN_TransferChars  0x02045334  arm
  *   BMP_WIN_MakeScreen  0x02045374  arm
@@ -133,7 +133,7 @@
  *   GFL_HEAP_Alloc 0x02030734 arm
  *   TCBL_Create 0x0203101C arm
  *   G2x_SetBlendAlpha_ 0x0207D63C arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   UI_SetInputMode 0x020355D8 arm
  *   d_021DA9F0 0x021DA9F0 data a4
  *   d_021DA680 0x021DA680 data a4
@@ -256,9 +256,9 @@ extern void BMP_Clear(struct CharBuf *buf, u8 value);
 
 extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 
-extern u32 GF_FONT_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
 
-extern u32 GF_FONT_CountLines(struct StrObj *s, void *font);
+extern u32 PRINTSYS_CountLines(struct StrObj *s, void *font);
 
 extern void PRINTSYS_Print(void *x, short y, short z, void *s, void *w);
 
@@ -436,7 +436,7 @@ extern void *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, void *font, void *p
 
 extern void G2x_SetBlendAlpha_(void *,int,int,int,int);
 
-extern void GFL_NET_RestartWithDefaultTimeout(u32,u32);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 
 extern void UI_SetInputMode(u8 v);
 
@@ -728,11 +728,11 @@ void GSYNC_MENU_CreateButtonWindows(int count, u32 *messageIds, GsyncMenuWork *w
         MSGDATA_ReadString(work->msgBank, messageIds[defIndex], work->msgBuf);
         GF_FONT_SetTextColor(0xF, 2, 0);
         if (centerX != 0)
-            textX = centerX[defIndex] - GF_FONT_MeasureWidestLine(work->msgBuf, (u32)work->font, 0) / 2;
+            textX = centerX[defIndex] - PRINTSYS_MeasureWidestLine(work->msgBuf, (u32)work->font, 0) / 2;
         else
             textX = 0;
         if (centerY != 0)
-            textY = centerY[defIndex] - GF_FONT_CountLines(work->msgBuf, work->font) / 2;
+            textY = centerY[defIndex] - PRINTSYS_CountLines(work->msgBuf, work->font) / 2;
         else
             textY = 0;
         PRINTSYS_Print(BMP_WIN_GetBmp(work->buttonWins[defIndex]), (short)textX, (short)textY, work->msgBuf, work->font);
@@ -1216,7 +1216,7 @@ int GSYNC_MENU_ProcInit(void *proc, int seq, GsyncProcParam *param)
     BG_SYS_SetSubVisiblePlanes(31);
     GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateSetupButtons, 0x5bf);
     work->param = param;
-    GFL_NET_RestartWithDefaultTimeout(0, work->heapId);
+    GFL_NET_RefreshWmIconAtTopRight(0, work->heapId);
     UI_SetInputMode(1);
     return 1;
 }

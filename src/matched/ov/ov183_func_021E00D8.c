@@ -20,7 +20,7 @@
  *   func_02008570 0x02008570 thumb
  *   BR_RES_GetWordSet 0x021FC21C thumb ov186
  *   func_02045EC0 0x02045EC0 arm
- *   BMP_OAM_GetRecordValue 0x02025B64 thumb
+ *   NATION_AREA_GetAreaCount 0x02025B64 thumb
  *   WORDSET_SetSlotFromMsgE7 0x0201F048 thumb
  *   WORDSET_SetSlotFromKeyedMessage 0x0201F094 thumb
  *   WORDSET_CopyTaggedText 0x0201F250 thumb
@@ -59,7 +59,7 @@ extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern u8 func_02008570(const struct Sub0200852CObj *obj);
 extern int BR_RES_GetWordSet(char *);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u8 BMP_OAM_GetRecordValue(u32);
+extern u8 NATION_AREA_GetAreaCount(u32);
 extern void WORDSET_SetSlotFromMsgE7(struct WordSet *p, u32 i, u32 n);
 extern void WORDSET_SetSlotFromKeyedMessage(struct WordSet *p, u32 i, u32 a, u32 n);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
@@ -84,7 +84,7 @@ int BR_CODEIN_CodeSetupPokeList(char *p,char *q)
     a=func_0200856C(v);b=func_02008570(v);
     ws=BR_RES_GetWordSet(*(char * *)&((struct Obj03330 *)q)->f8);
     data=func_02045EC0((void *)second,125);
-    if(!BMP_OAM_GetRecordValue(a))WORDSET_SetSlotFromMsgE7((void *)ws,0,a);
+    if(!NATION_AREA_GetAreaCount(a))WORDSET_SetSlotFromMsgE7((void *)ws,0,a);
     else WORDSET_SetSlotFromKeyedMessage((void *)ws,0,a,b);
     WORDSET_CopyTaggedText((void *)ws,text,data);
     STRBUF_Delete(data);

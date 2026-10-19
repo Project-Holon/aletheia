@@ -1,5 +1,8 @@
 # Loop-invariant bases stored after the counter init are written inside the loop
 
+summary: Base pointers that the original stores after the loop counter init are assigned inside
+the loop body. mwcc hoists them into the preheader after the counter init.
+
 ## Shape
 
 Before an outer loop, the original stores the loop counter first and the base pointers after it:

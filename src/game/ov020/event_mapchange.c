@@ -68,7 +68,7 @@
  *   DAILY_CLOCK_Refill  0x02008C00  thumb
  *   FORMCHANGE_RevertShayminAndRegister  0x0216A390  thumb  ov010
  *   GF_STANDARD_GetRtcTimestamp  0x0203F524  arm
- *   BEACON_SetLastTime  0x0200C384  thumb
+ *   MISC_SetLastTime  0x0200C384  thumb
  *   FORMCHANGE_UpdateSeasonForms  0x0216AAE4  thumb  ov010
  *   COMM_PLAYER_SUPPORT_IsSeasonChanged  0x0202E848  thumb
  *   FIELDMAP_GetHeapId  0x02188C84  thumb  ov021
@@ -154,14 +154,14 @@
  *   INTRUDE_GetFromSave  0x0200BE48  thumb
  *   GAME_DATA_GetPlayTime  0x02012FCC  thumb
  *   INTRUDE_UpdatePlaySeconds  0x0200BFA4  thumb
- *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   INTRUDE_COMM_HasUnlockFlags  0x02158590  thumb  ov010
  *   INTRUDE_COMM_GetRequesterNetId  0x02176230  thumb  ov011
  *   GAME_DATA_GetWarpLocation  0x020128DC  thumb
  *   GAME_COMM_GetCounter  0x0202648C  thumb
  *   GAME_COMM_ClearCounter  0x02026484  thumb
  *   GAME_DATA_SetIntrudeCount  0x02012B78  thumb
- *   GAME_DATA_SetExitMode  0x02012B64  thumb
+ *   GAME_DATA_SetOwnNetId  0x02012B64  thumb
  *   GAME_DATA_SetIntrudeId  0x02012B8C  thumb
  *   GAME_DATA_SetEnterMode  0x02012B4C  thumb
  *   FIELDMAP_GetFieldPlayer  0x02188CB4  thumb  ov021
@@ -169,14 +169,14 @@
  *   INTRUDE_FIELD_ChangePlayerLook  0x0217BCDC  thumb  ov018
  *   FIELDMAP_GetMoveKind  0x02188CFC  thumb  ov021
  *   FIELD_PLAYER_GetMmdl  0x021A3074  thumb  ov021
- *   FIELD_PLAYER_SetNogridLocation  0x021A36BC  thumb  ov021
+ *   FIELD_PLAYER_GetNogridNextRailLocation  0x021A36BC  thumb  ov021
  *   FLDMMDL_GetPosPtr  0x0216D888  thumb  ov010
  *   GAME_DATA_GetEntranceLocation  0x02012870  thumb
  *   ZONEDATA_IsFieldMatrix  0x02013E7C  thumb
  *   GAME_DATA_SetEscapeLocation  0x020128C0  thumb
  *   EVENTDATA_SYSTEM_SetConnectExitLocationIdOnly  0x02162694  thumb  ov010
  *   EVENTDATA_SYSTEM_IsSpecialExitConnect  0x021625E8  thumb  ov010
- *   ZONEDATA_IsZone117  0x02013D5C  thumb
+ *   ZONEDATA_IsEntralink  0x02013D5C  thumb
  *   MAP_REPLACE_ApplyWarpLocation  0x02159FA8  thumb  ov010
  *   FIELD_MAP_CHANGE_ResetGimmickStateCase4  0x0216446C  thumb  ov010
  *   GAMESYSTEM_GetIssSystem  0x02012134  thumb
@@ -217,7 +217,7 @@
  *   FIELD_STATUS_SetMapEffectMask 0x0201446C thumb
  *   GAME_DATA_GetIntrudeCount  0x02012B70  thumb
  *   FIELD_STATUS_SetMapMode  0x02014450  thumb
- *   ZONEDATA_IsZone1A6  0x02013CC8  thumb
+ *   ZONEDATA_IsUnionRoom  0x02013CC8  thumb
  *   ZONEDATA_IsZone96Pair  0x02013CE0  thumb
  *   ZONEDATA_IsZone4E  0x02013DF0  thumb
  *   ZONEDATA_IsZone34  0x02013D20  thumb
@@ -419,7 +419,7 @@ extern struct ConsoleInfoSession *CONSOLE_STAMP_GetDailyClock(struct SaveControl
 extern void DAILY_CLOCK_Refill(struct ConsoleInfoSession *session);
 extern void FORMCHANGE_RevertShayminAndRegister(struct GameData *gameData, void *party);
 extern u64 GF_STANDARD_GetRtcTimestamp();
-extern void BEACON_SetLastTime(struct MiscSave *miscSave, u32 lo, u32 hi);
+extern void MISC_SetLastTime(struct MiscSave *miscSave, u32 lo, u32 hi);
 extern void FORMCHANGE_UpdateSeasonForms(struct GameData *gameData, void *party, int season);
 extern int COMM_PLAYER_SUPPORT_IsSeasonChanged(struct GameData *gameData, u16 *outA, u16 *outB);
 extern u32 ZONEDATA_GetAreaId(u32 zoneId);
@@ -511,14 +511,14 @@ void GAME_DATA_SetWarpLocation(GameData *gameData, const Location *location);
 u16 *INTRUDE_GetFromSave(void *saveControl);
 void *GAME_DATA_GetPlayTime(GameData *gameData);
 u64 INTRUDE_UpdatePlaySeconds(u16 *record, void *playTime, u32 mode);
-u8 GAME_DATA_GetExitMode(const GameData *gameData);
+u8 GAME_DATA_GetOwnNetId(const GameData *gameData);
 int INTRUDE_COMM_HasUnlockFlags(GameData *gameData);
 u8 INTRUDE_COMM_GetRequesterNetId(IntrudeComm *comm, u8 *requestInfo);
 Location *GAME_DATA_GetWarpLocation(GameData *gameData);
 u32 GAME_COMM_GetCounter(GameComm *gameComm);
 void GAME_COMM_ClearCounter(GameComm *gameComm);
 GameData *GAME_DATA_SetIntrudeCount(GameData *gameData, u8 value);
-void GAME_DATA_SetExitMode(GameData *gameData, int value);
+void GAME_DATA_SetOwnNetId(GameData *gameData, int value);
 void GAME_DATA_SetIntrudeId(GameData *gameData, u32 value);
 void GAME_DATA_SetEnterMode(GameData *gameData, u8 value);
 void *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
@@ -526,7 +526,7 @@ int FIELD_PLAYER_CheckFormModel(void *fieldPlayer);
 void INTRUDE_FIELD_ChangePlayerLook(u8 *a, void *b, int c, u8 d, u8 e);
 u32 FIELDMAP_GetMoveKind(FieldMap *fieldMap);
 void *FIELD_PLAYER_GetMmdl(void *fieldPlayer);
-void FIELD_PLAYER_SetNogridLocation(void *fieldPlayer, RailLocation *rail);
+void FIELD_PLAYER_GetNogridNextRailLocation(void *fieldPlayer, RailLocation *rail);
 VecFx32 *FLDMMDL_GetPosPtr(void *mmdl);
 Location *GAME_DATA_GetEntranceLocation(const GameData *gameData);
 u32 ZONEDATA_IsFieldMatrix(u32 zoneId);
@@ -534,7 +534,7 @@ void GAME_DATA_SetEscapeLocation(GameData *gameData, const Location *location);
 int EVENTDATA_SYSTEM_IsSpecialExitConnect(void *connectData);
 int EVENTDATA_SYSTEM_SetConnectExitLocationIdOnly(void *connectData, Location *location, int exitDir);
 void EVENT_MAPCHANGE_UpdateEscapeLocation(GameData *gameData, const Location *destination);
-extern u32 ZONEDATA_IsZone117(u32 zoneId);
+extern u32 ZONEDATA_IsEntralink(u32 zoneId);
 void MAP_REPLACE_ApplyWarpLocation(int warpId, Location *location);
 int FIELD_MAP_CHANGE_ResetGimmickStateCase4(GameData *gameData, int zoneId);
 void *GAMESYSTEM_GetIssSystem(const GameSystem *gameSystem);
@@ -575,7 +575,7 @@ extern u8 FIELD_STATUS_IsFlashActive(FieldStatus *fieldStatus);
 extern void FIELD_STATUS_SetMapEffectMask(FieldStatus *fieldStatus, unsigned int mask);
 int GAME_DATA_GetIntrudeCount(const GameData *gameData);
 void FIELD_STATUS_SetMapMode(FieldStatus *fieldStatus, u32 mapMode);
-u32 ZONEDATA_IsZone1A6(u32 zoneId);
+u32 ZONEDATA_IsUnionRoom(u32 zoneId);
 u32 ZONEDATA_IsZone96Pair(u32 zoneId);
 u32 ZONEDATA_IsZone4E(u32 zoneId);
 u32 ZONEDATA_IsZone34(u32 zoneId);
@@ -929,7 +929,7 @@ struct GameEvent *EVENT_MAPCHANGE_CreateContinueEvent(struct GameSystem *gameSys
         DAILY_CLOCK_Refill(CONSOLE_STAMP_GetDailyClock(saveControl));
         FORMCHANGE_RevertShayminAndRegister(work->gameData, partySave);
         nowSeconds = GF_STANDARD_GetRtcTimestamp();
-        BEACON_SetLastTime(miscSave, (u32)nowSeconds, (u32)(nowSeconds >> 32));
+        MISC_SetLastTime(miscSave, (u32)nowSeconds, (u32)(nowSeconds >> 32));
     }
     CONSOLE_STAMP_SetIdentity(consoleInfo);
     FORMCHANGE_UpdateSeasonForms(work->gameData, partySave, GAME_DATA_GetSeason(work->gameData));
@@ -1910,7 +1910,7 @@ GameEvent *EVENT_MAPCHANGE_CreateIntrudeWarpEvent(GameSystem *gameSystem, int zo
         slotOffset = 0;
     } else {
         intrudeId = INTRUDE_COMM_GetRequesterNetId(comm, comm->requestInfo);
-        slotOffset = intrudeId - GAME_DATA_GetExitMode(gameData);
+        slotOffset = intrudeId - GAME_DATA_GetOwnNetId(gameData);
         if (slotOffset < 0)
             slotOffset += comm->slotCount;
         xFlag = 0x10000;
@@ -1940,7 +1940,7 @@ static inline GameEvent *EVENT_MAPCHANGE_FinishIntrudeWarp(GameSystem *gameSyste
         INTRUDE_FIELD_ChangePlayerLook(0, gameSystem, 0, 0, 0);
     GAME_DATA_SetIntrudeCount(gameData, 0);
     if (INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(gameSystem)) == 0) {
-        GAME_DATA_SetExitMode(gameData, 0);
+        GAME_DATA_SetOwnNetId(gameData, 0);
         GAME_DATA_SetIntrudeId(gameData, 0);
         GAME_DATA_SetEnterMode(gameData, 1);
     }
@@ -1982,7 +1982,7 @@ void EVENT_MAPCHANGE_GetCurrentLocation(Location *location, FieldMap *fieldMap)
         ZONEDATA_SetDirectLocation(location, FIELDMAP_GetZoneId(fieldMap), 1, playerPos->x, playerPos->y, playerPos->z);
         return;
     }
-    FIELD_PLAYER_SetNogridLocation(fieldPlayer, &rail);
+    FIELD_PLAYER_GetNogridNextRailLocation(fieldPlayer, &rail);
     ZONEDATA_SetDirectRailLocation(location, FIELDMAP_GetZoneId(fieldMap), 2, rail.railIndex, rail.lineGrid, rail.widthGrid);
 }
 
@@ -2095,11 +2095,11 @@ GameEvent *EVENT_MAPCHANGE_CreateWarpEventWithIntrudeOffset(GameSystem *gameSyst
     MapChangeWork *work = GAME_EVENT_GetWork(event);
     int slotOffset = 0;
 
-    if (ZONEDATA_IsZone117(zoneId) == 1) {
+    if (ZONEDATA_IsEntralink(zoneId) == 1) {
         IntrudeComm *comm = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(gameSystem));
         if (comm != 0) {
             int slot = comm->slot;
-            slotOffset = slot - GAME_DATA_GetExitMode(gameData);
+            slotOffset = slot - GAME_DATA_GetOwnNetId(gameData);
             if (slotOffset < 0)
                 slotOffset += comm->slotCount;
         }
@@ -2359,12 +2359,12 @@ void EVENT_MAPCHANGE_UpdateFieldStateForZone(GameSystem *gameSystem, int zoneId)
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     eventData = (EventData *)GAME_DATA_GetEventData(gameData);
     GAMESYSTEM_GetFieldMap(gameSystem);
-    if (GAME_DATA_GetIntrudeCount(gameData) == 1 && ZONEDATA_IsZone117(zoneId) == 0)
+    if (GAME_DATA_GetIntrudeCount(gameData) == 1 && ZONEDATA_IsEntralink(zoneId) == 0)
         FIELD_STATUS_SetMapMode(GAME_DATA_GetMoveModelSys(gameData), 1);
     else
         FIELD_STATUS_SetMapMode(GAME_DATA_GetMoveModelSys(gameData), 0);
 
-    if (ZONEDATA_IsZone1A6(zoneId) != 0) {
+    if (ZONEDATA_IsUnionRoom(zoneId) != 0) {
         GAME_DATA_SetSubscreenType(gameData, 2);
     } else if (ZONEDATA_IsZone96Pair(zoneId) != 0 || ZONEDATA_IsZone4E(zoneId) != 0 || ZONEDATA_IsZone34(zoneId) != 0) {
         GAME_DATA_SetSubscreenType(gameData, 5);
@@ -2534,7 +2534,7 @@ int EVENT_MAPCHANGE_RunIntrudeSessionEvent(GameEvent *event, int *state, MapChan
             if (work->requestSession == 1)
                 INTRUDE_COMM_AcceptSession(comm, comm->requestInfo);
         }
-        GAME_DATA_SetExitMode(work->gameData, GFL_NET_SYSTEM_GetCurrentAid((int)GAME_DATA_SetIntrudeCount(work->gameData, 1)));
+        GAME_DATA_SetOwnNetId(work->gameData, GFL_NET_SYSTEM_GetCurrentAid((int)GAME_DATA_SetIntrudeCount(work->gameData, 1)));
         GAME_EVENT_CallEvent(event, EVENT_MAPCHANGE_CreateIntrudeArriveEvent(work->gameSystem, work->fieldMap, &work->location));
         *state = 2;
         break;

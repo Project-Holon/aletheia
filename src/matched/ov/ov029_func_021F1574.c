@@ -17,8 +17,8 @@
  *   CLACT_RegisterCellAnim  0x0204AF28  arm
  *   ARC_UTIL_LoadPaletteBlockFromHandle  0x02049F78  arm
  *   func_020307B0  0x020307B0  arm
- *   GFL_NET_RestartWithTimeout  0x0203D88C  arm
- *   GFL_NET_RestartWithDefaultTimeout  0x0203D34C  arm
+ *   GFL_NET_RefreshWmIconAt  0x0203D88C  arm
+ *   GFL_NET_RefreshWmIconAtTopRight  0x0203D34C  arm
  *   d_021F31C8     0x021F31C8  data  a4
  *   d_021F33CC     0x021F33CC  data  a4
  */
@@ -33,8 +33,8 @@ extern s32 CLACT_RegisterCellAnim(void *owner, unsigned int first, unsigned int 
 extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *a0, unsigned int a1, unsigned int a2, unsigned int a3);
 extern unsigned int func_020307B0(void *p);
 typedef unsigned int   u32;
-extern void GFL_NET_RestartWithTimeout(u32 a, u32 b);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAt(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern const int d_021F31C8[];
 extern const int d_021F33CC[];
 
@@ -57,6 +57,6 @@ void C_GEAR_LoadSpriteResources(char *p, int idx)
         q[0x6e] = base[d_021F33CC[i]];
     }
     func_020307B0((void *)r);
-    GFL_NET_RestartWithTimeout(0xda, 0xe);
-    GFL_NET_RestartWithDefaultTimeout(0, ((struct Obj02749 *)p)->fC);
+    GFL_NET_RefreshWmIconAt(0xda, 0xe);
+    GFL_NET_RefreshWmIconAtTopRight(0, ((struct Obj02749 *)p)->fC);
 }

@@ -30,7 +30,7 @@
  *   ZUKAN_DETAIL_TOUCHBAR_Create 0x021BD8C0 thumb
  *   ZUKAN_DETAIL_HEADBAR_Create 0x021BE710 thumb
  *   FADE_Start 0x0204E720 arm
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  *   ZUKAN_DETAIL_HEADBAR_Delete 0x021BE778 thumb ov208
  *   ZUKAN_DETAIL_TOUCHBAR_Delete 0x021BD954 thumb ov208
  *   TCB_DeleteTask 0x02030EAC arm
@@ -94,7 +94,7 @@ extern struct Ov208Icon *ZUKAN_DETAIL_HEADBAR_Create(u16 heap, unsigned arg);
 
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 
 extern void ZUKAN_DETAIL_HEADBAR_Delete(struct Ov208Mgr *m);
 
@@ -177,7 +177,7 @@ int ZUKAN_DETAIL_MAIN_Init(void *owner, int unused, struct Ov208Args *args)
     ZUKAN_DETAIL_MAIN_SwitchScreen(args, p);
     p->pendingMode = 0;
     FADE_Start(3, 0, 0, 0);
-    GFL_NET_RestartWithDefaultTimeout(1, p->heap);
+    GFL_NET_RefreshWmIconAtTopRight(1, p->heap);
     return 1;
 }
 

@@ -47,11 +47,11 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   OS_GetMacAddress  0x02087C6C  arm
  *   MYSTATUS_CopyNameChars  0x020084F8  thumb
- *   MYSTATUS_GetOutfit  0x02008554  thumb
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetTrainerView  0x02008554  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   MYSTATUS_GetId  0x02008530  thumb
- *   MYSTATUS_GetLanguage  0x0200856C  thumb
- *   MYSTATUS_GetVersion  0x02008570  thumb
+ *   MYSTATUS_GetNation  0x0200856C  thumb
+ *   MYSTATUS_GetArea  0x02008570  thumb
  *   GAMESYSTEM_GetGameData  0x020120F4  thumb
  *   GAME_DATA_GetWifiList  0x0201283C  thumb
  *   WIFILIST_MakeExchangeToken  0x02009CB0  thumb
@@ -135,15 +135,15 @@ extern void OS_GetMacAddress(void *mac);
 
 extern u32 MYSTATUS_CopyNameChars(const struct MyStatus *status, u16 *dest, u32 size);
 
-extern u8 MYSTATUS_GetOutfit(const struct MyStatus *status);
+extern u8 MYSTATUS_GetTrainerView(const struct MyStatus *status);
 
-extern u32 MYSTATUS_GetOutfitVariant(const struct MyStatus *status);
+extern u32 MYSTATUS_GetSex(const struct MyStatus *status);
 
 extern u32 MYSTATUS_GetId(const struct MyStatus *status);
 
-extern u8 MYSTATUS_GetLanguage(const struct MyStatus *status);
+extern u8 MYSTATUS_GetNation(const struct MyStatus *status);
 
-extern u8 MYSTATUS_GetVersion(const struct MyStatus *status);
+extern u8 MYSTATUS_GetArea(const struct MyStatus *status);
 
 extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 
@@ -604,14 +604,14 @@ void UNION_COMM_BuildBeacon(UnionRoomWork *work, UnionBeacon *beacon)
     beacon->appealNo = situation->appealNo;
     beacon->status = situation->status;
     MYSTATUS_CopyNameChars(work->parent->myStatus, beacon->name, 8);
-    beacon->trainerView = MYSTATUS_GetOutfit(work->parent->myStatus);
-    beacon->sex = MYSTATUS_GetOutfitVariant(work->parent->myStatus);
+    beacon->trainerView = MYSTATUS_GetTrainerView(work->parent->myStatus);
+    beacon->sex = MYSTATUS_GetSex(work->parent->myStatus);
     beacon->trainerId = MYSTATUS_GetId(work->parent->myStatus);
     beacon->chatType = situation->chatType;
     beacon->chatPms = situation->chatPms;
     beacon->chatCount = situation->chatCount;
-    beacon->nation = MYSTATUS_GetLanguage(work->parent->myStatus);
-    beacon->area = MYSTATUS_GetVersion(work->parent->myStatus);
+    beacon->nation = MYSTATUS_GetNation(work->parent->myStatus);
+    beacon->area = MYSTATUS_GetArea(work->parent->myStatus);
     beacon->group = situation->connect.group;
     WIFILIST_MakeExchangeToken(GAME_DATA_GetWifiList(GAMESYSTEM_GetGameData(work->parent->gameSystem)), beacon->friendKey);
     if (work->app != 0)
@@ -723,8 +723,8 @@ void UNION_COMM_InitConnectInfo(UnionRoomWork *work, UnionConnectInfo *connect)
     UNION_COMM_ClearPartnerSelects(connect);
     self = &connect->group.member[0];
     OS_GetMacAddress(self->mac);
-    self->trainerView = MYSTATUS_GetOutfit(work->parent->myStatus);
-    self->sex = MYSTATUS_GetOutfitVariant(work->parent->myStatus);
+    self->trainerView = MYSTATUS_GetTrainerView(work->parent->myStatus);
+    self->sex = MYSTATUS_GetSex(work->parent->myStatus);
     self->valid = 1;
     connect->requestId = 0xFFFF;
 }

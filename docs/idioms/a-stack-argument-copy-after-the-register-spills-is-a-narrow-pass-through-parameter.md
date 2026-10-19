@@ -1,5 +1,8 @@
 # A stack-argument copy after the register spills is a narrow pass-through parameter
 
+summary: A stack-parameter copy that comes after the register spills is a narrow parameter passed
+straight to a callee with the same narrow type. Change both the parameter and the prototype.
+
 Seen in wave D9r lane 157 (2026-10-05): ov172 func_021B9AB8 (closed EXACT after 13 lanes at 13 bytes).
 
 ## Symptom

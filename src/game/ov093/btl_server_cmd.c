@@ -28,7 +28,7 @@
  *   MYITEM_SAVEDATA_AddItem 0x02007E50 thumb
  *   GPOWER_ApplyPrizeMoney  0x0201119C  thumb
  *   GAME_DATA_GetMiscSave  0x02012F08  thumb
- *   BEACON_GetMoney  0x0200C274  thumb
+ *   MISC_GetMoney  0x0200C274  thumb
  *   BTL_CALC_CalcDefeatMoneyLoss  0x021D7FF8  thumb  ov093
  *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
  *   BTL_MAIN_GetFieldSituation  0x021B8714  thumb  ov093
@@ -63,7 +63,7 @@
  *   GFL_HEAP_Free  0x020307B0  arm
  *   MYSTATUS_Create  0x0200846C  thumb
  *   MYSTATUS_Copy  0x02008494  thumb
- *   MYSTATUS_GetOutfitVariant  0x02008550  thumb
+ *   MYSTATUS_GetSex  0x02008550  thumb
  *   MYSTATUS_CreateNameStrbuf  0x02008510  thumb
  *   PMSI_PARAM_ClearSentence  0x0202428C  thumb
  *   STRBUF_Clone  0x02045874  arm
@@ -140,7 +140,7 @@
  *   BTL_DEADREC_GetCount 0x0689D174 thumb ov095
  *   BTL_MAIN_GetClientSide  0x021B8BC4  thumb  ov093
  *   BTL_POSPOKE_GetEmptyPosList 0x0689D558 thumb ov095
- *   BTL_FIELD_GetStaticSlotObject  0x021EF948  thumb  ov093
+ *   BTL_FIELD_IsStaticSlotInUse  0x021EF948  thumb  ov093
  *   BTL_POKEPARAM_HasSick  0x021D62C4  thumb  ov093
  *   HAND_TOKUSEI_EnableAbilityHandlers  0x021D8548  thumb  ov093
  *   HAND_ITEM_EnablePokeFactors  0x021DCFB4  thumb  ov093
@@ -226,7 +226,7 @@
  *   BTL_POKEPARAM_GetMovePPChecked 0x021D5584 thumb ov093
  *   BTL_POKEPARAM_GetLastSelectedMoveId 0x021D67B8 thumb ov093
  *   BTL_POKEPARAM_GetLastUsedMoveId 0x021D67A8 thumb ov093
- *   BTL_FIELD_DrawStaticSlotLine 0x021EF91C thumb ov093
+ *   BTL_FIELD_IsMoveSealedByStaticSlot 0x021EF91C thumb ov093
  *   BTL_CALC_RollPercent 0x021D7AF0 thumb ov093
  *   BTL_POKEPARAM_TickConfusionTurn  0x021D61A8  thumb  ov093
  *   BTL_POKEPARAM_TickSleepTurn  0x021D6130  thumb  ov093
@@ -281,7 +281,7 @@
  *   BTL_FIELD_SetCountdown 0x021EF8A4 thumb ov093
  *   BTL_FIELD_RegisterStaticSlot  0x021EF8C8  thumb  ov093
  *   BTL_SICKCONT_GetPosition  0x021E8A98  thumb  ov093
- *   BTL_FIELD_SetStaticSlotValue  0x021EF8F8  thumb  ov093
+ *   BTL_FIELD_AddStaticSlotHolder  0x021EF8F8  thumb  ov093
  *   BTL_ID_IsAbilitySkillSwapBlocked 0x0689C954 thumb ov095
  *   BTL_POKEPARAM_SetAbility 0x021D66D0 thumb ov093
  *   HAND_TOKUSEI_SwapAbilityHandlers 0x021D8564 thumb ov093
@@ -303,7 +303,7 @@
  *   BTL_CALC_PackPokeIds 0x021D806C thumb ov093
  *   BTL_SICK_BuildDamageMessage 0x0689B8CC thumb ov095
  *   HAND_SIDE_TickTurns 0x06898D54 thumb ov095
- *   BTL_FIELD_QueryStaticSlotC 0x021EF934 thumb ov093
+ *   BTL_FIELD_TickStaticSlots 0x021EF934 thumb ov093
  *   BTL_SERVER_FLOW_OnFieldEffectExpired 0x021C4C40 thumb ov093
  *   BTL_FIELD_TickCountdown 0x021EF8B8 thumb ov093
  *   BTL_CALC_GetWeatherDamage 0x021D7BD4 thumb ov093
@@ -315,7 +315,7 @@
  *   HAND_ITEM_DisablePokeFactors 0x021DCFA4 thumb ov093
  *   HAND_WAZA_RemoveAllMoveHandlers 0x021E0434 thumb ov093
  *   BTL_POKEPARAM_CureSickBySource 0x021D6264 thumb ov093
- *   BTL_FIELD_QueryStaticSlotB 0x021EF90C thumb ov093
+ *   BTL_FIELD_RemoveHolderFromStaticSlots 0x021EF90C thumb ov093
  *   BTL_MAIN_CheckEventOverlayAllowed 0x021B85EC thumb ov093
  *   BTL_DEADREC_IsReported 0x0689D1A0 thumb ov095
  *   BTL_DEADREC_GetPokeId 0x0689D184 thumb ov095
@@ -372,7 +372,7 @@
  *   BTL_POKEPARAM_ClearTurnFlag 0x021D6440 thumb ov093
  *   HAND_SIDE_AddFactor 0x06898C10 thumb ov095
  *   HAND_SIDE_Remove 0x06898D10 thumb ov095
- *   BTL_FIELD_QueryStaticSlotA 0x021EF8E8 thumb ov093
+ *   BTL_FIELD_RemoveStaticSlot 0x021EF8E8 thumb ov093
  *   HAND_POS_AddFactor 0x068981F0 thumb ov095
  *   BTL_ID_IsMultitypeAbility 0x0689C974 thumb ov095
  *   BTL_POKEPARAM_ClearConsumedItem 0x021D6738 thumb ov093
@@ -390,7 +390,7 @@
  *   BTL_CALC_CalcDefeatExp 0x021D7EB4 thumb ov093
  *   BTL_POKEPARAM_GetFoughtCount 0x021D6E04 thumb ov093
  *   BTL_POKEPARAM_GetFoughtPokeId 0x021D6E0C thumb ov093
- *   MYSTATUS_GetGender 0x02008564 thumb arm9
+ *   MYSTATUS_GetLanguage 0x02008564 thumb arm9
  *   GPOWER_ApplyExpRate 0x02011168 thumb arm9
  *   _ffltu         0x0209BE04  arm
  *   _fadd          0x0209C95C  arm
@@ -425,7 +425,7 @@
  *   BTL_DEADREC_GetLastPokeId 0x0689D1D4 thumb ov095
  *   gHandExRecordSizeTable     0x021EFE9C  data  a4
  *   gBtlEmptyString 0x021F3A84 data
- *   SAVEDATA_PanicFail 0x02034714 arm
+ *   GF_PANIC_Fail 0x02034714 arm
  *   gBtlServerCmdLayouts  0x021EFF14  data  ov093
  *   gBtlServerCmdArgBuffer  0x021F3B44  data  ov093
  *   gBtlClientFileName 0x021F3A88 data a4
@@ -481,7 +481,7 @@
  *   BTL_CLIENT_DisableCounter 0x021D3FD0 thumb ov093
  *   BTLV_CORE_BuildAndPrintMessage 0x021EA614 thumb ov093
  *   BTLV_CORE_WaitMessage 0x021EA710 thumb ov093
- *   BTL_CALC_ActionSetNone 0x021D8434 thumb ov093
+ *   BTL_ACTION_SetNone 0x021D8434 thumb ov093
  *   BTLV_CORE_StartAutoSelectNotice 0x021EAE44 thumb ov093
  *   BTLV_CORE_PollAutoSelectNotice 0x021EAE54 thumb ov093
  *   BTL_POKEPARAM_GetMoveId 0x021D54C0 thumb ov093
@@ -539,7 +539,7 @@
  *   BTL_ACTION_SetEscape 0x021D8414 thumb ov093
  *   BTLV_CORE_StartWaitMessage  0x021EA7FC  thumb  ov093
  *   BTLV_CORE_UpdateWaitMessage  0x021EA814  thumb  ov093
- *   BTL_CALC_ActionSetForcedSkip  0x021D8444  thumb  ov093
+ *   BTL_ACTION_SetForcedSkip  0x021D8444  thumb  ov093
  *   BTL_POKEPARAM_GetLastMoveSlot  0x021D67C4  thumb  ov093
  *   BTL_POKEPARAM_HasMove 0x021D5750 thumb ov093
  *   BTL_FIELD_IsSlotInUse 0x021EFCE4 thumb ov093
@@ -665,7 +665,7 @@ typedef char *va_list;
 #define va_start(v, l) ((v) = (char *)(((unsigned int)&(l) & ~3u) + 4))
 #define va_arg(ap, t) (*(t *)((ap += 4) - 4))
 
-extern void SAVEDATA_PanicFail(const char *expr, u32 line, const char *file);
+extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 extern char gBtlEmptyString[];
 extern const u8 gBtlServerCmdLayouts[];
 extern s32 gBtlServerCmdArgBuffer[];
@@ -674,7 +674,7 @@ extern s32 gBtlServerCmdArgBuffer[];
 void BTL_SERVER_CMD_WriteU8(BtlServerCmdQueue *queue, u8 value)
 {
     if (queue->writePos >= BTL_SERVER_CMD_QUEUE_SIZE) {
-        SAVEDATA_PanicFail(gBtlEmptyString, 0, gBtlEmptyString);
+        GF_PANIC_Fail(gBtlEmptyString, 0, gBtlEmptyString);
     }
     queue->data[queue->writePos++] = value;
 }
@@ -691,7 +691,7 @@ u8 BTL_SERVER_CMD_ReadU8(BtlServerCmdQueue *queue)
 void BTL_SERVER_CMD_WriteU16(BtlServerCmdQueue *queue, u16 value)
 {
     if (queue->writePos >= BTL_SERVER_CMD_QUEUE_SIZE - 1) {
-        SAVEDATA_PanicFail(gBtlEmptyString, 0, gBtlEmptyString);
+        GF_PANIC_Fail(gBtlEmptyString, 0, gBtlEmptyString);
     }
     queue->data[queue->writePos++] = value >> 8;
     queue->data[queue->writePos++] = value;
@@ -721,7 +721,7 @@ u32 BTL_SERVER_CMD_ReadU16(BtlServerCmdQueue *queue)
 void BTL_SERVER_CMD_WriteU24(BtlServerCmdQueue *queue, u32 value)
 {
     if (queue->writePos >= BTL_SERVER_CMD_QUEUE_SIZE - 2) {
-        SAVEDATA_PanicFail(gBtlEmptyString, 0, gBtlEmptyString);
+        GF_PANIC_Fail(gBtlEmptyString, 0, gBtlEmptyString);
     }
     queue->data[queue->writePos++] = value >> 16;
     queue->data[queue->writePos++] = value >> 8;
@@ -743,7 +743,7 @@ u32 BTL_SERVER_CMD_ReadU24(BtlServerCmdQueue *queue)
 void BTL_SERVER_CMD_WriteU32(BtlServerCmdQueue *queue, u32 value)
 {
     if (queue->writePos >= BTL_SERVER_CMD_QUEUE_SIZE - 3) {
-        SAVEDATA_PanicFail(gBtlEmptyString, 0, gBtlEmptyString);
+        GF_PANIC_Fail(gBtlEmptyString, 0, gBtlEmptyString);
     }
     queue->data[queue->writePos++] = value >> 24;
     queue->data[queue->writePos++] = value >> 16;

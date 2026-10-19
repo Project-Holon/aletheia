@@ -14,7 +14,7 @@
  *   BEACON_DETAIL_GRA_SetSlotVisible 0x021BD0E4 thumb ov216
  *   BEACON_DETAIL_GRA_UpdateSlotInfo 0x021BD448 thumb ov216
  *   BEACON_DETAIL_GRA_UpdateButtons 0x021BCD60 thumb ov216
- *   GFL_NET_RestartWithDefaultTimeout 0x0203D34C arm
+ *   GFL_NET_RefreshWmIconAtTopRight 0x0203D34C arm
  */
 #include "../include/Obj00051.h"
 extern void BEACON_DETAIL_GRA_InitWindows(char *p);
@@ -28,7 +28,7 @@ extern void BEACON_DETAIL_GRA_SetSlotVisible(char *p, u8 index, unsigned int ena
 extern void BEACON_DETAIL_GRA_UpdateSlotInfo(char *p);
 typedef unsigned int   u32;
 extern void BEACON_DETAIL_GRA_UpdateButtons(unsigned char *p);
-extern void GFL_NET_RestartWithDefaultTimeout(u32 a, u32 b);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 void BEACON_DETAIL_GRA_SetupBeaconList(unsigned char *p)
 {
     BEACON_DETAIL_GRA_InitWindows((char *)p);
@@ -37,5 +37,5 @@ void BEACON_DETAIL_GRA_SetupBeaconList(unsigned char *p)
     BEACON_DETAIL_GRA_SetSlotVisible((char *)p,p[0x2e],1);
     BEACON_DETAIL_GRA_SetSlotVisible((char *)p,p[0x2e]^1,0);
     BEACON_DETAIL_GRA_UpdateSlotInfo((char *)p); BEACON_DETAIL_GRA_UpdateButtons(p);
-    GFL_NET_RestartWithDefaultTimeout(0,((struct Obj00051 *)p)->f2);
+    GFL_NET_RefreshWmIconAtTopRight(0,((struct Obj00051 *)p)->f2);
 }

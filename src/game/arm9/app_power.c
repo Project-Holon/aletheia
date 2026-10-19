@@ -1,7 +1,7 @@
 /*
  * file:     app_power.c
  * unit:     yes
- * function: APP_POWER_ClearCallback, APP_POWER_SetCallback, APP_POWER_Main, APP_POWER_ResetDisplay, APP_POWER_LoadShutdownScreen, APP_POWER_DrawShutdownScreen, APP_POWER_IsSupported, OVERLAY_LAUNCH_Driver, APP_POWER_IsReady
+ * function: APP_POWER_ClearCallback, APP_POWER_SetCallback, APP_POWER_HaltWithMessage, APP_POWER_ShowShutdownScreen, APP_POWER_LoadShutdownScreen, APP_POWER_DrawShutdownScreen, APP_POWER_IsSupported, OVERLAY_LAUNCH_Driver, APP_POWER_IsReady
  * address:  0x0202F768
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -172,9 +172,9 @@ void APP_POWER_ClearCallback(void);
 
 void APP_POWER_SetCallback(u32 on);
 
-void APP_POWER_Main(u32 mode);
+void APP_POWER_HaltWithMessage(u32 mode);
 
-void APP_POWER_ResetDisplay(u32 messageId);
+void APP_POWER_ShowShutdownScreen(u32 messageId);
 
 void APP_POWER_LoadShutdownScreen(void);
 
@@ -205,7 +205,7 @@ extern u8 sOverlayLaunchWorkArg[];
 
 /*
  * An unlabelled tail-call leaf (it saves nothing, so disasm.py prints it as
- * .word data): APP_POWER_Main(0).  With APP_POWER_SetCallback it is the callback pair
+ * .word data): APP_POWER_HaltWithMessage(0).  With APP_POWER_SetCallback it is the callback pair
  * GFL_USE_InitSystem (gfl_use.c boot) hands to BACKUP_SYSTEM_Init(7, ...).  Filed apart
  * from APP_POWER_SetCallback on purpose: the only pool words naming 0x0202F789 that
  * are outside a two-function range are each other's, so as one unit neither
@@ -214,13 +214,13 @@ extern u8 sOverlayLaunchWorkArg[];
  */
 void APP_POWER_ClearCallback(void)
 {
-    APP_POWER_Main(0);
+    APP_POWER_HaltWithMessage(0);
 }
 
 /*
  * The second unlabelled tail-call leaf of the callback pair GFL_USE_InitSystem
  * hands to BACKUP_SYSTEM_Init: a flag mapped to mode 2 (clear) or 1 (set) for
- * APP_POWER_Main.  Filed apart from APP_POWER_ClearCallback so each pool word
+ * APP_POWER_HaltWithMessage.  Filed apart from APP_POWER_ClearCallback so each pool word
  * witnesses the other.
  */
 void APP_POWER_SetCallback(u32 on)
@@ -232,18 +232,18 @@ void APP_POWER_SetCallback(u32 on)
     } else {
         mode = 1;
     }
-    APP_POWER_Main(mode);
+    APP_POWER_HaltWithMessage(mode);
 }
 
 /*
- * The power callback reached from APP_POWER_ClearCallback as APP_POWER_Main(0) (and
+ * The power callback reached from APP_POWER_ClearCallback as APP_POWER_HaltWithMessage(0) (and
  * registered through the pool word 0x0202F789 at 0x0202F784).  It never
  * returns: after the shutdown work it spins on GFL_USE_PollPowerExit.
  */
-void APP_POWER_Main(u32 mode)
+void APP_POWER_HaltWithMessage(u32 mode)
 {
     SAVE_CONTROL_Delete();
-    APP_POWER_ResetDisplay(mode);
+    APP_POWER_ShowShutdownScreen(mode);
     if (GFL_NET_GetRunState()) {
         GFL_NET_ClearExitFlag();
         GFL_NET_Exit(0);
@@ -275,7 +275,7 @@ void APP_POWER_Main(u32 mode)
  * value 4 in r6 as `lsls r0, r6, #0x18` for the DISPCNT base; both fall out
  * of writing the plain literals, so no symbol for the registers is needed.
  */
-void APP_POWER_ResetDisplay(u32 messageId)
+void APP_POWER_ShowShutdownScreen(u32 messageId)
 {
     GXx_SetMasterBrightness_((volatile u16 *)REG_MASTER_BRIGHT_A, 0xFFFFFFF0);
     GXx_SetMasterBrightness_((volatile u16 *)REG_MASTER_BRIGHT_B, 0xFFFFFFF0);

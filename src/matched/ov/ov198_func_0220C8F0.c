@@ -1,5 +1,5 @@
 /*
- * function: B_PLIST_DRAW_PrintStatRow0
+ * function: B_PLIST_DRAW_PrintAttackStat
  * address: 0x0220C8F0
  * packet: pkt_ov198_0220C8F0
  * region: ov198
@@ -68,7 +68,7 @@ static inline void put(Big *a0, int win, int sel, int x, int h, int color)
     PRINTSYS_PrintQueColor((void *)win, (int)BMP_WIN_GetBmp((struct Descriptor *)sel), x, 0, h, a0->f0->fc, color);
 }
 
-void B_PLIST_DRAW_PrintStatRow0(Big *a0, int i)
+void B_PLIST_DRAW_PrintAttackStat(Big *a0, int i)
 {
     char *entry = (char *)a0 + 4 + B_PLIST_MAIN_GetOrderIndex((u8 *)a0, i) * 0x4c;
     int h1;

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "BMP_OAM_GetNumRecords",
+   "name": "NATION_AREA_GetNationRecordCount",
    "address": "0x02025B38",
    "kind": "game",
    "region": "arm9",

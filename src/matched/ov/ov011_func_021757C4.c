@@ -13,7 +13,7 @@
  *   INTRUDE_COMM_IsSessionActive  0x02175B14  thumb  ov011
  *   INTRUDE_COMM_GetSessionElapsed  0x02175894  thumb  ov011
  *   GAME_COMM_GetGameData  0x02026478  thumb
- *   GAME_DATA_GetExitMode  0x02012B58  thumb
+ *   GAME_DATA_GetOwnNetId  0x02012B58  thumb
  *   INTRUDE_COMM_PromoteRequestToResult  0x02175D34  thumb  ov011
  *   INTRUDE_COMM_SendProposalReplies  0x02176158  thumb  ov011
  *   INTRUDE_COMM_SendPendingReplies  0x02176194  thumb  ov011
@@ -54,7 +54,7 @@ extern int INTRUDE_COMM_IsSessionActive(u8 *p);
 extern int INTRUDE_COMM_GetSessionElapsed(u8 *p);
 struct BigObj;
 extern u32 GAME_COMM_GetGameData(void *obj);
-extern u8 GAME_DATA_GetExitMode(const struct BigObj *p);
+extern u8 GAME_DATA_GetOwnNetId(const struct BigObj *p);
 extern void INTRUDE_COMM_PromoteRequestToResult(Ctx *c, Work *w, int a);
 extern void INTRUDE_COMM_SendProposalReplies(int a, u8 *p);
 extern void INTRUDE_COMM_SendPendingReplies(Ctx *c, Work *w);
@@ -74,7 +74,7 @@ void INTRUDE_COMM_UpdateSession(Ctx *c, Work *w)
             } else if (w->f1 == 1 && INTRUDE_COMM_GetSessionElapsed((u8 *)w) > w->hAA) {
                 x = GAME_COMM_GetGameData((void *)c->w4);
                 if (w->bE3 == 0) {
-                    INTRUDE_COMM_PromoteRequestToResult(c, w, GAME_DATA_GetExitMode((const struct BigObj *)x));
+                    INTRUDE_COMM_PromoteRequestToResult(c, w, GAME_DATA_GetOwnNetId((const struct BigObj *)x));
                 }
             }
         } else if (w->f1 == 1 && INTRUDE_COMM_GetSessionElapsed((u8 *)w) > w->hAA) {

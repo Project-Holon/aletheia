@@ -28,8 +28,8 @@
  *   FLD_EXP_OBJ_UpdateAnimes 0x021BE580 thumb ov021
  *   gElboardLayout 0x021F50C0 data a4
  *   GIMMICK_OBJ_ELBOARD_GetScroll 0x021F47B0 thumb ov048
- *   BEACON_GetBlock 0x0200C0F0 thumb
- *   BEACON_SetGatePoints 0x0200C3B8 thumb
+ *   MISC_GetBlock 0x0200C0F0 thumb
+ *   MISC_SetGatePoints 0x0200C3B8 thumb
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   ZONEDATA_SetEventFlag  0x02014314  thumb
  *   GIMMICK_OBJ_ELBOARD_SetScroll 0x021F47BC thumb ov048
@@ -40,8 +40,8 @@
  *   GIMMICK_OBJ_ELBOARD_Create  0x021F4698  thumb  ov048
  *   FIELDMAP_FreeCommonWork 0x021897A0 thumb ov021
  *   GAME_DATA_GetSaveControlWork 0x02012EC0 thumb
- *   BEACON_GetFromSave 0x0200C0E8 thumb
- *   BEACON_GetGatePoints 0x0200C3B0 thumb
+ *   MISC_GetFromSave 0x0200C0E8 thumb
+ *   MISC_GetGatePoints 0x0200C3B0 thumb
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   ARC_TOOL_GetArchiveFileCount  0x02049030  arm
@@ -56,15 +56,15 @@
  *   ZONEDATA_CheckEventFlag 0x020142E8 thumb
  *   SAVE_CONTROL_LoadExtraSave  0x0200725C  thumb
  *   SAVE_CONTROL_GetExtraSaveRecord  0x020073D8  thumb
- *   MISC_SAVEDATA_GetRingIndex  0x0200ECB4  thumb
- *   MISC_SAVEDATA_GetRingRecordIndex  0x0200ECD0  thumb
- *   MISC_SAVEDATA_ExportRingRecord  0x0200ECF0  thumb
+ *   DENDOU_SAVEDATA_GetRecordCount  0x0200ECB4  thumb
+ *   DENDOU_SAVEDATA_GetRingMemberCount  0x0200ECD0  thumb
+ *   DENDOU_SAVEDATA_ExportRingMember  0x0200ECF0  thumb
  *   SAVE_CONTROL_DeleteExtraSave  0x020072A4  thumb
  *   STRBUF_Create  0x020457B0  arm
  *   STRBUF_Delete  0x02045808  arm
  *   GAME_DATA_GetSaveBlock42  0x02012F68  thumb
- *   MISC_SAVEDATA_FindFreeRecordSlot  0x0200EC14  thumb
- *   MISC_SAVEDATA_ExportRecord  0x0200EC2C  thumb
+ *   DENDOU_SAVEDATA_GetMemberCount  0x0200EC14  thumb
+ *   DENDOU_SAVEDATA_ExportMember  0x0200EC2C  thumb
  *   GIMMICK_OBJ_ELBOARD_ReadGateEntry  0x021F4DE4  thumb  ov048
  *   GIMMICK_OBJ_ELBOARD_CheckEntryZone  0x021F4DF4  thumb  ov048
  *   GIMMICK_OBJ_ELBOARD_CheckEntryGPower  0x021F4E3C  thumb  ov048
@@ -92,20 +92,20 @@ extern void *GIMMICK_WORK_GetWork(struct GimmickWork *gimmickWork, u32 gimmickId
 extern s32 GIMMICK_WORK_GetId(struct GimmickWork *gimmickWork);
 extern struct ConfigSave *SYSTEM_DATA_GetConfig(struct SaveControl *saveControl);
 extern int CONFIG_GetTextLanguage(struct ConfigSave *config);
-extern void *BEACON_GetFromSave(struct SaveControl *saveControl);
-extern u16 BEACON_GetGatePoints(struct MiscSave *miscSave);
-extern struct MiscSave *BEACON_GetBlock(struct SaveControl *saveControl);
-extern void BEACON_SetGatePoints(struct MiscSave *miscSave, u16 value);
+extern void *MISC_GetFromSave(struct SaveControl *saveControl);
+extern u16 MISC_GetGatePoints(struct MiscSave *miscSave);
+extern struct MiscSave *MISC_GetBlock(struct SaveControl *saveControl);
+extern void MISC_SetGatePoints(struct MiscSave *miscSave, u16 value);
 extern u32 ZONEDATA_CheckEventFlag(struct EventWork *eventWork, s32 flagId);
 extern void ZONEDATA_SetEventFlag(struct EventWork *eventWork, int flagId);
 extern u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *saveControl, u32 id, u32 heapId);
 extern struct ExtraSaveRecord *SAVE_CONTROL_GetExtraSaveRecord(struct SaveControl *saveControl, u32 id, u32 value);
 extern void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *saveControl, u32 id);
-extern u32 MISC_SAVEDATA_GetRingIndex(struct ExtraSaveRecord *record);
-extern int MISC_SAVEDATA_GetRingRecordIndex(struct ExtraSaveRecord *record, int index);
-extern void MISC_SAVEDATA_ExportRingRecord(struct ExtraSaveRecord *record, u32 type, u32 index, GateListEntry *entry);
-extern int MISC_SAVEDATA_FindFreeRecordSlot(void *saveBlock);
-extern void MISC_SAVEDATA_ExportRecord(void *saveBlock, int index, GateListEntry *entry);
+extern u32 DENDOU_SAVEDATA_GetRecordCount(struct ExtraSaveRecord *record);
+extern int DENDOU_SAVEDATA_GetRingMemberCount(struct ExtraSaveRecord *record, int index);
+extern void DENDOU_SAVEDATA_ExportRingMember(struct ExtraSaveRecord *record, u32 type, u32 index, GateListEntry *entry);
+extern int DENDOU_SAVEDATA_GetMemberCount(void *saveBlock);
+extern void DENDOU_SAVEDATA_ExportMember(void *saveBlock, int index, GateListEntry *entry);
 extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct StrBuf *str);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -266,7 +266,7 @@ void FIELD_GIMMICK_GATE_LoadState(GateWork *work)
 /* Writes the work's misc value to the misc save. */
 void FIELD_GIMMICK_GATE_StoreGatePoints(GateWork *work)
 {
-    BEACON_SetGatePoints(BEACON_GetBlock(GAME_DATA_GetSaveControl(work->gameData)), work->gatePoints);
+    MISC_SetGatePoints(MISC_GetBlock(GAME_DATA_GetSaveControl(work->gameData)), work->gatePoints);
 }
 
 /* Sets the event flag of every news message that was logged as shown. */
@@ -333,7 +333,7 @@ void FIELD_GIMMICK_GATE_DeleteWork(GateWork *work)
 void FIELD_GIMMICK_GATE_InitGatePoints(GateWork *work)
 {
     if (work->initialized == 0) {
-        work->gatePoints = BEACON_GetGatePoints(BEACON_GetFromSave(GAME_DATA_GetSaveControlWork(work->gameData)));
+        work->gatePoints = MISC_GetGatePoints(MISC_GetFromSave(GAME_DATA_GetSaveControlWork(work->gameData)));
         work->initialized = 1;
     }
 }
@@ -464,12 +464,12 @@ void FIELD_GIMMICK_GATE_ReadExtraSaveValues(const GateWork *work, u32 *values, i
     saveControl = GAME_DATA_GetSaveControl(work->gameData);
     if (SAVE_CONTROL_LoadExtraSave(saveControl, GATE_EXTRA_SAVE_ID, work->heapId) - 1 <= 1) {
         record = SAVE_CONTROL_GetExtraSaveRecord(saveControl, GATE_EXTRA_SAVE_ID, i);
-        if (MISC_SAVEDATA_GetRingIndex(record) != 0) {
-            *count = MISC_SAVEDATA_GetRingRecordIndex(record, i);
+        if (DENDOU_SAVEDATA_GetRecordCount(record) != 0) {
+            *count = DENDOU_SAVEDATA_GetRingMemberCount(record, i);
             for (; i < *count; i++) {
                 entry.nameStr = STRBUF_Create(0x40, work->heapId);
                 entry.placeStr = STRBUF_Create(0x40, work->heapId);
-                MISC_SAVEDATA_ExportRingRecord(record, 0, i, &entry);
+                DENDOU_SAVEDATA_ExportRingMember(record, 0, i, &entry);
                 values[i] = entry.entryId;
                 STRBUF_Delete(entry.nameStr);
                 STRBUF_Delete(entry.placeStr);
@@ -487,11 +487,11 @@ void FIELD_GIMMICK_GATE_ReadSaveBlockValues(GateWork *work, u32 *values, int *co
     GateListEntry entry;
 
     saveBlock = GAME_DATA_GetSaveBlock42(work->gameData);
-    *count = MISC_SAVEDATA_FindFreeRecordSlot(saveBlock);
+    *count = DENDOU_SAVEDATA_GetMemberCount(saveBlock);
     for (i = 0; i < *count; i++) {
         entry.nameStr = STRBUF_Create(0x40, work->heapId);
         entry.placeStr = STRBUF_Create(0x40, work->heapId);
-        MISC_SAVEDATA_ExportRecord(saveBlock, i, &entry);
+        DENDOU_SAVEDATA_ExportMember(saveBlock, i, &entry);
         values[i] = entry.entryId;
         STRBUF_Delete(entry.nameStr);
         STRBUF_Delete(entry.placeStr);
